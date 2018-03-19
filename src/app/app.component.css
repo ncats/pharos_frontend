@@ -1,0 +1,47 @@
+
+.flex-body{
+flex: 1;
+}
+
+.loadingIcon {
+  position: absolute; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.3); /* Black background with opacity */
+  color:#642F6C;
+  z-index: 666;
+}
+
+.return{
+  position: fixed; /* Sit on top of the page content */
+  top: 1vh;
+  left: 1vh;
+}
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  opacity: 0;
+  z-index: 665;
+  transition: all .2s ease-in-out;
+}
+
+.show-scroll {
+  opacity: 1;
+  transition: all .2s ease-in-out;
+}
+
+.ncats-emphasis {
+  color:#642F6C;
+  font-weight: bold;
+}
+
+.mat-drawer-content {
+  overflow: visible !important;
+}

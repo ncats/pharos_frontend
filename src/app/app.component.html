@@ -1,0 +1,21 @@
+<div class="flex-body">
+<app-ncats-header></app-ncats-header>
+  <mat-sidenav-container class="content">
+    <button type="button" class="sidenavToggle" mat-raised-button [color]="'accent'" (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-sidenav #sidenav [mode]="'over'" class = "upperSection">
+      <!-- sidenav content -->
+<pharos-filter-panel></pharos-filter-panel>
+      <h1>Pharos fislters</h1>
+    </mat-sidenav>
+    <router-outlet></router-outlet>
+
+<div class="scroll-to-top" [ngClass]="{'show-scroll': navIsFixed}">
+  <button  mat-fab color="primary" (click)="scrollToTop()">
+    <mat-icon> arrow_upward </mat-icon>
+  </button>
+</div>
+  </mat-sidenav-container>
+</div>
+ <app-ncats-footer class ="footer"></app-ncats-footer>

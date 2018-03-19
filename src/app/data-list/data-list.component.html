@@ -1,0 +1,26 @@
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
+<div fxFlex="100">
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
+    <div fxFlex="50">
+    <mat-form-field class="table-search">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Table">
+  </mat-form-field>
+    </div>
+    <div fxFlex="50" fxFlexAlign="end">
+      <mat-paginator (page)="paginationChanges($event)" [pageSizeOptions]="[10, 25, 50, 100]" [showFirstLastButtons]="true" [length]="2000"></mat-paginator>
+    </div>
+  </div>
+  <mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="{{field}}" *ngFor="let field of displayColumns">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> {{field}} </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row[field]}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayColumns;">
+    </mat-row>
+  </mat-table>
+
+  <mat-paginator (page)="paginationChanges($event)" [pageSizeOptions]="[10, 25, 50, 100]" [showFirstLastButtons]="true" [length]="2000"></mat-paginator>
+</div>
+</div>
