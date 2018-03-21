@@ -1,3 +1,10 @@
-<p>
-  filter-panel works!
-</p>
+<div *ngFor= "let facet of facets; trackBy: trackByFn;">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{facet.name}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <pharos-facet-table [facet]="facet"></pharos-facet-table>
+    </mat-card-content>
+  </mat-card>
+</div>

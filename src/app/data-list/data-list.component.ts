@@ -1,6 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {MatPaginator, MatPaginatorIntl, MatSort, MatTableDataSource} from '@angular/material';
+import {ResponseParserService} from "../services/response-parser.service";
+import {PharosApiService} from "../services/pharos-api.service";
+import {detectChanges} from "@angular/core/src/render3";
 
 @Component({
   selector: 'pharos-data-list',
@@ -14,14 +17,24 @@ export class DataListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   displayColumns: string[] = ['name', 'idgTDL','idgFamily', 'novelty','jensenScore', 'antibodyCount', 'knowledgeAvailability'];
   constructor(private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private ref: ChangeDetectorRef,
+              private responseParserService: ResponseParserService,
+              private pharosApiService: PharosApiService) {
   }
 
   ngOnInit() {
+    this.responseParserService.tableData$.subscribe(res=> {
+      console.log(res);
+      this.dataSource.data = res;
+      this.ref.markForCheck();
+    });
+
+   /* this.route.queryParamMap.subscribe(res => console.log(res));
     this.route.data.subscribe(res => {
       console.log(res);
       this.dataSource.data = res.data.content;
-    });
+    });*/
   }
 
   ngAfterViewInit() {
@@ -36,9 +49,13 @@ export class DataListComponent implements OnInit {
   }
 
 paginationChanges(event: any ) {
-    console.log(event);
-  this.router.navigate(['/targets'], { queryParams: { top: event.pageSize, skip: event.pageIndex * event.pageSize } });
-  }
+  console.log(event);
+  const navigationExtras: NavigationExtras = {
+    queryParams: { top: event.pageSize, skip: event.pageIndex * event.pageSize },
+    queryParamsHandling: 'merge'
+  };
+  this.router.navigate([], navigationExtras);
+}
 
 
 }

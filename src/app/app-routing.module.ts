@@ -3,29 +3,18 @@ import { Routes, RouterModule } from '@angular/router';
 import {DataListResolver} from './services/data-list.resolver';
 import {DataListComponent} from "./data-list/data-list.component";
 
+
+
 const ROUTES: Routes = [
   {
     path: 'targets',
     component: DataListComponent,
     resolve: {
       data: DataListResolver
-    }
-  },
-  {
-    path: '' +
-    ':query',
-    component: DataListComponent,
-    resolve: {
-      data: DataListResolver
-    }
-  }/*,
-    {
-    path: ':target',
-    component: ToolDetailsComponent,
-      resolve: {
-          tool: ToolResolver
-      }
-  }*/
+    },
+    // this reloads the component/resolver when the url changes from pagination or sort
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange'
+  }
 ];
 
 @NgModule({

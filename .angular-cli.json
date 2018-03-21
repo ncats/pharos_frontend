@@ -19,7 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "pharos",
       "styles": [
-        "ncats-theme.scss"
+        "styles.scss"
       ],
       "scripts": [
       ],
