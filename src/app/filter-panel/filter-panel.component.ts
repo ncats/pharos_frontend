@@ -2,6 +2,8 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild
 import {HttpClient} from "@angular/common/http";
 import {ResponseParserService} from "../services/response-parser.service";
 import {Facet} from "../models/facet";
+import {takeUntil} from "rxjs/operators";
+import {Subject} from "rxjs/Subject";
 
 @Component({
   selector: 'pharos-filter-panel',
@@ -11,18 +13,27 @@ import {Facet} from "../models/facet";
 })
 export class FilterPanelComponent implements OnInit {
   facets: any;
+  private ngUnsubscribe: Subject<any> = new Subject();
+
   constructor(private http: HttpClient,
               private ref: ChangeDetectorRef,
               private responseParserService: ResponseParserService) { }
 
   ngOnInit() {
-    this.responseParserService.facetsData$.subscribe(res=> {
+    this.responseParserService.facetsData$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res=> {
       this.facets = res.slice(0,10);
-     this.ref.markForCheck();
+      this.ref.markForCheck();
   });
   }
 
   trackByFn(index: string, item: Facet) {
     return item.name;
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

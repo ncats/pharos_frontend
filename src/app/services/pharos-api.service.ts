@@ -26,7 +26,6 @@ export class PharosApiService {
       ).subscribe(response => this._dataSource.next(response));
   }
 
-  // todo: facet can show up multiple times as a parameter
   private _mapParams(path: string, params: ParamMap): string {
     let str: string = '';
     if(params.keys.length === 0) {
@@ -38,19 +37,11 @@ export class PharosApiService {
             str = str + key + "=" + val + '&';
           }
         );
-       /* console.log(params.getAll(key));
-        console.log(params.get(key));
-        if(Array.isArray(params.get(key))){
-         console.log(params.getAll(key));
-         console.log(params.get(key));
-        }
-        console.log(key);
-        str = str + key + "=" + params.get(key) + '&';*/
       });
       // todo look into if this is the best way to make the url -- this is gonig to happen a lot
       str = str.slice(0,-1);
-      console.log(str);
     }
+    console.log(str);
     return str;
   }
 

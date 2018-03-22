@@ -14,9 +14,9 @@
     </div>
   </div>
 
-<mat-table [dataSource]="dataSource" matSort>
+<mat-table [dataSource]="dataSource" matSort (sortChange)="sortTable($event)">
   <ng-container matColumnDef="{{field}}" *ngFor="let field of displayColumns">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> {{field}} </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header > {{field}} </mat-header-cell>
     <mat-cell *matCellDef="let row"> {{row[field]}} </mat-cell>
   </ng-container>
 

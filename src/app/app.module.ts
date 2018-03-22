@@ -24,6 +24,9 @@ import {PharosApiService} from "./services/pharos-api.service";
 import {ResponseParserService} from "./services/response-parser.service";
 import {TablePaginationService} from "./services/table-pagination.service";
 import {FacetService} from "./services/facet.service";
+import { DonutChartComponent } from './visualizations/donut-chart/donut-chart.component';
+import { WordCloudChartComponent } from './visualizations/word-cloud-chart/word-cloud-chart.component';
+import { SunburstChartComponent } from './visualizations/sunburst-chart/sunburst-chart.component';
 
 
 @NgModule({
@@ -38,7 +41,10 @@ import {FacetService} from "./services/facet.service";
     DataListVisualizationsComponent,
     BreadcrumbComponent,
     FacetTableComponent,
-    PharosPaginatorComponent
+    PharosPaginatorComponent,
+    DonutChartComponent,
+    WordCloudChartComponent,
+    SunburstChartComponent
   ],
   imports: [
     BrowserModule,

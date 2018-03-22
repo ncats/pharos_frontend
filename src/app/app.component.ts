@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
 
   loading = false;
   navIsFixed: boolean;
-  title = 'app';
+  title = 'Pharos';
 
   constructor(
     private loadingService: LoadingService,
@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document) {
   }
   ngOnInit(){
-  this.responseParserService.initializeSubscriptions();
+  //this.responseParserService.initializeSubscriptions();
     this.loadingService.loading$.subscribe(res =>this.loading = res);
   }
 

@@ -6,10 +6,12 @@
       <pharos-filter-panel></pharos-filter-panel>
     </mat-sidenav>
     <mat-sidenav-content>
+      <pharos-breadcrumb></pharos-breadcrumb>
       <button type="button" class="sidenavToggle" mat-raised-button [color]="'accent'" (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
-    <router-outlet></router-outlet>
+      <pharos-data-list-visualizations></pharos-data-list-visualizations>
+      <router-outlet></router-outlet>
 
 <div class="scroll-to-top" [ngClass]="{'show-scroll': navIsFixed}">
   <button  mat-fab color="primary" (click)="scrollToTop()">

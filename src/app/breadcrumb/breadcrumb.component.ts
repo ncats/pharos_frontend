@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'pharos-breadcrumb',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./breadcrumb.component.css']
 })
 export class BreadcrumbComponent implements OnInit {
-
-  constructor() { }
+  routeParams: any;
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
+    console.log(this.route);
+    this.routeParams = this.route.snapshot;
   }
 
 }

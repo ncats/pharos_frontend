@@ -14,7 +14,6 @@ export class DataListResolver implements Resolve<any> {
 
     resolve(route: ActivatedRouteSnapshot): Observable<any[]> {
       console.log(route);
-      console.log(this);
      // this.tablePaginationService.navigateTo(route.url[0].path, route.queryParamMap);
       this.pharosApiService.getData(route.url[0].path, route.queryParamMap);
          return of([]);

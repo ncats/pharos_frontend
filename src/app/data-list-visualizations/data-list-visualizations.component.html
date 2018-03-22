@@ -1,3 +1,19 @@
-<p>
-  data-list-visualizations works!
-</p>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="vis-row">
+  <div fxFlex="30"><pharos-donut-chart [data]=data></pharos-donut-chart>
+      <mat-chip-list #chipList >
+        <mat-chip *ngFor="let facet of facets"
+                  (click)="changeData(facet)">
+          {{facet}}
+        </mat-chip>
+      </mat-chip-list>
+  </div>
+  <div fxFlex="30"><pharos-sunburst-chart [data]=data></pharos-sunburst-chart>
+    <mat-chip-list #chipList  >
+      <mat-chip *ngFor="let facet of facets"
+                (click)="changeData(facet)">
+        {{facet}}
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+  <div fxFlex="30">word clouds</div>
+</div>

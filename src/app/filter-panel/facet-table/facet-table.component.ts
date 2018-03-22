@@ -1,8 +1,10 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatSort, MatTableDataSource} from "@angular/material";
 import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
 import {SelectionModel} from "@angular/cdk/collections";
 import {Field} from "../../models/facet";
+import {takeUntil} from "rxjs/operators";
+import {Subject} from "rxjs/Subject";
 
 @Component({
   selector: 'pharos-facet-table',
@@ -16,41 +18,55 @@ export class FacetTableComponent implements OnInit {
   filterSelection = new SelectionModel<string>(true, []);
   displayColumns:string [] = ['select', 'label', 'count'];
   fieldColumns:string [] = ['label', 'count'];
+  private ngUnsubscribe: Subject<any> = new Subject();
+
   constructor(private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private ref: ChangeDetectorRef) { }
 
+  // todo: on redirect (click targets button), the checked boxes remain
   ngOnInit() {
+    console.log(this.route.snapshot);
+    if(this.route.snapshot.queryParamMap.keys.length === 0){
+      console.log("clearing selections");
+      console.log(this.filterSelection.selected);
+      this.filterSelection.clear();
+      this.ref.markForCheck()
+    }
     this.dataSource.data = this.facet.values;
-    // todo this replaces any other fields from a different facet
-    // todo needs to track all other selected facets, but ditch pagination data
-    this.filterSelection.onChange.subscribe(change => {
-      let facetList: string[] = [];
+    this.filterSelection.onChange
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(change => {
+        const prev = this.route.snapshot.queryParamMap.getAll('facet');
+      let facetList: string[] = prev ? prev : [];
       this.filterSelection.selected.map(field => {
-       facetList.push(this.facet.name.replace(/ /g, '+') + '/' + encodeURIComponent(field.toString()));
+       facetList.push(this._makeFacetString(field));
       });
-      console.log(facetList);
-      const navigationExtras: NavigationExtras = {
+      facetList = Array.from(new Set(facetList));
+      // remove unclicked elements
+        if(change.removed){
+          const removed: string[] = [];
+          change.removed.map(field => removed.push(this._makeFacetString(field)));
+          removed.forEach(remField => facetList = facetList.filter(field => field !== remField));
+        }
+        const navigationExtras: NavigationExtras = {
         queryParams: {facet: facetList},
-        queryParamsHandling: 'merge'
       };
-      this.router.navigate([], navigationExtras );    });
+        this.router.onSameUrlNavigation ='reload'; //forces reload since technically, this is the same navigation url
+        this.router.navigate([], navigationExtras);
+      });
   }
-
-/*navigateTo(value: any) {
-
-    const val = encodeURIComponent(value.toString());
-    const facet: string = this.facet.name.replace(/ /g, '+') + '/' + val;
-    const navigationExtras: NavigationExtras = {
-      queryParams: {facet: facet},
-      queryParamsHandling: 'merge'
-    };
-   this.router.navigate([], navigationExtras );
-    //  this.router.navigate([], {queryParams: { top: event.pageSize, skip: event.pageIndex * event.pageSize } });
-
-
-  }*/
 
   trackByFunction(index, item: Field){
     return item.label;
+  }
+
+  private _makeFacetString(field: string): string {
+    return this.facet.name.replace(/ /g, '+') + '/' + encodeURIComponent(field.toString())
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }
