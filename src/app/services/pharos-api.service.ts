@@ -41,7 +41,6 @@ export class PharosApiService {
       // todo look into if this is the best way to make the url -- this is gonig to happen a lot
       str = str.slice(0,-1);
     }
-    console.log(str);
     return str;
   }
 

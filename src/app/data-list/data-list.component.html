@@ -1,22 +1,26 @@
 
 
-<pharos-custom-paginator></pharos-custom-paginator>
-
+<div>
+  <div *ngIf=" loading" class = "loadingIcon" fxLayoutAlign="center center">
+    <mat-spinner></mat-spinner>
+  </div>
 
   <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
-    <div fxFlex="50">
+    <div fxFlex="45">
     <mat-form-field class="table-search">
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Table">
   </mat-form-field>
     </div>
-    <div fxFlex="50" fxFlexAlign="end">
-      <mat-paginator (page)="paginationChanges($event)" [pageSizeOptions]="[10, 25, 50, 100]" [showFirstLastButtons]="true" [length]="2000"></mat-paginator>
+    <div fxFlex="45" fxFlexAlign="end">
+      <pharos-custom-paginator (page)="paginationChanges($event)"></pharos-custom-paginator>
     </div>
   </div>
 
-<mat-table [dataSource]="dataSource" matSort (sortChange)="sortTable($event)">
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around center" class="body-row">
+    <div fxFlex="95">
+<mat-table [dataSource]="dataSource" matSort (matSortChange)="sortTable($event)">
   <ng-container matColumnDef="{{field}}" *ngFor="let field of displayColumns">
-    <mat-header-cell *matHeaderCellDef mat-sort-header > {{field}} </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header disabled = {{!isSortable(field)}} > {{getLabel(field)}} </mat-header-cell>
     <mat-cell *matCellDef="let row"> {{row[field]}} </mat-cell>
   </ng-container>
 
@@ -24,6 +28,8 @@
   <mat-row *matRowDef="let row; columns: displayColumns;">
   </mat-row>
 </mat-table>
-  <mat-paginator (page)="paginationChanges($event)" [pageSizeOptions]="[10, 25, 50, 100]" [showFirstLastButtons]="true" [length]="2000"></mat-paginator>
-
+  <pharos-custom-paginator (page)="paginationChanges($event)"></pharos-custom-paginator>
+</div>
+  </div>
+</div>
 

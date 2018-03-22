@@ -25,7 +25,7 @@
  <mat-form-field
       *ngIf="_displayedPageSizeOptions.length > 1"
       class="mat-paginator-page-size-select">
-      <input matInput>
+      <input matInput type="number" name="pageNumber" (keyup)="goToPage($event.target.value)" min = "1" max = "{{getNumberOfPages() + 1}}" >
   </mat-form-field>
 
     <div *ngIf="_displayedPageSizeOptions.length <= 1">{{pageSize}}</div>
@@ -33,7 +33,7 @@
 
   <div class="mat-paginator-range-actions">
     <div class="mat-paginator-range-label">
-      {{_intl.getRangeLabel(pageIndex, pageSize, length)}}
+      Page: {{pageIndex + 1}} of {{getNumberOfPages() + 1}}
     </div>
 
     <button mat-icon-button type="button"

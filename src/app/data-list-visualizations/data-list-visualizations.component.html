@@ -2,12 +2,16 @@
   <div fxFlex="30"><pharos-donut-chart [data]=data></pharos-donut-chart>
       <mat-chip-list #chipList >
         <mat-chip *ngFor="let facet of facets"
+                  [selected]="isSelected(facet)"
                   (click)="changeData(facet)">
           {{facet}}
         </mat-chip>
       </mat-chip-list>
   </div>
-  <div fxFlex="30"><pharos-sunburst-chart [data]=data></pharos-sunburst-chart>
+  <div fxFlex="30">
+<!--
+    <pharos-sunburst-chart [data]=data></pharos-sunburst-chart>
+-->
     <mat-chip-list #chipList  >
       <mat-chip *ngFor="let facet of facets"
                 (click)="changeData(facet)">

@@ -4,6 +4,8 @@ import {ResponseParserService} from "../services/response-parser.service";
 import {Facet} from "../models/facet";
 import {takeUntil} from "rxjs/operators";
 import {Subject} from "rxjs/Subject";
+import {environment} from "../../environments/environment.prod";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'pharos-filter-panel',
@@ -12,18 +14,21 @@ import {Subject} from "rxjs/Subject";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterPanelComponent implements OnInit {
-  facets: any;
+  facetsList: any;
+  facets: Facet[];
   private ngUnsubscribe: Subject<any> = new Subject();
 
   constructor(private http: HttpClient,
               private ref: ChangeDetectorRef,
+              private _route: ActivatedRoute,
               private responseParserService: ResponseParserService) { }
 
   ngOnInit() {
+    this.facetsList = environment.functions[this._route.snapshot.url[0].path].facets;
     this.responseParserService.facetsData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res=> {
-      this.facets = res.slice(0,10);
+      this.facetsList.forEach(name => res.filter(facet => facet.name === name ? this.facets.push(facet) : false));
       this.ref.markForCheck();
   });
   }

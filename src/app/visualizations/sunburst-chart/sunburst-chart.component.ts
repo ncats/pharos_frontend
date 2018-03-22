@@ -28,8 +28,8 @@ export class SunburstChartComponent implements OnInit {
       .width(this.width)
       .height(this.height)
       .transTime(750) // length of transitions in ms
-      .cornerRadius(3) // sets how rounded the corners are on each slice
-      .padAngle(0.015) // effectively dictates the gap between slices
+      .cornerRadius(1) // sets how rounded the corners are on each slice
+      .padAngle(0.03) // effectively dictates the gap between slices
       .variable('count')
       .category('label');
 
@@ -122,8 +122,8 @@ export class SunburstChartComponent implements OnInit {
           .data(pie(data))
           .enter().append('text')
           .attr('dy', '.35em')
-          .html(updateLabelText)
-          .attr('transform', labelTransform)
+          //.html(updateLabelText)
+         // .attr('transform', labelTransform)
           .style('text-anchor', function(d) {
             // if slice centre is on the left, anchor text to start, otherwise anchor to end
             return (midAngle(d)) < Math.PI ? 'start' : 'end';
@@ -134,9 +134,9 @@ export class SunburstChartComponent implements OnInit {
         // add lines connecting labels to slice. A polyline creates straight lines connecting several points
         var polyline = svg.select('.lines')
           .selectAll('polyline')
-          .data(pie(data))
+         // .data(pie(data))
           .enter().append('polyline')
-          .attr('points', calculatePoints);
+         // .attr('points', calculatePoints);
         // ===========================================================================================
 
         // ===========================================================================================
@@ -168,7 +168,7 @@ export class SunburstChartComponent implements OnInit {
             .attr('fill', function(d) {  return colour(d.data[category]); })
             .attr('d', arc);
 
-          updateLines.enter().append('polyline')
+         /* updateLines.enter().append('polyline')
             .each(function(d, i) { this._current = findNeighborArc(i, data0, data1, key) || d; })
             .attr('points', calculatePoints);
 
@@ -177,7 +177,7 @@ export class SunburstChartComponent implements OnInit {
             .html(updateLabelText)
             .attr('transform', labelTransform)
             .style('text-anchor', function(d) { return (midAngle(d)) < Math.PI ? 'start' : 'end'; });
-
+*/
           // removes slices/labels/lines that are not in the current dataset
           updatePath.exit()
             .transition()
@@ -185,20 +185,20 @@ export class SunburstChartComponent implements OnInit {
             .attrTween("d", arcTween)
             .remove();
 
-          updateLines.exit()
+         /* updateLines.exit()
             .transition()
             .duration(transTime)
             .attrTween("points", pointTween)
             .remove();
 
           updateLabels.exit()
-            .remove();
+            .remove();*/
 
           // animates the transition from old angle to new angle for slices/lines/labels
           updatePath.transition().duration(transTime)
             .attrTween('d', arcTween);
 
-          updateLines.transition().duration(transTime)
+       /*   updateLines.transition().duration(transTime)
             .attrTween('points', pointTween);
 
           updateLabels.transition().duration(transTime)
@@ -206,7 +206,7 @@ export class SunburstChartComponent implements OnInit {
             .styleTween('text-anchor', labelStyleTween);
 
           updateLabels.html(updateLabelText); // update the label text
-
+*/
           // add tooltip to mouse events on slices and labels
           d3.selectAll('.labelName text, .slices path').call(toolTip);
 

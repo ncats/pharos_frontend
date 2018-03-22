@@ -14,6 +14,14 @@ const ROUTES: Routes = [
     },
     // this reloads the component/resolver when the url changes from pagination or sort
     runGuardsAndResolvers: 'paramsOrQueryParamsChange'
+  },{
+    path: 'diseases',
+    component: DataListComponent,
+    resolve: {
+      data: DataListResolver
+    },
+    // this reloads the component/resolver when the url changes from pagination or sort
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange'
   }
 ];
 

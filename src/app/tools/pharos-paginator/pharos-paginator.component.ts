@@ -21,6 +21,9 @@ import {
 } from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {MatPaginatorIntl} from "@angular/material";
+import {ResponseParserService} from "../../services/response-parser.service";
+import {PageData} from "../../models/page-data";
+import {FormControl} from "@angular/forms";
 
 /** The default page size if there is no page size and there are no provided page size options. */
 const DEFAULT_PAGE_SIZE = 50;
@@ -58,6 +61,7 @@ export class PageEvent {
 export class PharosPaginatorComponent implements OnInit, OnDestroy {
   private _initialized: boolean;
   private _intlChanges: Subscription;
+  private _paginationData: Subscription;
 
   /** The zero-based page index of the displayed list of items. Defaulted to 0. */
   @Input()
@@ -118,9 +122,12 @@ export class PharosPaginatorComponent implements OnInit, OnDestroy {
   /** Displayed set of page size options. Will be sorted and include current page size. */
   _displayedPageSizeOptions: number[];
 
+
   constructor(public _intl: MatPaginatorIntl,
-              private _changeDetectorRef: ChangeDetectorRef) {
+              private _changeDetectorRef: ChangeDetectorRef,
+              private _responseParser: ResponseParserService) {
     this._intlChanges = _intl.changes.subscribe(() => this._changeDetectorRef.markForCheck());
+    this._paginationData = this._responseParser.paginationData$.subscribe(res => this._setPageData(res));
   }
 
   ngOnInit() {
@@ -130,6 +137,7 @@ export class PharosPaginatorComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this._intlChanges.unsubscribe();
+    this._paginationData.unsubscribe();
   }
 
   /** Advances to the next page if it exists. */
@@ -178,7 +186,18 @@ export class PharosPaginatorComponent implements OnInit, OnDestroy {
     return Math.ceil(this.length / this.pageSize) - 1;
   }
 
+  goToPage(page: number) {
+    console.log(page);
+    this.pageIndex = page - 1;
+    this._emitPageEvent();
+  }
 
+  private _setPageData(pageData: PageData): void {
+    this.pageSize = pageData.top;
+    //this.length = Math.floor(pageData.total / pageData.top);
+    this.length = pageData.total;
+    this.pageIndex = Math.ceil(pageData.skip / pageData.top);
+  }
   /**
    * Changes the page size so that the first item displayed on the page will still be
    * displayed using the new page size.

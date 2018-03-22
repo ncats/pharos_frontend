@@ -26,10 +26,7 @@ export class FacetTableComponent implements OnInit {
 
   // todo: on redirect (click targets button), the checked boxes remain
   ngOnInit() {
-    console.log(this.route.snapshot);
     if(this.route.snapshot.queryParamMap.keys.length === 0){
-      console.log("clearing selections");
-      console.log(this.filterSelection.selected);
       this.filterSelection.clear();
       this.ref.markForCheck()
     }

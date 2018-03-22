@@ -2,42 +2,84 @@ import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angul
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {MatPaginator, MatPaginatorIntl, MatSort, MatTableDataSource} from '@angular/material';
 import {ResponseParserService} from "../services/response-parser.service";
-import {PharosApiService} from "../services/pharos-api.service";
-import {detectChanges} from "@angular/core/src/render3";
 import {Subject} from "rxjs/Subject";
 import {takeUntil} from "rxjs/operators";
+import {LoadingService} from "../services/loading.service";
+import {environment} from "../../environments/environment.prod";
+
+const navigationExtras: NavigationExtras = {
+  queryParamsHandling: 'merge'
+};
 
 @Component({
   selector: 'pharos-data-list',
   templateUrl: './data-list.component.html',
   styleUrls: ['./data-list.component.css']
 })
+
 export class DataListComponent implements OnInit, OnDestroy {
   data: any;
+  loading = false;
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  displayColumns: string[] = ['name', 'idgTDL','idgFamily', 'novelty','jensenScore', 'antibodyCount', 'knowledgeAvailability'];
+  fieldsMap: any[];
+  displayColumns: string[];
   private ngUnsubscribe: Subject<any> = new Subject();
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private ref: ChangeDetectorRef,
-              private responseParserService: ResponseParserService) {
+              private responseParserService: ResponseParserService,
+              private loadingService: LoadingService) {
   }
 
   ngOnInit() {
+    this.fetchTableFields();
+
+    this.loadingService.loading$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this.loading = res
+      });
+
     this.responseParserService.tableData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res=> {
       this.dataSource.data = res;
       this.ref.markForCheck(); //refresh the component manually
-    });
+        this.loadingService.toggleVisible(false);
+      });
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  getLabel(name: string): string {
+    let ret: string = "";
+    this.fieldsMap.forEach(field => {
+      if (field.name === name) {
+        ret = field.label;
+      }
+    });
+    return ret;
+  }
+
+  isSortable(name: string): boolean {
+    let ret =  false;
+    this.fieldsMap.forEach(field => {
+      if (field.name === name) {
+        ret = field.sortable;
+      }
+    });
+    return ret;
+  }
+
+  fetchTableFields(): void {
+    this.fieldsMap = environment.functions[this.route.snapshot.url[0].path].fields;
+    this.displayColumns = this.fieldsMap.map(field => field.name);
   }
 
   applyFilter(filterValue: string) {
@@ -47,16 +89,39 @@ export class DataListComponent implements OnInit, OnDestroy {
   }
 
 paginationChanges(event: any ) {
-  console.log(event);
-  const navigationExtras: NavigationExtras = {
-    queryParams: { top: event.pageSize, skip: event.pageIndex * event.pageSize },
-    queryParamsHandling: 'merge'
-  };
-  this.router.navigate([], navigationExtras);
+  navigationExtras.queryParams = { top: event.pageSize, skip: event.pageIndex * event.pageSize };
+  this._nagivate(navigationExtras);
 }
 
+// todo remove ordering on default switch
 sortTable(event: any): void {
-    console.log(event);
+    let sort: string = "";
+  switch (event.direction){
+    case 'asc': {
+      sort = '^' + event.active;
+      break;
+    }
+    case 'desc': {
+      sort = '$' + event.active;
+      break;
+    }
+    default: {
+      sort = null;
+      break;
+    }
+  }
+
+  if(sort === null){
+    navigationExtras.queryParams = { };
+  }else{
+    navigationExtras.queryParams = {order: sort};
+  }
+  this._nagivate(navigationExtras);
+}
+
+private _nagivate(navigationExtras: NavigationExtras): void {
+  this.router.navigate([], navigationExtras);
+
 }
 
   ngOnDestroy() {

@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'pharos-data-list-visualizations',
   templateUrl: './data-list-visualizations.component.html',
-  styleUrls: ['./data-list-visualizations.component.css']
+  styleUrls: ['./data-list-visualizations.component.css'],
 })
 export class DataListVisualizationsComponent implements OnInit {
 data: any;
 datum: any;
+selected: string;
 facets: string[] = ['data1', 'data2', 'data3'];
   constructor() { }
 
@@ -44,12 +45,17 @@ facets: string[] = ['data1', 'data2', 'data3'];
         {label: "malignant mesothelioma", count: 31630},
         {label: "Breast cancer", count: 30990}]
     }
+    this.selected = "data1";
     this.data = this.datum.data1;
   }
   changeData(data: string){
+    this.selected = data;
     console.log(data);
     this.data = this.datum[data];
     console.log(this.data);
   }
 
+  isSelected(field: string): boolean{
+    return field === this.selected;
+  }
 }
