@@ -6,6 +6,7 @@ import {takeUntil} from "rxjs/operators";
 import {Subject} from "rxjs/Subject";
 import {environment} from "../../environments/environment.prod";
 import {ActivatedRoute} from "@angular/router";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'pharos-filter-panel',
@@ -21,14 +22,30 @@ export class FilterPanelComponent implements OnInit {
   constructor(private http: HttpClient,
               private ref: ChangeDetectorRef,
               private _route: ActivatedRoute,
+              private _location: Location,
               private responseParserService: ResponseParserService) { }
 
   ngOnInit() {
-    this.facetsList = environment.functions[this._route.snapshot.url[0].path].facets;
+    this.facets = [];
+    let path: string = '';
+    if(this._route.snapshot.url.length > 0) {
+      path = this._route.snapshot.url.length[0].path;
+    }else{
+      path = this._location.path().split('/')[1];
+    }
+    this.facetsList = environment.functions[path].facets;
     this.responseParserService.facetsData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res=> {
-      this.facetsList.forEach(name => res.filter(facet => facet.name === name ? this.facets.push(facet) : false));
+        console.log(res);
+        console.log(this.facetsList);
+        console.log(this._route.snapshot);
+        this.facetsList.forEach(fct => res.filter(facet => {
+          if (facet.name.toLowerCase() === fct.name.toLowerCase()) {
+            facet.label = fct.label;
+          this.facets.push(facet)
+          }
+        }));
       this.ref.markForCheck();
   });
   }

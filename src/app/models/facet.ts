@@ -1,5 +1,6 @@
 export class Facet {
 name: string;
+label: string;
 values: Field[];
 }
 
