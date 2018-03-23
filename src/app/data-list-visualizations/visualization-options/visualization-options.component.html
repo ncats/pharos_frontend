@@ -1,0 +1,7 @@
+<mat-chip-list #chipList >
+  <mat-chip *ngFor="let facet of facets"
+            [selected]="isSelected(facet.name)"
+            (click)="changeData(facet.name)">
+    {{facet.label}}
+  </mat-chip>
+</mat-chip-list>

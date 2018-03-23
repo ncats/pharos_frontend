@@ -27,6 +27,8 @@ import {FacetService} from "./services/facet.service";
 import { DonutChartComponent } from './visualizations/donut-chart/donut-chart.component';
 import { WordCloudChartComponent } from './visualizations/word-cloud-chart/word-cloud-chart.component';
 import { SunburstChartComponent } from './visualizations/sunburst-chart/sunburst-chart.component';
+import { VisualizationOptionsComponent } from './data-list-visualizations/visualization-options/visualization-options.component';
+import {EnvironmentVariablesService} from "./services/environment-variables.service";
 
 
 @NgModule({
@@ -44,7 +46,8 @@ import { SunburstChartComponent } from './visualizations/sunburst-chart/sunburst
     PharosPaginatorComponent,
     DonutChartComponent,
     WordCloudChartComponent,
-    SunburstChartComponent
+    SunburstChartComponent,
+    VisualizationOptionsComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +64,8 @@ import { SunburstChartComponent } from './visualizations/sunburst-chart/sunburst
     TablePaginationService,
     FacetService,
     ResponseParserService,
-    LoadingService
+    LoadingService,
+    EnvironmentVariablesService
   ],
   bootstrap: [AppComponent]
 })

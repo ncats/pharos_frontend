@@ -1,11 +1,11 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
-import {MatPaginator, MatPaginatorIntl, MatSort, MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {ResponseParserService} from "../services/response-parser.service";
 import {Subject} from "rxjs/Subject";
 import {takeUntil} from "rxjs/operators";
 import {LoadingService} from "../services/loading.service";
-import {environment} from "../../environments/environment.prod";
+import {EnvironmentVariablesService} from "../services/environment-variables.service";
 
 const navigationExtras: NavigationExtras = {
   queryParamsHandling: 'merge'
@@ -27,9 +27,10 @@ export class DataListComponent implements OnInit, OnDestroy {
   displayColumns: string[];
   private ngUnsubscribe: Subject<any> = new Subject();
 
-  constructor(private route: ActivatedRoute,
+  constructor(private _route: ActivatedRoute,
               private router: Router,
               private ref: ChangeDetectorRef,
+              private environmentVariablesService: EnvironmentVariablesService,
               private responseParserService: ResponseParserService,
               private loadingService: LoadingService) {
   }
@@ -78,7 +79,7 @@ export class DataListComponent implements OnInit, OnDestroy {
   }
 
   fetchTableFields(): void {
-    this.fieldsMap = environment.functions[this.route.snapshot.url[0].path].fields;
+    this.fieldsMap = this.environmentVariablesService.getTableFields(this._route.snapshot.url[0].path);
     this.displayColumns = this.fieldsMap.map(field => field.name);
   }
 

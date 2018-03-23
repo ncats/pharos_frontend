@@ -1,23 +1,14 @@
 <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="vis-row">
   <div fxFlex="30"><pharos-donut-chart [data]=data></pharos-donut-chart>
-      <mat-chip-list #chipList >
-        <mat-chip *ngFor="let facet of facets"
-                  [selected]="isSelected(facet)"
-                  (click)="changeData(facet)">
-          {{facet}}
-        </mat-chip>
-      </mat-chip-list>
+    <pharos-visualization-options [facets] = chartFacets.donut></pharos-visualization-options>
   </div>
   <div fxFlex="30">
+    <!--
+        <pharos-sunburst-chart [data]=data></pharos-sunburst-chart>
+    -->
 <!--
-    <pharos-sunburst-chart [data]=data></pharos-sunburst-chart>
+    <pharos-visualization-options [facets] = chartFacets.sunburst></pharos-visualization-options>
 -->
-    <mat-chip-list #chipList  >
-      <mat-chip *ngFor="let facet of facets"
-                (click)="changeData(facet)">
-        {{facet}}
-      </mat-chip>
-    </mat-chip-list>
   </div>
   <div fxFlex="30">word clouds</div>
 </div>

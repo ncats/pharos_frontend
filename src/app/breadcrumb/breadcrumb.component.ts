@@ -11,7 +11,7 @@ export class BreadcrumbComponent implements OnInit {
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
-    console.log(this.route);
+  //  console.log(this.route);
     this.routeParams = this.route.snapshot;
   }
 

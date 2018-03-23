@@ -6,17 +6,20 @@ import {Subject} from 'rxjs/Subject';
 import { catchError } from 'rxjs/operators';
 import {of} from "rxjs/observable/of";
 import {ParamMap} from "@angular/router";
-import {environment} from '../../environments/environment.prod';
+import {EnvironmentVariablesService} from "./environment-variables.service";
 
-const URL = environment.apiUrl;
 
 @Injectable()
 export class PharosApiService {
 
   private _dataSource = new Subject<any>();
+  private _URL: string;
   data$ = this._dataSource.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+              private environmentVariablesService: EnvironmentVariablesService) {
+     this._URL = this.environmentVariablesService.getApiPath();
+  }
 
   getData(path: string, params: ParamMap) {
     const url = this._mapParams(path, params);
@@ -27,11 +30,12 @@ export class PharosApiService {
   }
 
   private _mapParams(path: string, params: ParamMap): string {
+    console.log(path);
     let str: string = '';
     if(params.keys.length === 0) {
-      str = environment.functions[path].default;
+      str = this.environmentVariablesService.getDefaultUrl(path);
     } else {
-      str = URL + path +'/search?';
+      str = this._URL + path +'/search?';
       params.keys.map(key => {
         params.getAll(key).map(val => {
             str = str + key + "=" + val + '&';

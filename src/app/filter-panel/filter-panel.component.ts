@@ -4,9 +4,9 @@ import {ResponseParserService} from "../services/response-parser.service";
 import {Facet} from "../models/facet";
 import {takeUntil} from "rxjs/operators";
 import {Subject} from "rxjs/Subject";
-import {environment} from "../../environments/environment.prod";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from "@angular/common";
+import {EnvironmentVariablesService} from "../services/environment-variables.service";
 
 @Component({
   selector: 'pharos-filter-panel',
@@ -21,25 +21,18 @@ export class FilterPanelComponent implements OnInit {
 
   constructor(private http: HttpClient,
               private ref: ChangeDetectorRef,
-              private _route: ActivatedRoute,
-              private _location: Location,
+              private router : Router,
+              private environmentVariablesService: EnvironmentVariablesService,
               private responseParserService: ResponseParserService) { }
 
   ngOnInit() {
     this.facets = [];
-    let path: string = '';
-    if(this._route.snapshot.url.length > 0) {
-      path = this._route.snapshot.url.length[0].path;
-    }else{
-      path = this._location.path().split('/')[1];
-    }
-    this.facetsList = environment.functions[path].facets;
+    this.facetsList = [];
     this.responseParserService.facetsData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res=> {
-        console.log(res);
-        console.log(this.facetsList);
-        console.log(this._route.snapshot);
+        // todo: this seems like a convoluted way of getting the base path...
+        this.facetsList = this.environmentVariablesService.getFacets(this.router.url.split('/')[1].split('?')[0]);
         this.facetsList.forEach(fct => res.filter(facet => {
           if (facet.name.toLowerCase() === fct.name.toLowerCase()) {
             facet.label = fct.label;
