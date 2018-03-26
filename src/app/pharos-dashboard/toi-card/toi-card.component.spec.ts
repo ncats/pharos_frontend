@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HomeDashboardComponent } from './home-dashboard.component';
+import { ToiCardComponent } from './toi-card.component';
 
-describe('HomeDashboardComponent', () => {
-  let component: HomeDashboardComponent;
-  let fixture: ComponentFixture<HomeDashboardComponent>;
+describe('ToiCardComponent', () => {
+  let component: ToiCardComponent;
+  let fixture: ComponentFixture<ToiCardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeDashboardComponent ]
+      declarations: [ ToiCardComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomeDashboardComponent);
+    fixture = TestBed.createComponent(ToiCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

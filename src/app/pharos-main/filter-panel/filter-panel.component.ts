@@ -1,9 +1,8 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
-import {ResponseParserService} from "../services/response-parser.service";
-import {Facet} from "../models/facet";
+import {Facet} from "../../models/facet";
 import {Subject} from "rxjs/Subject";
-import {EnvironmentVariablesService} from "../services/environment-variables.service";
-import {PathResolverService} from "../services/path-resolver.service";
+import {EnvironmentVariablesService} from "../../pharos-services/environment-variables.service";
+import {PathResolverService} from "../../pharos-services/path-resolver.service";
 import {FacetRetrieverService} from "../services/facet-retriever.service";
 import {takeUntil} from "rxjs/operators";
 import {combineLatest} from "rxjs/observable/combineLatest";

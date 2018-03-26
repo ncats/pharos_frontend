@@ -1,35 +1,46 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {DataListResolver} from './services/data-list.resolver';
-import {DataListComponent} from "./data-list/data-list.component";
-import {HomeDashboardComponent} from "src/app/home-dashboard/home-dashboard.component";
+import {DataListResolver} from './pharos-main/services/data-list.resolver';
+import {ToiDashboardComponent} from "./pharos-dashboard/toi-dashboard/toi-dashboard.component";
+import {PharosDashboardComponent} from "./pharos-dashboard/pharos-dashboard.component";
 
 
 
 const ROUTES: Routes = [
   {
-    path: '',
-    component: HomeDashboardComponent,
-    resolve: {
-      data: DataListResolver
-    },
+    path: 'index',
+    component: PharosDashboardComponent
+  },
+  { path: '',
+    redirectTo: '/index',
+    pathMatch: 'full'
+  },
+  {
+    path: 'topics',
+    component: ToiDashboardComponent
   },
   {
     path: 'targets',
-    component: DataListComponent,
+    loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
+    data: { path: 'targets' }
+
+   /* component: DataListComponent,
     resolve: {
       data: DataListResolver
     },
     // this reloads the component/resolver when the url changes from pagination or sort
-    runGuardsAndResolvers: 'paramsOrQueryParamsChange'
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange'*/
   },{
     path: 'diseases',
-    component: DataListComponent,
+    loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
+    data: { path: 'diseases' }
+
+  /*  component: DataListComponent,
     resolve: {
       data: DataListResolver
     },
     // this reloads the component/resolver when the url changes from pagination or sort
-    runGuardsAndResolvers: 'paramsOrQueryParamsChange'
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange'*/
   }
 ];
 
@@ -38,7 +49,6 @@ const ROUTES: Routes = [
     RouterModule.forRoot(ROUTES)
   ],
   providers: [
-    DataListResolver
   ],
   exports: [ RouterModule ]
 })

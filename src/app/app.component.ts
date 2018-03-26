@@ -2,13 +2,13 @@ import {Component, HostListener, Inject, OnInit} from '@angular/core';
 import {SafeResourceUrl, DomSanitizer} from '@angular/platform-browser';
 import {HttpClient} from '@angular/common/http';
 import {DOCUMENT} from '@angular/common';
-import {LoadingService} from './services/loading.service';
-import {ResponseParserService} from "./services/response-parser.service";
+import {LoadingService} from './pharos-services/loading.service';
+import {ResponseParserService} from "./pharos-services/response-parser.service";
 
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  template: '<router-outlet fxFlexAlign="stretch"></router-outlet>',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
@@ -20,11 +20,9 @@ export class AppComponent implements OnInit {
   constructor(
     private loadingService: LoadingService,
     private http: HttpClient,
-    private responseParserService: ResponseParserService,
     @Inject(DOCUMENT) private document: Document) {
   }
   ngOnInit(){
-    this.responseParserService.initializeSubscriptions();
     this.loadingService.loading$.subscribe(res =>this.loading = res);
   }
 

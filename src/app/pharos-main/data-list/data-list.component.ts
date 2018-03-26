@@ -1,12 +1,13 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {ResponseParserService} from "../services/response-parser.service";
-import {Subject} from "rxjs/Subject";
-import {combineLatest, takeUntil} from "rxjs/operators";
-import {LoadingService} from "../services/loading.service";
-import {EnvironmentVariablesService} from "../services/environment-variables.service";
-import {PathResolverService} from "../services/path-resolver.service";
+import {Subject} from 'rxjs/Subject';
+import {combineLatest, takeUntil} from 'rxjs/operators';
+import {PathResolverService} from '../../pharos-services/path-resolver.service';
+import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
+import {ResponseParserService} from '../../pharos-services/response-parser.service';
+import {LoadingService} from '../../pharos-services/loading.service';
+
 
 const navigationExtras: NavigationExtras = {
   queryParamsHandling: 'merge'

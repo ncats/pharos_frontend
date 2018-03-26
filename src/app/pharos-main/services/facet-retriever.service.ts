@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {ResponseParserService} from "./response-parser.service";
-import {Facet} from "../models/facet";
+import {ResponseParserService} from "../../pharos-services/response-parser.service";
+import {Facet} from "../../models/facet";
 import {Observable} from "rxjs/Observable";
 import {of} from "rxjs/observable/of";
 import {Subscription} from "rxjs/Subscription";

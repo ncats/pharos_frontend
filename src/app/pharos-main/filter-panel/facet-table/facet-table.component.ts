@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Vi
 import {MatSort, MatTableDataSource} from "@angular/material";
 import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
 import {SelectionModel} from "@angular/cdk/collections";
-import {Field} from "../../models/facet";
+import {Field} from "../../../models/facet";
 import {takeUntil} from "rxjs/operators";
 import {Subject} from "rxjs/Subject";
 

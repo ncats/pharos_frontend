@@ -1,0 +1,13 @@
+.full-width-field {
+  width: 90%;
+}
+
+.search-card {
+  height: calc(100% - 1vh);
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+#links {
+  text-align:center;
+}

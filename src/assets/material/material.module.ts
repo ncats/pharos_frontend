@@ -9,6 +9,10 @@ import {
   MatSelectModule, MatExpansionModule, MatPaginatorModule
 } from '@angular/material';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatDividerModule} from '@angular/material/divider';
+
+
 
 
 
@@ -17,12 +21,12 @@ import {MatChipsModule} from '@angular/material/chips';
     MatInputModule, MatIconModule, MatListModule, MatSliderModule, MatProgressSpinnerModule,
     MatTableModule, MatSortModule, MatSidenavModule, MatSlideToggleModule, MatRadioModule,
     MatTabsModule, MatCheckboxModule, MatCardModule, MatTooltipModule, MatSelectModule, MatExpansionModule, MatPaginatorModule,
-    MatChipsModule],
+    MatChipsModule, MatGridListModule, MatDividerModule],
   exports: [MatButtonModule, MatAutocompleteModule, MatMenuModule, MatToolbarModule,
     MatInputModule, MatIconModule, MatListModule, MatSliderModule, MatProgressSpinnerModule,
     MatTableModule, MatSortModule, MatSidenavModule, MatSlideToggleModule, MatRadioModule,
     MatTabsModule, MatCheckboxModule, MatCardModule, MatTooltipModule, MatSelectModule, MatExpansionModule, MatPaginatorModule,
-    MatChipsModule],
+    MatChipsModule, MatGridListModule, MatDividerModule],
 })
 export class MaterialModule { }
 

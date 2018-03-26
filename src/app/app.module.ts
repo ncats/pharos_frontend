@@ -6,50 +6,28 @@ import { MaterialModule } from '../assets/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { NcatsHeaderComponent} from './ncats-header/ncats-header.component';
-import { NcatsFooterComponent} from './ncats-footer/ncats-footer.component';
-import { LoadingService } from './services/loading.service';
-import { DataListComponent } from './data-list/data-list.component';
-import { DataDetailsComponent } from './data-details/data-details.component';
+import { NcatsHeaderComponent} from './tools/ncats-header/ncats-header.component';
+import { NcatsFooterComponent} from './tools/ncats-footer/ncats-footer.component';
+import { LoadingService } from './pharos-services/loading.service';
 import { AppRoutingModule } from './app-routing.module';
-import { IndexComponent } from './index/index.component';
-import { FilterPanelComponent } from './filter-panel/filter-panel.component';
-import { DataListVisualizationsComponent } from './data-list-visualizations/data-list-visualizations.component';
-import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
-import { FacetTableComponent } from './filter-panel/facet-table/facet-table.component';
-import { PharosPaginatorComponent } from './tools/pharos-paginator/pharos-paginator.component';
-import { PharosApiService } from './services/pharos-api.service';
-import { ResponseParserService } from './services/response-parser.service';
-import { DonutChartComponent } from './visualizations/donut-chart/donut-chart.component';
-import { WordCloudChartComponent } from './visualizations/word-cloud-chart/word-cloud-chart.component';
-import { SunburstChartComponent } from './visualizations/sunburst-chart/sunburst-chart.component';
-import { VisualizationOptionsComponent } from './data-list-visualizations/visualization-options/visualization-options.component';
-import { EnvironmentVariablesService } from './services/environment-variables.service';
-import { PathResolverService } from './services/path-resolver.service';
-import { FacetRetrieverService } from './services/facet-retriever.service';
-import { HomeDashboardComponent } from './home-dashboard/home-dashboard.component';
-import { ToiDashboardComponent } from './toi-dashboard/toi-dashboard.component';
+import { PharosApiService } from './pharos-services/pharos-api.service';
+import { ResponseParserService } from './pharos-services/response-parser.service';
+import { EnvironmentVariablesService } from './pharos-services/environment-variables.service';
+import { PathResolverService } from './pharos-services/path-resolver.service';
+import { FacetRetrieverService } from './pharos-main/services/facet-retriever.service';
+import { ToiDashboardComponent } from './pharos-dashboard/toi-dashboard/toi-dashboard.component';
+import { ToiCardComponent } from './pharos-dashboard/toi-card/toi-card.component';
+import { PharosDashboardComponent } from './pharos-dashboard/pharos-dashboard.component';
+import { SearchCardComponent } from './pharos-dashboard/search-card/search-card.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    NcatsHeaderComponent,
-    NcatsFooterComponent,
-    DataListComponent,
-    DataDetailsComponent,
-    IndexComponent,
-    FilterPanelComponent,
-    DataListVisualizationsComponent,
-    BreadcrumbComponent,
-    FacetTableComponent,
-    PharosPaginatorComponent,
-    DonutChartComponent,
-    WordCloudChartComponent,
-    SunburstChartComponent,
-    VisualizationOptionsComponent,
-    HomeDashboardComponent,
-    ToiDashboardComponent
+    ToiDashboardComponent,
+    ToiCardComponent,
+    PharosDashboardComponent,
+    SearchCardComponent
   ],
   imports: [
     BrowserModule,

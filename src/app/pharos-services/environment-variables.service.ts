@@ -2,7 +2,7 @@ import {Inject, Injectable} from '@angular/core';
 import {environment} from "../../environments/environment.prod";
 import {ActivatedRoute} from "@angular/router";
 import {Location} from "@angular/common";
-import {PharosApiService} from "../services/pharos-api.service";
+import {PharosApiService} from ".//pharos-api.service";
 
 @Injectable()
 export class EnvironmentVariablesService {

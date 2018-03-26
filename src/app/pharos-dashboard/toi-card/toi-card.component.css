@@ -1,0 +1,29 @@
+
+.counts-row{
+  height: 10vh;
+  text-align: center;
+}
+
+.pharos-card {
+  margin-bottom: 1vh;
+}
+
+/*.pharos-card {
+  color: #ffffff;
+  background-color: rgba(0,0,0,.5);
+}
+ */
+
+.divider {
+  border-right: rgba(0, 0, 0, .2) 1px solid;
+  height: 100%;
+}
+
+.toi-link {
+  cursor: pointer;
+}
+
+.pull-end {
+  display: flex;
+  justify-content: flex-end;
+}

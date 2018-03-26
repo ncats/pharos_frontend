@@ -21,7 +21,7 @@ import {
 } from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {MatPaginatorIntl} from "@angular/material";
-import {ResponseParserService} from "../../services/response-parser.service";
+import {ResponseParserService} from "../../pharos-services/response-parser.service";
 import {PageData} from "../../models/page-data";
 import {FormControl} from "@angular/forms";
 
