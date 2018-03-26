@@ -3,9 +3,10 @@ import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {ResponseParserService} from "../services/response-parser.service";
 import {Subject} from "rxjs/Subject";
-import {takeUntil} from "rxjs/operators";
+import {combineLatest, takeUntil} from "rxjs/operators";
 import {LoadingService} from "../services/loading.service";
 import {EnvironmentVariablesService} from "../services/environment-variables.service";
+import {PathResolverService} from "../services/path-resolver.service";
 
 const navigationExtras: NavigationExtras = {
   queryParamsHandling: 'merge'
@@ -30,13 +31,18 @@ export class DataListComponent implements OnInit, OnDestroy {
   constructor(private _route: ActivatedRoute,
               private router: Router,
               private ref: ChangeDetectorRef,
+              private pathResolverService: PathResolverService,
               private environmentVariablesService: EnvironmentVariablesService,
               private responseParserService: ResponseParserService,
               private loadingService: LoadingService) {
   }
 
   ngOnInit() {
-    this.fetchTableFields();
+// todo: convert to combine latest
+    this.pathResolverService.path$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => this.fetchTableFields(res));
+
 
     this.loadingService.loading$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -78,15 +84,9 @@ export class DataListComponent implements OnInit, OnDestroy {
     return ret;
   }
 
-  fetchTableFields(): void {
-    this.fieldsMap = this.environmentVariablesService.getTableFields(this._route.snapshot.url[0].path);
+  fetchTableFields(path: string): void {
+    this.fieldsMap = this.environmentVariablesService.getTableFields(path);
     this.displayColumns = this.fieldsMap.map(field => field.name);
-  }
-
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
   }
 
 paginationChanges(event: any ) {

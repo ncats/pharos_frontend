@@ -1,12 +1,12 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {ResponseParserService} from "../services/response-parser.service";
 import {Facet} from "../models/facet";
-import {takeUntil} from "rxjs/operators";
 import {Subject} from "rxjs/Subject";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Location} from "@angular/common";
 import {EnvironmentVariablesService} from "../services/environment-variables.service";
+import {PathResolverService} from "../services/path-resolver.service";
+import {FacetRetrieverService} from "../services/facet-retriever.service";
+import {takeUntil} from "rxjs/operators";
+import {combineLatest} from "rxjs/observable/combineLatest";
 
 @Component({
   selector: 'pharos-filter-panel',
@@ -16,31 +16,49 @@ import {EnvironmentVariablesService} from "../services/environment-variables.ser
 })
 export class FilterPanelComponent implements OnInit {
   facetsList: any;
-  facets: Facet[];
+  facets: any;
   private ngUnsubscribe: Subject<any> = new Subject();
 
-  constructor(private http: HttpClient,
+  constructor(
               private ref: ChangeDetectorRef,
-              private router : Router,
-              private environmentVariablesService: EnvironmentVariablesService,
-              private responseParserService: ResponseParserService) { }
+              private pathResolverService : PathResolverService,
+              private facetRetrieverService: FacetRetrieverService,
+              private environmentVariablesService: EnvironmentVariablesService) { }
 
   ngOnInit() {
-    this.facets = [];
-    this.facetsList = [];
-    this.responseParserService.facetsData$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res=> {
-        // todo: this seems like a convoluted way of getting the base path...
-        this.facetsList = this.environmentVariablesService.getFacets(this.router.url.split('/')[1].split('?')[0]);
-        this.facetsList.forEach(fct => res.filter(facet => {
-          if (facet.name.toLowerCase() === fct.name.toLowerCase()) {
-            facet.label = fct.label;
-          this.facets.push(facet)
-          }
-        }));
-      this.ref.markForCheck();
-  });
+/*    this.pathResolverService.path$.subscribe(res => {
+      this.facets = [];
+      this.environmentVariablesService.getFacets(res).map(facet => {
+        this.facetRetrieverService.getFacetObservable(facet.name).subscribe(res => {
+          console.log(res);
+          res.label = facet.label;
+          this.facets.push(res);
+          });
+      });
+      console.log(this.facets);
+      this.ref.markForCheck()
+    });*/
+
+    const params$ =
+      combineLatest(
+      this.pathResolverService.path$,
+      this.facetRetrieverService.loaded$,
+      (path, loaded) => ({path: path, loaded: loaded}))
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe((res) => {
+        if (res.loaded) {
+          this.facets = [];
+          this.environmentVariablesService.getFacets(res.path).map(facet => {
+            let temp = this.facetRetrieverService.getFacet(facet.name);
+            temp.label = facet.label;
+            this.facets.push(temp);
+          });
+          console.log(this.facets);
+          this.ref.markForCheck()
+        }
+      })
   }
 
   trackByFn(index: string, item: Facet) {

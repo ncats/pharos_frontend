@@ -1,4 +1,7 @@
-import {Component, ElementRef, HostListener, Input, OnInit, ViewChild, ViewEncapsulation} from "@angular/core";
+import {
+  Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild,
+  ViewEncapsulation
+} from "@angular/core";
 import * as d3 from 'd3';
 
 @Component({
@@ -15,9 +18,13 @@ export class DonutChartComponent implements OnInit {
   width: number;
   radius: number;
   donut: any;
+  @Output() readonly click: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() { }
 
+  // todo add click event that emits up
+  // todo - data change doesnt update the chart, it just redraws it;
+  //todo - revamp this to be more in line with es6
   ngOnInit() {
     const element = this.chartContainer.nativeElement;
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
@@ -257,8 +264,15 @@ export class DonutChartComponent implements OnInit {
           selection.on('mouseout', function () {
             //d3.selectAll('.toolCircle').remove();
           });
+
+          selection.on('click', ($event) => {
+            emitClick($event);
+          });
         }
 
+        function emitClick(event: any){
+          console.log(this)
+        }
         // function to create the HTML string for the tool tip. Loops through each key in data object
         // and returns the html string key: value
         function toolTipHTML(data) {

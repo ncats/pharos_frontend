@@ -42,7 +42,7 @@ export class PharosApiService {
           }
         );
       });
-      // todo look into if this is the best way to make the url -- this is gonig to happen a lot
+      // todo look into if this is the best way to make the url -- this is going to happen a lot
       str = str.slice(0,-1);
     }
     return str;

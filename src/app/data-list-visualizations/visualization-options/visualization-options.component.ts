@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'pharos-visualization-options',
@@ -7,22 +7,22 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class VisualizationOptionsComponent implements OnInit {
   @Input() facets: any[];
+  @Output() readonly fieldChange: EventEmitter<string> = new EventEmitter<string>();
+
   data: any;
-  datum: any;
   selected: string;
 
   constructor() { }
 
   ngOnInit() {
     console.log(this);
-    this.selected = this.facets[0].name;
+    this.changeData(this.facets[0].name);
   }
 
   changeData(data: string){
-    this.selected = data;
     console.log(data);
-    this.data = this.datum[data];
-    console.log(this.data);
+    this.selected = data;
+    this.fieldChange.emit(data);
   }
 
   isSelected(field: string): boolean {
