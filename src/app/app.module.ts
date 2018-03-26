@@ -27,6 +27,8 @@ import { VisualizationOptionsComponent } from './data-list-visualizations/visual
 import { EnvironmentVariablesService } from './services/environment-variables.service';
 import { PathResolverService } from './services/path-resolver.service';
 import { FacetRetrieverService } from './services/facet-retriever.service';
+import { HomeDashboardComponent } from './home-dashboard/home-dashboard.component';
+import { ToiDashboardComponent } from './toi-dashboard/toi-dashboard.component';
 
 
 @NgModule({
@@ -45,7 +47,9 @@ import { FacetRetrieverService } from './services/facet-retriever.service';
     DonutChartComponent,
     WordCloudChartComponent,
     SunburstChartComponent,
-    VisualizationOptionsComponent
+    VisualizationOptionsComponent,
+    HomeDashboardComponent,
+    ToiDashboardComponent
   ],
   imports: [
     BrowserModule,
