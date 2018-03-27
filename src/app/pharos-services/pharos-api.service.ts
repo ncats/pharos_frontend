@@ -30,7 +30,6 @@ export class PharosApiService {
   }
 
   private _mapParams(path: string, params: ParamMap): string {
-    console.log(path);
     let str: string = '';
     if(params.keys.length === 0) {
       str = this.environmentVariablesService.getDefaultUrl(path);

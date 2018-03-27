@@ -7,6 +7,7 @@ import {PathResolverService} from '../../pharos-services/path-resolver.service';
 import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {LoadingService} from '../../pharos-services/loading.service';
+import {SelectionModel} from "@angular/cdk/collections";
 
 
 const navigationExtras: NavigationExtras = {
@@ -23,9 +24,11 @@ export class DataListComponent implements OnInit, OnDestroy {
   data: any;
   loading = false;
   dataSource = new MatTableDataSource<any>([]);
+  rowSelection = new SelectionModel<any>(true, []);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   fieldsMap: any[];
+  fieldColumns: string[];
   displayColumns: string[];
   private ngUnsubscribe: Subject<any> = new Subject();
 
@@ -58,6 +61,13 @@ export class DataListComponent implements OnInit, OnDestroy {
       this.ref.markForCheck(); //refresh the component manually
         this.loadingService.toggleVisible(false);
       });
+
+    this.rowSelection.onChange
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(change => {
+        console.log(change);
+        console.log(this.rowSelection.selected);
+      });
   }
 
   ngAfterViewInit() {
@@ -87,7 +97,9 @@ export class DataListComponent implements OnInit, OnDestroy {
 
   fetchTableFields(path: string): void {
     this.fieldsMap = this.environmentVariablesService.getTableFields(path);
-    this.displayColumns = this.fieldsMap.map(field => field.name);
+    this.fieldColumns = this.fieldsMap.map(field => field.name);
+    this.displayColumns = ['list-select'].concat(this.fieldColumns);
+    console.log(this);
   }
 
 paginationChanges(event: any ) {

@@ -19,7 +19,16 @@
   <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around center" class="body-row">
     <div fxFlex="95">
 <mat-table [dataSource]="dataSource" matSort (matSortChange)="sortTable($event)">
-  <ng-container matColumnDef="{{field}}" *ngFor="let field of displayColumns">
+  <ng-container matColumnDef="list-select">
+    <mat-header-cell *matHeaderCellDef> Compare </mat-header-cell>
+    <mat-cell *matCellDef="let row" class="col2">
+      <mat-checkbox (click)="$event.stopPropagation()"
+                    (change)="$event ? rowSelection.toggle(row) : null"
+                    [checked]="rowSelection.isSelected(row)">
+      </mat-checkbox>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="{{field}}" *ngFor="let field of fieldColumns">
     <mat-header-cell *matHeaderCellDef mat-sort-header disabled = {{!isSortable(field)}} > {{getLabel(field)}} </mat-header-cell>
     <mat-cell *matCellDef="let row"> {{row[field]}} </mat-cell>
   </ng-container>

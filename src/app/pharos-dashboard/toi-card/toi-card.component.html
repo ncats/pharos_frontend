@@ -8,46 +8,29 @@
   <mat-card-content>
     <div fxLayout="row" fxLayoutAlign="center center" class="counts-row">
       <div fxFlex="30" *ngIf="toi.targetCt != 0" routerLink="/targets" class="toi-sub-link">
-        <span class = "mat-title">Targets: </span>
+        <span class = "mat-display-4">{{toi.targetCt}}</span>
         <br>
-        {{toi.targetCt}}
+        <span class = "mat-title">Targets</span>
       </div>
       <div fxFlex="1" class="divider" *ngIf="toi.targetCt != 0"></div>
       <div fxFlex="30" *ngIf="toi.diseaseCt != 0" routerLink="/diseases" class="toi-sub-link">
-        <span class = "mat-title">Diseases: </span>
+        <span class = "mat-display-4">{{toi.diseaseCt}}</span>
         <br>
-        {{toi.diseaseCt}}
+        <span class = "mat-title">Diseases</span>
       </div>
       <div fxFlex="1" class="divider" *ngIf="toi.diseaseCt != 0"></div>
       <div fxFlex="30" *ngIf="toi.ligandCt != 0" routerLink="/ligands" class="toi-sub-link">
-        <span class = "mat-title">Ligands: </span>
+        <span class = "mat-display-4">{{toi.ligandCt}}</span>
         <br>
-        {{toi.ligandCt}}
+        <span class = "mat-title">Ligands</span>
       </div>
       <div fxFlex="1" class="divider" *ngIf="toi.ligandCt != 0"></div>
       <div fxFlex="30" *ngIf="toi.publicationCt != 0" routerLink="/publications" class="toi-sub-link">
-        <span class = "mat-title">Publications: </span>
+        <span class = "mat-display-4">{{toi.publicationCt}}</span>
         <br>
-        {{toi.publicationCt}}
+        <span class = "mat-title">Publications</span>
+
       </div>
     </div>
-   <!-- <mat-grid-list cols="3" rowHeight="1:1">
-      <mat-grid-tile *ngIf="toi.targetCt != 0">
-        <mat-grid-tile-header>Targets: </mat-grid-tile-header>
-        {{toi.targetCt}}
-      </mat-grid-tile>
-      <mat-grid-tile *ngIf="toi.diseaseCt != 0">
-        <mat-grid-tile-header>Diseases: </mat-grid-tile-header>
-        {{toi.diseaseCt}}
-      </mat-grid-tile>
-      <mat-grid-tile *ngIf="toi.ligandCt != 0">
-        <mat-grid-tile-header>Ligands: </mat-grid-tile-header>
-        {{toi.ligandCt}}
-      </mat-grid-tile>
-      <mat-grid-tile *ngIf="toi.publicationCt != 0">
-        <mat-grid-tile-header>Publications: </mat-grid-tile-header>
-        {{toi.publicationCt}}
-      </mat-grid-tile>
-    </mat-grid-list>-->
   </mat-card-content>
 </mat-card>

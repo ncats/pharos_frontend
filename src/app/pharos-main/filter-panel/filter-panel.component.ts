@@ -61,7 +61,7 @@ export class FilterPanelComponent implements OnInit {
   }
 
   trackByFn(index: string, item: Facet) {
-    return item.name;
+    return index;
   }
 
   ngOnDestroy() {

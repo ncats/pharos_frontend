@@ -1,13 +1,18 @@
 .mat-table {
 }
 
+.table-search {
+  width: 100%;
+}
+
 .mat-column-select {
   overflow: visible;
 }
 
-.col0{
+.col0 {
   min-width: 0%;
 }
+
 .col10{
   min-width: 10%;
 }
@@ -26,4 +31,10 @@
 
 .mat-row {
   min-height: 32px;
+  border: none;
+}
+
+.mat-column-label{
+  min-width: 75%;
+  text-align: start;
 }

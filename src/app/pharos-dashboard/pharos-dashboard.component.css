@@ -11,5 +11,6 @@
   height: 100vh;
   width: 100vw;
   opacity: .6;
+  transform: rotate(180deg);
 }
 

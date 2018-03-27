@@ -13,7 +13,7 @@ import {Subject} from "rxjs/Subject";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FacetTableComponent implements OnInit {
-@Input() facet: any;
+  @Input() facet: any;
   dataSource = new MatTableDataSource<any>([]);
   filterSelection = new SelectionModel<string>(true, []);
   displayColumns:string [] = ['select', 'label', 'count'];
@@ -60,6 +60,10 @@ export class FacetTableComponent implements OnInit {
 
   private _makeFacetString(field: string): string {
     return this.facet.name.replace(/ /g, '+') + '/' + encodeURIComponent(field.toString())
+  }
+
+  filterFacet(q: string): void {
+  console.log(q);
   }
 
   ngOnDestroy() {
