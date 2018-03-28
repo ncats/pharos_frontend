@@ -1,6 +1,6 @@
-<div class="flex-body">
+<div class = "main" >
   <app-ncats-header></app-ncats-header>
-  <mat-sidenav-container class="facetsDrawer">
+  <mat-sidenav-container class="flex-body facetsDrawer">
     <mat-sidenav #sidenav [mode]="'over'">
       <!-- sidenav content -->
       <pharos-filter-panel></pharos-filter-panel>
@@ -11,8 +11,8 @@
         <mat-icon>menu</mat-icon>
       </button>
       <pharos-data-list-visualizations></pharos-data-list-visualizations>
-      <pharos-data-list fxFlexAlign="stretch"></pharos-data-list>
-      <!--<router-outlet fxFlexAlign="stretch"></router-outlet>-->
+      <pharos-facet-list></pharos-facet-list>
+      <pharos-data-list></pharos-data-list>
 
       <div class="scroll-to-top" [ngClass]="{'show-scroll': navIsFixed}">
         <button  mat-fab color="primary" (click)="scrollToTop()">
@@ -21,5 +21,5 @@
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
+  <app-ncats-footer class ="footer"></app-ncats-footer>
 </div>
-<app-ncats-footer class ="footer"></app-ncats-footer>

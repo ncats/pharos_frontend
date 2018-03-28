@@ -26,7 +26,3 @@ ul#footer-links {
   color: #c1c1c1;
 }
 
-footer {
-  flex-shrink: 0;
-  margin-top: auto;
-}

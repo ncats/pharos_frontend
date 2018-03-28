@@ -41,6 +41,8 @@ export class DataListComponent implements OnInit, OnDestroy {
               private loadingService: LoadingService) {
   }
 
+  // todo: this is changed each pagination change, so something needs to persist the selected rows
+
   ngOnInit() {
 // todo: convert to combine latest
     this.pathResolverService.path$
@@ -65,7 +67,6 @@ export class DataListComponent implements OnInit, OnDestroy {
     this.rowSelection.onChange
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(change => {
-        console.log(change);
         console.log(this.rowSelection.selected);
       });
   }
@@ -95,16 +96,20 @@ export class DataListComponent implements OnInit, OnDestroy {
     return ret;
   }
 
+  isSelected(row: any): boolean {
+    return this.rowSelection.selected.includes(row);
+  }
+
   fetchTableFields(path: string): void {
     this.fieldsMap = this.environmentVariablesService.getTableFields(path);
     this.fieldColumns = this.fieldsMap.map(field => field.name);
-    this.displayColumns = ['list-select'].concat(this.fieldColumns);
-    console.log(this);
+   // this.displayColumns = ['list-select'].concat(this.fieldColumns);
+    this.displayColumns =this.fieldColumns;
   }
 
 paginationChanges(event: any ) {
   navigationExtras.queryParams = { top: event.pageSize, skip: event.pageIndex * event.pageSize };
-  this._nagivate(navigationExtras);
+  this._navigate(navigationExtras);
 }
 
 // todo remove ordering on default switch
@@ -130,10 +135,10 @@ sortTable(event: any): void {
   }else{
     navigationExtras.queryParams = {order: sort};
   }
-  this._nagivate(navigationExtras);
+  this._navigate(navigationExtras);
 }
 
-private _nagivate(navigationExtras: NavigationExtras): void {
+private _navigate(navigationExtras: NavigationExtras): void {
   this.router.navigate([], navigationExtras);
 
 }

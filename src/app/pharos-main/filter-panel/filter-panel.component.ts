@@ -11,7 +11,6 @@ import {combineLatest} from "rxjs/observable/combineLatest";
   selector: 'pharos-filter-panel',
   templateUrl: './filter-panel.component.html',
   styleUrls: ['./filter-panel.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterPanelComponent implements OnInit {
   facetsList: any;
@@ -25,19 +24,6 @@ export class FilterPanelComponent implements OnInit {
               private environmentVariablesService: EnvironmentVariablesService) { }
 
   ngOnInit() {
-/*    this.pathResolverService.path$.subscribe(res => {
-      this.facets = [];
-      this.environmentVariablesService.getFacets(res).map(facet => {
-        this.facetRetrieverService.getFacetObservable(facet.name).subscribe(res => {
-          console.log(res);
-          res.label = facet.label;
-          this.facets.push(res);
-          });
-      });
-      console.log(this.facets);
-      this.ref.markForCheck()
-    });*/
-
     const params$ =
       combineLatest(
       this.pathResolverService.path$,
@@ -51,17 +37,18 @@ export class FilterPanelComponent implements OnInit {
           this.facets = [];
           this.environmentVariablesService.getFacets(res.path).map(facet => {
             let temp = this.facetRetrieverService.getFacet(facet.name);
-            temp.label = facet.label;
-            this.facets.push(temp);
+            if(temp) {
+              temp.label = facet.label;
+              this.facets.push(temp);
+            }
           });
-          console.log(this.facets);
-          this.ref.markForCheck()
+        //  this.ref.markForCheck()
         }
       })
   }
 
   trackByFn(index: string, item: Facet) {
-    return index;
+    return item;
   }
 
   ngOnDestroy() {

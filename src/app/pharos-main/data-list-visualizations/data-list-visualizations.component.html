@@ -1,7 +1,7 @@
 <div fxLayout="row" *ngIf="loaded" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="vis-row">
-  <div fxFlex="30">
-    <pharos-donut-chart [data]= donutData.values (click)="filterChart($event)"></pharos-donut-chart>
-    <pharos-visualization-options (fieldChange)="changeDonutChart($event)" [facets] = chartFacets?.donut></pharos-visualization-options>
+  <div fxFlex="30"  *ngIf=donutData>
+    <pharos-donut-chart [data]= donutData.values (clickSlice)="filterDonutChart($event)"></pharos-donut-chart>
+    <pharos-visualization-options (fieldChange)="changeDonutChart($event)" [facets] = chartFacets.donut></pharos-visualization-options>
   </div>
   <div fxFlex="30">
     <!--

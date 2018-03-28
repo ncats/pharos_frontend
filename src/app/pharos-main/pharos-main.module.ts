@@ -17,6 +17,7 @@ import {PharosMainComponent} from "./pharos-main.component";
 import {NcatsFooterComponent} from "../tools/ncats-footer/ncats-footer.component";
 import {NcatsHeaderComponent} from "../tools/ncats-header/ncats-header.component";
 import {FlexLayoutModule} from "@angular/flex-layout";
+import { FacetListComponent } from './facet-list/facet-list.component';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     WordCloudChartComponent,
     SunburstChartComponent,
     VisualizationOptionsComponent,
-    PharosMainComponent
+    PharosMainComponent,
+    FacetListComponent
   ]
 })
 export class PharosMainModule { }

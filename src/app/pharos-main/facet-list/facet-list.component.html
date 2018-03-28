@@ -1,0 +1,20 @@
+<div fxLayout="row" fxLayoutAlign="start center">
+  <div fxFlex="95"><span class=" mat-title">Selected Filters:</span></div>
+</div>
+<div fxLayout="row" fxLayoutAlign="end start">
+<div *ngFor = "let facet of facets">
+  <div>{{facet.facet}} <button mat-icon-button (click) = 'removefacetFamily(facet)'><mat-icon>clear</mat-icon><br></button></div>
+    <mat-chip-list class="mat-chip-list-stacked">
+      <mat-chip *ngFor = 'let field of facet.fields'
+                [selected]="'true'"
+                [color]="'primary'"
+                [removable]= true
+                (remove)="removeField(facet.facet, field)">
+        {{field}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+  <br>
+</div>
+</div>
+

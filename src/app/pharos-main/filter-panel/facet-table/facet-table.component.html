@@ -1,7 +1,7 @@
 <mat-form-field class="table-search">
   <input matInput (keyup)="filterFacet($event.target.value)" placeholder="Search {{facet.label}}">
 </mat-form-field>
-<mat-table [dataSource]="dataSource" [trackBy]="trackByFunction">
+<mat-table [dataSource]="dataSource">
 <ng-container matColumnDef="select">
   <mat-cell *matCellDef="let row" class="col10">
     <mat-checkbox (click)="$event.stopPropagation()"

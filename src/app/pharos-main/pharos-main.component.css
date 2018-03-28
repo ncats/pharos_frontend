@@ -3,6 +3,12 @@
   flex: 1;
 }
 
+.facetsDrawer {
+  height:100%;
+  display:flex;
+  flex-direction:column;
+}
+
 .loadingIcon {
   position: absolute; /* Sit on top of the page content */
   display: none; /* Hidden by default */

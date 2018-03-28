@@ -26,11 +26,20 @@ path {
 
 /* Make the percentage on the text labels bold*/
 .labelName tspan {
-  font-style: normal;
-  font-weight: 700;
+
 }
 
 .labelName {
-  font-size: 0.8em;
+  font-size: 1.2em;
   font-style: italic;
+}
+
+text.toolCircle {
+  font-style: normal;
+  font-weight: 700;
+  text-anchor: middle;
+}
+
+.count {
+  font-size: 2.4em;
 }

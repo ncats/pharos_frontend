@@ -10,7 +10,7 @@ import {Subject} from "rxjs/Subject";
   selector: 'pharos-facet-table',
   templateUrl: './facet-table.component.html',
   styleUrls: ['./facet-table.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+//  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FacetTableComponent implements OnInit {
   @Input() facet: any;
@@ -28,7 +28,18 @@ export class FacetTableComponent implements OnInit {
   ngOnInit() {
     if(this.route.snapshot.queryParamMap.keys.length === 0){
       this.filterSelection.clear();
-      this.ref.markForCheck()
+    //  this.ref.markForCheck()
+    } else {
+      if (this.route.snapshot.queryParamMap.keys.filter(key => key ==='facet').length > 0) {
+        const fList = this.route.snapshot.queryParamMap.getAll('facet');
+        fList.forEach(facet => {
+          const fArr= facet.split('/');
+          if((fArr[0].replace(/\+/g, ' ').toLowerCase()) === this.facet.name.toLowerCase()){
+            this.filterSelection.select(decodeURI(fArr[1]).replace('%2F', '/'));
+            //this.ref.markForCheck()
+          }
+        });
+      }
     }
     this.dataSource.data = this.facet.values;
     this.filterSelection.onChange
@@ -48,9 +59,15 @@ export class FacetTableComponent implements OnInit {
         }
         const navigationExtras: NavigationExtras = {
         queryParams: {facet: facetList},
+          queryParamsHandling: 'merge'
       };
+        if(facetList.length === 0){
+          navigationExtras.queryParams = null;
+          navigationExtras.queryParamsHandling = 'merge';
+        }
         this.router.onSameUrlNavigation ='reload'; //forces reload since technically, this is the same navigation url
         this.router.navigate([], navigationExtras);
+     //   this.ref.markForCheck()
       });
   }
 

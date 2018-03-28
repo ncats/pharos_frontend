@@ -9,7 +9,6 @@ export class VisualizationOptionsComponent implements OnInit {
   @Input() facets: any[];
   @Output() readonly fieldChange: EventEmitter<string> = new EventEmitter<string>();
 
-  data: any;
   selected: string;
 
   constructor() { }
@@ -20,7 +19,6 @@ export class VisualizationOptionsComponent implements OnInit {
   }
 
   changeData(data: string){
-    console.log(data);
     this.selected = data;
     this.fieldChange.emit(data);
   }
