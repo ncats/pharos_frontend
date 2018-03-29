@@ -14,7 +14,6 @@ export class VisualizationOptionsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this);
     this.changeData(this.facets[0].name);
   }
 

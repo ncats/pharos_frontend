@@ -27,7 +27,8 @@
   </div>
   <span class="fill-remaining-space"></span>
   <div fxFlex fxLayoutAlign="end center" >
-    <a mat-button routerLink="search" [fxHide.lt-sm]="true">Search</a>
+
+    <button mat-icon-button routerLink="search" (click)= "search()" [fxHide.lt-sm]="true"><mat-icon>search</mat-icon></button>
     <button mat-button [mat-menu-trigger-for]="appMenu" fxHide="false" fxHide.gt-sm>
       <mat-icon>menu</mat-icon>
     </button>

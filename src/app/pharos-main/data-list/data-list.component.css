@@ -1,5 +1,6 @@
 .table-list{
-  height: 100%
+  height:100%;
+  position: relative;
 }
 
 .table-search {
@@ -7,14 +8,11 @@
 }
 
 .loadingIcon {
-  position: absolute; /* Sit on top of the page content */
-  display: none; /* Hidden by default */
-  width: 100%; /* Full width (cover the whole page) */
-  height: 100%; /* Full height (cover the whole page) */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: absolute;
+  top:0;
+  left:0;
+  height:100%;
+  width:100%;
   background-color: rgba(0,0,0,0.3); /* Black background with opacity */
   z-index: 666;
 

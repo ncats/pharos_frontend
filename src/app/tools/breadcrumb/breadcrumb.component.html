@@ -1,5 +1,9 @@
+<br>
 <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
-  <div fxFlex="50">
-    breadcrumb
+  <div fxFlex="95" class="breadcrumb">
+    <a routerLink="/" class="mat-subheading-1 breadcrumb-link"> Home </a>
+    <span class="mat-title breadcrumb-link slash"> / </span>
+    <a *ngFor = "let link of links" routerLink = link [class.disabled] = "isCurrent(link) ? true : null" aria-disabled="isCurrent(link)" class="mat-subheading-1 breadcrumb-link">{{link}}</a>
   </div>
 </div>
+<br>

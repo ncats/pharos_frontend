@@ -4,15 +4,19 @@ import {ActivatedRoute} from "@angular/router";
 @Component({
   selector: 'pharos-breadcrumb',
   templateUrl: './breadcrumb.component.html',
-  styleUrls: ['./breadcrumb.component.css']
+  styleUrls: ['./breadcrumb.component.scss']
 })
 export class BreadcrumbComponent implements OnInit {
-  routeParams: any;
+  links: string[];
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
-  //  console.log(this.route);
-    this.routeParams = this.route.snapshot;
+    this.links = [];
+    this.links.push(this.route.snapshot.data.path);
+  }
+
+  isCurrent(link): boolean{
+    return this.links.includes(link.toLowerCase());
   }
 
 }

@@ -13,4 +13,8 @@ export class NcatsHeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  search() {
+
+  }
+
 }

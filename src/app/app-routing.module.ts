@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {DataListResolver} from './pharos-main/services/data-list.resolver';
 import {ToiDashboardComponent} from "./pharos-dashboard/toi-dashboard/toi-dashboard.component";
 import {PharosDashboardComponent} from "./pharos-dashboard/pharos-dashboard.component";
 

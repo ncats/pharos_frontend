@@ -1,20 +1,39 @@
-<div fxLayout="row" fxLayoutAlign="start center">
-  <div fxFlex="95"><span class=" mat-title">Selected Filters:</span></div>
-</div>
-<div fxLayout="row" fxLayoutAlign="end start">
-<div *ngFor = "let facet of facets">
-  <div>{{facet.facet}} <button mat-icon-button (click) = 'removefacetFamily(facet)'><mat-icon>clear</mat-icon><br></button></div>
-    <mat-chip-list class="mat-chip-list-stacked">
-      <mat-chip *ngFor = 'let field of facet.fields'
-                [selected]="'true'"
-                [color]="'primary'"
-                [removable]= true
-                (remove)="removeField(facet.facet, field)">
-        {{field}}
-        <mat-icon matChipRemove>cancel</mat-icon>
-      </mat-chip>
-    </mat-chip-list>
-  <br>
-</div>
-</div>
+<div fxLayout="row" fxLayoutAlign="space-around center" *ngIf = "facets.length > 0">
+  <div fxFlex="95">
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxFlex="90"><span class=" mat-title">Selected Filters:</span>
+      </div>
+      <div fxFlex="10">
+        <mat-chip [selected]="'true'" [color]="'warn'" (click)="removeAll()">
+          <span>Clear All</span>
+          <mat-icon matChipRemove class="removeIcon">cancel</mat-icon>
+        </mat-chip>
+      </div>
+    </div>
+    <div fxLayout="row-wrap" fxLayoutGap="15px" fxLayoutAlign="start start">
+      <div fxFlex ="17" *ngFor = "let facet of facets">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <div fxFlex="90" class="facetHeader">
+            <span class="mat-subheader">{{facet.facet}}</span>
+          </div>
+          <div fxFlex="10">
+            <button mat-icon-button (click) = 'removefacetFamily(facet)'><mat-icon>clear</mat-icon></button>
+          </div>
+        </div>
+        <mat-chip-list class="mat-chip-list-stacked">
 
+          <mat-chip *ngFor = 'let field of facet.fields'
+                    [selected]="'true'"
+                    [color]="'primary'"
+                    [removable]= true
+                    (remove)="removeField(facet.facet, field)"
+                    class="facet-chip">
+            <span>{{field}}</span>
+            <mat-icon matChipRemove class="removeIcon">cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+        <br>
+      </div>
+    </div>
+  </div>
+</div>

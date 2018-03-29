@@ -1,0 +1,20 @@
+// Import theming functions
+@import '~@angular/material/theming';
+// Import your custom theme
+@import './src/ncats-theme.scss';
+
+.breadcrumb-link {
+  text-decoration: none;
+  color: mat-color($pharos-app-primary)
+}
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+  color: mat-color($pharos-app-primary, 300)
+}
+
+.slash {
+  padding-left: 1vw;
+  padding-right: 1vw;
+}

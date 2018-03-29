@@ -37,4 +37,5 @@
 .mat-column-label{
   min-width: 75%;
   text-align: start;
+  padding-right: 1vw;
 }

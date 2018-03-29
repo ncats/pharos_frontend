@@ -19,6 +19,7 @@ import { ToiDashboardComponent } from './pharos-dashboard/toi-dashboard/toi-dash
 import { ToiCardComponent } from './pharos-dashboard/toi-card/toi-card.component';
 import { PharosDashboardComponent } from './pharos-dashboard/pharos-dashboard.component';
 import { SearchCardComponent } from './pharos-dashboard/search-card/search-card.component';
+import { SearchComponentComponent } from './tools/search-component/search-component.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { SearchCardComponent } from './pharos-dashboard/search-card/search-card.
     ToiDashboardComponent,
     ToiCardComponent,
     PharosDashboardComponent,
-    SearchCardComponent
+    SearchCardComponent,
+    SearchComponentComponent
   ],
   imports: [
     BrowserModule,
