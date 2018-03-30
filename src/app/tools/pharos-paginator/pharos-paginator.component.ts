@@ -12,7 +12,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
+  EventEmitter, HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -20,10 +20,10 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
-import {MatPaginatorIntl} from "@angular/material";
-import {ResponseParserService} from "../../pharos-services/response-parser.service";
-import {PageData} from "../../models/page-data";
-import {FormControl} from "@angular/forms";
+import {MatPaginatorIntl} from '@angular/material';
+import {ResponseParserService} from '../../pharos-services/response-parser.service';
+import {PageData} from '../../models/page-data';
+import {FormControl} from '@angular/forms';
 
 /** The default page size if there is no page size and there are no provided page size options. */
 const DEFAULT_PAGE_SIZE = 50;
@@ -52,13 +52,11 @@ export class PageEvent {
   selector: 'pharos-custom-paginator',
   templateUrl: './pharos-paginator.component.html',
   styleUrls: ['./pharos-paginator.component.scss'],
-  host: {
-    'class': 'mat-paginator',
-  },
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PharosPaginatorComponent implements OnInit, OnDestroy {
+  @HostBinding('class') classes = 'mat-paginator';
+
   private _initialized: boolean;
   private _intlChanges: Subscription;
   private _paginationData: Subscription;
@@ -70,7 +68,7 @@ export class PharosPaginatorComponent implements OnInit, OnDestroy {
     this._pageIndex = coerceNumberProperty(value);
     this._changeDetectorRef.markForCheck();
   }
-  _pageIndex: number = 0;
+  _pageIndex = 0;
 
   /** The length of the total number of items that are being paginated. Defaulted to 0. */
   @Input()
@@ -79,7 +77,7 @@ export class PharosPaginatorComponent implements OnInit, OnDestroy {
     this._length = coerceNumberProperty(value);
     this._changeDetectorRef.markForCheck();
   }
-  _length: number = 0;
+  _length = 0;
 
   /** Number of items to display on a page. By default set to 50. */
   @Input()
@@ -172,13 +170,13 @@ export class PharosPaginatorComponent implements OnInit, OnDestroy {
 
   /** Whether there is a previous page. */
   hasPreviousPage(): boolean {
-    return this.pageIndex >= 1 && this.pageSize != 0;
+    return this.pageIndex >= 1 && this.pageSize !== 0;
   }
 
   /** Whether there is a next page. */
   hasNextPage(): boolean {
     const numberOfPages = this.getNumberOfPages();
-    return this.pageIndex < numberOfPages && this.pageSize != 0;
+    return this.pageIndex < numberOfPages && this.pageSize !== 0;
   }
 
   /** Calculate the number of pages */
@@ -194,7 +192,7 @@ export class PharosPaginatorComponent implements OnInit, OnDestroy {
 
   private _setPageData(pageData: PageData): void {
     this.pageSize = pageData.top;
-    //this.length = Math.floor(pageData.total / pageData.top);
+    // this.length = Math.floor(pageData.total / pageData.top);
     this.length = pageData.total;
     this.pageIndex = Math.ceil(pageData.skip / pageData.top);
   }
@@ -225,13 +223,13 @@ export class PharosPaginatorComponent implements OnInit, OnDestroy {
 
     // If no page size is provided, use the first page size option or the default page size.
     if (!this.pageSize) {
-      this._pageSize = this.pageSizeOptions.length != 0 ?
+      this._pageSize = this.pageSizeOptions.length !== 0 ?
         this.pageSizeOptions[0] :
         DEFAULT_PAGE_SIZE;
     }
 
     this._displayedPageSizeOptions = this.pageSizeOptions.slice();
-    if (this._displayedPageSizeOptions.indexOf(this.pageSize) == -1) {
+    if (this._displayedPageSizeOptions.indexOf(this.pageSize) === -1) {
       this._displayedPageSizeOptions.push(this.pageSize);
     }
 

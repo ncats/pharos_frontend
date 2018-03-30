@@ -4,9 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import { catchError } from 'rxjs/operators';
-import {of} from "rxjs/observable/of";
-import {ParamMap} from "@angular/router";
-import {EnvironmentVariablesService} from "./environment-variables.service";
+import {of} from 'rxjs/observable/of';
+import {ParamMap} from '@angular/router';
+import {EnvironmentVariablesService} from './environment-variables.service';
 
 
 @Injectable()
@@ -30,19 +30,19 @@ export class PharosApiService {
   }
 
   private _mapParams(path: string, params: ParamMap): string {
-    let str: string = '';
-    if(params.keys.length === 0) {
+    let str = '';
+    if (params.keys.length === 0) {
       str = this.environmentVariablesService.getDefaultUrl(path);
     } else {
-      str = this._URL + path +'/search?';
+      str = this._URL + path + '/search?';
       params.keys.map(key => {
         params.getAll(key).map(val => {
-            str = str + key + "=" + val + '&';
+            str = str + key + '=' + val + '&';
           }
         );
       });
       // todo look into if this is the best way to make the url -- this is going to happen a lot
-      str = str.slice(0,-1);
+      str = str.slice(0, -1);
     }
     return str;
   }

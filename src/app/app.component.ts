@@ -3,7 +3,7 @@ import {SafeResourceUrl, DomSanitizer} from '@angular/platform-browser';
 import {HttpClient} from '@angular/common/http';
 import {DOCUMENT} from '@angular/common';
 import {LoadingService} from './pharos-services/loading.service';
-import {ResponseParserService} from "./pharos-services/response-parser.service";
+import {ResponseParserService} from './pharos-services/response-parser.service';
 
 
 @Component({
@@ -22,8 +22,8 @@ export class AppComponent implements OnInit {
     private http: HttpClient,
     @Inject(DOCUMENT) private document: Document) {
   }
-  ngOnInit(){
-    this.loadingService.loading$.subscribe(res =>this.loading = res);
+  ngOnInit() {
+    this.loadingService.loading$.subscribe(res => this.loading = res);
   }
 
   @HostListener('window:scroll', [])

@@ -27,8 +27,7 @@
   </div>
   <span class="fill-remaining-space"></span>
   <div fxFlex fxLayoutAlign="end center" >
-
-    <button mat-icon-button routerLink="search" (click)= "search()" [fxHide.lt-sm]="true"><mat-icon>search</mat-icon></button>
+    <pharos-search-component [fxHide.lt-sm]="true" [placeholderStr]="'search'"></pharos-search-component>
     <button mat-button [mat-menu-trigger-for]="appMenu" fxHide="false" fxHide.gt-sm>
       <mat-icon>menu</mat-icon>
     </button>
@@ -38,7 +37,7 @@
       <button mat-menu-item routerLink="/targets">Ligands</button>
       <button mat-menu-item routerLink="/targets">API</button>
       <button mat-menu-item routerLink="/targets" [matMenuTriggerFor]="helpMenuMobile">Help</button>
-      <button mat-menu-item routerLink="search">Search</button>
+      <pharos-search-component></pharos-search-component>
     </mat-menu>
     <mat-menu #helpMenuMobile ="matMenu">
       <button mat-menu-item>General information</button>

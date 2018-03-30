@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {ToiDashboardComponent} from "./pharos-dashboard/toi-dashboard/toi-dashboard.component";
-import {PharosDashboardComponent} from "./pharos-dashboard/pharos-dashboard.component";
+import {ToiDashboardComponent} from './pharos-dashboard/toi-dashboard/toi-dashboard.component';
+import {PharosDashboardComponent} from './pharos-dashboard/pharos-dashboard.component';
 
 
 
@@ -29,7 +29,7 @@ const ROUTES: Routes = [
     },
     // this reloads the component/resolver when the url changes from pagination or sort
     runGuardsAndResolvers: 'paramsOrQueryParamsChange'*/
-  },{
+  }, {
     path: 'diseases',
     loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
     data: { path: 'diseases' }

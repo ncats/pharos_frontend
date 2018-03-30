@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'pharos-breadcrumb',
@@ -15,8 +15,8 @@ export class BreadcrumbComponent implements OnInit {
     this.links.push(this.route.snapshot.data.path);
   }
 
-  isCurrent(link): boolean{
-    return this.links.includes(link.toLowerCase());
+  isCurrent(link): string {
+    return (this.links.includes(link.toLowerCase()) ? 'disabled' : null);
   }
 
 }

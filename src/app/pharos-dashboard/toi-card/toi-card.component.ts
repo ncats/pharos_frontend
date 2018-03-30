@@ -6,7 +6,7 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./toi-card.component.css']
 })
 export class ToiCardComponent implements OnInit {
-  @Input() toi: any;
+  @Input() toi?: any;
   constructor() { }
 
   ngOnInit() {

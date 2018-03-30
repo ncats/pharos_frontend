@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Subject} from 'rxjs/Subject';
@@ -7,7 +7,7 @@ import {PathResolverService} from '../../pharos-services/path-resolver.service';
 import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {LoadingService} from '../../pharos-services/loading.service';
-import {SelectionModel} from "@angular/cdk/collections";
+import {SelectionModel} from '@angular/cdk/collections';
 
 
 const navigationExtras: NavigationExtras = {
@@ -20,7 +20,7 @@ const navigationExtras: NavigationExtras = {
   styleUrls: ['./data-list.component.css']
 })
 
-export class DataListComponent implements OnInit, OnDestroy {
+export class DataListComponent implements OnInit, OnDestroy, AfterViewInit {
   data: any;
   loading = false;
   dataSource = new MatTableDataSource<any>([]);
@@ -53,14 +53,14 @@ export class DataListComponent implements OnInit, OnDestroy {
     this.loadingService.loading$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.loading = res
+        this.loading = res;
       });
 
     this.responseParserService.tableData$
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res=> {
+      .subscribe(res => {
       this.dataSource.data = res;
-      this.ref.markForCheck(); //refresh the component manually
+      this.ref.markForCheck(); // refresh the component manually
         this.loadingService.toggleVisible(false);
       });
 
@@ -77,7 +77,7 @@ export class DataListComponent implements OnInit, OnDestroy {
   }
 
   getLabel(name: string): string {
-    let ret: string = "";
+    let ret = '';
     this.fieldsMap.forEach(field => {
       if (field.name === name) {
         ret = field.label;
@@ -104,7 +104,7 @@ export class DataListComponent implements OnInit, OnDestroy {
     this.fieldsMap = this.environmentVariablesService.getTableFields(path);
     this.fieldColumns = this.fieldsMap.map(field => field.name);
    // this.displayColumns = ['list-select'].concat(this.fieldColumns);
-    this.displayColumns =this.fieldColumns;
+    this.displayColumns = this.fieldColumns;
   }
 
 paginationChanges(event: any ) {
@@ -114,8 +114,8 @@ paginationChanges(event: any ) {
 
 // todo remove ordering on default switch
 sortTable(event: any): void {
-    let sort: string = "";
-  switch (event.direction){
+    let sort = '';
+  switch (event.direction) {
     case 'asc': {
       sort = '^' + event.active;
       break;
@@ -130,16 +130,16 @@ sortTable(event: any): void {
     }
   }
 
-  if(sort === null){
+  if (sort === null) {
     navigationExtras.queryParams = { };
-  }else{
+  } else {
     navigationExtras.queryParams = {order: sort};
   }
   this._navigate(navigationExtras);
 }
 
-private _navigate(navigationExtras: NavigationExtras): void {
-  this.router.navigate([], navigationExtras);
+private _navigate(navExtras: NavigationExtras): void {
+  this.router.navigate([], navExtras);
 
 }
 

@@ -17,7 +17,7 @@ export class VisualizationOptionsComponent implements OnInit {
     this.changeData(this.facets[0].name);
   }
 
-  changeData(data: string){
+  changeData(data: string) {
     this.selected = data;
     this.fieldChange.emit(data);
   }

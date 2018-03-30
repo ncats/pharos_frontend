@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ResponseParserService} from "../pharos-services/response-parser.service";
+import {ResponseParserService} from '../pharos-services/response-parser.service';
 
 @Component({
   selector: 'pharos-pharos-main',

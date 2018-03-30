@@ -3,7 +3,9 @@
   <div fxFlex="95" class="breadcrumb">
     <a routerLink="/" class="mat-subheading-1 breadcrumb-link"> Home </a>
     <span class="mat-title breadcrumb-link slash"> / </span>
-    <a *ngFor = "let link of links" routerLink = link [class.disabled] = "isCurrent(link) ? true : null" aria-disabled="isCurrent(link)" class="mat-subheading-1 breadcrumb-link">{{link}}</a>
+    <a *ngFor = "let link of links" routerLink = [{{link}}]
+       class="mat-subheading-1 breadcrumb-link"
+    ><span class = "isCurrent(link)">{{link}}</span></a>
   </div>
 </div>
 <br>

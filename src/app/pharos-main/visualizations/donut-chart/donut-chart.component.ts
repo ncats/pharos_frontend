@@ -1,7 +1,7 @@
 import {
-  Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild,
+  Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, ViewChild,
   ViewEncapsulation
-} from "@angular/core";
+} from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -10,7 +10,7 @@ import * as d3 from 'd3';
   styleUrls: ['./donut-chart.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class DonutChartComponent implements OnInit {
+export class DonutChartComponent implements OnInit, OnChanges {
   @ViewChild('donutChartTarget') chartContainer: ElementRef;
   @Input() data: any[] = [];
   private margin: any = {top: 20, bottom: 20, left: 10, right: 10};
@@ -34,8 +34,8 @@ export class DonutChartComponent implements OnInit {
     this.drawGraph();
     this.updateGraph();
   }
-  ngOnChanges(changes){
-    if(!changes.data.firstChange) {
+  ngOnChanges(changes) {
+    if (!changes.data.firstChange) {
       this.updateGraph();
     }
   }
@@ -116,7 +116,7 @@ export class DonutChartComponent implements OnInit {
       .remove();
 
     const firstSlice = d3.select('.slices').selectAll('path.slice').data()[0];
-    //.data(pie(this.data), 0);
+    // .data(pie(this.data), 0);
 
     console.log(firstSlice);
     this.addTooltip(div, firstSlice, color);
@@ -135,7 +135,7 @@ export class DonutChartComponent implements OnInit {
        element.append('text')
       .attr('class', 'toolCircle count')
       .attr('dy', 30) // hard-coded. can adjust this to adjust text vertical alignment in tooltip*/
-      .html(d.data.count)
+      .html(d.data.count);
     element.transition()
       .duration(200)
       .style('opacity', .9);

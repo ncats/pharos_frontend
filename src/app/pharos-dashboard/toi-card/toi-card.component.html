@@ -1,32 +1,32 @@
 <mat-card class ="pharos-card">
   <mat-card-header class="align-header" routerLink="/topics" class="toi-link">
-       <mat-card-title><span class="mat-display-2 primary" >{{toi.name}}</span></mat-card-title>
+       <mat-card-title><span class="mat-display-2 primary" >{{toi?.name}}</span></mat-card-title>
     <mat-chip-list class = "pull-end" fxFlex fxFlexAlign="stretch">
-      <mat-chip [color]="'accent'" [selected]="true">{{toi.class}}</mat-chip>
+      <mat-chip [color]="'accent'" [selected]="true">{{toi?.class}}</mat-chip>
     </mat-chip-list>
   </mat-card-header>
   <mat-card-content>
     <div fxLayout="row" fxLayoutAlign="center center" class="counts-row">
-      <div fxFlex="30" *ngIf="toi.targetCt != 0" routerLink="/targets" class="toi-sub-link">
-        <span class = "mat-display-4">{{toi.targetCt}}</span>
+      <div fxFlex="30" *ngIf="toi?.targetCt != 0" routerLink="/targets" class="toi-sub-link">
+        <span class = "mat-display-4">{{toi?.targetCt}}</span>
         <br>
         <span class = "mat-title">Targets</span>
       </div>
-      <div fxFlex="1" class="divider" *ngIf="toi.targetCt != 0"></div>
-      <div fxFlex="30" *ngIf="toi.diseaseCt != 0" routerLink="/diseases" class="toi-sub-link">
-        <span class = "mat-display-4">{{toi.diseaseCt}}</span>
+      <div fxFlex="1" class="divider" *ngIf="toi?.targetCt != 0"></div>
+      <div fxFlex="30" *ngIf="toi?.diseaseCt != 0" routerLink="/diseases" class="toi-sub-link">
+        <span class = "mat-display-4">{{toi?.diseaseCt}}</span>
         <br>
         <span class = "mat-title">Diseases</span>
       </div>
-      <div fxFlex="1" class="divider" *ngIf="toi.diseaseCt != 0"></div>
-      <div fxFlex="30" *ngIf="toi.ligandCt != 0" routerLink="/ligands" class="toi-sub-link">
-        <span class = "mat-display-4">{{toi.ligandCt}}</span>
+      <div fxFlex="1" class="divider" *ngIf="toi?.diseaseCt != 0"></div>
+      <div fxFlex="30" *ngIf="toi?.ligandCt != 0" routerLink="/ligands" class="toi-sub-link">
+        <span class = "mat-display-4">{{toi?.ligandCt}}</span>
         <br>
         <span class = "mat-title">Ligands</span>
       </div>
-      <div fxFlex="1" class="divider" *ngIf="toi.ligandCt != 0"></div>
-      <div fxFlex="30" *ngIf="toi.publicationCt != 0" routerLink="/publications" class="toi-sub-link">
-        <span class = "mat-display-4">{{toi.publicationCt}}</span>
+      <div fxFlex="1" class="divider" *ngIf="toi?.ligandCt != 0"></div>
+      <div fxFlex="30" *ngIf="toi?.publicationCt != 0" routerLink="/publications" class="toi-sub-link">
+        <span class = "mat-display-4">{{toi?.publicationCt}}</span>
         <br>
         <span class = "mat-title">Publications</span>
 

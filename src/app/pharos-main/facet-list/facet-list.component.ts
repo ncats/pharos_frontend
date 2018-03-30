@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {PathResolverService} from "../../pharos-services/path-resolver.service";
+import {ActivatedRoute} from '@angular/router';
+import {PathResolverService} from '../../pharos-services/path-resolver.service';
 
 @Component({
   selector: 'pharos-facet-list',
@@ -18,7 +18,7 @@ export class FacetListComponent implements OnInit {
     this.pathResolverService.facets$.subscribe(res => this.facets = res);
     this._route.queryParamMap.subscribe(res => {
       this.pathResolverService.mapToFacets(res);
-    })
+    });
   }
 
   removefacetFamily(facet: any): void {

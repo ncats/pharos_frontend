@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {Subject} from "rxjs/Subject";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {NavigationExtras, ParamMap, Router} from "@angular/router";
+import {Subject} from 'rxjs/Subject';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {NavigationExtras, ParamMap, Router} from '@angular/router';
 
 @Injectable()
 export class PathResolverService {
@@ -30,13 +30,13 @@ export class PathResolverService {
       queryParamsHandling: ''
     };
 
-    this._router.onSameUrlNavigation ='reload'; //forces reload since this is the same navigation url
+    this._router.onSameUrlNavigation = 'reload'; // forces reload since this is the same navigation url
     this._router.navigate([], navigationExtras);
   }
 
   // converts a facet name and field into url readable string
   private _makeFacetString(facet: string, field: string): string {
-    return facet.replace(/ /g, '+') + '/' + encodeURIComponent(field.toString())
+    return facet.replace(/ /g, '+') + '/' + encodeURIComponent(field.toString());
   }
 
   // this converts previous queries into an array of object that can be consumed by a component
@@ -44,9 +44,9 @@ export class PathResolverService {
    const fList = map.getAll('facet');
     fList.forEach(facet => {
       const fArr = facet.split('/');
-      let facetName: string = fArr[0].replace(/\+/g, ' ');
-      let fieldName: string = decodeURI(fArr[1]).replace('%2F', '/');
-      let fields = this._facetMap.get(facetName);
+      const facetName: string = fArr[0].replace(/\+/g, ' ');
+      const fieldName: string = decodeURI(fArr[1]).replace('%2F', '/');
+      const fields = this._facetMap.get(facetName);
       if (fields) {
         fields.push(fieldName);
         this._facetMap.set(facetName, Array.from(new Set(fields)));
@@ -59,7 +59,7 @@ export class PathResolverService {
 
   mapSelection(facet: any): void {
     console.log(facet);
-    let fields = this._facetMap.get(facet.facet);
+    const fields = this._facetMap.get(facet.facet);
     if (fields) {
       fields.push(...facet.fields);
       this._facetMap.set(facet.facet, Array.from(new Set(fields)));
@@ -71,8 +71,8 @@ export class PathResolverService {
 
   private _flattenMap(): void {
     this._facets = [];
-    this._facetMap.forEach((value, key)=>{
-      this._facets.push({facet:key, fields: value});
+    this._facetMap.forEach((value, key) => {
+      this._facets.push({facet: key, fields: value});
     });
     this._facetSource.next(this._facets);
   }
@@ -83,8 +83,8 @@ export class PathResolverService {
   }
 
   removeField(facet: any, field: string ): void {
-    let ffields = this._facetMap.get(facet).filter(fField => fField !== field);
-    if(ffields.length > 0){
+    const ffields = this._facetMap.get(facet).filter(fField => fField !== field);
+    if (ffields.length > 0) {
       this._facetMap.set(facet, ffields);
     } else {
       this._facetMap.delete(facet);
@@ -92,7 +92,7 @@ export class PathResolverService {
     this._flattenMap();
   }
 
-  removeAll(){
+  removeAll() {
     this._facets = [];
     this._facetMap.clear();
     this._facetSource.next(this._facets);

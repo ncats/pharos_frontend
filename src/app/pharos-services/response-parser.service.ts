@@ -1,9 +1,9 @@
 import {Inject, Injectable} from '@angular/core';
-import {Subject} from "rxjs/Subject";
-import {PageData} from "../models/page-data";
-import {PharosApiService} from "./pharos-api.service";
-import {Facet} from "../models/facet";
-import {takeUntil} from "rxjs/operators";
+import {Subject} from 'rxjs/Subject';
+import {PageData} from '../models/page-data';
+import {PharosApiService} from './pharos-api.service';
+import {Facet} from '../models/facet';
+import {takeUntil} from 'rxjs/operators';
 
 @Injectable()
 export class ResponseParserService {
@@ -26,6 +26,6 @@ export class ResponseParserService {
       if (res.facets) {
         this._facetsDataSource.next(res.facets);
       }
-      })
+      });
   }
 }

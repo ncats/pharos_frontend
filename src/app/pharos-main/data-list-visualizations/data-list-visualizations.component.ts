@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {EnvironmentVariablesService} from "../../pharos-services/environment-variables.service";
-import {PathResolverService} from "../../pharos-services/path-resolver.service";
-import {Subject} from "rxjs/Subject";
-import {takeUntil} from "rxjs/operators";
-import {combineLatest} from "rxjs/observable/combineLatest";
-import {FacetRetrieverService} from "../services/facet-retriever.service";
+import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
+import {PathResolverService} from '../../pharos-services/path-resolver.service';
+import {Subject} from 'rxjs/Subject';
+import {takeUntil} from 'rxjs/operators';
+import {combineLatest} from 'rxjs/observable/combineLatest';
+import {FacetRetrieverService} from '../services/facet-retriever.service';
 
 @Component({
   selector: 'pharos-data-list-visualizations',
@@ -36,14 +36,14 @@ export class DataListVisualizationsComponent implements OnInit, OnDestroy {
         )
         .subscribe((res) => {
           this.chartFacets = this.environmentVariablesService.getAllChartFacets(res.path);
-            this.facetRetrieverService.getFacetObservable(this.chartFacets.donut[0].name).subscribe(res => this.donutData = res);
+            this.facetRetrieverService.getFacetObservable(this.chartFacets.donut[0].name).subscribe(facets => this.donutData = facets);
           this.loaded = res.loaded;
-        })
+        });
   }
 
-  changeDonutChart(field: string): void{
+  changeDonutChart(field: string): void {
     this.selectedDonut = field;
-    this.facetRetrieverService.getFacetObservable(field).subscribe(res=> {
+    this.facetRetrieverService.getFacetObservable(field).subscribe(res => {
       if (res) {
         this.donutData = res;
       }

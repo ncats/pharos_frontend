@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ncats-header.component.css']
 })
 export class NcatsHeaderComponent implements OnInit {
- title: string ="Innovative Drugs";
+ title = 'Innovative Drugs';
 
   constructor() { }
 
