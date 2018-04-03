@@ -20,7 +20,6 @@ export class SearchComponent implements OnInit {
               private suggestApiService: SuggestApiService) {
   }
   ngOnInit() {
-    console.log(this.placeholderStr);
     if (!this.placeholderStr) {
       this.placeholderStr = 'Search for targets (e.g., \'ITK\') or diseases (e.g., \'asthma\')';
     }

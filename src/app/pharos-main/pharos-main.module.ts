@@ -35,6 +35,10 @@ import { TdarkViewerComponent } from './data-details/target-details/tdark-viewer
 import { TchemViewerComponent } from './data-details/target-details/tchem-viewer/tchem-viewer.component';
 import { TinxPlotPanelComponent } from './data-details/target-details/tinx-plot-panel/tinx-plot-panel.component';
 import { ClassificationExplanationComponent } from './data-details/target-details/classification-explanation/classification-explanation.component';
+import { TargetTableComponent } from './data-list/target-table/target-table.component';
+import { DiseaseTableComponent } from './data-list/disease-table/disease-table.component';
+import { TargetDetailsComponent } from './data-details/target-details/target-details.component';
+import {CustomContentDirective} from "./data-list/custom-content.directive";
 
 @NgModule({
   imports: [
@@ -72,7 +76,11 @@ import { ClassificationExplanationComponent } from './data-details/target-detail
     TdarkViewerComponent,
     TchemViewerComponent,
     TinxPlotPanelComponent,
-    ClassificationExplanationComponent
+    ClassificationExplanationComponent,
+    TargetTableComponent,
+    DiseaseTableComponent,
+    TargetDetailsComponent,
+    CustomContentDirective
   ]
 })
 export class PharosMainModule { }

@@ -1,0 +1,58 @@
+
+    <mat-table [dataSource]="dataSource" matSort  (matSortChange)="changeSort($event)">
+      <!--<ng-container matColumnDef="list-select">
+        <mat-header-cell *matHeaderCellDef> Compare </mat-header-cell>
+        <mat-cell *matCellDef="let row" class="col2">
+          <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? rowSelection.toggle(row) : null"
+                        [checked]="rowSelection.isSelected(row)">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>-->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+         <a routerLink={{row.id}} >{{row.name}} </a>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="idgTDL">
+        <mat-header-cell *matHeaderCellDef>Development Level </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{row.idgTDL}}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="idgFamily">
+        <mat-header-cell *matHeaderCellDef>Target Family</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{row.idgFamily}}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="novelty">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Log Novelty </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{row.novelty}}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="jensenScore">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Pubmed Score </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{row.jensenScore}}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="antibodyCount">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Antibody Count </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{row.antibodyCount}}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="knowledgeAvailability">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Knowledge Availability</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          {{row.knowledgeAvailability}}
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayColumns;">
+      </mat-row>
+    </mat-table>

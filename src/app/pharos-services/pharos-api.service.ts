@@ -29,6 +29,14 @@ export class PharosApiService {
       ).subscribe(response => this._dataSource.next(response));
   }
 
+  getDetails(path: string, params: ParamMap) {
+    const url = this._URL + path + '/' + params.get('id');
+    this.http.get<any>(url)
+      .pipe(
+        catchError(this.handleError('getDetails', []))
+      ).subscribe(response => this._dataSource.next({details: response}));
+  }
+
   private _mapParams(path: string, params: ParamMap): string {
     let str = '';
     if (params.keys.length === 0) {
@@ -44,6 +52,7 @@ export class PharosApiService {
       // todo look into if this is the best way to make the url -- this is going to happen a lot
       str = str.slice(0, -1);
     }
+    console.log(str);
     return str;
   }
 

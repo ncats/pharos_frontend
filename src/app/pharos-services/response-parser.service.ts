@@ -10,17 +10,21 @@ export class ResponseParserService {
   private _facetsDataSource = new Subject<Facet[]>();
   private _tableDataSource = new Subject<any>();
   private _paginationDataSource = new Subject<PageData>();
+  private _detailsDataSource = new Subject<any>();
 
   //  Observable navItem stream
   facetsData$ = this._facetsDataSource.asObservable();
   tableData$ = this._tableDataSource.asObservable();
   paginationData$ = this._paginationDataSource.asObservable();
+  detailsData$ = this._detailsDataSource.asObservable();
 
   constructor(@Inject(PharosApiService) private pharosApiService) {}
 
   initializeSubscriptions(): void {
     this.pharosApiService.data$
       .subscribe(res => {
+        console.log(res);
+        this._detailsDataSource.next(res.details);
       this._tableDataSource.next(res.content);
       this._paginationDataSource.next(new PageData(res));
       if (res.facets) {

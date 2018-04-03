@@ -47,6 +47,10 @@ constructor(
   _pathExists(path: string): boolean {
     return this._environment[path] !== undefined;
   }
+
+  getComponents(path: string) {
+
+  }
 }
 
 
