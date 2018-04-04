@@ -34,7 +34,9 @@ export class PharosApiService {
     this.http.get<any>(url)
       .pipe(
         catchError(this.handleError('getDetails', []))
-      ).subscribe(response => this._dataSource.next({details: response}));
+      ).subscribe(response => {
+        this._dataSource.next({details: response})
+    });
   }
 
   private _mapParams(path: string, params: ParamMap): string {

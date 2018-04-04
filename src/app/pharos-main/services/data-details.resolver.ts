@@ -14,7 +14,6 @@ export class DataDetailsResolver implements Resolve<any> {
                 private pharosApiService: PharosApiService) {  }
 
     resolve(route: ActivatedRouteSnapshot): Observable<any[]> {
-      console.log(route);
       this.loadingService.toggleVisible(true);
       this.pathResolverService.setPath(route.data.path);
       this.pharosApiService.getDetails(route.data.path, route.paramMap);

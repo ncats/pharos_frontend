@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Target} from "../../../../models/target";
 
 @Component({
   selector: 'pharos-target-header',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./target-header.component.css']
 })
 export class TargetHeaderComponent implements OnInit {
-
+@Input() target: Target;
   constructor() { }
 
   ngOnInit() {

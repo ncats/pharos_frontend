@@ -8,12 +8,9 @@ import {ResponseParserService} from '../pharos-services/response-parser.service'
 })
 export class PharosMainComponent implements OnInit {
 
-  constructor(
-    private responseParserService: ResponseParserService
-  ) { }
+  constructor() { }
 
   ngOnInit() {
-    this.responseParserService.initializeSubscriptions();
   }
 
 }

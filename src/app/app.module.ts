@@ -1,11 +1,6 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { MaterialModule } from '../assets/material/material.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
 import { LoadingService } from './pharos-services/loading.service';
 import { AppRoutingModule } from './app-routing.module';
 import { PharosApiService } from './pharos-services/pharos-api.service';
@@ -19,7 +14,7 @@ import { PharosDashboardComponent } from './pharos-dashboard/pharos-dashboard.co
 import { SearchCardComponent } from './pharos-dashboard/search-card/search-card.component';
 import {SuggestApiService} from './tools/search-component/suggest-api.service';
 import {SharedModule} from './shared/shared.module';
-import {CommonModule} from '@angular/common';
+import { IdgLevelIndicatorComponent } from './tools/idg-level-indicator/idg-level-indicator.component';
 
 
 @NgModule({

@@ -8,6 +8,9 @@ import {HttpClientModule} from '@angular/common/http';
 import {MaterialModule} from '../../assets/material/material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {RouterModule} from "@angular/router";
+import {ScrollToTopComponent} from "../tools/scroll-to-top/scroll-to-top.component";
+import {IdgLevelIndicatorComponent} from "../tools/idg-level-indicator/idg-level-indicator.component";
+import {CustomContentDirective} from "../tools/custom-content.directive";
 
 @NgModule({
   imports: [
@@ -20,7 +23,10 @@ import {RouterModule} from "@angular/router";
   ],
   declarations: [
     SearchComponent,
-    HighlightPipe
+    HighlightPipe,
+    ScrollToTopComponent,
+    CustomContentDirective,
+    IdgLevelIndicatorComponent
   ],
   exports: [
     CommonModule,
@@ -30,7 +36,10 @@ import {RouterModule} from "@angular/router";
     MaterialModule,
     FlexLayoutModule,
     SearchComponent,
-    HighlightPipe
+    HighlightPipe,
+    ScrollToTopComponent,
+    CustomContentDirective,
+    IdgLevelIndicatorComponent
   ]
 })
 export class SharedModule { }

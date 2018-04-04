@@ -1,4 +1,10 @@
-<p>
-  target-details works!
-  {{data}}
-</p>
+<pharos-target-header [target]="target"></pharos-target-header>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
+  <div fxFlex="95" fxFlexAlign="middle">
+    <ng-template appPharosCustomContent></ng-template>
+    <p>
+      target-details works!
+      {{target|json}}
+    </p>
+  </div>
+</div>

@@ -6,6 +6,11 @@ import {TargetTableComponent} from "./data-list/target-table/target-table.compon
 import {DataDetailsComponent} from "./data-details/data-details.component";
 import {DataDetailsResolver} from "./services/data-details.resolver";
 import {LocationStrategy, PathLocationStrategy} from "@angular/common";
+import {TargetDetailsComponent} from "./data-details/target-details/target-details.component";
+import {TdarkViewerComponent} from "./data-details/target-details/tdark-viewer/tdark-viewer.component";
+import {TbioViewerComponent} from "./data-details/target-details/tbio-viewer/tbio-viewer.component";
+import {TchemViewerComponent} from "./data-details/target-details/tchem-viewer/tchem-viewer.component";
+import {TclinViewerComponent} from "./data-details/target-details/tclin-viewer/tclin-viewer.component";
 
 const pharosMainRoutes: Routes = [
   {
@@ -21,9 +26,7 @@ const pharosMainRoutes: Routes = [
      component: DataDetailsComponent,
     resolve: {
       data: DataDetailsResolver
-    },
-  //  runGuardsAndResolvers: 'always'
-     // this reloads the component/resolver when the url changes from pagination or sort
+    }
   }
 ];
 
@@ -38,11 +41,15 @@ const pharosMainRoutes: Routes = [
   ],
   providers: [
     DataListResolver,
-    DataDetailsResolver,
-    {provide: LocationStrategy, useClass: PathLocationStrategy}
+    DataDetailsResolver
   ],
   entryComponents: [
-    TargetTableComponent
+    TargetTableComponent,
+    TargetDetailsComponent,
+    TdarkViewerComponent,
+    TbioViewerComponent,
+    TchemViewerComponent,
+    TclinViewerComponent
   ],
   declarations: [
 

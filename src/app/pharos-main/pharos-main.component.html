@@ -13,12 +13,7 @@
       <pharos-data-list-visualizations></pharos-data-list-visualizations>
       <pharos-facet-list></pharos-facet-list>
       <pharos-data-list></pharos-data-list>
-
-      <div class="scroll-to-top" [ngClass]="{'show-scroll': navIsFixed}">
-        <button  mat-fab color="primary" (click)="scrollToTop()">
-          <mat-icon> arrow_upward </mat-icon>
-        </button>
-      </div>
+      <pharos-scroll-to-top></pharos-scroll-to-top>
     </mat-sidenav-content>
   </mat-sidenav-container>
   <app-ncats-footer class ="footer"></app-ncats-footer>

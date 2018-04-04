@@ -48,9 +48,7 @@ const ROUTES: Routes = [
   imports: [
     RouterModule.forRoot(ROUTES)
   ],
-  providers: [
-    {provide: LocationStrategy, useClass: PathLocationStrategy}
-  ],
+  providers: [],
   exports: [ RouterModule ]
 })
 export class AppRoutingModule { }

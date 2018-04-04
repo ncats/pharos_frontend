@@ -18,7 +18,7 @@
       <ng-container matColumnDef="idgTDL">
         <mat-header-cell *matHeaderCellDef>Development Level </mat-header-cell>
         <mat-cell *matCellDef="let row">
-          {{row.idgTDL}}
+          <pharos-idg-level-indicator [level] = row.idgTDL></pharos-idg-level-indicator>
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="idgFamily">

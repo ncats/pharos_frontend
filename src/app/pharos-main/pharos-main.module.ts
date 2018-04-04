@@ -38,7 +38,7 @@ import { ClassificationExplanationComponent } from './data-details/target-detail
 import { TargetTableComponent } from './data-list/target-table/target-table.component';
 import { DiseaseTableComponent } from './data-list/disease-table/disease-table.component';
 import { TargetDetailsComponent } from './data-details/target-details/target-details.component';
-import {CustomContentDirective} from "./data-list/custom-content.directive";
+import {CustomContentDirective} from "../tools/custom-content.directive";
 
 @NgModule({
   imports: [
@@ -79,8 +79,7 @@ import {CustomContentDirective} from "./data-list/custom-content.directive";
     ClassificationExplanationComponent,
     TargetTableComponent,
     DiseaseTableComponent,
-    TargetDetailsComponent,
-    CustomContentDirective
+    TargetDetailsComponent
   ]
 })
 export class PharosMainModule { }

@@ -6,3 +6,28 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
+
+
+.flex-body{
+  flex: 1;
+}
+
+.tbio{
+  background-color: mat-color($pharos-app-accent);
+  color: white;
+}
+
+.tdark {
+  background-color: mat-color($ncats-app-warn);
+  color: white;
+}
+
+.tchem {
+  background-color: #5bc0de;
+  color: white;
+}
+
+.tclin {
+  background-color: #337ab7;
+  color: white;
+}

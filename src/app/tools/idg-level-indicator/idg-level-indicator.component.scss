@@ -1,0 +1,19 @@
+// Import theming functions
+@import '~@angular/material/theming';
+// Import your custom theme
+@import './src/ncats-theme.scss';
+
+.breadcrumb-link {
+  text-decoration: none;
+}
+
+.tdl{
+  color: white;
+  padding: 6px 12px 6px 12px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  margin: 15px;
+}
+
+

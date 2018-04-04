@@ -18,13 +18,16 @@ export class ResponseParserService {
   paginationData$ = this._paginationDataSource.asObservable();
   detailsData$ = this._detailsDataSource.asObservable();
 
-  constructor(@Inject(PharosApiService) private pharosApiService) {}
+  constructor(@Inject(PharosApiService) private pharosApiService) {
+    this.initializeSubscriptions();
+  }
 
   initializeSubscriptions(): void {
     this.pharosApiService.data$
       .subscribe(res => {
-        console.log(res);
-        this._detailsDataSource.next(res.details);
+        if(res.details) {
+          this._detailsDataSource.next(res.details);
+        }
       this._tableDataSource.next(res.content);
       this._paginationDataSource.next(new PageData(res));
       if (res.facets) {

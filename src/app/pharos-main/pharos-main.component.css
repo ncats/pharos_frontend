@@ -1,8 +1,4 @@
 
-.flex-body{
-  flex: 1;
-}
-
 .facetsDrawer {
   height:100%;
   display:flex;
@@ -21,26 +17,6 @@
   background-color: rgba(0,0,0,0.3); /* Black background with opacity */
   color:#642F6C;
   z-index: 666;
-}
-
-.return{
-  position: fixed; /* Sit on top of the page content */
-  top: 1vh;
-  left: 1vh;
-}
-
-.scroll-to-top {
-  position: fixed;
-  bottom: 15px;
-  right: 15px;
-  opacity: 0;
-  z-index: 665;
-  transition: all .2s ease-in-out;
-}
-
-.show-scroll {
-  opacity: 1;
-  transition: all .2s ease-in-out;
 }
 
 .ncats-emphasis {

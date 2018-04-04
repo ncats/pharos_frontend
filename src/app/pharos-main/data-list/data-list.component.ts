@@ -12,7 +12,7 @@ import {ResponseParserService} from '../../pharos-services/response-parser.servi
 import {LoadingService} from '../../pharos-services/loading.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {TargetTableComponent} from "./target-table/target-table.component";
-import {CustomContentDirective} from "./custom-content.directive";
+import {CustomContentDirective} from "../../tools/custom-content.directive";
 
 
 const navigationExtras: NavigationExtras = {
@@ -41,7 +41,6 @@ export class DataListComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private _route: ActivatedRoute,
               private router: Router,
               private ref: ChangeDetectorRef,
-              private renderer: Renderer2,
               private componentFactoryResolver: ComponentFactoryResolver,
               private pathResolverService: PathResolverService,
               private environmentVariablesService: EnvironmentVariablesService,
