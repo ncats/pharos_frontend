@@ -1,70 +1,29 @@
-<mat-toolbar fxLayout="row" class="tdark target-toolbar">
+<!--
+<mat-toolbar fxLayout="row" [ngClass] = target.idgTDL.toLowerCase() class="target-toolbar">
   <span>
-Tdark&nbsp;&nbsp;&nbsp;&nbsp;
+{{target.idgTDL}}&nbsp;&nbsp;&nbsp;&nbsp;
   </span>
-  <span class = "mat-display-3 toolbar">{{target.name}}</span>
-  <span class="spacer"></span>
-  <span fxFlex fxLayoutAlign= "end center">
-    <button mat-icon-button><mat-icon class="example-icon">save</mat-icon></button>
-    <button mat-icon-button><mat-icon class="example-icon">code</mat-icon></button>
-    <button mat-icon-button><mat-icon class="example-icon">file_download</mat-icon></button>
-    </span>
+
 </mat-toolbar>
 <br>
-<br>
-<br>
-<mat-toolbar fxLayout="row" class="tbio target-toolbar">
-  <span>
-Tbio&nbsp;&nbsp;&nbsp;&nbsp;
-  </span>
-  <span class = "mat-display-3 toolbar">{{target.name}}</span>
-  <span class="spacer"></span>
-  <span fxFlex fxLayoutAlign= "end center">
-    <button mat-icon-button><mat-icon class="example-icon">save</mat-icon></button>
-    <button mat-icon-button><mat-icon class="example-icon">code</mat-icon></button>
-    <button mat-icon-button><mat-icon class="example-icon">file_download</mat-icon></button>
-    </span>
-</mat-toolbar>
-<br>
-<br>
-<br>
-<mat-toolbar fxLayout="row" [color]="'primary'" class="target-toolbar">
-  <span>
-Tclin&nbsp;&nbsp;&nbsp;&nbsp;
-  </span>
-  <span class = "mat-display-3 toolbar">{{target.name}}</span>
-  <span class="spacer"></span>
-  <span fxFlex fxLayoutAlign= "end center">
+<br>-->
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" [ngClass] = getHeaderClass() class="header-row">
+  <div fxFlex="100" fxFlexAlign="stretch">
+    <pharos-idg-level-indicator [level]="target.idgTDL"></pharos-idg-level-indicator>
+    <span class = "mat-display-3 toolbar">{{target.name}}</span>
+    <span class="spacer"></span>
+    <span fxFlex fxLayoutAlign= "end center">
     <button mat-icon-button><mat-icon class="example-icon">save</mat-icon></button>
     <button mat-icon-button><mat-icon class="example-icon">code</mat-icon></button>
     <button mat-icon-button><mat-icon class="example-icon">file_download</mat-icon></button>
     <button mat-icon-button><mat-icon class="example-icon">bookmark</mat-icon></button>
     </span>
-</mat-toolbar>
-<br>
-<br>
-<br>
-<mat-toolbar fxLayout="row" class="tchem target-toolbar">
-  <span>
-Tchem&nbsp;&nbsp;&nbsp;&nbsp;
-  </span>
-  <span class = "mat-display-3 toolbar">{{target.name}}</span>
-  <span class="spacer"></span>
-  <span fxFlex fxLayoutAlign= "end center">
-    <button mat-icon-button><mat-icon class="example-icon">save</mat-icon></button>
-    <button mat-icon-button><mat-icon class="example-icon">code</mat-icon></button>
-    <button mat-icon-button><mat-icon class="example-icon">file_download</mat-icon></button>
-    </span>
-</mat-toolbar>
-<br>
+  </div>
+</div>
 <br>
 <br>
 <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
-  <div fxFlex="95" fxFlexAlign="stretch">
-   <!-- <pharos-idg-level-indicator [level]="target.idgTDL"></pharos-idg-level-indicator>
-    <span class = "mat-display-3">{{target.name}}</span>
-    <br>
-    <br>-->
+  <div fxFlex="90" fxFlexAlign="stretch">
     <span class="mat-body-1">{{target.description}}</span>
 <!--
     https://pharos.nih.gov/idg/api/v1/targets(7617)/properties(label=NCBI%20Gene%20Summary)

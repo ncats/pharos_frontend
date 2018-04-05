@@ -1,0 +1,33 @@
+// Import theming functions
+@import '~@angular/material/theming';
+// Import your custom theme
+@import './src/ncats-theme.scss';
+
+.target-toolbar {
+  width: 100vw;
+}
+
+.toolbar {
+  margin-bottom: 0;
+}
+
+.header-row {
+  border-bottom: #f44336 6px solid;
+}
+
+
+.tbio-header{
+  border-bottom: mat-color($pharos-app-accent) 6px solid;
+}
+
+.tdark-header {
+  border-bottom: mat-color($ncats-app-warn) 6px solid;
+}
+
+.tchem-header {
+  border-bottom: #5bc0de 6px solid;
+}
+
+.tclin-header {
+  border-bottom: mat-color($pharos-app-primary) 6px solid;
+}

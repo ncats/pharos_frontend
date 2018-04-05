@@ -19,4 +19,8 @@ export class DataDetailsResolver implements Resolve<any> {
       this.pharosApiService.getDetails(route.data.path, route.paramMap);
          return of([]);
     }
+
+    getDetailsByUrl(url: string, origin: string): void {
+      this.pharosApiService.getDetailsByUrl(url,origin);
+    }
 }

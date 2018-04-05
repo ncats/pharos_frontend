@@ -1,9 +1,7 @@
 import {Component, ComponentFactoryResolver, OnDestroy, OnInit, Type, ViewChild} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
 import {takeUntil} from "rxjs/operators";
 import {ResponseParserService} from "../../pharos-services/response-parser.service";
 import {Subject} from "rxjs/Subject";
-import {TargetTableComponent} from "../data-list/target-table/target-table.component";
 import {TargetDetailsComponent} from "./target-details/target-details.component";
 import {CustomContentDirective} from "../../tools/custom-content.directive";
 
@@ -34,20 +32,13 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
   }
 
   loadDetails() {
-
-    /*    this.fieldsMap.forEach(field => {
-          if (field.name === name) {
-            ret = !!field.component;
-          }
-        });*/
-
     const instance: Type<any> = TargetDetailsComponent;
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(instance);
     const viewContainerRef = this.componentHost.viewContainerRef;
     viewContainerRef.clear();
 
     const componentRef = viewContainerRef.createComponent(componentFactory);
-    componentRef.instance.target = this.data;
+    componentRef.instance.data = this.data;
   }
 
   ngOnDestroy() {

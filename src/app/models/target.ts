@@ -21,6 +21,10 @@ export class Target {
   knowledgeAvailability:  number;
   pubTatorScore:  number;
   self: string;
-  namespace: string;
-  organism: string;
+  _namespace: string;
+  _organism: string;
+  _links: any;
+  _properties: any;
+  _synonyms: any;
+  _publications: any;
 }

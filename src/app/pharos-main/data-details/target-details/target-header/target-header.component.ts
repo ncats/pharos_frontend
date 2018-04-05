@@ -4,7 +4,7 @@ import {Target} from "../../../../models/target";
 @Component({
   selector: 'pharos-target-header',
   templateUrl: './target-header.component.html',
-  styleUrls: ['./target-header.component.css']
+  styleUrls: ['./target-header.component.scss']
 })
 export class TargetHeaderComponent implements OnInit {
 @Input() target: Target;
@@ -13,4 +13,7 @@ export class TargetHeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  getHeaderClass(): string {
+    return this.target.idgTDL.toLowerCase()+'-header';
+}
 }

@@ -21,7 +21,7 @@ export class PharosApiService {
      this._URL = this.environmentVariablesService.getApiPath();
   }
 
-  getData(path: string, params: ParamMap) {
+  getData(path: string, params: ParamMap): void {
     const url = this._mapParams(path, params);
      this.http.get<any>(url)
       .pipe(
@@ -29,13 +29,22 @@ export class PharosApiService {
       ).subscribe(response => this._dataSource.next(response));
   }
 
-  getDetails(path: string, params: ParamMap) {
+  getDetails(path: string, params: ParamMap): void {
     const url = this._URL + path + '/' + params.get('id');
     this.http.get<any>(url)
       .pipe(
         catchError(this.handleError('getDetails', []))
       ).subscribe(response => {
-        this._dataSource.next({details: response})
+        this._dataSource.next({details: {content: response}})
+    });
+  }
+
+  getDetailsByUrl(url: string, origin: string): void {
+    this.http.get<any>(url)
+      .pipe(
+        catchError(this.handleError('getDetails', []))
+      ).subscribe(response => {
+        this._dataSource.next({details:{[origin]: response}})
     });
   }
 
