@@ -8,6 +8,7 @@ import {CustomContentDirective} from "../../../tools/custom-content.directive";
 import {Publication} from "../../../models/publication";
 import {PharosApiService} from "../../../pharos-services/pharos-api.service";
 import {DataDetailsResolver} from "../../services/data-details.resolver";
+import {ComponentInjectorService} from "../../../pharos-services/component-injector.service";
 
 @Component({
   selector: 'pharos-target-details',
@@ -20,26 +21,22 @@ export class TargetDetailsComponent implements OnInit {
   references: Publication[];
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver,
-            private dataDetailsResolver: DataDetailsResolver) { }
+  constructor(
+    //private componentInjectorService: ,
+           @Inject(ComponentInjectorService) private componentInjectorService
+  ) { }
 
   ngOnInit() {
     console.log(this);
-      this.target = this.data.target;
+      this.target = this.data.content;
       this.references = this.data.references;
-      const instance: Type<any> = COMPONENTS.get(this.target.idgTDL.toLowerCase());
-      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(instance);
-      const viewContainerRef = this.componentHost.viewContainerRef;
-      viewContainerRef.clear();
-
-      const componentRef = viewContainerRef.createComponent(componentFactory);
-      componentRef.instance.target = this.target;
-
+/*      const dynamicComponent = this.componentInjectorService.injectComponent(this.componentHost, COMPONENTS.get(this.target.idgTDL.toLowerCase()))
+    dynamicComponent.instance.target = this.target;*/
   }
 
   fetchData(){
     if(this.target._publications.count > 0) {
-      this.dataDetailsResolver.getDetailsByUrl(this.target._publications, 'references');
+   //   this.dataDetailsResolver.getDetailsByUrl(this.target._publications, 'references');
     }
   }
 }

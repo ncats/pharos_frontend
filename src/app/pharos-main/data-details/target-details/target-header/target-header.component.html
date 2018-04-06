@@ -7,7 +7,7 @@
 </mat-toolbar>
 <br>
 <br>-->
-<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" [ngClass] = getHeaderClass() class="header-row">
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" ngClass ="getHeaderClass()" class="header-row">
   <div fxFlex="100" fxFlexAlign="stretch">
     <pharos-idg-level-indicator [level]="target.idgTDL"></pharos-idg-level-indicator>
     <span class = "mat-display-3 toolbar">{{target.name}}</span>

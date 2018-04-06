@@ -11,6 +11,7 @@ export class TargetHeaderComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log(this);
   }
 
   getHeaderClass(): string {

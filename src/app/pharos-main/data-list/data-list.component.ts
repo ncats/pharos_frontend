@@ -1,18 +1,15 @@
 import {
-  AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, OnDestroy, OnInit, Renderer2, Type,
-  ViewChild
-} from '@angular/core';
+  ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatSort } from '@angular/material';
 import {Subject} from 'rxjs/Subject';
-import {combineLatest, takeUntil} from 'rxjs/operators';
-import {PathResolverService} from '../../pharos-services/path-resolver.service';
+import { takeUntil} from 'rxjs/operators';
 import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {SelectionModel} from '@angular/cdk/collections';
-import {TargetTableComponent} from "./target-table/target-table.component";
 import {CustomContentDirective} from "../../tools/custom-content.directive";
+import {ComponentInjectorService} from "../../pharos-services/component-injector.service";
 
 
 const navigationExtras: NavigationExtras = {
@@ -25,7 +22,7 @@ const navigationExtras: NavigationExtras = {
   styleUrls: ['./data-list.component.css']
 })
 
-export class DataListComponent implements OnInit, OnDestroy, AfterViewInit {
+export class DataListComponent implements OnInit, OnDestroy {
   data: any;
   loading = false;
 
@@ -33,33 +30,23 @@ export class DataListComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
 
+  path: string;
   fieldsMap: any[];
   fieldColumns: string[];
   displayColumns: string[];
+  environmentVariablesService: EnvironmentVariablesService;
   private ngUnsubscribe: Subject<any> = new Subject();
 
   constructor(private _route: ActivatedRoute,
               private router: Router,
               private ref: ChangeDetectorRef,
-              private componentFactoryResolver: ComponentFactoryResolver,
-              private pathResolverService: PathResolverService,
-              private environmentVariablesService: EnvironmentVariablesService,
               private responseParserService: ResponseParserService,
-              private loadingService: LoadingService) {
+              private loadingService: LoadingService,
+              private componentInjectorService: ComponentInjectorService) {
+    this.path = this._route.snapshot.data.path;
   }
 
-  // todo: this is changed each pagination change, so something needs to persist the selected rows
-
   ngOnInit() {
-    const path = this._route.snapshot.data.path;
-
-    console.log(this);
-// todo: convert to combine latest
-    this.pathResolverService.path$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => this.fetchTableFields(res));
-
-
     this.loadingService.loading$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -70,52 +57,22 @@ export class DataListComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.data = res;
-        this.loadComponent();
-       // this.ref.markForCheck(); // refresh the component manually
+        const dynamicComponent = this.componentInjectorService.addDynamicComponent(this.componentHost, [this.path,'table']);
+        dynamicComponent.instance.data = res;
+        dynamicComponent.instance.sortChange.subscribe((event) => {
+          console.log(event);
+          this.sortTable(event);
+        });
+         this.ref.markForCheck(); // refresh the component manually
         this.loadingService.toggleVisible(false);
       });
 
-/*    this.rowSelection.onChange
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(change => {
-        console.log(this.rowSelection.selected);
-      });*/
-  }
-
-  ngAfterViewInit() {
-//    this.dataSource.paginator = this.paginator;
-//    this.dataSource.sort = this.sort;
-  }
-/*
-  getLabel(name: string): string {
-    let ret = '';
-    this.fieldsMap.forEach(field => {
-      if (field.name === name) {
-        ret = field.label;
-      }
-    });
-    return ret;
-  }
-
-  isSortable(name: string): boolean {
-    let ret = false;
-    this.fieldsMap.forEach(field => {
-      if (field.name === name) {
-        ret = field.sortable;
-      }
-    });
-    return ret;
-  }*/
-
-/*  isSelected(row: any): boolean {
-    return this.rowSelection.selected.includes(row);
-  }*/
-
-  fetchTableFields(path: string): void {
-    this.fieldsMap = this.environmentVariablesService.getTableFields(path);
-    this.fieldColumns = this.fieldsMap.map(field => field.name);
-    // this.displayColumns = ['list-select'].concat(this.fieldColumns);
-    this.displayColumns = this.fieldColumns;
+    // todo: this is changed each pagination change, so something needs to persist the selected rows
+    /*    this.rowSelection.onChange
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(change => {
+            console.log(this.rowSelection.selected);
+          });*/
   }
 
   paginationChanges(event: any) {
@@ -157,28 +114,5 @@ export class DataListComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-  }
-
-
-  loadComponent() {
-
-/*    this.fieldsMap.forEach(field => {
-      if (field.name === name) {
-        ret = !!field.component;
-      }
-    });*/
-
-    const instance: Type<any> = TargetTableComponent;
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(instance);
-    const viewContainerRef = this.componentHost.viewContainerRef;
-    viewContainerRef.clear();
-
-    const componentRef = viewContainerRef.createComponent(componentFactory);
-    componentRef.instance.data = this.data;
-    componentRef.instance.displayColumns = this.fieldColumns;
-    componentRef.instance.sortChange.subscribe((event)=>{
-      console.log(event);
-      this.sortTable(event);
-    })
   }
 }

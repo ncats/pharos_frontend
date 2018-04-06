@@ -11,6 +11,7 @@ import {RouterModule} from "@angular/router";
 import {ScrollToTopComponent} from "../tools/scroll-to-top/scroll-to-top.component";
 import {IdgLevelIndicatorComponent} from "../tools/idg-level-indicator/idg-level-indicator.component";
 import {CustomContentDirective} from "../tools/custom-content.directive";
+import {ComponentInjectorService} from "../pharos-services/component-injector.service";
 
 @NgModule({
   imports: [
@@ -27,6 +28,9 @@ import {CustomContentDirective} from "../tools/custom-content.directive";
     ScrollToTopComponent,
     CustomContentDirective,
     IdgLevelIndicatorComponent
+  ],
+  providers: [
+    ComponentInjectorService
   ],
   exports: [
     CommonModule,

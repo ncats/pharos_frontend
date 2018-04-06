@@ -39,6 +39,7 @@ import { TargetTableComponent } from './data-list/target-table/target-table.comp
 import { DiseaseTableComponent } from './data-list/disease-table/disease-table.component';
 import { TargetDetailsComponent } from './data-details/target-details/target-details.component';
 import {CustomContentDirective} from "../tools/custom-content.directive";
+import {IdgLevelIndicatorComponent} from "../tools/idg-level-indicator/idg-level-indicator.component";
 
 @NgModule({
   imports: [
@@ -48,38 +49,33 @@ import {CustomContentDirective} from "../tools/custom-content.directive";
   declarations: [
     NcatsHeaderComponent,
     NcatsFooterComponent,
-    DataListComponent,
-    DataDetailsComponent,
-    FilterPanelComponent,
-    DataListVisualizationsComponent,
+    PharosMainComponent,
     BreadcrumbComponent,
-    FacetTableComponent,
+    DataListComponent,
+    DataListVisualizationsComponent,
     PharosPaginatorComponent,
+    FilterPanelComponent,
+    FacetTableComponent,
+    FacetListComponent,
     DonutChartComponent,
     WordCloudChartComponent,
     SunburstChartComponent,
     VisualizationOptionsComponent,
-    PharosMainComponent,
-    FacetListComponent,
-    SummaryPanelComponent,
+    DataDetailsComponent,
     KnowledgePanelComponent,
     ExpressionPanelComponent,
     TargetFacetPanelComponent,
     AaSequencePanelComponent,
-    ReferencesPanelComponent,
-    TargetHeaderComponent,
     GeneRifPanelComponent,
     DrugPanelComponent,
     DiseaseSourcesPanelComponent,
     TbioViewerComponent,
     TclinViewerComponent,
-    TdarkViewerComponent,
     TchemViewerComponent,
     TinxPlotPanelComponent,
     ClassificationExplanationComponent,
     TargetTableComponent,
-    DiseaseTableComponent,
-    TargetDetailsComponent
+    DiseaseTableComponent
   ]
 })
 export class PharosMainModule { }

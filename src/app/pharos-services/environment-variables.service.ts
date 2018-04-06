@@ -1,16 +1,11 @@
-import {Inject, Injectable} from '@angular/core';
+import { Injectable} from '@angular/core';
 import {environment} from '../../environments/environment.prod';
-import {ActivatedRoute} from '@angular/router';
-import {Location} from '@angular/common';
-import {PharosApiService} from './/pharos-api.service';
+
 
 @Injectable()
 export class EnvironmentVariablesService {
 private _environment: any;
-constructor(
-    private _route: ActivatedRoute,
-    private _location: Location
-  ) {
+constructor( ) {
   this._environment = environment;
 }
 
@@ -48,8 +43,13 @@ constructor(
     return this._environment[path] !== undefined;
   }
 
-  getComponents(path: string) {
-
+  getComponents(path: string, subpath?: string) {
+    const components = this._environment[path].components;
+    if (this._pathExists(path) && subpath) {
+      return  components[subpath];
+    } else {
+     return components;
+    }
   }
 }
 
