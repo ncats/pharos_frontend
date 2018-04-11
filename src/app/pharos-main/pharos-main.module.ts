@@ -19,22 +19,22 @@ import {NcatsHeaderComponent} from '../tools/ncats-header/ncats-header.component
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { FacetListComponent } from './facet-list/facet-list.component';
 import {SharedModule} from '../shared/shared.module';
-import { SummaryPanelComponent } from './data-details/target-details/summary-panel/summary-panel.component';
-import { KnowledgePanelComponent } from './data-details/target-details/knowledge-panel/knowledge-panel.component';
-import { ExpressionPanelComponent } from './data-details/target-details/expression-panel/expression-panel.component';
-import { TargetFacetPanelComponent } from './data-details/target-details/target-facet-panel/target-facet-panel.component';
-import { AaSequencePanelComponent } from './data-details/target-details/aa-sequence-panel/aa-sequence-panel.component';
-import { ReferencesPanelComponent } from './data-details/target-details/references-panel/references-panel.component';
+import { SummaryPanelComponent } from './data-details/target-details/panels/summary-panel/summary-panel.component';
+import { KnowledgePanelComponent } from './data-details/target-details/panels/knowledge-panel/knowledge-panel.component';
+import { ExpressionPanelComponent } from './data-details/target-details/panels/expression-panel/expression-panel.component';
+import { TargetFacetPanelComponent } from './data-details/target-details/panels/target-facet-panel/target-facet-panel.component';
+import { AaSequencePanelComponent } from './data-details/target-details/panels/aa-sequence-panel/aa-sequence-panel.component';
+import { ReferencesPanelComponent } from './data-details/target-details/panels/references-panel/references-panel.component';
 import { TargetHeaderComponent } from './data-details/target-details/target-header/target-header.component';
-import { GeneRifPanelComponent } from './data-details/target-details/gene-rif-panel/gene-rif-panel.component';
-import { DrugPanelComponent } from './data-details/target-details/drug-panel/drug-panel.component';
-import { DiseaseSourcesPanelComponent } from './data-details/target-details/disease-sources-panel/disease-sources-panel.component';
-import { TbioViewerComponent } from './data-details/target-details/tbio-viewer/tbio-viewer.component';
-import { TclinViewerComponent } from './data-details/target-details/tclin-viewer/tclin-viewer.component';
-import { TdarkViewerComponent } from './data-details/target-details/tdark-viewer/tdark-viewer.component';
-import { TchemViewerComponent } from './data-details/target-details/tchem-viewer/tchem-viewer.component';
-import { TinxPlotPanelComponent } from './data-details/target-details/tinx-plot-panel/tinx-plot-panel.component';
-import { ClassificationExplanationComponent } from './data-details/target-details/classification-explanation/classification-explanation.component';
+import { GeneRifPanelComponent } from './data-details/target-details/panels/gene-rif-panel/gene-rif-panel.component';
+import { DrugPanelComponent } from './data-details/target-details/panels/drug-panel/drug-panel.component';
+import { DiseaseSourcesPanelComponent } from './data-details/target-details/panels/disease-sources-panel/disease-sources-panel.component';
+import { TbioViewerComponent } from './data-details/target-details/idg-levels/tbio-viewer/tbio-viewer.component';
+import { TclinViewerComponent } from './data-details/target-details/idg-levels/tclin-viewer/tclin-viewer.component';
+import { TdarkViewerComponent } from './data-details/target-details/idg-levels/tdark-viewer/tdark-viewer.component';
+import { TchemViewerComponent } from './data-details/target-details/idg-levels/tchem-viewer/tchem-viewer.component';
+import { TinxPlotPanelComponent } from './data-details/target-details/panels/tinx-plot-panel/tinx-plot-panel.component';
+import { ClassificationExplanationComponent } from './data-details/target-details/panels/classification-explanation/classification-explanation.component';
 import { TargetTableComponent } from './data-list/target-table/target-table.component';
 import { DiseaseTableComponent } from './data-list/disease-table/disease-table.component';
 import { TargetDetailsComponent } from './data-details/target-details/target-details.component';
@@ -62,19 +62,7 @@ import { DiseaseDetailsComponent } from './data-details/disease-details/disease-
     WordCloudChartComponent,
     SunburstChartComponent,
     VisualizationOptionsComponent,
-    DataDetailsComponent,
-    KnowledgePanelComponent,
-    ExpressionPanelComponent,
-    TargetFacetPanelComponent,
-    AaSequencePanelComponent,
-    GeneRifPanelComponent,
-    DrugPanelComponent,
-    DiseaseSourcesPanelComponent,
-    TbioViewerComponent,
-    TclinViewerComponent,
-    TchemViewerComponent,
-    TinxPlotPanelComponent,
-    ClassificationExplanationComponent
+    DataDetailsComponent
   ]
 })
 export class PharosMainModule { }

@@ -3,27 +3,32 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
-import { catchError } from 'rxjs/operators';
+import {catchError, takeUntil} from 'rxjs/operators';
 import {of} from 'rxjs/observable/of';
 import {ParamMap} from '@angular/router';
 import {EnvironmentVariablesService} from './environment-variables.service';
+import {combineLatest} from "rxjs/observable/combineLatest";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 
 @Injectable()
 export class PharosApiService {
 
   private _dataSource = new Subject<any>();
+  private _detailsSource = new BehaviorSubject<any>({});
+  private _detailsUrlSource = new BehaviorSubject<any>({});
   private _URL: string;
   data$ = this._dataSource.asObservable();
 
   constructor(private http: HttpClient,
               private environmentVariablesService: EnvironmentVariablesService) {
-     this._URL = this.environmentVariablesService.getApiPath();
+    this._URL = this.environmentVariablesService.getApiPath();
+    this._mergeSources();
   }
 
   getData(path: string, params: ParamMap): void {
     const url = this._mapParams(path, params);
-     this.http.get<any>(url)
+    this.http.get<any>(url)
       .pipe(
         catchError(this.handleError('getData', []))
       ).subscribe(response => this._dataSource.next(response));
@@ -35,7 +40,7 @@ export class PharosApiService {
       .pipe(
         catchError(this.handleError('getDetails', []))
       ).subscribe(response => {
-        this._dataSource.next({details: {content: response}})
+      this._detailsSource.next(response)
     });
   }
 
@@ -44,9 +49,29 @@ export class PharosApiService {
       .pipe(
         catchError(this.handleError('getDetails', []))
       ).subscribe(response => {
-        this._dataSource.next({details:{[origin]: response}})
+      this._detailsUrlSource.next({origin: origin, data: response})
     });
   }
+
+  private _mergeSources() {
+    combineLatest(
+      this._detailsSource,
+      this._detailsUrlSource,
+      (object, details) => {
+        let returnedObject = {};
+        if(details.origin) {
+          returnedObject =  {object: object, [details.origin]: details.data};
+        } else {
+          returnedObject = {object: object};
+        }
+        return returnedObject;
+      })
+      .subscribe((res) => {
+        console.log(res);
+        this._dataSource.next(res)
+      });
+  }
+
 
   private _mapParams(path: string, params: ParamMap): string {
     let str = '';
@@ -63,7 +88,6 @@ export class PharosApiService {
       // todo look into if this is the best way to make the url -- this is going to happen a lot
       str = str.slice(0, -1);
     }
-    console.log(str);
     return str;
   }
 

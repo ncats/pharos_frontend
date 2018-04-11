@@ -10,8 +10,7 @@ import {MatTableDataSource} from "@angular/material";
 })
 export class TargetTableComponent implements OnInit {
   displayColumns: string[] = ['name', 'idgTDL', 'idgFamily', 'novelty', 'jensenScore', 'antibodyCount', 'knowledgeAvailability'];
-  // @Input() data: Target[];
-  @Input() data: any[];
+  @Input() data: Target[];
   @Output() readonly sortChange: EventEmitter<string> = new EventEmitter<string>();
 
   dataSource = new MatTableDataSource<any>(this.data);

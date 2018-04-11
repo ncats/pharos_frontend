@@ -1,4 +1,4 @@
-import {Injectable, Type} from '@angular/core';
+import {Injectable, InjectionToken, Type} from '@angular/core';
 import {EnvironmentVariablesService} from "../pharos-services/environment-variables.service";
 
 @Injectable()
@@ -6,26 +6,8 @@ export class ComponentLookupService {
 
   constructor(private environmentVariablesService: EnvironmentVariablesService) { }
 
-/*  lookup(component: string): Type<any> {
-  // return COMPONENTS.get(component);
-  }*/
-
-  lookupByPath(path: string, subpath: string): string {
-   const ret =  this.environmentVariablesService.getComponents(path, subpath);
-   console.log(ret);
-   return ret;
+  // this is necessary to avoid circluar dependencies
+  lookupByPath(path: string, subpath: string): any {
+  return this.environmentVariablesService.getComponents(path, subpath);
   }
 }
-
-/*const COMPONENTS: Map<string, Type<any>> = new Map<string, any>(
-  [
-    ['TargetTableComponent', TargetTableComponent],
-    ['TargetDetailsComponent', TargetDetailsComponent],
-    ['TdarkViewerComponent', TdarkViewerComponent],
-    ['TbioViewerComponent', TbioViewerComponent],
-    ['TchemViewerComponent', TchemViewerComponent],
-    ['TclinViewerComponent', TclinViewerComponent],
-    ['DiseaseTableComponent', DiseaseTableComponent],
-    ['DiseaseDetailsComponent', DiseaseDetailsComponent]
-  ]
-);*/

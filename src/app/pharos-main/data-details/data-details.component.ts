@@ -2,12 +2,10 @@ import {Component, ComponentFactoryResolver, Inject, Injector, OnDestroy, OnInit
 import {takeUntil} from "rxjs/operators";
 import {ResponseParserService} from "../../pharos-services/response-parser.service";
 import {Subject} from "rxjs/Subject";
-import {TargetDetailsComponent} from "./target-details/target-details.component";
 import {CustomContentDirective} from "../../tools/custom-content.directive";
-import {EnvironmentVariablesService} from "../../pharos-services/environment-variables.service";
 import {ActivatedRoute} from "@angular/router";
-import {ComponentInjectorService} from "../../pharos-services/component-injector.service";
 import {ComponentLookupService} from "../../pharos-services/component-lookup.service";
+import {ComponentInjectorService} from "../../pharos-services/component-injector.service";
 
 @Component({
   selector: 'pharos-data-details',
@@ -17,13 +15,14 @@ import {ComponentLookupService} from "../../pharos-services/component-lookup.ser
 export class DataDetailsComponent implements OnInit, OnDestroy {
   data: any = {};
   path: string;
+  dynamicComponent: any;
   private ngUnsubscribe: Subject<any> = new Subject();
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
 
 
   constructor(
     private _route: ActivatedRoute,
-    @Inject(ComponentLookupService) private componentLookupService,
+    private componentLookupService: ComponentLookupService,
     private componentInjectorService: ComponentInjectorService,
     private responseParserService: ResponseParserService,
   ) {
@@ -31,16 +30,30 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+
+
     this.responseParserService.detailsData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-       // this.data = res;
-//        const dynamicComponent = this.componentInjectorService.addDynamicComponent(this.componentHost, [this.path,'details']);
-      //  const dynamicComponent: any = this.componentInjectorService.injectComponent(this.componentHost, this.componentLookupService.lookupByPath(this.path, 'details.main'));
-      //  dynamicComponent.instance.data = res;
-     //   dynamicComponent.instance.path = this.path;
+        console.log(res);
+        this.data = res;
+        if (!this.dynamicComponent) {
+          console.log("make component");
+          const token: any = this.componentLookupService.lookupByPath(this.path, 'details');
+          this.dynamicComponent = this.componentInjectorService.injectComponentToken(this.componentHost, token);
+          this.dynamicComponent.instance.path = this.path;
+        }
+        // pass though data changes - this includes both the object and other fetched fields (references/publications, etc)
+        console.log("changid");
+        this.dynamicComponent.instance.setData(res);
+
       });
     console.log(this);
+  }
+
+  ngOnChanges(change){
+    console.log(change);
   }
 
   ngOnDestroy() {

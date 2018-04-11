@@ -1,11 +1,9 @@
 import {
-  ChangeDetectorRef, Component, InjectionToken, Injector, OnDestroy, OnInit, Type, ViewChild
-} from '@angular/core';
+  ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {MatPaginator, MatSort } from '@angular/material';
 import {Subject} from 'rxjs/Subject';
 import { takeUntil} from 'rxjs/operators';
-import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {SelectionModel} from '@angular/cdk/collections';
@@ -36,12 +34,12 @@ export class DataListComponent implements OnInit, OnDestroy {
   fieldsMap: any[];
   fieldColumns: string[];
   displayColumns: string[];
+  dynamicComponent: any;
   private ngUnsubscribe: Subject<any> = new Subject();
 
   constructor(private _route: ActivatedRoute,
               private router: Router,
               private ref: ChangeDetectorRef,
-              private _injector: Injector,
               private responseParserService: ResponseParserService,
               private loadingService: LoadingService,
               private componentLookup: ComponentLookupService,
@@ -56,23 +54,23 @@ export class DataListComponent implements OnInit, OnDestroy {
         this.loading = res;
       });
 
+
+
     this.responseParserService.tableData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.data = res;
-        console.log(this.componentLookup.lookupByPath(this.path, 'table'));
-        const componentLookupServiceToken = new InjectionToken(this.componentLookup.lookupByPath(this.path, 'table'));
-        console.log(this._injector.get(componentLookupServiceToken))
-      //  const componentLookup: Type<any> = this._injector.get(componentLookupServiceToken);
-
-       // const dynamicComponent: any = this.componentInjectorService.injectComponent(this.componentHost, componentLookup);
-      //  dynamicComponent.instance.data = res;
-      /*  dynamicComponent.instance.sortChange.subscribe((event) => {
+        const token: any = this.componentLookup.lookupByPath(this.path, 'table');
+        this.dynamicComponent = this.componentInjectorService.injectComponentToken(this.componentHost, token);
+        this.dynamicComponent.instance.data = res;
+        this.dynamicComponent.instance.sortChange.subscribe((event) => {
           console.log(event);
           this.sortTable(event);
+          // todo sort arrows are not staying after column select
         });
-         this.ref.markForCheck(); // refresh the component manually
-        this.loadingService.toggleVisible(false);*/
+
+        this.ref.markForCheck(); // refresh the component manually
+        this.loadingService.toggleVisible(false);
       });
 
     // todo: this is changed each pagination change, so something needs to persist the selected rows
