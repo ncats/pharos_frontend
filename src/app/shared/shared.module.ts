@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {forwardRef, NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {SearchComponent} from '../tools/search-component/search.component';
 import {HighlightPipe} from '../tools/search-component/highlight.pipe';
@@ -12,6 +12,7 @@ import {ScrollToTopComponent} from "../tools/scroll-to-top/scroll-to-top.compone
 import {IdgLevelIndicatorComponent} from "../tools/idg-level-indicator/idg-level-indicator.component";
 import {CustomContentDirective} from "../tools/custom-content.directive";
 import {ComponentInjectorService} from "../pharos-services/component-injector.service";
+import {ComponentLookupService} from "../pharos-services/component-lookup.service";
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import {ComponentInjectorService} from "../pharos-services/component-injector.se
     IdgLevelIndicatorComponent
   ],
   providers: [
+    ComponentLookupService,
     ComponentInjectorService
   ],
   exports: [

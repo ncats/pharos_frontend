@@ -40,6 +40,7 @@ import { DiseaseTableComponent } from './data-list/disease-table/disease-table.c
 import { TargetDetailsComponent } from './data-details/target-details/target-details.component';
 import {CustomContentDirective} from "../tools/custom-content.directive";
 import {IdgLevelIndicatorComponent} from "../tools/idg-level-indicator/idg-level-indicator.component";
+import { DiseaseDetailsComponent } from './data-details/disease-details/disease-details.component';
 
 @NgModule({
   imports: [
@@ -73,9 +74,7 @@ import {IdgLevelIndicatorComponent} from "../tools/idg-level-indicator/idg-level
     TclinViewerComponent,
     TchemViewerComponent,
     TinxPlotPanelComponent,
-    ClassificationExplanationComponent,
-    TargetTableComponent,
-    DiseaseTableComponent
+    ClassificationExplanationComponent
   ]
 })
 export class PharosMainModule { }

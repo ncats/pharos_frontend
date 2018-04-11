@@ -1,5 +1,6 @@
 import {
-  ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+  ChangeDetectorRef, Component, InjectionToken, Injector, OnDestroy, OnInit, Type, ViewChild
+} from '@angular/core';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {MatPaginator, MatSort } from '@angular/material';
 import {Subject} from 'rxjs/Subject';
@@ -10,6 +11,7 @@ import {LoadingService} from '../../pharos-services/loading.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {CustomContentDirective} from "../../tools/custom-content.directive";
 import {ComponentInjectorService} from "../../pharos-services/component-injector.service";
+import {ComponentLookupService} from "../../pharos-services/component-lookup.service";
 
 
 const navigationExtras: NavigationExtras = {
@@ -34,14 +36,15 @@ export class DataListComponent implements OnInit, OnDestroy {
   fieldsMap: any[];
   fieldColumns: string[];
   displayColumns: string[];
-  environmentVariablesService: EnvironmentVariablesService;
   private ngUnsubscribe: Subject<any> = new Subject();
 
   constructor(private _route: ActivatedRoute,
               private router: Router,
               private ref: ChangeDetectorRef,
+              private _injector: Injector,
               private responseParserService: ResponseParserService,
               private loadingService: LoadingService,
+              private componentLookup: ComponentLookupService,
               private componentInjectorService: ComponentInjectorService) {
     this.path = this._route.snapshot.data.path;
   }
@@ -57,14 +60,19 @@ export class DataListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.data = res;
-        const dynamicComponent = this.componentInjectorService.addDynamicComponent(this.componentHost, [this.path,'table']);
-        dynamicComponent.instance.data = res;
-        dynamicComponent.instance.sortChange.subscribe((event) => {
+        console.log(this.componentLookup.lookupByPath(this.path, 'table'));
+        const componentLookupServiceToken = new InjectionToken(this.componentLookup.lookupByPath(this.path, 'table'));
+        console.log(this._injector.get(componentLookupServiceToken))
+      //  const componentLookup: Type<any> = this._injector.get(componentLookupServiceToken);
+
+       // const dynamicComponent: any = this.componentInjectorService.injectComponent(this.componentHost, componentLookup);
+      //  dynamicComponent.instance.data = res;
+      /*  dynamicComponent.instance.sortChange.subscribe((event) => {
           console.log(event);
           this.sortTable(event);
         });
          this.ref.markForCheck(); // refresh the component manually
-        this.loadingService.toggleVisible(false);
+        this.loadingService.toggleVisible(false);*/
       });
 
     // todo: this is changed each pagination change, so something needs to persist the selected rows

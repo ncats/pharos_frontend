@@ -14,6 +14,7 @@ import { PharosDashboardComponent } from './pharos-dashboard/pharos-dashboard.co
 import { SearchCardComponent } from './pharos-dashboard/search-card/search-card.component';
 import {SuggestApiService} from './tools/search-component/suggest-api.service';
 import {SharedModule} from './shared/shared.module';
+import {ComponentLookupService} from "./pharos-services/component-lookup.service";
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import {SharedModule} from './shared/shared.module';
     LoadingService,
     EnvironmentVariablesService,
     FacetRetrieverService,
-    SuggestApiService
+    SuggestApiService,
+    ComponentLookupService
   ],
   bootstrap: [AppComponent]
 })

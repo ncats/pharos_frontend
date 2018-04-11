@@ -17,6 +17,8 @@ import {TargetHeaderComponent} from "./data-details/target-details/target-header
 import {SharedModule} from "../shared/shared.module";
 import {IdgLevelIndicatorComponent} from "../tools/idg-level-indicator/idg-level-indicator.component";
 import {ComponentInjectorService} from "../pharos-services/component-injector.service";
+import {ComponentLookupService} from "../pharos-services/component-lookup.service";
+import {DiseaseTableComponent} from "./data-list/disease-table/disease-table.component";
 
 const pharosMainRoutes: Routes = [
   {
@@ -59,14 +61,17 @@ const pharosMainRoutes: Routes = [
     TclinViewerComponent,
     ReferencesPanelComponent,
     SummaryPanelComponent,
-    TargetHeaderComponent
+    TargetHeaderComponent,
+    DiseaseTableComponent
   ],
   declarations: [
+    TargetTableComponent,
     TargetDetailsComponent,
     TdarkViewerComponent,
     ReferencesPanelComponent,
     SummaryPanelComponent,
-    TargetHeaderComponent
+    TargetHeaderComponent,
+    DiseaseTableComponent
   ]
 })
 export class PharosMainRoutingModule { }
