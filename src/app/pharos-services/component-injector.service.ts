@@ -7,16 +7,21 @@ export class ComponentInjectorService {
               private _injector: Injector) {
   }
 
-  injectComponent(componentHost: any, componentInstance:Type<any>): Type<any> {
+  injectComponent(componentHost: any, componentInstance: Type<any>): Type<any> {
     const componentFactory = this._componentFactoryResolver.resolveComponentFactory(componentInstance);
     const viewContainerRef = componentHost.viewContainerRef;
     viewContainerRef.clear();
     return viewContainerRef.createComponent(componentFactory);
   }
 
-  injectComponentToken(componentHost: any, token: any): Type<any> {
-    const dynamicComponentLookup: Type<any> = this._injector.get(token);
-    return this.injectComponent(componentHost, dynamicComponentLookup);
+  appendComponent(componentHost: any, componentInstance: Type<any>): Type<any> {
+    const componentFactory = this._componentFactoryResolver.resolveComponentFactory(componentInstance);
+    const viewContainerRef = componentHost.viewContainerRef;
+    return viewContainerRef.createComponent(componentFactory);
   }
-}
 
+  getComponentToken(componentHost: any, token: any): Type<any> {
+    return this._injector.get(token);
+  }
+
+}

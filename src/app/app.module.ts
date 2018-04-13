@@ -24,6 +24,7 @@ import {ComponentLookupService} from "./pharos-services/component-lookup.service
     ToiCardComponent,
     PharosDashboardComponent,
     SearchCardComponent
+
   ],
   imports: [
     BrowserAnimationsModule,

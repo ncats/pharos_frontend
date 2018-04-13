@@ -61,7 +61,8 @@ export class DataListComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.data = res;
         const token: any = this.componentLookup.lookupByPath(this.path, 'table');
-        this.dynamicComponent = this.componentInjectorService.injectComponentToken(this.componentHost, token);
+        const dynamicComponentToken = this.componentInjectorService.getComponentToken(this.componentHost, token);
+        this.dynamicComponent = this.componentInjectorService.injectComponent(this.componentHost, dynamicComponentToken);
         this.dynamicComponent.instance.data = res;
         this.dynamicComponent.instance.sortChange.subscribe((event) => {
           console.log(event);

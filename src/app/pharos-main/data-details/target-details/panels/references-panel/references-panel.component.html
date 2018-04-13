@@ -1,4 +1,8 @@
-
+<mat-card>
+  <mat-card-header>
+    <mat-card-title ><span class="mat-title"> Text Mined References ({{dataSource?.data?.length}})</span></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
 <mat-table [dataSource]="dataSource" matSort>
   <!--<ng-container matColumnDef="list-select">
     <mat-header-cell *matHeaderCellDef> Compare </mat-header-cell>
@@ -32,3 +36,5 @@
   <mat-row *matRowDef="let row; columns: displayColumns;">
   </mat-row>
 </mat-table>
+  </mat-card-content>
+</mat-card>

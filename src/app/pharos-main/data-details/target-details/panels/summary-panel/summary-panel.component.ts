@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./summary-panel.component.css']
 })
 export class SummaryPanelComponent implements OnInit {
-
+  data: any = {};
   constructor() { }
 
   ngOnInit() {
+    console.log(this);
+   // this.data.subscribe(res => this.summary = res)
   }
 
 }

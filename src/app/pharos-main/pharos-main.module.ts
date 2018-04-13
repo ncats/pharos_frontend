@@ -41,6 +41,7 @@ import { TargetDetailsComponent } from './data-details/target-details/target-det
 import {CustomContentDirective} from "../tools/custom-content.directive";
 import {IdgLevelIndicatorComponent} from "../tools/idg-level-indicator/idg-level-indicator.component";
 import { DiseaseDetailsComponent } from './data-details/disease-details/disease-details.component';
+import { DiseaseRelevancePanelComponent } from './data-details/target-details/panels/disease-relevance-panel/disease-relevance-panel.component';
 
 @NgModule({
   imports: [

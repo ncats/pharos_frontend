@@ -36,24 +36,17 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
     this.responseParserService.detailsData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        console.log(res);
         this.data = res;
         if (!this.dynamicComponent) {
-          console.log("make component");
           const token: any = this.componentLookupService.lookupByPath(this.path, 'details');
-          this.dynamicComponent = this.componentInjectorService.injectComponentToken(this.componentHost, token);
+          const dynamicComponentToken = this.componentInjectorService.getComponentToken(this.componentHost, token);
+          this.dynamicComponent = this.componentInjectorService.injectComponent(this.componentHost, dynamicComponentToken);
           this.dynamicComponent.instance.path = this.path;
         }
         // pass though data changes - this includes both the object and other fetched fields (references/publications, etc)
-        console.log("changid");
         this.dynamicComponent.instance.setData(res);
 
       });
-    console.log(this);
-  }
-
-  ngOnChanges(change){
-    console.log(change);
   }
 
   ngOnDestroy() {

@@ -17,11 +17,13 @@ import {SharedModule} from "../shared/shared.module";
 import {IdgLevelIndicatorComponent} from "../tools/idg-level-indicator/idg-level-indicator.component";
 import { DiseaseTableComponent} from "./data-list/disease-table/disease-table.component";
 import {
-  DISEASE_TABLE_COMPONENT, TARGET_DETAILS_COMPONENT,
+  DISEASE_RELEVANCE_PANEL,
+  DISEASE_TABLE_COMPONENT, KNOWLEDGE_PANEL, REFERENCES_PANEL, SUMMARY_PANEL, TARGET_DETAILS_COMPONENT,
   TARGET_TABLE_COMPONENT, TBIO_DETAILS, TCHEM_DETAILS, TCLIN_DETAILS, TDARK_DETAILS
 } from "../../environments/environment.prod";
 import {DiseaseSourcesPanelComponent} from "./data-details/target-details/panels/disease-sources-panel/disease-sources-panel.component";
 import {KnowledgePanelComponent} from "./data-details/target-details/panels/knowledge-panel/knowledge-panel.component";
+import {DiseaseRelevancePanelComponent} from "./data-details/target-details/panels/disease-relevance-panel/disease-relevance-panel.component";
 
 const pharosMainRoutes: Routes = [
   {
@@ -61,8 +63,10 @@ const pharosMainRoutes: Routes = [
     { provide: TBIO_DETAILS, useValue: TbioViewerComponent },
     { provide: TCLIN_DETAILS, useValue: TclinViewerComponent },
     { provide: TCHEM_DETAILS, useValue: TchemViewerComponent },
-
-
+    { provide: SUMMARY_PANEL, useValue: SummaryPanelComponent },
+    { provide: KNOWLEDGE_PANEL, useValue: KnowledgePanelComponent },
+    { provide: REFERENCES_PANEL, useValue: ReferencesPanelComponent },
+    { provide: DISEASE_RELEVANCE_PANEL, useValue: DiseaseRelevancePanelComponent }
   ],
   entryComponents: [
     TargetTableComponent,
@@ -74,7 +78,9 @@ const pharosMainRoutes: Routes = [
     ReferencesPanelComponent,
     SummaryPanelComponent,
     TargetHeaderComponent,
-    DiseaseTableComponent
+    DiseaseTableComponent,
+    DiseaseRelevancePanelComponent,
+    KnowledgePanelComponent
   ],
   declarations: [
     TargetTableComponent,
@@ -88,7 +94,8 @@ const pharosMainRoutes: Routes = [
     TargetHeaderComponent,
     DiseaseTableComponent,
     DiseaseSourcesPanelComponent,
-    KnowledgePanelComponent
+    KnowledgePanelComponent,
+    DiseaseRelevancePanelComponent
   ]
 })
 export class PharosMainRoutingModule { }

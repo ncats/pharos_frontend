@@ -52,6 +52,10 @@ constructor( ) {
      return components;
     }
   }
+
+  getTargetCards(level: string) {
+
+  }
 }
 
 

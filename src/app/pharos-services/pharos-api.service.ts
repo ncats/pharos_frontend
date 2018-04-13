@@ -54,20 +54,19 @@ export class PharosApiService {
   }
 
   private _mergeSources() {
+    let returnedObject = {};
     combineLatest(
       this._detailsSource,
       this._detailsUrlSource,
       (object, details) => {
-        let returnedObject = {};
         if(details.origin) {
-          returnedObject =  {object: object, [details.origin]: details.data};
+          returnedObject[details.origin] = details.data;
         } else {
           returnedObject = {object: object};
         }
         return returnedObject;
       })
       .subscribe((res) => {
-        console.log(res);
         this._dataSource.next(res)
       });
   }
