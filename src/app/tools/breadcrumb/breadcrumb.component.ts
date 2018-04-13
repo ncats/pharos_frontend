@@ -16,7 +16,9 @@ export class BreadcrumbComponent implements OnInit {
   }
 
   isCurrent(link): string {
-    return (this.links.includes(link.toLowerCase()) ? 'disabled' : null);
+    if(link) {
+      return (this.links.includes(link.toLowerCase()) ? 'disabled' : null);
+    }
   }
 
 }

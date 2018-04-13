@@ -50,7 +50,8 @@ describe('VisualizationOptionsComponent', () => {
         FacetTableComponent,
         DonutChartComponent,
         PharosPaginatorComponent,
-        VisualizationOptionsComponent
+        VisualizationOptionsComponent,
+        DataDetailsComponent
       ],
       providers: [
         PathResolverService,

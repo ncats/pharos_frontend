@@ -24,6 +24,7 @@ import {DataListVisualizationsComponent} from '../data-list-visualizations/data-
 import {FacetTableComponent} from '../filter-panel/facet-table/facet-table.component';
 import {APP_BASE_HREF} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {DataDetailsComponent} from "../data-details/data-details.component";
 
 describe('DataListComponent', () => {
   let component: DataListComponent;
@@ -49,7 +50,8 @@ describe('DataListComponent', () => {
         FacetTableComponent,
         DonutChartComponent,
         PharosPaginatorComponent,
-        VisualizationOptionsComponent
+        VisualizationOptionsComponent,
+        DataDetailsComponent
       ],
       providers: [
         PathResolverService,

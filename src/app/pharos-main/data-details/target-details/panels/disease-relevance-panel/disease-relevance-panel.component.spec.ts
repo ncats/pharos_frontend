@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DiseaseRelevancePanelComponent } from './disease-relevance-panel.component';
+import {MaterialModule} from "../../../../../../assets/material/material.module";
+import {SharedModule} from "../../../../../shared/shared.module";
 
 describe('DiseaseRelevancePanelComponent', () => {
   let component: DiseaseRelevancePanelComponent;
@@ -8,6 +10,7 @@ describe('DiseaseRelevancePanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [SharedModule],
       declarations: [ DiseaseRelevancePanelComponent ]
     })
     .compileComponents();

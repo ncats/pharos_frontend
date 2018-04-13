@@ -7,13 +7,13 @@ import {Target} from '../../../../models/target';
   styleUrls: ['./target-header.component.scss']
 })
 export class TargetHeaderComponent implements OnInit {
-@Input() target: Target;
+  @Input() target: Target;
   constructor() { }
 
   ngOnInit() {
   }
 
   getHeaderClass(): string {
-    return this.target.idgTDL.toLowerCase() + '-header';
-}
+      return this.target.idgTDL.toLowerCase() + '-header';
+  }
 }

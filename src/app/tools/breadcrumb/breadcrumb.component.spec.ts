@@ -13,7 +13,6 @@ describe('BreadcrumbComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        BrowserTestingModule,
         SharedModule
       ],
       declarations: [ BreadcrumbComponent ]
@@ -24,7 +23,7 @@ describe('BreadcrumbComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BreadcrumbComponent);
     component = fixture.componentInstance;
-    component.links = ['tim'];
+    component.links = ['targets'];
     fixture.detectChanges();
   });
 

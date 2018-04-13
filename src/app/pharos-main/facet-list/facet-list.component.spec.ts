@@ -24,6 +24,7 @@ import {FacetTableComponent} from '../filter-panel/facet-table/facet-table.compo
 import {APP_BASE_HREF} from '@angular/common';
 import {DataListComponent} from '../data-list/data-list.component';
 import {RouterTestingModule} from '@angular/router/testing';
+import {DataDetailsComponent} from "../data-details/data-details.component";
 
 describe('FacetListComponent', () => {
   let component: FacetListComponent;
@@ -49,7 +50,8 @@ describe('FacetListComponent', () => {
         FacetTableComponent,
         DonutChartComponent,
         PharosPaginatorComponent,
-        VisualizationOptionsComponent
+        VisualizationOptionsComponent,
+        DataDetailsComponent
       ],
       providers: [
         PathResolverService,

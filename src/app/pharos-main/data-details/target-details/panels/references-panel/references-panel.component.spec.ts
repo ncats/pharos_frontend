@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReferencesPanelComponent } from './references-panel.component';
+import {SharedModule} from "../../../../../shared/shared.module";
 
 describe('ReferencesPanelComponent', () => {
   let component: ReferencesPanelComponent;
@@ -8,6 +9,7 @@ describe('ReferencesPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [SharedModule],
       declarations: [ ReferencesPanelComponent ]
     })
     .compileComponents();
