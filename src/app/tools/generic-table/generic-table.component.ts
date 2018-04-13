@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
-import {TableData} from "../../models/table-data";
+import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {TableData} from '../../models/table-data';
 
 @Component({
   selector: 'pharos-generic-table',
@@ -40,15 +40,6 @@ export class GenericTableComponent implements OnInit {
     });
     return ret;
   }
-
-
-  name: string;
-  label?: string;
-  sortable?: boolean;
-  internalLink?: string;
-  externalLink?: string;
-  width?: number;
-  tooltip?: boolean;
 
   fetchTableFields(path: string): void {
     this.fieldColumns = this.fieldsMap.map(field => field.name);

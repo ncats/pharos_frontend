@@ -58,7 +58,6 @@ export class PathResolverService {
   }
 
   mapSelection(facet: any): void {
-    console.log(facet);
     const fields = this._facetMap.get(facet.facet);
     if (fields) {
       fields.push(...facet.fields);

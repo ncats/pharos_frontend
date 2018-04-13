@@ -1,24 +1,24 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import {SharedModule} from "./shared/shared.module";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {AppRoutingModule} from "./app-routing.module";
-import {ToiCardComponent} from "./pharos-dashboard/toi-card/toi-card.component";
-import {ToiDashboardComponent} from "./pharos-dashboard/toi-dashboard/toi-dashboard.component";
-import {PharosDashboardComponent} from "./pharos-dashboard/pharos-dashboard.component";
-import {SearchCardComponent} from "./pharos-dashboard/search-card/search-card.component";
-import {APP_BASE_HREF} from "@angular/common";
-import {LoadingService} from "./pharos-services/loading.service";
-import {PathResolverService} from "./pharos-services/path-resolver.service";
-import {EnvironmentVariablesService} from "./pharos-services/environment-variables.service";
-import {FacetRetrieverService} from "./pharos-main/services/facet-retriever.service";
-import {PharosApiService} from "./pharos-services/pharos-api.service";
-import {ResponseParserService} from "./pharos-services/response-parser.service";
-import {SuggestApiService} from "./tools/search-component/suggest-api.service";
+import {SharedModule} from './shared/shared.module';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AppRoutingModule} from './app-routing.module';
+import {ToiCardComponent} from './pharos-dashboard/toi-card/toi-card.component';
+import {ToiDashboardComponent} from './pharos-dashboard/toi-dashboard/toi-dashboard.component';
+import {PharosDashboardComponent} from './pharos-dashboard/pharos-dashboard.component';
+import {SearchCardComponent} from './pharos-dashboard/search-card/search-card.component';
+import {APP_BASE_HREF} from '@angular/common';
+import {LoadingService} from './pharos-services/loading.service';
+import {PathResolverService} from './pharos-services/path-resolver.service';
+import {EnvironmentVariablesService} from './pharos-services/environment-variables.service';
+import {FacetRetrieverService} from './pharos-main/services/facet-retriever.service';
+import {PharosApiService} from './pharos-services/pharos-api.service';
+import {ResponseParserService} from './pharos-services/response-parser.service';
+import {SuggestApiService} from './tools/search-component/suggest-api.service';
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports:[
+      imports: [
         BrowserAnimationsModule,
         AppRoutingModule,
         SharedModule

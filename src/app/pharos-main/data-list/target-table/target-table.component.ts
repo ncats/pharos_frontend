@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Target} from "../../../models/target";
-import {SelectionModel} from "@angular/cdk/collections";
-import {MatTableDataSource} from "@angular/material";
+import {Target} from '../../../models/target';
+import {SelectionModel} from '@angular/cdk/collections';
+import {MatTableDataSource} from '@angular/material';
 
 @Component({
   selector: 'pharos-target-table',
@@ -20,7 +20,6 @@ export class TargetTableComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource.data = this.data;
-    console.log(this);
   }
 
   changeSort($event): void {

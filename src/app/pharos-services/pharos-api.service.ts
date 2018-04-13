@@ -7,8 +7,8 @@ import {catchError, takeUntil} from 'rxjs/operators';
 import {of} from 'rxjs/observable/of';
 import {ParamMap} from '@angular/router';
 import {EnvironmentVariablesService} from './environment-variables.service';
-import {combineLatest} from "rxjs/observable/combineLatest";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {combineLatest} from 'rxjs/observable/combineLatest';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 
 @Injectable()
@@ -26,6 +26,11 @@ export class PharosApiService {
     this._mergeSources();
   }
 
+  /**
+   * @param {string} path The url sub path 'targets', diseases', 'ligands' etc.
+   * @param {ParamMap} params The angular router parameters generated in subcomponents includes query, facet, sort and paging information.
+   * @returns void
+   */
   getData(path: string, params: ParamMap): void {
     const url = this._mapParams(path, params);
     this.http.get<any>(url)
@@ -40,7 +45,7 @@ export class PharosApiService {
       .pipe(
         catchError(this.handleError('getDetails', []))
       ).subscribe(response => {
-      this._detailsSource.next(response)
+      this._detailsSource.next(response);
     });
   }
 
@@ -49,7 +54,7 @@ export class PharosApiService {
       .pipe(
         catchError(this.handleError('getDetails', []))
       ).subscribe(response => {
-      this._detailsUrlSource.next({origin: origin, data: response})
+      this._detailsUrlSource.next({origin: origin, data: response});
     });
   }
 
@@ -59,7 +64,7 @@ export class PharosApiService {
       this._detailsSource,
       this._detailsUrlSource,
       (object, details) => {
-        if(details.origin) {
+        if (details.origin) {
           returnedObject[details.origin] = details.data;
         } else {
           returnedObject = {object: object};
@@ -67,7 +72,7 @@ export class PharosApiService {
         return returnedObject;
       })
       .subscribe((res) => {
-        this._dataSource.next(res)
+        this._dataSource.next(res);
       });
   }
 

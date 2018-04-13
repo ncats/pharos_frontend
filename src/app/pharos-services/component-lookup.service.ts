@@ -1,5 +1,5 @@
 import {Injectable, InjectionToken, Type} from '@angular/core';
-import {EnvironmentVariablesService} from "../pharos-services/environment-variables.service";
+import {EnvironmentVariablesService} from '../pharos-services/environment-variables.service';
 
 @Injectable()
 export class ComponentLookupService {

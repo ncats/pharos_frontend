@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Target} from "../../../../../models/target";
-import {Publication} from "../../../../../models/publication";
+import {Target} from '../../../../../models/target';
+import {Publication} from '../../../../../models/publication';
 
 @Component({
   selector: 'pharos-tdark-viewer',
@@ -13,7 +13,6 @@ export class TdarkViewerComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this);
   }
 
 }

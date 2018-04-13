@@ -7,9 +7,9 @@ import { takeUntil} from 'rxjs/operators';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {SelectionModel} from '@angular/cdk/collections';
-import {CustomContentDirective} from "../../tools/custom-content.directive";
-import {ComponentInjectorService} from "../../pharos-services/component-injector.service";
-import {ComponentLookupService} from "../../pharos-services/component-lookup.service";
+import {CustomContentDirective} from '../../tools/custom-content.directive';
+import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
+import {ComponentLookupService} from '../../pharos-services/component-lookup.service';
 
 
 const navigationExtras: NavigationExtras = {
@@ -65,7 +65,6 @@ export class DataListComponent implements OnInit, OnDestroy {
         this.dynamicComponent = this.componentInjectorService.injectComponent(this.componentHost, dynamicComponentToken);
         this.dynamicComponent.instance.data = res;
         this.dynamicComponent.instance.sortChange.subscribe((event) => {
-          console.log(event);
           this.sortTable(event);
           // todo sort arrows are not staying after column select
         });

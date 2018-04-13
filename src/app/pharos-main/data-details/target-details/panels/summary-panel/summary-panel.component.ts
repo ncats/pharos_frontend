@@ -10,8 +10,6 @@ export class SummaryPanelComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this);
-   // this.data.subscribe(res => this.summary = res)
   }
 
 }

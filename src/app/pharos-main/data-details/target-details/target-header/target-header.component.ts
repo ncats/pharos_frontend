@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Target} from "../../../../models/target";
+import {Target} from '../../../../models/target';
 
 @Component({
   selector: 'pharos-target-header',
@@ -11,10 +11,9 @@ export class TargetHeaderComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this);
   }
 
   getHeaderClass(): string {
-    return this.target.idgTDL.toLowerCase()+'-header';
+    return this.target.idgTDL.toLowerCase() + '-header';
 }
 }

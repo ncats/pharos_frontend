@@ -185,7 +185,6 @@ export class PharosPaginatorComponent implements OnInit, OnDestroy {
   }
 
   goToPage(page: number) {
-    console.log(page);
     this.pageIndex = page - 1;
     this._emitPageEvent();
   }

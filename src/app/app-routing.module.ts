@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {ToiDashboardComponent} from './pharos-dashboard/toi-dashboard/toi-dashboard.component';
 import {PharosDashboardComponent} from './pharos-dashboard/pharos-dashboard.component';
-import {LocationStrategy, PathLocationStrategy} from "@angular/common";
-import {IdgLevelIndicatorComponent} from "./tools/idg-level-indicator/idg-level-indicator.component";
+import {LocationStrategy, PathLocationStrategy} from '@angular/common';
+import {IdgLevelIndicatorComponent} from './tools/idg-level-indicator/idg-level-indicator.component';
 
 
 

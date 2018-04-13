@@ -16,7 +16,7 @@ describe('DonutChartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DonutChartComponent);
     component = fixture.componentInstance;
-    component.data =[{label: 'tim', count: 666}]
+    component.data = [{label: 'tim', count: 666}];
     fixture.detectChanges();
   });
 

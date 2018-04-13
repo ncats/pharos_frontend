@@ -1,11 +1,11 @@
 import {Component, ComponentFactoryResolver, Inject, Injector, OnDestroy, OnInit, Type, ViewChild} from '@angular/core';
-import {takeUntil} from "rxjs/operators";
-import {ResponseParserService} from "../../pharos-services/response-parser.service";
-import {Subject} from "rxjs/Subject";
-import {CustomContentDirective} from "../../tools/custom-content.directive";
-import {ActivatedRoute} from "@angular/router";
-import {ComponentLookupService} from "../../pharos-services/component-lookup.service";
-import {ComponentInjectorService} from "../../pharos-services/component-injector.service";
+import {takeUntil} from 'rxjs/operators';
+import {ResponseParserService} from '../../pharos-services/response-parser.service';
+import {Subject} from 'rxjs/Subject';
+import {CustomContentDirective} from '../../tools/custom-content.directive';
+import {ActivatedRoute} from '@angular/router';
+import {ComponentLookupService} from '../../pharos-services/component-lookup.service';
+import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
 
 @Component({
   selector: 'pharos-data-details',

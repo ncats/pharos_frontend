@@ -1,5 +1,4 @@
-import {ComponentFactoryResolver, Injectable, Injector, Type} from "@angular/core";
-import {EnvironmentVariablesService} from "./environment-variables.service";
+import {ComponentFactoryResolver, Injectable, InjectionToken, Injector, Type} from '@angular/core';
 
 @Injectable()
 export class ComponentInjectorService {
@@ -20,8 +19,8 @@ export class ComponentInjectorService {
     return viewContainerRef.createComponent(componentFactory);
   }
 
-  getComponentToken(componentHost: any, token: any): Type<any> {
-    return this._injector.get(token);
+  getComponentToken(componentHost: any, token: InjectionToken<any>): Type<any> {
+    return this._injector.get<Type<any>>(token);
   }
 
 }

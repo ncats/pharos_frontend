@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Term} from "../../models/term";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {takeWhile} from "rxjs/operators";
+import {Term} from '../../models/term';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {takeWhile} from 'rxjs/operators';
 
 @Component({
   selector: 'pharos-term-display',
@@ -20,7 +20,7 @@ export class TermDisplayComponent implements OnInit {
     console.log(value);
     // set the latest value for _data BehaviorSubject
     this._data.next(value);
-  };
+  }
 
   get term() {
     // get the latest value from _data BehaviorSubject

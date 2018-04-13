@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Target} from "../../../../../models/target";
+import {Target} from '../../../../../models/target';
 
 @Component({
   selector: 'pharos-disease-relevance-panel',
@@ -8,7 +8,7 @@ import {Target} from "../../../../../models/target";
 })
 export class DiseaseRelevancePanelComponent implements OnInit {
   @Input() target: Target;
-  width: number = 30;
+  width = 30;
   constructor() { }
 
   ngOnInit() {

@@ -118,7 +118,6 @@ export class DonutChartComponent implements OnInit, OnChanges {
     const firstSlice = d3.select('.slices').selectAll('path.slice').data()[0];
     // .data(pie(this.data), 0);
 
-    console.log(firstSlice);
     this.addTooltip(div, firstSlice, color);
   }
 
