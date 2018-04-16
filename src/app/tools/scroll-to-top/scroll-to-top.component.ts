@@ -17,6 +17,7 @@ export class ScrollToTopComponent implements OnInit {
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
+    // todo: work around window api for angular universal
     if (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop > 100) {
       this.navIsFixed = true;
     } else if (this.navIsFixed && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop < 10) {

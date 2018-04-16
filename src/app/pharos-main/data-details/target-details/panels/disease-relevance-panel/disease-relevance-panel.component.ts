@@ -8,7 +8,7 @@ import {Target} from '../../../../../models/target';
 })
 export class DiseaseRelevancePanelComponent implements OnInit {
   @Input() target: Target;
-  width = 30;
+  @Input() width: number = 30;
   constructor() { }
 
   ngOnInit() {

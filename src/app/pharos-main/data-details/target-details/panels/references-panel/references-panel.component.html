@@ -1,18 +1,9 @@
-<mat-card>
+<mat-card fxFlex= {{getWidth()}}>
   <mat-card-header>
     <mat-card-title ><span class="mat-title"> Text Mined References ({{dataSource?.data?.length}})</span></mat-card-title>
   </mat-card-header>
   <mat-card-content>
 <mat-table [dataSource]="dataSource" matSort>
-  <!--<ng-container matColumnDef="list-select">
-    <mat-header-cell *matHeaderCellDef> Compare </mat-header-cell>
-    <mat-cell *matCellDef="let row" class="col2">
-      <mat-checkbox (click)="$event.stopPropagation()"
-                    (change)="$event ? rowSelection.toggle(row) : null"
-                    [checked]="rowSelection.isSelected(row)">
-      </mat-checkbox>
-    </mat-cell>
-  </ng-container>-->
   <ng-container matColumnDef="pmid">
     <mat-header-cell *matHeaderCellDef>PMID</mat-header-cell>
     <mat-cell *matCellDef="let row">
@@ -38,3 +29,4 @@
 </mat-table>
   </mat-card-content>
 </mat-card>
+<br>

@@ -11,9 +11,15 @@ export class ReferencesPanelComponent implements OnInit {
   data: Publication[];
   displayColumns: string[] = ['pmid', 'year', 'title'];
   dataSource = new MatTableDataSource<any>(this.data);
+  width: number = 30;
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  getWidth(): number{
+    console.log(this.width);
+    return this.width;
   }
 }

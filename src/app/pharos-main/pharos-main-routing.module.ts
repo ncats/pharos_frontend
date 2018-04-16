@@ -15,9 +15,9 @@ import {TargetHeaderComponent} from './data-details/target-details/target-header
 import {SharedModule} from '../shared/shared.module';
 import { DiseaseTableComponent} from './data-list/disease-table/disease-table.component';
 import {
-DISEASE_RELEVANCE_PANEL,
-DISEASE_TABLE_COMPONENT, KNOWLEDGE_PANEL, REFERENCES_PANEL, SUMMARY_PANEL, TARGET_DETAILS_COMPONENT,
-TARGET_TABLE_COMPONENT, TBIO_DETAILS, TCHEM_DETAILS, TCLIN_DETAILS, TDARK_DETAILS
+  DISEASE_RELEVANCE_PANEL,
+  DISEASE_TABLE_COMPONENT, EXPRESSION_PANEL, KNOWLEDGE_PANEL, REFERENCES_PANEL, SUMMARY_PANEL, TARGET_DETAILS_COMPONENT,
+  TARGET_TABLE_COMPONENT, TBIO_DETAILS, TCHEM_DETAILS, TCLIN_DETAILS, TDARK_DETAILS
 } from '../../environments/environment.prod';
 import {
   ReferencesPanelComponent
@@ -29,6 +29,7 @@ import {KnowledgePanelComponent} from './data-details/target-details/panels/know
 import {
   DiseaseRelevancePanelComponent
 } from './data-details/target-details/panels/disease-relevance-panel/disease-relevance-panel.component';
+import {ExpressionPanelComponent} from "./data-details/target-details/panels/expression-panel/expression-panel.component";
 
 const pharosMainRoutes: Routes = [
   {
@@ -71,7 +72,8 @@ const pharosMainRoutes: Routes = [
     { provide: SUMMARY_PANEL, useValue: SummaryPanelComponent },
     { provide: KNOWLEDGE_PANEL, useValue: KnowledgePanelComponent },
     { provide: REFERENCES_PANEL, useValue: ReferencesPanelComponent },
-    { provide: DISEASE_RELEVANCE_PANEL, useValue: DiseaseRelevancePanelComponent }
+    { provide: DISEASE_RELEVANCE_PANEL, useValue: DiseaseRelevancePanelComponent },
+    { provide: EXPRESSION_PANEL, useValue: ExpressionPanelComponent }
   ],
   entryComponents: [
     TargetTableComponent,
@@ -85,7 +87,8 @@ const pharosMainRoutes: Routes = [
     TargetHeaderComponent,
     DiseaseTableComponent,
     DiseaseRelevancePanelComponent,
-    KnowledgePanelComponent
+    KnowledgePanelComponent,
+    ExpressionPanelComponent
   ],
   declarations: [
     TargetTableComponent,
@@ -100,7 +103,8 @@ const pharosMainRoutes: Routes = [
     DiseaseTableComponent,
     DiseaseSourcesPanelComponent,
     KnowledgePanelComponent,
-    DiseaseRelevancePanelComponent
+    DiseaseRelevancePanelComponent,
+    ExpressionPanelComponent
   ]
 })
 export class PharosMainRoutingModule { }

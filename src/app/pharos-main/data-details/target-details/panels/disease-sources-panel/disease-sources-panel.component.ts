@@ -8,6 +8,7 @@ import {Target} from '../../../../../models/target';
 })
 export class DiseaseSourcesPanelComponent implements OnInit {
 @Input() target: Target;
+  width = 30;
   constructor() { }
 
   ngOnInit() {

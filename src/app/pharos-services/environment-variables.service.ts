@@ -44,8 +44,6 @@ constructor( ) {
   }
 
   getComponents(path: string, subpath?: string) {
-  console.log(this._environment);
-  console.log(path);
     const components = this._environment[path].components;
     if (this._pathExists(path) && subpath) {
       const value = subpath.split('.').reduce((a, b) => a[b], components);

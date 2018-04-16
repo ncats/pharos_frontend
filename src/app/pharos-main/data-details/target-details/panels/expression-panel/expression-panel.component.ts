@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./expression-panel.component.css']
 })
 export class ExpressionPanelComponent implements OnInit {
-
+  width: number = 30;
   constructor() { }
 
   ngOnInit() {

@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./knowledge-panel.component.css']
 })
 export class KnowledgePanelComponent implements OnInit {
+  width = 30;
 
   constructor() { }
 

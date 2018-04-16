@@ -42,14 +42,13 @@ export class TargetDetailsComponent implements OnInit {
     this.target = this.data.object;
     this.references = this.data.references;
     if(this.path) {
-      console.log(this.path);
       const token: any = this.componentLookupService.lookupByPath(this.path, this.target.idgTDL.toLowerCase());
-      // todo : this component might be needed to pass the data to the child components - see setData() below
-      //  const dynamicComponentToken = this.componentInjectorService.getComponentToken(this.componentHost, token.main);
-      //  this.dynamicComponent = this.componentInjectorService.injectComponent(this.componentHost, dynamicComponentToken);
         token.components.forEach(component => {
           const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(this.componentHost, component.token);
           const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
+          if(component.width){
+            childComponent.instance.width = component.width;
+          }
           component.api.forEach(apiCall => {
             // todo this can be removed once all the fields are filled out (or left in for safety)
             if (apiCall.url.length > 0) {
