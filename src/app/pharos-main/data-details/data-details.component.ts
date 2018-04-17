@@ -1,4 +1,4 @@
-import {Component, ComponentFactoryResolver, Inject, Injector, OnDestroy, OnInit, Type, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {Subject} from 'rxjs/Subject';
@@ -11,6 +11,7 @@ import {ComponentInjectorService} from '../../pharos-services/component-injector
   selector: 'pharos-data-details',
   templateUrl: './data-details.component.html',
   styleUrls: ['./data-details.component.css']
+
 })
 export class DataDetailsComponent implements OnInit, OnDestroy {
   data: any = {};
@@ -18,6 +19,7 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
   dynamicComponent: any;
   private ngUnsubscribe: Subject<any> = new Subject();
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
+
 
 
   constructor(
@@ -30,9 +32,6 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
-
-
     this.responseParserService.detailsData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {

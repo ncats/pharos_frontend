@@ -1,23 +1,19 @@
 import {
-  Component, ComponentFactoryResolver, forwardRef, Inject, InjectionToken, Injector, Input, OnInit, Type,
-  ViewChild
+  Component, forwardRef, Inject, Injector, Input, OnInit, Type,
+  ViewChild, ViewEncapsulation
 } from '@angular/core';
 import {Target} from '../../../models/target';
 import {CustomContentDirective} from '../../../tools/custom-content.directive';
 import {Publication} from '../../../models/publication';
-import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {DataDetailsResolver} from '../../services/data-details.resolver';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
 import {ComponentLookupService} from '../../../pharos-services/component-lookup.service';
-import {subscribeToResult} from 'rxjs/util/subscribeToResult';
-import {Observable} from 'rxjs/Observable';
-import {of} from 'rxjs/observable/of';
 import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'pharos-target-details',
   templateUrl: './target-details.component.html',
-  styleUrls: ['./target-details.component.css'],
+  styleUrls: ['./target-details.component.css']
 
 })
 
@@ -46,6 +42,8 @@ export class TargetDetailsComponent implements OnInit {
         token.components.forEach(component => {
           const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(this.componentHost, component.token);
           const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
+          console.log(this.componentHost);
+          console.log(childComponent);
           if(component.width){
             childComponent.instance.width = component.width;
           }

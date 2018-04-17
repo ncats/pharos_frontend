@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnInit, SimpleChange} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit, SimpleChange, ViewEncapsulation} from '@angular/core';
 import {MatTableDataSource} from '@angular/material';
 import {Publication} from '../../../../../models/publication';
 
@@ -11,15 +11,10 @@ export class ReferencesPanelComponent implements OnInit {
   data: Publication[];
   displayColumns: string[] = ['pmid', 'year', 'title'];
   dataSource = new MatTableDataSource<any>(this.data);
-  width: number = 30;
+  width: number;
 
   constructor() { }
 
   ngOnInit() {
-  }
-
-  getWidth(): number{
-    console.log(this.width);
-    return this.width;
   }
 }

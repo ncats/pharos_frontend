@@ -9,7 +9,6 @@ import {takeWhile} from 'rxjs/operators';
   styleUrls: ['./term-display.component.css']
 })
 export class TermDisplayComponent implements OnInit {
- // @Input() term: Term;
 
   // initialize a private variable _data, it's a BehaviorSubject
   private _data = new BehaviorSubject<Term>(null);
@@ -28,19 +27,13 @@ export class TermDisplayComponent implements OnInit {
   }
 
   ngOnInit() {
-    // now we can subscribe to it, whenever input changes,
-    // we will run our grouping logic
+    // now we can subscribe to it
     this._data
-    // add this line
-    // listen to data as long as groupPosts is undefined or null
-    // Unsubscribe once groupPosts has value
+    // listen to data as long as term is undefined or null
+    // Unsubscribe once term has value
       .pipe(
         takeWhile(() => !this.term)
       )
-      .subscribe(x => {
-        console.log(x);
-
-     //   this.groupPosts = this.groupByCategory(this.data);
-      });
+      .subscribe(x => x);
   }
 }
