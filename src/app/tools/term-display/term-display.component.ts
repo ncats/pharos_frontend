@@ -16,7 +16,6 @@ export class TermDisplayComponent implements OnInit {
   // change data to use getter and setter
   @Input()
   set term(value: Term) {
-    console.log(value);
     // set the latest value for _data BehaviorSubject
     this._data.next(value);
   }

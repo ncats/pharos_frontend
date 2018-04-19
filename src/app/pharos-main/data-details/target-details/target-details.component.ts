@@ -45,25 +45,33 @@ export class TargetDetailsComponent implements OnInit {
           if(component.width){
             childComponent.instance.width = component.width;
           }
+          const childData: any = {};
           component.api.forEach(apiCall => {
             // todo this can be removed once all the fields are filled out (or left in for safety)
             if (apiCall.url.length > 0) {
+              // todo maybe set this as a merge map so all api calls go out as one instead of iterating
               // this call is pushed up to the pharos api and changes are subscribed to in the generic details page, then set here
               // currently, this doesn't allow the data to be set on the child components...
               this.dataDetailsResolver.getDetailsByUrl(apiCall.url.replace('_id_', this.target.id), apiCall.field);
               this.data$.subscribe(res => {
+         /*       console.log(res);
                 if (childComponent.instance.data) {
                   childComponent.instance.data[apiCall.field] = res[apiCall.field];
                 } else {
                   childComponent.instance.data = {};
                   childComponent.instance.data[apiCall.field] = res[apiCall.field];
-                }
+                }*/
                 if (childComponent.instance.dataSource) {
                   childComponent.instance.dataSource.data = res[apiCall.field];
+                }else {
+                  childData[apiCall.field] = res[apiCall.field]
                 }
               });
             }
           });
+          console.log(childData);
+          // wait until all api calls are finished
+          childComponent.instance.data = childData;
         });
       }
   }
