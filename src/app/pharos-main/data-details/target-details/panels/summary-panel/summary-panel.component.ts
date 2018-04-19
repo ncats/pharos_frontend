@@ -1,5 +1,5 @@
-import {Component, HostBinding, Input, OnInit, ViewEncapsulation} from '@angular/core';
-import {map, takeUntil, takeWhile} from "rxjs/operators";
+import {Component, HostBinding, Input, OnInit, SimpleChange, ViewEncapsulation} from '@angular/core';
+import {finalize, map, takeUntil, takeWhile} from "rxjs/operators";
 import {Term} from "../../../../../models/term";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Subject} from "rxjs/Subject";
@@ -15,13 +15,14 @@ export class SummaryPanelComponent implements OnInit {
   private ngUnsubscribe: Subject<any> = new Subject();
   @Input() width: number = 30;
 
+  timelines = [];
+
   // initialize a private variable _data, it's a BehaviorSubject
   private _data = new BehaviorSubject<any>(null);
 
 // change data to use getter and setter
   @Input()
   set data(value: any) {
-    console.log(value);
     // set the latest value for _data BehaviorSubject
     this._data.next(value);
     this.loaded = true;
@@ -42,31 +43,34 @@ ngOnInit() {
   // now we can subscribe to it
   this._data
     .pipe(
-      takeUntil(this.ngUnsubscribe),
-        map(res => {
-          console.log(res);
-          return res;
-        })
+      finalize( () => {
+        console.log("finally");
+        console.log(this);
+        }
+      )
     )
     .subscribe(parentData => {
-      console.log(parentData);
-      if(parentData ){
-        console.log(parentData.timelines);
-        this.data.timelines.forEach(timeline => {
-          console.log(timeline);
-          if(timeline.href){
-            this._http.get<any>(timeline.href).subscribe(res => {
-              console.log(res);
-              this.data[res.name] = res;
-            })
-          }
-        })
+      // todo: this is terrible kill it with fire asap
+      if(parentData && parentData.timelines ) {
+        if (this.timelines.length < parentData.timelines.length) {
+          parentData.timelines.forEach(timeline => {
+            if (timeline.href) {
+              this._http.get<any>(timeline.href).subscribe(res => {
+                this.timelines.push({[res.name]: res});
+                this.timelines = Array.from(new Set(this.timelines));
+              })
+            }
+          })
+        }
       }
+      this.mapData();
       return parentData;
     });
-
   console.log(this);
+}
 
+mapData() {
+   // console.log(this.timelines);
 }
 
   ngOnDestroy() {

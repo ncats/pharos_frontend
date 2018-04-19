@@ -1,0 +1,11 @@
+.d3-chart {
+  margin: 0 auto;
+  width: 30vw;
+  height:250px;
+}
+
+/* Add shadow effect to chart. If you don't like it, get rid of it. */
+svg {
+  -webkit-filter: drop-shadow( 0px 3px 3px rgba(0,0,0,.3) );
+  filter: drop-shadow( 0px 3px 3px rgba(0,0,0,.25) );
+}
