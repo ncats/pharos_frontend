@@ -9,7 +9,7 @@ import {takeWhile} from 'rxjs/operators';
   styleUrls: ['./term-display.component.css']
 })
 export class TermDisplayComponent implements OnInit {
-
+  @Input() showLabel = true;
   // initialize a private variable _data, it's a BehaviorSubject
   private _data = new BehaviorSubject<Term>(null);
 

@@ -3,27 +3,40 @@
     <mat-card-title ><span class="mat-title">Target Summary</span></mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div *ngIf="data?.synonyms?.length > 0">
+    <ng-container *ngIf="data?.synonyms?.length > 0">
     <mat-card-subtitle>Synonyms</mat-card-subtitle>
-    <div *ngFor=" let term of data.synonyms">
-    <pharos-term-display [term]=term></pharos-term-display>
-    </div>
-    </div>
-<br>
-    <div *ngIf="data.symbol?.length > 0">
-    <mat-card-subtitle>Symbol</mat-card-subtitle>
-    <div *ngFor=" let term of [data.symbol]">
-    <pharos-term-display [term]=term></pharos-term-display>
-    </div>
-    </div>
-<br>
-    <div *ngIf="[data.gene]?.length > 0">
-    <mat-card-subtitle>NCBI Gene</mat-card-subtitle>
-    <div *ngFor=" let term of [data.gene]">
-      <pharos-term-display [term]=term></pharos-term-display>
-    </div>
-    </div>
-    <br>
+      <ul class = "inline-list">
+      <li *ngFor=" let term of data.synonyms">
+    <pharos-term-display [term]=term [showLabel]="false"></pharos-term-display><br>
+    </li>
+      </ul>
+    </ng-container>
+    <ng-container *ngIf="data.symbol?.length > 0">
+      <br>
+      <mat-card-subtitle>Symbol</mat-card-subtitle>
+      <ul class = "inline-list">
+    <li *ngFor=" let term of [data.symbol]">
+    <pharos-term-display [term]=term  [showLabel]="false"></pharos-term-display>
+    </li>
+      </ul>
+    </ng-container>
+    <ng-container *ngIf="[data.gene]?.length > 0">
+      <br>
+      <mat-card-subtitle>NCBI Gene</mat-card-subtitle>
+      <ul class = "inline-list">
+    <li *ngFor=" let term of [data.gene]">
+      <pharos-term-display [term]=term  [showLabel]="false"></pharos-term-display>
+    </li>
+      </ul>
+    </ng-container>
+    <ng-container *ngIf="data.pubmed">
+      <br>
+      <mat-card-subtitle>NCBI Gene PubMed Count</mat-card-subtitle>
+    <ul class ="inline-list">
+      <li>{{data?.pubmed?.intval}}</li>
+    </ul>
+    </ng-container>
+
     <!--<div *ngIf="[data.gene].length > 0">
     <mat-card-subtitle>NCBI Gene</mat-card-subtitle>
     <div *ngFor=" let term of [data.gene]">
@@ -48,3 +61,19 @@
   </mat-card-content>
 </mat-card>
 <br>
+
+
+<!--
+"Table summarizing target characteristics tallied by Pharos.
+Antibody counts from Antibodypedia,
+EBI Total Patent Count,
+Monoclonal Antibody count from Antibodypedia,
+NCBI Gene PubMed Count,
+Grant Count,
+R01 Count,
+Funding ($) from NIH,
+JensenLab PubMed Score and
+temporal graph">
+
+
+-->

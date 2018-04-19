@@ -1,5 +1,5 @@
 <div *ngIf="term">
-<span class=""><b>{{term.label}}</b></span>
+<span class="" *ngIf="showLabel"><b>{{term.label}}</b></span>
 <span *ngIf="term.href; else nolink">
 <a href = {{term.href}} target="_blank">{{term.term}}</a>
   </span>

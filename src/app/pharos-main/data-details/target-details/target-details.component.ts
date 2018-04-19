@@ -42,8 +42,6 @@ export class TargetDetailsComponent implements OnInit {
         token.components.forEach(component => {
           const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(this.componentHost, component.token);
           const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
-          console.log(this.componentHost);
-          console.log(childComponent);
           if(component.width){
             childComponent.instance.width = component.width;
           }

@@ -5,20 +5,20 @@
   <mat-card-content>
 <mat-table [dataSource]="dataSource" matSort>
   <ng-container matColumnDef="pmid">
-    <mat-header-cell *matHeaderCellDef>PMID</mat-header-cell>
-    <mat-cell *matCellDef="let row">
+    <mat-header-cell *matHeaderCellDef class="width10">PMID</mat-header-cell>
+    <mat-cell class="width10" *matCellDef="let row">
       <a href ="pubmed" >{{row.pmid}} </a>
     </mat-cell>
   </ng-container>
   <ng-container matColumnDef="year">
-    <mat-header-cell *matHeaderCellDef>Year</mat-header-cell>
-    <mat-cell *matCellDef="let row">
+    <mat-header-cell class="width10" *matHeaderCellDef>Year</mat-header-cell>
+    <mat-cell class="width10" *matCellDef="let row">
       {{row.year}}
     </mat-cell>
   </ng-container>
   <ng-container matColumnDef="title">
-    <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
-    <mat-cell *matCellDef="let row">
+    <mat-header-cell class ="width80" *matHeaderCellDef>Title</mat-header-cell>
+    <mat-cell class ="width80" *matCellDef="let row">
       {{row.title}}
     </mat-cell>
   </ng-container>
