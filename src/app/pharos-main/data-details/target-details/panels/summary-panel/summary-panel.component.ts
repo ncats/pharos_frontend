@@ -41,13 +41,9 @@ export class SummaryPanelComponent implements OnInit {
   constructor(private _http: HttpClient) { }
 ngOnInit() {
   // now we can subscribe to it
+  // data is only set once, as an object. the properties are modified though
   this._data
     .pipe(
-      finalize( () => {
-        console.log("finally");
-        console.log(this);
-        }
-      )
     )
     .subscribe(parentData => {
       // todo: this is terrible kill it with fire asap
@@ -56,21 +52,26 @@ ngOnInit() {
           parentData.timelines.forEach(timeline => {
             if (timeline.href) {
               this._http.get<any>(timeline.href).subscribe(res => {
-                this.timelines.push({[res.name]: res});
-                this.timelines = Array.from(new Set(this.timelines));
+                this.timelines.push(res);
+                this.timelines = this.timelines.filter((tl, index, arr) =>
+                  index === arr.findIndex((t) => (
+                    t.id === tl.id
+                  ))
+                )
               })
             }
           })
         }
+
       }
-      this.mapData();
       return parentData;
     });
   console.log(this);
 }
 
-mapData() {
-   // console.log(this.timelines);
+
+getTimeline(field : string): any {
+  return this.timelines.filter(tl => tl.name === field);
 }
 
   ngOnDestroy() {

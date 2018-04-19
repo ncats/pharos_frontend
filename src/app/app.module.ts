@@ -15,7 +15,6 @@ import { SearchCardComponent } from './pharos-dashboard/search-card/search-card.
 import {SuggestApiService} from './tools/search-component/suggest-api.service';
 import {SharedModule} from './shared/shared.module';
 import {ComponentLookupService} from './pharos-services/component-lookup.service';
-import { LineChartComponent } from './pharos-main/visualizations/line-chart/line-chart.component';
 
 
 @NgModule({
@@ -24,8 +23,7 @@ import { LineChartComponent } from './pharos-main/visualizations/line-chart/line
     ToiDashboardComponent,
     ToiCardComponent,
     PharosDashboardComponent,
-    SearchCardComponent,
-    LineChartComponent
+    SearchCardComponent
 
   ],
   imports: [

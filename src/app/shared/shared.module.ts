@@ -15,6 +15,7 @@ import {ComponentInjectorService} from '../pharos-services/component-injector.se
 import {ComponentLookupService} from '../pharos-services/component-lookup.service';
 import {GenericTableComponent} from '../tools/generic-table/generic-table.component';
 import {TermDisplayComponent} from '../tools/term-display/term-display.component';
+import {LineChartComponent} from "../pharos-main/visualizations/line-chart/line-chart.component";
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import {TermDisplayComponent} from '../tools/term-display/term-display.component
     CustomContentDirective,
     IdgLevelIndicatorComponent,
     GenericTableComponent,
-    TermDisplayComponent
+    TermDisplayComponent,
+    LineChartComponent
   ],
   providers: [
     ComponentLookupService,
@@ -51,7 +53,8 @@ import {TermDisplayComponent} from '../tools/term-display/term-display.component
     CustomContentDirective,
     IdgLevelIndicatorComponent,
     GenericTableComponent,
-    TermDisplayComponent
+    TermDisplayComponent,
+    LineChartComponent
   ]
 })
 export class SharedModule { }
