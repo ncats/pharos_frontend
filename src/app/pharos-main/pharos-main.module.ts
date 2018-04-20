@@ -18,6 +18,10 @@ import { FacetListComponent } from './facet-list/facet-list.component';
 import {
   VisualizationOptionsComponent
 } from './data-list-visualizations/visualization-options/visualization-options.component';
+import { DiseaseSourceComponent } from './data-details/target-details/panels/disease-source/disease-source.component';
+import { PatentPanelComponent } from './data-details/target-details/panels/patent-panel/patent-panel.component';
+import { OrthologPanelComponent } from './data-details/target-details/panels/ortholog-panel/ortholog-panel.component';
+import { FacetsPanelComponent } from './data-details/target-details/panels/facets-panel/facets-panel.component';
 
 @NgModule({
   imports: [
@@ -39,7 +43,11 @@ import {
     WordCloudChartComponent,
     SunburstChartComponent,
     VisualizationOptionsComponent,
-    DataDetailsComponent
+    DataDetailsComponent,
+    DiseaseSourceComponent,
+    PatentPanelComponent,
+    OrthologPanelComponent,
+    FacetsPanelComponent
   ]
 })
 export class PharosMainModule { }

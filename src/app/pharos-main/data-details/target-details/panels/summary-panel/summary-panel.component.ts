@@ -4,6 +4,7 @@ import {Term} from "../../../../../models/term";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Subject} from "rxjs/Subject";
 import {HttpClient} from "@angular/common/http";
+import {Value} from "../../../../../models/value";
 
 @Component({
   selector: 'pharos-summary-panel',
@@ -14,8 +15,11 @@ export class SummaryPanelComponent implements OnInit {
   loaded = false;
   private ngUnsubscribe: Subject<any> = new Subject();
   @Input() width: number = 30;
-
-  timelines = [];
+  synonyms: Term[];
+  symbol: Term[];
+  gene: Term;
+  pubmed: Value;
+  timelines: any[] = [];
 
   // initialize a private variable _data, it's a BehaviorSubject
   private _data = new BehaviorSubject<any>(null);
@@ -40,6 +44,7 @@ export class SummaryPanelComponent implements OnInit {
 // todo: remove these http calls after api is fixed
   constructor(private _http: HttpClient) { }
 ngOnInit() {
+    console.log(this);
   // now we can subscribe to it
   // data is only set once, as an object. the properties are modified though
   this._data

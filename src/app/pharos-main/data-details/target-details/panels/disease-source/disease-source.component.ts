@@ -1,19 +1,16 @@
 import {Component, HostBinding, Input, OnInit} from '@angular/core';
-import {Target} from '../../../../../models/target';
-import {DiseaseRelevance} from "../../../../../models/disease-relevance";
-import {Term} from "../../../../../models/term";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {takeUntil, takeWhile} from "rxjs/operators";
 import {Subject} from "rxjs/Subject";
-import {Property} from "../../../../../models/property";
+import {DiseaseRelevance} from "../../../../../models/disease-relevance";
 import {TableData} from "../../../../../models/table-data";
+import {takeUntil} from "rxjs/operators";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Component({
-  selector: 'pharos-disease-relevance-panel',
-  templateUrl: './disease-relevance-panel.component.html',
-  styleUrls: ['./disease-relevance-panel.component.css']
+  selector: 'pharos-disease-source',
+  templateUrl: './disease-source.component.html',
+  styleUrls: ['./disease-source.component.css']
 })
-export class DiseaseRelevancePanelComponent implements OnInit {
+export class DiseaseSourceComponent implements OnInit {
   sourceMap : Map<string, DiseaseRelevance[]> = new Map<string, DiseaseRelevance[]>();
   sources: string[];
   @Input() width: number = 30;
@@ -27,12 +24,12 @@ export class DiseaseRelevancePanelComponent implements OnInit {
 
   // change data to use getter and setter
   @Input()
-  set diseaseRelevance(value: DiseaseRelevance[]) {
+  set diseaseSources(value: DiseaseRelevance[]) {
     // set the latest value for _data BehaviorSubject
     this._data.next(value);
   }
 
-  get diseaseRelevance() {
+  get diseaseSources() {
     // get the latest value from _data BehaviorSubject
     return this._data.getValue();
   }
@@ -56,7 +53,7 @@ export class DiseaseRelevancePanelComponent implements OnInit {
   mapSources(): void {
     // todo - clear map because the api is returning or getting set twice
     this.sourceMap.clear();
-    this.diseaseRelevance.forEach(rel => {
+    this.diseaseSources.forEach(rel => {
       let labelProp: string = rel.properties.filter(prop => prop.label ==='Data Source').map(lab => lab['term'])[0];
       const temp: DiseaseRelevance[] = this.sourceMap.get(labelProp);
       if (temp) {
@@ -74,6 +71,19 @@ export class DiseaseRelevancePanelComponent implements OnInit {
     const data: TableData[] = [];
     const diseaseRelevance: DiseaseRelevance[] = this.sourceMap.get(field);
     console.log(diseaseRelevance);
+    new TableData({
+      name: 'IDG Disease',
+      label: 'Disease',
+      sortable: true,
+      internalLink: ''
+    })
+      , {
+      name: 'Target Count',
+      label: 'Target Count'
+    }, {
+      name: 'pvalue',
+      label: 'P-value'
+    }
     return data;
   }
 
@@ -81,4 +91,5 @@ export class DiseaseRelevancePanelComponent implements OnInit {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
+
 }

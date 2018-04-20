@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {TableData} from '../../models/table-data';
 
@@ -8,7 +8,7 @@ import {TableData} from '../../models/table-data';
   styleUrls: ['./generic-table.component.css']
 })
 export class GenericTableComponent implements OnInit {
-  data: TableData[];
+  @Input() data: TableData[];
   loading = false;
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator: MatPaginator;

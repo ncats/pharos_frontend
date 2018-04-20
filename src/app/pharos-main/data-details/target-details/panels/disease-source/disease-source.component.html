@@ -1,15 +1,15 @@
 <mat-card class ="flex30">
   <mat-card-header>
-    <mat-card-title ><span class="mat-title">Disease Relevance</span></mat-card-title>
+    <mat-card-title ><span class="mat-title">Disease Source</span></mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <mat-tab-group>
       <mat-tab *ngFor="let source of sources" label= {{source}}>
         <pharos-generic-table [data] = getTableData(source)></pharos-generic-table>
         <h1>Some tab content</h1>
-<!--
-        {{sourceMap?.get(source)['properties']}}
--->
+        <!--
+                {{sourceMap?.get(source)['properties']}}
+        -->
         <p>...</p>
       </mat-tab>
     </mat-tab-group>

@@ -52,14 +52,15 @@ export class TargetDetailsComponent implements OnInit {
               // currently, this doesn't allow the data to be set on the child components...
               this.dataDetailsResolver.getDetailsByUrl(apiCall.url.replace('_id_', this.target.id), apiCall.field);
               this.data$.subscribe(res => {
-                if (childComponent.instance.data) {
-                  const temp = childComponent.instance.data;
-                  temp[apiCall.field] = res[apiCall.field];
-                  childComponent.instance.data = temp;
-                } else {
-                  childComponent.instance.data = {};
-                  childComponent.instance.data[apiCall.field] = res[apiCall.field];
-                }
+              //  if (childComponent.instance) {
+              //    const temp = childComponent.instance.data;
+               //   temp[apiCall.field] = res[apiCall.field];
+               //   childComponent.instance.data = temp;
+                  childComponent.instance[apiCall.field] = res[apiCall.field];
+             //   } else {
+              //    childComponent.instance.data = {};
+              //    childComponent.instance.data[apiCall.field] = res[apiCall.field];
+               // }
                 if (childComponent.instance.dataSource) {
                   childComponent.instance.dataSource.data = res[apiCall.field];
                 }

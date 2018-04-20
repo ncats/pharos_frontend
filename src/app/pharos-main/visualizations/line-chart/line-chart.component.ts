@@ -33,14 +33,12 @@ export class LineChartComponent  implements OnInit, OnChanges {
   ngOnInit() {
 
     this.drawGraph();
-    console.log(this);
    // this.mapData();
    // this.updateGraph();
   }
 
   ngOnChanges(changes) {
     if (!changes.data.firstChange) {
-      console.log(changes);
       if(this.data.length > 0) {
         this.mapData();
         this.updateGraph();
@@ -89,7 +87,6 @@ export class LineChartComponent  implements OnInit, OnChanges {
   mapData() {
     this.globalCounts = [];
     this.groupCounts = [];
-    console.log(this.data);
     if(this.data.length > 0) {
       this.data[0].events.forEach(event => {
         const val = event.properties.filter(prop => prop.label === "Score");
@@ -101,19 +98,15 @@ export class LineChartComponent  implements OnInit, OnChanges {
           this.groupCounts.push({key: event.start, value: event.end})
         }
       });
-      console.log(this.groupCounts);
       if(this.groupCounts.length == 1){
         this.groupCounts.push({key: this.groupCounts[0].key + 1, value: 0})
         this.groupCounts.push({key: this.groupCounts[0].key - 1, value: 0})
       }
       this.groupCounts.sort((a,b) => a.key - b.key);
-      console.log(this.groupCounts);
     }
   }
 
   updateGraph(): void {
-console.log(this.groupCounts.map(d => d.key));
-
     const x = d3.scalePoint()
       .domain(this.groupCounts.map(d => d.key))
       .rangeRound([0, this.width]);

@@ -1,9 +1,6 @@
-export class Target {
-  id: number;
-  version: number;
-  created:  number;
-  modified:  number;
-  deprecated: boolean;
+import {PharosBase} from "./pharos-base";
+
+export class Target extends PharosBase {
   name: string;
   description: string;
   idgFamily: string;
@@ -21,7 +18,6 @@ export class Target {
   knowledgeAvailability:  number;
   pubTatorScore:  number;
   self: string;
-  _namespace: string;
   _organism: string;
   _links: any;
   _properties: any;

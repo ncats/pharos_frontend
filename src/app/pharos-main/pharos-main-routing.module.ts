@@ -15,21 +15,19 @@ import {TargetHeaderComponent} from './data-details/target-details/target-header
 import {SharedModule} from '../shared/shared.module';
 import { DiseaseTableComponent} from './data-list/disease-table/disease-table.component';
 import {
-  DISEASE_RELEVANCE_PANEL,
+  DISEASE_SOURCE_PANEL,
   DISEASE_TABLE_COMPONENT, EXPRESSION_PANEL, KNOWLEDGE_PANEL, REFERENCES_PANEL, SUMMARY_PANEL, TARGET_DETAILS_COMPONENT,
   TARGET_TABLE_COMPONENT, TBIO_DETAILS, TCHEM_DETAILS, TCLIN_DETAILS, TDARK_DETAILS
 } from '../../environments/environment.prod';
 import {
   ReferencesPanelComponent
 } from './data-details/target-details/panels/references-panel/references-panel.component';
-import {
-  DiseaseSourcesPanelComponent
-} from './data-details/target-details/panels/disease-sources-panel/disease-sources-panel.component';
 import {KnowledgePanelComponent} from './data-details/target-details/panels/knowledge-panel/knowledge-panel.component';
 import {
   DiseaseRelevancePanelComponent
 } from './data-details/target-details/panels/disease-relevance-panel/disease-relevance-panel.component';
 import {ExpressionPanelComponent} from "./data-details/target-details/panels/expression-panel/expression-panel.component";
+import {DiseaseSourceComponent} from "./data-details/target-details/panels/disease-source/disease-source.component";
 
 const pharosMainRoutes: Routes = [
   {
@@ -72,7 +70,7 @@ const pharosMainRoutes: Routes = [
     { provide: SUMMARY_PANEL, useValue: SummaryPanelComponent },
     { provide: KNOWLEDGE_PANEL, useValue: KnowledgePanelComponent },
     { provide: REFERENCES_PANEL, useValue: ReferencesPanelComponent },
-    { provide: DISEASE_RELEVANCE_PANEL, useValue: DiseaseRelevancePanelComponent },
+    { provide: DISEASE_SOURCE_PANEL, useValue: DiseaseSourceComponent },
     { provide: EXPRESSION_PANEL, useValue: ExpressionPanelComponent }
   ],
   entryComponents: [
@@ -86,7 +84,7 @@ const pharosMainRoutes: Routes = [
     SummaryPanelComponent,
     TargetHeaderComponent,
     DiseaseTableComponent,
-    DiseaseRelevancePanelComponent,
+    DiseaseSourceComponent,
     KnowledgePanelComponent,
     ExpressionPanelComponent
   ],
@@ -101,7 +99,6 @@ const pharosMainRoutes: Routes = [
     SummaryPanelComponent,
     TargetHeaderComponent,
     DiseaseTableComponent,
-    DiseaseSourcesPanelComponent,
     KnowledgePanelComponent,
     DiseaseRelevancePanelComponent,
     ExpressionPanelComponent
