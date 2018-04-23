@@ -8,21 +8,30 @@ import {TableData} from '../../models/table-data';
   styleUrls: ['./generic-table.component.css']
 })
 export class GenericTableComponent implements OnInit {
-  @Input() data: TableData[];
+  @Input() data: any[];
+  @Input() fieldsMap: TableData[];
   loading = false;
   dataSource = new MatTableDataSource<any>([]);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  fieldsMap: any[];
   fieldColumns: string[];
   displayColumns: string[];
 
   constructor() { }
 
   ngOnInit() {
+
+    console.log(this);
+  }
+
+  ngOnChanges(change) {
+    console.log(change);
+    this.fetchTableFields();
+    this.dataSource.data = this.data;
   }
 
   getLabel(name: string): string {
+    console.log(name);
     let ret = '';
     this.fieldsMap.forEach(field => {
       if (field.name === name) {
@@ -31,6 +40,7 @@ export class GenericTableComponent implements OnInit {
     });
     return ret;
   }
+
   isSortable(name: string): boolean {
     let ret =  false;
     this.fieldsMap.forEach(field => {
@@ -41,7 +51,8 @@ export class GenericTableComponent implements OnInit {
     return ret;
   }
 
-  fetchTableFields(path: string): void {
+  fetchTableFields(path?: string): void {
+    console.log("fetcihing");
     this.fieldColumns = this.fieldsMap.map(field => field.name);
     // this.displayColumns = ['list-select'].concat(this.fieldColumns);
     this.displayColumns = this.fieldColumns;

@@ -4,6 +4,7 @@ import {DiseaseRelevance} from "../../../../../models/disease-relevance";
 import {TableData} from "../../../../../models/table-data";
 import {takeUntil} from "rxjs/operators";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
   selector: 'pharos-disease-source',
@@ -14,8 +15,9 @@ export class DiseaseSourceComponent implements OnInit {
   sourceMap : Map<string, DiseaseRelevance[]> = new Map<string, DiseaseRelevance[]>();
   sources: string[];
   @Input() width: number = 30;
-  @HostBinding('attr.fxFlex')
-  flex = this.width;
+  tableArr: any[] = []
+/*  @HostBinding('attr.fxFlex')
+  flex = this.width;*/
 
   private ngUnsubscribe: Subject<any> = new Subject();
 
@@ -67,23 +69,26 @@ export class DiseaseSourceComponent implements OnInit {
     //this.sources = ['DisGeNET', 'DrugCentral Indication', 'Expression Atlas', 'JensenLab Experiment COSMIC', 'JensenLab Text Mining', 'Monarch', 'UniProt Disease']
   }
 
+  mapData(rel: DiseaseRelevance[]) {
+
+  }
+
   getTableData(field: string): TableData[] {
     const data: TableData[] = [];
     const diseaseRelevance: DiseaseRelevance[] = this.sourceMap.get(field);
-    console.log(diseaseRelevance);
-    new TableData({
-      name: 'IDG Disease',
-      label: 'Disease',
-      sortable: true,
-      internalLink: ''
-    })
-      , {
-      name: 'Target Count',
-      label: 'Target Count'
-    }, {
-      name: 'pvalue',
-      label: 'P-value'
+   // console.log(diseaseRelevance);
+    if(diseaseRelevance.length > 0) {
+      const dr: DiseaseRelevance = diseaseRelevance[0];
+      dr.properties.forEach(prop => {
+        const td = TABLEMAP.get(prop.label);
+        if(td) {
+          const tableData = {[td.name]: prop.label};
+          this.tableArr.push(tableData);
+          data.push(td);
+        }
+      })
     }
+    console.log(data);
     return data;
   }
 
@@ -93,3 +98,38 @@ export class DiseaseSourceComponent implements OnInit {
   }
 
 }
+
+// skipping log2foldchange property
+const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
+  [
+    ['IDG Disease',  new TableData({
+    name: 'disease',
+    label: 'Disease',
+    sortable: true,
+    internalLink: true
+  })
+  ],[
+    'IDG Evidence', new TableData( {
+      name: 'evidence',
+      label: 'Evidence'
+    })
+  ], [
+    'IDG Z-score', new TableData({
+    name: 'zscore',
+    label: 'Z-score',
+      sortable: true
+    })
+  ], ['IDG Confidence', new TableData({
+      name: 'confidence',
+      label: 'Confidence',
+      sortable: true
+    }
+
+  )],['pvalue', new TableData({
+    name: 'pvalue',
+    label: 'P-value',
+      sortable: true
+    }
+  )]
+  ]
+)

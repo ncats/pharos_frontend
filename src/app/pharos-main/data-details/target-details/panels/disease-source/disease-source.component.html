@@ -5,7 +5,7 @@
   <mat-card-content>
     <mat-tab-group>
       <mat-tab *ngFor="let source of sources" label= {{source}}>
-        <pharos-generic-table [data] = getTableData(source)></pharos-generic-table>
+        <pharos-generic-table [data]= tableArr [fieldsMap] = getTableData(source)></pharos-generic-table>
         <h1>Some tab content</h1>
         <!--
                 {{sourceMap?.get(source)['properties']}}
