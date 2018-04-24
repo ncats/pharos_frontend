@@ -5,11 +5,12 @@ import {TableData} from "../../../../../models/table-data";
 import {takeUntil} from "rxjs/operators";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {forEach} from "@angular/router/src/utils/collection";
+import {MatTabChangeEvent} from "@angular/material";
 
 @Component({
   selector: 'pharos-disease-source',
-  templateUrl: './disease-source.component.html',
-  styleUrls: ['./disease-source.component.css']
+  templateUrl: './disease-source-panel.component.html',
+  styleUrls: ['./disease-source-panel.component.css']
 })
 export class DiseaseSourceComponent implements OnInit {
   sourceMap : Map<string, DiseaseRelevance[]> = new Map<string, DiseaseRelevance[]>();
@@ -19,37 +20,63 @@ export class DiseaseSourceComponent implements OnInit {
 /*  @HostBinding('attr.fxFlex')
   flex = this.width;*/
 
-  private ngUnsubscribe: Subject<any> = new Subject();
-
-  // initialize a private variable _data, it's a BehaviorSubject
-  private _data = new BehaviorSubject<DiseaseRelevance[]>(null);
-
   // change data to use getter and setter
   @Input()
   set diseaseSources(value: DiseaseRelevance[]) {
-    // set the latest value for _data BehaviorSubject
-    this._data.next(value);
-  }
+    if (value) {
+      this.sourceMap.clear();
+      const temp: DiseaseRelevance[] = [];
+      value.forEach(dr => {
+        //create new disease relevance object to get Property class properties
+        const readDR = new DiseaseRelevance(dr);
+        // get source label
+        let labelProp: string = readDR.properties.filter(prop => prop.label === 'Data Source').map(lab => lab['term'])[0];
+        // get array of diseases from source map
+        const tableData: any = {};
+        readDR.properties.forEach(prop => {
+          const td = TABLEMAP.get(prop.label);
+          if (td) {
+            tableData[td.name] = prop.getData();
+          }
+        });
 
-  get diseaseSources() {
-    // get the latest value from _data BehaviorSubject
-    return this._data.getValue();
+        const temp: DiseaseRelevance[] = this.sourceMap.get(labelProp);
+        if (temp) {
+          temp.push(tableData);
+          this.sourceMap.set(labelProp, temp);
+        } else {
+          const tempArr: any[] = [];
+        tempArr.push(tableData);
+          this.sourceMap.set(labelProp, tempArr);
+        }
+    });
+      this.sources = Array.from(this.sourceMap.keys());
+    }
   }
+   /* this.diseaseSources.forEach(rel => {
+      let labelProp: string = rel.properties.filter(prop => prop.label ==='Data Source').map(lab => lab['term'])[0];
+      const temp: DiseaseRelevance[] = this.sourceMap.get(labelProp);
+      if (temp) {
+        temp.push(rel);
+        this.sourceMap.set(labelProp, temp);
+      } else {
+        this.sourceMap.set(labelProp, [rel]);
+      }
+    })
+    this.sources = Array.from(this.sourceMap.keys());
+*/
+
   constructor() { }
 
   ngOnInit() {
     console.log(this);
-    this._data
-    // listen to data as long as term is undefined or null
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe(x =>  {
-        if(x) {
-          this.mapSources()
-          return x;
-        }
-      });
+
+    /*  this._data
+      // listen to data as long as term is undefined or null
+        .pipe(
+          takeUntil(this.ngUnsubscribe)
+        )
+        .subscribe(x => x);*/
   }
 
   mapSources(): void {
@@ -65,38 +92,34 @@ export class DiseaseSourceComponent implements OnInit {
         this.sourceMap.set(labelProp, [rel]);
       }
     })
-    this.sources = Array.from(this.sourceMap.keys());
     //this.sources = ['DisGeNET', 'DrugCentral Indication', 'Expression Atlas', 'JensenLab Experiment COSMIC', 'JensenLab Text Mining', 'Monarch', 'UniProt Disease']
   }
 
-  mapData(rel: DiseaseRelevance[]) {
+  changeTabData(event: MatTabChangeEvent) {
+    console.log()
+    //this.sourceMap.get(this.sources[event.index]).forEach(dr =>)
+    this.tableArr = this.sourceMap.get(this.sources[event.index]);
+  }
 
+  getSourceCount(source: string): number {
+    return this.sourceMap.get(source).length;
   }
 
   getTableData(field: string): TableData[] {
     const data: TableData[] = [];
     const diseaseRelevance: DiseaseRelevance[] = this.sourceMap.get(field);
-   // console.log(diseaseRelevance);
     if(diseaseRelevance.length > 0) {
+      console.log(diseaseRelevance);
       const dr: DiseaseRelevance = diseaseRelevance[0];
       dr.properties.forEach(prop => {
         const td = TABLEMAP.get(prop.label);
         if(td) {
-          const tableData = {[td.name]: prop.label};
-          this.tableArr.push(tableData);
           data.push(td);
         }
       })
     }
-    console.log(data);
     return data;
   }
-
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
-
 }
 
 // skipping log2foldchange property

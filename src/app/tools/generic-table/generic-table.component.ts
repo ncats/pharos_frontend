@@ -20,18 +20,12 @@ export class GenericTableComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-
+    this.fetchTableFields();
+    this.dataSource.data = this.data;
     console.log(this);
   }
 
-  ngOnChanges(change) {
-    console.log(change);
-    this.fetchTableFields();
-    this.dataSource.data = this.data;
-  }
-
   getLabel(name: string): string {
-    console.log(name);
     let ret = '';
     this.fieldsMap.forEach(field => {
       if (field.name === name) {
@@ -52,8 +46,9 @@ export class GenericTableComponent implements OnInit {
   }
 
   fetchTableFields(path?: string): void {
-    console.log("fetcihing");
-    this.fieldColumns = this.fieldsMap.map(field => field.name);
+    this.fieldColumns = this.fieldsMap.map(field => {
+      return field.name
+    });
     // this.displayColumns = ['list-select'].concat(this.fieldColumns);
     this.displayColumns = this.fieldColumns;
   }
