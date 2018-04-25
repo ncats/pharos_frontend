@@ -37,14 +37,13 @@ export class SummaryPanelComponent implements OnInit {
     return this._data.getValue();
   }
   // todo: known bug in angular prevents this from working. Angular 6 may fix it, but flex would also need to be updated.
-  // todo: https://github.com/angular/angular/issues/11716
+  // todo: https://github.com/angular/angular/issues/11716 https://github.com/angular/angular/issues/8785
 /*  @HostBinding('attr.fxFlex')
   flex = this.width;*/
 
 // todo: remove these http calls after api is fixed
   constructor(private _http: HttpClient) { }
 ngOnInit() {
-    console.log(this);
   // now we can subscribe to it
   // data is only set once, as an object. the properties are modified though
   this._data
@@ -71,7 +70,6 @@ ngOnInit() {
       }
       return parentData;
     });
-  console.log(this);
 }
 
 

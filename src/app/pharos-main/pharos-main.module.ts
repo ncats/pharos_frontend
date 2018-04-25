@@ -20,8 +20,6 @@ import {
 } from './data-list-visualizations/visualization-options/visualization-options.component';
 import { DiseaseSourceComponent } from './data-details/target-details/panels/disease-source-panel/disease-source-panel.component';
 import { PatentPanelComponent } from './data-details/target-details/panels/patent-panel/patent-panel.component';
-import { OrthologPanelComponent } from './data-details/target-details/panels/ortholog-panel/ortholog-panel.component';
-import { FacetsPanelComponent } from './data-details/target-details/panels/facets-panel/facets-panel.component';
 
 @NgModule({
   imports: [
@@ -45,9 +43,7 @@ import { FacetsPanelComponent } from './data-details/target-details/panels/facet
     VisualizationOptionsComponent,
     DataDetailsComponent,
     DiseaseSourceComponent,
-    PatentPanelComponent,
-    OrthologPanelComponent,
-    FacetsPanelComponent
+    PatentPanelComponent
   ]
 })
 export class PharosMainModule { }

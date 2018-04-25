@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, SimpleChange, ViewChild} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {TableData} from '../../models/table-data';
 
@@ -7,7 +7,7 @@ import {TableData} from '../../models/table-data';
   templateUrl: './generic-table.component.html',
   styleUrls: ['./generic-table.component.css']
 })
-export class GenericTableComponent implements OnInit {
+export class GenericTableComponent implements OnInit, AfterViewInit {
   @Input() data: any[];
   @Input() fieldsMap: TableData[];
   loading = false;
@@ -19,10 +19,23 @@ export class GenericTableComponent implements OnInit {
 
   constructor() { }
 
+  // todo need to parse differnt data types - ortholog returns an array of external links
   ngOnInit() {
     this.fetchTableFields();
     this.dataSource.data = this.data;
     console.log(this);
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
+  // todo : material version 6.0 supports lazy loading of tabs- so this will no longer be necessary
+  ngOnChanges(change: SimpleChange) {
+    if(!change.firstChange) {
+      this.dataSource.data = this.data;
+    }
   }
 
   getLabel(name: string): string {
@@ -49,7 +62,6 @@ export class GenericTableComponent implements OnInit {
     this.fieldColumns = this.fieldsMap.map(field => {
       return field.name
     });
-    // this.displayColumns = ['list-select'].concat(this.fieldColumns);
     this.displayColumns = this.fieldColumns;
   }
 

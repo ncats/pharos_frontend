@@ -3,6 +3,8 @@
     <mat-card-title ><span class="mat-title">Target Summary</span></mat-card-title>
   </mat-card-header>
   <mat-card-content>
+    <div fxLayout="row" fxLayoutAlign="start stretch">
+      <div fxFlex="50">
     <ng-container *ngIf="synonyms?.length > 0">
     <mat-card-subtitle>Synonyms</mat-card-subtitle>
       <ul class = "inline-list">
@@ -36,6 +38,11 @@
       <li>{{pubmed.intval}}</li>
     </ul>
     </ng-container>
+      </div>
+      <div fxFlex="50">
+        <pharos-knowledge-panel></pharos-knowledge-panel>
+      </div>
+    </div>
 
     <ng-container *ngIf="data?.timelines?.length > 0">
     <pharos-line-chart [data]="getTimeline('PubMed Score')"></pharos-line-chart>

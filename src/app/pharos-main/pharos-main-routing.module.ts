@@ -16,7 +16,9 @@ import {SharedModule} from '../shared/shared.module';
 import { DiseaseTableComponent} from './data-list/disease-table/disease-table.component';
 import {
   DISEASE_SOURCE_PANEL,
-  DISEASE_TABLE_COMPONENT, EXPRESSION_PANEL, KNOWLEDGE_PANEL, REFERENCES_PANEL, SUMMARY_PANEL, TARGET_DETAILS_COMPONENT,
+  DISEASE_TABLE_COMPONENT, EXPRESSION_PANEL, FACETS_PANEL, KNOWLEDGE_PANEL, ORTHOLOG_PANEL, REFERENCES_PANEL,
+  SUMMARY_PANEL,
+  TARGET_DETAILS_COMPONENT,
   TARGET_TABLE_COMPONENT, TBIO_DETAILS, TCHEM_DETAILS, TCLIN_DETAILS, TDARK_DETAILS
 } from '../../environments/environment.prod';
 import {
@@ -25,6 +27,8 @@ import {
 import {KnowledgePanelComponent} from './data-details/target-details/panels/knowledge-panel/knowledge-panel.component';
 import {ExpressionPanelComponent} from "./data-details/target-details/panels/expression-panel/expression-panel.component";
 import {DiseaseSourceComponent} from "./data-details/target-details/panels/disease-source-panel/disease-source-panel.component";
+import {OrthologPanelComponent} from "./data-details/target-details/panels/ortholog-panel/ortholog-panel.component";
+import {FacetsPanelComponent} from "./data-details/target-details/panels/facets-panel/facets-panel.component";
 
 const pharosMainRoutes: Routes = [
   {
@@ -68,7 +72,9 @@ const pharosMainRoutes: Routes = [
     { provide: KNOWLEDGE_PANEL, useValue: KnowledgePanelComponent },
     { provide: REFERENCES_PANEL, useValue: ReferencesPanelComponent },
     { provide: DISEASE_SOURCE_PANEL, useValue: DiseaseSourceComponent },
-    { provide: EXPRESSION_PANEL, useValue: ExpressionPanelComponent }
+    { provide: EXPRESSION_PANEL, useValue: ExpressionPanelComponent },
+    { provide: ORTHOLOG_PANEL, useValue: OrthologPanelComponent },
+    { provide: FACETS_PANEL, useValue: FacetsPanelComponent }
   ],
   entryComponents: [
     TargetTableComponent,
@@ -83,7 +89,9 @@ const pharosMainRoutes: Routes = [
     DiseaseTableComponent,
     DiseaseSourceComponent,
     KnowledgePanelComponent,
-    ExpressionPanelComponent
+    ExpressionPanelComponent,
+    OrthologPanelComponent,
+    FacetsPanelComponent
   ],
   declarations: [
     TargetTableComponent,
@@ -97,7 +105,9 @@ const pharosMainRoutes: Routes = [
     TargetHeaderComponent,
     DiseaseTableComponent,
     KnowledgePanelComponent,
-    ExpressionPanelComponent
+    ExpressionPanelComponent,
+    OrthologPanelComponent,
+    FacetsPanelComponent
   ]
 })
 export class PharosMainRoutingModule { }

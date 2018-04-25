@@ -5,7 +5,7 @@
 </mat-paginator>
       <mat-table [dataSource]="dataSource" matSort>
         <ng-container matColumnDef="{{field}}" *ngFor="let field of displayColumns">
-          <mat-header-cell *matHeaderCellDef mat-sort-header disabled = {{!isSortable(field)}} > {{getLabel(field)}} </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header disabled = {{!isSortable(field)}}> {{getLabel(field)}}</mat-header-cell>
           <mat-cell *matCellDef="let row"> {{row[field]}} </mat-cell>
         </ng-container>
         <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>

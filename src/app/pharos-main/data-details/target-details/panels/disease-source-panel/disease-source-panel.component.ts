@@ -14,13 +14,13 @@ import {MatTabChangeEvent} from "@angular/material";
 })
 export class DiseaseSourceComponent implements OnInit {
   sourceMap : Map<string, DiseaseRelevance[]> = new Map<string, DiseaseRelevance[]>();
+  fieldsMap : Map<string, TableData[]> = new Map<string, TableData[]>();
   sources: string[];
   @Input() width: number = 30;
-  tableArr: any[] = []
+  tableArr: any[] = [];
 /*  @HostBinding('attr.fxFlex')
   flex = this.width;*/
 
-  // change data to use getter and setter
   @Input()
   set diseaseSources(value: DiseaseRelevance[]) {
     if (value) {
@@ -33,10 +33,12 @@ export class DiseaseSourceComponent implements OnInit {
         let labelProp: string = readDR.properties.filter(prop => prop.label === 'Data Source').map(lab => lab['term'])[0];
         // get array of diseases from source map
         const tableData: any = {};
+        const fields: TableData[] = [];
         readDR.properties.forEach(prop => {
           const td = TABLEMAP.get(prop.label);
           if (td) {
             tableData[td.name] = prop.getData();
+            fields.push(td);
           }
         });
 
@@ -46,58 +48,20 @@ export class DiseaseSourceComponent implements OnInit {
           this.sourceMap.set(labelProp, temp);
         } else {
           const tempArr: any[] = [];
-        tempArr.push(tableData);
+          tempArr.push(tableData);
+          this.fieldsMap.set(labelProp, fields);
           this.sourceMap.set(labelProp, tempArr);
         }
     });
       this.sources = Array.from(this.sourceMap.keys());
     }
   }
-   /* this.diseaseSources.forEach(rel => {
-      let labelProp: string = rel.properties.filter(prop => prop.label ==='Data Source').map(lab => lab['term'])[0];
-      const temp: DiseaseRelevance[] = this.sourceMap.get(labelProp);
-      if (temp) {
-        temp.push(rel);
-        this.sourceMap.set(labelProp, temp);
-      } else {
-        this.sourceMap.set(labelProp, [rel]);
-      }
-    })
-    this.sources = Array.from(this.sourceMap.keys());
-*/
-
   constructor() { }
 
   ngOnInit() {
-    console.log(this);
-
-    /*  this._data
-      // listen to data as long as term is undefined or null
-        .pipe(
-          takeUntil(this.ngUnsubscribe)
-        )
-        .subscribe(x => x);*/
-  }
-
-  mapSources(): void {
-    // todo - clear map because the api is returning or getting set twice
-    this.sourceMap.clear();
-    this.diseaseSources.forEach(rel => {
-      let labelProp: string = rel.properties.filter(prop => prop.label ==='Data Source').map(lab => lab['term'])[0];
-      const temp: DiseaseRelevance[] = this.sourceMap.get(labelProp);
-      if (temp) {
-        temp.push(rel);
-        this.sourceMap.set(labelProp, temp);
-      } else {
-        this.sourceMap.set(labelProp, [rel]);
-      }
-    })
-    //this.sources = ['DisGeNET', 'DrugCentral Indication', 'Expression Atlas', 'JensenLab Experiment COSMIC', 'JensenLab Text Mining', 'Monarch', 'UniProt Disease']
   }
 
   changeTabData(event: MatTabChangeEvent) {
-    console.log()
-    //this.sourceMap.get(this.sources[event.index]).forEach(dr =>)
     this.tableArr = this.sourceMap.get(this.sources[event.index]);
   }
 
@@ -106,19 +70,7 @@ export class DiseaseSourceComponent implements OnInit {
   }
 
   getTableData(field: string): TableData[] {
-    const data: TableData[] = [];
-    const diseaseRelevance: DiseaseRelevance[] = this.sourceMap.get(field);
-    if(diseaseRelevance.length > 0) {
-      console.log(diseaseRelevance);
-      const dr: DiseaseRelevance = diseaseRelevance[0];
-      dr.properties.forEach(prop => {
-        const td = TABLEMAP.get(prop.label);
-        if(td) {
-          data.push(td);
-        }
-      })
-    }
-    return data;
+    return this.fieldsMap.get(field);
   }
 }
 
@@ -155,4 +107,4 @@ const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
     }
   )]
   ]
-)
+);
