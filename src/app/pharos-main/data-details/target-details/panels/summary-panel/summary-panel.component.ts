@@ -21,6 +21,7 @@ export class SummaryPanelComponent implements OnInit {
   pubmed: Value;
   timelines: any[] = [];
 
+ // @Input() data: any;
   // initialize a private variable _data, it's a BehaviorSubject
   private _data = new BehaviorSubject<any>(null);
 
@@ -29,6 +30,9 @@ export class SummaryPanelComponent implements OnInit {
   set data(value: any) {
     // set the latest value for _data BehaviorSubject
     this._data.next(value);
+    if(value.timelines) {
+      this.fetchTimelineData();
+    }
     this.loaded = true;
   }
 
@@ -46,35 +50,41 @@ export class SummaryPanelComponent implements OnInit {
 ngOnInit() {
   // now we can subscribe to it
   // data is only set once, as an object. the properties are modified though
-  this._data
+ /* this._data
     .pipe(
     )
-    .subscribe(parentData => {
+    .subscribe(parentData => {*/
       // todo: this is terrible kill it with fire asap
-      if(parentData && parentData.timelines ) {
-        if (this.timelines.length < parentData.timelines.length) {
-          parentData.timelines.forEach(timeline => {
-            if (timeline.href) {
-              this._http.get<any>(timeline.href).subscribe(res => {
-                this.timelines.push(res);
-                this.timelines = this.timelines.filter((tl, index, arr) =>
-                  index === arr.findIndex((t) => (
-                    t.id === tl.id
-                  ))
-                )
-              })
-            }
-          })
-        }
+    //  if(this.data && this.data.timelines ) {
+      //  if (this.timelines.length < this.data.timelines.length) {
 
-      }
-      return parentData;
-    });
+   //     }
+
+   //   }
+     // return parentData;
+  //  });
+  console.log(this);
 }
 
 
 getTimeline(field : string): any {
+   // console.log(this.timelines);
   return this.timelines.filter(tl => tl.name === field);
+}
+
+fetchTimelineData(): void {
+  this.data.timelines.forEach(timeline => {
+    if (timeline.href) {
+      this._http.get<any>(timeline.href).subscribe(res => {
+        this.timelines.push(res);
+        this.timelines = this.timelines.filter((tl, index, arr) =>
+          index === arr.findIndex((t) => (
+            t.id === tl.id
+          ))
+        )
+      })
+    }
+  })
 }
 
   ngOnDestroy() {

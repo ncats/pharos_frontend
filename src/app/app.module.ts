@@ -16,6 +16,7 @@ import {SuggestApiService} from './tools/search-component/suggest-api.service';
 import {SharedModule} from './shared/shared.module';
 import {ComponentLookupService} from './pharos-services/component-lookup.service';
 import { LinkListComponent } from './tools/link-list/link-list.component';
+import { DynamicPanelComponent } from './tools/dynamic-panel/dynamic-panel.component';
 
 
 @NgModule({
@@ -25,7 +26,7 @@ import { LinkListComponent } from './tools/link-list/link-list.component';
     ToiCardComponent,
     PharosDashboardComponent,
     SearchCardComponent,
-    LinkListComponent
+    DynamicPanelComponent
 
   ],
   imports: [

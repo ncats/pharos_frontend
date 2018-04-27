@@ -1,41 +1,41 @@
-<mat-card class ="flex30 width50">
+<mat-card class ="flex30 width50" *ngIf = data>
   <mat-card-header>
     <mat-card-title ><span class="mat-title">Target Summary</span></mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div fxLayout="row" fxLayoutAlign="start stretch">
       <div fxFlex="50">
-    <ng-container *ngIf="synonyms?.length > 0">
+    <ng-container *ngIf="data.synonyms?.length > 0">
     <mat-card-subtitle>Synonyms</mat-card-subtitle>
       <ul class = "inline-list">
-      <li *ngFor=" let term of synonyms">
+      <li *ngFor=" let term of data.synonyms">
     <pharos-term-display [term]=term [showLabel]="false"></pharos-term-display><br>
     </li>
       </ul>
     </ng-container>
-    <ng-container *ngIf="symbol?.length > 0">
+    <ng-container *ngIf="data.symbol?.length > 0">
       <br>
       <mat-card-subtitle>Symbol</mat-card-subtitle>
       <ul class = "inline-list">
     <li >
-    <pharos-term-display [term] = symbol  [showLabel]="false"></pharos-term-display>
+    <pharos-term-display [term] = data.symbol  [showLabel]="false"></pharos-term-display>
     </li>
       </ul>
     </ng-container>
-    <ng-container *ngIf="gene">
+    <ng-container *ngIf="data.gene">
       <br>
       <mat-card-subtitle>NCBI Gene</mat-card-subtitle>
       <ul class = "inline-list">
     <li>
-      <pharos-term-display [term]= gene  [showLabel]="false"></pharos-term-display>
+      <pharos-term-display [term]= data.gene  [showLabel]="false"></pharos-term-display>
     </li>
       </ul>
     </ng-container>
-    <ng-container *ngIf="pubmed">
+    <ng-container *ngIf="data.pubmed">
       <br>
       <mat-card-subtitle>NCBI Gene PubMed Count</mat-card-subtitle>
     <ul class ="inline-list">
-      <li>{{pubmed.intval}}</li>
+      <li>{{data.pubmed.intval}}</li>
     </ul>
     </ng-container>
       </div>

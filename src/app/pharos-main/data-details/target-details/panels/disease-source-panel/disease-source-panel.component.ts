@@ -18,15 +18,18 @@ export class DiseaseSourceComponent implements OnInit {
   sources: string[];
   @Input() width: number = 30;
   tableArr: any[] = [];
+
 /*  @HostBinding('attr.fxFlex')
   flex = this.width;*/
 
+  private _data = new BehaviorSubject<any>(null);
+
   @Input()
-  set diseaseSources(value: DiseaseRelevance[]) {
-    if (value) {
+  set data(value: any) {
+    if (value.diseaseSources) {
       this.sourceMap.clear();
       const temp: DiseaseRelevance[] = [];
-      value.forEach(dr => {
+      value.diseaseSources.forEach(dr => {
         //create new disease relevance object to get Property class properties
         const readDR = new DiseaseRelevance(dr);
         // get source label
@@ -55,6 +58,11 @@ export class DiseaseSourceComponent implements OnInit {
     });
       this.sources = Array.from(this.sourceMap.keys());
     }
+    this._data.next(value);
+  }
+
+  get data() {
+    return this._data.getValue()
   }
   constructor() { }
 

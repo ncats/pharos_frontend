@@ -23,7 +23,6 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.fetchTableFields();
     this.dataSource.data = this.data;
-    console.log(this);
   }
 
   ngAfterViewInit() {

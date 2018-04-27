@@ -1,5 +1,5 @@
 import {
-  Component, forwardRef, Inject, Injector, Input, OnInit, Type,
+  Component, forwardRef, Inject, Injector, Input, OnDestroy, OnInit, Type,
   ViewChild, ViewEncapsulation
 } from '@angular/core';
 import {Target} from '../../../models/target';
@@ -9,6 +9,7 @@ import {DataDetailsResolver} from '../../services/data-details.resolver';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
 import {ComponentLookupService} from '../../../pharos-services/component-lookup.service';
 import {Subject} from 'rxjs/Subject';
+import {takeUntil} from "rxjs/operators";
 
 @Component({
   selector: 'pharos-target-details',
@@ -17,11 +18,12 @@ import {Subject} from 'rxjs/Subject';
 
 })
 
-export class TargetDetailsComponent implements OnInit {
+export class TargetDetailsComponent implements OnInit, OnDestroy {
   @Input() data: any;
   path: string;
   private dataSource = new Subject<string>();
   data$ = this.dataSource.asObservable();
+  private ngUnsubscribe: Subject<any> = new Subject();
 
   target: Target;
   references: Publication[];
@@ -35,46 +37,63 @@ export class TargetDetailsComponent implements OnInit {
     private componentInjectorService: ComponentInjectorService) {  }
 
   ngOnInit() {
+
     this.target = this.data.object;
     this.references = this.data.references;
-    if(this.path) {
+    if (this.path) {
       const token: any = this.componentLookupService.lookupByPath(this.path, this.target.idgTDL.toLowerCase());
-        token.components.forEach(component => {
-          const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(this.componentHost, component.token);
-          const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
-          if(component.width){
-            childComponent.instance.width = component.width;
+      token.components.forEach(component => {
+        // start api calls before making component
+        const keys: string[] = [];
+        component.api.forEach(apiCall => {
+          // todo this can be removed once all the fields are filled out (or left in for safety)
+          if (apiCall.url.length > 0) {
+            // this call is pushed up to the pharos api and changes are subscribed to in the generic details page, then set here
+            /**
+             * get data
+             **/
+            this.dataDetailsResolver.getDetailsByUrl(apiCall.url.replace('_id_', this.target.id), apiCall.field);
+            /**
+             * this will be used to track the object fields to get
+             */
+            keys.push(apiCall.field);
           }
-          component.api.forEach(apiCall => {
-            // todo this can be removed once all the fields are filled out (or left in for safety)
-            if (apiCall.url.length > 0) {
-              // this call is pushed up to the pharos api and changes are subscribed to in the generic details page, then set here
-              // currently, this doesn't allow the data to be set on the child components...
-              this.dataDetailsResolver.getDetailsByUrl(apiCall.url.replace('_id_', this.target.id), apiCall.field);
-              this.data$.subscribe(res => {
-              //  if (childComponent.instance) {
-              //    const temp = childComponent.instance.data;
-               //   temp[apiCall.field] = res[apiCall.field];
-               //   childComponent.instance.data = temp;
-                  childComponent.instance[apiCall.field] = res[apiCall.field];
-             //   } else {
-              //    childComponent.instance.data = {};
-              //    childComponent.instance.data[apiCall.field] = res[apiCall.field];
-               // }
-                if (childComponent.instance.dataSource) {
-                  childComponent.instance.dataSource.data = res[apiCall.field];
-                }
-              });
-            }
-          });
         });
-      }
+
+
+
+        /**
+         * make component
+         */
+        const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(this.componentHost, component.token);
+        const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
+        if (component.width) {
+          childComponent.instance.width = component.width;
+        }
+        // todo: this is updating all previous fields each time a new response comes in
+        // todo: figure out how to unsubscribe when all fields are filled
+        this.data$
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(res => {
+          this.data = res;
+        //  console.log(this.pick(this.data, keys));
+          childComponent.instance.data = this.pick(this.data, keys);
+        });
+      });
+    }
   }
-
-
 
   setData(data: any): void {
     this.data = data;
     this.dataSource.next(data);
+  }
+
+   pick(o, props) {
+    return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
+  }
+
+  ngOnDestroy() :void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

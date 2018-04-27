@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Property} from "../../models/property";
 
 @Component({
   selector: 'pharos-link-list',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./link-list.component.css']
 })
 export class LinkListComponent implements OnInit {
-
+@Input() list: Property[];
   constructor() { }
 
   ngOnInit() {

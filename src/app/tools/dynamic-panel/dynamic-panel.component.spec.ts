@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FacetsPanelComponent } from './facets-panel.component';
+import { DynamicPanelComponent } from './dynamic-panel.component';
 
-describe('FacetsPanelComponent', () => {
-  let component: FacetsPanelComponent;
-  let fixture: ComponentFixture<FacetsPanelComponent>;
+describe('DynamicPanelComponent', () => {
+  let component: DynamicPanelComponent;
+  let fixture: ComponentFixture<DynamicPanelComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FacetsPanelComponent ]
+      declarations: [ DynamicPanelComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FacetsPanelComponent);
+    fixture = TestBed.createComponent(DynamicPanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

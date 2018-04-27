@@ -2,13 +2,14 @@ import {Component, Input, OnInit} from '@angular/core';
 import {TableData} from "../../../../../models/table-data";
 import {MatTabChangeEvent} from "@angular/material";
 import {Ortholog} from "../../../../../models/ortholog";
+import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
 
 @Component({
   selector: 'pharos-ortholog-panel',
   templateUrl: './ortholog-panel.component.html',
   styleUrls: ['./ortholog-panel.component.css']
 })
-export class OrthologPanelComponent implements OnInit {
+export class OrthologPanelComponent extends DynamicPanelComponent implements OnInit {
   fields : TableData[] = [
     new TableData({
     name: 'species',
@@ -27,12 +28,28 @@ export class OrthologPanelComponent implements OnInit {
   /*  @HostBinding('attr.fxFlex')
     flex = this.width;*/
 
-  @Input()
-  set orthologs(value: Ortholog[]) {
-    if (value) {
+  constructor() {
+    super()
+  }
+
+  ngOnInit() {
+    this._data
+    // listen to data as long as term is undefined or null
+    // Unsubscribe once term has value
+      .pipe(
+        // todo: this unsubscribe doesn't seem to work
+        //    takeWhile(() => !this.data['references'])
+      )
+      .subscribe(x => {
+        this.setterFunction();
+      });
+  }
+
+  setterFunction(): void {
+    if (this.data['orthologs']) {
       this.tableArr = [];
       const temp: Ortholog[] = [];
-      value.forEach(obj => {
+      this.data.orthologs.forEach(obj => {
         //create new object to get Property class properties
         const newObj: Ortholog = new Ortholog(obj);
         // get source label
@@ -40,11 +57,6 @@ export class OrthologPanelComponent implements OnInit {
         let dataSources: string[] = newObj.properties.filter(prop => prop.label === 'Data Source').map(lab => lab['term']);
         this.tableArr.push({species: labelProp, source: dataSources});
       });
-      }
-  }
-  constructor() { }
-
-  ngOnInit() {
-    console.log(this);
+    }
   }
 }
