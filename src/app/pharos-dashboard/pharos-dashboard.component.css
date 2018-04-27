@@ -14,3 +14,9 @@
   transform: rotate(180deg);
 }
 
+.background-mobile {
+  position: fixed;
+  opacity: .6;
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}

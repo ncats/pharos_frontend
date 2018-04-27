@@ -16,9 +16,9 @@ export class SearchComponent implements OnInit {
   typeaheadCtrl: FormControl = new FormControl();
   filteredGroups: Observable<any>;
   groups: any[] = [];
-  constructor(
-              private suggestApiService: SuggestApiService) {
-  }
+
+  constructor(private suggestApiService: SuggestApiService) {  }
+
   ngOnInit() {
     if (!this.placeholderStr) {
       this.placeholderStr = 'Search for targets (e.g., \'ITK\') or diseases (e.g., \'asthma\')';
@@ -31,6 +31,10 @@ export class SearchComponent implements OnInit {
         ));
   }
 
+  /**
+   * placeholder until search UI is hooked up
+   * @returns void
+   */
   search(): void {
     console.log(this.typeaheadCtrl.value);
   }

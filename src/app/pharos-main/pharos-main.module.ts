@@ -18,7 +18,6 @@ import { FacetListComponent } from './facet-list/facet-list.component';
 import {
   VisualizationOptionsComponent
 } from './data-list-visualizations/visualization-options/visualization-options.component';
-import { DiseaseSourceComponent } from './data-details/target-details/panels/disease-source-panel/disease-source-panel.component';
 import { PatentPanelComponent } from './data-details/target-details/panels/patent-panel/patent-panel.component';
 
 @NgModule({
@@ -42,7 +41,6 @@ import { PatentPanelComponent } from './data-details/target-details/panels/paten
     SunburstChartComponent,
     VisualizationOptionsComponent,
     DataDetailsComponent,
-    DiseaseSourceComponent,
     PatentPanelComponent
   ]
 })

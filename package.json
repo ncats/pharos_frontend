@@ -9,7 +9,8 @@
     "test": "ng test -sm=false",
     "lint": "ng lint",
     "lint-fix": "ng lint --fix",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json -s -w --theme material"
   },
   "private": true,
   "dependencies": {

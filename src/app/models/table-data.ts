@@ -1,3 +1,6 @@
+/**
+ * [TableData]
+ */
 export class TableData {
   name: string;
   label?: string;

@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LinkListComponent } from './link-list.component';
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {MaterialModule} from "../../../assets/material/material.module";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MaterialModule} from '../../../assets/material/material.module';
 
 describe('LinkListComponent', () => {
   let component: LinkListComponent;

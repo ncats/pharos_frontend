@@ -1,6 +1,7 @@
-<div><img src="../../assets/images/101388260.jpg" class = "background"></div>
+<div>
+  <img src="../../assets/images/101388260.jpg" ngClass = "background" [ngClass.xs]="{'background': false,'background-mobile': true }">
 <div fxLayout="row" class="spacer" fxHide.xs></div>
-<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="center center" class="toi-row">
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around none" class="toi-row">
   <div fxFlex="60" fxFlexOrder.xs="2">
     <div *ngFor="let toi of topics">
       <pharos-toi-card [toi] = toi></pharos-toi-card>
@@ -10,9 +11,10 @@
   <pharos-search-card></pharos-search-card>
   </div>
 </div>
-<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="center center">
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="center none">
   <div fxFlex="60">
     <button mat-raised-button [color]= "'primary'" routerLink="/topics">See More Topics...</button>
   </div>
 <div fxFlex="35"></div>
+</div>
 </div>

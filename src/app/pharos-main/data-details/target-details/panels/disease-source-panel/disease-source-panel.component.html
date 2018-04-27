@@ -5,7 +5,7 @@
   <mat-card-content>
     <mat-tab-group (selectedTabChange)="changeTabData($event)">
       <mat-tab *ngFor="let source of sources" label = "{{source}} ({{getSourceCount(source)}})"  >
-        <pharos-generic-table [data]= tableArr [fieldsMap] = getTableData(source)></pharos-generic-table>
+        <pharos-generic-table [data]= tableArr [fieldsConfig] = getTableData(source)></pharos-generic-table>
       </mat-tab>
     </mat-tab-group>
   </mat-card-content>

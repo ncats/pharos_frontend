@@ -1,6 +1,10 @@
 import {Component, HostListener, Inject, OnInit} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 
+/**
+ * Component that contains a ui button that appears after scrolling past the top menu, on click, it scrolls the user back
+ * to the top of the page
+ */
 @Component({
   selector: 'pharos-scroll-to-top',
   templateUrl: './scroll-to-top.component.html',
@@ -15,8 +19,12 @@ export class ScrollToTopComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * method that checks to see if the user has scrolled past a certain point. pinned to the window object
+   * @returns void
+   */
   @HostListener('window:scroll', [])
-  onWindowScroll() {
+  onWindowScroll(): void {
     // todo: work around window api for angular universal
     if (window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop > 100) {
       this.navIsFixed = true;
@@ -25,7 +33,10 @@ export class ScrollToTopComponent implements OnInit {
     }
   }
 
-  scrollToTop() { (function smoothscroll() {
+  /**
+   * method that returns the user to the top position of the document
+   */
+  scrollToTop(): void { (function smoothscroll() {
     const currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
     if (currentScroll > 0) {
       window.requestAnimationFrame(smoothscroll);

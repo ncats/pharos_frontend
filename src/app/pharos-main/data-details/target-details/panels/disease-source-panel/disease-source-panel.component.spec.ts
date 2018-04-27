@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DiseaseSourceComponent } from './disease-source-panel.component';
-import {SharedModule} from "../../../../../shared/shared.module";
+import {SharedModule} from '../../../../../shared/shared.module';
 
 describe('DiseaseSourceComponent', () => {
   let component: DiseaseSourceComponent;

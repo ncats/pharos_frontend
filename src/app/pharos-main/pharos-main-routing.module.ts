@@ -29,6 +29,9 @@ import {ExpressionPanelComponent} from './data-details/target-details/panels/exp
 import {DiseaseSourceComponent} from './data-details/target-details/panels/disease-source-panel/disease-source-panel.component';
 import {OrthologPanelComponent} from './data-details/target-details/panels/ortholog-panel/ortholog-panel.component';
 import {TargetFacetPanelComponent} from './data-details/target-details/panels/target-facet-panel/target-facet-panel.component';
+import {
+  ClassificationExplanationComponent
+} from './data-details/target-details/panels/classification-explanation/classification-explanation.component';
 
 const pharosMainRoutes: Routes = [
   {
@@ -91,7 +94,8 @@ const pharosMainRoutes: Routes = [
     KnowledgePanelComponent,
     ExpressionPanelComponent,
     OrthologPanelComponent,
-    TargetFacetPanelComponent
+    TargetFacetPanelComponent,
+    ClassificationExplanationComponent
   ],
   declarations: [
     TargetTableComponent,
@@ -108,7 +112,8 @@ const pharosMainRoutes: Routes = [
     ExpressionPanelComponent,
     OrthologPanelComponent,
     TargetFacetPanelComponent,
-    DiseaseSourceComponent
+    DiseaseSourceComponent,
+    ClassificationExplanationComponent
   ]
 })
 export class PharosMainRoutingModule { }

@@ -8,9 +8,17 @@ import {takeWhile} from 'rxjs/operators';
   templateUrl: './term-display.component.html',
   styleUrls: ['./term-display.component.css']
 })
+
+/**
+ * reusable generic component to display pharos information. uses getter and setter for values, and html
+ * will be expanded with templates for router links and external links.
+ */
 export class TermDisplayComponent implements OnInit {
   @Input() showLabel = true;
-  // initialize a private variable _data, it's a BehaviorSubject
+
+  /**
+   *   initialize a private variable _data, it's a BehaviorSubject
+   */
   private _data = new BehaviorSubject<Term>(null);
 
   // change data to use getter and setter
