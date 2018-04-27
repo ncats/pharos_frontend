@@ -7,7 +7,7 @@ export class TableData {
   width?: number;
   tooltip?: boolean;
 
-  constructor(obj : any) {
+  constructor(obj: any) {
     Object.entries((obj)).forEach((prop) => this[prop[0]] = prop[1]);
   }
 }

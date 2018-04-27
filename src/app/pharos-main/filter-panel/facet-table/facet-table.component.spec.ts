@@ -24,7 +24,7 @@ import {DataListVisualizationsComponent} from '../../data-list-visualizations/da
 import {APP_BASE_HREF} from '@angular/common';
 import {DataListComponent} from '../../data-list/data-list.component';
 import {RouterTestingModule} from '@angular/router/testing';
-import {DataDetailsComponent} from "../../data-details/data-details.component";
+import {DataDetailsComponent} from '../../data-details/data-details.component';
 
 describe('FacetTableComponent', () => {
   let component: FacetTableComponent;

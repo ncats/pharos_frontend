@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { KnowledgePanelComponent } from './knowledge-panel.component';
-import {SharedModule} from "../../../../../shared/shared.module";
+import {SharedModule} from '../../../../../shared/shared.module';
 
 describe('KnowledgePanelComponent', () => {
   let component: KnowledgePanelComponent;

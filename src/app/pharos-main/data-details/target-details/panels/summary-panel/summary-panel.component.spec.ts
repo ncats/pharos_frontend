@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SummaryPanelComponent } from './summary-panel.component';
-import {SharedModule} from "../../../../../shared/shared.module";
+import {SharedModule} from '../../../../../shared/shared.module';
 
 describe('SummaryPanelComponent', () => {
   let component: SummaryPanelComponent;

@@ -1,6 +1,6 @@
-export class testComponentLookupService{
-  constructor(){}
+export class TestComponentLookupService {
+  constructor() {}
 
   lookupByPath(path: string, subpath: string): any {
-    return {components:[]};
+    return {components: []};
   }}

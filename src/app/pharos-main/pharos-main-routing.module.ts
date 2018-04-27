@@ -25,10 +25,10 @@ import {
   ReferencesPanelComponent
 } from './data-details/target-details/panels/references-panel/references-panel.component';
 import {KnowledgePanelComponent} from './data-details/target-details/panels/knowledge-panel/knowledge-panel.component';
-import {ExpressionPanelComponent} from "./data-details/target-details/panels/expression-panel/expression-panel.component";
-import {DiseaseSourceComponent} from "./data-details/target-details/panels/disease-source-panel/disease-source-panel.component";
-import {OrthologPanelComponent} from "./data-details/target-details/panels/ortholog-panel/ortholog-panel.component";
-import {TargetFacetPanelComponent} from "./data-details/target-details/panels/target-facet-panel/target-facet-panel.component";
+import {ExpressionPanelComponent} from './data-details/target-details/panels/expression-panel/expression-panel.component';
+import {DiseaseSourceComponent} from './data-details/target-details/panels/disease-source-panel/disease-source-panel.component';
+import {OrthologPanelComponent} from './data-details/target-details/panels/ortholog-panel/ortholog-panel.component';
+import {TargetFacetPanelComponent} from './data-details/target-details/panels/target-facet-panel/target-facet-panel.component';
 
 const pharosMainRoutes: Routes = [
   {

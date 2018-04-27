@@ -29,6 +29,6 @@ export const TESTTARGET: Target = {
   _properties: {'count': 19024, 'href': 'https://pharos.nih.gov/idg/api/v1/targets(7617)/properties'},
   _links: {'count': 5223, 'href': 'https://pharos.nih.gov/idg/api/v1/targets(7617)/links'},
   _namespace: null
-}
+};
 
 

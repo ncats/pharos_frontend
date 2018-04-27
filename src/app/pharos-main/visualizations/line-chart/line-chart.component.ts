@@ -3,7 +3,7 @@ import {
   ViewChild
 } from '@angular/core';
 import * as d3 from 'd3';
-import {CustomContentDirective} from "../../../tools/custom-content.directive";
+import {CustomContentDirective} from '../../../tools/custom-content.directive';
 
 @Component({
   selector: 'pharos-line-chart',
@@ -39,7 +39,7 @@ export class LineChartComponent  implements OnInit, OnChanges {
 
   ngOnChanges(changes) {
     if (!changes.data.firstChange) {
-      if(this.data.length > 0) {
+      if (this.data.length > 0) {
         this.mapData();
         this.updateGraph();
       }
@@ -87,22 +87,22 @@ export class LineChartComponent  implements OnInit, OnChanges {
   mapData() {
     this.globalCounts = [];
     this.groupCounts = [];
-    if(this.data.length > 0) {
+    if (this.data.length > 0) {
       this.data[0].events.forEach(event => {
-        const val = event.properties.filter(prop => prop.label === "Score");
-        if(val.length > 0) {
+        const val = event.properties.filter(prop => prop.label === 'Score');
+        if (val.length > 0) {
           this.globalCounts.push(val[0].numval);
-          this.groupCounts.push({key: event.start, value: val[0].numval})
+          this.groupCounts.push({key: event.start, value: val[0].numval});
         } else {
           this.globalCounts.push(event.end);
-          this.groupCounts.push({key: event.start, value: event.end})
+          this.groupCounts.push({key: event.start, value: event.end});
         }
       });
-      if(this.groupCounts.length == 1){
-        this.groupCounts.push({key: this.groupCounts[0].key + 1, value: 0})
-        this.groupCounts.push({key: this.groupCounts[0].key - 1, value: 0})
+      if (this.groupCounts.length === 1) {
+        this.groupCounts.push({key: this.groupCounts[0].key + 1, value: 0});
+        this.groupCounts.push({key: this.groupCounts[0].key - 1, value: 0});
       }
-      this.groupCounts.sort((a,b) => a.key - b.key);
+      this.groupCounts.sort((a, b) => a.key - b.key);
     }
   }
 
@@ -144,12 +144,12 @@ export class LineChartComponent  implements OnInit, OnChanges {
 
     d3.select('.timeline')   // change the line
       .datum(this.groupCounts)
-      .attr("stroke-linejoin", "round")
-      .attr("stroke-linecap", "round")
+      .attr('stroke-linejoin', 'round')
+      .attr('stroke-linecap', 'round')
       .attr('stroke', '#265668')
       .attr('stroke-width', 2)
       .attr('fill', 'none')
-      .attr("d", line);
+      .attr('d', line);
 
   }
 }

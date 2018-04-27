@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit, SimpleChange, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChange, ViewChild} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {TableData} from '../../models/table-data';
 
@@ -7,7 +7,7 @@ import {TableData} from '../../models/table-data';
   templateUrl: './generic-table.component.html',
   styleUrls: ['./generic-table.component.css']
 })
-export class GenericTableComponent implements OnInit, AfterViewInit {
+export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() data: any[];
   @Input() fieldsMap: TableData[];
   loading = false;
@@ -32,7 +32,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
 
   // todo : material version 6.0 supports lazy loading of tabs- so this will no longer be necessary
   ngOnChanges(change: SimpleChange) {
-    if(!change.firstChange) {
+    if (!change.firstChange) {
       this.dataSource.data = this.data;
     }
   }
@@ -59,7 +59,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
 
   fetchTableFields(path?: string): void {
     this.fieldColumns = this.fieldsMap.map(field => {
-      return field.name
+      return field.name;
     });
     this.displayColumns = this.fieldColumns;
   }

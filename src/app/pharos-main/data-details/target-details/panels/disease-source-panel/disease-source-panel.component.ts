@@ -1,11 +1,46 @@
 import {Component, HostBinding, Input, OnInit} from '@angular/core';
-import {Subject} from "rxjs/Subject";
-import {DiseaseRelevance} from "../../../../../models/disease-relevance";
-import {TableData} from "../../../../../models/table-data";
-import {takeUntil} from "rxjs/operators";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {forEach} from "@angular/router/src/utils/collection";
-import {MatTabChangeEvent} from "@angular/material";
+import {Subject} from 'rxjs/Subject';
+import {DiseaseRelevance} from '../../../../../models/disease-relevance';
+import {TableData} from '../../../../../models/table-data';
+import {takeUntil} from 'rxjs/operators';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {forEach} from '@angular/router/src/utils/collection';
+import {MatTabChangeEvent} from '@angular/material';
+
+// skipping log2foldchange property
+const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
+  [
+    ['IDG Disease',  new TableData({
+      name: 'disease',
+      label: 'Disease',
+      sortable: true,
+      internalLink: true
+    })
+    ], [
+    'IDG Evidence', new TableData( {
+      name: 'evidence',
+      label: 'Evidence'
+    })
+  ], [
+    'IDG Z-score', new TableData({
+      name: 'zscore',
+      label: 'Z-score',
+      sortable: true
+    })
+  ], ['IDG Confidence', new TableData({
+      name: 'confidence',
+      label: 'Confidence',
+      sortable: true
+    }
+
+  )], ['pvalue', new TableData({
+      name: 'pvalue',
+      label: 'P-value',
+      sortable: true
+    }
+  )]
+  ]
+);
 
 @Component({
   selector: 'pharos-disease-source',
@@ -13,10 +48,10 @@ import {MatTabChangeEvent} from "@angular/material";
   styleUrls: ['./disease-source-panel.component.css']
 })
 export class DiseaseSourceComponent implements OnInit {
-  sourceMap : Map<string, DiseaseRelevance[]> = new Map<string, DiseaseRelevance[]>();
-  fieldsMap : Map<string, TableData[]> = new Map<string, TableData[]>();
+  sourceMap: Map<string, DiseaseRelevance[]> = new Map<string, DiseaseRelevance[]>();
+  fieldsMap: Map<string, TableData[]> = new Map<string, TableData[]>();
   sources: string[];
-  @Input() width: number = 30;
+  @Input() width = 30;
   tableArr: any[] = [];
 
 /*  @HostBinding('attr.fxFlex')
@@ -28,12 +63,11 @@ export class DiseaseSourceComponent implements OnInit {
   set data(value: any) {
     if (value.diseaseSources) {
       this.sourceMap.clear();
-      const temp: DiseaseRelevance[] = [];
       value.diseaseSources.forEach(dr => {
-        //create new disease relevance object to get Property class properties
+        // create new disease relevance object to get Property class properties
         const readDR = new DiseaseRelevance(dr);
         // get source label
-        let labelProp: string = readDR.properties.filter(prop => prop.label === 'Data Source').map(lab => lab['term'])[0];
+        const labelProp: string = readDR.properties.filter(prop => prop.label === 'Data Source').map(lab => lab['term'])[0];
         // get array of diseases from source map
         const tableData: any = {};
         const fields: TableData[] = [];
@@ -62,7 +96,7 @@ export class DiseaseSourceComponent implements OnInit {
   }
 
   get data() {
-    return this._data.getValue()
+    return this._data.getValue();
   }
   constructor() { }
 
@@ -82,37 +116,3 @@ export class DiseaseSourceComponent implements OnInit {
   }
 }
 
-// skipping log2foldchange property
-const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
-  [
-    ['IDG Disease',  new TableData({
-    name: 'disease',
-    label: 'Disease',
-    sortable: true,
-    internalLink: true
-  })
-  ],[
-    'IDG Evidence', new TableData( {
-      name: 'evidence',
-      label: 'Evidence'
-    })
-  ], [
-    'IDG Z-score', new TableData({
-    name: 'zscore',
-    label: 'Z-score',
-      sortable: true
-    })
-  ], ['IDG Confidence', new TableData({
-      name: 'confidence',
-      label: 'Confidence',
-      sortable: true
-    }
-
-  )],['pvalue', new TableData({
-    name: 'pvalue',
-    label: 'P-value',
-      sortable: true
-    }
-  )]
-  ]
-);

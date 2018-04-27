@@ -1,4 +1,4 @@
-import {PharosBase} from "./pharos-base";
+import {PharosBase} from './pharos-base';
 
 export class Target extends PharosBase {
   name: string;

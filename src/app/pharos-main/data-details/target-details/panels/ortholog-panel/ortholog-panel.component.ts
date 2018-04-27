@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TableData} from "../../../../../models/table-data";
-import {MatTabChangeEvent} from "@angular/material";
-import {Ortholog} from "../../../../../models/ortholog";
-import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
+import {TableData} from '../../../../../models/table-data';
+import {MatTabChangeEvent} from '@angular/material';
+import {Ortholog} from '../../../../../models/ortholog';
+import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 
 @Component({
   selector: 'pharos-ortholog-panel',
@@ -10,7 +10,7 @@ import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-
   styleUrls: ['./ortholog-panel.component.css']
 })
 export class OrthologPanelComponent extends DynamicPanelComponent implements OnInit {
-  fields : TableData[] = [
+  fields: TableData[] = [
     new TableData({
     name: 'species',
     label: 'Species',
@@ -23,13 +23,13 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
     })
   ];
   species: string[];
-  @Input() width: number = 30;
+  @Input() width = 30;
   tableArr: any[] = [];
   /*  @HostBinding('attr.fxFlex')
     flex = this.width;*/
 
   constructor() {
-    super()
+    super();
   }
 
   ngOnInit() {
@@ -50,11 +50,11 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
       this.tableArr = [];
       const temp: Ortholog[] = [];
       this.data.orthologs.forEach(obj => {
-        //create new object to get Property class properties
+        // create new object to get Property class properties
         const newObj: Ortholog = new Ortholog(obj);
         // get source label
-        let labelProp: string = newObj.properties.filter(prop => prop.label === 'Ortholog Species').map(lab => lab['term'])[0];
-        let dataSources: string[] = newObj.properties.filter(prop => prop.label === 'Data Source').map(lab => lab['term']);
+        const labelProp: string = newObj.properties.filter(prop => prop.label === 'Ortholog Species').map(lab => lab['term'])[0];
+        const dataSources: string[] = newObj.properties.filter(prop => prop.label === 'Data Source').map(lab => lab['term']);
         this.tableArr.push({species: labelProp, source: dataSources});
       });
     }

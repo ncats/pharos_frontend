@@ -1,20 +1,20 @@
-import {Component, HostBinding, Input, OnInit, SimpleChange, ViewEncapsulation} from '@angular/core';
-import {finalize, map, takeUntil, takeWhile} from "rxjs/operators";
-import {Term} from "../../../../../models/term";
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {Subject} from "rxjs/Subject";
-import {HttpClient} from "@angular/common/http";
-import {Value} from "../../../../../models/value";
+import {Component, HostBinding, Input, OnDestroy, OnInit, SimpleChange, ViewEncapsulation} from '@angular/core';
+import {finalize, map, takeUntil, takeWhile} from 'rxjs/operators';
+import {Term} from '../../../../../models/term';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Subject} from 'rxjs/Subject';
+import {HttpClient} from '@angular/common/http';
+import {Value} from '../../../../../models/value';
 
 @Component({
   selector: 'pharos-summary-panel',
   templateUrl: './summary-panel.component.html',
   styleUrls: ['./summary-panel.component.css']
 })
-export class SummaryPanelComponent implements OnInit {
+export class SummaryPanelComponent implements OnInit, OnDestroy {
   loaded = false;
   private ngUnsubscribe: Subject<any> = new Subject();
-  @Input() width: number = 30;
+  @Input() width = 30;
   synonyms: Term[];
   symbol: Term[];
   gene: Term;
@@ -30,7 +30,7 @@ export class SummaryPanelComponent implements OnInit {
   set data(value: any) {
     // set the latest value for _data BehaviorSubject
     this._data.next(value);
-    if(value.timelines) {
+    if (value.timelines) {
       this.fetchTimelineData();
     }
     this.loaded = true;
@@ -67,7 +67,7 @@ ngOnInit() {
 }
 
 
-getTimeline(field : string): any {
+getTimeline(field: string): any {
    // console.log(this.timelines);
   return this.timelines.filter(tl => tl.name === field);
 }
@@ -81,10 +81,10 @@ fetchTimelineData(): void {
           index === arr.findIndex((t) => (
             t.id === tl.id
           ))
-        )
-      })
+        );
+      });
     }
-  })
+  });
 }
 
   ngOnDestroy() {

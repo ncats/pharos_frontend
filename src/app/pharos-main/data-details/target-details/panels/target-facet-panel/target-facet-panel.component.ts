@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
+import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 
 @Component({
   selector: 'pharos-target-facet-panel',
@@ -27,7 +27,7 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
   }
 
     setterFunction(): void {
-    if(this.data){
+    if (this.data) {
 console.log(this);
 this.keys = Object.keys(this.data);
     }

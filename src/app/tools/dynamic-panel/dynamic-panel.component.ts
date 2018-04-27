@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
-import {takeWhile} from "rxjs/operators";
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {takeWhile} from 'rxjs/operators';
 
 @Component({
   templateUrl: './dynamic-panel.component.html',
@@ -22,6 +22,6 @@ export class DynamicPanelComponent {
     return this._data.getValue();
   }
 
-  constructor (){}
+  constructor () {}
 
 }

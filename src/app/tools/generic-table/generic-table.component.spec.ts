@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GenericTableComponent } from './generic-table.component';
-import {MaterialModule} from "../../../assets/material/material.module";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MaterialModule} from '../../../assets/material/material.module';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('GenericTableComponent', () => {
   let component: GenericTableComponent;

@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { ComponentLookupService } from './component-lookup.service';
-import {EnvironmentVariablesService} from "./environment-variables.service";
+import {EnvironmentVariablesService} from './environment-variables.service';
 
 describe('ComponentLookupService', () => {
   beforeEach(() => {

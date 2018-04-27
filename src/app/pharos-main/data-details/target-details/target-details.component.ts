@@ -9,7 +9,7 @@ import {DataDetailsResolver} from '../../services/data-details.resolver';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
 import {ComponentLookupService} from '../../../pharos-services/component-lookup.service';
 import {Subject} from 'rxjs/Subject';
-import {takeUntil} from "rxjs/operators";
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'pharos-target-details',
@@ -92,7 +92,7 @@ export class TargetDetailsComponent implements OnInit, OnDestroy {
     return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
   }
 
-  ngOnDestroy() :void {
+  ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
