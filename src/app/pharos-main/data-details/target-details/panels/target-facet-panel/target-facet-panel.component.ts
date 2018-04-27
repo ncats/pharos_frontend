@@ -8,7 +8,7 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 })
 export class TargetFacetPanelComponent extends DynamicPanelComponent implements OnInit {
   keys: string[];
-
+  facets: any[];
   constructor() {
     super();
   }
@@ -26,10 +26,16 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
       });
   }
 
-    setterFunction(): void {
+  setterFunction(): void {
     if (this.data) {
-console.log(this);
-this.keys = Object.keys(this.data);
+      this.facets = [];
+      this.keys = Object.keys(this.data);
+      this.keys.forEach(key => {
+        if (this.data[key]) {
+          this.facets.push({label: key, fields: this.data[key]});
+        }
+      });
+      this.facets = this.facets.filter(facet => facet.fields.length > 0);
     }
-    }
+  }
 }

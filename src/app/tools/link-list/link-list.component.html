@@ -1,1 +1,16 @@
-{{list | json}}
+<mat-card class="card" *ngIf = data>
+  <mat-card-header>
+    <mat-card-title ><span class="mat-title">{{label}} ({{data.length}})</span></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+<mat-list>
+  <mat-list-item *ngFor = "let item of data | slice:0:9">
+    <div *ngIf = "item.href; else noLink">
+      <a href = {{item.href}} target="_blank">{{item.term}}</a>
+    </div>
+    <ng-template #noLink>{{item.term}}</ng-template>
+  </mat-list-item>
+</mat-list>
+  </mat-card-content>
+</mat-card>
+

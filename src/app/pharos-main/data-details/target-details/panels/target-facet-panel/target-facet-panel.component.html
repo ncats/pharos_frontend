@@ -4,10 +4,8 @@
   </mat-card-header>
   <mat-card-content>
     <div fxLayout="row wrap" fxLayoutAlign="space-around stretch">
-      <div *ngFor = "let key of keys">
-        <div *ngIf="data[key]?.length > 0" fxFlex = "25">
-          <pharos-link-list [list] = data[key]></pharos-link-list>
-        </div>
+      <div *ngFor = "let facet of facets" fxFlex = "25">
+          <pharos-link-list [list] = facet.fields [label]="facet.label"></pharos-link-list>
       </div>
     </div>
   </mat-card-content>

@@ -17,7 +17,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PharosMainRoutingModule} from '../../pharos-main-routing.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {TESTTARGET} from '../../../../../test/test-target';
-import {testComponentLookupService} from '../../../../../test/test-component-lookup.service';
+import {TestComponentLookupService} from '../../../../../test/test-component-lookup.service';
 
 describe('TargetDetailsComponent', () => {
   let component: TargetDetailsComponent;
@@ -39,7 +39,7 @@ describe('TargetDetailsComponent', () => {
         PathResolverService,
         ResponseParserService,
         LoadingService,
-        {provide: ComponentLookupService, useClass: testComponentLookupService},
+        {provide: ComponentLookupService, useClass: TestComponentLookupService},
         {provide: APP_BASE_HREF, useValue: '/targets' }
       ]
     })

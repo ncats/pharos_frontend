@@ -19,6 +19,7 @@ describe('GenericTableComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GenericTableComponent);
     component = fixture.componentInstance;
+    component.data = [];
     fixture.detectChanges();
   });
 

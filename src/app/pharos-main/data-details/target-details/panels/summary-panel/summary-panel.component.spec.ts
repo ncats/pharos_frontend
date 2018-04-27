@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SummaryPanelComponent } from './summary-panel.component';
 import {SharedModule} from '../../../../../shared/shared.module';
+import {KnowledgePanelComponent} from "../knowledge-panel/knowledge-panel.component";
 
 describe('SummaryPanelComponent', () => {
   let component: SummaryPanelComponent;
@@ -10,7 +11,7 @@ describe('SummaryPanelComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [SharedModule],
-      declarations: [ SummaryPanelComponent ]
+      declarations: [ SummaryPanelComponent, KnowledgePanelComponent ]
     })
     .compileComponents();
   }));

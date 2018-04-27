@@ -6,6 +6,7 @@ export const TESTTARGET: Target = {
   created: 1516103936000,
   modified: 1516104267000,
   deprecated: false,
+  href: '',
   name: 'Tumor necrosis factor',
   description: 'The TNF intracellular domain (ICD) form induces IL12 production in dendritic cells.',
   idgFamily: 'Non-IDG',
@@ -30,5 +31,7 @@ export const TESTTARGET: Target = {
   _links: {'count': 5223, 'href': 'https://pharos.nih.gov/idg/api/v1/targets(7617)/links'},
   _namespace: null
 };
+
+
 
 

@@ -107,7 +107,8 @@ const pharosMainRoutes: Routes = [
     KnowledgePanelComponent,
     ExpressionPanelComponent,
     OrthologPanelComponent,
-    TargetFacetPanelComponent
+    TargetFacetPanelComponent,
+    DiseaseSourceComponent
   ]
 })
 export class PharosMainRoutingModule { }
