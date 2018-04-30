@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PharosDashboardComponent } from './pharos-dashboard.component';
 import {ToiCardComponent} from './toi-card/toi-card.component';
-import {ToiDashboardComponent} from './toi-dashboard/toi-dashboard.component';
+import {ToiDashboardComponent} from '../pharos-topics/toi-dashboard/toi-dashboard.component';
 import {SearchCardComponent} from './search-card/search-card.component';
 import {SharedModule} from '../shared/shared.module';
 import {LoadingService} from '../pharos-services/loading.service';

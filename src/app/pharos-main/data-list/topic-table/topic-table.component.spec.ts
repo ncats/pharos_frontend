@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TbioViewerComponent } from './tbio-viewer.component';
+import { TopicTableComponent } from './topic-table.component';
 
-describe('TbioViewerComponent', () => {
-  let component: TbioViewerComponent;
-  let fixture: ComponentFixture<TbioViewerComponent>;
+describe('TopicTableComponent', () => {
+  let component: TopicTableComponent;
+  let fixture: ComponentFixture<TopicTableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TbioViewerComponent ]
+      declarations: [ TopicTableComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TbioViewerComponent);
+    fixture = TestBed.createComponent(TopicTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -7,4 +7,8 @@ export class PharosBase {
   modified:  number;
   version: number;
   _namespace: string;
+
+  constructor (obj: any) {
+    Object.entries((obj)).forEach((prop) => this[prop[0]] = prop[1]);
+  }
 }

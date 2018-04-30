@@ -9,7 +9,7 @@ export class Ortholog extends PharosBase {
   refid: string;
 
   constructor(obj: any) {
-    super();
+    super(obj);
     this.refid = obj.refid;
     obj.properties.forEach(prop => {
       if (prop.term) {

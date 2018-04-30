@@ -4,11 +4,12 @@ import {PageData} from '../models/page-data';
 import {PharosApiService} from './pharos-api.service';
 import {Facet} from '../models/facet';
 import {takeUntil} from 'rxjs/operators';
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
 @Injectable()
 export class ResponseParserService {
   private _facetsDataSource = new Subject<Facet[]>();
-  private _tableDataSource = new Subject<any>();
+  private _tableDataSource = new BehaviorSubject<any>(null);
   private _paginationDataSource = new Subject<PageData>();
   private _detailsDataSource = new Subject<any>();
 

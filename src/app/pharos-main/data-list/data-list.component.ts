@@ -25,16 +25,9 @@ const navigationExtras: NavigationExtras = {
 export class DataListComponent implements OnInit, OnDestroy {
   data: any;
   loading = false;
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
-
   path: string;
-  fieldsMap: any[];
-  fieldColumns: string[];
-  displayColumns: string[];
-  dynamicComponent: any;
+
+  @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
   private ngUnsubscribe: Subject<any> = new Subject();
 
   constructor(private _route: ActivatedRoute,
@@ -60,15 +53,16 @@ export class DataListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.data = res;
-        const token: any = this.componentLookup.lookupByPath(this.path, 'table');
+        const token: any = this.componentLookup.lookupByPath(this.path, 'list');
         const dynamicComponentToken = this.componentInjectorService.getComponentToken(this.componentHost, token);
-        this.dynamicComponent = this.componentInjectorService.injectComponent(this.componentHost, dynamicComponentToken);
-        this.dynamicComponent.instance.data = res;
-        this.dynamicComponent.instance.sortChange.subscribe((event) => {
-          this.sortTable(event);
-          // todo sort arrows are not staying after column select
-        });
-
+        const dynamicComponent: any = this.componentInjectorService.injectComponent(this.componentHost, dynamicComponentToken);
+        dynamicComponent.instance.data = res;
+        if(dynamicComponent.instance.sortChange) {
+          dynamicComponent.instance.sortChange.subscribe((event) => {
+            this.sortTable(event);
+            // todo sort arrows are not staying after column select
+          });
+        }
         this.ref.markForCheck(); // refresh the component manually
         this.loadingService.toggleVisible(false);
       });

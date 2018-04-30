@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TclinViewerComponent } from './tclin-viewer.component';
+import { TopicDetailsComponent } from './topic-details.component';
 
-describe('TclinViewerComponent', () => {
-  let component: TclinViewerComponent;
-  let fixture: ComponentFixture<TclinViewerComponent>;
+describe('TopicDetailsComponent', () => {
+  let component: TopicDetailsComponent;
+  let fixture: ComponentFixture<TopicDetailsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TclinViewerComponent ]
+      declarations: [ TopicDetailsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TclinViewerComponent);
+    fixture = TestBed.createComponent(TopicDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

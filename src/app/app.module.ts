@@ -8,7 +8,7 @@ import { ResponseParserService } from './pharos-services/response-parser.service
 import { EnvironmentVariablesService } from './pharos-services/environment-variables.service';
 import { PathResolverService } from './pharos-services/path-resolver.service';
 import { FacetRetrieverService } from './pharos-main/services/facet-retriever.service';
-import { ToiDashboardComponent } from './pharos-dashboard/toi-dashboard/toi-dashboard.component';
+import { ToiDashboardComponent } from './pharos-topics/toi-dashboard/toi-dashboard.component';
 import { ToiCardComponent } from './pharos-dashboard/toi-card/toi-card.component';
 import { PharosDashboardComponent } from './pharos-dashboard/pharos-dashboard.component';
 import { SearchCardComponent } from './pharos-dashboard/search-card/search-card.component';
@@ -17,16 +17,17 @@ import {SharedModule} from './shared/shared.module';
 import {ComponentLookupService} from './pharos-services/component-lookup.service';
 import { LinkListComponent } from './tools/link-list/link-list.component';
 import { DynamicPanelComponent } from './tools/dynamic-panel/dynamic-panel.component';
+import { ToiHeaderComponent } from './pharos-topics/toi-header/toi-header.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ToiDashboardComponent,
-    ToiCardComponent,
     PharosDashboardComponent,
     SearchCardComponent,
-    DynamicPanelComponent
+    DynamicPanelComponent,
+    ToiHeaderComponent
 
   ],
   imports: [

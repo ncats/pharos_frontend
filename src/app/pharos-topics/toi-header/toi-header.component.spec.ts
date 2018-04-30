@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TchemViewerComponent } from './tchem-viewer.component';
+import { ToiHeaderComponent } from './toi-header.component';
 
-describe('TchemViewerComponent', () => {
-  let component: TchemViewerComponent;
-  let fixture: ComponentFixture<TchemViewerComponent>;
+describe('ToiHeaderComponent', () => {
+  let component: ToiHeaderComponent;
+  let fixture: ComponentFixture<ToiHeaderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TchemViewerComponent ]
+      declarations: [ ToiHeaderComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TchemViewerComponent);
+    fixture = TestBed.createComponent(ToiHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

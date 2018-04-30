@@ -66,7 +66,6 @@ export class DiseaseSourceComponent implements OnInit {
       this.sourceMap.clear();
       // todo: when api is fixed to always return array, this can go
       if(!sources.length){
-        console.log(sources);
         sources = [sources];
       }
       sources.forEach(dr => {

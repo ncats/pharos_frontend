@@ -17,6 +17,8 @@ import {GenericTableComponent} from '../tools/generic-table/generic-table.compon
 import {TermDisplayComponent} from '../tools/term-display/term-display.component';
 import {LineChartComponent} from '../pharos-main/visualizations/line-chart/line-chart.component';
 import {LinkListComponent} from '../tools/link-list/link-list.component';
+import {TopicTableComponent} from "../pharos-main/data-list/topic-table/topic-table.component";
+import {ToiCardComponent} from "../pharos-dashboard/toi-card/toi-card.component";
 
 @NgModule({
   imports: [
@@ -36,7 +38,9 @@ import {LinkListComponent} from '../tools/link-list/link-list.component';
     GenericTableComponent,
     TermDisplayComponent,
     LineChartComponent,
-    LinkListComponent
+    LinkListComponent,
+    TopicTableComponent,
+    ToiCardComponent
   ],
   providers: [
     ComponentLookupService,
@@ -57,7 +61,9 @@ import {LinkListComponent} from '../tools/link-list/link-list.component';
     GenericTableComponent,
     TermDisplayComponent,
     LineChartComponent,
-    LinkListComponent
+    LinkListComponent,
+    TopicTableComponent,
+    ToiCardComponent
   ]
 })
 export class SharedModule { }

@@ -1,16 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {ToiDashboardComponent} from './pharos-dashboard/toi-dashboard/toi-dashboard.component';
+import {ToiDashboardComponent} from './pharos-topics/toi-dashboard/toi-dashboard.component';
 import {PharosDashboardComponent} from './pharos-dashboard/pharos-dashboard.component';
 import {LocationStrategy, PathLocationStrategy} from '@angular/common';
 import {IdgLevelIndicatorComponent} from './tools/idg-level-indicator/idg-level-indicator.component';
+import {DataListResolver} from "./pharos-main/services/data-list.resolver";
 
 
 
 const ROUTES: Routes = [
   {
     path: 'index',
-    component: PharosDashboardComponent
+    component: PharosDashboardComponent,
+    /*resolve: {
+      data: DataListResolver
+    },*/
   },
   { path: '',
     redirectTo: '/index',
@@ -18,30 +22,18 @@ const ROUTES: Routes = [
   },
   {
     path: 'topics',
-    component: ToiDashboardComponent
+    //component: ToiDashboardComponent
+    loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
+    data: { path: 'topics' }
   },
   {
     path: 'targets',
     loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
     data: { path: 'targets' }
-
-   /* component: DataListComponent,
-    resolve: {
-      data: DataListResolver
-    },
-    // this reloads the component/resolver when the url changes from pagination or sort
-    runGuardsAndResolvers: 'paramsOrQueryParamsChange'*/
   }, {
     path: 'diseases',
     loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
     data: { path: 'diseases' }
-
-  /*  component: DataListComponent,
-    resolve: {
-      data: DataListResolver
-    },
-    // this reloads the component/resolver when the url changes from pagination or sort
-    runGuardsAndResolvers: 'paramsOrQueryParamsChange'*/
   }
 ];
 
@@ -50,7 +42,7 @@ const ROUTES: Routes = [
     RouterModule.forRoot(ROUTES)
   ],
   providers: [],
-  entryComponents: [IdgLevelIndicatorComponent],
+  entryComponents: [],
   exports: [ RouterModule ]
 })
 export class AppRoutingModule { }

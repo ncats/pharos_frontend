@@ -1,16 +1,6 @@
-<!--
-<mat-toolbar fxLayout="row" [ngClass] = target.idgTDL.toLowerCase() class="target-toolbar">
-  <span>
-{{target.idgTDL}}&nbsp;&nbsp;&nbsp;&nbsp;
-  </span>
-
-</mat-toolbar>
-<br>
-<br>-->
-<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" ngClass ={{getHeaderClass()}}>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start">
   <div fxFlex="100" fxFlexAlign="stretch">
-    <pharos-idg-level-indicator [level]="target.idgTDL"></pharos-idg-level-indicator>
-    <span class = "mat-display-3 toolbar">{{target.name}}</span>
+    <span class = "mat-display-3 toolbar">{{toi.name}}</span>
     <span class="spacer"></span>
     <span fxFlex fxLayoutAlign= "end center">
     <button mat-icon-button><mat-icon class="example-icon">save</mat-icon></button>
@@ -23,9 +13,6 @@
 <br>
 <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
   <div fxFlex="90" fxFlexAlign="stretch">
-    <span class="mat-body-1">{{target.description}}</span>
-<!--
-    https://pharos.nih.gov/idg/api/v1/targets(7617)/properties(label=NCBI%20Gene%20Summary)
--->
+    <span class="mat-body-1">{{toi.description}}</span>
   </div>
 </div>

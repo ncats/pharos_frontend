@@ -7,7 +7,7 @@ import {SuggestApiService} from '../../tools/search-component/suggest-api.servic
 import {AppRoutingModule} from '../../app-routing.module';
 import {PharosDashboardComponent} from '../pharos-dashboard.component';
 import {ToiCardComponent} from '../toi-card/toi-card.component';
-import {ToiDashboardComponent} from '../toi-dashboard/toi-dashboard.component';
+import {ToiDashboardComponent} from '../../pharos-topics/toi-dashboard/toi-dashboard.component';
 import {APP_BASE_HREF} from '@angular/common';
 
 describe('SearchCardComponent', () => {

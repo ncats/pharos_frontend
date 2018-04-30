@@ -1,3 +1,34 @@
-<p>
-  disease-table works!
-</p>
+
+<mat-table [dataSource]="dataSource" matSort  (matSortChange)="changeSort($event)">
+  <!--<ng-container matColumnDef="list-select">
+    <mat-header-cell *matHeaderCellDef> Compare </mat-header-cell>
+    <mat-cell *matCellDef="let row" class="col2">
+      <mat-checkbox (click)="$event.stopPropagation()"
+                    (change)="$event ? rowSelection.toggle(row) : null"
+                    [checked]="rowSelection.isSelected(row)">
+      </mat-checkbox>
+    </mat-cell>
+  </ng-container>-->
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <a routerLink={{row.id}} >{{row.id}} </a>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <a routerLink={{row.id}} >{{row.name}} </a>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="description">
+    <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+    <mat-cell *matCellDef="let row">
+     {{row.description}}
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayColumns;">
+  </mat-row>
+</mat-table>

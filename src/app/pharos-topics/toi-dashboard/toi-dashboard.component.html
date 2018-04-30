@@ -1,8 +1,26 @@
 <!--
-<div class = "row" fxLayoutAlign="space-around stretch">
-  <div fxFlex="95">
-  </div>
+<div class = "main">
+  <app-ncats-header></app-ncats-header>
+  <mat-sidenav-container class="flex-body facetsDrawer">
+    <mat-sidenav #sidenav [mode]="'over'">
+      &lt;!&ndash; sidenav content &ndash;&gt;
+      <pharos-filter-panel></pharos-filter-panel>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <button type="button" class="sidenavToggle" mat-raised-button [color]="'primary'" (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <pharos-scroll-to-top></pharos-scroll-to-top>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  <app-ncats-footer class ="footer"></app-ncats-footer>
 </div>
+-->
+
+
+<!--
+<pharos-toi-header></pharos-toi-header>
+-->
     <div class = "row" fxLayoutAlign="space-around stretch">
   <div fxFlex="95">
     <p>Imagination is the key to painting. Just let your mind wander and enjoy. This should make you happy. Isn't it great to do something you can't fail at? Nature is so fantastic, enjoy it. Let it make you happy. You're the greatest thing that has ever been or ever will be. You're special. You're so very special. I'm gonna start with a little Alizarin crimson and a touch of Prussian blue</p>
@@ -16,4 +34,3 @@
   <div fxFlex = "25"><mat-card>Ligands</mat-card></div>
   <div fxFlex = "25"><mat-card>Publications</mat-card></div>
 </div>
--->

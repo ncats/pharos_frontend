@@ -1,21 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import {Topic} from "../models/topic";
+import {Topic} from "../../models/topic";
 
 @Component({
-  selector: 'pharos-pharos-dashboard',
-  templateUrl: './pharos-dashboard.component.html',
-  styleUrls: ['./pharos-dashboard.component.css']
+  selector: 'pharos-toi-dashboard',
+  templateUrl: './toi-dashboard.component.html',
+  styleUrls: ['./toi-dashboard.component.css']
 })
-export class PharosDashboardComponent implements OnInit {
-  topics: any;
-
-  constructor() {
-  }
+export class ToiDashboardComponent implements OnInit {
+topics: Topic[];
+  constructor() { }
 
   ngOnInit() {
     this.topics = [
       new Topic({
-        name: 'Bromodomain Inhibitors',
+        title: 'Bromodomain Inhibitors',
         description:'Imagination is the key to painting. Just let your mind wander and enjoy. This should make you happy.' +
         ' Isn\'t it great to do something you can\'t fail at? Nature is so fantastic, enjoy it. Let it make you happy. ' +
         'You\'re the greatest thing that has ever been or ever will be. You\'re special. You\'re so very special. ' +
@@ -32,7 +30,7 @@ export class PharosDashboardComponent implements OnInit {
         publicationCt: 25
       }),
       new Topic({
-        name: 'Lysomal Storage Disorders',
+        title: 'Lysomal Storage Disorders',
         description: 'Just relax and let it flow. That easy. This is your world. Everybody needs a friend. ' +
         'Don\'t be bashful drop me a line. We don\'t want to set these clouds on fire. Just use the old one inch brush.' +
         'Any little thing can be your friend if you let it be. Talent is a pursued interest. That is to say, anything you' +
@@ -49,7 +47,7 @@ export class PharosDashboardComponent implements OnInit {
         publicationCt: 45
       }),
       new Topic({
-        name: 'Cystic Fibrosis',
+        title: 'Cystic Fibrosis',
         description:'Maybe there\'s a happy little waterfall happening over here. In life you need colors. ' +
         'Decide where your cloud lives. Maybe he lives right in here. I can\'t think of anything more rewarding than being ' +
         'able to express yourself to others through painting. I\'m sort of a softy, I couldn\'t shoot Bambi except with a camera. ' +
@@ -63,6 +61,8 @@ export class PharosDashboardComponent implements OnInit {
         targetCt: 5,
         publicationCt: 12
       })
-    ];
+    ]
+
   }
+
 }

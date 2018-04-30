@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'pharos-disease-details',
@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./disease-details.component.css']
 })
 export class DiseaseDetailsComponent implements OnInit {
+  @Input() data: any;
 
   constructor() { }
 
   ngOnInit() {
   }
 
+  setData(data: any): void {
+    this.data = data;
+  //  this.dataSource.next(data);
+  }
 }
