@@ -58,6 +58,7 @@ export class PharosApiService {
     });
   }
 
+  // todo: this preserves previous detail values. needs to be emptied/unsubscribed on url change
   private _mergeSources() {
     let returnedObject = {};
     combineLatest(
