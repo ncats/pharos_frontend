@@ -2,6 +2,8 @@ import {PharosBase} from './pharos-base';
 
 export class Target extends PharosBase {
   name: string;
+  gene: string;
+  accession: string;
   description: string;
   idgFamily: string;
   idgTDL: string;

@@ -12,7 +12,13 @@
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
         <mat-cell *matCellDef="let row">
-         <a routerLink={{row.id}} >{{row.name}} </a>
+         <a routerLink={{row.accession}} >{{row.name}} </a>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="gene">
+        <mat-header-cell *matHeaderCellDef>Gene</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+         <a routerLink={{row.gene}} >{{row.gene}} </a>
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="idgTDL">

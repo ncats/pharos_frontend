@@ -48,22 +48,6 @@ export class SummaryPanelComponent implements OnInit, OnDestroy {
 // todo: remove these http calls after api is fixed
   constructor(private _http: HttpClient) { }
 ngOnInit() {
-  // now we can subscribe to it
-  // data is only set once, as an object. the properties are modified though
- /* this._data
-    .pipe(
-    )
-    .subscribe(parentData => {*/
-      // todo: this is terrible kill it with fire asap
-    //  if(this.data && this.data.timelines ) {
-      //  if (this.timelines.length < this.data.timelines.length) {
-
-   //     }
-
-   //   }
-     // return parentData;
-  //  });
-  console.log(this);
 }
 
 

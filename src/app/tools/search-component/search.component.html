@@ -1,3 +1,4 @@
+<div class ="search-row">
 <mat-form-field class ="typeahead-field">
   <input matInput placeholder = {{placeholderStr}} (keyup.enter)="search()"
    aria-label="Search" [matAutocomplete]="auto" [formControl]="typeaheadCtrl">
@@ -8,5 +9,6 @@
       </mat-option>
     </mat-optgroup>
   </mat-autocomplete>
+  <button mat-button mat-icon-button matSuffix aria-label="search"(click)="search()"><mat-icon>search</mat-icon></button>
 </mat-form-field>
-<button mat-icon-button (click)="search()"><mat-icon>search</mat-icon></button>
+</div>
