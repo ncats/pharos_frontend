@@ -7,8 +7,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
  * subscription needs to be set in the extending component, where other logic can take place
  */
 @Component({
-  templateUrl: './dynamic-panel.component.html',
-  styleUrls: ['./dynamic-panel.component.css']
+  template: ''
 })
 export class DynamicPanelComponent {
   /**
@@ -24,6 +23,7 @@ export class DynamicPanelComponent {
    */
   @Input()
   set data(value: any) {
+    console.log(value);
       this._data.next(value);
   }
 

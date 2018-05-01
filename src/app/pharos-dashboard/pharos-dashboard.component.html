@@ -4,7 +4,7 @@
 <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around none" class="toi-row">
   <div fxFlex="60" fxFlexOrder.xs="2">
     <div *ngFor="let toi of topics">
-      <pharos-toi-card [toi] = toi></pharos-toi-card>
+      <pharos-toi-card [toi] = toi [desc]="false"></pharos-toi-card>
     </div>
   </div>
   <div fxFlex="35" fxFlexOrder.xs="1" fxFlexAlign="stretch">

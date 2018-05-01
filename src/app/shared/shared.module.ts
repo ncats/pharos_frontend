@@ -27,7 +27,8 @@ import {ToiCardComponent} from "../pharos-dashboard/toi-card/toi-card.component"
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    RouterModule
   ],
   declarations: [
     SearchComponent,

@@ -43,7 +43,8 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
           this.dynamicComponent.instance.path = this.path;
         }
         // pass though data changes - this includes both the object and other fetched fields (references/publications, etc)
-        this.dynamicComponent.instance.setData(res);
+        console.log(res);
+        this.dynamicComponent.instance.data = res;
 
       });
   }
