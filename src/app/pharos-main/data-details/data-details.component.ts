@@ -14,7 +14,6 @@ import {ComponentInjectorService} from '../../pharos-services/component-injector
 
 })
 export class DataDetailsComponent implements OnInit, OnDestroy {
-  data: any = {};
   path: string;
   dynamicComponent: any;
   private ngUnsubscribe: Subject<any> = new Subject();
@@ -36,7 +35,8 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
     this.responseParserService.detailsData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.data = res;
+        console.log(res);
+        // without this check, the component keeps refreshing
         if (!this.dynamicComponent) {
           const token: any = this.componentLookupService.lookupByPath(this.path, 'details');
           const dynamicComponentToken = this.componentInjectorService.getComponentToken(this.componentHost, token);
@@ -44,8 +44,8 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
           this.dynamicComponent.instance.path = this.path;
         }
         // pass though data changes - this includes both the object and other fetched fields (references/publications, etc)
-        this.dynamicComponent.instance.data = res;
-        this.ref.markForCheck(); // refresh the component manually
+          this.dynamicComponent.instance.data = res;
+          this.ref.markForCheck(); // refresh the component manually
       });
   }
 

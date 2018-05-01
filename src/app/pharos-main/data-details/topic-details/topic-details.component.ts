@@ -33,7 +33,6 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
 
 
   ngOnInit() {
-    /*if (this.data) {
         this._data
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(x => {
@@ -41,7 +40,5 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
             this.topic = this.data;
             //childComponent.instance.data = this.pick(this.data, keys);
           });
-    }*/
-  }
-
+    }
 }

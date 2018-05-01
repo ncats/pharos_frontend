@@ -15,7 +15,7 @@ import {Topic} from "../models/topic";
 @Injectable()
 export class PharosApiService {
 
-  private _dataSource = new BehaviorSubject<any>({});
+  private _dataSource = new Subject<any>();
   private _detailsSource = new BehaviorSubject<any>({});
   private _detailsUrlSource = new BehaviorSubject<any>({});
   private _URL: string;
@@ -111,6 +111,7 @@ export class PharosApiService {
         .pipe(
           catchError(this.handleError('getDetails', []))
         ).subscribe(response => {
+          console.log(response);
         this._detailsSource.next(response);
       });
     }
@@ -125,7 +126,6 @@ export class PharosApiService {
     });
   }
 
-  // todo: this preserves previous detail values. needs to be emptied/unsubscribed on url change
   private _mergeSources() {
     let returnedObject = {};
     combineLatest(
@@ -134,6 +134,11 @@ export class PharosApiService {
       (object, details) => {
         if (details.origin) {
           returnedObject[details.origin] = details.data;
+          // this is needed to change details object
+          // todo: is this the ideal way to do it? seems brittle
+          if(object){
+            returnedObject['object'] = object;
+          }
         } else {
           returnedObject = {object: object};
         }
@@ -186,13 +191,10 @@ export class PharosApiService {
 
 
   getTopics() {
-    console.log("topics")
-    console.log(this.TOPICS)
     this._dataSource.next({content:this.TOPICS});
   }
 
   getTopicsDetails( index: any) {
-    console.log("tipics details")
     this._detailsSource.next(this.TOPICS[index]);
 
   }
