@@ -37,6 +37,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
         this._data
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(x => {
+            console.log(this.data);
             this.topic = this.data;
             //childComponent.instance.data = this.pick(this.data, keys);
           });

@@ -27,6 +27,7 @@ export class ResponseParserService {
     this.pharosApiService.data$
       .subscribe(res => {
         if (res.object) {
+          console.log(res);
           this._detailsDataSource.next(res);
         }
       this._tableDataSource.next(res.content);
