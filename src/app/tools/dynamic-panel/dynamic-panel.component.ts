@@ -23,7 +23,6 @@ export class DynamicPanelComponent {
    */
   @Input()
   set data(value: any) {
-    console.log(value);
       this._data.next(value);
   }
 

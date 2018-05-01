@@ -72,6 +72,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
   }
 
   ngOnDestroy(): void {
+    console.log("unsubscribing target details");
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }

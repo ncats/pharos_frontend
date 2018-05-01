@@ -140,7 +140,6 @@ export class PharosApiService {
         return returnedObject;
       })
       .subscribe((res) => {
-        console.log(res);
         this._dataSource.next(res);
       });
   }

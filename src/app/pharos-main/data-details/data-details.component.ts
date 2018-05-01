@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {Subject} from 'rxjs/Subject';
@@ -27,6 +27,7 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
     private componentLookupService: ComponentLookupService,
     private componentInjectorService: ComponentInjectorService,
     private responseParserService: ResponseParserService,
+    private ref: ChangeDetectorRef
   ) {
     this.path = this._route.snapshot.data.path;
   }
@@ -35,7 +36,6 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
     this.responseParserService.detailsData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        console.log(res);
         this.data = res;
         if (!this.dynamicComponent) {
           const token: any = this.componentLookupService.lookupByPath(this.path, 'details');
@@ -44,13 +44,13 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
           this.dynamicComponent.instance.path = this.path;
         }
         // pass though data changes - this includes both the object and other fetched fields (references/publications, etc)
-        console.log(res);
         this.dynamicComponent.instance.data = res;
-
+        this.ref.markForCheck(); // refresh the component manually
       });
   }
 
   ngOnDestroy() {
+    console.log("unsubsicribing data details");
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
