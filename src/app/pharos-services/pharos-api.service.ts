@@ -89,21 +89,26 @@ export class PharosApiService {
    * @returns void
    */
   getData(path: string, params: ParamMap): void {
+    console.log(path);
+    console.log(params);
     // todo: delete when api filled out
-    if(path ==='topics'){
+    if (path === 'topics') {
       this.getTopics();
     } else {
       const url = this._mapParams(path, params);
       this.http.get<any>(url)
         .pipe(
           catchError(this.handleError('getData', []))
-        ).subscribe(response => this._dataSource.next(response));
+        )
+        .subscribe(response => {
+          this._dataSource.next(response)
+        });
     }
   }
 
   getDetails(path: string, params: ParamMap): void {
     // todo: delete when api filled out
-    if(path ==='topics'){
+    if (path === 'topics') {
       this.getTopicsDetails(params.get('id'));
     } else {
       const url = this._URL + path + '/' + params.get('id');
@@ -111,7 +116,6 @@ export class PharosApiService {
         .pipe(
           catchError(this.handleError('getDetails', []))
         ).subscribe(response => {
-          console.log(response);
         this._detailsSource.next(response);
       });
     }
@@ -142,6 +146,7 @@ export class PharosApiService {
         } else {
           returnedObject = {object: object};
         }
+
         return returnedObject;
       })
       .subscribe((res) => {
@@ -155,7 +160,7 @@ export class PharosApiService {
     if (params.keys.length === 0) {
       str = this.environmentVariablesService.getDefaultUrl(path);
     } else {
-      str = this._URL + path + '/search?';
+      str = this._URL + (path !== 'search' ? path + '/' : '')  + 'search?';
       params.keys.map(key => {
         params.getAll(key).map(val => {
             str = str + key + '=' + val + '&';
@@ -165,6 +170,7 @@ export class PharosApiService {
       // todo look into if this is the best way to make the url -- this is going to happen a lot
       str = str.slice(0, -1);
     }
+    console.log(str);
     return str;
   }
 
@@ -188,15 +194,12 @@ export class PharosApiService {
     };
   }
 
-
-
   getTopics() {
-    this._dataSource.next({content:this.TOPICS});
+    this._dataSource.next({content: this.TOPICS});
   }
 
   getTopicsDetails( index: any) {
     this._detailsSource.next(this.TOPICS[index]);
-
   }
 
 

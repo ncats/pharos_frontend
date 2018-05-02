@@ -20,37 +20,41 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
 
 
-
-  constructor(
-    private _route: ActivatedRoute,
-    private componentLookupService: ComponentLookupService,
-    private componentInjectorService: ComponentInjectorService,
-    private responseParserService: ResponseParserService,
-    private ref: ChangeDetectorRef
-  ) {
+  constructor(private _route: ActivatedRoute,
+              private componentLookupService: ComponentLookupService,
+              private componentInjectorService: ComponentInjectorService,
+              private responseParserService: ResponseParserService,
+              private ref: ChangeDetectorRef) {
     this.path = this._route.snapshot.data.path;
   }
 
   ngOnInit() {
+    console.log(this);
+    if (this.path === 'topics') {
+      const token: any = this.componentLookupService.lookupByPath(this.path, 'details');
+      const dynamicComponentToken = this.componentInjectorService.getComponentToken(this.componentHost, token);
+      this.dynamicComponent = this.componentInjectorService.injectComponent(this.componentHost, dynamicComponentToken);
+      this.dynamicComponent.instance.path = this.path;
+    }
     this.responseParserService.detailsData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         console.log(res);
-        // without this check, the component keeps refreshing
-        if (!this.dynamicComponent) {
-          const token: any = this.componentLookupService.lookupByPath(this.path, 'details');
-          const dynamicComponentToken = this.componentInjectorService.getComponentToken(this.componentHost, token);
-          this.dynamicComponent = this.componentInjectorService.injectComponent(this.componentHost, dynamicComponentToken);
-          this.dynamicComponent.instance.path = this.path;
-        }
-        // pass though data changes - this includes both the object and other fetched fields (references/publications, etc)
+          // without this check, the component keeps refreshing
+          if (!this.dynamicComponent) {
+            const token: any = this.componentLookupService.lookupByPath(this.path, 'details');
+            console.log(token);
+            const dynamicComponentToken = this.componentInjectorService.getComponentToken(this.componentHost, token);
+            this.dynamicComponent = this.componentInjectorService.injectComponent(this.componentHost, dynamicComponentToken);
+            this.dynamicComponent.instance.path = this.path;
+          }
+          // pass though data changes - this includes both the object and other fetched fields (references/publications, etc)
           this.dynamicComponent.instance.data = res;
           this.ref.markForCheck(); // refresh the component manually
       });
   }
 
   ngOnDestroy() {
-    console.log("unsubsicribing data details");
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }

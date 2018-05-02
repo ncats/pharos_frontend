@@ -26,8 +26,7 @@ import { ToiHeaderComponent } from './pharos-topics/toi-header/toi-header.compon
     ToiDashboardComponent,
     PharosDashboardComponent,
     SearchCardComponent,
-    DynamicPanelComponent,
-    ToiHeaderComponent
+    DynamicPanelComponent
 
   ],
   imports: [

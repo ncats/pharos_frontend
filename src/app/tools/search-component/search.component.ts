@@ -3,6 +3,10 @@ import {SuggestApiService} from './suggest-api.service';
 import {Observable} from 'rxjs/Observable';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {NavigationExtras, Router} from "@angular/router";
+
+const navigationExtras: NavigationExtras = {
+};
 
 @Component({
   selector: 'pharos-search-component',
@@ -17,7 +21,10 @@ export class SearchComponent implements OnInit {
   filteredGroups: Observable<any>;
   groups: any[] = [];
 
-  constructor(private suggestApiService: SuggestApiService) {  }
+  constructor(
+    private _router: Router,
+    private suggestApiService: SuggestApiService
+  ) {  }
 
   ngOnInit() {
     if (!this.placeholderStr) {
@@ -36,6 +43,13 @@ export class SearchComponent implements OnInit {
    * @returns void
    */
   search(): void {
-    console.log(this.typeaheadCtrl.value);
+    let query = '"' + this.typeaheadCtrl.value.replace(/ /g, '+')  + '"';
+    navigationExtras.queryParams = {q: query};
+    this._navigate(navigationExtras);
+  }
+
+  private _navigate(navExtras: NavigationExtras): void {
+    this._router.navigate(['/search'], navExtras);
+
   }
 }

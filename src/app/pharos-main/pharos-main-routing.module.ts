@@ -32,6 +32,7 @@ import {
 import {DiseaseDetailsComponent} from "./data-details/disease-details/disease-details.component";
 import {TopicTableComponent} from "./data-list/topic-table/topic-table.component";
 import {TopicDetailsComponent} from "./data-details/topic-details/topic-details.component";
+import {TopicHeaderComponent} from "./data-details/topic-details/topic-header/topic-header.component";
 
 const pharosMainRoutes: Routes = [
   {
@@ -96,7 +97,8 @@ const pharosMainRoutes: Routes = [
     DiseaseTableComponent,
     DiseaseDetailsComponent,
     TopicTableComponent,
-    TopicDetailsComponent
+    TopicDetailsComponent,
+    TopicHeaderComponent
   ],
   declarations: [
     TargetTableComponent,
@@ -112,7 +114,8 @@ const pharosMainRoutes: Routes = [
     ClassificationExplanationComponent,
     DiseaseTableComponent,
     DiseaseDetailsComponent,
-    TopicDetailsComponent
+    TopicDetailsComponent,
+    TopicHeaderComponent
   ]
 })
 export class PharosMainRoutingModule { }

@@ -19,6 +19,7 @@ import {
   VisualizationOptionsComponent
 } from './data-list-visualizations/visualization-options/visualization-options.component';
 import { PatentPanelComponent } from './data-details/target-details/panels/patent-panel/patent-panel.component';
+import { TopicHeaderComponent } from './data-details/topic-details/topic-header/topic-header.component';
 
 @NgModule({
   imports: [

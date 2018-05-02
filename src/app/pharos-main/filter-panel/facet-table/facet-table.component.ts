@@ -42,6 +42,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
         this.propogate = true;
       });
   this.dataSource.data = this.facet.values;
+
     this.filterSelection.onChange
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(change => {

@@ -1,1 +1,16 @@
-{{topic | json}}
+<pharos-topic-header [topic]="topic"></pharos-topic-header>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
+  <div fxFlex="95">
+    <div class = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
+      <div fxFlex = "25"><mat-card>Targets
+      <
+
+
+      </mat-card></div>
+      <div fxFlex = "25"><mat-card>Diseases</mat-card></div>
+      <div fxFlex = "25"><mat-card>Ligands</mat-card></div>
+      <div fxFlex = "25"><mat-card>Publications</mat-card></div>
+    </div>
+      <ng-template appPharosCustomContent></ng-template>
+    </div>
+  </div>

@@ -22,7 +22,6 @@ const ROUTES: Routes = [
   },
   {
     path: 'topics',
-    //component: ToiDashboardComponent
     loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
     data: { path: 'topics' }
   },
@@ -34,6 +33,10 @@ const ROUTES: Routes = [
     path: 'diseases',
     loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
     data: { path: 'diseases' }
+  }, {
+    path: 'search',
+    loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
+    data: { path: 'search' }
   }
 ];
 

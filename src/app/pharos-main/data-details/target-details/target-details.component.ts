@@ -36,6 +36,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
     super();
   }
 
+  // todo: target header has an api call, so it may need to be injected. The flex layout is tricky though.
   ngOnInit() {
       this.target = this.data.object;
       const token: any = this.componentLookupService.lookupByPath(this.path, this.target.idgTDL.toLowerCase());
