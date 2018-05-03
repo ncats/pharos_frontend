@@ -44,7 +44,7 @@ export class SearchComponent implements OnInit {
    */
   search(): void {
     let query = '"' + this.typeaheadCtrl.value.replace(/ /g, '+')  + '"';
-    navigationExtras.queryParams = {q: query};
+    navigationExtras.queryParams = {q: query, top: 1000};
     this._navigate(navigationExtras);
   }
 

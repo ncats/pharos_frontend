@@ -16,9 +16,7 @@ export class FacetListComponent implements OnInit {
 
   ngOnInit() {
     this.pathResolverService.facets$.subscribe(res => this.facets = res);
-    this._route.queryParamMap.subscribe(res => {
-      this.pathResolverService.mapToFacets(res);
-    });
+    this._route.queryParamMap.subscribe(res => this.pathResolverService.mapToFacets(res));
   }
 
   removefacetFamily(facet: any): void {

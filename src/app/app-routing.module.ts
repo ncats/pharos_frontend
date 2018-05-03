@@ -11,10 +11,7 @@ import {DataListResolver} from "./pharos-main/services/data-list.resolver";
 const ROUTES: Routes = [
   {
     path: 'index',
-    component: PharosDashboardComponent,
-    /*resolve: {
-      data: DataListResolver
-    },*/
+    component: PharosDashboardComponent
   },
   { path: '',
     redirectTo: '/index',

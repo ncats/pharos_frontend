@@ -39,22 +39,37 @@ constructor( ) {
       return null;
     }
   }
+
+  /**
+   * Checks to see if a path returns a defined array of components
+   * @param {string} path
+   * @returns {boolean}
+   * @private
+   */
   _pathExists(path: string): boolean {
     return this._environment[path] !== undefined;
   }
 
-  getComponents(path: string, subpath?: string) {
-    const components = this._environment[path].components;
-    if (this._pathExists(path) && subpath) {
-      const value = subpath.split('.').reduce((a, b) => a[b], components);
-      return value;
+  /**
+   * fetches components by main level path, and subpath if provided.
+   * If there are no associated components null is returned
+   * @param {string} path The top level path for the environment object
+   * @param {string} subpath (optional) sub path for a smaller subset of components
+   * @returns {any[]} array of component tokens/api calls or null
+   *
+   */
+  getComponents(path: string, subpath?: string): any[] {
+    if (this._pathExists(path)) {
+      if (subpath) {
+        const value = subpath.split('.').reduce((a, b) => a[b], this._environment[path].components);
+        return value;
+      } else {
+        console.log(this);
+        return this._environment[path].components;
+      }
     } else {
-      return components;
-  }
-  }
-
-  getTargetCards(level: string) {
-
+      return null;
+    }
   }
 }
 

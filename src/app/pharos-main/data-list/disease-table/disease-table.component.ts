@@ -11,6 +11,8 @@ import {Disease} from "../../../models/disease";
 export class DiseaseTableComponent implements OnInit {
   displayColumns: string[] = ['id', 'name', 'description'];
   @Input() data: Disease[];
+  @Input() total: number;
+
   @Output() readonly sortChange: EventEmitter<string> = new EventEmitter<string>();
   dataSource = new MatTableDataSource<any>(this.data);
   rowSelection = new SelectionModel<any>(true, []);

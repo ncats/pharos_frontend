@@ -14,8 +14,8 @@ export class SuggestApiService {
               private environmentVariableService: EnvironmentVariablesService) {
     this.url = this.environmentVariableService.getSuggestPath();
   }
-  /*  https://qhts-api-dev.ncats.nih.gov/qhts/suggest/ab/10
-     https://qhts-api-dev.ncats.nih.gov/qhts/suggest/:prefix/:limit */
+
+  // todo this should probably be piped through the pharos api service, or bundled as a self-contained module
   search(query: string): Observable<any[]> {
     return this.http.get<any[]>(this.url +  query)
       .pipe(
