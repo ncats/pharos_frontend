@@ -17,7 +17,7 @@ export class SummaryPanelComponent implements OnInit, OnDestroy {
   @Input() width = 30;
   synonyms: Term[];
   symbol: Term[];
-  gene: Term;
+  gene: Term[];
   pubmed: Value;
   timelines: any[] = [];
 

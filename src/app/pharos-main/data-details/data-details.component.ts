@@ -32,19 +32,17 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
     console.log(this);
     if (this.path === 'topics') {
       const token: any = this.componentLookupService.lookupByPath(this.path, 'details');
-      const dynamicComponentToken = this.componentInjectorService.getComponentToken(this.componentHost, token);
+      const dynamicComponentToken = this.componentInjectorService.getComponentToken(token);
       this.dynamicComponent = this.componentInjectorService.injectComponent(this.componentHost, dynamicComponentToken);
       this.dynamicComponent.instance.path = this.path;
     }
     this.responseParserService.detailsData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        console.log(res);
           // without this check, the component keeps refreshing
           if (!this.dynamicComponent) {
             const token: any = this.componentLookupService.lookupByPath(this.path, 'details');
-            console.log(token);
-            const dynamicComponentToken = this.componentInjectorService.getComponentToken(this.componentHost, token);
+            const dynamicComponentToken = this.componentInjectorService.getComponentToken(token);
             this.dynamicComponent = this.componentInjectorService.injectComponent(this.componentHost, dynamicComponentToken);
             this.dynamicComponent.instance.path = this.path;
           }

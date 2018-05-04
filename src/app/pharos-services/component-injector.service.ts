@@ -19,7 +19,7 @@ export class ComponentInjectorService {
     return viewContainerRef.createComponent(componentFactory);
   }
 
-  getComponentToken(componentHost: any, token: InjectionToken<any>): Type<any> {
+  getComponentToken(token: InjectionToken<any>): Type<any> {
     return this._injector.get<Type<any>>(token);
   }
 

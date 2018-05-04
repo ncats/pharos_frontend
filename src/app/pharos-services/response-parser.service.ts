@@ -26,15 +26,12 @@ export class ResponseParserService {
   initializeSubscriptions(): void {
     this.pharosApiService.data$
       .subscribe(res => {
-        console.log(res);
         if (res.object) {
-          console.log(res);
           this._detailsDataSource.next(res);
         }
       this._tableDataSource.next(res.content);
       this._paginationDataSource.next(new PageData(res));
       if (res.facets) {
-        console.log(res);
         this._facetsDataSource.next(res.facets);
       }
       });

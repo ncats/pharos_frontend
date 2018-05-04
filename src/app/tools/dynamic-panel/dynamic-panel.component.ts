@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Subject} from "rxjs/Subject";
 
 /**
  * Base component to be expanded by dynamically injected panels
@@ -10,6 +11,13 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
   template: ''
 })
 export class DynamicPanelComponent {
+  // todo: check to make sure all extending components are using this subject
+  /**
+   * Behaviour subject to allow extending class to unsubscribe on destroy
+   * @type {Subject<any>}
+   */
+  protected ngUnsubscribe: Subject<any> = new Subject();
+
   /**
    * initialize a private variable _data, it's a BehaviorSubject
    * @type {BehaviorSubject<any>}

@@ -64,10 +64,6 @@ export class DiseaseSourceComponent implements OnInit {
     if (value.diseaseSources) {
       let sources = value.diseaseSources;
       this.sourceMap.clear();
-      // todo: when api is fixed to always return array, this can go
-      if(!sources.length){
-        sources = [sources];
-      }
       sources.forEach(dr => {
         // create new disease relevance object to get Property class properties
         const readDR = new DiseaseRelevance(dr);

@@ -22,7 +22,6 @@ import {DynamicPanelComponent} from "../../../tools/dynamic-panel/dynamic-panel.
 export class TargetDetailsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   path: string;
   token: any;
-  private ngUnsubscribe: Subject<any> = new Subject();
 
   target: Target;
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
@@ -52,7 +51,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
           }
         });
         /** make component */
-        const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(this.componentHost, component.token);
+        const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
         const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
         if (component.width) {
           childComponent.instance.width = component.width;

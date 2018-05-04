@@ -89,8 +89,6 @@ export class PharosApiService {
    * @returns void
    */
   getData(path: string, params: ParamMap): void {
-    console.log(path);
-    console.log(params);
     // todo: delete when api filled out
     if (path === 'topics') {
       this.getTopics();
@@ -167,10 +165,10 @@ export class PharosApiService {
           }
         );
       });
+      // remove the trailing "&"
       // todo look into if this is the best way to make the url -- this is going to happen a lot
       str = str.slice(0, -1);
     }
-    console.log(str);
     return str;
   }
 

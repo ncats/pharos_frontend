@@ -34,7 +34,6 @@ export class DataListComponent implements OnInit, OnDestroy {
 
   constructor(private _route: ActivatedRoute,
               private router: Router,
-              private ref: ChangeDetectorRef,
               private responseParserService: ResponseParserService,
               private loadingService: LoadingService,
               private componentLookup: ComponentLookupService,
@@ -43,8 +42,6 @@ export class DataListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // empty the view: clears search results
-    this.componentHost.viewContainerRef.clear();
 
     this.loadingService.loading$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -54,40 +51,34 @@ export class DataListComponent implements OnInit, OnDestroy {
 
 
 
-    this.responseParserService.paginationData$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        console.log(res);
-        this.total = res.total;
-      });
+
 
     this.responseParserService.tableData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.results.clear();
         this.componentHost.viewContainerRef.clear();
-        console.log(res);
-       // this.data = res;
         console.log(this);
         this.filterData(res);
-        console.log(this.results);
         Array.from(this.results.keys()).forEach(dataType => {
         //  console.log(dataType.toLowerCase().split('.models.')[1]+'s');
           this.path = dataType.toLowerCase().split('.models.')[1]+'s';
         const token: any = this.componentLookup.lookupByPath(this.path, 'list');
         console.log(token);
         if(token) {
-          const dynamicComponentToken = this.componentInjectorService.getComponentToken(this.componentHost, token);
-          const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicComponentToken);
+          const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, this.componentInjectorService.getComponentToken(token));
           dynamicComponent.instance.data = this.results.get(dataType);
-          dynamicComponent.instance.total = this.total ? this.total : this.results.get(dataType).length;
+          this.responseParserService.paginationData$
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(res => {
+              dynamicComponent.instance.total = res.total ? res.total : this.results.get(dataType).length;
+            });
           if (dynamicComponent.instance.sortChange) {
             dynamicComponent.instance.sortChange.subscribe((event) => {
               this.sortTable(event);
               // todo sort arrows are not staying after column select
             });
           }
-          this.ref.markForCheck(); // refresh the component manually
         }
         })
         this.loadingService.toggleVisible(false);
@@ -101,10 +92,7 @@ export class DataListComponent implements OnInit, OnDestroy {
           });*/
   }
 
-  paginationChanges(event: any) {
-    navigationExtras.queryParams = {top: event.pageSize, skip: event.pageIndex * event.pageSize};
-    this._navigate(navigationExtras);
-  }
+
 
 // todo remove ordering on default switch
   sortTable(event: any): void {
@@ -145,6 +133,11 @@ export class DataListComponent implements OnInit, OnDestroy {
         }
       })
     }
+  }
+
+  paginationChanges(event: any) {
+    navigationExtras.queryParams = {top: event.pageSize, skip: event.pageIndex * event.pageSize};
+    this._navigate(navigationExtras);
   }
 
   private _navigate(navExtras: NavigationExtras): void {
