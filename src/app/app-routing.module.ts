@@ -1,10 +1,6 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {ToiDashboardComponent} from './pharos-topics/toi-dashboard/toi-dashboard.component';
 import {PharosDashboardComponent} from './pharos-dashboard/pharos-dashboard.component';
-import {LocationStrategy, PathLocationStrategy} from '@angular/common';
-import {IdgLevelIndicatorComponent} from './tools/idg-level-indicator/idg-level-indicator.component';
-import {DataListResolver} from "./pharos-main/services/data-list.resolver";
+import {RouterModule, Routes} from "@angular/router";
 
 
 
@@ -19,7 +15,7 @@ const ROUTES: Routes = [
   },
   {
     path: 'topics',
-    loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
+    loadChildren: './pharos-topics/pharos-topics.module#PharosTopicsModule',
     data: { path: 'topics' }
   },
   {

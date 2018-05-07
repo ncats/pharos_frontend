@@ -1,14 +1,14 @@
 import {Component, forwardRef, Inject, Injector, Input, OnInit, Type, ViewChild} from '@angular/core';
-import {ComponentLookupService} from "../../../pharos-services/component-lookup.service";
-import {ComponentInjectorService} from "../../../pharos-services/component-injector.service";
+import {ComponentLookupService} from "../../pharos-services/component-lookup.service";
+import {ComponentInjectorService} from "../../pharos-services/component-injector.service";
 import {Subject} from "rxjs/Subject";
-import {Target} from "../../../models/target";
-import {Publication} from "../../../models/publication";
-import {CustomContentDirective} from "../../../tools/custom-content.directive";
-import {DataDetailsResolver} from "../../services/data-details.resolver";
-import {DynamicPanelComponent} from "../../../tools/dynamic-panel/dynamic-panel.component";
+import {Target} from "../../models/target";
+import {Publication} from "../../models/publication";
+import {CustomContentDirective} from "../../tools/custom-content.directive";
+import {DataDetailsResolver} from "../../pharos-main/services/data-details.resolver";
+import {DynamicPanelComponent} from "../../tools/dynamic-panel/dynamic-panel.component";
 import {takeUntil} from "rxjs/operators";
-import {Topic} from "../../../models/topic";
+import {Topic} from "../../models/topic";
 
 @Component({
   selector: 'pharos-topic-details',

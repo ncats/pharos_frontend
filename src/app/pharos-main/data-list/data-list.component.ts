@@ -1,15 +1,15 @@
 import {
   ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {MatPaginator, MatSort } from '@angular/material';
+import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
 import {Subject} from 'rxjs/Subject';
-import { takeUntil} from 'rxjs/operators';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {CustomContentDirective} from '../../tools/custom-content.directive';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
 import {ComponentLookupService} from '../../pharos-services/component-lookup.service';
+import {takeUntil} from "rxjs/operators";
 
 
 const navigationExtras: NavigationExtras = {
@@ -30,7 +30,7 @@ export class DataListComponent implements OnInit, OnDestroy {
   results: Map<string, any[]> = new Map<string, any>();
 
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
-  private ngUnsubscribe: Subject<any> = new Subject();
+  private ngUnsubscribe: Subject<any> = new Subject<any>();
 
   constructor(private _route: ActivatedRoute,
               private router: Router,
@@ -46,7 +46,10 @@ export class DataListComponent implements OnInit, OnDestroy {
     this.loadingService.loading$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.loading = res;
+        if(res){
+console.log(res);
+          this.loading = !!res;
+        }
       });
 
 
@@ -56,11 +59,13 @@ export class DataListComponent implements OnInit, OnDestroy {
     this.responseParserService.tableData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
+        console.log(res);
         this.results.clear();
         this.componentHost.viewContainerRef.clear();
         console.log(this);
         this.filterData(res);
         Array.from(this.results.keys()).forEach(dataType => {
+          console.log(dataType);
         //  console.log(dataType.toLowerCase().split('.models.')[1]+'s');
           this.path = dataType.toLowerCase().split('.models.')[1]+'s';
         const token: any = this.componentLookup.lookupByPath(this.path, 'list');
@@ -71,7 +76,7 @@ export class DataListComponent implements OnInit, OnDestroy {
           this.responseParserService.paginationData$
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
-              dynamicComponent.instance.total = res.total ? res.total : this.results.get(dataType).length;
+              dynamicComponent.instance.total = res['total'] ? res['total'] : this.results.get(dataType).length;
             });
           if (dynamicComponent.instance.sortChange) {
             dynamicComponent.instance.sortChange.subscribe((event) => {

@@ -19,30 +19,15 @@ import {
   VisualizationOptionsComponent
 } from './data-list-visualizations/visualization-options/visualization-options.component';
 import { PatentPanelComponent } from './data-details/target-details/panels/patent-panel/patent-panel.component';
-import { TopicHeaderComponent } from './data-details/topic-details/topic-header/topic-header.component';
+import { TopicHeaderComponent } from '../pharos-topics/topic-details/topic-header/topic-header.component';
+import {PharosTopicsModule} from "../pharos-topics/pharos-topics.module";
 
 @NgModule({
   imports: [
-    SharedModule,
     PharosMainRoutingModule
   ],
   declarations: [
-    NcatsHeaderComponent,
-    NcatsFooterComponent,
-    PharosMainComponent,
-    BreadcrumbComponent,
-    DataListComponent,
-    DataListVisualizationsComponent,
-    PharosPaginatorComponent,
-    FilterPanelComponent,
-    FacetTableComponent,
-    FacetListComponent,
-    DonutChartComponent,
-    WordCloudChartComponent,
-    SunburstChartComponent,
-    VisualizationOptionsComponent,
-    DataDetailsComponent,
-    PatentPanelComponent
+
   ]
 })
 export class PharosMainModule { }

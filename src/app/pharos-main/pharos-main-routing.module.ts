@@ -1,6 +1,5 @@
-import {InjectionToken, NgModule} from '@angular/core';
+import { NgModule} from '@angular/core';
 import {DataListResolver} from './services/data-list.resolver';
-import {RouterModule, Routes} from '@angular/router';
 import {PharosMainComponent} from './pharos-main.component';
 import {TargetTableComponent} from './data-list/target-table/target-table.component';
 import {DataDetailsComponent} from './data-details/data-details.component';
@@ -30,9 +29,12 @@ import {
   ClassificationExplanationComponent
 } from './data-details/target-details/panels/classification-explanation/classification-explanation.component';
 import {DiseaseDetailsComponent} from "./data-details/disease-details/disease-details.component";
-import {TopicTableComponent} from "./data-list/topic-table/topic-table.component";
-import {TopicDetailsComponent} from "./data-details/topic-details/topic-details.component";
-import {TopicHeaderComponent} from "./data-details/topic-details/topic-header/topic-header.component";
+import {TopicTableComponent} from "../pharos-topics/topic-table/topic-table.component";
+import {TopicDetailsComponent} from "../pharos-topics/topic-details/topic-details.component";
+import {TopicHeaderComponent} from "../pharos-topics/topic-details/topic-header/topic-header.component";
+import {RouterModule, Routes} from "@angular/router";
+import {SharedListModule} from "../shared/shared-list.module";
+import {SharedDetailsModule} from "../shared/shared-details.module";
 
 const pharosMainRoutes: Routes = [
   {
@@ -57,14 +59,14 @@ const pharosMainRoutes: Routes = [
 @NgModule({
   imports: [
     SharedModule,
+    SharedListModule,
+    SharedDetailsModule,
     RouterModule.forChild(pharosMainRoutes)
   ],
   exports: [
     RouterModule
   ],
   providers: [
-    DataListResolver,
-    DataDetailsResolver,
     // targets
     { provide: TARGET_TABLE_COMPONENT, useValue: TargetTableComponent },
     { provide: TARGET_DETAILS_COMPONENT, useValue: TargetDetailsComponent },
@@ -78,9 +80,6 @@ const pharosMainRoutes: Routes = [
     // diseases
     { provide: DISEASE_TABLE_COMPONENT, useValue: DiseaseTableComponent },
     { provide: DISEASE_DETAILS_COMPONENT, useValue: DiseaseDetailsComponent },
-    // topics
-    { provide: TOPIC_TABLE_COMPONENT, useValue: TopicTableComponent },
-    { provide: TOPIC_DETAILS_COMPONENT, useValue: TopicDetailsComponent },
   ],
   entryComponents: [
     TargetTableComponent,
@@ -95,10 +94,7 @@ const pharosMainRoutes: Routes = [
     TargetFacetPanelComponent,
     ClassificationExplanationComponent,
     DiseaseTableComponent,
-    DiseaseDetailsComponent,
-    TopicTableComponent,
-    TopicDetailsComponent,
-    TopicHeaderComponent
+    DiseaseDetailsComponent
   ],
   declarations: [
     TargetTableComponent,
@@ -113,9 +109,7 @@ const pharosMainRoutes: Routes = [
     DiseaseSourceComponent,
     ClassificationExplanationComponent,
     DiseaseTableComponent,
-    DiseaseDetailsComponent,
-    TopicDetailsComponent,
-    TopicHeaderComponent
+    DiseaseDetailsComponent
   ]
 })
 export class PharosMainRoutingModule { }
