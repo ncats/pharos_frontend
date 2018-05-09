@@ -42,7 +42,7 @@ export class Node implements d3.SimulationNodeDatum {
   linkCount = 0;
   params: Params;
   kgraph: string;
-//created: number;
+// created: number;
   name: string;
   type: string;
   uri: string;
@@ -68,7 +68,7 @@ export class Node implements d3.SimulationNodeDatum {
 
   normal = () => {
     return Math.sqrt(this.linkCount / APP_CONFIG.N);
-  };
+  }
 
   get r() {
     return 50 * this.normal() + 15;

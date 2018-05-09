@@ -10,6 +10,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {ForceDirectedGraph} from '../../models/force-directed-graph';
 import {GraphDataService} from '../../services/graph-data.service';
 
+
 @Component({
   selector: 'pharos-graph',
   templateUrl: './graph.component.html',
@@ -24,6 +25,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
    loading = false;
 
   graph: ForceDirectedGraph;
+  _options: {width, height} = {width: 600, height: 600};
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -79,6 +81,5 @@ export class GraphComponent implements OnInit, AfterViewInit {
     };
   }
 
-  _options: {width, height} = {width: 600, height: 600};
 
 }

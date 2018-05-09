@@ -36,7 +36,8 @@ export class PharosDashboardComponent implements OnInit {
         description: 'Just relax and let it flow. That easy. This is your world. Everybody needs a friend. ' +
         'Don\'t be bashful drop me a line. We don\'t want to set these clouds on fire. Just use the old one inch brush.' +
         'Any little thing can be your friend if you let it be. Talent is a pursued interest. That is to say, anything you' +
-        ' practice you can do. Now we\'ll take the almighty fan brush. If you\'ve been in Alaska less than a year you\'re a Cheechako.' +
+        ' practice you can do. Now we\'ll take the almighty fan brush. If you\'ve been in Alaska less than a ' +
+        'year you\'re a Cheechako.' +
         ' These trees are so much fun. I get started on them and I have a hard time stopping. We spend so much of our ' +
         'life looking - but never seeing. But we\'re not there yet, so we don\'t need to worry about it. ' +
         'It\'s so important to do something every day that will make you happy. You got your heavy coat out yet? ' +
@@ -55,7 +56,8 @@ export class PharosDashboardComponent implements OnInit {
         'able to express yourself to others through painting. I\'m sort of a softy, I couldn\'t shoot Bambi except with a camera. ' +
         'All you need to paint is a few tools, a little instruction, and a vision in your mind. ' +
         'This is a happy place, little squirrels live here and play. Now then, let\'s play. Poor old tree. ' +
-        'Let your imagination be your guide. Fluff it up a little and hypnotize it. Trees get lonely too, so we\'ll give him a little friend. ' +
+        'Let your imagination be your guide. Fluff it up a little and hypnotize it. Trees get lonely too, ' +
+        'so we\'ll give him a little friend. ' +
         'Let\'s make a happy little mountain now. We\'ll play with clouds today.',
         class: 'disease',
         diseaseCt: 0,

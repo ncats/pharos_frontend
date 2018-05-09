@@ -34,7 +34,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {ComponentLookupService} from '../pharos-services/component-lookup.service';
 import {ComponentInjectorService} from '../pharos-services/component-injector.service';
 import {DataDetailsComponent} from '../pharos-main/data-details/data-details.component';
-import {PharosMainComponent} from "../pharos-main/pharos-main.component";
+import {PharosMainComponent} from '../pharos-main/pharos-main.component';
 
 const pharosMainRoutes: Routes = [
   {

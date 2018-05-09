@@ -160,7 +160,7 @@ export class D3Service {
   /** A method to bind hoverable behaviour to an svg element */
   applyHoverableLinkBehaviour(element, link: Link) {
     const d3element = d3.select(element);
-    let arrowType = 'connected';
+    const arrowType = 'connected';
 
     const mouseOverFunction = (): void => {
       d3element.select('.link').classed('hovering', true).classed(arrowType, true);
@@ -186,7 +186,7 @@ export class D3Service {
   applyClickableLinkBehaviour = (element, link: Link, graph: ForceDirectedGraph) =>  {
     const d3element = d3.select(element);
     const svg = d3.select('svg');
-    let arrowType = 'connected';
+    const arrowType = 'connected';
 
     const clickFunction = (): void => {
       const d3link = d3element.select('.link');

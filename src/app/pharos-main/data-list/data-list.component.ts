@@ -148,7 +148,7 @@ export class DataListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log("breakdown " + this.path)
+    console.log('breakdown ' + this.path);
     this.results.clear();
     this.componentHost.viewContainerRef.clear();
     this.ngUnsubscribe.next();

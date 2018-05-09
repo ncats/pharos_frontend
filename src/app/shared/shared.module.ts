@@ -72,7 +72,7 @@ import {NcatsFooterComponent} from '../tools/ncats-footer/ncats-footer.component
   ]
 })
 export class SharedModule {
-  static forRoot():ModuleWithProviders {
+  static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
       providers: [

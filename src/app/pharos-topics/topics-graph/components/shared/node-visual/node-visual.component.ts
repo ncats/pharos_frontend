@@ -9,12 +9,12 @@ import {NodeMenuControllerService} from '../../../services/event-tracking/node-m
 }*/
 
 @Component({
-  selector: '[nodeVisual]',
+  selector: '[node]',
   templateUrl: './node-visual.component.html',
   styleUrls: ['./node-visual.component.css']
 })
 export class NodeVisualComponent implements OnInit {
-  @Input('nodeVisual') node: Node;
+  @Input('node') node: Node;
   label: string;
   nodeClicked = false;
   displayName: string;
@@ -25,9 +25,9 @@ export class NodeVisualComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if(this.node.name.length > 30){
-      this.displayName = this.node.name.slice(0,30) + '...';
-    }else {
+    if (this.node.name.length > 30) {
+      this.displayName = this.node.name.slice(0, 30) + '...';
+    } else {
       this.displayName = this.node.name;
     }
     this.settingsService.dataChange

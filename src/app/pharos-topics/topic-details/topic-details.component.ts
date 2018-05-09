@@ -10,7 +10,7 @@ import {DynamicPanelComponent} from '../../tools/dynamic-panel/dynamic-panel.com
 import {takeUntil} from 'rxjs/operators';
 import {Topic} from '../../models/topic';
 import {DataConnectionService} from '../topics-graph/services/connection/data-connection.service';
-import {NodeService} from "../topics-graph/services/event-tracking/node.service";
+import {NodeService} from '../topics-graph/services/event-tracking/node.service';
 
 @Component({
   selector: 'pharos-topic-details',
