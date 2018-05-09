@@ -1,16 +1,16 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Target} from '../../../models/target';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material';
-import {DynamicPanelComponent} from "../../../tools/dynamic-panel/dynamic-panel.component";
-import {takeUntil} from "rxjs/operators";
+import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'pharos-target-table',
   templateUrl: './target-table.component.html',
   styleUrls: ['./target-table.component.css']
 })
-export class TargetTableComponent  extends DynamicPanelComponent implements OnInit {
+export class TargetTableComponent  extends DynamicPanelComponent implements OnInit, OnDestroy {
   displayColumns: string[] = ['name', 'gene', 'idgTDL', 'idgFamily', 'novelty', 'jensenScore', 'antibodyCount', 'knowledgeAvailability'];
   @Input() total: number;
   @Output() readonly sortChange: EventEmitter<string> = new EventEmitter<string>();
@@ -27,7 +27,6 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
     this._data
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(obj => {
-        console.log(this);
         this.dataSource.data = this.data;
       });
   }

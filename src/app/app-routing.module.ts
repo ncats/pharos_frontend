@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import {PharosDashboardComponent} from './pharos-dashboard/pharos-dashboard.component';
-import {RouterModule, Routes} from "@angular/router";
+import {RouterModule, Routes} from '@angular/router';
 
 
 
@@ -14,11 +14,6 @@ const ROUTES: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'topics',
-    loadChildren: './pharos-topics/pharos-topics.module#PharosTopicsModule',
-    data: { path: 'topics' }
-  },
-  {
     path: 'targets',
     loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
     data: { path: 'targets' }
@@ -26,7 +21,13 @@ const ROUTES: Routes = [
     path: 'diseases',
     loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
     data: { path: 'diseases' }
-  }, {
+  },
+  {
+    path: 'topics',
+    loadChildren: './pharos-topics/pharos-topics.module#PharosTopicsModule',
+    data: { path: 'topics' }
+  },
+  {
     path: 'search',
     loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
     data: { path: 'search' }
@@ -35,7 +36,7 @@ const ROUTES: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(ROUTES)
+    RouterModule.forRoot(ROUTES, {enableTracing: true})
   ],
   providers: [],
   entryComponents: [],

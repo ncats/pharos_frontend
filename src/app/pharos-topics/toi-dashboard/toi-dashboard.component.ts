@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Topic} from "../../models/topic";
+import {Topic} from '../../models/topic';
 
 @Component({
   selector: 'pharos-toi-dashboard',
@@ -14,7 +14,7 @@ topics: Topic[];
     this.topics = [
       new Topic({
         title: 'Bromodomain Inhibitors',
-        description:'Imagination is the key to painting. Just let your mind wander and enjoy. This should make you happy.' +
+        description: 'Imagination is the key to painting. Just let your mind wander and enjoy. This should make you happy.' +
         ' Isn\'t it great to do something you can\'t fail at? Nature is so fantastic, enjoy it. Let it make you happy. ' +
         'You\'re the greatest thing that has ever been or ever will be. You\'re special. You\'re so very special. ' +
         'I\'m gonna start with a little Alizarin crimson and a touch of Prussian blue In this world, everything can be happy. ' +
@@ -48,7 +48,7 @@ topics: Topic[];
       }),
       new Topic({
         title: 'Cystic Fibrosis',
-        description:'Maybe there\'s a happy little waterfall happening over here. In life you need colors. ' +
+        description: 'Maybe there\'s a happy little waterfall happening over here. In life you need colors. ' +
         'Decide where your cloud lives. Maybe he lives right in here. I can\'t think of anything more rewarding than being ' +
         'able to express yourself to others through painting. I\'m sort of a softy, I couldn\'t shoot Bambi except with a camera. ' +
         'All you need to paint is a few tools, a little instruction, and a vision in your mind. ' +
@@ -61,7 +61,7 @@ topics: Topic[];
         targetCt: 5,
         publicationCt: 12
       })
-    ]
+    ];
 
   }
 

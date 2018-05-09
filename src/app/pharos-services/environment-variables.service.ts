@@ -64,7 +64,6 @@ constructor( ) {
         const value = subpath.split('.').reduce((a, b) => a[b], this._environment[path].components);
         return value;
       } else {
-        console.log(this);
         return this._environment[path].components;
       }
     } else {

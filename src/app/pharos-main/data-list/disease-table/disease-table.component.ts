@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {SelectionModel} from "@angular/cdk/collections";
-import {MatTableDataSource} from "@angular/material";
-import {Disease} from "../../../models/disease";
+import {SelectionModel} from '@angular/cdk/collections';
+import {MatTableDataSource} from '@angular/material';
+import {Disease} from '../../../models/disease';
 
 @Component({
   selector: 'pharos-disease-table',

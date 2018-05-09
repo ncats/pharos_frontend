@@ -1,7 +1,7 @@
 import {
   ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatSort } from '@angular/material';
-import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {Subject} from 'rxjs/Subject';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {LoadingService} from '../../pharos-services/loading.service';
@@ -9,7 +9,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {CustomContentDirective} from '../../tools/custom-content.directive';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
 import {ComponentLookupService} from '../../pharos-services/component-lookup.service';
-import {takeUntil} from "rxjs/operators";
+import {takeUntil} from 'rxjs/operators';
 
 
 const navigationExtras: NavigationExtras = {
@@ -42,19 +42,13 @@ export class DataListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
     this.loadingService.loading$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        if(res){
-console.log(res);
+        if (res) {
           this.loading = !!res;
         }
       });
-
-
-
-
 
     this.responseParserService.tableData$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -62,21 +56,24 @@ console.log(res);
         console.log(res);
         this.results.clear();
         this.componentHost.viewContainerRef.clear();
-        console.log(this);
         this.filterData(res);
         Array.from(this.results.keys()).forEach(dataType => {
           console.log(dataType);
-        //  console.log(dataType.toLowerCase().split('.models.')[1]+'s');
-          this.path = dataType.toLowerCase().split('.models.')[1]+'s';
+          if (!dataType) {
+            this.path = 'topics';
+          } else {
+            this.path = dataType.toLowerCase().split('.models.')[1] + 's';
+          }
+          console.log(this.path);
         const token: any = this.componentLookup.lookupByPath(this.path, 'list');
-        console.log(token);
-        if(token) {
-          const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, this.componentInjectorService.getComponentToken(token));
+        if (token) {
+          const dynamicToken = this.componentInjectorService.getComponentToken(token);
+          const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicToken);
           dynamicComponent.instance.data = this.results.get(dataType);
           this.responseParserService.paginationData$
             .pipe(takeUntil(this.ngUnsubscribe))
-            .subscribe(res => {
-              dynamicComponent.instance.total = res['total'] ? res['total'] : this.results.get(dataType).length;
+            .subscribe(response => {
+              dynamicComponent.instance.total = response['total'] ? response['total'] : this.results.get(dataType).length;
             });
           if (dynamicComponent.instance.sortChange) {
             dynamicComponent.instance.sortChange.subscribe((event) => {
@@ -85,7 +82,7 @@ console.log(res);
             });
           }
         }
-        })
+        });
         this.loadingService.toggleVisible(false);
       });
 
@@ -125,9 +122,9 @@ console.log(res);
     this._navigate(navigationExtras);
   }
 
-  filterData(res):void {
+  filterData(res): void {
     this.results.clear();
-    if(res) {
+    if (res) {
       res.map(obj => {
         const kinds = this.results.get(obj.kind);
         if (kinds) {
@@ -136,7 +133,7 @@ console.log(res);
         } else {
           this.results.set(obj.kind, [obj]);
         }
-      })
+      });
     }
   }
 
@@ -151,10 +148,10 @@ console.log(res);
   }
 
   ngOnDestroy() {
-    console.log("unsubscribing");
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    console.log("breakdown " + this.path)
     this.results.clear();
     this.componentHost.viewContainerRef.clear();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

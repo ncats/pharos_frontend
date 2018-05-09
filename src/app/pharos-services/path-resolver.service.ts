@@ -56,9 +56,9 @@ export class PathResolverService {
     });
     let qList = map.getAll('q');
     // this cleans up the emtpy searches that return blank facets
-    if(qList.length > 0) {
+    if (qList.length > 0) {
       qList = qList.map(q => q.replace(/"/g, '').replace(/\+/g, ' '));
-      this._facetMap.set("query", qList);
+      this._facetMap.set('query', qList);
     }
     this._flattenMap();
   }

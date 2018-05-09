@@ -52,7 +52,6 @@ ngOnInit() {
 
 
 getTimeline(field: string): any {
-   // console.log(this.timelines);
   return this.timelines.filter(tl => tl.name === field);
 }
 

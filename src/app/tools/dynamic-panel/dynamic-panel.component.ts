@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Subject} from "rxjs/Subject";
+import {Subject} from 'rxjs/Subject';
 
 /**
  * Base component to be expanded by dynamically injected panels

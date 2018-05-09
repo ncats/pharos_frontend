@@ -1,4 +1,4 @@
-import {PharosBase} from "./pharos-base";
+import {PharosBase} from './pharos-base';
 
 export class Disease extends PharosBase {
   name: string;

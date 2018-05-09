@@ -1,0 +1,15 @@
+<svg:g [attr.transform]="'translate(' + node.x + ',' + node.y + ')'"  *ngIf="label !='structure'" (click)="toggleMenu()">
+  <svg:circle
+    class="node {{node.type}}"
+    [ngClass]="{startNode: node.params.startNode, endNode: node.params.endNode, clicked: nodeClicked}"
+    cx="0"
+    cy="0"
+    [attr.r]="node.r">
+  </svg:circle>
+  <svg:text>{{displayName}}</svg:text>
+</svg:g>
+<svg:foreignObject width='7vh' height='7vh' *ngIf="label ==='structure'" [attr.x]="node.x - (node.r+.5*node.r)" [attr.y]="node.y -(node.r+.5*node.r)">
+<!--  <xhtml:div xmlns="http:// www.w3.org/1999/xhtml">
+    <structure-view [data]="node"></structure-view>
+  </xhtml:div>-->
+</svg:foreignObject>

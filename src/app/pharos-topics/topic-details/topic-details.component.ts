@@ -1,14 +1,16 @@
 import {Component, forwardRef, Inject, Injector, Input, OnInit, Type, ViewChild} from '@angular/core';
-import {ComponentLookupService} from "../../pharos-services/component-lookup.service";
-import {ComponentInjectorService} from "../../pharos-services/component-injector.service";
-import {Subject} from "rxjs/Subject";
-import {Target} from "../../models/target";
-import {Publication} from "../../models/publication";
-import {CustomContentDirective} from "../../tools/custom-content.directive";
-import {DataDetailsResolver} from "../../pharos-main/services/data-details.resolver";
-import {DynamicPanelComponent} from "../../tools/dynamic-panel/dynamic-panel.component";
-import {takeUntil} from "rxjs/operators";
-import {Topic} from "../../models/topic";
+import {ComponentLookupService} from '../../pharos-services/component-lookup.service';
+import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
+import {Subject} from 'rxjs/Subject';
+import {Target} from '../../models/target';
+import {Publication} from '../../models/publication';
+import {CustomContentDirective} from '../../tools/custom-content.directive';
+import {DataDetailsResolver} from '../../pharos-main/services/data-details.resolver';
+import {DynamicPanelComponent} from '../../tools/dynamic-panel/dynamic-panel.component';
+import {takeUntil} from 'rxjs/operators';
+import {Topic} from '../../models/topic';
+import {DataConnectionService} from '../topics-graph/services/connection/data-connection.service';
+import {NodeService} from "../topics-graph/services/event-tracking/node.service";
 
 @Component({
   selector: 'pharos-topic-details',
@@ -18,14 +20,15 @@ import {Topic} from "../../models/topic";
 export class TopicDetailsComponent extends DynamicPanelComponent implements OnInit {
   path: string;
   topic: Topic;
+  data: any;
  // private ngUnsubscribe: Subject<any> = new Subject();
 
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
   private TOPICS = [
     new Topic({
-      id:0,
+      id: 0,
       name: 'Bromodomain Inhibitors',
-      description:'Imagination is the key to painting. Just let your mind wander and enjoy. This should make you happy.' +
+      description: 'Imagination is the key to painting. Just let your mind wander and enjoy. This should make you happy.' +
       ' Isn\'t it great to do something you can\'t fail at? Nature is so fantastic, enjoy it. Let it make you happy. ' +
       'You\'re the greatest thing that has ever been or ever will be. You\'re special. You\'re so very special. ' +
       'I\'m gonna start with a little Alizarin crimson and a touch of Prussian blue In this world, everything can be happy. ' +
@@ -40,62 +43,44 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
       targetCt: 0,
       publicationCt: 25
     }),
-    new Topic({
-      id:1,
-      name: 'Lysomal Storage Disorders',
-      description: 'Just relax and let it flow. That easy. This is your world. Everybody needs a friend. ' +
-      'Don\'t be bashful drop me a line. We don\'t want to set these clouds on fire. Just use the old one inch brush.' +
-      'Any little thing can be your friend if you let it be. Talent is a pursued interest. That is to say, anything you' +
-      ' practice you can do. Now we\'ll take the almighty fan brush. If you\'ve been in Alaska less than a year you\'re a Cheechako.' +
-      ' These trees are so much fun. I get started on them and I have a hard time stopping. We spend so much of our ' +
-      'life looking - but never seeing. But we\'re not there yet, so we don\'t need to worry about it. ' +
-      'It\'s so important to do something every day that will make you happy. You got your heavy coat out yet? ' +
-      'It\'s getting colder. Do an almighty painting with us. We don\'t really know where this goes -' +
-      'and I\'m not sure we really care.',
-      class: 'disease',
-      diseaseCt: 0,
-      ligandCt: 45,
-      targetCt: 45,
-      publicationCt: 45
-    }),
-    new Topic({
-      id:2,
-      name: 'Cystic Fibrosis',
-      description:'Maybe there\'s a happy little waterfall happening over here. In life you need colors. ' +
-      'Decide where your cloud lives. Maybe he lives right in here. I can\'t think of anything more rewarding than being ' +
-      'able to express yourself to others through painting. I\'m sort of a softy, I couldn\'t shoot Bambi except with a camera. ' +
-      'All you need to paint is a few tools, a little instruction, and a vision in your mind. ' +
-      'This is a happy place, little squirrels live here and play. Now then, let\'s play. Poor old tree. ' +
-      'Let your imagination be your guide. Fluff it up a little and hypnotize it. Trees get lonely too, so we\'ll give him a little friend. ' +
-      'Let\'s make a happy little mountain now. We\'ll play with clouds today.',
-      class: 'disease',
-      diseaseCt: 0,
-      ligandCt: 4,
-      targetCt: 5,
-      publicationCt: 12
-    })
-  ]
+  ];
 
 
   constructor(
+    private dataConnectionService: DataConnectionService,
     private _injector: Injector,
     @Inject(forwardRef(() => ComponentLookupService)) private componentLookupService,
     private dataDetailsResolver: DataDetailsResolver,
-    private componentInjectorService: ComponentInjectorService) {
+    private componentInjectorService: ComponentInjectorService,
+  private nodeService: NodeService) {
     super();
   }
 
 
   ngOnInit() {
-    this.topic = this.TOPICS[1];
+    this.topic = this.TOPICS[0];
         this._data
          // .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(x => {
             console.log(x);
             console.log(this.data);
          //   this.topic = this.data;
-            //childComponent.instance.data = this.pick(this.data, keys);
+            // childComponent.instance.data = this.pick(this.data, keys);
           });
         console.log(this);
+
+    this.nodeService.nodeList$
+      .subscribe(res => {
+        this.data = Array.from(new Set(res.hovered.concat(res.clicked)));
+      });
+    if (this.data) {
+      this.data = [this.data];
     }
+  }
+
+
+  doIt () {
+    console.log('doing it');
+    this.dataConnectionService.messages.next({message: 'MATCH (n:`KG:1`)-[r]-(b) with {segments:[{start: startNode(r), relationship:r, end: endNode(r)}]} AS ret RETURN ret LIMIT 25', params: {}});
+  }
 }

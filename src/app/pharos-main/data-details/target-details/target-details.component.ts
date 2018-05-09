@@ -10,7 +10,7 @@ import {ComponentInjectorService} from '../../../pharos-services/component-injec
 import {ComponentLookupService} from '../../../pharos-services/component-lookup.service';
 import {Subject} from 'rxjs/Subject';
 import {takeUntil} from 'rxjs/operators';
-import {DynamicPanelComponent} from "../../../tools/dynamic-panel/dynamic-panel.component";
+import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 
 @Component({
   selector: 'pharos-target-details',

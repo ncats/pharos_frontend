@@ -1,6 +1,6 @@
-import {PharosBase} from "./pharos-base";
+import {PharosBase} from './pharos-base';
 
-export class Topic extends PharosBase{
+export class Topic extends PharosBase {
 name: string;
 description: string;
 class: string;

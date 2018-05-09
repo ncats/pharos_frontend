@@ -1,5 +1,5 @@
 <mat-card class ="pharos-card">
-  <mat-card-header class="align-header" routerLink="{{toi.id}}" class="toi-link">
+  <mat-card-header class="align-header" routerLink="topics/{{toi.id}}" class="toi-link">
        <mat-card-title><span class="mat-display-2 primary" >{{toi?.name}}</span></mat-card-title>
     <mat-chip-list class = "pull-end" fxFlex fxFlexAlign="stretch">
       <mat-chip [color]="'accent'" [selected]="true">{{toi?.class}}</mat-chip>

@@ -1,0 +1,19 @@
+<svg:foreignObject class="foreignObjectMenu" xmlns:xhtml="http://www.w3.org/1999/xhtml" [attr.x]="clickedNode.x"
+                   [attr.y]="clickedNode.y" width="20vh" height="27vh" *ngIf="openMenu">
+  <xhtml:div xmlns="http:// www.w3.org/1999/xhtml" >
+    <mat-list [class.mat-elevation-z1]="'true'" >
+      <button mat-menu-item class = "expand-list" fxLayoutAlign="end center"  (click)="closeMenu()"><span><mat-icon>clear</mat-icon></span></button>
+      <button mat-menu-item class = "expand-list" [disabled]="true"><b>{{label}}</b></button>
+      <button mat-menu-item class = "expand-list" *ngIf="!expanded.target" (click)="expand('Target')" [disabled]="!counts.target">Expand Targets {{counts?.target}}</button>
+      <button mat-menu-item class = "expand-list" *ngIf="expanded.target===true" (click)="collapse('Target')" [disabled]="!counts.target">Collapse Targets {{counts?.target}}</button>
+      <button mat-menu-item class = "expand-list"  *ngIf="!expanded.compound" (click)="expand('Compound')" [disabled]="!counts.compound">Expand Compounds {{counts?.compound}}</button>
+      <button mat-menu-item class = "expand-list" *ngIf="expanded.compound===true" (click)="collapse('Compound')" [disabled]="!counts.compound">Collapse Compounds {{counts?.compound}}</button>
+      <button mat-menu-item class = "expand-list" *ngIf="!expanded.pattern" (click)="expand('Pattern')" [disabled]="!counts.pattern">Expand Patterns {{counts?.pattern}}</button>
+      <button mat-menu-item class = "expand-list" *ngIf="expanded.pattern===true" (click)="collapse('Pattern')" [disabled]="!counts.pattern">Collapse Patterns {{counts?.pattern}}</button>
+      <button mat-menu-item class = "expand-list" *ngIf="!expanded.all" (click)="expand('All')">Expand All {{counts?.total}}</button>
+      <button mat-menu-item class = "expand-list" *ngIf="expanded.all===true" (click)="collapse('All')">Collapse All {{counts?.total}}</button>
+      <button mat-menu-item class = "expand-list" *ngIf="clickedNode.labels[0]==='Target' && !expanded.predictions" (click)="expand('Predictions')">Get Predictions</button>
+      <button mat-menu-item class = "expand-list" *ngIf="expanded.predictions===true" (click)="collapse('Predictions')">Remove Predictions</button>
+    </mat-list>
+  </xhtml:div>
+</svg:foreignObject>

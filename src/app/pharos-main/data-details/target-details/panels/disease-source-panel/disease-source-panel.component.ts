@@ -62,7 +62,7 @@ export class DiseaseSourceComponent implements OnInit {
   @Input()
   set data(value: any) {
     if (value.diseaseSources) {
-      let sources = value.diseaseSources;
+      const sources = value.diseaseSources;
       this.sourceMap.clear();
       sources.forEach(dr => {
         // create new disease relevance object to get Property class properties

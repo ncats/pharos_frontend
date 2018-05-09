@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Topic} from "../../../models/topic";
+import {Topic} from '../../../models/topic';
 
 @Component({
   selector: 'pharos-topic-header',
@@ -7,7 +7,7 @@ import {Topic} from "../../../models/topic";
   styleUrls: ['./topic-header.component.css']
 })
 export class TopicHeaderComponent implements OnInit {
-  @Input() topic : Topic;
+  @Input() topic: Topic;
   constructor() { }
 
   ngOnInit() {

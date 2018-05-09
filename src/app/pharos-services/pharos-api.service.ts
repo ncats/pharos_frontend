@@ -9,7 +9,7 @@ import {ParamMap} from '@angular/router';
 import {EnvironmentVariablesService} from './environment-variables.service';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Topic} from "../models/topic";
+import {Topic} from '../models/topic';
 
 
 @Injectable()
@@ -24,9 +24,9 @@ export class PharosApiService {
  // todo: delete when api exists
   private TOPICS = [
     new Topic({
-      id:0,
+      id: 0,
       name: 'Bromodomain Inhibitors',
-      description:'Imagination is the key to painting. Just let your mind wander and enjoy. This should make you happy.' +
+      description: 'Imagination is the key to painting. Just let your mind wander and enjoy. This should make you happy.' +
       ' Isn\'t it great to do something you can\'t fail at? Nature is so fantastic, enjoy it. Let it make you happy. ' +
       'You\'re the greatest thing that has ever been or ever will be. You\'re special. You\'re so very special. ' +
       'I\'m gonna start with a little Alizarin crimson and a touch of Prussian blue In this world, everything can be happy. ' +
@@ -42,7 +42,7 @@ export class PharosApiService {
       publicationCt: 25
     }),
     new Topic({
-      id:1,
+      id: 1,
       name: 'Lysomal Storage Disorders',
       description: 'Just relax and let it flow. That easy. This is your world. Everybody needs a friend. ' +
       'Don\'t be bashful drop me a line. We don\'t want to set these clouds on fire. Just use the old one inch brush.' +
@@ -60,9 +60,9 @@ export class PharosApiService {
       publicationCt: 45
     }),
     new Topic({
-      id:2,
+      id: 2,
       name: 'Cystic Fibrosis',
-      description:'Maybe there\'s a happy little waterfall happening over here. In life you need colors. ' +
+      description: 'Maybe there\'s a happy little waterfall happening over here. In life you need colors. ' +
       'Decide where your cloud lives. Maybe he lives right in here. I can\'t think of anything more rewarding than being ' +
       'able to express yourself to others through painting. I\'m sort of a softy, I couldn\'t shoot Bambi except with a camera. ' +
       'All you need to paint is a few tools, a little instruction, and a vision in your mind. ' +
@@ -75,7 +75,7 @@ export class PharosApiService {
       targetCt: 5,
       publicationCt: 12
     })
-  ]
+  ];
 
   constructor(private http: HttpClient,
               private environmentVariablesService: EnvironmentVariablesService) {
@@ -99,7 +99,7 @@ export class PharosApiService {
           catchError(this.handleError('getData', []))
         )
         .subscribe(response => {
-          this._dataSource.next(response)
+          this._dataSource.next(response);
         });
     }
   }
@@ -138,7 +138,7 @@ export class PharosApiService {
           returnedObject[details.origin] = details.data;
           // this is needed to change details object
           // todo: is this the ideal way to do it? seems brittle
-          if(object){
+          if (object) {
             returnedObject['object'] = object;
           }
         } else {

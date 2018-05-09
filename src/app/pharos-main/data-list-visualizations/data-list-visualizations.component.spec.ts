@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DataListVisualizationsComponent } from './data-list-visualizations.component';
-import {PharosMainModule} from '../pharos-main.module';
 import {NcatsFooterComponent} from '../../tools/ncats-footer/ncats-footer.component';
 import {SunburstChartComponent} from '../visualizations/sunburst-chart/sunburst-chart.component';
 import {NcatsHeaderComponent} from '../../tools/ncats-header/ncats-header.component';

@@ -3,7 +3,7 @@ import {SuggestApiService} from './suggest-api.service';
 import {Observable} from 'rxjs/Observable';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
-import {NavigationExtras, Router} from "@angular/router";
+import {NavigationExtras, Router} from '@angular/router';
 
 const navigationExtras: NavigationExtras = {
 };
@@ -43,7 +43,7 @@ export class SearchComponent implements OnInit {
    * @returns void
    */
   search(): void {
-    let query = '"' + this.typeaheadCtrl.value.replace(/ /g, '+')  + '"';
+    const query = '"' + this.typeaheadCtrl.value.replace(/ /g, '+')  + '"';
     navigationExtras.queryParams = {q: query, top: 1000};
     this._navigate(navigationExtras);
   }

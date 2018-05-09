@@ -15,7 +15,7 @@ import {
   DISEASE_TABLE_COMPONENT, EXPRESSION_PANEL, KNOWLEDGE_PANEL, ORTHOLOG_PANEL, REFERENCES_PANEL,
   SUMMARY_PANEL,
   TARGET_DETAILS_COMPONENT, TARGET_FACET_PANEL,
-  TARGET_TABLE_COMPONENT, TOPIC_DETAILS_COMPONENT, TOPIC_TABLE_COMPONENT
+  TARGET_TABLE_COMPONENT
 } from '../../environments/environment.prod';
 import {
   ReferencesPanelComponent
@@ -28,13 +28,12 @@ import {TargetFacetPanelComponent} from './data-details/target-details/panels/ta
 import {
   ClassificationExplanationComponent
 } from './data-details/target-details/panels/classification-explanation/classification-explanation.component';
-import {DiseaseDetailsComponent} from "./data-details/disease-details/disease-details.component";
-import {TopicTableComponent} from "../pharos-topics/topic-table/topic-table.component";
-import {TopicDetailsComponent} from "../pharos-topics/topic-details/topic-details.component";
-import {TopicHeaderComponent} from "../pharos-topics/topic-details/topic-header/topic-header.component";
-import {RouterModule, Routes} from "@angular/router";
-import {SharedListModule} from "../shared/shared-list.module";
-import {SharedDetailsModule} from "../shared/shared-details.module";
+import {DiseaseDetailsComponent} from './data-details/disease-details/disease-details.component';
+import {RouterModule, Routes} from '@angular/router';
+import {SharedListModule} from '../shared/shared-list.module';
+import {SharedDetailsModule} from '../shared/shared-details.module';
+import {ComponentLookupService} from '../pharos-services/component-lookup.service';
+import {ComponentInjectorService} from '../pharos-services/component-injector.service';
 
 const pharosMainRoutes: Routes = [
   {
@@ -44,7 +43,7 @@ const pharosMainRoutes: Routes = [
       data: DataListResolver
     },
     // this reloads the component/resolver when the url changes from pagination or sort
-    runGuardsAndResolvers: 'paramsOrQueryParamsChange'
+    runGuardsAndResolvers: 'always'
   }, {
     path: ':id',
     component: DataDetailsComponent,
@@ -58,7 +57,7 @@ const pharosMainRoutes: Routes = [
 
 @NgModule({
   imports: [
-    SharedModule,
+    SharedModule.forRoot(),
     SharedListModule,
     SharedDetailsModule,
     RouterModule.forChild(pharosMainRoutes)

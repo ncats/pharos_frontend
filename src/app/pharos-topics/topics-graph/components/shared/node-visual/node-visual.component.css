@@ -1,0 +1,96 @@
+.node {
+  cursor: pointer;
+  transition: stroke-width 0.1s ease-out,
+  fill 0.1s ease-out,
+  stroke 0.1s ease-out;
+  pointer-events: all;
+}
+
+.node-name {
+  font-family: 'Lato';
+  text-anchor: middle;
+  alignment-baseline: central;
+  font-weight: 300;
+  pointer-events: all;
+}
+
+.hovering {
+  stroke: #000;
+  stroke-width: 2px;
+}
+
+
+.clicked {
+  stroke: #595959;
+  stroke-width: 3px;
+}
+
+.node {
+  diameter: 50px;
+  color: #A5ABB6;
+  border-color: #9AA1AC;
+  border-width: 2px;
+  text-color-internal: #FFFFFF;
+  font-size: 8px;
+  z-index: 666;
+}
+
+.relationship {
+  color: #A5ABB6;
+  shaft-width: 1px;
+  font-size: 8px;
+  padding: 3px;
+  caption: '<type>';
+}
+
+/*circle.node.Target.startNode {
+  fill: #ff8a50;
+}
+
+circle.node.Target.endNode {
+  fill: #c41c00;
+}*/
+
+/*
+http:// paletton.com/#uid=40R0u0krKw0hhHhmv-HvKrezxln
+*/
+
+.mesh {
+  fill: #ff5722;
+}
+
+circle.node.query {
+  fill: #1E71A2;
+}
+
+circle.node.article {
+  fill: #FF9C22;
+}
+
+.connected{
+  stroke-width: 1.5;
+  stroke: #595959;
+}
+
+.maximal{
+  stroke-width: 2;
+  stroke: #e64a19;
+}
+
+.structureImage.query{
+  max-width: 7vh;
+  border: #1E71A2 1px solid;
+  border-radius: 50%;
+}
+
+.structureImage.article{
+  max-width: 7vh;
+  border: #FF9C22 1px solid;
+  border-radius: 50%;
+}
+
+
+.node-menu{
+  background-color: rgb(250, 250, 250);
+}
+

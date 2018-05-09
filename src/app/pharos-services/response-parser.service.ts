@@ -4,7 +4,7 @@ import {PageData} from '../models/page-data';
 import {PharosApiService} from './pharos-api.service';
 import {Facet} from '../models/facet';
 import {takeUntil} from 'rxjs/operators';
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class ResponseParserService {
