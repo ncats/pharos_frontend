@@ -2,7 +2,7 @@ import {
   ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatSort } from '@angular/material';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {SelectionModel} from '@angular/cdk/collections';

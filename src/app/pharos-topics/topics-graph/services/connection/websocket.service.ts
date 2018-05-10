@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {Subject} from 'rxjs/Subject';
-import {Observer} from 'rxjs/Observer';
+import {Observable, Subject, Observer, BehaviorSubject} from 'rxjs';
 
 @Injectable()
 export class WebSocketService {
 
   constructor() { }
-
   private subject: Subject<MessageEvent>;
   session: any;
 

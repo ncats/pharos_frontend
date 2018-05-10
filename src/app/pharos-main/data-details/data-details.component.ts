@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {CustomContentDirective} from '../../tools/custom-content.directive';
 import {ActivatedRoute} from '@angular/router';
 import {ComponentLookupService} from '../../pharos-services/component-lookup.service';

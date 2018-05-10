@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {Facet} from '../../models/facet';
-import {Observable} from 'rxjs/Observable';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Observable, BehaviorSubject} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 @Injectable()

@@ -2,7 +2,7 @@
  * Created by sheilstk on 6/16/17.
  */
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {Link} from '../../models/link';
 
 @Injectable()

@@ -3,7 +3,7 @@
  */
 import {Injectable} from '@angular/core';
 import {Article, Disease, Drug, Mesh, Node, Protein, Query} from '../../models/node';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 
 @Injectable()
 export class NodeService {

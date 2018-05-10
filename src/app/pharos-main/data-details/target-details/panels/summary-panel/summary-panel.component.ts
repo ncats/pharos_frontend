@@ -1,8 +1,7 @@
 import {Component, HostBinding, Input, OnDestroy, OnInit, SimpleChange, ViewEncapsulation} from '@angular/core';
 import {finalize, map, takeUntil, takeWhile} from 'rxjs/operators';
 import {Term} from '../../../../../models/term';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Subject} from 'rxjs/Subject';
+import {BehaviorSubject, Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Value} from '../../../../../models/value';
 

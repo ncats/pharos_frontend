@@ -1,7 +1,7 @@
 import {Component, forwardRef, Inject, Injector, Input, OnInit, Type, ViewChild} from '@angular/core';
 import {ComponentLookupService} from '../../pharos-services/component-lookup.service';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {Target} from '../../models/target';
 import {Publication} from '../../models/publication';
 import {CustomContentDirective} from '../../tools/custom-content.directive';
@@ -68,16 +68,22 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
             // childComponent.instance.data = this.pick(this.data, keys);
           });
         console.log(this);
-
+console.log("subscribing");
     this.nodeService.nodeList$
       .subscribe(res => {
+        console.log(res);
         this.data = Array.from(new Set(res.hovered.concat(res.clicked)));
       });
     if (this.data) {
       this.data = [this.data];
     }
+    this.dataConnectionService.connected.subscribe(res=> {
+      console.log(res);
+      if (res) {
+        console.log("rrrrrrr");
+this.doIt();      }
+    })
   }
-
 
   doIt () {
     console.log('doing it');

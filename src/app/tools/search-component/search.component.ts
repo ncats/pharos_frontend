@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {SuggestApiService} from './suggest-api.service';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {NavigationExtras, Router} from '@angular/router';

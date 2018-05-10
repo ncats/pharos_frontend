@@ -19,7 +19,7 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {MatPaginatorIntl} from '@angular/material';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {PageData} from '../../models/page-data';

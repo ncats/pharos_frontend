@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
-import {catchError} from 'rxjs/operators';
-import { map } from 'rxjs/operators';
-import {of} from 'rxjs/observable/of';
+import {Observable, of} from 'rxjs';
+import {catchError,  map } from 'rxjs/operators';
 import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 
 @Injectable()

@@ -1,14 +1,10 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
-import {Subject} from 'rxjs/Subject';
+import {Observable, Subject, of, combineLatest, BehaviorSubject} from 'rxjs';
 import {catchError, takeUntil} from 'rxjs/operators';
-import {of} from 'rxjs/observable/of';
 import {ParamMap} from '@angular/router';
 import {EnvironmentVariablesService} from './environment-variables.service';
-import {combineLatest} from 'rxjs/observable/combineLatest';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Topic} from '../models/topic';
 
 

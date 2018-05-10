@@ -1,11 +1,8 @@
 import {Component, HostBinding, Input, OnInit} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
 import {DiseaseRelevance} from '../../../../../models/disease-relevance';
 import {TableData} from '../../../../../models/table-data';
-import {takeUntil} from 'rxjs/operators';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {forEach} from '@angular/router/src/utils/collection';
 import {MatTabChangeEvent} from '@angular/material';
+import {BehaviorSubject} from "rxjs";
 
 // skipping log2foldchange property
 const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(

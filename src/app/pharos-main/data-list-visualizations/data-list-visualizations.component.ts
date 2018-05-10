@@ -1,9 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
-import {Subject} from 'rxjs/Subject';
+import {Subject, combineLatest} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {combineLatest} from 'rxjs/observable/combineLatest';
 import {FacetRetrieverService} from '../services/facet-retriever.service';
 
 @Component({

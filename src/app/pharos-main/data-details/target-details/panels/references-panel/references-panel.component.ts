@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, Input, OnInit, SimpleChange, ViewEncapsulation} from '@angular/core';
 import {MatTableDataSource} from '@angular/material';
 import {Publication} from '../../../../../models/publication';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {BehaviorSubject} from 'rxjs';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeWhile} from 'rxjs/operators';
 

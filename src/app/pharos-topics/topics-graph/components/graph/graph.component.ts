@@ -6,7 +6,7 @@ import {LoadingService} from '../../../../pharos-services/loading.service';
 import {D3Service} from '../../services/event-tracking/d3.service';
 import {Link} from '../../models/link';
 import {Node} from '../../models/node';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {ForceDirectedGraph} from '../../models/force-directed-graph';
 import {GraphDataService} from '../../services/graph-data.service';
 

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Term} from '../../models/term';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {BehaviorSubject} from 'rxjs';
 import {takeWhile} from 'rxjs/operators';
 
 @Component({

@@ -1,11 +1,10 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Facet} from '../../models/facet';
-import {Subject} from 'rxjs/Subject';
+import {Subject, combineLatest} from 'rxjs';
 import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
 import {FacetRetrieverService} from '../services/facet-retriever.service';
 import {takeUntil} from 'rxjs/operators';
-import {combineLatest} from 'rxjs/observable/combineLatest';
 
 @Component({
   selector: 'pharos-filter-panel',
