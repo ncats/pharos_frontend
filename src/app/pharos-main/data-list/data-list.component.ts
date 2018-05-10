@@ -59,15 +59,18 @@ export class DataListComponent implements OnInit, OnDestroy {
         this.filterData(res);
         Array.from(this.results.keys()).forEach(dataType => {
           console.log(dataType);
-          if (!dataType) {
+/*          if (!dataType) {
             this.path = 'topics';
-          } else {
+          } else {*/
             this.path = dataType.toLowerCase().split('.models.')[1] + 's';
-          }
+  //        }
           console.log(this.path);
         const token: any = this.componentLookup.lookupByPath(this.path, 'list');
         if (token) {
+          console.log(token);
+          console.log(this.results)
           const dynamicToken = this.componentInjectorService.getComponentToken(token);
+          console.log(dynamicToken);
           const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicToken);
           dynamicComponent.instance.data = this.results.get(dataType);
           this.responseParserService.paginationData$

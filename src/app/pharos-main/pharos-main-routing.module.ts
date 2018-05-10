@@ -43,7 +43,7 @@ const pharosMainRoutes: Routes = [
       data: DataListResolver
     },
     // this reloads the component/resolver when the url changes from pagination or sort
-    runGuardsAndResolvers: 'always'
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange'
   }, {
     path: ':id',
     component: DataDetailsComponent,

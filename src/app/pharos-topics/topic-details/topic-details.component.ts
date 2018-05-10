@@ -49,7 +49,6 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   constructor(
     private dataConnectionService: DataConnectionService,
     private _injector: Injector,
-    @Inject(forwardRef(() => ComponentLookupService)) private componentLookupService,
     private dataDetailsResolver: DataDetailsResolver,
     private componentInjectorService: ComponentInjectorService,
   private nodeService: NodeService) {
@@ -64,11 +63,12 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
           .subscribe(x => {
             console.log(x);
             console.log(this.data);
-         //   this.topic = this.data;
+            //   this.topic = this.data;
             // childComponent.instance.data = this.pick(this.data, keys);
           });
         console.log(this);
 console.log("subscribing");
+
     this.nodeService.nodeList$
       .subscribe(res => {
         console.log(res);
@@ -77,11 +77,13 @@ console.log("subscribing");
     if (this.data) {
       this.data = [this.data];
     }
+
     this.dataConnectionService.connected.subscribe(res=> {
       console.log(res);
       if (res) {
         console.log("rrrrrrr");
-this.doIt();      }
+this.doIt();
+      }
     })
   }
 

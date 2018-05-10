@@ -44,7 +44,7 @@ const pharosMainRoutes: Routes = [
       data: DataListResolver
     },
     // this reloads the component/resolver when the url changes from pagination or sort
-   // runGuardsAndResolvers: 'paramsOrQueryParamsChange'
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange'
   }, {
     path: ':id',
     component: DataDetailsComponent,
@@ -53,6 +53,12 @@ const pharosMainRoutes: Routes = [
     }
   }
 ];
+
+// todo: the redirect when changing from targets to topics loads the new module
+// todo: at the same time, the current view is reacting to the change in data and loading the topic table component, but not the module
+// todo: solution: ????? 1. merge topic table back into main module 2. aggressively destroy view on data change 3. ???
+// todo:
+
 
 // todo: shared providers in modules here: https://blog.angular-university.io/angular2-ngmodule/
 

@@ -87,6 +87,7 @@ export class PharosApiService {
   getData(path: string, params: ParamMap): void {
     // todo: delete when api filled out
     if (path === 'topics') {
+      console.log("getting topics");
       this.getTopics();
     } else {
       const url = this._mapParams(path, params);
@@ -126,10 +127,11 @@ export class PharosApiService {
 
   private _mergeSources() {
     let returnedObject = {};
-    combineLatest(
+    const cl: Observable<any> = combineLatest(
       this._detailsSource,
-      this._detailsUrlSource,
-      (object, details) => {
+      this._detailsUrlSource);
+
+      cl.subscribe(([object, details]) => {
         if (details.origin) {
           returnedObject[details.origin] = details.data;
           // this is needed to change details object
@@ -140,12 +142,9 @@ export class PharosApiService {
         } else {
           returnedObject = {object: object};
         }
-
-        return returnedObject;
+        this._dataSource.next(returnedObject);
       })
-      .subscribe((res) => {
-        this._dataSource.next(res);
-      });
+
   }
 
 
@@ -189,6 +188,7 @@ export class PharosApiService {
   }
 
   getTopics() {
+    console.log("returninbg topics");
     this._dataSource.next({content: this.TOPICS});
   }
 
