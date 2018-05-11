@@ -34,7 +34,7 @@ export class BreadcrumbComponent implements OnInit {
   /**
    * Checks to see if a displayed link is the current one and returns the disabled class, blocking navigation
    * @param link
-   * @returns {string}
+   * @return {string}
    */
   isCurrent(link): string {
     if (link) {

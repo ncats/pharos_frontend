@@ -7,6 +7,8 @@ export const TESTTARGET: Target = {
   modified: 1516104267000,
   deprecated: false,
   href: '',
+  gene: '',
+  accession: '',
   name: 'Tumor necrosis factor',
   description: 'The TNF intracellular domain (ICD) form induces IL12 production in dendritic cells.',
   idgFamily: 'Non-IDG',

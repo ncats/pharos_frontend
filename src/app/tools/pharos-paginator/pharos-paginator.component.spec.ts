@@ -12,8 +12,6 @@ import {SuggestApiService} from '../search-component/suggest-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {FacetRetrieverService} from '../../pharos-main/services/facet-retriever.service';
 import {APP_BASE_HREF} from '@angular/common';
-import {ToiCardComponent} from '../../pharos-dashboard/toi-card/toi-card.component';
-import {ToiDashboardComponent} from '../../pharos-topics/toi-dashboard/toi-dashboard.component';
 import {SearchCardComponent} from '../../pharos-dashboard/search-card/search-card.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -42,8 +40,6 @@ describe('PharosPaginatorComponent', () => {
       ],
       declarations: [
         PharosDashboardComponent,
-        ToiDashboardComponent,
-        ToiCardComponent,
         SearchCardComponent,
         PharosPaginatorComponent
       ]

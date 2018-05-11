@@ -5,7 +5,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from '../../app-routing.module';
 import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {SharedModule} from '../../shared/shared.module';
-import {ToiDashboardComponent} from '../../pharos-topics/toi-dashboard/toi-dashboard.component';
 import {PharosDashboardComponent} from '../pharos-dashboard.component';
 import {SuggestApiService} from '../../tools/search-component/suggest-api.service';
 import {APP_BASE_HREF} from '@angular/common';
@@ -24,8 +23,6 @@ describe('ToiCardComponent', () => {
       ],
       declarations: [
         PharosDashboardComponent,
-        ToiDashboardComponent,
-        ToiCardComponent,
         SearchCardComponent
       ],
       providers: [

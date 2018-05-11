@@ -7,7 +7,7 @@ export class LoadingService {
   //  Observable navItem stream
   loading$ = this._loadingSource.asObservable();
 
-  constructor() { }
+  constructor() {}
 
   toggleVisible(force: boolean) {
     this._loadingSource.next(force);

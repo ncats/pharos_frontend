@@ -10,6 +10,7 @@ import {takeUntil} from 'rxjs/operators';
   templateUrl: './target-table.component.html',
   styleUrls: ['./target-table.component.css']
 })
+// todo - this doesn't use the Dynamic Panel component
 export class TargetTableComponent  extends DynamicPanelComponent implements OnInit, OnDestroy {
   displayColumns: string[] = ['name', 'gene', 'idgTDL', 'idgFamily', 'novelty', 'jensenScore', 'antibodyCount', 'knowledgeAvailability'];
   @Input() total: number;

@@ -63,7 +63,8 @@ export class PharosApiService {
       'able to express yourself to others through painting. I\'m sort of a softy, I couldn\'t shoot Bambi except with a camera. ' +
       'All you need to paint is a few tools, a little instruction, and a vision in your mind. ' +
       'This is a happy place, little squirrels live here and play. Now then, let\'s play. Poor old tree. ' +
-      'Let your imagination be your guide. Fluff it up a little and hypnotize it. Trees get lonely too, so we\'ll give him a little friend. ' +
+      'Let your imagination be your guide. Fluff it up a little and hypnotize it. Trees get lonely too, so we\'ll give ' +
+      'him a little friend. ' +
       'Let\'s make a happy little mountain now. We\'ll play with clouds today.',
       class: 'disease',
       diseaseCt: 0,
@@ -82,12 +83,11 @@ export class PharosApiService {
   /**
    * @param {string} path The url sub path 'targets', diseases', 'ligands' etc.
    * @param {ParamMap} params The angular router parameters generated in subcomponents includes query, facet, sort and paging information.
-   * @returns void
+   * @return void
    */
   getData(path: string, params: ParamMap): void {
     // todo: delete when api filled out
     if (path === 'topics') {
-      console.log("getting topics");
       this.getTopics();
     } else {
       const url = this._mapParams(path, params);
@@ -143,7 +143,7 @@ export class PharosApiService {
           returnedObject = {object: object};
         }
         this._dataSource.next(returnedObject);
-      })
+      });
 
   }
 
@@ -188,7 +188,6 @@ export class PharosApiService {
   }
 
   getTopics() {
-    console.log("returninbg topics");
     this._dataSource.next({content: this.TOPICS});
   }
 

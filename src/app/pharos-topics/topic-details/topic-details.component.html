@@ -4,14 +4,8 @@
     <pharos-graph></pharos-graph>
     <button (click)="doIt()">Do it</button>
 
+
     {{data | json}}
-    <div class = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
-      <div fxFlex = "25"><mat-card>Targets
-            </mat-card></div>
-      <div fxFlex = "25"><mat-card>Diseases</mat-card></div>
-      <div fxFlex = "25"><mat-card>Ligands</mat-card></div>
-      <div fxFlex = "25"><mat-card>Publications</mat-card></div>
-    </div>
-      <ng-template appPharosCustomContent></ng-template>
+    <pharos-node-display [nodes]=nodes></pharos-node-display>
     </div>
   </div>

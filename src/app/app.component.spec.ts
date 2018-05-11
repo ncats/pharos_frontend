@@ -3,8 +3,6 @@ import { AppComponent } from './app.component';
 import {SharedModule} from './shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
-import {ToiCardComponent} from './pharos-dashboard/toi-card/toi-card.component';
-import {ToiDashboardComponent} from './pharos-topics/toi-dashboard/toi-dashboard.component';
 import {PharosDashboardComponent} from './pharos-dashboard/pharos-dashboard.component';
 import {SearchCardComponent} from './pharos-dashboard/search-card/search-card.component';
 import {APP_BASE_HREF} from '@angular/common';
@@ -25,8 +23,6 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        ToiDashboardComponent,
-        ToiCardComponent,
         PharosDashboardComponent,
         SearchCardComponent
       ],

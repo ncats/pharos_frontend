@@ -8,7 +8,7 @@ import {DynamicPanelComponent} from '../../tools/dynamic-panel/dynamic-panel.com
   styleUrls: ['./topic-table.component.css']
 })
 export class TopicTableComponent extends DynamicPanelComponent implements OnInit {
-  @Input() data: Topic[];
+  //@Input() data: Topic[];
   constructor() {
     super();
   }

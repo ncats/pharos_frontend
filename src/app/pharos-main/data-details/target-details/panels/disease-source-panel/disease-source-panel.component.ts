@@ -2,7 +2,7 @@ import {Component, HostBinding, Input, OnInit} from '@angular/core';
 import {DiseaseRelevance} from '../../../../../models/disease-relevance';
 import {TableData} from '../../../../../models/table-data';
 import {MatTabChangeEvent} from '@angular/material';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject} from 'rxjs';
 
 // skipping log2foldchange property
 const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
@@ -99,6 +99,7 @@ export class DiseaseSourceComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log(this);
   }
 
   changeTabData(event: MatTabChangeEvent) {

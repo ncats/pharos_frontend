@@ -14,7 +14,7 @@ describe('NcatsFooterComponent', () => {
         RouterTestingModule,
         SharedModule
       ],
-      declarations: [ NcatsFooterComponent ]
+      declarations: [ ]
     })
     .compileComponents();
   }));

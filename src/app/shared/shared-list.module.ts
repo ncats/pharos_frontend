@@ -22,7 +22,7 @@ import {DataListResolver} from '../pharos-main/services/data-list.resolver';
 
 @NgModule({
   imports: [
-SharedModule
+    SharedModule
   ],
   declarations: [
     PharosMainComponent,
@@ -42,6 +42,7 @@ SharedModule
     DataListResolver
   ],
   exports: [
+    SharedModule,
     PharosMainComponent,
     DataListComponent,
     DataListVisualizationsComponent,

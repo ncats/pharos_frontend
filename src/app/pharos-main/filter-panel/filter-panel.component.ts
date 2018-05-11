@@ -5,6 +5,7 @@ import {EnvironmentVariablesService} from '../../pharos-services/environment-var
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
 import {FacetRetrieverService} from '../services/facet-retriever.service';
 import {takeUntil} from 'rxjs/operators';
+import {Observable} from 'rxjs/index';
 
 @Component({
   selector: 'pharos-filter-panel',
@@ -23,25 +24,26 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
               private environmentVariablesService: EnvironmentVariablesService) { }
 
   ngOnInit() {
-    const params$ =
+    const params$: Observable<any> =
       combineLatest(
-      this.pathResolverService.path$,
-      this.facetRetrieverService.loaded$,
-      (path, loaded) => ({path: path, loaded: loaded}))
+        this.pathResolverService.path$,
+        this.facetRetrieverService.loaded$);
+
+    params$
       .pipe(
         takeUntil(this.ngUnsubscribe)
       )
-      .subscribe((res) => {
-        if (res.loaded) {
+      .subscribe(([path, loaded]) => {
+        if (loaded) {
           this.facets = [];
-          this.environmentVariablesService.getFacets(res.path).map(facet => {
+          this.environmentVariablesService.getFacets(path).map(facet => {
             const temp = this.facetRetrieverService.getFacet(facet.name);
             if (temp) {
               temp.label = facet.label;
               this.facets.push(temp);
             }
           });
-        //  this.ref.markForCheck()
+          //  this.ref.markForCheck()
         }
       });
   }

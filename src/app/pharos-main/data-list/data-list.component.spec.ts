@@ -13,18 +13,12 @@ import {ResponseParserService} from '../../pharos-services/response-parser.servi
 import {BreadcrumbComponent} from '../../tools/breadcrumb/breadcrumb.component';
 import {SuggestApiService} from '../../tools/search-component/suggest-api.service';
 import {RouterTestingModule} from '@angular/router/testing';
-import {FacetListComponent} from '../facet-list/facet-list.component';
 import {LoadingService} from '../../pharos-services/loading.service';
-import {SharedModule} from '../../shared/shared.module';
-import {DonutChartComponent} from '../visualizations/donut-chart/donut-chart.component';
-import {PharosMainComponent} from '../pharos-main.component';
 import {PharosMainRoutingModule} from '../pharos-main-routing.module';
 import {FacetRetrieverService} from '../services/facet-retriever.service';
-import {DataListVisualizationsComponent} from '../data-list-visualizations/data-list-visualizations.component';
-import {FacetTableComponent} from '../filter-panel/facet-table/facet-table.component';
 import {APP_BASE_HREF} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {DataDetailsComponent} from '../data-details/data-details.component';
+import {SharedListModule} from "../../shared/shared-list.module";
 
 describe('DataListComponent', () => {
   let component: DataListComponent;
@@ -33,25 +27,13 @@ describe('DataListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
+        SharedListModule,
         RouterTestingModule,
         BrowserAnimationsModule,
         PharosMainRoutingModule
       ],
       declarations: [
-        PharosMainComponent,
-        NcatsHeaderComponent,
-        NcatsFooterComponent,
-        FilterPanelComponent,
-        BreadcrumbComponent,
-        DataListVisualizationsComponent,
-        FacetListComponent,
-        DataListComponent,
-        FacetTableComponent,
-        DonutChartComponent,
-        PharosPaginatorComponent,
-        VisualizationOptionsComponent,
-        DataDetailsComponent
+
       ],
       providers: [
         PathResolverService,

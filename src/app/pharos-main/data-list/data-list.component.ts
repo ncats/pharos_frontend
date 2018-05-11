@@ -44,33 +44,19 @@ export class DataListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loadingService.loading$
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        if (res) {
-          this.loading = !!res;
-        }
-      });
+      .subscribe(res => this.loading = res);
 
     this.responseParserService.tableData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        console.log(res);
         this.results.clear();
         this.componentHost.viewContainerRef.clear();
         this.filterData(res);
         Array.from(this.results.keys()).forEach(dataType => {
-          console.log(dataType);
-/*          if (!dataType) {
-            this.path = 'topics';
-          } else {*/
             this.path = dataType.toLowerCase().split('.models.')[1] + 's';
-  //        }
-          console.log(this.path);
         const token: any = this.componentLookup.lookupByPath(this.path, 'list');
         if (token) {
-          console.log(token);
-          console.log(this.results)
           const dynamicToken = this.componentInjectorService.getComponentToken(token);
-          console.log(dynamicToken);
           const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicToken);
           dynamicComponent.instance.data = this.results.get(dataType);
           this.responseParserService.paginationData$
@@ -85,6 +71,7 @@ export class DataListComponent implements OnInit, OnDestroy {
             });
           }
         }
+          this.loadingService.toggleVisible(false);
         });
         this.loadingService.toggleVisible(false);
       });
@@ -151,7 +138,6 @@ export class DataListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log('breakdown ' + this.path);
     this.results.clear();
     this.componentHost.viewContainerRef.clear();
     this.ngUnsubscribe.next();

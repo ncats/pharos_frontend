@@ -1,16 +1,12 @@
-import {Component, forwardRef, Inject, Injector, Input, OnInit, Type, ViewChild} from '@angular/core';
-import {ComponentLookupService} from '../../pharos-services/component-lookup.service';
+import {Component, Injector, OnInit, ViewChild} from '@angular/core';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
-import {Subject} from 'rxjs';
-import {Target} from '../../models/target';
-import {Publication} from '../../models/publication';
 import {CustomContentDirective} from '../../tools/custom-content.directive';
 import {DataDetailsResolver} from '../../pharos-main/services/data-details.resolver';
 import {DynamicPanelComponent} from '../../tools/dynamic-panel/dynamic-panel.component';
-import {takeUntil} from 'rxjs/operators';
 import {Topic} from '../../models/topic';
-import {DataConnectionService} from '../topics-graph/services/connection/data-connection.service';
-import {NodeService} from '../topics-graph/services/event-tracking/node.service';
+import {DataConnectionService} from './components/topics-graph/services/connection/data-connection.service';
+import {NodeService} from './components/topics-graph/services/event-tracking/node.service';
+import {GraphDataService} from './components/topics-graph/services/graph-data.service';
 
 @Component({
   selector: 'pharos-topic-details',
@@ -20,7 +16,7 @@ import {NodeService} from '../topics-graph/services/event-tracking/node.service'
 export class TopicDetailsComponent extends DynamicPanelComponent implements OnInit {
   path: string;
   topic: Topic;
-  data: any;
+  nodes: any[] = [];
  // private ngUnsubscribe: Subject<any> = new Subject();
 
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
@@ -51,6 +47,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
     private _injector: Injector,
     private dataDetailsResolver: DataDetailsResolver,
     private componentInjectorService: ComponentInjectorService,
+  private graphDataService: GraphDataService,
   private nodeService: NodeService) {
     super();
   }
@@ -61,34 +58,26 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
         this._data
          // .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(x => {
-            console.log(x);
-            console.log(this.data);
+        //    this.doIt();
+
             //   this.topic = this.data;
             // childComponent.instance.data = this.pick(this.data, keys);
           });
-        console.log(this);
-console.log("subscribing");
 
     this.nodeService.nodeList$
       .subscribe(res => {
-        console.log(res);
         this.data = Array.from(new Set(res.hovered.concat(res.clicked)));
       });
     if (this.data) {
       this.data = [this.data];
     }
-
-    this.dataConnectionService.connected.subscribe(res=> {
-      console.log(res);
-      if (res) {
-        console.log("rrrrrrr");
-this.doIt();
-      }
-    })
   }
 
   doIt () {
-    console.log('doing it');
-    this.dataConnectionService.messages.next({message: 'MATCH (n:`KG:1`)-[r]-(b) with {segments:[{start: startNode(r), relationship:r, end: endNode(r)}]} AS ret RETURN ret LIMIT 25', params: {}});
+    this.dataConnectionService.messages.next({
+      message: 'MATCH (n:`KG:1`)-[r]-(b) with {segments:[{start: startNode(r), relationship:r,' +
+      ' end: endNode(r)}]} AS ret RETURN ret LIMIT 25', params: {}});
+    const graph = this.graphDataService.returnGraph();
+this.nodes = graph.nodes;
   }
 }

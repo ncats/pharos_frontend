@@ -18,7 +18,7 @@ describe('NcatsHeaderComponent', () => {
         RouterTestingModule,
         SharedModule
       ],
-      declarations: [ NcatsHeaderComponent ],
+      declarations: [ ],
       providers: [
         SuggestApiService,
         EnvironmentVariablesService

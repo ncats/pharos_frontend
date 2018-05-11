@@ -6,8 +6,6 @@ import {EnvironmentVariablesService} from '../../pharos-services/environment-var
 import {SuggestApiService} from '../../tools/search-component/suggest-api.service';
 import {AppRoutingModule} from '../../app-routing.module';
 import {PharosDashboardComponent} from '../pharos-dashboard.component';
-import {ToiCardComponent} from '../toi-card/toi-card.component';
-import {ToiDashboardComponent} from '../../pharos-topics/toi-dashboard/toi-dashboard.component';
 import {APP_BASE_HREF} from '@angular/common';
 
 describe('SearchCardComponent', () => {
@@ -23,8 +21,6 @@ describe('SearchCardComponent', () => {
       ],
       declarations: [
         PharosDashboardComponent,
-        ToiDashboardComponent,
-        ToiCardComponent,
         SearchCardComponent
       ],
       providers: [

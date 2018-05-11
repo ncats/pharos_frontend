@@ -13,6 +13,6 @@ publicationCt?: any;
   constructor (obj: any) {
     super(obj);
     Object.entries((obj)).forEach((prop) => this[prop[0]] = prop[1]);
-    this.kind = "ix.idg.models.Topic"
+    this.kind = 'ix.idg.models.Topic';
   }
 }

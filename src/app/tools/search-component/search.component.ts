@@ -5,9 +5,6 @@ import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {NavigationExtras, Router} from '@angular/router';
 
-const navigationExtras: NavigationExtras = {
-};
-
 @Component({
   selector: 'pharos-search-component',
   templateUrl: './search.component.html',
@@ -26,6 +23,12 @@ export class SearchComponent implements OnInit {
     private suggestApiService: SuggestApiService
   ) {  }
 
+
+  /**
+   *add placeholder string if required
+   * set up subscription for input value changes
+   * // todo: should unsubscribe
+   */
   ngOnInit() {
     if (!this.placeholderStr) {
       this.placeholderStr = 'Search for targets (e.g., \'ITK\') or diseases (e.g., \'asthma\')';
@@ -39,15 +42,21 @@ export class SearchComponent implements OnInit {
   }
 
   /**
-   * placeholder until search UI is hooked up
+   * adds facet for query and follows navigation patterns
    * @returns void
    */
   search(): void {
     const query = '"' + this.typeaheadCtrl.value.replace(/ /g, '+')  + '"';
+    const navigationExtras: NavigationExtras = {};
     navigationExtras.queryParams = {q: query, top: 1000};
     this._navigate(navigationExtras);
   }
 
+  /**
+   *  sends navigation parameters to router
+   * @param {NavigationExtras} navExtras
+   * @private
+   */
   private _navigate(navExtras: NavigationExtras): void {
     this._router.navigate(['/search'], navExtras);
 

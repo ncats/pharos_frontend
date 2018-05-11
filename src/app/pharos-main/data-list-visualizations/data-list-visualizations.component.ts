@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
-import {Subject, combineLatest} from 'rxjs';
+import {Subject, Observable, combineLatest} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {FacetRetrieverService} from '../services/facet-retriever.service';
 
@@ -25,18 +25,19 @@ export class DataListVisualizationsComponent implements OnInit, OnDestroy {
     private environmentVariablesService: EnvironmentVariablesService) { }
 
   ngOnInit() {
-    const params$ =
+    const params$: Observable<any> =
       combineLatest(
         this.pathResolverService.path$,
-        this.facetRetrieverService.loaded$,
-        (path, loaded) => ({path: path, loaded: loaded}))
+        this.facetRetrieverService.loaded$);
+
+        params$
         .pipe(
           takeUntil(this.ngUnsubscribe)
         )
-        .subscribe((res) => {
-          this.chartFacets = this.environmentVariablesService.getAllChartFacets(res.path);
+        .subscribe(([path, loaded]) => {
+          this.chartFacets = this.environmentVariablesService.getAllChartFacets(path);
             this.facetRetrieverService.getFacetObservable(this.chartFacets.donut[0].name).subscribe(facets => this.donutData = facets);
-          this.loaded = res.loaded;
+          this.loaded = loaded;
         });
   }
 

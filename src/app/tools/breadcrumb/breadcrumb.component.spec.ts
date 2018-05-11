@@ -15,7 +15,7 @@ describe('BreadcrumbComponent', () => {
         RouterTestingModule,
         SharedModule
       ],
-      declarations: [ BreadcrumbComponent ]
+      declarations: []
     })
     .compileComponents();
   }));

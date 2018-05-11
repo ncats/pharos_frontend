@@ -6,7 +6,6 @@ import {FacetTableComponent} from '../filter-panel/facet-table/facet-table.compo
 import {NcatsHeaderComponent} from '../../tools/ncats-header/ncats-header.component';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {PharosPaginatorComponent} from '../../tools/pharos-paginator/pharos-paginator.component';
-import {PharosMainComponent} from '../pharos-main.component';
 import {VisualizationOptionsComponent} from '../data-list-visualizations/visualization-options/visualization-options.component';
 import {NcatsFooterComponent} from '../../tools/ncats-footer/ncats-footer.component';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
@@ -24,7 +23,7 @@ import {PathResolverService} from '../../pharos-services/path-resolver.service';
 import {SharedModule} from '../../shared/shared.module';
 import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {RouterTestingModule} from '@angular/router/testing';
-import {DiseaseSourceComponent} from './target-details/panels/disease-source-panel/disease-source-panel.component';
+import {SharedListModule} from "../../shared/shared-list.module";
 
 describe('DataDetailsComponent', () => {
   let component: DataDetailsComponent;
@@ -33,25 +32,12 @@ describe('DataDetailsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
+        SharedListModule,
         RouterTestingModule,
         BrowserAnimationsModule,
         PharosMainRoutingModule
       ],
       declarations: [
-        PharosMainComponent,
-        NcatsHeaderComponent,
-        NcatsFooterComponent,
-        FilterPanelComponent,
-        BreadcrumbComponent,
-        DataListVisualizationsComponent,
-        FacetListComponent,
-        DataListComponent,
-        FacetTableComponent,
-        DonutChartComponent,
-        PharosPaginatorComponent,
-        VisualizationOptionsComponent,
-        DataDetailsComponent
       ],
       providers: [
         PathResolverService,
