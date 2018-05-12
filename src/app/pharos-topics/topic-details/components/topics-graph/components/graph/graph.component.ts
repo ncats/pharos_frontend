@@ -5,12 +5,13 @@ import {
 import {D3Service} from '../../services/event-tracking/d3.service';
 import {Link} from '../../models/link';
 import {Node} from '../../models/node';
-import {Subscription} from 'rxjs';
 import {ForceDirectedGraph} from '../../models/force-directed-graph';
 import {GraphDataService} from '../../services/graph-data.service';
 import {LoadingService} from '../../../../../../pharos-services/loading.service';
 
-
+/**
+ * graph visual component creates svg skeleton by using angular to iterate over node and link lists
+ */
 @Component({
   selector: 'pharos-graph',
   templateUrl: './graph.component.html',
@@ -19,19 +20,53 @@ import {LoadingService} from '../../../../../../pharos-services/loading.service'
 })
 export class GraphComponent implements OnInit, AfterViewInit {
 
+  /**
+   * list of nodes
+   * @type {Node[]}
+   */
   public nodes: Node[] = [];
+
+  /**
+   * list of links
+   * @type {Link[]}
+   */
   public links: Link[] = [];
-  subscription: Subscription;
+
+  /**
+   * show or hide loading modal
+   * @type {boolean}
+   */
    loading = false;
 
+  /**
+   * d3 configured graph object
+   */
   graph: ForceDirectedGraph;
+  /**
+   * d3 graph options
+   * updated dynamically
+   * @type {{width: number; height: number}}
+   * @private
+   */
   _options: {width, height} = {width: 600, height: 600};
 
+  /**
+   * rescales the graph on window resize
+   * @param event
+   */
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.graph.initSimulation(this.options);
   }
 
+  /**
+   * create services
+   * @param {D3Service} d3Service
+   * @param {ChangeDetectorRef} ref
+   * @param {ElementRef} el
+   * @param {GraphDataService} graphDataService
+   * @param {LoadingService} loadingService
+   */
   constructor(private d3Service: D3Service,
               private ref: ChangeDetectorRef,
               private el: ElementRef,
@@ -39,6 +74,10 @@ export class GraphComponent implements OnInit, AfterViewInit {
               private loadingService: LoadingService) {
   }
 
+  /**
+   * set up loading modal subscription
+   * set up graph data subscription
+   */
   ngOnInit() {
     this.loadingService.loading$.subscribe(res => this.loading = res);
     this.graphDataService.graphhistory$.subscribe(res => {
@@ -49,10 +88,14 @@ export class GraphComponent implements OnInit, AfterViewInit {
       }
     });
 
-    /** Receiving an initialized simulated graph from our custom d3 service */
+    /**
+     * Receiving an initialized simulated graph from our custom d3 service
+     * @type {ForceDirectedGraph}
+     */
     this.graph = this.d3Service.getForceDirectedGraph(this.nodes, this.links, this._options);
 
-    /** Binding change detection check on each tick
+    /**
+     * Binding change detection check on each tick
      * This along with an onPush change detection strategy should enforce checking only when relevant!
      * This improves scripting computation duration in a couple of tests I've made, consistently.
      * Also, it makes sense to avoid unnecessary checks when we are dealing only with simulations data binding.
@@ -62,6 +105,9 @@ export class GraphComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * resize graph with updated container size
+   */
   ngAfterViewInit() {
     this.graph.initSimulation(this.options);
 
@@ -74,6 +120,10 @@ export class GraphComponent implements OnInit, AfterViewInit {
     }*/
 
 
+  /**
+   * dynamically sets the size of the graph
+   * @returns {{width: number; height: number}}
+   */
   get options() {
     return this._options = {
       width: this.el.nativeElement.parentElement.offsetWidth,

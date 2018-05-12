@@ -3,19 +3,36 @@ import {Component, OnInit, Input} from '@angular/core';
 import {SettingsService} from '../../../services/settings.service';
 import {Link} from '../../../models/link';
 
-
+/**
+ * visual component for link object
+ */
 @Component({
   selector: '[link]',
   templateUrl: './link-visual.component.html',
   styleUrls: ['./link-visual.component.css']
 })
 export class LinkVisualComponent implements OnInit {
+  /**
+   * link passed in by graph
+   */
   @Input() link: Link;
+
+  /**
+   * show the link label
+   * @type {boolean}
+   */
   showLinkLabel = true;
 
+  /**
+   * create services
+   * @param {SettingsService} settingsService
+   */
   constructor( private settingsService: SettingsService) {
   }
 
+  /**
+   * subscribe to settings change
+   */
   ngOnInit() {
     this.settingsService.dataChange
       .subscribe(settings => {
@@ -24,6 +41,12 @@ export class LinkVisualComponent implements OnInit {
 
   }
 
+  /**
+   * helper function to return link properties
+   * @param {Node} link
+   * @param {string} property
+   * @returns {number}
+   */
   getSource(link: Node, property: string): number {
     if (link[property]) {
       return link[property];
@@ -32,7 +55,13 @@ export class LinkVisualComponent implements OnInit {
     }
   }
 
-  endpointLessRadius(link, attr_name) { //  subtract radius away from line end
+  /**
+   * function to subtract radius away from line end for arrow
+   * @param link
+   * @param attr_name
+   * @returns {number}
+   */
+  endpointLessRadius(link, attr_name) {
     //  this.source = link.source;
     //   this.target = link.target;
     const x1 =  link.source.x || 0;

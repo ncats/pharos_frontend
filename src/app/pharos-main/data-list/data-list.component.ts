@@ -137,7 +137,12 @@ export class DataListComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy() {
+  /**
+   * clears data
+   * empties component
+   * unsubscribes from observables
+   */
+  ngOnDestroy(): void {
     this.results.clear();
     this.componentHost.viewContainerRef.clear();
     this.ngUnsubscribe.next();

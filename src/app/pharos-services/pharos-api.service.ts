@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Observable, Subject, of, combineLatest, BehaviorSubject} from 'rxjs';
-import {catchError, takeUntil} from 'rxjs/operators';
+import {catchError} from 'rxjs/operators';
 import {ParamMap} from '@angular/router';
 import {EnvironmentVariablesService} from './environment-variables.service';
 import {Topic} from '../models/topic';
@@ -10,14 +10,45 @@ import {Topic} from '../models/topic';
 
 @Injectable()
 export class PharosApiService {
-
+  /**
+   * RxJs subject to broadcast data
+   * @type {Subject<any>}
+   * @private
+   */
   private _dataSource = new Subject<any>();
+
+  /**
+   * RxJs behavior subject to broadcast data details
+   * initialized as empty because the data is updated by the component getter and setter, rather than a subscription
+   * @type {BehaviorSubject<any>}
+   * @private
+   */
   private _detailsSource = new BehaviorSubject<any>({});
+
+  /**
+   * RxJs Behavior subject to broadcast specific details api calls
+   * initialized as empty because the data is updated by the component getter and setter, rather than a subscription
+   * @type {BehaviorSubject<any>}
+   * @private
+   */
   private _detailsUrlSource = new BehaviorSubject<any>({});
+
+  /**
+   * base API url - set in environment.prod.ts
+   */
   private _URL: string;
+
+  /**
+   * single source to reuturn data
+   * @type {Observable<any>}
+   */
   data$ = this._dataSource.asObservable();
 
  // todo: delete when api exists
+  /**
+   * garbage
+   * @type {Topic[]}
+   */
   private TOPICS = [
     new Topic({
       id: 0,
@@ -74,6 +105,13 @@ export class PharosApiService {
     })
   ];
 
+  /**
+   * create services
+   * set url
+   * merge subscriptions
+   * @param {HttpClient} http
+   * @param {EnvironmentVariablesService} environmentVariablesService
+   */
   constructor(private http: HttpClient,
               private environmentVariablesService: EnvironmentVariablesService) {
     this._URL = this.environmentVariablesService.getApiPath();
@@ -81,6 +119,7 @@ export class PharosApiService {
   }
 
   /**
+   * Api call to get main level paged data
    * @param {string} path The url sub path 'targets', diseases', 'ligands' etc.
    * @param {ParamMap} params The angular router parameters generated in subcomponents includes query, facet, sort and paging information.
    * @return void
@@ -101,6 +140,12 @@ export class PharosApiService {
     }
   }
 
+  /**
+   * Api call to get data details
+   * @param {string} path The url sub path 'targets', diseases', 'ligands' etc.
+   * @param {ParamMap} params The angular router parameters generated in subcomponents includes query, facet, sort and paging information.
+   * @return void
+   */
   getDetails(path: string, params: ParamMap): void {
     // todo: delete when api filled out
     if (path === 'topics') {
@@ -116,6 +161,11 @@ export class PharosApiService {
     }
   }
 
+  /**
+   * Api call to get specific data detail information
+   * @param {string} url
+   * @param {string} origin
+   */
   getDetailsByUrl(url: string, origin: string): void {
     this.http.get<any>(url)
       .pipe(
@@ -125,7 +175,11 @@ export class PharosApiService {
     });
   }
 
-  private _mergeSources() {
+  /**
+   * merges several api details calls to 1 details object
+    * @private
+   */
+  private _mergeSources(): void {
     let returnedObject = {};
     const cl: Observable<any> = combineLatest(
       this._detailsSource,
@@ -148,6 +202,13 @@ export class PharosApiService {
   }
 
 
+  /**
+   * creates a query string to append to the url based on router paramaters
+   * @param {string} path
+   * @param {ParamMap} params
+   * @returns {string}
+   * @private
+   */
   private _mapParams(path: string, params: ParamMap): string {
     let str = '';
     if (params.keys.length === 0) {
@@ -187,10 +248,17 @@ export class PharosApiService {
     };
   }
 
+  /**
+   * garbage
+   */
   getTopics() {
     this._dataSource.next({content: this.TOPICS});
   }
 
+  /**
+   * garbage
+   * @param index
+   */
   getTopicsDetails( index: any) {
     this._detailsSource.next(this.TOPICS[index]);
   }
