@@ -109,8 +109,8 @@ export class D3Service {
         .data(graph.links)
         .filter(getNeighborLinks)
         .classed('hovering', true)
-        .classed('connected', function(link) {return link.edgeType !== 'down'; })
-        .classed('connectedflat', function(link) {return link.edgeType === 'down'; });
+/*        .classed('connected', function(link) {return link.edgeType !== 'down'; })
+        .classed('connectedflat', function(link) {return link.edgeType === 'down'; })*/;
 
       connectedNodes = d3.selectAll('circle')
         .data(graph.nodes)
