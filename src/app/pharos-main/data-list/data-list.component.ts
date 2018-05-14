@@ -70,6 +70,12 @@ export class DataListComponent implements OnInit, OnDestroy {
               // todo sort arrows are not staying after column select
             });
           }
+          if (dynamicComponent.instance.pageChange) {
+            dynamicComponent.instance.pageChange.subscribe((event) => {
+              this.paginationChanges(event);
+              // todo sort arrows are not staying after column select
+            });
+          }
         }
           this.loadingService.toggleVisible(false);
         });

@@ -10,11 +10,12 @@ import {takeUntil} from 'rxjs/operators';
   templateUrl: './target-table.component.html',
   styleUrls: ['./target-table.component.css']
 })
-// todo - this doesn't use the Dynamic Panel component
+
 export class TargetTableComponent  extends DynamicPanelComponent implements OnInit, OnDestroy {
   displayColumns: string[] = ['name', 'gene', 'idgTDL', 'idgFamily', 'novelty', 'jensenScore', 'antibodyCount', 'knowledgeAvailability'];
   @Input() total: number;
   @Output() readonly sortChange: EventEmitter<string> = new EventEmitter<string>();
+  @Output() readonly pageChange: EventEmitter<string> = new EventEmitter<string>();
 
 
   dataSource = new MatTableDataSource<any>(this.data);
@@ -28,12 +29,17 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
     this._data
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(obj => {
+        console.log(this);
         this.dataSource.data = this.data;
       });
   }
 
   changeSort($event): void {
     this.sortChange.emit($event);
+  }
+
+  changePage($event): void {
+    this.pageChange.emit($event);
   }
 
 ngOnDestroy(): void {

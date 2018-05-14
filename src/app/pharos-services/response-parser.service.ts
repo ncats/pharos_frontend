@@ -3,6 +3,7 @@ import {Subject, BehaviorSubject} from 'rxjs';
 import {PageData} from '../models/page-data';
 import {PharosApiService} from './pharos-api.service';
 import {Facet} from '../models/facet';
+import {takeUntil} from "rxjs/internal/operators";
 
 /**
  * reads the api data stream and broadcasts the data to the required subscribers
@@ -83,7 +84,9 @@ export class ResponseParserService {
    */
   initializeSubscriptions(): void {
     this.pharosApiService.data$
-      .takeUntil(this.ngUnsubscribe)
+      .pipe(
+      takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(res => {
         if (res.object) {
           this._detailsDataSource.next(res);

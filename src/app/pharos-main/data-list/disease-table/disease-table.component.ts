@@ -32,11 +32,19 @@ export class DiseaseTableComponent extends DynamicPanelComponent implements OnIn
    * event emitter for when a table column sort is changed
    * @type {EventEmitter<string>}
    */
-  @Output() readonly sortChange: EventEmitter<string> = new EventEmitter<string>();
+  @Output() readonly sortChange: EventEmitter<string> = new EventEmitter<string>();  /**
+
+   * event emitter for when table pagination is changed
+   * @type {EventEmitter<string>}
+   */
+
+  @Output() readonly pageChange: EventEmitter<string> = new EventEmitter<string>();
+
   /**
    * material design datasource subject
    * @type {MatTableDataSource<any>}
    */
+
   dataSource = new MatTableDataSource<any>(this.data);
   /**
    * material design selection model for when the table becomes selectable
@@ -75,6 +83,10 @@ export class DiseaseTableComponent extends DynamicPanelComponent implements OnIn
    */
   changeSort($event): void {
     this.sortChange.emit($event);
+  }
+
+  changePage($event): void {
+    this.pageChange.emit($event);
   }
 
   /**
