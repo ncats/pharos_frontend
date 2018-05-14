@@ -125,8 +125,13 @@ export class PharosApiService {
    * @return void
    */
   getData(path: string, params: ParamMap): void {
+    console.log("get data");
+    /*if(path === 'search'){
+      console.log(params);
+      this.search(params);
+    }
     // todo: delete when api filled out
-    if (path === 'topics') {
+    else */if (path === 'topics') {
       this.getTopics();
     } else {
       const url = this._mapParams(path, params);
@@ -147,6 +152,7 @@ export class PharosApiService {
    * @return void
    */
   getDetails(path: string, params: ParamMap): void {
+    console.log("get details")
     // todo: delete when api filled out
     if (path === 'topics') {
       this.getTopicsDetails(params.get('id'));
@@ -167,12 +173,23 @@ export class PharosApiService {
    * @param {string} origin
    */
   getDetailsByUrl(url: string, origin: string): void {
+    console.log("get details by url")
     this.http.get<any>(url)
       .pipe(
         catchError(this.handleError('getDetails', []))
       ).subscribe(response => {
       this._detailsUrlSource.next({origin: origin, data: response});
     });
+  }
+
+  search(params: ParamMap): void {
+    const fork = [];
+    const urls: any[] = this.environmentVariablesService.getSearchPaths();
+/*    urls.map(call => {
+
+      fork.push(call.field)
+    }*/
+    console.log(urls);
   }
 
   /**
@@ -210,20 +227,27 @@ export class PharosApiService {
    * @private
    */
   private _mapParams(path: string, params: ParamMap): string {
+    console.log("mapping parameters");
+    console.log(path);
+    console.log(params);
     let str = '';
+    const strArr: string[] = [];
     if (params.keys.length === 0) {
-      str = this.environmentVariablesService.getDefaultUrl(path);
+      if(path === 'search'){
+        str = this.environmentVariablesService.getDefaultUrl('targets');
+      }else {
+        str = this.environmentVariablesService.getDefaultUrl(path);
+      }
     } else {
-      str = this._URL + (path !== 'search' ? path + '/' : '')  + 'search?';
+      str = this._URL + (path !== 'search' ? path + '?' : 'search?');//  + 'search?';
       params.keys.map(key => {
+        console.log(key);
         params.getAll(key).map(val => {
-            str = str + key + '=' + val + '&';
+            strArr.push(key + '=' + val);
           }
         );
       });
-      // remove the trailing "&"
-      // todo look into if this is the best way to make the url -- this is going to happen a lot
-      str = str.slice(0, -1);
+      str = str + strArr.join('&');
     }
     return str;
   }

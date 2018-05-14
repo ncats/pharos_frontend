@@ -1,5 +1,6 @@
 import {
-  ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+  ChangeDetectorRef, Component, OnDestroy, OnInit, Type, ViewChild
+} from '@angular/core';
 import {MatPaginator, MatSort } from '@angular/material';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {Subject} from 'rxjs';
@@ -41,22 +42,83 @@ export class DataListComponent implements OnInit, OnDestroy {
     this.path = this._route.snapshot.data.path;
   }
 
+
+  // todo may need to convert this to use the same pattern as target details component - get a list of components
+  // todo: (targets, diseases, etc) and call each api. This turns search into multiple separate calls/components, and leaves
+  // todo: pagins/filtering as single components
+
   ngOnInit() {
     this.loadingService.loading$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => this.loading = res);
 
+    /*    token.components.forEach(component => {
+          // start api calls before making component
+          const keys: string[] = [];
+          component.api.forEach(apiCall => {
+            if (apiCall.url.length > 0) {
+              /!**this call is pushed up to the pharos api and changes are subscribed to in the generic details page, then set here*!/
+              this.dataDetailsResolver.getDetailsByUrl(apiCall.url.replace('_id_', this.target.id), apiCall.field);
+              /!** this will be used to track the object fields to get *!/
+              keys.push(apiCall.field);
+            }
+          });
+          /!** make component *!/
+          const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
+          const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
+          if (component.width) {
+            childComponent.instance.width = component.width;
+          }
+
+          this._data
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(obj => {
+              childComponent.instance.data = this.pick(obj, keys);
+            });
+        });
+        */
+
+
     this.responseParserService.tableData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
+        console.log(res);
         this.results.clear();
         this.componentHost.viewContainerRef.clear();
         this.filterData(res);
         Array.from(this.results.keys()).forEach(dataType => {
-            this.path = dataType.toLowerCase().split('.models.')[1] + 's';
-        const token: any = this.componentLookup.lookupByPath(this.path, 'list');
-        if (token) {
-          const dynamicToken = this.componentInjectorService.getComponentToken(token);
+          console.log(dataType);
+          // this.path = dataType.toLowerCase().split('.models.')[1] + 's';
+          this.path = 'targets';
+          const token: any = this.componentLookup.lookupByPath(this.path, 'list');
+          console.log(token);
+          if (token) {
+            token.components.forEach(component => {
+              // start api calls before making component
+              const keys: string[] = [];
+              component.api.forEach(apiCall => {
+                console.log(apiCall);
+                /* if (apiCall.url.length > 0) {
+                 }
+                   this.dataDetailsResolver.getDetailsByUrl(apiCall.url.replace('_id_', this.target.id), apiCall.field);
+                   /!** this will be used to track the object fields to get *!/
+                   keys.push(apiCall.field);
+                 }*/
+              });
+              const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
+              const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
+              childComponent.instance.data = this.results.get(dataType);
+            })
+          }
+        })
+      })
+  }
+
+
+
+
+
+         /* const dynamicToken = this.componentInjectorService.getComponentToken(token[0]);
           const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicToken);
           dynamicComponent.instance.data = this.results.get(dataType);
           this.responseParserService.paginationData$
@@ -77,10 +139,9 @@ export class DataListComponent implements OnInit, OnDestroy {
             });
           }
         }
-          this.loadingService.toggleVisible(false);
         });
         this.loadingService.toggleVisible(false);
-      });
+      });*/
 
     // todo: this is changed each pagination change, so something needs to persist the selected rows
     /*    this.rowSelection.onChange
@@ -88,7 +149,7 @@ export class DataListComponent implements OnInit, OnDestroy {
           .subscribe(change => {
             console.log(this.rowSelection.selected);
           });*/
-  }
+ // }
 
 
 

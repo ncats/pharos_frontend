@@ -150,6 +150,7 @@ export class PathResolverService {
     this._facetMap.forEach((value, key) => {
       this._facets.push({facet: key, fields: value});
     });
+    console.log(this._facets);
     this._facetSource.next(this._facets);
   }
 

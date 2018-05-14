@@ -27,7 +27,8 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     const params$: Observable<any> =
       combineLatest(
         this.pathResolverService.path$,
-        this.facetRetrieverService.loaded$);
+        this.facetRetrieverService.loaded$
+      );
 
     params$
       .pipe(

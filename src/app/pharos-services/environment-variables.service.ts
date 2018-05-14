@@ -87,6 +87,13 @@ export class EnvironmentVariablesService {
   }
 
   /**
+   * returns the list of apis that a search query hits
+   */
+  getSearchPaths(): any[] {
+    return this._environment.search.api;
+  }
+
+  /**
    * Checks to see if a path returns a defined array of components
    * @param {string} path
    * @returns {boolean}
@@ -108,7 +115,7 @@ export class EnvironmentVariablesService {
     if (this._pathExists(path)) {
       if (subpath) {
         const value = subpath.split('.').reduce((a, b) => a[b], this._environment[path].components);
-        return value;
+        return [value];
       } else {
         return this._environment[path].components;
       }
