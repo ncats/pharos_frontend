@@ -29,7 +29,6 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
     this._data
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(obj => {
-        console.log(this);
         this.dataSource.data = this.data;
       });
   }
@@ -39,6 +38,7 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
   }
 
   changePage($event): void {
+    console.log("page change");
     this.pageChange.emit($event);
   }
 

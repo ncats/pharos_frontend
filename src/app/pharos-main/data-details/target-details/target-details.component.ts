@@ -37,9 +37,11 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
 
   // todo: target header has an api call, so it may need to be injected. The flex layout is tricky though.
   ngOnInit() {
-      this.target = this.data.object;
-      const token: any = this.componentLookupService.lookupByPath(this.path, this.target.idgTDL.toLowerCase());
-      token.components.forEach(component => {
+    this.target = this.data.object;
+    const components: any = this.componentLookupService.lookupByPath(this.path, this.target.idgTDL.toLowerCase());
+    if (components) {
+      console.log(components);
+      components.forEach(component => {
         // start api calls before making component
         const keys: string[] = [];
         component.api.forEach(apiCall => {
@@ -60,9 +62,13 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
         this._data
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(obj => {
+            console.log(keys);
+            console.log(obj);
+            console.log(this.pick(obj, keys));
             childComponent.instance.data = this.pick(obj, keys);
           });
       });
+    }
   }
 
    pick(o, props): any {

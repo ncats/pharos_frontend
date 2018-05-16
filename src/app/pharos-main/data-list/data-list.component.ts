@@ -87,30 +87,39 @@ export class DataListComponent implements OnInit, OnDestroy {
         this.componentHost.viewContainerRef.clear();
         this.filterData(res);
         Array.from(this.results.keys()).forEach(dataType => {
-          console.log(dataType);
-          // this.path = dataType.toLowerCase().split('.models.')[1] + 's';
-          this.path = 'targets';
-          const token: any = this.componentLookup.lookupByPath(this.path, 'list');
-          console.log(token);
-          if (token) {
-            token.components.forEach(component => {
-              // start api calls before making component
-              const keys: string[] = [];
-              component.api.forEach(apiCall => {
-                console.log(apiCall);
-                /* if (apiCall.url.length > 0) {
-                 }
-                   this.dataDetailsResolver.getDetailsByUrl(apiCall.url.replace('_id_', this.target.id), apiCall.field);
-                   /!** this will be used to track the object fields to get *!/
-                   keys.push(apiCall.field);
-                 }*/
-              });
-              const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
-              const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
-              childComponent.instance.data = this.results.get(dataType);
-            })
+          console.log(this.path);
+          //this.path = dataType.toLowerCase().split('.models.')[1] + 's';
+          //this.path = 'targets';
+          const components: any = this.componentLookup.lookupByPath(this.path, 'list');
+          if (components) {
+            components.forEach(component => {
+              if(component.token) {
+                const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
+                const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
+                console.log(this.results);
+                childComponent.instance.data = this.results.get(dataType);
+                this.responseParserService.paginationData$
+                  .pipe(takeUntil(this.ngUnsubscribe))
+                  .subscribe(response => {
+                    childComponent.instance.total = response['total'] ? response['total'] : this.results.get(dataType).length;
+                  });
+                if (childComponent.instance.sortChange) {
+                  childComponent.instance.sortChange.subscribe((event) => {
+                    this.sortTable(event);
+                    // todo sort arrows are not staying after column select
+                  });
+                }
+                if (childComponent.instance.pageChange) {
+                  childComponent.instance.pageChange.subscribe((event) => {
+                    this.paginationChanges(event);
+                  });
+                }
+                childComponent.instance.data = this.results.get(dataType);
+              }
+          });
           }
         })
+        this.loadingService.toggleVisible(false);
       })
   }
 
@@ -180,21 +189,24 @@ export class DataListComponent implements OnInit, OnDestroy {
   }
 
   filterData(res): void {
+    // todo decide on using object type or url path
+    // needs to be done by obj.kind for search results
     this.results.clear();
     if (res) {
       res.map(obj => {
-        const kinds = this.results.get(obj.kind);
+        const kinds = this.results.get(this.path);
         if (kinds) {
           kinds.push(obj);
-          this.results.set(obj.kind, kinds);
+          this.results.set(this.path, kinds);
         } else {
-          this.results.set(obj.kind, [obj]);
+          this.results.set(this.path, [obj]);
         }
       });
     }
   }
 
   paginationChanges(event: any) {
+    console.log("page changes");
     navigationExtras.queryParams = {top: event.pageSize, skip: event.pageIndex * event.pageSize};
     this._navigate(navigationExtras);
   }

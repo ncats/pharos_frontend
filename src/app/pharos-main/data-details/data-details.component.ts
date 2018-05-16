@@ -40,14 +40,21 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
       .subscribe(res => {
           // without this check, the component keeps refreshing
           if (!this.dynamicComponent) {
-            const token: any = this.componentLookupService.lookupByPath(this.path, 'details');
-            const dynamicComponentToken = this.componentInjectorService.getComponentToken(token);
-            this.dynamicComponent = this.componentInjectorService.injectComponent(this.componentHost, dynamicComponentToken);
-            this.dynamicComponent.instance.path = this.path;
+            const components: any = this.componentLookupService.lookupByPath(this.path, 'details');
+            if (components) {
+              console.log(components);
+              components.forEach(component => {
+                if (component.token) {
+                  const dynamicComponentToken = this.componentInjectorService.getComponentToken(component.token);
+                  this.dynamicComponent = this.componentInjectorService.injectComponent(this.componentHost, dynamicComponentToken);
+                  this.dynamicComponent.instance.path = this.path;
+                  // pass though data changes - this includes both the object and other fetched fields (references/publications, etc)
+                  this.dynamicComponent.instance.data = res;
+                  this.ref.markForCheck(); // refresh the component manually
+                }
+              })
+            }
           }
-          // pass though data changes - this includes both the object and other fetched fields (references/publications, etc)
-          this.dynamicComponent.instance.data = res;
-          this.ref.markForCheck(); // refresh the component manually
       });
   }
 

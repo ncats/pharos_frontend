@@ -115,7 +115,8 @@ export class EnvironmentVariablesService {
     if (this._pathExists(path)) {
       if (subpath) {
         const value = subpath.split('.').reduce((a, b) => a[b], this._environment[path].components);
-        return [value];
+        console.log(value);
+        return value['components'];
       } else {
         return this._environment[path].components;
       }

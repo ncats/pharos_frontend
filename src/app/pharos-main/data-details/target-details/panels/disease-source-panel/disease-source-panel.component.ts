@@ -39,6 +39,7 @@ const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
   ]
 );
 
+// todo: convert to use dynamic component
 @Component({
   selector: 'pharos-disease-source',
   templateUrl: './disease-source-panel.component.html',
