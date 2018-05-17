@@ -48,13 +48,13 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
                   const dynamicComponentToken = this.componentInjectorService.getComponentToken(component.token);
                   this.dynamicComponent = this.componentInjectorService.injectComponent(this.componentHost, dynamicComponentToken);
                   this.dynamicComponent.instance.path = this.path;
-                  // pass though data changes - this includes both the object and other fetched fields (references/publications, etc)
-                  this.dynamicComponent.instance.data = res;
-                  this.ref.markForCheck(); // refresh the component manually
                 }
               })
             }
           }
+        // pass though data changes - this includes both the object and other fetched fields (references/publications, etc)
+        this.dynamicComponent.instance.data = res;
+        this.ref.markForCheck(); // refresh the component manually
       });
   }
 

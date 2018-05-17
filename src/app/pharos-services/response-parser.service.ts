@@ -88,10 +88,13 @@ export class ResponseParserService {
       takeUntil(this.ngUnsubscribe)
       )
       .subscribe(res => {
+        console.log(res);
         if (res.object) {
           this._detailsDataSource.next(res);
         }
-      this._tableDataSource.next(res.content);
+        if(res.content && res.content.length > 0) {
+          this._tableDataSource.next(res.content);
+        }
       this._paginationDataSource.next(new PageData(res));
       if (res.facets) {
         this._facetsDataSource.next(res.facets);

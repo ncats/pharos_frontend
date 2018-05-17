@@ -141,6 +141,21 @@ export class PharosApiService {
   }
 
   /**
+   * api call to get main level data list, based on a full url from environment.prod
+   * todo this might not get used
+   * @param {string} url
+   */
+  getDataByUrl(url: string): void {
+    this.http.get<any>(url)
+      .pipe(
+        catchError(this.handleError('getDataUrl', []))
+      ).subscribe(response => {
+        console.log(response);
+      this._dataSource.next( response);
+    });
+  }
+
+  /**
    * Api call to get data details
    * @param {string} path The url sub path 'targets', diseases', 'ligands' etc.
    * @param {ParamMap} params The angular router parameters generated in subcomponents includes query, facet, sort and paging information.
@@ -202,7 +217,7 @@ export class PharosApiService {
   }
 
   /**
-   * creates a query string to append to the url based on router paramaters
+   * creates a query string to append to the url based on router parameters
    * @param {string} path
    * @param {ParamMap} params
    * @returns {string}
@@ -212,6 +227,7 @@ export class PharosApiService {
     let str = '';
     const strArr: string[] = [];
     if (params.keys.length === 0) {
+      // todo in api, this fixes the url, but not in the ui
       if(path === 'search'){
         str = this.environmentVariablesService.getDefaultUrl('targets');
       }else {

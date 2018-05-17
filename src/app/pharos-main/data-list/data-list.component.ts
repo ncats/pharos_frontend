@@ -11,6 +11,7 @@ import {CustomContentDirective} from '../../tools/custom-content.directive';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
 import {ComponentLookupService} from '../../pharos-services/component-lookup.service';
 import {takeUntil} from 'rxjs/operators';
+import {DataListResolver} from "../services/data-list.resolver";
 
 
 const navigationExtras: NavigationExtras = {
@@ -26,7 +27,7 @@ const navigationExtras: NavigationExtras = {
 export class DataListComponent implements OnInit, OnDestroy {
   data: any;
   loading = false;
-  path: string;
+  kind: string;
   total: number;
   results: Map<string, any[]> = new Map<string, any>();
 
@@ -36,11 +37,10 @@ export class DataListComponent implements OnInit, OnDestroy {
   constructor(private _route: ActivatedRoute,
               private router: Router,
               private responseParserService: ResponseParserService,
+              private dataListResolver: DataListResolver,
               private loadingService: LoadingService,
               private componentLookup: ComponentLookupService,
-              private componentInjectorService: ComponentInjectorService) {
-    this.path = this._route.snapshot.data.path;
-  }
+              private componentInjectorService: ComponentInjectorService) {}
 
 
   // todo may need to convert this to use the same pattern as target details component - get a list of components
@@ -52,106 +52,60 @@ export class DataListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => this.loading = res);
 
-    /*    token.components.forEach(component => {
-          // start api calls before making component
-          const keys: string[] = [];
-          component.api.forEach(apiCall => {
-            if (apiCall.url.length > 0) {
-              /!**this call is pushed up to the pharos api and changes are subscribed to in the generic details page, then set here*!/
-              this.dataDetailsResolver.getDetailsByUrl(apiCall.url.replace('_id_', this.target.id), apiCall.field);
-              /!** this will be used to track the object fields to get *!/
-              keys.push(apiCall.field);
-            }
-          });
-          /!** make component *!/
-          const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
-          const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
-          if (component.width) {
-            childComponent.instance.width = component.width;
-          }
 
-          this._data
-            .pipe(takeUntil(this.ngUnsubscribe))
-            .subscribe(obj => {
-              childComponent.instance.data = this.pick(obj, keys);
-            });
-        });
-        */
-
-
+    /**
+     * THIS COMPONENT ISNT DYNAMICALLY INJECTED, SO NO APIS ARE CALLED
+     * this is triggered by list data change from above
+     * empties current data and clears view (this may need to be re-evaluated
+     * data is mapped by type -- this is mainly for search, but could be anywhere
+     * for each data type, the list type is retrieved
+     * that component is injected
+     * the data map is set to the component instance
+     * one each data change the process is repeated, including the api calls
+      */
     this.responseParserService.tableData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        console.log(res);
         this.results.clear();
         this.componentHost.viewContainerRef.clear();
         this.filterData(res);
-        Array.from(this.results.keys()).forEach(dataType => {
-          console.log(this.path);
-          //this.path = dataType.toLowerCase().split('.models.')[1] + 's';
-          //this.path = 'targets';
-          const components: any = this.componentLookup.lookupByPath(this.path, 'list');
-          if (components) {
-            components.forEach(component => {
-              if(component.token) {
-                const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
-                const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
-                console.log(this.results);
-                childComponent.instance.data = this.results.get(dataType);
-                this.responseParserService.paginationData$
-                  .pipe(takeUntil(this.ngUnsubscribe))
-                  .subscribe(response => {
-                    childComponent.instance.total = response['total'] ? response['total'] : this.results.get(dataType).length;
-                  });
-                if (childComponent.instance.sortChange) {
-                  childComponent.instance.sortChange.subscribe((event) => {
-                    this.sortTable(event);
-                    // todo sort arrows are not staying after column select
-                  });
-                }
-                if (childComponent.instance.pageChange) {
-                  childComponent.instance.pageChange.subscribe((event) => {
-                    this.paginationChanges(event);
-                  });
-                }
-                childComponent.instance.data = this.results.get(dataType);
+        console.log(res);
+          Array.from(this.results.keys()).forEach(dataType => {
+              this.kind = dataType.toLowerCase().split('.models.')[1] + 's';
+              console.log(this.kind);
+              const components: any = this.componentLookup.lookupByPath(this.kind, 'list');
+              if (components) {
+                components.forEach(component => {
+                  if (component.token) {
+                    const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
+                    const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
+                    console.log(this.results);
+                    dynamicComponent.instance.data = this.results.get(dataType);
+                    this.responseParserService.paginationData$
+                      .pipe(takeUntil(this.ngUnsubscribe))
+                      .subscribe(response => {
+                        //   this.dynamicComponent.instance.total = response['total'] ? response['total'] : this.results.get(dataType).length;
+                      });
+                    if (dynamicComponent.instance.sortChange) {
+                      dynamicComponent.instance.sortChange.subscribe((event) => {
+                        this.sortTable(event);
+                        // todo sort arrows are not staying after column select
+                      });
+                    }
+                    if (dynamicComponent.instance.pageChange) {
+                      dynamicComponent.instance.pageChange.subscribe((event) => {
+                        this.paginationChanges(event);
+                      });
+                    }
+                    dynamicComponent.instance.data = this.results.get(dataType);
+                  }
+                });
               }
           });
-          }
-        })
-        this.loadingService.toggleVisible(false);
+
+          this.loadingService.toggleVisible(false);
       })
   }
-
-
-
-
-
-         /* const dynamicToken = this.componentInjectorService.getComponentToken(token[0]);
-          const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicToken);
-          dynamicComponent.instance.data = this.results.get(dataType);
-          this.responseParserService.paginationData$
-            .pipe(takeUntil(this.ngUnsubscribe))
-            .subscribe(response => {
-              dynamicComponent.instance.total = response['total'] ? response['total'] : this.results.get(dataType).length;
-            });
-          if (dynamicComponent.instance.sortChange) {
-            dynamicComponent.instance.sortChange.subscribe((event) => {
-              this.sortTable(event);
-              // todo sort arrows are not staying after column select
-            });
-          }
-          if (dynamicComponent.instance.pageChange) {
-            dynamicComponent.instance.pageChange.subscribe((event) => {
-              this.paginationChanges(event);
-              // todo sort arrows are not staying after column select
-            });
-          }
-        }
-        });
-        this.loadingService.toggleVisible(false);
-      });*/
-
     // todo: this is changed each pagination change, so something needs to persist the selected rows
     /*    this.rowSelection.onChange
           .pipe(takeUntil(this.ngUnsubscribe))
@@ -159,8 +113,6 @@ export class DataListComponent implements OnInit, OnDestroy {
             console.log(this.rowSelection.selected);
           });*/
  // }
-
-
 
 // todo remove ordering on default switch
   sortTable(event: any): void {
@@ -194,12 +146,12 @@ export class DataListComponent implements OnInit, OnDestroy {
     this.results.clear();
     if (res) {
       res.map(obj => {
-        const kinds = this.results.get(this.path);
+        const kinds = this.results.get(obj.kind);
         if (kinds) {
           kinds.push(obj);
-          this.results.set(this.path, kinds);
+          this.results.set(obj.kind, kinds);
         } else {
-          this.results.set(this.path, [obj]);
+          this.results.set(obj.kind, [obj]);
         }
       });
     }
