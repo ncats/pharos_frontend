@@ -146,7 +146,7 @@ export class LineChartComponent  implements OnInit, OnChanges {
       .datum(this.groupCounts)
       .attr('stroke-linejoin', 'round')
       .attr('stroke-linecap', 'round')
-      .attr('stroke', '#265668')
+      .attr('stroke', '#23364e')
       .attr('stroke-width', 2)
       .attr('fill', 'none')
       .attr('d', line);

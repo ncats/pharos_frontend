@@ -3,15 +3,20 @@
     <mat-card-title ><span class="mat-title"> Text Mined References ({{dataSource?.data?.length}})</span></mat-card-title>
   </mat-card-header>
   <mat-card-content>
+    <mat-paginator #paginator
+                   [pageSize]="10"
+                   [pageSizeOptions]="[5, 10, 20]"
+                   [showFirstLastButtons]="true">
+    </mat-paginator>
 <mat-table [dataSource]="dataSource" matSort>
   <ng-container matColumnDef="pmid">
     <mat-header-cell *matHeaderCellDef class="width10">PMID</mat-header-cell>
     <mat-cell class="width10" *matCellDef="let row">
-      <a href ="pubmed" >{{row.pmid}} </a>
+      <a href ="http://www.ncbi.nlm.nih.gov/pubmed/{{row.pmid}}" target="_blank" >{{row.pmid}} </a>
     </mat-cell>
   </ng-container>
-  <ng-container matColumnDef="year">
-    <mat-header-cell class="width10" *matHeaderCellDef>Year</mat-header-cell>
+  <ng-container matColumnDef="year" >
+    <mat-header-cell class="width10" mat-sort-header *matHeaderCellDef>Year</mat-header-cell>
     <mat-cell class="width10" *matCellDef="let row">
       {{row.year}}
     </mat-cell>

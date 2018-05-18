@@ -42,7 +42,6 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
           if (!this.dynamicComponent) {
             const components: any = this.componentLookupService.lookupByPath(this.path, 'details');
             if (components) {
-              console.log(components);
               components.forEach(component => {
                 if (component.token) {
                   const dynamicComponentToken = this.componentInjectorService.getComponentToken(component.token);

@@ -35,6 +35,14 @@ export class EnvironmentVariablesService {
   }
 
   /**
+   * get url to retrieve radar graph data
+   * @return {string}
+   */
+  getRadarPath(): string {
+  return this._environment.radarUrl;
+  }
+
+  /**
    * returns default api url
    * todo: this returns the empty search string, so it will need to be changed
    * @param {string} path
@@ -115,7 +123,6 @@ export class EnvironmentVariablesService {
     if (this._pathExists(path)) {
       if (subpath) {
         const value = subpath.split('.').reduce((a, b) => a[b], this._environment[path].components);
-        console.log(value);
         return value['components'];
       } else {
         return this._environment[path].components;

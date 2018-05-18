@@ -46,7 +46,6 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
   }
 
   setterFunction(): void {
-    console.log(this);
     if (this.data['orthologs']) {
       this.tableArr = [];
       const temp: Ortholog[] = [];

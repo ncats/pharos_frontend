@@ -7,6 +7,23 @@ body {
   min-height: 100vh;
 }
 
+a {
+  color: mat-color($pharos-app-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+/*a:visited {
+  color:  mat-color($pharos-app-accent);
+  font-weight: 500;
+}*/
+
+
 
 .flex-body{
   flex: 1;

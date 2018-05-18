@@ -1,10 +1,11 @@
-<mat-card class ="flex30 width50" *ngIf = data>
-  <mat-card-header>
-    <mat-card-title ><span class="mat-title">Target Summary</span></mat-card-title>
-  </mat-card-header>
+<div fxFlexFill>
+<mat-card class ="flex30 full-height" *ngIf = data>
   <mat-card-content>
     <div fxLayout="row" fxLayoutAlign="start stretch">
       <div fxFlex="50">
+        <span class="mat-title">Target Summary</span>
+        <br>
+        <br>
     <ng-container *ngIf="data.synonyms?.length > 0">
     <mat-card-subtitle>Accession</mat-card-subtitle>
       <ul class = "inline-list">
@@ -39,20 +40,26 @@
     </ul>
     </ng-container>
       </div>
-      <ng-container *ngIf="data.knowledge">
-      <div fxFlex="50">
-        <pharos-radar-chart [data] = data.knowledge [options] = radarOptions></pharos-radar-chart>
-<!--
-        <pharos-knowledge-panel></pharos-knowledge-panel>
--->
-      </div>
+      <div fxFlex="50" *ngIf="data.knowledge">
+      <span class="mat-title">Knowledge Summary</span>
+      <br>
+      <br>
+      <ng-container>
+        <pharos-radar-chart [data] = data.knowledge [size] = "'medium'" (click)="openModal()"></pharos-radar-chart>
       </ng-container>
     </div>
-
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start stretch">
+      <div fxFlex="95">
+        <span class="mat-title">PubMed Score</span>
+        <br>
+        <br>
     <ng-container *ngIf="data?.timelines?.length > 0">
-   <!-- <pharos-line-chart [data]="getTimeline('PubMed Score')"></pharos-line-chart>
-    <pharos-line-chart [data]="getTimeline('PubTator')"></pharos-line-chart>
-  -->  </ng-container>
+    <pharos-line-chart [data]="getTimeline('PubMed Score')"></pharos-line-chart>
+    <!--<pharos-line-chart [data]="getTimeline('PubTator')"></pharos-line-chart>-->
+    </ng-container>
+      </div>
+    </div>
     <!--<div *ngIf="[data.gene].length > 0">
     <mat-card-subtitle>NCBI Gene</mat-card-subtitle>
     <div *ngFor=" let term of [data.gene]">
@@ -93,3 +100,4 @@ temporal graph">
 
 
 -->
+</div>

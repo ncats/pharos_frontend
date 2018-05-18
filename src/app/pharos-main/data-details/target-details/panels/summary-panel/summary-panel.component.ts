@@ -1,10 +1,9 @@
-import {Component, HostBinding, Input, OnDestroy, OnInit, SimpleChange, ViewEncapsulation} from '@angular/core';
-import {finalize, map, takeUntil, takeWhile} from 'rxjs/operators';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Term} from '../../../../../models/term';
-import {BehaviorSubject, Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Value} from '../../../../../models/value';
 import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
+
 
 @Component({
   selector: 'pharos-summary-panel',
@@ -46,16 +45,14 @@ ngOnInit() {
       }
     });
   this.radarOptions = {
-    w: 290,
-    h: 350,
-   // margin: margin,
+    w: 200,
+    h: 200,
     maxValue: 1,
-    levels: 6,
+    levels: 5,
     roundStrokes: false,
-   // color: d3.scaleOrdinal().range(["#AFC52F", "#ff6600"]),
-    format: '.0f',
+    format: '.2f',
+    labels: false,
     legend: { title: 'Organization XYZ', translateX: 100, translateY: 40 },
-    unit: '$'
   };
 
 }
@@ -80,6 +77,9 @@ fetchTimelineData(): void {
   });
 }
 
+openModal(): void {
+    console.log("mmmmmmmm");
+}
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();

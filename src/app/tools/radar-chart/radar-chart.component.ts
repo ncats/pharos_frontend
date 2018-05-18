@@ -1,5 +1,6 @@
 import {Component, ElementRef, Input, OnInit, ViewChild, ViewRef} from '@angular/core';
 import * as d3 from 'd3';
+import {RadarService} from "./radar.service";
 
 @Component({
   selector: 'pharos-radar-chart',
@@ -7,47 +8,58 @@ import * as d3 from 'd3';
   styleUrls: ['./radar-chart.component.css']
 })
 export class RadarChartComponent implements OnInit {
-  @Input() data : any;
-  @Input() options: any;
+  @Input() id : any;
+  @Input() data? : any;
+  @Input() options?: any;
+  @Input() size?: string;
   @ViewChild('radarChart') chartContainer: ElementRef;
-  private margin: any = {top: 20, bottom: 20, left: 10, right: 10};
   height: number;
   width: number;
   radius: number;
-  donut: any;
-  constructor() { }
+  constructor(
+    private radarDataService: RadarService
+  ) { }
 
   ngOnInit() {
-/////////////////////////////////////////////////////////
-/////////////// The Radar Chart Function ////////////////
-/// mthh - 2017 /////////////////////////////////////////
-// Inspired by the code of alangrafu and Nadieh Bremer //
-// (VisualCinnamon.com) and modified for d3 v4 //////////
-/////////////////////////////////////////////////////////
-  this.radarChart(this.chartContainer.nativeElement, this.data, this.options);
+    if(this.size){
+      this.options = this.radarDataService.getOptions(this.size);
+    }
+
+    if(!this.data){
+      this.data = this.radarDataService.getData(this.id).subscribe(res=> {
+        this.data = res;
+        this.radarChart();
+      });
+    }else{
+      this.data.forEach(graph => this.radarDataService.setData(graph.className, graph));
+      this.radarChart();
+    }
   }
 
-     radarChart(parent_selector, data, options) {
+
+  radarChart() {
        const max = Math.max;
        const sin = Math.sin;
        const cos = Math.cos;
-       const HALF_PI = Math.PI / 2;
+       const HALF_PI: number = Math.PI / 2;
 
+       // todo: clean this up with es6
        //Wraps SVG text - Taken from http://bl.ocks.org/mbostock/7555321
       const wrap = (text, width) => {
         text.each(function() {
-          var text = d3.select(this),
-            words = text.text().split(/\s+/).reverse(),
-            word,
-            line = [],
-            lineNumber = 0,
-            lineHeight = 1.4, // ems
-            y = text.attr("y"),
-            x = text.attr("x"),
-            dy = parseFloat(text.attr("dy")),
-            tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
+          const text = d3.select(this);
+          const words = text.text().split(/\s+/).reverse();
+            let word;
+            let line = [];
+            let lineNumber = 0;
+            let lineHeight = 1.4; // ems
+            const y = text.attr("y");
+            const x = text.attr("x");
+            const dy = parseFloat(text.attr("dy"));
+            let tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
 
           while (word = words.pop()) {
+
             line.push(word);
             tspan.text(line.join(" "));
             if (tspan.node().getComputedTextLength() > width) {
@@ -69,40 +81,37 @@ export class RadarChartComponent implements OnInit {
         labelFactor: 1.25, 	//How much farther than the radius of the outer circle should the labels be placed
         wrapWidth: 60, 		//The number of pixels after which a label needs to be given a new line
         opacityArea: 0.35, 	//The opacity of the area of the blob
-        dotRadius: 4, 			//The size of the colored circles of each blog
+        dotRadius: 2, 			//The size of the colored circles of each blog
         opacityCircles: 0.1, 	//The opacity of the circles of each blob
         strokeWidth: 2, 		//The width of the stroke around each blob
         roundStrokes: false,	//If true the area and stroke will follow a round path (cardinal-closed)
-        color: d3.scaleOrdinal(d3.schemeCategory10),	//Color function,
+        color: d3.scaleOrdinal().range(["#23364e"]),
         format: '.2%',
         unit: '',
+        axisLabels: true,
+        labels: true,
         legend: false
       };
 
       //Put all of the options into a variable called cfg
-      if('undefined' !== typeof options){
-        for(var i in options){
-          if('undefined' !== typeof options[i]){ cfg[i] = options[i]; }
-        }//for i
-      }//if
+      if(this.options){
+        Object.keys(this.options).forEach(key => {
+          cfg[key] = this.options[key];
+        })
+      }
 
       //If the supplied maxValue is smaller than the actual one, replace by the max in the data
       // var maxValue = max(cfg.maxValue, d3.max(data, function(i){return d3.max(i.map(function(o){return o.value;}))}));
-      let maxValue = 0;
-      for (let j=0; j < data.length; j++) {
-        for (let i = 0; i < data[j].axes.length; i++) {
-          data[j].axes[i]['id'] = data[j].name;
-          if (data[j].axes[i]['value'] > maxValue) {
-            maxValue = data[j].axes[i]['value'];
-          }
-        }
+    let maxValues: number[] = [cfg.maxValue];
+      for(let data of this.data) {
+        maxValues.push(Math.max(...data.axes.map(o => o.value)));
       }
-      maxValue = max(cfg.maxValue, maxValue);
+      const maxValue: number = Math.max(...maxValues);
 
-      const allAxis = data[0].axes.map((i, j) => i.axis),	//Names of each axis
+      const allAxis = this.data[0].axes.map((i, j) => i.axis),	//Names of each axis
         total = allAxis.length,					//The number of different axes
         radius = Math.min(cfg.w/2, cfg.h/2), 	//Radius of the outermost circle
-        Format = d3.format(cfg.format),			 	//Formatting
+        format = d3.format(cfg.format),			 	//Formatting
         angleSlice = Math.PI * 2 / total;		//The width in radians of each "slice"
 
       //Scale for the radius
@@ -113,7 +122,7 @@ export class RadarChartComponent implements OnInit {
       /////////////////////////////////////////////////////////
       //////////// Create the container SVG and g /////////////
       /////////////////////////////////////////////////////////
-      const parent = d3.select(parent_selector);
+      const parent = d3.select(this.chartContainer.nativeElement);
 
       //Remove whatever chart with the same id/class was present before
       parent.select("svg").remove();
@@ -153,14 +162,15 @@ export class RadarChartComponent implements OnInit {
         .append("circle")
         .attr("class", "gridCircle")
         .attr("r", d => radius / cfg.levels * d)
-        .style("fill", "#CDCDCD")
+        .style("fill", "#F3F3F3")
         .style("stroke", "#CDCDCD")
         .style("fill-opacity", cfg.opacityCircles)
         .style("filter" , "url(#glow)");
 
       //Text indicating at what % each level is
+    if(cfg.axisLabels) {
       axisGrid.selectAll(".axisLabel")
-        .data(d3.range(1,(cfg.levels+1)).reverse())
+        .data(d3.range(1, (cfg.levels + 1)).reverse())
         .enter().append("text")
         .attr("class", "axisLabel")
         .attr("x", 4)
@@ -168,8 +178,8 @@ export class RadarChartComponent implements OnInit {
         .attr("dy", "0.4em")
         .style("font-size", "10px")
         .attr("fill", "#737373")
-        .text(d => Format(maxValue * d / cfg.levels) + cfg.unit);
-
+        .text(d => format(maxValue * d / cfg.levels) + cfg.unit);
+    }
       /////////////////////////////////////////////////////////
       //////////////////// Draw the axes //////////////////////
       /////////////////////////////////////////////////////////
@@ -184,23 +194,24 @@ export class RadarChartComponent implements OnInit {
       axis.append("line")
         .attr("x1", 0)
         .attr("y1", 0)
-        .attr("x2", (d, i) => rScale(maxValue *1.1) * cos(angleSlice * i - HALF_PI))
-        .attr("y2", (d, i) => rScale(maxValue* 1.1) * sin(angleSlice * i - HALF_PI))
+        .attr("x2", (d, i) => rScale(maxValue) * cos(angleSlice * i - HALF_PI))
+        .attr("y2", (d, i) => rScale(maxValue) * sin(angleSlice * i - HALF_PI))
         .attr("class", "line")
-        .style("stroke", "white")
-        .style("stroke-width", "2px");
+        .style("stroke", "f7f7f7")
+        .style("stroke-width", "1px");
 
       //Append the labels at each axis
+    if(cfg.labels) {
       axis.append("text")
         .attr("class", "legend")
         .style("font-size", "11px")
         .attr("text-anchor", "middle")
         .attr("dy", "0.35em")
-        .attr("x", (d,i) => rScale(maxValue * cfg.labelFactor) * cos(angleSlice * i - HALF_PI))
-        .attr("y", (d,i) => rScale(maxValue * cfg.labelFactor) * sin(angleSlice * i - HALF_PI))
+        .attr("x", (d, i) => rScale(maxValue * cfg.labelFactor) * cos(angleSlice * i - HALF_PI))
+        .attr("y", (d, i) => rScale(maxValue * cfg.labelFactor) * sin(angleSlice * i - HALF_PI))
         .text(d => d)
         .call(wrap, cfg.wrapWidth);
-
+    }
       /////////////////////////////////////////////////////////
       ///////////// Draw the radar chart blobs ////////////////
       /////////////////////////////////////////////////////////
@@ -217,7 +228,7 @@ export class RadarChartComponent implements OnInit {
 
       //Create a wrapper for the blobs
       const blobWrapper = g.selectAll(".radarWrapper")
-        .data(data)
+        .data(this.data)
         .enter().append("g")
         .attr("class", "radarWrapper");
 
@@ -272,7 +283,7 @@ export class RadarChartComponent implements OnInit {
 
       //Wrapper for the invisible circles on top
       const blobCircleWrapper = g.selectAll(".radarCircleWrapper")
-        .data(data)
+        .data(this.data)
         .enter().append("g")
         .attr("class", "radarCircleWrapper");
 
@@ -292,7 +303,7 @@ export class RadarChartComponent implements OnInit {
             .attr('y', this.cy.baseVal.value - 10)
             .transition()
             .style('display', 'block')
-            .text(Format(d.value) + cfg.unit);
+            .text(format(d.value) + cfg.unit);
         })
         .on("mouseout", function(){
           tooltip.transition()
