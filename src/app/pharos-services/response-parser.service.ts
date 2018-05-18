@@ -88,7 +88,6 @@ export class ResponseParserService {
       takeUntil(this.ngUnsubscribe)
       )
       .subscribe(res => {
-        console.log(res);
         if (res.object) {
           this._detailsDataSource.next(res);
         }

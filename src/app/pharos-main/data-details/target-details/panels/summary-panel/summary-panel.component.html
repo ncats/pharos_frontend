@@ -39,9 +39,14 @@
     </ul>
     </ng-container>
       </div>
+      <ng-container *ngIf="data.knowledge">
       <div fxFlex="50">
+        <pharos-radar-chart [data] = data.knowledge [options] = radarOptions></pharos-radar-chart>
+<!--
         <pharos-knowledge-panel></pharos-knowledge-panel>
+-->
       </div>
+      </ng-container>
     </div>
 
     <ng-container *ngIf="data?.timelines?.length > 0">
