@@ -59,13 +59,11 @@ radarDataMap: Map<string, any> = new Map<string, any>();
     temp = this._fetchData(id);
     this.setData(id, temp);
     }
-    console.log(temp);
     return temp;
   }
 
   setData(id: string, data: any): void {
     this.radarDataMap.set(id, data);
-    console.log(this.radarDataMap);
   }
 
   getOptions(size: string){

@@ -3,6 +3,8 @@ import {Term} from '../../../../../models/term';
 import {HttpClient} from '@angular/common/http';
 import {Value} from '../../../../../models/value';
 import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
+import {RadarChartComponent} from "../../../../../tools/radar-chart/radar-chart.component";
+import {MatDialog} from "@angular/material";
 
 
 @Component({
@@ -26,12 +28,14 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
   flex = this.width;*/
 
 // todo: remove these http calls after api is fixed
-  constructor(private _http: HttpClient) {
+  constructor(
+    private _http: HttpClient,
+    public dialog: MatDialog
+  ) {
     super();
   }
 
 ngOnInit() {
-    console.log(this);
   this._data
   // listen to data as long as term is undefined or null
   // Unsubscribe once term has value
@@ -44,17 +48,6 @@ ngOnInit() {
         this.fetchTimelineData();
       }
     });
-  this.radarOptions = {
-    w: 200,
-    h: 200,
-    maxValue: 1,
-    levels: 5,
-    roundStrokes: false,
-    format: '.2f',
-    labels: false,
-    legend: { title: 'Organization XYZ', translateX: 100, translateY: 40 },
-  };
-
 }
 
 
@@ -78,7 +71,13 @@ fetchTimelineData(): void {
 }
 
 openModal(): void {
-    console.log("mmmmmmmm");
+  let dialogRef = this.dialog.open(RadarChartComponent, {
+    height: '95vh',
+    width: '85vw',
+    data: { data: this.data.knowledge,
+            id: this.data.knowledge[0].className,
+      size: 'large'}
+  });
 }
 
   ngOnDestroy() {

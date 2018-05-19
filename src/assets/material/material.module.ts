@@ -11,6 +11,8 @@ import {
 import {MatChipsModule} from '@angular/material/chips';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatDialogModule} from '@angular/material/dialog';
+
 
 
 
@@ -21,12 +23,12 @@ import {MatDividerModule} from '@angular/material/divider';
     MatInputModule, MatIconModule, MatListModule, MatSliderModule, MatProgressSpinnerModule,
     MatTableModule, MatSortModule, MatSidenavModule, MatSlideToggleModule, MatRadioModule,
     MatTabsModule, MatCheckboxModule, MatCardModule, MatTooltipModule, MatSelectModule, MatExpansionModule, MatPaginatorModule,
-    MatChipsModule, MatGridListModule, MatDividerModule],
+    MatChipsModule, MatGridListModule, MatDividerModule, MatDialogModule],
   exports: [MatButtonModule, MatAutocompleteModule, MatMenuModule, MatToolbarModule,
     MatInputModule, MatIconModule, MatListModule, MatSliderModule, MatProgressSpinnerModule,
     MatTableModule, MatSortModule, MatSidenavModule, MatSlideToggleModule, MatRadioModule,
     MatTabsModule, MatCheckboxModule, MatCardModule, MatTooltipModule, MatSelectModule, MatExpansionModule, MatPaginatorModule,
-    MatChipsModule, MatGridListModule, MatDividerModule],
+    MatChipsModule, MatGridListModule, MatDividerModule, MatDialogModule],
 })
 export class MaterialModule { }
 

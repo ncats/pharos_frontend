@@ -1,11 +1,39 @@
-<!--<mat-card fxFlex = {{width}}>
+<div>
+<mat-card class="flex30">
   <mat-card-header>
-    <mat-card-title ><span class="mat-title">Disease Relevance</span></mat-card-title>
+    <mat-card-title ><span class="mat-title">Expression Data</span></mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <p>
-      expression-panel works!
-    </p>
+    <div class = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
+      <div fxFlex = "30">
+      <mat-tab-group (selectedTabChange)="changeTabData($event)">
+        <mat-tab label = "Specificity">
+          <ng-template matTabContent>
+<!--
+            <pharos-generic-table [data]= tableArr [fieldsConfig] = getTableData(source)></pharos-generic-table>
+-->
+          </ng-template>
+        </mat-tab>
+        <mat-tab label = "Differential">
+          <ng-template matTabContent>
+<!--
+            <pharos-generic-table [data]= tableArr [fieldsConfig] = getTableData(source)></pharos-generic-table>
+-->
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+      </div>
+      <div fxFlex="70">
+          <mat-tab-group (selectedTabChange)="changeTabData($event)">
+            <mat-tab *ngFor="let source of sources" label = "{{source}} ({{getSourceCount(source)}})"  >
+              <ng-template matTabContent>
+                <img src = "http://localhost:9001/idg/expression/homunculus?acc=Q8TC21&source=gtex">
+              </ng-template>
+            </mat-tab>
+          </mat-tab-group>
+      </div>
+    </div>
   </mat-card-content>
-</mat-card>-->
+</mat-card>
+</div>
 

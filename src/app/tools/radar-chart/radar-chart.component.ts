@@ -1,6 +1,7 @@
-import {Component, ElementRef, Input, OnInit, ViewChild, ViewRef} from '@angular/core';
+import {Component, ElementRef, Inject, Input, OnInit, Optional, ViewChild, ViewRef} from '@angular/core';
 import * as d3 from 'd3';
 import {RadarService} from "./radar.service";
+import {MAT_DIALOG_DATA} from "@angular/material";
 
 @Component({
   selector: 'pharos-radar-chart',
@@ -17,10 +18,15 @@ export class RadarChartComponent implements OnInit {
   width: number;
   radius: number;
   constructor(
-    private radarDataService: RadarService
+    private radarDataService: RadarService,
+    @Optional() @Inject(MAT_DIALOG_DATA) public modalData: any
   ) { }
 
   ngOnInit() {
+
+    if(this.modalData){
+      Object.keys(this.modalData).forEach(key => this[key] = this.modalData[key]);
+    }
     if(this.size){
       this.options = this.radarDataService.getOptions(this.size);
     }
@@ -78,7 +84,7 @@ export class RadarChartComponent implements OnInit {
         margin: {top: 20, right: 20, bottom: 20, left: 20}, //The margins of the SVG
         levels: 3,				//How many levels or inner circles should there be drawn
         maxValue: 0, 			//What is the value that the biggest circle will represent
-        labelFactor: 1.25, 	//How much farther than the radius of the outer circle should the labels be placed
+        labelFactor: 1.01, 	//How much farther than the radius of the outer circle should the labels be placed
         wrapWidth: 60, 		//The number of pixels after which a label needs to be given a new line
         opacityArea: 0.35, 	//The opacity of the area of the blob
         dotRadius: 2, 			//The size of the colored circles of each blog
@@ -135,7 +141,8 @@ export class RadarChartComponent implements OnInit {
 
       //Append a g element
       let g = svg.append("g")
-        .attr("transform", "translate(" + (cfg.w/2 + cfg.margin.left) + "," + (cfg.h/2 + cfg.margin.top) + ")");
+        .style('transform', 'translate(50%, 50%)');
+        //.attr("transform", "translate(" + (cfg.w/2 + cfg.margin.left) + "," + (cfg.h/2 + cfg.margin.top) + ")");
 
       /////////////////////////////////////////////////////////
       ////////// Glow filter for some extra pizzazz ///////////
@@ -201,6 +208,7 @@ export class RadarChartComponent implements OnInit {
         .style("stroke-width", "1px");
 
       //Append the labels at each axis
+    // todo: rotate? https://stackoverflow.com/questions/42581308/d3-js-rotate-axis-labels-around-the-middle-point
     if(cfg.labels) {
       axis.append("text")
         .attr("class", "legend")
@@ -303,7 +311,7 @@ export class RadarChartComponent implements OnInit {
             .attr('y', this.cy.baseVal.value - 10)
             .transition()
             .style('display', 'block')
-            .text(format(d.value) + cfg.unit);
+            .text(d.axis + " "+ format(d.value) + cfg.unit);
         })
         .on("mouseout", function(){
           tooltip.transition()
