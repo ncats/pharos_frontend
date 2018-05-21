@@ -1,11 +1,11 @@
 <div fxFlexFill>
-<mat-card class="full-height" *ngIf = data>
+<mat-card class="full-height" *ngIf = list>
   <mat-card-header>
-    <mat-card-title ><span class="mat-title">{{label}} ({{data.length}})</span></mat-card-title>
+    <mat-card-title ><span class="mat-title">{{label}} ({{list.length}})</span></mat-card-title>
   </mat-card-header>
   <mat-card-content>
 <mat-list>
-  <mat-list-item *ngFor = "let item of data | slice:0:9">
+  <mat-list-item *ngFor = "let item of list | slice:0:9">
     <div *ngIf = "item.href; else noLink">
       <a href = {{item.href}} target="_blank">{{item.term}}</a>
     </div>

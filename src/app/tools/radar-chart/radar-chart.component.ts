@@ -23,7 +23,6 @@ export class RadarChartComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
     if(this.modalData){
       Object.keys(this.modalData).forEach(key => this[key] = this.modalData[key]);
     }
@@ -141,8 +140,8 @@ export class RadarChartComponent implements OnInit {
 
       //Append a g element
       let g = svg.append("g")
-        .style('transform', 'translate(50%, 50%)');
-        //.attr("transform", "translate(" + (cfg.w/2 + cfg.margin.left) + "," + (cfg.h/2 + cfg.margin.top) + ")");
+        //.style('transform', 'translate(50%, 50%)');
+        .attr("transform", "translate(" + (cfg.w/2 + cfg.margin.left) + "," + (cfg.h/2 + cfg.margin.top) + ")");
 
       /////////////////////////////////////////////////////////
       ////////// Glow filter for some extra pizzazz ///////////

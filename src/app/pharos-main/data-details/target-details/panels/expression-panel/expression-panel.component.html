@@ -6,12 +6,10 @@
   <mat-card-content>
     <div class = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
       <div fxFlex = "30">
-      <mat-tab-group (selectedTabChange)="changeTabData($event)">
+      <mat-tab-group (selectedTabChange)="changeExpressionTabData($event)">
         <mat-tab label = "Specificity">
           <ng-template matTabContent>
-<!--
-            <pharos-generic-table [data]= tableArr [fieldsConfig] = getTableData(source)></pharos-generic-table>
--->
+            <pharos-spider-chart [data] = radarData  [size] = "'medium'"></pharos-spider-chart>
           </ng-template>
         </mat-tab>
         <mat-tab label = "Differential">
@@ -24,11 +22,16 @@
       </mat-tab-group>
       </div>
       <div fxFlex="70">
-          <mat-tab-group (selectedTabChange)="changeTabData($event)">
+          <mat-tab-group (selectedTabChange)="changeHarminogramTabData($event)" [dynamicHeight]="true">
             <mat-tab *ngFor="let source of sources" label = "{{source}} ({{getSourceCount(source)}})"  >
-              <ng-template matTabContent>
-                <img src = "http://localhost:9001/idg/expression/homunculus?acc=Q8TC21&source=gtex">
-              </ng-template>
+                <div class = "row" fxLayout.xs="column" fxLayoutAlign="start">
+                  <div fxFlex="50">
+                <img class = "hg" src = "http://localhost:9001/idg/expression/homunculus?acc=Q8TC21&source=gtex">
+                  </div>
+                  <div fxFlex="50">
+                    <pharos-link-list [list]= hgData [label]=source></pharos-link-list>
+                  </div>
+                </div>
             </mat-tab>
           </mat-tab-group>
       </div>

@@ -16,3 +16,9 @@ circle.center{
   stroke-width:5;
   stroke:#000;
 }
+
+polygon.poly {
+  fill: none;
+  stroke: black;
+  stroke-width: 1;
+}

@@ -40,7 +40,7 @@ export class ReferencesPanelComponent extends DynamicPanelComponent implements O
   }
 
   ngAfterViewInit() {
-    console.log(this.dataSource);
+   // console.log(this.dataSource);
    // this.dataSource.paginator = this.paginator;
   }
 

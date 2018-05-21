@@ -64,6 +64,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(obj => {
             childComponent.instance.data = this.pick(obj, keys);
+            childComponent.instance.id = obj.object.accession;
           });
       });
     }

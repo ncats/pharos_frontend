@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
 import {Term} from "../../../../../models/term";
 import {MatTabChangeEvent} from "@angular/material";
+import {Value} from "../../../../../models/value";
+import {Property} from "../../../../../models/property";
+import {BehaviorSubject} from "rxjs/index";
 
 @Component({
   selector: 'pharos-expression-panel',
@@ -9,7 +12,32 @@ import {MatTabChangeEvent} from "@angular/material";
   styleUrls: ['./expression-panel.component.css']
 })
 export class ExpressionPanelComponent extends DynamicPanelComponent implements OnInit {
-  tissueData: Map<string, Term[]> = new Map<string, Term[]>();
+  id: string;
+  tissueData: Map<string, Property[] > = new Map<string, Property[]>();
+hgData: any[] = [];
+  /**
+   * initialize a private variable _radarData, it's a BehaviorSubject
+   * @type {BehaviorSubject<any>}
+   * @private
+   */
+  protected _radarData = new BehaviorSubject<any>([]);
+  /**
+   * pushes changed data to {BehaviorSubject}
+   * @param value
+   */
+  @Input()
+  set radarData(value: any) {
+    this._radarData.next(value);
+  }
+
+  /**
+   * returns value of {BehaviorSubject}
+   * @returns {any}
+   */
+  get radarData() {
+    return this._radarData.getValue();
+  }
+
   sources: string[] = [
     "GTEx Tissue",
     "HPM Tissue",
@@ -26,7 +54,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   }
 
   ngOnInit() {
-    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -38,6 +65,8 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
         if(this.data.expression) {
           this.tissueData.clear();
           this.mapTissueData();
+          this.radarData =  this.setRadarData();
+          this.hgData = this.tissueData.get(this.sources[0]);
         }
         if(this.data.differential) {
           this.getDifferential();
@@ -47,8 +76,8 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
 
   mapTissueData(): void {
     this.data.expression.forEach(tissue => {
-      const tissueTerm: Term = new Term(tissue);
-      const tissueArr: Term[] = this.tissueData.get(tissueTerm.label);
+      const tissueTerm: Property = new Term(tissue);
+      const tissueArr: Property[] = this.tissueData.get(tissueTerm.label);
       if(tissueArr){
         tissueArr.push(tissueTerm);
         this.tissueData.set(tissueTerm.label, tissueArr);
@@ -62,7 +91,19 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
 
   }
 
-  getData(field: string): Term[] {
+  setRadarData(): any[] {
+    const axes : any [] = [];
+    const radar : any = [];
+const filters = ['GTEx Tissue Specificity Index', 'HPM Protein Tissue Specificity Index', 'HPA RNA Tissue Specificity Index'];
+  filters.forEach(field => {
+    const data: any = this.tissueData.get(field)[0];
+    axes.push({axis: field, value: data['numval']});
+  });
+   radar.push({className:this.id, axes: axes});
+  return radar;
+  }
+
+  getData(field: string): Property[] {
     return this.tissueData.get(field);
   }
 
@@ -70,8 +111,15 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     return this.tissueData.get(source) ? this.tissueData.get(source).length : 0;
   }
 
-  changeTabData(event: MatTabChangeEvent) {
+  changeExpressionTabData(event: MatTabChangeEvent) {
     console.log(event);
    // this.tableArr = this.sourceMap.get(this.sources[event.index]);
+  }
+
+  changeHarminogramTabData(event: MatTabChangeEvent) {
+    console.log(event);
+    this.hgData = this.tissueData.get(this.sources[event.index]);
+
+    // this.tableArr = this.sourceMap.get(this.sources[event.index]);
   }
 }

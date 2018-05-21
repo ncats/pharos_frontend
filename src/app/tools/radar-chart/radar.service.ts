@@ -18,8 +18,8 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
       axisLabels: false
     }
 ],['medium',{
-    w: 200,
-    h: 200,
+    w: 300,
+    h: 300,
     maxValue: 1,
     levels: 5,
     roundStrokes: false,
