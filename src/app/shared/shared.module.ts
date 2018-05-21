@@ -48,8 +48,7 @@ import {RadarChartComponent} from "../tools/radar-chart/radar-chart.component";
     LineChartComponent,
     LinkListComponent,
     ToiCardComponent,
-    PharosTabsComponent,
-    RadarChartComponent
+    PharosTabsComponent
   ],
   providers: [
   ],
@@ -73,8 +72,7 @@ import {RadarChartComponent} from "../tools/radar-chart/radar-chart.component";
     LineChartComponent,
     LinkListComponent,
     ToiCardComponent,
-    PharosTabsComponent,
-    RadarChartComponent
+    PharosTabsComponent
   ]
 })
 export class SharedModule {
