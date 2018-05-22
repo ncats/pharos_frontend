@@ -12,7 +12,6 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
       maxValue: 1,
       levels: 1,
       dotRadius: 0, 			//The size of the colored circles of each blog
-      roundStrokes: false,
       format: '.1f',
       labels: false,
       axisLabels: false
@@ -22,9 +21,18 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
     h: 300,
     maxValue: 1,
     levels: 5,
-    roundStrokes: false,
     format: '.2f',
-    labels: false
+    labels: false,
+    axisLabels: true
+  }
+  ],['medium-shape',{
+    w: 300,
+    h: 300,
+    maxValue: 1,
+    levels: 5,
+    format: '.2f',
+    labels: true,
+    axisLabels: false
   }
 ] , ['large', {
       w: 800,
@@ -32,7 +40,6 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
       maxValue: 1,
       levels: 10,
       dotRadius: 5, 			//The size of the colored circles of each blog
-      roundStrokes: false,
       format: '.5f',
       labels: true,
       axisLabels: true,
@@ -54,6 +61,7 @@ radarDataMap: Map<string, any> = new Map<string, any>();
     this.url = this.environmentVariableService.getRadarPath();
   }
   getData(id: string): any {
+    console.log(this.radarDataMap);
     let temp: any = this.radarDataMap.get(id);
     if(!temp){
     temp = this._fetchData(id);

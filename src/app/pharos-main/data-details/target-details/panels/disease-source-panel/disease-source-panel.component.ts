@@ -3,6 +3,7 @@ import {DiseaseRelevance} from '../../../../../models/disease-relevance';
 import {TableData} from '../../../../../models/table-data';
 import {MatTabChangeEvent} from '@angular/material';
 import {BehaviorSubject} from 'rxjs';
+import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
 
 // skipping log2foldchange property
 const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
@@ -35,6 +36,11 @@ const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
       label: 'P-value',
       sortable: true
     }
+  )], ['log2foldchange', new TableData({
+      name: 'log2foldchange',
+      label: 'log2 FC',
+      sortable: true
+    }
   )]
   ]
 );
@@ -45,22 +51,35 @@ const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
   templateUrl: './disease-source-panel.component.html',
   styleUrls: ['./disease-source-panel.component.css']
 })
-export class DiseaseSourceComponent implements OnInit {
+export class DiseaseSourceComponent extends DynamicPanelComponent implements OnInit {
   sourceMap: Map<string, DiseaseRelevance[]> = new Map<string, DiseaseRelevance[]>();
   fieldsMap: Map<string, TableData[]> = new Map<string, TableData[]>();
   sources: string[];
+  loaded = false;
   @Input() width = 30;
   tableArr: any[] = [];
 
 /*  @HostBinding('attr.fxFlex')
   flex = this.width;*/
 
-  private _data = new BehaviorSubject<any>(null);
+  constructor() {
+    super();
+  }
 
-  @Input()
-  set data(value: any) {
-    if (value.diseaseSources) {
-      const sources = value.diseaseSources;
+  ngOnInit() {
+    this._data
+    // listen to data as long as term is undefined or null
+    // Unsubscribe once term has value
+      .pipe(
+        // todo: this unsubscribe doesn't seem to work
+        //    takeWhile(() => !this.data['references'])
+      )
+      .subscribe(x => this.setterFunction())
+  }
+
+  setterFunction():void {
+    if (this.data.diseaseSources) {
+      const sources = this.data.diseaseSources;
       this.sourceMap.clear();
       sources.forEach(dr => {
         // create new disease relevance object to get Property class properties
@@ -88,19 +107,11 @@ export class DiseaseSourceComponent implements OnInit {
           this.fieldsMap.set(labelProp, fields);
           this.sourceMap.set(labelProp, tempArr);
         }
-    });
+      });
       this.sources = Array.from(this.sourceMap.keys());
+      this.tableArr = this.sourceMap.get(this.sources[0]);
+      this.loaded = true;
     }
-    this._data.next(value);
-  }
-
-  get data() {
-    return this._data.getValue();
-  }
-  constructor() { }
-
-  ngOnInit() {
-    console.log(this);
   }
 
   changeTabData(event: MatTabChangeEvent) {

@@ -5,6 +5,7 @@ import {MatTabChangeEvent} from "@angular/material";
 import {Value} from "../../../../../models/value";
 import {Property} from "../../../../../models/property";
 import {BehaviorSubject} from "rxjs/index";
+import {EnvironmentVariablesService} from "../../../../../pharos-services/environment-variables.service";
 
 @Component({
   selector: 'pharos-expression-panel',
@@ -12,9 +13,12 @@ import {BehaviorSubject} from "rxjs/index";
   styleUrls: ['./expression-panel.component.css']
 })
 export class ExpressionPanelComponent extends DynamicPanelComponent implements OnInit {
+  _URL: string;
   id: string;
   tissueData: Map<string, Property[] > = new Map<string, Property[]>();
-hgData: any[] = [];
+  hgData: any[] = [];
+  imgUrl: string;
+  diseaseSources: any;
   /**
    * initialize a private variable _radarData, it's a BehaviorSubject
    * @type {BehaviorSubject<any>}
@@ -38,22 +42,24 @@ hgData: any[] = [];
     return this._radarData.getValue();
   }
 
-  sources: string[] = [
-    "GTEx Tissue",
-    "HPM Tissue",
-    "HPA RNA Tissue",
-    "IDG Tissue",
-    "UniProt Tissue",
-    "Jensen-KB Tissue",
-   // "Jensen-TM Tissue",
-    "IDG Tissue Ref",
+  sources: any[] = [
+    {label: "GTEx Tissue", name: 'gtex'},
+    {label: "HPM Tissue", name: 'hpm'},
+    {label: "HPA RNA Tissue", name:'hpa'},
+    {label: "IDG Tissue", name:'gtex'},
+    {label: "UniProt Tissue", name:'uniprot'},
+    {label: "Jensen-KB Tissue", name:'jensen-kb'},
+    {label: "Jensen-TM Tissue", name: 'jensen-tm'},
+    {label: "IDG Tissue Ref", name: 'gtex'}
   ];
   width = 30;
-  constructor() {
+  constructor(private environmentVariablesService: EnvironmentVariablesService) {
     super();
   }
 
   ngOnInit() {
+    console.log(this);
+    this._URL = this.environmentVariablesService.getHomunculusUrl(this.id);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -66,10 +72,13 @@ hgData: any[] = [];
           this.tissueData.clear();
           this.mapTissueData();
           this.radarData =  this.setRadarData();
-          this.hgData = this.tissueData.get(this.sources[0]);
+          this.hgData = this.tissueData.get(this.sources[0].label);
+          this.imgUrl = this._URL + this.sources[0].name;
         }
         if(this.data.differential) {
-          this.getDifferential();
+          this.diseaseSources = {diseaseSources: this.data.differential.filter(term =>
+               term.properties.filter(prop => prop.term === 'Expression Atlas').length > 0)
+          };
         }
       });
   }
@@ -87,23 +96,20 @@ hgData: any[] = [];
     })
   }
 
-  getDifferential() {
-
-  }
-
   setRadarData(): any[] {
     const axes : any [] = [];
     const radar : any = [];
-const filters = ['GTEx Tissue Specificity Index', 'HPM Protein Tissue Specificity Index', 'HPA RNA Tissue Specificity Index'];
-  filters.forEach(field => {
-    const data: any = this.tissueData.get(field)[0];
-    axes.push({axis: field, value: data['numval']});
-  });
-   radar.push({className:this.id, axes: axes});
-  return radar;
+    const filters = ['GTEx Tissue Specificity Index', 'HPM Protein Tissue Specificity Index', 'HPA RNA Tissue Specificity Index'];
+    filters.forEach(field => {
+      const data: any = this.tissueData.get(field)[0];
+      axes.push({axis: field, value: data['numval']});
+    });
+    radar.push({className:this.id, axes: axes});
+    return radar;
   }
 
   getData(field: string): Property[] {
+    console.log(field);
     return this.tissueData.get(field);
   }
 
@@ -111,14 +117,10 @@ const filters = ['GTEx Tissue Specificity Index', 'HPM Protein Tissue Specificit
     return this.tissueData.get(source) ? this.tissueData.get(source).length : 0;
   }
 
-  changeExpressionTabData(event: MatTabChangeEvent) {
-    console.log(event);
-   // this.tableArr = this.sourceMap.get(this.sources[event.index]);
-  }
-
   changeHarminogramTabData(event: MatTabChangeEvent) {
     console.log(event);
-    this.hgData = this.tissueData.get(this.sources[event.index]);
+    this.hgData = this.tissueData.get(this.sources[event.index].label);
+    this.imgUrl = this._URL + this.sources[event.index].name;
 
     // this.tableArr = this.sourceMap.get(this.sources[event.index]);
   }

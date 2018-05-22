@@ -10,7 +10,7 @@ export class Value extends Property {
     Object.entries((obj)).forEach((prop) => this[prop[0]] = prop[1]);
   }
 
-  getData(): number {
-    return this.numval ? this.numval : this.intval;
+  getData(): string {
+    return this.numval ? this.numval.toExponential(1) : this.intval.toExponential(1);
   }
 }

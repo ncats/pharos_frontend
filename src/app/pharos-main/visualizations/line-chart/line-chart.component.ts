@@ -76,10 +76,18 @@ export class LineChartComponent  implements OnInit, OnChanges {
     // Add the valueline path.
     svg.append('path')
       .attr('class', 'timeline')
-      .attr('transform', 'translate(' + this.margin.left + ',0)' );
+      .attr('transform', 'translate(' + this.margin.left + ',0)' )
+      .style("filter" , "url(#glow)");
+
+    //Filter for the outside glow
+    const filter = svg.append('defs').append('filter').attr('id','glow'),
+      feGaussianBlur = filter.append('feGaussianBlur').attr('stdDeviation','2.5').attr('result','coloredBlur'),
+      feMerge = filter.append('feMerge'),
+      feMergeNode_1 = feMerge.append('feMergeNode').attr('in','coloredBlur'),
+      feMergeNode_2 = feMerge.append('feMergeNode').attr('in','SourceGraphic');
 
     d3.select(element).append('div')
-      .attr('class', 'tooltip')
+      .attr('class', 'line-tooltip')
       .style('opacity', 0);
 
   }

@@ -23,6 +23,12 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
    * todo: currently not used
    * */
   loading = false;
+
+  /**
+   * show/hide the paginator
+   * @type {boolean}
+   */
+  showPaginator = true;
   /** Angular Material datasource collection for a table*/
   dataSource = new MatTableDataSource<any>([]);
   /**Paginator object from Angular Material */
@@ -58,6 +64,7 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
    * when the input changes, manually change the dataSource data.
    * This is used when multiple tables are contained inside tabs
    * todo : material version 6.0 supports lazy loading of tabs- so this will no longer be necessary
+   * todo: change to the getter setter style, or this method can stay
    * @param {SimpleChanges} change
    */
   ngOnChanges(change: SimpleChanges) {

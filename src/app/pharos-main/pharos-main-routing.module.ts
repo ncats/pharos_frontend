@@ -65,7 +65,6 @@ import {ClickableLinkDirective} from '../pharos-topics/topic-details/components/
 import {NodeMenuComponent} from '../pharos-topics/topic-details/components/topics-graph/components/shared/node-menu/node-menu.component';
 import {NodeDisplayComponent} from '../pharos-topics/topic-details/components/node-display/node-display.component';
 import {RadarChartComponent} from "../tools/radar-chart/radar-chart.component";
-import {SpiderChartComponent} from "../tools/spider-chart/spider-chart.component";
 
 const pharosMainRoutes: Routes = [
   {
@@ -172,8 +171,7 @@ const pharosMainRoutes: Routes = [
     NodeDisplayComponent,
     NodeMenuComponent,
     GraphComponent,
-    RadarChartComponent,
-    SpiderChartComponent
+    RadarChartComponent
   ]
 })
 export class PharosMainRoutingModule { }

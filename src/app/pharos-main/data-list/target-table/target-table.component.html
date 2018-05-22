@@ -44,13 +44,13 @@
       <ng-container matColumnDef="novelty">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Log Novelty </mat-header-cell>
         <mat-cell *matCellDef="let row">
-          {{row.novelty}}
+          {{row.novelty.toFixed(2)}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="jensenScore">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Pubmed Score </mat-header-cell>
         <mat-cell *matCellDef="let row">
-          {{row.jensenScore}}
+          {{row.jensenScore.toFixed(2)}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="antibodyCount">

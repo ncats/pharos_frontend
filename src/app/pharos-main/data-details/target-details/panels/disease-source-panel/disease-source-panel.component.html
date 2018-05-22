@@ -1,16 +1,19 @@
-<div fxFlexFill>
+<div fxFlexFill *ngIf = loaded>
 <mat-card class="flex30 full-height">
-  <mat-card-header>
+  <mat-card-header *ngIf = 'sources.length > 1'>
     <mat-card-title ><span class="mat-title">Disease Source ({{sources?.length}})</span></mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <mat-tab-group (selectedTabChange)="changeTabData($event)">
+    <mat-tab-group (selectedTabChange)="changeTabData($event)" *ngIf = 'sources.length > 1; else tableOnly'>
       <mat-tab *ngFor="let source of sources" label = "{{source}} ({{getSourceCount(source)}})"  >
         <ng-template matTabContent>
         <pharos-generic-table [data]= tableArr [fieldsConfig] = getTableData(source)></pharos-generic-table>
         </ng-template>
       </mat-tab>
     </mat-tab-group>
+    <ng-template #tableOnly>
+      <pharos-generic-table [data]= tableArr [fieldsConfig] = getTableData(sources[0])></pharos-generic-table>
+    </ng-template>
   </mat-card-content>
 </mat-card>
 </div>

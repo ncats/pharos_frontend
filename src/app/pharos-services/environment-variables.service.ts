@@ -96,10 +96,24 @@ export class EnvironmentVariablesService {
 
   /**
    * returns the list of apis that a search query hits
+   * @return {any[]}
    */
   getSearchPaths(): any[] {
     return this._environment.search.api;
   }
+
+  /**
+   * returns the url for the homunculus image, sets the id in the url string.
+   * the component finishes the url with the source:
+   * _HOST +'expression/homonculus?acc=_id_&source=',
+   * @param {string} id
+   * @return {string}
+   */
+  getHomunculusUrl(id: string): string {
+    return this._environment.homunculusUrl.replace('_id_', id);
+  }
+
+
 
   /**
    * Checks to see if a path returns a defined array of components
