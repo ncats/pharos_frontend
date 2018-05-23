@@ -27,6 +27,7 @@ export class BreadcrumbComponent implements OnInit {
    * Build array of links based on current url path
    */
   ngOnInit() {
+    console.log(this);
     this.links = [];
     this.links.push(this.route.snapshot.data.path);
   }

@@ -11,9 +11,11 @@ export class TargetHeaderComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log(this);
   }
 
   getHeaderClass(): string {
-      return this.target.idgTDL.toLowerCase() + '-header';
+     // return this.target.idgTDL.toLowerCase() + '-header';
+      return 'tdark-header';
   }
 }

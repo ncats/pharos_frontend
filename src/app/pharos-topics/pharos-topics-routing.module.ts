@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import {TopicHeaderComponent} from './topic-details/components/topic-header/topic-header.component';
 import {TopicDetailsComponent} from './topic-details/topic-details.component';
 import {TopicTableComponent} from './topic-table/topic-table.component';
-import {TOPIC_DETAILS_COMPONENT, TOPIC_TABLE_COMPONENT} from '../../environments/environment.prod';
 import {SharedModule} from '../shared/shared.module';
 import {DataListResolver} from '../pharos-main/services/data-list.resolver';
 import {DataDetailsResolver} from '../pharos-main/services/data-details.resolver';
@@ -86,8 +85,8 @@ const pharosMainRoutes: Routes = [
     SettingsService,
     NodeExpandService,
     // topics
-    { provide: TOPIC_TABLE_COMPONENT, useValue: TopicTableComponent },
-    { provide: TOPIC_DETAILS_COMPONENT, useValue: TopicDetailsComponent },
+  //  { provide: TOPIC_TABLE_COMPONENT, useValue: TopicTableComponent },
+  //  { provide: TOPIC_DETAILS_COMPONENT, useValue: TopicDetailsComponent },
   ],
   entryComponents: [
     TopicTableComponent,

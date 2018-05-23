@@ -10,14 +10,7 @@ import {SummaryPanelComponent} from './data-details/target-details/panels/summar
 import {TargetHeaderComponent} from './data-details/target-details/target-header/target-header.component';
 import {SharedModule} from '../shared/shared.module';
 import { DiseaseTableComponent} from './data-list/disease-table/disease-table.component';
-import {
-  DISEASE_DETAILS_COMPONENT,
-  DISEASE_SOURCE_PANEL,
-  DISEASE_TABLE_COMPONENT, EXPRESSION_PANEL, KNOWLEDGE_PANEL, ORTHOLOG_PANEL, REFERENCES_PANEL,
-  SUMMARY_PANEL,
-  TARGET_DETAILS_COMPONENT, TARGET_FACET_PANEL,
-  TARGET_TABLE_COMPONENT, TOPIC_DETAILS_COMPONENT, TOPIC_TABLE_COMPONENT
-} from '../../environments/environment.prod';
+
 import {
   ReferencesPanelComponent
 } from './data-details/target-details/panels/references-panel/references-panel.component';
@@ -65,6 +58,8 @@ import {ClickableLinkDirective} from '../pharos-topics/topic-details/components/
 import {NodeMenuComponent} from '../pharos-topics/topic-details/components/topics-graph/components/shared/node-menu/node-menu.component';
 import {NodeDisplayComponent} from '../pharos-topics/topic-details/components/node-display/node-display.component';
 import {RadarChartComponent} from "../tools/radar-chart/radar-chart.component";
+import {TOKENS} from "../../environments/component-tokens";
+import {BreadcrumbComponent} from "../tools/breadcrumb/breadcrumb.component";
 
 const pharosMainRoutes: Routes = [
   {
@@ -106,24 +101,28 @@ const pharosMainRoutes: Routes = [
     LoadingService,
     SettingsService,
     NodeExpandService,
+    // breadcrumb
+    {provide: TOKENS.PHAROS_BREADCRUMB_COMPONENT, useValue: BreadcrumbComponent },
     // topics
-    { provide: TOPIC_TABLE_COMPONENT, useValue: TopicTableComponent },
-    { provide: TOPIC_DETAILS_COMPONENT, useValue: TopicDetailsComponent },
+    {provide: TOKENS.TOPIC_TABLE_COMPONENT, useValue: TopicTableComponent },
+    {provide: TOKENS.TOPIC_DETAILS_COMPONENT, useValue: TopicDetailsComponent },
     // targets
-    { provide: TARGET_TABLE_COMPONENT, useValue: TargetTableComponent },
-    { provide: TARGET_DETAILS_COMPONENT, useValue: TargetDetailsComponent },
-    { provide: SUMMARY_PANEL, useValue: SummaryPanelComponent },
-    { provide: KNOWLEDGE_PANEL, useValue: KnowledgePanelComponent },
-    { provide: REFERENCES_PANEL, useValue: ReferencesPanelComponent },
-    { provide: DISEASE_SOURCE_PANEL, useValue: DiseaseSourceComponent },
-    { provide: EXPRESSION_PANEL, useValue: ExpressionPanelComponent },
-    { provide: ORTHOLOG_PANEL, useValue: OrthologPanelComponent },
-    { provide: TARGET_FACET_PANEL, useValue: TargetFacetPanelComponent },
+    {provide: TOKENS.TARGET_HEADER_COMPONENT, useValue: TargetHeaderComponent },
+    {provide: TOKENS.TARGET_TABLE_COMPONENT, useValue: TargetTableComponent },
+    {provide: TOKENS.TARGET_DETAILS_COMPONENT, useValue: TargetDetailsComponent },
+    {provide: TOKENS.SUMMARY_PANEL, useValue: SummaryPanelComponent },
+    {provide: TOKENS.KNOWLEDGE_PANEL, useValue: KnowledgePanelComponent },
+    {provide: TOKENS.REFERENCES_PANEL, useValue: ReferencesPanelComponent },
+    {provide: TOKENS.DISEASE_SOURCE_PANEL, useValue: DiseaseSourceComponent },
+    {provide: TOKENS.EXPRESSION_PANEL, useValue: ExpressionPanelComponent },
+    {provide: TOKENS.ORTHOLOG_PANEL, useValue: OrthologPanelComponent },
+    {provide: TOKENS.TARGET_FACET_PANEL, useValue: TargetFacetPanelComponent },
     // diseases
-    { provide: DISEASE_TABLE_COMPONENT, useValue: DiseaseTableComponent },
-    { provide: DISEASE_DETAILS_COMPONENT, useValue: DiseaseDetailsComponent },
+    {provide: TOKENS.DISEASE_TABLE_COMPONENT, useValue: DiseaseTableComponent },
+    {provide: TOKENS.DISEASE_DETAILS_COMPONENT, useValue: DiseaseDetailsComponent },
   ],
   entryComponents: [
+    BreadcrumbComponent,
     TargetTableComponent,
     TargetDetailsComponent,
     ReferencesPanelComponent,
