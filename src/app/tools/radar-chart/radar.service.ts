@@ -60,12 +60,12 @@ radarDataMap: Map<string, any> = new Map<string, any>();
               private environmentVariableService: EnvironmentVariablesService) {
     this.url = this.environmentVariableService.getRadarPath();
   }
+
   getData(id: string): any {
-    console.log(this.radarDataMap);
     let temp: any = this.radarDataMap.get(id);
     if(!temp){
-    temp = this._fetchData(id);
-    this.setData(id, temp);
+      temp = this._fetchData(id);
+      this.setData(id, temp);
     }
     return temp;
   }
@@ -78,7 +78,7 @@ radarDataMap: Map<string, any> = new Map<string, any>();
     return RADAR_SIZES.get(size);
   }
 
-  _fetchData(id: string): Observable<any> {
+  _fetchData(id: string): any {
     return this.http.get<any[]>(this.url +  id)
       .pipe(
         catchError(this.handleError('getRadarData', []))

@@ -60,6 +60,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
           childComponent.instance.width = component.width;
         }
 
+        // todo need to cover when no results are returned - do we still want to make the component?
         this._data
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(obj => {

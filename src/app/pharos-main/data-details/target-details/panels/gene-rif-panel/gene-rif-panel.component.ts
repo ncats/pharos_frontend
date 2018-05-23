@@ -10,6 +10,8 @@ export class GeneRifPanelComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
+    //targets/306/links(kind=ix.core.models.Text)
   }
 
 }

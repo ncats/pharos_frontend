@@ -69,17 +69,14 @@ export class DataListComponent implements OnInit, OnDestroy {
         this.results.clear();
         this.componentHost.viewContainerRef.clear();
         this.filterData(res);
-        console.log(res);
           Array.from(this.results.keys()).forEach(dataType => {
               this.kind = dataType.toLowerCase().split('.models.')[1] + 's';
-              console.log(this.kind);
               const components: any = this.componentLookup.lookupByPath(this.kind, 'list');
               if (components) {
                 components.forEach(component => {
                   if (component.token) {
                     const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
                     const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
-                    console.log(this.results);
                     dynamicComponent.instance.data = this.results.get(dataType);
                     this.responseParserService.paginationData$
                       .pipe(takeUntil(this.ngUnsubscribe))
