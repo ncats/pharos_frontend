@@ -80,7 +80,6 @@ export class RadarChartComponent implements OnInit {
 
     // data passed in by opening modal
     if(this.modalData) {
-      console.log(this.modalData);
       Object.keys(this.modalData).forEach(key => this[key] = this.modalData[key]);
     }
 
@@ -93,7 +92,6 @@ export class RadarChartComponent implements OnInit {
      this.data = res;
    });
  }else{
-      console.log(this.data);
    this.data.forEach(graph => this.radarDataService.setData(graph.className, graph));
  }
 

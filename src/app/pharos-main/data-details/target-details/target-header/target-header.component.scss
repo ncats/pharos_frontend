@@ -3,11 +3,20 @@
 // Import your custom theme
 @import './src/ncats-theme.scss';
 
+
+:host {
+  flex: 1 1 calc(100%);
+  max-width: 100%;
+  margin: 0 !important;
+}
+
+
 .target-toolbar {
   width: 100vw;
 }
 
 .toolbar {
+  width: 100vw;
   margin-bottom: 0;
 }
 

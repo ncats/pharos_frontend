@@ -16,7 +16,7 @@ export class DiseaseRelevance extends PharosBase {
       } else if (prop.numval || prop.intval ) {
         this.properties.push(new Value(prop));
       } else {
-        console.error(prop);
+    //    console.error(prop);
       }
     });
   }

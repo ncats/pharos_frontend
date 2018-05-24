@@ -1,7 +1,7 @@
 <div fxFlexFill>
 <mat-card class ="flex30 full-height" *ngIf = data>
   <mat-card-content>
-    <div fxLayout="row" fxLayoutAlign="start stretch">
+    <div fxLayout="row" class =" tkrow" fxLayoutAlign="start stretch">
       <div fxFlex="50">
         <span class="mat-title">Target Summary</span>
         <br>
@@ -44,20 +44,17 @@
       <span class="mat-title">Knowledge Summary</span>
       <br>
       <br>
-      <ng-container>
         <pharos-radar-chart [data] = data.knowledge [shape]="false" [size] = "'medium'" (click)="openModal()"></pharos-radar-chart>
-      </ng-container>
     </div>
     </div>
     <div fxLayout="row" fxLayoutAlign="start stretch">
       <div fxFlex="95">
-        <span class="mat-title">PubMed Score</span>
-        <br>
-        <br>
-    <ng-container *ngIf="data?.timelines?.length > 0">
-    <pharos-line-chart [data]="getTimeline('PubMed Score')"></pharos-line-chart>
-    <!--<pharos-line-chart [data]="getTimeline('PubTator')"></pharos-line-chart>-->
-    </ng-container>
+    <div *ngIf="data?.timelines?.length > 0">
+      <span class="mat-title">PubMed Score</span>
+      <pharos-line-chart [data]="getTimeline('PubMed Score')"></pharos-line-chart>
+      <span class="mat-title">PubTator Score</span>
+      <pharos-line-chart [data]="getTimeline('PubTator')"></pharos-line-chart>
+    </div>
       </div>
     </div>
     <!--<div *ngIf="[data.gene].length > 0">

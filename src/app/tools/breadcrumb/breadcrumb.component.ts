@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {BehaviorSubject} from "rxjs/index";
+import {PathResolverService} from "../../pharos-services/path-resolver.service";
 
 /**
  * Component to track the hierarchy of a target
@@ -19,7 +20,7 @@ export class BreadcrumbComponent implements OnInit {
    * @type {BehaviorSubject<any>}
    * @private
    */
-  protected _data = new BehaviorSubject<any>({});
+  protected _data = new BehaviorSubject<any>(null);
 
   /**
    * pushes changed data to {BehaviorSubject}
@@ -34,41 +35,42 @@ export class BreadcrumbComponent implements OnInit {
    * returns value of {BehaviorSubject}
    * @returns {any}
    */
-  get data() {
+  get data(): any {
     return this._data.getValue();
   }
 
   /**
-   * string array of current links based o nthe url
+   * string array of current links based on the url
    */
-  links: string[];
+  links: any[];
 
   /**
    * uses {ActivatedRoute} path to populate links
    * @param {ActivatedRoute} route
    */
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute,
+  private pathResolverService: PathResolverService) { }
 
   /**
    * Build array of links based on current url path
    */
   ngOnInit() {
-    console.log(this);
     this._data.subscribe(x => {
-      this.links = [];
-      this.links.push(this.route.snapshot.data.path);
+      if(this.data.breadcrumb) {
+        const path: string = this.pathResolverService.getPath();
+        this.links = [{term: path, label: path}];
+        this.links = this.links.concat(this.data.breadcrumb.sort((a, b) =>  b.label < a.label));
+      }
     })
   }
 
   /**
-   * Checks to see if a displayed link is the current one and returns the disabled class, blocking navigation
+   * navigate to url, using link the same way facets are used
    * @param link
-   * @return {string}
    */
-  isCurrent(link): string {
-    if (link) {
-      return (this.links.includes(link.toLowerCase()) ? 'disabled' : null);
-    }
-  }
+  goTo(link: any): void {
+    this.pathResolverService.mapSelection({facet: link.label, fields: [link.term]});
+    this.pathResolverService.navigate(this.pathResolverService.getPath());
+}
 
 }

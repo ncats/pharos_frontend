@@ -1,4 +1,7 @@
-import {ChangeDetectorRef, Component, Input, OnInit, SimpleChange, ViewChild, ViewEncapsulation} from '@angular/core';
+import {
+  AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, SimpleChange, ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Publication} from '../../../../../models/publication';
 import {BehaviorSubject} from 'rxjs';
@@ -10,15 +13,29 @@ import {takeWhile} from 'rxjs/operators';
   templateUrl: './references-panel.component.html',
   styleUrls: ['./references-panel.component.css']
 })
-export class ReferencesPanelComponent extends DynamicPanelComponent implements OnInit {
+export class ReferencesPanelComponent extends DynamicPanelComponent implements OnInit, AfterViewInit {
  // data: any;
   displayColumns: string[] = ['pmid', 'year', 'title'];
-  dataSource = new MatTableDataSource<Publication[]>([]);
-  /**Paginator object from Angular Material */
+  dataSource = new MatTableDataSource<Publication[]>();
+ /* Paginator object from Angular Material */
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   /**Sort object from Angular Material */
   @ViewChild(MatSort) sort: MatSort;
+
+/*  private paginator: MatPaginator;
+  private sort: MatSort;
+
+  @ViewChild(MatSort) set matSort(ms: MatSort) {
+    this.sort = ms;
+    this.setDataSourceAttributes();
+  }
+
+  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
+    this.paginator = mp;
+    this.setDataSourceAttributes();
+  }*/
+
   width: number;
 
   constructor() {
@@ -26,7 +43,7 @@ export class ReferencesPanelComponent extends DynamicPanelComponent implements O
   }
 
   ngOnInit() {
-    this.data = {references: []};
+  //  this.data = {references: []};
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -35,20 +52,15 @@ export class ReferencesPanelComponent extends DynamicPanelComponent implements O
        //    takeWhile(() => !this.data['references'])
       )
       .subscribe(x => {
-        this.setterFunction();
+        if(this.data.references && this.data.references.length > 0) {
+          this.dataSource.data = this.data.references;
+        }
       });
   }
 
   ngAfterViewInit() {
-   // console.log(this.dataSource);
-   // this.dataSource.paginator = this.paginator;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
-
-  setterFunction() {
-    this.dataSource.data = this.data.references;
-/*    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;*/
-  }
-
 
 }

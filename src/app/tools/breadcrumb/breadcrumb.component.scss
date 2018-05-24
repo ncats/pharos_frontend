@@ -3,6 +3,18 @@
 // Import your custom theme
 @import './src/ncats-theme.scss';
 
+
+:host {
+  flex: 1 1 auto;
+  max-width: 100%;
+  margin-left: 20px;
+}
+
+.flex30 {
+  flex: 1 1 100%;
+  max-width: 100%;
+}
+
 .breadcrumb-link {
   text-decoration: none;
   color: mat-color($pharos-app-primary)

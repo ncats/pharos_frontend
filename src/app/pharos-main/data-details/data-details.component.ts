@@ -38,7 +38,6 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
     this.responseParserService.detailsData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        console.log(res);
           // without this check, the component keeps refreshing
           if (!this.dynamicComponent) {
             const components: any = this.componentLookupService.lookupByPath(this.path, 'details');

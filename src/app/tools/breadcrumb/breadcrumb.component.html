@@ -1,11 +1,13 @@
 <br>
-<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
   <div fxFlex="95" class="breadcrumb">
     <a routerLink="/" class="mat-subheading-1 breadcrumb-link"> Home </a>
-    <span class="mat-title breadcrumb-link slash"> / </span>
-    <a *ngFor = "let link of links" routerLink = {{link}}
-       class="mat-subheading-1 breadcrumb-link"
-       [ngClass] = "isCurrent(link)">{{link}}</a>
+    <span *ngFor="let link of links">
+    <span class="mat-title slash"> / </span>
+    <a (click)="goTo(link)" routerLink = {{path}} >{{link.term | titlecase}}</a>
+      </span>
+    <span *ngIf="target">
+          <span class="disabled mat-title breadcrumb-link slash"> / </span>
+      <a class = "disabled">{{target.name | titlecase}}</a>
+    </span>
   </div>
-</div>
 <br>

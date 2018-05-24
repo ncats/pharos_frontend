@@ -61,12 +61,18 @@ export class PathResolverService {
     this._pathSource.next(path);
   }
 
+  getPath(): string {
+    return this._pathSource.value;
+  }
+
   /**
    * creates url string to pass as a quey parameter from a list of facets
    * creates {Router} {NavigationExtras} object
    * navigates to url, which updates data
+   * optional path allows traversal up the path
+   * @param {string} path
    */
-  navigate(): void{
+  navigate(path?: string): void{
     const facetList = [];
     this._facets.forEach(facet => facet.fields.map(field => facetList.push(this._makeFacetString(facet.facet, field))));
 
@@ -82,7 +88,11 @@ export class PathResolverService {
     };
 
     this._router.onSameUrlNavigation = 'reload'; // forces reload since this is the same navigation url
-    this._router.navigate([], navigationExtras);
+    if(path){ // move up a level
+      this._router.navigate([path], navigationExtras);
+    }else { // lateral navigation
+      this._router.navigate([], navigationExtras);
+    }
   }
 
   /**

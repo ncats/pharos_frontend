@@ -1,27 +1,36 @@
 import {
   Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output,
-  ViewChild
+  ViewChild, ViewEncapsulation
 } from '@angular/core';
 import * as d3 from 'd3';
 import {CustomContentDirective} from '../../../tools/custom-content.directive';
+import {BehaviorSubject} from "rxjs/index";
 
 @Component({
   selector: 'pharos-line-chart',
   templateUrl: './line-chart.component.html',
-  styleUrls: ['./line-chart.component.css']
+  styleUrls: ['./line-chart.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
-export class LineChartComponent  implements OnInit, OnChanges {
+export class LineChartComponent  implements OnInit {
   @ViewChild('lineChartTarget') chartContainer: ElementRef;
  // @ViewChild(CustomContentDirective) chartContainer: CustomContentDirective;
 
-  @Input() data: any[] = [];
+  private _data: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+
+  @Input()
+  set data(value: any) {
+    this._data.next(value);
+  }
+  get data(): any { return this._data.value; }
+
   private margin: any = {top: 20, bottom: 20, left: 20, right: 20};
   globalCounts: any[] = [];
   groupCounts: any[] = [];
   height: number;
   width: number;
-  radius: number;
-  donut: any;
+  svg: any;
+  tooltip: any;
   @Output() readonly clickSlice: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() {
@@ -31,24 +40,32 @@ export class LineChartComponent  implements OnInit, OnChanges {
   // todo - data change doesnt update the chart, it just redraws it;
   // todo - revamp this to be more in line with es6
   ngOnInit() {
-
     this.drawGraph();
+    this._data.subscribe(x => {
+      if(this.data) {
+        this.data.forEach(graph => {
+          if (graph) {
+            this.mapData();
+            this.updateGraph();
+          }
+        })
+      }
+    });
    // this.mapData();
    // this.updateGraph();
   }
 
-  ngOnChanges(changes) {
+/*  ngOnChanges(changes) {
     if (!changes.data.firstChange) {
       if (this.data.length > 0) {
-        this.mapData();
         this.updateGraph();
       }
     }
-  }
+  }*/
 
   @HostListener('window:resize', ['$event'])
   onResize() {
-    d3.select('pharos-line-chart svg').remove();
+    this.svg.select('pharos-line-chart svg').remove();
     this.drawGraph();
     this.updateGraph();
   }
@@ -57,36 +74,36 @@ export class LineChartComponent  implements OnInit, OnChanges {
     const element = this.chartContainer.nativeElement;
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
-    const svg = d3.select(element).append('svg')
+    this.svg = d3.select(element).append('svg')
       .attr('width', '100%')
       .attr('height', '100%')
       .append('g')
       .attr('class', 'line-container');
 
         // Add the X Axis
-    svg.append('g')
+    this.svg.append('g')
       .attr('class', 'xaxis')
       .attr('transform', 'translate(' + this.margin.left + ',' + this.height + ')');
 
     // Add the Y Axis
-    svg.append('g')
+    this.svg.append('g')
       .attr('class', 'yaxis')
       .attr('transform', 'translate(20, 0)');
 
     // Add the valueline path.
-    svg.append('path')
+    this.svg.append('path')
       .attr('class', 'timeline')
       .attr('transform', 'translate(' + this.margin.left + ',0)' )
       .style("filter" , "url(#glow)");
 
     //Filter for the outside glow
-    const filter = svg.append('defs').append('filter').attr('id','glow'),
+    const filter = this.svg.append('defs').append('filter').attr('id','glow'),
       feGaussianBlur = filter.append('feGaussianBlur').attr('stdDeviation','2.5').attr('result','coloredBlur'),
       feMerge = filter.append('feMerge'),
       feMergeNode_1 = feMerge.append('feMergeNode').attr('in','coloredBlur'),
       feMergeNode_2 = feMerge.append('feMergeNode').attr('in','SourceGraphic');
 
-    d3.select(element).append('div')
+    this.tooltip = d3.select('body').append('div')
       .attr('class', 'line-tooltip')
       .style('opacity', 0);
 
@@ -115,8 +132,10 @@ export class LineChartComponent  implements OnInit, OnChanges {
   }
 
   updateGraph(): void {
+    const ticks = this.groupCounts.length < 20 ? this.groupCounts.length : 20;
+
     const x = d3.scalePoint()
-      .domain(this.groupCounts.map(d => d.key))
+      .domain(this.groupCounts.map(d => +d.key))
       .rangeRound([0, this.width]);
 
     const y = d3.scaleLinear()
@@ -128,29 +147,18 @@ export class LineChartComponent  implements OnInit, OnChanges {
       .y(function(d) { return y(+d.value); });
 
 
+    const xaxis = this.svg.select('.xaxis')
+      .call(d3.axisBottom(x).ticks(10));
 
-/*    const yScale = d3.scaleLinear()
-      .domain([0, d3.max(this.globalCounts)])
-      .range([this.height, 0]);
+    this.svg.selectAll(".xaxis text")  // select all the text elements for the xaxis
+      .attr("transform", function(d) {
+        return "translate(" + this.getBBox().height*-2 + "," + this.getBBox().height + ")rotate(-45)";
+      });
 
-    // Compute an ordinal xScale for the keys in boxPlotData
-    const xScale = d3.scalePoint()
-      .domain(this.groupCounts.map(point => point.key))
-      .rangeRound([0, this.width])
-      .padding([0.5]);
-
-    // create dose response line
-    const valueline = d3.line()
-      .x((d) => d.key)
-      .y((d) => d.value);*/
-
-    d3.select('.xaxis')
-      .call(d3.axisBottom(x));
-
-    d3.select('.yaxis')
+    this.svg.select('.yaxis')
       .call(d3.axisLeft(y));
 
-    d3.select('.timeline')   // change the line
+    this.svg.select('.timeline')   // change the line
       .datum(this.groupCounts)
       .attr('stroke-linejoin', 'round')
       .attr('stroke-linecap', 'round')
