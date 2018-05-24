@@ -234,7 +234,8 @@ export class PharosApiService {
         str = this.environmentVariablesService.getDefaultUrl(path);
       }
     } else {
-      str = this._URL + (path !== 'search' ? path + '?' : 'search?');//  + 'search?';
+      str = this._URL + (path !== 'search' ? path + '/' : '')  + 'search?';
+     // str = this._URL + (path !== 'search' ? path + '?' : 'search?');
       params.keys.map(key => {
         params.getAll(key).map(val => {
             strArr.push(key + '=' + val);

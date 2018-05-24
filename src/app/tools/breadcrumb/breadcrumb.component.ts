@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {BehaviorSubject} from "rxjs/index";
 
 /**
  * Component to track the hierarchy of a target
@@ -12,6 +13,31 @@ import {ActivatedRoute} from '@angular/router';
 })
 
 export class BreadcrumbComponent implements OnInit {
+
+  /**
+   * initialize a private variable _data, it's a BehaviorSubject
+   * @type {BehaviorSubject<any>}
+   * @private
+   */
+  protected _data = new BehaviorSubject<any>({});
+
+  /**
+   * pushes changed data to {BehaviorSubject}
+   * @param value
+   */
+  @Input()
+  set data(value: any) {
+    this._data.next(value);
+  }
+
+  /**
+   * returns value of {BehaviorSubject}
+   * @returns {any}
+   */
+  get data() {
+    return this._data.getValue();
+  }
+
   /**
    * string array of current links based o nthe url
    */
@@ -28,8 +54,10 @@ export class BreadcrumbComponent implements OnInit {
    */
   ngOnInit() {
     console.log(this);
-    this.links = [];
-    this.links.push(this.route.snapshot.data.path);
+    this._data.subscribe(x => {
+      this.links = [];
+      this.links.push(this.route.snapshot.data.path);
+    })
   }
 
   /**
