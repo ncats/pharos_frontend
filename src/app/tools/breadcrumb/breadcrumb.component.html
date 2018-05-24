@@ -1,6 +1,8 @@
 <br>
   <div fxFlex="95" class="breadcrumb">
     <a routerLink="/" class="mat-subheading-1 breadcrumb-link"> Home </a>
+    <span class="disabled mat-title breadcrumb-link slash"> / </span>
+    <a routerLink="/{{path?.term}}" class="mat-subheading-1 breadcrumb-link"> {{path.term | titlecase}} </a>
     <span *ngFor="let link of links">
     <span class="mat-title slash"> / </span>
     <a (click)="goTo(link)" routerLink = {{path}} >{{link.term | titlecase}}</a>

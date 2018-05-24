@@ -45,6 +45,11 @@ export class BreadcrumbComponent implements OnInit {
   links: any[];
 
   /**
+   * object to hold path data. prevents bad links
+   */
+  path: any;
+
+  /**
    * uses {ActivatedRoute} path to populate links
    * @param {ActivatedRoute} route
    */
@@ -55,11 +60,11 @@ export class BreadcrumbComponent implements OnInit {
    * Build array of links based on current url path
    */
   ngOnInit() {
+    const pt =this.pathResolverService.getPath();
+    this.path = {term: pt, label: pt};
     this._data.subscribe(x => {
       if(this.data.breadcrumb) {
-        const path: string = this.pathResolverService.getPath();
-        this.links = [{term: path, label: path}];
-        this.links = this.links.concat(this.data.breadcrumb.sort((a, b) =>  b.label < a.label));
+        this.links = this.data.breadcrumb.sort((a, b) =>  b.label < a.label);
       }
     })
   }
