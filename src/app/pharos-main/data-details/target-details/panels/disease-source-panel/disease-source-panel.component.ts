@@ -3,7 +3,7 @@ import {DiseaseRelevance} from '../../../../../models/disease-relevance';
 import {TableData} from '../../../../../models/table-data';
 import {MatTabChangeEvent} from '@angular/material';
 import {BehaviorSubject} from 'rxjs';
-import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
+import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 
 // skipping log2foldchange property
 const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
@@ -74,10 +74,10 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
         // todo: this unsubscribe doesn't seem to work
         //    takeWhile(() => !this.data['references'])
       )
-      .subscribe(x => this.setterFunction())
+      .subscribe(x => this.setterFunction());
   }
 
-  setterFunction():void {
+  setterFunction(): void {
     if (this.data.diseaseSources && this.data.diseaseSources.length > 0) {
       const sources = this.data.diseaseSources;
       this.sourceMap.clear();

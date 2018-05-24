@@ -23,7 +23,7 @@ import {PathResolverService} from '../../pharos-services/path-resolver.service';
 import {SharedModule} from '../../shared/shared.module';
 import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {RouterTestingModule} from '@angular/router/testing';
-import {SharedListModule} from "../../shared/shared-list.module";
+import {SharedListModule} from '../../shared/shared-list.module';
 
 describe('DataDetailsComponent', () => {
   let component: DataDetailsComponent;

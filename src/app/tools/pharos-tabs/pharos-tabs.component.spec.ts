@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PharosTabsComponent } from './pharos-tabs.component';
-import {SharedModule} from "../../shared/shared.module";
+import {SharedModule} from '../../shared/shared.module';
 
 describe('PharosTabsComponent', () => {
   let component: PharosTabsComponent;

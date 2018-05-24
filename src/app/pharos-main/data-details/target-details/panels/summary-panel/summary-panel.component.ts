@@ -2,9 +2,9 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Term} from '../../../../../models/term';
 import {HttpClient} from '@angular/common/http';
 import {Value} from '../../../../../models/value';
-import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
-import {RadarChartComponent} from "../../../../../tools/radar-chart/radar-chart.component";
-import {MatDialog} from "@angular/material";
+import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {RadarChartComponent} from '../../../../../tools/radar-chart/radar-chart.component';
+import {MatDialog} from '@angular/material';
 
 
 @Component({
@@ -71,7 +71,7 @@ fetchTimelineData(): void {
 }
 
 openModal(): void {
-  let dialogRef = this.dialog.open(RadarChartComponent, {
+  const dialogRef = this.dialog.open(RadarChartComponent, {
     height: '95vh',
     width: '85vw',
     data: { data: this.data.knowledge,

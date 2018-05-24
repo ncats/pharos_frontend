@@ -228,9 +228,9 @@ export class PharosApiService {
     const strArr: string[] = [];
     if (params.keys.length === 0) {
       // todo in api, this fixes the url, but not in the ui
-      if(path === 'search'){
+      if (path === 'search') {
         str = this.environmentVariablesService.getDefaultUrl('targets');
-      }else {
+      } else {
         str = this.environmentVariablesService.getDefaultUrl(path);
       }
     } else {

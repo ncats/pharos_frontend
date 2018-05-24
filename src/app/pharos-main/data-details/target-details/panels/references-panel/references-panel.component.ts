@@ -52,7 +52,7 @@ export class ReferencesPanelComponent extends DynamicPanelComponent implements O
        //    takeWhile(() => !this.data['references'])
       )
       .subscribe(x => {
-        if(this.data.references && this.data.references.length > 0) {
+        if (this.data.references && this.data.references.length > 0) {
           this.dataSource.data = this.data.references;
         }
       });

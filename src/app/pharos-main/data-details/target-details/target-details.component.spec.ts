@@ -13,7 +13,7 @@ import {PathResolverService} from '../../../pharos-services/path-resolver.servic
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterTestingModule} from '@angular/router/testing';
 import {TestComponentLookupService} from '../../../../../test/test-component-lookup.service';
-import {ComponentInjectorService} from "../../../pharos-services/component-injector.service";
+import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
 import {TESTTARGET} from '../../../../../test/test-target';
 import {APP_BASE_HREF} from '@angular/common';
 

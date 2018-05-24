@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {BehaviorSubject} from "rxjs/index";
-import {PathResolverService} from "../../pharos-services/path-resolver.service";
+import {BehaviorSubject} from 'rxjs/index';
+import {PathResolverService} from '../../pharos-services/path-resolver.service';
 
 /**
  * Component to track the hierarchy of a target
@@ -60,13 +60,13 @@ export class BreadcrumbComponent implements OnInit {
    * Build array of links based on current url path
    */
   ngOnInit() {
-    const pt =this.pathResolverService.getPath();
+    const pt = this.pathResolverService.getPath();
     this.path = {term: pt, label: pt};
     this._data.subscribe(x => {
-      if(this.data.breadcrumb) {
+      if (this.data.breadcrumb) {
         this.links = this.data.breadcrumb.sort((a, b) =>  b.label < a.label);
       }
-    })
+    });
   }
 
   /**

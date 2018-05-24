@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LinkVisualComponent } from './link-visual.component';
-import {SettingsService} from "../../../services/settings.service";
-import {Link} from "../../../models/link";
+import {SettingsService} from '../../../services/settings.service';
+import {Link} from '../../../models/link';
 
 describe('LinkVisualComponent', () => {
   let component: LinkVisualComponent;
@@ -19,7 +19,7 @@ describe('LinkVisualComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LinkVisualComponent);
     component = fixture.componentInstance;
-    component.link = new Link(0, 0,{});
+    component.link = new Link(0, 0, {});
     fixture.detectChanges();
   });
 

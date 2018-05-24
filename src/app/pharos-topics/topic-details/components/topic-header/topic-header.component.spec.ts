@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TopicHeaderComponent } from './topic-header.component';
-import {SharedModule} from "../../../../shared/shared.module";
-import {Topic} from "../../../../models/topic";
+import {SharedModule} from '../../../../shared/shared.module';
+import {Topic} from '../../../../models/topic';
 
 describe('TopicHeaderComponent', () => {
   let component: TopicHeaderComponent;
@@ -19,7 +19,7 @@ describe('TopicHeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TopicHeaderComponent);
     component = fixture.componentInstance;
-    component.topic = new Topic({name: "sdfsdf", description: 'sdfgsdfsdf'});
+    component.topic = new Topic({name: 'sdfsdf', description: 'sdfgsdfsdf'});
     fixture.detectChanges();
   });
 

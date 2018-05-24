@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { DataConnectionService } from './data-connection.service';
-import {WebSocketService} from "./websocket.service";
+import {WebSocketService} from './websocket.service';
 
 describe('DataConnectionService', () => {
   beforeEach(() => {

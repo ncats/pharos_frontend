@@ -2,9 +2,9 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material';
 import {Disease} from '../../../models/disease';
-import {DynamicPanelComponent} from "../../../tools/dynamic-panel/dynamic-panel.component";
-import {takeWhile} from "rxjs/internal/operators";
-import {takeUntil} from "rxjs/operators";
+import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
+import {takeWhile} from 'rxjs/internal/operators';
+import {takeUntil} from 'rxjs/operators';
 
 /**
  * display a pageable/ sortable list of disease objects
@@ -57,7 +57,7 @@ export class DiseaseTableComponent extends DynamicPanelComponent implements OnIn
    * no required services
    */
   constructor() {
-    super()
+    super();
   }
 
   /**

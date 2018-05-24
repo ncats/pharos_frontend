@@ -57,9 +57,9 @@ import {ClickableNodeDirective} from '../pharos-topics/topic-details/components/
 import {ClickableLinkDirective} from '../pharos-topics/topic-details/components/topics-graph/directives/clickable-link.directive';
 import {NodeMenuComponent} from '../pharos-topics/topic-details/components/topics-graph/components/shared/node-menu/node-menu.component';
 import {NodeDisplayComponent} from '../pharos-topics/topic-details/components/node-display/node-display.component';
-import {RadarChartComponent} from "../tools/radar-chart/radar-chart.component";
-import {TOKENS} from "../../environments/component-tokens";
-import {BreadcrumbComponent} from "../tools/breadcrumb/breadcrumb.component";
+import {RadarChartComponent} from '../tools/radar-chart/radar-chart.component';
+import {TOKENS} from '../../environments/component-tokens';
+import {BreadcrumbComponent} from '../tools/breadcrumb/breadcrumb.component';
 
 const pharosMainRoutes: Routes = [
   {

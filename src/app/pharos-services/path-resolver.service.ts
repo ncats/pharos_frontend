@@ -72,7 +72,7 @@ export class PathResolverService {
    * optional path allows traversal up the path
    * @param {string} path
    */
-  navigate(path?: string): void{
+  navigate(path?: string): void {
     const facetList = [];
     this._facets.forEach(facet => facet.fields.map(field => facetList.push(this._makeFacetString(facet.facet, field))));
 
@@ -88,9 +88,9 @@ export class PathResolverService {
     };
 
     this._router.onSameUrlNavigation = 'reload'; // forces reload since this is the same navigation url
-    if(path){ // move up a level
+    if (path) { // move up a level
       this._router.navigate([path], navigationExtras);
-    }else { // lateral navigation
+    } else { // lateral navigation
       this._router.navigate([], navigationExtras);
     }
   }

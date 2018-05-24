@@ -11,7 +11,7 @@ import {CustomContentDirective} from '../../tools/custom-content.directive';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
 import {ComponentLookupService} from '../../pharos-services/component-lookup.service';
 import {takeUntil} from 'rxjs/operators';
-import {DataListResolver} from "../services/data-list.resolver";
+import {DataListResolver} from '../services/data-list.resolver';
 
 
 const navigationExtras: NavigationExtras = {
@@ -101,7 +101,7 @@ export class DataListComponent implements OnInit, OnDestroy {
           });
 
           this.loadingService.toggleVisible(false);
-      })
+      });
   }
     // todo: this is changed each pagination change, so something needs to persist the selected rows
     /*    this.rowSelection.onChange
@@ -155,7 +155,7 @@ export class DataListComponent implements OnInit, OnDestroy {
   }
 
   paginationChanges(event: any) {
-    console.log("page changes");
+    console.log('page changes');
     navigationExtras.queryParams = {top: event.pageSize, skip: event.pageIndex * event.pageSize};
     this._navigate(navigationExtras);
   }

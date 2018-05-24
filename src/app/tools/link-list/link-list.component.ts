@@ -22,8 +22,8 @@ private _list: any[] = [];
   @Input()
   set list(values: Term[]) {
     this._list = [];
-    if(values) {
-      values.forEach(prop => this._list.push({term: prop.term, href: prop.href}))
+    if (values) {
+      values.forEach(prop => this._list.push({term: prop.term, href: prop.href}));
     }
     // set the latest value for _data BehaviorSubject
    // this._list = value;

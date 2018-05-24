@@ -38,7 +38,7 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
   }
 
   changePage($event): void {
-    console.log("page change");
+    console.log('page change');
     this.pageChange.emit($event);
   }
 

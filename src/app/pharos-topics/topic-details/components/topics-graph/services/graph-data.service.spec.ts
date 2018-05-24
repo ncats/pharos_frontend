@@ -1,11 +1,11 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { GraphDataService } from './graph-data.service';
-import {DataConnectionService} from "./connection/data-connection.service";
-import {WebSocketService} from "./connection/websocket.service";
-import {MessageService} from "./message.service";
-import {NodeService} from "./event-tracking/node.service";
-import {LinkService} from "./event-tracking/link.service";
+import {DataConnectionService} from './connection/data-connection.service';
+import {WebSocketService} from './connection/websocket.service';
+import {MessageService} from './message.service';
+import {NodeService} from './event-tracking/node.service';
+import {LinkService} from './event-tracking/link.service';
 
 describe('GraphDataService', () => {
   beforeEach(() => {

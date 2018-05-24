@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import * as d3 from 'd3';
 import {CustomContentDirective} from '../../../tools/custom-content.directive';
-import {BehaviorSubject} from "rxjs/index";
+import {BehaviorSubject} from 'rxjs/index';
 
 @Component({
   selector: 'pharos-line-chart',
@@ -42,13 +42,13 @@ export class LineChartComponent  implements OnInit {
   ngOnInit() {
     this.drawGraph();
     this._data.subscribe(x => {
-      if(this.data) {
+      if (this.data) {
         this.data.forEach(graph => {
           if (graph) {
             this.mapData();
             this.updateGraph();
           }
-        })
+        });
       }
     });
    // this.mapData();
@@ -94,14 +94,14 @@ export class LineChartComponent  implements OnInit {
     this.svg.append('path')
       .attr('class', 'timeline')
       .attr('transform', 'translate(' + this.margin.left + ',0)' )
-      .style("filter" , "url(#glow)");
+      .style('filter' , 'url(#glow)');
 
     //Filter for the outside glow
-    const filter = this.svg.append('defs').append('filter').attr('id','glow'),
-      feGaussianBlur = filter.append('feGaussianBlur').attr('stdDeviation','2.5').attr('result','coloredBlur'),
+    const filter = this.svg.append('defs').append('filter').attr('id', 'glow'),
+      feGaussianBlur = filter.append('feGaussianBlur').attr('stdDeviation', '2.5').attr('result', 'coloredBlur'),
       feMerge = filter.append('feMerge'),
-      feMergeNode_1 = feMerge.append('feMergeNode').attr('in','coloredBlur'),
-      feMergeNode_2 = feMerge.append('feMergeNode').attr('in','SourceGraphic');
+      feMergeNode_1 = feMerge.append('feMergeNode').attr('in', 'coloredBlur'),
+      feMergeNode_2 = feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
 
     this.tooltip = d3.select('body').append('div')
       .attr('class', 'line-tooltip')
@@ -150,9 +150,9 @@ export class LineChartComponent  implements OnInit {
     const xaxis = this.svg.select('.xaxis')
       .call(d3.axisBottom(x).ticks(10));
 
-    this.svg.selectAll(".xaxis text")  // select all the text elements for the xaxis
-      .attr("transform", function(d) {
-        return "translate(" + this.getBBox().height*-2 + "," + this.getBBox().height + ")rotate(-45)";
+    this.svg.selectAll('.xaxis text')  // select all the text elements for the xaxis
+      .attr('transform', function(d) {
+        return 'translate(' + this.getBBox().height * -2 + ',' + this.getBBox().height + ')rotate(-45)';
       });
 
     this.svg.select('.yaxis')

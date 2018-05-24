@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Target} from '../../../../models/target';
-import {DynamicPanelComponent} from "../../../../tools/dynamic-panel/dynamic-panel.component";
+import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 
 @Component({
   selector: 'pharos-target-header',
@@ -19,7 +19,7 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
   ngOnInit() {
     this._data
       .subscribe(x => {
-        if(this.data.geneSummary){
+        if (this.data.geneSummary) {
           this.geneSummary = this.data.geneSummary.map(sum => sum.text).join(' ');
         }
       });

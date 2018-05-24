@@ -18,7 +18,7 @@ import {PharosMainRoutingModule} from '../pharos-main-routing.module';
 import {FacetRetrieverService} from '../services/facet-retriever.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {SharedListModule} from "../../shared/shared-list.module";
+import {SharedListModule} from '../../shared/shared-list.module';
 
 describe('DataListComponent', () => {
   let component: DataListComponent;

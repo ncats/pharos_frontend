@@ -21,8 +21,8 @@ import {ToiCardComponent} from '../pharos-dashboard/toi-card/toi-card.component'
 import {BreadcrumbComponent} from '../tools/breadcrumb/breadcrumb.component';
 import {NcatsHeaderComponent} from '../tools/ncats-header/ncats-header.component';
 import {NcatsFooterComponent} from '../tools/ncats-footer/ncats-footer.component';
-import {PharosTabsComponent} from "../tools/pharos-tabs/pharos-tabs.component";
-import {RadarChartComponent} from "../tools/radar-chart/radar-chart.component";
+import {PharosTabsComponent} from '../tools/pharos-tabs/pharos-tabs.component';
+import {RadarChartComponent} from '../tools/radar-chart/radar-chart.component';
 
 @NgModule({
   imports: [

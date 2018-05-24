@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
-import {Term} from "../../../../../models/term";
-import {MatTabChangeEvent} from "@angular/material";
-import {Value} from "../../../../../models/value";
-import {Property} from "../../../../../models/property";
-import {BehaviorSubject} from "rxjs/index";
-import {EnvironmentVariablesService} from "../../../../../pharos-services/environment-variables.service";
+import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {Term} from '../../../../../models/term';
+import {MatTabChangeEvent} from '@angular/material';
+import {Value} from '../../../../../models/value';
+import {Property} from '../../../../../models/property';
+import {BehaviorSubject} from 'rxjs/index';
+import {EnvironmentVariablesService} from '../../../../../pharos-services/environment-variables.service';
 
 @Component({
   selector: 'pharos-expression-panel',
@@ -43,14 +43,14 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   }
 
   sources: any[] = [
-    {label: "GTEx Tissue", name: 'gtex'},
-    {label: "HPM Tissue", name: 'hpm'},
-    {label: "HPA RNA Tissue", name:'hpa'},
-    {label: "IDG Tissue", name:'gtex'},
-    {label: "UniProt Tissue", name:'uniprot'},
-    {label: "Jensen-KB Tissue", name:'jensen-kb'},
-    {label: "Jensen-TM Tissue", name: 'jensen-tm'},
-    {label: "IDG Tissue Ref", name: 'gtex'}
+    {label: 'GTEx Tissue', name: 'gtex'},
+    {label: 'HPM Tissue', name: 'hpm'},
+    {label: 'HPA RNA Tissue', name: 'hpa'},
+    {label: 'IDG Tissue', name: 'gtex'},
+    {label: 'UniProt Tissue', name: 'uniprot'},
+    {label: 'Jensen-KB Tissue', name: 'jensen-kb'},
+    {label: 'Jensen-TM Tissue', name: 'jensen-tm'},
+    {label: 'IDG Tissue Ref', name: 'gtex'}
   ];
   width = 30;
   constructor(private environmentVariablesService: EnvironmentVariablesService) {
@@ -67,14 +67,14 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
         //    takeWhile(() => !this.data['references'])
       )
       .subscribe(x => {
-        if(this.data.expression) {
+        if (this.data.expression) {
           this.tissueData.clear();
           this.mapTissueData();
           this.radarData =  this.setRadarData();
           this.hgData = this.tissueData.get(this.sources[0].label);
           this.imgUrl = this._URL + this.sources[0].name;
         }
-        if(this.data.differential) {
+        if (this.data.differential) {
           this.diseaseSources = {diseaseSources: this.data.differential.filter(term =>
                term.properties.filter(prop => prop.term === 'Expression Atlas').length > 0)
           };
@@ -86,24 +86,24 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     this.data.expression.forEach(tissue => {
       const tissueTerm: Property = new Term(tissue);
       const tissueArr: Property[] = this.tissueData.get(tissueTerm.label);
-      if(tissueArr){
+      if (tissueArr) {
         tissueArr.push(tissueTerm);
         this.tissueData.set(tissueTerm.label, tissueArr);
       } else {
         this.tissueData.set(tissueTerm.label, [tissueTerm]);
       }
-    })
+    });
   }
 
   setRadarData(): any[] {
-    const axes : any [] = [];
-    const radar : any = [];
+    const axes: any [] = [];
+    const radar: any = [];
     const filters = ['GTEx Tissue Specificity Index', 'HPM Protein Tissue Specificity Index', 'HPA RNA Tissue Specificity Index'];
     filters.forEach(field => {
       const data: any = this.tissueData.get(field)[0];
       axes.push({axis: field, value: data['numval']});
     });
-    radar.push({className:this.id, axes: axes});
+    radar.push({className: this.id, axes: axes});
     return radar;
   }
 

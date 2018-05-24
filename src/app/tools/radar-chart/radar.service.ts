@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {catchError, map} from "rxjs/operators";
-import {Observable, of} from "rxjs/index";
-import {HttpClient} from "@angular/common/http";
-import {EnvironmentVariablesService} from "../../pharos-services/environment-variables.service";
+import {catchError, map} from 'rxjs/operators';
+import {Observable, of} from 'rxjs/index';
+import {HttpClient} from '@angular/common/http';
+import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 
 const RADAR_SIZES: Map<string, any> = new Map<string, any>(
   [
@@ -16,7 +16,7 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
       labels: false,
       axisLabels: false
     }
-],['medium',{
+], ['medium', {
     w: 300,
     h: 300,
     maxValue: 1,
@@ -25,7 +25,7 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
     labels: false,
     axisLabels: true
   }
-  ],['medium-shape',{
+  ], ['medium-shape', {
     w: 300,
     h: 300,
     maxValue: 1,
@@ -63,7 +63,7 @@ radarDataMap: Map<string, any> = new Map<string, any>();
 
   getData(id: string): any {
     let temp: any = this.radarDataMap.get(id);
-    if(!temp){
+    if (!temp) {
       temp = this._fetchData(id);
       this.setData(id, temp);
     }
@@ -74,7 +74,7 @@ radarDataMap: Map<string, any> = new Map<string, any>();
     this.radarDataMap.set(id, data);
   }
 
-  getOptions(size: string){
+  getOptions(size: string) {
     return RADAR_SIZES.get(size);
   }
 
@@ -82,7 +82,7 @@ radarDataMap: Map<string, any> = new Map<string, any>();
     return this.http.get<any[]>(this.url +  id)
       .pipe(
         catchError(this.handleError('getRadarData', []))
-        )
+        );
     }
 
   /**
