@@ -4,6 +4,7 @@ import {TableData} from '../../../../../models/table-data';
 import {MatTabChangeEvent} from '@angular/material';
 import {BehaviorSubject} from 'rxjs';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {PharosPoint} from "../../../../visualizations/line-chart/line-chart.component";
 
 // skipping log2foldchange property
 const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
@@ -55,6 +56,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
   sourceMap: Map<string, DiseaseRelevance[]> = new Map<string, DiseaseRelevance[]>();
   fieldsMap: Map<string, TableData[]> = new Map<string, TableData[]>();
   sources: string[];
+  tinx: PharosPoint[];
   loaded = false;
   @Input() width = 30;
   tableArr: any[] = [];
@@ -67,6 +69,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
   }
 
   ngOnInit() {
+    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -111,6 +114,20 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       this.sources = Array.from(this.sourceMap.keys());
       this.tableArr = this.sourceMap.get(this.sources[0]);
       this.loaded = true;
+    }
+
+    if(this.data.tinx){
+      this.tinx = [];
+      console.log(this);
+       this.data.tinx.importances.map(point => {
+        let p: PharosPoint = {
+          label: point.doid,
+          key: point.imp,
+          value: point.dnovelty,
+          name: point.dname
+        };
+       this.tinx.push(p);
+      })
     }
   }
 

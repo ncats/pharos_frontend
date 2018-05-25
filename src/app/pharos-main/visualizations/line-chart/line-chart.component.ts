@@ -6,6 +6,15 @@ import * as d3 from 'd3';
 import {CustomContentDirective} from '../../../tools/custom-content.directive';
 import {BehaviorSubject} from 'rxjs/index';
 
+export interface PharosPoint {
+  name: string;
+  label: string;
+  key: number;
+  value: number;
+}
+
+
+
 @Component({
   selector: 'pharos-line-chart',
   templateUrl: './line-chart.component.html',
@@ -23,6 +32,8 @@ export class LineChartComponent  implements OnInit {
     this._data.next(value);
   }
   get data(): any { return this._data.value; }
+
+  @Input() line = true;
 
   private margin: any = {top: 20, bottom: 20, left: 20, right: 20};
   globalCounts: any[] = [];
@@ -44,8 +55,8 @@ export class LineChartComponent  implements OnInit {
     this._data.subscribe(x => {
       if (this.data) {
         this.data.forEach(graph => {
-          if (graph) {
-            this.mapData();
+          if (graph && !this.line) {
+          //  this.mapData();
             this.updateGraph();
           }
         });
@@ -53,12 +64,12 @@ export class LineChartComponent  implements OnInit {
     });
   }
 
-  @HostListener('window:resize', ['$event'])
+/*  @HostListener('window:resize', ['$event'])
   onResize() {
     this.svg.select('pharos-line-chart svg').remove();
     this.drawGraph();
     this.updateGraph();
-  }
+  }*/
 
   drawGraph(): void {
     const element = this.chartContainer.nativeElement;
@@ -191,16 +202,16 @@ export class LineChartComponent  implements OnInit {
           .style('opacity', 0);
         d3.select(circles[i]).classed('hovered', false);
       });
-
-    this.svg.select('.timeline')   // change the line
-      .datum(this.groupCounts)
-      .attr('stroke-linejoin', 'round')
-      .attr('stroke-linecap', 'round')
-      .attr('stroke', '#23364e')
-      .attr('stroke-width', 2)
-      .attr('fill', 'none')
-      .attr('d', line);
-
+if(this.line) {
+  this.svg.select('.timeline')   // change the line
+    .datum(this.groupCounts)
+    .attr('stroke-linejoin', 'round')
+    .attr('stroke-linecap', 'round')
+    .attr('stroke', '#23364e')
+    .attr('stroke-width', 2)
+    .attr('fill', 'none')
+    .attr('d', line);
+}
   }
 }
 

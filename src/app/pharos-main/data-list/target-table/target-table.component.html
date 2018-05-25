@@ -1,7 +1,7 @@
 <br>
 <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
   <div fxFlex="45">
-    <div class = mat-display-1>Targets <span ng-if ="total">({{total}})</span></div>
+    <div class = mat-display-1>Targets <span *ngIf ="total">({{total}})</span></div>
   </div>
   <div fxFlex="45" fxFlexAlign="end">
     <pharos-custom-paginator (page)="changePage($event)"></pharos-custom-paginator>
@@ -44,13 +44,13 @@
       <ng-container matColumnDef="novelty">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Log Novelty </mat-header-cell>
         <mat-cell *matCellDef="let row">
-          {{row.novelty.toFixed(2)}}
+          {{row.novelty?.toFixed(2)}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="jensenScore">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Pubmed Score </mat-header-cell>
         <mat-cell *matCellDef="let row">
-          {{row.jensenScore.toFixed(2)}}
+          {{row.jensenScore?.toFixed(2)}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="antibodyCount">

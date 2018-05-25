@@ -52,8 +52,12 @@
     <div *ngIf="data?.timelines?.length > 0">
       <span class="mat-title">PubMed Score</span>
       <pharos-line-chart [data]="getTimeline('PubMed Score')"></pharos-line-chart>
+    <br>
       <span class="mat-title">PubTator Score</span>
       <pharos-line-chart [data]="getTimeline('PubTator')"></pharos-line-chart>
+<br>
+      <span class="mat-title">Patents</span>
+      <pharos-line-chart [data]="getTimeline('Patent Count')"></pharos-line-chart>
     </div>
       </div>
     </div>
