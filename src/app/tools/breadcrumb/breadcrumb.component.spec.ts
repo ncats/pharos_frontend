@@ -4,6 +4,7 @@ import { BreadcrumbComponent } from './breadcrumb.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {SharedModule} from '../../shared/shared.module';
 import {BrowserTestingModule} from '@angular/platform-browser/testing';
+import {PathResolverService} from '../../pharos-services/path-resolver.service';
 
 describe('BreadcrumbComponent', () => {
   let component: BreadcrumbComponent;
@@ -15,6 +16,7 @@ describe('BreadcrumbComponent', () => {
         RouterTestingModule,
         SharedModule
       ],
+      providers: [PathResolverService],
       declarations: []
     })
     .compileComponents();
@@ -24,6 +26,8 @@ describe('BreadcrumbComponent', () => {
     fixture = TestBed.createComponent(BreadcrumbComponent);
     component = fixture.componentInstance;
     component.links = ['targets'];
+    component.path = 'targets';
+    component.data = [];
     fixture.detectChanges();
   });
 

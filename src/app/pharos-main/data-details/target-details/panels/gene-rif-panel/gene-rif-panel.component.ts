@@ -11,7 +11,7 @@ export class GeneRifPanelComponent implements OnInit {
 
   ngOnInit() {
 
-    //targets/306/links(kind=ix.core.models.Text)
+    // targets/306/links(kind=ix.core.models.Text)
   }
 
 }

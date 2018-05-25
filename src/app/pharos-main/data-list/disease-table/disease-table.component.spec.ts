@@ -1,10 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DiseaseTableComponent } from './disease-table.component';
-import {SharedListModule} from '../../../shared/shared-list.module';
 import {SharedModule} from '../../../shared/shared.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {PharosPaginatorComponent} from '../../../tools/pharos-paginator/pharos-paginator.component';
+import {ResponseParserService} from '../../../pharos-services/response-parser.service';
+import {PharosApiService} from '../../../pharos-services/pharos-api.service';
+import {EnvironmentVariablesService} from '../../../pharos-services/environment-variables.service';
 
 describe('DiseaseTableComponent', () => {
   let component: DiseaseTableComponent;
@@ -17,7 +20,12 @@ describe('DiseaseTableComponent', () => {
         RouterTestingModule,
         BrowserAnimationsModule
       ],
-      declarations: [ DiseaseTableComponent ]
+      providers: [
+        ResponseParserService,
+        EnvironmentVariablesService,
+        PharosApiService
+      ],
+      declarations: [ DiseaseTableComponent, PharosPaginatorComponent ]
     })
     .compileComponents();
   }));

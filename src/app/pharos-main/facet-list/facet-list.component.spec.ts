@@ -46,6 +46,7 @@ describe('FacetListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FacetListComponent);
     component = fixture.componentInstance;
+    component.facets = [];
     fixture.detectChanges();
   });
 

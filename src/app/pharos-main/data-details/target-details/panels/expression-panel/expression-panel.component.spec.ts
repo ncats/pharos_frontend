@@ -2,6 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ExpressionPanelComponent } from './expression-panel.component';
 import {SharedModule} from '../../../../../shared/shared.module';
+import {RadarChartComponent} from '../../../../../tools/radar-chart/radar-chart.component';
+import {RadarService} from '../../../../../tools/radar-chart/radar.service';
+import {SharedDetailsModule} from '../../../../../shared/shared-details.module';
+import {DiseaseSourceComponent} from '../disease-source-panel/disease-source-panel.component';
+import {EnvironmentVariablesService} from '../../../../../pharos-services/environment-variables.service';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('ExpressionPanelComponent', () => {
   let component: ExpressionPanelComponent;
@@ -9,8 +15,20 @@ describe('ExpressionPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule],
-      declarations: [ ExpressionPanelComponent ]
+      imports: [
+        SharedModule,
+        SharedDetailsModule,
+        BrowserAnimationsModule
+      ],
+      providers: [
+        RadarService,
+        EnvironmentVariablesService
+      ],
+      declarations: [
+        ExpressionPanelComponent,
+        RadarChartComponent,
+        DiseaseSourceComponent
+      ]
     })
     .compileComponents();
   }));

@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {BehaviorSubject} from 'rxjs/index';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
+import {Target} from "../../models/target";
 
 /**
  * Component to track the hierarchy of a target
@@ -14,7 +15,10 @@ import {PathResolverService} from '../../pharos-services/path-resolver.service';
 })
 
 export class BreadcrumbComponent implements OnInit {
-
+  /**
+   * Target, used to display the name
+   */
+  target?: Target;
   /**
    * initialize a private variable _data, it's a BehaviorSubject
    * @type {BehaviorSubject<any>}

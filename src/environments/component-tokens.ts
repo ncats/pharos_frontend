@@ -39,10 +39,6 @@ export class TOKENS {
    */
   public static DISEASE_SOURCE_PANEL = new InjectionToken<string>('DiseaseSourcePanelComponent');
   /**
-   * injection token to link to the target knowledge visualization
-   */
-  public static KNOWLEDGE_PANEL = new InjectionToken<string>('KnowledgePanelComponent');
-  /**
    * injection token to link to the references for a target
    */
   public static REFERENCES_PANEL = new InjectionToken<string>('ReferencesPanelComponent');

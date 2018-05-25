@@ -14,9 +14,9 @@
     {{link?.type }}
   </svg:text>
   <svg:line class="clickable-area"
-            [attr.x1]= "getSource(link.source,'x')"
-            [attr.y1]= "getSource(link.source,'y')"
-            [attr.x2]= "getSource(link.target,'x')"
-            [attr.y2]= "getSource(link.target,'y')"
+            [attr.x1]= "getSource(link?.source,'x')"
+            [attr.y1]= "getSource(link?.source,'y')"
+            [attr.x2]= "getSource(link?.target,'x')"
+            [attr.y2]= "getSource(link?.target,'y')"
   />
 </svg:g>

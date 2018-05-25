@@ -9,7 +9,7 @@ import {BehaviorSubject} from 'rxjs/index';
 @Component({
   selector: 'pharos-line-chart',
   templateUrl: './line-chart.component.html',
-  styleUrls: ['./line-chart.component.css'],
+  styleUrls: ['./line-chart.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class LineChartComponent  implements OnInit {
@@ -51,17 +51,7 @@ export class LineChartComponent  implements OnInit {
         });
       }
     });
-   // this.mapData();
-   // this.updateGraph();
   }
-
-/*  ngOnChanges(changes) {
-    if (!changes.data.firstChange) {
-      if (this.data.length > 0) {
-        this.updateGraph();
-      }
-    }
-  }*/
 
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -90,13 +80,17 @@ export class LineChartComponent  implements OnInit {
       .attr('class', 'yaxis')
       .attr('transform', 'translate(20, 0)');
 
+    this.svg.append('g')
+      .attr('class', 'linePointHolder')
+      .attr('transform', 'translate(20, 0)');
+
     // Add the valueline path.
     this.svg.append('path')
       .attr('class', 'timeline')
       .attr('transform', 'translate(' + this.margin.left + ',0)' )
       .style('filter' , 'url(#glow)');
 
-    //Filter for the outside glow
+    // Filter for the outside glow
     const filter = this.svg.append('defs').append('filter').attr('id', 'glow'),
       feGaussianBlur = filter.append('feGaussianBlur').attr('stdDeviation', '2.5').attr('result', 'coloredBlur'),
       feMerge = filter.append('feMerge'),
@@ -132,7 +126,6 @@ export class LineChartComponent  implements OnInit {
   }
 
   updateGraph(): void {
-    const ticks = this.groupCounts.length < 20 ? this.groupCounts.length : 20;
 
     const x = d3.scalePoint()
       .domain(this.groupCounts.map(d => +d.key))
@@ -148,7 +141,7 @@ export class LineChartComponent  implements OnInit {
 
 
     const xaxis = this.svg.select('.xaxis')
-      .call(d3.axisBottom(x).ticks(10));
+      .call(d3.axisBottom(x));
 
     this.svg.selectAll('.xaxis text')  // select all the text elements for the xaxis
       .attr('transform', function(d) {
@@ -157,6 +150,47 @@ export class LineChartComponent  implements OnInit {
 
     this.svg.select('.yaxis')
       .call(d3.axisLeft(y));
+
+    this.svg.select('.linePointHolder').selectAll('.linePoints')
+      .data(this.groupCounts)
+      .enter()
+      .append('circle')
+      .attr('class', 'linePoints')
+      .attr('r', 3)
+      .attr('cx', d => x(+d.key))
+      .attr('cy', d => y(+d.value))
+      .style('fill', '#23364e')
+      .style('fill-opacity', 0.8)
+      .style('pointer-events', 'all');
+
+    this.svg.select('.linePointHolder').selectAll('.invisibleCircle')
+      .data(this.groupCounts)
+      .enter()
+      .append('circle')
+      .attr('class', 'invisibleCircle')
+      .attr('r', 10)
+      .attr('cx', d => x(+d.key))
+      .attr('cy', d => y(+d.value))
+      .style('fill', 'none')
+      .style('pointer-events', 'all')
+      .on('mouseover', (d, i, circles) => {
+        d3.select(circles[i]).classed('hovered', true);
+        this.tooltip
+          .transition()
+          .duration(200)
+          .style('opacity', .9);
+        this.tooltip.html('<span>' + d.key + ': <br>' + d.value + '</span>' )
+          .style('left', d3.event.pageX + 'px')
+          .style('top', d3.event.pageY + 'px')
+          .style('width', 100);
+      })
+      .on('mouseout', (d, i, circles) => {
+        this.tooltip
+          .transition()
+          .duration(200)
+          .style('opacity', 0);
+        d3.select(circles[i]).classed('hovered', false);
+      });
 
     this.svg.select('.timeline')   // change the line
       .datum(this.groupCounts)

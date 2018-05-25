@@ -21,6 +21,7 @@ describe('TargetHeaderComponent', () => {
     fixture = TestBed.createComponent(TargetHeaderComponent);
     component = fixture.componentInstance;
     component.target = testTarget;
+    component.geneSummary = '';
     fixture.detectChanges();
   });
 

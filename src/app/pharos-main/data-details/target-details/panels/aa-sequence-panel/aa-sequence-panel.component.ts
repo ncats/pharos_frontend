@@ -13,4 +13,4 @@ export class AaSequencePanelComponent implements OnInit {
   }
 
 }
-//https://pharos.nih.gov/idg/api/v1/targets/306/properties(label=UniProt%20Sequence)
+// https://pharos.nih.gov/idg/api/v1/targets/306/properties(label=UniProt%20Sequence)

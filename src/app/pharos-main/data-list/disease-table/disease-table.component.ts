@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material';
 import {Disease} from '../../../models/disease';
@@ -15,7 +15,7 @@ import {takeUntil} from 'rxjs/operators';
   templateUrl: './disease-table.component.html',
   styleUrls: ['./disease-table.component.css']
 })
-export class DiseaseTableComponent extends DynamicPanelComponent implements OnInit {
+export class DiseaseTableComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   /**
    * object fields for the table to show
    * @type {string[]}

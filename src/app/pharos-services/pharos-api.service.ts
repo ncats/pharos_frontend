@@ -150,7 +150,6 @@ export class PharosApiService {
       .pipe(
         catchError(this.handleError('getDataUrl', []))
       ).subscribe(response => {
-        console.log(response);
       this._dataSource.next( response);
     });
   }

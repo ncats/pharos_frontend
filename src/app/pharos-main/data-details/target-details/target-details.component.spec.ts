@@ -49,6 +49,7 @@ describe('TargetDetailsComponent', () => {
     component = fixture.componentInstance;
     component.path = 'targets';
     component.data = ({object: TESTTARGET, references: []});
+    component.target = TESTTARGET;
     fixture.detectChanges();
   });
 

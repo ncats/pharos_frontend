@@ -1,11 +1,19 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { RadarService } from './radar.service';
+import { HttpClientModule} from '@angular/common/http';
+import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 
 describe('RadarService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [RadarService]
+      imports: [
+        HttpClientModule
+      ],
+      providers: [
+        RadarService,
+        EnvironmentVariablesService
+      ]
     });
   });
 

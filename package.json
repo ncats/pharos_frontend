@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test pharos-ui",
+    "test": "ng test pharos-ui ",
     "lint": "ng lint pharos-ui",
     "lint-fix": "ng lint pharos-ui --fix",
     "e2e": "ng e2e",

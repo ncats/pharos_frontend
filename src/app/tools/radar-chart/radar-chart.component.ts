@@ -8,18 +8,18 @@ import {MAT_DIALOG_DATA} from '@angular/material';
 import {BehaviorSubject} from 'rxjs/index';
 
 export class ChartOptions {
-  w = 600;				//Width of the circle
-  h = 600;				//Height of the circle
-  margin: any = {top: 50, right: 20, bottom: 20, left: 20}; //The margins of the SVG
-  levels =  3;				//How many levels or inner circles should there be drawn
-  maxValue = 0; 			//What is the value that the biggest circle will represent
-  labelFactor = 1.01; 	//How much farther than the radius of the outer circle should the labels be placed
-  wrapWidth = 100; 		//The number of pixels after which a label needs to be given a new line
-  opacityArea = 0.35; 	//The opacity of the area of the blob
-  dotRadius = 2; 			//The size of the colored circles of each blog
-  opacityCircles = 0.1; 	//The opacity of the circles of each blob
-  strokeWidth = 2; 		//The width of the stroke around each blob
-  roundStrokes: false;	//If true the area and stroke will follow a round path (cardinal-closed)
+  w = 600;				//  Width of the circle
+  h = 600;				// Height of the circle
+  margin: any = {top: 50, right: 20, bottom: 20, left: 20}; // The margins of the SVG
+  levels =  3;				// How many levels or inner circles should there be drawn
+  maxValue = 0; 			// What is the value that the biggest circle will represent
+  labelFactor = 1.01; 	// How much farther than the radius of the outer circle should the labels be placed
+  wrapWidth = 100; 		// The number of pixels after which a label needs to be given a new line
+  opacityArea = 0.35; 	// The opacity of the area of the blob
+  dotRadius = 2; 			// The size of the colored circles of each blog
+  opacityCircles = 0.1; 	// The opacity of the circles of each blob
+  strokeWidth = 2; 		// The width of the stroke around each blob
+  roundStrokes: false;	// If true the area and stroke will follow a round path (cardinal-closed)
   color: any = d3.scaleOrdinal().range(['#23364e']);
   format = '.2%';
   unit = ' ';
@@ -157,15 +157,16 @@ drawChart(): void {
  //////////// Create the container SVG and g /////////////
  const element = d3.select(this.chartContainer.nativeElement);
 
- //Remove whatever chart with the same id/class was present before
+ // Remove whatever chart with the same id/class was present before
  this.svg = {};
- //Initiate the radar chart SVG
+ // Initiate the radar chart SVG
  this.svg = element.append('svg')
    .attr('width',  this._chartOptions.w + this._chartOptions.margin.left + this._chartOptions.margin.right)
    .attr('height', this._chartOptions.h + this._chartOptions.margin.top + this._chartOptions.margin.bottom)
    .attr('class', 'radar')
    .append('g')
-   .attr('transform', 'translate(' + (this._chartOptions.w / 2 + this._chartOptions.margin.left) + ',' + (this._chartOptions.h / 2 + this._chartOptions.margin.top) + ')');
+   .attr('transform', 'translate(' + (this._chartOptions.w / 2 + this._chartOptions.margin.left) + ','
+     + (this._chartOptions.h / 2 + this._chartOptions.margin.top) + ')');
  // background shapes
  this.svg.append('g').attr('class', 'levelWrapper').attr('transform', 'rotate(30)');
  this.svg.append('g').attr('class', 'axisLabel');
@@ -175,7 +176,7 @@ drawChart(): void {
  ////////// Glow filter for some extra pizzazz ///////////
  /////////////////////////////////////////////////////////
 
- //Filter for the outside glow
+ // Filter for the outside glow
  const filter = this.svg.append('defs').append('filter').attr('id', 'glow'),
    feGaussianBlur = filter.append('feGaussianBlur').attr('stdDeviation', '2.5').attr('result', 'coloredBlur'),
    feMerge = filter.append('feMerge'),
@@ -196,9 +197,9 @@ updateChart(): void {
  const HALF_PI: number = Math.PI / 2;
 
  // todo: clean this up with es6
- //Wraps SVG text - Taken from http://bl.ocks.org/mbostock/7555321
- const wrap = (text, width) => {
-   text.each(function() {
+ // Wraps SVG text - Taken from http://bl.ocks.org/mbostock/7555321
+ const wrap = (texts, width) => {
+   texts.each(function() {
      const text = d3.select(this);
      const words = text.text().split(/\s+/).reverse();
      let word;
@@ -222,24 +223,24 @@ updateChart(): void {
        }
      }
    });
- }; //wrap
+ }; // wrap
 
- //If the supplied maxValue is smaller than the actual one, replace by the max in the data
+ // If the supplied maxValue is smaller than the actual one, replace by the max in the data
 
  const maxValue: number = this.getMaxValue() ;
- const allAxis = this.data[0].axes.map((i, j) => i.axis),	//Names of each axis
-   total = allAxis.length,					//The number of different axes
-   radius = Math.min(this._chartOptions.w / 2, this._chartOptions.h / 2), 	//Radius of the outermost circle
-   format = d3.format(this._chartOptions.format),			 	//Formatting
-   angleSlice = Math.PI * 2 / total;		//The width in radians of each "slice"
+ const allAxis = this.data[0].axes.map((i, j) => i.axis),	// Names of each axis
+   total = allAxis.length,					// The number of different axes
+   radius = Math.min(this._chartOptions.w / 2, this._chartOptions.h / 2), 	// Radius of the outermost circle
+   format = d3.format(this._chartOptions.format),			 	// Formatting
+   angleSlice = Math.PI * 2 / total;		// The width in radians of each "slice"
 
- //Scale for the radius
+ // Scale for the radius
  const rScale = d3.scaleLinear()
    .range([0, radius])
    .domain([0, maxValue]);
 
  if (this.shape) {
-   //Draw the background shapes
+   // Draw the background shapes
    const levels = this.svg.select('.levelWrapper').selectAll('.levels')
      .data(d3.range(1, (this._chartOptions.levels + 1)).reverse())
      .enter()
@@ -255,7 +256,7 @@ updateChart(): void {
      .exit()
      .remove();
  } else {
-   //Draw the background circles
+   // Draw the background circles
    const levels = this.svg.select('.levelWrapper').selectAll('.levels')
      .data(d3.range(1, (this._chartOptions.levels + 1)).reverse())
      .enter()
@@ -268,7 +269,7 @@ updateChart(): void {
      .style('filter' , 'url(#glow)');
  }
 
- //Text indicating at what % each level is
+ // Text indicating at what % each level is
  if (this._chartOptions.axisLabels) {
    this.svg.selectAll('.axisLabel')
      .data(d3.range(1, (this._chartOptions.levels + 1)).reverse())
@@ -283,7 +284,7 @@ updateChart(): void {
  }
 
  //////////////////// Draw the axes //////////////////////
- //Create the straight lines radiating outward from the center
+ // Create the straight lines radiating outward from the center
  const axis = this.svg.select('.axisWrapper').selectAll('.axis')
    .data(allAxis)
    .enter()
@@ -301,8 +302,7 @@ updateChart(): void {
    .style('stroke', 'eee')
    .style('stroke-width', '2px');
 
-
- //Append the labels at each axis
+ // Append the labels at each axis
  // todo: rotate? https://stackoverflow.com/questions/42581308/d3-js-rotate-axis-labels-around-the-middle-point
  if (this._chartOptions.labels) {
    axis.append('text')
@@ -320,7 +320,7 @@ updateChart(): void {
  ///////////// Draw the radar chart blobs ////////////////
  /////////////////////////////////////////////////////////
 
- //The radial line function
+ // The radial line function
  const radarLine = d3.radialLine()
    .curve(d3.curveLinearClosed)
    .radius(d =>  rScale(d.value))
@@ -330,14 +330,14 @@ updateChart(): void {
    radarLine.curve(d3.curveCardinalClosed);
  }
 
- //Create a wrapper for the blobs
+ // Create a wrapper for the blobs
  const blobWrapper = this.svg.selectAll('.blobWrapper')
    .data(this.data)
    .enter()
    .append('g')
    .attr('class', 'blobWrapper');
 
- //Append the backgrounds
+ // Append the backgrounds
  blobWrapper
    .append('path')
    .attr('class', 'radarArea')
@@ -345,23 +345,23 @@ updateChart(): void {
    .style('fill', (d, i) => this._chartOptions.color(i))
    .style('fill-opacity', this._chartOptions.opacityArea)
    .on('mouseover', function(d, i) {
-     //Dim all blobs
+     // Dim all blobs
      d3.selectAll('.radarArea')
        .transition().duration(200)
        .style('fill-opacity', 0.1);
-     //Bring back the hovered over blob
+     // Bring back the hovered over blob
      d3.select(this)
        .transition().duration(200)
        .style('fill-opacity', 0.7);
    })
    .on('mouseout', () => {
-     //Bring back all blobs
+     // Bring back all blobs
      d3.selectAll('.radarArea')
        .transition().duration(200)
        .style('fill-opacity', this._chartOptions.opacityArea);
    });
 
- //Create the outlines
+ // Create the outlines
  blobWrapper.append('path')
    .attr('class', 'radarStroke')
    .attr('d', function(d, i) { return radarLine(d.axes); })
@@ -370,7 +370,7 @@ updateChart(): void {
    .style('fill', 'none')
    .style('filter' , 'url(#glow)');
 
- //Append the circles
+ // Append the circles
  blobWrapper.selectAll('.radarCircle')
    .data(d => d.axes)
    .enter()
@@ -383,13 +383,13 @@ updateChart(): void {
    .style('fill-opacity', 0.8);
 
  //////// Append invisible circles for tooltip ///////////
- //Wrapper for the invisible circles on top
+ // Wrapper for the invisible circles on top
  const blobCircleWrapper = this.svg.selectAll('.radarCircleWrapper')
    .data(this.data)
    .enter().append('g')
    .attr('class', 'radarCircleWrapper');
 
- //Append a set of invisible circles on top for the mouseover pop-up
+ // Append a set of invisible circles on top for the mouseover pop-up
  blobCircleWrapper.selectAll('.radarInvisibleCircle')
    .data(d => d.axes)
    .enter()
@@ -419,7 +419,7 @@ updateChart(): void {
      d3.select(circles[i]).classed('hovered', false);
    });
 
- /*if (this._chartOptions.legend !== false && typeof this._chartOptions.legend === "object") {
+ /* if (this._chartOptions.legend !== false && typeof this._chartOptions.legend === "object") {
    let legendZone = this.svg.append('g');
    let names = data.map(el => el.name);
    if (this._chartOptions.legend.title) {
@@ -457,8 +457,8 @@ updateChart(): void {
      .attr("font-size", "11px")
      .attr("fill", "#737373")
      .text(d => d);
- }*/
-    //return svg;
+ } */
+    // return svg;
   }
 
 }

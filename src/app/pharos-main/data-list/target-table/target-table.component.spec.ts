@@ -7,6 +7,12 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from '../../../shared/shared.module';
 import {PharosMainRoutingModule} from '../../pharos-main-routing.module';
 import {RouterTestingModule} from '@angular/router/testing';
+import {PharosPaginatorComponent} from '../../../tools/pharos-paginator/pharos-paginator.component';
+import {RadarChartComponent} from '../../../tools/radar-chart/radar-chart.component';
+import {RadarService} from '../../../tools/radar-chart/radar.service';
+import {ResponseParserService} from '../../../pharos-services/response-parser.service';
+import {PharosApiService} from '../../../pharos-services/pharos-api.service';
+import {EnvironmentVariablesService} from '../../../pharos-services/environment-variables.service';
 
 describe('TargetTableComponent', () => {
   let component: TargetTableComponent;
@@ -19,7 +25,13 @@ describe('TargetTableComponent', () => {
         RouterTestingModule,
         BrowserAnimationsModule
       ],
-      declarations: [ TargetTableComponent ]
+      providers: [
+        RadarService,
+        ResponseParserService,
+        EnvironmentVariablesService,
+        PharosApiService
+      ],
+      declarations: [ TargetTableComponent, PharosPaginatorComponent, RadarChartComponent ]
     })
     .compileComponents();
   }));

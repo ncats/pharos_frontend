@@ -4,6 +4,11 @@ import {Observable, of} from 'rxjs/index';
 import {HttpClient} from '@angular/common/http';
 import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 
+/**
+ * different config settings for radar types
+ * todo: put in different config file
+ * @type {Map<string, any>}
+ */
 const RADAR_SIZES: Map<string, any> = new Map<string, any>(
   [
     ['small', {
@@ -11,7 +16,7 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
       h: 100,
       maxValue: 1,
       levels: 1,
-      dotRadius: 0, 			//The size of the colored circles of each blog
+      dotRadius: 0, 			// The size of the colored circles of each blog
       format: '.1f',
       labels: false,
       axisLabels: false
@@ -39,7 +44,7 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
       h: 800,
       maxValue: 1,
       levels: 10,
-      dotRadius: 5, 			//The size of the colored circles of each blog
+      dotRadius: 5, 			// The size of the colored circles of each blog
       format: '.5f',
       labels: true,
       axisLabels: true,
@@ -52,15 +57,40 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
 @Injectable({
   providedIn: 'root'
 })
-export class RadarService {
-radarDataMap: Map<string, any> = new Map<string, any>();
-  url: string;
 
+/**
+ * retrieves radar chart data
+ * returns radar chart config object
+ */
+export class RadarService {
+
+  /**
+   * map of different data retrieved, keyed by object id
+   * @type {Map<string, any>}
+   */
+  private radarDataMap: Map<string, any> = new Map<string, any>();
+
+  /**
+   * url to call
+   */
+  private url: string;
+
+  /**
+   * create services and set url for data calls
+   * @param {HttpClient} http
+   * @param {EnvironmentVariablesService} environmentVariableService
+   */
   constructor(private http: HttpClient,
               private environmentVariableService: EnvironmentVariablesService) {
     this.url = this.environmentVariableService.getRadarPath();
   }
 
+  /**
+   * check to see if data exists in map, if not retrieve it
+   * todo: different maps may have different data fr the same type. should probably add a parameter for origin
+   * @param {string} id
+   * @return {any}
+   */
   getData(id: string): any {
     let temp: any = this.radarDataMap.get(id);
     if (!temp) {
@@ -70,14 +100,30 @@ radarDataMap: Map<string, any> = new Map<string, any>();
     return temp;
   }
 
+  /**
+   * set api data in the api
+   * @param {string} id
+   * @param data
+   */
   setData(id: string, data: any): void {
     this.radarDataMap.set(id, data);
   }
 
+  /**
+   * return options for each size
+   * @param {string} size
+   * @return {any}
+   */
   getOptions(size: string) {
     return RADAR_SIZES.get(size);
   }
 
+  /**
+   * call api to fetch data for the radar chart
+   * @param {string} id
+   * @return {any}
+   * @private
+   */
   _fetchData(id: string): any {
     return this.http.get<any[]>(this.url +  id)
       .pipe(

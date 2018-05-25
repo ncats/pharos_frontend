@@ -4,9 +4,10 @@ import { NodeDisplayComponent } from './topic-details/components/node-display/no
 
 @NgModule({
   imports: [
-    PharosTopicsRoutingModule
+  //  PharosTopicsRoutingModule
   ],
   declarations: [
-  NodeDisplayComponent]
+//  NodeDisplayComponent]
+]
 })
 export class PharosTopicsModule { }

@@ -14,7 +14,6 @@ import { DiseaseTableComponent} from './data-list/disease-table/disease-table.co
 import {
   ReferencesPanelComponent
 } from './data-details/target-details/panels/references-panel/references-panel.component';
-import {KnowledgePanelComponent} from './data-details/target-details/panels/knowledge-panel/knowledge-panel.component';
 import {ExpressionPanelComponent} from './data-details/target-details/panels/expression-panel/expression-panel.component';
 import {DiseaseSourceComponent} from './data-details/target-details/panels/disease-source-panel/disease-source-panel.component';
 import {OrthologPanelComponent} from './data-details/target-details/panels/ortholog-panel/ortholog-panel.component';
@@ -60,6 +59,10 @@ import {NodeDisplayComponent} from '../pharos-topics/topic-details/components/no
 import {RadarChartComponent} from '../tools/radar-chart/radar-chart.component';
 import {TOKENS} from '../../environments/component-tokens';
 import {BreadcrumbComponent} from '../tools/breadcrumb/breadcrumb.component';
+import {AaSequencePanelComponent} from "./data-details/target-details/panels/aa-sequence-panel/aa-sequence-panel.component";
+import {DrugPanelComponent} from "./data-details/target-details/panels/drug-panel/drug-panel.component";
+import {GeneRifPanelComponent} from "./data-details/target-details/panels/gene-rif-panel/gene-rif-panel.component";
+import {TinxPlotPanelComponent} from "./data-details/target-details/panels/tinx-plot-panel/tinx-plot-panel.component";
 
 const pharosMainRoutes: Routes = [
   {
@@ -111,7 +114,6 @@ const pharosMainRoutes: Routes = [
     {provide: TOKENS.TARGET_TABLE_COMPONENT, useValue: TargetTableComponent },
     {provide: TOKENS.TARGET_DETAILS_COMPONENT, useValue: TargetDetailsComponent },
     {provide: TOKENS.SUMMARY_PANEL, useValue: SummaryPanelComponent },
-    {provide: TOKENS.KNOWLEDGE_PANEL, useValue: KnowledgePanelComponent },
     {provide: TOKENS.REFERENCES_PANEL, useValue: ReferencesPanelComponent },
     {provide: TOKENS.DISEASE_SOURCE_PANEL, useValue: DiseaseSourceComponent },
     {provide: TOKENS.EXPRESSION_PANEL, useValue: ExpressionPanelComponent },
@@ -129,7 +131,6 @@ const pharosMainRoutes: Routes = [
     SummaryPanelComponent,
     TargetHeaderComponent,
     DiseaseSourceComponent,
-    KnowledgePanelComponent,
     ExpressionPanelComponent,
     OrthologPanelComponent,
     TargetFacetPanelComponent,
@@ -148,7 +149,6 @@ const pharosMainRoutes: Routes = [
     ReferencesPanelComponent,
     SummaryPanelComponent,
     TargetHeaderComponent,
-    KnowledgePanelComponent,
     ExpressionPanelComponent,
     OrthologPanelComponent,
     TargetFacetPanelComponent,
@@ -170,7 +170,8 @@ const pharosMainRoutes: Routes = [
     NodeDisplayComponent,
     NodeMenuComponent,
     GraphComponent,
-    RadarChartComponent
+    RadarChartComponent,
+    AaSequencePanelComponent,DrugPanelComponent,GeneRifPanelComponent,TinxPlotPanelComponent
   ]
 })
 export class PharosMainRoutingModule { }

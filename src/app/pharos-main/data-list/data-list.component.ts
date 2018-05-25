@@ -81,7 +81,8 @@ export class DataListComponent implements OnInit, OnDestroy {
                     this.responseParserService.paginationData$
                       .pipe(takeUntil(this.ngUnsubscribe))
                       .subscribe(response => {
-                        //   this.dynamicComponent.instance.total = response['total'] ? response['total'] : this.results.get(dataType).length;
+                        //   this.dynamicComponent.instance.total = response['total'] ? response['total'] :
+                        // this.results.get(dataType).length;
                       });
                     if (dynamicComponent.instance.sortChange) {
                       dynamicComponent.instance.sortChange.subscribe((event) => {
@@ -155,7 +156,6 @@ export class DataListComponent implements OnInit, OnDestroy {
   }
 
   paginationChanges(event: any) {
-    console.log('page changes');
     navigationExtras.queryParams = {top: event.pageSize, skip: event.pageIndex * event.pageSize};
     this._navigate(navigationExtras);
   }

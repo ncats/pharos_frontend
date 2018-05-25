@@ -38,6 +38,10 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   qualifier: string;
 
   /**
+   * type of edge - controls arrow direction
+   */
+  edgeType: string;
+  /**
    * create new link
    * @param source
    * @param target

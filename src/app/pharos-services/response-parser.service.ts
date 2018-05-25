@@ -1,4 +1,4 @@
-import {Inject, Injectable} from '@angular/core';
+import {Inject, Injectable, OnDestroy} from '@angular/core';
 import {Subject, BehaviorSubject} from 'rxjs';
 import {PageData} from '../models/page-data';
 import {PharosApiService} from './pharos-api.service';
@@ -9,7 +9,7 @@ import {takeUntil} from 'rxjs/internal/operators';
  * reads the api data stream and broadcasts the data to the required subscribers
  */
 @Injectable()
-export class ResponseParserService {
+export class ResponseParserService implements OnDestroy {
   /**
    * RxJs subject for faet data
    * @type {Subject<Facet[]>}

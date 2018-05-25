@@ -73,7 +73,7 @@ const pharosMainRoutes: Routes = [
     RouterModule
   ],
   providers: [
-    WebSocketService,
+  /*  WebSocketService,
     DataConnectionService,
     D3Service,
     NodeService,
@@ -83,19 +83,19 @@ const pharosMainRoutes: Routes = [
     NodeMenuControllerService,
     LoadingService,
     SettingsService,
-    NodeExpandService,
+    NodeExpandService,*/
     // topics
   //  { provide: TOPIC_TABLE_COMPONENT, useValue: TopicTableComponent },
   //  { provide: TOPIC_DETAILS_COMPONENT, useValue: TopicDetailsComponent },
   ],
   entryComponents: [
-    TopicTableComponent,
+    /*TopicTableComponent,
     TopicDetailsComponent,
     TopicHeaderComponent,
-    GraphComponent
+    GraphComponent*/
   ],
   declarations: [
-    TopicTableComponent,
+/*    TopicTableComponent,
     TopicDetailsComponent,
     TopicHeaderComponent,
     NodeVisualComponent,
@@ -107,7 +107,7 @@ const pharosMainRoutes: Routes = [
     ClickableNodeDirective,
     ClickableLinkDirective,
     NodeMenuComponent,
-    GraphComponent
+    GraphComponent*/
 
   ]
 })
