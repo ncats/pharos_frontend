@@ -5,6 +5,7 @@ import {Value} from '../../../../../models/value';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {RadarChartComponent} from '../../../../../tools/radar-chart/radar-chart.component';
 import {MatDialog} from '@angular/material';
+import {PharosPoint} from "../../../../visualizations/line-chart/line-chart.component";
 
 
 @Component({
@@ -53,12 +54,29 @@ ngOnInit() {
 
 
 getTimeline(field: string): any {
-  return this.timelines.filter(tl => tl.name === field);
+  const data: PharosPoint[] = [];
+    const tl = this.timelines.filter(tl => tl.name === field);
+    if(tl.length > 0) {
+      tl[0].events.forEach(point => {
+        if (point.properties) {
+          const val = point.properties.filter(prop => prop.label === 'Score');
+          if (val.length > 0) {
+            const pt: PharosPoint = {key: point.start, value: val[0].numval};
+            data.push(pt);
+          } else {
+            const pt: PharosPoint = {key: point.start, value: point.end};
+            data.push(pt);
+          }
+        }
+      });
+      return data;
+    }
 }
 
 fetchTimelineData(): void {
   this.data.timelines.forEach(timeline => {
-    if (timeline.href) {
+    console.log(timeline);
+    if (timeline.href && !this.timelines) {
       this._http.get<any>(timeline.href).subscribe(res => {
         this.timelines.push(res);
         this.timelines = this.timelines.filter((tl, index, arr) =>

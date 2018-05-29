@@ -7,8 +7,8 @@ import {CustomContentDirective} from '../../../tools/custom-content.directive';
 import {BehaviorSubject} from 'rxjs/index';
 
 export interface PharosPoint {
-  name: string;
-  label: string;
+  name?: string;
+  label?: string;
   key: number;
   value: number;
 }
@@ -53,6 +53,7 @@ export class LineChartComponent  implements OnInit {
   ngOnInit() {
     this.drawGraph();
     this._data.subscribe(x => {
+      console.log(this.data);
       if (this.data) {
         this.data.forEach(graph => {
           if (graph && !this.line) {
@@ -139,11 +140,11 @@ export class LineChartComponent  implements OnInit {
   updateGraph(): void {
 
     const x = d3.scalePoint()
-      .domain(this.groupCounts.map(d => +d.key))
+      .domain(this.data.map(d => +d.key))
       .rangeRound([0, this.width]);
 
-    const y = d3.scaleLinear()
-      .domain(d3.extent(this.groupCounts, (d) => d.value))
+    const y = d3.scaleLog()
+      .domain(d3.extent(this.data, (d) => d.value))
       .rangeRound([this.height, 0]);
 
     const line = d3.line()
@@ -163,7 +164,7 @@ export class LineChartComponent  implements OnInit {
       .call(d3.axisLeft(y));
 
     this.svg.select('.linePointHolder').selectAll('.linePoints')
-      .data(this.groupCounts)
+      .data(this.data)
       .enter()
       .append('circle')
       .attr('class', 'linePoints')
@@ -175,7 +176,7 @@ export class LineChartComponent  implements OnInit {
       .style('pointer-events', 'all');
 
     this.svg.select('.linePointHolder').selectAll('.invisibleCircle')
-      .data(this.groupCounts)
+      .data(this.data)
       .enter()
       .append('circle')
       .attr('class', 'invisibleCircle')
@@ -204,7 +205,7 @@ export class LineChartComponent  implements OnInit {
       });
 if(this.line) {
   this.svg.select('.timeline')   // change the line
-    .datum(this.groupCounts)
+    .datum(this.data)
     .attr('stroke-linejoin', 'round')
     .attr('stroke-linecap', 'round')
     .attr('stroke', '#23364e')
