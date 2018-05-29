@@ -15,6 +15,9 @@
       <pharos-generic-table [data]= tableArr [fieldsConfig] = getTableData(sources[0])></pharos-generic-table>
     </ng-template>
     <div *ngIf="data.tinx">
+      <br>
+      <br>
+      <mat-card-title ><span class="mat-title">Tinx</span></mat-card-title>
       <pharos-line-chart [data]="tinx" [line]="false"></pharos-line-chart>
     </div>
   </mat-card-content>

@@ -1,11 +1,13 @@
 :host {
-  flex: 1 1 100%;
-  max-width: 100%;
+  flex: 1 1 calc(100% - 20px);
+  max-width: calc(100% - 20px);
   margin-top: 5.5vh;
   margin-left: 20px;
 }
 
 .flex30 {
-  flex: 1 1 100%;
-  max-width: 100%;
+  flex: 1 1 calc(100% - 20px);
+  max-width: calc(100% - 20px);
 }
+
+

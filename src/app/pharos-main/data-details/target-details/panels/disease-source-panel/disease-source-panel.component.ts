@@ -46,7 +46,6 @@ const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
   ]
 );
 
-// todo: convert to use dynamic component
 @Component({
   selector: 'pharos-disease-source',
   templateUrl: './disease-source-panel.component.html',
@@ -69,7 +68,6 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
   }
 
   ngOnInit() {
-    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -118,7 +116,6 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
 
     if(this.data.tinx){
       this.tinx = [];
-      console.log(this);
        this.data.tinx.importances.map(point => {
         let p: PharosPoint = {
           label: point.doid,

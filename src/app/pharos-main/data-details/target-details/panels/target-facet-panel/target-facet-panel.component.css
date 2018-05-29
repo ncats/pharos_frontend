@@ -1,13 +1,29 @@
 :host {
-  flex: 1 1 100%;
-  max-width: 100%;
+  flex: 1 1 calc(100% - 40px);
+  max-width: calc(100% - 40px);
+  margin-left: 20px;
 }
 
 .flex30 {
-  flex: 1 1 100%;
-  max-width: 100%;
+  flex: 1 1 calc(100% - 20px);
+  max-width: calc(100% - 20px);
 }
+
+/*
 
 .link-list{
   height: 100%;
+}
+*/
+
+
+#facets-grid {
+  display: grid;
+  grid-auto-rows: max-content;
+  grid-template-columns: repeat(auto-fill, minmax(20%, 1fr));
+  grid-gap: 1em;
+}
+
+#facets-grid > div {
+  margin-bottom: 4em;
 }

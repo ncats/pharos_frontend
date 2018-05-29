@@ -1,4 +1,3 @@
-<div>
 <mat-card class="flex30">
   <mat-card-header>
     <mat-card-title ><span class="mat-title">Expression Data</span></mat-card-title>
@@ -8,7 +7,11 @@
       <div fxFlex = "30">
       <mat-tab-group [dynamicHeight]="true">
         <mat-tab label = "Specificity">
-            <pharos-radar-chart [data] = radarData [shape]="true" [size] = "'medium-shape'"></pharos-radar-chart>
+          <div fxLayout="row" fxLayoutAlign="start stretch">
+            <div fxFlex="95">
+              <pharos-radar-chart [data] = radarData [shape]="true" [size] = "'medium-shape'"></pharos-radar-chart>
+          </div>
+          </div>
         </mat-tab>
         <mat-tab label = "Differential">
               <pharos-disease-source *ngIf=diseaseSources [data]= diseaseSources></pharos-disease-source>
@@ -18,7 +21,7 @@
       <div fxFlex="70">
           <mat-tab-group (selectedTabChange)="changeHarminogramTabData($event)" [dynamicHeight]="true">
             <mat-tab *ngFor="let source of sources" label = "{{source.label}} ({{getSourceCount(source.label)}})"  >
-                <div class = "row" fxLayout.xs="column" fxLayoutAlign="start">
+                <div class = "row" fxLayout.xs="column" fxLayoutAlign="start stretch">
                   <div fxFlex="50">
                 <img class = "hg" src ={{imgUrl}}>
                   </div>
@@ -32,5 +35,4 @@
     </div>
   </mat-card-content>
 </mat-card>
-</div>
 

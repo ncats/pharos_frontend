@@ -1,14 +1,14 @@
 <div fxFlexFill>
 <mat-card class ="flex30 full-height" *ngIf = data>
   <mat-card-content>
-    <div fxLayout="row" class =" tkrow" fxLayoutAlign="start stretch">
-      <div fxFlex="50">
+    <div fxLayout="row" fxLayout.md="column" class =" tkrow" fxLayoutAlign="start stretch">
+      <div fxFlex="50" class = "full-height">
         <span class="mat-title">Target Summary</span>
         <br>
         <br>
     <ng-container *ngIf="data.synonyms?.length > 0">
     <mat-card-subtitle>Accession</mat-card-subtitle>
-      <ul class = "inline-list">
+      <ul class = "inline-list wrap">
       <li *ngFor=" let term of data.synonyms">
     <pharos-term-display [term]= term [showLabel]="false"></pharos-term-display><br>
     </li>
@@ -17,7 +17,7 @@
     <ng-container *ngIf="data.symbol?.length > 0">
       <br>
       <mat-card-subtitle>Symbol</mat-card-subtitle>
-      <ul class = "inline-list">
+      <ul class = "inline-list wrap">
     <li *ngFor=" let term of data.symbol">
     <pharos-term-display [term] = term [showLabel]="false"></pharos-term-display>
     </li>
@@ -26,7 +26,7 @@
     <ng-container *ngIf="data.gene?.length > 0">
       <br>
       <mat-card-subtitle>NCBI Gene</mat-card-subtitle>
-      <ul class = "inline-list">
+      <ul class = "inline-list wrap">
     <li *ngFor=" let term of data.gene">
       <pharos-term-display [term]= term  [showLabel]="false"></pharos-term-display>
     </li>
@@ -35,12 +35,12 @@
     <ng-container *ngIf="data.pubmed?.length > 0">
       <br>
       <mat-card-subtitle>NCBI Gene PubMed Count</mat-card-subtitle>
-    <ul class ="inline-list">
+    <ul class ="inline-list wrap">
       <li *ngFor=" let term of data.pubmed">{{term.intval}}</li>
     </ul>
     </ng-container>
       </div>
-      <div fxFlex="50" *ngIf="data.knowledge">
+      <div fxFlex="50" class = "kchart full-height" *ngIf="data.knowledge">
       <span class="mat-title">Knowledge Summary</span>
       <br>
       <br>
@@ -49,15 +49,19 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="start stretch">
       <div fxFlex="95">
-    <div *ngIf="data?.timelines?.length > 0">
-      <span class="mat-title">PubMed Score</span>
+        <div *ngIf="getTimeline('PubMed Score')?.length >0">
+      <span class="mat-title">PubMed Score  {{target.jensenScore.toFixed(2)}}</span>
       <pharos-line-chart [data]="getTimeline('PubMed Score')"></pharos-line-chart>
     <br>
-      <span class="mat-title">PubTator Score</span>
+      <div *ngIf="getTimeline('PubTator')?.length >0">
+      <span class="mat-title">PubTator Score  {{raisePubtator()}}</span>
       <pharos-line-chart [data]="getTimeline('PubTator')"></pharos-line-chart>
+      </div>
 <br>
+      <div *ngIf="getTimeline('Patent')?.length >0">
       <span class="mat-title">Patents</span>
-      <pharos-line-chart [data]="getTimeline('Patent Count')"></pharos-line-chart>
+      <pharos-line-chart [data]="getTimeline('Patent')"></pharos-line-chart>
+      </div>
     </div>
       </div>
     </div>

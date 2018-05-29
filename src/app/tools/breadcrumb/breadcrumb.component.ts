@@ -6,7 +6,6 @@ import {Target} from "../../models/target";
 
 /**
  * Component to track the hierarchy of a target
- * todo: this needs to be reconfigured, as it should be using the panther protein class for targets
  */
 @Component({
   selector: 'pharos-breadcrumb',

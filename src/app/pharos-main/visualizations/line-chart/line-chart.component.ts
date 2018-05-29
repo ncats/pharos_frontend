@@ -13,7 +13,7 @@ export interface PharosPoint {
   value: number;
 }
 
-
+// todo: https://bl.ocks.org/lorenzopub/6a56e17551d59278631dffd7f65a0cda
 
 @Component({
   selector: 'pharos-line-chart',
@@ -23,7 +23,6 @@ export interface PharosPoint {
 })
 export class LineChartComponent  implements OnInit {
   @ViewChild('lineChartTarget') chartContainer: ElementRef;
- // @ViewChild(CustomContentDirective) chartContainer: CustomContentDirective;
 
   private _data: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
@@ -36,8 +35,6 @@ export class LineChartComponent  implements OnInit {
   @Input() line = true;
 
   private margin: any = {top: 20, bottom: 20, left: 20, right: 20};
-  globalCounts: any[] = [];
-  groupCounts: any[] = [];
   height: number;
   width: number;
   svg: any;
@@ -53,14 +50,8 @@ export class LineChartComponent  implements OnInit {
   ngOnInit() {
     this.drawGraph();
     this._data.subscribe(x => {
-      console.log(this.data);
       if (this.data) {
-        this.data.forEach(graph => {
-          if (graph && !this.line) {
-          //  this.mapData();
             this.updateGraph();
-          }
-        });
       }
     });
   }
@@ -76,6 +67,7 @@ export class LineChartComponent  implements OnInit {
     const element = this.chartContainer.nativeElement;
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
+    console.log(this)
     this.svg = d3.select(element).append('svg')
       .attr('width', '100%')
       .attr('height', '100%')
@@ -115,35 +107,13 @@ export class LineChartComponent  implements OnInit {
 
   }
 
-  mapData() {
-    this.globalCounts = [];
-    this.groupCounts = [];
-    if (this.data.length > 0) {
-      this.data[0].events.forEach(event => {
-        const val = event.properties.filter(prop => prop.label === 'Score');
-        if (val.length > 0) {
-          this.globalCounts.push(val[0].numval);
-          this.groupCounts.push({key: event.start, value: val[0].numval});
-        } else {
-          this.globalCounts.push(event.end);
-          this.groupCounts.push({key: event.start, value: event.end});
-        }
-      });
-      if (this.groupCounts.length === 1) {
-        this.groupCounts.push({key: this.groupCounts[0].key + 1, value: 0});
-        this.groupCounts.push({key: this.groupCounts[0].key - 1, value: 0});
-      }
-      this.groupCounts.sort((a, b) => a.key - b.key);
-    }
-  }
-
   updateGraph(): void {
 
     const x = d3.scalePoint()
       .domain(this.data.map(d => +d.key))
       .rangeRound([0, this.width]);
 
-    const y = d3.scaleLog()
+    const y = d3.scaleLinear()
       .domain(d3.extent(this.data, (d) => d.value))
       .rangeRound([this.height, 0]);
 

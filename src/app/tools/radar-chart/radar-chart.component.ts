@@ -64,17 +64,15 @@ export class RadarChartComponent implements OnInit {
   private _chartOptions: ChartOptions;
   private svg: any;
   private tooltip: any;
+  private width: number;
+  private height: number;
+  private margin: any = {top: 20, bottom: 20, left: 20, right: 20};
+
 
   constructor(
     private radarDataService: RadarService,
     @Optional() @Inject(MAT_DIALOG_DATA) public modalData: any
   ) { }
-
-/*  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.drawChart();
-    this.updateChart();
-  }*/
 
   ngOnInit() {
 
@@ -82,9 +80,6 @@ export class RadarChartComponent implements OnInit {
     if (this.modalData) {
       Object.keys(this.modalData).forEach(key => this[key] = this.modalData[key]);
     }
-
-    this.drawChart();
-
 
     if (!this.data) {
        // data passed in by id (target list)
@@ -95,7 +90,9 @@ export class RadarChartComponent implements OnInit {
    this.data.forEach(graph => this.radarDataService.setData(graph.className, graph));
  }
 
- // data set by component, also handles setting by modal opening and data retrieved by id
+    this.drawChart();
+
+    // data set by component, also handles setting by modal opening and data retrieved by id
  this._data.subscribe(x => {
    if (this.data) {
      this.data.forEach(graph => {
@@ -155,19 +152,21 @@ shapeToPoints(total: number, scale: any): any[] {
 drawChart(): void {
     this.getOptions();
  //////////// Create the container SVG and g /////////////
- const element = d3.select(this.chartContainer.nativeElement);
-
+  const element = this.chartContainer.nativeElement;
+ console.log(element);
+  this.width = this._chartOptions.w - this._chartOptions.margin.left - this._chartOptions.margin.right;
+  this.height = this._chartOptions.h - this._chartOptions.margin.top - this._chartOptions.margin.bottom;
  // Remove whatever chart with the same id/class was present before
  this.svg = {};
  // Initiate the radar chart SVG
- this.svg = element.append('svg')
-   .attr('width',  this._chartOptions.w + this._chartOptions.margin.left + this._chartOptions.margin.right)
-   .attr('height', this._chartOptions.h + this._chartOptions.margin.top + this._chartOptions.margin.bottom)
+  console.log(this);
+ this.svg = d3.select(element).append('svg')
+   .attr('width', '100%')
+   .attr('height', '100%')
    .attr('class', 'radar')
    .append('g')
    .attr('transform', 'translate(' + (this._chartOptions.w / 2 + this._chartOptions.margin.left) + ','
-     + (this._chartOptions.h / 2 + this._chartOptions.margin.top) + ')');
- // background shapes
+     + (this._chartOptions.h / 2 + this._chartOptions.margin.top) + ')'); // background shapes
  this.svg.append('g').attr('class', 'levelWrapper').attr('transform', 'rotate(30)');
  this.svg.append('g').attr('class', 'axisLabel');
  this.svg.append('g').attr('class', 'axisWrapper');
@@ -230,7 +229,7 @@ updateChart(): void {
  const maxValue: number = this.getMaxValue() ;
  const allAxis = this.data[0].axes.map((i, j) => i.axis),	// Names of each axis
    total = allAxis.length,					// The number of different axes
-   radius = Math.min(this._chartOptions.w / 2, this._chartOptions.h / 2), 	// Radius of the outermost circle
+   radius = Math.min(this.width/2, this.height/2), 	// Radius of the outermost circle
    format = d3.format(this._chartOptions.format),			 	// Formatting
    angleSlice = Math.PI * 2 / total;		// The width in radians of each "slice"
 

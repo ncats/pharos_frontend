@@ -1,10 +1,16 @@
 @import '../../../ncats-theme';
 
+
+.radar-chart {
+  margin: 0 auto;
+  height: 30vh;
+}
+
 .radar-tooltip {
   position: absolute;
   text-align: center;
   padding: 2px;
-  font: 12px sans-serif;
+  font: 14px sans-serif;
   background: white;
   border: 1px solid black;
   border-radius: 8px;
