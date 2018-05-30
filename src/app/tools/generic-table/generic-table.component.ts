@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {TableData} from '../../models/table-data';
+import {BehaviorSubject} from "rxjs/index";
 
 /**
  * Generic table Component that iterates over a list of {@link TableData} options to display fields
@@ -15,8 +16,32 @@ import {TableData} from '../../models/table-data';
   styleUrls: ['./generic-table.component.css']
 })
 export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
-  /** Data passed in from another component. Displayed fields come from the fieldsConfig object*/
-  @Input() data: any[];
+
+  /**
+   * initialize a private variable _data, it's a BehaviorSubject
+   * @type {BehaviorSubject<any>}
+   * @private
+   */
+  protected _data = new BehaviorSubject<any>(null);
+
+  /**
+   * pushes changed data to {BehaviorSubject}
+   * @param value
+   */
+  @Input()
+  set data(value: any) {
+    console.log(value);
+    this._data.next(value);
+  }
+
+  /**
+   * returns value of {BehaviorSubject}
+   * @returns {any}
+   */
+  get data(): any {
+    return this._data.getValue();
+  }
+
   /**Array of {@link TableData} object that containg configuration options for each field */
   @Input() fieldsConfig: TableData[];
   /** boolean to toggle completion of page loading
@@ -47,7 +72,12 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
    */
   ngOnInit() {
     this.fetchTableFields();
-    this.dataSource.data = this.data;
+    this._data.subscribe(x=> {
+      console.log(this);
+      if(this.data && this.data.length > 0) {
+        this.dataSource.data = this.data;
+      }
+    })
   }
 
   /**
@@ -68,8 +98,10 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
    * @param {SimpleChanges} change
    */
   ngOnChanges(change: SimpleChanges) {
+    console.log(change);
     if (!change.firstChange) {
-      this.dataSource.data = this.data;
+      console.log(this.data);
+      this.dataSource.data = change.data.currentValue;
     }
   }
 

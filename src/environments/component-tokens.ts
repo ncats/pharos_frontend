@@ -51,6 +51,10 @@ export class TOKENS {
    */
   public static ORTHOLOG_PANEL = new InjectionToken<string>('OrthologPanelComponent');
   /**
+   * injection token to link to gene rif data
+   */
+  public static GENE_RIF_PANEL = new InjectionToken<string>('GeneRifComponent');
+  /**
    * injection token to link to the other facets for a specific target
    */
   public static TARGET_FACET_PANEL = new InjectionToken<string>('TargetFacetPanelComponent');

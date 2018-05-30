@@ -67,7 +67,6 @@ export class LineChartComponent  implements OnInit {
     const element = this.chartContainer.nativeElement;
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
-    console.log(this)
     this.svg = d3.select(element).append('svg')
       .attr('width', '100%')
       .attr('height', '100%')
@@ -161,7 +160,13 @@ export class LineChartComponent  implements OnInit {
           .transition()
           .duration(200)
           .style('opacity', .9);
-        this.tooltip.html('<span>' + d.key + ': <br>' + d.value + '</span>' )
+        let span: string = "";
+        if(d.label){
+          span = '<span>' + d.label + ': <br>' + d.name + '</span>'
+        } else {
+         span = '<span>' + d.key + ': <br>' + d.value + '</span>'
+        }
+        this.tooltip.html(span)
           .style('left', d3.event.pageX + 'px')
           .style('top', d3.event.pageY + 'px')
           .style('width', 100);

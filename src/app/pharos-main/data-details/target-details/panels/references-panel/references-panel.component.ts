@@ -23,19 +23,6 @@ export class ReferencesPanelComponent extends DynamicPanelComponent implements O
   /**Sort object from Angular Material */
   @ViewChild(MatSort) sort: MatSort;
 
-/*  private paginator: MatPaginator;
-  private sort: MatSort;
-
-  @ViewChild(MatSort) set matSort(ms: MatSort) {
-    this.sort = ms;
-    this.setDataSourceAttributes();
-  }
-
-  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
-    this.paginator = mp;
-    this.setDataSourceAttributes();
-  }*/
-
   width: number;
 
   constructor() {

@@ -62,7 +62,6 @@ import {BreadcrumbComponent} from '../tools/breadcrumb/breadcrumb.component';
 import {AaSequencePanelComponent} from "./data-details/target-details/panels/aa-sequence-panel/aa-sequence-panel.component";
 import {DrugPanelComponent} from "./data-details/target-details/panels/drug-panel/drug-panel.component";
 import {GeneRifPanelComponent} from "./data-details/target-details/panels/gene-rif-panel/gene-rif-panel.component";
-import {TinxPlotPanelComponent} from "./data-details/target-details/panels/tinx-plot-panel/tinx-plot-panel.component";
 
 const pharosMainRoutes: Routes = [
   {
@@ -119,6 +118,7 @@ const pharosMainRoutes: Routes = [
     {provide: TOKENS.EXPRESSION_PANEL, useValue: ExpressionPanelComponent },
     {provide: TOKENS.ORTHOLOG_PANEL, useValue: OrthologPanelComponent },
     {provide: TOKENS.TARGET_FACET_PANEL, useValue: TargetFacetPanelComponent },
+    {provide: TOKENS.GENE_RIF_PANEL, useValue: GeneRifPanelComponent },
     // diseases
     {provide: TOKENS.DISEASE_TABLE_COMPONENT, useValue: DiseaseTableComponent },
     {provide: TOKENS.DISEASE_DETAILS_COMPONENT, useValue: DiseaseDetailsComponent },
@@ -141,7 +141,8 @@ const pharosMainRoutes: Routes = [
     TopicDetailsComponent,
     TopicHeaderComponent,
     GraphComponent,
-    RadarChartComponent
+    RadarChartComponent,
+    GeneRifPanelComponent
   ],
   declarations: [
     TargetTableComponent,
@@ -171,7 +172,7 @@ const pharosMainRoutes: Routes = [
     NodeMenuComponent,
     GraphComponent,
     RadarChartComponent,
-    AaSequencePanelComponent,DrugPanelComponent,GeneRifPanelComponent,TinxPlotPanelComponent
+    AaSequencePanelComponent,DrugPanelComponent,GeneRifPanelComponent
   ]
 })
 export class PharosMainRoutingModule { }

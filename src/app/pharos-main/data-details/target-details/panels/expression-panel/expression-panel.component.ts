@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {Term} from '../../../../../models/term';
 import {MatTabChangeEvent} from '@angular/material';
@@ -7,10 +7,12 @@ import {Property} from '../../../../../models/property';
 import {BehaviorSubject} from 'rxjs/index';
 import {EnvironmentVariablesService} from '../../../../../pharos-services/environment-variables.service';
 
+// todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 @Component({
   selector: 'pharos-expression-panel',
   templateUrl: './expression-panel.component.html',
-  styleUrls: ['./expression-panel.component.css']
+  styleUrls: ['./expression-panel.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ExpressionPanelComponent extends DynamicPanelComponent implements OnInit {
   _URL: string;

@@ -5,10 +5,10 @@
   <mat-card-content>
     <div class = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
       <div fxFlex = "30">
-      <mat-tab-group [dynamicHeight]="true">
-        <mat-tab label = "Specificity">
+      <mat-tab-group>
+        <mat-tab label = "Specificity" class="full-height">
           <div fxLayout="row" fxLayoutAlign="start stretch">
-            <div fxFlex="95">
+            <div fxFlex="95" class="radarchart">
               <pharos-radar-chart [data] = radarData [shape]="true" [size] = "'medium-shape'"></pharos-radar-chart>
           </div>
           </div>
@@ -23,7 +23,7 @@
             <mat-tab *ngFor="let source of sources" label = "{{source.label}} ({{getSourceCount(source.label)}})"  >
                 <div class = "row" fxLayout.xs="column" fxLayoutAlign="start stretch">
                   <div fxFlex="50">
-                <img class = "hg" src ={{imgUrl}}>
+                <img class = "hg" src = {{imgUrl}}>
                   </div>
                   <div fxFlex="50">
                     <pharos-link-list [list]= hgData [label]=source.label></pharos-link-list>

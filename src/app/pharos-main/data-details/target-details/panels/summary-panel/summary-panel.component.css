@@ -23,6 +23,6 @@
 }
 
 .kchart {
-  height: 25vh;
-  width: 25vw;
+  margin: 0 auto;
+  height: 30vh;
 }
