@@ -23,6 +23,7 @@ import {NcatsHeaderComponent} from '../tools/ncats-header/ncats-header.component
 import {NcatsFooterComponent} from '../tools/ncats-footer/ncats-footer.component';
 import {PharosTabsComponent} from '../tools/pharos-tabs/pharos-tabs.component';
 import {RadarChartComponent} from '../tools/radar-chart/radar-chart.component';
+import {BarChartComponent} from "../tools/visualizations/bar-chart/bar-chart.component";
 
 @NgModule({
   imports: [
@@ -46,6 +47,7 @@ import {RadarChartComponent} from '../tools/radar-chart/radar-chart.component';
     GenericTableComponent,
     TermDisplayComponent,
     LineChartComponent,
+    BarChartComponent,
     LinkListComponent,
     ToiCardComponent,
     PharosTabsComponent
@@ -70,6 +72,7 @@ import {RadarChartComponent} from '../tools/radar-chart/radar-chart.component';
     GenericTableComponent,
     TermDisplayComponent,
     LineChartComponent,
+    BarChartComponent,
     LinkListComponent,
     ToiCardComponent,
     PharosTabsComponent

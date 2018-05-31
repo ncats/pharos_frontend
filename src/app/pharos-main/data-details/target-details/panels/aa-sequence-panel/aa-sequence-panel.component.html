@@ -1,4 +1,24 @@
-<p>
-  aa-sequence-panel works!
-</p>
-http://localhost:9000/idg/api/v1/targets/88/properties(label=UniProt%20Sequence)
+<mat-card class="flex30">
+  <mat-card-header>
+    <mat-card-title ><span class="mat-title">AA Sequence</span></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <div fxFlex="95">
+        <pharos-bar-chart [data]="residueCounts"></pharos-bar-chart>
+      </div>
+    </div>
+    <div class = "well">
+    <div fxLayout="row" *ngFor = " let chunk of sequence" fxLayout="start stretch">
+      <div fxFlex="45">
+        {{chunk.chunk}}
+      </div>
+      <div fxFlex="5">
+        {{chunk.residues}}
+      </div>
+    </div>
+      //
+    </div>
+  </mat-card-content>
+</mat-card>
+<br>

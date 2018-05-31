@@ -113,7 +113,15 @@ export class EnvironmentVariablesService {
     return this._environment.homunculusUrl.replace('_id_', id);
   }
 
-
+  /**
+   * returns the url for the structure image
+   * the component finishes the url with the uuid and '.svg':
+   * _HOST +'struc',
+   * @return {string}
+   */
+  getStructureImageUrl(): string {
+    return this._environment.structureImageUrl;
+  }
 
   /**
    * Checks to see if a path returns a defined array of components

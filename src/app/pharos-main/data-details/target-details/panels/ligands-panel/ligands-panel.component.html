@@ -1,0 +1,18 @@
+<mat-card class="flex30">
+  <mat-card-header>
+    <mat-card-title ><span class="mat-title">Ligands ({{data.ligands?.length}})</span></mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+<div fxLayout="row wrap" fxLayoutAlign="start center">
+  <div fxFlex="20" *ngFor="let ligand of ligandsArr">
+    <img [src] = ligand.imageUrl alt = "image for {{ligand.name}}">
+    <br>
+    <br>
+    {{ligand.name}}
+    <br>
+    {{ligand.activityType}} {{ligand.activity}}
+  </div>
+</div>
+  </mat-card-content>
+</mat-card>
+<br>

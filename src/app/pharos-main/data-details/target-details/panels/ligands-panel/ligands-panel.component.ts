@@ -1,0 +1,69 @@
+import { Component, OnInit } from '@angular/core';
+import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
+import {EnvironmentVariablesService} from "../../../../../pharos-services/environment-variables.service";
+import {Property} from "../../../../../models/property";
+import {HttpClient} from "@angular/common/http";
+
+@Component({
+  selector: 'pharos-ligands-panel',
+  templateUrl: './ligands-panel.component.html',
+  styleUrls: ['./ligands-panel.component.css']
+})
+export class LigandsPanelComponent extends DynamicPanelComponent implements OnInit {
+
+  ligandsMap: Map<string, any> = new Map<string, any>();
+
+  ligandsArr: any[] = [];
+  private _STRUCTUREURLBASE: string;
+  constructor(
+    private environmentVariablesService: EnvironmentVariablesService,
+    private _http: HttpClient) {
+    super();
+  }
+
+  ngOnInit() {
+    console.log(this);
+    this._STRUCTUREURLBASE = this.environmentVariablesService.getStructureImageUrl();
+    this._data.subscribe(d => {
+      if (this.data.ligands) {
+        console.log(d);
+        this.setterFunction();
+      }
+    });
+  }
+
+  setterFunction(): void {
+  //  this.ligandsArr = [];
+      this.data.ligands.forEach(ligand => {
+        const activity = this._getActivity(ligand);
+        if (ligand.href && !this.ligandsMap.get(ligand.id)) {
+          // placeholder to block repetitive calls
+          this.ligandsMap.set(ligand.id, {});
+          this._http.get<any>(ligand.href+ '?view=full').subscribe(res => {
+            this.ligandsMap.set(ligand.id, res);
+            const refid: string = res.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;
+              this.ligandsArr.push(
+             {
+               name: res.name,
+               refid: refid,
+               activityType: activity.label === 'Potency' ? activity.label : 'p'+ activity.label,
+               activity: activity.numval,
+               imageUrl: this._STRUCTUREURLBASE + refid +'.svg'
+             }
+           )
+          });
+        }
+      });
+
+    }
+
+    private _getActivity(ligand: any): string {
+    let ret: any = {};
+    ligand.properties.map(prop => {
+      if (prop.label === 'Ligand Activity') {
+        ret = ligand.properties.filter(p => p.label === prop.term)[0];
+      }
+    })
+    return ret;
+    }
+}

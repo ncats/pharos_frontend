@@ -1,6 +1,7 @@
 import {InjectionToken} from '@angular/core';
 import {BreadcrumbComponent} from '../app/tools/breadcrumb/breadcrumb.component';
 import {TargetHeaderComponent} from '../app/pharos-main/data-details/target-details/target-header/target-header.component';
+import {DrugPanelComponent} from "../app/pharos-main/data-details/target-details/panels/drug-panel/drug-panel.component";
 
 export class TOKENS {
   /**
@@ -54,6 +55,17 @@ export class TOKENS {
    * injection token to link to gene rif data
    */
   public static GENE_RIF_PANEL = new InjectionToken<string>('GeneRifComponent');
+  /**
+   * injection token to link to gene rif data
+   */
+  public static ASSAY_PANEL = new InjectionToken<string>('AssayComponent');
+  /**
+   * injection token to link to amino acid sequence data
+   */
+  public static AA_SEQUENCE_PANEL = new InjectionToken<string>('AASequenceComponent');  /**
+   * injection token to link to amino acid sequence data
+   */
+  public static LIGANDS_PANEL = new InjectionToken<string>('LigandPanelComponent');
   /**
    * injection token to link to the other facets for a specific target
    */

@@ -1,0 +1,21 @@
+:host {
+  flex: 1 1 calc(100% - 20px);
+  max-width: calc(100% - 20px);
+  margin-top: 5.5vh;
+  margin-left: 20px;
+}
+
+.flex30 {
+  flex: 1 1 calc(100% - 20px);
+  max-width: calc(100% - 20px);
+}
+
+.well {
+  margin: 0 auto;
+  padding: 1vh;
+  width: 95%;
+  border: 1px solid;
+  background-color: #f6f6f6;
+  font-family: monospace;
+
+}

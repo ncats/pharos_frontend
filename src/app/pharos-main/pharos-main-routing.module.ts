@@ -62,6 +62,8 @@ import {BreadcrumbComponent} from '../tools/breadcrumb/breadcrumb.component';
 import {AaSequencePanelComponent} from "./data-details/target-details/panels/aa-sequence-panel/aa-sequence-panel.component";
 import {DrugPanelComponent} from "./data-details/target-details/panels/drug-panel/drug-panel.component";
 import {GeneRifPanelComponent} from "./data-details/target-details/panels/gene-rif-panel/gene-rif-panel.component";
+import {AssayPanelComponent} from "./data-details/target-details/panels/assay-panel/assay-panel.component";
+import {LigandsPanelComponent} from "./data-details/target-details/panels/ligands-panel/ligands-panel.component";
 
 const pharosMainRoutes: Routes = [
   {
@@ -119,6 +121,9 @@ const pharosMainRoutes: Routes = [
     {provide: TOKENS.ORTHOLOG_PANEL, useValue: OrthologPanelComponent },
     {provide: TOKENS.TARGET_FACET_PANEL, useValue: TargetFacetPanelComponent },
     {provide: TOKENS.GENE_RIF_PANEL, useValue: GeneRifPanelComponent },
+    {provide: TOKENS.ASSAY_PANEL, useValue: AssayPanelComponent },
+    {provide: TOKENS.AA_SEQUENCE_PANEL, useValue: AaSequencePanelComponent },
+    {provide: TOKENS.LIGANDS_PANEL, useValue: LigandsPanelComponent },
     // diseases
     {provide: TOKENS.DISEASE_TABLE_COMPONENT, useValue: DiseaseTableComponent },
     {provide: TOKENS.DISEASE_DETAILS_COMPONENT, useValue: DiseaseDetailsComponent },
@@ -142,7 +147,10 @@ const pharosMainRoutes: Routes = [
     TopicHeaderComponent,
     GraphComponent,
     RadarChartComponent,
-    GeneRifPanelComponent
+    GeneRifPanelComponent,
+    AssayPanelComponent,
+    AaSequencePanelComponent,
+    LigandsPanelComponent
   ],
   declarations: [
     TargetTableComponent,
@@ -172,7 +180,10 @@ const pharosMainRoutes: Routes = [
     NodeMenuComponent,
     GraphComponent,
     RadarChartComponent,
-    AaSequencePanelComponent,DrugPanelComponent,GeneRifPanelComponent
+    GeneRifPanelComponent,
+    AssayPanelComponent,
+    AaSequencePanelComponent,
+    LigandsPanelComponent
   ]
 })
 export class PharosMainRoutingModule { }
