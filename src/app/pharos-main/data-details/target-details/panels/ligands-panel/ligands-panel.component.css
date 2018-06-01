@@ -10,4 +10,20 @@
   max-width: calc(100% - 40px);
 }
 
+.spaced {
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  position: relative;
+}
 
+.structure-grid {
+  display: grid;
+  grid-auto-rows: max-content;
+  grid-template-columns: repeat(auto-fit, minmax(19%, 1fr));
+  grid-gap: 1em;
+  justify-items: center;
+}
+
+.structure-grid > div {
+  margin-bottom: 2em;
+}

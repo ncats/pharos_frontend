@@ -15,7 +15,6 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
   }
 
   ngOnInit() {
-    console.log(this);
     this._data.subscribe(d => {
       if(this.data.sequence && this.data.sequence.length > 0) {
         this.parseSequence();

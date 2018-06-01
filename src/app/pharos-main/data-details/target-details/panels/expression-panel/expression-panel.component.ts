@@ -11,8 +11,7 @@ import {EnvironmentVariablesService} from '../../../../../pharos-services/enviro
 @Component({
   selector: 'pharos-expression-panel',
   templateUrl: './expression-panel.component.html',
-  styleUrls: ['./expression-panel.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./expression-panel.component.css']
 })
 export class ExpressionPanelComponent extends DynamicPanelComponent implements OnInit {
   _URL: string;

@@ -1,7 +1,7 @@
 :host {
   flex: 1 1 calc(100% - 20px);
   max-width: calc(100% - 20px);
-  margin-top: 5.5vh;
+  margin-top: 1vh;
   margin-left: 20px;
 }
 
