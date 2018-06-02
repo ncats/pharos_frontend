@@ -3,7 +3,6 @@ import {
   ViewChild, ViewEncapsulation
 } from '@angular/core';
 import * as d3 from 'd3';
-import {CustomContentDirective} from '../../../tools/custom-content.directive';
 import {BehaviorSubject} from 'rxjs/index';
 
 export interface PharosPoint {

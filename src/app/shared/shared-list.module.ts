@@ -8,10 +8,10 @@ import {FacetListComponent} from '../pharos-main/facet-list/facet-list.component
 import {PharosPaginatorComponent} from '../tools/pharos-paginator/pharos-paginator.component';
 import {DataListVisualizationsComponent} from '../pharos-main/data-list-visualizations/data-list-visualizations.component';
 import {SharedModule} from './shared.module';
-import {DonutChartComponent} from '../pharos-main/visualizations/donut-chart/donut-chart.component';
+import {DonutChartComponent} from '../tools/visualizations/donut-chart/donut-chart.component';
 import {VisualizationOptionsComponent} from '../pharos-main/data-list-visualizations/visualization-options/visualization-options.component';
-import {WordCloudChartComponent} from '../pharos-main/visualizations/word-cloud-chart/word-cloud-chart.component';
-import {SunburstChartComponent} from '../pharos-main/visualizations/sunburst-chart/sunburst-chart.component';
+import {WordCloudChartComponent} from '../tools/visualizations/word-cloud-chart/word-cloud-chart.component';
+import {SunburstChartComponent} from '../tools/visualizations/sunburst-chart/sunburst-chart.component';
 import {DataListResolver} from '../pharos-main/services/data-list.resolver';
 
 

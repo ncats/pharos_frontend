@@ -60,7 +60,6 @@ import {RadarChartComponent} from '../tools/radar-chart/radar-chart.component';
 import {TOKENS} from '../../environments/component-tokens';
 import {BreadcrumbComponent} from '../tools/breadcrumb/breadcrumb.component';
 import {AaSequencePanelComponent} from "./data-details/target-details/panels/aa-sequence-panel/aa-sequence-panel.component";
-import {DrugPanelComponent} from "./data-details/target-details/panels/drug-panel/drug-panel.component";
 import {GeneRifPanelComponent} from "./data-details/target-details/panels/gene-rif-panel/gene-rif-panel.component";
 import {AssayPanelComponent} from "./data-details/target-details/panels/assay-panel/assay-panel.component";
 import {LigandsPanelComponent} from "./data-details/target-details/panels/ligands-panel/ligands-panel.component";

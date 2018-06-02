@@ -14,10 +14,6 @@
   max-height: 100%;
 }
 
-.tkrow {
-  height: 40vh;
-}
-
 .wrap {
   flex-flow: row wrap;
 }

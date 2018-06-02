@@ -4,8 +4,7 @@ import {EnvironmentVariablesService} from "../../../../../pharos-services/enviro
 import {Property} from "../../../../../models/property";
 import {HttpClient} from "@angular/common/http";
 import {MatPaginator, MatTableDataSource} from "@angular/material";
-import {Publication} from "../../../../../models/publication";
-import {Observable} from "rxjs/index";
+
 
 @Component({
   selector: 'pharos-ligands-panel',
@@ -51,7 +50,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
     const ligandsArr = [];
     const drugsArr = [];
       this.data.ligands.forEach(ligand => {
-        const activity = this._getActivity(ligand);
+        const activity: any = this._getActivity(ligand);
         if (ligand.href && !this.ligandsMap.get(ligand.id)) {
           // placeholder to block repetitive calls
           this.ligandsMap.set(ligand.id, {});

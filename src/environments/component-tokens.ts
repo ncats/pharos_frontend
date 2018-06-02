@@ -1,7 +1,4 @@
 import {InjectionToken} from '@angular/core';
-import {BreadcrumbComponent} from '../app/tools/breadcrumb/breadcrumb.component';
-import {TargetHeaderComponent} from '../app/pharos-main/data-details/target-details/target-header/target-header.component';
-import {DrugPanelComponent} from "../app/pharos-main/data-details/target-details/panels/drug-panel/drug-panel.component";
 
 export class TOKENS {
   /**

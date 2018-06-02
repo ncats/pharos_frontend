@@ -5,7 +5,7 @@ import {Value} from '../../../../../models/value';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {RadarChartComponent} from '../../../../../tools/radar-chart/radar-chart.component';
 import {MatDialog} from '@angular/material';
-import {PharosPoint} from "../../../../visualizations/line-chart/line-chart.component";
+import {PharosPoint} from '../../../../../tools/visualizations/line-chart/line-chart.component';
 import {Target} from "../../../../../models/target";
 
 
