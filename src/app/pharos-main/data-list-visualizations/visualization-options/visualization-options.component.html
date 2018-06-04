@@ -1,4 +1,4 @@
-<mat-chip-list #chipList >
+<mat-chip-list fxLayoutAlign="center" #chipList >
   <mat-chip *ngFor="let facet of facets"
             [selected]="isSelected(facet.name)"
             [color]="'accent'"

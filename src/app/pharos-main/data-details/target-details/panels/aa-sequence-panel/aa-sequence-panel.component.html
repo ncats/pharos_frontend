@@ -9,11 +9,11 @@
       </div>
     </div>
     <div class = "well">
-    <div fxLayout="row" *ngFor = " let chunk of sequence" fxLayout="start stretch">
-      <div fxFlex="45">
+    <div fxLayout="row" fxLayoutAlign="start center" *ngFor = " let chunk of sequence" fxLayout="start stretch">
+      <div fxFlex="55">
         {{chunk.chunk}}
       </div>
-      <div fxFlex="5">
+      <div fxFlex="40" fxHide.lt-md>
         {{chunk.residues}}
       </div>
     </div>

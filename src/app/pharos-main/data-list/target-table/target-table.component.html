@@ -18,8 +18,8 @@
         </mat-cell>
       </ng-container>-->
       <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-        <mat-cell *matCellDef="let row">
+        <mat-header-cell fxFlex="35" *matHeaderCellDef>Name</mat-header-cell>
+        <mat-cell fxFlex="35" *matCellDef="let row">
          <a routerLink={{row.accession}} >{{row.name}} </a>
         </mat-cell>
       </ng-container>
@@ -42,20 +42,20 @@
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="novelty">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Log Novelty </mat-header-cell>
-        <mat-cell *matCellDef="let row">
+        <mat-header-cell fxFlex="5" *matHeaderCellDef mat-sort-header>Log Novelty </mat-header-cell>
+        <mat-cell fxFlex="5" *matCellDef="let row">
           {{row.novelty?.toFixed(2)}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="jensenScore">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Pubmed Score </mat-header-cell>
-        <mat-cell *matCellDef="let row">
+        <mat-header-cell fxFlex="5" *matHeaderCellDef mat-sort-header>Pubmed Score </mat-header-cell>
+        <mat-cell fxFlex="5" *matCellDef="let row">
           {{row.jensenScore?.toFixed(2)}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="antibodyCount">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Antibody Count </mat-header-cell>
-        <mat-cell *matCellDef="let row">
+        <mat-header-cell fxFlex="5" *matHeaderCellDef mat-sort-header>Antibody Count </mat-header-cell>
+        <mat-cell fxFlex="5" *matCellDef="let row">
           {{row.antibodyCount}}
         </mat-cell>
       </ng-container>
