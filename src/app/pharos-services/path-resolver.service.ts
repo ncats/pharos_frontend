@@ -140,12 +140,17 @@ export class PathResolverService {
    * @param facet
    */
   mapSelection(facet: any): void {
-    const fields = this._facetMap.get(facet.facet);
+    let fields = this._facetMap.get(facet.name);
     if (fields) {
-      fields.push(...facet.fields);
-      this._facetMap.set(facet.facet, Array.from(new Set(fields)));
+      if(facet.change.removed){
+        fields = fields.filter(field => {
+          return !facet.change.removed.includes(field)
+        });
+      }
+      fields.push(...facet.change.added);
+      this._facetMap.set(facet.name, Array.from(new Set(fields)));
     } else {
-      this._facetMap.set(facet.facet, facet.fields);
+      this._facetMap.set(facet.name, facet.change.added);
     }
   this._flattenMap();
   }
@@ -160,7 +165,7 @@ export class PathResolverService {
     this._facetMap.forEach((value, key) => {
       this._facets.push({facet: key, fields: value});
     });
-    this._facetSource.next(this._facets);
+      this._facetSource.next(this._facets);
   }
 
   /**

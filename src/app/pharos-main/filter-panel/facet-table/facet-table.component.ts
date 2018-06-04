@@ -28,14 +28,19 @@ export class FacetTableComponent implements OnInit, OnDestroy {
 
   // todo: on redirect (click targets button), the checked boxes remain
   ngOnInit() {
-    this.pathResolverService.mapToFacets(this.route.snapshot.queryParamMap);
+    // sets initially selected values in service
+     this.pathResolverService.mapToFacets(this.route.snapshot.queryParamMap);
 
+    // TODO this fires for each facet in the list, even though the same selected facet is returned
+    /**
+     * this tracks which facets are selected, based on the url path
+     */
     this.pathResolverService.facets$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
       res.filter(facetObj =>
         facetObj.facet.toLowerCase() === this.facet.name.toLowerCase()).forEach(filtered => {
-        this.propogate = false;
+          this.propogate = false;
         this.filterSelection.select(...filtered.fields);
       }
     );
@@ -43,11 +48,14 @@ export class FacetTableComponent implements OnInit, OnDestroy {
       });
   this.dataSource.data = this.facet.values;
 
+    /**
+     * this changes the facets that are mapped to the url path in the service
+     */
     this.filterSelection.onChange
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(change => {
           if (this.propogate === true) {
-            this.pathResolverService.mapSelection({facet: this.facet.name, fields: this.filterSelection.selected});
+            this.pathResolverService.mapSelection({name: this.facet.name, change: change});
             this.pathResolverService.navigate();
           }
          });
@@ -66,3 +74,4 @@ export class FacetTableComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 }
+

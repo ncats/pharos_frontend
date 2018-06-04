@@ -23,6 +23,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
               private facetRetrieverService: FacetRetrieverService,
               private environmentVariablesService: EnvironmentVariablesService) { }
 
+  // todo : try to lazy load this, only when opened
   ngOnInit() {
     const params$: Observable<any> =
       combineLatest(
@@ -30,6 +31,9 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
         this.facetRetrieverService.loaded$
       );
 
+    /**
+     * this tracks the facet data itself, not facet selection
+     */
     params$
       .pipe(
         takeUntil(this.ngUnsubscribe)
@@ -44,7 +48,6 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
               this.facets.push(temp);
             }
           });
-          //  this.ref.markForCheck()
         }
       });
   }

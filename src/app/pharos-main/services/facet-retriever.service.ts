@@ -31,7 +31,10 @@ export class FacetRetrieverService {
       .pipe(
         map(res => {
         if (res.length > 0) {
-         return res.filter(facet => facet.name === name).pop();
+          const fac = res.filter(facet => facet.name === name).pop();
+         if(fac) {
+           return fac;
+         }
         }
       })
     );
