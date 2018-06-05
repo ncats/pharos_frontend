@@ -1,10 +1,10 @@
 <br>
 <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
   <div fxFlex="45">
-    <div class = mat-display-1>Targets <span *ngIf ="total">({{total}})</span></div>
+    <div class = mat-display-1>Targets <span *ngIf ="pageData">({{pageData.total}})</span></div>
   </div>
   <div fxFlex="45" fxFlexAlign="end">
-    <pharos-custom-paginator (page)="changePage($event)"></pharos-custom-paginator>
+    <pharos-custom-paginator [pageData]="pageData" (page)="changePage($event)"></pharos-custom-paginator>
   </div>
 </div>
 <mat-table [dataSource]="dataSource" matSort  (matSortChange)="changeSort($event)">
@@ -76,6 +76,6 @@
   <div fxFlex="45">
   </div>
   <div fxFlex="45" fxFlexAlign="end">
-    <pharos-custom-paginator (page)="changePage($event)"></pharos-custom-paginator>
+    <pharos-custom-paginator [pageData]="pageData" (page)="changePage($event)"></pharos-custom-paginator>
   </div>
 </div>

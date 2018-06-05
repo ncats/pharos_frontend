@@ -73,6 +73,9 @@ export class PathResolverService {
    * @param {string} path
    */
   navigate(path?: string): void {
+console.log(path);
+console.log(this._router);
+console.log(this._facets)
     const facetList = [];
     this._facets.forEach(facet => facet.fields.map(field => facetList.push(this._makeFacetString(facet.facet, field))));
 
@@ -86,7 +89,7 @@ export class PathResolverService {
         skip: null},
       queryParamsHandling: ''
     };
-
+console.log(facetList);
     this._router.onSameUrlNavigation = 'reload'; // forces reload since this is the same navigation url
     if (path) { // move up a level
       this._router.navigate([path], navigationExtras);

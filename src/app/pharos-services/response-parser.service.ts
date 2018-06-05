@@ -23,7 +23,7 @@ export class ResponseParserService implements OnDestroy {
    * @type {BehaviorSubject<any>}
    * @private
    */
-  private _tableDataSource = new BehaviorSubject<any>(null);
+  private _tableDataSource = new Subject<any>();
 
   /**
    * RxJs subject to return pagination data
@@ -88,11 +88,13 @@ export class ResponseParserService implements OnDestroy {
       takeUntil(this.ngUnsubscribe)
       )
       .subscribe(res => {
+        console.log(res);
         if (res.object) {
           this._detailsDataSource.next(res);
         }
-        if (res.content && res.content.length > 0) {
-          this._tableDataSource.next(res.content);
+        if (res.content) {
+          console.log(res);
+          this._tableDataSource.next(res);
         }
       this._paginationDataSource.next(new PageData(res));
       if (res.facets) {

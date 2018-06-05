@@ -1,11 +1,12 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {Observable, Subject, of, combineLatest, BehaviorSubject} from 'rxjs';
+import {Observable, Subject, of, combineLatest, BehaviorSubject, forkJoin, pipe} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {ParamMap} from '@angular/router';
 import {EnvironmentVariablesService} from './environment-variables.service';
 import {Topic} from '../models/topic';
+import {map} from "rxjs/internal/operators";
 
 
 @Injectable()
@@ -37,6 +38,7 @@ export class PharosApiService {
    * base API url - set in environment.prod.ts
    */
   private _URL: string;
+  private _SEARCHURLS: string[];
 
   /**
    * single source to reuturn data
@@ -44,7 +46,7 @@ export class PharosApiService {
    */
   data$ = this._dataSource.asObservable();
 
- // todo: delete when api exists
+  // todo: delete when api exists
   /**
    * garbage
    * @type {Topic[]}
@@ -115,29 +117,59 @@ export class PharosApiService {
   constructor(private http: HttpClient,
               private environmentVariablesService: EnvironmentVariablesService) {
     this._URL = this.environmentVariablesService.getApiPath();
+    this._SEARCHURLS = this.environmentVariablesService.getSearchPaths();
     this._mergeSources();
   }
 
   /**
    * Api call to get main level paged data
+   * if the call is a search, redirects to a different series of calls
    * @param {string} path The url sub path 'targets', diseases', 'ligands' etc.
    * @param {ParamMap} params The angular router parameters generated in subcomponents includes query, facet, sort and paging information.
    * @return void
    */
   getData(path: string, params: ParamMap): void {
-    // todo: delete when api filled out
-    if (path === 'topics') {
-      this.getTopics();
+    if (path === 'search') {
+      this.search(params);
     } else {
-      const url = this._mapParams(path, params);
-      this.http.get<any>(url)
-        .pipe(
-          catchError(this.handleError('getData', []))
-        )
-        .subscribe(response => {
-          this._dataSource.next(response);
-        });
+      // todo: delete when api filled out
+      if (path === 'topics') {
+        this.getTopics();
+      } else {
+        const url = this._mapParams(path, params);
+        this.http.get<any>(url)
+          .pipe(
+            catchError(this.handleError('getData', []))
+          )
+          .subscribe(response => {
+            this._dataSource.next(
+              {
+              content:[{kind: path, data: response}],
+              facets: response.facets
+              }
+              );
+          });
+      }
     }
+  }
+
+  /**
+   * creates a fork join to return the results of api search calls to targeted object kinds
+   * this reduces the number of irrelevant results return that need to be parsed,
+   * and also allows for paging and faceting independently of the data type
+   * @param {ParamMap} params
+   */
+  search(params: ParamMap): void {
+    const apis = this._SEARCHURLS.map(api => {
+      return this.http.get<any>(this._mapParams(api.field, params))
+        .pipe(
+          map(res => res = {kind: api.field, data: res})
+        )
+    });
+
+    forkJoin(...apis).subscribe(res => {
+      this._dataSource.next({content:res});
+    })
   }
 
   /**
@@ -191,7 +223,7 @@ export class PharosApiService {
 
   /**
    * merges several api details calls to 1 details object
-    * @private
+   * @private
    */
   private _mergeSources(): void {
     let returnedObject = {};
@@ -199,19 +231,19 @@ export class PharosApiService {
       this._detailsSource,
       this._detailsUrlSource);
 
-      cl.subscribe(([object, details]) => {
-        if (details.origin) {
-          returnedObject[details.origin] = details.data;
-          // this is needed to change details object
-          // todo: is this the ideal way to do it? seems brittle
-          if (object) {
-            returnedObject['object'] = object;
-          }
-        } else {
-          returnedObject = {object: object};
+    cl.subscribe(([object, details]) => {
+      if (details.origin) {
+        returnedObject[details.origin] = details.data;
+        // this is needed to change details object
+        // todo: is this the ideal way to do it? seems brittle
+        if (object) {
+          returnedObject['object'] = object;
         }
-        this._dataSource.next(returnedObject);
-      });
+      } else {
+        returnedObject = {object: object};
+      }
+      this._dataSource.next(returnedObject);
+    });
 
   }
 
@@ -223,6 +255,7 @@ export class PharosApiService {
    * @private
    */
   private _mapParams(path: string, params: ParamMap): string {
+    console.log(params);
     let str = '';
     const strArr: string[] = [];
     if (params.keys.length === 0) {
@@ -234,15 +267,40 @@ export class PharosApiService {
       }
     } else {
       str = this._URL + (path !== 'search' ? path + '/' : '')  + 'search?';
-     // str = this._URL + (path !== 'search' ? path + '?' : 'search?');
+      // str = this._URL + (path !== 'search' ? path + '?' : 'search?');
       params.keys.map(key => {
         params.getAll(key).map(val => {
-            strArr.push(key + '=' + val);
+          console.log(key);
+          switch (key) {
+            case 'page': {
+              console.log(val);
+              const rows = params.get('rows');
+              if (rows) {
+                strArr.push('top=' + rows);
+              } else {
+                strArr.push('skip=' + 10 * (val - 1));
+              }
+              break;
+            }
+            case 'rows': {
+              const page = params.get('page');
+              if (page) {
+                strArr.push('skip=' + val * (page - 1));
+              }
+              break;
+            }
+            default: {
+              strArr.push(key + '=' + val);
+              break;
+            }
+          }
           }
         );
       });
+      console.log(strArr);
       str = str + strArr.join('&');
     }
+    console.log(str);
     return str;
   }
 

@@ -73,7 +73,12 @@ const pharosMainRoutes: Routes = [
     },
     // this reloads the component/resolver when the url changes from pagination or sort
     runGuardsAndResolvers: 'paramsOrQueryParamsChange'
-  }, {
+  },
+/*  { path: 'search',
+    redirectTo: 'targets',
+    pathMatch: 'partial'
+  },*/
+  {
     path: ':id',
     component: DataDetailsComponent,
     resolve: {

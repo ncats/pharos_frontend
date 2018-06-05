@@ -59,7 +59,18 @@ export class PharosPaginatorComponent implements OnInit, OnDestroy {
 
   private _initialized: boolean;
   private _intlChanges: Subscription;
-  private _paginationData: Subscription;
+
+  /** set page data manually, allowing different instances */
+  @Input()
+  set pageData(pageData: pageData) {
+    console.log(pageData);
+    if(pageData) {
+      this.pageSize = pageData.top;
+      // this.length = Math.floor(pageData.total / pageData.top);
+      this.length = pageData.total;
+      this.pageIndex = Math.ceil(pageData.skip / pageData.top);
+    }
+  }
 
   /** The zero-based page index of the displayed list of items. Defaulted to 0. */
   @Input()
@@ -68,7 +79,7 @@ export class PharosPaginatorComponent implements OnInit, OnDestroy {
     this._pageIndex = coerceNumberProperty(value);
     this._changeDetectorRef.markForCheck();
   }
-  _pageIndex = 0;
+  _pageData = 0;
 
   /** The length of the total number of items that are being paginated. Defaulted to 0. */
   @Input()
@@ -125,7 +136,6 @@ export class PharosPaginatorComponent implements OnInit, OnDestroy {
               private _changeDetectorRef: ChangeDetectorRef,
               private _responseParser: ResponseParserService) {
     this._intlChanges = _intl.changes.subscribe(() => this._changeDetectorRef.markForCheck());
-    this._paginationData = this._responseParser.paginationData$.subscribe(res => this._setPageData(res));
   }
 
   ngOnInit() {
@@ -135,7 +145,6 @@ export class PharosPaginatorComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this._intlChanges.unsubscribe();
-    this._paginationData.unsubscribe();
   }
 
   /** Advances to the next page if it exists. */

@@ -12,6 +12,7 @@ import {ComponentInjectorService} from '../../pharos-services/component-injector
 import {ComponentLookupService} from '../../pharos-services/component-lookup.service';
 import {takeUntil} from 'rxjs/operators';
 import {DataListResolver} from '../services/data-list.resolver';
+import {PageData} from "../../models/page-data";
 
 
 const navigationExtras: NavigationExtras = {
@@ -66,24 +67,32 @@ export class DataListComponent implements OnInit, OnDestroy {
     this.responseParserService.tableData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.results.clear();
+        console.log(res);
+      //  this.results.clear();
         this.componentHost.viewContainerRef.clear();
-        this.filterData(res);
-          Array.from(this.results.keys()).forEach(dataType => {
-              this.kind = dataType.toLowerCase().split('.models.')[1] + 's';
-              const components: any = this.componentLookup.lookupByPath(this.kind, 'list');
+      //  this.filterData(res);
+      //  console.log(this.results);
+         res.content.forEach(dataList => {
+           console.log(dataList);
+            //  this.kind = dataType.kind;
+              const components: any = this.componentLookup.lookupByPath(dataList.kind, 'list');
               if (components) {
                 components.forEach(component => {
                   if (component.token) {
                     const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
                     const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
-                    dynamicComponent.instance.data = this.results.get(dataType);
-                    this.responseParserService.paginationData$
+
+                    console.log(new PageData(dataList.data))
+                      dynamicComponent.instance.pageData = new PageData(dataList.data);
+
+                    /*this.responseParserService.paginationData$
                       .pipe(takeUntil(this.ngUnsubscribe))
                       .subscribe(response => {
+                        console.log(response);
                         //   this.dynamicComponent.instance.total = response['total'] ? response['total'] :
                         // this.results.get(dataType).length;
-                      });
+                      });*/
+
                     if (dynamicComponent.instance.sortChange) {
                       dynamicComponent.instance.sortChange.subscribe((event) => {
                         this.sortTable(event);
@@ -95,7 +104,8 @@ export class DataListComponent implements OnInit, OnDestroy {
                         this.paginationChanges(event);
                       });
                     }
-                    dynamicComponent.instance.data = this.results.get(dataType);
+                    dynamicComponent.instance.data = dataList.data.content;
+                    // dynamicComponent.instance.data = this.results.get(dataType);
                   }
                 });
               }
@@ -156,7 +166,16 @@ export class DataListComponent implements OnInit, OnDestroy {
   }
 
   paginationChanges(event: any) {
-    navigationExtras.queryParams = {top: event.pageSize, skip: event.pageIndex * event.pageSize};
+    console.log(event);
+      navigationExtras.queryParams = {
+        page: event.pageIndex + 1,
+        //top: event.pageSize,
+       // skip: event.pageIndex * event.pageSize,
+      };
+      if(event.pageSize !== 10){
+        navigationExtras.queryParams.rows = event.pageSize;
+      }
+   // navigationExtras.queryParams = {top: event.pageSize, skip: event.pageIndex * event.pageSize};
     this._navigate(navigationExtras);
   }
 

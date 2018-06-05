@@ -4,6 +4,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
+import {PageData} from "../../../models/page-data";
 
 @Component({
   selector: 'pharos-target-table',
@@ -13,7 +14,6 @@ import {takeUntil} from 'rxjs/operators';
 
 export class TargetTableComponent  extends DynamicPanelComponent implements OnInit, OnDestroy {
   displayColumns: string[] = ['name', 'gene', 'idgTDL', 'idgFamily', 'novelty', 'jensenScore', 'antibodyCount', 'knowledgeAvailability'];
-  @Input() total: number;
   @Output() readonly sortChange: EventEmitter<string> = new EventEmitter<string>();
   @Output() readonly pageChange: EventEmitter<string> = new EventEmitter<string>();
 
