@@ -82,8 +82,8 @@ export class PathResolverService {
      */
     const navigationExtras: NavigationExtras = {
       queryParams: {facet: facetList.length > 0 ? facetList : null,
-                    top: null,
-                    skip: null},
+        top: null,
+        skip: null},
       queryParamsHandling: ''
     };
 
@@ -112,7 +112,7 @@ export class PathResolverService {
    * @param {ParamMap} map
    */
   mapToFacets(map: ParamMap): void {
-   const fList = map.getAll('facet');
+    const fList = map.getAll('facet');
     fList.forEach(facet => {
       const fArr = facet.split('/');
       const facetName: string = fArr[0].replace(/\+/g, ' ');
@@ -152,7 +152,7 @@ export class PathResolverService {
     } else {
       this._facetMap.set(facet.name, facet.change.added);
     }
-  this._flattenMap();
+    this._flattenMap();
   }
 
   /**
@@ -163,9 +163,11 @@ export class PathResolverService {
   private _flattenMap(): void {
     this._facets = [];
     this._facetMap.forEach((value, key) => {
-      this._facets.push({facet: key, fields: value});
+      if(value.length > 0){
+        this._facets.push({facet: key, fields: value});
+      }
     });
-      this._facetSource.next(this._facets);
+    this._facetSource.next(this._facets);
   }
 
   /**
