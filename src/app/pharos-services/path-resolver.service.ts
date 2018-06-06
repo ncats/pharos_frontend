@@ -73,30 +73,30 @@ export class PathResolverService {
    * @param {string} path
    */
   navigate(path?: string): void {
-console.log(path);
-console.log(this._router);
-console.log(this._facets)
-    const facetList = [];
-    this._facets.forEach(facet => facet.fields.map(field => facetList.push(this._makeFacetString(facet.facet, field))));
+      const facetList = [];
+      this._facets.forEach(facet => facet.fields.map(field => facetList.push(this._makeFacetString(facet.facet, field))));
 
-    /**
-     * forces to first page on facet changes
-     * @type {{queryParams: {facet: any[]; top: null; skip: null}; queryParamsHandling: string}}
-     */
-    const navigationExtras: NavigationExtras = {
-      queryParams: {facet: facetList.length > 0 ? facetList : null,
-        top: null,
-        skip: null},
-      queryParamsHandling: ''
-    };
-console.log(facetList);
-    this._router.onSameUrlNavigation = 'reload'; // forces reload since this is the same navigation url
-    if (path) { // move up a level
-      this._router.navigate([path], navigationExtras);
-    } else { // lateral navigation
-      this._router.navigate([], navigationExtras);
+      /**
+       * forces to first page on facet changes
+       * @type {{queryParams: {facet: any[]; top: null; skip: null}; queryParamsHandling: string}}
+       */
+      const navigationExtras: NavigationExtras = {
+        queryParams: {
+          facet: facetList.length > 0 ? facetList : null,
+          top: null,
+          skip: null
+        },
+        queryParamsHandling: ''
+      };
+      console.log(facetList);
+      console.log(navigationExtras);
+      this._router.onSameUrlNavigation = 'reload'; // forces reload since this is the same navigation url
+      if (path) { // move up a level
+        this._router.navigate([path], navigationExtras);
+      } else { // lateral navigation
+        this._router.navigate([], navigationExtras);
+      }
     }
-  }
 
   /**
    * converts a facet name and field into url readable string
@@ -143,6 +143,7 @@ console.log(facetList);
    * @param facet
    */
   mapSelection(facet: any): void {
+    console.log(facet);
     let fields = this._facetMap.get(facet.name);
     if (fields) {
       if(facet.change.removed){
@@ -170,6 +171,7 @@ console.log(facetList);
         this._facets.push({facet: key, fields: value});
       }
     });
+    console.log(this._facets);
     this._facetSource.next(this._facets);
   }
 

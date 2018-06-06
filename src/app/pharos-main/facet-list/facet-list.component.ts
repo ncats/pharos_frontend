@@ -20,6 +20,7 @@ export class FacetListComponent implements OnInit {
   }
 
   removefacetFamily(facet: any): void {
+    console.log(facet);
     this.pathResolverService.removefacetFamily(facet);
     this.pathResolverService.navigate();
   }

@@ -67,13 +67,11 @@ export class DataListComponent implements OnInit, OnDestroy {
     this.responseParserService.tableData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        console.log(res);
       //  this.results.clear();
         this.componentHost.viewContainerRef.clear();
       //  this.filterData(res);
       //  console.log(this.results);
          res.content.forEach(dataList => {
-           console.log(dataList);
             //  this.kind = dataType.kind;
               const components: any = this.componentLookup.lookupByPath(dataList.kind, 'list');
               if (components) {
@@ -82,7 +80,6 @@ export class DataListComponent implements OnInit, OnDestroy {
                     const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
                     const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
 
-                    console.log(new PageData(dataList.data))
                       dynamicComponent.instance.pageData = new PageData(dataList.data);
 
                     /*this.responseParserService.paginationData$

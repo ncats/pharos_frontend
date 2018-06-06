@@ -93,7 +93,6 @@ export class ResponseParserService implements OnDestroy {
           this._detailsDataSource.next(res);
         }
         if (res.content) {
-          console.log(res);
           this._tableDataSource.next(res);
         }
       this._paginationDataSource.next(new PageData(res));
