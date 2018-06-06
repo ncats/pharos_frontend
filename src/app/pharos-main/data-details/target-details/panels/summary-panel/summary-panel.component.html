@@ -1,7 +1,7 @@
 <div fxFlexFill>
 <mat-card class ="flex30 full-height" *ngIf = data>
   <mat-card-content>
-    <div fxLayout="row" fxLayout.md="column" class =" tkrow" fxLayoutAlign="start stretch">
+    <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="start stretch">
       <div fxFlex="50" class = "full-height">
         <span class="mat-title">Target Summary</span>
         <br>
@@ -40,7 +40,7 @@
     </ul>
     </ng-container>
       </div>
-      <div fxFlex="50" class = "kchart full-height" *ngIf="data.knowledge">
+      <div fxFlex="50" fxFlexAlign="stretch" class = "kchart full-height" *ngIf="data.knowledge">
       <span class="mat-title">Knowledge Summary</span>
       <br>
       <br>

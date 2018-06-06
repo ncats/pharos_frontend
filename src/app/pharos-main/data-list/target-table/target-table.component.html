@@ -61,15 +61,13 @@
       </ng-container>
       <ng-container matColumnDef="knowledgeAvailability">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Knowledge Availability</mat-header-cell>
-        <mat-cell *matCellDef="let row">
-<!--
+        <mat-cell *matCellDef="let row" class = "small-radar">
           <pharos-radar-chart [id]="row.accession" [size]="'small'"></pharos-radar-chart>
--->
         </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayColumns;">
+      <mat-row *matRowDef="let row; columns: displayColumns;" class = "small-radar">
       </mat-row>
     </mat-table>
 <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">

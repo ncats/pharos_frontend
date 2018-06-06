@@ -12,10 +12,8 @@ import {EnvironmentVariablesService} from '../../pharos-services/environment-var
 const RADAR_SIZES: Map<string, any> = new Map<string, any>(
   [
     ['small', {
-      w: 100,
-      h: 100,
       maxValue: 1,
-      margin: {top: 10, right: 20, bottom: 10, left: 20},
+      margin: {top: 35, right: 20, bottom: 35, left: 20},
       levels: 1,
       dotRadius: 0, 			// The size of the colored circles of each blog
       format: '.1f',
@@ -23,8 +21,6 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
       axisLabels: false
     }
 ], ['medium', {
-    w: 300,
-    h: 300,
     maxValue: 1,
     levels: 5,
     format: '.2f',
@@ -32,8 +28,6 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
     axisLabels: true
   }
   ], ['medium-shape', {
-    w: 300,
-    h: 300,
     maxValue: 1,
     levels: 5,
     format: '.2f',
@@ -41,8 +35,6 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
     axisLabels: false
   }
 ] , ['large', {
-      w: 800,
-      h: 800,
       maxValue: 1,
       levels: 10,
       dotRadius: 5, 			// The size of the colored circles of each blog

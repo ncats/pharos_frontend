@@ -6,3 +6,7 @@
 .mat-display-1 {
   margin-bottom: 0px;
 }
+
+.small-radar {
+  max-height: 100px;
+}

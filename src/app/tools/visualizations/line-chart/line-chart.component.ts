@@ -40,6 +40,12 @@ export class LineChartComponent  implements OnInit {
   tooltip: any;
   @Output() readonly clickSlice: EventEmitter<any> = new EventEmitter<any>();
 
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.drawChart();
+    this.updateChart();
+  }
+
   constructor() {
   }
 
@@ -47,25 +53,25 @@ export class LineChartComponent  implements OnInit {
   // todo - data change doesnt update the chart, it just redraws it;
   // todo - revamp this to be more in line with es6
   ngOnInit() {
-    this.drawGraph();
+    this.drawChart();
     this._data.subscribe(x => {
       if (this.data) {
-            this.updateGraph();
+            this.updateChart();
       }
     });
   }
 
-/*  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.svg.select('pharos-line-chart svg').remove();
-    this.drawGraph();
-    this.updateGraph();
-  }*/
+  ngOnDestroy(): void {
+    d3.select('body').selectAll('.line-tooltip').remove();
+  }
 
-  drawGraph(): void {
+  drawChart(): void {
     const element = this.chartContainer.nativeElement;
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
+    // Remove whatever chart with the same id/class was present before
+    d3.select(element).selectAll('svg').remove();
+
     this.svg = d3.select(element).append('svg')
       .attr('width', '100%')
       .attr('height', '100%')
@@ -105,7 +111,7 @@ export class LineChartComponent  implements OnInit {
 
   }
 
-  updateGraph(): void {
+  updateChart(): void {
 
     const x = d3.scalePoint()
       .domain(this.data.map(d => +d.key))
