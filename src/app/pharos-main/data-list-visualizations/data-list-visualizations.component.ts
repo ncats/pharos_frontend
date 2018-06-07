@@ -53,8 +53,8 @@ export class DataListVisualizationsComponent implements OnInit, OnDestroy {
   filterDonutChart(data: any ) {
     console.log(data);
 
-    //this.pathResolverService.mapSelection({facet: this.donutData.name, fields: [data.label]});
-    this.pathResolverService.mapSelection({name: this.donutData.name, change: {added:[data.label] }});
+    // this.pathResolverService.mapSelection({facet: this.donutData.name, fields: [data.label]});
+    this.pathResolverService.mapSelection({name: this.donutData.name, change: {added: [data.label] }});
     this.pathResolverService.navigate();
   }
 

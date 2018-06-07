@@ -45,7 +45,6 @@ export class BarChartComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this);
     this.drawGraph();
     this._data.subscribe(x => {
       if (this.data) {
@@ -67,7 +66,7 @@ export class BarChartComponent implements OnInit {
     // Add the X Axis
     this.svg.append('g')
       .attr('class', 'xaxis')
-      .attr("transform", "translate(20," + this.height + ")");
+      .attr('transform', 'translate(20,' + this.height + ')');
 
     // Add the Y Axis
     this.svg.append('g')
@@ -82,7 +81,7 @@ export class BarChartComponent implements OnInit {
       .style('opacity', 0);
   }
 
-  updateGraph():void {
+  updateGraph(): void {
     const x = d3.scaleBand()
       .rangeRound([0, this.width], .1)
       .paddingInner(0.1);
@@ -110,14 +109,14 @@ export class BarChartComponent implements OnInit {
     this.svg.select('.yaxis')
       .call(yAxis);
 
-    this.svg.select(".bar-holder").selectAll('.bar')
+    this.svg.select('.bar-holder').selectAll('.bar')
       .data(this.data)
-      .enter().append("rect")
-      .attr("class", "bar")
-      .attr("x", function(d) { return x(d[0]); })
-      .attr("width", x.bandwidth())
-      .attr("y", function(d) { return y(+d[1]); })
-      .attr("height", d => this.height - y(+d[1]))
+      .enter().append('rect')
+      .attr('class', 'bar')
+      .attr('x', function(d) { return x(d[0]); })
+      .attr('width', x.bandwidth())
+      .attr('y', function(d) { return y(+d[1]); })
+      .attr('height', d => this.height - y(+d[1]))
       .attr('transform', 'translate(20, 0)')
   .style('pointer-events', 'all')
       .on('mouseover', (d, i, bars) => {

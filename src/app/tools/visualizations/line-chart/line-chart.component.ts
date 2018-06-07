@@ -1,5 +1,5 @@
 import {
-  Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output,
+  Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnDestroy, OnInit, Output,
   ViewChild, ViewEncapsulation
 } from '@angular/core';
 import * as d3 from 'd3';
@@ -20,7 +20,7 @@ export interface PharosPoint {
   styleUrls: ['./line-chart.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class LineChartComponent  implements OnInit {
+export class LineChartComponent  implements OnInit, OnDestroy {
   @ViewChild('lineChartTarget') chartContainer: ElementRef;
 
   private _data: BehaviorSubject<any> = new BehaviorSubject<any>(null);
@@ -165,11 +165,11 @@ export class LineChartComponent  implements OnInit {
           .transition()
           .duration(200)
           .style('opacity', .9);
-        let span: string = "";
-        if(d.label){
-          span = '<span>' + d.label + ': <br>' + d.name + '</span>'
+        let span = '';
+        if (d.label) {
+          span = '<span>' + d.label + ': <br>' + d.name + '</span>';
         } else {
-         span = '<span>' + d.key + ': <br>' + d.value + '</span>'
+         span = '<span>' + d.key + ': <br>' + d.value + '</span>';
         }
         this.tooltip.html(span)
           .style('left', d3.event.pageX + 'px')
@@ -183,7 +183,7 @@ export class LineChartComponent  implements OnInit {
           .style('opacity', 0);
         d3.select(circles[i]).classed('hovered', false);
       });
-if(this.line) {
+if (this.line) {
   this.svg.select('.timeline')   // change the line
     .datum(this.data)
     .attr('stroke-linejoin', 'round')

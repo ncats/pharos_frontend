@@ -1,15 +1,15 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
-import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
-import {HttpClient} from "@angular/common/http";
-import {MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
-import {Publication} from "../../../../../models/publication";
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {HttpClient} from '@angular/common/http';
+import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {Publication} from '../../../../../models/publication';
 
 @Component({
   selector: 'pharos-gene-rif-panel',
   templateUrl: './gene-rif-panel.component.html',
   styleUrls: ['./gene-rif-panel.component.css']
 })
-export class GeneRifPanelComponent extends DynamicPanelComponent implements OnInit {
+export class GeneRifPanelComponent extends DynamicPanelComponent implements OnInit, AfterViewInit {
  displayColumns: string[] = ['pmid', 'text'];
 
   rifMap: Map<string, any> = new Map<string, any>();
@@ -50,7 +50,7 @@ export class GeneRifPanelComponent extends DynamicPanelComponent implements OnIn
     if (rif.href && !this.rifMap.get(rif.id)) {
       this._http.get<any>(rif.href).subscribe(res => {
         this.rifMap.set(rif.id, res);
-        tableArr.push({pmid: rif.properties.filter(p=> p.label === 'PubMed ID')[0].intval, text: res.text})
+        tableArr.push({pmid: rif.properties.filter(p => p.label === 'PubMed ID')[0].intval, text: res.text});
         this.dataSource.data = tableArr;
       });
     }

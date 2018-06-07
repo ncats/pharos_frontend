@@ -12,7 +12,7 @@ import {ComponentInjectorService} from '../../pharos-services/component-injector
 import {ComponentLookupService} from '../../pharos-services/component-lookup.service';
 import {takeUntil} from 'rxjs/operators';
 import {DataListResolver} from '../services/data-list.resolver';
-import {PageData} from "../../models/page-data";
+import {PageData} from '../../models/page-data';
 
 
 const navigationExtras: NavigationExtras = {
@@ -166,10 +166,10 @@ export class DataListComponent implements OnInit, OnDestroy {
     console.log(event);
       navigationExtras.queryParams = {
         page: event.pageIndex + 1,
-        //top: event.pageSize,
+        // top: event.pageSize,
        // skip: event.pageIndex * event.pageSize,
       };
-      if(event.pageSize !== 10){
+      if (event.pageSize !== 10) {
         navigationExtras.queryParams.rows = event.pageSize;
       }
    // navigationExtras.queryParams = {top: event.pageSize, skip: event.pageIndex * event.pageSize};

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AaSequencePanelComponent } from './aa-sequence-panel.component';
+import {SharedModule} from "../../../../../shared/shared.module";
 
 describe('AaSequencePanelComponent', () => {
   let component: AaSequencePanelComponent;
@@ -8,6 +9,7 @@ describe('AaSequencePanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [SharedModule],
       declarations: [ AaSequencePanelComponent ]
     })
     .compileComponents();

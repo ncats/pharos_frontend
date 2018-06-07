@@ -62,8 +62,8 @@ export class PharosPaginatorComponent implements OnInit, OnDestroy {
 
   /** set page data manually, allowing different instances */
   @Input()
-  set pageData(pageData: pageData) {
-    if(pageData) {
+  set pageData(pageData: PageData) {
+    if (pageData) {
       this.pageSize = pageData.top;
       // this.length = Math.floor(pageData.total / pageData.top);
       this.length = pageData.total;
@@ -78,7 +78,7 @@ export class PharosPaginatorComponent implements OnInit, OnDestroy {
     this._pageIndex = coerceNumberProperty(value);
     this._changeDetectorRef.markForCheck();
   }
-  _pageData = 0;
+  private _pageIndex: number;
 
   /** The length of the total number of items that are being paginated. Defaulted to 0. */
   @Input()

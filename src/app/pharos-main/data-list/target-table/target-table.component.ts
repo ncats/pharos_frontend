@@ -4,7 +4,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
-import {PageData} from "../../../models/page-data";
+import {PageData} from '../../../models/page-data';
 
 @Component({
   selector: 'pharos-target-table',

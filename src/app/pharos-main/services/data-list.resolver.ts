@@ -33,7 +33,7 @@ export class DataListResolver implements Resolve<any> {
       this.loadingService.toggleVisible(true);
       this.pathResolverService.setPath(route.data.path);
       // todo this will be using the path service (i think)
-      if(route.data.path === 'search' && !route.queryParamMap.get('q')){
+      if (route.data.path === 'search' && !route.queryParamMap.get('q')) {
         this.pathResolverService.navigate('targets');
       } else {
         this.pharosApiService.getData(route.data.path, route.queryParamMap);

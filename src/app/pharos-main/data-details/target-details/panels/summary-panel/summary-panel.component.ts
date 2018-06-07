@@ -6,7 +6,7 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import {RadarChartComponent} from '../../../../../tools/radar-chart/radar-chart.component';
 import {MatDialog} from '@angular/material';
 import {PharosPoint} from '../../../../../tools/visualizations/line-chart/line-chart.component';
-import {Target} from "../../../../../models/target";
+import {Target} from '../../../../../models/target';
 
 
 @Component({
@@ -83,8 +83,8 @@ fetchTimelineData(): void {
   });
   ['PubMed Score', 'PubTator', 'Patent Count'].forEach(name => {
     const tl = this.tlMap.get(name);
-    if(tl) {
-      this.timelines.push(tl)
+    if (tl) {
+      this.timelines.push(tl);
     }
   });
    this.timelines = this.timelines.filter((tl, index, arr) =>
@@ -93,7 +93,7 @@ fetchTimelineData(): void {
 }
 
 raisePubtator() {
-  if(this.target) {
+  if (this.target) {
       return Math.pow(10, this.target.pubTatorScore).toFixed(2);
     }
 }

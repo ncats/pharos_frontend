@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
+import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 
 @Component({
   selector: 'pharos-aa-sequence-panel',
@@ -16,20 +16,20 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
 
   ngOnInit() {
     this._data.subscribe(d => {
-      if(this.data.sequence && this.data.sequence.length > 0) {
+      if (this.data.sequence && this.data.sequence.length > 0) {
         this.parseSequence();
         this.getCounts();
       }
   });
   }
 
-  getCounts():void {
+  getCounts(): void {
     const charMap: Map<string, number> = new Map<string, number>();
     this.data.sequence[0].text.split('').map(char => {
       let count = charMap.get(char);
-      if(count){
+      if (count) {
         charMap.set(char, ++count);
-      }else{
+      } else {
         charMap.set(char, 1);
       }
     });
@@ -40,12 +40,11 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
     const length = 70;
     const split = this.splitString(this.data.sequence[0].text, length);
    this.sequence = split.map((chunk, index) =>  {
-     if(index === 0) {
-       return {chunk: chunk, residues: index+1 +'-' + (index +1)*length};
+     if (index === 0) {
+       return {chunk: chunk, residues: index + 1 + '-' + (index + 1) * length};
      } else if (index === split.length - 1) {
        return {chunk: chunk, residues: index * length + '-' + this.data.sequence[0].text.length};
-     }
-     else {
+     } else {
          return {chunk: chunk, residues: index * length + '-' + (index + 1) * length};
      }
    });
@@ -58,7 +57,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
    * @return {Array} an Array with the strings
    */
   splitString (string: string, size: number): string[] {
-    var re = new RegExp('.{1,' + size + '}', 'g');
+    const re: RegExp  = new RegExp('.{1,' + size + '}', 'g');
     return string.match(re);
   }
 }

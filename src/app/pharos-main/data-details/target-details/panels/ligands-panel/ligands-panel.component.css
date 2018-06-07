@@ -19,7 +19,7 @@
 .structure-grid {
   display: grid;
   grid-auto-rows: max-content;
-  grid-template-columns: repeat(auto-fit, minmax(19%, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(19%, 1fr));
   grid-gap: 1em;
   justify-items: center;
 }

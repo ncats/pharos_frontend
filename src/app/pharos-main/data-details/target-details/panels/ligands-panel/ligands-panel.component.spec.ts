@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LigandsPanelComponent } from './ligands-panel.component';
+import {SharedModule} from "../../../../../shared/shared.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {EnvironmentVariablesService} from "../../../../../pharos-services/environment-variables.service";
 
 describe('LigandsPanelComponent', () => {
   let component: LigandsPanelComponent;
@@ -8,7 +11,11 @@ describe('LigandsPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LigandsPanelComponent ]
+      imports: [SharedModule, BrowserAnimationsModule],
+      declarations: [ LigandsPanelComponent ],
+      providers: [
+        EnvironmentVariablesService
+      ]
     })
     .compileComponents();
   }));

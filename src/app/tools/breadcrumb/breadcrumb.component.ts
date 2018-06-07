@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {BehaviorSubject} from 'rxjs/index';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
-import {Target} from "../../models/target";
+import {Target} from '../../models/target';
 
 /**
  * Component to track the hierarchy of a target

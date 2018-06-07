@@ -4,7 +4,7 @@ import {TableData} from '../../../../../models/table-data';
 import {MatTabChangeEvent} from '@angular/material';
 import {BehaviorSubject} from 'rxjs';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {PharosPoint} from "../../../../../tools/visualizations/line-chart/line-chart.component";
+import {PharosPoint} from '../../../../../tools/visualizations/line-chart/line-chart.component';
 
 // skipping log2foldchange property
 const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
@@ -114,17 +114,17 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       this.loaded = true;
     }
 
-    if(this.data.tinx){
+    if (this.data.tinx) {
       this.tinx = [];
        this.data.tinx.importances.map(point => {
-        let p: PharosPoint = {
+        const p: PharosPoint = {
           label: point.doid,
           key: point.imp,
           value: point.dnovelty,
           name: point.dname
         };
        this.tinx.push(p);
-      })
+      });
     }
   }
 

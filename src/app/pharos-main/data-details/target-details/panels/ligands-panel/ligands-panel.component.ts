@@ -1,9 +1,9 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
-import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
-import {EnvironmentVariablesService} from "../../../../../pharos-services/environment-variables.service";
-import {Property} from "../../../../../models/property";
-import {HttpClient} from "@angular/common/http";
-import {MatPaginator, MatTableDataSource} from "@angular/material";
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {EnvironmentVariablesService} from '../../../../../pharos-services/environment-variables.service';
+import {Property} from '../../../../../models/property';
+import {HttpClient} from '@angular/common/http';
+import {MatPaginator, MatTableDataSource} from '@angular/material';
 
 
 @Component({
@@ -11,7 +11,7 @@ import {MatPaginator, MatTableDataSource} from "@angular/material";
   templateUrl: './ligands-panel.component.html',
   styleUrls: ['./ligands-panel.component.css']
 })
-export class LigandsPanelComponent extends DynamicPanelComponent implements OnInit {
+export class LigandsPanelComponent extends DynamicPanelComponent implements OnInit, AfterViewInit {
 
   ligandsMap: Map<string, any> = new Map<string, any>();
   drugsDataSource: MatTableDataSource<any[]> = new MatTableDataSource<any[]>();
@@ -25,7 +25,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
 
   private _STRUCTUREURLBASE: string;
   constructor(
-    private changeDetector : ChangeDetectorRef,
+    private changeDetector: ChangeDetectorRef,
     private environmentVariablesService: EnvironmentVariablesService,
     private _http: HttpClient) {
     super();
@@ -54,18 +54,18 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
         if (ligand.href && !this.ligandsMap.get(ligand.id)) {
           // placeholder to block repetitive calls
           this.ligandsMap.set(ligand.id, {});
-          this._http.get<any>(ligand.href+ '?view=full').subscribe(res => {
+          this._http.get<any>(ligand.href + '?view=full').subscribe(res => {
             this.ligandsMap.set(ligand.id, res);
             const refid: string = res.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;
               const lig = {
                name: res.name,
                refid: refid,
-               activityType: activity.label === 'Potency' ? activity.label : 'p'+ activity.label,
+               activityType: activity.label === 'Potency' ? activity.label : 'p' + activity.label,
                activity: activity.numval,
-               imageUrl: this._STRUCTUREURLBASE + refid +'.svg'
+               imageUrl: this._STRUCTUREURLBASE + refid + '.svg'
              };
               const drug = res.properties.filter( prop => prop.label === 'Ligand Drug');
-              if(drug.length > 0 && drug[0].term === 'YES'){
+              if (drug.length > 0 && drug[0].term === 'YES') {
                 drugsArr.push(lig);
               } else {
                 ligandsArr.push(lig);
@@ -81,10 +81,12 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
     private _getActivity(ligand: any): string {
     let ret: any = {};
     ligand.properties.map(prop => {
-      if (prop.label === 'Ligand Activity') {
+      if(prop.label ==='IC50'){
+        ret = prop;
+      } else if (prop.label === 'Ligand Activity') {
         ret = ligand.properties.filter(p => p.label === prop.term)[0];
       }
-    })
+    });
     return ret;
     }
 }

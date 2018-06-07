@@ -1,5 +1,5 @@
 import {
-  Component, ElementRef, HostListener, Inject, Input, OnInit, Optional, ViewChild, ViewEncapsulation,
+  Component, ElementRef, HostListener, Inject, Input, OnDestroy, OnInit, Optional, ViewChild, ViewEncapsulation,
   ViewRef
 } from '@angular/core';
 import * as d3 from 'd3';
@@ -44,7 +44,7 @@ export class ChartOptions {
   styleUrls: ['./radar-chart.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class RadarChartComponent implements OnInit {
+export class RadarChartComponent implements OnInit, OnDestroy {
   @ViewChild('radarChart') chartContainer: ElementRef;
 
   @Input() id: any;
@@ -66,7 +66,7 @@ export class RadarChartComponent implements OnInit {
   private tooltip: any;
   private width: number;
   private height: number;
-  //private margin: any = {top: 50, bottom: 20, left: 20, right: 20};
+  // private margin: any = {top: 50, bottom: 20, left: 20, right: 20};
 
 
     @HostListener('window:resize', ['$event'])
@@ -92,7 +92,6 @@ export class RadarChartComponent implements OnInit {
     if (!this.data) {
        // data passed in by id (target list)
    this.radarDataService.getData(this.id).subscribe(res => {
-     console.log(res)
      this.data = res;
    });
  } else {
@@ -242,7 +241,7 @@ updateChart(): void {
  const maxValue: number = this.getMaxValue();
  const allAxis = this.data[0].axes.map((i, j) => i.axis),	// Names of each axis
    total = allAxis.length,					// The number of different axes
-   radius = Math.min(this.width/2, this.height/2), 	// Radius of the outermost circle
+   radius = Math.min(this.width / 2, this.height / 2), 	// Radius of the outermost circle
    format = d3.format(this._chartOptions.format),			 	// Formatting
    angleSlice = Math.PI * 2 / total;		// The width in radians of each "slice"
 

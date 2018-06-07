@@ -8,7 +8,7 @@
 
 .background {
   position: absolute;
-  height: 100vh;
+  height: 105vh;
   width: 100vw;
   opacity: .6;
   transform: rotate(180deg);

@@ -1,15 +1,15 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
-import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
-import {MatPaginator, MatTableDataSource} from "@angular/material";
-import {Publication} from "../../../../../models/publication";
-import {HttpClient} from "@angular/common/http";
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {MatPaginator, MatTableDataSource} from '@angular/material';
+import {Publication} from '../../../../../models/publication';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'pharos-assay-panel',
   templateUrl: './assay-panel.component.html',
   styleUrls: ['./assay-panel.component.css']
 })
-export class AssayPanelComponent extends DynamicPanelComponent implements OnInit {
+export class AssayPanelComponent extends DynamicPanelComponent implements OnInit, AfterViewInit {
   displayColumns: string[] = ['pubchem', 'type', 'active', 'inconclusive', 'inactive', 'name'];
 
   assayMap: Map<string, any> = new Map<string, any>();
@@ -19,7 +19,7 @@ export class AssayPanelComponent extends DynamicPanelComponent implements OnInit
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
-    private changeDetectorRef : ChangeDetectorRef,
+    private changeDetectorRef: ChangeDetectorRef,
     private _http: HttpClient) {
     super();
   }
@@ -49,15 +49,15 @@ export class AssayPanelComponent extends DynamicPanelComponent implements OnInit
     const tableArr = [];
     this.data.assays.forEach(assay => {
       if (assay.href && !this.assayMap.get(assay.id)) {
-        this._http.get<any>(assay.href+'?view=full').subscribe(res => {
+        this._http.get<any>(assay.href + '?view=full').subscribe(res => {
           this.assayMap.set(assay.id, res);
           tableArr.push({
             type: res.type,
             name: res.name,
-            active: res.properties.filter(p=> p.label === 'MLP Assay Active')[0].intval,
-            inactive: res.properties.filter(p=> p.label === 'MLP Assay Inactive')[0].intval,
-            inconclusive: res.properties.filter(p=> p.label === 'MLP Assay Inconclusive')[0].intval,
-            pubchem: res.properties.filter(p=> p.label === 'MLP Assay PubChem ID')[0].intval
+            active: res.properties.filter(p => p.label === 'MLP Assay Active')[0].intval,
+            inactive: res.properties.filter(p => p.label === 'MLP Assay Inactive')[0].intval,
+            inconclusive: res.properties.filter(p => p.label === 'MLP Assay Inconclusive')[0].intval,
+            pubchem: res.properties.filter(p => p.label === 'MLP Assay PubChem ID')[0].intval
           });
           this.dataSource.data = tableArr;
         });

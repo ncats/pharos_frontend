@@ -88,8 +88,6 @@ export class PathResolverService {
         },
         queryParamsHandling: ''
       };
-      console.log(facetList);
-      console.log(navigationExtras);
       this._router.onSameUrlNavigation = 'reload'; // forces reload since this is the same navigation url
       if (path) { // move up a level
         this._router.navigate([path], navigationExtras);
@@ -143,12 +141,11 @@ export class PathResolverService {
    * @param facet
    */
   mapSelection(facet: any): void {
-    console.log(facet);
     let fields = this._facetMap.get(facet.name);
     if (fields) {
-      if(facet.change.removed){
+      if (facet.change.removed) {
         fields = fields.filter(field => {
-          return !facet.change.removed.includes(field)
+          return !facet.change.removed.includes(field);
         });
       }
       fields.push(...facet.change.added);
@@ -167,11 +164,10 @@ export class PathResolverService {
   private _flattenMap(): void {
     this._facets = [];
     this._facetMap.forEach((value, key) => {
-      if(value.length > 0){
+      if (value.length > 0) {
         this._facets.push({facet: key, fields: value});
       }
     });
-    console.log(this._facets);
     this._facetSource.next(this._facets);
   }
 

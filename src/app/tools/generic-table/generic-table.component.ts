@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {TableData} from '../../models/table-data';
-import {BehaviorSubject} from "rxjs/index";
+import {BehaviorSubject} from 'rxjs/index';
 
 /**
  * Generic table Component that iterates over a list of {@link TableData} options to display fields
@@ -71,11 +71,11 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
    */
   ngOnInit() {
     this.fetchTableFields();
-    this._data.subscribe(x=> {
-      if(this.data && this.data.length > 0) {
+    this._data.subscribe(x => {
+      if (this.data && this.data.length > 0) {
         this.dataSource.data = this.data;
       }
-    })
+    });
   }
 
   /**

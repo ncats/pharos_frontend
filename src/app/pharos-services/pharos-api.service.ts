@@ -6,7 +6,7 @@ import {catchError} from 'rxjs/operators';
 import {ParamMap} from '@angular/router';
 import {EnvironmentVariablesService} from './environment-variables.service';
 import {Topic} from '../models/topic';
-import {map} from "rxjs/internal/operators";
+import {map} from 'rxjs/internal/operators';
 
 
 @Injectable()
@@ -38,7 +38,12 @@ export class PharosApiService {
    * base API url - set in environment.prod.ts
    */
   private _URL: string;
-  private _SEARCHURLS: string[];
+
+  /**
+   * search field objects. currently the url string is not used, so this could be reduced down to a list of fields
+   * // todo reduce to fields strings
+   */
+  private _SEARCHURLS: any[];
 
   /**
    * single source to reuturn data
@@ -144,7 +149,7 @@ export class PharosApiService {
           .subscribe(response => {
             this._dataSource.next(
               {
-              content:[{kind: path, data: response}],
+              content: [{kind: path, data: response}],
               facets: response.facets
               }
               );
@@ -164,12 +169,12 @@ export class PharosApiService {
       return this.http.get<any>(this._mapParams(api.field, params))
         .pipe(
           map(res => res = {kind: api.field, data: res})
-        )
+        );
     });
 
     forkJoin(...apis).subscribe(res => {
-      this._dataSource.next({content:res});
-    })
+      this._dataSource.next({content: res});
+    });
   }
 
   /**
@@ -255,7 +260,6 @@ export class PharosApiService {
    * @private
    */
   private _mapParams(path: string, params: ParamMap): string {
-    console.log(params);
     let str = '';
     const strArr: string[] = [];
     if (params.keys.length === 0) {
@@ -270,22 +274,20 @@ export class PharosApiService {
       // str = this._URL + (path !== 'search' ? path + '?' : 'search?');
       params.keys.map(key => {
         params.getAll(key).map(val => {
-          console.log(key);
           switch (key) {
             case 'page': {
-              console.log(val);
               const rows = params.get('rows');
               if (rows) {
                 strArr.push('top=' + rows);
               } else {
-                strArr.push('skip=' + 10 * (val - 1));
+                strArr.push('skip=' + 10 * (+val - 1));
               }
               break;
             }
             case 'rows': {
               const page = params.get('page');
               if (page) {
-                strArr.push('skip=' + val * (page - 1));
+                strArr.push('skip=' + +val * (+page - 1));
               }
               break;
             }
@@ -297,10 +299,8 @@ export class PharosApiService {
           }
         );
       });
-      console.log(strArr);
       str = str + strArr.join('&');
     }
-    console.log(str);
     return str;
   }
 
