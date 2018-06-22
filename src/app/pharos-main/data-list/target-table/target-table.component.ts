@@ -1,10 +1,9 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {Target} from '../../../models/target';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
-import {PageData} from '../../../models/page-data';
+import {PageData} from "../../../models/page-data";
 
 @Component({
   selector: 'pharos-target-table',
@@ -17,6 +16,10 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
   @Output() readonly sortChange: EventEmitter<string> = new EventEmitter<string>();
   @Output() readonly pageChange: EventEmitter<string> = new EventEmitter<string>();
 
+  /**
+   * page data object set by parent component
+   */
+  @Input() pageData: PageData;
 
   dataSource = new MatTableDataSource<any>(this.data);
   rowSelection = new SelectionModel<any>(true, []);

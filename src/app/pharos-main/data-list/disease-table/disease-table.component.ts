@@ -5,6 +5,7 @@ import {Disease} from '../../../models/disease';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeWhile} from 'rxjs/internal/operators';
 import {takeUntil} from 'rxjs/operators';
+import {PageData} from "../../../models/page-data";
 
 /**
  * display a pageable/ sortable list of disease objects
@@ -52,6 +53,12 @@ export class DiseaseTableComponent extends DynamicPanelComponent implements OnIn
    * @type {SelectionModel<any>}
    */
   rowSelection = new SelectionModel<any>(true, []);
+
+  /**
+   * page data object set by parent component
+   */
+  @Input() pageData: PageData;
+
 
   /**
    * no required services

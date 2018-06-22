@@ -35,7 +35,11 @@ const ROUTES: Routes = [
     path: 'search',
     loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
     data: { path: 'search' }
-  }
+  }/*,  {
+    path: 'api',
+    loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
+    data: { path: 'api' }
+  }*/
 ];
 
 @NgModule({
