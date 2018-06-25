@@ -14,13 +14,15 @@ import {SharedModule} from './shared/shared.module';
 import {ComponentLookupService} from './pharos-services/component-lookup.service';
 import { DynamicPanelComponent } from './tools/dynamic-panel/dynamic-panel.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ApiViewerComponent} from "./tools/api-viewer/api-viewer.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     PharosDashboardComponent,
     SearchCardComponent,
-    DynamicPanelComponent
+    DynamicPanelComponent,
+    ApiViewerComponent
 
   ],
   imports: [

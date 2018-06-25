@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import {PharosDashboardComponent} from './pharos-dashboard/pharos-dashboard.component';
 import {RouterModule, Routes} from '@angular/router';
+import {ApiViewerComponent} from "./tools/api-viewer/api-viewer.component";
 
 
 
@@ -37,8 +38,7 @@ const ROUTES: Routes = [
     data: { path: 'search' }
   }/*,  {
     path: 'api',
-    loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
-    data: { path: 'api' }
+   component: ApiViewerComponent
   }*/
 ];
 

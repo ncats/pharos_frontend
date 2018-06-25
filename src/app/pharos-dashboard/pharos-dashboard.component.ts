@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Topic} from '../models/topic';
 
 @Component({
   selector: 'pharos-pharos-dashboard',
   templateUrl: './pharos-dashboard.component.html',
-  styleUrls: ['./pharos-dashboard.component.css']
+  styleUrls: ['./pharos-dashboard.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PharosDashboardComponent implements OnInit {
   topics: any;
