@@ -1,22 +1,36 @@
-<div class = "main">
+<div class="main">
   <app-ncats-header></app-ncats-header>
   <mat-sidenav-container class="flex-body facetsDrawer">
-    <mat-sidenav #sidenav [mode]="'over'">
+    <mat-sidenav #sidenav [mode]="'over'" class="filters-panel" [ngClass]="{ 'full-width': allfacets}">
       <!-- sidenav content -->
+      <button type="button" mat-raised-button [color]="'primary'" (click) = "allTargetFilters()">
+        Target Filters <mat-icon>arrow_right_alt</mat-icon>
+      </button>
       <pharos-filter-panel></pharos-filter-panel>
     </mat-sidenav>
-    <mat-sidenav-content>
-<!--
-      <pharos-breadcrumb></pharos-breadcrumb>
--->
-      <button type="button" class="sidenavToggle" mat-raised-button [color]="'primary'" (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
+
+    <mat-sidenav #helppanel [position]="'end'" [mode]="'over'">
+      <!-- sidenav content -->
+      <pharos-help-panel></pharos-help-panel>
+    </mat-sidenav>
+
+      <div fxLayout="row">
+        <div fxFlex="5">
+          <button type="button" class="sidenavToggle" mat-raised-button [color]="'primary'" (click)="sidenav.toggle()">
+            <mat-icon>menu</mat-icon>
+          </button>
+        </div>
+        <span class="fill-remaining-space"></span>
+        <div fxFlex="5">
+          <button type="button" class="helppanelToggle" mat-icon-button (click)="helppanel.toggle()">
+            <mat-icon>help</mat-icon>
+          </button>
+        </div>
+      </div>
       <pharos-data-list-visualizations></pharos-data-list-visualizations>
       <pharos-facet-list></pharos-facet-list>
       <pharos-data-list></pharos-data-list>
       <pharos-scroll-to-top></pharos-scroll-to-top>
-    </mat-sidenav-content>
   </mat-sidenav-container>
-  <app-ncats-footer class ="footer"></app-ncats-footer>
+  <app-ncats-footer class="footer"></app-ncats-footer>
 </div>

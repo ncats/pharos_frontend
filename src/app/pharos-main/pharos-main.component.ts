@@ -27,4 +27,14 @@ import {ResponseParserService} from '../pharos-services/response-parser.service'
   templateUrl: './pharos-main.component.html',
   styleUrls: ['./pharos-main.component.css']
 })
-export class PharosMainComponent {}
+export class PharosMainComponent {
+  allfacets = false;
+
+  allTargetFilters(): void {
+    this.allfacets = !this.allfacets;
+    if(this.allfacets) {
+      console.log("get all facets");
+    }
+
+  }
+}

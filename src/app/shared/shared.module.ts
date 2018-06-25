@@ -23,6 +23,7 @@ import {NcatsHeaderComponent} from '../tools/ncats-header/ncats-header.component
 import {NcatsFooterComponent} from '../tools/ncats-footer/ncats-footer.component';
 import {PharosTabsComponent} from '../tools/pharos-tabs/pharos-tabs.component';
 import {BarChartComponent} from '../tools/visualizations/bar-chart/bar-chart.component';
+import {HelpPanelComponent} from "../tools/help-panel/help-panel.component";
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import {BarChartComponent} from '../tools/visualizations/bar-chart/bar-chart.com
     BarChartComponent,
     LinkListComponent,
     ToiCardComponent,
-    PharosTabsComponent
+    PharosTabsComponent,
+    HelpPanelComponent
   ],
   providers: [
   ],
@@ -74,7 +76,8 @@ import {BarChartComponent} from '../tools/visualizations/bar-chart/bar-chart.com
     BarChartComponent,
     LinkListComponent,
     ToiCardComponent,
-    PharosTabsComponent
+    PharosTabsComponent,
+    HelpPanelComponent
   ]
 })
 export class SharedModule {

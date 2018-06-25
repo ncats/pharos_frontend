@@ -1,4 +1,7 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import {Facet} from '../../models/facet';
 import {Subject, combineLatest} from 'rxjs';
 import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
@@ -11,10 +14,11 @@ import {Observable} from 'rxjs/index';
   selector: 'pharos-filter-panel',
   templateUrl: './filter-panel.component.html',
   styleUrls: ['./filter-panel.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class FilterPanelComponent implements OnInit, OnDestroy {
   facetsList: any;
-  facets: any;
+  @Input() facets?: any;
   private ngUnsubscribe: Subject<any> = new Subject();
 
   constructor(
@@ -42,6 +46,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
         if (loaded) {
           this.facets = [];
           this.environmentVariablesService.getFacets(path).map(facet => {
+            console.log(facet);
             const temp = this.facetRetrieverService.getFacet(facet.name);
             if (temp) {
               temp.label = facet.label;

@@ -19,6 +19,10 @@ a:hover {
  // font-weight: 500;
 }
 
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
+
 /*a:visited {
   color:  mat-color($pharos-app-accent);
   font-weight: 500;

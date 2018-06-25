@@ -1,3 +1,4 @@
+<div class = "grid-list">
 <div *ngFor= "let facet of facets; trackBy: trackByFn;">
   <mat-expansion-panel [expanded]="true" *ngIf="facet.values.length > 0">
     <mat-expansion-panel-header>
@@ -11,4 +12,5 @@
 -->
   </mat-expansion-panel>
   <mat-divider></mat-divider>
+</div>
 </div>

@@ -5,6 +5,10 @@
   flex-direction:column;
 }
 
+.full-width {
+  width: 85vw;
+}
+
 .loadingIcon {
   position: absolute; /* Sit on top of the page content */
   display: none; /* Hidden by default */

@@ -14,7 +14,6 @@ import {SharedModule} from './shared/shared.module';
 import {ComponentLookupService} from './pharos-services/component-lookup.service';
 import { DynamicPanelComponent } from './tools/dynamic-panel/dynamic-panel.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { BarChartComponent } from './tools/visualizations/bar-chart/bar-chart.component';
 
 @NgModule({
   declarations: [
