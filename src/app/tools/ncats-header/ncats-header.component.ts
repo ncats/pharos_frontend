@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 /**Component that contains basic NCATS branded menu, also contains pharos options */
 @Component({
@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./ncats-header.component.css']
 })
 export class NcatsHeaderComponent {
+  @Input() searchBar = false;
 }

@@ -1,42 +1,56 @@
-<mat-card class ="pharos-card">
-  <mat-card-header class="align-header" routerLink="{{toi.id}}" class="toi-link">
-       <mat-card-title><span class="mat-display-2 primary" >{{toi?.name}}</span></mat-card-title>
-    <mat-chip-list class = "pull-end" fxFlex fxFlexAlign="stretch">
-      <mat-chip [color]="'accent'" [selected]="true">{{toi?.class}}</mat-chip>
-    </mat-chip-list>
-  </mat-card-header>
-  <mat-card-content>
+<mat-card class ="pharos-card" routerLink="{{toi.id}}" class="toi-link">
+  <div fxLayout="row" fxLayout.xs="column" >
+    <div fxFlex="100">
+      <span class="topic-header primary">{{toi?.name}}</span>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end">
+    <div fxFlex="20">
+      <mat-chip-list>
+      <mat-chip  [color]="'accent'" [selected]="true">{{toi?.class}}</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
     <div *ngIf="desc" fxLayout="row" fxLayoutAlign="center center" class="counts-row">
       <div fxFlex="75">
         {{toi?.description}}
       </div>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" class="counts-row">
-      <div fxFlex="30" *ngIf="toi?.targetCt != 0" routerLink="/targets" class="toi-sub-link">
+      <div fxFlex="30" *ngIf="toi?.targetCt != 0" routerLink="/targets" class="toi-sub-link" fxFlexAlign="center">
+        <div fxLayout="row" fxLayoutAlign="center center">
         <span class = "counter">{{toi?.targetCt}}</span>
-        <br>
-        <span class = "mat-title">Targets</span>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center" class="counts-row">
+        <span class = "counter-type">Targets</span>
+      </div>
       </div>
       <div fxFlex="1" class="divider" *ngIf="toi?.targetCt != 0"></div>
       <div fxFlex="30" *ngIf="toi?.diseaseCt != 0" routerLink="/diseases" class="toi-sub-link">
+        <div fxLayout="row" fxLayoutAlign="center center">
         <span class = "counter">{{toi?.diseaseCt}}</span>
-        <br>
-        <span class = "mat-title">Diseases</span>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <span class = "counter-type">Diseases</span>
+        </div>
       </div>
       <div fxFlex="1" class="divider" *ngIf="toi?.diseaseCt != 0"></div>
       <div fxFlex="30" *ngIf="toi?.ligandCt != 0" routerLink="/ligands" class="toi-sub-link">
+        <div fxLayout="row" fxLayoutAlign="center center">
         <span class = "counter">{{toi?.ligandCt}}</span>
-        <br>
-        <span class = "mat-title">Ligands</span>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center">
+        <span class = "counter-type">Ligands</span>
+        </div>
       </div>
       <div fxFlex="1" class="divider" *ngIf="toi?.ligandCt != 0"></div>
       <div fxFlex="30" *ngIf="toi?.publicationCt != 0" routerLink="/publications" class="toi-sub-link">
+        <div fxLayout="row" fxLayoutAlign="center center">
         <span class = "counter">{{toi?.publicationCt}}</span>
-        <br>
-        <span class = "mat-title">Publications</span>
-
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center">
+        <span class = "counter-type">Publications</span>
+        </div>
       </div>
     </div>
-
-  </mat-card-content>
 </mat-card>

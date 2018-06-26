@@ -24,6 +24,7 @@ import {ApiViewerComponent} from "./tools/api-viewer/api-viewer.component";
     DynamicPanelComponent,
     ApiViewerComponent
 
+
   ],
   imports: [
     BrowserAnimationsModule,

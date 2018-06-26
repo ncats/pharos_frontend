@@ -1,4 +1,4 @@
-<div id ="hhs-banner" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center" [fxHide.lt-sm]="true">
+<!--<div id ="hhs-banner" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center" [fxHide.lt-sm]="true">
     <img src="./assets/images/nihribbon-hhs.svg" alt="HHS Logo">
   <a href="http://www.hhs.gov/" title="Go to the hhs.gov"target="_blank">U.S. Department of Health &amp; Human Services</a>
   <img src="./assets/images/nihribbon-divider.svg" alt="Divider Arrow">
@@ -7,8 +7,8 @@
   <img src="./assets/images/nihribbon-divider.svg" alt="Divider Arrow">
   <img src="./assets/images/nih-ribbon.svg" alt="NCATS">
   <a href="http://www.ncats.nih.gov" target="new">NCATS</a>
-</div>
-<mat-toolbar>
+</div>-->
+<mat-toolbar class="ncats-toolbar">
   <img src="./assets/images/Pharos_Logo_Rd8.svg" routerLink="/index" alt="Pharos logo" class="pharos-logo">
   <div fxFlex = "20" id="links" [fxHide.lt-sm]="true">
     <a mat-button routerLink="/targets">Targets</a>
@@ -17,7 +17,7 @@
     <a mat-button routerLink="/topics">Topics</a>
     <a mat-button routerLink="/targets">API</a>
     <a mat-button routerLink="/targets" [matMenuTriggerFor]="helpMenu">Help<mat-icon>arrow_drop_down</mat-icon></a>
-    <mat-menu #helpMenu="matMenu">
+    <mat-menu #helpMenu="matMenu" ngClass={{className}}>
       <button mat-menu-item>General information</button>
       <button mat-menu-item>Frequently asked questions</button>
       <button mat-menu-item>Download TCRD</button>
@@ -27,7 +27,7 @@
   </div>
   <span class="fill-remaining-space"></span>
   <div fxFlex fxLayoutAlign= "end center">
-    <pharos-search-component [fxHide.lt-sm]="true" [placeholderStr]="'search'"></pharos-search-component>
+    <pharos-search-component [fxHide.lt-sm]="true" [placeholderStr]="'search'" *ngIf="searchBar === true"></pharos-search-component>
     <button mat-button [mat-menu-trigger-for]="appMenu" fxHide="false" fxHide.gt-sm>
       <mat-icon>menu</mat-icon>
     </button>
@@ -37,7 +37,7 @@
       <button mat-menu-item routerLink="/targets">Ligands</button>
       <button mat-menu-item routerLink="/targets">API</button>
       <button mat-menu-item routerLink="/targets" [matMenuTriggerFor]="helpMenuMobile">Help</button>
-      <pharos-search-component></pharos-search-component>
+      <pharos-search-component *ngIf="searchBar === true"></pharos-search-component>
     </mat-menu>
     <mat-menu #helpMenuMobile ="matMenu">
       <button mat-menu-item>General information</button>

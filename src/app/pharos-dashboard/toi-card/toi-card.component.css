@@ -1,11 +1,7 @@
-
-.counts-row {
-  height: 10vh;
-  text-align: center;
-}
-
-.pharos-card {
-  margin-bottom: 1vh;
+.topic-header{
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 2.1vw;
+  font-weight: 300;
 }
 
 .pharos-card {
@@ -13,21 +9,21 @@
 }
 
 .divider {
+  height: 10vh;
   border-right: rgba(0, 0, 0, .2) 1px solid;
-  height: 100%;
+  margin-left: 1vw;
+  margin-right: 1vw;
 }
 
 .toi-link {
   cursor: pointer;
 }
 
-.pull-end {
-  display: flex;
-  justify-content: flex-end;
+.counter {
+  font: 300 3vw Roboto, "Helvetica Neue", sans-serif;
+  letter-spacing: -0.05em;
 }
 
-.counter {
-  font: 300 96px/96px Roboto, "Helvetica Neue", sans-serif;
-  margin: 0 0 60px;
-  letter-spacing: -0.05em;
+.counter-type {
+  font: 400 20px/32px Roboto, "Helvetica Neue", sans-serif;
 }

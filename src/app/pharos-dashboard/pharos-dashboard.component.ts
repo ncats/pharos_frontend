@@ -4,7 +4,7 @@ import {Topic} from '../models/topic';
 @Component({
   selector: 'pharos-pharos-dashboard',
   templateUrl: './pharos-dashboard.component.html',
-  styleUrls: ['./pharos-dashboard.component.css'],
+  styleUrls: ['./pharos-dashboard.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class PharosDashboardComponent implements OnInit {
@@ -51,6 +51,21 @@ export class PharosDashboardComponent implements OnInit {
         publicationCt: 45
       }),
       new Topic({
+        name: 'Cystic Fibrosis',
+        description: 'Maybe there\'s a happy little waterfall happening over here. In life you need colors. ' +
+        'Decide where your cloud lives. Maybe he lives right in here. I can\'t think of anything more rewarding than being ' +
+        'able to express yourself to others through painting. I\'m sort of a softy, I couldn\'t shoot Bambi except with a camera. ' +
+        'All you need to paint is a few tools, a little instruction, and a vision in your mind. ' +
+        'This is a happy place, little squirrels live here and play. Now then, let\'s play. Poor old tree. ' +
+        'Let your imagination be your guide. Fluff it up a little and hypnotize it. Trees get lonely too, ' +
+        'so we\'ll give him a little friend. ' +
+        'Let\'s make a happy little mountain now. We\'ll play with clouds today.',
+        class: 'disease',
+        diseaseCt: 0,
+        ligandCt: 4,
+        targetCt: 5,
+        publicationCt: 12
+      }),new Topic({
         name: 'Cystic Fibrosis',
         description: 'Maybe there\'s a happy little waterfall happening over here. In life you need colors. ' +
         'Decide where your cloud lives. Maybe he lives right in here. I can\'t think of anything more rewarding than being ' +

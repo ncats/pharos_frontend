@@ -1,0 +1,62 @@
+@import '../../ncats-theme';
+
+
+.spacer {
+  height: 30vh;
+}
+
+.background {
+  position: absolute;
+  height: 105vh;
+  width: 99vw;
+  opacity: .7;
+//  transform: rotate(180deg);
+}
+
+.background-mobile {
+  position: fixed;
+  opacity: .6;
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+
+
+.typeahead-field {
+  background-color: white;
+  padding-left: 3vw;
+  padding-right: 3vw;
+  border-radius: 50px;
+  border: 2px solid mat-color($pharos-app-primary);
+}
+
+.ncats-toolbar{
+background-color: transparent;
+position: absolute;
+z-index: 666;
+color: white;
+}
+
+.toi-grid-list {
+  display: grid;
+  grid-auto-rows: max-content;
+  grid-template-columns: repeat(auto-fill, minmax(24%, 1fr));
+  grid-template-rows: auto;
+  grid-gap: 1em;
+  padding: 1vw;
+}
+
+.topics-banner {
+  color: white;
+  z-index: 666;
+  font: 400 45px/48px Roboto, "Helvetica Neue", sans-serif;
+}
+
+.learn-more {
+  color: white;
+  z-index: 666;
+  font: 500 20px/20px Roboto, "Helvetica Neue", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
