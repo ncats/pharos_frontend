@@ -5,7 +5,18 @@
 }
 
 .pharos-card {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   background-color: rgba(255,255,255,.9);
+}
+
+/*
+  pins to bottom by stretching the middle
+ */
+.pharos-card-spacer{
+  flex: 1 0 auto;
 }
 
 .divider {
@@ -25,5 +36,5 @@
 }
 
 .counter-type {
-  font: 400 20px/32px Roboto, "Helvetica Neue", sans-serif;
+  font: 400 18px/28px Roboto, "Helvetica Neue", sans-serif;
 }

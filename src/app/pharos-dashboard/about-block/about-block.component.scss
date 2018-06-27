@@ -1,0 +1,28 @@
+@import '../../../ncats-theme';
+
+.about-block {
+  height: 40vh;
+  color: white;
+  background-color: mat-color($pharos-app-primary);
+}
+
+.about-banner {
+  font: 300 36px/36px Roboto, "Helvetica Neue", sans-serif;
+  padding-top: 5vh;
+}
+
+.about-list {
+  color: white;
+  text-decoration: none;
+  font: 300 18px/24px Roboto, "Helvetica Neue", sans-serif;
+
+}
+
+li.about-list-item {
+  padding: .5vh 0 .5vh 0;
+}
+
+.screenshot {
+  padding-top: 5vh;
+  max-height: 30vh;
+}

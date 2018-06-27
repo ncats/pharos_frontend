@@ -9,8 +9,16 @@
   position: absolute;
   height: 105vh;
   width: 99vw;
-  opacity: .7;
+  opacity: .9;
 //  transform: rotate(180deg);
+}
+
+.search-row {
+  height: 28vh;
+}
+
+.toi-row {
+  padding-bottom: 6vh;
 }
 
 .background-mobile {
@@ -19,8 +27,6 @@
   -webkit-transform: rotate(180deg);
   transform: rotate(180deg);
 }
-
-
 
 .typeahead-field {
   background-color: white;
@@ -32,7 +38,7 @@
 
 .ncats-toolbar{
 background-color: transparent;
-position: absolute;
+position: fixed;
 z-index: 666;
 color: white;
 }
@@ -43,7 +49,17 @@ color: white;
   grid-template-columns: repeat(auto-fill, minmax(24%, 1fr));
   grid-template-rows: auto;
   grid-gap: 1em;
+  grid-row-gap: 5em;
   padding: 1vw;
+}
+
+.toi-grid-list > div {
+  /*margin-bottom: 4em;*/
+  min-height:100%;
+}
+
+.toi-grid-list > mat-card {
+  height: 100%;
 }
 
 .topics-banner {
@@ -52,11 +68,33 @@ color: white;
   font: 400 45px/48px Roboto, "Helvetica Neue", sans-serif;
 }
 
+.learn-link:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .learn-more {
-  color: white;
+  color: mat-color($pharos-app-primary);
   z-index: 666;
   font: 500 20px/20px Roboto, "Helvetica Neue", sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.scrolled-banner {
+background-color: whitesmoke;
+  color: mat-color($pharos-app-primary);
+
+}
+
+@media screen and (max-width: 768px) {
+  .toi-grid-list {
+    display: grid;
+    grid-auto-rows: max-content;
+    grid-template-columns: repeat(auto-fill, minmax(90%, 1fr));
+    grid-template-rows: auto;
+    grid-gap: 1em;
+    grid-row-gap: 5em;
+  }
 }

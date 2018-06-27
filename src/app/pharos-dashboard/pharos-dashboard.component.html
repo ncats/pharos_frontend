@@ -1,22 +1,31 @@
-<app-ncats-header [searchBar]="'false'"></app-ncats-header>
-  <img src="./assets/images/101388260.jpg" ngClass = "background" [ngClass.xs]="{'background': false,'background-mobile': true }">
+<app-ncats-header [searchBar]="'false'" [headerClass]="position" [animationState]="animationState"></app-ncats-header>
+  <img src="./assets/images/101388260_edit2.png" ngClass = "background" [ngClass.xs]="{'background': false,'background-mobile': true }">
 <div fxLayout="row" class="spacer" fxHide.xs></div>
-<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around none" class="toi-row">
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around none" class="search-row">
   <div fxFlex="60" fxFlexOrder.xs="2">
     <pharos-search-component></pharos-search-component>
   </div>
 </div>
-  <div fxLayout="row" class="spacer" fxHide.xs></div>
   <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
     <div fxFlexAlign="50" class = "topics-banner">Pharos Topics</div>
   </div>
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class ="toi-row">
       <div fxFlex="80" class = "toi-grid-list">
    <div *ngFor="let toi of topics">
        <pharos-toi-card [toi] = toi [desc]="false"></pharos-toi-card>
+     <!--<div fxFlex="35" fxFlexOrder.xs="1" fxFlexAlign="stretch">
+<pharos-search-card></pharos-search-card>
+</div>
+</div>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="center none">
+<div fxFlex="60">
+<button mat-raised-button [color]= "'primary'" routerLink="/topics">See More Topics...</button>
+</div>
+<div fxFlex="35"></div>&ndash;&gt;-->
      </div>
    </div>
   </div>
+<a (click)="goToDetails()" class="learn-link">
   <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center stretch">
     <div fxFlex="20" class = "learn-more">
       Learn More
@@ -25,14 +34,12 @@
 <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center stretch">
   <div fxFlex="20" class = "learn-more">
 <mat-icon>keyboard_arrow_down</mat-icon>
-      <!--<div fxFlex="35" fxFlexOrder.xs="1" fxFlexAlign="stretch">
-   <pharos-search-card></pharos-search-card>
-   </div>
- </div>
- <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="center none">
-   <div fxFlex="60">
-     <button mat-raised-button [color]= "'primary'" routerLink="/topics">See More Topics...</button>
-   </div>
- <div fxFlex="35"></div>&ndash;&gt;-->
+
 </div>
 </div>
+</a>
+<pharos-data-types #details></pharos-data-types>
+<pharos-about-block></pharos-about-block>
+<div fxLayout="row" class="spacer" fxHide.xs></div>
+<div fxLayout="row" class="spacer" fxHide.xs></div>
+<app-ncats-footer></app-ncats-footer>

@@ -8,8 +8,10 @@
   <img src="./assets/images/nih-ribbon.svg" alt="NCATS">
   <a href="http://www.ncats.nih.gov" target="new">NCATS</a>
 </div>-->
-<mat-toolbar class="ncats-toolbar">
-  <img src="./assets/images/Pharos_Logo_Rd8.svg" routerLink="/index" alt="Pharos logo" class="pharos-logo">
+<mat-toolbar class="ncats-toolbar" ngClass = {{headerClass}} [@slideInOut]="animationState">
+
+  <img *ngIf="animationState === 'out'" src="./assets/images/Pharos_Logo_Rd8-white.svg" routerLink="/index" alt="Pharos logo" class="pharos-logo">
+  <img *ngIf="animationState === 'in'" src="./assets/images/Pharos_Logo_Rd8.svg" routerLink="/index" alt="Pharos logo" class="pharos-logo">
   <div fxFlex = "20" id="links" [fxHide.lt-sm]="true">
     <a mat-button routerLink="/targets">Targets</a>
     <a mat-button routerLink="/diseases">Diseases</a>

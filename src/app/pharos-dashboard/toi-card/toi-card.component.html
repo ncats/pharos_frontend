@@ -1,14 +1,14 @@
-<mat-card class ="pharos-card" routerLink="{{toi.id}}" class="toi-link">
+<mat-card class ="pharos-card toi-link" routerLink="{{toi.id}}">
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end">
+    <div fxFlex="25">
+      <mat-chip-list>
+        <mat-chip  [color]="'accent'" [selected]="true">{{toi?.class}}</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
   <div fxLayout="row" fxLayout.xs="column" >
     <div fxFlex="100">
       <span class="topic-header primary">{{toi?.name}}</span>
-    </div>
-  </div>
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end">
-    <div fxFlex="20">
-      <mat-chip-list>
-      <mat-chip  [color]="'accent'" [selected]="true">{{toi?.class}}</mat-chip>
-      </mat-chip-list>
     </div>
   </div>
     <div *ngIf="desc" fxLayout="row" fxLayoutAlign="center center" class="counts-row">
@@ -16,6 +16,7 @@
         {{toi?.description}}
       </div>
     </div>
+  <div class = "pharos-card-spacer"></div>
     <div fxLayout="row" fxLayoutAlign="center center" class="counts-row">
       <div fxFlex="30" *ngIf="toi?.targetCt != 0" routerLink="/targets" class="toi-sub-link" fxFlexAlign="center">
         <div fxLayout="row" fxLayoutAlign="center center">

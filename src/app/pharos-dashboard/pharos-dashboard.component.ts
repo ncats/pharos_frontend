@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {Topic} from '../models/topic';
 
 @Component({
@@ -8,12 +8,16 @@ import {Topic} from '../models/topic';
   encapsulation: ViewEncapsulation.None
 })
 export class PharosDashboardComponent implements OnInit {
+  @ViewChild('details', {read: ElementRef}) elemRef: ElementRef;
   topics: any;
+  position: string;
+  animationState: string = 'out';
 
   constructor() {
   }
 
   ngOnInit() {
+    console.log(this);
     this.topics = [
       new Topic({
         name: 'Bromodomain Inhibitors',
@@ -83,4 +87,24 @@ export class PharosDashboardComponent implements OnInit {
       })
     ];
   }
+
+  goToDetails():void {
+    console.log(this.elemRef.nativeElement);
+    this.elemRef.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+  }
+
+  /**
+   * method that checks to see if the user has scrolled past a certain point. pinned to the window object
+   * @returns void
+   */
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    // todo: work around window api for angular universal
+    if (window.pageYOffset > 64 || document.documentElement.scrollTop > 64 || document.body.scrollTop > 64) {
+      this.animationState = 'in';
+    } else if (this.position && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop < 64) {
+      this.animationState = 'out';
+    }
+  }
+
 }
