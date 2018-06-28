@@ -15,8 +15,9 @@ import {ComponentLookupService} from './pharos-services/component-lookup.service
 import { DynamicPanelComponent } from './tools/dynamic-panel/dynamic-panel.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ApiViewerComponent} from "./tools/api-viewer/api-viewer.component";
-import { DataTypesComponent } from './pharos-dashboard/data-types/data-types.component';
-import { AboutBlockComponent } from './pharos-dashboard/about-block/about-block.component';
+import {DataTypesPanelComponent} from './pharos-dashboard/data-types-panel/data-types-panel.component';
+import {AboutPanelComponent} from './pharos-dashboard/about-panel/about-panel.component';
+import { NewsPanelComponent } from './pharos-dashboard/news-panel/news-panel.component';
 
 @NgModule({
   declarations: [
@@ -25,8 +26,9 @@ import { AboutBlockComponent } from './pharos-dashboard/about-block/about-block.
     SearchCardComponent,
     DynamicPanelComponent,
     ApiViewerComponent,
-    DataTypesComponent,
-    AboutBlockComponent
+    DataTypesPanelComponent,
+    AboutPanelComponent,
+    NewsPanelComponent
 
 
   ],

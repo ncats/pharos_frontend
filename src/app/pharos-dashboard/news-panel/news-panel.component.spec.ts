@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DataTypesComponent } from './data-types.component';
+import { NewsPanelComponent } from './news-panel.component';
 
-describe('DataTypesComponent', () => {
-  let component: DataTypesComponent;
-  let fixture: ComponentFixture<DataTypesComponent>;
+describe('NewsPanelComponent', () => {
+  let component: NewsPanelComponent;
+  let fixture: ComponentFixture<NewsPanelComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DataTypesComponent ]
+      declarations: [ NewsPanelComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DataTypesComponent);
+    fixture = TestBed.createComponent(NewsPanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
