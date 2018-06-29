@@ -18,6 +18,11 @@ import {ApiViewerComponent} from "./tools/api-viewer/api-viewer.component";
 import {DataTypesPanelComponent} from './pharos-dashboard/data-types-panel/data-types-panel.component';
 import {AboutPanelComponent} from './pharos-dashboard/about-panel/about-panel.component';
 import { NewsPanelComponent } from './pharos-dashboard/news-panel/news-panel.component';
+import {AngularFireModule} from "angularfire2";
+import {environment} from "../environments/environment";
+import {AngularFirestoreModule} from "angularfire2/firestore";
+import {AngularFireAuthModule} from "angularfire2/auth";
+import { SanitizeHtmlPipe } from './tools/sanitize-html.pipe';
 
 @NgModule({
   declarations: [
@@ -28,13 +33,19 @@ import { NewsPanelComponent } from './pharos-dashboard/news-panel/news-panel.com
     ApiViewerComponent,
     DataTypesPanelComponent,
     AboutPanelComponent,
-    NewsPanelComponent
+    NewsPanelComponent,
+    SanitizeHtmlPipe
 
 
   ],
   imports: [
     BrowserAnimationsModule,
+    AngularFireModule.initializeApp(environment.firebase), // imports firebase/app needed for everything
+    AngularFirestoreModule, // imports firebase/firestore, only needed for database features
+    AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AppRoutingModule,
+    // todo: might be used later
+    // AngularFireStorageModule // imports firebase/storage only needed for storage features
     SharedModule.forRoot()
   ],
   providers: [

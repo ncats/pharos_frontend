@@ -19,7 +19,7 @@
     <a mat-button routerLink="/topics">Topics</a>
     <a mat-button routerLink="/targets">API</a>
     <a mat-button routerLink="/targets" [matMenuTriggerFor]="helpMenu">Help<mat-icon>arrow_drop_down</mat-icon></a>
-    <mat-menu #helpMenu="matMenu" ngClass={{className}}>
+    <mat-menu #helpMenu="matMenu">
       <button mat-menu-item>General information</button>
       <button mat-menu-item>Frequently asked questions</button>
       <button mat-menu-item>Download TCRD</button>

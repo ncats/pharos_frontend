@@ -11,7 +11,7 @@
   </div>
   <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class ="toi-row">
     <div fxFlex="10" fxFlexAlign="center"></div>
-    <div class = "toi-grid-list">
+    <div class = "toi-grid-list" fxFlex>
    <div *ngFor="let toi of topics">
        <pharos-toi-card [toi] = toi [desc]="false"></pharos-toi-card>
      <!--<div fxFlex="35" fxFlexOrder.xs="1" fxFlexAlign="stretch">
@@ -46,6 +46,6 @@
  </div>
 <pharos-data-types-panel #details></pharos-data-types-panel>
 <pharos-about-panel></pharos-about-panel>
-<div fxLayout="row" class="spacer" fxHide.xs></div>
+<pharos-news-panel></pharos-news-panel>
 <div fxLayout="row" class="spacer" fxHide.xs></div>
 <app-ncats-footer></app-ncats-footer>

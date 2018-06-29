@@ -92,3 +92,10 @@ a:hover {
 .pharos-header {
   background-color: red;
 }
+
+.full-height-card {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}

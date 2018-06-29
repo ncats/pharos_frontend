@@ -17,7 +17,6 @@ export class PharosDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this);
     this.topics = [
       new Topic({
         name: 'Bromodomain Inhibitors',
@@ -89,7 +88,6 @@ export class PharosDashboardComponent implements OnInit {
   }
 
   goToDetails():void {
-    console.log(this.elemRef.nativeElement);
     this.elemRef.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
   }
 
