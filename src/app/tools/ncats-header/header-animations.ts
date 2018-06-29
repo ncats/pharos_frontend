@@ -10,8 +10,6 @@ export const SlideInOutAnimation = [
 })),
     state('out', style({
       'background-color': 'transparent',
-      'position': 'fixed',
-      'z-index': '666',
       'color': 'white'
     })),
     transition('in => out', [group([

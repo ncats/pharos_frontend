@@ -29,3 +29,7 @@ img.pharos-logo {
 .header-search {
   width:15%;
 }
+
+.ncats-toolbar {
+  z-index: 6667;
+}

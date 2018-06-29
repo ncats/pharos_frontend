@@ -1,17 +1,26 @@
 @import '../../ncats-theme';
 
+.dashboard-main-div {
+  background-image: url("../../assets/images/101388260_edit2.png");
+  background-color: mat-color($pharos-app-primary);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 105vh;
+  width: 100vw;
+}
 
 .spacer {
   height: 30vh;
 }
 
-.background {
+/*.background {
   position: absolute;
   height: 105vh;
-  width: 99vw;
+  width: 100vw;
   opacity: .9;
 //  transform: rotate(180deg);
-}
+}*/
 
 .search-row {
   height: 28vh;
@@ -21,12 +30,12 @@
   padding-bottom: 6vh;
 }
 
-.background-mobile {
+/*.background-mobile {
   position: fixed;
   opacity: .6;
   -webkit-transform: rotate(180deg);
   transform: rotate(180deg);
-}
+}*/
 
 .typeahead-field {
   background-color: white;
@@ -38,20 +47,29 @@
 
 .ncats-toolbar{
 background-color: transparent;
-position: fixed;
+  position: fixed;
 z-index: 666;
 color: white;
 }
 
 .toi-grid-list {
   display: grid;
-  grid-auto-rows: max-content;
-  grid-template-columns: repeat(auto-fill, minmax(24%, 1fr));
-  grid-template-rows: auto;
+  //grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, minmax(24%, 1fr));
   grid-gap: 1em;
   grid-row-gap: 5em;
   padding: 1vw;
 }
+
+//.toi-grid-list {
+//  display: grid;
+//  grid-template-columns: repeat(auto-fill, minmax(24%, 1fr));
+//  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+//  grid-template-rows: auto;
+//  grid-gap: 1em;
+//  grid-row-gap: 5em;
+//  padding: 1vw;
+//}
 
 .toi-grid-list > div {
   /*margin-bottom: 4em;*/
@@ -62,10 +80,11 @@ color: white;
   height: 100%;
 }
 
+
 .topics-banner {
   color: white;
   z-index: 666;
-  font: 400 45px/48px Roboto, "Helvetica Neue", sans-serif;
+  font: 400 2.4rem/3rem Roboto, "Helvetica Neue", sans-serif;
 }
 
 .learn-link:hover {
