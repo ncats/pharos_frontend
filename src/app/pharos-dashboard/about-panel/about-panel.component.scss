@@ -1,20 +1,23 @@
 @import '../../../ncats-theme';
 
 .about-block {
+  /*
   height: 40vh;
+  */
+  padding:3vh 0 6vh 0;
   color: white;
   background-color: mat-color($pharos-app-primary);
 }
 
 .about-banner {
-  font: 300 36px/36px Roboto, "Helvetica Neue", sans-serif;
+  font: 300 36px/36px "Google Sans",Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
   padding-top: 5vh;
 }
 
 .about-list {
   color: white;
   text-decoration: none;
-  font: 300 18px/24px Roboto, "Helvetica Neue", sans-serif;
+  font: 300 18px/24px "Google Sans",Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
 
 }
 

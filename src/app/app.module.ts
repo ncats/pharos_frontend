@@ -23,6 +23,10 @@ import {environment} from "../environments/environment";
 import {AngularFirestoreModule} from "angularfire2/firestore";
 import {AngularFireAuthModule} from "angularfire2/auth";
 import { SanitizeHtmlPipe } from './tools/sanitize-html.pipe';
+import { AboutPageComponent } from './about-page/about-page.component';
+import { FaqPageComponent } from './faq-page/faq-page.component';
+import { ApiPageComponent } from './api-page/api-page.component';
+import {PharosFooterComponent} from "./tools/pharos-footer/pharos-footer.component";
 
 @NgModule({
   declarations: [
@@ -34,19 +38,20 @@ import { SanitizeHtmlPipe } from './tools/sanitize-html.pipe';
     DataTypesPanelComponent,
     AboutPanelComponent,
     NewsPanelComponent,
-    SanitizeHtmlPipe
-
-
+    SanitizeHtmlPipe,
+    AboutPageComponent,
+    FaqPageComponent,
+    ApiPageComponent
   ],
   imports: [
+    SharedModule.forRoot(),
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase), // imports firebase/app needed for everything
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
-    AppRoutingModule,
+    AppRoutingModule
     // todo: might be used later
     // AngularFireStorageModule // imports firebase/storage only needed for storage features
-    SharedModule.forRoot()
   ],
   providers: [
     PharosApiService,

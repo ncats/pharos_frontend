@@ -1,15 +1,4 @@
-<!--<div id ="hhs-banner" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center" [fxHide.lt-sm]="true">
-    <img src="./assets/images/nihribbon-hhs.svg" alt="HHS Logo">
-  <a href="http://www.hhs.gov/" title="Go to the hhs.gov"target="_blank">U.S. Department of Health &amp; Human Services</a>
-  <img src="./assets/images/nihribbon-divider.svg" alt="Divider Arrow">
-  <img src="./assets/images/nih-ribbon.svg" alt="NIH logo">
-  <a href="http://www.nih.gov/" title="National Institutes of Health | Homepage"target="_blank">National Institutes of Health</a>
-  <img src="./assets/images/nihribbon-divider.svg" alt="Divider Arrow">
-  <img src="./assets/images/nih-ribbon.svg" alt="NCATS">
-  <a href="http://www.ncats.nih.gov" target="new">NCATS</a>
-</div>-->
 <mat-toolbar class="ncats-toolbar" ngClass = {{headerClass}} [@slideInOut]="animationState">
-
   <img *ngIf="animationState === 'out'" src="./assets/images/Pharos_Logo_Rd8-white.svg" routerLink="/index" alt="Pharos logo" class="pharos-logo">
   <img *ngIf="animationState === 'in'" src="./assets/images/Pharos_Logo_Rd8.svg" routerLink="/index" alt="Pharos logo" class="pharos-logo">
   <div fxFlex = "20" id="links" [fxHide.lt-sm]="true">
@@ -17,15 +6,9 @@
     <a mat-button routerLink="/diseases">Diseases</a>
     <a mat-button routerLink="/targets">Ligands</a>
     <a mat-button routerLink="/topics">Topics</a>
-    <a mat-button routerLink="/targets">API</a>
-    <a mat-button routerLink="/targets" [matMenuTriggerFor]="helpMenu">Help<mat-icon>arrow_drop_down</mat-icon></a>
-    <mat-menu #helpMenu="matMenu">
-      <button mat-menu-item>General information</button>
-      <button mat-menu-item>Frequently asked questions</button>
-      <button mat-menu-item>Download TCRD</button>
-      <button mat-menu-item><a href="https://www.youtube.com/channel/UCr5BtMcSjL7C4jwCEJOCKGg" target="_blank">Video tutorials</a></button>
-      <button mat-menu-item>About</button>
-    </mat-menu>
+    <a mat-button routerLink="/api">API</a>
+    <a mat-button routerLink="/about">About</a>
+    <a mat-button routerLink="/faq">FAQ</a>
   </div>
   <span class="fill-remaining-space"></span>
   <div fxFlex fxLayoutAlign= "end center">
@@ -34,19 +17,14 @@
       <mat-icon>menu</mat-icon>
     </button>
     <mat-menu #appMenu="matMenu">
-      <button mat-menu-item routerLink="/targets">Targets</button>
-      <button mat-menu-item routerLink="/targets">Diseases</button>
-      <button mat-menu-item routerLink="/targets">Ligands</button>
-      <button mat-menu-item routerLink="/targets">API</button>
-      <button mat-menu-item routerLink="/targets" [matMenuTriggerFor]="helpMenuMobile">Help</button>
+      <a mat-menu-item routerLink="/targets">Targets</a>
+      <a mat-menu-item routerLink="/diseases">Diseases</a>
+      <a mat-menu-item routerLink="/targets">Ligands</a>
+      <a mat-menu-item routerLink="/topics">Topics</a>
+      <a mat-menu-item routerLink="/api">API</a>
+      <a mat-menu-item routerLink="/about">About</a>
+      <a mat-menu-item routerLink="/faq">FAQ</a>
       <pharos-search-component *ngIf="searchBar === true"></pharos-search-component>
-    </mat-menu>
-    <mat-menu #helpMenuMobile ="matMenu">
-      <button mat-menu-item>General information</button>
-      <button mat-menu-item>Frequently asked questions</button>
-      <button mat-menu-item>Download TCRD</button>
-      <button mat-menu-item><a href="https://www.youtube.com/channel/UCr5BtMcSjL7C4jwCEJOCKGg" target="_blank">Video tutorials</a></button>
-      <button mat-menu-item>About</button>
     </mat-menu>
   </div>
 </mat-toolbar>

@@ -1,3 +1,7 @@
+.news-panel {
+  padding: 2vh 0 6vh 0;
+}
+
 
 .avatar {
   object-fit: cover;
@@ -7,7 +11,6 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(20%, 1fr));
   grid-gap: 1em;
-  grid-row-gap: 5em;
   padding: 1vw;
 }
 

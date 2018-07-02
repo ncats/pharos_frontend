@@ -20,10 +20,10 @@ import {LinkListComponent} from '../tools/link-list/link-list.component';
 import {ToiCardComponent} from '../pharos-dashboard/toi-card/toi-card.component';
 import {BreadcrumbComponent} from '../tools/breadcrumb/breadcrumb.component';
 import {NcatsHeaderComponent} from '../tools/ncats-header/ncats-header.component';
-import {NcatsFooterComponent} from '../tools/ncats-footer/ncats-footer.component';
 import {PharosTabsComponent} from '../tools/pharos-tabs/pharos-tabs.component';
 import {BarChartComponent} from '../tools/visualizations/bar-chart/bar-chart.component';
 import {HelpPanelComponent} from "../tools/help-panel/help-panel.component";
+import {PharosFooterComponent} from "../tools/pharos-footer/pharos-footer.component";
 
 @NgModule({
   imports: [
@@ -37,7 +37,7 @@ import {HelpPanelComponent} from "../tools/help-panel/help-panel.component";
   ],
   declarations: [
     NcatsHeaderComponent,
-    NcatsFooterComponent,
+    PharosFooterComponent,
     BreadcrumbComponent,
     SearchComponent,
     HighlightPipe,
@@ -63,7 +63,7 @@ import {HelpPanelComponent} from "../tools/help-panel/help-panel.component";
     MaterialModule,
     FlexLayoutModule,
     NcatsHeaderComponent,
-    NcatsFooterComponent,
+    PharosFooterComponent,
     BreadcrumbComponent,
     SearchComponent,
     HighlightPipe,

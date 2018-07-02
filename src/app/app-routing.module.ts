@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import {PharosDashboardComponent} from './pharos-dashboard/pharos-dashboard.component';
 import {RouterModule, Routes} from '@angular/router';
-import {ApiViewerComponent} from "./tools/api-viewer/api-viewer.component";
+import {AboutPageComponent} from "./about-page/about-page.component";
+import {FaqPageComponent} from "./faq-page/faq-page.component";
+import {ApiPageComponent} from "./api-page/api-page.component";
 
 
 
@@ -13,6 +15,22 @@ const ROUTES: Routes = [
   { path: '',
     redirectTo: '/index',
     pathMatch: 'full'
+  },
+  {
+    path: 'about',
+    component: AboutPageComponent
+  },
+  { path: 'help',
+    redirectTo: '/about',
+    pathMatch: 'full'
+  },
+  {
+    path: 'faq',
+    component: FaqPageComponent
+  },
+  {
+    path: 'api',
+    component: ApiPageComponent
   },
   {
     path: 'targets',
@@ -36,10 +54,7 @@ const ROUTES: Routes = [
     path: 'search',
     loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
     data: { path: 'search' }
-  }/*,  {
-    path: 'api',
-   component: ApiViewerComponent
-  }*/
+  }
 ];
 
 @NgModule({
