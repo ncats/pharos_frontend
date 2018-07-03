@@ -1,7 +1,6 @@
 @import '../../ncats-theme';
 
 .about-content {
-  padding-top: 64px;
   display: flex;
   height: 100vh;
 }
@@ -17,9 +16,7 @@
   border-right: 1px solid #d7d7d7;
   position: fixed;
   display: block;
-
   overflow-y: auto;
-
 }
 
 .about-wrapper {
@@ -27,8 +24,21 @@
   overflow: auto;
 }
 
+.section-content{
+  font: 400 1rem/1.5rem Roboto, "Helvetica Neue", sans-serif;
+}
+
 .section-header {
   font: 300 2.5rem Roboto, "Helvetica Neue", sans-serif;
+  padding-left: 1vw;
+}
+
+.data-types-list{
+  padding-top: 0;
+}
+
+.data-type {
+  font-style: italic;
 }
 
 .active {

@@ -1,0 +1,26 @@
+.pharos-footer {
+  color: white;
+  background-color: #23364e;
+  padding: 5vh 0 5vh 0;
+}
+
+.links-header{
+  display: block;
+  text-align: center;
+  font-family: "Google Sans",Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+}
+
+.link-list {
+text-align: center;
+}
+
+.link-list > a {
+  color: white;
+  display: block;
+  font-family: "Google Sans",Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
+  padding: 1.5vh 0 .2vh 0
+}

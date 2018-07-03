@@ -1,0 +1,28 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200.06 200">
+  <defs>
+    <style></style>
+  </defs>
+  <title>graph</title>
+      <g class="layer relationships">
+        <g class="relationship" transform="translate(100 151.24760399995543) rotate(239.3800683362545)">
+              <path class="overlay" fill="#23364e" d="M 25 4 L 74.73457885921977 4 L 74.73457885921977 -4 L 25 -4 Z"></path>
+        </g>
+        <g class="relationship" transform="translate(100 151.24760399995543) rotate(300.88304370718254)">
+               <path class="overlay" fill="#23364e" d="M 25 4 L 84.72464561827216 4 L 84.72464561827216 -4 L 25 -4 Z"></path>
+        </g>
+        <g class="relationship" transform="translate(47.16374516490691 61.97726723515551) rotate(360.13616690212956)">
+                  <path class="overlay" fill="#23364e" d="M 30 4 L 84.07709677395653 4 L 84.07709677395653 -4 L 30 -4 Z"></path>
+        </g>
+      </g>
+      <g class="layer nodes">
+        <g class="node" transform="translate(100,151.24760399995543)">
+          <circle class="outline" cx="0" cy="0" r="25" fill="none" stroke="#23364e" stroke-width="4px"></circle>
+        </g>
+        <g class="node" transform="translate(47.16374516490691,61.97726723515551)">
+          <circle class="outline" cx="0" cy="0" r="30" fill="none" stroke="#23364e" stroke-width="4px"></circle>
+        </g>
+        <g class="node" transform="translate(153.2405423751025,62.22936566510035)">
+          <circle class="outline" cx="0" cy="0" r="21" fill="none" stroke="#23364e" stroke-width="4px"></circle>
+        </g>
+      </g>
+</svg>
