@@ -1,0 +1,177 @@
+<app-ncats-header></app-ncats-header>
+<div fxLayout="row" fxLayout.lt-sm="column" class="about-content">
+  <div fxFlex="20" fxFlex.lt-sm = "90" class ="toc-wrapper">
+    <div class="toc">
+    <mat-list>
+      <mat-list-item (click)="scroll(introduction, 'introduction')" [ngClass]="{'active': isActive('introduction')}">Introduction</mat-list-item>
+      <mat-list-item (click)="scroll(collaborators, 'collaborators')" [ngClass]="{'active': isActive('collaborators')}">Our Collaborators</mat-list-item>
+      <mat-list-item (click)="scroll(availabledata, 'availabledata')" [ngClass]="{'active': isActive('availabledata')}">Available Data</mat-list-item>
+      <mat-list-item (click)="scroll(datatypes, 'datatypes')" [ngClass]="{'active': isActive('datatypes')}">Data Types</mat-list-item>
+      <mat-list-item (click)="scroll(datasources, 'datasources')" [ngClass]="{'active': isActive('datasources')}">Data Sources</mat-list-item>
+      <mat-list-item (click)="scroll(datadownload, 'datadownload')" [ngClass]="{'active': isActive('datadownload')}">Data Download</mat-list-item>
+      <mat-list-item (click)="scroll(license, 'license')" [ngClass]="{'active': isActive('license')}">Pharos License</mat-list-item>
+      <mat-list-item (click)="scroll(code, 'code')" [ngClass]="{'active': isActive('code')}">Pharos Code</mat-list-item>
+      <mat-list-item (click)="scroll(attribution, 'attribution')" [ngClass]="{'active': isActive('attribution')}">Attribution</mat-list-item>
+    </mat-list>
+    </div>
+  </div>
+  <div fxFlex="75" fxFlex.lt-sm = "90" class ="about-wrapper">
+  <div fxLayout="row" #introduction>
+    <div fxFlex="75">
+      <div class="section-header" [ngClass]="{'active': isActive('introduction')}">Introduction</div>
+    <p>Pharos is the user interface to the <a href="http://targetcentral.ws/">Knowledge Management Center</a>
+      (KMC) for the <a href="https://commonfund.nih.gov/idg/index">Illuminating the Druggable Genome</a>
+      (IDG) program funded by the National Institutes of Health (NIH) Common Fund.
+      (Grant No. <a href="https://projectreporter.nih.gov/project_info_description.cfm?aid=9461406&icde=38627613">
+        1U24CA224370-01</a>). The goal of KMC is to develop a comprehensive, integrated knowledge-base
+      for the Druggable Genome (DG) to illuminate the uncharacterized and/or poorly annotated portion of
+      the DG, focusing on four of the most commonly drug-targeted protein families: &nbsp;G-protein-coupled
+      receptors (GPCRs); nuclear receptors (NRs); ion channels (ICs); and kinases.
+    </p>
+    <p>The Pharos interface provides facile access to all data types
+      collected by the KMC.
+      Given the complexity of the data surrounding any target, efficient and intuitive visualization has
+      been a high priority, to enable users to quickly navigate  &amp; summarize search results and
+      rapidly identify patterns. A critical feature of the interface is the ability to perform flexible
+      search and subsequent drill down of search results. Underlying the interface is a RESTful API that
+      provides programmatic access to all KMC data, allowing for easy consumption in user applications.
+    </p>
+  </div>
+  </div>
+    <div fxLayout="row" #collaborators>
+      <div fxFlex="75">
+        <div class="section-header" [ngClass]="{'active': isActive('collaborators')}">Our Collaborators</div>
+    <p>Pharos is developed at <a href="http://ncats.nih.gov">NCATS</a>, together with collaborators from
+      the <a href="http://hsc.unm.edu/">University of New Mexico</a>, <a href="http://icahn.mssm.edu/">
+        Icahn School of Medicine, Mount Sinai</a>, <a href="https://www.ebi.ac.uk/about">EMBL-EBI</a>,
+      the <a href="http://www.cpr.ku.dk/">
+        Novo Nordisk Foundation Center for Protein Research (U. Copenhagen)</a>
+      and the <a href="http://ccs.miami.edu/?p=1103">University of Miami</a>.
+    </p>
+    <p>
+      The IDG TechDev network is the experimental side of IDG. TechDev research aims to develop and
+      utilize technologies and streamlined experimental workflows for functional studies of poorly
+      characterized and/or un-annotated genes and proteins, thereby providing high value data and knowledge
+      for KMC.  KMC in turn is tasked with providing guidance as to research priorities based on knowledge
+      gaps and druggability likelihood analyses.
+    </p>
+    <p>
+      To find more details on our collaborators visit the <a href="https://druggablegenome.net">
+      IDG KMC</a>
+    </p>
+      </div>
+    </div>
+    <div fxLayout="row" #availabledata>
+      <div fxFlex="75">
+        <div class="section-header" [ngClass]="{'active': isActive('availabledata')}">Available Data</div>
+    <p>The data available in Pharos is obtained from the <a href="http://juniper.health.unm.edu/tcrd/">
+      Target Central Resource Database</a> which integrates data from a variey of data sources including
+      the <a href="http://amp.pharm.mssm.edu/Harmonizome/">Harmonizome</a>, Jensen Lab datasets, EBI data
+      sets (such as <a href="https://www.ebi.ac.uk/chembl/">ChEMBL</a>) and the
+      <a href="http://drugtargetontology.org/about.html">Drug Target Ontology</a> (DTO)
+      from U. Miami. TCRD integration methodology involves
+      importation by value or by reference to external sources, as informed by performance, provenance,
+      and other design criteria. See <a href="http://targetcentral.ws/Pharos">here</a> for a full listing
+      of datasets incorporated in to <a href="http://juniper.health.unm.edu/tcrd/">TCRD</a>.
+    </p>
+      </div>
+    </div>
+    <div fxLayout="row" #datatypes>
+      <div fxFlex="75">
+        <div class="section-header" [ngClass]="{'active': isActive('datatypes')}">Data Types</div>
+    <p>
+      The key data types represented in Pharos are listed below:
+    </p>
+    <h5>Small molecule data</h5> including approved drug data, bioassay data
+    <br>
+    <h5>Protein data</h5> including protein-protein interaction data
+    <br>
+    <h5>Disease data</h5> from <a href="http://www.ncbi.nlm.nih.gov/omim">OMIM</a> and
+    <a href="http://disease-ontology.org/">Disease Ontology</a>
+    <br>
+    <h5>Genomic data</h5> including expression (protein, RNA), transcription factors and epigenomic
+    associations
+    <br>
+    <h5>Phenotypic data</h5> including mouse phenotypes, mouse/human orthologs and GWAS results
+    <br>
+    <h5>Funding data</h5> via NIH <a href="https://projectreporter.nih.gov/reporter.cfm">RePORTER</a>
+    <br>
+    <h5>Text data</h5> including <a href="http://www.ncbi.nlm.nih.gov/gene/about-generif">GeneRIF</a>'s
+    and text-mined publications
+    <br>
+    <h5>Ontologies</h5> including the Drug Target Ontology, <a href="http://disease-ontology.org/">Disease
+    Ontology</a>, <a href="http://www.pantherdb.org/panther/ontologies.jsp">PANTHER</a> and
+    <a href="http://geneontology.org/">GO</a>.
+    <p></p>
+      </div>
+    </div>
+    <div fxLayout="row" #datasources>
+      <div fxFlex="75">
+        <div class="section-header" [ngClass]="{'active': isActive('datasources')}">Data Sources</div>
+    <p>
+      The key data types represented in Pharos are listed below:
+    </p>
+    <h5>Small molecule data</h5> including approved drug data, bioassay data
+    <br>
+    <h5>Protein data</h5> including protein-protein interaction data
+    <br>
+    <h5>Disease data</h5> from <a href="http://www.ncbi.nlm.nih.gov/omim">OMIM</a> and
+    <a href="http://disease-ontology.org/">Disease Ontology</a>
+    <br>
+    <h5>Genomic data</h5> including expression (protein, RNA), transcription factors and epigenomic
+    associations
+    <br>
+    <h5>Phenotypic data</h5> including mouse phenotypes, mouse/human orthologs and GWAS results
+    <br>
+    <h5>Funding data</h5> via NIH <a href="https://projectreporter.nih.gov/reporter.cfm">RePORTER</a>
+    <br>
+    <h5>Text data</h5> including <a href="http://www.ncbi.nlm.nih.gov/gene/about-generif">GeneRIF</a>'s
+    and text-mined publications
+    <br>
+    <h5>Ontologies</h5> including the Drug Target Ontology, <a href="http://disease-ontology.org/">Disease
+    Ontology</a>, <a href="http://www.pantherdb.org/panther/ontologies.jsp">PANTHER</a> and
+    <a href="http://geneontology.org/">GO</a>.
+    <p></p>
+      </div>
+    </div>
+    <div fxLayout="row" #datadownload>
+      <div fxFlex="75">
+        <div class="section-header" [ngClass]="{'active': isActive('datadownload')}">Data Download</div>
+    <p>The current and past versions of TCRD are available from <a href="http://juniper.health.unm.edu/tcrd/download/">
+      here</a>
+    </p>
+      </div>
+    </div>
+    <div fxLayout="row" #license>
+      <div fxFlex="75">
+        <div class="section-header" [ngClass]="{'active': isActive('license')}">Pharos License</div>
+    <p>All data accessed from Pharos is made available under the <a href="https://creativecommons.org/licenses/by-sa/4.0/">
+      CC BY-SA 4.0</a> license.</p>
+
+      </div>
+    </div>
+    <div fxLayout="row" #code>
+      <div fxFlex="75">
+        <div class="section-header" [ngClass]="{'active': isActive('code')}">Pharos Code</div>
+    <p>The sources for the Pharos web interface are available from <a href="https://spotlite.nih.gov/ncats/pharos">
+      https://spotlite.nih.gov/ncats/pharos</a>. The repository provides
+      <a href="https://spotlite.nih.gov/ncats/pharos/tree/master">instructions</a>
+      on building and installation</p>
+
+      </div>
+    </div>
+    <div fxLayout="row" #attribution>
+      <div fxFlex="75">
+        <div class="section-header" [ngClass]="{'active': isActive('attribution')}">Attribution</div>
+    <p>If you use Pharos, please consider citing it as
+    <blockquote class="active">
+      Nguyen, D.-T., Mathias, S. et al, "Pharos: Collating Protein Information to Shed Light on the Druggable Genome",
+      <i>Nucl. Acids Res.</i>i>, <b>2017</b>, <i>45</i>(D1), D995-D1002.
+      DOI: <a href="http://dx.doi.org/10.1093/nar/gkw1072">10.1093/nar/gkw1072</a>
+    </blockquote>
+  </div>
+  </div>
+    <div class="spacer"></div>
+  </div>
+</div>
+

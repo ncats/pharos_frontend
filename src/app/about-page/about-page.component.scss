@@ -1,0 +1,40 @@
+@import '../../ncats-theme';
+
+.about-content {
+  padding-top: 64px;
+  display: flex;
+  height: 100vh;
+}
+
+.toc-wrapper {
+  padding-left: .3vw;
+}
+
+.toc-sidenav {
+  flex: 0 0 auto;
+  width: 20vw;
+  top: 64px;
+  border-right: 1px solid #d7d7d7;
+  position: fixed;
+  display: block;
+
+  overflow-y: auto;
+
+}
+
+.about-wrapper {
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.section-header {
+  font: 300 2.5rem Roboto, "Helvetica Neue", sans-serif;
+}
+
+.active {
+  border-left: 8px solid mat-color($pharos-app-primary);
+}
+
+.spacer {
+  height: 30vh;
+}
