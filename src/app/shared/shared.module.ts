@@ -23,7 +23,9 @@ import {NcatsHeaderComponent} from '../tools/ncats-header/ncats-header.component
 import {PharosTabsComponent} from '../tools/pharos-tabs/pharos-tabs.component';
 import {BarChartComponent} from '../tools/visualizations/bar-chart/bar-chart.component';
 import {HelpPanelComponent} from "../tools/help-panel/help-panel.component";
+/*
 import {PharosFooterComponent} from "../tools/pharos-footer/pharos-footer.component";
+*/
 
 @NgModule({
   imports: [
@@ -37,7 +39,7 @@ import {PharosFooterComponent} from "../tools/pharos-footer/pharos-footer.compon
   ],
   declarations: [
     NcatsHeaderComponent,
-    PharosFooterComponent,
+  //  PharosFooterComponent,
     BreadcrumbComponent,
     SearchComponent,
     HighlightPipe,
@@ -63,7 +65,7 @@ import {PharosFooterComponent} from "../tools/pharos-footer/pharos-footer.compon
     MaterialModule,
     FlexLayoutModule,
     NcatsHeaderComponent,
-    PharosFooterComponent,
+ //   PharosFooterComponent,
     BreadcrumbComponent,
     SearchComponent,
     HighlightPipe,

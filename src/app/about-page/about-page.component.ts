@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren
+} from '@angular/core';
+import {CdkScrollable, ScrollDispatcher} from "@angular/cdk/scrolling";
 
 @Component({
   selector: 'pharos-about-page',
@@ -7,14 +10,36 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AboutPageComponent implements OnInit {
   activeElement: string = "introduction";
-  constructor() { }
+  @ViewChild(CdkScrollable) scrollable: CdkScrollable;
+  @ViewChildren('scrollSection') scrollSections: QueryList<ElementRef>;
 
-  ngOnInit() {
+  constructor(private renderer: Renderer2,
+              private changeDetector: ChangeDetectorRef,
+              private scrollDispatcher: ScrollDispatcher) {
   }
 
-  public scroll(el: any, name: string): void {
-    el.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
-    this.activeElement = name;
+  ngOnInit() {
+    this.scrollDispatcher.scrolled().subscribe((data: CdkScrollable) => {
+      if (data) {
+        let scrollTop: number = data.getElementRef().nativeElement.scrollTop + 100;
+        if (scrollTop === 100) {
+          this.activeElement = 'introduction';
+          this.changeDetector.detectChanges();
+        } else {
+          this.scrollSections.forEach(section => {
+            scrollTop = scrollTop - section.nativeElement.scrollHeight;
+            if (scrollTop >= 0) {
+              this.activeElement = section.nativeElement.nextSibling.id;
+              this.changeDetector.detectChanges();
+            }
+          })
+        }
+      }
+    });
+  }
+
+  public scroll(el: any): void {
+    el.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
   }
 
   isActive(check: string): boolean {

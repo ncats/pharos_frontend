@@ -1,25 +1,5 @@
-#hhs-banner{
-  background-color: #5c2a64;
-  height: 30px;
-  color: #fff;
-  cursor: pointer;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  font-size: 14px;
-}
-
-#hhs-banner a{
-  font-size: 14px;
-  color: #fff;
-  text-decoration: none;
-}
-
-#hhs-banner a:hover{
-  text-decoration: underline;
-}
-
-#hhs-banner img{
-  height: 26px;
-  padding: .3vw;
+.ncats-toolbar {
+  position: fixed;
 }
 
 img.pharos-logo {

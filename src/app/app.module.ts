@@ -22,11 +22,11 @@ import {AngularFireModule} from "angularfire2";
 import {environment} from "../environments/environment";
 import {AngularFirestoreModule} from "angularfire2/firestore";
 import {AngularFireAuthModule} from "angularfire2/auth";
-import { SanitizeHtmlPipe } from './tools/sanitize-html.pipe';
+// import { SanitizeHtmlPipe } from './tools/sanitize-html.pipe';
 import { AboutPageComponent } from './about-page/about-page.component';
 import { FaqPageComponent } from './faq-page/faq-page.component';
 import { ApiPageComponent } from './api-page/api-page.component';
-import {PharosFooterComponent} from "./tools/pharos-footer/pharos-footer.component";
+// import {PharosFooterComponent} from "./tools/pharos-footer/pharos-footer.component";
 
 @NgModule({
   declarations: [
@@ -38,7 +38,7 @@ import {PharosFooterComponent} from "./tools/pharos-footer/pharos-footer.compone
     DataTypesPanelComponent,
     AboutPanelComponent,
     NewsPanelComponent,
-    SanitizeHtmlPipe,
+    // SanitizeHtmlPipe,
     AboutPageComponent,
     FaqPageComponent,
     ApiPageComponent

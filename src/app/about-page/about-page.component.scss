@@ -3,6 +3,7 @@
 .about-content {
   display: flex;
   height: 100vh;
+  padding-top: 75px;
 }
 
 .toc-wrapper {
@@ -41,10 +42,33 @@
   font-style: italic;
 }
 
+.list-button {
+  cursor: pointer;
+  font-weight: 300;
+}
+
 .active {
   border-left: 8px solid mat-color($pharos-app-primary);
 }
 
+.blockquote {
+  padding-left: 1vw;
+}
+
 .spacer {
   height: 30vh;
+}
+
+.slack-icon-span {
+
+}
+
+.help-icon {
+  vertical-align: middle;
+}
+
+.slack-icon {
+  height: 3rem;
+  vertical-align: middle;
+  margin-top: -12px;
 }
