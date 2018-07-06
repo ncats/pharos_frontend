@@ -4,10 +4,10 @@ import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
 import {SearchComponent} from '../tools/search-component/search.component';
 import {HighlightPipe} from '../tools/search-component/highlight.pipe';
 import {MaterialModule} from '../../assets/material/material.module';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {ScrollToTopComponent} from '../tools/scroll-to-top/scroll-to-top.component';
 import {IdgLevelIndicatorComponent} from '../tools/idg-level-indicator/idg-level-indicator.component';
 import {CustomContentDirective} from '../tools/custom-content.directive';
@@ -23,9 +23,8 @@ import {NcatsHeaderComponent} from '../tools/ncats-header/ncats-header.component
 import {PharosTabsComponent} from '../tools/pharos-tabs/pharos-tabs.component';
 import {BarChartComponent} from '../tools/visualizations/bar-chart/bar-chart.component';
 import {HelpPanelComponent} from "../tools/help-panel/help-panel.component";
-/*
 import {PharosFooterComponent} from "../tools/pharos-footer/pharos-footer.component";
-*/
+
 
 @NgModule({
   imports: [
@@ -39,7 +38,7 @@ import {PharosFooterComponent} from "../tools/pharos-footer/pharos-footer.compon
   ],
   declarations: [
     NcatsHeaderComponent,
-  //  PharosFooterComponent,
+    PharosFooterComponent,
     BreadcrumbComponent,
     SearchComponent,
     HighlightPipe,
@@ -65,7 +64,7 @@ import {PharosFooterComponent} from "../tools/pharos-footer/pharos-footer.compon
     MaterialModule,
     FlexLayoutModule,
     NcatsHeaderComponent,
- //   PharosFooterComponent,
+    PharosFooterComponent,
     BreadcrumbComponent,
     SearchComponent,
     HighlightPipe,

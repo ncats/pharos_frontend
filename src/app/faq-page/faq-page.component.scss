@@ -1,0 +1,32 @@
+@import '../../ncats-theme';
+
+.faq-content {
+  display: flex;
+  min-height: 100vh;
+  padding-top: 75px;
+}
+
+.faq-header {
+  font: 300 2.5rem Roboto, "Helvetica Neue", sans-serif;
+  padding-left: 1vw;
+  margin-bottom: 1vh;
+  border-left: 8px solid mat-color($pharos-app-primary);
+}
+
+.field-label {
+  font: 300 2rem Roboto, "Helvetica Neue", sans-serif;
+}
+
+.faq-question {
+  font: 400 1.2rem Roboto, "Helvetica Neue", sans-serif;
+  padding-bottom: 3vh;
+}
+
+.faq-answer {
+  font: 300 1rem Roboto, "Helvetica Neue", sans-serif;
+}
+
+.question-divider{
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+}
