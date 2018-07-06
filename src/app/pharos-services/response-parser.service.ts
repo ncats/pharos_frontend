@@ -11,7 +11,7 @@ import {takeUntil} from 'rxjs/internal/operators';
 @Injectable()
 export class ResponseParserService implements OnDestroy {
   /**
-   * RxJs subject for faet data
+   * RxJs subject for facet data
    * @type {Subject<Facet[]>}
    * @private
    */
@@ -70,11 +70,12 @@ export class ResponseParserService implements OnDestroy {
 
 
   /**
-   * dynamicall inject pharos api to avoid circular dependency
+   * dynamically inject pharos api to avoid circular dependency
    * initialize subscriptions on construction to keep from having to initialize them later
    * @param pharosApiService
    */
   constructor(@Inject(PharosApiService) private pharosApiService) {
+    console.log(this);
     this.initializeSubscriptions();
   }
 
@@ -84,9 +85,10 @@ export class ResponseParserService implements OnDestroy {
    */
   initializeSubscriptions(): void {
     this.pharosApiService.data$
-      .pipe(
-      takeUntil(this.ngUnsubscribe)
-      )
+/*      .pipe(
+        console.log("pipe"),
+    //  takeUntil(this.ngUnsubscribe)
+      )*/
       .subscribe(res => {
         if (res.object) {
           this._detailsDataSource.next(res);

@@ -3,6 +3,12 @@
   height:100%;
   display:flex;
   flex-direction:column;
+  margin-top:100px;
+  background-color: #f7f7f7;
+}
+
+.filter-help {
+  background-color: #f7f7f7;
 }
 
 .full-width {

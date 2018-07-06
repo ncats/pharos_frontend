@@ -4,6 +4,7 @@
 
 img.pharos-logo {
   height: 100%;
+  cursor: pointer;
 }
 
 .header-search {
