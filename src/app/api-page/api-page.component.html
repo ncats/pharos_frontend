@@ -1,4 +1,12 @@
-<p>
-  api-page works!
-</p>
+<app-ncats-header [searchBar]="true"></app-ncats-header>
+<div fxLayout="row" fxLayout.lt-sm="column" class="api-content">
+  <div fxFlex="15" fxFlex.lt-sm="90"></div>
+  <div fxFlex="85" fxFlex.lt-sm="90" class="api-wrapper">
+    <div fxLayout="row">
+      <div fxFlex="85">
 <pharos-api-viewer></pharos-api-viewer>
+</div>
+    </div>
+  </div>
+</div>
+<app-pharos-footer></app-pharos-footer>

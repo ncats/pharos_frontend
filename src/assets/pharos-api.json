@@ -52,7 +52,8 @@
     "/targets": {
       "get": {
         "tags": [
-          "browse","target"
+          "browse",
+          "target"
         ],
         "summary": "Browse targets by page",
         "description": "Paging through the targets",
@@ -85,7 +86,8 @@
     "/targets/search": {
       "get": {
         "tags": [
-          "search","target"
+          "search",
+          "target"
         ],
         "summary": "Search targets",
         "description": "Search targets",
@@ -137,6 +139,14 @@
             "type": "string",
             "required": true,
             "default": "1"
+          },
+          {
+            "name": "view",
+            "description": "Detail level of response",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "default": "full"
           }
         ],
         "responses": {
@@ -164,33 +174,14 @@
             "type": "string",
             "required": true,
             "default": "1"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response"
           },
-          "404": {
-            "description": "Bad request"
-          }
-        }
-      }
-    },
-    "/targets({id})?view=full": {
-      "get": {
-        "tags": [
-          "target"
-        ],
-        "summary": "Get a target by id",
-        "description": "Returns a specific target JSON, fully expanded",
-        "parameters": [
           {
-            "name": "id",
-            "description": "The id of the target",
-            "in": "path",
+            "name": "view",
+            "description": "Detail level of response",
+            "in": "query",
             "type": "string",
-            "required": true,
-            "default": "1"
+            "required": false,
+            "default": "full"
           }
         ],
         "responses": {
@@ -488,7 +479,8 @@
             "type": "string",
             "required": true,
             "default": "1"
-          },{
+          },
+          {
             "name": "label",
             "description": "label to filter expression data on. '*' acts as a wildcard. Try: 'UniProt Sequence' for target sequence",
             "in": "path",
@@ -672,7 +664,8 @@
     "/ligands": {
       "get": {
         "tags": [
-          "browse","ligand"
+          "browse",
+          "ligand"
         ],
         "summary": "Browse ligands by page",
         "description": "Paging through the ligand",
@@ -705,7 +698,8 @@
     "/ligands/search": {
       "get": {
         "tags": [
-          "search","ligand"
+          "search",
+          "ligand"
         ],
         "summary": "Search ligands",
         "description": "Search ligands",
@@ -757,6 +751,14 @@
             "type": "string",
             "required": true,
             "default": "1"
+          },
+          {
+            "name": "view",
+            "description": "Detail level of response",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "default": "full"
           }
         ],
         "responses": {
@@ -775,6 +777,7 @@
           "ligand"
         ],
         "summary": "Get a ligand by id - alternative",
+        "deprecated": true,
         "description": "Alternative syntax for above. NOT PREFERRED",
         "parameters": [
           {
@@ -784,33 +787,14 @@
             "type": "string",
             "required": true,
             "default": "1"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response"
           },
-          "404": {
-            "description": "Bad request"
-          }
-        }
-      }
-    },
-    "/ligands({id})?view=full": {
-      "get": {
-        "tags": [
-          "ligand"
-        ],
-        "summary": "Get a ligand by id",
-        "description": "Returns a specific ligand JSON, fully expanded",
-        "parameters": [
           {
-            "name": "id",
-            "description": "The id of the ligand",
-            "in": "path",
+            "name": "view",
+            "description": "Detail level of response",
+            "in": "query",
             "type": "string",
-            "required": true,
-            "default": "1"
+            "required": false,
+            "default": "full"
           }
         ],
         "responses": {
@@ -907,7 +891,8 @@
     "/diseases": {
       "get": {
         "tags": [
-          "browse","disease"
+          "browse",
+          "disease"
         ],
         "summary": "Browse diseases by page",
         "description": "Paging through the diseases",
@@ -940,7 +925,8 @@
     "/diseases/search": {
       "get": {
         "tags": [
-          "search","disease"
+          "search",
+          "disease"
         ],
         "summary": "Search diseases",
         "description": "Search diseases",
@@ -992,6 +978,14 @@
             "type": "string",
             "required": true,
             "default": "1"
+          },
+          {
+            "name": "view",
+            "description": "Detail level of response",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "default": "full"
           }
         ],
         "responses": {
@@ -1010,6 +1004,7 @@
           "disease"
         ],
         "summary": "Get a disease by id - alternative",
+        "deprecated": true,
         "description": "Alternative syntax for above. NOT PREFERRED",
         "parameters": [
           {
@@ -1019,33 +1014,14 @@
             "type": "string",
             "required": true,
             "default": "1"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response"
           },
-          "404": {
-            "description": "Bad request"
-          }
-        }
-      }
-    },
-    "/diseases({id})?view=full": {
-      "get": {
-        "tags": [
-          "disease"
-        ],
-        "summary": "Get a disease by id",
-        "description": "Returns a specific disease JSON, fully expanded",
-        "parameters": [
           {
-            "name": "id",
-            "description": "The id of the disease",
-            "in": "path",
+            "name": "view",
+            "description": "Detail level of response",
+            "in": "query",
             "type": "string",
-            "required": true,
-            "default": "1"
+            "required": false,
+            "default": "full"
           }
         ],
         "responses": {
@@ -1154,6 +1130,14 @@
             "type": "string",
             "required": true,
             "default": "1"
+          },
+          {
+            "name": "view",
+            "description": "Detail level of response",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "default": "full"
           }
         ],
         "responses": {
@@ -1172,6 +1156,7 @@
           "assay"
         ],
         "summary": "Get a assay by id - alternative",
+        "deprecated": true,
         "description": "Alternative syntax for above. NOT PREFERRED",
         "parameters": [
           {
@@ -1181,33 +1166,14 @@
             "type": "string",
             "required": true,
             "default": "1"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response"
           },
-          "404": {
-            "description": "Bad request"
-          }
-        }
-      }
-    },
-    "/assays({id})?view=full": {
-      "get": {
-        "tags": [
-          "assay"
-        ],
-        "summary": "Get a assay by id",
-        "description": "Returns a specific assay JSON, fully expanded",
-        "parameters": [
           {
-            "name": "id",
-            "description": "The id of the assay",
-            "in": "path",
+            "name": "view",
+            "description": "Detail level of response",
+            "in": "query",
             "type": "string",
-            "required": true,
-            "default": "1"
+            "required": false,
+            "default": "full"
           }
         ],
         "responses": {
@@ -1289,6 +1255,14 @@
             "type": "string",
             "required": true,
             "default": "00003d26-3142-478b-b0b6-abcf8ff955d4"
+          },
+          {
+            "name": "view",
+            "description": "Detail level of response",
+            "in": "query",
+            "type": "string",
+            "required": false,
+            "default": "full"
           }
         ],
         "responses": {
@@ -1307,6 +1281,7 @@
           "ligand"
         ],
         "summary": "Get a structure by id - alternative",
+        "deprecated": true,
         "description": "Alternative syntax for above. NOT PREFERRED",
         "parameters": [
           {
@@ -1316,33 +1291,14 @@
             "type": "string",
             "required": true,
             "default": "00003d26-3142-478b-b0b6-abcf8ff955d4"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response"
           },
-          "404": {
-            "description": "Bad request"
-          }
-        }
-      }
-    },
-    "/structures({id})?view=full": {
-      "get": {
-        "tags": [
-          "ligand"
-        ],
-        "summary": "Get a structure by id",
-        "description": "Returns a specific structure JSON, fully expanded",
-        "parameters": [
           {
-            "name": "id",
-            "description": "The id of the structure",
-            "in": "path",
+            "name": "view",
+            "description": "Detail level of response",
+            "in": "query",
             "type": "string",
-            "required": true,
-            "default": "00003d26-3142-478b-b0b6-abcf8ff955d4"
+            "required": false,
+            "default": "full"
           }
         ],
         "responses": {
