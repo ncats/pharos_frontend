@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {catchError, map} from 'rxjs/operators';
 import {Observable, of} from 'rxjs/index';
 import {HttpClient} from '@angular/common/http';
-import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
+import {EnvironmentVariablesService} from '../../../pharos-services/environment-variables.service';
 
 /**
  * different config settings for radar types
@@ -80,17 +80,18 @@ export class RadarService {
 
   /**
    * check to see if data exists in map, if not retrieve it
-   * todo: different maps may have different data fr the same type. should probably add a parameter for origin
    * @param {string} id
    * @return {any}
    */
-  getData(id: string): any {
+  getData(id: string, origin: string): any {
     let temp: any = this.radarDataMap.get(id);
     if (!temp) {
       temp = this._fetchData(id);
-      this.setData(id, temp);
+      this.setData(id, temp, origin);
+      return temp;
+    } else {
+      return of([temp[origin]]);
     }
-    return temp;
   }
 
   /**
@@ -98,8 +99,14 @@ export class RadarService {
    * @param {string} id
    * @param data
    */
-  setData(id: string, data: any): void {
-    this.radarDataMap.set(id, data);
+  setData(id: string, data: any, origin: string): void {
+    let temp: any = this.radarDataMap.get(id);
+    if (temp) {
+      temp[origin] = data;
+    } else {
+      temp = {[origin] : data}
+    }
+    this.radarDataMap.set(id, temp);
   }
 
   /**

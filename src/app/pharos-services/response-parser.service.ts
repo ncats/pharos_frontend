@@ -75,7 +75,6 @@ export class ResponseParserService implements OnDestroy {
    * @param pharosApiService
    */
   constructor(@Inject(PharosApiService) private pharosApiService) {
-    console.log(this);
     this.initializeSubscriptions();
   }
 

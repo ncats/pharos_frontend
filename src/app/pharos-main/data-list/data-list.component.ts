@@ -55,7 +55,7 @@ export class DataListComponent implements OnInit, OnDestroy {
 
 
     /**
-     * THIS COMPONENT ISNT DYNAMICALLY INJECTED, SO NO APIS ARE CALLED
+     * THIS COMPONENT ISN'T DYNAMICALLY INJECTED, SO NO APIS ARE CALLED
      * this is triggered by list data change from above
      * empties current data and clears view (this may need to be re-evaluated
      * data is mapped by type -- this is mainly for search, but could be anywhere
@@ -67,29 +67,15 @@ export class DataListComponent implements OnInit, OnDestroy {
     this.responseParserService.tableData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-      //  this.results.clear();
         this.componentHost.viewContainerRef.clear();
-      //  this.filterData(res);
-      //  console.log(this.results);
          res.content.forEach(dataList => {
-            //  this.kind = dataType.kind;
               const components: any = this.componentLookup.lookupByPath(dataList.kind, 'list');
               if (components) {
                 components.forEach(component => {
                   if (component.token) {
                     const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
                     const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
-
                       dynamicComponent.instance.pageData = new PageData(dataList.data);
-
-                    /*this.responseParserService.paginationData$
-                      .pipe(takeUntil(this.ngUnsubscribe))
-                      .subscribe(response => {
-                        console.log(response);
-                        //   this.dynamicComponent.instance.total = response['total'] ? response['total'] :
-                        // this.results.get(dataType).length;
-                      });*/
-
                     if (dynamicComponent.instance.sortChange) {
                       dynamicComponent.instance.sortChange.subscribe((event) => {
                         this.sortTable(event);
@@ -102,7 +88,6 @@ export class DataListComponent implements OnInit, OnDestroy {
                       });
                     }
                     dynamicComponent.instance.data = dataList.data.content;
-                    // dynamicComponent.instance.data = this.results.get(dataType);
                   }
                 });
               }

@@ -5,7 +5,7 @@
     <a routerLink="/{{path?.term}}" class="mat-subheading-1 breadcrumb-link"> {{path.term | titlecase}} </a>
     <span *ngFor="let link of links">
     <span class="mat-title slash"> / </span>
-    <a (click)="goTo(link)" routerLink = {{path}} >{{link.term | titlecase}}</a>
+    <a (click)="goTo(link)" class="breadcrumb-link" >{{link.term | titlecase}}</a>
       </span>
     <span *ngIf="target">
           <span class="disabled mat-title breadcrumb-link slash"> / </span>

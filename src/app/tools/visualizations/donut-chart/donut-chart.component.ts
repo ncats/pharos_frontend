@@ -20,6 +20,13 @@ export class DonutChartComponent implements OnInit, OnChanges {
   donut: any;
   @Output() readonly clickSlice: EventEmitter<any> = new EventEmitter<any>();
 
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    //  this.svg.select('radar svg').remove();
+    this.drawChart();
+    this.updateChart();
+  }
+
   constructor() { }
 
   // todo add click event that emits up
@@ -31,16 +38,16 @@ export class DonutChartComponent implements OnInit, OnChanges {
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
     this.radius = Math.min(this.width, this.height) / 2;
 
-    this.drawGraph();
-    this.updateGraph();
+    this.drawChart();
+    this.updateChart();
   }
   ngOnChanges(changes) {
     if (!changes.data.firstChange) {
-      this.updateGraph();
+      this.updateChart();
     }
   }
 
-  drawGraph(): void {
+  drawChart(): void {
     const element = this.chartContainer.nativeElement;
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
@@ -55,7 +62,7 @@ export class DonutChartComponent implements OnInit, OnChanges {
     svg.attr('transform', 'translate(' + this.width / 2 + ',' + this.height / 2 + ')');
   }
 
-  updateGraph(): void {
+  updateChart(): void {
     d3.selectAll('.toolCircle').remove();
     const pie = d3.pie()
       .sort(function (a, b) {

@@ -3,7 +3,7 @@ import {Term} from '../../../../../models/term';
 import {HttpClient} from '@angular/common/http';
 import {Value} from '../../../../../models/value';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {RadarChartComponent} from '../../../../../tools/radar-chart/radar-chart.component';
+import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
 import {MatDialog} from '@angular/material';
 import {PharosPoint} from '../../../../../tools/visualizations/line-chart/line-chart.component';
 import {Target} from '../../../../../models/target';

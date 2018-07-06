@@ -104,6 +104,8 @@ export class PathResolverService {
    * @private
    */
   private _makeFacetString(facet: string, field: string): string {
+    console.log(facet);
+    console.log(field);
     return facet.replace(/ /g, '+') + '/' + encodeURIComponent(field.toString());
   }
 
@@ -141,6 +143,7 @@ export class PathResolverService {
    * @param facet
    */
   mapSelection(facet: any): void {
+    console.log(facet);
     let fields = this._facetMap.get(facet.name);
     if (fields) {
       if (facet.change.removed) {
@@ -168,6 +171,7 @@ export class PathResolverService {
         this._facets.push({facet: key, fields: value});
       }
     });
+    console.log(this._facets);
     this._facetSource.next(this._facets);
   }
 

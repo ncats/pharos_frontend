@@ -62,7 +62,7 @@
       <ng-container matColumnDef="knowledgeAvailability">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Knowledge Availability</mat-header-cell>
         <mat-cell *matCellDef="let row" class = "small-radar">
-          <pharos-radar-chart [id]="row.accession" [size]="'small'"></pharos-radar-chart>
+          <pharos-radar-chart [id]="row.accession" [size]="'small'" [origin]="'knowledge'"></pharos-radar-chart>
         </mat-cell>
       </ng-container>
 

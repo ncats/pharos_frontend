@@ -77,7 +77,8 @@ export class BreadcrumbComponent implements OnInit {
    * @param link
    */
   goTo(link: any): void {
-    this.pathResolverService.mapSelection({facet: link.label, fields: [link.term]});
+    this.pathResolverService.mapSelection({name: link.label, change:{added: [link.term]}});
+    console.log('navigate');
     this.pathResolverService.navigate(this.pathResolverService.getPath());
 }
 

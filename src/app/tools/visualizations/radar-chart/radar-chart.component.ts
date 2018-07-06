@@ -34,7 +34,6 @@ export class ChartOptions {
 
 // todo: fix centering of chart in respect to labels
 // todo: no tooltip on modal. The tooltip div needs to be up closer to the svg, not appended to <body>
-// todo: check radar data service - data for different charts can be saved to the same id - need to pass origin?
 // todo: redraw on resize? sizes aren't coming in dynamically right now
 // todo: create chart options service that reads from a chart config file, like environment variables
 
@@ -61,17 +60,17 @@ export class RadarChartComponent implements OnInit, OnDestroy {
 
   @Input() shape = false;
 
+  @Input() origin: string;
+
   private _chartOptions: ChartOptions;
   private svg: any;
   private tooltip: any;
   private width: number;
   private height: number;
-  // private margin: any = {top: 50, bottom: 20, left: 20, right: 20};
 
 
     @HostListener('window:resize', ['$event'])
     onResize() {
-    //  this.svg.select('radar svg').remove();
       this.drawChart();
       this.updateChart();
     }
@@ -88,14 +87,13 @@ export class RadarChartComponent implements OnInit, OnDestroy {
       Object.keys(this.modalData).forEach(key => this[key] = this.modalData[key]);
     }
 
-    // todo -this breaks when data already exists on service
     if (!this.data) {
        // data passed in by id (target list)
-   this.radarDataService.getData(this.id).subscribe(res => {
+      this.radarDataService.getData(this.id, this.origin).subscribe(res => {
      this.data = res;
    });
  } else {
-   this.data.forEach(graph => this.radarDataService.setData(graph.className, graph));
+   this.data.forEach(graph => this.radarDataService.setData(graph.className, graph, this.origin));
  }
 
     // data set by component, also handles setting by modal opening and data retrieved by id
@@ -104,7 +102,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
      this.data.forEach(graph => {
        if (graph) {
          this.drawChart();
-         this.radarDataService.setData(graph.className, graph);
+         this.radarDataService.setData(graph.className, graph, this.origin);
          this.updateChart();
        }
      });

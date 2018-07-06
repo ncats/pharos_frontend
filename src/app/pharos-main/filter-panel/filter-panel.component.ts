@@ -17,7 +17,6 @@ import {Observable} from 'rxjs/index';
   encapsulation: ViewEncapsulation.None
 })
 export class FilterPanelComponent implements OnInit, OnDestroy {
-  facetsList: any;
   @Input() facets?: any;
   private ngUnsubscribe: Subject<any> = new Subject();
 
@@ -46,7 +45,6 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
         if (loaded) {
           this.facets = [];
           this.environmentVariablesService.getFacets(path).map(facet => {
-            console.log(facet);
             const temp = this.facetRetrieverService.getFacet(facet.name);
             if (temp) {
               temp.label = facet.label;

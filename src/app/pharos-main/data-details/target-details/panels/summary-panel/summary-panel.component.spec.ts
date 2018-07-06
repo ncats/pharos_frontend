@@ -2,8 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SummaryPanelComponent } from './summary-panel.component';
 import {SharedModule} from '../../../../../shared/shared.module';
-import {RadarService} from '../../../../../tools/radar-chart/radar.service';
-import {RadarChartComponent} from '../../../../../tools/radar-chart/radar-chart.component';
+import {RadarService} from '../../../../../tools/visualizations/radar-chart/radar.service';
+import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
 
 describe('SummaryPanelComponent', () => {
   let component: SummaryPanelComponent;
