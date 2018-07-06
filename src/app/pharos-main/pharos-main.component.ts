@@ -32,8 +32,8 @@ export class PharosMainComponent {
 
   allTargetFilters(): void {
     this.allfacets = !this.allfacets;
-    if(this.allfacets) {
-      console.log("get all facets");
+    if (this.allfacets) {
+      console.log('get all facets');
     }
 
   }

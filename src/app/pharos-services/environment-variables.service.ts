@@ -46,7 +46,7 @@ export class EnvironmentVariablesService {
    * returns angular/google firebase config info, read from environment file
    * @return {any}
    */
-  getFirebaseConfig():any {
+  getFirebaseConfig(): any {
     return this._environment.firebase;
   }
   /**

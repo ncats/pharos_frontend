@@ -4,7 +4,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection
 } from 'angularfire2/firestore';
-import {AppModule} from "../app.module";
+import {AppModule} from '../app.module';
 
 
 

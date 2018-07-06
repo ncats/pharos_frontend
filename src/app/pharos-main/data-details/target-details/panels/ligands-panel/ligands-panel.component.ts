@@ -81,7 +81,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
     private _getActivity(ligand: any): string {
     let ret: any = {};
     ligand.properties.map(prop => {
-      if(prop.label ==='IC50'){
+      if (prop.label === 'IC50') {
         ret = prop;
       } else if (prop.label === 'Ligand Activity') {
         ret = ligand.properties.filter(p => p.label === prop.term)[0];

@@ -14,17 +14,16 @@ export class ApiViewerComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     const ui = SwaggerUI({
-      url: '../../assets/pharos-api.json',
+      url: './assets/pharos-api.json',
       domNode: this.el.nativeElement.querySelector('.swagger-container'),
-      deepLinking: true,
-      docExpansion: "list",
-      presets: [
+      docExpansion: 'list'
+/*      presets: [
         SwaggerUI.presets.apis
 
       ],
       plugins: [
         SwaggerUI.plugins.DownloadUrl
-      ]
+      ]*/
     });
   }
 }

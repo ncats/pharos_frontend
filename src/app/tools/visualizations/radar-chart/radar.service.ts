@@ -104,7 +104,7 @@ export class RadarService {
     if (temp) {
       temp[origin] = data;
     } else {
-      temp = {[origin] : data}
+      temp = {[origin] : data};
     }
     this.radarDataMap.set(id, temp);
   }

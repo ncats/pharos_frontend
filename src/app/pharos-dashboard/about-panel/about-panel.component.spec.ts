@@ -1,20 +1,26 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {AboutPanelComponent} from "./about-panel.component";
+import {SharedModule} from "../../shared/shared.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
-import { AboutBlockComponent } from './about-panel.component';
 
-describe('AboutBlockComponent', () => {
-  let component: AboutBlockComponent;
-  let fixture: ComponentFixture<AboutBlockComponent>;
+describe('AboutPanelComponent', () => {
+  let component: AboutPanelComponent;
+  let fixture: ComponentFixture<AboutPanelComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AboutBlockComponent ]
+      imports: [
+        BrowserAnimationsModule,
+        SharedModule
+      ],
+      declarations: [ AboutPanelComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AboutBlockComponent);
+    fixture = TestBed.createComponent(AboutPanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

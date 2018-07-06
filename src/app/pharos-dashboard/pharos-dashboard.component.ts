@@ -11,7 +11,7 @@ export class PharosDashboardComponent implements OnInit {
   @ViewChild('details', {read: ElementRef}) elemRef: ElementRef;
   topics: any;
   position: string;
-  animationState: string = 'out';
+  animationState = 'out';
 
   constructor() {
   }
@@ -68,7 +68,7 @@ export class PharosDashboardComponent implements OnInit {
         ligandCt: 4,
         targetCt: 5,
         publicationCt: 12
-      }),new Topic({
+      }), new Topic({
         name: 'Cystic Fibrosis',
         description: 'Maybe there\'s a happy little waterfall happening over here. In life you need colors. ' +
         'Decide where your cloud lives. Maybe he lives right in here. I can\'t think of anything more rewarding than being ' +
@@ -87,7 +87,7 @@ export class PharosDashboardComponent implements OnInit {
     ];
   }
 
-  goToDetails():void {
+  goToDetails(): void {
     this.elemRef.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
   }
 

@@ -1,7 +1,7 @@
 import {
   ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren
 } from '@angular/core';
-import {CdkScrollable, ScrollDispatcher} from "@angular/cdk/scrolling";
+import {CdkScrollable, ScrollDispatcher} from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'pharos-about-page',
@@ -9,7 +9,7 @@ import {CdkScrollable, ScrollDispatcher} from "@angular/cdk/scrolling";
   styleUrls: ['./about-page.component.scss']
 })
 export class AboutPageComponent implements OnInit {
-  activeElement: string = "introduction";
+  activeElement = 'introduction';
   @ViewChild(CdkScrollable) scrollable: CdkScrollable;
   @ViewChildren('scrollSection') scrollSections: QueryList<ElementRef>;
 
@@ -32,7 +32,7 @@ export class AboutPageComponent implements OnInit {
               this.activeElement = section.nativeElement.nextSibling.id;
               this.changeDetector.detectChanges();
             }
-          })
+          });
         }
       }
     });

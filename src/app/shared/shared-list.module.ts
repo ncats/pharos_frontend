@@ -10,8 +10,6 @@ import {DataListVisualizationsComponent} from '../pharos-main/data-list-visualiz
 import {SharedModule} from './shared.module';
 import {DonutChartComponent} from '../tools/visualizations/donut-chart/donut-chart.component';
 import {VisualizationOptionsComponent} from '../pharos-main/data-list-visualizations/visualization-options/visualization-options.component';
-import {WordCloudChartComponent} from '../tools/visualizations/word-cloud-chart/word-cloud-chart.component';
-import {SunburstChartComponent} from '../tools/visualizations/sunburst-chart/sunburst-chart.component';
 import {DataListResolver} from '../pharos-main/services/data-list.resolver';
 
 
@@ -28,8 +26,6 @@ import {DataListResolver} from '../pharos-main/services/data-list.resolver';
     FacetTableComponent,
     FacetListComponent,
     DonutChartComponent,
-    WordCloudChartComponent,
-    SunburstChartComponent,
     VisualizationOptionsComponent
   ],
   providers: [
@@ -45,8 +41,6 @@ import {DataListResolver} from '../pharos-main/services/data-list.resolver';
     FacetTableComponent,
     FacetListComponent,
     DonutChartComponent,
-    WordCloudChartComponent,
-    SunburstChartComponent,
     VisualizationOptionsComponent
 
   ]

@@ -13,6 +13,13 @@ import {FacetRetrieverService} from './pharos-main/services/facet-retriever.serv
 import {PharosApiService} from './pharos-services/pharos-api.service';
 import {ResponseParserService} from './pharos-services/response-parser.service';
 import {SuggestApiService} from './tools/search-component/suggest-api.service';
+import {ApiPageComponent} from "./api-page/api-page.component";
+import {AboutPageComponent} from "./about-page/about-page.component";
+import {FaqPageComponent} from "./faq-page/faq-page.component";
+import {DataTypesPanelComponent} from "./pharos-dashboard/data-types-panel/data-types-panel.component";
+import {AboutPanelComponent} from "./pharos-dashboard/about-panel/about-panel.component";
+import {NewsPanelComponent} from "./pharos-dashboard/news-panel/news-panel.component";
+import {ApiViewerComponent} from "./tools/api-viewer/api-viewer.component";
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -24,6 +31,13 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent,
         PharosDashboardComponent,
+        ApiPageComponent,
+        AboutPageComponent,
+        FaqPageComponent,
+        DataTypesPanelComponent,
+        AboutPanelComponent,
+        NewsPanelComponent,
+        ApiViewerComponent,
         SearchCardComponent
       ],
       providers: [

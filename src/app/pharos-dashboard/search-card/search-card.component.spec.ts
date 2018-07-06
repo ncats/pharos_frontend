@@ -7,6 +7,13 @@ import {SuggestApiService} from '../../tools/search-component/suggest-api.servic
 import {AppRoutingModule} from '../../app-routing.module';
 import {PharosDashboardComponent} from '../pharos-dashboard.component';
 import {APP_BASE_HREF} from '@angular/common';
+import {AboutPageComponent} from "../../about-page/about-page.component";
+import {DataTypesPanelComponent} from "../data-types-panel/data-types-panel.component";
+import {AboutPanelComponent} from "../about-panel/about-panel.component";
+import {ApiPageComponent} from "../../api-page/api-page.component";
+import {FaqPageComponent} from "../../faq-page/faq-page.component";
+import {NewsPanelComponent} from "../news-panel/news-panel.component";
+import {ApiViewerComponent} from "../../tools/api-viewer/api-viewer.component";
 
 describe('SearchCardComponent', () => {
   let component: SearchCardComponent;
@@ -21,7 +28,15 @@ describe('SearchCardComponent', () => {
       ],
       declarations: [
         PharosDashboardComponent,
-        SearchCardComponent
+        SearchCardComponent,
+        ApiPageComponent,
+        AboutPageComponent,
+        FaqPageComponent,
+        SearchCardComponent,
+        DataTypesPanelComponent,
+        NewsPanelComponent,
+        AboutPanelComponent,
+        ApiViewerComponent
       ],
       providers: [
         SuggestApiService,

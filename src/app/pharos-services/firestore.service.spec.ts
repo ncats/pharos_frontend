@@ -1,11 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { FirestoreService } from './firestore.service';
+import {FirestoreStub} from "../../../test/firestore-stub";
+import {AngularFirestore} from "angularfire2/firestore";
 
 describe('FirestoreService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [FirestoreService]
+      providers: [
+        FirestoreService,
+        { provide: AngularFirestore, useValue: FirestoreStub },]
     });
   });
 

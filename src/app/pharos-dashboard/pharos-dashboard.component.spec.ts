@@ -9,10 +9,16 @@ import {FacetRetrieverService} from '../pharos-main/services/facet-retriever.ser
 import {PharosApiService} from '../pharos-services/pharos-api.service';
 import {ResponseParserService} from '../pharos-services/response-parser.service';
 import {SuggestApiService} from '../tools/search-component/suggest-api.service';
-import {RouterModule} from '@angular/router';
 import {AppRoutingModule} from '../app-routing.module';
 import {APP_BASE_HREF} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AboutPageComponent} from "../about-page/about-page.component";
+import {ApiPageComponent} from "../api-page/api-page.component";
+import {FaqPageComponent} from "../faq-page/faq-page.component";
+import {DataTypesPanelComponent} from "./data-types-panel/data-types-panel.component";
+import {NewsPanelComponent} from "./news-panel/news-panel.component";
+import {AboutPanelComponent} from "./about-panel/about-panel.component";
+import {ApiViewerComponent} from "../tools/api-viewer/api-viewer.component";
 
 describe('PharosDashboardComponent', () => {
   let component: PharosDashboardComponent;
@@ -27,7 +33,14 @@ describe('PharosDashboardComponent', () => {
       ],
       declarations: [
         PharosDashboardComponent,
-        SearchCardComponent
+        ApiPageComponent,
+        AboutPageComponent,
+        FaqPageComponent,
+        SearchCardComponent,
+        DataTypesPanelComponent,
+        NewsPanelComponent,
+        AboutPanelComponent,
+        ApiViewerComponent
       ],
       providers: [
         PharosApiService,

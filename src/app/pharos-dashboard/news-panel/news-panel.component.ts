@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {AngularFirestore} from "angularfire2/firestore";
-import {Observable} from "rxjs/index";
+import {AngularFirestore} from 'angularfire2/firestore';
+import {Observable} from 'rxjs/index';
 
 export interface Message {
   date: string;
@@ -8,7 +8,7 @@ export interface Message {
   message: string;
 }
 
-export interface Comment extends Message{
+export interface Comment extends Message {
   author: string;
   imgurl: string;
   title: string;
@@ -24,11 +24,11 @@ export interface Comment extends Message{
 export class NewsPanelComponent implements OnInit {
   items: Message[];
 
-  constructor(db: AngularFirestore) {
-     db.collection<Message>('public').valueChanges()
+  constructor(private db: AngularFirestore) {
+     this.db.collection<Message>('public').valueChanges()
        .subscribe(items => {
-      this.items = items.sort((a,b) => b.index - a.index).slice(0,4);
-  })
+      this.items = items.sort((a, b) => b.index - a.index).slice(0, 4);
+  });
   }
 
   ngOnInit() {

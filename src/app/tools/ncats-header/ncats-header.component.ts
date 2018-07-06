@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {SlideInOutAnimation} from "./header-animations";
+import {SlideInOutAnimation} from './header-animations';
 
 /**Component that contains basic NCATS branded menu, also contains pharos options */
 @Component({

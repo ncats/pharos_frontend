@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RadarChartComponent } from './radar-chart.component';
 import {RadarService} from './radar.service';
 import {HttpClientModule} from '@angular/common/http';
-import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
+import {EnvironmentVariablesService} from '../../../pharos-services/environment-variables.service';
 
 describe('RadarChartComponent', () => {
   let component: RadarChartComponent;

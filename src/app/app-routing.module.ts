@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import {PharosDashboardComponent} from './pharos-dashboard/pharos-dashboard.component';
 import {RouterModule, Routes} from '@angular/router';
-import {AboutPageComponent} from "./about-page/about-page.component";
-import {FaqPageComponent} from "./faq-page/faq-page.component";
-import {ApiPageComponent} from "./api-page/api-page.component";
+import {AboutPageComponent} from './about-page/about-page.component';
+import {FaqPageComponent} from './faq-page/faq-page.component';
+import {ApiPageComponent} from './api-page/api-page.component';
 
 
 

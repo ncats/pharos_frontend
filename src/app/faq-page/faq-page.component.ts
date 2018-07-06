@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {AngularFirestore} from "angularfire2/firestore";
+import {AngularFirestore} from 'angularfire2/firestore';
 import * as katex from 'katex';
-import {KatexRenderService} from "../tools/katex-render.service";
+import {KatexRenderService} from '../tools/katex-render.service';
 
 export interface Question {
   subject: string;
@@ -17,23 +17,21 @@ export interface Question {
   providers: [KatexRenderService]
 })
 export class FaqPageComponent implements OnInit {
-questions: Question[];
-fields: string[];
-questionsMap: Map<string, Question[]> = new Map<string, Question[]>();
+  fields: string[];
+  questionsMap: Map<string, Question[]> = new Map<string, Question[]>();
   @ViewChildren('faqAnswer') answers: QueryList<ElementRef>;
 
 
-  constructor(
-    private db: AngularFirestore,
-    private katexRenderService: KatexRenderService
-              ) {}
+  constructor(private db: AngularFirestore,
+              private katexRenderService: KatexRenderService) {
+  }
 
   ngOnInit() {
     this.db.collection<Question>('faqs').valueChanges()
       .subscribe(items => {
         items.map(question => {
           const qArr: Question[] = this.questionsMap.get(question.subject);
-          if (qArr){
+          if (qArr) {
             qArr.push(question);
             this.questionsMap.set(question.subject, qArr);
           } else {
@@ -41,18 +39,14 @@ questionsMap: Map<string, Question[]> = new Map<string, Question[]>();
           }
         });
         this.fields = Array.from(this.questionsMap.keys());
+        this.answers.changes.subscribe(answers => {
+          const equations: any[] = answers.filter(answer => {
+            return answer.nativeElement.classList.contains('equation');
+          });
+          equations.forEach(element => {
+            this.katexRenderService.renderMathInElement(element.nativeElement, {});
+          });
+        });
       });
-  }
-
-  ngAfterViewInit(){
-    let equations =[];
-    this.answers.changes.subscribe(answers => {
-       equations = answers.filter(answer => {
-        return answer.nativeElement.classList.contains('equation')
-      });
-      equations.forEach(element => {
-       this.katexRenderService.renderMathInElement(element.nativeElement, {});
-      })
-    });
   }
 }

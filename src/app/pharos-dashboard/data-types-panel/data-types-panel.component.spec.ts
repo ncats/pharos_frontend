@@ -1,20 +1,26 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {DataTypesPanelComponent} from "./data-types-panel.component";
+import {SharedModule} from "../../shared/shared.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
-import { DataTypesComponent } from './data-types-panel.component';
 
-describe('DataTypesComponent', () => {
-  let component: DataTypesComponent;
-  let fixture: ComponentFixture<DataTypesComponent>;
+describe('DataTypesPanelComponent', () => {
+  let component: DataTypesPanelComponent;
+  let fixture: ComponentFixture<DataTypesPanelComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DataTypesComponent ]
+      imports: [
+      BrowserAnimationsModule,
+      SharedModule
+  ],
+      declarations: [ DataTypesPanelComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DataTypesComponent);
+    fixture = TestBed.createComponent(DataTypesPanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

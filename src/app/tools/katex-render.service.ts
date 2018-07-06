@@ -17,11 +17,11 @@ export class SplitAtDelimiters {
       if (braceLevel <= 0 &&
         text.slice(index, index + delimLength) === delimiter) {
         return index;
-      } else if (character === "\\") {
+      } else if (character === '\\') {
         index++;
-      } else if (character === "{") {
+      } else if (character === '{') {
         braceLevel++;
-      } else if (character === "}") {
+      } else if (character === '}') {
         braceLevel--;
       }
 
@@ -29,13 +29,13 @@ export class SplitAtDelimiters {
     }
 
     return -1;
-  };
+  }
 
    splitAtDelimiters(startData, leftDelim, rightDelim, display) {
     const finalData = [];
 
     for (let i = 0; i < startData.length; i++) {
-      if (startData[i].type === "text") {
+      if (startData[i].type === 'text') {
         const text = startData[i].data;
 
         let lookingForLeft = true;
@@ -46,7 +46,7 @@ export class SplitAtDelimiters {
         if (nextIndex !== -1) {
           currIndex = nextIndex;
           finalData.push({
-            type: "text",
+            type: 'text',
             data: text.slice(0, currIndex),
           });
           lookingForLeft = false;
@@ -60,7 +60,7 @@ export class SplitAtDelimiters {
             }
 
             finalData.push({
-              type: "text",
+              type: 'text',
               data: text.slice(currIndex, nextIndex),
             });
 
@@ -75,7 +75,7 @@ export class SplitAtDelimiters {
             }
 
             finalData.push({
-              type: "math",
+              type: 'math',
               data: text.slice(
                 currIndex + leftDelim.length,
                 nextIndex),
@@ -92,7 +92,7 @@ export class SplitAtDelimiters {
         }
 
         finalData.push({
-          type: "text",
+          type: 'text',
           data: text.slice(currIndex),
         });
       } else {
@@ -101,9 +101,9 @@ export class SplitAtDelimiters {
     }
 
     return finalData;
-  };
+  }
 
-   constructor(){}
+   constructor() {}
 }
 
 
@@ -115,7 +115,7 @@ export class KatexRenderService {
   defaultAutoRenderOptions = {
     strict: false,
     delimiters: [
-      {left: "$$", right: "$$", display: true},
+      {left: '$$', right: '$$', display: true},
 
       {left: '\\(', right: '\\)', display: false},
       {left: '\\\\(', right: '\\\\)', display: false},
@@ -126,11 +126,11 @@ export class KatexRenderService {
       //  will search for \[ before it searches for $$ or  \(
       // That makes it susceptible to finding a \\[0.3em] row delimiter and
       // treating it as if it were the start of a KaTeX math zone.
-      {left: "\\[", right: "\\]", display: true}
+      {left: '\\[', right: '\\]', display: true}
     ],
 
     ignoredTags: [
-      "script", "noscript", "style", "textarea", "pre", "code",
+      'script', 'noscript', 'style', 'textarea', 'pre', 'code',
     ],
 
     errorCallback: function (msg, err) {
@@ -146,7 +146,7 @@ export class KatexRenderService {
 
 
   splitWithDelimiters(text, delimiters): any {
-    let data = [{type: "text", data: text}];
+    let data = [{type: 'text', data: text}];
     for (let i = 0; i < delimiters.length; i++) {
       const delimiter = delimiters[i];
       data = this.splitAtDelimiters.splitAtDelimiters(
@@ -154,7 +154,7 @@ export class KatexRenderService {
         delimiter.display || false);
     }
     return data;
-  };
+  }
 
   /* Note: optionsCopy is mutated by this method. If it is ever exposed in the
    * API, we should copy it before mutating.
@@ -164,10 +164,10 @@ export class KatexRenderService {
     const fragment = document.createDocumentFragment();
 
     for (let i = 0; i < data.length; i++) {
-      if (data[i].type === "text") {
+      if (data[i].type === 'text') {
         fragment.appendChild(document.createTextNode(data[i].data));
       } else {
-        const span = document.createElement("span");
+        const span = document.createElement('span');
         const math = data[i].data;
         // Override any display mode defined in the settings with that
         // defined by the text itself
@@ -179,8 +179,8 @@ export class KatexRenderService {
             throw e;
           }
           optionsCopy.errorCallback(
-            "KaTeX auto-render: Failed to parse `" + data[i].data +
-            "` with ",
+            'KaTeX auto-render: Failed to parse `' + data[i].data +
+            '` with ',
             e
           );
           fragment.appendChild(document.createTextNode(data[i]['rawData']));
@@ -190,7 +190,7 @@ export class KatexRenderService {
       }
     }
     return fragment;
-  };
+  }
 
   renderElem(elem: any, optionsCopy?: any) {
     for (let i = 0; i < elem.childNodes.length; i++) {
@@ -211,11 +211,11 @@ export class KatexRenderService {
       }
       // Otherwise, it's something else, and ignore it.
     }
-  };
+  }
 
   renderMathInElement(elem: any, options?: any): void {
     if (!elem) {
-      throw new Error("No element provided to render");
+      throw new Error('No element provided to render');
     }
 
     const optionsCopy = Object.assign({}, this.defaultAutoRenderOptions, options);
@@ -227,6 +227,6 @@ export class KatexRenderService {
     }
 
     this.renderElem(elem, optionsCopy);
-  };
+  }
 
 }
