@@ -29,6 +29,7 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+  console.log(this);
     if (this.path === 'topics') {
       const token: any = this.componentLookupService.lookupByPath(this.path, 'details')[0];
       const dynamicComponentToken = this.componentInjectorService.getComponentToken(token.token);

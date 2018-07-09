@@ -1,2 +1,5 @@
-export class Ligand {
+import {PharosBase} from "./pharos-base";
+
+export class Ligand extends PharosBase {
+
 }

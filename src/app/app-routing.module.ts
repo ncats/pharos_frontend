@@ -40,6 +40,10 @@ const ROUTES: Routes = [
     path: 'diseases',
     loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
     data: { path: 'diseases' }
+  }, {
+    path: 'ligands',
+    loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
+    data: { path: 'ligands' }
   },
   {
     path: 'topics',

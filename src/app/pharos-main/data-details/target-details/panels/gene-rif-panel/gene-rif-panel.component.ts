@@ -19,7 +19,6 @@ export class GeneRifPanelComponent extends DynamicPanelComponent implements OnIn
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private _http: HttpClient) {
-   // https://pharos.ncats.io/idg/struc/af7cbfd1-ffc0-431f-9ec5-fd7e3edf12ad.svg
     super();
   }
 

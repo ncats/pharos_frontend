@@ -67,7 +67,6 @@ export class TOKENS {
    * injection token to link to the other facets for a specific target
    */
   public static TARGET_FACET_PANEL = new InjectionToken<string>('TargetFacetPanelComponent');
-
   /**
    * Injection token for topics list
    */
@@ -76,4 +75,32 @@ export class TOKENS {
    * Injection token for topics details component
    */
   public static TOPIC_DETAILS_COMPONENT = new InjectionToken<string>('TopicDetailsComponent');
-}
+  /**
+   * Injection token for ligands list
+   */
+  public static LIGAND_TABLE_COMPONENT = new InjectionToken<string>('LigandTableComponent');
+  /**
+   * Injection token for ligands details component
+   */
+  public static LIGAND_DETAILS_COMPONENT = new InjectionToken<string>('LigandDetailsComponent');
+  /**
+   * Injection token for ligands header component
+   */
+  public static LIGAND_HEADER_COMPONENT = new InjectionToken<string>('LigandHeaderComponent');
+  /**
+   * injection token to link to synonyms data
+   */
+  public static SYNONYMS_PANEL = new InjectionToken<string>('SynonymsComponent');
+ /**
+ * injection token to link to structure view data
+ */
+public static STRUCTURE_VIEW_PANEL = new InjectionToken<string>('StructureViewComponent');
+ /**
+ * injection token to link to molecular definition data
+ */
+public static MOLECULAR_DEFINITION_PANEL = new InjectionToken<string>('MolecularDefinitionComponent');
+ /**
+ * injection token to link to target relevance data
+ */
+public static TARGET_RELEVANCE_PANEL = new InjectionToken<string>('TargetRelevanceComponent');
+ }

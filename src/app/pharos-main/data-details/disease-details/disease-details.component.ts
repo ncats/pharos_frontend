@@ -1,20 +1,18 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {DynamicPanelComponent} from "../../../tools/dynamic-panel/dynamic-panel.component";
 
 @Component({
   selector: 'pharos-disease-details',
   templateUrl: './disease-details.component.html',
   styleUrls: ['./disease-details.component.css']
 })
-export class DiseaseDetailsComponent implements OnInit {
-  @Input() data: any;
+export class DiseaseDetailsComponent extends DynamicPanelComponent implements OnInit{
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor() {
+    super();
   }
 
-  setData(data: any): void {
-    this.data = data;
-  //  this.dataSource.next(data);
+  ngOnInit() {
+  console.log(this);
   }
 }

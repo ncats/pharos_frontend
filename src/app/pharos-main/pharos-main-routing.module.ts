@@ -10,7 +10,6 @@ import {SummaryPanelComponent} from './data-details/target-details/panels/summar
 import {TargetHeaderComponent} from './data-details/target-details/target-header/target-header.component';
 import {SharedModule} from '../shared/shared.module';
 import { DiseaseTableComponent} from './data-list/disease-table/disease-table.component';
-
 import {
   ReferencesPanelComponent
 } from './data-details/target-details/panels/references-panel/references-panel.component';
@@ -18,9 +17,6 @@ import {ExpressionPanelComponent} from './data-details/target-details/panels/exp
 import {DiseaseSourceComponent} from './data-details/target-details/panels/disease-source-panel/disease-source-panel.component';
 import {OrthologPanelComponent} from './data-details/target-details/panels/ortholog-panel/ortholog-panel.component';
 import {TargetFacetPanelComponent} from './data-details/target-details/panels/target-facet-panel/target-facet-panel.component';
-import {
-  ClassificationExplanationComponent
-} from './data-details/target-details/panels/classification-explanation/classification-explanation.component';
 import {DiseaseDetailsComponent} from './data-details/disease-details/disease-details.component';
 import {RouterModule, Routes} from '@angular/router';
 import {SharedListModule} from '../shared/shared-list.module';
@@ -63,6 +59,13 @@ import {AaSequencePanelComponent} from './data-details/target-details/panels/aa-
 import {GeneRifPanelComponent} from './data-details/target-details/panels/gene-rif-panel/gene-rif-panel.component';
 import {AssayPanelComponent} from './data-details/target-details/panels/assay-panel/assay-panel.component';
 import {LigandsPanelComponent} from './data-details/target-details/panels/ligands-panel/ligands-panel.component';
+import {LigandTableComponent} from "./data-list/ligand-table/ligand-table.component";
+import {LigandDetailsComponent} from "./data-details/ligand-details/ligand-details.component";
+import {MolecularDefinitionPanelComponent} from "./data-details/ligand-details/molecular-definition-panel/molecular-definition-panel.component";
+import {TargetRelevancePanelComponent} from "./data-details/ligand-details/target-relevance-panel/target-relevance-panel.component";
+import {StructureViewPanelComponent} from "./data-details/ligand-details/structure-view-panel/structure-view-panel.component";
+import {SynonymsPanelComponent} from "./data-details/ligand-details/synonyms-panel/synonyms-panel.component";
+import {LigandHeaderComponent} from "./data-details/ligand-details/ligand-header/ligand-header.component";
 
 const pharosMainRoutes: Routes = [
   {
@@ -127,6 +130,14 @@ const pharosMainRoutes: Routes = [
     // diseases
     {provide: TOKENS.DISEASE_TABLE_COMPONENT, useValue: DiseaseTableComponent },
     {provide: TOKENS.DISEASE_DETAILS_COMPONENT, useValue: DiseaseDetailsComponent },
+    // ligands
+    {provide: TOKENS.LIGAND_TABLE_COMPONENT, useValue: LigandTableComponent },
+    {provide: TOKENS.LIGAND_DETAILS_COMPONENT, useValue: LigandDetailsComponent },
+    {provide: TOKENS.LIGAND_HEADER_COMPONENT, useValue: LigandHeaderComponent },
+    {provide: TOKENS.SYNONYMS_PANEL, useValue: SynonymsPanelComponent },
+    {provide: TOKENS.STRUCTURE_VIEW_PANEL, useValue: StructureViewPanelComponent },
+    {provide: TOKENS.TARGET_RELEVANCE_PANEL, useValue: TargetRelevancePanelComponent },
+    {provide: TOKENS.MOLECULAR_DEFINITION_PANEL, useValue: MolecularDefinitionPanelComponent },
   ],
   entryComponents: [
     BreadcrumbComponent,
@@ -139,9 +150,15 @@ const pharosMainRoutes: Routes = [
     ExpressionPanelComponent,
     OrthologPanelComponent,
     TargetFacetPanelComponent,
-    ClassificationExplanationComponent,
     DiseaseTableComponent,
     DiseaseDetailsComponent,
+    LigandTableComponent,
+    LigandDetailsComponent,
+    LigandHeaderComponent,
+    SynonymsPanelComponent,
+    StructureViewPanelComponent,
+    MolecularDefinitionPanelComponent,
+    TargetRelevancePanelComponent,
     TopicTableComponent,
     TopicDetailsComponent,
     TopicHeaderComponent,
@@ -162,9 +179,15 @@ const pharosMainRoutes: Routes = [
     OrthologPanelComponent,
     TargetFacetPanelComponent,
     DiseaseSourceComponent,
-    ClassificationExplanationComponent,
     DiseaseTableComponent,
     DiseaseDetailsComponent,
+    LigandTableComponent,
+    LigandDetailsComponent,
+    LigandHeaderComponent,
+    SynonymsPanelComponent,
+    StructureViewPanelComponent,
+    MolecularDefinitionPanelComponent,
+    TargetRelevancePanelComponent,
     TopicTableComponent,
     TopicDetailsComponent,
     TopicHeaderComponent,

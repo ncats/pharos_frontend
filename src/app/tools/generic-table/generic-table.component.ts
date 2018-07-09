@@ -52,6 +52,7 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
    * show/hide the paginator
    * @type {boolean}
    */
+  @Input()
   showPaginator = true;
   /** Angular Material datasource collection for a table*/
   dataSource = new MatTableDataSource<any>([]);
