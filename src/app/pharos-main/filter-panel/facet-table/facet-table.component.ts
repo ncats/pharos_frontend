@@ -7,6 +7,9 @@ import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {PathResolverService} from '../../../pharos-services/path-resolver.service';
 
+/**
+ * table to display selectable fields
+ */
 @Component({
   selector: 'pharos-facet-table',
   templateUrl: './facet-table.component.html',
@@ -14,12 +17,45 @@ import {PathResolverService} from '../../../pharos-services/path-resolver.servic
 //  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FacetTableComponent implements OnInit, OnDestroy {
+
+  /**
+   * facet to display fields of
+   */
   @Input() facet: any;
+
+  /**
+   * data source of filters to display in the table
+   * @type {MatTableDataSource<any>}
+   */
   dataSource = new MatTableDataSource<any>([]);
+
+  /**
+   * selection model to track selected filters
+   * @type {SelectionModel<string>}
+   */
   filterSelection = new SelectionModel<string>(true, []);
+
+  /**
+   * facet selection fields to display
+   * @type {string[]}
+   */
   displayColumns: string [] = ['select', 'label', 'count'];
+  /**
+   *object fields headings to track and show
+   * @type {string[]}
+   */
   fieldColumns: string [] = ['label', 'count'];
+
+  /**
+   * unsubscribe subject
+   * @type {Subject<any>}
+   */
   private ngUnsubscribe: Subject<any> = new Subject();
+
+  /**
+   * boolean to track facets selection - without this flag, the facet selection triggers a constant change
+   * @type {boolean}
+   */
   propogate = true;
 
   constructor(private route: ActivatedRoute,
@@ -27,6 +63,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
               private pathResolverService: PathResolverService) { }
 
   // todo: on redirect (click targets button), the checked boxes remain
+
   ngOnInit() {
     // sets initially selected values in service
      this.pathResolverService.mapToFacets(this.route.snapshot.queryParamMap);
@@ -61,6 +98,12 @@ export class FacetTableComponent implements OnInit, OnDestroy {
          });
   }
 
+  /**
+   * track facet changes to avoid unnecessary changes
+   * @param index
+   * @param {Field} item
+   * @returns {string}
+   */
   trackByFunction(index, item: Field) {
     return item.label;
   }
@@ -69,6 +112,10 @@ export class FacetTableComponent implements OnInit, OnDestroy {
   console.log(q);
   }
 
+
+  /**
+   * function to unubscribe on destroy
+   */
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();

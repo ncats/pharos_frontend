@@ -14,7 +14,9 @@ import {takeUntil} from 'rxjs/operators';
 import {DataListResolver} from '../services/data-list.resolver';
 import {PageData} from '../../models/page-data';
 
-
+/**
+ * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
+ */
 const navigationExtras: NavigationExtras = {
   queryParamsHandling: 'merge'
 };

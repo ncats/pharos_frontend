@@ -5,10 +5,28 @@ import {
 import * as d3 from 'd3';
 import {BehaviorSubject} from 'rxjs/index';
 
+/**
+ * interface with various chart point properties
+ */
 export interface PharosPoint {
+  /**
+   * optional point name
+   */
   name?: string;
+
+  /**
+   * optional point label
+   */
   label?: string;
+
+  /**
+   * point key
+   */
   key: number;
+
+  /**
+   * point value
+   */
   value: number;
 }
 

@@ -63,6 +63,13 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  * APPLICATION IMPORTS
  */
 
+ /**
+  *these variables are used for the swagger ui
+  */
 declare var require: any;
+
+/**
+ * these variables are used for the swagger ui
+ */
 declare var global: any;
 global.Buffer = global.Buffer || require('buffer').Buffer;

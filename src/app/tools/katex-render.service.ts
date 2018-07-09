@@ -1,9 +1,20 @@
 import {ElementRef, Injectable} from '@angular/core';
 import * as katex from 'katex';
 
+/**
+ * delimiter class to split a text strping in order to render math equations
+ */
 export class SplitAtDelimiters {
-  /* eslint no-constant-condition:0 */
-  findEndOfMath(delimiter, text, startIndex) {
+
+  /**
+   * eslint no-constant-condition:0
+   * find end of math expression using delimiter
+   * @param {string} delimiter
+   * @param {string} text
+   * @param {number} startIndex
+   * @returns {number}
+   */
+  findEndOfMath(delimiter: string, text: string, startIndex: number):number {
     // Adapted from
     // https://github.com/Khan/perseus/blob/master/src/perseus-markdown.jsx
     let index = startIndex;
@@ -31,7 +42,15 @@ export class SplitAtDelimiters {
     return -1;
   }
 
-   splitAtDelimiters(startData, leftDelim, rightDelim, display) {
+  /**
+   * Split text string by specified delimiters
+   * @param startData
+   * @param {string} leftDelim
+   * @param {string} rightDelim
+   * @param display
+   * @returns {any[]}
+   */
+   splitAtDelimiters(startData:any, leftDelim: string, rightDelim: string, display: any): any[] {
     const finalData = [];
 
     for (let i = 0; i < startData.length; i++) {
@@ -111,7 +130,17 @@ export class SplitAtDelimiters {
   providedIn: 'root'
 })
 export class KatexRenderService {
+  /**
+   * delimiter object
+   * @type {SplitAtDelimiters}
+   */
   splitAtDelimiters: SplitAtDelimiters = new SplitAtDelimiters();
+
+  /**
+   * object of default parameters
+   * @type {{strict: boolean; delimiters: {left: string; right: string; display: boolean}[];
+   * ignoredTags: string[]; errorCallback: (msg, err) => void}}
+   */
   defaultAutoRenderOptions = {
     strict: false,
     delimiters: [
@@ -143,9 +172,13 @@ export class KatexRenderService {
 
 
   /* eslint no-console:0 */
-
-
-  splitWithDelimiters(text, delimiters): any {
+  /**
+   *
+   * @param {string} text
+   * @param delimiters
+   * @returns {any}
+   */
+  splitWithDelimiters(text: string, delimiters: any): any {
     let data = [{type: 'text', data: text}];
     for (let i = 0; i < delimiters.length; i++) {
       const delimiter = delimiters[i];
@@ -156,10 +189,14 @@ export class KatexRenderService {
     return data;
   }
 
-  /* Note: optionsCopy is mutated by this method. If it is ever exposed in the
+  /**
+   * Note: optionsCopy is mutated by this method. If it is ever exposed in the
    * API, we should copy it before mutating.
+   * @param text
+   * @param optionsCopy
+   * @returns {DocumentFragment}
    */
-  renderMathInText(text, optionsCopy?) {
+  renderMathInText(text: string, optionsCopy?: any): DocumentFragment {
     const data = this.splitWithDelimiters(text, optionsCopy.delimiters);
     const fragment = document.createDocumentFragment();
 
@@ -192,7 +229,13 @@ export class KatexRenderService {
     return fragment;
   }
 
-  renderElem(elem: any, optionsCopy?: any) {
+  /**
+   * render equation in element
+   * @param elem
+   * @param optionsCopy
+   * @private
+   */
+  private _renderElem(elem: any, optionsCopy?: any):void {
     for (let i = 0; i < elem.childNodes.length; i++) {
       const childNode = elem.childNodes[i];
       if (childNode.nodeType === 3) {
@@ -206,13 +249,18 @@ export class KatexRenderService {
           childNode.nodeName.toLowerCase()) === -1;
 
         if (shouldRender) {
-          this.renderElem(childNode, optionsCopy);
+          this._renderElem(childNode, optionsCopy);
         }
       }
       // Otherwise, it's something else, and ignore it.
     }
   }
 
+  /**
+   * pass to renderElem function
+   * @param elem
+   * @param options
+   */
   renderMathInElement(elem: any, options?: any): void {
     if (!elem) {
       throw new Error('No element provided to render');
@@ -226,7 +274,7 @@ export class KatexRenderService {
       optionsCopy.macros = {};
     }
 
-    this.renderElem(elem, optionsCopy);
+    this._renderElem(elem, optionsCopy);
   }
 
 }

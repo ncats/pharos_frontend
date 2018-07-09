@@ -1,6 +1,9 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import SwaggerUI from 'swagger-ui';
 
+/**
+ * component to display api information usinge rswagger ui viewer
+ */
 @Component({
   selector: 'pharos-api-viewer',
   templateUrl: './api-viewer.component.html',
@@ -9,8 +12,12 @@ import SwaggerUI from 'swagger-ui';
 })
 export class ApiViewerComponent implements AfterViewInit {
 
-  constructor(private el: ElementRef) {
-  }
+  /**
+   * container that holds the swagger ui
+   */
+  @ViewChild('swagger') el: ElementRef;
+
+  constructor() {}
 
   ngAfterViewInit() {
     const ui = SwaggerUI({

@@ -10,6 +10,9 @@ import {FacetRetrieverService} from '../services/facet-retriever.service';
 import {takeUntil} from 'rxjs/operators';
 import {Observable} from 'rxjs/index';
 
+/**
+ * panel that hold a facet table for selection
+ */
 @Component({
   selector: 'pharos-filter-panel',
   templateUrl: './filter-panel.component.html',
@@ -17,7 +20,16 @@ import {Observable} from 'rxjs/index';
   encapsulation: ViewEncapsulation.None
 })
 export class FilterPanelComponent implements OnInit, OnDestroy {
+  /**
+   * input facet list
+   *  todo: see if this is used as an input
+   */
   @Input() facets?: any;
+
+  /**
+   * subject to unsubscribe on destroy
+   * @type {Subject<any>}
+   */
   private ngUnsubscribe: Subject<any> = new Subject();
 
   constructor(
@@ -27,6 +39,9 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
               private environmentVariablesService: EnvironmentVariablesService) { }
 
   // todo : try to lazy load this, only when opened
+  /**
+   * merge path and laded facets to retrieve facet object
+   */
   ngOnInit() {
     const params$: Observable<any> =
       combineLatest(
@@ -55,10 +70,19 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
       });
   }
 
+  /**
+   * function to track facet object to avoid reloading if the facet doesn't change
+   * @param {string} index
+   * @param {Facet} item
+   * @returns {Facet}
+   */
   trackByFn(index: string, item: Facet) {
     return item;
   }
 
+  /**
+   * function to unubscribe on destroy
+   */
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
