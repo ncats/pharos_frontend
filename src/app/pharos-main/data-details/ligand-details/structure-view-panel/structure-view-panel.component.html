@@ -1,0 +1,14 @@
+<div class="flex30">
+<mat-card class="view-card">
+  <mat-card-content>
+    <img [src] = this.imageUrl alt = "image for {{this.data.name}}" class = "ligand-image">
+  </mat-card-content>
+  <mat-card-actions>
+    <div fxLayout="row" fxLayoutAlign="end center">
+    <div fxFlex="20">
+      <button mat-raised-button [color]="'primary'"><mat-icon>search</mat-icon></button>
+    </div>
+    </div>
+  </mat-card-actions>
+</mat-card>
+</div>

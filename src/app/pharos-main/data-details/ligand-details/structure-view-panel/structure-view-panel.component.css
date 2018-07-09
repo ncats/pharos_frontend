@@ -1,0 +1,18 @@
+:host {
+  flex: 1 1 calc(30% - 20px);
+  max-width: calc(30% - 20px);
+}
+
+.flex30 {
+  flex: 1 1 100%;
+  max-width: 100%;
+  margin-left: 20px;
+}
+
+.view-card {
+ width: 100%;
+}
+
+.ligand-image {
+  height: 25vh;
+}

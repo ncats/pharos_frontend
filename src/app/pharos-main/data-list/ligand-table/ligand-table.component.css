@@ -1,0 +1,22 @@
+
+.spaced {
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  position: relative;
+}
+
+.structure-grid {
+  display: grid;
+  grid-auto-rows: max-content;
+  grid-template-columns: repeat(auto-fill, minmax(19%, 1fr));
+  grid-gap: .5em;
+  justify-items: center;
+}
+
+.structure-grid > div {
+  margin-bottom: 1em;
+}
+
+.ligand-card {
+  cursor: pointer;
+}

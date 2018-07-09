@@ -1,0 +1,15 @@
+<div class="flex30">
+  <mat-card>
+    <mat-card-header>Molecular Definition</mat-card-header>
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item><div><b>Canonical Smiles:</b> <span> {{properties?.smiles}}</span></div></mat-list-item>
+        <mat-list-item><div><b>Formula:</b> <span> {{properties?.formula}}</span></div></mat-list-item>
+        <mat-list-item><div><b>Molecular Weight:</b> <span> {{properties?.mwt}}</span></div></mat-list-item>
+        <mat-list-item><div><b>Stereocenters:</b> <span> {{properties?.definedStereo}}/{{properties?.stereoCenters}}</span></div></mat-list-item>
+      </mat-list>
+
+    </mat-card-content>
+  </mat-card>
+
+</div>
