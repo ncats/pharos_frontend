@@ -6,6 +6,8 @@ import { MolecularDefinitionPanelComponent } from './data-details/ligand-details
 import { TargetRelevancePanelComponent } from './data-details/ligand-details/target-relevance-panel/target-relevance-panel.component';
 import { LigandDetailsComponent } from './data-details/ligand-details/ligand-details.component';
 import { LigandHeaderComponent } from './data-details/ligand-details/ligand-header/ligand-header.component';
+import { DiseaseHeaderComponent } from './data-details/disease-details/disease-header/disease-header.component';
+import { TargetListPanelComponent } from './data-details/disease-details/target-list-panel/target-list-panel.component';
 
 @NgModule({
   imports: [

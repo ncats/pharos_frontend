@@ -36,6 +36,22 @@ export class TOKENS {
    * injection token to link to the disease source panel
    */
   public static DISEASE_SOURCE_PANEL = new InjectionToken<string>('DiseaseSourcePanelComponent');
+
+  /**
+   * injection token to link to the target summary component
+   */
+  public static DISEASE_HEADER_COMPONENT = new InjectionToken<string>('DiseaseHeaderComponent');
+  /**
+   * injection token to link to the disease source panel
+   */
+  public static TARGET_LIST_PANEL = new InjectionToken<string>('TargetListPanel');
+
+
+
+
+
+
+
   /**
    * injection token to link to the references for a target
    */

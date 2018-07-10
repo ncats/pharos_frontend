@@ -1,0 +1,29 @@
+<app-ncats-header [searchBar]="true"></app-ncats-header>
+<div fxLayout="row" fxLayout.lt-sm="column" class="api-content">
+  <div fxFlex="15" fxFlex.lt-sm="90"></div>
+  <div fxFlex="85" fxFlex.lt-sm="90" class="api-wrapper">
+    <div fxLayout="row">
+      <div fxFlex="85">
+        <app-sketcher></app-sketcher>
+      </div>
+    </div>
+    <div fxLayout="row">
+      <div fxFlex="85">
+        <mat-form-field>
+          <mat-select>
+            <mat-option selected = "'true'">Substructure</mat-option>
+            <mat-option>Similarity</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder=".8" >
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="structure" >
+        </mat-form-field>
+        <button mat-raised-button [color]="'primary'">Search <mat-icon>search</mat-icon></button>
+      </div>
+    </div>
+  </div>
+</div>
+<app-pharos-footer></app-pharos-footer>

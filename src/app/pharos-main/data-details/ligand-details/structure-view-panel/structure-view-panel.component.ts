@@ -33,4 +33,9 @@ export class StructureViewPanelComponent extends DynamicPanelComponent implement
       });
   }
 
+  setSmiles(){
+    console.log(this);
+    console.log(this.data.structure.smiles);
+  }
+
 }

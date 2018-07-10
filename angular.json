@@ -24,7 +24,9 @@
               "node_modules/swagger-ui/dist/swagger-ui.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/vendor/marvin/js/marvinjslauncher.js"
+            ]
           },
           "configurations": {
             "production": {

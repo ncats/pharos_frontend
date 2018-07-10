@@ -5,6 +5,7 @@ import {MatTabChangeEvent} from '@angular/material';
 import {BehaviorSubject} from 'rxjs';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {PharosPoint} from '../../../../../tools/visualizations/line-chart/line-chart.component';
+import {Property} from "../../../../../models/property";
 
 // skipping log2foldchange property
 const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
@@ -93,7 +94,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
         readDR.properties.forEach(prop => {
           const td = TABLEMAP.get(prop.label);
           if (td) {
-            tableData[td.name] = prop.getData();
+            tableData[td.name] = new Property(prop);
             fields.push(td);
           }
         });
@@ -105,7 +106,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
         } else {
           const tempArr: any[] = [];
           tempArr.push(tableData);
-          this.fieldsMap.set(labelProp, fields);
+          this.fieldsMap.set(labelProp, Array.from(new Set(fields)));
           this.sourceMap.set(labelProp, tempArr);
         }
       });

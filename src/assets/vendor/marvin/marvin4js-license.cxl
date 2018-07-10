@@ -1,0 +1,17 @@
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--PLEASE DO NOT MODIFY THIS FILE AND BE AWARE THAT THE FILE CONTAINS CONFIDENTIAL INFORMATION.-->
+<ChemAxon>
+<License>
+<Field Name="Software" Value="Marvin for JavaScript"/>
+<Field Name="License Term" Value="Perpetual"/>
+<Field Name="Licensee" Value="NIH NCATS"/>
+<Field Name="Number of Users" Value="100"/>
+<Field Name="Expiration Date" Value="Never"/>
+<Field Name="Support Expiration Date" Value="2017-01-31"/>
+<Field Name="Comment" Value="null"/>
+<Restriction Name="Server Use" Value="Allowed"/>
+<Signature Value="MCwCFEe07xR/JNGnsLtuaR5xA7Ztp0NpAhRCZqJ9yYlT454ydaPyv12ipoHc3w=="/>
+</License>
+</ChemAxon>
+

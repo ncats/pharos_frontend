@@ -66,6 +66,8 @@ import {TargetRelevancePanelComponent} from "./data-details/ligand-details/targe
 import {StructureViewPanelComponent} from "./data-details/ligand-details/structure-view-panel/structure-view-panel.component";
 import {SynonymsPanelComponent} from "./data-details/ligand-details/synonyms-panel/synonyms-panel.component";
 import {LigandHeaderComponent} from "./data-details/ligand-details/ligand-header/ligand-header.component";
+import {DiseaseHeaderComponent} from "./data-details/disease-details/disease-header/disease-header.component";
+import {TargetListPanelComponent} from "./data-details/disease-details/target-list-panel/target-list-panel.component";
 
 const pharosMainRoutes: Routes = [
   {
@@ -130,6 +132,8 @@ const pharosMainRoutes: Routes = [
     // diseases
     {provide: TOKENS.DISEASE_TABLE_COMPONENT, useValue: DiseaseTableComponent },
     {provide: TOKENS.DISEASE_DETAILS_COMPONENT, useValue: DiseaseDetailsComponent },
+    {provide: TOKENS.DISEASE_HEADER_COMPONENT, useValue: DiseaseHeaderComponent },
+    {provide: TOKENS.TARGET_LIST_PANEL, useValue: TargetListPanelComponent },
     // ligands
     {provide: TOKENS.LIGAND_TABLE_COMPONENT, useValue: LigandTableComponent },
     {provide: TOKENS.LIGAND_DETAILS_COMPONENT, useValue: LigandDetailsComponent },
@@ -152,6 +156,8 @@ const pharosMainRoutes: Routes = [
     TargetFacetPanelComponent,
     DiseaseTableComponent,
     DiseaseDetailsComponent,
+    DiseaseHeaderComponent,
+    TargetListPanelComponent,
     LigandTableComponent,
     LigandDetailsComponent,
     LigandHeaderComponent,
@@ -181,6 +187,8 @@ const pharosMainRoutes: Routes = [
     DiseaseSourceComponent,
     DiseaseTableComponent,
     DiseaseDetailsComponent,
+    DiseaseHeaderComponent,
+    TargetListPanelComponent,
     LigandTableComponent,
     LigandDetailsComponent,
     LigandHeaderComponent,

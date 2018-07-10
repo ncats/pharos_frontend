@@ -12,7 +12,7 @@ import {Ligand} from "../../../models/ligand";
   templateUrl: './ligand-details.component.html',
   styleUrls: ['./ligand-details.component.css']
 })
-export class LigandDetailsComponent extends DynamicPanelComponent  implements OnInit, OnDestroy {
+export class LigandDetailsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   path: string;
   token: any;
 

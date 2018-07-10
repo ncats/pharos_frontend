@@ -1,12 +1,12 @@
 <div class="flex30">
-<mat-card class="view-card">
+<mat-card class="full-height-card">
   <mat-card-content>
-    <img [src] = this.imageUrl alt = "image for {{this.data.name}}" class = "ligand-image">
+    <img *ngIf="imageUrl" [src] ="imageUrl" alt = "image for {{this.data.name}}" class = "ligand-image">
   </mat-card-content>
   <mat-card-actions>
     <div fxLayout="row" fxLayoutAlign="end center">
     <div fxFlex="20">
-      <button mat-raised-button [color]="'primary'"><mat-icon>search</mat-icon></button>
+      <button mat-raised-button [color]="'primary'" routerLink="/structure" (click)="setSmiles()"><mat-icon>search</mat-icon></button>
     </div>
     </div>
   </mat-card-actions>

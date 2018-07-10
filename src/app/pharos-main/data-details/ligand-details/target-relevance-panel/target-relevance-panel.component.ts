@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from "../../../../tools/dynamic-panel/dynamic-panel.component";
 import {TableData} from "../../../../models/table-data";
+import {Term} from "../../../../models/term";
+import {Property} from "../../../../models/property";
+import {Value} from "../../../../models/value";
 
 @Component({
   selector: 'pharos-target-relevance-panel',
@@ -53,17 +56,16 @@ export class TargetRelevancePanelComponent extends DynamicPanelComponent impleme
         //    takeWhile(() => !this.data['references'])
       )
       .subscribe(x => {
-        console.log(this);
         if(this.data.targetRelevance && this.data.targetRelevance.length > 0) {
           this.tableArr = [];
           this.data.targetRelevance.forEach(target => {
             const data = {
-              target: target.properties.filter(prop => prop.label ==='IDG Target')[0].term,
-              developmentLevel: target.properties.filter(prop => prop.label ==='IDG Development Level')[0].term,
-              targetFamily: target.properties.filter(prop => prop.label ==='IDG Target Family')[0].term,
-              activity: target.properties.filter(prop => prop.label ==='Ligand Activity')[0].term,
+              target: new Term(target.properties.filter(prop => prop.label ==='IDG Target')[0]),
+              developmentLevel: new Term(target.properties.filter(prop => prop.label ==='IDG Development Level')[0]),
+              targetFamily: new Term(target.properties.filter(prop => prop.label ==='IDG Target Family')[0]),
+              activity: new Term(target.properties.filter(prop => prop.label ==='Ligand Activity')[0]),
             };
-            data['developmentLevelValue'] = target.properties.filter(prop => prop.label === data.activity)[0].numval;
+            data['developmentLevelValue'] = new Value(target.properties.filter(prop => prop.label === data.activity.term)[0]);
             this.tableArr.push(data);
           })
         }
