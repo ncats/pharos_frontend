@@ -29,9 +29,7 @@ export class StructureSetterService {
    * @param {string} structure
    */
   setStructure(structure: string): void {
-    console.log(structure);
     this.http.get<any>(structure).subscribe(res => {
-      console.log(res);
       this._structureSource.next(res.molfile)
     });
   }

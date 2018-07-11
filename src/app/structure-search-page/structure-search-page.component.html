@@ -1,5 +1,5 @@
 <app-ncats-header [searchBar]="true"></app-ncats-header>
-<div fxLayout="row" fxLayout.lt-sm="column" class="api-content">
+<div fxLayout="row" fxLayout.lt-sm="column" class="search-content">
   <div fxFlex="15" fxFlex.lt-sm="90"></div>
   <div fxFlex="85" fxFlex.lt-sm="90" class="api-wrapper">
     <div fxLayout="row">
@@ -8,17 +8,21 @@
       </div>
     </div>
     <div fxLayout="row">
-      <div fxFlex="85">
-        <mat-form-field>
+      <div fxFlex="15">
+        <mat-form-field class="full-width-field">
           <mat-select [formControl]="typeCtrl">
             <mat-option [value]="'substructure'">Substructure</mat-option>
             <mat-option [value]="'similarity'">Similarity</mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field *ngIf="typeCtrl.value === 'similarity'">
+      </div>
+      <div fxFlex="10" *ngIf="typeCtrl.value === 'similarity'">
+      <mat-form-field>
           <input matInput [formControl]="percentCtrl">
         </mat-form-field>
-        <mat-form-field>
+      </div>
+      <div fxFlex>
+      <mat-form-field class="full-width-field">
           <input matInput placeholder="structure" [formControl]="smilesCtrl">
         </mat-form-field>
       </div>

@@ -54,16 +54,8 @@ marvin: any;
           // basically, the marvin callbacks aren't run within angular, so they can't update the scope data
           this.ngZone.run(() => {
              this.molConverter.convertMol(mol);
-           // this.drawn = false;
           });
-          /* this.molecule = true;
-           this.drawn = true;
-           if (this.marvinSketcherInstance.isEmpty()) {
-             this.molecule = false;
-             this.drawn = false;
-           }*/
         });
-      //  this.ref.detectChanges();
       });
         this.marvinSketcherInstance.importStructure('mol', this.passedStructure);
       }).catch(err => console.log(err));
@@ -72,23 +64,4 @@ marvin: any;
       this.passedStructure = res;
     });
   }
-/*
-  setSelect(): void {
-    this.selected = true;
-    if (this.molecule) {
-      this.drawn = true;
-    }
-  }*/
-
-/*  submit(): void {
-  //  this.loadingService.toggleVisible(true);
-    this.marvinSketcherInstance.exportStructure('mol').then((mol: any) => {
-      // solution and explanation from here: https://stackoverflow.com/a/48528672
-      // basically, the marvin callbacks aren't run within angular, so they can't update the scope data
-      this.ngZone.run(() => {
-      //  this.predictorService.getPredictions(mol, this.modelCtrl.value);
-        this.drawn = false;
-      });
-    });
-  }*/
 }

@@ -1,7 +1,11 @@
 @import '../../ncats-theme';
 
-.api-content {
+.search-content {
   display: flex;
   min-height: 100vh;
   padding-top: 75px;
+}
+
+.full-width-field {
+  width: 100%;
 }

@@ -41,7 +41,6 @@ export class MolConverterService {
    */
   convertMol(mol: string): void {
     this.http.post(_URL, mol, httpOptions).subscribe(res => {
-      console.log(res);
       this._molSource.next(res);
     })
   }

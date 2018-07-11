@@ -26,11 +26,6 @@ export class StructureSearchPageComponent implements OnInit {
     this.typeCtrl.setValue('substructure');
     this.percentCtrl.setValue(.8);
     this.molConverter.smiles$.subscribe(smiles => this.smilesCtrl.setValue(smiles));
-    /*this.structureSetter.structure$.subscribe(structure => {
-      console.log(structure);
-      this.smilesCtrl.setValue(structure.smiles)
-    });*/
-
   }
 
   search() {
