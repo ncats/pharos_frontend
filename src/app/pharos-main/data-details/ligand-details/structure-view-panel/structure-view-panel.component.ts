@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from "../../../../tools/dynamic-panel/dynamic-panel.component";
 import {EnvironmentVariablesService} from "../../../../pharos-services/environment-variables.service";
+import {StructureSetterService} from "../../../../tools/marvin-sketcher/services/structure-setter.service";
 
 @Component({
   selector: 'pharos-structure-view-panel',
@@ -12,7 +13,8 @@ export class StructureViewPanelComponent extends DynamicPanelComponent implement
   private _STRUCTUREURLBASE: string;
 
   constructor(
-    private environmentVariablesService: EnvironmentVariablesService
+    private environmentVariablesService: EnvironmentVariablesService,
+    private structureSetter: StructureSetterService
   ) {
     super();
   }
@@ -34,8 +36,7 @@ export class StructureViewPanelComponent extends DynamicPanelComponent implement
   }
 
   setSmiles(){
-    console.log(this);
-    console.log(this.data.structure.smiles);
+      this.structureSetter.setStructure(this.data.structure[0].href.toString());
   }
 
 }

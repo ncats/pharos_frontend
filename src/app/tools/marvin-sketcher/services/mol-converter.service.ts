@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {Subject} from "rxjs/index";
 const _URL = 	environment.molConvertUrl;
+
+const httpOptions = {
+  // this is weird. https://github.com/angular/angular/issues/18586
+  responseType: 'text' as 'text'
+};
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +20,7 @@ export class MolConverterService {
    * @type {Subject<boolean>}
    * @private
    */
-  private _molSource = new Subject<boolean>();
+  private _molSource = new Subject<string>();
 
   /**
    * Observable stream of visibility changes
@@ -35,7 +40,7 @@ export class MolConverterService {
    * @param {string} mol
    */
   convertMol(mol: string): void {
-    this.http.post<any>(_URL, mol).subscribe(res => {
+    this.http.post(_URL, mol, httpOptions).subscribe(res => {
       console.log(res);
       this._molSource.next(res);
     })

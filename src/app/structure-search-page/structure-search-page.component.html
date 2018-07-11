@@ -10,18 +10,18 @@
     <div fxLayout="row">
       <div fxFlex="85">
         <mat-form-field>
-          <mat-select>
-            <mat-option selected = "'true'">Substructure</mat-option>
-            <mat-option>Similarity</mat-option>
+          <mat-select [formControl]="typeCtrl">
+            <mat-option [value]="'substructure'">Substructure</mat-option>
+            <mat-option [value]="'similarity'">Similarity</mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder=".8" >
+          <input matInput [formControl]="percentCtrl">
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="structure" >
+          <input matInput placeholder="structure" [formControl]="smilesCtrl">
         </mat-form-field>
-        <button mat-raised-button [color]="'primary'">Search <mat-icon>search</mat-icon></button>
+        <button mat-raised-button [color]="'primary'" (click)="search()">Search <mat-icon>search</mat-icon></button>
       </div>
     </div>
   </div>

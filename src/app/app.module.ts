@@ -28,6 +28,9 @@ import { ApiPageComponent } from './api-page/api-page.component';
 import { StructureSearchPageComponent } from './structure-search-page/structure-search-page.component';
 import { SequenceSearchPageComponent } from './sequence-search-page/sequence-search-page.component';
 import {SketcherComponent} from "./tools/marvin-sketcher/sketcher.component";
+import {StructureSetterService} from "./tools/marvin-sketcher/services/structure-setter.service";
+import {MolConverterService} from "./tools/marvin-sketcher/services/mol-converter.service";
+
 
 @NgModule({
   declarations: [
@@ -64,7 +67,9 @@ import {SketcherComponent} from "./tools/marvin-sketcher/sketcher.component";
     EnvironmentVariablesService,
     FacetRetrieverService,
     SuggestApiService,
-    ComponentLookupService
+    ComponentLookupService,
+    MolConverterService,
+    StructureSetterService
   ],
   bootstrap: [AppComponent]
 })
