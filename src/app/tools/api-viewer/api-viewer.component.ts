@@ -22,9 +22,9 @@ export class ApiViewerComponent implements AfterViewInit {
   ngAfterViewInit() {
     const ui = SwaggerUI({
       url: './assets/pharos-api.json',
-      domNode: this.el.nativeElement.querySelector('.swagger-container'),
-      docExpansion: 'list'
-/*      presets: [
+      domNode: this.el.nativeElement,
+   //   docExpansion: 'list',
+      /*presets: [
         SwaggerUI.presets.apis
 
       ],

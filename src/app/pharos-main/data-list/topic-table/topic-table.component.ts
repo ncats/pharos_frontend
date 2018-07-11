@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Topic} from '../../models/topic';
-import {DynamicPanelComponent} from '../../tools/dynamic-panel/dynamic-panel.component';
+import {DynamicPanelComponent} from "../../../tools/dynamic-panel/dynamic-panel.component";
 
 @Component({
   selector: 'pharos-topic-table',

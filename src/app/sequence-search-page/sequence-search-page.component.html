@@ -1,22 +1,26 @@
+
 <app-ncats-header [searchBar]="true"></app-ncats-header>
-<div fxLayout="row" fxLayout.lt-sm="column" class="api-content">
-  <div fxFlex="15" fxFlex.lt-sm="90"></div>
-  <div fxFlex="85" fxFlex.lt-sm="90" class="api-wrapper">
-    <div fxLayout="row">
-      <div fxFlex="85">
-        <mat-form-field>
-          <input matInput placeholder="Search Identity" [formControl]="percentCtrl">
-        </mat-form-field>
-      </div>
+<div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-around start" class="search-content">
+  <div fxFlex="75" fxFlex.lt-sm="90">
+    <div fxLayout="row" class ="header-row">
+    <div class="section-header active">Protein Sequence Search</div>
     </div>
     <div fxLayout="row">
+      <div fxFlex="30">
+        <div class="full-width-field">
+          <label for="identity" class="slider-label">Search Identity</label>
+          <mat-slider id="identity" class="identity-slider" aria-label="Search Identity"  min="0.1" max="1" step="0.1" [thumbLabel]="true" [formControl]="percentCtrl"></mat-slider>
+      </div>
+    </div>
+    </div>
+    <div fxLayout="row" >
       <div fxFlex="100">
-        <mat-form-field>
-          <textarea matInput placeholder="Query Sequence" [formControl]="sequenceCtrl" [rows]="10"></textarea>
+        <mat-form-field class="full-width-field">
+          <textarea matInput placeholder="Query Sequence" [formControl]="sequenceCtrl" [rows]="5"></textarea>
         </mat-form-field>
       </div>
     </div>
-    <div fxLayout="row">
+    <div fxLayout="row" class="sketcher-row">
       <div fxFlex="85">
         <button mat-raised-button [color]="'primary'" (click)="search()">Search <mat-icon>search</mat-icon></button>
       </div>

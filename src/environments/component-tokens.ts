@@ -1,4 +1,5 @@
 import {InjectionToken} from '@angular/core';
+import {NodeDisplayComponent} from "../app/pharos-main/data-details/topic-details/panels/node-display/node-display.component";
 
 export class TOKENS {
   /**
@@ -46,12 +47,6 @@ export class TOKENS {
    */
   public static TARGET_LIST_PANEL = new InjectionToken<string>('TargetListPanel');
 
-
-
-
-
-
-
   /**
    * injection token to link to the references for a target
    */
@@ -91,6 +86,21 @@ export class TOKENS {
    * Injection token for topics details component
    */
   public static TOPIC_DETAILS_COMPONENT = new InjectionToken<string>('TopicDetailsComponent');
+
+  /**
+   * injection token to add the topic details header
+   */
+  public static TOPIC_HEADER_COMPONENT = new InjectionToken<string>('TopicHeaderComponent');
+
+  /**
+   * injection token to add the neo4j graph vis
+   */
+  public static TOPIC_GRAPH_COMPONENT = new InjectionToken<string>('TopicGraphComponent');
+  /**
+   * injection token to add the neo4j graph node details
+   */
+  public static NODE_DISPLAY_PANEL = new InjectionToken<string>('NodeDisplayComponent');
+
   /**
    * Injection token for ligands list
    */

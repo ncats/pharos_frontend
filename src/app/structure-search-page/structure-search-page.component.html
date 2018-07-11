@@ -1,14 +1,16 @@
 <app-ncats-header [searchBar]="true"></app-ncats-header>
-<div fxLayout="row" fxLayout.lt-sm="column" class="search-content">
-  <div fxFlex="15" fxFlex.lt-sm="90"></div>
-  <div fxFlex="85" fxFlex.lt-sm="90" class="api-wrapper">
-    <div fxLayout="row">
-      <div fxFlex="85">
-        <app-sketcher></app-sketcher>
-      </div>
+<div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-around start" class="search-content">
+  <div fxFlex="75" fxFlex.lt-sm="90">
+    <div fxLayout="row" class ="header-row">
+      <div class="section-header active">Structure Search</div>
     </div>
-    <div fxLayout="row">
-      <div fxFlex="15">
+    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center" class ="sketcher-row">
+      <div fxFlex="100">
+      <app-sketcher></app-sketcher>
+    </div>
+    </div>
+    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
+      <div fxFlex="30">
         <mat-form-field class="full-width-field">
           <mat-select [formControl]="typeCtrl">
             <mat-option [value]="'substructure'">Substructure</mat-option>
@@ -16,12 +18,22 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div fxFlex="10" *ngIf="typeCtrl.value === 'similarity'">
-      <mat-form-field>
+      <div fxFlex="5"></div>
+      <div fxFlex="30" *ngIf="typeCtrl.value === 'similarity'">
+        <div class="full-width-field">
+          <label for="identity" class="slider-label">Similarity Cutoff</label>
+          <mat-slider id="identity" class="cutoff-slider" aria-label="Similarity Cutoff"  min="0.1" max="1" step="0.1" [thumbLabel]="true" [formControl]="percentCtrl"></mat-slider>
+        </div>
+      </div>
+    </div>
+
+<!--      <div fxFlex="5" *ngIf="typeCtrl.value === 'similarity'">
+      <mat-form-field class="full-width-field">
           <input matInput [formControl]="percentCtrl">
         </mat-form-field>
-      </div>
-      <div fxFlex>
+      </div>-->
+    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
+    <div fxFlex ="70">
       <mat-form-field class="full-width-field">
           <input matInput placeholder="structure" [formControl]="smilesCtrl">
         </mat-form-field>

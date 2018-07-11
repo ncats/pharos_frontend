@@ -43,12 +43,14 @@ export class DonutChartComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes) {
     if (!changes.data.firstChange) {
+      this.drawChart();
       this.updateChart();
     }
   }
 
   drawChart(): void {
     const element = this.chartContainer.nativeElement;
+    d3.select(element).selectAll('svg').remove();
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
     this.radius = Math.min(this.width, this.height) / 2;

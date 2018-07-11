@@ -4,7 +4,7 @@ import { TopicDetailsComponent } from './topic-details.component';
 import {SharedDetailsModule} from '../../shared/shared-details.module';
 import {TopicHeaderComponent} from './components/topic-header/topic-header.component';
 import {GraphComponent} from './components/topics-graph/components/graph/graph.component';
-import {NodeDisplayComponent} from './components/node-display/node-display.component';
+import {NodeDisplayComponent} from './panels/node-display/node-display.component';
 import {DataConnectionService} from './components/topics-graph/services/connection/data-connection.service';
 import {WebSocketService} from './components/topics-graph/services/connection/websocket.service';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';

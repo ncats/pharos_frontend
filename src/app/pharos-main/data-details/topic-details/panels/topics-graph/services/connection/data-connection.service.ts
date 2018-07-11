@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Subject, Observable, of, BehaviorSubject} from 'rxjs';
+import {Subject, Observable, of} from 'rxjs';
 import {WebSocketService} from './websocket.service';
 import {catchError, map, share} from 'rxjs/operators';
 
@@ -14,7 +14,7 @@ const DATA_URL = 'ws://localhost:1337';
 @Injectable()
 export class DataConnectionService {
   /**
-   * RxJs subject to broadcast messages retruned by the websocket
+   * RxJs subject to broadcast messages returned by the websocket
    * @type {Subject<any>}
    */
   public messages: Subject<any> = new Subject<any>();
@@ -28,13 +28,13 @@ export class DataConnectionService {
    * @param {WebSocketService} wsService
    */
   constructor(private wsService: WebSocketService) {
-
+console.log("creating data connection")
     //  subscribe to websocket
     this.messagesEmitter  = <Subject<any>>this.wsService
       .connect(DATA_URL)
       .pipe(
       map((response: MessageEvent): string => {
-       return response.data;
+        return response.data;
       }),
         catchError(this.handleError('messageEmitter', []))
       );

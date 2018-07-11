@@ -3,6 +3,7 @@ import {MolConverterService} from "../tools/marvin-sketcher/services/mol-convert
 import {FormControl} from "@angular/forms";
 import {StructureSetterService} from "../tools/marvin-sketcher/services/structure-setter.service";
 import {NavigationExtras, Router} from "@angular/router";
+import {MatSliderChange} from "@angular/material";
 
 @Component({
   selector: 'pharos-sequence-search-page',

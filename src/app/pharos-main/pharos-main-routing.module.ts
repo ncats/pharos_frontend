@@ -1,5 +1,5 @@
-///<reference path="../pharos-topics/topic-details/components/topic-header/topic-header.component.ts"/>
-import { NgModule} from '@angular/core';
+///<reference path="data-details/topic-details/components/topics-graph/services/connection/websocket.service.ts"/>
+import {NgModule} from '@angular/core';
 import {DataListResolver} from './services/data-list.resolver';
 import {PharosMainComponent} from './pharos-main.component';
 import {TargetTableComponent} from './data-list/target-table/target-table.component';
@@ -9,10 +9,8 @@ import {TargetDetailsComponent} from './data-details/target-details/target-detai
 import {SummaryPanelComponent} from './data-details/target-details/panels/summary-panel/summary-panel.component';
 import {TargetHeaderComponent} from './data-details/target-details/target-header/target-header.component';
 import {SharedModule} from '../shared/shared.module';
-import { DiseaseTableComponent} from './data-list/disease-table/disease-table.component';
-import {
-  ReferencesPanelComponent
-} from './data-details/target-details/panels/references-panel/references-panel.component';
+import {DiseaseTableComponent} from './data-list/disease-table/disease-table.component';
+import {ReferencesPanelComponent} from './data-details/target-details/panels/references-panel/references-panel.component';
 import {ExpressionPanelComponent} from './data-details/target-details/panels/expression-panel/expression-panel.component';
 import {DiseaseSourceComponent} from './data-details/target-details/panels/disease-source-panel/disease-source-panel.component';
 import {OrthologPanelComponent} from './data-details/target-details/panels/ortholog-panel/ortholog-panel.component';
@@ -21,37 +19,7 @@ import {DiseaseDetailsComponent} from './data-details/disease-details/disease-de
 import {RouterModule, Routes} from '@angular/router';
 import {SharedListModule} from '../shared/shared-list.module';
 import {SharedDetailsModule} from '../shared/shared-details.module';
-import {WebSocketService} from '../pharos-topics/topic-details/components/topics-graph/services/connection/websocket.service';
-import {DataConnectionService} from '../pharos-topics/topic-details/components/topics-graph/services/connection/data-connection.service';
-import {D3Service} from '../pharos-topics/topic-details/components/topics-graph/services/event-tracking/d3.service';
-import {NodeService} from '../pharos-topics/topic-details/components/topics-graph/services/event-tracking/node.service';
-import {LinkService} from '../pharos-topics/topic-details/components/topics-graph/services/event-tracking/link.service';
-import {MessageService} from '../pharos-topics/topic-details/components/topics-graph/services/message.service';
-import {GraphDataService} from '../pharos-topics/topic-details/components/topics-graph/services/graph-data.service';
-import {
-  NodeMenuControllerService
-} from '../pharos-topics/topic-details/components/topics-graph/services/event-tracking/node-menu-controller.service';
 import {LoadingService} from '../pharos-services/loading.service';
-import {SettingsService} from '../pharos-topics/topic-details/components/topics-graph/services/settings.service';
-import {NodeExpandService} from '../pharos-topics/topic-details/components/topics-graph/services/event-tracking/node-expand.service';
-import {TopicTableComponent} from '../pharos-topics/topic-table/topic-table.component';
-import {TopicDetailsComponent} from '../pharos-topics/topic-details/topic-details.component';
-import {TopicHeaderComponent} from '../pharos-topics/topic-details/components/topic-header/topic-header.component';
-import {GraphComponent} from '../pharos-topics/topic-details/components/topics-graph/components/graph/graph.component';
-import {
-  NodeVisualComponent
-} from '../pharos-topics/topic-details/components/topics-graph/components/shared/node-visual/node-visual.component';
-import {
-  LinkVisualComponent
-} from '../pharos-topics/topic-details/components/topics-graph/components/shared/link-visual/link-visual.component';
-import {ZoomableDirective} from '../pharos-topics/topic-details/components/topics-graph/directives/zoomable.directive';
-import {HoverableLinkDirective} from '../pharos-topics/topic-details/components/topics-graph/directives/hoverable-link.directive';
-import {HoverableNodeDirective} from '../pharos-topics/topic-details/components/topics-graph/directives/hoverable-node.directive';
-import {DraggableDirective} from '../pharos-topics/topic-details/components/topics-graph/directives/draggable.directive';
-import {ClickableNodeDirective} from '../pharos-topics/topic-details/components/topics-graph/directives/clickable-node.directive';
-import {ClickableLinkDirective} from '../pharos-topics/topic-details/components/topics-graph/directives/clickable-link.directive';
-import {NodeMenuComponent} from '../pharos-topics/topic-details/components/topics-graph/components/shared/node-menu/node-menu.component';
-import {NodeDisplayComponent} from '../pharos-topics/topic-details/components/node-display/node-display.component';
 import {RadarChartComponent} from '../tools/visualizations/radar-chart/radar-chart.component';
 import {TOKENS} from '../../environments/component-tokens';
 import {BreadcrumbComponent} from '../tools/breadcrumb/breadcrumb.component';
@@ -68,6 +36,30 @@ import {SynonymsPanelComponent} from "./data-details/ligand-details/synonyms-pan
 import {LigandHeaderComponent} from "./data-details/ligand-details/ligand-header/ligand-header.component";
 import {DiseaseHeaderComponent} from "./data-details/disease-details/disease-header/disease-header.component";
 import {TargetListPanelComponent} from "./data-details/disease-details/target-list-panel/target-list-panel.component";
+import {WebSocketService} from "./data-details/topic-details/panels/topics-graph/services/connection/websocket.service";
+import {DataConnectionService} from "./data-details/topic-details/panels/topics-graph/services/connection/data-connection.service";
+import {D3Service} from "./data-details/topic-details/panels/topics-graph/services/event-tracking/d3.service";
+import {NodeService} from "./data-details/topic-details/panels/topics-graph/services/event-tracking/node.service";
+import {LinkService} from "./data-details/topic-details/panels/topics-graph/services/event-tracking/link.service";
+import {MessageService} from "./data-details/topic-details/panels/topics-graph/services/message.service";
+import {GraphDataService} from "./data-details/topic-details/panels/topics-graph/services/graph-data.service";
+import {NodeMenuControllerService} from "./data-details/topic-details/panels/topics-graph/services/event-tracking/node-menu-controller.service";
+import {SettingsService} from "./data-details/topic-details/panels/topics-graph/services/settings.service";
+import {NodeExpandService} from "./data-details/topic-details/panels/topics-graph/services/event-tracking/node-expand.service";
+import {TopicTableComponent} from "./data-list/topic-table/topic-table.component";
+import {TopicDetailsComponent} from "./data-details/topic-details/topic-details.component";
+import {TopicHeaderComponent} from "./data-details/topic-details/topic-header/topic-header.component";
+import {GraphComponent} from "./data-details/topic-details/panels/topics-graph/components/graph/graph.component";
+import {NodeVisualComponent} from "./data-details/topic-details/panels/topics-graph/components/shared/node-visual/node-visual.component";
+import {LinkVisualComponent} from "./data-details/topic-details/panels/topics-graph/components/shared/link-visual/link-visual.component";
+import {ZoomableDirective} from "./data-details/topic-details/panels/topics-graph/directives/zoomable.directive";
+import {HoverableLinkDirective} from "./data-details/topic-details/panels/topics-graph/directives/hoverable-link.directive";
+import {HoverableNodeDirective} from "./data-details/topic-details/panels/topics-graph/directives/hoverable-node.directive";
+import {DraggableDirective} from "./data-details/topic-details/panels/topics-graph/directives/draggable.directive";
+import {ClickableNodeDirective} from "./data-details/topic-details/panels/topics-graph/directives/clickable-node.directive";
+import {ClickableLinkDirective} from "./data-details/topic-details/panels/topics-graph/directives/clickable-link.directive";
+import {NodeDisplayComponent} from "./data-details/topic-details/panels/node-display/node-display.component";
+import {NodeMenuComponent} from "./data-details/topic-details/panels/topics-graph/components/shared/node-menu/node-menu.component";
 
 const pharosMainRoutes: Routes = [
   {
@@ -115,6 +107,9 @@ const pharosMainRoutes: Routes = [
     // topics
     {provide: TOKENS.TOPIC_TABLE_COMPONENT, useValue: TopicTableComponent },
     {provide: TOKENS.TOPIC_DETAILS_COMPONENT, useValue: TopicDetailsComponent },
+    {provide: TOKENS.TOPIC_HEADER_COMPONENT, useValue: TopicHeaderComponent },
+    {provide: TOKENS.TOPIC_GRAPH_COMPONENT, useValue: GraphComponent },
+    {provide: TOKENS.NODE_DISPLAY_PANEL, useValue: NodeDisplayComponent },
     // targets
     {provide: TOKENS.TARGET_HEADER_COMPONENT, useValue: TargetHeaderComponent },
     {provide: TOKENS.TARGET_TABLE_COMPONENT, useValue: TargetTableComponent },
@@ -169,6 +164,7 @@ const pharosMainRoutes: Routes = [
     TopicDetailsComponent,
     TopicHeaderComponent,
     GraphComponent,
+    NodeDisplayComponent,
     RadarChartComponent,
     GeneRifPanelComponent,
     AssayPanelComponent,
@@ -199,6 +195,7 @@ const pharosMainRoutes: Routes = [
     TopicTableComponent,
     TopicDetailsComponent,
     TopicHeaderComponent,
+    NodeDisplayComponent,
     NodeVisualComponent,
     LinkVisualComponent,
     ZoomableDirective,

@@ -9,3 +9,34 @@
 .full-width-field {
   width: 100%;
 }
+
+.section-header {
+  font: 300 2.5rem Roboto, "Helvetica Neue", sans-serif;
+  padding-left: 1vw;
+}
+
+.active {
+  border-left: 8px solid mat-color($pharos-app-primary);
+}
+
+.sketcher-row {
+    margin-bottom:3vh;
+}
+
+.header-row {
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+}
+
+.slider-label {
+  display: block;
+  font-size: inherit;
+  font-weight: 400;
+  line-height: 1.125;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: rgba(0,0,0, .6);
+}
+
+.cutoff-slider {
+  width: 100%;
+}
