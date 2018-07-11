@@ -5,6 +5,7 @@ import {AboutPageComponent} from './about-page/about-page.component';
 import {FaqPageComponent} from './faq-page/faq-page.component';
 import {ApiPageComponent} from './api-page/api-page.component';
 import {StructureSearchPageComponent} from "./structure-search-page/structure-search-page.component";
+import {SequenceSearchPageComponent} from "./sequence-search-page/sequence-search-page.component";
 
 
 
@@ -32,6 +33,10 @@ const ROUTES: Routes = [
   { path: 'sketcher',
     redirectTo: '/structure',
     pathMatch: 'full'
+  },
+  {
+    path: 'sequence',
+    component: SequenceSearchPageComponent
   },
   {
     path: 'faq',
