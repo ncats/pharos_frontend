@@ -14,6 +14,7 @@ import {StructureSetterService} from "../../tools/marvin-sketcher/services/struc
 export class SketcherComponent implements OnInit {
   marvinSketcherInstance;
   url: SafeResourceUrl;
+  passedStructure: string;
   drawn = false;
   molecule = false;
   selected = false;
@@ -46,32 +47,30 @@ marvin: any;
   ngOnInit() {
     //console.log(window['MarvinJSUtil'].getPackage('#sketcher'));
     window['MarvinJSUtil'].getPackage('#sketcher').then((marvin) => {
-      console.log("ddddddddddddd")
       this.marvinSketcherInstance = marvin.sketcherInstance;
-      console.log(this.marvinSketcherInstance.getSupportedFormats());
-      // this.marvinSketcherInstance.on('molchange', () => {
-      //   this.marvinSketcherInstance.exportStructure('mol').then((mol: any) => {
-      //     console.log(mol);
-      //     // solution and explanation from here: https://stackoverflow.com/a/48528672
-      //     // basically, the marvin callbacks aren't run within angular, so they can't update the scope data
-      //     this.ngZone.run(() => {
-      //        this.molConverter.convertMol(mol);
-      //      // this.drawn = false;
-      //     });
-      //     /* this.molecule = true;
-      //      this.drawn = true;
-      //      if (this.marvinSketcherInstance.isEmpty()) {
-      //        this.molecule = false;
-      //        this.drawn = false;
-      //      }*/
-      //   });
-      // //  this.ref.detectChanges();
-      // });
-      // // this.structureSetter.structure$.subscribe(res => {
-      // //   console.log(res);
-      // //     this.marvinSketcherInstance.importStructure('mol', res);
-      // // });
+      this.marvinSketcherInstance.on('molchange', () => {
+        this.marvinSketcherInstance.exportStructure('mol').then((mol: any) => {
+          // solution and explanation from here: https://stackoverflow.com/a/48528672
+          // basically, the marvin callbacks aren't run within angular, so they can't update the scope data
+          this.ngZone.run(() => {
+             this.molConverter.convertMol(mol);
+           // this.drawn = false;
+          });
+          /* this.molecule = true;
+           this.drawn = true;
+           if (this.marvinSketcherInstance.isEmpty()) {
+             this.molecule = false;
+             this.drawn = false;
+           }*/
+        });
+      //  this.ref.detectChanges();
+      });
+        this.marvinSketcherInstance.importStructure('mol', this.passedStructure);
       }).catch(err => console.log(err));
+
+    this.structureSetter.structure$.subscribe(res => {
+      this.passedStructure = res;
+    });
   }
 /*
   setSelect(): void {

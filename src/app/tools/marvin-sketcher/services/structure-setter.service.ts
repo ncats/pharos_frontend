@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import {Subject} from "rxjs/index";
 import {HttpClient} from "@angular/common/http";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class StructureSetterService {
 
   /**
@@ -36,6 +34,5 @@ export class StructureSetterService {
       console.log(res);
       this._structureSource.next(res.molfile)
     });
-  //  this._structureSource.next(structure);
   }
 }
