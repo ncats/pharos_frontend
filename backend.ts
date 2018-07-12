@@ -50,7 +50,6 @@ wsServer.on('request', function(request) {
 
   // user sent some message
   connection.on('message', function(message) {
-    console.log(message);
     let mes =  JSON.parse(message.utf8Data);
     let params;
     if(typeof(mes.params.qParam) === "number"){

@@ -42,39 +42,38 @@ export class GraphDataService {
      * sets up subscription to watch for new messages from the websocket. Parses the message based on type and updates
      * the graph
      */
-    this.dataConnectionService.messages.subscribe(msg => {
-      const response = JSON.parse(msg);
-      if (response.data) {
-        if (response.type) {
-          this.originalEvent = response.type.toString();
-        }
-        const records = response.data._fields;
-        if (records.length === 0) {
-          console.error(response);
-        } else {
-          switch (response.type) {
-            case 'expand': {
-              this.filter = false;
-              this.noResults = false;
-              this.parseRecords(records);
-              break;
-            }
-            default: {
-              this.parseRecords(records);
+    this.dataConnectionService.messages.subscribe(response => {
+        if (response.data) {
+          if (response.type) {
+            this.originalEvent = response.type.toString();
+          }
+          const records = response.data._fields;
+          if (records.length === 0) {
+            console.error(response);
+          } else {
+            switch (response.type) {
+              case 'expand': {
+                this.filter = false;
+                this.noResults = false;
+                this.parseRecords(records);
+                break;
+              }
+              default: {
+                this.parseRecords(records);
+              }
             }
           }
-        }
-      } else {
-        // no new results added
-        // todo: still want an alert if no predictions are found.
-        if (this.noResults && (this.nodeList.length === 0 && this.linkList.length === 0)) {
-          this.clearGraph();
-          this._graphHistorySource.next(this.graph);
-          alert('no path found');
         } else {
-          this.makeGraph();
+          // no new results added
+          // todo: still want an alert if no predictions are found.
+          if (this.noResults && (this.nodeList.length === 0 && this.linkList.length === 0)) {
+            this.clearGraph();
+            this._graphHistorySource.next(this.graph);
+            alert('no path found');
+          } else {
+            this.makeGraph();
+          }
         }
-      }
     });
   }
 

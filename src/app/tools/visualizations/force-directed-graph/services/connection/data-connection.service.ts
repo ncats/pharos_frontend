@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import {Subject, Observable, of} from 'rxjs';
 import {WebSocketService} from './websocket.service';
 import {catchError, map, share} from 'rxjs/operators';
+import {environment} from "../../../../../../environments/environment";
 
 /**
  * url of database
  * todo: this should be en environment variable
  * @type {string}
  */
-const DATA_URL = 'ws://localhost:1337';
+const WEBSOCKET_URL = environment.websocketUrl;
 // const DATA_URL = 'ws://smrtgraphdb-dev.ncats.nih.gov:1337';
 
 @Injectable()
@@ -18,30 +19,13 @@ export class DataConnectionService {
    * @type {Subject<any>}
    */
   public messages: Subject<any> = new Subject<any>();
-  /**
-   * websocket subject
-   */
-  private messagesEmitter: any;
 
   /**
-   * create new {messageEmitter} with the websocket service
+   * create new {messageEmitter} with the rxjs websocket service
    * @param {WebSocketService} wsService
    */
   constructor(private wsService: WebSocketService) {
-console.log("creating data connection")
-    //  subscribe to websocket
-    this.messagesEmitter  = <Subject<any>>this.wsService
-      .connect(DATA_URL)
-      .pipe(
-      map((response: MessageEvent): string => {
-        return response.data;
-      }),
-        catchError(this.handleError('messageEmitter', []))
-      );
-
-    this.messages = this.messagesEmitter.pipe(
-      share()
-    );
+    this.messages = this.wsService.connect(WEBSOCKET_URL);
   }
 
   /**

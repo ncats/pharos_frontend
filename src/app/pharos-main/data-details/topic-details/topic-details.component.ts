@@ -6,11 +6,11 @@ import {CustomContentDirective} from "../../../tools/custom-content.directive";
 import {DataDetailsResolver} from "../../services/data-details.resolver";
 import {ComponentInjectorService} from "../../../pharos-services/component-injector.service";
 import {takeUntil} from "rxjs/operators";
-import {Disease} from "../../../models/disease";
 import {ComponentLookupService} from "../../../pharos-services/component-lookup.service";
-import {DataConnectionService} from "./panels/topics-graph/services/connection/data-connection.service";
-import {GraphDataService} from "./panels/topics-graph/services/graph-data.service";
-import {NodeService} from "./panels/topics-graph/services/event-tracking/node.service";
+import {DataConnectionService} from "../../../tools/visualizations/force-directed-graph/services/connection/data-connection.service";
+import {GraphDataService} from "../../../tools/visualizations/force-directed-graph/services/graph-data.service";
+import {NodeService} from "../../../tools/visualizations/force-directed-graph/services/event-tracking/node.service";
+
 
 @Component({
   selector: 'pharos-topic-details',
@@ -54,18 +54,11 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   private graphDataService: GraphDataService,
   private nodeService: NodeService) {
     super();
-    console.log("constructor");
-
   }
 
   ngOnInit() {
     console.log(this);
-    this.dataConnectionService.messages.next({
-      message: 'MATCH (n:`KG:1`)-[r]-(b) with {segments:[{start: startNode(r), relationship:r,' +
-      ' end: endNode(r)}]} AS ret RETURN ret LIMIT 25', params: {}});
-
-    console.log(this.dataConnectionService.messages);
-    this.topic = this.TOPICS[0];
+       this.topic = this.TOPICS[0];
     const components: any = this.componentLookupService.lookupByPath(this.path, 'panels');
     if (components) {
       components.forEach(component => {
@@ -90,10 +83,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
           childComponent.instance.width = component.width;
         }
         childComponent.instance.topic = this.topic;
-        this.dataConnectionService.messages.next({
-          message: 'MATCH (n:`KG:1`)-[r]-(b) with {segments:[{start: startNode(r), relationship:r,' +
-          ' end: endNode(r)}]} AS ret RETURN ret LIMIT 25', params: {}});
-      // todo need to cover when no results are returned - do we still want to make the component?
+        // todo need to cover when no results are returned - do we still want to make the component?
         this._data
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(obj => {
@@ -114,15 +104,6 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
       message: 'MATCH (n:`KG:1`)-[r]-(b) with {segments:[{start: startNode(r), relationship:r,' +
       ' end: endNode(r)}]} AS ret RETURN ret LIMIT 25', params: {}});
   }
-
-doIt () {
-  this.dataConnectionService.messages.next({
-    message: 'MATCH (n:`KG:1`)-[r]-(b) with {segments:[{start: startNode(r), relationship:r,' +
-    ' end: endNode(r)}]} AS ret RETURN ret LIMIT 25', params: {}});
-  const graph = this.graphDataService.returnGraph();
-  this.nodes = graph.nodes;
-}
-
 
 pick(o, props): any {
   return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));

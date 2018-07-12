@@ -139,7 +139,12 @@ export class PharosApiService {
     } else {
       // todo: delete when api filled out
       if (path === 'topics') {
-        this.getTopics();
+        console.log("fffff");
+        console.log(this.TOPICS);
+        of(this.TOPICS).subscribe(topics=> {
+          console.log(topics);
+          this._dataSource.next({content: [{kind: path, data: topics}]});
+        })
       } else {
         const url = this._mapParams(path, params);
         this.http.get<any>(url)
@@ -328,7 +333,7 @@ export class PharosApiService {
    * garbage
    */
   getTopics() {
-    this._dataSource.next({content: this.TOPICS});
+
   }
 
   /**

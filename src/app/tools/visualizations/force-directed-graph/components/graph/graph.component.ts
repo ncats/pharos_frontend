@@ -7,8 +7,8 @@ import {Link} from '../../models/link';
 import {Node} from '../../models/node';
 import {ForceDirectedGraph} from '../../models/force-directed-graph';
 import {GraphDataService} from '../../services/graph-data.service';
-import {LoadingService} from "../../../../../../../pharos-services/loading.service";
-import {DataConnectionService} from "../../services/connection/data-connection.service";
+import {LoadingService} from "../../../../../pharos-services/loading.service";
+
 
 /**
  * graph visual component creates svg skeleton by using angular to iterate over node and link lists
@@ -49,7 +49,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
    * @type {{width: number; height: number}}
    * @private
    */
-  _options: {width, height} = {width: 600, height: 600};
+  _options: {width, height} = {width: 800, height: 600};
 
   /**
    * rescales the graph on window resize
@@ -65,14 +65,12 @@ export class GraphComponent implements OnInit, AfterViewInit {
    * @param {D3Service} d3Service
    * @param {ChangeDetectorRef} ref
    * @param {ElementRef} el
-   * @param {DataConnectionService} dataConnectionService
    * @param {GraphDataService} graphDataService
    * @param {LoadingService} loadingService
    */
   constructor(private d3Service: D3Service,
               private ref: ChangeDetectorRef,
               private el: ElementRef,
-              private dataConnectionService: DataConnectionService,
               private graphDataService: GraphDataService,
               private loadingService: LoadingService) {
   }
@@ -114,14 +112,6 @@ export class GraphComponent implements OnInit, AfterViewInit {
    */
   ngAfterViewInit() {
     this.graph.initSimulation(this.options);
-    console.log("graph component")
-      this.dataConnectionService.messages.next({
-        message: 'MATCH (n:`KG:1`)-[r]-(b) with {segments:[{start: startNode(r), relationship:r,' +
-        ' end: endNode(r)}]} AS ret RETURN ret LIMIT 25', params: {}});
-    /*  const graph = this.graphDataService.returnGraph();
-      console.log(graph);
-      this.nodes = graph.nodes;*/
-
   }
 
 

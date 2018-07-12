@@ -14,6 +14,7 @@ export class TopicTableComponent extends DynamicPanelComponent implements OnInit
 
   ngOnInit() {
     console.log('topic table');
+    console.log(this);
   }
 
 }

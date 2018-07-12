@@ -95,7 +95,7 @@ export class TOKENS {
   /**
    * injection token to add the neo4j graph vis
    */
-  public static TOPIC_GRAPH_COMPONENT = new InjectionToken<string>('TopicGraphComponent');
+  public static TOPIC_GRAPH_PANEL = new InjectionToken<string>('TopicGraphPanelComponent');
   /**
    * injection token to add the neo4j graph node details
    */

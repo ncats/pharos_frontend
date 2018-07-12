@@ -1,0 +1,9 @@
+:host {
+  flex: 1 1 calc(100%);
+  max-width: 100%;
+  margin: 0 !important;
+}
+
+.graph-holder {
+  background-color: #ffffff;
+}
