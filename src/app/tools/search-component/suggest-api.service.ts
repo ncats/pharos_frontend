@@ -7,22 +7,26 @@ import {EnvironmentVariablesService} from '../../pharos-services/environment-var
 @Injectable()
 export class SuggestApiService {
   url: string;
+  autocompleteFields: string[];
 
   constructor(private http: HttpClient,
               private environmentVariableService: EnvironmentVariablesService) {
     this.url = this.environmentVariableService.getSuggestPath();
+    this.autocompleteFields = this.environmentVariableService.getAutocompleteFields();
   }
 
   // todo this should probably be piped through the pharos api service, or bundled as a self-contained module
   search(query: string): Observable<any[]> {
+    let autocomplete = [];
     return this.http.get<any[]>(this.url +  query)
       .pipe(
         map(response => {
-          const res = [];
-            for (const [key, value] of Object.entries(response)) {
-              res.push({name: key.replace(/_/g, ' '), options: value});
+          this.autocompleteFields.forEach(field => {
+            if(response[field] && response[field].length > 0) {
+              autocomplete.push({name: [field.replace(/_/g, ' ')], options: response[field]});
             }
-          return res;
+          });
+          return autocomplete;
         }),
         catchError(this.handleError('getProtocols', []))
       );

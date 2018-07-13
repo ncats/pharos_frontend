@@ -87,6 +87,11 @@ export class EnvironmentVariablesService {
     return this._pathExists(path) ? this._environment[path].chartFacets : null;
   }
 
+
+  getAutocompleteFields(): string[] {
+    return this._environment.autocompleteFields;
+  }
+
   /**
    * returns group of facets associated with a chart for each data type
    * @param {string} path
@@ -128,6 +133,14 @@ export class EnvironmentVariablesService {
    */
   getStructureImageUrl(): string {
     return this._environment.structureImageUrl;
+  }
+
+  /**
+   * returns websocket url
+   * @returns {string}
+   */
+  getWebsocketUrl(): string {
+    return this._environment.websocketUrl;
   }
 
   /**

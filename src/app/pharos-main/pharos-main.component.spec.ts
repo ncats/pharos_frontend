@@ -28,7 +28,6 @@ describe('PharosMainComponent', () => {
       providers: [
         PathResolverService,
         PharosApiService,
-        PathResolverService,
         ResponseParserService,
         LoadingService,
         EnvironmentVariablesService,

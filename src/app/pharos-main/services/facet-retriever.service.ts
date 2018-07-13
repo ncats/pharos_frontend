@@ -46,8 +46,9 @@ export class FacetRetrieverService {
    */
   constructor(private responseParserService: ResponseParserService) {
     this.responseParserService.facetsData$.subscribe(res => {
-      this.facets = res;
-      this._loaded.next(true);
+      console.log(res);
+     // this.facets = res;
+     // this._loaded.next(true);
       this._facets.next(res);
     });
   }
@@ -60,6 +61,10 @@ export class FacetRetrieverService {
    */
   getFacet(name: string): any {
     return this.facets.filter(facet => facet.name === name).pop();
+  }
+
+  getAllFacets(): Observable<any> {
+    return this.facets$
   }
 
   /**

@@ -11,7 +11,9 @@ This app contains:
 9. NCATS scss color scheme
 10. NCATS favicon
 
-
+https://medium.com/@tomsu/building-web-components-with-angular-elements-746cd2a38d5b
+https://github.com/semantic-release/semantic-release
+https://github.com/commitizen/cz-cli
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.0.
 

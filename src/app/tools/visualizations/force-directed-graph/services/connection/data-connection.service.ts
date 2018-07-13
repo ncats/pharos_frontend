@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import {Subject, Observable, of} from 'rxjs';
 import {WebSocketService} from './websocket.service';
-import {catchError, map, share} from 'rxjs/operators';
 import {environment} from "../../../../../../environments/environment";
 
 /**
  * url of database
- * todo: this should be en environment variable
+ * this uses the raw environment file instead of the services to reduce dependencies
  * @type {string}
  */
 const WEBSOCKET_URL = environment.websocketUrl;
