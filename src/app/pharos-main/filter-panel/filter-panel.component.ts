@@ -21,12 +21,13 @@ import {ResponseParserService} from "../../pharos-services/response-parser.servi
   encapsulation: ViewEncapsulation.None
 })
 export class FilterPanelComponent implements OnInit, OnDestroy {
-  /**
-   *  facet list
-   *  todo: see if this is used as an input
-   */
-  facets: any;
-  allFacets: any;
+
+  facets: Facet[];
+  facetsMap: Map<string, any> = new Map<string, any>();
+  allFacets: Facet[];
+  fullWidth = false;
+  value: string;
+
 
   /**
    * subject to unsubscribe on destroy
@@ -41,59 +42,51 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
               private responseParserService: ResponseParserService,
               private environmentVariablesService: EnvironmentVariablesService) { }
 
-  // todo : try to lazy load this, only when opened
-
   ngOnInit() {
-   const labels = this.environmentVariablesService.getFacets(this.pathResolverService.getPath()).map(label => {
-     console.log(label);
-     return label;
-
-   });
-   console.log(labels);
-    this.responseParserService.facetsData$
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-        )
-      .subscribe(res => {
-        console.log(res);
+    this.facetRetrieverService.loaded$.subscribe(res => {
+      if(res === true) {
         this.facets = [];
-        this.allFacets = res;
-        res.forEach(facet => {
-          const filteredLabels = labels.filter(label => label.name === facet.name);
-          if (filteredLabels.length > 0) {
-            const match = filteredLabels[0];
-            match['values'] = facet.values;
-            this.facets.push(match);
-          }
-        });
-      });
-
-    /*      const params$: Observable<any> =
-      combineLatest(
-        this.pathResolverService.path$,
-        this.facetRetrieverService.loaded$
-      );
-
-    /!**
-     * this tracks the facet data itself, not facet selection
-     *!/
-    params$
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe(([path, loaded]) => {
-        if (loaded) {
-         /!* this.facets = [];
-          this.environmentVariablesService.getFacets(path).map(facet => {
-            const temp = this.facetRetrieverService.getFacet(facet.name);
-            if (temp) {
-              temp.label = facet.label;
-              this.facets.push(temp);
+        this.environmentVariablesService.getFacets(this.pathResolverService.getPath()).map(label => {
+          this.facetRetrieverService.getFacetObservable(label.name).subscribe(facet => {
+            if(facet) {
+              facet.label = label.label;
+              this.facetsMap.set(facet.label, facet);
             }
-          });*!/
+              this.facets = Array.from(this.facetsMap.values());
+          });
+        });
         }
-      });*/
+    });
   }
+
+  getAllFacets():void {
+    this.facetRetrieverService.getAllFacets().subscribe(facets => {
+      this.allFacets = Array.from(facets.values());
+      this.facets = this.allFacets;
+    });
+  }
+
+  toggleFacets() {
+    this.fullWidth = !this.fullWidth;
+    if(this.fullWidth === true) {
+    this.getAllFacets();
+    }
+  }
+
+  search(term: string): void {
+    this.facets = this.allFacets.filter(facet => {
+      return JSON.stringify(facet).toLowerCase().includes(term.toLowerCase());
+    });
+  }
+
+  clear(): void {
+    this.value = '';
+    this.facets = this.allFacets;
+  }
+  removeAll(): void {
+    this.pathResolverService.removeAll();
+  }
+
 
   /**
    * function to track facet object to avoid reloading if the facet doesn't change

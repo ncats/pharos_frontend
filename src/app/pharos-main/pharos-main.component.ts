@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {ResponseParserService} from '../pharos-services/response-parser.service';
+import { Component } from '@angular/core';
+import {FacetRetrieverService} from "./services/facet-retriever.service";
 
 /**
  *Pharos main component contains:
@@ -28,13 +28,12 @@ import {ResponseParserService} from '../pharos-services/response-parser.service'
   styleUrls: ['./pharos-main.component.css']
 })
 export class PharosMainComponent {
-  allfacets = false;
 
-  allTargetFilters(): void {
-    this.allfacets = !this.allfacets;
-    if (this.allfacets) {
-      console.log('get all facets');
-    }
+  constructor(
+    private facetRetrieverService: FacetRetrieverService
+  ){}
 
+  loadFacets(){
+    this.facetRetrieverService._loaded.next(true);
   }
 }

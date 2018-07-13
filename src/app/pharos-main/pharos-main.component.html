@@ -1,15 +1,13 @@
 <div class="pharos-main">
   <app-ncats-header [searchBar]="true"></app-ncats-header>
   <mat-sidenav-container class="flex-body facetsDrawer">
-    <mat-sidenav #sidenav [mode]="'over'" class="filters-panel" [ngClass]="{ 'full-width': allfacets}">
+    <mat-sidenav #sidenav [mode]="'over'" class="filters-panel" (openedStart)="loadFacets()">
       <!-- sidenav content -->
-      <button type="button" mat-raised-button [color]="'primary'" (click) = "allTargetFilters()">
-        Target Filters <mat-icon>arrow_right_alt</mat-icon>
-      </button>
+
       <pharos-filter-panel></pharos-filter-panel>
     </mat-sidenav>
 
-    <mat-sidenav #helppanel [position]="'end'" [mode]="'over'">
+    <mat-sidenav #helppanel [position]="'end'" [mode]="'over'" class="help-panel">
       <!-- sidenav content -->
       <pharos-help-panel></pharos-help-panel>
     </mat-sidenav>

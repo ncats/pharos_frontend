@@ -6,6 +6,7 @@ import {Value} from '../../../../../models/value';
 import {Property} from '../../../../../models/property';
 import {BehaviorSubject} from 'rxjs/index';
 import {EnvironmentVariablesService} from '../../../../../pharos-services/environment-variables.service';
+import {Ortholog} from "../../../../../models/ortholog";
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 @Component({
@@ -20,6 +21,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   hgData: any[] = [];
   imgUrl: string;
   diseaseSources: any;
+  orthologs: any;
   /**
    * initialize a private variable _radarData, it's a BehaviorSubject
    * @type {BehaviorSubject<any>}
@@ -79,6 +81,20 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
           this.diseaseSources = {diseaseSources: this.data.differential.filter(term =>
                term.properties.filter(prop => prop.term === 'Expression Atlas').length > 0)
           };
+        }
+        if(this.data.orthologs) {
+          console.log(this.data);
+            this.orthologs = [];
+            const temp: Ortholog[] = [];
+            this.data.orthologs.forEach(obj => {
+              // create new object to get Property class properties
+              const newObj: Ortholog = new Ortholog(obj);
+              // get source label
+              const labelProp: Property = new Property(newObj.properties.filter(prop => prop.label === 'Ortholog Species')[0]);
+              const dataSources: Property[] = newObj.properties.filter(prop => prop.label === 'Data Source').map(lab => new Property(lab));
+              this.orthologs.push({species: labelProp, source: dataSources});
+            });
+            console.log(this.orthologs);
         }
       });
   }

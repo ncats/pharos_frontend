@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {Facet} from '../../models/facet';
-import {Observable, BehaviorSubject} from 'rxjs';
+import {Observable, BehaviorSubject, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 /**
@@ -13,6 +13,8 @@ export class FacetRetrieverService {
    * array of facet objects
    */
   facets: Facet[];
+
+  facetMap: Map<string, any> = new Map<string,any>();
   /**
    * wait for facets to be loaded before returning response
    * @type {BehaviorSubject<boolean>}
@@ -20,12 +22,8 @@ export class FacetRetrieverService {
    */
   _loaded = new BehaviorSubject<boolean>(false);
 
-  /**
-   * facets subject
-   * @type {BehaviorSubject<Facet[]>}
-   * @private
-   */
-  _facets = new BehaviorSubject<Facet[]>([]);
+
+  _facets = new BehaviorSubject<any>(this.facetMap);
 
   /**
    * observable to return loaded boolean
@@ -46,10 +44,10 @@ export class FacetRetrieverService {
    */
   constructor(private responseParserService: ResponseParserService) {
     this.responseParserService.facetsData$.subscribe(res => {
-      console.log(res);
-     // this.facets = res;
-     // this._loaded.next(true);
-      this._facets.next(res);
+      res.forEach(facet => {
+        this.facetMap.set(facet.name, facet);
+      });
+      this._facets.next(this.facetMap);
     });
   }
 
@@ -60,7 +58,7 @@ export class FacetRetrieverService {
    * @returns {any}
    */
   getFacet(name: string): any {
-    return this.facets.filter(facet => facet.name === name).pop();
+    return this.facetMap.get(name);
   }
 
   getAllFacets(): Observable<any> {
@@ -73,17 +71,13 @@ export class FacetRetrieverService {
    * @returns {Observable<any>}
    */
   getFacetObservable(name: string): Observable<any> {
-    return this.facets$
-      .pipe(
-        map(res => {
-        if (res.length > 0) {
-          const fac = res.filter(facet => facet.name === name).pop();
-         if (fac) {
-           return fac;
-         }
-        }
-      })
-    );
+    if (name) {
+      return this.facets$
+        .pipe(
+          map(res => {
+            return res.get(name);
+          })
+        );
+    }
   }
-
 }

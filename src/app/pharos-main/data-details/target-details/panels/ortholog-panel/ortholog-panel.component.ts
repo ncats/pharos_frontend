@@ -23,7 +23,6 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
     })
   ];
   species: string[];
-  @Input() width = 30;
   tableArr: any[] = [];
   /*  @HostBinding('attr.fxFlex')
     flex = this.width;*/
@@ -33,6 +32,7 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
   }
 
   ngOnInit() {
+    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -41,12 +41,14 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
         //    takeWhile(() => !this.data['references'])
       )
       .subscribe(x => {
-        this.setterFunction();
+        console.log(this);
+       this.tableArr = this.data;
+        // this.setterFunction();
       });
   }
 
   setterFunction(): void {
-    if (this.data['orthologs']) {
+    if (this.data.orthologs) {
       this.tableArr = [];
       const temp: Ortholog[] = [];
       this.data.orthologs.forEach(obj => {

@@ -13,8 +13,11 @@
           </div>
           </div>
         </mat-tab>
-        <mat-tab label = "Differential">
-              <pharos-disease-source *ngIf=diseaseSources [data]= diseaseSources></pharos-disease-source>
+        <mat-tab label = "Differential" *ngIf=diseaseSources>
+              <pharos-disease-source  [data]= diseaseSources></pharos-disease-source>
+        </mat-tab>
+        <mat-tab label = "Ortholog" *ngIf=orthologs>
+              <pharos-ortholog-panel [data]= orthologs></pharos-ortholog-panel>
         </mat-tab>
       </mat-tab-group>
       </div>

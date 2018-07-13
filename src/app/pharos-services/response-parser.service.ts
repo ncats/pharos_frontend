@@ -89,12 +89,10 @@ export class ResponseParserService implements OnDestroy {
     //  takeUntil(this.ngUnsubscribe)
       )*/
       .subscribe(res => {
-        console.log(res);
         if (res.object) {
           this._detailsDataSource.next(res);
         }
         if (res.content) {
-          console.log("sdfsdfsd");
           this._tableDataSource.next(res);
         }
       this._paginationDataSource.next(new PageData(res));

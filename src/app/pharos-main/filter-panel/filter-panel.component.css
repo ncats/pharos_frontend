@@ -1,15 +1,21 @@
+.facet-list {
+  width: 35vw;
+}
+
+.full-width {
+  width: 85vw;
+}
 
 span.mat-display-1.facet-title {
   margin: 0;
 }
 
-.full-width > pharos-filter-panel > div {
-  display: grid;
-  grid-auto-rows: max-content;
-  grid-template-columns: repeat(auto-fill, minmax(28%, 1fr));
-  grid-template-rows: auto;
-  grid-gap: 1em;
-  padding: 1vw;
+.full-width-field {
+  width: 95%;
+}
+
+.mat-chip-list {
+  margin-left: 1vw;
 }
 
 .grid-list {
@@ -19,4 +25,19 @@ span.mat-display-1.facet-title {
   grid-template-rows: auto;
   grid-gap: 1em;
   padding: 1vw;
+  overflow-x: hidden;
+}
+
+.full-width > .grid-list {
+  display: grid;
+  grid-auto-rows: max-content;
+  grid-template-columns: repeat(auto-fill, minmax(28%, 1fr));
+  grid-template-rows: auto;
+  grid-gap: 1em;
+  padding: 1vw;
+}
+
+.tools-row {
+  margin-left: 1vw;
+  margin-top: 1vh;
 }

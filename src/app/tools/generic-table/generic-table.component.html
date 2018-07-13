@@ -7,10 +7,12 @@
         <ng-container matColumnDef="{{field}}" *ngFor="let field of displayColumns">
           <mat-header-cell *matHeaderCellDef mat-sort-header disabled = {{!isSortable(field)}}> {{getLabel(field)}}</mat-header-cell>
           <mat-cell *matCellDef="let row">
+            <div *ngIf="row[field].length">
+              <span *ngFor="let term of row[field]">
+                <pharos-term-display [term]='term' [showLabel]="false"></pharos-term-display>
+              </span>
+            </div>
           <pharos-term-display [term]="row[field]" [showLabel]="false"></pharos-term-display>
-<!--
-            {{row[field]}}
--->
           </mat-cell>
         </ng-container>
         <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>

@@ -11,10 +11,6 @@
   background-color: #f7f7f7;
 }
 
-.full-width {
-  width: 85vw;
-}
-
 .loadingIcon {
   position: absolute; /* Sit on top of the page content */
   display: none; /* Hidden by default */
@@ -34,10 +30,14 @@
   font-weight: bold;
 }
 
-mat-sidenav {
-  width: 35vw;
+mat-sidenav-content.mat-drawer-content.mat-sidenav-content {
+  background-color: #f7f7f7;
 }
 
-mat-sidenav-content.mat-drawer-content.mat-sidenav-content {
-  background-color: #FFFFFF;
+.sidenavToggle {
+  margin-left: 1vw;
+}
+
+.help-panel {
+  width: 40vw;
 }
