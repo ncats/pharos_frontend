@@ -24,6 +24,10 @@ import {PharosTabsComponent} from '../tools/pharos-tabs/pharos-tabs.component';
 import {BarChartComponent} from '../tools/visualizations/bar-chart/bar-chart.component';
 import {HelpPanelComponent} from '../tools/help-panel/help-panel.component';
 import {PharosFooterComponent} from '../tools/pharos-footer/pharos-footer.component';
+import {HelpPanelTriggerComponent} from "../tools/help-panel/components/help-panel-trigger/help-panel-trigger.component";
+import {HelpDataService} from "../tools/help-panel/services/help-data.service";
+import {HelpPanelOpenerService} from "../tools/help-panel/services/help-panel-opener.service";
+import {NgxJsonViewerModule} from "ngx-json-viewer";
 
 
 @NgModule({
@@ -34,7 +38,8 @@ import {PharosFooterComponent} from '../tools/pharos-footer/pharos-footer.compon
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
-    RouterModule
+    RouterModule,
+    NgxJsonViewerModule
   ],
   declarations: [
     NcatsHeaderComponent,
@@ -52,9 +57,12 @@ import {PharosFooterComponent} from '../tools/pharos-footer/pharos-footer.compon
     LinkListComponent,
     ToiCardComponent,
     PharosTabsComponent,
-    HelpPanelComponent
+    HelpPanelComponent,
+    HelpPanelTriggerComponent
   ],
   providers: [
+    HelpDataService,
+    HelpPanelOpenerService
   ],
   exports: [
     CommonModule,
@@ -78,7 +86,8 @@ import {PharosFooterComponent} from '../tools/pharos-footer/pharos-footer.compon
     LinkListComponent,
     ToiCardComponent,
     PharosTabsComponent,
-    HelpPanelComponent
+    HelpPanelComponent,
+    HelpPanelTriggerComponent
   ]
 })
 export class SharedModule {

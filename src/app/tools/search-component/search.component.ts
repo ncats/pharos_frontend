@@ -29,7 +29,6 @@ export class SearchComponent implements OnInit {
    * // todo: should unsubscribe
    */
   ngOnInit() {
-    console.log("ssssssssss");
     if (!this.placeholderStr) {
       this.placeholderStr = 'Search for targets (e.g., \'ITK\') or diseases (e.g., \'asthma\')';
     }

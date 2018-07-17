@@ -48,6 +48,7 @@ import {MolConverterService} from "./tools/marvin-sketcher/services/mol-converte
     SketcherComponent,
     StructureSearchPageComponent,
     SequenceSearchPageComponent
+
   ],
   imports: [
     SharedModule.forRoot(),

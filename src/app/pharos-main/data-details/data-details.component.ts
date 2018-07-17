@@ -6,6 +6,8 @@ import {CustomContentDirective} from '../../tools/custom-content.directive';
 import {ActivatedRoute} from '@angular/router';
 import {ComponentLookupService} from '../../pharos-services/component-lookup.service';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
+import {HelpPanelOpenerService} from "../../tools/help-panel/services/help-panel-opener.service";
+import {MatDrawer} from "@angular/material";
 
 @Component({
   selector: 'pharos-data-details',
@@ -18,18 +20,24 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
   dynamicComponent: any;
   private ngUnsubscribe: Subject<any> = new Subject();
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
+  helpOpen: false;
+
+  @ViewChild('helppanel') helpPanel: MatDrawer;
 
 
   constructor(private _route: ActivatedRoute,
               private componentLookupService: ComponentLookupService,
               private componentInjectorService: ComponentInjectorService,
               private responseParserService: ResponseParserService,
-              private ref: ChangeDetectorRef) {
-    this.path = this._route.snapshot.data.path;
-  }
+              private helpPanelOpenerService: HelpPanelOpenerService,
+              private ref: ChangeDetectorRef
+            ) {
+                this.path = this._route.snapshot.data.path;
+              }
+
 
   ngOnInit() {
-  console.log(this);
+  this.helpPanelOpenerService.toggle$.subscribe(res=> this.helpPanel.toggle());
     if (this.path === 'topics') {
       const token: any = this.componentLookupService.lookupByPath(this.path, 'details')[0];
       const dynamicComponentToken = this.componentInjectorService.getComponentToken(token.token);

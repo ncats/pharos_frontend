@@ -4,6 +4,7 @@
     <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="start stretch">
       <div fxFlex="50" class = "full-height">
         <span class="mat-title">Target Summary</span>
+        <pharos-help-panel-trigger ></pharos-help-panel-trigger>
         <br>
         <br>
     <ng-container *ngIf="data.synonyms?.length > 0">
@@ -42,7 +43,8 @@
       </div>
       <div fxFlex="50" fxFlexAlign="stretch" class = "kchart full-height" *ngIf="data.knowledge">
       <span class="mat-title">Knowledge Summary</span>
-      <br>
+        <pharos-help-panel-trigger></pharos-help-panel-trigger>
+        <br>
       <br>
         <pharos-radar-chart [data] = data.knowledge [shape]="false" [size] = "'medium'" (click)="openModal()" [origin]="'knowledge'"></pharos-radar-chart>
     </div>

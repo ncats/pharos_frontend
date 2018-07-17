@@ -1,13 +1,13 @@
 <div class="pharos-main">
   <app-ncats-header [searchBar]=true></app-ncats-header>
-  <mat-sidenav-container class="flex-body facetsDrawer">
+  <mat-sidenav-container class="flex-body main-content">
     <mat-sidenav #sidenav [mode]="'over'" class="filters-panel" (openedStart)="loadFacets()" [ngClass]="{ 'full-width': allfacets}">
       <!-- sidenav content -->
 
       <pharos-filter-panel></pharos-filter-panel>
     </mat-sidenav>
 
-    <mat-sidenav #helppanel [position]="'end'" [mode]="'over'">
+    <mat-sidenav #helppanel [position]="'end'" class="help-panel" [mode]="'over'">
       <!-- sidenav content -->
       <pharos-help-panel></pharos-help-panel>
     </mat-sidenav>
@@ -20,9 +20,10 @@
         </div>
         <span class="fill-remaining-space"></span>
         <div fxFlex="5">
-          <button type="button" class="helppanelToggle" mat-icon-button (click)="helppanel.toggle()">
+          <pharos-help-panel-trigger></pharos-help-panel-trigger>
+         <!-- <button type="button" class="helppanelToggle" mat-icon-button (click)="helppanel.toggle()">
             <mat-icon>help</mat-icon>
-          </button>
+          </button>-->
         </div>
       </div>
       <pharos-data-list-visualizations></pharos-data-list-visualizations>

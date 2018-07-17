@@ -1,3 +1,15 @@
-<p>
-  help-panel works!
-</p>
+<div class = "help-panel-content">
+<div class ="search-row">
+  <mat-form-field class = "full-width-field" [floatLabel] = "'never'">
+    <input matInput
+           placeholder="search help"
+           (keyup.enter)="search()"
+           aria-label="Search"
+           [formControl]="searchCtrl"
+           class ="input-field">
+    <button mat-button mat-icon-button matSuffix aria-label="search"><mat-icon>search</mat-icon></button>
+  </mat-form-field>
+</div>
+
+<ngx-json-viewer [json] = rawData></ngx-json-viewer>
+</div>
