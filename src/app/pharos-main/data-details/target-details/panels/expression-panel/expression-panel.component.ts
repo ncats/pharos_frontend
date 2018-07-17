@@ -83,7 +83,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
           };
         }
         if(this.data.orthologs) {
-          console.log(this.data);
             this.orthologs = [];
             const temp: Ortholog[] = [];
             this.data.orthologs.forEach(obj => {
@@ -94,7 +93,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
               const dataSources: Property[] = newObj.properties.filter(prop => prop.label === 'Data Source').map(lab => new Property(lab));
               this.orthologs.push({species: labelProp, source: dataSources});
             });
-            console.log(this.orthologs);
         }
       });
   }

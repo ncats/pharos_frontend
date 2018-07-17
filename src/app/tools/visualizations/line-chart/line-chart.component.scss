@@ -26,3 +26,11 @@
   fill: mat-color($pharos-app-accent) !important;
 
 }
+
+
+.voronoi path {
+  fill: none;
+  pointer-events: all;
+  stroke: red;
+  stroke-opacity: 0.2;
+}

@@ -20,6 +20,11 @@ export interface PharosPoint {
   label?: string;
 
   /**
+   * optional variable to toggle hovering class
+   */
+  hovered?: boolean;
+
+  /**
    * point key
    */
   key: number;
@@ -43,10 +48,16 @@ export class LineChartComponent  implements OnInit, OnDestroy {
 
   private _data: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
+  /**
+   * force sorting when data comes in, then set it and pass it to the setter function
+   * @param value
+   */
   @Input()
   set data(value: any) {
+    value = value.sort((a, b) => a.key - b.key);
     this._data.next(value);
   }
+
   get data(): any { return this._data.value; }
 
   @Input() line = true;
@@ -104,7 +115,7 @@ export class LineChartComponent  implements OnInit, OnDestroy {
     // Add the Y Axis
     this.svg.append('g')
       .attr('class', 'yaxis')
-      .attr('transform', 'translate(20, 0)');
+      .attr('transform', 'translate(' + this.margin.top + ',0)' );
 
     this.svg.append('g')
       .attr('class', 'linePointHolder')
@@ -139,13 +150,20 @@ export class LineChartComponent  implements OnInit, OnDestroy {
       .domain(d3.extent(this.data, (d) => d.value))
       .rangeRound([this.height, 0]);
 
+    const voronoi = d3.voronoi()
+      .x((d: PharosPoint) => x(d.key))
+      .y((d: PharosPoint) =>  y(d.value))
+      .extent([[-this.margin.left, -this.margin.top], [this.width + this.margin.right, this.height + this.margin.bottom]]);
+
     const line = d3.line()
-      .x(function(d) { return x(+d.key); })
-      .y(function(d) { return y(+d.value); });
+      .x((d: PharosPoint) => x(+d.key))
+      .y((d: PharosPoint) => y(+d.value));
 
 
     const xaxis = this.svg.select('.xaxis')
-      .call(d3.axisBottom(x));
+      .call(d3.axisBottom(x)
+      .ticks((this.width + 2) / (this.height + 2) * 5));
+
 
     this.svg.selectAll('.xaxis text')  // select all the text elements for the xaxis
       .attr('transform', function(d) {
@@ -153,7 +171,8 @@ export class LineChartComponent  implements OnInit, OnDestroy {
       });
 
     this.svg.select('.yaxis')
-      .call(d3.axisLeft(y));
+      .call(d3.axisLeft(y)
+      .ticks(5));
 
     this.svg.select('.linePointHolder').selectAll('.linePoints')
       .data(this.data)
@@ -167,18 +186,19 @@ export class LineChartComponent  implements OnInit, OnDestroy {
       .style('fill-opacity', 0.8)
       .style('pointer-events', 'all');
 
-    this.svg.select('.linePointHolder').selectAll('.invisibleCircle')
-      .data(this.data)
+    this.svg.select('.linePointHolder').selectAll('.voronoi')
+      .data(voronoi.polygons(this.data))
       .enter()
-      .append('circle')
-      .attr('class', 'invisibleCircle')
-      .attr('r', 10)
-      .attr('cx', d => x(+d.key))
-      .attr('cy', d => y(+d.value))
+      .append("path")
+      .attr("class", "voronoi")
+      .attr("d", (d)=> d ? "M" + d.join("L") + "Z" : null)
       .style('fill', 'none')
       .style('pointer-events', 'all')
-      .on('mouseover', (d, i, circles) => {
-        d3.select(circles[i]).classed('hovered', true);
+      .on('mouseover', (data, i, circles) => {
+        // console.log(circles);
+        // console.log(this.svg.selectAll('.linePoints')[i].nodes());
+        // this.svg.selectAll('.linePoints').node()[i].classed('hovered', true);
+        const d = data.data;
         this.tooltip
           .transition()
           .duration(200)
@@ -187,7 +207,7 @@ export class LineChartComponent  implements OnInit, OnDestroy {
         if (d.label) {
           span = '<span>' + d.label + ': <br>' + d.name + '</span>';
         } else {
-         span = '<span>' + d.key + ': <br>' + d.value + '</span>';
+          span = '<span>' + d.key + ': <br>' + d.value + '</span>';
         }
         this.tooltip.html(span)
           .style('left', d3.event.pageX + 'px')
@@ -201,6 +221,7 @@ export class LineChartComponent  implements OnInit, OnDestroy {
           .style('opacity', 0);
         d3.select(circles[i]).classed('hovered', false);
       });
+
 if (this.line) {
   this.svg.select('.timeline')   // change the line
     .datum(this.data)

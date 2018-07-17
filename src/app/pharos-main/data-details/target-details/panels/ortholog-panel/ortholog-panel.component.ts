@@ -41,7 +41,6 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
         //    takeWhile(() => !this.data['references'])
       )
       .subscribe(x => {
-        console.log(this);
        this.tableArr = this.data;
         // this.setterFunction();
       });

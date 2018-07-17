@@ -16,11 +16,13 @@ export class TargetRelevancePanelComponent extends DynamicPanelComponent impleme
     new TableData( {
       name: 'target',
       label: 'IDG Target',
+      sortable: true,
       internalLink: true
     }),
     new TableData( {
       name: 'developmentLevel',
       label: 'IDG Development Level',
+      sortable: true,
       externalLink: true
     }),
     new TableData({
@@ -31,11 +33,13 @@ export class TargetRelevancePanelComponent extends DynamicPanelComponent impleme
     new TableData( {
       name: 'activity',
       label: 'Ligand Activity',
+      sortable: true,
       externalLink: true
     }),
     new TableData( {
       name: 'developmentLevelValue',
-      label: 'Development Level Value',
+      label: 'Activity Value',
+      sortable: true,
       externalLink: true
     })
     ];

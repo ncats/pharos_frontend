@@ -60,7 +60,7 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   /**Sort object from Angular Material */
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort) _sort: MatSort;
   /**generated string array of fields that are to be displayed in the table */
   displayColumns: string[];
 
@@ -71,12 +71,14 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
    * Init: first get the columns to be displayed, then set the table data
    */
   ngOnInit() {
+    this.dataSource.sort = this._sort;
     this.fetchTableFields();
     this._data.subscribe(x => {
       if (this.data && this.data.length > 0) {
         this.dataSource.data = this.data;
       }
     });
+
   }
 
   /**
@@ -84,7 +86,6 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
    * todo: sort doesn't appear to work
    */
   ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
 
@@ -143,4 +144,23 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
       });
     }
   }
+
+  /*sortTable(event: any): void {
+    console.log(event);
+    let sort = '';
+    switch (event.direction) {
+      case 'asc': {
+        sort = '^' + event.active;
+        break;
+      }
+      case 'desc': {
+        sort = '$' + event.active;
+        break;
+      }
+      default: {
+        sort = null;
+        break;
+      }
+    }
+  }*/
 }
