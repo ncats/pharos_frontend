@@ -31,7 +31,9 @@ export class PharosMainComponent {
 
   constructor(
     private facetRetrieverService: FacetRetrieverService
-  ){}
+  ){
+    console.log("Ffffffff");
+  }
 
   loadFacets(){
     this.facetRetrieverService._loaded.next(true);

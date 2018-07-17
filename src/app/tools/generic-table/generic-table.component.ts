@@ -71,7 +71,6 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
    * Init: first get the columns to be displayed, then set the table data
    */
   ngOnInit() {
-    this.dataSource.sort = this._sort;
     this.fetchTableFields();
     this._data.subscribe(x => {
       if (this.data && this.data.length > 0) {
@@ -87,6 +86,11 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
    */
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this._sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      return item[property].term ?  item[property].term : item[property];
+    };
+    this.dataSource.sort = this._sort;
   }
 
 
@@ -99,6 +103,7 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
    */
   ngOnChanges(change: SimpleChanges) {
     if (!change.firstChange) {
+      this.fetchTableFields();
       this.dataSource.data = change.data.currentValue;
     }
   }

@@ -1,7 +1,12 @@
 <div class ="search-row">
-<mat-form-field class = "typeahead-field">
-  <input matInput placeholder = {{placeholderStr}} (keyup.enter)="search()"
-   aria-label="Search" [matAutocomplete]="auto" [formControl]="typeaheadCtrl" class ="input-field">
+<mat-form-field class = "typeahead-field search" [floatLabel] = "'never'">
+  <input matInput
+         (keyup.enter)="search()"
+         aria-label="Search"
+         [matAutocomplete]="auto"
+         [formControl]="typeaheadCtrl"
+         class ="input-field">
+  <mat-label class="search-label">{{placeholderStr}}</mat-label>
   <mat-autocomplete #auto="matAutocomplete" (optionSelected) = "search()">
     <mat-optgroup *ngFor="let group of filteredGroups | async" [label]="group.name">
       <mat-option *ngFor="let option of group.options" [value]="option.key">

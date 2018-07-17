@@ -6,3 +6,6 @@ span.search-highlight {
   font-weight: bold;
 }
 
+.search-label {
+  color: rgba(0,0,0,.54);
+}
