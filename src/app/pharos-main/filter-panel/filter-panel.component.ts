@@ -10,6 +10,7 @@ import {FacetRetrieverService} from '../services/facet-retriever.service';
 import {takeUntil, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/index';
 import {ResponseParserService} from "../../pharos-services/response-parser.service";
+import {LoadingService} from "../../pharos-services/loading.service";
 
 /**
  * panel that hold a facet table for selection
@@ -18,7 +19,7 @@ import {ResponseParserService} from "../../pharos-services/response-parser.servi
   selector: 'pharos-filter-panel',
   templateUrl: './filter-panel.component.html',
   styleUrls: ['./filter-panel.component.css'],
-  encapsulation: ViewEncapsulation.None
+ // encapsulation: ViewEncapsulation.None
 })
 export class FilterPanelComponent implements OnInit, OnDestroy {
 
@@ -27,6 +28,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
   allFacets: Facet[];
   fullWidth = false;
   value: string;
+  loading = false;
 
 
   /**
@@ -63,13 +65,15 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     this.facetRetrieverService.getAllFacets().subscribe(facets => {
       this.allFacets = Array.from(facets.values());
       this.facets = this.allFacets;
+        this.loading = false;
     });
   }
 
   toggleFacets() {
     this.fullWidth = !this.fullWidth;
-    if(this.fullWidth === true) {
-    this.getAllFacets();
+    this.loading = true;
+    if(this.fullWidth) {
+      this.getAllFacets();
     }
   }
 

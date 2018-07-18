@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Ligand} from "../../../../models/ligand";
 
 @Component({
   selector: 'pharos-ligand-header',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ligand-header.component.css']
 })
 export class LigandHeaderComponent implements OnInit {
-
+  @Input() ligand : Ligand;
   constructor() { }
 
   ngOnInit() {

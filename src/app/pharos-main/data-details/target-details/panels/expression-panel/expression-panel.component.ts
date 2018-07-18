@@ -1,8 +1,6 @@
 import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {Term} from '../../../../../models/term';
 import {MatTabChangeEvent} from '@angular/material';
-import {Value} from '../../../../../models/value';
 import {Property} from '../../../../../models/property';
 import {BehaviorSubject} from 'rxjs/index';
 import {EnvironmentVariablesService} from '../../../../../pharos-services/environment-variables.service';
@@ -99,7 +97,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
 
   mapTissueData(): void {
     this.data.expression.forEach(tissue => {
-      const tissueTerm: Property = new Term(tissue);
+      const tissueTerm: Property = new Property(tissue);
       const tissueArr: Property[] = this.tissueData.get(tissueTerm.label);
       if (tissueArr) {
         tissueArr.push(tissueTerm);

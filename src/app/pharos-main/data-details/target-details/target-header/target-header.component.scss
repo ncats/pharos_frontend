@@ -3,13 +3,16 @@
 // Import your custom theme
 @import './src/ncats-theme.scss';
 
-
 :host {
-  flex: 1 1 calc(100%);
+  flex: 1 1 auto;
   max-width: 100%;
   margin: 0 !important;
 }
 
+.flex30 {
+  flex: 1 1 100%;
+  max-width: 100%;
+}
 
 .target-toolbar {
   width: 100vw;
@@ -18,6 +21,10 @@
 .toolbar {
   width: 100vw;
   margin-bottom: 0;
+}
+
+.indicator {
+  display: inline;
 }
 
 .tbio-header{

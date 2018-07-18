@@ -14,7 +14,7 @@ export class SplitAtDelimiters {
    * @param {number} startIndex
    * @returns {number}
    */
-  findEndOfMath(delimiter: string, text: string, startIndex: number):number {
+  findEndOfMath(delimiter: string, text: string, startIndex: number): number {
     // Adapted from
     // https://github.com/Khan/perseus/blob/master/src/perseus-markdown.jsx
     let index = startIndex;
@@ -50,7 +50,7 @@ export class SplitAtDelimiters {
    * @param display
    * @returns {any[]}
    */
-   splitAtDelimiters(startData:any, leftDelim: string, rightDelim: string, display: any): any[] {
+   splitAtDelimiters(startData: any, leftDelim: string, rightDelim: string, display: any): any[] {
     const finalData = [];
 
     for (let i = 0; i < startData.length; i++) {
@@ -235,7 +235,7 @@ export class KatexRenderService {
    * @param optionsCopy
    * @private
    */
-  private _renderElem(elem: any, optionsCopy?: any):void {
+  private _renderElem(elem: any, optionsCopy?: any): void {
     for (let i = 0; i < elem.childNodes.length; i++) {
       const childNode = elem.childNodes[i];
       if (childNode.nodeType === 3) {

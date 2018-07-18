@@ -1,16 +1,15 @@
 <div class ="flex30">
-<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" ngClass ={{getHeaderClass()}}>
-  <div fxFlex="95" fxFlexAlign="stretch">
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around center" ngClass = {{getHeaderClass()}}>
+  <div fxFlex="90">
     <pharos-idg-level-indicator [level]="target?.idgTDL"></pharos-idg-level-indicator>
-    <span class = "mat-display-3 toolbar">{{target?.name}}</span>
-    <span class="spacer"></span>
-    <span fxFlex fxLayoutAlign= "end center">
+    <span class = "pharos-title toolbar">{{target?.name}}</span>
+  </div>
+    <div fxFlex = "10">
     <button mat-icon-button><mat-icon class="example-icon">save</mat-icon></button>
     <button mat-icon-button><mat-icon class="example-icon">code</mat-icon></button>
     <button mat-icon-button><mat-icon class="example-icon">file_download</mat-icon></button>
     <button mat-icon-button><mat-icon class="example-icon">bookmark</mat-icon></button>
-    </span>
-  </div>
+    </div>
 </div>
 <br>
 <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">

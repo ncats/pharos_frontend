@@ -28,6 +28,7 @@ import {HelpPanelTriggerComponent} from "../tools/help-panel/components/help-pan
 import {HelpDataService} from "../tools/help-panel/services/help-data.service";
 import {HelpPanelOpenerService} from "../tools/help-panel/services/help-panel-opener.service";
 import {NgxJsonViewerModule} from "ngx-json-viewer";
+import {PropertyDisplayComponent} from "../tools/property-display/property-display.component";
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import {NgxJsonViewerModule} from "ngx-json-viewer";
     IdgLevelIndicatorComponent,
     GenericTableComponent,
     TermDisplayComponent,
+    PropertyDisplayComponent,
     LineChartComponent,
     BarChartComponent,
     LinkListComponent,
@@ -81,6 +83,7 @@ import {NgxJsonViewerModule} from "ngx-json-viewer";
     IdgLevelIndicatorComponent,
     GenericTableComponent,
     TermDisplayComponent,
+    PropertyDisplayComponent,
     LineChartComponent,
     BarChartComponent,
     LinkListComponent,

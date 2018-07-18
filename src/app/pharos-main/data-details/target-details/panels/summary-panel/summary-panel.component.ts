@@ -1,12 +1,12 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {Term} from '../../../../../models/term';
 import {HttpClient} from '@angular/common/http';
-import {Value} from '../../../../../models/value';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
 import {MatDialog} from '@angular/material';
 import {PharosPoint} from '../../../../../tools/visualizations/line-chart/line-chart.component';
 import {Target} from '../../../../../models/target';
+import {TableData} from "../../../../../models/table-data";
+import {Property} from "../../../../../models/property";
 
 
 @Component({
@@ -17,15 +17,22 @@ import {Target} from '../../../../../models/target';
 export class SummaryPanelComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   loaded = false;
   @Input() target: Target;
-  @Input() width = 30;
-  synonyms: Term[];
-  symbol: Term[];
-  gene: Term[];
-  pubmed: Value;
+
   timelines: any[] = [];
   radarOptions: any;
+  tableData:any[];
   tlMap: Map<string, any> = new Map<string, any>();
 
+  fields: TableData[] = [
+    new TableData({
+      name: 'field',
+      label: 'Field'
+    }),
+    new TableData( {
+      name: 'value',
+      label: 'Knowledge Value'
+    })
+  ];
   // todo: known bug in angular prevents this from working. Angular 6 may fix it, but flex would also need to be updated.
   // todo: https://github.com/angular/angular/issues/11716 https://github.com/angular/angular/issues/8785
 /*  @HostBinding('attr.fxFlex')
@@ -48,6 +55,18 @@ ngOnInit() {
       //    takeWhile(() => !this.data['references'])
     )
     .subscribe(x => {
+      console.log(this);
+      if(this.data.knowledge && this.data.knowledge[0].axes.length > 0){
+        this.tableData = [];
+        this.data.knowledge[0].axes.slice(0).sort((a,b) => b.value - a.value).slice(0,5).forEach(
+          field => this.tableData.push(
+            {
+        field: new Property({label: field.axis, term: field.axis}),
+        value: new Property({label: field.axis, numval: field.value})
+        })
+        );
+        console.log(this.tableData);
+      }
       if (this.data.timelines) {
         this.fetchTimelineData();
       }

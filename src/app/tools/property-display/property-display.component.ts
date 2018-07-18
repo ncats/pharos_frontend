@@ -1,19 +1,20 @@
+
 import {Component, Input, OnInit} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {takeWhile} from 'rxjs/operators';
 import {Property} from "../../models/property";
 
 @Component({
-  selector: 'pharos-term-display',
-  templateUrl: './term-display.component.html',
-  styleUrls: ['./term-display.component.css']
+  selector: 'pharos-property-display',
+  templateUrl: './property-display.component.html',
+  styleUrls: ['./property-display.component.css']
 })
 
+export class PropertyDisplayComponent implements OnInit {
 /**
  * reusable generic component to display pharos information. uses getter and setter for values, and html
  * will be expanded with templates for router links and external links.
  */
-export class TermDisplayComponent implements OnInit {
   @Input() showLabel = true;
 
   /**
@@ -23,12 +24,12 @@ export class TermDisplayComponent implements OnInit {
 
   // change data to use getter and setter
   @Input()
-  set term(value: Property) {
+  set property(value: Property) {
     // set the latest value for _data BehaviorSubject
     this._data.next(value);
   }
 
-  get term() {
+  get property() {
     // get the latest value from _data BehaviorSubject
     return this._data.getValue();
   }
@@ -39,7 +40,7 @@ export class TermDisplayComponent implements OnInit {
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
       .pipe(
-        takeWhile(() => !this.term)
+        takeWhile(() => !this.property)
       )
       .subscribe(x => x);
   }

@@ -73,6 +73,7 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
   ngOnInit() {
     this.fetchTableFields();
     this._data.subscribe(x => {
+      console.log(this);
       if (this.data && this.data.length > 0) {
         this.dataSource.data = this.data;
       }

@@ -91,9 +91,12 @@ a:hover {
   max-width: 80%;
 }
 
-.pharos-header {
-  background-color: red;
+.pharos-title {
+  font: 400 3rem/3rem Roboto, "Helvetica Neue", sans-serif;
+  margin: 0 0 3rem;
+  letter-spacing: -0.02em;
 }
+
 
 .full-height-card {
   min-height: 100%;

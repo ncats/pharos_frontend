@@ -1,0 +1,7 @@
+<div *ngIf="property">
+  <span class="" *ngIf="showLabel"><b>{{property.label}}</b></span>
+  <span *ngIf="property.href; else nolink">
+<a href = {{property.href}} target="_blank">{{property.getData()}}</a>
+  </span>
+  <ng-template #nolink>{{property.getData()}}</ng-template>
+</div>

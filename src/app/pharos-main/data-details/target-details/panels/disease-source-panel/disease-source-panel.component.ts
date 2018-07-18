@@ -112,6 +112,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       });
       this.sources = Array.from(this.sourceMap.keys());
       this.tableArr = this.sourceMap.get(this.sources[0]);
+      console.log(this.tableArr);
       this.loaded = true;
     }
 

@@ -1,7 +1,5 @@
 import {Injectable, Input} from '@angular/core';
 import {BehaviorSubject} from "rxjs/index";
-import {Term} from "../../../models/term";
-import {takeUntil} from "rxjs/operators";
 import {ResponseParserService} from "../../../pharos-services/response-parser.service";
 
 @Injectable({

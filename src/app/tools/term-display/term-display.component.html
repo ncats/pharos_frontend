@@ -1,7 +1,7 @@
 <div *ngIf="term">
 <span class="" *ngIf="showLabel"><b>{{term.label}}</b></span>
 <span *ngIf="term.href; else nolink">
-<a href = {{term.href}} target="_blank">{{term.term}}</a>
+<a href = {{term.href}} target="_blank">{{term.exponential || term.term || term.intval || term.numval}}</a>
   </span>
-<ng-template #nolink>{{term.term}}</ng-template>
+<ng-template #nolink>{{term.exponential || term.term || term.intval || term.numval}}</ng-template>
 </div>

@@ -4,7 +4,35 @@
   </mat-card-header>
   <mat-card-content>
     <div fxLayout="row" fxLayoutAlign="center center">
-      <div fxFlex="95">
+      <div fxFlex = "30">
+        <ng-container *ngIf="data.synonyms?.length > 0">
+          <mat-card-subtitle>Accession</mat-card-subtitle>
+          <ul class = "inline-list wrap">
+            <li *ngFor=" let term of data.synonyms">
+              <pharos-term-display [term]= term [showLabel]="false"></pharos-term-display><br>
+            </li>
+          </ul>
+        </ng-container>
+        <ng-container *ngIf="data.symbol?.length > 0">
+          <br>
+          <mat-card-subtitle>Symbol</mat-card-subtitle>
+          <ul class = "inline-list wrap">
+            <li *ngFor=" let term of data.symbol">
+              <pharos-term-display [term] = term [showLabel]="false"></pharos-term-display>
+            </li>
+          </ul>
+        </ng-container>
+        <ng-container *ngIf="data.gene?.length > 0">
+          <br>
+          <mat-card-subtitle>NCBI Gene</mat-card-subtitle>
+          <ul class = "inline-list wrap">
+            <li *ngFor=" let term of data.gene">
+              <pharos-term-display [term]= term  [showLabel]="false"></pharos-term-display>
+            </li>
+          </ul>
+        </ng-container>
+      </div>
+      <div fxFlex="60">
         <pharos-bar-chart [data]="residueCounts"></pharos-bar-chart>
       </div>
     </div>

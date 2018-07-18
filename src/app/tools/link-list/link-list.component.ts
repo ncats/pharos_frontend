@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Value} from '../../models/value';
-import {Term} from '../../models/term';
+import {Property} from "../../models/property";
 
 /**Component to iterate over and display a provided list of Term objects */
 @Component({
@@ -9,8 +8,6 @@ import {Term} from '../../models/term';
   styleUrls: ['./link-list.component.css']
 })
 export class LinkListComponent implements OnInit {
-  /** list of terms to be displayed   */
- // @Input() list: Term[];
   /**Label for the term group */
 @Input() label: string;
 
@@ -20,7 +17,7 @@ export class LinkListComponent implements OnInit {
 private _list: any[] = [];
 
   @Input()
-  set list(values: Term[]) {
+  set list(values: Property[]) {
     this._list = [];
     if (values) {
       values.forEach(prop => this._list.push({term: prop.term, href: prop.href}));

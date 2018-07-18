@@ -30,7 +30,6 @@ import {MatDrawer, MatPaginator, MatSidenav} from "@angular/material";
   styleUrls: ['./pharos-main.component.css']
 })
 export class PharosMainComponent {
-  helpOpen: false;
 
   @ViewChild('helppanel') helpPanel: MatDrawer;
 
@@ -40,7 +39,7 @@ export class PharosMainComponent {
   ){}
 
   ngOnInit(){
-  this.helpPanelOpenerService.toggle$.subscribe(res=> this.helpPanel.toggle());
+  this.helpPanelOpenerService.toggle$.subscribe(res => this.helpPanel.toggle());
   }
 
   loadFacets(){
