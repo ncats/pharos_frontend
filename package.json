@@ -34,7 +34,6 @@
     "firebase": "^5.1.0",
     "hammerjs": "^2.0.8",
     "katex": "^0.10.0-beta",
-    "ngx-json-viewer": "^2.3.0",
     "rxjs": "^6.2.1",
     "stream": "^0.0.2",
     "swagger-ui": "^3.17.1",

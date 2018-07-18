@@ -30,7 +30,11 @@ export class DynamicPanelComponent {
    */
   @Input()
   set data(value: any) {
+    if(value.data){
+      this._data.next(value.data);
+    } else {
       this._data.next(value);
+    }
   }
 
   /**
@@ -42,6 +46,8 @@ export class DynamicPanelComponent {
   }
 
   /** No dependencies */
-  constructor () {}
+  constructor () {
+    console.log(this);
+  }
 
 }

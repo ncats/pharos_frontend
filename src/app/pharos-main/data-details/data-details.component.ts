@@ -62,7 +62,7 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
           }
         // pass though data changes - this includes both the object and other fetched fields (references/publications, etc)
         this.dynamicComponent.instance.data = res;
-        this.ref.markForCheck(); // refresh the component manually
+       // this.ref.markForCheck(); // refresh the component manually
       });
   }
 

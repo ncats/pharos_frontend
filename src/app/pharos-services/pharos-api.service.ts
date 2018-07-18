@@ -139,7 +139,6 @@ export class PharosApiService {
     } else {
       // todo: delete when api filled out
       if (path === 'topics') {
-        console.log("fffff");
         console.log(this.TOPICS);
         of(this.TOPICS).subscribe(topics=> {
           console.log(topics);
@@ -222,12 +221,14 @@ export class PharosApiService {
    * @param {string} url
    * @param {string} origin
    */
-  getDetailsByUrl(url: string, origin: string): void {
-    this.http.get<any>(url)
+  getDetailsByUrl(apiCall: any): void {
+    this.http.get<any>(apiCall.url)
       .pipe(
         catchError(this.handleError('getDetails', []))
       ).subscribe(response => {
-      this._detailsUrlSource.next({origin: origin, data: response});
+      this._detailsUrlSource.next(
+        {origin: apiCall.field, data: response, url: apiCall.url, description: apiCall.description}
+        );
     });
   }
 
@@ -243,7 +244,7 @@ export class PharosApiService {
 
     cl.subscribe(([object, details]) => {
       if (details.origin) {
-        returnedObject[details.origin] = details.data;
+        returnedObject[details.origin] = details;
         // this is needed to change details object
         // todo: is this the ideal way to do it? seems brittle
         if (object) {

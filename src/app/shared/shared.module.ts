@@ -27,7 +27,6 @@ import {PharosFooterComponent} from '../tools/pharos-footer/pharos-footer.compon
 import {HelpPanelTriggerComponent} from "../tools/help-panel/components/help-panel-trigger/help-panel-trigger.component";
 import {HelpDataService} from "../tools/help-panel/services/help-data.service";
 import {HelpPanelOpenerService} from "../tools/help-panel/services/help-panel-opener.service";
-import {NgxJsonViewerModule} from "ngx-json-viewer";
 
 
 @NgModule({
@@ -38,8 +37,7 @@ import {NgxJsonViewerModule} from "ngx-json-viewer";
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
-    RouterModule,
-    NgxJsonViewerModule
+    RouterModule
   ],
   declarations: [
     NcatsHeaderComponent,

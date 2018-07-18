@@ -1,5 +1,4 @@
 import {InjectionToken} from '@angular/core';
-import {NodeDisplayComponent} from "../app/pharos-main/data-details/topic-details/panels/node-display/node-display.component";
 
 export class TOKENS {
   /**

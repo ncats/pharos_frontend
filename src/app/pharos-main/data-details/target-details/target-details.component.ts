@@ -36,7 +36,6 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
   }
 
   ngOnInit() {
-    console.log(this);
     this.target = this.data.object;
     const components: any = this.componentLookupService.lookupByPath(this.path, this.target.idgTDL.toLowerCase());
     if (components) {
@@ -45,9 +44,9 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
         const keys: string[] = [];
         component.api.forEach(apiCall => {
           if (apiCall.url.length > 0) {
-            const url = apiCall.url.replace('_accession_', this.target.accession).replace('_id_', this.target.id);
+            apiCall.url = apiCall.url.replace('_accession_', this.target.accession).replace('_id_', this.target.id);
               /**this call is pushed up to the pharos api and changes are subscribed to in the generic details page, then set here*/
-              this.dataDetailsResolver.getDetailsByUrl(url, apiCall.field);
+              this.dataDetailsResolver.getDetailsByUrl(apiCall);
 
             /** this will be used to track the object fields to get */
             keys.push(apiCall.field);
@@ -56,23 +55,24 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
         /** make component */
         const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
         const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
-        if (component.width) {
-          childComponent.instance.width = component.width;
-        }
 
         // todo need to cover when no results are returned - do we still want to make the component?
         this._data
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(obj => {
-            childComponent.instance.data = this.pick(obj, keys);
+            console.log(obj);
             childComponent.instance.id = obj.object.accession;
             childComponent.instance.target = obj.object;
+            const picked = this.pick(obj, keys);
+            console.log(picked);
+            childComponent.instance.data = picked.data ? picked.data : picked;
           });
       });
     }
   }
 
    pick(o, props): any {
+
     return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
   }
 

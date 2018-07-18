@@ -67,9 +67,9 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
         if(component.api) {
           component.api.forEach(apiCall => {
             if (apiCall.url.length > 0) {
-              const url = apiCall.url.replace('_id_', this.topic.id);
+              apiCall.url = apiCall.url.replace('_id_', this.topic.id);
               /**this call is pushed up to the pharos api and changes are subscribed to in the generic details page, then set here*/
-              this.dataDetailsResolver.getDetailsByUrl(url, apiCall.field);
+              this.dataDetailsResolver.getDetailsByUrl(apiCall);
 
               /** this will be used to track the object fields to get */
               keys.push(apiCall.field);

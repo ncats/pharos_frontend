@@ -42,11 +42,14 @@ export class HelpDataService {
     private responseParserService: ResponseParserService,
   ) {
     this.responseParserService.detailsData$
-      .subscribe(res => this.data = res)
+      .subscribe(res => {
+        console.log(this);
+        this.data = res
+      })
   }
 
   fetchData(field: string) {
-    console.log(this.data[field]);
+    console.log(Object.keys(this.data));
     this._helpDataSource.next(this.data[field]);
   }
 }
