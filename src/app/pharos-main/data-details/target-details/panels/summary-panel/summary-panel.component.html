@@ -30,7 +30,7 @@
     <ng-container *ngIf="getTimeline('PubMed Score')?.length >0">
       <div fxLayout="row" fxLayoutAlign="start stretch" >
       <div fxFlex="95">
-      <span class="mat-title">PubMed Score  {{target.jensenScore.toFixed(2)}}</span>
+        <span class="mat-title">PubMed Score </span>&nbsp;<span>{{target.jensenScore.toFixed(2)}}</span>
       <pharos-line-chart [data]="getTimeline('PubMed Score')"></pharos-line-chart>
         </div>
       <div fxFlex = "5">
@@ -41,7 +41,7 @@
     <ng-container *ngIf="getTimeline('PubTator')?.length >0">
       <div fxLayout="row" fxLayoutAlign="start stretch">
       <div fxFlex="95">
-        <span class="mat-title">PubTator Score  {{raisePubtator()}}</span>
+        <span class="mat-title">PubTator Score </span>&nbsp;<span>{{raisePubtator()}}</span>
       <pharos-line-chart [data]="getTimeline('PubTator')"></pharos-line-chart>
         </div>
       <div fxFlex = "5">

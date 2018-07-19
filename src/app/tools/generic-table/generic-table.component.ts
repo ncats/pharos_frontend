@@ -73,7 +73,6 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
   ngOnInit() {
     this.fetchTableFields();
     this._data.subscribe(x => {
-      console.log(this);
       if (this.data && this.data.length > 0) {
         this.dataSource.data = this.data;
       }
@@ -150,23 +149,4 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
       });
     }
   }
-
-  /*sortTable(event: any): void {
-    console.log(event);
-    let sort = '';
-    switch (event.direction) {
-      case 'asc': {
-        sort = '^' + event.active;
-        break;
-      }
-      case 'desc': {
-        sort = '$' + event.active;
-        break;
-      }
-      default: {
-        sort = null;
-        break;
-      }
-    }
-  }*/
 }

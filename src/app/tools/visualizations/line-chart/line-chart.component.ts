@@ -35,7 +35,42 @@ export interface PharosPoint {
   value: number;
 }
 
+/**
+ *basic config options for a radar chart
+ * todo: should extract this for other chart types
+ */
+export class LineChartOptions {
+  /**
+   * The margins of the SVG
+   */
+  margin: any = {top: 20, right: 30, bottom: 20, left: 30};
+
+  /**
+   * boolean to switch between line chart and scatterplot
+   * @type {boolean}
+   */
+  line = true;
+  /**
+   * d3 color scale
+   */
+  color: any = d3.scaleOrdinal().range(['#23364e']);
+  /**
+   * show labels
+   */
+  xAxisScale: 'linear' | 'log' = 'linear';
+  yAxisScale: 'linear' | 'log' = 'linear';
+
+  /**
+   * merge new option properties with a default option object retrieved from the chart service
+   * @param obj
+   */
+  constructor(obj: any) {
+    Object.entries((obj)).forEach((prop) => this[prop[0]] = prop[1]);
+  }
+}
+
 // todo: https://bl.ocks.org/lorenzopub/6a56e17551d59278631dffd7f65a0cda
+// todo: added voronoi plot, not sure about feasibility of multi lines, or the necessity of pan or zoom.
 
 @Component({
   selector: 'pharos-line-chart',
@@ -44,11 +79,20 @@ export interface PharosPoint {
   encapsulation: ViewEncapsulation.None
 })
 export class LineChartComponent  implements OnInit, OnDestroy {
+  /**
+   * container that holds the radar chart object
+   */
   @ViewChild('lineChartTarget') chartContainer: ElementRef;
 
+  /**
+   * behavior subject that is used to get and set chart data
+   * @type {BehaviorSubject<any>}
+   * @private
+   */
   private _data: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   /**
+   * setter for chart data
    * force sorting when data comes in, then set it and pass it to the setter function
    * @param value
    */
@@ -58,17 +102,46 @@ export class LineChartComponent  implements OnInit, OnDestroy {
     this._data.next(value);
   }
 
-  get data(): any { return this._data.value; }
+  /**
+   * getter for chart data
+   * @returns {any}
+   */
+  get data(): any {
+    return this._data.value;
+  }
 
-  @Input() line = true;
+  /**
+   * options opbject passed from component
+   */
+  @Input() options?: any;
+  /**
+   * options for size and layout for the chart
+   */
+  private _chartOptions: LineChartOptions;
 
-  private margin: any = {top: 20, bottom: 20, left: 20, right: 20};
-  height: number;
-  width: number;
-  svg: any;
-  tooltip: any;
-  @Output() readonly clickSlice: EventEmitter<any> = new EventEmitter<any>();
+  /**
+   * svg object that is drawn, also used to clear the chart on redraw
+   */
+  private svg: any;
 
+  /**
+   * html element that will hold tooltip data
+   */
+  private tooltip: any;
+
+  /**
+   * width of the graph retrieved from the container size
+   */
+  private width: number;
+
+  /**
+   * height of the graph retrieved from the container size
+   */
+  private height: number;
+
+  /**
+   * function to redraw/scale the graph on window resize
+   */
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.drawChart();
@@ -91,13 +164,53 @@ export class LineChartComponent  implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    d3.select('body').selectAll('.line-tooltip').remove();
+    d3.select('body').selectAll('.radar-tooltip').remove();
+  }
+
+  getOptions() {
+    // get chart options
+      this._chartOptions = new LineChartOptions(this.options ? this.options : {});
+  }
+
+  getXAxis(scale: string): any {
+  switch (scale){
+    case 'linear': {
+     return d3.scalePoint()
+        .domain(this.data.map(d => +d.key))
+        .rangeRound([0, this.width + this._chartOptions.margin.left]);
+    }
+    case 'log': {
+      return d3.scaleLog()
+        .domain([0.001, 1])
+        .rangeRound([0, this.width + this._chartOptions.margin.left]);
+    }
+  }
+  }
+
+getYAxis(scale: string): any {
+  switch (scale){
+    case 'linear': {
+      return d3.scaleLinear()
+        .domain(d3.extent(this.data, (d) => d.value))
+        .rangeRound([this.height, 0]);
+    }
+    case 'log': {
+      return d3.scaleLog()
+        //.domain(d3.extent(this.data, (d) => d.value)).nice()
+        .domain([0.001, 1])
+        .rangeRound([this.height, 0]);
+    }
+  }
   }
 
   drawChart(): void {
+    this.getOptions();
+    //////////// Create the container SVG and g /////////////
     const element = this.chartContainer.nativeElement;
-    this.width = element.offsetWidth - this.margin.left - this.margin.right;
-    this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
+
+    this.width = element.offsetWidth - this._chartOptions.margin.left - this._chartOptions.margin.right;
+    this.height = element.offsetHeight - this._chartOptions.margin.top - this._chartOptions.margin.bottom;
+
     // Remove whatever chart with the same id/class was present before
     d3.select(element).selectAll('svg').remove();
 
@@ -110,21 +223,21 @@ export class LineChartComponent  implements OnInit, OnDestroy {
         // Add the X Axis
     this.svg.append('g')
       .attr('class', 'xaxis')
-      .attr('transform', 'translate(' + this.margin.left + ',' + this.height + ')');
+      .attr('transform', 'translate(' + this._chartOptions.margin.left + ',' + this.height + ')');
 
     // Add the Y Axis
     this.svg.append('g')
       .attr('class', 'yaxis')
-      .attr('transform', 'translate(' + this.margin.top + ',0)' );
+      .attr('transform', 'translate(' + this._chartOptions.margin.left + ',0)');
 
     this.svg.append('g')
       .attr('class', 'linePointHolder')
-      .attr('transform', 'translate(20, 0)');
+      .attr('transform', 'translate(' + this._chartOptions.margin.left + ',0)');
 
     // Add the valueline path.
     this.svg.append('path')
       .attr('class', 'timeline')
-      .attr('transform', 'translate(' + this.margin.left + ',0)' )
+      .attr('transform', 'translate(' + this._chartOptions.margin.left + ',0)' )
       .style('filter' , 'url(#glow)');
 
     // Filter for the outside glow
@@ -142,18 +255,15 @@ export class LineChartComponent  implements OnInit, OnDestroy {
 
   updateChart(): void {
 
-    const x = d3.scalePoint()
-      .domain(this.data.map(d => +d.key))
-      .rangeRound([0, this.width]);
+    const x = this.getXAxis(this._chartOptions.xAxisScale);
 
-    const y = d3.scaleLinear()
-      .domain(d3.extent(this.data, (d) => d.value))
-      .rangeRound([this.height, 0]);
+    const y = this.getYAxis(this._chartOptions.yAxisScale);
 
     const voronoi = d3.voronoi()
       .x((d: PharosPoint) => x(d.key))
       .y((d: PharosPoint) =>  y(d.value))
-      .extent([[-this.margin.left, -this.margin.top], [this.width + this.margin.right, this.height + this.margin.bottom]]);
+      .extent([[-this._chartOptions.margin.left, -this._chartOptions.margin.top],
+        [this.width + this._chartOptions.margin.right, this.height + this._chartOptions.margin.bottom]]);
 
     const line = d3.line()
       .x((d: PharosPoint) => x(+d.key))
@@ -172,7 +282,7 @@ export class LineChartComponent  implements OnInit, OnDestroy {
 
     this.svg.select('.yaxis')
       .call(d3.axisLeft(y)
-      .ticks(5));
+        .ticks(3, ".4"));
 
     this.svg.select('.linePointHolder').selectAll('.linePoints')
       .data(this.data)
@@ -222,7 +332,7 @@ export class LineChartComponent  implements OnInit, OnDestroy {
         d3.select(circles[i]).classed('hovered', false);
       });
 
-if (this.line) {
+if (this._chartOptions.line) {
   this.svg.select('.timeline')   // change the line
     .datum(this.data)
     .attr('stroke-linejoin', 'round')

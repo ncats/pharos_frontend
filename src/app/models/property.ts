@@ -20,7 +20,7 @@ export class Property {
       return this.exponential;
     } else {
       if(!this.term) {
-        this.term = this.numval ? this.numval.toString() : this.intval.toString();
+        this.term = this.numval ? this.numval.toFixed(2).toString() : this.intval.toFixed(2).toString();
       }
       return this.term;
     }

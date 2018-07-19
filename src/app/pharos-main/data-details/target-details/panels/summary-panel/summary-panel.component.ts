@@ -20,7 +20,7 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
 
   timelines: any[] = [];
   radarOptions: any;
-  tableData:any[];
+  tableData: any[];
   tlMap: Map<string, any> = new Map<string, any>();
 
   fields: TableData[] = [
@@ -55,7 +55,6 @@ ngOnInit() {
       //    takeWhile(() => !this.data['references'])
     )
     .subscribe(x => {
-      console.log(this);
       if(this.data.knowledge && this.data.knowledge[0].axes.length > 0){
         this.tableData = [];
         this.data.knowledge[0].axes.slice(0).sort((a,b) => b.value - a.value).slice(0,5).forEach(
@@ -65,7 +64,6 @@ ngOnInit() {
         value: new Property({label: field.axis, numval: field.value})
         })
         );
-        console.log(this.tableData);
       }
       if (this.data.timelines) {
         this.fetchTimelineData();

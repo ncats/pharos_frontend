@@ -1,9 +1,16 @@
-<div class="full-height" *ngIf = loaded>
-<mat-card class="full-height">
-  <mat-card-header *ngIf = 'sources.length > 1'>
-    <mat-card-title ><span class="mat-title">Disease Source ({{sources?.length}})</span> <pharos-help-panel-trigger [origin] = "'diseaseSources'"></pharos-help-panel-trigger></mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
+<div class="full-height" fxFlexFill>
+  <mat-card class ="full-height">
+    <mat-card-content>
+      <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="start stretch">
+        <div fxFlex="95">
+          <span class="mat-title">Disease Source ({{sources?.length}})</span>
+        </div>
+        <div fxFlex="5">
+          <pharos-help-panel-trigger [origin] = "'diseaseSources'"></pharos-help-panel-trigger>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="start stretch">
+        <div fxFlex="100">
     <mat-tab-group (selectedTabChange)="changeTabData($event)" *ngIf = 'sources.length > 1; else tableOnly'>
       <mat-tab *ngFor="let source of sources" label = "{{source}} ({{getSourceCount(source)}})"  >
         <ng-template matTabContent>
@@ -14,12 +21,21 @@
     <ng-template #tableOnly>
       <pharos-generic-table [data]= tableArr [fieldsConfig] = getTableData(sources[0])></pharos-generic-table>
     </ng-template>
-    <div *ngIf="data.tinx">
-      <br>
-      <br>
-      <mat-card-title ><span class="mat-title">Tinx</span></mat-card-title>
-      <pharos-line-chart [data]="tinx" [line]="false"></pharos-line-chart>
+        </div>
+      </div>
+      <div fxLayout="row" *ngIf="data.tinx" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="start stretch">
+        <div fxFlex="95">
+          <span class="mat-title">Tinx</span>
+        </div>
+        <div fxFlex="5">
+          <pharos-help-panel-trigger [origin] = "'tinx'"></pharos-help-panel-trigger>
+        </div>
+      </div>
+      <div fxLayout="row" *ngIf="data.tinx" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="start stretch">
+        <div fxFlex="100">
+      <pharos-line-chart [data]="tinx" [options]="chartOptions"></pharos-line-chart>
     </div>
+      </div>
   </mat-card-content>
 </mat-card>
 </div>

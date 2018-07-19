@@ -11,7 +11,7 @@ import {BehaviorSubject} from 'rxjs/index';
  *basic config options for a radar chart
  * todo: should extract this for other chart types
  */
-export class ChartOptions {
+export class RadarChartOptions {
   /**
    * The margins of the SVG
    */
@@ -88,7 +88,6 @@ export class ChartOptions {
 
 // todo: fix centering of chart in respect to labels
 // todo: no tooltip on modal. The tooltip div needs to be up closer to the svg, not appended to <body>
-// todo: redraw on resize? sizes aren't coming in dynamically right now
 // todo: create chart options service that reads from a chart config file, like environment variables
 
 @Component({
@@ -153,7 +152,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
   /**
    * options for size and layout for the chart
    */
-  private _chartOptions: ChartOptions;
+  private _chartOptions: RadarChartOptions;
 
   /**
    * svg object that is drawn, also used to clear the chart on redraw
@@ -231,9 +230,9 @@ export class RadarChartComponent implements OnInit, OnDestroy {
   getOptions() {
     // get chart options
     if (this.size) {
-      this._chartOptions = new ChartOptions(this.radarDataService.getOptions(this.size));
+      this._chartOptions = new RadarChartOptions(this.radarDataService.getOptions(this.size));
     } else {
-      this._chartOptions = new ChartOptions({});
+      this._chartOptions = new RadarChartOptions({});
     }
   }
 

@@ -4,7 +4,7 @@ import {TableData} from '../../../../../models/table-data';
 import {MatTabChangeEvent} from '@angular/material';
 import {BehaviorSubject} from 'rxjs';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {PharosPoint} from '../../../../../tools/visualizations/line-chart/line-chart.component';
+import {LineChartOptions, PharosPoint} from '../../../../../tools/visualizations/line-chart/line-chart.component';
 import {Property} from "../../../../../models/property";
 
 // skipping log2foldchange property
@@ -55,14 +55,12 @@ const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
 export class DiseaseSourceComponent extends DynamicPanelComponent implements OnInit {
   sourceMap: Map<string, DiseaseRelevance[]> = new Map<string, DiseaseRelevance[]>();
   fieldsMap: Map<string, TableData[]> = new Map<string, TableData[]>();
-  sources: string[];
+  sources: string[] = [];
   tinx: PharosPoint[];
   loaded = false;
-  @Input() width = 30;
+  @Input() diseaseSources?: any;
   tableArr: any[] = [];
-
-/*  @HostBinding('attr.fxFlex')
-  flex = this.width;*/
+  chartOptions: any;
 
   constructor() {
     super();
@@ -112,7 +110,6 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       });
       this.sources = Array.from(this.sourceMap.keys());
       this.tableArr = this.sourceMap.get(this.sources[0]);
-      console.log(this.tableArr);
       this.loaded = true;
     }
 
@@ -121,12 +118,17 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
        this.data.tinx.importances.map(point => {
         const p: PharosPoint = {
           label: point.doid,
-          key: point.imp,
-          value: point.dnovelty,
+          key: point.dnovelty,
+          value: point.imp,
           name: point.dname
         };
        this.tinx.push(p);
       });
+       this.chartOptions = {
+           line: false,
+         yAxisScale: 'log',
+          margin: {top: 20, right: 45, bottom: 20, left: 35}
+       }
     }
   }
 

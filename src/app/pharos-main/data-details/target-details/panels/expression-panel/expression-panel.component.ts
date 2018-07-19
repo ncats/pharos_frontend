@@ -68,6 +68,8 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
         //    takeWhile(() => !this.data['references'])
       )
       .subscribe(x => {
+        console.log(this);
+
         if (this.data.expression) {
           this.tissueData.clear();
           this.mapTissueData();
@@ -79,6 +81,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
           this.diseaseSources = {diseaseSources: this.data.differential.filter(term =>
                term.properties.filter(prop => prop.term === 'Expression Atlas').length > 0)
           };
+          console.log(this);
         }
         if(this.data.orthologs) {
             this.orthologs = [];

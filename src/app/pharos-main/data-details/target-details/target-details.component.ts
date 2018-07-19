@@ -36,7 +36,6 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
   }
 
   ngOnInit() {
-    console.log(this);
     this.target = this.data.object;
     const components: any = this.componentLookupService.lookupByPath(this.path, this.target.idgTDL.toLowerCase());
     if (components) {
