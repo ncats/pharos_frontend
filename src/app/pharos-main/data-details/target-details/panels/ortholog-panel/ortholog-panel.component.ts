@@ -24,6 +24,7 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
   ];
   species: string[];
   tableArr: any[] = [];
+
   /*  @HostBinding('attr.fxFlex')
     flex = this.width;*/
 
@@ -48,6 +49,7 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
 
   setterFunction(): void {
     if (this.data.orthologs) {
+      console.log(this);
       this.tableArr = [];
       const temp: Ortholog[] = [];
       this.data.orthologs.forEach(obj => {

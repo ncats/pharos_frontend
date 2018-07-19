@@ -5,6 +5,8 @@ import {Property} from '../../../../../models/property';
 import {BehaviorSubject} from 'rxjs/index';
 import {EnvironmentVariablesService} from '../../../../../pharos-services/environment-variables.service';
 import {Ortholog} from "../../../../../models/ortholog";
+import {TableData} from "../../../../../models/table-data";
+import {DiseaseRelevance} from "../../../../../models/disease-relevance";
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 @Component({
@@ -15,11 +17,35 @@ import {Ortholog} from "../../../../../models/ortholog";
 export class ExpressionPanelComponent extends DynamicPanelComponent implements OnInit {
   _URL: string;
   id: string;
-  tissueData: Map<string, Property[] > = new Map<string, Property[]>();
+  tissueData: Map<string, Property[]> = new Map<string, Property[]>();
   hgData: any[] = [];
   imgUrl: string;
   diseaseSources: any;
   orthologs: any;
+  tableArr: any[];
+  fields: TableData[] = [
+    new TableData({
+      name: 'IDG Disease',
+      label: 'Disease',
+      sortable: true,
+      internalLink: true
+    }),
+
+    new TableData({
+        name: 'log2foldchange',
+        label: 'log2 FC',
+        sortable: true
+      }
+    ),
+
+    new TableData({
+        name: 'pvalue',
+        label: 'P-value',
+        sortable: true,
+        sorted: 'desc'
+      }
+    )];
+
   /**
    * initialize a private variable _radarData, it's a BehaviorSubject
    * @type {BehaviorSubject<any>}
@@ -54,6 +80,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     {label: 'IDG Tissue Ref', name: 'gtex'}
   ];
   width = 30;
+
   constructor(private environmentVariablesService: EnvironmentVariablesService) {
     super();
   }
@@ -68,32 +95,42 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
         //    takeWhile(() => !this.data['references'])
       )
       .subscribe(x => {
-        console.log(this);
 
         if (this.data.expression) {
           this.tissueData.clear();
           this.mapTissueData();
-          this.radarData =  this.setRadarData();
+          this.radarData = this.setRadarData();
           this.hgData = this.tissueData.get(this.sources[0].label);
           this.imgUrl = this._URL + this.sources[0].name;
         }
         if (this.data.differential) {
-          this.diseaseSources = {diseaseSources: this.data.differential.filter(term =>
-               term.properties.filter(prop => prop.term === 'Expression Atlas').length > 0)
-          };
-          console.log(this);
-        }
-        if(this.data.orthologs) {
-            this.orthologs = [];
-            const temp: Ortholog[] = [];
-            this.data.orthologs.forEach(obj => {
-              // create new object to get Property class properties
-              const newObj: Ortholog = new Ortholog(obj);
-              // get source label
-              const labelProp: Property = new Property(newObj.properties.filter(prop => prop.label === 'Ortholog Species')[0]);
-              const dataSources: Property[] = newObj.properties.filter(prop => prop.label === 'Data Source').map(lab => new Property(lab));
-              this.orthologs.push({species: labelProp, source: dataSources});
+          this.tableArr = [];
+          this.diseaseSources = this.data.differential.filter(term =>
+            term.properties.filter(prop => prop.term === 'Expression Atlas').length > 0);
+          this.diseaseSources.forEach(dr => {
+            // create new disease relevance object to get Property class properties
+            const readDR = new DiseaseRelevance(dr);
+            // get array of diseases from source map
+            const tableData: any = {};
+            readDR.properties.forEach(prop => {
+              tableData[prop.label] = new Property(prop);
             });
+            this.tableArr.push(tableData);
+          })
+        }
+
+
+        if (this.data.orthologs) {
+          this.orthologs = [];
+          const temp: Ortholog[] = [];
+          this.data.orthologs.forEach(obj => {
+            // create new object to get Property class properties
+            const newObj: Ortholog = new Ortholog(obj);
+            // get source label
+            const labelProp: Property = new Property(newObj.properties.filter(prop => prop.label === 'Ortholog Species')[0]);
+            const dataSources: Property[] = newObj.properties.filter(prop => prop.label === 'Data Source').map(lab => new Property(lab));
+            this.orthologs.push({species: labelProp, source: dataSources});
+          });
         }
       });
   }
@@ -124,7 +161,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   }
 
   getData(field: string): Property[] {
-    console.log(field);
     return this.tissueData.get(field);
   }
 
@@ -133,7 +169,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   }
 
   changeHarminogramTabData(event: MatTabChangeEvent) {
-    console.log(event);
     this.hgData = this.tissueData.get(this.sources[event.index].label);
     this.imgUrl = this._URL + this.sources[event.index].name;
 

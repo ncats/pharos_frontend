@@ -158,13 +158,16 @@ export class LineChartComponent  implements OnInit, OnDestroy {
     this.drawChart();
     this._data.subscribe(x => {
       if (this.data) {
+        console.log(this.data);
             this.updateChart();
       }
     });
   }
 
   ngOnDestroy(): void {
-    d3.select('body').selectAll('.radar-tooltip').remove();
+    const element = this.chartContainer.nativeElement;
+    d3.select(element).selectAll('svg').remove();
+    d3.select('body').selectAll('.line-tooltip').remove();
   }
 
   getOptions() {
@@ -181,7 +184,7 @@ export class LineChartComponent  implements OnInit, OnDestroy {
     }
     case 'log': {
       return d3.scaleLog()
-        .domain([0.001, 1])
+        .domain(this.data.map(d => +d.key))
         .rangeRound([0, this.width + this._chartOptions.margin.left]);
     }
   }
@@ -196,8 +199,8 @@ getYAxis(scale: string): any {
     }
     case 'log': {
       return d3.scaleLog()
-        //.domain(d3.extent(this.data, (d) => d.value)).nice()
-        .domain([0.001, 1])
+        .domain(d3.extent(this.data, (d) => d.value)).nice()
+        //.domain([0.001, 1])
         .rangeRound([this.height, 0]);
     }
   }
@@ -294,7 +297,8 @@ getYAxis(scale: string): any {
       .attr('cy', d => y(+d.value))
       .style('fill', '#23364e')
       .style('fill-opacity', 0.8)
-      .style('pointer-events', 'all');
+      .style('pointer-events', 'all')
+      .exit();
 
     this.svg.select('.linePointHolder').selectAll('.voronoi')
       .data(voronoi.polygons(this.data))
@@ -330,7 +334,8 @@ getYAxis(scale: string): any {
           .duration(200)
           .style('opacity', 0);
         d3.select(circles[i]).classed('hovered', false);
-      });
+      })
+      .exit();
 
 if (this._chartOptions.line) {
   this.svg.select('.timeline')   // change the line
@@ -340,7 +345,8 @@ if (this._chartOptions.line) {
     .attr('stroke', '#23364e')
     .attr('stroke-width', 2)
     .attr('fill', 'none')
-    .attr('d', line);
+    .attr('d', line)
+    .exit();
 }
   }
 }

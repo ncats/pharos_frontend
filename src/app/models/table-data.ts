@@ -5,6 +5,7 @@ export class TableData {
   name: string;
   label?: string;
   sortable?: boolean;
+  sorted?: 'asc' | 'desc' | null;
   internalLink?: string;
   externalLink?: string;
   width?: number;

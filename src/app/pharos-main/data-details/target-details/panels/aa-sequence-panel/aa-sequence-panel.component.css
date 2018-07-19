@@ -19,3 +19,8 @@
   font-family: monospace;
 
 }
+
+
+.wrap {
+  flex-flow: row wrap;
+}

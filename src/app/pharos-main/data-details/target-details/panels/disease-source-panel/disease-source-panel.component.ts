@@ -36,7 +36,8 @@ const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
   )], ['pvalue', new TableData({
       name: 'pvalue',
       label: 'P-value',
-      sortable: true
+      sortable: true,
+      sorted: 'desc'
     }
   )], ['log2foldchange', new TableData({
       name: 'log2foldchange',

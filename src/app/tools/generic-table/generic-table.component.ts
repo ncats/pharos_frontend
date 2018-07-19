@@ -2,7 +2,7 @@ import {
   AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges,
   ViewChild
 } from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatSort, MatSortable, MatTableDataSource} from '@angular/material';
 import {TableData} from '../../models/table-data';
 import {BehaviorSubject} from 'rxjs/index';
 
@@ -86,13 +86,29 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
    */
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-    this._sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-    this.dataSource.sortingDataAccessor = (item, property) => {
-      return item[property].term ?  item[property].term : item[property];
-    };
     this.dataSource.sort = this._sort;
-  }
+    if (this.fieldsConfig) {
+      const defaultSort = this.fieldsConfig.filter(field => field.sorted);
+      if (defaultSort.length > 0) {
+        this.dataSource.sort.active = defaultSort[0].name;
+        this.dataSource.sort.direction = defaultSort[0].sorted;
+      }
+    }
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      if (item[property].term) {
+        return item[property].term;
+      } else if (item[property].numval) {
+        return item[property].numval;
+      } else if (item[property].intval) {
+        return item[property].intval;
+      } else {
+        return item[property];
+      }
+    };
+    this.dataSource.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
+
+  }
 
   /**
    * when the input changes, manually change the dataSource data.

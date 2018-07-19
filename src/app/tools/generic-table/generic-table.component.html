@@ -3,22 +3,18 @@
                [pageSizeOptions]="[5, 10, 20]"
                [showFirstLastButtons]="true">
 </mat-paginator>
-      <mat-table #genericTable [dataSource]="dataSource" matSort>
+      <mat-table #genericTable [dataSource]="dataSource" matSort >
         <ng-container matColumnDef="{{field}}" *ngFor="let field of displayColumns">
-          <mat-header-cell *matHeaderCellDef mat-sort-header disabled = {{!isSortable(field)}}> {{getLabel(field)}}</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header disabled = {{!isSortable(field)}} > {{getLabel(field)}}</mat-header-cell>
           <mat-cell *matCellDef="let row">
-            <div *ngIf="row[field].length">
+            <div *ngIf="row[field] && row[field].length; else single">
               <span *ngFor="let term of row[field]">
-<!--
-                <pharos-term-display [term]='term' [showLabel]="false"></pharos-term-display>
--->
                 <pharos-property-display [property]='term' [showLabel]="false"></pharos-property-display>
               </span>
             </div>
-<!--
-          <pharos-term-display [term]="row[field]" [showLabel]="false"></pharos-term-display>
--->
+            <ng-template #single>
           <pharos-property-display [property]="row[field]" [showLabel]="false"></pharos-property-display>
+            </ng-template>
           </mat-cell>
         </ng-container>
         <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>

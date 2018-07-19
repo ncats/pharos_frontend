@@ -7,18 +7,24 @@
       <div fxFlex = "30">
       <mat-tab-group>
         <mat-tab label = "Specificity" class="full-height">
+          <ng-template matTabContent>
           <div fxLayout="row" fxLayoutAlign="start stretch">
             <div fxFlex="95" class="radarchart">
               <pharos-radar-chart [data] = radarData [shape]="true" [size] = "'medium-shape'" [origin]="'expression'"></pharos-radar-chart>
           </div>
           </div>
+          </ng-template>
         </mat-tab>
         <mat-tab label = "Differential" *ngIf=diseaseSources>
-              <pharos-disease-source  [data]= diseaseSources></pharos-disease-source>
+          <ng-template matTabContent>
+          <pharos-generic-table [data]= tableArr [fieldsConfig] = fields></pharos-generic-table>
+          </ng-template>
         </mat-tab>
-        <mat-tab label = "Ortholog" *ngIf=orthologs>
-              <pharos-ortholog-panel [data]= orthologs></pharos-ortholog-panel>
-        </mat-tab>
+<mat-tab label = "Ortholog" *ngIf=orthologs>
+  <ng-template matTabContent>
+  <pharos-ortholog-panel [data]= orthologs></pharos-ortholog-panel>
+  </ng-template>
+</mat-tab>
       </mat-tab-group>
       </div>
       <div fxFlex="70">

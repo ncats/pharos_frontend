@@ -30,7 +30,7 @@ export class StructureViewPanelComponent extends DynamicPanelComponent implement
       )
       .subscribe(x => {
         if(this.data.structure && this.data.structure.length > 0) {
-          this.imageUrl = this._STRUCTUREURLBASE + this.data.structure[0].refid + '.svg'
+          this.imageUrl = this._STRUCTUREURLBASE + this.data.structure[0].refid + '.svg?size=250'
         }
       });
   }

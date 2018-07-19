@@ -14,10 +14,6 @@
   max-height: 100%;
 }
 
-.wrap {
-  flex-flow: row wrap;
-}
-
 .kchart {
   margin: 0 auto;
   height: 30vh;

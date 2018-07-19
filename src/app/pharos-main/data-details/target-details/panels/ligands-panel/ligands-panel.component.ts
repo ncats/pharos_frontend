@@ -62,7 +62,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
                refid: refid,
                activityType: activity.label === 'Potency' ? activity.label : 'p' + activity.label,
                activity: activity.numval,
-               imageUrl: this._STRUCTUREURLBASE + refid + '.svg'
+               imageUrl: this._STRUCTUREURLBASE + refid + '.svg?size=250'
              };
               const drug = res.properties.filter( prop => prop.label === 'Ligand Drug');
               if (drug.length > 0 && drug[0].term === 'YES') {
