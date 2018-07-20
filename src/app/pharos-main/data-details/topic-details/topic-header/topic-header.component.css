@@ -1,9 +1,14 @@
+
 :host {
-  flex: 1 1 calc(100%);
+  flex: 1 1 auto;
   max-width: 100%;
   margin: 0 !important;
 }
 
+.flex30 {
+  flex: 1 1 100%;
+  max-width: 100%;
+}
 
 .topic-toolbar {
   width: 100vw;

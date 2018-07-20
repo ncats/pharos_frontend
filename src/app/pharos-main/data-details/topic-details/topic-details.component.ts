@@ -1,4 +1,7 @@
-import {Component, forwardRef, Inject, Injector, OnDestroy, OnInit, Type, ViewChild} from '@angular/core';
+import {
+  Component, forwardRef, Inject, Injector, OnDestroy, OnInit, Type, ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 
 import {DynamicPanelComponent} from "../../../tools/dynamic-panel/dynamic-panel.component";
 import {Topic} from "../../../models/topic";
@@ -15,7 +18,8 @@ import {NodeService} from "../../../tools/visualizations/force-directed-graph/se
 @Component({
   selector: 'pharos-topic-details',
   templateUrl: './topic-details.component.html',
-  styleUrls: ['./topic-details.component.css']
+  styleUrls: ['./topic-details.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TopicDetailsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   path: string;
@@ -28,15 +32,10 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
     new Topic({
       id: 0,
       name: 'Bromodomain Inhibitors',
-      description: 'Imagination is the key to painting. Just let your mind wander and enjoy. This should make you happy.' +
-      ' Isn\'t it great to do something you can\'t fail at? Nature is so fantastic, enjoy it. Let it make you happy. ' +
-      'You\'re the greatest thing that has ever been or ever will be. You\'re special. You\'re so very special. ' +
-      'I\'m gonna start with a little Alizarin crimson and a touch of Prussian blue In this world, everything can be happy. ' +
-      'Trees get lonely too, so we\'ll give him a little friend. This is your world, whatever makes you happy you can put in it. ' +
-      'Go crazy. Put your feelings into it, your heart, it\'s your world. Even the worst thing we can do here is good.' +
-      ' Don\'t fiddle with it all day. The very fact that you\'re aware of suffering is enough reason to be overjoyed that ' +
-      'you\'re alive and can experience it. You have freedom here. The only guide is your heart. ' +
-      'We don\'t want to set these clouds on fire. Let your imagination be your guide.',
+      description: 'BET inhibitors are a class of drugs with anti-cancer, immunosuppressive, and other effects in ' +
+      'clinical trials in the United States and Europe and widely used in research. These molecules reversibly bind ' +
+      'the bromodomains of Bromodomain and Extra-Terminal motif (BET) proteins BRD2, BRD3, BRD4, and BRDT, and prevent ' +
+      'protein-protein interaction between BET proteins and acetylated histones and transcription factors.',
       class: 'target',
       diseaseCt: 45,
       ligandCt: 43,
@@ -49,10 +48,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
     private _injector: Injector,
     @Inject(forwardRef(() => ComponentLookupService)) private componentLookupService,
     private dataDetailsResolver: DataDetailsResolver,
-    private componentInjectorService: ComponentInjectorService,
-    private dataConnectionService: DataConnectionService,
-  private graphDataService: GraphDataService,
-  private nodeService: NodeService) {
+    private componentInjectorService: ComponentInjectorService) {
     super();
   }
 
@@ -79,21 +75,20 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
         /** make component */
         const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
         const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
-        if (component.width) {
-          childComponent.instance.width = component.width;
-        }
+
         childComponent.instance.topic = this.topic;
         // todo need to cover when no results are returned - do we still want to make the component?
         this._data
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(obj => {
-            childComponent.instance.data = this.pick(obj, keys);
+            console.log(obj);
+            childComponent.instance.data = obj;
            // childComponent.instance.id = obj.object.id;
            // childComponent.instance.topic = obj.object;
           });
       });
     }
-    this.nodeService.nodeList$
+/*    this.nodeService.nodeList$
       .subscribe(res => {
         this.data = Array.from(new Set(res.hovered.concat(res.clicked)));
       });
@@ -102,7 +97,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
     }
     this.dataConnectionService.messages.next({
       message: 'MATCH (n:`KG:1`)-[r]-(b) with {segments:[{start: startNode(r), relationship:r,' +
-      ' end: endNode(r)}]} AS ret RETURN ret LIMIT 25', params: {}});
+      ' end: endNode(r)}]} AS ret RETURN ret LIMIT 25', params: {}});*/
   }
 
 pick(o, props): any {

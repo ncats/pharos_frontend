@@ -19,6 +19,7 @@ export class PharosDashboardComponent implements OnInit {
   ngOnInit() {
     this.topics = [
       new Topic({
+        id: 1,
         name: 'Bromodomain Inhibitors',
         description: 'Imagination is the key to painting. Just let your mind wander and enjoy. This should make you happy.' +
         ' Isn\'t it great to do something you can\'t fail at? Nature is so fantastic, enjoy it. Let it make you happy. ' +
@@ -36,6 +37,7 @@ export class PharosDashboardComponent implements OnInit {
         publicationCt: 25
       }),
       new Topic({
+        id: 2,
         name: 'Lysomal Storage Disorders',
         description: 'Just relax and let it flow. That easy. This is your world. Everybody needs a friend. ' +
         'Don\'t be bashful drop me a line. We don\'t want to set these clouds on fire. Just use the old one inch brush.' +
@@ -54,6 +56,7 @@ export class PharosDashboardComponent implements OnInit {
         publicationCt: 45
       }),
       new Topic({
+        id: 3,
         name: 'Cystic Fibrosis',
         description: 'Maybe there\'s a happy little waterfall happening over here. In life you need colors. ' +
         'Decide where your cloud lives. Maybe he lives right in here. I can\'t think of anything more rewarding than being ' +
@@ -69,6 +72,7 @@ export class PharosDashboardComponent implements OnInit {
         targetCt: 5,
         publicationCt: 12
       }), new Topic({
+        id: 4,
         name: 'Cystic Fibrosis',
         description: 'Maybe there\'s a happy little waterfall happening over here. In life you need colors. ' +
         'Decide where your cloud lives. Maybe he lives right in here. I can\'t think of anything more rewarding than being ' +

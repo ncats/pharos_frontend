@@ -1,0 +1,29 @@
+:host {
+  flex: 1 1 calc(100% - 20px);
+  max-width: calc(100% - 20px);
+  margin-top: 5.5vh;
+  margin-left: 20px;
+}
+
+.flex30 {
+  flex: 1 1 calc(100% - 20px);
+  max-width: calc(100% - 20px);
+}
+
+
+.toi-grid-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(24%, 1fr));
+  grid-gap: 1em;
+  grid-row-gap: 5em;
+  padding: 1vw;
+}
+
+.toi-grid-list > div {
+  /*margin-bottom: 4em;*/
+  min-height:100%;
+}
+
+.toi-grid-list > mat-card {
+  height: 100%;
+}
