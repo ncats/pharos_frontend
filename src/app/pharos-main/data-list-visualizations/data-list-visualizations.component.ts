@@ -25,10 +25,12 @@ export class DataListVisualizationsComponent implements AfterViewInit, OnDestroy
 
   ngAfterViewInit() {
         this.chartFacets = this.environmentVariablesService.getAllChartFacets(this.pathResolverService.getPath());
-        this.facetRetrieverService.getFacetObservable(this.chartFacets.donut[0].name)
-          .subscribe(res=> {
-            this.donutData = res;
-          });
+        if(this.chartFacets.donut.length > 0) {
+          this.facetRetrieverService.getFacetObservable(this.chartFacets.donut[0].name)
+            .subscribe(res => {
+              this.donutData = res;
+            });
+        }
   }
 
   changeDonutChart(field: string): void {

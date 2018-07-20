@@ -80,7 +80,6 @@ export class GraphComponent implements OnInit, AfterViewInit {
    * set up graph data subscription
    */
   ngOnInit() {
-    console.log(this);
     this.loadingService.loading$.subscribe(res => this.loading = res);
     this.graphDataService.graphhistory$.subscribe(res => {
       this.nodes = res.nodes;

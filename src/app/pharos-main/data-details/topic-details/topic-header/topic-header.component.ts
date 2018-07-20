@@ -12,6 +12,7 @@ export class TopicHeaderComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log(this);
   }
 
 }

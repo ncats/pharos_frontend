@@ -33,7 +33,6 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
   }
 
   ngOnInit() {
-    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -49,7 +48,6 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
 
   setterFunction(): void {
     if (this.data.orthologs) {
-      console.log(this);
       this.tableArr = [];
       const temp: Ortholog[] = [];
       this.data.orthologs.forEach(obj => {

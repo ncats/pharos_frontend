@@ -30,7 +30,6 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
   }
 
   ngOnInit() {
-    console.log(this);
     this.ligand = this.data.object;
     const components: any = this.componentLookupService.lookupByPath(this.path, 'panels');
     if (components) {

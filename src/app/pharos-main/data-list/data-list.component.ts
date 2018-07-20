@@ -70,7 +70,7 @@ export class DataListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.componentHost.viewContainerRef.clear();
-         res.content.forEach(dataList => {
+        res.content.forEach(dataList => {
               const components: any = this.componentLookup.lookupByPath(dataList.kind, 'list');
               if (components) {
                 components.forEach(component => {
@@ -150,7 +150,6 @@ export class DataListComponent implements OnInit, OnDestroy {
   }
 
   paginationChanges(event: any) {
-    console.log(event);
       navigationExtras.queryParams = {
         page: event.pageIndex + 1,
         // top: event.pageSize,

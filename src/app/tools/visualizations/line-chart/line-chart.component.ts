@@ -158,7 +158,6 @@ export class LineChartComponent  implements OnInit, OnDestroy {
     this.drawChart();
     this._data.subscribe(x => {
       if (this.data) {
-        console.log(this.data);
             this.updateChart();
       }
     });

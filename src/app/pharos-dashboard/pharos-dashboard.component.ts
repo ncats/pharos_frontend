@@ -21,20 +21,15 @@ export class PharosDashboardComponent implements OnInit {
       new Topic({
         id: 1,
         name: 'Bromodomain Inhibitors',
-        description: 'Imagination is the key to painting. Just let your mind wander and enjoy. This should make you happy.' +
-        ' Isn\'t it great to do something you can\'t fail at? Nature is so fantastic, enjoy it. Let it make you happy. ' +
-        'You\'re the greatest thing that has ever been or ever will be. You\'re special. You\'re so very special. ' +
-        'I\'m gonna start with a little Alizarin crimson and a touch of Prussian blue In this world, everything can be happy. ' +
-        'Trees get lonely too, so we\'ll give him a little friend. This is your world, whatever makes you happy you can put in it. ' +
-        'Go crazy. Put your feelings into it, your heart, it\'s your world. Even the worst thing we can do here is good.' +
-        ' Don\'t fiddle with it all day. The very fact that you\'re aware of suffering is enough reason to be overjoyed that ' +
-        'you\'re alive and can experience it. You have freedom here. The only guide is your heart. ' +
-        'We don\'t want to set these clouds on fire. Let your imagination be your guide.',
+        description: 'BET inhibitors are a class of drugs with anti-cancer, immunosuppressive, and other effects in ' +
+        'clinical trials in the United States and Europe and widely used in research. These molecules reversibly bind ' +
+        'the bromodomains of Bromodomain and Extra-Terminal motif (BET) proteins BRD2, BRD3, BRD4, and BRDT, and prevent ' +
+        'protein-protein interaction between BET proteins and acetylated histones and transcription factors.',
         class: 'target',
-        diseaseCt: 45,
-        ligandCt: 43,
-        targetCt: 0,
-        publicationCt: 25
+        diseaseCt: 59,
+        ligandCt: 818,
+        targetCt: 4,
+        publicationCt: 0
       }),
       new Topic({
         id: 2,

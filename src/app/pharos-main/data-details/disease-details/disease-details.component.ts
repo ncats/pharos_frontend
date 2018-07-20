@@ -31,7 +31,6 @@ export class DiseaseDetailsComponent extends DynamicPanelComponent implements On
   }
 
   ngOnInit() {
-    console.log(this);
     this.disease = this.data.object;
     const components: any = this.componentLookupService.lookupByPath(this.path, 'panels');
     if (components) {

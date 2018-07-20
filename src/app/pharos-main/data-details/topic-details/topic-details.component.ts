@@ -13,6 +13,11 @@ import {ComponentLookupService} from "../../../pharos-services/component-lookup.
 import {DataConnectionService} from "../../../tools/visualizations/force-directed-graph/services/connection/data-connection.service";
 import {GraphDataService} from "../../../tools/visualizations/force-directed-graph/services/graph-data.service";
 import {NodeService} from "../../../tools/visualizations/force-directed-graph/services/event-tracking/node.service";
+import {LigandDetailsComponent} from "../ligand-details/ligand-details.component";
+import {Ligand} from "../../../models/ligand";
+import {HttpClient} from "@angular/common/http";
+import {Target} from "../../../models/target";
+import {Disease} from "../../../models/disease";
 
 
 @Component({
@@ -24,28 +29,17 @@ import {NodeService} from "../../../tools/visualizations/force-directed-graph/se
 export class TopicDetailsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   path: string;
   topic: Topic;
+  targets : Target[] = [];
+  ligands: Ligand[] = [];
+  diseases: Disease[] = [];
   nodes: any[] = [];
 
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
 
-  private TOPICS = [
-    new Topic({
-      id: 0,
-      name: 'Bromodomain Inhibitors',
-      description: 'BET inhibitors are a class of drugs with anti-cancer, immunosuppressive, and other effects in ' +
-      'clinical trials in the United States and Europe and widely used in research. These molecules reversibly bind ' +
-      'the bromodomains of Bromodomain and Extra-Terminal motif (BET) proteins BRD2, BRD3, BRD4, and BRDT, and prevent ' +
-      'protein-protein interaction between BET proteins and acetylated histones and transcription factors.',
-      class: 'target',
-      diseaseCt: 45,
-      ligandCt: 43,
-      targetCt: 0,
-      publicationCt: 25
-    }),
-  ];
 
   constructor(
     private _injector: Injector,
+    private http: HttpClient,
     @Inject(forwardRef(() => ComponentLookupService)) private componentLookupService,
     private dataDetailsResolver: DataDetailsResolver,
     private componentInjectorService: ComponentInjectorService) {
@@ -54,10 +48,11 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
 
   ngOnInit() {
     console.log(this);
-       this.topic = this.TOPICS[0];
+       this.topic = this.data.object;
     const components: any = this.componentLookupService.lookupByPath(this.path, 'panels');
     if (components) {
       components.forEach(component => {
+        console.log(component);
         // start api calls before making component
         const keys: string[] = [];
         if(component.api) {
@@ -82,11 +77,33 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(obj => {
             console.log(obj);
-            childComponent.instance.data = obj;
+            childComponent.instance.data = obj.object;
            // childComponent.instance.id = obj.object.id;
            // childComponent.instance.topic = obj.object;
           });
       });
+    }
+
+    switch (this.topic.name){
+      case "Bromodomain Inhibitors": {
+        console.log("ddddd");
+        const targets = ['BRD2','BRD3','BRD4','BRDT'];
+        targets.forEach(target =>
+          this.http.get('https://pharos.ncats.io/idg/api/v1/targets/'+target).subscribe(res => {
+            console.log(res);
+              this.targets.push(res as Target);
+            }));
+        this.targets = this.targets.sort((a,b) => a.knowledgeAvailability - b.knowledgeAvailability);
+        console.log(this);
+        break;
+      }
+      case "Lysomal Storage Disorders":{
+        break;
+      }
+      default :{
+        break;
+      }
+
     }
 /*    this.nodeService.nodeList$
       .subscribe(res => {

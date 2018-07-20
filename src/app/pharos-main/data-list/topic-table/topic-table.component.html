@@ -1,7 +1,24 @@
-<div fxLayout="row" fxLayoutAlign="space-around center">
-  <div fxFlex="75">
-    <div *ngFor="let toi of data">
-  <pharos-toi-card [toi] = toi></pharos-toi-card>
+<br>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start"
+     class="body-row topic-table">
+  <div fxFlex="45">
+    <div class=mat-display-1>Topics <span>(4)</span></div>
+  </div>
+  <div fxFlex="45" fxFlexAlign="end">
+    <pharos-custom-paginator
+      [pageData]="pageData"
+      [pageSize]="20"
+      [pageSizeOptions]="[20, 60, 100]"
+      (page)="changePage($event)"></pharos-custom-paginator>
+  </div>
 </div>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start"
+     class="body-row topic-table">
+  <div fxFlex="75">
+    <div class="topic-grid">
+      <div *ngFor="let toi of topicsDataSource.connect() | async" class="topic-card">
+        <pharos-toi-card [toi]=toi [desc]="true"></pharos-toi-card>
+      </div>
+    </div>
   </div>
 </div>
