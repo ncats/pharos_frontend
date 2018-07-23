@@ -1,9 +1,10 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {EnvironmentVariablesService} from '../../../../../pharos-services/environment-variables.service';
 import {Property} from '../../../../../models/property';
 import {HttpClient} from '@angular/common/http';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
+import {Ligand} from "../../../../../models/ligand";
 
 
 @Component({
@@ -12,6 +13,11 @@ import {MatPaginator, MatTableDataSource} from '@angular/material';
   styleUrls: ['./ligands-panel.component.css']
 })
 export class LigandsPanelComponent extends DynamicPanelComponent implements OnInit, AfterViewInit {
+
+  /**
+   * todo this may need to be removed, it is to temporarily take data to display topics ligands
+   */
+  @Input() ligands?: Ligand[];
 
   ligandsMap: Map<string, any> = new Map<string, any>();
   drugsDataSource: MatTableDataSource<any[]> = new MatTableDataSource<any[]>();
@@ -32,6 +38,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
   }
 
   ngOnInit() {
+    if(this.ligands){ this.data = this.ligands};
     this._STRUCTUREURLBASE = this.environmentVariablesService.getStructureImageUrl();
     this._data.subscribe(d => {
       if (this.data.ligands) {

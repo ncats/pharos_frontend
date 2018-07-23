@@ -18,6 +18,10 @@ import {Ligand} from "../../../models/ligand";
 import {HttpClient} from "@angular/common/http";
 import {Target} from "../../../models/target";
 import {Disease} from "../../../models/disease";
+import {concatMap, map, mergeMap, switchMap} from "rxjs/operators";
+import {combineLatest, from, Observable, zip} from "rxjs/index";
+import {concatAll} from "rxjs/operators";
+import {combineAll} from "rxjs/operators";
 
 
 @Component({
@@ -48,11 +52,10 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
 
   ngOnInit() {
     console.log(this);
-       this.topic = this.data.object;
+    this.topic = this.data.object;
     const components: any = this.componentLookupService.lookupByPath(this.path, 'panels');
     if (components) {
       components.forEach(component => {
-        console.log(component);
         // start api calls before making component
         const keys: string[] = [];
         if(component.api) {
@@ -76,53 +79,60 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
         this._data
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(obj => {
-            console.log(obj);
             childComponent.instance.data = obj.object;
-           // childComponent.instance.id = obj.object.id;
-           // childComponent.instance.topic = obj.object;
+            // childComponent.instance.id = obj.object.id;
+            // childComponent.instance.topic = obj.object;
           });
       });
     }
 
     switch (this.topic.name){
       case "Bromodomain Inhibitors": {
-        console.log("ddddd");
-        const targets = ['BRD2','BRD3','BRD4','BRDT'];
-        targets.forEach(target =>
+
+        const targetIDs = ['BRD2','BRD3','BRD4','BRDT'];
+        // / const targets = targetIDs.pipe(
+        //    switchMap(target =>  this.http.get('https://pharos.ncats.io/idg/api/v1/targets/'+target))
+        //  )
+        targetIDs.forEach(target =>
           this.http.get('https://pharos.ncats.io/idg/api/v1/targets/'+target).subscribe(res => {
             console.log(res);
-              this.targets.push(res as Target);
-            }));
-        this.targets = this.targets.sort((a,b) => a.knowledgeAvailability - b.knowledgeAvailability);
-        console.log(this);
-        break;
-      }
+            const tgt: Target = res as Target;
+            this.targets = this.targets.concat([tgt]).sort((a,b) => b.knowledgeAvailability - a.knowledgeAvailability);
+            this.http.get<Disease[]>(tgt._links.href + ('(kind=ix.idg.models.Disease)')).subscribe(res=> this.diseases = this.diseases.concat(res));
+            this.http.get<Ligand[]>(tgt._links.href + ('(kind=ix.idg.models.Ligand)')).subscribe(res=> this.ligands = this.ligands.concat(res));
+                   }));
+            console.log(this);
+            break;
+          }
       case "Lysomal Storage Disorders":{
-        break;
-      }
+          break;
+        }
       default :{
-        break;
+          break;
+        }
+
       }
+      /*    this.nodeService.nodeList$
+            .subscribe(res => {
+              this.data = Array.from(new Set(res.hovered.concat(res.clicked)));
+            });
+          if (this.data) {
+            this.data = [this.data];
+          }
+          this.dataConnectionService.messages.next({
+            message: 'MATCH (n:`KG:1`)-[r]-(b) with {segments:[{start: startNode(r), relationship:r,' +
+            ' end: endNode(r)}]} AS ret RETURN ret LIMIT 25', params: {}});*/
+    }
 
+
+
+
+    pick(o, props): any {
+      return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
     }
-/*    this.nodeService.nodeList$
-      .subscribe(res => {
-        this.data = Array.from(new Set(res.hovered.concat(res.clicked)));
-      });
-    if (this.data) {
-      this.data = [this.data];
-    }
-    this.dataConnectionService.messages.next({
-      message: 'MATCH (n:`KG:1`)-[r]-(b) with {segments:[{start: startNode(r), relationship:r,' +
-      ' end: endNode(r)}]} AS ret RETURN ret LIMIT 25', params: {}});*/
+
+    ngOnDestroy(): void {
+      this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
-
-pick(o, props): any {
-  return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
-}
-
-ngOnDestroy(): void {
-  this.ngUnsubscribe.next();
-this.ngUnsubscribe.complete();
-}
-}
+  }

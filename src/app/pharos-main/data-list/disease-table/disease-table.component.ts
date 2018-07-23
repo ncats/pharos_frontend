@@ -17,6 +17,7 @@ import {PageData} from '../../../models/page-data';
   styleUrls: ['./disease-table.component.css']
 })
 export class DiseaseTableComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
+
   /**
    * object fields for the table to show
    * @type {string[]}
@@ -71,6 +72,7 @@ export class DiseaseTableComponent extends DynamicPanelComponent implements OnIn
    * subscribe to data observable, since the data changes on paging/filtering, only unsibscribe on destroy
    */
   ngOnInit() {
+
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value

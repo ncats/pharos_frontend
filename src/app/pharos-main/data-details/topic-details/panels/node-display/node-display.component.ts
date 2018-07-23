@@ -7,6 +7,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class NodeDisplayComponent implements OnInit {
   @Input() nodes: any[];
+  @Input() path: string;
   constructor() { }
 
   ngOnInit() {

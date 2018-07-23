@@ -4,6 +4,7 @@ import {MatTableDataSource} from '@angular/material';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../models/page-data';
+import {Target} from "../../models/target";
 
 @Component({
   selector: 'pharos-target-table',
@@ -29,11 +30,16 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
   }
 
   ngOnInit() {
-    this._data
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(obj => {
-        this.dataSource.data = this.data;
-      });
+        this._data
+        // listen to data as long as term is undefined or null
+        // Unsubscribe once term has value
+          .pipe(
+            // todo: this unsubscribe doesn't seem to work
+            takeUntil(this.ngUnsubscribe)
+          )
+          .subscribe(x => {
+            this.dataSource.data = this.data;
+          });
   }
 
   changeSort($event): void {
