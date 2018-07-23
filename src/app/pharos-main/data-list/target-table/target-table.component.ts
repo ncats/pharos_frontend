@@ -4,7 +4,6 @@ import {MatTableDataSource} from '@angular/material';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../models/page-data';
-import {Target} from "../../models/target";
 
 @Component({
   selector: 'pharos-target-table',

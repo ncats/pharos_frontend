@@ -86,14 +86,7 @@ export class PharosApiService {
       {
         id: 2,
         name: 'Kinase: IDG Consortium (Targets)',
-        description: 'Maybe there\'s a happy little waterfall happening over here. In life you need colors. ' +
-        'Decide where your cloud lives. Maybe he lives right in here. I can\'t think of anything more rewarding than being ' +
-        'able to express yourself to others through painting. I\'m sort of a softy, I couldn\'t shoot Bambi except with a camera. ' +
-        'All you need to paint is a few tools, a little instruction, and a vision in your mind. ' +
-        'This is a happy place, little squirrels live here and play. Now then, let\'s play. Poor old tree. ' +
-        'Let your imagination be your guide. Fluff it up a little and hypnotize it. Trees get lonely too, ' +
-        'so we\'ll give him a little friend. ' +
-        'Let\'s make a happy little mountain now. We\'ll play with clouds today.',
+        description: '',
         class: 'disease',
         diseaseCt: 1,
         ligandCt: 4,

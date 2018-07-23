@@ -18,10 +18,11 @@ import {Ligand} from "../../../models/ligand";
 import {HttpClient} from "@angular/common/http";
 import {Target} from "../../../models/target";
 import {Disease} from "../../../models/disease";
-import {concatMap, map, mergeMap, switchMap} from "rxjs/operators";
-import {combineLatest, from, Observable, zip} from "rxjs/index";
+import {combineLatest, forkJoin, from, zip} from "rxjs/index";
+import {map} from "rxjs/operators";
+import {mergeMap} from "rxjs/operators";
 import {concatAll} from "rxjs/operators";
-import {combineAll} from "rxjs/operators";
+
 
 
 @Component({
@@ -90,6 +91,47 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
       case "Bromodomain Inhibitors": {
 
         const targetIDs = ['BRD2','BRD3','BRD4','BRDT'];
+
+/*
+        const targetCalls = from(targetIDs).pipe(
+          mergeMap(id => this.http.get(`https://pharos.ncats.io/idg/api/v1/targets/${id}`))
+        )
+*/
+
+        const targetCalls = forkJoin(
+          targetIDs.map(id => this.http.get(`https://pharos.ncats.io/idg/api/v1/targets/${id}`))
+        ).pipe(concatAll());
+
+
+        console.log(targetCalls);
+
+        targetCalls.subscribe(res=> {
+          console.log(res);
+          return res;
+        })
+
+    /*   const allTargets = zip(targetCalls).subscribe(res => {
+         console.log(res);
+         return res
+       })
+
+
+       const rrr =
+         from(targetIDs)
+          .pipe(
+            map(id => {
+                return this.http.get(`https://pharos.ncats.io/idg/api/v1/targets/${id}`)
+              })
+       );
+
+       const d = combineLatest(rrr).subscribe(res => res);
+
+       console.log(d);
+ */     /*  rrr.subscribe(res => {
+          console.log(res);
+          return res;
+         // this.targets = res;
+        })*/
         // / const targets = targetIDs.pipe(
         //    switchMap(target =>  this.http.get('https://pharos.ncats.io/idg/api/v1/targets/'+target))
         //  )
