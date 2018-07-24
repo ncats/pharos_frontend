@@ -18,10 +18,13 @@ import {Ligand} from "../../../models/ligand";
 import {HttpClient} from "@angular/common/http";
 import {Target} from "../../../models/target";
 import {Disease} from "../../../models/disease";
-import {combineLatest, forkJoin, from, zip} from "rxjs/index";
+import {combineLatest, concat, forkJoin, from, merge, Observable, of, zip} from "rxjs/index";
 import {map} from "rxjs/operators";
 import {mergeMap} from "rxjs/operators";
 import {concatAll} from "rxjs/operators";
+import {combineAll, mergeAll} from "rxjs/operators";
+import {concatMap} from "rxjs/operators";
+import {flatMap} from "tslint/lib/utils";
 
 
 
@@ -91,59 +94,40 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
       case "Bromodomain Inhibitors": {
 
         const targetIDs = ['BRD2','BRD3','BRD4','BRDT'];
+    //    const targetCalls: Observable<any[]> = this.getItems(targetIDs);
+    //   console.log(targetCalls);
+        console.log(from(targetIDs));
+       const targets: Observable<any> =
+        merge(from(targetIDs)
+           .pipe(
+             map(id => this.getData(id)),
+           )
+        );
 
-/*
-        const targetCalls = from(targetIDs).pipe(
-          mergeMap(id => this.http.get(`https://pharos.ncats.io/idg/api/v1/targets/${id}`))
-        )
-*/
 
-        const targetCalls = forkJoin(
-          targetIDs.map(id => this.http.get(`https://pharos.ncats.io/idg/api/v1/targets/${id}`))
-        ).pipe(concatAll());
-
-
-        console.log(targetCalls);
-
-        targetCalls.subscribe(res=> {
+       console.log(targets);
+       const combinedTargets = zip(targets);
+//
+        targets.subscribe(res => {
           console.log(res);
-          return res;
+          return res
         })
 
-    /*   const allTargets = zip(targetCalls).subscribe(res => {
-         console.log(res);
-         return res
-       })
-
-
-       const rrr =
-         from(targetIDs)
-          .pipe(
-            map(id => {
-                return this.http.get(`https://pharos.ncats.io/idg/api/v1/targets/${id}`)
-              })
-       );
-
-       const d = combineLatest(rrr).subscribe(res => res);
-
-       console.log(d);
- */     /*  rrr.subscribe(res => {
+        combinedTargets.subscribe(res => {
           console.log(res);
-          return res;
-         // this.targets = res;
-        })*/
-        // / const targets = targetIDs.pipe(
-        //    switchMap(target =>  this.http.get('https://pharos.ncats.io/idg/api/v1/targets/'+target))
-        //  )
-        targetIDs.forEach(target =>
-          this.http.get('https://pharos.ncats.io/idg/api/v1/targets/'+target).subscribe(res => {
+          return res
+        })
+
+
+     //   targetIDs.forEach(target =>
+       /*   this.http.get('https://pharos.ncats.io/idg/api/v1/targets/'+target).subscribe(res => {
             console.log(res);
             const tgt: Target = res as Target;
             this.targets = this.targets.concat([tgt]).sort((a,b) => b.knowledgeAvailability - a.knowledgeAvailability);
             this.http.get<Disease[]>(tgt._links.href + ('(kind=ix.idg.models.Disease)')).subscribe(res=> this.diseases = this.diseases.concat(res));
             this.http.get<Ligand[]>(tgt._links.href + ('(kind=ix.idg.models.Ligand)')).subscribe(res=> this.ligands = this.ligands.concat(res));
                    }));
-            console.log(this);
+            console.log(this);*/
             break;
           }
       case "Lysomal Storage Disorders":{
@@ -166,15 +150,28 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
             ' end: endNode(r)}]} AS ret RETURN ret LIMIT 25', params: {}});*/
     }
 
-
-
-
-    pick(o, props): any {
-      return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
-    }
-
-    ngOnDestroy(): void {
-      this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    getData(id: string){
+    return this.http.get(`https://pharos.ncats.io/idg/api/v1/targets/${id}`);
   }
-  }
+
+  getItems(ids: string[]): Observable<any> {
+    const obsArr =
+      from(ids)
+      .pipe(
+        map(id =>  this.http.get(`https://pharos.ncats.io/idg/api/v1/targets/${id}`))
+      )
+    console.log(obsArr);
+    return combineLatest(obsArr);
+}
+
+
+pick(o, props): any {
+return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
+}
+
+ngOnDestroy(): void {
+this.ngUnsubscribe.next();
+this.ngUnsubscribe.complete();
+}
+
+}

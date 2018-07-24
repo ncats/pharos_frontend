@@ -237,8 +237,10 @@ export class PharosApiService {
     const cl: Observable<any> = combineLatest(
       this._detailsSource,
       this._detailsUrlSource);
+    console.log(cl);
 
     cl.subscribe(([object, details]) => {
+      console.log([object,details])
       if (details.origin) {
         returnedObject[details.origin] = details.data;
         // this is needed to change details object
