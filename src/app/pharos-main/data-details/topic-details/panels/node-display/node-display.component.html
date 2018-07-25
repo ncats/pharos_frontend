@@ -1,25 +1,15 @@
-<div class = "flex30 toi-grid-list">
-  <div>
-  <mat-card>
-  <mat-card-content>
-    Most Knowledge:
-    {{nodes[0] | json}}
-  </mat-card-content>
-</mat-card>
+<div class = "flex30 toi-grid-list" *ngIf="nodes">
+  <div >
+    <span class = "mat-title">Most Target Knowledge</span>
+    <pharos-target-card [target] = nodes?.mostKnowledge></pharos-target-card>
   </div>
   <div>
-  <mat-card>
-  <mat-card-content>
-    {{nodes[3] | json}}
-  </mat-card-content>
-</mat-card>
+    <span class = "mat-title">Most Druggable Potential</span>
+    <pharos-target-card [target] = nodes?.mostPotential></pharos-target-card>
   </div>
   <div>
-  <mat-card>
-  <mat-card-content>
-    other
-  </mat-card-content>
-</mat-card>
+    <span class = "mat-title">Least Knowledge Available</span>
+    <pharos-target-card [target] = nodes?.leastKnowledge></pharos-target-card>
   </div>
   <div>
     <button mat-fab [color]= "'primary'" routerLink="/topics">All {{path}}...</button>

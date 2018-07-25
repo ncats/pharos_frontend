@@ -93,7 +93,18 @@ export class PharosApiService {
         targetCt: 5,
         publicationCt: 0
       },{
-        id: 3,
+      id: 3,
+      name: 'Regulation of Autophagy',
+      description: 'Any process that modulates the frequency, rate or extent of autophagy. ' +
+    'Autophagy is the process in which cells digest parts of their own cytoplasm. [GOC:dph, GOC:tb] [GO]',
+      url: 'targets/search?facet=GO+Process/regulation%20of%20autophagy&top=100',
+  class: 'target',
+      diseaseCt: 1,
+      ligandCt: 4,
+      targetCt: 50,
+      publicationCt: 0
+    },{
+        id: 4,
         name: 'GPCR: Class F frizzled-type',
         description: 'A family of seven-pass transmembrane cell-surface proteins that combines with LOW DENSITY ' +
         'LIPROTEIN RECEPTOR-RELATED PROTEIN-5 or LOW DENSITY LIPROTEIN RECEPTOR-RELATED PROTEIN-5 to form receptors ' +

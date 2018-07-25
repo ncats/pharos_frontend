@@ -60,6 +60,9 @@ import {DraggableDirective} from "../tools/visualizations/force-directed-graph/d
 import {ClickableNodeDirective} from "../tools/visualizations/force-directed-graph/directives/clickable-node.directive";
 import {ClickableLinkDirective} from "../tools/visualizations/force-directed-graph/directives/clickable-link.directive";
 import {NodeMenuComponent} from "../tools/visualizations/force-directed-graph/components/shared/node-menu/node-menu.component";
+import {TargetCardComponent} from "./data-details/topic-details/panels/target-card/target-card.component";
+import {LigandCardComponent} from "./data-details/topic-details/panels/ligand-card/ligand-card.component";
+import {DiseaseCardComponent} from "./data-details/topic-details/panels/disease-card/disease-card.component";
 
 
 const pharosMainRoutes: Routes = [
@@ -164,6 +167,9 @@ const pharosMainRoutes: Routes = [
     TopicTableComponent,
     TopicDetailsComponent,
     TopicHeaderComponent,
+    TargetCardComponent,
+    LigandCardComponent,
+    DiseaseCardComponent,
     TopicGraphPanelComponent,
     GraphComponent,
     NodeDisplayComponent,
@@ -198,6 +204,9 @@ const pharosMainRoutes: Routes = [
     TopicDetailsComponent,
     TopicHeaderComponent,
     TopicGraphPanelComponent,
+    TargetCardComponent,
+    LigandCardComponent,
+    DiseaseCardComponent,
     NodeDisplayComponent,
     NodeVisualComponent,
     LinkVisualComponent,

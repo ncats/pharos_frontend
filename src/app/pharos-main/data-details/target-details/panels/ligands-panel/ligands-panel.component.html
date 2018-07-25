@@ -1,6 +1,6 @@
-<mat-card class="flex30">
+<mat-card class="flex30"  *ngIf = "drugsDataSource.data.length >0">
   <mat-card-content>
-    <div *ngIf = "drugsDataSource.data.length >0">
+    <div>
     <mat-card-title ><span class="mat-title">Drugs ({{drugsDataSource.data.length}})</span></mat-card-title>
     <mat-paginator #drugPaginator
                    [pageSize]="10"

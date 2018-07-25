@@ -1,0 +1,12 @@
+<mat-card *ngIf="target">
+  <mat-card-content>
+    <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="start stretch">
+      <div fxFlex="95">
+        <pharos-idg-level-indicator [level]="target?.idgTDL"></pharos-idg-level-indicator>
+        <span class="mat-title">{{target?.name}}</span>
+      </div>
+    </div>
+    <pharos-radar-chart [id]="target?.accession"></pharos-radar-chart>
+    {{target?.gene}}
+  </mat-card-content>
+</mat-card>

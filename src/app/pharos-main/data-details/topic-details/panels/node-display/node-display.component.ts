@@ -6,7 +6,7 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./node-display.component.css']
 })
 export class NodeDisplayComponent implements OnInit {
-  @Input() nodes: any[];
+  @Input() nodes: any;
   @Input() path: string;
   constructor() { }
 
