@@ -121,8 +121,9 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
               ))
               merged.subscribe(res => {
                 console.log(res);
-                this.allLigands = res;
-                this.ligands = this.allLigands.slice(0, 20);
+                this.allLigands = res[0];
+                //console.log(this.allLigands.slice(0,20))[0];
+                this.ligands = this.allLigands.slice(0, 20)
               });
 
               /// fff.subscribe(res=> console.log(res));
