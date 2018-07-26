@@ -1,12 +1,12 @@
 <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutAlign="start stretch" class="topic-details-header">
   <ng-template appPharosCustomContent></ng-template>
   <pharos-node-display [nodes] = displayTargets [path] = "'targets'" *ngIf="displayTargets"></pharos-node-display>
-  <pharos-target-table [data] = targets [pageData]="pageData"(pageChange)="paginate($event)" *ngIf="targets"></pharos-target-table>
+  <pharos-target-table [data] = targets [pageData]="targetPageData" (pageChange)="paginateTargets($event)" *ngIf="targets"></pharos-target-table>
  <!-- <pharos-node-display [nodes]=diseases [path] = "'diseases'"></pharos-node-display>
   <pharos-disease-table [data]=diseases></pharos-disease-table>-->
 
 <!--
   <pharos-node-display [nodes]=ligands [path] = "'ligands'"></pharos-node-display>
 -->
-  <pharos-ligand-table [data]=ligands></pharos-ligand-table>
+  <pharos-ligand-table [data]=ligands [pageData]="ligandPageData" (pageChange)="paginateLigands($event)"></pharos-ligand-table>
 </div>

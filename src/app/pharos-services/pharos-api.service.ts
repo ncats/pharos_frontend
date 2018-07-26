@@ -110,7 +110,8 @@ export class PharosApiService {
         'LIPROTEIN RECEPTOR-RELATED PROTEIN-5 or LOW DENSITY LIPROTEIN RECEPTOR-RELATED PROTEIN-5 to form receptors ' +
         'for WNT PROTEINS. Frizzled receptors often couple with HETEROTRIMERIC G PROTEINS and regulate the WNT ' +
         'SIGNALING PATHWAY.',
-        class: 'disease',
+        class: 'targets',
+        url:'targets/search?facet=IDG+Target+Family/GPCR&facet=DTO+Protein+Class+%281%29/Class+F+frizzled-type',
         diseaseCt: 1,
         ligandCt: 4,
         targetCt: 5,
@@ -248,10 +249,7 @@ export class PharosApiService {
     const cl: Observable<any> = combineLatest(
       this._detailsSource,
       this._detailsUrlSource);
-    console.log(cl);
-
     cl.subscribe(([object, details]) => {
-      console.log([object,details])
       if (details.origin) {
         returnedObject[details.origin] = details.data;
         // this is needed to change details object

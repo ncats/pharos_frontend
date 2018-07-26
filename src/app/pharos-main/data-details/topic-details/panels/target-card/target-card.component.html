@@ -6,7 +6,16 @@
         <span class="mat-title">{{target?.name}}</span>
       </div>
     </div>
-    <pharos-radar-chart [id]="target?.accession"></pharos-radar-chart>
+    <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="start stretch">
+      <div fxFlex="95">
+    <pharos-radar-chart  *ngIf = knowledge [data]="knowledge"></pharos-radar-chart>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="start stretch">
+      <div fxFlex="95">
+    <pharos-knowledge-table *ngIf = knowledge [data] = knowledge></pharos-knowledge-table>
+      </div>
+    </div>
     {{target?.gene}}
   </mat-card-content>
 </mat-card>

@@ -42,6 +42,7 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   ngOnInit() {
+    console.log(this);
     this._STRUCTUREURLBASE = this.environmentVariablesService.getStructureImageUrl();
     this._data.subscribe(d => {
       if (this.data) {
@@ -70,15 +71,12 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
 
   setterFunction(): void {
     const ligandsArr = [];
-    console.log(this);
     this.data.forEach(ligand => {
-      console.log(ligand);
     //  const activity: any = this._getActivity(ligand);
       if (!this.ligandsMap.get(ligand.id)) {
         // placeholder to block repetitive calls
         this.ligandsMap.set(ligand.id, {});
         const url = ligand.self ? ligand.self : ligand.href + '?view=full';
-        console.log(url);
         this._http.get<any>(url).subscribe(res => {
           this.ligandsMap.set(ligand.id, res);
           const refid: string = res.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;

@@ -13,8 +13,11 @@
       <div fxFlex="50" class = "kchart full-height" *ngIf="data.knowledge">
         <pharos-radar-chart [data] = data.knowledge [shape]="false" [size] = "'medium'" (click)="openModal()" [origin]="'knowledge'"></pharos-radar-chart>
       </div>
-        <div fxFlex = "50" *ngIf="tableData">
+        <div fxFlex = "50" *ngIf="data.knowledge">
+          <pharos-knowledge-table [data] = data.knowledge></pharos-knowledge-table>
+<!--
           <pharos-generic-table [data]="tableData" [fieldsConfig]="fields" [showPaginator]="false"></pharos-generic-table>
+-->
         </div>
         <br>
         <br>

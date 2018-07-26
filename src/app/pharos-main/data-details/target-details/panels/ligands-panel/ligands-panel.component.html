@@ -1,14 +1,14 @@
-<mat-card class="flex30"  *ngIf = "drugsDataSource.data.length >0">
+<mat-card class="flex30" >
   <mat-card-content>
-    <div>
+    <div  *ngIf = "drugsDataSource.data.length >0">
     <mat-card-title ><span class="mat-title">Drugs ({{drugsDataSource.data.length}})</span></mat-card-title>
-    <mat-paginator #drugPaginator
-                   [pageSize]="10"
-                   [pageSizeOptions]="[5, 10, 20]"
-                   [showFirstLastButtons]="true">
-    </mat-paginator>
+      <pharos-custom-paginator
+        [pageData]="drugPageData"
+        [pageSize]="20"
+        [pageSizeOptions]="[20, 60, 100]"
+        (page)="paginateDrugs($event)"></pharos-custom-paginator>
     <div class="structure-grid">
-    <div *ngFor="let drug of drugsDataSource.connect() | async">
+    <div *ngFor="let drug of drugsDataSource.data">
         <h3 class = "mat-subheading-2">{{drug.name}}</h3>
         <img [src] = drug.imageUrl alt = "image for {{drug.name}}">
         <br>
@@ -18,15 +18,15 @@
     </div>
     </div>
     <mat-divider class = "spaced"></mat-divider>
-    <div>
+    <div  *ngIf = "ligandsDataSource.data.length >0">
     <mat-card-title ><span class="mat-title">Ligands ({{ligandsDataSource.data.length}})</span></mat-card-title>
-    <mat-paginator #ligandPaginator
-                   [pageSize]="10"
-                   [pageSizeOptions]="[5, 10, 20]"
-                   [showFirstLastButtons]="true">
-    </mat-paginator>
+      <pharos-custom-paginator
+        [pageData]="ligandPageData"
+        [pageSize]="20"
+        [pageSizeOptions]="[20, 60, 100]"
+        (page)="paginateLigands($event)"></pharos-custom-paginator>
     <div class ="structure-grid">
-    <div *ngFor="let ligand of ligandsDataSource.connect() | async">
+    <div *ngFor="let ligand of ligandsDataSource.data">
         <h3 class = "mat-subheading-2">{{ligand.name}}</h3>
         <img [src] = ligand.imageUrl alt = "image for {{ligand.name}}">
         <br>

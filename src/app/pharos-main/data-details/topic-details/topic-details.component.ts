@@ -26,7 +26,7 @@ import {combineAll, mergeAll} from "rxjs/operators";
 import {concatMap} from "rxjs/operators";
 import {EnvironmentVariablesService} from "../../../pharos-services/environment-variables.service";
 import {PageData} from "../../../models/page-data";
-
+import {zipAll} from "rxjs/internal/operators";
 
 
 @Component({
@@ -38,8 +38,8 @@ import {PageData} from "../../../models/page-data";
 export class TopicDetailsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   path: string;
   topic: Topic;
-  allTargets : Target[] = [];
-  targets : Target[] = [];
+  allTargets: Target[] = [];
+  targets: Target[] = [];
   ligands: Ligand[] = [];
   allLigands: Ligand[] = [];
   diseases: Disease[] = [];
@@ -53,13 +53,12 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
 
 
-  constructor(
-    private _injector: Injector,
-    private http: HttpClient,
-    private environmentVariablesService: EnvironmentVariablesService,
-    @Inject(forwardRef(() => ComponentLookupService)) private componentLookupService,
-    private dataDetailsResolver: DataDetailsResolver,
-    private componentInjectorService: ComponentInjectorService) {
+  constructor(private _injector: Injector,
+              private http: HttpClient,
+              private environmentVariablesService: EnvironmentVariablesService,
+              @Inject(forwardRef(() => ComponentLookupService)) private componentLookupService,
+              private dataDetailsResolver: DataDetailsResolver,
+              private componentInjectorService: ComponentInjectorService) {
     super();
     this._apiUrl = this.environmentVariablesService.getApiPath();
   }
@@ -93,11 +92,12 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
         this._data
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(res => {
-            this.targetsMap.clear();
-            childComponent.instance.data = res.object;
-            // childComponent.instance.id = obj.object.id;
-            // childComponent.instance.topic = obj.object;
-            if (this.data.topicTargets) {
+            if (res.object && res.topicTargets) {
+              console.log("unsubscribe");
+              this.ngUnsubscribe.next();
+              console.log(res);
+              this.targetsMap.clear();
+              childComponent.instance.data = res.object;
               this.allTargets = this.data.topicTargets.content;
               this.data.topicTargets.content.map(target => {
                 const targets = this.targetsMap.get(target.idgTDL);
@@ -109,22 +109,8 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
                   this.targetsMap.set(target.idgTDL, [target]);
                 }
               });
-              const targetLigands = this.targetsMap.get('Tchem').concat(this.targetsMap.get('Tclin'));
-
-              const ligandsObserv: Observable<any>[] = targetLigands.map(target => {
-                const url = this._apiUrl + `targets/${target.id}/links(kind=ix.idg.models.Ligand)`;
-                return this.getData(url);
-              });
-
-              const merged = zip(from(ligandsObserv).pipe(
-                mergeAll()
-              ))
-              merged.subscribe(res => {
-                console.log(res);
-                this.allLigands = res[0];
-                //console.log(this.allLigands.slice(0,20))[0];
-                this.ligands = this.allLigands.slice(0, 20)
-              });
+              console.log(this.targetsMap);
+           //   this.getLigands();
 
               /// fff.subscribe(res=> console.log(res));
 
@@ -135,6 +121,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
               this.displayTargets = {
                 mostKnowledge: this.targetsMap.get(highestLevel).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0],
                 mostPotential: this.targetsMap.get(mostPotential).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0],
+                mostPotentialDarkest: this.targetsMap.get(lowestLevel).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0],
                 leastKnowledge: this.targetsMap.get(lowestLevel).sort((a, b) => a.knowledgeAvailability - b.knowledgeAvailability)[0]
               }
 
@@ -144,8 +131,9 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
               this.targets = this.data.topicTargets.content.slice(this.targetPageData.skip, this.targetPageData.top);
 
 
+            } else {
+              console.log("still waiting");
             }
-
           });
       });
     }
@@ -224,56 +212,82 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   }
 
 
-    getData(url: string){
+  getData(url: string) {
     return this.http.get(url);
   }
 
-  getItems(ids: string[]) {
-    const obsArr =
-        ids.map(id => this.http.get(`https://pharos.ncats.io/idg/api/v1/targets/${id}`));
-    console.log(obsArr);
-    return obsArr;
-}
+  getLigands() {
+    const targetLigands = this.targetsMap.get('Tchem').concat(this.targetsMap.get('Tclin'));
 
-paginateTargets($event) {
+    const ligandsObserv: Observable<any>[] = targetLigands.map(target => {
+      const url = `${this._apiUrl}targets/${target.id}/links(kind=ix.idg.models.Ligand)`;
+      return this.getData(url);
+    });
+
+    const merged = from(ligandsObserv).pipe(
+      takeUntil(this.ngUnsubscribe),
+      mergeAll()
+    )
+    merged.subscribe(res => {
+      console.log(res);
+      this.allLigands = this.allLigands.concat(res);
+      //console.log(this.allLigands.slice(0,20))[0];
+    });
+
+    let pd = new PageData({});
+    pd.top = 10;
+    pd.total = this.allLigands.length;
+    pd.skip = 0;
+    pd.count = 10;
+    this.targetPageData = pd;
+    this.ligands = this.allLigands.slice(this.targetPageData.skip, this.targetPageData.top);
+  }
+
+  paginateTargets($event) {
     console.log($event);
-    this.targets = this.allTargets.slice($event.pageIndex*$event.pageSize, ($event.pageIndex + 1)*$event.pageSize)
-}
+    this.targets = this.allTargets.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize)
+  }
 
-getHighestLevel(potential?: boolean): string {
+  paginateLigands($event) {
+    console.log($event);
+    this.ligands = this.allLigands.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize)
+  }
+
+  getHighestLevel(potential?: boolean): string {
+    console.log(this.targetsMap);
     const levels = Array.from(this.targetsMap.keys());
-    if(!potential && levels.includes('Tchem')){
+    if (!potential && levels.includes('Tclin')) {
+      return 'Tclin';
+    } else if (!potential && levels.includes('Tchem')) {
       return 'Tchem';
-    } else if(!potential && levels.includes('Tclin')){
-      return 'Tclin';
-    } else if(levels.includes('Tbio')){
+    } else if (levels.includes('Tbio')) {
       return 'Tbio';
     } else {
       return 'Tdark';
     }
-}
+  }
 
-getLowestLevel(potential?: boolean): string {
+  getLowestLevel(potential?: boolean): string {
     const levels = Array.from(this.targetsMap.keys());
-    if(levels.includes('Tdark')){
+    if (levels.includes('Tdark')) {
       return 'Tdark';
-    } else if(levels.includes('Tbio')){
+    } else if (levels.includes('Tbio')) {
       return 'Tbio';
-    } else if(levels.includes('Tclin')){
+    } else if (levels.includes('Tclin')) {
       return 'Tclin';
     } else {
       return 'Tbio';
     }
-}
+  }
 
 
-pick(o, props): any {
-return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
-}
+  pick(o, props): any {
+    return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
+  }
 
-ngOnDestroy(): void {
-this.ngUnsubscribe.next();
-this.ngUnsubscribe.complete();
-}
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
 
 }

@@ -74,7 +74,16 @@ export class PathResolverService {
    */
   navigate(path?: string): void {
       const facetList = [];
-      this._facets.forEach(facet => facet.fields.map(field => facetList.push(this._makeFacetString(facet.facet, field))));
+      console.log(this._facets);
+      let q: string;
+      this._facets.forEach(facet => {
+        if(facet.facet ==="query"){
+          q = facet.fields[0];
+        }else {
+          facet.fields.map(field => facetList.push(this._makeFacetString(facet.facet, field)))
+
+        }
+      });
 
       /**
        * forces to first page on facet changes
@@ -82,12 +91,20 @@ export class PathResolverService {
        */
       const navigationExtras: NavigationExtras = {
         queryParams: {
-          facet: facetList.length > 0 ? facetList : null,
           top: null,
           skip: null
         },
         queryParamsHandling: ''
       };
+
+      if(q){
+        navigationExtras.queryParams.q = q;
+        navigationExtras.queryParams.facet = facetList.length > 0 ? facetList : null;
+      } else {
+        navigationExtras.queryParams.facet = facetList.length > 0 ? facetList : null;
+      }
+
+      console.log(navigationExtras);
       this._router.onSameUrlNavigation = 'reload'; // forces reload since this is the same navigation url
       if (path) { // move up a level
         this._router.navigate([path], navigationExtras);

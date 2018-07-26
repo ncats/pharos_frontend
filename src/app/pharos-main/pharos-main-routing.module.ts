@@ -63,6 +63,7 @@ import {NodeMenuComponent} from "../tools/visualizations/force-directed-graph/co
 import {TargetCardComponent} from "./data-details/topic-details/panels/target-card/target-card.component";
 import {LigandCardComponent} from "./data-details/topic-details/panels/ligand-card/ligand-card.component";
 import {DiseaseCardComponent} from "./data-details/topic-details/panels/disease-card/disease-card.component";
+import {KnowledgeTableComponent} from "../tools/knowledge-table/knowledge-table.component";
 
 
 const pharosMainRoutes: Routes = [

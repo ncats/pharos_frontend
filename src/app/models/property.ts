@@ -16,15 +16,20 @@ export class Property {
   }
 
   getData(): string {
+    let ret ='';
     if(this.label ==='pvalue'){
-      return this.exponential;
+      ret = this.exponential;
     } else if (!this.term && this.numval) {
-        return this.numval.toFixed(2).toString();
+      ret = this.numval.toFixed(2).toString();
       }
       else if(!this.term && this.intval) {
-      return this.intval.toFixed(2).toString();
-    } else {
-      return this.term;
+      ret = this.intval.toFixed(2).toString() || '0';
+    } else if(!this.term){
+      ret = '0';
     }
+    else {
+      ret = this.term;
+    }
+return ret;
   }
 }

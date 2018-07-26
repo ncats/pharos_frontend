@@ -19,20 +19,8 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
   @Input() target: Target;
 
   timelines: any[] = [];
-  radarOptions: any;
-  tableData: any[];
   tlMap: Map<string, any> = new Map<string, any>();
 
-  fields: TableData[] = [
-    new TableData({
-      name: 'field',
-      label: 'Field'
-    }),
-    new TableData( {
-      name: 'value',
-      label: 'Knowledge Value'
-    })
-  ];
   // todo: known bug in angular prevents this from working. Angular 6 may fix it, but flex would also need to be updated.
   // todo: https://github.com/angular/angular/issues/11716 https://github.com/angular/angular/issues/8785
 /*  @HostBinding('attr.fxFlex')
@@ -55,16 +43,6 @@ ngOnInit() {
       //    takeWhile(() => !this.data['references'])
     )
     .subscribe(x => {
-      if(this.data.knowledge && this.data.knowledge[0].axes.length > 0){
-        this.tableData = [];
-        this.data.knowledge[0].axes.slice(0).sort((a,b) => b.value - a.value).slice(0,5).forEach(
-          field => this.tableData.push(
-            {
-        field: new Property({label: field.axis, term: field.axis}),
-        value: new Property({label: field.axis, numval: field.value})
-        })
-        );
-      }
       if (this.data.timelines) {
         this.fetchTimelineData();
       }

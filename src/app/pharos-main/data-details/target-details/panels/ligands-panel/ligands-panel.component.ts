@@ -5,6 +5,7 @@ import {Property} from '../../../../../models/property';
 import {HttpClient} from '@angular/common/http';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {Ligand} from "../../../../../models/ligand";
+import {PageData} from "../../../../../models/page-data";
 
 
 @Component({
@@ -12,22 +13,14 @@ import {Ligand} from "../../../../../models/ligand";
   templateUrl: './ligands-panel.component.html',
   styleUrls: ['./ligands-panel.component.css']
 })
-export class LigandsPanelComponent extends DynamicPanelComponent implements OnInit, AfterViewInit {
-
-  /**
-   * todo this may need to be removed, it is to temporarily take data to display topics ligands
-   */
-  @Input() ligands?: Ligand[];
-
+export class LigandsPanelComponent extends DynamicPanelComponent implements OnInit {
+  allLigands: Ligand[];
+  allDrugs: Ligand[];
   ligandsMap: Map<string, any> = new Map<string, any>();
-  drugsDataSource: MatTableDataSource<any[]> = new MatTableDataSource<any[]>();
-  ligandsDataSource: MatTableDataSource<any[]> = new MatTableDataSource<any[]>();
-
-  /* Paginator object from Angular Material */
-  @ViewChild(MatPaginator) drugPaginator: MatPaginator;
-
-  /* Paginator object from Angular Material */
-  @ViewChild(MatPaginator) ligandPaginator: MatPaginator;
+  drugsDataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
+  ligandsDataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
+  ligandPageData: PageData;
+  drugPageData: PageData;
 
   private _STRUCTUREURLBASE: string;
   constructor(
@@ -38,7 +31,6 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
   }
 
   ngOnInit() {
-    if(this.ligands){ this.data = this.ligands};
     this._STRUCTUREURLBASE = this.environmentVariablesService.getStructureImageUrl();
     this._data.subscribe(d => {
       if (this.data.ligands) {
@@ -47,13 +39,8 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
     });
   }
 
-  ngAfterViewInit() {
-    this.drugsDataSource.paginator = this.drugPaginator;
-    this.ligandsDataSource.paginator = this.ligandPaginator;
-    this.changeDetector.detectChanges();
-  }
-
   setterFunction(): void {
+    console.log(this);
     const ligandsArr = [];
     const drugsArr = [];
       this.data.ligands.forEach(ligand => {
@@ -64,26 +51,57 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
           this._http.get<any>(ligand.href + '?view=full').subscribe(res => {
             this.ligandsMap.set(ligand.id, res);
             const refid: string = res.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;
-              const lig = {
-               name: res.name,
-               refid: refid,
-               activityType: activity.label === 'Potency' ? activity.label : 'p' + activity.label,
-               activity: activity.numval,
-               imageUrl: this._STRUCTUREURLBASE + refid + '.svg?size=250'
-             };
-              const drug = res.properties.filter( prop => prop.label === 'Ligand Drug');
-              if (drug.length > 0 && drug[0].term === 'YES') {
-                drugsArr.push(lig);
-              } else {
-                ligandsArr.push(lig);
+            const lig = {
+              name: res.name,
+              refid: refid,
+              activityType: activity.label === 'Potency' ? activity.label : 'p' + activity.label,
+              activity: activity.numval,
+              imageUrl: this._STRUCTUREURLBASE + refid + '.svg?size=250'
+            };
+            const drug = res.properties.filter(prop => prop.label === 'Ligand Drug');
+            if (drug.length > 0 && drug[0].term === 'YES') {
+              drugsArr.push(lig);
+            } else {
+              ligandsArr.push(lig);
+            }
+            this.allDrugs = drugsArr;
+            this.allLigands = ligandsArr;
+            console.log(this.allLigands.length)
+            this.ligandPageData = new PageData(
+              {
+                top: 10,
+                skip: 0,
+                total: this.allLigands.length,
+                count: 10
               }
-            this.ligandsDataSource.data = ligandsArr;
-            this.drugsDataSource.data = drugsArr;
+            );
+            this.drugPageData = new PageData(
+              {
+                top: 10,
+                skip: 0,
+                total: this.allDrugs.length,
+                count: 10
+              }
+            );
+
+          this.ligandsDataSource.data = this.allLigands.slice(this.ligandPageData.skip, this.ligandPageData.top);
+           this.drugsDataSource.data = this.allDrugs.slice(this.drugPageData.skip, this.drugPageData.top);
+           this.changeDetector.detectChanges();
           });
         }
       });
 
     }
+
+paginateDrugs($event) {
+  console.log($event);
+  this.drugsDataSource.data = this.allDrugs.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize)
+}
+
+paginateLigands($event) {
+  console.log($event);
+  this.ligandsDataSource.data = this.allLigands.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize)
+}
 
     private _getActivity(ligand: any): string {
     let ret: any = {};

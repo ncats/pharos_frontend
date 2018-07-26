@@ -66,10 +66,12 @@ export class BreadcrumbComponent implements OnInit {
     const pt = this.pathResolverService.getPath();
     this.path = {term: pt, label: pt};
     this._data.subscribe(x => {
-      if(this.data.dto && this.data.dto.length > 0) {
-        this.links = this.data.dto.sort((a, b) =>  b.label < a.label);
-      } else  if(this.data.breadcrumb && this.data.breadcrumb.length > 0) {
+      if(this.data) {
+        if (this.data.dto && this.data.dto.length > 0) {
+          this.links = this.data.dto.sort((a, b) => b.label < a.label);
+        } else if (this.data.breadcrumb && this.data.breadcrumb.length > 0) {
           this.links = this.data.breadcrumb.sort((a, b) => b.label < a.label);
+        }
       }
     });
   }

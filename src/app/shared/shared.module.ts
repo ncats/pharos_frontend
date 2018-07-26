@@ -29,6 +29,7 @@ import {HelpDataService} from "../tools/help-panel/services/help-data.service";
 import {HelpPanelOpenerService} from "../tools/help-panel/services/help-panel-opener.service";
 import {NgxJsonViewerModule} from "ngx-json-viewer";
 import {PropertyDisplayComponent} from "../tools/property-display/property-display.component";
+import {KnowledgeTableComponent} from "../tools/knowledge-table/knowledge-table.component";
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import {PropertyDisplayComponent} from "../tools/property-display/property-displ
     ToiCardComponent,
     PharosTabsComponent,
     HelpPanelComponent,
-    HelpPanelTriggerComponent
+    HelpPanelTriggerComponent,
+    KnowledgeTableComponent
   ],
   providers: [
     HelpDataService,
@@ -90,7 +92,8 @@ import {PropertyDisplayComponent} from "../tools/property-display/property-displ
     ToiCardComponent,
     PharosTabsComponent,
     HelpPanelComponent,
-    HelpPanelTriggerComponent
+    HelpPanelTriggerComponent,
+    KnowledgeTableComponent
   ]
 })
 export class SharedModule {
