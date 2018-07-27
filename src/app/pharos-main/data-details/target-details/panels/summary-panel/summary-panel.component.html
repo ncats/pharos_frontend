@@ -15,21 +15,15 @@
       </div>
         <div fxFlex = "50" *ngIf="data.knowledge">
           <pharos-knowledge-table [data] = data.knowledge></pharos-knowledge-table>
-<!--
-          <pharos-generic-table [data]="tableData" [fieldsConfig]="fields" [showPaginator]="false"></pharos-generic-table>
--->
         </div>
         <br>
         <br>
       </div>
-  <!--
-    <ng-container *ngIf="data.pubmed?.length > 0">
-      <br>
-      <mat-card-subtitle>NCBI Gene PubMed Count</mat-card-subtitle>
-    <ul class ="inline-list wrap">
-      <li *ngFor=" let term of data.pubmed">{{term.intval}}</li>
-    </ul>-->
 
+    <div>
+      <div *ngIf=" loading" class = "loadingIcon" fxLayoutAlign="center center">
+        <mat-spinner></mat-spinner>
+      </div>
     <ng-container *ngIf="getTimeline('PubMed Score')?.length >0">
       <div fxLayout="row" fxLayoutAlign="start stretch" >
       <div fxFlex="95">
@@ -63,6 +57,7 @@
       </div>
       </div>
       </ng-container>
+    </div>
   </mat-card-content>
 </mat-card>
 <br>

@@ -1,7 +1,7 @@
 <mat-card class="flex30" >
   <mat-card-content>
     <div  *ngIf = "drugsDataSource.data.length >0">
-    <mat-card-title ><span class="mat-title">Drugs ({{drugsDataSource.data.length}})</span></mat-card-title>
+    <mat-card-title ><span class="mat-title">Drugs ({{allDrugs.length}})</span></mat-card-title>
       <pharos-custom-paginator
         [pageData]="drugPageData"
         [pageSize]="20"
@@ -19,7 +19,7 @@
     </div>
     <mat-divider class = "spaced"></mat-divider>
     <div  *ngIf = "ligandsDataSource.data.length >0">
-    <mat-card-title ><span class="mat-title">Ligands ({{ligandsDataSource.data.length}})</span></mat-card-title>
+    <mat-card-title ><span class="mat-title">Ligands ({{allLigands.length}})</span></mat-card-title>
       <pharos-custom-paginator
         [pageData]="ligandPageData"
         [pageSize]="20"

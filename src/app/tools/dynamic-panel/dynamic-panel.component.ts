@@ -10,6 +10,7 @@ import {BehaviorSubject, Subject} from 'rxjs';
   template: ''
 })
 export class DynamicPanelComponent {
+  loading = true;
   // todo: check to make sure all extending components are using this subject
   /**
    * Behaviour subject to allow extending class to unsubscribe on destroy

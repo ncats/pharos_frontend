@@ -7,6 +7,7 @@ import {EnvironmentVariablesService} from '../../../../../pharos-services/enviro
 import {Ortholog} from "../../../../../models/ortholog";
 import {TableData} from "../../../../../models/table-data";
 import {DiseaseRelevance} from "../../../../../models/disease-relevance";
+import {takeUntil} from "rxjs/operators";
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 @Component({
@@ -91,48 +92,53 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
       .pipe(
-        // todo: this unsubscribe doesn't seem to work
-        //    takeWhile(() => !this.data['references'])
+        takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-
-        if (this.data.expression) {
-          this.tissueData.clear();
-          this.mapTissueData();
-          this.radarData = this.setRadarData();
-          this.hgData = this.tissueData.get(this.sources[0].label);
-          this.imgUrl = this._URL + this.sources[0].name;
-        }
-        if (this.data.differential) {
-          this.tableArr = [];
-          this.diseaseSources = this.data.differential.filter(term =>
-            term.properties.filter(prop => prop.term === 'Expression Atlas').length > 0);
-          this.diseaseSources.forEach(dr => {
-            // create new disease relevance object to get Property class properties
-            const readDR = new DiseaseRelevance(dr);
-            // get array of diseases from source map
-            const tableData: any = {};
-            readDR.properties.forEach(prop => {
-              tableData[prop.label] = new Property(prop);
-            });
-            this.tableArr.push(tableData);
-          })
-        }
-
-
-        if (this.data.orthologs) {
-          this.orthologs = [];
-          const temp: Ortholog[] = [];
-          this.data.orthologs.forEach(obj => {
-            // create new object to get Property class properties
-            const newObj: Ortholog = new Ortholog(obj);
-            // get source label
-            const labelProp: Property = new Property(newObj.properties.filter(prop => prop.label === 'Ortholog Species')[0]);
-            const dataSources: Property[] = newObj.properties.filter(prop => prop.label === 'Data Source').map(lab => new Property(lab));
-            this.orthologs.push({species: labelProp, source: dataSources});
-          });
+        if (Object.values(this.data).length > 0) {
+          this.ngUnsubscribe.next();
+          this.setterFunction();
         }
       });
+  }
+
+  setterFunction() {
+    if (this.data.expression) {
+      this.tissueData.clear();
+      this.mapTissueData();
+      this.radarData = this.setRadarData();
+      this.hgData = this.tissueData.get(this.sources[0].label);
+      this.imgUrl = this._URL + this.sources[0].name;
+    }
+    if (this.data.differential) {
+      this.tableArr = [];
+      this.diseaseSources = this.data.differential.filter(term =>
+        term.properties.filter(prop => prop.term === 'Expression Atlas').length > 0);
+      this.diseaseSources.forEach(dr => {
+        // create new disease relevance object to get Property class properties
+        const readDR = new DiseaseRelevance(dr);
+        // get array of diseases from source map
+        const tableData: any = {};
+        readDR.properties.forEach(prop => {
+          tableData[prop.label] = new Property(prop);
+        });
+        this.tableArr.push(tableData);
+      })
+    }
+
+
+    if (this.data.orthologs) {
+      this.orthologs = [];
+      const temp: Ortholog[] = [];
+      this.data.orthologs.forEach(obj => {
+        // create new object to get Property class properties
+        const newObj: Ortholog = new Ortholog(obj);
+        // get source label
+        const labelProp: Property = new Property(newObj.properties.filter(prop => prop.label === 'Ortholog Species')[0]);
+        const dataSources: Property[] = newObj.properties.filter(prop => prop.label === 'Data Source').map(lab => new Property(lab));
+        this.orthologs.push({species: labelProp, source: dataSources});
+      });
+    }
   }
 
   mapTissueData(): void {

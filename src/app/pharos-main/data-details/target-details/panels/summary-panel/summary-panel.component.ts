@@ -5,8 +5,8 @@ import {RadarChartComponent} from '../../../../../tools/visualizations/radar-cha
 import {MatDialog} from '@angular/material';
 import {PharosPoint} from '../../../../../tools/visualizations/line-chart/line-chart.component';
 import {Target} from '../../../../../models/target';
-import {TableData} from "../../../../../models/table-data";
-import {Property} from "../../../../../models/property";
+import {takeWhile, takeUntil} from "rxjs/operators";
+
 
 
 @Component({
@@ -15,7 +15,6 @@ import {Property} from "../../../../../models/property";
   styleUrls: ['./summary-panel.component.css']
 })
 export class SummaryPanelComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
-  loaded = false;
   @Input() target: Target;
 
   timelines: any[] = [];
@@ -40,12 +39,17 @@ ngOnInit() {
   // Unsubscribe once term has value
     .pipe(
       // todo: this unsubscribe doesn't seem to work
-      //    takeWhile(() => !this.data['references'])
+      takeUntil(this.ngUnsubscribe)
     )
     .subscribe(x => {
-      if (this.data.timelines) {
-        this.fetchTimelineData();
+      if(Object.values(this.data).length > 0) {
+        this.ngUnsubscribe.next();
+        if (this.data.timelines) {
+          this.fetchTimelineData();
+        }
       }
+     // console.log(Object.values(this.data).length > 0);
+
     });
 }
 
@@ -73,6 +77,7 @@ fetchTimelineData(): void {
         });
         this.tlMap.set(timeline.id, data);
         this.tlMap.set(res.name, data);
+        this.loading = false;
       });
     }
   });

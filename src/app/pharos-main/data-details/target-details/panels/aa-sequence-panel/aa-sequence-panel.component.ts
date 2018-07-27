@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {takeUntil} from "rxjs/operators";
 
 @Component({
   selector: 'pharos-aa-sequence-panel',
@@ -15,12 +16,23 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
   }
 
   ngOnInit() {
-    this._data.subscribe(d => {
-      if (this.data.sequence && this.data.sequence.length > 0) {
-        this.parseSequence();
-        this.getCounts();
-      }
-  });
+    this._data
+    // listen to data as long as term is undefined or null
+    // Unsubscribe once term has value
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(x => {
+        if (Object.values(this.data).length > 0) {
+          this.ngUnsubscribe.next();
+          this.setterFunction();
+        }
+      });
+  }
+
+  setterFunction(){
+    this.parseSequence();
+    this.getCounts();
   }
 
   getCounts(): void {

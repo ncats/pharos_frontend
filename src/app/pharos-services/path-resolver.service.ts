@@ -130,6 +130,7 @@ export class PathResolverService {
    * @param {ParamMap} map
    */
   mapToFacets(map: ParamMap): void {
+    console.log(map);
     const fList = map.getAll('facet');
     fList.forEach(facet => {
       const fArr = facet.split('/');

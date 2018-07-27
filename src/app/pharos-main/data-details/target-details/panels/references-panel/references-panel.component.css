@@ -10,4 +10,13 @@
   max-width: calc(100% - 20px);
 }
 
+.loadingIcon {
+  position: absolute;
+  top:0;
+  left:0;
+  height:100%;
+  width:100%;
+  background-color: rgba(0,0,0,0.3); /* Black background with opacity */
+  z-index: 666;
 
+}

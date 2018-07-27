@@ -1,13 +1,16 @@
 <mat-card class="flex30">
 <mat-card-header>
-    <mat-card-title ><span class="mat-title">References ({{dataSource?.data?.length}})</span></mat-card-title>
+    <mat-card-title ><span class="mat-title">References ({{target._publications.count}})</span></mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <mat-paginator #paginator
-                   [pageSize]="10"
-                   [pageSizeOptions]="[5, 10, 20]"
-                   [showFirstLastButtons]="true">
-    </mat-paginator>
+    <pharos-custom-paginator
+      [pageData]="referencePageData"
+      [pageSize]="20"
+      [pageSizeOptions]="[20, 60, 100]"
+      (page)="paginateReferences($event)"></pharos-custom-paginator>
+    <div *ngIf=" loading" class = "loadingIcon" fxLayoutAlign="center center">
+      <mat-spinner></mat-spinner>
+    </div>
 <mat-table [dataSource]="dataSource" matSort>
   <ng-container matColumnDef="pmid">
     <mat-header-cell *matHeaderCellDef class="width10">PMID</mat-header-cell>

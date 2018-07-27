@@ -27,6 +27,7 @@ import {concatMap} from "rxjs/operators";
 import {EnvironmentVariablesService} from "../../../pharos-services/environment-variables.service";
 import {PageData} from "../../../models/page-data";
 import {zipAll} from "rxjs/internal/operators";
+import {MatTabChangeEvent} from "@angular/material";
 
 
 @Component({
@@ -280,6 +281,10 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
     }
   }
 
+  changeTab($event: MatTabChangeEvent){
+    console.log($event)
+    console.log($event.tab.textLabel);
+  }
 
   pick(o, props): any {
     return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));

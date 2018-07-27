@@ -3,6 +3,7 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {Publication} from '../../../../../models/publication';
 import {HttpClient} from '@angular/common/http';
+import {takeUntil, takeWhile} from "rxjs/operators";
 
 @Component({
   selector: 'pharos-assay-panel',
@@ -29,12 +30,12 @@ export class AssayPanelComponent extends DynamicPanelComponent implements OnInit
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
       .pipe(
-        // todo: this unsubscribe doesn't seem to work
-        //    takeWhile(() => !this.data['references'])
+        takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (this.data.assays && this.data.assays.length > 0) {
-          this.fetchData();
+        if (Object.values(this.data).length > 0) {
+          this.ngUnsubscribe.next();
+          this.setterFunction();
         }
       });
   }
@@ -45,7 +46,7 @@ export class AssayPanelComponent extends DynamicPanelComponent implements OnInit
 
   // todo generic table was unable to update - this is either from a problem in material or the nested async calls
   // todo use rxjs to merge calls and return (some examples have 89+ results though)
-  fetchData() {
+  setterFunction() {
     const tableArr = [];
     this.data.assays.forEach(assay => {
       if (assay.href && !this.assayMap.get(assay.id)) {

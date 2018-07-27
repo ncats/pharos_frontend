@@ -6,6 +6,7 @@ import {BehaviorSubject} from 'rxjs';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {LineChartOptions, PharosPoint} from '../../../../../tools/visualizations/line-chart/line-chart.component';
 import {Property} from "../../../../../models/property";
+import {takeUntil, takeWhile} from "rxjs/operators";
 
 // skipping log2foldchange property
 const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
@@ -71,14 +72,19 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
-      .pipe(
-        // todo: this unsubscribe doesn't seem to work
-        //    takeWhile(() => !this.data['references'])
-      )
-      .subscribe(x => this.setterFunction());
+  .pipe(
+      takeUntil(this.ngUnsubscribe)
+    )
+      .subscribe(x => {
+        if (Object.values(this.data).length > 0) {
+          this.ngUnsubscribe.next();
+          this.setterFunction();
+        }
+      });
   }
 
   setterFunction(): void {
+    console.log(this.data);
     if (this.data.diseaseSources && this.data.diseaseSources.length > 0) {
       const sources = this.data.diseaseSources;
       this.sourceMap.clear();

@@ -6,48 +6,69 @@ import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Publication} from '../../../../../models/publication';
 import {BehaviorSubject} from 'rxjs';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {takeWhile} from 'rxjs/operators';
+import {takeUntil, takeWhile} from 'rxjs/operators';
+import {PageData} from "../../../../../models/page-data";
+import {HttpClient} from "@angular/common/http";
+import {Target} from "../../../../../models/target";
 
 @Component({
   selector: 'pharos-references-panel',
   templateUrl: './references-panel.component.html',
   styleUrls: ['./references-panel.component.css']
 })
-export class ReferencesPanelComponent extends DynamicPanelComponent implements OnInit, AfterViewInit {
- // data: any;
+export class ReferencesPanelComponent extends DynamicPanelComponent implements OnInit {
   displayColumns: string[] = ['pmid', 'year', 'title'];
-  dataSource = new MatTableDataSource<Publication[]>();
- /* Paginator object from Angular Material */
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
+  dataSource: any = new MatTableDataSource<Publication[]>();
+  referencePageData: PageData;
+  target: Target;
   /**Sort object from Angular Material */
   @ViewChild(MatSort) sort: MatSort;
 
-  width: number;
-
-  constructor() {
+  allReferences: Publication[];
+  constructor(
+    private http: HttpClient
+  ) {
     super();
   }
 
   ngOnInit() {
-  //  this.data = {references: []};
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
       .pipe(
-        // todo: this unsubscribe doesn't seem to work
-       //    takeWhile(() => !this.data['references'])
+        takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (this.data.references && this.data.references.length > 0) {
-          this.dataSource.data = this.data.references;
+        if (Object.values(this.data).length > 0) {
+          this.ngUnsubscribe.next();
+           this.setterFunction();
         }
       });
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  // todo: this needs to be a
+  setterFunction(){
+    this.dataSource.data = this.data.references;
+    this.allReferences = this.data.references;
+    this.loading = false;
+    this.referencePageData = new PageData(
+      {
+        top: 10,
+        skip: 0,
+        total: this.target._publications.count,
+        count: 10
+      }
+    );
   }
+
+paginateReferences($event) {
+  this.loading = true;
+    this.http.get(`${this.target._publications.href}?top=${$event.pageSize}&skip=${($event.pageIndex) * $event.pageSize}`)
+      .subscribe(res => {
+        this.dataSource.data = res;
+        this.loading = false;
+      });
+  }
+
 
 }

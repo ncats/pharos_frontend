@@ -6,6 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {Ligand} from "../../../../../models/ligand";
 import {PageData} from "../../../../../models/page-data";
+import {takeUntil, takeWhile} from "rxjs/operators";
 
 
 @Component({
@@ -28,19 +29,26 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
     private environmentVariablesService: EnvironmentVariablesService,
     private _http: HttpClient) {
     super();
+    this._STRUCTUREURLBASE = this.environmentVariablesService.getStructureImageUrl();
   }
 
-  ngOnInit() {
-    this._STRUCTUREURLBASE = this.environmentVariablesService.getStructureImageUrl();
-    this._data.subscribe(d => {
-      if (this.data.ligands) {
-        this.setterFunction();
-      }
-    });
-  }
+    ngOnInit() {
+      this._data
+      // listen to data as long as term is undefined or null
+      // Unsubscribe once term has value
+        .pipe(
+          takeUntil(this.ngUnsubscribe)
+        )
+        .subscribe(x => {
+          if (Object.values(this.data).length > 0) {
+            this.ngUnsubscribe.next();
+            this.setterFunction();
+          }
+        });
+    }
+
 
   setterFunction(): void {
-    console.log(this);
     const ligandsArr = [];
     const drugsArr = [];
       this.data.ligands.forEach(ligand => {
@@ -66,7 +74,6 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
             }
             this.allDrugs = drugsArr;
             this.allLigands = ligandsArr;
-            console.log(this.allLigands.length)
             this.ligandPageData = new PageData(
               {
                 top: 10,

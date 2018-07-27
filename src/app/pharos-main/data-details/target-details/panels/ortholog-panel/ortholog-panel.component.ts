@@ -3,6 +3,7 @@ import {TableData} from '../../../../../models/table-data';
 import {MatTabChangeEvent} from '@angular/material';
 import {Ortholog} from '../../../../../models/ortholog';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {takeUntil} from "rxjs/operators";
 
 @Component({
   selector: 'pharos-ortholog-panel',
@@ -37,15 +38,18 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
       .pipe(
-        // todo: this unsubscribe doesn't seem to work
-        //    takeWhile(() => !this.data['references'])
+        takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-       this.tableArr = this.data;
-        // this.setterFunction();
+        if (Object.values(this.data).length > 0) {
+          this.ngUnsubscribe.next();
+          this.tableArr = this.data;
+          // this.setterFunction();
+        }
       });
   }
 
+  // todo: this needs to be examined if ortholog becomes a standalone panel
   setterFunction(): void {
     if (this.data.orthologs) {
       this.tableArr = [];
