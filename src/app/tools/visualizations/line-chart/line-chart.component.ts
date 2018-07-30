@@ -98,9 +98,10 @@ export class LineChartComponent  implements OnInit, OnDestroy {
    */
   @Input()
   set data(value: any) {
-    console.log(value);
-    value = value.sort((a, b) => a.key - b.key);
-    this._data.next(value);
+    if(value) {
+      value = value.sort((a, b) => a.key - b.key);
+      this._data.next(value);
+    }
   }
 
   /**
@@ -156,7 +157,6 @@ export class LineChartComponent  implements OnInit, OnDestroy {
   // todo - data change doesnt update the chart, it just redraws it;
   // todo - revamp this to be more in line with es6
   ngOnInit() {
-    console.log(this);
     this.drawChart();
     this._data.subscribe(x => {
       if (this.data) {

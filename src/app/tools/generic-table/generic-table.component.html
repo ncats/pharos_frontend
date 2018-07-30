@@ -1,6 +1,7 @@
 <mat-paginator *ngIf="showPaginator" #paginator
                [pageSize]="10"
                [pageSizeOptions]="[5, 10, 20]"
+               [hidePageSize]="hidePageSize"
                [showFirstLastButtons]="true">
 </mat-paginator>
       <mat-table #genericTable [dataSource]="dataSource" matSort >

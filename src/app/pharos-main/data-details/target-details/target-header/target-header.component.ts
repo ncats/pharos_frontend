@@ -20,7 +20,6 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
   }
 
   ngOnInit() {
-    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value

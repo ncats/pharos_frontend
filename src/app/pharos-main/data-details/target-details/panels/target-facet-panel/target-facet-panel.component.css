@@ -27,3 +27,7 @@
 #facets-grid > div {
   margin-bottom: 4em;
 }
+
+pharos-generic-table > mat-table > mat-header-row {
+  display: none;
+}

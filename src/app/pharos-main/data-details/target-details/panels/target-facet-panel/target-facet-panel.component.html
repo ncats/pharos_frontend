@@ -5,7 +5,9 @@
   <mat-card-content>
     <div id="facets-grid">
       <div *ngFor = "let facet of facets">
-          <pharos-link-list [list] = facet.fields [label]="facet.label"></pharos-link-list>
+          <!--<pharos-link-list [list] = facet.fields [label]="getLabel(facet.label)"></pharos-link-list>-->
+        <span class="mat-title">{{getLabel(facet.label)}} ({{facet.fields.length}}) </span>
+        <pharos-generic-table [data]="facet.fields" [fieldsConfig]="fields" class="target-facets"></pharos-generic-table>
       </div>
     </div>
   </mat-card-content>

@@ -84,7 +84,6 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
   }
 
   setterFunction(): void {
-    console.log(this.data);
     if (this.data.diseaseSources && this.data.diseaseSources.length > 0) {
       const sources = this.data.diseaseSources;
       this.sourceMap.clear();

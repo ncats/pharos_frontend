@@ -20,13 +20,12 @@ import {Target} from "../../../models/target";
 import {Disease} from "../../../models/disease";
 import {combineLatest, concat, forkJoin, from, merge, Observable, of, zip} from "rxjs/index";
 import {map} from "rxjs/operators";
-import {mergeMap} from "rxjs/operators";
 import {concatAll} from "rxjs/operators";
 import {combineAll, mergeAll} from "rxjs/operators";
 import {concatMap} from "rxjs/operators";
 import {EnvironmentVariablesService} from "../../../pharos-services/environment-variables.service";
 import {PageData} from "../../../models/page-data";
-import {zipAll} from "rxjs/internal/operators";
+import {take, zipAll} from "rxjs/operators";
 import {MatTabChangeEvent} from "@angular/material";
 
 
@@ -67,6 +66,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   ngOnInit() {
     console.log(this);
     this.topic = this.data.object;
+    this.targetsMap.clear();
     const components: any = this.componentLookupService.lookupByPath(this.path, 'panels');
     if (components) {
       components.forEach(component => {
@@ -89,49 +89,16 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
         const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
 
         childComponent.instance.topic = this.topic;
-        // todo need to cover when no results are returned - do we still want to make the component?
         this._data
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(res => {
+            console.log(res);
             if (res.object && res.topicTargets) {
               console.log("unsubscribe");
               this.ngUnsubscribe.next();
               console.log(res);
-              this.targetsMap.clear();
               childComponent.instance.data = res.object;
-              this.allTargets = this.data.topicTargets.content;
-              this.data.topicTargets.content.map(target => {
-                const targets = this.targetsMap.get(target.idgTDL);
-                if (targets) {
-                  targets.push(target);
-                  this.targetsMap.set(target.idgTDL, targets)
-                }
-                else {
-                  this.targetsMap.set(target.idgTDL, [target]);
-                }
-              });
-              console.log(this.targetsMap);
-           //   this.getLigands();
-
-              /// fff.subscribe(res=> console.log(res));
-
-              // todo: this is technically the highest/lowest knowledge of highest/lowest level, not across the whole spectrum
-              const highestLevel = this.getHighestLevel();
-              const mostPotential = this.getHighestLevel(true);
-              const lowestLevel = this.getLowestLevel();
-              this.displayTargets = {
-                mostKnowledge: this.targetsMap.get(highestLevel).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0],
-                mostPotential: this.targetsMap.get(mostPotential).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0],
-                mostPotentialDarkest: this.targetsMap.get(lowestLevel).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0],
-                leastKnowledge: this.targetsMap.get(lowestLevel).sort((a, b) => a.knowledgeAvailability - b.knowledgeAvailability)[0]
-              }
-
-              let pd = new PageData(this.data.topicTargets);
-              pd.top = 10;
-              this.targetPageData = pd;
-              this.targets = this.data.topicTargets.content.slice(this.targetPageData.skip, this.targetPageData.top);
-
-
+              this.mapTargets();
             } else {
               console.log("still waiting");
             }
@@ -139,109 +106,92 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
       });
     }
 
-
     if (this.data.object.url) {
       console.log("getting targets");
       this.dataDetailsResolver.getDetailsByUrl(this._apiUrl.concat(this.data.object.url), 'topicTargets')
     }
-
-    /*
-
-        switch (this.topic.name){
-          case "Bromodomain Inhibitors": {
-
-            const targetIDs = ['BRD2','BRD3','BRD4','BRDT'];
-            const targetCalls = this.getItems(targetIDs);
-           console.log(targetCalls);
-    forkJoin(targetCalls)
-    //.subscribe(res=> console.log(res));
-
-          /!*  console.log(from(targetIDs));
-           const targets: Observable<any> =
-            merge(from(targetIDs)
-               .pipe(
-                 map(id => this.getData(id)),
-               )
-            );
-
-
-           console.log(targets);
-           const combinedTargets = zip(targets);
-    //
-            targets.subscribe(res => {
-              console.log(res);
-              return res
-            })
-
-            combinedTargets.subscribe(res => {
-              console.log(res);
-              return res
-            })
-
-    *!/
-         //   targetIDs.forEach(target =>
-           /!*   this.http.get('https://pharos.ncats.io/idg/api/v1/targets/'+target).subscribe(res => {
-                console.log(res);
-                const tgt: Target = res as Target;
-                this.targets = this.targets.concat([tgt]).sort((a,b) => b.knowledgeAvailability - a.knowledgeAvailability);
-                this.http.get<Disease[]>(tgt._links.href + ('(kind=ix.idg.models.Disease)')).subscribe(res=> this.diseases = this.diseases.concat(res));
-                this.http.get<Ligand[]>(tgt._links.href + ('(kind=ix.idg.models.Ligand)')).subscribe(res=> this.ligands = this.ligands.concat(res));
-                       }));
-                console.log(this);*!/
-                break;
-              }
-          case "Lysomal Storage Disorders":{
-              break;
-            }
-          default :{
-              break;
-            }
-
-          }
-          /!*    this.nodeService.nodeList$
-                .subscribe(res => {
-                  this.data = Array.from(new Set(res.hovered.concat(res.clicked)));
-                });
-              if (this.data) {
-                this.data = [this.data];
-              }
-              this.dataConnectionService.messages.next({
-                message: 'MATCH (n:`KG:1`)-[r]-(b) with {segments:[{start: startNode(r), relationship:r,' +
-                ' end: endNode(r)}]} AS ret RETURN ret LIMIT 25', params: {}});*!/
-        }
-    */
+    if(this.data.object.targetList){
+      from(this.data.object.targetList).pipe(
+       // map(target =>  )
+      )
+    }
   }
-
 
   getData(url: string) {
     return this.http.get(url);
   }
 
-  getLigands() {
-    const targetLigands = this.targetsMap.get('Tchem').concat(this.targetsMap.get('Tclin'));
+  mapTargets() {
+    this.allTargets = this.data.topicTargets.content;
+    this.data.topicTargets.content.map(target => {
+      const targets = this.targetsMap.get(target.idgTDL);
+      if (targets) {
+        targets.push(target);
+        this.targetsMap.set(target.idgTDL, targets)
+      }
+      else {
+        this.targetsMap.set(target.idgTDL, [target]);
+      }
+    });
 
-    const ligandsObserv: Observable<any>[] = targetLigands.map(target => {
+// todo: this is technically the highest/lowest knowledge of highest/lowest level, not across the whole spectrum
+    const highestLevel = this.getHighestLevel();
+    const mostPotential = this.getHighestLevel(true);
+    const lowestLevel = this.getLowestLevel();
+    this.displayTargets = {
+      mostKnowledge: this.targetsMap.get(highestLevel).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0],
+      mostPotential: this.targetsMap.get(mostPotential).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0],
+      mostPotentialDarkest: this.targetsMap.get(lowestLevel).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0],
+      leastKnowledge: this.targetsMap.get(lowestLevel).sort((a, b) => a.knowledgeAvailability - b.knowledgeAvailability)[0]
+    }
+
+    let pd = new PageData(this.data.topicTargets);
+    pd.top = 10;
+    this.targetPageData = pd;
+    this.targets = this.data.topicTargets.content.slice(this.targetPageData.skip, this.targetPageData.top);
+  }
+mapLigands() {
+    console.log("getting ligands");
+
+    this.ligandPageData = new PageData({
+      top: 10,
+      skip: 0,
+      count: 10
+    });
+
+    const tchem = this.targetsMap.get('Tchem');
+    const tclin = this.targetsMap.get('Tclin');
+
+    const targetLigands = (tchem ? tchem : []).concat(tclin ? tclin : []);
+
+    const ligandsObserv: any = targetLigands.map(target => {
       const url = `${this._apiUrl}targets/${target.id}/links(kind=ix.idg.models.Ligand)`;
       return this.getData(url);
     });
 
-    const merged = from(ligandsObserv).pipe(
+    /*const merged = from(ligandsObserv).pipe(
       takeUntil(this.ngUnsubscribe),
       mergeAll()
-    )
-    merged.subscribe(res => {
+    )*/
+
+    console.log(ligandsObserv);
+
+    const zipped: Observable<any> = from(ligandsObserv).pipe(zipAll());
+    console.log(zipped);
+
+    zipped.subscribe(res => {
+      console.log("zipp subscription");
+      console.log(res);
+      this.allLigands = [].concat(...res);
+      this.ligandPageData.total = this.allLigands.length;
+      this.ligands = this.allLigands.slice(this.ligandPageData.skip, this.ligandPageData.top);
+    })
+
+   /* merged.subscribe(res => {
       console.log(res);
       this.allLigands = this.allLigands.concat(res);
-      //console.log(this.allLigands.slice(0,20))[0];
     });
-
-    let pd = new PageData({});
-    pd.top = 10;
-    pd.total = this.allLigands.length;
-    pd.skip = 0;
-    pd.count = 10;
-    this.targetPageData = pd;
-    this.ligands = this.allLigands.slice(this.targetPageData.skip, this.targetPageData.top);
+    console.log(this);*/
   }
 
   paginateTargets($event) {
@@ -284,6 +234,12 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   changeTab($event: MatTabChangeEvent){
     console.log($event)
     console.log($event.tab.textLabel);
+    if($event.tab.textLabel === 'Ligands') {
+      if(this.ligands.length === 0) {
+        this.mapLigands();
+      }
+      this.ligands = this.allLigands.slice(0, 10)
+    }
   }
 
   pick(o, props): any {
@@ -293,6 +249,8 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    this.topic = undefined;
+    this.targetsMap.clear();
   }
 
 }

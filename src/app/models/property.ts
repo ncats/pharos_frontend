@@ -3,6 +3,8 @@ export class Property {
   label: string;
   term?: string;
   href?: string;
+  internalHref?: string;
+  externalHref?: string;
   numval?: number;
   intval?: number;
   unit?: string;
@@ -25,7 +27,7 @@ export class Property {
       else if(!this.term && this.intval) {
       ret = this.intval.toFixed(2).toString() || '0';
     } else if(!this.term){
-      ret = '0';
+     // ret = '0';
     }
     else {
       ret = this.term;

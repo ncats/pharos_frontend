@@ -1,6 +1,6 @@
 <mat-card *ngIf="target">
   <mat-card-content>
-    <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="start stretch">
+    <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="start stretch" routerLink='/targets/{{target?.accession}}'>
       <div fxFlex="95">
         <pharos-idg-level-indicator [level]="target?.idgTDL"></pharos-idg-level-indicator>
         <span class="mat-title">{{target?.name}}</span>

@@ -240,6 +240,12 @@ export class PharosApiService {
     });
   }
 
+  flushData(){
+    this._dataSource.next({});
+    this._detailsSource.next({});
+    this._detailsUrlSource.next({});
+  }
+
   /**
    * merges several api details calls to 1 details object
    * @private

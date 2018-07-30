@@ -1,7 +1,32 @@
+<!--
 <div *ngIf="property">
   <span class="" *ngIf="showLabel"><b>{{property.label}}</b></span>
   <span *ngIf="property.href; else nolink">
 <a href = {{property.href}} target="_blank">{{property.getData()}}</a>
+    <span *ngIf="property.externalHref">{{property.externalHref}}<mat-icon>open_in_new</mat-icon></span>
   </span>
   <ng-template #nolink>{{property.getData()}}</ng-template>
+</div>
+-->
+
+<div *ngIf="property">
+  <span class="" *ngIf="showLabel"><b>{{property.label}}</b></span>
+<ng-container
+  *ngIf="property.internalHref || property.externalHref || property.href; then link; else nolink">
+</ng-container>
+
+<ng-template #link>
+  <ng-container
+    *ngIf="property.href; then facet; else externalLink">
+  </ng-container>
+  <ng-template #facet>
+    <a href="">{{property.getData()}}</a>
+    <!--<a href="{{property.internalHref}}">{{property.getData()}}</a>-->
+  </ng-template>
+  <ng-template #externalLink>
+    <a href="{{property.externalHref}}" target="_blank">{{property.getData()}}<mat-icon>open_in_new</mat-icon></a>
+  </ng-template>
+
+</ng-template>
+<ng-template #nolink>{{property.getData()}}</ng-template>
 </div>

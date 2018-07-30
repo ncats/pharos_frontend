@@ -1,0 +1,12 @@
+
+.tkrow {
+  cursor: pointer;
+}
+
+.mat-title:hover {
+  text-decoration: underline;
+}
+
+mat-card {
+  min-height: 95%
+}

@@ -20,7 +20,6 @@ export class TargetCardComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this);
     if(this.target){
       this.http.get(`${this._apiUrl}${this.target.accession}`).subscribe( res => this.knowledge = res);
     }

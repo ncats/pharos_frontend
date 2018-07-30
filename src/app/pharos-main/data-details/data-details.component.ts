@@ -37,6 +37,7 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    console.log('new details');
   this.helpPanelOpenerService.toggle$.subscribe(res=> this.helpPanel.toggle());
 /*    if (this.path === 'topics') {
       const token: any = this.componentLookupService.lookupByPath(this.path, 'details')[0];

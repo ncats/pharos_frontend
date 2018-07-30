@@ -96,6 +96,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
       )
       .subscribe(x => {
         if (Object.values(this.data).length > 0) {
+          console.log(this.data);
           this.ngUnsubscribe.next();
           this.setterFunction();
         }
@@ -159,7 +160,8 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     const radar: any = [];
     const filters = ['GTEx Tissue Specificity Index', 'HPM Protein Tissue Specificity Index', 'HPA RNA Tissue Specificity Index'];
     filters.forEach(field => {
-      const data: any = this.tissueData.get(field)[0];
+      console.log(field);
+      const data: any = this.tissueData.get(field)? this.tissueData.get(field)[0]: {numval: 0};
       axes.push({axis: field, value: data['numval']});
     });
     radar.push({className: this.id, axes: axes});

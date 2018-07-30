@@ -7,19 +7,13 @@
  <mat-tab-group (selectedTabChange)="changeTab($event)">
    <mat-tab label="Targets">
      <ng-template matTabContent>
-<!--
        <pharos-node-display [nodes] = displayTargets [path] = "'targets'" *ngIf="displayTargets"></pharos-node-display>
--->
-<!--
        <pharos-target-table [data] = targets [pageData]="targetPageData" (pageChange)="paginateTargets($event)" *ngIf="targets"></pharos-target-table>
--->
      </ng-template>
    </mat-tab>
    <mat-tab label="Ligands">
      <ng-template matTabContent>
-<!--
-       <pharos-ligand-table [data]=ligands [pageData]="ligandPageData" (pageChange)="paginateLigands($event)"></pharos-ligand-table>
--->
+       <pharos-ligand-table [data]= ligands [pageData]= "ligandPageData" (pageChange)="paginateLigands($event)" *ngIf="ligands"></pharos-ligand-table>
      </ng-template>
    </mat-tab>
    <mat-tab label="Diseases">

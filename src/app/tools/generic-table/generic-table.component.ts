@@ -41,7 +41,9 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
     return this._data.getValue();
   }
 
-  /**Array of {@link TableData} object that containg configuration options for each field */
+  /**
+   * Array of {@link TableData} object that containg configuration options for each field
+   * */
   @Input() fieldsConfig: TableData[];
   /** boolean to toggle completion of page loading
    * todo: currently not used
@@ -54,15 +56,31 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
    */
   @Input()
   showPaginator = true;
-  /** Angular Material datasource collection for a table*/
+  /**
+   * Angular Material datasource collection for a table
+   *
+   */
   dataSource = new MatTableDataSource<any>([]);
-  /**Paginator object from Angular Material */
+  /**
+   * Paginator object from Angular Material
+   * */
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  /**Sort object from Angular Material */
+  /**
+   * Sort object from Angular Material
+   * */
   @ViewChild(MatSort) _sort: MatSort;
-  /**generated string array of fields that are to be displayed in the table */
+
+  /**
+   * generated string array of fields that are to be displayed in the table
+   * */
   displayColumns: string[];
+
+  /**
+   * whether or not to allow the user to change the size of the page/ show dropdown
+   * @type {boolean}
+   */
+  @Input() hidePageSize = true;
 
   /** No dependencies*/
   constructor() { }

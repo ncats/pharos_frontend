@@ -66,7 +66,7 @@
         </mat-cell>
       </ng-container>
 
-      <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+      <mat-header-row *matHeaderRowDef="displayColumns, sticky: true"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayColumns;" class = "small-radar">
       </mat-row>
     </mat-table>

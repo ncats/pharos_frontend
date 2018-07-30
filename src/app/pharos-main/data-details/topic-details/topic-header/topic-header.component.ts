@@ -24,7 +24,6 @@ export class TopicHeaderComponent extends DynamicPanelComponent implements OnIni
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        console.log(this.data);
         if(Object.values(this.data).length > 0) {
           this.ngUnsubscribe.next();
         }

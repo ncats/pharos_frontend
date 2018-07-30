@@ -17,16 +17,12 @@ import {HttpClient} from "@angular/common/http";
   templateUrl: './ligand-table.component.html',
   styleUrls: ['./ligand-table.component.css']
 })
-export class LigandTableComponent extends DynamicPanelComponent implements OnInit, AfterViewInit, OnDestroy {
+export class LigandTableComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   ligandsMap: Map<string, any> = new Map<string, any>();
   ligandsDataSource: MatTableDataSource<any[]> = new MatTableDataSource<any[]>();
 
-//  displayColumns: string[] = ['name', 'gene', 'idgTDL', 'idgFamily', 'novelty', 'jensenScore', 'antibodyCount', 'knowledgeAvailability'];
   @Output() readonly sortChange: EventEmitter<string> = new EventEmitter<string>();
   @Output() readonly pageChange: EventEmitter<string> = new EventEmitter<string>();
-
-  /* Paginator object from Angular Material */
-  @ViewChild(MatPaginator) ligandPaginator: MatPaginator;
 
   /**
    * page data object set by parent component
@@ -49,11 +45,6 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
         this.setterFunction();
       }
     });
-  }
-
-  ngAfterViewInit() {
-    this.ligandsDataSource.paginator = this.ligandPaginator;
-    this.changeDetector.detectChanges();
   }
 
   changeSort($event): void {
