@@ -49,6 +49,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   nodes: any[] = [];
   _apiUrl: string;
   targetsMap: Map<string, Target[]> = new Map<string, Target[]>();
+  diseasesMap: Map<string, any[]> = new Map<string, any[]>();
   displayTargets: any;
   targetPageData: PageData;
   ligandPageData: PageData;
@@ -105,15 +106,11 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
         this._data
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(res => {
-            console.log(res);
             if (res.object && res.topicTargets) {
-              console.log("unsubscribe");
               this.ngUnsubscribe.next();
-              console.log(res);
               childComponent.instance.data = res.object;
               this.mapTargets();
             } else {
-              console.log("still waiting");
             }
           });
       });
@@ -122,11 +119,6 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
     if (this.data.object.url) {
       console.log("getting targets");
       this.dataDetailsResolver.getDetailsByUrl(this._apiUrl.concat(this.data.object.url), 'topicTargets')
-    }
-    if (this.data.object.targetList) {
-      from(this.data.object.targetList).pipe(
-        // map(target =>  )
-      )
     }
   }
 
@@ -183,15 +175,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
       return this.getData(url);
     });
 
-    /*const merged = from(ligandsObserv).pipe(
-      takeUntil(this.ngUnsubscribe),
-      mergeAll()
-    )*/
-
-    console.log(ligandsObserv);
-
     const zipped: Observable<any> = from(ligandsObserv).pipe(zipAll());
-    console.log(zipped);
 
     zipped.subscribe(res => {
       console.log("zipp subscription");
@@ -219,7 +203,44 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
       count: 10
     });
 
-    const diseaseObserv: any = this.allTargets.map(target => {
+    from(this.allTargets.map(target => {
+        const url = `${this._apiUrl}targets/${target.id}/links(kind=ix.idg.models.Disease)`;
+      return this.getData(url).subscribe(res => {
+        if (res.length > 0) {
+          const filtered = res.filter(disease => {
+            const sources = disease.properties.filter(prop => prop.label === 'Data Source').map(lab => lab['term']);
+            return sources.includes('Monarch' || 'DrugCentral Indication');
+          })
+          filtered.map(realDisease => {
+            const diseaseName = realDisease.properties.filter(prop => prop.label === 'IDG Disease')[0].term;
+            const mappedDisease = this.diseasesMap.get(diseaseName);
+            if (mappedDisease) {
+              mappedDisease.push(
+                {
+                  target: new Property(
+                    {
+                      term: target.name,
+                      href: target.accession
+                    })
+                });
+              this.diseasesMap.set(diseaseName, mappedDisease);
+            } else {
+               const newDiseaseMap =  [{
+                  target: new Property(
+                    {
+                      term: target.name,
+                      href: target.accession
+                    })
+                }]
+              this.diseasesMap.set(diseaseName, newDiseaseMap);
+            }
+          })
+        }
+      });
+    }
+  )).pipe(zipAll()).subscribe(res=> console.log(res));
+
+   /* const diseaseObserv: any = this.allTargets.map(target => {
       const url = `${this._apiUrl}targets/${target.id}/links(kind=ix.idg.models.Disease)`;
       return this.getData(url);
     });
@@ -227,101 +248,102 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
     const zipped: Observable<any> = from(diseaseObserv).pipe(zipAll());
 
     zipped.subscribe(res => {
+      console.log(res);
       this.allDiseases = [].concat(...res);
       const filteredDiseases = this.allDiseases.filter(disease => {
         const sources = disease.properties.filter(prop => prop.label === 'Data Source').map(lab => lab['term']);
-         return sources.includes('Monarch'|| 'DrugCentral Indication');
+        return sources.includes('Monarch'|| 'DrugCentral Indication');
       })
       console.log(filteredDiseases);
       this.allDiseases = filteredDiseases.map(realDisease => {
         return {
           disease : new Property(realDisease.properties.filter(prop => prop.label ==='IDG Disease')[0])}
       });
-    //  this.diseasePageData.total = this.allDiseases.length;
-    //  this.diseases = this.allDiseases.slice(this.diseasePageData.skip, this.diseasePageData.top);
+      //  this.diseasePageData.total = this.allDiseases.length;
+      //  this.diseases = this.allDiseases.slice(this.diseasePageData.skip, this.diseasePageData.top);
       this.diseaseLabel = `Diseases (${this.allDiseases.length})`;
       console.log(this);
-      this.loading = false;
+   */   this.loading = false;
 
       /*
        console.log(this.allLigands);
        this.ligandPageData.total = this.allLigands.length;
        console.log(this.ligandPageData);
        this.loading = false;*/
-})
+    //})
 
 
-}
+  }
 
-paginateTargets($event) {
-console.log($event);
-this.targets = this.allTargets.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize)
-}
+  paginateTargets($event) {
+    console.log($event);
+    this.targets = this.allTargets.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize)
+  }
 
-paginateLigands($event) {
-console.log($event);
-this.ligands = this.allLigands.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize)
-}
+  paginateLigands($event) {
+    console.log($event);
+    this.ligands = this.allLigands.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize)
+  }
 
-paginateDiseases($event) {
-console.log($event);
-this.diseases = this.allDiseases.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize)
-}
+  paginateDiseases($event) {
+    console.log($event);
+    this.diseases = this.allDiseases.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize)
+  }
 
-getHighestLevel(potential?: boolean): string {
-console.log(this.targetsMap);
-const levels = Array.from(this.targetsMap.keys());
-if (!potential && levels.includes('Tclin')) {
- return 'Tclin';
-} else if (!potential && levels.includes('Tchem')) {
- return 'Tchem';
-} else if (levels.includes('Tbio')) {
- return 'Tbio';
-} else {
- return 'Tdark';
-}
-}
+  getHighestLevel(potential?: boolean): string {
+    console.log(this.targetsMap);
+    const levels = Array.from(this.targetsMap.keys());
+    if (!potential && levels.includes('Tclin')) {
+      return 'Tclin';
+    } else if (!potential && levels.includes('Tchem')) {
+      return 'Tchem';
+    } else if (levels.includes('Tbio')) {
+      return 'Tbio';
+    } else {
+      return 'Tdark';
+    }
+  }
 
-getLowestLevel(potential?: boolean): string {
-const levels = Array.from(this.targetsMap.keys());
-if (levels.includes('Tdark')) {
- return 'Tdark';
-} else if (levels.includes('Tbio')) {
- return 'Tbio';
-} else if (levels.includes('Tclin')) {
- return 'Tclin';
-} else {
- return 'Tbio';
-}
-}
+  getLowestLevel(potential?: boolean): string {
+    const levels = Array.from(this.targetsMap.keys());
+    if (levels.includes('Tdark')) {
+      return 'Tdark';
+    } else if (levels.includes('Tbio')) {
+      return 'Tbio';
+    } else if (levels.includes('Tclin')) {
+      return 'Tclin';
+    } else {
+      return 'Tbio';
+    }
+  }
 
-changeTab($event: MatTabChangeEvent) {
-console.log($event)
-console.log($event.tab.textLabel);
-if ($event.tab.textLabel === 'Ligands') {
- this.loading = true;
- if (this.ligands.length === 0) {
-   this.mapLigands();
- }
- this.ligands = this.allLigands.slice(0, 10)
-}
-if ($event.tab.textLabel === 'Diseases') {
- this.loading = true;
- if (this.diseases.length === 0) {
-   this.mapDiseases();
- }
-}
-}
+  changeTab($event: MatTabChangeEvent) {
+    console.log($event)
+    console.log($event.tab.textLabel);
+    if ($event.tab.textLabel === 'Ligands') {
+      this.loading = true;
+      if (this.ligands.length === 0) {
+        this.mapLigands();
+      }
+      this.ligands = this.allLigands.slice(0, 10)
+    }
+    if ($event.tab.textLabel === 'Diseases') {
+      this.loading = true;
+      if (this.diseases.length === 0) {
+        this.mapDiseases();
+      }
+    }
+  }
 
-pick(o, props): any {
-return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
-}
+  pick(o, props): any {
+    return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
+  }
 
-ngOnDestroy(): void {
-this.ngUnsubscribe.next();
-this.ngUnsubscribe.complete();
-this.topic = undefined;
-this.targetsMap.clear();
-}
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    this.topic = undefined;
+    this.targetsMap.clear();
+  }
 
 }

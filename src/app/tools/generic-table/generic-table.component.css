@@ -4,4 +4,6 @@
 
 .table-label > .mat-display-1 {
   margin-bottom: 0;
+  margin-top: 1vh;
+  margin-left: 1vw;
 }
