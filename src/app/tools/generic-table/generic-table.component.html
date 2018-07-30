@@ -1,13 +1,29 @@
+
+<div fxLayout="row" *ngIf="tableLabel; else paginatorOnly" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around" class="body-row">
+  <div fxFlex="45" class = "table-label">
+    <div class = mat-display-1>{{tableLabel}}</div>
+  </div>
+  <div fxFlex="55" fxFlexAlign="end">
 <mat-paginator *ngIf="showPaginator" #paginator
                [pageSize]="10"
                [pageSizeOptions]="[5, 10, 20]"
                [hidePageSize]="hidePageSize"
                [showFirstLastButtons]="true">
 </mat-paginator>
+  </div>
+</div>
+<ng-template #paginatorOnly>
+  <mat-paginator *ngIf="showPaginator" #paginator
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 20]"
+                 [hidePageSize]="hidePageSize"
+                 [showFirstLastButtons]="true">
+  </mat-paginator>
+</ng-template>
       <mat-table #genericTable [dataSource]="dataSource" matSort >
         <ng-container matColumnDef="{{field}}" *ngFor="let field of displayColumns">
           <mat-header-cell *matHeaderCellDef mat-sort-header disabled = {{!isSortable(field)}} > {{getLabel(field)}}</mat-header-cell>
-          <mat-cell *matCellDef="let row">
+          <mat-cell *matCellDef="let row" ngClass="getWidth()">
             <div *ngIf="row[field] && row[field].length; else single">
               <span *ngFor="let term of row[field]">
                 <pharos-property-display [property]='term' [showLabel]="false"></pharos-property-display>

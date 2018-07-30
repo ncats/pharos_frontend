@@ -108,3 +108,14 @@ a:hover {
 pharos-custom-paginator.mat-paginator {
   background: #f7f7f7 !important;
 }
+
+.loadingIcon {
+  position: absolute;
+  top:0;
+  left:0;
+  height:100%;
+  width:100%;
+  background-color: rgba(0,0,0,0.3); /* Black background with opacity */
+  z-index: 666;
+
+}

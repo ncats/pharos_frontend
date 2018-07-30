@@ -14,7 +14,8 @@ export class KnowledgeTableComponent extends DynamicPanelComponent implements On
   fields: TableData[] = [
     new TableData({
       name: 'field',
-      label: 'Most Knowledge About'
+      label: 'Most Knowledge About',
+      width: 85
     }),
     new TableData({
       name: 'value',

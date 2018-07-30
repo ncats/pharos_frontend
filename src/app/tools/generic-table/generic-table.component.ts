@@ -5,6 +5,7 @@ import {
 import {MatPaginator, MatSort, MatSortable, MatTableDataSource} from '@angular/material';
 import {TableData} from '../../models/table-data';
 import {BehaviorSubject} from 'rxjs/index';
+import {Property} from "../../models/property";
 
 /**
  * Generic table Component that iterates over a list of {@link TableData} options to display fields
@@ -81,6 +82,11 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
    * @type {boolean}
    */
   @Input() hidePageSize = true;
+
+  /**
+   * Input to manually pass in a label string for the table, which puts it inline with the paginator
+   */
+  @Input() tableLabel: string;
 
   /** No dependencies*/
   constructor() { }
@@ -182,5 +188,9 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
         return field.name;
       });
     }
+  }
+
+  getWidth(property: TableData):string {
+    return property.width ? `width-${property.width}` : '';
   }
 }
