@@ -191,6 +191,6 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   getWidth(property: TableData):string {
-    return property.width ? `width-${property.width}` : '';
+    return property.width ? `width${property.width}` : '';
   }
 }

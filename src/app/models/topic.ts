@@ -9,6 +9,7 @@ targetCt?: any;
 diseaseCt?: any;
 ligandCt?: any;
 publicationCt?: any;
+  displayTargets? :any;
 
   constructor (obj: any) {
     super(obj);

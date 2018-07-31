@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component, forwardRef, Inject, Injector, OnDestroy, OnInit, Type, ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -29,6 +30,7 @@ import {take, zipAll} from "rxjs/operators";
 import {MatTabChangeEvent} from "@angular/material";
 import {TableData} from "../../../models/table-data";
 import {Property} from "../../../models/property";
+import {mergeMap} from "rxjs/operators";
 
 
 @Component({
@@ -50,7 +52,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   _apiUrl: string;
   targetsMap: Map<string, Target[]> = new Map<string, Target[]>();
   diseasesMap: Map<string, any[]> = new Map<string, any[]>();
-  displayTargets: any;
+  displayTargets: any = {};
   targetPageData: PageData;
   ligandPageData: PageData;
   diseasePageData: PageData;
@@ -72,6 +74,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
               private environmentVariablesService: EnvironmentVariablesService,
               @Inject(forwardRef(() => ComponentLookupService)) private componentLookupService,
               private dataDetailsResolver: DataDetailsResolver,
+              private ref: ChangeDetectorRef,
               private componentInjectorService: ComponentInjectorService) {
     super();
     this._apiUrl = this.environmentVariablesService.getApiPath();
@@ -123,7 +126,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   }
 
   getData(url: string) {
-    return this.http.get(url);
+    return this.http.get<any[]>(url);
   }
 
   mapTargets() {
@@ -143,18 +146,32 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
     const highestLevel = this.getHighestLevel();
     const mostPotential = this.getHighestLevel(true);
     const lowestLevel = this.getLowestLevel();
-    this.displayTargets = {
-      mostKnowledge: this.targetsMap.get(highestLevel).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0],
-      mostPotential: this.targetsMap.get(mostPotential).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0],
-      mostPotentialDarkest: this.targetsMap.get(lowestLevel).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0],
-      leastKnowledge: this.targetsMap.get(lowestLevel).sort((a, b) => a.knowledgeAvailability - b.knowledgeAvailability)[0]
-    }
 
+    if(this.topic.displayTargets){
+      console.log(this.topic.displayTargets);
+      this.displayTargets.mostKnowledge = this.topic.displayTargets.mostKnowledge ? this.findTarget(this.topic.displayTargets.mostKnowledge) : this.targetsMap.get(highestLevel).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0];
+      this.displayTargets.mostPotential = this.topic.displayTargets.mostPotential ? this.findTarget(this.topic.displayTargets.mostPotential) : this.targetsMap.get(mostPotential).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0];
+      this.displayTargets.mostPotentialDarkest = this.topic.displayTargets.mostPotentialDarkest ? this.findTarget(this.topic.displayTargets.mostPotentialDarkest) : this.targetsMap.get(lowestLevel).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0];
+      this.displayTargets.leastKnowledge = this.topic.displayTargets.leastKnowledge ? this.findTarget(this.topic.displayTargets.leastKnowledge) : this.targetsMap.get(lowestLevel).sort((a, b) => a.knowledgeAvailability - b.knowledgeAvailability)[0];
+      this.ref.detectChanges();
+    } else {
+      this.displayTargets = {
+        mostKnowledge: this.targetsMap.get(highestLevel).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0],
+        mostPotential: this.targetsMap.get(mostPotential).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0],
+        mostPotentialDarkest: this.targetsMap.get(lowestLevel).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0],
+        leastKnowledge: this.targetsMap.get(lowestLevel).sort((a, b) => a.knowledgeAvailability - b.knowledgeAvailability)[0]
+      }
+    }
     let pd = new PageData(this.data.topicTargets);
     pd.top = 10;
     this.targetPageData = pd;
     this.targets = this.data.topicTargets.content.slice(this.targetPageData.skip, this.targetPageData.top);
   }
+
+  findTarget(id: string): Target {
+    const allTargets = [].concat(...Array.from(this.targetsMap.values()));
+    return allTargets.filter(target => target.gene === id)[0];
+}
 
   mapLigands() {
     console.log("getting ligands");
@@ -205,7 +222,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
 
     from(this.allTargets.map(target => {
         const url = `${this._apiUrl}targets/${target.id}/links(kind=ix.idg.models.Disease)`;
-      return this.getData(url).subscribe(res => {
+      this.getData(url).subscribe(res => {
         if (res.length > 0) {
           const filtered = res.filter(disease => {
             const sources = disease.properties.filter(prop => prop.label === 'Data Source').map(lab => lab['term']);
@@ -236,9 +253,14 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
             }
           })
         }
+        console.log('setting all diseases');
+        //this.allDiseases = Array.from(this.diseasesMap.keys()).map(disease => {new Property({term: disease});
+        console.log(res);
       });
     }
-  )).pipe(zipAll()).subscribe(res=> console.log(res));
+  ))
+
+
 
    /* const diseaseObserv: any = this.allTargets.map(target => {
       const url = `${this._apiUrl}targets/${target.id}/links(kind=ix.idg.models.Disease)`;

@@ -3,7 +3,11 @@
   cursor: pointer;
 }
 
-.mat-title:hover {
+.radar-row {
+  height: 20vh;
+}
+
+.target-link:hover {
   text-decoration: underline;
 }
 

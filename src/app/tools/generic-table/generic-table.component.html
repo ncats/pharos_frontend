@@ -22,7 +22,7 @@
 </ng-template>
       <mat-table #genericTable [dataSource]="dataSource" matSort >
         <ng-container matColumnDef="{{field}}" *ngFor="let field of displayColumns">
-          <mat-header-cell *matHeaderCellDef mat-sort-header disabled = {{!isSortable(field)}} > {{getLabel(field)}}</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header disabled = {{!isSortable(field)}} ngClass="getWidth()"> {{getLabel(field)}}</mat-header-cell>
           <mat-cell *matCellDef="let row" ngClass="getWidth()">
             <div *ngIf="row[field] && row[field].length; else single">
               <span *ngFor="let term of row[field]">

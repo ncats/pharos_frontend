@@ -55,7 +55,7 @@ export class RadarChartOptions {
   /**
    * d3 color scale
    */
-  color: any = d3.scaleOrdinal().range(['#23364e']);
+  color: any = d3.scaleOrdinal().range(['#ffb259']);
   /**
    * label format
    */

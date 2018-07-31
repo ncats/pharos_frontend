@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {Target} from "../../../../../models/target";
 import {EnvironmentVariablesService} from "../../../../../pharos-services/environment-variables.service";
 import {HttpClient} from "@angular/common/http";
@@ -8,7 +8,7 @@ import {HttpClient} from "@angular/common/http";
   templateUrl: './target-card.component.html',
   styleUrls: ['./target-card.component.css']
 })
-export class TargetCardComponent implements OnInit {
+export class TargetCardComponent implements OnInit, OnChanges {
   @Input() target?: Target;
   _apiUrl: string;
   knowledge: any;
@@ -20,10 +20,21 @@ export class TargetCardComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this);
     if(this.target){
       this.http.get(`${this._apiUrl}${this.target.accession}`).subscribe( res => this.knowledge = res);
     }
 
   }
 
+  /**
+   * this handles if a target is passed in after init
+   * @param changes
+   */
+  ngOnChanges(changes) {
+    console.log(changes);
+    if(!changes.target.firstChange){
+      this.http.get(`${this._apiUrl}${this.target.accession}`).subscribe( res => this.knowledge = res);
+    }
+  }
 }

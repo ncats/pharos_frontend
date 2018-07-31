@@ -116,6 +116,24 @@ export class PharosApiService {
         ligandCt: 4,
         targetCt: 5,
         publicationCt: 0
+      },{
+        id: 5,
+        name: 'Trung\'s topic',
+        description: 'A family of seven-pass transmembrane cell-surface proteins that combines with LOW DENSITY ' +
+        'LIPROTEIN RECEPTOR-RELATED PROTEIN-5 or LOW DENSITY LIPROTEIN RECEPTOR-RELATED PROTEIN-5 to form receptors ' +
+        'for WNT PROTEINS. Frizzled receptors often couple with HETEROTRIMERIC G PROTEINS and regulate the WNT ' +
+        'SIGNALING PATHWAY.',
+        class: 'targets',
+        url:'targets/search?facet=UniProt+Keyword/WD+repeat&top=300',
+      displayTargets: {
+      mostKnowledge: 'LRRK2',
+      mostPotential: 'GNB3',
+      leastKnowledge: 'CDC20B'
+    },
+        diseaseCt: 1,
+        ligandCt: 4,
+        targetCt: 277,
+        publicationCt: 0
       }
   ];
 
