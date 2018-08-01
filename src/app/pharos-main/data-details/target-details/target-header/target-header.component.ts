@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Target} from '../../../../models/target';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
-import {takeUntil} from "rxjs/operators";
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'pharos-target-header',
@@ -40,8 +40,8 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
       this.geneSummary = this.data.geneSummary.map(sum => sum.text).join(' ');
       this.description = this.target.description.concat(this.geneSummary);
     }
-    if(this.description.length > 1000){this.fullDescription = false;
-      this.truncatedDescription = this.description.slice(0,1000)}
+    if (this.description.length > 1000) {this.fullDescription = false;
+      this.truncatedDescription = this.description.slice(0, 1000); }
   }
 
   getHeaderClass(): string {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {DynamicPanelComponent} from "../../../../tools/dynamic-panel/dynamic-panel.component";
-import {HttpClient} from "@angular/common/http";
+import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'pharos-target-list-panel',
@@ -22,7 +22,7 @@ export class TargetListPanelComponent extends DynamicPanelComponent implements O
       .pipe(
         // todo: this unsubscribe doesn't seem to work
         //    takeWhile(() => !this.data['references'])
-      )
+      );
     //  .subscribe(x => {
 
        /* if (this.data.links && this.data.links.length > 0) {

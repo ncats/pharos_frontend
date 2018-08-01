@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Subject} from "rxjs/index";
-import {HttpClient} from "@angular/common/http";
+import {Subject} from 'rxjs/index';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class StructureSetterService {
@@ -30,7 +30,7 @@ export class StructureSetterService {
    */
   setStructure(structure: string): void {
     this.http.get<any>(structure).subscribe(res => {
-      this._structureSource.next(res.molfile)
+      this._structureSource.next(res.molfile);
     });
   }
 }

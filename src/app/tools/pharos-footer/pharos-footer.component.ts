@@ -9,4 +9,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./pharos-footer.component.css']
 })
 
-export class PharosFooterComponent{}
+export class PharosFooterComponent {}

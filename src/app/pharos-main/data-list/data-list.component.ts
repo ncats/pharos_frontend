@@ -71,7 +71,6 @@ export class DataListComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.componentHost.viewContainerRef.clear();
         res.content.forEach(dataList => {
-          console.log(dataList);
               const components: any = this.componentLookup.lookupByPath(dataList.kind, 'list');
               if (components) {
                 components.forEach(component => {

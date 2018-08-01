@@ -1,11 +1,11 @@
 import {Component, forwardRef, Inject, Injector, OnDestroy, OnInit, Type, ViewChild} from '@angular/core';
-import {CustomContentDirective} from "../../../tools/custom-content.directive";
-import {DataDetailsResolver} from "../../services/data-details.resolver";
-import {ComponentInjectorService} from "../../../pharos-services/component-injector.service";
-import {takeUntil} from "rxjs/operators";
-import {ComponentLookupService} from "../../../pharos-services/component-lookup.service";
-import {DynamicPanelComponent} from "../../../tools/dynamic-panel/dynamic-panel.component";
-import {Ligand} from "../../../models/ligand";
+import {CustomContentDirective} from '../../../tools/custom-content.directive';
+import {DataDetailsResolver} from '../../services/data-details.resolver';
+import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
+import {takeUntil} from 'rxjs/operators';
+import {ComponentLookupService} from '../../../pharos-services/component-lookup.service';
+import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
+import {Ligand} from '../../../models/ligand';
 
 @Component({
   selector: 'pharos-ligand-details',
@@ -36,7 +36,7 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
       components.forEach(component => {
         // start api calls before making component
         const keys: string[] = [];
-        if(component.api) {
+        if (component.api) {
           component.api.forEach(apiCall => {
             if (apiCall.url.length > 0) {
               const url = apiCall.url.replace('_id_', this.ligand.id);

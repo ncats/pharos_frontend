@@ -4,7 +4,7 @@ import { ApiViewerComponent } from './api-viewer.component';
 describe('ApiViewerComponent', () => {
   let component: ApiViewerComponent;
   let fixture: ComponentFixture<ApiViewerComponent>;
-  const SwaggerUI = require("swagger-ui");
+  const SwaggerUI = require('swagger-ui');
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

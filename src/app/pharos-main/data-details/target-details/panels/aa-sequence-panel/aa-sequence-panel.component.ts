@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {takeUntil} from "rxjs/operators";
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'pharos-aa-sequence-panel',
@@ -30,7 +30,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
       });
   }
 
-  setterFunction(){
+  setterFunction() {
     this.parseSequence();
     this.getCounts();
   }

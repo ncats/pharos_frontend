@@ -17,12 +17,12 @@ export class SuggestApiService {
 
   // todo this should probably be piped through the pharos api service, or bundled as a self-contained module
   search(query: string): Observable<any[]> {
-    let autocomplete = [];
+    const autocomplete = [];
     return this.http.get<any[]>(this.url +  query)
       .pipe(
         map(response => {
           this.autocompleteFields.forEach(field => {
-            if(response[field] && response[field].length > 0) {
+            if (response[field] && response[field].length > 0) {
               autocomplete.push({name: [field.replace(/_/g, ' ')], options: response[field]});
             }
           });

@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build-test": "ng build --prod --base-href /pharos2/",
+    "build-test": "ng build --prod --base-href /pharos-beta/",
     "test": "ng test pharos-ui --code-coverage",
     "lint": "ng lint pharos-ui",
     "lint-fix": "ng lint pharos-ui --fix",

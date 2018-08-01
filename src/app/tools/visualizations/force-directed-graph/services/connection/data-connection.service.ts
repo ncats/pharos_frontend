@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Subject, Observable, of} from 'rxjs';
 import {WebSocketService} from './websocket.service';
-import {environment} from "../../../../../../environments/environment";
+import {environment} from '../../../../../../environments/environment';
 
 /**
  * url of database

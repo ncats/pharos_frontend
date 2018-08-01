@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl} from "@angular/forms";
-import {HelpDataService} from "./services/help-data.service";
+import {FormControl} from '@angular/forms';
+import {HelpDataService} from './services/help-data.service';
 
 /**
  * component to hold help information
@@ -20,6 +20,6 @@ export class HelpPanelComponent implements OnInit {
     this.helpDataService.data$.subscribe(res => this.rawData = res);
   }
 
-  search(){}
+  search() {}
 
 }

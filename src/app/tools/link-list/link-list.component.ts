@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Property} from "../../models/property";
+import {Property} from '../../models/property';
 
 /**Component to iterate over and display a provided list of Term objects */
 @Component({

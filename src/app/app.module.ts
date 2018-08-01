@@ -27,9 +27,9 @@ import { FaqPageComponent } from './faq-page/faq-page.component';
 import { ApiPageComponent } from './api-page/api-page.component';
 import { StructureSearchPageComponent } from './structure-search-page/structure-search-page.component';
 import { SequenceSearchPageComponent } from './sequence-search-page/sequence-search-page.component';
-import {SketcherComponent} from "./tools/marvin-sketcher/sketcher.component";
-import {StructureSetterService} from "./tools/marvin-sketcher/services/structure-setter.service";
-import {MolConverterService} from "./tools/marvin-sketcher/services/mol-converter.service";
+import {SketcherComponent} from './tools/marvin-sketcher/sketcher.component';
+import {StructureSetterService} from './tools/marvin-sketcher/services/structure-setter.service';
+import {MolConverterService} from './tools/marvin-sketcher/services/mol-converter.service';
 
 
 @NgModule({

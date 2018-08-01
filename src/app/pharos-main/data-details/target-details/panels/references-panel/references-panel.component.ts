@@ -7,9 +7,9 @@ import {Publication} from '../../../../../models/publication';
 import {BehaviorSubject} from 'rxjs';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil, takeWhile} from 'rxjs/operators';
-import {PageData} from "../../../../../models/page-data";
-import {HttpClient} from "@angular/common/http";
-import {Target} from "../../../../../models/target";
+import {PageData} from '../../../../../models/page-data';
+import {HttpClient} from '@angular/common/http';
+import {Target} from '../../../../../models/target';
 
 @Component({
   selector: 'pharos-references-panel',
@@ -47,7 +47,7 @@ export class ReferencesPanelComponent extends DynamicPanelComponent implements O
   }
 
   // todo: this needs to be a
-  setterFunction(){
+  setterFunction() {
     this.dataSource.data = this.data.references;
     this.allReferences = this.data.references;
     this.loading = false;

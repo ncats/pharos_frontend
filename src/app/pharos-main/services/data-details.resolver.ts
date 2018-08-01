@@ -30,7 +30,6 @@ export class DataDetailsResolver implements Resolve<any> {
    * @returns {Observable<any[]>}
    */
     resolve(route: ActivatedRouteSnapshot): Observable<any[]> {
-      console.log("going in")
       this.loadingService.toggleVisible(true);
       this.pharosApiService.flushData();
       this.pathResolverService.setPath(route.data.path);

@@ -5,7 +5,7 @@ import {
 import {MatPaginator, MatSort, MatSortable, MatTableDataSource} from '@angular/material';
 import {TableData} from '../../models/table-data';
 import {BehaviorSubject} from 'rxjs/index';
-import {Property} from "../../models/property";
+import {Property} from '../../models/property';
 
 /**
  * Generic table Component that iterates over a list of {@link TableData} options to display fields
@@ -190,7 +190,7 @@ export class GenericTableComponent implements OnInit, OnChanges, AfterViewInit {
     }
   }
 
-  getWidth(property: TableData):string {
+  getWidth(property: TableData): string {
     return property.width ? `width${property.width}` : '';
   }
 }

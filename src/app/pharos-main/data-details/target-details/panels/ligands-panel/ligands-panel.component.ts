@@ -4,9 +4,9 @@ import {EnvironmentVariablesService} from '../../../../../pharos-services/enviro
 import {Property} from '../../../../../models/property';
 import {HttpClient} from '@angular/common/http';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
-import {Ligand} from "../../../../../models/ligand";
-import {PageData} from "../../../../../models/page-data";
-import {takeUntil, takeWhile} from "rxjs/operators";
+import {Ligand} from '../../../../../models/ligand';
+import {PageData} from '../../../../../models/page-data';
+import {takeUntil, takeWhile} from 'rxjs/operators';
 
 
 @Component({
@@ -101,13 +101,11 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
     }
 
 paginateDrugs($event) {
-  console.log($event);
-  this.drugsDataSource.data = this.allDrugs.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize)
+  this.drugsDataSource.data = this.allDrugs.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize);
 }
 
 paginateLigands($event) {
-  console.log($event);
-  this.ligandsDataSource.data = this.allLigands.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize)
+  this.ligandsDataSource.data = this.allLigands.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize);
 }
 
     private _getActivity(ligand: any): string {

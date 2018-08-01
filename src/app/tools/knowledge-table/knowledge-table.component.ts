@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {DynamicPanelComponent} from "../dynamic-panel/dynamic-panel.component";
-import {Property} from "../../models/property";
-import {TableData} from "../../models/table-data";
-import {takeWhile} from "rxjs/internal/operators";
+import {DynamicPanelComponent} from '../dynamic-panel/dynamic-panel.component';
+import {Property} from '../../models/property';
+import {TableData} from '../../models/table-data';
+import {takeWhile} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'pharos-knowledge-table',

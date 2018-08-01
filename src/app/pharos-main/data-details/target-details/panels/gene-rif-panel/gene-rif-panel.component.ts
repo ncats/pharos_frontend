@@ -3,7 +3,7 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import {HttpClient} from '@angular/common/http';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Publication} from '../../../../../models/publication';
-import {takeUntil} from "rxjs/operators";
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'pharos-gene-rif-panel',

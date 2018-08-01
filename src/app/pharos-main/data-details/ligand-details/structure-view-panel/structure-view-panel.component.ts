@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {DynamicPanelComponent} from "../../../../tools/dynamic-panel/dynamic-panel.component";
-import {EnvironmentVariablesService} from "../../../../pharos-services/environment-variables.service";
-import {StructureSetterService} from "../../../../tools/marvin-sketcher/services/structure-setter.service";
+import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
+import {EnvironmentVariablesService} from '../../../../pharos-services/environment-variables.service';
+import {StructureSetterService} from '../../../../tools/marvin-sketcher/services/structure-setter.service';
 
 @Component({
   selector: 'pharos-structure-view-panel',
@@ -9,7 +9,7 @@ import {StructureSetterService} from "../../../../tools/marvin-sketcher/services
   styleUrls: ['./structure-view-panel.component.css']
 })
 export class StructureViewPanelComponent extends DynamicPanelComponent implements OnInit {
-  imageUrl:string;
+  imageUrl: string;
   private _STRUCTUREURLBASE: string;
 
   constructor(
@@ -29,13 +29,13 @@ export class StructureViewPanelComponent extends DynamicPanelComponent implement
         //    takeWhile(() => !this.data['references'])
       )
       .subscribe(x => {
-        if(this.data.structure && this.data.structure.length > 0) {
-          this.imageUrl = this._STRUCTUREURLBASE + this.data.structure[0].refid + '.svg?size=250'
+        if (this.data.structure && this.data.structure.length > 0) {
+          this.imageUrl = this._STRUCTUREURLBASE + this.data.structure[0].refid + '.svg?size=250';
         }
       });
   }
 
-  setSmiles(){
+  setSmiles() {
       this.structureSetter.setStructure(this.data.structure[0].href.toString());
   }
 

@@ -63,7 +63,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
             childComponent.instance.id = obj.object.accession;
             childComponent.instance.target = obj.object;
             const dataObject = this.pick(obj, keys);
-            if(!Object.values(dataObject).includes(undefined)){
+            if (!Object.values(dataObject).includes(undefined)) {
               childComponent.instance.data = dataObject;
             }
           });

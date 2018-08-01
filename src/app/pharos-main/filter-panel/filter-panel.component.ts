@@ -9,8 +9,8 @@ import {PathResolverService} from '../../pharos-services/path-resolver.service';
 import {FacetRetrieverService} from '../services/facet-retriever.service';
 import {takeUntil, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/index';
-import {ResponseParserService} from "../../pharos-services/response-parser.service";
-import {LoadingService} from "../../pharos-services/loading.service";
+import {ResponseParserService} from '../../pharos-services/response-parser.service';
+import {LoadingService} from '../../pharos-services/loading.service';
 
 /**
  * panel that hold a facet table for selection
@@ -46,11 +46,11 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.facetRetrieverService.loaded$.subscribe(res => {
-      if(res === true) {
+      if (res === true) {
         this.facets = [];
         this.environmentVariablesService.getFacets(this.pathResolverService.getPath()).map(label => {
           this.facetRetrieverService.getFacetObservable(label.name).subscribe(facet => {
-            if(facet) {
+            if (facet) {
               facet.label = label.label;
               this.facetsMap.set(facet.label, facet);
             }
@@ -61,7 +61,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     });
   }
 
-  getAllFacets():void {
+  getAllFacets(): void {
     this.facetRetrieverService.getAllFacets().subscribe(facets => {
       this.allFacets = Array.from(facets.values());
       this.facets = this.allFacets;
@@ -72,7 +72,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
   toggleFacets() {
     this.fullWidth = !this.fullWidth;
     this.loading = true;
-    if(this.fullWidth) {
+    if (this.fullWidth) {
       this.getAllFacets();
     }
   }

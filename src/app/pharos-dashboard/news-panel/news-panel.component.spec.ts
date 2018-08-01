@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NewsPanelComponent } from './news-panel.component';
-import {SharedModule} from "../../shared/shared.module";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {FirestoreStub} from "../../../../test/firestore-stub";
-import {AngularFirestore} from "angularfire2/firestore";
+import {SharedModule} from '../../shared/shared.module';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {FirestoreStub} from '../../../../test/firestore-stub';
+import {AngularFirestore} from 'angularfire2/firestore';
 
 describe('NewsPanelComponent', () => {
   let component: NewsPanelComponent;

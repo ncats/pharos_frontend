@@ -2,10 +2,10 @@ import {
   AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output,
   ViewChild
 } from '@angular/core';
-import {DynamicPanelComponent} from "../../../tools/dynamic-panel/dynamic-panel.component";
-import {MatPaginator, MatTableDataSource} from "@angular/material";
-import {PageData} from "../../../models/page-data";
-import {HttpClient} from "@angular/common/http";
+import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
+import {MatPaginator, MatTableDataSource} from '@angular/material';
+import {PageData} from '../../../models/page-data';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'pharos-topic-table',

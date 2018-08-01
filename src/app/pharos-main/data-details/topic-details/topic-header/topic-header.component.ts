@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Topic} from "../../../../models/topic";
-import {takeUntil} from "rxjs/operators";
-import {DynamicPanelComponent} from "../../../../tools/dynamic-panel/dynamic-panel.component";
+import {Topic} from '../../../../models/topic';
+import {takeUntil} from 'rxjs/operators';
+import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 
 @Component({
   selector: 'pharos-topic-header',
@@ -24,7 +24,7 @@ export class TopicHeaderComponent extends DynamicPanelComponent implements OnIni
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if(Object.values(this.data).length > 0) {
+        if (Object.values(this.data).length > 0) {
           this.ngUnsubscribe.next();
         }
       });

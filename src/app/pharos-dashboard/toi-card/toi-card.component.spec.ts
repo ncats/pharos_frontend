@@ -9,13 +9,13 @@ import {PharosDashboardComponent} from '../pharos-dashboard.component';
 import {SuggestApiService} from '../../tools/search-component/suggest-api.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {SearchCardComponent} from '../search-card/search-card.component';
-import {AboutPageComponent} from "../../about-page/about-page.component";
-import {DataTypesPanelComponent} from "../data-types-panel/data-types-panel.component";
-import {AboutPanelComponent} from "../about-panel/about-panel.component";
-import {ApiPageComponent} from "../../api-page/api-page.component";
-import {FaqPageComponent} from "../../faq-page/faq-page.component";
-import {NewsPanelComponent} from "../news-panel/news-panel.component";
-import {ApiViewerComponent} from "../../tools/api-viewer/api-viewer.component";
+import {AboutPageComponent} from '../../about-page/about-page.component';
+import {DataTypesPanelComponent} from '../data-types-panel/data-types-panel.component';
+import {AboutPanelComponent} from '../about-panel/about-panel.component';
+import {ApiPageComponent} from '../../api-page/api-page.component';
+import {FaqPageComponent} from '../../faq-page/faq-page.component';
+import {NewsPanelComponent} from '../news-panel/news-panel.component';
+import {ApiViewerComponent} from '../../tools/api-viewer/api-viewer.component';
 
 describe('ToiCardComponent', () => {
   let component: ToiCardComponent;

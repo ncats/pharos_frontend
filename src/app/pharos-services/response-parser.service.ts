@@ -84,10 +84,6 @@ export class ResponseParserService implements OnDestroy {
    */
   initializeSubscriptions(): void {
     this.pharosApiService.data$
-/*      .pipe(
-        console.log("pipe"),
-    //  takeUntil(this.ngUnsubscribe)
-      )*/
       .subscribe(res => {
         if (res.object) {
           this._detailsDataSource.next(res);

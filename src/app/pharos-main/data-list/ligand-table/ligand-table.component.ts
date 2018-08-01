@@ -2,15 +2,15 @@ import {
   AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output,
   ViewChild
 } from '@angular/core';
-import {SelectionModel} from "@angular/cdk/collections";
-import {DynamicPanelComponent} from "../../../tools/dynamic-panel/dynamic-panel.component";
-import {takeUntil} from "rxjs/operators";
-import {PageData} from "../../../models/page-data";
-import {TargetTableComponent} from "../target-table/target-table.component";
-import {MatPaginator, MatTableDataSource} from "@angular/material";
-import {EnvironmentVariablesService} from "../../../pharos-services/environment-variables.service";
-import {LigandsPanelComponent} from "../../data-details/target-details/panels/ligands-panel/ligands-panel.component";
-import {HttpClient} from "@angular/common/http";
+import {SelectionModel} from '@angular/cdk/collections';
+import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
+import {takeUntil} from 'rxjs/operators';
+import {PageData} from '../../../models/page-data';
+import {TargetTableComponent} from '../target-table/target-table.component';
+import {MatPaginator, MatTableDataSource} from '@angular/material';
+import {EnvironmentVariablesService} from '../../../pharos-services/environment-variables.service';
+import {LigandsPanelComponent} from '../../data-details/target-details/panels/ligands-panel/ligands-panel.component';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'pharos-ligand-table',

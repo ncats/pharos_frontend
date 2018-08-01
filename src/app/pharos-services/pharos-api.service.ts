@@ -70,7 +70,7 @@ export class PharosApiService {
         targetCt: 4,
         publicationCt: 0
       },
-      {
+/*      {
         id: 1,
         name: 'Lysomal Storage Disorders',
         description: 'A group of autosomal recessive or X-linked inherited metabolic disorders caused by defects in ' +
@@ -82,18 +82,19 @@ export class PharosApiService {
         ligandCt: 45,
         targetCt: 45,
         publicationCt: 0
-      },
+      },*/
       {
-        id: 2,
+        id: 1,
         name: 'Kinase: IDG Consortium (Targets)',
-        description: '',
-        class: 'disease',
+        description: 'A series of interesting kinase targets manually selected by the IDG consortium',
+        class: 'target',
+        url: 'targets/search?facet=Collection+Kinase:IDG+Consortium+(Targets)&top=150',
         diseaseCt: 1,
         ligandCt: 4,
-        targetCt: 5,
+        targetCt: 125,
         publicationCt: 0
-      },{
-      id: 3,
+      }, {
+      id: 2,
       name: 'Regulation of Autophagy',
       description: 'Any process that modulates the frequency, rate or extent of autophagy. ' +
     'Autophagy is the process in which cells digest parts of their own cytoplasm. [GOC:dph, GOC:tb] [GO]',
@@ -103,28 +104,28 @@ export class PharosApiService {
       ligandCt: 5161,
       targetCt: 50,
       publicationCt: 0
-    },{
-        id: 4,
+    }, {
+        id: 3,
         name: 'GPCR: Class F frizzled-type',
         description: 'A family of seven-pass transmembrane cell-surface proteins that combines with LOW DENSITY ' +
         'LIPROTEIN RECEPTOR-RELATED PROTEIN-5 or LOW DENSITY LIPROTEIN RECEPTOR-RELATED PROTEIN-5 to form receptors ' +
         'for WNT PROTEINS. Frizzled receptors often couple with HETEROTRIMERIC G PROTEINS and regulate the WNT ' +
         'SIGNALING PATHWAY.',
         class: 'targets',
-        url:'targets/search?facet=IDG+Target+Family/GPCR&facet=DTO+Protein+Class+%281%29/Class+F+frizzled-type',
+        url: 'targets/search?facet=IDG+Target+Family/GPCR&facet=DTO+Protein+Class+%281%29/Class+F+frizzled-type&top=20',
         diseaseCt: 10,
         ligandCt: 234,
         targetCt: 11,
         publicationCt: 0
-      },{
-        id: 5,
+      }, {
+        id: 4,
         name: 'WD40 repeat domain proteins',
         description: 'The WD40 repeat (also known as the WD or beta-transducin repeat) is a short structural motif of ' +
         'approximately 40 amino acids, often terminating in a tryptophan-aspartic acid (W-D) dipeptide.[2] Tandem copies' +
         ' of these repeats typically fold together to form a type of circular solenoid protein domain called the WD40 ' +
         'domain.',
         class: 'targets',
-        url:'targets/search?facet=UniProt+Keyword/WD+repeat&top=300',
+        url: 'targets/search?facet=UniProt+Keyword/WD+repeat&top=300',
       displayTargets: {
       mostKnowledge: 'LRRK2',
       mostPotential: 'GNB3',
@@ -166,10 +167,10 @@ export class PharosApiService {
       if (path === 'topics') {
         of(this.TOPICS).pipe(delay(500)).subscribe(topics => {
           this._dataSource.next({
-            content: [{kind: path, data: {content:topics}}],
+            content: [{kind: path, data: {content: topics}}],
             facets: []
           });
-        })
+        });
       } else {
         const url = this._mapParams(path, params);
         this.http.get<any>(url)
@@ -258,7 +259,7 @@ export class PharosApiService {
     });
   }
 
-  flushData(){
+  flushData() {
     this._dataSource.next({});
     this._detailsSource.next({});
     this._detailsUrlSource.next({});

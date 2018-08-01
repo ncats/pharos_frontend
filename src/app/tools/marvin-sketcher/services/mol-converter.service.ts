@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {environment} from "../../../../environments/environment";
-import {Subject} from "rxjs/index";
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {environment} from '../../../../environments/environment';
+import {Subject} from 'rxjs/index';
 const _URL = 	environment.molConvertUrl;
 
 const httpOptions = {
@@ -42,6 +42,6 @@ export class MolConverterService {
   convertMol(mol: string): void {
     this.http.post(_URL, mol, httpOptions).subscribe(res => {
       this._molSource.next(res);
-    })
+    });
   }
 }

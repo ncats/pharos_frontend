@@ -4,10 +4,10 @@ import {MatTabChangeEvent} from '@angular/material';
 import {Property} from '../../../../../models/property';
 import {BehaviorSubject} from 'rxjs/index';
 import {EnvironmentVariablesService} from '../../../../../pharos-services/environment-variables.service';
-import {Ortholog} from "../../../../../models/ortholog";
-import {TableData} from "../../../../../models/table-data";
-import {DiseaseRelevance} from "../../../../../models/disease-relevance";
-import {takeUntil} from "rxjs/operators";
+import {Ortholog} from '../../../../../models/ortholog';
+import {TableData} from '../../../../../models/table-data';
+import {DiseaseRelevance} from '../../../../../models/disease-relevance';
+import {takeUntil} from 'rxjs/operators';
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 @Component({
@@ -96,7 +96,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
       )
       .subscribe(x => {
         if (Object.values(this.data).length > 0) {
-          console.log(this.data);
           this.ngUnsubscribe.next();
           this.setterFunction();
         }
@@ -124,7 +123,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
           tableData[prop.label] = new Property(prop);
         });
         this.tableArr.push(tableData);
-      })
+      });
     }
 
 
@@ -160,8 +159,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     const radar: any = [];
     const filters = ['GTEx Tissue Specificity Index', 'HPM Protein Tissue Specificity Index', 'HPA RNA Tissue Specificity Index'];
     filters.forEach(field => {
-      console.log(field);
-      const data: any = this.tissueData.get(field)? this.tissueData.get(field)[0]: {numval: 0};
+      const data: any = this.tissueData.get(field) ? this.tissueData.get(field)[0] : {numval: 0};
       axes.push({axis: field, value: data['numval']});
     });
     radar.push({className: this.id, axes: axes});

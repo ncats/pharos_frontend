@@ -1,6 +1,6 @@
 import {Injectable, Input} from '@angular/core';
-import {BehaviorSubject} from "rxjs/index";
-import {ResponseParserService} from "../../../pharos-services/response-parser.service";
+import {BehaviorSubject} from 'rxjs/index';
+import {ResponseParserService} from '../../../pharos-services/response-parser.service';
 
 @Injectable({
   providedIn: 'root'
@@ -40,11 +40,10 @@ export class HelpDataService {
     private responseParserService: ResponseParserService,
   ) {
     this.responseParserService.detailsData$
-      .subscribe(res => this.data = res)
+      .subscribe(res => this.data = res);
   }
 
   fetchData(field: string) {
-    console.log(this.data[field]);
     this._helpDataSource.next(this.data[field]);
   }
 }

@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {takeWhile} from 'rxjs/operators';
-import {Property} from "../../models/property";
+import {Property} from '../../models/property';
 
 @Component({
   selector: 'pharos-term-display',

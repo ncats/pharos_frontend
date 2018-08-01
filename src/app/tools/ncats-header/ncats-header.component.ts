@@ -13,5 +13,5 @@ import {SlideInOutAnimation} from './header-animations';
 export class NcatsHeaderComponent {
   @Input() searchBar?;
   @Input() headerClass?: string;
-  @Input() animationState? = 'in';
+  @Input() animationState ? = 'in';
 }

@@ -7,7 +7,7 @@ import {Link} from '../../models/link';
 import {Node} from '../../models/node';
 import {ForceDirectedGraph} from '../../models/force-directed-graph';
 import {GraphDataService} from '../../services/graph-data.service';
-import {LoadingService} from "../../../../../pharos-services/loading.service";
+import {LoadingService} from '../../../../../pharos-services/loading.service';
 
 
 /**

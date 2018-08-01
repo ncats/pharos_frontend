@@ -23,7 +23,7 @@ export class D3Service {
 
     svg = d3.select(svgElement);
     container = d3.select(containerElement);
-    container.attr('transform', 'translate('+ svg.node().getBoundingClientRect().width  +',0)');
+    container.attr('transform', 'translate(' + svg.node().getBoundingClientRect().width  + ',0)');
 
     zoomed = () => {
       const transform = d3.event.transform;

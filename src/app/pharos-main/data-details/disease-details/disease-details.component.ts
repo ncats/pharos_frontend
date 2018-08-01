@@ -1,12 +1,12 @@
 import {Component, forwardRef, Inject, Injector, Input, OnDestroy, OnInit, Type, ViewChild} from '@angular/core';
-import {DynamicPanelComponent} from "../../../tools/dynamic-panel/dynamic-panel.component";
-import {DataDetailsResolver} from "../../services/data-details.resolver";
-import {Ligand} from "../../../models/ligand";
-import {CustomContentDirective} from "../../../tools/custom-content.directive";
-import {ComponentInjectorService} from "../../../pharos-services/component-injector.service";
-import {takeUntil} from "rxjs/operators";
-import {ComponentLookupService} from "../../../pharos-services/component-lookup.service";
-import {Disease} from "../../../models/disease";
+import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
+import {DataDetailsResolver} from '../../services/data-details.resolver';
+import {Ligand} from '../../../models/ligand';
+import {CustomContentDirective} from '../../../tools/custom-content.directive';
+import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
+import {takeUntil} from 'rxjs/operators';
+import {ComponentLookupService} from '../../../pharos-services/component-lookup.service';
+import {Disease} from '../../../models/disease';
 
 @Component({
   selector: 'pharos-disease-details',
@@ -37,7 +37,7 @@ export class DiseaseDetailsComponent extends DynamicPanelComponent implements On
       components.forEach(component => {
         // start api calls before making component
         const keys: string[] = [];
-        if(component.api) {
+        if (component.api) {
           component.api.forEach(apiCall => {
             if (apiCall.url.length > 0) {
               const url = apiCall.url.replace('_id_', this.disease.id);

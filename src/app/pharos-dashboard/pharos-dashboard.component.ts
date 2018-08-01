@@ -27,7 +27,7 @@ export class PharosDashboardComponent implements OnInit {
         ligandCt: 4,
         targetCt: 5,
         publicationCt: 0
-      },{
+      }, {
         id: 3,
         name: 'Regulation of Autophagy',
         description: 'Any process that modulates the frequency, rate or extent of autophagy. ' +
@@ -38,7 +38,7 @@ export class PharosDashboardComponent implements OnInit {
         ligandCt: 5161,
         targetCt: 50,
         publicationCt: 0
-      },{
+      }, {
         id: 4,
         name: 'GPCR: Class F frizzled-type',
         description: 'A family of seven-pass transmembrane cell-surface proteins that combines with LOW DENSITY ' +
@@ -46,12 +46,12 @@ export class PharosDashboardComponent implements OnInit {
         'for WNT PROTEINS. Frizzled receptors often couple with HETEROTRIMERIC G PROTEINS and regulate the WNT ' +
         'SIGNALING PATHWAY.',
         class: 'targets',
-        url:'targets/search?facet=IDG+Target+Family/GPCR&facet=DTO+Protein+Class+%281%29/Class+F+frizzled-type',
+        url: 'targets/search?facet=IDG+Target+Family/GPCR&facet=DTO+Protein+Class+%281%29/Class+F+frizzled-type',
         diseaseCt: 10,
         ligandCt: 234,
         targetCt: 11,
         publicationCt: 0
-      },{
+      }, {
         id: 5,
         name: 'WD40 repeat domain proteins',
         description: 'The WD40 repeat (also known as the WD or beta-transducin repeat) is a short structural motif of ' +
@@ -59,7 +59,7 @@ export class PharosDashboardComponent implements OnInit {
         ' of these repeats typically fold together to form a type of circular solenoid protein domain called the WD40 ' +
         'domain.',
         class: 'targets',
-        url:'targets/search?facet=UniProt+Keyword/WD+repeat&top=300',
+        url: 'targets/search?facet=UniProt+Keyword/WD+repeat&top=300',
         displayTargets: {
           mostKnowledge: 'LRRK2',
           mostPotential: 'GNB3',

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Disease} from "../../../../models/disease";
+import {Disease} from '../../../../models/disease';
 
 @Component({
   selector: 'pharos-disease-header',

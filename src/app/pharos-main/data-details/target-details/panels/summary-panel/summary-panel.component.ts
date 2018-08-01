@@ -5,7 +5,7 @@ import {RadarChartComponent} from '../../../../../tools/visualizations/radar-cha
 import {MatDialog} from '@angular/material';
 import {PharosPoint} from '../../../../../tools/visualizations/line-chart/line-chart.component';
 import {Target} from '../../../../../models/target';
-import {takeWhile, takeUntil} from "rxjs/operators";
+import {takeWhile, takeUntil} from 'rxjs/operators';
 
 
 
@@ -42,14 +42,12 @@ ngOnInit() {
       takeUntil(this.ngUnsubscribe)
     )
     .subscribe(x => {
-      if(Object.values(this.data).length > 0) {
+      if (Object.values(this.data).length > 0) {
         this.ngUnsubscribe.next();
         if (this.data.timelines) {
           this.fetchTimelineData();
         }
       }
-     // console.log(Object.values(this.data).length > 0);
-
     });
 }
 

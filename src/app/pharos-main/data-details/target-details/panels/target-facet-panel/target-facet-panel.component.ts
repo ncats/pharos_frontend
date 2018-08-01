@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {TableData} from "../../../../../models/table-data";
-import {Property} from "../../../../../models/property";
+import {TableData} from '../../../../../models/table-data';
+import {Property} from '../../../../../models/property';
 
-const LABELS: Map<string,string> = new Map<string, string> (
+const LABELS: Map<string, string> = new Map<string, string> (
   [
     ['pantherProteinClass', 'Panther Protein Class'],
     ['goFunction', 'GO Function'],
@@ -76,13 +76,12 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
               externalLink: new Property({
                 externalHref: facet.href
               })
-            }
+            };
           });
           this.facets.push({label: key, fields: links});
         }
       });
       this.facets = this.facets.filter(facet => facet.fields.length > 0);
-      console.log(this);
     }
   }
 

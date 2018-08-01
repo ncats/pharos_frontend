@@ -74,13 +74,12 @@ export class PathResolverService {
    */
   navigate(path?: string): void {
       const facetList = [];
-      console.log(this._facets);
       let q: string;
       this._facets.forEach(facet => {
-        if(facet.facet ==="query"){
+        if (facet.facet === 'query') {
           q = facet.fields[0];
-        }else {
-          facet.fields.map(field => facetList.push(this._makeFacetString(facet.facet, field)))
+        } else {
+          facet.fields.map(field => facetList.push(this._makeFacetString(facet.facet, field)));
 
         }
       });
@@ -97,14 +96,13 @@ export class PathResolverService {
         queryParamsHandling: ''
       };
 
-      if(q){
+      if (q) {
         navigationExtras.queryParams.q = q;
         navigationExtras.queryParams.facet = facetList.length > 0 ? facetList : null;
       } else {
         navigationExtras.queryParams.facet = facetList.length > 0 ? facetList : null;
       }
 
-      console.log(navigationExtras);
       this._router.onSameUrlNavigation = 'reload'; // forces reload since this is the same navigation url
       if (path) { // move up a level
         this._router.navigate([path], navigationExtras);
@@ -130,7 +128,6 @@ export class PathResolverService {
    * @param {ParamMap} map
    */
   mapToFacets(map: ParamMap): void {
-    console.log(map);
     const fList = map.getAll('facet');
     fList.forEach(facet => {
       const fArr = facet.split('/');

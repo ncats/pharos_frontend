@@ -3,7 +3,7 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {Publication} from '../../../../../models/publication';
 import {HttpClient} from '@angular/common/http';
-import {takeUntil, takeWhile} from "rxjs/operators";
+import {takeUntil, takeWhile} from 'rxjs/operators';
 
 @Component({
   selector: 'pharos-assay-panel',

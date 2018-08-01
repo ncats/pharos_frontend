@@ -1,9 +1,9 @@
 import {AfterViewInit, ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {FormControl} from '@angular/forms';
-import {LoadingService} from "../../pharos-services/loading.service";
-import {MolConverterService} from "./services/mol-converter.service";
-import {StructureSetterService} from "../../tools/marvin-sketcher/services/structure-setter.service";
+import {LoadingService} from '../../pharos-services/loading.service';
+import {MolConverterService} from './services/mol-converter.service';
+import {StructureSetterService} from '../../tools/marvin-sketcher/services/structure-setter.service';
 
 
 @Component({
@@ -39,13 +39,9 @@ marvin: any;
           }
         }, false);*/
     this.url = this.sanitizer.bypassSecurityTrustResourceUrl('./assets/vendor/marvin/editor.html');
-/*    window['MarvinJSUtil'].getPackage('#sketcher').then((marvin) => {
-      this.marvinSketcherInstance = marvin.sketcherInstance;
-    });*/
   }
 
   ngOnInit() {
-    //console.log(window['MarvinJSUtil'].getPackage('#sketcher'));
     window['MarvinJSUtil'].getPackage('#sketcher').then((marvin) => {
       this.marvinSketcherInstance = marvin.sketcherInstance;
       this.marvinSketcherInstance.on('molchange', () => {

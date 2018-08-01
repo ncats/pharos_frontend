@@ -98,7 +98,7 @@ export class LineChartComponent  implements OnInit, OnDestroy {
    */
   @Input()
   set data(value: any) {
-    if(value) {
+    if (value) {
       value = value.sort((a, b) => a.key - b.key);
       this._data.next(value);
     }
@@ -177,7 +177,7 @@ export class LineChartComponent  implements OnInit, OnDestroy {
   }
 
   getXAxis(scale: string): any {
-  switch (scale){
+  switch (scale) {
     case 'linear': {
      return d3.scalePoint()
         .domain(this.data.map(d => +d.key))
@@ -192,7 +192,7 @@ export class LineChartComponent  implements OnInit, OnDestroy {
   }
 
 getYAxis(scale: string): any {
-  switch (scale){
+  switch (scale) {
     case 'linear': {
       return d3.scaleLinear()
         .domain(d3.extent(this.data, (d) => d.value))
@@ -201,7 +201,7 @@ getYAxis(scale: string): any {
     case 'log': {
       return d3.scaleLog()
         .domain(d3.extent(this.data, (d) => d.value)).nice()
-        //.domain([0.001, 1])
+        // .domain([0.001, 1])
         .rangeRound([this.height, 0]);
     }
   }
@@ -286,7 +286,7 @@ getYAxis(scale: string): any {
 
     this.svg.select('.yaxis')
       .call(d3.axisLeft(y)
-        .ticks(3, ".4"));
+        .ticks(3, '.4'));
 
     this.svg.select('.linePointHolder').selectAll('.linePoints')
       .data(this.data)
@@ -304,9 +304,9 @@ getYAxis(scale: string): any {
     this.svg.select('.linePointHolder').selectAll('.voronoi')
       .data(voronoi.polygons(this.data))
       .enter()
-      .append("path")
-      .attr("class", "voronoi")
-      .attr("d", (d)=> d ? "M" + d.join("L") + "Z" : null)
+      .append('path')
+      .attr('class', 'voronoi')
+      .attr('d', (d) => d ? 'M' + d.join('L') + 'Z' : null)
       .style('fill', 'none')
       .style('pointer-events', 'all')
       .on('mouseover', (data, i, circles) => {

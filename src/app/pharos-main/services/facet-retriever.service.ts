@@ -14,7 +14,7 @@ export class FacetRetrieverService {
    */
   facets: Facet[];
 
-  facetMap: Map<string, any> = new Map<string,any>();
+  facetMap: Map<string, any> = new Map<string, any>();
   /**
    * wait for facets to be loaded before returning response
    * @type {BehaviorSubject<boolean>}
@@ -62,7 +62,7 @@ export class FacetRetrieverService {
   }
 
   getAllFacets(): Observable<any> {
-    return this.facets$
+    return this.facets$;
   }
 
   /**

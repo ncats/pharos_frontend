@@ -5,8 +5,8 @@ import {MatTabChangeEvent} from '@angular/material';
 import {BehaviorSubject} from 'rxjs';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {LineChartOptions, PharosPoint} from '../../../../../tools/visualizations/line-chart/line-chart.component';
-import {Property} from "../../../../../models/property";
-import {takeUntil, takeWhile} from "rxjs/operators";
+import {Property} from '../../../../../models/property';
+import {takeUntil, takeWhile} from 'rxjs/operators';
 
 // skipping log2foldchange property
 const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
@@ -134,7 +134,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
            line: false,
          yAxisScale: 'log',
           margin: {top: 20, right: 45, bottom: 20, left: 35}
-       }
+       };
     }
   }
 

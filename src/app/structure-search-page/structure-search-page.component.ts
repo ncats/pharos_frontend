@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {MolConverterService} from "../tools/marvin-sketcher/services/mol-converter.service";
-import {FormControl} from "@angular/forms";
-import {NavigationExtras, Router} from "@angular/router";
-import {StructureSetterService} from "../tools/marvin-sketcher/services/structure-setter.service";
+import {MolConverterService} from '../tools/marvin-sketcher/services/mol-converter.service';
+import {FormControl} from '@angular/forms';
+import {NavigationExtras, Router} from '@angular/router';
+import {StructureSetterService} from '../tools/marvin-sketcher/services/structure-setter.service';
 
 @Component({
   selector: 'pharos-structure-search-page',
@@ -15,7 +15,7 @@ export class StructureSearchPageComponent implements OnInit {
   smilesCtrl: FormControl = new FormControl();
 
   constructor(
-    private _router : Router,
+    private _router: Router,
     private molConverter: MolConverterService,
     private structureSetter: StructureSetterService
     ) {
@@ -38,7 +38,7 @@ export class StructureSearchPageComponent implements OnInit {
       },
       queryParamsHandling: ''
     };
-    if(this.typeCtrl.value ==='similarity') {
+    if (this.typeCtrl.value === 'similarity') {
       navigationExtras.queryParams.cutoff = this.percentCtrl.value;
     }
       this._router.navigate(['/ligands'], navigationExtras);
