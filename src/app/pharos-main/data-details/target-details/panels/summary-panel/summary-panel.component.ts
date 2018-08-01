@@ -100,7 +100,7 @@ raisePubtator() {
 
 openModal(): void {
   const dialogRef = this.dialog.open(RadarChartComponent, {
-    height: '95vh',
+    height: '90vh',
     width: '85vw',
     data: { data: this.data.knowledge,
             id: this.data.knowledge[0].className,

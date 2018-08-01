@@ -99,8 +99,8 @@ export class PharosApiService {
     'Autophagy is the process in which cells digest parts of their own cytoplasm. [GOC:dph, GOC:tb] [GO]',
       url: 'targets/search?facet=GO+Process/regulation%20of%20autophagy&top=100',
   class: 'target',
-      diseaseCt: 1,
-      ligandCt: 4,
+      diseaseCt: 53,
+      ligandCt: 5161,
       targetCt: 50,
       publicationCt: 0
     },{
@@ -112,17 +112,17 @@ export class PharosApiService {
         'SIGNALING PATHWAY.',
         class: 'targets',
         url:'targets/search?facet=IDG+Target+Family/GPCR&facet=DTO+Protein+Class+%281%29/Class+F+frizzled-type',
-        diseaseCt: 1,
-        ligandCt: 4,
-        targetCt: 5,
+        diseaseCt: 10,
+        ligandCt: 234,
+        targetCt: 11,
         publicationCt: 0
       },{
         id: 5,
-        name: 'Trung\'s topic',
-        description: 'A family of seven-pass transmembrane cell-surface proteins that combines with LOW DENSITY ' +
-        'LIPROTEIN RECEPTOR-RELATED PROTEIN-5 or LOW DENSITY LIPROTEIN RECEPTOR-RELATED PROTEIN-5 to form receptors ' +
-        'for WNT PROTEINS. Frizzled receptors often couple with HETEROTRIMERIC G PROTEINS and regulate the WNT ' +
-        'SIGNALING PATHWAY.',
+        name: 'WD40 repeat domain proteins',
+        description: 'The WD40 repeat (also known as the WD or beta-transducin repeat) is a short structural motif of ' +
+        'approximately 40 amino acids, often terminating in a tryptophan-aspartic acid (W-D) dipeptide.[2] Tandem copies' +
+        ' of these repeats typically fold together to form a type of circular solenoid protein domain called the WD40 ' +
+        'domain.',
         class: 'targets',
         url:'targets/search?facet=UniProt+Keyword/WD+repeat&top=300',
       displayTargets: {
@@ -130,8 +130,8 @@ export class PharosApiService {
       mostPotential: 'GNB3',
       leastKnowledge: 'CDC20B'
     },
-        diseaseCt: 1,
-        ligandCt: 4,
+        diseaseCt: 108,
+        ligandCt: 497,
         targetCt: 277,
         publicationCt: 0
       }

@@ -27,7 +27,7 @@ export class RadarChartOptions {
   /**
    * How much farther than the radius of the outer circle should the labels be placed
    */
-  labelFactor = 1.01;
+  labelFactor = 1.1;
   /**
    * The number of pixels after which a label needs to be given a new line
    */

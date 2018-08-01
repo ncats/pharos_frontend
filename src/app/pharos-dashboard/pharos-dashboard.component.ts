@@ -18,71 +18,58 @@ export class PharosDashboardComponent implements OnInit {
 
   ngOnInit() {
     this.topics = [
-      new Topic({
-        id: 1,
-        name: 'Bromodomain Inhibitors',
-        description: 'BET inhibitors are a class of drugs with anti-cancer, immunosuppressive, and other effects in ' +
-        'clinical trials in the United States and Europe and widely used in research. These molecules reversibly bind ' +
-        'the bromodomains of Bromodomain and Extra-Terminal motif (BET) proteins BRD2, BRD3, BRD4, and BRDT, and prevent ' +
-        'protein-protein interaction between BET proteins and acetylated histones and transcription factors.',
-        class: 'target',
-        diseaseCt: 59,
-        ligandCt: 818,
-        targetCt: 4,
-        publicationCt: 0
-      }),
-      new Topic({
+      {
         id: 2,
-        name: 'Lysomal Storage Disorders',
-        description: 'Just relax and let it flow. That easy. This is your world. Everybody needs a friend. ' +
-        'Don\'t be bashful drop me a line. We don\'t want to set these clouds on fire. Just use the old one inch brush.' +
-        'Any little thing can be your friend if you let it be. Talent is a pursued interest. That is to say, anything you' +
-        ' practice you can do. Now we\'ll take the almighty fan brush. If you\'ve been in Alaska less than a ' +
-        'year you\'re a Cheechako.' +
-        ' These trees are so much fun. I get started on them and I have a hard time stopping. We spend so much of our ' +
-        'life looking - but never seeing. But we\'re not there yet, so we don\'t need to worry about it. ' +
-        'It\'s so important to do something every day that will make you happy. You got your heavy coat out yet? ' +
-        'It\'s getting colder. Do an almighty painting with us. We don\'t really know where this goes -' +
-        'and I\'m not sure we really care.',
+        name: 'Kinase: IDG Consortium (Targets)',
+        description: '',
         class: 'disease',
-        diseaseCt: 0,
-        ligandCt: 45,
-        targetCt: 45,
-        publicationCt: 45
-      }),
-      new Topic({
+        diseaseCt: 1,
+        ligandCt: 4,
+        targetCt: 5,
+        publicationCt: 0
+      },{
         id: 3,
-        name: 'Cystic Fibrosis',
-        description: 'Maybe there\'s a happy little waterfall happening over here. In life you need colors. ' +
-        'Decide where your cloud lives. Maybe he lives right in here. I can\'t think of anything more rewarding than being ' +
-        'able to express yourself to others through painting. I\'m sort of a softy, I couldn\'t shoot Bambi except with a camera. ' +
-        'All you need to paint is a few tools, a little instruction, and a vision in your mind. ' +
-        'This is a happy place, little squirrels live here and play. Now then, let\'s play. Poor old tree. ' +
-        'Let your imagination be your guide. Fluff it up a little and hypnotize it. Trees get lonely too, ' +
-        'so we\'ll give him a little friend. ' +
-        'Let\'s make a happy little mountain now. We\'ll play with clouds today.',
-        class: 'disease',
-        diseaseCt: 0,
-        ligandCt: 4,
-        targetCt: 5,
-        publicationCt: 12
-      }), new Topic({
+        name: 'Regulation of Autophagy',
+        description: 'Any process that modulates the frequency, rate or extent of autophagy. ' +
+        'Autophagy is the process in which cells digest parts of their own cytoplasm. [GOC:dph, GOC:tb] [GO]',
+        url: 'targets/search?facet=GO+Process/regulation%20of%20autophagy&top=100',
+        class: 'target',
+        diseaseCt: 53,
+        ligandCt: 5161,
+        targetCt: 50,
+        publicationCt: 0
+      },{
         id: 4,
-        name: 'Cystic Fibrosis',
-        description: 'Maybe there\'s a happy little waterfall happening over here. In life you need colors. ' +
-        'Decide where your cloud lives. Maybe he lives right in here. I can\'t think of anything more rewarding than being ' +
-        'able to express yourself to others through painting. I\'m sort of a softy, I couldn\'t shoot Bambi except with a camera. ' +
-        'All you need to paint is a few tools, a little instruction, and a vision in your mind. ' +
-        'This is a happy place, little squirrels live here and play. Now then, let\'s play. Poor old tree. ' +
-        'Let your imagination be your guide. Fluff it up a little and hypnotize it. Trees get lonely too, ' +
-        'so we\'ll give him a little friend. ' +
-        'Let\'s make a happy little mountain now. We\'ll play with clouds today.',
-        class: 'disease',
-        diseaseCt: 0,
-        ligandCt: 4,
-        targetCt: 5,
-        publicationCt: 12
-      })
+        name: 'GPCR: Class F frizzled-type',
+        description: 'A family of seven-pass transmembrane cell-surface proteins that combines with LOW DENSITY ' +
+        'LIPROTEIN RECEPTOR-RELATED PROTEIN-5 or LOW DENSITY LIPROTEIN RECEPTOR-RELATED PROTEIN-5 to form receptors ' +
+        'for WNT PROTEINS. Frizzled receptors often couple with HETEROTRIMERIC G PROTEINS and regulate the WNT ' +
+        'SIGNALING PATHWAY.',
+        class: 'targets',
+        url:'targets/search?facet=IDG+Target+Family/GPCR&facet=DTO+Protein+Class+%281%29/Class+F+frizzled-type',
+        diseaseCt: 10,
+        ligandCt: 234,
+        targetCt: 11,
+        publicationCt: 0
+      },{
+        id: 5,
+        name: 'WD40 repeat domain proteins',
+        description: 'The WD40 repeat (also known as the WD or beta-transducin repeat) is a short structural motif of ' +
+        'approximately 40 amino acids, often terminating in a tryptophan-aspartic acid (W-D) dipeptide.[2] Tandem copies' +
+        ' of these repeats typically fold together to form a type of circular solenoid protein domain called the WD40 ' +
+        'domain.',
+        class: 'targets',
+        url:'targets/search?facet=UniProt+Keyword/WD+repeat&top=300',
+        displayTargets: {
+          mostKnowledge: 'LRRK2',
+          mostPotential: 'GNB3',
+          leastKnowledge: 'CDC20B'
+        },
+        diseaseCt: 108,
+        ligandCt: 497,
+        targetCt: 277,
+        publicationCt: 0
+      }
     ];
   }
 
