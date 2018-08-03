@@ -10,6 +10,7 @@ diseaseCt?: any;
 ligandCt?: any;
 publicationCt?: any;
   displayTargets?: any;
+  targetList?: string[];
 
   constructor (obj: any) {
     super(obj);

@@ -56,7 +56,7 @@ export class PharosApiService {
    * garbage
    * @type {Topic[]}
    */
-  private TOPICS = [
+  TOPICS = [
       {
         id: 0,
         name: 'Bromodomain Inhibitors',
@@ -65,6 +65,7 @@ export class PharosApiService {
         'the bromodomains of Bromodomain and Extra-Terminal motif (BET) proteins BRD2, BRD3, BRD4, and BRDT, and prevent ' +
         'protein-protein interaction between BET proteins and acetylated histones and transcription factors.',
         class: 'target',
+        targetList: ['BRD2', 'BRD3', 'BRD4','BRDT'],
         diseaseCt: 59,
         ligandCt: 818,
         targetCt: 4,
@@ -89,8 +90,8 @@ export class PharosApiService {
         description: 'A series of interesting kinase targets manually selected by the IDG consortium',
         class: 'target',
         url: 'targets/search?facet=Collection+Kinase:IDG+Consortium+(Targets)&top=150',
-        diseaseCt: 1,
-        ligandCt: 4,
+        diseaseCt: 118,
+        ligandCt: 1317,
         targetCt: 125,
         publicationCt: 0
       }, {
@@ -106,8 +107,8 @@ export class PharosApiService {
       publicationCt: 0
     }, {
         id: 3,
-        name: 'GPCR: Class F frizzled-type',
-        description: 'A family of seven-pass transmembrane cell-surface proteins that combines with LOW DENSITY ' +
+      name: 'GPCR: Class F frizzled-type',
+      description: 'A family of seven-pass transmembrane cell-surface proteins that combines with LOW DENSITY ' +
         'LIPROTEIN RECEPTOR-RELATED PROTEIN-5 or LOW DENSITY LIPROTEIN RECEPTOR-RELATED PROTEIN-5 to form receptors ' +
         'for WNT PROTEINS. Frizzled receptors often couple with HETEROTRIMERIC G PROTEINS and regulate the WNT ' +
         'SIGNALING PATHWAY.',

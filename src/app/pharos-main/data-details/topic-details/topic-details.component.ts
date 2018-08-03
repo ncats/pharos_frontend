@@ -100,6 +100,8 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
             }
           });
         }
+
+
         /** make component */
         const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
         const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
@@ -111,9 +113,23 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
             if (res.object && res.topicTargets) {
               this.ngUnsubscribe.next();
               childComponent.instance.data = res.object;
+              this.allTargets = this.data.topicTargets.content;
               this.mapTargets();
             } else {
+              if(this.topic.targetList){
+                const targetsObserv: any = this.topic.targetList.map(target => {
+                const url = `${this._apiUrl}targets/${target}`;
+                return this.getData(url);
+              });
+
+              const zipped: Observable<any> = from(targetsObserv).pipe(zipAll());
+
+              zipped.subscribe(res => {
+                this.allTargets = [].concat(...res);
+                this.mapTargets();
+              });
             }
+          }
           });
       });
     }
@@ -128,8 +144,14 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   }
 
   mapTargets() {
-    this.allTargets = this.data.topicTargets.content;
-    this.data.topicTargets.content.map(target => {
+    this.targetPageData = new PageData({
+      top: 10,
+      skip: 0,
+      count: 10,
+      total: this.allTargets.length
+    });
+
+    this.allTargets.map(target => {
       const targets = this.targetsMap.get(target.idgTDL);
       if (targets) {
         targets.push(target);
@@ -143,23 +165,24 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
     const highestLevel = this.getHighestLevel();
     const mostPotential = this.getHighestLevel(true);
     const lowestLevel = this.getLowestLevel();
-console.log(this);
-      this.displayTargets.mostKnowledge = this.topic.displayTargets && this.topic.displayTargets.mostKnowledge ?
-        this.findTarget(this.topic.displayTargets.mostKnowledge) :
-        this.targetsMap.get(highestLevel).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0];
-      this.displayTargets.mostPotential = this.topic.displayTargets && this.topic.displayTargets.mostPotential ?
-        this.findTarget(this.topic.displayTargets.mostPotential) :
-        this.targetsMap.get(mostPotential).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0];
-      this.displayTargets.mostPotentialDarkest = this.topic.displayTargets &&
-      this.topic.displayTargets.mostPotentialDarkest ? this.findTarget(this.topic.displayTargets.mostPotentialDarkest)
-        : this.targetsMap.get(lowestLevel).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0];
-      this.displayTargets.leastKnowledge = this.topic.displayTargets &&
-      this.topic.displayTargets.leastKnowledge ? this.findTarget(this.topic.displayTargets.leastKnowledge) :
-        this.targetsMap.get(lowestLevel).sort((a, b) => a.knowledgeAvailability - b.knowledgeAvailability)[0];
+const mostKnowledgeTarget = this.targetsMap.get(highestLevel)? this.targetsMap.get(highestLevel).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0] : {};
+const mostPotentialTarget = this.targetsMap.get(mostPotential)? this.targetsMap.get(mostPotential).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0] : {};
+const mostPotentialDarkestTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.get(lowestLevel).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0] : {};
+const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.get(lowestLevel).sort((a, b) => a.knowledgeAvailability - b.knowledgeAvailability)[0] : {};
 
-    const pd = new PageData(this.data.topicTargets);
-    pd.top = 10;
-    this.targetPageData = pd;
+      this.displayTargets.mostKnowledge = this.topic.displayTargets && this.topic.displayTargets.mostKnowledge ?
+        this.findTarget(this.topic.displayTargets.mostKnowledge) : mostKnowledgeTarget;
+
+      this.displayTargets.mostPotential = this.topic.displayTargets && this.topic.displayTargets.mostPotential ?
+        this.findTarget(this.topic.displayTargets.mostPotential) : mostPotentialTarget;
+
+      this.displayTargets.mostPotentialDarkest = this.topic.displayTargets &&
+      this.topic.displayTargets.mostPotentialDarkest ?
+        this.findTarget(this.topic.displayTargets.mostPotentialDarkest) : mostPotentialDarkestTarget;
+      this.displayTargets.leastKnowledge = this.topic.displayTargets &&
+      this.topic.displayTargets.leastKnowledge ?
+        this.findTarget(this.topic.displayTargets.leastKnowledge) : leastKnowledgeTarget;
+
     const tdark = this.targetsMap.get('Tdark') ? this.targetsMap.get('Tdark') : [];
     const tbio = this.targetsMap.get('Tbio') ? this.targetsMap.get('Tbio') : [];
     const tchem = this.targetsMap.get('Tchem') ? this.targetsMap.get('Tchem') : [];
@@ -171,6 +194,7 @@ console.log(this);
       .concat( tclin.sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability));
    this.allTargets = sortedTopics;
     this.targets = this.allTargets.slice(this.targetPageData.skip, this.targetPageData.top);
+      this.targetPageData.count = this.allTargets.length;
   }
 
   findTarget(id: string): Target {
@@ -215,42 +239,43 @@ console.log(this);
     });
 
     from(this.allTargets.map(target => {
-        const url = `${this._apiUrl}targets/${target.id}/links(kind=ix.idg.models.Disease)`;
+      const url = `${this._apiUrl}targets/${target.id}/links(kind=ix.idg.models.Disease)`;
       this.getData(url).subscribe(res => {
-        if (res.length > 0) {
-          const filtered = res.filter(disease => {
-            const sources = disease.properties.filter(prop => prop.label === 'Data Source').map(lab => lab['term']);
-            return sources.includes('Monarch' || 'DrugCentral Indication');
-          });
-          filtered.map(realDisease => {
-            const diseaseName = realDisease.properties.filter(prop => prop.label === 'IDG Disease')[0].term;
-            const mappedDisease = this.diseasesMap.get(diseaseName);
-            if (mappedDisease) {
-              mappedDisease.push(
-                {
-                  target: new Property(
-                    {
-                      term: target.name,
-                      href: target.accession
-                    })
-                });
-              this.diseasesMap.set(diseaseName, mappedDisease);
-            } else {
-               const newDiseaseMap =  [{
+          if (res.length > 0) {
+            const filtered = res.filter(disease => {
+              const sources = disease.properties.filter(prop => prop.label === 'Data Source').map(lab => lab['term']);
+              return sources.includes('Monarch' || 'DrugCentral Indication');
+            });
+            filtered.map(realDisease => {
+              const diseaseName = realDisease.properties.filter(prop => prop.label === 'IDG Disease')[0].term;
+              const mappedDisease = this.diseasesMap.get(diseaseName);
+              if (mappedDisease) {
+                mappedDisease.push(
+                  {
+                    target: new Property(
+                      {
+                        term: target.name,
+                        href: target.accession
+                      })
+                  });
+                this.diseasesMap.set(diseaseName, mappedDisease);
+              } else {
+                const newDiseaseMap = [{
                   target: new Property(
                     {
                       term: target.name,
                       href: target.accession
                     })
                 }];
-              this.diseasesMap.set(diseaseName, newDiseaseMap);
-            }
+                this.diseasesMap.set(diseaseName, newDiseaseMap);
+              }
+            });
+          }
+          this.allDiseases = Array.from(this.diseasesMap.keys()).map(disease => {
+            return {disease: new Property({term: disease})}
           });
-        }
-        // this.allDiseases = Array.from(this.diseasesMap.keys()).map(disease => {new Property({term: disease});
-      });
-    }
-  ));
+        });
+    }));
       this.loading = false;
   }
 
@@ -268,40 +293,46 @@ console.log(this);
 
   getHighestLevel(potential?: boolean): string {
     const levels = Array.from(this.targetsMap.keys());
-    console.log(levels);
+    if(levels.length === 1) {
+      return levels[0];
+    }
+
     if (!potential && levels.includes('Tclin')) {
       return 'Tclin';
     } else if (!potential && levels.includes('Tchem')) {
       return 'Tchem';
     } else if (levels.includes('Tbio')) {
       return 'Tbio';
-    } else {
+    } else if (levels.includes('Tdark')) {
       return 'Tdark';
     }
   }
 
   getLowestLevel(potential?: boolean): string {
     const levels = Array.from(this.targetsMap.keys());
+    if(levels.length === 1) {
+      return levels[0];
+    }
     if (levels.includes('Tdark')) {
       return 'Tdark';
     } else if (levels.includes('Tbio')) {
       return 'Tbio';
     } else if (levels.includes('Tclin')) {
       return 'Tclin';
-    } else {
-      return 'Tbio';
+    } else if (levels.includes('Tchem')){
+      return 'Tchem';
     }
   }
 
   changeTab($event: MatTabChangeEvent) {
-    if ($event.tab.textLabel === 'Ligands') {
+    if ($event.tab.textLabel.split(' ')[0] === 'Ligands') {
       this.loading = true;
       if (this.ligands.length === 0) {
         this.mapLigands();
       }
       this.ligands = this.allLigands.slice(0, 10);
     }
-    if ($event.tab.textLabel === 'Diseases') {
+    if ($event.tab.textLabel.split(' ')[0] === 'Diseases') {
       this.loading = true;
       if (this.diseases.length === 0) {
         this.mapDiseases();

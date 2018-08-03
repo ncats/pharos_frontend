@@ -5,23 +5,23 @@
 <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutAlign="space-around start">
   <div fxFlex="95">
  <mat-tab-group (selectedTabChange)="changeTab($event)">
-   <mat-tab label="Targets">
+   <mat-tab label="Targets ({{topic.targetCt}})" class="full-tab">
      <ng-template matTabContent>
        <pharos-node-display [nodes] = displayTargets [path] = "'targets'" *ngIf="displayTargets"></pharos-node-display>
        <pharos-target-table [data] = targets [pageData]="targetPageData" (pageChange)="paginateTargets($event)" *ngIf="targets"></pharos-target-table>
      </ng-template>
    </mat-tab>
-   <mat-tab label="Ligands">
+   <mat-tab label="Ligands  ({{topic.ligandCt}})" class="full-tab">
      <ng-template matTabContent>
-       <div *ngIf=" loading" class = "loadingIcon full-tab" fxLayoutAlign="center center">
+       <div *ngIf=" loading" class = "loadingIcon full-loading" fxLayoutAlign="center center">
          <mat-spinner></mat-spinner>
        </div>
        <pharos-ligand-table class = "full-tab" [data]= ligands [pageData]= "ligandPageData" (pageChange)="paginateLigands($event)" *ngIf="ligands"></pharos-ligand-table>
      </ng-template>
    </mat-tab>
-   <mat-tab label="Diseases">
+   <mat-tab label="Diseases  ({{topic.diseaseCt}})" class="full-tab">
      <ng-template matTabContent>
-       <div *ngIf=" loading" class = "loadingIcon full-tab" fxLayoutAlign="center center">
+       <div *ngIf=" loading" class = "loadingIcon full-loading" fxLayoutAlign="center center">
          <mat-spinner></mat-spinner>
        </div>
        <pharos-generic-table [data]= allDiseases [fieldsConfig]="diseaseFields" [tableLabel]= "diseaseLabel"></pharos-generic-table>

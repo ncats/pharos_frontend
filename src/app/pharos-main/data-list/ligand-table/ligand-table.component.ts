@@ -38,7 +38,6 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   ngOnInit() {
-    console.log(this);
     this._STRUCTUREURLBASE = this.environmentVariablesService.getStructureImageUrl();
     this._data.subscribe(d => {
       if (this.data) {

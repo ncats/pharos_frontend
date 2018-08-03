@@ -5,5 +5,5 @@
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^.*$ - [NC,L]
 
-    RewriteRule ^(.*) /pharos-beta.ncats.io/index.html [NC,L]
+    RewriteRule ^(.*) /pharos-beta/index.html [NC,L]
 </IfModule>
