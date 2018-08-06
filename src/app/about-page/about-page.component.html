@@ -45,9 +45,8 @@
             (Grant No. <a href="https://projectreporter.nih.gov/project_info_description.cfm?aid=9461406&icde=38627613">
               1U24CA224370-01</a>). The goal of KMC is to develop a comprehensive, integrated knowledge-base
             for the Druggable Genome (DG) to illuminate the uncharacterized and/or poorly annotated portion of
-            the DG, focusing on four of the most commonly drug-targeted protein families: &nbsp;G-protein-coupled
-            receptors (GPCRs); nuclear receptors (NRs); ion channels (ICs); and kinases.
-          </p>
+            the DG, focusing on three of the most commonly drug-targeted protein families:</p>
+          <ul><li>G-protein-coupled receptors (GPCRs)</li><li>ion channels (ICs)</li><li>kinases</li></ul>
           <p>The Pharos interface provides facile access to all data types
             collected by the KMC.
             Given the complexity of the data surrounding any target, efficient and intuitive visualization has
@@ -64,9 +63,9 @@
         <div class="section-header" [ngClass]="{'active': isActive('collaborators')}">Our Collaborators</div>
         <div class="section-content">
           <p>Pharos is developed at <a href="http://ncats.nih.gov">NCATS</a>, together with collaborators from
-            the <a href="http://hsc.unm.edu/">University of New Mexico</a>, <a href="http://icahn.mssm.edu/">
+            the <a href="http://datascience.unm.edu/">University of New Mexico</a>, <a href="http://icahn.mssm.edu/">
               Icahn School of Medicine, Mount Sinai</a>, <a href="https://www.ebi.ac.uk/about">EMBL-EBI</a>,
-            the <a href="http://www.cpr.ku.dk/">
+            the <a href="https://diseases.jensenlab.org/">
               Novo Nordisk Foundation Center for Protein Research (U. Copenhagen)</a>
             and the <a href="http://ccs.miami.edu/?p=1103">University of Miami</a>.
           </p>
@@ -161,7 +160,9 @@
           Pharos page. A visual representation of all targets and their representation in all IDG datasources can be
           viewed here.--> Over time we anticipate incorporating other relevant data sources. </p>
 
-        <table class="table table-striped">
+          <pharos-generic-table [fieldsConfig]="sourceFields" [data]="_sources" [showPaginator]="false"></pharos-generic-table>
+
+    <!--    <table class="table table-striped">
           <tbody><tr>
             <th>Source</th>
             <th>Target</th>
@@ -169,10 +170,8 @@
             <th>Ligand</th>
           </tr>
 
-          <tr>
-
-
-            <td>BioPlex</td>
+          <tr>-->
+         <!--   <td>BioPlex</td>
 
 
             <td><a href="/idg/targets?facet=Data+Source/BioPlex">6400</a>
@@ -726,7 +725,7 @@
             <td></td>
           </tr>
           </tbody></table>
-        </div>
+ -->       </div>
       </div>
     </div>
     <div fxLayout="row" id="datadownload" #datadownload #scrollSection>

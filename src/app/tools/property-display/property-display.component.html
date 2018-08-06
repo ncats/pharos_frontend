@@ -17,10 +17,10 @@
 
 <ng-template #link>
   <ng-container
-    *ngIf="property.href; then facet; else externalLink">
+    *ngIf="property.href || property.internalHref; then facet; else externalLink">
   </ng-container>
   <ng-template #facet>
-    <a href="">{{property.getData()}}</a>
+    <a href="{{property.internalHref || property.href}}">{{property.getData()}}</a>
     <!--<a href="{{property.internalHref}}">{{property.getData()}}</a>-->
   </ng-template>
   <ng-template #externalLink>
