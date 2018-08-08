@@ -9,15 +9,11 @@
         (page)="paginateDrugs($event)"></pharos-custom-paginator>
     <div class="structure-grid">
     <div *ngFor="let drug of drugsDataSource.data">
-        <h3 class = "mat-subheading-2">{{drug.name}}</h3>
-        <img [src] = drug.imageUrl alt = "image for {{drug.name}}">
-        <br>
-        <br>
-        {{drug.activityType}} {{drug.activity}}
-      </div>
+      <pharos-ligand-card [ligand]="drug"></pharos-ligand-card>
     </div>
     </div>
-    <mat-divider class = "spaced"></mat-divider>
+    </div>
+    <mat-divider class = "spaced" *ngIf = "ligandsDataSource.data.length >0" ></mat-divider>
     <div  *ngIf = "ligandsDataSource.data.length >0">
     <mat-card-title ><span class="mat-title">Ligands ({{allLigands.length}})</span></mat-card-title>
       <pharos-custom-paginator
@@ -27,12 +23,9 @@
         (page)="paginateLigands($event)"></pharos-custom-paginator>
     <div class ="structure-grid">
     <div *ngFor="let ligand of ligandsDataSource.data">
-        <h3 class = "mat-subheading-2">{{ligand.name}}</h3>
-        <img [src] = ligand.imageUrl alt = "image for {{ligand.name}}">
-        <br>
-        <br>
-        {{ligand.activityType}} {{ligand.activity}}
-      </div>
+      <pharos-ligand-card [ligand]="ligand"></pharos-ligand-card>
+
+    </div>
     </div>
     </div>
   </mat-card-content>

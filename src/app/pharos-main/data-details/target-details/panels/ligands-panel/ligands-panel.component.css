@@ -10,12 +10,6 @@
   max-width: calc(100% - 40px);
 }
 
-.spaced {
-  margin-top: 2vh;
-  margin-bottom: 2vh;
-  position: relative;
-}
-
 .structure-grid {
   display: grid;
   grid-auto-rows: max-content;
@@ -26,4 +20,6 @@
 
 .structure-grid > div {
   margin-bottom: 2em;
+  margin-top: 2em;
+  min-height: 100%;
 }

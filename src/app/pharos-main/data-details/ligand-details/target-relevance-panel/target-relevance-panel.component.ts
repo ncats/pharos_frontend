@@ -61,6 +61,7 @@ export class TargetRelevancePanelComponent extends DynamicPanelComponent impleme
         if (this.data.targetRelevance && this.data.targetRelevance.length > 0) {
           this.tableArr = [];
           this.data.targetRelevance.forEach(target => {
+            console.log(target);
             const data = {
               target: new Property(target.properties.filter(prop => prop.label === 'IDG Target')[0]),
               developmentLevel: new Property(target.properties.filter(prop => prop.label === 'IDG Development Level')[0]),

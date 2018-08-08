@@ -1,3 +1,9 @@
-<p>
-  ligand-card works!
-</p>
+<mat-card routerLink='/ligands/{{ligand.name}}' class="ligand-card">
+    <div class="ligand-content">
+      <div class = "mat-title centered">{{ligand.name}}</div>
+    <img [src] = ligand.imageUrl alt = "image for {{ligand.name}}">
+  <div class = "ligand-footer">
+    {{ligand.activityType}} {{ligand.activity}}
+  </div>
+    </div>
+</mat-card>

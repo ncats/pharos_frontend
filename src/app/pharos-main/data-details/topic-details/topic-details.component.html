@@ -16,7 +16,7 @@
        <div *ngIf=" loading" class = "loadingIcon full-loading" fxLayoutAlign="center center">
          <mat-spinner></mat-spinner>
        </div>
-       <pharos-ligand-table class = "full-tab" [data]= ligands [pageData]= "ligandPageData" (pageChange)="paginateLigands($event)" *ngIf="ligands"></pharos-ligand-table>
+       <pharos-ligand-table class = "full-tab" [data]= ligands [pageData]= "ligandPageData" (pageChange)="paginateLigands($event)"></pharos-ligand-table>
      </ng-template>
    </mat-tab>
    <mat-tab label="Diseases  ({{topic.diseaseCt}})" class="full-tab">

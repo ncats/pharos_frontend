@@ -63,23 +63,27 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
     const ligandsArr = [];
     this.data.forEach(ligand => {
     //  const activity: any = this._getActivity(ligand);
-      if (!this.ligandsMap.get(ligand.id)) {
+      const mappedLig = this.ligandsMap.get(ligand.id);
+      if (!mappedLig) {
         // placeholder to block repetitive calls
         this.ligandsMap.set(ligand.id, {});
         const url = ligand.self ? ligand.self : ligand.href + '?view=full';
         this._http.get<any>(url).subscribe(res => {
-          this.ligandsMap.set(ligand.id, res);
           const refid: string = res.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;
-          const lig = {
+          const newLigand = {
             name: res.name,
             refid: refid,
-        //    activityType: activity.label === 'Potency' ? activity.label : 'p' + activity.label,
-         //   activity: activity.numval,
+            //    activityType: activity.label === 'Potency' ? activity.label : 'p' + activity.label,
+            //   activity: activity.numval,
             imageUrl: this._STRUCTUREURLBASE + refid + '.svg'
-          };
-            ligandsArr.push(lig);
+          }
+          this.ligandsMap.set(ligand.id, newLigand);
+          ligandsArr.push(newLigand);
           this.ligandsDataSource.data = ligandsArr;
         });
+      } else {
+        ligandsArr.push(mappedLig);
+        this.ligandsDataSource.data = ligandsArr;
       }
     });
 

@@ -49,6 +49,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
 
 
   setterFunction(): void {
+    console.log(this);
     const ligandsArr = [];
     const drugsArr = [];
       this.data.ligands.forEach(ligand => {
@@ -56,15 +57,17 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
         if (ligand.href && !this.ligandsMap.get(ligand.id)) {
           // placeholder to block repetitive calls
           this.ligandsMap.set(ligand.id, {});
-          this._http.get<any>(ligand.href + '?view=full').subscribe(res => {
+          this._http.get<any>(`${ligand.href}?view=full`).subscribe(res => {
+            console.log(res);
             this.ligandsMap.set(ligand.id, res);
             const refid: string = res.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;
             const lig = {
               name: res.name,
               refid: refid,
-              activityType: activity.label === 'Potency' ? activity.label : 'p' + activity.label,
+              activityType: this._getActivityType(activity),
               activity: activity.numval,
-              imageUrl: this._STRUCTUREURLBASE + refid + '.svg?size=250'
+              imageUrl: `${this._STRUCTUREURLBASE}${refid}.svg?size=250`,
+              internalUrl: `/idg/ligands/${res.id}`
             };
             const drug = res.properties.filter(prop => prop.label === 'Ligand Drug');
             if (drug.length > 0 && drug[0].term === 'YES') {
@@ -108,7 +111,7 @@ paginateLigands($event) {
   this.ligandsDataSource.data = this.allLigands.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize);
 }
 
-    private _getActivity(ligand: any): string {
+    private _getActivity(ligand: any): any {
     let ret: any = {};
     ligand.properties.map(prop => {
       if (prop.label === 'IC50') {
@@ -116,7 +119,23 @@ paginateLigands($event) {
       } else if (prop.label === 'Ligand Activity') {
         ret = ligand.properties.filter(p => p.label === prop.term)[0];
       }
+      else {
+        ret = {label: 'N/A', numval: ''}
+      }
     });
+    console.log(ret);
     return ret;
+    }
+
+    private _getActivityType(activity: any): string {
+      let ret: string = '';
+      if (activity.label === 'Potency') {
+        ret = activity.label;
+      } else if (activity.label === 'N/A') {
+        ret = '';
+      } else {
+        ret = `p${activity.label}`;
+      }
+      return ret;
     }
 }

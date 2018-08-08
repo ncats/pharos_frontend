@@ -1,0 +1,16 @@
+.ligand-card {
+  cursor: pointer;
+  min-height: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.ligand-content {
+  flex: 1 0 auto;
+}
+
+
+.centered {
+  text-align: center;
+}

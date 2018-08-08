@@ -203,13 +203,6 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
 }
 
   mapLigands() {
-
-    this.ligandPageData = new PageData({
-      top: 10,
-      skip: 0,
-      count: 10
-    });
-
     const tchem = this.targetsMap.get('Tchem');
     const tclin = this.targetsMap.get('Tclin');
 
@@ -224,7 +217,13 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
 
     zipped.subscribe(res => {
       this.allLigands = [].concat(...res);
-      this.ligandPageData.total = this.allLigands.length;
+      this.ligandPageData = new PageData({
+        top: 20,
+        skip: 0,
+        count: 20,
+        total: this.allLigands.length
+      });
+      console.log(this.ligandPageData);
       this.ligands = this.allLigands.slice(this.ligandPageData.skip, this.ligandPageData.top);
       this.loading = false;
     });
@@ -329,8 +328,10 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
       this.loading = true;
       if (this.ligands.length === 0) {
         this.mapLigands();
+      } else {
+        this.ligands = this.allLigands.slice(0, 20);
+        this.loading = false;
       }
-      this.ligands = this.allLigands.slice(0, 10);
     }
     if ($event.tab.textLabel.split(' ')[0] === 'Diseases') {
       this.loading = true;

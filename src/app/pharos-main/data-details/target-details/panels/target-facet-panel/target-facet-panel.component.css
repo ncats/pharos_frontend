@@ -4,19 +4,6 @@
   margin-left: 20px;
 }
 
-.flex30 {
-  flex: 1 1 calc(100% - 20px);
-  max-width: calc(100% - 20px);
-}
-
-/*
-
-.link-list{
-  height: 100%;
-}
-*/
-
-
 #facets-grid {
   display: grid;
   grid-auto-rows: max-content;
@@ -28,6 +15,3 @@
   margin-bottom: 4em;
 }
 
-pharos-generic-table > mat-table > mat-header-row {
-  display: none;
-}
