@@ -15,11 +15,13 @@
         <div *ngFor="let ligand of ligandsDataSource.connect() | async">
           <mat-card routerLink='/ligands/{{ligand.name}}' class="ligand-card" fxFill>
             <mat-card-content>
-          <h3 class = "mat-subheading-2">{{ligand.name}}</h3>
+          <h3 class = "mat-title">{{ligand.name}}</h3>
           <img [src] = ligand.imageUrl alt = "image for {{ligand.name}}">
           <br>
           <br>
-          {{ligand.activityType}} {{ligand.activity}}
+              <span class = "mat-title">{{ligand?.target?.gene}}</span>
+              <pharos-idg-level-indicator [level]=ligand?.target?.idgTDL></pharos-idg-level-indicator>
+              {{ligand.activityType}} {{ligand.activity}}
                 </mat-card-content>
         </mat-card>
       </div>

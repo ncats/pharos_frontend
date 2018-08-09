@@ -148,29 +148,17 @@ export class NodeService {
   makeNode(id: string, data: any): Node {
     let n: Node = this.masterNodeMap.get(id);
     if (!n) {
-      if (data.properties.type) {
-      switch (data.properties.type) {
-        case 'article': {
-          n = new Article(id, data);
-          break;
-        }
-        case 'query': {
-          n = new Query(id, data);
-          break;
-        }
-        case 'mesh': {
-          n = new Mesh(id, data);
-          break;
-        }
-        case 'protein': {
+      if (data.properties.kind) {
+      switch (data.properties.kind) {
+        case 'ix.idg.models.Target': {
           n = new Protein(id, data);
           break;
         }
-        case 'disease': {
+        case 'ix.idg.models.Disease': {
           n = new Disease(id, data);
           break;
         }
-        case 'drug': {
+        case 'ix.idg.models.Ligand': {
           n = new Drug(id, data);
           break;
         }

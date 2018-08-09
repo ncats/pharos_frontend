@@ -50,9 +50,11 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   constructor(source, target, data) {
     this.source = source;
     this.target = target;
-    this.type = data.type || '';
-    this.properties = data.properties;
-    this.uuid = data.identity ? data.identity.low : 0;
-    this.qualifier = data.properties ? data.properties.qualifier : '';
+    if (data) {
+      this.type = data.type || '';
+      this.properties = data.properties;
+      this.uuid = data.identity ? data.identity.low : 0;
+      this.qualifier = data.properties ? data.properties.qualifier : '';
+    }
   }
 }

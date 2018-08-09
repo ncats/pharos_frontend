@@ -60,9 +60,10 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   setterFunction(): void {
+    console.log(this)
     const ligandsArr = [];
     this.data.forEach(ligand => {
-    //  const activity: any = this._getActivity(ligand);
+      const activity: any = this._getActivity(ligand);
       const mappedLig = this.ligandsMap.get(ligand.id);
       if (!mappedLig) {
         // placeholder to block repetitive calls
@@ -73,9 +74,13 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
           const newLigand = {
             name: res.name,
             refid: refid,
-            //    activityType: activity.label === 'Potency' ? activity.label : 'p' + activity.label,
-            //   activity: activity.numval,
+            activityType: this._getActivityType(activity),
+            activity: activity.numval,
             imageUrl: this._STRUCTUREURLBASE + refid + '.svg'
+          };
+
+          if(ligand.target){
+            newLigand['target'] = ligand.target;
           }
           this.ligandsMap.set(ligand.id, newLigand);
           ligandsArr.push(newLigand);
@@ -89,7 +94,7 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
 
   }
 
- /* private _getActivity(ligand: any): string {
+  private _getActivity(ligand: any): any {
     let ret: any = {};
     ligand.properties.map(prop => {
       if (prop.label === 'IC50') {
@@ -97,10 +102,25 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
       } else if (prop.label === 'Ligand Activity') {
         ret = ligand.properties.filter(p => p.label === prop.term)[0];
       }
+      else {
+        ret = {label: 'N/A', numval: ''}
+      }
     });
+    console.log(ret);
     return ret;
-  }*/
+  }
 
+  private _getActivityType(activity: any): string {
+    let ret: string = '';
+    if (activity.label === 'Potency') {
+      ret = activity.label;
+    } else if (activity.label === 'N/A') {
+      ret = '';
+    } else {
+      ret = `p${activity.label}`;
+    }
+    return ret;
+  }
 
 
 }

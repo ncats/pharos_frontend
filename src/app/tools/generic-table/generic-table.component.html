@@ -27,6 +27,7 @@
             <div *ngIf="row[field] && row[field].length; else single">
               <span *ngFor="let term of row[field]">
                 <pharos-property-display [property]='term' [showLabel]="false"></pharos-property-display>
+                <br>
               </span>
             </div>
             <ng-template #single>

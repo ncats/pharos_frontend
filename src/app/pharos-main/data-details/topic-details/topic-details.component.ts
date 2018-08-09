@@ -19,19 +19,21 @@ import {Ligand} from '../../../models/ligand';
 import {HttpClient} from '@angular/common/http';
 import {Target} from '../../../models/target';
 import {Disease} from '../../../models/disease';
-import {combineLatest, concat, forkJoin, from, merge, Observable, of, zip} from 'rxjs/index';
-import {map} from 'rxjs/operators';
-import {concatAll} from 'rxjs/operators';
-import {combineAll, mergeAll} from 'rxjs/operators';
-import {concatMap} from 'rxjs/operators';
+import {from, Observable, of} from 'rxjs/index';
 import {EnvironmentVariablesService} from '../../../pharos-services/environment-variables.service';
 import {PageData} from '../../../models/page-data';
-import {take, zipAll} from 'rxjs/operators';
+import {map, zipAll} from 'rxjs/operators';
 import {MatTabChangeEvent} from '@angular/material';
 import {TableData} from '../../../models/table-data';
 import {Property} from '../../../models/property';
-import {mergeMap} from 'rxjs/operators';
+import {Node} from "../../../tools/visualizations/force-directed-graph/models/node";
+import {Link} from "../../../tools/visualizations/force-directed-graph/models/link";
+import {LinkService} from "../../../tools/visualizations/force-directed-graph/services/event-tracking/link.service";
 
+interface TopicData{
+  target: Target;
+  data: any;
+}
 
 @Component({
   selector: 'pharos-topic-details',
@@ -48,10 +50,12 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   allLigands: Ligand[] = [];
   diseases: any[] = [];
   allDiseases: any[] = [];
-  nodes: any[] = [];
+  nodes: Node[] = [];
+  links: Link[] = [];
   _apiUrl: string;
   targetsMap: Map<string, Target[]> = new Map<string, Target[]>();
   diseasesMap: Map<string, any[]> = new Map<string, any[]>();
+  ligandsMap: Map<string, any[]> = new Map<string, any[]>();
   displayTargets: any = {};
   targetPageData: PageData;
   ligandPageData: PageData;
@@ -61,8 +65,11 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   diseaseFields: TableData[] = [
     new TableData({
       name: 'disease',
-      label: '',
-      width: 100
+      label: 'Disease',
+    }),
+    new TableData({
+      name: 'targets',
+      label: 'Associated Targets'
     })
   ];
 
@@ -72,6 +79,8 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   constructor(private _injector: Injector,
               private http: HttpClient,
               private environmentVariablesService: EnvironmentVariablesService,
+              private nodeService: NodeService,
+              private linkService: LinkService,
               @Inject(forwardRef(() => ComponentLookupService)) private componentLookupService,
               private dataDetailsResolver: DataDetailsResolver,
               private ref: ChangeDetectorRef,
@@ -202,80 +211,117 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
     return allTargets.filter(target => target.gene === id)[0];
 }
 
+
   mapLigands() {
+    this.ligandsMap.clear();
     const tchem = this.targetsMap.get('Tchem');
     const tclin = this.targetsMap.get('Tclin');
 
     const targetLigands = (tchem ? tchem : []).concat(tclin ? tclin : []);
 
-    const ligandsObserv: any = targetLigands.map(target => {
+    from(targetLigands.map(target => {
       const url = `${this._apiUrl}targets/${target.id}/links(kind=ix.idg.models.Ligand)`;
-      return this.getData(url);
-    });
-
-    const zipped: Observable<any> = from(ligandsObserv).pipe(zipAll());
-
-    zipped.subscribe(res => {
-      this.allLigands = [].concat(...res);
+      return [target, this.getData(url)];
+    })).pipe(
+      map(res  => {
+        console.log(res);
+        return res[1].pipe(
+          map(response => {
+            console.log(response);
+            const data : TopicData = {target: res[0] as Target, data: response} as TopicData;
+          return data;
+        }))
+      }),
+      zipAll()
+    ).subscribe(res => {
+      console.log(res);
+      res.map<TopicData>(apiCall => {
+        console.log(apiCall);
+        apiCall.data.pipe(
+          map(data => {
+            console.log(res);
+            console.log(data);
+            console.log(apiCall);
+            /*this.nodes.push(new Node(apiCall.target.id, apiCall.target));
+            const start = this.nodeService.makeNode(apiCall.target.id, {properties: apiCall.target});
+            const end = this.nodeService.makeNode(data.id, {properties: data});
+            this.nodes.push(...[start, end]);
+            const link: Link = this.linkService.makeLink(start.id + end.id, start, end);
+            this.links.push(link);
+            this.nodeService.setNode(start);
+            this.nodeService.setNode(end);
+            this.linkService.setLink(link);
+            data.target = apiCall.target*/
+          }))
+        }
+      );
+/*      this.allLigands = [].concat(...res.map(call => call.data));
       this.ligandPageData = new PageData({
         top: 20,
         skip: 0,
         count: 20,
         total: this.allLigands.length
       });
-      console.log(this.ligandPageData);
-      this.ligands = this.allLigands.slice(this.ligandPageData.skip, this.ligandPageData.top);
+      this.ligands = this.allLigands.slice(this.ligandPageData.skip, this.ligandPageData.top);*/
       this.loading = false;
+      console.log(this);
     });
   }
 
   mapDiseases() {
-
-    this.diseasePageData = new PageData({
-      top: 10,
-      skip: 0,
-      count: 10
-    });
-
+/*    this.diseasesMap.clear();
     from(this.allTargets.map(target => {
       const url = `${this._apiUrl}targets/${target.id}/links(kind=ix.idg.models.Disease)`;
-      this.getData(url).subscribe(res => {
-          if (res.length > 0) {
-            const filtered = res.filter(disease => {
-              const sources = disease.properties.filter(prop => prop.label === 'Data Source').map(lab => lab['term']);
-              return sources.includes('Monarch' || 'DrugCentral Indication');
-            });
-            filtered.map(realDisease => {
-              const diseaseName = realDisease.properties.filter(prop => prop.label === 'IDG Disease')[0].term;
-              const mappedDisease = this.diseasesMap.get(diseaseName);
-              if (mappedDisease) {
-                mappedDisease.push(
-                  {
-                    target: new Property(
+      return [target, this.getData(url)];
+    })).pipe(
+      map(res => {
+        return res[1].pipe(
+          map(response => {
+            if (response.length > 0) {
+              const filtered = response.filter(disease => {
+                const sources = disease.properties.filter(prop => prop.label === 'Data Source').map(lab => lab['term']);
+                return sources.includes('Monarch' || 'DrugCentral Indication');
+              });
+              filtered.map(realDisease => {
+                const diseaseName = realDisease.properties.filter(prop => prop.label === 'IDG Disease')[0].term;
+                const mappedDisease = this.diseasesMap.get(diseaseName);
+                if (mappedDisease) {
+                  mappedDisease.push(
+                   new Property(
+                        {
+                          term: res[0].name,
+                          internalHref: `/idg/topics/${res[0].accession}`
+                        })
+                    );
+                  this.diseasesMap.set(diseaseName, mappedDisease);
+                } else {
+                  const newDiseaseMap = [
+                    new Property(
                       {
-                        term: target.name,
-                        href: target.accession
+                        term: res[0].name,
+                        internalHref: `/idg/topics/${res[0].accession}`
                       })
-                  });
-                this.diseasesMap.set(diseaseName, mappedDisease);
-              } else {
-                const newDiseaseMap = [{
-                  target: new Property(
-                    {
-                      term: target.name,
-                      href: target.accession
-                    })
-                }];
-                this.diseasesMap.set(diseaseName, newDiseaseMap);
-              }
-            });
-          }
-          this.allDiseases = Array.from(this.diseasesMap.keys()).map(disease => {
-            return {disease: new Property({term: disease})}
-          });
-        });
-    }));
+                  ];
+                  this.diseasesMap.set(diseaseName, newDiseaseMap);
+                }
+              });
+            }
+
+            return {target: res[0], data: response};
+          })
+        )
+      }),
+      zipAll()
+    ).subscribe(res => {
+      this.allDiseases = [];
+      this.diseasesMap.forEach((value, key) => {
+        this.allDiseases.push({
+          disease: new Property({term: key}),
+          targets: value
+        })
+      });
       this.loading = false;
+    });*/
   }
 
   paginateTargets($event) {
@@ -284,10 +330,6 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
 
   paginateLigands($event) {
     this.ligands = this.allLigands.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize);
-  }
-
-  paginateDiseases($event) {
-    this.diseases = this.allDiseases.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize);
   }
 
   getHighestLevel(potential?: boolean): string {
@@ -335,7 +377,18 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
     }
     if ($event.tab.textLabel.split(' ')[0] === 'Diseases') {
       this.loading = true;
-      if (this.diseases.length === 0) {
+      if (this.allDiseases.length === 0) {
+        this.mapDiseases();
+      }
+      else{
+        this.loading = false;
+      }
+    }
+    if($event.tab.textLabel ==='Graph'){
+      if (this.ligands.length === 0) {
+        this.mapLigands();
+      }
+      if (this.allDiseases.length === 0) {
         this.mapDiseases();
       }
     }

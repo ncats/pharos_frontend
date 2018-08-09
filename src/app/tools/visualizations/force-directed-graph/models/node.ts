@@ -99,7 +99,7 @@ export class Node implements d3.SimulationNodeDatum {
     //  uuid is still saved here
     this.labels = data.labels;
     this.linkCount = 1;
-    this.kgraph = data.properties ? data.properties.kgraph.low : 0;
+   // this.kgraph = data.properties ? data.properties.kgraph.low : 0;
 //  this.created = data.created;
     this.name = data.properties ? data.properties.name : '';
     this.type = data.properties ? data.properties.type : '';
@@ -149,7 +149,7 @@ export class Protein extends Node {
   /**
    * uniprot id
    */
-  uniprot_id: string;
+  accession: string;
   /**
    * description paragraph of the protein
    */
@@ -172,7 +172,10 @@ export class Protein extends Node {
    * todo: sync with current database
    */
   uri: string;
-
+  /**
+   * gene name
+   */
+  gene: string;
   /**
    * new protein
    * @param {string} uuid
@@ -180,12 +183,12 @@ export class Protein extends Node {
    */
   constructor(uuid: string, data: any) {
     super(uuid, data);
-    this.uniprot_id = data.properties.uniprot_id;
+    console.log(data);
+    this.accession = data.properties.accession;
     this.description = data.properties.description;
-    this.synonyms = data.properties.synonyms.split(',');
-    this.family = data.properties.family;
-    this.tdl = data.properties.tdl;
-    this.uri = data.properties.uri;
+    this.family = data.properties.idgFamily;
+    this.tdl = data.properties.idgTDL;
+    this.gene = data.properties.gene;
   }
 }
 
@@ -279,7 +282,8 @@ export class Drug extends Node {
    */
   constructor(uuid: string, data: any) {
     super(uuid, data);
-    this.synonyms = data.properties.synonyms.split(',');
+    console.log(data);
+    //this.synonyms = data.properties.synonyms.split(',');
 
   }
 }

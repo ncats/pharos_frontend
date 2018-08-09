@@ -49,7 +49,6 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
 
 
   setterFunction(): void {
-    console.log(this);
     const ligandsArr = [];
     const drugsArr = [];
       this.data.ligands.forEach(ligand => {
@@ -58,7 +57,6 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
           // placeholder to block repetitive calls
           this.ligandsMap.set(ligand.id, {});
           this._http.get<any>(`${ligand.href}?view=full`).subscribe(res => {
-            console.log(res);
             this.ligandsMap.set(ligand.id, res);
             const refid: string = res.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;
             const lig = {
@@ -123,7 +121,6 @@ paginateLigands($event) {
         ret = {label: 'N/A', numval: ''}
       }
     });
-    console.log(ret);
     return ret;
     }
 
