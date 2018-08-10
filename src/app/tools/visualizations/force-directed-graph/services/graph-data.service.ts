@@ -30,8 +30,8 @@ export class GraphDataService {
   nodes: any  = [];
 
   constructor(
-    private dataConnectionService: DataConnectionService,
-    private messageService: MessageService,
+  //  private dataConnectionService: DataConnectionService,
+  //  private messageService: MessageService,
     private nodeService: NodeService,
     private linkService: LinkService
   ) {
@@ -42,7 +42,7 @@ export class GraphDataService {
      * sets up subscription to watch for new messages from the websocket. Parses the message based on type and updates
      * the graph
      */
-    this.dataConnectionService.messages.subscribe(response => {
+   /* this.dataConnectionService.messages.subscribe(response => {
         if (response.data) {
           if (response.type) {
             this.originalEvent = response.type.toString();
@@ -74,7 +74,7 @@ export class GraphDataService {
             this.makeGraph();
           }
         }
-    });
+    });*/
   }
 
   /**
@@ -125,6 +125,7 @@ export class GraphDataService {
    * @returns void
    */
   makeGraph(): void {
+    console.log("making graph");
     const newNodes = this.nodeList.filter((elem, pos, arr) => {
       return arr.indexOf(elem) === pos;
     });
@@ -205,11 +206,11 @@ export class GraphDataService {
    * @returns void
    */
   nodeExpand(id: string, type: string, properties: any): void {
-    const message: Message = this.messageService.getMessage(id, type, properties);
+   /* const message: Message = this.messageService.getMessage(id, type, properties);
     // right now this is only creating a skeleton map object without the diff
     // this happens here because node id and label is needed for tracking.
     this.eventData = {id: id, diff: {}};
-    this.dataConnectionService.messages.next(message);
+    this.dataConnectionService.messages.next(message);*/
   }
 
   /**

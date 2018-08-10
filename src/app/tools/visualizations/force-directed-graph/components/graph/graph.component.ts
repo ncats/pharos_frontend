@@ -1,5 +1,5 @@
 import {
-  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener,
+  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Input,
   OnInit
 } from '@angular/core';
 import {D3Service} from '../../services/event-tracking/d3.service';
@@ -25,12 +25,14 @@ export class GraphComponent implements OnInit, AfterViewInit {
    * list of nodes
    * @type {Node[]}
    */
+  @Input()
   public nodes: Node[] = [];
 
   /**
    * list of links
    * @type {Link[]}
    */
+  @Input()
   public links: Link[] = [];
 
   /**
@@ -80,8 +82,14 @@ export class GraphComponent implements OnInit, AfterViewInit {
    * set up graph data subscription
    */
   ngOnInit() {
+    console.log(this);
+    if (this.graph) {
+      this.graph.update({nodes: this.nodes, links: this.links}, this.options);
+    }
+   // this.graphDataService.makeGraph();
     this.loadingService.loading$.subscribe(res => this.loading = res);
     this.graphDataService.graphhistory$.subscribe(res => {
+      console.log(res);
       this.nodes = res.nodes;
       this.links = res.links;
       if (this.graph) {
@@ -110,9 +118,24 @@ export class GraphComponent implements OnInit, AfterViewInit {
    * resize graph with updated container size
    */
   ngAfterViewInit() {
+    console.log("after view init");
+    console.log(this.graph.nodes.length);
     this.graph.initSimulation(this.options);
+    this.graph.ticker.emit();
   }
 
+  ngOnChanges(changes){
+    console.log(changes)
+   /* if(changes.links.currentValue.length > 0){
+      console.log("updating graph 111111111111")
+      if(this.graph) {
+        console.log("updating graph")
+        this.graph.update({nodes: this.nodes, links: this.links}, this.options);
+      } else {
+        this.graph = this.d3Service.getForceDirectedGraph(this.nodes, this.links, this._options);
+      }
+    }*/
+  }
 
 
   /*  downloadGraph(): void {

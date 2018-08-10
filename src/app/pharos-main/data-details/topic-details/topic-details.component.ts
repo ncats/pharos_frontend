@@ -218,54 +218,57 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
     const tclin = this.targetsMap.get('Tclin');
 
     const targetLigands = (tchem ? tchem : []).concat(tclin ? tclin : []);
-
+    const nodes: Node[] = [];
+    const links: Link[] = [];
     from(targetLigands.map(target => {
       const url = `${this._apiUrl}targets/${target.id}/links(kind=ix.idg.models.Ligand)`;
-      return [target, this.getData(url)];
+      const topicData: TopicData = {target: target, data: this.getData(url)};
+      return topicData;
     })).pipe(
-      map(res  => {
-        console.log(res);
-        return res[1].pipe(
+      map(res => {
+        return res.data.pipe(
           map(response => {
-            console.log(response);
-            const data : TopicData = {target: res[0] as Target, data: response} as TopicData;
-          return data;
-        }))
+            const data : TopicData = {target: res.target as Target, data: response};
+              const start = this.nodeService.makeNode(data.target.id.toString(), {properties: data.target});
+              data.data.map(ligand => {
+                const end = this.nodeService.makeNode(ligand.id, {properties: ligand});
+                nodes.push(...[start, end]);
+                const link: Link = this.linkService.makeLink(start.id + end.id, start, end);
+                links.push(link);
+                this.nodeService.setNode(start);
+                this.nodeService.setNode(end);
+                this.linkService.setLink(link);
+                ligand.target = data.target;
+              });
+            return response;
+     //   });
+          }))
       }),
       zipAll()
     ).subscribe(res => {
       console.log(res);
-      res.map<TopicData>(apiCall => {
-        console.log(apiCall);
-        apiCall.data.pipe(
-          map(data => {
-            console.log(res);
-            console.log(data);
-            console.log(apiCall);
-            /*this.nodes.push(new Node(apiCall.target.id, apiCall.target));
-            const start = this.nodeService.makeNode(apiCall.target.id, {properties: apiCall.target});
-            const end = this.nodeService.makeNode(data.id, {properties: data});
-            this.nodes.push(...[start, end]);
-            const link: Link = this.linkService.makeLink(start.id + end.id, start, end);
-            this.links.push(link);
-            this.nodeService.setNode(start);
-            this.nodeService.setNode(end);
-            this.linkService.setLink(link);
-            data.target = apiCall.target*/
-          }))
-        }
-      );
-/*      this.allLigands = [].concat(...res.map(call => call.data));
+/*
+      res.map(apiCall => {
+        const td: TopicData = apiCall;
+      //  return td.
+          return apiCall;
+        });*/
+    //    });
+
+      this.allLigands = [].concat(...res);
       this.ligandPageData = new PageData({
         top: 20,
         skip: 0,
         count: 20,
         total: this.allLigands.length
       });
-      this.ligands = this.allLigands.slice(this.ligandPageData.skip, this.ligandPageData.top);*/
+      this.ligands = this.allLigands.slice(this.ligandPageData.skip, this.ligandPageData.top);
+      this.nodes = nodes;
+      this.links = links;
       this.loading = false;
       console.log(this);
-    });
+      console.log("loading done?");
+    })
   }
 
   mapDiseases() {

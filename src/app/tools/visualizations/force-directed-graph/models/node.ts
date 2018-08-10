@@ -183,7 +183,6 @@ export class Protein extends Node {
    */
   constructor(uuid: string, data: any) {
     super(uuid, data);
-    console.log(data);
     this.accession = data.properties.accession;
     this.description = data.properties.description;
     this.family = data.properties.idgFamily;
@@ -282,7 +281,7 @@ export class Drug extends Node {
    */
   constructor(uuid: string, data: any) {
     super(uuid, data);
-    console.log(data);
+    this.name = data.properties.properties.filter(prop => prop.label ==="IDG Ligand")[0].term;
     //this.synonyms = data.properties.synonyms.split(',');
 
   }

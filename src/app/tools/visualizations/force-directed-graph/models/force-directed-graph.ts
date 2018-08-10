@@ -58,6 +58,7 @@ export class ForceDirectedGraph {
    */
   constructor(
     nodes, links, options: any) {
+    console.log(this);
     this.nodes = nodes;
     this.links = links;
     this.initSimulation(options);
@@ -69,6 +70,7 @@ export class ForceDirectedGraph {
    * @param options
    */
   update(graph, options): void {
+    console.log(graph);
     //  frequently the data is separate from the graph image, so these need to be set for downstream filtering
     this.nodes = graph.nodes;
     this.links = graph.links;
@@ -91,12 +93,15 @@ export class ForceDirectedGraph {
    * @param options
    */
   initSimulation(options): void {
+    console.log("initializing");
     if (!options || !options.width || !options.height) {
       throw new Error('missing options when initializing simulation');
     }
 
     /** Creating the simulation */
     if (!this.simulation) {
+      console.log("make simulation");
+      console.log(this.links);
       this.simulation = d3.forceSimulation()
         .force('link', d3.forceLink(this.links).id(d => d['id']))
         //  .distance(this.links.length*100))
@@ -125,6 +130,7 @@ export class ForceDirectedGraph {
       this.simulation.on('tick', () => ticker.emit(this.simulation));
 
     }
+    console.log("restart simulation");
     /** Restarting the simulation internal timer */
     this.simulation.restart();
   }

@@ -60,7 +60,6 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   setterFunction(): void {
-    console.log(this)
     const ligandsArr = [];
     this.data.forEach(ligand => {
       const activity: any = this._getActivity(ligand);
@@ -106,7 +105,6 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
         ret = {label: 'N/A', numval: ''}
       }
     });
-    console.log(ret);
     return ret;
   }
 
