@@ -59,12 +59,16 @@ http:// paletton.com/#uid=40R0u0krKw0hhHhmv-HvKrezxln
   fill: #ff5722;
 }
 
-circle.node.query {
+circle.node.target {
   fill: #1E71A2;
 }
 
-circle.node.article {
+circle.node.ligand {
   fill: #FF9C22;
+}
+
+circle.node.disease {
+  fill: #ff5722;
 }
 
 .connected{

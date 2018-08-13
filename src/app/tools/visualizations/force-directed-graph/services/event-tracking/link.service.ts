@@ -122,6 +122,7 @@ export class LinkService {
     let l: Link = this.masterLinkMap.get(id);
     if (!l) {
       l = new Link(source, target, data);
+      l.uuid = id;
     }
     return l;
   }

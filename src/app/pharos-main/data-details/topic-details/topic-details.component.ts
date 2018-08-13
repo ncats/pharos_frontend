@@ -84,6 +84,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
               @Inject(forwardRef(() => ComponentLookupService)) private componentLookupService,
               private dataDetailsResolver: DataDetailsResolver,
               private ref: ChangeDetectorRef,
+              private graphDataService: GraphDataService,
               private componentInjectorService: ComponentInjectorService) {
     super();
     this._apiUrl = this.environmentVariablesService.getApiPath();
@@ -229,13 +230,14 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
         return res.data.pipe(
           map(response => {
             const data : TopicData = {target: res.target as Target, data: response};
-              const start = this.nodeService.makeNode(data.target.id.toString(), {properties: data.target});
-              data.data.map(ligand => {
-                const end = this.nodeService.makeNode(ligand.id, {properties: ligand});
-                nodes.push(...[start, end]);
-                const link: Link = this.linkService.makeLink(start.id + end.id, start, end);
+            const start = this.nodeService.makeNode(data.target.id.toString(), {properties: data.target});
+            nodes.push(start);
+            this.nodeService.setNode(start);
+            data.data.map(ligand => {
+                const end = this.nodeService.makeNode(ligand.id.toString(), {properties: ligand});
+                nodes.push(end);
+                const link: Link = this.linkService.makeLink(start.uuid.concat(end.uuid), start, end);
                 links.push(link);
-                this.nodeService.setNode(start);
                 this.nodeService.setNode(end);
                 this.linkService.setLink(link);
                 ligand.target = data.target;
@@ -246,15 +248,6 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
       }),
       zipAll()
     ).subscribe(res => {
-      console.log(res);
-/*
-      res.map(apiCall => {
-        const td: TopicData = apiCall;
-      //  return td.
-          return apiCall;
-        });*/
-    //    });
-
       this.allLigands = [].concat(...res);
       this.ligandPageData = new PageData({
         top: 20,
@@ -263,25 +256,31 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
         total: this.allLigands.length
       });
       this.ligands = this.allLigands.slice(this.ligandPageData.skip, this.ligandPageData.top);
-      this.nodes = nodes;
-      this.links = links;
-      this.loading = false;
-      console.log(this);
+      this.nodes = this.nodes.concat(...nodes);
+      this.links = this.links.concat(...links);
       console.log("loading done?");
+      this.graphDataService.setGraph({nodes: nodes, links: links});
+      this.loading = false;
     })
   }
 
   mapDiseases() {
-/*    this.diseasesMap.clear();
+    this.diseasesMap.clear();
+    const nodes: Node[] = [];
+    const links: Link[] = [];
     from(this.allTargets.map(target => {
       const url = `${this._apiUrl}targets/${target.id}/links(kind=ix.idg.models.Disease)`;
-      return [target, this.getData(url)];
+      const topicData: TopicData = {target: target, data: this.getData(url)};
+      return topicData;
     })).pipe(
       map(res => {
-        return res[1].pipe(
+        return res.data.pipe(
           map(response => {
-            if (response.length > 0) {
-              const filtered = response.filter(disease => {
+            const data : TopicData = {target: res.target as Target, data: response};
+            const start = this.nodeService.makeNode(data.target.id.toString(), {properties: data.target});
+            nodes.push(start);
+            this.nodeService.setNode(start);
+              const filtered = data.data.filter(disease => {
                 const sources = disease.properties.filter(prop => prop.label === 'Data Source').map(lab => lab['term']);
                 return sources.includes('Monarch' || 'DrugCentral Indication');
               });
@@ -292,8 +291,8 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
                   mappedDisease.push(
                    new Property(
                         {
-                          term: res[0].name,
-                          internalHref: `/idg/topics/${res[0].accession}`
+                          term: data.target.name,
+                          internalHref: `/idg/topics/${data.target.accession}`
                         })
                     );
                   this.diseasesMap.set(diseaseName, mappedDisease);
@@ -301,16 +300,25 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
                   const newDiseaseMap = [
                     new Property(
                       {
-                        term: res[0].name,
-                        internalHref: `/idg/topics/${res[0].accession}`
+                        term: data.target.name,
+                        internalHref: `/idg/topics/${data.target.accession}`
                       })
                   ];
                   this.diseasesMap.set(diseaseName, newDiseaseMap);
                 }
+                console.log(realDisease);
+                realDisease.name = diseaseName;
+                const end = this.nodeService.makeNode(realDisease.id.toString(), {properties: realDisease});
+                nodes.push(end);
+                const link: Link = this.linkService.makeLink(start.uuid.concat(end.uuid), start, end);
+                links.push(link);
+                this.nodeService.setNode(end);
+                this.linkService.setLink(link);
               });
-            }
+              return response;
+            //}
 
-            return {target: res[0], data: response};
+          //  return {target: res[0], data: response};
           })
         )
       }),
@@ -323,8 +331,12 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
           targets: value
         })
       });
+      this.nodes = this.nodes.concat(...nodes);
+      this.links = this.links.concat(...links);
+      console.log("disease loading done?");
+      this.graphDataService.setGraph({nodes: nodes, links: links});
       this.loading = false;
-    });*/
+    });
   }
 
   paginateTargets($event) {

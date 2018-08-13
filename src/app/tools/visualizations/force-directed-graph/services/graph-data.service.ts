@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Subject} from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
 import {Message, MessageService} from './message.service';
 import {DataConnectionService} from './connection/data-connection.service';
 import {NodeService} from './event-tracking/node.service';
@@ -35,7 +35,7 @@ export class GraphDataService {
     private nodeService: NodeService,
     private linkService: LinkService
   ) {
-
+    this.makeGraph();
     // todo: with the added search variables, it is extremely likely no results will come back. this needs to be shown
 
     /**
@@ -120,12 +120,23 @@ export class GraphDataService {
     }
   }
 
+  setGraph(graph : any) {
+    console.log("Setting graph");
+    console.log(graph);
+      this.nodeList = graph.nodes;
+    this.linkList = graph.links;
+    this._graphHistorySource.next(graph);
+    this.graph = graph;
+   //  this.makeGraph();
+  }
+
   /**
    * updates graph with new nodes and links. filters out existing ones so as to not constantly create the same node
    * @returns void
    */
   makeGraph(): void {
     console.log("making graph");
+    console.log(this);
     const newNodes = this.nodeList.filter((elem, pos, arr) => {
       return arr.indexOf(elem) === pos;
     });
@@ -147,6 +158,7 @@ export class GraphDataService {
     this.applyDiff(diff);
     this.countLinks();
     // update graph
+    console.log("updating graph after diff and counting links");
     this._graphHistorySource.next(this.graph);
     this.nodeList = [];
     this.linkList = [];
@@ -181,6 +193,7 @@ export class GraphDataService {
    * @returns void
    */
   countLinks(): void {
+    console.log("counting links");
     this.graph.nodes.forEach(node => node.linkCount = 1);
     for (const l of this.graph.links) {
       l.source.linkCount ++;

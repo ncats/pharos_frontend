@@ -146,20 +146,23 @@ export class NodeService {
    * @return {Node}
    */
   makeNode(id: string, data: any): Node {
-    let n: Node = this.masterNodeMap.get(id);
+    let n: Node = this.masterNodeMap.get(id.toString());
     if (!n) {
       if (data.properties.kind) {
       switch (data.properties.kind) {
         case 'ix.idg.models.Target': {
           n = new Protein(id, data);
+          n.type = "target";
           break;
         }
         case 'ix.idg.models.Disease': {
           n = new Disease(id, data);
+          n.type = "disease";
           break;
         }
         case 'ix.idg.models.Ligand': {
           n = new Drug(id, data);
+          n.type = "ligand";
           break;
         }
         default:
@@ -169,6 +172,7 @@ export class NodeService {
         n = new Node(id, data);
       }
     }
+    n.uuid = id;
     return n;
   }
 

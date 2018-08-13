@@ -82,19 +82,16 @@ export class GraphComponent implements OnInit, AfterViewInit {
    * set up graph data subscription
    */
   ngOnInit() {
+    console.log("init graph");
     console.log(this);
-    if (this.graph) {
-      this.graph.update({nodes: this.nodes, links: this.links}, this.options);
-    }
-   // this.graphDataService.makeGraph();
     this.loadingService.loading$.subscribe(res => this.loading = res);
     this.graphDataService.graphhistory$.subscribe(res => {
+      console.log("graph history subscription")
       console.log(res);
       this.nodes = res.nodes;
       this.links = res.links;
-      if (this.graph) {
-        this.graph.update(res, this.options);
-      }
+      console.log(this.graph);
+      this.graph.update(res, this.options);
     });
 
     /**
@@ -121,20 +118,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
     console.log("after view init");
     console.log(this.graph.nodes.length);
     this.graph.initSimulation(this.options);
-    this.graph.ticker.emit();
-  }
-
-  ngOnChanges(changes){
-    console.log(changes)
-   /* if(changes.links.currentValue.length > 0){
-      console.log("updating graph 111111111111")
-      if(this.graph) {
-        console.log("updating graph")
-        this.graph.update({nodes: this.nodes, links: this.links}, this.options);
-      } else {
-        this.graph = this.d3Service.getForceDirectedGraph(this.nodes, this.links, this._options);
-      }
-    }*/
+  //  this.graph.ticker.emit();
   }
 
 

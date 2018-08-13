@@ -303,7 +303,9 @@ export class Disease extends Node {
    */
   constructor(uuid: string, data: any) {
     super(uuid, data);
-    this.synonyms = data.properties.synonyms.split(',');
+    this.name = data.properties.name;
+    this.type = "disease";
+  //  this.synonyms = data.properties.synonyms.split(',');
 
   }
 }
