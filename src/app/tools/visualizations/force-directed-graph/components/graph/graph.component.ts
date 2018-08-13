@@ -1,5 +1,5 @@
 import {
-  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Input,
+  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnDestroy,
   OnInit
 } from '@angular/core';
 import {D3Service} from '../../services/event-tracking/d3.service';
@@ -82,15 +82,11 @@ export class GraphComponent implements OnInit, AfterViewInit {
    * set up graph data subscription
    */
   ngOnInit() {
-    console.log("init graph");
-    console.log(this);
     this.loadingService.loading$.subscribe(res => this.loading = res);
     this.graphDataService.graphhistory$.subscribe(res => {
-      console.log("graph history subscription")
-      console.log(res);
       this.nodes = res.nodes;
       this.links = res.links;
-      console.log(this.graph);
+      this.graphDataService.countLinks();
       this.graph.update(res, this.options);
     });
 
@@ -115,10 +111,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
    * resize graph with updated container size
    */
   ngAfterViewInit() {
-    console.log("after view init");
-    console.log(this.graph.nodes.length);
     this.graph.initSimulation(this.options);
-  //  this.graph.ticker.emit();
   }
 
 
@@ -132,11 +125,13 @@ export class GraphComponent implements OnInit, AfterViewInit {
    * @returns {{width: number; height: number}}
    */
   get options() {
-    return this._options = {
-      width: this.el.nativeElement.parentElement.offsetWidth,
-      height: this.el.nativeElement.parentElement.offsetHeight
-    };
+    if(this.el.nativeElement.parentElement) {
+      return this._options = {
+        width: this.el.nativeElement.parentElement.offsetWidth,
+        height: this.el.nativeElement.parentElement.offsetHeight
+      };
+    } else {
+      return this._options = {width: 800, height: 600}
+    }
   }
-
-
-}
+  }

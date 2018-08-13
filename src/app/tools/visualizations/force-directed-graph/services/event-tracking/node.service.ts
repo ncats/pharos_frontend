@@ -176,7 +176,9 @@ export class NodeService {
     return n;
   }
 
-
+  empty() {
+    this.masterNodeMap.clear();
+  }
 
 
 

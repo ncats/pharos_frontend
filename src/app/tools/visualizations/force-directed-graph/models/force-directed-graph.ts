@@ -69,15 +69,10 @@ export class ForceDirectedGraph {
    * @param options
    */
   update(graph, options): void {
-    console.log(graph);
     //  frequently the data is separate from the graph image, so these need to be set for downstream filtering
     this.nodes = graph.nodes;
     this.links = graph.links;
-
     this.simulation.nodes(this.nodes);
-    console.log(this.links.length);
-    this.simulation.force('link', d3.forceLink(this.links));
-    //    .strength(FORCES.LINKS));
     this.initSimulation(options);
     if (!this.simulation) {
       throw new Error('simulation was not initialized yet');
@@ -93,7 +88,6 @@ export class ForceDirectedGraph {
    * @param options
    */
   initSimulation(options): void {
-    console.log("initializing");
     if (!options || !options.width || !options.height) {
       throw new Error('missing options when initializing simulation');
     }
@@ -101,18 +95,18 @@ export class ForceDirectedGraph {
     /** Creating the simulation */
     if (!this.simulation) {
       const ticker = this.ticker;
-      console.log("make simulation");
       this.simulation = d3.forceSimulation()
         .force('link', d3.forceLink(this.links).id(d => d['uuid']))
         /* repels the nodes away from each other*/
         .force('charge', d3.forceManyBody()
-         .strength(d => (FORCES.CHARGE * d['r'])/100))
+        .strength(d => (FORCES.CHARGE * d['r'])/1500))
+        /** Updating the central force of the simulation */
+        .force('center', d3.forceCenter(options.width / 2, options.height / 2))
         /* prevents node overlap*/
         .force('collide', d3.forceCollide()
           .radius(d => d['r'] + 5).iterations(1)
-          .strength(FORCES.COLLISION))
-        /** Updating the central force of the simulation */
-        .force('center', d3.forceCenter(options.width / 2, options.height / 2));
+          .strength(FORCES.COLLISION));
+
 
 
       //  Connecting the d3 ticker to an angular event emitter
@@ -120,9 +114,7 @@ export class ForceDirectedGraph {
 
     }
 
-     console.log("restart simulation");
     /** Restarting the simulation internal timer */
-    console.log(this);
-    this.simulation.alpha(0).restart();
+    this.simulation.restart();
   }
 }

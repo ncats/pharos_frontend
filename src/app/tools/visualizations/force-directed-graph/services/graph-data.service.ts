@@ -36,107 +36,30 @@ export class GraphDataService {
     private linkService: LinkService
   ) {
     this.makeGraph();
-    // todo: with the added search variables, it is extremely likely no results will come back. this needs to be shown
-
-    /**
-     * sets up subscription to watch for new messages from the websocket. Parses the message based on type and updates
-     * the graph
-     */
-   /* this.dataConnectionService.messages.subscribe(response => {
-        if (response.data) {
-          if (response.type) {
-            this.originalEvent = response.type.toString();
-          }
-          const records = response.data._fields;
-          if (records.length === 0) {
-            console.error(response);
-          } else {
-            switch (response.type) {
-              case 'expand': {
-                this.filter = false;
-                this.noResults = false;
-                this.parseRecords(records);
-                break;
-              }
-              default: {
-                this.parseRecords(records);
-              }
-            }
-          }
-        } else {
-          // no new results added
-          // todo: still want an alert if no predictions are found.
-          if (this.noResults && (this.nodeList.length === 0 && this.linkList.length === 0)) {
-            this.clearGraph();
-            this._graphHistorySource.next(this.graph);
-            alert('no path found');
-          } else {
-            this.makeGraph();
-          }
-        }
-    });*/
-  }
-
-  /**
-   * reads objects from websocket and creates nodes and links
-   * @param path
-   * @returns void
-   */
-  parseRecords(path: any): void {
-    // neo4j websocket returns one record at a time, so looping isn't necessary, but still probably a good idea
-    for (const r of path) {
-      if (r.segments) {
-        for (const l of r.segments) {
-          // this ignores the initial start and end nodes, but they are added in the segments of the path
-          const start = this.nodeService.makeNode(l.start.identity.low, l.start);
-          const end = this.nodeService.makeNode(l.end.identity.low, l.end);
-          this.nodeList.push(...[start, end]);
-          const link: Link = this.linkService.makeLink(l.relationship.identity.low, start, end, l.relationship);
-          this.linkList.push(link);
-          this.nodeService.setNode(start);
-          this.nodeService.setNode(end);
-          this.linkService.setLink( link);
-        }
-      } else {
-        if (!r.start && !r.end) {
-          // this is for node groups that aren't a path
-          const n = this.nodeService.makeNode(r.properties.uuid, r);
-          this.nodeList.push(n);
-          this.nodeService.setNode(n);
-        } else {
-          // this is the separate path for expanding nodes -- t
-          // his does not have a uuid associated with the start or end nodes, so neo4j's id needs to be used to create the nodes
-          const start = this.nodeService.makeNode(r.properties.uuid, {});
-          const end = this.nodeService.makeNode(r.properties.uuid, {});
-          const nodes = [start, end];
-          this.nodeList.push(...nodes);
-          const link = this.linkService.makeLink(r.properties.uuid, start, end, r);
-          this.nodeService.setNode(start);
-          this.nodeService.setNode(end);
-          this.linkService.setLink( link);
-        }
-      }
-
-    }
   }
 
   setGraph(graph : any) {
-    console.log("Setting graph");
-    console.log(graph);
       this.nodeList = graph.nodes;
     this.linkList = graph.links;
-    this._graphHistorySource.next(graph);
+    this.countLinks();
     this.graph = graph;
-   //  this.makeGraph();
+    this._graphHistorySource.next(graph);
   }
+
+  getNodes(): Node[] {
+    return Array.from(this.nodeService.getNodes().values());
+  }
+
+  getLinks(): Link[] {
+    return Array.from(this.linkService.getLinks().values());
+  }
+
 
   /**
    * updates graph with new nodes and links. filters out existing ones so as to not constantly create the same node
    * @returns void
    */
   makeGraph(): void {
-    console.log("making graph");
-    console.log(this);
     const newNodes = this.nodeList.filter((elem, pos, arr) => {
       return arr.indexOf(elem) === pos;
     });
@@ -158,7 +81,6 @@ export class GraphDataService {
     this.applyDiff(diff);
     this.countLinks();
     // update graph
-    console.log("updating graph after diff and counting links");
     this._graphHistorySource.next(this.graph);
     this.nodeList = [];
     this.linkList = [];
@@ -193,7 +115,6 @@ export class GraphDataService {
    * @returns void
    */
   countLinks(): void {
-    console.log("counting links");
     this.graph.nodes.forEach(node => node.linkCount = 1);
     for (const l of this.graph.links) {
       l.source.linkCount ++;
@@ -208,6 +129,8 @@ export class GraphDataService {
   clearGraph(): void {
     this.graph.links = [];
     this.graph.nodes = [];
+    this.nodeService.empty();
+    this.linkService.empty();
     this._graphHistorySource.next(this.graph);
   }
 
