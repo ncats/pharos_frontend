@@ -8,7 +8,6 @@ import {SharedModule} from '../../shared/shared.module';
 import {PharosDashboardComponent} from '../pharos-dashboard.component';
 import {SuggestApiService} from '../../tools/search-component/suggest-api.service';
 import {APP_BASE_HREF} from '@angular/common';
-import {SearchCardComponent} from '../search-card/search-card.component';
 import {AboutPageComponent} from '../../about-page/about-page.component';
 import {DataTypesPanelComponent} from '../data-types-panel/data-types-panel.component';
 import {AboutPanelComponent} from '../about-panel/about-panel.component';
@@ -33,7 +32,6 @@ describe('ToiCardComponent', () => {
         ApiPageComponent,
         AboutPageComponent,
         FaqPageComponent,
-        SearchCardComponent,
         DataTypesPanelComponent,
         NewsPanelComponent,
         AboutPanelComponent,

@@ -1,10 +1,16 @@
+// Import theming functions
+@import '~@angular/material/theming';
+// Import your custom theme
+@import './src/ncats-theme.scss';
+
 .typeahead-field {
   width: 90%;
 }
 
 span.search-highlight {
-  color: mat-color($pharos-app-primary, 500)
-
+  font-weight: 500;
+  color: mat-color($pharos-app-primary);
+  text-decoration: underline;
 }
 
 .search-label {

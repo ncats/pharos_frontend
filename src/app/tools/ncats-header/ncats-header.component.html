@@ -1,7 +1,21 @@
+<mat-sidenav-container class="mobile-menu-container">
+  <mat-sidenav #mobilesidenav class="mobile-menu-panel"
+               [position]="'end'"
+               [fixedInViewport]= true [fixedTopGap]="60">
+    <a mat-menu-item routerLink="/targets">Targets</a>
+    <a mat-menu-item routerLink="/diseases">Diseases</a>
+    <a mat-menu-item routerLink="/ligands">Ligands</a>
+    <a mat-menu-item routerLink="/topics">Topics</a>
+    <a mat-menu-item routerLink="/api">API</a>
+    <a mat-menu-item routerLink="/about">About</a>
+    <a mat-menu-item routerLink="/faq">FAQ</a>
+    <pharos-search-component></pharos-search-component>
+  </mat-sidenav>
+
 <mat-toolbar class="ncats-toolbar" ngClass = {{headerClass}} [@slideInOut]="animationState">
   <img *ngIf="animationState === 'out'" src="./assets/images/Pharos_Logo_Rd8-white.svg" routerLink="/index" alt="Pharos logo" class="pharos-logo">
   <img *ngIf="animationState === 'in'" src="./assets/images/Pharos_Logo_Rd8.svg" routerLink="/index" alt="Pharos logo" class="pharos-logo">
-  <div fxFlex = "20" id="links" [fxHide.lt-sm]="true">
+  <div id="links" fxHide.lt-md>
     <a mat-button routerLink="/targets">Targets</a>
     <a mat-button routerLink="/diseases">Diseases</a>
     <a mat-button routerLink="/ligands">Ligands</a>
@@ -11,12 +25,12 @@
     <a mat-button routerLink="/faq">FAQ</a>
   </div>
   <span class="fill-remaining-space"></span>
-  <div fxFlex="25">
-    <pharos-search-component [fxHide.lt-sm]="true" [placeholderStr]="'search'" *ngIf=searchBar></pharos-search-component>
-    <button mat-button [mat-menu-trigger-for]="appMenu" fxHide="false" fxHide.gt-sm>
+    <pharos-search-component [fxHide.lt-md]="true" [placeholderStr]="'search'" *ngIf=searchBar></pharos-search-component>
+    <button mat-icon-button class="menu-button" (click)="mobilesidenav.toggle()" fxHide fxShow.lt-md>
       <mat-icon>menu</mat-icon>
     </button>
-    <mat-menu #appMenu="matMenu">
+<!--    <mat-menu #appMenu="matMenu" class="mobile-menu" yPosition="below">
+      <ng-template matMenuContent>
       <a mat-menu-item routerLink="/targets">Targets</a>
       <a mat-menu-item routerLink="/diseases">Diseases</a>
       <a mat-menu-item routerLink="/ligands">Ligands</a>
@@ -25,6 +39,9 @@
       <a mat-menu-item routerLink="/about">About</a>
       <a mat-menu-item routerLink="/faq">FAQ</a>
       <pharos-search-component *ngIf=searchBar></pharos-search-component>
-    </mat-menu>
-  </div>
+      </ng-template>
+    </mat-menu>-->
 </mat-toolbar>
+
+
+</mat-sidenav-container>

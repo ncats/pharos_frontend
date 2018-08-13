@@ -8,7 +8,8 @@ import {NavigationExtras, Router} from '@angular/router';
 @Component({
   selector: 'pharos-search-component',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  styleUrls: ['./search.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class SearchComponent implements OnInit {
 @Input() placeholderStr?: string;

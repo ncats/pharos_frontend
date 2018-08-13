@@ -8,7 +8,6 @@ import { EnvironmentVariablesService } from './pharos-services/environment-varia
 import { PathResolverService } from './pharos-services/path-resolver.service';
 import { FacetRetrieverService } from './pharos-main/services/facet-retriever.service';
 import { PharosDashboardComponent } from './pharos-dashboard/pharos-dashboard.component';
-import { SearchCardComponent } from './pharos-dashboard/search-card/search-card.component';
 import {SuggestApiService} from './tools/search-component/suggest-api.service';
 import {SharedModule} from './shared/shared.module';
 import {ComponentLookupService} from './pharos-services/component-lookup.service';
@@ -36,7 +35,6 @@ import {MolConverterService} from './tools/marvin-sketcher/services/mol-converte
   declarations: [
     AppComponent,
     PharosDashboardComponent,
-    SearchCardComponent,
     DynamicPanelComponent,
     ApiViewerComponent,
     DataTypesPanelComponent,

@@ -1,11 +1,11 @@
 <app-ncats-header [searchBar] = false [headerClass]="position" [animationState]="animationState"></app-ncats-header>
  <div class = "dashboard-main-div">
-<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around center" class="dashboard-search">
-  <div fxFlex="60" fxFlexOrder.xs="2">
+<div fxLayout="row" fxLayoutAlign="center center" class="dashboard-search">
+  <div fxFlex="60" fxFlex.lt-md = "95">
     <pharos-search-component class = "large-search"></pharos-search-component>
   </div>
 </div>
-   <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" class="topics-banner-row">
+  <!-- <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" class="topics-banner-row">
     <div fxFlexAlign="50" class = "topics-banner">Pharos Topics</div>
   </div>
   <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class ="toi-row">
@@ -13,15 +13,6 @@
     <div class = "toi-grid-list" fxFlex>
    <div *ngFor="let toi of topics">
        <pharos-toi-card [toi] = toi [desc]="false"></pharos-toi-card>
-     <!--<div fxFlex="35" fxFlexOrder.xs="1" fxFlexAlign="stretch">
-<pharos-search-card></pharos-search-card>
-</div>
-</div>
-<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="center none">
-<div fxFlex="60">
-<button mat-raised-button [color]= "'primary'" routerLink="/topics">See More Topics...</button>
-</div>
-<div fxFlex="35"></div>&ndash;&gt;-->
      </div>
    </div>
     <div fxFlex="10" fxFlexAlign="center">
@@ -42,8 +33,10 @@
 </div>
 </div>
 </a>
- </div>
+ </div>-->
+<!--
 <pharos-data-types-panel #details></pharos-data-types-panel>
 <pharos-about-panel></pharos-about-panel>
 <pharos-news-panel></pharos-news-panel>
 <app-pharos-footer></app-pharos-footer>
+-->

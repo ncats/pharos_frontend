@@ -66,7 +66,7 @@ export class PharosApiService {
         'protein-protein interaction between BET proteins and acetylated histones and transcription factors.',
         class: 'target',
         targetList: ['BRD2', 'BRD3', 'BRD4','BRDT'],
-        diseaseCt: 59,
+        diseaseCt: 0,
         ligandCt: 818,
         targetCt: 4,
         publicationCt: 0

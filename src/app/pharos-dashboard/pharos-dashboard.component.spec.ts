@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PharosDashboardComponent } from './pharos-dashboard.component';
-import {SearchCardComponent} from './search-card/search-card.component';
 import {SharedModule} from '../shared/shared.module';
 import {LoadingService} from '../pharos-services/loading.service';
 import {PathResolverService} from '../pharos-services/path-resolver.service';
@@ -36,7 +35,6 @@ describe('PharosDashboardComponent', () => {
         ApiPageComponent,
         AboutPageComponent,
         FaqPageComponent,
-        SearchCardComponent,
         DataTypesPanelComponent,
         NewsPanelComponent,
         AboutPanelComponent,

@@ -14,3 +14,21 @@ img.pharos-logo {
 .ncats-toolbar {
   z-index: 6667;
 }
+
+.mobile-menu-container {
+
+}
+
+
+.mobile-menu-panel{
+  color: black;
+  height: 100vh;
+  width:85vw;
+}
+
+@media only screen and (max-width: 960px) {
+  .menu-button {
+    position: absolute;
+    right: 15px;
+  }
+}

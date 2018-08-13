@@ -4,7 +4,6 @@ import {SharedModule} from './shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
 import {PharosDashboardComponent} from './pharos-dashboard/pharos-dashboard.component';
-import {SearchCardComponent} from './pharos-dashboard/search-card/search-card.component';
 import {APP_BASE_HREF} from '@angular/common';
 import {LoadingService} from './pharos-services/loading.service';
 import {PathResolverService} from './pharos-services/path-resolver.service';
@@ -37,8 +36,8 @@ describe('AppComponent', () => {
         DataTypesPanelComponent,
         AboutPanelComponent,
         NewsPanelComponent,
-        ApiViewerComponent,
-        SearchCardComponent
+        ApiViewerComponent
+
       ],
       providers: [
         PharosApiService,

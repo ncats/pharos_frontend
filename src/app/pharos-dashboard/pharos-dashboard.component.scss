@@ -4,11 +4,7 @@
   background-image: url("../../assets/images/101388260_edit2.png");
   background-color: mat-color($pharos-app-primary);
   background-repeat: no-repeat;
-  background-position: center;
   background-size: cover;
-  /*
-  height: 105vh;
-  */
 }
 
 .spacer {
@@ -18,24 +14,10 @@
 .dashboard-search{
   height: 60vh;
 }
-/*.background {
-  position: absolute;
-  height: 105vh;
-  width: 100vw;
-  opacity: .9;
-//  transform: rotate(180deg);
-}*/
 
 .toi-row {
   padding-bottom: 6vh;
 }
-
-/*.background-mobile {
-  position: fixed;
-  opacity: .6;
-  -webkit-transform: rotate(180deg);
-  transform: rotate(180deg);
-}*/
 
 .large-search > .search-row > .typeahead-field {
   background-color: white;
@@ -94,6 +76,12 @@ color: white;
 background-color: whitesmoke;
   color: mat-color($pharos-app-primary);
 
+}
+
+@media only screen and (max-width: 960px) {
+  .dashboard-main-div {
+    background-size: inherit;
+  }
 }
 
 @media screen and (max-width: 768px) {
