@@ -23,7 +23,15 @@ img.pharos-logo {
 .mobile-menu-panel{
   color: black;
   height: 100vh;
-  width:85vw;
+  width:65vw;
+}
+
+button.nav-menu-button.mat-button {
+  width: 100%;
+}
+
+.mobile-search > .search-row {
+  margin-left: 5vw;
 }
 
 @media only screen and (max-width: 960px) {

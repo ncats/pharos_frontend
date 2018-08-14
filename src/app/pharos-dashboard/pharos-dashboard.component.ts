@@ -9,6 +9,7 @@ import {PharosApiService} from "../pharos-services/pharos-api.service";
   encapsulation: ViewEncapsulation.None
 })
 export class PharosDashboardComponent implements OnInit {
+  @ViewChild('topics', {read: ElementRef}) topicsElemRef: ElementRef;
   @ViewChild('details', {read: ElementRef}) elemRef: ElementRef;
   topics: any;
   position: string;
@@ -23,6 +24,10 @@ export class PharosDashboardComponent implements OnInit {
 
   goToDetails(): void {
     this.elemRef.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+  }
+
+  goToTopics(): void {
+    this.topicsElemRef.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
   }
 
   /**

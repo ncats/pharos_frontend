@@ -2,14 +2,14 @@
   <mat-sidenav #mobilesidenav class="mobile-menu-panel"
                [position]="'end'"
                [fixedInViewport]= true [fixedTopGap]="60">
-    <a mat-menu-item routerLink="/targets">Targets</a>
-    <a mat-menu-item routerLink="/diseases">Diseases</a>
-    <a mat-menu-item routerLink="/ligands">Ligands</a>
-    <a mat-menu-item routerLink="/topics">Topics</a>
-    <a mat-menu-item routerLink="/api">API</a>
-    <a mat-menu-item routerLink="/about">About</a>
-    <a mat-menu-item routerLink="/faq">FAQ</a>
-    <pharos-search-component></pharos-search-component>
+    <button mat-button routerLink="/targets" class="nav-menu-button">Targets</button>
+    <button mat-button routerLink="/diseases" class="nav-menu-button">Diseases</button>
+    <button  mat-button routerLink="/ligands" class="nav-menu-button">Ligands</button>
+    <button mat-button routerLink="/topics" class="nav-menu-button">Topics</button>
+    <button mat-button routerLink="/api" class="nav-menu-button">API</button>
+    <button  mat-button routerLink="/about" class="nav-menu-button">About</button>
+    <button  mat-button routerLink="/faq" class="nav-menu-button">FAQ</button>
+    <pharos-search-component class="mobile-search"></pharos-search-component>
   </mat-sidenav>
 
 <mat-toolbar class="ncats-toolbar" ngClass = {{headerClass}} [@slideInOut]="animationState">

@@ -1,42 +1,51 @@
-<app-ncats-header [searchBar] = false [headerClass]="position" [animationState]="animationState"></app-ncats-header>
- <div class = "dashboard-main-div">
-<div fxLayout="row" fxLayoutAlign="center center" class="dashboard-search">
-  <div fxFlex="60" fxFlex.lt-md = "95">
-    <pharos-search-component class = "large-search"></pharos-search-component>
+<app-ncats-header [searchBar]=false [headerClass]="position" [animationState]="animationState"></app-ncats-header>
+<div class="dashboard-main-div">
+  <div fxLayout="row" fxLayoutAlign="center center" class="dashboard-search">
+    <div fxFlex="60" fxFlex.lt-md="95">
+      <pharos-search-component class="large-search"></pharos-search-component>
+    </div>
   </div>
-</div>
-  <!-- <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" class="topics-banner-row">
-    <div fxFlexAlign="50" class = "topics-banner">Pharos Topics</div>
-  </div>
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class ="toi-row">
-    <div fxFlex="10" fxFlexAlign="center"></div>
-    <div class = "toi-grid-list" fxFlex>
-   <div *ngFor="let toi of topics">
-       <pharos-toi-card [toi] = toi [desc]="false"></pharos-toi-card>
-     </div>
-   </div>
-    <div fxFlex="10" fxFlexAlign="center">
-      <button mat-fab [color]= "'primary'" routerLink="/topics">More...</button>
+  <div (click)="goToTopics()" class="learn-link" fxHide fxShow.lt-sm>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
+      <div fxFlex="20" class="learn-more">
+        Learn More
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center stretch">
+      <div fxFlex="20" class="learn-more">
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </div>
     </div>
   </div>
 
-<a (click)="goToDetails()" class="learn-link">
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center stretch">
-    <div fxFlex="20" class = "learn-more">
-      Learn More
+  <div fxLayout="row" #topics fxLayout.xs="column" fxLayoutAlign="center center" class="topics-banner-row">
+    <div fxFlexAlign="50" class="topics-banner">Pharos Topics</div>
+  </div>
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="toi-row">
+    <div class="toi-grid-list">
+      <div *ngFor="let toi of topics">
+        <pharos-toi-card [toi]=toi [desc]="false"></pharos-toi-card>
+      </div>
+      <div class="button-div">
+        <button mat-fab [color]="'primary'" routerLink="/topics" class="more-topics">More...</button>
+      </div>
     </div>
   </div>
-<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center stretch">
-  <div fxFlex="20" class = "learn-more">
-<mat-icon>keyboard_arrow_down</mat-icon>
 
+  <a (click)="goToDetails()" class="learn-link" fxHide.lt-md>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
+      <div fxFlex="20" class="learn-more">
+        Learn More
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center stretch">
+      <div fxFlex="20" class="learn-more">
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </div>
+    </div>
+  </a>
 </div>
-</div>
-</a>
- </div>-->
-<!--
 <pharos-data-types-panel #details></pharos-data-types-panel>
 <pharos-about-panel></pharos-about-panel>
-<pharos-news-panel></pharos-news-panel>
+<pharos-news-panel fxHide.lt-md></pharos-news-panel>
 <app-pharos-footer></app-pharos-footer>
--->

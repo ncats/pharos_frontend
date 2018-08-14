@@ -1,15 +1,25 @@
 @import '../../../ncats-theme';
 
-.data-types {
-  height: 35vh;
+.types-grid-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(19%, .5fr));
+  grid-gap: .5em;
+  grid-row-gap: 5em;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
 }
+
+.data-type.centered {
+  width: 100%;
+}
+
 
 .type-card {
   max-width: 60%;
   border: 4px solid mat-color($pharos-app-primary);
   color: mat-color($pharos-app-primary);
   border-radius: 10px;
-  font: 300 2.5rem Roboto, "Helvetica Neue", sans-serif;
+  font: 300 3em Roboto, "Helvetica Neue", sans-serif;
   margin: 0 auto;
 }
 
@@ -28,5 +38,38 @@
 }
 
 .type-count {
-  font: 300 1.8rem Roboto, "Helvetica Neue", sans-serif;
+  font: 300 .8em Roboto, "Helvetica Neue", sans-serif;
 }
+
+.benzene {
+  max-height: 150px;
+  max-width: 168px;
+}
+
+@media only screen and (max-width: 960px) {
+  .types-grid-list {
+    grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+  }
+
+  .publications {
+  font-size: .8em;
+  }
+
+}
+
+@media  screen and (max-width: 768px) {
+  .types-grid-list {
+    grid-template-columns: repeat(auto-fit, minmax(48%, 1fr));
+    grid-row-gap: 1em;
+  }
+
+  .type-card {
+    font-size: 2em;
+  }
+
+  .type-icon {
+    max-height: 75px;
+    max-width: 84px;
+  }
+}
+

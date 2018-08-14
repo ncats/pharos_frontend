@@ -1,12 +1,12 @@
 <mat-card class ="pharos-card toi-link" routerLink="/topics/{{toi?.id}}">
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end">
-    <div fxFlex="35">
+  <div fxLayout="row" fxLayoutAlign="end">
+    <div>
       <mat-chip-list>
         <mat-chip  [color]="'accent'" [selected]="true">{{toi?.class}}</mat-chip>
       </mat-chip-list>
     </div>
   </div>
-  <div fxLayout="row" fxLayout.xs="column" >
+  <div fxLayout="row">
     <div fxFlex="100">
       <span class="topic-header primary">{{toi?.name}}</span>
     </div>
