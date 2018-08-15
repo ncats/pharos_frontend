@@ -1,24 +1,22 @@
 @import '../../../ncats-theme';
 
 .about-block {
-  /*
-  height: 40vh;
-  */
   padding:3vh 0 6vh 0;
   color: white;
   background-color: mat-color($pharos-app-primary);
 }
 
 .about-banner {
-  font: 300 36px/36px "Google Sans",Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+  font-size: 2.5em;
+  line-height: 1em;
   padding-top: 5vh;
 }
 
 .about-list {
   color: white;
   text-decoration: none;
-  font: 300 18px/24px "Google Sans",Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
-
+  font-size: 1.3em;
+  line-height: 1.2em;
 }
 
 li.about-list-item {
@@ -28,4 +26,15 @@ li.about-list-item {
 .screenshot {
   padding-top: 5vh;
   max-height: 30vh;
+}
+
+@media only screen and (max-width: 960px) {
+  .about-banner {
+    font-size: 2em;
+  }
+
+  .about-list {
+    font-size: 1em;
+    padding-right: 2vw;
+  }
 }

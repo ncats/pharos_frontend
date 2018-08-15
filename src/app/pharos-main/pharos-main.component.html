@@ -3,7 +3,6 @@
   <mat-sidenav-container class="flex-body main-content">
     <mat-sidenav #sidenav [mode]="'over'" class="filters-panel" (openedStart)="loadFacets()">
       <!-- sidenav content -->
-
       <pharos-filter-panel></pharos-filter-panel>
     </mat-sidenav>
 
@@ -15,7 +14,7 @@
       <div fxLayout="row" class="filter-help">
         <div fxFlex="5">
           <button type="button" class="sidenavToggle" mat-raised-button [color]="'primary'" (click)="sidenav.toggle()">
-            <mat-icon>menu</mat-icon>
+            Filters <mat-icon>filter_list</mat-icon>
           </button>
         </div>
         <span class="fill-remaining-space"></span>

@@ -1,32 +1,47 @@
 @import '../../ncats-theme';
 
-.faq-content {
-  display: flex;
+.faq-holder {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.faq-content {
   padding-top: 75px;
+  flex: 1;
 }
 
 .faq-header {
-  font: 300 2.5rem Roboto, "Helvetica Neue", sans-serif;
+  font-size: 3em;
   padding-left: 1vw;
   margin-bottom: 1vh;
   border-left: 8px solid mat-color($pharos-app-primary);
 }
 
 .field-label {
-  font: 300 2rem Roboto, "Helvetica Neue", sans-serif;
+  font-size: 2em !important;
 }
 
 .faq-question {
-  font: 400 1.2rem Roboto, "Helvetica Neue", sans-serif;
+  font: 400 1.5em Roboto, "Helvetica Neue", sans-serif;
   padding-bottom: 3vh;
 }
 
 .faq-answer {
-  font: 300 1rem Roboto, "Helvetica Neue", sans-serif;
+  font: 300 1.2em Roboto, "Helvetica Neue", sans-serif;
 }
 
 .question-divider{
   margin-top: 2vh;
   margin-bottom: 2vh;
+}
+
+a.long-link {
+  word-wrap: break-word !important;
+}
+
+@media only screen and (max-width: 960px) {
+  .mobile-search > .search-row > .typeahead-field {
+    margin-left: 3vw;
+  }
 }

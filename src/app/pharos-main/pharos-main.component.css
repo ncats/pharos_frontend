@@ -5,29 +5,11 @@
   flex-direction:column;
   margin-top:75px;
   background-color: #f7f7f7;
+  z-index: 0;
 }
 
 .filter-help {
   background-color: #f7f7f7;
-}
-
-.loadingIcon {
-  position: absolute; /* Sit on top of the page content */
-  display: none; /* Hidden by default */
-  width: 100%; /* Full width (cover the whole page) */
-  height: 100%; /* Full height (cover the whole page) */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0,0,0,0.3); /* Black background with opacity */
-  color:#642F6C;
-  z-index: 666;
-}
-
-.ncats-emphasis {
-  color:#642F6C;
-  font-weight: bold;
 }
 
 mat-sidenav-content.mat-drawer-content.mat-sidenav-content {
@@ -41,3 +23,4 @@ mat-sidenav-content.mat-drawer-content.mat-sidenav-content {
 .help-panel {
   width: 40vw;
 }
+

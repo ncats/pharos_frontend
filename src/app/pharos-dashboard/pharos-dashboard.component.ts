@@ -9,7 +9,7 @@ import {PharosApiService} from "../pharos-services/pharos-api.service";
   encapsulation: ViewEncapsulation.None
 })
 export class PharosDashboardComponent implements OnInit {
-  @ViewChild('topics', {read: ElementRef}) topicsElemRef: ElementRef;
+  @ViewChild('topicsRow', {read: ElementRef}) topicsElemRef: ElementRef;
   @ViewChild('details', {read: ElementRef}) elemRef: ElementRef;
   topics: any;
   position: string;
@@ -20,6 +20,7 @@ export class PharosDashboardComponent implements OnInit {
 
   ngOnInit() {
     this.topics = this.pharosApiService.TOPICS.slice(1,5);
+    console.log(this);
   }
 
   goToDetails(): void {

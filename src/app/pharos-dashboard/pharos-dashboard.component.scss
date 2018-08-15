@@ -61,11 +61,9 @@ color: white;
   height: 100%;
 }
 
-
 .topics-banner {
   color: white;
-  z-index: 666;
-  font: 400 2.4rem/3rem Roboto, "Helvetica Neue", sans-serif;
+  font: 400 2.4em/3em Roboto, "Helvetica Neue", sans-serif;
 }
 
 .learn-link:hover {
@@ -75,7 +73,6 @@ color: white;
 
 .learn-more {
   color: mat-color($pharos-app-primary);
-  z-index: 666;
   font: 500 20px/20px Roboto, "Helvetica Neue", sans-serif;
   display: flex;
   align-items: center;
@@ -127,5 +124,9 @@ background-color: whitesmoke;
 
   .learn-link {
     margin-top: -7vh;
+  }
+
+  .topics-banner{
+    padding-top:10vh;
   }
 }

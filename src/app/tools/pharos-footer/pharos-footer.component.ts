@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-pharos-footer',
   templateUrl: './pharos-footer.component.html',
-  styleUrls: ['./pharos-footer.component.css']
+  styleUrls: ['./pharos-footer.component.scss']
 })
 
 export class PharosFooterComponent {}

@@ -134,37 +134,6 @@ $pharos-secondary: (
   )
 );
 
-html, body {
-  height: 100%;
-  margin: 0;
-  background-color: #f7f7f7;
-  font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
-}
-
-.pharos-main{
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-}
-
-.primary {
-  color: #23364e;
-}
-
-.primary-background {
-  background-color: #23364e;
-  color: #ffffff;
-}
-
-.accent {
-  color: #ffb259;
-}
-
-.accent-background {
-  background-color: #ffb259;
-  color: #000000;
-}
-
 $ncats-app-primary: mat-palette($ncats-primary);
 $ncats-app-accent:  mat-palette($ncats-secondary);
 $pharos-app-primary:  mat-palette($pharos-primary);

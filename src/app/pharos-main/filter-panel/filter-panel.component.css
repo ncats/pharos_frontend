@@ -52,3 +52,23 @@ span.mat-display-1.facet-title {
   margin-left: 1vw;
   margin-top: 1vh;
 }
+
+@media only screen and (max-width: 960px) {
+  .facet-list {
+    width:50vw;
+  }
+
+  .full-width {
+    width: 95vw;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .facet-list {
+    width: 95vw;
+  }
+
+  .full-width {
+    width: 95vw;
+  }
+}

@@ -62,3 +62,20 @@
   vertical-align: middle;
   margin-top: -12px;
 }
+
+.mat-list-item {
+  margin-bottom: 1vh;
+}
+
+@media only screen and (max-width: 960px) {
+  .mobile-search > .search-row > .typeahead-field {
+    margin-left: 3vw;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .about-wrapper {
+    flex: 1;
+    overflow: auto;
+  }
+}

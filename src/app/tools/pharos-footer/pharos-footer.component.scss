@@ -1,0 +1,37 @@
+@import '../../../ncats-theme';
+
+.pharos-footer {
+  color: white;
+  background-color: mat-color($pharos-app-primary);
+  padding: 5vh 1vw 5vh 1vw;
+  margin: 0!important;
+}
+
+.links-header{
+  display: block;
+  text-align: center;
+  font-size: 1.2em;
+  text-transform: uppercase;
+}
+
+.link-list {
+text-align: center;
+}
+
+.link-list > a {
+  color: white;
+  display: block;
+  font-size: 1em;
+  padding: 1.5vh 0 .2vh 0
+}
+
+@media only screen and (max-width: 960px) {
+
+  .links-header{
+    font-size: 1em;
+  }
+
+  .link-list > a {
+    font-size: .8em;
+  }
+}

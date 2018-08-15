@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, ElementRef, OnInit, QueryList, ViewChildren, ViewEncapsulation} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
 import * as katex from 'katex';
 import {KatexRenderService} from '../tools/katex-render.service';
@@ -7,13 +7,14 @@ export interface Question {
   subject: string;
   question: string;
   answer: string;
-  equaation?: boolean;
+  equation?: boolean;
 }
 
 @Component({
   selector: 'pharos-faq-page',
   templateUrl: './faq-page.component.html',
   styleUrls: ['./faq-page.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   providers: [KatexRenderService]
 })
 export class FaqPageComponent implements OnInit {

@@ -1,24 +1,22 @@
+<div class="faq-holder">
 <app-ncats-header [searchBar]="true"></app-ncats-header>
-<div  class = "faq-content" fxLayout="row" fxLayout.lt-sm="column">
-  <div fxFlex="20" fxFlex.lt-sm="90"></div>
-  <div fxFlex="75" fxFlex.lt-sm="90" class="faq-wrapper">
-      <div fxLayout="row">
-        <div fxFlex="75">
-          <div class="faq-header">FAQs</div>
-          <mat-accordion [multi]="true">
-        <mat-expansion-panel *ngFor ="let field of fields" class = "subject-panel" [expanded]="true">
+  <div class="faq-content" fxLayout="row" fxLayoutAlign="space-around start">
+    <div fxFlex="65" fxFlex.lt-md="90" class="faq-wrapper">
+      <div class="faq-header">FAQs</div>
+      <mat-accordion [multi]="true">
+        <mat-expansion-panel *ngFor="let field of fields" class="subject-panel" [expanded]="true">
           <mat-expansion-panel-header class="field-label">
             {{field}}
           </mat-expansion-panel-header>
-          <div *ngFor = "let question of questionsMap.get(field)" class="question-holder">
+          <div *ngFor="let question of questionsMap.get(field)" class="question-holder">
             <div [innerHTML]="question.question" class="faq-question"></div>
-            <div [innerHTML]="question.answer" class="faq-answer" [ngClass]="{'equation': question.equation}" #faqAnswer></div>
-            <mat-divider class="question-divider"> </mat-divider>
+            <div [innerHTML]="question.answer" class="faq-answer" [ngClass]="{'equation': question.equation}"
+                 #faqAnswer></div>
+            <mat-divider class="question-divider"></mat-divider>
           </div>
         </mat-expansion-panel>
       </mat-accordion>
     </div>
   </div>
-</div>
-</div>
 <app-pharos-footer></app-pharos-footer>
+</div>
