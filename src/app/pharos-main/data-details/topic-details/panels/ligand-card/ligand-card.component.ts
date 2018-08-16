@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Ligand} from "../../../../../models/ligand";
+import {Ligand} from '../../../../../models/ligand';
 
 @Component({
   selector: 'pharos-ligand-card',
@@ -7,7 +7,7 @@ import {Ligand} from "../../../../../models/ligand";
   styleUrls: ['./ligand-card.component.css']
 })
 export class LigandCardComponent implements OnInit {
-@Input() ligand : Ligand;
+@Input() ligand: Ligand;
   constructor() { }
 
   ngOnInit() {

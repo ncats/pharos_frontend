@@ -125,13 +125,13 @@ export class GraphComponent implements OnInit, AfterViewInit {
    * @returns {{width: number; height: number}}
    */
   get options() {
-    if(this.el.nativeElement.parentElement) {
+    if (this.el.nativeElement.parentElement) {
       return this._options = {
         width: this.el.nativeElement.parentElement.offsetWidth,
         height: this.el.nativeElement.parentElement.offsetHeight
       };
     } else {
-      return this._options = {width: 800, height: 600}
+      return this._options = {width: 800, height: 600};
     }
   }
   }

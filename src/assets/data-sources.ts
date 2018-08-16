@@ -1,4 +1,4 @@
-import {Property} from "../app/models/property";
+import {Property} from '../app/models/property';
 
 export const SOURCES: any =
   [

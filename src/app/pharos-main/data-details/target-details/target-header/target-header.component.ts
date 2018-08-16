@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Target} from '../../../../models/target';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
-import {BreakpointObserver} from "@angular/cdk/layout";
+import {BreakpointObserver} from '@angular/cdk/layout';
 
 @Component({
   selector: 'pharos-target-header',
@@ -46,7 +46,7 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
       this.fullDescription = false;
       this.truncatedDescription = this.description.slice(0, 1000);
     }
-    if(this.breakpointObserver.isMatched('(max-width: 768px)')){
+    if (this.breakpointObserver.isMatched('(max-width: 768px)')) {
       this.fullDescription = false;
       this.truncatedDescription = this.description.slice(0, 500);
     }

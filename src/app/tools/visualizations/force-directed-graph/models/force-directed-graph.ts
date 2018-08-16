@@ -99,7 +99,7 @@ export class ForceDirectedGraph {
         .force('link', d3.forceLink(this.links).id(d => d['uuid']))
         /* repels the nodes away from each other*/
         .force('charge', d3.forceManyBody()
-        .strength(d => (FORCES.CHARGE * d['r'])/1500))
+        .strength(d => (FORCES.CHARGE * d['r']) / 1500))
         /** Updating the central force of the simulation */
         .force('center', d3.forceCenter(options.width / 2, options.height / 2))
         /* prevents node overlap*/

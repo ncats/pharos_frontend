@@ -281,8 +281,8 @@ export class Drug extends Node {
    */
   constructor(uuid: string, data: any) {
     super(uuid, data);
-    this.name = data.properties.properties.filter(prop => prop.label ==="IDG Ligand")[0].term;
-    //this.synonyms = data.properties.synonyms.split(',');
+    this.name = data.properties.properties.filter(prop => prop.label === 'IDG Ligand')[0].term;
+    // this.synonyms = data.properties.synonyms.split(',');
 
   }
 }
@@ -304,7 +304,7 @@ export class Disease extends Node {
   constructor(uuid: string, data: any) {
     super(uuid, data);
     this.name = data.properties.name;
-    this.type = "disease";
+    this.type = 'disease';
   //  this.synonyms = data.properties.synonyms.split(',');
 
   }

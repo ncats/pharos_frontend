@@ -65,7 +65,7 @@ export class PharosApiService {
         'the bromodomains of Bromodomain and Extra-Terminal motif (BET) proteins BRD2, BRD3, BRD4, and BRDT, and prevent ' +
         'protein-protein interaction between BET proteins and acetylated histones and transcription factors.',
         class: 'target',
-        targetList: ['BRD2', 'BRD3', 'BRD4','BRDT'],
+        targetList: ['BRD2', 'BRD3', 'BRD4', 'BRDT'],
         diseaseCt: 0,
         ligandCt: 818,
         targetCt: 4,

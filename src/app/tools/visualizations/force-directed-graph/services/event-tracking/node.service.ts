@@ -152,17 +152,17 @@ export class NodeService {
       switch (data.properties.kind) {
         case 'ix.idg.models.Target': {
           n = new Protein(id, data);
-          n.type = "target";
+          n.type = 'target';
           break;
         }
         case 'ix.idg.models.Disease': {
           n = new Disease(id, data);
-          n.type = "disease";
+          n.type = 'disease';
           break;
         }
         case 'ix.idg.models.Ligand': {
           n = new Drug(id, data);
-          n.type = "ligand";
+          n.type = 'ligand';
           break;
         }
         default:

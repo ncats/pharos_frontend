@@ -2,9 +2,9 @@ import {
   ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren
 } from '@angular/core';
 import {CdkScrollable, ScrollDispatcher} from '@angular/cdk/scrolling';
-import {TableData} from "../models/table-data";
-import {Property} from "../models/property";
-import {SOURCES} from "../../assets/data-sources";
+import {TableData} from '../models/table-data';
+import {Property} from '../models/property';
+import {SOURCES} from '../../assets/data-sources';
 
 @Component({
   selector: 'pharos-about-page',
@@ -36,7 +36,7 @@ export class AboutPageComponent implements OnInit {
     new TableData({
       name: 'ligandCount',
       label: 'Ligands',
-      //sortable: true
+      // sortable: true
     }),
   ];
 

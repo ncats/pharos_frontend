@@ -116,16 +116,15 @@ paginateLigands($event) {
         ret = prop;
       } else if (prop.label === 'Ligand Activity') {
         ret = ligand.properties.filter(p => p.label === prop.term)[0];
-      }
-      else {
-        ret = {label: 'N/A', numval: ''}
+      } else {
+        ret = {label: 'N/A', numval: ''};
       }
     });
     return ret;
     }
 
     private _getActivityType(activity: any): string {
-      let ret: string = '';
+      let ret = '';
       if (activity.label === 'Potency') {
         ret = activity.label;
       } else if (activity.label === 'N/A') {

@@ -26,11 +26,11 @@ import {map, zipAll} from 'rxjs/operators';
 import {MatTabChangeEvent} from '@angular/material';
 import {TableData} from '../../../models/table-data';
 import {Property} from '../../../models/property';
-import {Node} from "../../../tools/visualizations/force-directed-graph/models/node";
-import {Link} from "../../../tools/visualizations/force-directed-graph/models/link";
-import {LinkService} from "../../../tools/visualizations/force-directed-graph/services/event-tracking/link.service";
+import {Node} from '../../../tools/visualizations/force-directed-graph/models/node';
+import {Link} from '../../../tools/visualizations/force-directed-graph/models/link';
+import {LinkService} from '../../../tools/visualizations/force-directed-graph/services/event-tracking/link.service';
 
-interface TopicData{
+interface TopicData {
   target: Target;
   data: any;
 }
@@ -126,7 +126,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
               this.allTargets = this.data.topicTargets.content;
               this.mapTargets();
             } else {
-              if(this.topic.targetList){
+              if (this.topic.targetList) {
                 const targetsObserv: any = this.topic.targetList.map(target => {
                 const url = `${this._apiUrl}targets/${target}`;
                 return this.getData(url);
@@ -134,8 +134,8 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
 
               const zipped: Observable<any> = from(targetsObserv).pipe(zipAll());
 
-              zipped.subscribe(res => {
-                this.allTargets = [].concat(...res);
+              zipped.subscribe(response => {
+                this.allTargets = [].concat(...response);
                 this.mapTargets();
               });
             }
@@ -179,10 +179,14 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
     const highestLevel = this.getHighestLevel();
     const mostPotential = this.getHighestLevel(true);
     const lowestLevel = this.getLowestLevel();
-const mostKnowledgeTarget = this.targetsMap.get(highestLevel)? this.targetsMap.get(highestLevel).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0] : {};
-const mostPotentialTarget = this.targetsMap.get(mostPotential)? this.targetsMap.get(mostPotential).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0] : {};
-const mostPotentialDarkestTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.get(lowestLevel).sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0] : {};
-const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.get(lowestLevel).sort((a, b) => a.knowledgeAvailability - b.knowledgeAvailability)[0] : {};
+const mostKnowledgeTarget = this.targetsMap.get(highestLevel) ? this.targetsMap.get(highestLevel)
+  .sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0] : {};
+const mostPotentialTarget = this.targetsMap.get(mostPotential) ? this.targetsMap.get(mostPotential)
+  .sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0] : {};
+const mostPotentialDarkestTarget = this.targetsMap.get(lowestLevel) ? this.targetsMap.get(lowestLevel)
+  .sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0] : {};
+const leastKnowledgeTarget = this.targetsMap.get(lowestLevel) ? this.targetsMap.get(lowestLevel)
+  .sort((a, b) => a.knowledgeAvailability - b.knowledgeAvailability)[0] : {};
 
       this.displayTargets.mostKnowledge = this.topic.displayTargets && this.topic.displayTargets.mostKnowledge ?
         this.findTarget(this.topic.displayTargets.mostKnowledge) : mostKnowledgeTarget;
@@ -231,7 +235,7 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
       map(res => {
         return res.data.pipe(
           map(response => {
-            const data : TopicData = {target: res.target as Target, data: response};
+            const data: TopicData = {target: res.target as Target, data: response};
             const start = this.nodeService.makeNode(data.target.id.toString(), {properties: data.target});
             this.nodeService.setNode(start);
             data.data.map(ligand => {
@@ -243,7 +247,7 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
               });
             return response;
      //   });
-          }))
+          }));
       }),
       zipAll()
     ).subscribe(res => {
@@ -257,7 +261,7 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
       });
       this.ligands = this.allLigands.slice(this.ligandPageData.skip, this.ligandPageData.top);
       this.loading = false;
-    })
+    });
   }
 
   mapDiseases() {
@@ -270,7 +274,7 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
       map(res => {
         return res.data.pipe(
           map(response => {
-            const data : TopicData = {target: res.target as Target, data: response};
+            const data: TopicData = {target: res.target as Target, data: response};
             const start = this.nodeService.makeNode(data.target.id.toString(), {properties: data.target});
             this.nodeService.setNode(start);
               const filtered = data.data.filter(disease => {
@@ -307,7 +311,7 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
               });
               return response;
           })
-        )
+        );
       }),
       zipAll()
     ).subscribe(res => {
@@ -317,7 +321,7 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
         this.allDiseases.push({
           disease: new Property({term: key}),
           targets: value
-        })
+        });
       });
       this.loading = false;
     });
@@ -333,7 +337,7 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
 
   getHighestLevel(potential?: boolean): string {
     const levels = Array.from(this.targetsMap.keys());
-    if(levels.length === 1) {
+    if (levels.length === 1) {
       return levels[0];
     }
 
@@ -350,7 +354,7 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
 
   getLowestLevel(): string {
     const levels = Array.from(this.targetsMap.keys());
-    if(levels.length === 1) {
+    if (levels.length === 1) {
       return levels[0];
     }
     if (levels.includes('Tdark')) {
@@ -359,7 +363,7 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
       return 'Tbio';
     } else if (levels.includes('Tclin')) {
       return 'Tclin';
-    } else if (levels.includes('Tchem')){
+    } else if (levels.includes('Tchem')) {
       return 'Tchem';
     }
   }
@@ -378,15 +382,14 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel)? this.targetsMap.g
         this.loading = true;
         if (this.allDiseases.length === 0) {
           this.mapDiseases();
-        }
-        else {
+        } else {
           this.loading = false;
         }
       }
-    if($event.tab.textLabel ==='Graph') {
+    if ($event.tab.textLabel === 'Graph') {
         if (this.ligands.length === 0) {
           this.mapLigands();
-        } else{
+        } else {
           this.graphDataService.setGraph({
             nodes: this.graphDataService.getNodes(),
             links: this.graphDataService.getLinks()

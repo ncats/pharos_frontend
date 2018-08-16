@@ -7,9 +7,9 @@
     "start": "ng serve",
     "build": "ng build pharos-beta --prod",
     "build-test": "ng build pharos-beta --base-href=/pharos-beta/ --prod",
-    "test": "ng test pharos-ui --code-coverage",
-    "lint": "ng lint pharos-ui",
-    "lint-fix": "ng lint pharos-ui --fix",
+    "test": "ng test pharos-beta --code-coverage",
+    "lint": "ng lint pharos-beta",
+    "lint-fix": "ng lint pharos-beta --fix",
     "e2e": "ng e2e",
     "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json -s -w --theme material"
   },

@@ -38,7 +38,7 @@ export class GraphDataService {
     this.makeGraph();
   }
 
-  setGraph(graph : any) {
+  setGraph(graph: any) {
       this.nodeList = graph.nodes;
     this.linkList = graph.links;
     this.countLinks();

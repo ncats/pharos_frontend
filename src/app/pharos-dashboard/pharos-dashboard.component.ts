@@ -1,6 +1,6 @@
 import {Component, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {Topic} from '../models/topic';
-import {PharosApiService} from "../pharos-services/pharos-api.service";
+import {PharosApiService} from '../pharos-services/pharos-api.service';
 
 @Component({
   selector: 'pharos-pharos-dashboard',
@@ -19,7 +19,7 @@ export class PharosDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.topics = this.pharosApiService.TOPICS.slice(1,5);
+    this.topics = this.pharosApiService.TOPICS.slice(1, 5);
     console.log(this);
   }
 
