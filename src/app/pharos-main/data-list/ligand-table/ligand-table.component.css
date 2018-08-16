@@ -20,3 +20,10 @@
 .ligand-card {
   cursor: pointer;
 }
+
+@media only screen and (max-width: 768px) {
+  .structure-grid {
+    grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
+
+  }
+}

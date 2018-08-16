@@ -62,38 +62,39 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
   setterFunction(): void {
     const ligandsArr = [];
     this.data.forEach(ligand => {
-      const activity: any = this._getActivity(ligand);
-      const mappedLig = this.ligandsMap.get(ligand.id);
-      if (!mappedLig) {
-        // placeholder to block repetitive calls
-        this.ligandsMap.set(ligand.id, {});
         const url = ligand.self ? ligand.self : ligand.href + '?view=full';
         this._http.get<any>(url).subscribe(res => {
-          const refid: string = res.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;
-          const newLigand = {
-            name: res.name,
-            refid: refid,
-            activityType: this._getActivityType(activity),
-            activity: activity.numval,
-            imageUrl: this._STRUCTUREURLBASE + refid + '.svg'
-          };
-
-          if(ligand.target){
-            newLigand['target'] = ligand.target;
+          const activity: any = this._getActivity(res);
+          const mappedLig = this.ligandsMap.get(res.id);
+          if (!mappedLig) {
+            // placeholder to block repetitive calls
+            this.ligandsMap.set(res.id, {});
           }
-          this.ligandsMap.set(ligand.id, newLigand);
-          ligandsArr.push(newLigand);
-          this.ligandsDataSource.data = ligandsArr;
-        });
-      } else {
-        ligandsArr.push(mappedLig);
-        this.ligandsDataSource.data = ligandsArr;
-      }
-    });
+          else {
+              ligandsArr.push(mappedLig);
+              this.ligandsDataSource.data = ligandsArr;
+            }
+            const refid: string = res.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;
+            const newLigand = {
+              name: res.name,
+              refid: refid,
+              activityType: this._getActivityType(activity),
+              activity: activity.numval,
+              imageUrl: this._STRUCTUREURLBASE + refid + '.svg'
+            };
 
+            if (ligand.target) {
+              newLigand['target'] = ligand.target;
+            }
+            this.ligandsMap.set(ligand.id, newLigand);
+            ligandsArr.push(newLigand);
+            this.ligandsDataSource.data = ligandsArr;
+        });
+    });
   }
 
   private _getActivity(ligand: any): any {
+    console.log(ligand);
     let ret: any = {};
     ligand.properties.map(prop => {
       if (prop.label === 'IC50') {

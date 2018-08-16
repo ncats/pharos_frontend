@@ -5,12 +5,10 @@
       <!-- sidenav content -->
       <pharos-filter-panel></pharos-filter-panel>
     </mat-sidenav>
-
     <mat-sidenav #helppanel [position]="'end'" class="help-panel" [mode]="'over'" [opened]="false">
       <!-- sidenav content -->
       <pharos-help-panel></pharos-help-panel>
     </mat-sidenav>
-
       <div fxLayout="row" class="filter-help">
         <div fxFlex="5">
           <button type="button" class="sidenavToggle" mat-raised-button [color]="'primary'" (click)="sidenav.toggle()">
@@ -26,6 +24,7 @@
         </div>
       </div>
       <pharos-data-list-visualizations></pharos-data-list-visualizations>
+    <mat-divider class="space-divider"></mat-divider>
       <pharos-facet-list></pharos-facet-list>
       <pharos-data-list></pharos-data-list>
       <pharos-scroll-to-top></pharos-scroll-to-top>

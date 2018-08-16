@@ -4,9 +4,23 @@
 }
 
 .mat-display-1 {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .small-radar {
   max-height: 100px;
 }
+
+.target-grid {
+  display: grid;
+  grid-auto-rows: max-content;
+  grid-template-columns: repeat(auto-fill, minmax(90%, 1fr));
+  grid-gap: .5em;
+  justify-items: center;
+}
+
+.target-grid > div {
+  margin-bottom: 1em;
+  min-width: 100%;
+}
+

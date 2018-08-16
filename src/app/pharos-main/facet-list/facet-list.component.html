@@ -1,17 +1,19 @@
-<div fxLayout="row" fxLayoutAlign="space-around center" *ngIf = "facets?.length > 0">
+<div fxLayout="row" fxLayoutAlign="space-around center" *ngIf = "facets?.length > 0" class="facet-list-row">
   <div fxFlex="95">
     <div fxLayout="row" fxLayoutAlign="space-between center">
-      <div fxFlex="90"><span class=" mat-title">Selected Filters:</span>
+      <div fxFlex="70">
+        <span class=" mat-title">Selected Filters:</span>
       </div>
-      <div fxFlex="10">
+      <div fxFlex="30" fxLayoutAlign="end">
         <mat-chip [selected]="'true'" [color]="'warn'" (click)="removeAll()">
           <span>Clear All</span>
           <mat-icon matChipRemove class="removeIcon">cancel</mat-icon>
         </mat-chip>
       </div>
     </div>
-    <div fxLayout="row-wrap" fxLayoutGap="15px" fxLayoutAlign="start start">
-      <div fxFlex ="17" *ngFor = "let facet of facets">
+<br>
+    <div fxLayout="row-wrap" fxLayout.lt-sm="column" fxLayoutGap="25px" fxLayoutAlign="start start">
+      <div fxFlex ="17"  *ngFor = "let facet of facets">
         <div fxLayout="row" fxLayoutAlign="space-between center">
           <div fxFlex="90" class="facetHeader">
             <span class="mat-subheader">{{facet.facet}}</span>

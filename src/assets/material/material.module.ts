@@ -13,6 +13,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatDialogModule} from '@angular/material/dialog';
 import {ScrollDispatchModule} from '@angular/cdk/scrolling';
+import {LayoutModule} from '@angular/cdk/layout';
 
 
 @NgModule({
@@ -20,12 +21,14 @@ import {ScrollDispatchModule} from '@angular/cdk/scrolling';
     MatInputModule, MatIconModule, MatListModule, MatSliderModule, MatProgressSpinnerModule,
     MatTableModule, MatSortModule, MatSidenavModule, MatSlideToggleModule, MatRadioModule,
     MatTabsModule, MatCheckboxModule, MatCardModule, MatTooltipModule, MatSelectModule, MatExpansionModule, MatPaginatorModule,
-    MatChipsModule, MatGridListModule, MatDividerModule, MatDialogModule, ScrollDispatchModule],
+    MatChipsModule, MatGridListModule, MatDividerModule, MatDialogModule, ScrollDispatchModule,
+    LayoutModule],
   exports: [MatButtonModule, MatAutocompleteModule, MatMenuModule, MatToolbarModule,
     MatInputModule, MatIconModule, MatListModule, MatSliderModule, MatProgressSpinnerModule,
     MatTableModule, MatSortModule, MatSidenavModule, MatSlideToggleModule, MatRadioModule,
     MatTabsModule, MatCheckboxModule, MatCardModule, MatTooltipModule, MatSelectModule, MatExpansionModule, MatPaginatorModule,
-    MatChipsModule, MatGridListModule, MatDividerModule, MatDialogModule, ScrollDispatchModule],
+    MatChipsModule, MatGridListModule, MatDividerModule, MatDialogModule, ScrollDispatchModule,
+    LayoutModule],
 })
 export class MaterialModule { }
 

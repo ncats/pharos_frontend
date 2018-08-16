@@ -1,13 +1,17 @@
 :host {
-  flex: 1 1 calc(100% - 20px);
-  max-width: calc(100% - 20px);
+  flex: 1 1 calc(100% - 40px);
+  max-width: calc(100% - 40px);
   margin-top: 1vh;
   margin-left: 20px;
 }
 
-.flex30 {
-  flex: 1 1 calc(100% - 20px);
-  max-width: calc(100% - 20px);
+.full-height {
+  height: 100%;
+  margin-bottom: 1vh;
+}
+
+.full-width {
+  width: 100%;
 }
 
 .well {
@@ -17,10 +21,17 @@
   border: 1px solid;
   background-color: #f6f6f6;
   font-family: monospace;
-
 }
-
 
 .wrap {
   flex-flow: row wrap;
+}
+
+@media only screen and (max-width: 768px) {
+  :host {
+    flex: 1 1 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
 }

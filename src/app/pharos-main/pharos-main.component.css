@@ -24,3 +24,7 @@ mat-sidenav-content.mat-drawer-content.mat-sidenav-content {
   width: 40vw;
 }
 
+.space-divider {
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}

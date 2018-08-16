@@ -37,3 +37,15 @@
 .tclin-header {
   border-bottom: mat-color($pharos-app-primary) 6px solid;
 }
+
+@media only screen and (max-width: 960px) {
+  .pharos-title {
+    font-size: 2em;
+  }
+
+  .title-holder {
+    margin-left: 2vw;
+  }
+}
+
+

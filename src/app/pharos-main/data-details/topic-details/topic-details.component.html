@@ -1,8 +1,8 @@
-<div fxLayout="row wrap" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutAlign="start stretch" class="topic-details-header">
+<div fxLayout="row wrap" fxLayoutAlign="start stretch" class="topic-details-header">
   <ng-template appPharosCustomContent></ng-template>
 </div>
 
-<div fxLayout="row wrap" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutAlign="space-around start">
+<div fxLayout="row wrap" fxLayoutAlign="space-around start">
   <div fxFlex="95">
  <mat-tab-group (selectedTabChange)="changeTab($event)">
    <mat-tab label="Targets ({{topic.targetCt}})" class="full-tab">

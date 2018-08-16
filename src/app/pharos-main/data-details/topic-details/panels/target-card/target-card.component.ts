@@ -10,6 +10,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class TargetCardComponent implements OnInit, OnChanges {
   @Input() target?: Target;
+  @Input() showKnowledge = false;
   _apiUrl: string;
   knowledge: any;
 

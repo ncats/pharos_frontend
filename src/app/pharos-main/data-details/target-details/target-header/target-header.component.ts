@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Target} from '../../../../models/target';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
+import {BreakpointObserver} from "@angular/cdk/layout";
 
 @Component({
   selector: 'pharos-target-header',
@@ -15,11 +16,12 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
   geneSummary: string;
   fullDescription = true;
 
-  constructor() {
+  constructor(private breakpointObserver: BreakpointObserver) {
     super();
   }
 
   ngOnInit() {
+    const isSmallScreen = this.breakpointObserver.isMatched('(max-width: 768px)');
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -40,8 +42,14 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
       this.geneSummary = this.data.geneSummary.map(sum => sum.text).join(' ');
       this.description = this.target.description.concat(this.geneSummary);
     }
-    if (this.description.length > 1000) {this.fullDescription = false;
-      this.truncatedDescription = this.description.slice(0, 1000); }
+    if (this.description.length > 1000) {
+      this.fullDescription = false;
+      this.truncatedDescription = this.description.slice(0, 1000);
+    }
+    if(this.breakpointObserver.isMatched('(max-width: 768px)')){
+      this.fullDescription = false;
+      this.truncatedDescription = this.description.slice(0, 500);
+    }
   }
 
   getHeaderClass(): string {

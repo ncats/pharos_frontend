@@ -14,3 +14,28 @@
 mat-card {
   min-height: 95%
 }
+
+.name-row {
+ padding-top: 1vh;
+}
+
+.gene {
+font-size: .9em;
+}
+
+.target-card {
+  cursor: pointer;
+  min-height: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.target-content {
+  flex: 1 0 auto;
+}
+
+mat-divider {
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}

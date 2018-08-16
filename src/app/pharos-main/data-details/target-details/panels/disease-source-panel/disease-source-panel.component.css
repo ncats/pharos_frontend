@@ -3,11 +3,21 @@
   max-width: calc(50% - 20px);
 }
 
-.flex30 {
-  flex: 1 1 100%;
-  max-width: 100%;
-}
-
 .full-height {
   height: 100%;
+  margin-bottom: 1vh;
+}
+
+@media only screen and (max-width: 768px) {
+  :host {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .flex30 {
+    flex: 1 1 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
 }

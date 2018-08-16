@@ -1,26 +1,33 @@
-<mat-card *ngIf="target">
-  <mat-card-content>
-    <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="start stretch" routerLink='/targets/{{target?.accession}}'>
-      <div fxFlex="95">
+<mat-card *ngIf="target" routerLink='/targets/{{target.accession}}' class="target-card">
+      <div class="target-content">
+    <div fxLayout="row" class ="tkrow" fxLayoutAlign="space-around start">
+      <div fxFlex="48">
         <pharos-idg-level-indicator [level]="target?.idgTDL"></pharos-idg-level-indicator>
+      </div>
+      <div fxFlex="48" fxLayoutAlign="end">
+        <span class ="mat-title gene">{{target?.gene}}</span>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div fxLayout="row" fxLayoutAlign="start center" class = "name-row">
+      <div fxFlex="95">
         <span class="mat-title target-link">{{target?.name}}</span>
       </div>
     </div>
-    <div fxLayout="row" fxLayout.lt-md="column" class ="radar-row" fxLayoutAlign="start stretch">
+    <div fxLayout="row" class ="radar-row" fxLayoutAlign="start stretch">
       <div fxFlex="95">
     <pharos-radar-chart  *ngIf = knowledge [data]="knowledge"></pharos-radar-chart>
       </div>
     </div>
-    <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="start stretch">
+    <div fxLayout="row" class ="tkrow" fxLayoutAlign="start stretch" *ngIf="showKnowledge">
       <div fxFlex="95">
     <pharos-knowledge-table *ngIf = knowledge [data] = knowledge></pharos-knowledge-table>
       </div>
     </div>
-    <br>
-    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="start stretch">
-      <div fxFlex="95">
-        <span class ="mat-title">{{target?.gene}}</span>
       </div>
+  <div fxLayout="row" fxLayoutAlign="start stretch">
+    <div fxFlex="95">
+      <span>Target Family: {{target?.idgFamily}}</span>
     </div>
-  </mat-card-content>
+  </div>
 </mat-card>

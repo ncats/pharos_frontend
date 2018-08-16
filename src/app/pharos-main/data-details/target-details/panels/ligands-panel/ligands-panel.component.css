@@ -1,13 +1,12 @@
 :host {
   flex: 1 1 calc(100% - 40px);
   max-width: calc(100% - 40px);
-  margin-top: 5vh;
   margin-left: 20px;
 }
 
-.flex30 {
-  flex: 1 1 calc(100% - 40px);
-  max-width: calc(100% - 40px);
+.full-height {
+  height: 100%;
+  margin-bottom: 1vh;
 }
 
 .structure-grid {
@@ -22,4 +21,42 @@
   margin-bottom: 2em;
   margin-top: 2em;
   min-height: 100%;
+}
+
+@media only screen and (max-width: 960px) {
+  :host {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .structure-grid {
+    grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  :host {
+    flex: 1 1 100%;
+    max-width: 100%;
+    margin-left: 0;
+  }
+
+  .full-height {
+    margin-bottom: 1vh;
+  }
+
+  .structure-grid {
+    display: grid;
+    grid-auto-rows: max-content;
+    grid-template-columns: repeat(auto-fill, minmax(90%, 1fr));
+    grid-gap: 1em;
+    justify-items: center;
+  }
+
+  .structure-grid > div {
+    margin-bottom: 2em;
+    margin-top: 2em;
+    min-height: 100%;
+  }
+
 }

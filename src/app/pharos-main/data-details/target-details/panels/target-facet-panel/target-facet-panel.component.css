@@ -4,6 +4,11 @@
   margin-left: 20px;
 }
 
+.full-height {
+  height: 100%;
+  margin-bottom: 1vh;
+}
+
 #facets-grid {
   display: grid;
   grid-auto-rows: max-content;
@@ -15,3 +20,25 @@
   margin-bottom: 4em;
 }
 
+@media only screen and (max-width: 960px) {
+
+  #facets-grid {
+    grid-template-columns: repeat(auto-fill, minmax(48%, 1fr));
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  :host {
+    flex: 1 1 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  #facets-grid {
+    display: grid;
+    grid-auto-rows: max-content;
+    grid-template-columns: repeat(auto-fill, minmax(80%, 1fr));
+    grid-gap: 1em;
+  }
+}
