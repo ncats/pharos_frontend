@@ -1,6 +1,6 @@
 import {
   AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output,
-  ViewChild
+  ViewChild, ViewEncapsulation
 } from '@angular/core';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
@@ -10,7 +10,8 @@ import {HttpClient} from '@angular/common/http';
 @Component({
   selector: 'pharos-topic-table',
   templateUrl: './topic-table.component.html',
-  styleUrls: ['./topic-table.component.css']
+  styleUrls: ['./topic-table.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TopicTableComponent extends DynamicPanelComponent implements OnInit, AfterViewInit, OnDestroy  {
   // @Input() data: Topic[];
