@@ -47,6 +47,10 @@
   max-width: 168px;
 }
 
+.publications-header {
+  font-size: .8em;
+}
+
 @media only screen and (max-width: 960px) {
   .types-grid-list {
     grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));

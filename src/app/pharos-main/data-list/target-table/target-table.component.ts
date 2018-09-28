@@ -21,6 +21,12 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
    */
   @Input() pageData: PageData;
 
+  /**
+   * boolean to show or hide the large "targets" label
+   * @type {boolean}
+   */
+  @Input() showLabel = true;
+
   dataSource = new MatTableDataSource<any>(this.data);
   rowSelection = new SelectionModel<any>(true, []);
 
