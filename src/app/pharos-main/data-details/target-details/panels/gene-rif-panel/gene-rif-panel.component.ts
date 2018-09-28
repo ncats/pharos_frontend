@@ -12,7 +12,7 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class GeneRifPanelComponent extends DynamicPanelComponent implements OnInit, AfterViewInit {
  displayColumns: string[] = ['pmid', 'text'];
-
+datasourceLoaded = false;
   rifMap: Map<string, any> = new Map<string, any>();
   dataSource = new MatTableDataSource<Publication[]>();
 
@@ -54,6 +54,7 @@ export class GeneRifPanelComponent extends DynamicPanelComponent implements OnIn
         this.dataSource.data = tableArr;
       });
     }
+    this.datasourceLoaded = true;
   });
 }
 }

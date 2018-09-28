@@ -1,14 +1,3 @@
-<!--
-<div *ngIf="property">
-  <span class="" *ngIf="showLabel"><b>{{property.label}}</b></span>
-  <span *ngIf="property.href; else nolink">
-<a href = {{property.href}} target="_blank">{{property.getData()}}</a>
-    <span *ngIf="property.externalHref">{{property.externalHref}}<mat-icon>open_in_new</mat-icon></span>
-  </span>
-  <ng-template #nolink>{{property.getData()}}</ng-template>
-</div>
--->
-
 <div *ngIf="property">
   <span class="" *ngIf="showLabel"><b>{{property.label}}</b></span>
 <ng-container

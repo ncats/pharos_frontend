@@ -136,6 +136,16 @@ export class PharosApiService {
         ligandCt: 497,
         targetCt: 277,
         publicationCt: 0
+      }, {
+        id: 5,
+        name: 'DNA damage response',
+        description: '',
+        class: 'targets',
+        url: 'targets/search?facet=GO+Process/cellular+response+to+DNA+damage+stimulus&facet=WikiPathways+Pathway/DNA+Damage+Response+%28only+ATM+dependent%29&facet=WikiPathways+Pathway/DNA+IR-damage+and+cellular+response+via+ATR&facet=WikiPathways+Pathway/miRNA+Regulation+of+DNA+Damage+Response&facet=WikiPathways+Pathway/DNA+Damage+Response&top=100',
+        diseaseCt: 100,
+        ligandCt: 6359,
+        targetCt: 43,
+        publicationCt: 0
       }
   ];
 

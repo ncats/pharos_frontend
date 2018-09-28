@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {HttpClient} from '@angular/common/http';
+import {TableData} from "../../../../models/table-data";
+import {Property} from "../../../../models/property";
 
 @Component({
   selector: 'pharos-target-list-panel',
@@ -8,10 +10,30 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./target-list-panel.component.css']
 })
 export class TargetListPanelComponent extends DynamicPanelComponent implements OnInit {
-  properties: any;
-  _facetMap = new Map();
+  fields: TableData[] = [
+    new TableData( {
+      name: 'target',
+      label: 'IDG Target',
+      sortable: true,
+      internalLink: true
+    }),
+    new TableData( {
+      name: 'developmentLevel',
+      label: 'IDG Development Level',
+      sortable: true,
+      externalLink: true
+    }),
+    new TableData({
+      name: 'targetFamily',
+      label: 'Target Family',
+      sortable: true
+    })
+  ];
 
-  constructor(private _http: HttpClient) {
+  tableArr: any[] = [];
+
+
+  constructor() {
     super();
   }
 
@@ -22,21 +44,23 @@ export class TargetListPanelComponent extends DynamicPanelComponent implements O
       .pipe(
         // todo: this unsubscribe doesn't seem to work
         //    takeWhile(() => !this.data['references'])
-      );
-    //  .subscribe(x => {
-
-       /* if (this.data.links && this.data.links.length > 0) {
-          this.data.links.forEach(link => {
-            const fields = this._facetMap.get(link.kind);
-            if (fields) {
-              fields.push(link);
-              this._facetMap.set(link.kind, fields);
-            } else {
-              this._facetMap.set(link.kind, [link]);
-            }
+      )
+      .subscribe(x => {
+        console.log(this);
+        if (this.data.targetList && this.data.targetList.length > 0) {
+          this.tableArr = [];
+          this.data.targetList.forEach(target => {
+            console.log(target);
+            const data = {
+              target: new Property(target.properties.filter(prop => prop.label === 'IDG Target')[0]),
+              developmentLevel: new Property(target.properties.filter(prop => prop.label === 'IDG Development Level')[0]),
+              targetFamily: new Property(target.properties.filter(prop => prop.label === 'IDG Target Family')[0]),
+            };
+            this.tableArr.push(data);
           });
-          console.log(this._facetMap);
         }
-      });*/
+      });
+
   }
 }
+
