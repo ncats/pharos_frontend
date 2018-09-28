@@ -46,6 +46,10 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
     });
   }
 
+  /**
+   * this changes the sort order
+   * @param $event
+   */
   changeSort($event): void {
     this.sortChange.emit($event);
   }

@@ -67,10 +67,19 @@ export class TOKENS {
    * injection token to link to gene rif data
    */
   public static ASSAY_PANEL = new InjectionToken<string>('AssayComponent');
+
   /**
    * injection token to link to amino acid sequence data
    */
-  public static AA_SEQUENCE_PANEL = new InjectionToken<string>('AASequenceComponent');  /**
+  public static AA_SEQUENCE_PANEL = new InjectionToken<string>('AASequenceComponent');
+
+  /**
+   * injection Token to link to protein to protein interaction data
+   * @type {InjectionToken<string>}
+   */
+  public static PROTEIN_PROTEIN_PANEL = new InjectionToken<string>('ProteinProteinPanelComponent');
+
+  /**
    * injection token to link to amino acid sequence data
    */
   public static LIGANDS_PANEL = new InjectionToken<string>('LigandPanelComponent');
