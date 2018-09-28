@@ -46,6 +46,10 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
     });
   }
 
+  /**
+   * this changes the sort order
+   * @param $event
+   */
   changeSort($event): void {
     this.sortChange.emit($event);
   }
@@ -93,7 +97,6 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   private _getActivity(ligand: any): any {
-    console.log(ligand);
     let ret: any = {};
     ligand.properties.map(prop => {
       if (prop.label === 'IC50') {

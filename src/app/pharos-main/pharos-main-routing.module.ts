@@ -66,6 +66,7 @@ import {TargetCardComponent} from './data-details/topic-details/panels/target-ca
 import {LigandCardComponent} from './data-details/topic-details/panels/ligand-card/ligand-card.component';
 import {DiseaseCardComponent} from './data-details/topic-details/panels/disease-card/disease-card.component';
 import {KnowledgeTableComponent} from '../tools/knowledge-table/knowledge-table.component';
+import {ProteinProteinPanelComponent} from "./data-details/target-details/panels/protein-protein-panel/protein-protein-panel.component";
 
 
 const pharosMainRoutes: Routes = [
@@ -125,6 +126,7 @@ const pharosMainRoutes: Routes = [
     {provide: TOKENS.REFERENCES_PANEL, useValue: ReferencesPanelComponent },
     {provide: TOKENS.DISEASE_SOURCE_PANEL, useValue: DiseaseSourceComponent },
     {provide: TOKENS.EXPRESSION_PANEL, useValue: ExpressionPanelComponent },
+    {provide: TOKENS.PROTEIN_PROTEIN_PANEL, useValue: ProteinProteinPanelComponent },
     {provide: TOKENS.ORTHOLOG_PANEL, useValue: OrthologPanelComponent },
     {provide: TOKENS.TARGET_FACET_PANEL, useValue: TargetFacetPanelComponent },
     {provide: TOKENS.GENE_RIF_PANEL, useValue: GeneRifPanelComponent },
@@ -154,6 +156,7 @@ const pharosMainRoutes: Routes = [
     TargetHeaderComponent,
     DiseaseSourceComponent,
     ExpressionPanelComponent,
+    ProteinProteinPanelComponent,
     OrthologPanelComponent,
     TargetFacetPanelComponent,
     DiseaseTableComponent,
@@ -189,6 +192,7 @@ const pharosMainRoutes: Routes = [
     SummaryPanelComponent,
     TargetHeaderComponent,
     ExpressionPanelComponent,
+    ProteinProteinPanelComponent,
     OrthologPanelComponent,
     TargetFacetPanelComponent,
     DiseaseSourceComponent,

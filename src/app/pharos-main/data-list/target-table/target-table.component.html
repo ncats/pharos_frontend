@@ -1,7 +1,7 @@
 <br>
 <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row target-table">
   <div fxFlex="45" fxLayoutAlign.lt-sm="center">
-    <div class = mat-display-1>Targets <span *ngIf ="pageData">({{pageData.total}})</span></div>
+    <div class = mat-display-1 *ngIf="showLabel">Targets <span *ngIf ="pageData">({{pageData.total}})</span></div>
   </div>
   <div fxFlex="45" fxFlexAlign="end">
     <pharos-custom-paginator
