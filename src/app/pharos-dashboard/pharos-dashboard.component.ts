@@ -20,7 +20,6 @@ export class PharosDashboardComponent implements OnInit {
 
   ngOnInit() {
     this.topics = this.pharosApiService.TOPICS.slice(1, 5);
-    console.log(this);
   }
 
   goToDetails(): void {

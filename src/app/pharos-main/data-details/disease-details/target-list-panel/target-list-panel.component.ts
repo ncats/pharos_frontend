@@ -46,11 +46,9 @@ export class TargetListPanelComponent extends DynamicPanelComponent implements O
         //    takeWhile(() => !this.data['references'])
       )
       .subscribe(x => {
-        console.log(this);
         if (this.data.targetList && this.data.targetList.length > 0) {
           this.tableArr = [];
           this.data.targetList.forEach(target => {
-            console.log(target);
             const data = {
               target: new Property(target.properties.filter(prop => prop.label === 'IDG Target')[0]),
               developmentLevel: new Property(target.properties.filter(prop => prop.label === 'IDG Development Level')[0]),

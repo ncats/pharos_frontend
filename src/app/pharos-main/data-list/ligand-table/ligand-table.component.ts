@@ -93,7 +93,6 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   private _getActivity(ligand: any): any {
-    console.log(ligand);
     let ret: any = {};
     ligand.properties.map(prop => {
       if (prop.label === 'IC50') {

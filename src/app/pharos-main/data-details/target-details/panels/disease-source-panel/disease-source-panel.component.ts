@@ -115,7 +115,6 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
         }
       });
       this.sources = Array.from(this.sourceMap.keys()).sort((a, b) => +(b === 'DrugCentral Indication'));
-      console.log(this.sources);
       this.tableArr = this.sourceMap.get(this.sources[0]);
       this.loaded = true;
     }
