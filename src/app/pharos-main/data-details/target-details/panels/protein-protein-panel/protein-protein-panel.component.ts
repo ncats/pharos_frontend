@@ -34,10 +34,8 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
         this.targets = [];
        if(this.data.interactions && this.data.interactions.content.length > 0 ){
          this.ngUnsubscribe.next();
-         console.log(this);
 
          from(this.data.interactions.content[0].objects.map(obj => {
-           console.log(obj);
            return this.http.get<Target>(obj.href)
          })).pipe(
            zipAll()
