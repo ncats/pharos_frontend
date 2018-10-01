@@ -4,7 +4,7 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import {HttpClient} from "@angular/common/http";
 import {Target} from "../../../../../../app/models/target";
 import {PageData} from "../../../../../../app/models/page-data";
-import {map, zipAll} from "rxjs/internal/operators";
+import {map, zipAll} from "rxjs/operators";
 import {from} from "rxjs/index";
 
 @Component({
@@ -34,7 +34,6 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
         this.targets = [];
        if(this.data.interactions && this.data.interactions.content.length > 0 ){
          this.ngUnsubscribe.next();
-
          from(this.data.interactions.content[0].objects.map(obj => {
            return this.http.get<Target>(obj.href)
          })).pipe(
