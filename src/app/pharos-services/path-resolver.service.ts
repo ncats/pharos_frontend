@@ -132,7 +132,10 @@ export class PathResolverService {
     fList.forEach(facet => {
       const fArr = facet.split('/');
       const facetName: string = fArr[0].replace(/\+/g, ' ');
-      const fieldName: string = decodeURI(fArr[1]).replace('%2F', '/');
+      const fieldName: string = decodeURI(fArr[1])
+        .replace('%2F', '/')
+        .replace('%2C', ',')
+        .replace('%3A', ':');
       const fields = this._facetMap.get(facetName);
       if (fields) {
         fields.push(fieldName);
