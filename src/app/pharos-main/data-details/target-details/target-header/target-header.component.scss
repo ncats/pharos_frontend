@@ -1,21 +1,9 @@
-// Import theming functions
-@import '~@angular/material/theming';
+
 // Import your custom theme
 @import './src/ncats-theme.scss';
 
 :host {
-  flex: 1 1 auto;
-  max-width: 100%;
-  margin: 0 !important;
-}
-
-.target-toolbar {
-  width: 100vw;
-}
-
-.toolbar {
-  width: 100vw;
-  margin-bottom: 0;
+  grid-column: 1 / span 2;
 }
 
 .indicator {

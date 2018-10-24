@@ -1,7 +1,5 @@
 :host {
-  flex: 1 1 calc(100% - 40px);
-  max-width: calc(100% - 40px);
-  margin-left: 20px;
+  grid-column: 1 / span 2;
 }
 
 .radarchart {
@@ -11,15 +9,10 @@
 
 .full-height {
   height: 100%;
-  margin-bottom: 1vh;
 }
 
 @media only screen and (max-width: 768px) {
   :host {
-    flex: 1 1 100%;
-    max-width: 100%;
-    margin-left: 0;
-    margin-right: 0;
   }
 }
 

@@ -46,7 +46,6 @@ export class ReferencesPanelComponent extends DynamicPanelComponent implements O
       });
   }
 
-  // todo: this needs to be a
   setterFunction() {
     this.dataSource.data = this.data.references;
     this.allReferences = this.data.references;

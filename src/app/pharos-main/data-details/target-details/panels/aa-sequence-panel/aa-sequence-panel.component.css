@@ -1,17 +1,5 @@
 :host {
-  flex: 1 1 calc(100% - 40px);
-  max-width: calc(100% - 40px);
-  margin-top: 1vh;
-  margin-left: 20px;
-}
-
-.full-height {
-  height: 100%;
-  margin-bottom: 1vh;
-}
-
-.full-width {
-  width: 100%;
+  grid-column: 1 / span 2;
 }
 
 .well {
@@ -27,11 +15,11 @@
   flex-flow: row wrap;
 }
 
-@media only screen and (max-width: 768px) {
+/*@media only screen and (max-width: 768px) {
   :host {
     flex: 1 1 100%;
     max-width: 100%;
     margin-left: 0;
     margin-right: 0;
   }
-}
+}*/

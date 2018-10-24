@@ -1,23 +1,28 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {HttpClient} from '@angular/common/http';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {Publication} from '../../../../../models/publication';
-import {takeUntil} from 'rxjs/operators';
+import {map, zipAll, takeUntil} from 'rxjs/operators';
+import {from} from "rxjs/index";
+import {PageData} from "../../../../../models/page-data";
+
+
+interface GenerifData {
+  generif?: any;
+  data?: any;
+  pmid?: string;
+  text?: string;
+}
 
 @Component({
   selector: 'pharos-gene-rif-panel',
   templateUrl: './gene-rif-panel.component.html',
   styleUrls: ['./gene-rif-panel.component.css']
 })
-export class GeneRifPanelComponent extends DynamicPanelComponent implements OnInit, AfterViewInit {
+export class GeneRifPanelComponent extends DynamicPanelComponent implements OnInit {
  displayColumns: string[] = ['pmid', 'text'];
-datasourceLoaded = false;
-  rifMap: Map<string, any> = new Map<string, any>();
-  dataSource = new MatTableDataSource<Publication[]>();
-
-  /* Paginator object from Angular Material */
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  rifPageData: PageData;
+  allGeneRifs : any[];
+  geneRifs : any[];
 
   constructor(private _http: HttpClient) {
     super();
@@ -38,23 +43,35 @@ datasourceLoaded = false;
       });
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+  setterFunction() {
+    const generifObserv = this.data.generif.filter(obj => obj.href);
+    from(generifObserv.map(generif => generif = {generif: generif, data: this.getData(generif.href)} as GenerifData))
+      .pipe(
+      map(res => {
+        return res['data'].pipe(
+          map(response => {
+            const data: GenerifData = {pmid: res['generif'].properties.filter(p => p.label === 'PubMed ID')[0].intval, text: response['text']};
+            return data;
+          }));
+      }),
+      zipAll()
+    ).subscribe(res => {
+    this.allGeneRifs = res;
+    this.rifPageData = new PageData({
+        top: 10,
+        skip: 0,
+        count: 10,
+        total: this.allGeneRifs.length
+      });
+      this.geneRifs = this.allGeneRifs.slice(this.rifPageData.skip, this.rifPageData.top);
+    });
+   }
+
+  paginateGenerifs($event) {
+    this.geneRifs = this.allGeneRifs.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize);
   }
 
-  // todo generic table was unable to update - this is either from a problem in material or the nested async calls
-  // todo use rxjs to merge calls and return (some examples have 89+ results though)
-  setterFunction() {
-    const tableArr = [];
-  this.data.generif.forEach(rif => {
-    if (rif.href && !this.rifMap.get(rif.id)) {
-      this._http.get<any>(rif.href).subscribe(res => {
-        this.rifMap.set(rif.id, res);
-        tableArr.push({pmid: rif.properties.filter(p => p.label === 'PubMed ID')[0].intval, text: res.text});
-        this.dataSource.data = tableArr;
-      });
-    }
-    this.datasourceLoaded = true;
-  });
+getData(url: string): any {
+  return this._http.get<any[]>(url);
 }
 }

@@ -1,18 +1,13 @@
-// Import theming functions
-@import '~@angular/material/theming';
+
 // Import your custom theme
 @import './src/ncats-theme.scss';
 
 
 :host {
-  flex: 1 1 auto;
-  max-width: 100%;
-  margin-left: 20px;
-}
-
-.flex30 {
-  flex: 1 1 100%;
-  max-width: 100%;
+  grid-column: 1 / span 2;
+  /*  flex: 1 1 auto;
+    max-width: 100%;
+    margin-left: 20px;*/
 }
 
 .breadcrumb-link {
