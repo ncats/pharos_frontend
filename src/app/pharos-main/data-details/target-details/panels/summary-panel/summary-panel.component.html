@@ -10,6 +10,7 @@
       </div>
     </div>
       <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="start stretch">
+        <div *ngIf="data.knowledge && data.knowledge.length > 0; else noDataDiv">
       <div fxFlex="50" class = "kchart full-height" *ngIf="data.knowledge">
         <pharos-radar-chart [data] = data.knowledge [shape]="false" [size] = "'medium'" (click)="openModal()" [origin]="'knowledge'"></pharos-radar-chart>
       </div>
@@ -19,12 +20,25 @@
         <br>
         <br>
       </div>
+        <ng-template #noDataDiv>
+          <br>
+          <br>
+            <div fxFlex="25"></div>
+            <div fxFlex="50" fxLayoutAlign="space-around center">
+              <div><mat-icon class = "huge">error_outline</mat-icon></div><br>
+              <div><h2>No data available</h2></div>
+            </div>
+          <br>
+          <br>
+          <br>
+        </ng-template>
+    </div>
 
     <div>
-      <div *ngIf=" loading" class = "loadingIcon" fxLayoutAlign="center center">
+      <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
         <mat-spinner></mat-spinner>
       </div>
-    <ng-container *ngIf="getTimeline('PubMed Score')?.length >0">
+    <ng-container *ngIf="getTimeline('PubMed Score')?.length > 0">
       <div fxLayout="row" fxLayoutAlign="start stretch" >
       <div fxFlex="95">
         <span class="mat-title">PubMed Score </span>&nbsp;<span>{{target.jensenScore.toFixed(2)}}</span>

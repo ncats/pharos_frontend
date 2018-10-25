@@ -36,7 +36,7 @@ export class KnowledgeTableComponent extends DynamicPanelComponent implements On
         //   takeWhile(() => !this.data[0])
       )
       .subscribe(x => {
-        if (this.data && this.data[0].axes.length > 0) {
+        if (this.data && this.data.length > 0) {
           this.tableData = [];
           this.data[0].axes.slice(0).sort((a, b) => b.value - a.value).slice(0, 5).forEach(
             field => this.tableData.push(

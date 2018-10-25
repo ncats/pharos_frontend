@@ -47,8 +47,8 @@ export class ReferencesPanelComponent extends DynamicPanelComponent implements O
   }
 
   setterFunction() {
-    this.dataSource.data = this.data.references;
-    this.allReferences = this.data.references;
+    this.dataSource.data = this.data.references.filter(ref => !!ref);
+    this.allReferences = this.data.references.filter(ref => !!ref);
     this.loading = false;
     this.referencePageData = new PageData(
       {
@@ -62,9 +62,9 @@ export class ReferencesPanelComponent extends DynamicPanelComponent implements O
 
 paginateReferences($event) {
   this.loading = true;
-    this.http.get(`${this.target._publications.href}?top=${$event.pageSize}&skip=${($event.pageIndex) * $event.pageSize}`)
+    this.http.get<any>(`${this.target._publications.href}?top=${$event.pageSize}&skip=${($event.pageIndex) * $event.pageSize}`)
       .subscribe(res => {
-        this.dataSource.data = res;
+        this.dataSource.data = res.filter(ref => !!ref);
         this.loading = false;
       });
   }

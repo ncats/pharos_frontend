@@ -17,10 +17,7 @@ import {ApiViewerComponent} from './tools/api-viewer/api-viewer.component';
 import {DataTypesPanelComponent} from './pharos-dashboard/data-types-panel/data-types-panel.component';
 import {AboutPanelComponent} from './pharos-dashboard/about-panel/about-panel.component';
 import { NewsPanelComponent } from './pharos-dashboard/news-panel/news-panel.component';
-import {AngularFireModule} from 'angularfire2';
 import {environment} from '../environments/environment';
-import {AngularFirestoreModule} from 'angularfire2/firestore';
-import {AngularFireAuthModule} from 'angularfire2/auth';
 import { AboutPageComponent } from './about-page/about-page.component';
 import { FaqPageComponent } from './faq-page/faq-page.component';
 import { ApiPageComponent } from './api-page/api-page.component';
@@ -29,6 +26,9 @@ import { SequenceSearchPageComponent } from './sequence-search-page/sequence-sea
 import {SketcherComponent} from './tools/marvin-sketcher/sketcher.component';
 import {StructureSetterService} from './tools/marvin-sketcher/services/structure-setter.service';
 import {MolConverterService} from './tools/marvin-sketcher/services/mol-converter.service';
+import {AngularFireModule} from "@angular/fire";
+import {AngularFirestoreModule} from "@angular/fire/firestore";
+import {AngularFireAuthModule} from "@angular/fire/auth";
 
 
 @NgModule({

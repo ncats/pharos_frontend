@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {AngularFirestore} from 'angularfire2/firestore';
-import {Observable} from 'rxjs/index';
+import {AngularFirestore} from "@angular/fire/firestore";
 
 export interface Message {
   date: string;

@@ -254,10 +254,14 @@ export class RadarChartComponent implements OnInit, OnDestroy {
 
   getMaxValue(): number {
     const maxValues: number[] = [this._chartOptions.maxValue];
-    for (const data of this.data) {
-      maxValues.push(Math.max(...data.axes.map(o => o.value)));
+    if(this.data) {
+      this.data.map(data => {
+        maxValues.push(Math.max(...data.axes.map(o => o.value)))
+      });
+      return Math.max(...maxValues);
+    } else {
+      return 0;
     }
-    return Math.max(...maxValues);
   }
 
   shapeToPoints(total: number, scale: any): any[] {
@@ -306,7 +310,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
 
 
     // Define the div for the tooltip
-    this.tooltip = d3.select('body').append('div')
+    this.tooltip = d3.select(element).append('div')
       .attr('class', 'radar-tooltip')
       .style('opacity', 0);
   }
@@ -530,8 +534,8 @@ export class RadarChartComponent implements OnInit, OnDestroy {
           .duration(200)
           .style('opacity', .9);
         this.tooltip.html('<span>' + d.axis + ': <br>' + d.value + '</span>')
-          .style('left', d3.event.pageX + 'px')
-          .style('top', d3.event.pageY + 'px')
+          .style('left', d3.event.layerX + 'px')
+          .style('top', d3.event.layerY + 'px')
           .style('width', this._chartOptions.wrapWidth);
       })
       .on('mouseout', (d, i, circles) => {

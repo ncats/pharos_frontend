@@ -27,7 +27,7 @@ export class DonutChartComponent implements OnInit, OnChanges {
     this.updateChart();
   }
 
-  constructor() { }
+  constructor() {}
 
   // todo add click event that emits up
   // todo - data change doesnt update the chart, it just redraws it;
@@ -87,7 +87,7 @@ export class DonutChartComponent implements OnInit, OnChanges {
 
     const key = (d => d.data.label);
 
-    const color = d3.scaleOrdinal(d3.schemeCategory20c);
+    const color = d3.scaleOrdinal(d3.schemeRdYlBu[11]);
 
 
 // Define the div for the tooltip

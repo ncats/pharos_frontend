@@ -119,7 +119,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       this.loaded = true;
     }
 
-    if (this.data.tinx) {
+    if (this.data.tinx && this.data.tinx.importances) {
       this.tinx = [];
        this.data.tinx.importances.map(point => {
         const p: PharosPoint = {

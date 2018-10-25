@@ -6,6 +6,11 @@
   align-self: stretch;
   justify-self: stretch;
   height: 100%;
+  width: 100%;
+}
+
+.huge {
+  font-size: 124px;
 }
 
 .kchart {
