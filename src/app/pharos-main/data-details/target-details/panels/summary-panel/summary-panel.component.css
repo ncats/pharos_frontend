@@ -1,14 +1,12 @@
 :host {
   grid-column: 1 / 1;
 }
-/*
 
 .full-height {
+  align-self: stretch;
+  justify-self: stretch;
   height: 100%;
-!*  margin-left: 20px;
-  margin-bottom: 1vh;*!
 }
-*/
 
 .kchart {
   margin: 0 auto;
