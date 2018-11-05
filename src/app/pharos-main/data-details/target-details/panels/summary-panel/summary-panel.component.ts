@@ -43,7 +43,6 @@ ngOnInit() {
     )
     .subscribe(x => {
       if (Object.values(this.data).length > 0) {
-        console.log(this);
         this.ngUnsubscribe.next();
         if (this.data.timelines) {
           this.fetchTimelineData();

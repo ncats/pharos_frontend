@@ -87,7 +87,16 @@ export class DonutChartComponent implements OnInit, OnChanges {
 
     const key = (d => d.data.label);
 
-    const color = d3.scaleOrdinal(d3.schemeRdYlBu[11]);
+    const color = d3.scaleOrdinal(["#b07c47",
+      "#c47f2d",
+      "#c1ba47",
+      "#b2ae6e",
+      "#9ba081",
+      "#78ad4c",
+      "#62bc7a",
+      "#57c5ae",
+      "#7ea4a7",
+      "#5fa2cb"].reverse());
 
 
 // Define the div for the tooltip

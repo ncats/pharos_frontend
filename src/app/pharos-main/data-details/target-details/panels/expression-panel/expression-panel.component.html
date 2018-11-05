@@ -4,8 +4,8 @@
   </mat-card-header>
   <mat-card-content>
     <div class = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
-      <div fxFlex = "30">
-      <mat-tab-group>
+      <div fxFlex = "30" class ="expressions">
+      <mat-tab-group [dynamicHeight]="true">
         <mat-tab label = "Specificity" class="full-height">
           <ng-template matTabContent>
           <div fxLayout="row" fxLayoutAlign="start stretch">

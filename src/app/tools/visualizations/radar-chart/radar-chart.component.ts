@@ -531,7 +531,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
         d3.select(circles[i]).classed('hovered', true);
         this.tooltip
           .transition()
-          .duration(200)
+          .duration(100)
           .style('opacity', .9);
         this.tooltip.html('<span>' + d.axis + ': <br>' + d.value + '</span>')
           .style('left', d3.event.layerX + 'px')

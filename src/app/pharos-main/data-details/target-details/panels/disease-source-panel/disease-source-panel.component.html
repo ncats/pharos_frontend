@@ -23,7 +23,7 @@
     </ng-template>
         </div>
       </div>
-      <div fxLayout="row" *ngIf="data.tinx && data.tinx.length > 0" fxLayout.lt-md="column" fxLayoutAlign="start stretch">
+      <div fxLayout="row" *ngIf="tinx && tinx.length > 0" fxLayout.lt-md="column" fxLayoutAlign="start stretch">
         <div fxFlex="95">
           <span class="mat-title">Tinx</span>
         </div>
@@ -31,7 +31,7 @@
           <pharos-help-panel-trigger [origin] = "'tinx'"></pharos-help-panel-trigger>
         </div>
       </div>
-      <div fxLayout="row" *ngIf="data.tinx" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="start stretch">
+      <div fxLayout="row" *ngIf="tinx && tinx.length > 0" fxLayout.lt-md="column" class ="tkrow tinx" fxLayoutAlign="start stretch">
         <div fxFlex="100">
       <pharos-line-chart [data]="tinx" [options]="chartOptions"></pharos-line-chart>
     </div>

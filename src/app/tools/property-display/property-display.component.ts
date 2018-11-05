@@ -31,6 +31,12 @@ export class PropertyDisplayComponent implements OnInit {
 
   get property() {
     // get the latest value from _data BehaviorSubject
+    const prop = this._data.getValue();
+    if (prop.label ==='IDG Disease') {
+/*      prop.internalHref = '/diseases' + prop.href.split('/diseases')[1];
+      console.log(prop);*/
+      prop.href = null;
+    }
     return this._data.getValue();
   }
 

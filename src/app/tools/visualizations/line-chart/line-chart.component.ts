@@ -214,7 +214,6 @@ getYAxis(scale: string): any {
 
     this.width = element.offsetWidth - this._chartOptions.margin.left - this._chartOptions.margin.right;
     this.height = element.offsetHeight - this._chartOptions.margin.top - this._chartOptions.margin.bottom;
-console.log(this.width)
     // Remove whatever chart with the same id/class was present before
     d3.select(element).selectAll('svg').remove();
 

@@ -6,7 +6,7 @@
     <div fxLayout="row" fxLayout.lt-sm = "column" fxLayoutAlign="center center">
       <div fxFlex = "30">
         <ng-container *ngIf="data.synonyms?.length > 0">
-          <mat-card-subtitle>Accession</mat-card-subtitle>
+          <mat-card-subtitle>Uniprot Accession IDs</mat-card-subtitle>
           <ul class = "inline-list wrap">
             <li *ngFor=" let term of data.synonyms">
               <pharos-term-display [term]= term [showLabel]="false"></pharos-term-display><br>

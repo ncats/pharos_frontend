@@ -46,6 +46,7 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
   }
 
   ngOnInit() {
+    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -70,7 +71,7 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
                 new Property({
                   term: facet.term,
                   href: facet.href, // todo: remove when this is standardized
-                  internalHref: facet.href
+                  internalHref: 'targets?facet=' + facet.label.replace( / /g, '+') + '/'+facet.term.replace(/ /g, '+')
                 }),
            //   count: new Property({intval: 0}),
               externalLink: new Property({
@@ -81,6 +82,7 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
           this.facets.push({label: key, fields: links});
         }
       });
+      console.log(this.facets);
       this.facets = this.facets.filter(facet => facet.fields.length > 0);
     }
   }
