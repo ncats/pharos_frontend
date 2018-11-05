@@ -1,9 +1,10 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
-import {MatTableDataSource} from '@angular/material';
+import {MatDialog, MatTableDataSource} from '@angular/material';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../models/page-data';
+import {BatchUploadModalComponent} from "../../../tools/batch-upload-modal/batch-upload-modal.component";
 
 @Component({
   selector: 'pharos-target-table',
@@ -12,7 +13,7 @@ import {PageData} from '../../../models/page-data';
 })
 
 export class TargetTableComponent  extends DynamicPanelComponent implements OnInit, OnDestroy {
-  displayColumns: string[] = ['name', 'gene', 'idgTDL', 'idgFamily', 'novelty', 'jensenScore', 'antibodyCount', 'knowledgeAvailability'];
+  displayColumns: string[] = ['list-select', 'name', 'gene', 'idgTDL', 'idgFamily', 'novelty', 'jensenScore', 'antibodyCount', 'knowledgeAvailability'];
   @Output() readonly sortChange: EventEmitter<string> = new EventEmitter<string>();
   @Output() readonly pageChange: EventEmitter<string> = new EventEmitter<string>();
 
@@ -30,7 +31,7 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
   dataSource = new MatTableDataSource<any>(this.data);
   rowSelection = new SelectionModel<any>(true, []);
 
-  constructor() {
+  constructor(public dialog: MatDialog) {
     super();
   }
 
@@ -53,6 +54,30 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
 
   changePage($event): void {
     this.pageChange.emit($event);
+  }
+
+  batchUpload() {
+    let dialogRef = this.dialog.open(BatchUploadModalComponent, {
+        height: '50vh',
+        width: '66vw',
+      }
+    );
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    //  this.animal = result;
+    });
+  }
+
+  compareTargets() {
+    console.log(this.rowSelection.selected);
+  }
+
+  createTopic() {
+    console.log(this.rowSelection.selected);
+  }
+
+  saveTargets() {
+    console.log(this.rowSelection.selected);
   }
 
 ngOnDestroy(): void {

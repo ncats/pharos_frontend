@@ -67,6 +67,7 @@ import {LigandCardComponent} from './data-details/topic-details/panels/ligand-ca
 import {DiseaseCardComponent} from './data-details/topic-details/panels/disease-card/disease-card.component';
 import {KnowledgeTableComponent} from '../tools/knowledge-table/knowledge-table.component';
 import {ProteinProteinPanelComponent} from "./data-details/target-details/panels/protein-protein-panel/protein-protein-panel.component";
+import {BatchUploadModalComponent} from "../tools/batch-upload-modal/batch-upload-modal.component";
 
 
 const pharosMainRoutes: Routes = [
@@ -183,7 +184,8 @@ const pharosMainRoutes: Routes = [
     GeneRifPanelComponent,
     AssayPanelComponent,
     AaSequencePanelComponent,
-    LigandsPanelComponent
+    LigandsPanelComponent,
+    BatchUploadModalComponent
   ],
   declarations: [
     TargetTableComponent,
@@ -230,7 +232,8 @@ const pharosMainRoutes: Routes = [
     GeneRifPanelComponent,
     AssayPanelComponent,
     AaSequencePanelComponent,
-    LigandsPanelComponent
+    LigandsPanelComponent,
+    BatchUploadModalComponent
   ]
 })
 export class PharosMainRoutingModule { }

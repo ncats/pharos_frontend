@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Upload targets</h1>
+<div mat-dialog-content>
+<mat-form-field class = "full-width-field">
+  <textarea matInput [formControl]= targetCtrl placeholder="Enter up to 100 newline or comma separated targets" [rows]="20"></textarea>
+</mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-flat-button (click)="cancel()">Cancel</button>
+  <button mat-flat-button [color]="'primary'" (click)="submitList()" cdkFocusInitial>Submit</button>
+</div>

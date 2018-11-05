@@ -11,9 +11,10 @@ import {
 import {MatChipsModule} from '@angular/material/chips';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatDividerModule} from '@angular/material/divider';
-import {MatDialogModule} from '@angular/material/dialog';
 import {ScrollDispatchModule} from '@angular/cdk/scrolling';
 import {LayoutModule} from '@angular/cdk/layout';
+import {MatDialogModule} from '@angular/material/dialog';
+
 
 
 @NgModule({
