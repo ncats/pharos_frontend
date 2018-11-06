@@ -83,7 +83,7 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
               refid: refid,
               activityType: this._getActivityType(activity),
               activity: activity.numval,
-              imageUrl: this._STRUCTUREURLBASE + refid + '.svg'
+              imageUrl: this._STRUCTUREURLBASE + refid + '.svg?size=250'
             };
 
             if (ligand.target) {

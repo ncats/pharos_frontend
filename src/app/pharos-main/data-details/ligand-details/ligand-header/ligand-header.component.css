@@ -1,15 +1,17 @@
 :host {
-  flex: 1 1 calc(100%);
-  max-width: 100%;
-  margin: 0 !important;
+  grid-column: 1 / span 3;
 }
 
-
-.target-toolbar {
-  width: 100vw;
+.indicator {
+  display: inline;
 }
 
-.toolbar {
-  width: 100vw;
-  margin-bottom: 0;
+@media only screen and (max-width: 960px) {
+  .pharos-title {
+    font-size: 2em;
+  }
+
+  .title-holder {
+    margin-left: 2vw;
+  }
 }

@@ -18,14 +18,11 @@ export class BatchUploadModalComponent implements OnInit {
   }
 
   cancel(){
-    //this.dialogRef.close();
+    this.dialogRef.close();
   }
 
   submitList() {
-    const tempValues = this.targetCtrl.value;
-    console.log(tempValues);
-    const ret = tempValues.trim().split(/[\t\n,;]+/);
-     this.dialogRef.close(ret);
+      this.dialogRef.close(this.targetCtrl.value ? this.targetCtrl.value.trim().split(/[\t\n,;]+/) : null);
   }
 
 }

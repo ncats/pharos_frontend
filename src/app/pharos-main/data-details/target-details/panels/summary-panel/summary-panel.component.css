@@ -5,8 +5,8 @@
 .full-height {
   align-self: stretch;
   justify-self: stretch;
+  min-height: 100%;
   height: 100%;
-  width: 100%;
 }
 
 .huge {

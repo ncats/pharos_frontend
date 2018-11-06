@@ -1,29 +1,38 @@
 
-.spaced {
-  margin-top: 2vh;
-  margin-bottom: 2vh;
-  position: relative;
-}
-
 .structure-grid {
   display: grid;
   grid-auto-rows: max-content;
   grid-template-columns: repeat(auto-fill, minmax(19%, 1fr));
   grid-gap: .5em;
   justify-items: center;
+  overflow: hidden;
 }
 
 .structure-grid > div {
-  margin-bottom: 1em;
+  margin-bottom: 2em;
+  margin-top: 2em;
+  min-height: 100%;
 }
 
-.ligand-card {
-  cursor: pointer;
+@media only screen and (max-width: 960px) {
+  :host {
+  }
+
+  .structure-grid {
+    grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
+  }
 }
 
 @media only screen and (max-width: 768px) {
+  :host {
+  }
+
+  .full-height {
+    margin-bottom: 1vh;
+  }
+
   .structure-grid {
     grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
-
   }
+
 }

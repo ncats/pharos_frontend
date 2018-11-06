@@ -44,6 +44,7 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
             takeUntil(this.ngUnsubscribe)
           )
           .subscribe(x => {
+            console.log(this);
             this.dataSource.data = this.data;
           });
   }

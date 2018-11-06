@@ -40,9 +40,13 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
   setterFunction() {
     if (this.data.geneSummary) {
       this.geneSummary = this.data.geneSummary.map(sum => sum.text).join(' ');
-      this.description = this.target.description.concat(this.geneSummary);
+      if(this.target.description) {
+        this.description = this.target.description ? this.target.description.concat(this.geneSummary) : this.geneSummary;
+      }
+    }else {
+      this.description = this.target.description;
     }
-    if (this.description.length > 1000) {
+    if (this.description && this.description.length > 1000) {
       this.fullDescription = false;
       this.truncatedDescription = this.description.slice(0, 1000);
     }

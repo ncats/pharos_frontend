@@ -1,10 +1,19 @@
+<div fxLayout="row" fxLayoutAlign="space-around center">
+  <div fxFlex="90">
 <h1 mat-dialog-title>Upload targets</h1>
+  </div>
+<button mat-icon-button (click)="cancel()"><mat-icon>close</mat-icon></button>
+</div>
 <div mat-dialog-content>
-<mat-form-field class = "full-width-field">
+  <div fxLayout="row" fxLayoutAlign="space-around center">
+    <div fxFlex = "90">
+<mat-form-field class = "full-width">
   <textarea matInput [formControl]= targetCtrl placeholder="Enter up to 100 newline or comma separated targets" [rows]="20"></textarea>
 </mat-form-field>
+    </div>
+  </div>
 </div>
-<div mat-dialog-actions>
-  <button mat-flat-button (click)="cancel()">Cancel</button>
+<div mat-dialog-actions [dir]="'rtl'">
   <button mat-flat-button [color]="'primary'" (click)="submitList()" cdkFocusInitial>Submit</button>
+  <button mat-flat-button (click)="cancel()">Cancel</button>
 </div>

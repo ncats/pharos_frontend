@@ -3,8 +3,6 @@
   <mat-toolbar [color]="'primary'">
     <div fxFlex="45" fxLayoutAlign.lt-sm="center">
       <div class = mat-display-1 *ngIf="showLabel">Targets <span *ngIf ="pageData">({{pageData.total}})</span>
-        <button mat-button><mat-icon>create</mat-icon>Upload Target List</button>
-
       </div>
     </div>
     <div fxFlex></div>
@@ -12,7 +10,13 @@
       <button mat-icon-button [matMenuTriggerFor]="appMenu"><mat-icon>apps</mat-icon></button>
       <mat-menu #appMenu="matMenu">
         <button mat-menu-item (click)="batchUpload()"><mat-icon>create</mat-icon>Upload Target List</button>
-        <button mat-menu-item (click)="compareTargets()" [disabled]="rowSelection.isEmpty()"><mat-icon>swap_horiz</mat-icon>Compare Targets</button>
+        <span matTooltip= "Please select 2-4 targets to compare"
+              [matTooltipDisabled] = "!rowSelection.isEmpty()">
+        <button mat-menu-item
+                (click)="compareTargets()"
+                [disabled]="rowSelection.isEmpty() || (rowSelection.selected.length < 2 || rowSelection.selected.length > 4)"
+        ><mat-icon>swap_horiz</mat-icon>Compare Targets</button>
+        </span>
         <button mat-menu-item (click)="createTopic()" [disabled]="rowSelection.isEmpty()"><mat-icon>bubble_chart</mat-icon>Generate Topic</button>
         <button mat-menu-item (click)="saveTargets()" [disabled]="rowSelection.isEmpty()"><mat-icon>save</mat-icon>Save Selected</button>
         <button mat-menu-item><mat-icon>save_alt</mat-icon>Save Query</button>
@@ -36,7 +40,7 @@
 </div>
 <mat-table [dataSource]="dataSource" fxHide.lt-sm matSort (matSortChange)="changeSort($event)">
       <ng-container matColumnDef="list-select">
-        <mat-header-cell *matHeaderCellDef> Compare </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> Select </mat-header-cell>
         <mat-cell *matCellDef="let row" class="col2">
           <mat-checkbox (click)="$event.stopPropagation()"
                         (change)="$event ? rowSelection.toggle(row) : null"
