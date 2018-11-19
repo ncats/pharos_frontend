@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {DataListResolver} from './services/data-list.resolver';
 import {PharosMainComponent} from './pharos-main.component';
 import {TargetTableComponent} from './data-list/target-table/target-table.component';
@@ -95,6 +95,7 @@ const pharosMainRoutes: Routes = [
     SharedDetailsModule,
     RouterModule.forChild(pharosMainRoutes)
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [
     RouterModule
   ],

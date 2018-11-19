@@ -58,10 +58,10 @@ import 'core-js/es7/reflect';
 import 'zone.js/dist/zone';  // Included with Angular CLI.
 
 
-
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+import '@webcomponents/custom-elements/custom-elements.min';
 
  /**
   *these variables are used for the swagger ui

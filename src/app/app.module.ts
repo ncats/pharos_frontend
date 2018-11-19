@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { AppComponent } from './app.component';
 import { LoadingService } from './pharos-services/loading.service';
 import { AppRoutingModule } from './app-routing.module';
@@ -47,6 +47,7 @@ import {AngularFireAuthModule} from "@angular/fire/auth";
     StructureSearchPageComponent,
     SequenceSearchPageComponent
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     SharedModule.forRoot(),
     BrowserAnimationsModule,

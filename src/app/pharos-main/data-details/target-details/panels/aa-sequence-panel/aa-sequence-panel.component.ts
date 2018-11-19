@@ -1,16 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
+import * as protvista from 'ProtVista';
 
 @Component({
   selector: 'pharos-aa-sequence-panel',
   templateUrl: './aa-sequence-panel.component.html',
   styleUrls: ['./aa-sequence-panel.component.css']
+
 })
 
 export class AaSequencePanelComponent extends DynamicPanelComponent implements OnInit {
+
+  @ViewChild('protVistaViewer') viewerContainer: ElementRef;
+
   sequence: any[];
+
   residueCounts: any[];
+
   constructor() {
     super();
   }
@@ -32,6 +39,11 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
 
   setterFunction() {
     this.parseSequence();
+    const r = new protvista({
+      el: this.viewerContainer.nativeElement,
+      uniprotacc: 'P05067'
+    });
+    console.log(r);
     this.getCounts();
   }
 
