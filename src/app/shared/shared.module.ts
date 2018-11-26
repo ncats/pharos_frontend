@@ -30,6 +30,7 @@ import {HelpPanelOpenerService} from '../tools/help-panel/services/help-panel-op
 import {NgxJsonViewerModule} from 'ngx-json-viewer';
 import {PropertyDisplayComponent} from '../tools/property-display/property-display.component';
 import {KnowledgeTableComponent} from '../tools/knowledge-table/knowledge-table.component';
+import {ProteinStructureViewerComponent} from "../tools/protein-structure-viewer/protein-structure-viewer.component";
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import {KnowledgeTableComponent} from '../tools/knowledge-table/knowledge-table.
     PharosTabsComponent,
     HelpPanelComponent,
     HelpPanelTriggerComponent,
-    KnowledgeTableComponent
+    KnowledgeTableComponent,
+    ProteinStructureViewerComponent
   ],
   providers: [
     HelpDataService,
@@ -93,7 +95,8 @@ import {KnowledgeTableComponent} from '../tools/knowledge-table/knowledge-table.
     PharosTabsComponent,
     HelpPanelComponent,
     HelpPanelTriggerComponent,
-    KnowledgeTableComponent
+    KnowledgeTableComponent,
+    ProteinStructureViewerComponent
   ]
 })
 export class SharedModule {

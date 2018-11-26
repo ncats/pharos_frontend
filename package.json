@@ -38,6 +38,7 @@
     "firebase": "^5.5.5",
     "hammerjs": "^2.0.8",
     "katex": "^0.10.0-beta",
+    "ngl": "^2.0.0-dev.33",
     "ngx-json-viewer": "^2.3.0",
     "rxjs": "^6.3.3",
     "stream": "^0.0.2",

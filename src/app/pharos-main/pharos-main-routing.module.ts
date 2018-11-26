@@ -67,6 +67,7 @@ import {LigandCardComponent} from './data-details/topic-details/panels/ligand-ca
 import {DiseaseCardComponent} from './data-details/topic-details/panels/disease-card/disease-card.component';
 import {KnowledgeTableComponent} from '../tools/knowledge-table/knowledge-table.component';
 import {ProteinProteinPanelComponent} from "./data-details/target-details/panels/protein-protein-panel/protein-protein-panel.component";
+import {PdbPanelComponent} from "./data-details/target-details/panels/pdb-panel/pdb-panel.component";
 
 
 const pharosMainRoutes: Routes = [
@@ -147,6 +148,7 @@ const pharosMainRoutes: Routes = [
     {provide: TOKENS.STRUCTURE_VIEW_PANEL, useValue: StructureViewPanelComponent },
     {provide: TOKENS.TARGET_RELEVANCE_PANEL, useValue: TargetRelevancePanelComponent },
     {provide: TOKENS.MOLECULAR_DEFINITION_PANEL, useValue: MolecularDefinitionPanelComponent },
+    {provide: TOKENS.PDB_PANEL, useValue: PdbPanelComponent },
   ],
   entryComponents: [
     BreadcrumbComponent,
@@ -184,7 +186,8 @@ const pharosMainRoutes: Routes = [
     GeneRifPanelComponent,
     AssayPanelComponent,
     AaSequencePanelComponent,
-    LigandsPanelComponent
+    LigandsPanelComponent,
+    PdbPanelComponent
   ],
   declarations: [
     TargetTableComponent,
@@ -231,7 +234,8 @@ const pharosMainRoutes: Routes = [
     GeneRifPanelComponent,
     AssayPanelComponent,
     AaSequencePanelComponent,
-    LigandsPanelComponent
+    LigandsPanelComponent,
+    PdbPanelComponent
   ]
 })
 export class PharosMainRoutingModule { }

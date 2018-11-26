@@ -138,4 +138,9 @@ public static MOLECULAR_DEFINITION_PANEL = new InjectionToken<string>('Molecular
  * injection token to link to target relevance data
  */
 public static TARGET_RELEVANCE_PANEL = new InjectionToken<string>('TargetRelevanceComponent');
+
+/**
+ * injection token to link to protein database data
+ */
+public static PDB_PANEL = new InjectionToken<string>('PdbPanelComponent');
  }

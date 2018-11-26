@@ -43,7 +43,6 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
       el: this.viewerContainer.nativeElement,
       uniprotacc: 'P05067'
     });
-    console.log(r);
     this.getCounts();
   }
 
