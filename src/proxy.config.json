@@ -1,0 +1,7 @@
+{
+  "/targets/resolve/*": {
+    "target": "https://localhost:9000/app/api/v1/targets/resolve",
+    "secure": false,
+    "logLevel": "debug"
+  }
+}

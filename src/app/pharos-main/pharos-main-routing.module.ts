@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {DataListResolver} from './services/data-list.resolver';
 import {PharosMainComponent} from './pharos-main.component';
 import {TargetTableComponent} from './data-list/target-table/target-table.component';
@@ -68,6 +68,7 @@ import {DiseaseCardComponent} from './data-details/topic-details/panels/disease-
 import {KnowledgeTableComponent} from '../tools/knowledge-table/knowledge-table.component';
 import {ProteinProteinPanelComponent} from "./data-details/target-details/panels/protein-protein-panel/protein-protein-panel.component";
 import {BatchUploadModalComponent} from "../tools/batch-upload-modal/batch-upload-modal.component";
+import {PdbPanelComponent} from "./data-details/target-details/panels/pdb-panel/pdb-panel.component";
 
 
 const pharosMainRoutes: Routes = [
@@ -96,6 +97,7 @@ const pharosMainRoutes: Routes = [
     SharedDetailsModule,
     RouterModule.forChild(pharosMainRoutes)
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [
     RouterModule
   ],
@@ -147,6 +149,7 @@ const pharosMainRoutes: Routes = [
     {provide: TOKENS.STRUCTURE_VIEW_PANEL, useValue: StructureViewPanelComponent },
     {provide: TOKENS.TARGET_RELEVANCE_PANEL, useValue: TargetRelevancePanelComponent },
     {provide: TOKENS.MOLECULAR_DEFINITION_PANEL, useValue: MolecularDefinitionPanelComponent },
+    {provide: TOKENS.PDB_PANEL, useValue: PdbPanelComponent },
   ],
   entryComponents: [
     BreadcrumbComponent,
@@ -185,7 +188,8 @@ const pharosMainRoutes: Routes = [
     AssayPanelComponent,
     AaSequencePanelComponent,
     LigandsPanelComponent,
-    BatchUploadModalComponent
+    BatchUploadModalComponent,
+    PdbPanelComponent
   ],
   declarations: [
     TargetTableComponent,
@@ -233,7 +237,8 @@ const pharosMainRoutes: Routes = [
     AssayPanelComponent,
     AaSequencePanelComponent,
     LigandsPanelComponent,
-    BatchUploadModalComponent
+    BatchUploadModalComponent,
+    PdbPanelComponent
   ]
 })
 export class PharosMainRoutingModule { }

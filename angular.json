@@ -27,6 +27,7 @@
             ],
             "styles": [
               "node_modules/swagger-ui/dist/swagger-ui.css",
+              "node_modules/ProtVista/build/css/main.css",
               "src/styles.scss"
             ],
             "scripts": [
@@ -56,7 +57,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "pharos-beta:build"
+            "browserTarget": "pharos-beta:build",
+            "proxyConfig": "src/proxy.config.json"
           },
           "configurations": {
             "production": {

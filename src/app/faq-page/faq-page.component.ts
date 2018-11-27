@@ -1,5 +1,4 @@
 import {Component, ElementRef, OnInit, QueryList, ViewChildren, ViewEncapsulation} from '@angular/core';
-import * as katex from 'katex';
 import {KatexRenderService} from '../tools/katex-render.service';
 import {AngularFirestore} from "@angular/fire/firestore";
 

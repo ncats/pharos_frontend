@@ -5,6 +5,8 @@ import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.
 import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../models/page-data';
 import {BatchUploadModalComponent} from "../../../tools/batch-upload-modal/batch-upload-modal.component";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../../environments/environment.prod";
 
 @Component({
   selector: 'pharos-target-table',
@@ -31,7 +33,8 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
   dataSource = new MatTableDataSource<any>(this.data);
   rowSelection = new SelectionModel<any>(true, []);
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog,
+              public http: HttpClient) {
     super();
   }
 
@@ -65,6 +68,14 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
     );
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
+
+      this.http.post('/targets/resolve', result).subscribe(res => {
+        console.log(res);
+      })
+
+      /*   this.http.post(`${environment.apiUrl}targets/resolve`, result, httpOptions).subscribe(res => {
+        console.log(res);
+      })*/
     //  this.animal = result;
     });
   }
