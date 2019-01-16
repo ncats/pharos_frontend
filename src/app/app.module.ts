@@ -29,6 +29,7 @@ import {MolConverterService} from './tools/marvin-sketcher/services/mol-converte
 import {AngularFireModule} from "@angular/fire";
 import {AngularFirestoreModule} from "@angular/fire/firestore";
 import {AngularFireAuthModule} from "@angular/fire/auth";
+import { RadarChartViewerComponent } from './tools/radar-chart-viewer/radar-chart-viewer.component';
 
 
 @NgModule({

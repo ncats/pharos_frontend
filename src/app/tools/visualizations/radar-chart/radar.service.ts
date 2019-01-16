@@ -39,7 +39,7 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
     margin: {top: 60, right: 20, bottom: 50, left: 20},
     levels: 10,
       dotRadius: 5, 			// The size of the colored circles of each blog
-      format: '.5f',
+      format: '.2f',
       labelFactor: 1.05,
       labels: true,
       axisLabels: true,
@@ -66,33 +66,37 @@ export class RadarService {
   private radarDataMap: Map<string, any> = new Map<string, any>();
 
   /**
-   * url to call
-   */
-  private url: string;
-
-  /**
    * create services and set url for data calls
    * @param {HttpClient} http
    * @param {EnvironmentVariablesService} environmentVariableService
    */
   constructor(private http: HttpClient,
               private environmentVariableService: EnvironmentVariablesService) {
-    this.url = this.environmentVariableService.getRadarPath();
+    console.log(this);
   }
 
   /**
    * check to see if data exists in map, if not retrieve it
    * @param {string} id
+   * @param {string} origin
    * @return {any}
    */
   getData(id: string, origin: string): any {
+    let url: string;
     let temp: any = this.radarDataMap.get(id);
-    if (!temp) {
-      temp = this._fetchData(id);
+    if (!temp || !temp[origin]) {
+      if (origin === 'knowledge') {
+        url = `${this.environmentVariableService.getRadarPath()}${id}`;
+      } else if (origin === 'knowledge-sources') {
+        url = `${this.environmentVariableService.getRadarSourcesPath()}${id}`;
+      }
+      temp = this._fetchData(url);
       this.setData(id, temp, origin);
       return temp;
     } else {
-      return of([temp[origin]]);
+      console.log(temp);
+      // this is wrapped as an array or it won't show on page return, ie list -> details -> list
+      return of(temp[origin]);
     }
   }
 
@@ -100,6 +104,7 @@ export class RadarService {
    * set api data in the api
    * @param {string} id
    * @param data
+   * @param {string} origin
    */
   setData(id: string, data: any, origin: string): void {
     let temp: any = this.radarDataMap.get(id);
@@ -122,12 +127,12 @@ export class RadarService {
 
   /**
    * call api to fetch data for the radar chart
-   * @param {string} id
+   * @param {string} url
    * @return {any}
    * @private
    */
-  _fetchData(id: string): any {
-    return this.http.get<any[]>(this.url +  id)
+  private _fetchData(url: string): any {
+    return this.http.get<any[]>(url)
       .pipe(
         catchError(this.handleError('getRadarData', []))
         );

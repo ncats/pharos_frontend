@@ -1,5 +1,6 @@
 import {
-  Component, ElementRef, HostListener, Inject, Input, OnDestroy, OnInit, Optional, ViewChild, ViewEncapsulation,
+  Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnDestroy, OnInit, Optional, Output, ViewChild,
+  ViewEncapsulation,
   ViewRef
 } from '@angular/core';
 import * as d3 from 'd3';
@@ -174,6 +175,11 @@ export class RadarChartComponent implements OnInit, OnDestroy {
    */
   private height: number;
 
+
+  @Output() readonly hoverEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() readonly clickEvent: EventEmitter<any> = new EventEmitter<any>();
+
+
   /**
    * function to redraw/scale the graph on window resize
    */
@@ -193,14 +199,17 @@ export class RadarChartComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    console.log(this);
     this.drawChart();
     // data passed in by opening modal
     if (this.modalData) {
+      console.log(this.modalData);
       Object.keys(this.modalData).forEach(key => this[key] = this.modalData[key]);
     }
 
     if (!this.data) {
       // data passed in by id (target list)
+      console.log(this.id);
       this.radarDataService.getData(this.id, this.origin).subscribe(res => {
         this.data = res;
       });
@@ -210,8 +219,10 @@ export class RadarChartComponent implements OnInit, OnDestroy {
 
     // data set by component, also handles setting by modal opening and data retrieved by id
     this._data.subscribe(x => {
-      if (this.data) {
+      if (this.data && this.data.length) {
+        console.log(this.data);
         this.data.forEach(graph => {
+          console.log(graph);
           if (graph) {
             this.drawChart();
             this.radarDataService.setData(graph.className, graph, this.origin);
@@ -255,6 +266,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
   getMaxValue(): number {
     const maxValues: number[] = [this._chartOptions.maxValue];
     if(this.data) {
+      console.log(this.data);
       this.data.map(data => {
         maxValues.push(Math.max(...data.axes.map(o => o.value)))
       });
@@ -321,7 +333,6 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     const cos = Math.cos;
     const HALF_PI: number = Math.PI / 2;
 
-    // todo: clean this up with es6
     // Wraps SVG text - Taken from http://bl.ocks.org/mbostock/7555321
     const wrap = (texts, width) => {
       texts.each(function () {
@@ -330,7 +341,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
         let word;
         let line = [];
         let lineNumber = 0;
-        const lineHeight = 1.4; // ems
+        const lineHeight = 1.5; // ems
         const y = text.attr('y');
         const x = text.attr('x');
         const dy = parseFloat(text.attr('dy'));
@@ -537,6 +548,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
           .style('left', d3.event.layerX + 'px')
           .style('top', d3.event.layerY + 'px')
           .style('width', this._chartOptions.wrapWidth);
+        this.hoverEvent.emit(d);
       })
       .on('mouseout', (d, i, circles) => {
         this.tooltip

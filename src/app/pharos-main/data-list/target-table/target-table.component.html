@@ -6,7 +6,7 @@
       </div>
     </div>
     <div fxFlex></div>
-    <div fxFlex = "5">
+    <!--<div fxFlex = "5">
       <button mat-icon-button [matMenuTriggerFor]="appMenu"><mat-icon>apps</mat-icon></button>
       <mat-menu #appMenu="matMenu">
         <button mat-menu-item (click)="batchUpload()"><mat-icon>create</mat-icon>Upload Target List</button>
@@ -22,7 +22,7 @@
         <button mat-menu-item><mat-icon>save_alt</mat-icon>Save Query</button>
         <button mat-menu-item><mat-icon>info</mat-icon>Help</button>
       </mat-menu>
-    </div>
+    </div>-->
   </mat-toolbar>
 </div>
 <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row target-table">
@@ -39,7 +39,7 @@
   </div>
 </div>
 <mat-table [dataSource]="dataSource" fxHide.lt-sm matSort (matSortChange)="changeSort($event)">
-      <ng-container matColumnDef="list-select">
+<!--      <ng-container matColumnDef="list-select">
         <mat-header-cell *matHeaderCellDef> Select </mat-header-cell>
         <mat-cell *matCellDef="let row" class="col2">
           <mat-checkbox (click)="$event.stopPropagation()"
@@ -47,7 +47,7 @@
                         [checked]="rowSelection.isSelected(row)">
           </mat-checkbox>
         </mat-cell>
-      </ng-container>
+      </ng-container>-->
       <ng-container matColumnDef="name">
         <mat-header-cell fxFlex="35" *matHeaderCellDef>Name</mat-header-cell>
         <mat-cell fxFlex="35" *matCellDef="let row">

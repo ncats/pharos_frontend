@@ -43,6 +43,14 @@ export class EnvironmentVariablesService {
   }
 
   /**
+   * get url to retrieve radar graph data sources
+   * @return {string}
+   */
+  getRadarSourcesPath(): string {
+  return this._environment.radarSourcesUrl;
+  }
+
+  /**
    * returns angular/google firebase config info, read from environment file
    * @return {any}
    */

@@ -6,6 +6,7 @@ import {MatDialog} from '@angular/material';
 import {PharosPoint} from '../../../../../tools/visualizations/line-chart/line-chart.component';
 import {Target} from '../../../../../models/target';
 import {takeWhile, takeUntil} from 'rxjs/operators';
+import {RadarChartViewerComponent} from "../../../../../tools/radar-chart-viewer/radar-chart-viewer.component";
 
 
 
@@ -34,6 +35,7 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
   }
 
 ngOnInit() {
+    console.log(this);
   this._data
   // listen to data as long as term is undefined or null
   // Unsubscribe once term has value
@@ -97,11 +99,12 @@ raisePubtator() {
 }
 
 openModal(): void {
-  const dialogRef = this.dialog.open(RadarChartComponent, {
+  const dialogRef = this.dialog.open(RadarChartViewerComponent, {
     height: '90vh',
     width: '85vw',
     data: { data: this.data.knowledge,
             id: this.data.knowledge[0].className,
+      target: this.target,
       size: 'large'}
   });
 }

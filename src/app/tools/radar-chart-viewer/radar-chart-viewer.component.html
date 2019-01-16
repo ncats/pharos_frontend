@@ -1,0 +1,16 @@
+<div *ngIf="data">
+<pharos-target-header *ngIf="target" [target]="target"></pharos-target-header>
+<div fxLayout="row">
+  <div fxFlex="25">
+    <h3>Data provided by the following sources: </h3>
+    <br>
+    <span *ngFor="let source of fieldSources">
+                <pharos-property-display [property]='source' [showLabel]="false"></pharos-property-display>
+                <br>
+              </span>
+  </div>
+  <div fxFlex="75" class="kchart full-height">
+<pharos-radar-chart [data] = data [id]=id [size]= size (hoverEvent)="getSource($event)"></pharos-radar-chart>
+  </div>
+</div>
+</div>

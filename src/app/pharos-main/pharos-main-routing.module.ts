@@ -69,6 +69,7 @@ import {KnowledgeTableComponent} from '../tools/knowledge-table/knowledge-table.
 import {ProteinProteinPanelComponent} from "./data-details/target-details/panels/protein-protein-panel/protein-protein-panel.component";
 import {BatchUploadModalComponent} from "../tools/batch-upload-modal/batch-upload-modal.component";
 import {PdbPanelComponent} from "./data-details/target-details/panels/pdb-panel/pdb-panel.component";
+import {RadarChartViewerComponent} from "../tools/radar-chart-viewer/radar-chart-viewer.component";
 
 
 const pharosMainRoutes: Routes = [
@@ -184,6 +185,7 @@ const pharosMainRoutes: Routes = [
     GraphComponent,
     NodeDisplayComponent,
     RadarChartComponent,
+    RadarChartViewerComponent,
     GeneRifPanelComponent,
     AssayPanelComponent,
     AaSequencePanelComponent,
@@ -233,6 +235,7 @@ const pharosMainRoutes: Routes = [
     NodeMenuComponent,
     GraphComponent,
     RadarChartComponent,
+    RadarChartViewerComponent,
     GeneRifPanelComponent,
     AssayPanelComponent,
     AaSequencePanelComponent,

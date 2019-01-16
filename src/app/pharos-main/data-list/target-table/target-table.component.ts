@@ -15,7 +15,8 @@ import {environment} from "../../../../environments/environment.prod";
 })
 
 export class TargetTableComponent  extends DynamicPanelComponent implements OnInit, OnDestroy {
-  displayColumns: string[] = ['list-select', 'name', 'gene', 'idgTDL', 'idgFamily', 'novelty', 'jensenScore', 'antibodyCount', 'knowledgeAvailability'];
+  displayColumns: string[] = ['name', 'gene', 'idgTDL', 'idgFamily', 'novelty', 'jensenScore', 'antibodyCount', 'knowledgeAvailability'];
+  // displayColumns: string[] = ['list-select', 'name', 'gene', 'idgTDL', 'idgFamily', 'novelty', 'jensenScore', 'antibodyCount', 'knowledgeAvailability'];
   @Output() readonly sortChange: EventEmitter<string> = new EventEmitter<string>();
   @Output() readonly pageChange: EventEmitter<string> = new EventEmitter<string>();
 
