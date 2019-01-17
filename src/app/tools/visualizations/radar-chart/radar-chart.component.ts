@@ -73,10 +73,6 @@ export class RadarChartOptions {
    * show labels
    */
   labels: true;
-  /**
-   * show a chart legend
-   */
-  legend: false;
 
   /**
    * merge new option properties with a default option object retrieved from the chart service
@@ -88,7 +84,6 @@ export class RadarChartOptions {
 }
 
 // todo: fix centering of chart in respect to labels
-// todo: no tooltip on modal. The tooltip div needs to be up closer to the svg, not appended to <body>
 // todo: create chart options service that reads from a chart config file, like environment variables
 
 @Component({
@@ -211,6 +206,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
       // data passed in by id (target list)
       console.log(this.id);
       this.radarDataService.getData(this.id, this.origin).subscribe(res => {
+        console.log(res);
         this.data = res;
       });
     } else {
@@ -220,13 +216,16 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     // data set by component, also handles setting by modal opening and data retrieved by id
     this._data.subscribe(x => {
       if (this.data && this.data.length) {
+        this.drawChart();
         console.log(this.data);
         this.data.forEach(graph => {
           console.log(graph);
           if (graph) {
-            this.drawChart();
-            this.radarDataService.setData(graph.className, graph, this.origin);
+           // this.radarDataService.setData(graph.className, graph, this.origin);
+            console.log("graph subscription");
+           // / this.drawChart();
             this.updateChart();
+            console.log("data set");
           }
         });
       }
@@ -240,11 +239,11 @@ export class RadarChartComponent implements OnInit, OnDestroy {
 
   getOptions() {
     // get chart options
-    if (this.size) {
-      this._chartOptions = new RadarChartOptions(this.radarDataService.getOptions(this.size));
-    } else {
-      this._chartOptions = new RadarChartOptions({});
-    }
+      if (this.size) {
+        this._chartOptions = new RadarChartOptions(this.radarDataService.getOptions(this.size));
+      } else {
+        this._chartOptions = new RadarChartOptions({});
+      }
   }
 
   pointsOnCircle(num) {
@@ -266,7 +265,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
   getMaxValue(): number {
     const maxValues: number[] = [this._chartOptions.maxValue];
     if(this.data) {
-      console.log(this.data);
+    //  console.log(this.data);
       this.data.map(data => {
         maxValues.push(Math.max(...data.axes.map(o => o.value)))
       });
@@ -287,20 +286,25 @@ export class RadarChartComponent implements OnInit, OnDestroy {
   }
 
   drawChart(): void {
-    this.getOptions();
+    if(!this._chartOptions) {
+      this.getOptions();
+    }
     //////////// Create the container SVG and g /////////////
     const element = this.chartContainer.nativeElement;
-
+    console.log(element);
+    console.log(d3.select(element));
     this.width = element.offsetWidth - this._chartOptions.margin.left - this._chartOptions.margin.right;
     this.height = element.offsetHeight - this._chartOptions.margin.top - this._chartOptions.margin.bottom;
 
     // Remove whatever chart with the same id/class was present before
-    d3.select(element).selectAll('svg').remove();
+     d3.select(element).selectAll('svg').remove();
 
     // Initiate the radar chart SVG
     this.svg = d3.select(element).append('svg')
       .attr('width', '100%')
       .attr('height', '100%')
+/*      .attr('viewBox', '0 0 20 20')
+      .attr('preserveAspectRatio', 'xMinYMin meet')*/
       .attr('class', 'radar')
       .append('g')
       .attr('transform', 'translate(' + (this.width / 2 + this._chartOptions.margin.left) + ','
@@ -557,47 +561,6 @@ export class RadarChartComponent implements OnInit, OnDestroy {
           .style('opacity', 0);
         d3.select(circles[i]).classed('hovered', false);
       });
-
-    /* if (this._chartOptions.legend !== false && typeof this._chartOptions.legend === "object") {
-      let legendZone = this.svg.append('g');
-      let names = data.map(el => el.name);
-      if (this._chartOptions.legend.title) {
-        let title = legendZone.append("text")
-          .attr("class", "title")
-          .attr('transform', `translate(${this._chartOptions.legend.translateX},${this._chartOptions.legend.translateY})`)
-          .attr("x", this._chartOptions.w - 70)
-          .attr("y", 10)
-          .attr("font-size", "12px")
-          .attr("fill", "#404040")
-          .text(this._chartOptions.legend.title);
-      }
-      let legend = legendZone.append("g")
-        .attr("class", "legend")
-        .attr("height", 100)
-        .attr("width", 200)
-        .attr('transform', `translate(${this._chartOptions.legend.translateX},${this._chartOptions.legend.translateY + 20})`);
-      // Create rectangles markers
-      legend.selectAll('rect')
-        .data(names)
-        .enter()
-        .append("rect")
-        .attr("x", this._chartOptions.w - 65)
-        .attr("y", (d,i) => i * 20)
-        .attr("width", 10)
-        .attr("height", 10)
-        .style("fill", (d,i) => this._chartOptions.color(i));
-      // Create labels
-      legend.selectAll('text')
-        .data(names)
-        .enter()
-        .append("text")
-        .attr("x", this._chartOptions.w - 52)
-        .attr("y", (d,i) => i * 20 + 9)
-        .attr("font-size", "11px")
-        .attr("fill", "#737373")
-        .text(d => d);
-    } */
-    // return svg;
   }
 
 }

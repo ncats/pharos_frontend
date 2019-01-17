@@ -9,30 +9,31 @@
       <pharos-help-panel-trigger></pharos-help-panel-trigger>
       </div>
     </div>
-      <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="start stretch">
-        <div *ngIf="data.knowledge && data.knowledge.length > 0; else noDataDiv">
-      <div fxFlex="50" class = "kchart full-height" *ngIf="data.knowledge">
+    <div *ngIf="data.knowledge && data.knowledge.length > 0; else noDataDiv">
+    <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="center center">
+      <div fxFlex="50" class = "kchart full-height">
         <pharos-radar-chart [data] = data.knowledge [shape]="false" [size] = "'medium'" (click)="openModal()" [origin]="'knowledge'"></pharos-radar-chart>
       </div>
-        <div fxFlex = "50" *ngIf="data.knowledge">
+        <div fxFlex = "50" class = "kchart full-height">
           <pharos-knowledge-table [data] = data.knowledge></pharos-knowledge-table>
         </div>
         <br>
         <br>
       </div>
-        <ng-template #noDataDiv>
-          <br>
-          <br>
-            <div fxFlex="25"></div>
-            <div fxFlex="50" fxLayoutAlign="space-around center">
-              <div><mat-icon class = "huge">error_outline</mat-icon></div><br>
-              <div><h2>No data available</h2></div>
-            </div>
-          <br>
-          <br>
-          <br>
-        </ng-template>
     </div>
+    <ng-template #noDataDiv>
+      <br>
+      <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="center center">
+      <div fxFlex="25"></div>
+      <div fxFlex="50" fxLayoutAlign="space-around center" class = "kchart full-height">
+        <div><mat-icon class = "huge">error_outline</mat-icon></div><br>
+        <div><h2>No data available</h2></div>
+      </div>
+      <br>
+      <br>
+      <br>
+      </div>
+    </ng-template>
 
     <div>
       <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">

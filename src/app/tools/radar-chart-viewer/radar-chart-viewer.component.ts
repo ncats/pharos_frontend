@@ -54,6 +54,8 @@ export class RadarChartViewerComponent implements OnInit {
 
   fieldSources: any;
 
+  axis: string;
+
   constructor(private radarDataService: RadarService,
               @Optional() @Inject(MAT_DIALOG_DATA) public modalData: any) { }
 
@@ -79,13 +81,13 @@ export class RadarChartViewerComponent implements OnInit {
 
   getSource(event: any) {
       this.fieldSources = [];
-      console.log(this);
-      console.log(event);
-      this.sources.get(event.axis).forEach(source => {
-      console.log(source);
-      const ret = new Property({term: source.ds_name, externalHref: source.ds_url});
-      this.fieldSources.push(ret);
-    });
-      console.log(this.fieldSources);
+      this.axis = event.axis;
+      const src = this.sources.get(this.axis);
+        if (src) {
+          src.forEach(source => {
+            const ret = new Property({term: source.ds_name, externalHref: source.ds_url});
+            this.fieldSources.push(ret);
+          });
+        }
   }
 }

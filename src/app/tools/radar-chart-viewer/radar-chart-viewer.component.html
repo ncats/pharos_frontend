@@ -2,7 +2,7 @@
 <pharos-target-header *ngIf="target" [target]="target"></pharos-target-header>
 <div fxLayout="row">
   <div fxFlex="25">
-    <h3>Data provided by the following sources: </h3>
+    <h3>{{axis}} data provided by the following sources: </h3>
     <br>
     <span *ngFor="let source of fieldSources">
                 <pharos-property-display [property]='source' [showLabel]="false"></pharos-property-display>

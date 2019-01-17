@@ -102,7 +102,7 @@
       </mat-row>
     </mat-table>
 <div class ="target-grid" fxHide fxShow.lt-sm>
-  <div *ngFor="let target of dataSource.connect() | async">
+  <div *ngFor="let target of dataSource">
     <pharos-target-card [target]="target"></pharos-target-card>
   </div>
 </div>
