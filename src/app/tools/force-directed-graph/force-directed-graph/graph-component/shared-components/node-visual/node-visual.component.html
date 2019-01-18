@@ -1,0 +1,35 @@
+<svg:g [attr.transform]="'translate(' + node.x + ',' + node.y + ')'" (click)="toggleMenu()" *ngIf="node"  class="node"
+       xmlns:svg="http://www.w3.org/1999/XSL/Transform">
+
+  <svg:circle *ngIf= "node.Phosph_in_ESC_1_NSC_0_ === undefined"
+              [ngClass]="{clicked: nodeClicked}"
+              class="node-child"
+              cx="0"
+              cy="0"
+              [attr.fill]="node.tempcolor ? node.tempcolor : node.color"
+              [attr.stroke]="node.tempcolor ? '#b0b0b0' : ''"
+              [attr.r]="node.r">
+  </svg:circle>
+
+  <svg:rect *ngIf="node.Phosph_in_ESC_1_NSC_0_ === 1"
+            class="node-child"
+            [attr.width]= node.r*2
+  [attr.height]= node.r*2
+  [attr.fill]="node.tempcolor ? node.tempcolor : node.color"
+  [attr.stroke]="node.tempcolor ? '#b0b0b0' : ''"
+            [attr.transform]="'translate(' + -node.r + ',' + (-node.r) + ')'"
+  >
+  </svg:rect>
+
+  <svg:rect *ngIf="node.Phosph_in_ESC_1_NSC_0_ === 0"
+            class="node-child"
+            [attr.width]= node.r*2
+  [attr.height]= node.r*2
+  [attr.fill]="node.tempcolor ? node.tempcolor : node.color"
+  [attr.stroke]="node.tempcolor ? '#b0b0b0' : ''"
+  [attr.transform]="'translate(' + (node.r / 2) + ',' + (-node.r / 2) + ')rotate(45 ' + node.r +' '+ -node.r+')'">
+  </svg:rect>
+
+  <svg:text [attr.transform]="'translate(' + node.r * 1.5  + ',' + -node.r + ')'"
+            class="node-text">{{displayName}}</svg:text>
+</svg:g>

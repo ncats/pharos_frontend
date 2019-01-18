@@ -41,7 +41,7 @@ interface TopicData {
   styleUrls: ['./topic-details.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class TopicDetailsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
+export class TopicDetailsComponent extends DynamicPanelComponent implements OnInit {
   path: string;
   topic: Topic;
   allTargets: Target[] = [];
@@ -79,19 +79,20 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   constructor(private _injector: Injector,
               private http: HttpClient,
               private environmentVariablesService: EnvironmentVariablesService,
-              private nodeService: NodeService,
-              private linkService: LinkService,
+/*              private nodeService: NodeService,
+              private linkService: LinkService,*/
               @Inject(forwardRef(() => ComponentLookupService)) private componentLookupService,
               private dataDetailsResolver: DataDetailsResolver,
               private ref: ChangeDetectorRef,
-              private graphDataService: GraphDataService,
+           //   private graphDataService: GraphDataService,
               private componentInjectorService: ComponentInjectorService) {
     super();
     this._apiUrl = this.environmentVariablesService.getApiPath();
   }
 
   ngOnInit() {
-    this.topic = this.data.object;
+    console.log(this);
+   /* this.topic = this.data.object;
     this.targetsMap.clear();
     const components: any = this.componentLookupService.lookupByPath(this.path, 'panels');
     if (components) {
@@ -102,17 +103,17 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
           component.api.forEach(apiCall => {
             if (apiCall.url.length > 0) {
               const url = apiCall.url.replace('_id_', this.topic.id);
-              /**this call is pushed up to the pharos api and changes are subscribed to in the generic details page, then set here*/
+              /!**this call is pushed up to the pharos api and changes are subscribed to in the generic details page, then set here*!/
               this.dataDetailsResolver.getDetailsByUrl(url, apiCall.field);
 
-              /** this will be used to track the object fields to get */
+              /!** this will be used to track the object fields to get *!/
               keys.push(apiCall.field);
             }
           });
         }
 
 
-        /** make component */
+        /!** make component *!/
         const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
         const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
 
@@ -411,7 +412,7 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel) ? this.targetsMap.
     this.ngUnsubscribe.complete();
     this.topic = undefined;
     this.targetsMap.clear();
-    this.graphDataService.clearGraph();
+    this.graphDataService.clearGraph();*/
   }
 
 }

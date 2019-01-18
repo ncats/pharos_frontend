@@ -1,0 +1,27 @@
+<div class ="search-row" matAutocompleteOrigin #origin="matAutocompleteOrigin">
+  <form [formGroup]='searchForm'>
+  <mat-form-field class = "typeahead-field search" [floatLabel] = "'never'">
+  <input matInput
+         (keyup.enter)="search()"
+         aria-label="Search"
+         [matAutocomplete]="auto"
+         [matAutocompleteConnectedTo]="origin"
+          formControlName="typeaheadInput"
+         class ="input-field">
+  <mat-label class="search-label">Protein search</mat-label>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected) = "search()" [displayWith]="displayFn">
+<!--    <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="50" [color]="'primary'"></mat-spinner></mat-option>
+    <ng-container *ngIf="!isLoading">-->
+      <mat-option *ngFor="let option of options" [value]="option">
+        <div>{{option.name}}</div>
+      </mat-option>
+<!--
+    </ng-container>
+-->
+  </mat-autocomplete>
+  <button mat-button mat-icon-button matSuffix aria-label="search" (click)="search()">
+    <mat-icon svgIcon="search"></mat-icon>
+  </button>
+</mat-form-field>
+  </form>
+</div>

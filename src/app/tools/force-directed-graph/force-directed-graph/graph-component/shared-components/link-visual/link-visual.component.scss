@@ -1,0 +1,80 @@
+.link {
+  stroke-width: .75;
+  stroke: #A5A5A5;
+  cursor: pointer;
+}
+
+.end {
+  stroke-width: 2;
+  stroke: #A5A5A5;
+  fill: #A5A5A5;
+}
+
+.arrow {
+  stroke-width: 2 !important;
+  stroke: #A5A5A5;
+  fill: #A5A5A5;
+  marker-end: url(#arrow);
+}
+
+.flatarrow {
+  stroke-width: 2 !important;
+  stroke: #A5A5A5;
+  fill: #A5A5A5;
+  marker-end: url(#flatarrow);
+}
+
+.link-name {
+  font-family: 'Lato';
+  font-weight: 300;
+  color: #000000;
+}
+
+.link-node{
+  stroke: red;
+}
+
+.connected{
+  stroke-width: 2 !important;
+  stroke: #595959;
+  marker-end: url(#hoverarrow);
+}
+
+.connectedflat{
+  stroke-width: 2 !important;
+  stroke: #595959;
+  marker-end: url(#hoverflatarrow);
+}
+
+.maximal{
+  stroke-width: 2;
+  stroke: red;
+}
+
+
+.hovering {
+  stroke: #595959;
+  stroke-width: 3px;
+}
+
+.clicked {
+  stroke: #595959;
+  stroke-width: 5px;
+}
+
+.not-related {
+  stroke: #b7b7b7;
+  stroke-width: .5px !important;
+}
+
+
+/*#arrow{
+  stroke-width: 2;
+  stroke: #A5A5A5;
+}*/
+.clickable-area{
+  stroke: transparent;
+  fill:none;
+  stroke-width: 15px;
+  cursor: pointer;
+}

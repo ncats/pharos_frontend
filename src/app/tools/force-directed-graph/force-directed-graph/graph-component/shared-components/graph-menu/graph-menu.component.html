@@ -1,0 +1,130 @@
+<div class = "graph-menu">
+<div class = "header-row">
+  <div class ="title"></div>
+  <div class ="close-button" [dir]="'rtl'">
+    <button mat-icon-button (click)="closeMenu()" class="close-button">
+      <mat-icon svgIcon="close"></mat-icon>
+    </button>
+  </div>
+</div>
+<div class = "menu-div">
+  <h2>Expression networks</h2>
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header (click) = "setActiveGraph('nscs')">
+        <mat-panel-title>
+          <mat-radio-button value="nscs" class="sub-graph-toggle" [checked]="activeGraph==='nscs'">
+            2.5x up in NSCs
+          </mat-radio-button><br>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <mat-radio-group [formControl]="subGraphTypeCtrl" class="sub-graph-group">
+          <span  class="sub-graph-header">Subgraphs of Interest:</span><br>
+          <mat-radio-button value="SRC" class="sub-graph-toggle">SRC</mat-radio-button><br>
+          <mat-radio-button value="DLG4" class="sub-graph-toggle">DLG4</mat-radio-button><br>
+          <mat-radio-button value="SMAD2" class="sub-graph-toggle">SMAD2</mat-radio-button><br>
+        </mat-radio-group>
+        <div class="row"><h3>hESC/hNSC ln fold change:</h3> <div class="pull-right"><button mat-icon-button color="accent" (click)="resetScale(-100, 0)"><mat-icon svgIcon="refresh"></mat-icon></button></div></div>
+        <range-slider min="-100"
+                      max="0"
+                      step = ".1"
+                      (change)="sliderChange($event, 'hESC_NSC_Fold_Change')"
+                      [value]="this._settings['hESC_NSC_Fold_Change'] ? this._settings['hESC_NSC_Fold_Change'] : [-100, 0]"
+                      [thumbLabel]= true
+                      class="full-width"
+                      aria-label="Primary color range slider"></range-slider>
+        <app-d3-color-legend [range]="[-100, 0]" *ngIf="activeGraph === 'nscs'"></app-d3-color-legend>
+        <br>
+        <div class="switch-labels"><span class="mat-slide-toggle-label">Hide nodes</span>&nbsp;<mat-slide-toggle (change)="setFilterType($event)">Fade nodes</mat-slide-toggle></div>
+        <br>
+        <br>
+        <mat-checkbox (change)="noData($event)" [checked]="_settings.no_data">Hide nodes without data</mat-checkbox>
+        <br>
+      </ng-template>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header (click) = "setActiveGraph('escs')">
+        <mat-panel-title>
+          <mat-radio-button value="escs" class="sub-graph-toggle" [checked]="activeGraph==='escs'">
+            2.5x up in ESCs
+          </mat-radio-button><br>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <mat-radio-group [formControl]="subGraphTypeCtrl">
+          Subgraphs of Interest:<br>
+          <mat-radio-button value="PIK3R1" class="sub-graph-toggle">PIK3R1</mat-radio-button><br>
+          <mat-radio-button value="EGFR" class="sub-graph-toggle">EGFR</mat-radio-button><br>
+        </mat-radio-group>
+        <div class="row"><h3>hESC/hNSC ln fold change:</h3> <div class="pull-right"><button mat-icon-button color="accent" (click)="resetScale(0, 100)"><mat-icon svgIcon="refresh"></mat-icon></button></div></div>
+        <range-slider min="0"
+                      max="100"
+                      step = ".1"
+                      (change)="sliderChange($event, 'hESC_NSC_Fold_Change')"
+                      [value]="this._settings['hESC_NSC_Fold_Change'] ? this._settings['hESC_NSC_Fold_Change'] : [0, 100]"
+                      [thumbLabel]= true
+                      class="full-width"
+                      aria-label="Primary color range slider"></range-slider>
+        <app-d3-color-legend [range]="[0, 100]" *ngIf="activeGraph === 'escs'"></app-d3-color-legend>
+        <br>
+        <div class="switch-labels"><span class="mat-slide-toggle-label">Hide nodes</span>&nbsp;<mat-slide-toggle (change)="setFilterType($event)">Fade nodes</mat-slide-toggle></div>
+        <br>
+        <br>
+        <mat-checkbox (change)="noData($event)" [checked]="_settings.no_data">Hide nodes without data</mat-checkbox>
+        <br>
+      </ng-template>
+    </mat-expansion-panel>
+    <h2>Phosphorylation networks</h2>
+    <mat-expansion-panel [hideToggle]="true">
+      <mat-expansion-panel-header (click) = "setActiveGraph('nsc-only')">
+        <mat-panel-title>
+          <mat-radio-button value="nsc-only" class="sub-graph-toggle" [checked]="activeGraph==='nsc-only'">
+            Phosphorylated in NSC only
+          </mat-radio-button><br>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+
+      </ng-template>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header (click) = "setActiveGraph('esc-only')" class="graph-menu-header">
+        <mat-panel-title>
+          <mat-radio-button value="esc-only" class="sub-graph-toggle" [checked]="activeGraph==='esc-only'">
+            Phosphorylated in ESC only
+          </mat-radio-button><br>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <mat-radio-group [formControl]="subGraphTypeCtrl">
+          <br>
+          Subgraphs of Interest:<br>
+          <mat-radio-button value="IKBKG" class="sub-graph-toggle">IKBKG</mat-radio-button><br>
+          <mat-radio-button value="JUN" class="sub-graph-toggle">JUN</mat-radio-button><br>
+        </mat-radio-group>
+      </ng-template>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <mat-accordion>
+  <h2>Legend</h2>
+  <mat-expansion-panel [hideToggle]="true" [expanded]="true">
+    <ng-template matExpansionPanelContent>
+      <div class="row-close"><div class="square"></div>: Protein only phosphorylated in ESCs</div><br>
+      <div class="row-close"><div class="diamond"></div>: Protein only phosphorylated in NSCs</div><br>
+      <div class="row-close"><div class="circle"></div>: Protein not selectively phosphorylated</div><br>
+    </ng-template>
+  </mat-expansion-panel>
+  </mat-accordion>
+</div>
+
+
+
+<mat-slider
+  min="1"
+  max="5"
+  step="0.5"
+  value="1.5"
+  [thumbLabel]= true
+  class="hidden"></mat-slider>
+</div>

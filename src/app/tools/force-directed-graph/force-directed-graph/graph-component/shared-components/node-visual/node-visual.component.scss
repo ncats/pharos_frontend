@@ -1,0 +1,63 @@
+.node {
+  cursor: pointer;
+  transition: stroke-width 0.1s ease-out,
+  fill 0.1s ease-out,
+  stroke 0.1s ease-out;
+  pointer-events: all;
+  diameter: 50px;
+  stroke-width: 2px;
+  text-color-internal: #FFFFFF;
+  z-index: 666;
+}
+
+.node-name {
+  font-family: 'Lato';
+  text-anchor: middle;
+  alignment-baseline: central;
+  font-weight: 300;
+  pointer-events: all;
+  stroke: none;
+}
+
+.hovering {
+  stroke: #000;
+  stroke-width: 2px;
+}
+
+.clicked-parent {
+  stroke: #000;
+  stroke-width: 5px;
+}
+
+.clicked-neighbor {
+  stroke: #000;
+  stroke-width: 5px;
+}
+
+.node > .not-related {
+  fill: #f6f6f6;
+  stroke: #b7b7b7;
+  stroke-width: .5px;
+}
+
+.not-related {
+&  + .node-text {
+  display: none;
+}
+}
+
+text.node-text {
+  font-size: 1.3em;
+}
+
+.relationship {
+  color: #A5ABB6;
+  shaft-width: 1px;
+  font-size: 8px;
+  padding: 3px;
+  caption: '<type>';
+}
+
+.hidden {
+  display: none;
+}

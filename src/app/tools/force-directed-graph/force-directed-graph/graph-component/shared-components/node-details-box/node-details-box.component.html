@@ -1,0 +1,17 @@
+<div class = "details-pane">
+<search-component (selected)="foundNode($event)"></search-component>
+  <div *ngIf="node">
+    <div class="row">
+    <span><h1>{{node?.name}}</h1></span>&nbsp;&nbsp;
+      <a mat-stroked-button [color] = "'primary'" href='https://pharos.nih.gov/idg/targets/{{node?.name}}' target="_blank" aria-label="see more target info">
+         See more info<mat-icon svgIcon="open_in_new"></mat-icon>
+      </a>
+    </div>
+    <h3>hESC/hNSC ln fold change:</h3> {{getLabel(node?.hESC_NSC_Fold_Change)}}
+    <h3>hESC/hNSC NSAF SpC ratio:</h3> {{getLabel(node?.hESC_NSC_Ratio)}}
+  </div>
+
+  <div *ngIf="link" class = "details-pane">
+    <h2>{{link?.properties.name}}</h2>
+  </div>
+</div>

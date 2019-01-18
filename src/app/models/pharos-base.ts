@@ -12,3 +12,8 @@ export class PharosBase {
     Object.entries((obj)).forEach((prop) => this[prop[0]] = prop[1]);
   }
 }
+
+export interface Serializer {
+  fromJSON( obj: any): any;
+  toJSON(obj: any): any;
+}

@@ -4,7 +4,7 @@
 
 <div fxLayout="row wrap" fxLayoutAlign="space-around start">
   <div fxFlex="95">
- <mat-tab-group (selectedTabChange)="changeTab($event)">
+<!-- <mat-tab-group (selectedTabChange)="changeTab($event)">
    <mat-tab label="Targets ({{topic.targetCt}})" class="full-tab">
      <ng-template matTabContent>
        <pharos-node-display [nodes] = displayTargets [path] = "'targets'" *ngIf="displayTargets"></pharos-node-display>
@@ -32,10 +32,13 @@
        <div *ngIf=" loading" class = "loadingIcon full-loading" fxLayoutAlign="center center">
          <mat-spinner></mat-spinner>
        </div>
+&lt;!&ndash;
           <pharos-graph></pharos-graph>
+&ndash;&gt;
      </ng-template>
    </mat-tab>
- </mat-tab-group>
+ </mat-tab-group>-->
+    <pharos-topic-graph></pharos-topic-graph>
   <!-- <pharos-node-display [nodes]=diseases [path] = "'diseases'"></pharos-node-display>
   <pharos-disease-table [data]=diseases></pharos-disease-table>-->
 

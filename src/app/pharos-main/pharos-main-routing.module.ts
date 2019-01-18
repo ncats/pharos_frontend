@@ -37,6 +37,7 @@ import {SynonymsPanelComponent} from './data-details/ligand-details/synonyms-pan
 import {LigandHeaderComponent} from './data-details/ligand-details/ligand-header/ligand-header.component';
 import {DiseaseHeaderComponent} from './data-details/disease-details/disease-header/disease-header.component';
 import {TargetListPanelComponent} from './data-details/disease-details/target-list-panel/target-list-panel.component';
+/*
 import {WebSocketService} from '../tools/visualizations/force-directed-graph/services/connection/websocket.service';
 import {DataConnectionService} from '../tools/visualizations/force-directed-graph/services/connection/data-connection.service';
 import {D3Service} from '../tools/visualizations/force-directed-graph/services/event-tracking/d3.service';
@@ -47,12 +48,13 @@ import {GraphDataService} from '../tools/visualizations/force-directed-graph/ser
 import {NodeMenuControllerService} from '../tools/visualizations/force-directed-graph/services/event-tracking/node-menu-controller.service';
 import {SettingsService} from '../tools/visualizations/force-directed-graph/services/settings.service';
 import {NodeExpandService} from '../tools/visualizations/force-directed-graph/services/event-tracking/node-expand.service';
+*/
 import {TopicTableComponent} from './data-list/topic-table/topic-table.component';
 import {TopicDetailsComponent} from './data-details/topic-details/topic-details.component';
 import {TopicHeaderComponent} from './data-details/topic-details/topic-header/topic-header.component';
 import {TopicGraphPanelComponent} from './data-details/topic-details/panels/topic-graph-panel/topic-graph-panel.component';
 import {NodeDisplayComponent} from './data-details/topic-details/panels/node-display/node-display.component';
-import {GraphComponent} from '../tools/visualizations/force-directed-graph/components/graph/graph.component';
+/*import {GraphComponent} from '../tools/visualizations/force-directed-graph/components/graph/graph.component';
 import {NodeVisualComponent} from '../tools/visualizations/force-directed-graph/components/shared/node-visual/node-visual.component';
 import {LinkVisualComponent} from '../tools/visualizations/force-directed-graph/components/shared/link-visual/link-visual.component';
 import {ZoomableDirective} from '../tools/visualizations/force-directed-graph/directives/zoomable.directive';
@@ -60,8 +62,10 @@ import {HoverableLinkDirective} from '../tools/visualizations/force-directed-gra
 import {HoverableNodeDirective} from '../tools/visualizations/force-directed-graph/directives/hoverable-node.directive';
 import {DraggableDirective} from '../tools/visualizations/force-directed-graph/directives/draggable.directive';
 import {ClickableNodeDirective} from '../tools/visualizations/force-directed-graph/directives/clickable-node.directive';
-import {ClickableLinkDirective} from '../tools/visualizations/force-directed-graph/directives/clickable-link.directive';
+import {ClickableLinkDirective} from '../tools/visualizations/force-directed-graph/directives/clickable-link.directive';*/
+/*
 import {NodeMenuComponent} from '../tools/visualizations/force-directed-graph/components/shared/node-menu/node-menu.component';
+*/
 import {TargetCardComponent} from './data-details/topic-details/panels/target-card/target-card.component';
 import {LigandCardComponent} from './data-details/topic-details/panels/ligand-card/ligand-card.component';
 import {DiseaseCardComponent} from './data-details/topic-details/panels/disease-card/disease-card.component';
@@ -70,6 +74,32 @@ import {ProteinProteinPanelComponent} from "./data-details/target-details/panels
 import {BatchUploadModalComponent} from "../tools/batch-upload-modal/batch-upload-modal.component";
 import {PdbPanelComponent} from "./data-details/target-details/panels/pdb-panel/pdb-panel.component";
 import {RadarChartViewerComponent} from "../tools/radar-chart-viewer/radar-chart-viewer.component";
+import {ClickableNodeDirective} from "../tools/force-directed-graph/force-directed-graph/graph-component/directives/clickable-node.directive";
+import {GraphClickDirective} from "../tools/force-directed-graph/force-directed-graph/graph-component/directives/graph-click.directive";
+import {GraphMenuComponent} from "../tools/force-directed-graph/force-directed-graph/graph-component/shared-components/graph-menu/graph-menu.component";
+import {ForceDirectedGraphComponent} from "../tools/force-directed-graph/force-directed-graph/force-directed-graph.component";
+import {SearchComponent} from "../tools/force-directed-graph/tools/search-component/search.component";
+import {HoverableNodeDirective} from "../tools/force-directed-graph/force-directed-graph/graph-component/directives/hoverable-node.directive";
+import {HighlightPipe} from "../tools/force-directed-graph/tools/search-component/highlight.pipe";
+import {ZoomableDirective} from "../tools/force-directed-graph/force-directed-graph/graph-component/directives/zoomable.directive";
+import {NodeDetailsBoxComponent} from "../tools/force-directed-graph/force-directed-graph/graph-component/shared-components/node-details-box/node-details-box.component";
+import {RangeSliderComponent} from "../tools/force-directed-graph/tools/range-slider/range-slider.component";
+import {TopicGraphComponent} from "../tools/force-directed-graph/topic-graph.component";
+import {NodeVisualComponent} from "../tools/force-directed-graph/force-directed-graph/graph-component/shared-components/node-visual/node-visual.component";
+import {DraggableDirective} from "../tools/force-directed-graph/force-directed-graph/graph-component/directives/draggable.directive";
+import {HoverableLinkDirective} from "../tools/force-directed-graph/force-directed-graph/graph-component/directives/hoverable-link.directive";
+import {D3ColorLegendComponent} from "../tools/force-directed-graph/tools/d3-color-legend/d3-color-legend.component";
+import {LinkVisualComponent} from "../tools/force-directed-graph/force-directed-graph/graph-component/shared-components/link-visual/link-visual.component";
+import {ClickableLinkDirective} from "../tools/force-directed-graph/force-directed-graph/graph-component/directives/clickable-link.directive";
+import {
+  PharosNodeService
+} from "./data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-node.service";
+import {GraphDataService} from "../tools/force-directed-graph/force-directed-graph/graph-component/services/graph-data.service";
+import {LinkService} from "../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/link.service";
+import {
+  PharosD3Service
+} from "./data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-d3.service";
+import {NodeMenuControllerService} from "../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/node-menu-controller.service";
 
 
 const pharosMainRoutes: Routes = [
@@ -103,17 +133,12 @@ const pharosMainRoutes: Routes = [
     RouterModule
   ],
   providers: [
-    WebSocketService,
-    DataConnectionService,
-    D3Service,
-    NodeService,
+    LoadingService,
+    PharosNodeService,
+    PharosD3Service,
     LinkService,
-    MessageService,
     GraphDataService,
     NodeMenuControllerService,
-    LoadingService,
-    SettingsService,
-    NodeExpandService,
     // breadcrumb
     {provide: TOKENS.PHAROS_BREADCRUMB_COMPONENT, useValue: BreadcrumbComponent },
     // topics
@@ -182,7 +207,6 @@ const pharosMainRoutes: Routes = [
     LigandCardComponent,
     DiseaseCardComponent,
     TopicGraphPanelComponent,
-    GraphComponent,
     NodeDisplayComponent,
     RadarChartComponent,
     RadarChartViewerComponent,
@@ -191,7 +215,15 @@ const pharosMainRoutes: Routes = [
     AaSequencePanelComponent,
     LigandsPanelComponent,
     BatchUploadModalComponent,
-    PdbPanelComponent
+    PdbPanelComponent,
+    NodeVisualComponent,
+    LinkVisualComponent,
+    ForceDirectedGraphComponent,
+    NodeDetailsBoxComponent,
+    GraphMenuComponent,
+    RangeSliderComponent,
+    D3ColorLegendComponent,
+    TopicGraphComponent
   ],
   declarations: [
     TargetTableComponent,
@@ -223,6 +255,14 @@ const pharosMainRoutes: Routes = [
     LigandCardComponent,
     DiseaseCardComponent,
     NodeDisplayComponent,
+    RadarChartComponent,
+    RadarChartViewerComponent,
+    GeneRifPanelComponent,
+    AssayPanelComponent,
+    AaSequencePanelComponent,
+    LigandsPanelComponent,
+    BatchUploadModalComponent,
+    PdbPanelComponent,
     NodeVisualComponent,
     LinkVisualComponent,
     ZoomableDirective,
@@ -231,17 +271,15 @@ const pharosMainRoutes: Routes = [
     DraggableDirective,
     ClickableNodeDirective,
     ClickableLinkDirective,
-    NodeDisplayComponent,
-    NodeMenuComponent,
-    GraphComponent,
-    RadarChartComponent,
-    RadarChartViewerComponent,
-    GeneRifPanelComponent,
-    AssayPanelComponent,
-    AaSequencePanelComponent,
-    LigandsPanelComponent,
-    BatchUploadModalComponent,
-    PdbPanelComponent
+    GraphClickDirective,
+    ForceDirectedGraphComponent,
+    NodeDetailsBoxComponent,
+    GraphMenuComponent,
+    RangeSliderComponent,
+    D3ColorLegendComponent,
+    HighlightPipe,
+    SearchComponent,
+    TopicGraphComponent
   ]
 })
 export class PharosMainRoutingModule { }

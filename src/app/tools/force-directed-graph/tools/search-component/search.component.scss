@@ -1,0 +1,18 @@
+
+.typeahead-field {
+  width: 90%;
+}
+
+span.search-highlight {
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.search-label {
+  color: rgba(0,0,0,.54);
+}
+
+.is-loading ::ng-deep .mat-option-text {
+  display: flex;
+  justify-content: center;
+}
