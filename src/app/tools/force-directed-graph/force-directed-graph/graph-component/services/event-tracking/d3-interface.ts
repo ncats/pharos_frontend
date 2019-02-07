@@ -1,5 +1,6 @@
 import {ForceDirectedGraph} from "../../models/force-directed-graph";
 import {Link} from "../../models/link";
+import {Node} from "../../models/node";
 
 export interface D3Interface {
   /** This service will provide methods to enable user interaction with elements

@@ -17,7 +17,7 @@ export class PharosNodeService implements NodeInterface {
    * map of all nodes all changes are saved here
    * @type {Map<any, any>}
    */
-  private  masterNodeMap: Map<string, Node> = new Map();
+  masterNodeMap: Map<string, Node> = new Map();
 
   //  Observable navItem source
   /**
@@ -25,19 +25,19 @@ export class PharosNodeService implements NodeInterface {
    * @type {Subject<Node>}
    * @private
    */
-  private _clickedNodeSource = new Subject<Node>();
+   _clickedNodeSource = new Subject<Node>();
   /**
    * RxJs Subject to broadcast changes to a hovered node
    * @type {Subject<any>}
    * @private
    */
-  private _hoveredNodeSource = new Subject<any>();
+   _hoveredNodeSource = new Subject<any>();
   /**
    * RxJs Subject to broadcast changes to both clicked and hovered nodes
    * @type {Subject<any>}
    * @private
    */
-  private _nodeSource = new Subject<any>();
+   _nodeSource = new Subject<any>();
 
   /**
    * Observable for other components to subscribe to
@@ -53,12 +53,12 @@ export class PharosNodeService implements NodeInterface {
    * List of nodes that have been clicked. used internally, modified and broadcast through functions
    * @type {any[]}
    */
-  private clickedNodeList: Node[] = [];
+   clickedNodeList: Node[] = [];
   /**
    * Node that has been hovered on, wrapped in array. used internally, modified and broadcast through functions
    * @type {any[]}
    */
-  private hoveredNodeList: Node[] = [];
+   hoveredNodeList: Node[] = [];
 
   /**
    * Add node to clicked node list

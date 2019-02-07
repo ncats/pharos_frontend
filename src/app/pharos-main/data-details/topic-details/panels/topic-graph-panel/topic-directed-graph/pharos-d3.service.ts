@@ -1,16 +1,16 @@
 import {Injectable} from '@angular/core';
-import {Node} from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/models/node';
-import {Link} from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/models/link';
-import {ForceDirectedGraph} from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/models/force-directed-graph';
 import * as d3 from 'd3';
 import {LinkService} from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/link.service';
 import {PharosNodeService} from "./pharos-node.service";
 import {D3Interface} from "../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/d3-interface";
+import {ForceDirectedGraph} from "../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/models/force-directed-graph";
+import { Node } from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/models/node';
+import { Link } from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/models/link';
 
 // todo: pull out node and link service calls?
 
 @Injectable()
-export class PharosD3Service extends D3Interface {
+export class PharosD3Service implements D3Interface {
   /** This service will provide methods to enable user interaction with elements
    * while maintaining the d3 simulations physics
    */
@@ -18,12 +18,10 @@ export class PharosD3Service extends D3Interface {
   constructor(
     private nodeService: PharosNodeService,
     private linkService: LinkService,
-  ) {
-    super()
-  }
+  ) {}
 
   /** A method to bind a pan and zoom behaviour to an svg element */
-  applyZoomableBehaviour(svgElement, containerElement) {
+  applyZoomableBehaviour(svgElement: any, containerElement: any): void{
     let svg, container, zoomed, zoom;
 
     svg = d3.select(svgElement);
@@ -46,11 +44,10 @@ export class PharosD3Service extends D3Interface {
   applyClickOffBehaviour(svgElement) {
     const d3element = d3.select(svgElement);
     d3element.on('click',  () => { this._clearNodes()});
-
   }
 
   /** A method to bind a draggable behaviour to an svg element */
-  applyDraggableBehaviour(element, node: Node, graph: ForceDirectedGraph) {
+  applyDraggableBehaviour(element, node: Node, graph: ForceDirectedGraph): void {
     const d3element = d3.select(element);
 
     const started = (): void => {
