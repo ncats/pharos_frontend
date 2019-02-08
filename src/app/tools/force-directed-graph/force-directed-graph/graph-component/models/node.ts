@@ -24,6 +24,7 @@ const COLOR = d3.scaleDiverging(d3.interpolateViridis).domain([-60, 0, 100]);
 export interface NodeSerializer {
   fromJson(obj: any): Node;
   toJson(node: Node): any;
+  mergeNodes(node: Node, data: any): Node;
 }
 
 

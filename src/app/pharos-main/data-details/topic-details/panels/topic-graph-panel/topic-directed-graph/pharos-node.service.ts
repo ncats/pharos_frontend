@@ -3,8 +3,14 @@
  */
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
-import { Node } from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/models/node';
+import {
+  Node,
+  NodeSerializer
+} from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/models/node';
 import {NodeInterface} from "../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/node-interface";
+import {TargetNode, TargetNodeSerializer} from "../../../../../../models/target-node";
+import {DiseaseNode, DiseaseNodeSerializer} from "../../../../../../models/disease-node";
+import {LigandNode, LigandNodeSerializer} from "../../../../../../models/ligand-node";
 
 /**
  * service to create and update nodes
@@ -12,12 +18,12 @@ import {NodeInterface} from "../../../../../../tools/force-directed-graph/force-
 @Injectable({
   providedIn: 'root'
 })
-export class PharosNodeService implements NodeInterface {
+export class PharosNodeService implements NodeInterface  {
   /**
    * map of all nodes all changes are saved here
    * @type {Map<any, any>}
    */
-  masterNodeMap: Map<string, Node> = new Map();
+  masterNodeMap: Map<string, Node> = new Map<string, Node>();
 
   //  Observable navItem source
   /**
@@ -59,6 +65,10 @@ export class PharosNodeService implements NodeInterface {
    * @type {any[]}
    */
    hoveredNodeList: Node[] = [];
+
+   targetSerializer: TargetNodeSerializer = new TargetNodeSerializer();
+   diseaseSerializer: DiseaseNodeSerializer = new DiseaseNodeSerializer();
+   ligandSerializer: LigandNodeSerializer = new LigandNodeSerializer();
 
   /**
    * Add node to clicked node list
@@ -149,16 +159,43 @@ export class PharosNodeService implements NodeInterface {
    * @param data
    * @return {Node}
    */
-  makeNode(id: string, data: any): Node {
-    let n: Node = this.masterNodeMap.get(id.toString());
-   /* if (!n) {
-        n = new Node(id, data);
-    } else {
-      const tempNode: Protein = new Protein(id, data);
-      Object.entries((n)).forEach((prop) => tempNode[prop[0]] = prop[1]);
-      n = tempNode;
+  makeNode(id: string, data: any): any {
+    return null;
+    /*console.log(data);
+    let serializer: NodeSerializer;
+    const dataType: string = data.kind;
+   switch (dataType){
+      case 'ix.idg.models.Target': {
+        serializer = this.targetSerializer;
+        let n: TargetNode = this.masterNodeMap.get(id.toString());
+        if (!n) {
+          n = serializer.fromJson(data);
+        } else {
+          n = serializer.mergeNodes(n, data);
+        }
+        return n;
+      }
+      case 'ix.idg.models.Disease': {
+        serializer = this.diseaseSerializer;
+        let n: DiseaseNode = this.masterNodeMap.get(id.toString());
+        if (!n) {
+          n = serializer.fromJson(data);
+        } else {
+          n = serializer.mergeNodes(n, data);
+        }
+        return n;
+      }
+      case 'ix.idg.models.Ligand': {
+        serializer = this.ligandSerializer;
+        let n: LigandNode = this.masterNodeMap.get(id.toString());
+        if (!n) {
+          n = serializer.fromJson(data);
+        } else {
+          n = serializer.mergeNodes(n, data);
+        }
+        return n;
+      }
     }*/
-    return n;
   }
 
   empty() {

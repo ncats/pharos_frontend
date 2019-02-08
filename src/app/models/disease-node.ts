@@ -8,6 +8,11 @@ export class DiseaseNodeSerializer implements NodeSerializer {
   }
 
   toJson(){}
+
+  mergeNodes(node: DiseaseNode, data: any): DiseaseNode {
+    Object.entries((data)).forEach((prop) => node[prop[0]] = prop[1]);
+    return node;
+  }
 }
 
 /**

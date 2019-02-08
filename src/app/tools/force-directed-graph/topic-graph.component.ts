@@ -42,12 +42,10 @@ export class TopicGraphComponent<T extends Node> implements OnInit {
     private _http: HttpClient,
     private dataParserService: DataParserService,
     private d3Service: PharosD3Service,
-    private nodeService: PharosNodeService,
+   // private nodeService: PharosNodeService,
     private linkService: LinkService,
     private graphDataService: GraphDataService
-  ){
-    console.log(this);
-  }
+  ){}
 
   ngOnInit() {
     console.log(this);

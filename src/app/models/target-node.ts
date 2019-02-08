@@ -9,6 +9,11 @@ export class TargetNodeSerializer implements NodeSerializer {
   }
 
   toJson(){}
+
+  mergeNodes(node: TargetNode, data: any): TargetNode {
+    Object.entries((data)).forEach((prop) => node[prop[0]] = prop[1]);
+    return node;
+  }
 }
 
 /**

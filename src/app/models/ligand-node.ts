@@ -9,6 +9,11 @@ export class LigandNodeSerializer implements NodeSerializer {
   }
 
   toJson(){}
+
+  mergeNodes(node: LigandNode, data: any): LigandNode {
+    Object.entries((data)).forEach((prop) => node[prop[0]] = prop[1]);
+    return node;
+  }
 }
 
 export class LigandNode extends Node {

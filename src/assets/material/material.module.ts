@@ -14,6 +14,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {ScrollDispatchModule} from '@angular/cdk/scrolling';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatDialogModule} from '@angular/material/dialog';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 
 
@@ -23,13 +24,13 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatTableModule, MatSortModule, MatSidenavModule, MatSlideToggleModule, MatRadioModule,
     MatTabsModule, MatCheckboxModule, MatCardModule, MatTooltipModule, MatSelectModule, MatExpansionModule, MatPaginatorModule,
     MatChipsModule, MatGridListModule, MatDividerModule, MatDialogModule, ScrollDispatchModule,
-    LayoutModule],
+    LayoutModule, DragDropModule],
   exports: [MatButtonModule, MatAutocompleteModule, MatMenuModule, MatToolbarModule,
     MatInputModule, MatIconModule, MatListModule, MatSliderModule, MatProgressSpinnerModule,
     MatTableModule, MatSortModule, MatSidenavModule, MatSlideToggleModule, MatRadioModule,
     MatTabsModule, MatCheckboxModule, MatCardModule, MatTooltipModule, MatSelectModule, MatExpansionModule, MatPaginatorModule,
     MatChipsModule, MatGridListModule, MatDividerModule, MatDialogModule, ScrollDispatchModule,
-    LayoutModule],
+    LayoutModule, DragDropModule],
 })
 export class MaterialModule { }
 

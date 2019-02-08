@@ -10,6 +10,9 @@ import {environment} from "../../../../../../../environments/environment.prod";
 import {TargetNode} from "../../../../../../models/target-node";
 import {DataParserInterface} from "../../../../../../tools/force-directed-graph/interfaces/data-parser-interface";
 import {PharosNodeService} from "./pharos-node.service";
+import {DiseaseNode} from "../../../../../../models/disease-node";
+import {LigandNode} from "../../../../../../models/ligand-node";
+import {TargetNodeMappingService} from "../topic-directed-graph/services/target-node-mapping.service";
 
 interface FileData {
   origin: string;
@@ -30,6 +33,7 @@ export class DataParserService implements DataParserInterface {
   constructor(
     private _http: HttpClient,
     private nodeService: PharosNodeService,
+    private targetNodeMappingService: TargetNodeMappingService,
     private linkService: LinkService,
     private graphDataService: GraphDataService
   ) {
@@ -66,6 +70,11 @@ export class DataParserService implements DataParserInterface {
 
   _parseData(data: any) {
     console.log(data);
+    data.content.map(query => {
+      const n: TargetNode = this.targetNodeMappingService.makeNode(query.target.id, query.target);
+      this.targetNodeMappingService.setNode(n);
+      console.log(n);
+    })
   /*  const nodeObs = of(data.content.map(group => {
       const n: TargetNode = this.nodeService.makeNode(group.target.id, group.target);
      /!* if (node.position) {
@@ -98,7 +107,7 @@ export class DataParserService implements DataParserInterface {
         links: res[1].filter(link => link != undefined)
       });
       this.graphDataService.clearGraph();*/
-      return data;
+      return Array.from(this.targetNodeMappingService.getNodes().values());
    // })
 
   }

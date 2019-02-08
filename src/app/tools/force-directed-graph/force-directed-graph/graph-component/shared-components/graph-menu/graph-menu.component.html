@@ -3,7 +3,7 @@
   <div class ="title"></div>
   <div class ="close-button" [dir]="'rtl'">
     <button mat-icon-button (click)="closeMenu()" class="close-button">
-      <mat-icon svgIcon="close"></mat-icon>
+      <mat-icon>close</mat-icon>
     </button>
   </div>
 </div>
@@ -25,7 +25,7 @@
           <mat-radio-button value="DLG4" class="sub-graph-toggle">DLG4</mat-radio-button><br>
           <mat-radio-button value="SMAD2" class="sub-graph-toggle">SMAD2</mat-radio-button><br>
         </mat-radio-group>
-        <div class="row"><h3>hESC/hNSC ln fold change:</h3> <div class="pull-right"><button mat-icon-button color="accent" (click)="resetScale(-100, 0)"><mat-icon svgIcon="refresh"></mat-icon></button></div></div>
+        <div class="row"><h3>hESC/hNSC ln fold change:</h3> <div class="pull-right"><button mat-icon-button color="accent" (click)="resetScale(-100, 0)"><mat-icon>refresh</mat-icon></button></div></div>
         <range-slider min="-100"
                       max="0"
                       step = ".1"
@@ -57,7 +57,7 @@
           <mat-radio-button value="PIK3R1" class="sub-graph-toggle">PIK3R1</mat-radio-button><br>
           <mat-radio-button value="EGFR" class="sub-graph-toggle">EGFR</mat-radio-button><br>
         </mat-radio-group>
-        <div class="row"><h3>hESC/hNSC ln fold change:</h3> <div class="pull-right"><button mat-icon-button color="accent" (click)="resetScale(0, 100)"><mat-icon svgIcon="refresh"></mat-icon></button></div></div>
+        <div class="row"><h3>hESC/hNSC ln fold change:</h3> <div class="pull-right"><button mat-icon-button color="accent" (click)="resetScale(0, 100)"><mat-icon>refresh</mat-icon></button></div></div>
         <range-slider min="0"
                       max="100"
                       step = ".1"
