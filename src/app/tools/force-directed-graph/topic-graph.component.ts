@@ -49,12 +49,13 @@ export class TopicGraphComponent<T extends Node> implements OnInit {
 
   ngOnInit() {
     console.log(this);
-    this.dataParserService.LoadData();
-    /*this.dataParserService.LoadData().subscribe(res => {
-
-      this.dataMap = this.dataParserService.getDataMap();
-      this.graphDataService.setGraph(this.dataMap.get('nscs'))
-    });*/
+  //  this.dataParserService.LoadData();
+    this.dataParserService.LoadData().subscribe(res => {
+  console.log(res);
+      this.dataMap = this.dataParserService.getData();
+      console.log(this.dataMap);
+      this.graphDataService.setGraph(this.dataMap.get('topics'))
+    });
   }
 
   filterGraph(event: Event) {

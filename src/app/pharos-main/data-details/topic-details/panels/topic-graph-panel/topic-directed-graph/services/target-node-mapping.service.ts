@@ -1,13 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
-import {
-  Node,
-  NodeSerializer
-} from '../../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/models/node';
-import {NodeInterface} from "../../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/node-interface";
 import {TargetNode, TargetNodeSerializer} from "../../../../../../../models/target-node";
-import {DiseaseNode, DiseaseNodeSerializer} from "../../../../../../../models/disease-node";
-import {LigandNode, LigandNodeSerializer} from "../../../../../../../models/ligand-node";
 import {NodeMappingInterface} from "../../../../../../../tools/force-directed-graph/interfaces/node-mapping-interface";
 
 @Injectable({

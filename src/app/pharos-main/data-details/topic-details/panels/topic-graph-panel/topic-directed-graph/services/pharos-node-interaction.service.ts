@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import {Subject} from 'rxjs/index';
 import {
   Node,
-  NodeSerializer
 } from '../../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/models/node';
-import {NodeInterface} from "../../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/node-interface";
 import {NodeInteractionInterface} from "../../../../../../../tools/force-directed-graph/interfaces/node-interaction-interface";
 
 @Injectable({
