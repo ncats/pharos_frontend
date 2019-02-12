@@ -37,7 +37,7 @@ export class DataDetailsResolver implements Resolve<any> {
          return of([]);
     }
 
-    getDetailsByUrl(apiCall: any): void {
-      this.pharosApiService.getDetailsByUrl(apiCall);
+    getDetailsByUrl(url: string, origin: string): void {
+      this.pharosApiService.getDetailsByUrl(url, origin);
     }
 }

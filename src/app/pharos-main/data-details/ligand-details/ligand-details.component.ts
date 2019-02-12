@@ -39,9 +39,9 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
         if (component.api) {
           component.api.forEach(apiCall => {
             if (apiCall.url.length > 0) {
-              apiCall.url = apiCall.url.replace('_id_', this.ligand.id);
+              const url = apiCall.url.replace('_id_', this.ligand.id);
               /**this call is pushed up to the pharos api and changes are subscribed to in the generic details page, then set here*/
-              this.dataDetailsResolver.getDetailsByUrl(apiCall);
+              this.dataDetailsResolver.getDetailsByUrl(url, apiCall.field);
 
               /** this will be used to track the object fields to get */
               keys.push(apiCall.field);

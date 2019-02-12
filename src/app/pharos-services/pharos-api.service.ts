@@ -56,7 +56,7 @@ export class PharosApiService {
    * garbage
    * @type {Topic[]}
    */
-  private TOPICS = [
+  TOPICS = [
     new Topic({
       id: 0,
       name: 'Bromodomain Inhibitors',
