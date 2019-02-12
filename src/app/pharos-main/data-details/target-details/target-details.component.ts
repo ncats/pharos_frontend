@@ -55,6 +55,9 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
         /** make component */
         const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
         const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
+        if (component.width) {
+          childComponent.instance.width = component.width;
+        }
 
         // todo need to cover when no results are returned - do we still want to make the component?
         this._data

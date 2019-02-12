@@ -1,5 +1,4 @@
 import {InjectionToken} from '@angular/core';
-import {NodeDisplayComponent} from '../app/pharos-main/data-details/topic-details/panels/node-display/node-display.component';
 
 export class TOKENS {
   /**
@@ -67,19 +66,10 @@ export class TOKENS {
    * injection token to link to gene rif data
    */
   public static ASSAY_PANEL = new InjectionToken<string>('AssayComponent');
-
   /**
    * injection token to link to amino acid sequence data
    */
-  public static AA_SEQUENCE_PANEL = new InjectionToken<string>('AASequenceComponent');
-
-  /**
-   * injection Token to link to protein to protein interaction data
-   * @type {InjectionToken<string>}
-   */
-  public static PROTEIN_PROTEIN_PANEL = new InjectionToken<string>('ProteinProteinPanelComponent');
-
-  /**
+  public static AA_SEQUENCE_PANEL = new InjectionToken<string>('AASequenceComponent');  /**
    * injection token to link to amino acid sequence data
    */
   public static LIGANDS_PANEL = new InjectionToken<string>('LigandPanelComponent');
@@ -138,9 +128,4 @@ public static MOLECULAR_DEFINITION_PANEL = new InjectionToken<string>('Molecular
  * injection token to link to target relevance data
  */
 public static TARGET_RELEVANCE_PANEL = new InjectionToken<string>('TargetRelevanceComponent');
-
-/**
- * injection token to link to protein database data
- */
-public static PDB_PANEL = new InjectionToken<string>('PdbPanelComponent');
  }

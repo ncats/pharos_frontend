@@ -41,8 +41,7 @@ import {ProteinStructureViewerComponent} from "../tools/protein-structure-viewer
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
-    RouterModule,
-    NgxJsonViewerModule
+    RouterModule
   ],
   declarations: [
     NcatsHeaderComponent,
