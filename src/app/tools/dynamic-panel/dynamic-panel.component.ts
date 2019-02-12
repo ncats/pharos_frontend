@@ -48,7 +48,6 @@ export class DynamicPanelComponent {
 
   /** No dependencies */
   constructor () {
-    console.log(this);
   }
 
 }

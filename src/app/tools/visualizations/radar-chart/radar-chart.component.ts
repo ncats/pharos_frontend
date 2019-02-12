@@ -194,19 +194,15 @@ export class RadarChartComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log(this);
     this.drawChart();
     // data passed in by opening modal
     if (this.modalData) {
-      console.log(this.modalData);
       Object.keys(this.modalData).forEach(key => this[key] = this.modalData[key]);
     }
 
     if (!this.data) {
       // data passed in by id (target list)
-      console.log(this.id);
       this.radarDataService.getData(this.id, this.origin).subscribe(res => {
-        console.log(res);
         this.data = res;
       });
     } else {
@@ -217,15 +213,11 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     this._data.subscribe(x => {
       if (this.data && this.data.length) {
         this.drawChart();
-        console.log(this.data);
         this.data.forEach(graph => {
-          console.log(graph);
           if (graph) {
            // this.radarDataService.setData(graph.className, graph, this.origin);
-            console.log("graph subscription");
            // / this.drawChart();
             this.updateChart();
-            console.log("data set");
           }
         });
       }
@@ -291,8 +283,6 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     }
     //////////// Create the container SVG and g /////////////
     const element = this.chartContainer.nativeElement;
-    console.log(element);
-    console.log(d3.select(element));
     this.width = element.offsetWidth - this._chartOptions.margin.left - this._chartOptions.margin.right;
     this.height = element.offsetHeight - this._chartOptions.margin.top - this._chartOptions.margin.bottom;
 
