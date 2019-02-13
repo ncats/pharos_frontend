@@ -70,6 +70,7 @@ import {ProteinProteinPanelComponent} from "./data-details/target-details/panels
 import {BatchUploadModalComponent} from "../tools/batch-upload-modal/batch-upload-modal.component";
 import {PdbPanelComponent} from "./data-details/target-details/panels/pdb-panel/pdb-panel.component";
 import {RadarChartViewerComponent} from "../tools/radar-chart-viewer/radar-chart-viewer.component";
+import {PublicationInfoPanelComponent} from "./data-details/target-details/panels/publication-info-panel/publication-info-panel.component";
 
 
 const pharosMainRoutes: Routes = [
@@ -127,6 +128,7 @@ const pharosMainRoutes: Routes = [
     {provide: TOKENS.TARGET_TABLE_COMPONENT, useValue: TargetTableComponent },
     {provide: TOKENS.TARGET_DETAILS_COMPONENT, useValue: TargetDetailsComponent },
     {provide: TOKENS.SUMMARY_PANEL, useValue: SummaryPanelComponent },
+    {provide: TOKENS.PUBLICATION_INFO_PANEL, useValue: PublicationInfoPanelComponent },
     {provide: TOKENS.REFERENCES_PANEL, useValue: ReferencesPanelComponent },
     {provide: TOKENS.DISEASE_SOURCE_PANEL, useValue: DiseaseSourceComponent },
     {provide: TOKENS.EXPRESSION_PANEL, useValue: ExpressionPanelComponent },
@@ -157,6 +159,7 @@ const pharosMainRoutes: Routes = [
     TargetTableComponent,
     TargetDetailsComponent,
     ReferencesPanelComponent,
+    PublicationInfoPanelComponent,
     SummaryPanelComponent,
     TargetHeaderComponent,
     DiseaseSourceComponent,
@@ -197,6 +200,7 @@ const pharosMainRoutes: Routes = [
     TargetTableComponent,
     TargetDetailsComponent,
     ReferencesPanelComponent,
+    PublicationInfoPanelComponent,
     SummaryPanelComponent,
     TargetHeaderComponent,
     ExpressionPanelComponent,

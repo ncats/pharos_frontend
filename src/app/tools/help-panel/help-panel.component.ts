@@ -13,13 +13,21 @@ import {HelpDataService} from './services/help-data.service';
 export class HelpPanelComponent implements OnInit {
   searchCtrl: FormControl = new FormControl();
   rawData: any;
+  description: string;
 
   constructor(private helpDataService: HelpDataService) { }
 
   ngOnInit() {
+    console.log("on init");
     this.helpDataService.data$.subscribe(res => this.rawData = res);
+    this.helpDataService.description$.subscribe(res => this.description = res);
+    console.log(this);
   }
 
   search() {}
+
+  getLabel() {
+    return this.helpDataService.label;
+  }
 
 }

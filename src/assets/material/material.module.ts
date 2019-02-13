@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 import {
   MatButtonModule, MatAutocompleteModule, MatMenuModule, MatToolbarModule, MatInputModule, MatIconModule,
   MatListModule, MatSliderModule, MatProgressSpinnerModule, MatSortModule, MatTableModule, MatSidenavModule,
-  MatSlideToggleModule, MatRadioModule, MatCheckboxModule, MatTabsModule, MatCardModule, MatTooltipModule,
+  MatSlideToggleModule, MatRadioModule, MatCheckboxModule, MatCardModule, MatTooltipModule,
   MatSelectModule, MatExpansionModule, MatPaginatorModule
 } from '@angular/material';
 import {MatChipsModule} from '@angular/material/chips';
@@ -14,6 +14,8 @@ import {MatDividerModule} from '@angular/material/divider';
 import {ScrollDispatchModule} from '@angular/cdk/scrolling';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatTabsModule} from '@angular/material/tabs';
+
 
 
 

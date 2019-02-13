@@ -1,5 +1,6 @@
 <div class = "help-panel-content">
-<div class ="search-row">
+<div fxLayout="row" class = "search-row">
+  <div fxFlex>
   <mat-form-field class = "full-width-field" [floatLabel] = "'never'">
     <input matInput
            placeholder="search help"
@@ -10,6 +11,63 @@
     <button mat-button mat-icon-button matSuffix aria-label="search"><mat-icon>search</mat-icon></button>
   </mat-form-field>
 </div>
+</div>
 
-{{rawData | json}}
+  <mat-accordion [multi]="true">
+
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <span class="mat-headline">Descriptions and Definitions</span>
+      </mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent>
+          <div fxLayout="row" class = "description-row">
+            <div fxFlex>
+              <span class = "mat-title">{{getLabel()}}:</span><br>
+              <p class="mat-body">{{description}}</p>
+            </div>
+          </div>
+        </ng-template>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+       <span class="mat-headline">Sources Used</span>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+
+      </ng-template>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <span class="mat-headline">How the Data Was Generated</span>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+
+      </ng-template>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <span class="mat-headline">Related Topics</span>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+
+      </ng-template>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <span class="mat-headline">Raw Data</span>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <div fxLayout="row" class = "search-row">
+          <ngx-json-viewer [json] = rawData></ngx-json-viewer>
+        </div>
+      </ng-template>
+    </mat-expansion-panel>
+
+
+
+  </mat-accordion>
 </div>

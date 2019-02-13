@@ -1,6 +1,7 @@
 import {Injectable, Input} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/index';
 import {ResponseParserService} from '../../../pharos-services/response-parser.service';
+import {DESCRIPTIONS} from "../../../../environments/descriptions";
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,22 @@ export class HelpDataService {
    */
   data$ = this._helpDataSource.asObservable();
 
+  /**
+   * RxJs subject to broadcast help panel data changes
+   * @type {Subject<boolean>}
+   * @private
+   */
+  private _helpDescriptionSource = new BehaviorSubject<any>({});
+
+  /**
+   * Observable stream of help panel data changes
+   * @type {Observable<boolean>}
+   */
+  description$ = this._helpDescriptionSource.asObservable();
+
+  field: string;
+  label: string;
+
   constructor(
     private responseParserService: ResponseParserService,
   ) {
@@ -43,7 +60,19 @@ export class HelpDataService {
       .subscribe(res => this.data = res);
   }
 
-  fetchData(field: string) {
-    this._helpDataSource.next(this.data[field]);
+  fetchData() {
+    this._helpDataSource.next(this.data[this.field]);
+  }
+
+  setOrigin(field: string): void {
+    this.field = field;
+  }
+
+  setLabel(field: string): void {
+    this.label = field;
+  }
+
+  fetchDescription() {
+    this._helpDescriptionSource.next(DESCRIPTIONS.get(this.field));
   }
 }

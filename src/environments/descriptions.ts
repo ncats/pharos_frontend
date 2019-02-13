@@ -1,16 +1,16 @@
 export const DESCRIPTIONS: Map<string, string> = new Map<string, string>([
-  // ['knowledge', 'Radar plot depicting the variety of knowledge obtained by Pharos for a particular target. ' +
-  // 'The more spikes in the plot, the more variety. The longer the length, the higher the quantity of that particular' +
-  // ' knowledge. Click expansion icon to explore the plot fuller by seeing plot with annotations of the different radii, ' +
-  // 'allowing for aggregation of knowledge radii based on attribution type, group, or data type, as well as overlay plot ' +
-  // 'with other information, and provide download file.'],
-  // ['geneSummary', ''],
-  // ['breadcrumb', ''],
-  // ['synonyms', 'Table listing different Uniprot linked Accession values, as well as Symbols or commonly used ' +
-  // 'abbreviations associated with this particular target.'],
-  // ['tinx', ''],
-  // ['symbol', ''],
-  // ['pubmed', ''],
+  ['knowledge', 'Radar plot depicting the variety of knowledge obtained by Pharos for a particular target. ' +
+  'The more spikes in the plot, the more variety. The longer the length, the higher the quantity of that particular' +
+  ' knowledge. Click expansion icon to explore the plot fuller by seeing plot with annotations of the different radii, ' +
+  'allowing for aggregation of knowledge radii based on attribution type, group, or data type, as well as overlay plot ' +
+  'with other information, and provide download file.'],
+  ['geneSummary', ''],
+  ['breadcrumb', ''],
+  ['synonyms', 'Table listing different Uniprot linked Accession values, as well as Symbols or commonly used ' +
+  'abbreviations associated with this particular target.'],
+  ['tinx', ''],
+  ['symbol', ''],
+  ['pubmed', ''],
   ['patents', 'Graph of timeline of patents based on EBI patent counts, with specific yearly values shown when hovering' +
   ' over year\'s dot.'],
   ['gene', 'Approved gene symbol with link to HUGO Gene Nomenclature Committee.'],

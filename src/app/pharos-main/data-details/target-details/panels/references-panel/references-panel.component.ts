@@ -16,23 +16,27 @@ import {Target} from '../../../../../models/target';
   templateUrl: './references-panel.component.html',
   styleUrls: ['./references-panel.component.css']
 })
-export class ReferencesPanelComponent extends DynamicPanelComponent implements OnInit {
+export class ReferencesPanelComponent implements OnInit {
   displayColumns: string[] = ['pmid', 'year', 'title'];
   dataSource: any = new MatTableDataSource<Publication[]>();
   referencePageData: PageData;
+  @Input()
   target: Target;
   /**Sort object from Angular Material */
   @ViewChild(MatSort) sort: MatSort;
 
+  @Input() data: any;
+  loading = true;
   allReferences: Publication[];
   constructor(
     private http: HttpClient
   ) {
-    super();
   }
 
   ngOnInit() {
-    this._data
+    console.log(this);
+    this.setterFunction();
+   /* this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
       .pipe(
@@ -43,10 +47,11 @@ export class ReferencesPanelComponent extends DynamicPanelComponent implements O
           this.ngUnsubscribe.next();
            this.setterFunction();
         }
-      });
+      });*/
   }
 
   setterFunction() {
+    console.log(this.data);
     this.dataSource.data = this.data.references.filter(ref => !!ref);
     this.allReferences = this.data.references.filter(ref => !!ref);
     this.loading = false;

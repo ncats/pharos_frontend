@@ -48,6 +48,11 @@ export class TOKENS {
   public static TARGET_LIST_PANEL = new InjectionToken<string>('TargetListPanel');
 
   /**
+   * injection token to link to the publication info for a target
+   */
+  public static PUBLICATION_INFO_PANEL = new InjectionToken<string>('PublicationInfoPanelComponent');
+
+  /**
    * injection token to link to the references for a target
    */
   public static REFERENCES_PANEL = new InjectionToken<string>('ReferencesPanelComponent');

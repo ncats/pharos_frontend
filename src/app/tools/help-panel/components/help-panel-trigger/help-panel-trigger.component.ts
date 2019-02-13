@@ -9,6 +9,7 @@ import {HelpDataService} from '../../services/help-data.service';
 })
 export class HelpPanelTriggerComponent implements OnInit {
   @Input() origin?: string;
+  @Input() label?: string;
 
   constructor(
     private helpPanelOpenerService: HelpPanelOpenerService,
@@ -19,8 +20,13 @@ export class HelpPanelTriggerComponent implements OnInit {
   }
 
   toggle() {
+    console.log(this.origin);
     if (this.origin) {
-      this.helpDataService.fetchData(this.origin);
+      console.log("fffffff");
+      this.helpDataService.setOrigin(this.origin);
+      this.helpDataService.setLabel(this.label ? this.label : this.origin);
+      this.helpDataService.fetchData();
+      this.helpDataService.fetchDescription();
     }
       this.helpPanelOpenerService.toggleVisible();
   }

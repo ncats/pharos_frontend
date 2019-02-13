@@ -6,7 +6,7 @@
       <span class="mat-title">Knowledge Summary</span>
       </div>
       <div fxFlex="5">
-      <pharos-help-panel-trigger></pharos-help-panel-trigger>
+      <pharos-help-panel-trigger [origin]="knowledge" [label]="'Knowledge Summary'"></pharos-help-panel-trigger>
       </div>
     </div>
     <div *ngIf="data.knowledge && data.knowledge.length > 0; else noDataDiv">

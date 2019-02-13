@@ -1,7 +1,7 @@
 <div class="pharos-main">
   <app-ncats-header [searchBar]=true></app-ncats-header>
   <mat-sidenav-container class="flex-body main-content">
-    <mat-sidenav #sidenav [mode]="'over'" class="filters-panel" (openedStart)="loadFacets()">
+    <mat-sidenav #sidenav [mode]="'side'" class="filters-panel" [opened]="true" (openedStart)="loadFacets()">
       <!-- sidenav content -->
       <pharos-filter-panel></pharos-filter-panel>
     </mat-sidenav>
@@ -9,6 +9,7 @@
       <!-- sidenav content -->
       <pharos-help-panel></pharos-help-panel>
     </mat-sidenav>
+    <mat-sidenav-content>
       <div fxLayout="row" class="filter-help">
         <div fxFlex="5">
           <button type="button" class="sidenavToggle" mat-raised-button [color]="'primary'" (click)="sidenav.toggle()">
@@ -18,9 +19,6 @@
         <span class="fill-remaining-space"></span>
         <div fxFlex="5">
           <pharos-help-panel-trigger></pharos-help-panel-trigger>
-         <!-- <button type="button" class="helppanelToggle" mat-icon-button (click)="helppanel.toggle()">
-            <mat-icon>help</mat-icon>
-          </button>-->
         </div>
       </div>
       <pharos-data-list-visualizations></pharos-data-list-visualizations>
@@ -28,6 +26,7 @@
       <pharos-facet-list></pharos-facet-list>
       <pharos-data-list></pharos-data-list>
       <pharos-scroll-to-top></pharos-scroll-to-top>
+    </mat-sidenav-content>
   </mat-sidenav-container>
 </div>
 <app-pharos-footer></app-pharos-footer>
