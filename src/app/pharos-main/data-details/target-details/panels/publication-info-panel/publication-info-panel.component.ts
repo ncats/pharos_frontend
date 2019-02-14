@@ -5,6 +5,7 @@ import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-
 import {Target} from "../../../../../models/target";
 import {PageData} from "../../../../../models/page-data";
 import {HttpClient} from "@angular/common/http";
+import {PharosPoint} from "../../../../../tools/visualizations/line-chart/line-chart.component";
 
 @Component({
   selector: 'pharos-publication-info-panel',
@@ -12,14 +13,15 @@ import {HttpClient} from "@angular/common/http";
   styleUrls: ['./publication-info-panel.component.scss']
 })
 export class PublicationInfoPanelComponent extends DynamicPanelComponent implements OnInit {
-  targets: Target[];
+  target: Target;
   references: any[];
   generif: any[];
-  allTargets: Target[] = [];
-  targetPageData: PageData;
+  targetPageData: PageData;  timelines: any[] = [];
+  tlMap: Map<string, any> = new Map<string, any>();
+
 
   constructor(
-    private http: HttpClient
+    private _http: HttpClient
   ) {
     super();
   }
@@ -42,10 +44,55 @@ export class PublicationInfoPanelComponent extends DynamicPanelComponent impleme
 
   setterFunction() {
     this.references = this.data.references;
+    this.generif = this.data.generif;
+    this.fetchTimelineData();
   }
 
-  paginateTargets($event) {
-    this.targets = this.allTargets.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize);
+
+  getTimeline(field: string): any {
+    return this.tlMap.get(field);
   }
+
+  fetchTimelineData(): void {
+    this.data.timelines.forEach(timeline => {
+      if (timeline.href && !this.tlMap.get(timeline.id)) {
+        this._http.get<any>(timeline.href).subscribe(res => {
+          const data: PharosPoint[] = [];
+          res.events.forEach(point => {
+            if (point.properties) {
+              const val = point.properties.filter(prop => prop.label === 'Score');
+              if (val.length > 0) {
+                const pt: PharosPoint = {key: point.start, value: val[0].numval};
+                data.push(pt);
+              } else {
+                const pt: PharosPoint = {key: point.start, value: point.end};
+                data.push(pt);
+              }
+            }
+          });
+          this.tlMap.set(timeline.id, data);
+          this.tlMap.set(res.name, data);
+          this.loading = false;
+        });
+      }
+    });
+    ['PubMed Score', 'PubTator', 'Patent Count'].forEach(name => {
+      const tl = this.tlMap.get(name);
+      if (tl) {
+        this.timelines.push(tl);
+      }
+    });
+    this.timelines = this.timelines.filter((tl, index, arr) =>
+      index === arr.findIndex(t => t.id === tl.id)
+    );
+  }
+
+  raisePubtator() {
+    if (this.target) {
+      return Math.pow(10, this.target.pubTatorScore).toFixed(2);
+    }
+  }
+
+
 
 }

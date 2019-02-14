@@ -6,16 +6,60 @@
   <mat-card-content>
     <div class = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
       <div fxFlex>
-      <mat-tab-group>
+      <mat-tab-group dynamicHeight>
         <mat-tab label="Publication Statistics">
+          <div class = "timelines-panel">
+          <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
+            <mat-spinner></mat-spinner>
+          </div>
+          <ng-container *ngIf="getTimeline('PubMed Score')?.length > 0">
+            <div fxLayout="row" fxLayoutAlign="start stretch" >
+              <div fxFlex="95">
+                <span class="mat-title">PubMed Score </span>&nbsp;<span>{{target.jensenScore.toFixed(2)}}</span>
+                <pharos-help-panel-trigger ></pharos-help-panel-trigger>
+                <pharos-line-chart [data]="getTimeline('PubMed Score')"></pharos-line-chart>
+              </div>
+              <div fxFlex = "5">
 
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="getTimeline('PubTator')?.length >0">
+            <div fxLayout="row" fxLayoutAlign="start stretch">
+              <div fxFlex="95">
+                <span class="mat-title">PubTator Score </span>&nbsp;<span>{{raisePubtator()}}</span>
+                <pharos-line-chart [data]="getTimeline('PubTator')"></pharos-line-chart>
+              </div>
+              <div fxFlex = "5">
+                <pharos-help-panel-trigger ></pharos-help-panel-trigger>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="getTimeline('Patent Count')?.length >0">
+            <div fxLayout="row" fxLayoutAlign="start stretch">
+              <div fxFlex="95">
+                <span class="mat-title">Patents </span>
+                <pharos-line-chart [data]="getTimeline('Patent Count')"></pharos-line-chart>
+              </div>
+              <div fxFlex = "5">
+                <pharos-help-panel-trigger ></pharos-help-panel-trigger>
+              </div>
+            </div>
+          </ng-container>
+          </div>
         </mat-tab>
         <mat-tab label="GeneRif Annotations">
+          <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
+            <mat-spinner></mat-spinner>
+          </div>
           <ng-template matTabContent>
-          <pharos-gene-rif-panel></pharos-gene-rif-panel>
+          <pharos-gene-rif-panel [data]="{generif: generif}" [target]="target"></pharos-gene-rif-panel>
           </ng-template>
         </mat-tab>
         <mat-tab label="Text Mined References">
+          <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
+            <mat-spinner></mat-spinner>
+          </div>
           <ng-template matTabContent>
           <pharos-references-panel [data]="{references: references}" [target]="target"></pharos-references-panel>
           </ng-template>

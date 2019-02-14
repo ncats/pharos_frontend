@@ -2,6 +2,12 @@
   grid-column: 1 / span 2;
 }
 
+.timelines-panel {
+  padding-top: 2vh;
+  padding-bottom: 5vh;
+}
+
+
 @media only screen and (max-width: 768px) {
   :host {
   }
