@@ -13,7 +13,7 @@ import {RadarChartViewerComponent} from "../../../../../tools/radar-chart-viewer
 @Component({
   selector: 'pharos-summary-panel',
   templateUrl: './summary-panel.component.html',
-  styleUrls: ['./summary-panel.component.css']
+  styleUrls: ['./summary-panel.component.scss']
 })
 export class SummaryPanelComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   @Input() target: Target;

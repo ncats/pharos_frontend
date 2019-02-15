@@ -52,7 +52,7 @@ const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
 @Component({
   selector: 'pharos-disease-source',
   templateUrl: './disease-source-panel.component.html',
-  styleUrls: ['./disease-source-panel.component.css']
+  styleUrls: ['./disease-source-panel.component.scss']
 })
 export class DiseaseSourceComponent extends DynamicPanelComponent implements OnInit {
   sourceMap: Map<string, DiseaseRelevance[]> = new Map<string, DiseaseRelevance[]>();

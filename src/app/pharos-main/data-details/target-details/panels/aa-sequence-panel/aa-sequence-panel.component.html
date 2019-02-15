@@ -3,36 +3,8 @@
     <mat-card-title ><span class="mat-title">AA Sequence</span></mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div fxLayout="row" fxLayout.lt-sm = "column" fxLayoutAlign="center center">
-      <div fxFlex = "30">
-        <ng-container *ngIf="data.synonyms?.length > 0">
-          <mat-card-subtitle>Uniprot Accession IDs</mat-card-subtitle>
-          <ul class = "inline-list wrap">
-            <li *ngFor=" let term of data.synonyms">
-              <pharos-term-display [term]= term [showLabel]="false"></pharos-term-display><br>
-            </li>
-          </ul>
-        </ng-container>
-        <ng-container *ngIf="data.symbol?.length > 0">
-          <br>
-          <mat-card-subtitle>Symbol</mat-card-subtitle>
-          <ul class = "inline-list wrap">
-            <li *ngFor=" let term of data.symbol">
-              <pharos-term-display [term] = term [showLabel]="false"></pharos-term-display>
-            </li>
-          </ul>
-        </ng-container>
-        <ng-container *ngIf="data.gene?.length > 0">
-          <br>
-          <mat-card-subtitle>NCBI Gene</mat-card-subtitle>
-          <ul class = "inline-list wrap">
-            <li *ngFor=" let term of data.gene">
-              <pharos-term-display [term]= term  [showLabel]="false"></pharos-term-display>
-            </li>
-          </ul>
-        </ng-container>
-      </div>
-      <div fxFlex="60" fxHide.lt-sm>
+      <div fxLayout="row" fxLayout.lt-sm = "column" fxLayoutAlign="center center">
+      <div fxFlex="90" fxHide.lt-sm>
         <pharos-bar-chart [data]="residueCounts" class="full-width"></pharos-bar-chart>
       </div>
     </div>

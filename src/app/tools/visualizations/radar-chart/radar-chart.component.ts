@@ -93,6 +93,10 @@ export class RadarChartOptions {
   encapsulation: ViewEncapsulation.None
 })
 
+// http://amp.pharm.mssm.edu/Harmonizome/download descriptions
+// https://pharos.nih.gov/idg/hg/data?type=radar-attr_group&q=Q9NXB0
+// https://pharos.nih.gov/idg/hg/data?type=radar-data_type&q=Q9NXB0
+
 export class RadarChartComponent implements OnInit, OnDestroy {
 
   /**
