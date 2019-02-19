@@ -1,0 +1,16 @@
+<!--
+    <div class="mat-title" *ngIf="showHeader">Jump to section:</div><br>
+-->
+<div class="toc-wrapper">
+  <div class="toc">
+    <mat-nav-list >
+      <a *ngFor="let section of sections"
+         mat-list-item
+         class="list-button"
+         (click)="scroll(section.section)"
+         [ngClass]="{'active': isActive(section.section)}">
+        {{section.label}}
+      </a>
+    </mat-nav-list>
+  </div>
+</div>

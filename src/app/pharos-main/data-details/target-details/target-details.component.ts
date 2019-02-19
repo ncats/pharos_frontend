@@ -11,6 +11,7 @@ import {ComponentLookupService} from '../../../pharos-services/component-lookup.
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
+import {NavSectionsService} from "../../../tools/sidenav-panel/services/nav-sections.service";
 
 @Component({
   selector: 'pharos-target-details',
@@ -22,6 +23,7 @@ import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.
 export class TargetDetailsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   path: string;
   token: any;
+  sections: string[] = [];
 
   target: Target;
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
@@ -31,6 +33,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
     private _injector: Injector,
     @Inject(forwardRef(() => ComponentLookupService)) private componentLookupService,
     private dataDetailsResolver: DataDetailsResolver,
+    private navSectionsService: NavSectionsService,
     private componentInjectorService: ComponentInjectorService) {
     super();
   }
@@ -58,6 +61,9 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
         if (component.width) {
           childComponent.instance.width = component.width;
         }
+        if (component.navHeader) {
+          this.sections.push(component.navHeader);
+        }
 
         // todo need to cover when no results are returned - do we still want to make the component?
         this._data
@@ -72,6 +78,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
           });
       });
     }
+    this.navSectionsService.setSections(this.sections);
   }
 
    pick(o, props): any {

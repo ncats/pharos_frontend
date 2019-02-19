@@ -1,4 +1,7 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {
+  ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild,
+  ViewChildren
+} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {Subject} from 'rxjs';
@@ -19,8 +22,10 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
   path: string;
   dynamicComponent: any;
   private ngUnsubscribe: Subject<any> = new Subject();
+  @ViewChildren('scrollSection') scrollSections: QueryList<ElementRef>;
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
   helpOpen: false;
+  sections: string[] = [];
 
   @ViewChild('helppanel') helpPanel: MatDrawer;
 
@@ -37,6 +42,7 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    console.log(this);
   this.helpPanelOpenerService.toggle$.subscribe(res => this.helpPanel.toggle());
 /*    if (this.path === 'topics') {
       const token: any = this.componentLookupService.lookupByPath(this.path, 'details')[0];
@@ -64,6 +70,17 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
         this.dynamicComponent.instance.data = res;
        // this.ref.markForCheck(); // refresh the component manually
       });
+  }
+
+  ngAfterViewInit(){
+    console.log(this);
+  }
+
+  public scrollToElement(el: any): void {
+    console.log(el);
+    console.log(this);
+
+    el.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
   }
 
   ngOnDestroy() {

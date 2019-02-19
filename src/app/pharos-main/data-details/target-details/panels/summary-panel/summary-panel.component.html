@@ -1,7 +1,11 @@
 <div class ="full-height">
 <mat-card *ngIf = data>
   <mat-card-content>
-    <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="start stretch">
+    <div fxLayout="row"
+         fxLayout.lt-md="column"
+         class ="tkrow"
+         fxLayoutAlign="start stretch"
+         #summary #scrollSection>
       <div fxFlex="95">
       <span class="mat-title">Protein Summary</span>
       </div>
@@ -10,7 +14,7 @@
       </div>
     </div>
     <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="space-between start">
-      <div fxFlex = "25">
+      <div fxFlex = "25" class="synonyms">
         <ng-container *ngIf="data.synonyms?.length > 0">
           <mat-card-subtitle>Uniprot Accession IDs</mat-card-subtitle>
           <ul class = "inline-list wrap">
@@ -33,6 +37,15 @@
           <mat-card-subtitle>NCBI Gene</mat-card-subtitle>
           <ul class = "inline-list wrap">
             <li *ngFor=" let term of data.gene">
+              <pharos-term-display [term]= term  [showLabel]="false"></pharos-term-display>
+            </li>
+          </ul>
+        </ng-container>
+        <ng-container *ngIf="data.ensembl?.length > 0">
+          <br>
+          <mat-card-subtitle>Ensembl ID</mat-card-subtitle>
+          <ul class = "inline-list wrap">
+            <li *ngFor=" let term of data.ensembl">
               <pharos-term-display [term]= term  [showLabel]="false"></pharos-term-display>
             </li>
           </ul>

@@ -3,6 +3,7 @@ import { NgModule} from '@angular/core';
 import {DataDetailsComponent} from '../pharos-main/data-details/data-details.component';
 import {SharedModule} from './shared.module';
 import {DataDetailsResolver} from '../pharos-main/services/data-details.resolver';
+import {SidenavPanelComponent} from "../tools/sidenav-panel/sidenav-panel.component";
 
 
 @NgModule({
@@ -10,15 +11,16 @@ import {DataDetailsResolver} from '../pharos-main/services/data-details.resolver
     SharedModule
   ],
   declarations: [
-    DataDetailsComponent
+    DataDetailsComponent,
+    SidenavPanelComponent
   ],
   providers: [
     DataDetailsResolver
   ],
   exports: [
     SharedModule,
-    DataDetailsComponent
-
+    DataDetailsComponent,
+    SidenavPanelComponent
   ]
 })
 export class SharedDetailsModule { }

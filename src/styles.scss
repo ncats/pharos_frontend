@@ -39,9 +39,9 @@ a:hover {
   flex: 1 1 auto;
 }
 
-.flex-body{
+/*.flex-body{
   flex: 1;
-}
+}*/
 
 .tbio{
   background-color: mat-color($pharos-app-accent);
@@ -66,6 +66,7 @@ a:hover {
 .inline-list {
   display: flex;
   list-style: none;
+  flex-wrap: wrap;
 }
 
 .inline-list li {

@@ -77,7 +77,11 @@ const ROUTES: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(ROUTES, {enableTracing: false})
+    RouterModule.forRoot(ROUTES,{
+      anchorScrolling: 'enabled',
+      onSameUrlNavigation: "reload",
+      scrollPositionRestoration: 'enabled',
+      })
   ],
   providers: [],
   entryComponents: [],

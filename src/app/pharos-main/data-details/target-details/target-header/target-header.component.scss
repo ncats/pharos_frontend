@@ -2,10 +2,6 @@
 // Import your custom theme
 @import './src/ncats-theme.scss';
 
-:host {
-  grid-column: 1 / span 2;
-}
-
 .indicator {
   display: inline;
 }

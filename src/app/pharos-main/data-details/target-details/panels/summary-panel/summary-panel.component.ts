@@ -46,56 +46,8 @@ ngOnInit() {
     .subscribe(x => {
       if (Object.values(this.data).length > 0) {
         this.ngUnsubscribe.next();
-        if (this.data.timelines) {
-          this.fetchTimelineData();
-        }
       }
     });
-}
-
-
-getTimeline(field: string): any {
-    return this.tlMap.get(field);
-}
-
-fetchTimelineData(): void {
-  this.data.timelines.forEach(timeline => {
-    if (timeline.href && !this.tlMap.get(timeline.id)) {
-      this._http.get<any>(timeline.href).subscribe(res => {
-        const data: PharosPoint[] = [];
-      res.events.forEach(point => {
-          if (point.properties) {
-            const val = point.properties.filter(prop => prop.label === 'Score');
-            if (val.length > 0) {
-              const pt: PharosPoint = {key: point.start, value: val[0].numval};
-              data.push(pt);
-            } else {
-              const pt: PharosPoint = {key: point.start, value: point.end};
-              data.push(pt);
-            }
-          }
-        });
-        this.tlMap.set(timeline.id, data);
-        this.tlMap.set(res.name, data);
-        this.loading = false;
-      });
-    }
-  });
-  ['PubMed Score', 'PubTator', 'Patent Count'].forEach(name => {
-    const tl = this.tlMap.get(name);
-    if (tl) {
-      this.timelines.push(tl);
-    }
-  });
-   this.timelines = this.timelines.filter((tl, index, arr) =>
-          index === arr.findIndex(t => t.id === tl.id)
-        );
-}
-
-raisePubtator() {
-  if (this.target) {
-      return Math.pow(10, this.target.pubTatorScore).toFixed(2);
-    }
 }
 
 openModal(): void {

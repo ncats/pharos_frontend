@@ -2,6 +2,10 @@
   <div class = "flex-body">
     <app-ncats-header [searchBar]="true" class="details-header"></app-ncats-header>
     <mat-sidenav-container class="flex-body main-content">
+      <mat-sidenav #quicknavpanel class="nav-panel" [mode]="'side'" [opened]="true">
+        <!-- sidenav content -->
+     <pharos-sidenav-panel (scrollElement) = scrollToElement($event)></pharos-sidenav-panel>
+      </mat-sidenav>
       <mat-sidenav #helppanel [position]="'end'" class="help-panel" [mode]="'over'" [opened]="false">
         <!-- sidenav content -->
         <pharos-help-panel></pharos-help-panel>

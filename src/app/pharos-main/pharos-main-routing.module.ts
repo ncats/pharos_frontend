@@ -98,6 +98,7 @@ const pharosMainRoutes: Routes = [
     SharedListModule,
     SharedDetailsModule,
     RouterModule.forChild(pharosMainRoutes)
+
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [

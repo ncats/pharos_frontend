@@ -1,6 +1,3 @@
-:host {
-  grid-column: 1 / span 2;
-}
 
 /*.full-height {
   align-self: stretch;
@@ -25,7 +22,5 @@
 }*/
 
 @media only screen and (max-width: 768px) {
-  :host {
-    grid-column: 1 / span 2;
-  }
+
 }
