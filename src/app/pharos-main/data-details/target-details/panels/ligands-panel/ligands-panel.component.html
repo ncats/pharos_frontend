@@ -1,4 +1,4 @@
-<mat-card class="full-height" *ngIf = "drugsDataSource.data.length >0 || ligandsDataSource.data.length >0" >
+<mat-card id = "ligands" *ngIf = "drugsDataSource.data.length >0 || ligandsDataSource.data.length >0" >
   <mat-card-content>
     <div  *ngIf = "drugsDataSource.data.length >0">
     <mat-card-title><span class="mat-title">Drugs ({{allDrugs.length}})</span></mat-card-title>

@@ -1,7 +1,4 @@
-import {
-  ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild,
-  ViewChildren
-} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit, Type, ViewChild} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {Subject} from 'rxjs';
@@ -11,6 +8,8 @@ import {ComponentLookupService} from '../../pharos-services/component-lookup.ser
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
 import {HelpPanelOpenerService} from '../../tools/help-panel/services/help-panel-opener.service';
 import {MatDrawer} from '@angular/material';
+import {DynamicPanelComponent} from "../../tools/dynamic-panel/dynamic-panel.component";
+import {DataDetailsResolver} from "../../pharos-main/services/data-details.resolver";
 
 @Component({
   selector: 'pharos-data-details',
@@ -18,14 +17,13 @@ import {MatDrawer} from '@angular/material';
   styleUrls: ['./data-details.component.css']
 
 })
-export class DataDetailsComponent implements OnInit, OnDestroy {
+export class DataDetailsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   path: string;
+  target: any;
   dynamicComponent: any;
-  private ngUnsubscribe: Subject<any> = new Subject();
-  @ViewChildren('scrollSection') scrollSections: QueryList<ElementRef>;
+  componentsLoaded = false;
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
   helpOpen: false;
-  sections: string[] = [];
 
   @ViewChild('helppanel') helpPanel: MatDrawer;
 
@@ -35,52 +33,64 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
               private componentInjectorService: ComponentInjectorService,
               private responseParserService: ResponseParserService,
               private helpPanelOpenerService: HelpPanelOpenerService,
+              private dataDetailsResolver: DataDetailsResolver,
               private ref: ChangeDetectorRef
-            ) {
-                this.path = this._route.snapshot.data.path;
-              }
+  ) {
+    super();
+    this.path = this._route.snapshot.data.path;
+    this.target = this._route.snapshot.data.target;
+  }
 
 
   ngOnInit() {
-    console.log(this);
-  this.helpPanelOpenerService.toggle$.subscribe(res => this.helpPanel.toggle());
-/*    if (this.path === 'topics') {
-      const token: any = this.componentLookupService.lookupByPath(this.path, 'details')[0];
-      const dynamicComponentToken = this.componentInjectorService.getComponentToken(token.token);
-      this.dynamicComponent = this.componentInjectorService.injectComponent(this.componentHost, dynamicComponentToken);
-      this.dynamicComponent.instance.path = this.path;
-    }*/
+    if (!this.componentsLoaded) {
+      this.makeComponents();
+    }
+    this.helpPanelOpenerService.toggle$.subscribe(res => this.helpPanel.toggle());
     this.responseParserService.detailsData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-          // without this check, the component keeps refreshing
-          if (!this.dynamicComponent) {
-            const components: any = this.componentLookupService.lookupByPath(this.path, 'details');
-            if (components) {
-              components.forEach(component => {
-                if (component.token) {
-                  const dynamicComponentToken = this.componentInjectorService.getComponentToken(component.token);
-                  this.dynamicComponent = this.componentInjectorService.injectComponent(this.componentHost, dynamicComponentToken);
-                  this.dynamicComponent.instance.path = this.path;
-                }
-              });
-            }
-          }
-        // pass though data changes - this includes both the object and other fetched fields (references/publications, etc)
-        this.dynamicComponent.instance.data = res;
-       // this.ref.markForCheck(); // refresh the component manually
+        this._data.next(res);
+        this.ref.markForCheck(); // refresh the component manually
       });
   }
 
-  ngAfterViewInit(){
-    console.log(this);
+  pick(o, props): any {
+    return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
   }
 
-  public scrollToElement(el: any): void {
-    console.log(el);
-    console.log(this);
+  makeComponents(): void {
+    const components: any = this.componentLookupService.lookupByPath(this.path, 'details');
+    components.forEach(component => {
+      // start api calls before making component
+      const keys: string[] = [];
+      if (component.api) {
+        component.api.forEach(apiCall => {
+          if (apiCall.url.length > 0) {
+            const url = apiCall.url.replace('_id_', this.target.id);
+            // this call is pushed up to the api and changes are subscribed to in the generic details page, then set here
+            this.dataDetailsResolver.getDetailsByUrl(url, apiCall.field);
+            // this will be used to track the object fields to get
+            keys.push(apiCall.field);
+          }
+        });
+      }
+      // make component
+      const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
+      const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
+      dynamicComponent.instance.target = this.target;
+      dynamicComponent.instance.id = this.target.id;
+      dynamicComponent.instance.path = this.path;
+      this.ref.markForCheck(); // refresh the component manually
 
-    el.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
+      this._data
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(obj => {
+            dynamicComponent.instance.data = obj;
+            this.ref.markForCheck(); // refresh the component manually
+        });
+    });
+    this.componentsLoaded = true;
   }
 
   ngOnDestroy() {
@@ -88,3 +98,90 @@ export class DataDetailsComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 }
+
+
+
+
+
+
+
+/*
+
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  Type,
+  ViewChild
+} from '@angular/core';
+import {MatDrawer} from '@angular/material';
+import {ActivatedRoute} from '@angular/router';
+import {takeUntil} from 'rxjs/operators';
+import {CustomContentDirective} from '../../tools/custom-content.directive';
+import {HelpPanelOpenerService} from '../../tools/help-panel/services/help-panel-opener.service';
+import {DataDetailsResolver} from '../services/data-details.resolver';
+import {DynamicPanelComponent} from '../../tools/dynamic-panel/dynamic-panel.component';
+import {ComponentLookupService} from '../../services/component-lookup.service';
+import {ComponentInjectorService} from '../../services/component-injector.service';
+import {ResponseParserService} from '../../services/response-parser.service';
+
+@Component({
+  selector: 'gsrs-details-page',
+  templateUrl: './details-page.component.html',
+  styleUrls: ['./details-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class DetailsPageComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
+  path: string;
+  substance: any;
+  dynamicComponent: any;
+  componentsLoaded = false;
+  COMPONENTS: Map<string, any> = new Map<string, any>();
+  @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
+  helpOpen: false;
+
+  @ViewChild('helppanel') helpPanel: MatDrawer;
+
+
+  constructor(private _route: ActivatedRoute,
+              public componentLookupService: ComponentLookupService,
+              private componentInjectorService: ComponentInjectorService,
+              private responseParserService: ResponseParserService,
+              private dataDetailsResolver: DataDetailsResolver,
+              private helpPanelOpenerService: HelpPanelOpenerService,
+              private ref: ChangeDetectorRef
+  ) {
+    super();
+    this.path = this._route.snapshot.data.path;
+    this.substance = this._route.snapshot.data.substance;
+  }
+
+
+  ngOnInit() {
+    if (!this.componentsLoaded) {
+      this.makeComponents();
+    }
+    this.helpPanelOpenerService.toggle$.subscribe(res => this.helpPanel.toggle());
+    this.responseParserService.detailsData$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
+        this._data.next(res);
+        this.ref.markForCheck(); // refresh the component manually
+      });
+  }
+
+  trackByIndex = i => i;
+
+  pick(o, props): any {
+    return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
+  }
+
+
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+}*/

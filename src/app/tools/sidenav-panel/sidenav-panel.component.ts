@@ -1,11 +1,12 @@
 import {
-  ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Output, QueryList, Renderer2, ViewChild,
+  ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, OnInit, Optional, Output, QueryList, Renderer2,
+  ViewChild,
   ViewChildren
 } from '@angular/core';
 import {NavSectionsService} from "./services/nav-sections.service";
 import {CdkScrollable, ScrollDispatcher} from "@angular/cdk/scrolling";
 import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
-import {ViewportScroller} from "@angular/common";
+import {ViewportScroller, DOCUMENT} from "@angular/common";
 
 @Component({
   selector: 'pharos-sidenav-panel',
@@ -21,6 +22,7 @@ sections: any[] = [];
   showHeader = true;
 
   constructor(
+       @Optional() @Inject(DOCUMENT) private document: Document,
               private router: Router,
               private route: ActivatedRoute,
               private viewportScroller: ViewportScroller,
@@ -32,7 +34,7 @@ sections: any[] = [];
 
   ngOnInit() {
     this.navSectionsService.sections$.subscribe(res => {
-      if(res) {
+      if(res && res.length) {
         this.sections = res;
         this.activeElement = this.sections[0].section;
       }
@@ -41,6 +43,7 @@ sections: any[] = [];
       console.log(this);
     this.scrollDispatcher.scrolled().subscribe((data: CdkScrollable) => {
       if (data) {
+        console.log(data);
         let scrollTop: number = data.getElementRef().nativeElement.scrollTop + 100;
         if (scrollTop === 100) {
           this.activeElement = this.sections[0].section;
@@ -59,28 +62,16 @@ sections: any[] = [];
   }
 
   public scroll(el: any): void {
-    console.log(el);
-    console.log(document.getElementById(el));
-    console.log(this.router);
     let navigationExtras: NavigationExtras = {
-    //  relativeTo: this.route,
-     // queryParams: { 'session_id': sessionId },
-      fragment: el
+      fragment: `${el}`
     };
 
-    // Navigate to the login page with extras
-   // this.router.navigate(this.router.)
     this.router.navigate([], navigationExtras);
    // this.viewportScroller.scrollToAnchor(el);
-
-
-
-
-
-    /*  console.log(el);
-      console.log(this);
-      this.scrollElement.emit(el);*/
-    // el.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
+   /* const elem = this.document.getElementById(`#${el}`);
+    if (elem) {
+      elem.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
+    }*/
   }
 
   isActive(check: string): boolean {

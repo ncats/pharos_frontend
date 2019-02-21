@@ -82,7 +82,6 @@ export class RadarService {
    */
   constructor(private http: HttpClient,
               private environmentVariableService: EnvironmentVariablesService) {
-    console.log(this);
   }
 
   /**

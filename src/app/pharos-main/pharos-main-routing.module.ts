@@ -87,7 +87,7 @@ const pharosMainRoutes: Routes = [
     path: ':id',
     component: DataDetailsComponent,
     resolve: {
-      data: DataDetailsResolver
+      target: DataDetailsResolver
     }
   }
 ];

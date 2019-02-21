@@ -225,8 +225,17 @@ export class PharosApiService {
       .pipe(
         catchError(this.handleError('getDataUrl', []))
       ).subscribe(response => {
-      this._dataSource.next( response);
+        console.log(response);
+      this._dataSource.next(response);
     });
+  }
+
+  getTarget(path: string, params: ParamMap): Observable<any> {
+    const url = `${this._URL}${path}/${params.get('id')}`;
+   return this.http.get<any>(url)
+     .pipe(
+       catchError(this.handleError('getDetails', []))
+     );
   }
 
   /**
@@ -240,11 +249,13 @@ export class PharosApiService {
     if (path === 'topics') {
       this.getTopicsDetails(params.get('id'));
     } else {
+      console.log(path);
       const url = this._URL + path + '/' + params.get('id');
       this.http.get<any>(url)
         .pipe(
           catchError(this.handleError('getDetails', []))
         ).subscribe(response => {
+          console.log(response);
         this._detailsSource.next(response);
       });
     }

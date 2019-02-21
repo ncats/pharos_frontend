@@ -18,10 +18,8 @@ export class HelpPanelComponent implements OnInit {
   constructor(private helpDataService: HelpDataService) { }
 
   ngOnInit() {
-    console.log("on init");
     this.helpDataService.data$.subscribe(res => this.rawData = res);
     this.helpDataService.description$.subscribe(res => this.description = res);
-    console.log(this);
   }
 
   search() {}

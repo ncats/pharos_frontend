@@ -1,4 +1,5 @@
 import {
+  ApplicationRef,
   Component, forwardRef, Inject, Injector, Input, OnDestroy, OnInit, Type,
   ViewChild, ViewEncapsulation
 } from '@angular/core';
@@ -21,11 +22,11 @@ import {NavSectionsService} from "../../../tools/sidenav-panel/services/nav-sect
 })
 
 export class TargetDetailsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
-  path: string;
+  @Input() path: string;
   token: any;
   sections: string[] = [];
 
-  target: Target;
+  @Input() target: Target;
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
 
 
@@ -39,7 +40,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
   }
 
   ngOnInit() {
-    this.target = this.data.object;
+    console.log(this);
     const components: any = this.componentLookupService.lookupByPath(this.path, this.target.idgTDL.toLowerCase());
     if (components) {
       components.forEach(component => {
@@ -58,19 +59,19 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
         /** make component */
         const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
         const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
-        if (component.width) {
-          childComponent.instance.width = component.width;
-        }
+
         if (component.navHeader) {
+          console.log(component.navHeader);
           this.sections.push(component.navHeader);
+          this.navSectionsService.setSections(Array.from(new Set([...this.sections])));
         }
 
         // todo need to cover when no results are returned - do we still want to make the component?
         this._data
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(obj => {
-            childComponent.instance.id = obj.object.accession;
-            childComponent.instance.target = obj.object;
+            childComponent.instance.target = this.target;
+            childComponent.instance.id = this.target.accession;
             const dataObject = this.pick(obj, keys);
             if (!Object.values(dataObject).includes(undefined)) {
               childComponent.instance.data = dataObject;
@@ -78,7 +79,6 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
           });
       });
     }
-    this.navSectionsService.setSections(this.sections);
   }
 
    pick(o, props): any {

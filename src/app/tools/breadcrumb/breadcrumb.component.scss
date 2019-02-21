@@ -2,6 +2,10 @@
 // Import your custom theme
 @import './src/ncats-theme.scss';
 
+:host{
+  grid-column: 1 / span 2;
+}
+
 .breadcrumb-link {
   text-decoration: none;
   color: mat-color($pharos-app-primary)

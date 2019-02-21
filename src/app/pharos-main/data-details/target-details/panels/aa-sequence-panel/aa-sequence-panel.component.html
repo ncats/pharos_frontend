@@ -1,15 +1,15 @@
-<mat-card id="#sequence">
+<mat-card id="sequence">
   <mat-card-header>
     <mat-card-title ><span class="mat-title">AA Sequence</span></mat-card-title>
   </mat-card-header>
   <mat-card-content>
       <div fxLayout="row" fxLayout.lt-sm = "column" fxLayoutAlign="center center">
       <div fxFlex="90" fxHide.lt-sm>
-        <pharos-bar-chart [data]="residueCounts" class="full-width"></pharos-bar-chart>
+        <pharos-bar-chart [data]="residueCounts" class="full-width" *ngIf="residueCounts"></pharos-bar-chart>
       </div>
     </div>
-    <div class = "well" fxHide.lt-sm>
-    <div fxLayout="row" fxLayoutAlign="start center" *ngFor = " let chunk of sequence" fxLayout="start stretch">
+    <div class = "well" fxHide.lt-sm >
+    <div fxLayout="row" fxLayoutAlign="start center" *ngFor = "let chunk of sequence" fxLayout="start stretch">
       <div fxFlex="55">
         {{chunk.chunk}}
       </div>

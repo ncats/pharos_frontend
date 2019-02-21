@@ -29,19 +29,18 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (Object.values(this.data).length > 0) {
+        if (this.data.geneSummary) {
           this.ngUnsubscribe.next();
           this.setterFunction();
         }
       });
-    this.description = this.target.description;
   }
 
   setterFunction() {
     if (this.data.geneSummary) {
       this.geneSummary = this.data.geneSummary.map(sum => sum.text).join(' ');
       if(this.target.description) {
-        this.description = this.target.description ? this.target.description.concat(this.geneSummary) : this.geneSummary;
+        this.description = this.target.description ? this.target.description.concat(` ${this.geneSummary}`) : this.geneSummary;
       }
     }else {
       this.description = this.target.description;
