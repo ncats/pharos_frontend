@@ -4,23 +4,10 @@
 
 
 html, body {
-  height: auto;
   margin: 0;
   background-color: #f7f7f7;
   font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
  // overflow: overlay;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.pharos-main {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
 }
 
 a {
@@ -38,10 +25,6 @@ a:hover {
 .fill-remaining-space {
   flex: 1 1 auto;
 }
-
-/*.flex-body{
-  flex: 1;
-}*/
 
 .tbio{
   background-color: mat-color($pharos-app-accent);
@@ -73,38 +56,6 @@ a:hover {
   padding-right: 10px;
 }
 
-.width5 {
-  max-width: 5%;
-}
-
-.width10 {
-  max-width: 10%;
-}
-
-.width15 {
-  max-width: 15%;
-}
-
-.width25 {
-  max-width: 25%;
-}
-
-.width50 {
-  max-width: 50%;
-}
-
-.width75 {
-  max-width: 75%;
-}
-
-.width80 {
-  max-width: 80%;
-}
-
-.width85 {
-  max-width: 85%;
-}
-
 .pharos-title {
   font: 400 3rem/3rem Roboto, "Helvetica Neue", sans-serif;
   margin: 0 0 3rem;
@@ -113,7 +64,6 @@ a:hover {
 
 
 .full-height-card {
-  min-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -137,5 +87,3 @@ pharos-custom-paginator.mat-paginator {
   z-index: 666;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

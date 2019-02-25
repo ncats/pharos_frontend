@@ -1,8 +1,5 @@
 
 .main-content {
-  height:100%;
-  display:flex;
-  flex-direction:column;
   margin-top:75px;
   background-color: #f7f7f7;
   z-index: 0;

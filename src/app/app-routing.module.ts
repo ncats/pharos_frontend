@@ -81,7 +81,7 @@ const ROUTES: Routes = [
       scrollPositionRestoration: 'enabled',
       anchorScrolling: 'enabled',
       onSameUrlNavigation: "reload",
-      scrollOffset: [0, 100]
+      scrollOffset: [0, 120]
       })
   ],
   providers: [],
