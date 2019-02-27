@@ -13,7 +13,7 @@ import {takeUntil} from 'rxjs/operators';
 @Component({
   selector: 'pharos-expression-panel',
   templateUrl: './expression-panel.component.html',
-  styleUrls: ['./expression-panel.component.css']
+  styleUrls: ['./expression-panel.component.scss']
 })
 export class ExpressionPanelComponent extends DynamicPanelComponent implements OnInit {
   _URL: string;

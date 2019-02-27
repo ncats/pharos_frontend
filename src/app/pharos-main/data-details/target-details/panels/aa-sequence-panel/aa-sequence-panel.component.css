@@ -1,3 +1,6 @@
+.section-card {
+  margin-bottom: 2vh;
+}
 
 .well {
   margin: 0 auto;
@@ -10,6 +13,13 @@
 
 .wrap {
   flex-flow: row wrap;
+}
+
+.no-copy {
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */
 }
 
 /*@media only screen and (max-width: 768px) {
