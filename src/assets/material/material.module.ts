@@ -11,7 +11,7 @@ import {
 import {MatChipsModule} from '@angular/material/chips';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatDividerModule} from '@angular/material/divider';
-import {ScrollDispatchModule} from '@angular/cdk/scrolling';
+import {ScrollingModule} from '@angular/cdk/scrolling';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatTabsModule} from '@angular/material/tabs';
@@ -24,13 +24,13 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatInputModule, MatIconModule, MatListModule, MatSliderModule, MatProgressSpinnerModule,
     MatTableModule, MatSortModule, MatSidenavModule, MatSlideToggleModule, MatRadioModule,
     MatTabsModule, MatCheckboxModule, MatCardModule, MatTooltipModule, MatSelectModule, MatExpansionModule, MatPaginatorModule,
-    MatChipsModule, MatGridListModule, MatDividerModule, MatDialogModule, ScrollDispatchModule,
+    MatChipsModule, MatGridListModule, MatDividerModule, MatDialogModule, ScrollingModule,
     LayoutModule],
   exports: [MatButtonModule, MatAutocompleteModule, MatMenuModule, MatToolbarModule,
     MatInputModule, MatIconModule, MatListModule, MatSliderModule, MatProgressSpinnerModule,
     MatTableModule, MatSortModule, MatSidenavModule, MatSlideToggleModule, MatRadioModule,
     MatTabsModule, MatCheckboxModule, MatCardModule, MatTooltipModule, MatSelectModule, MatExpansionModule, MatPaginatorModule,
-    MatChipsModule, MatGridListModule, MatDividerModule, MatDialogModule, ScrollDispatchModule,
+    MatChipsModule, MatGridListModule, MatDividerModule, MatDialogModule, ScrollingModule,
     LayoutModule],
 })
 export class MaterialModule { }

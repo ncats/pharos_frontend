@@ -1,6 +1,21 @@
 
 // Import your custom theme
-@import './src/ncats-theme.scss';
+@import '../../../../../ncats-theme.scss';
+
+.sticky {
+  z-index: 666;
+  position: fixed;
+  top: 60px;
+}
+
+.body-row {
+  margin-top: 60px;
+}
+
+.target-header {
+  background-color: #f7f7f7;
+  width: 100vw;
+}
 
 .indicator {
   display: inline;

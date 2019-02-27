@@ -1,4 +1,5 @@
 
+
 .grid {
 /*  display: grid;
   !* define the number of grid columns *!
@@ -7,6 +8,7 @@
   grid-row-gap: 1.5vh;
   margin-left: 2vw;
   margin-right: 2vw;*/
+<<<<<<< HEAD:src/app/pharos-main/data-details/target-details/target-details.component.css
   /*
   height: 100vh;
   */
@@ -15,12 +17,28 @@
 
 .full-height {
   padding-bottom: 2vh;
+=======
+}
+.target-details-main {
+  align-items: flex-start;
+
+}
+
+.target-details-wrapper {
+}
+
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 120px;
+}
+
+.show-scroll {
+  background-color: red;
+>>>>>>> 3c53fb0b181384fe27113f9e452b52a9ff31169b:src/app/pharos-main/data-details/target-details/target-details.component.scss
 }
 
 .main-content {
-  height:100%;
-  display:flex;
-  flex-direction:column;
   background-color: #f7f7f7;
   z-index: 0;
 }

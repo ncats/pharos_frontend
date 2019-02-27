@@ -49,8 +49,11 @@ export class AboutPageComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this);
     this.scrollDispatcher.scrolled().subscribe((data: CdkScrollable) => {
+      console.log(data);
       if (data) {
+        console.log(data);
         let scrollTop: number = data.getElementRef().nativeElement.scrollTop + 100;
         if (scrollTop === 100) {
           this.activeElement = 'introduction';

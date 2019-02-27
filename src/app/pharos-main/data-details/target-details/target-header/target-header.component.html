@@ -1,4 +1,6 @@
-<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center" ngClass = {{getHeaderClass()}}>
+<div class="sticky-container">
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center" class ="sticky target-header"
+     ngClass = {{getHeaderClass()}}>
   <div fxFlex="10" fxFlexAlign.xs="start">
     <pharos-idg-level-indicator [level]="target?.idgTDL"></pharos-idg-level-indicator>
   </div>
@@ -28,4 +30,5 @@
     </ng-template>
   </div>
 </div>
-<br>
+</div>
+  <br>

@@ -1,5 +1,5 @@
-<div class = "pharos-main">
-  <div class = "flex-body">
+<div class = "pharos-main" >
+  <div class = "flex-body" >
     <app-ncats-header [searchBar]="true" class="details-header"></app-ncats-header>
     <mat-sidenav-container class="flex-body main-content">
       <mat-sidenav #helppanel [position]="'end'" class="help-panel" [mode]="'over'" [opened]="false">
@@ -12,9 +12,11 @@
           <pharos-help-panel-trigger></pharos-help-panel-trigger>
         </div>
       </div>-->
+      <mat-sidenav-content cdkScrollable>
 
-      <ng-template appPharosCustomContent></ng-template>
+      <ng-template appPharosCustomContent ></ng-template>
       <pharos-scroll-to-top></pharos-scroll-to-top>
+      </mat-sidenav-content>
     </mat-sidenav-container>
   </div>
 </div>

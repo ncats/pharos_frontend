@@ -1,10 +1,8 @@
-  <div fxLayout="row" fxLayoutAlign="space-around start">
-    <div fxFlex="25">
+  <div fxLayout="row" fxLayoutAlign="space-around start" class="target-details-main" cdkScrollable>
+    <div fxFlex="25" class="sticky"  [ngClass]="{'show-scroll': navIsFixed}">
       <pharos-sidenav-panel></pharos-sidenav-panel>
     </div>
-    <div fxFlex="75">
-      <div class="grid">
+    <div fxFlex="75" id="scroller-wrapper" class="target-details-wrapper" >
         <ng-template appPharosCustomContent></ng-template>
-      </div>
     </div>
   </div>
