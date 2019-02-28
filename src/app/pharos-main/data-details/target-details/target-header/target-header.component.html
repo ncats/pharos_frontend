@@ -20,7 +20,7 @@
   <div fxFlex="90">
     <div *ngIf="fullDescription; else truncated">
     <span class="mat-body-1">{{description}}</span>
-      <a (click) = "fullDescription = false" *ngIf="fullDescription"> ...less</a>
+      <a (click) = "fullDescription = false" *ngIf="fullDescription && truncatedDescription"> ...less</a>
       <!--
             <a (click) = "fullDescription = false"> ...less</a>
       -->
