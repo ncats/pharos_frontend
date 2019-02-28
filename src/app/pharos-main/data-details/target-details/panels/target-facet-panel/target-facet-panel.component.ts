@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {TableData} from '../../../../../models/table-data';
-import {Property} from '../../../../../models/property';
+import {PharosProperty} from '../../../../../models/pharos-property';
 
 const LABELS: Map<string, string> = new Map<string, string> (
   [
@@ -64,18 +64,18 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
       this.keys = Object.keys(this.data);
       this.keys.forEach(key => {
         if (this.data[key]) {
-          const links: Property[] = this.data[key].map(facet => {
+          const links: PharosProperty[] = this.data[key].map(facet => {
             return {
               field:
-                new Property({
+               {
                   term: facet.term,
                   href: facet.href, // todo: remove when this is standardized
-                  internalHref: 'targets?facet=' + facet.label.replace( / /g, '+') + '/'+facet.term.replace(/ /g, '+')
-                }),
-           //   count: new Property({intval: 0}),
-              externalLink: new Property({
-                externalHref: facet.href
-              })
+                  internalLink: 'targets?facet=' + facet.label.replace( / /g, '+') + '/'+facet.term.replace(/ /g, '+')
+                } as PharosProperty,
+           //   count: new PharosProperty({intval: 0}),
+              externalLink: {
+                externalLink: facet.href
+              } as PharosProperty
             };
           });
           this.facets.push({label: key, fields: links});

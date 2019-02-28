@@ -30,6 +30,7 @@ import {AngularFireModule} from "@angular/fire";
 import {AngularFirestoreModule} from "@angular/fire/firestore";
 import {AngularFireAuthModule} from "@angular/fire/auth";
 import { TrackScrollDirective } from './tools/sidenav-panel/directives/track-scroll.directive';
+import { DynamicTablePanelComponent } from './tools/dynamic-table-panel/dynamic-table-panel.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { TrackScrollDirective } from './tools/sidenav-panel/directives/track-scr
     SketcherComponent,
     StructureSearchPageComponent,
     SequenceSearchPageComponent,
-    TrackScrollDirective
+    TrackScrollDirective,
+    DynamicTablePanelComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [

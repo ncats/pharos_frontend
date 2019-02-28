@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import {CdkScrollable, ScrollDispatcher} from '@angular/cdk/scrolling';
 import {TableData} from '../models/table-data';
-import {Property} from '../models/property';
+import {PharosProperty} from '../models/pharos-property';
 import {SOURCES} from '../../assets/data-sources';
 
 @Component({

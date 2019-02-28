@@ -1,7 +1,7 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {EnvironmentVariablesService} from '../../../../../pharos-services/environment-variables.service';
-import {Property} from '../../../../../models/property';
+import {PharosProperty} from '../../../../../models/pharos-property';
 import {HttpClient} from '@angular/common/http';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {Ligand} from '../../../../../models/ligand';

@@ -18,14 +18,21 @@ export class SuggestApiService {
   // todo this should probably be piped through the pharos api service, or bundled as a self-contained module
   search(query: string): Observable<any[]> {
     const autocomplete = [];
+    const upper = query.toUpperCase();
     return this.http.get<any[]>(this.url +  query)
       .pipe(
         map(response => {
           this.autocompleteFields.forEach(field => {
             if (response[field] && response[field].length > 0) {
-              autocomplete.push({name: [field.replace(/_/g, ' ')], options: response[field]});
+              autocomplete.push({
+                name: [field.replace(/_/g, ' ')],
+                options: response[field].sort((a,b) => a.key.toUpperCase() - b.key.toUpperCase()).sort((a,b)=>
+                   a.key.toUpperCase() === query.toUpperCase() ? -1 : b.key.toUpperCase() === query.toUpperCase() ? 1 : 0
+                )
+              });
             }
           });
+          console.log(autocomplete);
           return autocomplete;
         }),
         catchError(this.handleError('getProtocols', []))

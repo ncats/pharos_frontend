@@ -2,7 +2,7 @@ import {Component, Inject, Input, OnInit, Optional} from '@angular/core';
 import {BehaviorSubject} from "rxjs/index";
 import {RadarService} from "../visualizations/radar-chart/radar.service";
 import {MAT_DIALOG_DATA} from "@angular/material";
-import {Property} from "../../models/property";
+import {PharosProperty} from "../../models/pharos-property";
 
 @Component({
   selector: 'pharos-radar-chart-viewer',
@@ -85,7 +85,7 @@ export class RadarChartViewerComponent implements OnInit {
       const src = this.sources.get(this.axis);
         if (src) {
           src.forEach(source => {
-            const ret = new Property({term: source.ds_name, externalHref: source.ds_url});
+            const ret = {term: source.ds_name, externalLink: source.ds_url} as PharosProperty;
             this.fieldSources.push(ret);
           });
         }

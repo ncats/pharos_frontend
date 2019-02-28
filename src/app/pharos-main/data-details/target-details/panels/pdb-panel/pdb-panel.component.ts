@@ -3,7 +3,7 @@ import {takeUntil} from "rxjs/operators";
 import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
 import {TableData} from "../../../../../models/table-data";
 import {Ortholog} from "../../../../../models/ortholog";
-import {Property} from "../../../../../models/property";
+import {PharosProperty} from "../../../../../models/pharos-property";
 import {HttpClient} from "@angular/common/http";
 import {PdbReportData} from "../../../../../models/pdb-report";
 
@@ -66,9 +66,9 @@ export class PdbPanelComponent  extends DynamicPanelComponent implements OnInit 
     })
     const datas:any[] = [];
     this.data.pdb.forEach(obj => {
-      // create new object to get Property class properties
-      const labelProp: Property = new Property(obj);
-      labelProp.externalHref = obj.href;
+      // create new object to get PharosProperty class properties
+      const labelProp: PharosProperty = obj as PharosProperty;
+      labelProp.externalLink = obj.href;
       datas.push({pdb: labelProp});
     });
     this.tableArr2 = datas;

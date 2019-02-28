@@ -20,13 +20,14 @@
   <div fxFlex="90">
     <div *ngIf="fullDescription; else truncated">
     <span class="mat-body-1">{{description}}</span>
-<!--
-      <a (click) = "fullDescription = false"> ...less</a>
--->
+      <a (click) = "fullDescription = false" *ngIf="fullDescription"> ...less</a>
+      <!--
+            <a (click) = "fullDescription = false"> ...less</a>
+      -->
     </div>
     <ng-template #truncated>
       <span class="mat-body-1">{{truncatedDescription}}</span>
-      <a (click) = "fullDescription = true"> ...more</a>
+      <a (click) = "fullDescription = true" *ngIf="!fullDescription"> ...more</a>
     </ng-template>
   </div>
 </div>

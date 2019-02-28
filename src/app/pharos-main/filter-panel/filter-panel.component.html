@@ -1,16 +1,19 @@
 <div class="facet-list" [ngClass]="{ 'full-width': fullWidth}">
+  <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center" class="tools-row">
+    <span class="mat-headline facet-title">Refine by Category</span>
+  </div>
   <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="end center" class="tools-row">
     <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
       <mat-spinner></mat-spinner>
     </div>
-    <div fxFlex="10">
+    <div fxFlex="15">
       <button type="button" mat-raised-button [color]="'primary'" (click)="toggleFacets()" *ngIf="!fullWidth; else close">
-        All Filters
+        See All Categories
         <mat-icon>arrow_right_alt</mat-icon>
       </button>
       <ng-template #close>
       <button type="button" mat-raised-button [color]="'primary'" (click)="toggleFacets()" >
-        All Filters
+        All Categories
         <mat-icon *ngIf=fullWidth>clear</mat-icon>
       </button>
       </ng-template>
@@ -23,10 +26,7 @@
         </button>
       </mat-form-field>
     </div>
-    <div fxFlex="20">
-  <!--          <button type="button" class="sidenavToggle" mat-icon-button [color]="'primary'" (click)="sidenav.toggle()">
-        <mat-icon>close</mat-icon>
-      </button>-->
+    <div fxFlex="30" class =" clear-all">
       <mat-chip-list class="mat-chip-list">
         <mat-chip [selected]="'true'" [color]="'warn'" (click)="removeAll()">
           <span>Clear All</span>
@@ -40,7 +40,7 @@
       <mat-expansion-panel [expanded]="true" *ngIf="facet.values.length > 0">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <span class="mat-display-1 facet-title">{{facet.label ? facet.label : facet.name}}</span>
+            <span class="mat-title facet-title">{{facet.label ? facet.label : facet.name}}</span>
           </mat-panel-title>
         </mat-expansion-panel-header>
         <pharos-facet-table [facet]="facet"></pharos-facet-table>

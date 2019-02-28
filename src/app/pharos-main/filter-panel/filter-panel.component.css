@@ -17,7 +17,7 @@
   width: 85vw;
 }
 
-span.mat-display-1.facet-title {
+.facet-title {
   margin: 0;
 }
 
@@ -25,8 +25,8 @@ span.mat-display-1.facet-title {
   width: 95%;
 }
 
-.mat-chip-list {
-  margin-left: 1vw;
+.clear-all {
+  margin-right: 1vw;
 }
 
 .grid-list {

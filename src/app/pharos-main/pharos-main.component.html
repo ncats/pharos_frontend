@@ -12,8 +12,11 @@
     <mat-sidenav-content>
       <div fxLayout="row" class="filter-help">
         <div fxFlex="5">
-          <button type="button" class="sidenavToggle" mat-raised-button [color]="'primary'" (click)="sidenav.toggle()">
-            Filters <mat-icon>filter_list</mat-icon>
+          <button type="button" *ngIf="sidenav.opened" class="sidenavToggle" mat-raised-button [color]="'primary'" (click)="sidenav.toggle()">
+            Hide Filters <mat-icon>filter_list</mat-icon>
+          </button>
+          <button type="button"  *ngIf="!sidenav.opened" class="sidenavToggle" mat-raised-button [color]="'primary'" (click)="sidenav.toggle()">
+            Show Filters <mat-icon>filter_list</mat-icon>
           </button>
         </div>
         <span class="fill-remaining-space"></span>

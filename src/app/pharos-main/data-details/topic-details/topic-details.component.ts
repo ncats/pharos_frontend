@@ -25,7 +25,7 @@ import {PageData} from '../../../models/page-data';
 import {map, zipAll} from 'rxjs/operators';
 import {MatTabChangeEvent} from '@angular/material';
 import {TableData} from '../../../models/table-data';
-import {Property} from '../../../models/property';
+import {PharosProperty} from '../../../models/pharos-property';
 import {Node} from '../../../tools/visualizations/force-directed-graph/models/node';
 import {Link} from '../../../tools/visualizations/force-directed-graph/models/link';
 import {LinkService} from '../../../tools/visualizations/force-directed-graph/services/event-tracking/link.service';
@@ -281,23 +281,21 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel) ? this.targetsMap.
               });
               filtered.map(realDisease => {
                 const diseaseName = realDisease.properties.filter(prop => prop.label === 'IDG Disease')[0].term;
-                const mappedDisease = this.diseasesMap.get(diseaseName);
+                const mappedDisease: PharosProperty[] = this.diseasesMap.get(diseaseName);
                 if (mappedDisease) {
                   mappedDisease.push(
-                   new Property(
                         {
                           term: data.target.name,
-                          internalHref: `/idg/topics/${data.target.accession}`
-                        })
+                          internalLink: `/idg/topics/${data.target.accession}`
+                        }
                     );
                   this.diseasesMap.set(diseaseName, mappedDisease);
                 } else {
-                  const newDiseaseMap = [
-                    new Property(
+                  const newDiseaseMap: PharosProperty[] = [
                       {
                         term: data.target.name,
-                        internalHref: `/idg/topics/${data.target.accession}`
-                      })
+                        internalLink: `/idg/topics/${data.target.accession}`
+                      }
                   ];
                   this.diseasesMap.set(diseaseName, newDiseaseMap);
                 }
@@ -317,7 +315,7 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel) ? this.targetsMap.
       this.allDiseases = [];
       this.diseasesMap.forEach((value, key) => {
         this.allDiseases.push({
-          disease: new Property({term: key}),
+          disease: {term: key},
           targets: value
         });
       });

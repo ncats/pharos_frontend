@@ -1,21 +1,21 @@
 <div *ngIf="property">
   <span class="" *ngIf="showLabel"><b>{{property.label}}</b></span>
 <ng-container
-  *ngIf="property.internalHref || property.externalHref || property.href; then link; else nolink">
+  *ngIf="property.internalLink || property.externalLink || property.href; then link; else nolink">
 </ng-container>
 
 <ng-template #link>
   <ng-container
-    *ngIf="property.href || property.internalHref; then facet; else externalLink">
+    *ngIf="property.href || property.internalLink; then facet; else externalLink">
   </ng-container>
   <ng-template #facet>
-    <a href="{{property.internalHref || property.href}}">{{property.getData()}}</a>
-    <!--<a href="{{property.internalHref}}">{{property.getData()}}</a>-->
+    <a href="{{property.internalLink || property.href}}">{{property.term}}</a>
+    <!--<a href="{{property.internalLink}}">{{property.getData()}}</a>-->
   </ng-template>
   <ng-template #externalLink>
-    <a href="{{property.externalHref}}" target="_blank">{{property.getData()}}<mat-icon>open_in_new</mat-icon></a>
+    <a href="{{property.externalLink}}" target="_blank">{{property.term}}<mat-icon>open_in_new</mat-icon></a>
   </ng-template>
 
 </ng-template>
-<ng-template #nolink>{{property.getData()}}</ng-template>
+<ng-template #nolink>{{property.term}}</ng-template>
 </div>
