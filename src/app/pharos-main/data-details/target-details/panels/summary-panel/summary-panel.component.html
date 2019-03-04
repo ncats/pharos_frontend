@@ -13,7 +13,66 @@
       </div>
     </div>
     <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="space-between start">
-      <div fxFlex = "25" class="synonyms">
+      <div fxFlex = "22" class="synonyms">
+        <pharos-idg-level-indicator [level]="target?.idgTDL"></pharos-idg-level-indicator>
+
+        TCLIN: <br>
+        Drugs: <!--{{data.drugs?.length}}--> approved drugs
+
+        TCHEM: <br>
+        Ligands: <!--{{data.ligands?.length}}--> ChEMBL compounds with an activity cutoff of
+        kinase: < 30 nM
+         "Ion Channel" < 10uM
+         "NR" < 10uM
+        "GPCR" | "oGPCR" < 10uM
+
+        TBIO:<br>
+        These targets do not have known drug or small molecule activities that satisfy the
+        activity thresholds detailed below AND satisfy one or more of the following criteria:<br>
+
+        Gene Ontology Molecular Function: {{data.goFunction?.length + data.goProcess?.length + data.goComponent?.length}}<br>
+        -or- <br>
+        OMIM phenotype(s) {{data.omim?.length}}<br>
+
+        TDARK: <br>
+        Pubmed score: {{target?.jensenScore}} <br>
+        Gene RIFs: {{data.generif?.length}} <br>
+        Antibodies: {{target?.antibodyCount}} <br>
+
+
+<!--
+
+case TDL.Tbio => {
+        passes the cutoffs for Tdark (Pubmed text mining score of @t.jensenScore, @IDGApp.getGeneRIFs(t).size()
+        GeneRIFs and @t.antibodyCount antibodies). In addition it is annotated with
+        @(IDGApp.getProperties(t, GO_COMPONENT, 0).size()+IDGApp.getProperties(t, GO_FUNCTION, 0).size()+IDGApp.getProperties(t, GO_PROCESS, 0).size())
+        GO terms and has @IDGApp.getOmimPhenotypes(t).size() confirmed OMIM phenotypes.
+        }
+
+        case TDL.Tchem => {
+        is associated with @IDGApp.getChemblLigands(t).size() ChEMBL compounds (@ligandActivityReport(t)) and passes the cutoffs for Tdark
+        (Pubmed text mining score of @t.jensenScore, @IDGApp.getGeneRIFs(t).size()
+        GeneRIFs and @t.antibodyCount antibodies), is annotated with
+        @(IDGApp.getProperties(t, GO_COMPONENT, 0).size()+IDGApp.getProperties(t, GO_FUNCTION, 0).size()+IDGApp.getProperties(t, GO_PROCESS, 0).size())
+        GO terms and has @IDGApp.getOmimPhenotypes(t).size() confirmed OMIM phenotypes.
+        }
+
+        case TDL.Tclin => {
+        is associated with @IDGApp.getDrugLigands(t).size() approved drugs and passes the cutoffs for Tdark
+        (Pubmed text mining score of @t.jensenScore, @IDGApp.getGeneRIFs(t).size()
+        GeneRIFs and @t.antibodyCount antibodies), is annotated with
+        @(IDGApp.getProperties(t, GO_COMPONENT, 0).size()+IDGApp.getProperties(t, GO_FUNCTION, 0).size()+IDGApp.getProperties(t, GO_PROCESS, 0).size())
+        GO terms and has @IDGApp.getOmimPhenotypes(t).size() confirmed OMIM phenotypes.
+        }
+        -->
+
+
+
+
+
+
+      </div>
+      <div fxFlex = "22" class="synonyms">
         <ng-container *ngIf="data.synonyms?.length > 0">
           <mat-card-subtitle>Uniprot Accession IDs</mat-card-subtitle>
           <ul class = "inline-list wrap">
@@ -50,10 +109,10 @@
           </ul>
         </ng-container>
       </div>
-      <div fxFlex="30" class = "kchart full-height" *ngIf="data.knowledge && data.knowledge.length > 0; else noDataDiv">
+      <div fxFlex="22" class = "kchart full-height" *ngIf="data.knowledge && data.knowledge.length > 0; else noDataDiv">
         <pharos-radar-chart [data] = data.knowledge [shape]="false" [size] = "'medium'" (click)="openModal()" [origin]="'knowledge'"></pharos-radar-chart>
       </div>
-        <div fxFlex = "30" class = "kchart full-height" *ngIf="data.knowledge && data.knowledge.length > 0; else noDataDiv">
+        <div fxFlex = "22" class = "kchart full-height" *ngIf="data.knowledge && data.knowledge.length > 0; else noDataDiv">
           <pharos-knowledge-table [data] = data.knowledge></pharos-knowledge-table>
         </div>
         <br>

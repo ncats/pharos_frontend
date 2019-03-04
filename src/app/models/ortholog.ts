@@ -20,7 +20,7 @@ export class OrthologSerializer implements Serializer {
   _asProperties<T extends PharosBase>(obj: PharosBase): any {
     const newObj: any = {};
     Object.keys(obj).map(field => {
-      const property: PharosProperty = {name: field, label: field, term: obj[field]};
+      const property: PharosProperty = new PharosProperty({name: field, label: field, term: obj[field]});
       newObj[field] = property;
     });
     // newObj._name.internalLink = obj.uuid;

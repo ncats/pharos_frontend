@@ -50,7 +50,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
   }
 
   ngOnInit() {
-    console.log(this);
+   // console.log(this);
     const components: any = this.componentLookupService.lookupByPath(this.path, this.target.idgTDL.toLowerCase());
     if (components) {
       components.forEach(component => {
@@ -71,7 +71,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
         const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
 
         if (component.navHeader) {
-          console.log(component.navHeader);
+        //  console.log(component.navHeader);
           this.sections.push(component.navHeader);
           this.navSectionsService.setSections(Array.from(new Set([...this.sections])));
         }
@@ -92,12 +92,12 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
   }
 
   ngAfterViewInit() {
-    console.log(this);
+  //  console.log(this);
     // track scrolling for active sidenav display
     this.scrollDispatcher.scrolled().subscribe((data: CdkScrollable) => {
-      console.log(data);
+    //  console.log(data);
       if (data) {
-        console.log(data);
+      //  console.log(data);
         let scrollTop: number = data.getElementRef().nativeElement.scrollTop + 100;
         if (scrollTop === 100) {
           this.activeElement = 'introduction';

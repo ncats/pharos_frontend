@@ -2,7 +2,7 @@ export class PharosProperty {
   id?: number;
   label?: string;
   name?: string;
-  // term?: string | number;
+  term?: string;
   href?: string;
   internalLink?: string;
   externalLink?: string;
@@ -12,28 +12,29 @@ export class PharosProperty {
   width?: number;
   customComponent?: any;
 
-  /*constructor (obj: any) {
-
-    Object.entries(obj).forEach(prop =>
-    {
-      if (prop !== 'term' ) {
+  constructor(obj: any) {
+    Object.entries(obj).forEach(prop => {
         this[prop[0]] = prop[1];
-      }
     });
-/!*
-    if (this.numval || this.intval) {
+
+    if(obj.numval && !this.term) {this.term = obj.numval}
+    if(obj.intval && !this.term) {this.term = obj.intval}
+    if(obj.text && !this.term) {this.term = obj.text}
+    /*if (this.numval || this.intval) {
       this.exponential = this.numval ? Number.parseFloat(this.numval.toString()).toExponential(1) :
         Number.parseFloat(this.intval.toString()).toExponential(1);
-    }*!/
+    }*/
   }
-*/
 
-  private numval?: number;
-  private intval?: number;
-  private text?: string;
-  private _term?: any;
+}
 
-  set term(val) {
+  /* numval?: number;
+   intval?: number;
+   text?: string;
+   _term?: any;
+
+  set term(val: any) {
+    console.log(this);
     let ret = '';
     if (this.label && this.label === 'pvalue') {
       ret = val ? Number.parseFloat(val.toString()).toExponential(1) :
@@ -48,7 +49,8 @@ export class PharosProperty {
   }
 
   get term() {
-   /* let ret = '';
+    console.log(this);
+   /!* let ret = '';
     if (this.label === 'pvalue') {
       ret = this.numval ? Number.parseFloat(this.numval.toString()).toExponential(1) :
         Number.parseFloat(this.intval.toString()).toExponential(1);
@@ -61,13 +63,13 @@ export class PharosProperty {
     } else {
       ret = this.term;
     }
-    return ret;*/
+    return ret;*!/
    if(this.numval && !this._term) {this._term = this.numval}
    if(this.intval && !this._term) {this._term = this.intval}
    if(this.text && !this._term) {this._term = this.text}
    return this._term;
   }
-
+*/
 
 
 
@@ -87,7 +89,7 @@ export class PharosProperty {
     }
 return ret;
   }*/
-}
+// }
 /*
 
 

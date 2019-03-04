@@ -50,9 +50,9 @@ export class TargetListPanelComponent extends DynamicPanelComponent implements O
           this.tableArr = [];
           this.data.targetList.forEach(target => {
             const data = {
-              target: target.properties.filter(prop => prop.label === 'IDG Target')[0] as PharosProperty,
-              developmentLevel: target.properties.filter(prop => prop.label === 'IDG Development Level')[0] as PharosProperty,
-              targetFamily: target.properties.filter(prop => prop.label === 'IDG Target Family')[0] as PharosProperty,
+              target: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target')[0]),
+              developmentLevel: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Development Level')[0]),
+              targetFamily: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target Family')[0]),
             };
             this.tableArr.push(data);
           });

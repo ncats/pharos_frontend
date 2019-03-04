@@ -70,7 +70,6 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
   }
 
   ngOnInit() {
-    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -100,7 +99,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
         readDR.properties.forEach(prop => {
           const td = TABLEMAP.get(prop.label);
           if (td) {
-            tableData[td.name] = prop as PharosProperty;
+            tableData[td.name] = new PharosProperty(prop);
             fields.push(td);
           }
         });

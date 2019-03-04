@@ -123,7 +123,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
         // get array of diseases from source map
         const tableData: any = {};
         readDR.properties.forEach(prop => {
-          tableData[prop.label] = prop as PharosProperty;
+          tableData[prop.label] = new PharosProperty(prop);
         });
         this.tableArr.push(tableData);
       });
@@ -138,9 +138,9 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
         const newObj: Ortholog =  this.orthologSerializer.fromJson(obj);
         // get source label
         const labelProp: PharosProperty =
-          newObj.properties.filter(prop => prop.label === 'Ortholog Species')[0] as PharosProperty;
+          new PharosProperty(newObj.properties.filter(prop => prop.label === 'Ortholog Species')[0]);
         const dataSources: PharosProperty[] =
-          newObj.properties.filter(prop => prop.label === 'Data Source').map(lab => lab as PharosProperty);
+         newObj.properties.filter(prop => prop.label === 'Data Source').map(lab => new PharosProperty(lab));
         this.orthologs.push({species: labelProp, source: dataSources});
       });
     }
@@ -148,7 +148,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
 
   mapTissueData(): void {
     this.data.expression.forEach(tissue => {
-      const tissueTerm: PharosProperty = tissue as PharosProperty;
+      const tissueTerm: PharosProperty = new PharosProperty(tissue);
       const tissueArr: PharosProperty[] = this.tissueData.get(tissueTerm.label);
       if (tissueArr) {
         tissueArr.push(tissueTerm);

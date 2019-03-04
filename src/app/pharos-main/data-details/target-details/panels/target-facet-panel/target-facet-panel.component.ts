@@ -67,15 +67,16 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
           const links: PharosProperty[] = this.data[key].map(facet => {
             return {
               field:
-               {
+                new PharosProperty({
                   term: facet.term,
                   href: facet.href, // todo: remove when this is standardized
                   internalLink: 'targets?facet=' + facet.label.replace( / /g, '+') + '/'+facet.term.replace(/ /g, '+')
-                } as PharosProperty,
+                }),
            //   count: new PharosProperty({intval: 0}),
-              externalLink: {
+              externalLink:
+                new PharosProperty({
                 externalLink: facet.href
-              } as PharosProperty
+              })
             };
           });
           this.facets.push({label: key, fields: links});

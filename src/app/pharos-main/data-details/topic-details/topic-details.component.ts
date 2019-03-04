@@ -283,19 +283,19 @@ const leastKnowledgeTarget = this.targetsMap.get(lowestLevel) ? this.targetsMap.
                 const diseaseName = realDisease.properties.filter(prop => prop.label === 'IDG Disease')[0].term;
                 const mappedDisease: PharosProperty[] = this.diseasesMap.get(diseaseName);
                 if (mappedDisease) {
-                  mappedDisease.push(
+                  mappedDisease.push(new PharosProperty(
                         {
                           term: data.target.name,
                           internalLink: `/idg/topics/${data.target.accession}`
-                        }
+                        })
                     );
                   this.diseasesMap.set(diseaseName, mappedDisease);
                 } else {
                   const newDiseaseMap: PharosProperty[] = [
-                      {
+                    new PharosProperty({
                         term: data.target.name,
                         internalLink: `/idg/topics/${data.target.accession}`
-                      }
+                      })
                   ];
                   this.diseasesMap.set(diseaseName, newDiseaseMap);
                 }
