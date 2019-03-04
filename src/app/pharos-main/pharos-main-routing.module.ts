@@ -71,6 +71,11 @@ import {BatchUploadModalComponent} from "../tools/batch-upload-modal/batch-uploa
 import {PdbPanelComponent} from "./data-details/target-details/panels/pdb-panel/pdb-panel.component";
 import {RadarChartViewerComponent} from "../tools/radar-chart-viewer/radar-chart-viewer.component";
 import {PublicationInfoPanelComponent} from "./data-details/target-details/panels/publication-info-panel/publication-info-panel.component";
+import {LevelSummaryPanelComponent} from "./data-details/target-details/panels/level-summary-panel/level-summary-panel.component";
+import {TdarkSummaryComponent} from "./data-details/target-details/panels/level-summary-panel/levels/tdark-summary/tdark-summary.component";
+import {TbioSummaryComponent} from "./data-details/target-details/panels/level-summary-panel/levels/tbio-summary/tbio-summary.component";
+import {TchemSummaryComponent} from "./data-details/target-details/panels/level-summary-panel/levels/tchem-summary/tchem-summary.component";
+import {TclinSummaryComponent} from "./data-details/target-details/panels/level-summary-panel/levels/tclin-summary/tclin-summary.component";
 
 
 const pharosMainRoutes: Routes = [
@@ -129,6 +134,7 @@ const pharosMainRoutes: Routes = [
     {provide: TOKENS.TARGET_TABLE_COMPONENT, useValue: TargetTableComponent },
     {provide: TOKENS.TARGET_DETAILS_COMPONENT, useValue: TargetDetailsComponent },
     {provide: TOKENS.SUMMARY_PANEL, useValue: SummaryPanelComponent },
+    {provide: TOKENS.LEVEL_SUMMARY_PANEL, useValue: LevelSummaryPanelComponent },
     {provide: TOKENS.PUBLICATION_INFO_PANEL, useValue: PublicationInfoPanelComponent },
     {provide: TOKENS.REFERENCES_PANEL, useValue: ReferencesPanelComponent },
     {provide: TOKENS.DISEASE_SOURCE_PANEL, useValue: DiseaseSourceComponent },
@@ -195,7 +201,8 @@ const pharosMainRoutes: Routes = [
     AaSequencePanelComponent,
     LigandsPanelComponent,
     BatchUploadModalComponent,
-    PdbPanelComponent
+    PdbPanelComponent,
+    LevelSummaryPanelComponent
   ],
   declarations: [
     TargetTableComponent,
@@ -246,7 +253,12 @@ const pharosMainRoutes: Routes = [
     AaSequencePanelComponent,
     LigandsPanelComponent,
     BatchUploadModalComponent,
-    PdbPanelComponent
+    PdbPanelComponent,
+    LevelSummaryPanelComponent,
+    TclinSummaryComponent,
+    TchemSummaryComponent,
+    TbioSummaryComponent,
+    TdarkSummaryComponent
   ]
 })
 export class PharosMainRoutingModule { }

@@ -1,12 +1,10 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
 import {MatDialog} from '@angular/material';
-import {PharosPoint} from '../../../../../tools/visualizations/line-chart/line-chart.component';
-import {Target} from '../../../../../models/target';
-import {takeWhile, takeUntil} from 'rxjs/operators';
+import { takeUntil} from 'rxjs/operators';
 import {RadarChartViewerComponent} from "../../../../../tools/radar-chart-viewer/radar-chart-viewer.component";
+import {Target} from "../../../../../models/target";
 
 
 
@@ -26,9 +24,7 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
 /*  @HostBinding('attr.fxFlex')
   flex = this.width;*/
 
-// todo: remove these http calls after api is fixed
   constructor(
-    private _http: HttpClient,
     public dialog: MatDialog
   ) {
     super();

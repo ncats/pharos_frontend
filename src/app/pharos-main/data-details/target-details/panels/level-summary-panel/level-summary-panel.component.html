@@ -1,0 +1,48 @@
+<mat-card *ngIf = data class ="section-card" id = "development" #development #scrollSection pharosTrackScroll>
+  <mat-card-content>
+    <div fxLayout="row"
+         fxLayout.lt-md="column"
+         class ="tkrow"
+         fxLayoutAlign="start stretch"
+         #development #scrollSection>
+      <div fxFlex="95">
+        <span class="mat-title">IDG Development Level Summary</span>
+      </div>
+      <div fxFlex="5">
+        <pharos-help-panel-trigger [origin]="development" [label]="'IDG Development Level Summary'"></pharos-help-panel-trigger>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="start center">
+<div fxFlex="23">
+ <pharos-idg-level-indicator [level]="'Tdark'" class="fffff"></pharos-idg-level-indicator>
+  <div class="stepper-horizontal-line" fxFlexAlign="center"></div>
+</div>
+      <div fxFlex="23">
+  <pharos-idg-level-indicator [level]="'Tbio'"></pharos-idg-level-indicator>
+  <div class="stepper-horizontal-line"></div>
+</div>
+      <div fxFlex="23">
+  <pharos-idg-level-indicator [level]="'Tchem'"></pharos-idg-level-indicator>
+  <div class="stepper-horizontal-line"></div>
+</div>
+      <div fxFlex="23">
+  <pharos-idg-level-indicator [level]="'Tclin'"></pharos-idg-level-indicator>
+</div>
+
+    </div>
+      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-around start">
+      <div fxFlex = "23">
+        <pharos-tdark-summary [target]="target" [data]="data"></pharos-tdark-summary>
+      </div>
+      <div fxFlex = "23">
+        <pharos-tbio-summary [target]="target" [data]="data"></pharos-tbio-summary>
+      </div>
+      <div fxFlex = "23">
+        <pharos-tchem-summary [target]="target" [data]="data"></pharos-tchem-summary>
+      </div>
+      <div fxFlex = "23">
+        <pharos-tclin-summary [target]="target" [data]="data"></pharos-tclin-summary>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

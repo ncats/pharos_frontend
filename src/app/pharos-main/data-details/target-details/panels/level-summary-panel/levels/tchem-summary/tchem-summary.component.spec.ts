@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LevelSummaryComponent } from './level-summary.component';
+import { TchemSummaryComponent } from './tchem-summary.component';
 
-describe('LevelSummaryComponent', () => {
-  let component: LevelSummaryComponent;
-  let fixture: ComponentFixture<LevelSummaryComponent>;
+describe('TchemSummaryComponent', () => {
+  let component: TchemSummaryComponent;
+  let fixture: ComponentFixture<TchemSummaryComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LevelSummaryComponent ]
+      declarations: [ TchemSummaryComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LevelSummaryComponent);
+    fixture = TestBed.createComponent(TchemSummaryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

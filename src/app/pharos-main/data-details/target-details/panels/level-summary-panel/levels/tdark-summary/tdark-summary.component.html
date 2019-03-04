@@ -1,0 +1,61 @@
+<div fxLayout="row" fxLayoutAlign="space-around start">
+  <div fxFlex="95">
+    <div fxLayout="row">
+      <p class="explanation">
+        These are targets about which virtually nothing is known. They do not have known drug or small molecule
+        activities
+        AND satisfy two or more of the following criteria:</p>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon
+        [ngClass]="{'disabled-icon': target?.jensenScore < 5}"
+        [color]="'accent'">check_circle
+      </mat-icon>
+      &nbsp;&nbsp;
+      <span [ngClass]="{'mat-body-2': target?.jensenScore >= 5}">
+   Pubmed score: {{target?.jensenScore.toFixed(2)}}
+ </span>
+    </div>
+    <br>
+    <div fxLayout="row">
+      <mat-progress-bar
+        mode="determinate"
+        [value]="target?.jensenScore <= 5 ? (target?.jensenScore === 0 ? 0 : 5 / target?.jensenScore) : 100"
+      ></mat-progress-bar>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon
+        [ngClass]="{'disabled-icon' : data.generif?.length < 3}"
+        [color]="'accent'">check_circle
+      </mat-icon>
+      &nbsp;&nbsp;
+      <span [ngClass]="{'mat-body-2': data.generif?.length >= 3}">
+    Gene RIFs: {{data.generif?.length}}
+  </span>
+    </div>
+    <br>
+    <div fxLayout="row">
+      <mat-progress-bar
+        mode="determinate"
+        [value]="data.generif?.length <= 3 ? (data.generif?.length === 0 ? 0 : 3 /  data.generif?.length): 100"
+      ></mat-progress-bar>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon
+        [ngClass]="{'disabled-icon': target?.antibodyCount < 50}"
+        [color]="'accent'">check_circle
+      </mat-icon>
+      &nbsp;&nbsp;
+      <span [ngClass]="{'mat-body-2': target?.antibodyCount >= 50}">
+  Antibodies: {{target?.antibodyCount}}
+  </span>
+    </div>
+    <br>
+    <div fxLayout="row">
+      <mat-progress-bar
+        mode="determinate"
+        [value]="target?.antibodyCount <= 50 ? (target?.antibodyCount === 0 ? 0 : 50 /  target?.antibodyCount): 100"
+      ></mat-progress-bar>
+    </div>
+  </div>
+</div>
