@@ -5,7 +5,9 @@
     <div fxLayout="row">
       <p class="explanation">
         These targets do not have known drug or small molecule activities <br>
-        AND<br>
+        <span class="centered">- AND -</span>
+        satisfy the preceding conditions
+        <span class="centered">- AND -</span>
         satisfy one or more of the following criteria:</p>
     </div>
     <div fxLayout="row" fxLayoutAlign="start center">
@@ -23,6 +25,7 @@
     <br>
     <div fxLayout="row">
       <mat-progress-bar
+        class = "tdl-progress"
         mode="determinate"
         [value]="goCount == 0 ? 0 : 100"
       ></mat-progress-bar>
@@ -41,6 +44,7 @@
     <br>
     <div fxLayout="row">
       <mat-progress-bar
+        class = "tdl-progress"
         mode="determinate"
         [value]="data.omim?.length == 0 ? 0 : 100"
       ></mat-progress-bar>

@@ -3,8 +3,9 @@
     <div fxLayout="row">
       <p class="explanation">
         These are targets about which virtually nothing is known. They do not have known drug or small molecule
-        activities
-        AND satisfy two or more of the following criteria:</p>
+        activities <br>
+        <span class="centered">- AND -</span>
+        satisfy two or more of the following criteria:</p>
     </div>
     <div fxLayout="row" fxLayoutAlign="start center">
       <mat-icon
@@ -19,6 +20,7 @@
     <br>
     <div fxLayout="row">
       <mat-progress-bar
+        class = "tdl-progress"
         mode="determinate"
         [value]="target?.jensenScore <= 5 ? (target?.jensenScore === 0 ? 0 : 5 / target?.jensenScore) : 100"
       ></mat-progress-bar>
@@ -36,6 +38,7 @@
     <br>
     <div fxLayout="row">
       <mat-progress-bar
+        class = "tdl-progress"
         mode="determinate"
         [value]="data.generif?.length <= 3 ? (data.generif?.length === 0 ? 0 : 3 /  data.generif?.length): 100"
       ></mat-progress-bar>
@@ -53,6 +56,7 @@
     <br>
     <div fxLayout="row">
       <mat-progress-bar
+        class = "tdl-progress"
         mode="determinate"
         [value]="target?.antibodyCount <= 50 ? (target?.antibodyCount === 0 ? 0 : 50 /  target?.antibodyCount): 100"
       ></mat-progress-bar>

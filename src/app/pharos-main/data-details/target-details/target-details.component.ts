@@ -1,7 +1,8 @@
 import {
   AfterViewInit,
   ApplicationRef, ChangeDetectorRef,
-  Component, ElementRef, forwardRef, HostListener, Inject, Injector, Input, OnDestroy, OnInit, QueryList, Type,
+  Component, ContentChildren, ElementRef, forwardRef, HostListener, Inject, Injector, Input, OnDestroy, OnInit,
+  QueryList, Renderer2, Type,
   ViewChild, ViewChildren, ViewEncapsulation
 } from '@angular/core';
 import {Target} from '../../../models/target';
@@ -17,11 +18,13 @@ import {NavSectionsService} from "../../../tools/sidenav-panel/services/nav-sect
 import {DOCUMENT} from "@angular/common";
 import {CdkScrollable, ScrollDispatcher} from "@angular/cdk/scrolling";
 import {TrackScrollDirective} from "../../../tools/sidenav-panel/directives/track-scroll.directive";
+import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
 
 @Component({
   selector: 'pharos-target-details',
   templateUrl: './target-details.component.html',
-  styleUrls: ['./target-details.component.scss']
+  styleUrls: ['./target-details.component.scss'],
+  directives: [TrackScrollDirective]
 })
 
 export class TargetDetailsComponent extends DynamicPanelComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -34,22 +37,31 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
   @Input() target: Target;
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
   @ViewChild(CdkScrollable) scrollable: CdkScrollable;
-  @ViewChildren('scrollSection') scrollSections: QueryList<ElementRef>;
+  @ContentChildren('scrollSection') scrollSections: QueryList<ElementRef>;
 
 
   constructor(
     private _injector: Injector,
     @Inject(DOCUMENT) private document: Document,
     @Inject(forwardRef(() => ComponentLookupService)) private componentLookupService,
+    private render: Renderer2,
     private dataDetailsResolver: DataDetailsResolver,
+    private router: Router,
+    private route: ActivatedRoute,
     private navSectionsService: NavSectionsService,
     private changeDetector: ChangeDetectorRef,
     private scrollDispatcher: ScrollDispatcher,
     private componentInjectorService: ComponentInjectorService) {
     super();
+
   }
 
   ngOnInit() {
+    this.render.listen('window', 'scroll', ()=> {
+      console.log('scroll')
+      console.log(window.scrollY);
+    });
+    console.log(this);
    // console.log(this);
     const components: any = this.componentLookupService.lookupByPath(this.path, this.target.idgTDL.toLowerCase());
     if (components) {
@@ -89,19 +101,32 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
           });
       });
     }
+
+  }
+  ngAfterContentChecked() {
+    this.scrollSections.changes.subscribe(change => {
+      console.log(change);
+    });
   }
 
   ngAfterViewInit() {
-  //  console.log(this);
+    this.scrollSections.changes.subscribe(change => {
+      console.log(change);
+    });
+    console.log(this);
     // track scrolling for active sidenav display
     this.scrollDispatcher.scrolled().subscribe((data: CdkScrollable) => {
-    //  console.log(data);
+      console.log(data);
       if (data) {
-      //  console.log(data);
+       console.log(data);
         let scrollTop: number = data.getElementRef().nativeElement.scrollTop + 100;
         if (scrollTop === 100) {
-          this.activeElement = 'introduction';
-          this.changeDetector.detectChanges();
+          this.activeElement = 'home';
+          let navigationExtras: NavigationExtras = {
+          };
+
+          this.router.navigate([]);
+        this.changeDetector.detectChanges();
         } else {
           this.scrollSections.forEach(section => {
             scrollTop = scrollTop - section.nativeElement.scrollHeight;
@@ -113,30 +138,29 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
         }
       }
     });
+
+    if (this.route.snapshot.fragment) {
+      this.scrollToSection(this.route.snapshot.fragment);
+/*      const elem = this.document.getElementById(`${this.route.snapshot.fragment}`);
+      console.log(elem);
+      if (elem) {
+        elem.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
+      }*/
+    }
   }
 
    pick(o, props): any {
     return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
   }
 
-/*
-  /!**
-   * method that checks to see if the user has scrolled past a certain point. pinned to the window object
-   * @returns void
-   *!/
-  @HostListener('window:scroll', [])
-  onWindowScroll(): void {
-    // todo: work around window api for angular universal
-    console.log(window.pageYOffset);
-    console.log(this.document.documentElement.scrollTop);
-    console.log(this.document.body.scrollTop);
-    if (window.pageYOffset > 100 || this.document.documentElement.scrollTop > 100 || this.document.body.scrollTop > 100) {
-      this.navIsFixed = true;
-    } else if (this.navIsFixed && window.pageYOffset < 10 || this.document.documentElement.scrollTop < 10 || this.document.body.scrollTop < 10) {
-      this.navIsFixed = false;
-    }
-  }
-*/
+scrollToSection(event: any) {
+  let navigationExtras: NavigationExtras = {
+    fragment: `${event}`
+  };
+
+  this.router.navigate([], navigationExtras);
+
+}
 
 
   ngOnDestroy(): void {

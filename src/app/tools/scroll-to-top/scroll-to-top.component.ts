@@ -1,5 +1,6 @@
 import {Component, HostListener, Inject, OnInit} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
+import {Router} from "@angular/router";
 
 /**
  * Component that contains a ui button that appears after scrolling past the top menu, on click, it scrolls the user back
@@ -14,7 +15,9 @@ export class ScrollToTopComponent implements OnInit {
   navIsFixed: boolean;
 
 
-  constructor( @Inject(DOCUMENT) private document: Document) { }
+  constructor( @Inject(DOCUMENT) private document: Document,
+              private router: Router
+) { }
 
   ngOnInit() {
   }
@@ -42,6 +45,7 @@ export class ScrollToTopComponent implements OnInit {
       window.scrollTo(0, currentScroll - (currentScroll / 5));
     }
   })();
+    this.router.navigate([]);
   }
 
 }

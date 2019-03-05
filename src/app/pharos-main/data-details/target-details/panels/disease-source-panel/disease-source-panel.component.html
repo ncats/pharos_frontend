@@ -3,7 +3,7 @@
     <mat-card-content>
       <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="start stretch">
         <div fxFlex="95">
-          <span class="mat-title">Disease Source ({{sources?.length}})</span>
+          <span class="mat-title">Disease Associations by Source ({{sources?.length}})</span>
         </div>
         <div fxFlex="5">
           <pharos-help-panel-trigger [origin] = "'diseaseSources'" [label]="'Disease Sources'"></pharos-help-panel-trigger>
@@ -25,7 +25,7 @@
       </div>
       <div fxLayout="row" *ngIf="tinx && tinx.length > 0" fxLayout.lt-md="column" fxLayoutAlign="start stretch">
         <div fxFlex="95">
-          <span class="mat-title">Tinx</span>
+          <span class="mat-title">Disease Novelty (Tinx)</span>
         </div>
         <div fxFlex="5">
           <pharos-help-panel-trigger [origin] = "'tinx'"></pharos-help-panel-trigger>

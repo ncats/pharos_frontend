@@ -62,16 +62,7 @@ sections: any[] = [];
   }
 
   public scroll(el: any): void {
-    let navigationExtras: NavigationExtras = {
-      fragment: `${el}`
-    };
-
-    this.router.navigate([], navigationExtras);
-   // this.viewportScroller.scrollToAnchor(el);
-   /* const elem = this.document.getElementById(`#${el}`);
-    if (elem) {
-      elem.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
-    }*/
+    this.scrollElement.emit(el)
   }
 
   isActive(check: string): boolean {

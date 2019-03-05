@@ -11,4 +11,5 @@ import {Component, Input} from '@angular/core';
 export class IdgLevelIndicatorComponent {
   /** String to be displayed background level correlates to level and is set in parent scss file*/
   @Input() level: string;
+  @Input() disabled = false;
 }

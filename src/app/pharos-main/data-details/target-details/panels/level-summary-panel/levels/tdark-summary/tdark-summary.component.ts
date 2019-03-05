@@ -13,7 +13,6 @@ export class TdarkSummaryComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.target.antibodyCount)
   }
 
 }

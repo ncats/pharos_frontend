@@ -7,7 +7,9 @@ import { Directive } from '@angular/core';
 })
 export class TrackScrollDirective {
 
-  constructor() { }
+  constructor() {
+    console.log("dfgdfgdfgdfgdgdf")
+  }
   track($event: Event) {
     console.debug("Scroll Event", $event);
   }

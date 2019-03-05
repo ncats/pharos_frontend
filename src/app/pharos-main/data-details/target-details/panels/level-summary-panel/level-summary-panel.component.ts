@@ -11,14 +11,12 @@ import {HttpClient} from "@angular/common/http";
   styleUrls: ['./level-summary-panel.component.scss']
 })
 export class LevelSummaryPanelComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
-  // @Input() target: Target;
 
  constructor() {
     super();
   }
 
   ngOnInit() {
-    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value

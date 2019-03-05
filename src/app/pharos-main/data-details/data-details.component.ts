@@ -16,11 +16,13 @@ import {DynamicPanelComponent} from "../../tools/dynamic-panel/dynamic-panel.com
 import {DataDetailsResolver} from "../../pharos-main/services/data-details.resolver";
 import {CdkScrollable, ScrollDispatcher} from "@angular/cdk/scrolling";
 import {map} from "rxjs/internal/operators";
+import {TrackScrollDirective} from "../../tools/sidenav-panel/directives/track-scroll.directive";
 
 @Component({
   selector: 'pharos-data-details',
   templateUrl: './data-details.component.html',
-  styleUrls: ['./data-details.component.css']
+  styleUrls: ['./data-details.component.css'],
+  directives: [TrackScrollDirective]
 
 })
 export class DataDetailsComponent extends DynamicPanelComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -33,9 +35,12 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
 
   @ViewChild('helppanel') helpPanel: MatDrawer;
   @ViewChild(CdkScrollable) scrollable: CdkScrollable;
+/*
   @ViewChildren('scrollSection', {read: ElementRef}) scrollSections: QueryList<ElementRef>;
+*/
   @ViewChild(MatSidenavContainer) sidenavContainer: MatSidenavContainer;
-  @ContentChildren('scrollSection') contentChildren;
+  @ContentChildren('scrollSection') scrollSections: QueryList<ElementRef>;
+
 
 
 
@@ -78,9 +83,14 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
    // const scrollable = this.scrollDispatcher.getAncestorScrollContainers(this.elementRef)[0]; console.log(scrollable.getElementRef().nativeElement.scrollTop);
   }
 
+  ngAfterContentInit() {
+    this.scrollSections.changes.subscribe(changes => console.log(changes));
+
+  }
+
   ngAfterViewInit() {
     console.log(this);
-    this.contentChildren.changes.subscribe(changes => console.log(changes));
+    this.scrollSections.changes.subscribe(changes => console.log(changes));
 
     this.scrollable.elementScrolled().subscribe((data) => {
       console.log(data);
@@ -162,90 +172,3 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
     this.ngUnsubscribe.complete();
   }
 }
-
-
-
-
-
-
-
-/*
-
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-  Type,
-  ViewChild
-} from '@angular/core';
-import {MatDrawer} from '@angular/material';
-import {ActivatedRoute} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
-import {CustomContentDirective} from '../../tools/custom-content.directive';
-import {HelpPanelOpenerService} from '../../tools/help-panel/services/help-panel-opener.service';
-import {DataDetailsResolver} from '../services/data-details.resolver';
-import {DynamicPanelComponent} from '../../tools/dynamic-panel/dynamic-panel.component';
-import {ComponentLookupService} from '../../services/component-lookup.service';
-import {ComponentInjectorService} from '../../services/component-injector.service';
-import {ResponseParserService} from '../../services/response-parser.service';
-
-@Component({
-  selector: 'gsrs-details-page',
-  templateUrl: './details-page.component.html',
-  styleUrls: ['./details-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class DetailsPageComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
-  path: string;
-  substance: any;
-  dynamicComponent: any;
-  componentsLoaded = false;
-  COMPONENTS: Map<string, any> = new Map<string, any>();
-  @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
-  helpOpen: false;
-
-  @ViewChild('helppanel') helpPanel: MatDrawer;
-
-
-  constructor(private _route: ActivatedRoute,
-              public componentLookupService: ComponentLookupService,
-              private componentInjectorService: ComponentInjectorService,
-              private responseParserService: ResponseParserService,
-              private dataDetailsResolver: DataDetailsResolver,
-              private helpPanelOpenerService: HelpPanelOpenerService,
-              private ref: ChangeDetectorRef
-  ) {
-    super();
-    this.path = this._route.snapshot.data.path;
-    this.substance = this._route.snapshot.data.substance;
-  }
-
-
-  ngOnInit() {
-    if (!this.componentsLoaded) {
-      this.makeComponents();
-    }
-    this.helpPanelOpenerService.toggle$.subscribe(res => this.helpPanel.toggle());
-    this.responseParserService.detailsData$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        this._data.next(res);
-        this.ref.markForCheck(); // refresh the component manually
-      });
-  }
-
-  trackByIndex = i => i;
-
-  pick(o, props): any {
-    return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
-  }
-
-
-
-  ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
-}*/

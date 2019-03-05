@@ -1,5 +1,34 @@
-Ligands: <!--{{data.ligands?.length}}--> ChEMBL compounds with an activity cutoff of
-kinase: < 30 nM
-"Ion Channel" < 10uM
-"NR" < 10uM
-"GPCR" | "oGPCR" < 10uM
+
+<div fxLayout="row" fxLayoutAlign="space-around start">
+  <div fxFlex="95">
+    <div fxLayout="row">
+      <p class="explanation">
+        Target has at least one ChEMBL compound with an activity cutoff of
+        <span *ngIf="!target.idgFamily === 'kinase'; else otherFamily">< 30 nM </span>
+        <ng-template #otherFamily>
+          <span>< 10uM</span>
+        </ng-template>
+
+        <span class="centered">- AND -</span>
+        satisfies the preceding conditions</p>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon
+        [ngClass]="{'disabled-icon': target?.idgTDL !='TChem'}"
+        [color]="'accent'">check_circle
+      </mat-icon>
+      &nbsp;&nbsp;
+      <span class='mat-body-2'>
+      Active Ligand:
+ </span>
+    </div>
+    <br>
+    <div fxLayout="row">
+      <mat-progress-bar
+        class = "tdl-progress"
+        mode="determinate"
+        [value]="target.idgTDL ==='TChem' ? 100 : 0"
+      ></mat-progress-bar>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,28 @@
-Drugs: <!--{{data.drugs?.length}}--> approved drugs
+<div fxLayout="row" fxLayoutAlign="space-around start">
+  <div fxFlex="95">
+    <div fxLayout="row">
+      <p class="explanation">
+        Target has at least one approved drug
+      <span class="centered">- AND -</span>
+      satisfies the preceding conditions</p>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon
+        [ngClass]="{'disabled-icon': target?.idgTDL != 'TClin'}"
+        [color]="'accent'">check_circle
+      </mat-icon>
+      &nbsp;&nbsp;
+      <span class='mat-body-2'>
+      Active Drug:
+ </span>
+    </div>
+    <br>
+    <div fxLayout="row">
+      <mat-progress-bar
+        class = "tdl-progress"
+        mode="determinate"
+        [value]="target.idgTDL ==='TClin' ? 100 : 0"
+      ></mat-progress-bar>
+    </div>
+  </div>
+</div>
