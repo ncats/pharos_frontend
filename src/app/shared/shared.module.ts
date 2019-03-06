@@ -31,6 +31,7 @@ import {NgxJsonViewerModule} from 'ngx-json-viewer';
 import {PropertyDisplayComponent} from '../tools/property-display/property-display.component';
 import {KnowledgeTableComponent} from '../tools/knowledge-table/knowledge-table.component';
 import {ProteinStructureViewerComponent} from "../tools/protein-structure-viewer/protein-structure-viewer.component";
+import {TrackScrollDirective} from "../tools/sidenav-panel/directives/track-scroll.directive";
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import {ProteinStructureViewerComponent} from "../tools/protein-structure-viewer
     HelpPanelComponent,
     HelpPanelTriggerComponent,
     KnowledgeTableComponent,
-    ProteinStructureViewerComponent
+    ProteinStructureViewerComponent,
+    TrackScrollDirective
   ],
   providers: [
     HelpDataService,
@@ -96,7 +98,8 @@ import {ProteinStructureViewerComponent} from "../tools/protein-structure-viewer
     HelpPanelComponent,
     HelpPanelTriggerComponent,
     KnowledgeTableComponent,
-    ProteinStructureViewerComponent
+    ProteinStructureViewerComponent,
+    TrackScrollDirective
   ]
 })
 export class SharedModule {

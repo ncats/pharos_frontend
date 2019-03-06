@@ -1,22 +1,19 @@
-<div class = "pharos-main" pharosTrackScroll>
-  <div class = "flex-body" pharosTrackScroll>
+<div class = "pharos-main"  pharosTrackScroll>
+  <div class = "flex-body">
     <app-ncats-header [searchBar]="true" class="details-header"></app-ncats-header>
     <mat-sidenav-container class="flex-body main-content">
-      <mat-sidenav #helppanel [position]="'end'" class="help-panel" [mode]="'over'" [opened]="false">
+      <mat-sidenav #helppanel
+                   class="help-panel"
+                   [position]="'end'"
+                   [mode]="'over'"
+                   [opened]="false">
         <!-- sidenav content -->
         <pharos-help-panel></pharos-help-panel>
       </mat-sidenav>
-<!--      <div fxLayout="row" class="filter-help">
-          <span class="fill-remaining-space"></span>
-        <div fxFlex="5">
-          <pharos-help-panel-trigger></pharos-help-panel-trigger>
-        </div>
-      </div>-->
-      <mat-sidenav-content cdkScrollable pharosTrackScroll>
-
-      <ng-template appPharosCustomContent cdkScrollable pharosTrackScroll></ng-template>
-      <pharos-scroll-to-top></pharos-scroll-to-top>
+      <mat-sidenav-content cdkScrollable="">
+      <ng-template appPharosCustomContent ></ng-template>
       </mat-sidenav-content>
+      <pharos-scroll-to-top></pharos-scroll-to-top>
     </mat-sidenav-container>
   </div>
 </div>

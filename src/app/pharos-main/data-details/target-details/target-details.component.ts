@@ -17,14 +17,13 @@ import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.
 import {NavSectionsService} from "../../../tools/sidenav-panel/services/nav-sections.service";
 import {DOCUMENT} from "@angular/common";
 import {CdkScrollable, ScrollDispatcher} from "@angular/cdk/scrolling";
-import {TrackScrollDirective} from "../../../tools/sidenav-panel/directives/track-scroll.directive";
 import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
+import {MatSidenavContainer} from "@angular/material";
 
 @Component({
   selector: 'pharos-target-details',
   templateUrl: './target-details.component.html',
-  styleUrls: ['./target-details.component.scss'],
-  directives: [TrackScrollDirective]
+  styleUrls: ['./target-details.component.scss']
 })
 
 export class TargetDetailsComponent extends DynamicPanelComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -37,7 +36,8 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
   @Input() target: Target;
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
   @ViewChild(CdkScrollable) scrollable: CdkScrollable;
-  @ContentChildren('scrollSection') scrollSections: QueryList<ElementRef>;
+  @ViewChildren('scrollSection') scrollSections: QueryList<ElementRef>;
+  @ViewChild(MatSidenavContainer) sidenavContainer: MatSidenavContainer;
 
 
   constructor(
@@ -57,10 +57,10 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
   }
 
   ngOnInit() {
-    this.render.listen('window', 'scroll', ()=> {
+/*    this.render.listen('window', 'scroll', ()=> {
       console.log('scroll')
       console.log(window.scrollY);
-    });
+    });*/
     console.log(this);
    // console.log(this);
     const components: any = this.componentLookupService.lookupByPath(this.path, this.target.idgTDL.toLowerCase());
@@ -81,7 +81,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
         /** make component */
         const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
         const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
-
+      //  childComponent.instance.scrollDispatcher.register();
         if (component.navHeader) {
         //  console.log(component.navHeader);
           this.sections.push(component.navHeader);
@@ -103,19 +103,31 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
     }
 
   }
-  ngAfterContentChecked() {
-    this.scrollSections.changes.subscribe(change => {
-      console.log(change);
-    });
-  }
 
   ngAfterViewInit() {
-    this.scrollSections.changes.subscribe(change => {
+
+    this.scrollDispatcher
+    //.ancestorScrolled(this.componentHost.viewContainerRef.element)
+      .scrolled()
+      .subscribe((data: CdkScrollable) => {
+        console.log(data);
+        //  this.onWindowScroll(data);
+      });
+
+/*    this.scrollSections.changes.subscribe(change => {
       console.log(change);
     });
     console.log(this);
+    this.scrollable.elementScrolled().subscribe(() => {
+      console.log("rrrrrrr");
+    });*/
+
+   /* this.sidenavContainer.scrollable.elementScrolled().subscribe(res=> {
+      console.log('sdfsdfsfsdfs');
+      console.log(res);
+    })*/
     // track scrolling for active sidenav display
-    this.scrollDispatcher.scrolled().subscribe((data: CdkScrollable) => {
+   /* this.scrollDispatcher.scrolled().subscribe((data: CdkScrollable) => {
       console.log(data);
       if (data) {
        console.log(data);
@@ -138,6 +150,12 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
         }
       }
     });
+*/
+
+
+
+
+
 
     if (this.route.snapshot.fragment) {
       this.scrollToSection(this.route.snapshot.fragment);
