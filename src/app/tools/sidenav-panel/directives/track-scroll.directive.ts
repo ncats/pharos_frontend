@@ -8,6 +8,8 @@ export class TrackScrollDirective {
   @Input() public spiedTags = [];
   @Output() public sectionChange = new EventEmitter<string>();
   private currentSection: string;
+  private _intersectionObserver? : IntersectionObserver;
+
 
   constructor(private _el: ElementRef) {
     console.log('sdgsfsfsfsghdjgfvbm');

@@ -114,49 +114,6 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
         //  this.onWindowScroll(data);
       });
 
-/*    this.scrollSections.changes.subscribe(change => {
-      console.log(change);
-    });
-    console.log(this);
-    this.scrollable.elementScrolled().subscribe(() => {
-      console.log("rrrrrrr");
-    });*/
-
-   /* this.sidenavContainer.scrollable.elementScrolled().subscribe(res=> {
-      console.log('sdfsdfsfsdfs');
-      console.log(res);
-    })*/
-    // track scrolling for active sidenav display
-   /* this.scrollDispatcher.scrolled().subscribe((data: CdkScrollable) => {
-      console.log(data);
-      if (data) {
-       console.log(data);
-        let scrollTop: number = data.getElementRef().nativeElement.scrollTop + 100;
-        if (scrollTop === 100) {
-          this.activeElement = 'home';
-          let navigationExtras: NavigationExtras = {
-          };
-
-          this.router.navigate([]);
-        this.changeDetector.detectChanges();
-        } else {
-          this.scrollSections.forEach(section => {
-            scrollTop = scrollTop - section.nativeElement.scrollHeight;
-            if (scrollTop >= 0) {
-              this.activeElement = section.nativeElement.nextSibling.id;
-              this.changeDetector.detectChanges();
-            }
-          });
-        }
-      }
-    });
-*/
-
-
-
-
-
-
     if (this.route.snapshot.fragment) {
       this.scrollToSection(this.route.snapshot.fragment);
 /*      const elem = this.document.getElementById(`${this.route.snapshot.fragment}`);

@@ -92,13 +92,17 @@ scrollingSubscription;
     console.log(this);
     console.log(this.scrollDispatcher);
     console.log(this.scrollable);
-/*   this.scrollDispatcher
+   this.scrollDispatcher
       //.ancestorScrolled(this.componentHost.viewContainerRef.element)
        .scrolled()
       .subscribe((data: CdkScrollable) => {
         console.log(data);
+        console.log(this);
+        console.log(this.scrollable.elementScrolled());
+        console.log(this.scrollable.getElementRef());
+        this.scrollable.elementScrolled();
       //  this.onWindowScroll(data);
-      });*/
+      });
 /*    this.scrollable.elementScrolled().subscribe(() => {
       console.log("rrrrrrr");
     });*/
