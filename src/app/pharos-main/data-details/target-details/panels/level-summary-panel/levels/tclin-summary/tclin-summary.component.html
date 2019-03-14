@@ -8,7 +8,7 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="start center">
       <mat-icon
-        [ngClass]="{'disabled-icon': target?.idgTDL != 'TClin'}"
+        [ngClass]="{'disabled-icon': target?.idgTDL != 'Tclin'}"
         [color]="'accent'">check_circle
       </mat-icon>
       &nbsp;&nbsp;
@@ -21,7 +21,7 @@
       <mat-progress-bar
         class = "tdl-progress"
         mode="determinate"
-        [value]="target.idgTDL ==='TClin' ? 100 : 0"
+        [value]="target.idgTDL ==='Tclin' ? 100 : 0"
       ></mat-progress-bar>
     </div>
   </div>

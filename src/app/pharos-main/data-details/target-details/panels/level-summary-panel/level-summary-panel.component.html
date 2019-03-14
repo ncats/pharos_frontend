@@ -17,31 +17,20 @@
       <div fxFlex="23">
         <pharos-idg-level-indicator [level]="'Tdark'"
                                     [disabled]="target.idgTDL != 'Tdark'"></pharos-idg-level-indicator>
+        <pharos-tdark-summary [target]="target" [data]="data"></pharos-tdark-summary>
       </div>
       <div fxFlex="23">
         <pharos-idg-level-indicator [level]="'Tbio'" [disabled]="target.idgTDL != 'Tbio'"></pharos-idg-level-indicator>
+        <pharos-tbio-summary [target]="target" [data]="data"></pharos-tbio-summary>
       </div>
       <div fxFlex="23">
         <pharos-idg-level-indicator [level]="'Tchem'"
                                     [disabled]="target.idgTDL != 'Tchem'"></pharos-idg-level-indicator>
+        <pharos-tchem-summary [target]="target" [data]="data"></pharos-tchem-summary>
       </div>
       <div fxFlex="23">
         <pharos-idg-level-indicator [level]="'Tclin'"
                                     [disabled]="target.idgTDL != 'Tclin'"></pharos-idg-level-indicator>
-      </div>
-
-    </div>
-    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-around start">
-      <div fxFlex="23">
-        <pharos-tdark-summary [target]="target" [data]="data"></pharos-tdark-summary>
-      </div>
-      <div fxFlex="23">
-        <pharos-tbio-summary [target]="target" [data]="data"></pharos-tbio-summary>
-      </div>
-      <div fxFlex="23">
-        <pharos-tchem-summary [target]="target" [data]="data"></pharos-tchem-summary>
-      </div>
-      <div fxFlex="23">
         <pharos-tclin-summary [target]="target" [data]="data"></pharos-tclin-summary>
       </div>
     </div>

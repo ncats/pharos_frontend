@@ -7,6 +7,9 @@ import {DESCRIPTIONS} from "../../../../environments/descriptions";
   providedIn: 'root'
 })
 export class HelpDataService {
+
+  sourcesMap: Map<string, any> = new Map<string, any>();
+
   /**
    *   initialize a private variable _data, it's a BehaviorSubject
    */
@@ -48,7 +51,7 @@ export class HelpDataService {
    * Observable stream of help panel data changes
    * @type {Observable<boolean>}
    */
-  description$ = this._helpDescriptionSource.asObservable();
+  sources$ = this._helpDescriptionSource.asObservable();
 
   field: string;
   label: string;
@@ -56,6 +59,7 @@ export class HelpDataService {
   constructor(
     private responseParserService: ResponseParserService,
   ) {
+    console.log(this);
     this.responseParserService.detailsData$
       .subscribe(res => this.data = res);
   }
@@ -72,7 +76,17 @@ export class HelpDataService {
     this.label = field;
   }
 
+  setSources(field: string, sources: any): void {
+    this.sourcesMap.set(field, sources)
+  }
+
+  getSources(field: string): string {
+    this._helpDescriptionSource.next(this.sourcesMap.get(field));
+  }
+
+
+  // todo: probably not used
   fetchDescription() {
-    this._helpDescriptionSource.next(DESCRIPTIONS.get(this.field));
+return this.sourcesMap.get(field)
   }
 }

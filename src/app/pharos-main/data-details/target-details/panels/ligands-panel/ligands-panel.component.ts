@@ -69,7 +69,6 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
             };
             const drug = res.properties.filter(prop => prop.label === 'Ligand Drug');
             if (drug.length > 0 && drug[0].term === 'YES') {
-              console.log(drug);
               drugsArr.push(lig);
             } else {
               ligandsArr.push(lig);

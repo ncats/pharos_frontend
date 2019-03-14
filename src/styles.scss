@@ -7,17 +7,14 @@ html, body {
   margin: 0;
   background-color: #f7f7f7;
   font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+ // height: 100%;
 }
 
 body {
-  display: flex;
+  margin: 0;  /*removes default style*/
+  display: flex;  /*enables flex content for its children*/
   flex-direction: column;
-  min-height: 100vh;
-}
-.pharos-main {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
+  box-sizing: border-box;
 }
 
 a {
@@ -70,38 +67,6 @@ a:hover {
   margin-bottom: 2vh;
 }
 
-.width5 {
-  max-width: 5%;
-}
-
-.width10 {
-  max-width: 10%;
-}
-
-.width15 {
-  max-width: 15%;
-}
-
-.width25 {
-  max-width: 25%;
-}
-
-.width50 {
-  max-width: 50%;
-}
-
-.width75 {
-  max-width: 75%;
-}
-
-.width80 {
-  max-width: 80%;
-}
-
-.width85 {
-  max-width: 85%;
-}
-
 .full-height-card {
   display: flex;
   flex-direction: column;
@@ -125,4 +90,3 @@ pharos-custom-paginator.mat-paginator {
   color:#642F6C;
   z-index: 666;
 }
-

@@ -62,7 +62,7 @@ scrollingSubscription;
 
 
   ngOnInit() {
-    console.log(this);
+   // console.log(this);
 
     if (!this.componentsLoaded) {
       this.makeComponents();
@@ -79,8 +79,8 @@ scrollingSubscription;
 
 
   myScrollHandler(event) {
-    console.log(event)
-    console.log(this);
+ //   console.log(event)
+ //   console.log(this);
   }
 /*  @HostListener('window:scroll', ['$event'])
   onScroll(event) {
@@ -89,18 +89,18 @@ scrollingSubscription;
 
 
   ngAfterViewInit() {
-    console.log(this);
-    console.log(this.scrollDispatcher);
-    console.log(this.scrollable);
+ //   console.log(this);
+ //   console.log(this.scrollDispatcher);
+ //   console.log(this.scrollable);
    this.scrollDispatcher
       //.ancestorScrolled(this.componentHost.viewContainerRef.element)
        .scrolled()
       .subscribe((data: CdkScrollable) => {
-        console.log(data);
-        console.log(this);
-        console.log(this.scrollable.elementScrolled());
-        console.log(this.scrollable.getElementRef());
-        this.scrollable.elementScrolled();
+        // console.log(data);
+        // console.log(this);
+        // console.log(this.scrollable.elementScrolled());
+        // console.log(this.scrollable.getElementRef());
+        // this.scrollable.elementScrolled();
       //  this.onWindowScroll(data);
       });
 /*    this.scrollable.elementScrolled().subscribe(() => {
@@ -121,7 +121,7 @@ scrollingSubscription;
     });*/
     this._renderer.listen(this.scrollable.getElementRef().nativeElement.parentNode,
       'scroll', (event) => {
-      console.log(event);
+   //   console.log(event);
         // do stuff with the event
       });
 
@@ -139,7 +139,7 @@ scrollingSubscription;
       const keys: string[] = [];
       if (component.api) {
         component.api.forEach(apiCall => {
-          if (apiCall.url.length > 0) {
+          if (apiCall.url && apiCall.url.length > 0) {
             const url = apiCall.url.replace('_id_', this.target.id);
             // this call is pushed up to the api and changes are subscribed to in the generic details page, then set here
             this.dataDetailsResolver.getDetailsByUrl(url, apiCall.field);

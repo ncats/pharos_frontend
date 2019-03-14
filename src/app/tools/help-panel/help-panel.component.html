@@ -20,10 +20,14 @@
         <span class="mat-headline">Descriptions and Definitions</span>
       </mat-expansion-panel-header>
         <ng-template matExpansionPanelContent>
-          <div fxLayout="row" class = "description-row">
+          <div fxLayout="row" class = "description-row" *ngFor="let source of sources">
             <div fxFlex>
-              <span class = "mat-title">{{getLabel()}}:</span><br>
-              <p class="mat-body">{{description}}</p>
+              <span class = "mat-subheading-1"> <strong>{{source.label}}:</strong></span><br>
+              <p class="mat-body">{{source.description}}</p>
+              <button *ngIf="source.article" mat-stroked-button [color]="'primary'" (click)="showArticle(source)">
+                Learn More...
+              </button>
+              <br>
             </div>
           </div>
         </ng-template>
@@ -31,41 +35,51 @@
 
     <mat-expansion-panel>
       <mat-expansion-panel-header>
-       <span class="mat-headline">Sources Used</span>
-      </mat-expansion-panel-header>
-      <ng-template matExpansionPanelContent>
-
-      </ng-template>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
         <span class="mat-headline">How the Data Was Generated</span>
       </mat-expansion-panel-header>
-      <ng-template matExpansionPanelContent>
+      <ng-template matExpansionPanelContent #articleHolder>
 
       </ng-template>
     </mat-expansion-panel>
 
-    <mat-expansion-panel [expanded]="true">
-      <mat-expansion-panel-header>
-        <span class="mat-headline">Related Topics</span>
-      </mat-expansion-panel-header>
-      <ng-template matExpansionPanelContent>
 
-      </ng-template>
-    </mat-expansion-panel>
+    <!--    <mat-expansion-panel>
+          <mat-expansion-panel-header>
+           <span class="mat-headline">Sources Used</span>
+          </mat-expansion-panel-header>
+          <ng-template matExpansionPanelContent>
 
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <span class="mat-headline">Raw Data</span>
-      </mat-expansion-panel-header>
-      <ng-template matExpansionPanelContent>
-        <div fxLayout="row" class = "search-row">
-          <ngx-json-viewer [json] = rawData></ngx-json-viewer>
-        </div>
-      </ng-template>
-    </mat-expansion-panel>
+          </ng-template>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <span class="mat-headline">How the Data Was Generated</span>
+          </mat-expansion-panel-header>
+          <ng-template matExpansionPanelContent>
+
+          </ng-template>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <span class="mat-headline">Related Topics</span>
+          </mat-expansion-panel-header>
+          <ng-template matExpansionPanelContent>
+
+          </ng-template>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <span class="mat-headline">Raw Data</span>
+          </mat-expansion-panel-header>
+          <ng-template matExpansionPanelContent>
+            <div fxLayout="row" class = "search-row">
+              <ngx-json-viewer [json] = rawData></ngx-json-viewer>
+            </div>
+          </ng-template>
+        </mat-expansion-panel>-->
 
 
 

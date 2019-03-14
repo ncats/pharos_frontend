@@ -1,0 +1,10 @@
+<p>
+  What do the numbers on the radar chart mean?
+  The radar chart is a visualization of gene-attribute associations as recorded by the Harmonizome.
+  These radial plots summarize the level of accumulated knowledge about each target. The further the point is away from the center of the radial plot, the more knowledge exists about the target. By mouse hovering the labels, the list of associated resources with links are presented on the left. To compare the relative knowledge for the target to knowledge for the target family, select to 'overlay another dataset'. The normalized knowledge for the target family will show in orange. To construct these plots we
+
+  Begin with a set of gene-attribute associations. The attributes may be pathways,GO terms, phenotypes, diseases, drugs, tissues, proteins, etc., depending on thedataset. Some datasets require a few preprocessing steps to get here.
+  Count the number of associations for each gene.
+  Normalize the counts by Calculate the empirical cumulative probability ofthe count for each gene, which is equal to the fraction of genes with count lessthan or equal to the count for each gene.ount for each gene.
+  The normalized counts/CDF values/empirical cumulative probabilities indicate the relative amount of knowledge about a gene compared to other genes in a given dataset. Genes with relatively high numbers of associations get assigned values near 1 and genes with relatively low numbers of associations get assigned values near 0.
+</p>

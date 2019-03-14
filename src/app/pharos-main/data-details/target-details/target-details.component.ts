@@ -19,6 +19,7 @@ import {DOCUMENT} from "@angular/common";
 import {CdkScrollable, ScrollDispatcher} from "@angular/cdk/scrolling";
 import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
 import {MatSidenavContainer} from "@angular/material";
+import {HelpDataService} from "src/app/tools/help-panel/services/help-data.service";
 
 @Component({
   selector: 'pharos-target-details',
@@ -51,6 +52,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
     private navSectionsService: NavSectionsService,
     private changeDetector: ChangeDetectorRef,
     private scrollDispatcher: ScrollDispatcher,
+    private helpDataService: HelpDataService,
     private componentInjectorService: ComponentInjectorService) {
     super();
 
@@ -69,7 +71,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
         // start api calls before making component
         const keys: string[] = [];
         component.api.forEach(apiCall => {
-          if (apiCall.url.length > 0) {
+          if (apiCall.url && apiCall.url.length > 0) {
             const url = apiCall.url.replace('_accession_', this.target.accession).replace('_id_', this.target.id);
               /**this call is pushed up to the pharos api and changes are subscribed to in the generic details page, then set here*/
               this.dataDetailsResolver.getDetailsByUrl(url, apiCall.field);
@@ -86,6 +88,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
         //  console.log(component.navHeader);
           this.sections.push(component.navHeader);
           this.navSectionsService.setSections(Array.from(new Set([...this.sections])));
+          this.helpDataService.setSources(component.navHeader.section, component.api);
         }
 
         // todo need to cover when no results are returned - do we still want to make the component?
@@ -110,7 +113,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
     //.ancestorScrolled(this.componentHost.viewContainerRef.element)
       .scrolled()
       .subscribe((data: CdkScrollable) => {
-        console.log(data);
+      //  console.log(data);
         //  this.onWindowScroll(data);
       });
 

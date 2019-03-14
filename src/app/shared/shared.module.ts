@@ -32,6 +32,7 @@ import {PropertyDisplayComponent} from '../tools/property-display/property-displ
 import {KnowledgeTableComponent} from '../tools/knowledge-table/knowledge-table.component';
 import {ProteinStructureViewerComponent} from "../tools/protein-structure-viewer/protein-structure-viewer.component";
 import {TrackScrollDirective} from "../tools/sidenav-panel/directives/track-scroll.directive";
+import {HelpArticlesModule} from "../shared/help-articles.module";
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import {TrackScrollDirective} from "../tools/sidenav-panel/directives/track-scro
     MaterialModule,
     FlexLayoutModule,
     RouterModule,
-    NgxJsonViewerModule
+    NgxJsonViewerModule,
+    HelpArticlesModule
   ],
   declarations: [
     NcatsHeaderComponent,
@@ -79,6 +81,7 @@ import {TrackScrollDirective} from "../tools/sidenav-panel/directives/track-scro
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
+    HelpArticlesModule,
     NcatsHeaderComponent,
     PharosFooterComponent,
     BreadcrumbComponent,

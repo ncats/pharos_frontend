@@ -1,8 +1,8 @@
-  <div fxLayout="row" fxLayoutAlign="space-around start" class="target-details-main">
+  <div class="target-details-main">
     <div fxFlex="25" class="sticky"  [ngClass]="{'show-scroll': navIsFixed}" >
       <pharos-sidenav-panel (scrollElement)="scrollToSection($event)"></pharos-sidenav-panel>
     </div>
-    <div fxFlex="75" id="scroller-wrapper" class="target-details-wrapper" pharosTrackScroll cdkScrollable>
+    <div fxFlex="75" id="scroller-wrapper" class="target-details-wrapper pharos-content" pharosTrackScroll cdkScrollable>
         <ng-template appPharosCustomContent></ng-template>
     </div>
   </div>

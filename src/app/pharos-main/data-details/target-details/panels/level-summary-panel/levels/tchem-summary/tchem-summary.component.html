@@ -13,8 +13,11 @@
         satisfies the preceding conditions</p>
     </div>
     <div fxLayout="row" fxLayoutAlign="start center">
-      <mat-icon
-        [ngClass]="{'disabled-icon': target?.idgTDL !='TChem'}"
+      <mat-icon *ngIf="target?.idgTDL !='Tchem' && target?.idgTDL != 'Tclin'"
+        class="disabled-icon"
+        [color]="'accent'">check_circle
+      </mat-icon>
+      <mat-icon *ngIf="target?.idgTDL ==='Tchem' || target?.idgTDL === 'Tclin'"
         [color]="'accent'">check_circle
       </mat-icon>
       &nbsp;&nbsp;
@@ -27,7 +30,7 @@
       <mat-progress-bar
         class = "tdl-progress"
         mode="determinate"
-        [value]="target.idgTDL ==='TChem' ? 100 : 0"
+        [value]="target.idgTDL ==='Tchem' || target.idgTDL ==='Tclin' ? 100 : 0"
       ></mat-progress-bar>
     </div>
   </div>

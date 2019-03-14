@@ -22,11 +22,10 @@ export class HelpPanelTriggerComponent implements OnInit {
   toggle() {
     console.log(this.origin);
     if (this.origin) {
-      console.log("fffffff");
       this.helpDataService.setOrigin(this.origin);
       this.helpDataService.setLabel(this.label ? this.label : this.origin);
       this.helpDataService.fetchData();
-      this.helpDataService.fetchDescription();
+      this.helpDataService.getSources(this.origin);
     }
       this.helpPanelOpenerService.toggleVisible();
   }

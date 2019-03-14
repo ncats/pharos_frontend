@@ -9,7 +9,7 @@
       <span class="mat-title">Protein Summary</span>
       </div>
       <div fxFlex="5">
-      <pharos-help-panel-trigger [origin]="knowledge" [label]="'Protein Summary'"></pharos-help-panel-trigger>
+      <pharos-help-panel-trigger [origin]="'summary'" [label]="'Protein Summary'"></pharos-help-panel-trigger>
       </div>
     </div>
     <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="space-between start">
@@ -22,18 +22,9 @@
             </li>
           </ul>
         </ng-container>
-        <ng-container *ngIf="data.symbol?.length > 0">
-          <br>
-          <mat-card-subtitle>Symbol</mat-card-subtitle>
-          <ul class = "inline-list wrap">
-            <li *ngFor=" let term of data.symbol">
-              <pharos-term-display [term] = term [showLabel]="false"></pharos-term-display>
-            </li>
-          </ul>
-        </ng-container>
         <ng-container *ngIf="data.gene?.length > 0">
           <br>
-          <mat-card-subtitle>NCBI Gene</mat-card-subtitle>
+          <mat-card-subtitle>Gene Name</mat-card-subtitle>
           <ul class = "inline-list wrap">
             <li *ngFor=" let term of data.gene">
               <pharos-term-display [term]= term  [showLabel]="false"></pharos-term-display>
@@ -49,6 +40,15 @@
             </li>
           </ul>
         </ng-container>
+         <ng-container *ngIf="data.symbol?.length > 0">
+           <br>
+           <mat-card-subtitle>Symbol</mat-card-subtitle>
+           <ul class = "inline-list wrap">
+             <li *ngFor=" let term of data.symbol">
+               <pharos-term-display [term] = term [showLabel]="false"></pharos-term-display>
+             </li>
+           </ul>
+         </ng-container>
       </div>
       <div fxFlex="30" class = "kchart full-height" *ngIf="data.knowledge && data.knowledge.length > 0; else noDataDiv">
         <mat-card-subtitle>Illumination Graph</mat-card-subtitle>

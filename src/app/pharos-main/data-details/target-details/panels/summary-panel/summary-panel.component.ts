@@ -16,9 +16,6 @@ import {Target} from "../../../../../models/target";
 export class SummaryPanelComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   @Input() target: Target;
 
-  timelines: any[] = [];
-  tlMap: Map<string, any> = new Map<string, any>();
-
   // todo: known bug in angular prevents this from working. Angular 6 may fix it, but flex would also need to be updated.
   // todo: https://github.com/angular/angular/issues/11716 https://github.com/angular/angular/issues/8785
 /*  @HostBinding('attr.fxFlex')
