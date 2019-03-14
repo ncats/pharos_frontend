@@ -19,7 +19,7 @@ import {DOCUMENT} from "@angular/common";
 import {CdkScrollable, ScrollDispatcher} from "@angular/cdk/scrolling";
 import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
 import {MatSidenavContainer} from "@angular/material";
-import {HelpDataService} from "src/app/tools/help-panel/services/help-data.service";
+import {HelpDataService} from "../../../tools/help-panel/services/help-data.service";
 
 @Component({
   selector: 'pharos-target-details',

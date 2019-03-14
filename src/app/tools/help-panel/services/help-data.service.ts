@@ -80,13 +80,13 @@ export class HelpDataService {
     this.sourcesMap.set(field, sources)
   }
 
-  getSources(field: string): string {
+  getSources(field: string) {
     this._helpDescriptionSource.next(this.sourcesMap.get(field));
   }
 
 
   // todo: probably not used
   fetchDescription() {
-return this.sourcesMap.get(field)
+// return this.sourcesMap.get(field)
   }
 }
