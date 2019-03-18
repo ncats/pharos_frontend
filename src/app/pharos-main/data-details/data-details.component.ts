@@ -9,7 +9,7 @@ import {takeUntil} from 'rxjs/operators';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {Subject} from 'rxjs';
 import {CustomContentDirective} from '../../tools/custom-content.directive';
-import {ActivatedRoute, NavigationExtras} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, NavigationExtras, Router} from '@angular/router';
 import {ComponentLookupService} from '../../pharos-services/component-lookup.service';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
 import {HelpPanelOpenerService} from '../../tools/help-panel/services/help-panel-opener.service';
@@ -24,7 +24,7 @@ import {CdkScrollable, CdkVirtualScrollViewport, ScrollDispatcher} from "@angula
   styleUrls: ['./data-details.component.css']
 
 })
-export class DataDetailsComponent extends DynamicPanelComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DataDetailsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   path: string;
   target: any;
   dynamicComponent: any;
@@ -38,10 +38,12 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
 
 scrollingSubscription;
   lastOffset;
+  navigationSubscription;
 
 
 
   constructor(private _route: ActivatedRoute,
+              private router: Router,
               private componentLookupService: ComponentLookupService,
               private componentInjectorService: ComponentInjectorService,
               private responseParserService: ResponseParserService,
@@ -56,14 +58,11 @@ scrollingSubscription;
     super();
     this.path = this._route.snapshot.data.path;
     this.target = this._route.snapshot.data.target;
-
-
   }
 
 
   ngOnInit() {
-   // console.log(this);
-
+     // console.log(this);
     if (!this.componentsLoaded) {
       this.makeComponents();
 
@@ -75,57 +74,17 @@ scrollingSubscription;
         this._data.next(res);
         this.changeDetector.markForCheck(); // refresh the component manually
       });
-    }
 
-
-  myScrollHandler(event) {
- //   console.log(event)
- //   console.log(this);
-  }
-/*  @HostListener('window:scroll', ['$event'])
-  onScroll(event) {
-    console.log('You scrolled!');
-  }*/
-
-
-  ngAfterViewInit() {
- //   console.log(this);
- //   console.log(this.scrollDispatcher);
- //   console.log(this.scrollable);
-   this.scrollDispatcher
-      //.ancestorScrolled(this.componentHost.viewContainerRef.element)
-       .scrolled()
-      .subscribe((data: CdkScrollable) => {
-        // console.log(data);
-        // console.log(this);
-        // console.log(this.scrollable.elementScrolled());
-        // console.log(this.scrollable.getElementRef());
-        // this.scrollable.elementScrolled();
-      //  this.onWindowScroll(data);
-      });
-/*    this.scrollable.elementScrolled().subscribe(() => {
-      console.log("rrrrrrr");
-    });*/
-
-/*    this.sidenavContainer.scrollable.elementScrolled().subscribe(res=> {
-      console.log('sdfsdfsfsdfs');
-      console.log(res);
-    })*/
-  /*  this.scrollDispatcher.scrolled().subscribe((data: CdkScrollable) => {
-      console.log(data);
-      console.log(this.scrollable);
-      if (data) {
-        console.log(data);
-        let scrollTop: number = data.getElementRef().nativeElement.scrollTop + 100;
+    this.navigationSubscription = this.router.events.subscribe((e: any) => {
+      // If it is a NavigationEnd event re-initalise the component
+      if (e instanceof NavigationEnd) {
+        this.path = this._route.snapshot.data.path;
+        this.target = this._route.snapshot.data.target;
+        this.componentHost.viewContainerRef.clear();
+        this.changeDetector.markForCheck(); // refresh the component manually
+        this.makeComponents();
       }
-    });*/
-    this._renderer.listen(this.scrollable.getElementRef().nativeElement.parentNode,
-      'scroll', (event) => {
-   //   console.log(event);
-        // do stuff with the event
-      });
-
-
+    });
   }
 
   pick(o, props): any {

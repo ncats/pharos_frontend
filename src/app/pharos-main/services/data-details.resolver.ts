@@ -33,9 +33,7 @@ export class DataDetailsResolver implements Resolve<any> {
       this.loadingService.toggleVisible(true);
       this.pharosApiService.flushData();
       this.pathResolverService.setPath(route.data.path);
-      // this.pharosApiService.getDetails(route.data.path, route.paramMap);
        return this.pharosApiService.getTarget(route.data.path, route.paramMap);
-        // return of([]);
     }
 
     getDetailsByUrl(url: string, origin: string): void {
