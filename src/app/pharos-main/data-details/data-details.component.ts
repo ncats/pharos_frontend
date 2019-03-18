@@ -79,10 +79,12 @@ scrollingSubscription;
       // If it is a NavigationEnd event re-initalise the component
       if (e instanceof NavigationEnd) {
         this.path = this._route.snapshot.data.path;
-        this.target = this._route.snapshot.data.target;
-        this.componentHost.viewContainerRef.clear();
-        this.changeDetector.markForCheck(); // refresh the component manually
-        this.makeComponents();
+        if(this._route.snapshot.data.target != this.target) {
+          this.target = this._route.snapshot.data.target;
+          this.componentHost.viewContainerRef.clear();
+          this.changeDetector.markForCheck(); // refresh the component manually
+          this.makeComponents();
+        }
       }
     });
   }
