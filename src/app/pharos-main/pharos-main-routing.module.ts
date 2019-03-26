@@ -93,7 +93,8 @@ const pharosMainRoutes: Routes = [
     component: DataDetailsComponent,
     resolve: {
       target: DataDetailsResolver
-    }
+    },
+    runGuardsAndResolvers: 'always'
   }
 ];
 
