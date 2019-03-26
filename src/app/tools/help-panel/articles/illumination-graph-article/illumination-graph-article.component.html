@@ -1,10 +1,40 @@
-<p>
-  What do the numbers on the radar chart mean?
-  The radar chart is a visualization of gene-attribute associations as recorded by the Harmonizome.
-  These radial plots summarize the level of accumulated knowledge about each target. The further the point is away from the center of the radial plot, the more knowledge exists about the target. By mouse hovering the labels, the list of associated resources with links are presented on the left. To compare the relative knowledge for the target to knowledge for the target family, select to 'overlay another dataset'. The normalized knowledge for the target family will show in orange. To construct these plots we
-
-  Begin with a set of gene-attribute associations. The attributes may be pathways,GO terms, phenotypes, diseases, drugs, tissues, proteins, etc., depending on thedataset. Some datasets require a few preprocessing steps to get here.
-  Count the number of associations for each gene.
-  Normalize the counts by Calculate the empirical cumulative probability ofthe count for each gene, which is equal to the fraction of genes with count lessthan or equal to the count for each gene.ount for each gene.
-  The normalized counts/CDF values/empirical cumulative probabilities indicate the relative amount of knowledge about a gene compared to other genes in a given dataset. Genes with relatively high numbers of associations get assigned values near 1 and genes with relatively low numbers of associations get assigned values near 0.
+<div fxLayout="row">
+  <span class="mat-headline">What do the numbers on the radar chart mean?</span>
+</div>
+<div fxLayout="row" fxLayoutAlign="space-around center">
+  <div fxFlex = "90">
+    <p class = "mat-body">
+    The radar chart is a visualization of gene-attribute associations as recorded by the
+  <a href="http://amp.pharm.mssm.edu/Harmonizome/" target="_blank">Harmonizome</a>. <br>
+  These radial plots summarize the level of accumulated knowledge about each target. The further the point is away from
+  the center of the radial plot, the more knowledge exists about the target. By hovering the labels, the list of
+  associated resources with links are presented on the left.</p><br>
+<!-- // To compare the relative knowledge for the target to knowledge for the target family, select to 'overlay another dataset'..
+ // The normalized knowledge for the target family will show in orange. -->
+  </div>
+</div>
+<mat-divider class="pharos-divider"></mat-divider>
+<div fxLayout="row">
+  <span class="mat-headline">How is the plot constructed?</span>
+</div>
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <div fxFlex ="90">
+        <p class="mat-body">
+  1. We begin with a set of gene-attribute associations. The attributes may be pathways, GO terms,
+  phenotypes, diseases, drugs, tissues, proteins, etc., depending on the dataset. Some datasets require a few
+  preprocessing steps to get here. <br>
+  2. Count the number of associations for each gene.<br>
+  3. Normalize the counts by calculating the empirical cumulative probability o fthe count for each gene,
+  which is equal to the fraction of genes with count lessthan or equal to the count for each gene.<br>
+        </p>
+  </div>
+</div>
+<div fxLayout="row" fxLayoutAlign="space-around center">
+  <div fxFlex ="90">
+<p class="mat-body">
+    <mat-icon [color]="'accent'">star</mat-icon> The normalized counts/CDF values/empirical cumulative probabilities indicate the relative amount of knowledge about a
+  gene compared to other genes in a given dataset. Genes with relatively high numbers of associations get assigned values
+  near <strong>1</strong> and genes with relatively low numbers of associations get assigned values near <strong>0</strong>.
 </p>
+</div>
+</div>

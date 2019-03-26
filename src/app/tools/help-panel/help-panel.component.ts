@@ -20,6 +20,7 @@ export class HelpPanelComponent implements OnInit {
   rawData: any;
   description: string;
   sources: any;
+  selectedArticle: string;
 
   constructor(
     private helpDataService: HelpDataService,
@@ -44,6 +45,7 @@ export class HelpPanelComponent implements OnInit {
   showArticle(source: any) {
     console.log(source);
     if (source.article) {
+      this.selectedArticle = source.label;
       const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(source.article);
       console.log(dynamicChildToken);
       const dynamicComponent: any = this.componentInjectorService.injectComponent(this.componentHost, dynamicChildToken);
