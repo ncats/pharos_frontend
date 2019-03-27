@@ -30,6 +30,7 @@ import {AngularFireModule} from "@angular/fire";
 import {AngularFirestoreModule} from "@angular/fire/firestore";
 import {AngularFireAuthModule} from "@angular/fire/auth";
 import { DynamicTablePanelComponent } from './tools/dynamic-table-panel/dynamic-table-panel.component';
+import { TargetDevelopmentArticleComponent } from './tools/help-panel/articles/target-development-article/target-development-article.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { DynamicTablePanelComponent } from './tools/dynamic-table-panel/dynamic-
     SketcherComponent,
     StructureSearchPageComponent,
     SequenceSearchPageComponent,
-    DynamicTablePanelComponent
+    DynamicTablePanelComponent,
+    TargetDevelopmentArticleComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [

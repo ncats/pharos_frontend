@@ -17,9 +17,9 @@ export class HelpPanelComponent implements OnInit {
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
 
   searchCtrl: FormControl = new FormControl();
-  rawData: any;
+  rawData: any = {};
   description: string;
-  sources: any;
+  sources: any = [];
   selectedArticle: string;
 
   constructor(
@@ -30,10 +30,22 @@ export class HelpPanelComponent implements OnInit {
 
   ngOnInit() {
     console.log(this);
-    this.helpDataService.data$.subscribe(res => this.rawData = res);
-    this.helpDataService.sources$.subscribe(res => this.sources = res);
-   console.log(this.helpDataService.getSources(this.helpDataService.label));
-
+    this.helpDataService.data$.subscribe(res => {
+      console.log(res);
+     // this.rawData = res;
+    });
+    this.helpDataService.sources$.subscribe(res => {
+      console.log(res);
+      if(res && res.length) {
+        this.sources = res;
+        this.sources.forEach(source => {
+          console.log(source);
+          console.log(this.helpDataService.data);
+          console.log(this.helpDataService.data[source.field]);
+          this.rawData[source.field] = this.helpDataService.data[source.field];
+        });
+      }
+    });
   }
 
   search() {}
@@ -47,7 +59,6 @@ export class HelpPanelComponent implements OnInit {
     if (source.article) {
       this.selectedArticle = source.label;
       const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(source.article);
-      console.log(dynamicChildToken);
       const dynamicComponent: any = this.componentInjectorService.injectComponent(this.componentHost, dynamicChildToken);
 /*      dynamicComponent.instance.target = this.target;
       dynamicComponent.instance.id = this.target.id;

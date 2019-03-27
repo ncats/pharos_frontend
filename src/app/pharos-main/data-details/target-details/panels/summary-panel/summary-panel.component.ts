@@ -1,5 +1,4 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {MatDialog} from '@angular/material';
 import { takeUntil} from 'rxjs/operators';

@@ -1,0 +1,31 @@
+
+
+
+TCRD is the central resource behind the Illuminating the Druggable Genome Knowledge Management Center (IDG-KMC). TCRD contains information about human targets, with special emphasis on four families of targets that are central to the NIH IDG initiative: GPCRs, kinases, ion channels and nuclear receptors. Olfactory GPCRs (oGPCRs) are treated as a separate family. A key aim of the KMC is to classify the development/druggability level of targets. We currently categorize targets into four development/druggability levels (TDLs) defined as follows:
+
+Tclin
+These targets have activities in DrugCentral (ie. approved drugs) with known mechanism of action.
+
+Tchem
+These targets have activities in ChEMBL or DrugCentral that satisfy the activity thresholds detailed below. In some cases, targets have been manually migrated to Tchem by human curation based on small molecule activities from other sources.
+
+Tbio
+These targets do not have known drug or small molecule activities that satisfy the activity thresholds detailed below AND satisfy one or more of the following criteria:
+target is above the cutoff criteria for Tdark
+target is annotated with a Gene Ontology Molecular Function or Biological Process leaf term(s) with an Experimental Evidence code
+target has confirmed OMIM phenotype(s)
+
+Tdark
+These are targets about which virtually nothing is known. They do not have known drug or small molecule activities that satisfy the activity thresholds detailed below AND satisfy two or more of the following criteria:
+A PubMed text-mining score from Jensen Lab < 5
+<= 3 Gene RIFs
+<= 50 Antibodies available according to http://antibodypedia.com
+
+Activity Thresholds
+In order to be saved in TCRD and thus be used for TDL assignments, activity values from DrugCentral and ChEMBL must be standardizable to -Log Molar units (via an automated process) AND meet the the following target-family-specific cutoffs:
+
+Kinases: <= 30nM
+GPCRs: <= 100nM
+Nuclear Receptors: <= 100nM
+Ion Channels: <= 10μM
+Non-IDG Family Targets: <= 1μM

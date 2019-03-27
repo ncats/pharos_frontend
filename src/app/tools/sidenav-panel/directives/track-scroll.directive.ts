@@ -12,14 +12,10 @@ export class TrackScrollDirective {
 
 
   constructor(private _el: ElementRef) {
-    console.log('sdgsfsfsfsghdjgfvbm');
-    console.log(this._el);
   }
 
  // @HostListener('window:scroll', ['$event'])
   onScroll(event: any) {
-    console.log(event);
-    console.log(this._el);
     let currentSection: string;
     const children = this._el.nativeElement.children;
     const scrollTop = event.target.scrollTop;
