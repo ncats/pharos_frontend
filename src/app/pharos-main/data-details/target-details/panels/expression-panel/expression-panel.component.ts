@@ -90,6 +90,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   }
 
   ngOnInit() {
+    console.log(this);
     this._URL = this.environmentVariablesService.getHomunculusUrl(this.id);
     this._data
     // listen to data as long as term is undefined or null

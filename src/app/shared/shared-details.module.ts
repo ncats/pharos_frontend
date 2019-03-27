@@ -4,11 +4,13 @@ import {DataDetailsComponent} from '../pharos-main/data-details/data-details.com
 import {SharedModule} from './shared.module';
 import {DataDetailsResolver} from '../pharos-main/services/data-details.resolver';
 import {SidenavPanelComponent} from "../tools/sidenav-panel/sidenav-panel.component";
+import {AnatamogramModule} from "../tools/anatamogram/anatamogram.module";
 
 
 @NgModule({
   imports: [
-    SharedModule
+    SharedModule,
+    AnatamogramModule
   ],
   declarations: [
     DataDetailsComponent,
@@ -19,6 +21,7 @@ import {SidenavPanelComponent} from "../tools/sidenav-panel/sidenav-panel.compon
   ],
   exports: [
     SharedModule,
+    AnatamogramModule,
     DataDetailsComponent,
     SidenavPanelComponent
   ]
