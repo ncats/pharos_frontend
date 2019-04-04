@@ -66,6 +66,9 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
   setterFunction(): void {
     const ligandsArr = [];
     this.data.forEach(ligand => {
+      console.log(ligand);
+      let url ='';
+      if(ligand.self || ligand.href) {
         const url = ligand.self ? ligand.self : ligand.href + '?view=full';
         this._http.get<any>(url).subscribe(res => {
           const activity: any = this._getActivity(res);
@@ -74,26 +77,43 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
             // placeholder to block repetitive calls
             this.ligandsMap.set(res.id, {});
           } else {
-              ligandsArr.push(mappedLig);
-              this.ligandsDataSource.data = ligandsArr;
-            }
-            const refid: string = res.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;
-            const newLigand = {
-              name: res.name,
-              refid: refid,
-              activityType: this._getActivityType(activity),
-              activity: activity.numval,
-              imageUrl: this._STRUCTUREURLBASE + refid + '.svg?size=250'
-            };
-
-            if (ligand.target) {
-              newLigand['target'] = ligand.target;
-            }
-            this.ligandsMap.set(ligand.id, newLigand);
-            ligandsArr.push(newLigand);
+            ligandsArr.push(mappedLig);
             this.ligandsDataSource.data = ligandsArr;
+          }
+          const refid: string = res.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;
+          const newLigand = {
+            name: res.name,
+            refid: refid,
+            activityType: this._getActivityType(activity),
+            activity: activity.numval,
+            imageUrl: ligand.image ? ligand.image : this._STRUCTUREURLBASE + refid + '.svg?size=250'
+          };
+
+          if (ligand.target) {
+            newLigand['target'] = ligand.target;
+          }
+          this.ligandsMap.set(ligand.id, newLigand);
+          ligandsArr.push(newLigand);
+          this.ligandsDataSource.data = ligandsArr;
         });
+      } else {
+        const newLigand = {
+          name: ligand.IDG_Ligand,
+          refid: ligand.id,
+          activityType: ligand.Ligand_Activity,
+          activity: ligand[ligand.Ligand_Activity],
+          imageUrl: ligand.image
+        };
+
+        if (ligand.target) {
+          newLigand['target'] = ligand.target;
+        }
+        this.ligandsMap.set(ligand.id, newLigand);
+        ligandsArr.push(newLigand);
+        this.ligandsDataSource.data = ligandsArr;
+      }
     });
+    console.log(this);
   }
 
   private _getActivity(ligand: any): any {

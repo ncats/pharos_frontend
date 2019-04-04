@@ -7,6 +7,7 @@ import {PageData} from '../../../models/page-data';
 import {BatchUploadModalComponent} from "../../../tools/batch-upload-modal/batch-upload-modal.component";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment.prod";
+import {BreakpointObserver} from "@angular/cdk/layout";
 
 @Component({
   selector: 'pharos-target-table',
@@ -31,16 +32,22 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
    */
   @Input() showLabel = true;
 
-  dataSource = new MatTableDataSource<any>(this.data);
+  isSmallScreen = false;
+
+  dataSource = new MatTableDataSource<any>([]);
   rowSelection = new SelectionModel<any>(true, []);
 
   constructor(public dialog: MatDialog,
-              public http: HttpClient) {
+              public http: HttpClient,
+              public breakpointObserver: BreakpointObserver
+              ) {
     super();
   }
 
   ngOnInit() {
-        this._data
+    this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
+
+    this._data
         // listen to data as long as term is undefined or null
         // Unsubscribe once term has value
           .pipe(
@@ -48,8 +55,11 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
             takeUntil(this.ngUnsubscribe)
           )
           .subscribe(x => {
-            console.log(this);
-            this.dataSource.data = this.data;
+            console.log(this.data.length);
+            if(this.data.length) {
+              console.log(this.data);
+              this.dataSource.data = this.data;
+            }
           });
   }
 

@@ -45,7 +45,7 @@ export class DataParserService implements DataParserInterface {
    // return this._http.get<any[]>(DATAFILES).subscribe(res => console.log(res));
   }
 
-  LoadData(): any {
+  loadData(): any {
     return this._http.get<any[]>(DATAFILES)
       .pipe(
       map(res=> this._parseData(res))
@@ -53,7 +53,6 @@ export class DataParserService implements DataParserInterface {
   }
 
   _parseData(data: any) {
-    console.log(data);
     return from(data.content.map(query => {
       const n: TargetNode = this.targetNodeMappingService.makeNode(query.target.id, query.target);
       if (query.diseases) {
@@ -85,7 +84,6 @@ export class DataParserService implements DataParserInterface {
       const diseases = Array.from(this.diseaseNodeMappingService.getNodes().values());
       const ligands = Array.from(this.ligandNodeMappingService.getNodes().values());
       const nodes = [...targets, ...diseases, ...ligands];
-      console.log(nodes);
       this.dataMap.set('topics', {
         nodes: nodes,
         links: Array.from(this.linkService.getLinks().values()),
@@ -97,5 +95,15 @@ export class DataParserService implements DataParserInterface {
 
   getData(): Map<string,any> {
     return this.dataMap;
+  }
+
+  getTargets() {
+    return Array.from(this.targetNodeMappingService.masterNodeMap.values());
+  }
+  getLigands() {
+    return Array.from(this.ligandNodeMappingService.masterNodeMap.values());
+  }
+  getDisease() {
+    return Array.from(this.diseaseNodeMappingService.masterNodeMap.values());
   }
 }

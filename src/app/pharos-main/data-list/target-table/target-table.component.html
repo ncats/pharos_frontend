@@ -1,4 +1,4 @@
-<br>
+<div *ngIf="dataSource.data">
 <div fxLayout="row" fxLayout.lt-sm="column">
   <mat-toolbar [color]="'primary'">
     <div fxFlex="45" fxLayoutAlign.lt-sm="center">
@@ -75,19 +75,19 @@
       <ng-container matColumnDef="novelty">
         <mat-header-cell fxFlex="5" fxHide.lt-md *matHeaderCellDef mat-sort-header>Log Novelty </mat-header-cell>
         <mat-cell fxFlex="5" fxHide.lt-md *matCellDef="let row">
-          {{row.novelty?.toFixed(2)}}
+          {{row.novelty?.toFixed(2) || ''}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="jensenScore">
         <mat-header-cell fxFlex="5" fxHide.lt-md *matHeaderCellDef mat-sort-header>Pubmed Score </mat-header-cell>
         <mat-cell fxFlex="5" fxHide.lt-md *matCellDef="let row">
-          {{row.jensenScore?.toFixed(2)}}
+          {{row.jensenScore?.toFixed(2) || ''}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="antibodyCount">
         <mat-header-cell fxFlex="5" fxHide.lt-md *matHeaderCellDef mat-sort-header>Antibody Count </mat-header-cell>
         <mat-cell fxFlex="5" fxHide.lt-md *matCellDef="let row">
-          {{row.antibodyCount}}
+          {{row.antibodyCount || ''}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="knowledgeAvailability">
@@ -101,8 +101,8 @@
       <mat-row *matRowDef="let row; columns: displayColumns;" class = "small-radar">
       </mat-row>
     </mat-table>
-<div class ="target-grid" fxHide fxShow.lt-sm>
-  <div *ngFor="let target of dataSource">
+<div class ="target-grid" fxHide fxShow.lt-sm *ngIf="isSmallScreen">
+  <div *ngFor="let target of dataSource.connect() | async">
     <pharos-target-card [target]="target"></pharos-target-card>
   </div>
 </div>
@@ -112,4 +112,5 @@
   <div fxFlex="45" fxFlexAlign="end">
     <pharos-custom-paginator [pageData]="pageData" (page)="changePage($event)"></pharos-custom-paginator>
   </div>
+</div>
 </div>

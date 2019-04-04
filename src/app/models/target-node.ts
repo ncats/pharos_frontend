@@ -5,6 +5,8 @@ export class TargetNodeSerializer implements NodeSerializer {
     const node = new TargetNode();
     Object.entries((obj)).forEach((prop) => node[prop[0]] = prop[1]);
     node.linkCount = node.diseaseCount + node.ligandCount || 1;
+    node.idgTDL = obj.tdl;
+    node.idgFamily = obj.family;
     return node;
   }
 
@@ -28,10 +30,12 @@ export class TargetNode extends Node {
    * protein family
    */
   family: string;
+  idgFamily: string;
   /**
    * protein dark level
    */
   tdl: string;
+  idgTDL: string;
   /**
    * pharos link of protein
    * currently to a different pharos instance

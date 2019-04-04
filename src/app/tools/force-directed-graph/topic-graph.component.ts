@@ -50,7 +50,7 @@ export class TopicGraphComponent<T extends Node> implements OnInit {
   ngOnInit() {
     console.log(this);
   //  this.dataParserService.LoadData();
-    this.dataParserService.LoadData().subscribe(res => {
+    this.dataParserService.loadData().subscribe(res => {
   console.log(res);
       this.dataMap = this.dataParserService.getData();
       console.log(this.dataMap);

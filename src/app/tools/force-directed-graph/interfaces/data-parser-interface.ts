@@ -1,7 +1,7 @@
 import {Observable} from "rxjs/index";
 
 export interface DataParserInterface {
-  LoadData(): Observable<any>;
+  loadData(): Observable<any>;
   getData(): any;
   _parseData(data: any);
 }
