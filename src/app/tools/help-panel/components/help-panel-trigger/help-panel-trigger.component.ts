@@ -17,15 +17,11 @@ export class HelpPanelTriggerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this);
   }
 
   toggle() {
     if (this.origin) {
       this.helpDataService.setOrigin(this.origin);
-      this.helpDataService.setLabel(this.label ? this.label : this.origin);
-      this.helpDataService.fetchData();
-      this.helpDataService.getSources(this.origin);
     }
       this.helpPanelOpenerService.toggleVisible();
   }

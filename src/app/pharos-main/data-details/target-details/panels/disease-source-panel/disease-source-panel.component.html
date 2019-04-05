@@ -1,10 +1,13 @@
-<div class ="panel-component" id = "diseaseRelationships" #diseaseRelationships #scrollSection>
-<mat-card>
-    <mat-card-content>
-      <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="start stretch">
-        <div fxFlex="95">
-          <span class="mat-title">Disease Associations by Source ({{sources?.length}})</span>
-        </div>
+<mat-card *ngIf=data class="section-card" id = "diseaseRelationships" #diseaseRelationships #scrollSection>
+  <mat-card-content>
+    <div fxLayout="row"
+         fxLayout.lt-md="column"
+         class="tkrow"
+         fxLayoutAlign="start stretch"
+         #development #scrollSection>
+      <div fxFlex="95">
+        <span class="mat-title">Disease Associations by Source ({{sources?.length}})</span>
+      </div>
         <div fxFlex="5">
           <pharos-help-panel-trigger [origin] = "'diseaseSources'" [label]="'Disease Sources'"></pharos-help-panel-trigger>
         </div>
@@ -27,9 +30,6 @@
         <div fxFlex="95">
           <span class="mat-title">Disease Novelty (Tinx)</span>
         </div>
-        <div fxFlex="5">
-          <pharos-help-panel-trigger [origin] = "'tinx'"></pharos-help-panel-trigger>
-        </div>
       </div>
       <div fxLayout="row" *ngIf="tinx && tinx.length > 0" fxLayout.lt-md="column" class ="tkrow tinx" fxLayoutAlign="start stretch">
         <div fxFlex="100">
@@ -38,4 +38,3 @@
       </div>
   </mat-card-content>
 </mat-card>
-</div>

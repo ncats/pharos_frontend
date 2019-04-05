@@ -88,7 +88,13 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
         //  console.log(component.navHeader);
           this.sections.push(component.navHeader);
           this.navSectionsService.setSections(Array.from(new Set([...this.sections])));
-          this.helpDataService.setSources(component.navHeader.section, component.api);
+          this.helpDataService.setSources(component.navHeader.section,
+            {
+              sources: component.api,
+              title: component.navHeader.label,
+              mainDescription: component.navHeader.mainDescription ? component.navHeader.mainDescription : null
+            }
+            );
         }
 
         // todo need to cover when no results are returned - do we still want to make the component?

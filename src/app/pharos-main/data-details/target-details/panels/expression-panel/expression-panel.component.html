@@ -1,8 +1,17 @@
-<mat-card class ="section-card" id = "expression" #expression #scrollSection>
-  <mat-card-header>
-    <mat-card-title ><span class="mat-title">Expression Data</span></mat-card-title>
-  </mat-card-header>
+<mat-card *ngIf=data class="section-card" id = "expression" #expression #scrollSection>
   <mat-card-content>
+    <div fxLayout="row"
+         fxLayout.lt-md="column"
+         class="tkrow"
+         fxLayoutAlign="start stretch"
+         #development #scrollSection>
+      <div fxFlex="95">
+        <span class="mat-title">Expression Data</span>
+      </div>
+      <div fxFlex="5">
+        <pharos-help-panel-trigger [origin] = "'expression'" [label]="'Expression Data'"></pharos-help-panel-trigger>
+      </div>
+    </div>
     <div class = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
       <div fxFlex = "30" class ="expressions">
       <mat-tab-group [dynamicHeight]="true">
