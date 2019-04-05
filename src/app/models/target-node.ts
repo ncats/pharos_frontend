@@ -1,4 +1,5 @@
 import {Node, NodeSerializer} from "../tools/force-directed-graph/force-directed-graph/graph-component/models/node";
+import {Target} from "./target";
 
 export class TargetNodeSerializer implements NodeSerializer {
   fromJson (obj: any, id?: string): TargetNode {
@@ -7,6 +8,8 @@ export class TargetNodeSerializer implements NodeSerializer {
     node.linkCount = node.diseaseCount + node.ligandCount || 1;
     node.idgTDL = obj.tdl;
     node.idgFamily = obj.family;
+    node.target = new Target(node);
+    console.log(node);
     return node;
   }
 
@@ -50,4 +53,5 @@ export class TargetNode extends Node {
   ligandCount: number;
   diseaseCount: number;
   type = 'target';
+  target: Target;
 }

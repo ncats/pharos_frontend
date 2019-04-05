@@ -58,6 +58,7 @@ export class DataParserService implements DataParserInterface {
       if (query.diseases) {
         query.diseases.map(disease => {
           const d: DiseaseNode = this.diseaseNodeMappingService.makeNode(disease.id, disease);
+          d.targets.push(n.target);
           this.diseaseNodeMappingService.setNode(d);
           const l = this.linkService.makeLink(`${n.id}${d.id}`, n, d, {properties: d});
           this.linkService.setLink(l);
@@ -103,7 +104,7 @@ export class DataParserService implements DataParserInterface {
   getLigands() {
     return Array.from(this.ligandNodeMappingService.masterNodeMap.values());
   }
-  getDisease() {
+  getDiseases() {
     return Array.from(this.diseaseNodeMappingService.masterNodeMap.values());
   }
 }

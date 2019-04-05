@@ -47,8 +47,8 @@ interface TopicData {
 export class TopicDetailsComponent extends DynamicPanelComponent implements OnInit {
   path: string;
   topic: Topic;
-  allTargets: any[] = [];
-  targets: any[] = [];
+  allTargets: Target[] = [];
+  targets: Target[] = [];
   ligands: any[] = [];
   allLigands: any[] = [];
   diseases: any[] = [];
@@ -88,7 +88,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
               @Inject(forwardRef(() => ComponentLookupService)) private componentLookupService,
               private dataDetailsResolver: DataDetailsResolver,
               private ref: ChangeDetectorRef,
-           //   private graphDataService: GraphDataService,
+            //  private graphDataService: GraphDataService,
               private componentInjectorService: ComponentInjectorService) {
     super();
     this._apiUrl = this.environmentVariablesService.getApiPath();
@@ -97,7 +97,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   ngOnInit() {
     console.log(this);
     this.dataParserService.loadData().subscribe(res =>  {
-    this.allTargets = this.dataParserService.getTargets();
+    this.allTargets = this.dataParserService.getTargets().map(node => node.target);
     this.targets = this.allTargets.slice(0,10) as any[];
       this.targetPageData = new PageData({
         top: 10,
@@ -106,7 +106,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
         total: this.allTargets.length
       });
     this.allLigands = this.dataParserService.getLigands();
-    this.diseases = this.dataParserService.getDisease();
+    this.allDiseases = this.dataParserService.getDiseases();
     });
     /* this.topic = this.data.object;
      this.targetsMap.clear();
@@ -401,31 +401,47 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
       }
       if ($event.tab.textLabel.split(' ')[0] === 'Diseases') {
         this.loading = true;
-      //  this.diseases = this.dataParserService.getDisease() as Disease[];
-        /*     if (this.allDiseases.length === 0) {
-               this.mapDiseases();
-             } else {*/
+        this.allDiseases = this.dataParserService.getDiseases()
+          .map(disease => {
+            return {
+              disease: new Property(
+                {
+                  term: disease.name
+                }),
+              targets: disease.targets.map(target => new Property(
+                {
+                  term: target.name,
+                  internalHref: `/targets/${target.accession}`
+                }))
+            }
+          });
+
+        this.diseasePageData = new PageData({
+          top: 20,
+          skip: 0,
+          count: 20,
+          total: this.allDiseases.length
+        });
+        this.diseases = this.allDiseases.slice(this.diseasePageData.skip, this.diseasePageData.top);
+        this.loading = false;
+      }
+      if ($event.tab.textLabel.split(' ')[0] === 'Targets') {
+        this.loading = true;
+        this.targets = this.allTargets.slice(0,10) as any[];
+        this.targetPageData = new PageData({
+          top: 10,
+          skip: 0,
+          count: 10,
+          total: this.allTargets.length
+        });
         this.loading = false;
         //   }
       }
       if ($event.tab.textLabel === 'Graph') {
-        /*if (this.ligands.length === 0) {
-          this.mapLigands();
-        } else {
-          this.graphDataService.setGraph({
-            nodes: this.graphDataService.getNodes(),
-            links: this.graphDataService.getLinks()
-          });
-        }
-        if (this.allDiseases.length === 0) {
-          this.mapDiseases();
-        } else {
-          this.graphDataService.setGraph({
-            nodes: this.graphDataService.getNodes(),
-            links: this.graphDataService.getLinks()
-          });
-        }
-      }*/
+        /*this.graphDataService.setGraph({
+          nodes: this.graphDataService.getNodes(),
+          links: this.graphDataService.getLinks()
+        });*/
       }
     }
 
