@@ -6,8 +6,10 @@
   <div fxFlex = "90">
     <div class = "mat-body">
       <div fxLayout="row" fxLayoutAlign="start center">
-      <h3>Named entity recognition (NER)</h3>
-    <p>The recognition of protein and gene names in text builds upon the text-mining pipeline of the STRING database
+      <h3>Named entity recognition (NER)</h3><br>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center">
+      <p>The recognition of protein and gene names in text builds upon the text-mining pipeline of the STRING database
       (Franceschini et al., 2013). This relies heavily on a highly efficient and flexible NER engine, which is
       implemented in C++ and is described in full detail in Pafilis et al. (2013). Most recently we have
       updated the dictionaries and underlying human genome annotation as part of releasing STRING version 10
@@ -16,7 +18,9 @@
       </div>
       <div fxLayout="row" fxLayoutAlign="start center">
       <h3>Text corpora</h3>
-    <p>To construct a literature corpus, we first downloaded all articles from the PubMed Central (PMC)
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center">
+      <p>To construct a literature corpus, we first downloaded all articles from the PubMed Central (PMC)
       <a href="http://www.ncbi.nlm.nih.gov/pmc/tools/openftlist/">Open Access Subset</a> and converted
       them to the format required by the NER software. We next queried PubMed for additional articles for
       which full-text is freely available online and automatically downloaded these in PDF format from
@@ -28,7 +32,9 @@
       of Medline entries. We thus extend the literature corpus with these abstracts, which we extracted
       from a local copy of <a href="http://www.nlm.nih.gov/databases/journal.html">Medline</a> and
       converted to the same format as the full-text articles.</p>
-    <p>We complement the literature corpus with a second corpus of USPTO patent texts, which we downloaded
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center">
+      <p>We complement the literature corpus with a second corpus of USPTO patent texts, which we downloaded
       from <a href="http://www.google.com/googlebooks/uspto-patents-grants-text.html">Google Books</a>.
       As the file format of these have changed over the years, we developed several
       parsers to convert them all into the same unified format as the literature corpus. Most notably,
@@ -37,7 +43,20 @@
       </div>
       <div fxLayout="row" fxLayoutAlign="start center">
       <h3>Fractional counting</h3>
-    <p>A document can mention multiple proteins without pertaining equally much to all of them. To address
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center" #pharosKatexRenderer pharosKatexRenderer>
+
+      <!--        The novelty (\(N_i\)) and Importance (\(I_{ij}\)) scores are computed using the
+        following formulae $$N_i = \frac{1}{\sum \frac{1}{T_k}}$$ and $$I_{ij} = \sum \frac{1}{T_k D_k}$$ where \(T_k\)-->
+        and \\(D_k\\) are the numbers of targets and diseases in abstract \\(k\\),
+        respectively, and summation over all publications including target (\\(i\\)), and for
+        importance, also including disease (\\(j\\)). <p>Due to the skewed nature of the distribution of
+        Novelty scores, we take the logarithm. This leads to a less skewed distribution,
+        allowing for more reasonable faceting.
+      </p>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center">
+      <p>A document can mention multiple proteins without pertaining equally much to all of them. To address
       this, we use a fractional counting scheme in which each paper that mentions at least one protein
       contributes a total count of 1, which is distributed across the mentioned proteins relative to
       how many times each of them was mentioned. The total count for protein i is thus:</p>
@@ -47,7 +66,9 @@
   -->    </div>
       <div fxLayout="row" fxLayoutAlign="start center">
     <h3>References</h3>
-    <p>Cunningham F, Amode MR, Barrell D, Beal K, Billis K, Brent S, Carvalho-Silva D, Clapham P, Coates G,
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center">
+      <p>Cunningham F, Amode MR, Barrell D, Beal K, Billis K, Brent S, Carvalho-Silva D, Clapham P, Coates G,
       Fitzgerald S, Gil L, Girón CG, Gordon L, Hourlier T, Hunt SE, Janacek SH, Johnson N, Juettemann T,
       Kähäri AK, Keenan S, Martin FJ, Maurel T, McLaren W, Murphy DN, Nag R, Overduin B, Parker A,
       Patricio M, Perry E, Pignatelli M, Riat HS, Sheppard D, Taylor K, Thormann A, Vullo A, Wilder SP,
@@ -55,6 +76,7 @@
       Trevanion SJ, Yates A, Zerbino DR, Flicek P (2015). <a href="http://dx.doi.org/10.1093/nar/gku1010">
         Ensembl 2015</a>. Nucleic Acids Research,
       43:D662–D669</p>
+
     <p>Franceschini A, Szklarczyk D, Frankild S, Kuhn M, Simonovic M, Roth A, Lin J, Minguez P, Bork P,
       von Mering C, Jensen LJ (2013). <a href="http://dx.doi.org/10.1093/nar/gks1094">
         STRING v9.1: protein-protein interaction networks, with increased

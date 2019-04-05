@@ -33,6 +33,7 @@ import {KnowledgeTableComponent} from '../tools/knowledge-table/knowledge-table.
 import {ProteinStructureViewerComponent} from "../tools/protein-structure-viewer/protein-structure-viewer.component";
 import {TrackScrollDirective} from "../tools/sidenav-panel/directives/track-scroll.directive";
 import {HelpArticlesModule} from "../shared/help-articles.module";
+import {EquationRendererComponent} from "../tools/equation-renderer/equation-renderer.component";
 
 
 @NgModule({
@@ -68,7 +69,7 @@ import {HelpArticlesModule} from "../shared/help-articles.module";
     HelpPanelTriggerComponent,
     KnowledgeTableComponent,
     ProteinStructureViewerComponent,
-    TrackScrollDirective
+    TrackScrollDirective,
   ],
   providers: [
     HelpDataService,
@@ -102,7 +103,7 @@ import {HelpArticlesModule} from "../shared/help-articles.module";
     HelpPanelTriggerComponent,
     KnowledgeTableComponent,
     ProteinStructureViewerComponent,
-    TrackScrollDirective
+    TrackScrollDirective,
   ]
 })
 export class SharedModule {
