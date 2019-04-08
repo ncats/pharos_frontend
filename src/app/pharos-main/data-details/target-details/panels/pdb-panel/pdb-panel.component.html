@@ -1,4 +1,7 @@
-<mat-card class ="flex30" *ngIf="data">
+<mat-card class ="flex30"
+          (pharosScrollspy)="active('pdb')"
+          #pdb
+          *ngIf="data">
   <mat-card-header>
     <mat-card-title ><span class="mat-title">Protein Database ({{tableArr?.length}})</span></mat-card-title>
   </mat-card-header>

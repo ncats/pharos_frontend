@@ -4,6 +4,7 @@ import {MatDialog} from '@angular/material';
 import { takeUntil} from 'rxjs/operators';
 import {RadarChartViewerComponent} from "../../../../../tools/radar-chart-viewer/radar-chart-viewer.component";
 import {Target} from "../../../../../models/target";
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 
 
@@ -15,19 +16,14 @@ import {Target} from "../../../../../models/target";
 export class SummaryPanelComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   @Input() target: Target;
 
-  // todo: known bug in angular prevents this from working. Angular 6 may fix it, but flex would also need to be updated.
-  // todo: https://github.com/angular/angular/issues/11716 https://github.com/angular/angular/issues/8785
-/*  @HostBinding('attr.fxFlex')
-  flex = this.width;*/
-
   constructor(
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private navSectionsService: NavSectionsService
   ) {
     super();
   }
 
 ngOnInit() {
-    console.log(this);
   this._data
   // listen to data as long as term is undefined or null
   // Unsubscribe once term has value
@@ -51,6 +47,10 @@ openModal(): void {
       target: this.target,
       size: 'large'}
   });
+}
+
+active(fragment: string) {
+    this.navSectionsService.setActiveSection(fragment);
 }
 
   ngOnDestroy() {

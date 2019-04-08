@@ -47,6 +47,7 @@ import { DynamicTablePanelComponent } from './tools/dynamic-table-panel/dynamic-
     StructureSearchPageComponent,
     SequenceSearchPageComponent,
     DynamicTablePanelComponent
+
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [

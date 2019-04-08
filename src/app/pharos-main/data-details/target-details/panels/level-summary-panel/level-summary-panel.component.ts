@@ -4,6 +4,7 @@ import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-
 import {MatDialog} from "@angular/material";
 import {takeUntil} from "rxjs/operators";
 import {HttpClient} from "@angular/common/http";
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 @Component({
   selector: 'pharos-level-summary',
@@ -12,7 +13,9 @@ import {HttpClient} from "@angular/common/http";
 })
 export class LevelSummaryPanelComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
 
- constructor() {
+ constructor(
+   private navSectionsService: NavSectionsService
+ ) {
     super();
   }
 
@@ -29,6 +32,11 @@ export class LevelSummaryPanelComponent extends DynamicPanelComponent implements
           this.ngUnsubscribe.next();
         }
       });
+  }
+
+  active(fragment: string) {
+    console.log(fragment);
+    this.navSectionsService.setActiveSection(fragment);
   }
 
   ngOnDestroy() {

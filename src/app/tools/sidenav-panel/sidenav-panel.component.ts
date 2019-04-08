@@ -1,5 +1,5 @@
 import {
-  ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, OnInit, Optional, Output, QueryList, Renderer2,
+  ChangeDetectorRef, Component, ElementRef, EventEmitter, Inject, Input, OnInit, Optional, Output, QueryList, Renderer2,
   ViewChild,
   ViewChildren
 } from '@angular/core';
@@ -14,7 +14,7 @@ import {ViewportScroller, DOCUMENT} from "@angular/common";
   styleUrls: ['./sidenav-panel.component.scss']
 })
 export class SidenavPanelComponent implements OnInit {
-  activeElement: string;
+  @Input() activeElement: string;
   @ViewChild(CdkScrollable) scrollable: CdkScrollable;
   @ViewChildren('scrollSection') scrollSections: QueryList<ElementRef>;
   @Output() readonly scrollElement: EventEmitter<any> = new EventEmitter<any>();
@@ -25,10 +25,6 @@ sections: any[] = [];
        @Optional() @Inject(DOCUMENT) private document: Document,
               private router: Router,
               private route: ActivatedRoute,
-              private viewportScroller: ViewportScroller,
-              private renderer: Renderer2,
-              private changeDetector: ChangeDetectorRef,
-              private scrollDispatcher: ScrollDispatcher,
               private navSectionsService: NavSectionsService) {
   }
 
@@ -40,7 +36,18 @@ sections: any[] = [];
       }
     });
 
-      console.log(this);
+    this.navSectionsService.activeSection$.subscribe(res => {
+      if(res) {
+        this.activeElement = res;
+      }
+    });
+
+    // this covers navigation/click to go to section
+    this.route.fragment.subscribe(fragment => {
+      this.activeElement = fragment;
+    });
+
+   /*   console.log(this);
     this.scrollDispatcher.scrolled().subscribe((data: CdkScrollable) => {
       if (data) {
         console.log(data);
@@ -58,11 +65,18 @@ sections: any[] = [];
           });
         }
       }
-    });
+    });*/
   }
+sticky(event) {
+    console.log("sdfsdsdfsdsdfsfsdsfdsd")
+    console.log(event)
+}
 
-  public scroll(el: any): void {
-    this.scrollElement.emit(el)
+  public scroll(fragment: any): void {
+    const navigationExtras: NavigationExtras = {
+      fragment: fragment
+    };
+    this.router.navigate([], navigationExtras);
   }
 
   isActive(check: string): boolean {

@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {DynamicPanelComponent} from '../../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {HttpClient} from '@angular/common/http';
 import {map, zipAll, takeUntil} from 'rxjs/operators';
 import {from} from "rxjs/index";
-import {PageData} from "../../../../../models/page-data";
+import {PageData} from "../../../../../../models/page-data";
 
 
 interface GenerifData {

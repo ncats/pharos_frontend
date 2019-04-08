@@ -30,18 +30,29 @@
 //  overflow: auto;
 //}
 
+.nav-panel {
+  height: 100%;
+  background: red;
+}
+
 .sticky {
-  position: -webkit-sticky;
+/*  position: -webkit-sticky;
   position: sticky;
-  top: 120px;
+  top: 120px;*/
   //overflow: auto;
   //height: auto;
 }
 
 .show-scroll {
-  /*
-  background-color: red;
-  */
+  // background-color: red;
+/*  position: relative; !* I am the fallback *!
+
+  !* Give it everything you got! (use an auto prefixer...) *!
+  position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -ms-sticky;
+  position: -o-sticky;
+  position: sticky;*/
 }
 
 .main-content {

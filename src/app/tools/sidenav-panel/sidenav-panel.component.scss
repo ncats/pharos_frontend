@@ -1,11 +1,22 @@
 @import '../../../ncats-theme';
 
+.top-observer {
+  /* Adjust the height and top values based on your on your sticky top position.
+e.g. make the height bigger and adjust the top so observeHeaders()'s
+IntersectionObserver fires as soon as the bottom of the sentinel crosses the
+top of the intersection container. */
+  height: 40px;
+  top: -24px;
+  background-color: blue;
+}
+
 .toc-wrapper {
-  position: -webkit-sticky;
+/*  position: -webkit-sticky;
   position: sticky;
-  top: 0;
+  top: 0;*/
   padding-left: .3vw;
 }
+
 
 
 .list-button {

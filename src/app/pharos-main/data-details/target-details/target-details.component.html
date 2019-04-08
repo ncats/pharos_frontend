@@ -1,8 +1,38 @@
-  <div class="target-details-main">
-    <div fxFlex="25" class="sticky"  [ngClass]="{'show-scroll': navIsFixed}" >
-      <pharos-sidenav-panel (scrollElement)="scrollToSection($event)"></pharos-sidenav-panel>
+  <div class="target-details-main"
+
+       #detailsMain
+  >
+    <mat-sidenav-container class="flex-body main-content">
+      <mat-sidenav #navpanel
+                   class="nav-panel"
+                   [mode]="'side'"
+                    [fixedInViewport]="true"
+                   [fixedTopGap]="200"
+                   role="directory"
+                   [opened]="true"
+      >
+        <!-- sidenav content -->
+        <pharos-sidenav-panel
+          (scrollElement)="scrollToSection($event)"
+          [activeElement] = activeElement>
+        </pharos-sidenav-panel>
+      </mat-sidenav>
+      <mat-sidenav-content role="main">
+        <ng-template appPharosCustomContent ></ng-template>
+      </mat-sidenav-content>
+      <pharos-scroll-to-top></pharos-scroll-to-top>
+    </mat-sidenav-container>
+
+
+
+<!--    <div fxFlex="25" class="nav-panel sticky"  [ngClass]="{'show-scroll': navIsFixed}" >
+      <pharos-sidenav-panel
+        (scrollElement)="scrollToSection($event)"
+        [activeElement] = activeElement>
+      </pharos-sidenav-panel>
     </div>
-    <div fxFlex="75" id="scroller-wrapper" class="target-details-wrapper pharos-content" pharosTrackScroll cdkScrollable>
+    <div fxFlex="75" id="scroller-wrapper" class="target-details-wrapper pharos-content">
         <ng-template appPharosCustomContent></ng-template>
-    </div>
+      <pharos-scroll-to-top></pharos-scroll-to-top>
+    </div>-->
   </div>

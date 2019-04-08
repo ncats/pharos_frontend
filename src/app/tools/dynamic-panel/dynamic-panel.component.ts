@@ -1,4 +1,4 @@
-import {Component, HostListener, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {BehaviorSubject, Subject} from 'rxjs';
 
 /**
@@ -48,10 +48,5 @@ export class DynamicPanelComponent {
 
   /** No dependencies */
   constructor () {
-  }
-
-  @HostListener('scroll', ['$event']) onScrollEvent($event){
-    console.log($event);
-    console.log("scrolling");
   }
 }

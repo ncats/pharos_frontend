@@ -31,9 +31,10 @@ import {NgxJsonViewerModule} from 'ngx-json-viewer';
 import {PropertyDisplayComponent} from '../tools/property-display/property-display.component';
 import {KnowledgeTableComponent} from '../tools/knowledge-table/knowledge-table.component';
 import {ProteinStructureViewerComponent} from "../tools/protein-structure-viewer/protein-structure-viewer.component";
-import {TrackScrollDirective} from "../tools/sidenav-panel/directives/track-scroll.directive";
 import {HelpArticlesModule} from "../shared/help-articles.module";
 import {EquationRendererComponent} from "../tools/equation-renderer/equation-renderer.component";
+import {ScrollspyDirective} from "../tools/sidenav-panel/directives/scrollspy.directive";
+import {StickynavDirective} from "../tools/sidenav-panel/directives/stickynav.directive";
 
 
 @NgModule({
@@ -69,7 +70,8 @@ import {EquationRendererComponent} from "../tools/equation-renderer/equation-ren
     HelpPanelTriggerComponent,
     KnowledgeTableComponent,
     ProteinStructureViewerComponent,
-    TrackScrollDirective,
+    ScrollspyDirective,
+    StickynavDirective
   ],
   providers: [
     HelpDataService,
@@ -103,7 +105,8 @@ import {EquationRendererComponent} from "../tools/equation-renderer/equation-ren
     HelpPanelTriggerComponent,
     KnowledgeTableComponent,
     ProteinStructureViewerComponent,
-    TrackScrollDirective,
+    ScrollspyDirective,
+    StickynavDirective
   ]
 })
 export class SharedModule {

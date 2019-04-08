@@ -7,6 +7,7 @@ import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {Ligand} from '../../../../../models/ligand';
 import {PageData} from '../../../../../models/page-data';
 import {takeUntil, takeWhile} from 'rxjs/operators';
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 
 @Component({
@@ -25,6 +26,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
 
   private _STRUCTUREURLBASE: string;
   constructor(
+    private navSectionsService: NavSectionsService,
     private changeDetector: ChangeDetectorRef,
     private environmentVariablesService: EnvironmentVariablesService,
     private _http: HttpClient) {
@@ -134,4 +136,8 @@ paginateLigands($event) {
       }
       return ret;
     }
+
+  active(fragment: string) {
+    this.navSectionsService.setActiveSection(fragment);
+  }
 }

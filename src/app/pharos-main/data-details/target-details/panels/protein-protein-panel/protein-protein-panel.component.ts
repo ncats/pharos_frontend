@@ -6,6 +6,7 @@ import {Target} from "../../../../../../app/models/target";
 import {PageData} from "../../../../../../app/models/page-data";
 import {map, zipAll} from "rxjs/operators";
 import {from} from "rxjs/index";
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 @Component({
   selector: 'pharos-protein-protein-panel',
@@ -18,6 +19,7 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
   targetPageData: PageData;
 
   constructor(
+    private navSectionsService: NavSectionsService,
     private http: HttpClient
   ) {
     super();
@@ -57,4 +59,7 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
     this.targets = this.allTargets.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize);
   }
 
+  active(fragment: string) {
+    this.navSectionsService.setActiveSection(fragment);
+  }
 }

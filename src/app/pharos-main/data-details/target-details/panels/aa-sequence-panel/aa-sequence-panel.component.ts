@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angu
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import * as Protvista from 'ProtVista';
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 @Component({
   selector: 'pharos-aa-sequence-panel',
@@ -13,12 +14,14 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
 
   @ViewChild('protVistaViewer') viewerContainer: ElementRef;
 
-  sequence: any[];
+  sequence: any[] = [];
 
   residueCounts: any[];
   id: string;
 
-  constructor() {
+  constructor(
+    private navSectionsService: NavSectionsService
+  ) {
     super();
   }
 
@@ -31,8 +34,8 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
       )
       .subscribe(x => {
         if (Object.values(this.data).length > 0) {
-          this.ngUnsubscribe.next();
           this.setterFunction();
+          this.ngUnsubscribe.next();
         }
       });
   }
@@ -82,5 +85,9 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
   splitString (string: string, size: number): string[] {
     const re: RegExp  = new RegExp('.{1,' + size + '}', 'g');
     return string.match(re);
+  }
+
+  active(fragment: string) {
+    this.navSectionsService.setActiveSection(fragment);
   }
 }

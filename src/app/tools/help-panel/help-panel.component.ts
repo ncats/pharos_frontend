@@ -65,7 +65,6 @@ export class HelpPanelComponent implements OnInit {
           const comp = this._injector.get<Type<any>>(source.article);
           const outlet = this.articlePortalOutlets.toArray()[index];
           const compPortal = new ComponentPortal(comp);
-          console.log(outlet);
            outlet.attach(compPortal);
       }
     }
@@ -76,32 +75,4 @@ export class HelpPanelComponent implements OnInit {
     const outlet = this.articlePortalOutlets.toArray()[index];
     outlet.detach();
   }
-
-
-
-
-
-
-
-
-     /* const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(source.article);
-      const dynamicComponent: any = this.componentInjectorService.injectComponent(this.componentHost, dynamicChildToken);
-      /!*      dynamicComponent.instance.target = this.target;
-            dynamicComponent.instance.id = this.target.id;
-            dynamicComponent.instance.path = this.path;*!/
-      this.ref.markForCheck(); // refresh the component manually
-    }
-  }
-
-  getCustomComponent(field: any, index: number):  ComponentPortal<any> {
-     console.log(field);
-     console.log(this.articleOutlet)
-     if (this.articleOutlet) {
-       if (field.article) {
-         const comp =  this._injector.get<Type<any>>(field.article);
-         const portal: ComponentPortal<any> = new ComponentPortal(comp);
-         return portal;
-       }
-   }
-  }*/
 }

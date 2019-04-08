@@ -9,6 +9,7 @@ import {TableData} from '../../../../../models/table-data';
 import {DiseaseRelevance} from '../../../../../models/disease-relevance';
 import {takeUntil} from 'rxjs/operators';
 import {DiseaseRelevanceSerializer} from "../../../../../models/disease-relevance";
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 @Component({
@@ -85,7 +86,9 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   ];
   width = 30;
 
-  constructor(private environmentVariablesService: EnvironmentVariablesService) {
+  constructor(
+    private navSectionsService: NavSectionsService,
+    private environmentVariablesService: EnvironmentVariablesService) {
     super();
   }
 
@@ -184,5 +187,9 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     this.imgUrl = this._URL + this.sources[event.index].name;
 
     // this.tableArr = this.sourceMap.get(this.sources[event.index]);
+  }
+
+  active(fragment: string) {
+    this.navSectionsService.setActiveSection(fragment);
   }
 }
