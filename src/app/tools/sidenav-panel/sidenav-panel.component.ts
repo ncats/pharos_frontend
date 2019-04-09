@@ -15,8 +15,6 @@ import {ViewportScroller, DOCUMENT} from "@angular/common";
 })
 export class SidenavPanelComponent implements OnInit {
   @Input() activeElement: string;
-  @ViewChild(CdkScrollable) scrollable: CdkScrollable;
-  @ViewChildren('scrollSection') scrollSections: QueryList<ElementRef>;
   @Output() readonly scrollElement: EventEmitter<any> = new EventEmitter<any>();
 sections: any[] = [];
   showHeader = true;
@@ -47,30 +45,7 @@ sections: any[] = [];
       this.activeElement = fragment;
     });
 
-   /*   console.log(this);
-    this.scrollDispatcher.scrolled().subscribe((data: CdkScrollable) => {
-      if (data) {
-        console.log(data);
-        let scrollTop: number = data.getElementRef().nativeElement.scrollTop + 100;
-        if (scrollTop === 100) {
-          this.activeElement = this.sections[0].section;
-          this.changeDetector.detectChanges();
-        } else {
-          this.scrollSections.forEach(section => {
-            scrollTop = scrollTop - section.nativeElement.scrollHeight;
-            if (scrollTop >= 0) {
-              this.activeElement = section.nativeElement.nextSibling.id;
-              this.changeDetector.detectChanges();
-            }
-          });
-        }
-      }
-    });*/
   }
-sticky(event) {
-    console.log("sdfsdsdfsdsdfsfsdsfdsd")
-    console.log(event)
-}
 
   public scroll(fragment: any): void {
     const navigationExtras: NavigationExtras = {

@@ -1,5 +1,7 @@
-import { isPlatformBrowser } from '@angular/common';
-import { AfterViewInit, Directive, ElementRef, EventEmitter, Inject, Input, NgZone, OnDestroy, Output, PLATFORM_ID } from '@angular/core';
+import {DOCUMENT, isPlatformBrowser} from '@angular/common';
+import { AfterViewInit, Directive,
+  ElementRef, EventEmitter, Inject,
+  NgZone, OnDestroy, Output, PLATFORM_ID } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 @Directive({
@@ -11,12 +13,18 @@ export class ScrollspyDirective implements AfterViewInit, OnDestroy {
 
   private _intersectionObserver?: IntersectionObserver;
   private _scrollSubscription?: Subscription;
+  private root: any;
+  private prevRatio = 0.0;
+
 
   constructor (
+    @Inject(DOCUMENT) private document: Document,
     private _element: ElementRef,
     private _zone: NgZone,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
+  ) {
+    this.root = this.document.getElementById('scrollspy-main');
+  }
 
   public ngAfterViewInit () {
     if (isPlatformBrowser(this.platformId)) {
@@ -53,15 +61,18 @@ export class ScrollspyDirective implements AfterViewInit, OnDestroy {
     this._intersectionObserver = new IntersectionObserver(entries => {
       this.checkForIntersection(entries);
     }, {
-      rootMargin: '0px 0px 0px 0px',
-      threshold: [0.75]
+      root: this.root.nativeElement,
+      threshold: [.25, .5, .75, 1]
     });
   }
 
   private checkForIntersection = (entries: Array<IntersectionObserverEntry>) => {
     entries.forEach((entry: IntersectionObserverEntry) => {
       if (this.checkIfIntersecting(entry)) {
-        this.load();
+        if (entry.intersectionRatio > this.prevRatio) {
+          this.load();
+        }
+        this.prevRatio = entry.intersectionRatio;
         if (this._intersectionObserver && this._element.nativeElement) {
           //   this._intersectionObserver.unobserve(<Element>(this._element.nativeElement));
         }

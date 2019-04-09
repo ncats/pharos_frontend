@@ -76,6 +76,7 @@ import {TdarkSummaryComponent} from "./data-details/target-details/panels/level-
 import {TbioSummaryComponent} from "./data-details/target-details/panels/level-summary-panel/levels/tbio-summary/tbio-summary.component";
 import {TchemSummaryComponent} from "./data-details/target-details/panels/level-summary-panel/levels/tchem-summary/tchem-summary.component";
 import {TclinSummaryComponent} from "./data-details/target-details/panels/level-summary-panel/levels/tclin-summary/tclin-summary.component";
+import {GeneSummaryComponent} from "./data-details/target-details/target-header/gene-summary/gene-summary.component";
 
 
 const pharosMainRoutes: Routes = [
@@ -124,6 +125,7 @@ const pharosMainRoutes: Routes = [
     NodeExpandService,
     // breadcrumb
     {provide: TOKENS.PHAROS_BREADCRUMB_COMPONENT, useValue: BreadcrumbComponent },
+    {provide: TOKENS.TARGET_GENE_SUMMARY_COMPONENT, useValue: GeneSummaryComponent },
     // topics
     {provide: TOKENS.TOPIC_TABLE_COMPONENT, useValue: TopicTableComponent },
     {provide: TOKENS.TOPIC_DETAILS_COMPONENT, useValue: TopicDetailsComponent },
@@ -203,7 +205,8 @@ const pharosMainRoutes: Routes = [
     LigandsPanelComponent,
     BatchUploadModalComponent,
     PdbPanelComponent,
-    LevelSummaryPanelComponent
+    LevelSummaryPanelComponent,
+    GeneSummaryComponent
   ],
   declarations: [
     TargetTableComponent,
@@ -259,7 +262,8 @@ const pharosMainRoutes: Routes = [
     TclinSummaryComponent,
     TchemSummaryComponent,
     TbioSummaryComponent,
-    TdarkSummaryComponent
+    TdarkSummaryComponent,
+    GeneSummaryComponent
   ]
 })
 export class PharosMainRoutingModule { }

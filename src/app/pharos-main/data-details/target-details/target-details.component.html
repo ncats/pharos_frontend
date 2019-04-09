@@ -7,7 +7,7 @@
                    class="nav-panel"
                    [mode]="'side'"
                     [fixedInViewport]="true"
-                   [fixedTopGap]="200"
+                   [fixedTopGap]="120"
                    role="directory"
                    [opened]="true"
       >
@@ -17,7 +17,7 @@
           [activeElement] = activeElement>
         </pharos-sidenav-panel>
       </mat-sidenav>
-      <mat-sidenav-content role="main">
+      <mat-sidenav-content role="main" class="target-details-content" id="scrollspy-main">
         <ng-template appPharosCustomContent ></ng-template>
       </mat-sidenav-content>
       <pharos-scroll-to-top></pharos-scroll-to-top>

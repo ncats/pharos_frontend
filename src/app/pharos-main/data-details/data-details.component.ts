@@ -34,7 +34,6 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
 
   @ViewChild('helppanel') helpPanel: MatDrawer;
   @ViewChild(CdkScrollable) scrollable: CdkScrollable;
-  @ContentChildren('scrollSection') scrollSections: QueryList<ElementRef>;
 
 scrollingSubscription;
   lastOffset;
