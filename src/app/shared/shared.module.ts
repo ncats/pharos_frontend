@@ -34,7 +34,6 @@ import {ProteinStructureViewerComponent} from "../tools/protein-structure-viewer
 import {HelpArticlesModule} from "../shared/help-articles.module";
 import {EquationRendererComponent} from "../tools/equation-renderer/equation-renderer.component";
 import {ScrollspyDirective} from "../tools/sidenav-panel/directives/scrollspy.directive";
-import {StickynavDirective} from "../tools/sidenav-panel/directives/stickynav.directive";
 
 
 @NgModule({
@@ -70,8 +69,7 @@ import {StickynavDirective} from "../tools/sidenav-panel/directives/stickynav.di
     HelpPanelTriggerComponent,
     KnowledgeTableComponent,
     ProteinStructureViewerComponent,
-    ScrollspyDirective,
-    StickynavDirective
+    ScrollspyDirective
   ],
   providers: [
     HelpDataService,
@@ -105,8 +103,7 @@ import {StickynavDirective} from "../tools/sidenav-panel/directives/stickynav.di
     HelpPanelTriggerComponent,
     KnowledgeTableComponent,
     ProteinStructureViewerComponent,
-    ScrollspyDirective,
-    StickynavDirective
+    ScrollspyDirective
   ]
 })
 export class SharedModule {

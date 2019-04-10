@@ -87,6 +87,8 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
               mainDescription: component.navHeader.mainDescription ? component.navHeader.mainDescription : null
             }
             );
+          childComponent.instance.field = component.navHeader.section;
+          childComponent.instance.label = component.navHeader.label;
         }
 
         // todo need to cover when no results are returned - do we still want to make the component?
@@ -136,12 +138,6 @@ scrollToSection(event: any) {
 
  // this.router.navigate([], navigationExtras);
 
-}
-
-sticky(element: any){
-    console.log("fix it");
-    console.log(element);
-    this.navIsFixed = true;
 }
 
   ngOnDestroy(): void {

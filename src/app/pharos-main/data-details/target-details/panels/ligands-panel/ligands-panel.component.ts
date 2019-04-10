@@ -2,7 +2,6 @@ import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild} f
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {EnvironmentVariablesService} from '../../../../../pharos-services/environment-variables.service';
 import {PharosProperty} from '../../../../../models/pharos-property';
-import {HttpClient} from '@angular/common/http';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {Ligand} from '../../../../../models/ligand';
 import {PageData} from '../../../../../models/page-data';
@@ -17,23 +16,20 @@ import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/na
 })
 export class LigandsPanelComponent extends DynamicPanelComponent implements OnInit {
   allLigands: Ligand[];
-  allDrugs: Ligand[];
-  ligandsMap: Map<string, any> = new Map<string, any>();
-  drugsDataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
-  ligandsDataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
-  ligandPageData: PageData;
-  drugPageData: PageData;
+  dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
+  pageData: PageData;
 
   private _STRUCTUREURLBASE: string;
   constructor(
     private navSectionsService: NavSectionsService,
     private changeDetector: ChangeDetectorRef,
-    private environmentVariablesService: EnvironmentVariablesService,
-    private _http: HttpClient) {
+    private environmentVariablesService: EnvironmentVariablesService
+  ) {
     super();
     this._STRUCTUREURLBASE = this.environmentVariablesService.getStructureImageUrl();
   }
 
+    // todo pagination might still be a little slow, as the first load is not paginated
     ngOnInit() {
       this._data
       // listen to data as long as term is undefined or null
@@ -42,7 +38,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
           takeUntil(this.ngUnsubscribe)
         )
         .subscribe(x => {
-          if (Object.values(this.data).length > 0) {
+          if (this.data[this.field] && this.data[this.field].length > 0) {
             this.ngUnsubscribe.next();
             this.setterFunction();
           }
@@ -53,31 +49,20 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
   setterFunction(): void {
     const ligandsArr = [];
     const drugsArr = [];
-      this.data.ligands.forEach(ligand => {
+      this.data[this.field].forEach(ligand => {
         const activity: any = this._getActivity(ligand);
-        if (ligand.href && !this.ligandsMap.get(ligand.id)) {
-          // placeholder to block repetitive calls
-          this.ligandsMap.set(ligand.id, {});
-          this._http.get<any>(`${ligand.href}?view=full`).subscribe(res => {
-            this.ligandsMap.set(ligand.id, res);
-            const refid: string = res.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;
+            const refid: string = ligand.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;
             const lig = {
-              name: res.name,
+              name: ligand.name,
               refid: refid,
               activityType: this._getActivityType(activity),
               activity: activity.numval,
               imageUrl: `${this._STRUCTUREURLBASE}${refid}.svg?size=250`,
-              internalUrl: `/idg/ligands/${res.id}`
+              internalUrl: `/idg/ligands/${ligand.id}`
             };
-            const drug = res.properties.filter(prop => prop.label === 'Ligand Drug');
-            if (drug.length > 0 && drug[0].term === 'YES') {
-              drugsArr.push(lig);
-            } else {
-              ligandsArr.push(lig);
-            }
-            this.allDrugs = drugsArr;
+            ligandsArr.push(lig);
             this.allLigands = ligandsArr;
-            this.ligandPageData = new PageData(
+            this.pageData = new PageData(
               {
                 top: 10,
                 skip: 0,
@@ -85,30 +70,13 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
                 count: 10
               }
             );
-            this.drugPageData = new PageData(
-              {
-                top: 10,
-                skip: 0,
-                total: this.allDrugs.length,
-                count: 10
-              }
-            );
-
-          this.ligandsDataSource.data = this.allLigands.slice(this.ligandPageData.skip, this.ligandPageData.top);
-           this.drugsDataSource.data = this.allDrugs.slice(this.drugPageData.skip, this.drugPageData.top);
+          this.dataSource.data = this.allLigands.slice(this.pageData.skip, this.pageData.top);
            this.changeDetector.detectChanges();
           });
-        }
-      });
-
     }
 
-paginateDrugs($event) {
-  this.drugsDataSource.data = this.allDrugs.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize);
-}
-
-paginateLigands($event) {
-  this.ligandsDataSource.data = this.allLigands.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize);
+paginate($event) {
+  this.dataSource.data = this.allLigands.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize);
 }
 
     private _getActivity(ligand: any): any {

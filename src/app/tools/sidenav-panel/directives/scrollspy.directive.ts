@@ -62,7 +62,7 @@ export class ScrollspyDirective implements AfterViewInit, OnDestroy {
       this.checkForIntersection(entries);
     }, {
       root: this.root.nativeElement,
-      threshold: [.25, .5, .75, 1]
+      threshold: [.5, 1]
     });
   }
 

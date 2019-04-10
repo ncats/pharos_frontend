@@ -35,7 +35,6 @@ export class LevelSummaryPanelComponent extends DynamicPanelComponent implements
   }
 
   active(fragment: string) {
-    console.log(fragment);
     this.navSectionsService.setActiveSection(fragment);
   }
 
