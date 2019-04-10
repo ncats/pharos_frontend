@@ -6,7 +6,7 @@
         Target has at least one ChEMBL compound with an activity cutoff of
         <span *ngIf="!target.idgFamily === 'kinase'; else otherFamily">< 30 nM </span>
         <ng-template #otherFamily>
-          <span>< 10uM</span>
+          <span>< 100nM</span>
         </ng-template>
 
         <span class="centered">- AND -</span>
@@ -22,7 +22,7 @@
       </mat-icon>
       &nbsp;&nbsp;
       <span class='mat-body-2'>
-      Active Ligand:
+      Active Ligand<span *ngIf="data.ligands && data.ligands.length>1">s</span>: {{data.ligands ? data.ligands.length : 0}}
  </span>
     </div>
     <br>

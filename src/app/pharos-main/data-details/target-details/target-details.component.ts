@@ -32,7 +32,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
   token: any;
   sections: string[] = [];
   navIsFixed = false;
-  activeElement: string;
+  activeElement: string = "summary";
 
   @Input() target: Target;
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
@@ -59,12 +59,6 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
   }
 
   ngOnInit() {
-/*    this.render.listen('window', 'scroll', ()=> {
-      console.log('scroll')
-      console.log(window.scrollY);
-    });*/
-    console.log(this);
-   // console.log(this);
     const components: any = this.componentLookupService.lookupByPath(this.path, this.target.idgTDL.toLowerCase());
     if (components) {
       components.forEach(component => {
@@ -83,12 +77,18 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
         /** make component */
         const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
         const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
-      //  childComponent.instance.scrollDispatcher.register();
         if (component.navHeader) {
-        //  console.log(component.navHeader);
           this.sections.push(component.navHeader);
           this.navSectionsService.setSections(Array.from(new Set([...this.sections])));
-          this.helpDataService.setSources(component.navHeader.section, component.api);
+          this.helpDataService.setSources(component.navHeader.section,
+            {
+              sources: component.api,
+              title: component.navHeader.label,
+              mainDescription: component.navHeader.mainDescription ? component.navHeader.mainDescription : null
+            }
+            );
+          childComponent.instance.field = component.navHeader.section;
+          childComponent.instance.label = component.navHeader.label;
         }
 
         // todo need to cover when no results are returned - do we still want to make the component?
@@ -136,10 +136,9 @@ scrollToSection(event: any) {
     fragment: `${event}`
   };
 
-  this.router.navigate([], navigationExtras);
+ // this.router.navigate([], navigationExtras);
 
 }
-
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();

@@ -3,13 +3,13 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {Publication} from '../../../../../models/publication';
+import {Publication} from '../../../../../../models/publication';
 import {BehaviorSubject} from 'rxjs';
-import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {DynamicPanelComponent} from '../../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil, takeWhile} from 'rxjs/operators';
-import {PageData} from '../../../../../models/page-data';
+import {PageData} from '../../../../../../models/page-data';
 import {HttpClient} from '@angular/common/http';
-import {Target} from '../../../../../models/target';
+import {Target} from '../../../../../../models/target';
 
 @Component({
   selector: 'pharos-references-panel',
@@ -34,7 +34,6 @@ export class ReferencesPanelComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this);
     this.setterFunction();
    /* this._data
     // listen to data as long as term is undefined or null
@@ -51,7 +50,6 @@ export class ReferencesPanelComponent implements OnInit {
   }
 
   setterFunction() {
-    console.log(this.data);
     this.dataSource.data = this.data.references.filter(ref => !!ref);
     this.allReferences = this.data.references.filter(ref => !!ref);
     this.loading = false;

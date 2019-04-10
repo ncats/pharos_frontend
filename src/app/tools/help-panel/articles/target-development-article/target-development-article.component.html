@@ -1,0 +1,27 @@
+
+<div fxLayout="row">
+  <span class="mat-headline">How are these levels assigned?</span>
+</div>
+<div fxLayout="row" fxLayoutAlign="space-around center">
+  <div fxFlex = "90">
+    <p class = "mat-body">
+      We currently categorize targets into four development/druggability levels (TDLs) defined as follows:
+Tclin: These targets have activities in DrugCentral (ie. approved drugs) with known mechanism of action.<br>
+      Tchem: These targets have activities in ChEMBL or DrugCentral that satisfy the activity thresholds detailed below.
+      In some cases, targets have been manually migrated to Tchem by human curation based on small molecule activities
+      from other sources. <br>
+Tbio: These targets do not have known drug or small molecule activities that satisfy the activity thresholds detailed
+      below AND satisfy one or more of the following criteria: <br>
+      target is above the cutoff criteria for Tdark    <br>
+      target is annotated with a Gene Ontology Molecular Function or Biological Process leaf term(s)
+      with an Experimental Evidence code     <br>
+      target has confirmed OMIM phenotype(s)     <br>
+      Tdark: These are targets about which virtually nothing is known. They do not have known drug or small
+      molecule activities that satisfy the activity thresholds detailed below AND satisfy two or more of the
+      following criteria:     <br>
+      A PubMed text-mining score from Jensen Lab < 5    <br>
+      <= 3 Gene RIFs    <br>
+      <= 50 Antibodies available according to http://antibodypedia.com
+    </p>
+  </div>
+</div>

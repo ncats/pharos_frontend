@@ -48,7 +48,6 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
             takeUntil(this.ngUnsubscribe)
           )
           .subscribe(x => {
-            console.log(this);
             this.dataSource.data = this.data;
           });
   }
@@ -68,8 +67,6 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
       }
     );
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-
       this.http.post('/targets/resolve', result).subscribe(res => {
         console.log(res);
       })

@@ -32,7 +32,6 @@ export class SuggestApiService {
               });
             }
           });
-          console.log(autocomplete);
           return autocomplete;
         }),
         catchError(this.handleError('getProtocols', []))

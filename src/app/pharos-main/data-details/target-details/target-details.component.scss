@@ -16,32 +16,13 @@
 .full-height {
   padding-bottom: 2vh;
 }
+
+.target-details-content {
+ padding-left: 1vw;
+}
+
 .target-details-main {
- //   flex: 1
     overflow: hidden;  /*makes the body non-scrollable (we will add scrolling to the sidebar and main content containers)*/
-  //  align-items: flex-start;
- // display: flex;
- // height: 100vh;
-}
-//
-//.target-details-wrapper {
-//  margin-right: 1vw;
-//  flex: 1 1 auto;
-//  overflow: auto;
-//}
-
-.sticky {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 120px;
-  //overflow: auto;
-  //height: auto;
-}
-
-.show-scroll {
-  /*
-  background-color: red;
-  */
 }
 
 .main-content {

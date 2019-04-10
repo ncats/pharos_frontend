@@ -1,4 +1,7 @@
-<mat-card id="sequence" class ="section-card">
+<mat-card id="sequence"
+          (pharosScrollspy)="active('sequence')"
+          #sequence
+          class ="section-card">
   <mat-card-header>
     <mat-card-title ><span class="mat-title">AA Sequence</span></mat-card-title>
   </mat-card-header>
@@ -8,7 +11,7 @@
         <pharos-bar-chart [data]="residueCounts" class="full-width" *ngIf="residueCounts"></pharos-bar-chart>
       </div>
     </div>
-    <div class = "well" fxHide.lt-sm >
+    <div class = "well" fxHide.lt-sm  *ngIf= "sequence && sequence.length">
     <div fxLayout="row" fxLayoutAlign="start center" *ngFor = "let chunk of sequence" fxLayout="start stretch">
       <div fxFlex="85">
         {{chunk.chunk}}

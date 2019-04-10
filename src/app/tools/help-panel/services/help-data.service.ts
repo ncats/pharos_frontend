@@ -32,7 +32,7 @@ export class HelpDataService {
    * @type {Subject<boolean>}
    * @private
    */
-  private _helpDataSource = new BehaviorSubject<any>({});
+  private _helpDataSource = new BehaviorSubject<any>(null);
 
   /**
    * Observable stream of help panel data changes
@@ -64,23 +64,26 @@ export class HelpDataService {
       .subscribe(res => this.data = res);
   }
 
-  fetchData() {
+/*  fetchData() {
     this._helpDataSource.next(this.data[this.field]);
-  }
+  }*/
 
   setOrigin(field: string): void {
     this.field = field;
+    this._helpDescriptionSource.next(this.sourcesMap.get(field));
+    this._helpDataSource.next(this.data[this.field]);
   }
 
-  setLabel(field: string): void {
+/*  setLabel(field: string): void {
     this.label = field;
-  }
+  }*/
 
   setSources(field: string, sources: any): void {
     this.sourcesMap.set(field, sources)
   }
 
-  getSources(field: string) {
+/*  getSources(field: string) {
+    console.log(this.sourcesMap);
     this._helpDescriptionSource.next(this.sourcesMap.get(field));
   }
 
@@ -88,5 +91,5 @@ export class HelpDataService {
   // todo: probably not used
   fetchDescription() {
 // return this.sourcesMap.get(field)
-  }
+  }*/
 }

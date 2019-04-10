@@ -34,7 +34,6 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
 
   @ViewChild('helppanel') helpPanel: MatDrawer;
   @ViewChild(CdkScrollable) scrollable: CdkScrollable;
-  @ContentChildren('scrollSection') scrollSections: QueryList<ElementRef>;
 
 scrollingSubscription;
   lastOffset;
@@ -81,9 +80,9 @@ scrollingSubscription;
         this.path = this._route.snapshot.data.path;
         if(this._route.snapshot.data.target != this.target) {
           this.target = this._route.snapshot.data.target;
-          this.componentHost.viewContainerRef.clear();
-          this.changeDetector.markForCheck(); // refresh the component manually
-          this.makeComponents();
+        //  this.componentHost.viewContainerRef.clear();
+         // this.changeDetector.markForCheck(); // refresh the component manually
+        //  this.makeComponents();
         }
       }
     });

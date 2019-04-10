@@ -9,7 +9,7 @@ import {SummaryPanelComponent} from './data-details/target-details/panels/summar
 import {TargetHeaderComponent} from './data-details/target-details/target-header/target-header.component';
 import {SharedModule} from '../shared/shared.module';
 import {DiseaseTableComponent} from './data-list/disease-table/disease-table.component';
-import {ReferencesPanelComponent} from './data-details/target-details/panels/references-panel/references-panel.component';
+import {ReferencesPanelComponent} from './data-details/target-details/panels/publication-info-panel/references-panel/references-panel.component';
 import {ExpressionPanelComponent} from './data-details/target-details/panels/expression-panel/expression-panel.component';
 import {DiseaseSourceComponent} from './data-details/target-details/panels/disease-source-panel/disease-source-panel.component';
 import {OrthologPanelComponent} from './data-details/target-details/panels/ortholog-panel/ortholog-panel.component';
@@ -23,7 +23,7 @@ import {RadarChartComponent} from '../tools/visualizations/radar-chart/radar-cha
 import {TOKENS} from '../../environments/component-tokens';
 import {BreadcrumbComponent} from '../tools/breadcrumb/breadcrumb.component';
 import {AaSequencePanelComponent} from './data-details/target-details/panels/aa-sequence-panel/aa-sequence-panel.component';
-import {GeneRifPanelComponent} from './data-details/target-details/panels/gene-rif-panel/gene-rif-panel.component';
+import {GeneRifPanelComponent} from './data-details/target-details/panels/publication-info-panel/gene-rif-panel/gene-rif-panel.component';
 import {AssayPanelComponent} from './data-details/target-details/panels/assay-panel/assay-panel.component';
 import {LigandsPanelComponent} from './data-details/target-details/panels/ligands-panel/ligands-panel.component';
 import {LigandTableComponent} from './data-list/ligand-table/ligand-table.component';
@@ -76,6 +76,7 @@ import {TdarkSummaryComponent} from "./data-details/target-details/panels/level-
 import {TbioSummaryComponent} from "./data-details/target-details/panels/level-summary-panel/levels/tbio-summary/tbio-summary.component";
 import {TchemSummaryComponent} from "./data-details/target-details/panels/level-summary-panel/levels/tchem-summary/tchem-summary.component";
 import {TclinSummaryComponent} from "./data-details/target-details/panels/level-summary-panel/levels/tclin-summary/tclin-summary.component";
+import {GeneSummaryComponent} from "./data-details/target-details/target-header/gene-summary/gene-summary.component";
 
 
 const pharosMainRoutes: Routes = [
@@ -124,6 +125,7 @@ const pharosMainRoutes: Routes = [
     NodeExpandService,
     // breadcrumb
     {provide: TOKENS.PHAROS_BREADCRUMB_COMPONENT, useValue: BreadcrumbComponent },
+    {provide: TOKENS.TARGET_GENE_SUMMARY_COMPONENT, useValue: GeneSummaryComponent },
     // topics
     {provide: TOKENS.TOPIC_TABLE_COMPONENT, useValue: TopicTableComponent },
     {provide: TOKENS.TOPIC_DETAILS_COMPONENT, useValue: TopicDetailsComponent },
@@ -203,7 +205,8 @@ const pharosMainRoutes: Routes = [
     LigandsPanelComponent,
     BatchUploadModalComponent,
     PdbPanelComponent,
-    LevelSummaryPanelComponent
+    LevelSummaryPanelComponent,
+    GeneSummaryComponent
   ],
   declarations: [
     TargetTableComponent,
@@ -259,7 +262,8 @@ const pharosMainRoutes: Routes = [
     TclinSummaryComponent,
     TchemSummaryComponent,
     TbioSummaryComponent,
-    TdarkSummaryComponent
+    TdarkSummaryComponent,
+    GeneSummaryComponent
   ]
 })
 export class PharosMainRoutingModule { }

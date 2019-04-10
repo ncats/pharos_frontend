@@ -7,6 +7,7 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import {LineChartOptions, PharosPoint} from '../../../../../tools/visualizations/line-chart/line-chart.component';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {takeUntil, takeWhile} from 'rxjs/operators';
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 // skipping log2foldchange property
 const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
@@ -65,7 +66,9 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
   tableArr: any[] = [];
   chartOptions: any;
 
-  constructor() {
+  constructor(
+    private navSectionsService: NavSectionsService
+  ) {
     super();
   }
 
@@ -149,6 +152,10 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
 
   getTableData(field: string): TableData[] {
     return this.fieldsMap.get(field);
+  }
+
+  active(fragment: string) {
+    this.navSectionsService.setActiveSection(fragment);
   }
 }
 

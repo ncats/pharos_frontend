@@ -1,4 +1,7 @@
-<mat-card id ="ppi" *ngIf="allTargets.length > 0">
+<mat-card id ="ppi"
+          (pharosScrollspy)="active('ppi')"
+          #ppi
+          *ngIf="allTargets.length > 0">
   <mat-card-header>
     <mat-card-title ><span class="mat-title">Protein-Protein Interactions ({{allTargets.length}})</span></mat-card-title>
   </mat-card-header>

@@ -1,4 +1,4 @@
-import {Component, HostListener, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {BehaviorSubject, Subject} from 'rxjs';
 
 /**
@@ -11,6 +11,9 @@ import {BehaviorSubject, Subject} from 'rxjs';
 })
 export class DynamicPanelComponent {
   loading = true;
+  field: string;
+  label: string;
+
   // todo: check to make sure all extending components are using this subject
   /**
    * Behaviour subject to allow extending class to unsubscribe on destroy
@@ -48,10 +51,5 @@ export class DynamicPanelComponent {
 
   /** No dependencies */
   constructor () {
-  }
-
-  @HostListener('scroll', ['$event']) onScrollEvent($event){
-    console.log($event);
-    console.log("scrolling");
   }
 }

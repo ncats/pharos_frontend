@@ -1,33 +1,21 @@
-<mat-card id = "ligands" *ngIf = "drugsDataSource.data.length >0 || ligandsDataSource.data.length >0" >
+<mat-card id = {{field}}
+          class="section-card"
+          *ngIf = "dataSource.data.length >0"
+          (pharosScrollspy)="active(field)"
+          #ligands #drugs>
   <mat-card-content>
-    <div  *ngIf = "drugsDataSource.data.length >0">
-    <mat-card-title><span class="mat-title">Drugs ({{allDrugs.length}})</span></mat-card-title>
+    <div  *ngIf = "dataSource.data.length >0">
+    <mat-card-title ><span class="mat-title">{{label}} ({{allLigands.length}})</span></mat-card-title>
       <pharos-custom-paginator
-        [pageData]="drugPageData"
+        [pageData]="pageData"
         [pageSize]="20"
         [pageSizeOptions]="[20, 60, 100]"
-        (page)="paginateDrugs($event)"></pharos-custom-paginator>
-    <div class="structure-grid">
-    <div *ngFor="let drug of drugsDataSource.data">
-      <pharos-ligand-card [ligand]="drug"></pharos-ligand-card>
-    </div>
-    </div>
-    </div>
-    <mat-divider class = "spaced" *ngIf = "drugsDataSource.data.length > 0 && ligandsDataSource.data.length > 0" ></mat-divider>
-    <div  *ngIf = "ligandsDataSource.data.length >0">
-    <mat-card-title ><span class="mat-title">Ligands ({{allLigands.length}})</span></mat-card-title>
-      <pharos-custom-paginator
-        [pageData]="ligandPageData"
-        [pageSize]="20"
-        [pageSizeOptions]="[20, 60, 100]"
-        (page)="paginateLigands($event)"></pharos-custom-paginator>
+        (page)="paginate($event)"></pharos-custom-paginator>
     <div class ="structure-grid">
-    <div *ngFor="let ligand of ligandsDataSource.data">
+    <div *ngFor="let ligand of dataSource.data">
       <pharos-ligand-card [ligand]="ligand"></pharos-ligand-card>
-
     </div>
     </div>
     </div>
   </mat-card-content>
 </mat-card>
-<br>

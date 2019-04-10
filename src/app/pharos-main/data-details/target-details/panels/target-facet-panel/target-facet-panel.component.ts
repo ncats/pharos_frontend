@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {TableData} from '../../../../../models/table-data';
 import {PharosProperty} from '../../../../../models/pharos-property';
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 const LABELS: Map<string, string> = new Map<string, string> (
   [
@@ -41,7 +42,9 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
     })
   ];
 
-  constructor() {
+  constructor(
+    private navSectionsService: NavSectionsService
+  ) {
     super();
   }
 
@@ -88,5 +91,9 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
 
   getLabel(value: string) {
     return LABELS.get(value) ? LABELS.get(value) : value;
+  }
+
+  active(fragment: string) {
+    this.navSectionsService.setActiveSection(fragment);
   }
 }

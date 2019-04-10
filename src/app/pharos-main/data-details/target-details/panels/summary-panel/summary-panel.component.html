@@ -1,10 +1,10 @@
-<mat-card *ngIf = data class ="section-card" id = "summary" #summary #scrollSection>
+<mat-card *ngIf = data class ="section-card" id = "summary" (pharosScrollspy)="active('summary')" #summary>
   <mat-card-content>
     <div fxLayout="row"
          fxLayout.lt-md="column"
          class ="tkrow"
          fxLayoutAlign="start stretch"
-         #summary #scrollSection>
+         #summary>
       <div fxFlex="95">
       <span class="mat-title">Protein Summary</span>
       </div>

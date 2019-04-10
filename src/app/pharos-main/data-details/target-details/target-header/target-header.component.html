@@ -15,21 +15,5 @@
     <button mat-icon-button><mat-icon class="example-icon">bookmark</mat-icon></button>-->
     </div>
 </div>
-<br>
-<div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
-  <div fxFlex="90">
-    <div *ngIf="fullDescription; else truncated">
-    <span class="mat-body-1">{{description}}</span>
-      <a (click) = "fullDescription = false" *ngIf="fullDescription && truncatedDescription"> ...less</a>
-      <!--
-            <a (click) = "fullDescription = false"> ...less</a>
-      -->
-    </div>
-    <ng-template #truncated>
-      <span class="mat-body-1">{{truncatedDescription}}</span>
-      <a (click) = "fullDescription = true" *ngIf="!fullDescription"> ...more</a>
-    </ng-template>
-  </div>
-</div>
-</div>
   <br>
+</div>

@@ -1,8 +1,19 @@
-<mat-card id="publications" class="section-card"  #publications #scrollSection>
-  <mat-card-header>
-    <mat-card-title ><span class="mat-title">Publication Information</span></mat-card-title>
-  </mat-card-header>
+<mat-card id="publications" class="section-card"
+          (pharosScrollspy)="active('publications')"
+          #publications>
   <mat-card-content>
+    <div fxLayout="row"
+         fxLayout.lt-md="column"
+         class="tkrow"
+         fxLayoutAlign="start stretch"
+         #development>
+      <div fxFlex="95">
+        <span class="mat-title">Publication Information</span>
+      </div>
+      <div fxFlex="5">
+        <pharos-help-panel-trigger [origin] = "'publications'" [label]="'Publication Information'"></pharos-help-panel-trigger>
+      </div>
+    </div>
     <div class = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
       <div fxFlex>
       <mat-tab-group dynamicHeight>
@@ -15,11 +26,7 @@
             <div fxLayout="row" fxLayoutAlign="start stretch" >
               <div fxFlex="95">
                 <span class="mat-title">PubMed Score </span>&nbsp;<span>{{target.jensenScore.toFixed(2)}}</span>
-                <pharos-help-panel-trigger ></pharos-help-panel-trigger>
                 <pharos-line-chart [data]="getTimeline('PubMed Score')"></pharos-line-chart>
-              </div>
-              <div fxFlex = "5">
-
               </div>
             </div>
           </ng-container>
@@ -29,9 +36,6 @@
                 <span class="mat-title">PubTator Score </span>&nbsp;<span>{{raisePubtator()}}</span>
                 <pharos-line-chart [data]="getTimeline('PubTator')"></pharos-line-chart>
               </div>
-              <div fxFlex = "5">
-                <pharos-help-panel-trigger ></pharos-help-panel-trigger>
-              </div>
             </div>
           </ng-container>
           <ng-container *ngIf="getTimeline('Patent Count')?.length >0">
@@ -39,9 +43,6 @@
               <div fxFlex="95">
                 <span class="mat-title">Patents </span>
                 <pharos-line-chart [data]="getTimeline('Patent Count')"></pharos-line-chart>
-              </div>
-              <div fxFlex = "5">
-                <pharos-help-panel-trigger ></pharos-help-panel-trigger>
               </div>
             </div>
           </ng-container>

@@ -32,7 +32,6 @@ import {AngularFireAuthModule} from "@angular/fire/auth";
 import { DynamicTablePanelComponent } from './tools/dynamic-table-panel/dynamic-table-panel.component';
 import { AnatamogramComponent } from './tools/anatamogram/anatamogram.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +48,7 @@ import { AnatamogramComponent } from './tools/anatamogram/anatamogram.component'
     StructureSearchPageComponent,
     SequenceSearchPageComponent,
     DynamicTablePanelComponent
+
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [

@@ -8,6 +8,11 @@ export class TOKENS {
   public static PHAROS_BREADCRUMB_COMPONENT = new InjectionToken<string>('BreadcrumbComponent');
 
   /**
+   * injection token to maintain the target gene summary component
+   */
+  public static TARGET_GENE_SUMMARY_COMPONENT = new InjectionToken<string>('GeneSummaryComponent');
+
+  /**
    * injection token to add the target details header
    */
   public static TARGET_HEADER_COMPONENT = new InjectionToken<string>('TargetHeaderComponent');

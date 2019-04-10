@@ -6,6 +6,7 @@ import {Ortholog} from "../../../../../models/ortholog";
 import {PharosProperty} from "../../../../../models/pharos-property";
 import {HttpClient} from "@angular/common/http";
 import {PdbReportData} from "../../../../../models/pdb-report";
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 const REPORT_URL ='https://www.rcsb.org/pdb/rest/customReport.csv?customReportColumns=structureId,ligandId,ligandSmiles,' +
   'EC50,IC50,Ka,Kd,Ki,pubmedId,releaseDate,experimentalTechnique,structureTitle&service=wsfile&format=csv&pdbids=';
@@ -38,7 +39,9 @@ export class PdbPanelComponent  extends DynamicPanelComponent implements OnInit 
   test2: string;
   test3: string;
 
-  constructor(private _http: HttpClient) {
+  constructor(
+    private navSectionsService: NavSectionsService,
+    private _http: HttpClient) {
     super();
   }
 
@@ -59,8 +62,6 @@ export class PdbPanelComponent  extends DynamicPanelComponent implements OnInit 
 
   setterFunction() {
     const terms = this.data.pdb.map(pdb => pdb = pdb.term);
-    console.log(this);
-    console.log(terms);
     this._http.get(REPORT_URL + terms.join(','), {responseType: 'text'}).subscribe(res => {
       this.csvJSON(res);
     })
@@ -96,5 +97,7 @@ export class PdbPanelComponent  extends DynamicPanelComponent implements OnInit 
     }
   }
 
-
+  active(fragment: string) {
+    this.navSectionsService.setActiveSection(fragment);
+  }
 }

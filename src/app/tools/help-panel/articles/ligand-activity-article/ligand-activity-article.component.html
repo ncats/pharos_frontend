@@ -1,0 +1,31 @@
+
+
+<div fxLayout="row">
+  <span class="mat-headline">Ligand Activity Selection</span>
+</div>
+<div fxLayout="row" fxLayoutAlign="space-around center">
+  <div fxFlex = "90">
+    <div class = "mat-body">
+ChEMBL ligand activities are selected for a given target are identified using the following criteria:
+
+      <mat-list class = "article-list">
+        <mat-list-item><p>must have a <span class="code-var"> pchembl </span> value (ie a -Log M value)</p></mat-list-item>
+        <mat-list-item><p>must be from a binding assay</p></mat-list-item>
+        <mat-list-item><p>must have a <span class="code-var"> MOL </span> structure type</p></mat-list-item>
+        <mat-list-item><p>must have a target type of <span class="code-var"> SINGLE_PROTEIN</span></p></mat-list-item>
+        <mat-list-item><p mat-line>must have <span class="code-var"> standard_flag </span> = 1 and
+          exact <span class="code-var"> standard_relation </span></p>
+          <p mat-line>(ie. no <= 10uM type values)</p></mat-list-item>
+        <mat-list-item><p>must be associated with a publication</p></mat-list-item>
+        <mat-list-item>
+          <p mat-line>must pass the family-specific thresholds:</p><br>
+            <div mat-line>&nbsp;&nbsp;Kinases: <= 30nM</div>
+            <div mat-line>&nbsp;&nbsp;GPCRs: <= 100nM</div>
+            <div mat-line>&nbsp;&nbsp;Nuclear Receptors: <= 100nM</div>
+            <div mat-line>&nbsp;&nbsp;Ion Channels: <= 10μM</div>
+            <div mat-line>&nbsp;&nbsp;Others: <= 1μM</div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+</div>

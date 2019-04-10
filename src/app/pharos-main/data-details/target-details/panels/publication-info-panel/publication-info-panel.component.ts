@@ -6,6 +6,7 @@ import {Target} from "../../../../../models/target";
 import {PageData} from "../../../../../models/page-data";
 import {HttpClient} from "@angular/common/http";
 import {PharosPoint} from "../../../../../tools/visualizations/line-chart/line-chart.component";
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 @Component({
   selector: 'pharos-publication-info-panel',
@@ -21,6 +22,7 @@ export class PublicationInfoPanelComponent extends DynamicPanelComponent impleme
 
 
   constructor(
+    private navSectionsService: NavSectionsService,
     private _http: HttpClient
   ) {
     super();
@@ -90,6 +92,11 @@ export class PublicationInfoPanelComponent extends DynamicPanelComponent impleme
     if (this.target) {
       return Math.pow(10, this.target.pubTatorScore).toFixed(2);
     }
+  }
+
+  active(fragment: string) {
+    console.log(fragment);
+    this.navSectionsService.setActiveSection(fragment);
   }
 
 

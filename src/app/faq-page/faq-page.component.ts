@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit, QueryList, ViewChildren, ViewEncapsulation} from '@angular/core';
-import {KatexRenderService} from '../tools/katex-render.service';
+import {KatexRenderService} from '../tools/equation-renderer/services/katex-render.service';
 import {AngularFirestore} from "@angular/fire/firestore";
 
 export interface Question {

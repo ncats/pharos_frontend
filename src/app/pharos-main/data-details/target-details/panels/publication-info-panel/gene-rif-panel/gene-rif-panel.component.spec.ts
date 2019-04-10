@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GeneRifPanelComponent } from './gene-rif-panel.component';
-import {SharedModule} from '../../../../../shared/shared.module';
+import {SharedModule} from '../../../../../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('GeneRifPanelComponent', () => {

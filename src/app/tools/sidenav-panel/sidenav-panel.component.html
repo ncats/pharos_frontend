@@ -1,7 +1,5 @@
-<!--
-    <div class="mat-title" *ngIf="showHeader">Jump to section:</div><br>
--->
-<div class="toc-wrapper" *ngIf="sections" cdkScrollable>
+<div class="mat-title" *ngIf="showHeader">Jump to section:</div><br>
+<div class="toc-wrapper" *ngIf="sections" #pharosSidenav>
   <div class="toc">
     <mat-nav-list >
       <a *ngFor="let section of sections"

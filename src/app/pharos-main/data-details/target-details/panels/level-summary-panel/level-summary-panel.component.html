@@ -1,15 +1,15 @@
-<mat-card *ngIf=data class="section-card" id="development" #development #scrollSection >
+<mat-card *ngIf=data class="section-card" id="development" (pharosScrollspy)="active('development')">
   <mat-card-content>
     <div fxLayout="row"
          fxLayout.lt-md="column"
          class="tkrow"
          fxLayoutAlign="start stretch"
-         #development #scrollSection>
+         #development>
       <div fxFlex="95">
-        <span class="mat-title">IDG Development Level Summary</span>
+        <span class="mat-title">{{label}}</span>
       </div>
       <div fxFlex="5">
-        <pharos-help-panel-trigger [origin]="development"
+        <pharos-help-panel-trigger [origin]="'development'"
                                    [label]="'IDG Development Level Summary'"></pharos-help-panel-trigger>
       </div>
     </div>
