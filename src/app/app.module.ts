@@ -29,6 +29,7 @@ import {MolConverterService} from './tools/marvin-sketcher/services/mol-converte
 import {AngularFireModule} from "@angular/fire";
 import {AngularFirestoreModule} from "@angular/fire/firestore";
 import {AngularFireAuthModule} from "@angular/fire/auth";
+import { DynamicTablePanelComponent } from './tools/dynamic-table-panel/dynamic-table-panel.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,9 @@ import {AngularFireAuthModule} from "@angular/fire/auth";
     ApiPageComponent,
     SketcherComponent,
     StructureSearchPageComponent,
-    SequenceSearchPageComponent
+    SequenceSearchPageComponent,
+    DynamicTablePanelComponent
+
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [

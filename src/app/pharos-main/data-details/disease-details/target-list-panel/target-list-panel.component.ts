@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {HttpClient} from '@angular/common/http';
 import {TableData} from "../../../../models/table-data";
-import {Property} from "../../../../models/property";
+import {PharosProperty} from "../../../../models/pharos-property";
 
 @Component({
   selector: 'pharos-target-list-panel',
@@ -50,9 +50,9 @@ export class TargetListPanelComponent extends DynamicPanelComponent implements O
           this.tableArr = [];
           this.data.targetList.forEach(target => {
             const data = {
-              target: new Property(target.properties.filter(prop => prop.label === 'IDG Target')[0]),
-              developmentLevel: new Property(target.properties.filter(prop => prop.label === 'IDG Development Level')[0]),
-              targetFamily: new Property(target.properties.filter(prop => prop.label === 'IDG Target Family')[0]),
+              target: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target')[0]),
+              developmentLevel: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Development Level')[0]),
+              targetFamily: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target Family')[0]),
             };
             this.tableArr.push(data);
           });

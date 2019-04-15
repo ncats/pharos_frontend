@@ -11,6 +11,9 @@ import {BehaviorSubject, Subject} from 'rxjs';
 })
 export class DynamicPanelComponent {
   loading = true;
+  field: string;
+  label: string;
+
   // todo: check to make sure all extending components are using this subject
   /**
    * Behaviour subject to allow extending class to unsubscribe on destroy
@@ -31,7 +34,11 @@ export class DynamicPanelComponent {
    */
   @Input()
   set data(value: any) {
+    if(value.data){
+      this._data.next(value.data);
+    } else {
       this._data.next(value);
+    }
   }
 
   /**
@@ -43,6 +50,6 @@ export class DynamicPanelComponent {
   }
 
   /** No dependencies */
-  constructor () {}
-
+  constructor () {
+  }
 }

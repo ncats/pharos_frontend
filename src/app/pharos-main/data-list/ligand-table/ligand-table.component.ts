@@ -66,7 +66,6 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
   setterFunction(): void {
     const ligandsArr = [];
     this.data.forEach(ligand => {
-      console.log(ligand);
       let url ='';
       if(ligand.self || ligand.href) {
         const url = ligand.self ? ligand.self : ligand.href + '?view=full';
@@ -113,7 +112,6 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
         this.ligandsDataSource.data = ligandsArr;
       }
     });
-    console.log(this);
   }
 
   private _getActivity(ligand: any): any {

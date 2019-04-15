@@ -1,0 +1,28 @@
+<div fxLayout="row" fxLayoutAlign="space-around start">
+  <div fxFlex="95">
+    <div fxLayout="row">
+      <p class="explanation">
+        Target has at least one approved drug
+      <span class="centered">- AND -</span>
+      satisfies the preceding conditions</p>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon
+        [ngClass]="{'disabled-icon': target?.idgTDL != 'Tclin'}"
+        [color]="'accent'">check_circle
+      </mat-icon>
+      &nbsp;&nbsp;
+      <span class='mat-body-2'>
+      Active Drug<span *ngIf="data.drugs && data.drugs.length>1">s</span>: {{data.drugs ? data.drugs.length : 0}}
+ </span>
+    </div>
+    <br>
+    <div fxLayout="row">
+      <mat-progress-bar
+        class = "tdl-progress"
+        mode="determinate"
+        [value]="target.idgTDL ==='Tclin' ? 100 : 0"
+      ></mat-progress-bar>
+    </div>
+  </div>
+</div>

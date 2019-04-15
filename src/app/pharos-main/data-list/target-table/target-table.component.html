@@ -38,7 +38,7 @@
     </pharos-custom-paginator>
   </div>
 </div>
-<mat-table [dataSource]="dataSource" fxHide.lt-sm matSort (matSortChange)="changeSort($event)">
+<mat-table [dataSource]="dataSource" fxHide.lt-sm matSort (matSortChange)="changeSort($event)" *ngIf="dataSource.data">
 <!--      <ng-container matColumnDef="list-select">
         <mat-header-cell *matHeaderCellDef> Select </mat-header-cell>
         <mat-cell *matCellDef="let row" class="col2">
@@ -47,8 +47,14 @@
                         [checked]="rowSelection.isSelected(row)">
           </mat-checkbox>
         </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="idgResource">
+        <mat-header-cell fxFlex="10" *matHeaderCellDef>IDG Resource Available</mat-header-cell>
+        <mat-cell fxFlex="10" *matCellDef="let row">
+          <img src = "../../../../assets/images/IdgLogo.png" class = "lightbulb">
+        </mat-cell>
       </ng-container>-->
-      <ng-container matColumnDef="name">
+  <ng-container matColumnDef="name">
         <mat-header-cell fxFlex="35" *matHeaderCellDef>Name</mat-header-cell>
         <mat-cell fxFlex="35" *matCellDef="let row">
          <a routerLink='/targets/{{row.accession}}' >{{row.name}} </a>

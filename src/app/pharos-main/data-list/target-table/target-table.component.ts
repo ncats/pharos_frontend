@@ -78,8 +78,6 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
       }
     );
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-
       this.http.post('/targets/resolve', result).subscribe(res => {
         console.log(res);
       })

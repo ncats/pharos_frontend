@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {TableData} from '../../../../../models/table-data';
-import {Property} from '../../../../../models/property';
+import {PharosProperty} from '../../../../../models/pharos-property';
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 const LABELS: Map<string, string> = new Map<string, string> (
   [
@@ -41,7 +42,9 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
     })
   ];
 
-  constructor() {
+  constructor(
+    private navSectionsService: NavSectionsService
+  ) {
     super();
   }
 
@@ -64,17 +67,18 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
       this.keys = Object.keys(this.data);
       this.keys.forEach(key => {
         if (this.data[key]) {
-          const links: Property[] = this.data[key].map(facet => {
+          const links: PharosProperty[] = this.data[key].map(facet => {
             return {
               field:
-                new Property({
+                new PharosProperty({
                   term: facet.term,
                   href: facet.href, // todo: remove when this is standardized
-                  internalHref: 'targets?facet=' + facet.label.replace( / /g, '+') + '/'+facet.term.replace(/ /g, '+')
+                  internalLink: 'targets?facet=' + facet.label.replace( / /g, '+') + '/'+facet.term.replace(/ /g, '+')
                 }),
-           //   count: new Property({intval: 0}),
-              externalLink: new Property({
-                externalHref: facet.href
+           //   count: new PharosProperty({intval: 0}),
+              externalLink:
+                new PharosProperty({
+                externalLink: facet.href
               })
             };
           });
@@ -87,5 +91,9 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
 
   getLabel(value: string) {
     return LABELS.get(value) ? LABELS.get(value) : value;
+  }
+
+  active(fragment: string) {
+    this.navSectionsService.setActiveSection(fragment);
   }
 }

@@ -88,7 +88,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
     /**
      * this changes the facets that are mapped to the url path in the service
      */
-    this.filterSelection.onChange
+    this.filterSelection.changed
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(change => {
           if (this.propogate === true) {

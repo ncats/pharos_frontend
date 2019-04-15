@@ -1,24 +1,27 @@
 import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
-import * as protvista from 'ProtVista';
+import * as Protvista from 'ProtVista';
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 @Component({
   selector: 'pharos-aa-sequence-panel',
   templateUrl: './aa-sequence-panel.component.html',
   styleUrls: ['./aa-sequence-panel.component.css']
-
 })
 
 export class AaSequencePanelComponent extends DynamicPanelComponent implements OnInit {
 
   @ViewChild('protVistaViewer') viewerContainer: ElementRef;
 
-  sequence: any[];
+  sequence: any[] = [];
 
   residueCounts: any[];
+  id: string;
 
-  constructor() {
+  constructor(
+    private navSectionsService: NavSectionsService
+  ) {
     super();
   }
 
@@ -31,17 +34,17 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
       )
       .subscribe(x => {
         if (Object.values(this.data).length > 0) {
-          this.ngUnsubscribe.next();
           this.setterFunction();
+          this.ngUnsubscribe.next();
         }
       });
   }
 
   setterFunction() {
     this.parseSequence();
-    const r = new protvista({
+    const r = new Protvista({
       el: this.viewerContainer.nativeElement,
-      uniprotacc: 'P05067'
+      uniprotacc: this.id
     });
     this.getCounts();
   }
@@ -82,5 +85,9 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
   splitString (string: string, size: number): string[] {
     const re: RegExp  = new RegExp('.{1,' + size + '}', 'g');
     return string.match(re);
+  }
+
+  active(fragment: string) {
+    this.navSectionsService.setActiveSection(fragment);
   }
 }

@@ -1,5 +1,6 @@
-<div class = "help-panel-content">
-<div class ="search-row">
+<div class = "help-panel-content" *ngIf="sources && sources.length > 0">
+<!--<div fxLayout="row" class = "search-row">
+  <div fxFlex>
   <mat-form-field class = "full-width-field" [floatLabel] = "'never'">
     <input matInput
            placeholder="search help"
@@ -10,6 +11,76 @@
     <button mat-button mat-icon-button matSuffix aria-label="search"><mat-icon>search</mat-icon></button>
   </mat-form-field>
 </div>
+</div>-->
 
-<ngx-json-viewer [json] = rawData></ngx-json-viewer>
+  <div class = "description-row">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <span class = "mat-headline"> <strong>{{title}}</strong></span>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-around start" *ngIf="description">
+      <div fxFlex = "95">
+        {{description}}
+      </div>
+    </div>
+  </div>
+
+  <mat-accordion [multi]="true">
+
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <span class="mat-headline">Descriptions and Definitions</span>
+      </mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent *ngIf=" sources.length">
+          <div class = "description-row"  *ngFor="let source of sources; let i = index;">
+            <div fxLayout="row" fxLayoutAlign="start center">
+            <span class = "mat-subheading-1"> <strong>{{source.label}}:</strong></span>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="space-around start">
+            <div fxFlex = "95">
+              <p class="mat-body">{{source.description}}</p>
+              <button *ngIf="source.article && !opened[i]" mat-stroked-button [color]="'primary'" (click)="showArticle(source, i)">
+                Learn More...
+              </button>
+              <button *ngIf="source.article && opened[i]" mat-stroked-button [color]="'primary'" (click)="closeArticle(i)">
+                Close
+              </button>
+              <ng-template #HelpArticleOutlet cdkPortalOutlet>
+              </ng-template>
+              <br>
+            </div>
+          </div>
+          </div>
+        </ng-template>
+    </mat-expansion-panel>
+
+    <!--<mat-expansion-panel [expanded]="true">-->
+      <!--<mat-expansion-panel-header>-->
+        <!--<span class="mat-headline">{{selectedArticle}} Details</span>-->
+      <!--</mat-expansion-panel-header>-->
+      <!--<ng-template appPharosCustomContent></ng-template>-->
+    <!--</mat-expansion-panel>-->
+
+<!--        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <span class="mat-headline">Related Topics</span>
+          </mat-expansion-panel-header>
+          <ng-template matExpansionPanelContent>
+
+          </ng-template>
+        </mat-expansion-panel>-->
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <span class="mat-headline">Raw Data</span>
+          </mat-expansion-panel-header>
+          <ng-template matExpansionPanelContent>
+            <div fxLayout="row" class = "search-row">
+              <ngx-json-viewer [json] = rawData></ngx-json-viewer>
+            </div>
+          </ng-template>
+        </mat-expansion-panel>
+
+
+
+  </mat-accordion>
 </div>

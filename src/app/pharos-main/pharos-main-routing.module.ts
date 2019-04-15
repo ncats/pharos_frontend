@@ -9,7 +9,7 @@ import {SummaryPanelComponent} from './data-details/target-details/panels/summar
 import {TargetHeaderComponent} from './data-details/target-details/target-header/target-header.component';
 import {SharedModule} from '../shared/shared.module';
 import {DiseaseTableComponent} from './data-list/disease-table/disease-table.component';
-import {ReferencesPanelComponent} from './data-details/target-details/panels/references-panel/references-panel.component';
+import {ReferencesPanelComponent} from './data-details/target-details/panels/publication-info-panel/references-panel/references-panel.component';
 import {ExpressionPanelComponent} from './data-details/target-details/panels/expression-panel/expression-panel.component';
 import {DiseaseSourceComponent} from './data-details/target-details/panels/disease-source-panel/disease-source-panel.component';
 import {OrthologPanelComponent} from './data-details/target-details/panels/ortholog-panel/ortholog-panel.component';
@@ -23,7 +23,7 @@ import {RadarChartComponent} from '../tools/visualizations/radar-chart/radar-cha
 import {TOKENS} from '../../environments/component-tokens';
 import {BreadcrumbComponent} from '../tools/breadcrumb/breadcrumb.component';
 import {AaSequencePanelComponent} from './data-details/target-details/panels/aa-sequence-panel/aa-sequence-panel.component';
-import {GeneRifPanelComponent} from './data-details/target-details/panels/gene-rif-panel/gene-rif-panel.component';
+import {GeneRifPanelComponent} from './data-details/target-details/panels/publication-info-panel/gene-rif-panel/gene-rif-panel.component';
 import {AssayPanelComponent} from './data-details/target-details/panels/assay-panel/assay-panel.component';
 import {LigandsPanelComponent} from './data-details/target-details/panels/ligands-panel/ligands-panel.component';
 import {LigandTableComponent} from './data-list/ligand-table/ligand-table.component';
@@ -37,35 +37,10 @@ import {SynonymsPanelComponent} from './data-details/ligand-details/synonyms-pan
 import {LigandHeaderComponent} from './data-details/ligand-details/ligand-header/ligand-header.component';
 import {DiseaseHeaderComponent} from './data-details/disease-details/disease-header/disease-header.component';
 import {TargetListPanelComponent} from './data-details/disease-details/target-list-panel/target-list-panel.component';
-/*
-import {WebSocketService} from '../tools/visualizations/force-directed-graph/services/connection/websocket.service';
-import {DataConnectionService} from '../tools/visualizations/force-directed-graph/services/connection/data-connection.service';
-import {D3Service} from '../tools/visualizations/force-directed-graph/services/event-tracking/d3.service';
-import {NodeService} from '../tools/visualizations/force-directed-graph/services/event-tracking/node.service';
-import {LinkService} from '../tools/visualizations/force-directed-graph/services/event-tracking/link.service';
-import {MessageService} from '../tools/visualizations/force-directed-graph/services/message.service';
-import {GraphDataService} from '../tools/visualizations/force-directed-graph/services/graph-data.service';
-import {NodeMenuControllerService} from '../tools/visualizations/force-directed-graph/services/event-tracking/node-menu-controller.service';
-import {SettingsService} from '../tools/visualizations/force-directed-graph/services/settings.service';
-import {NodeExpandService} from '../tools/visualizations/force-directed-graph/services/event-tracking/node-expand.service';
-*/
-import {TopicTableComponent} from './data-list/topic-table/topic-table.component';
 import {TopicDetailsComponent} from './data-details/topic-details/topic-details.component';
 import {TopicHeaderComponent} from './data-details/topic-details/topic-header/topic-header.component';
 import {TopicGraphPanelComponent} from './data-details/topic-details/panels/topic-graph-panel/topic-graph-panel.component';
 import {NodeDisplayComponent} from './data-details/topic-details/panels/node-display/node-display.component';
-/*import {GraphComponent} from '../tools/visualizations/force-directed-graph/components/graph/graph.component';
-import {NodeVisualComponent} from '../tools/visualizations/force-directed-graph/components/shared/node-visual/node-visual.component';
-import {LinkVisualComponent} from '../tools/visualizations/force-directed-graph/components/shared/link-visual/link-visual.component';
-import {ZoomableDirective} from '../tools/visualizations/force-directed-graph/directives/zoomable.directive';
-import {HoverableLinkDirective} from '../tools/visualizations/force-directed-graph/directives/hoverable-link.directive';
-import {HoverableNodeDirective} from '../tools/visualizations/force-directed-graph/directives/hoverable-node.directive';
-import {DraggableDirective} from '../tools/visualizations/force-directed-graph/directives/draggable.directive';
-import {ClickableNodeDirective} from '../tools/visualizations/force-directed-graph/directives/clickable-node.directive';
-import {ClickableLinkDirective} from '../tools/visualizations/force-directed-graph/directives/clickable-link.directive';*/
-/*
-import {NodeMenuComponent} from '../tools/visualizations/force-directed-graph/components/shared/node-menu/node-menu.component';
-*/
 import {TargetCardComponent} from './data-details/topic-details/panels/target-card/target-card.component';
 import {LigandCardComponent} from './data-details/topic-details/panels/ligand-card/ligand-card.component';
 import {DiseaseCardComponent} from './data-details/topic-details/panels/disease-card/disease-card.component';
@@ -100,6 +75,16 @@ import {
   PharosD3Service
 } from "./data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-d3.service";
 import {NodeMenuControllerService} from "../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/node-menu-controller.service";
+import {PublicationInfoPanelComponent} from "./data-details/target-details/panels/publication-info-panel/publication-info-panel.component";
+import {LevelSummaryPanelComponent} from "./data-details/target-details/panels/level-summary-panel/level-summary-panel.component";
+import {TdarkSummaryComponent} from "./data-details/target-details/panels/level-summary-panel/levels/tdark-summary/tdark-summary.component";
+import {TbioSummaryComponent} from "./data-details/target-details/panels/level-summary-panel/levels/tbio-summary/tbio-summary.component";
+import {TchemSummaryComponent} from "./data-details/target-details/panels/level-summary-panel/levels/tchem-summary/tchem-summary.component";
+import {TclinSummaryComponent} from "./data-details/target-details/panels/level-summary-panel/levels/tclin-summary/tclin-summary.component";
+import {GeneSummaryComponent} from "./data-details/target-details/target-header/gene-summary/gene-summary.component";
+import {NodeMenuComponent} from "../tools/visualizations/force-directed-graph/components/shared/node-menu/node-menu.component";
+import {GraphComponent} from "../tools/visualizations/force-directed-graph/components/graph/graph.component";
+import {TopicTableComponent} from "./data-list/topic-table/topic-table.component";
 
 
 const pharosMainRoutes: Routes = [
@@ -116,8 +101,9 @@ const pharosMainRoutes: Routes = [
     path: ':id',
     component: DataDetailsComponent,
     resolve: {
-      data: DataDetailsResolver
-    }
+      target: DataDetailsResolver
+    },
+    runGuardsAndResolvers: 'always'
   }
 ];
 
@@ -127,6 +113,7 @@ const pharosMainRoutes: Routes = [
     SharedListModule,
     SharedDetailsModule,
     RouterModule.forChild(pharosMainRoutes)
+
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [
@@ -141,6 +128,7 @@ const pharosMainRoutes: Routes = [
     NodeMenuControllerService,
     // breadcrumb
     {provide: TOKENS.PHAROS_BREADCRUMB_COMPONENT, useValue: BreadcrumbComponent },
+    {provide: TOKENS.TARGET_GENE_SUMMARY_COMPONENT, useValue: GeneSummaryComponent },
     // topics
     {provide: TOKENS.TOPIC_TABLE_COMPONENT, useValue: TopicTableComponent },
     {provide: TOKENS.TOPIC_DETAILS_COMPONENT, useValue: TopicDetailsComponent },
@@ -152,6 +140,8 @@ const pharosMainRoutes: Routes = [
     {provide: TOKENS.TARGET_TABLE_COMPONENT, useValue: TargetTableComponent },
     {provide: TOKENS.TARGET_DETAILS_COMPONENT, useValue: TargetDetailsComponent },
     {provide: TOKENS.SUMMARY_PANEL, useValue: SummaryPanelComponent },
+    {provide: TOKENS.LEVEL_SUMMARY_PANEL, useValue: LevelSummaryPanelComponent },
+    {provide: TOKENS.PUBLICATION_INFO_PANEL, useValue: PublicationInfoPanelComponent },
     {provide: TOKENS.REFERENCES_PANEL, useValue: ReferencesPanelComponent },
     {provide: TOKENS.DISEASE_SOURCE_PANEL, useValue: DiseaseSourceComponent },
     {provide: TOKENS.EXPRESSION_PANEL, useValue: ExpressionPanelComponent },
@@ -182,6 +172,7 @@ const pharosMainRoutes: Routes = [
     TargetTableComponent,
     TargetDetailsComponent,
     ReferencesPanelComponent,
+    PublicationInfoPanelComponent,
     SummaryPanelComponent,
     TargetHeaderComponent,
     DiseaseSourceComponent,
@@ -223,12 +214,15 @@ const pharosMainRoutes: Routes = [
     GraphMenuComponent,
     RangeSliderComponent,
     D3ColorLegendComponent,
-    TopicGraphComponent
+    TopicGraphComponent,
+    LevelSummaryPanelComponent,
+    GeneSummaryComponent
   ],
   declarations: [
     TargetTableComponent,
     TargetDetailsComponent,
     ReferencesPanelComponent,
+    PublicationInfoPanelComponent,
     SummaryPanelComponent,
     TargetHeaderComponent,
     ExpressionPanelComponent,
@@ -279,7 +273,24 @@ const pharosMainRoutes: Routes = [
     D3ColorLegendComponent,
     HighlightPipe,
     SearchComponent,
-    TopicGraphComponent
+    TopicGraphComponent,
+    NodeDisplayComponent,
+    NodeMenuComponent,
+    GraphComponent,
+    RadarChartComponent,
+    RadarChartViewerComponent,
+    GeneRifPanelComponent,
+    AssayPanelComponent,
+    AaSequencePanelComponent,
+    LigandsPanelComponent,
+    BatchUploadModalComponent,
+    PdbPanelComponent,
+    LevelSummaryPanelComponent,
+    TclinSummaryComponent,
+    TchemSummaryComponent,
+    TbioSummaryComponent,
+    TdarkSummaryComponent,
+    GeneSummaryComponent
   ]
 })
 export class PharosMainRoutingModule { }

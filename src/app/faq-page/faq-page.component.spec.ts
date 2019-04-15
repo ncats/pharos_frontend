@@ -20,7 +20,7 @@ import {ApiViewerComponent} from '../tools/api-viewer/api-viewer.component';
 import {ApiPageComponent} from '../api-page/api-page.component';
 import {FacetRetrieverService} from '../pharos-main/services/facet-retriever.service';
 import {APP_BASE_HREF} from '@angular/common';
-import {KatexRenderService} from '../tools/katex-render.service';
+import {KatexRenderService} from '../tools/equation-renderer/services/katex-render.service';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {FirestoreStub} from '../../../test/firestore-stub';
 

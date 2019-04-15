@@ -1,26 +1,66 @@
-<div class ="full-height">
-<mat-card *ngIf = data>
+<mat-card *ngIf = data class ="section-card" id = "summary" (pharosScrollspy)="active('summary')" #summary>
   <mat-card-content>
-    <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="start stretch">
+    <div fxLayout="row"
+         fxLayout.lt-md="column"
+         class ="tkrow"
+         fxLayoutAlign="start stretch"
+         #summary>
       <div fxFlex="95">
-      <span class="mat-title">Knowledge Summary</span>
+      <span class="mat-title">Protein Summary</span>
       </div>
       <div fxFlex="5">
-      <pharos-help-panel-trigger></pharos-help-panel-trigger>
+      <pharos-help-panel-trigger [origin]="'summary'" [label]="'Protein Summary'"></pharos-help-panel-trigger>
       </div>
     </div>
-    <div *ngIf="data.knowledge && data.knowledge.length > 0; else noDataDiv">
-    <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="center center">
-      <div fxFlex="50" class = "kchart full-height">
+    <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="space-between start">
+       <div fxFlex = "30" class="synonyms">
+        <ng-container *ngIf="data.synonyms?.length > 0">
+          <mat-card-subtitle>Uniprot Accession IDs</mat-card-subtitle>
+          <ul class = "inline-list wrap">
+            <li *ngFor=" let term of data.synonyms">
+              <pharos-term-display [term]= term [showLabel]="false"></pharos-term-display><br>
+            </li>
+          </ul>
+        </ng-container>
+        <ng-container *ngIf="data.gene?.length > 0">
+          <br>
+          <mat-card-subtitle>Gene Name</mat-card-subtitle>
+          <ul class = "inline-list wrap">
+            <li *ngFor=" let term of data.gene">
+              <pharos-term-display [term]= term  [showLabel]="false"></pharos-term-display>
+            </li>
+          </ul>
+        </ng-container>
+        <ng-container *ngIf="data.ensembl?.length > 0">
+          <br>
+          <mat-card-subtitle>Ensembl ID</mat-card-subtitle>
+          <ul class = "inline-list wrap">
+            <li *ngFor=" let term of data.ensembl">
+              <pharos-term-display [term]= term  [showLabel]="false"></pharos-term-display>
+            </li>
+          </ul>
+        </ng-container>
+         <ng-container *ngIf="data.symbol?.length > 0">
+           <br>
+           <mat-card-subtitle>Symbol</mat-card-subtitle>
+           <ul class = "inline-list wrap">
+             <li *ngFor=" let term of data.symbol">
+               <pharos-term-display [term] = term [showLabel]="false"></pharos-term-display>
+             </li>
+           </ul>
+         </ng-container>
+      </div>
+      <div fxFlex="30" class = "kchart full-height" *ngIf="data.knowledge && data.knowledge.length > 0; else noDataDiv">
+        <mat-card-subtitle>Illumination Graph</mat-card-subtitle>
         <pharos-radar-chart [data] = data.knowledge [shape]="false" [size] = "'medium'" (click)="openModal()" [origin]="'knowledge'"></pharos-radar-chart>
       </div>
-        <div fxFlex = "50" class = "kchart full-height">
+        <div fxFlex = "30" class = "kchart full-height" *ngIf="data.knowledge && data.knowledge.length > 0; else noDataDiv">
+          <mat-card-subtitle>Knowledge Table</mat-card-subtitle>
           <pharos-knowledge-table [data] = data.knowledge></pharos-knowledge-table>
         </div>
         <br>
         <br>
       </div>
-    </div>
     <ng-template #noDataDiv>
       <br>
       <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="center center">
@@ -34,45 +74,7 @@
       <br>
       </div>
     </ng-template>
-
-    <div>
-      <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
-        <mat-spinner></mat-spinner>
-      </div>
-    <ng-container *ngIf="getTimeline('PubMed Score')?.length > 0">
-      <div fxLayout="row" fxLayoutAlign="start stretch" >
-      <div fxFlex="95">
-        <span class="mat-title">PubMed Score </span>&nbsp;<span>{{target.jensenScore.toFixed(2)}}</span>
-      <pharos-line-chart [data]="getTimeline('PubMed Score')"></pharos-line-chart>
-        </div>
-      <div fxFlex = "5">
-        <pharos-help-panel-trigger ></pharos-help-panel-trigger>
-      </div>
-      </div>
-      </ng-container>
-    <ng-container *ngIf="getTimeline('PubTator')?.length >0">
-      <div fxLayout="row" fxLayoutAlign="start stretch">
-      <div fxFlex="95">
-        <span class="mat-title">PubTator Score </span>&nbsp;<span>{{raisePubtator()}}</span>
-      <pharos-line-chart [data]="getTimeline('PubTator')"></pharos-line-chart>
-        </div>
-      <div fxFlex = "5">
-        <pharos-help-panel-trigger ></pharos-help-panel-trigger>
-      </div>
-      </div>
-      </ng-container>
-    <ng-container *ngIf="getTimeline('Patent Count')?.length >0">
-      <div fxLayout="row" fxLayoutAlign="start stretch">
-      <div fxFlex="95">
-          <span class="mat-title">Patents </span>
-          <pharos-line-chart [data]="getTimeline('Patent Count')"></pharos-line-chart>
-        </div>
-      <div fxFlex = "5">
-        <pharos-help-panel-trigger ></pharos-help-panel-trigger>
-      </div>
-      </div>
-      </ng-container>
-    </div>
   </mat-card-content>
 </mat-card>
-</div>
+
+

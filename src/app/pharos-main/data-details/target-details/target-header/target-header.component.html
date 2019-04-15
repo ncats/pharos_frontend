@@ -1,9 +1,12 @@
-<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center" ngClass = {{getHeaderClass()}}>
+<div class="sticky-container" #home>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center" class ="sticky target-header"
+     ngClass = {{getHeaderClass()}}>
   <div fxFlex="10" fxFlexAlign.xs="start">
     <pharos-idg-level-indicator [level]="target?.idgTDL"></pharos-idg-level-indicator>
   </div>
     <div fxFlex="80" class="title-holder">
-    <span class = "pharos-title toolbar">{{target?.name}}</span>
+    <span class = "pharos-title toolbar">{{target?.gene}}</span> &nbsp;&nbsp;
+    <span class = "pharos-headline toolbar">{{target?.name}}</span>
     </div>
     <div fxFlex = "10">
    <!-- <button mat-icon-button><mat-icon class="example-icon">save</mat-icon></button>
@@ -12,19 +15,5 @@
     <button mat-icon-button><mat-icon class="example-icon">bookmark</mat-icon></button>-->
     </div>
 </div>
-<br>
-<div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
-  <div fxFlex="90">
-    <div *ngIf="fullDescription; else truncated">
-    <span class="mat-body-1">{{description}}</span>
-<!--
-      <a (click) = "fullDescription = false"> ...less</a>
--->
-    </div>
-    <ng-template #truncated>
-      <span class="mat-body-1">{{truncatedDescription}}</span>
-      <a (click) = "fullDescription = true"> ...more</a>
-    </ng-template>
-  </div>
+  <br>
 </div>
-<br>

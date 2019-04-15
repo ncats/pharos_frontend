@@ -1,12 +1,13 @@
 import {Component, HostBinding, Input, OnInit} from '@angular/core';
-import {DiseaseRelevance} from '../../../../../models/disease-relevance';
+import {DiseaseRelevance, DiseaseRelevanceSerializer} from '../../../../../models/disease-relevance';
 import {TableData} from '../../../../../models/table-data';
 import {MatTabChangeEvent} from '@angular/material';
 import {BehaviorSubject} from 'rxjs';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {LineChartOptions, PharosPoint} from '../../../../../tools/visualizations/line-chart/line-chart.component';
-import {Property} from '../../../../../models/property';
+import {PharosProperty} from '../../../../../models/pharos-property';
 import {takeUntil, takeWhile} from 'rxjs/operators';
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 // skipping log2foldchange property
 const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
@@ -52,11 +53,12 @@ const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
 @Component({
   selector: 'pharos-disease-source',
   templateUrl: './disease-source-panel.component.html',
-  styleUrls: ['./disease-source-panel.component.css']
+  styleUrls: ['./disease-source-panel.component.scss']
 })
 export class DiseaseSourceComponent extends DynamicPanelComponent implements OnInit {
   sourceMap: Map<string, DiseaseRelevance[]> = new Map<string, DiseaseRelevance[]>();
   fieldsMap: Map<string, TableData[]> = new Map<string, TableData[]>();
+  diseaseRelevanceSerializer: DiseaseRelevanceSerializer = new DiseaseRelevanceSerializer();
   sources: string[] = [];
   tinx: PharosPoint[];
   loaded = false;
@@ -64,7 +66,9 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
   tableArr: any[] = [];
   chartOptions: any;
 
-  constructor() {
+  constructor(
+    private navSectionsService: NavSectionsService
+  ) {
     super();
   }
 
@@ -88,17 +92,17 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       const sources = this.data.diseaseSources;
       this.sourceMap.clear();
       sources.forEach(dr => {
-        // create new disease relevance object to get Property class properties
-        const readDR = new DiseaseRelevance(dr);
+        // create new disease relevance object to get PharosProperty class properties
+        const readDR = this.diseaseRelevanceSerializer.fromJson(dr);
         // get source label
         const labelProp: string = readDR.properties.filter(prop => prop.label === 'Data Source').map(lab => lab['term'])[0];
         // get array of diseases from source map
-        const tableData: any = {};
+        let tableData: any = {};
         const fields: TableData[] = [];
         readDR.properties.forEach(prop => {
           const td = TABLEMAP.get(prop.label);
           if (td) {
-            tableData[td.name] = new Property(prop);
+            tableData[td.name] = new PharosProperty(prop);
             fields.push(td);
           }
         });
@@ -108,7 +112,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
           temp.push(tableData);
           this.sourceMap.set(labelProp, temp);
         } else {
-          const tempArr: any[] = [];
+          const tempArr: DiseaseRelevance[] = [];
           tempArr.push(tableData);
           this.fieldsMap.set(labelProp, Array.from(new Set(fields)));
           this.sourceMap.set(labelProp, tempArr);
@@ -148,6 +152,10 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
 
   getTableData(field: string): TableData[] {
     return this.fieldsMap.get(field);
+  }
+
+  active(fragment: string) {
+    this.navSectionsService.setActiveSection(fragment);
   }
 }
 

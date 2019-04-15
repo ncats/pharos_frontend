@@ -24,7 +24,7 @@ export class DataListResolver implements Resolve<any> {
   /**
    * toggle loading modal
    * set path todo: see how much this is still used
-   * call api - api retruns through different subscriptions, so the data ins't actually returned here
+   * call api - api returns through different subscriptions, so the data ins't actually returned here
    * hence the empty observable returned
    * @param {ActivatedRouteSnapshot} route
    * @returns {Observable<any[]>}
@@ -45,7 +45,6 @@ export class DataListResolver implements Resolve<any> {
    * get specific deetails from an object,
    * todo: this may not be the best place for this, but this is the primary way the api is called without a url change
    * @param {string} url
-   * @param {string} origin
    */
   getDataByUrl(url: string): void {
     this.pharosApiService.getDataByUrl(url);

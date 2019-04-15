@@ -23,7 +23,7 @@ export class ResponseParserService implements OnDestroy {
    * @type {BehaviorSubject<any>}
    * @private
    */
-  private _tableDataSource = new Subject<any>();
+  private _tableDataSource = new BehaviorSubject<any>({});
 
   /**
    * RxJs subject to return pagination data

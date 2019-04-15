@@ -4,6 +4,17 @@ import {Observable, of} from 'rxjs/index';
 import {HttpClient} from '@angular/common/http';
 import {EnvironmentVariablesService} from '../../../pharos-services/environment-variables.service';
 
+
+/**
+ * ds?field=radar-attr_type&value=viral%20protein
+ /idg/hg/data?q=Q9NXB0&type=radar-attr_group
+ /idg/hg/data?q=Q9NXB0&type=radar-data_type
+ /idg/hg
+ */
+
+
+
+
 /**
  * different config settings for radar types
  * todo: put in different config file
@@ -71,7 +82,6 @@ export class RadarService {
    */
   constructor(private http: HttpClient,
               private environmentVariableService: EnvironmentVariablesService) {
-    console.log(this);
   }
 
   /**

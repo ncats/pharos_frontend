@@ -62,10 +62,6 @@ const ROUTES: Routes = [
   {
     path: 'topics',
     loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
-    // todo: the redirect when changing from targets to topics loads the new module
-// todo: at the same time, the current view is reacting to the change in data and loading the topic table component, but not the module
-// todo: solution: ????? 1. merge topic table back into main module 2. aggressively destroy view on data change 3. ???
-//    loadChildren: './pharos-topics/pharos-topics.module#PharosTopicsModule',
     data: { path: 'topics' }
   },
   {
@@ -77,7 +73,12 @@ const ROUTES: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(ROUTES, {enableTracing: false})
+    RouterModule.forRoot(ROUTES,{
+      scrollPositionRestoration: 'enabled',
+      anchorScrolling: 'enabled',
+      onSameUrlNavigation: "reload",
+      scrollOffset: [0, 120]
+      })
   ],
   providers: [],
   entryComponents: [],

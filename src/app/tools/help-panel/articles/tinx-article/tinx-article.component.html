@@ -1,0 +1,36 @@
+<section class="overview">
+  <div class="section-header">Overview</div>
+  <div class="section-body"><p>TIN-X is an interactive visualization tool for discovering interesting associations
+    between diseases and potential drug targets.</p>
+    <p>We used natural language processing to identify disease and protein mentions in the text
+      of <a href="http://www.ncbi.nlm.nih.gov/pubmed/" target="_blank">PubMed</a>
+      abstracts. Using this data, we derived two metrics: <strong>novelty</strong> and <strong>importance</strong>.
+      Novelty measures the
+      relative scarcity of specific publications about a given concept (such as a target or a disease),
+      while importance measures the relative strength of the association between two concepts. We then built
+      this web tool, which enables users to explore the relationships between the novelty of potential drug targets
+      and their importance to diseases.</p>
+    <p>Our approach was guided by the following assumptions:</p>
+    <ul>
+      <li>A target that is mentioned in many abstracts that also mention a specific disease is likely to be of
+        importance to that disease.
+      </li>
+      <li>A target or disease that is mentioned in fewer abstracts is more novel and less well understood.</li>
+      <li>Abstracts which mention only a few targets and diseases are more specific and should be given greater weight
+        than those which mention many.
+      </li>
+    </ul>
+    <p>For more details about how these scores are computed, please see the paper cited below.</p></div>
+</section>
+<section class="publications">
+  <div class="section-header">Publications</div>
+  <div class="section-body">
+    <ul>
+      <li>Cannon, D.C., Yang, J.J., Mathias, S.L., Ursu, O., Mani, S., Waller, A., Schürer, S.C., Jensen, L.J.,
+        Sklar, L.A., Bologa, C.G. and Oprea, T.I., 2017. <a title="TIN-X: target importance and novelty explorer"
+                                                            href="https://doi.org/10.1093/bioinformatics/btx200">TIN-X:
+          target importance and novelty explorer</a>. Bioinformatics.
+      </li>
+    </ul>
+  </div>
+</section>

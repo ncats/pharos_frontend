@@ -11,17 +11,12 @@ import {BreakpointObserver} from '@angular/cdk/layout';
 })
 export class TargetHeaderComponent extends DynamicPanelComponent implements OnInit {
   @Input() target: Target;
-  description: string;
-  truncatedDescription: string;
-  geneSummary: string;
-  fullDescription = true;
 
-  constructor(private breakpointObserver: BreakpointObserver) {
+  constructor() {
     super();
   }
 
   ngOnInit() {
-    const isSmallScreen = this.breakpointObserver.isMatched('(max-width: 768px)');
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -29,31 +24,10 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (Object.values(this.data).length > 0) {
+        if (this.target) {
           this.ngUnsubscribe.next();
-          this.setterFunction();
         }
       });
-    this.description = this.target.description;
-  }
-
-  setterFunction() {
-    if (this.data.geneSummary) {
-      this.geneSummary = this.data.geneSummary.map(sum => sum.text).join(' ');
-      if(this.target.description) {
-        this.description = this.target.description ? this.target.description.concat(this.geneSummary) : this.geneSummary;
-      }
-    }else {
-      this.description = this.target.description;
-    }
-    if (this.description && this.description.length > 1000) {
-      this.fullDescription = false;
-      this.truncatedDescription = this.description.slice(0, 1000);
-    }
-    if (this.breakpointObserver.isMatched('(max-width: 768px)')) {
-      this.fullDescription = false;
-      this.truncatedDescription = this.description.slice(0, 500);
-    }
   }
 
   getHeaderClass(): string {

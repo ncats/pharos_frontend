@@ -25,13 +25,13 @@ import {PageData} from '../../../models/page-data';
 import {map, zipAll} from 'rxjs/operators';
 import {MatTabChangeEvent} from '@angular/material';
 import {TableData} from '../../../models/table-data';
-import {Property} from '../../../models/property';
 import {Node} from '../../../tools/visualizations/force-directed-graph/models/node';
 import {Link} from '../../../tools/visualizations/force-directed-graph/models/link';
 import {LinkService} from '../../../tools/visualizations/force-directed-graph/services/event-tracking/link.service';
 import {DataParserService} from "./panels/topic-graph-panel/topic-directed-graph/data-parser.service";
 import {LigandNode} from "../../../models/ligand-node";
 import {TargetNode} from "../../../models/target-node";
+import {PharosProperty} from "../../../models/pharos-property";
 
 interface TopicData {
   target: Target;
@@ -404,11 +404,11 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
         this.allDiseases = this.dataParserService.getDiseases()
           .map(disease => {
             return {
-              disease: new Property(
+              disease: new PharosProperty(
                 {
                   term: disease.name
                 }),
-              targets: disease.targets.map(target => new Property(
+              targets: disease.targets.map(target => new PharosProperty(
                 {
                   term: target.name,
                   internalHref: `/targets/${target.accession}`

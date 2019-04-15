@@ -31,6 +31,9 @@ import {NgxJsonViewerModule} from 'ngx-json-viewer';
 import {PropertyDisplayComponent} from '../tools/property-display/property-display.component';
 import {KnowledgeTableComponent} from '../tools/knowledge-table/knowledge-table.component';
 import {ProteinStructureViewerComponent} from "../tools/protein-structure-viewer/protein-structure-viewer.component";
+import {HelpArticlesModule} from "../shared/help-articles.module";
+import {EquationRendererComponent} from "../tools/equation-renderer/equation-renderer.component";
+import {ScrollspyDirective} from "../tools/sidenav-panel/directives/scrollspy.directive";
 
 
 @NgModule({
@@ -42,7 +45,8 @@ import {ProteinStructureViewerComponent} from "../tools/protein-structure-viewer
     MaterialModule,
     FlexLayoutModule,
     RouterModule,
-    NgxJsonViewerModule
+    NgxJsonViewerModule,
+    HelpArticlesModule
   ],
   declarations: [
     NcatsHeaderComponent,
@@ -64,7 +68,8 @@ import {ProteinStructureViewerComponent} from "../tools/protein-structure-viewer
     HelpPanelComponent,
     HelpPanelTriggerComponent,
     KnowledgeTableComponent,
-    ProteinStructureViewerComponent
+    ProteinStructureViewerComponent,
+    ScrollspyDirective
   ],
   providers: [
     HelpDataService,
@@ -77,6 +82,7 @@ import {ProteinStructureViewerComponent} from "../tools/protein-structure-viewer
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
+    HelpArticlesModule,
     NcatsHeaderComponent,
     PharosFooterComponent,
     BreadcrumbComponent,
@@ -96,7 +102,8 @@ import {ProteinStructureViewerComponent} from "../tools/protein-structure-viewer
     HelpPanelComponent,
     HelpPanelTriggerComponent,
     KnowledgeTableComponent,
-    ProteinStructureViewerComponent
+    ProteinStructureViewerComponent,
+    ScrollspyDirective
   ]
 })
 export class SharedModule {

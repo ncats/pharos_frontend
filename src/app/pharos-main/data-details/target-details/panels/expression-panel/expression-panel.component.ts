@@ -1,24 +1,28 @@
 import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {MatTabChangeEvent} from '@angular/material';
-import {Property} from '../../../../../models/property';
+import {PharosProperty} from '../../../../../models/pharos-property';
 import {BehaviorSubject} from 'rxjs/index';
 import {EnvironmentVariablesService} from '../../../../../pharos-services/environment-variables.service';
-import {Ortholog} from '../../../../../models/ortholog';
+import {Ortholog, OrthologSerializer} from '../../../../../models/ortholog';
 import {TableData} from '../../../../../models/table-data';
 import {DiseaseRelevance} from '../../../../../models/disease-relevance';
 import {takeUntil} from 'rxjs/operators';
+import {DiseaseRelevanceSerializer} from "../../../../../models/disease-relevance";
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 @Component({
   selector: 'pharos-expression-panel',
   templateUrl: './expression-panel.component.html',
-  styleUrls: ['./expression-panel.component.css']
+  styleUrls: ['./expression-panel.component.scss']
 })
 export class ExpressionPanelComponent extends DynamicPanelComponent implements OnInit {
   _URL: string;
   id: string;
-  tissueData: Map<string, Property[]> = new Map<string, Property[]>();
+  tissueData: Map<string, PharosProperty[]> = new Map<string, PharosProperty[]>();
+  diseaseRelevanceSerializer: DiseaseRelevanceSerializer = new DiseaseRelevanceSerializer();
+  orthologSerializer: OrthologSerializer = new OrthologSerializer();
   hgData: any[] = [];
   imgUrl: string;
   diseaseSources: any;
@@ -82,7 +86,9 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   ];
   width = 30;
 
-  constructor(private environmentVariablesService: EnvironmentVariablesService) {
+  constructor(
+    private navSectionsService: NavSectionsService,
+    private environmentVariablesService: EnvironmentVariablesService) {
     super();
   }
 
@@ -115,12 +121,12 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
       this.diseaseSources = this.data.differential.filter(term =>
         term.properties.filter(prop => prop.term === 'Expression Atlas').length > 0);
       this.diseaseSources.forEach(dr => {
-        // create new disease relevance object to get Property class properties
-        const readDR = new DiseaseRelevance(dr);
+        // create new disease relevance object to get PharosProperty class properties
+        const readDR: DiseaseRelevance = this.diseaseRelevanceSerializer.fromJson(dr);
         // get array of diseases from source map
         const tableData: any = {};
         readDR.properties.forEach(prop => {
-          tableData[prop.label] = new Property(prop);
+          tableData[prop.label] = new PharosProperty(prop);
         });
         this.tableArr.push(tableData);
       });
@@ -131,11 +137,13 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
       this.orthologs = [];
       const temp: Ortholog[] = [];
       this.data.orthologs.forEach(obj => {
-        // create new object to get Property class properties
-        const newObj: Ortholog = new Ortholog(obj);
+        // create new object to get PharosProperty class properties
+        const newObj: Ortholog =  this.orthologSerializer.fromJson(obj);
         // get source label
-        const labelProp: Property = new Property(newObj.properties.filter(prop => prop.label === 'Ortholog Species')[0]);
-        const dataSources: Property[] = newObj.properties.filter(prop => prop.label === 'Data Source').map(lab => new Property(lab));
+        const labelProp: PharosProperty =
+          new PharosProperty(newObj.properties.filter(prop => prop.label === 'Ortholog Species')[0]);
+        const dataSources: PharosProperty[] =
+         newObj.properties.filter(prop => prop.label === 'Data Source').map(lab => new PharosProperty(lab));
         this.orthologs.push({species: labelProp, source: dataSources});
       });
     }
@@ -143,8 +151,8 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
 
   mapTissueData(): void {
     this.data.expression.forEach(tissue => {
-      const tissueTerm: Property = new Property(tissue);
-      const tissueArr: Property[] = this.tissueData.get(tissueTerm.label);
+      const tissueTerm: PharosProperty = new PharosProperty(tissue);
+      const tissueArr: PharosProperty[] = this.tissueData.get(tissueTerm.label);
       if (tissueArr) {
         tissueArr.push(tissueTerm);
         this.tissueData.set(tissueTerm.label, tissueArr);
@@ -166,7 +174,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     return radar;
   }
 
-  getData(field: string): Property[] {
+  getData(field: string): PharosProperty[] {
     return this.tissueData.get(field);
   }
 
@@ -179,5 +187,9 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     this.imgUrl = this._URL + this.sources[event.index].name;
 
     // this.tableArr = this.sourceMap.get(this.sources[event.index]);
+  }
+
+  active(fragment: string) {
+    this.navSectionsService.setActiveSection(fragment);
   }
 }

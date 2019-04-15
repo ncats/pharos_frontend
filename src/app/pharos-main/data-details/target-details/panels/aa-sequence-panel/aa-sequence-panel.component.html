@@ -1,47 +1,22 @@
-<mat-card>
+<mat-card id="sequence"
+          (pharosScrollspy)="active('sequence')"
+          #sequence
+          class ="section-card">
   <mat-card-header>
     <mat-card-title ><span class="mat-title">AA Sequence</span></mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div fxLayout="row" fxLayout.lt-sm = "column" fxLayoutAlign="center center">
-      <div fxFlex = "30">
-        <ng-container *ngIf="data.synonyms?.length > 0">
-          <mat-card-subtitle>Uniprot Accession IDs</mat-card-subtitle>
-          <ul class = "inline-list wrap">
-            <li *ngFor=" let term of data.synonyms">
-              <pharos-term-display [term]= term [showLabel]="false"></pharos-term-display><br>
-            </li>
-          </ul>
-        </ng-container>
-        <ng-container *ngIf="data.symbol?.length > 0">
-          <br>
-          <mat-card-subtitle>Symbol</mat-card-subtitle>
-          <ul class = "inline-list wrap">
-            <li *ngFor=" let term of data.symbol">
-              <pharos-term-display [term] = term [showLabel]="false"></pharos-term-display>
-            </li>
-          </ul>
-        </ng-container>
-        <ng-container *ngIf="data.gene?.length > 0">
-          <br>
-          <mat-card-subtitle>NCBI Gene</mat-card-subtitle>
-          <ul class = "inline-list wrap">
-            <li *ngFor=" let term of data.gene">
-              <pharos-term-display [term]= term  [showLabel]="false"></pharos-term-display>
-            </li>
-          </ul>
-        </ng-container>
-      </div>
-      <div fxFlex="60" fxHide.lt-sm>
-        <pharos-bar-chart [data]="residueCounts" class="full-width"></pharos-bar-chart>
+      <div fxLayout="row" fxLayout.lt-sm = "column" fxLayoutAlign="center center">
+      <div fxFlex="90" fxHide.lt-sm>
+        <pharos-bar-chart [data]="residueCounts" class="full-width" *ngIf="residueCounts"></pharos-bar-chart>
       </div>
     </div>
-    <div class = "well" fxHide.lt-sm>
-    <div fxLayout="row" fxLayoutAlign="start center" *ngFor = " let chunk of sequence" fxLayout="start stretch">
-      <div fxFlex="55">
+    <div class = "well" fxHide.lt-sm  *ngIf= "sequence && sequence.length">
+    <div fxLayout="row" fxLayoutAlign="start center" *ngFor = "let chunk of sequence" fxLayout="start stretch">
+      <div fxFlex="85">
         {{chunk.chunk}}
       </div>
-      <div fxFlex="40" fxHide.lt-md>
+      <div fxFlex="15" class="no-copy"fxHide.lt-md>
         {{chunk.residues}}
       </div>
     </div>
@@ -52,4 +27,3 @@
 -->
   </mat-card-content>
 </mat-card>
-<br>

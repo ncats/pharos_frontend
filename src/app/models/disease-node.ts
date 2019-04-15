@@ -1,12 +1,12 @@
 import {Node, NodeSerializer} from "../tools/force-directed-graph/force-directed-graph/graph-component/models/node";
-import {Disease} from "./disease";
+import {Disease, DiseaseSerializer} from "./disease";
 import {Target} from "./target";
 
 export class DiseaseNodeSerializer implements NodeSerializer {
   fromJson (obj: any, id?: string): DiseaseNode {
     const node = new DiseaseNode();
     Object.entries((obj)).forEach((prop) => node[prop[0]] = prop[1]);
-    node.disease = new Disease(node);
+    node.disease = new DiseaseSerializer().fromJson(node);
     node.targets = [];
     return node;
   }

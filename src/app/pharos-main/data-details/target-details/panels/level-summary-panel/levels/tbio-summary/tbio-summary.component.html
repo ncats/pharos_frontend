@@ -1,0 +1,53 @@
+
+
+<div fxLayout="row" fxLayoutAlign="space-around start">
+  <div fxFlex="95">
+    <div fxLayout="row">
+      <p class="explanation">
+        These targets do not have known drug or small molecule activities <br>
+        <span class="centered">- AND -</span>
+        satisfy the preceding conditions
+        <span class="centered">- AND -</span>
+        satisfy one or more of the following criteria:</p>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon
+        [ngClass]="{'disabled-icon': data.goProcess?.length + data.goFunction?.length + data.goComponent?.length < 1 }"
+        [color]="'accent'">check_circle
+      </mat-icon>
+      &nbsp;&nbsp;
+      <span [ngClass]="{'mat-body-2': data.goProcess?.length + data.goFunction?.length + data.goComponent?.length > 0}">
+        Gene Ontology Molecular Function<span
+        *ngIf = "data.goProcess?.length + data.goFunction?.length + data.goComponent?.length > 1">s</span>:
+        {{data.goProcess?.length + data.goFunction?.length + data.goComponent?.length}}
+ </span>
+    </div>
+    <br>
+    <div fxLayout="row">
+      <mat-progress-bar
+        class = "tdl-progress"
+        mode="determinate"
+        [value]="goCount == 0 ? 0 : 100"
+      ></mat-progress-bar>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon
+        [ngClass]="{'disabled-icon': data.omim?.length == 0 }"
+        [color]="'accent'">check_circle
+      </mat-icon>
+      &nbsp;&nbsp;
+      <span [ngClass]="{'mat-body-2': data.omim?.length > 0}">
+        OMIM Phenotype<span *ngIf = "data.omim?.length > 1">s</span>: {{data.omim?.length}}
+ </span>
+    </div>
+    <br>
+    <div fxLayout="row">
+      <mat-progress-bar
+        class = "tdl-progress"
+        mode="determinate"
+        [value]="data.omim?.length == 0 ? 0 : 100"
+      ></mat-progress-bar>
+    </div>
+  </div>
+</div>

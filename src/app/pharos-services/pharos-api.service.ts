@@ -1,12 +1,12 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {Observable, Subject, of, combineLatest, BehaviorSubject, forkJoin, pipe} from 'rxjs';
+import {Observable, Subject, of, combineLatest, BehaviorSubject, forkJoin, pipe, from} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {ParamMap} from '@angular/router';
 import {EnvironmentVariablesService} from './environment-variables.service';
 import {Topic} from '../models/topic';
-import {delay, map} from 'rxjs/internal/operators';
+import {map} from 'rxjs/internal/operators';
 
 
 @Injectable()
@@ -16,7 +16,7 @@ export class PharosApiService {
    * @type {Subject<any>}
    * @private
    */
-  private _dataSource = new Subject<any>();
+  private _dataSource = new BehaviorSubject<any>({});
 
   /**
    * RxJs behavior subject to broadcast data details
@@ -57,98 +57,84 @@ export class PharosApiService {
    * @type {Topic[]}
    */
   TOPICS = [
-      {
-        id: 0,
-        name: 'Bromodomain Inhibitors',
-        description: 'BET inhibitors are a class of drugs with anti-cancer, immunosuppressive, and other effects in ' +
-        'clinical trials in the United States and Europe and widely used in research. These molecules reversibly bind ' +
-        'the bromodomains of Bromodomain and Extra-Terminal motif (BET) proteins BRD2, BRD3, BRD4, and BRDT, and prevent ' +
-        'protein-protein interaction between BET proteins and acetylated histones and transcription factors.',
-        class: 'target',
-        targetList: ['BRD2', 'BRD3', 'BRD4', 'BRDT'],
-        diseaseCt: 0,
-        ligandCt: 818,
-        targetCt: 4,
-        publicationCt: 0
-      },
-/*      {
-        id: 1,
-        name: 'Lysomal Storage Disorders',
-        description: 'A group of autosomal recessive or X-linked inherited metabolic disorders caused by defects in ' +
-        'the function of the lysosomes. Signs and symptoms include hepatomegaly, splenomegaly, nervous system ' +
-        'manifestations, skeletal abnormalities, and mental deterioration. Representative examples include Gaucher ' +
-        'disease, Niemann-Pick disease, Wolman disease, and Fabry disease.',
-        class: 'disease',
-        diseaseCt: 104,
-        ligandCt: 45,
-        targetCt: 45,
-        publicationCt: 0
-      },*/
-      {
-        id: 1,
-        name: 'Kinase: IDG Consortium (Targets)',
-        description: 'A series of interesting kinase targets manually selected by the IDG consortium',
-        class: 'target',
-        url: 'targets/search?facet=Collection+Kinase:IDG+Consortium+(Targets)&top=150',
-        diseaseCt: 118,
-        ligandCt: 1317,
-        targetCt: 125,
-        publicationCt: 0
-      }, {
+    {
+      id: 0,
+      name: 'Bromodomain Inhibitors',
+      description: 'BET inhibitors are a class of drugs with anti-cancer, immunosuppressive, and other effects in ' +
+      'clinical trials in the United States and Europe and widely used in research. These molecules reversibly bind ' +
+      'the bromodomains of Bromodomain and Extra-Terminal motif (BET) proteins BRD2, BRD3, BRD4, and BRDT, and prevent ' +
+      'protein-protein interaction between BET proteins and acetylated histones and transcription factors.',
+      class: 'target',
+      targetList: ['BRD2', 'BRD3', 'BRD4', 'BRDT'],
+      diseaseCt: 0,
+      ligandCt: 818,
+      targetCt: 4,
+      publicationCt: 0
+    },
+    {
+      id: 1,
+      name: 'Kinase: IDG Consortium (Targets)',
+      description: 'A series of interesting kinase targets manually selected by the IDG consortium',
+      class: 'target',
+      url: 'targets/search?facet=Collection+Kinase:IDG+Consortium+(Targets)&top=150',
+      diseaseCt: 118,
+      ligandCt: 1317,
+      targetCt: 125,
+      publicationCt: 0
+    }, {
       id: 2,
       name: 'Regulation of Autophagy',
       description: 'Any process that modulates the frequency, rate or extent of autophagy. ' +
-    'Autophagy is the process in which cells digest parts of their own cytoplasm. [GOC:dph, GOC:tb] [GO]',
+      'Autophagy is the process in which cells digest parts of their own cytoplasm. [GOC:dph, GOC:tb] [GO]',
       url: 'targets/search?facet=GO+Process/regulation%20of%20autophagy&top=100',
-  class: 'target',
+      class: 'target',
       diseaseCt: 53,
       ligandCt: 5161,
       targetCt: 50,
       publicationCt: 0
     }, {
-        id: 3,
+      id: 3,
       name: 'GPCR: Class F frizzled-type',
       description: 'A family of seven-pass transmembrane cell-surface proteins that combines with LOW DENSITY ' +
-        'LIPROTEIN RECEPTOR-RELATED PROTEIN-5 or LOW DENSITY LIPROTEIN RECEPTOR-RELATED PROTEIN-5 to form receptors ' +
-        'for WNT PROTEINS. Frizzled receptors often couple with HETEROTRIMERIC G PROTEINS and regulate the WNT ' +
-        'SIGNALING PATHWAY.',
-        class: 'targets',
-        url: 'targets/search?facet=IDG+Target+Family/GPCR&facet=DTO+Protein+Class+%281%29/Class+F+frizzled-type&top=20',
-        diseaseCt: 10,
-        ligandCt: 234,
-        targetCt: 11,
-        publicationCt: 0
-      }, {
-        id: 4,
-        name: 'WD40 repeat domain proteins',
-        description: 'The WD40 repeat (also known as the WD or beta-transducin repeat) is a short structural motif of ' +
-        'approximately 40 amino acids, often terminating in a tryptophan-aspartic acid (W-D) dipeptide.[2] Tandem copies' +
-        ' of these repeats typically fold together to form a type of circular solenoid protein domain called the WD40 ' +
-        'domain.',
-        class: 'targets',
-        url: 'targets/search?facet=UniProt+Keyword/WD+repeat&top=300',
+      'LIPROTEIN RECEPTOR-RELATED PROTEIN-5 or LOW DENSITY LIPROTEIN RECEPTOR-RELATED PROTEIN-5 to form receptors ' +
+      'for WNT PROTEINS. Frizzled receptors often couple with HETEROTRIMERIC G PROTEINS and regulate the WNT ' +
+      'SIGNALING PATHWAY.',
+      class: 'targets',
+      url: 'targets/search?facet=IDG+Target+Family/GPCR&facet=DTO+Protein+Class+%281%29/Class+F+frizzled-type&top=20',
+      diseaseCt: 10,
+      ligandCt: 234,
+      targetCt: 11,
+      publicationCt: 0
+    }, {
+      id: 4,
+      name: 'WD40 repeat domain proteins',
+      description: 'The WD40 repeat (also known as the WD or beta-transducin repeat) is a short structural motif of ' +
+      'approximately 40 amino acids, often terminating in a tryptophan-aspartic acid (W-D) dipeptide.[2] Tandem copies' +
+      ' of these repeats typically fold together to form a type of circular solenoid protein domain called the WD40 ' +
+      'domain.',
+      class: 'targets',
+      url: 'targets/search?facet=UniProt+Keyword/WD+repeat&top=300',
       displayTargets: {
-      mostKnowledge: 'LRRK2',
-      mostPotential: 'GNB3',
-      leastKnowledge: 'CDC20B'
-    },
-        diseaseCt: 108,
-        ligandCt: 497,
-        targetCt: 277,
-        publicationCt: 0
-      }, {
-        id: 5,
-        name: 'DNA damage response',
-        description: '',
-        class: 'targets',
-        url: 'targets/search?facet=GO+Process/cellular+response+to+DNA+damage+stimulus&facet=WikiPathways+Pathway/DNA+Damage+Response+%28only+ATM+dependent%29&facet=WikiPathways+Pathway/DNA+IR-damage+and+cellular+response+via+ATR&facet=WikiPathways+Pathway/miRNA+Regulation+of+DNA+Damage+Response&facet=WikiPathways+Pathway/DNA+Damage+Response&top=100',
-        diseaseCt: 100,
-        ligandCt: 6359,
-        targetCt: 43,
-        publicationCt: 0
-      }
+        mostKnowledge: 'LRRK2',
+        mostPotential: 'GNB3',
+        leastKnowledge: 'CDC20B'
+      },
+      diseaseCt: 108,
+      ligandCt: 497,
+      targetCt: 277,
+      publicationCt: 0
+    }, {
+      id: 5,
+      name: 'DNA damage response',
+      description: '',
+      class: 'targets',
+      url: 'targets/search?facet=GO+Process/cellular+response+to+DNA+damage+stimulus&facet=WikiPathways+Pathway/DNA+Damage+Response+%28only+ATM+dependent%29&facet=WikiPathways+Pathway/DNA+IR-damage+and+cellular+response+via+ATR&facet=WikiPathways+Pathway/miRNA+Regulation+of+DNA+Damage+Response&facet=WikiPathways+Pathway/DNA+Damage+Response&top=100',
+      diseaseCt: 100,
+      ligandCt: 6359,
+      targetCt: 43,
+      publicationCt: 0
+    }
   ];
-
   /**
    * create services
    * set url
@@ -176,12 +162,13 @@ export class PharosApiService {
     } else {
       // todo: delete when api filled out
       if (path === 'topics') {
-        of(this.TOPICS).pipe(delay(500)).subscribe(topics => {
-          this._dataSource.next({
-            content: [{kind: path, data: {content: topics}}],
-            facets: []
-          });
-        });
+        of(this.TOPICS).subscribe(topics => {
+          this._dataSource.next(
+            {
+              content: [{kind: path, data: {content: topics}}],
+              facets: []
+            });
+        })
       } else {
         const url = this._mapParams(path, params);
         this.http.get<any>(url)
@@ -229,8 +216,16 @@ export class PharosApiService {
       .pipe(
         catchError(this.handleError('getDataUrl', []))
       ).subscribe(response => {
-      this._dataSource.next( response);
+      this._dataSource.next(response);
     });
+  }
+
+  getTarget(path: string, params: ParamMap): Observable<any> {
+    const url = `${this._URL}${path}/${params.get('id')}`;
+   return this.http.get<any>(url)
+     .pipe(
+       catchError(this.handleError('getDetails', []))
+     );
   }
 
   /**
@@ -242,9 +237,7 @@ export class PharosApiService {
   getDetails(path: string, params: ParamMap): void {
     // todo: delete when api filled out
     if (path === 'topics') {
-      of(this.TOPICS[params.get('id')]).pipe(delay(500)).subscribe(response => {
-        this._detailsSource.next(response);
-      });
+      this.getTopicsDetails(params.get('id'));
     } else {
       const url = this._URL + path + '/' + params.get('id');
       this.http.get<any>(url)
@@ -285,6 +278,7 @@ export class PharosApiService {
     const cl: Observable<any> = combineLatest(
       this._detailsSource,
       this._detailsUrlSource);
+
     cl.subscribe(([object, details]) => {
       if (details.origin) {
         returnedObject[details.origin] = details.data;
@@ -373,6 +367,13 @@ export class PharosApiService {
     };
   }
 
+  /**
+   * garbage
+   * @param index
+   */
+  getTopicsDetails( index: any) {
+    this._detailsSource.next(this.TOPICS[index]);
+  }
 
 
 }

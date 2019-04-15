@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from '../dynamic-panel/dynamic-panel.component';
-import {Property} from '../../models/property';
+import {PharosProperty} from '../../models/pharos-property';
 import {TableData} from '../../models/table-data';
 import {takeWhile} from 'rxjs/internal/operators';
 
@@ -41,8 +41,8 @@ export class KnowledgeTableComponent extends DynamicPanelComponent implements On
           this.data[0].axes.slice(0).sort((a, b) => b.value - a.value).slice(0, 5).forEach(
             field => this.tableData.push(
               {
-                field: new Property({label: field.axis, term: field.axis}),
-                value: new Property({label: field.axis, numval: field.value})
+                field: {label: field.axis, term: field.axis},
+                value: {label: field.axis, term: field.value.toFixed(2)}
               })
           );
         }

@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {takeWhile} from 'rxjs/operators';
-import {Property} from '../../models/property';
+import {PharosProperty} from '../../models/pharos-property';
 
 @Component({
   selector: 'pharos-term-display',
@@ -19,11 +19,11 @@ export class TermDisplayComponent implements OnInit {
   /**
    *   initialize a private variable _data, it's a BehaviorSubject
    */
-  private _data = new BehaviorSubject<Property>(null);
+  private _data = new BehaviorSubject<PharosProperty>(null);
 
   // change data to use getter and setter
   @Input()
-  set term(value: Property) {
+  set term(value: PharosProperty) {
     // set the latest value for _data BehaviorSubject
     this._data.next(value);
   }

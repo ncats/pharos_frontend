@@ -5,5 +5,6 @@ import {PharosMainRoutingModule} from './pharos-main-routing.module';
   imports: [
     PharosMainRoutingModule
   ],
+  declarations: []
 })
 export class PharosMainModule { }

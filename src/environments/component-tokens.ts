@@ -1,11 +1,16 @@
 import {InjectionToken} from '@angular/core';
-import {NodeDisplayComponent} from '../app/pharos-main/data-details/topic-details/panels/node-display/node-display.component';
+import {NodeDisplayComponent} from "../app/pharos-main/data-details/topic-details/panels/node-display/node-display.component";
 
 export class TOKENS {
   /**
    * injection token to maintain the breadcrumb component
    */
   public static PHAROS_BREADCRUMB_COMPONENT = new InjectionToken<string>('BreadcrumbComponent');
+
+  /**
+   * injection token to maintain the target gene summary component
+   */
+  public static TARGET_GENE_SUMMARY_COMPONENT = new InjectionToken<string>('GeneSummaryComponent');
 
   /**
    * injection token to add the target details header
@@ -33,6 +38,11 @@ export class TOKENS {
    * injection token to link to the target summary component
    */
   public static SUMMARY_PANEL = new InjectionToken<string>('SummaryPanelComponent');
+
+  /**
+   * injection token to link to the target development summary component
+   */
+  public static LEVEL_SUMMARY_PANEL = new InjectionToken<string>('LevelSummaryPanelComponent');
   /**
    * injection token to link to the disease source panel
    */
@@ -46,6 +56,11 @@ export class TOKENS {
    * injection token to link to the disease source panel
    */
   public static TARGET_LIST_PANEL = new InjectionToken<string>('TargetListPanel');
+
+  /**
+   * injection token to link to the publication info for a target
+   */
+  public static PUBLICATION_INFO_PANEL = new InjectionToken<string>('PublicationInfoPanelComponent');
 
   /**
    * injection token to link to the references for a target
@@ -67,18 +82,15 @@ export class TOKENS {
    * injection token to link to gene rif data
    */
   public static ASSAY_PANEL = new InjectionToken<string>('AssayComponent');
-
   /**
    * injection token to link to amino acid sequence data
    */
   public static AA_SEQUENCE_PANEL = new InjectionToken<string>('AASequenceComponent');
-
   /**
    * injection Token to link to protein to protein interaction data
    * @type {InjectionToken<string>}
    */
   public static PROTEIN_PROTEIN_PANEL = new InjectionToken<string>('ProteinProteinPanelComponent');
-
   /**
    * injection token to link to amino acid sequence data
    */
@@ -139,8 +151,8 @@ public static MOLECULAR_DEFINITION_PANEL = new InjectionToken<string>('Molecular
  */
 public static TARGET_RELEVANCE_PANEL = new InjectionToken<string>('TargetRelevanceComponent');
 
-/**
- * injection token to link to protein database data
- */
-public static PDB_PANEL = new InjectionToken<string>('PdbPanelComponent');
+  /**
+   * injection token to link to protein database data
+   */
+  public static PDB_PANEL = new InjectionToken<string>('PdbPanelComponent');
  }

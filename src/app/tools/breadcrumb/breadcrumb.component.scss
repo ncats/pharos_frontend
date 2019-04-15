@@ -2,12 +2,8 @@
 // Import your custom theme
 @import './src/ncats-theme.scss';
 
-
-:host {
-  grid-column: 1 / span 2;
-  /*  flex: 1 1 auto;
-    max-width: 100%;
-    margin-left: 20px;*/
+.breadcrumb {
+  margin-left: 2vw;
 }
 
 .breadcrumb-link {

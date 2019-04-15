@@ -1,5 +1,5 @@
 export class PharosBase {
-  created:  number;
+  created:  string;
   deprecated: boolean;
   href: string;
   id: number;
@@ -8,12 +8,23 @@ export class PharosBase {
   version: number;
   _namespace: string;
 
-  constructor (obj: any) {
-    Object.entries((obj)).forEach((prop) => this[prop[0]] = prop[1]);
+  static mapDates(obj) {
+    obj.created = new Date(obj.created).toLocaleDateString();
+    return obj;
   }
 }
 
 export interface Serializer {
-  fromJSON( obj: any): any;
-  toJSON(obj: any): any;
+  fromJson(json: any): PharosBase;
+  toJson(object: PharosBase): any;
+  _asProperties(object: PharosBase): any;
+}
+
+export class PharosSubList {
+  count: number;
+  href: string;
+
+  constructor (obj: any) {
+    Object.entries((obj)).forEach((prop) => this[prop[0]] = prop[1]);
+  }
 }

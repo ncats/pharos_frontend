@@ -5,7 +5,7 @@ import {
 import {MatPaginator, MatSort, MatSortable, MatTableDataSource} from '@angular/material';
 import {TableData} from '../../models/table-data';
 import {BehaviorSubject} from 'rxjs/index';
-import {Property} from '../../models/property';
+import {PharosProperty} from '../../models/pharos-property';
 
 /**
  * Generic table Component that iterates over a list of {@link TableData} options to display fields

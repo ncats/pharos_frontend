@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Property} from '../../models/property';
+import {PharosProperty} from '../../models/pharos-property';
 
 /**Component to iterate over and display a provided list of Term objects */
 @Component({
@@ -17,7 +17,7 @@ export class LinkListComponent implements OnInit {
 private _list: any[] = [];
 
   @Input()
-  set list(values: Property[]) {
+  set list(values: PharosProperty[]) {
     this._list = [];
     if (values) {
       values.forEach(prop => this._list.push({term: prop.term, href: prop.href}));

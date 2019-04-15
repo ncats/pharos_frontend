@@ -69,33 +69,35 @@ export class DataListComponent implements OnInit, OnDestroy {
     this.responseParserService.tableData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        this.componentHost.viewContainerRef.clear();
-        res.content.forEach(dataList => {
-              const components: any = this.componentLookup.lookupByPath(dataList.kind, 'list');
-              if (components) {
-                components.forEach(component => {
-                  if (component.token) {
-                    const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
-                    const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
-                      dynamicComponent.instance.pageData = new PageData(dataList.data);
-                    if (dynamicComponent.instance.sortChange) {
-                      dynamicComponent.instance.sortChange.subscribe((event) => {
-                        this.sortTable(event);
-                        // todo sort arrows are not staying after column select
-                      });
-                    }
-                    if (dynamicComponent.instance.pageChange) {
-                      dynamicComponent.instance.pageChange.subscribe((event) => {
-                        this.paginationChanges(event);
-                      });
-                    }
-                    dynamicComponent.instance.data = dataList.data.content;
-                  }
-                });
-              }
+        if(res.content) {
+          this.componentHost.viewContainerRef.clear();
+          res.content.forEach(dataList => {
+            const components: any = this.componentLookup.lookupByPath(dataList.kind, 'list');
+            if (components) {
+              components.forEach(component => {
+                if (component.token) {
+                  const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
+                  const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
+                                    dynamicComponent.instance.pageData = new PageData(dataList.data);
+                                  if (dynamicComponent.instance.sortChange) {
+                                    dynamicComponent.instance.sortChange.subscribe((event) => {
+                                      this.sortTable(event);
+                                      // todo sort arrows are not staying after column select
+                                    });
+                                  }
+                                  if (dynamicComponent.instance.pageChange) {
+                                    dynamicComponent.instance.pageChange.subscribe((event) => {
+                                      this.paginationChanges(event);
+                                    });
+                                  }
+                  dynamicComponent.instance.data = dataList.data.content;
+                }
+              });
+            }
           });
 
           this.loadingService.toggleVisible(false);
+        }
       });
   }
     // todo: this is changed each pagination change, so something needs to persist the selected rows

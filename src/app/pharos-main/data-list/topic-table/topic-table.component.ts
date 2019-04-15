@@ -1,17 +1,17 @@
 import {
   AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output,
-  ViewChild, ViewEncapsulation
-} from '@angular/core';
-import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
-import {MatPaginator, MatTableDataSource} from '@angular/material';
-import {PageData} from '../../../models/page-data';
-import {HttpClient} from '@angular/common/http';
+  ViewChild
+} from "@angular/core";
+import {DynamicPanelComponent} from "../../../tools/dynamic-panel/dynamic-panel.component";
+import {MatPaginator, MatTableDataSource} from "@angular/material";
+import {PageData} from "../../../models/page-data";
+import {HttpClient} from "@angular/common/http";
+
 
 @Component({
   selector: 'pharos-topic-table',
   templateUrl: './topic-table.component.html',
-  styleUrls: ['./topic-table.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./topic-table.component.css']
 })
 export class TopicTableComponent extends DynamicPanelComponent implements OnInit, AfterViewInit, OnDestroy  {
   // @Input() data: Topic[];
@@ -45,7 +45,6 @@ export class TopicTableComponent extends DynamicPanelComponent implements OnInit
     this.topicsDataSource.paginator = this.ligandPaginator;
     this.changeDetector.detectChanges();
   }
-
   changeSort($event): void {
     this.sortChange.emit($event);
   }
