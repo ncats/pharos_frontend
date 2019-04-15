@@ -220,12 +220,16 @@ export class PharosApiService {
     });
   }
 
-  getTarget(path: string, params: ParamMap): Observable<any> {
-    const url = `${this._URL}${path}/${params.get('id')}`;
-   return this.http.get<any>(url)
-     .pipe(
-       catchError(this.handleError('getDetails', []))
-     );
+  getDataObservable(path: string, params: ParamMap): Observable<any> {
+    if (path === 'topics') {
+     return  of(this.TOPICS[params.get('id')]);
+    } else {
+      const url = `${this._URL}${path}/${params.get('id')}`;
+      return this.http.get<any>(url)
+        .pipe(
+          catchError(this.handleError('getDetails', []))
+        );
+    }
   }
 
   /**
@@ -237,8 +241,8 @@ export class PharosApiService {
   getDetails(path: string, params: ParamMap): void {
     // todo: delete when api filled out
     if (path === 'topics') {
-      this.getTopicsDetails(params.get('id'));
-    } else {
+      this._detailsSource.next({object: this.TOPICS[params.get('id')]});
+      } else {
       const url = this._URL + path + '/' + params.get('id');
       this.http.get<any>(url)
         .pipe(
@@ -366,15 +370,5 @@ export class PharosApiService {
       return of(result as T);
     };
   }
-
-  /**
-   * garbage
-   * @param index
-   */
-  getTopicsDetails( index: any) {
-    this._detailsSource.next(this.TOPICS[index]);
-  }
-
-
 }
 

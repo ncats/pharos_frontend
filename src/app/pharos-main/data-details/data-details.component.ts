@@ -26,7 +26,7 @@ import {CdkScrollable, CdkVirtualScrollViewport, ScrollDispatcher} from "@angula
 })
 export class DataDetailsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   path: string;
-  target: any;
+  pharosObject: any;
   dynamicComponent: any;
   componentsLoaded = false;
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
@@ -56,12 +56,12 @@ scrollingSubscription;
   ) {
     super();
     this.path = this._route.snapshot.data.path;
-    this.target = this._route.snapshot.data.target;
+    this.pharosObject = this._route.snapshot.data.target;
   }
 
 
   ngOnInit() {
-     // console.log(this);
+      console.log(this);
     if (!this.componentsLoaded) {
       this.makeComponents();
 
@@ -70,6 +70,7 @@ scrollingSubscription;
     this.responseParserService.detailsData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
+        console.log(res);
         this._data.next(res);
         this.changeDetector.markForCheck(); // refresh the component manually
       });
@@ -78,11 +79,11 @@ scrollingSubscription;
       // If it is a NavigationEnd event re-initalise the component
       if (e instanceof NavigationEnd) {
         this.path = this._route.snapshot.data.path;
-        if(this._route.snapshot.data.target != this.target) {
-          this.target = this._route.snapshot.data.target;
-        //  this.componentHost.viewContainerRef.clear();
-         // this.changeDetector.markForCheck(); // refresh the component manually
-        //  this.makeComponents();
+        if(this._route.snapshot.data[this.path] != this.pharosObject) {
+          this.pharosObject = this._route.snapshot.data[this.path];
+/*         this.componentHost.viewContainerRef.clear();
+         this.changeDetector.markForCheck(); // refresh the component manually
+         this.makeComponents();*/
         }
       }
     });
@@ -100,7 +101,7 @@ scrollingSubscription;
       if (component.api) {
         component.api.forEach(apiCall => {
           if (apiCall.url && apiCall.url.length > 0) {
-            const url = apiCall.url.replace('_id_', this.target.id);
+            const url = apiCall.url.replace('_id_', this.pharosObject.id);
             // this call is pushed up to the api and changes are subscribed to in the generic details page, then set here
             this.dataDetailsResolver.getDetailsByUrl(url, apiCall.field);
             // this will be used to track the object fields to get
@@ -111,14 +112,16 @@ scrollingSubscription;
       // make component
       const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
       const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
-      dynamicComponent.instance.target = this.target;
-      dynamicComponent.instance.id = this.target.id;
+      // todo: fix this. this is terrible
+      dynamicComponent.instance[this.path.slice(0,this.path.length-1)] = this.pharosObject;
+      dynamicComponent.instance.id = this.pharosObject.id;
       dynamicComponent.instance.path = this.path;
       this.changeDetector.markForCheck(); // refresh the component manually
 
       this._data
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(obj => {
+          console.log(obj);
             dynamicComponent.instance.data = obj;
             this.changeDetector.markForCheck(); // refresh the component manually
         });
