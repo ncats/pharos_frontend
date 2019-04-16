@@ -7,8 +7,6 @@ import {PharosProperty} from "../../models/pharos-property";
   template: ''
 })
 export class DynamicTablePanelComponent extends DynamicPanelComponent {
-  @Input()
-  substance: any;
   allData: any[];
   pageData: PageData;
   @Input()

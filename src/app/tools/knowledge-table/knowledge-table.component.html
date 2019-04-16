@@ -1,3 +1,7 @@
 <div *ngIf="this.data && this.data.length > 0" fxFlex>
-  <pharos-generic-table [data]="tableData" [fieldsConfig]="fields" [showPaginator]="false"></pharos-generic-table>
+  <pharos-generic-table
+    [showPaginator]="false"
+    [data]="tableData"
+    [fieldsConfig] = fields>
+  </pharos-generic-table>
 </div>

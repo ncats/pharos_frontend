@@ -2,10 +2,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {takeWhile} from 'rxjs/operators';
-import {PharosProperty} from '../../models/pharos-property';
+import {DataProperty} from "./data-property";
 
 @Component({
-  selector: 'pharos-property-display',
+  selector: 'ncats-property-display',
   templateUrl: './property-display.component.html',
   styleUrls: ['./property-display.component.css']
 })
@@ -20,11 +20,11 @@ export class PropertyDisplayComponent implements OnInit {
   /**
    *   initialize a private variable _data, it's a BehaviorSubject
    */
-  private _data = new BehaviorSubject<PharosProperty>(null);
+  private _data = new BehaviorSubject<DataProperty>(null);
 
   // change data to use getter and setter
   @Input()
-  set property(value: PharosProperty) {
+  set property(value: DataProperty) {
     // set the latest value for _data BehaviorSubject
     this._data.next(value);
   }
@@ -32,11 +32,11 @@ export class PropertyDisplayComponent implements OnInit {
   get property() {
     // get the latest value from _data BehaviorSubject
     const prop = this._data.getValue();
-    if (prop && prop.label ==='IDG Disease') {
-/*      prop.internalLink = '/diseases' + prop.href.split('/diseases')[1];
-      console.log(prop);*/
+/*    if (prop && prop.label ==='IDG Disease') {
+/!*      prop.internalLink = '/diseases' + prop.href.split('/diseases')[1];
+      console.log(prop);*!/
       prop.href = null;
-    }
+    }*/
     return prop;
   }
 

@@ -24,7 +24,6 @@ import {EnvironmentVariablesService} from '../../../pharos-services/environment-
 import {PageData} from '../../../models/page-data';
 import {map, zipAll} from 'rxjs/operators';
 import {MatTabChangeEvent} from '@angular/material';
-import {TableData} from '../../../models/table-data';
 import {Node} from '../../../tools/visualizations/force-directed-graph/models/node';
 import {Link} from '../../../tools/visualizations/force-directed-graph/models/link';
 import {LinkService} from '../../../tools/visualizations/force-directed-graph/services/event-tracking/link.service';
@@ -65,12 +64,12 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   diseasePageData: PageData;
   diseaseLabel: string;
 
-  diseaseFields: TableData[] = [
-    new TableData({
+  diseaseFields: PharosProperty[] = [
+    new PharosProperty({
       name: 'disease',
       label: 'Disease',
     }),
-    new TableData({
+    new PharosProperty({
       name: 'targets',
       label: 'Associated Targets'
     })

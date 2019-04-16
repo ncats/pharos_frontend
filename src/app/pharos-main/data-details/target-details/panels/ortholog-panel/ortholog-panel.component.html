@@ -3,6 +3,11 @@
     <mat-card-title ><span class="mat-title">Ortholog ({{tableArr?.length}})</span></mat-card-title>
   </mat-card-header>
   <mat-card-content>
-        <pharos-generic-table [data]= tableArr [fieldsConfig] = fields></pharos-generic-table>
+    <pharos-generic-table
+      (pageChange)="paginate($event)"
+      [pageData]="pageData"
+      [data]="tableArr"
+      [fieldsConfig] = fields>
+    </pharos-generic-table>
   </mat-card-content>
 </mat-card>

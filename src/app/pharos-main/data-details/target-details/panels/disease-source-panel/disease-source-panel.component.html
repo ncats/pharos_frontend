@@ -21,12 +21,24 @@
     <mat-tab-group (selectedTabChange)="changeTabData($event)" *ngIf = 'sources.length > 1; else tableOnly'>
       <mat-tab *ngFor="let source of sources" label = "{{source}} ({{getSourceCount(source)}})"  >
         <ng-template matTabContent>
-        <pharos-generic-table [data]= tableArr [fieldsConfig] = getTableData(source)></pharos-generic-table>
+        <pharos-generic-table
+          (pageChange)="paginate($event)"
+          (sortChange)="sort($event)"
+          [pageData]="pageData"
+          [data]="tableArr"
+          [fieldsConfig] = fieldsData>
+        </pharos-generic-table>
         </ng-template>
       </mat-tab>
     </mat-tab-group>
     <ng-template #tableOnly>
-      <pharos-generic-table [data]= tableArr [fieldsConfig] = getTableData(sources[0])></pharos-generic-table>
+      <pharos-generic-table
+        (pageChange)="paginate($event)"
+        (sortChange)="sort($event)"
+        [pageData]="pageData"
+        [data]="tableArr"
+        [fieldsConfig] = fieldsData>
+      </pharos-generic-table>
     </ng-template>
         </div>
       </div>

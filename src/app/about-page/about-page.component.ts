@@ -2,7 +2,6 @@ import {
   ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren
 } from '@angular/core';
 import {CdkScrollable, ScrollDispatcher} from '@angular/cdk/scrolling';
-import {TableData} from '../models/table-data';
 import {PharosProperty} from '../models/pharos-property';
 import {SOURCES} from '../../assets/data-sources';
 
@@ -16,24 +15,24 @@ export class AboutPageComponent implements OnInit {
   @ViewChild(CdkScrollable) scrollable: CdkScrollable;
   @ViewChildren('scrollSection') scrollSections: QueryList<ElementRef>;
 
-  sourceFields: TableData[] = [
-    new TableData({
+  sourceFields: PharosProperty[] = [
+    new PharosProperty({
       name: 'source',
       label: 'Source',
       sortable: true,
       sorted: 'asc'
     }),
-    new TableData({
+    new PharosProperty({
       name: 'targetCount',
       label: 'Targets'
     //  sortable: true
     }),
-    new TableData({
+    new PharosProperty({
       name: 'diseaseCount',
       label: 'Diseases'
      // sortable: true
     }),
-    new TableData({
+    new PharosProperty({
       name: 'ligandCount',
       label: 'Ligands',
       // sortable: true

@@ -1,8 +1,8 @@
 
-import {PharosBase, Serializer} from './pharos-base';
+import {PharosBase, PharosSerializer, Serializer} from './pharos-base';
 import {PharosProperty} from './pharos-property';
 
-export class OrthologSerializer implements Serializer {
+export class OrthologSerializer implements PharosSerializer {
 
   constructor () {}
 

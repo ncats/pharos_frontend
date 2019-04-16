@@ -59,7 +59,6 @@ export class HelpDataService {
   constructor(
     private responseParserService: ResponseParserService,
   ) {
-    console.log(this);
     this.responseParserService.detailsData$
       .subscribe(res => this.data = res);
   }

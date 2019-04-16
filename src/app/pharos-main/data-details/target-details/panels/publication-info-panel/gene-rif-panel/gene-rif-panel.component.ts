@@ -44,6 +44,8 @@ export class GeneRifPanelComponent extends DynamicPanelComponent implements OnIn
   }
 
   setterFunction() {
+    console.log(this);
+
     const generifObserv = this.data.generif.filter(obj => obj.href);
     from(generifObserv.map(generif => generif = {generif: generif, data: this.getData(generif.href)} as GenerifData))
       .pipe(
@@ -70,6 +72,15 @@ export class GeneRifPanelComponent extends DynamicPanelComponent implements OnIn
   paginateGenerifs($event) {
     this.geneRifs = this.allGeneRifs.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize);
   }
+
+/*  paginateReferences($event) {
+    this.loading = true;
+    this.http.get<any>(`${this.target._publications.href}?top=${$event.pageSize}&skip=${($event.pageIndex) * $event.pageSize}`)
+      .subscribe(res => {
+        this.dataSource.data = res.filter(ref => !!ref);
+        this.loading = false;
+      });
+  }*/
 
 getData(url: string): any {
   return this._http.get<any[]>(url);

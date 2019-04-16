@@ -1,8 +1,8 @@
-import {PharosBase} from './pharos-base';
+import {PharosBase, PharosSerializer} from './pharos-base';
 import {PharosProperty} from './pharos-property';
 import {Serializer} from "./pharos-base";
 
-export class DiseaseRelevanceSerializer implements Serializer {
+export class DiseaseRelevanceSerializer implements PharosSerializer {
 
   constructor () {}
 
@@ -10,7 +10,7 @@ export class DiseaseRelevanceSerializer implements Serializer {
     const obj = new DiseaseRelevance();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
     DiseaseRelevance.mapDates(obj);
-    obj. properties = obj.properties.map(prop => prop = new PharosProperty(prop));
+    obj.properties = obj.properties.map(prop => prop = new PharosProperty(prop));
     return obj;
   }
 

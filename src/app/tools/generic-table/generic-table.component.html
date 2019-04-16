@@ -1,41 +1,83 @@
-
-<div fxLayout="row" *ngIf="tableLabel; else paginatorOnly" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around" class="body-row">
-  <div fxFlex="45" class = "table-label">
-    <div class = mat-display-1>{{tableLabel}}</div>
-  </div>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end center" class="body-row">
   <div fxFlex="55" fxFlexAlign="end">
-<mat-paginator *ngIf="showPaginator" #paginator
-               [pageSize]="10"
-               [pageSizeOptions]="[5, 10, 20]"
-               [hidePageSize]="hidePageSize"
-               [showFirstLastButtons]="true">
-</mat-paginator>
+    <mat-paginator *ngIf="showPaginator" #paginator
+                   [pageSizeOptions]="[10, 20, 50]"
+                   [hidePageSize]="hidePageSize"
+                   [showFirstLastButtons]="true"
+                   (page)="changePage($event)">
+    </mat-paginator>
   </div>
 </div>
-<ng-template #paginatorOnly>
-  <mat-paginator *ngIf="showPaginator" #paginator
-                 [pageSize]="10"
-                 [pageSizeOptions]="[5, 10, 20]"
-                 [hidePageSize]="hidePageSize"
-                 [showFirstLastButtons]="true">
-  </mat-paginator>
-</ng-template>
-      <mat-table #genericTable [dataSource]="dataSource" matSort >
-        <ng-container matColumnDef="{{field}}" *ngFor="let field of displayColumns">
-          <mat-header-cell *matHeaderCellDef mat-sort-header disabled = {{!isSortable(field)}} ngClass="getWidth()"> {{getLabel(field)}}</mat-header-cell>
-          <mat-cell *matCellDef="let row" ngClass="getWidth()">
-            <div *ngIf="row[field] && row[field].length; else single">
-              <span *ngFor="let term of row[field]">
-                <pharos-property-display [property]='term' [showLabel]="false"></pharos-property-display>
+<table mat-table matSort #genericTable
+       [dataSource]="dataSource"
+       [trackBy]="trackByFn"
+       [multiTemplateDataRows]="expandable"
+       (matSortChange)="changeSort($event)"
+       [ngClass]="{'condensed': condensed}">
+  <ng-container matColumnDef="buttons" *ngIf="editableTable === true">
+    <th mat-header-cell *matHeaderCellDef ngClass="getWidth()"></th>
+    <td mat-cell *matCellDef="let row" ngClass="getWidth()">
+      <button mat-icon-button color="primary" *ngIf="!editingRow(row._id)" (click)="editClick(row)">
+        <mat-icon aria-label="edit row">edit</mat-icon>
+      </button>
+      <div class="buttons-row">
+        <button mat-icon-button color="primary" *ngIf="editingRow(row._id)" ngHide (click)="cancelEdit(row)">
+          <mat-icon aria-label="edit row">close</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" *ngIf="editingRow(row._id)" ngHide (click)="deleteRow(row)">
+          <mat-icon aria-label="edit row">delete</mat-icon>
+        </button>
+      </div>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="{{field.name}}" *ngFor="let field of displayFields;">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled] = !field.sortable [ngClass]="getWidth(field)">
+      {{getLabel(field.name)}}
+    </th>
+    <td mat-cell *matCellDef="let row; let i = dataIndex" [ngClass]="getWidth(field)">
+
+      <ng-container *ngIf="checkCustomComponent(field); then customOutlet, else properties">
+      </ng-container>
+      <ng-template #properties>
+        <div *ngIf="row[field.name] && row[field.name].length; else single">
+              <span *ngFor="let term of row[field.name]">
+                <ncats-property-display [property]='term' [showLabel]="false"></ncats-property-display>
                 <br>
               </span>
-            </div>
-            <ng-template #single>
-          <pharos-property-display [property]="row[field]" [showLabel]="false"></pharos-property-display>
-            </ng-template>
-          </mat-cell>
-        </ng-container>
-        <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayColumns;">
-        </mat-row>
-      </mat-table>
+        </div>
+        <ng-template #single>
+          <ncats-property-display [property]="row[field.name]" [showLabel]="false"></ncats-property-display>
+        </ng-template>
+      </ng-template>
+      <ng-template #customOutlet [cdkPortalOutlet]="getCustomComponent(field, row, i)" (attached)="componentAttached($event, i, field)">
+      </ng-template>
+    </td>
+  </ng-container>
+
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let row" [attr.colspan]="displayFields.length+2">
+      <div [@detailExpand]="row == expandedElement ? 'expanded' : 'collapsed'">
+        <ng-template #expandedRowOutlet></ng-template>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayColumns; " (click)="rowClicked(row)"
+      class="element-row">
+  </tr>
+  <tr mat-row *matRowDef="let row;  columns: ['expandedDetail']" class="detail-row"></tr>
+</table>
+
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end center" class="body-row">
+  <div fxFlex="55" fxFlexAlign="end">
+    <mat-paginator *ngIf="showBottomPaginator"
+                   [pageSizeOptions]="[10, 20, 50]"
+                   [hidePageSize]="hidePageSize"
+                   [showFirstLastButtons]="true"
+                   (page)="changePage($event)"
+    >
+    </mat-paginator>
+  </div>
+</div>

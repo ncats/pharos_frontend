@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from '../dynamic-panel/dynamic-panel.component';
 import {PharosProperty} from '../../models/pharos-property';
-import {TableData} from '../../models/table-data';
 import {takeWhile} from 'rxjs/internal/operators';
 
 @Component({
@@ -11,13 +10,13 @@ import {takeWhile} from 'rxjs/internal/operators';
 })
 export class KnowledgeTableComponent extends DynamicPanelComponent implements OnInit {
   tableData: any;
-  fields: TableData[] = [
-    new TableData({
+  fields: PharosProperty[] = [
+    new PharosProperty({
       name: 'field',
       label: 'Most Knowledge About',
       width: 85
     }),
-    new TableData({
+    new PharosProperty({
       name: 'value',
       label: 'Knowledge Value \r\n (0 to 1 scale)'
     })

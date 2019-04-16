@@ -1,9 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TableData} from '../../../../../models/table-data';
-import {MatTabChangeEvent} from '@angular/material';
 import {Ortholog, OrthologSerializer} from '../../../../../models/ortholog';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
+import {PharosProperty} from "../../../../../models/pharos-property";
 
 @Component({
   selector: 'pharos-ortholog-panel',
@@ -12,13 +11,13 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class OrthologPanelComponent extends DynamicPanelComponent implements OnInit {
   orthologSerializer: OrthologSerializer = new OrthologSerializer();
-  fields: TableData[] = [
-    new TableData({
+  fields: PharosProperty[] = [
+    new PharosProperty({
     name: 'species',
     label: 'Species',
     sortable: true
   }),
-    new TableData( {
+    new PharosProperty( {
       name: 'source',
       label: 'Source',
       externalLink: true
@@ -59,8 +58,10 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
         // create new object to get PharosProperty class properties
         const newObj: Ortholog = this.orthologSerializer.fromJson(obj);
         // get source label
-        const labelProp: string = newObj.properties.filter(prop => prop.label === 'Ortholog Species').map(lab => lab['term'])[0];
-        const dataSources: string[] = newObj.properties.filter(prop => prop.label === 'Data Source').map(lab => lab['term']);
+        const labelProp: string = newObj.properties.filter(prop => prop.label === 'Ortholog Species')
+          .map(lab => lab['term'] as string)[0];
+        const dataSources: string[] = newObj.properties.filter(prop => prop.label === 'Data Source')
+          .map(lab => lab['term'] as string);
         this.tableArr.push({species: labelProp, source: dataSources});
       });
     }

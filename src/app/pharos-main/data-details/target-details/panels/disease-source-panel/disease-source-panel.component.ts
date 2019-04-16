@@ -1,47 +1,46 @@
 import {Component, HostBinding, Input, OnInit} from '@angular/core';
 import {DiseaseRelevance, DiseaseRelevanceSerializer} from '../../../../../models/disease-relevance';
-import {TableData} from '../../../../../models/table-data';
 import {MatTabChangeEvent} from '@angular/material';
 import {BehaviorSubject} from 'rxjs';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {LineChartOptions, PharosPoint} from '../../../../../tools/visualizations/line-chart/line-chart.component';
-import {PharosProperty} from '../../../../../models/pharos-property';
 import {takeUntil, takeWhile} from 'rxjs/operators';
 import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
+import {PharosProperty} from "../../../../../models/pharos-property";
 
 // skipping log2foldchange property
-const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
+const TABLEMAP: Map<string, PharosProperty> = new Map<string, PharosProperty>(
   [
-    ['IDG Disease',  new TableData({
+    ['IDG Disease',  new PharosProperty({
       name: 'disease',
       label: 'Disease',
       sortable: true,
       internalLink: true
     })
     ], [
-    'IDG Evidence', new TableData( {
+    'IDG Evidence', new PharosProperty( {
       name: 'evidence',
       label: 'Evidence'
     })
   ], [
-    'IDG Z-score', new TableData({
+    'IDG Z-score', new PharosProperty({
       name: 'zscore',
       label: 'Z-score',
       sortable: true
     })
-  ], ['IDG Confidence', new TableData({
+  ], ['IDG Confidence', new PharosProperty({
       name: 'confidence',
       label: 'Confidence',
       sortable: true
     }
 
-  )], ['pvalue', new TableData({
+  )], ['pvalue', new PharosProperty({
       name: 'pvalue',
       label: 'P-value',
       sortable: true,
       sorted: 'desc'
     }
-  )], ['log2foldchange', new TableData({
+  )], ['log2foldchange', new PharosProperty({
       name: 'log2foldchange',
       label: 'log2 FC',
       sortable: true
@@ -57,9 +56,10 @@ const TABLEMAP: Map<string, TableData> = new Map<string, TableData>(
 })
 export class DiseaseSourceComponent extends DynamicPanelComponent implements OnInit {
   sourceMap: Map<string, DiseaseRelevance[]> = new Map<string, DiseaseRelevance[]>();
-  fieldsMap: Map<string, TableData[]> = new Map<string, TableData[]>();
+  fieldsMap: Map<string, PharosProperty[]> = new Map<string, PharosProperty[]>();
   diseaseRelevanceSerializer: DiseaseRelevanceSerializer = new DiseaseRelevanceSerializer();
   sources: string[] = [];
+  fieldsData: PharosProperty[] = [];
   tinx: PharosPoint[];
   loaded = false;
   @Input() diseaseSources?: any;
@@ -73,6 +73,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
   }
 
   ngOnInit() {
+    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -89,16 +90,17 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
 
   setterFunction(): void {
     if (this.data.diseaseSources && this.data.diseaseSources.length > 0) {
-      const sources = this.data.diseaseSources;
+      // const sources = this.data.diseaseSources;
       this.sourceMap.clear();
-      sources.forEach(dr => {
+      this.data.diseaseSources.forEach(dr => {
         // create new disease relevance object to get PharosProperty class properties
         const readDR = this.diseaseRelevanceSerializer.fromJson(dr);
         // get source label
-        const labelProp: string = readDR.properties.filter(prop => prop.label === 'Data Source').map(lab => lab['term'])[0];
+        const labelProp: string = readDR.properties.filter(prop => prop.label === 'Data Source')
+          .map(lab => lab['term'] as string)[0];
         // get array of diseases from source map
         let tableData: any = {};
-        const fields: TableData[] = [];
+        const fields: PharosProperty[] = [];
         readDR.properties.forEach(prop => {
           const td = TABLEMAP.get(prop.label);
           if (td) {
@@ -120,6 +122,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       });
       this.sources = Array.from(this.sourceMap.keys()).sort((a, b) => +(b === 'DrugCentral Indication'));
       this.tableArr = this.sourceMap.get(this.sources[0]);
+      this.fieldsData = this.fieldsMap.get(this.sources[0]);
       this.loaded = true;
     }
 
@@ -144,18 +147,23 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
 
   changeTabData(event: MatTabChangeEvent) {
     this.tableArr = this.sourceMap.get(this.sources[event.index]);
+    this.fieldsData = this.fieldsMap.get(this.sources[event.index]);
   }
 
   getSourceCount(source: string): number {
     return this.sourceMap.get(source).length;
   }
 
-  getTableData(field: string): TableData[] {
-    return this.fieldsMap.get(field);
-  }
-
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
+  }
+
+  sort(event){
+    console.log(event);
+  }
+
+  paginate(event){
+    console.log(event);
   }
 }
 

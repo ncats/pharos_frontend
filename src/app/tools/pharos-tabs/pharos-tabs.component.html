@@ -1,9 +1,0 @@
-<div class = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
-  <mat-tab-group (selectedTabChange)="changeTabData($event)">
-    <mat-tab *ngFor="let source of sources" label = "{{source}} ({{getSourceCount(source)}})"  >
-      <ng-template matTabContent>
-        <pharos-generic-table [data]= tableArr [fieldsConfig] = getTableData(source)></pharos-generic-table>
-      </ng-template>
-    </mat-tab>
-  </mat-tab-group>
-</div>

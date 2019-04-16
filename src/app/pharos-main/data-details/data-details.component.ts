@@ -61,7 +61,6 @@ scrollingSubscription;
 
 
   ngOnInit() {
-      console.log(this);
     if (!this.componentsLoaded) {
       this.makeComponents();
 
@@ -70,7 +69,6 @@ scrollingSubscription;
     this.responseParserService.detailsData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        console.log(res);
         this._data.next(res);
         this.changeDetector.markForCheck(); // refresh the component manually
       });
@@ -121,7 +119,6 @@ scrollingSubscription;
       this._data
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(obj => {
-          console.log(obj);
             dynamicComponent.instance.data = obj;
             this.changeDetector.markForCheck(); // refresh the component manually
         });

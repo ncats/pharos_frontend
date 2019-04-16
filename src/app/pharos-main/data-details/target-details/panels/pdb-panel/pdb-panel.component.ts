@@ -1,8 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {takeUntil} from "rxjs/operators";
 import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
-import {TableData} from "../../../../../models/table-data";
-import {Ortholog} from "../../../../../models/ortholog";
 import {PharosProperty} from "../../../../../models/pharos-property";
 import {HttpClient} from "@angular/common/http";
 import {PdbReportData} from "../../../../../models/pdb-report";
@@ -18,13 +16,13 @@ const REPORT_URL ='https://www.rcsb.org/pdb/rest/customReport.csv?customReportCo
   styleUrls: ['./pdb-panel.component.sass']
 })
 export class PdbPanelComponent  extends DynamicPanelComponent implements OnInit {
-  fields: TableData[] = [
-    new TableData({
+  fields: PharosProperty[] = [
+    new PharosProperty({
       name: 'pdb',
       label: 'PDB ID',
       sortable: true
     }),
-   /* new TableData( {
+   /* new PharosProperty( {
       name: 'source',
       label: 'Source',
       externalLink: true

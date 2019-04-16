@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
-import {HttpClient} from '@angular/common/http';
-import {TableData} from "../../../../models/table-data";
+
 import {PharosProperty} from "../../../../models/pharos-property";
 
 @Component({
@@ -10,20 +9,20 @@ import {PharosProperty} from "../../../../models/pharos-property";
   styleUrls: ['./target-list-panel.component.css']
 })
 export class TargetListPanelComponent extends DynamicPanelComponent implements OnInit {
-  fields: TableData[] = [
-    new TableData( {
+  fields: PharosProperty[] = [
+    new PharosProperty( {
       name: 'target',
       label: 'IDG Target',
       sortable: true,
       internalLink: true
     }),
-    new TableData( {
+    new PharosProperty( {
       name: 'developmentLevel',
       label: 'IDG Development Level',
       sortable: true,
       externalLink: true
     }),
-    new TableData({
+    new PharosProperty({
       name: 'targetFamily',
       label: 'Target Family',
       sortable: true

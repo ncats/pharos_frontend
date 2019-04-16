@@ -5,7 +5,6 @@ import {PharosProperty} from '../../../../../models/pharos-property';
 import {BehaviorSubject} from 'rxjs/index';
 import {EnvironmentVariablesService} from '../../../../../pharos-services/environment-variables.service';
 import {Ortholog, OrthologSerializer} from '../../../../../models/ortholog';
-import {TableData} from '../../../../../models/table-data';
 import {DiseaseRelevance} from '../../../../../models/disease-relevance';
 import {takeUntil} from 'rxjs/operators';
 import {DiseaseRelevanceSerializer} from "../../../../../models/disease-relevance";
@@ -28,22 +27,22 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   diseaseSources: any;
   orthologs: any;
   tableArr: any[];
-  fields: TableData[] = [
-    new TableData({
+  fields: PharosProperty[] = [
+    new PharosProperty({
       name: 'IDG Disease',
       label: 'Disease',
       sortable: true,
       internalLink: true
     }),
 
-    new TableData({
+    new PharosProperty({
         name: 'log2foldchange',
         label: 'log2 FC',
         sortable: true
       }
     ),
 
-    new TableData({
+    new PharosProperty({
         name: 'pvalue',
         label: 'P-value',
         sortable: true,

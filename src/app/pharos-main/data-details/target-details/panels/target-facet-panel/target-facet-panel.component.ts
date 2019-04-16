@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {TableData} from '../../../../../models/table-data';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
@@ -26,17 +25,17 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
   keys: string[];
   facets: any[];
 
-  fields: TableData[] = [
-    new TableData({
+  fields: PharosProperty[] = [
+    new PharosProperty({
       name: 'field',
       label: ''
     }),
    /*  // todo: add back in when counts are returned
-    new TableData({
+    new PharosProperty({
       name: 'count',
       label: ''
     }),*/
-    new TableData({
+    new PharosProperty({
       name: 'externalLink',
       label: ''
     })

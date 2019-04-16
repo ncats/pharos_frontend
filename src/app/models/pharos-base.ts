@@ -14,10 +14,16 @@ export class PharosBase {
   }
 }
 
-export interface Serializer {
+export interface PharosSerializer extends Serializer {
   fromJson(json: any): PharosBase;
   toJson(object: PharosBase): any;
   _asProperties(object: PharosBase): any;
+}
+
+export interface Serializer {
+  fromJson(json: any): any;
+  toJson(object: any): any;
+  _asProperties(object: any): any;
 }
 
 export class PharosSubList {

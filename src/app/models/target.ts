@@ -1,7 +1,7 @@
-import {PharosBase, Serializer, PharosSubList} from './pharos-base';
+import {PharosBase, Serializer, PharosSubList, PharosSerializer} from './pharos-base';
 import {PharosProperty} from "./pharos-property";
 
-export class TargetSerializer implements Serializer {
+export class TargetSerializer implements PharosSerializer {
 
   constructor () {}
 
