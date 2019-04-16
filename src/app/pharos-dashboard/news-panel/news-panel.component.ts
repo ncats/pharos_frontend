@@ -16,7 +16,7 @@ export interface Comment extends Message {
 @Component({
   selector: 'pharos-news-panel',
   templateUrl: './news-panel.component.html',
-  styleUrls: ['./news-panel.component.css'],
+  styleUrls: ['./news-panel.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 

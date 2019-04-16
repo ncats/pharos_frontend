@@ -1,11 +1,12 @@
 <app-ncats-header [searchBar]=false [headerClass]="position" [animationState]="animationState"></app-ncats-header>
 <div class="dashboard-main-div">
+  <div class="overlay">
   <div fxLayout="row" fxLayoutAlign="center center" class="dashboard-search">
     <div fxFlex="60" fxFlex.lt-md="95">
       <pharos-search-component class="large-search"></pharos-search-component>
     </div>
   </div>
-  <div (click)="goToTopics()" class="learn-link" fxHide fxShow.lt-sm>
+  <!--<div (click)="goToTopics()" class="learn-link" fxHide fxShow.lt-sm>
     <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
       <div fxFlex="20" class="learn-more">
         Learn More
@@ -16,9 +17,9 @@
         <mat-icon>keyboard_arrow_down</mat-icon>
       </div>
     </div>
-  </div>
+  </div>-->
 
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" class="topics-banner-row">
+  <!--<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center" class="topics-banner-row">
     <div fxFlexAlign="50" class="topics-banner" #topicsRow>Pharos Topics</div>
   </div>
   <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="toi-row">
@@ -30,7 +31,7 @@
         <button mat-fab [color]="'primary'" routerLink="/topics" class="more-topics">More...</button>
       </div>
     </div>
-  </div>
+  </div>-->
 
   <a (click)="goToDetails()" class="learn-link" fxHide.lt-md>
     <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
@@ -45,7 +46,11 @@
     </div>
   </a>
 </div>
+</div>
+  <!--
 <pharos-data-types-panel #details></pharos-data-types-panel>
-<pharos-about-panel></pharos-about-panel>
+-->
+<pharos-about-panel #details></pharos-about-panel>
 <pharos-news-panel fxHide.lt-md></pharos-news-panel>
-<app-pharos-footer></app-pharos-footer>
+
+  <app-pharos-footer></app-pharos-footer>

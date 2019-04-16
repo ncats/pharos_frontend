@@ -1,18 +1,19 @@
 @import '../../ncats-theme';
 
 .dashboard-main-div {
-  background-image: url("../../assets/images/101388260_edit2.png");
+  background-image: url("../../assets/images/dna.jpg");
+  height:100vh;
   background-color: mat-color($pharos-app-primary);
   background-repeat: no-repeat;
   background-size: cover;
 }
 
 .spacer {
-  height: 28vh;
+  height: 30vh;
 }
 
 .dashboard-search{
-  height: 57vh;
+  height: 75vh;
 }
 
 .button-div{
@@ -65,14 +66,19 @@ color: white;
   color: white;
   font: 400 2.4em/3em Roboto, "Helvetica Neue", sans-serif;
 }
+.learn-link {
+  bottom: -20vh;
+  position: relative;
+}
 
 .learn-link:hover {
   text-decoration: none;
   cursor: pointer;
+  color: white;
 }
 
 .learn-more {
-  color: mat-color($pharos-app-primary);
+  color:#ffffff;
   font: 500 20px/20px Roboto, "Helvetica Neue", sans-serif;
   display: flex;
   align-items: center;
