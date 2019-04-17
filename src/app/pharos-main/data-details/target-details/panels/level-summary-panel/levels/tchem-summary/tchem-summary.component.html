@@ -4,7 +4,7 @@
     <div fxLayout="row">
       <p class="explanation">
         Target has at least one ChEMBL compound with an activity cutoff of
-        <span *ngIf="!target.idgFamily === 'kinase'; else otherFamily">< 30 nM </span>
+        <span *ngIf="target.idgFamily !== 'kinase'; else otherFamily">< 30 nM </span>
         <ng-template #otherFamily>
           <span>< 100nM</span>
         </ng-template>

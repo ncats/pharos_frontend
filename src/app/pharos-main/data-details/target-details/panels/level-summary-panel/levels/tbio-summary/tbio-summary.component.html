@@ -27,7 +27,7 @@
       <mat-progress-bar
         class = "tdl-progress"
         mode="determinate"
-        [value]="goCount == 0 ? 0 : 100"
+        [value]="data.goProcess?.length + data.goFunction?.length + data.goComponent?.length == 0 ? 0 : 100"
       ></mat-progress-bar>
     </div>
 

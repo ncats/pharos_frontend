@@ -32,6 +32,14 @@ import {EquationRendererComponent} from "../tools/equation-renderer/equation-ren
 import {ScrollspyDirective} from "../tools/sidenav-panel/directives/scrollspy.directive";
 import {GenericTableModule} from "../tools/generic-table/generic-table.module";
 import {HelpArticlesModule} from "./help-articles.module";
+import {LinkVisualComponent} from "../tools/visualizations/force-directed-graph/components/shared/link-visual/link-visual.component";
+import {HoverableNodeDirective} from "../tools/visualizations/force-directed-graph/directives/hoverable-node.directive";
+import {HoverableLinkDirective} from "../tools/visualizations/force-directed-graph/directives/hoverable-link.directive";
+import {DraggableDirective} from "../tools/visualizations/force-directed-graph/directives/draggable.directive";
+import {ClickableNodeDirective} from "../tools/visualizations/force-directed-graph/directives/clickable-node.directive";
+import {ClickableLinkDirective} from "../tools/visualizations/force-directed-graph/directives/clickable-link.directive";
+import {NodeVisualComponent} from "../tools/visualizations/force-directed-graph/components/shared/node-visual/node-visual.component";
+import {ZoomableDirective} from "../tools/visualizations/force-directed-graph/directives/zoomable.directive";
 
 
 @NgModule({
@@ -65,7 +73,18 @@ import {HelpArticlesModule} from "./help-articles.module";
     HelpPanelTriggerComponent,
     KnowledgeTableComponent,
     ProteinStructureViewerComponent,
-    ScrollspyDirective
+    ScrollspyDirective,
+
+    LinkVisualComponent,
+    NodeVisualComponent,
+    ClickableLinkDirective,
+    ClickableNodeDirective,
+    DraggableDirective,
+    HoverableLinkDirective,
+    HoverableNodeDirective,
+    ZoomableDirective
+
+
   ],
   providers: [
     HelpDataService,
