@@ -9,7 +9,6 @@ import {SummaryPanelComponent} from './data-details/target-details/panels/summar
 import {TargetHeaderComponent} from './data-details/target-details/target-header/target-header.component';
 import {SharedModule} from '../shared/shared.module';
 import {DiseaseTableComponent} from './data-list/disease-table/disease-table.component';
-import {ReferencesPanelComponent} from './data-details/target-details/panels/publication-info-panel/references-panel/references-panel.component';
 import {ExpressionPanelComponent} from './data-details/target-details/panels/expression-panel/expression-panel.component';
 import {DiseaseSourceComponent} from './data-details/target-details/panels/disease-source-panel/disease-source-panel.component';
 import {OrthologPanelComponent} from './data-details/target-details/panels/ortholog-panel/ortholog-panel.component';
@@ -23,7 +22,6 @@ import {RadarChartComponent} from '../tools/visualizations/radar-chart/radar-cha
 import {TOKENS} from '../../environments/component-tokens';
 import {BreadcrumbComponent} from '../tools/breadcrumb/breadcrumb.component';
 import {AaSequencePanelComponent} from './data-details/target-details/panels/aa-sequence-panel/aa-sequence-panel.component';
-import {GeneRifPanelComponent} from './data-details/target-details/panels/publication-info-panel/gene-rif-panel/gene-rif-panel.component';
 import {AssayPanelComponent} from './data-details/target-details/panels/assay-panel/assay-panel.component';
 import {LigandsPanelComponent} from './data-details/target-details/panels/ligands-panel/ligands-panel.component';
 import {LigandTableComponent} from './data-list/ligand-table/ligand-table.component';
@@ -44,7 +42,6 @@ import {NodeDisplayComponent} from './data-details/topic-details/panels/node-dis
 import {TargetCardComponent} from './data-details/topic-details/panels/target-card/target-card.component';
 import {LigandCardComponent} from './data-details/topic-details/panels/ligand-card/ligand-card.component';
 import {DiseaseCardComponent} from './data-details/topic-details/panels/disease-card/disease-card.component';
-import {KnowledgeTableComponent} from '../tools/knowledge-table/knowledge-table.component';
 import {ProteinProteinPanelComponent} from "./data-details/target-details/panels/protein-protein-panel/protein-protein-panel.component";
 import {BatchUploadModalComponent} from "../tools/batch-upload-modal/batch-upload-modal.component";
 import {PdbPanelComponent} from "./data-details/target-details/panels/pdb-panel/pdb-panel.component";
@@ -142,13 +139,11 @@ const pharosMainRoutes: Routes = [
     {provide: TOKENS.SUMMARY_PANEL, useValue: SummaryPanelComponent },
     {provide: TOKENS.LEVEL_SUMMARY_PANEL, useValue: LevelSummaryPanelComponent },
     {provide: TOKENS.PUBLICATION_INFO_PANEL, useValue: PublicationInfoPanelComponent },
-    {provide: TOKENS.REFERENCES_PANEL, useValue: ReferencesPanelComponent },
     {provide: TOKENS.DISEASE_SOURCE_PANEL, useValue: DiseaseSourceComponent },
     {provide: TOKENS.EXPRESSION_PANEL, useValue: ExpressionPanelComponent },
     {provide: TOKENS.PROTEIN_PROTEIN_PANEL, useValue: ProteinProteinPanelComponent },
     {provide: TOKENS.ORTHOLOG_PANEL, useValue: OrthologPanelComponent },
     {provide: TOKENS.TARGET_FACET_PANEL, useValue: TargetFacetPanelComponent },
-    {provide: TOKENS.GENE_RIF_PANEL, useValue: GeneRifPanelComponent },
     {provide: TOKENS.ASSAY_PANEL, useValue: AssayPanelComponent },
     {provide: TOKENS.AA_SEQUENCE_PANEL, useValue: AaSequencePanelComponent },
     {provide: TOKENS.LIGANDS_PANEL, useValue: LigandsPanelComponent },
@@ -171,7 +166,6 @@ const pharosMainRoutes: Routes = [
     BreadcrumbComponent,
     TargetTableComponent,
     TargetDetailsComponent,
-    ReferencesPanelComponent,
     PublicationInfoPanelComponent,
     SummaryPanelComponent,
     TargetHeaderComponent,
@@ -201,7 +195,6 @@ const pharosMainRoutes: Routes = [
     NodeDisplayComponent,
     RadarChartComponent,
     RadarChartViewerComponent,
-    GeneRifPanelComponent,
     AssayPanelComponent,
     AaSequencePanelComponent,
     LigandsPanelComponent,
@@ -221,7 +214,6 @@ const pharosMainRoutes: Routes = [
   declarations: [
     TargetTableComponent,
     TargetDetailsComponent,
-    ReferencesPanelComponent,
     PublicationInfoPanelComponent,
     SummaryPanelComponent,
     TargetHeaderComponent,
@@ -251,7 +243,6 @@ const pharosMainRoutes: Routes = [
     NodeDisplayComponent,
     RadarChartComponent,
     RadarChartViewerComponent,
-    GeneRifPanelComponent,
     AssayPanelComponent,
     AaSequencePanelComponent,
     LigandsPanelComponent,
@@ -279,7 +270,6 @@ const pharosMainRoutes: Routes = [
     GraphComponent,
     RadarChartComponent,
     RadarChartViewerComponent,
-    GeneRifPanelComponent,
     AssayPanelComponent,
     AaSequencePanelComponent,
     LigandsPanelComponent,

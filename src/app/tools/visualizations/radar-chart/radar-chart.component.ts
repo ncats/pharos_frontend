@@ -397,7 +397,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
         .enter()
         .append('circle')
         .attr('class', 'gridCircle')
-        .attr('r', d => radius / this._chartOptions.levels * d)
+        .attr('r', d => Math.abs(radius / this._chartOptions.levels * d))
         .style('fill', '#F3F3F3')
         .style('stroke', '#CDCDCD')
         .style('fill-opacity', this._chartOptions.opacityCircles)

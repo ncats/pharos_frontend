@@ -61,6 +61,10 @@
   .full-width {
     width: 95vw;
   }
+
+  .full-width > .grid-list {
+    grid-template-columns: repeat(auto-fill, minmax(90%, 1fr));
+  }
 }
 
 @media only screen and (max-width: 768px) {
@@ -71,4 +75,8 @@
   .full-width {
     width: 95vw;
   }
-}
+
+  .full-width > .grid-list {
+    grid-template-columns: repeat(auto-fill, minmax(90%, 1fr));
+  }
+  }

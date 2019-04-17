@@ -6,13 +6,12 @@ import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../models/page-data';
 import {BatchUploadModalComponent} from "../../../tools/batch-upload-modal/batch-upload-modal.component";
 import {HttpClient} from "@angular/common/http";
-import {environment} from "../../../../environments/environment.prod";
 import {BreakpointObserver} from "@angular/cdk/layout";
 
 @Component({
   selector: 'pharos-target-table',
   templateUrl: './target-table.component.html',
-  styleUrls: ['./target-table.component.css']
+  styleUrls: ['./target-table.component.scss']
 })
 
 export class TargetTableComponent  extends DynamicPanelComponent implements OnInit, OnDestroy {
@@ -55,9 +54,7 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
             takeUntil(this.ngUnsubscribe)
           )
           .subscribe(x => {
-            console.log(this.data.length);
             if(this.data.length) {
-              console.log(this.data);
               this.dataSource.data = this.data;
             }
           });

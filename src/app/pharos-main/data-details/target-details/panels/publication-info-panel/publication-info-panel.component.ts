@@ -1,7 +1,5 @@
 import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
-import {from} from "rxjs/index";
-import {takeUntil, zipAll} from "rxjs/operators";
-import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
+import {takeUntil} from "rxjs/operators";
 import {Target} from "../../../../../models/target";
 import {PageData} from "../../../../../models/page-data";
 import {HttpClient} from "@angular/common/http";
@@ -10,37 +8,7 @@ import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/na
 import {PharosProperty} from "../../../../../models/pharos-property";
 import {Publication, PublicationSerializer} from "../../../../../models/publication";
 import {DynamicTablePanelComponent} from "../../../../../tools/dynamic-table-panel/dynamic-table-panel.component";
-
-/*
-const TABLEMAP: Map<string, PharosProperty> = new Map<string, PharosProperty>(
-  [
-    ['Year',  new PharosProperty({
-      name: 'year',
-      label: 'Year',
-      sortable: true
-    })
-    ], [
-    'PMID', new PharosProperty( {
-      name: 'pmid',
-      label: 'PMID',
-      externalLink: 'hi',
-    })
-  ], [
-    'Title', new PharosProperty({
-      name: 'title',
-      label: 'title'
-    })
-  ], ['Text', new PharosProperty({
-      name: 'text',
-      label: 'Text'
-    }
-  )]
-  ]
-);
-*/
-
-
-
+import {EnvironmentVariablesService} from "../../../../../pharos-services/environment-variables.service";
 
 @Component({
   selector: 'pharos-publication-info-panel',
@@ -49,20 +17,19 @@ const TABLEMAP: Map<string, PharosProperty> = new Map<string, PharosProperty>(
 })
 export class PublicationInfoPanelComponent extends DynamicTablePanelComponent implements OnInit {
   @Input() target: Target;
-  references: Publication[];
+  publications: Publication[];
   generifs: Publication[];
-  referencePageData: PageData;
+  publicationPageData: PageData;
   rifPageData: PageData;
-  targetPageData: PageData;
-  timelines: any[] = [];
-  tlMap: Map<string, any> = new Map<string, any>();
+  pmscoreTimeline: PharosPoint[];
+  pubtatorTimeline: PharosPoint[];
+  patentTimeline: PharosPoint[];
   publicationSerializer: PublicationSerializer = new PublicationSerializer();
 
-  referenceTableFields: PharosProperty[] = [
+  publicationTableFields: PharosProperty[] = [
     new PharosProperty({
       name: 'pmid',
       label: 'PMID',
-      externalLink: 'http://www.ncbi.nlm.nih.gov/pubmed/',
       width: 10
     }),
     new PharosProperty({
@@ -80,12 +47,12 @@ rifTableFields: PharosProperty[] = [
     new PharosProperty({
       name: 'pmid',
       label: 'PMID',
-      externalLink: 'hi',
       width: 10
     }),
     new PharosProperty({
       name: 'text',
-      label: 'Text'
+      label: 'Text',
+      width: 80
     })
   ];
 
@@ -93,7 +60,8 @@ rifTableFields: PharosProperty[] = [
   constructor(
     private navSectionsService: NavSectionsService,
     private _http: HttpClient,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private environmentVariablesService: EnvironmentVariablesService
   ) {
     super();
   }
@@ -107,7 +75,6 @@ rifTableFields: PharosProperty[] = [
       )
       .subscribe(x => {
             if (Object.values(this.data).length > 0) {
-              console.log(this);
               this.ngUnsubscribe.next();
               this.setterFunction();
             }
@@ -115,89 +82,50 @@ rifTableFields: PharosProperty[] = [
   }
 
   setterFunction() {
-    const references: Publication[] = this.data.references.map(publication => this.publicationSerializer.fromJson(publication));
+    const publications: Publication[] = this.data.publications.map(publication => this.publicationSerializer.fromJson(publication));
     const rifs: Publication[] = this.data.generifs.map(publication => this.publicationSerializer.fromJson(publication));
-    this.references = references.map(reference => reference = this.publicationSerializer._asProperties(reference));
-    this.generifs = rifs.map(reference => reference = this.publicationSerializer._asProperties(reference));
-    this.referencePageData = this.makePageData(this.target._publications.count);
-    this.rifPageData = this.makePageData(this.data.generifCount.length);
+    this.publications = publications.map(publication => publication = this.publicationSerializer._asProperties(publication));
+    this.generifs = rifs.map(publication => publication = this.publicationSerializer._asProperties(publication));
+    this.publicationPageData = this.makePageData(this.target._publications.count);
+    this.rifPageData = this.makePageData(this.data.generifCount);
+    if(this.data.pmscore) {
+      const tempArr = [];
+      this.data.pmscore.map(point => {
+        const pt: PharosPoint = {key: +point.year, value: point.score};
+        tempArr.push(pt);
+      });
+      this.pmscoreTimeline = tempArr;
+    }
+if(this.data.patents) {
+      const tempArr = [];
+      this.data.patents.map(point => {
+        const pt: PharosPoint = {key: +point.year, value: +point.count};
+        tempArr.push(pt);
+      });
+      this.patentTimeline = tempArr;
+    }
+if(this.data.pubtator) {
+      const tempArr = [];
+      this.data.pubtator.map(point => {
+        const pt: PharosPoint = {key: +point.year, value: point.score};
+        tempArr.push(pt);
+      });
+      this.pubtatorTimeline = tempArr;
+    }
+
     this.loading = false;
-  //  this.mergeFields();
-    this.fetchTimelineData();
-    this.ref.markForCheck(); // refresh the component manually
   }
 
- /* paginate($event) {
+  paginate($event, origin: string) {
+    const url = `${this.environmentVariablesService.getApiPath()}targets/${this.target.accession}/${origin}?skip=${($event.pageIndex) * $event.pageSize}&top=${$event.pageSize}`;
     this.loading = true;
-    // todo -- this isn't how pagination should happen - it should generate a new url, then navigate.
-    // todo  == will that reload the entire page though?
-    // todo -- this might be because the ! parameters are not query parameters and can't be passed as such
-    this.http.get<any[]>(
-      `${this.substance[`_${this.field}`].href}!revsort(type)!skip(${($event.pageIndex) * $event.pageSize})!limit(${$event.pageSize})`)
+    this._http.get<Publication[]>(
+      url)
       .subscribe(res => {
-        const names: Name[] = res.map(name => this.nameSerializer.fromJson(name));
-        this.allData = names.map(name => name = this.nameSerializer._asProperties(name));
+        const pubs: Publication[] = res.map(pub => this.publicationSerializer.fromJson(pub));
+        this[origin] = pubs.map(pub => pub = this.publicationSerializer._asProperties(pub));
         this.loading = false;
       });
-  }*/
-
-  /*
-
-  this.references = this.data.references.map(ref => ref = this.publicationSerializer.fromJson(ref));
-    this.generifs = this.data.generifs.map(ref => ref = this.publicationSerializer.fromJson(ref));
-    this.referencePageData = new PageData({
-      top: 10,
-      skip: 0,
-      count: 10,
-      total: this.target._publications.count
-    });
-    this.rifPageData = new PageData({
-      top: 10,
-      skip: 0,
-      count: 10,
-      total: this.data.generifCount.length
-    });
-    console.log(this);
-  }
-*/
-
-
-  getTimeline(field: string): any {
-    return this.tlMap.get(field);
-  }
-
-  fetchTimelineData(): void {
-    this.data.timelines.forEach(timeline => {
-      if (timeline.href && !this.tlMap.get(timeline.id)) {
-        this._http.get<any>(timeline.href).subscribe(res => {
-          const data: PharosPoint[] = [];
-          res.events.forEach(point => {
-            if (point.properties) {
-              const val = point.properties.filter(prop => prop.label === 'Score');
-              if (val.length > 0) {
-                const pt: PharosPoint = {key: point.start, value: val[0].numval};
-                data.push(pt);
-              } else {
-                const pt: PharosPoint = {key: point.start, value: point.end};
-                data.push(pt);
-              }
-            }
-          });
-          this.tlMap.set(timeline.id, data);
-          this.tlMap.set(res.name, data);
-          this.loading = false;
-        });
-      }
-    });
-    ['PubMed Score', 'PubTator', 'Patent Count'].forEach(name => {
-      const tl = this.tlMap.get(name);
-      if (tl) {
-        this.timelines.push(tl);
-      }
-    });
-    this.timelines = this.timelines.filter((tl, index, arr) =>
-      index === arr.findIndex(t => t.id === tl.id)
-    );
   }
 
   raisePubtator() {
@@ -207,7 +135,6 @@ rifTableFields: PharosProperty[] = [
   }
 
   active(fragment: string) {
-    console.log(fragment);
     this.navSectionsService.setActiveSection(fragment);
   }
 

@@ -9,7 +9,7 @@
 }
 
 .body-row {
-  margin-top: 60px;
+  margin-top: 5vh;
 }
 
 .target-header {
@@ -56,6 +56,11 @@
 
   .title-holder {
     margin-left: 2vw;
+  }
+
+  .target-header {
+    padding-top: 1vh;
+    margin-top: -1vh;
   }
 }
 

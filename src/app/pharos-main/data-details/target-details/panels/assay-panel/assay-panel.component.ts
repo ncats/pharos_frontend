@@ -34,6 +34,7 @@ export class AssayPanelComponent extends DynamicPanelComponent implements OnInit
       )
       .subscribe(x => {
         if (Object.values(this.data).length > 0) {
+          console.log(this);
           this.ngUnsubscribe.next();
           this.setterFunction();
         }

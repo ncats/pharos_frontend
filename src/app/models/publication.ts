@@ -11,12 +11,15 @@ export class PublicationSerializer implements Serializer {
 
   toJson(){}
 
-  _asProperties(obj: any): any {
+  _asProperties(obj: Publication): any {
     const newObj: any = {};
     Object.keys(obj).map(field => {
       const property: PharosProperty = {name: field, label: field, term: obj[field]};
       newObj[field] = property;
     });
+    if(newObj.pmid) {
+      newObj.pmid.externalLink = `http://www.ncbi.nlm.nih.gov/pubmed/${obj.pmid}`;
+    }
     return newObj;
   }
 }

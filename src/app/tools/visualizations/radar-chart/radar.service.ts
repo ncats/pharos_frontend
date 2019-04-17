@@ -103,7 +103,6 @@ export class RadarService {
       this.setData(id, temp, origin);
       return temp;
     } else {
-      console.log(temp);
       // this is wrapped as an array or it won't show on page return, ie list -> details -> list
       return of(temp[origin]);
     }

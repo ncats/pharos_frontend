@@ -1,16 +1,16 @@
 <div class="pharos-main">
   <app-ncats-header [searchBar]=true></app-ncats-header>
   <mat-sidenav-container class="flex-body main-content">
-    <mat-sidenav #sidenav [mode]="'side'" class="filters-panel" [opened]="true" (openedStart)="loadFacets()">
+    <mat-sidenav #sidenav [mode]="'side'" class="filters-panel" [opened]="isSmallScreen!==true" (openedStart)="loadFacets()">
       <!-- sidenav content -->
-      <pharos-filter-panel></pharos-filter-panel>
+      <pharos-filter-panel (closeClick)="sidenav.toggle()"></pharos-filter-panel>
     </mat-sidenav>
     <mat-sidenav #helppanel [position]="'end'" class="help-panel" [mode]="'over'" [opened]="false">
       <!-- sidenav content -->
       <pharos-help-panel></pharos-help-panel>
     </mat-sidenav>
     <mat-sidenav-content>
-      <div fxLayout="row" class="filter-help">
+      <div fxLayout="row" fxLayoutAlign="start start" class="filter-help">
         <div fxFlex="5">
           <button type="button" *ngIf="sidenav.opened" class="sidenavToggle" mat-raised-button [color]="'primary'" (click)="sidenav.toggle()">
             Hide Filters <mat-icon>filter_list</mat-icon>
@@ -18,10 +18,6 @@
           <button type="button"  *ngIf="!sidenav.opened" class="sidenavToggle" mat-raised-button [color]="'primary'" (click)="sidenav.toggle()">
             Show Filters <mat-icon>filter_list</mat-icon>
           </button>
-        </div>
-        <span class="fill-remaining-space"></span>
-        <div fxFlex="5">
-          <pharos-help-panel-trigger></pharos-help-panel-trigger>
         </div>
       </div>
       <pharos-data-list-visualizations></pharos-data-list-visualizations>

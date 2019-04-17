@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 import {Facet} from '../../models/facet';
@@ -18,11 +18,11 @@ import {LoadingService} from '../../pharos-services/loading.service';
 @Component({
   selector: 'pharos-filter-panel',
   templateUrl: './filter-panel.component.html',
-  styleUrls: ['./filter-panel.component.css'],
+  styleUrls: ['./filter-panel.component.scss'],
  // encapsulation: ViewEncapsulation.None
 })
 export class FilterPanelComponent implements OnInit, OnDestroy {
-
+@Output() closeClick: EventEmitter<boolean> = new EventEmitter<boolean>();
   facets: Facet[];
   facetsMap: Map<string, any> = new Map<string, any>();
   allFacets: Facet[];
@@ -102,6 +102,10 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    */
   trackByFn(index: string, item: Facet) {
     return item;
+  }
+
+  closeMenu() {
+    this.closeClick.emit();
   }
 
   /**

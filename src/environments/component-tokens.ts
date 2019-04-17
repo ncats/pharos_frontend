@@ -63,21 +63,15 @@ export class TOKENS {
   public static PUBLICATION_INFO_PANEL = new InjectionToken<string>('PublicationInfoPanelComponent');
 
   /**
-   * injection token to link to the references for a target
-   */
-  public static REFERENCES_PANEL = new InjectionToken<string>('ReferencesPanelComponent');
-  /**
    * injection token to link to target expression data visualizations
    */
   public static EXPRESSION_PANEL = new InjectionToken<string>('ExpressionPanelComponent');
+
   /**
    * injection token to link to target ortholog data
    */
   public static ORTHOLOG_PANEL = new InjectionToken<string>('OrthologPanelComponent');
-  /**
-   * injection token to link to gene rif data
-   */
-  public static GENE_RIF_PANEL = new InjectionToken<string>('GeneRifComponent');
+
   /**
    * injection token to link to gene rif data
    */

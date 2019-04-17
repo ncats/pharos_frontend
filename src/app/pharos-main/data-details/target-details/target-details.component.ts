@@ -1,25 +1,19 @@
 import {
-  AfterViewInit,
-  ApplicationRef, ChangeDetectorRef,
-  Component, ContentChildren, ElementRef, forwardRef, HostListener, Inject, Injector, Input, OnDestroy, OnInit,
-  QueryList, Renderer2, Type,
-  ViewChild, ViewChildren, ViewEncapsulation
+  ChangeDetectorRef, Component, ElementRef, forwardRef, Inject, Injector, Input, OnDestroy, OnInit,
+  QueryList, Renderer2, Type, ViewChild, ViewChildren
 } from '@angular/core';
 import {Target} from '../../../models/target';
 import {CustomContentDirective} from '../../../tools/custom-content.directive';
-import {Publication} from '../../../models/publication';
 import {DataDetailsResolver} from '../../services/data-details.resolver';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
 import {ComponentLookupService} from '../../../pharos-services/component-lookup.service';
-import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {NavSectionsService} from "../../../tools/sidenav-panel/services/nav-sections.service";
 import {DOCUMENT} from "@angular/common";
-import {CdkScrollable, ScrollDispatcher} from "@angular/cdk/scrolling";
-import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
-import {MatSidenavContainer} from "@angular/material";
+import {ActivatedRoute, Router} from "@angular/router";
 import {HelpDataService} from "../../../tools/help-panel/services/help-data.service";
+import {BreakpointObserver} from "@angular/cdk/layout";
 
 @Component({
   selector: 'pharos-target-details',
@@ -27,7 +21,7 @@ import {HelpDataService} from "../../../tools/help-panel/services/help-data.serv
   styleUrls: ['./target-details.component.scss']
 })
 
-export class TargetDetailsComponent extends DynamicPanelComponent implements OnInit, AfterViewInit, OnDestroy {
+export class TargetDetailsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   @Input() path: string;
   token: any;
   sections: string[] = [];
@@ -36,29 +30,26 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
 
   @Input() target: Target;
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
-  @ViewChild(CdkScrollable) scrollable: CdkScrollable;
-  @ViewChildren('scrollSection') scrollSections: QueryList<ElementRef>;
-  @ViewChild(MatSidenavContainer) sidenavContainer: MatSidenavContainer;
 
 
   constructor(
     private _injector: Injector,
     @Inject(DOCUMENT) private document: Document,
     @Inject(forwardRef(() => ComponentLookupService)) private componentLookupService,
-    private render: Renderer2,
     private dataDetailsResolver: DataDetailsResolver,
     private router: Router,
     private route: ActivatedRoute,
     private navSectionsService: NavSectionsService,
     private changeDetector: ChangeDetectorRef,
-    private scrollDispatcher: ScrollDispatcher,
     private helpDataService: HelpDataService,
-    private componentInjectorService: ComponentInjectorService) {
+    public breakpointObserver: BreakpointObserver,
+  private componentInjectorService: ComponentInjectorService
+  ) {
     super();
-
   }
 
-  ngOnInit() {
+ngOnInit() {
+  this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
     const components: any = this.componentLookupService.lookupByPath(this.path, this.target.idgTDL.toLowerCase());
     if (components) {
       components.forEach(component => {
@@ -104,41 +95,11 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
           });
       });
     }
-
-  }
-
-  ngAfterViewInit() {
-
-    this.scrollDispatcher
-    //.ancestorScrolled(this.componentHost.viewContainerRef.element)
-      .scrolled()
-      .subscribe((data: CdkScrollable) => {
-      //  console.log(data);
-        //  this.onWindowScroll(data);
-      });
-
-    if (this.route.snapshot.fragment) {
-      this.scrollToSection(this.route.snapshot.fragment);
-/*      const elem = this.document.getElementById(`${this.route.snapshot.fragment}`);
-      console.log(elem);
-      if (elem) {
-        elem.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
-      }*/
-    }
   }
 
    pick(o, props): any {
     return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
   }
-
-scrollToSection(event: any) {
-  let navigationExtras: NavigationExtras = {
-    fragment: `${event}`
-  };
-
- // this.router.navigate([], navigationExtras);
-
-}
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();

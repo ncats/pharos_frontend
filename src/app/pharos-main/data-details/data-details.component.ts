@@ -29,15 +29,9 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
   pharosObject: any;
   dynamicComponent: any;
   componentsLoaded = false;
-  @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
-  helpOpen: false;
-
-  @ViewChild('helppanel') helpPanel: MatDrawer;
-  @ViewChild(CdkScrollable) scrollable: CdkScrollable;
-
-scrollingSubscription;
-  lastOffset;
   navigationSubscription;
+  @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
+  @ViewChild('helppanel') helpPanel: MatDrawer;
 
 
 
@@ -129,18 +123,5 @@ scrollingSubscription;
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-  }
-
-  private onWindowScroll(data: CdkScrollable) {
-    const scrollTop = data.getElementRef().nativeElement.scrollTop || 0;
-    if (this.lastOffset > scrollTop) {
-      // console.log('Show toolbar');
-    } else if (scrollTop < 10) {
-      // console.log('Show toolbar');
-    } else if (scrollTop > 100) {
-      // console.log('Hide toolbar');
-    }
-
-    this.lastOffset = scrollTop;
   }
 }

@@ -30,3 +30,10 @@
     margin-right: 0;
   }
 }*/
+
+/*
+hide uniprot viewer buttons that don't do anything.
+ */
+.up_pftv_buttons {
+  display: none;
+}

@@ -10,6 +10,7 @@ import {BehaviorSubject, Subject} from 'rxjs';
   template: ''
 })
 export class DynamicPanelComponent {
+  isSmallScreen = false;
   loading = true;
   field: string;
   label: string;

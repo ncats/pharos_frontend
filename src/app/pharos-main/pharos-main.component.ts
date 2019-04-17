@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FacetRetrieverService} from './services/facet-retriever.service';
 import {HelpPanelOpenerService} from '../tools/help-panel/services/help-panel-opener.service';
 import {MatDrawer, MatPaginator, MatSidenav} from '@angular/material';
+import {BreakpointObserver} from "@angular/cdk/layout";
 
 /**
  *Pharos main component contains:
@@ -30,16 +31,20 @@ import {MatDrawer, MatPaginator, MatSidenav} from '@angular/material';
   styleUrls: ['./pharos-main.component.css']
 })
 export class PharosMainComponent implements OnInit {
-
   @ViewChild('helppanel') helpPanel: MatDrawer;
+  isSmallScreen = false;
 
   constructor(
     private facetRetrieverService: FacetRetrieverService,
-    private helpPanelOpenerService: HelpPanelOpenerService
-  ) {}
+    private helpPanelOpenerService: HelpPanelOpenerService,
+    public breakpointObserver: BreakpointObserver
+) {
+}
 
-  ngOnInit() {
+ngOnInit() {
+  this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
   this.helpPanelOpenerService.toggle$.subscribe(res => this.helpPanel.toggle());
+  console.log(this.isSmallScreen);
   }
 
   loadFacets() {

@@ -7,7 +7,8 @@ import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/na
 @Component({
   selector: 'pharos-aa-sequence-panel',
   templateUrl: './aa-sequence-panel.component.html',
-  styleUrls: ['./aa-sequence-panel.component.css']
+  styleUrls: ['./aa-sequence-panel.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class AaSequencePanelComponent extends DynamicPanelComponent implements OnInit {

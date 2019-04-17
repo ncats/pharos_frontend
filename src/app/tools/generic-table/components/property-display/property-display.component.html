@@ -13,7 +13,7 @@
     <!--<a href="{{property.internalLink}}">{{property.getData()}}</a>-->
   </ng-template>
   <ng-template #externalLink>
-    <a href="{{property.externalLink}}" target="_blank">{{property.term}}<mat-icon>open_in_new</mat-icon></a>
+    <a href="{{property.externalLink}}" target="_blank" class="external-link">{{property.term}}<mat-icon [inline]="true">open_in_new</mat-icon></a>
   </ng-template>
 
 </ng-template>
