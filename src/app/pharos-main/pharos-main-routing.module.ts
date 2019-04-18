@@ -82,6 +82,7 @@ import {GeneSummaryComponent} from "./data-details/target-details/target-header/
 import {NodeMenuComponent} from "../tools/visualizations/force-directed-graph/components/shared/node-menu/node-menu.component";
 import {GraphComponent} from "../tools/visualizations/force-directed-graph/components/graph/graph.component";
 import {TopicTableComponent} from "./data-list/topic-table/topic-table.component";
+import {IdgResourcesPanelComponent} from "./data-details/target-details/panels/idg-resources-panel/idg-resources-panel.component";
 
 
 const pharosMainRoutes: Routes = [
@@ -138,6 +139,7 @@ const pharosMainRoutes: Routes = [
     {provide: _TOKENS.TARGET_DETAILS_COMPONENT, useValue: TargetDetailsComponent },
     {provide: _TOKENS.SUMMARY_PANEL, useValue: SummaryPanelComponent },
     {provide: _TOKENS.LEVEL_SUMMARY_PANEL, useValue: LevelSummaryPanelComponent },
+    {provide: _TOKENS.IDG_RESOURCES_PANEL, useValue: IdgResourcesPanelComponent },
     {provide: _TOKENS.PUBLICATION_INFO_PANEL, useValue: PublicationInfoPanelComponent },
     {provide: _TOKENS.DISEASE_SOURCE_PANEL, useValue: DiseaseSourceComponent },
     {provide: _TOKENS.EXPRESSION_PANEL, useValue: ExpressionPanelComponent },

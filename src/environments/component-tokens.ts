@@ -1,5 +1,6 @@
 import {InjectionToken} from '@angular/core';
 import {NodeDisplayComponent} from "../app/pharos-main/data-details/topic-details/panels/node-display/node-display.component";
+import {IdgResourcesPanelComponent} from "../app/pharos-main/data-details/target-details/panels/idg-resources-panel/idg-resources-panel.component";
 
 export class _TOKENS {
   /**
@@ -43,6 +44,11 @@ export class _TOKENS {
    * injection token to link to the target development summary component
    */
   public static LEVEL_SUMMARY_PANEL = new InjectionToken<string>('LevelSummaryPanelComponent');
+
+  /**
+   * injection token to link to the target development summary component
+   */
+  public static IDG_RESOURCES_PANEL = new InjectionToken<string>('IdgResourcesPanelComponent');
   /**
    * injection token to link to the disease source panel
    */

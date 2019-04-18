@@ -48,8 +48,8 @@ export class IdgResourcesPanelComponent extends DynamicPanelComponent implements
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
+        console.log(this.data);
         if (Object.values(this.data).length > 0) {
-          console.log(this.data);
           this.ngUnsubscribe.next();
           this.tableArr = this.data;
           // this.setterFunction();
