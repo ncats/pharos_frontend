@@ -1,3 +1,21 @@
-<div fxLayout="row wrap" fxLayout.xs="column" fxLayoutGap="20px" fxLayoutAlign="start stretch" class="target-details-header">
-  <ng-template appPharosCustomContent></ng-template>
+<div class="disease-details-main" #detailsMain>
+  <mat-sidenav-container class="flex-body main-content">
+    <mat-sidenav #navpanel
+                 class="nav-panel"
+                 [mode]="'side'"
+                 [fixedInViewport]="true"
+                 [fixedTopGap]="120"
+                 role="directory"
+                 [opened]="isSmallScreen!==true"
+    >
+      <!-- sidenav content -->
+      <pharos-sidenav-panel
+        [activeElement] = activeElement>
+      </pharos-sidenav-panel>
+    </mat-sidenav>
+    <mat-sidenav-content role="main" class="disease-details-content" id="scrollspy-main">
+      <ng-template appPharosCustomContent ></ng-template>
+    </mat-sidenav-content>
+    <pharos-scroll-to-top></pharos-scroll-to-top>
+  </mat-sidenav-container>
 </div>

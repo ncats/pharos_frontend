@@ -21,7 +21,7 @@ export class ComponentLookupService {
    * @param {string} subpath
    * @returns {any}
    */
-  lookupByPath(path: string, subpath: string): any {
-  return this.environmentVariablesService.getComponents(path, subpath);
+  lookupByPath(path: string, subpath?: string): any {
+  return this.environmentVariablesService.getComponents(path, subpath ? subpath : null);
   }
 }

@@ -1,7 +1,7 @@
 import {InjectionToken} from '@angular/core';
 import {NodeDisplayComponent} from "../app/pharos-main/data-details/topic-details/panels/node-display/node-display.component";
 
-export class TOKENS {
+export class _TOKENS {
   /**
    * injection token to maintain the breadcrumb component
    */

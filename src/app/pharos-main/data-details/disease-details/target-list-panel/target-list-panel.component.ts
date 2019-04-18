@@ -45,11 +45,18 @@ export class TargetListPanelComponent extends DynamicPanelComponent implements O
         //    takeWhile(() => !this.data['references'])
       )
       .subscribe(x => {
-        if (this.data.targetList && this.data.targetList.length > 0) {
+        if (this.data.targets && this.data.targets.length > 0) {
+          console.log(this);
           this.tableArr = [];
-          this.data.targetList.forEach(target => {
+          this.data.targets.forEach(target => {
             const data = {
-              target: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target')[0]),
+             target: new PharosProperty({
+                name: 'target',
+                label: 'Target',
+                sortable: true,
+                internalLink: true
+              }),
+            //  target: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target')[0]),
               developmentLevel: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Development Level')[0]),
               targetFamily: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target Family')[0]),
             };

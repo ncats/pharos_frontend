@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ARTICLES} from "../../environments/help-article-tokens";
+import {_ARTICLES} from "../../environments/help-article-tokens";
 import {IlluminationGraphArticleComponent} from "../tools/help-panel/articles/illumination-graph-article/illumination-graph-article.component";
 import {MaterialModule} from "../../assets/material/material.module";
 import {FlexLayoutModule} from "@angular/flex-layout";
@@ -27,11 +27,11 @@ import {KatexRendererDirective} from "../tools/equation-renderer/katex-renderer.
     FlexLayoutModule
   ],
   providers: [
-    {provide: ARTICLES.ILLUMINATION_GRAPH_ARTICLE, useValue: IlluminationGraphArticleComponent },
-    {provide: ARTICLES.TARGET_DEVELOPMENT_ARTICLE, useValue: TargetDevelopmentArticleComponent },
-    {provide: ARTICLES.LIGAND_ACTIVITY_ARTICLE, useValue: LigandActivityArticleComponent },
-    {provide: ARTICLES.TINX_ARTICLE, useValue: TinxArticleComponent },
-    {provide: ARTICLES.PUBMED_SCORE_ARTICLE, useValue: PubmedScoreArticleComponent },
+    {provide: _ARTICLES.ILLUMINATION_GRAPH_ARTICLE, useValue: IlluminationGraphArticleComponent },
+    {provide: _ARTICLES.TARGET_DEVELOPMENT_ARTICLE, useValue: TargetDevelopmentArticleComponent },
+    {provide: _ARTICLES.LIGAND_ACTIVITY_ARTICLE, useValue: LigandActivityArticleComponent },
+    {provide: _ARTICLES.TINX_ARTICLE, useValue: TinxArticleComponent },
+    {provide: _ARTICLES.PUBMED_SCORE_ARTICLE, useValue: PubmedScoreArticleComponent },
   ],
   entryComponents: [
     IlluminationGraphArticleComponent,
