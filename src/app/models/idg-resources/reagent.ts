@@ -1,48 +1,135 @@
+import {Repository} from "./base-resource";
+
 export class Antibody extends Reagent {
-  antibodyID: string;
-  name: string;
-  usage: string;
+  /**
+   * Experiments and assays for which the antibodies have been tested and validated
+   */
+  usage: string[];
 }
 
 export class Cell extends Reagent {
-  cellName: string;
+  /**
+   * Identifier as registered by repository/ontology (e.g. CLO ID, RRID, etc.)
+   */
   cellID: string;
-  type: string;
+
+  /**
+   * Type of modification (if any) performed on the cells
+   */
+  modificationType: string;
+
+  /**
+   * IDG Identifier of the vector utilized to modify the cells for experimental purposes
+   */
   vectorID: string;
 }
 
 export class GeneticConstruct extends Reagent {
-  vectorType: string;
-  vectorName: string;
+  /**
+   * Genetic construct RRID
+   */
   RRID: string;
+  /**
+   *As registered with repository
+   */
+  vectorName: string;
+  /**
+   * Purpose/type of construct associated with gene
+   */
+  vectorType: string;
 }
 
 export class Mouse extends Reagent {
-  name: string;
+  /**
+   * ID as registered with MMRRC
+   */
   MMRRCID: string;
+
+  /**
+   * Specific nature of genetic modification made (modificationType?)
+   */
   allele: string;
-  constructDetails: string;
-  correspondingConstruct: string;
+
+  /**
+   * Link to the external repository where the construct was described
+   */
+  constructDetails: Repository;
+
+  /**
+   * Link to the external repository where the construct was registered
+   */
+  correspondingConstruct: Repository;
 }
 
 export class SmallMolecule extends Reagent {
+  /**
+   * Batch SMILES sequence (including salt and other modifications) of molecule
+   */
   batchSmiles: string;
+
+  /**
+   * Canonical SMILES sequence of molecule
+   */
   canonicalSmiles: string;
-  name: string;
-  externalIDRegistrationSystem: string;
+
+  /**
+   * External ID (PubChem, CheBI, ZINC, etc.) corresponding to the canonical representation
+   */
   externalID: string;
+
+  /**
+   * Repository corresponding to the external ID
+   */
+  externalIDRegistrationSystem: string;
 }
 
 export class Peptide extends Reagent {
+  /**
+   * Is the peptide used in PRM-based experiments
+   */
   prmType: string;
-  resourceID: string;
 }
 
 export class Reagent {
-  drgc: string;
+  /**
+   * name of reagent
+   */
+  name: string;
+
+  /**
+   * Antibody, Cell, Genetic Construct, Mouse, Small Molecule
+   */
   resourceType: string;
+  /**
+   * External link to published images or data relevant for the current Pharos page
+   */
   dataPageLink: string;
-  repository: string;
-  repositoryPageLink: string;
+
+  /**
+   * list of vendor names/links for purchasing
+   */
+  vendors: Vendor[];
+
+  /**
+   * GPCR, Ion-Channel, Kinase
+   */
   generatingIC: string;
 }
+
+export class Vendor {
+  /**
+   * Physical repository from which resource can be purchased
+   */
+  vendorName: string;
+  /**
+   * External link to physical and/or digital repositories containing key metadata and ordering information for the resource
+   */
+  vendorPageLink: string;
+
+  /**
+   * vendor specific identifier for a resource
+   */
+  resourceID: string;
+}
+
+
