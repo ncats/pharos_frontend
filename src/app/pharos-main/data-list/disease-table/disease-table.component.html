@@ -20,19 +20,19 @@
   <ng-container matColumnDef="id">
     <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
     <mat-cell *matCellDef="let row">
-<!--
      {{row.id}}
--->
+<!--
       <a routerLink={{row.id}} >{{row.id}} </a>
+-->
     </mat-cell>
   </ng-container>
   <ng-container matColumnDef="name">
     <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
     <mat-cell *matCellDef="let row">
-      <a routerLink={{row.id}} >{{row.name}} </a>
 <!--
-      {{row.name}}
+      <a routerLink={{row.id}} >{{row.name}} </a>
 -->
+      {{row.name}}
     </mat-cell>
   </ng-container>
   <ng-container matColumnDef="description">
