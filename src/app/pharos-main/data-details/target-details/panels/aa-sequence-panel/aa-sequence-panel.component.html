@@ -1,4 +1,5 @@
-<mat-card id="sequence"
+<mat-card
+          id="sequence"
           (pharosScrollspy)="active('sequence')"
           #sequence
           class ="section-card">
@@ -11,19 +12,17 @@
         <pharos-bar-chart [data]="residueCounts" class="full-width" *ngIf="residueCounts"></pharos-bar-chart>
       </div>
     </div>
-    <div class = "well" fxHide.lt-sm  *ngIf= "sequence && sequence.length">
-    <div fxLayout="row" fxLayoutAlign="start center" *ngFor = "let chunk of sequence" fxLayout="start stretch">
+
+    <div class = "well" fxHide.lt-sm >
+    <div fxLayout="row" fxLayoutAlign="start center" *ngFor = "let chunk of aasequence" fxLayout="start stretch">
       <div fxFlex="85">
-        {{chunk.chunk}}
+        {{chunk?.chunk}}
       </div>
-      <div fxFlex="15" class="no-copy"fxHide.lt-md>
-        {{chunk.residues}}
+      <div fxFlex="15" class="no-copy" fxHide.lt-md>
+        {{chunk?.residues}}
       </div>
     </div>
     </div>
     <div #protVistaViewer></div>
-<!--
-    <protvista-uniprot accession="P05067" class="holder"></protvista-uniprot>
--->
   </mat-card-content>
 </mat-card>

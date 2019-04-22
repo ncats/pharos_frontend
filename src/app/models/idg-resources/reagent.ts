@@ -1,4 +1,62 @@
-import {Repository} from "./base-resource";
+import {BaseResource, Repository} from "./base-resource";
+import {Serializer} from "../pharos-base";
+import {DataProperty} from "../../tools/generic-table/components/property-display/data-property";
+
+export class ReagentSerializer implements Serializer {
+
+  /**
+   * mo args - chemicals don't have any main level vocabulary terms
+   */
+  constructor () {}
+
+  fromJson(json: any): Reagent {
+    let obj: Reagent;
+    switch(json.resourceType) {
+      case 'antibody': {
+        obj = new Antibody();
+        break;
+      }
+      case 'cell': {
+        obj = new Cell();
+        break;
+      }
+      case 'genetic construct': {
+        obj = new GeneticConstruct();
+        break;
+      }
+      case 'mouse': {
+        obj = new Mouse();
+        break;
+      }
+      case 'small molecule': {
+        obj = new SmallMolecule();
+        break;
+      }
+      case 'peptide': {
+        obj = new Peptide();
+        break;
+      }
+    }
+    Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
+    return obj;
+  }
+
+  toJson(obj: Reagent): any {
+    return [];
+  }
+
+  _asProperties<T extends Reagent>(T: Reagent): any {
+    const newObj: any = {};
+    Object.keys(T).map(field => {
+      const property: DataProperty = {name: field, label: field, term: T[field]};
+      newObj[field] = property;
+    });
+    return newObj;
+  }
+}
+
+
+
 
 export class Antibody extends Reagent {
   /**
@@ -90,16 +148,8 @@ export class Peptide extends Reagent {
   prmType: string;
 }
 
-export class Reagent {
-  /**
-   * name of reagent
-   */
-  name: string;
+export class Reagent extends BaseResource {
 
-  /**
-   * Antibody, Cell, Genetic Construct, Mouse, Small Molecule
-   */
-  resourceType: string;
   /**
    * External link to published images or data relevant for the current Pharos page
    */
@@ -110,10 +160,7 @@ export class Reagent {
    */
   vendors: Vendor[];
 
-  /**
-   * GPCR, Ion-Channel, Kinase
-   */
-  generatingIC: string;
+
 }
 
 export class Vendor {

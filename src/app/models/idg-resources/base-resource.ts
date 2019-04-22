@@ -1,4 +1,18 @@
 export class BaseResource {
+  /**
+   * name of reagent
+   */
+  name: string;
+
+  /**
+   * Antibody, Cell, Genetic Construct, Mouse, Small Molecule
+   */
+  resourceType: string;
+
+  /**
+   * GPCR, Ion-Channel, Kinase
+   */
+  generatingIC: string;
 }
 
 export class Repository {

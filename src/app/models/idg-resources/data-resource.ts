@@ -1,4 +1,4 @@
-import {Repository} from "./base-resource";
+import {BaseResource, Repository} from "./base-resource";
 
 export class MouseImageData extends DataResource {
   /**
@@ -90,7 +90,7 @@ export class ProbeData extends DataResource {
 
 
 
-export class DataResource {
+export class DataResource extends BaseResource {
   /**
    * List of data generators
    */

@@ -31,10 +31,10 @@ export class DiseaseSerializer implements PharosSerializer {
     return [];
   }
 
-  _asProperties<T extends PharosBase>(obj: PharosBase): any {
+  _asProperties<T extends PharosBase>(T: PharosBase): any {
     const newObj: any = {};
-    Object.keys(obj).map(field => {
-      const property: PharosProperty = {name: field, label: field, term: obj[field]};
+    Object.keys(T).map(field => {
+      const property: PharosProperty = {name: field, label: field, term: T[field]};
       newObj[field] = property;
     });
     return newObj;

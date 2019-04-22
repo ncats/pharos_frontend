@@ -1,0 +1,6 @@
+ID,target_gene_symbol,clone_ID,isotype,host,target_species,validation_ID,applications
+AB1,Clic5,NA,NA,NA,NA,NA,NA
+AB2,Scn3b,N396/29,IgG2b,mouse,Mouse,valid16,WB
+AB3,Pkd2l2,NA,NA,NA,NA,NA,NA
+AB4,Cacnb2,N8B/1,IgG1,mouse,Mouse,valid18,WB
+AB5,Cacna2d3,NA,NA,NA,NA,NA,NA

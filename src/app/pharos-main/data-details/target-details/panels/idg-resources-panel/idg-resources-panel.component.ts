@@ -48,14 +48,12 @@ export class IdgResourcesPanelComponent extends DynamicPanelComponent implements
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        console.log(this.data);
         if (Object.values(this.data).length > 0) {
           this.ngUnsubscribe.next();
           this.tableArr = this.data;
           // this.setterFunction();
         }
       });
-
     this.mockData();
   }
 
@@ -96,7 +94,7 @@ export class IdgResourcesPanelComponent extends DynamicPanelComponent implements
         externalHref: 'https://www.antibodiesinc.com/products/navbeta3-na-channel-n396-29'
       });
 
-      this.tableArr = [{id: id, type: type, description: description, source: source}];
+      this.tableArr.push({id: id, type: type, description: description, source: source});
     });
   }
 }

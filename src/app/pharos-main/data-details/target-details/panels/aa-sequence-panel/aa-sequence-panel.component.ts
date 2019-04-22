@@ -15,7 +15,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
 
   @ViewChild('protVistaViewer') viewerContainer: ElementRef;
 
-  sequence: any[] = [];
+  aasequence: any[];
 
   residueCounts: any[];
   id: string;
@@ -34,9 +34,9 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (Object.values(this.data).length > 0) {
-          this.setterFunction();
+        if (this.data.sequence) {
           this.ngUnsubscribe.next();
+          this.setterFunction();
         }
       });
   }
@@ -66,15 +66,17 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
   parseSequence(): void {
     const length = 70;
     const split = this.splitString(this.data.sequence[0].text, length);
-   this.sequence = split.map((chunk, index) =>  {
+  const splitseq: any[] = [];
+  split.forEach((chunk, index) =>  {
      if (index === 0) {
-       return {chunk: chunk, residues: index + 1 + '-' + (index + 1) * length};
+       splitseq.push({chunk: chunk, residues: index + 1 + '-' + (index + 1) * length});
      } else if (index === split.length - 1) {
-       return {chunk: chunk, residues: index * length + '-' + this.data.sequence[0].text.length};
+       splitseq.push({chunk: chunk, residues: index * length + '-' + this.data.sequence[0].text.length});
      } else {
-         return {chunk: chunk, residues: index * length + '-' + (index + 1) * length};
+       splitseq.push({chunk: chunk, residues: index * length + '-' + (index + 1) * length});
      }
    });
+    this.aasequence = splitseq;
   }
 
   /**

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {PharosProperty} from '../../../../models/pharos-property';
+import {DynamicTablePanelComponent} from "../../../../tools/dynamic-table-panel/dynamic-table-panel.component";
 
 @Component({
   selector: 'pharos-target-relevance-panel',
@@ -8,7 +9,7 @@ import {PharosProperty} from '../../../../models/pharos-property';
   styleUrls: ['./target-relevance-panel.component.css']
 })
 
-export class TargetRelevancePanelComponent extends DynamicPanelComponent implements OnInit {
+export class TargetRelevancePanelComponent extends DynamicTablePanelComponent implements OnInit {
   fields: PharosProperty[] = [
     new PharosProperty( {
       name: 'target',
@@ -49,6 +50,7 @@ export class TargetRelevancePanelComponent extends DynamicPanelComponent impleme
   }
 
   ngOnInit() {
+    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -61,12 +63,12 @@ export class TargetRelevancePanelComponent extends DynamicPanelComponent impleme
           this.tableArr = [];
           this.data.targetRelevance.forEach(target => {
             const data = {
-              target: target.properties.filter(prop => prop.label === 'IDG Target')[0] as PharosProperty,
-              developmentLevel: target.properties.filter(prop => prop.label === 'IDG Development Level')[0] as PharosProperty,
-              targetFamily: target.properties.filter(prop => prop.label === 'IDG Target Family')[0] as PharosProperty,
-              activity: target.properties.filter(prop => prop.label === 'Ligand Activity')[0] as PharosProperty,
+              target: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target')[0]),
+              developmentLevel: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Development Level')[0]),
+              targetFamily: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target Family')[0]),
+              activity: new PharosProperty(target.properties.filter(prop => prop.label === 'Ligand Activity')[0])
             };
-            data['developmentLevelValue'] = target.properties.filter(prop => prop.label === data.activity.term)[0] as PharosProperty;
+            data['developmentLevelValue'] = new PharosProperty(target.properties.filter(prop => prop.label === data.activity.term)[0]);
             this.tableArr.push(data);
           });
         }

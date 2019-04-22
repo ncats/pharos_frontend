@@ -211,7 +211,8 @@ const pharosMainRoutes: Routes = [
     D3ColorLegendComponent,
     TopicGraphComponent,
     LevelSummaryPanelComponent,
-    GeneSummaryComponent
+    GeneSummaryComponent,
+    IdgResourcesPanelComponent
   ],
   declarations: [
     TargetTableComponent,
@@ -282,7 +283,8 @@ const pharosMainRoutes: Routes = [
     TchemSummaryComponent,
     TbioSummaryComponent,
     TdarkSummaryComponent,
-    GeneSummaryComponent
+    GeneSummaryComponent,
+    IdgResourcesPanelComponent
   ]
 })
 export class PharosMainRoutingModule { }
