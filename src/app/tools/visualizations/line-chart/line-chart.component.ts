@@ -4,36 +4,8 @@ import {
 } from '@angular/core';
 import * as d3 from 'd3';
 import {BehaviorSubject} from 'rxjs/index';
+import {PharosPoint} from "../../../models/pharos-point";
 
-/**
- * interface with various chart point properties
- */
-export interface PharosPoint {
-  /**
-   * optional point name
-   */
-  name?: string;
-
-  /**
-   * optional point label
-   */
-  label?: string;
-
-  /**
-   * optional variable to toggle hovering class
-   */
-  hovered?: boolean;
-
-  /**
-   * point key
-   */
-  key: number;
-
-  /**
-   * point value
-   */
-  value: number;
-}
 
 /**
  *basic config options for a radar chart
@@ -70,7 +42,6 @@ export class LineChartOptions {
 }
 
 // todo: https://bl.ocks.org/lorenzopub/6a56e17551d59278631dffd7f65a0cda
-// todo: added voronoi plot, not sure about feasibility of multi lines, or the necessity of pan or zoom.
 
 @Component({
   selector: 'pharos-line-chart',
@@ -263,14 +234,14 @@ getYAxis(scale: string): any {
     const y = this.getYAxis(this._chartOptions.yAxisScale);
 
     const voronoi = d3.voronoi()
-      .x((d: PharosPoint) => x(d.key))
-      .y((d: PharosPoint) =>  y(d.value))
+      .x((d: PharosPoint) => x(d.x))
+      .y((d: PharosPoint) =>  y(d.y))
       .extent([[-this._chartOptions.margin.left, -this._chartOptions.margin.top],
         [this.width + this._chartOptions.margin.right, this.height + this._chartOptions.margin.bottom]]);
 
     const line = d3.line()
-      .x((d: PharosPoint) => x(+d.key))
-      .y((d: PharosPoint) => y(+d.value));
+      .x((d: PharosPoint) => x(+d.x))
+      .y((d: PharosPoint) => y(+d.y));
 
 
     const xaxis = this.svg.select('.xaxis')
@@ -321,7 +292,7 @@ getYAxis(scale: string): any {
         if (d.label) {
           span = '<span>' + d.label + ': <br>' + d.name + '</span>';
         } else {
-          span = '<span>' + d.key + ': <br>' + d.value + '</span>';
+          span = '<span>' + d.x + ': <br>' + d.y + '</span>';
         }
         this.tooltip.html(span)
           .style('left', d3.event.pageX + 'px')

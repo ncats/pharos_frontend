@@ -1,12 +1,12 @@
-import {Component, HostBinding, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {DiseaseRelevance, DiseaseRelevanceSerializer} from '../../../../../models/disease-relevance';
 import {MatTabChangeEvent} from '@angular/material';
-import {BehaviorSubject} from 'rxjs';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {LineChartOptions, PharosPoint} from '../../../../../tools/visualizations/line-chart/line-chart.component';
-import {takeUntil, takeWhile} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 import {PharosProperty} from "../../../../../models/pharos-property";
+import {PharosPoint} from "../../../../../models/pharos-point";
+import {ScatterOptions} from "../../../../../tools/visualizations/scatter-plot/models/scatter-options";
 
 // skipping log2foldchange property
 const TABLEMAP: Map<string, PharosProperty> = new Map<string, PharosProperty>(
@@ -64,7 +64,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
   loaded = false;
   @Input() diseaseSources?: any;
   tableArr: any[] = [];
-  chartOptions: any;
+  chartOptions: ScatterOptions;
 
   constructor(
     private navSectionsService: NavSectionsService
@@ -80,6 +80,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       takeUntil(this.ngUnsubscribe)
     )
       .subscribe(x => {
+        console.log(this);
         if (Object.values(this.data).length > 0) {
           this.ngUnsubscribe.next();
           this.setterFunction();
@@ -128,19 +129,25 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
     if (this.data.tinx && this.data.tinx.importances) {
       this.tinx = [];
        this.data.tinx.importances.map(point => {
-        const p: PharosPoint = {
-          label: point.doid,
-          key: point.dnovelty,
-          value: point.imp,
-          name: point.dname
-        };
-       this.tinx.push(p);
+         if(point.dname) {
+           const p: PharosPoint = new PharosPoint({
+             label: point.doid,
+             x: point.dnovelty,
+             y: point.imp,
+             name: point.dname
+           });
+           this.tinx.push(p);
+         }
       });
-       this.chartOptions = {
+
+       this.chartOptions = new ScatterOptions({
            line: false,
+         xAxisScale: 'log',
          yAxisScale: 'log',
+         xLabel: 'Novelty',
+         yLabel: 'Importance',
           margin: {top: 20, right: 45, bottom: 20, left: 35}
-       };
+       });
     }
   }
 

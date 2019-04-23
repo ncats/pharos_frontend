@@ -47,9 +47,9 @@
           <span class="mat-title">Disease Novelty (Tinx)</span>
         </div>
       </div>
-      <div fxLayout="row" *ngIf="tinx && tinx.length > 0" fxLayout.lt-md="column" class ="tkrow tinx" fxLayoutAlign="start stretch">
+        <div fxLayout="row" *ngIf="tinx && tinx.length > 0" fxLayout.lt-md="column" class ="tkrow tinx" fxLayoutAlign="start stretch">
         <div fxFlex="100">
-      <pharos-line-chart [data]="tinx" [options]="chartOptions"></pharos-line-chart>
+          <pharos-scatter-plot [data]="tinx" [options]="chartOptions" #scatterInstance></pharos-scatter-plot>
     </div>
       </div>
   </mat-card-content>

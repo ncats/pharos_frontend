@@ -14,7 +14,6 @@ import {CustomContentDirective} from '../tools/custom-content.directive';
 import {ComponentInjectorService} from '../pharos-services/component-injector.service';
 import {ComponentLookupService} from '../pharos-services/component-lookup.service';
 import {TermDisplayComponent} from '../tools/term-display/term-display.component';
-import {LineChartComponent} from '../tools/visualizations/line-chart/line-chart.component';
 import {LinkListComponent} from '../tools/link-list/link-list.component';
 import {ToiCardComponent} from '../pharos-dashboard/toi-card/toi-card.component';
 import {BreadcrumbComponent} from '../tools/breadcrumb/breadcrumb.component';
@@ -40,6 +39,8 @@ import {ClickableNodeDirective} from "../tools/visualizations/force-directed-gra
 import {ClickableLinkDirective} from "../tools/visualizations/force-directed-graph/directives/clickable-link.directive";
 import {NodeVisualComponent} from "../tools/visualizations/force-directed-graph/components/shared/node-visual/node-visual.component";
 import {ZoomableDirective} from "../tools/visualizations/force-directed-graph/directives/zoomable.directive";
+import {ScatterPlotComponent} from "../tools/visualizations/scatter-plot/scatter-plot.component";
+import {LineChartComponent} from "../tools/visualizations/line-chart/line-chart.component";
 
 
 @NgModule({
@@ -74,6 +75,7 @@ import {ZoomableDirective} from "../tools/visualizations/force-directed-graph/di
     KnowledgeTableComponent,
     ProteinStructureViewerComponent,
     ScrollspyDirective,
+    ScatterPlotComponent,
 
     LinkVisualComponent,
     NodeVisualComponent,
@@ -116,7 +118,8 @@ import {ZoomableDirective} from "../tools/visualizations/force-directed-graph/di
     HelpPanelTriggerComponent,
     KnowledgeTableComponent,
     ProteinStructureViewerComponent,
-    ScrollspyDirective
+    ScrollspyDirective,
+    ScatterPlotComponent
   ]
 })
 export class SharedModule {

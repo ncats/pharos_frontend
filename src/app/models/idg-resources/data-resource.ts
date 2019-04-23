@@ -1,5 +1,37 @@
 import {BaseResource, Repository} from "./base-resource";
 
+export class DataResource extends BaseResource {
+  /**
+   * List of data generators
+   */
+  authors: string[]; // todo: is this just strings, or needs links?
+
+  /**
+   * Identifier as registered by a repository (e.g. GEO ID, PubChem AID, Synpase ID, etc.)
+   */
+  datasetID: string; //todo: can there be multiple?
+
+  /**
+   * Date when the data was publicly released (to the external repository)
+   */
+  releaseDate: string | number | Date;
+
+  /**
+   * repository where the data was released
+   */
+  repository: Repository;
+
+  /**
+   * data type: AP-MS, Channel Activity, CyCIF, Fluorescence imaging, IHC, KINOMEScan, Mouse Phenotype Data, NanoBRET, RNA-seq
+   */
+  resourceType: string;
+
+  /**
+   * Dataset name that is descriptive of the data
+   */
+  title: string;
+}
+
 export class MouseImageData extends DataResource {
   /**
    * Link to the corresponding preselected images to support the conclusion
@@ -90,34 +122,4 @@ export class ProbeData extends DataResource {
 
 
 
-export class DataResource extends BaseResource {
-  /**
-   * List of data generators
-   */
-    authors: string[]; // todo: is this just strings, or needs links?
 
-  /**
-   * Identifier as registered by a repository (e.g. GEO ID, PubChem AID, Synpase ID, etc.)
-   */
-   datasetID: string; //todo: can there be multiple?
-
-  /**
-   * Date when the data was publicly released (to the external repository)
-   */
-  releaseDate: string | number | Date;
-
-  /**
-   * repository where the data was released
-   */
-  repository: Repository;
-
-  /**
-   * data type: AP-MS, Channel Activity, CyCIF, Fluorescence imaging, IHC, KINOMEScan, Mouse Phenotype Data, NanoBRET, RNA-seq
-   */
-  resourceType: string;
-
-  /**
-   * Dataset name that is descriptive of the data
-   */
-  title: string;
-}

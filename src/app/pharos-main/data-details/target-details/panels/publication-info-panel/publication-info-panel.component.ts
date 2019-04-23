@@ -3,12 +3,13 @@ import {takeUntil} from "rxjs/operators";
 import {Target} from "../../../../../models/target";
 import {PageData} from "../../../../../models/page-data";
 import {HttpClient} from "@angular/common/http";
-import {PharosPoint} from "../../../../../tools/visualizations/line-chart/line-chart.component";
 import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 import {PharosProperty} from "../../../../../models/pharos-property";
 import {Publication, PublicationSerializer} from "../../../../../models/publication";
 import {DynamicTablePanelComponent} from "../../../../../tools/dynamic-table-panel/dynamic-table-panel.component";
 import {EnvironmentVariablesService} from "../../../../../pharos-services/environment-variables.service";
+import {PharosPoint} from "../../../../../models/pharos-point";
+import {ScatterOptions} from "../../../../../tools/visualizations/scatter-plot/models/scatter-options";
 
 @Component({
   selector: 'pharos-publication-info-panel',
@@ -56,6 +57,14 @@ rifTableFields: PharosProperty[] = [
     })
   ];
 
+chartOptions: ScatterOptions = new ScatterOptions({
+    line: true,
+    xAxisScale: 'year',
+    xLabel: 'Year',
+    yAxisScale: 'linear',
+    yLabel: 'Score',
+    margin: {top: 20, right: 45, bottom: 20, left: 35}
+  });
 
   constructor(
     private navSectionsService: NavSectionsService,
@@ -89,25 +98,25 @@ rifTableFields: PharosProperty[] = [
     this.publicationPageData = this.makePageData(this.target._publications.count);
     this.rifPageData = this.makePageData(this.data.generifCount);
     if(this.data.pmscore) {
-      const tempArr = [];
+      const tempArr: PharosPoint[] = [];
       this.data.pmscore.map(point => {
-        const pt: PharosPoint = {key: +point.year, value: point.score};
+        const pt: PharosPoint = new PharosPoint({x: +point.year, y: point.score});
         tempArr.push(pt);
       });
       this.pmscoreTimeline = tempArr;
     }
 if(this.data.patents) {
-      const tempArr = [];
+      const tempArr: PharosPoint[] = [];
       this.data.patents.map(point => {
-        const pt: PharosPoint = {key: +point.year, value: +point.count};
+        const pt: PharosPoint = new PharosPoint({x: +point.year, y: point.count});
         tempArr.push(pt);
       });
       this.patentTimeline = tempArr;
     }
 if(this.data.pubtator) {
-      const tempArr = [];
+  const tempArr: PharosPoint[] = [];
       this.data.pubtator.map(point => {
-        const pt: PharosPoint = {key: +point.year, value: point.score};
+        const pt: PharosPoint = new PharosPoint({x: +point.year, y: point.score});
         tempArr.push(pt);
       });
       this.pubtatorTimeline = tempArr;

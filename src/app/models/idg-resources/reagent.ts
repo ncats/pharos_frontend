@@ -55,7 +55,36 @@ export class ReagentSerializer implements Serializer {
   }
 }
 
+export class Reagent extends BaseResource {
 
+  /**
+   * External link to published images or data relevant for the current Pharos page
+   */
+  dataPageLink: string;
+
+  /**
+   * list of vendor names/links for purchasing
+   */
+  vendors: Vendor[];
+
+
+}
+
+export class Vendor {
+  /**
+   * Physical repository from which resource can be purchased
+   */
+  vendorName: string;
+  /**
+   * External link to physical and/or digital repositories containing key metadata and ordering information for the resource
+   */
+  vendorPageLink: string;
+
+  /**
+   * vendor specific identifier for a resource
+   */
+  resourceID: string;
+}
 
 
 export class Antibody extends Reagent {
@@ -148,35 +177,6 @@ export class Peptide extends Reagent {
   prmType: string;
 }
 
-export class Reagent extends BaseResource {
 
-  /**
-   * External link to published images or data relevant for the current Pharos page
-   */
-  dataPageLink: string;
-
-  /**
-   * list of vendor names/links for purchasing
-   */
-  vendors: Vendor[];
-
-
-}
-
-export class Vendor {
-  /**
-   * Physical repository from which resource can be purchased
-   */
-  vendorName: string;
-  /**
-   * External link to physical and/or digital repositories containing key metadata and ordering information for the resource
-   */
-  vendorPageLink: string;
-
-  /**
-   * vendor specific identifier for a resource
-   */
-  resourceID: string;
-}
 
 
