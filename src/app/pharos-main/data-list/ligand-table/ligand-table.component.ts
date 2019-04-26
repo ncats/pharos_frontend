@@ -38,6 +38,7 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   ngOnInit() {
+    console.log(this);
     this._STRUCTUREURLBASE = this.environmentVariablesService.getStructureImageUrl();
     this._data.subscribe(d => {
       if (this.data) {
@@ -66,25 +67,20 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
   setterFunction(): void {
     const ligandsArr = [];
     this.data.forEach(ligand => {
-      let url ='';
-      if(ligand.self || ligand.href) {
-        const url = ligand.self ? ligand.self : ligand.href + '?view=full';
-        this._http.get<any>(url).subscribe(res => {
-          const activity: any = this._getActivity(res);
-          const mappedLig = this.ligandsMap.get(res.id);
+          const mappedLig = this.ligandsMap.get(ligand.id);
           if (!mappedLig) {
             // placeholder to block repetitive calls
-            this.ligandsMap.set(res.id, {});
+            this.ligandsMap.set(ligand.id, {});
           } else {
             ligandsArr.push(mappedLig);
             this.ligandsDataSource.data = ligandsArr;
           }
-          const refid: string = res.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;
+      const activity: any = ligand.links.filter(link => link.kind==='ix.idg.models.Target').map(target => this._getActivity(target));
+      const refid: string = ligand.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;
           const newLigand = {
-            name: res.name,
+            name: ligand.name,
             refid: refid,
-            activityType: this._getActivityType(activity),
-            activity: activity.numval,
+            activities: activity,
             imageUrl: ligand.image ? ligand.image : this._STRUCTUREURLBASE + refid + '.svg?size=250'
           };
 
@@ -95,26 +91,29 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
           ligandsArr.push(newLigand);
           this.ligandsDataSource.data = ligandsArr;
         });
-      } else {
-        const newLigand = {
-          name: ligand.IDG_Ligand,
-          refid: ligand.id,
-          activityType: ligand.Ligand_Activity,
-          activity: ligand[ligand.Ligand_Activity],
-          imageUrl: ligand.image
-        };
-
-        if (ligand.target) {
-          newLigand['target'] = ligand.target;
-        }
-        this.ligandsMap.set(ligand.id, newLigand);
-        ligandsArr.push(newLigand);
-        this.ligandsDataSource.data = ligandsArr;
-      }
-    });
   }
 
   private _getActivity(ligand: any): any {
+    let otherActivity = [];
+    let ret: any[] = [];
+    const na = {label: 'N/A', numval: ''};
+    ligand.properties.filter(prop => {
+      if (prop.label === 'Ligand Activity') {
+        otherActivity.push({
+            activity: ligand.properties.filter(p => p.label === prop.term)[0],
+            target: ligand.properties.filter(p => p.label === 'IDG Target')[0].term,
+            targetFamily: ligand.properties.filter(p => p.label === 'IDG Target Family')[0].term,
+            idgLevel: ligand.properties.filter(p => p.label === 'IDG Development Level')[0].term,
+          }
+        );
+      }
+    });
+        return otherActivity ? otherActivity[0] : na;
+      }
+
+
+
+ /* private _getActivity(ligand: any): any {
     let ret: any = {};
     ligand.properties.map(prop => {
       if (prop.label === 'IC50') {
@@ -140,5 +139,5 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
     return ret;
   }
 
-
+*/
 }

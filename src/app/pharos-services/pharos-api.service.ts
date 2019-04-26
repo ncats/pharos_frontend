@@ -135,6 +135,8 @@ export class PharosApiService {
       publicationCt: 0
     }
   ];
+
+  returnedObject: {};
   /**
    * create services
    * set url
@@ -268,6 +270,7 @@ export class PharosApiService {
   }
 
   flushData() {
+    this.returnedObject = {};
     this._dataSource.next({});
     this._detailsSource.next({});
     this._detailsUrlSource.next({});
@@ -278,23 +281,22 @@ export class PharosApiService {
    * @private
    */
   private _mergeSources(): void {
-    let returnedObject = {};
     const cl: Observable<any> = combineLatest(
       this._detailsSource,
       this._detailsUrlSource);
 
     cl.subscribe(([object, details]) => {
       if (details.origin) {
-        returnedObject[details.origin] = details.data;
+        this.returnedObject[details.origin] = details.data;
         // this is needed to change details object
         // todo: is this the ideal way to do it? seems brittle
         if (object) {
-          returnedObject['object'] = object;
+          this.returnedObject['object'] = object;
         }
       } else {
-        returnedObject = {object: object};
+        this.returnedObject = {object: object};
       }
-      this._dataSource.next(returnedObject);
+      this._dataSource.next(this.returnedObject);
     });
 
   }

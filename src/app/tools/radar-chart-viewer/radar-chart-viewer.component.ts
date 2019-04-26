@@ -62,18 +62,14 @@ export class RadarChartViewerComponent implements OnInit {
   ngOnInit() {
     if (this.modalData) {
       Object.keys(this.modalData).forEach(key => this[key] = this.modalData[key]);
-      console.log(this);
     }
       if (this.data) {
-        console.log(this);
         this.radarDataService.getData(this.id, 'knowledge-sources').subscribe(res => {
-          console.log(res);
           if(res.sources) {
             res.sources.forEach(source => this.sources.set(source.value, source.ds))
           } else {
             res.forEach(source => this.sources.set(source.value, source.ds))
           }
-          console.log(res);
           this.radarDataService.setData(this.id, {className: this.id, sources: res}, 'knowledge-sources')
         });
       }
@@ -85,7 +81,7 @@ export class RadarChartViewerComponent implements OnInit {
       const src = this.sources.get(this.axis);
         if (src) {
           src.forEach(source => {
-            const ret = {term: source.ds_name, externalLink: source.ds_url} as PharosProperty;
+            const ret = new PharosProperty({term: source.ds_name, externalLink: source.ds_url});
             this.fieldSources.push(ret);
           });
         }

@@ -11,7 +11,7 @@
         <span class="mat-title">Publication Information</span>
       </div>
       <div fxFlex="5">
-        <pharos-help-panel-trigger [origin] = "'publications'" [label]="'Publication Information'"></pharos-help-panel-trigger>
+        <pharos-help-panel-trigger [origin] = "'publicationsPanel'" [label]="'Publication Information'"></pharos-help-panel-trigger>
       </div>
     </div>
     <div class = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
@@ -48,19 +48,6 @@
           </ng-container>
           </div>
         </mat-tab>
-        <mat-tab label="GeneRif Annotations">
-          <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
-            <mat-spinner></mat-spinner>
-          </div>
-          <ng-template matTabContent>
-            <pharos-generic-table
-              (pageChange)="paginate($event, 'generifs')"
-              [pageData]="rifPageData"
-              [data]= generifs
-              [fieldsConfig] = rifTableFields>
-            </pharos-generic-table>
-          </ng-template>
-        </mat-tab>
         <mat-tab label="Text Mined References">
           <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
             <mat-spinner></mat-spinner>
@@ -71,6 +58,19 @@
               [pageData]="publicationPageData"
               [data]= publications
               [fieldsConfig] = publicationTableFields>
+            </pharos-generic-table>
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="GeneRif Annotations">
+          <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
+            <mat-spinner></mat-spinner>
+          </div>
+          <ng-template matTabContent>
+            <pharos-generic-table
+              (pageChange)="paginate($event, 'generifs')"
+              [pageData]="rifPageData"
+              [data]= generifs
+              [fieldsConfig] = rifTableFields>
             </pharos-generic-table>
           </ng-template>
         </mat-tab>

@@ -57,5 +57,8 @@
   pointer-events: all;
 }
 
+.xaxis > .tick > text {
+  transform: translate(-15px, 6px)rotate(-45deg)
+}
 
 

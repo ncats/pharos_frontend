@@ -54,14 +54,18 @@ export class BarChartComponent implements OnInit {
   }
 
   drawGraph(): void {
+
     const element = this.chartContainer.nativeElement;
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
-    this.svg = d3.select(element).append('svg')
-      .attr('width', '100%')
-      .attr('height', '100%')
-      .append('g')
-      .attr('class', 'bar-container');
+
+    this.svg = d3.select(element)
+      .append('svg:svg')
+      .attr('width', this.width + this.margin.left + this.margin.right)
+      .attr('height', this.height + this.margin.top + this.margin.bottom)
+      .append('svg:g')
+      .attr('id', 'group')
+      .attr('class', 'bar-container')
 
     // Add the X Axis
     this.svg.append('g')

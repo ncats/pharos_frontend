@@ -28,11 +28,11 @@ export class RadarChartOptions {
   /**
    * How much farther than the radius of the outer circle should the labels be placed
    */
-  labelFactor = 1.1;
+  labelFactor = 1.75;
   /**
    * The number of pixels after which a label needs to be given a new line
    */
-  wrapWidth = 100;
+  wrapWidth = 75;
   /**
    * The opacity of the area of the blob
    */
@@ -298,8 +298,6 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     this.svg = d3.select(element).append('svg')
       .attr('width', '100%')
       .attr('height', '100%')
-/*      .attr('viewBox', '0 0 20 20')
-      .attr('preserveAspectRatio', 'xMinYMin meet')*/
       .attr('class', 'radar')
       .append('g')
       .attr('transform', 'translate(' + (this.width / 2 + this._chartOptions.margin.left) + ','
@@ -312,12 +310,12 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     ////////// Glow filter for some extra pizzazz ///////////
     /////////////////////////////////////////////////////////
 
-    // Filter for the outside glow
+/*    // Filter for the outside glow
     const filter = this.svg.append('defs').append('filter').attr('id', 'glow'),
       feGaussianBlur = filter.append('feGaussianBlur').attr('stdDeviation', '2.5').attr('result', 'coloredBlur'),
       feMerge = filter.append('feMerge'),
       feMergeNode_1 = feMerge.append('feMergeNode').attr('in', 'coloredBlur'),
-      feMergeNode_2 = feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
+      feMergeNode_2 = feMerge.append('feMergeNode').attr('in', 'SourceGraphic');*/
 
 
     // Define the div for the tooltip
@@ -340,11 +338,11 @@ export class RadarChartComponent implements OnInit, OnDestroy {
         let word;
         let line = [];
         let lineNumber = 0;
-        const lineHeight = 1.5; // ems
+        const lineHeight = 1.4; // ems
         const y = text.attr('y');
         const x = text.attr('x');
         const dy = parseFloat(text.attr('dy'));
-        let tspan = text.text(null).append('tspan').attr('x', x).attr('y', y).attr('dy', dy + 'em');
+        let tspan = text.text(null).append('tspan').attr('class','radar-label').attr('x', x).attr('y', y).attr('dy', dy + 'em');
 
         while (word = words.pop()) {
 
@@ -354,7 +352,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
             line.pop();
             tspan.text(line.join(' '));
             line = [word];
-            tspan = text.append('tspan').attr('x', x).attr('y', y).attr('dy', ++lineNumber * lineHeight + dy + 'em').text(word);
+            tspan = text.append('tspan').attr('class','radar-label').attr('x', x).attr('y', y).attr('dy', ++lineNumber * lineHeight + dy + 'em').text(word);
           }
         }
       });
@@ -387,7 +385,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
         // todo: figure out how to scale the points. probably an external function
         // .attr("r", d => radius / this._chartOptions.levels * d)
         .style('fill-opacity', this._chartOptions.opacityCircles)
-        .style('filter', 'url(#glow)')
+       // .style('filter', 'url(#glow)')
         .exit()
         .remove();
     } else {
@@ -401,7 +399,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
         .style('fill', '#F3F3F3')
         .style('stroke', '#CDCDCD')
         .style('fill-opacity', this._chartOptions.opacityCircles)
-        .style('filter', 'url(#glow)');
+     //   .style('filter', 'url(#glow)');
     }
 
     // Text indicating at what % each level is
@@ -417,14 +415,13 @@ export class RadarChartComponent implements OnInit, OnDestroy {
         .attr('fill', '#737373')
         .text(d => format(maxValue * d / this._chartOptions.levels) + this._chartOptions.unit);
     }
-
     //////////////////// Draw the axes //////////////////////
     // Create the straight lines radiating outward from the center
     const axis = this.svg.select('.axisWrapper').selectAll('.axis')
       .data(allAxis)
       .enter()
       .append('g')
-      .attr('class', 'axis');
+      .attr('class', 'radar-axis');
 
     axis.append('line')
       .attr('class', 'line')
@@ -438,17 +435,28 @@ export class RadarChartComponent implements OnInit, OnDestroy {
       .style('stroke-width', '2px');
 
     // Append the labels at each axis
-    // todo: rotate? https://stackoverflow.com/questions/42581308/d3-js-rotate-axis-labels-around-the-middle-point
     if (this._chartOptions.labels) {
       axis.append('text')
         .attr('class', 'legend')
         .style('font-size', '11px')
         .attr('text-anchor', 'middle')
         .attr('dy', '0.35em')
-        .attr('x', (d, i) => rScale(maxValue * this._chartOptions.labelFactor) * cos(angleSlice * i - HALF_PI))
-        .attr('y', (d, i) => rScale(maxValue * this._chartOptions.labelFactor) * sin(angleSlice * i - HALF_PI))
+        .attr('x', (d, i) => {
+          if (i % 2 === 1) {
+          return rScale(maxValue)* cos(angleSlice * i - HALF_PI)
+      }else {
+            return rScale(maxValue * this._chartOptions.labelFactor) * cos(angleSlice * i - HALF_PI)
+          }
+        })
+        .attr('y', (d, i) => {
+          if (i % 2 === 1) {
+          return rScale(maxValue)* sin(angleSlice * i - HALF_PI)
+      }else {
+            return rScale(maxValue * this._chartOptions.labelFactor) * sin(angleSlice * i - HALF_PI)
+          }
+        })
         .text(d => d)
-        .call(wrap, this._chartOptions.wrapWidth);
+        .call(wrap, this._chartOptions.wrapWidth)
     }
 
     /////////////////////////////////////////////////////////
@@ -505,7 +513,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
       .style('stroke-width', this._chartOptions.strokeWidth + 'px')
       .style('stroke', (d, i) => this._chartOptions.color(i))
       .style('fill', 'none')
-      .style('filter', 'url(#glow)');
+     // .style('filter', 'url(#glow)');
 
     // Append the circles
     blobWrapper.selectAll('.radarCircle')

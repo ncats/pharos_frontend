@@ -58,6 +58,7 @@ export class Ligand extends PharosBase {
 name?: string;
 activityType?: string;
 activity?: any;
+activities?: any;
 imageUrl?: string;
   _links: PharosSubList;
   _linksCount: number;

@@ -108,7 +108,7 @@ chartOptions: ScatterOptions = new ScatterOptions({
 if(this.data.patents) {
       const tempArr: PharosPoint[] = [];
       this.data.patents.map(point => {
-        const pt: PharosPoint = new PharosPoint({x: +point.year, y: point.count});
+        const pt: PharosPoint = new PharosPoint({x: +point.year, y: +point.count});
         tempArr.push(pt);
       });
       this.patentTimeline = tempArr;

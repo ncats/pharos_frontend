@@ -261,13 +261,13 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
 
     // Add the X Axis
     const gX = this.svg.append('svg:g')
-      .attr('class', 'axis')
+      .attr('class', 'axis xaxis')
       .attr('transform', 'translate(0,' + this.height + ')')
       .call(xAxis);
 
     // Add the Y Axis
     const gY = this.svg.append('svg:g')
-      .attr('class', 'axis')
+      .attr('class', 'axis yaxis')
       .call(yAxis);
 
     this.svg.append('g')

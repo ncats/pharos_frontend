@@ -3,7 +3,15 @@
       <div class = "mat-title centered">{{ligand.name}}</div>
     <img [src] = ligand.imageUrl alt = "image for {{ligand.name}}" class="ligand-image">
   <div class = "ligand-footer">
-    {{ligand?.activityType}} {{ligand?.activity}}
+    <div *ngFor="let activity of ligand.activities">
+      <a href="/targets/{{activity.target}}" target="_blank">{{activity.target}}</a>
+      <pharos-idg-level-indicator [level]="activity.idgLevel"></pharos-idg-level-indicator>
+      {{activity.targetFamily}}<br>
+      <br>
+      {{_getActivityType(activity.activity)}}: {{activity.activity.numval}}
+      <br>
+      <br>
+    </div>
   </div>
     </div>
 </mat-card>

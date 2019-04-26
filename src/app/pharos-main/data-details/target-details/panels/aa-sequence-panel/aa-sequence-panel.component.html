@@ -8,8 +8,8 @@
   </mat-card-header>
   <mat-card-content>
       <div fxLayout="row" fxLayout.lt-sm = "column" fxLayoutAlign="center center">
-      <div fxFlex="90" fxHide.lt-sm>
-        <pharos-bar-chart [data]="residueCounts" class="full-width" *ngIf="residueCounts"></pharos-bar-chart>
+      <div fxFlex="90">
+        <pharos-bar-chart [data]="residueCounts" *ngIf="residueCounts"></pharos-bar-chart>
       </div>
     </div>
 
@@ -23,6 +23,6 @@
       </div>
     </div>
     </div>
-    <div #protVistaViewer></div>
+    <div #protVistaViewer fxHide.lt-md></div>
   </mat-card-content>
 </mat-card>

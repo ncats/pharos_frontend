@@ -43,10 +43,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
               private helpPanelOpenerService: HelpPanelOpenerService,
               private dataDetailsResolver: DataDetailsResolver,
               private changeDetector: ChangeDetectorRef,
-              public scrollDispatcher: ScrollDispatcher,
-              private _renderer: Renderer2,
-              private app:ApplicationRef,
-              private zone: NgZone
+              public scrollDispatcher: ScrollDispatcher
   ) {
     super();
     this.path = this._route.snapshot.data.path;

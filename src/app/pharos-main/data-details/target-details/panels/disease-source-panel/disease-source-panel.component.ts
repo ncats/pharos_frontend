@@ -80,7 +80,6 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       takeUntil(this.ngUnsubscribe)
     )
       .subscribe(x => {
-        console.log(this);
         if (Object.values(this.data).length > 0) {
           this.ngUnsubscribe.next();
           this.setterFunction();
