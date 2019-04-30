@@ -187,10 +187,6 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     this.width = element.offsetWidth - margin.left - margin.right;
     this.height = element.offsetHeight - margin.top - margin.bottom;
 
-    console.log(this.height);
-    console.log(element.offsetHeight);
-    console.log(element);
-
     this.x = this.getScale(this._chartOptions.xAxisScale, 'x');
     this.y = this.getScale(this._chartOptions.yAxisScale, 'y');
 

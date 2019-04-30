@@ -99,6 +99,224 @@ export class IdgResourcesPanelComponent extends DynamicPanelComponent implements
   }
 }
 
+const data = [
+  {
+  resourceType:'smallMolecule',
+  gene: "BRSK2",
+  name: "GW296115",
+  logP_hydrophobicity: null,
+  water_solubility: null,
+  molecular_weight: "385.38",
+  purity: null,
+  ZINC_ID: null,
+  chembl_id: null,
+  pubchem_id: null,
+  vendor_cat: "https://infoporte.unc.edu/cores/buy.php?cid=144",
+  vendor: "SGC-UNC",
+  smiles: "COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1",
+  canonical_smiles: null,
+  data_page_link: "https://www.synapse.org/#!Synapse:syn18360506",
+  external_id: "143121",
+  external_id_registration_system: [
+   "ChEBI"
+  ],
+  repository: null,
+  repository_page_link: null
+},
+  ,{
+  resourceType:'antibody',
+  gene: "BRSK2",
+  name: "GW296115",
+  logP_hydrophobicity: null,
+  water_solubility: null,
+  molecular_weight: "385.38",
+  purity: null,
+  ZINC_ID: null,
+  chembl_id: null,
+  pubchem_id: null,
+  vendor_cat: "https://infoporte.unc.edu/cores/buy.php?cid=144",
+  vendor: "SGC-UNC",
+  smiles: "COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1",
+  canonical_smiles: null,
+  data_page_link: "https://www.synapse.org/#!Synapse:syn18360506",
+  external_id: "143121",
+  external_id_registration_system: [
+   "ChEBI"
+  ],
+  repository: null,
+  repository_page_link: null
+},
+{
+  resourceType:'cell',
+  gene: "BRSK2",
+  name: "GW296115",
+  logP_hydrophobicity: null,
+  water_solubility: null,
+  molecular_weight: "385.38",
+  purity: null,
+  ZINC_ID: null,
+  chembl_id: null,
+  pubchem_id: null,
+  vendor_cat: "https://infoporte.unc.edu/cores/buy.php?cid=144",
+  vendor: "SGC-UNC",
+  smiles: "COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1",
+  canonical_smiles: null,
+  data_page_link: "https://www.synapse.org/#!Synapse:syn18360506",
+  external_id: "143121",
+  external_id_registration_system: [
+   "ChEBI"
+  ],
+  repository: null,
+  repository_page_link: null
+},
+  {
+  resourceType:'geneticConstruct',
+  gene: "BRSK2",
+  name: "GW296115",
+  logP_hydrophobicity: null,
+  water_solubility: null,
+  molecular_weight: "385.38",
+  purity: null,
+  ZINC_ID: null,
+  chembl_id: null,
+  pubchem_id: null,
+  vendor_cat: "https://infoporte.unc.edu/cores/buy.php?cid=144",
+  vendor: "SGC-UNC",
+  smiles: "COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1",
+  canonical_smiles: null,
+  data_page_link: "https://www.synapse.org/#!Synapse:syn18360506",
+  external_id: "143121",
+  external_id_registration_system: [
+   "ChEBI"
+  ],
+  repository: null,
+  repository_page_link: null
+},
+  {
+  resourceType:'mouse',
+  gene: "BRSK2",
+  name: "GW296115",
+  logP_hydrophobicity: null,
+  water_solubility: null,
+  molecular_weight: "385.38",
+  purity: null,
+  ZINC_ID: null,
+  chembl_id: null,
+  pubchem_id: null,
+  vendor_cat: "https://infoporte.unc.edu/cores/buy.php?cid=144",
+  vendor: "SGC-UNC",
+  smiles: "COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1",
+  canonical_smiles: null,
+  data_page_link: "https://www.synapse.org/#!Synapse:syn18360506",
+  external_id: "143121",
+  external_id_registration_system: [
+   "ChEBI"
+  ],
+  repository: null,
+  repository_page_link: null
+},
+  {
+  resourceType:'peptide',
+  gene: "BRSK2",
+  name: "GW296115",
+  logP_hydrophobicity: null,
+  water_solubility: null,
+  molecular_weight: "385.38",
+  purity: null,
+  ZINC_ID: null,
+  chembl_id: null,
+  pubchem_id: null,
+  vendor_cat: "https://infoporte.unc.edu/cores/buy.php?cid=144",
+  vendor: "SGC-UNC",
+  smiles: "COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1",
+  canonical_smiles: null,
+  data_page_link: "https://www.synapse.org/#!Synapse:syn18360506",
+  external_id: "143121",
+  external_id_registration_system: [
+   "ChEBI"
+  ],
+  repository: null,
+  repository_page_link: null
+},
+  {
+  resourceType:'mouseImagingData',
+  gene: "BRSK2",
+  name: "GW296115",
+  logP_hydrophobicity: null,
+  water_solubility: null,
+  molecular_weight: "385.38",
+  purity: null,
+  ZINC_ID: null,
+  chembl_id: null,
+  pubchem_id: null,
+  vendor_cat: "https://infoporte.unc.edu/cores/buy.php?cid=144",
+  vendor: "SGC-UNC",
+  smiles: "COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1",
+  canonical_smiles: null,
+  data_page_link: "https://www.synapse.org/#!Synapse:syn18360506",
+  external_id: "143121",
+  external_id_registration_system: [
+   "ChEBI"
+  ],
+  repository: null,
+  repository_page_link: null
+},
+  {
+  resourceType:'probeData',
+  gene: "BRSK2",
+  name: "GW296115",
+  logP_hydrophobicity: null,
+  water_solubility: null,
+  molecular_weight: "385.38",
+  purity: null,
+  ZINC_ID: null,
+  chembl_id: null,
+  pubchem_id: null,
+  vendor_cat: "https://infoporte.unc.edu/cores/buy.php?cid=144",
+  vendor: "SGC-UNC",
+  smiles: "COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1",
+  canonical_smiles: null,
+  data_page_link: "https://www.synapse.org/#!Synapse:syn18360506",
+  external_id: "143121",
+  external_id_registration_system: [
+   "ChEBI"
+  ],
+  repository: null,
+  repository_page_link: null
+},
+  {
+  resourceType:'dataResource',
+  gene: "BRSK2",
+  name: "GW296115",
+  logP_hydrophobicity: null,
+  water_solubility: null,
+  molecular_weight: "385.38",
+  purity: null,
+  ZINC_ID: null,
+  chembl_id: null,
+  pubchem_id: null,
+  vendor_cat: "https://infoporte.unc.edu/cores/buy.php?cid=144",
+  vendor: "SGC-UNC",
+  smiles: "COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1",
+  canonical_smiles: null,
+  data_page_link: "https://www.synapse.org/#!Synapse:syn18360506",
+  external_id: "143121",
+  external_id_registration_system: [
+   "ChEBI"
+  ],
+  repository: null,
+  repository_page_link: null
+}
+];
+
+
+/**
+ * missing: resource type
+ * generatic IC (is this necessary to show on Pharos?)
+ * resource id from vendor
+ *
+ */
+
 
 /*
 ID: "AB4"
