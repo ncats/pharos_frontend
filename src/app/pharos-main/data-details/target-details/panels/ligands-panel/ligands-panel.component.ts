@@ -18,7 +18,7 @@ import {HttpClient} from "@angular/common/http";
 })
 export class LigandsPanelComponent extends DynamicPanelComponent implements OnInit {
   @Input() target: Target;
-  dataSource: MatTableDataSource<Ligand[]> = new MatTableDataSource<Ligand[]>();
+  private dataSource: MatTableDataSource<Ligand[]> = new MatTableDataSource<Ligand[]>();
   pageData: PageData;
 
   private _STRUCTUREURLBASE: string;
@@ -52,6 +52,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
 
 
   setterFunction(): void {
+    console.log(this.data[this.field]);
     this.pageData = new PageData(
       {
         top: 10,
@@ -77,7 +78,10 @@ this._mapLigands(this.data[this.field]);
 private _mapLigands(data: any[]): void {
   const ligandsArr = [];
   data.forEach(ligand => {
-    const activity: any = ligand.links.filter(link => link.kind==='ix.idg.models.Target').map(target => this._getActivity(target));
+    const activity: any = ligand.links
+      .filter(link => link.kind==='ix.idg.models.Target')
+      .map(target => this._getActivity(target))
+      //.sort(activity => activity.target !== this.target.gene);
     const refid: string = ligand.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;
     const lig = {
       name: ligand.name,
@@ -93,21 +97,27 @@ private _mapLigands(data: any[]): void {
 }
 
   private _getActivity(ligand: any): any {
-    let otherActivity = [];
+    let otherActivity: any;
     let ret: any[] = [];
     const na = {label: 'N/A', numval: ''};
     ligand.properties.filter(prop => {
       if (prop.label === 'Ligand Activity') {
-        otherActivity.push({
+        otherActivity = {
             activity: ligand.properties.filter(p => p.label === prop.term)[0],
             target: ligand.properties.filter(p => p.label === 'IDG Target')[0].term,
-            targetFamily: ligand.properties.filter(p => p.label === 'IDG Target')[0].term,
+            targetFamily: ligand.properties.filter(p => p.label === 'IDG Target Family')[0].term,
             idgLevel: ligand.properties.filter(p => p.label === 'IDG Development Level')[0].term,
-          }
-        );
+          };
+      } else if (prop.label === 'Pharmalogical Action') {
+        otherActivity = {
+            activity: prop,
+            target: ligand.properties.filter(p => p.label === 'IDG Target')[0].term,
+            targetFamily: ligand.properties.filter(p => p.label === 'IDG Target Family')[0].term,
+            idgLevel: ligand.properties.filter(p => p.label === 'IDG Development Level')[0].term,
+          };
       }
     });
-    return otherActivity ? otherActivity[0] : na;
+    return otherActivity ? otherActivity : na;
   }
 
 

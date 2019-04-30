@@ -66,9 +66,14 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
               target: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target')[0]),
               developmentLevel: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Development Level')[0]),
               targetFamily: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target Family')[0]),
-              activity: new PharosProperty(target.properties.filter(prop => prop.label === 'Ligand Activity')[0])
+              activity: new PharosProperty(target.properties
+                .filter(prop => prop.label === 'Ligand Activity' || prop.label === 'Pharmalogical Action')[0])
             };
-            data['developmentLevelValue'] = new PharosProperty(target.properties.filter(prop => prop.label === data.activity.term)[0]);
+            data['developmentLevelValue'] = new PharosProperty(
+              target.properties.filter(prop => prop.label === data.activity.term)[0] ?
+                target.properties.filter(prop => prop.label === data.activity.term)[0] :
+                data.activity
+            );
             this.tableArr.push(data);
           });
         }

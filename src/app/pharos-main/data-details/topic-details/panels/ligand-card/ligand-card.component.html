@@ -1,16 +1,17 @@
-<mat-card routerLink='/ligands/{{ligand.name}}' class="ligand-card">
+<mat-card routerLink='/ligands/{{ligand.name}}' class="ligand-card" *ngIf="ligand">
     <div class="ligand-content">
       <div class = "mat-title centered">{{ligand.name}}</div>
     <img [src] = ligand.imageUrl alt = "image for {{ligand.name}}" class="ligand-image">
   <div class = "ligand-footer">
-    <div *ngFor="let activity of ligand.activities">
-      <a href="/targets/{{activity.target}}" target="_blank">{{activity.target}}</a>
-      <pharos-idg-level-indicator [level]="activity.idgLevel"></pharos-idg-level-indicator>
-      {{activity.targetFamily}}<br>
+    <div *ngFor="let activity of primeActivity">
+      <a href="/targets/{{activity?.target}}" target="_blank">{{activity?.target}}</a>
+      <pharos-idg-level-indicator [level]="activity?.idgLevel"></pharos-idg-level-indicator>
+      {{activity?.targetFamily}}<br>
       <br>
-      {{_getActivityType(activity.activity)}}: {{activity.activity.numval}}
+      {{_getActivityType(activity?.activity)}} {{activity?.activity?.numval || activity?.activity?.term}}
       <br>
       <br>
+      <div *ngIf="ligand.activities.length > 1">Also tested on <a routerLink="/ligands/{{ligand.name}}" target="_blank">{{ligand.activities.length}}</a> other targets</div>
     </div>
   </div>
     </div>

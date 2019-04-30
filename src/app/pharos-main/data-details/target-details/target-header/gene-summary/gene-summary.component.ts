@@ -42,7 +42,7 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
     if (this.data.geneSummary) {
       this.geneSummary = this.data.geneSummary.map(sum => sum.text).join(' ');
       if(this.target.description) {
-        this.description = this.target.description ? this.target.description.concat(` ${this.geneSummary}`) : this.geneSummary;
+        this.description = this.target.description ? this.target.description.concat(`<br> ${this.geneSummary}`) : this.geneSummary;
       }
     }else {
       this.description = this.target.description;

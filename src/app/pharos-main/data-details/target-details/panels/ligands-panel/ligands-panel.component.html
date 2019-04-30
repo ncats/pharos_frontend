@@ -5,7 +5,7 @@
           #ligands #drugs>
   <mat-card-content>
     <div  *ngIf = "dataSource.data.length > 0">
-    <mat-card-title ><span class="mat-title">{{label}} ({{data.count}})</span></mat-card-title>
+    <mat-card-title ><span class="mat-title">{{label}} ({{dataSource.data.length}})</span></mat-card-title>
       <pharos-custom-paginator
         [pageData]="pageData"
         [pageSize]="10"
@@ -13,7 +13,7 @@
         (page)="paginate($event)"></pharos-custom-paginator>
     <div class ="structure-grid">
     <div *ngFor="let ligand of dataSource.data">
-      <pharos-ligand-card [ligand]="ligand"></pharos-ligand-card>
+      <pharos-ligand-card [ligand]="ligand" [target]="target"></pharos-ligand-card>
     </div>
     </div>
     </div>
