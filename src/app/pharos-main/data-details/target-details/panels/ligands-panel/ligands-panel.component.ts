@@ -18,7 +18,7 @@ import {HttpClient} from "@angular/common/http";
 })
 export class LigandsPanelComponent extends DynamicPanelComponent implements OnInit {
   @Input() target: Target;
-  private dataSource: MatTableDataSource<Ligand[]> = new MatTableDataSource<Ligand[]>();
+  dataSource: MatTableDataSource<Ligand[]> = new MatTableDataSource<Ligand[]>();
   pageData: PageData;
 
   private _STRUCTUREURLBASE: string;
