@@ -63,7 +63,7 @@ chartOptions: ScatterOptions = new ScatterOptions({
     xLabel: 'Year',
     yAxisScale: 'linear',
     yLabel: 'Score',
-    margin: {top: 20, right: 45, bottom: 20, left: 35}
+    margin: {top: 20, right: 35, bottom: 25, left: 35}
   });
 
   constructor(

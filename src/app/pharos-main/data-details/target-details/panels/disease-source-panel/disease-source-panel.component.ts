@@ -145,7 +145,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
          yAxisScale: 'log',
          xLabel: 'Novelty',
          yLabel: 'Importance',
-          margin: {top: 20, right: 45, bottom: 20, left: 35}
+          margin: {top: 20, right: 45, bottom: 25, left: 35}
        });
     }
   }
