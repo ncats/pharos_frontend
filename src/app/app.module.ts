@@ -30,6 +30,7 @@ import {AngularFireModule} from "@angular/fire";
 import {AngularFirestoreModule} from "@angular/fire/firestore";
 import {AngularFireAuthModule} from "@angular/fire/auth";
 import { DynamicTablePanelComponent } from './tools/dynamic-table-panel/dynamic-table-panel.component';
+import { AnatamogramComponent } from './tools/anatamogram/anatamogram.component';
 
 @NgModule({
   declarations: [

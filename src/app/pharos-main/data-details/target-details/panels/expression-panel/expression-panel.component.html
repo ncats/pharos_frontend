@@ -40,7 +40,8 @@
       </mat-tab-group>
       </div>
       <div fxFlex="70">
-          <mat-tab-group (selectedTabChange)="changeHarminogramTabData($event)" [dynamicHeight]="true">
+        <pharos-anatamogram></pharos-anatamogram>
+        <!--  <mat-tab-group (selectedTabChange)="changeHarminogramTabData($event)" [dynamicHeight]="true">
             <mat-tab *ngFor="let source of sources" label = "{{source.label}} ({{getSourceCount(source.label)}})"  >
                 <div class = "row" fxLayout.xs="column" fxLayoutAlign="start stretch">
                   <div fxFlex="50">
@@ -51,7 +52,7 @@
                   </div>
                 </div>
             </mat-tab>
-          </mat-tab-group>
+          </mat-tab-group>-->
       </div>
     </div>
   </mat-card-content>
