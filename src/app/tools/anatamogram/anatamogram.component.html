@@ -1,3 +1,10 @@
-<ncats-anatomogram-species-chooser (speciesChange)="setSpecies($event)"></ncats-anatomogram-species-chooser>
-<ncats-anatomogram-details-chooser (detailsChange)="setdetails($event)"></ncats-anatomogram-details-chooser>
-<ncats-anatomogram-image [species]="species" [details]="details"></ncats-anatomogram-image>
+<!--<ncats-anatomogram-species-chooser (speciesChange)="setSpecies($event)"></ncats-anatomogram-species-chooser>
+<ncats-anatomogram-details-chooser (detailsChange)="setdetails($event)"></ncats-anatomogram-details-chooser>-->
+<div fxLayout="row" fxLayoutAlign="start center">
+  <div fxFlex="25">
+      <ncats-anatomogram-image [species]="species" [details]="'male'"></ncats-anatomogram-image>
+    </div>
+  <div fxFlex="25">
+    <ncats-anatomogram-image [species]="species" [details]="'female'"></ncats-anatomogram-image>
+  </div>
+</div>

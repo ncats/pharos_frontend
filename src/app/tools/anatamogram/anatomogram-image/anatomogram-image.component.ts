@@ -20,31 +20,14 @@ export class AnatomogramImageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.imageUrl = `./assets/images/svgs/homo_sapiens.male.svg`;
+    this.imageUrl = `./assets/images/svgs/homo_sapiens.${this.details}.svg`;
     console.log(this);
-    const svg = d3.select(this.anatamogram.nativeElement).select('svg');
-    console.log(svg);
-    console.log(svg.classList);
-
     d3.xml(this.imageUrl).then(data => {
-      console.log(data.documentElement);
-      d3.select(this.anatamogram.nativeElement).node().append(data.documentElement)
-     // console.log(svg);
-      console.log("appending");
-    }).then(() => {
-      console.log("doin stuff");
+      d3.select(this.anatamogram.nativeElement).node().append(data.documentElement);
+      //this.anatamogram.nativeElement.node()a
+   //   style="width:100%;height:auto;padding-left:10px"
       d3.select("#UBERON_0000029").selectAll('path').style('fill', 'green');
-    //  d3.select("#UBERON_0000029").attr('class', 'filled');
-      console.log(d3.select("#UBERON_0000029").node());
-      // console.log(d3.selectAll("#UBERON_0000956").node());
-    }
-  )
+    })
 
-/*    this.http.get(this.imageUrl, {responseType: 'text'}).subscribe(res => {
-      console.log(res)
-      console.log(d3.select("#UBERON_0000956"));
-      console.log(d3.select("#UBERON_0000956").node().attribute(":inkscape:label"));
-
-    })*/
   }
 }

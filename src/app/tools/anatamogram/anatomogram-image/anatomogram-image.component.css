@@ -1,3 +1,7 @@
+.image-holder {
+  height: 40vh;
+}
+
 .filled {
   fill: green;
 }
