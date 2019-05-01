@@ -1,9 +1,50 @@
-:host {
-  grid-column: 1 / span 2;
+
+.filter-row {
+  margin-top:1vh;
+  margin-bottom: 1vh;
+  margin-right: 1vw;
 }
 
-@media only screen and (max-width: 768px) {
-  :host {
+.full-width-field {
+  width: 100%;
+}
 
+.data-grid {
+    display: grid;
+    grid-auto-rows: max-content;
+    grid-template-columns: repeat(auto-fill, minmax(19%, 1fr));
+    grid-gap: 1em;
   }
+
+.data-source-grid {
+    display: grid;
+    grid-auto-rows: max-content;
+    grid-template-columns: repeat(auto-fill, minmax(48%, 1fr));
+    grid-gap: 1em;
+  }
+
+  .data-grid > div, .data-source-grid > div {
+    margin-bottom: 2em;
+    margin-top: 2em;
+  //  min-height: 100%;
+  }
+
+  .resource-card {
+    max-width: 100%;
+    box-sizing: border-box;
+    min-height: 100%;
+  }
+
+  .thumb-holder {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2vh;
+  }
+
+  .resource-thumb {
+    max-height: 4rem;
+  }
+
+@media only screen and (max-width: 768px) {
+
 }

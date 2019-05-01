@@ -1,13 +1,122 @@
-<mat-card class ="flex30" *ngIf="data">
-  <mat-card-header>
-    <mat-card-title ><span class="mat-title">IDG Resources ({{tableArr?.length}})</span></mat-card-title>
+<mat-card
+          class ="section-card"
+          id = "resources"
+          (pharosScrollspy)="active('resources')" #resources>
+<mat-card-header>
+    <mat-card-title ><span class="mat-title">IDG Resources </span></mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <mat-tab-group>
-      <mat-tab label="Physical Resources" matTooltip="View and order IDG produced resources from vendors">
-        <pharos-generic-table [data]= tableArr [fieldsConfig] = fields></pharos-generic-table>
+      <mat-tab label="Reagents ({{reagents?.length}})" matTooltip="View and order IDG produced resources from vendors">
+          <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" class="filter-row">
+            <div fxFlex="25">
+              <mat-form-field class="full-width-field">
+                <mat-select
+                  [formControl]="reagentFilterCtrl"
+                  [multiple]="true"
+                  [ariaLabel]="'Filter By'"
+                  placeholder="Filter By:">
+                  <mat-option *ngFor ="let option of reagentTypes" [value]="option.value">{{option.label.charAt(0).toUpperCase() + option.label.slice(1)}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div fxFlex="50">
+              <pharos-custom-paginator [pageData]="pageData"></pharos-custom-paginator>
+            </div>
+          </div>
+        <div class="data-grid">
+          <div *ngFor ="let reagent of reagentsList">
+            <mat-card class = "resource-card">
+              <div class="mat-subheading-2"><a href="{{reagent.data_page_link}}" target="_blank">{{reagent.name}}</a></div><br>
+              <div class="thumb-holder">
+              <img src = './assets/images/resource-types/{{reagent.resourceType}}.png' alt = "image for {{reagent.name}}" class="resource-thumb">
+              </div>
+             <div fxLayout="row" fxLayoutAlign="space-between end">
+               <div fxFlex = "55">Order {{reagent.resourceType}}</div>
+               <div fxFlex="40" fxLayoutAlign="end"><a href = {{reagent.vendor_cat}} target="_blank">{{reagent.vendor}}</a></div>
+             </div>
+              <br>
+              <br>
+              <div>Extra details can go here</div>
+            </mat-card>
+          </div>
+        </div>
       </mat-tab>
-      <mat-tab label="Data Resources" matTooltip="View and explore IDG produced data sets">
+      <mat-tab label="Data Resources ({{dataSourceList?.length}})" matTooltip="View and explore IDG produced data sets">
+        <ng-template matTabContent>
+          <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" class="filter-row">
+            <div fxFlex="25">
+              <mat-form-field class="full-width-field">
+                <mat-select [formControl]="dataFilterCtrl"
+                            [multiple]="true" [ariaLabel]="'Filter By'" placeholder="Filter By:">
+                  <mat-option *ngFor ="let option of dataTypes" [value]="option.value">{{option.label.charAt(0).toUpperCase() + option.label.slice(1)}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div fxFlex="50">
+              <pharos-custom-paginator [pageData]="pageData"></pharos-custom-paginator>
+            </div>
+          </div>
+          <div class="data-source-grid">
+            <div *ngFor ="let dataSource of dataSourceList">
+              <mat-card class = "resource-card">
+                <div class="mat-subheading-2"><a href="{{dataSource.data_page_link}}" target="_blank">{{dataSource.name}}</a></div><br>
+                <div fxLayout="row" fxLayoutAlign="space-around start">
+                  <div fxFlex="33">
+                    <div class="thumb-holder">
+                      <img src = './assets/images/resource-types/{{dataSource.resourceType}}.png' alt = "image for {{dataSource.name}}" class="resource-thumb">
+                    </div>
+                  </div>
+                  <div fxFlex="66" *ngIf = "dataSource.resourceType ==='dataResource'">
+                    <ul>
+                      <li>authors</li>
+                      <li>datasetID</li>
+                      <li>releaseDate</li>
+                      <li>link to repository</li>
+                      <li>activity</li>
+                      <li>externalID & externalIDRegistrationSystem </li>
+                    </ul>
+                  </div>
+                    <div fxFlex="66" *ngIf = "dataSource.resourceType ==='probeData'">
+                      <ul>
+                        <li>authors</li>
+                        <li>datasetID</li>
+                        <li>releaseDate</li>
+                        <li>link to repository</li>
+                        <li>activity</li>
+                        <li>externalID & externalIDRegistrationSystem </li>
+                      <li>ligandType</li>
+                      <li>moleculeName</li>
+                      <li>negativeControlName</li>
+                      <li>negativeControlStructure</li>
+                      <li>probePage</li>
+                      <li>selectivity</li>
+                      <li>structure</li>
+                      </ul>
+                    </div>
+                      <div fxFlex="66" *ngIf = "dataSource.resourceType ==='mouseImagingData'">
+                        <ul>
+                          <li>authors</li>
+                          <li>datasetID</li>
+                          <li>releaseDate</li>
+                          <li>link to repository</li>
+                          <li>activity</li>
+                          <li>externalID & externalIDRegistrationSystem </li>
+                      <li>geneExpressed</li>
+                      <li>mmrrcId</li>
+                      <li>strainName</li>
+                      <li>tissue: tissueID</li>
+                        </ul>
+                  </div>
+                </div>
+                <!--<div fxLayout="row" fxLayoutAlign="space-between end">
+                  <div fxFlex = "55">Download {{dataSource.resourceType}}</div>
+                  <div fxFlex="40" fxLayoutAlign="end"><a href = {{dataSource.vendor_cat}} target="_blank">{{dataSource.vendor}}</a></div>
+                </div>-->
+              </mat-card>
+            </div>
+          </div>
+        </ng-template>
       </mat-tab>
     </mat-tab-group>
   </mat-card-content>
