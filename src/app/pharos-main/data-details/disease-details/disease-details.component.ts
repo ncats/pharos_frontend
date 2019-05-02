@@ -49,10 +49,8 @@ export class DiseaseDetailsComponent extends DynamicPanelComponent implements On
   }
 
   ngOnInit() {
-    console.log(this);
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
     const components: any = this.componentLookupService.lookupByPath(this.path, 'panels');
-    console.log(components);
     if (components) {
       components.forEach(component => {
         // start api calls before making component

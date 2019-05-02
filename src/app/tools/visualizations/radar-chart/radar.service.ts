@@ -43,6 +43,7 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
     levels: 5,
     format: '.2f',
     labels: true,
+    labelFactor: 1.1,
     axisLabels: false
   }
 ] , ['large', {

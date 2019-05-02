@@ -35,7 +35,6 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
 
     // todo pagination might still be a little slow, as the first load is not paginated
     ngOnInit() {
-    console.log(this);
       this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
@@ -52,7 +51,6 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
 
 
   setterFunction(): void {
-    console.log(this.data[this.field]);
     this.pageData = new PageData(
       {
         top: 10,

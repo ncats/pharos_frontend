@@ -334,7 +334,7 @@ this.pageData = this.makePageData(this.reagents.length);
           // this.setterFunction();
         }
       });
-    this.mockData();
+   // this.mockData();
   }
 
   getRandomInt(min: number, max: number): number {
@@ -350,10 +350,7 @@ this.pageData = this.makePageData(this.reagents.length);
       .then(data => {
         return data;
       })).subscribe(res => {
-      console.log(res);
-      console.log(r);
       const antibody = res[r];
-      console.log(antibody);
       const id = new PharosProperty({
         term: antibody.ID,
         href: antibody.href, // todo: remove when this is standardized

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {MatTabChangeEvent} from '@angular/material';
 import {PharosProperty} from '../../../../../models/pharos-property';
@@ -9,6 +9,7 @@ import {DiseaseRelevance} from '../../../../../models/disease-relevance';
 import {takeUntil} from 'rxjs/operators';
 import {DiseaseRelevanceSerializer} from "../../../../../models/disease-relevance";
 import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
+import {RadarChartComponent} from "../../../../../tools/visualizations/radar-chart/radar-chart.component";
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 @Component({
@@ -17,6 +18,55 @@ import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/na
   styleUrls: ['./expression-panel.component.scss']
 })
 export class ExpressionPanelComponent extends DynamicPanelComponent implements OnInit {
+  tissues: string[] =  [
+    "UBERON_0001897",
+    "UBERON_0001898",
+    "UBERON_0002421",
+    "UBERON_0003027",
+    "UBERON_0001876",
+    "UBERON_0001870",
+    "UBERON_0001871",
+    "UBERON_0001021",
+    "UBERON_0006618",
+    "UBERON_0012249",
+    "UBERON_0002421",
+    "UBERON_0000977",
+    "UBERON_0002185",
+    "UBERON_0003126",
+    "UBERON_0002048",
+    "UBERON_0002372",
+    "UBERON_0000970",
+    "UBERON_0001876",
+    "UBERON_0001736",
+    "UBERON_0001264",
+    "UBERON_0002107",
+    "UBERON_0001155",
+    "UBERON_0002371",
+    "UBERON_0001255",
+    "UBERON_0000945",
+    "UBERON_0002114",
+    "UBERON_0001000",
+    "UBERON_0000998",
+    "UBERON_0000473",
+    "UBERON_0001301",
+    "UBERON_0000970",
+    "UBERON_0002372",
+    "UBERON_0002048",
+    "UBERON_0001876",
+    "UBERON_0003126",
+    "UBERON_0002185",
+    "UBERON_0001021",
+    "UBERON_0002037",
+    "UBERON_0002245",
+    "UBERON_0002113",
+    "UBERON_0001225",
+    "UBERON_0002046",
+    "UBERON_0002371",
+    "UBERON_0001870"
+    ];
+
+  @ViewChild(RadarChartComponent) radarComponent: RadarChartComponent;
+
   _URL: string;
   id: string;
   tissueData: Map<string, PharosProperty[]> = new Map<string, PharosProperty[]>();
@@ -83,16 +133,16 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     {label: 'Jensen-TM Tissue', name: 'jensen-tm'},
     {label: 'IDG Tissue Ref', name: 'gtex'}
   ];
-  width = 30;
 
-  constructor(
-    private navSectionsService: NavSectionsService,
-    private environmentVariablesService: EnvironmentVariablesService) {
+  sourceList = [];
+  selectedTab: string;
+
+  constructor(private navSectionsService: NavSectionsService,
+              private environmentVariablesService: EnvironmentVariablesService) {
     super();
   }
 
   ngOnInit() {
-    console.log(this);
     this._URL = this.environmentVariablesService.getHomunculusUrl(this.id);
     this._data
     // listen to data as long as term is undefined or null
@@ -138,12 +188,12 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
       const temp: Ortholog[] = [];
       this.data.orthologs.forEach(obj => {
         // create new object to get PharosProperty class properties
-        const newObj: Ortholog =  this.orthologSerializer.fromJson(obj);
+        const newObj: Ortholog = this.orthologSerializer.fromJson(obj);
         // get source label
         const labelProp: PharosProperty =
           new PharosProperty(newObj.properties.filter(prop => prop.label === 'Ortholog Species')[0]);
         const dataSources: PharosProperty[] =
-         newObj.properties.filter(prop => prop.label === 'Data Source').map(lab => new PharosProperty(lab));
+          newObj.properties.filter(prop => prop.label === 'Data Source').map(lab => new PharosProperty(lab));
         this.orthologs.push({species: labelProp, source: dataSources});
       });
     }
@@ -160,6 +210,8 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
         this.tissueData.set(tissueTerm.label, [tissueTerm]);
       }
     });
+    const keys = Array.from(this.tissueData.keys());
+    this.sourceList = this.sources.filter(source => keys.includes(source.label));
   }
 
   setRadarData(): any[] {
@@ -183,11 +235,19 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   }
 
   changeHarminogramTabData(event: MatTabChangeEvent) {
-    this.hgData = this.tissueData.get(this.sources[event.index].label);
-    this.imgUrl = this._URL + this.sources[event.index].name;
-
-    // this.tableArr = this.sourceMap.get(this.sources[event.index]);
+    this.hgData = this.tissueData.get(this.sourceList[event.index].label);
   }
+
+  drawRadar(change: MatTabChangeEvent) {
+    this.selectedTab = change.tab.textLabel;
+
+  }
+
+  doneAnimating() {
+    if(this.selectedTab === "Specificity") {
+      this.radarComponent.drawChart();
+      this.radarComponent.updateChart();
+    }  }
 
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);

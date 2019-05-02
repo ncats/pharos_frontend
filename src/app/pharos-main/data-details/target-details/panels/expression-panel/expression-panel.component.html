@@ -15,46 +15,54 @@
         <pharos-help-panel-trigger [origin] = "'expression'" [label]="'Expression Data'"></pharos-help-panel-trigger>
       </div>
     </div>
-    <div class = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="anatamogram-row">
-      <div fxFlex="95">
-        <pharos-anatamogram></pharos-anatamogram>
-        <!--  <mat-tab-group (selectedTabChange)="changeHarminogramTabData($event)" [dynamicHeight]="true">
-            <mat-tab *ngFor="let source of sources" label = "{{source.label}} ({{getSourceCount(source.label)}})"  >
-                <div class = "row" fxLayout.xs="column" fxLayoutAlign="start stretch">
-                  <div fxFlex="50">
-                <img class = "hg" src = {{imgUrl}}>
-                  </div>
-                  <div fxFlex="50">
+    <div fxLayout="row"
+         fxLayout.lt-md="column"
+         class=""
+         fxLayoutAlign="space-around start">
+      <div fxFlex = "95" >
+      <mat-tab-group [dynamicHeight]="true" (animationDone)="doneAnimating()" (selectedTabChange)="drawRadar($event)">
+      <mat-tab label="Human">
+    <div fxLayout = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="anatamogram-row">
+      <div fxFlex="50">
+        <pharos-anatamogram [tissues]="tissues" [species]="'homo_sapiens'"></pharos-anatamogram>
+      </div>
+      <div fxFlex = "48">
+          <mat-tab-group (selectedTabChange)="changeHarminogramTabData($event)" [dynamicHeight]="true">
+            <mat-tab *ngFor="let source of sourceList" label = "{{source.label}} ({{getSourceCount(source.label)}})"  >
                     <pharos-link-list [list]= hgData [label]=source.label></pharos-link-list>
-                  </div>
-                </div>
             </mat-tab>
-          </mat-tab-group>-->
+          </mat-tab-group>
       </div>
     </div>
-    <div class = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
-    <div fxFlex = "95" class ="expressions">
-      <mat-tab-group>
-        <mat-tab label = "Specificity" class="full-height">
-          <ng-template matTabContent>
-            <div fxLayout="row" fxLayoutAlign="start stretch">
-              <div fxFlex="95" class="radarchart">
-                <pharos-radar-chart [data] = radarData [shape]="true" [size] = "'medium-shape'" [origin]="'expression'"></pharos-radar-chart>
-              </div>
-            </div>
-          </ng-template>
+      </mat-tab>
+      <mat-tab label="Mouse">
+    <div fxLayout = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="anatamogram-row">
+      <div fxFlex="50">
+        <pharos-anatamogram [tissues]="tissues" [species]="'mus_musculus'"></pharos-anatamogram>
+      </div>
+      <div fxFlex = "50">
+          <mat-tab-group (selectedTabChange)="changeHarminogramTabData($event)" [dynamicHeight]="true">
+            <mat-tab *ngFor="let source of sourceList" label = "{{source.label}} ({{getSourceCount(source.label)}})"  >
+                    <pharos-link-list [list]= hgData [label]=source.label></pharos-link-list>
+            </mat-tab>
+          </mat-tab-group>
+      </div>
+    </div>
+      </mat-tab>
+        <mat-tab label = "Specificity" (selectedTabChange)="drawRadar($event)">
+          <div fxLayout = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="radarchart anatamogram-row">
+            <div fxFlex="50" fxFlexAlign="stretch">
+              <pharos-radar-chart [data] = radarData [shape]="true" [size] = "'medium-shape'" [origin]="'expression'"></pharos-radar-chart>
+          </div>
+          </div>
         </mat-tab>
         <mat-tab label = "Differential" *ngIf=diseaseSources>
-          <ng-template matTabContent>
-            <pharos-generic-table [data]= tableArr [fieldsConfig] = fields></pharos-generic-table>
-          </ng-template>
+          <pharos-generic-table [data]= tableArr [fieldsConfig] = fields></pharos-generic-table>
         </mat-tab>
-        <mat-tab label = "Ortholog" *ngIf=orthologs>
-          <ng-template matTabContent>
-            <pharos-ortholog-panel [data]= orthologs></pharos-ortholog-panel>
-          </ng-template>
+        <mat-tab label = "Ortholog" *ngIf="orthologs && orthologs.length > 0">
+          <pharos-ortholog-panel [data]= orthologs></pharos-ortholog-panel>
         </mat-tab>
-      </mat-tab-group>
+    </mat-tab-group>
     </div>
     </div>
   </mat-card-content>

@@ -221,7 +221,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
           if (graph) {
            // this.radarDataService.setData(graph.className, graph, this.origin);
           //  console.log("graph subscription");
-           // / this.drawChart();
+          //  this.drawChart();
             this.updateChart();
           }
         });
@@ -288,6 +288,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     }
     //////////// Create the container SVG and g /////////////
     const element = this.chartContainer.nativeElement;
+    const margin = this._chartOptions.margin;
     this.width = element.offsetWidth - this._chartOptions.margin.left - this._chartOptions.margin.right;
     this.height = element.offsetHeight - this._chartOptions.margin.top - this._chartOptions.margin.bottom;
 
@@ -295,9 +296,10 @@ export class RadarChartComponent implements OnInit, OnDestroy {
      d3.select(element).selectAll('svg').remove();
 
     // Initiate the radar chart SVG
-    this.svg = d3.select(element).append('svg')
-      .attr('width', '100%')
-      .attr('height', '100%')
+    this.svg = d3.select(element)
+      .append('svg:svg')
+      .attr('width', this.width + margin.left + margin.right)
+      .attr('height', this.height + margin.top + margin.bottom * 2)
       .attr('class', 'radar')
       .append('g')
       .attr('transform', 'translate(' + (this.width / 2 + this._chartOptions.margin.left) + ','

@@ -353,7 +353,6 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       .on('zoom', zoomed);
 
     this.voronoiGroup.call(this.zoom);
-
   }
 
   setData() {

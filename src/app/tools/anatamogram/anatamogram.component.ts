@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {MatRadioChange} from "@angular/material";
+import {AnatomogramImageComponent} from "./anatomogram-image/anatomogram-image.component";
 
 @Component({
   selector: 'pharos-anatamogram',
@@ -6,21 +8,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./anatamogram.component.scss']
 })
 export class AnatamogramComponent implements OnInit {
-
-  species: string;
+  @Input() species: string = 'mus_musculus';
   details: string;
+
+  @Input() tissues: string[];
+  @ViewChildren(AnatomogramImageComponent) anatamograms: QueryList<AnatomogramImageComponent>;
+
 
   constructor() { }
 
   ngOnInit() {
-    console.log(this);
   }
 
-  setSpecies(species: string) {
-    this.species = species;
+  toggleView(change: MatRadioChange) {
+    this.details = change.value;
+
   }
 
-  setdetails(details: string) {
-    this.details = details;
+  reset() {
+    this.anatamograms.forEach(instance => instance.resetZoom());
   }
 }

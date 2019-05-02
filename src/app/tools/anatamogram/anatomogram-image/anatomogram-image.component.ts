@@ -1,6 +1,5 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import * as d3 from 'd3';
-import {HttpClient} from "@angular/common/http";
 
 
 @Component({
@@ -11,23 +10,61 @@ import {HttpClient} from "@angular/common/http";
 export class AnatomogramImageComponent implements OnInit {
   @ViewChild('anatamogram') anatamogram: ElementRef;
   @Input() species: string;
-
   @Input() details: string;
-
+  @Input() tissues: string[];
   imageUrl: string;
+  zoom;
+  svg;
 
-  constructor(private http: HttpClient) {
+  constructor() {
   }
 
   ngOnInit() {
-    this.imageUrl = `./assets/images/svgs/homo_sapiens.${this.details}.svg`;
-    console.log(this);
+    this.imageUrl = `./assets/images/svgs/${this.species}.${this.details}.svg`;
     d3.xml(this.imageUrl).then(data => {
       d3.select(this.anatamogram.nativeElement).node().append(data.documentElement);
-      //this.anatamogram.nativeElement.node()a
-   //   style="width:100%;height:auto;padding-left:10px"
-      d3.select("#UBERON_0000029").selectAll('path').style('fill', 'green');
+      this.svg = d3.select('#anatamogram');
+
+      const zoom = () => {
+        this.svg.select('#anatamogram-holder').attr("transform", d3.event.transform);
+      };
+
+        this.zoom = d3.zoom()
+          .scaleExtent([1, 8])
+          .on('zoom', zoom);
+
+      this.tissues.forEach(tissue =>  d3.select(`#${tissue}`).selectAll('path')
+           .on('mouseover', (d, i , f ) => d3.select(f[i].parentNode).selectAll('path')
+               .style('stroke', 'rgba(255, 178, 89, 1')
+               .style('stroke-width', '.5')
+               .style('fill', 'rgba(255, 178, 89, 1')
+           )
+
+           .on('mouseout', (d, i , f) => d3.select(f[i].parentNode).selectAll('path')
+             .style('stroke', 'rgba(35, 54, 78, .7')
+             .style('stroke-width', '.5')
+             .style('fill', 'rgba(35, 54, 78, .7'))
+             .style('stroke', 'rgba(35, 54, 78, .7')
+
+          .style('stroke-width', '.5')
+          .style('fill', 'rgba(35, 54, 78, .7'));
+
+
+    d3.select('#anatamogram')
+      .style('pointer-events', 'all')
+      .call(this.zoom);
     })
 
   }
+
+  resetZoom() {
+    const holder = this.svg.select('#anatamogram-holder');
+    if(holder) {
+      holder
+        .transition()
+        .duration(750)
+        .call(this.zoom.transform, d3.zoomIdentity);
+    }
+  }
+
 }

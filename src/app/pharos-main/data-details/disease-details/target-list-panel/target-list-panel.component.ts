@@ -46,7 +46,6 @@ export class TargetListPanelComponent extends DynamicPanelComponent implements O
       )
       .subscribe(x => {
         if (this.data.targets && this.data.targets.length > 0) {
-          console.log(this);
           this.tableArr = [];
           this.data.targets.forEach(target => {
             const data = {
