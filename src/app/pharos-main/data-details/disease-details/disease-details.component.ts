@@ -10,11 +10,11 @@ import {ComponentInjectorService} from '../../../pharos-services/component-injec
 import {takeUntil} from 'rxjs/operators';
 import {ComponentLookupService} from '../../../pharos-services/component-lookup.service';
 import {Disease} from '../../../models/disease';
-import {HelpDataService} from "../../../tools/help-panel/services/help-data.service";
-import {BreakpointObserver} from "@angular/cdk/layout";
-import {DOCUMENT} from "@angular/common";
-import {NavSectionsService} from "../../../tools/sidenav-panel/services/nav-sections.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {HelpDataService} from '../../../tools/help-panel/services/help-data.service';
+import {BreakpointObserver} from '@angular/cdk/layout';
+import {DOCUMENT} from '@angular/common';
+import {NavSectionsService} from '../../../tools/sidenav-panel/services/nav-sections.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'pharos-disease-details',
@@ -26,7 +26,7 @@ export class DiseaseDetailsComponent extends DynamicPanelComponent implements On
   token: any;
   sections: string[] = [];
   navIsFixed = false;
-  activeElement: string = "summary";
+  activeElement = 'summary';
 
   @Input()   disease: Disease;
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;

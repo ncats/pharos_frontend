@@ -9,11 +9,11 @@ import {takeUntil} from 'rxjs/operators';
 import {ComponentLookupService} from '../../../pharos-services/component-lookup.service';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {Ligand} from '../../../models/ligand';
-import {HelpDataService} from "../../../tools/help-panel/services/help-data.service";
-import {BreakpointObserver} from "@angular/cdk/layout";
-import {DOCUMENT} from "@angular/common";
-import {NavSectionsService} from "../../../tools/sidenav-panel/services/nav-sections.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {HelpDataService} from '../../../tools/help-panel/services/help-data.service';
+import {BreakpointObserver} from '@angular/cdk/layout';
+import {DOCUMENT} from '@angular/common';
+import {NavSectionsService} from '../../../tools/sidenav-panel/services/nav-sections.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'pharos-ligand-details',
@@ -25,7 +25,7 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
   token: any;
   sections: string[] = [];
   navIsFixed = false;
-  activeElement: string = "summary";
+  activeElement = 'summary';
 
   ligand: Ligand;
 

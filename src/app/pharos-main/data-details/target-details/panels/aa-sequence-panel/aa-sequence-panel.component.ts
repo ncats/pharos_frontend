@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angu
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import * as Protvista from 'ProtVista';
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
+import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 
 @Component({
   selector: 'pharos-aa-sequence-panel',

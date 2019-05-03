@@ -1,4 +1,4 @@
-import {Observable} from "rxjs/index";
+import {Observable} from 'rxjs/index';
 
 export interface DataParserInterface {
   loadData(): Observable<any>;

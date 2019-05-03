@@ -3,7 +3,7 @@ import {Subject} from 'rxjs/index';
 import {
   Node,
 } from '../../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/models/node';
-import {NodeInteractionInterface} from "../../../../../../../tools/force-directed-graph/interfaces/node-interaction-interface";
+import {NodeInteractionInterface} from '../../../../../../../tools/force-directed-graph/interfaces/node-interaction-interface';
 
 @Injectable({
   providedIn: 'root'

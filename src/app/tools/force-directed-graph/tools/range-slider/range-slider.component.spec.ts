@@ -17,7 +17,7 @@ import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {By, HAMMER_GESTURE_CONFIG} from '@angular/platform-browser';
 import {rangeSlider, MatSliderModule} from './index';
 import {TestGestureConfig} from './test-gesture-config';
-import {RangeSliderComponent} from "./range-slider.component";
+import {RangeSliderComponent} from './range-slider.component';
 
 describe('MatSlider', () => {
   let gestureConfig: TestGestureConfig;
@@ -312,7 +312,7 @@ describe('MatSlider', () => {
 
       // Computed by multiplying the difference between the min and the max by the percentage from
       // the click and adding that to the minimum.
-      let value = Math.round(4 + (0.09 * (6 - 4)));
+      const value = Math.round(4 + (0.09 * (6 - 4)));
       expect(sliderInstance.value).toBe(value);
     });
 
@@ -322,7 +322,7 @@ describe('MatSlider', () => {
 
       // Computed by multiplying the difference between the min and the max by the percentage from
       // the click and adding that to the minimum.
-      let value = Math.round(4 + (0.62 * (6 - 4)));
+      const value = Math.round(4 + (0.62 * (6 - 4)));
       expect(sliderInstance.value).toBe(value);
     });
 
@@ -460,7 +460,7 @@ describe('MatSlider', () => {
     });
 
     it('should round the value inside the label based on the provided step', () => {
-      let testStep = (step: number, expected: string) => {
+      const testStep = (step: number, expected: string) => {
         fixture.componentInstance.step = step;
         fixture.detectChanges();
         dispatchSlideEventSequence(sliderNativeElement, 0, 0.333333, gestureConfig);
@@ -1049,10 +1049,10 @@ describe('MatSlider', () => {
       testComponent.dir = 'rtl';
       fixture.detectChanges();
 
-      let initialTrackFillStyles = sliderInstance._trackFillStyles;
-      let initialTicksContainerStyles = sliderInstance._ticksContainerStyles;
-      let initialTicksStyles = sliderInstance._ticksStyles;
-      let initialThumbContainerStyles = sliderInstance._thumbContainerStylesLeft;
+      const initialTrackFillStyles = sliderInstance._trackFillStyles;
+      const initialTicksContainerStyles = sliderInstance._ticksContainerStyles;
+      const initialTicksStyles = sliderInstance._ticksStyles;
+      const initialThumbContainerStyles = sliderInstance._thumbContainerStylesLeft;
 
       testComponent.dir = 'ltr';
       fixture.detectChanges();
@@ -1360,7 +1360,7 @@ describe('MatSlider', () => {
     });
 
     it('should have the correct control state initially and after interaction', () => {
-      let sliderControl = testComponent.control;
+      const sliderControl = testComponent.control;
 
       // The control should start off valid, pristine, and untouched.
       expect(sliderControl.valid).toBe(true);
@@ -1397,7 +1397,7 @@ describe('MatSlider', () => {
       fixture.detectChanges();
 
       testComponent = fixture.componentInstance;
-      let sliderDebugElement = fixture.debugElement.query(By.directive(RangeSliderComponent));
+      const sliderDebugElement = fixture.debugElement.query(By.directive(RangeSliderComponent));
       sliderNativeElement = sliderDebugElement.nativeElement;
     });
 
@@ -1546,10 +1546,10 @@ class SliderWithValueGreaterThanMax { }
   styles: [styles],
 })
 class SliderWithChangeHandler {
-  onChange() { }
-  onInput() { }
 
   @ViewChild(RangeSliderComponent) slider: RangeSliderComponent;
+  onChange() { }
+  onInput() { }
 }
 
 @Component({
@@ -1602,10 +1602,10 @@ class SliderWithTwoWayBinding {
  * physical location of the click.
  */
 function dispatchClickEventSequence(sliderElement: HTMLElement, percentage: number): void {
-  let trackElement = sliderElement.querySelector('.mat-slider-wrapper')!;
-  let dimensions = trackElement.getBoundingClientRect();
-  let x = dimensions.left + (dimensions.width * percentage);
-  let y = dimensions.top + (dimensions.height * percentage);
+  const trackElement = sliderElement.querySelector('.mat-slider-wrapper')!;
+  const dimensions = trackElement.getBoundingClientRect();
+  const x = dimensions.left + (dimensions.width * percentage);
+  const y = dimensions.top + (dimensions.height * percentage);
 
   dispatchMouseenterEvent(sliderElement);
   dispatchMouseEvent(sliderElement, 'click', x, y);
@@ -1635,10 +1635,10 @@ function dispatchSlideEventSequence(sliderElement: HTMLElement, startPercent: nu
  */
 function dispatchSlideEvent(sliderElement: HTMLElement, percent: number,
                             gestureConfig: TestGestureConfig): void {
-  let trackElement = sliderElement.querySelector('.mat-slider-wrapper')!;
-  let dimensions = trackElement.getBoundingClientRect();
-  let x = dimensions.left + (dimensions.width * percent);
-  let y = dimensions.top + (dimensions.height * percent);
+  const trackElement = sliderElement.querySelector('.mat-slider-wrapper')!;
+  const dimensions = trackElement.getBoundingClientRect();
+  const x = dimensions.left + (dimensions.width * percent);
+  const y = dimensions.top + (dimensions.height * percent);
 
   gestureConfig.emitEventForElement('slide', sliderElement, {
     center: { x: x, y: y },
@@ -1654,10 +1654,10 @@ function dispatchSlideEvent(sliderElement: HTMLElement, percent: number,
  */
 function dispatchSlideStartEvent(sliderElement: HTMLElement, percent: number,
                                  gestureConfig: TestGestureConfig): void {
-  let trackElement = sliderElement.querySelector('.mat-slider-wrapper')!;
-  let dimensions = trackElement.getBoundingClientRect();
-  let x = dimensions.left + (dimensions.width * percent);
-  let y = dimensions.top + (dimensions.height * percent);
+  const trackElement = sliderElement.querySelector('.mat-slider-wrapper')!;
+  const dimensions = trackElement.getBoundingClientRect();
+  const x = dimensions.left + (dimensions.width * percent);
+  const y = dimensions.top + (dimensions.height * percent);
 
   dispatchMouseenterEvent(sliderElement);
 
@@ -1675,10 +1675,10 @@ function dispatchSlideStartEvent(sliderElement: HTMLElement, percent: number,
  */
 function dispatchSlideEndEvent(sliderElement: HTMLElement, percent: number,
                                gestureConfig: TestGestureConfig): void {
-  let trackElement = sliderElement.querySelector('.mat-slider-wrapper')!;
-  let dimensions = trackElement.getBoundingClientRect();
-  let x = dimensions.left + (dimensions.width * percent);
-  let y = dimensions.top + (dimensions.height * percent);
+  const trackElement = sliderElement.querySelector('.mat-slider-wrapper')!;
+  const dimensions = trackElement.getBoundingClientRect();
+  const x = dimensions.left + (dimensions.width * percent);
+  const y = dimensions.top + (dimensions.height * percent);
 
   gestureConfig.emitEventForElement('slideend', sliderElement, {
     center: { x: x, y: y },
@@ -1692,9 +1692,9 @@ function dispatchSlideEndEvent(sliderElement: HTMLElement, percent: number,
  * @param element The element from which the event will be dispatched.
  */
 function dispatchMouseenterEvent(element: HTMLElement): void {
-  let dimensions = element.getBoundingClientRect();
-  let y = dimensions.top;
-  let x = dimensions.left;
+  const dimensions = element.getBoundingClientRect();
+  const y = dimensions.top;
+  const x = dimensions.left;
 
   dispatchMouseEvent(element, 'mouseenter', x, y);
 }

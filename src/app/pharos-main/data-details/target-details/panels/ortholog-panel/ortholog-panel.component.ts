@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Ortholog, OrthologSerializer} from '../../../../../models/ortholog';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
-import {PharosProperty} from "../../../../../models/pharos-property";
+import {PharosProperty} from '../../../../../models/pharos-property';
 
 @Component({
   selector: 'pharos-ortholog-panel',

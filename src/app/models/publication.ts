@@ -1,5 +1,5 @@
-import {PharosBase, Serializer} from "./pharos-base";
-import {PharosProperty} from "./pharos-property";
+import {PharosBase, Serializer} from './pharos-base';
+import {PharosProperty} from './pharos-property';
 
 export class PublicationSerializer implements Serializer {
 
@@ -9,7 +9,7 @@ export class PublicationSerializer implements Serializer {
     return node;
   }
 
-  toJson(){}
+  toJson() {}
 
   _asProperties(obj: Publication): any {
     const newObj: any = {};
@@ -17,7 +17,7 @@ export class PublicationSerializer implements Serializer {
       const property: PharosProperty = {name: field, label: field, term: obj[field]};
       newObj[field] = property;
     });
-    if(newObj.pmid) {
+    if (newObj.pmid) {
       newObj.pmid.externalLink = `http://www.ncbi.nlm.nih.gov/pubmed/${obj.pmid}`;
     }
     return newObj;

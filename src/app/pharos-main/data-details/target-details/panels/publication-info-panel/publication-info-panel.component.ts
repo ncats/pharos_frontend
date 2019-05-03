@@ -1,15 +1,15 @@
 import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
-import {takeUntil} from "rxjs/operators";
-import {Target} from "../../../../../models/target";
-import {PageData} from "../../../../../models/page-data";
-import {HttpClient} from "@angular/common/http";
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
-import {PharosProperty} from "../../../../../models/pharos-property";
-import {Publication, PublicationSerializer} from "../../../../../models/publication";
-import {DynamicTablePanelComponent} from "../../../../../tools/dynamic-table-panel/dynamic-table-panel.component";
-import {EnvironmentVariablesService} from "../../../../../pharos-services/environment-variables.service";
-import {PharosPoint} from "../../../../../models/pharos-point";
-import {ScatterOptions} from "../../../../../tools/visualizations/scatter-plot/models/scatter-options";
+import {takeUntil} from 'rxjs/operators';
+import {Target} from '../../../../../models/target';
+import {PageData} from '../../../../../models/page-data';
+import {HttpClient} from '@angular/common/http';
+import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
+import {PharosProperty} from '../../../../../models/pharos-property';
+import {Publication, PublicationSerializer} from '../../../../../models/publication';
+import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
+import {EnvironmentVariablesService} from '../../../../../pharos-services/environment-variables.service';
+import {PharosPoint} from '../../../../../models/pharos-point';
+import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
 
 @Component({
   selector: 'pharos-publication-info-panel',
@@ -97,7 +97,7 @@ chartOptions: ScatterOptions = new ScatterOptions({
     this.generifs = rifs.map(publication => publication = this.publicationSerializer._asProperties(publication));
     this.publicationPageData = this.makePageData(this.target._publications.count);
     this.rifPageData = this.makePageData(this.data.generifCount);
-    if(this.data.pmscore) {
+    if (this.data.pmscore) {
       const tempArr: PharosPoint[] = [];
       this.data.pmscore.map(point => {
         const pt: PharosPoint = new PharosPoint({x: +point.year, y: point.score});
@@ -105,7 +105,7 @@ chartOptions: ScatterOptions = new ScatterOptions({
       });
       this.pmscoreTimeline = tempArr;
     }
-if(this.data.patents) {
+if (this.data.patents) {
       const tempArr: PharosPoint[] = [];
       this.data.patents.map(point => {
         const pt: PharosPoint = new PharosPoint({x: +point.year, y: +point.count});
@@ -113,7 +113,7 @@ if(this.data.patents) {
       });
       this.patentTimeline = tempArr;
     }
-if(this.data.pubtator) {
+if (this.data.pubtator) {
   const tempArr: PharosPoint[] = [];
       this.data.pubtator.map(point => {
         const pt: PharosPoint = new PharosPoint({x: +point.year, y: point.score});

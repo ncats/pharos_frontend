@@ -5,10 +5,10 @@ import {MatTableDataSource} from '@angular/material';
 import {Ligand, LigandSerializer} from '../../../../../models/ligand';
 import {PageData} from '../../../../../models/page-data';
 import {takeUntil} from 'rxjs/operators';
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
-import {Publication, PublicationSerializer} from "../../../../../models/publication";
-import {Target} from "../../../../../models/target";
-import {HttpClient} from "@angular/common/http";
+import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
+import {Publication, PublicationSerializer} from '../../../../../models/publication';
+import {Target} from '../../../../../models/target';
+import {HttpClient} from '@angular/common/http';
 
 
 @Component({
@@ -77,9 +77,9 @@ private _mapLigands(data: any[]): void {
   const ligandsArr = [];
   data.forEach(ligand => {
     const activity: any = ligand.links
-      .filter(link => link.kind==='ix.idg.models.Target')
-      .map(target => this._getActivity(target))
-      //.sort(activity => activity.target !== this.target.gene);
+      .filter(link => link.kind === 'ix.idg.models.Target')
+      .map(target => this._getActivity(target));
+      // .sort(activity => activity.target !== this.target.gene);
     const refid: string = ligand.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;
     const lig = {
       name: ligand.name,
@@ -91,12 +91,12 @@ private _mapLigands(data: any[]): void {
     ligandsArr.push(lig);
 
     this.dataSource.data = ligandsArr;
-  })
+  });
 }
 
   private _getActivity(ligand: any): any {
     let otherActivity: any;
-    let ret: any[] = [];
+    const ret: any[] = [];
     const na = {label: 'N/A', numval: ''};
     ligand.properties.filter(prop => {
       if (prop.label === 'Ligand Activity') {

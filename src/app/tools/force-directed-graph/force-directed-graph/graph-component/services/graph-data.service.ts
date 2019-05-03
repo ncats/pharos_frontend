@@ -3,8 +3,8 @@ import {of, Subject} from 'rxjs';
 
 import {Link} from '../models/link';
 import {Node} from '../models/node';
-import {LinkService} from "./event-tracking/link.service";
-import {PharosNodeService} from "../../../../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-node.service";
+import {LinkService} from './event-tracking/link.service';
+import {PharosNodeService} from '../../../../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-node.service';
 
 @Injectable({
   providedIn: 'root'

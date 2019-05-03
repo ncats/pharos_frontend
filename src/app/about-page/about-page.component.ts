@@ -11,8 +11,15 @@ import {SOURCES} from '../../assets/data-sources';
   styleUrls: ['./about-page.component.scss']
 })
 export class AboutPageComponent implements OnInit {
+  /**
+   * default active element for menu highlighting, will be replaced on scroll
+   * @type {string}
+   */
   activeElement = 'introduction';
-  @ViewChild(CdkScrollable) scrollable: CdkScrollable;
+
+  /**
+   *
+   */
   @ViewChildren('scrollSection') scrollSections: QueryList<ElementRef>;
 
   sourceFields: PharosProperty[] = [
@@ -41,7 +48,7 @@ export class AboutPageComponent implements OnInit {
 
   _sources: any;
 
-  constructor(private renderer: Renderer2,
+  constructor(
               private changeDetector: ChangeDetectorRef,
               private scrollDispatcher: ScrollDispatcher) {
     this._sources = SOURCES;

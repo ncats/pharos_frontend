@@ -1,14 +1,14 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {PharosNodeService} from "../../../../../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-node.service";
-import {LinkService} from "../../services/event-tracking/link.service";
-import {Link} from "../../models/link";
-import {FormControl} from "@angular/forms";
-import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/internal/operators";
-import {GraphDataService} from "../../services/graph-data.service";
+import {PharosNodeService} from '../../../../../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-node.service';
+import {LinkService} from '../../services/event-tracking/link.service';
+import {Link} from '../../models/link';
+import {FormControl} from '@angular/forms';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/internal/operators';
+import {GraphDataService} from '../../services/graph-data.service';
 import {
   PharosD3Service
-} from "../../../../../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-d3.service";
-import {Node} from "../../../../../visualizations/force-directed-graph/models/node";
+} from '../../../../../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-d3.service';
+import {Node} from '../../../../../visualizations/force-directed-graph/models/node';
 
 @Component({
   selector: 'app-node-details-box',
@@ -33,16 +33,16 @@ export class NodeDetailsBoxComponent implements OnInit {
   }
 
   getLabel(value: number): string {
-    if(!value || value === -100){
-      return 'no data'
+    if (!value || value === -100) {
+      return 'no data';
     } else {
       return value.toExponential(2);
     }
   }
 
-  foundNode(event){
+  foundNode(event) {
     this.d3Service._clearNodes();
-    this.nodeService.hoveredNode([event])
+    this.nodeService.hoveredNode([event]);
     this.d3Service._manualClick(event, this.graphDataService.returnGraph());
   }
 }

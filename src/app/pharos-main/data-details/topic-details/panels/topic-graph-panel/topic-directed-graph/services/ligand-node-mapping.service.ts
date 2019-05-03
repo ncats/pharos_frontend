@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {NodeMappingInterface} from "../../../../../../../tools/force-directed-graph/interfaces/node-mapping-interface";
-import {LigandNode, LigandNodeSerializer} from "../../../../../../../models/ligand-node";
+import {NodeMappingInterface} from '../../../../../../../tools/force-directed-graph/interfaces/node-mapping-interface';
+import {LigandNode, LigandNodeSerializer} from '../../../../../../../models/ligand-node';
 
 @Injectable({
   providedIn: 'root'

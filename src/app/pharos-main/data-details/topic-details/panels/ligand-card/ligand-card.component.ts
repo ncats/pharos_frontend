@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Ligand} from '../../../../../models/ligand';
-import {Target} from "../../../../../models/target";
+import {Target} from '../../../../../models/target';
 
 @Component({
   selector: 'pharos-ligand-card',
@@ -14,7 +14,7 @@ export class LigandCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    if(this.target) {
+    if (this.target) {
       this.primeActivity = [this.ligand.activities.sort(activity => this.target.gene === activity.target)[0]];
     }
   }

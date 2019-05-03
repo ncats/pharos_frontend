@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Target} from "../../../../../../../models/target";
+import {Target} from '../../../../../../../models/target';
 
 @Component({
   selector: 'pharos-tclin-summary',

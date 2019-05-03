@@ -126,7 +126,7 @@ export class LinkService {
       l = new Link(source, target, data);
       l.uuid = id;
     }
-    if(id ==='30189') {
+    if (id === '30189') {
       console.error(l);
     }
     return l;

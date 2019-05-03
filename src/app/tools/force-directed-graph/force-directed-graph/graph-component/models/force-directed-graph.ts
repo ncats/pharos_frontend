@@ -109,7 +109,7 @@ export class ForceDirectedGraph {
 
       //  Connecting the d3 ticker to an angular event emitter
       this.simulation.on('tick', () => {
-        ticker.emit(this.simulation)
+        ticker.emit(this.simulation);
         });
     }
 

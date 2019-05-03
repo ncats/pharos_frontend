@@ -3,10 +3,10 @@ import {DiseaseRelevance, DiseaseRelevanceSerializer} from '../../../../../model
 import {MatTabChangeEvent} from '@angular/material';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
-import {PharosProperty} from "../../../../../models/pharos-property";
-import {PharosPoint} from "../../../../../models/pharos-point";
-import {ScatterOptions} from "../../../../../tools/visualizations/scatter-plot/models/scatter-options";
+import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
+import {PharosProperty} from '../../../../../models/pharos-property';
+import {PharosPoint} from '../../../../../models/pharos-point';
+import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
 
 // skipping log2foldchange property
 const TABLEMAP: Map<string, PharosProperty> = new Map<string, PharosProperty>(
@@ -98,7 +98,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
         const labelProp: string = readDR.properties.filter(prop => prop.label === 'Data Source')
           .map(lab => lab['term'] as string)[0];
         // get array of diseases from source map
-        let tableData: any = {};
+        const tableData: any = {};
         const fields: PharosProperty[] = [];
         readDR.properties.forEach(prop => {
           const td = TABLEMAP.get(prop.label);
@@ -128,7 +128,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
     if (this.data.tinx && this.data.tinx.importances) {
       this.tinx = [];
        this.data.tinx.importances.map(point => {
-         if(point.dname) {
+         if (point.dname) {
            const p: PharosPoint = new PharosPoint({
              label: point.doid,
              x: point.dnovelty,
@@ -163,10 +163,10 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
     this.navSectionsService.setActiveSection(fragment);
   }
 
-  sort(event){
+  sort(event) {
   }
 
-  paginate(event){
+  paginate(event) {
   }
 }
 

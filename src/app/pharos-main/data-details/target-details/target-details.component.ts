@@ -9,11 +9,11 @@ import {ComponentInjectorService} from '../../../pharos-services/component-injec
 import {ComponentLookupService} from '../../../pharos-services/component-lookup.service';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
-import {NavSectionsService} from "../../../tools/sidenav-panel/services/nav-sections.service";
-import {DOCUMENT} from "@angular/common";
-import {ActivatedRoute, Router} from "@angular/router";
-import {HelpDataService} from "../../../tools/help-panel/services/help-data.service";
-import {BreakpointObserver} from "@angular/cdk/layout";
+import {NavSectionsService} from '../../../tools/sidenav-panel/services/nav-sections.service';
+import {DOCUMENT} from '@angular/common';
+import {ActivatedRoute, Router} from '@angular/router';
+import {HelpDataService} from '../../../tools/help-panel/services/help-data.service';
+import {BreakpointObserver} from '@angular/cdk/layout';
 
 @Component({
   selector: 'pharos-target-details',
@@ -26,7 +26,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
   token: any;
   sections: string[] = [];
   navIsFixed = false;
-  activeElement: string = "summary";
+  activeElement = 'summary';
 
   @Input() target: Target;
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;

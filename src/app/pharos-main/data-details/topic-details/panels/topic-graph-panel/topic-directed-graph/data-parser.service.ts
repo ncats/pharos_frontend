@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import {from} from "rxjs/index";
-import {map} from "rxjs/operators";
-import {LinkService} from "../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/link.service";
-import {HttpClient} from "@angular/common/http";
-import {TargetNode} from "../../../../../../models/target-node";
-import {DataParserInterface} from "../../../../../../tools/force-directed-graph/interfaces/data-parser-interface";
-import {PharosNodeService} from "./pharos-node.service";
-import {DiseaseNode} from "../../../../../../models/disease-node";
-import {LigandNode} from "../../../../../../models/ligand-node";
-import {TargetNodeMappingService} from "./services/target-node-mapping.service";
-import {DiseaseNodeMappingService} from "./services/disease-node-mapping.service";
-import {LigandNodeMappingService} from "./services/ligand-node-mapping.service";
+import {from} from 'rxjs/index';
+import {map} from 'rxjs/operators';
+import {LinkService} from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/link.service';
+import {HttpClient} from '@angular/common/http';
+import {TargetNode} from '../../../../../../models/target-node';
+import {DataParserInterface} from '../../../../../../tools/force-directed-graph/interfaces/data-parser-interface';
+import {PharosNodeService} from './pharos-node.service';
+import {DiseaseNode} from '../../../../../../models/disease-node';
+import {LigandNode} from '../../../../../../models/ligand-node';
+import {TargetNodeMappingService} from './services/target-node-mapping.service';
+import {DiseaseNodeMappingService} from './services/disease-node-mapping.service';
+import {LigandNodeMappingService} from './services/ligand-node-mapping.service';
 
 interface FileData {
   origin: string;
@@ -48,7 +48,7 @@ export class DataParserService implements DataParserInterface {
   loadData(): any {
     return this._http.get<any[]>(DATAFILES)
       .pipe(
-      map(res=> this._parseData(res))
+      map(res => this._parseData(res))
       );
   }
 
@@ -63,7 +63,7 @@ export class DataParserService implements DataParserInterface {
           const l = this.linkService.makeLink(`${n.id}${d.id}`, n, d, {properties: d});
           this.linkService.setLink(l);
           n.linkCount = ++n.linkCount;
-        })
+        });
       }
         if (query.ligands) {
         query.ligands.map(ligand => {
@@ -72,7 +72,7 @@ export class DataParserService implements DataParserInterface {
           const l = this.linkService.makeLink(`${n.id}${lgd.id}`, n, lgd, {properties: lgd});
           this.linkService.setLink(l);
           n.linkCount = ++n.linkCount;
-        })
+        });
       }
       this.targetNodeMappingService.setNode(n);
       this.dataMap.set('topics', {
@@ -90,11 +90,11 @@ export class DataParserService implements DataParserInterface {
         links: Array.from(this.linkService.getLinks().values()),
       });
       return this.dataMap;
-    })
+    });
   }
 
 
-  getData(): Map<string,any> {
+  getData(): Map<string, any> {
     return this.dataMap;
   }
 

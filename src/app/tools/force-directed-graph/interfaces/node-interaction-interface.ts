@@ -1,5 +1,5 @@
-import {Observable, Subject} from "rxjs/index";
-import {Node} from "../force-directed-graph/graph-component/models/node";
+import {Observable, Subject} from 'rxjs/index';
+import {Node} from '../force-directed-graph/graph-component/models/node';
 
 export interface NodeInteractionInterface {
 

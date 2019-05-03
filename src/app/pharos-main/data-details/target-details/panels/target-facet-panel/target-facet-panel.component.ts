@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {PharosProperty} from '../../../../../models/pharos-property';
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
+import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 
 const LABELS: Map<string, string> = new Map<string, string> (
   [
@@ -72,7 +72,7 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
                 new PharosProperty({
                   term: facet.term,
                   href: facet.href, // todo: remove when this is standardized
-                  internalLink: 'targets?facet=' + facet.label.replace( / /g, '+') + '/'+facet.term.replace(/ /g, '+')
+                  internalLink: 'targets?facet=' + facet.label.replace( / /g, '+') + '/' + facet.term.replace(/ /g, '+')
                 }),
            //   count: new PharosProperty({intval: 0}),
               externalLink:

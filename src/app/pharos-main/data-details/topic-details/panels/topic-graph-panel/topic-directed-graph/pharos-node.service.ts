@@ -7,10 +7,10 @@ import {
   Node,
   NodeSerializer
 } from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/models/node';
-import {NodeInterface} from "../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/node-interface";
-import {TargetNode, TargetNodeSerializer} from "../../../../../../models/target-node";
-import {DiseaseNode, DiseaseNodeSerializer} from "../../../../../../models/disease-node";
-import {LigandNode, LigandNodeSerializer} from "../../../../../../models/ligand-node";
+import {NodeInterface} from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/node-interface';
+import {TargetNode, TargetNodeSerializer} from '../../../../../../models/target-node';
+import {DiseaseNode, DiseaseNodeSerializer} from '../../../../../../models/disease-node';
+import {LigandNode, LigandNodeSerializer} from '../../../../../../models/ligand-node';
 
 /**
  * service to create and update nodes

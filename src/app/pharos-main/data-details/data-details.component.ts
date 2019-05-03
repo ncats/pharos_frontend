@@ -14,9 +14,9 @@ import {ComponentLookupService} from '../../pharos-services/component-lookup.ser
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
 import {HelpPanelOpenerService} from '../../tools/help-panel/services/help-panel-opener.service';
 import {MatDrawer, MatSidenavContainer} from '@angular/material';
-import {DynamicPanelComponent} from "../../tools/dynamic-panel/dynamic-panel.component";
-import {DataDetailsResolver} from "../../pharos-main/services/data-details.resolver";
-import {CdkScrollable, CdkVirtualScrollViewport, ScrollDispatcher} from "@angular/cdk/scrolling";
+import {DynamicPanelComponent} from '../../tools/dynamic-panel/dynamic-panel.component';
+import {DataDetailsResolver} from '../../pharos-main/services/data-details.resolver';
+import {CdkScrollable, CdkVirtualScrollViewport, ScrollDispatcher} from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'pharos-data-details',
@@ -68,7 +68,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
       // If it is a NavigationEnd event re-initalise the component
       if (e instanceof NavigationEnd) {
         this.path = this._route.snapshot.data.path;
-        if(this._route.snapshot.data[this.path] != this.pharosObject) {
+        if (this._route.snapshot.data[this.path] != this.pharosObject) {
           this.pharosObject = this._route.snapshot.data[this.path];
 /*         this.componentHost.viewContainerRef.clear();
          this.changeDetector.markForCheck(); // refresh the component manually
@@ -102,7 +102,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
       const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
       const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
       // todo: fix this. this is terrible
-      dynamicComponent.instance[this.path.slice(0,this.path.length-1)] = this.pharosObject;
+      dynamicComponent.instance[this.path.slice(0, this.path.length - 1)] = this.pharosObject;
       dynamicComponent.instance.id = this.pharosObject.id;
       dynamicComponent.instance.path = this.path;
       this.changeDetector.markForCheck(); // refresh the component manually

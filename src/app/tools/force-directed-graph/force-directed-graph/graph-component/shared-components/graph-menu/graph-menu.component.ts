@@ -2,8 +2,8 @@ import {Component, EventEmitter, OnInit, Output, ViewEncapsulation} from '@angul
 import {
   MatCheckboxChange, MatSliderChange,
   MatSlideToggleChange
-} from "@angular/material";
-import {FormControl} from "@angular/forms";
+} from '@angular/material';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-graph-menu',
@@ -19,7 +19,7 @@ export class GraphMenuComponent implements OnInit {
   };
 
   subGraphTypeCtrl: FormControl = new FormControl();
-  activeGraph: string = 'nscs';
+  activeGraph = 'nscs';
 
   @Output()
   readonly optionsChange: EventEmitter<any> = new EventEmitter<any>();
@@ -36,7 +36,7 @@ export class GraphMenuComponent implements OnInit {
       this._settings.data = this.activeGraph;
       this._settings.subgraph = val;
       this.optionsChange.emit(this._settings);
-  })
+  });
   }
 
   setActiveGraph(val: string) {
@@ -57,7 +57,7 @@ export class GraphMenuComponent implements OnInit {
     this.subGraphTypeCtrl.reset();
     this._settings = {
       fade: false,
-      hESC_NSC_Fold_Change: [a,b],
+      hESC_NSC_Fold_Change: [a, b],
       reset: true
     };
     // this._settings.subgraph = null;

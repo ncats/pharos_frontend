@@ -1,6 +1,10 @@
 import {PharosBase, PharosSerializer} from './pharos-base';
 import {PharosProperty} from './pharos-property';
-import {Serializer} from "./pharos-base";
+
+export class DiseaseRelevance extends PharosBase {
+  properties: Array<PharosProperty> = [];
+  refid: string;
+}
 
 export class DiseaseRelevanceSerializer implements PharosSerializer {
 
@@ -24,12 +28,7 @@ export class DiseaseRelevanceSerializer implements PharosSerializer {
       const property: PharosProperty = new PharosProperty({name: field, label: field, term: obj[field]});
       newObj[field] = property;
     });
-    // newObj._name.internalLink = obj.uuid;
     return newObj;
   }
 }
 
-export class DiseaseRelevance extends PharosBase {
-  properties: Array<PharosProperty> = [];
-  refid: string;
-}

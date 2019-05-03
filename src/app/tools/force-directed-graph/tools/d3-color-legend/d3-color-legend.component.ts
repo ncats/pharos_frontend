@@ -24,40 +24,40 @@ export class D3ColorLegendComponent implements OnInit {
     const barHeight = 20;
     const svg = d3.select(element).append('svg')
       .attr('width', '100%')
-      .attr('height', '30')
-    const defs = svg.append("defs");
+      .attr('height', '30');
+    const defs = svg.append('defs');
 
-    const colorScale = d3.scaleSequential(d3.interpolateViridis).domain(this.range)
+    const colorScale = d3.scaleSequential(d3.interpolateViridis).domain(this.range);
 
-    const linearGradient = defs.append("linearGradient")
-      .attr("id", "linear-gradient");
+    const linearGradient = defs.append('linearGradient')
+      .attr('id', 'linear-gradient');
 
     const axisScale = d3.scaleLinear()
       .domain(colorScale.domain())
-      .range([margin.left, width - margin.right])
+      .range([margin.left, width - margin.right]);
 
     const axisBottom = g => g
-      .attr("class", `x-axis`)
-      .attr("transform", `translate(0,${height - margin.bottom})`)
+      .attr('class', `x-axis`)
+      .attr('transform', `translate(0,${height - margin.bottom})`)
       .call(d3.axisBottom(axisScale)
         .ticks(width / 80)
-        .tickSize(-barHeight))
+        .tickSize(-barHeight));
 
-    linearGradient.selectAll("stop")
+    linearGradient.selectAll('stop')
       .data(colorScale.ticks().reverse().map((t, i, n) => {
-        return ({ offset: `${100*i/n.length}%`, color: colorScale((t / 2) + 3) })
+        return ({ offset: `${100 * i / n.length}%`, color: colorScale((t / 2) + 3) });
       }))
-      .enter().append("stop")
-      .attr("offset", d => d.offset)
-      .attr("stop-color", d => d.color);
+      .enter().append('stop')
+      .attr('offset', d => d.offset)
+      .attr('stop-color', d => d.color);
 
     svg.append('g')
-      .attr("transform", `translate(0,${height - margin.bottom - barHeight})`)
-      .append("rect")
+      .attr('transform', `translate(0,${height - margin.bottom - barHeight})`)
+      .append('rect')
       .attr('transform', `translate(${margin.left}, 0)`)
-      .attr("width", width - margin.right - margin.left)
-      .attr("height", barHeight)
-      .style("fill", "url(#linear-gradient)");
+      .attr('width', width - margin.right - margin.left)
+      .attr('height', barHeight)
+      .style('fill', 'url(#linear-gradient)');
 
     svg.append('g')
       .call(axisBottom);

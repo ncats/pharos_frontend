@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {takeUntil} from "rxjs/operators";
-import {Target} from "../../../../../models/target";
-import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
-import {BreakpointObserver} from "@angular/cdk/layout";
+import {takeUntil} from 'rxjs/operators';
+import {Target} from '../../../../../models/target';
+import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {BreakpointObserver} from '@angular/cdk/layout';
 
 @Component({
   selector: 'pharos-gene-summary',
@@ -41,10 +41,10 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
   setterFunction() {
     if (this.data.geneSummary) {
       this.geneSummary = this.data.geneSummary.map(sum => sum.text).join(' ');
-      if(this.target.description) {
+      if (this.target.description) {
         this.description = this.target.description ? this.target.description.concat(`<br> ${this.geneSummary}`) : this.geneSummary;
       }
-    }else {
+    } else {
       this.description = this.target.description;
     }
     if (this.description && this.description.length > 1000) {

@@ -1,8 +1,8 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
-import {GraphDataService} from "../../force-directed-graph/graph-component/services/graph-data.service";
-import {finalize, tap} from "rxjs/internal/operators";
+import {GraphDataService} from '../../force-directed-graph/graph-component/services/graph-data.service';
+import {finalize, tap} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'search-component',

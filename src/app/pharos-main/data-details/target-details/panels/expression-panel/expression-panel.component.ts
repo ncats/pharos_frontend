@@ -7,10 +7,10 @@ import {EnvironmentVariablesService} from '../../../../../pharos-services/enviro
 import {Ortholog, OrthologSerializer} from '../../../../../models/ortholog';
 import {DiseaseRelevance} from '../../../../../models/disease-relevance';
 import {takeUntil} from 'rxjs/operators';
-import {DiseaseRelevanceSerializer} from "../../../../../models/disease-relevance";
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
-import {RadarChartComponent} from "../../../../../tools/visualizations/radar-chart/radar-chart.component";
-import {AnatamogramHoverService} from "../../../../../tools/anatamogram/anatamogram-hover.service";
+import {DiseaseRelevanceSerializer} from '../../../../../models/disease-relevance';
+import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
+import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
+import {AnatamogramHoverService} from '../../../../../tools/anatamogram/anatamogram-hover.service';
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 @Component({
@@ -20,50 +20,50 @@ import {AnatamogramHoverService} from "../../../../../tools/anatamogram/anatamog
 })
 export class ExpressionPanelComponent extends DynamicPanelComponent implements OnInit {
   tissues: string[] =  [
-    "UBERON_0001897",
-    "UBERON_0001898",
-    "UBERON_0002421",
-    "UBERON_0003027",
-    "UBERON_0001876",
-    "UBERON_0001870",
-    "UBERON_0001871",
-    "UBERON_0001021",
-    "UBERON_0006618",
-    "UBERON_0012249",
-    "UBERON_0002421",
-    "UBERON_0000977",
-    "UBERON_0002185",
-    "UBERON_0003126",
-    "UBERON_0002048",
-    "UBERON_0002372",
-    "UBERON_0000970",
-    "UBERON_0001876",
-    "UBERON_0001736",
-    "UBERON_0001264",
-    "UBERON_0002107",
-    "UBERON_0001155",
-    "UBERON_0002371",
-    "UBERON_0001255",
-    "UBERON_0000945",
-    "UBERON_0002114",
-    "UBERON_0001000",
-    "UBERON_0000998",
-    "UBERON_0000473",
-    "UBERON_0001301",
-    "UBERON_0000970",
-    "UBERON_0002372",
-    "UBERON_0002048",
-    "UBERON_0001876",
-    "UBERON_0003126",
-    "UBERON_0002185",
-    "UBERON_0001021",
-    "UBERON_0002037",
-    "UBERON_0002245",
-    "UBERON_0002113",
-    "UBERON_0001225",
-    "UBERON_0002046",
-    "UBERON_0002371",
-    "UBERON_0001870"
+    'UBERON_0001897',
+    'UBERON_0001898',
+    'UBERON_0002421',
+    'UBERON_0003027',
+    'UBERON_0001876',
+    'UBERON_0001870',
+    'UBERON_0001871',
+    'UBERON_0001021',
+    'UBERON_0006618',
+    'UBERON_0012249',
+    'UBERON_0002421',
+    'UBERON_0000977',
+    'UBERON_0002185',
+    'UBERON_0003126',
+    'UBERON_0002048',
+    'UBERON_0002372',
+    'UBERON_0000970',
+    'UBERON_0001876',
+    'UBERON_0001736',
+    'UBERON_0001264',
+    'UBERON_0002107',
+    'UBERON_0001155',
+    'UBERON_0002371',
+    'UBERON_0001255',
+    'UBERON_0000945',
+    'UBERON_0002114',
+    'UBERON_0001000',
+    'UBERON_0000998',
+    'UBERON_0000473',
+    'UBERON_0001301',
+    'UBERON_0000970',
+    'UBERON_0002372',
+    'UBERON_0002048',
+    'UBERON_0001876',
+    'UBERON_0003126',
+    'UBERON_0002185',
+    'UBERON_0001021',
+    'UBERON_0002037',
+    'UBERON_0002245',
+    'UBERON_0002113',
+    'UBERON_0001225',
+    'UBERON_0002046',
+    'UBERON_0002371',
+    'UBERON_0001870'
     ];
 
   @ViewChild(RadarChartComponent) radarComponent: RadarChartComponent;
@@ -250,7 +250,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   }
 
   doneAnimating() {
-    if(this.selectedTab === "Specificity") {
+    if (this.selectedTab === 'Specificity') {
       this.radarComponent.drawChart();
       this.radarComponent.updateChart();
     }  }

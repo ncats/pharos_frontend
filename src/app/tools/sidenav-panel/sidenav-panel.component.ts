@@ -3,10 +3,10 @@ import {
   ViewChild,
   ViewChildren
 } from '@angular/core';
-import {NavSectionsService} from "./services/nav-sections.service";
-import {CdkScrollable, ScrollDispatcher} from "@angular/cdk/scrolling";
-import {ActivatedRoute, NavigationExtras, Router} from "@angular/router";
-import {ViewportScroller, DOCUMENT} from "@angular/common";
+import {NavSectionsService} from './services/nav-sections.service';
+import {CdkScrollable, ScrollDispatcher} from '@angular/cdk/scrolling';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
+import {ViewportScroller, DOCUMENT} from '@angular/common';
 
 @Component({
   selector: 'pharos-sidenav-panel',
@@ -28,14 +28,14 @@ sections: any[] = [];
 
   ngOnInit() {
     this.navSectionsService.sections$.subscribe(res => {
-      if(res && res.length) {
+      if (res && res.length) {
         this.sections = res;
         this.activeElement = this.sections[0].section;
       }
     });
 
     this.navSectionsService.activeSection$.subscribe(res => {
-      if(res) {
+      if (res) {
         this.activeElement = res;
       }
     });

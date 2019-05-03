@@ -1,12 +1,12 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {takeUntil} from "rxjs/operators";
-import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
-import {PharosProperty} from "../../../../../models/pharos-property";
-import {HttpClient} from "@angular/common/http";
-import {PdbReportData} from "../../../../../models/pdb-report";
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
+import {takeUntil} from 'rxjs/operators';
+import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {PharosProperty} from '../../../../../models/pharos-property';
+import {HttpClient} from '@angular/common/http';
+import {PdbReportData} from '../../../../../models/pdb-report';
+import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 
-const REPORT_URL ='https://www.rcsb.org/pdb/rest/customReport.csv?customReportColumns=structureId,ligandId,ligandSmiles,' +
+const REPORT_URL = 'https://www.rcsb.org/pdb/rest/customReport.csv?customReportColumns=structureId,ligandId,ligandSmiles,' +
   'EC50,IC50,Ka,Kd,Ki,pubmedId,releaseDate,experimentalTechnique,structureTitle&service=wsfile&format=csv&pdbids=';
 
 
@@ -62,8 +62,8 @@ export class PdbPanelComponent  extends DynamicPanelComponent implements OnInit 
     const terms = this.data.pdb.map(pdb => pdb = pdb.term);
     this._http.get(REPORT_URL + terms.join(','), {responseType: 'text'}).subscribe(res => {
       this.csvJSON(res);
-    })
-    const datas:any[] = [];
+    });
+    const datas: any[] = [];
     this.data.pdb.forEach(obj => {
       // create new object to get PharosProperty class properties
       const labelProp: PharosProperty = obj as PharosProperty;

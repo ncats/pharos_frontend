@@ -67,7 +67,7 @@ export class Link implements d3.SimulationLinkDatum<Node> {
     }
   }
 
-  getTargetId(){
+  getTargetId() {
     const target = this.target;
     if (typeof target === 'string') {
       return target;

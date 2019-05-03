@@ -1,8 +1,8 @@
 import {Component, Inject, Input, OnInit, Optional} from '@angular/core';
-import {BehaviorSubject} from "rxjs/index";
-import {RadarService} from "../visualizations/radar-chart/radar.service";
-import {MAT_DIALOG_DATA} from "@angular/material";
-import {PharosProperty} from "../../models/pharos-property";
+import {BehaviorSubject} from 'rxjs/index';
+import {RadarService} from '../visualizations/radar-chart/radar.service';
+import {MAT_DIALOG_DATA} from '@angular/material';
+import {PharosProperty} from '../../models/pharos-property';
 
 @Component({
   selector: 'pharos-radar-chart-viewer',
@@ -65,12 +65,12 @@ export class RadarChartViewerComponent implements OnInit {
     }
       if (this.data) {
         this.radarDataService.getData(this.id, 'knowledge-sources').subscribe(res => {
-          if(res.sources) {
-            res.sources.forEach(source => this.sources.set(source.value, source.ds))
+          if (res.sources) {
+            res.sources.forEach(source => this.sources.set(source.value, source.ds));
           } else {
-            res.forEach(source => this.sources.set(source.value, source.ds))
+            res.forEach(source => this.sources.set(source.value, source.ds));
           }
-          this.radarDataService.setData(this.id, {className: this.id, sources: res}, 'knowledge-sources')
+          this.radarDataService.setData(this.id, {className: this.id, sources: res}, 'knowledge-sources');
         });
       }
   }

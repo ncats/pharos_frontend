@@ -4,10 +4,10 @@ import {MatDialog, MatTableDataSource} from '@angular/material';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../models/page-data';
-import {BatchUploadModalComponent} from "../../../tools/batch-upload-modal/batch-upload-modal.component";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {BreakpointObserver} from "@angular/cdk/layout";
-import {environment} from "../../../../environments/environment.prod";
+import {BatchUploadModalComponent} from '../../../tools/batch-upload-modal/batch-upload-modal.component';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {BreakpointObserver} from '@angular/cdk/layout';
+import {environment} from '../../../../environments/environment.prod';
 
 @Component({
   selector: 'pharos-target-table',
@@ -55,7 +55,7 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
             takeUntil(this.ngUnsubscribe)
           )
           .subscribe(x => {
-            if(this.data.length) {
+            if (this.data.length) {
               this.dataSource.data = this.data;
             }
           });
@@ -70,7 +70,7 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
   }
 
   batchUpload() {
-    let dialogRef = this.dialog.open(BatchUploadModalComponent, {
+    const dialogRef = this.dialog.open(BatchUploadModalComponent, {
         height: '50vh',
         width: '66vw',
       }
@@ -83,7 +83,7 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
       };
       this.http.post(`https://pharos.ncats.io/app/api/v1/batchResolve`, result, httpOptions).subscribe(res => {
         console.log(res);
-      })
+      });
     });
   }
 

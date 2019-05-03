@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormControl} from "@angular/forms";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import {FormControl} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'pharos-batch-upload-modal',
@@ -17,7 +17,7 @@ export class BatchUploadModalComponent implements OnInit {
   ngOnInit() {
   }
 
-  cancel(){
+  cancel() {
     this.dialogRef.close();
   }
 

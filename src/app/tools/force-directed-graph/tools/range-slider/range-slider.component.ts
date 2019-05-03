@@ -149,8 +149,6 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
     this._invert = coerceBooleanProperty(value);
   }
 
-  private _invert = false;
-
   /** The maximum value that the slider can have. */
   @Input()
   get max(): number {
@@ -164,8 +162,6 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
     // Since this also modifies the percentage, we need to let the change detection know.
     this._changeDetectorRef.markForCheck();
   }
-
-  private _max: number = 100;
 
   /** The minimum value that the slider can have. */
   @Input()
@@ -186,8 +182,6 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
     this._changeDetectorRef.markForCheck();
   }
 
-  private _min: number = 0;
-
   /** The values at which the thumb will snap. */
   @Input()
   get step(): number {
@@ -205,8 +199,6 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
     this._changeDetectorRef.markForCheck();
   }
 
-  private _step: number = 1;
-
   /** Whether or not to show the thumb label. */
   @Input()
   get thumbLabel(): boolean {
@@ -216,8 +208,6 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
   set thumbLabel(value: boolean) {
     this._thumbLabel = coerceBooleanProperty(value);
   }
-
-  private _thumbLabel: boolean = true;
 
   /**
    * How often to show ticks. Relative to the step so that a tick always appears on a step.
@@ -237,8 +227,6 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
       this._tickInterval = 0;
     }
   }
-
-  private _tickInterval: 'auto' | number = 0;
 
   /** Value of the slider. */
   @Input()
@@ -283,15 +271,6 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
     }
   }
 
-  private _value: number | number[] | null = null;
-
-  /**
-   * Function that will be used to format the value before it is displayed
-   * in the thumb label. Can be used to format very large number in order
-   * for them to fit into the slider thumb.
-   */
-  @Input() displayWith: (value: number | null) => string | number;
-
   /** Whether the slider is vertical. */
   @Input()
   get vertical(): boolean {
@@ -301,22 +280,6 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
   set vertical(value: boolean) {
     this._vertical = coerceBooleanProperty(value);
   }
-
-  private _vertical = false;
-
-  /** Event emitted when the slider value has changed. */
-  @Output() readonly change: EventEmitter<RangeSliderComponentChange> = new EventEmitter<RangeSliderComponentChange>();
-
-  /** Event emitted when the slider thumb moves. */
-  @Output() readonly input: EventEmitter<RangeSliderComponentChange> = new EventEmitter<RangeSliderComponentChange>();
-
-  /**
-   * Emits when the raw value of the slider changes. This is here primarily
-   * to facilitate the two-way binding for the `value` input.
-   * @docs-private
-   */
-  @Output() readonly valueChange: EventEmitter<number | number[] | null> =
-    new EventEmitter<number | number[] | null>();
 
   /** The value to be used for display purposes. */
   get displayValue(): string | number {
@@ -371,38 +334,10 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
     return this.value[1] || 0;
   }
 
-  /** set focus to the host element */
-  focus() {
-    this._focusHostElement();
-  }
-
-  /** blur the host element */
-  blur() {
-    this._blurHostElement();
-  }
-
-  /** onTouch function registered via registerOnTouch (ControlValueAccessor). */
-  onTouched: () => any = () => {
-  }
-
   /** The percentage of the slider that coincides with the value. */
   get percent(): number | number[] {
     return this._clamp(this._percent);
   }
-
-  private _percent: number | number[] = 0;
-
-  /**
-   * Whether or not the thumb is sliding.
-   * Used to determine if there should be a transition for the thumb and fill track.
-   */
-  _isSliding: boolean = false;
-
-  /**
-   * Whether or not the slider is active (clicked or sliding).
-   * Used to shrink and grow the thumb as according to the Material Design spec.
-   */
-  _isActive: boolean = false;
 
   /**
    * Whether the axis of the slider is inverted.
@@ -442,7 +377,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
   /** CSS styles for the track background element. */
   get _trackBackgroundStylesLeft(): { [key: string]: string } {
     const axis = this.vertical ? 'Y' : 'X';
-    let scale: string = '';
+    let scale = '';
     if (this.percent instanceof Array) {
       scale = this.vertical ? `1, ${this.percent[0]}, 1` : `${this.percent[0]}, 1, 1`;
     } else {
@@ -458,7 +393,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
 
   get _trackBackgroundStylesRight(): { [key: string]: string } {
     const axis = this.vertical ? 'Y' : 'X';
-    let scale: string = '';
+    let scale = '';
     if (this.percent instanceof Array) {
       scale = this.vertical ? `1, ${1 - this.percent[1]}, 1` : `${1 - this.percent[1]}, 1, 1`;
     } else {
@@ -474,7 +409,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
   /** CSS styles for the track fill element. */
   get _trackFillStyles(): { [key: string]: string } {
     const axis = this.vertical ? 'Y' : 'X';
-    let scale: string = '';
+    let scale = '';
     if (this.percent instanceof Array) {
       scale = this.vertical ?
         `1, ${this.percent[1] - this.percent[0]}, 1` :
@@ -483,9 +418,9 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
       scale = this.vertical ? `1, ${this.percent}, 1` : `${this.percent}, 1, 1`;
     }
 
-    let invertOffset = (this._getDirection() == 'rtl' && !this.vertical) ?
+    const invertOffset = (this._getDirection() == 'rtl' && !this.vertical) ?
       !this._invertAxis : this._invertAxis;
-    let offset: number = 0;
+    let offset = 0;
     if (this.percent instanceof Array) {
       offset = (invertOffset ? 1 - this.percent[1] : this.percent[0]) * 100;
     } else {
@@ -508,11 +443,11 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
 
   /** CSS styles for the ticks container element. */
   get _ticksContainerStyles(): { [key: string]: string } {
-    let axis = this.vertical ? 'Y' : 'X';
+    const axis = this.vertical ? 'Y' : 'X';
     // For a horizontal slider in RTL languages we push the ticks container off the left edge
     // instead of the right edge to avoid causing a horizontal scrollbar to appear.
-    let sign = !this.vertical && this._getDirection() == 'rtl' ? '' : '-';
-    let offset = this._tickIntervalPercent / 2 * 100;
+    const sign = !this.vertical && this._getDirection() == 'rtl' ? '' : '-';
+    const offset = this._tickIntervalPercent / 2 * 100;
     return {
       'transform': `translate${axis}(${sign}${offset}%)`
     };
@@ -520,22 +455,22 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
 
   /** CSS styles for the ticks element. */
   get _ticksStyles(): { [key: string]: string } {
-    let tickSize = this._tickIntervalPercent * 100;
-    let backgroundSize = this.vertical ? `2px ${tickSize}%` : `${tickSize}% 2px`;
-    let axis = this.vertical ? 'Y' : 'X';
+    const tickSize = this._tickIntervalPercent * 100;
+    const backgroundSize = this.vertical ? `2px ${tickSize}%` : `${tickSize}% 2px`;
+    const axis = this.vertical ? 'Y' : 'X';
     // Depending on the direction we pushed the ticks container, push the ticks the opposite
     // direction to re-center them but clip off the end edge. In RTL languages we need to flip
     // the ticks 180 degrees so we're really cutting off the end edge abd not the start.
-    let sign = !this.vertical && this._getDirection() == 'rtl' ? '-' : '';
-    let rotate = !this.vertical && this._getDirection() == 'rtl' ? ' rotate(180deg)' : '';
-    let styles: { [key: string]: string } = {
+    const sign = !this.vertical && this._getDirection() == 'rtl' ? '-' : '';
+    const rotate = !this.vertical && this._getDirection() == 'rtl' ? ' rotate(180deg)' : '';
+    const styles: { [key: string]: string } = {
       'backgroundSize': backgroundSize,
       // Without translateZ ticks sometimes jitter as the slider moves on Chrome & Firefox.
       'transform': `translateZ(0) translate${axis}(${sign}${tickSize / 2}%)${rotate}`
     };
 
     if (this._isMinValue && this._thumbGap) {
-      let side = this.vertical ?
+      const side = this.vertical ?
         (this._invertAxis ? 'Bottom' : 'Top') :
         (this._invertAxis ? 'Right' : 'Left');
       styles[`padding${side}`] = `${this._thumbGap}px`;
@@ -545,12 +480,12 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
   }
 
   get _thumbContainerStylesLeft(): { [key: string]: string } {
-    let axis = this.vertical ? 'Y' : 'X';
+    const axis = this.vertical ? 'Y' : 'X';
     // For a horizontal slider in RTL languages we push the thumb container off the left edge
     // instead of the right edge to avoid causing a horizontal scrollbar to appear.
-    let invertOffset = (this._getDirection() == 'rtl' && !this.vertical) ?
+    const invertOffset = (this._getDirection() == 'rtl' && !this.vertical) ?
       !this._invertAxis : this._invertAxis;
-    let offset: number = 0;
+    let offset = 0;
     if (this.percent instanceof Array) {
       offset = (invertOffset ? this.percent[0] : 1 - this.percent[0]) * 100;
     } else {
@@ -562,12 +497,12 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
   }
 
   get _thumbContainerStylesRight(): { [key: string]: string } {
-    let axis = this.vertical ? 'Y' : 'X';
+    const axis = this.vertical ? 'Y' : 'X';
     // For a horizontal slider in RTL languages we push the thumb container off the left edge
     // instead of the right edge to avoid causing a horizontal scrollbar to appear.
-    let invertOffset = (this._getDirection() == 'rtl' && !this.vertical) ?
+    const invertOffset = (this._getDirection() == 'rtl' && !this.vertical) ?
       !this._invertAxis : this._invertAxis;
-    let offset: number = 0;
+    let offset = 0;
     if (this.percent instanceof Array) {
       offset = (invertOffset ? this.percent[1] : 1 - this.percent[1]) * 100;
     } else {
@@ -578,14 +513,74 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
     };
   }
 
+  constructor(elementRef: ElementRef,
+              private _focusMonitor: FocusMonitor,
+              private _changeDetectorRef: ChangeDetectorRef,
+              @Optional() private _dir: Directionality,
+              @Attribute('tabindex') tabIndex: string,
+              // @breaking-change 7.0.0 `_animationMode` parameter to be made required.
+              @Optional() @Inject(ANIMATION_MODULE_TYPE) public _animationMode?: string) {
+    super(elementRef);
+
+    this.tabIndex = parseInt(tabIndex) || 0;
+  }
+
+  private _invert = false;
+
+  private _max = 100;
+
+  private _min = 0;
+
+  private _step = 1;
+
+  private _thumbLabel = true;
+
+  private _tickInterval: 'auto' | number = 0;
+
+  private _value: number | number[] | null = null;
+
+  /**
+   * Function that will be used to format the value before it is displayed
+   * in the thumb label. Can be used to format very large number in order
+   * for them to fit into the slider thumb.
+   */
+  @Input() displayWith: (value: number | null) => string | number;
+
+  private _vertical = false;
+
+  /** Event emitted when the slider value has changed. */
+  @Output() readonly change: EventEmitter<RangeSliderComponentChange> = new EventEmitter<RangeSliderComponentChange>();
+
+  /** Event emitted when the slider thumb moves. */
+  @Output() readonly input: EventEmitter<RangeSliderComponentChange> = new EventEmitter<RangeSliderComponentChange>();
+
+  /**
+   * Emits when the raw value of the slider changes. This is here primarily
+   * to facilitate the two-way binding for the `value` input.
+   * @docs-private
+   */
+  @Output() readonly valueChange: EventEmitter<number | number[] | null> =
+    new EventEmitter<number | number[] | null>();
+
+  private _percent: number | number[] = 0;
+
+  /**
+   * Whether or not the thumb is sliding.
+   * Used to determine if there should be a transition for the thumb and fill track.
+   */
+  _isSliding = false;
+
+  /**
+   * Whether or not the slider is active (clicked or sliding).
+   * Used to shrink and grow the thumb as according to the Material Design spec.
+   */
+  _isActive = false;
+
   /** The size of a tick interval as a percentage of the size of the track. */
-  private _tickIntervalPercent: number = 0;
+  private _tickIntervalPercent = 0;
 
   /** The dimensions of the slider. */
   private _sliderDimensions: ClientRect | null = null;
-
-  private _controlValueAccessorChangeFn: (value: any) => void = () => {
-  }
 
   /** Decimal places to round to, based on the step amount. */
   private _roundToDecimal: number;
@@ -602,6 +597,23 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
   /** The slider thumb which is currently used (left or right) */
   private _currentSliderDir = 'l';
 
+  /** set focus to the host element */
+  focus() {
+    this._focusHostElement();
+  }
+
+  /** blur the host element */
+  blur() {
+    this._blurHostElement();
+  }
+
+  /** onTouch function registered via registerOnTouch (ControlValueAccessor). */
+  onTouched: () => any = () => {
+  }
+
+  private _controlValueAccessorChangeFn: (value: any) => void = () => {
+  }
+
   /**
    * Whether mouse events should be converted to a slider position by calculating their distance
    * from the right or bottom edge of the slider as opposed to the top or left.
@@ -614,18 +626,6 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
   /** The language direction for this slider element. */
   private _getDirection() {
     return (this._dir && this._dir.value == 'rtl') ? 'rtl' : 'ltr';
-  }
-
-  constructor(elementRef: ElementRef,
-              private _focusMonitor: FocusMonitor,
-              private _changeDetectorRef: ChangeDetectorRef,
-              @Optional() private _dir: Directionality,
-              @Attribute('tabindex') tabIndex: string,
-              // @breaking-change 7.0.0 `_animationMode` parameter to be made required.
-              @Optional() @Inject(ANIMATION_MODULE_TYPE) public _animationMode?: string) {
-    super(elementRef);
-
-    this.tabIndex = parseInt(tabIndex) || 0;
   }
 
   ngOnInit() {
@@ -676,9 +676,9 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
     if (!this._sliderDimensions) {
       return;
     }
-    let offset = this.vertical ? this._sliderDimensions.top : this._sliderDimensions.left;
-    let size = this.vertical ? this._sliderDimensions.height : this._sliderDimensions.width;
-    let posComponent = this.vertical ? event.clientY : event.clientX;
+    const offset = this.vertical ? this._sliderDimensions.top : this._sliderDimensions.left;
+    const size = this.vertical ? this._sliderDimensions.height : this._sliderDimensions.width;
+    const posComponent = this.vertical ? event.clientY : event.clientX;
 
     // The exact value is calculated from the event and used to find the closest snap value.
     let percent = Number(this._clamp((posComponent - offset) / size));
@@ -901,9 +901,9 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
       return;
     }
 
-    let offset = this.vertical ? this._sliderDimensions.top : this._sliderDimensions.left;
-    let size = this.vertical ? this._sliderDimensions.height : this._sliderDimensions.width;
-    let posComponent = this.vertical ? pos.y : pos.x;
+    const offset = this.vertical ? this._sliderDimensions.top : this._sliderDimensions.left;
+    const size = this.vertical ? this._sliderDimensions.height : this._sliderDimensions.width;
+    const posComponent = this.vertical ? pos.y : pos.x;
 
     // The exact value is calculated from the event and used to find the closest snap value.
     let percent = Number(this._clamp((posComponent - offset) / size));
@@ -933,7 +933,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
 
       // This calculation finds the closest step by finding the closest
       // whole number divisible by the step relative to the min.
-      let closestValue =
+      const closestValue =
         Math.round((Number(exactValue) - this.min) / this.step) * this.step + this.min;
 
       // The value needs to snap to the min and max.
@@ -954,9 +954,9 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
       return;
     }
 
-    let offset = this.vertical ? this._sliderDimensions.top : this._sliderDimensions.left;
-    let size = this.vertical ? this._sliderDimensions.height : this._sliderDimensions.width;
-    let posComponent = this.vertical ? pos.y : pos.x;
+    const offset = this.vertical ? this._sliderDimensions.top : this._sliderDimensions.left;
+    const size = this.vertical ? this._sliderDimensions.height : this._sliderDimensions.width;
+    const posComponent = this.vertical ? pos.y : pos.x;
 
     // The exact value is calculated from the event and used to find the closest snap value.
     let percent = Number(this._clamp((posComponent - offset) / size));
@@ -986,7 +986,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
 
       // This calculation finds the closest step by finding the closest
       // whole number divisible by the step relative to the min.
-      let closestValue =
+      const closestValue =
         Math.round((Number(exactValue) - this.min) / this.step) * this.step + this.min;
 
       // The value needs to snap to the min and max.
@@ -1020,11 +1020,11 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
     }
 
     if (this.tickInterval == 'auto') {
-      let trackSize = this.vertical ?
+      const trackSize = this.vertical ?
         this._sliderDimensions.height : this._sliderDimensions.width;
-      let pixelsPerStep = trackSize * this.step / (this.max - this.min);
-      let stepsPerTick = Math.ceil(MIN_AUTO_TICK_SEPARATION / pixelsPerStep);
-      let pixelsPerTick = stepsPerTick * this.step;
+      const pixelsPerStep = trackSize * this.step / (this.max - this.min);
+      const stepsPerTick = Math.ceil(MIN_AUTO_TICK_SEPARATION / pixelsPerStep);
+      const pixelsPerTick = stepsPerTick * this.step;
       this._tickIntervalPercent = pixelsPerTick / trackSize;
     } else {
       this._tickIntervalPercent = this.tickInterval * this.step / (this.max - this.min);
@@ -1033,7 +1033,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
 
   /** Creates a slider change object from the specified value. */
   private _createChangeEvent(value = this.value): RangeSliderComponentChange {
-    let event = new RangeSliderComponentChange();
+    const event = new RangeSliderComponentChange();
 
     event.source = this;
     event.value = value;
@@ -1143,9 +1143,9 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
     if (!this._sliderDimensions) {
       return;
     }
-    let offset = this.vertical ? this._sliderDimensions.top : this._sliderDimensions.left;
-    let size = this.vertical ? this._sliderDimensions.height : this._sliderDimensions.width;
-    let posComponent = this.vertical ? event.center.y : event.center.x;
+    const offset = this.vertical ? this._sliderDimensions.top : this._sliderDimensions.left;
+    const size = this.vertical ? this._sliderDimensions.height : this._sliderDimensions.width;
+    const posComponent = this.vertical ? event.center.y : event.center.x;
 
     // The exact value is calculated from the event and used to find the closest snap value.
     let percent = Number(this._clamp((posComponent - offset) / size));

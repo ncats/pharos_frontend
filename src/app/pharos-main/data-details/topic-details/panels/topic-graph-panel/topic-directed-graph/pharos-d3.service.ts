@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import * as d3 from 'd3';
 import {LinkService} from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/link.service';
-import {PharosNodeService} from "./pharos-node.service";
-import {D3Interface} from "../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/d3-interface";
-import {ForceDirectedGraph} from "../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/models/force-directed-graph";
+import {PharosNodeService} from './pharos-node.service';
+import {D3Interface} from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/d3-interface';
+import {ForceDirectedGraph} from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/models/force-directed-graph';
 import { Node } from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/models/node';
 import { Link } from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/models/link';
 
@@ -21,7 +21,7 @@ export class PharosD3Service implements D3Interface {
   ) {}
 
   /** A method to bind a pan and zoom behaviour to an svg element */
-  applyZoomableBehaviour(svgElement: any, containerElement: any): void{
+  applyZoomableBehaviour(svgElement: any, containerElement: any): void {
     let svg, container, zoomed, zoom;
 
     svg = d3.select(svgElement);
@@ -31,9 +31,9 @@ export class PharosD3Service implements D3Interface {
 
     zoomed = () => {
       const transform = d3.event.transform;
-      container.attr("transform", d3.event.transform); // updated for d3 v4
+      container.attr('transform', d3.event.transform); // updated for d3 v4
     };
-    zoom = d3.zoom().on("zoom", zoomed);
+    zoom = d3.zoom().on('zoom', zoomed);
 
      svg
        .call(zoom.transform, transform) // Calls/inits handleZoom
@@ -43,7 +43,7 @@ export class PharosD3Service implements D3Interface {
   /** A method to register clicks on the graph that aren't node or link clicks (resets those behaviors) */
   applyClickOffBehaviour(svgElement) {
     const d3element = d3.select(svgElement);
-    d3element.on('click',  () => { this._clearNodes()});
+    d3element.on('click',  () => { this._clearNodes(); });
   }
 
   /** A method to bind a draggable behaviour to an svg element */
@@ -215,7 +215,7 @@ export class PharosD3Service implements D3Interface {
     };
 
     const getNotNeighborNodes = (e: any): boolean => {
-      if((connectedLinks.data().map(link => link.target.uuid).indexOf(e.uuid) === -1) &&
+      if ((connectedLinks.data().map(link => link.target.uuid).indexOf(e.uuid) === -1) &&
         (connectedLinks.data().map(link => link.source.uuid).indexOf(e.uuid) === -1)) {
         e.showLabel = false;
       }
@@ -226,7 +226,7 @@ export class PharosD3Service implements D3Interface {
 
     const decorateNodes = (): void => {
 
-      //highlight links
+      // highlight links
       connectedLinks = d3.selectAll('.link')
         .data(graph.links)
         .filter(getNeighborLinks)
@@ -304,9 +304,9 @@ export class PharosD3Service implements D3Interface {
       .classed('clicked-neighbor', false)
       .classed('not-related', false)
       .classed('clicked', false);
-  };
+  }
 
-  _manualClick(node: Node, graph: ForceDirectedGraph){
+  _manualClick(node: Node, graph: ForceDirectedGraph) {
     this._clearNodes();
     let connectedLinks;
     let nonConnectedLinks;
@@ -333,7 +333,7 @@ export class PharosD3Service implements D3Interface {
         (connectedLinks.data().map(link => link.source.uuid).indexOf(e.uuid) === -1);
     };
 
-      //highlight links
+      // highlight links
       connectedLinks = d3.selectAll('.link')
         .data(graph.links)
         .filter(getNeighborLinks)
@@ -361,7 +361,7 @@ export class PharosD3Service implements D3Interface {
       .filter(d => d.uuid === node.uuid)
       .classed('clicked-neighbor', true)
       .classed('not-related', false);
-    };
+    }
 
 
   resetZoom() {
@@ -372,10 +372,10 @@ export class PharosD3Service implements D3Interface {
 
 
     const zoomed = () => {
-      container.attr("transform", d3.event.transform); // updated for d3 v4
+      container.attr('transform', d3.event.transform); // updated for d3 v4
     };
 
-   const zoom = d3.zoom().on("zoom", zoomed);
+   const zoom = d3.zoom().on('zoom', zoomed);
 
     svg
       .call(zoom.transform, transform) // Calls/inits handleZoom

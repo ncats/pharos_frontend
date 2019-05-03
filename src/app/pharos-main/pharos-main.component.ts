@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FacetRetrieverService} from './services/facet-retriever.service';
 import {HelpPanelOpenerService} from '../tools/help-panel/services/help-panel-opener.service';
 import {MatDrawer, MatPaginator, MatSidenav} from '@angular/material';
-import {BreakpointObserver} from "@angular/cdk/layout";
+import {BreakpointObserver} from '@angular/cdk/layout';
 
 /**
  *Pharos main component contains:

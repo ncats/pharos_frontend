@@ -27,10 +27,10 @@ import {MatTabChangeEvent} from '@angular/material';
 import {Node} from '../../../tools/visualizations/force-directed-graph/models/node';
 import {Link} from '../../../tools/visualizations/force-directed-graph/models/link';
 import {LinkService} from '../../../tools/visualizations/force-directed-graph/services/event-tracking/link.service';
-import {DataParserService} from "./panels/topic-graph-panel/topic-directed-graph/data-parser.service";
-import {LigandNode} from "../../../models/ligand-node";
-import {TargetNode} from "../../../models/target-node";
-import {PharosProperty} from "../../../models/pharos-property";
+import {DataParserService} from './panels/topic-graph-panel/topic-directed-graph/data-parser.service';
+import {LigandNode} from '../../../models/ligand-node';
+import {TargetNode} from '../../../models/target-node';
+import {PharosProperty} from '../../../models/pharos-property';
 
 interface TopicData {
   target: Target;
@@ -97,7 +97,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
     console.log(this);
     this.dataParserService.loadData().subscribe(res =>  {
     this.allTargets = this.dataParserService.getTargets().map(node => node.target);
-    this.targets = this.allTargets.slice(0,10) as any[];
+    this.targets = this.allTargets.slice(0, 10) as any[];
       this.targetPageData = new PageData({
         top: 10,
         skip: 0,
@@ -412,7 +412,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
                   term: target.name,
                   internalHref: `/targets/${target.accession}`
                 }))
-            }
+            };
           });
 
         this.diseasePageData = new PageData({
@@ -426,7 +426,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
       }
       if ($event.tab.textLabel.split(' ')[0] === 'Targets') {
         this.loading = true;
-        this.targets = this.allTargets.slice(0,10) as any[];
+        this.targets = this.allTargets.slice(0, 10) as any[];
         this.targetPageData = new PageData({
           top: 10,
           skip: 0,

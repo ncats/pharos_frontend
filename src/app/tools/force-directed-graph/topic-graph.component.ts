@@ -1,15 +1,15 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Link} from "./force-directed-graph/graph-component/models/link";
-import {Node} from "./force-directed-graph/graph-component/models/node";
+import {HttpClient} from '@angular/common/http';
+import {Link} from './force-directed-graph/graph-component/models/link';
+import {Node} from './force-directed-graph/graph-component/models/node';
 
-import {GraphDataService} from "./force-directed-graph/graph-component/services/graph-data.service";
-import {DataParserService} from "../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/data-parser.service";
+import {GraphDataService} from './force-directed-graph/graph-component/services/graph-data.service';
+import {DataParserService} from '../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/data-parser.service';
 import {
   PharosD3Service
-} from "../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-d3.service";
-import {LinkService} from "./force-directed-graph/graph-component/services/event-tracking/link.service";
-import {PharosNodeService} from "../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-node.service";
+} from '../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-d3.service';
+import {LinkService} from './force-directed-graph/graph-component/services/event-tracking/link.service';
+import {PharosNodeService} from '../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-node.service';
 
 
 @Component({
@@ -45,7 +45,7 @@ export class TopicGraphComponent<T extends Node> implements OnInit {
    // private nodeService: PharosNodeService,
     private linkService: LinkService,
     private graphDataService: GraphDataService
-  ){}
+  ) {}
 
   ngOnInit() {
     console.log(this);
@@ -54,7 +54,7 @@ export class TopicGraphComponent<T extends Node> implements OnInit {
   console.log(res);
       this.dataMap = this.dataParserService.getData();
       console.log(this.dataMap);
-      this.graphDataService.setGraph(this.dataMap.get('topics'))
+      this.graphDataService.setGraph(this.dataMap.get('topics'));
     });
   }
 
@@ -67,7 +67,7 @@ export class TopicGraphComponent<T extends Node> implements OnInit {
     });*/
   }
 
-  _filterNodes(params: Event): Node[]{
+  _filterNodes(params: Event): Node[] {
     return [];
   /*  const data = params['data'] ? params['data'] : 'nscs';
     let nodes: Protein[] = this.dataMap.get(data).nodes as Protein[];
@@ -118,9 +118,9 @@ export class TopicGraphComponent<T extends Node> implements OnInit {
     }*/
   }
 
-  _filterEdges(params: Event, nodes : T) {
+  _filterEdges(params: Event, nodes: T) {
     const data = params['data'] ? params['data'] : 'nscs';
-    let links: Link[] = this.dataMap.get(data).links as Link[];
+    const links: Link[] = this.dataMap.get(data).links as Link[];
     /*const currentNodes = nodes.map(node => node.uuid);
     links = links.filter(link => {
       const source: string = link.getSourceId();

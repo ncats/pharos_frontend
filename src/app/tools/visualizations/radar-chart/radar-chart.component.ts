@@ -258,9 +258,9 @@ export class RadarChartComponent implements OnInit, OnDestroy {
 
   getMaxValue(): number {
     const maxValues: number[] = [this._chartOptions.maxValue];
-    if(this.data) {
+    if (this.data) {
       this.data.map(data => {
-        maxValues.push(Math.max(...data.axes.map(o => o.value)))
+        maxValues.push(Math.max(...data.axes.map(o => o.value)));
       });
       return Math.max(...maxValues);
     } else {
@@ -279,7 +279,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
   }
 
   drawChart(): void {
-    if(!this._chartOptions) {
+    if (!this._chartOptions) {
       this.getOptions();
     }
     //////////// Create the container SVG and g /////////////
@@ -340,7 +340,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
         const y = text.attr('y');
         const x = text.attr('x');
         const dy = parseFloat(text.attr('dy'));
-        let tspan = text.text(null).append('tspan').attr('class','radar-label').attr('x', x).attr('y', y).attr('dy', dy + 'em');
+        let tspan = text.text(null).append('tspan').attr('class', 'radar-label').attr('x', x).attr('y', y).attr('dy', dy + 'em');
 
         while (word = words.pop()) {
 
@@ -350,7 +350,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
             line.pop();
             tspan.text(line.join(' '));
             line = [word];
-            tspan = text.append('tspan').attr('class','radar-label').attr('x', x).attr('y', y).attr('dy', ++lineNumber * lineHeight + dy + 'em').text(word);
+            tspan = text.append('tspan').attr('class', 'radar-label').attr('x', x).attr('y', y).attr('dy', ++lineNumber * lineHeight + dy + 'em').text(word);
           }
         }
       });
@@ -396,7 +396,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
         .attr('r', d => Math.abs(radius / this._chartOptions.levels * d))
         .style('fill', '#F3F3F3')
         .style('stroke', '#CDCDCD')
-        .style('fill-opacity', this._chartOptions.opacityCircles)
+        .style('fill-opacity', this._chartOptions.opacityCircles);
      //   .style('filter', 'url(#glow)');
     }
 
@@ -441,20 +441,20 @@ export class RadarChartComponent implements OnInit, OnDestroy {
         .attr('dy', '0.35em')
         .attr('x', (d, i) => {
           if (i % 2 === 1) {
-          return rScale(maxValue)* cos(angleSlice * i - HALF_PI)
-      }else {
-            return rScale(maxValue * this._chartOptions.labelFactor) * cos(angleSlice * i - HALF_PI)
+          return rScale(maxValue) * cos(angleSlice * i - HALF_PI);
+      } else {
+            return rScale(maxValue * this._chartOptions.labelFactor) * cos(angleSlice * i - HALF_PI);
           }
         })
         .attr('y', (d, i) => {
           if (i % 2 === 1) {
-          return rScale(maxValue)* sin(angleSlice * i - HALF_PI)
-      }else {
-            return rScale(maxValue * this._chartOptions.labelFactor) * sin(angleSlice * i - HALF_PI)
+          return rScale(maxValue) * sin(angleSlice * i - HALF_PI);
+      } else {
+            return rScale(maxValue * this._chartOptions.labelFactor) * sin(angleSlice * i - HALF_PI);
           }
         })
         .text(d => d)
-        .call(wrap, this._chartOptions.wrapWidth)
+        .call(wrap, this._chartOptions.wrapWidth);
     }
 
     /////////////////////////////////////////////////////////
@@ -510,7 +510,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
       })
       .style('stroke-width', this._chartOptions.strokeWidth + 'px')
       .style('stroke', (d, i) => this._chartOptions.color(i))
-      .style('fill', 'none')
+      .style('fill', 'none');
      // .style('filter', 'url(#glow)');
 
     // Append the circles

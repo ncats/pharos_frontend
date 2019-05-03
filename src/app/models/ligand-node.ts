@@ -1,20 +1,5 @@
 
-import {Node, NodeSerializer} from "../tools/force-directed-graph/force-directed-graph/graph-component/models/node";
-
-export class LigandNodeSerializer implements NodeSerializer {
-  fromJson (obj: any, id?: string): LigandNode {
-    const node = new LigandNode();
-    Object.entries((obj)).forEach((prop) => node[prop[0]] = prop[1]);
-    return node;
-  }
-
-  toJson(){}
-
-  mergeNodes(node: LigandNode, data: any): LigandNode {
-    Object.entries((data)).forEach((prop) => node[prop[0]] = prop[1]);
-    return node;
-  }
-}
+import {Node, NodeSerializer} from '../tools/force-directed-graph/force-directed-graph/graph-component/models/node';
 
 export class LigandNode extends Node {
   type = 'ligand';
@@ -31,3 +16,19 @@ export class LigandNode extends Node {
   IC50: number;
   IDG_Ligand: number;
 }
+
+export class LigandNodeSerializer implements NodeSerializer {
+  fromJson (obj: any, id?: string): LigandNode {
+    const node = new LigandNode();
+    Object.entries((obj)).forEach((prop) => node[prop[0]] = prop[1]);
+    return node;
+  }
+
+  toJson() {}
+
+  mergeNodes(node: LigandNode, data: any): LigandNode {
+    Object.entries((data)).forEach((prop) => node[prop[0]] = prop[1]);
+    return node;
+  }
+}
+

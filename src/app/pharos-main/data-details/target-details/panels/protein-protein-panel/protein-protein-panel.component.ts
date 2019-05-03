@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {takeUntil} from "rxjs/operators";
+import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {HttpClient} from "@angular/common/http";
-import {Target} from "../../../../../../app/models/target";
-import {PageData} from "../../../../../../app/models/page-data";
-import {map, zipAll} from "rxjs/operators";
-import {from} from "rxjs/index";
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
+import {HttpClient} from '@angular/common/http';
+import {Target} from '../../../../../../app/models/target';
+import {PageData} from '../../../../../../app/models/page-data';
+import {map, zipAll} from 'rxjs/operators';
+import {from} from 'rxjs/index';
+import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 
 @Component({
   selector: 'pharos-protein-protein-panel',
@@ -34,13 +34,13 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
       )
       .subscribe(x => {
         this.targets = [];
-       if(this.data.interactions && this.data.interactions.content.length > 0 ){
+       if (this.data.interactions && this.data.interactions.content.length > 0 ) {
          this.ngUnsubscribe.next();
          from(this.data.interactions.content[0].objects.map(obj => {
-           return this.http.get<Target>(obj.href)
+           return this.http.get<Target>(obj.href);
          })).pipe(
            zipAll()
-         ).subscribe(res=> {
+         ).subscribe(res => {
            this.allTargets = res as Target[];
            this.targetPageData = new PageData({
              top: 10,

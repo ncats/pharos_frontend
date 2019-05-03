@@ -1,4 +1,4 @@
-export interface NodeMappingInterface <T>{
+export interface NodeMappingInterface <T> {
   /**
    * map of all nodes all changes are saved here
    * @type {Map<any, any>}

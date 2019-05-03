@@ -1,10 +1,10 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {Target} from "../../../../../models/target";
-import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
-import {MatDialog} from "@angular/material";
-import {takeUntil} from "rxjs/operators";
-import {HttpClient} from "@angular/common/http";
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
+import {Target} from '../../../../../models/target';
+import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {MatDialog} from '@angular/material';
+import {takeUntil} from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
+import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 
 @Component({
   selector: 'pharos-level-summary',

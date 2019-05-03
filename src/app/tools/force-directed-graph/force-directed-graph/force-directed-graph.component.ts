@@ -2,11 +2,11 @@ import {
   AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Input,
   OnInit
 } from '@angular/core';
-import {Link} from "./graph-component/models/link";
-import {Node} from "./graph-component/models/node";
-import {ForceDirectedGraph} from "./graph-component/models/force-directed-graph";
-import {PharosD3Service} from "../../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-d3.service";
-import {GraphDataService} from "./graph-component/services/graph-data.service";
+import {Link} from './graph-component/models/link';
+import {Node} from './graph-component/models/node';
+import {ForceDirectedGraph} from './graph-component/models/force-directed-graph';
+import {PharosD3Service} from '../../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-d3.service';
+import {GraphDataService} from './graph-component/services/graph-data.service';
 import * as d3 from 'd3';
 
 /**

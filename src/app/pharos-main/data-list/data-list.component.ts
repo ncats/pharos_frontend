@@ -68,7 +68,7 @@ export class DataListComponent implements OnInit, OnDestroy {
     this.responseParserService.tableData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-        if(res.content) {
+        if (res.content) {
           this.componentHost.viewContainerRef.clear();
           res.content.forEach(dataList => {
             const components: any = this.componentLookup.lookupByPath(dataList.kind, 'list');

@@ -1,6 +1,6 @@
 import {InjectionToken} from '@angular/core';
 
-export class _ARTICLES {
+export class ARTICLES {
   /**
    * injection token to link to illumination graph description article
    */

@@ -75,9 +75,9 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
             this.ligandsDataSource.data = ligandsArr;
           }
           let activity: any[] = [];
-          let refid: string = '';
+          let refid = '';
 
-          if(ligand.links) {
+          if (ligand.links) {
              activity = ligand.links.filter(link => link.kind === 'ix.idg.models.Target').map(target => this._getActivity(target));
              refid = ligand.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;
           }
@@ -98,8 +98,8 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   private _getActivity(ligand: any): any {
-    let otherActivity = [];
-    let ret: any[] = [];
+    const otherActivity = [];
+    const ret: any[] = [];
     const na = {label: 'N/A', numval: ''};
     ligand.properties.filter(prop => {
       if (prop.label === 'Ligand Activity') {

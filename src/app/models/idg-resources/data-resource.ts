@@ -1,4 +1,4 @@
-import {BaseResource, Repository} from "./base-resource";
+import {BaseResource, Repository} from './base-resource';
 
 export class DataResource extends BaseResource {
   /**
@@ -9,7 +9,7 @@ export class DataResource extends BaseResource {
   /**
    * Identifier as registered by a repository (e.g. GEO ID, PubChem AID, Synpase ID, etc.)
    */
-  datasetID: string; //todo: can there be multiple?
+  datasetID: string; // todo: can there be multiple?
 
   /**
    * Date when the data was publicly released (to the external repository)

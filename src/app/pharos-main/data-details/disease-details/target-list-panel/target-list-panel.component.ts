@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 
-import {PharosProperty} from "../../../../models/pharos-property";
+import {PharosProperty} from '../../../../models/pharos-property';
 
 @Component({
   selector: 'pharos-target-list-panel',

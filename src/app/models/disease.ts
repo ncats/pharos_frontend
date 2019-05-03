@@ -1,6 +1,19 @@
 import {PharosBase, PharosSerializer, PharosSubList} from './pharos-base';
 import {PharosProperty} from './pharos-property';
 
+export class Disease extends PharosBase {
+  name: string;
+  description: string;
+  _links: PharosSubList;
+  _linksCount: number;
+  _properties: PharosSubList;
+  _propertiesCount: number;
+  _synonyms: PharosSubList;
+  _synonymsCount: number;
+  _publications: PharosSubList;
+  _publicationsCount: number;
+}
+
 export class DiseaseSerializer implements PharosSerializer {
 
   constructor () {}
@@ -41,15 +54,3 @@ export class DiseaseSerializer implements PharosSerializer {
   }
 }
 
-export class Disease extends PharosBase {
-  name: string;
-  description: string;
-  _links: PharosSubList;
-  _linksCount: number;
-  _properties: PharosSubList;
-  _propertiesCount: number;
-  _synonyms: PharosSubList;
-  _synonymsCount: number;
-  _publications: PharosSubList;
-  _publicationsCount: number;
-}
