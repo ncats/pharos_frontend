@@ -170,7 +170,7 @@ export class PharosApiService {
               content: [{kind: path, data: {content: topics}}],
               facets: []
             });
-        })
+        });
       } else {
         const url = this._mapParams(path, params);
         this.http.get<any>(url)

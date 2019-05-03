@@ -12,7 +12,7 @@ export class DataProperty {
   width?: number;
   customComponent?: any;
 
-  constructor(obj?: any){
+  constructor(obj?: any) {
     Object.entries((obj)).forEach((prop) => this[prop[0]] = prop[1]);
   }
 }

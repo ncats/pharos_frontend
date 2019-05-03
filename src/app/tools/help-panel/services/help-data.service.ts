@@ -1,7 +1,7 @@
 import {Injectable, Input} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/index';
 import {ResponseParserService} from '../../../pharos-services/response-parser.service';
-import {DESCRIPTIONS} from "../../../../environments/descriptions";
+import {DESCRIPTIONS} from '../../../../environments/descriptions';
 
 @Injectable({
   providedIn: 'root'
@@ -62,33 +62,14 @@ export class HelpDataService {
     this.responseParserService.detailsData$
       .subscribe(res => this.data = res);
   }
-
-/*  fetchData() {
-    this._helpDataSource.next(this.data[this.field]);
-  }*/
-
   setOrigin(field: string): void {
     this.field = field;
     this._helpDescriptionSource.next(this.sourcesMap.get(field));
     this._helpDataSource.next(this.data[this.field]);
   }
 
-/*  setLabel(field: string): void {
-    this.label = field;
-  }*/
 
   setSources(field: string, sources: any): void {
-    this.sourcesMap.set(field, sources)
+    this.sourcesMap.set(field, sources);
   }
-
-/*  getSources(field: string) {
-    console.log(this.sourcesMap);
-    this._helpDescriptionSource.next(this.sourcesMap.get(field));
-  }
-
-
-  // todo: probably not used
-  fetchDescription() {
-// return this.sourcesMap.get(field)
-  }*/
 }

@@ -26,13 +26,13 @@ export class ProteinStructureViewerComponent implements OnInit {
     );
 */
 
-    const stage = new NGL.Stage( this.viewerContainer.nativeElement, {backgroundColor: "white"});
+    const stage = new NGL.Stage( this.viewerContainer.nativeElement, {backgroundColor: 'white'});
     // Handle window resizing
-    window.addEventListener( "resize", function( event ){
+    window.addEventListener( 'resize', function( event ) {
       stage.handleResize();
     }, false );
     stage.loadFile(`rcsb://${this.pdbid}`, { defaultRepresentation: true } ).then(component => {
-    })
+    });
   }
 
 }

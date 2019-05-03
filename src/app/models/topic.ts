@@ -1,5 +1,5 @@
 import {PharosBase, Serializer} from './pharos-base';
-import {PharosProperty} from "./pharos-property";
+import {PharosProperty} from './pharos-property';
 
 export class TopicSerializer implements Serializer {
 
@@ -32,7 +32,7 @@ export class Topic extends PharosBase {
 name: string;
 description: string;
 class: string;
-kind?: string = 'ix.idg.models.Topic';
+kind = 'ix.idg.models.Topic';
 targetCt?: any;
 diseaseCt?: any;
 ligandCt?: any;

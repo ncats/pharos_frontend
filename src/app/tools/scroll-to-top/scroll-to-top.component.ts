@@ -1,6 +1,6 @@
 import {Component, HostListener, Inject, OnInit} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 /**
  * Component that contains a ui button that appears after scrolling past the top menu, on click, it scrolls the user back

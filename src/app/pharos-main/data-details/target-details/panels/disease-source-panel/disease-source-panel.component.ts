@@ -164,11 +164,9 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
   }
 
   sort(event){
-    console.log(event);
   }
 
   paginate(event){
-    console.log(event);
   }
 }
 

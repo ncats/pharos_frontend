@@ -35,7 +35,7 @@ export class DynamicPanelComponent {
    */
   @Input()
   set data(value: any) {
-    if(value.data){
+    if (value.data) {
       this._data.next(value.data);
     } else {
       this._data.next(value);

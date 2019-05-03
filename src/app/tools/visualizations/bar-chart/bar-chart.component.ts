@@ -65,7 +65,7 @@ export class BarChartComponent implements OnInit {
       .attr('height', this.height + this.margin.top + this.margin.bottom)
       .append('svg:g')
       .attr('id', 'group')
-      .attr('class', 'bar-container')
+      .attr('class', 'bar-container');
 
     // Add the X Axis
     this.svg.append('g')

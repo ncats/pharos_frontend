@@ -46,7 +46,6 @@ export class DataListComponent implements OnInit, OnDestroy {
               private componentInjectorService: ComponentInjectorService) {}
 
 
-  // todo may need to convert this to use the same pattern as target details component - get a list of components
   // todo: (targets, diseases, etc) and call each api. This turns search into multiple separate calls/components, and leaves
   // todo: pagins/filtering as single components
 

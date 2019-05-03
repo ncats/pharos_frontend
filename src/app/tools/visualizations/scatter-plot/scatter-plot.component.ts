@@ -7,7 +7,7 @@ import * as d3 from 'd3';
 import {SelectionModel} from '@angular/cdk/collections';
 import {ScatterOptions} from './models/scatter-options';
 import {ScatterPoint} from './models/scatter-point';
-import {PharosPoint} from "../../../models/pharos-point";
+import {PharosPoint} from '../../../models/pharos-point';
 
 @Component({
   selector: 'pharos-scatter-plot',
@@ -146,12 +146,12 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getScale(type: string, axis: string) {
-    let range: any[] = [];
-    if (axis ==='x') {
+    const range: any[] = [];
+    if (axis === 'x') {
       range[0] = 0;
       range[1] = this.width;
     }
-    if (axis ==='y') {
+    if (axis === 'y') {
       range[0] = this.height;
       range[1] = 0;
     }
@@ -190,7 +190,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     this.x = this.getScale(this._chartOptions.xAxisScale, 'x');
     this.y = this.getScale(this._chartOptions.yAxisScale, 'y');
 
-    if(this._chartOptions.line) {
+    if (this._chartOptions.line) {
       this.line = d3.line()
         .x((d: PharosPoint) => this.x(+d.x))
         .y((d: PharosPoint) => this.y(+d.y));
@@ -202,7 +202,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       .extent([[-this._chartOptions.margin.left, -this._chartOptions.margin.top],
         [this.width + this._chartOptions.margin.right, this.height + this._chartOptions.margin.bottom]]);
 
-    if(this._chartOptions.xAxisScale === 'year') {
+    if (this._chartOptions.xAxisScale === 'year') {
       this.x.domain(
         d3.extent(d3.merge(this.displayData).map(d =>  new Date(d.x, 0))));
     } else {
@@ -211,7 +211,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       ).nice();
     }
 
-    if(this._chartOptions.yAxisScale === 'year') {
+    if (this._chartOptions.yAxisScale === 'year') {
       this.y.domain(
         d3.extent(d3.merge(this.displayData).map(d =>  new Date(d.y, 0))));
     } else {
@@ -225,9 +225,9 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       .tickSize(-this.height)
       .tickPadding(10);
 
-    if(this._chartOptions.xAxisScale === 'year') {
+    if (this._chartOptions.xAxisScale === 'year') {
      xAxis = d3.axisBottom(this.x).ticks(d3.timeYear.every(1)).tickSize(-this.height)
-       .tickPadding(10).tickFormat(d3.timeFormat("%Y"))
+       .tickPadding(10).tickFormat(d3.timeFormat('%Y'));
     }
 
     const yAxis = d3.axisRight(this.y)
@@ -317,7 +317,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       gY.call(yAxis.scale(yt));
 
 
-      if(this._chartOptions.line) {
+      if (this._chartOptions.line) {
         this.line = d3.line()
           .x((d: PharosPoint) => xt(d.x))
           .y((d: PharosPoint) => yt(d.y));
@@ -357,7 +357,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
 
   setData() {
 
-    if (this._chartOptions.xAxisScale ==='year' ) {
+    if (this._chartOptions.xAxisScale === 'year' ) {
       d3.merge(this.displayData).map( d => {
         d.x = new Date(d.x, 0);
         return d;
@@ -398,7 +398,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
 
   updateData(): void {
 
-    if (this._chartOptions.xAxisScale ==='year' ) {
+    if (this._chartOptions.xAxisScale === 'year' ) {
       d3.merge(this.displayData).map( d => {
 
         d.x = new Date(d.x, 0);
@@ -482,8 +482,8 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       .duration(100)
       .style('opacity', .9);
     let span = '';
-    const x = this._chartOptions.xAxisScale ==='year' ? data.x.getFullYear() : data.x;
-    const y = this._chartOptions.yAxisScale ==='year' ? data.y.getFullYear() : data.y;
+    const x = this._chartOptions.xAxisScale === 'year' ? data.x.getFullYear() : data.x;
+    const y = this._chartOptions.yAxisScale === 'year' ? data.y.getFullYear() : data.y;
     if (data.label) {
       span = `<div class="tooltip">
               <span class="tooltip-label">${data.label}</span>:&nbsp; ${data.name}<br>

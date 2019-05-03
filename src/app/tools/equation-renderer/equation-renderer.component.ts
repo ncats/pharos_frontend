@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {KatexRenderService} from "./services/katex-render.service";
+import {KatexRenderService} from './services/katex-render.service';
 import * as katex from 'katex';
 
 @Component({

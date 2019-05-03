@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
-import {DynamicPanelComponent} from "../dynamic-panel/dynamic-panel.component";
-import {PageData} from "../../models/page-data";
-import {PharosProperty} from "../../models/pharos-property";
+import {DynamicPanelComponent} from '../dynamic-panel/dynamic-panel.component';
+import {PageData} from '../../models/page-data';
+import {PharosProperty} from '../../models/pharos-property';
 
 @Component({
   template: ''

@@ -14,7 +14,7 @@ import {ComponentPortal} from '@angular/cdk/portal';
 import {PageData} from './models/page-data';
 import {MatPaginator, MatRow, MatSort, MatTableDataSource, Sort} from '@angular/material';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {DataProperty} from "./components/property-display/data-property";
+import {DataProperty} from './components/property-display/data-property';
 
 @Component({
   selector: 'pharos-generic-table',

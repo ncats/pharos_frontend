@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import * as d3 from 'd3';
 import {BehaviorSubject} from 'rxjs/index';
-import {PharosPoint} from "../../../models/pharos-point";
+import {PharosPoint} from '../../../models/pharos-point';
 
 
 /**
@@ -280,9 +280,6 @@ getYAxis(scale: string): any {
       .style('fill', 'none')
       .style('pointer-events', 'all')
       .on('mouseover', (data, i, circles) => {
-        // console.log(circles);
-        // console.log(this.svg.selectAll('.linePoints')[i].nodes());
-        // this.svg.selectAll('.linePoints').node()[i].classed('hovered', true);
         const d = data.data;
         this.tooltip
           .transition()

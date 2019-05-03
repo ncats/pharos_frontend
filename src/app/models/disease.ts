@@ -1,5 +1,5 @@
 import {PharosBase, PharosSerializer, PharosSubList} from './pharos-base';
-import {PharosProperty} from "./pharos-property";
+import {PharosProperty} from './pharos-property';
 
 export class DiseaseSerializer implements PharosSerializer {
 

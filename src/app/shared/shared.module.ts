@@ -26,21 +26,21 @@ import {HelpDataService} from '../tools/help-panel/services/help-data.service';
 import {HelpPanelOpenerService} from '../tools/help-panel/services/help-panel-opener.service';
 import {NgxJsonViewerModule} from 'ngx-json-viewer';
 import {KnowledgeTableComponent} from '../tools/knowledge-table/knowledge-table.component';
-import {ProteinStructureViewerComponent} from "../tools/protein-structure-viewer/protein-structure-viewer.component";
-import {EquationRendererComponent} from "../tools/equation-renderer/equation-renderer.component";
-import {ScrollspyDirective} from "../tools/sidenav-panel/directives/scrollspy.directive";
-import {GenericTableModule} from "../tools/generic-table/generic-table.module";
-import {HelpArticlesModule} from "./help-articles.module";
-import {LinkVisualComponent} from "../tools/visualizations/force-directed-graph/components/shared/link-visual/link-visual.component";
-import {HoverableNodeDirective} from "../tools/visualizations/force-directed-graph/directives/hoverable-node.directive";
-import {HoverableLinkDirective} from "../tools/visualizations/force-directed-graph/directives/hoverable-link.directive";
-import {DraggableDirective} from "../tools/visualizations/force-directed-graph/directives/draggable.directive";
-import {ClickableNodeDirective} from "../tools/visualizations/force-directed-graph/directives/clickable-node.directive";
-import {ClickableLinkDirective} from "../tools/visualizations/force-directed-graph/directives/clickable-link.directive";
-import {NodeVisualComponent} from "../tools/visualizations/force-directed-graph/components/shared/node-visual/node-visual.component";
-import {ZoomableDirective} from "../tools/visualizations/force-directed-graph/directives/zoomable.directive";
-import {ScatterPlotComponent} from "../tools/visualizations/scatter-plot/scatter-plot.component";
-import {LineChartComponent} from "../tools/visualizations/line-chart/line-chart.component";
+import {ProteinStructureViewerComponent} from '../tools/protein-structure-viewer/protein-structure-viewer.component';
+import {EquationRendererComponent} from '../tools/equation-renderer/equation-renderer.component';
+import {ScrollspyDirective} from '../tools/sidenav-panel/directives/scrollspy.directive';
+import {GenericTableModule} from '../tools/generic-table/generic-table.module';
+import {HelpArticlesModule} from './help-articles.module';
+import {LinkVisualComponent} from '../tools/visualizations/force-directed-graph/components/shared/link-visual/link-visual.component';
+import {HoverableNodeDirective} from '../tools/visualizations/force-directed-graph/directives/hoverable-node.directive';
+import {HoverableLinkDirective} from '../tools/visualizations/force-directed-graph/directives/hoverable-link.directive';
+import {DraggableDirective} from '../tools/visualizations/force-directed-graph/directives/draggable.directive';
+import {ClickableNodeDirective} from '../tools/visualizations/force-directed-graph/directives/clickable-node.directive';
+import {ClickableLinkDirective} from '../tools/visualizations/force-directed-graph/directives/clickable-link.directive';
+import {NodeVisualComponent} from '../tools/visualizations/force-directed-graph/components/shared/node-visual/node-visual.component';
+import {ZoomableDirective} from '../tools/visualizations/force-directed-graph/directives/zoomable.directive';
+import {ScatterPlotComponent} from '../tools/visualizations/scatter-plot/scatter-plot.component';
+import {LineChartComponent} from '../tools/visualizations/line-chart/line-chart.component';
 
 
 @NgModule({

@@ -10,6 +10,7 @@ import {takeUntil} from 'rxjs/operators';
 import {DiseaseRelevanceSerializer} from "../../../../../models/disease-relevance";
 import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 import {RadarChartComponent} from "../../../../../tools/visualizations/radar-chart/radar-chart.component";
+import {AnatamogramHoverService} from "../../../../../tools/anatamogram/anatamogram-hover.service";
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 @Component({
@@ -138,7 +139,8 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   selectedTab: string;
 
   constructor(private navSectionsService: NavSectionsService,
-              private environmentVariablesService: EnvironmentVariablesService) {
+              private environmentVariablesService: EnvironmentVariablesService,
+              private anatamogramHoverService: AnatamogramHoverService) {
     super();
   }
 
@@ -241,6 +243,10 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   drawRadar(change: MatTabChangeEvent) {
     this.selectedTab = change.tab.textLabel;
 
+  }
+
+  setHover(tissue?: string) {
+    this.anatamogramHoverService.setTissue(tissue);
   }
 
   doneAnimating() {

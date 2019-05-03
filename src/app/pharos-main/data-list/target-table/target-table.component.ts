@@ -5,8 +5,9 @@ import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.
 import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../models/page-data';
 import {BatchUploadModalComponent} from "../../../tools/batch-upload-modal/batch-upload-modal.component";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {BreakpointObserver} from "@angular/cdk/layout";
+import {environment} from "../../../../environments/environment.prod";
 
 @Component({
   selector: 'pharos-target-table',
@@ -75,14 +76,14 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
       }
     );
     dialogRef.afterClosed().subscribe(result => {
-      this.http.post('/targets/resolve', result).subscribe(res => {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type':  'text/plain',
+        })
+      };
+      this.http.post(`https://pharos.ncats.io/app/api/v1/batchResolve`, result, httpOptions).subscribe(res => {
         console.log(res);
       })
-
-      /*   this.http.post(`${environment.apiUrl}targets/resolve`, result, httpOptions).subscribe(res => {
-        console.log(res);
-      })*/
-    //  this.animal = result;
     });
   }
 

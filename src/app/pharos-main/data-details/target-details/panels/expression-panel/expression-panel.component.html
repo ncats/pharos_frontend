@@ -30,6 +30,8 @@
           <mat-tab-group (selectedTabChange)="changeHarminogramTabData($event)" [dynamicHeight]="true">
             <mat-tab *ngFor="let source of sourceList" label = "{{source.label}} ({{getSourceCount(source.label)}})"  >
                     <pharos-link-list [list]= hgData [label]=source.label></pharos-link-list>
+              <div *ngFor ="let tissue of tissues" (mouseover)="setHover(tissue)" (mouseout)="setHover()">{{tissue}}</div>
+
             </mat-tab>
           </mat-tab-group>
       </div>

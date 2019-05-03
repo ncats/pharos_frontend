@@ -1,4 +1,4 @@
-import {ScatterPoint} from "../tools/visualizations/scatter-plot/models/scatter-point";
+import {ScatterPoint} from '../tools/visualizations/scatter-plot/models/scatter-point';
 
 export class PharosPoint implements ScatterPoint {
 
@@ -31,7 +31,7 @@ export class PharosPoint implements ScatterPoint {
    *
    * @param data
    */
-  constructor(data: any){
+  constructor(data: any) {
     Object.entries((data)).forEach((prop) => this[prop[0]] = prop[1]);
     this.id = this.name ? data.name.replace(/ /g, '-').toLowerCase() :
       `pharos-${this.x.toFixed(0).toString()}-${this.y.toFixed(0).toString()}`;

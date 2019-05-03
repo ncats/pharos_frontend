@@ -4,9 +4,9 @@ import {
 } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {HelpDataService} from './services/help-data.service';
-import {ComponentInjectorService} from "../../pharos-services/component-injector.service";
-import {CustomContentDirective} from "../custom-content.directive";
-import {CdkPortal, CdkPortalOutlet, ComponentPortal, Portal} from "@angular/cdk/portal";
+import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
+import {CustomContentDirective} from '../custom-content.directive';
+import {CdkPortal, CdkPortalOutlet, ComponentPortal, Portal} from '@angular/cdk/portal';
 
 /**
  * component to hold help information

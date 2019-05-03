@@ -3,7 +3,7 @@
       <div class = mat-display-1 *ngIf="showLabel">Targets <span *ngIf ="pageData">({{pageData.total}})</span>
       </div>
     <div fxFlex></div>
-<!--    <div fxFlex = "5">
+    <div fxFlex = "5">
       <button mat-icon-button [matMenuTriggerFor]="appMenu"><mat-icon>apps</mat-icon></button>
       <mat-menu #appMenu="matMenu">
         <button mat-menu-item (click)="batchUpload()"><mat-icon>create</mat-icon>Upload Target List</button>
@@ -19,7 +19,7 @@
         <button mat-menu-item><mat-icon>save_alt</mat-icon>Save Query</button>
         <button mat-menu-item><mat-icon>info</mat-icon>Help</button>
       </mat-menu>
-    </div>-->
+    </div>
   </mat-toolbar>
 <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row target-table">
   <div fxFlex="45" fxLayoutAlign.lt-sm="center">

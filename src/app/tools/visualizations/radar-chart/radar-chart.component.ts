@@ -219,9 +219,6 @@ export class RadarChartComponent implements OnInit, OnDestroy {
         this.drawChart();
         this.data.forEach(graph => {
           if (graph) {
-           // this.radarDataService.setData(graph.className, graph, this.origin);
-          //  console.log("graph subscription");
-          //  this.drawChart();
             this.updateChart();
           }
         });
@@ -262,7 +259,6 @@ export class RadarChartComponent implements OnInit, OnDestroy {
   getMaxValue(): number {
     const maxValues: number[] = [this._chartOptions.maxValue];
     if(this.data) {
-    //  console.log(this.data);
       this.data.map(data => {
         maxValues.push(Math.max(...data.axes.map(o => o.value)))
       });

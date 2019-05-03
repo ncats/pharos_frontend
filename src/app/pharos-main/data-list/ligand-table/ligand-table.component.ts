@@ -74,21 +74,26 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
             ligandsArr.push(mappedLig);
             this.ligandsDataSource.data = ligandsArr;
           }
-      const activity: any = ligand.links.filter(link => link.kind==='ix.idg.models.Target').map(target => this._getActivity(target));
-      const refid: string = ligand.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;
-          const newLigand = {
-            name: ligand.name,
-            refid: refid,
-            activities: activity,
-            imageUrl: ligand.image ? ligand.image : this._STRUCTUREURLBASE + refid + '.svg?size=250'
-          };
+          let activity: any[] = [];
+          let refid: string = '';
 
-          if (ligand.target) {
-            newLigand['target'] = ligand.target;
+          if(ligand.links) {
+             activity = ligand.links.filter(link => link.kind === 'ix.idg.models.Target').map(target => this._getActivity(target));
+             refid = ligand.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;
           }
-          this.ligandsMap.set(ligand.id, newLigand);
-          ligandsArr.push(newLigand);
-          this.ligandsDataSource.data = ligandsArr;
+            const newLigand = {
+              name: ligand.name,
+              refid: refid,
+              activities: activity,
+              imageUrl: ligand.image ? ligand.image : this._STRUCTUREURLBASE + refid + '.svg?size=250'
+            };
+
+            if (ligand.target) {
+              newLigand['target'] = ligand.target;
+            }
+            this.ligandsMap.set(ligand.id, newLigand);
+            ligandsArr.push(newLigand);
+            this.ligandsDataSource.data = ligandsArr;
         });
   }
 

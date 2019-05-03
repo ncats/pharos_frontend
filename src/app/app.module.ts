@@ -26,9 +26,9 @@ import { SequenceSearchPageComponent } from './sequence-search-page/sequence-sea
 import {SketcherComponent} from './tools/marvin-sketcher/sketcher.component';
 import {StructureSetterService} from './tools/marvin-sketcher/services/structure-setter.service';
 import {MolConverterService} from './tools/marvin-sketcher/services/mol-converter.service';
-import {AngularFireModule} from "@angular/fire";
-import {AngularFirestoreModule} from "@angular/fire/firestore";
-import {AngularFireAuthModule} from "@angular/fire/auth";
+import {AngularFireModule} from '@angular/fire';
+import {AngularFirestoreModule} from '@angular/fire/firestore';
+import {AngularFireAuthModule} from '@angular/fire/auth';
 import { DynamicTablePanelComponent } from './tools/dynamic-table-panel/dynamic-table-panel.component';
 import { AnatamogramComponent } from './tools/anatamogram/anatamogram.component';
 

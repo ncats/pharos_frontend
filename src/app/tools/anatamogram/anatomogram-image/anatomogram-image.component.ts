@@ -15,6 +15,7 @@ export class AnatomogramImageComponent implements OnInit {
   imageUrl: string;
   zoom;
   svg;
+  hovered: string;
 
   constructor() {
   }
@@ -26,45 +27,61 @@ export class AnatomogramImageComponent implements OnInit {
       this.svg = d3.select('#anatamogram');
 
       const zoom = () => {
-        this.svg.select('#anatamogram-holder').attr("transform", d3.event.transform);
+        this.svg.select('#anatamogram-holder').attr('transform', d3.event.transform);
       };
 
-        this.zoom = d3.zoom()
-          .scaleExtent([1, 8])
-          .on('zoom', zoom);
+      this.zoom = d3.zoom()
+        .scaleExtent([1, 8])
+        .on('zoom', zoom);
 
-      this.tissues.forEach(tissue =>  d3.select(`#${tissue}`).selectAll('path')
-           .on('mouseover', (d, i , f ) => d3.select(f[i].parentNode).selectAll('path')
-               .style('stroke', 'rgba(255, 178, 89, 1')
-               .style('stroke-width', '.5')
-               .style('fill', 'rgba(255, 178, 89, 1')
-           )
-
-           .on('mouseout', (d, i , f) => d3.select(f[i].parentNode).selectAll('path')
-             .style('stroke', 'rgba(35, 54, 78, .7')
-             .style('stroke-width', '.5')
-             .style('fill', 'rgba(35, 54, 78, .7'))
-             .style('stroke', 'rgba(35, 54, 78, .7')
-
+      this.tissues.forEach(tissue => d3.select(`#${tissue}`).selectAll('path')
+        .on('mouseover', (d, i, f) => d3.select(f[i].parentNode).selectAll('path')
+          .style('stroke', 'rgba(255, 178, 89, 1')
           .style('stroke-width', '.5')
-          .style('fill', 'rgba(35, 54, 78, .7'));
+          .style('fill', 'rgba(255, 178, 89, 1')
+        )
+
+        .on('mouseout', (d, i, f) => d3.select(f[i].parentNode).selectAll('path')
+          .style('stroke', 'rgba(35, 54, 78, .4')
+          .style('stroke-width', '.5')
+          .style('fill', 'rgba(35, 54, 78, .4'))
+        .style('stroke', 'rgba(35, 54, 78, .4')
+
+        .style('stroke', 'rgba(35, 54, 78, .4')
+        .style('stroke-width', '.5')
+        .style('fill', 'rgba(35, 54, 78, .4'));
 
 
-    d3.select('#anatamogram')
-      .style('pointer-events', 'all')
-      .call(this.zoom);
-    })
+      d3.select('#anatamogram')
+        .style('pointer-events', 'all')
+        .call(this.zoom);
+    });
 
   }
 
   resetZoom() {
     const holder = this.svg.select('#anatamogram-holder');
-    if(holder) {
+    if (holder) {
       holder
         .transition()
         .duration(750)
         .call(this.zoom.transform, d3.zoomIdentity);
     }
+  }
+
+  highlightTissue(tissue?: string) {
+    if (tissue) {
+      this.svg.select(`#${tissue}`).selectAll('path')
+        .style('stroke', 'rgba(255, 178, 89, 1')
+        .style('stroke-width', '.5')
+        .style('fill', 'rgba(255, 178, 89, 1');
+    } else {
+      this.svg.select(`#${this.hovered}`).selectAll('path')
+        .style('stroke', 'rgba(35, 54, 78, .4')
+        .style('stroke-width', '.5')
+        .style('fill', 'rgba(35, 54, 78, .4');
+    }
+    this.hovered = tissue;
   }
 
 }

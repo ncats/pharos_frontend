@@ -36,4 +36,4 @@ export const DESCRIPTIONS: Map<string, string> = new Map<string, string>([
   'table with links to publications per PMID with the specific text in article that includes the reported target.'],
   ['differential', 'Diseases in which this target has shown to have differential expression as reported in Expression Atlas'],
   ['references', 'Publications associated with this target, as identified using the JensenLab text mining protocol'],
-])
+]);
