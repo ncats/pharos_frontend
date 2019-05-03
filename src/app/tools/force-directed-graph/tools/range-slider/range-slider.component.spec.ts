@@ -1,3 +1,4 @@
+/*
 import {BidiModule} from '@angular/cdk/bidi';
 import {
   BACKSPACE,
@@ -1594,15 +1595,15 @@ class SliderWithTwoWayBinding {
   value = 0;
 }
 
-/**
+/!**
  * Dispatches a click event sequence (consisting of moueseenter, click) from an element.
  * Note: The mouse event truncates the position for the click.
  * @param sliderElement The mat-slider element from which the event will be dispatched.
  * @param percentage The percentage of the slider where the click should occur. Used to find the
  * physical location of the click.
- */
+ *!/
 function dispatchClickEventSequence(sliderElement: HTMLElement, percentage: number): void {
-  const trackElement = sliderElement.querySelector('.mat-slider-wrapper')!;
+  const trackElement = sliderElement.querySelector('.mat-slider-wrapper');
   const dimensions = trackElement.getBoundingClientRect();
   const x = dimensions.left + (dimensions.width * percentage);
   const y = dimensions.top + (dimensions.height * percentage);
@@ -1611,13 +1612,13 @@ function dispatchClickEventSequence(sliderElement: HTMLElement, percentage: numb
   dispatchMouseEvent(sliderElement, 'click', x, y);
 }
 
-/**
+/!**
  * Dispatches a slide event sequence (consisting of slidestart, slide, slideend) from an element.
  * @param sliderElement The mat-slider element from which the event will be dispatched.
  * @param startPercent The percentage of the slider where the slide will begin.
  * @param endPercent The percentage of the slider where the slide will end.
  * @param gestureConfig The gesture config for the test to handle emitting the slide events.
- */
+ *!/
 function dispatchSlideEventSequence(sliderElement: HTMLElement, startPercent: number,
                                     endPercent: number, gestureConfig: TestGestureConfig): void {
   dispatchMouseenterEvent(sliderElement);
@@ -1627,15 +1628,15 @@ function dispatchSlideEventSequence(sliderElement: HTMLElement, startPercent: nu
   dispatchSlideEndEvent(sliderElement, endPercent, gestureConfig);
 }
 
-/**
+/!**
  * Dispatches a slide event from an element.
  * @param sliderElement The mat-slider element from which the event will be dispatched.
  * @param percent The percentage of the slider where the slide will happen.
  * @param gestureConfig The gesture config for the test to handle emitting the slide events.
- */
+ *!/
 function dispatchSlideEvent(sliderElement: HTMLElement, percent: number,
                             gestureConfig: TestGestureConfig): void {
-  const trackElement = sliderElement.querySelector('.mat-slider-wrapper')!;
+  const trackElement = sliderElement.querySelector('.mat-slider-wrapper');
   const dimensions = trackElement.getBoundingClientRect();
   const x = dimensions.left + (dimensions.width * percent);
   const y = dimensions.top + (dimensions.height * percent);
@@ -1646,15 +1647,15 @@ function dispatchSlideEvent(sliderElement: HTMLElement, percent: number,
   });
 }
 
-/**
+/!**
  * Dispatches a slidestart event from an element.
  * @param sliderElement The mat-slider element from which the event will be dispatched.
  * @param percent The percentage of the slider where the slide will begin.
  * @param gestureConfig The gesture config for the test to handle emitting the slide events.
- */
+ *!/
 function dispatchSlideStartEvent(sliderElement: HTMLElement, percent: number,
                                  gestureConfig: TestGestureConfig): void {
-  const trackElement = sliderElement.querySelector('.mat-slider-wrapper')!;
+  const trackElement = sliderElement.querySelector('.mat-slider-wrapper');
   const dimensions = trackElement.getBoundingClientRect();
   const x = dimensions.left + (dimensions.width * percent);
   const y = dimensions.top + (dimensions.height * percent);
@@ -1667,15 +1668,15 @@ function dispatchSlideStartEvent(sliderElement: HTMLElement, percent: number,
   });
 }
 
-/**
+/!**
  * Dispatches a slideend event from an element.
  * @param sliderElement The mat-slider element from which the event will be dispatched.
  * @param percent The percentage of the slider where the slide will end.
  * @param gestureConfig The gesture config for the test to handle emitting the slide events.
- */
+ *!/
 function dispatchSlideEndEvent(sliderElement: HTMLElement, percent: number,
                                gestureConfig: TestGestureConfig): void {
-  const trackElement = sliderElement.querySelector('.mat-slider-wrapper')!;
+  const trackElement = sliderElement.querySelector('.mat-slider-wrapper');
   const dimensions = trackElement.getBoundingClientRect();
   const x = dimensions.left + (dimensions.width * percent);
   const y = dimensions.top + (dimensions.height * percent);
@@ -1686,11 +1687,11 @@ function dispatchSlideEndEvent(sliderElement: HTMLElement, percent: number,
   });
 }
 
-/**
+/!**
  * Dispatches a mouseenter event from an element.
  * Note: The mouse event truncates the position for the click.
  * @param element The element from which the event will be dispatched.
- */
+ *!/
 function dispatchMouseenterEvent(element: HTMLElement): void {
   const dimensions = element.getBoundingClientRect();
   const y = dimensions.top;
@@ -1698,3 +1699,4 @@ function dispatchMouseenterEvent(element: HTMLElement): void {
 
   dispatchMouseEvent(element, 'mouseenter', x, y);
 }
+*/

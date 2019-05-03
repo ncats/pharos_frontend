@@ -233,11 +233,11 @@ export class RadarChartComponent implements OnInit, OnDestroy {
 
   getOptions() {
     // get chart options
-      if (this.size) {
-        this._chartOptions = new RadarChartOptions(this.radarDataService.getOptions(this.size));
-      } else {
-        this._chartOptions = new RadarChartOptions({});
-      }
+    if (this.size) {
+      this._chartOptions = new RadarChartOptions(this.radarDataService.getOptions(this.size));
+    } else {
+      this._chartOptions = new RadarChartOptions({});
+    }
   }
 
   pointsOnCircle(num) {
@@ -289,7 +289,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     this.height = element.offsetHeight - this._chartOptions.margin.top - this._chartOptions.margin.bottom;
 
     // Remove whatever chart with the same id/class was present before
-     d3.select(element).selectAll('svg').remove();
+    d3.select(element).selectAll('svg').remove();
 
     // Initiate the radar chart SVG
     this.svg = d3.select(element)
@@ -308,12 +308,12 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     ////////// Glow filter for some extra pizzazz ///////////
     /////////////////////////////////////////////////////////
 
-/*    // Filter for the outside glow
-    const filter = this.svg.append('defs').append('filter').attr('id', 'glow'),
-      feGaussianBlur = filter.append('feGaussianBlur').attr('stdDeviation', '2.5').attr('result', 'coloredBlur'),
-      feMerge = filter.append('feMerge'),
-      feMergeNode_1 = feMerge.append('feMergeNode').attr('in', 'coloredBlur'),
-      feMergeNode_2 = feMerge.append('feMergeNode').attr('in', 'SourceGraphic');*/
+    /*    // Filter for the outside glow
+        const filter = this.svg.append('defs').append('filter').attr('id', 'glow'),
+          feGaussianBlur = filter.append('feGaussianBlur').attr('stdDeviation', '2.5').attr('result', 'coloredBlur'),
+          feMerge = filter.append('feMerge'),
+          feMergeNode_1 = feMerge.append('feMergeNode').attr('in', 'coloredBlur'),
+          feMergeNode_2 = feMerge.append('feMergeNode').attr('in', 'SourceGraphic');*/
 
 
     // Define the div for the tooltip
@@ -340,7 +340,10 @@ export class RadarChartComponent implements OnInit, OnDestroy {
         const y = text.attr('y');
         const x = text.attr('x');
         const dy = parseFloat(text.attr('dy'));
-        let tspan = text.text(null).append('tspan').attr('class', 'radar-label').attr('x', x).attr('y', y).attr('dy', dy + 'em');
+        let tspan = text.text(null).append('tspan')
+          .attr('class', 'radar-label')
+          .attr('x', x).attr('y', y)
+          .attr('dy', dy + 'em');
 
         while (word = words.pop()) {
 
@@ -350,7 +353,12 @@ export class RadarChartComponent implements OnInit, OnDestroy {
             line.pop();
             tspan.text(line.join(' '));
             line = [word];
-            tspan = text.append('tspan').attr('class', 'radar-label').attr('x', x).attr('y', y).attr('dy', ++lineNumber * lineHeight + dy + 'em').text(word);
+            tspan = text.append('tspan')
+              .attr('class', 'radar-label')
+              .attr('x', x)
+              .attr('y', y)
+              .attr('dy', ++lineNumber * lineHeight + dy + 'em')
+              .text(word);
           }
         }
       });
@@ -383,7 +391,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
         // todo: figure out how to scale the points. probably an external function
         // .attr("r", d => radius / this._chartOptions.levels * d)
         .style('fill-opacity', this._chartOptions.opacityCircles)
-       // .style('filter', 'url(#glow)')
+        // .style('filter', 'url(#glow)')
         .exit()
         .remove();
     } else {
@@ -397,7 +405,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
         .style('fill', '#F3F3F3')
         .style('stroke', '#CDCDCD')
         .style('fill-opacity', this._chartOptions.opacityCircles);
-     //   .style('filter', 'url(#glow)');
+      //   .style('filter', 'url(#glow)');
     }
 
     // Text indicating at what % each level is
@@ -441,15 +449,15 @@ export class RadarChartComponent implements OnInit, OnDestroy {
         .attr('dy', '0.35em')
         .attr('x', (d, i) => {
           if (i % 2 === 1) {
-          return rScale(maxValue) * cos(angleSlice * i - HALF_PI);
-      } else {
+            return rScale(maxValue) * cos(angleSlice * i - HALF_PI);
+          } else {
             return rScale(maxValue * this._chartOptions.labelFactor) * cos(angleSlice * i - HALF_PI);
           }
         })
         .attr('y', (d, i) => {
           if (i % 2 === 1) {
-          return rScale(maxValue) * sin(angleSlice * i - HALF_PI);
-      } else {
+            return rScale(maxValue) * sin(angleSlice * i - HALF_PI);
+          } else {
             return rScale(maxValue * this._chartOptions.labelFactor) * sin(angleSlice * i - HALF_PI);
           }
         })
@@ -511,7 +519,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
       .style('stroke-width', this._chartOptions.strokeWidth + 'px')
       .style('stroke', (d, i) => this._chartOptions.color(i))
       .style('fill', 'none');
-     // .style('filter', 'url(#glow)');
+    // .style('filter', 'url(#glow)');
 
     // Append the circles
     blobWrapper.selectAll('.radarCircle')

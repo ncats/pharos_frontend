@@ -4,11 +4,11 @@
     <div fxFlex="65" fxFlex.lt-md="90" class="faq-wrapper">
       <div class="faq-header">FAQs</div>
       <mat-accordion [multi]="true">
-        <mat-expansion-panel *ngFor="let field of fields" class="subject-panel" [expanded]="true">
+        <mat-expansion-panel *ngFor="let subject of subjects" class="subject-panel" [expanded]="true">
           <mat-expansion-panel-header class="field-label">
-            {{field}}
+            {{subject}}
           </mat-expansion-panel-header>
-          <div *ngFor="let question of questionsMap.get(field)" class="question-holder">
+          <div *ngFor="let question of questionsMap.get(subject)" class="question-holder">
             <div [innerHTML]="question.question" class="faq-question"></div>
             <div [innerHTML]="question.answer" class="faq-answer" [ngClass]="{'equation': question.equation}"
                  #faqAnswer></div>

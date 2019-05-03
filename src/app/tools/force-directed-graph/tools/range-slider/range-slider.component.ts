@@ -192,7 +192,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
     this._step = coerceNumberProperty(v, this._step);
 
     if (this._step % 1 !== 0) {
-      this._roundToDecimal = this._step.toString().split('.').pop()!.length;
+      this._roundToDecimal = this._step.toString().split('.').pop().length;
     }
 
     // Since this could modify the label, we need to notify the change detection.
@@ -240,7 +240,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
 
   set value(v: number | number[] | null) {
     if (v !== this._value ||
-      (v instanceof Array && this._value != null &&
+      (v instanceof Array && this._value !== null &&
         (v[0] !== this._value[0] || v[1] !== this._value[1]))) {
       let value: number | number[] | null = null;
       if (v instanceof Array) {
@@ -283,7 +283,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
 
   /** The value to be used for display purposes. */
   get displayValue(): string | number {
-    if (this.value == null) {
+    if (this.value === null) {
       return '';
     }
     if (this.displayWith) {
@@ -317,7 +317,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
 
   /** The value to be used for display purposes. */
   get displayValueRight(): string | number {
-    if (this.value == null) {
+    if (this.value === null) {
       return '';
     }
     if (this.displayWith) {
@@ -327,7 +327,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
     // Note that this could be improved further by rounding something like 0.999 to 1 or
     // 0.899 to 0.9, however it is very performance sensitive, because it gets called on
     // every change detection cycle.
-    if (this._roundToDecimal && this.value && this.value != null && this.value[1] % 1 !== 0) {
+    if (this._roundToDecimal && this.value && this.value !== null && this.value[1] % 1 !== 0) {
       return this.value[1].toFixed(this._roundToDecimal);
     }
 
@@ -418,7 +418,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
       scale = this.vertical ? `1, ${this.percent}, 1` : `${this.percent}, 1, 1`;
     }
 
-    const invertOffset = (this._getDirection() == 'rtl' && !this.vertical) ?
+    const invertOffset = (this._getDirection() === 'rtl' && !this.vertical) ?
       !this._invertAxis : this._invertAxis;
     let offset = 0;
     if (this.percent instanceof Array) {
@@ -446,7 +446,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
     const axis = this.vertical ? 'Y' : 'X';
     // For a horizontal slider in RTL languages we push the ticks container off the left edge
     // instead of the right edge to avoid causing a horizontal scrollbar to appear.
-    const sign = !this.vertical && this._getDirection() == 'rtl' ? '' : '-';
+    const sign = !this.vertical && this._getDirection() === 'rtl' ? '' : '-';
     const offset = this._tickIntervalPercent / 2 * 100;
     return {
       'transform': `translate${axis}(${sign}${offset}%)`
@@ -461,8 +461,8 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
     // Depending on the direction we pushed the ticks container, push the ticks the opposite
     // direction to re-center them but clip off the end edge. In RTL languages we need to flip
     // the ticks 180 degrees so we're really cutting off the end edge abd not the start.
-    const sign = !this.vertical && this._getDirection() == 'rtl' ? '-' : '';
-    const rotate = !this.vertical && this._getDirection() == 'rtl' ? ' rotate(180deg)' : '';
+    const sign = !this.vertical && this._getDirection() === 'rtl' ? '-' : '';
+    const rotate = !this.vertical && this._getDirection() === 'rtl' ? ' rotate(180deg)' : '';
     const styles: { [key: string]: string } = {
       'backgroundSize': backgroundSize,
       // Without translateZ ticks sometimes jitter as the slider moves on Chrome & Firefox.
@@ -483,7 +483,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
     const axis = this.vertical ? 'Y' : 'X';
     // For a horizontal slider in RTL languages we push the thumb container off the left edge
     // instead of the right edge to avoid causing a horizontal scrollbar to appear.
-    const invertOffset = (this._getDirection() == 'rtl' && !this.vertical) ?
+    const invertOffset = (this._getDirection() === 'rtl' && !this.vertical) ?
       !this._invertAxis : this._invertAxis;
     let offset = 0;
     if (this.percent instanceof Array) {
@@ -500,7 +500,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
     const axis = this.vertical ? 'Y' : 'X';
     // For a horizontal slider in RTL languages we push the thumb container off the left edge
     // instead of the right edge to avoid causing a horizontal scrollbar to appear.
-    const invertOffset = (this._getDirection() == 'rtl' && !this.vertical) ?
+    const invertOffset = (this._getDirection() === 'rtl' && !this.vertical) ?
       !this._invertAxis : this._invertAxis;
     let offset = 0;
     if (this.percent instanceof Array) {
@@ -522,7 +522,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
               @Optional() @Inject(ANIMATION_MODULE_TYPE) public _animationMode?: string) {
     super(elementRef);
 
-    this.tabIndex = parseInt(tabIndex) || 0;
+    this.tabIndex = parseInt(tabIndex,2) || 0;
   }
 
   private _invert = false;
@@ -619,13 +619,13 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
    * from the right or bottom edge of the slider as opposed to the top or left.
    */
   private _shouldInvertMouseCoords() {
-    return (this._getDirection() == 'rtl' && !this.vertical) ?
+    return (this._getDirection() === 'rtl' && !this.vertical) ?
       !this._invertAxis : this._invertAxis;
   }
 
   /** The language direction for this slider element. */
   private _getDirection() {
-    return (this._dir && this._dir.value == 'rtl') ? 'rtl' : 'ltr';
+    return (this._dir && this._dir.value === 'rtl') ? 'rtl' : 'ltr';
   }
 
   ngOnInit() {
@@ -701,12 +701,12 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
 
     // Emit a change and input event if the value changed.
     if (this.value instanceof Array) {
-      if (oldValue[0] != this.value[0] || oldValue[1] != this.value[1]) {
+      if (oldValue[0] !== this.value[0] || oldValue[1] !== this.value[1]) {
         this._emitInputEvent();
         this._emitChangeEvent();
       }
     } else {
-      if (oldValue != this.value) {
+      if (oldValue !== this.value) {
         this._emitInputEvent();
         this._emitChangeEvent();
       }
@@ -747,11 +747,11 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
 
     // Native range elements always emit `input` events when the value changed while sliding.
     if (this.value instanceof Array) {
-      if (oldValue[0] != this.value[0] || oldValue[1] != this.value[1]) {
+      if (oldValue[0] !== this.value[0] || oldValue[1] !== this.value[1]) {
         this._emitInputEvent();
       }
     } else {
-      if (oldValue != this.value) {
+      if (oldValue !== this.value) {
         this._emitInputEvent();
       }
     }
@@ -792,7 +792,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
   _onSlideEnd() {
     this._isSliding = false;
 
-    if (this._valueOnSlideStart != this.value && !this.disabled) {
+    if (this._valueOnSlideStart !== this.value && !this.disabled) {
       this._emitChangeEvent();
     }
     this._valueOnSlideStart = null;
@@ -843,14 +843,14 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
         // the meaning of the side arrow keys for RTL. For inverted sliders we prefer a
         // good a11y experience to having it "look right" for sighted users, therefore we do
         // not swap the meaning.
-        this._increment(this._getDirection() == 'rtl' ? 1 : -1);
+        this._increment(this._getDirection() === 'rtl' ? 1 : -1);
         break;
       case UP_ARROW:
         this._increment(1);
         break;
       case RIGHT_ARROW:
         // See comment on LEFT_ARROW about the conditions under which we flip the meaning.
-        this._increment(this._getDirection() == 'rtl' ? -1 : 1);
+        this._increment(this._getDirection() === 'rtl' ? -1 : 1);
         break;
       case DOWN_ARROW:
         this._increment(-1);
@@ -862,12 +862,12 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
     }
 
     if (this.value instanceof Array) {
-      if (oldValue[0] != this.value[0] || oldValue[1] != this.value[1]) {
+      if (oldValue[0] !== this.value[0] || oldValue[1] !== this.value[1]) {
         this._emitInputEvent();
         this._emitChangeEvent();
       }
     } else {
-      if (oldValue != this.value) {
+      if (oldValue !== this.value) {
         this._emitInputEvent();
         this._emitChangeEvent();
       }
@@ -1019,7 +1019,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
       return;
     }
 
-    if (this.tickInterval == 'auto') {
+    if (this.tickInterval === 'auto') {
       const trackSize = this.vertical ?
         this._sliderDimensions.height : this._sliderDimensions.width;
       const pixelsPerStep = trackSize * this.step / (this.max - this.min);

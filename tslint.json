@@ -119,13 +119,13 @@
     "directive-selector": [
       true,
       "attribute",
-      ["pharos", "app"],
+      ["pharos", "ncats", "app"],
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      ["pharos", "app"],
+      ["pharos", "ncats", "app"],
       "kebab-case"
     ],
     "no-output-on-prefix": true,

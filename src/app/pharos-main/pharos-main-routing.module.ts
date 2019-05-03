@@ -1,4 +1,6 @@
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {TOKENS} from '../../environments/component-tokens';
 import {DataListResolver} from './services/data-list.resolver';
 import {PharosMainComponent} from './pharos-main.component';
 import {TargetTableComponent} from './data-list/target-table/target-table.component';
@@ -14,21 +16,17 @@ import {DiseaseSourceComponent} from './data-details/target-details/panels/disea
 import {OrthologPanelComponent} from './data-details/target-details/panels/ortholog-panel/ortholog-panel.component';
 import {TargetFacetPanelComponent} from './data-details/target-details/panels/target-facet-panel/target-facet-panel.component';
 import {DiseaseDetailsComponent} from './data-details/disease-details/disease-details.component';
-import {RouterModule, Routes} from '@angular/router';
 import {SharedListModule} from '../shared/shared-list.module';
 import {SharedDetailsModule} from '../shared/shared-details.module';
 import {LoadingService} from '../pharos-services/loading.service';
 import {RadarChartComponent} from '../tools/visualizations/radar-chart/radar-chart.component';
-import {TOKENS} from '../../environments/component-tokens';
 import {BreadcrumbComponent} from '../tools/breadcrumb/breadcrumb.component';
 import {AaSequencePanelComponent} from './data-details/target-details/panels/aa-sequence-panel/aa-sequence-panel.component';
 import {AssayPanelComponent} from './data-details/target-details/panels/assay-panel/assay-panel.component';
 import {LigandsPanelComponent} from './data-details/target-details/panels/ligands-panel/ligands-panel.component';
 import {LigandTableComponent} from './data-list/ligand-table/ligand-table.component';
 import {LigandDetailsComponent} from './data-details/ligand-details/ligand-details.component';
-import {
-  MolecularDefinitionPanelComponent
-} from './data-details/ligand-details/molecular-definition-panel/molecular-definition-panel.component';
+import {MolecularDefinitionPanelComponent} from './data-details/ligand-details/molecular-definition-panel/molecular-definition-panel.component';
 import {TargetRelevancePanelComponent} from './data-details/ligand-details/target-relevance-panel/target-relevance-panel.component';
 import {StructureViewPanelComponent} from './data-details/ligand-details/structure-view-panel/structure-view-panel.component';
 import {SynonymsPanelComponent} from './data-details/ligand-details/synonyms-panel/synonyms-panel.component';
@@ -63,14 +61,10 @@ import {HoverableLinkDirective} from '../tools/force-directed-graph/force-direct
 import {D3ColorLegendComponent} from '../tools/force-directed-graph/tools/d3-color-legend/d3-color-legend.component';
 import {LinkVisualComponent} from '../tools/force-directed-graph/force-directed-graph/graph-component/shared-components/link-visual/link-visual.component';
 import {ClickableLinkDirective} from '../tools/force-directed-graph/force-directed-graph/graph-component/directives/clickable-link.directive';
-import {
-  PharosNodeService
-} from './data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-node.service';
+import {PharosNodeService} from './data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-node.service';
 import {GraphDataService} from '../tools/force-directed-graph/force-directed-graph/graph-component/services/graph-data.service';
 import {LinkService} from '../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/link.service';
-import {
-  PharosD3Service
-} from './data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-d3.service';
+import {PharosD3Service} from './data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-d3.service';
 import {NodeMenuControllerService} from '../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/node-menu-controller.service';
 import {PublicationInfoPanelComponent} from './data-details/target-details/panels/publication-info-panel/publication-info-panel.component';
 import {LevelSummaryPanelComponent} from './data-details/target-details/panels/level-summary-panel/level-summary-panel.component';
@@ -125,44 +119,44 @@ const pharosMainRoutes: Routes = [
     GraphDataService,
     NodeMenuControllerService,
     // breadcrumb
-    {provide: TOKENS.PHAROS_BREADCRUMB_COMPONENT, useValue: BreadcrumbComponent },
-    {provide: TOKENS.TARGET_GENE_SUMMARY_COMPONENT, useValue: GeneSummaryComponent },
+    {provide: TOKENS.PHAROS_BREADCRUMB_COMPONENT, useValue: BreadcrumbComponent},
+    {provide: TOKENS.TARGET_GENE_SUMMARY_COMPONENT, useValue: GeneSummaryComponent},
     // topics
-    {provide: TOKENS.TOPIC_TABLE_COMPONENT, useValue: TopicTableComponent },
-    {provide: TOKENS.TOPIC_DETAILS_COMPONENT, useValue: TopicDetailsComponent },
-    {provide: TOKENS.TOPIC_HEADER_COMPONENT, useValue: TopicHeaderComponent },
-    {provide: TOKENS.TOPIC_GRAPH_PANEL, useValue: TopicGraphPanelComponent },
-    {provide: TOKENS.NODE_DISPLAY_PANEL, useValue: NodeDisplayComponent },
+    {provide: TOKENS.TOPIC_TABLE_COMPONENT, useValue: TopicTableComponent},
+    {provide: TOKENS.TOPIC_DETAILS_COMPONENT, useValue: TopicDetailsComponent},
+    {provide: TOKENS.TOPIC_HEADER_COMPONENT, useValue: TopicHeaderComponent},
+    {provide: TOKENS.TOPIC_GRAPH_PANEL, useValue: TopicGraphPanelComponent},
+    {provide: TOKENS.NODE_DISPLAY_PANEL, useValue: NodeDisplayComponent},
     // targets
-    {provide: TOKENS.TARGET_HEADER_COMPONENT, useValue: TargetHeaderComponent },
-    {provide: TOKENS.TARGET_TABLE_COMPONENT, useValue: TargetTableComponent },
-    {provide: TOKENS.TARGET_DETAILS_COMPONENT, useValue: TargetDetailsComponent },
-    {provide: TOKENS.SUMMARY_PANEL, useValue: SummaryPanelComponent },
-    {provide: TOKENS.LEVEL_SUMMARY_PANEL, useValue: LevelSummaryPanelComponent },
-    {provide: TOKENS.IDG_RESOURCES_PANEL, useValue: IdgResourcesPanelComponent },
-    {provide: TOKENS.PUBLICATION_INFO_PANEL, useValue: PublicationInfoPanelComponent },
-    {provide: TOKENS.DISEASE_SOURCE_PANEL, useValue: DiseaseSourceComponent },
-    {provide: TOKENS.EXPRESSION_PANEL, useValue: ExpressionPanelComponent },
-    {provide: TOKENS.PROTEIN_PROTEIN_PANEL, useValue: ProteinProteinPanelComponent },
-    {provide: TOKENS.ORTHOLOG_PANEL, useValue: OrthologPanelComponent },
-    {provide: TOKENS.TARGET_FACET_PANEL, useValue: TargetFacetPanelComponent },
-    {provide: TOKENS.ASSAY_PANEL, useValue: AssayPanelComponent },
-    {provide: TOKENS.AA_SEQUENCE_PANEL, useValue: AaSequencePanelComponent },
-    {provide: TOKENS.LIGANDS_PANEL, useValue: LigandsPanelComponent },
+    {provide: TOKENS.TARGET_HEADER_COMPONENT, useValue: TargetHeaderComponent},
+    {provide: TOKENS.TARGET_TABLE_COMPONENT, useValue: TargetTableComponent},
+    {provide: TOKENS.TARGET_DETAILS_COMPONENT, useValue: TargetDetailsComponent},
+    {provide: TOKENS.SUMMARY_PANEL, useValue: SummaryPanelComponent},
+    {provide: TOKENS.LEVEL_SUMMARY_PANEL, useValue: LevelSummaryPanelComponent},
+    {provide: TOKENS.IDG_RESOURCES_PANEL, useValue: IdgResourcesPanelComponent},
+    {provide: TOKENS.PUBLICATION_INFO_PANEL, useValue: PublicationInfoPanelComponent},
+    {provide: TOKENS.DISEASE_SOURCE_PANEL, useValue: DiseaseSourceComponent},
+    {provide: TOKENS.EXPRESSION_PANEL, useValue: ExpressionPanelComponent},
+    {provide: TOKENS.PROTEIN_PROTEIN_PANEL, useValue: ProteinProteinPanelComponent},
+    {provide: TOKENS.ORTHOLOG_PANEL, useValue: OrthologPanelComponent},
+    {provide: TOKENS.TARGET_FACET_PANEL, useValue: TargetFacetPanelComponent},
+    {provide: TOKENS.ASSAY_PANEL, useValue: AssayPanelComponent},
+    {provide: TOKENS.AA_SEQUENCE_PANEL, useValue: AaSequencePanelComponent},
+    {provide: TOKENS.LIGANDS_PANEL, useValue: LigandsPanelComponent},
     // diseases
-    {provide: TOKENS.DISEASE_TABLE_COMPONENT, useValue: DiseaseTableComponent },
-    {provide: TOKENS.DISEASE_DETAILS_COMPONENT, useValue: DiseaseDetailsComponent },
-    {provide: TOKENS.DISEASE_HEADER_COMPONENT, useValue: DiseaseHeaderComponent },
-    {provide: TOKENS.TARGET_LIST_PANEL, useValue: TargetListPanelComponent },
+    {provide: TOKENS.DISEASE_TABLE_COMPONENT, useValue: DiseaseTableComponent},
+    {provide: TOKENS.DISEASE_DETAILS_COMPONENT, useValue: DiseaseDetailsComponent},
+    {provide: TOKENS.DISEASE_HEADER_COMPONENT, useValue: DiseaseHeaderComponent},
+    {provide: TOKENS.TARGET_LIST_PANEL, useValue: TargetListPanelComponent},
     // ligands
-    {provide: TOKENS.LIGAND_TABLE_COMPONENT, useValue: LigandTableComponent },
-    {provide: TOKENS.LIGAND_DETAILS_COMPONENT, useValue: LigandDetailsComponent },
-    {provide: TOKENS.LIGAND_HEADER_COMPONENT, useValue: LigandHeaderComponent },
-    {provide: TOKENS.SYNONYMS_PANEL, useValue: SynonymsPanelComponent },
-    {provide: TOKENS.STRUCTURE_VIEW_PANEL, useValue: StructureViewPanelComponent },
-    {provide: TOKENS.TARGET_RELEVANCE_PANEL, useValue: TargetRelevancePanelComponent },
-    {provide: TOKENS.MOLECULAR_DEFINITION_PANEL, useValue: MolecularDefinitionPanelComponent },
-    {provide: TOKENS.PDB_PANEL, useValue: PdbPanelComponent },
+    {provide: TOKENS.LIGAND_TABLE_COMPONENT, useValue: LigandTableComponent},
+    {provide: TOKENS.LIGAND_DETAILS_COMPONENT, useValue: LigandDetailsComponent},
+    {provide: TOKENS.LIGAND_HEADER_COMPONENT, useValue: LigandHeaderComponent},
+    {provide: TOKENS.SYNONYMS_PANEL, useValue: SynonymsPanelComponent},
+    {provide: TOKENS.STRUCTURE_VIEW_PANEL, useValue: StructureViewPanelComponent},
+    {provide: TOKENS.TARGET_RELEVANCE_PANEL, useValue: TargetRelevancePanelComponent},
+    {provide: TOKENS.MOLECULAR_DEFINITION_PANEL, useValue: MolecularDefinitionPanelComponent},
+    {provide: TOKENS.PDB_PANEL, useValue: PdbPanelComponent},
   ],
   entryComponents: [
     BreadcrumbComponent,
@@ -287,5 +281,6 @@ const pharosMainRoutes: Routes = [
     IdgResourcesPanelComponent
   ]
 })
-export class PharosMainRoutingModule { }
+export class PharosMainRoutingModule {
+}
 

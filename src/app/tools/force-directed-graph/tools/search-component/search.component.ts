@@ -5,7 +5,7 @@ import {GraphDataService} from '../../force-directed-graph/graph-component/servi
 import {finalize, tap} from 'rxjs/internal/operators';
 
 @Component({
-  selector: 'search-component',
+  selector: 'ncats-search-component',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })

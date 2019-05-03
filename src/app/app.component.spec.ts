@@ -1,5 +1,5 @@
-import { TestBed, async } from '@angular/core/testing';
-import { AppComponent } from './app.component';
+import {async, TestBed} from '@angular/core/testing';
+import {AppComponent} from './app.component';
 import {SharedModule} from './shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
@@ -19,6 +19,7 @@ import {DataTypesPanelComponent} from './pharos-dashboard/data-types-panel/data-
 import {AboutPanelComponent} from './pharos-dashboard/about-panel/about-panel.component';
 import {NewsPanelComponent} from './pharos-dashboard/news-panel/news-panel.component';
 import {ApiViewerComponent} from './tools/api-viewer/api-viewer.component';
+
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({

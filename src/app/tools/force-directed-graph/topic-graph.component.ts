@@ -4,12 +4,13 @@ import {Link} from './force-directed-graph/graph-component/models/link';
 import {Node} from './force-directed-graph/graph-component/models/node';
 
 import {GraphDataService} from './force-directed-graph/graph-component/services/graph-data.service';
-import {DataParserService} from '../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/data-parser.service';
+import {
+  DataParserService
+} from '../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/data-parser.service';
 import {
   PharosD3Service
 } from '../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-d3.service';
 import {LinkService} from './force-directed-graph/graph-component/services/event-tracking/link.service';
-import {PharosNodeService} from '../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-node.service';
 
 
 @Component({

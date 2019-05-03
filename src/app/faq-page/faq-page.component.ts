@@ -2,13 +2,34 @@ import {Component, ElementRef, OnInit, QueryList, ViewChildren, ViewEncapsulatio
 import {KatexRenderService} from '../tools/equation-renderer/services/katex-render.service';
 import {AngularFirestore} from '@angular/fire/firestore';
 
+/**
+ * Question model for object retrieved from firebase
+ * // todo should probably move to models directory
+ */
 export interface Question {
+  /**
+   * main subject of question
+   */
   subject: string;
+  /**
+   * asked question
+   */
   question: string;
+
+  /**
+   * answer to question
+   */
   answer: string;
+
+  /**
+   * boolean flag to render katex expressions
+   */
   equation?: boolean;
 }
 
+/**
+ * page to display faqs section of pharos
+ */
 @Component({
   selector: 'pharos-faq-page',
   templateUrl: './faq-page.component.html',
@@ -16,19 +37,41 @@ export interface Question {
   encapsulation: ViewEncapsulation.None,
   providers: [KatexRenderService]
 })
+
 export class FaqPageComponent implements OnInit {
-  fields: string[];
+  /**
+   * extracted list of field labels to be used as accordion panel headers
+   */
+  subjects: string[];
+
+  /**
+   * questions from firebase, mapped vy
+   * @type {Map<string, Question[]>}
+   */
   questionsMap: Map<string, Question[]> = new Map<string, Question[]>();
+
+  /**
+   * Query List of answer elements to render with katex
+   */
   @ViewChildren('faqAnswer') answers: QueryList<ElementRef>;
 
-
+  /**
+   * firestore database to retrieve questions
+   * katex render service renders equation text as a math image
+   * @param {AngularFirestore} db
+   * @param {KatexRenderService} katexRenderService
+   */
   constructor(private db: AngularFirestore,
               private katexRenderService: KatexRenderService) {
   }
 
+  /**
+   * retrieve questions from database, and watch for changes
+   */
   ngOnInit() {
     this.db.collection<Question>('faqs').valueChanges()
       .subscribe(items => {
+        // create and map questions by subject
         items.map(question => {
           const qArr: Question[] = this.questionsMap.get(question.subject);
           if (qArr) {
@@ -38,7 +81,11 @@ export class FaqPageComponent implements OnInit {
             this.questionsMap.set(question.subject, [question]);
           }
         });
-        this.fields = Array.from(this.questionsMap.keys());
+
+        // get list of subjects for accordion
+        this.subjects = Array.from(this.questionsMap.keys());
+
+        // find and render equations with katex
         this.answers.changes.subscribe(answers => {
           const equations: any[] = answers.filter(answer => {
             return answer.nativeElement.classList.contains('equation');

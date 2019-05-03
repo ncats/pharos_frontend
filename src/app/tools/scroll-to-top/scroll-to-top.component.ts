@@ -15,9 +15,9 @@ export class ScrollToTopComponent implements OnInit {
   navIsFixed: boolean;
 
 
-  constructor( @Inject(DOCUMENT) private document: Document,
-              private router: Router
-) { }
+  constructor(@Inject(DOCUMENT) private document: Document,
+              private router: Router) {
+  }
 
   ngOnInit() {
   }
@@ -30,7 +30,9 @@ export class ScrollToTopComponent implements OnInit {
   onWindowScroll(): void {
     if (window.pageYOffset > 100 || this.document.documentElement.scrollTop > 100 || this.document.body.scrollTop > 100) {
       this.navIsFixed = true;
-    } else if (this.navIsFixed && window.pageYOffset < 10 || this.document.documentElement.scrollTop < 10 || this.document.body.scrollTop < 10) {
+    } else if (this.navIsFixed && window.pageYOffset < 10
+      || this.document.documentElement.scrollTop < 10
+      || this.document.body.scrollTop < 10) {
       this.navIsFixed = false;
     }
   }
@@ -38,13 +40,14 @@ export class ScrollToTopComponent implements OnInit {
   /**
    * method that returns the user to the top position of the document
    */
-  scrollToTop(): void { (function smoothscroll() {
-    const currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
-    if (currentScroll > 0) {
-      window.requestAnimationFrame(smoothscroll);
-      window.scrollTo(0, currentScroll - (currentScroll / 5));
-    }
-  })();
+  scrollToTop(): void {
+    (function smoothscroll() {
+      const currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+      if (currentScroll > 0) {
+        window.requestAnimationFrame(smoothscroll);
+        window.scrollTo(0, currentScroll - (currentScroll / 5));
+      }
+    })();
     this.router.navigate([]);
   }
 

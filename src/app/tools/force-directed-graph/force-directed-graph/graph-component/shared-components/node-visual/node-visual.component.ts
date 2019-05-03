@@ -1,6 +1,9 @@
 import {Component, OnInit, Input, ElementRef, ViewChild} from '@angular/core';
 import {Node} from '../../models/node';
-import {PharosNodeService} from '../../../../../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-node.service';
+import {
+  PharosNodeService
+} from
+'../../../../../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-node.service';
 import {NodeMenuControllerService} from '../../services/event-tracking/node-menu-controller.service';
 
 /*export class StructureViewer {

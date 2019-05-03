@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 
+/**
+ * ui page holder for a swagger UI API documentation viewer
+ */
 @Component({
   selector: 'pharos-api-page',
   templateUrl: './api-page.component.html',
   styleUrls: ['./api-page.component.scss']
 })
-export class ApiPageComponent implements OnInit {
 
+
+export class ApiPageComponent {
+
+  /**
+   * no args constructor
+   */
   constructor() { }
-
-  ngOnInit() {
-  }
-
 }
