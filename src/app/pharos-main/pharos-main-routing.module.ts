@@ -1,6 +1,6 @@
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {TOKENS} from '../../environments/component-tokens';
+import {TOKENS} from '../../config/component-tokens';
 import {DataListResolver} from './services/data-list.resolver';
 import {PharosMainComponent} from './pharos-main.component';
 import {TargetTableComponent} from './data-list/target-table/target-table.component';

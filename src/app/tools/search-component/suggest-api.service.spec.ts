@@ -2,7 +2,6 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { SuggestApiService } from './suggest-api.service';
 import {SharedModule} from '../../shared/shared.module';
-import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {RouterTestingModule} from '@angular/router/testing';
 
 describe('SuggestApiService', () => {
@@ -13,7 +12,6 @@ describe('SuggestApiService', () => {
         SharedModule
       ],
       providers: [
-        EnvironmentVariablesService,
         SuggestApiService
       ]
     });

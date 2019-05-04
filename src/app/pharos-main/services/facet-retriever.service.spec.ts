@@ -4,7 +4,6 @@ import { FacetRetrieverService } from './facet-retriever.service';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {SharedModule} from '../../shared/shared.module';
-import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {RouterTestingModule} from '@angular/router/testing';
 
 describe('FacetRetrieverService', () => {
@@ -15,7 +14,6 @@ describe('FacetRetrieverService', () => {
         SharedModule
       ],
       providers: [
-        EnvironmentVariablesService,
         PharosApiService,
         ResponseParserService,
         FacetRetrieverService

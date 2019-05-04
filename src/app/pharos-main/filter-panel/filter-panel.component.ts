@@ -4,13 +4,13 @@ import {
 } from '@angular/core';
 import {Facet} from '../../models/facet';
 import {Subject, combineLatest} from 'rxjs';
-import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
 import {FacetRetrieverService} from '../services/facet-retriever.service';
 import {takeUntil, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/index';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {LoadingService} from '../../pharos-services/loading.service';
+import {PharosConfig} from "../../../config/pharos-config";
 
 /**
  * panel that hold a facet table for selection
@@ -42,13 +42,13 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
               private pathResolverService: PathResolverService,
               private facetRetrieverService: FacetRetrieverService,
               private responseParserService: ResponseParserService,
-              private environmentVariablesService: EnvironmentVariablesService) { }
+              private pharosConfig: PharosConfig) { }
 
   ngOnInit() {
     this.facetRetrieverService.loaded$.subscribe(res => {
       if (res === true) {
         this.facets = [];
-        this.environmentVariablesService.getFacets(this.pathResolverService.getPath()).map(label => {
+        this.pharosConfig.getFacets(this.pathResolverService.getPath()).map(label => {
           this.facetRetrieverService.getFacetObservable(label.name).subscribe(facet => {
             if (facet) {
               facet.label = label.label;

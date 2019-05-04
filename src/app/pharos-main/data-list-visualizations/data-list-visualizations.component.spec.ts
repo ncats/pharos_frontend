@@ -4,7 +4,6 @@ import {SharedModule} from '../../shared/shared.module';
 import {PharosMainRoutingModule} from '../pharos-main-routing.module';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
 import {LoadingService} from '../../pharos-services/loading.service';
-import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {FacetRetrieverService} from '../services/facet-retriever.service';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
@@ -32,7 +31,6 @@ describe('DataListVisualizationsComponent', () => {
         PathResolverService,
         ResponseParserService,
         LoadingService,
-        EnvironmentVariablesService,
         FacetRetrieverService,
         SuggestApiService,
         {provide: APP_BASE_HREF, useValue: '/targets' }

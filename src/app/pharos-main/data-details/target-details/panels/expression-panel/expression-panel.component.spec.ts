@@ -6,7 +6,6 @@ import {RadarChartComponent} from '../../../../../tools/visualizations/radar-cha
 import {RadarService} from '../../../../../tools/visualizations/radar-chart/radar.service';
 import {SharedDetailsModule} from '../../../../../shared/shared-details.module';
 import {DiseaseSourceComponent} from '../disease-source-panel/disease-source-panel.component';
-import {EnvironmentVariablesService} from '../../../../../pharos-services/environment-variables.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('ExpressionPanelComponent', () => {
@@ -21,9 +20,8 @@ describe('ExpressionPanelComponent', () => {
         BrowserAnimationsModule
       ],
       providers: [
-        RadarService,
-        EnvironmentVariablesService
-      ],
+        RadarService],
+
       declarations: [
         ExpressionPanelComponent,
         RadarChartComponent,

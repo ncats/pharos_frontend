@@ -12,7 +12,6 @@ import {ScrollToTopComponent} from '../tools/scroll-to-top/scroll-to-top.compone
 import {IdgLevelIndicatorComponent} from '../tools/idg-level-indicator/idg-level-indicator.component';
 import {CustomContentDirective} from '../tools/custom-content.directive';
 import {ComponentInjectorService} from '../pharos-services/component-injector.service';
-import {ComponentLookupService} from '../pharos-services/component-lookup.service';
 import {TermDisplayComponent} from '../tools/term-display/term-display.component';
 import {LinkListComponent} from '../tools/link-list/link-list.component';
 import {ToiCardComponent} from '../pharos-dashboard/toi-card/toi-card.component';
@@ -127,7 +126,6 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [
-        ComponentLookupService,
         ComponentInjectorService
       ]
     };

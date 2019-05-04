@@ -8,13 +8,13 @@ import {Ligand} from '../../../models/ligand';
 import {CustomContentDirective} from '../../../tools/custom-content.directive';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
 import {takeUntil} from 'rxjs/operators';
-import {ComponentLookupService} from '../../../pharos-services/component-lookup.service';
 import {Disease} from '../../../models/disease';
 import {HelpDataService} from '../../../tools/help-panel/services/help-data.service';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {DOCUMENT} from '@angular/common';
 import {NavSectionsService} from '../../../tools/sidenav-panel/services/nav-sections.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {PharosConfig} from "../../../../config/pharos-config";
 
 @Component({
   selector: 'pharos-disease-details',
@@ -35,8 +35,8 @@ export class DiseaseDetailsComponent extends DynamicPanelComponent implements On
   constructor(
     private _injector: Injector,
     @Inject(DOCUMENT) private document: Document,
-    @Inject(forwardRef(() => ComponentLookupService)) private componentLookupService,
     private dataDetailsResolver: DataDetailsResolver,
+    private pharosConfig: PharosConfig,
     private router: Router,
     private route: ActivatedRoute,
     private navSectionsService: NavSectionsService,
@@ -50,7 +50,7 @@ export class DiseaseDetailsComponent extends DynamicPanelComponent implements On
 
   ngOnInit() {
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
-    const components: any = this.componentLookupService.lookupByPath(this.path, 'panels');
+    const components: any = this.pharosConfig.getComponents(this.path, 'panels');
     if (components) {
       components.forEach(component => {
         // start api calls before making component

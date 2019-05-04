@@ -3,8 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TargetDetailsComponent } from './target-details.component';
 import {SharedModule} from '../../../shared/shared.module';
 import {TargetHeaderComponent} from './target-header/target-header.component';
-import {EnvironmentVariablesService} from '../../../pharos-services/environment-variables.service';
-import {ComponentLookupService} from '../../../pharos-services/component-lookup.service';
 import {DataDetailsResolver} from '../../services/data-details.resolver';
 import {ResponseParserService} from '../../../pharos-services/response-parser.service';
 import {LoadingService} from '../../../pharos-services/loading.service';
@@ -30,14 +28,12 @@ describe('TargetDetailsComponent', () => {
       ],
       declarations: [ TargetDetailsComponent, TargetHeaderComponent],
       providers: [
-        EnvironmentVariablesService,
         DataDetailsResolver,
         PathResolverService,
         PharosApiService,
         ResponseParserService,
         LoadingService,
         ComponentInjectorService,
-        {provide: ComponentLookupService, useClass: TestComponentLookupService},
         {provide: APP_BASE_HREF, useValue: '/targets' }
       ]
     })

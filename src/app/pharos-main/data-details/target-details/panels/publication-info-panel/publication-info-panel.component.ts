@@ -7,9 +7,10 @@ import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/na
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {Publication, PublicationSerializer} from '../../../../../models/publication';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
-import {EnvironmentVariablesService} from '../../../../../pharos-services/environment-variables.service';
 import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
+import {PharosConfig} from "../../../../../../config/pharos-config";
+
 
 @Component({
   selector: 'pharos-publication-info-panel',
@@ -70,7 +71,7 @@ chartOptions: ScatterOptions = new ScatterOptions({
     private navSectionsService: NavSectionsService,
     private _http: HttpClient,
     private ref: ChangeDetectorRef,
-    private environmentVariablesService: EnvironmentVariablesService
+    private pharosConfig: PharosConfig
   ) {
     super();
   }
@@ -126,7 +127,7 @@ if (this.data.pubtator) {
   }
 
   paginate($event, origin: string) {
-    const url = `${this.environmentVariablesService.getApiPath()}targets/${this.target.accession}/${origin}?skip=${($event.pageIndex) * $event.pageSize}&top=${$event.pageSize}`;
+    const url = `${this.pharosConfig.getApiPath()}targets/${this.target.accession}/${origin}?skip=${($event.pageIndex) * $event.pageSize}&top=${$event.pageSize}`;
     this.loading = true;
     this._http.get<Publication[]>(
       url)

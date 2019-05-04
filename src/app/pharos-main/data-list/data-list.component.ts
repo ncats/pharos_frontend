@@ -9,10 +9,10 @@ import {LoadingService} from '../../pharos-services/loading.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {CustomContentDirective} from '../../tools/custom-content.directive';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
-import {ComponentLookupService} from '../../pharos-services/component-lookup.service';
 import {takeUntil} from 'rxjs/operators';
 import {DataListResolver} from '../services/data-list.resolver';
 import {PageData} from '../../models/page-data';
+import {PharosConfig} from "../../../config/pharos-config";
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -42,7 +42,7 @@ export class DataListComponent implements OnInit, OnDestroy {
               private responseParserService: ResponseParserService,
               private dataListResolver: DataListResolver,
               private loadingService: LoadingService,
-              private componentLookup: ComponentLookupService,
+              private pharosConfig: PharosConfig,
               private componentInjectorService: ComponentInjectorService) {}
 
 
@@ -71,7 +71,7 @@ export class DataListComponent implements OnInit, OnDestroy {
         if (res.content) {
           this.componentHost.viewContainerRef.clear();
           res.content.forEach(dataList => {
-            const components: any = this.componentLookup.lookupByPath(dataList.kind, 'list');
+            const components: any = this.pharosConfig.getComponents(dataList.kind, 'list');
             if (components) {
               components.forEach(component => {
                 if (component.token) {

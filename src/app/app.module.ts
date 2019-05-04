@@ -4,13 +4,11 @@ import { LoadingService } from './pharos-services/loading.service';
 import { AppRoutingModule } from './app-routing.module';
 import { PharosApiService } from './pharos-services/pharos-api.service';
 import { ResponseParserService } from './pharos-services/response-parser.service';
-import { EnvironmentVariablesService } from './pharos-services/environment-variables.service';
 import { PathResolverService } from './pharos-services/path-resolver.service';
 import { FacetRetrieverService } from './pharos-main/services/facet-retriever.service';
 import { PharosDashboardComponent } from './pharos-dashboard/pharos-dashboard.component';
 import {SuggestApiService} from './tools/search-component/suggest-api.service';
 import {SharedModule} from './shared/shared.module';
-import {ComponentLookupService} from './pharos-services/component-lookup.service';
 import { DynamicPanelComponent } from './tools/dynamic-panel/dynamic-panel.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ApiViewerComponent} from './tools/api-viewer/api-viewer.component';
@@ -66,10 +64,8 @@ import { AnatamogramComponent } from './tools/anatamogram/anatamogram.component'
     PathResolverService,
     ResponseParserService,
     LoadingService,
-    EnvironmentVariablesService,
     FacetRetrieverService,
     SuggestApiService,
-    ComponentLookupService,
     MolConverterService,
     StructureSetterService
   ],

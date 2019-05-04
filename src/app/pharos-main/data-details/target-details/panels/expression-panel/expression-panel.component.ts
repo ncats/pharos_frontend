@@ -3,7 +3,6 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import {MatTabChangeEvent} from '@angular/material';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {BehaviorSubject} from 'rxjs/index';
-import {EnvironmentVariablesService} from '../../../../../pharos-services/environment-variables.service';
 import {Ortholog, OrthologSerializer} from '../../../../../models/ortholog';
 import {DiseaseRelevance} from '../../../../../models/disease-relevance';
 import {takeUntil} from 'rxjs/operators';
@@ -11,6 +10,7 @@ import {DiseaseRelevanceSerializer} from '../../../../../models/disease-relevanc
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
 import {AnatamogramHoverService} from '../../../../../tools/anatamogram/anatamogram-hover.service';
+import {PharosConfig} from "../../../../../../config/pharos-config";
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 @Component({
@@ -139,13 +139,13 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   selectedTab: string;
 
   constructor(private navSectionsService: NavSectionsService,
-              private environmentVariablesService: EnvironmentVariablesService,
+              private pharosConfig: PharosConfig,
               private anatamogramHoverService: AnatamogramHoverService) {
     super();
   }
 
   ngOnInit() {
-    this._URL = this.environmentVariablesService.getHomunculusUrl(this.id);
+    this._URL = this.pharosConfig.getHomunculusUrl(this.id);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value

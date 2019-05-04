@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {catchError,  map } from 'rxjs/operators';
-import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
+import {PharosConfig} from "../../../config/pharos-config";
 
 @Injectable()
 export class SuggestApiService {
@@ -10,7 +10,7 @@ export class SuggestApiService {
   autocompleteFields: string[];
 
   constructor(private http: HttpClient,
-              private environmentVariableService: EnvironmentVariablesService) {
+              private environmentVariableService: PharosConfig) {
     this.url = this.environmentVariableService.getSuggestPath();
     this.autocompleteFields = this.environmentVariableService.getAutocompleteFields();
   }

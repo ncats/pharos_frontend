@@ -7,7 +7,6 @@ import {AppRoutingModule} from '../app-routing.module';
 import {PharosDashboardComponent} from '../pharos-dashboard/pharos-dashboard.component';
 import {DataTypesPanelComponent} from '../pharos-dashboard/data-types-panel/data-types-panel.component';
 import {AboutPanelComponent} from '../pharos-dashboard/about-panel/about-panel.component';
-import {EnvironmentVariablesService} from '../pharos-services/environment-variables.service';
 import {PathResolverService} from '../pharos-services/path-resolver.service';
 import {ResponseParserService} from '../pharos-services/response-parser.service';
 import {FaqPageComponent} from '../faq-page/faq-page.component';
@@ -47,7 +46,6 @@ describe('ApiPageComponent', () => {
         PathResolverService,
         ResponseParserService,
         LoadingService,
-        EnvironmentVariablesService,
         FacetRetrieverService,
         SuggestApiService,
         {provide: APP_BASE_HREF, useValue: '/index' }

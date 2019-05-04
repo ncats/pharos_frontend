@@ -3,6 +3,7 @@ import {
   Component, forwardRef, Inject, Injector, OnDestroy, OnInit, Type, ViewChild,
   ViewEncapsulation
 } from '@angular/core';
+import {PharosConfig} from "../../../../config/pharos-config";
 
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {Topic} from '../../../models/topic';
@@ -10,7 +11,6 @@ import {CustomContentDirective} from '../../../tools/custom-content.directive';
 import {DataDetailsResolver} from '../../services/data-details.resolver';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
 import {takeUntil} from 'rxjs/operators';
-import {ComponentLookupService} from '../../../pharos-services/component-lookup.service';
 import {DataConnectionService} from '../../../tools/visualizations/force-directed-graph/services/connection/data-connection.service';
 import {GraphDataService} from '../../../tools/visualizations/force-directed-graph/services/graph-data.service';
 import {NodeService} from '../../../tools/visualizations/force-directed-graph/services/event-tracking/node.service';
@@ -20,7 +20,6 @@ import {HttpClient} from '@angular/common/http';
 import {Target} from '../../../models/target';
 import {Disease} from '../../../models/disease';
 import {from, Observable, of} from 'rxjs/index';
-import {EnvironmentVariablesService} from '../../../pharos-services/environment-variables.service';
 import {PageData} from '../../../models/page-data';
 import {map, zipAll} from 'rxjs/operators';
 import {MatTabChangeEvent} from '@angular/material';
@@ -80,17 +79,16 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
 
   constructor(private _injector: Injector,
               private http: HttpClient,
-              private environmentVariablesService: EnvironmentVariablesService,
+              private pharosConfig: PharosConfig,
               private dataParserService: DataParserService,
 /*              private nodeService: NodeService,
               private linkService: LinkService,*/
-              @Inject(forwardRef(() => ComponentLookupService)) private componentLookupService,
               private dataDetailsResolver: DataDetailsResolver,
               private ref: ChangeDetectorRef,
             //  private graphDataService: GraphDataService,
               private componentInjectorService: ComponentInjectorService) {
     super();
-    this._apiUrl = this.environmentVariablesService.getApiPath();
+    this._apiUrl = this.pharosConfig.getApiPath();
   }
 
   ngOnInit() {
@@ -109,7 +107,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
     });
     /* this.topic = this.data.object;
      this.targetsMap.clear();
-     const components: any = this.componentLookupService.lookupByPath(this.path, 'panels');
+     const components: any = this.pharosConfig.getComponents(this.path, 'panels');
      if (components) {
        components.forEach(component => {
          // start api calls before making component

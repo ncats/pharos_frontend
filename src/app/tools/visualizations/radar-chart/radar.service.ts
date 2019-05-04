@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {catchError, map} from 'rxjs/operators';
 import {Observable, of} from 'rxjs/index';
 import {HttpClient} from '@angular/common/http';
-import {EnvironmentVariablesService} from '../../../pharos-services/environment-variables.service';
+import {PharosConfig} from "../../../../config/pharos-config";
 
 
 /**
@@ -76,13 +76,9 @@ export class RadarService {
    */
   private radarDataMap: Map<string, any> = new Map<string, any>();
 
-  /**
-   * create services and set url for data calls
-   * @param {HttpClient} http
-   * @param {EnvironmentVariablesService} environmentVariableService
-   */
+  // todo: this probably shouldn't have the environment variables here / load its own data
   constructor(private http: HttpClient,
-              private environmentVariableService: EnvironmentVariablesService) {
+              private pharosConfig: PharosConfig) {
   }
 
   /**
@@ -96,9 +92,9 @@ export class RadarService {
     let temp: any = this.radarDataMap.get(id);
     if (!temp || !temp[origin]) {
       if (origin === 'knowledge') {
-        url = `${this.environmentVariableService.getRadarPath()}${id}`;
+        url = `${this.pharosConfig.getRadarPath()}${id}`;
       } else if (origin === 'knowledge-sources') {
-        url = `${this.environmentVariableService.getRadarSourcesPath()}${id}`;
+        url = `${this.pharosConfig.getRadarSourcesPath()}${id}`;
       }
       temp = this._fetchData(url);
       this.setData(id, temp, origin);

@@ -12,7 +12,6 @@ import {RadarChartComponent} from '../../../tools/visualizations/radar-chart/rad
 import {RadarService} from '../../../tools/visualizations/radar-chart/radar.service';
 import {ResponseParserService} from '../../../pharos-services/response-parser.service';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
-import {EnvironmentVariablesService} from '../../../pharos-services/environment-variables.service';
 
 describe('TargetTableComponent', () => {
   let component: TargetTableComponent;
@@ -28,7 +27,6 @@ describe('TargetTableComponent', () => {
       providers: [
         RadarService,
         ResponseParserService,
-        EnvironmentVariablesService,
         PharosApiService
       ],
       declarations: [ TargetTableComponent, PharosPaginatorComponent, RadarChartComponent ]

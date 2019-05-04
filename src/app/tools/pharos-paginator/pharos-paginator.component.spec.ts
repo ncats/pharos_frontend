@@ -3,7 +3,6 @@ import { PharosPaginatorComponent } from './pharos-paginator.component';
 import {SharedModule} from '../../shared/shared.module';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
-import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {BrowserTestingModule} from '@angular/platform-browser/testing';
 import {AppRoutingModule} from '../../app-routing.module';
 import {PharosDashboardComponent} from '../../pharos-dashboard/pharos-dashboard.component';
@@ -32,7 +31,6 @@ describe('PharosPaginatorComponent', () => {
         PathResolverService,
         ResponseParserService,
         LoadingService,
-        EnvironmentVariablesService,
         FacetRetrieverService,
         SuggestApiService,
         {provide: APP_BASE_HREF, useValue: '/targets' }

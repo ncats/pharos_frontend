@@ -6,7 +6,6 @@ import {Target} from '../../../models/target';
 import {CustomContentDirective} from '../../../tools/custom-content.directive';
 import {DataDetailsResolver} from '../../services/data-details.resolver';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
-import {ComponentLookupService} from '../../../pharos-services/component-lookup.service';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {NavSectionsService} from '../../../tools/sidenav-panel/services/nav-sections.service';
@@ -14,6 +13,7 @@ import {DOCUMENT} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HelpDataService} from '../../../tools/help-panel/services/help-data.service';
 import {BreakpointObserver} from '@angular/cdk/layout';
+import {PharosConfig} from "../../../../config/pharos-config";
 
 @Component({
   selector: 'pharos-target-details',
@@ -35,7 +35,6 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
   constructor(
     private _injector: Injector,
     @Inject(DOCUMENT) private document: Document,
-    @Inject(forwardRef(() => ComponentLookupService)) private componentLookupService,
     private dataDetailsResolver: DataDetailsResolver,
     private router: Router,
     private route: ActivatedRoute,
@@ -43,6 +42,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
     private changeDetector: ChangeDetectorRef,
     private helpDataService: HelpDataService,
     public breakpointObserver: BreakpointObserver,
+    private pharosConfig: PharosConfig,
   private componentInjectorService: ComponentInjectorService
   ) {
     super();
@@ -50,7 +50,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
 
 ngOnInit() {
   this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
-    const components: any = this.componentLookupService.lookupByPath(this.path, this.target.idgTDL.toLowerCase());
+    const components: any = this.pharosConfig.getComponents(this.path, this.target.idgTDL.toLowerCase());
     if (components) {
       components.forEach(component => {
         // start api calls before making component

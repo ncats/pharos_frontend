@@ -7,7 +7,6 @@ import {PharosDashboardComponent} from './pharos-dashboard/pharos-dashboard.comp
 import {APP_BASE_HREF} from '@angular/common';
 import {LoadingService} from './pharos-services/loading.service';
 import {PathResolverService} from './pharos-services/path-resolver.service';
-import {EnvironmentVariablesService} from './pharos-services/environment-variables.service';
 import {FacetRetrieverService} from './pharos-main/services/facet-retriever.service';
 import {PharosApiService} from './pharos-services/pharos-api.service';
 import {ResponseParserService} from './pharos-services/response-parser.service';
@@ -45,7 +44,6 @@ describe('AppComponent', () => {
         PathResolverService,
         ResponseParserService,
         LoadingService,
-        EnvironmentVariablesService,
         FacetRetrieverService,
         SuggestApiService,
         {provide: APP_BASE_HREF, useValue: '/' }

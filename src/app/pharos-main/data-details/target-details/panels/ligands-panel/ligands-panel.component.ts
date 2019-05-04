@@ -1,6 +1,5 @@
 import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {EnvironmentVariablesService} from '../../../../../pharos-services/environment-variables.service';
 import {MatTableDataSource} from '@angular/material';
 import {Ligand, LigandSerializer} from '../../../../../models/ligand';
 import {PageData} from '../../../../../models/page-data';
@@ -9,6 +8,8 @@ import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/na
 import {Publication, PublicationSerializer} from '../../../../../models/publication';
 import {Target} from '../../../../../models/target';
 import {HttpClient} from '@angular/common/http';
+import {PharosConfig} from "../../../../../../config/pharos-config";
+
 
 
 @Component({
@@ -27,10 +28,10 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
     private changeDetector: ChangeDetectorRef,
     private _http: HttpClient,
     private ref: ChangeDetectorRef,
-    private environmentVariablesService: EnvironmentVariablesService
+    private pharosConfig: PharosConfig
   ) {
     super();
-    this._STRUCTUREURLBASE = this.environmentVariablesService.getStructureImageUrl();
+    this._STRUCTUREURLBASE = this.pharosConfig.getStructureImageUrl();
   }
 
     // todo pagination might still be a little slow, as the first load is not paginated
@@ -63,7 +64,7 @@ this._mapLigands(this.data[this.field]);
     }
 
   paginate($event) {
-    const url = `${this.environmentVariablesService.getApiPath()}targets/${this.target.accession}/${this.field}?skip=${($event.pageIndex) * $event.pageSize}&top=${$event.pageSize}&view=full`;
+    const url = `${this.pharosConfig.getApiPath()}targets/${this.target.accession}/${this.field}?skip=${($event.pageIndex) * $event.pageSize}&top=${$event.pageSize}&view=full`;
     this.loading = true;
     this._http.get<Ligand[]>(
       url)

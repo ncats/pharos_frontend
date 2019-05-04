@@ -1,7 +1,7 @@
 import {Injectable, Input} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/index';
 import {ResponseParserService} from '../../../pharos-services/response-parser.service';
-import {DESCRIPTIONS} from '../../../../environments/descriptions';
+import {DESCRIPTIONS} from '../../../../config/descriptions';
 
 @Injectable({
   providedIn: 'root'

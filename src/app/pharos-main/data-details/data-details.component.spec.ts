@@ -9,7 +9,6 @@ import {PharosMainRoutingModule} from '../pharos-main-routing.module';
 import {FacetRetrieverService} from '../services/facet-retriever.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
-import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {RouterTestingModule} from '@angular/router/testing';
 import {SharedListModule} from '../../shared/shared-list.module';
 
@@ -33,7 +32,6 @@ describe('DataDetailsComponent', () => {
         PathResolverService,
         ResponseParserService,
         LoadingService,
-        EnvironmentVariablesService,
         FacetRetrieverService,
         SuggestApiService,
         {provide: APP_BASE_HREF, useValue: '/targets' }

@@ -8,7 +8,6 @@ import {PharosDashboardComponent} from '../pharos-dashboard/pharos-dashboard.com
 import {AppModule} from '../app.module';
 import {DataTypesPanelComponent} from '../pharos-dashboard/data-types-panel/data-types-panel.component';
 import {AboutPanelComponent} from '../pharos-dashboard/about-panel/about-panel.component';
-import {EnvironmentVariablesService} from '../pharos-services/environment-variables.service';
 import {PathResolverService} from '../pharos-services/path-resolver.service';
 import {ResponseParserService} from '../pharos-services/response-parser.service';
 import {NewsPanelComponent} from '../pharos-dashboard/news-panel/news-panel.component';
@@ -50,7 +49,6 @@ describe('FaqPageComponent', () => {
         PathResolverService,
         ResponseParserService,
         LoadingService,
-        EnvironmentVariablesService,
         FacetRetrieverService,
         SuggestApiService,
         KatexRenderService,

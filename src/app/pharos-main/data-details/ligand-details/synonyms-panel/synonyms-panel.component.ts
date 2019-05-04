@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {EnvironmentVariablesService} from '../../../../pharos-services/environment-variables.service';
 import {StructureViewPanelComponent} from '../structure-view-panel/structure-view-panel.component';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 

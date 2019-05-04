@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
-import {EnvironmentVariablesService} from '../../../../pharos-services/environment-variables.service';
 import {StructureSetterService} from '../../../../tools/marvin-sketcher/services/structure-setter.service';
+import {PharosConfig} from "../../../../../config/pharos-config";
 
 @Component({
   selector: 'pharos-structure-view-panel',
@@ -13,14 +13,14 @@ export class StructureViewPanelComponent extends DynamicPanelComponent implement
   private _STRUCTUREURLBASE: string;
 
   constructor(
-    private environmentVariablesService: EnvironmentVariablesService,
+    private pharosConfig: PharosConfig,
     private structureSetter: StructureSetterService
   ) {
     super();
   }
 
   ngOnInit() {
-    this._STRUCTUREURLBASE = this.environmentVariablesService.getStructureImageUrl();
+    this._STRUCTUREURLBASE = this.pharosConfig.getStructureImageUrl();
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value

@@ -8,9 +8,9 @@ import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../models/page-data';
 import {TargetTableComponent} from '../target-table/target-table.component';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
-import {EnvironmentVariablesService} from '../../../pharos-services/environment-variables.service';
 import {LigandsPanelComponent} from '../../data-details/target-details/panels/ligands-panel/ligands-panel.component';
 import {HttpClient} from '@angular/common/http';
+import {PharosConfig} from "../../../../config/pharos-config";
 
 @Component({
   selector: 'pharos-ligand-table',
@@ -32,13 +32,13 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
   private _STRUCTUREURLBASE: string;
   constructor(
     private changeDetector: ChangeDetectorRef,
-    private environmentVariablesService: EnvironmentVariablesService,
+    private pharosConfig: PharosConfig,
     private _http: HttpClient) {
     super();
   }
 
   ngOnInit() {
-    this._STRUCTUREURLBASE = this.environmentVariablesService.getStructureImageUrl();
+    this._STRUCTUREURLBASE = this.pharosConfig.getStructureImageUrl();
     this._data.subscribe(d => {
       if (this.data) {
         this.setterFunction();

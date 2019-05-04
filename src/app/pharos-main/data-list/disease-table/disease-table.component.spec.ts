@@ -7,7 +7,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PharosPaginatorComponent} from '../../../tools/pharos-paginator/pharos-paginator.component';
 import {ResponseParserService} from '../../../pharos-services/response-parser.service';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
-import {EnvironmentVariablesService} from '../../../pharos-services/environment-variables.service';
 
 describe('DiseaseTableComponent', () => {
   let component: DiseaseTableComponent;
@@ -22,7 +21,6 @@ describe('DiseaseTableComponent', () => {
       ],
       providers: [
         ResponseParserService,
-        EnvironmentVariablesService,
         PharosApiService
       ],
       declarations: [ DiseaseTableComponent, PharosPaginatorComponent ]

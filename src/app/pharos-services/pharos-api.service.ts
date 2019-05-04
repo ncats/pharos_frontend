@@ -4,9 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import {Observable, Subject, of, combineLatest, BehaviorSubject, forkJoin, pipe, from} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {ParamMap} from '@angular/router';
-import {EnvironmentVariablesService} from './environment-variables.service';
 import {Topic} from '../models/topic';
 import {map} from 'rxjs/internal/operators';
+import {PharosConfig} from "../../config/pharos-config";
 
 
 @Injectable()
@@ -137,17 +137,11 @@ export class PharosApiService {
   ];
 
   returnedObject: {};
-  /**
-   * create services
-   * set url
-   * merge subscriptions
-   * @param {HttpClient} http
-   * @param {EnvironmentVariablesService} environmentVariablesService
-   */
+
   constructor(private http: HttpClient,
-              private environmentVariablesService: EnvironmentVariablesService) {
-    this._URL = this.environmentVariablesService.getApiPath();
-    this._SEARCHURLS = this.environmentVariablesService.getSearchPaths();
+              private pharosConfig: PharosConfig) {
+    this._URL = this.pharosConfig.getApiPath();
+    this._SEARCHURLS = this.pharosConfig.getSearchPaths();
     this._mergeSources();
   }
 
@@ -314,9 +308,9 @@ export class PharosApiService {
     if (params.keys.length === 0) {
       // todo in api, this fixes the url, but not in the ui
       if (path === 'search') {
-        str = this.environmentVariablesService.getDefaultUrl('targets');
+        str = this.pharosConfig.getDefaultUrl('targets');
       } else {
-        str = this.environmentVariablesService.getDefaultUrl(path);
+        str = this.pharosConfig.getDefaultUrl(path);
       }
     } else {
       str = this._URL + (path !== 'search' ? path + '/' : '')  + 'search?';

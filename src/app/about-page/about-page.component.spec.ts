@@ -11,7 +11,6 @@ import {DataTypesPanelComponent} from '../pharos-dashboard/data-types-panel/data
 import {NewsPanelComponent} from '../pharos-dashboard/news-panel/news-panel.component';
 import {AboutPanelComponent} from '../pharos-dashboard/about-panel/about-panel.component';
 import {ApiViewerComponent} from '../tools/api-viewer/api-viewer.component';
-import {EnvironmentVariablesService} from '../pharos-services/environment-variables.service';
 import {LoadingService} from '../pharos-services/loading.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {PathResolverService} from '../pharos-services/path-resolver.service';
@@ -46,7 +45,6 @@ describe('AboutPageComponent', () => {
         PathResolverService,
         ResponseParserService,
         LoadingService,
-        EnvironmentVariablesService,
         FacetRetrieverService,
         SuggestApiService,
         {provide: APP_BASE_HREF, useValue: '/index' }

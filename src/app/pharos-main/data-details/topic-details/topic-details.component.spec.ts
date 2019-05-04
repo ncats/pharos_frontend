@@ -13,9 +13,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
-import {ComponentLookupService} from '../../pharos-services/component-lookup.service';
 import {TestComponentLookupService} from '../../../../test/test-component-lookup.service';
-import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {DataDetailsResolver} from '../../pharos-main/services/data-details.resolver';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
 import {APP_BASE_HREF} from '@angular/common';
@@ -52,12 +50,10 @@ describe('TopicDetailsComponent', () => {
         LinkService,
         D3Service,
         PharosApiService,
-        EnvironmentVariablesService,
         DataDetailsResolver,
         PathResolverService,
         ResponseParserService,
         ComponentInjectorService,
-        {provide: ComponentLookupService, useClass: TestComponentLookupService},
         {provide: APP_BASE_HREF, useValue: '/targets' }
       ]
     })

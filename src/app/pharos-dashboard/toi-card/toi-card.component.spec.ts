@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ToiCardComponent } from './toi-card.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from '../../app-routing.module';
-import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {SharedModule} from '../../shared/shared.module';
 import {PharosDashboardComponent} from '../pharos-dashboard.component';
 import {SuggestApiService} from '../../tools/search-component/suggest-api.service';
@@ -39,7 +38,6 @@ describe('ToiCardComponent', () => {
       ],
       providers: [
         SuggestApiService,
-        EnvironmentVariablesService,
         {provide: APP_BASE_HREF, useValue: '/index' }
       ]
     })

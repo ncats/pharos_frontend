@@ -9,7 +9,6 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {CommonModule} from '@angular/common';
 import {HighlightPipe} from './highlight.pipe';
 import {SuggestApiService} from './suggest-api.service';
-import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -34,8 +33,7 @@ describe('SearchComponent', () => {
         HighlightPipe
       ],
       providers: [
-        SuggestApiService,
-        EnvironmentVariablesService
+        SuggestApiService
       ]
     })
     .compileComponents();

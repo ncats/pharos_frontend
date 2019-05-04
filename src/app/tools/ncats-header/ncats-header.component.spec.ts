@@ -4,7 +4,6 @@ import { NcatsHeaderComponent } from './ncats-header.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {SharedModule} from '../../shared/shared.module';
 import {SuggestApiService} from '../search-component/suggest-api.service';
-import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('NcatsHeaderComponent', () => {
@@ -20,8 +19,7 @@ describe('NcatsHeaderComponent', () => {
       ],
       declarations: [ ],
       providers: [
-        SuggestApiService,
-        EnvironmentVariablesService
+        SuggestApiService
       ]
     })
     .compileComponents();

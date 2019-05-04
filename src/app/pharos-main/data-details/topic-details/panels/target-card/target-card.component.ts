@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {Target} from '../../../../../models/target';
-import {EnvironmentVariablesService} from '../../../../../pharos-services/environment-variables.service';
 import {HttpClient} from '@angular/common/http';
+import {PharosConfig} from "../../../../../../config/pharos-config";
 
 @Component({
   selector: 'pharos-target-card',
@@ -15,8 +15,8 @@ export class TargetCardComponent implements OnInit, OnChanges {
   knowledge: any;
 
   constructor(private http: HttpClient,
-              private environmentVariablesService: EnvironmentVariablesService) {
-    this._apiUrl = this.environmentVariablesService.getRadarPath();
+              private pharosConfig: PharosConfig) {
+    this._apiUrl = this.pharosConfig.getRadarPath();
 
   }
 

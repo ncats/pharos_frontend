@@ -6,7 +6,6 @@ import {ResponseParserService} from '../../../pharos-services/response-parser.se
 import {LoadingService} from '../../../pharos-services/loading.service';
 import {SharedModule} from '../../../shared/shared.module';
 import {FacetRetrieverService} from '../../services/facet-retriever.service';
-import {EnvironmentVariablesService} from '../../../pharos-services/environment-variables.service';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {SuggestApiService} from '../../../tools/search-component/suggest-api.service';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -33,7 +32,6 @@ describe('VisualizationOptionsComponent', () => {
         PathResolverService,
         ResponseParserService,
         LoadingService,
-        EnvironmentVariablesService,
         FacetRetrieverService,
         SuggestApiService,
         {provide: APP_BASE_HREF, useValue: '/targets' }

@@ -7,7 +7,6 @@ import {PageData} from '../../../models/page-data';
 import {BatchUploadModalComponent} from '../../../tools/batch-upload-modal/batch-upload-modal.component';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import {environment} from '../../../../environments/environment.prod';
 
 @Component({
   selector: 'pharos-target-table',

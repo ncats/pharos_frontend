@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DataListComponent } from './data-list.component';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
-import {EnvironmentVariablesService} from '../../pharos-services/environment-variables.service';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {SuggestApiService} from '../../tools/search-component/suggest-api.service';
@@ -35,7 +34,6 @@ describe('DataListComponent', () => {
         PathResolverService,
         ResponseParserService,
         LoadingService,
-        EnvironmentVariablesService,
         FacetRetrieverService,
         SuggestApiService,
         {provide: APP_BASE_HREF, useValue: '/targets' }

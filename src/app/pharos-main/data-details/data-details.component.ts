@@ -10,13 +10,13 @@ import {ResponseParserService} from '../../pharos-services/response-parser.servi
 import {Subject} from 'rxjs';
 import {CustomContentDirective} from '../../tools/custom-content.directive';
 import {ActivatedRoute, NavigationEnd, NavigationExtras, Router} from '@angular/router';
-import {ComponentLookupService} from '../../pharos-services/component-lookup.service';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
 import {HelpPanelOpenerService} from '../../tools/help-panel/services/help-panel-opener.service';
 import {MatDrawer, MatSidenavContainer} from '@angular/material';
 import {DynamicPanelComponent} from '../../tools/dynamic-panel/dynamic-panel.component';
 import {DataDetailsResolver} from '../../pharos-main/services/data-details.resolver';
 import {CdkScrollable, CdkVirtualScrollViewport, ScrollDispatcher} from '@angular/cdk/scrolling';
+import {PharosConfig} from "../../../config/pharos-config";
 
 @Component({
   selector: 'pharos-data-details',
@@ -37,7 +37,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
 
   constructor(private _route: ActivatedRoute,
               private router: Router,
-              private componentLookupService: ComponentLookupService,
+              private pharosConfig: PharosConfig,
               private componentInjectorService: ComponentInjectorService,
               private responseParserService: ResponseParserService,
               private helpPanelOpenerService: HelpPanelOpenerService,
@@ -83,7 +83,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
   }
 
   makeComponents(): void {
-    const components: any = this.componentLookupService.lookupByPath(this.path, 'details');
+    const components: any = this.pharosConfig.getComponents(this.path, 'details');
     components.forEach(component => {
       // start api calls before making component
       const keys: string[] = [];
