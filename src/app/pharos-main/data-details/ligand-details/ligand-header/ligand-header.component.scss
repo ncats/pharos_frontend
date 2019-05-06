@@ -1,0 +1,29 @@
+
+// Import your custom theme
+@import '../../../../../ncats-theme.scss';
+
+.indicator {
+  display: inline;
+}
+
+.pharos-title {
+  font: 400 3rem/3rem Roboto, "Helvetica Neue", sans-serif;
+  margin: 0 0 3rem;
+  letter-spacing: -0.02em;
+}
+
+
+@media only screen and (max-width: 960px) {
+  .pharos-title {
+    font-size: 2em;
+  }
+
+  .title-holder {
+    margin-left: 2vw;
+  }
+}
+
+
+
+
+

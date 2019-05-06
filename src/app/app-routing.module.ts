@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import {PharosDashboardComponent} from './pharos-dashboard/pharos-dashboard.component';
 import {RouterModule, Routes} from '@angular/router';
 import {AboutPageComponent} from './about-page/about-page.component';
 import {FaqPageComponent} from './faq-page/faq-page.component';
@@ -12,7 +11,7 @@ import {SequenceSearchPageComponent} from './sequence-search-page/sequence-searc
 const ROUTES: Routes = [
   {
     path: 'index',
-    component: PharosDashboardComponent
+    loadChildren: './pharos-home/pharos-home.module#PharosHomeModule',
   },
   { path: '',
     redirectTo: '/index',

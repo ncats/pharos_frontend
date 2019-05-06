@@ -60,10 +60,7 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
   ]
 );
 
-@Injectable({
-  providedIn: 'root'
-})
-
+@Injectable()
 /**
  * retrieves radar chart data
  * returns radar chart config object

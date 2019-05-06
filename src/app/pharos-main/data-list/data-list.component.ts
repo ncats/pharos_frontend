@@ -1,16 +1,12 @@
-import {
-  ChangeDetectorRef, Component, OnDestroy, OnInit, Type, ViewChild
-} from '@angular/core';
-import {MatPaginator, MatSort } from '@angular/material';
+import {Component, OnDestroy, OnInit, Type, ViewChild} from '@angular/core';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {LoadingService} from '../../pharos-services/loading.service';
-import {SelectionModel} from '@angular/cdk/collections';
 import {CustomContentDirective} from '../../tools/custom-content.directive';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
 import {takeUntil} from 'rxjs/operators';
-import {DataListResolver} from '../services/data-list.resolver';
+import {DataListResolver} from './data-list.resolver';
 import {PageData} from '../../models/page-data';
 import {PharosConfig} from "../../../config/pharos-config";
 

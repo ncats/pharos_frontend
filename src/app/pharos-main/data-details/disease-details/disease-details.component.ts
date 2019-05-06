@@ -3,7 +3,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
-import {DataDetailsResolver} from '../../services/data-details.resolver';
+import {DataDetailsResolver} from '../data-details.resolver';
 import {Ligand} from '../../../models/ligand';
 import {CustomContentDirective} from '../../../tools/custom-content.directive';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';

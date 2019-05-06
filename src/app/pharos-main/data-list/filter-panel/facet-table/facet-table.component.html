@@ -1,0 +1,19 @@
+<!--<mat-form-field class="table-search">
+  <input matInput (keyup)="filterFacet($event.target.value)" placeholder="Search {{facet.label}}">
+</mat-form-field>-->
+<mat-table [dataSource]="dataSource">
+<ng-container matColumnDef="select">
+  <mat-cell *matCellDef="let row" class="col10">
+    <mat-checkbox (click)="$event.stopPropagation()"
+                  (change)="$event ? filterSelection.toggle(row.label) : null"
+                  [checked]="filterSelection.isSelected(row.label)">
+    </mat-checkbox>
+  </mat-cell>
+</ng-container>
+  <ng-container matColumnDef="{{field}}" *ngFor="let field of fieldColumns">
+<mat-cell *matCellDef="let row" class="filter-cell" ><span class="field-text">{{row[field]}}</span></mat-cell>
+</ng-container>
+
+<mat-row *matRowDef="let row; columns: displayColumns;" (click)= "filterSelection.toggle(row.label)" class="facet-row">
+</mat-row>
+</mat-table>

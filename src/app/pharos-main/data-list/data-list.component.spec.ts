@@ -8,7 +8,7 @@ import {SuggestApiService} from '../../tools/search-component/suggest-api.servic
 import {RouterTestingModule} from '@angular/router/testing';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {PharosMainRoutingModule} from '../pharos-main-routing.module';
-import {FacetRetrieverService} from '../services/facet-retriever.service';
+import {FacetRetrieverService} from './filter-panel/facet-retriever.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedListModule} from '../../shared/shared-list.module';

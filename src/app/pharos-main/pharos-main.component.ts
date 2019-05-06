@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FacetRetrieverService} from './services/facet-retriever.service';
+import {FacetRetrieverService} from './data-list/filter-panel/facet-retriever.service';
 import {HelpPanelOpenerService} from '../tools/help-panel/services/help-panel-opener.service';
-import {MatDrawer, MatPaginator, MatSidenav} from '@angular/material';
+import {MatDrawer} from '@angular/material';
 import {BreakpointObserver} from '@angular/cdk/layout';
 
 /**

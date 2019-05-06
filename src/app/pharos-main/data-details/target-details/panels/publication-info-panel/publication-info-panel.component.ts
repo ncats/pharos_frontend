@@ -92,7 +92,7 @@ chartOptions: ScatterOptions = new ScatterOptions({
   }
 
   setterFunction() {
-    const publications: Publication[] = this.data.publications.map(publication => this.publicationSerializer.fromJson(publication));
+    const publications: Publication[] = this.data.publications.filter(publication => publication).map(publication => this.publicationSerializer.fromJson(publication));
     const rifs: Publication[] = this.data.generifs.map(publication => this.publicationSerializer.fromJson(publication));
     this.publications = publications.map(publication => publication = this.publicationSerializer._asProperties(publication));
     this.generifs = rifs.map(publication => publication = this.publicationSerializer._asProperties(publication));

@@ -168,7 +168,6 @@ export class KatexRenderService {
   };
 
   constructor() {
-    console.log(this);
   }
 
 
@@ -180,8 +179,6 @@ export class KatexRenderService {
    * @returns {any}
    */
   splitWithDelimiters(text: string, delimiters: any): any {
-    console.log(text);
-    console.log(delimiters);
     let data = [{type: 'text', data: text}];
     for (let i = 0; i < delimiters.length; i++) {
       const delimiter = delimiters[i];
@@ -201,7 +198,6 @@ export class KatexRenderService {
    */
   renderMathInText(text: string, optionsCopy?: any): DocumentFragment {
     const data = this.splitWithDelimiters(text, optionsCopy.delimiters);
-    console.log(data);
     const fragment = document.createDocumentFragment();
 
     for (let i = 0; i < data.length; i++) {
@@ -230,7 +226,6 @@ export class KatexRenderService {
         fragment.appendChild(span);
       }
     }
-    console.log(fragment);
     return fragment;
   }
 
@@ -241,18 +236,15 @@ export class KatexRenderService {
    * @private
    */
   private _renderElem(elem: any, optionsCopy?: any): void {
-    console.log(elem.childNodes);
     for (let i = 0; i < elem.childNodes.length; i++) {
       const childNode = elem.childNodes[i];
       if (childNode.nodeType === 3) {
         // Text node
-        console.log(childNode);
         const frag = this.renderMathInText(childNode.textContent, optionsCopy);
         i += frag.childNodes.length - 1;
         elem.replaceChild(frag, childNode);
       } else if (childNode.nodeType === 1) {
         // Element node
-        console.log(childNode);
         const shouldRender = optionsCopy.ignoredTags.indexOf(
           childNode.nodeName.toLowerCase()) === -1;
 
@@ -270,7 +262,6 @@ export class KatexRenderService {
    * @param options
    */
   renderMathInElement(elem: any, options?: any): void {
-    console.log(elem);
     if (!elem) {
       throw new Error('No element provided to render');
     }

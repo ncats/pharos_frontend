@@ -1,10 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { NodeMenuComponent } from './node-menu.component';
+import {NodeMenuComponent} from './node-menu.component';
 import {SharedModule} from '../../../../../../../shared/shared.module';
 import {NodeService} from '../../../services/event-tracking/node.service';
 import {DataConnectionService} from '../../../services/connection/data-connection.service';
-import {WebSocketService} from '../../../services/connection/websocket.service';
 import {MessageService} from '../../../services/message.service';
 import {NodeMenuControllerService} from '../../../services/event-tracking/node-menu-controller.service';
 import {GraphDataService} from '../../../services/graph-data.service';
@@ -25,8 +24,8 @@ describe('NodeMenuComponent', () => {
         NodeMenuControllerService,
         GraphDataService,
         LinkService,
-        NodeExpandService,
-        WebSocketService],
+        NodeExpandService
+      ],
       declarations: [ NodeMenuComponent ]
     })
     .compileComponents();

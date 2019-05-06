@@ -1,13 +1,12 @@
   <div class="target-details-main" #detailsMain>
-    <mat-sidenav-container class="flex-body main-content">
+    <mat-sidenav-container class="main-content">
       <mat-sidenav #navpanel
                    class="nav-panel"
                    [mode]="'side'"
                     [fixedInViewport]="true"
                    [fixedTopGap]="120"
                    role="directory"
-                   [opened]="isSmallScreen!==true"
-      >
+                   [opened]="isSmallScreen!==true">
         <!-- sidenav content -->
         <pharos-sidenav-panel
           [activeElement] = activeElement>

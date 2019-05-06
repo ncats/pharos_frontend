@@ -22,7 +22,6 @@ export class AnatamogramComponent implements OnInit {
 
   ngOnInit() {
     this.anatamogramHoverService.tissues$.subscribe(change => {
-      console.log(this.anatamograms);
       this.anatamograms.forEach(instance => instance.highlightTissue(change));
     });
   }

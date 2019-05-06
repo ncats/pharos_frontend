@@ -18,7 +18,6 @@ import {KatexRendererDirective} from '../tools/equation-renderer/katex-renderer.
     LigandActivityArticleComponent,
     TinxArticleComponent,
     PubmedScoreArticleComponent,
-    EquationRendererComponent,
     KatexRendererDirective
   ],
   imports: [

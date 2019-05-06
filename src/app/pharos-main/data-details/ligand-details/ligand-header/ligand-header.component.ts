@@ -4,7 +4,7 @@ import {Ligand} from '../../../../models/ligand';
 @Component({
   selector: 'pharos-ligand-header',
   templateUrl: './ligand-header.component.html',
-  styleUrls: ['./ligand-header.component.css']
+  styleUrls: ['./ligand-header.component.scss']
 })
 export class LigandHeaderComponent implements OnInit {
   @Input() ligand: Ligand;

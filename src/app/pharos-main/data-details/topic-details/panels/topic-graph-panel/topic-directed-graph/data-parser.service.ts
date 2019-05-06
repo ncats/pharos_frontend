@@ -36,7 +36,6 @@ export class DataParserService implements DataParserInterface {
     private ligandNodeMappingService: LigandNodeMappingService,
     private linkService: LinkService
   ) {
-    console.log(this);
   }
 
 

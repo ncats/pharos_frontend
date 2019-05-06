@@ -1,10 +1,7 @@
-import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {environment} from '../../../../environments/environment';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {Subject} from 'rxjs/index';
-
-// todo: this is probably better pulled straight from the environment file so it is more modular
-const _URL = 	environment.molConvertUrl;
+import {PharosConfig} from "../../../../config/pharos-config";
 
 
 const httpOptions = {
@@ -31,11 +28,13 @@ export class MolConverterService {
    */
   smiles$ = this._molSource.asObservable();
 
-  /**
-   * add http client
-   * @param {HttpClient} http
-   */
-  constructor(private http: HttpClient) {
+
+  private url: string;
+
+  constructor(
+    private pharosConfig: PharosConfig,
+    private http: HttpClient) {
+    this.url = this.pharosConfig.getMolConvertUrl();
   }
 
   /**
@@ -43,7 +42,7 @@ export class MolConverterService {
    * @param {string} mol
    */
   convertMol(mol: string): void {
-    this.http.post(_URL, mol, httpOptions).subscribe(res => {
+    this.http.post(this.url, mol, httpOptions).subscribe(res => {
       this._molSource.next(res);
     });
   }

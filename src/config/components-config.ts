@@ -868,13 +868,13 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       },
       details: {
         components: [
+          PHAROS_BREADCRUMB_COMPONENT,
+          LIGAND_HEADER_COMPONENT,
           LIGAND_DETAILS_COMPONENT
         ]
       },
       panels: {
         components: [
-          PHAROS_BREADCRUMB_COMPONENT,
-          LIGAND_HEADER_COMPONENT,
           STRUCTURE_VIEW_PANEL,
           TARGET_RELEVANCE_PANEL,
           SYNONYMS_PANEL,

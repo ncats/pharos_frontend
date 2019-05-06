@@ -1,19 +1,17 @@
-import {
-  ChangeDetectorRef, Component, ElementRef, forwardRef, Inject, Injector, Input, OnDestroy, OnInit,
-  QueryList, Renderer2, Type, ViewChild, ViewChildren
-} from '@angular/core';
-import {Target} from '../../../models/target';
-import {CustomContentDirective} from '../../../tools/custom-content.directive';
-import {DataDetailsResolver} from '../../services/data-details.resolver';
-import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
-import {takeUntil} from 'rxjs/operators';
-import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
-import {NavSectionsService} from '../../../tools/sidenav-panel/services/nav-sections.service';
+import {ChangeDetectorRef, Component, Inject, Injector, Input, OnDestroy, OnInit, Type, ViewChild} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
-import {HelpDataService} from '../../../tools/help-panel/services/help-data.service';
 import {BreakpointObserver} from '@angular/cdk/layout';
+import {takeUntil} from 'rxjs/operators';
+
 import {PharosConfig} from "../../../../config/pharos-config";
+import {Target} from '../../../models/target';
+import {DataDetailsResolver} from '../data-details.resolver';
+import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
+import {CustomContentDirective} from '../../../tools/custom-content.directive';
+import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
+import {NavSectionsService} from '../../../tools/sidenav-panel/services/nav-sections.service';
+import {HelpDataService} from '../../../tools/help-panel/services/help-data.service';
 
 @Component({
   selector: 'pharos-target-details',

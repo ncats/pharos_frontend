@@ -14,7 +14,7 @@ import {ComponentInjectorService} from '../../pharos-services/component-injector
 import {HelpPanelOpenerService} from '../../tools/help-panel/services/help-panel-opener.service';
 import {MatDrawer, MatSidenavContainer} from '@angular/material';
 import {DynamicPanelComponent} from '../../tools/dynamic-panel/dynamic-panel.component';
-import {DataDetailsResolver} from '../../pharos-main/services/data-details.resolver';
+import {DataDetailsResolver} from './data-details.resolver';
 import {CdkScrollable, CdkVirtualScrollViewport, ScrollDispatcher} from '@angular/cdk/scrolling';
 import {PharosConfig} from "../../../config/pharos-config";
 

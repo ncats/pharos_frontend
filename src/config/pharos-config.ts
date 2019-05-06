@@ -67,6 +67,10 @@ export class PharosConfig {
     return PHAROSCONFIG.structureImageUrl;
   }
 
+  getMolConvertUrl(): string {
+    return PHAROSCONFIG.molConvertUrl;
+  }
+
 // todo: deprecate
   getHomunculusUrl(id: string): string {
     return PHAROSCONFIG.homunculusUrl.replace('_id_', id);

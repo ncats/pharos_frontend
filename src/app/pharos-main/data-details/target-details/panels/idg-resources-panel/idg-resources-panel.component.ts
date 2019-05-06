@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {Component, OnInit} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import * as d3 from 'd3';
 import {from} from 'rxjs';

@@ -8,7 +8,7 @@ import {environment} from '../../../../../../environments/environment';
  * this uses the raw environment file instead of the services to reduce dependencies
  * @type {string}
  */
-const WEBSOCKET_URL = environment.websocketUrl;
+const WEBSOCKET_URL = environment['websocketUrl'] ?  environment['websocketUrl'] : null;
 // const DATA_URL = 'ws://smrtgraphdb-dev.ncats.nih.gov:1337';
 
 @Injectable()

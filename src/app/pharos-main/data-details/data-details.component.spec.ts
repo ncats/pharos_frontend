@@ -6,7 +6,7 @@ import {ResponseParserService} from '../../pharos-services/response-parser.servi
 import {SuggestApiService} from '../../tools/search-component/suggest-api.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PharosMainRoutingModule} from '../pharos-main-routing.module';
-import {FacetRetrieverService} from '../services/facet-retriever.service';
+import {FacetRetrieverService} from '../data-list/filter-panel/facet-retriever.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
 import {RouterTestingModule} from '@angular/router/testing';

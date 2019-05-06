@@ -8,7 +8,7 @@ import {PharosConfig} from "../../../../config/pharos-config";
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {Topic} from '../../../models/topic';
 import {CustomContentDirective} from '../../../tools/custom-content.directive';
-import {DataDetailsResolver} from '../../services/data-details.resolver';
+import {DataDetailsResolver} from '../data-details.resolver';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
 import {takeUntil} from 'rxjs/operators';
 import {DataConnectionService} from '../../../tools/visualizations/force-directed-graph/services/connection/data-connection.service';

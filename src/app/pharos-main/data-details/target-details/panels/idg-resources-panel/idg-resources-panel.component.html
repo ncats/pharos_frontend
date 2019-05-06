@@ -14,7 +14,6 @@
                 <mat-select
                   [formControl]="reagentFilterCtrl"
                   [multiple]="true"
-                  [ariaLabel]="'Filter By'"
                   placeholder="Filter By:">
                   <mat-option *ngFor ="let option of reagentTypes" [value]="option.value">{{option.label.charAt(0).toUpperCase() + option.label.slice(1)}}</mat-option>
                 </mat-select>
@@ -48,7 +47,7 @@
             <div fxFlex="25">
               <mat-form-field class="full-width-field">
                 <mat-select [formControl]="dataFilterCtrl"
-                            [multiple]="true" [ariaLabel]="'Filter By'" placeholder="Filter By:">
+                            [multiple]="true" placeholder="Filter By:">
                   <mat-option *ngFor ="let option of dataTypes" [value]="option.value">{{option.label.charAt(0).toUpperCase() + option.label.slice(1)}}</mat-option>
                 </mat-select>
               </mat-form-field>

@@ -1,14 +1,13 @@
-import { TestBed, inject } from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 
-import { DataConnectionService } from './data-connection.service';
-import {WebSocketService} from './websocket.service';
+import {DataConnectionService} from './data-connection.service';
 
 describe('DataConnectionService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        WebSocketService,
-        DataConnectionService]
+        DataConnectionService
+      ]
     });
   });
 

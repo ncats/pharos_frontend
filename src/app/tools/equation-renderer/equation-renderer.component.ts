@@ -18,8 +18,6 @@ export class EquationRendererComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this);
-    console.log(this.equation);
       katex.render(this.equation, this.element.nativeElement, {});
 
   //  this.element.nativeElement.innerHTML = this.katexRenderService.renderMathInText(this.equation, {});
