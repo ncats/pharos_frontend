@@ -10,12 +10,13 @@ import {LigandTableModule} from "./tables/ligand-table/ligand-table.module";
 
 const pharosListRoutes: Routes = [
 {
-  path: '',
+   path: '',
+  pathMatch:'full',
   component: DataListComponent,
     resolve: {
   data: DataListResolver
 },
-  runGuardsAndResolvers: 'paramsOrQueryParamsChange'
+   runGuardsAndResolvers: 'paramsOrQueryParamsChange'
 }
 ];
 

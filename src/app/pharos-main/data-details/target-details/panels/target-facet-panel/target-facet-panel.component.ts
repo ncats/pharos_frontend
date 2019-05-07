@@ -3,6 +3,10 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 
+/**
+ * this is a list of the facets shown - this could probably be set in the config files
+ * @type {Map<string, string>}
+ */
 const LABELS: Map<string, string> = new Map<string, string> (
   [
     ['pantherProteinClass', 'Panther Protein Class'],
@@ -16,13 +20,20 @@ const LABELS: Map<string, string> = new Map<string, string> (
     ['gwasTrait', 'GWAS Trait']
   ]);
 
+/**
+ * show various related facets
+ */
 @Component({
   selector: 'pharos-target-facet-panel',
   templateUrl: './target-facet-panel.component.html',
   styleUrls: ['./target-facet-panel.component.css']
 })
 export class TargetFacetPanelComponent extends DynamicPanelComponent implements OnInit {
+  /**
+   * keys to the facets
+   */
   keys: string[];
+  
   facets: any[];
 
   fields: PharosProperty[] = [

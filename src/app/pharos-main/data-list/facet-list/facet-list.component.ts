@@ -1,13 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {PathResolverService} from "../../../pharos-services/path-resolver.service";
+import {Facet} from "../../../models/facet";
 
+/**
+ * panel to show selected facets or queries, and remove them
+ */
 @Component({
   selector: 'pharos-facet-list',
   templateUrl: './facet-list.component.html',
-  styleUrls: ['./facet-list.component.css']
+  styleUrls: ['./facet-list.component.scss']
 })
+
 export class FacetListComponent implements OnInit {
+  /**
+   * list of selected facets
+   */
   facets: any[];
 
   constructor(private _route: ActivatedRoute,

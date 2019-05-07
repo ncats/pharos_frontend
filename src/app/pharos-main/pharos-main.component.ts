@@ -42,6 +42,7 @@ export class PharosMainComponent implements OnInit {
 }
 
 ngOnInit() {
+    console.log(this);
   this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
   this.helpPanelOpenerService.toggle$.subscribe(res => this.helpPanel.toggle());
   }
