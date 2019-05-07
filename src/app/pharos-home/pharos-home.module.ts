@@ -6,6 +6,7 @@ import {DataTypesPanelComponent} from "./data-types-panel/data-types-panel.compo
 import {NewsPanelComponent} from "./news-panel/news-panel.component";
 import {SharedModule} from "../shared/shared.module";
 import {RouterModule, Routes} from "@angular/router";
+import {CommonToolsModule} from "../tools/common-tools.module";
 
 const pharosHomeRoutes: Routes = [
   {
@@ -25,6 +26,7 @@ const pharosHomeRoutes: Routes = [
   imports: [
     CommonModule,
     SharedModule,
+    CommonToolsModule,
     RouterModule.forChild(pharosHomeRoutes)
   ],
   exports: [

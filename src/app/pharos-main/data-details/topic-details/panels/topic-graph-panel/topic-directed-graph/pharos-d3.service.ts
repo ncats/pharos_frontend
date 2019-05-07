@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import * as d3 from 'd3';
-import {LinkService} from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/link.service';
+import {LinkService} from '../../../../../../tools/force-directed-graph/fdg-core/graph-component/services/event-tracking/link.service';
 import {PharosNodeService} from './pharos-node.service';
-import {D3Interface} from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/d3-interface';
-import {ForceDirectedGraph} from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/models/force-directed-graph';
-import { Node } from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/models/node';
-import { Link } from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/models/link';
+import {D3Interface} from '../../../../../../tools/force-directed-graph/fdg-core/graph-component/services/event-tracking/d3-interface';
+import {ForceDirectedGraph} from '../../../../../../tools/force-directed-graph/fdg-core/graph-component/models/force-directed-graph';
+import { Node } from '../../../../../../tools/force-directed-graph/fdg-core/graph-component/models/node';
+import { Link } from '../../../../../../tools/force-directed-graph/fdg-core/graph-component/models/link';
 
 // todo: pull out node and link service calls?
 

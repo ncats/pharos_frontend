@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {from} from 'rxjs/index';
 import {map} from 'rxjs/operators';
-import {LinkService} from '../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/link.service';
+import {LinkService} from '../../../../../../tools/force-directed-graph/fdg-core/graph-component/services/event-tracking/link.service';
 import {HttpClient} from '@angular/common/http';
 import {TargetNode} from '../../../../../../models/target-node';
 import {DataParserInterface} from '../../../../../../tools/force-directed-graph/interfaces/data-parser-interface';

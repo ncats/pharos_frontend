@@ -80,7 +80,7 @@ export class TargetTableComponent  extends DynamicPanelComponent implements OnIn
           'Content-Type':  'text/plain',
         })
       };
-      this.http.post(`https://pharos.ncats.io/app/api/v1/batchResolve`, result, httpOptions).subscribe(res => {
+      this.http.post(`https://pharos.ncats.io/idg/resolve/target.json`, result.join(), httpOptions).subscribe(res => {
         console.log(res);
       });
     });

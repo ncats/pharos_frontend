@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Subject} from 'rxjs/index';
 import {
   Node,
-} from '../../../../../../../tools/force-directed-graph/force-directed-graph/graph-component/models/node';
+} from '../../../../../../../tools/force-directed-graph/fdg-core/graph-component/models/node';
 import {NodeInteractionInterface} from '../../../../../../../tools/force-directed-graph/interfaces/node-interaction-interface';
 
 @Injectable({

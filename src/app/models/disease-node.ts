@@ -1,4 +1,4 @@
-import {Node, NodeSerializer} from '../tools/force-directed-graph/force-directed-graph/graph-component/models/node';
+import {Node, NodeSerializer} from '../tools/force-directed-graph/fdg-core/graph-component/models/node';
 import {Disease, DiseaseSerializer} from './disease';
 import {Target} from './target';
 

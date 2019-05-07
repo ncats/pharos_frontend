@@ -30,31 +30,9 @@ import {NodeDisplayComponent} from './data-details/topic-details/panels/node-dis
 
 import {DiseaseCardComponent} from './data-list/cards/disease-card/disease-card.component';
 
-import {ClickableNodeDirective} from '../tools/force-directed-graph/force-directed-graph/graph-component/directives/clickable-node.directive';
-import {GraphClickDirective} from '../tools/force-directed-graph/force-directed-graph/graph-component/directives/graph-click.directive';
-import {GraphMenuComponent} from '../tools/force-directed-graph/force-directed-graph/graph-component/shared-components/graph-menu/graph-menu.component';
-import {ForceDirectedGraphComponent} from '../tools/force-directed-graph/force-directed-graph/force-directed-graph.component';
-import {SearchComponent} from '../tools/force-directed-graph/tools/search-component/search.component';
-import {HoverableNodeDirective} from '../tools/force-directed-graph/force-directed-graph/graph-component/directives/hoverable-node.directive';
-import {HighlightPipe} from '../tools/force-directed-graph/tools/search-component/highlight.pipe';
-import {ZoomableDirective} from '../tools/force-directed-graph/force-directed-graph/graph-component/directives/zoomable.directive';
-import {NodeDetailsBoxComponent} from '../tools/force-directed-graph/force-directed-graph/graph-component/shared-components/node-details-box/node-details-box.component';
-import {RangeSliderComponent} from '../tools/force-directed-graph/tools/range-slider/range-slider.component';
-import {TopicGraphComponent} from '../tools/force-directed-graph/topic-graph.component';
-import {NodeVisualComponent} from '../tools/force-directed-graph/force-directed-graph/graph-component/shared-components/node-visual/node-visual.component';
-import {DraggableDirective} from '../tools/force-directed-graph/force-directed-graph/graph-component/directives/draggable.directive';
-import {HoverableLinkDirective} from '../tools/force-directed-graph/force-directed-graph/graph-component/directives/hoverable-link.directive';
-import {D3ColorLegendComponent} from '../tools/force-directed-graph/tools/d3-color-legend/d3-color-legend.component';
-import {LinkVisualComponent} from '../tools/force-directed-graph/force-directed-graph/graph-component/shared-components/link-visual/link-visual.component';
-import {ClickableLinkDirective} from '../tools/force-directed-graph/force-directed-graph/graph-component/directives/clickable-link.directive';
-import {PharosNodeService} from './data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-node.service';
-import {GraphDataService} from '../tools/force-directed-graph/force-directed-graph/graph-component/services/graph-data.service';
-import {LinkService} from '../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/link.service';
-import {PharosD3Service} from './data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-d3.service';
-import {NodeMenuControllerService} from '../tools/force-directed-graph/force-directed-graph/graph-component/services/event-tracking/node-menu-controller.service';
-import {NodeMenuComponent} from '../tools/visualizations/force-directed-graph/components/shared/node-menu/node-menu.component';
-import {GraphComponent} from '../tools/visualizations/force-directed-graph/components/graph/graph.component';
 import {TopicTableComponent} from './data-list/tables/topic-table/topic-table.component';
+import {PharosD3Service} from './data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-d3.service';
+import {NcatsFdgModule} from "../tools/force-directed-graph/ncats-fdg.module";
 
 
 
@@ -83,6 +61,7 @@ const pharosMainRoutes: Routes = [
     SharedDetailsModule,
     TargetDetailsModule,
     LigandDetailsModule,
+    NcatsFdgModule,
     RouterModule.forChild(pharosMainRoutes)
 
   ],
@@ -91,11 +70,7 @@ const pharosMainRoutes: Routes = [
   ],
   providers: [
     LoadingService,
-    PharosNodeService,
     PharosD3Service,
-    LinkService,
-    GraphDataService,
-    NodeMenuControllerService,
 
     // topics
     {provide: TOKENS.TOPIC_TABLE_COMPONENT, useValue: TopicTableComponent},
@@ -121,15 +96,8 @@ const pharosMainRoutes: Routes = [
     TopicHeaderComponent,
     DiseaseCardComponent,
     TopicGraphPanelComponent,
-    NodeDisplayComponent,
-    NodeVisualComponent,
-    LinkVisualComponent,
-    ForceDirectedGraphComponent,
-    NodeDetailsBoxComponent,
-    GraphMenuComponent,
-    RangeSliderComponent,
-    D3ColorLegendComponent,
-    TopicGraphComponent
+
+
   ],
   declarations: [
     PharosMainComponent,
@@ -141,27 +109,7 @@ const pharosMainRoutes: Routes = [
     TopicHeaderComponent,
     TopicGraphPanelComponent,
     DiseaseCardComponent,
-    NodeDisplayComponent,
-    NodeVisualComponent,
-    LinkVisualComponent,
-    ZoomableDirective,
-    HoverableLinkDirective,
-    HoverableNodeDirective,
-    DraggableDirective,
-    ClickableNodeDirective,
-    ClickableLinkDirective,
-    GraphClickDirective,
-    ForceDirectedGraphComponent,
-    NodeDetailsBoxComponent,
-    GraphMenuComponent,
-    RangeSliderComponent,
-    D3ColorLegendComponent,
-    HighlightPipe,
-    SearchComponent,
-    TopicGraphComponent,
-    NodeDisplayComponent,
-    NodeMenuComponent,
-    GraphComponent
+    NodeDisplayComponent
   ]
 })
 export class PharosMainRoutingModule {

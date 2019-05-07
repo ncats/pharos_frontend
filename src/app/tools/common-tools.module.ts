@@ -19,6 +19,9 @@ import {SharedModule} from "../shared/shared.module";
 import {RouterModule} from "@angular/router";
 import {NgxJsonViewerModule} from "ngx-json-viewer";
 import {RadarChartModule} from "./visualizations/radar-chart/radar-chart.module";
+import {SearchComponent} from "./search-component/search.component";
+import {HighlightPipe} from "./search-component/highlight.pipe";
+import {NcatsHeaderComponent} from "./ncats-header/ncats-header.component";
 
 @NgModule({
   declarations: [
@@ -34,8 +37,10 @@ import {RadarChartModule} from "./visualizations/radar-chart/radar-chart.module"
     LinkListComponent,
     SketcherComponent,
     PharosPaginatorComponent,
-    ProteinStructureViewerComponent
-
+    ProteinStructureViewerComponent,
+    HighlightPipe,
+    SearchComponent,
+    NcatsHeaderComponent
   ],
   imports: [
     CommonModule,
@@ -47,7 +52,8 @@ import {RadarChartModule} from "./visualizations/radar-chart/radar-chart.module"
     RadarChartModule
   ],
   entryComponents: [
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    BatchUploadModalComponent
   ],
   exports: [
     AnatamogramModule,
@@ -65,7 +71,10 @@ import {RadarChartModule} from "./visualizations/radar-chart/radar-chart.module"
     LinkListComponent,
     SketcherComponent,
     PharosPaginatorComponent,
-    ProteinStructureViewerComponent
+    ProteinStructureViewerComponent,
+    HighlightPipe,
+    SearchComponent,
+    NcatsHeaderComponent
   ]
 })
 export class CommonToolsModule { }

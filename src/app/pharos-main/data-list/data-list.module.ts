@@ -25,6 +25,7 @@ const pharosListRoutes: Routes = [
   imports: [
     CommonModule,
     SharedListModule,
+    // todo: these modules don't seem to be loading - no provider errors are thrown
     DiseaseTableModule,
     TargetTableModule,
     LigandTableModule,

@@ -1,8 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component, forwardRef, Inject, Injector, OnDestroy, OnInit, Type, ViewChild,
-  ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectorRef, Component, Injector, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {PharosConfig} from "../../../../config/pharos-config";
 
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
@@ -10,26 +6,15 @@ import {Topic} from '../../../models/topic';
 import {CustomContentDirective} from '../../../tools/custom-content.directive';
 import {DataDetailsResolver} from '../data-details.resolver';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
-import {takeUntil} from 'rxjs/operators';
-import {DataConnectionService} from '../../../tools/visualizations/force-directed-graph/services/connection/data-connection.service';
-import {GraphDataService} from '../../../tools/visualizations/force-directed-graph/services/graph-data.service';
-import {NodeService} from '../../../tools/visualizations/force-directed-graph/services/event-tracking/node.service';
-import {LigandDetailsComponent} from '../ligand-details/ligand-details.component';
-import {Ligand} from '../../../models/ligand';
 import {HttpClient} from '@angular/common/http';
 import {Target} from '../../../models/target';
 import {Disease} from '../../../models/disease';
-import {from, Observable, of} from 'rxjs/index';
 import {PageData} from '../../../models/page-data';
-import {map, zipAll} from 'rxjs/operators';
 import {MatTabChangeEvent} from '@angular/material';
-import {Node} from '../../../tools/visualizations/force-directed-graph/models/node';
-import {Link} from '../../../tools/visualizations/force-directed-graph/models/link';
-import {LinkService} from '../../../tools/visualizations/force-directed-graph/services/event-tracking/link.service';
 import {DataParserService} from './panels/topic-graph-panel/topic-directed-graph/data-parser.service';
-import {LigandNode} from '../../../models/ligand-node';
-import {TargetNode} from '../../../models/target-node';
 import {PharosProperty} from '../../../models/pharos-property';
+import {Link} from "../../../tools/force-directed-graph/fdg-core/graph-component/models/link";
+import {Node} from "../../../tools/force-directed-graph/fdg-core/graph-component/models/node";
 
 interface TopicData {
   target: Target;
