@@ -1,23 +1,72 @@
 import {PharosBase, PharosSerializer, PharosSubList} from './pharos-base';
 import {PharosProperty} from './pharos-property';
 
+/**
+ * main disease object, mainly list of associated targets
+ */
 export class Disease extends PharosBase {
+  /**
+   * name of disease
+   */
   name: string;
+  /**
+   * description of disease
+   */
   description: string;
+  /**
+   * sublist object for links
+   */
   _links: PharosSubList;
+
+  /**
+   * links count
+   */
   _linksCount: number;
+  /**
+   * sublist object for properties
+   */
   _properties: PharosSubList;
+
+  /**
+   * properties count
+   */
   _propertiesCount: number;
+  /**
+   * sublist object for synonyms
+   */
   _synonyms: PharosSubList;
+
+  /**
+   * synonyms count
+   */
   _synonymsCount: number;
+
+  /**
+   * sublist object for publications
+   */
   _publications: PharosSubList;
+
+  /**
+   * count of publications
+   */
   _publicationsCount: number;
 }
 
+/**
+ * serializer for a disease object
+ */
 export class DiseaseSerializer implements PharosSerializer {
 
+  /**
+   * no args constructor
+   */
   constructor () {}
 
+  /**
+   * return disease object from json, mapping sublists
+   * @param json
+   * @return {Disease}
+   */
   fromJson(json: any): Disease {
     const obj = new Disease();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
@@ -40,10 +89,21 @@ export class DiseaseSerializer implements PharosSerializer {
     return obj;
   }
 
+  /**
+   * flatten object to json
+   * @param {PharosBase} obj
+   * @return {any}
+   */
   toJson(obj: PharosBase): any {
     return [];
   }
 
+  /**
+   * return properties from object
+   * @param {PharosBase} T
+   * @return {any}
+   * @private
+   */
   _asProperties<T extends PharosBase>(T: PharosBase): any {
     const newObj: any = {};
     Object.keys(T).map(field => {

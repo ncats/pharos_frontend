@@ -1,10 +1,156 @@
-import {PharosBase, Serializer, PharosSubList, PharosSerializer} from './pharos-base';
+import {PharosBase, PharosSerializer, PharosSubList} from './pharos-base';
 import {PharosProperty} from './pharos-property';
 
+/**
+ * main target object
+ */
+export class Target extends PharosBase {
+
+  /**
+   * target name
+   */
+  name: string;
+
+  /**
+   * target gene name
+   */
+  gene: string;
+
+  /**
+   * target accession id
+   */
+  accession: string;
+
+  /**
+   * target description
+   */
+  description: string;
+
+  /**
+   * idg family distinction
+   */
+  idgFamily: string;
+
+  /**
+   * idg development level
+   */
+  idgTDL: string;
+
+  /**
+   * idg novelty score
+   */
+  novelty:  number;
+
+  /**
+   * antibodipedia.org? count
+   */
+  antibodyCount:  number;
+
+  /**
+   * monoclonal count
+   * // todo: not used
+   */
+  monoclonalCount: number;
+
+  /**
+   * number of publications
+   */
+  pubmedCount:  number;
+
+  /**
+   * text mined publication score
+   */
+  jensenScore:  number;
+
+  /**
+   * number of patents
+   */
+  patentCount:  number;
+
+  /**
+   * number of grants
+   */
+  grantCount:  number;
+
+  /**
+   * amount of grant funding
+   */
+  grantTotalCost:  number;
+
+  /**
+   * number of r01 grants
+   */
+  r01Count:  number;
+
+  /**
+   * number of protein-protein interactions
+   */
+  ppiCount:  number;
+
+  /**
+   * knowledge availability score
+   */
+  knowledgeAvailability:  number;
+
+  /**
+   * pubtator literature score
+   */
+  pubTatorScore:  number;
+
+  /**
+   * sublist object for links
+   */
+  _links: PharosSubList;
+
+  /**
+   * links count
+   */
+  _linksCount: number;
+  /**
+   * sublist object for properties
+   */
+  _properties: PharosSubList;
+
+  /**
+   * properties count
+   */
+  _propertiesCount: number;
+  /**
+   * sublist object for synonyms
+   */
+  _synonyms: PharosSubList;
+
+  /**
+   * synonyms count
+   */
+  _synonymsCount: number;
+
+  /**
+   * sublist object for publications
+   */
+  _publications: PharosSubList;
+
+  /**
+   * count of publications
+   */
+  _publicationsCount: number;
+}
+
+/**
+ * serializer for publicaiton object operations
+ */
 export class TargetSerializer implements PharosSerializer {
 
+  /**
+   * no args constructor
+   */
   constructor () {}
 
+  /**
+   * create target object from json
+   * @param json
+   * @return {Target}
+   */
   fromJson(json: any): Target {
     const obj = new Target();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
@@ -28,10 +174,21 @@ export class TargetSerializer implements PharosSerializer {
     return obj;
   }
 
+  /**
+   * flatten target to json
+   * @param {PharosBase} obj
+   * @return {any}
+   */
   toJson(obj: PharosBase): any {
     return [];
   }
 
+  /**
+   * return target as properties
+   * @param {PharosBase} obj
+   * @return {any}
+   * @private
+   */
   _asProperties(obj: PharosBase): any {
     const newObj: any = {};
     Object.keys(obj).map(field => {
@@ -43,35 +200,6 @@ export class TargetSerializer implements PharosSerializer {
   }
 }
 
-export class Target extends PharosBase {
-  name: string;
-  gene: string;
-  accession: string;
-  description: string;
-  idgFamily: string;
-  idgTDL: string;
-  novelty:  number;
-  antibodyCount:  number;
-  monoclonalCount: number;
-  pubmedCount:  number;
-  jensenScore:  number;
-  patentCount:  number;
-  grantCount:  number;
-  grantTotalCost:  number;
-  r01Count:  number;
-  ppiCount:  number;
-  knowledgeAvailability:  number;
-  pubTatorScore:  number;
- // self: string;
-  _organism: string;
-  _links: PharosSubList;
-  _linksCount: number;
-  _properties: PharosSubList;
-  _propertiesCount: number;
-  _synonyms: PharosSubList;
-  _synonymsCount: number;
-  _publications: PharosSubList;
-  _publicationsCount: number;
-}
+
 
 

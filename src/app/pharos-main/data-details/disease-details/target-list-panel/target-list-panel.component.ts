@@ -31,7 +31,10 @@ export class TargetListPanelComponent extends DynamicPanelComponent implements O
 
   tableArr: any[] = [];
 
-
+  /**
+   * no args constructor
+   * calls spuer object constructor
+   */
   constructor() {
     super();
   }

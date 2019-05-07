@@ -6,7 +6,7 @@
     <mat-card-title ><span class="mat-title">Protein Database ({{tableArr?.length}})</span></mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <pharos-generic-table [data]= tableArr [fieldsConfig] = fields></pharos-generic-table>
+    <pharos-generic-table [data]= tableArr [fieldsConfig]= fieldsData (pageChange)="pagePDB()"></pharos-generic-table>
 <!--    <pharos-protein-structure-viewer [pdbid] = test *ngIf="tableArr.length > 0"></pharos-protein-structure-viewer>
     <pharos-protein-structure-viewer [pdbid] = test1 *ngIf="tableArr.length > 0"></pharos-protein-structure-viewer>
     <pharos-protein-structure-viewer [pdbid] = test2 *ngIf="tableArr.length > 0"></pharos-protein-structure-viewer>

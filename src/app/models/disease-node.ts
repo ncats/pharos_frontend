@@ -17,7 +17,17 @@ export class DiseaseNode extends Node {
   targets: Target[];
 }
 
+/**
+ * serializer to generate a disease node for a force-directed graph
+ */
 export class DiseaseNodeSerializer implements NodeSerializer {
+
+  /**
+   * generate node from json
+   * @param obj
+   * @param {string} id
+   * @return {DiseaseNode}
+   */
   fromJson (obj: any, id?: string): DiseaseNode {
     const node = new DiseaseNode();
     Object.entries((obj)).forEach((prop) => node[prop[0]] = prop[1]);
@@ -26,8 +36,18 @@ export class DiseaseNodeSerializer implements NodeSerializer {
     return node;
   }
 
+  /**
+   * flatten node to json.
+   * probably never used, but comes with the serializer interface
+   */
   toJson() {}
 
+  /**
+   * append auxiliary data to a node
+   * @param {DiseaseNode} node
+   * @param data
+   * @return {DiseaseNode}
+   */
   mergeNodes(node: DiseaseNode, data: any): DiseaseNode {
     Object.entries((data)).forEach((prop) => node[prop[0]] = prop[1]);
     return node;

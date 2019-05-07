@@ -1,5 +1,8 @@
 import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
 
+/**
+ * pharos specific property that extends data property, mainly to handle the different vehicles for the object data
+ */
 export class PharosProperty extends DataProperty {
   constructor(obj: any) {
    super(obj);

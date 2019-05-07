@@ -15,6 +15,10 @@ export class DynamicTablePanelComponent extends DynamicPanelComponent {
   tableFields: PharosProperty[];
   field: string;
 
+  /**
+   * no args constructor
+   * calls super object constructor
+   */
   constructor() {
     super();
   }

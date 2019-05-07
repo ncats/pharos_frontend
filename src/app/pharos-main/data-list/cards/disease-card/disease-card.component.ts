@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'pharos-disease-card',
   templateUrl: './disease-card.component.html',
   styleUrls: ['./disease-card.component.css']
 })
-export class DiseaseCardComponent implements OnInit {
+export class DiseaseCardComponent {
 
+  /**
+   * no args constructor
+   */
   constructor() { }
-
-  ngOnInit() {
-  }
-
 }

@@ -1,5 +1,8 @@
 import {ScatterPoint} from '../tools/visualizations/scatter-plot/models/scatter-point';
 
+/**
+ * extends scatter point object to add name and label properties
+ */
 export class PharosPoint implements ScatterPoint {
 
   /**
@@ -28,7 +31,7 @@ export class PharosPoint implements ScatterPoint {
   id: string;
 
   /**
-   *
+   * map data to node - create custom id for hovering functionality
    * @param data
    */
   constructor(data: any) {

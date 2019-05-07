@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Target} from '../../../../../../../models/target';
 
 @Component({
@@ -6,13 +6,19 @@ import {Target} from '../../../../../../../models/target';
   templateUrl: './tdark-summary.component.html',
   styleUrls: ['./tdark-summary.component.scss']
 })
-export class TdarkSummaryComponent implements OnInit {
+export class TdarkSummaryComponent {
+  /**
+   * input target
+   */
   @Input() target: Target;
+
+  /**
+   * additional data for tracking completion
+   */
   @Input() data: any;
 
+  /**
+   * no args constructor
+   */
   constructor() { }
-
-  ngOnInit() {
-  }
-
 }

@@ -60,7 +60,7 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
 
 
   /**
-   * no required services
+   * no required services, call super object constructor
    */
   constructor() {
     super();

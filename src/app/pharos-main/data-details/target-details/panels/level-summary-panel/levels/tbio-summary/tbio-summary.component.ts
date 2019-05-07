@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Target} from '../../../../../../../models/target';
 
 @Component({
@@ -6,13 +6,19 @@ import {Target} from '../../../../../../../models/target';
   templateUrl: './tbio-summary.component.html',
   styleUrls: ['./tbio-summary.component.scss']
 })
-export class TbioSummaryComponent implements OnInit {
+export class TbioSummaryComponent {
+  /**
+   * input target
+   */
   @Input() target: Target;
+
+  /**
+   * additional data for tracking completion
+   */
   @Input() data: any;
 
+  /**
+   * no args constructor
+   */
   constructor() { }
-
-  ngOnInit() {
-  }
-
 }

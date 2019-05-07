@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Ligand} from '../../../../models/ligand';
 
 @Component({
@@ -6,11 +6,11 @@ import {Ligand} from '../../../../models/ligand';
   templateUrl: './ligand-header.component.html',
   styleUrls: ['./ligand-header.component.scss']
 })
-export class LigandHeaderComponent implements OnInit {
+export class LigandHeaderComponent {
   @Input() ligand: Ligand;
+
+  /**
+   * no args constructor
+   */
   constructor() { }
-
-  ngOnInit() {
   }
-
-}

@@ -29,6 +29,10 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
   /*  @HostBinding('attr.fxFlex')
     flex = this.width;*/
 
+  /**
+   * no args constructor
+   * calls super object
+   */
   constructor() {
     super();
   }

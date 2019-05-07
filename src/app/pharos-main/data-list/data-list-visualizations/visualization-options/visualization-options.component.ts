@@ -11,6 +11,9 @@ export class VisualizationOptionsComponent implements OnInit {
 
   selected: string;
 
+  /**
+   * no args constructor
+   */
   constructor() { }
 
   ngOnInit() {

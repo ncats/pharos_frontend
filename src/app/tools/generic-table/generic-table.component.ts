@@ -298,6 +298,7 @@ export class GenericTableComponent implements OnInit,  AfterViewInit {
     } else {
       this.displayColumns = this.displayFields.map(field => field.name);
     }
+//    console.log(this);
   }
 
 

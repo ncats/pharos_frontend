@@ -1,10 +1,92 @@
-import {PharosBase, PharosSerializer, PharosSubList, Serializer} from './pharos-base';
+import {PharosBase, PharosSerializer, PharosSubList} from './pharos-base';
 import {PharosProperty} from './pharos-property';
 
+/**
+ * ligand object
+ */
+export class Ligand extends PharosBase {
+
+  /**
+   * name of ligand
+   */
+  name?: string;
+
+  /**
+   * activity type of ligand
+   * not returned by api
+   */
+  activityType?: string;
+
+  /**
+   * ligand activity
+   * not returned by api
+   */
+  activity?: any;
+
+  /**
+   * list of activities
+   * not returned by api
+   */
+  activities?: any;
+  /**
+   * url for structure image
+   */
+  imageUrl?: string;
+
+  /**
+   * sublist object for links
+   */
+  _links: PharosSubList;
+
+  /**
+   * links count
+   */
+  _linksCount: number;
+  /**
+   * sublist object for properties
+   */
+  _properties: PharosSubList;
+
+  /**
+   * properties count
+   */
+  _propertiesCount: number;
+  /**
+   * sublist object for synonyms
+   */
+  _synonyms: PharosSubList;
+
+  /**
+   * synonyms count
+   */
+  _synonymsCount: number;
+
+  /**
+   * sublist object for publications
+   */
+  _publications: PharosSubList;
+
+  /**
+   * count of publications
+   */
+  _publicationsCount: number;
+}
+
+/**
+ * serializer for ligand object operations
+ */
 export class LigandSerializer implements PharosSerializer {
 
+  /**
+   * no args constructor
+   */
   constructor () {}
 
+  /**
+   * create ligand object from json
+   * @param json
+   * @return {Ligand}
+   */
   fromJson(json: any): Ligand {
     const obj = new Ligand();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
@@ -27,10 +109,21 @@ export class LigandSerializer implements PharosSerializer {
     return obj;
   }
 
+  /**
+   * flatten object to json
+   * @param {PharosBase} obj
+   * @return {any}
+   */
   toJson(obj: PharosBase): any {
     return [];
   }
 
+  /**
+   * return objec as pharos properties
+   * @param {PharosBase} obj
+   * @return {any}
+   * @private
+   */
   _asProperties<T extends PharosBase>(obj: PharosBase): any {
     const newObj: any = {};
     Object.keys(obj).map(field => {
@@ -39,33 +132,4 @@ export class LigandSerializer implements PharosSerializer {
     });
     return newObj;
   }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-export class Ligand extends PharosBase {
-name?: string;
-activityType?: string;
-activity?: any;
-activities?: any;
-imageUrl?: string;
-  _links: PharosSubList;
-  _linksCount: number;
-  _properties: PharosSubList;
-  _propertiesCount: number;
-  _synonyms: PharosSubList;
-  _synonymsCount: number;
-  _publications: PharosSubList;
-  _publicationsCount: number;
 }

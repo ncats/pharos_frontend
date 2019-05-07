@@ -44,7 +44,10 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
 
     tableArr: any[] = [];
 
-
+  /**
+   * no args constructor
+   * calls super object constructor
+   */
   constructor() {
     super();
   }

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Target} from '../../../../../../../models/target';
 
 @Component({
@@ -6,12 +6,19 @@ import {Target} from '../../../../../../../models/target';
   templateUrl: './tchem-summary.component.html',
   styleUrls: ['./tchem-summary.component.scss']
 })
-export class TchemSummaryComponent implements OnInit {
+export class TchemSummaryComponent {
+  /**
+   * input target
+   */
   @Input() target: Target;
+
+  /**
+   * additional data for tracking completion
+   */
   @Input() data: any;
+
+  /**
+   * no args constructor
+   */
   constructor() { }
-
-  ngOnInit() {
-  }
-
 }

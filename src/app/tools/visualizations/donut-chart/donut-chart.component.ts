@@ -26,7 +26,9 @@ export class DonutChartComponent implements OnInit, OnChanges {
     this.drawChart();
     this.updateChart();
   }
-
+  /**
+   * no args constructor
+   */
   constructor() {}
 
   // todo add click event that emits up

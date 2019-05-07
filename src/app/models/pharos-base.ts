@@ -1,35 +1,124 @@
+/**
+ * base class of objects (target, disease, ligand) returned by the Pharos Api
+ */
 export class PharosBase {
+  /**
+   * date created
+   */
   created:  string;
+  /**
+   * if object is deprecated
+   */
   deprecated: boolean;
+  /**
+   * link to expanded object view
+   */
   href: string;
+  /**
+   * id of the object
+   */
   id: number;
+  /**
+   * pharos object model java class
+   */
   kind?: string;
+  /**
+   * date last modified
+   */
   modified:  number;
+  /**
+   * object version number
+   */
   version: number;
+  /**
+   * object namespace
+   */
   _namespace: string;
 
-  static mapDates(obj) {
+  /**
+   * return date string from an object
+   * // todo: see if this is ever used
+   * @param obj
+   * @return {string}
+   */
+  static mapDates(obj:any):string {
     obj.created = new Date(obj.created).toLocaleDateString();
     return obj;
   }
 }
 
+/**
+ * serializer designed to return a Pharos base object, to be extended by other serializers
+ */
 export interface PharosSerializer extends Serializer {
+  /**
+   * converts Json object to PharosBase object
+   * @param json
+   * @return {PharosBase}
+   */
   fromJson(json: any): PharosBase;
+
+  /**
+   * flattens PharosBase object to Json, probably never used
+   * @param {PharosBase} object
+   * @return {any}
+   */
   toJson(object: PharosBase): any;
+
+  /**
+   * return object as parsed properties
+   * @param {PharosBase} object
+   * @return {any}
+   * @private
+   */
   _asProperties(object: PharosBase): any;
 }
 
+/**
+ * initial serializer, simply sets up methods to be implemented
+ */
 export interface Serializer {
+  /**
+   * return classed object from json
+   * @param json
+   * @return {any}
+   */
   fromJson(json: any): any;
+
+  /**
+   * return json from classed object
+   * @param object
+   * @return {any}
+   */
   toJson(object: any): any;
+
+  /**
+   * return object as series of property objects
+   * @param object
+   * @return {any}
+   * @private
+   */
   _asProperties(object: any): any;
 }
 
+/**
+ * some pharos objects return the view collapsed, with a helper object consisting of a count and url
+ */
 export class PharosSubList {
+  /**
+   * count of associated sub objects
+   */
   count: number;
+
+  /**
+   * url to expanded view of sub objects
+   */
   href: string;
 
+  /**
+   * deconstruct object to create typed object
+   * @param obj
+   */
   constructor (obj: any) {
     Object.entries((obj)).forEach((prop) => this[prop[0]] = prop[1]);
   }

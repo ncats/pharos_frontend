@@ -17,6 +17,9 @@ export class ApiViewerComponent implements AfterViewInit {
    */
   @ViewChild('swagger') el: ElementRef;
 
+  /**
+   * no args constructor
+   */
   constructor() {}
 
   ngAfterViewInit() {

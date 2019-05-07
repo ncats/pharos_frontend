@@ -12,6 +12,10 @@ import {BreakpointObserver} from '@angular/cdk/layout';
 export class TargetHeaderComponent extends DynamicPanelComponent implements OnInit {
   @Input() target: Target;
 
+  /**
+   * no args constructor
+   * call super object constructor
+   */
   constructor() {
     super();
   }

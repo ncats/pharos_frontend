@@ -120,7 +120,9 @@ export class LineChartComponent  implements OnInit, OnDestroy {
     this.drawChart();
     this.updateChart();
   }
-
+  /**
+   * no args constructor
+   */
   constructor() {
   }
 

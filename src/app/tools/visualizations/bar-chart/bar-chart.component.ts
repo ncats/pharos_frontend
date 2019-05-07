@@ -41,6 +41,9 @@ export class BarChartComponent implements OnInit {
   tooltip: any;
   @Output() readonly clickSlice: EventEmitter<any> = new EventEmitter<any>();
 
+  /**
+   * no args constructor
+   */
   constructor() {
   }
 

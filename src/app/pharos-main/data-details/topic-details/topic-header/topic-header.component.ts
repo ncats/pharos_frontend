@@ -11,6 +11,10 @@ import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-pan
 export class TopicHeaderComponent extends DynamicPanelComponent implements OnInit {
   @Input() topic: Topic;
 
+  /**
+   * no args constructor
+   * calls super object constructor
+   */
   constructor() {
     super();
   }

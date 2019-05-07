@@ -9,6 +9,10 @@ import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
 
 // skipping log2foldchange property
+/**
+ * map of pharos properties for displaying diseases
+ * @type {Map<string, PharosProperty>}
+ */
 const TABLEMAP: Map<string, PharosProperty> = new Map<string, PharosProperty>(
   [
     ['IDG Disease',  new PharosProperty({

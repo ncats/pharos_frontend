@@ -1,4 +1,4 @@
-import {Injectable, Input} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/index';
 
 @Injectable({
@@ -7,6 +7,9 @@ import {BehaviorSubject} from 'rxjs/index';
 
 export class NavSectionsService {
 
+  /**
+   * no args constructor
+   */
   constructor() { }
 
   /**

@@ -12,6 +12,10 @@ export class LigandCardComponent implements OnInit {
 @Input() ligand: Ligand;
 @Input() target?: Target;
   primeActivity: any;
+
+  /**
+   * no args constructor
+   */
   constructor() { }
 
   ngOnInit() {
