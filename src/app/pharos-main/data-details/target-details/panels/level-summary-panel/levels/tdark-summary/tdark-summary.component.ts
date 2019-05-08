@@ -1,6 +1,9 @@
 import {Component, Input} from '@angular/core';
 import {Target} from '../../../../../../../models/target';
 
+/**
+ * shows details about tdark targets
+ */
 @Component({
   selector: 'pharos-tdark-summary',
   templateUrl: './tdark-summary.component.html',

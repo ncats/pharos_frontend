@@ -132,7 +132,9 @@ export class LinkService {
     return l;
   }
 
-
+  /**
+   * empty link map
+   */
   empty() {
     this.masterLinkMap.clear();
   }

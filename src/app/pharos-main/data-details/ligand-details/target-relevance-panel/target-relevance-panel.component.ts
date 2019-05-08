@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
+import {Component, OnInit} from '@angular/core';
 import {PharosProperty} from '../../../../models/pharos-property';
 import {DynamicTablePanelComponent} from '../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 
+/**
+ * shows what targets the ligand was tested on
+ */
 @Component({
   selector: 'pharos-target-relevance-panel',
   templateUrl: './target-relevance-panel.component.html',
@@ -10,6 +12,11 @@ import {DynamicTablePanelComponent} from '../../../../tools/dynamic-table-panel/
 })
 
 export class TargetRelevancePanelComponent extends DynamicTablePanelComponent implements OnInit {
+
+  /**
+   * table config fields
+   * @type {PharosProperty[]}
+   */
   fields: PharosProperty[] = [
     new PharosProperty( {
       name: 'target',
@@ -42,6 +49,10 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
     })
     ];
 
+  /**
+   * array of data shown in the table
+   * @type {any[]}
+   */
     tableArr: any[] = [];
 
   /**
@@ -52,6 +63,9 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
     super();
   }
 
+  /**
+   * subscribe to data changes and map data to PharosProperty objects for table display
+   */
   ngOnInit() {
     this._data
     // listen to data as long as term is undefined or null

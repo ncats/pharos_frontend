@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import {Subject} from 'rxjs/index';
 import {HttpClient} from '@angular/common/http';
 
+/**
+ * service to pass chemical structure to marvin component
+ */
 @Injectable()
 export class StructureSetterService {
 

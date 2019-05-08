@@ -1,15 +1,22 @@
-<mat-card class ="flex30"
+<mat-card class="section-card"
           (pharosScrollspy)="active('pdb')"
           #pdb
           *ngIf="data">
   <mat-card-header>
-    <mat-card-title ><span class="mat-title">Protein Database ({{tableArr?.length}})</span></mat-card-title>
+    <mat-card-title ><span class="mat-title">Protein Database ({{reports?.length}})</span></mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <pharos-generic-table [data]= tableArr [fieldsConfig]= fieldsData (pageChange)="pagePDB()"></pharos-generic-table>
-<!--    <pharos-protein-structure-viewer [pdbid] = test *ngIf="tableArr.length > 0"></pharos-protein-structure-viewer>
-    <pharos-protein-structure-viewer [pdbid] = test1 *ngIf="tableArr.length > 0"></pharos-protein-structure-viewer>
-    <pharos-protein-structure-viewer [pdbid] = test2 *ngIf="tableArr.length > 0"></pharos-protein-structure-viewer>
-    <pharos-protein-structure-viewer [pdbid] = test3 *ngIf="tableArr.length > 0"></pharos-protein-structure-viewer>-->
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+<div fxFlex="60">
+      <pharos-protein-structure-viewer [pdbid] = pdbid *ngIf="tableArr.length > 0"></pharos-protein-structure-viewer>
+</div>
+    </div>
+    <pharos-generic-table
+      [pageData]= pageData
+      [data]= tableArr
+      [fieldsConfig]= fieldsData
+      (pageChange)="pagePDB($event)"
+      (rowClick)="changePdbId($event)">
+    </pharos-generic-table>
   </mat-card-content>
 </mat-card>

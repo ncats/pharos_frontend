@@ -1,6 +1,9 @@
 import {Observable, Subject} from 'rxjs/index';
 import {Node} from '../fdg-core/graph-component/models/node';
 
+/**
+ * interface of various node interaction types
+ */
 export interface NodeInteractionInterface {
 
   //  Observable navItem source
@@ -52,7 +55,7 @@ export interface NodeInteractionInterface {
 
 
   /**
-   * Add node to hovered list and broascast to subscribers
+   * Add node to hovered list and broadcast to subscribers
    * @param {Node[]} node
    */
   hoveredNode(node: Node[]): void;

@@ -14,22 +14,6 @@
        [multiTemplateDataRows]="expandable"
        (matSortChange)="changeSort($event)"
        [ngClass]="{'condensed': condensed}">
-  <ng-container matColumnDef="buttons" *ngIf="editableTable === true">
-    <th mat-header-cell *matHeaderCellDef ngClass="getWidth()"></th>
-    <td mat-cell *matCellDef="let row" ngClass="getWidth()">
-      <button mat-icon-button color="primary" *ngIf="!editingRow(row._id)" (click)="editClick(row)">
-        <mat-icon aria-label="edit row">edit</mat-icon>
-      </button>
-      <div class="buttons-row">
-        <button mat-icon-button color="primary" *ngIf="editingRow(row._id)" ngHide (click)="cancelEdit(row)">
-          <mat-icon aria-label="edit row">close</mat-icon>
-        </button>
-        <button mat-icon-button color="warn" *ngIf="editingRow(row._id)" ngHide (click)="deleteRow(row)">
-          <mat-icon aria-label="edit row">delete</mat-icon>
-        </button>
-      </div>
-    </td>
-  </ng-container>
   <ng-container matColumnDef="{{field.name}}" *ngFor="let field of displayFields;">
     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled] = !field.sortable [ngClass]="getWidth(field)">
       {{getLabel(field.name)}}

@@ -18,7 +18,6 @@ import {HelpPanelOpenerService} from '../tools/help-panel/services/help-panel-op
 import {ScrollspyDirective} from '../tools/sidenav-panel/directives/scrollspy.directive';
 import {HelpArticlesModule} from './help-articles.module';
 import {ScatterPlotComponent} from '../tools/visualizations/scatter-plot/scatter-plot.component';
-import {LineChartComponent} from '../tools/visualizations/line-chart/line-chart.component';
 
 
 @NgModule({
@@ -37,7 +36,6 @@ import {LineChartComponent} from '../tools/visualizations/line-chart/line-chart.
     ScrollToTopComponent,
     CustomContentDirective,
     TermDisplayComponent,
-    LineChartComponent,
     BarChartComponent,
     ToiCardComponent,
     HelpPanelTriggerComponent,
@@ -60,7 +58,6 @@ import {LineChartComponent} from '../tools/visualizations/line-chart/line-chart.
     ScrollToTopComponent,
     CustomContentDirective,
     TermDisplayComponent,
-    LineChartComponent,
     BarChartComponent,
     ToiCardComponent,
     HelpPanelTriggerComponent,

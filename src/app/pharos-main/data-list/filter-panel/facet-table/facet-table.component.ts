@@ -58,12 +58,21 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    */
   propogate = true;
 
+  /**
+   * add route and change tracking dependencies
+   * @param {ActivatedRoute} route
+   * @param {ChangeDetectorRef} ref
+   * @param {PathResolverService} pathResolverService
+   */
   constructor(private route: ActivatedRoute,
               private ref: ChangeDetectorRef,
               private pathResolverService: PathResolverService) { }
 
   // todo: on redirect (click targets button), the checked boxes remain
 
+  /**
+   * retrieve and set facet values, subscribe to changes
+   */
   ngOnInit() {
     // sets initially selected values in service
      this.pathResolverService.mapToFacets(this.route.snapshot.queryParamMap);
@@ -108,6 +117,11 @@ export class FacetTableComponent implements OnInit, OnDestroy {
     return item.label;
   }
 
+  /**
+   * filter facets by query
+   * todo implement this
+   * @param {string} q
+   */
   filterFacet(q: string): void {
   console.log(q);
   }

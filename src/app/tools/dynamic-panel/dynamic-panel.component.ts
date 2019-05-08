@@ -10,9 +10,26 @@ import {BehaviorSubject, Subject} from 'rxjs';
   template: ''
 })
 export class DynamicPanelComponent {
+  /**
+   * check to see if mobile or small screen
+   * @type {boolean}
+   */
   isSmallScreen = false;
+
+  /**
+   * loading boolean flag
+   * @type {boolean}
+   */
   loading = true;
+
+  /**
+   * main field name
+   */
   field: string;
+
+  /**
+   * readable label for field
+   */
   label: string;
 
   // todo: check to make sure all extending components are using this subject
@@ -50,7 +67,10 @@ export class DynamicPanelComponent {
     return this._data.getValue();
   }
 
-  /** No dependencies */
+  /**
+   * No dependencies
+   *
+   */
   constructor () {
   }
 }

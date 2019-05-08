@@ -3,16 +3,21 @@ import {HttpClient} from '@angular/common/http';
 import {Subject} from 'rxjs/index';
 import {PharosConfig} from "../../../../config/pharos-config";
 
-
+/**
+ * http options object, used since the returned info isn't really json
+ * @type {{responseType: "text"}}
+ */
 const httpOptions = {
   // this is weird. https://github.com/angular/angular/issues/18586
   responseType: 'text' as 'text'
 };
 
+/**
+ * service to convert marvinjs mol file to a smiles string
+ */
 @Injectable({
   providedIn: 'root'
 })
-
 export class MolConverterService {
 
   /**
@@ -28,9 +33,16 @@ export class MolConverterService {
    */
   smiles$ = this._molSource.asObservable();
 
-
+  /**
+   * url set by config parameters
+   */
   private url: string;
 
+  /**
+   * get config and set up http calls to convert molfile
+   * @param {PharosConfig} pharosConfig
+   * @param {HttpClient} http
+   */
   constructor(
     private pharosConfig: PharosConfig,
     private http: HttpClient) {

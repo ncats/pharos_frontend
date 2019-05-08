@@ -1,7 +1,6 @@
-
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import {Observable, Subject, of, combineLatest, BehaviorSubject, forkJoin, pipe, from} from 'rxjs';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {BehaviorSubject, combineLatest, forkJoin, Observable, of, Subject} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {ParamMap} from '@angular/router';
 import {Topic} from '../models/topic';
@@ -9,6 +8,9 @@ import {map} from 'rxjs/internal/operators';
 import {PharosConfig} from "../../config/pharos-config";
 
 
+/**
+ * main service to fetch and parse data from the pharos api
+ */
 @Injectable()
 export class PharosApiService {
   /**
@@ -136,8 +138,16 @@ export class PharosApiService {
     }
   ];
 
+  /**
+   * main object tracker to help with caching
+   */
   returnedObject: {};
 
+  /**
+   * get config info and set up http service
+   * @param {HttpClient} http
+   * @param {PharosConfig} pharosConfig
+   */
   constructor(private http: HttpClient,
               private pharosConfig: PharosConfig) {
     this._URL = this.pharosConfig.getApiPath();
@@ -216,6 +226,12 @@ export class PharosApiService {
     });
   }
 
+  /**
+   * returns data as an observable helps the router to return the main data object
+   * @param {string} path
+   * @param {ParamMap} params
+   * @return {Observable<any>}
+   */
   getDataObservable(path: string, params: ParamMap): Observable<any> {
     if (path === 'topics') {
      return  of(this.TOPICS[params.get('id')]);
@@ -263,6 +279,9 @@ export class PharosApiService {
     });
   }
 
+  /**
+   * clear all data called
+   */
   flushData() {
     this.returnedObject = {};
     this._dataSource.next({});

@@ -5,6 +5,10 @@ import {
 } from '../../../../../../../tools/force-directed-graph/fdg-core/graph-component/models/node';
 import {NodeInteractionInterface} from '../../../../../../../tools/force-directed-graph/interfaces/node-interaction-interface';
 
+/**
+ * expanded node interface customized for pharos nodes and data
+ * todo acutally use pharos node classes
+ */
 @Injectable({
   providedIn: 'root'
 })

@@ -90,6 +90,10 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
     return string.match(re);
   }
 
+  /**
+   * active section view tracker
+   * @param {string} fragment
+   */
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
   }

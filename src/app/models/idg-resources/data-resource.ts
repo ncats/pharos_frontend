@@ -1,5 +1,8 @@
 import {BaseResource, Repository} from './base-resource';
 
+/**
+ * extendable data resource class
+ */
 export class DataResource extends BaseResource {
   /**
    * List of data generators
@@ -32,6 +35,9 @@ export class DataResource extends BaseResource {
   title: string;
 }
 
+/**
+ * main mouse image data class
+ */
 export class MouseImageData extends DataResource {
   /**
    * Link to the corresponding preselected images to support the conclusion
@@ -64,6 +70,9 @@ export class MouseImageData extends DataResource {
   tissueID: string;
 }
 
+/**
+ * main probe data class
+ */
 export class ProbeData extends DataResource {
   /**
    * On target activity as reported to chemicalprobes.org

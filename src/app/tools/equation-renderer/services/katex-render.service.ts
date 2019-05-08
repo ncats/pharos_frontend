@@ -122,10 +122,15 @@ export class SplitAtDelimiters {
     return finalData;
   }
 
+  /**
+   * no args constructor
+   */
    constructor() {}
 }
 
-
+/**
+ * service to render math
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -167,6 +172,9 @@ export class KatexRenderService {
     },
   };
 
+  /**
+   * no args constructor
+   */
   constructor() {
   }
 

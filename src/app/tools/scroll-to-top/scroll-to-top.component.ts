@@ -1,4 +1,4 @@
-import {Component, HostListener, Inject, OnInit} from '@angular/core';
+import {Component, HostListener, Inject} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {Router} from '@angular/router';
 
@@ -11,15 +11,20 @@ import {Router} from '@angular/router';
   templateUrl: './scroll-to-top.component.html',
   styleUrls: ['./scroll-to-top.component.css']
 })
-export class ScrollToTopComponent implements OnInit {
+export class ScrollToTopComponent {
+  /**
+   * fires to set the nav to be fixed
+   */
   navIsFixed: boolean;
 
 
+  /**
+   * get document to watch for scrol levents
+   * @param {Document} document
+   * @param {Router} router
+   */
   constructor(@Inject(DOCUMENT) private document: Document,
               private router: Router) {
-  }
-
-  ngOnInit() {
   }
 
   /**

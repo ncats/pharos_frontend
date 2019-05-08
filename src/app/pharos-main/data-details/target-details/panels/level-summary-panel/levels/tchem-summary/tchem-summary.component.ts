@@ -1,6 +1,9 @@
 import {Component, Input} from '@angular/core';
 import {Target} from '../../../../../../../models/target';
 
+/**
+ * shows details about tchem targets
+ */
 @Component({
   selector: 'pharos-tchem-summary',
   templateUrl: './tchem-summary.component.html',

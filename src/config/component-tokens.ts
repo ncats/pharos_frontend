@@ -1,5 +1,8 @@
 import {InjectionToken} from '@angular/core';
 
+/**
+ * main class of injection tokens
+ */
 export class TOKENS {
   /**
    * injection token to maintain the breadcrumb component

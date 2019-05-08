@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import {catchError, map} from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {catchError} from 'rxjs/operators';
 import {Observable, of} from 'rxjs/index';
 import {HttpClient} from '@angular/common/http';
 import {PharosConfig} from "../../../../config/pharos-config";
@@ -60,11 +60,11 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
   ]
 );
 
-@Injectable()
 /**
  * retrieves radar chart data
  * returns radar chart config object
  */
+@Injectable()
 export class RadarService {
 
   /**
@@ -74,6 +74,11 @@ export class RadarService {
   private radarDataMap: Map<string, any> = new Map<string, any>();
 
   // todo: this probably shouldn't have the environment variables here / load its own data
+  /**
+   * set up chart to fetch data
+   * @param {HttpClient} http
+   * @param {PharosConfig} pharosConfig
+   */
   constructor(private http: HttpClient,
               private pharosConfig: PharosConfig) {
   }

@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import {Subject, BehaviorSubject} from 'rxjs';
 import {NavigationExtras, ParamMap, Router} from '@angular/router';
 
-
+/**
+ * service to parse and resolve the url path to retrieve api info
+ */
 @Injectable()
 export class PathResolverService {
   /**
@@ -61,6 +63,10 @@ export class PathResolverService {
     this._pathSource.next(path);
   }
 
+  /**
+   * get path from source
+   * @return {string}
+   */
   getPath(): string {
     return this._pathSource.value;
   }
@@ -86,7 +92,7 @@ export class PathResolverService {
 
       /**
        * forces to first page on facet changes
-       * @type {{queryParams: {facet: any[]; top: null; skip: null}; queryParamsHandling: string}}
+       * @type {NavigationExtras}
        */
       const navigationExtras: NavigationExtras = {
         queryParams: {

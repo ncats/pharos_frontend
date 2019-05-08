@@ -20,10 +20,31 @@ const COLOR = d3.scaleDiverging(d3.interpolateViridis).domain([-60, 0, 100]);
   "#c24e3a"]
 ).domain([-100, 100]);*/
 
-
+/**
+ * serializer interface for nodes
+ */
 export interface NodeSerializer {
+
+  /**
+   * create node from json
+   * @param obj
+   * @return {Node}
+   */
   fromJson(obj: any): Node;
+
+  /**
+   * return node as flat json
+   * @param {Node} node
+   * @return {any}
+   */
   toJson(node: Node): any;
+
+  /**
+   * merge node data
+   * @param {Node} node
+   * @param data
+   * @return {Node}
+   */
   mergeNodes(node: Node, data: any): Node;
 }
 
@@ -33,6 +54,9 @@ export interface NodeSerializer {
  */
 export class Node implements d3.SimulationNodeDatum {
   //  optional - defining optional implementation properties - required for relevant typing assistance
+  /**
+   * node index
+   */
   index?: number;
   /**
    * x axis value
@@ -67,9 +91,14 @@ export class Node implements d3.SimulationNodeDatum {
    * @type {number}
    */
   linkCount = 1;
-  /**id string   */
+
+  /**
+   * id string
+   */
   uuid: string;
-  /**id string   */
+  /**
+   * id string
+   */
   id: string;
   /**
    * array of node labels
@@ -89,30 +118,12 @@ export class Node implements d3.SimulationNodeDatum {
   uri: string;
 
   /**
-   * Neo4j has their own uuid that will need to be used to track nodes, since some relationships are sepnt with the start
-   * and end nodes notated solely by the Neo4j ids, rather than the full node object
-   * @param {string} uuid
-   * @param data
-   */
-  /*constructor(uuid: string, data: any) {
-    this.uuid = uuid;
-    //  uuid is still saved here
-    this.labels = data.labels;
-    this.linkCount = 1;
-   // this.kgraph = data.properties ? data.properties.kgraph.low : 0;
-//  this.created = data.created;
-    this.name = data.properties ? data.properties.name : '';
-    this.type = data.properties ? data.properties.type : '';
-    this.uri = data.properties ? data.properties.uri : '';
-  }
-*/
-  /**
    * returns baseline proportional size number
    * @return {number}
    */
   normal = () => {
     return Math.sqrt(this.linkCount / 50);
-  }
+  };
 
   /**
    * return node radius size based on link count
@@ -120,14 +131,5 @@ export class Node implements d3.SimulationNodeDatum {
    */
   get r(): number {
     return 50 * this.normal() + 15;
-  }
-
-  /**
-   * returns font size based on link count
-   * todo: not currently used
-   * @return {string}
-   */
-  get fontSize() {
-    return (30 * this.normal() + 10) + 'px';
   }
 }

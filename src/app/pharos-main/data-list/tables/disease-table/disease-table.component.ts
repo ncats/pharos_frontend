@@ -32,20 +32,20 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
    * event emitter for when a table column sort is changed
    * @type {EventEmitter<string>}
    */
-  @Output() readonly sortChange: EventEmitter<string> = new EventEmitter<string>();  /**
+  @Output() readonly sortChange: EventEmitter<string> = new EventEmitter<string>();
 
+  /**
    * event emitter for when table pagination is changed
    * @type {EventEmitter<string>}
    */
-
   @Output() readonly pageChange: EventEmitter<string> = new EventEmitter<string>();
 
   /**
    * material design datasource subject
    * @type {MatTableDataSource<any>}
    */
-
   dataSource = new MatTableDataSource<any>(this.data);
+
   /**
    * material design selection model for when the table becomes selectable
    * todo: add selectable row functionolity
@@ -67,7 +67,7 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
   }
 
   /**
-   * subscribe to data observable, since the data changes on paging/filtering, only unsibscribe on destroy
+   * subscribe to data observable, since the data changes on paging/filtering, only unsubscribe on destroy
    */
   ngOnInit() {
 
@@ -92,6 +92,10 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
     this.sortChange.emit($event);
   }
 
+  /**
+   * emit page change event
+   * @param $event
+   */
   changePage($event): void {
     this.pageChange.emit($event);
   }

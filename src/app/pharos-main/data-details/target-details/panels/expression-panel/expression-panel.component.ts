@@ -255,6 +255,10 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
       this.radarComponent.updateChart();
     }  }
 
+  /**
+   * active section view tracker
+   * @param {string} fragment
+   */
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
   }

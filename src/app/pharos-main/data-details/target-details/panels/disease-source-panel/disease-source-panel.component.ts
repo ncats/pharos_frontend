@@ -53,6 +53,9 @@ const TABLEMAP: Map<string, PharosProperty> = new Map<string, PharosProperty>(
   ]
 );
 
+/**
+ * component to display disease source data
+ */
 @Component({
   selector: 'pharos-disease-source',
   templateUrl: './disease-source-panel.component.html',
@@ -163,6 +166,10 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
     return this.sourceMap.get(source).length;
   }
 
+  /**
+   * active section view tracker
+   * @param {string} fragment
+   */
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
   }

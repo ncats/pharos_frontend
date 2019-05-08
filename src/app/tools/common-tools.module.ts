@@ -22,6 +22,7 @@ import {RadarChartModule} from "./visualizations/radar-chart/radar-chart.module"
 import {SearchComponent} from "./search-component/search.component";
 import {HighlightPipe} from "./search-component/highlight.pipe";
 import {NcatsHeaderComponent} from "./ncats-header/ncats-header.component";
+import { StructureViewComponent } from './structure-view/structure-view.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {NcatsHeaderComponent} from "./ncats-header/ncats-header.component";
     ProteinStructureViewerComponent,
     HighlightPipe,
     SearchComponent,
-    NcatsHeaderComponent
+    NcatsHeaderComponent,
+    StructureViewComponent
   ],
   imports: [
     CommonModule,

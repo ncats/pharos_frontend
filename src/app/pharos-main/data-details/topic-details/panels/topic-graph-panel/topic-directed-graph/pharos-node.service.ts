@@ -3,14 +3,11 @@
  */
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
-import {
-  Node,
-  NodeSerializer
-} from '../../../../../../tools/force-directed-graph/fdg-core/graph-component/models/node';
+import {Node} from '../../../../../../tools/force-directed-graph/fdg-core/graph-component/models/node';
 import {NodeInterface} from '../../../../../../tools/force-directed-graph/fdg-core/graph-component/services/event-tracking/node-interface';
-import {TargetNode, TargetNodeSerializer} from '../../../../../../models/target-node';
-import {DiseaseNode, DiseaseNodeSerializer} from '../../../../../../models/disease-node';
-import {LigandNode, LigandNodeSerializer} from '../../../../../../models/ligand-node';
+import {TargetNodeSerializer} from '../../../../../../models/target-node';
+import {DiseaseNodeSerializer} from '../../../../../../models/disease-node';
+import {LigandNodeSerializer} from '../../../../../../models/ligand-node';
 
 /**
  * service to create and update nodes
@@ -32,12 +29,14 @@ export class PharosNodeService implements NodeInterface  {
    * @private
    */
    _clickedNodeSource = new Subject<Node>();
+
   /**
    * RxJs Subject to broadcast changes to a hovered node
    * @type {Subject<any>}
    * @private
    */
    _hoveredNodeSource = new Subject<any>();
+
   /**
    * RxJs Subject to broadcast changes to both clicked and hovered nodes
    * @type {Subject<any>}
@@ -50,25 +49,39 @@ export class PharosNodeService implements NodeInterface  {
    * @type {Observable<Node>}
    */
   clickednode$ = this._clickedNodeSource.asObservable();
+
   /**
    * Observable for other components to subscribe to
    * @type {Observable<any>}
    */
   nodeList$ = this._nodeSource.asObservable();
+
   /**
    * List of nodes that have been clicked. used internally, modified and broadcast through functions
    * @type {any[]}
    */
    clickedNodeList: Node[] = [];
+
   /**
    * Node that has been hovered on, wrapped in array. used internally, modified and broadcast through functions
    * @type {any[]}
    */
    hoveredNodeList: Node[] = [];
 
-   targetSerializer: TargetNodeSerializer = new TargetNodeSerializer();
-   diseaseSerializer: DiseaseNodeSerializer = new DiseaseNodeSerializer();
-   ligandSerializer: LigandNodeSerializer = new LigandNodeSerializer();
+  /**
+   * serializer to create target nodes
+   */
+  targetSerializer: TargetNodeSerializer = new TargetNodeSerializer();
+
+  /**
+   * serializer to create disease nodes
+   */
+  diseaseSerializer: DiseaseNodeSerializer = new DiseaseNodeSerializer();
+
+  /**
+   * serializer to create ligand nodes
+   */
+  ligandSerializer: LigandNodeSerializer = new LigandNodeSerializer();
 
   /**
    * Add node to clicked node list
@@ -198,6 +211,9 @@ export class PharosNodeService implements NodeInterface  {
     }*/
   }
 
+  /**
+   * empty node list
+   */
   empty() {
     this.masterNodeMap.clear();
   }

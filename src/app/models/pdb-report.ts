@@ -1,15 +1,53 @@
 import {PharosBase, PharosSerializer} from "./pharos-base";
 import {PharosProperty} from "./pharos-property";
 
+/**
+ * main pdb report class
+ */
 export class PdbReportData extends PharosBase {
+  /**
+   * pdb structure id
+   */
   structureId: string;
+
+  /**
+   * pdb chain id
+   */
   chainId: string;
+
+  /**
+   * pdb ligand id
+   */
   ligandId: string;
+
+  /**
+   * pdb ligand smiles
+   */
   ligandSmiles: string;
+
+  /**
+   * list of ligand activities
+   */
   activities: any[];
+
+  /**
+   * pubmed id
+   */
   pubmedId: string;
+
+  /**
+   * release date of info
+   */
   releaseDate: string;
+
+  /**
+   * technique used to validate
+   */
   experimentalTechnique: string;
+
+  /**
+   * title of structure publication
+   */
   structureTitle: string;
 }
 

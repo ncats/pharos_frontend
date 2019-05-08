@@ -33,7 +33,7 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
    * keys to the facets
    */
   keys: string[];
-  
+
   facets: any[];
 
   fields: PharosProperty[] = [
@@ -103,6 +103,10 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
     return LABELS.get(value) ? LABELS.get(value) : value;
   }
 
+  /**
+   * active section view tracker
+   * @param {string} fragment
+   */
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
   }

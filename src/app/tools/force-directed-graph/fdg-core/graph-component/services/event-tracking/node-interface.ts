@@ -1,6 +1,9 @@
 import {Observable, Subject} from 'rxjs/index';
 import {Node} from '../../models/node';
 
+/**
+ * interface of various node tracking methods and objects
+ */
 export interface NodeInterface {
   /**
    * map of all nodes all changes are saved here
@@ -107,5 +110,8 @@ export interface NodeInterface {
    */
   makeNode(id: string, data: any): Node;
 
-  empty();
+  /**
+   * empty node map
+   */
+  empty(): void;
 }

@@ -8,16 +8,36 @@ import {map, zipAll} from 'rxjs/operators';
 import {from} from 'rxjs/index';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 
+/**
+ * shows a list of protein to protein interactions for a target
+ */
 @Component({
   selector: 'pharos-protein-protein-panel',
   templateUrl: './protein-protein-panel.component.html',
   styleUrls: ['./protein-protein-panel.component.css']
 })
 export class ProteinProteinPanelComponent extends DynamicPanelComponent implements OnInit {
+  /**
+   * parent target
+   */
   targets: Target[];
+
+  /**
+   * list of all targets
+   * @type {any[]}
+   */
   allTargets: Target[] = [];
+
+  /**
+   * pagination data for target table
+   */
   targetPageData: PageData;
 
+  /**
+   * set up sidenav service nad http calls to fetch full target data
+   * @param {NavSectionsService} navSectionsService
+   * @param {HttpClient} http
+   */
   constructor(
     private navSectionsService: NavSectionsService,
     private http: HttpClient
@@ -25,6 +45,11 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
     super();
   }
 
+  /**
+   * this gets all ppi targets, then retrieves the full target object for additional details
+   * todo: this may not be needed anymore to show the target info
+   * should page first, then retrieve the target info
+   */
   ngOnInit() {
     this._data
     // listen to data as long as term is undefined or null
@@ -55,10 +80,18 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
       });
   }
 
+  /**
+   * paginate the list of targets
+   * @param $event
+   */
   paginateTargets($event) {
     this.targets = this.allTargets.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize);
   }
 
+  /**
+   * active section view tracker
+   * @param {string} fragment
+   */
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
   }

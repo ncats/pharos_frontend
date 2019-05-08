@@ -1,12 +1,15 @@
-
 import {
-  AfterViewInit, Component,
+  AfterViewInit,
+  Component,
   EventEmitter,
   Injector,
   Input,
   OnInit,
-  Output, QueryList, Type,
-  ViewChild, ViewChildren,
+  Output,
+  QueryList,
+  Type,
+  ViewChild,
+  ViewChildren,
   ViewContainerRef
 } from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
@@ -16,6 +19,10 @@ import {MatPaginator, MatRow, MatSort, MatTableDataSource, Sort} from '@angular/
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {DataProperty} from './components/property-display/data-property';
 
+/**
+ * component to show flexible data consisting of multiple data types, custom components
+ * also handles standard table operations, primarily with event emitters for the end user to react to
+ */
 @Component({
   selector: 'pharos-generic-table',
   templateUrl: './generic-table.component.html',
@@ -32,8 +39,7 @@ import {DataProperty} from './components/property-display/data-property';
 /**
  * Generic table Component that iterates over a list of {@link TableData} options to display fields
  */
-
-export class GenericTableComponent implements OnInit,  AfterViewInit {
+export class GenericTableComponent implements OnInit, AfterViewInit {
 
   /**
    * initialize a private variable _data, it's a BehaviorSubject
@@ -57,7 +63,11 @@ export class GenericTableComponent implements OnInit,  AfterViewInit {
     return this._data.getValue();
   }
 
-
+  /**
+   * sets up config fields as a behavior subject
+   * @type {BehaviorSubject<DataProperty[]>}
+   * @private
+   */
   protected _fieldsConfig: BehaviorSubject<DataProperty[]> = new BehaviorSubject<DataProperty[]>(null);
 
   /**
@@ -75,20 +85,37 @@ export class GenericTableComponent implements OnInit,  AfterViewInit {
     return this._fieldsConfig.getValue();
   }
 
-
-  @ViewChildren('expandedRowOutlet', { read: ViewContainerRef }) rowOutlet:   QueryList<ViewContainerRef>;
-
-
-  @Input() pageData: PageData = {
+  /**
+   * sets up page data as a behavior subject
+   * @type {BehaviorSubject<PageData>}
+   * @private
+   */
+  protected _pageConfig: BehaviorSubject<PageData> = new BehaviorSubject<PageData>({
     total: 0,
     top: 0,
     skip: 0,
     count: 0
-  };
+  });
+
   /**
-   * Array of {@link DataProperty} object that containg configuration options for each field
-   * */
-  // @Input() fieldsConfig: DataProperty[];
+   * pushes changed data to {BehaviorSubject}
+   */
+  @Input()
+  set pageData(value: PageData) {
+    this._pageConfig.next(value);
+  }
+
+  /**
+   * returns value of {BehaviorSubject}
+   */
+  get pageData(): PageData {
+    return this._pageConfig.getValue();
+  }
+
+  /**
+   * gets placeholder expanded row outlets
+   */
+  @ViewChildren('expandedRowOutlet', {read: ViewContainerRef}) rowOutlet: QueryList<ViewContainerRef>;
 
   /** boolean to toggle completion of page loading
    * todo: currently not used
@@ -120,6 +147,7 @@ export class GenericTableComponent implements OnInit,  AfterViewInit {
    * generated string array of fields that are to be displayed in the table
    * */
   displayColumns: string[];
+
   /**
    * generated  array of DataProperties that are to be displayed in the table
    * */
@@ -132,12 +160,6 @@ export class GenericTableComponent implements OnInit,  AfterViewInit {
   @Input() hidePageSize = false;
 
   /**
-   * Input to toggle if the table should show an "edit" and "delete" button
-   * boolean
-   */
-  @Input() editableTable = false;
-
-  /**
    * Input to toggle if the table should have expandable rows
    * boolean
    */
@@ -148,24 +170,6 @@ export class GenericTableComponent implements OnInit,  AfterViewInit {
    *  todo: this only allows one open at a time, this might need to be a map to allow multiple expanded rows
    */
   expandedElement: any | null;
-
-  /**
-   * event that emits when the edit button is clicked.
-   * Emits the row (object) to whatever service/component needs to interact with it
-   */
-  @Output() readonly editEvent: EventEmitter<MatRow> = new EventEmitter<MatRow>();
-
-  /**
-   * event that emits when the delete button is clicked.
-   * Emits the row (object) to whatever service/component needs to interact with it
-   */
-  @Output() readonly deleteEvent: EventEmitter<MatRow> = new EventEmitter<MatRow>();
-
-  /**
-   * event that emits when the edit event is canceled.
-   * Emits the row (object) to whatever service/component needs to interact with it
-   */
-  @Output() readonly cancelEvent: EventEmitter<any> = new EventEmitter<any>();
 
   /**
    * event that emits when the sort value or direction is changed. The parent component will be responsible for
@@ -186,20 +190,22 @@ export class GenericTableComponent implements OnInit,  AfterViewInit {
   @Output() readonly rowClick: EventEmitter<MatRow> = new EventEmitter<MatRow>();
 
   /**
-   * row object that is currently being edited
+   * main table datasource
+   * @type {MatTableDataSource<any>}
    */
-  editedRow = '';
-
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
 
+  /**
+   * whether to toggle the condensed class to make a more compact table
+   * @type {boolean}
+   */
   @Input() condensed = false;
 
   /**
    * injector for custom data
    */
-  constructor(
-    private _injector: Injector
-  ) { }
+  constructor(private _injector: Injector) {
+  }
 
   /**
    * Init: get the columns to be displayed.
@@ -211,6 +217,10 @@ export class GenericTableComponent implements OnInit,  AfterViewInit {
     });
     this._fieldsConfig.subscribe(res => {
       this.fetchTableFields();
+    });
+
+    this._pageConfig.subscribe(res => {
+      this.setPage();
     });
   }
 
@@ -230,10 +240,19 @@ export class GenericTableComponent implements OnInit,  AfterViewInit {
         }*/
   }
 
-  trackByFn (index: number, item: any) {
+  /**
+   * used to track data changes
+   * @param {number} index
+   * @param item
+   * @return {any}
+   */
+  trackByFn(index: number, item: any) {
     return item.uuid && item.uuid.term ? item.uuid.term : item;
   }
 
+  /**
+   * set default paginator values
+   */
   setPage() {
     if (this.pageData && this.paginator) {
       this.paginator.length = this.pageData.total;
@@ -275,7 +294,7 @@ export class GenericTableComponent implements OnInit,  AfterViewInit {
    * Check to see if a column is designed to be sortable
    */
   isSortable(name: string): boolean {
-    let ret =  false;
+    let ret = false;
     this.displayFields.forEach(field => {
       if (field.name === name) {
         ret = field.sortable;
@@ -293,21 +312,16 @@ export class GenericTableComponent implements OnInit,  AfterViewInit {
     if (!this.displayFields.length) {
       this.displayFields = this.fieldsConfig;
     }
-    if (this.editableTable) {
-      this.displayColumns = ['buttons'].concat(this.displayFields.map(field => field.name));
-    } else {
-      this.displayColumns = this.displayFields.map(field => field.name);
-    }
-//    console.log(this);
+    this.displayColumns = this.displayFields.map(field => field.name);
   }
 
 
   /**
-   * get display columns, which omits a label for a "buttons" column.
-   * // todo: this could be problematic if there was a column that needed the heading "buttons"
+   * get display columns
+   * todo - probably unnecessary after the removal of the default buttons column
    */
   fetchDisplayColumns(): string[] {
-    return this.displayColumns.filter(field => field !== 'buttons');
+    return this.displayColumns;
   }
 
   /**
@@ -342,7 +356,7 @@ export class GenericTableComponent implements OnInit,  AfterViewInit {
   getCustomComponent(field: DataProperty, row: MatRow, index: number): ComponentPortal<any> {
     if (this.rowOutlet) {
       if (field.customComponent) {
-        const comp =  this._injector.get<Type<any>>(field.customComponent);
+        const comp = this._injector.get<Type<any>>(field.customComponent);
         const portal: ComponentPortal<any> = new ComponentPortal(comp);
         return portal;
       }
@@ -353,12 +367,10 @@ export class GenericTableComponent implements OnInit,  AfterViewInit {
    * this fires once the custom comoponent above is created. Here is where listeners can be added to react to requests
    * from the injected component
    * this gives access to the injected component instance
-   * todo the injectable components need to implement an interface to have standard input and output events
    * @param component
    * @param index
    * @param field
    */
-
   componentAttached(component: any, index?: number, field?: DataProperty) {
     if (component.instance.data === null && this.data[index][field.name]) {
       component.instance.data = this.data[index][field.name];
@@ -382,71 +394,18 @@ export class GenericTableComponent implements OnInit,  AfterViewInit {
   }
 
   /**
-   * check to see if row is being edited
-   * @param id
+   * expand row on cell click
+   * @param {MatRow} row
    */
-  editingRow(id: string) {
-    return id === this.editedRow;
-  }
-
-  editClick(row: any): void {
-    row.editing = true;
-    this.editedRow = row._id;
-    this.editEvent.emit(row);
-  }
-
-  cancelEdit(row: any): void {
-    row.editing = false;
-    this.editedRow = '';
-    this.cancelEvent.emit('closed');
-  }
-
-  deleteRow(row: any): void  {
-    row.editing = false;
-    this.editedRow = '';
-    this.deleteEvent.emit(row);
-  }
-
   cellClicked(row: MatRow): void {
     this.expandedElement = this.expandedElement === row ? null : row;
   }
 
+  /**
+   * emit row when clicked on
+   * @param {MatRow} row
+   */
   rowClicked(row: MatRow): void {
     this.rowClick.emit(row);
   }
 }
-
-
-/*
-/!**
- * set the sort and paginators
- * todo: sort doesn't appear to work
- *!/
-ngAfterViewInit() {
-  this.dataSource.paginator = this.paginator;
-  this.dataSource.sort = this._sort;
-  if (this.fieldsConfig) {
-    const defaultSort = this.fieldsConfig.filter(field => field.sorted);
-    if (defaultSort.length > 0) {
-      this.dataSource.sort.active = defaultSort[0].name;
-      this.dataSource.sort.direction = defaultSort[0].sorted;
-    }
-  }
-  this.dataSource.sortingDataAccessor = (item, property) => {
-    if (item[property].term) {
-      return item[property].term;
-    } else if (item[property].numval) {
-      return item[property].numval;
-    } else if (item[property].intval) {
-      return item[property].intval;
-    } else {
-      return item[property];
-    }
-  };
-  this.dataSource.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
-
-}
-
-
-}*/

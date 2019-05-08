@@ -70,7 +70,6 @@ chartOptions: ScatterOptions = new ScatterOptions({
   constructor(
     private navSectionsService: NavSectionsService,
     private _http: HttpClient,
-    private ref: ChangeDetectorRef,
     private pharosConfig: PharosConfig
   ) {
     super();

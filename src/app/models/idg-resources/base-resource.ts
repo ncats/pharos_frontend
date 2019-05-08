@@ -1,3 +1,6 @@
+/**
+ * extendable base resource class
+ */
 export class BaseResource {
   /**
    * name of reagent
@@ -15,6 +18,9 @@ export class BaseResource {
   generatingIC: string;
 }
 
+/**
+ * helper repository class
+ */
 export class Repository {
   /**
    * Name of the external repository where the construct was registered

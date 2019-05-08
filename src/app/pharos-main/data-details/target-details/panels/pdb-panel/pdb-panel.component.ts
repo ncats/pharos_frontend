@@ -1,10 +1,17 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, InjectionToken, OnInit} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
-import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {HttpClient} from '@angular/common/http';
 import {PdbReportData, PdbReportSerializer} from '../../../../../models/pdb-report';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
+import {DynamicTablePanelComponent} from "../../../../../tools/dynamic-table-panel/dynamic-table-panel.component";
+import {PageData} from "../../../../../models/page-data";
+
+/**
+ * token to inject structure viewer into generic table component
+ * @type {InjectionToken<any>}
+ */
+export const STRUCTURE_VIEW_TOKEN = new InjectionToken("StructureViewComponent");
 
 /**
  * pbd report generating url
@@ -19,7 +26,7 @@ const REPORT_URL = 'https://www.rcsb.org/pdb/rest/customReport.csv?customReportC
   templateUrl: './pdb-panel.component.html',
   styleUrls: ['./pdb-panel.component.sass']
 })
-export class PdbPanelComponent extends DynamicPanelComponent implements OnInit {
+export class PdbPanelComponent extends DynamicTablePanelComponent implements OnInit {
 
   fieldsData: PharosProperty[] = [
     {
@@ -30,10 +37,10 @@ export class PdbPanelComponent extends DynamicPanelComponent implements OnInit {
   name: 'pubmedId',
   label: 'PMID'
 },
-{
+/*{
   name: 'chainId',
     label: 'Chain Id',
-},
+},*/
 {
   name: 'ligandId',
     label: 'Ligand Id'
@@ -41,9 +48,7 @@ export class PdbPanelComponent extends DynamicPanelComponent implements OnInit {
 {
   name: 'ligandSmiles',
     label: 'Ligand',
-  /*
-  customComponent: STRUCTURE_DISPLAY_TOKEN
-*/
+  customComponent: STRUCTURE_VIEW_TOKEN
 },
 {
   name: 'activities',
@@ -61,18 +66,17 @@ export class PdbPanelComponent extends DynamicPanelComponent implements OnInit {
 
   reports: PdbReportData[] = [];
   tableArr: PdbReportData[] = [];
-  tableArr2: any[] = [];
+
+  pageData: PageData;
 
 
-  test: string;
-  test1: string;
-  test2: string;
-  test3: string;
+  pdbid: string;
 
   pdbReportSerializer: PdbReportSerializer = new PdbReportSerializer();
 
   constructor(
     private navSectionsService: NavSectionsService,
+    private ref: ChangeDetectorRef,
     private _http: HttpClient) {
     super();
   }
@@ -100,34 +104,19 @@ export class PdbPanelComponent extends DynamicPanelComponent implements OnInit {
     console.log(terms);
     this._http.get(REPORT_URL + terms.join(','), {responseType: 'text'}).subscribe(res => {
         this.csvJSON(res);
-/*    from(d3.csv(REPORT_URL + terms.join(','), report => this.pdbReportSerializer.fromJson(report)))
-      .subscribe(res => {
-      console.log(res);
-        Array.from(res).pop()
-          */
-        this.tableArr = this.reports
-          .filter(entry => entry.ligandId)
-          .slice(0,10).map(report => this.pdbReportSerializer._asProperties(report));
-        // this.fieldsData = Array.from(Object.values(this.tableArr[0]));
-    });
+        this.reports = this.reports
+          .filter(entry => entry.ligandId);
 
- /*   this._http.get(REPORT_URL + terms.join(','), {responseType: 'text'}).subscribe(res => {
-      console.log(res);
-    //  this.csvJSON(res);
+      this.pageData = this.makePageData(this.reports.length);
+      this.tableArr = this.reports
+          .slice(this.pageData.skip, this.pageData.top)
+        .map(report => this.pdbReportSerializer._asProperties(report));
+      this.pdbid = this.tableArr[0].structureId['term'];
+      this.ref.detectChanges();
+      console.log(this.pageData);
 
-    });*/
-    const datas: any[] = [];
-    this.data.pdb.forEach(obj => {
-      // create new object to get PharosProperty class properties
-      const labelProp: PharosProperty = obj as PharosProperty;
-      labelProp.externalLink = obj.href;
-      datas.push({pdb: labelProp});
     });
-    this.tableArr2 = datas;
- /*   this.test = this.tableArr[0].pdb.term;
-    this.test1 = this.tableArr[1].pdb.term;
-    this.test2 = this.tableArr[2].pdb.term;
-    this.test3 = this.tableArr[3].pdb.term;*/
+    console.log(this.pageData);
   }
 
   private csvJSON(csv: string): void {
@@ -149,10 +138,23 @@ export class PdbPanelComponent extends DynamicPanelComponent implements OnInit {
     }
   }
 
-  pagePDB() {
-
+  pagePDB(event) {
+    console.log(event);
+    this.tableArr = this.reports.slice(event.pageIndex * event.pageSize, (event.pageIndex +1) * event.pageSize)
+      .map(report => this.pdbReportSerializer._asProperties(report));
   }
 
+  changePdbId(entry: any) {
+    console.log(entry);
+    if(this.pdbid !== entry.structureId.term) {
+      this.pdbid = entry.structureId.term;
+    }
+  }
+
+  /**
+   * checks to see if the display section is within view
+   * @param {string} fragment
+   */
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
   }

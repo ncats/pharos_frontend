@@ -58,6 +58,10 @@ export class Link implements d3.SimulationLinkDatum<Node> {
     }
   }
 
+  /**
+   * get id of source node
+   * @return {string}
+   */
   getSourceId(): string {
     const source = this.source;
     if (typeof source === 'string') {
@@ -67,6 +71,10 @@ export class Link implements d3.SimulationLinkDatum<Node> {
     }
   }
 
+  /**
+   * get id of target node
+   * @return {any}
+   */
   getTargetId() {
     const target = this.target;
     if (typeof target === 'string') {

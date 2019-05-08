@@ -7,15 +7,31 @@ import {Target} from '../../../../../models/target';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 
 
-
+/**
+ * displays basic summary info about a target
+ * also contains radar chart knowledge graph and knowledge table if available
+ */
 @Component({
   selector: 'pharos-summary-panel',
   templateUrl: './summary-panel.component.html',
   styleUrls: ['./summary-panel.component.scss']
 })
+
+/**
+ * summary panel class
+ */
 export class SummaryPanelComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
+
+  /**
+   * target displayed
+   */
   @Input() target: Target;
 
+  /**
+   * dialog for radar modal and navigation sections service
+   * @param {MatDialog} dialog
+   * @param {NavSectionsService} navSectionsService
+   */
   constructor(
     public dialog: MatDialog,
     private navSectionsService: NavSectionsService
@@ -23,7 +39,10 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
     super();
   }
 
-ngOnInit() {
+  /**
+   * fetch all of the data - most is directly displayed, so no setter function needed
+   */
+  ngOnInit() {
   this._data
   // listen to data as long as term is undefined or null
   // Unsubscribe once term has value
@@ -38,7 +57,10 @@ ngOnInit() {
     });
 }
 
-openModal(): void {
+  /**
+   * open modal to display larger radar chart
+   */
+  openModal(): void {
   const dialogRef = this.dialog.open(RadarChartViewerComponent, {
     height: '90vh',
     width: '85vw',
@@ -49,10 +71,17 @@ openModal(): void {
   });
 }
 
-active(fragment: string) {
+  /**
+   * tracks if element is active in view
+   * @param {string} fragment
+   */
+  active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
 }
 
+  /**
+   * clean up on leaving component
+   */
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();

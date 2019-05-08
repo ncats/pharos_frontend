@@ -36,6 +36,13 @@ export class DataDetailsResolver implements Resolve<any> {
        return this.pharosApiService.getDataObservable(route.data.path, route.paramMap);
     }
 
+  /**
+   *  calls a specific url to retrieve data
+   *  todo: this may not be needed after Maay 2019 pharosconfig changes
+   *  originally done to avoid circular dependencies
+   * @param {string} url
+   * @param {string} origin
+   */
     getDetailsByUrl(url: string, origin: string): void {
       this.pharosApiService.getDetailsByUrl(url, origin);
     }

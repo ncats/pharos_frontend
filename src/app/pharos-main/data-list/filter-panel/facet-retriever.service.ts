@@ -14,7 +14,12 @@ export class FacetRetrieverService {
    */
   facets: Facet[];
 
+  /**
+   * map of facet names to facet
+   * @type {Map<string, any>}
+   */
   facetMap: Map<string, any> = new Map<string, any>();
+
   /**
    * wait for facets to be loaded before returning response
    * @type {BehaviorSubject<boolean>}
@@ -22,7 +27,11 @@ export class FacetRetrieverService {
    */
   _loaded = new BehaviorSubject<boolean>(false);
 
-
+  /**
+   * return the facets map as behavior subject
+   * @type {BehaviorSubject<any>}
+   * @private
+   */
   _facets = new BehaviorSubject<any>(this.facetMap);
 
   /**
@@ -61,6 +70,10 @@ export class FacetRetrieverService {
     return this.facetMap.get(name);
   }
 
+  /**
+   * return all facets
+   * @return {Observable<any>}
+   */
   getAllFacets(): Observable<any> {
     return this.facets$;
   }

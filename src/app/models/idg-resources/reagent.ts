@@ -2,7 +2,9 @@ import {BaseResource, Repository} from './base-resource';
 import {Serializer} from '../pharos-base';
 import {DataProperty} from '../../tools/generic-table/components/property-display/data-property';
 
-
+/**
+ * main extendable reagent class
+ */
 export class Reagent extends BaseResource {
 
   /**
@@ -14,10 +16,11 @@ export class Reagent extends BaseResource {
    * list of vendor names/links for purchasing
    */
   vendors: Vendor[];
-
-
 }
 
+/**
+ * vendor helper object class
+ */
 export class Vendor {
   /**
    * Physical repository from which resource can be purchased
@@ -34,7 +37,9 @@ export class Vendor {
   resourceID: string;
 }
 
-
+/**
+ * antibody class
+ */
 export class Antibody extends Reagent {
   /**
    * Experiments and assays for which the antibodies have been tested and validated
@@ -42,6 +47,9 @@ export class Antibody extends Reagent {
   usage: string[];
 }
 
+/**
+ * Cell class
+ */
 export class Cell extends Reagent {
   /**
    * Identifier as registered by repository/ontology (e.g. CLO ID, RRID, etc.)
@@ -59,6 +67,9 @@ export class Cell extends Reagent {
   vectorID: string;
 }
 
+/**
+ * Genetic Construct class
+ */
 export class GeneticConstruct extends Reagent {
   /**
    * Genetic construct RRID
@@ -74,6 +85,9 @@ export class GeneticConstruct extends Reagent {
   vectorType: string;
 }
 
+/**
+ * mouse cell line class
+ */
 export class Mouse extends Reagent {
   /**
    * ID as registered with MMRRC
@@ -96,6 +110,9 @@ export class Mouse extends Reagent {
   correspondingConstruct: Repository;
 }
 
+/**
+ * small molecule class
+ */
 export class SmallMolecule extends Reagent {
   /**
    * Batch SMILES sequence (including salt and other modifications) of molecule
@@ -118,6 +135,9 @@ export class SmallMolecule extends Reagent {
   externalIDRegistrationSystem: string;
 }
 
+/**
+ * peptide class
+ */
 export class Peptide extends Reagent {
   /**
    * Is the peptide used in PRM-based experiments
@@ -125,13 +145,21 @@ export class Peptide extends Reagent {
   prmType: string;
 }
 
+/**
+ * serializer for reagent object operations
+ */
 export class ReagentSerializer implements Serializer {
 
   /**
-   * mo args - chemicals don't have any main level vocabulary terms
+   * no args - chemicals don't have any main level vocabulary terms
    */
   constructor () {}
 
+  /**
+   * create reagent from json object
+   * @param json
+   * @return {Reagent}
+   */
   fromJson(json: any): Reagent {
     let obj: Reagent;
     switch (json.resourceType) {
@@ -164,10 +192,21 @@ export class ReagentSerializer implements Serializer {
     return obj;
   }
 
+  /**
+   * flatten reagent
+   * @param {Reagent} obj
+   * @return {any}
+   */
   toJson(obj: Reagent): any {
     return [];
   }
 
+  /**
+   * return reagent as properties
+   * @param {Reagent} T
+   * @return {any}
+   * @private
+   */
   _asProperties<T extends Reagent>(T: Reagent): any {
     const newObj: any = {};
     Object.keys(T).map(field => {

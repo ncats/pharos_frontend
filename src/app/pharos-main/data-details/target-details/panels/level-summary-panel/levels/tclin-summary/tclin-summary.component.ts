@@ -1,6 +1,9 @@
 import {Component, Input} from '@angular/core';
 import {Target} from '../../../../../../../models/target';
 
+/**
+ * shows details about tclin targets
+ */
 @Component({
   selector: 'pharos-tclin-summary',
   templateUrl: './tclin-summary.component.html',

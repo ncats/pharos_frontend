@@ -20,12 +20,13 @@ import {SharedDetailsModule} from "../../../shared/shared-details.module";
 import {CommonToolsModule} from "../../../tools/common-tools.module";
 import {RadarChartViewerComponent} from "../../../tools/radar-chart-viewer/radar-chart-viewer.component";
 import {TargetTableModule} from "../../data-list/tables/target-table/target-table.module";
-import {PdbPanelComponent} from "./panels/pdb-panel/pdb-panel.component";
+import {PdbPanelComponent, STRUCTURE_VIEW_TOKEN} from "./panels/pdb-panel/pdb-panel.component";
 import {GeneSummaryComponent} from "./target-header/gene-summary/gene-summary.component";
 import {BreadcrumbComponent} from "../../../tools/breadcrumb/breadcrumb.component";
 import {DiseaseTableModule} from "../../data-list/tables/disease-table/disease-table.module";
 import {LigandCardComponent} from "../../data-list/cards/ligand-card/ligand-card.component";
 import {LigandTableModule} from "../../data-list/tables/ligand-table/ligand-table.module";
+import {StructureViewComponent} from "../../../tools/structure-view/structure-view.component";
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import {LigandTableModule} from "../../data-list/tables/ligand-table/ligand-tabl
     GeneSummaryComponent,
     RadarChartViewerComponent,
     IdgResourcesPanelComponent,
-    LigandsPanelComponent
+    LigandsPanelComponent,
+    StructureViewComponent
   ],
   providers: [
     // breadcrumb
@@ -94,7 +96,8 @@ import {LigandTableModule} from "../../data-list/tables/ligand-table/ligand-tabl
     {provide: TOKENS.ASSAY_PANEL, useValue: AssayPanelComponent},
     {provide: TOKENS.AA_SEQUENCE_PANEL, useValue: AaSequencePanelComponent},
     {provide: TOKENS.LIGANDS_PANEL, useValue: LigandsPanelComponent},
-    {provide: TOKENS.PDB_PANEL, useValue: PdbPanelComponent}
+    {provide: TOKENS.PDB_PANEL, useValue: PdbPanelComponent},
+    {provide: STRUCTURE_VIEW_TOKEN, useValue: StructureViewComponent}
   ]
 })
 export class TargetDetailsModule { }

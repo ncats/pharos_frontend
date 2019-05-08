@@ -3,31 +3,107 @@ import {TOKENS} from "../config/component-tokens";
 import {ARTICLES} from "../config/help-article-tokens";
 import {environment} from "../environments/environment.prod";
 
+/**
+ * basic interface for a pharos api call configuratio nobject
+ */
 interface PharosApi {
+  /**
+   * field name
+   */
   field: string;
+
+  /**
+   * readable label
+   */
   label?: string;
+
+  /**
+   * url to call to retrieve data
+   */
   url?: string;
+
+  /**
+   * description of field/api call to be used in help panel
+   */
   description?: string;
+
+  /**
+   * source or provenance of data
+   * todo not yet implemented/retrieved
+   */
   source?: string;
+
+  /**
+   * option injection token for adding a detailed article about the api to be used in help panel
+   */
   article?: InjectionToken<string>;
 }
 
+/**
+ * navigation header object, sets us the details sidenav
+ */
 interface PharosNavHeader {
+  /**
+   * readable label for section
+   */
   label?: string;
+
+  /**
+   * variable for section
+   */
   section?: string;
+
+  /**
+   * description of section to be used in help panel
+   */
   mainDescription?: string;
 }
 
+/**
+ * main panel object that is injected into the page
+ */
 interface PharosPanel {
+  /**
+   * token for the panel component
+   */
   token: InjectionToken<string>;
+  /**
+   * navigation header to add to the sidenav
+   */
   navHeader?: PharosNavHeader;
+
+  /**
+   * list of various api calls to retrieve data specific to the panel
+   */
   api?: PharosApi[]
 }
 
+/**
+ * pharos host url
+ * todo might not want to bring environment variables into play here
+ * @type {string}
+ * @private
+ */
 const _HOST = environment.host;
+
+/**
+ * api version string
+ * @type {string}
+ * @private
+ */
 const _API = environment.api;
+
+/**
+ * full api url created by concating the host and api version
+ * @type {string}
+ * @private
+ */
 const _APIURL = _HOST + _API;
 
+/**
+ * main target list table component
+ * @type {PharosPanel}
+ */
 const TARGET_TABLE_COMPONENT: PharosPanel = {
   token: TOKENS.TARGET_TABLE_COMPONENT,
   api: [
@@ -41,11 +117,19 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
   ]
 };
 
+/**
+ * main target header component
+ * @type {PharosPanel}
+ */
 const TARGET_HEADER_COMPONENT: PharosPanel = {
   token: TOKENS.TARGET_HEADER_COMPONENT,
   api: []
 };
 
+/**
+ * target gene summary component
+ * @type {PharosPanel}
+ */
 const TARGET_GENE_SUMMARY_COMPONENT: PharosPanel = {
   token: TOKENS.TARGET_GENE_SUMMARY_COMPONENT,
   api: [
@@ -56,6 +140,10 @@ const TARGET_GENE_SUMMARY_COMPONENT: PharosPanel = {
   ]
 };
 
+/**
+ * target breadcrumb component
+ * @type {PharosPanel}
+ */
 const PHAROS_BREADCRUMB_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_BREADCRUMB_COMPONENT,
   api: [
@@ -70,11 +158,20 @@ const PHAROS_BREADCRUMB_COMPONENT: PharosPanel = {
   ]
 };
 
+/**
+ * target details page component
+ * primary holder for all subsequent panels
+ * @type {PharosPanel}
+ */
 const TARGET_DETAILS_COMPONENT: PharosPanel = {
   token: TOKENS.TARGET_DETAILS_COMPONENT,
   api: []
 };
 
+/**
+ * target summary component
+ * @type {PharosPanel}
+ */
 const SUMMARY_PANEL: PharosPanel = {
   token: TOKENS.SUMMARY_PANEL,
   navHeader: {
@@ -132,6 +229,10 @@ const SUMMARY_PANEL: PharosPanel = {
   ]
 };
 
+/**
+ * target idg level summary component
+ * @type {PharosPanel}
+ */
 const LEVEL_SUMMARY_PANEL: PharosPanel = {
   token: TOKENS.LEVEL_SUMMARY_PANEL,
   navHeader: {
@@ -198,6 +299,10 @@ const LEVEL_SUMMARY_PANEL: PharosPanel = {
   ]
 };
 
+/**
+ * idg resources for target panel component
+ * @type {PharosPanel}
+ */
 const IDG_RESOURCES_PANEL: PharosPanel = {
   token: TOKENS.IDG_RESOURCES_PANEL,
   navHeader: {
@@ -207,6 +312,10 @@ const IDG_RESOURCES_PANEL: PharosPanel = {
   api: []
 };
 
+/**
+ * target disease relevance component
+ * @type {PharosPanel}
+ */
 const DISEASE_SOURCE_PANEL: PharosPanel = {
   token: TOKENS.DISEASE_SOURCE_PANEL,
   navHeader: {
@@ -232,6 +341,10 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
   ]
 };
 
+/**
+ * ligands associated with target component
+ * @type {PharosPanel}
+ */
 const LIGANDS_PANEL: PharosPanel = {
   token: TOKENS.LIGANDS_PANEL,
   navHeader: {
@@ -257,6 +370,10 @@ const LIGANDS_PANEL: PharosPanel = {
   ]
 };
 
+/**
+ * approved drugs associated with target component
+ * @type {PharosPanel}
+ */
 const DRUGS_PANEL: PharosPanel = {
   token: TOKENS.LIGANDS_PANEL,
   navHeader: {
@@ -280,6 +397,10 @@ const DRUGS_PANEL: PharosPanel = {
   ]
 };
 
+/**
+ * Protein database viewer component
+ * @type {PharosPanel}
+ */
 const PDB_PANEL: PharosPanel = {
   token: TOKENS.PDB_PANEL,
   navHeader: {
@@ -295,6 +416,10 @@ const PDB_PANEL: PharosPanel = {
   ]
 };
 
+/**
+ * tissue expression component
+ * @type {PharosPanel}
+ */
 const EXPRESSION_PANEL: PharosPanel = {
   token: TOKENS.EXPRESSION_PANEL,
   navHeader: {
@@ -332,6 +457,10 @@ const EXPRESSION_PANEL: PharosPanel = {
   ]
 };
 
+/**
+ * protein to protein interaction component
+ * @type {PharosPanel}
+ */
 const PROTEIN_PROTEIN_PANEL: PharosPanel = {
   token: TOKENS.PROTEIN_PROTEIN_PANEL,
   navHeader: {
@@ -346,6 +475,10 @@ const PROTEIN_PROTEIN_PANEL: PharosPanel = {
   ]
 };
 
+/**
+ * target publication and gene rif component
+ * @type {PharosPanel}
+ */
 const PUBLICATION_INFO_PANEL: PharosPanel = {
   token: TOKENS.PUBLICATION_INFO_PANEL,
   navHeader: {
@@ -406,6 +539,10 @@ const PUBLICATION_INFO_PANEL: PharosPanel = {
   ]
 };
 
+/**
+ * target sequence component
+ * @type {PharosPanel}
+ */
 const AA_SEQUENCE_PANEL: PharosPanel = {
   token: TOKENS.AA_SEQUENCE_PANEL,
   navHeader: {
@@ -422,6 +559,10 @@ const AA_SEQUENCE_PANEL: PharosPanel = {
   ]
 };
 
+/**
+ * list of facets related to target component
+ * @type {PharosPanel}
+ */
 const TARGET_FACET_PANEL: PharosPanel = {
   token: TOKENS.TARGET_FACET_PANEL,
   navHeader: {
@@ -478,6 +619,10 @@ const TARGET_FACET_PANEL: PharosPanel = {
 *
  */
 
+/**
+ * main disease list component
+ * @type {PharosPanel}
+ */
 const DISEASE_TABLE_COMPONENT: PharosPanel = {
   token: TOKENS.DISEASE_TABLE_COMPONENT,
   api: [
@@ -491,16 +636,28 @@ const DISEASE_TABLE_COMPONENT: PharosPanel = {
   ]
 };
 
+/**
+ * disease summary header component
+ * @type {PharosPanel}
+ */
 const DISEASE_HEADER_COMPONENT: PharosPanel = {
   token: TOKENS.DISEASE_HEADER_COMPONENT,
   api: []
 };
 
+/**
+ * main disease details page component
+ * @type {PharosPanel}
+ */
 const DISEASE_DETAILS_COMPONENT: PharosPanel = {
   token: TOKENS.DISEASE_DETAILS_COMPONENT,
   api: []
 };
 
+/**
+ * list of targets associated ith a disease component
+ * @type {PharosPanel}
+ */
 const TARGET_LIST_PANEL: PharosPanel = {
   token: TOKENS.TARGET_LIST_PANEL,
   api: [
@@ -511,6 +668,10 @@ const TARGET_LIST_PANEL: PharosPanel = {
   ]
 };
 
+/**
+ * main list of ligands component
+ * @type {PharosPanel}
+ */
 const LIGAND_TABLE_COMPONENT: PharosPanel = {
   token: TOKENS.LIGAND_TABLE_COMPONENT,
   api: [
@@ -524,16 +685,28 @@ const LIGAND_TABLE_COMPONENT: PharosPanel = {
   ]
 };
 
+/**
+ * main ligand details page component
+ * @type {PharosPanel}
+ */
 const LIGAND_DETAILS_COMPONENT: PharosPanel = {
   token: TOKENS.LIGAND_DETAILS_COMPONENT,
   api: []
 };
 
+/**
+ * main ligand header component
+ * @type {PharosPanel}
+ */
 const LIGAND_HEADER_COMPONENT: PharosPanel = {
   token: TOKENS.LIGAND_HEADER_COMPONENT,
   api: []
 };
 
+/**
+ * ligand structure view component
+ * @type {PharosPanel}
+ */
 const STRUCTURE_VIEW_PANEL: PharosPanel = {
   token: TOKENS.STRUCTURE_VIEW_PANEL,
   api: [
@@ -544,6 +717,10 @@ const STRUCTURE_VIEW_PANEL: PharosPanel = {
   ]
 };
 
+/**
+ * targets related to a ligand component
+ * @type {PharosPanel}
+ */
 const TARGET_RELEVANCE_PANEL: PharosPanel = {
   token: TOKENS.TARGET_RELEVANCE_PANEL,
   api: [
@@ -554,6 +731,10 @@ const TARGET_RELEVANCE_PANEL: PharosPanel = {
   ]
 };
 
+/**
+ * ligand synonyms component
+ * @type {PharosPanel}
+ */
 const SYNONYMS_PANEL: PharosPanel = {
   token: TOKENS.SYNONYMS_PANEL,
   api: [
@@ -564,6 +745,10 @@ const SYNONYMS_PANEL: PharosPanel = {
   ]
 };
 
+/**
+ * ligand molecular definition component
+ * @type {PharosPanel}
+ */
 const MOLECULAR_DEFINITION_PANEL: PharosPanel = {
   token: TOKENS.MOLECULAR_DEFINITION_PANEL,
   api: [
