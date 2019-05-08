@@ -1,5 +1,3 @@
-<!--<ncats-anatomogram-species-chooser (speciesChange)="setSpecies($event)"></ncats-anatomogram-species-chooser>
-<ncats-anatomogram-details-chooser (detailsChange)="setdetails($event)"></ncats-anatomogram-details-chooser>-->
 <div fxLayout="row" fxLayoutAlign="center center" *ngIf= "details === 'brain'; else body">
   <div fxFlex="95">
       <ncats-anatomogram-image [species]="species" [details]="'brain'" [tissues]="tissues"></ncats-anatomogram-image>

@@ -52,7 +52,10 @@ export class PharosConfig {
     return PHAROSCONFIG.radarSourcesUrl;
   }
 
-
+  /**
+   * get string array of possible autocomplete fields
+   * @returns {string[]}
+   */
   getAutocompleteFields(): string[] {
     return PHAROSCONFIG.autocompleteFields;
   }
@@ -67,11 +70,21 @@ export class PharosConfig {
     return PHAROSCONFIG.structureImageUrl;
   }
 
+  /**
+   * get url for mol conversion api
+   * @returns {string}
+   */
   getMolConvertUrl(): string {
     return PHAROSCONFIG.molConvertUrl;
   }
 
+
 // todo: deprecate
+  /**
+   * url for homunculus api
+   * @param {string} id
+   * @returns {string}
+   */
   getHomunculusUrl(id: string): string {
     return PHAROSCONFIG.homunculusUrl.replace('_id_', id);
   }

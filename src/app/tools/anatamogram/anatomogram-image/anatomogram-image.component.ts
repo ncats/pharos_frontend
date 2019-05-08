@@ -1,39 +1,86 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import * as d3 from 'd3';
 
-
+/**
+ * holder for different types of anatamogram svgs
+ */
 @Component({
   selector: 'ncats-anatomogram-image',
   templateUrl: './anatomogram-image.component.html',
-  styleUrls: ['./anatomogram-image.component.css']
+  styleUrls: ['./anatomogram-image.component.scss']
 })
 export class AnatomogramImageComponent implements OnInit {
+  /**
+   * the html element to inject the svg content into
+   */
   @ViewChild('anatamogram') anatamogram: ElementRef;
+
+  /**
+   * which species of anatamogram to show
+   */
   @Input() species: string;
+
+  /**
+   * details to show, mainly between the bran and body, but also male or female
+   * since both male and female are shown, they are manually set in the parent component
+   */
   @Input() details: string;
+
+  /**
+   * list of tissues to highlight
+   */
   @Input() tissues: string[];
-  imageUrl: string;
+
+  /**
+   * zoom functino to be set on init, seeting it in scope here allows other methods to call it
+   */
   zoom;
+
+  /**
+   * svg object from d3
+   */
   svg;
+
+  /**
+   * id of the tissues that is currently hovered on
+   */
   hovered: string;
 
-  constructor() {
-  }
+  /**
+   * no args constructor
+   */
+  constructor() {}
 
+  /**
+   * set url and retrieve svg image
+   * since the svg is generated externally, the xml needs to be parsed by d3, then injected into the element
+   * this allows d3 to interact with the svg
+   */
   ngOnInit() {
-    this.imageUrl = `./assets/images/svgs/${this.species}.${this.details}.svg`;
-    d3.xml(this.imageUrl).then(data => {
+    const imageUrl: string = `./assets/images/svgs/${this.species}.${this.details}.svg`;
+    d3.xml(imageUrl).then(data => {
       d3.select(this.anatamogram.nativeElement).node().append(data.documentElement);
       this.svg = d3.select('#anatamogram');
 
+      /**
+       * zoom function called
+       */
       const zoom = () => {
         this.svg.select('#anatamogram-holder').attr('transform', d3.event.transform);
       };
 
+      /**
+       * set the zoom function on the parent scope
+       */
       this.zoom = d3.zoom()
         .scaleExtent([1, 8])
         .on('zoom', zoom);
 
+      /**
+       * iterate over the tissue ids and find them in d3
+       * every path in the parent needs to be selected, since the tissues cna be made of multiple paths
+       * set mouseover and mouseout funcitons on each tissue to cover selection and hover changes
+       */
       this.tissues.forEach(tissue => d3.select(`#${tissue}`).selectAll('path')
         .on('mouseover', (d, i, f) => d3.select(f[i].parentNode).selectAll('path')
           .style('stroke', 'rgba(255, 178, 89, 1')
@@ -51,7 +98,9 @@ export class AnatomogramImageComponent implements OnInit {
         .style('stroke-width', '.5')
         .style('fill', 'rgba(35, 54, 78, .4'));
 
-
+      /**
+       * set pointer events and zoom function
+       */
       d3.select('#anatamogram')
         .style('pointer-events', 'all')
         .call(this.zoom);
@@ -59,6 +108,9 @@ export class AnatomogramImageComponent implements OnInit {
 
   }
 
+  /**
+   * reset zoom level (can also be called from external components)
+   */
   resetZoom() {
     const holder = this.svg.select('#anatamogram-holder');
     if (holder) {
@@ -69,6 +121,12 @@ export class AnatomogramImageComponent implements OnInit {
     }
   }
 
+  /**
+   * highlighting function
+   * todo could probably be merged with the above one, or called by the initializing function
+   * can be called by external components
+   * @param {string} tissue
+   */
   highlightTissue(tissue?: string) {
     if (tissue) {
       this.svg.select(`#${tissue}`).selectAll('path')

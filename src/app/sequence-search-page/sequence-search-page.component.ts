@@ -1,29 +1,42 @@
-import { Component, OnInit } from '@angular/core';
-import {MolConverterService} from '../tools/marvin-sketcher/services/mol-converter.service';
+import {Component} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {StructureSetterService} from '../tools/marvin-sketcher/services/structure-setter.service';
 import {NavigationExtras, Router} from '@angular/router';
-import {MatSliderChange} from '@angular/material';
 
+/**
+ * sequence search page
+ */
 @Component({
   selector: 'pharos-sequence-search-page',
   templateUrl: './sequence-search-page.component.html',
   styleUrls: ['./sequence-search-page.component.scss']
 })
-export class SequenceSearchPageComponent implements OnInit {
-  percentCtrl: FormControl = new FormControl();
+
+export class SequenceSearchPageComponent {
+  /**
+   * form control to adjust overlap percentage
+   * @type {FormControl}
+   */
+  percentCtrl: FormControl = new FormControl(.5);
+
+  /**
+   * form control to retrieve the searched sequence value
+   * @type {FormControl}
+   */
   sequenceCtrl: FormControl = new FormControl();
 
+  /**
+   * add router to navigate on form submit
+   * @param {Router} _router
+   */
   constructor(
     private _router: Router
-  ) {
+  ) {}
 
-  }
 
-  ngOnInit() {
-    this.percentCtrl.setValue(.5);
-  }
 
+  /**
+   * grab form values and submit via url/api navigation
+   */
   search() {
     const navigationExtras: NavigationExtras = {
       queryParams: {

@@ -1,5 +1,8 @@
 import {InjectionToken} from '@angular/core';
 
+/**
+ * list of help articles
+ */
 export class ARTICLES {
   /**
    * injection token to link to illumination graph description article
