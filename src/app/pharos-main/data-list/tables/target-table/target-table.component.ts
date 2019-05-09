@@ -150,7 +150,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       };
       this.http.post(`${this.pharosConfig.getApiPath()}targets/resolve`, result.join(), httpOptions).subscribe(res => {
         navigationExtras.queryParams = {
-          q: `etag:${res.etag}`
+          q: `etag:${res['etag']}`
         };
         this._navigate(navigationExtras);
       });

@@ -63,7 +63,7 @@ export class DataProperty {
   /**
    * token for a custom component
    */
-  customComponent?: InjectionToken;
+  customComponent?: InjectionToken<any>;
 
   /**
    * deconstruct json as dataproperty object

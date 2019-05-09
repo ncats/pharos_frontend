@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {Node} from "../../models/node";
-import {Link} from '../../models/link';
-import {LinkService} from '../../services/event-tracking/link.service';
-import {GraphDataService} from '../../services/graph-data.service';
-import {PharosNodeService} from
-'../../../../../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-node.service';
-import {PharosD3Service} from
-'../../../../../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-d3.service';
+import {Node} from "../../../../../../../../tools/force-directed-graph/fdg-core/graph-component/models/node";
+import {Link} from "../../../../../../../../tools/force-directed-graph/fdg-core/graph-component/models/link";
+import {PharosNodeService} from "../../pharos-node.service";
+import {LinkService} from "../../../../../../../../tools/force-directed-graph/fdg-core/graph-component/services/event-tracking/link.service";
+import {PharosD3Service} from "../../pharos-d3.service";
+import {GraphDataService} from "../../../../../../../../tools/force-directed-graph/fdg-core/graph-component/services/graph-data.service";
+
 
 @Component({
   selector: 'app-node-details-box',
