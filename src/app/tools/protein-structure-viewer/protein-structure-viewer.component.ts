@@ -1,31 +1,35 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import * as NGL from 'ngl';
 
+/**
+ * component to render a pdb structure with ngl
+ */
 @Component({
   selector: 'pharos-protein-structure-viewer',
   templateUrl: './protein-structure-viewer.component.html',
   styleUrls: ['./protein-structure-viewer.component.scss']
 })
 export class ProteinStructureViewerComponent implements OnInit {
+
+  /**
+   * div element holder
+   */
   @ViewChild('proteinStructureViewer') viewerContainer: ElementRef;
 
+  /**
+   * id of pdb entry (protein and molecule) t orender
+   */
   @Input() pdbid: string;
 
-  struc: any;
+  /**
+   * no args
+   */
   constructor() { }
 
+  /**
+   * create ngl instance and load view
+   */
   ngOnInit() {
-    console.log(this);
-    // Fetch PDB ID 4CUP in MMTF format and print the decoded MMTF data
-    /*MMTF.fetch(
-      "2BQZ",
-      // onLoad callback
-      function( mmtfData ){ console.log( mmtfData ) },
-      // onError callback
-      function( error ){ console.error( error ) }
-    );
-*/
-
     const stage = new NGL.Stage( this.viewerContainer.nativeElement, {backgroundColor: 'white'});
     // Handle window resizing
     window.addEventListener( 'resize', function( event ) {

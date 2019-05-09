@@ -1,32 +1,51 @@
-import {AfterViewInit, ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
-import {FormControl} from '@angular/forms';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {MolConverterService} from './services/mol-converter.service';
 import {StructureSetterService} from '../../tools/marvin-sketcher/services/structure-setter.service';
 
-
+/**
+ * component to initialize a marvin js sketcher instance
+ * currently uses an iframe, which is gross
+ */
 @Component({
   selector: 'app-sketcher',
   templateUrl: './sketcher.component.html',
   styleUrls: ['./sketcher.component.css'],
 })
 export class SketcherComponent implements OnInit {
-  marvinSketcherInstance;
-  url: SafeResourceUrl;
-  passedStructure: string;
-  drawn = false;
-  molecule = false;
-  selected = false;
-marvin: any;
 
+  /**
+   * marvin sketcher instance
+   */
+  marvinSketcherInstance;
+
+  /**
+   * url for marvin resources
+   */
+  url: SafeResourceUrl;
+
+  /**
+   * smiles string if a structure is passed in
+   */
+  passedStructure: string;
+
+  /**
+   * initialize data helper functions as well as dom sanitizing and ngzone
+   * set marvin source url using dom url sanitization
+   * @param {MolConverterService} molConverter
+   * @param {StructureSetterService} structureSetter
+   * @param {DomSanitizer} sanitizer
+   * @param {LoadingService} loadingService
+   * @param {NgZone} ngZone
+   */
   constructor(
     private molConverter: MolConverterService,
     private structureSetter: StructureSetterService,
     private sanitizer: DomSanitizer,
     private loadingService: LoadingService,
-    private ngZone: NgZone,
-    private ref: ChangeDetectorRef) {
+    private ngZone: NgZone
+  ) {
     // todo : try to load sketcher without an iframe
     /*    this.marvin = window['MarvinJSUtil'];
         window.addEventListener("message", function(event) {
@@ -41,6 +60,9 @@ marvin: any;
     this.url = this.sanitizer.bypassSecurityTrustResourceUrl('./assets/vendor/marvin/editor.html');
   }
 
+  /**
+   * initialize marvin js instance
+   */
   ngOnInit() {
     window['MarvinJSUtil'].getPackage('#sketcher').then((marvin) => {
       this.marvinSketcherInstance = marvin.sketcherInstance;

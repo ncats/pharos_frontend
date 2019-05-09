@@ -17,22 +17,47 @@ const navigationExtras: NavigationExtras = {
   queryParamsHandling: 'merge'
 };
 
+/**
+ * main panel to hold list data for targets, diseases and ligands
+ */
 @Component({
   selector: 'pharos-data-list',
   templateUrl: './data-list.component.html',
   styleUrls: ['./data-list.component.css']
 })
 
+/**
+ *
+ */
 export class DataListComponent implements OnInit, OnDestroy {
-  data: any;
-  loading = false;
-  kind: string;
-  total: number;
-  results: Map<string, any[]> = new Map<string, any>();
 
+  /**
+   * show loading spinner
+   * @type {boolean}
+   */
+  loading = false;
+
+  /**
+   * holder for injected elements
+   */
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
+
+  /**
+   * subject for unsubscribing on destroy
+   * @type {Subject<any>}
+   */
   private ngUnsubscribe: Subject<any> = new Subject<any>();
 
+  /**
+   * set up routing and component injection
+   * @param {ActivatedRoute} _route
+   * @param {Router} router
+   * @param {ResponseParserService} responseParserService
+   * @param {DataListResolver} dataListResolver
+   * @param {LoadingService} loadingService
+   * @param {PharosConfig} pharosConfig
+   * @param {ComponentInjectorService} componentInjectorService
+   */
   constructor(private _route: ActivatedRoute,
               private router: Router,
               private responseParserService: ResponseParserService,
@@ -45,6 +70,10 @@ export class DataListComponent implements OnInit, OnDestroy {
   // todo: (targets, diseases, etc) and call each api. This turns search into multiple separate calls/components, and leaves
   // todo: pagins/filtering as single components
 
+  /**
+   * subscribe to loading service to toggle spinner
+   * subscribe to data changes and load and inject required components
+   */
   ngOnInit() {
     this.loadingService.loading$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -104,6 +133,12 @@ export class DataListComponent implements OnInit, OnDestroy {
  // }
 
 // todo remove ordering on default switch
+  /**
+   * sort table handler
+   * linked to injected table/list
+   * most sorting is done by url paramater changes
+   * @param event
+   */
   sortTable(event: any): void {
     let sort = '';
     switch (event.direction) {
@@ -129,23 +164,10 @@ export class DataListComponent implements OnInit, OnDestroy {
     this._navigate(navigationExtras);
   }
 
-  filterData(res): void {
-    // todo decide on using object type or url path
-    // needs to be done by obj.kind for search results
-    this.results.clear();
-    if (res) {
-      res.map(obj => {
-        const kinds = this.results.get(obj.kind);
-        if (kinds) {
-          kinds.push(obj);
-          this.results.set(obj.kind, kinds);
-        } else {
-          this.results.set(obj.kind, [obj]);
-        }
-      });
-    }
-  }
-
+  /**
+   * change pages of list
+   * @param event
+   */
   paginationChanges(event: any) {
       navigationExtras.queryParams = {
         page: event.pageIndex + 1,
@@ -159,6 +181,11 @@ export class DataListComponent implements OnInit, OnDestroy {
     this._navigate(navigationExtras);
   }
 
+  /**
+   * navigate on changes, mainly just changes url, shouldn't reload entire page, just data
+   * @param {NavigationExtras} navExtras
+   * @private
+   */
   private _navigate(navExtras: NavigationExtras): void {
     this.router.navigate([], navExtras);
 
@@ -170,7 +197,6 @@ export class DataListComponent implements OnInit, OnDestroy {
    * unsubscribes from observables
    */
   ngOnDestroy(): void {
-    this.results.clear();
     this.componentHost.viewContainerRef.clear();
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();

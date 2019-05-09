@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, Subject} from 'rxjs/index';
 
+/**
+ * service to open the help panel, called by the trigger panel button
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class HelpPanelOpenerService {
 
+  /**
+   * no args
+   */
   constructor() { }
 
   /**

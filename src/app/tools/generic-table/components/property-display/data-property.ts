@@ -1,8 +1,8 @@
+import {InjectionToken} from "@angular/core";
+
 /**
  * main config object for a table cell, contains column/field data nad value info
  */
-import {InjectionToken} from "@angular/core";
-
 export class DataProperty {
   /**
    * id of object

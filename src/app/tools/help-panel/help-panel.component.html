@@ -44,7 +44,7 @@
               <button *ngIf="source.article && opened[i]" mat-stroked-button [color]="'primary'" (click)="closeArticle(i)">
                 Close
               </button>
-              <ng-template #HelpArticleOutlet cdkPortalOutlet>
+              <ng-template cdkPortalOutlet>
               </ng-template>
               <br>
             </div>
@@ -52,13 +52,6 @@
           </div>
         </ng-template>
     </mat-expansion-panel>
-
-    <!--<mat-expansion-panel [expanded]="true">-->
-      <!--<mat-expansion-panel-header>-->
-        <!--<span class="mat-headline">{{selectedArticle}} Details</span>-->
-      <!--</mat-expansion-panel-header>-->
-      <!--<ng-template appPharosCustomContent></ng-template>-->
-    <!--</mat-expansion-panel>-->
 
 <!--        <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>

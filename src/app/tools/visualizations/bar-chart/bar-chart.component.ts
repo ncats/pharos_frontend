@@ -1,17 +1,11 @@
-import {
-  Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output,
-  ViewChild, ViewEncapsulation
-} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 import * as d3 from 'd3';
 import {BehaviorSubject} from 'rxjs/index';
+import {PharosPoint} from "../../../models/pharos-point";
 
-export interface PharosPoint {
-  name?: string;
-  label?: string;
-  key: number;
-  value: number;
-}
-
+/**
+ * component to create a d3 bar chart
+ */
 @Component({
   selector: 'pharos-bar-chart',
   templateUrl: './bar-chart.component.html',
@@ -19,26 +13,72 @@ export interface PharosPoint {
   encapsulation: ViewEncapsulation.None
 })
 export class BarChartComponent implements OnInit {
+
+  /**
+   * element container
+   */
   @ViewChild('barChartTarget') chartContainer: ElementRef;
 
-  private _data: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  /**
+   * data subject, allows for dynamic updating of data
+   * @type {BehaviorSubject<PharosPoint[]>}
+   * @private
+   */
+  private _data: BehaviorSubject<PharosPoint[]> = new BehaviorSubject< PharosPoint[]>(null);
 
+  /**
+   * set data value
+   * @param value
+   */
+  /**
+   *
+   * @param {PharosPoint[]} value
+   */
   @Input()
-  set data(value: any) {
+  set data(value: PharosPoint[]) {
     this._data.next(value);
   }
 
-  get data(): any {
-    return this._data.value;
+  /**
+   * fetch data value
+   * @returns {PharosPoint[]}
+   */
+  get data(): PharosPoint[] {
+    return this._data.getValue();
   }
 
-  @Input() line = true;
-
+  /**
+   * margin for padding
+   * todo should probabl still use the chart options config object
+   * @type {{top: number; bottom: number; left: number; right: number}}
+   */
   private margin: any = {top: 20, bottom: 20, left: 20, right: 20};
+
+  /**
+   * height of container
+   */
   height: number;
+
+  /**
+   * width of container
+   */
   width: number;
+
+  /**
+   * generated graph svg
+   */
   svg: any;
+
+  /**
+   * tooltip object shown on hover over
+   */
   tooltip: any;
+
+  /**
+   * event emitter on section click
+   * todo currently unused, but still needed
+   * @type {EventEmitter<any>}
+   */
   @Output() readonly clickSlice: EventEmitter<any> = new EventEmitter<any>();
 
   /**
@@ -47,6 +87,9 @@ export class BarChartComponent implements OnInit {
   constructor() {
   }
 
+  /**
+   * draw basic graph elements, and once data is available, update graph with data
+   */
   ngOnInit() {
     this.drawGraph();
     this._data.subscribe(x => {
@@ -56,6 +99,9 @@ export class BarChartComponent implements OnInit {
     });
   }
 
+  /**
+   * draw the very basic graph elements, axes, etc
+   */
   drawGraph(): void {
 
     const element = this.chartContainer.nativeElement;
@@ -88,6 +134,10 @@ export class BarChartComponent implements OnInit {
       .style('opacity', 0);
   }
 
+  /**
+   * update dynamic data elements as it is updated, This allows the data to change without having to redraw
+   * the entire chart
+   */
   updateGraph(): void {
     const x = d3.scaleBand()
       .rangeRound([0, this.width], .1)
@@ -107,11 +157,6 @@ export class BarChartComponent implements OnInit {
 
     const xaxis = this.svg.select('.xaxis')
       .call(xAxis);
-
-/*    this.svg.selectAll('.xaxis text')  // select all the text elements for the xaxis
-      .attr('transform', function(d) {
-        return 'translate(' + this.getBBox().height * -2 + ',' + this.getBBox().height + ')rotate(-45)';
-      });*/
 
     this.svg.select('.yaxis')
       .call(yAxis);
@@ -144,6 +189,5 @@ export class BarChartComponent implements OnInit {
           .style('opacity', 0);
         d3.select(bars[i]).classed('hovered', false);
       });
-
   }
 }

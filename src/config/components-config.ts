@@ -4,7 +4,7 @@ import {ARTICLES} from "../config/help-article-tokens";
 import {environment} from "../environments/environment.prod";
 
 /**
- * basic interface for a pharos api call configuratio nobject
+ * basic interface for a pharos api call configuratiogit n object
  */
 interface PharosApi {
   /**
