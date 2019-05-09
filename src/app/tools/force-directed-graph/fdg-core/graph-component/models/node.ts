@@ -1,24 +1,10 @@
 import * as d3 from 'd3';
 
-/*const COLOR = d3.scaleSequential(
-  d3.interpolateViridis
-);*/
+/**
+ * color scale
+ * todo this might not be used, if it is, it probably shouldn't be here
+ */
 const COLOR = d3.scaleDiverging(d3.interpolateViridis).domain([-60, 0, 100]);
-
-
-/*const COLOR = d3.scaleOrdinal(
- // d3.interpolateRainbow
-  ["#379982",
-  "#914dd1",
-  "#799e27",
-  "#b34c95",
-  "#4f8b44",
-  "#6a71ba",
-  "#d56721",
-  "#bc4b62",
-  "#917136",
-  "#c24e3a"]
-).domain([-100, 100]);*/
 
 /**
  * serializer interface for nodes

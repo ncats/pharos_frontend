@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
-import {GraphDataService} from '../../fdg-core/graph-component/services/graph-data.service';
+import {GraphDataService} from '../../../../../../../../tools/force-directed-graph/fdg-core/graph-component/services/graph-data.service';
 import {finalize, tap} from 'rxjs/internal/operators';
 
 @Component({

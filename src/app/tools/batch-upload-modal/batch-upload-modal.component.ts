@@ -26,6 +26,7 @@ export class BatchUploadModalComponent {
    * @param dialogRef
    */
   constructor(
+
     public dialogRef: MatDialogRef<BatchUploadModalComponent>
   ) { }
 

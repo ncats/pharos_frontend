@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 
+/**
+ * displays target development level article. Injected into help panel.
+ */
 @Component({
   selector: 'pharos-target-development-article',
   templateUrl: './target-development-article.component.html',
   styleUrls: ['./target-development-article.component.scss']
 })
-export class TargetDevelopmentArticleComponent implements OnInit {
+export class TargetDevelopmentArticleComponent {
 
+  /**
+   * no args
+   */
   constructor() { }
-
-  ngOnInit() {
-  }
 
 }
