@@ -1,9 +1,11 @@
-
 import {Component, Input, OnInit} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {takeWhile} from 'rxjs/operators';
 import {DataProperty} from './data-property';
 
+/**
+ * component to display a property, primarily in a table
+ */
 @Component({
   selector: 'ncats-property-display',
   templateUrl: './property-display.component.html',

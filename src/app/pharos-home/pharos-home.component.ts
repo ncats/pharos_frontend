@@ -8,8 +8,20 @@ import {PharosApiService} from '../pharos-services/pharos-api.service';
   styleUrls: ['./pharos-home.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
+
+/**
+ *
+ */
 export class PharosHomeComponent implements OnInit {
+
+  /**
+   * elements of the page scroll to
+   */
   @ViewChild('topicsRow', {read: ElementRef}) topicsElemRef: ElementRef;
+
+  /**
+   * element of the page to scroll to
+   */
   @ViewChild('details', {read: ElementRef}) elemRef: ElementRef;
   topics: any;
   position: string;
@@ -18,20 +30,30 @@ export class PharosHomeComponent implements OnInit {
   constructor(private pharosApiService: PharosApiService) {
   }
 
+  /**
+   * grab topics dummy data
+   */
   ngOnInit() {
     this.topics = this.pharosApiService.TOPICS.slice(1, 5);
   }
 
+  /**
+   * scroll to details section of the home page
+   */
   goToDetails(): void {
     this.elemRef.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
   }
 
+  /**
+   * scroll to topics section of the home page
+   */
   goToTopics(): void {
     this.topicsElemRef.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
   }
 
   /**
-   * method that checks to see if the user has scrolled past a certain point. pinned to the window object
+   * method that checks to see if the user has scrolled past a certain point.
+   * switches menu type
    * @returns void
    */
   @HostListener('window:scroll', [])

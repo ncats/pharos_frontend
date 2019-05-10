@@ -11,7 +11,19 @@ import {SlideInOutAnimation} from './header-animations';
   animations: [SlideInOutAnimation]
 })
 export class NcatsHeaderComponent {
-  @Input() searchBar?;
+  /**
+   * show search bar
+   */
+  @Input() searchBar?: boolean;
+
+  /**
+   * toggleable class for the header
+   */
   @Input() headerClass?: string;
+
+  /**
+   * animation state changed by scrolling
+   * @type {string}
+   */
   @Input() animationState ? = 'in';
 }

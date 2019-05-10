@@ -4,6 +4,9 @@ import {
 } from '@angular/core';
 import * as d3 from 'd3';
 
+/**
+ * component to display a donut chart visualization
+ */
 @Component({
   selector: 'pharos-donut-chart',
   templateUrl: './donut-chart.component.html',
@@ -11,18 +14,50 @@ import * as d3 from 'd3';
   encapsulation: ViewEncapsulation.None
 })
 export class DonutChartComponent implements OnInit, OnChanges {
+
+  /**
+   * donut chart component holder
+   */
   @ViewChild('donutChartTarget') chartContainer: ElementRef;
+
+  /**
+   * data to display
+   * @type {any[]}
+   */
   @Input() data: any[] = [];
+
+  /**
+   * margin of space around the donut chart
+   * @type {{top: number; bottom: number; left: number; right: number}}
+   */
   private margin: any = {top: 20, bottom: 20, left: 10, right: 10};
+
+  /**
+   * height of component
+   */
   height: number;
+
+  /**
+   * width of component
+   */
   width: number;
+
+  /**
+   * radius of donut chart
+   */
   radius: number;
-  donut: any;
+
+  /**
+   * output event on slice click
+   * @type {EventEmitter<any>}
+   */
   @Output() readonly clickSlice: EventEmitter<any> = new EventEmitter<any>();
 
+  /**
+   * listener to resize the chart on page resize
+   */
   @HostListener('window:resize', ['$event'])
   onResize() {
-    //  this.svg.select('radar svg').remove();
     this.drawChart();
     this.updateChart();
   }
@@ -31,9 +66,9 @@ export class DonutChartComponent implements OnInit, OnChanges {
    */
   constructor() {}
 
-  // todo add click event that emits up
-  // todo - data change doesnt update the chart, it just redraws it;
-  // todo - revamp this to be more in line with es6
+  /**
+   * measure and layou the chart component
+   */
   ngOnInit() {
     const element = this.chartContainer.nativeElement;
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
@@ -43,6 +78,12 @@ export class DonutChartComponent implements OnInit, OnChanges {
     this.drawChart();
     this.updateChart();
   }
+
+  /**
+   * update chart on data changes
+   * todo: turn this into a subscription or getter/setter like other visualizations
+   * @param changes
+   */
   ngOnChanges(changes) {
     if (!changes.data.firstChange) {
       this.drawChart();
@@ -50,6 +91,9 @@ export class DonutChartComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * draw chart svg and labels
+   */
   drawChart(): void {
     const element = this.chartContainer.nativeElement;
     d3.select(element).selectAll('svg').remove();
@@ -66,6 +110,9 @@ export class DonutChartComponent implements OnInit, OnChanges {
     svg.attr('transform', 'translate(' + this.width / 2 + ',' + this.height / 2 + ')');
   }
 
+  /**
+   * update chart as data changes
+   */
   updateChart(): void {
     d3.selectAll('.toolCircle').remove();
     const pie = d3.pie()
@@ -141,6 +188,12 @@ export class DonutChartComponent implements OnInit, OnChanges {
     this.addTooltip(div, firstSlice, color);
   }
 
+  /**
+   * add tooltip as donut chart center fill
+   * @param element
+   * @param d
+   * @param color
+   */
   addTooltip(element: any, d: any, color: any): void {
     element.append('circle')
       .attr('class', 'toolCircle')

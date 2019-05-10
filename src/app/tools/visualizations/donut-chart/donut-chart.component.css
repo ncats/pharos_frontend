@@ -24,11 +24,6 @@ path {
   shape-rendering: geometricPrecision;
 }
 
-/* Make the percentage on the text labels bold*/
-.labelName tspan {
-
-}
-
 .labelName {
   font-size: 1.2em;
   font-style: italic;

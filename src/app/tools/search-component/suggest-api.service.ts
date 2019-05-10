@@ -4,18 +4,39 @@ import {Observable, of} from 'rxjs';
 import {catchError,  map } from 'rxjs/operators';
 import {PharosConfig} from "../../../config/pharos-config";
 
+/**
+ * api helper service to connect to search suggest fields
+ */
 @Injectable()
 export class SuggestApiService {
+
+  /**
+   * autocomplete search url
+   */
   url: string;
+
+  /**
+   * list of fields to display from autocomplete
+   */
   autocompleteFields: string[];
 
+  /**
+   * set up http call services
+   * @param {HttpClient} http
+   * @param {PharosConfig} pharosConfig
+   */
   constructor(private http: HttpClient,
-              private environmentVariableService: PharosConfig) {
-    this.url = this.environmentVariableService.getSuggestPath();
-    this.autocompleteFields = this.environmentVariableService.getAutocompleteFields();
+              private pharosConfig: PharosConfig) {
+    this.url = this.pharosConfig.getSuggestPath();
+    this.autocompleteFields = this.pharosConfig.getAutocompleteFields();
   }
 
-  // todo this should probably be piped through the pharos api service, or bundled as a self-contained module
+  /**
+   * search function
+   * thius primarily happens on input change, but it could be anything
+   * @param {string} query
+   * @returns {Observable<any[]>}
+   */
   search(query: string): Observable<any[]> {
     const autocomplete = [];
     const upper = query.toUpperCase();
@@ -37,6 +58,7 @@ export class SuggestApiService {
         catchError(this.handleError('getProtocols', []))
       );
   }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.

@@ -8,7 +8,6 @@ import {MaterialModule} from '../../assets/material/material.module';
 import {ScrollToTopComponent} from '../tools/scroll-to-top/scroll-to-top.component';
 import {CustomContentDirective} from '../tools/custom-content.directive';
 import {ComponentInjectorService} from '../pharos-services/component-injector.service';
-import {TermDisplayComponent} from '../tools/term-display/term-display.component';
 import {ToiCardComponent} from '../pharos-home/toi-card/toi-card.component';
 import {BarChartComponent} from '../tools/visualizations/bar-chart/bar-chart.component';
 import {PharosFooterComponent} from '../tools/pharos-footer/pharos-footer.component';
@@ -35,7 +34,6 @@ import {ScatterPlotComponent} from '../tools/visualizations/scatter-plot/scatter
     PharosFooterComponent,
     ScrollToTopComponent,
     CustomContentDirective,
-    TermDisplayComponent,
     BarChartComponent,
     ToiCardComponent,
     HelpPanelTriggerComponent,
@@ -57,7 +55,6 @@ import {ScatterPlotComponent} from '../tools/visualizations/scatter-plot/scatter
     PharosFooterComponent,
     ScrollToTopComponent,
     CustomContentDirective,
-    TermDisplayComponent,
     BarChartComponent,
     ToiCardComponent,
     HelpPanelTriggerComponent,

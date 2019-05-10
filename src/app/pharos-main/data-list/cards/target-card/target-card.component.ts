@@ -3,28 +3,54 @@ import {HttpClient} from '@angular/common/http';
 import {PharosConfig} from "../../../../../config/pharos-config";
 import {Target} from "../../../../models/target";
 
+/**
+ * component to display a consolidated target view
+ */
 @Component({
   selector: 'pharos-target-card',
   templateUrl: './target-card.component.html',
-  styleUrls: ['./target-card.component.css']
+  styleUrls: ['./target-card.component.scss']
 })
 export class TargetCardComponent implements OnInit, OnChanges {
+  /**
+   * target to display. optional because it may also get injected
+   */
   @Input() target?: Target;
+
+  /**
+   * boolean to display knowedge chart under radar chart
+   * @type {boolean}
+   */
   @Input() showKnowledge = false;
+
+  /**
+   * api url to fetch target data for the radar chart
+   */
   _apiUrl: string;
+
+  /**
+   * radar chart data
+   */
   knowledge: any;
 
+  /**
+   * set up http calls to fetch radar chart data
+   * @param {HttpClient} http
+   * @param {PharosConfig} pharosConfig
+   */
   constructor(private http: HttpClient,
               private pharosConfig: PharosConfig) {
     this._apiUrl = this.pharosConfig.getRadarPath();
 
   }
 
+  /**
+   * if target exists, fetch radar chart data
+   */
   ngOnInit() {
     if (this.target) {
       this.http.get(`${this._apiUrl}${this.target.accession}`).subscribe( res => this.knowledge = res);
     }
-
   }
 
   /**

@@ -1,10 +1,11 @@
-import {
-  ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren
-} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {CdkScrollable, ScrollDispatcher} from '@angular/cdk/scrolling';
 import {PharosProperty} from '../models/pharos-property';
 import {SOURCES} from '../../assets/data-sources';
 
+/**
+ * about page component
+ */
 @Component({
   selector: 'pharos-about-page',
   templateUrl: './about-page.component.html',
@@ -22,6 +23,10 @@ export class AboutPageComponent implements OnInit {
    */
   @ViewChildren('scrollSection') scrollSections: QueryList<ElementRef>;
 
+  /**
+   * fields to show in the sources table on the about page
+   * @type {PharosProperty[]}
+   */
   sourceFields: PharosProperty[] = [
     new PharosProperty({
       name: 'source',
@@ -46,14 +51,26 @@ export class AboutPageComponent implements OnInit {
     }),
   ];
 
+  /**
+   * sources list from assets file
+   */
   _sources: any;
 
+  /**
+   * set up change detection and scroll dispatching
+   * @param {ChangeDetectorRef} changeDetector
+   * @param {ScrollDispatcher} scrollDispatcher
+   */
   constructor(
               private changeDetector: ChangeDetectorRef,
               private scrollDispatcher: ScrollDispatcher) {
     this._sources = SOURCES;
   }
 
+  /**
+   * watch scrool and change active section on sidenav
+   * todo could be updated to use the injectable sidenav
+   */
   ngOnInit() {
     this.scrollDispatcher.scrolled().subscribe((data: CdkScrollable) => {
       if (data) {
@@ -74,10 +91,19 @@ export class AboutPageComponent implements OnInit {
     });
   }
 
+  /**
+   * scroll to section
+   * @param el
+   */
   public scroll(el: any): void {
     el.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
   }
 
+  /**
+   * check which section is active
+   * @param {string} check
+   * @returns {boolean}
+   */
   isActive(check: string): boolean {
     return this.activeElement === check;
   }

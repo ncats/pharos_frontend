@@ -18,7 +18,7 @@
           <mat-card-subtitle>Uniprot Accession IDs</mat-card-subtitle>
           <ul class = "inline-list wrap">
             <li *ngFor=" let term of data.synonyms">
-              <pharos-term-display [term]= term [showLabel]="false"></pharos-term-display><br>
+              <ncats-property-display [property] = term [showLabel]="false"></ncats-property-display><br>
             </li>
           </ul>
         </ng-container>
@@ -27,7 +27,7 @@
           <mat-card-subtitle>Gene Name</mat-card-subtitle>
           <ul class = "inline-list wrap">
             <li *ngFor=" let term of data.gene">
-              <pharos-term-display [term]= term  [showLabel]="false"></pharos-term-display>
+              <ncats-property-display [property]= term  [showLabel]="false"></ncats-property-display>
             </li>
           </ul>
         </ng-container>
@@ -36,7 +36,7 @@
           <mat-card-subtitle>Ensembl ID</mat-card-subtitle>
           <ul class = "inline-list wrap">
             <li *ngFor=" let term of data.ensembl">
-              <pharos-term-display [term]= term  [showLabel]="false"></pharos-term-display>
+              <ncats-property-display [property]= term  [showLabel]="false"></ncats-property-display>
             </li>
           </ul>
         </ng-container>
@@ -45,7 +45,7 @@
            <mat-card-subtitle>Symbol</mat-card-subtitle>
            <ul class = "inline-list wrap">
              <li *ngFor=" let term of data.symbol">
-               <pharos-term-display [term] = term [showLabel]="false"></pharos-term-display>
+               <ncats-property-display [property] = term [showLabel]="false"></ncats-property-display>
              </li>
            </ul>
          </ng-container>

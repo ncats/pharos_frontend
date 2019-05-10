@@ -1,15 +1,9 @@
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild,
-  ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {Facet} from '../../../models/facet';
-import {Subject, combineLatest} from 'rxjs';
+import {Subject} from 'rxjs';
 import {PathResolverService} from '../../../pharos-services/path-resolver.service';
 import {FacetRetrieverService} from './facet-retriever.service';
-import {takeUntil, map} from 'rxjs/operators';
-import {Observable} from 'rxjs/index';
 import {ResponseParserService} from '../../../pharos-services/response-parser.service';
-import {LoadingService} from '../../../pharos-services/loading.service';
 import {PharosConfig} from "../../../../config/pharos-config";
 
 /**
@@ -18,15 +12,40 @@ import {PharosConfig} from "../../../../config/pharos-config";
 @Component({
   selector: 'pharos-filter-panel',
   templateUrl: './filter-panel.component.html',
-  styleUrls: ['./filter-panel.component.scss'],
- // encapsulation: ViewEncapsulation.None
+  styleUrls: ['./filter-panel.component.scss']
 })
 export class FilterPanelComponent implements OnInit, OnDestroy {
-@Output() closeClick: EventEmitter<boolean> = new EventEmitter<boolean>();
+  /**
+   * close the filter panel
+   * @type {EventEmitter<boolean>}
+   */
+  @Output() closeClick: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  /**
+   * list of facets shown in the filter panel
+   */
   facets: Facet[];
+
+  /**
+   * map of facets since they are dynamically loaded
+   * @type {Map<string, any>}
+   */
   facetsMap: Map<string, any> = new Map<string, any>();
+
+  /**
+   * list of all facets to display
+   */
   allFacets: Facet[];
+
+  /**
+   * show all facets boolean
+   * @type {boolean}
+   */
   fullWidth = false;
+
+  /**
+   * ngmodel of search value to filter facets when all are displayed
+   */
   value: string;
   loading = false;
 
@@ -37,13 +56,22 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    */
   private ngUnsubscribe: Subject<any> = new Subject();
 
+  /**
+   * set up services to get facets
+   * @param {PathResolverService} pathResolverService
+   * @param {FacetRetrieverService} facetRetrieverService
+   * @param {ResponseParserService} responseParserService
+   * @param {PharosConfig} pharosConfig
+   */
   constructor(
-              private ref: ChangeDetectorRef,
               private pathResolverService: PathResolverService,
               private facetRetrieverService: FacetRetrieverService,
               private responseParserService: ResponseParserService,
               private pharosConfig: PharosConfig) { }
 
+  /**
+   * set up subscriptions to get facets
+    */
   ngOnInit() {
     this.facetRetrieverService.loaded$.subscribe(res => {
       if (res === true) {
@@ -61,6 +89,9 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * retrieve all facets from service
+   */
   getAllFacets(): void {
     this.facetRetrieverService.getAllFacets().subscribe(facets => {
       this.allFacets = Array.from(facets.values());
@@ -69,6 +100,10 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * toggle the show all facets view
+   * load all facets as needed
+   */
   toggleFacets() {
     this.fullWidth = !this.fullWidth;
     this.loading = true;
@@ -79,16 +114,27 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * search an filter facets
+   * @param {string} term
+   */
   search(term: string): void {
     this.facets = this.allFacets.filter(facet => {
       return JSON.stringify(facet).toLowerCase().includes(term.toLowerCase());
     });
   }
 
+  /**
+   * clear the all facets filter search
+   */
   clear(): void {
     this.value = '';
     this.facets = this.allFacets;
   }
+
+  /**
+   * remove all selected facets
+   */
   removeAll(): void {
     this.pathResolverService.removeAll();
   }
@@ -104,6 +150,9 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     return item;
   }
 
+  /**
+   * close the filter panel
+   */
   closeMenu() {
     this.closeClick.emit();
   }

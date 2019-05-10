@@ -2,15 +2,29 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Ligand} from "../../../../models/ligand";
 import {Target} from "../../../../models/target";
 
-
+/**
+ * component to display a condensed ligand view
+ */
 @Component({
   selector: 'pharos-ligand-card',
   templateUrl: './ligand-card.component.html',
-  styleUrls: ['./ligand-card.component.css']
+  styleUrls: ['./ligand-card.component.scss']
 })
 export class LigandCardComponent implements OnInit {
-@Input() ligand: Ligand;
-@Input() target?: Target;
+
+  /**
+   * ligand input to display
+   */
+  @Input() ligand: Ligand;
+
+  /**
+   * optional target to display activity data for
+   */
+  @Input() target?: Target;
+
+  /**
+   * find the first target activity for the ligand
+   */
   primeActivity: any;
 
   /**
@@ -18,12 +32,21 @@ export class LigandCardComponent implements OnInit {
    */
   constructor() { }
 
+  /**
+   * find prime activity based on ligand activites for the target
+   */
   ngOnInit() {
     if (this.target) {
       this.primeActivity = [this.ligand.activities.sort(activity => this.target.gene === activity.target)[0]];
     }
   }
 
+  /**
+   * fetch and display activity for a ligand
+   * @param activity
+   * @returns {string}
+   * @private
+   */
   private _getActivityType(activity: any): string {
     let ret = '';
     if (activity.label === 'Potency' || activity.label === 'Pharmalogical Action') {

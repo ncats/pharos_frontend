@@ -23,17 +23,30 @@ import {BreakpointObserver} from '@angular/cdk/layout';
  *
  * NCATS footer
  */
-
-
 @Component({
   selector: 'pharos-pharos-main',
   templateUrl: './pharos-main.component.html',
   styleUrls: ['./pharos-main.component.css']
 })
 export class PharosMainComponent implements OnInit {
+
+  /**
+   * help panel element
+   */
   @ViewChild('helppanel') helpPanel: MatDrawer;
+
+  /**
+   * boolean for mobile view
+   * @type {boolean}
+   */
   isSmallScreen = false;
 
+  /**
+   * set up facets and help panels
+   * @param {FacetRetrieverService} facetRetrieverService
+   * @param {HelpPanelOpenerService} helpPanelOpenerService
+   * @param {BreakpointObserver} breakpointObserver
+   */
   constructor(
     private facetRetrieverService: FacetRetrieverService,
     private helpPanelOpenerService: HelpPanelOpenerService,
@@ -41,12 +54,18 @@ export class PharosMainComponent implements OnInit {
 ) {
 }
 
-ngOnInit() {
+  /**
+   * check screen size  and subscribe to help panel changes
+   */
+  ngOnInit() {
     console.log(this);
   this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
   this.helpPanelOpenerService.toggle$.subscribe(res => this.helpPanel.toggle());
   }
 
+  /**
+   * get all facets
+   */
   loadFacets() {
     this.facetRetrieverService._loaded.next(true);
   }
