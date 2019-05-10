@@ -4,6 +4,12 @@ import {takeUntil} from 'rxjs/operators';
 import * as Protvista from 'ProtVista';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 
+/**
+ * displays amino acid sequence data
+ * contains bar chart of amino acid counts
+ * amino acid sequence
+ * protvista viewer - browser only
+ */
 @Component({
   selector: 'pharos-aa-sequence-panel',
   templateUrl: './aa-sequence-panel.component.html',
@@ -13,19 +19,39 @@ import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/na
 
 export class AaSequencePanelComponent extends DynamicPanelComponent implements OnInit {
 
+  /**
+   * div element that holds the protvista viewer
+   */
   @ViewChild('protVistaViewer') viewerContainer: ElementRef;
 
+  /**
+   * chunked amino acid sequence
+   */
   aasequence: any[];
 
+  /**
+   * amino acid residue counts
+   */
   residueCounts: any[];
+
+  /**
+   * target id for uniprot viewer
+   */
   id: string;
 
+  /**
+   * set up active sidenav component
+   * @param navSectionsService
+   */
   constructor(
     private navSectionsService: NavSectionsService
   ) {
     super();
   }
 
+  /**
+   * set up data change subscription
+   */
   ngOnInit() {
     this._data
     // listen to data as long as term is undefined or null
@@ -41,6 +67,11 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
       });
   }
 
+  /**
+   * count and parse sequence
+   * initialize protvista viewer
+   * // todo set boolean breakpoint and only load if not mobile
+   */
   setterFunction() {
     this.parseSequence();
     const r = new Protvista({
@@ -50,6 +81,10 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
     this.getCounts();
   }
 
+  /**
+   * get counts of each amino acid
+   * used for bar chart
+   */
   getCounts(): void {
     const charMap: Map<string, number> = new Map<string, number>();
     this.data.sequence[0].text.split('').map(char => {
@@ -63,6 +98,9 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
     this.residueCounts = Array.from(charMap.entries());
   }
 
+  /**
+   * parse the amino acid sequence into smaller chunks for display
+   */
   parseSequence(): void {
     const length = 70;
     const split = this.splitString(this.data.sequence[0].text, length);

@@ -20,7 +20,9 @@ export const STRUCTURE_VIEW_TOKEN = new InjectionToken("StructureViewComponent")
 const REPORT_URL = 'https://www.rcsb.org/pdb/rest/customReport.csv?customReportColumns=structureId,ligandId,ligandSmiles,' +
   'EC50,IC50,Ka,Kd,Ki,pubmedId,releaseDate,experimentalTechnique,structureTitle&service=wsfile&format=csv&pdbids=';
 
-
+/**
+ * component to fetch data from the rcsb protein databank and display tested ligands nested in a protein structure
+ */
 @Component({
   selector: 'pharos-pdb-panel',
   templateUrl: './pdb-panel.component.html',
@@ -28,52 +30,80 @@ const REPORT_URL = 'https://www.rcsb.org/pdb/rest/customReport.csv?customReportC
 })
 export class PdbPanelComponent extends DynamicTablePanelComponent implements OnInit {
 
+
+  /**
+   * fields to be show in the pdb table
+   * @type {PharosProperty[]}
+   */
   fieldsData: PharosProperty[] = [
-    {
+    new PharosProperty({
       name: 'structureId',
       label: 'PDB Structure Id',
-    },
-{
+    }),
+    new PharosProperty({
   name: 'pubmedId',
   label: 'PMID'
-},
+}),
 /*{
   name: 'chainId',
     label: 'Chain Id',
 },*/
-{
+    new PharosProperty({
   name: 'ligandId',
     label: 'Ligand Id'
-},
-{
+}),
+    new PharosProperty({
   name: 'ligandSmiles',
     label: 'Ligand',
   customComponent: STRUCTURE_VIEW_TOKEN
-},
-{
+}),
+    new PharosProperty({
   name: 'activities',
     label: 'Activity'
-},
-{
+}),
+    new PharosProperty({
   name: 'experimentalTechnique',
     label: 'Method'
-},
-{
+}),
+    new PharosProperty({
   name: 'structureTitle',
     label: 'Title'
-}
+})
 ];
 
+  /**
+   * all retrieved reports
+   * @type {any[]}
+   */
   reports: PdbReportData[] = [];
-  tableArr: PdbReportData[] = [];
+  /**
+   * list of pharos property objects to display in table
+   * @type {any[]}
+   */
+  tableArr: any[] = [];
 
+  /**
+   * pagination data object
+   */
   pageData: PageData;
 
-
+  /**
+   * active pdb id shown in protein structure viewer
+   */
   pdbid: string;
 
+  /**
+   * serializer to parse json into classes
+   * @type {PdbReportSerializer}
+   */
   pdbReportSerializer: PdbReportSerializer = new PdbReportSerializer();
 
+  /**
+   * set up httpservice
+   * @param {NavSectionsService} navSectionsService
+   * @param {ChangeDetectorRef} ref
+   * @param {HttpClient} _http
+   */
   constructor(
     private navSectionsService: NavSectionsService,
     private ref: ChangeDetectorRef,
@@ -81,6 +111,9 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
     super();
   }
 
+  /**
+   * set up subscription to watch for data change
+   */
   ngOnInit() {
     this._data
     // listen to data as long as term is undefined or null
@@ -89,19 +122,20 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (Object.values(this.data).length > 0) {
+        if (this.data.pdb && this.data.pdb.length > 0) {
           this.ngUnsubscribe.next();
           this.setterFunction();
         }
       });
   }
 
+  /**
+   * fetch pdb data from rcsb, create pagedata object and parse first page of reports
+   */
   setterFunction() {
-    console.log(this);
     this.tableArr = [];
     this.reports = [];
     const terms = this.data.pdb.map(pdb => pdb = pdb.term);
-    console.log(terms);
     this._http.get(REPORT_URL + terms.join(','), {responseType: 'text'}).subscribe(res => {
         this.csvJSON(res);
         this.reports = this.reports
@@ -113,15 +147,16 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
         .map(report => this.pdbReportSerializer._asProperties(report));
       this.pdbid = this.tableArr[0].structureId['term'];
       this.ref.detectChanges();
-      console.log(this.pageData);
-
     });
-    console.log(this.pageData);
   }
 
+  /**
+   * convert csv from rcsb to json
+   * maps json to typed pdbreport object
+   * @param {string} csv
+   */
   private csvJSON(csv: string): void {
     const lines: string[] = csv.split(/\r\n|\n/);
-
     const headers = lines.shift().split(',');
     if (lines.length > 0) {
       for (const i of lines) {
@@ -138,12 +173,20 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
     }
   }
 
+  /**
+   * paginate the pdb table. The raw data is converted into properties objects after slicing
+   * @param event
+   */
   pagePDB(event) {
-    console.log(event);
     this.tableArr = this.reports.slice(event.pageIndex * event.pageSize, (event.pageIndex +1) * event.pageSize)
       .map(report => this.pdbReportSerializer._asProperties(report));
   }
 
+  /**
+   * change the molecule displayed in the protein structure viewer
+   * todo: verify that this happens
+   * @param entry
+   */
   changePdbId(entry: any) {
     console.log(entry);
     if(this.pdbid !== entry.structureId.term) {

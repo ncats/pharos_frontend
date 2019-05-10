@@ -19,7 +19,7 @@ import {PharosConfig} from "../../../../../../config/pharos-config";
   styleUrls: ['./expression-panel.component.scss']
 })
 export class ExpressionPanelComponent extends DynamicPanelComponent implements OnInit {
-  tissues: string[] =  [
+  tissues: string[] = [
     'UBERON_0001897',
     'UBERON_0001898',
     'UBERON_0002421',
@@ -64,7 +64,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     'UBERON_0002046',
     'UBERON_0002371',
     'UBERON_0001870'
-    ];
+  ];
 
   @ViewChild(RadarChartComponent) radarComponent: RadarChartComponent;
 
@@ -242,18 +242,25 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
 
   drawRadar(change: MatTabChangeEvent) {
     this.selectedTab = change.tab.textLabel;
-
   }
 
+  /**
+   * set tissue that is hovered from list
+   * @param {string} tissue
+   */
   setHover(tissue?: string) {
     this.anatamogramHoverService.setTissue(tissue);
   }
 
+  /**
+   * redraws radar chart when the tab changes, this is due to the lazy loaded tabs
+   */
   doneAnimating() {
     if (this.selectedTab === 'Specificity') {
       this.radarComponent.drawChart();
       this.radarComponent.updateChart();
-    }  }
+    }
+  }
 
   /**
    * active section view tracker

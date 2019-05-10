@@ -4,24 +4,53 @@ import {Target} from '../../../../../models/target';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {BreakpointObserver} from '@angular/cdk/layout';
 
+/**
+ * displays the description of a target
+ */
 @Component({
   selector: 'pharos-gene-summary',
   templateUrl: './gene-summary.component.html',
   styleUrls: ['./gene-summary.component.scss']
 })
 export class GeneSummaryComponent extends DynamicPanelComponent implements OnInit {
+  /**
+   * target to display
+   */
   @Input() target: Target;
+
+  /**
+   * main description
+   */
   description: string;
+
+  /**
+   * truncated description text
+   */
   truncatedDescription: string;
+
+  /**
+   * gene summary field
+   */
   geneSummary: string;
+
+  /**
+   * boolean to show full or truncated description
+   */
   fullDescription = true;
 
+  /**
+   * set mobile breakpoints
+   * @param breakpointObserver
+   */
   constructor(
     private breakpointObserver: BreakpointObserver
   ) {
     super();
   }
 
+  /**
+   * subscribe to data changes
+   */
   ngOnInit() {
     const isSmallScreen = this.breakpointObserver.isMatched('(max-width: 768px)');
     this._data
@@ -38,11 +67,14 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
       });
   }
 
+  /**
+   * concatanate description from various sources, and truncate if too long
+   */
   setterFunction() {
     if (this.data.geneSummary) {
       this.geneSummary = this.data.geneSummary.map(sum => sum.text).join(' ');
       if (this.target.description) {
-        this.description = this.target.description ? this.target.description.concat(`<br> ${this.geneSummary}`) : this.geneSummary;
+        this.description = this.target.description ? this.target.description.concat(`\n ${this.geneSummary}`) : this.geneSummary;
       }
     } else {
       this.description = this.target.description;
@@ -56,6 +88,4 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
       this.truncatedDescription = this.description.slice(0, 500);
     }
   }
-
-
 }

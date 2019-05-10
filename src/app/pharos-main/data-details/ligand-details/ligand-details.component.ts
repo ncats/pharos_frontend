@@ -1,7 +1,4 @@
-import {
-  ChangeDetectorRef, Component, forwardRef, Inject, Injector, Input, OnDestroy, OnInit, Type,
-  ViewChild
-} from '@angular/core';
+import {ChangeDetectorRef, Component, Inject, Injector, Input, OnDestroy, OnInit, Type, ViewChild} from '@angular/core';
 import {CustomContentDirective} from '../../../tools/custom-content.directive';
 import {DataDetailsResolver} from '../data-details.resolver';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
@@ -15,23 +12,51 @@ import {NavSectionsService} from '../../../tools/sidenav-panel/services/nav-sect
 import {ActivatedRoute, Router} from '@angular/router';
 import {PharosConfig} from "../../../../config/pharos-config";
 
+/**
+ * main component to display ligand details panels
+ */
 @Component({
   selector: 'pharos-ligand-details',
   templateUrl: './ligand-details.component.html',
   styleUrls: ['./ligand-details.component.css']
 })
 export class LigandDetailsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
+  /**
+   * main path
+   */
   @Input() path: string;
-  token: any;
+
+  /**
+   * array of all navigation sections
+   * @type {any[]}
+   */
   sections: string[] = [];
-  navIsFixed = false;
-  activeElement = 'summary';
 
-  ligand: Ligand;
+  /**
+   * target being displayed
+   */
+  @Input() ligand: Ligand;
 
+  /**
+   * div element all components are injected into
+   */
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
 
 
+  /**
+   * set up lots of dependencies to watch for data changes, navigate and parse and inject components
+   * @param {Injector} _injector
+   * @param {Document} document
+   * @param {DataDetailsResolver} dataDetailsResolver
+   * @param {Router} router
+   * @param {ActivatedRoute} route
+   * @param {NavSectionsService} navSectionsService
+   * @param {ChangeDetectorRef} changeDetector
+   * @param {PharosConfig} pharosConfig
+   * @param {HelpDataService} helpDataService
+   * @param {BreakpointObserver} breakpointObserver
+   * @param {ComponentInjectorService} componentInjectorService
+   */
   constructor(
     private _injector: Injector,
     @Inject(DOCUMENT) private document: Document,
@@ -48,6 +73,19 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
     super();
   }
 
+  /**
+   * fetch components for a specific object type.
+   * iterate over each component and call all apis listed
+   * each api field is added to a tracking array
+   *    * each section is added to the navigation sidebar
+   * the component is dynamically generated and injected into the dom
+   * the pharos object and pharos object id are injected into the dynamic component
+   * the main path is injected into the component
+   * the main data change subscription is watch, and on each change, the returned object is parsed to fetch
+   * each field in the helper array
+   * this data object is then injected into the dynamic component
+   * todo this doesn't handle cases where there is no data returned to an object
+   */
   ngOnInit() {
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
     const components: any = this.pharosConfig.getComponents(this.path, 'panels');
@@ -97,13 +135,21 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
     }
   }
 
+  /**
+   * select specific properties from data object
+   * @param o
+   * @param props
+   * @returns {any}
+   */
   pick(o, props): any {
     return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
   }
 
+  /**
+   * clean up on exit
+   */
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-
 }

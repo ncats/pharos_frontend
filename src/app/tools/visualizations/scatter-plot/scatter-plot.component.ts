@@ -9,6 +9,9 @@ import {ScatterOptions} from './models/scatter-options';
 import {ScatterPoint} from './models/scatter-point';
 import {PharosPoint} from '../../../models/pharos-point';
 
+/**
+ * flexible scatterplot/line chart viewer, has click events, hoverover, and voronoi plots for easier hoverover
+ */
 @Component({
   selector: 'pharos-scatter-plot',
   templateUrl: './scatter-plot.component.html',
@@ -91,16 +94,51 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    */
   private ngUnsubscribe: Subject<any> = new Subject();
 
+  /**
+   * array of data sources, allows for multiple lines/data sets
+   * @type {any[]}
+   */
   displayData: any = [];
 
+  /**
+   * x axis scale
+   */
   private x;
+
+  /**
+   * y axis scale
+   */
   private y;
+
+  /**
+   * zoom scale
+   * @type {number}
+   */
   private k = 1;
 
+  /**
+   * svg line element if added
+   */
   private line;
+
+  /**
+   * svg voronoi elements
+   */
   private voronoi;
+
+  /**
+   * svg holder of voronoi group
+   */
   private voronoiGroup;
+
+  /**
+   * svg chart object holder for data points and voronoi
+   */
   private chartGroup;
+
+  /**
+   * zoom function
+   */
   private zoom;
 
   /**
@@ -112,6 +150,11 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     this.updateData();
   }
 
+  /**
+   * subscrible to data change, and parse data
+   * draw chart object,
+   * and update with data
+   */
   ngOnInit() {
     this._data.subscribe(x => {
       if (this.data) {
@@ -128,6 +171,11 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
+  /**
+   * when data changes re-parse data and update the chart
+   * no need to redraw the main components
+   * @param change
+   */
   ngOnChanges(change) {
     if (this.filters && this.data) {
       if (change.filters) {
@@ -140,11 +188,21 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  /**
+   * retrieve passed in options or create a new standard configuration
+   */
   getOptions() {
     // get chart options
     this._chartOptions = this.options ? this.options : new ScatterOptions({});
   }
 
+  /**
+   * get scale based on axis and desired type
+   * can choose 'log', 'point', 'year' or 'linear'
+   * @param {string} type
+   * @param {string} axis
+   * @returns {any}
+   */
   getScale(type: string, axis: string) {
     const range: any[] = [];
     if (axis === 'x') {
@@ -179,6 +237,12 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  /**
+   * draw the main chart object
+   * draw axes based on type
+   * create voronoi group holders
+   * add zoom and pan functionality
+   */
   drawChart(): void {
     this.getOptions();
     //////////// Create the container SVG and g /////////////
@@ -355,8 +419,10 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     this.voronoiGroup.call(this.zoom);
   }
 
+  /**
+   * set data in chart, and draw objects as needed
+   */
   setData() {
-
     if (this._chartOptions.xAxisScale === 'year' ) {
       d3.merge(this.displayData).map( d => {
         d.x = new Date(d.x, 0);
@@ -396,14 +462,12 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     this.setVoronoi();
   }
 
+  /**
+   * update chart data and redraw elements as needed
+   */
   updateData(): void {
-
     if (this._chartOptions.xAxisScale === 'year' ) {
-      d3.merge(this.displayData).map( d => {
-
-        d.x = new Date(d.x, 0);
-        return d;
-      });
+      d3.merge(this.displayData).map( d => d.x = new Date(d.x, 0));
     }
 
     const t = d3.transition()
@@ -448,6 +512,9 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     this.setVoronoi();
   }
 
+  /**
+   * draw voronoi elements to ease point hightlighting on hover
+   */
   setVoronoi(): void {
     const voronoi = this.svg.select('.voronoi').selectAll('.voronoi-path')
       .data(this.voronoi.polygons(d3.merge(this.displayData)), d => d);
@@ -473,6 +540,10 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       .exit();
   }
 
+  /**
+   * mouseover function
+   * @param data
+   */
   mouseOn(data: any): void {
     this.svg.select(`#${data.id}`)
       .attr('r', 6 / this.k)
@@ -499,7 +570,10 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       .style('width', 100);
   }
 
-
+  /**
+   * mouseout function
+   * @param data
+   */
   mouseOut(data: any) {
     this.tooltip
       .transition()
@@ -510,6 +584,9 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       .exit();
   }
 
+  /**
+   * reset zoom and pan
+   */
   reset() {
     this.k = 1;
     this.voronoiGroup.transition()
@@ -518,7 +595,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   /**
-   * function to unubscribe on destroy
+   * function to unsubscribe on destroy
    */
   ngOnDestroy() {
     const element = this.chartContainer.nativeElement;

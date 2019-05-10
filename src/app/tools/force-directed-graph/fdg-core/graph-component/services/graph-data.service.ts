@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import {of, Subject} from 'rxjs';
-
 import {Link} from '../models/link';
 import {Node} from '../models/node';
 import {LinkService} from './event-tracking/link.service';
+// todo this should not be here, it should be a generic node service
 import {PharosNodeService} from '../../../../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-node.service';
 
+/**
+ * service to apply data changes to a graph
+ * all node and link generation should happen in a parent service
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -43,10 +47,20 @@ export class GraphDataService {
     this._graphHistorySource.next(graph);
   }
 
+  /**
+   * returns nodes from parent node generating source
+   * // todo: see why this is here
+   * @returns {Node[]}
+   */
   getNodes(): Node[] {
     return Array.from(this.nodeService.getNodes().values());
   }
 
+  /**
+   * returns links from parent link generating source.
+   * // todo see why this is here
+   * @returns {Link[]}
+   */
   getLinks(): Link[] {
     return Array.from(this.linkService.getLinks().values());
   }
@@ -179,6 +193,11 @@ export class GraphDataService {
     return this.graph;
   }
 
+  /**
+   * search over existing node names
+   * @param {string} q
+   * @returns {Observable<any[]>}
+   */
   searchNodes(q: string) {
     return of(this.graph.nodes.filter(node => node.name.toLowerCase().includes(q.toLowerCase())));
   }

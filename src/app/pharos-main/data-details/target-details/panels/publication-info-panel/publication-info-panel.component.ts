@@ -11,23 +11,63 @@ import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
 import {PharosConfig} from "../../../../../../config/pharos-config";
 
-
+/**
+ * displays publication information and statistics about a target
+ */
 @Component({
   selector: 'pharos-publication-info-panel',
   templateUrl: './publication-info-panel.component.html',
   styleUrls: ['./publication-info-panel.component.scss']
 })
 export class PublicationInfoPanelComponent extends DynamicTablePanelComponent implements OnInit {
+  /**
+   * parent target
+   */
   @Input() target: Target;
+
+  /**
+   * data array
+   */
   publications: Publication[];
+
+  /**
+   * data array
+   */
   generifs: Publication[];
+
+  /**
+   * pagination data
+   */
   publicationPageData: PageData;
+
+  /**
+   * pgaination data
+   */
   rifPageData: PageData;
+
+  /**
+   * timeline data array
+   */
   pmscoreTimeline: PharosPoint[];
+
+  /**
+   * timeline data array
+   */
   pubtatorTimeline: PharosPoint[];
+
+  /**
+   * timeline data array
+   */
   patentTimeline: PharosPoint[];
+
+  /**
+   * serializer for publications
+   */
   publicationSerializer: PublicationSerializer = new PublicationSerializer();
 
+  /**
+   * publication table fields to display
+   */
   publicationTableFields: PharosProperty[] = [
     new PharosProperty({
       name: 'pmid',
@@ -45,7 +85,10 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
     })
   ];
 
-rifTableFields: PharosProperty[] = [
+  /**
+   * generif table fields to display
+   */
+  rifTableFields: PharosProperty[] = [
     new PharosProperty({
       name: 'pmid',
       label: 'PMID',
@@ -58,7 +101,10 @@ rifTableFields: PharosProperty[] = [
     })
   ];
 
-chartOptions: ScatterOptions = new ScatterOptions({
+  /**
+   * chart configuration options
+   */
+  chartOptions: ScatterOptions = new ScatterOptions({
     line: true,
     xAxisScale: 'year',
     xLabel: 'Year',
@@ -67,14 +113,21 @@ chartOptions: ScatterOptions = new ScatterOptions({
     margin: {top: 20, right: 35, bottom: 25, left: 35}
   });
 
-  constructor(
-    private navSectionsService: NavSectionsService,
-    private _http: HttpClient,
-    private pharosConfig: PharosConfig
-  ) {
+  /**
+   *
+   * @param navSectionsService
+   * @param _http
+   * @param pharosConfig
+   */
+  constructor(private navSectionsService: NavSectionsService,
+              private _http: HttpClient,
+              private pharosConfig: PharosConfig) {
     super();
   }
 
+  /**
+   * subscribe to data changes
+   */
   ngOnInit() {
     this._data
     // listen to data as long as term is undefined or null
@@ -83,13 +136,18 @@ chartOptions: ScatterOptions = new ScatterOptions({
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-            if (Object.values(this.data).length > 0) {
-              this.ngUnsubscribe.next();
-              this.setterFunction();
-            }
+        if (Object.values(this.data).length > 0) {
+          this.ngUnsubscribe.next();
+          this.setterFunction();
+        }
       });
   }
 
+  /**
+   * parse data as publication objects
+   * set pagination objects
+   * create timelines if data is available
+   */
   setterFunction() {
     const publications: Publication[] = this.data.publications.filter(publication => publication).map(publication => this.publicationSerializer.fromJson(publication));
     const rifs: Publication[] = this.data.generifs.map(publication => this.publicationSerializer.fromJson(publication));
@@ -105,7 +163,7 @@ chartOptions: ScatterOptions = new ScatterOptions({
       });
       this.pmscoreTimeline = tempArr;
     }
-if (this.data.patents) {
+    if (this.data.patents) {
       const tempArr: PharosPoint[] = [];
       this.data.patents.map(point => {
         const pt: PharosPoint = new PharosPoint({x: +point.year, y: +point.count});
@@ -113,8 +171,8 @@ if (this.data.patents) {
       });
       this.patentTimeline = tempArr;
     }
-if (this.data.pubtator) {
-  const tempArr: PharosPoint[] = [];
+    if (this.data.pubtator) {
+      const tempArr: PharosPoint[] = [];
       this.data.pubtator.map(point => {
         const pt: PharosPoint = new PharosPoint({x: +point.year, y: point.score});
         tempArr.push(pt);
@@ -125,6 +183,11 @@ if (this.data.pubtator) {
     this.loading = false;
   }
 
+  /**
+   * paginate any of the publication tables (generif or publication)
+   * @param $event
+   * @param origin
+   */
   paginate($event, origin: string) {
     const url = `${this.pharosConfig.getApiPath()}targets/${this.target.accession}/${origin}?skip=${($event.pageIndex) * $event.pageSize}&top=${$event.pageSize}`;
     this.loading = true;
@@ -137,16 +200,28 @@ if (this.data.pubtator) {
       });
   }
 
+  /**
+   * math function to convert pubtator score
+   */
   raisePubtator() {
     if (this.target) {
       return Math.pow(10, this.target.pubTatorScore).toFixed(2);
     }
   }
 
+  /**
+   * active section view tracker
+   * @param {string} fragment
+   */
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
   }
 
-
-
+  /**
+   * cleanp on destroy
+   */
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
 }

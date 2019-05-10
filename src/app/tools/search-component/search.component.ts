@@ -5,6 +5,10 @@ import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {NavigationExtras, Router} from '@angular/router';
 
+/**
+ * search component functionality. needs to be hooked up to a suggest api service
+ * actual "search" is performed through url navigation options
+ */
 @Component({
   selector: 'pharos-search-component',
   templateUrl: './search.component.html',
@@ -12,12 +16,27 @@ import {NavigationExtras, Router} from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class SearchComponent implements OnInit {
-@Input() placeholderStr?: string;
+  /**
+   * optional placeholder search string
+   */
+  @Input() placeholderStr?: string;
 
+  /**
+   * form control for text input
+   * @type {FormControl}
+   */
   typeaheadCtrl: FormControl = new FormControl();
-  filteredGroups: Observable<any>;
-  groups: any[] = [];
 
+  /**
+   * observable list of returned responses
+   */
+  filteredGroups: Observable<any>;
+
+  /**
+   * sets up router and suggest service
+   * @param {Router} _router
+   * @param {SuggestApiService} suggestApiService
+   */
   constructor(
     private _router: Router,
     private suggestApiService: SuggestApiService

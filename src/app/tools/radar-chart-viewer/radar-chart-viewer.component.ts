@@ -4,6 +4,9 @@ import {RadarService} from '../visualizations/radar-chart/radar.service';
 import {MAT_DIALOG_DATA} from '@angular/material';
 import {PharosProperty} from '../../models/pharos-property';
 
+/**
+ * radar chart modal viewer has the radar chart and sources list
+ */
 @Component({
   selector: 'pharos-radar-chart-viewer',
   templateUrl: './radar-chart-viewer.component.html',
@@ -50,40 +53,63 @@ export class RadarChartViewerComponent implements OnInit {
    */
   @Input() target?: string;
 
+  /**
+   * all data sources for the radar chart
+   * @type {Map<string, any>}
+   */
   sources: Map<string, any> = new Map<string, any>();
 
+  /**
+   * specific field sources to display on hoverover
+   */
   fieldSources: any;
 
+  /**
+   * label for sources viewer
+   */
   axis: string;
 
+  /**
+   * radar service and optional modal data
+   * @param {RadarService} radarDataService
+   * @param modalData
+   */
   constructor(private radarDataService: RadarService,
-              @Optional() @Inject(MAT_DIALOG_DATA) public modalData: any) { }
+              @Optional() @Inject(MAT_DIALOG_DATA) public modalData: any) {
+  }
 
+  /**
+   * load modal data and retrieve knowledge sources
+   */
   ngOnInit() {
     if (this.modalData) {
       Object.keys(this.modalData).forEach(key => this[key] = this.modalData[key]);
     }
-      if (this.data) {
-        this.radarDataService.getData(this.id, 'knowledge-sources').subscribe(res => {
-          if (res.sources) {
-            res.sources.forEach(source => this.sources.set(source.value, source.ds));
-          } else {
-            res.forEach(source => this.sources.set(source.value, source.ds));
-          }
-          this.radarDataService.setData(this.id, {className: this.id, sources: res}, 'knowledge-sources');
-        });
-      }
+    if (this.data) {
+      this.radarDataService.getData(this.id, 'knowledge-sources').subscribe(res => {
+        if (res.sources) {
+          res.sources.forEach(source => this.sources.set(source.value, source.ds));
+        } else {
+          res.forEach(source => this.sources.set(source.value, source.ds));
+        }
+        this.radarDataService.setData(this.id, {className: this.id, sources: res}, 'knowledge-sources');
+      });
+    }
   }
 
+  /**
+   * get sources for an axis
+   * @param event
+   */
   getSource(event: any) {
-      this.fieldSources = [];
-      this.axis = event.axis;
-      const src = this.sources.get(this.axis);
-        if (src) {
-          src.forEach(source => {
-            const ret = new PharosProperty({term: source.ds_name, externalLink: source.ds_url});
-            this.fieldSources.push(ret);
-          });
-        }
+    this.fieldSources = [];
+    this.axis = event.axis;
+    const src = this.sources.get(this.axis);
+    if (src) {
+      src.forEach(source => {
+        const ret = new PharosProperty({term: source.ds_name, externalLink: source.ds_url});
+        this.fieldSources.push(ret);
+      });
+    }
   }
 }

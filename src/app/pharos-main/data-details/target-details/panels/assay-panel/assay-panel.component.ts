@@ -5,26 +5,53 @@ import {Publication} from '../../../../../models/publication';
 import {HttpClient} from '@angular/common/http';
 import {takeUntil, takeWhile} from 'rxjs/operators';
 
+/**
+ * displays assay data
+ * todo not really tested
+ */
 @Component({
   selector: 'pharos-assay-panel',
   templateUrl: './assay-panel.component.html',
   styleUrls: ['./assay-panel.component.css']
 })
 export class AssayPanelComponent extends DynamicPanelComponent implements OnInit, AfterViewInit {
+  /**
+   * columns to display
+   * @type {string[]}
+   */
   displayColumns: string[] = ['pubchem', 'type', 'active', 'inconclusive', 'inactive', 'name'];
 
+  /**
+   * map of assays
+   * @type {Map<string, any>}
+   */
   assayMap: Map<string, any> = new Map<string, any>();
+
+  /**
+   * assay data source
+   * @type {MatTableDataSource<Publication[]>}
+   */
   dataSource = new MatTableDataSource<Publication[]>();
 
-  /* Paginator object from Angular Material */
+  /**
+   *  Paginator object from Angular Material
+   */
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  /**
+   * set up dependencies
+   * @param {ChangeDetectorRef} changeDetectorRef
+   * @param {HttpClient} _http
+   */
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private _http: HttpClient) {
     super();
   }
 
+  /**
+   * subscribe to data changes
+   */
   ngOnInit() {
     this._data
     // listen to data as long as term is undefined or null
@@ -40,12 +67,19 @@ export class AssayPanelComponent extends DynamicPanelComponent implements OnInit
       });
   }
 
+  /**
+   * initialize paginator
+   */
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
 
   // todo generic table was unable to update - this is either from a problem in material or the nested async calls
   // todo use rxjs to merge calls and return (some examples have 89+ results though)
+
+  /**
+   * set table data
+   */
   setterFunction() {
     const tableArr = [];
     this.data.assays.forEach(assay => {

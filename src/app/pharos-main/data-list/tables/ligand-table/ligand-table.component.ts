@@ -2,19 +2,39 @@ import {ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Ou
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {PageData} from '../../../../models/page-data';
 import {MatTableDataSource} from '@angular/material';
-import {HttpClient} from '@angular/common/http';
 import {PharosConfig} from "../../../../../config/pharos-config";
 
+/**
+ * table/list view of ligand overviews
+ */
 @Component({
   selector: 'pharos-ligand-table',
   templateUrl: './ligand-table.component.html',
   styleUrls: ['./ligand-table.component.css']
 })
 export class LigandTableComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
+  /**
+   * map of ligands
+   * @type {Map<string, any>}
+   */
   ligandsMap: Map<string, any> = new Map<string, any>();
+
+  /**
+   * map of dat sources
+   * @type {MatTableDataSource<any[]>}
+   */
   ligandsDataSource: MatTableDataSource<any[]> = new MatTableDataSource<any[]>();
 
+  /**
+   * event emitter of sort event on table
+   * @type {EventEmitter<string>}
+   */
   @Output() readonly sortChange: EventEmitter<string> = new EventEmitter<string>();
+
+  /**
+   * event emitter for page change on table
+   * @type {EventEmitter<string>}
+   */
   @Output() readonly pageChange: EventEmitter<string> = new EventEmitter<string>();
 
   /**
@@ -22,14 +42,26 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
    */
   @Input() pageData: PageData;
 
+  /**
+   * url for structure rendering
+   */
   private _STRUCTUREURLBASE: string;
+
+  /**
+   * set up config and change detection
+   * @param {ChangeDetectorRef} changeDetector
+   * @param {PharosConfig} pharosConfig
+   */
   constructor(
     private changeDetector: ChangeDetectorRef,
-    private pharosConfig: PharosConfig,
-    private _http: HttpClient) {
+    private pharosConfig: PharosConfig
+  ) {
     super();
   }
 
+  /**
+   * set image url and subscribe to data changes
+   */
   ngOnInit() {
     this._STRUCTUREURLBASE = this.pharosConfig.getStructureImageUrl();
     this._data.subscribe(d => {
@@ -47,15 +79,17 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
     this.sortChange.emit($event);
   }
 
+  /**
+   * emits pagination event
+   * @param $event
+   */
   changePage($event): void {
     this.pageChange.emit($event);
   }
 
-  ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
-
+  /**
+   * set ligand overview data and map activity data
+   */
   setterFunction(): void {
     const ligandsArr = [];
     this.data.forEach(ligand => {
@@ -90,6 +124,12 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
         });
   }
 
+  /**
+   * fetch and parse ligand sctivities
+   * @param ligand
+   * @returns {any}
+   * @private
+   */
   private _getActivity(ligand: any): any {
     const otherActivity = [];
     const ret: any[] = [];
@@ -108,33 +148,11 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
         return otherActivity ? otherActivity[0] : na;
       }
 
-
-
- /* private _getActivity(ligand: any): any {
-    let ret: any = {};
-    ligand.properties.map(prop => {
-      if (prop.label === 'IC50') {
-        ret = prop;
-      } else if (prop.label === 'Ligand Activity') {
-        ret = ligand.properties.filter(p => p.label === prop.term)[0];
-      } else {
-        ret = {label: 'N/A', numval: ''};
-      }
-    });
-    return ret;
+  /**
+   * clean up on destroy
+   */
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
-
-  private _getActivityType(activity: any): string {
-    let ret = '';
-    if (activity.label === 'Potency') {
-      ret = activity.label;
-    } else if (activity.label === 'N/A') {
-      ret = '';
-    } else {
-      ret = `p${activity.label}`;
-    }
-    return ret;
-  }
-
-*/
 }

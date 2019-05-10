@@ -36,9 +36,22 @@ export interface D3Interface {
    */
   getForceDirectedGraph(nodes: Node[], links: Link[], options: any): ForceDirectedGraph;
 
+  /**
+   * remove all nodes selected or midified
+   * @private
+   */
   _clearNodes(): void;
 
+  /**
+   * manually trigger a click event on a node
+   * @param {Node} node
+   * @param {ForceDirectedGraph} graph
+   * @private
+   */
   _manualClick(node: Node, graph: ForceDirectedGraph): void;
 
+  /**
+   * reset the zoom level
+   */
   resetZoom(): void;
 }

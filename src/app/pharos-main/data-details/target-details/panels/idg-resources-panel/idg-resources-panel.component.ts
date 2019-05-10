@@ -7,13 +7,18 @@ import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/na
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {FormControl} from '@angular/forms';
 
-
+/**
+ * panel to show idg generated resources. currently stub functionality
+ */
 @Component({
   selector: 'pharos-idg-resources-panel',
   templateUrl: './idg-resources-panel.component.html',
   styleUrls: ['./idg-resources-panel.component.scss']
 })
 export class IdgResourcesPanelComponent extends DynamicTablePanelComponent implements OnInit {
+  /**
+   * dummy data
+   */
   reagents = [
     {
       resourceType: 'smallMolecule',
@@ -176,6 +181,9 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
       repository_page_link: null
     }
   ];
+  /**
+   * dummy data
+   */
   dataSources = [
     {
       resourceType: 'mouseImagingData',
@@ -254,36 +262,27 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
 
 reagentTypes: string[] = [];
 dataTypes: string[] = [];
-  fields: PharosProperty[] = [
-    new PharosProperty({
-      name: 'id',
-      label: 'ID',
-      externalLink: true
-    }),
-    new PharosProperty({
-      name: 'type',
-      label: 'Resource Type',
-    }),
-    new PharosProperty({
-      name: 'description',
-      label: 'Description',
-    }),
-    new PharosProperty({
-      name: 'source',
-      label: 'Source',
-    })
-  ];
 
 
-  species: string[];
+  /**
+   * data to be shown
+   */
   tableArr: any[] = [];
 
+  /**
+   * set up nav sectinos
+   * @param navSectionsService
+   */
   constructor(
     private navSectionsService: NavSectionsService
   ) {
     super();
   }
 
+  /**
+   * subscribe to data changes
+   * initialize filter subscriptions
+   */
   ngOnInit() {
     this.reagentsList = this.reagents;
     this.dataSourceList = this.dataSources;
@@ -329,82 +328,32 @@ this.pageData = this.makePageData(this.reagents.length);
       .subscribe(x => {
         if (Object.values(this.data).length > 0) {
           this.ngUnsubscribe.next();
-          //  this.tableArr = this.data;
           // this.setterFunction();
         }
       });
-   // this.mockData();
   }
 
-  getRandomInt(min: number, max: number): number {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min; // The maximum is exclusive and the minimum is inclusive
-  }
-
-  mockData() {
-    const r = this.getRandomInt(0, 5);
-    const dat = [];
-    from(d3.csv('./assets/antibody.csv')
-      .then(data => {
-        return data;
-      })).subscribe(res => {
-      const antibody = res[r];
-      const id = new PharosProperty({
-        term: antibody.ID,
-        href: antibody.href, // todo: remove when this is standardized
-        //  externalHref: 'targets?facet=' + facet.label.replace( / /g, '+') + '/'+facet.term.replace(/ /g, '+')
-      });
-      //   count: new Property({intval: 0}),
-
-      const type = new PharosProperty({
-        term: 'antibody'
-      });
-
-      const description = new PharosProperty({
-        term: antibody.host + ' / ' + antibody.clone_ID + ' / ' + antibody.isotype,
-      });
-
-      const source = new PharosProperty({
-        term: 'order antibody',
-        externalHref: 'https://www.antibodiesinc.com/products/navbeta3-na-channel-n396-29'
-      });
-
-      this.tableArr.push({id: id, type: type, description: description, source: source});
-    });
-  }
-
+  /**
+   * return thumbnail for resource type
+   * @param type
+   */
   getImageUrl(type: string): string {
     return `./assets/images/resource-type/${type}.png`;
   }
 
+  /**
+   * active section view tracker
+   * @param {string} fragment
+   */
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
   }
 
+  /**
+   * cleanp on destroy
+   */
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
 }
-
-
-
-/**
- * missing: resource type
- * generatic IC (is this necessary to show on Pharos?)
- * resource id from vendor
- *
- */
-
-
-/*
-ID: "AB4"
-applications: "WB"
-clone_ID: "N8B/1"
-host: "mouse"
-isotype: "IgG1"
-target_gene_symbol: "Cacnb2"
-target_species: "Mouse"
-validation_ID: "valid18"
-*/

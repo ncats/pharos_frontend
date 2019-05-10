@@ -14,6 +14,9 @@ export class Expand {
    */
   target = false;
 
+  /**
+   * no args
+   */
   constructor() {}
 }
 
@@ -22,7 +25,11 @@ export class Expand {
  */
 @Injectable()
 export class NodeExpandService {
-  private  expandMap: Map<string, Expand> = new Map();
+  /**
+   * map of expanded nodes
+   * @type {Map<string, Expand>}
+   */
+  private  expandMap: Map<string, Expand> = new Map<string, Expand>();
 
   /**
    *
@@ -41,6 +48,9 @@ export class NodeExpandService {
     this.expandMap.set(node, expand);
   }
 
+  /**
+   * no args
+   */
   constructor() { }
 
 }

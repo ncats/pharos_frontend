@@ -16,11 +16,23 @@ import {PharosProperty} from '../../../models/pharos-property';
 import {Link} from "../../../tools/force-directed-graph/fdg-core/graph-component/models/link";
 import {Node} from "../../../tools/force-directed-graph/fdg-core/graph-component/models/node";
 
+/**
+ * data holder
+ */
 interface TopicData {
+  /**
+   * primary target
+   */
   target: Target;
+  /**
+   * data
+   */
   data: any;
 }
 
+/**
+ * main topic details component, doesn't operate the same as targets or ligands, it is tab based
+ */
 @Component({
   selector: 'pharos-topic-details',
   templateUrl: './topic-details.component.html',
@@ -28,19 +40,74 @@ interface TopicData {
   encapsulation: ViewEncapsulation.None
 })
 export class TopicDetailsComponent extends DynamicPanelComponent implements OnInit {
+  /**
+   * url path
+   */
   path: string;
+
+  /**
+   * main topic
+   */
   topic: Topic;
+
+  /**
+   * all targets to display
+   */
   allTargets: Target[] = [];
+
+  /**
+   * chunked section of targets
+   */
   targets: Target[] = [];
+
+  /**
+   * chunked section of ligands
+   */
   ligands: any[] = [];
+
+  /**
+   * all ligands to display
+   */
   allLigands: any[] = [];
+
+  /**
+   * chunk of diseases to display
+   */
   diseases: any[] = [];
+
+  /**
+   * all diseases to display
+   */
   allDiseases: any[] = [];
+
+  /**
+   * nodes list
+   */
   nodes: Node[] = [];
+
+  /**
+   * links list
+   */
   links: Link[] = [];
+
+  /**
+   * main api url
+   */
   _apiUrl: string;
+
+  /**
+   * map of targets
+   */
   targetsMap: Map<string, Target[]> = new Map<string, Target[]>();
+
+  /**
+   * map of diseases
+   */
   diseasesMap: Map<string, any[]> = new Map<string, any[]>();
+
+  /**
+   * map of ligands
+   */
   ligandsMap: Map<string, any[]> = new Map<string, any[]>();
   displayTargets: any = {};
   targetPageData: PageData;
@@ -48,6 +115,9 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   diseasePageData: PageData;
   diseaseLabel: string;
 
+  /**
+   * table fields to display for diseases
+   */
   diseaseFields: PharosProperty[] = [
     new PharosProperty({
       name: 'disease',
@@ -59,23 +129,36 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
     })
   ];
 
+  /**
+   * conponent to hold graph
+   */
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
 
-
+  /**
+   * set up dependencies
+   * @param _injector
+   * @param http
+   * @param pharosConfig
+   * @param dataParserService
+   * @param dataDetailsResolver
+   * @param ref
+   * @param componentInjectorService
+   */
   constructor(private _injector: Injector,
               private http: HttpClient,
               private pharosConfig: PharosConfig,
               private dataParserService: DataParserService,
-/*              private nodeService: NodeService,
-              private linkService: LinkService,*/
               private dataDetailsResolver: DataDetailsResolver,
               private ref: ChangeDetectorRef,
-            //  private graphDataService: GraphDataService,
               private componentInjectorService: ComponentInjectorService) {
     super();
     this._apiUrl = this.pharosConfig.getApiPath();
   }
 
+
+  /**
+   * initialize data change subsctiptions, fetch data
+   */
   ngOnInit() {
     console.log(this);
     this.dataParserService.loadData().subscribe(res =>  {
@@ -363,6 +446,10 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   */
   }
 
+  /**
+   * change tab and load corresponding data
+   * @param $event
+   */
     changeTab($event: MatTabChangeEvent) {
       if ($event.tab.textLabel.split(' ')[0] === 'Ligands') {
         this.loading = true;
@@ -427,14 +514,26 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
       }
     }
 
+  /**
+   * paginate section
+   * @param $event
+   */
   paginateTargets($event) {
     this.targets = this.allTargets.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize);
   }
 
+  /**
+   * paginate section
+   * @param $event
+   */
   paginateLigands($event) {
     this.ligands = this.allLigands.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize);
   }
 
+
+  /**
+   * clean up on navigation
+   */
   ngOnDestroy(): void {
       this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();

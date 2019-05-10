@@ -1,23 +1,24 @@
-import {
-  AfterViewInit, ApplicationRef,
-  ChangeDetectorRef, Component, ContentChildren, ElementRef, HostListener, NgZone, OnDestroy, OnInit, QueryList,
-  Renderer2, Type,
-  ViewChild,
-  ViewChildren
-} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit, Type, ViewChild} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {ResponseParserService} from '../../pharos-services/response-parser.service';
-import {Subject} from 'rxjs';
 import {CustomContentDirective} from '../../tools/custom-content.directive';
-import {ActivatedRoute, NavigationEnd, NavigationExtras, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
 import {HelpPanelOpenerService} from '../../tools/help-panel/services/help-panel-opener.service';
-import {MatDrawer, MatSidenavContainer} from '@angular/material';
+import {MatDrawer} from '@angular/material';
 import {DynamicPanelComponent} from '../../tools/dynamic-panel/dynamic-panel.component';
 import {DataDetailsResolver} from './data-details.resolver';
-import {CdkScrollable, CdkVirtualScrollViewport, ScrollDispatcher} from '@angular/cdk/scrolling';
+import {ScrollDispatcher} from '@angular/cdk/scrolling';
 import {PharosConfig} from "../../../config/pharos-config";
+import {PharosBase} from "../../models/pharos-base";
 
+/**
+ * component that holds dynamically injected details panels for various object types
+ * mainly configurable externally
+ * This is the brain of the details pages.
+ * it primarily handles the breadcrumb and header, along with class specific details sections, but is the main
+ * distributor of api data
+ */
 @Component({
   selector: 'pharos-data-details',
   templateUrl: './data-details.component.html',
@@ -25,16 +26,44 @@ import {PharosConfig} from "../../../config/pharos-config";
 
 })
 export class DataDetailsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
+  /**
+   * url path, used for retrieving object type
+   */
   path: string;
-  pharosObject: any;
-  dynamicComponent: any;
+
+  /**
+   * holder object for data. since it could be a target, disease or ligand, it is generic
+   */
+  pharosObject: PharosBase;
+
+  /**
+   * boolean to track if load is finished, keeps the components from re-rendering on each data change
+   * todo - see if efficient unsubscribe from each panel is sufficient
+   */
   componentsLoaded = false;
-  navigationSubscription;
+
+  /**
+   * the main div element that all components are injected into
+   */
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
+
+  /**
+   * reference to help menu to toggle opening and closing
+   */
   @ViewChild('helppanel') helpPanel: MatDrawer;
 
-
-
+  /**
+   * set up lots of dependencies to watch for data changes, navigate and parse and inject components
+   * @param {ActivatedRoute} _route
+   * @param {Router} router
+   * @param {PharosConfig} pharosConfig
+   * @param {ComponentInjectorService} componentInjectorService
+   * @param {ResponseParserService} responseParserService
+   * @param {HelpPanelOpenerService} helpPanelOpenerService
+   * @param {DataDetailsResolver} dataDetailsResolver
+   * @param {ChangeDetectorRef} changeDetector
+   * @param {ScrollDispatcher} scrollDispatcher
+   */
   constructor(private _route: ActivatedRoute,
               private router: Router,
               private pharosConfig: PharosConfig,
@@ -47,16 +76,23 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
   ) {
     super();
     this.path = this._route.snapshot.data.path;
+    //todo this variable name should be generic, because it could also be a disease or ligand
     this.pharosObject = this._route.snapshot.data.target;
   }
 
-
+  /**
+   * load components if not already there
+   * set up subscriptions to watch help panel, data responses and router event changes
+   */
   ngOnInit() {
     if (!this.componentsLoaded) {
       this.makeComponents();
-
     }
-    this.helpPanelOpenerService.toggle$.subscribe(res => this.helpPanel.toggle());
+
+    this.helpPanelOpenerService.toggle$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => this.helpPanel.toggle());
+
     this.responseParserService.detailsData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
@@ -64,24 +100,41 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
         this.changeDetector.markForCheck(); // refresh the component manually
       });
 
-    this.navigationSubscription = this.router.events.subscribe((e: any) => {
+    this.router.events
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((e: any) => {
       // If it is a NavigationEnd event re-initalise the component
       if (e instanceof NavigationEnd) {
         this.path = this._route.snapshot.data.path;
         if (this._route.snapshot.data[this.path] != this.pharosObject) {
           this.pharosObject = this._route.snapshot.data[this.path];
-/*         this.componentHost.viewContainerRef.clear();
-         this.changeDetector.markForCheck(); // refresh the component manually
-         this.makeComponents();*/
         }
       }
     });
   }
 
+  /**
+   * pick specified properties from a main data object
+   * @param o
+   * @param props
+   * @returns {any}
+   */
   pick(o, props): any {
     return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
   }
 
+  /**
+   * fetch components for a specific object type.
+   * iterate over each component and call all apis listed
+   * each api field is added to a tracking array
+   * the component is dynamically generated and injected into the dom
+   * the pharos object and pharos object id are injected into the dynamic component
+   * the main path is injected into the component
+   * the main data change subscription is watch, and on each change, the returned object is parsed to fetch
+   * each field in the helper array
+   * this data object is then injected into the dynamic component
+   * todo this doesn't handle cases where there is no data returned to an object
+   */
   makeComponents(): void {
     const components: any = this.pharosConfig.getComponents(this.path, 'details');
     components.forEach(component => {
@@ -102,6 +155,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
       const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
       const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
       // todo: fix this. this is terrible
+      // this is to handle the fact that it could be a target, disease or ligand
       dynamicComponent.instance[this.path.slice(0, this.path.length - 1)] = this.pharosObject;
       dynamicComponent.instance.id = this.pharosObject.id;
       dynamicComponent.instance.path = this.path;
@@ -117,6 +171,9 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
     this.componentsLoaded = true;
   }
 
+  /**
+   * clean up subscriptions on navigation
+   */
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
