@@ -24,22 +24,25 @@
       <mat-tab label="Human">
     <div fxLayout = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="anatamogram-row">
       <div fxFlex="50">
+        <img class = "hg" src = {{imgUrl}}>
+<!--
         <pharos-anatamogram [tissues]="tissues" [species]="'homo_sapiens'"></pharos-anatamogram>
+-->
       </div>
       <div fxFlex = "48">
           <mat-tab-group (selectedTabChange)="changeHarminogramTabData($event)" [dynamicHeight]="true">
             <mat-tab *ngFor="let source of sourceList" label = "{{source.label}} ({{getSourceCount(source.label)}})"  >
-<!--
                     <pharos-link-list [list]= hgData [label]=source.label></pharos-link-list>
--->
+<!--
               <div *ngFor ="let tissue of tissues" (mouseover)="setHover(tissue)" (mouseout)="setHover()">{{tissue}}</div>
+-->
 
             </mat-tab>
           </mat-tab-group>
       </div>
     </div>
       </mat-tab>
-      <mat-tab label="Mouse">
+<!--      <mat-tab label="Mouse">
     <div fxLayout = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="anatamogram-row">
       <div fxFlex="50">
         <pharos-anatamogram [tissues]="tissues" [species]="'mus_musculus'"></pharos-anatamogram>
@@ -52,7 +55,7 @@
           </mat-tab-group>
       </div>
     </div>
-      </mat-tab>
+      </mat-tab>-->
         <mat-tab label = "Specificity" (selectedTabChange)="drawRadar($event)">
           <div fxLayout = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="radarchart anatamogram-row">
             <div fxFlex="50" fxFlexAlign="stretch">

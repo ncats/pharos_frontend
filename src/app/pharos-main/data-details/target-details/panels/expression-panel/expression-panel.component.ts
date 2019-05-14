@@ -166,7 +166,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
       this.mapTissueData();
       this.radarData = this.setRadarData();
       this.hgData = this.tissueData.get(this.sources[0].label);
-      this.imgUrl = this._URL + this.sources[0].name;
+      this.imgUrl = this._URL + this.sourceList[0].name;
     }
     if (this.data.differential) {
       this.tableArr = [];
@@ -238,6 +238,8 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
 
   changeHarminogramTabData(event: MatTabChangeEvent) {
     this.hgData = this.tissueData.get(this.sourceList[event.index].label);
+    this.imgUrl = this._URL + this.sourceList[event.index].name;
+
   }
 
   drawRadar(change: MatTabChangeEvent) {
@@ -260,6 +262,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
       this.radarComponent.drawChart();
       this.radarComponent.updateChart();
     }
+  //  this.imgUrl = this._URL + this.sources[0].name;
   }
 
   /**
