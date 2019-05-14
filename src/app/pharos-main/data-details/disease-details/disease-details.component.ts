@@ -43,6 +43,10 @@ export class DiseaseDetailsComponent extends DynamicPanelComponent implements On
    */
   @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
 
+  /**
+   * currently active element
+   */
+  activeElement: string;
 
   /**
    * set up lots of dependencies to watch for data changes, navigate and parse and inject components
