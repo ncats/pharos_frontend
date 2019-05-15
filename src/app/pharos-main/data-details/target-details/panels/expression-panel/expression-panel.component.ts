@@ -10,7 +10,7 @@ import {DiseaseRelevanceSerializer} from '../../../../../models/disease-relevanc
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
 import {AnatamogramHoverService} from '../../../../../tools/anatamogram/anatamogram-hover.service';
-import {PharosConfig} from "../../../../../../config/pharos-config";
+import {PharosConfig} from '../../../../../../config/pharos-config';
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 @Component({

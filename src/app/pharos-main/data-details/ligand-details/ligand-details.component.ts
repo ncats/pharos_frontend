@@ -10,7 +10,7 @@ import {BreakpointObserver} from '@angular/cdk/layout';
 import {DOCUMENT} from '@angular/common';
 import {NavSectionsService} from '../../../tools/sidenav-panel/services/nav-sections.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PharosConfig} from "../../../../config/pharos-config";
+import {PharosConfig} from '../../../../config/pharos-config';
 
 /**
  * main component to display ligand details panels

@@ -4,7 +4,7 @@ import {Subject} from 'rxjs';
 import {PathResolverService} from '../../../pharos-services/path-resolver.service';
 import {FacetRetrieverService} from './facet-retriever.service';
 import {ResponseParserService} from '../../../pharos-services/response-parser.service';
-import {PharosConfig} from "../../../../config/pharos-config";
+import {PharosConfig} from '../../../../config/pharos-config';
 
 /**
  * panel that hold a facet table for selection

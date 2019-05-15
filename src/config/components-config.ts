@@ -1,7 +1,7 @@
-import {InjectionToken} from "@angular/core";
-import {TOKENS} from "../config/component-tokens";
-import {ARTICLES} from "../config/help-article-tokens";
-import {environment} from "../environments/environment.prod";
+import {InjectionToken} from '@angular/core';
+import {TOKENS} from '../config/component-tokens';
+import {ARTICLES} from '../config/help-article-tokens';
+import {environment} from '../environments/environment.prod';
 
 /**
  * basic interface for a pharos api call configuratiogit n object
@@ -75,7 +75,7 @@ interface PharosPanel {
   /**
    * list of various api calls to retrieve data specific to the panel
    */
-  api?: PharosApi[]
+  api?: PharosApi[];
 }
 
 /**

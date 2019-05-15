@@ -13,7 +13,7 @@ import {
   VisualizationOptionsComponent
 } from '../pharos-main/data-list/data-list-visualizations/visualization-options/visualization-options.component';
 import {DataListResolver} from '../pharos-main/data-list/data-list.resolver';
-import {CommonToolsModule} from "../tools/common-tools.module";
+import {CommonToolsModule} from '../tools/common-tools.module';
 
 
 @NgModule({

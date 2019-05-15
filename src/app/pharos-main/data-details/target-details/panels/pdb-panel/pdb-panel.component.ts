@@ -4,14 +4,14 @@ import {PharosProperty} from '../../../../../models/pharos-property';
 import {HttpClient} from '@angular/common/http';
 import {PdbReportData, PdbReportSerializer} from '../../../../../models/pdb-report';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
-import {DynamicTablePanelComponent} from "../../../../../tools/dynamic-table-panel/dynamic-table-panel.component";
-import {PageData} from "../../../../../models/page-data";
+import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
+import {PageData} from '../../../../../models/page-data';
 
 /**
  * token to inject structure viewer into generic table component
  * @type {InjectionToken<any>}
  */
-export const STRUCTURE_VIEW_TOKEN = new InjectionToken("StructureViewComponent");
+export const STRUCTURE_VIEW_TOKEN = new InjectionToken('StructureViewComponent');
 
 /**
  * pbd report generating url
@@ -160,7 +160,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
     const headers = lines.shift().split(',');
     if (lines.length > 0) {
       for (const i of lines) {
-        if(i) {
+        if (i) {
           const currentline = i.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
           const data: {} = {};
           for (const j of Object.keys(headers)) {
@@ -178,7 +178,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
    * @param event
    */
   pagePDB(event) {
-    this.tableArr = this.reports.slice(event.pageIndex * event.pageSize, (event.pageIndex +1) * event.pageSize)
+    this.tableArr = this.reports.slice(event.pageIndex * event.pageSize, (event.pageIndex + 1) * event.pageSize)
       .map(report => this.pdbReportSerializer._asProperties(report));
   }
 
@@ -189,7 +189,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
    */
   changePdbId(entry: any) {
     console.log(entry);
-    if(this.pdbid !== entry.structureId.term) {
+    if (this.pdbid !== entry.structureId.term) {
       this.pdbid = entry.structureId.term;
     }
   }

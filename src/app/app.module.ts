@@ -20,7 +20,7 @@ import {MolConverterService} from './tools/marvin-sketcher/services/mol-converte
 import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuthModule} from '@angular/fire/auth';
-import {CommonToolsModule} from "./tools/common-tools.module";
+import {CommonToolsModule} from './tools/common-tools.module';
 
 @NgModule({
   declarations: [

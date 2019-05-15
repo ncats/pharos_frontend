@@ -80,8 +80,7 @@ export class HelpDataService {
    */
   constructor(
     private responseParserService: ResponseParserService
-  )
-  {
+  ) {
     this.responseParserService.detailsData$
       .subscribe(res => this.data = res);
   }

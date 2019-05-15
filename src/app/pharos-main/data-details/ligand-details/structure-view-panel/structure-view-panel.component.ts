@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {StructureSetterService} from '../../../../tools/marvin-sketcher/services/structure-setter.service';
-import {PharosConfig} from "../../../../../config/pharos-config";
+import {PharosConfig} from '../../../../../config/pharos-config';
 
 @Component({
   selector: 'pharos-structure-view-panel',

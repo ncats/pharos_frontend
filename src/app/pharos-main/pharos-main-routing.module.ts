@@ -2,8 +2,8 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {TOKENS} from '../../config/component-tokens';
 
-import {TargetDetailsModule} from "./data-details/target-details/target-details.module";
-import {CommonToolsModule} from "../tools/common-tools.module";
+import {TargetDetailsModule} from './data-details/target-details/target-details.module';
+import {CommonToolsModule} from '../tools/common-tools.module';
 
 import {PharosMainComponent} from './pharos-main.component';
 import {DataDetailsResolver} from './data-details/data-details.resolver';
@@ -12,9 +12,9 @@ import {LoadingService} from '../pharos-services/loading.service';
 
 import {SharedModule} from '../shared/shared.module';
 import {SharedDetailsModule} from '../shared/shared-details.module';
-import {SharedListModule} from "../shared/shared-list.module";
-import {DiseaseTableModule} from "./data-list/tables/disease-table/disease-table.module";
-import {LigandDetailsModule} from "./data-details/ligand-details/ligand-details.module";
+import {SharedListModule} from '../shared/shared-list.module';
+import {DiseaseTableModule} from './data-list/tables/disease-table/disease-table.module';
+import {LigandDetailsModule} from './data-details/ligand-details/ligand-details.module';
 
 
 import {DataDetailsComponent} from './data-details/data-details.component';
@@ -32,7 +32,7 @@ import {DiseaseCardComponent} from './data-list/cards/disease-card/disease-card.
 
 import {TopicTableComponent} from './data-list/tables/topic-table/topic-table.component';
 import {PharosD3Service} from './data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-d3.service';
-import {NcatsFdgModule} from "../tools/force-directed-graph/ncats-fdg.module";
+import {NcatsFdgModule} from '../tools/force-directed-graph/ncats-fdg.module';
 
 
 

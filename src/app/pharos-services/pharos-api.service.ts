@@ -5,7 +5,7 @@ import {catchError} from 'rxjs/operators';
 import {ParamMap} from '@angular/router';
 import {Topic} from '../models/topic';
 import {map} from 'rxjs/internal/operators';
-import {PharosConfig} from "../../config/pharos-config";
+import {PharosConfig} from '../../config/pharos-config';
 
 
 /**

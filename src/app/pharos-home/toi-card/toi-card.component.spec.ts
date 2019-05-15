@@ -4,7 +4,6 @@ import { ToiCardComponent } from './toi-card.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from '../../app-routing.module';
 import {SharedModule} from '../../shared/shared.module';
-import {PharosDashboardComponent} from '../pharos-home.component';
 import {SuggestApiService} from '../../tools/search-component/suggest-api.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {AboutPageComponent} from '../../about-page/about-page.component';
@@ -14,6 +13,7 @@ import {ApiPageComponent} from '../../api-page/api-page.component';
 import {FaqPageComponent} from '../../faq-page/faq-page.component';
 import {NewsPanelComponent} from '../news-panel/news-panel.component';
 import {ApiViewerComponent} from '../../tools/api-viewer/api-viewer.component';
+import {Topic} from "../../models/topic";
 
 describe('ToiCardComponent', () => {
   let component: ToiCardComponent;
@@ -27,14 +27,7 @@ describe('ToiCardComponent', () => {
         AppRoutingModule
       ],
       declarations: [
-        PharosDashboardComponent,
-        ApiPageComponent,
-        AboutPageComponent,
-        FaqPageComponent,
-        DataTypesPanelComponent,
-        NewsPanelComponent,
-        AboutPanelComponent,
-        ApiViewerComponent
+        ToiCardComponent
       ],
       providers: [
         SuggestApiService,
@@ -47,14 +40,16 @@ describe('ToiCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ToiCardComponent);
     component = fixture.componentInstance;
-    component.toi = {
+    const top: Topic = new Topic();
+    /*top = {
       name: 'Bromodomain Inhibitors',
       class: 'target',
       diseaseCt: 45,
       ligandCt: 43,
       targetCt: 0,
       publicationCt: 25
-    };
+    }*/
+    component.toi = top;
     fixture.detectChanges();
   });
 

@@ -4,7 +4,7 @@ import {AnatomogramImageComponent} from '../anatamogram/anatomogram-image/anatom
 import {SharedModule} from '../../shared/shared.module';
 import {AnatamogramComponent} from '../anatamogram/anatamogram.component';
 import {AnatamogramHoverService} from './anatamogram-hover.service';
-import {MaterialModule} from "../../../assets/material/material.module";
+import {MaterialModule} from '../../../assets/material/material.module';
 
 @NgModule({
   declarations: [

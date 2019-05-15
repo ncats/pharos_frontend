@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {PharosConfig} from "../../../../../config/pharos-config";
-import {Target} from "../../../../models/target";
+import {PharosConfig} from '../../../../../config/pharos-config';
+import {Target} from '../../../../models/target';
 
 /**
  * component to display a consolidated target view

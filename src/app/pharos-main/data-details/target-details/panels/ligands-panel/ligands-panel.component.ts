@@ -7,7 +7,7 @@ import {takeUntil} from 'rxjs/operators';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {Target} from '../../../../../models/target';
 import {HttpClient} from '@angular/common/http';
-import {PharosConfig} from "../../../../../../config/pharos-config";
+import {PharosConfig} from '../../../../../../config/pharos-config';
 
 /**
  * panel to generically display ligands as a pageable list of ligand cards
@@ -105,7 +105,9 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
    * @param $event
    */
   paginate($event) {
-    const url = `${this.pharosConfig.getApiPath()}targets/${this.target.accession}/${this.field}?skip=${($event.pageIndex) * $event.pageSize}&top=${$event.pageSize}&view=full`;
+    const path: string = this.pharosConfig.getApiPath();
+    const acc: string = this.target.accession;
+    const url = `${path}targets/${acc}/${this.field}?skip=${($event.pageIndex) * $event.pageSize}&top=${$event.pageSize}&view=full`;
     this.loading = true;
     this._http.get<Ligand[]>(
       url)

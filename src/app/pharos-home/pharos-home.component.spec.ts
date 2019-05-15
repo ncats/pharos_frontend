@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { PharosDashboardComponent } from './pharos-home.component';
+import { PharosHomeComponent } from './pharos-home.component';
 import {SharedModule} from '../shared/shared.module';
 import {LoadingService} from '../pharos-services/loading.service';
 import {PathResolverService} from '../pharos-services/path-resolver.service';
@@ -18,9 +18,9 @@ import {NewsPanelComponent} from './news-panel/news-panel.component';
 import {AboutPanelComponent} from './about-panel/about-panel.component';
 import {ApiViewerComponent} from '../tools/api-viewer/api-viewer.component';
 
-describe('PharosDashboardComponent', () => {
-  let component: PharosDashboardComponent;
-  let fixture: ComponentFixture<PharosDashboardComponent>;
+describe('PharosHomeComponent', () => {
+  let component: PharosHomeComponent;
+  let fixture: ComponentFixture<PharosHomeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -30,21 +30,13 @@ describe('PharosDashboardComponent', () => {
         AppRoutingModule
       ],
       declarations: [
-        PharosDashboardComponent,
-        ApiPageComponent,
-        AboutPageComponent,
-        FaqPageComponent,
+        PharosHomeComponent,
         DataTypesPanelComponent,
         NewsPanelComponent,
-        AboutPanelComponent,
-        ApiViewerComponent
+        AboutPanelComponent
       ],
       providers: [
-        PharosApiService,
-        PathResolverService,
-        ResponseParserService,
         LoadingService,
-        FacetRetrieverService,
         SuggestApiService,
         {provide: APP_BASE_HREF, useValue: '/index' }
       ]
@@ -53,7 +45,7 @@ describe('PharosDashboardComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PharosDashboardComponent);
+    fixture = TestBed.createComponent(PharosHomeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

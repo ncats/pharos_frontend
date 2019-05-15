@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RouterModule} from "@angular/router";
-import {TOKENS} from "../../../../../config/component-tokens";
-import {TargetTableComponent} from "./target-table.component";
-import {SharedModule} from "../../../../shared/shared.module";
-import {CommonToolsModule} from "../../../../tools/common-tools.module";
-import {TargetCardComponent} from "../../cards/target-card/target-card.component";
+import {RouterModule} from '@angular/router';
+import {TOKENS} from '../../../../../config/component-tokens';
+import {TargetTableComponent} from './target-table.component';
+import {SharedModule} from '../../../../shared/shared.module';
+import {CommonToolsModule} from '../../../../tools/common-tools.module';
+import {TargetCardComponent} from '../../cards/target-card/target-card.component';
 
 @NgModule({
   declarations: [

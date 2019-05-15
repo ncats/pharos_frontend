@@ -1,8 +1,8 @@
 import {AfterViewInit, Component} from '@angular/core';
-import {PharosConfig} from "../../../../config/pharos-config";
-import {PathResolverService} from "../../../pharos-services/path-resolver.service";
+import {PharosConfig} from '../../../../config/pharos-config';
+import {PathResolverService} from '../../../pharos-services/path-resolver.service';
 import {FacetRetrieverService} from '../filter-panel/facet-retriever.service';
-import {Facet} from "../../../models/facet";
+import {Facet} from '../../../models/facet';
 
 /**
  * component to show various facets like a dashboard.

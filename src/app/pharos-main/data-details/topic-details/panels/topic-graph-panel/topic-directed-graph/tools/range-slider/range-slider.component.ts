@@ -522,7 +522,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
               @Optional() @Inject(ANIMATION_MODULE_TYPE) public _animationMode?: string) {
     super(elementRef);
 
-    this.tabIndex = parseInt(tabIndex,2) || 0;
+    this.tabIndex = parseInt(tabIndex, 2) || 0;
   }
 
   private _invert = false;

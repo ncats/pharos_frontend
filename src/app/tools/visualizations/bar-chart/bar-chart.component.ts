@@ -1,7 +1,7 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 import * as d3 from 'd3';
 import {BehaviorSubject} from 'rxjs/index';
-import {PharosPoint} from "../../../models/pharos-point";
+import {PharosPoint} from '../../../models/pharos-point';
 
 /**
  * component to create a d3 bar chart

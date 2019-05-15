@@ -9,8 +9,8 @@ import {MatDrawer} from '@angular/material';
 import {DynamicPanelComponent} from '../../tools/dynamic-panel/dynamic-panel.component';
 import {DataDetailsResolver} from './data-details.resolver';
 import {ScrollDispatcher} from '@angular/cdk/scrolling';
-import {PharosConfig} from "../../../config/pharos-config";
-import {PharosBase} from "../../models/pharos-base";
+import {PharosConfig} from '../../../config/pharos-config';
+import {PharosBase} from '../../models/pharos-base';
 
 /**
  * component that holds dynamically injected details panels for various object types
@@ -76,7 +76,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
   ) {
     super();
     this.path = this._route.snapshot.data.path;
-    //todo this variable name should be generic, because it could also be a disease or ligand
+    // todo this variable name should be generic, because it could also be a disease or ligand
     this.pharosObject = this._route.snapshot.data.target;
   }
 
@@ -106,7 +106,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
       // If it is a NavigationEnd event re-initalise the component
       if (e instanceof NavigationEnd) {
         this.path = this._route.snapshot.data.path;
-        if (this._route.snapshot.data[this.path] != this.pharosObject) {
+        if (this._route.snapshot.data[this.path] !== this.pharosObject) {
           this.pharosObject = this._route.snapshot.data[this.path];
         }
       }

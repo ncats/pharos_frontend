@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Ou
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {PageData} from '../../../../models/page-data';
 import {MatTableDataSource} from '@angular/material';
-import {PharosConfig} from "../../../../../config/pharos-config";
+import {PharosConfig} from '../../../../../config/pharos-config';
 
 /**
  * table/list view of ligand overviews

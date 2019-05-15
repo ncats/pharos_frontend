@@ -8,7 +8,7 @@ import {Component} from '@angular/core';
   templateUrl: './ligand-activity-article.component.html',
   styleUrls: ['./ligand-activity-article.component.scss']
 })
-export class LigandActivityArticleComponent{
+export class LigandActivityArticleComponent {
 
   /**
    * no args

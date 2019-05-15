@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {catchError} from 'rxjs/operators';
 import {Observable, of} from 'rxjs/index';
 import {HttpClient} from '@angular/common/http';
-import {PharosConfig} from "../../../../config/pharos-config";
+import {PharosConfig} from '../../../../config/pharos-config';
 
 
 /**

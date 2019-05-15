@@ -9,7 +9,7 @@ import {Publication, PublicationSerializer} from '../../../../../models/publicat
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
-import {PharosConfig} from "../../../../../../config/pharos-config";
+import {PharosConfig} from '../../../../../../config/pharos-config';
 
 /**
  * displays publication information and statistics about a target
@@ -149,10 +149,15 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
    * create timelines if data is available
    */
   setterFunction() {
-    const publications: Publication[] = this.data.publications.filter(publication => publication).map(publication => this.publicationSerializer.fromJson(publication));
-    const rifs: Publication[] = this.data.generifs.map(publication => this.publicationSerializer.fromJson(publication));
-    this.publications = publications.map(publication => publication = this.publicationSerializer._asProperties(publication));
-    this.generifs = rifs.map(publication => publication = this.publicationSerializer._asProperties(publication));
+    const publications: Publication[] = this.data.publications
+      .filter(publication => publication)
+      .map(publication => this.publicationSerializer.fromJson(publication));
+    const rifs: Publication[] = this.data.generifs
+      .map(publication => this.publicationSerializer.fromJson(publication));
+    this.publications = publications
+      .map(publication => publication = this.publicationSerializer._asProperties(publication));
+    this.generifs = rifs
+      .map(publication => publication = this.publicationSerializer._asProperties(publication));
     this.publicationPageData = this.makePageData(this.target._publications.count);
     this.rifPageData = this.makePageData(this.data.generifCount);
     if (this.data.pmscore) {

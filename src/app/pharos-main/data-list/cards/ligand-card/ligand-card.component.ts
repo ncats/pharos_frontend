@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Ligand} from "../../../../models/ligand";
-import {Target} from "../../../../models/target";
+import {Ligand} from '../../../../models/ligand';
+import {Target} from '../../../../models/target';
 
 /**
  * component to display a condensed ligand view

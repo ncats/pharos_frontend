@@ -5,7 +5,7 @@ import {SharedModule} from './shared.module';
 import {DataDetailsResolver} from '../pharos-main/data-details/data-details.resolver';
 import {SidenavPanelComponent} from '../tools/sidenav-panel/sidenav-panel.component';
 import {AnatamogramModule} from '../tools/anatamogram/anatamogram.module';
-import {CommonToolsModule} from "../tools/common-tools.module";
+import {CommonToolsModule} from '../tools/common-tools.module';
 
 
 @NgModule({

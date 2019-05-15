@@ -1,4 +1,4 @@
-import {InjectionToken} from "@angular/core";
+import {InjectionToken} from '@angular/core';
 
 /**
  * main config object for a table cell, contains column/field data nad value info

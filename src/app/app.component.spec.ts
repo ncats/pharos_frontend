@@ -3,7 +3,7 @@ import {AppComponent} from './app.component';
 import {SharedModule} from './shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
-import {PharosDashboardComponent} from './pharos-home/pharos-home.component';
+import {PharosHomeComponent} from './pharos-home/pharos-home.component';
 import {APP_BASE_HREF} from '@angular/common';
 import {LoadingService} from './pharos-services/loading.service';
 import {PathResolverService} from './pharos-services/path-resolver.service';
@@ -29,7 +29,7 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        PharosDashboardComponent,
+        PharosHomeComponent,
         ApiPageComponent,
         AboutPageComponent,
         FaqPageComponent,

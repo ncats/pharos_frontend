@@ -3,7 +3,7 @@ import {DOCUMENT} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {takeUntil} from 'rxjs/operators';
-import {PharosConfig} from "../../../../config/pharos-config";
+import {PharosConfig} from '../../../../config/pharos-config';
 import {Target} from '../../../models/target';
 import {DataDetailsResolver} from '../data-details.resolver';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';

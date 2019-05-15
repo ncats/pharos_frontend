@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {PharosConfig} from "../../../config/pharos-config";
-import {BehaviorSubject} from "rxjs/index";
-import {takeWhile} from "rxjs/internal/operators";
-import {PharosProperty} from "../../models/pharos-property";
+import {PharosConfig} from '../../../config/pharos-config';
+import {BehaviorSubject} from 'rxjs/index';
+import {takeWhile} from 'rxjs/internal/operators';
+import {PharosProperty} from '../../models/pharos-property';
 
 /**
  * displays a structure only from either a url or a smiles string
@@ -49,7 +49,7 @@ export class StructureViewComponent implements OnInit {
    */
   constructor(
     private pharosConfig: PharosConfig
-  ){
+  ) {
   }
 
   /**
@@ -65,7 +65,7 @@ export class StructureViewComponent implements OnInit {
         takeWhile(() => !this.url)
       )
       .subscribe(x => {
-        if(!this.url) {
+        if (!this.url) {
           this.url = `${this.pharosConfig.getApiPath()}render/${this.parseSmiles(this.data.term)}?size=150`;
         }
       });

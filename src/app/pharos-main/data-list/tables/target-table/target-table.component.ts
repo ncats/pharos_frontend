@@ -7,8 +7,8 @@ import {PageData} from '../../../../models/page-data';
 import {BatchUploadModalComponent} from '../../../../tools/batch-upload-modal/batch-upload-modal.component';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import {NavigationExtras, Router} from "@angular/router";
-import {PharosConfig} from "../../../../../config/pharos-config";
+import {NavigationExtras, Router} from '@angular/router';
+import {PharosConfig} from '../../../../../config/pharos-config';
 
 
 /**

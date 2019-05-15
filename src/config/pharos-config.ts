@@ -1,6 +1,6 @@
-import {COMPONENTSCONFIG} from "../config/components-config";
-import {environment} from "../environments/environment.prod";
-import {Injectable} from "@angular/core";
+import {COMPONENTSCONFIG} from '../config/components-config';
+import {environment} from '../environments/environment.prod';
+import {Injectable} from '@angular/core';
 
 
 /**

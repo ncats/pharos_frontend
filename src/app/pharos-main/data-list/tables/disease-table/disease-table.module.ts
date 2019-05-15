@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RouterModule} from "@angular/router";
-import {TOKENS} from "../../../../../config/component-tokens";
-import {SharedModule} from "../../../../shared/shared.module";
-import {CommonToolsModule} from "../../../../tools/common-tools.module";
-import {DiseaseTableComponent} from "./disease-table.component";
+import {RouterModule} from '@angular/router';
+import {TOKENS} from '../../../../../config/component-tokens';
+import {SharedModule} from '../../../../shared/shared.module';
+import {CommonToolsModule} from '../../../../tools/common-tools.module';
+import {DiseaseTableComponent} from './disease-table.component';
 
 @NgModule({
   declarations: [

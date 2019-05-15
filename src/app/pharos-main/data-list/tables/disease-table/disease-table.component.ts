@@ -3,7 +3,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material';
 import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../../models/page-data';
-import {DynamicTablePanelComponent} from "../../../../tools/dynamic-table-panel/dynamic-table-panel.component";
+import {DynamicTablePanelComponent} from '../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 
 /**
  * display a pageable/ sortable list of disease objects

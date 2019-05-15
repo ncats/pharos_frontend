@@ -8,7 +8,7 @@ import {ComponentInjectorService} from '../../pharos-services/component-injector
 import {takeUntil} from 'rxjs/operators';
 import {DataListResolver} from './data-list.resolver';
 import {PageData} from '../../models/page-data';
-import {PharosConfig} from "../../../config/pharos-config";
+import {PharosConfig} from '../../../config/pharos-config';
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
