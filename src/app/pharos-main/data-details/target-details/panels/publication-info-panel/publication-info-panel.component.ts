@@ -190,13 +190,13 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
    */
   paginate($event, origin: string) {
     const url = `${this.pharosConfig.getApiPath()}targets/${this.target.accession}/${origin}?skip=${($event.pageIndex) * $event.pageSize}&top=${$event.pageSize}`;
-    this.loading = true;
+   // this.loading = true;
     this._http.get<Publication[]>(
       url)
       .subscribe(res => {
         const pubs: Publication[] = res.map(pub => this.publicationSerializer.fromJson(pub));
         this[origin] = pubs.map(pub => pub = this.publicationSerializer._asProperties(pub));
-        this.loading = false;
+     // /   this.loading = false;
       });
   }
 

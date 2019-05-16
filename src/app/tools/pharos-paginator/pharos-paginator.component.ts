@@ -7,23 +7,21 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {coerceNumberProperty, coerceBooleanProperty} from '@angular/cdk/coercion';
+import {coerceBooleanProperty, coerceNumberProperty} from '@angular/cdk/coercion';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter, HostBinding,
+  EventEmitter,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
   Output,
-  ViewEncapsulation,
 } from '@angular/core';
 import {Subscription} from 'rxjs';
 import {MatPaginatorIntl} from '@angular/material';
-import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {PageData} from '../../models/page-data';
-import {FormControl} from '@angular/forms';
 
 /** The default page size if there is no page size and there are no provided page size options. */
 const DEFAULT_PAGE_SIZE = 50;
@@ -132,8 +130,7 @@ export class PharosPaginatorComponent implements OnInit, OnDestroy {
 
 
   constructor(public _intl: MatPaginatorIntl,
-              private _changeDetectorRef: ChangeDetectorRef,
-              private _responseParser: ResponseParserService) {
+              private _changeDetectorRef: ChangeDetectorRef) {
     this._intlChanges = _intl.changes.subscribe(() => this._changeDetectorRef.markForCheck());
   }
 

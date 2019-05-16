@@ -40,13 +40,4 @@ export class DataListResolver implements Resolve<any> {
       }
          return of([]);
     }
-
-  /**
-   * get specific deetails from an object,
-   * todo: this may not be the best place for this, but this is the primary way the api is called without a url change
-   * @param {string} url
-   */
-  getDataByUrl(url: string): void {
-    this.pharosApiService.getDataByUrl(url);
-  }
 }

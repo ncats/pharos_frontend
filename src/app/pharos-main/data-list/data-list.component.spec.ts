@@ -1,9 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DataListComponent } from './data-list.component';
+import {DataListComponent} from './data-list.component';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
-import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {SuggestApiService} from '../../tools/search-component/suggest-api.service';
 import {RouterTestingModule} from '@angular/router/testing';
 import {LoadingService} from '../../pharos-services/loading.service';
@@ -31,8 +30,6 @@ describe('DataListComponent', () => {
       providers: [
         PathResolverService,
         PharosApiService,
-        PathResolverService,
-        ResponseParserService,
         LoadingService,
         FacetRetrieverService,
         SuggestApiService,

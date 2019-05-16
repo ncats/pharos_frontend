@@ -4,6 +4,7 @@ import { Observable , of} from 'rxjs';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
+import {PharosBase} from "../../models/pharos-base";
 
 /**
  * resolves the details for a specific object
@@ -29,16 +30,16 @@ export class DataDetailsResolver implements Resolve<any> {
    * @param {ActivatedRouteSnapshot} route
    * @returns {Observable<any[]>}
    */
-    resolve(route: ActivatedRouteSnapshot): Observable<any[]> {
+    resolve(route: ActivatedRouteSnapshot): Observable<PharosBase> {
       this.loadingService.toggleVisible(true);
       this.pharosApiService.flushData();
       this.pathResolverService.setPath(route.data.path);
-       return this.pharosApiService.getDataObservable(route.data.path, route.paramMap);
+       return this.pharosApiService.getDataObject(route.data.path, route.paramMap);
     }
 
   /**
    *  calls a specific url to retrieve data
-   *  todo: this may not be needed after Maay 2019 pharosconfig changes
+   *  todo: this may not be needed after May 2019 pharosconfig changes
    *  originally done to avoid circular dependencies
    * @param {string} url
    * @param {string} origin
