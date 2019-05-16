@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, Inject, Injector, Input, OnDestroy, OnInit
 import {DOCUMENT} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import {takeUntil} from 'rxjs/operators';
+import {takeWhile} from 'rxjs/operators';
 import {PharosConfig} from "../../../../config/pharos-config";
 import {Target} from '../../../models/target';
 import {DataDetailsResolver} from '../data-details.resolver';
@@ -11,6 +11,7 @@ import {CustomContentDirective} from '../../../tools/custom-content.directive';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {NavSectionsService} from '../../../tools/sidenav-panel/services/nav-sections.service';
 import {HelpDataService} from '../../../tools/help-panel/services/help-data.service';
+import {map, takeLast} from "rxjs/internal/operators";
 
 /**
  * main holder component for target details
@@ -33,7 +34,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
    * array of all navigation sections
    * @type {any[]}
    */
-  sections: string[] = [];
+  sections: any[] = [];
 
   /**
    * target being displayed
@@ -49,7 +50,6 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
    * currently active element
    */
   activeElement: string;
-
 
   /**
    * set up lots of dependencies to watch for data changes, navigate and parse and inject components
@@ -90,7 +90,6 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
    * the main data change subscription is watch, and on each change, the returned object is parsed to fetch
    * each field in the helper array
    * this data object is then injected into the dynamic component
-   * todo this doesn't handle cases where there is no data returned to an object
    */
   ngOnInit() {
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
@@ -104,7 +103,6 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
             const url = apiCall.url.replace('_accession_', this.target.accession).replace('_id_', this.target.id);
             /**this call is pushed up to the pharos api and changes are subscribed to in the generic details page, then set here*/
             this.dataDetailsResolver.getDetailsByUrl(url, apiCall.field);
-
             /** this will be used to track the object fields to get */
             keys.push(apiCall.field);
           }
@@ -112,10 +110,11 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
         /** make component */
         const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
         const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
+        childComponent.instance.target = this.target;
+        childComponent.instance.id = this.target.accession;
+
         if (component.navHeader) {
-          // todo this happens too frequently because the parent component updates this on each data change
           this.sections.push(component.navHeader);
-          this.navSectionsService.setSections(Array.from(new Set([...this.sections])));
           this.helpDataService.setSources(component.navHeader.section,
             {
               sources: component.api,
@@ -127,15 +126,26 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
           childComponent.instance.label = component.navHeader.label;
         }
 
-        // todo need to cover when no results are returned - do we still want to make the component?
         this._data
-          .pipe(takeUntil(this.ngUnsubscribe))
+          .pipe(
+            map(res => this.pick(res, keys)),
+            takeWhile(res => Object.values(res).includes(undefined), true),
+            takeLast(1)
+          )
           .subscribe(obj => {
-            childComponent.instance.target = this.target;
-            childComponent.instance.id = this.target.accession;
-            const dataObject = this.pick(obj, keys);
-            if (!Object.values(dataObject).includes(undefined)) {
-              childComponent.instance.data = dataObject;
+            if (!Object.values(obj).includes(undefined)) {
+              childComponent.instance.data = obj;
+              let count = Object.values(obj).length;
+              Object.values(obj).forEach(val => {
+                if(val == 0){count--}
+                else if(val === []){count--}
+                else if(val['content'] && val['content'].length === 0){count--} // this one covers ppi section
+              });
+              if (count === 0 && component.navHeader) {
+               this.sections = this.sections.filter(section => section.section !== component.navHeader.section);
+                this.navSectionsService.setSections(this.sections);
+                childComponent.destroy();
+              }
             }
           });
       });

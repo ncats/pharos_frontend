@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import {ResponseParserService} from '../../../pharos-services/response-parser.service';
+import {Injectable} from '@angular/core';
 import {Facet} from '../../../models/facet';
-import {Observable, BehaviorSubject, of} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {PharosApiService} from "../../../pharos-services/pharos-api.service";
 
 /**
  * Service to parse and filter facets from api responses
@@ -46,13 +46,14 @@ export class FacetRetrieverService {
    */
   facets$ = this._facets.asObservable();
 
-
   /**
    * set up subscription to parse the response object from the response service
-   * @param {ResponseParserService} responseParserService
+   * @param {PharosApiService} pharosApiService
    */
-  constructor(private responseParserService: ResponseParserService) {
-    this.responseParserService.facetsData$.subscribe(res => {
+  constructor(
+    private pharosApiService: PharosApiService
+  ) {
+    this.pharosApiService.facetsData$.subscribe(res => {
       res.forEach(facet => {
         this.facetMap.set(facet.name, facet);
       });

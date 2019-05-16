@@ -3,7 +3,6 @@ import {AppComponent} from './app.component';
 import {LoadingService} from './pharos-services/loading.service';
 import {AppRoutingModule} from './app-routing.module';
 import {PharosApiService} from './pharos-services/pharos-api.service';
-import {ResponseParserService} from './pharos-services/response-parser.service';
 import {PathResolverService} from './pharos-services/path-resolver.service';
 import {FacetRetrieverService} from './pharos-main/data-list/filter-panel/facet-retriever.service';
 import {environment} from '../environments/environment';
@@ -46,7 +45,6 @@ import {CommonToolsModule} from "./tools/common-tools.module";
   providers: [
     PharosApiService,
     PathResolverService,
-    ResponseParserService,
     LoadingService,
     FacetRetrieverService,
     SuggestApiService,

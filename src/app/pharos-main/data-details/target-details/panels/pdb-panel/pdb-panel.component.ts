@@ -188,7 +188,6 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
    * @param entry
    */
   changePdbId(entry: any) {
-    console.log(entry);
     if(this.pdbid !== entry.structureId.term) {
       this.pdbid = entry.structureId.term;
     }

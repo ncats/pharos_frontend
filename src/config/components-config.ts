@@ -348,7 +348,7 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
 const LIGANDS_PANEL: PharosPanel = {
   token: TOKENS.LIGANDS_PANEL,
   navHeader: {
-    label: 'Associated Ligands',
+    label: 'Active Ligands',
     section: 'ligands'
   },
   api: [
@@ -405,7 +405,7 @@ const PDB_PANEL: PharosPanel = {
   token: TOKENS.PDB_PANEL,
   navHeader: {
     label: 'PDB Viewer',
-    section: 'pdb'
+    section: 'pdbview'
   },
   api: [
     {

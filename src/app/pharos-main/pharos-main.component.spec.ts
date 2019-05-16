@@ -1,8 +1,7 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { PharosMainComponent } from './pharos-main.component';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {PharosMainComponent} from './pharos-main.component';
 import {PathResolverService} from '../pharos-services/path-resolver.service';
 import {PharosApiService} from '../pharos-services/pharos-api.service';
-import {ResponseParserService} from '../pharos-services/response-parser.service';
 import {SuggestApiService} from '../tools/search-component/suggest-api.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LoadingService} from '../pharos-services/loading.service';
@@ -27,7 +26,6 @@ describe('PharosMainComponent', () => {
       providers: [
         PathResolverService,
         PharosApiService,
-        ResponseParserService,
         LoadingService,
         FacetRetrieverService,
         SuggestApiService,

@@ -5,6 +5,7 @@ import { takeUntil} from 'rxjs/operators';
 import {RadarChartViewerComponent} from '../../../../../tools/radar-chart-viewer/radar-chart-viewer.component';
 import {Target} from '../../../../../models/target';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
+import {tap} from "rxjs/internal/operators";
 
 
 /**
@@ -48,7 +49,7 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
   // Unsubscribe once term has value
     .pipe(
       // todo: this unsubscribe doesn't seem to work
-      takeUntil(this.ngUnsubscribe)
+      takeUntil(this.ngUnsubscribe),
     )
     .subscribe(x => {
       if (Object.values(this.data).length > 0) {

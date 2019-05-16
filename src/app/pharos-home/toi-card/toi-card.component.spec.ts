@@ -4,7 +4,6 @@ import { ToiCardComponent } from './toi-card.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from '../../app-routing.module';
 import {SharedModule} from '../../shared/shared.module';
-import {PharosDashboardComponent} from '../pharos-home.component';
 import {SuggestApiService} from '../../tools/search-component/suggest-api.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {AboutPageComponent} from '../../about-page/about-page.component';
@@ -27,7 +26,6 @@ describe('ToiCardComponent', () => {
         AppRoutingModule
       ],
       declarations: [
-        PharosDashboardComponent,
         ApiPageComponent,
         AboutPageComponent,
         FaqPageComponent,

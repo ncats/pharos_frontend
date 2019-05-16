@@ -24,7 +24,6 @@ export class LevelSummaryPanelComponent extends DynamicPanelComponent implements
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
       .pipe(
-        // todo: this unsubscribe doesn't seem to work
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {

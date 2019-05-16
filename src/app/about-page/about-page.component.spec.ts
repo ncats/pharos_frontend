@@ -1,10 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AboutPageComponent } from './about-page.component';
+import {AboutPageComponent} from './about-page.component';
 import {AppRoutingModule} from '../app-routing.module';
 import {SharedModule} from '../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {PharosDashboardComponent} from '../pharos-home/pharos-home.component';
 import {FaqPageComponent} from '../faq-page/faq-page.component';
 import {ApiPageComponent} from '../api-page/api-page.component';
 import {DataTypesPanelComponent} from '../pharos-home/data-types-panel/data-types-panel.component';
@@ -15,7 +14,6 @@ import {LoadingService} from '../pharos-services/loading.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {PathResolverService} from '../pharos-services/path-resolver.service';
 import {SuggestApiService} from '../tools/search-component/suggest-api.service';
-import {ResponseParserService} from '../pharos-services/response-parser.service';
 import {PharosApiService} from '../pharos-services/pharos-api.service';
 import {FacetRetrieverService} from '../pharos-main/data-list/filter-panel/facet-retriever.service';
 
@@ -31,7 +29,6 @@ describe('AboutPageComponent', () => {
         AppRoutingModule
       ],
       declarations: [
-        PharosDashboardComponent,
         FaqPageComponent,
         ApiPageComponent,
         ApiViewerComponent,
@@ -43,7 +40,6 @@ describe('AboutPageComponent', () => {
       providers: [
         PharosApiService,
         PathResolverService,
-        ResponseParserService,
         LoadingService,
         FacetRetrieverService,
         SuggestApiService,

@@ -6,6 +6,10 @@ import {ParamMap} from '@angular/router';
 import {Topic} from '../models/topic';
 import {map} from 'rxjs/internal/operators';
 import {PharosConfig} from "../../config/pharos-config";
+import {HttpCacheService} from "./http-cache.service";
+import {PharosBase} from "../models/pharos-base";
+import {PageData} from "../models/page-data";
+import {Facet} from "../models/facet";
 
 
 /**
@@ -14,27 +18,62 @@ import {PharosConfig} from "../../config/pharos-config";
 @Injectable()
 export class PharosApiService {
   /**
-   * RxJs subject to broadcast data
+   * RxJs subject for facet data
+   * @type {Subject<Facet[]>}
+   * @private
+   */
+  private _facetsDataSource = new Subject<Facet[]>();
+
+  /**
+   * RxJs Behavior subject for main table data
+   * starts empty
+   * @type {BehaviorSubject<any>}
+   * @private
+   */
+  private _tableDataSource = new BehaviorSubject<any>({});
+
+  /**
+   * RxJs subject to return pagination data
+   * @type {Subject<PageData>}
+   * @private
+   */
+  private _paginationDataSource = new Subject<PageData>();
+
+  /**
+   * RxJs subject to return details for a given object
    * @type {Subject<any>}
    * @private
    */
-  private _dataSource = new BehaviorSubject<any>({});
+  private _detailsDataSource = new Subject<any>();
+  /**
+   * RxJs subject to unsubscribe from all subscriptions
+   * @type {Subject<any>}
+   */
+  private ngUnsubscribe: Subject<any> = new Subject<any>();
 
   /**
-   * RxJs behavior subject to broadcast data details
-   * initialized as empty because the data is updated by the component getter and setter, rather than a subscription
-   * @type {BehaviorSubject<any>}
-   * @private
+   * Observable stream of facet changes
+   * @type {Observable<Facet[]>}
    */
-  private _detailsSource = new BehaviorSubject<any>({});
+  facetsData$ = this._facetsDataSource.asObservable();
 
   /**
-   * RxJs Behavior subject to broadcast specific details api calls
-   * initialized as empty because the data is updated by the component getter and setter, rather than a subscription
-   * @type {BehaviorSubject<any>}
-   * @private
+   * Observable stream of table data changes
+   * @type {Observable<any>}
    */
-  private _detailsUrlSource = new BehaviorSubject<any>({});
+  tableData$ = this._tableDataSource.asObservable();
+
+  /**
+   * observable stream of pagination changes
+   * @type {Observable<PageData>}
+   */
+  paginationData$ = this._paginationDataSource.asObservable();
+
+  /**
+   * Obsetvable stream of data details
+   * @type {Observable<any>}
+   */
+  detailsData$ = this._detailsDataSource.asObservable();
 
   /**
    * base API url - set in environment.prod.ts
@@ -46,12 +85,6 @@ export class PharosApiService {
    * // todo reduce to fields strings
    */
   private _SEARCHURLS: any[];
-
-  /**
-   * single source to reuturn data
-   * @type {Observable<any>}
-   */
-  data$ = this._dataSource.asObservable();
 
   // todo: delete when api exists
   /**
@@ -148,11 +181,10 @@ export class PharosApiService {
    * @param {HttpClient} http
    * @param {PharosConfig} pharosConfig
    */
-  constructor(private http: HttpClient,
+  constructor(private http: HttpCacheService,
               private pharosConfig: PharosConfig) {
     this._URL = this.pharosConfig.getApiPath();
     this._SEARCHURLS = this.pharosConfig.getSearchPaths();
-    this._mergeSources();
   }
 
   /**
@@ -167,7 +199,7 @@ export class PharosApiService {
       this.search(params);
     } else {
       // todo: delete when api filled out
-      if (path === 'topics') {
+     /* if (path === 'topics') {
         of(this.TOPICS).subscribe(topics => {
           this._dataSource.next(
             {
@@ -175,21 +207,28 @@ export class PharosApiService {
               facets: []
             });
         });
-      } else {
+      } else {*/
         const url = this._mapParams(path, params);
         this.http.get<any>(url)
           .pipe(
             catchError(this.handleError('getData', []))
           )
           .subscribe(response => {
+            this._tableDataSource.next({content: [{kind: path, data: response}]});
+            this._paginationDataSource.next(new PageData(response));
+        if (response.facets) {
+          this._facetsDataSource.next(response.facets);
+        }
+
+ /*
             this._dataSource.next(
               {
               content: [{kind: path, data: response}],
               facets: response.facets
               }
-              );
+              );*/
           });
-      }
+      //}
     }
   }
 
@@ -208,21 +247,8 @@ export class PharosApiService {
     });
 
     forkJoin(...apis).subscribe(res => {
-      this._dataSource.next({content: res});
-    });
-  }
-
-  /**
-   * api call to get main level data list, based on a full url from environment.prod
-   * todo this might not get used
-   * @param {string} url
-   */
-  getDataByUrl(url: string): void {
-    this.http.get<any>(url)
-      .pipe(
-        catchError(this.handleError('getDataUrl', []))
-      ).subscribe(response => {
-      this._dataSource.next(response);
+      this._tableDataSource.next({content: res});
+     // this._.next({content: res});
     });
   }
 
@@ -232,86 +258,61 @@ export class PharosApiService {
    * @param {ParamMap} params
    * @return {Observable<any>}
    */
-  getDataObservable(path: string, params: ParamMap): Observable<any> {
+  getDataObject(path: string, params: ParamMap): Observable<PharosBase> {
     if (path === 'topics') {
      return  of(this.TOPICS[params.get('id')]);
     } else {
       const url = `${this._URL}${path}/${params.get('id')}`;
-      return this.http.get<any>(url)
+      return this.http.get<PharosBase>(url)
         .pipe(
-          catchError(this.handleError('getDetails', []))
+          catchError(this.handleError('getDataObject', []))
         );
     }
   }
 
   /**
-   * Api call to get data details
-   * @param {string} path The url sub path 'targets', diseases', 'ligands' etc.
-   * @param {ParamMap} params The angular router parameters generated in subcomponents includes query, facet, sort and paging information.
-   * @return void
-   */
-  getDetails(path: string, params: ParamMap): void {
-    // todo: delete when api filled out
-    if (path === 'topics') {
-      this._detailsSource.next({object: this.TOPICS[params.get('id')]});
-      } else {
-      const url = this._URL + path + '/' + params.get('id');
-      this.http.get<any>(url)
-        .pipe(
-          catchError(this.handleError('getDetails', []))
-        ).subscribe(response => {
-        this._detailsSource.next(response);
-      });
-    }
-  }
-
-  /**
    * Api call to get specific data detail information
+   * always return a response. the ingesting methods filter out empty responses
    * @param {string} url
    * @param {string} origin
    */
   getDetailsByUrl(url: string, origin: string): void {
     this.http.get<any>(url)
       .pipe(
-        catchError(this.handleError('getDetails', []))
+        catchError(this.handleError('getDetailsByUrl', []))
       ).subscribe(response => {
-      this._detailsUrlSource.next({origin: origin, data: response});
+        this.returnedObject[origin] = response;
+     //   this._dataSource.next({details: this.returnedObject});
+        this._detailsDataSource.next(this.returnedObject);
+      //  this._detailsUrlSource.next({origin: origin, data: response});
     });
   }
+
+ /* initializeSubscriptions(): void {
+    this.pharosApiService.data$
+      .subscribe(res => {
+        if (res.details) {
+          this._detailsDataSource.next(res);
+        }
+        if (res.content) {
+          this._tableDataSource.next(res);
+          this._paginationDataSource.next(new PageData(res));
+        }
+        if (res.facets) {
+          this._facetsDataSource.next(res.facets);
+        }
+      });
+  }*/
+
+
 
   /**
    * clear all data called
    */
   flushData() {
     this.returnedObject = {};
-    this._dataSource.next({});
-    this._detailsSource.next({});
-    this._detailsUrlSource.next({});
-  }
-
-  /**
-   * merges several api details calls to 1 details object
-   * @private
-   */
-  private _mergeSources(): void {
-    const cl: Observable<any> = combineLatest(
-      this._detailsSource,
-      this._detailsUrlSource);
-
-    cl.subscribe(([object, details]) => {
-      if (details.origin) {
-        this.returnedObject[details.origin] = details.data;
-        // this is needed to change details object
-        // todo: is this the ideal way to do it? seems brittle
-        if (object) {
-          this.returnedObject['object'] = object;
-        }
-      } else {
-        this.returnedObject = {object: object};
-      }
-      this._dataSource.next(this.returnedObject);
-    });
-
+    this._detailsDataSource.next(null);
+   // this._dataSource.next(null);
   }
 
   /**

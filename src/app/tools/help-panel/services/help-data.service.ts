@@ -1,6 +1,6 @@
 import {Injectable, Input} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/index';
-import {ResponseParserService} from '../../../pharos-services/response-parser.service';
+import {PharosApiService} from "../../../pharos-services/pharos-api.service";
 
 /**
  * retrieves and passes data from config to the help panel
@@ -76,13 +76,13 @@ export class HelpDataService {
 
   /**
    * subscribe to api data changes
-   * @param {ResponseParserService} responseParserService
+   * @param {PharosApiService} pharosApiService
    */
   constructor(
-    private responseParserService: ResponseParserService
+    private pharosApiService: PharosApiService
   )
   {
-    this.responseParserService.detailsData$
+    this.pharosApiService.detailsData$
       .subscribe(res => this.data = res);
   }
 

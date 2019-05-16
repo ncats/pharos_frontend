@@ -31,7 +31,6 @@ export class RadarChartViewerComponent implements OnInit {
    */
   @Input()
   set data(value: any) {
-    console.log(value);
     this._data.next(value);
   }
 
