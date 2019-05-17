@@ -47,6 +47,11 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * ngmodel of search value to filter facets when all are displayed
    */
   value: string;
+
+  /**
+   * boolean to track if facets are loading/shown
+   * @type {boolean}
+   */
   loading = false;
 
 
@@ -87,17 +92,19 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
         });
         }
     });
+
+    this.facetRetrieverService.getAllFacets().subscribe(facets => {
+      if(facets) {
+        this.allFacets = Array.from(facets.values());
+      }
+    });
   }
 
   /**
    * retrieve all facets from service
    */
   getAllFacets(): void {
-    this.facetRetrieverService.getAllFacets().subscribe(facets => {
-      this.allFacets = Array.from(facets.values());
-      this.facets = this.allFacets;
-        this.loading = false;
-    });
+
   }
 
   /**
@@ -105,13 +112,19 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * load all facets as needed
    */
   toggleFacets() {
-    this.fullWidth = !this.fullWidth;
     this.loading = true;
-    if (this.fullWidth) {
+    this.fullWidth = !this.fullWidth;
+   // this.facets = this.allFacets;
+    console.log("hide loading");
+    this.loading = false;
+
+    /*if (this.fullWidth) {
+      //   this.fullWidth = !this.fullWidth;
       this.getAllFacets();
     } else {
-      this.loading = false;
-    }
+      console.log("hide loading2");
+     // this.loading = false;
+    }*/
   }
 
   /**

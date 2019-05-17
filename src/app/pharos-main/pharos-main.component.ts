@@ -1,8 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FacetRetrieverService} from './data-list/filter-panel/facet-retriever.service';
 import {HelpPanelOpenerService} from '../tools/help-panel/services/help-panel-opener.service';
-import {MatDrawer} from '@angular/material';
+import {MatDrawer, MatSidenav} from '@angular/material';
 import {BreakpointObserver} from '@angular/cdk/layout';
+import {FilterPanelComponent} from "./data-list/filter-panel/filter-panel.component";
 
 /**
  *Pharos main component contains:
@@ -34,6 +35,8 @@ export class PharosMainComponent implements OnInit {
    * help panel element
    */
   @ViewChild('helppanel') helpPanel: MatDrawer;
+  @ViewChild('sidenav') sidenav: MatSidenav;
+  @ViewChild('filters') filterPanel: FilterPanelComponent;
 
   /**
    * boolean for mobile view
@@ -68,5 +71,15 @@ export class PharosMainComponent implements OnInit {
    */
   loadFacets() {
     this.facetRetrieverService._loaded.next(true);
+  }
+
+  /**
+   * close full width filter panel when clicking outside of panel
+   */
+  close() {
+    if (this.filterPanel.fullWidth) {
+      this.filterPanel.fullWidth = false;
+      this.filterPanel.closeMenu();
+    }
   }
 }

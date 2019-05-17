@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {ResponseParserService} from '../../../pharos-services/response-parser.service';
 import {Facet} from '../../../models/facet';
-import {Observable, BehaviorSubject, of} from 'rxjs';
+import {Observable, BehaviorSubject, of, Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 /**
@@ -29,10 +29,10 @@ export class FacetRetrieverService {
 
   /**
    * return the facets map as behavior subject
-   * @type {BehaviorSubject<any>}
+   * @type {Subject<any>}
    * @private
    */
-  _facets = new BehaviorSubject<any>(this.facetMap);
+  _facets = new Subject<any>();
 
   /**
    * observable to return loaded boolean
