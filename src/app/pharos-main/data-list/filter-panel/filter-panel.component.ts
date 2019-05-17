@@ -1,14 +1,9 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {Facet} from '../../../models/facet';
 import {Subject} from 'rxjs';
 import {PathResolverService} from '../../../pharos-services/path-resolver.service';
 import {FacetRetrieverService} from './facet-retriever.service';
-<<<<<<< HEAD
-import {ResponseParserService} from '../../../pharos-services/response-parser.service';
 import {PharosConfig} from '../../../../config/pharos-config';
-=======
-import {PharosConfig} from "../../../../config/pharos-config";
->>>>>>> deploy
 
 /**
  * panel that hold a facet table for selection
@@ -35,6 +30,11 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * @type {Map<string, any>}
    */
   facetsMap: Map<string, any> = new Map<string, any>();
+
+  /**
+   * list of initial facets to display
+   */
+  filteredFacets: Facet[];
 
   /**
    * list of all facets to display
@@ -80,20 +80,18 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * set up subscriptions to get facets
     */
   ngOnInit() {
-    this.facetRetrieverService.loaded$.subscribe(res => {
-      if (res === true) {
-        this.facets = [];
+    this.loading = true;
         this.pharosConfig.getFacets(this.pathResolverService.getPath()).map(label => {
           this.facetRetrieverService.getFacetObservable(label.name).subscribe(facet => {
             if (facet) {
               facet.label = label.label;
               this.facetsMap.set(facet.label, facet);
             }
-              this.facets = Array.from(this.facetsMap.values());
+            this.filteredFacets = Array.from(this.facetsMap.values());
+            this.facets =  this.filteredFacets;
+            this.loading = false;
           });
         });
-        }
-    });
 
     this.facetRetrieverService.getAllFacets().subscribe(facets => {
       if(facets) {
@@ -103,30 +101,19 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * retrieve all facets from service
-   */
-  getAllFacets(): void {
-
-  }
-
-  /**
    * toggle the show all facets view
    * load all facets as needed
    */
   toggleFacets() {
     this.loading = true;
     this.fullWidth = !this.fullWidth;
-   // this.facets = this.allFacets;
-    console.log("hide loading");
-    this.loading = false;
-
-    /*if (this.fullWidth) {
-      //   this.fullWidth = !this.fullWidth;
-      this.getAllFacets();
+    if (this.fullWidth) {
+      this.facets = this.allFacets;
+      this.loading = false;
     } else {
-      console.log("hide loading2");
-     // this.loading = false;
-    }*/
+      this.facets = this.filteredFacets;
+      this.loading = false;
+    }
   }
 
   /**

@@ -5,25 +5,6 @@ import {MatDrawer, MatSidenav} from '@angular/material';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {FilterPanelComponent} from "./data-list/filter-panel/filter-panel.component";
 
-/**
- *Pharos main component contains:
- *
- *NCATS Header
- *
- * sidenav panel for facets
- *
- * breadcrumb component
- *
- * facet visualizations
- *
- * list of selected facets
- *
- * table data
- *
- * scroll to top button
- *
- * NCATS footer
- */
 @Component({
   selector: 'pharos-pharos-main',
   templateUrl: './pharos-main.component.html',
@@ -32,27 +13,17 @@ import {FilterPanelComponent} from "./data-list/filter-panel/filter-panel.compon
 export class PharosMainComponent implements OnInit {
 
   /**
-   * help panel element
-   */
-  @ViewChild('helppanel') helpPanel: MatDrawer;
-  @ViewChild('sidenav') sidenav: MatSidenav;
-  @ViewChild('filters') filterPanel: FilterPanelComponent;
-
-  /**
    * boolean for mobile view
    * @type {boolean}
    */
   isSmallScreen = false;
 
   /**
-   * set up facets and help panels
-   * @param {FacetRetrieverService} facetRetrieverService
+   * set up help panel
    * @param {HelpPanelOpenerService} helpPanelOpenerService
    * @param {BreakpointObserver} breakpointObserver
    */
   constructor(
-    private facetRetrieverService: FacetRetrieverService,
-    private helpPanelOpenerService: HelpPanelOpenerService,
     public breakpointObserver: BreakpointObserver
 ) {
 }
@@ -62,23 +33,5 @@ export class PharosMainComponent implements OnInit {
    */
   ngOnInit() {
   this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
-  this.helpPanelOpenerService.toggle$.subscribe(res => this.helpPanel.toggle());
-  }
-
-  /**
-   * get all facets
-   */
-  loadFacets() {
-    this.facetRetrieverService._loaded.next(true);
-  }
-
-  /**
-   * close full width filter panel when clicking outside of panel
-   */
-  close() {
-    if (this.filterPanel.fullWidth) {
-      this.filterPanel.fullWidth = false;
-      this.filterPanel.closeMenu();
-    }
   }
 }

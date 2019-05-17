@@ -1,10 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Facet} from '../../../models/facet';
-<<<<<<< HEAD
-import {Observable, BehaviorSubject, of, Subject} from 'rxjs';
-=======
-import {BehaviorSubject, Observable} from 'rxjs';
->>>>>>> deploy
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {PharosApiService} from "../../../pharos-services/pharos-api.service";
 
@@ -25,24 +21,11 @@ export class FacetRetrieverService {
   facetMap: Map<string, any> = new Map<string, any>();
 
   /**
-   * wait for facets to be loaded before returning response
-   * @type {BehaviorSubject<boolean>}
-   * @private
-   */
-  _loaded = new BehaviorSubject<boolean>(false);
-
-  /**
    * return the facets map as behavior subject
    * @type {Subject<any>}
    * @private
    */
   _facets = new Subject<any>();
-
-  /**
-   * observable to return loaded boolean
-   * @type {Observable<boolean>}
-   */
-  loaded$ = this._loaded.asObservable();
 
   /**
    * observable to return facets array

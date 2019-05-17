@@ -8,8 +8,11 @@ import {takeUntil} from 'rxjs/operators';
 import {DataListResolver} from './data-list.resolver';
 import {PageData} from '../../models/page-data';
 import {PharosConfig} from '../../../config/pharos-config';
-import {PharosConfig} from "../../../config/pharos-config";
 import {PharosApiService} from "../../pharos-services/pharos-api.service";
+import {FacetRetrieverService} from "./filter-panel/facet-retriever.service";
+import {FilterPanelComponent} from "./filter-panel/filter-panel.component";
+import {MatDrawer, MatSidenav} from "@angular/material";
+import {HelpPanelOpenerService} from "../../tools/help-panel/services/help-panel-opener.service";
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -33,6 +36,13 @@ const navigationExtras: NavigationExtras = {
 export class DataListComponent implements OnInit, OnDestroy {
 
   /**
+   * help panel element
+   */
+  @ViewChild('helppanel') helpPanel: MatDrawer;
+  @ViewChild('sidenav') sidenav: MatSidenav;
+  @ViewChild('filters') filterPanel: FilterPanelComponent;
+
+  /**
    * show loading spinner
    * @type {boolean}
    */
@@ -54,16 +64,20 @@ export class DataListComponent implements OnInit, OnDestroy {
    * @param {ActivatedRoute} _route
    * @param {Router} router
    * @param {PharosApiService} pharosApiService
+   * @param {FacetRetrieverService} facetRetrieverService
    * @param {DataListResolver} dataListResolver
    * @param {LoadingService} loadingService
+   * @param {HelpPanelOpenerService} helpPanelOpenerService
    * @param {PharosConfig} pharosConfig
    * @param {ComponentInjectorService} componentInjectorService
    */
   constructor(private _route: ActivatedRoute,
               private router: Router,
               private pharosApiService: PharosApiService,
+              private facetRetrieverService: FacetRetrieverService,
               private dataListResolver: DataListResolver,
               private loadingService: LoadingService,
+              private helpPanelOpenerService: HelpPanelOpenerService,
               private pharosConfig: PharosConfig,
               private componentInjectorService: ComponentInjectorService) {}
 
@@ -76,6 +90,8 @@ export class DataListComponent implements OnInit, OnDestroy {
    * subscribe to data changes and load and inject required components
    */
   ngOnInit() {
+    this.helpPanelOpenerService.toggle$.subscribe(res => this.helpPanel.toggle());
+
     this.loadingService.loading$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => this.loading = res);
@@ -165,6 +181,22 @@ export class DataListComponent implements OnInit, OnDestroy {
     this._navigate(navigationExtras);
   }
 
+/*  /!**
+   * get all facets
+   *!/
+  loadFacets() {
+    this.facetRetrieverService._loaded.next(true);
+  }*/
+
+  /**
+   * close full width filter panel when clicking outside of panel
+   */
+  close() {
+    if (this.filterPanel.fullWidth) {
+      this.filterPanel.fullWidth = false;
+      this.filterPanel.closeMenu();
+    }
+  }
   /**
    * change pages of list
    * @param event

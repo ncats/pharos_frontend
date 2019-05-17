@@ -1,12 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, combineLatest, forkJoin, Observable, of, Subject} from 'rxjs';
+import {BehaviorSubject, forkJoin, Observable, of, Subject} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {ParamMap} from '@angular/router';
 import {Topic} from '../models/topic';
 import {map} from 'rxjs/internal/operators';
 import {PharosConfig} from '../../config/pharos-config';
-import {PharosConfig} from "../../config/pharos-config";
 import {HttpCacheService} from "./http-cache.service";
 import {PharosBase} from "../models/pharos-base";
 import {PageData} from "../models/page-data";
