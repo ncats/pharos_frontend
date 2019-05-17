@@ -1,6 +1,6 @@
-import {Target} from '../src/app/models/target';
+import {Target, TargetSerializer} from '../src/app/models/target';
 
-export const TESTTARGET: Target = {
+export const TESTTARGET: Target = new TargetSerializer().fromJson({
   id: 7617,
   version: 3,
   created: 1516103936000,
@@ -32,7 +32,7 @@ export const TESTTARGET: Target = {
   _properties: {'count': 19024, 'href': 'https://pharos.nih.gov/idg/api/v1/targets(7617)/properties'},
   _links: {'count': 5223, 'href': 'https://pharos.nih.gov/idg/api/v1/targets(7617)/links'},
   _namespace: null
-};
+});
 
 
 
