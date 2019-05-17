@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit, Type, ViewChild} from '@angular/core';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {Subject} from 'rxjs';
-import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {CustomContentDirective} from '../../tools/custom-content.directive';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
@@ -9,6 +8,8 @@ import {takeUntil} from 'rxjs/operators';
 import {DataListResolver} from './data-list.resolver';
 import {PageData} from '../../models/page-data';
 import {PharosConfig} from '../../../config/pharos-config';
+import {PharosConfig} from "../../../config/pharos-config";
+import {PharosApiService} from "../../pharos-services/pharos-api.service";
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -52,7 +53,7 @@ export class DataListComponent implements OnInit, OnDestroy {
    * set up routing and component injection
    * @param {ActivatedRoute} _route
    * @param {Router} router
-   * @param {ResponseParserService} responseParserService
+   * @param {PharosApiService} pharosApiService
    * @param {DataListResolver} dataListResolver
    * @param {LoadingService} loadingService
    * @param {PharosConfig} pharosConfig
@@ -60,7 +61,7 @@ export class DataListComponent implements OnInit, OnDestroy {
    */
   constructor(private _route: ActivatedRoute,
               private router: Router,
-              private responseParserService: ResponseParserService,
+              private pharosApiService: PharosApiService,
               private dataListResolver: DataListResolver,
               private loadingService: LoadingService,
               private pharosConfig: PharosConfig,
@@ -90,7 +91,7 @@ export class DataListComponent implements OnInit, OnDestroy {
      * the data map is set to the component instance
      * one each data change the process is repeated, including the api calls
       */
-    this.responseParserService.tableData$
+    this.pharosApiService.tableData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         if (res.content) {

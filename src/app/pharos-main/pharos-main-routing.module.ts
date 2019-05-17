@@ -46,7 +46,7 @@ const pharosMainRoutes: Routes = [
     path: ':id',
     component: DataDetailsComponent,
     resolve: {
-      target: DataDetailsResolver
+      pharosObject: DataDetailsResolver
     },
     runGuardsAndResolvers: 'always'
   }

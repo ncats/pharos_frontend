@@ -1,10 +1,14 @@
-import {ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {Facet} from '../../../models/facet';
 import {Subject} from 'rxjs';
 import {PathResolverService} from '../../../pharos-services/path-resolver.service';
 import {FacetRetrieverService} from './facet-retriever.service';
+<<<<<<< HEAD
 import {ResponseParserService} from '../../../pharos-services/response-parser.service';
 import {PharosConfig} from '../../../../config/pharos-config';
+=======
+import {PharosConfig} from "../../../../config/pharos-config";
+>>>>>>> deploy
 
 /**
  * panel that hold a facet table for selection
@@ -65,13 +69,11 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * set up services to get facets
    * @param {PathResolverService} pathResolverService
    * @param {FacetRetrieverService} facetRetrieverService
-   * @param {ResponseParserService} responseParserService
    * @param {PharosConfig} pharosConfig
    */
   constructor(
               private pathResolverService: PathResolverService,
               private facetRetrieverService: FacetRetrieverService,
-              private responseParserService: ResponseParserService,
               private pharosConfig: PharosConfig) { }
 
   /**

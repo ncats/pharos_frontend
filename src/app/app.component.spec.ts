@@ -9,7 +9,6 @@ import {LoadingService} from './pharos-services/loading.service';
 import {PathResolverService} from './pharos-services/path-resolver.service';
 import {FacetRetrieverService} from './pharos-main/data-list/filter-panel/facet-retriever.service';
 import {PharosApiService} from './pharos-services/pharos-api.service';
-import {ResponseParserService} from './pharos-services/response-parser.service';
 import {SuggestApiService} from './tools/search-component/suggest-api.service';
 import {ApiPageComponent} from './api-page/api-page.component';
 import {AboutPageComponent} from './about-page/about-page.component';
@@ -42,7 +41,6 @@ describe('AppComponent', () => {
       providers: [
         PharosApiService,
         PathResolverService,
-        ResponseParserService,
         LoadingService,
         FacetRetrieverService,
         SuggestApiService,

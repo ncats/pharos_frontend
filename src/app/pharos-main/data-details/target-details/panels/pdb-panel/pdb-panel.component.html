@@ -1,6 +1,7 @@
 <mat-card class="section-card"
-          (pharosScrollspy)="active('pdb')"
-          #pdb
+          (pharosScrollspy)="active('pdbview')"
+          #pdbview
+          id="pdbview"
           *ngIf="data">
   <mat-card-header>
     <mat-card-title ><span class="mat-title">Protein Database ({{reports?.length}})</span></mat-card-title>

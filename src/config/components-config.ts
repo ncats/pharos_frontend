@@ -348,7 +348,7 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
 const LIGANDS_PANEL: PharosPanel = {
   token: TOKENS.LIGANDS_PANEL,
   navHeader: {
-    label: 'Associated Ligands',
+    label: 'Active Ligands',
     section: 'ligands'
   },
   api: [
@@ -405,7 +405,7 @@ const PDB_PANEL: PharosPanel = {
   token: TOKENS.PDB_PANEL,
   navHeader: {
     label: 'PDB Viewer',
-    section: 'pdb'
+    section: 'pdbview'
   },
   api: [
     {
@@ -841,7 +841,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_BREADCRUMB_COMPONENT,
           SUMMARY_PANEL,
           LEVEL_SUMMARY_PANEL,
-          IDG_RESOURCES_PANEL,
+         // IDG_RESOURCES_PANEL,
           DISEASE_SOURCE_PANEL,
           PDB_PANEL,
           EXPRESSION_PANEL,
@@ -857,7 +857,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_BREADCRUMB_COMPONENT,
           SUMMARY_PANEL,
           LEVEL_SUMMARY_PANEL,
-          IDG_RESOURCES_PANEL,
+         // IDG_RESOURCES_PANEL,
           DISEASE_SOURCE_PANEL,
           LIGANDS_PANEL,
           PDB_PANEL,
@@ -874,7 +874,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_BREADCRUMB_COMPONENT,
           SUMMARY_PANEL,
           LEVEL_SUMMARY_PANEL,
-          IDG_RESOURCES_PANEL,
+         // IDG_RESOURCES_PANEL,
           LIGANDS_PANEL,
           DISEASE_SOURCE_PANEL,
           PDB_PANEL,
@@ -891,7 +891,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_BREADCRUMB_COMPONENT,
           SUMMARY_PANEL,
           LEVEL_SUMMARY_PANEL,
-          IDG_RESOURCES_PANEL,
+         // IDG_RESOURCES_PANEL,
           DRUGS_PANEL,
           LIGANDS_PANEL,
           DISEASE_SOURCE_PANEL,

@@ -1,6 +1,5 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit, Type, ViewChild} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
-import {ResponseParserService} from '../../pharos-services/response-parser.service';
 import {CustomContentDirective} from '../../tools/custom-content.directive';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
@@ -9,8 +8,14 @@ import {MatDrawer} from '@angular/material';
 import {DynamicPanelComponent} from '../../tools/dynamic-panel/dynamic-panel.component';
 import {DataDetailsResolver} from './data-details.resolver';
 import {ScrollDispatcher} from '@angular/cdk/scrolling';
+<<<<<<< HEAD
 import {PharosConfig} from '../../../config/pharos-config';
 import {PharosBase} from '../../models/pharos-base';
+=======
+import {PharosConfig} from "../../../config/pharos-config";
+import {PharosBase} from "../../models/pharos-base";
+import {PharosApiService} from "../../pharos-services/pharos-api.service";
+>>>>>>> deploy
 
 /**
  * component that holds dynamically injected details panels for various object types
@@ -58,7 +63,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
    * @param {Router} router
    * @param {PharosConfig} pharosConfig
    * @param {ComponentInjectorService} componentInjectorService
-   * @param {ResponseParserService} responseParserService
+   * @param {PharosApiService} pharosApiService
    * @param {HelpPanelOpenerService} helpPanelOpenerService
    * @param {DataDetailsResolver} dataDetailsResolver
    * @param {ChangeDetectorRef} changeDetector
@@ -68,7 +73,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
               private router: Router,
               private pharosConfig: PharosConfig,
               private componentInjectorService: ComponentInjectorService,
-              private responseParserService: ResponseParserService,
+              private pharosApiService: PharosApiService,
               private helpPanelOpenerService: HelpPanelOpenerService,
               private dataDetailsResolver: DataDetailsResolver,
               private changeDetector: ChangeDetectorRef,
@@ -76,8 +81,12 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
   ) {
     super();
     this.path = this._route.snapshot.data.path;
+<<<<<<< HEAD
     // todo this variable name should be generic, because it could also be a disease or ligand
     this.pharosObject = this._route.snapshot.data.target;
+=======
+    this.pharosObject = this._route.snapshot.data.pharosObject;
+>>>>>>> deploy
   }
 
   /**
@@ -93,11 +102,10 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => this.helpPanel.toggle());
 
-    this.responseParserService.detailsData$
+    this.pharosApiService.detailsData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this._data.next(res);
-        this.changeDetector.markForCheck(); // refresh the component manually
       });
 
     this.router.events
@@ -106,8 +114,13 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
       // If it is a NavigationEnd event re-initalise the component
       if (e instanceof NavigationEnd) {
         this.path = this._route.snapshot.data.path;
+<<<<<<< HEAD
         if (this._route.snapshot.data[this.path] !== this.pharosObject) {
           this.pharosObject = this._route.snapshot.data[this.path];
+=======
+        if (this._route.snapshot.data.pharosObject != this.pharosObject) {
+          this.pharosObject = this._route.snapshot.data.pharosObject;
+>>>>>>> deploy
         }
       }
     });
@@ -159,13 +172,13 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
       dynamicComponent.instance[this.path.slice(0, this.path.length - 1)] = this.pharosObject;
       dynamicComponent.instance.id = this.pharosObject.id;
       dynamicComponent.instance.path = this.path;
-      this.changeDetector.markForCheck(); // refresh the component manually
 
       this._data
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(obj => {
+          if(obj) {
             dynamicComponent.instance.data = obj;
-            this.changeDetector.markForCheck(); // refresh the component manually
+          }
         });
     });
     this.componentsLoaded = true;
