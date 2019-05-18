@@ -7,25 +7,23 @@ import {PharosApiService} from "../../../pharos-services/pharos-api.service";
 /**
  * Service to parse and filter facets from api responses
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class FacetRetrieverService {
-  /**
-   * array of facet objects
-   */
-  facets: Facet[];
 
   /**
    * map of facet names to facet
    * @type {Map<string, any>}
    */
-  facetMap: Map<string, any> = new Map<string, any>();
+  facetMap: Map<string, Facet> = new Map<string, Facet>();
 
   /**
    * return the facets map as behavior subject
    * @type {Subject<any>}
    * @private
    */
-  _facets = new Subject<any>();
+  _facets = new BehaviorSubject<Map<string, Facet>>(null);
 
   /**
    * observable to return facets array
@@ -37,9 +35,7 @@ export class FacetRetrieverService {
    * set up subscription to parse the response object from the response service
    * @param {PharosApiService} pharosApiService
    */
-  constructor(
-    private pharosApiService: PharosApiService
-  ) {
+  constructor(private pharosApiService: PharosApiService) {
     this.pharosApiService.facetsData$.subscribe(res => {
       res.forEach(facet => {
         this.facetMap.set(facet.name, facet);
@@ -48,37 +44,11 @@ export class FacetRetrieverService {
     });
   }
 
-  // todo: pick one
-  /**
-   * return facets as a plain object
-   * @param {string} name
-   * @returns {any}
-   */
-  getFacet(name: string): any {
-    return this.facetMap.get(name);
-  }
-
   /**
    * return all facets
    * @return {Observable<any>}
    */
-  getAllFacets(): Observable<any> {
+  getAllFacets(): Observable<Map<string, Facet>> {
     return this.facets$;
-  }
-
-  /**
-   * return facets as an observable
-   * @param {string} name
-   * @returns {Observable<any>}
-   */
-  getFacetObservable(name: string): Observable<any> {
-    if (name) {
-      return this.facets$
-        .pipe(
-          map(res => {
-            return res.get(name);
-          })
-        );
-    }
   }
 }

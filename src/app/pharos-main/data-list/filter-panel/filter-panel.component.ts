@@ -81,21 +81,18 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     */
   ngOnInit() {
     this.loading = true;
-        this.pharosConfig.getFacets(this.pathResolverService.getPath()).map(label => {
-          this.facetRetrieverService.getFacetObservable(label.name).subscribe(facet => {
-            if (facet) {
-              facet.label = label.label;
-              this.facetsMap.set(facet.label, facet);
-            }
-            this.filteredFacets = Array.from(this.facetsMap.values());
-            this.facets =  this.filteredFacets;
-            this.loading = false;
-          });
-        });
-
+    const flist = this.pharosConfig.getFacets(this.pathResolverService.getPath());
     this.facetRetrieverService.getAllFacets().subscribe(facets => {
       if(facets) {
+        this.filteredFacets = [];
         this.allFacets = Array.from(facets.values());
+        this.filteredFacets = flist.map(f => {
+          const facet = facets.get(f.name);
+          facet.label = f.label;
+          return facet;
+        });
+        this.loading = false;
+        this.facets = this.filteredFacets;
       }
     });
   }

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {PharosConfig} from '../../../../config/pharos-config';
 import {PathResolverService} from '../../../pharos-services/path-resolver.service';
 import {FacetRetrieverService} from '../filter-panel/facet-retriever.service';
@@ -14,7 +14,7 @@ import {Facet} from '../../../models/facet';
   styleUrls: ['./data-list-visualizations.component.scss'],
 })
 
-export class DataListVisualizationsComponent implements AfterViewInit {
+export class DataListVisualizationsComponent implements OnInit {
   /**
    * data passed to visualization
    */
@@ -29,6 +29,11 @@ export class DataListVisualizationsComponent implements AfterViewInit {
    * selected facet field
    */
   selectedDonut: string;
+
+  /**
+   * list of initial facets to display
+   */
+  filteredFacets: Facet[];
 
   /**
    * constructor to get config object and specified facets
@@ -46,14 +51,21 @@ export class DataListVisualizationsComponent implements AfterViewInit {
   /**
    * get list of available facets, then retrieve the first facet (default) on the list
    */
-  ngAfterViewInit() {
+  ngOnInit() {
         this.chartFacets = this.pharosConfig.getAllChartFacets(this.pathResolverService.getPath());
+    this.facetRetrieverService.getAllFacets().subscribe(facets => {
+      if(facets) {
         if (this.chartFacets.donut.length > 0) {
-          this.facetRetrieverService.getFacetObservable(this.chartFacets.donut[0].name)
-            .subscribe(res => {
-              this.donutData = res;
-            });
+          this.filteredFacets = [];
+          this.filteredFacets = this.chartFacets.donut.map(f => {
+            const facet = facets.get(f.name);
+            facet.label = f.label;
+            return facet;
+          });
+          this.donutData = this.filteredFacets[0];
         }
+      }
+    });
   }
 
   /**
@@ -63,10 +75,7 @@ export class DataListVisualizationsComponent implements AfterViewInit {
    */
   changeDonutChart(field: string): void {
     this.selectedDonut = field;
-    this.facetRetrieverService.getFacetObservable(field)
-      .subscribe(res => {
-        this.donutData = res;
-      });
+    this.donutData = this.filteredFacets.filter(facet => facet.name === field)[0];
   }
 
   /**
