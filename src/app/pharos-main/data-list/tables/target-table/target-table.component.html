@@ -1,4 +1,4 @@
-<div *ngIf="dataSource.data">
+<div *ngIf="targets">
   <mat-toolbar [color]="'primary'" class="target-table-toolbar">
       <div class = mat-display-1 *ngIf="showLabel">Targets <span *ngIf ="pageData">({{pageData.total}})</span>
       </div>
@@ -25,13 +25,22 @@
   <div fxFlex="45" fxLayoutAlign.lt-sm="center">
 
   </div>
-  <div fxFlex="45" fxFlexAlign="end">
+<!--  <div fxFlex="45" fxFlexAlign="end">
     <pharos-custom-paginator
       [pageData]="pageData"
       (page)="changePage($event)">
     </pharos-custom-paginator>
-  </div>
+  </div>-->
 </div>
+  <pharos-generic-table *ngIf= "targets"
+  [pageData]="pageData"
+  [fieldsConfig]="fieldsData"
+  [data]="targets">
+  </pharos-generic-table>
+
+
+
+<!--
 <mat-table [dataSource]="dataSource" fxHide.lt-sm matSort (matSortChange)="changeSort($event)" *ngIf="dataSource.data">
   <ng-container matColumnDef="name">
         <mat-header-cell fxFlex="35" *matHeaderCellDef>Name</mat-header-cell>
@@ -78,23 +87,24 @@
       <ng-container matColumnDef="knowledgeAvailability">
         <mat-header-cell *matHeaderCellDef mat-sort-header>Knowledge Availability</mat-header-cell>
         <mat-cell *matCellDef="let row" class = "small-radar">
-          <pharos-radar-chart [id]="row.accession" [size]="'small'" [origin]="'knowledge'"></pharos-radar-chart>
+          <pharos-radar-chart [id]="row.accession" [size]="'small'" [origin]="'knowledge'" *ngIf="!loading"></pharos-radar-chart>
         </mat-cell>
       </ng-container>
       <mat-header-row *matHeaderRowDef="displayColumns, sticky: true"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayColumns;" class = "small-radar">
       </mat-row>
     </mat-table>
-<div class ="target-grid" fxHide fxShow.lt-sm *ngIf="isSmallScreen">
+-->
+<!--<div class ="target-grid" fxHide fxShow.lt-sm *ngIf="isSmallScreen">
   <div *ngFor="let target of dataSource.connect() | async">
     <pharos-target-card [target]="target"></pharos-target-card>
   </div>
-</div>
-<div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
+</div>-->
+<!--<div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
   <div fxFlex="45">
   </div>
   <div fxFlex="45" fxFlexAlign="end">
     <pharos-custom-paginator [pageData]="pageData" (page)="changePage($event)"></pharos-custom-paginator>
   </div>
-</div>
+</div>-->
 </div>

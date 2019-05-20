@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, InjectionToken, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatDialog, MatTableDataSource} from '@angular/material';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
@@ -9,6 +9,22 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {NavigationExtras, Router} from '@angular/router';
 import {PharosConfig} from '../../../../../config/pharos-config';
+import {STRUCTURE_VIEW_TOKEN} from "../../../data-details/target-details/panels/pdb-panel/pdb-panel.component";
+import {PharosProperty} from "../../../../models/pharos-property";
+import {Target, TargetSerializer} from "../../../../models/target";
+import {Publication} from "../../../../models/publication";
+
+/**
+ * token to inject structure viewer into generic table component
+ * @type {InjectionToken<any>}
+ */
+export const IDG_LEVEL_TOKEN = new InjectionToken('IDGLevelComponent');
+
+/**
+ * token to inject structure viewer into generic table component
+ * @type {InjectionToken<any>}
+ */
+export const RADAR_CHART_TOKEN = new InjectionToken('RadarChartComponent');
 
 
 /**
@@ -35,6 +51,54 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    */
   displayColumns: string[] = ['name', 'gene', 'idgTDL', 'idgFamily', 'novelty', 'jensenScore', 'antibodyCount', 'knowledgeAvailability'];
   // displayColumns: string[] = ['list-select', 'name', 'gene', 'idgTDL', 'idgFamily', 'novelty', 'jensenScore', 'antibodyCount', 'knowledgeAvailability'];
+
+  /**
+   * fields to be show in the pdb table
+   * @type {PharosProperty[]}
+   */
+  fieldsData: PharosProperty[] = [
+    new PharosProperty({
+      name: 'name',
+      label: 'Target Name'
+    }),
+    new PharosProperty({
+      name: 'gene',
+      label: 'Gene'
+    }),
+    new PharosProperty({
+      name: 'idgTDL',
+      label: 'DevelopmentLevel',
+      customComponent: IDG_LEVEL_TOKEN
+    }),
+    new PharosProperty({
+      name: 'idgFamily',
+      label: 'Target Family'
+    }),
+    new PharosProperty({
+      name: 'novelty',
+      label: 'Log Novelty'
+    }),
+    new PharosProperty({
+      name: 'jensenScore',
+      label: 'Pubmed Score'
+    }),
+    new PharosProperty({
+      name: 'antibodyCount',
+      label: 'Antibody Count'
+    })
+    /*new PharosProperty({
+      name: 'knowledgeAvailability',
+      label: 'Knowledge Availability',
+      customComponent: RADAR_CHART_TOKEN
+    })*/
+  ];
+
+  /**
+   * main list of paginated targets
+   */
+ targets: Target[];
+
+
 
   /**
    * event emitter of sort event on table
@@ -65,11 +129,11 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    */
   isSmallScreen = false;
 
-  /**
+/*  /!**
    * main table data source
    * @type {MatTableDataSource<any>}
-   */
-  dataSource = new MatTableDataSource<any>([]);
+   *!/
+  dataSource = new MatTableDataSource<any>([]);*/
 
   /**
    * selection model for when rows are selectable in table, used for compare and storing targets
@@ -77,11 +141,14 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    */
   rowSelection = new SelectionModel<any>(true, []);
 
+  targetSerializer: TargetSerializer = new TargetSerializer();
+
   /**
    * set up dependencies
    * @param {MatDialog} dialog
    * @param {HttpClient} http
    * @param {Router} router
+   * @param {PharosConfig} pharosConfig
    * @param {BreakpointObserver} breakpointObserver
    */
   constructor(public dialog: MatDialog,
@@ -97,18 +164,27 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * subscribe to data changes
    */
   ngOnInit() {
+    console.log(this);
+    this.loading = true;
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
 
     this._data
     // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
       .pipe(
-        // todo: this unsubscribe doesn't seem to work
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
+        console.log(x);
         if (this.data.length) {
-          this.dataSource.data = this.data;
+          console.log(this.data);
+          const targets: Target[] = this.data
+            .map(target => this.targetSerializer.fromJson(target));
+         const targetProps = targets
+            .map(target => target = this.targetSerializer._asProperties(target));
+         // this.data = this.data.map(target => this.targetSerializer._asProperties(this.targetSerializer.fromJson(target)));
+        //  this.dataSource.data = this.data;
+          this.targets = targetProps;
+          this.loading = false;
         }
       });
   }

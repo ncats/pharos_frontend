@@ -198,7 +198,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.drawChart();
+    // this.drawChart();
     // data passed in by opening modal
     if (this.modalData) {
       Object.keys(this.modalData).forEach(key => this[key] = this.modalData[key]);
@@ -216,9 +216,9 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     // data set by component, also handles setting by modal opening and data retrieved by id
     this._data.subscribe(x => {
       if (this.data && this.data.length) {
-        this.drawChart();
         this.data.forEach(graph => {
           if (graph) {
+            this.drawChart();
             this.updateChart();
           }
         });
@@ -285,9 +285,11 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     //////////// Create the container SVG and g /////////////
     const element = this.chartContainer.nativeElement;
     const margin = this._chartOptions.margin;
-    this.width = element.offsetWidth - this._chartOptions.margin.left - this._chartOptions.margin.right;
-    this.height = element.offsetHeight - this._chartOptions.margin.top - this._chartOptions.margin.bottom;
+    this.width = element.offsetWidth - margin.left - margin.right;
+    this.height = element.offsetHeight - margin.top - margin.bottom;
 
+    console.log(element.offsetWidth);
+    console.log(element.offsetHeight);
     // Remove whatever chart with the same id/class was present before
     d3.select(element).selectAll('svg').remove();
 
@@ -303,18 +305,6 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     this.svg.append('g').attr('class', 'levelWrapper').attr('transform', 'rotate(30)');
     this.svg.append('g').attr('class', 'axisLabel');
     this.svg.append('g').attr('class', 'axisWrapper');
-
-    /////////////////////////////////////////////////////////
-    ////////// Glow filter for some extra pizzazz ///////////
-    /////////////////////////////////////////////////////////
-
-    /*    // Filter for the outside glow
-        const filter = this.svg.append('defs').append('filter').attr('id', 'glow'),
-          feGaussianBlur = filter.append('feGaussianBlur').attr('stdDeviation', '2.5').attr('result', 'coloredBlur'),
-          feMerge = filter.append('feMerge'),
-          feMergeNode_1 = feMerge.append('feMergeNode').attr('in', 'coloredBlur'),
-          feMergeNode_2 = feMerge.append('feMergeNode').attr('in', 'SourceGraphic');*/
-
 
     // Define the div for the tooltip
     this.tooltip = d3.select(element).append('div')

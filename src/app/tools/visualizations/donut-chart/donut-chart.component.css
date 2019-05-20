@@ -1,7 +1,8 @@
 .d3-chart {
   margin: 0 auto;
   width: 30vw;
-  height:250px;
+  height:20vh;
+  min-height:20vh;
 }
 
 /* Add shadow effect to chart. If you don't like it, get rid of it. */

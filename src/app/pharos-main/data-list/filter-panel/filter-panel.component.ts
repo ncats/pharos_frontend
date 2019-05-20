@@ -105,7 +105,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.fullWidth = !this.fullWidth;
     if (this.fullWidth) {
-      this.facets = this.allFacets;
+          this.facets = this.allFacets;
       this.loading = false;
     } else {
       this.facets = this.filteredFacets;

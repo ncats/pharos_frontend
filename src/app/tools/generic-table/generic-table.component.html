@@ -1,11 +1,11 @@
 <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end center" class="body-row">
   <div fxFlex="55" fxFlexAlign="end">
-    <mat-paginator *ngIf="showPaginator" #paginator
+<!--    <mat-paginator *ngIf="showPaginator" #paginator
                    [pageSizeOptions]="[10, 20, 50]"
                    [hidePageSize]="hidePageSize"
                    [showFirstLastButtons]="true"
                    (page)="changePage($event)">
-    </mat-paginator>
+    </mat-paginator>-->
   </div>
 </div>
 <table mat-table matSort #genericTable
@@ -56,12 +56,12 @@
 
 <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end center" class="body-row">
   <div fxFlex="55" fxFlexAlign="end">
-    <mat-paginator *ngIf="showBottomPaginator"
+<!--    <mat-paginator *ngIf="showBottomPaginator"
                    [pageSizeOptions]="[10, 20, 50]"
                    [hidePageSize]="hidePageSize"
                    [showFirstLastButtons]="true"
                    (page)="changePage($event)"
     >
-    </mat-paginator>
+    </mat-paginator>-->
   </div>
 </div>

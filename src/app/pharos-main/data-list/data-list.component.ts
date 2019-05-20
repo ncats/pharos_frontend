@@ -120,7 +120,8 @@ export class DataListComponent implements OnInit, OnDestroy {
                   const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
                   const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
                                     dynamicComponent.instance.pageData = new PageData(dataList.data);
-                                  if (dynamicComponent.instance.sortChange) {
+                  console.log(dynamicComponent.instance.pageData)
+                  if (dynamicComponent.instance.sortChange) {
                                     dynamicComponent.instance.sortChange.subscribe((event) => {
                                       this.sortTable(event);
                                       // todo sort arrows are not staying after column select

@@ -155,6 +155,15 @@ export class TargetSerializer implements PharosSerializer {
     const obj = new Target();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
     Target.mapDates(obj);
+
+    if(obj.novelty) {
+    obj.novelty = +obj.novelty.toFixed(2);
+    }
+
+    if(obj.jensenScore) {
+    obj.jensenScore = +obj.jensenScore.toFixed(2);
+    }
+
     if (obj._links) {
       obj._links = new PharosSubList(obj._links);
       obj._linksCount = obj._links.count;
@@ -189,13 +198,15 @@ export class TargetSerializer implements PharosSerializer {
    * @return {any}
    * @private
    */
-  _asProperties(obj: PharosBase): any {
+  _asProperties(obj: Target): any {
     const newObj: any = {};
     Object.keys(obj).map(field => {
       const property: PharosProperty = {name: field, label: field, term: obj[field]};
       newObj[field] = property;
     });
    // newObj._name.internalLink = obj.uuid;
+    newObj.name.internalLink = `targets/${obj.accession}`;
+    newObj.gene.internalLink = `targets/${obj.gene}`;
     return newObj;
   }
 }

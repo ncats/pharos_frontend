@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Facet} from '../../../models/facet';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {map} from 'rxjs/operators';
 import {PharosApiService} from "../../../pharos-services/pharos-api.service";
 
 /**
