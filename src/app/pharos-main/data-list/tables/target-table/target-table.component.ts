@@ -64,37 +64,45 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   fieldsData: PharosProperty[] = [
     new PharosProperty({
       name: 'name',
-      label: 'Target Name'
+      label: 'Target Name',
+      width: '35vw'
     }),
     new PharosProperty({
       name: 'gene',
-      label: 'Gene'
+      label: 'Gene',
+      width: '10vw'
     }),
     new PharosProperty({
       name: 'idgTDL',
-      label: 'DevelopmentLevel',
-      customComponent: IDG_LEVEL_TOKEN
+      label: 'Development Level',
+      customComponent: IDG_LEVEL_TOKEN,
+      width: '10vw'
     }),
     new PharosProperty({
       name: 'idgFamily',
-      label: 'Target Family'
+      label: 'Target Family',
+      width: '10vw'
     }),
     new PharosProperty({
       name: 'novelty',
-      label: 'Log Novelty'
+      label: 'Log Novelty',
+      width: '7vw'
     }),
     new PharosProperty({
       name: 'jensenScore',
-      label: 'Pubmed Score'
+      label: 'Pubmed Score',
+      width: '7vw'
     }),
     new PharosProperty({
       name: 'antibodyCount',
-      label: 'Antibody Count'
+      label: 'Antibody Count',
+      width: '7vw'
     }),
     new PharosProperty({
       name: 'knowledgeAvailability',
       label: 'Knowledge Availability',
-      customComponent: RADAR_CHART_TOKEN
+      customComponent: RADAR_CHART_TOKEN,
+      width: '10vw'
     })
   ];
 
@@ -170,7 +178,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * subscribe to data changes
    */
   ngOnInit() {
-    console.log(this);
     this.loading = true;
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
 

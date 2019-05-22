@@ -7,7 +7,7 @@
       <button mat-icon-button [matMenuTriggerFor]="appMenu"><mat-icon>apps</mat-icon></button>
       <mat-menu #appMenu="matMenu">
         <button mat-menu-item (click)="batchUpload()"><mat-icon>create</mat-icon>Upload Target List</button>
-        <span matTooltip= "Please select 2-4 targets to compare"
+<!--        <span matTooltip= "Please select 2-4 targets to compare"
               [matTooltipDisabled] = "!rowSelection.isEmpty()">
         <button mat-menu-item
                 (click)="compareTargets()"
@@ -17,7 +17,7 @@
         <button mat-menu-item (click)="createTopic()" [disabled]="rowSelection.isEmpty()"><mat-icon>bubble_chart</mat-icon>Generate Topic</button>
         <button mat-menu-item (click)="saveTargets()" [disabled]="rowSelection.isEmpty()"><mat-icon>save</mat-icon>Save Selected</button>
         <button mat-menu-item><mat-icon>save_alt</mat-icon>Save Query</button>
-        <button mat-menu-item><mat-icon>info</mat-icon>Help</button>
+        <button mat-menu-item><mat-icon>info</mat-icon>Help</button>-->
       </mat-menu>
     </div>
   </mat-toolbar>

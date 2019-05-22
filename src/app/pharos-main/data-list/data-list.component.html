@@ -10,7 +10,7 @@
     <!-- sidenav content -->
     <pharos-help-panel></pharos-help-panel>
   </mat-sidenav>
-  <mat-sidenav-content (click)="close($event)">
+  <mat-sidenav-content (click)="close()" class="list-content">
     <div fxLayout="row" fxLayoutAlign="start start" class="filter-help">
       <div fxFlex="5">
         <button type="button" *ngIf="sidenav.opened" class="sidenavToggle" mat-raised-button [color]="'primary'" (click)="sidenav.toggle()">

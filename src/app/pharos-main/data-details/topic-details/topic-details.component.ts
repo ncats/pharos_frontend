@@ -160,7 +160,6 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
    * initialize data change subsctiptions, fetch data
    */
   ngOnInit() {
-    console.log(this);
     this.dataParserService.loadData().subscribe(res =>  {
     this.allTargets = this.dataParserService.getTargets().map(node => node.target);
     this.targets = this.allTargets.slice(0, 10) as any[];

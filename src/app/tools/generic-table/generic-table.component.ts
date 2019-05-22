@@ -342,22 +342,10 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * way to set a column width
-   * todo: each optential property width needs to have a corresponding class set up
-   * todo: THIS NEEDS WORK
-   * @param property
-   */
-  getWidth(property: DataProperty): string {
-    return property.width ? `width${property.width}` : '';
-  }
-
-  // todo any changes to the table (even hovering over buttons re-generates this element
-  // todo: try manually attaching it instead of using the directive
-  /**
    * creates a custom component inside a table field currently the specific field data, substance object and expanded row
    * container are sent to the custom component
    * todo: the comtainer and object should be optional fields
-   * todo: table injected components need to impoement an interface to get the substance or container
+   * todo: table injected components need to implement an interface to get the substance or container
    * @param field
    * @param row
    * @param index
@@ -405,10 +393,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
 
     if(component.instance.ref) {
       this.ref.detach();
-    //  console.log("eect");
-    //  component.instance.ref.detach();
     }
-  //  this.ref.reattach();
   }
 
   /**

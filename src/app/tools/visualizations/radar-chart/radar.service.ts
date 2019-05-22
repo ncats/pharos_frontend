@@ -25,7 +25,7 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
   [
     ['small', {
       maxValue: 1,
-      margin: {top: 0, right: 0, bottom: 0, left: 0},
+      margin: {top: 5, right: 5, bottom: 5, left: 5},
       levels: 1,
       dotRadius: 0, 			// The size of the colored circles of each blog
       format: '.1f',

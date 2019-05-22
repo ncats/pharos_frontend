@@ -13,6 +13,7 @@ import {FacetRetrieverService} from "./filter-panel/facet-retriever.service";
 import {FilterPanelComponent} from "./filter-panel/filter-panel.component";
 import {MatDrawer, MatSidenav} from "@angular/material";
 import {HelpPanelOpenerService} from "../../tools/help-panel/services/help-panel-opener.service";
+import {BreakpointObserver} from "@angular/cdk/layout";
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -60,10 +61,17 @@ export class DataListComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject<any>();
 
   /**
+   * boolean for mobile view
+   * @type {boolean}
+   */
+  isSmallScreen = false;
+
+  /**
    * set up routing and component injection
    * @param {ActivatedRoute} _route
    * @param {Router} router
    * @param {PharosApiService} pharosApiService
+   * @param {BreakpointObserver} breakpointObserver
    * @param {FacetRetrieverService} facetRetrieverService
    * @param {DataListResolver} dataListResolver
    * @param {LoadingService} loadingService
@@ -74,7 +82,8 @@ export class DataListComponent implements OnInit, OnDestroy {
   constructor(private _route: ActivatedRoute,
               private router: Router,
               private pharosApiService: PharosApiService,
-              private facetRetrieverService: FacetRetrieverService,
+              public breakpointObserver: BreakpointObserver,
+  private facetRetrieverService: FacetRetrieverService,
               private dataListResolver: DataListResolver,
               private loadingService: LoadingService,
               private helpPanelOpenerService: HelpPanelOpenerService,
@@ -90,6 +99,8 @@ export class DataListComponent implements OnInit, OnDestroy {
    * subscribe to data changes and load and inject required components
    */
   ngOnInit() {
+    this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
+
     this.helpPanelOpenerService.toggle$.subscribe(res => this.helpPanel.toggle());
 
     this.loadingService.loading$
@@ -120,7 +131,6 @@ export class DataListComponent implements OnInit, OnDestroy {
                   const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
                   const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
                                     dynamicComponent.instance.pageData = new PageData(dataList.data);
-                  console.log(dynamicComponent.instance.pageData)
                   if (dynamicComponent.instance.sortChange) {
                                     dynamicComponent.instance.sortChange.subscribe((event) => {
                                       this.sortTable(event);

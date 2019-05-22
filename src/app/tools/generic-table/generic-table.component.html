@@ -15,10 +15,14 @@
        (matSortChange)="changeSort($event)"
        [ngClass]="{'condensed': condensed}">
   <ng-container matColumnDef="{{field.name}}" *ngFor="let field of displayFields;">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled] = !field.sortable [ngClass]="getWidth(field)">
+    <th mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        [disabled] = !field.sortable
+        [style.width] = 'field.width'>
       {{getLabel(field.name)}}
     </th>
-    <td mat-cell *matCellDef="let row; let i = dataIndex" [ngClass]="getWidth(field)">
+    <td mat-cell *matCellDef="let row; let i = dataIndex" [style.max-width] = 'field.width'>
 
       <ng-container *ngIf="checkCustomComponent(field); then customOutlet, else properties">
       </ng-container>

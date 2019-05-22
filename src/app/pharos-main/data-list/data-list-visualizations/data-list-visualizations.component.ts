@@ -54,7 +54,7 @@ export class DataListVisualizationsComponent implements OnInit {
   ngOnInit() {
         this.chartFacets = this.pharosConfig.getAllChartFacets(this.pathResolverService.getPath());
     this.facetRetrieverService.getAllFacets().subscribe(facets => {
-      if(facets) {
+      if(facets  && facets.size > 0) {
         if (this.chartFacets.donut.length > 0) {
           this.filteredFacets = [];
           this.filteredFacets = this.chartFacets.donut.map(f => {

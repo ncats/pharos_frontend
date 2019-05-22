@@ -19,8 +19,7 @@ export class PharosMainComponent implements OnInit {
   isSmallScreen = false;
 
   /**
-   * set up help panel
-   * @param {HelpPanelOpenerService} helpPanelOpenerService
+   * check viewport size
    * @param {BreakpointObserver} breakpointObserver
    */
   constructor(

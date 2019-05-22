@@ -5,8 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build pharos-beta --prod",
-    "build-test": "ng build pharos-beta --base-href=/pharos-beta/ --prod",
+    "build": "ng build pharos-beta --base-href=/idg/ --prod",
+    "build-test": "ng build pharos-beta --base-href=/idg/ --prod",
     "test": "ng test pharos-beta --code-coverage",
     "lint": "ng lint pharos-beta",
     "lint-fix": "ng lint pharos-beta --fix",

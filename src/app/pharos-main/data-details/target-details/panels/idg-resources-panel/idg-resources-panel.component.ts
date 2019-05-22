@@ -292,15 +292,11 @@ dataTypes: string[] = [];
   ngOnInit() {
     this.reagentsList = this.reagents;
     this.dataSourceList = this.dataSources;
-    console.log(this);
 
     this.http.get(`http://dev3.ccs.miami.edu:8080/rss-api/target/search?term=${this.target.gene}`).subscribe(res => {
-      console.log(res);
       if (res && res['data']) {
         res['data'].forEach(data => {
-        console.log(data.id);
         this.http.get(data.id).subscribe(resource => {
-          console.log(resource);
         });
       });
     }
