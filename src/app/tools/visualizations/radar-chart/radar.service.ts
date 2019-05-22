@@ -3,6 +3,7 @@ import {catchError} from 'rxjs/operators';
 import {Observable, of} from 'rxjs/index';
 import {HttpClient} from '@angular/common/http';
 import {PharosConfig} from '../../../../config/pharos-config';
+import {HttpCacheService} from "../../../pharos-services/http-cache.service";
 
 
 /**
@@ -24,7 +25,7 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
   [
     ['small', {
       maxValue: 1,
-      margin: {top: 35, right: 20, bottom: 35, left: 20},
+      margin: {top: 0, right: 0, bottom: 0, left: 0},
       levels: 1,
       dotRadius: 0, 			// The size of the colored circles of each blog
       format: '.1f',
@@ -79,7 +80,7 @@ export class RadarService {
    * @param {HttpClient} http
    * @param {PharosConfig} pharosConfig
    */
-  constructor(private http: HttpClient,
+  constructor(private http: HttpCacheService,
               private pharosConfig: PharosConfig) {
   }
 
@@ -91,20 +92,22 @@ export class RadarService {
    */
   getData(id: string, origin: string): any {
     let url: string;
-    let temp: any = this.radarDataMap.get(id);
-    if (!temp || !temp[origin]) {
+    let temp: any; // = this.radarDataMap.get(id);
+  //  if (!temp || !temp[origin]) {
       if (origin === 'knowledge') {
         url = `${this.pharosConfig.getRadarPath()}${id}`;
       } else if (origin === 'knowledge-sources') {
         url = `${this.pharosConfig.getRadarSourcesPath()}${id}`;
       }
       temp = this._fetchData(url);
-      this.setData(id, temp, origin);
+    //  console.log(temp);
+    //  this.setData(id, temp, origin);
       return temp;
-    } else {
+   // } else {
+    //  console.log(temp);
       // this is wrapped as an array or it won't show on page return, ie list -> details -> list
-      return of(temp[origin]);
-    }
+   //   return of(temp[origin]);
+   // }
   }
 
   /**

@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnDestroy, OnInit, Optional, Output, ViewChild,
   ViewEncapsulation,
   ViewRef
@@ -90,7 +91,8 @@ export class RadarChartOptions {
   selector: 'pharos-radar-chart',
   templateUrl: './radar-chart.component.html',
   styleUrls: ['./radar-chart.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 // http://amp.pharm.mssm.edu/Harmonizome/download descriptions
@@ -288,8 +290,6 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     this.width = element.offsetWidth - margin.left - margin.right;
     this.height = element.offsetHeight - margin.top - margin.bottom;
 
-    console.log(element.offsetWidth);
-    console.log(element.offsetHeight);
     // Remove whatever chart with the same id/class was present before
     d3.select(element).selectAll('svg').remove();
 

@@ -1,5 +1,5 @@
 import {
-  AfterViewInit,
+  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   EventEmitter,
   Injector,
@@ -12,12 +12,13 @@ import {
   ViewChildren,
   ViewContainerRef
 } from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, merge, zip} from 'rxjs';
 import {ComponentPortal} from '@angular/cdk/portal';
 import {PageData} from './models/page-data';
 import {MatPaginator, MatRow, MatSort, MatTableDataSource, Sort} from '@angular/material';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {DataProperty} from './components/property-display/data-property';
+import {combineLatest, forkJoin} from "rxjs";
 
 /**
  * component to show flexible data consisting of multiple data types, custom components
@@ -34,6 +35,7 @@ import {DataProperty} from './components/property-display/data-property';
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 /**
@@ -204,7 +206,10 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
   /**
    * injector for custom data
    */
-  constructor(private _injector: Injector) {
+  constructor(
+   private ref: ChangeDetectorRef,
+    private _injector: Injector
+  ) {
   }
 
   /**
@@ -212,16 +217,15 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
    * Table data is tracked by the data getter and setter
    */
   ngOnInit() {
-    this._data.subscribe(x => {
-      this.dataSource.data = this.data;
-    });
-    this._fieldsConfig.subscribe(res => {
-      this.fetchTableFields();
-    });
+   // const subscriptions = zip([this._data, this._fieldsConfig, this._pageConfig]);
 
-    this._pageConfig.subscribe(res => {
+    const subscriptions = combineLatest(this._data, this._fieldsConfig, this._pageConfig);
+
+    subscriptions.subscribe(([data, fields, page]) => {
+      this.dataSource.data = this.data;
+      this.fetchTableFields();
       this.setPage();
-    });
+    })
   }
 
   /**
@@ -238,6 +242,11 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
             this.data.sort.direction = defaultSort[0].sorted;
           }
         }*/
+  }
+
+  ngAfterViewChecked(){
+  //  this.ref.detach();
+//
   }
 
   /**
@@ -372,9 +381,11 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
    * @param field
    */
   componentAttached(component: any, index?: number, field?: DataProperty) {
+  //  console.log(component.instance);
     if (component.instance.data === null && this.data[index][field.name]) {
       component.instance.data = this.data[index][field.name];
     }
+
     if (component.instance.object) {
       component.instance.object = this.data[index];
     }
@@ -391,6 +402,13 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
         this.cellClicked(res);
       });
     }
+
+    if(component.instance.ref) {
+      this.ref.detach();
+    //  console.log("eect");
+    //  component.instance.ref.detach();
+    }
+  //  this.ref.reattach();
   }
 
   /**

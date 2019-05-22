@@ -1,3 +1,8 @@
-<button type="button" class="helppanelToggle" mat-icon-button (click)="toggle()">
+<button
+  mat-icon-button
+  [matTooltip]= "'click for section description and definitions'"
+  type="button"
+  class="helppanelToggle"
+  (click)="toggle()">
   <mat-icon>help</mat-icon>
 </button>

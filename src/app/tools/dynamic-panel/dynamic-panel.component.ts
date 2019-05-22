@@ -32,6 +32,16 @@ export class DynamicPanelComponent {
    */
   label: string;
 
+  /**
+   * description of the panel
+   */
+  description: string;
+
+  /**
+   * api sources, mainly used for the definitions
+   */
+  apiSources: any[];
+
   // todo: check to make sure all extending components are using this subject
   /**
    * Behaviour subject to allow extending class to unsubscribe on destroy

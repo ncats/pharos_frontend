@@ -6,7 +6,7 @@
          fxLayoutAlign="start stretch"
          #summary>
       <div fxFlex="95">
-      <span class="mat-title">Protein Summary</span>
+      <span class="mat-title" [matTooltip] = description>Protein Summary</span>
       </div>
       <div fxFlex="5">
       <pharos-help-panel-trigger [origin]="'summary'" [label]="'Protein Summary'"></pharos-help-panel-trigger>
@@ -15,7 +15,10 @@
     <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="space-between start">
        <div fxFlex = "30" class="synonyms">
         <ng-container *ngIf="data.synonyms?.length > 0">
-          <mat-card-subtitle>Uniprot Accession IDs</mat-card-subtitle>
+          <mat-card-subtitle
+            [matTooltip] = "getTooltip('Uniprot Accession IDs')">
+            Uniprot Accession IDs
+          </mat-card-subtitle>
           <ul class = "inline-list wrap">
             <li *ngFor=" let term of data.synonyms">
               <ncats-property-display [property] = term [showLabel]="false"></ncats-property-display><br>
@@ -24,7 +27,9 @@
         </ng-container>
         <ng-container *ngIf="data.gene?.length > 0">
           <br>
-          <mat-card-subtitle>Gene Name</mat-card-subtitle>
+          <mat-card-subtitle
+            [matTooltip] = "getTooltip('Gene Name')"
+          >Gene Name</mat-card-subtitle>
           <ul class = "inline-list wrap">
             <li *ngFor=" let term of data.gene">
               <ncats-property-display [property]= term  [showLabel]="false"></ncats-property-display>
@@ -33,7 +38,9 @@
         </ng-container>
         <ng-container *ngIf="data.ensembl?.length > 0">
           <br>
-          <mat-card-subtitle>Ensembl ID</mat-card-subtitle>
+          <mat-card-subtitle
+            [matTooltip] = "getTooltip('Ensembl ID')"
+          >Ensembl ID</mat-card-subtitle>
           <ul class = "inline-list wrap">
             <li *ngFor=" let term of data.ensembl">
               <ncats-property-display [property]= term  [showLabel]="false"></ncats-property-display>
@@ -42,7 +49,7 @@
         </ng-container>
          <ng-container *ngIf="data.symbol?.length > 0">
            <br>
-           <mat-card-subtitle>Symbol</mat-card-subtitle>
+           <mat-card-subtitle [matTooltip] = "getTooltip('Symbol')">Symbol</mat-card-subtitle>
            <ul class = "inline-list wrap">
              <li *ngFor=" let term of data.symbol">
                <ncats-property-display [property] = term [showLabel]="false"></ncats-property-display>
@@ -51,11 +58,11 @@
          </ng-container>
       </div>
       <div fxFlex="30" class = "kchart full-height" *ngIf="data.knowledge && data.knowledge.length > 0; else noDataDiv">
-        <mat-card-subtitle>Illumination Graph</mat-card-subtitle>
+        <mat-card-subtitle [matTooltip] = "getTooltip('Illumination Graph')">Illumination Graph</mat-card-subtitle>
         <pharos-radar-chart [data] = data.knowledge [shape]="false" [size] = "'medium'" (click)="openModal()" [origin]="'knowledge'"></pharos-radar-chart>
       </div>
         <div fxFlex = "30" class = "kchart full-height" *ngIf="data.knowledge && data.knowledge.length > 0; else noDataDiv">
-          <mat-card-subtitle>Knowledge Table</mat-card-subtitle>
+          <mat-card-subtitle [matTooltip] = "getTooltip('Knowledge Table')">Knowledge Table</mat-card-subtitle>
           <pharos-knowledge-table [data] = data.knowledge></pharos-knowledge-table>
         </div>
         <br>

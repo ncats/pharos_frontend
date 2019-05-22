@@ -1,11 +1,11 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {MatDialog} from '@angular/material';
-import { takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {RadarChartViewerComponent} from '../../../../../tools/radar-chart-viewer/radar-chart-viewer.component';
 import {Target} from '../../../../../models/target';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
-import {tap} from "rxjs/internal/operators";
+import {HelpDataService} from "../../../../../tools/help-panel/services/help-data.service";
 
 
 /**
@@ -32,6 +32,7 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
    * dialog for radar modal and navigation sections service
    * @param {MatDialog} dialog
    * @param {NavSectionsService} navSectionsService
+   * @param {HelpDataService} helpService
    */
   constructor(
     public dialog: MatDialog,
@@ -44,6 +45,7 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
    * fetch all of the data - most is directly displayed, so no setter function needed
    */
   ngOnInit() {
+    console.log(this);
   this._data
   // listen to data as long as term is undefined or null
   // Unsubscribe once term has value
@@ -79,6 +81,10 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
 }
+
+  getTooltip(label: string): string {
+    return this.apiSources.filter(source => source.label === label)[0].description;
+  }
 
   /**
    * clean up on leaving component

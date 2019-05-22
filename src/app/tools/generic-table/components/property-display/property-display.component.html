@@ -1,5 +1,5 @@
 <div *ngIf="property">
-  <span class="" *ngIf="showLabel"><b>{{property.label}}</b></span>
+  <span class="" *ngIf="showLabel" matTooltip="{{property.label}}"><b>{{property.label}}</b></span>
 <ng-container
   *ngIf="property.internalLink || property.externalLink || property.href; then link; else nolink">
 </ng-container>

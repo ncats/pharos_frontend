@@ -1,4 +1,7 @@
-import {Component, EventEmitter, InjectionToken, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, InjectionToken, Input, OnDestroy, OnInit,
+  Output, ViewEncapsulation
+} from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatDialog, MatTableDataSource} from '@angular/material';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
@@ -40,7 +43,9 @@ const navigationExtras: NavigationExtras = {
 @Component({
   selector: 'pharos-target-table',
   templateUrl: './target-table.component.html',
-  styleUrls: ['./target-table.component.scss']
+  styleUrls: ['./target-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 
 export class TargetTableComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
@@ -85,12 +90,12 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     new PharosProperty({
       name: 'antibodyCount',
       label: 'Antibody Count'
-    })
-    /*new PharosProperty({
+    }),
+    new PharosProperty({
       name: 'knowledgeAvailability',
       label: 'Knowledge Availability',
       customComponent: RADAR_CHART_TOKEN
-    })*/
+    })
   ];
 
   /**
@@ -155,6 +160,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
               public http: HttpClient,
               private router: Router,
               private pharosConfig: PharosConfig,
+              private ref: ChangeDetectorRef,
               public breakpointObserver: BreakpointObserver) {
     super();
   }
@@ -174,9 +180,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        console.log(x);
         if (this.data.length) {
-          console.log(this.data);
           const targets: Target[] = this.data
             .map(target => this.targetSerializer.fromJson(target));
          const targetProps = targets
@@ -184,6 +188,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
          // this.data = this.data.map(target => this.targetSerializer._asProperties(this.targetSerializer.fromJson(target)));
         //  this.dataSource.data = this.data;
           this.targets = targetProps;
+        //  this.ref.detectChanges();
           this.loading = false;
         }
       });

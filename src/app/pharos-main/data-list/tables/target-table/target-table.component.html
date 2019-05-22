@@ -1,6 +1,6 @@
 <div *ngIf="targets">
   <mat-toolbar [color]="'primary'" class="target-table-toolbar">
-      <div class = mat-display-1 *ngIf="showLabel">Targets <span *ngIf ="pageData">({{pageData.total}})</span>
+      <div class = pharos-display-1 *ngIf="showLabel">Targets <span *ngIf ="pageData">({{pageData.total}})</span>
       </div>
     <div fxFlex></div>
     <div fxFlex = "5">
@@ -35,7 +35,9 @@
   <pharos-generic-table *ngIf= "targets"
   [pageData]="pageData"
   [fieldsConfig]="fieldsData"
-  [data]="targets">
+  [data]="targets"
+  (pageChange)="changePage($event)"
+  >
   </pharos-generic-table>
 
 

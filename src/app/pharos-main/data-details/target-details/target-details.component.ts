@@ -121,6 +121,8 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
               mainDescription: component.navHeader.mainDescription ? component.navHeader.mainDescription : null
             }
           );
+          childComponent.instance.description = component.navHeader.mainDescription;
+          childComponent.instance.apiSources = component.api;
           childComponent.instance.field = component.navHeader.section;
           childComponent.instance.label = component.navHeader.label;
         }

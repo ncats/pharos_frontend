@@ -9,7 +9,7 @@
          class="tkrow"
          fxLayoutAlign="start stretch">
       <div fxFlex="95">
-        <span class="mat-title">Expression Data</span>
+        <span class="mat-title" [matTooltip] = description>Expression Data</span>
       </div>
       <div fxFlex="5">
         <pharos-help-panel-trigger [origin] = "'expression'" [label]="'Expression Data'"></pharos-help-panel-trigger>

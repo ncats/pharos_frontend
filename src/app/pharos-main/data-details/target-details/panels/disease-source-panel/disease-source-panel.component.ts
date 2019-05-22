@@ -65,7 +65,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
   sourceMap: Map<string, DiseaseRelevance[]> = new Map<string, DiseaseRelevance[]>();
   fieldsMap: Map<string, PharosProperty[]> = new Map<string, PharosProperty[]>();
   diseaseRelevanceSerializer: DiseaseRelevanceSerializer = new DiseaseRelevanceSerializer();
-  sources: string[] = [];
+  diseaseSourcesArray: string[] = [];
   fieldsData: PharosProperty[] = [];
   tinx: PharosPoint[];
   loaded = false;
@@ -126,9 +126,9 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
           this.sourceMap.set(labelProp, tempArr);
         }
       });
-      this.sources = Array.from(this.sourceMap.keys()).sort((a, b) => +(b === 'DrugCentral Indication'));
-      this.tableArr = this.sourceMap.get(this.sources[0]);
-      this.fieldsData = this.fieldsMap.get(this.sources[0]);
+      this.diseaseSourcesArray = Array.from(this.sourceMap.keys()).sort((a, b) => +(b === 'DrugCentral Indication'));
+      this.tableArr = this.sourceMap.get(this.diseaseSourcesArray[0]);
+      this.fieldsData = this.fieldsMap.get(this.diseaseSourcesArray[0]);
       this.loaded = true;
     }
 
@@ -158,8 +158,8 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
   }
 
   changeTabData(event: MatTabChangeEvent) {
-    this.tableArr = this.sourceMap.get(this.sources[event.index]);
-    this.fieldsData = this.fieldsMap.get(this.sources[event.index]);
+    this.tableArr = this.sourceMap.get(this.diseaseSourcesArray[event.index]);
+    this.fieldsData = this.fieldsMap.get(this.diseaseSourcesArray[event.index]);
   }
 
   getSourceCount(source: string): number {
