@@ -213,6 +213,7 @@ export class DataListComponent implements OnInit, OnDestroy {
    * @param event
    */
   paginationChanges(event: any) {
+    console.log(event);
       navigationExtras.queryParams = {
         page: event.pageIndex + 1,
         // top: event.pageSize,

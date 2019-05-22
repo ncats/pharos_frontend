@@ -38,7 +38,7 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
   /**
    * pagination data
    */
-  publicationPageData: PageData;
+  publicationsPageData: PageData;
 
   /**
    * pgaination data
@@ -136,6 +136,7 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
+        console.log(x);
         if (Object.values(this.data).length > 0) {
           this.ngUnsubscribe.next();
           this.setterFunction();
@@ -149,6 +150,7 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
    * create timelines if data is available
    */
   setterFunction() {
+    console.log(this);
     const publications: Publication[] = this.data.publications
       .filter(publication => publication)
       .map(publication => this.publicationSerializer.fromJson(publication));
@@ -158,7 +160,7 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
       .map(publication => publication = this.publicationSerializer._asProperties(publication));
     this.generifs = rifs
       .map(publication => publication = this.publicationSerializer._asProperties(publication));
-    this.publicationPageData = this.makePageData(this.target._publications.count);
+    this.publicationsPageData = this.makePageData(this.target._publications.count);
     this.rifPageData = this.makePageData(this.data.generifCount);
     if (this.data.pmscore) {
       const tempArr: PharosPoint[] = [];
@@ -194,11 +196,14 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
    * @param origin
    */
   paginate($event, origin: string) {
-    const url = `${this.pharosConfig.getApiPath()}targets/${this.target.accession}/${origin}?skip=${($event.pageIndex) * $event.pageSize}&top=${$event.pageSize}`;
+    console.log($event);
+    const url = `${this.pharosConfig.getApiPath()}targets/${this.target.accession}/${origin}?skip=${($event.pageIndex + 1) * $event.pageSize}&top=${$event.pageSize}`;
    // this.loading = true;
     this._http.get<Publication[]>(
       url)
       .subscribe(res => {
+        console.log(res);
+        console.log(this[`${origin}PageData`]);
         const pubs: Publication[] = res.map(pub => this.publicationSerializer.fromJson(pub));
         this[origin] = pubs.map(pub => pub = this.publicationSerializer._asProperties(pub));
      // /   this.loading = false;

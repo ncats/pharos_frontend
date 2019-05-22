@@ -1,5 +1,7 @@
 import {
-  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Injector,
@@ -12,13 +14,12 @@ import {
   ViewChildren,
   ViewContainerRef
 } from '@angular/core';
-import {BehaviorSubject, merge, zip} from 'rxjs';
+import {BehaviorSubject, combineLatest} from 'rxjs';
 import {ComponentPortal} from '@angular/cdk/portal';
 import {PageData} from './models/page-data';
 import {MatPaginator, MatRow, MatSort, MatTableDataSource, Sort} from '@angular/material';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {DataProperty} from './components/property-display/data-property';
-import {combineLatest, forkJoin} from "rxjs";
 
 /**
  * component to show flexible data consisting of multiple data types, custom components
@@ -217,14 +218,17 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
    * Table data is tracked by the data getter and setter
    */
   ngOnInit() {
+    console.log(this);
    // const subscriptions = zip([this._data, this._fieldsConfig, this._pageConfig]);
 
-    const subscriptions = combineLatest(this._data, this._fieldsConfig, this._pageConfig);
+    const subscriptions = combineLatest([this._data, this._fieldsConfig, this._pageConfig]);
 
     subscriptions.subscribe(([data, fields, page]) => {
       this.dataSource.data = this.data;
       this.fetchTableFields();
-      this.setPage();
+      if(page) {
+        this.setPage();
+      }
     })
   }
 
@@ -264,6 +268,8 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
    */
   setPage() {
     if (this.pageData && this.paginator) {
+      console.log(this.pageData);
+      console.log(this.paginator);
       this.paginator.length = this.pageData.total;
       this.paginator.pageSize = this.pageData.top;
       this.paginator.pageIndex = Math.ceil(this.pageData.skip / this.pageData.top);
