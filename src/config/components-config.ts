@@ -175,7 +175,7 @@ const TARGET_DETAILS_COMPONENT: PharosPanel = {
 const SUMMARY_PANEL: PharosPanel = {
   token: TOKENS.SUMMARY_PANEL,
   navHeader: {
-    label: 'Target Summary',
+    label: 'Protein Summary',
     section: 'summary',
     mainDescription: 'Gene symbols, accession ids and various other target identifiers. Also contains the illumination ' +
     'graph which highlights the amount of knowledge available. Click the \'?\' button for more information'
@@ -325,7 +325,7 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
   token: TOKENS.DISEASE_SOURCE_PANEL,
   navHeader: {
     label: 'Disease Associations by Source',
-    section: 'diseaseRelationships',
+    section: 'diseaseSources',
     mainDescription: 'This is a list of diseases associated with this target, compiled by several resources. Each' +
     'resource provides different confidence measurements and association values, which are described below.'
   },
