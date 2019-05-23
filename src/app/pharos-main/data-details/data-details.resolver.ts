@@ -28,7 +28,7 @@ export class DataDetailsResolver implements Resolve<any> {
    * call api - api returns through different subscriptions, so the data ins't actually returned here
    * hence the empty observable returned
    * @param {ActivatedRouteSnapshot} route
-   * @returns {Observable<any[]>}
+   * @returns {Observable<PharosBase>}
    */
     resolve(route: ActivatedRouteSnapshot): Observable<PharosBase> {
       this.loadingService.toggleVisible(true);

@@ -88,33 +88,34 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
     return this._fieldsConfig.getValue();
   }
 
-  /**
+/*  /!**
    * sets up page data as a behavior subject
    * @type {BehaviorSubject<PageData>}
    * @private
-   */
-  protected _pageConfig: BehaviorSubject<PageData> = new BehaviorSubject<PageData>({
+   *!/
+  protected _pageConfig: BehaviorSubject<PageData> = new BehaviorSubject<PageData>(/!*{
     total: 0,
     top: 0,
     skip: 0,
     count: 0
-  });
+  }*!/ null);
 
-  /**
+  /!**
    * pushes changed data to {BehaviorSubject}
-   */
+   *!/
   @Input()
   set pageData(value: PageData) {
     this._pageConfig.next(value);
   }
 
-  /**
+  /!**
    * returns value of {BehaviorSubject}
-   */
+   *!/
   get pageData(): PageData {
     return this._pageConfig.getValue();
-  }
+  }*/
 
+  @Input() pageData: PageData;
   /**
    * gets placeholder expanded row outlets
    */
@@ -218,18 +219,14 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
    * Table data is tracked by the data getter and setter
    */
   ngOnInit() {
-    console.log(this);
-   // const subscriptions = zip([this._data, this._fieldsConfig, this._pageConfig]);
+    this._data.subscribe(res => this.dataSource.data = res);
+    this._fieldsConfig.subscribe(res => this.fetchTableFields());
+  }
 
-    const subscriptions = combineLatest([this._data, this._fieldsConfig, this._pageConfig]);
-
-    subscriptions.subscribe(([data, fields, page]) => {
-      this.dataSource.data = this.data;
-      this.fetchTableFields();
-      if(page) {
-        this.setPage();
-      }
-    })
+  ngOnChanges (change) {
+    if(this.paginator) {
+      this.setPage();
+    }
   }
 
   /**
@@ -239,6 +236,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.setPage();
 
+
     /*    if (this.fieldsConfig) {
           const defaultSort = this.fieldsConfig.filter(field => field.sorted);
           if (defaultSort.length > 0) {
@@ -246,11 +244,6 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
             this.data.sort.direction = defaultSort[0].sorted;
           }
         }*/
-  }
-
-  ngAfterViewChecked(){
-  //  this.ref.detach();
-//
   }
 
   /**
@@ -267,9 +260,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
    * set default paginator values
    */
   setPage() {
-    if (this.pageData && this.paginator) {
-      console.log(this.pageData);
-      console.log(this.paginator);
+    if (this.showPaginator && this.pageData) {
       this.paginator.length = this.pageData.total;
       this.paginator.pageSize = this.pageData.top;
       this.paginator.pageIndex = Math.ceil(this.pageData.skip / this.pageData.top);

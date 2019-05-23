@@ -15,7 +15,9 @@ import {Facet} from "../models/facet";
 /**
  * main service to fetch and parse data from the pharos api
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class PharosApiService {
   /**
    * RxJs subject for facet data
@@ -181,7 +183,7 @@ export class PharosApiService {
    * @param {HttpClient} http
    * @param {PharosConfig} pharosConfig
    */
-  constructor(private http: HttpCacheService,
+  constructor(private http: HttpClient,
               private pharosConfig: PharosConfig) {
     this._URL = this.pharosConfig.getApiPath();
     this._SEARCHURLS = this.pharosConfig.getSearchPaths();
@@ -258,7 +260,7 @@ export class PharosApiService {
    * @param {ParamMap} params
    * @return {Observable<any>}
    */
-  getDataObject(path: string, params: ParamMap): Observable<PharosBase> {
+  getDataObject(path: string, params: ParamMap): Observable<any> {
     if (path === 'topics') {
      return  of(this.TOPICS[params.get('id')]);
     } else {

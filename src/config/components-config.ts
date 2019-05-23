@@ -213,7 +213,7 @@ const SUMMARY_PANEL: PharosPanel = {
     {
       field: 'knowledge',
       label: 'Illumination Graph',
-      url: _HOST + 'hg/data?type=radar-attr_type&q=_accession_',
+      url: _APIURL + 'hg/data?type=radar-attr_type&q=_accession_',
       description: 'Radar plot depicting the variety of knowledge obtained by Pharos for a particular target. ' +
       'The more spikes in the plot, the more variety. The longer the length, the higher the quantity of that particular ' +
       'knowledge. Clicking the illumination graph opens an expanded view to explore the plot fuller by seeing ' +
@@ -910,9 +910,9 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PDB_PANEL,
           EXPRESSION_PANEL,
           PROTEIN_PROTEIN_PANEL,
-          PUBLICATION_INFO_PANEL,
-          AA_SEQUENCE_PANEL,
-          TARGET_FACET_PANEL
+           PUBLICATION_INFO_PANEL,
+           AA_SEQUENCE_PANEL,
+           TARGET_FACET_PANEL
         ]
       }
     }],
