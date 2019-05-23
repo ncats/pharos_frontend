@@ -92,6 +92,8 @@ export class HelpDataService {
    * @param {string} field
    */
   setOrigin(field: string): void {
+    console.log(this);
+    console.log(this.sourcesMap);
     this.field = field;
     this._helpDescriptionSource.next(this.sourcesMap.get(field));
     this._helpDataSource.next(this.data[this.field]);
