@@ -146,9 +146,11 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    */
   @HostListener('window:resize', ['$event'])
   onResize() {
-    console.log("resize");
+    d3.select(this.chartContainer.nativeElement).selectAll('svg').remove();
     this.drawChart();
-  //  this.updateData();
+    // this.voronoiGroup.call(this.zoom);
+    this.setData();
+   // / this.reset();
   }
 
   /**
@@ -251,6 +253,8 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     const margin = this._chartOptions.margin;
     this.width = element.offsetWidth - margin.left - margin.right;
     this.height = element.offsetHeight - margin.top - margin.bottom;
+    // Remove whatever chart with the same id/class was present before
+    d3.select(element).selectAll('svg').remove();
 
     this.x = this.getScale(this._chartOptions.xAxisScale, 'x');
     this.y = this.getScale(this._chartOptions.yAxisScale, 'y');
@@ -300,8 +304,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       .tickSize(this.width)
       .tickPadding(-20 - this.width);
 
-    // Remove whatever chart with the same id/class was present before
-    d3.select(element).selectAll('svg').remove();
+
 
     this.svg = d3.select(element)
       .append('svg:svg')
@@ -426,7 +429,9 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
   setData() {
     if (this._chartOptions.xAxisScale === 'year' ) {
       d3.merge(this.displayData).map( d => {
-        d.x = new Date(d.x, 0);
+         if(typeof d.x !== 'object') {
+           d.x = new Date(d.x, 0);
+         }
         return d;
       });
     }
@@ -468,7 +473,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    */
   updateData(): void {
     if (this._chartOptions.xAxisScale === 'year' ) {
-      d3.merge(this.displayData).map( d => d.x = new Date(d.x, 0));
+     // d3.merge(this.displayData).map( d => d.x = new Date(d.x, 0));
     }
 
     const t = d3.transition()

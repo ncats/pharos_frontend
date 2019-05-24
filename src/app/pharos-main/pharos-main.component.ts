@@ -4,6 +4,7 @@ import {HelpPanelOpenerService} from '../tools/help-panel/services/help-panel-op
 import {MatDrawer, MatSidenav} from '@angular/material';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {FilterPanelComponent} from "./data-list/filter-panel/filter-panel.component";
+import {LoadingService} from "../pharos-services/loading.service";
 
 @Component({
   selector: 'pharos-pharos-main',
@@ -18,12 +19,15 @@ export class PharosMainComponent implements OnInit {
    */
   isSmallScreen = false;
 
+  loading = true;
   /**
    * check viewport size
    * @param {BreakpointObserver} breakpointObserver
+   * @param {LoadingService} loadingService
    */
   constructor(
-    public breakpointObserver: BreakpointObserver
+    public breakpointObserver: BreakpointObserver,
+    public loadingService: LoadingService
 ) {
 }
 
@@ -31,6 +35,7 @@ export class PharosMainComponent implements OnInit {
    * check screen size  and subscribe to help panel changes
    */
   ngOnInit() {
+    this.loadingService.loading$.subscribe(res=> this.loading = res);
   this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
   }
 }

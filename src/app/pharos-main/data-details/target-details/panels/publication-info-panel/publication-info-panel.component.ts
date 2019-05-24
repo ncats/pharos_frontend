@@ -137,7 +137,6 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        console.log(x);
         if (Object.values(this.data).length > 0) {
           this.ngUnsubscribe.next();
           this.setterFunction();

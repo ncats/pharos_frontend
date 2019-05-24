@@ -34,8 +34,10 @@ export class NcatsHeaderComponent {
   isActive(path: string): boolean {
     if (this.route.snapshot.data && this.route.snapshot.data.path) {
       return path === this.route.snapshot.data.path;
-    } else {
+    } else if(this.route.snapshot.url && this.route.snapshot.url.length > 0 ) {
       return path === this.route.snapshot.url[0].path;
+    } else {
+      return false;
     }
   }
 }

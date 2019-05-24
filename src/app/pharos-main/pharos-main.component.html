@@ -1,4 +1,7 @@
 <div class="pharos-main">
+  <div *ngIf=" loading" class = "loadingIcon" fxLayoutAlign="center center">
+    <mat-spinner></mat-spinner>
+  </div>
   <app-ncats-header [searchBar]=true></app-ncats-header>
       <router-outlet></router-outlet>
       <pharos-scroll-to-top></pharos-scroll-to-top>

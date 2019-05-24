@@ -5,6 +5,7 @@ import {FaqPageComponent} from './faq-page/faq-page.component';
 import {ApiPageComponent} from './api-page/api-page.component';
 import {StructureSearchPageComponent} from './structure-search-page/structure-search-page.component';
 import {SequenceSearchPageComponent} from './sequence-search-page/sequence-search-page.component';
+import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 
 
 
@@ -12,10 +13,6 @@ const ROUTES: Routes = [
   {
     path: 'index',
     loadChildren: './pharos-home/pharos-home.module#PharosHomeModule',
-  },
-  { path: '',
-    redirectTo: '/index',
-    pathMatch: 'full'
   },
   {
     path: 'about',
@@ -67,7 +64,14 @@ const ROUTES: Routes = [
     path: 'search',
     loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
     data: { path: 'search' }
-  }
+  },
+  { path: '',
+    redirectTo: '/index',
+    pathMatch: 'full'
+  },
+  { path: '**',
+    redirectTo: '/index'
+  },
 ];
 
 @NgModule({

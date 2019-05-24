@@ -85,7 +85,7 @@ export class DataListComponent implements OnInit, OnDestroy {
               public breakpointObserver: BreakpointObserver,
   private facetRetrieverService: FacetRetrieverService,
               private dataListResolver: DataListResolver,
-              private loadingService: LoadingService,
+              public loadingService: LoadingService,
               private helpPanelOpenerService: HelpPanelOpenerService,
               private pharosConfig: PharosConfig,
               private componentInjectorService: ComponentInjectorService) {}

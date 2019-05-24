@@ -20,6 +20,7 @@ import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {CommonToolsModule} from './tools/common-tools.module';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {CommonToolsModule} from './tools/common-tools.module';
     FaqPageComponent,
     ApiPageComponent,
     StructureSearchPageComponent,
-    SequenceSearchPageComponent
+    SequenceSearchPageComponent,
+    PageNotFoundComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [

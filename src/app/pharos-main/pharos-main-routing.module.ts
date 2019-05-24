@@ -54,12 +54,12 @@ const pharosMainRoutes: Routes = [
 
 @NgModule({
   imports: [
+    TargetDetailsModule,
     SharedModule.forRoot(),
     CommonToolsModule,
     SharedListModule,
     DiseaseTableModule,
     SharedDetailsModule,
-    TargetDetailsModule,
     LigandDetailsModule,
     NcatsFdgModule,
     RouterModule.forChild(pharosMainRoutes)

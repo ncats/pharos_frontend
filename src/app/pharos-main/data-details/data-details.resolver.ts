@@ -19,7 +19,7 @@ export class DataDetailsResolver implements Resolve<any> {
    * @param {PharosApiService} pharosApiService
    */
     constructor(private pathResolverService: PathResolverService,
-                private loadingService: LoadingService,
+                public loadingService: LoadingService,
                 private pharosApiService: PharosApiService) {  }
 
   /**

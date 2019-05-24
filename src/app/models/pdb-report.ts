@@ -68,6 +68,7 @@ export class PdbReportSerializer implements PharosSerializer {
   fromJson(json: any): PdbReportData {
     const obj = new PdbReportData();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
+    obj.activities = [];
     if (json.EC50) {
       obj.activities.push(`EC50: ${json.EC50}`);
     }
