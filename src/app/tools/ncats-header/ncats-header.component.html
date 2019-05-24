@@ -2,15 +2,15 @@
   <mat-sidenav #mobilesidenav class="mobile-menu-panel"
                [position]="'end'"
                [fixedInViewport]= true [fixedTopGap]="60">
-    <button mat-button routerLink="/targets" class="nav-menu-button">Targets</button>
-    <button mat-button routerLink="/diseases" class="nav-menu-button">Diseases</button>
-    <button  mat-button routerLink="/ligands" class="nav-menu-button">Ligands</button>
+    <button mat-button routerLink="/targets" class="nav-menu-button" [ngClass]="{active: isActive('targets')}">Targets</button>
+    <button mat-button routerLink="/diseases" class="nav-menu-button" [ngClass]="{active: isActive('diseases')}">Diseases</button>
+    <button  mat-button routerLink="/ligands" class="nav-menu-button" [ngClass]="{active: isActive('ligands')}">Ligands</button>
 <!--
     <button mat-button routerLink="/topics" class="nav-menu-button">Topics</button>
 -->
-    <button mat-button routerLink="/api" class="nav-menu-button">API</button>
-    <button  mat-button routerLink="/about" class="nav-menu-button">About</button>
-    <button  mat-button routerLink="/faq" class="nav-menu-button">FAQ</button>
+    <button mat-button routerLink="/api" class="nav-menu-button" [ngClass]="{active: isActive('api')}">API</button>
+    <button  mat-button routerLink="/about" class="nav-menu-button" [ngClass]="{active: isActive('about')}">About</button>
+    <button  mat-button routerLink="/faq" class="nav-menu-button" [ngClass]="{active: isActive('faq')}">FAQ</button>
     <pharos-search-component class="mobile-search"></pharos-search-component>
   </mat-sidenav>
 
@@ -18,15 +18,15 @@
   <img *ngIf="animationState === 'out'" src="./assets/images/Pharos_Logo_Rd8-white.svg" routerLink="/index" alt="Pharos logo" class="pharos-logo">
   <img *ngIf="animationState === 'in'" src="./assets/images/Pharos_Logo_Rd8.svg" routerLink="/index" alt="Pharos logo" class="pharos-logo">
   <div id="links" fxHide.lt-md>
-    <a mat-button routerLink="/targets">Targets</a>
-    <a mat-button routerLink="/diseases">Diseases</a>
-    <a mat-button routerLink="/ligands">Ligands</a>
+    <a mat-button routerLink="/targets" [ngClass]="{active: isActive('targets')}">Targets</a>
+    <a mat-button routerLink="/diseases" [ngClass]="{active: isActive('diseases')}">Diseases</a>
+    <a mat-button routerLink="/ligands" [ngClass]="{active: isActive('ligands')}">Ligands</a>
 <!--
     <a mat-button routerLink="/topics">Topics</a>
 -->
-    <a mat-button routerLink="/api">API</a>
-    <a mat-button routerLink="/about">About</a>
-    <a mat-button routerLink="/faq">FAQ</a>
+    <a mat-button routerLink="/api" [ngClass]="{active: isActive('api')}">API</a>
+    <a mat-button routerLink="/about" [ngClass]="{active: isActive('about')}">About</a>
+    <a mat-button routerLink="/faq" [ngClass]="{active: isActive('faq')}">FAQ</a>
   </div>
   <span class="fill-remaining-space"></span>
     <pharos-search-component [fxHide.lt-md]="true" [placeholderStr]="'search'" *ngIf=searchBar></pharos-search-component>
