@@ -135,6 +135,11 @@ export class TOKENS {
    * Injection token for ligands header component
    */
   public static LIGAND_HEADER_COMPONENT = new InjectionToken<string>('LigandHeaderComponent');
+
+  /**
+   * Injection token for ligands description component
+   */
+  public static LIGAND_DESCRIPTION_COMPONENT = new InjectionToken<string>('LigandDescriptionComponent');
   /**
    * injection token to link to synonyms data
    */

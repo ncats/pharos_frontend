@@ -75,9 +75,7 @@ export class HelpPanelComponent implements OnInit {
    * subscribe to dat asource changes and parse data object
    */
   ngOnInit() {
-    console.log(this);
     this.helpDataService.sources$.subscribe(res => {
-      console.log(res);
       if (res) {
         this.sources = res.sources;
         this.description = res.mainDescription;

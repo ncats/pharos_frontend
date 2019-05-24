@@ -34,7 +34,7 @@ export class PathResolverService {
    * @type {BehaviorSubject<any[]>}
    * @private
    */
-  private _facetSource = new BehaviorSubject<any[]>(this._facets);
+  private _facetSource = new Subject<any[]>();
 
   /**
    * Observable stream for path changes
@@ -134,29 +134,33 @@ export class PathResolverService {
    * @param {ParamMap} map
    */
   mapToFacets(map: ParamMap): void {
-    const fList = map.getAll('facet');
-    fList.forEach(facet => {
-      const fArr = facet.split('/');
-      const facetName: string = fArr[0].replace(/\+/g, ' ');
-      const fieldName: string = decodeURI(fArr[1])
-        .replace('%2F', '/')
-        .replace('%2C', ',')
-        .replace('%3A', ':');
-      const fields = this._facetMap.get(facetName);
-      if (fields) {
-        fields.push(fieldName);
-        this._facetMap.set(facetName, Array.from(new Set(fields)));
-      } else {
-        this._facetMap.set(facetName, [fieldName]);
+    if(map.keys.length === 0) {
+      this._facetMap.clear();
+    } else {
+      const fList = map.getAll('facet');
+      fList.forEach(facet => {
+        const fArr = facet.split('/');
+        const facetName: string = fArr[0].replace(/\+/g, ' ');
+        const fieldName: string = decodeURI(fArr[1])
+          .replace('%2F', '/')
+          .replace('%2C', ',')
+          .replace('%3A', ':');
+        const fields = this._facetMap.get(facetName);
+        if (fields) {
+          fields.push(fieldName);
+          this._facetMap.set(facetName, Array.from(new Set(fields)));
+        } else {
+          this._facetMap.set(facetName, [fieldName]);
+        }
+      });
+      let qList = map.getAll('q');
+      // this cleans up the emtpy searches that return blank facets
+      if (qList.length > 0) {
+        qList = qList.map(q => q.replace(/"/g, '').replace(/\+/g, ' '));
+        this._facetMap.set('query', qList);
       }
-    });
-    let qList = map.getAll('q');
-    // this cleans up the emtpy searches that return blank facets
-    if (qList.length > 0) {
-      qList = qList.map(q => q.replace(/"/g, '').replace(/\+/g, ' '));
-      this._facetMap.set('query', qList);
+      this._flattenMap();
     }
-    this._flattenMap();
   }
 
   /**

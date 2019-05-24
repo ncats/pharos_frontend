@@ -18,7 +18,7 @@ import {PharosConfig} from '../../../../config/pharos-config';
 @Component({
   selector: 'pharos-disease-details',
   templateUrl: './disease-details.component.html',
-  styleUrls: ['./disease-details.component.css']
+  styleUrls: ['./disease-details.component.scss']
 })
 export class DiseaseDetailsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   /**

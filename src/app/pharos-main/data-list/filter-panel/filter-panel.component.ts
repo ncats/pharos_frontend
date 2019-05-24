@@ -1,4 +1,7 @@
-import {ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit,
+  Output
+} from '@angular/core';
 import {Facet} from '../../../models/facet';
 import {Subject} from 'rxjs';
 import {PathResolverService} from '../../../pharos-services/path-resolver.service';
@@ -68,11 +71,13 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
   /**
    * set up services to get facets
    * @param {PathResolverService} pathResolverService
+   * @param {ChangeDetectorRef} ref
    * @param {FacetRetrieverService} facetRetrieverService
    * @param {PharosConfig} pharosConfig
    */
   constructor(
               private pathResolverService: PathResolverService,
+              private ref: ChangeDetectorRef,
               private facetRetrieverService: FacetRetrieverService,
               private pharosConfig: PharosConfig) { }
 
@@ -81,22 +86,25 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     */
   ngOnInit() {
     this.loading = true;
-    console.log(this);
     const flist = this.pharosConfig.getFacets(this.pathResolverService.getPath());
     this.facetRetrieverService.getAllFacets().subscribe(facets => {
       if(facets) {
-        console.log(facets);
         this.filteredFacets = [];
         this.allFacets = Array.from(facets.values());
-        this.filteredFacets = flist.map(f => {
+       flist.forEach(f => {
           const facet = facets.get(f.name);
-          facet.label = f.label;
-          return facet;
+          if(facet) {
+            facet.label = f.label;
+            this.filteredFacets.push(facet);
+          }
         });
         this.loading = false;
         this.facets = this.filteredFacets;
+
+       // this.ref.markForCheck();
       }
     });
+    this.loading = false;
   }
 
   /**

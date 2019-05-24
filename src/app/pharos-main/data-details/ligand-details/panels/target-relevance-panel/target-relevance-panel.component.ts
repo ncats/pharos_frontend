@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {PharosProperty} from '../../../../models/pharos-property';
-import {DynamicTablePanelComponent} from '../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
+import {PharosProperty} from '../../../../../models/pharos-property';
+import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 
 /**
  * shows what targets the ligand was tested on
@@ -90,6 +90,7 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
                 target.properties.filter(prop => prop.label === data.activity.term)[0] :
                 data.activity
             );
+            data.target.internalLink = `/targets/${data.target.term}`;
             this.tableArr.push(data);
           });
         }

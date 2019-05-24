@@ -84,7 +84,6 @@ export class PharosConfig {
   /**
    * returns the url for the structure image
    * the component finishes the url with the uuid and '.svg':
-   * _HOST +'struc',
    * @return {string}
    */
    getStructureImageUrl(): string {

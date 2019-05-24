@@ -80,7 +80,6 @@ interface PharosPanel {
 
 /**
  * pharos host url
- * todo might not want to bring environment variables into play here
  * @type {string}
  * @private
  */
@@ -338,7 +337,7 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
     }, {
       field: 'tinx',
       label: 'Disease Novelty (Tinx)',
-      url: _HOST + 'tinx/target/_accession_',
+      url: _APIURL + 'tinx/target/_accession_',
       description: 'TIN-X is an interactive visualization tool for discovering interesting associations between diseases ' +
       'and potential drug targets.',
       article: ARTICLES.TINX_ARTICLE
@@ -667,7 +666,7 @@ const DISEASE_DETAILS_COMPONENT: PharosPanel = {
 };
 
 /**
- * list of targets associated ith a disease component
+ * list of targets associated with a disease component
  * @type {PharosPanel}
  */
 const TARGET_LIST_PANEL: PharosPanel = {
@@ -675,6 +674,7 @@ const TARGET_LIST_PANEL: PharosPanel = {
   api: [
     {
       field: 'targets',
+      label: 'Related Targets',
       url: _APIURL + 'diseases/_id_/links(kind=ix.idg.models.Target)?top=10'
     }
   ]
@@ -713,6 +713,21 @@ const LIGAND_DETAILS_COMPONENT: PharosPanel = {
 const LIGAND_HEADER_COMPONENT: PharosPanel = {
   token: TOKENS.LIGAND_HEADER_COMPONENT,
   api: []
+};
+
+/**
+ * ligand description component
+ * @type {PharosPanel}
+ */
+const LIGAND_DESCRIPTION_COMPONENT: PharosPanel = {
+  token: TOKENS.LIGAND_DESCRIPTION_COMPONENT,
+  api: [
+    {
+      field: 'description',
+     // url: _APIURL + 'targets/_id_/properties(label=NCBI%20Gene%20Summary)'
+      description: 'Description of the ligand.'
+    }
+  ]
 };
 
 /**
@@ -784,7 +799,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           TARGET_TABLE_COMPONENT
         ]
       },
-      default: _HOST + _API + 'targets/search?top=10&skip=0',
+      default: _APIURL + 'targets/search?top=10&skip=0',
       facets: [
         {
           name: 'IDG Development Level',
@@ -922,7 +937,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           DISEASE_TABLE_COMPONENT
         ]
       },
-      default: _HOST + _API + 'diseases/search?top=10&skip=0',
+      default: _APIURL + 'diseases/search?top=10&skip=0',
       facets: [
         {
           name: 'IDG Development Level',
@@ -935,14 +950,6 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
         {
           name: 'IDG Drug',
           label: 'Drug'
-        },
-        {
-          name: 'IMPC Term',
-          label: 'IMPC Term'
-        },
-        {
-          name: 'IDG Disease',
-          label: 'Disease'
         },
         {
           name: 'Data Source',
@@ -959,21 +966,17 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
             name: 'IDG Development Level',
             label: 'Development Level'
           },
-          /* {
-             name: 'IMPC Term',
-             label: 'IMPC Term'
-           },*/
-          {
-            name: 'IDG Disease',
-            label: 'Disease'
-          },
-          {
-            name: 'IDG Tissue',
-            label: 'Tissue'
-          },
           {
             name: 'IDG Target Family',
             label: 'Target Family'
+          },
+          {
+            name: 'Data Source',
+            label: 'Data Source'
+          },
+          {
+            name: 'DisGeNET Source',
+            label: 'DisGeNET Source'
           }
         ],
         sunburst: [],
@@ -998,7 +1001,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           LIGAND_TABLE_COMPONENT
         ]
       },
-      default: _HOST + _API + 'ligands/search?top=20&skip=0&view=full',
+      default: _APIURL + 'ligands/search?top=20&skip=0&view=full',
       facets: [
         {
           name: 'IDG Development Level',
@@ -1011,10 +1014,6 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
         {
           name: 'IDG Target',
           label: 'Target'
-        },
-        {
-          name: 'Selectivity',
-          label: 'Selectivity'
         },
         {
           name: 'Pharmalogical Action',
@@ -1043,10 +1042,6 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
             name: 'IDG Target',
             label: 'Target'
           },
-          /*        {
-                    name: 'Selectivity',
-                    label: 'Selectivity'
-                  },*/
           {
             name: 'Pharmalogical Action',
             label: 'Pharmalogical Action'
@@ -1116,19 +1111,19 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       api: [
         {
           field: 'targets',
-          url: _HOST + _API + 'targets/search?q='
+          url: _APIURL + 'targets/search?q='
         },
         {
           field: 'diseases',
-          url: _HOST + _API + 'diseases/search?q='
+          url: _APIURL + 'diseases/search?q='
         },
         {
           field: 'ligands',
-          url: _HOST + _API + 'ligands/search?view=full&q='
+          url: _APIURL + 'ligands/search?view=full&q='
         },
         {
           field: 'publications',
-          url: _HOST + _API + 'publications/search?q='
+          url: _APIURL + 'publications/search?q='
         }
       ],
       facets: [

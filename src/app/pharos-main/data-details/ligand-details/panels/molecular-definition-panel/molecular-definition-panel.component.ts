@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
+import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {HttpClient} from '@angular/common/http';
 
 @Component({

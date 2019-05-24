@@ -57,10 +57,12 @@ export class DataListVisualizationsComponent implements OnInit {
       if(facets  && facets.size > 0) {
         if (this.chartFacets.donut.length > 0) {
           this.filteredFacets = [];
-          this.filteredFacets = this.chartFacets.donut.map(f => {
+          this.chartFacets.donut.forEach(f => {
             const facet = facets.get(f.name);
-            facet.label = f.label;
-            return facet;
+            if(facet) {
+              facet.label = f.label;
+              this.filteredFacets.push(facet);
+            }
           });
           this.donutData = this.filteredFacets[0];
         }

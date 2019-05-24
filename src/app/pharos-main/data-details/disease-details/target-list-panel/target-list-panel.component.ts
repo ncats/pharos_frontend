@@ -12,21 +12,20 @@ export class TargetListPanelComponent extends DynamicPanelComponent implements O
   fields: PharosProperty[] = [
     new PharosProperty( {
       name: 'target',
-      label: 'IDG Target',
-      sortable: true,
-      internalLink: true
+      label: 'IDG Target'
     }),
     new PharosProperty( {
       name: 'developmentLevel',
-      label: 'IDG Development Level',
-      sortable: true,
-      externalLink: true
+      label: 'IDG Development Level'
     }),
     new PharosProperty({
       name: 'targetFamily',
-      label: 'Target Family',
-      sortable: true
-    })
+      label: 'Target Family'
+    }),
+    new PharosProperty({
+      name: 'dataSource',
+      label: 'Data Source'
+    }),
   ];
 
   tableArr: any[] = [];
@@ -51,16 +50,19 @@ export class TargetListPanelComponent extends DynamicPanelComponent implements O
         if (this.data.targets && this.data.targets.length > 0) {
           this.tableArr = [];
           this.data.targets.forEach(target => {
+            console.log(target);
             const data = {
              target: new PharosProperty({
                 name: 'target',
                 label: 'Target',
+                term: target.name,
                 sortable: true,
                 internalLink: true
               }),
             //  target: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target')[0]),
               developmentLevel: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Development Level')[0]),
               targetFamily: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target Family')[0]),
+              dataSource: new PharosProperty(target.properties.filter(prop => prop.label === 'Data Source')[0]),
             };
             this.tableArr.push(data);
           });
