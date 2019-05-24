@@ -146,8 +146,9 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    */
   @HostListener('window:resize', ['$event'])
   onResize() {
+    console.log("resize");
     this.drawChart();
-    this.updateData();
+  //  this.updateData();
   }
 
   /**

@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnChanges, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {PharosConfig} from '../../../../../config/pharos-config';
 import {Target} from '../../../../models/target';
@@ -39,6 +39,7 @@ export class TargetCardComponent implements OnInit, OnChanges {
    * @param {PharosConfig} pharosConfig
    */
   constructor(private http: HttpClient,
+              private ref: ChangeDetectorRef,
               private pharosConfig: PharosConfig) {
     this._apiUrl = this.pharosConfig.getRadarPath();
 
@@ -48,8 +49,13 @@ export class TargetCardComponent implements OnInit, OnChanges {
    * if target exists, fetch radar chart data
    */
   ngOnInit() {
+    console.log(this);
     if (this.target) {
-      this.http.get(`${this._apiUrl}${this.target.accession}`).subscribe( res => this.knowledge = res);
+      console.log(this.target);
+      this.http.get(`${this._apiUrl}${this.target.accession}`).subscribe( res => {
+        this.knowledge = res;
+        this.ref.markForCheck();
+      });
     }
   }
 

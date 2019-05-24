@@ -47,6 +47,8 @@ export class InjectedRadarChartComponent implements InjectedComponent, OnInit {
   protected ngUnsubscribe: Subject<any> = new Subject();
 
   constructor(
+    // todo: this prevents excessive re-injection of the radar chart, but breaks the tooltip
+   // private ref: ChangeDetectorRef
   ) { }
 
   ngOnInit() {

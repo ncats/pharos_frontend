@@ -7,7 +7,7 @@
   <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center" class="tools-row">
     <span class="mat-headline facet-title">Refine by Category</span>
   </div>
-  <div fxLayout="row" fxLayoutAlign="space-around center" class="tools-row">
+  <div fxLayout="row" fxLayoutAlign="space-between center" class="tools-row">
     <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
       <mat-spinner></mat-spinner>
     </div>
@@ -23,8 +23,7 @@
       </button>
       </ng-template>
     </div>
-    <div fxFlex></div>
-    <div fxFlex="30" class =" clear-all">
+    <div fxFlex="30" class =" clear-all" fxLayoutAlign="end">
       <mat-chip-list class="mat-chip-list">
         <mat-chip [selected]="'true'" [color]="'warn'" (click)="removeAll()">
           <span>Clear All</span>

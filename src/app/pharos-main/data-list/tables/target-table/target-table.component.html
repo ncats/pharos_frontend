@@ -25,88 +25,33 @@
   <div fxFlex="45" fxLayoutAlign.lt-sm="center">
 
   </div>
-<!--  <div fxFlex="45" fxFlexAlign="end">
+  <div fxFlex="45" fxFlexAlign="end">
     <pharos-custom-paginator
       [pageData]="pageData"
       (page)="changePage($event)">
     </pharos-custom-paginator>
-  </div>-->
+  </div>
 </div>
+  <div *ngIf="!isSmallScreen">
   <pharos-generic-table *ngIf = "targets"
   [pageData]="pageData"
-  [fieldsConfig]="fieldsData"
+  [showPaginator]="false"
+                        [fieldsConfig]="fieldsData"
   [data]="targets"
-  (pageChange)="changePage($event)"
-  >
+  (sortChange)="changeSort($event)"
+  (pageChange)="changePage($event)">
   </pharos-generic-table>
-
-
-
-<!--
-<mat-table [dataSource]="dataSource" fxHide.lt-sm matSort (matSortChange)="changeSort($event)" *ngIf="dataSource.data">
-  <ng-container matColumnDef="name">
-        <mat-header-cell fxFlex="35" *matHeaderCellDef>Name</mat-header-cell>
-        <mat-cell fxFlex="35" *matCellDef="let row">
-         <a routerLink='/targets/{{row.accession}}' >{{row.name}} </a>
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="gene">
-        <mat-header-cell *matHeaderCellDef>Gene</mat-header-cell>
-        <mat-cell *matCellDef="let row">
-         <a routerLink='/targets/{{row.gene}}' >{{row.gene}} </a>
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="idgTDL">
-        <mat-header-cell *matHeaderCellDef>Development Level </mat-header-cell>
-        <mat-cell *matCellDef="let row">
-          <pharos-idg-level-indicator [level] = row.idgTDL></pharos-idg-level-indicator>
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="idgFamily">
-        <mat-header-cell *matHeaderCellDef>Target Family</mat-header-cell>
-        <mat-cell *matCellDef="let row">
-          {{row.idgFamily}}
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="novelty">
-        <mat-header-cell fxFlex="5" fxHide.lt-md *matHeaderCellDef mat-sort-header>Log Novelty </mat-header-cell>
-        <mat-cell fxFlex="5" fxHide.lt-md *matCellDef="let row">
-          {{row.novelty?.toFixed(2) || ''}}
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="jensenScore">
-        <mat-header-cell fxFlex="5" fxHide.lt-md *matHeaderCellDef mat-sort-header>Pubmed Score </mat-header-cell>
-        <mat-cell fxFlex="5" fxHide.lt-md *matCellDef="let row">
-          {{row.jensenScore?.toFixed(2) || ''}}
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="antibodyCount">
-        <mat-header-cell fxFlex="5" fxHide.lt-md *matHeaderCellDef mat-sort-header>Antibody Count </mat-header-cell>
-        <mat-cell fxFlex="5" fxHide.lt-md *matCellDef="let row">
-          {{row.antibodyCount || ''}}
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="knowledgeAvailability">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Knowledge Availability</mat-header-cell>
-        <mat-cell *matCellDef="let row" class = "small-radar">
-          <pharos-radar-chart [id]="row.accession" [size]="'small'" [origin]="'knowledge'" *ngIf="!loading"></pharos-radar-chart>
-        </mat-cell>
-      </ng-container>
-      <mat-header-row *matHeaderRowDef="displayColumns, sticky: true"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayColumns;" class = "small-radar">
-      </mat-row>
-    </mat-table>
--->
-<!--<div class ="target-grid" fxHide fxShow.lt-sm *ngIf="isSmallScreen">
-  <div *ngFor="let target of dataSource.connect() | async">
+  </div>
+<div class ="target-grid" *ngIf="isSmallScreen">
+  <div *ngFor="let target of targetObjs">
     <pharos-target-card [target]="target"></pharos-target-card>
   </div>
-</div>-->
-<!--<div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
+</div>
+<div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
   <div fxFlex="45">
   </div>
   <div fxFlex="45" fxFlexAlign="end">
     <pharos-custom-paginator [pageData]="pageData" (page)="changePage($event)"></pharos-custom-paginator>
   </div>
-</div>-->
+</div>
 </div>

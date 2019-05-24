@@ -9,10 +9,18 @@
                    [opened]="isSmallScreen!==true">
         <!-- sidenav content -->
         <pharos-sidenav-panel
+          (closeClick)="navpanel.toggle()"
           [activeElement] = activeElement>
         </pharos-sidenav-panel>
       </mat-sidenav>
       <mat-sidenav-content role="main" class="target-details-content" id="scrollspy-main">
+        <div fxLayout="row" fxLayoutAlign="start start" class="sidenav-buttons">
+          <div fxFlex="5">
+            <button type="button"  *ngIf="!navpanel.opened" class="sidenavToggle" mat-raised-button [color]="'primary'" (click)="navpanel.toggle()">
+              Show Shortcuts <mat-icon>filter_list</mat-icon>
+            </button>
+          </div>
+        </div>
         <ng-template appPharosCustomContent ></ng-template>
       </mat-sidenav-content>
       <pharos-scroll-to-top></pharos-scroll-to-top>

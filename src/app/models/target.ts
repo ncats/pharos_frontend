@@ -209,6 +209,12 @@ export class TargetSerializer implements PharosSerializer {
     newObj.gene.internalLink = `targets/${obj.gene}`;
     return newObj;
   }
+
+  _fromProperties(properties: any): Target {
+    const target = new Target();
+    Object.keys(properties).forEach(prop => target[prop] = properties[prop].term);
+    return target;
+  }
 }
 
 

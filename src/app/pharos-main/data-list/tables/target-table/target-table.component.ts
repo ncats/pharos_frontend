@@ -86,16 +86,19 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     new PharosProperty({
       name: 'novelty',
       label: 'Log Novelty',
+      sortable: true,
       width: '7vw'
     }),
     new PharosProperty({
       name: 'jensenScore',
       label: 'Pubmed Score',
+      sortable: true,
       width: '7vw'
     }),
     new PharosProperty({
       name: 'antibodyCount',
       label: 'Antibody Count',
+      sortable: true,
       width: '7vw'
     }),
     new PharosProperty({
@@ -156,6 +159,8 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
 
   targetSerializer: TargetSerializer = new TargetSerializer();
 
+  targetObjs: Target[];
+
   /**
    * set up dependencies
    * @param {MatDialog} dialog
@@ -188,9 +193,9 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       )
       .subscribe(x => {
         if (this.data.length) {
-          const targets: Target[] = this.data
+          this.targetObjs = this.data
             .map(target => this.targetSerializer.fromJson(target));
-         const targetProps = targets
+         const targetProps = this.targetObjs
             .map(target => target = this.targetSerializer._asProperties(target));
          // this.data = this.data.map(target => this.targetSerializer._asProperties(this.targetSerializer.fromJson(target)));
         //  this.dataSource.data = this.data;
@@ -279,6 +284,8 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   saveTargets() {
     console.log(this.rowSelection.selected);
   }
+
+  convertTarget
 
   /**
    * clean up
