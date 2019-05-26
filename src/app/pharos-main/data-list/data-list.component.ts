@@ -220,14 +220,11 @@ export class DataListComponent implements OnInit, OnDestroy {
     console.log(event);
       navigationExtras.queryParams = {
         page: event.pageIndex + 1,
+        rows: event.pageSize
         // top: event.pageSize,
        // skip: event.pageIndex * event.pageSize,
       };
-      if (event.pageSize !== 10) {
-        navigationExtras.queryParams.rows = event.pageSize;
-      }
-   // navigationExtras.queryParams = {top: event.pageSize, skip: event.pageIndex * event.pageSize};
-    this._navigate(navigationExtras);
+      this._navigate(navigationExtras);
   }
 
   /**
