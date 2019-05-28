@@ -4,7 +4,7 @@ import {BehaviorSubject, forkJoin, Observable, of, Subject} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {ParamMap} from '@angular/router';
 import {Topic} from '../models/topic';
-import {map} from 'rxjs/internal/operators';
+import {map, tap} from 'rxjs/internal/operators';
 import {PharosConfig} from '../../config/pharos-config';
 import {HttpCacheService} from "./http-cache.service";
 import {PharosBase} from "../models/pharos-base";
@@ -261,12 +261,15 @@ export class PharosApiService {
    * @return {Observable<any>}
    */
   getDataObject(path: string, params: ParamMap): Observable<any> {
+    console.log("getting data object")
     if (path === 'topics') {
      return  of(this.TOPICS[params.get('id')]);
     } else {
       const url = `${this._URL}${path}/${params.get('id')}`;
+
       return this.http.get<PharosBase>(url)
         .pipe(
+          tap(res=> console.log(res)),
           catchError(this.handleError('getDataObject', []))
         );
     }

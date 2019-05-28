@@ -35,6 +35,7 @@ export class PharosMainComponent implements OnInit {
    * check screen size  and subscribe to help panel changes
    */
   ngOnInit() {
+    console.log("loading main component")
     this.loadingService.loading$.subscribe(res=> this.loading = res);
   this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
   }

@@ -167,6 +167,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * @param {HttpClient} http
    * @param {Router} router
    * @param {PharosConfig} pharosConfig
+   * @param {ChangeDetectorRef} ref
    * @param {BreakpointObserver} breakpointObserver
    */
   constructor(public dialog: MatDialog,

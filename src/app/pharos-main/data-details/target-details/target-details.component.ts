@@ -91,6 +91,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
    * this data object is then injected into the dynamic component
    */
   ngOnInit() {
+    console.log("laoding target details component");
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
     const components: any = this.pharosConfig.getComponents(this.path, this.target.idgTDL.toLowerCase());
     if (components) {
@@ -143,6 +144,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
                 else if(val['content'] && val['content'].length === 0){count--} // this one covers ppi section
               });
               if (count === 0 && component.navHeader) {
+                console.log("clean sidenav");
                this.sections = this.sections.filter(section => section.section !== component.navHeader.section);
                 this.navSectionsService.setSections(this.sections);
                 childComponent.destroy();
