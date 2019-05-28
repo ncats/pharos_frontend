@@ -14,7 +14,9 @@ import {PharosConfig} from '../../../../config/pharos-config';
 @Component({
   selector: 'pharos-filter-panel',
   templateUrl: './filter-panel.component.html',
-  styleUrls: ['./filter-panel.component.scss']
+  styleUrls: ['./filter-panel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class FilterPanelComponent implements OnInit, OnDestroy {
   /**
@@ -101,7 +103,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
         this.loading = false;
         this.facets = this.filteredFacets;
 
-       // this.ref.markForCheck();
+        this.ref.markForCheck();
       }
     });
     this.loading = false;

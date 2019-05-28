@@ -32,7 +32,6 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
    * dialog for radar modal and navigation sections service
    * @param {MatDialog} dialog
    * @param {NavSectionsService} navSectionsService
-   * @param {HelpDataService} helpService
    */
   constructor(
     public dialog: MatDialog,

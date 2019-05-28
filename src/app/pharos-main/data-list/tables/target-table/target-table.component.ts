@@ -140,6 +140,12 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   @Input() showLabel = true;
 
   /**
+   * show the colored toolbar, which includes target list functionality
+   * @type {boolean}
+   */
+  @Input() showToolbar = true;
+
+  /**
    * checks for mobile view to toggle small card view
    * @type {boolean}
    */

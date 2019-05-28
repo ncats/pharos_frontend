@@ -21,7 +21,8 @@ private _list: any[] = [];
     this._list = [];
     if (values) {
       values.forEach(prop => {
-        this._list.push({term: prop.term, internalLink: prop.internalLink})
+        // todo - make link
+        this._list.push(prop)
       });
     }
     // set the latest value for _data BehaviorSubject

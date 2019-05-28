@@ -71,6 +71,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
    * subscribe to data changes and set data when it arrives
    */
   ngOnInit() {
+    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -130,16 +131,29 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
         .filter(link => link.kind === 'ix.idg.models.Target')
         .map(target => this._getActivity(target));
       // .sort(activity => activity.target !== this.target.gene);
-      const refid: string = ligand.links.filter(link => link.kind === 'ix.core.models.Structure')[0].refid;
-      const lig = this.ligandSerializer.fromJson({
-        name: ligand.name,
-        refid: refid,
-        activities: activity,
-        imageUrl: `${this._STRUCTUREURLBASE}${refid}.svg?size=250`,
-        internalUrl: `/idg/ligands/${ligand.id}`
-      });
-      ligandsArr.push(lig);
+      const strucProp = ligand.links.filter(link => link.kind === 'ix.core.models.Structure')[0];
+      console.log(strucProp);
+      if(strucProp) {
+        const refid: string = strucProp.refid;
+        const lig = this.ligandSerializer.fromJson({
+          name: ligand.name,
+          refid: refid,
+          activities: activity,
+          imageUrl: `${this._STRUCTUREURLBASE}${refid}.svg?size=250`,
+          internalUrl: `/idg/ligands/${ligand.id}`
+        });
+        ligandsArr.push(lig);
+      } else {
+        const lig = this.ligandSerializer.fromJson({
+          name: ligand.name,
+          imageUrl: null,
+          activities: activity,
+          internalUrl: `/idg/ligands/${ligand.id}`
+        });
+        ligandsArr.push(lig);
+      }
 
+      console.log(ligandsArr);
       this.dataSource.data = ligandsArr;
     });
   }

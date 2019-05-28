@@ -42,7 +42,7 @@ export class DataProperty {
   /**
    * internal pharos link
    */
-  internalLink?: string;
+  internalLink?: string[];
 
   /**
    * link to external source, displayed with icon
@@ -64,6 +64,12 @@ export class DataProperty {
    * token for a custom component
    */
   customComponent?: InjectionToken<any>;
+
+
+  /**
+   * pass a query params object for a routerLink
+   */
+  queryParams?: any;
 
   /**
    * deconstruct json as dataproperty object

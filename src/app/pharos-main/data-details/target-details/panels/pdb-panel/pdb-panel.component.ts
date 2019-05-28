@@ -138,14 +138,14 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
     const terms = this.data.pdb.map(pdb => pdb = pdb.term);
     this._http.get(REPORT_URL + terms.join(','), {responseType: 'text'}).subscribe(res => {
         this.csvJSON(res);
-        this.reports = this.reports
+       /* this.reports = this.reports
           .filter(entry => entry.ligandId);
-
+*/
       this.pageData = this.makePageData(this.reports.length);
       this.tableArr = this.reports
           .slice(this.pageData.skip, this.pageData.top)
         .map(report => this.pdbReportSerializer._asProperties(report));
-      this.pdbid = this.tableArr[0].structureId['term'];
+        this.pdbid = this.tableArr.length ? this.tableArr[0].structureId['term'] : '';
       this.ref.detectChanges();
     });
   }

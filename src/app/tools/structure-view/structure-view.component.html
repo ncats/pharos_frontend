@@ -1,1 +1,7 @@
+<div *ngIf= "data && url; else placeholder">
 <img [src] = url alt = "chemical structure image" class="ligand-image">
+</div>
+<ng-template #placeholder>
+  <img [src] = "'assets/images/resource-types/smallMolecule.png'"
+       alt = "no chemical structure image available" class="resource-thumb">
+</ng-template>

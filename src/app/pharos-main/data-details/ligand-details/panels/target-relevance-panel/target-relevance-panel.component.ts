@@ -21,8 +21,7 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
     new PharosProperty( {
       name: 'target',
       label: 'IDG Target',
-      sortable: true,
-      internalLink: true
+      sortable: true
     }),
     new PharosProperty( {
       name: 'developmentLevel',
@@ -90,7 +89,7 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
                 target.properties.filter(prop => prop.label === data.activity.term)[0] :
                 data.activity
             );
-            data.target.internalLink = `/targets/${data.target.term}`;
+            data.target.internalLink = ['targets', data.target.term as string];
             this.tableArr.push(data);
           });
         }

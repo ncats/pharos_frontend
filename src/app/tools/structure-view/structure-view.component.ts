@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {PharosConfig} from '../../../config/pharos-config';
 import {BehaviorSubject} from 'rxjs/index';
 import {takeWhile} from 'rxjs/internal/operators';
@@ -46,9 +46,11 @@ export class StructureViewComponent implements OnInit {
   /**
    * grab config to fetch the image urls
    * @param {PharosConfig} pharosConfig
+   * @param {ChangeDetectorRef} ref
    */
   constructor(
-    private pharosConfig: PharosConfig
+    private pharosConfig: PharosConfig,
+    private ref: ChangeDetectorRef
   ) {
   }
 
@@ -66,7 +68,12 @@ export class StructureViewComponent implements OnInit {
       )
       .subscribe(x => {
         if (!this.url) {
+          console.log(this.data.term);
+          if(this.data.term !== ' '){
           this.url = `${this.pharosConfig.getApiPath()}render/${this.parseSmiles(this.data.term)}?size=150`;
+        } else {
+          this.url = './assets/images/resource-types/smallMolecule.png'
+          }
         }
       });
   }

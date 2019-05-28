@@ -82,8 +82,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     new PharosProperty({
       name: 'IDG Disease',
       label: 'Disease',
-      sortable: true,
-      internalLink: true
+      sortable: true
     }),
 
     new PharosProperty({

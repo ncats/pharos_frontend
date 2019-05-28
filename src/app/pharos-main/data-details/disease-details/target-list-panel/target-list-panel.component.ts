@@ -55,8 +55,7 @@ export class TargetListPanelComponent extends DynamicPanelComponent implements O
                 name: 'target',
                 label: 'Target',
                 term: target.name,
-                sortable: true,
-                internalLink: true
+                sortable: true
               }),
             //  target: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target')[0]),
               developmentLevel: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Development Level')[0]),

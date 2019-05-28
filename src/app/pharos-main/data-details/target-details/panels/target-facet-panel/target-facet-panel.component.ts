@@ -83,7 +83,9 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
                 new PharosProperty({
                   term: facet.term,
                  // href: facet.href, // todo: remove when this is standardized
-                  internalLink: 'targets?facet=' + facet.label.replace( / /g, '+') + '/' + facet.term.replace(/ /g, '+')
+                  internalLink: ['/targets'],
+                  queryParams: {facet: `${facet.label}/${facet.term}`}
+
                 }),
            //   count: new PharosProperty({intval: 0}),
               externalLink:
