@@ -4,6 +4,7 @@ import {GenericTableComponent} from './generic-table.component';
 import {MaterialModule} from '../../../assets/material/material.module';
 import {PropertyDisplayComponent} from './components/property-display/property-display.component';
 import {FlexLayoutModule} from "@angular/flex-layout";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     PropertyDisplayComponent
   ],
   imports: [
+    RouterModule,
     CommonModule,
     MaterialModule,
     FlexLayoutModule

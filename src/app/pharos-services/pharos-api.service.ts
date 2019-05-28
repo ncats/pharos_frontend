@@ -261,7 +261,6 @@ export class PharosApiService {
    * @return {Observable<any>}
    */
   getDataObject(path: string, params: ParamMap): Observable<any> {
-    console.log("getting data object")
     if (path === 'topics') {
      return  of(this.TOPICS[params.get('id')]);
     } else {
@@ -269,7 +268,6 @@ export class PharosApiService {
 
       return this.http.get<PharosBase>(url)
         .pipe(
-          tap(res=> console.log(res)),
           catchError(this.handleError('getDataObject', []))
         );
     }

@@ -366,7 +366,6 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
    * @param field
    */
   componentAttached(component: any, index?: number, field?: DataProperty) {
-  //  console.log(component.instance);
     if (component.instance.data === null && this.data[index][field.name]) {
       component.instance.data = this.data[index][field.name];
     }

@@ -9,7 +9,7 @@
     *ngIf="property.href || property.internalLink; then facet; else externalLink">
   </ng-container>
   <ng-template #facet>
-    <a href="{{property.internalLink || property.href}}">{{property.term}}</a>
+    <a routerLink="{{property.internalLink || property.href}}">{{property.term}}</a>
     <!--<a href="{{property.internalLink}}">{{property.getData()}}</a>-->
   </ng-template>
   <ng-template #externalLink>

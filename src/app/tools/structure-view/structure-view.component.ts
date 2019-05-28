@@ -77,7 +77,6 @@ export class StructureViewComponent implements OnInit {
    * @return {string}
    */
   private parseSmiles(smiles: any): string {
-    //  console.log(smiles);
     const parsed = smiles
       .replace(/[;]/g, '%3B')
       .replace(/[#]/g, '%23')

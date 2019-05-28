@@ -18,8 +18,7 @@ const TABLEMAP: Map<string, PharosProperty> = new Map<string, PharosProperty>(
     ['IDG Disease',  new PharosProperty({
       name: 'disease',
       label: 'Disease',
-      sortable: true,
-      internalLink: true
+      sortable: true
     })
     ], [
     'IDG Evidence', new PharosProperty( {

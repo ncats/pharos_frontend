@@ -50,7 +50,6 @@ export class TargetListPanelComponent extends DynamicPanelComponent implements O
         if (this.data.targets && this.data.targets.length > 0) {
           this.tableArr = [];
           this.data.targets.forEach(target => {
-            console.log(target);
             const data = {
              target: new PharosProperty({
                 name: 'target',

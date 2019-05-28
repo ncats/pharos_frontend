@@ -52,4 +52,14 @@ export class PropertyDisplayComponent implements OnInit {
       )
       .subscribe(x => x);
   }
+
+  getLink():string {
+/*    if (this.property.href) {
+      console.log(this.property.href)
+      return this.property.href;
+    }
+     else */if(this.property.internalLink) {
+      return this.property.internalLink;
+    }
+  }
 }

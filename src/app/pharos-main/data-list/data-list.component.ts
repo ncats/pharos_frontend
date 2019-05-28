@@ -133,7 +133,6 @@ export class DataListComponent implements OnInit, OnDestroy {
                                     dynamicComponent.instance.pageData = new PageData(dataList.data);
                   if (dynamicComponent.instance.sortChange) {
                                     dynamicComponent.instance.sortChange.subscribe((event) => {
-                                      console.log(event);
                                       this.sortTable(event);
                                       // todo sort arrows are not staying after column select
                                     });
@@ -217,7 +216,6 @@ export class DataListComponent implements OnInit, OnDestroy {
    * @param event
    */
   paginationChanges(event: any) {
-    console.log(event);
       navigationExtras.queryParams = {
         page: event.pageIndex + 1,
         rows: event.pageSize

@@ -20,7 +20,9 @@ private _list: any[] = [];
   set list(values: PharosProperty[]) {
     this._list = [];
     if (values) {
-      values.forEach(prop => this._list.push({term: prop.term, href: prop.href}));
+      values.forEach(prop => {
+        this._list.push({term: prop.term, internalLink: prop.internalLink})
+      });
     }
     // set the latest value for _data BehaviorSubject
    // this._list = value;

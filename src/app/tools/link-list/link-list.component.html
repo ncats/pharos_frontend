@@ -5,8 +5,8 @@
   <mat-card-content>
 <mat-list>
   <mat-list-item *ngFor = "let item of list | slice:0:9">
-    <div *ngIf = "item.href; else noLink">
-      <a href = {{item.href}} target="_blank">{{item.term}}</a>
+    <div *ngIf = "item.internalLink; else noLink">
+      <a href = {{item.internalLink}} target="_blank">{{item.term}}</a>
     </div>
     <ng-template #noLink>{{item.term}}</ng-template>
   </mat-list-item>

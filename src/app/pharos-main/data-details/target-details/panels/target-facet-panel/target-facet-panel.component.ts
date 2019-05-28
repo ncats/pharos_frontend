@@ -82,7 +82,7 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
               field:
                 new PharosProperty({
                   term: facet.term,
-                  href: facet.href, // todo: remove when this is standardized
+                 // href: facet.href, // todo: remove when this is standardized
                   internalLink: 'targets?facet=' + facet.label.replace( / /g, '+') + '/' + facet.term.replace(/ /g, '+')
                 }),
            //   count: new PharosProperty({intval: 0}),

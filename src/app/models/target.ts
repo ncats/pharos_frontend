@@ -205,8 +205,8 @@ export class TargetSerializer implements PharosSerializer {
       newObj[field] = property;
     });
    // newObj._name.internalLink = obj.uuid;
-    newObj.name.internalLink = `targets/${obj.accession}`;
-    newObj.gene.internalLink = `targets/${obj.gene}`;
+    newObj.name.internalLink = `${obj.accession}`;
+    newObj.gene.internalLink = `${obj.gene}`;
     return newObj;
   }
 

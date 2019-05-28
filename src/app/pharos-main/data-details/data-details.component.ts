@@ -87,7 +87,6 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
    * set up subscriptions to watch help panel, data responses and router event changes
    */
   ngOnInit() {
-    console.log("laofind detail component");
     if (!this.componentsLoaded) {
       this.makeComponents();
     }

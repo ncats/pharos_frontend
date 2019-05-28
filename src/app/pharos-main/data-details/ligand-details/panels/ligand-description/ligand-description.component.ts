@@ -16,7 +16,6 @@ export class LigandDescriptionComponent extends DynamicPanelComponent implements
   }
 
   ngOnInit() {
-    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -25,7 +24,6 @@ export class LigandDescriptionComponent extends DynamicPanelComponent implements
         //    takeWhile(() => !this.data['references'])
       )
       .subscribe(x => {
-        console.log(this.data);
         if(this.ligand) {
           this.description = this.ligand.description;
         }

@@ -49,9 +49,7 @@ export class TargetCardComponent implements OnInit, OnChanges {
    * if target exists, fetch radar chart data
    */
   ngOnInit() {
-    console.log(this);
     if (this.target) {
-      console.log(this.target);
       this.http.get(`${this._apiUrl}${this.target.accession}`).subscribe( res => {
         this.knowledge = res;
         this.ref.markForCheck();
