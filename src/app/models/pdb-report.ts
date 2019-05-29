@@ -108,7 +108,7 @@ export class PdbReportSerializer implements PharosSerializer {
       const property: PharosProperty = new PharosProperty({name: field, label: field, term: obj[field]});
       newObj[field] = property;
     });
-    if (newObj.pubmedId) {
+    if (obj.pubmedId) {
       newObj.pubmedId.externalLink = `http://www.ncbi.nlm.nih.gov/pubmed/${obj.pubmedId}`;
     }
     return newObj;

@@ -124,7 +124,7 @@ export class LigandSerializer implements PharosSerializer {
    * @return {any}
    * @private
    */
-  _asProperties<T extends PharosBase>(obj: PharosBase): any {
+  _asProperties<T extends PharosBase>(obj: Ligand): any {
     const newObj: any = {};
     Object.keys(obj).map(field => {
       const property: PharosProperty = {name: field, label: field, term: obj[field]};

@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {MatTableDataSource} from '@angular/material';
 import {Ligand, LigandSerializer} from '../../../../../models/ligand';
@@ -15,7 +15,8 @@ import {PharosConfig} from '../../../../../../config/pharos-config';
 @Component({
   selector: 'pharos-ligands-panel',
   templateUrl: './ligands-panel.component.html',
-  styleUrls: ['./ligands-panel.component.scss']
+  styleUrls: ['./ligands-panel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LigandsPanelComponent extends DynamicPanelComponent implements OnInit {
   /**
@@ -44,6 +45,8 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
    * @type {LigandSerializer}
    */
   ligandSerializer: LigandSerializer = new LigandSerializer();
+
+  ligandsList: any[] = [];
 
   /**
    * most of these dependencies handle the pagination of the data
@@ -98,7 +101,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
         count: 10
       });
     this._mapLigands(this.data[this.field]);
-    this.changeDetector.detectChanges();
+    this.changeDetector.markForCheck();
   }
 
   /**
@@ -127,35 +130,36 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
   private _mapLigands(data: any[]): void {
     const ligandsArr: Ligand[] = [];
     data.forEach(ligand => {
+      console.log(ligand);
       const activity: any = ligand.links
         .filter(link => link.kind === 'ix.idg.models.Target')
         .map(target => this._getActivity(target));
       // .sort(activity => activity.target !== this.target.gene);
       const strucProp = ligand.links.filter(link => link.kind === 'ix.core.models.Structure')[0];
       console.log(strucProp);
+      let lig: Ligand;
       if(strucProp) {
         const refid: string = strucProp.refid;
-        const lig = this.ligandSerializer.fromJson({
+         lig = this.ligandSerializer.fromJson({
           name: ligand.name,
           refid: refid,
           activities: activity,
           imageUrl: `${this._STRUCTUREURLBASE}${refid}.svg?size=250`,
           internalUrl: `/idg/ligands/${ligand.id}`
         });
-        ligandsArr.push(lig);
       } else {
-        const lig = this.ligandSerializer.fromJson({
+         lig = this.ligandSerializer.fromJson({
           name: ligand.name,
           imageUrl: null,
           activities: activity,
           internalUrl: `/idg/ligands/${ligand.id}`
         });
-        ligandsArr.push(lig);
       }
-
-      console.log(ligandsArr);
-      this.dataSource.data = ligandsArr;
+      console.log(lig);
+      ligandsArr.push(lig);
     });
+    console.log(ligandsArr);
+    this.ligandsList = ligandsArr;
   }
 
   /**

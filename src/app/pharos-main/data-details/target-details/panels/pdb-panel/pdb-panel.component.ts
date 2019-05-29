@@ -26,7 +26,7 @@ const REPORT_URL = 'https://www.rcsb.org/pdb/rest/customReport.csv?customReportC
 @Component({
   selector: 'pharos-pdb-panel',
   templateUrl: './pdb-panel.component.html',
-  styleUrls: ['./pdb-panel.component.sass']
+  styleUrls: ['./pdb-panel.component.scss']
 })
 export class PdbPanelComponent extends DynamicTablePanelComponent implements OnInit {
 

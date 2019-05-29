@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {PharosConfig} from '../../../config/pharos-config';
 import {BehaviorSubject} from 'rxjs/index';
 import {takeWhile} from 'rxjs/internal/operators';
@@ -10,7 +10,8 @@ import {PharosProperty} from '../../models/pharos-property';
 @Component({
   selector: 'pharos-structure-view',
   templateUrl: './structure-view.component.html',
-  styleUrls: ['./structure-view.component.scss']
+  styleUrls: ['./structure-view.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class StructureViewComponent implements OnInit {
 
@@ -68,11 +69,11 @@ export class StructureViewComponent implements OnInit {
       )
       .subscribe(x => {
         if (!this.url) {
-          console.log(this.data.term);
-          if(this.data.term !== ' '){
+          console.log(this.data);
+          if(this.data.term){
           this.url = `${this.pharosConfig.getApiPath()}render/${this.parseSmiles(this.data.term)}?size=150`;
         } else {
-          this.url = './assets/images/resource-types/smallMolecule.png'
+          this.url = null;
           }
         }
       });
