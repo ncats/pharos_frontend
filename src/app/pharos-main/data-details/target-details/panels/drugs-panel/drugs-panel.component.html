@@ -1,18 +1,18 @@
 <mat-card id = {{field}}
           class="section-card"
-          *ngIf = "ligandsList.length > 0"
+          *ngIf = "drugsList.length > 0"
           (pharosScrollspy)="active(field)"
-          #ligands #drugs>
+           #drugs>
   <mat-card-content>
     <mat-card-title>
       <span class="mat-title"
             [matTooltip] = description
             [matTooltipClass] = "'pharos-tooltip'"
-      >{{label}} ({{data.ligandcount}})</span>
+      >{{label}} ({{data.drugscount}})</span>
     </mat-card-title>
 
     <mat-paginator
-      #ligandPaginator
+      #drugPaginator
       [pageSize]="10"
       [pageSizeOptions]="[10, 20, 50]"
                    [hidePageSize]="hidePageSize"
@@ -26,8 +26,8 @@
         [pageSizeOptions]="[10, 20, 60, 100]"
         (page)="paginate($event)"></mat-paginator>-->
     <div class ="structure-grid">
-    <div *ngFor="let ligand of ligandsList">
-      <pharos-ligand-card [ligand]="ligand" [target]="target"></pharos-ligand-card>
+    <div *ngFor="let drug of drugsList">
+      <pharos-ligand-card [ligand]="drug" [target]="target"></pharos-ligand-card>
     </div>
     </div>
   </mat-card-content>

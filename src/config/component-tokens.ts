@@ -93,9 +93,14 @@ export class TOKENS {
    */
   public static PROTEIN_PROTEIN_PANEL = new InjectionToken<string>('ProteinProteinPanelComponent');
   /**
-   * injection token to link to amino acid sequence data
+   * injection token to link to active ligand data
    */
   public static LIGANDS_PANEL = new InjectionToken<string>('LigandPanelComponent');
+
+  /**
+   * injection token to link to approved drug data
+   */
+  public static DRUGS_PANEL = new InjectionToken<string>('DrugsPanelComponent');
   /**
    * injection token to link to the other facets for a specific target
    */

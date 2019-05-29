@@ -367,8 +367,8 @@ const LIGANDS_PANEL: PharosPanel = {
       article: ARTICLES.LIGAND_ACTIVITY_ARTICLE
     },
     {
-      field: 'count',
-      label: 'Ligands Ligands',
+      field: 'ligandcount',
+      label: 'Ligands Count',
       url: _APIURL + 'targets/_id_/ligands/@count',
       description: 'Ligands associated with a target, listed in ChEMBL, with activity over a cutoff relative to the target' +
       'class.'
@@ -381,7 +381,7 @@ const LIGANDS_PANEL: PharosPanel = {
  * @type {PharosPanel}
  */
 const DRUGS_PANEL: PharosPanel = {
-  token: TOKENS.LIGANDS_PANEL,
+  token: TOKENS.DRUGS_PANEL,
   navHeader: {
     label: 'Approved Drugs',
     section: 'drugs',
@@ -396,7 +396,7 @@ const DRUGS_PANEL: PharosPanel = {
       'The order is based on reported pKd or pKi.'
     },
     {
-      field: 'count',
+      field: 'drugscount',
       label: 'Drugs Count',
       url: _APIURL + 'targets/_id_/drugs/@count',
       description: 'Approved drugs associated with a target.'

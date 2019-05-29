@@ -13,23 +13,23 @@ import {HttpClient} from '@angular/common/http';
 import {PharosConfig} from '../../../../../../config/pharos-config';
 
 /**
- * panel to generically display ligands as a pageable list of ligand cards
+ * panel to generically display drugs as a pageable list of drug cards
  */
 @Component({
-  selector: 'pharos-ligands-panel',
-  templateUrl: './ligands-panel.component.html',
-  styleUrls: ['./ligands-panel.component.scss']
+  selector: 'pharos-drugs-panel',
+  templateUrl: './drugs-panel.component.html',
+  styleUrls: ['./drugs-panel.component.scss']
 })
-export class LigandsPanelComponent extends DynamicPanelComponent implements OnInit, OnChanges, AfterViewInit {
+export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit, OnChanges, AfterViewInit {
   /**
    * Paginator object from Angular Material
    * */
-  @ViewChild('ligandPaginator', {read: MatPaginator}) set matPaginator(mp: MatPaginator) {
-    this.ligandPaginator = mp;
+  @ViewChild('drugPaginator', {read: MatPaginator}) set matPaginator(mp: MatPaginator) {
+    this.drugPaginator = mp;
     this.setPage();
   }
 
-  ligandPaginator: MatPaginator;
+  drugPaginator: MatPaginator;
 
   /**
    * target object
@@ -37,7 +37,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
   @Input() target: Target;
 
   /**
-   * data source used to page the ligand list
+   * data source used to page the drug list
    * @type {MatTableDataSource<Ligand>}
    */
   dataSource: MatTableDataSource<Ligand> = new MatTableDataSource<Ligand>();
@@ -53,12 +53,12 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
   private _STRUCTUREURLBASE: string;
 
   /**
-   * serializer to map ligands
+   * serializer to map drugs
    * @type {LigandSerializer}
    */
-  ligandSerializer: LigandSerializer = new LigandSerializer();
+  drugSerializer: LigandSerializer = new LigandSerializer();
 
-  ligandsList: any[] = [];
+  drugsList: any[] = [];
 
   /**
    * most of these dependencies handle the pagination of the data
@@ -98,7 +98,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
             {
               top: 10,
               skip: 0,
-              total: this.data.ligandcount,
+              total: this.data.drugscount,
               count: 10
             });
           this.ngUnsubscribe.next();
@@ -108,7 +108,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
   }
 
   ngOnChanges (change) {
-    if(this.ligandPaginator) {
+    if(this.drugPaginator) {
       this.setPage();
     }
   }
@@ -121,16 +121,16 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
     this.setPage();
   }
 
-  /**
+  /**s
    * create page data object and map data
    */
   setterFunction(): void {
-    this._mapLigands(this.data[this.field]);
+    this._mapDrugs(this.data[this.field]);
     this.changeDetector.markForCheck();
   }
 
   /**
-   * call api to get next page of ligands and map the response
+   * call api to get next page of drugs and map the response
    * @param $event
    */
   paginate($event) {
@@ -141,47 +141,47 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
     this._http.get<Ligand[]>(
       url)
       .subscribe(res => {
-        this._mapLigands(res);
+        this._mapDrugs(res);
         this.pageData.skip = $event.pageIndex * $event.pageSize;
         this.loading = false;
       });
   }
 
   /**
-   * filters out ligand activity values
-   * uses ligand serializer to map ligand object
+   * filters out drug activity values
+   * uses drug serializer to map drug object
    * @param {any[]} data
    * @private
    */
-  private _mapLigands(data: any[]): void {
-    const ligandsArr: Ligand[] = [];
-    data.forEach(ligand => {
-      const activity: any = ligand.links
+  private _mapDrugs(data: any[]): void {
+    const drugsArr: Ligand[] = [];
+    data.forEach(drug => {
+      const activity: any = drug.links
         .filter(link => link.kind === 'ix.idg.models.Target')
         .map(target => this._getActivity(target));
       // .sort(activity => activity.target !== this.target.gene);
-      const strucProp = ligand.links.filter(link => link.kind === 'ix.core.models.Structure')[0];
+      const strucProp = drug.links.filter(link => link.kind === 'ix.core.models.Structure')[0];
       let lig: Ligand;
       if(strucProp) {
         const refid: string = strucProp.refid;
-         lig = this.ligandSerializer.fromJson({
-          name: ligand.name,
+         lig = this.drugSerializer.fromJson({
+          name: drug.name,
           refid: refid,
           activities: activity,
           imageUrl: `${this._STRUCTUREURLBASE}${refid}.svg?size=250`,
-          internalUrl: `/idg/ligands/${ligand.id}`
+          internalUrl: `/idg/ligands/${drug.id}`
         });
       } else {
-         lig = this.ligandSerializer.fromJson({
-          name: ligand.name,
+         lig = this.drugSerializer.fromJson({
+          name: drug.name,
           imageUrl: null,
           activities: activity,
-          internalUrl: `/idg/ligands/${ligand.id}`
+          internalUrl: `/idg/ligands/${drug.id}`
         });
       }
-      ligandsArr.push(lig);
+      drugsArr.push(lig);
     });
-    this.ligandsList = ligandsArr;
+    this.drugsList = drugsArr;
   }
 
   /**
@@ -189,36 +189,36 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
    */
   setPage() {
     if (this.pageData) {
-      this.ligandPaginator.length = this.pageData.total;
-      this.ligandPaginator.pageSize = this.pageData.top;
-      this.ligandPaginator.pageIndex = Math.ceil(this.pageData.skip / this.pageData.top);
+      this.drugPaginator.length = this.pageData.total;
+      this.drugPaginator.pageSize = this.pageData.top;
+      this.drugPaginator.pageIndex = Math.ceil(this.pageData.skip / this.pageData.top);
     }
   }
 
   /**
-   * filters ligand activities from a ligand object
-   * @param ligand
+   * filters drug activities from a drug object
+   * @param drug
    * @return {any}
    * @private
    */
-  private _getActivity(ligand: any): any {
+  private _getActivity(drug: any): any {
     let otherActivity: any;
     const ret: any[] = [];
     const na = {label: 'N/A', numval: ''};
-    ligand.properties.filter(prop => {
+    drug.properties.filter(prop => {
       if (prop.label === 'Ligand Activity') {
         otherActivity = {
-          activity: ligand.properties.filter(p => p.label === prop.term)[0],
-          target: ligand.properties.filter(p => p.label === 'IDG Target')[0].term,
-          targetFamily: ligand.properties.filter(p => p.label === 'IDG Target Family')[0].term,
-          idgLevel: ligand.properties.filter(p => p.label === 'IDG Development Level')[0].term,
+          activity: drug.properties.filter(p => p.label === prop.term)[0],
+          target: drug.properties.filter(p => p.label === 'IDG Target')[0].term,
+          targetFamily: drug.properties.filter(p => p.label === 'IDG Target Family')[0].term,
+          idgLevel: drug.properties.filter(p => p.label === 'IDG Development Level')[0].term,
         };
       } else if (prop.label === 'Pharmalogical Action') {
         otherActivity = {
           activity: prop,
-          target: ligand.properties.filter(p => p.label === 'IDG Target')[0].term,
-          targetFamily: ligand.properties.filter(p => p.label === 'IDG Target Family')[0].term,
-          idgLevel: ligand.properties.filter(p => p.label === 'IDG Development Level')[0].term,
+          target: drug.properties.filter(p => p.label === 'IDG Target')[0].term,
+          targetFamily: drug.properties.filter(p => p.label === 'IDG Target Family')[0].term,
+          idgLevel: drug.properties.filter(p => p.label === 'IDG Development Level')[0].term,
         };
       }
     });

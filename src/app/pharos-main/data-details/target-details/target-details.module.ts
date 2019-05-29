@@ -27,6 +27,7 @@ import {DiseaseTableModule} from '../../data-list/tables/disease-table/disease-t
 import {LigandCardComponent} from '../../data-list/cards/ligand-card/ligand-card.component';
 import {LigandTableModule} from '../../data-list/tables/ligand-table/ligand-table.module';
 import {StructureViewComponent} from '../../../tools/structure-view/structure-view.component';
+import {DrugsPanelComponent} from "./panels/drugs-panel/drugs-panel.component";
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {StructureViewComponent} from '../../../tools/structure-view/structure-vi
     GeneSummaryComponent,
     TargetFacetPanelComponent,
     IdgResourcesPanelComponent,
-    LigandsPanelComponent
+    LigandsPanelComponent,
+    DrugsPanelComponent
   ],
   imports: [
     CommonModule,
@@ -76,7 +78,8 @@ import {StructureViewComponent} from '../../../tools/structure-view/structure-vi
     RadarChartViewerComponent,
     IdgResourcesPanelComponent,
     LigandsPanelComponent,
-    StructureViewComponent
+    StructureViewComponent,
+    DrugsPanelComponent
   ],
   providers: [
     // breadcrumb
@@ -96,6 +99,7 @@ import {StructureViewComponent} from '../../../tools/structure-view/structure-vi
     {provide: TOKENS.ASSAY_PANEL, useValue: AssayPanelComponent},
     {provide: TOKENS.AA_SEQUENCE_PANEL, useValue: AaSequencePanelComponent},
     {provide: TOKENS.LIGANDS_PANEL, useValue: LigandsPanelComponent},
+    {provide: TOKENS.DRUGS_PANEL, useValue: DrugsPanelComponent},
     {provide: TOKENS.PDB_PANEL, useValue: PdbPanelComponent},
     {provide: STRUCTURE_VIEW_TOKEN, useValue: StructureViewComponent}
   ]
