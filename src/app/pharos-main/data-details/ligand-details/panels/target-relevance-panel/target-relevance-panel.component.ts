@@ -89,7 +89,7 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
                 target.properties.filter(prop => prop.label === data.activity.term)[0] :
                 data.activity
             );
-            data.target.internalLink = ['targets', data.target.term as string];
+            data.target.internalLink = ['/targets', data.target.term as string];
             this.tableArr.push(data);
           });
         }

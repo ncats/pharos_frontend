@@ -337,7 +337,6 @@ export class PharosApiService {
       }
     } else {
       str = this._URL + (path !== 'search' ? path + '/' : '')  + 'search?';
-      // str = this._URL + (path !== 'search' ? path + '?' : 'search?');
       params.keys.map(key => {
         params.getAll(key).map(val => {
           switch (key) {
@@ -346,6 +345,7 @@ export class PharosApiService {
               if (rows) {
                 strArr.push('top=' + rows);
               } else {
+                strArr.push('top=' + 10);
                 strArr.push('skip=' + 10 * (+val - 1));
               }
               break;
@@ -359,6 +359,7 @@ export class PharosApiService {
             }
             default: {
               strArr.push(key + '=' + val);
+              strArr.push('top=' + 10);
               break;
             }
           }

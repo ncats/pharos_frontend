@@ -96,7 +96,7 @@ export class PathResolverService {
        */
       const navigationExtras: NavigationExtras = {
         queryParams: {
-          top: null,
+          top: 10,
           skip: null
         },
         queryParamsHandling: ''
