@@ -1,6 +1,9 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {
+  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges,
+  OnInit, ViewChild
+} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {Ligand, LigandSerializer} from '../../../../../models/ligand';
 import {PageData} from '../../../../../models/page-data';
 import {takeUntil} from 'rxjs/operators';
@@ -18,7 +21,12 @@ import {PharosConfig} from '../../../../../../config/pharos-config';
   styleUrls: ['./ligands-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LigandsPanelComponent extends DynamicPanelComponent implements OnInit {
+export class LigandsPanelComponent extends DynamicPanelComponent implements OnInit, OnChanges, AfterViewInit {
+  /**
+   * Paginator object from Angular Material
+   * */
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   /**
    * target object
    */
@@ -89,6 +97,20 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
       });
   }
 
+  ngOnChanges (change) {
+    if(this.paginator) {
+      this.setPage();
+    }
+  }
+
+  /**
+   * set the sort and paginators
+   * since the total is not know, it needs to be manually set based on the page data passes in
+   */
+  ngAfterViewInit() {
+    this.setPage();
+  }
+
   /**
    * create page data object and map data
    */
@@ -101,6 +123,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
         count: 10
       });
     this._mapLigands(this.data[this.field]);
+    this.setPage();
     this.changeDetector.markForCheck();
   }
 
@@ -160,6 +183,18 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
     });
     console.log(ligandsArr);
     this.ligandsList = ligandsArr;
+  }
+
+  /**
+   * set default paginator values
+   */
+  setPage() {
+    if (this.paginator && this.pageData) {
+      console.log(this.pageData);
+      this.paginator.length = this.pageData.total;
+      this.paginator.pageSize = this.pageData.top;
+      this.paginator.pageIndex = Math.ceil(this.pageData.skip / this.pageData.top);
+    }
   }
 
   /**

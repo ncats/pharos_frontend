@@ -69,11 +69,10 @@ export class StructureViewComponent implements OnInit {
       )
       .subscribe(x => {
         if (!this.url) {
-          console.log(this.data);
-          if(this.data.term){
-          this.url = `${this.pharosConfig.getApiPath()}render/${this.parseSmiles(this.data.term)}?size=150`;
-        } else {
-          this.url = null;
+          if(this.data.term === ''){
+            this.url = null;
+          } else {
+            this.url = `${this.pharosConfig.getApiPath()}render/${this.parseSmiles(this.data.term)}?size=150`;
           }
         }
       });

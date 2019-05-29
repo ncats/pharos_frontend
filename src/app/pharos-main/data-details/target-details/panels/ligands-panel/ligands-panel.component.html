@@ -9,7 +9,7 @@
     </mat-card-title>
 
     <mat-paginator
-      *ngIf = "ligandsList.length > 0"
+      #paginator
       [pageSize]="10"
       [pageSizeOptions]="[10, 20, 50]"
                    [hidePageSize]="hidePageSize"
