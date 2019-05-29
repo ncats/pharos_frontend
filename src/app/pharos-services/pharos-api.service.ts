@@ -359,7 +359,6 @@ export class PharosApiService {
             }
             default: {
               strArr.push(key + '=' + val);
-              strArr.push('top=' + 10);
               break;
             }
           }

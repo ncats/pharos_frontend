@@ -96,15 +96,17 @@ export class PathResolverService {
        */
       const navigationExtras: NavigationExtras = {
         queryParams: {
-          top: 10,
+          top: null,
           skip: null
         },
         queryParamsHandling: ''
       };
 
       if (q) {
+        console.log("query");
         navigationExtras.queryParams.q = q;
-        navigationExtras.queryParams.facet = facetList.length > 0 ? facetList : null;
+        navigationExtras.queryParams.facet = null;
+        console.log(navigationExtras);
       } else {
         navigationExtras.queryParams.facet = facetList.length > 0 ? facetList : null;
       }
