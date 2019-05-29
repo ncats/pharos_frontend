@@ -1,6 +1,10 @@
 <mat-card class="full-height">
   <mat-card-header>
-    <mat-card-title ><span class="mat-title" [matTooltip] = description>Assay ({{data.assays?.length}})</span></mat-card-title>
+    <mat-card-title >
+      <span class="mat-title"
+      [matTooltip] = description
+            [matTooltipClass] = "'pharos-tooltip'">
+        Assay ({{data.assays?.length}})</span></mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <mat-paginator #paginator

@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {MatDialog} from '@angular/material';
 import {takeUntil} from 'rxjs/operators';
@@ -15,7 +15,8 @@ import {HelpDataService} from "../../../../../tools/help-panel/services/help-dat
 @Component({
   selector: 'pharos-summary-panel',
   templateUrl: './summary-panel.component.html',
-  styleUrls: ['./summary-panel.component.scss']
+  styleUrls: ['./summary-panel.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 /**

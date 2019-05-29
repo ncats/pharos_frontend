@@ -153,13 +153,11 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
   private _mapLigands(data: any[]): void {
     const ligandsArr: Ligand[] = [];
     data.forEach(ligand => {
-      console.log(ligand);
       const activity: any = ligand.links
         .filter(link => link.kind === 'ix.idg.models.Target')
         .map(target => this._getActivity(target));
       // .sort(activity => activity.target !== this.target.gene);
       const strucProp = ligand.links.filter(link => link.kind === 'ix.core.models.Structure')[0];
-      console.log(strucProp);
       let lig: Ligand;
       if(strucProp) {
         const refid: string = strucProp.refid;
@@ -178,10 +176,8 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
           internalUrl: `/idg/ligands/${ligand.id}`
         });
       }
-      console.log(lig);
       ligandsArr.push(lig);
     });
-    console.log(ligandsArr);
     this.ligandsList = ligandsArr;
   }
 
@@ -189,6 +185,9 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
    * set default paginator values
    */
   setPage() {
+    console.log("setting page");
+    console.log(this.pageData);
+    console.log(this.paginator);
     if (this.paginator && this.pageData) {
       console.log(this.pageData);
       this.paginator.length = this.pageData.total;

@@ -5,7 +5,10 @@
           #ligands #drugs>
   <mat-card-content>
     <mat-card-title>
-      <span class="mat-title" [matTooltip] = description>{{label}} ({{ligandsList.length}})</span>
+      <span class="mat-title"
+            [matTooltip] = description
+            [matTooltipClass] = "'pharos-tooltip'"
+      >{{label}} ({{ligandsList.length}})</span>
     </mat-card-title>
 
     <mat-paginator

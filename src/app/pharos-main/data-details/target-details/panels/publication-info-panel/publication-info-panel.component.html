@@ -8,7 +8,10 @@
          fxLayoutAlign="start stretch"
          #development>
       <div fxFlex="95">
-        <span class="mat-title" [matTooltip] = description>Publication Information</span>
+        <span class="mat-title"
+              [matTooltip] = description
+              [matTooltipClass] = "'pharos-tooltip'">
+          Publication Information</span>
       </div>
       <div fxFlex="5">
         <pharos-help-panel-trigger [origin] = "'publicationsPanel'" [label]="'Publication Information'"></pharos-help-panel-trigger>

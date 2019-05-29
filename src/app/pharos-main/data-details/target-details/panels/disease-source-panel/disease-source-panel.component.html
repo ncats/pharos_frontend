@@ -10,7 +10,10 @@
          fxLayoutAlign="start stretch"
          #development>
       <div fxFlex="95">
-        <span class="mat-title" [matTooltip] = description>Disease Associations by Source ({{diseaseSourcesArray?.length}})</span>
+        <span class="mat-title"
+              [matTooltip] = description
+              [matTooltipClass] = "'pharos-tooltip'">
+          Disease Associations by Source ({{diseaseSourcesArray?.length}})</span>
       </div>
         <div fxFlex="5">
           <pharos-help-panel-trigger [origin] = "'diseaseSources'" [label]="'Disease Sources'"></pharos-help-panel-trigger>
