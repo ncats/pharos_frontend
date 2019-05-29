@@ -25,7 +25,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
   /**
    * Paginator object from Angular Material
    * */
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator) ligandPaginator: MatPaginator;
 
   /**
    * target object
@@ -98,7 +98,8 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
   }
 
   ngOnChanges (change) {
-    if(this.paginator) {
+    console.log(change);
+    if(this.ligandPaginator) {
       this.setPage();
     }
   }
@@ -108,6 +109,8 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
    * since the total is not know, it needs to be manually set based on the page data passes in
    */
   ngAfterViewInit() {
+    console.log("after view inint")
+    console.log(this.ligandPaginator);
     this.setPage();
   }
 
@@ -187,12 +190,12 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
   setPage() {
     console.log("setting page");
     console.log(this.pageData);
-    console.log(this.paginator);
-    if (this.paginator && this.pageData) {
+    console.log(this.ligandPaginator);
+    if (this.ligandPaginator && this.pageData) {
       console.log(this.pageData);
-      this.paginator.length = this.pageData.total;
-      this.paginator.pageSize = this.pageData.top;
-      this.paginator.pageIndex = Math.ceil(this.pageData.skip / this.pageData.top);
+      this.ligandPaginator.length = this.pageData.total;
+      this.ligandPaginator.pageSize = this.pageData.top;
+      this.ligandPaginator.pageIndex = Math.ceil(this.pageData.skip / this.pageData.top);
     }
   }
 
