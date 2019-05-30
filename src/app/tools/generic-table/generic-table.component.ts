@@ -140,12 +140,12 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
   /**
    * Paginator object from Angular Material
    * */
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
   /**
    * Sort object from Angular Material
    * */
-  @ViewChild(MatSort) _sort: MatSort;
+  @ViewChild(MatSort, {static: true}) _sort: MatSort;
 
   /**
    * generated string array of fields that are to be displayed in the table

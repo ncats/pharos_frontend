@@ -36,7 +36,7 @@ export class AssayPanelComponent extends DynamicPanelComponent implements OnInit
   /**
    *  Paginator object from Angular Material
    */
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   /**
    * set up dependencies

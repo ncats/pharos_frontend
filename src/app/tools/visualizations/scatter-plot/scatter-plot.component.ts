@@ -22,7 +22,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * container that holds the radar chart object
    */
-  @ViewChild('scatterPlotTarget') chartContainer: ElementRef;
+  @ViewChild('scatterPlotTarget', {static: true}) chartContainer: ElementRef;
 
   /**
    * behavior subject that is used to get and set chart data

@@ -1,4 +1,3 @@
-///<reference path="../../../node_modules/@angular/router/src/router_module.d.ts"/>
 import {NgModule} from '@angular/core';
 import {FilterPanelComponent} from '../pharos-main/data-list/filter-panel/filter-panel.component';
 import {FacetTableComponent} from '../pharos-main/data-list/filter-panel/facet-table/facet-table.component';

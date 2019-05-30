@@ -13,7 +13,7 @@ export class AnatomogramImageComponent implements OnInit {
   /**
    * the html element to inject the svg content into
    */
-  @ViewChild('anatamogram') anatamogram: ElementRef;
+  @ViewChild('anatamogram', {static: true}) anatamogram: ElementRef;
 
   /**
    * which species of anatamogram to show

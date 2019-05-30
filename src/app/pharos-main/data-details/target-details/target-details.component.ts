@@ -43,7 +43,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
   /**
    * div element all components are injected into
    */
-  @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
+  @ViewChild(CustomContentDirective, {static: true}) componentHost: CustomContentDirective;
 
   /**
    * currently active element

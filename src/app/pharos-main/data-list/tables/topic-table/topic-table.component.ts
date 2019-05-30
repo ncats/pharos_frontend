@@ -37,7 +37,7 @@ export class TopicTableComponent extends DynamicPanelComponent implements OnInit
   /**
    *  Paginator object from Angular Material
    */
-  @ViewChild(MatPaginator) ligandPaginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: true}) ligandPaginator: MatPaginator;
 
 
   /**

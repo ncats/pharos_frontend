@@ -24,7 +24,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
   /**
    * Paginator object from Angular Material
    * */
-  @ViewChild('ligandPaginator', {read: MatPaginator}) set matPaginator(mp: MatPaginator) {
+  @ViewChild('ligandPaginator', {read: MatPaginator, static: false}) set matPaginator(mp: MatPaginator) {
     this.ligandPaginator = mp;
     this.setPage();
   }

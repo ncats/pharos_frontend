@@ -39,9 +39,9 @@ export class DataListComponent implements OnInit, OnDestroy {
   /**
    * help panel element
    */
-  @ViewChild('helppanel') helpPanel: MatDrawer;
-  @ViewChild('sidenav') sidenav: MatSidenav;
-  @ViewChild('filters') filterPanel: FilterPanelComponent;
+  @ViewChild('helppanel', {static: true}) helpPanel: MatDrawer;
+  @ViewChild('sidenav', {static: true}) sidenav: MatSidenav;
+  @ViewChild('filters', {static: true}) filterPanel: FilterPanelComponent;
 
   /**
    * show loading spinner
@@ -52,7 +52,7 @@ export class DataListComponent implements OnInit, OnDestroy {
   /**
    * holder for injected elements
    */
-  @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
+  @ViewChild(CustomContentDirective, {static: true}) componentHost: CustomContentDirective;
 
   /**
    * subject for unsubscribing on destroy

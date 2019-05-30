@@ -66,7 +66,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     'UBERON_0001870'
   ];
 
-  @ViewChild(RadarChartComponent) radarComponent: RadarChartComponent;
+  @ViewChild(RadarChartComponent, {static: true}) radarComponent: RadarChartComponent;
 
   _URL: string;
   id: string;

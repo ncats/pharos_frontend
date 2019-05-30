@@ -46,12 +46,12 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
   /**
    * the main div element that all components are injected into
    */
-  @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
+  @ViewChild(CustomContentDirective, {static: true}) componentHost: CustomContentDirective;
 
   /**
    * reference to help menu to toggle opening and closing
    */
-  @ViewChild('helppanel') helpPanel: MatDrawer;
+  @ViewChild('helppanel', {static: true}) helpPanel: MatDrawer;
 
   /**
    * set up lots of dependencies to watch for data changes, navigate and parse and inject components

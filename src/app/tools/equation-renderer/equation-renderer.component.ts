@@ -10,7 +10,7 @@ import * as katex from 'katex';
   providers: [KatexRenderService]
 })
 export class EquationRendererComponent implements OnInit {
-@ViewChild('equationHolder') element: ElementRef;
+@ViewChild('equationHolder', {static: true}) element: ElementRef;
 @Input() equation: string;
 
   constructor(

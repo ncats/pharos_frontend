@@ -1,4 +1,3 @@
-///<reference path="../../../node_modules/@angular/router/src/router_module.d.ts"/>
 import { NgModule} from '@angular/core';
 import {DataDetailsComponent} from '../pharos-main/data-details/data-details.component';
 import {SharedModule} from './shared.module';

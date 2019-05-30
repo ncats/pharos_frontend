@@ -24,7 +24,7 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
   /**
    * Paginator object from Angular Material
    * */
-  @ViewChild('drugPaginator', {read: MatPaginator}) set matPaginator(mp: MatPaginator) {
+  @ViewChild('drugPaginator', {read: MatPaginator, static: false}) set matPaginator(mp: MatPaginator) {
     this.drugPaginator = mp;
     this.setPage();
   }

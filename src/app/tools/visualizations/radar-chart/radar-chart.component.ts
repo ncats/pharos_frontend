@@ -1,8 +1,17 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
-  Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnDestroy, OnInit, Optional, Output, ViewChild,
-  ViewEncapsulation,
-  ViewRef
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
+  Output,
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import * as d3 from 'd3';
 import {RadarService} from './radar.service';
@@ -104,7 +113,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
   /**
    * container that holds the radar chart object
    */
-  @ViewChild('radarChart') chartContainer: ElementRef;
+  @ViewChild('radarChart', {static: true}) chartContainer: ElementRef;
 
   /**
    * optional id that is passed in to retrieve the chart data

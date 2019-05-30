@@ -47,7 +47,7 @@
       <mat-spinner></mat-spinner>
     </div>
     <div *ngFor="let facet of facets; trackBy: trackByFn;">
-      <mat-expansion-panel [expanded]="true" *ngIf="facet.values.length > 0">
+      <mat-expansion-panel [expanded]="true" *ngIf="facet.values.length > 0" class="full-height">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <span class="mat-title facet-title">{{facet.label ? facet.label : facet.name}}</span>

@@ -3,6 +3,10 @@
   background-color: #ffffff;
 }
 
+.full-height-card.mat-card {
+  min-height: 100%;
+}
+
 
 .avatar {
   object-fit: cover;

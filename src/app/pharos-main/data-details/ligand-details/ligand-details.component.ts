@@ -40,7 +40,7 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
   /**
    * div element all components are injected into
    */
-  @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
+  @ViewChild(CustomContentDirective, {static: false}) componentHost: CustomContentDirective;
 
 
   /**

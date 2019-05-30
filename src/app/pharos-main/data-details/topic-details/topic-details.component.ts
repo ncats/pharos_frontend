@@ -132,7 +132,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   /**
    * conponent to hold graph
    */
-  @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
+  @ViewChild(CustomContentDirective, {static: true}) componentHost: CustomContentDirective;
 
   /**
    * set up dependencies

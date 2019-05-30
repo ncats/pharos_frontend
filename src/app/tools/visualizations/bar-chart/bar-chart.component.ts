@@ -20,7 +20,7 @@ export class BarChartComponent implements OnInit {
   /**
    * element container
    */
-  @ViewChild('barChartTarget') chartContainer: ElementRef;
+  @ViewChild('barChartTarget', {static: true}) chartContainer: ElementRef;
 
   /**
    * data subject, allows for dynamic updating of data

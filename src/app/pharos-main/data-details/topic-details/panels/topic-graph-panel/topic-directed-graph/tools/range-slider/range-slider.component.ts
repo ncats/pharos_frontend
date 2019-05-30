@@ -592,7 +592,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
   private _valueOnSlideStart: number | number[] | null;
 
   /** Reference to the inner slider wrapper element. */
-  @ViewChild('sliderWrapper') private _sliderWrapper: ElementRef;
+  @ViewChild('sliderWrapper', {static: true}) private _sliderWrapper: ElementRef;
 
   /** The slider thumb which is currently used (left or right) */
   private _currentSliderDir = 'l';

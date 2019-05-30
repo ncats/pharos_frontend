@@ -236,7 +236,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    */
   batchUpload() {
     const dialogRef = this.dialog.open(BatchUploadModalComponent, {
-        height: '50vh',
+        height: '75vh',
         width: '66vw',
       }
     );

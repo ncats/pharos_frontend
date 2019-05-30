@@ -11,7 +11,7 @@ import * as d3 from 'd3';
   styleUrls: ['./d3-color-legend.component.scss']
 })
 export class D3ColorLegendComponent implements OnInit {
-  @ViewChild('colorScaleTarget') chartContainer: ElementRef;
+  @ViewChild('colorScaleTarget', {static: true}) chartContainer: ElementRef;
   @Input() range: any;
 
   constructor() { }

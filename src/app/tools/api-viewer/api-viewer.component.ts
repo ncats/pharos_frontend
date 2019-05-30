@@ -15,7 +15,7 @@ export class ApiViewerComponent implements AfterViewInit {
   /**
    * container that holds the swagger ui
    */
-  @ViewChild('swagger') el: ElementRef;
+  @ViewChild('swagger', {static: true}) el: ElementRef;
 
   /**
    * no args constructor
