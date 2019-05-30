@@ -239,7 +239,7 @@ const LEVEL_SUMMARY_PANEL: PharosPanel = {
   navHeader: {
     label: 'IDG Development Level Summary',
     section: 'development',
-    mainDescription: 'Descriptions of the IDG illumination level highlighting the milestones attained in the research of' +
+    mainDescription: 'Descriptions of the IDG illumination level highlighting the milestones attained in the research of ' +
     'this target.'
   },
   api: [
@@ -250,6 +250,12 @@ const LEVEL_SUMMARY_PANEL: PharosPanel = {
       article: ARTICLES.TARGET_DEVELOPMENT_ARTICLE
     },
     {
+      field: 'pubmed',
+      label: 'Pubmed Score',
+      description: 'Jensen Lab generated fractional counting score for the prevalence of this gene in Pubmed articles. ',
+      article: ARTICLES.PUBMED_SCORE_ARTICLE
+    },
+    {
       field: 'generif',
       label: 'GeneRIF',
       url: _APIURL + 'targets/_id_/links(kind=ix.core.models.Text)',
@@ -258,24 +264,29 @@ const LEVEL_SUMMARY_PANEL: PharosPanel = {
       'the reported target.'
     },
     {
-      field: 'omim',
-      label: 'OMIM Term',
-      url: _APIURL + 'targets/_id_/properties(label=OMIM%20Term*)'
+      field: 'antibodies',
+      label: 'Antibody Count',
+      description: 'Number of antibodies for this target listed in antibodypedia.com'
+    },
+    {
+      field: 'goMolecularFunctions',
+      label: 'Gene Ontology Molecular Function',
+      description: 'Number of Gene Ontology (GO) annotations for this target, consisting of the sum of GO Function, GO Component' +
+      'and GO Process.'
     },
     {
       field: 'goFunction',
       label: 'GO Function',
       url: _APIURL + 'targets/_id_/properties(label=GO%20Function*)',
       description: 'Function listed by GO database for target, with total count listed in parenthesis. ' +
-      'Listing individual functions with links to GO. Click on bargraph icon to explore further the Summary of GO Function.'
+      'Listing individual functions with links to GO.'
     },
     {
       field: 'goComponent',
       label: 'GO Component',
       url: _APIURL + 'targets/_id_/properties(label=GO%20Component*)',
       description: 'Cellular component listed by GO database for target, with total count listed in ' +
-      'parenthesis. Listing individual functions with links to GO. Click on bargraph icon to explore further ' +
-      'the Summary of GO Function.'
+      'parenthesis. Listing individual functions with links to GO.'
     },
     {
       field: 'goProcess',
@@ -284,6 +295,12 @@ const LEVEL_SUMMARY_PANEL: PharosPanel = {
       description: 'Biological process listed by GO database for target, with total count listed in parenthesis.' +
       'Listing individual functions with links to GO. Click on bargraph icon to explore further the Summary ' +
       'of GO Function.'
+    },
+    {
+      field: 'omim',
+      label: 'OMIM Phenotypes',
+      url: _APIURL + 'targets/_id_/properties(label=OMIM%20Term*)',
+      description: 'Phenotypes listed in OMIM relevant to this target.'
     },
     {
       field: 'ligandsCount',
@@ -334,12 +351,18 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
       label: 'Disease Association Sources',
       url: _APIURL + 'targets/_id_/links(kind=ix.idg.models.Disease)',
       description: 'Disease-gene associations mined from Medline Franklid et al, Methods, 2015, 83-89'
-    }, {
+    },{
+      field: 'diseases',
+      label: 'Disease Association Sources',
+      url: _APIURL + 'targets/_id_/links(kind=ix.idg.models.Disease)',
+      description: 'Disease-gene associations mined from Medline Franklid et al, Methods, 2015, 83-89'
+    },
+    {
       field: 'tinx',
-      label: 'Disease Novelty (Tinx)',
+      label: 'Disease Novelty (Tin-x)',
       url: _APIURL + 'tinx/target/_accession_',
       description: 'TIN-X is an interactive visualization tool for discovering interesting associations between diseases ' +
-      'and potential drug targets.',
+      'and potential drug targets. Click the \'?\' button for more information.',
       article: ARTICLES.TINX_ARTICLE
     }
   ]

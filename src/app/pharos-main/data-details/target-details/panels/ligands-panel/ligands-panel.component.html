@@ -4,13 +4,20 @@
           (pharosScrollspy)="active(field)"
           #ligands #drugs>
   <mat-card-content>
-    <mat-card-title>
-      <span class="mat-title"
-            [matTooltip] = description
-            [matTooltipClass] = "'pharos-tooltip'"
-      >{{label}} ({{data.ligandcount}})</span>
-    </mat-card-title>
-
+    <div fxLayout="row"
+         fxLayout.lt-md="column"
+         class="tkrow"
+         fxLayoutAlign="start stretch">
+      <div fxFlex="95">
+        <span class="mat-title"
+              [matTooltip] = description
+              [matTooltipClass] = "'pharos-tooltip'">
+          {{label}} ({{data.ligandcount}})</span>
+      </div>
+      <div fxFlex="5">
+        <pharos-help-panel-trigger [origin] = "'ligands'" [label]="'Active Ligands'"></pharos-help-panel-trigger>
+      </div>
+    </div>
     <mat-paginator
       #ligandPaginator
       [pageSize]="10"

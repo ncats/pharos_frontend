@@ -1,12 +1,19 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {DiseaseRelevance, DiseaseRelevanceSerializer} from '../../../../../models/disease-relevance';
-import {MatTabChangeEvent} from '@angular/material';
+import {MatTabChangeEvent, MatTreeNestedDataSource} from '@angular/material';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
+import {NestedTreeControl} from "@angular/cdk/tree";
+
+
+interface DiseaseTreeNode {
+  name: string | PharosProperty;
+  children?: DiseaseTreeNode[];
+}
 
 // skipping log2foldchange property
 /**
@@ -58,7 +65,8 @@ const TABLEMAP: Map<string, PharosProperty> = new Map<string, PharosProperty>(
 @Component({
   selector: 'pharos-disease-source',
   templateUrl: './disease-source-panel.component.html',
-  styleUrls: ['./disease-source-panel.component.scss']
+  styleUrls: ['./disease-source-panel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DiseaseSourceComponent extends DynamicPanelComponent implements OnInit {
   sourceMap: Map<string, DiseaseRelevance[]> = new Map<string, DiseaseRelevance[]>();
@@ -72,13 +80,20 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
   tableArr: any[] = [];
   chartOptions: ScatterOptions;
 
+  newdiseasemap: Map<string, any> = new Map<string, any>();
+  treeControl: NestedTreeControl<DiseaseTreeNode> = new NestedTreeControl<DiseaseTreeNode>(node => node.children);
+  dataSource: MatTreeNestedDataSource<DiseaseTreeNode> = new MatTreeNestedDataSource<DiseaseTreeNode>();
+  treeData: any[] = [];
+
   constructor(
-    private navSectionsService: NavSectionsService
+    private navSectionsService: NavSectionsService,
+    private ref: ChangeDetectorRef
   ) {
     super();
   }
 
   ngOnInit() {
+    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -94,6 +109,49 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
   }
 
   setterFunction(): void {
+    this.data.diseases.forEach(disease => {
+     // console.log(disease);
+      const dobj:PharosProperty = new PharosProperty(disease.properties.filter(prop => prop.label === 'IDG Disease')[0]);
+      dobj.internalLink = ['/diseases', dobj.term as string];
+      const dname: string = dobj.term as string;
+      //console.log(dname);
+      const dlist = this.newdiseasemap.get(dname);
+      const diseaseSource = {
+        name: new PharosProperty(disease.properties.filter(prop => prop.label === 'Data Source')[0]),
+        children: [
+          ...disease.properties
+            .filter(prop => prop.label !== 'Data Source' && prop.label !== 'IDG Disease' )
+            .map(prop => new PharosProperty(prop))
+        ]
+      }
+      if(dlist) {
+        dlist.sources.push(diseaseSource);
+        this.newdiseasemap.set(dname, dlist);
+      } else {
+        this.newdiseasemap.set(dname, {disease: dobj, sources: [diseaseSource]});
+      }
+    });
+    const sortedDiseases = Array.from(this.newdiseasemap.entries()).sort((a,b) => {
+      if (a[1].sources.length < b[1].sources.length) {
+        return 1;
+      }
+      if (a[1].sources.length > b[1].sources.length) {
+        return -1;
+      }
+      return 0;
+    });
+    console.log(sortedDiseases);
+    this.treeData = Array.from(new Map(sortedDiseases).values());
+   /* console.log(map2);
+    this.treeData = sortedDiseases.map(disease => {
+      return {disease:disease[0], sources: disease[1]}
+    });*/
+    console.log(this.treeData);
+  //  sortedDiseases.forEach(disease => this.treeData.push({name: disease[0], children: disease[1]}) )
+   // this.dataSource.data = this.treeData;
+
+
+
     if (this.data.diseaseSources && this.data.diseaseSources.length > 0) {
       // const sources = this.data.diseaseSources;
       this.sourceMap.clear();
@@ -178,5 +236,22 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
 
   paginate(event) {
   }
+
+  getTooltip(label: string): string {
+    return this.apiSources.filter(source => source.field === label)[0].description;
+  }
+
+  showNodeData(node: DiseaseTreeNode): string {
+    if (node['label']) {
+      return `${node['label']}: ${node['term']}`;
+    } else if (node.name['term']) {
+      return node.name['term'];
+    } else {
+      return node.name as string;
+    }
+  }
+
+  hasChild = (_: number, node: DiseaseTreeNode) => !!node.children && node.children.length > 0;
+
 }
 

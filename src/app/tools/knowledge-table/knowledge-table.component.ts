@@ -14,11 +14,12 @@ export class KnowledgeTableComponent extends DynamicPanelComponent implements On
     new PharosProperty({
       name: 'field',
       label: 'Most Knowledge About',
-      width: 85
+      width: '85vw'
     }),
     new PharosProperty({
       name: 'value',
-      label: 'Knowledge Value \r\n (0 to 1 scale)'
+      label: 'Knowledge Value \r\n (0 to 1 scale)',
+      description: ''
     })
   ];
 

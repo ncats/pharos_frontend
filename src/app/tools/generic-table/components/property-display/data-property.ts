@@ -72,6 +72,11 @@ export class DataProperty {
   queryParams?: any;
 
   /**
+   * text description of the field. used for table tooltips
+   */
+  description?: string;
+
+  /**
    * deconstruct json as dataproperty object
    * @param obj
    */

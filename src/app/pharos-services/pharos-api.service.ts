@@ -221,16 +221,7 @@ export class PharosApiService {
         if (response.facets) {
           this._facetsDataSource.next(response.facets);
         }
-
- /*
-            this._dataSource.next(
-              {
-              content: [{kind: path, data: response}],
-              facets: response.facets
-              }
-              );*/
           });
-      //}
     }
   }
 
@@ -291,31 +282,12 @@ export class PharosApiService {
     });
   }
 
- /* initializeSubscriptions(): void {
-    this.pharosApiService.data$
-      .subscribe(res => {
-        if (res.details) {
-          this._detailsDataSource.next(res);
-        }
-        if (res.content) {
-          this._tableDataSource.next(res);
-          this._paginationDataSource.next(new PageData(res));
-        }
-        if (res.facets) {
-          this._facetsDataSource.next(res.facets);
-        }
-      });
-  }*/
-
-
-
   /**
    * clear all data called
    */
   flushData() {
     this.returnedObject = {};
     this._detailsDataSource.next(null);
-   // this._dataSource.next(null);
   }
 
   /**

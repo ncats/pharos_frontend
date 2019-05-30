@@ -1,4 +1,4 @@
-<div fxLayout="row" fxLayoutAlign="space-around start">
+<div fxLayout="row" fxLayoutAlign="space-around start" class="tclin-row">
   <div fxFlex="95">
     <div fxLayout="row">
       <p class="explanation">
@@ -12,7 +12,10 @@
         [color]="'accent'">check_circle
       </mat-icon>
       &nbsp;&nbsp;
-      <span class='mat-body-2'>
+      <span
+        [matTooltip]="getTooltip('drugsCount')"
+        [matTooltipClass]="'pharos-tooltip'"
+        class='mat-body-2'>
       Active Drug<span *ngIf="data.drugsCount>1">s</span>: {{data.drugsCount}}
  </span>
     </div>

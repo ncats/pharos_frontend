@@ -16,11 +16,13 @@
         [color]="'accent'">check_circle
       </mat-icon>
       &nbsp;&nbsp;
-      <span [ngClass]="{'mat-body-2': data.goProcess?.length + data.goFunction?.length + data.goComponent?.length > 0}">
+      <span
+        [matTooltip]="getTooltip('goMolecularFunctions')"
+        [matTooltipClass]="'pharos-tooltip'"
+        [ngClass]="{'mat-body-2': data.goProcess?.length + data.goFunction?.length + data.goComponent?.length > 0}">
         Gene Ontology Molecular Function<span
         *ngIf = "data.goProcess?.length + data.goFunction?.length + data.goComponent?.length > 1">s</span>:
-        {{data.goProcess?.length + data.goFunction?.length + data.goComponent?.length}}
- </span>
+        {{data.goProcess?.length + data.goFunction?.length + data.goComponent?.length}}</span>
     </div>
     <br>
     <div fxLayout="row">
@@ -37,9 +39,11 @@
         [color]="'accent'">check_circle
       </mat-icon>
       &nbsp;&nbsp;
-      <span [ngClass]="{'mat-body-2': data.omim?.length > 0}">
-        OMIM Phenotype<span *ngIf = "data.omim?.length > 1">s</span>: {{data.omim?.length}}
- </span>
+      <span
+        [matTooltip]="getTooltip('omim')"
+        [matTooltipClass]="'pharos-tooltip'"
+        [ngClass]="{'mat-body-2': data.omim?.length > 0}">
+        OMIM Phenotype<span *ngIf = "data.omim?.length > 1">s</span>: {{data.omim?.length}}</span>
     </div>
     <br>
     <div fxLayout="row">

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {Ligand} from '../../../../models/ligand';
 import {Target} from '../../../../models/target';
 
@@ -8,7 +8,8 @@ import {Target} from '../../../../models/target';
 @Component({
   selector: 'pharos-ligand-card',
   templateUrl: './ligand-card.component.html',
-  styleUrls: ['./ligand-card.component.scss']
+  styleUrls: ['./ligand-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LigandCardComponent implements OnInit {
 
@@ -30,7 +31,8 @@ export class LigandCardComponent implements OnInit {
   /**
    * no args constructor
    */
-  constructor() { }
+  constructor() {
+  }
 
   /**
    * find prime activity based on ligand activites for the target
@@ -38,6 +40,7 @@ export class LigandCardComponent implements OnInit {
   ngOnInit() {
     if (this.target) {
       this.primeActivity = [this.ligand.activities.sort(activity => this.target.gene === activity.target)[0]];
+
     }
   }
 
@@ -49,13 +52,18 @@ export class LigandCardComponent implements OnInit {
    */
   private _getActivityType(activity: any): string {
     let ret = '';
-    if (activity.label === 'Potency' || activity.label === 'Pharmalogical Action') {
-      ret = activity.label;
-    } else if (activity.label === 'N/A') {
-      ret = '';
-    } else {
-      ret = `p${activity.label}`;
+    if (activity) {
+      if (activity.label === 'Potency' || activity.label === 'Pharmalogical Action') {
+        ret = activity.label;
+      } else if (activity.label === 'N/A') {
+        ret = '';
+      } else {
+        ret = `p${activity.label}`;
+      }
+      return ret + ':';
     }
-    return ret + ':';
+    else {
+      return null;
+    }
   }
 }

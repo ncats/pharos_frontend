@@ -21,7 +21,10 @@
         [color]="'accent'">check_circle
       </mat-icon>
       &nbsp;&nbsp;
-      <span class='mat-body-2'>
+      <span
+        [matTooltip]="getTooltip('ligandsCount')"
+        [matTooltipClass]="'pharos-tooltip'"
+        class='mat-body-2'>
       Active Ligand<span *ngIf="data.ligandsCount>1">s</span>: {{data.ligandsCount}}
  </span>
     </div>

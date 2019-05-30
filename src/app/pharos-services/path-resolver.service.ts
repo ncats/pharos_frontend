@@ -103,9 +103,8 @@ export class PathResolverService {
       };
 
       if (q) {
-        console.log("query");
         navigationExtras.queryParams.q = q;
-        navigationExtras.queryParams.facet = null;
+        navigationExtras.queryParams.facet = facetList.length > 0 ? facetList : null;
         console.log(navigationExtras);
       } else {
         navigationExtras.queryParams.facet = facetList.length > 0 ? facetList : null;
