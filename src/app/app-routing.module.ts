@@ -12,7 +12,7 @@ import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 const ROUTES: Routes = [
   {
     path: 'index',
-    loadChildren: './pharos-home/pharos-home.module#PharosHomeModule',
+    loadChildren: () => import('./pharos-home/pharos-home.module').then(m => m.PharosHomeModule),
   },
   {
     path: 'about',
@@ -44,25 +44,25 @@ const ROUTES: Routes = [
   },
   {
     path: 'targets',
-    loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
+    loadChildren: () => import('./pharos-main/pharos-main.module').then(m => m.PharosMainModule),
     data: { path: 'targets' }
   }, {
     path: 'diseases',
-    loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
+    loadChildren: () => import('./pharos-main/pharos-main.module').then(m => m.PharosMainModule),
     data: { path: 'diseases' }
   }, {
     path: 'ligands',
-    loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
+    loadChildren: () => import('./pharos-main/pharos-main.module').then(m => m.PharosMainModule),
     data: { path: 'ligands' }
   },
   {
     path: 'topics',
-    loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
+    loadChildren: () => import('./pharos-main/pharos-main.module').then(m => m.PharosMainModule),
     data: { path: 'topics' }
   },
   {
     path: 'search',
-    loadChildren: './pharos-main/pharos-main.module#PharosMainModule',
+    loadChildren: () => import('./pharos-main/pharos-main.module').then(m => m.PharosMainModule),
     data: { path: 'search' }
   },
   { path: '',

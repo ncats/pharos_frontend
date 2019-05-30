@@ -40,7 +40,7 @@ const pharosMainRoutes: Routes = [
   {
     path: '',
     component: PharosMainComponent,
-    loadChildren: './data-list/data-list.module#DataListModule'
+    loadChildren: () => import('./data-list/data-list.module').then(m => m.DataListModule)
   },
   {
     path: ':id',
