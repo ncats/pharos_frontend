@@ -29,7 +29,10 @@
           <ng-container *ngIf="pmscoreTimeline && pmscoreTimeline.length">
             <div fxLayout="row" fxLayoutAlign="start stretch"  class="timeline-holder">
               <div fxFlex="95">
-                <span class="mat-title">PubMed Score </span>&nbsp;<span>{{target.jensenScore.toFixed(2)}}</span>
+                <span class="mat-title"
+                      [matTooltip] = "getTooltip('pubmed')"
+                      [matTooltipClass] = "'pharos-tooltip'"
+                >PubMed Score </span>&nbsp;<span>{{target.jensenScore.toFixed(2)}}</span>
                 <pharos-scatter-plot [data]="pmscoreTimeline" [options]="chartOptions"></pharos-scatter-plot>
               </div>
             </div>
@@ -37,7 +40,10 @@
             <ng-container *ngIf="pubtatorTimeline && pubtatorTimeline.length">
             <div fxLayout="row" fxLayoutAlign="start stretch" class="timeline-holder">
               <div fxFlex="95">
-                <span class="mat-title">PubTator Score </span>&nbsp;<span>{{raisePubtator()}}</span>
+                <span class="mat-title"
+                      [matTooltip] = "getTooltip('pubtator')"
+                      [matTooltipClass] = "'pharos-tooltip'"
+                >PubTator Score </span>&nbsp;<span>{{raisePubtator()}}</span>
                 <pharos-scatter-plot [data]="pubtatorTimeline" [options]="chartOptions"></pharos-scatter-plot>
               </div>
             </div>
@@ -45,14 +51,22 @@
             <ng-container *ngIf="patentTimeline && patentTimeline.length">
             <div fxLayout="row" fxLayoutAlign="start stretch" class="timeline-holder">
               <div fxFlex="95">
-                <span class="mat-title">Patents </span>
+                <span class="mat-title"
+                      [matTooltip] = "getTooltip('patents')"
+                      [matTooltipClass] = "'pharos-tooltip'"
+                >Patents </span>
                 <pharos-scatter-plot [data]="patentTimeline" [options]="chartOptions"></pharos-scatter-plot>
               </div>
             </div>
           </ng-container>
           </div>
         </mat-tab>
-        <mat-tab  *ngIf="publications && publications.length > 0" label="Text Mined References ({{publicationsPageData?.total}})">
+        <mat-tab  *ngIf="publications && publications.length > 0">
+          <ng-template mat-tab-label><div
+            [matTooltip] = "getTooltip('publications')"
+            [matTooltipClass] = "'pharos-tooltip'">
+            Text Mined References ({{publicationsPageData?.total}})</div>
+          </ng-template>
           <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
             <mat-spinner></mat-spinner>
           </div>
@@ -65,7 +79,12 @@
           </pharos-generic-table>
           </ng-template>
         </mat-tab>
-        <mat-tab *ngIf="generifs && generifs.length > 0" label="GeneRif Annotations ({{rifPageData?.total}})">
+        <mat-tab *ngIf="generifs && generifs.length > 0">
+          <ng-template mat-tab-label><div
+                 [matTooltip] = "getTooltip('generifs')"
+                 [matTooltipClass] = "'pharos-tooltip'">
+                  GeneRif Annotations ({{rifPageData?.total}})</div>
+          </ng-template>
           <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
             <mat-spinner></mat-spinner>
           </div>

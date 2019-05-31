@@ -342,20 +342,27 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
   navHeader: {
     label: 'Disease Associations by Source',
     section: 'diseaseSources',
-    mainDescription: 'This is a list of diseases associated with this target, compiled by several resources. Each ' +
-    'resource provides different confidence measurements and association values, which are described below.'
+    mainDescription: `This is a list of diseases associated with this target, compiled by several resources. Each 
+    resource provides different confidence measurements and association values, which are described below. Disease
+    target associations are sourced from the DISEASES database, which computes an association score between a disease
+    and a target. Pharos applies a threshold on this score, such that disease-target associations with a score greater
+    than this threshold are displayed If you\'re not seeing a disease associated with a target, it is either not 
+    associated with the target, or else its association score does not cross the threshold employed by Pharos
+    (implying that the mined association is not strong enough).`
   },
   api: [
     {
-      field: 'diseaseSources',
-      label: 'Disease Association Sources',
-      url: _APIURL + 'targets/_id_/links(kind=ix.idg.models.Disease)',
-      description: 'Disease-gene associations mined from Medline Franklid et al, Methods, 2015, 83-89'
-    },{
       field: 'diseases',
       label: 'Disease Association Sources',
       url: _APIURL + 'targets/_id_/links(kind=ix.idg.models.Disease)',
       description: 'Disease-gene associations mined from Medline Franklid et al, Methods, 2015, 83-89'
+    },
+    {
+      field: 'associationScore',
+      label: 'Association Score Parameters',
+      description: 'Different data sources use different metrics to score the confidence value of a target disease association. ' +
+      'More information about each metric can be found below.',
+      article: ARTICLES.ASSOCIATION_SCORES_ARTICLE
     },
     {
       field: 'tinx',
@@ -436,7 +443,7 @@ const PDB_PANEL: PharosPanel = {
   navHeader: {
     label: 'PDB Viewer',
     section: 'pdbview',
-    mainDescription: 'List of protens and ligands sourced from the RCBS PDB database'
+    mainDescription: 'List of protens and ligands sourced from the RCSB PDB database'
   },
   api: [
     {
@@ -524,29 +531,31 @@ const PUBLICATION_INFO_PANEL: PharosPanel = {
       field: 'pubmed',
       label: 'Pubmed Score',
       url: _APIURL + 'targets/_id_/properties(label=NCBI%20Gene%20PubMed%20Count)',
-      description: '',
+      description: `The Pubmed Score (also sometimes referred to as the Jensen Score) is 
+      derived from text mining a set of Pubmed abstracts.`,
       article: ARTICLES.PUBMED_SCORE_ARTICLE
     },
     {
       field: 'pmscore',
       label: 'Pubmed Score Timeline',
       url: _APIURL + 'targets/_id_/pmscore',
-      description: ''
+      description: 'Timeline of pubmed scores for each available year.'
     },
     {
       field: 'pubtator',
       label: 'Pubtator Score Timeline',
       url: _APIURL + 'targets/_id_/pubtator',
-      description: ''
+      description: 'Timeline of pubtator scores for each available year.'
     },
     {
       field: 'patents',
       label: 'Patents Timeline',
       url: _APIURL + 'targets/_id_/patents',
-      description: ''
+      description: 'Timeline of patent counts for each available year.'
     },
     {
       field: 'publicationCount',
+      label: 'Publication Count',
       description: 'Total count of text-mined publication hits for target listed in parenthesis'
     },
     {
@@ -557,6 +566,7 @@ const PUBLICATION_INFO_PANEL: PharosPanel = {
     },
     {
       field: 'generifCount',
+      label: 'GeneRIF Count',
       url: _APIURL + 'targets/_id_/generifs/@count',
       description: 'Total count of NCBI Gene Reference Into Function hits for target listed in parenthesis'
     },
@@ -585,9 +595,15 @@ const AA_SEQUENCE_PANEL: PharosPanel = {
   api: [
     {
       field: 'sequence',
+      label: 'Sequence',
       url: _APIURL + 'targets/_id_/properties(label=UniProt%20Sequence)',
       description: 'Amino acid sequence of target protein, bar graph summarizing quantity of each amino acid. ' +
       'Click on looking glass icon for ability to conduct sequence search.'
+    },
+    {
+      field: 'residues',
+      label: 'Residue Counts',
+      description: `Bar chart summarizing the number of times each residue appears in the sequence.`
     }
   ]
 };
@@ -606,20 +622,31 @@ const TARGET_FACET_PANEL: PharosPanel = {
   api: [
     {
       field: 'pantherProteinClass',
-      url: _APIURL + 'targets/_id_/properties(label=PANTHER%20Protein%20Class*)'
-    }, {
+      label: 'Panther Protein Class',
+      url: _APIURL + 'targets/_id_/properties(label=PANTHER%20Protein%20Class*)',
+      description: `The PANTHER (Protein ANalysis THrough Evolutionary Relationships) Classification System was designed
+       to classify proteins (and their genes) in order to facilitate high-throughput analysis. The PANTHER 
+       Classifications are the result of human curation as well as sophisticated bioinformatics algorithms.`,
+      source: 'http://pantherdb.org/'
+    },
+    {
       field: 'goFunction',
+      label: 'GO Function',
       url: _APIURL + 'targets/_id_/properties(label=GO%20Function*)',
       description: 'Function listed by GO database for target, with total count listed in parenthesis. ' +
       'Listing individual functions with links to GO. Click on bargraph icon to explore further the Summary of GO Function.'
-    }, {
+    },
+    {
       field: 'goComponent',
+      label: 'GO Component',
       url: _APIURL + 'targets/_id_/properties(label=GO%20Component*)',
       description: 'Cellular component listed by GO database for target, with total count listed in ' +
       'parenthesis. Listing individual functions with links to GO. Click on bargraph icon to explore further ' +
       'the Summary of GO Function.'
-    }, {
+    },
+    {
       field: 'goProcess',
+      label: 'GO Process',
       url: _APIURL + 'targets/_id_/properties(label=GO%20Process*)',
       description: 'Biological process listed by GO database for target, with total count listed in parenthesis.' +
       'Listing individual functions with links to GO. Click on bargraph icon to explore further the Summary ' +
@@ -629,18 +656,29 @@ const TARGET_FACET_PANEL: PharosPanel = {
         url: _APIURL + 'targets/_id_/properties(label=NCBI%20Gene%20PubMed%20Count)'
       }, {*/
       field: 'gwasTrait',
-      url: _APIURL + 'targets/_id_/properties(label=GWAS%20Trait*)'
+      label: 'GWAS Trait',
+      url: _APIURL + 'targets/_id_/properties(label=GWAS%20Trait*)',
+      description: ` The GWAS Catalog provides a consistent, searchable, visualisable and freely available database of 
+      published SNP-trait associations.`,
+      source: 'https://www.ebi.ac.uk/gwas/home'
     },
     {
       field: 'rnaCellLine',
-      url: _APIURL + 'targets/_id_/properties(label=HCA%20RNA%20Cell%20Line*)'
+      label: 'RNA Cell Line',
+      url: _APIURL + 'targets/_id_/properties(label=HCA%20RNA%20Cell%20Line*)',
+      description: `RNA Cell lines listed in the Human Cell Atlas`,
+      source: `https://www.humancellatlas.org/`
     },
     {
       field: 'omim',
-      url: _APIURL + 'targets/_id_/properties(label=OMIM%20Term*)'
+      label: 'OMIM Term',
+      url: _APIURL + 'targets/_id_/properties(label=OMIM%20Term*)',
+      description: `Terms listed in the OMIM (Online Mendelian Inheritance in Man) database.`,
+      source: 'https://www.omim.org/'
     },
     {
       field: 'uniprotKeyword',
+      label: 'Uniprot Keyword',
       url: _APIURL + 'targets/_id_/properties(label=UniProt%20Keyword*)',
       description: 'Occurrence of target in the 10 categories of UniProt keywords.'
     }

@@ -1,14 +1,13 @@
 <mat-card *ngIf=data
           class="section-card"
-          id = "diseaseRelationships"
-          (pharosScrollspy)="active('diseaseRelationships')"
-          #diseaseRelationships>
+          id = "diseaseSources"
+          (pharosScrollspy)="active('diseaseSources')"
+          #diseaseSources>
   <mat-card-content>
     <div fxLayout="row"
          fxLayout.lt-md="column"
          class="tkrow"
-         fxLayoutAlign="start stretch"
-         #development>
+         fxLayoutAlign="start stretch">
       <div fxFlex="95">
         <span class="mat-title"
               [matTooltip] = description

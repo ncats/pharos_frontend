@@ -26,7 +26,7 @@ const PHAROSCONFIG: any = {
   apiUrl: _HOST + _API,
   suggestUrl: _HOST + _API + 'suggest?q=',
   radarUrl: _HOST + _API + 'hg/data?type=radar-attr_type&q=',
-  radarSourcesUrl: _HOST + _API + 'hg/ds?type=radar-attr_type',
+  radarSourcesUrl: _HOST + _API + 'hg/ds?type=radar-attr_type&q=',
   structureImageUrl: _HOST + _API + 'struc/',
   homunculusUrl: _HOST + _API + 'expression/homunculus?acc=_id_&source=',
   molConvertUrl: _HOST + _API + 'smiles',

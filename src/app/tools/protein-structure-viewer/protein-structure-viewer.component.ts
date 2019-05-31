@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import * as NGL from 'ngl';
 
 /**
@@ -9,7 +9,7 @@ import * as NGL from 'ngl';
   templateUrl: './protein-structure-viewer.component.html',
   styleUrls: ['./protein-structure-viewer.component.scss']
 })
-export class ProteinStructureViewerComponent implements OnInit {
+export class ProteinStructureViewerComponent implements OnInit, OnChanges {
 
   /**
    * div element holder
@@ -21,6 +21,8 @@ export class ProteinStructureViewerComponent implements OnInit {
    */
   @Input() pdbid: string;
 
+  stage: any;
+
   /**
    * no args
    */
@@ -30,13 +32,21 @@ export class ProteinStructureViewerComponent implements OnInit {
    * create ngl instance and load view
    */
   ngOnInit() {
-    const stage = new NGL.Stage(this.viewerContainer.nativeElement, {backgroundColor: 'white'});
+    this.stage = new NGL.Stage(this.viewerContainer.nativeElement, {backgroundColor: 'white'});
     // Handle window resizing
-    window.addEventListener( 'resize', function( event ) {
-      stage.handleResize();
+    window.addEventListener( 'resize', ( event ) => {
+      this.stage.handleResize();
     }, false );
-    stage.loadFile(`rcsb://${this.pdbid}`, {defaultRepresentation: true}).then(component => {
+    this.stage.loadFile(`rcsb://${this.pdbid}`, {defaultRepresentation: true}).then(component => {
     });
+  }
+
+  ngOnChanges(change) {
+    if(this.stage) {
+      this.stage.removeAllComponents();
+      this.stage.loadFile(`rcsb://${this.pdbid}`, {defaultRepresentation: true}).then(component => {
+      });
+    }
   }
 
 }

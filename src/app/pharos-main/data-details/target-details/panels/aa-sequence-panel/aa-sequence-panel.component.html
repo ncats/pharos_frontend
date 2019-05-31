@@ -1,30 +1,54 @@
 <mat-card
-          id="sequence"
-          (pharosScrollspy)="active('sequence')"
-          #sequence
-          class ="section-card">
-  <mat-card-header>
-    <mat-card-title ><span class="mat-title"
-                           [matTooltip] = description
-                           [matTooltipClass] = "'pharos-tooltip'">
-      AA Sequence</span></mat-card-title>
-  </mat-card-header>
+  id="sequence"
+  (pharosScrollspy)="active('sequence')"
+  #sequence
+  class="section-card">
   <mat-card-content>
-      <div fxLayout="row" fxLayout.lt-sm = "column" fxLayoutAlign="center center">
+    <div fxLayout="row"
+         fxLayout.lt-md="column"
+         class="tkrow"
+         fxLayoutAlign="start stretch">
+      <div fxFlex="95">
+        <span class="mat-title"
+              [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">
+          Amino Acid Sequence</span>
+      </div>
+      <div fxFlex="5">
+        <pharos-help-panel-trigger [origin]="'sequence'" [label]="'Sequence Details'"></pharos-help-panel-trigger>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
+        <span class="pharos-subtitle"
+              [matTooltip]="getTooltip('residues')"
+              [matTooltipClass]="'pharos-tooltip'">
+          Residue Counts
+        </span>
+    </div>
+    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="center center">
       <div fxFlex="90">
         <pharos-bar-chart [data]="residueCounts" *ngIf="residueCounts"></pharos-bar-chart>
       </div>
     </div>
-
-    <div class = "well" fxHide.lt-sm >
-    <div fxLayout="row" fxLayoutAlign="start center" *ngFor = "let chunk of aasequence" fxLayout="start stretch">
-      <div fxFlex="85">
-        {{chunk?.chunk}}
-      </div>
-      <div fxFlex="15" class="no-copy" fxHide.lt-md>
-        {{chunk?.residues}}
-      </div>
+    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
+      <span class="pharos-subtitle"
+            [matTooltip]="getTooltip('sequence')"
+            [matTooltipClass]="'pharos-tooltip'">
+        Sequence</span>
     </div>
+    <div fxLayout="row" fxHide.lt-sm fxLayout.lt-sm="column" fxLayoutAlign="center center">
+      <div fxFlex="100">
+        <div class="well">
+          <div fxLayout="row" fxLayoutAlign="start center" *ngFor="let chunk of aasequence" fxLayout="start stretch">
+            <div fxFlex="85">
+              {{chunk?.chunk}}
+            </div>
+            <div fxFlex="15" class="no-copy" fxHide.lt-md>
+              {{chunk?.residues}}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div #protVistaViewer fxHide.lt-md></div>
   </mat-card-content>

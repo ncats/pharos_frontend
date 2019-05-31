@@ -1,17 +1,27 @@
 <mat-card id="relatedTargets"
           (pharosScrollspy)="active('relatedTargets')"
 #relatedTargets>
-  <mat-card-header>
-    <mat-card-title >
-      <span class="mat-title"
-            [matTooltip] = description
-            [matTooltipClass] = "'pharos-tooltip'">
-        Find similar targets by:</span></mat-card-title>
-  </mat-card-header>
   <mat-card-content>
+    <div fxLayout="row"
+         fxLayout.lt-md="column"
+         class="tkrow"
+         fxLayoutAlign="start stretch">
+      <div fxFlex="95">
+        <span class="mat-title"
+              [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">
+          Find similar targets by:</span>
+      </div>
+      <div fxFlex="5">
+        <pharos-help-panel-trigger [origin]="'relatedTargets'" [label]="'Related Targets'"></pharos-help-panel-trigger>
+      </div>
+    </div>
     <div id="facets-grid">
       <div *ngFor = "let facet of facets">
-        <span class="mat-title">{{getLabel(facet.label)}} <!--({{facet.fields.length}})--> </span>
+        <span class="mat-title"
+              [matTooltip]= "getTooltip(facet.label)"
+              [matTooltipClass]="'pharos-tooltip'"
+        >{{getLabel(facet.label)}} <!--({{facet.fields.length}})--> </span>
         <pharos-generic-table
           [data]="facet.fields.slice(0,10)"
           [fieldsConfig]="fields"

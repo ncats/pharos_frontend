@@ -3,18 +3,33 @@
           #pdbview
           id="pdbview"
           *ngIf="data">
-  <mat-card-header>
-    <mat-card-title >
-      <span class="mat-title"
-            [matTooltip] = description
-            [matTooltipClass] = "'pharos-tooltip'">
-        Protein Database ({{reports?.length}})</span></mat-card-title>
-  </mat-card-header>
   <mat-card-content>
+    <div fxLayout="row"
+         fxLayout.lt-md="column"
+         class="tkrow"
+         fxLayoutAlign="start stretch">
+      <div fxFlex="95">
+        <span class="mat-title"
+              [matTooltip] = description
+              [matTooltipClass] = "'pharos-tooltip'">
+         Protein Database ({{reports?.length}})</span>
+      </div>
+      <div fxFlex="5">
+        <pharos-help-panel-trigger [origin] = "'pdbview'" [label]="'Protein Database Viewer'"></pharos-help-panel-trigger>
+      </div>
+    </div>
     <div fxLayout="row" fxLayoutAlign="space-around center">
 <div fxFlex="60">
-      <pharos-protein-structure-viewer [pdbid] = pdbid *ngIf="tableArr.length > 0"></pharos-protein-structure-viewer>
+      <pharos-protein-structure-viewer [pdbid] = pdbid *ngIf="tableArr.length > 0 && pdbid"></pharos-protein-structure-viewer>
 </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <div fxFlex="60" fxFlex.lt-md="80">
+        <p *ngIf="tableArr.length > 0 && pdbid" class="pdbid-display">Displaying: {{pdbid}}</p>
+        <p class="slice-help">  <mat-icon [color]="'primary'" class = "help-icon">info</mat-icon> Click on a
+          row in the table to change the structure displayed. More information can be found at
+          <a href="http://www.rcsb.org/" target="_blank">RCSB PDB <mat-icon [inline]="true">open_in_new</mat-icon></a></p>
+      </div>
     </div>
     <pharos-generic-table
       [pageData]= pageData

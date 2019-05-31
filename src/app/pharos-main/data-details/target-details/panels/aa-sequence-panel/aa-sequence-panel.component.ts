@@ -13,7 +13,7 @@ import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/na
 @Component({
   selector: 'pharos-aa-sequence-panel',
   templateUrl: './aa-sequence-panel.component.html',
-  styleUrls: ['./aa-sequence-panel.component.css'],
+  styleUrls: ['./aa-sequence-panel.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 
@@ -126,6 +126,10 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
   splitString (string: string, size: number): string[] {
     const re: RegExp  = new RegExp('.{1,' + size + '}', 'g');
     return string.match(re);
+  }
+
+  getTooltip(label: string): string {
+    return this.apiSources.filter(source => source.field === label)[0].description;
   }
 
   /**

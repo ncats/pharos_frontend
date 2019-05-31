@@ -235,6 +235,10 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
     this.navSectionsService.setActiveSection(fragment);
   }
 
+  getTooltip(label: string): string {
+    return this.apiSources.filter(source => source.field === label)[0].description;
+  }
+
   /**
    * cleanp on destroy
    */

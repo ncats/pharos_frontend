@@ -10,6 +10,7 @@ import {TinxArticleComponent} from '../tools/help-panel/articles/tinx-article/ti
 import {PubmedScoreArticleComponent} from '../tools/help-panel/articles/pubmed-score-article/pubmed-score-article.component';
 import {EquationRendererComponent} from '../tools/equation-renderer/equation-renderer.component';
 import {KatexRendererDirective} from '../tools/equation-renderer/katex-renderer.directive';
+import {AssociationScoreArticleComponent} from "../tools/help-panel/articles/association-score-article/association-score-article.component";
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import {KatexRendererDirective} from '../tools/equation-renderer/katex-renderer.
     LigandActivityArticleComponent,
     TinxArticleComponent,
     PubmedScoreArticleComponent,
+    AssociationScoreArticleComponent,
     KatexRendererDirective
   ],
   imports: [
@@ -31,13 +33,15 @@ import {KatexRendererDirective} from '../tools/equation-renderer/katex-renderer.
     {provide: ARTICLES.LIGAND_ACTIVITY_ARTICLE, useValue: LigandActivityArticleComponent },
     {provide: ARTICLES.TINX_ARTICLE, useValue: TinxArticleComponent },
     {provide: ARTICLES.PUBMED_SCORE_ARTICLE, useValue: PubmedScoreArticleComponent },
+    {provide: ARTICLES.ASSOCIATION_SCORES_ARTICLE, useValue: AssociationScoreArticleComponent },
   ],
   entryComponents: [
     IlluminationGraphArticleComponent,
     TargetDevelopmentArticleComponent,
     LigandActivityArticleComponent,
     TinxArticleComponent,
-    PubmedScoreArticleComponent
+    PubmedScoreArticleComponent,
+    AssociationScoreArticleComponent
   ]
 })
 export class HelpArticlesModule { }
