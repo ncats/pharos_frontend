@@ -1,19 +1,19 @@
 <div *ngIf="property">
-  <span class="" *ngIf="showLabel"><b>{{property.label}}</b></span>
+  <span class="" *ngIf="showLabel" matTooltip="{{property.label}}"><b>{{property.label}}:&nbsp;</b></span>
 <ng-container
   *ngIf="property.internalLink || property.externalLink || property.href; then link; else nolink">
 </ng-container>
 
 <ng-template #link>
   <ng-container
-    *ngIf="property.href || property.internalLink; then facet; else externalLink">
+    *ngIf="property.internalLink; then facet; else externalLink">
   </ng-container>
   <ng-template #facet>
-    <a href="{{property.internalLink || property.href}}">{{property.term}}</a>
+    <a [routerLink] = property.internalLink [queryParams]="property?.queryParams">{{property.term}}</a>
     <!--<a href="{{property.internalLink}}">{{property.getData()}}</a>-->
   </ng-template>
   <ng-template #externalLink>
-    <a href="{{property.externalLink}}" target="_blank" class="external-link">{{property.term}}<mat-icon [inline]="true">open_in_new</mat-icon></a>
+    <a href="{{property.externalLink || property.href}}" target="_blank" class="external-link">{{property.term}}<mat-icon [inline]="true">open_in_new</mat-icon></a>
   </ng-template>
 
 </ng-template>

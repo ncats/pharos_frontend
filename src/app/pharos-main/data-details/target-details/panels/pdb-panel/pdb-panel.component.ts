@@ -4,14 +4,14 @@ import {PharosProperty} from '../../../../../models/pharos-property';
 import {HttpClient} from '@angular/common/http';
 import {PdbReportData, PdbReportSerializer} from '../../../../../models/pdb-report';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
-import {DynamicTablePanelComponent} from "../../../../../tools/dynamic-table-panel/dynamic-table-panel.component";
-import {PageData} from "../../../../../models/page-data";
+import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
+import {PageData} from '../../../../../models/page-data';
 
 /**
  * token to inject structure viewer into generic table component
  * @type {InjectionToken<any>}
  */
-export const STRUCTURE_VIEW_TOKEN = new InjectionToken("StructureViewComponent");
+export const STRUCTURE_VIEW_TOKEN = new InjectionToken('StructureViewComponent');
 
 /**
  * pbd report generating url
@@ -26,7 +26,7 @@ const REPORT_URL = 'https://www.rcsb.org/pdb/rest/customReport.csv?customReportC
 @Component({
   selector: 'pharos-pdb-panel',
   templateUrl: './pdb-panel.component.html',
-  styleUrls: ['./pdb-panel.component.sass']
+  styleUrls: ['./pdb-panel.component.scss']
 })
 export class PdbPanelComponent extends DynamicTablePanelComponent implements OnInit {
 
@@ -138,14 +138,14 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
     const terms = this.data.pdb.map(pdb => pdb = pdb.term);
     this._http.get(REPORT_URL + terms.join(','), {responseType: 'text'}).subscribe(res => {
         this.csvJSON(res);
-        this.reports = this.reports
+       /* this.reports = this.reports
           .filter(entry => entry.ligandId);
-
+*/
       this.pageData = this.makePageData(this.reports.length);
       this.tableArr = this.reports
           .slice(this.pageData.skip, this.pageData.top)
         .map(report => this.pdbReportSerializer._asProperties(report));
-      this.pdbid = this.tableArr[0].structureId['term'];
+        this.pdbid = this.tableArr.length ? this.tableArr[0].structureId['term'] : '';
       this.ref.detectChanges();
     });
   }
@@ -160,7 +160,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
     const headers = lines.shift().split(',');
     if (lines.length > 0) {
       for (const i of lines) {
-        if(i) {
+        if (i) {
           const currentline = i.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
           const data: {} = {};
           for (const j of Object.keys(headers)) {
@@ -178,7 +178,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
    * @param event
    */
   pagePDB(event) {
-    this.tableArr = this.reports.slice(event.pageIndex * event.pageSize, (event.pageIndex +1) * event.pageSize)
+    this.tableArr = this.reports.slice(event.pageIndex * event.pageSize, (event.pageIndex + 1) * event.pageSize)
       .map(report => this.pdbReportSerializer._asProperties(report));
   }
 

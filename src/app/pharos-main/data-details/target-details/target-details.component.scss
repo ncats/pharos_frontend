@@ -10,7 +10,12 @@
 }
 
 .nav-panel {
-  min-width: 18vw;
+  width: 18vw;
+}
+
+.sidenav-buttons {
+  margin-top: 4vh;
+  margin-bottom: 1vh;
 }
 
 @media only screen and (max-width: 960px) {

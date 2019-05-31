@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NodeVisualComponent } from './node-visual.component';
 import {NodeMenuControllerService} from '../../services/event-tracking/node-menu-controller.service';
 import {Node} from '../../models/node';
-import {NodeService} from "../../../../../visualizations/force-directed-graph/services/event-tracking/node.service";
+import {NodeService} from '../../../../../visualizations/force-directed-graph/services/event-tracking/node.service';
 
 describe('NodeVisualComponent', () => {
   let component: NodeVisualComponent;

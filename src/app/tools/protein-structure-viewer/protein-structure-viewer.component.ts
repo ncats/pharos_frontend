@@ -14,7 +14,7 @@ export class ProteinStructureViewerComponent implements OnInit {
   /**
    * div element holder
    */
-  @ViewChild('proteinStructureViewer') viewerContainer: ElementRef;
+  @ViewChild('proteinStructureViewer', {static: true}) viewerContainer: ElementRef;
 
   /**
    * id of pdb entry (protein and molecule) t orender

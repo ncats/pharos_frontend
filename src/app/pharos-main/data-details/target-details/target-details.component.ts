@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, Inject, Injector, Input, OnDestroy, OnInit
 import {DOCUMENT} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import {takeWhile} from 'rxjs/operators';
+import {map, takeLast, takeWhile} from 'rxjs/operators';
 import {PharosConfig} from "../../../../config/pharos-config";
 import {Target} from '../../../models/target';
 import {DataDetailsResolver} from '../data-details.resolver';
@@ -11,7 +11,6 @@ import {CustomContentDirective} from '../../../tools/custom-content.directive';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {NavSectionsService} from '../../../tools/sidenav-panel/services/nav-sections.service';
 import {HelpDataService} from '../../../tools/help-panel/services/help-data.service';
-import {map, takeLast} from "rxjs/internal/operators";
 
 /**
  * main holder component for target details
@@ -44,7 +43,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
   /**
    * div element all components are injected into
    */
-  @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
+  @ViewChild(CustomContentDirective, {static: true}) componentHost: CustomContentDirective;
 
   /**
    * currently active element
@@ -122,6 +121,8 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
               mainDescription: component.navHeader.mainDescription ? component.navHeader.mainDescription : null
             }
           );
+          childComponent.instance.description = component.navHeader.mainDescription;
+          childComponent.instance.apiSources = component.api;
           childComponent.instance.field = component.navHeader.section;
           childComponent.instance.label = component.navHeader.label;
         }

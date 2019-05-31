@@ -9,7 +9,8 @@ import {Publication, PublicationSerializer} from '../../../../../models/publicat
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
-import {PharosConfig} from "../../../../../../config/pharos-config";
+import {PharosConfig} from '../../../../../../config/pharos-config';
+import {filter, map} from "rxjs/internal/operators";
 
 /**
  * displays publication information and statistics about a target
@@ -38,7 +39,7 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
   /**
    * pagination data
    */
-  publicationPageData: PageData;
+  publicationsPageData: PageData;
 
   /**
    * pgaination data
@@ -149,12 +150,24 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
    * create timelines if data is available
    */
   setterFunction() {
-    const publications: Publication[] = this.data.publications.filter(publication => publication).map(publication => this.publicationSerializer.fromJson(publication));
-    const rifs: Publication[] = this.data.generifs.map(publication => this.publicationSerializer.fromJson(publication));
-    this.publications = publications.map(publication => publication = this.publicationSerializer._asProperties(publication));
-    this.generifs = rifs.map(publication => publication = this.publicationSerializer._asProperties(publication));
-    this.publicationPageData = this.makePageData(this.target._publications.count);
-    this.rifPageData = this.makePageData(this.data.generifCount);
+    if(this.data.publications) {
+      const publications: Publication[] = this.data.publications
+        .filter(publication => publication)
+        .map(publication => this.publicationSerializer.fromJson(publication));
+      this.publications = publications
+        .map(publication => publication = this.publicationSerializer._asProperties(publication));
+      this.publicationsPageData = this.makePageData(this.target._publications.count);
+    }
+
+    if(this.data.generifs) {
+      const rifs: Publication[] = this.data.generifs
+        .map(publication => this.publicationSerializer.fromJson(publication));
+
+      this.generifs = rifs
+        .map(publication => publication = this.publicationSerializer._asProperties(publication));
+
+      this.rifPageData = this.makePageData(this.data.generifCount);
+    }
     if (this.data.pmscore) {
       const tempArr: PharosPoint[] = [];
       this.data.pmscore.map(point => {
@@ -189,14 +202,19 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
    * @param origin
    */
   paginate($event, origin: string) {
-    const url = `${this.pharosConfig.getApiPath()}targets/${this.target.accession}/${origin}?skip=${($event.pageIndex) * $event.pageSize}&top=${$event.pageSize}`;
+    const url = `${this.pharosConfig.getApiPath()}targets/${this.target.accession}/${origin}?skip=${$event.pageIndex * $event.pageSize}&top=${$event.pageSize}`;
    // this.loading = true;
-    this._http.get<Publication[]>(
-      url)
+    this._http.get<Publication[]>(url)
       .subscribe(res => {
-        const pubs: Publication[] = res.map(pub => this.publicationSerializer.fromJson(pub));
+        const pubs = res.filter(pub => pub).map(pub => this.publicationSerializer.fromJson(pub));
         this[origin] = pubs.map(pub => pub = this.publicationSerializer._asProperties(pub));
-     // /   this.loading = false;
+       this.loading = false;
+        if (origin === 'publications') {
+          this.publicationsPageData.skip = $event.pageIndex * $event.pageSize;
+        }
+        if (origin === 'generifs') {
+          this.rifPageData.skip = $event.pageIndex * $event.pageSize;
+        }
       });
   }
 

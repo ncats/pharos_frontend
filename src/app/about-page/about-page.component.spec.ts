@@ -38,11 +38,8 @@ describe('AboutPageComponent', () => {
         AboutPageComponent
       ],
       providers: [
-        PharosApiService,
         PathResolverService,
         LoadingService,
-        FacetRetrieverService,
-        SuggestApiService,
         {provide: APP_BASE_HREF, useValue: '/index' }
       ]
 

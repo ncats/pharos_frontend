@@ -18,7 +18,7 @@ export class DonutChartComponent implements OnInit, OnChanges {
   /**
    * donut chart component holder
    */
-  @ViewChild('donutChartTarget') chartContainer: ElementRef;
+  @ViewChild('donutChartTarget', {static: true}) chartContainer: ElementRef;
 
   /**
    * data to display
@@ -30,7 +30,7 @@ export class DonutChartComponent implements OnInit, OnChanges {
    * margin of space around the donut chart
    * @type {{top: number; bottom: number; left: number; right: number}}
    */
-  private margin: any = {top: 20, bottom: 20, left: 10, right: 10};
+  private margin: any = {top: 10, bottom: 10, left: 10, right: 10};
 
   /**
    * height of component
@@ -101,8 +101,8 @@ export class DonutChartComponent implements OnInit, OnChanges {
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
     this.radius = Math.min(this.width, this.height) / 2;
     const svg = d3.select(element).append('svg')
-      .attr('width', '100%')
-      .attr('height', '100%')
+      .attr('width', this.width + this.margin.left + this.margin.right)
+      .attr('height', this.height + this.margin.top + this.margin.bottom * 2)
       .append('g')
       .attr('class', 'donut-container');
     svg.append('g')

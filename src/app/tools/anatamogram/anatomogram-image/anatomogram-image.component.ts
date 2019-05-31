@@ -13,7 +13,7 @@ export class AnatomogramImageComponent implements OnInit {
   /**
    * the html element to inject the svg content into
    */
-  @ViewChild('anatamogram') anatamogram: ElementRef;
+  @ViewChild('anatamogram', {static: true}) anatamogram: ElementRef;
 
   /**
    * which species of anatamogram to show
@@ -57,7 +57,7 @@ export class AnatomogramImageComponent implements OnInit {
    * this allows d3 to interact with the svg
    */
   ngOnInit() {
-    const imageUrl: string = `./assets/images/svgs/${this.species}.${this.details}.svg`;
+    const imageUrl = `./assets/images/svgs/${this.species}.${this.details}.svg`;
     d3.xml(imageUrl).then(data => {
       d3.select(this.anatamogram.nativeElement).node().append(data.documentElement);
       this.svg = d3.select('#anatamogram');

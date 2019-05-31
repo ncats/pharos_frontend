@@ -4,6 +4,10 @@ table {
   max-width: 100%;
 }
 
+.paginator-row {
+  background-color: #ffffff;
+}
+
 .table-label > .mat-display-1 {
   margin-bottom: 0;
   margin-top: 1vh;
@@ -11,7 +15,8 @@ table {
 }
 
 td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
-//  padding: 1vw;
+    padding-left: 1vw;
+    padding-right: 1vw;
 }
 
 .buttons-row {
@@ -45,36 +50,4 @@ tr.detail-row {
 }
 
 margin-bottom: 10px;
-}
-
-.width5 {
-  width: 5%;
-}
-
-.width10 {
-  width: 10%;
-}
-
-.width15 {
-  width: 15%;
-}
-
-.width25 {
-  width: 25%;
-}
-
-.width50 {
-  width: 50%;
-}
-
-.width75 {
-  width: 75%;
-}
-
-.width80 {
-  width: 80%;
-}
-
-.width85 {
-  width: 85%;
 }

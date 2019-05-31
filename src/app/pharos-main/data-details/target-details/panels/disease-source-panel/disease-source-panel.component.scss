@@ -7,9 +7,29 @@
   height: 100%;
 }
 
+.disease-tree-invisible {
+  display: none;
+}
+
+.disease-tree ul,
+.disease-tree li {
+  margin-top: .5vh;
+  margin-bottom: .5vh;
+  list-style-type: none;
+}
+
+.tree-leaf {
+  display: flex;
+  align-items: center;
+}
+
 .tinx {
-  padding-top: 5vh;
-  padding-bottom: 10vh;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+}
+
+.tinx-row {
+  margin-top: 2vh;
 }
 
 @media only screen and (max-width: 768px) {

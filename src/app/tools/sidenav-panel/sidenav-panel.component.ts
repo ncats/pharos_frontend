@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit, Optional} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnInit, Optional, Output} from '@angular/core';
 import {NavSectionsService} from './services/nav-sections.service';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {DOCUMENT} from '@angular/common';
@@ -12,6 +12,13 @@ import {DOCUMENT} from '@angular/common';
   styleUrls: ['./sidenav-panel.component.scss']
 })
 export class SidenavPanelComponent implements OnInit {
+
+  /**
+   * close the filter panel
+   * @type {EventEmitter<boolean>}
+   */
+  @Output() closeClick: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   /**
    * page section currently in view
    */
@@ -57,6 +64,13 @@ export class SidenavPanelComponent implements OnInit {
     this.route.fragment.subscribe(fragment => {
       this.activeElement = fragment;
     });
+  }
+
+  /**
+   * close the filter panel
+   */
+  closeMenu() {
+    this.closeClick.emit();
   }
 
   /**

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {catchError,  map } from 'rxjs/operators';
-import {PharosConfig} from "../../../config/pharos-config";
+import {PharosConfig} from '../../../config/pharos-config';
 
 /**
  * api helper service to connect to search suggest fields

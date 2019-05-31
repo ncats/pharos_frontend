@@ -1,6 +1,6 @@
-import {COMPONENTSCONFIG} from "../config/components-config";
-import {environment} from "../environments/environment.prod";
-import {Injectable} from "@angular/core";
+import {COMPONENTSCONFIG} from '../config/components-config';
+import {environment} from '../environments/environment.prod';
+import {Injectable} from '@angular/core';
 
 
 /**
@@ -25,11 +25,11 @@ const _API = environment.api;
 const PHAROSCONFIG: any = {
   apiUrl: _HOST + _API,
   suggestUrl: _HOST + _API + 'suggest?q=',
-  radarUrl: _HOST + 'hg/data?type=radar-attr_type&q=',
-  radarSourcesUrl: _HOST + 'hg/ds?type=radar-attr_type',
-  structureImageUrl: _HOST + 'struc/',
-  homunculusUrl: _HOST + 'expression/homunculus?acc=_id_&source=',
-  molConvertUrl: _HOST + 'smiles',
+  radarUrl: _HOST + _API + 'hg/data?type=radar-attr_type&q=',
+  radarSourcesUrl: _HOST + _API + 'hg/ds?type=radar-attr_type',
+  structureImageUrl: _HOST + _API + 'struc/',
+  homunculusUrl: _HOST + _API + 'expression/homunculus?acc=_id_&source=',
+  molConvertUrl: _HOST + _API + 'smiles',
   autocompleteFields: ['UniProt_Gene', 'Target', 'Disease', 'OMIM_Term', 'UniProt_Name'],
   components: COMPONENTSCONFIG
 };
@@ -84,7 +84,6 @@ export class PharosConfig {
   /**
    * returns the url for the structure image
    * the component finishes the url with the uuid and '.svg':
-   * _HOST +'struc',
    * @return {string}
    */
    getStructureImageUrl(): string {

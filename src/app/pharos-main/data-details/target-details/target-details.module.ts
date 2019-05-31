@@ -1,32 +1,33 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {DiseaseSourceComponent} from "./panels/disease-source-panel/disease-source-panel.component";
-import {TOKENS} from "../../../../config/component-tokens";
-import {TargetFacetPanelComponent} from "./panels/target-facet-panel/target-facet-panel.component";
-import {ProteinProteinPanelComponent} from "./panels/protein-protein-panel/protein-protein-panel.component";
-import {AssayPanelComponent} from "./panels/assay-panel/assay-panel.component";
-import {AaSequencePanelComponent} from "./panels/aa-sequence-panel/aa-sequence-panel.component";
-import {TargetDetailsComponent} from "./target-details.component";
-import {PublicationInfoPanelComponent} from "./panels/publication-info-panel/publication-info-panel.component";
-import {TargetHeaderComponent} from "./target-header/target-header.component";
-import {LigandsPanelComponent} from "./panels/ligands-panel/ligands-panel.component";
-import {IdgResourcesPanelComponent} from "./panels/idg-resources-panel/idg-resources-panel.component";
-import {ExpressionPanelComponent} from "./panels/expression-panel/expression-panel.component";
-import {SummaryPanelComponent} from "./panels/summary-panel/summary-panel.component";
-import {OrthologPanelComponent} from "./panels/ortholog-panel/ortholog-panel.component";
-import {IdgLevelSummaryModule} from "./panels/level-summary-panel/idg-level-summary.module";
-import {SharedModule} from "../../../shared/shared.module";
-import {SharedDetailsModule} from "../../../shared/shared-details.module";
-import {CommonToolsModule} from "../../../tools/common-tools.module";
-import {RadarChartViewerComponent} from "../../../tools/radar-chart-viewer/radar-chart-viewer.component";
-import {TargetTableModule} from "../../data-list/tables/target-table/target-table.module";
-import {PdbPanelComponent, STRUCTURE_VIEW_TOKEN} from "./panels/pdb-panel/pdb-panel.component";
-import {GeneSummaryComponent} from "./target-header/gene-summary/gene-summary.component";
-import {BreadcrumbComponent} from "../../../tools/breadcrumb/breadcrumb.component";
-import {DiseaseTableModule} from "../../data-list/tables/disease-table/disease-table.module";
-import {LigandCardComponent} from "../../data-list/cards/ligand-card/ligand-card.component";
-import {LigandTableModule} from "../../data-list/tables/ligand-table/ligand-table.module";
-import {StructureViewComponent} from "../../../tools/structure-view/structure-view.component";
+import {DiseaseSourceComponent} from './panels/disease-source-panel/disease-source-panel.component';
+import {TOKENS} from '../../../../config/component-tokens';
+import {TargetFacetPanelComponent} from './panels/target-facet-panel/target-facet-panel.component';
+import {ProteinProteinPanelComponent} from './panels/protein-protein-panel/protein-protein-panel.component';
+import {AssayPanelComponent} from './panels/assay-panel/assay-panel.component';
+import {AaSequencePanelComponent} from './panels/aa-sequence-panel/aa-sequence-panel.component';
+import {TargetDetailsComponent} from './target-details.component';
+import {PublicationInfoPanelComponent} from './panels/publication-info-panel/publication-info-panel.component';
+import {TargetHeaderComponent} from './target-header/target-header.component';
+import {LigandsPanelComponent} from './panels/ligands-panel/ligands-panel.component';
+import {IdgResourcesPanelComponent} from './panels/idg-resources-panel/idg-resources-panel.component';
+import {ExpressionPanelComponent} from './panels/expression-panel/expression-panel.component';
+import {SummaryPanelComponent} from './panels/summary-panel/summary-panel.component';
+import {OrthologPanelComponent} from './panels/ortholog-panel/ortholog-panel.component';
+import {IdgLevelSummaryModule} from './panels/level-summary-panel/idg-level-summary.module';
+import {SharedModule} from '../../../shared/shared.module';
+import {SharedDetailsModule} from '../../../shared/shared-details.module';
+import {CommonToolsModule} from '../../../tools/common-tools.module';
+import {RadarChartViewerComponent} from '../../../tools/radar-chart-viewer/radar-chart-viewer.component';
+import {TargetTableModule} from '../../data-list/tables/target-table/target-table.module';
+import {PdbPanelComponent, STRUCTURE_VIEW_TOKEN} from './panels/pdb-panel/pdb-panel.component';
+import {GeneSummaryComponent} from './target-header/gene-summary/gene-summary.component';
+import {BreadcrumbComponent} from '../../../tools/breadcrumb/breadcrumb.component';
+import {DiseaseTableModule} from '../../data-list/tables/disease-table/disease-table.module';
+import {LigandCardComponent} from '../../data-list/cards/ligand-card/ligand-card.component';
+import {LigandTableModule} from '../../data-list/tables/ligand-table/ligand-table.module';
+import {StructureViewComponent} from '../../../tools/structure-view/structure-view.component';
+import {DrugsPanelComponent} from "./panels/drugs-panel/drugs-panel.component";
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {StructureViewComponent} from "../../../tools/structure-view/structure-vi
     GeneSummaryComponent,
     TargetFacetPanelComponent,
     IdgResourcesPanelComponent,
-    LigandsPanelComponent
+    LigandsPanelComponent,
+    DrugsPanelComponent
   ],
   imports: [
     CommonModule,
@@ -57,9 +59,9 @@ import {StructureViewComponent} from "../../../tools/structure-view/structure-vi
     DiseaseTableModule,
     LigandTableModule
   ],
-  exports:[
+  exports: [
   ],
-  entryComponents:[
+  entryComponents: [
     TargetHeaderComponent,
     TargetDetailsComponent,
     SummaryPanelComponent,
@@ -76,7 +78,8 @@ import {StructureViewComponent} from "../../../tools/structure-view/structure-vi
     RadarChartViewerComponent,
     IdgResourcesPanelComponent,
     LigandsPanelComponent,
-    StructureViewComponent
+    StructureViewComponent,
+    DrugsPanelComponent
   ],
   providers: [
     // breadcrumb
@@ -96,6 +99,7 @@ import {StructureViewComponent} from "../../../tools/structure-view/structure-vi
     {provide: TOKENS.ASSAY_PANEL, useValue: AssayPanelComponent},
     {provide: TOKENS.AA_SEQUENCE_PANEL, useValue: AaSequencePanelComponent},
     {provide: TOKENS.LIGANDS_PANEL, useValue: LigandsPanelComponent},
+    {provide: TOKENS.DRUGS_PANEL, useValue: DrugsPanelComponent},
     {provide: TOKENS.PDB_PANEL, useValue: PdbPanelComponent},
     {provide: STRUCTURE_VIEW_TOKEN, useValue: StructureViewComponent}
   ]

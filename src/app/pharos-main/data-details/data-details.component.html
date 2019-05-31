@@ -1,4 +1,7 @@
-<div class = "pharos-main" >
+<div class = "pharos-main">
+  <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
+    <mat-spinner></mat-spinner>
+  </div>
     <app-ncats-header [searchBar]="true" class="details-header"></app-ncats-header>
     <mat-sidenav-container class="main-content">
       <mat-sidenav #helppanel

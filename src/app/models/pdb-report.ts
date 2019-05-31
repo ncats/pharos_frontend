@@ -1,5 +1,5 @@
-import {PharosBase, PharosSerializer} from "./pharos-base";
-import {PharosProperty} from "./pharos-property";
+import {PharosBase, PharosSerializer} from './pharos-base';
+import {PharosProperty} from './pharos-property';
 
 /**
  * main pdb report class
@@ -68,19 +68,20 @@ export class PdbReportSerializer implements PharosSerializer {
   fromJson(json: any): PdbReportData {
     const obj = new PdbReportData();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
-    if(json.EC50) {
+    obj.activities = [];
+    if (json.EC50) {
       obj.activities.push(`EC50: ${json.EC50}`);
     }
-    if(json.IC50) {
+    if (json.IC50) {
       obj.activities.push(`IC50: ${json.IC50}`);
     }
-    if(json.Ka) {
+    if (json.Ka) {
       obj.activities.push(`Ka: ${json.Ka}`);
     }
-    if(json.Kd) {
+    if (json.Kd) {
       obj.activities.push(`Kd: ${json.Kd}`);
     }
-    if(json.Ki) {
+    if (json.Ki) {
       obj.activities.push(`Ki: ${json.Ki}`);
     }
     return obj;
@@ -107,7 +108,7 @@ export class PdbReportSerializer implements PharosSerializer {
       const property: PharosProperty = new PharosProperty({name: field, label: field, term: obj[field]});
       newObj[field] = property;
     });
-    if (newObj.pubmedId) {
+    if (obj.pubmedId) {
       newObj.pubmedId.externalLink = `http://www.ncbi.nlm.nih.gov/pubmed/${obj.pubmedId}`;
     }
     return newObj;

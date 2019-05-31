@@ -22,7 +22,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
   /**
    * div element that holds the protvista viewer
    */
-  @ViewChild('protVistaViewer') viewerContainer: ElementRef;
+  @ViewChild('protVistaViewer', {static: true}) viewerContainer: ElementRef;
 
   /**
    * chunked amino acid sequence

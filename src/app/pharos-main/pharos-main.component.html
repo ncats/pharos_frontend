@@ -1,32 +1,8 @@
 <div class="pharos-main">
   <app-ncats-header [searchBar]=true></app-ncats-header>
-  <mat-sidenav-container class="main-content">
-    <mat-sidenav #sidenav [mode]="'side'" class="filters-panel" [opened]="isSmallScreen!==true" (openedStart)="loadFacets()">
-      <!-- sidenav content -->
-      <pharos-filter-panel (closeClick)="sidenav.toggle()"></pharos-filter-panel>
-    </mat-sidenav>
-    <mat-sidenav #helppanel [position]="'end'" class="help-panel" [mode]="'over'" [opened]="false">
-      <!-- sidenav content -->
-      <pharos-help-panel></pharos-help-panel>
-    </mat-sidenav>
-    <mat-sidenav-content>
-      <div fxLayout="row" fxLayoutAlign="start start" class="filter-help">
-        <div fxFlex="5">
-          <button type="button" *ngIf="sidenav.opened" class="sidenavToggle" mat-raised-button [color]="'primary'" (click)="sidenav.toggle()">
-            Hide Filters <mat-icon>filter_list</mat-icon>
-          </button>
-          <button type="button"  *ngIf="!sidenav.opened" class="sidenavToggle" mat-raised-button [color]="'primary'" (click)="sidenav.toggle()">
-            Show Filters <mat-icon>filter_list</mat-icon>
-          </button>
-        </div>
-      </div>
-      <pharos-data-list-visualizations></pharos-data-list-visualizations>
-    <mat-divider class="space-divider"></mat-divider>
-      <pharos-facet-list></pharos-facet-list>
       <router-outlet></router-outlet>
       <pharos-scroll-to-top></pharos-scroll-to-top>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+
 </div>
 <app-pharos-footer></app-pharos-footer>
 

@@ -1,10 +1,10 @@
-import {InjectionToken} from "@angular/core";
-import {TOKENS} from "../config/component-tokens";
-import {ARTICLES} from "../config/help-article-tokens";
-import {environment} from "../environments/environment.prod";
+import {InjectionToken} from '@angular/core';
+import {TOKENS} from '../config/component-tokens';
+import {ARTICLES} from '../config/help-article-tokens';
+import {environment} from '../environments/environment.prod';
 
 /**
- * basic interface for a pharos api call configuratiogit n object
+ * basic interface for a pharos api call configuration object
  */
 interface PharosApi {
   /**
@@ -75,12 +75,11 @@ interface PharosPanel {
   /**
    * list of various api calls to retrieve data specific to the panel
    */
-  api?: PharosApi[]
+  api?: PharosApi[];
 }
 
 /**
  * pharos host url
- * todo might not want to bring environment variables into play here
  * @type {string}
  * @private
  */
@@ -176,7 +175,9 @@ const SUMMARY_PANEL: PharosPanel = {
   token: TOKENS.SUMMARY_PANEL,
   navHeader: {
     label: 'Protein Summary',
-    section: 'summary'
+    section: 'summary',
+    mainDescription: 'Gene symbols, accession ids and various other target identifiers. Also contains the illumination ' +
+    'graph which highlights the amount of knowledge available. Click the \'?\' button for more information'
   },
   api: [
     {
@@ -211,7 +212,7 @@ const SUMMARY_PANEL: PharosPanel = {
     {
       field: 'knowledge',
       label: 'Illumination Graph',
-      url: _HOST + 'hg/data?type=radar-attr_type&q=_accession_',
+      url: _APIURL + 'hg/data?type=radar-attr_type&q=_accession_',
       description: 'Radar plot depicting the variety of knowledge obtained by Pharos for a particular target. ' +
       'The more spikes in the plot, the more variety. The longer the length, the higher the quantity of that particular ' +
       'knowledge. Clicking the illumination graph opens an expanded view to explore the plot fuller by seeing ' +
@@ -237,7 +238,9 @@ const LEVEL_SUMMARY_PANEL: PharosPanel = {
   token: TOKENS.LEVEL_SUMMARY_PANEL,
   navHeader: {
     label: 'IDG Development Level Summary',
-    section: 'development'
+    section: 'development',
+    mainDescription: 'Descriptions of the IDG illumination level highlighting the milestones attained in the research of ' +
+    'this target.'
   },
   api: [
     {
@@ -245,6 +248,12 @@ const LEVEL_SUMMARY_PANEL: PharosPanel = {
       label: 'Target Development Level',
       description: 'Computed IDG Target Development Level',
       article: ARTICLES.TARGET_DEVELOPMENT_ARTICLE
+    },
+    {
+      field: 'pubmed',
+      label: 'Pubmed Score',
+      description: 'Jensen Lab generated fractional counting score for the prevalence of this gene in Pubmed articles. ',
+      article: ARTICLES.PUBMED_SCORE_ARTICLE
     },
     {
       field: 'generif',
@@ -255,24 +264,29 @@ const LEVEL_SUMMARY_PANEL: PharosPanel = {
       'the reported target.'
     },
     {
-      field: 'omim',
-      label: 'OMIM Term',
-      url: _APIURL + 'targets/_id_/properties(label=OMIM%20Term*)'
+      field: 'antibodies',
+      label: 'Antibody Count',
+      description: 'Number of antibodies for this target listed in antibodypedia.com'
+    },
+    {
+      field: 'goMolecularFunctions',
+      label: 'Gene Ontology Molecular Function',
+      description: 'Number of Gene Ontology (GO) annotations for this target, consisting of the sum of GO Function, GO Component' +
+      'and GO Process.'
     },
     {
       field: 'goFunction',
       label: 'GO Function',
       url: _APIURL + 'targets/_id_/properties(label=GO%20Function*)',
       description: 'Function listed by GO database for target, with total count listed in parenthesis. ' +
-      'Listing individual functions with links to GO. Click on bargraph icon to explore further the Summary of GO Function.'
+      'Listing individual functions with links to GO.'
     },
     {
       field: 'goComponent',
       label: 'GO Component',
       url: _APIURL + 'targets/_id_/properties(label=GO%20Component*)',
       description: 'Cellular component listed by GO database for target, with total count listed in ' +
-      'parenthesis. Listing individual functions with links to GO. Click on bargraph icon to explore further ' +
-      'the Summary of GO Function.'
+      'parenthesis. Listing individual functions with links to GO.'
     },
     {
       field: 'goProcess',
@@ -281,6 +295,12 @@ const LEVEL_SUMMARY_PANEL: PharosPanel = {
       description: 'Biological process listed by GO database for target, with total count listed in parenthesis.' +
       'Listing individual functions with links to GO. Click on bargraph icon to explore further the Summary ' +
       'of GO Function.'
+    },
+    {
+      field: 'omim',
+      label: 'OMIM Phenotypes',
+      url: _APIURL + 'targets/_id_/properties(label=OMIM%20Term*)',
+      description: 'Phenotypes listed in OMIM relevant to this target.'
     },
     {
       field: 'ligandsCount',
@@ -307,7 +327,8 @@ const IDG_RESOURCES_PANEL: PharosPanel = {
   token: TOKENS.IDG_RESOURCES_PANEL,
   navHeader: {
     label: 'IDG Generated Resources',
-    section: 'resources'
+    section: 'resources',
+    mainDescription: 'Reagents and data sources generated by IDG partner organizations'
   },
   api: []
 };
@@ -320,8 +341,8 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
   token: TOKENS.DISEASE_SOURCE_PANEL,
   navHeader: {
     label: 'Disease Associations by Source',
-    section: 'diseaseRelationships',
-    mainDescription: 'This is a list of diseases associated with this target, compiled by several resources. Each' +
+    section: 'diseaseSources',
+    mainDescription: 'This is a list of diseases associated with this target, compiled by several resources. Each ' +
     'resource provides different confidence measurements and association values, which are described below.'
   },
   api: [
@@ -330,12 +351,18 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
       label: 'Disease Association Sources',
       url: _APIURL + 'targets/_id_/links(kind=ix.idg.models.Disease)',
       description: 'Disease-gene associations mined from Medline Franklid et al, Methods, 2015, 83-89'
-    }, {
+    },{
+      field: 'diseases',
+      label: 'Disease Association Sources',
+      url: _APIURL + 'targets/_id_/links(kind=ix.idg.models.Disease)',
+      description: 'Disease-gene associations mined from Medline Franklid et al, Methods, 2015, 83-89'
+    },
+    {
       field: 'tinx',
-      label: 'Disease Novelty (Tinx)',
-      url: _HOST + 'tinx/target/_accession_',
+      label: 'Disease Novelty (Tin-x)',
+      url: _APIURL + 'tinx/target/_accession_',
       description: 'TIN-X is an interactive visualization tool for discovering interesting associations between diseases ' +
-      'and potential drug targets.',
+      'and potential drug targets. Click the \'?\' button for more information.',
       article: ARTICLES.TINX_ARTICLE
     }
   ]
@@ -349,7 +376,9 @@ const LIGANDS_PANEL: PharosPanel = {
   token: TOKENS.LIGANDS_PANEL,
   navHeader: {
     label: 'Active Ligands',
-    section: 'ligands'
+    section: 'ligands',
+    mainDescription: 'Active ligands that are associated with this target. Click the \'?\' button for information on ' +
+    'activity cutoffs.'
   },
   api: [
     {
@@ -361,8 +390,8 @@ const LIGANDS_PANEL: PharosPanel = {
       article: ARTICLES.LIGAND_ACTIVITY_ARTICLE
     },
     {
-      field: 'count',
-      label: 'Ligands Ligands',
+      field: 'ligandcount',
+      label: 'Ligands Count',
       url: _APIURL + 'targets/_id_/ligands/@count',
       description: 'Ligands associated with a target, listed in ChEMBL, with activity over a cutoff relative to the target' +
       'class.'
@@ -375,10 +404,11 @@ const LIGANDS_PANEL: PharosPanel = {
  * @type {PharosPanel}
  */
 const DRUGS_PANEL: PharosPanel = {
-  token: TOKENS.LIGANDS_PANEL,
+  token: TOKENS.DRUGS_PANEL,
   navHeader: {
     label: 'Approved Drugs',
-    section: 'drugs'
+    section: 'drugs',
+    mainDescription: 'Approved drugs that are associated with this target.'
   },
   api: [
     {
@@ -389,7 +419,7 @@ const DRUGS_PANEL: PharosPanel = {
       'The order is based on reported pKd or pKi.'
     },
     {
-      field: 'count',
+      field: 'drugscount',
       label: 'Drugs Count',
       url: _APIURL + 'targets/_id_/drugs/@count',
       description: 'Approved drugs associated with a target.'
@@ -405,7 +435,8 @@ const PDB_PANEL: PharosPanel = {
   token: TOKENS.PDB_PANEL,
   navHeader: {
     label: 'PDB Viewer',
-    section: 'pdbview'
+    section: 'pdbview',
+    mainDescription: 'List of protens and ligands sourced from the RCBS PDB database'
   },
   api: [
     {
@@ -465,7 +496,8 @@ const PROTEIN_PROTEIN_PANEL: PharosPanel = {
   token: TOKENS.PROTEIN_PROTEIN_PANEL,
   navHeader: {
     label: 'Protein to Protein Interactions',
-    section: 'ppi'
+    section: 'ppi',
+    mainDescription: 'List of protein to protein interactions associated with this gene.'
   },
   api: [
     {
@@ -485,7 +517,7 @@ const PUBLICATION_INFO_PANEL: PharosPanel = {
     label: 'Publication Information',
     section: 'publicationsPanel',
     mainDescription: 'Statistics about the occurence of this target in literature, extracted via text mining. GeneRIFs,' +
-    'and text-mined publications are also displayed.'
+    'and text-mined publications are also displayed. For more details, click the \'?\' button.'
   },
   api: [
     {
@@ -547,7 +579,8 @@ const AA_SEQUENCE_PANEL: PharosPanel = {
   token: TOKENS.AA_SEQUENCE_PANEL,
   navHeader: {
     label: 'Sequence Details',
-    section: 'sequence'
+    section: 'sequence',
+    mainDescription: 'Amino acid sequence, and a detailed sequence structure viewer via the Uniprot Protvista viewer.'
   },
   api: [
     {
@@ -567,7 +600,8 @@ const TARGET_FACET_PANEL: PharosPanel = {
   token: TOKENS.TARGET_FACET_PANEL,
   navHeader: {
     label: 'Related Targets',
-    section: 'relatedTargets'
+    section: 'relatedTargets',
+    mainDescription: 'List of targets within Pharos that are related to this target.'
   },
   api: [
     {
@@ -655,7 +689,7 @@ const DISEASE_DETAILS_COMPONENT: PharosPanel = {
 };
 
 /**
- * list of targets associated ith a disease component
+ * list of targets associated with a disease component
  * @type {PharosPanel}
  */
 const TARGET_LIST_PANEL: PharosPanel = {
@@ -663,6 +697,7 @@ const TARGET_LIST_PANEL: PharosPanel = {
   api: [
     {
       field: 'targets',
+      label: 'Related Targets',
       url: _APIURL + 'diseases/_id_/links(kind=ix.idg.models.Target)?top=10'
     }
   ]
@@ -701,6 +736,21 @@ const LIGAND_DETAILS_COMPONENT: PharosPanel = {
 const LIGAND_HEADER_COMPONENT: PharosPanel = {
   token: TOKENS.LIGAND_HEADER_COMPONENT,
   api: []
+};
+
+/**
+ * ligand description component
+ * @type {PharosPanel}
+ */
+const LIGAND_DESCRIPTION_COMPONENT: PharosPanel = {
+  token: TOKENS.LIGAND_DESCRIPTION_COMPONENT,
+  api: [
+    {
+      field: 'description',
+     // url: _APIURL + 'targets/_id_/properties(label=NCBI%20Gene%20Summary)'
+      description: 'Description of the ligand.'
+    }
+  ]
 };
 
 /**
@@ -772,7 +822,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           TARGET_TABLE_COMPONENT
         ]
       },
-      default: _HOST + _API + 'targets/search?top=10&skip=0',
+      default: _APIURL + 'targets/search?top=10&skip=0',
       facets: [
         {
           name: 'IDG Development Level',
@@ -859,6 +909,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           LEVEL_SUMMARY_PANEL,
          // IDG_RESOURCES_PANEL,
           DISEASE_SOURCE_PANEL,
+          DRUGS_PANEL,
           LIGANDS_PANEL,
           PDB_PANEL,
           EXPRESSION_PANEL,
@@ -875,6 +926,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           SUMMARY_PANEL,
           LEVEL_SUMMARY_PANEL,
          // IDG_RESOURCES_PANEL,
+          DRUGS_PANEL,
           LIGANDS_PANEL,
           DISEASE_SOURCE_PANEL,
           PDB_PANEL,
@@ -898,9 +950,9 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PDB_PANEL,
           EXPRESSION_PANEL,
           PROTEIN_PROTEIN_PANEL,
-          PUBLICATION_INFO_PANEL,
-          AA_SEQUENCE_PANEL,
-          TARGET_FACET_PANEL
+           PUBLICATION_INFO_PANEL,
+           AA_SEQUENCE_PANEL,
+           TARGET_FACET_PANEL
         ]
       }
     }],
@@ -910,7 +962,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           DISEASE_TABLE_COMPONENT
         ]
       },
-      default: _HOST + _API + 'diseases/search?top=10&skip=0',
+      default: _APIURL + 'diseases/search?top=10&skip=0',
       facets: [
         {
           name: 'IDG Development Level',
@@ -923,14 +975,6 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
         {
           name: 'IDG Drug',
           label: 'Drug'
-        },
-        {
-          name: 'IMPC Term',
-          label: 'IMPC Term'
-        },
-        {
-          name: 'IDG Disease',
-          label: 'Disease'
         },
         {
           name: 'Data Source',
@@ -947,21 +991,17 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
             name: 'IDG Development Level',
             label: 'Development Level'
           },
-          /* {
-             name: 'IMPC Term',
-             label: 'IMPC Term'
-           },*/
-          {
-            name: 'IDG Disease',
-            label: 'Disease'
-          },
-          {
-            name: 'IDG Tissue',
-            label: 'Tissue'
-          },
           {
             name: 'IDG Target Family',
             label: 'Target Family'
+          },
+          {
+            name: 'Data Source',
+            label: 'Data Source'
+          },
+          {
+            name: 'DisGeNET Source',
+            label: 'DisGeNET Source'
           }
         ],
         sunburst: [],
@@ -986,7 +1026,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           LIGAND_TABLE_COMPONENT
         ]
       },
-      default: _HOST + _API + 'ligands/search?top=20&skip=0&view=full',
+      default: _APIURL + 'ligands/search?top=20&skip=0&view=full',
       facets: [
         {
           name: 'IDG Development Level',
@@ -999,10 +1039,6 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
         {
           name: 'IDG Target',
           label: 'Target'
-        },
-        {
-          name: 'Selectivity',
-          label: 'Selectivity'
         },
         {
           name: 'Pharmalogical Action',
@@ -1031,10 +1067,6 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
             name: 'IDG Target',
             label: 'Target'
           },
-          /*        {
-                    name: 'Selectivity',
-                    label: 'Selectivity'
-                  },*/
           {
             name: 'Pharmalogical Action',
             label: 'Pharmalogical Action'
@@ -1104,19 +1136,19 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       api: [
         {
           field: 'targets',
-          url: _HOST + _API + 'targets/search?q='
+          url: _APIURL + 'targets/search?q='
         },
         {
           field: 'diseases',
-          url: _HOST + _API + 'diseases/search?q='
+          url: _APIURL + 'diseases/search?q='
         },
         {
           field: 'ligands',
-          url: _HOST + _API + 'ligands/search?view=full&q='
+          url: _APIURL + 'ligands/search?view=full&q='
         },
         {
           field: 'publications',
-          url: _HOST + _API + 'publications/search?q='
+          url: _APIURL + 'publications/search?q='
         }
       ],
       facets: [

@@ -1,11 +1,11 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {MatDialog} from '@angular/material';
-import { takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {RadarChartViewerComponent} from '../../../../../tools/radar-chart-viewer/radar-chart-viewer.component';
 import {Target} from '../../../../../models/target';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
-import {tap} from "rxjs/internal/operators";
+import {HelpDataService} from "../../../../../tools/help-panel/services/help-data.service";
 
 
 /**
@@ -15,7 +15,8 @@ import {tap} from "rxjs/internal/operators";
 @Component({
   selector: 'pharos-summary-panel',
   templateUrl: './summary-panel.component.html',
-  styleUrls: ['./summary-panel.component.scss']
+  styleUrls: ['./summary-panel.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 /**
@@ -79,6 +80,10 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
 }
+
+  getTooltip(label: string): string {
+    return this.apiSources.filter(source => source.label === label)[0].description;
+  }
 
   /**
    * clean up on leaving component

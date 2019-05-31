@@ -17,12 +17,12 @@ export class PharosHomeComponent implements OnInit {
   /**
    * elements of the page scroll to
    */
-  @ViewChild('topicsRow', {read: ElementRef}) topicsElemRef: ElementRef;
+  @ViewChild('topicsRow', {read: ElementRef, static: true}) topicsElemRef: ElementRef;
 
   /**
    * element of the page to scroll to
    */
-  @ViewChild('details', {read: ElementRef}) elemRef: ElementRef;
+  @ViewChild('details', {read: ElementRef, static: true}) elemRef: ElementRef;
   topics: any;
   position: string;
   animationState = 'out';

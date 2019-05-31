@@ -43,7 +43,7 @@ export class SketcherComponent implements OnInit {
     private molConverter: MolConverterService,
     private structureSetter: StructureSetterService,
     private sanitizer: DomSanitizer,
-    private loadingService: LoadingService,
+    public loadingService: LoadingService,
     private ngZone: NgZone
   ) {
     // todo : try to load sketcher without an iframe

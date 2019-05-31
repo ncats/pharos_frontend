@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Topic} from "../../models/topic";
+import {Topic} from '../../models/topic';
 
 /**
  * card display for specific topics

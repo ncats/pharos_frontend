@@ -1,15 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DataListVisualizationsComponent } from './data-list-visualizations.component';
-import {SharedModule} from '../../shared/shared.module';
-import {PharosMainRoutingModule} from '../pharos-main-routing.module';
-import {PathResolverService} from '../../pharos-services/path-resolver.service';
-import {LoadingService} from '../../pharos-services/loading.service';
-import {FacetRetrieverService} from '../filter-panel/facet-retriever.service';
-import {PharosApiService} from '../../pharos-services/pharos-api.service';
-import {ResponseParserService} from '../../pharos-services/response-parser.service';
-import {SuggestApiService} from '../../tools/search-component/suggest-api.service';
-import {APP_BASE_HREF} from '@angular/common';
 import {RouterTestingModule} from '@angular/router/testing';
+import {APP_BASE_HREF} from '@angular/common';
+import {DataListVisualizationsComponent} from "../../../pharos-main/data-list/data-list-visualizations/data-list-visualizations.component";
+import {PharosMainRoutingModule} from "../../../pharos-main/pharos-main-routing.module";
+import {SharedModule} from "../../../shared/shared.module";
+import {PathResolverService} from "../../../pharos-services/path-resolver.service";
+import {PharosApiService} from "../../../pharos-services/pharos-api.service";
+import {ResponseParserService} from "../../../pharos-services/response-parser.service";
+import {LoadingService} from "../../../pharos-services/loading.service";
+import {FacetRetrieverService} from "../../../data-list/filter-panel/facet-retriever.service";
+
 
 describe('DataListVisualizationsComponent', () => {
   let component: DataListVisualizationsComponent;
@@ -23,16 +23,14 @@ describe('DataListVisualizationsComponent', () => {
         PharosMainRoutingModule
       ],
       declarations: [
-
+        DataListVisualizationsComponent
       ],
       providers: [
         PathResolverService,
         PharosApiService,
-        PathResolverService,
         ResponseParserService,
         LoadingService,
         FacetRetrieverService,
-        SuggestApiService,
         {provide: APP_BASE_HREF, useValue: '/targets' }
       ]
     })

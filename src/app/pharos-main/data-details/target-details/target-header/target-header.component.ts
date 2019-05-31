@@ -2,7 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Target} from '../../../../models/target';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
-import {BreakpointObserver} from '@angular/cdk/layout';
 
 @Component({
   selector: 'pharos-target-header',

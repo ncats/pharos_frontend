@@ -13,7 +13,7 @@ import {ApiPageComponent} from '../../api-page/api-page.component';
 import {FaqPageComponent} from '../../faq-page/faq-page.component';
 import {NewsPanelComponent} from '../news-panel/news-panel.component';
 import {ApiViewerComponent} from '../../tools/api-viewer/api-viewer.component';
-import {Topic, TopicSerializer} from "../../models/topic";
+import {Topic} from "../../models/topic";
 
 describe('ToiCardComponent', () => {
   let component: ToiCardComponent;
@@ -27,13 +27,7 @@ describe('ToiCardComponent', () => {
         AppRoutingModule
       ],
       declarations: [
-        ApiPageComponent,
-        AboutPageComponent,
-        FaqPageComponent,
-        DataTypesPanelComponent,
-        NewsPanelComponent,
-        AboutPanelComponent,
-        ApiViewerComponent
+        ToiCardComponent
       ],
       providers: [
         SuggestApiService,
@@ -46,14 +40,16 @@ describe('ToiCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ToiCardComponent);
     component = fixture.componentInstance;
-    component.toi = new TopicSerializer().fromJson({
+    const top: Topic = new Topic();
+    /*top = {
       name: 'Bromodomain Inhibitors',
       class: 'target',
       diseaseCt: 45,
       ligandCt: 43,
       targetCt: 0,
       publicationCt: 25
-    });
+    }*/
+    component.toi = top;
     fixture.detectChanges();
   });
 

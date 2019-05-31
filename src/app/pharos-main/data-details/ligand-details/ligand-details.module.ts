@@ -1,19 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {TargetTableModule} from "../../data-list/tables/target-table/target-table.module";
-import {CommonToolsModule} from "../../../tools/common-tools.module";
-import {SharedModule} from "../../../shared/shared.module";
-import {SharedDetailsModule} from "../../../shared/shared-details.module";
-import {IdgLevelSummaryModule} from "../target-details/panels/level-summary-panel/idg-level-summary.module";
-import {LigandTableComponent} from "../../data-list/tables/ligand-table/ligand-table.component";
-import {MolecularDefinitionPanelComponent} from "./molecular-definition-panel/molecular-definition-panel.component";
-import {LigandDetailsComponent} from "./ligand-details.component";
-import {TOKENS} from "../../../../config/component-tokens";
-import {TargetRelevancePanelComponent} from "./target-relevance-panel/target-relevance-panel.component";
-import {LigandHeaderComponent} from "./ligand-header/ligand-header.component";
-import {SynonymsPanelComponent} from "./synonyms-panel/synonyms-panel.component";
-import {StructureViewPanelComponent} from "./structure-view-panel/structure-view-panel.component";
-import {LigandTableModule} from "../../data-list/tables/ligand-table/ligand-table.module";
+import {TargetTableModule} from '../../data-list/tables/target-table/target-table.module';
+import {CommonToolsModule} from '../../../tools/common-tools.module';
+import {SharedModule} from '../../../shared/shared.module';
+import {SharedDetailsModule} from '../../../shared/shared-details.module';
+import {IdgLevelSummaryModule} from '../target-details/panels/level-summary-panel/idg-level-summary.module';
+import {LigandTableComponent} from '../../data-list/tables/ligand-table/ligand-table.component';
+import {MolecularDefinitionPanelComponent} from './panels/molecular-definition-panel/molecular-definition-panel.component';
+import {LigandDetailsComponent} from './ligand-details.component';
+import {TOKENS} from '../../../../config/component-tokens';
+import {TargetRelevancePanelComponent} from './panels/target-relevance-panel/target-relevance-panel.component';
+import {LigandHeaderComponent} from './ligand-header/ligand-header.component';
+import {SynonymsPanelComponent} from './panels/synonyms-panel/synonyms-panel.component';
+import {StructureViewPanelComponent} from './panels/structure-view-panel/structure-view-panel.component';
+import {LigandTableModule} from '../../data-list/tables/ligand-table/ligand-table.module';
+import {LigandDescriptionComponent} from "./panels/ligand-description/ligand-description.component";
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import {LigandTableModule} from "../../data-list/tables/ligand-table/ligand-tabl
     SynonymsPanelComponent,
     StructureViewPanelComponent,
     TargetRelevancePanelComponent,
+    LigandDescriptionComponent,
     MolecularDefinitionPanelComponent
   ],
   imports: [
@@ -47,6 +49,7 @@ import {LigandTableModule} from "../../data-list/tables/ligand-table/ligand-tabl
     LigandHeaderComponent,
     SynonymsPanelComponent,
     StructureViewPanelComponent,
+    LigandDescriptionComponent,
     TargetRelevancePanelComponent,
     MolecularDefinitionPanelComponent
   ]

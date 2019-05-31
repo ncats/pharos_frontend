@@ -5,6 +5,11 @@
 </div>
     <div fxLayout="row" fxLayoutAlign="space-around start">
       <div fxFlex="60" fxFlex.lt-md="80" *ngIf=donutData>
-    <pharos-visualization-options (fieldChange)="changeDonutChart($event)" [facets] = chartFacets.donut></pharos-visualization-options>
+      <p class="slice-help">  <mat-icon [color]="'primary'" class = "help-icon">info</mat-icon> Click on a slice to filter the list</p>
+  </div>
+</div>
+<div fxLayout="row" fxLayoutAlign="space-around start">
+      <div fxFlex="60" fxFlex.lt-md="80" *ngIf=donutData>
+    <pharos-visualization-options (fieldChange)="changeDonutChart($event)" [facets] = filteredFacets></pharos-visualization-options>
   </div>
 </div>

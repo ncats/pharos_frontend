@@ -1,9 +1,12 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit,
+  Output
+} from '@angular/core';
 import {Facet} from '../../../models/facet';
 import {Subject} from 'rxjs';
 import {PathResolverService} from '../../../pharos-services/path-resolver.service';
 import {FacetRetrieverService} from './facet-retriever.service';
-import {PharosConfig} from "../../../../config/pharos-config";
+import {PharosConfig} from '../../../../config/pharos-config';
 
 /**
  * panel that hold a facet table for selection
@@ -11,7 +14,9 @@ import {PharosConfig} from "../../../../config/pharos-config";
 @Component({
   selector: 'pharos-filter-panel',
   templateUrl: './filter-panel.component.html',
-  styleUrls: ['./filter-panel.component.scss']
+  styleUrls: ['./filter-panel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class FilterPanelComponent implements OnInit, OnDestroy {
   /**
@@ -32,6 +37,11 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
   facetsMap: Map<string, any> = new Map<string, any>();
 
   /**
+   * list of initial facets to display
+   */
+  filteredFacets: Facet[];
+
+  /**
    * list of all facets to display
    */
   allFacets: Facet[];
@@ -46,6 +56,11 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * ngmodel of search value to filter facets when all are displayed
    */
   value: string;
+
+  /**
+   * boolean to track if facets are loading/shown
+   * @type {boolean}
+   */
   loading = false;
 
 
@@ -58,11 +73,13 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
   /**
    * set up services to get facets
    * @param {PathResolverService} pathResolverService
+   * @param {ChangeDetectorRef} ref
    * @param {FacetRetrieverService} facetRetrieverService
    * @param {PharosConfig} pharosConfig
    */
   constructor(
               private pathResolverService: PathResolverService,
+              private ref: ChangeDetectorRef,
               private facetRetrieverService: FacetRetrieverService,
               private pharosConfig: PharosConfig) { }
 
@@ -70,31 +87,26 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * set up subscriptions to get facets
     */
   ngOnInit() {
-    this.facetRetrieverService.loaded$.subscribe(res => {
-      if (res === true) {
-        this.facets = [];
-        this.pharosConfig.getFacets(this.pathResolverService.getPath()).map(label => {
-          this.facetRetrieverService.getFacetObservable(label.name).subscribe(facet => {
-            if (facet) {
-              facet.label = label.label;
-              this.facetsMap.set(facet.label, facet);
-            }
-              this.facets = Array.from(this.facetsMap.values());
-          });
-        });
-        }
-    });
-  }
-
-  /**
-   * retrieve all facets from service
-   */
-  getAllFacets(): void {
+    this.loading = true;
+    const flist = this.pharosConfig.getFacets(this.pathResolverService.getPath());
     this.facetRetrieverService.getAllFacets().subscribe(facets => {
-      this.allFacets = Array.from(facets.values());
-      this.facets = this.allFacets;
+      if(facets) {
+        this.filteredFacets = [];
+        this.allFacets = Array.from(facets.values());
+       flist.forEach(f => {
+          const facet = facets.get(f.name);
+          if(facet) {
+            facet.label = f.label;
+            this.filteredFacets.push(facet);
+          }
+        });
         this.loading = false;
+        this.facets = this.filteredFacets;
+
+        this.ref.markForCheck();
+      }
     });
+    this.loading = false;
   }
 
   /**
@@ -102,11 +114,13 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * load all facets as needed
    */
   toggleFacets() {
-    this.fullWidth = !this.fullWidth;
     this.loading = true;
+    this.fullWidth = !this.fullWidth;
     if (this.fullWidth) {
-      this.getAllFacets();
+          this.facets = this.allFacets;
+      this.loading = false;
     } else {
+      this.facets = this.filteredFacets;
       this.loading = false;
     }
   }

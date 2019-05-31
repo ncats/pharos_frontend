@@ -32,3 +32,14 @@
   text-align: start;
   padding-right: 1vw;
 }
+
+.filter-cell.count {
+  padding-right: 0;
+  max-width: 4vw;
+  justify-content: center;
+}
+
+.filter-cell.checkbox {
+  padding-left: 0;
+  max-width: 3vw;
+}

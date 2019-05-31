@@ -7,8 +7,13 @@ import {ComponentInjectorService} from '../../pharos-services/component-injector
 import {takeUntil} from 'rxjs/operators';
 import {DataListResolver} from './data-list.resolver';
 import {PageData} from '../../models/page-data';
-import {PharosConfig} from "../../../config/pharos-config";
+import {PharosConfig} from '../../../config/pharos-config';
 import {PharosApiService} from "../../pharos-services/pharos-api.service";
+import {FacetRetrieverService} from "./filter-panel/facet-retriever.service";
+import {FilterPanelComponent} from "./filter-panel/filter-panel.component";
+import {MatDrawer, MatSidenav} from "@angular/material";
+import {HelpPanelOpenerService} from "../../tools/help-panel/services/help-panel-opener.service";
+import {BreakpointObserver} from "@angular/cdk/layout";
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -32,6 +37,13 @@ const navigationExtras: NavigationExtras = {
 export class DataListComponent implements OnInit, OnDestroy {
 
   /**
+   * help panel element
+   */
+  @ViewChild('helppanel', {static: true}) helpPanel: MatDrawer;
+  @ViewChild('sidenav', {static: true}) sidenav: MatSidenav;
+  @ViewChild('filters', {static: true}) filterPanel: FilterPanelComponent;
+
+  /**
    * show loading spinner
    * @type {boolean}
    */
@@ -40,7 +52,7 @@ export class DataListComponent implements OnInit, OnDestroy {
   /**
    * holder for injected elements
    */
-  @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
+  @ViewChild(CustomContentDirective, {static: true}) componentHost: CustomContentDirective;
 
   /**
    * subject for unsubscribing on destroy
@@ -49,20 +61,32 @@ export class DataListComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject<any>();
 
   /**
+   * boolean for mobile view
+   * @type {boolean}
+   */
+  isSmallScreen = false;
+
+  /**
    * set up routing and component injection
    * @param {ActivatedRoute} _route
    * @param {Router} router
    * @param {PharosApiService} pharosApiService
+   * @param {BreakpointObserver} breakpointObserver
+   * @param {FacetRetrieverService} facetRetrieverService
    * @param {DataListResolver} dataListResolver
    * @param {LoadingService} loadingService
+   * @param {HelpPanelOpenerService} helpPanelOpenerService
    * @param {PharosConfig} pharosConfig
    * @param {ComponentInjectorService} componentInjectorService
    */
   constructor(private _route: ActivatedRoute,
               private router: Router,
               private pharosApiService: PharosApiService,
+              public breakpointObserver: BreakpointObserver,
+  private facetRetrieverService: FacetRetrieverService,
               private dataListResolver: DataListResolver,
-              private loadingService: LoadingService,
+              public loadingService: LoadingService,
+              private helpPanelOpenerService: HelpPanelOpenerService,
               private pharosConfig: PharosConfig,
               private componentInjectorService: ComponentInjectorService) {}
 
@@ -75,6 +99,10 @@ export class DataListComponent implements OnInit, OnDestroy {
    * subscribe to data changes and load and inject required components
    */
   ngOnInit() {
+    this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
+
+    this.helpPanelOpenerService.toggle$.subscribe(res => this.helpPanel.toggle());
+
     this.loadingService.loading$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => this.loading = res);
@@ -103,7 +131,7 @@ export class DataListComponent implements OnInit, OnDestroy {
                   const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
                   const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
                                     dynamicComponent.instance.pageData = new PageData(dataList.data);
-                                  if (dynamicComponent.instance.sortChange) {
+                  if (dynamicComponent.instance.sortChange) {
                                     dynamicComponent.instance.sortChange.subscribe((event) => {
                                       this.sortTable(event);
                                       // todo sort arrows are not staying after column select
@@ -159,11 +187,30 @@ export class DataListComponent implements OnInit, OnDestroy {
     if (sort === null) {
       navigationExtras.queryParams = {};
     } else {
-      navigationExtras.queryParams = {order: sort};
+      navigationExtras.queryParams = {
+        order: sort,
+        page: 1
+      };
     }
     this._navigate(navigationExtras);
   }
 
+/*  /!**
+   * get all facets
+   *!/
+  loadFacets() {
+    this.facetRetrieverService._loaded.next(true);
+  }*/
+
+  /**
+   * close full width filter panel when clicking outside of panel
+   */
+  close() {
+    if (this.filterPanel.fullWidth) {
+      this.filterPanel.fullWidth = false;
+      this.filterPanel.closeMenu();
+    }
+  }
   /**
    * change pages of list
    * @param event
@@ -171,14 +218,11 @@ export class DataListComponent implements OnInit, OnDestroy {
   paginationChanges(event: any) {
       navigationExtras.queryParams = {
         page: event.pageIndex + 1,
+        rows: event.pageSize
         // top: event.pageSize,
        // skip: event.pageIndex * event.pageSize,
       };
-      if (event.pageSize !== 10) {
-        navigationExtras.queryParams.rows = event.pageSize;
-      }
-   // navigationExtras.queryParams = {top: event.pageSize, skip: event.pageIndex * event.pageSize};
-    this._navigate(navigationExtras);
+      this._navigate(navigationExtras);
   }
 
   /**

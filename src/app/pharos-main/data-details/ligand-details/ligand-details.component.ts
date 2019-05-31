@@ -10,7 +10,7 @@ import {BreakpointObserver} from '@angular/cdk/layout';
 import {DOCUMENT} from '@angular/common';
 import {NavSectionsService} from '../../../tools/sidenav-panel/services/nav-sections.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PharosConfig} from "../../../../config/pharos-config";
+import {PharosConfig} from '../../../../config/pharos-config';
 
 /**
  * main component to display ligand details panels
@@ -18,7 +18,7 @@ import {PharosConfig} from "../../../../config/pharos-config";
 @Component({
   selector: 'pharos-ligand-details',
   templateUrl: './ligand-details.component.html',
-  styleUrls: ['./ligand-details.component.css']
+  styleUrls: ['./ligand-details.component.scss']
 })
 export class LigandDetailsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   /**
@@ -40,7 +40,7 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
   /**
    * div element all components are injected into
    */
-  @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
+  @ViewChild(CustomContentDirective, {static: false}) componentHost: CustomContentDirective;
 
 
   /**

@@ -1,10 +1,10 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {DataParserService} from "./topic-directed-graph/data-parser.service";
-import {PharosD3Service} from "./topic-directed-graph/pharos-d3.service";
-import {Link} from "../../../../../tools/force-directed-graph/fdg-core/graph-component/models/link";
-import {LinkService} from "../../../../../tools/force-directed-graph/fdg-core/graph-component/services/event-tracking/link.service";
-import {GraphDataService} from "../../../../../tools/force-directed-graph/fdg-core/graph-component/services/graph-data.service";
+import {DataParserService} from './topic-directed-graph/data-parser.service';
+import {PharosD3Service} from './topic-directed-graph/pharos-d3.service';
+import {Link} from '../../../../../tools/force-directed-graph/fdg-core/graph-component/models/link';
+import {LinkService} from '../../../../../tools/force-directed-graph/fdg-core/graph-component/services/event-tracking/link.service';
+import {GraphDataService} from '../../../../../tools/force-directed-graph/fdg-core/graph-component/services/graph-data.service';
 
 
 
@@ -44,12 +44,9 @@ export class TopicGraphPanelComponent<T extends Node> implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(this);
     //  this.dataParserService.LoadData();
     this.dataParserService.loadData().subscribe(res => {
-      console.log(res);
       this.dataMap = this.dataParserService.getData();
-      console.log(this.dataMap);
       this.graphDataService.setGraph(this.dataMap.get('topics'));
     });
   }

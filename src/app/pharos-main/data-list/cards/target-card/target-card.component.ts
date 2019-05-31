@@ -1,7 +1,7 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnChanges, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {PharosConfig} from "../../../../../config/pharos-config";
-import {Target} from "../../../../models/target";
+import {PharosConfig} from '../../../../../config/pharos-config';
+import {Target} from '../../../../models/target';
 
 /**
  * component to display a consolidated target view
@@ -39,6 +39,7 @@ export class TargetCardComponent implements OnInit, OnChanges {
    * @param {PharosConfig} pharosConfig
    */
   constructor(private http: HttpClient,
+              private ref: ChangeDetectorRef,
               private pharosConfig: PharosConfig) {
     this._apiUrl = this.pharosConfig.getRadarPath();
 
@@ -49,7 +50,10 @@ export class TargetCardComponent implements OnInit, OnChanges {
    */
   ngOnInit() {
     if (this.target) {
-      this.http.get(`${this._apiUrl}${this.target.accession}`).subscribe( res => this.knowledge = res);
+      this.http.get(`${this._apiUrl}${this.target.accession}`).subscribe( res => {
+        this.knowledge = res;
+        this.ref.markForCheck();
+      });
     }
   }
 

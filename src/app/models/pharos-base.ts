@@ -41,37 +41,10 @@ export class PharosBase {
    * @param obj
    * @return {string}
    */
-  static mapDates(obj:any):string {
+  static mapDates(obj: any): string {
     obj.created = new Date(obj.created).toLocaleDateString();
     return obj;
   }
-}
-
-/**
- * serializer designed to return a Pharos base object, to be extended by other serializers
- */
-export interface PharosSerializer extends Serializer {
-  /**
-   * converts Json object to PharosBase object
-   * @param json
-   * @return {PharosBase}
-   */
-  fromJson(json: any): PharosBase;
-
-  /**
-   * flattens PharosBase object to Json, probably never used
-   * @param {PharosBase} object
-   * @return {any}
-   */
-  toJson(object: PharosBase): any;
-
-  /**
-   * return object as parsed properties
-   * @param {PharosBase} object
-   * @return {any}
-   * @private
-   */
-  _asProperties(object: PharosBase): any;
 }
 
 /**
@@ -99,6 +72,33 @@ export interface Serializer {
    * @private
    */
   _asProperties(object: any): any;
+}
+
+/**
+ * serializer designed to return a Pharos base object, to be extended by other serializers
+ */
+export interface PharosSerializer extends Serializer {
+  /**
+   * converts Json object to PharosBase object
+   * @param json
+   * @return {PharosBase}
+   */
+  fromJson(json: any): PharosBase;
+
+  /**
+   * flattens PharosBase object to Json, probably never used
+   * @param {PharosBase} object
+   * @return {any}
+   */
+  toJson(object: PharosBase): any;
+
+  /**
+   * return object as parsed properties
+   * @param {PharosBase} object
+   * @return {any}
+   * @private
+   */
+  _asProperties(object: PharosBase): any;
 }
 
 /**

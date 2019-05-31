@@ -4,7 +4,9 @@ import {Subject} from 'rxjs';
 /**
  * controls visibility of loading modal
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class LoadingService {
   /**
    * RxJs subject to broadcast loading modal visibility changes

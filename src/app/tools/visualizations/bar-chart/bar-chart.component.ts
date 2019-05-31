@@ -1,7 +1,10 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
+import {
+  Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import * as d3 from 'd3';
 import {BehaviorSubject} from 'rxjs/index';
-import {PharosPoint} from "../../../models/pharos-point";
+import {PharosPoint} from '../../../models/pharos-point';
 
 /**
  * component to create a d3 bar chart
@@ -17,7 +20,7 @@ export class BarChartComponent implements OnInit {
   /**
    * element container
    */
-  @ViewChild('barChartTarget') chartContainer: ElementRef;
+  @ViewChild('barChartTarget', {static: true}) chartContainer: ElementRef;
 
   /**
    * data subject, allows for dynamic updating of data
@@ -81,6 +84,16 @@ export class BarChartComponent implements OnInit {
    */
   @Output() readonly clickSlice: EventEmitter<any> = new EventEmitter<any>();
 
+
+  /**
+   * function to redraw/scale the graph on window resize
+   */
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.drawGraph();
+    this.updateGraph();
+  }
+
   /**
    * no args constructor
    */
@@ -107,6 +120,7 @@ export class BarChartComponent implements OnInit {
     const element = this.chartContainer.nativeElement;
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
+    d3.select(element).selectAll('svg').remove();
 
     this.svg = d3.select(element)
       .append('svg:svg')

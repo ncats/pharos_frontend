@@ -1,5 +1,6 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Target} from '../../../../../../../models/target';
+import {DynamicPanelComponent} from "../../../../../../../tools/dynamic-panel/dynamic-panel.component";
 
 /**
  * shows details about tdark targets
@@ -20,8 +21,14 @@ export class TdarkSummaryComponent {
    */
   @Input() data: any;
 
+  @Input() apiSources: any[];
   /**
    * no args constructor
    */
-  constructor() { }
+  constructor() {
+  }
+
+  getTooltip(label: string): string {
+    return this.apiSources.filter(source => source.field === label)[0].description;
+  }
 }

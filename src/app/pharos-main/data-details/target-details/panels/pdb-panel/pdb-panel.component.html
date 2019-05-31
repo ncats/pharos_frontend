@@ -4,7 +4,11 @@
           id="pdbview"
           *ngIf="data">
   <mat-card-header>
-    <mat-card-title ><span class="mat-title">Protein Database ({{reports?.length}})</span></mat-card-title>
+    <mat-card-title >
+      <span class="mat-title"
+            [matTooltip] = description
+            [matTooltipClass] = "'pharos-tooltip'">
+        Protein Database ({{reports?.length}})</span></mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div fxLayout="row" fxLayoutAlign="space-around center">

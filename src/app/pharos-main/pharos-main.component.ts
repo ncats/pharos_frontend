@@ -1,28 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FacetRetrieverService} from './data-list/filter-panel/facet-retriever.service';
 import {HelpPanelOpenerService} from '../tools/help-panel/services/help-panel-opener.service';
-import {MatDrawer} from '@angular/material';
+import {MatDrawer, MatSidenav} from '@angular/material';
 import {BreakpointObserver} from '@angular/cdk/layout';
+import {FilterPanelComponent} from "./data-list/filter-panel/filter-panel.component";
+import {LoadingService} from "../pharos-services/loading.service";
 
-/**
- *Pharos main component contains:
- *
- *NCATS Header
- *
- * sidenav panel for facets
- *
- * breadcrumb component
- *
- * facet visualizations
- *
- * list of selected facets
- *
- * table data
- *
- * scroll to top button
- *
- * NCATS footer
- */
 @Component({
   selector: 'pharos-pharos-main',
   templateUrl: './pharos-main.component.html',
@@ -31,26 +14,20 @@ import {BreakpointObserver} from '@angular/cdk/layout';
 export class PharosMainComponent implements OnInit {
 
   /**
-   * help panel element
-   */
-  @ViewChild('helppanel') helpPanel: MatDrawer;
-
-  /**
    * boolean for mobile view
    * @type {boolean}
    */
   isSmallScreen = false;
 
+  loading = true;
   /**
-   * set up facets and help panels
-   * @param {FacetRetrieverService} facetRetrieverService
-   * @param {HelpPanelOpenerService} helpPanelOpenerService
+   * check viewport size
    * @param {BreakpointObserver} breakpointObserver
+   * @param {LoadingService} loadingService
    */
   constructor(
-    private facetRetrieverService: FacetRetrieverService,
-    private helpPanelOpenerService: HelpPanelOpenerService,
-    public breakpointObserver: BreakpointObserver
+    public breakpointObserver: BreakpointObserver,
+    public loadingService: LoadingService
 ) {
 }
 
@@ -58,14 +35,7 @@ export class PharosMainComponent implements OnInit {
    * check screen size  and subscribe to help panel changes
    */
   ngOnInit() {
+    this.loadingService.loading$.subscribe(res=> this.loading = res);
   this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
-  this.helpPanelOpenerService.toggle$.subscribe(res => this.helpPanel.toggle());
-  }
-
-  /**
-   * get all facets
-   */
-  loadFacets() {
-    this.facetRetrieverService._loaded.next(true);
   }
 }

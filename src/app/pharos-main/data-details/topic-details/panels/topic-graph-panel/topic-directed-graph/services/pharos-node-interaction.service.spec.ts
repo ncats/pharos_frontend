@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { NodeInteractionService } from './pharos-node-interaction.service';
+import { PharosNodeInteractionService } from './pharos-node-interaction.service';
 
-describe('NodeInteractionService', () => {
+describe('PharosNodeInteractionService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: NodeInteractionService = TestBed.get(NodeInteractionService);
+    const service: PharosNodeInteractionService = TestBed.get(PharosNodeInteractionService);
     expect(service).toBeTruthy();
   });
 });

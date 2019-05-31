@@ -1,5 +1,7 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Injector,
@@ -12,7 +14,7 @@ import {
   ViewChildren,
   ViewContainerRef
 } from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, combineLatest} from 'rxjs';
 import {ComponentPortal} from '@angular/cdk/portal';
 import {PageData} from './models/page-data';
 import {MatPaginator, MatRow, MatSort, MatTableDataSource, Sort} from '@angular/material';
@@ -34,6 +36,7 @@ import {DataProperty} from './components/property-display/data-property';
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 /**
@@ -85,33 +88,34 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
     return this._fieldsConfig.getValue();
   }
 
-  /**
+/*  /!**
    * sets up page data as a behavior subject
    * @type {BehaviorSubject<PageData>}
    * @private
-   */
-  protected _pageConfig: BehaviorSubject<PageData> = new BehaviorSubject<PageData>({
+   *!/
+  protected _pageConfig: BehaviorSubject<PageData> = new BehaviorSubject<PageData>(/!*{
     total: 0,
     top: 0,
     skip: 0,
     count: 0
-  });
+  }*!/ null);
 
-  /**
+  /!**
    * pushes changed data to {BehaviorSubject}
-   */
+   *!/
   @Input()
   set pageData(value: PageData) {
     this._pageConfig.next(value);
   }
 
-  /**
+  /!**
    * returns value of {BehaviorSubject}
-   */
+   *!/
   get pageData(): PageData {
     return this._pageConfig.getValue();
-  }
+  }*/
 
+  @Input() pageData: PageData;
   /**
    * gets placeholder expanded row outlets
    */
@@ -136,12 +140,12 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
   /**
    * Paginator object from Angular Material
    * */
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
   /**
    * Sort object from Angular Material
    * */
-  @ViewChild(MatSort) _sort: MatSort;
+  @ViewChild(MatSort, {static: true}) _sort: MatSort;
 
   /**
    * generated string array of fields that are to be displayed in the table
@@ -204,7 +208,10 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
   /**
    * injector for custom data
    */
-  constructor(private _injector: Injector) {
+  constructor(
+   private ref: ChangeDetectorRef,
+    private _injector: Injector
+  ) {
   }
 
   /**
@@ -212,16 +219,14 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
    * Table data is tracked by the data getter and setter
    */
   ngOnInit() {
-    this._data.subscribe(x => {
-      this.dataSource.data = this.data;
-    });
-    this._fieldsConfig.subscribe(res => {
-      this.fetchTableFields();
-    });
+    this._data.subscribe(res => this.dataSource.data = res);
+    this._fieldsConfig.subscribe(res => this.fetchTableFields());
+  }
 
-    this._pageConfig.subscribe(res => {
+  ngOnChanges (change) {
+    if(this.paginator) {
       this.setPage();
-    });
+    }
   }
 
   /**
@@ -230,6 +235,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
    */
   ngAfterViewInit() {
     this.setPage();
+
 
     /*    if (this.fieldsConfig) {
           const defaultSort = this.fieldsConfig.filter(field => field.sorted);
@@ -254,7 +260,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
    * set default paginator values
    */
   setPage() {
-    if (this.pageData && this.paginator) {
+    if (this.showPaginator && this.pageData) {
       this.paginator.length = this.pageData.total;
       this.paginator.pageSize = this.pageData.top;
       this.paginator.pageIndex = Math.ceil(this.pageData.skip / this.pageData.top);
@@ -333,22 +339,10 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * way to set a column width
-   * todo: each optential property width needs to have a corresponding class set up
-   * todo: THIS NEEDS WORK
-   * @param property
-   */
-  getWidth(property: DataProperty): string {
-    return property.width ? `width${property.width}` : '';
-  }
-
-  // todo any changes to the table (even hovering over buttons re-generates this element
-  // todo: try manually attaching it instead of using the directive
-  /**
    * creates a custom component inside a table field currently the specific field data, substance object and expanded row
    * container are sent to the custom component
    * todo: the comtainer and object should be optional fields
-   * todo: table injected components need to impoement an interface to get the substance or container
+   * todo: table injected components need to implement an interface to get the substance or container
    * @param field
    * @param row
    * @param index
@@ -375,6 +369,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
     if (component.instance.data === null && this.data[index][field.name]) {
       component.instance.data = this.data[index][field.name];
     }
+
     if (component.instance.object) {
       component.instance.object = this.data[index];
     }
@@ -390,6 +385,10 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
       component.instance.clickEvent.subscribe(res => {
         this.cellClicked(res);
       });
+    }
+
+    if(component.instance.ref) {
+      this.ref.detach();
     }
   }
 

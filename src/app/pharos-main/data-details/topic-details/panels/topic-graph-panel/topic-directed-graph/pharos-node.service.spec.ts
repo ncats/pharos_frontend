@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
+import {PharosNodeService} from "./pharos-node.service";
 
-import { NodeService } from './pharos-node.service';
 
-describe('NodeService', () => {
+describe('PharosNodeService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [NodeService]
+      providers: [PharosNodeService]
     });
   });
 
-  it('should be created', inject([NodeService], (service: NodeService) => {
+  it('should be created', inject([PharosNodeService], (service: PharosNodeService) => {
     expect(service).toBeTruthy();
   }));
 });

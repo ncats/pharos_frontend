@@ -522,7 +522,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
               @Optional() @Inject(ANIMATION_MODULE_TYPE) public _animationMode?: string) {
     super(elementRef);
 
-    this.tabIndex = parseInt(tabIndex,2) || 0;
+    this.tabIndex = parseInt(tabIndex, 2) || 0;
   }
 
   private _invert = false;
@@ -592,7 +592,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
   private _valueOnSlideStart: number | number[] | null;
 
   /** Reference to the inner slider wrapper element. */
-  @ViewChild('sliderWrapper') private _sliderWrapper: ElementRef;
+  @ViewChild('sliderWrapper', {static: true}) private _sliderWrapper: ElementRef;
 
   /** The slider thumb which is currently used (left or right) */
   private _currentSliderDir = 'l';

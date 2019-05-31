@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {PathResolverService} from "../../../pharos-services/path-resolver.service";
+import {PathResolverService} from '../../../pharos-services/path-resolver.service';
 
 /**
  * panel to show selected facets or queries, and remove them

@@ -35,6 +35,8 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatTreeModule} from '@angular/material/tree';
+
 
 @NgModule({
   imports: [MatButtonModule, MatAutocompleteModule, MatMenuModule, MatToolbarModule,
@@ -42,13 +44,13 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatTableModule, MatSortModule, MatSidenavModule, MatSlideToggleModule, MatRadioModule,
     MatTabsModule, MatCheckboxModule, MatCardModule, MatTooltipModule, MatSelectModule, MatExpansionModule, MatPaginatorModule,
     MatChipsModule, MatGridListModule, MatDividerModule, MatDialogModule, LayoutModule, DragDropModule, ScrollingModule,
-    MatProgressBarModule, MatStepperModule, PortalModule, MatFormFieldModule],
+    MatProgressBarModule, MatStepperModule, PortalModule, MatFormFieldModule, MatTreeModule],
   exports: [MatButtonModule, MatAutocompleteModule, MatMenuModule, MatToolbarModule,
     MatInputModule, MatIconModule, MatListModule, MatSliderModule, MatProgressSpinnerModule,
     MatTableModule, MatSortModule, MatSidenavModule, MatSlideToggleModule, MatRadioModule,
     MatTabsModule, MatCheckboxModule, MatCardModule, MatTooltipModule, MatSelectModule, MatExpansionModule, MatPaginatorModule,
     MatChipsModule, MatGridListModule, MatDividerModule, MatDialogModule, ScrollingModule,
-    LayoutModule, MatProgressBarModule, MatStepperModule, PortalModule, MatFormFieldModule],
+    LayoutModule, MatProgressBarModule, MatStepperModule, PortalModule, MatFormFieldModule, MatTreeModule],
 })
 export class MaterialModule { }
 

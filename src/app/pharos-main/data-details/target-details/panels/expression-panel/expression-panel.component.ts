@@ -10,7 +10,7 @@ import {DiseaseRelevanceSerializer} from '../../../../../models/disease-relevanc
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
 import {AnatamogramHoverService} from '../../../../../tools/anatamogram/anatamogram-hover.service';
-import {PharosConfig} from "../../../../../../config/pharos-config";
+import {PharosConfig} from '../../../../../../config/pharos-config';
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 @Component({
@@ -66,7 +66,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     'UBERON_0001870'
   ];
 
-  @ViewChild(RadarChartComponent) radarComponent: RadarChartComponent;
+  @ViewChild(RadarChartComponent, {static: true}) radarComponent: RadarChartComponent;
 
   _URL: string;
   id: string;
@@ -82,8 +82,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     new PharosProperty({
       name: 'IDG Disease',
       label: 'Disease',
-      sortable: true,
-      internalLink: true
+      sortable: true
     }),
 
     new PharosProperty({
@@ -145,6 +144,8 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   }
 
   ngOnInit() {
+    console.log(this);
+    // https://pharos.ncats.io/idg/api/v1/expression?acc=P25092
     this._URL = this.pharosConfig.getHomunculusUrl(this.id);
     this._data
     // listen to data as long as term is undefined or null

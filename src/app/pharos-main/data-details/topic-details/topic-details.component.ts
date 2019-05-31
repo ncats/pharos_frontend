@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, Injector, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {PharosConfig} from "../../../../config/pharos-config";
+import {PharosConfig} from '../../../../config/pharos-config';
 
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {Topic} from '../../../models/topic';
@@ -13,8 +13,8 @@ import {PageData} from '../../../models/page-data';
 import {MatTabChangeEvent} from '@angular/material';
 import {DataParserService} from './panels/topic-graph-panel/topic-directed-graph/data-parser.service';
 import {PharosProperty} from '../../../models/pharos-property';
-import {Link} from "../../../tools/force-directed-graph/fdg-core/graph-component/models/link";
-import {Node} from "../../../tools/force-directed-graph/fdg-core/graph-component/models/node";
+import {Link} from '../../../tools/force-directed-graph/fdg-core/graph-component/models/link';
+import {Node} from '../../../tools/force-directed-graph/fdg-core/graph-component/models/node';
 
 /**
  * data holder
@@ -132,7 +132,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
   /**
    * conponent to hold graph
    */
-  @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
+  @ViewChild(CustomContentDirective, {static: true}) componentHost: CustomContentDirective;
 
   /**
    * set up dependencies
@@ -160,7 +160,6 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
    * initialize data change subsctiptions, fetch data
    */
   ngOnInit() {
-    console.log(this);
     this.dataParserService.loadData().subscribe(res =>  {
     this.allTargets = this.dataParserService.getTargets().map(node => node.target);
     this.targets = this.allTargets.slice(0, 10) as any[];

@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, combineLatest, forkJoin, Observable, of, Subject} from 'rxjs';
+import {BehaviorSubject, forkJoin, Observable, of, Subject} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {ParamMap} from '@angular/router';
 import {Topic} from '../models/topic';
-import {map} from 'rxjs/internal/operators';
-import {PharosConfig} from "../../config/pharos-config";
+import {map, tap} from 'rxjs/internal/operators';
+import {PharosConfig} from '../../config/pharos-config';
 import {HttpCacheService} from "./http-cache.service";
 import {PharosBase} from "../models/pharos-base";
 import {PageData} from "../models/page-data";
@@ -15,7 +15,9 @@ import {Facet} from "../models/facet";
 /**
  * main service to fetch and parse data from the pharos api
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class PharosApiService {
   /**
    * RxJs subject for facet data
@@ -181,7 +183,7 @@ export class PharosApiService {
    * @param {HttpClient} http
    * @param {PharosConfig} pharosConfig
    */
-  constructor(private http: HttpCacheService,
+  constructor(private http: HttpClient,
               private pharosConfig: PharosConfig) {
     this._URL = this.pharosConfig.getApiPath();
     this._SEARCHURLS = this.pharosConfig.getSearchPaths();
@@ -219,16 +221,7 @@ export class PharosApiService {
         if (response.facets) {
           this._facetsDataSource.next(response.facets);
         }
-
- /*
-            this._dataSource.next(
-              {
-              content: [{kind: path, data: response}],
-              facets: response.facets
-              }
-              );*/
           });
-      //}
     }
   }
 
@@ -258,11 +251,12 @@ export class PharosApiService {
    * @param {ParamMap} params
    * @return {Observable<any>}
    */
-  getDataObject(path: string, params: ParamMap): Observable<PharosBase> {
+  getDataObject(path: string, params: ParamMap): Observable<any> {
     if (path === 'topics') {
      return  of(this.TOPICS[params.get('id')]);
     } else {
       const url = `${this._URL}${path}/${params.get('id')}`;
+
       return this.http.get<PharosBase>(url)
         .pipe(
           catchError(this.handleError('getDataObject', []))
@@ -288,31 +282,12 @@ export class PharosApiService {
     });
   }
 
- /* initializeSubscriptions(): void {
-    this.pharosApiService.data$
-      .subscribe(res => {
-        if (res.details) {
-          this._detailsDataSource.next(res);
-        }
-        if (res.content) {
-          this._tableDataSource.next(res);
-          this._paginationDataSource.next(new PageData(res));
-        }
-        if (res.facets) {
-          this._facetsDataSource.next(res.facets);
-        }
-      });
-  }*/
-
-
-
   /**
    * clear all data called
    */
   flushData() {
     this.returnedObject = {};
     this._detailsDataSource.next(null);
-   // this._dataSource.next(null);
   }
 
   /**
@@ -334,7 +309,6 @@ export class PharosApiService {
       }
     } else {
       str = this._URL + (path !== 'search' ? path + '/' : '')  + 'search?';
-      // str = this._URL + (path !== 'search' ? path + '?' : 'search?');
       params.keys.map(key => {
         params.getAll(key).map(val => {
           switch (key) {
@@ -343,6 +317,7 @@ export class PharosApiService {
               if (rows) {
                 strArr.push('top=' + rows);
               } else {
+                strArr.push('top=' + 10);
                 strArr.push('skip=' + 10 * (+val - 1));
               }
               break;

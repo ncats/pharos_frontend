@@ -1,8 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {PharosConfig} from "../../../config/pharos-config";
-import {BehaviorSubject} from "rxjs/index";
-import {takeWhile} from "rxjs/internal/operators";
-import {PharosProperty} from "../../models/pharos-property";
+import {ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {PharosConfig} from '../../../config/pharos-config';
+import {BehaviorSubject} from 'rxjs/index';
+import {takeWhile} from 'rxjs/internal/operators';
+import {PharosProperty} from '../../models/pharos-property';
 
 /**
  * displays a structure only from either a url or a smiles string
@@ -10,7 +10,8 @@ import {PharosProperty} from "../../models/pharos-property";
 @Component({
   selector: 'pharos-structure-view',
   templateUrl: './structure-view.component.html',
-  styleUrls: ['./structure-view.component.scss']
+  styleUrls: ['./structure-view.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class StructureViewComponent implements OnInit {
 
@@ -46,10 +47,12 @@ export class StructureViewComponent implements OnInit {
   /**
    * grab config to fetch the image urls
    * @param {PharosConfig} pharosConfig
+   * @param {ChangeDetectorRef} ref
    */
   constructor(
-    private pharosConfig: PharosConfig
-  ){
+    private pharosConfig: PharosConfig,
+    private ref: ChangeDetectorRef
+  ) {
   }
 
   /**
@@ -65,8 +68,12 @@ export class StructureViewComponent implements OnInit {
         takeWhile(() => !this.url)
       )
       .subscribe(x => {
-        if(!this.url) {
-          this.url = `${this.pharosConfig.getApiPath()}render/${this.parseSmiles(this.data.term)}?size=150`;
+        if (!this.url) {
+          if(this.data.term === ''){
+            this.url = null;
+          } else {
+            this.url = `${this.pharosConfig.getApiPath()}render/${this.parseSmiles(this.data.term)}?size=150`;
+          }
         }
       });
   }
@@ -77,7 +84,6 @@ export class StructureViewComponent implements OnInit {
    * @return {string}
    */
   private parseSmiles(smiles: any): string {
-    //  console.log(smiles);
     const parsed = smiles
       .replace(/[;]/g, '%3B')
       .replace(/[#]/g, '%23')

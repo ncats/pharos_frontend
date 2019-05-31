@@ -109,7 +109,7 @@ export class Node implements d3.SimulationNodeDatum {
    */
   normal = () => {
     return Math.sqrt(this.linkCount / 50);
-  };
+  }
 
   /**
    * return node radius size based on link count

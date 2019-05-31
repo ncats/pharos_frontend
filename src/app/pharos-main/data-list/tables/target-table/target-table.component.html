@@ -1,13 +1,13 @@
-<div *ngIf="dataSource.data">
-  <mat-toolbar [color]="'primary'" class="target-table-toolbar">
-      <div class = mat-display-1 *ngIf="showLabel">Targets <span *ngIf ="pageData">({{pageData.total}})</span>
+<div *ngIf="targets">
+  <mat-toolbar [color]="'primary'" class="target-table-toolbar" *ngIf="showToolbar">
+      <div class = pharos-display-1 *ngIf="showLabel">Targets <span *ngIf ="pageData">({{pageData.total}})</span>
       </div>
     <div fxFlex></div>
     <div fxFlex = "5">
       <button mat-icon-button [matMenuTriggerFor]="appMenu"><mat-icon>apps</mat-icon></button>
       <mat-menu #appMenu="matMenu">
         <button mat-menu-item (click)="batchUpload()"><mat-icon>create</mat-icon>Upload Target List</button>
-        <span matTooltip= "Please select 2-4 targets to compare"
+<!--        <span matTooltip= "Please select 2-4 targets to compare"
               [matTooltipDisabled] = "!rowSelection.isEmpty()">
         <button mat-menu-item
                 (click)="compareTargets()"
@@ -17,7 +17,7 @@
         <button mat-menu-item (click)="createTopic()" [disabled]="rowSelection.isEmpty()"><mat-icon>bubble_chart</mat-icon>Generate Topic</button>
         <button mat-menu-item (click)="saveTargets()" [disabled]="rowSelection.isEmpty()"><mat-icon>save</mat-icon>Save Selected</button>
         <button mat-menu-item><mat-icon>save_alt</mat-icon>Save Query</button>
-        <button mat-menu-item><mat-icon>info</mat-icon>Help</button>
+        <button mat-menu-item><mat-icon>info</mat-icon>Help</button>-->
       </mat-menu>
     </div>
   </mat-toolbar>
@@ -32,61 +32,18 @@
     </pharos-custom-paginator>
   </div>
 </div>
-<mat-table [dataSource]="dataSource" fxHide.lt-sm matSort (matSortChange)="changeSort($event)" *ngIf="dataSource.data">
-  <ng-container matColumnDef="name">
-        <mat-header-cell fxFlex="35" *matHeaderCellDef>Name</mat-header-cell>
-        <mat-cell fxFlex="35" *matCellDef="let row">
-         <a routerLink='/targets/{{row.accession}}' >{{row.name}} </a>
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="gene">
-        <mat-header-cell *matHeaderCellDef>Gene</mat-header-cell>
-        <mat-cell *matCellDef="let row">
-         <a routerLink='/targets/{{row.gene}}' >{{row.gene}} </a>
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="idgTDL">
-        <mat-header-cell *matHeaderCellDef>Development Level </mat-header-cell>
-        <mat-cell *matCellDef="let row">
-          <pharos-idg-level-indicator [level] = row.idgTDL></pharos-idg-level-indicator>
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="idgFamily">
-        <mat-header-cell *matHeaderCellDef>Target Family</mat-header-cell>
-        <mat-cell *matCellDef="let row">
-          {{row.idgFamily}}
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="novelty">
-        <mat-header-cell fxFlex="5" fxHide.lt-md *matHeaderCellDef mat-sort-header>Log Novelty </mat-header-cell>
-        <mat-cell fxFlex="5" fxHide.lt-md *matCellDef="let row">
-          {{row.novelty?.toFixed(2) || ''}}
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="jensenScore">
-        <mat-header-cell fxFlex="5" fxHide.lt-md *matHeaderCellDef mat-sort-header>Pubmed Score </mat-header-cell>
-        <mat-cell fxFlex="5" fxHide.lt-md *matCellDef="let row">
-          {{row.jensenScore?.toFixed(2) || ''}}
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="antibodyCount">
-        <mat-header-cell fxFlex="5" fxHide.lt-md *matHeaderCellDef mat-sort-header>Antibody Count </mat-header-cell>
-        <mat-cell fxFlex="5" fxHide.lt-md *matCellDef="let row">
-          {{row.antibodyCount || ''}}
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="knowledgeAvailability">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Knowledge Availability</mat-header-cell>
-        <mat-cell *matCellDef="let row" class = "small-radar">
-          <pharos-radar-chart [id]="row.accession" [size]="'small'" [origin]="'knowledge'"></pharos-radar-chart>
-        </mat-cell>
-      </ng-container>
-      <mat-header-row *matHeaderRowDef="displayColumns, sticky: true"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayColumns;" class = "small-radar">
-      </mat-row>
-    </mat-table>
-<div class ="target-grid" fxHide fxShow.lt-sm *ngIf="isSmallScreen">
-  <div *ngFor="let target of dataSource.connect() | async">
+  <div *ngIf="!isSmallScreen">
+  <pharos-generic-table *ngIf = "targets"
+  [pageData]="pageData"
+  [showPaginator]="false"
+                        [fieldsConfig]="fieldsData"
+  [data]="targets"
+  (sortChange)="changeSort($event)"
+  (pageChange)="changePage($event)">
+  </pharos-generic-table>
+  </div>
+<div class ="target-grid" *ngIf="isSmallScreen">
+  <div *ngFor="let target of targetObjs">
     <pharos-target-card [target]="target"></pharos-target-card>
   </div>
 </div>

@@ -13,8 +13,7 @@ import {PathResolverService} from '../../../../pharos-services/path-resolver.ser
 @Component({
   selector: 'pharos-facet-table',
   templateUrl: './facet-table.component.html',
-  styleUrls: ['./facet-table.component.scss'],
-//  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./facet-table.component.scss']
 })
 export class FacetTableComponent implements OnInit, OnDestroy {
 
@@ -92,6 +91,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
     );
         this.propogate = true;
       });
+    this.ref.markForCheck();
   this.dataSource.data = this.facet.values;
 
     /**

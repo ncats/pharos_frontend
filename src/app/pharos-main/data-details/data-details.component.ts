@@ -11,6 +11,7 @@ import {ScrollDispatcher} from '@angular/cdk/scrolling';
 import {PharosConfig} from "../../../config/pharos-config";
 import {PharosBase} from "../../models/pharos-base";
 import {PharosApiService} from "../../pharos-services/pharos-api.service";
+import {LoadingService} from "../../pharos-services/loading.service";
 
 /**
  * component that holds dynamically injected details panels for various object types
@@ -45,12 +46,12 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
   /**
    * the main div element that all components are injected into
    */
-  @ViewChild(CustomContentDirective) componentHost: CustomContentDirective;
+  @ViewChild(CustomContentDirective, {static: true}) componentHost: CustomContentDirective;
 
   /**
    * reference to help menu to toggle opening and closing
    */
-  @ViewChild('helppanel') helpPanel: MatDrawer;
+  @ViewChild('helppanel', {static: true}) helpPanel: MatDrawer;
 
   /**
    * set up lots of dependencies to watch for data changes, navigate and parse and inject components
@@ -61,6 +62,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
    * @param {PharosApiService} pharosApiService
    * @param {HelpPanelOpenerService} helpPanelOpenerService
    * @param {DataDetailsResolver} dataDetailsResolver
+   * @param {LoadingService} loadingService
    * @param {ChangeDetectorRef} changeDetector
    * @param {ScrollDispatcher} scrollDispatcher
    */
@@ -71,6 +73,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
               private pharosApiService: PharosApiService,
               private helpPanelOpenerService: HelpPanelOpenerService,
               private dataDetailsResolver: DataDetailsResolver,
+              public loadingService: LoadingService,
               private changeDetector: ChangeDetectorRef,
               public scrollDispatcher: ScrollDispatcher
   ) {
@@ -97,6 +100,10 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
       .subscribe(res => {
         this._data.next(res);
       });
+
+/*
+    this.loadingService.loading$.subscribe(res=> this.loading = res);
+*/
 
     this.router.events
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -166,6 +173,8 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
           }
         });
     });
+    this.loading = false;
+    this.loadingService.toggleVisible(false);
     this.componentsLoaded = true;
   }
 

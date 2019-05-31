@@ -7,7 +7,7 @@
   <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center" class="tools-row">
     <span class="mat-headline facet-title">Refine by Category</span>
   </div>
-  <div fxLayout="row" fxLayoutAlign="space-around center" class="tools-row">
+  <div fxLayout="row" fxLayoutAlign="space-between center" class="tools-row">
     <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
       <mat-spinner></mat-spinner>
     </div>
@@ -23,8 +23,7 @@
       </button>
       </ng-template>
     </div>
-    <div fxFlex></div>
-    <div fxFlex="30" class =" clear-all">
+    <div fxFlex="30" class =" clear-all" fxLayoutAlign="end">
       <mat-chip-list class="mat-chip-list">
         <mat-chip [selected]="'true'" [color]="'warn'" (click)="removeAll()">
           <span>Clear All</span>
@@ -44,8 +43,11 @@
     </div>
   </div>
   <div class="grid-list">
+    <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
+      <mat-spinner></mat-spinner>
+    </div>
     <div *ngFor="let facet of facets; trackBy: trackByFn;">
-      <mat-expansion-panel [expanded]="true" *ngIf="facet.values.length > 0">
+      <mat-expansion-panel [expanded]="true" *ngIf="facet.values.length > 0" class="full-height">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <span class="mat-title facet-title">{{facet.label ? facet.label : facet.name}}</span>

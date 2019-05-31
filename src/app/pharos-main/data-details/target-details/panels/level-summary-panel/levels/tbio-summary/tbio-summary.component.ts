@@ -20,8 +20,14 @@ export class TbioSummaryComponent {
    */
   @Input() data: any;
 
+  @Input() apiSources: any[];
   /**
    * no args constructor
    */
-  constructor() { }
+  constructor() {
+  }
+
+  getTooltip(label: string): string {
+    return this.apiSources.filter(source => source.field === label)[0].description;
+  }
 }

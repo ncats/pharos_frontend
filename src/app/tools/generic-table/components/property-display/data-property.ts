@@ -1,4 +1,4 @@
-import {InjectionToken} from "@angular/core";
+import {InjectionToken} from '@angular/core';
 
 /**
  * main config object for a table cell, contains column/field data nad value info
@@ -42,7 +42,7 @@ export class DataProperty {
   /**
    * internal pharos link
    */
-  internalLink?: string;
+  internalLink?: string[];
 
   /**
    * link to external source, displayed with icon
@@ -64,6 +64,17 @@ export class DataProperty {
    * token for a custom component
    */
   customComponent?: InjectionToken<any>;
+
+
+  /**
+   * pass a query params object for a routerLink
+   */
+  queryParams?: any;
+
+  /**
+   * text description of the field. used for table tooltips
+   */
+  description?: string;
 
   /**
    * deconstruct json as dataproperty object

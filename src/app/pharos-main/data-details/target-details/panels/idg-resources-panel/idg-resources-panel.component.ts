@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import * as d3 from 'd3';
 import {from} from 'rxjs';
@@ -6,6 +6,8 @@ import {PharosProperty} from '../../../../../models/pharos-property';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {FormControl} from '@angular/forms';
+import {HttpClient} from '@angular/common/http';
+import {Target} from '../../../../../models/target';
 
 /**
  * panel to show idg generated resources. currently stub functionality
@@ -15,7 +17,9 @@ import {FormControl} from '@angular/forms';
   templateUrl: './idg-resources-panel.component.html',
   styleUrls: ['./idg-resources-panel.component.scss']
 })
-export class IdgResourcesPanelComponent extends DynamicTablePanelComponent implements OnInit {
+export class IdgResourcesPanelComponent extends DynamicTablePanelComponent implements OnInit, OnDestroy {
+
+  @Input() target: Target;
   /**
    * dummy data
    */
@@ -270,10 +274,12 @@ dataTypes: string[] = [];
   tableArr: any[] = [];
 
   /**
-   * set up nav sectinos
-   * @param navSectionsService
+   * set up nav sections
+   * @param {HttpClient} http
+   * @param {NavSectionsService} navSectionsService
    */
   constructor(
+    private http: HttpClient,
     private navSectionsService: NavSectionsService
   ) {
     super();
@@ -286,6 +292,16 @@ dataTypes: string[] = [];
   ngOnInit() {
     this.reagentsList = this.reagents;
     this.dataSourceList = this.dataSources;
+
+    this.http.get(`http://dev3.ccs.miami.edu:8080/rss-api/target/search?term=${this.target.gene}`).subscribe(res => {
+      if (res && res['data']) {
+        res['data'].forEach(data => {
+        this.http.get(data.id).subscribe(resource => {
+        });
+      });
+    }
+    });
+
 
     this.reagentFilterCtrl.valueChanges.subscribe(change => {
       this.reagentsList = [];

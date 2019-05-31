@@ -1,57 +1,18 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {DiseaseRelevance, DiseaseRelevanceSerializer} from '../../../../../models/disease-relevance';
-import {MatTabChangeEvent} from '@angular/material';
+import {MatPaginator, MatTabChangeEvent, MatTreeNestedDataSource, PageEvent} from '@angular/material';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
+import {NestedTreeControl} from "@angular/cdk/tree";
 
-// skipping log2foldchange property
-/**
- * map of pharos properties for displaying diseases
- * @type {Map<string, PharosProperty>}
- */
-const TABLEMAP: Map<string, PharosProperty> = new Map<string, PharosProperty>(
-  [
-    ['IDG Disease',  new PharosProperty({
-      name: 'disease',
-      label: 'Disease',
-      sortable: true,
-      internalLink: true
-    })
-    ], [
-    'IDG Evidence', new PharosProperty( {
-      name: 'evidence',
-      label: 'Evidence'
-    })
-  ], [
-    'IDG Z-score', new PharosProperty({
-      name: 'zscore',
-      label: 'Z-score',
-      sortable: true
-    })
-  ], ['IDG Confidence', new PharosProperty({
-      name: 'confidence',
-      label: 'Confidence',
-      sortable: true
-    }
-
-  )], ['pvalue', new PharosProperty({
-      name: 'pvalue',
-      label: 'P-value',
-      sortable: true,
-      sorted: 'desc'
-    }
-  )], ['log2foldchange', new PharosProperty({
-      name: 'log2foldchange',
-      label: 'log2 FC',
-      sortable: true
-    }
-  )]
-  ]
-);
+interface DiseaseTreeNode {
+  name: PharosProperty;
+  children?: DiseaseTreeNode[];
+}
 
 /**
  * component to display disease source data
@@ -59,22 +20,27 @@ const TABLEMAP: Map<string, PharosProperty> = new Map<string, PharosProperty>(
 @Component({
   selector: 'pharos-disease-source',
   templateUrl: './disease-source-panel.component.html',
-  styleUrls: ['./disease-source-panel.component.scss']
+  styleUrls: ['./disease-source-panel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DiseaseSourceComponent extends DynamicPanelComponent implements OnInit {
-  sourceMap: Map<string, DiseaseRelevance[]> = new Map<string, DiseaseRelevance[]>();
-  fieldsMap: Map<string, PharosProperty[]> = new Map<string, PharosProperty[]>();
-  diseaseRelevanceSerializer: DiseaseRelevanceSerializer = new DiseaseRelevanceSerializer();
-  sources: string[] = [];
-  fieldsData: PharosProperty[] = [];
+  /**
+   * Paginator object from Angular Material
+   * */
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
   tinx: PharosPoint[];
   loaded = false;
-  @Input() diseaseSources?: any;
-  tableArr: any[] = [];
   chartOptions: ScatterOptions;
 
+  newdiseasemap: Map<string, any> = new Map<string, any>();
+  treeControl: NestedTreeControl<DiseaseTreeNode> = new NestedTreeControl<DiseaseTreeNode>(node => node.children);
+  dataSource: MatTreeNestedDataSource<DiseaseTreeNode> = new MatTreeNestedDataSource<DiseaseTreeNode>();
+  treeData: DiseaseTreeNode[] = [];
+
   constructor(
-    private navSectionsService: NavSectionsService
+    private navSectionsService: NavSectionsService,
+    private ref: ChangeDetectorRef
   ) {
     super();
   }
@@ -94,43 +60,47 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       });
   }
 
-  setterFunction(): void {
-    if (this.data.diseaseSources && this.data.diseaseSources.length > 0) {
-      // const sources = this.data.diseaseSources;
-      this.sourceMap.clear();
-      this.data.diseaseSources.forEach(dr => {
-        // create new disease relevance object to get PharosProperty class properties
-        const readDR = this.diseaseRelevanceSerializer.fromJson(dr);
-        // get source label
-        const labelProp: string = readDR.properties.filter(prop => prop.label === 'Data Source')
-          .map(lab => lab['term'] as string)[0];
-        // get array of diseases from source map
-        const tableData: any = {};
-        const fields: PharosProperty[] = [];
-        readDR.properties.forEach(prop => {
-          const td = TABLEMAP.get(prop.label);
-          if (td) {
-            tableData[td.name] = new PharosProperty(prop);
-            fields.push(td);
-          }
-        });
+ /* ngAfterViewInit() {
+    this.paginator
+  }*/
 
-        const temp: DiseaseRelevance[] = this.sourceMap.get(labelProp);
-        if (temp) {
-          temp.push(tableData);
-          this.sourceMap.set(labelProp, temp);
-        } else {
-          const tempArr: DiseaseRelevance[] = [];
-          tempArr.push(tableData);
-          this.fieldsMap.set(labelProp, Array.from(new Set(fields)));
-          this.sourceMap.set(labelProp, tempArr);
-        }
-      });
-      this.sources = Array.from(this.sourceMap.keys()).sort((a, b) => +(b === 'DrugCentral Indication'));
-      this.tableArr = this.sourceMap.get(this.sources[0]);
-      this.fieldsData = this.fieldsMap.get(this.sources[0]);
+  setterFunction(): void {
+    this.data.diseases.forEach(disease => {
+      const dobj:PharosProperty = new PharosProperty(disease.properties.filter(prop => prop.label === 'IDG Disease')[0]);
+      dobj.internalLink = ['/diseases', dobj.term as string];
+      const dname: string = dobj.term as string;
+      const dlist = this.newdiseasemap.get(dname);
+      let diseaseSource: DiseaseTreeNode = {
+        name: new PharosProperty(disease.properties.filter(prop => prop.label === 'Data Source')[0]),
+        children: [
+          ...disease.properties
+            .filter(prop => prop.label !== 'Data Source' && prop.label !== 'IDG Disease' )
+            .map(prop => new PharosProperty(prop))
+        ]
+      };
+
+      if(diseaseSource.children.length === 0) {
+        diseaseSource = {name: diseaseSource.name}
+      }
+      if(dlist) {
+        dlist.children.push(diseaseSource);
+        this.newdiseasemap.set(dname, dlist);
+      } else {
+        this.newdiseasemap.set(dname, {name: dobj, children: [diseaseSource]});
+      }
+    });
+    const sortedDiseases = Array.from(this.newdiseasemap.entries()).sort((a,b) => {
+      if (a[1].children.length < b[1].children.length) {
+        return 1;
+      }
+      if (a[1].children.length > b[1].children.length) {
+        return -1;
+      }
+      return 0;
+    });
+    this.treeData = Array.from(new Map(sortedDiseases).values());
+    this.dataSource.data = this.treeData.slice(0, 10);
       this.loaded = true;
-    }
 
     if (this.data.tinx && this.data.tinx.importances) {
       this.tinx = [];
@@ -157,15 +127,6 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
     }
   }
 
-  changeTabData(event: MatTabChangeEvent) {
-    this.tableArr = this.sourceMap.get(this.sources[event.index]);
-    this.fieldsData = this.fieldsMap.get(this.sources[event.index]);
-  }
-
-  getSourceCount(source: string): number {
-    return this.sourceMap.get(source).length;
-  }
-
   /**
    * active section view tracker
    * @param {string} fragment
@@ -174,10 +135,15 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
     this.navSectionsService.setActiveSection(fragment);
   }
 
-  sort(event) {
+  paginate(event: PageEvent) {
+    this.dataSource.data = this.treeData.slice((event.pageIndex * event.pageSize), ((event.pageIndex + 1) * event.pageSize))
   }
 
-  paginate(event) {
+  getTooltip(label: string): string {
+    return this.apiSources.filter(source => source.field === label)[0].description;
   }
+
+  hasChild = (_: number, node: DiseaseTreeNode) => !!node.children && node.children.length > 0;
+
 }
 

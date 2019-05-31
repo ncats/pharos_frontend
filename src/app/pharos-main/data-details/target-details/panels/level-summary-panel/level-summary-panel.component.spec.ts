@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import {LevelSummaryPanelComponent} from "./level-summary-panel.component";
 
+import { LevelSummaryPanelComponent } from './level-summary-panel.component';
 
 describe('LevelSummaryPanelComponent', () => {
   let component: LevelSummaryPanelComponent;
