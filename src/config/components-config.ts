@@ -342,7 +342,7 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
   navHeader: {
     label: 'Disease Associations by Source',
     section: 'diseaseSources',
-    mainDescription: 'This is a list of diseases associated with this target, compiled by several resources. Each' +
+    mainDescription: 'This is a list of diseases associated with this target, compiled by several resources. Each ' +
     'resource provides different confidence measurements and association values, which are described below.'
   },
   api: [

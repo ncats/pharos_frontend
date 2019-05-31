@@ -144,6 +144,8 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   }
 
   ngOnInit() {
+    console.log(this);
+    // https://pharos.ncats.io/idg/api/v1/expression?acc=P25092
     this._URL = this.pharosConfig.getHomunculusUrl(this.id);
     this._data
     // listen to data as long as term is undefined or null
