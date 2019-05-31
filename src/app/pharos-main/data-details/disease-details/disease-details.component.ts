@@ -41,7 +41,7 @@ export class DiseaseDetailsComponent extends DynamicPanelComponent implements On
   /**
    * div element all panels are injected into
    */
-  @ViewChild(CustomContentDirective, {static: false}) componentHost: CustomContentDirective;
+  @ViewChild(CustomContentDirective, {static: true}) componentHost: CustomContentDirective;
 
   /**
    * currently active element
