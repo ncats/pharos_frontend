@@ -2,14 +2,21 @@
           (pharosScrollspy)="active('ppi')"
           #ppi
           *ngIf="allTargets.length > 0">
-  <mat-card-header>
-    <mat-card-title >
-      <span class="mat-title"
-            [matTooltip] = description
-            [matTooltipClass] = "'pharos-tooltip'">
-        Protein-Protein Interactions ({{allTargets.length}})</span></mat-card-title>
-  </mat-card-header>
   <mat-card-content>
+    <div fxLayout="row"
+         fxLayout.lt-md="column"
+         class="tkrow"
+         fxLayoutAlign="start stretch">
+      <div fxFlex="95">
+        <span class="mat-title"
+              [matTooltip] = description
+              [matTooltipClass] = "'pharos-tooltip'">
+          Protein-Protein Interactions ({{allTargets.length}})</span>
+      </div>
+      <div fxFlex="5">
+        <pharos-help-panel-trigger [origin] = "'ppi'" [label]="'Protein-Protein Interactions'"></pharos-help-panel-trigger>
+      </div>
+    </div>
 <pharos-target-table [data] = targets [pageData]="targetPageData" [showLabel] = false [showToolbar]="false" (pageChange)="paginateTargets($event)" *ngIf="targets"></pharos-target-table>
   </mat-card-content>
 </mat-card>

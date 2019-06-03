@@ -1,3 +1,24 @@
 <div class="full-height">
-        <pharos-link-list [list] = data.synonyms [label]="'Synonyms'"></pharos-link-list>
+  <mat-card>
+    <mat-card-content>
+      <div fxLayout="row"
+           fxLayout.lt-md="column"
+           class="tkrow"
+           fxLayoutAlign="start stretch">
+        <div fxFlex="95">
+        <span class="mat-title"
+              [matTooltip] = description
+              [matTooltipClass] = "'pharos-tooltip'">
+         Synonyms</span>
+        </div>
+        <div fxFlex="5">
+          <pharos-help-panel-trigger [origin] = "'synonyms'" [label]="'Synonyms'"></pharos-help-panel-trigger>
+        </div>
+      </div>
+      <div *ngFor = "let term of data.synonyms" class="link-list">
+        <ncats-property-display [property]="term" [showLabel]="false" ></ncats-property-display>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
+

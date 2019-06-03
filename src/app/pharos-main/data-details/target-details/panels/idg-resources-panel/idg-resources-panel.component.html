@@ -2,13 +2,21 @@
           class ="section-card"
           id = "resources"
           (pharosScrollspy)="active('resources')" #resources>
-<mat-card-header>
-    <mat-card-title ><span class="mat-title"
-                           [matTooltip] = description
-                           [matTooltipClass] = "'pharos-tooltip'">
-      IDG Resources </span></mat-card-title>
-  </mat-card-header>
   <mat-card-content>
+    <div fxLayout="row"
+         fxLayout.lt-md="column"
+         class="tkrow"
+         fxLayoutAlign="start stretch">
+      <div fxFlex="95">
+        <span class="mat-title"
+              [matTooltip] = description
+              [matTooltipClass] = "'pharos-tooltip'">
+         IDG Resources</span>
+      </div>
+      <div fxFlex="5">
+        <pharos-help-panel-trigger [origin] = "'resources'" [label]="'IDG Generated Resources'"></pharos-help-panel-trigger>
+      </div>
+    </div>
     <mat-tab-group>
       <mat-tab label="Reagents ({{reagents?.length}})" matTooltip="View and order IDG produced resources from vendors">
           <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" class="filter-row">

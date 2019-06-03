@@ -1,6 +1,20 @@
 <div class ="full-height">
 <mat-card>
   <mat-card-content>
+    <div fxLayout="row"
+         fxLayout.lt-md="column"
+         class="tkrow"
+         fxLayoutAlign="start stretch">
+      <div fxFlex="95">
+        <span class="mat-title"
+              [matTooltip] = description
+              [matTooltipClass] = "'pharos-tooltip'">
+         Structure</span>
+      </div>
+      <div fxFlex="5">
+        <pharos-help-panel-trigger [origin] = "'structure'" [label]="'Structure View'"></pharos-help-panel-trigger>
+      </div>
+    </div>
     <img *ngIf="imageUrl" [src] ="imageUrl" alt = "image for {{this.data.name}}" class = "ligand-image">
   </mat-card-content>
   <mat-card-actions>

@@ -105,7 +105,6 @@ export class PathResolverService {
       if (q) {
         navigationExtras.queryParams.q = q;
         navigationExtras.queryParams.facet = facetList.length > 0 ? facetList : null;
-        console.log(navigationExtras);
       } else {
         navigationExtras.queryParams.facet = facetList.length > 0 ? facetList : null;
       }

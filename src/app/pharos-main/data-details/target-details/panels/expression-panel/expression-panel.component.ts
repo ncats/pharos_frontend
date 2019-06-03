@@ -264,6 +264,9 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     }
   //  this.imgUrl = this._URL + this.sources[0].name;
   }
+  getTooltip(label: string): string {
+    return this.apiSources.filter(source => source.field === label)[0].description;
+  }
 
   /**
    * active section view tracker

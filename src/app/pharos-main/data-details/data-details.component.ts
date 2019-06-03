@@ -75,8 +75,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
               private dataDetailsResolver: DataDetailsResolver,
               public loadingService: LoadingService,
               private changeDetector: ChangeDetectorRef,
-              public scrollDispatcher: ScrollDispatcher
-  ) {
+              public scrollDispatcher: ScrollDispatcher) {
     super();
     this.path = this._route.snapshot.data.path;
     this.pharosObject = this._route.snapshot.data.pharosObject;
@@ -101,21 +100,24 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
         this._data.next(res);
       });
 
-/*
-    this.loadingService.loading$.subscribe(res=> this.loading = res);
-*/
+    /*
+        this.loadingService.loading$.subscribe(res=> this.loading = res);
+    */
 
     this.router.events
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((e: any) => {
-      // If it is a NavigationEnd event re-initalise the component
-      if (e instanceof NavigationEnd) {
-        this.path = this._route.snapshot.data.path;
-        if (this._route.snapshot.data.pharosObject != this.pharosObject) {
-          this.pharosObject = this._route.snapshot.data.pharosObject;
+        // If it is a NavigationEnd event re-initalise the component
+        if (e instanceof NavigationEnd) {
+          this.path = this._route.snapshot.data.path;
+          if (this._route.snapshot.data.pharosObject != this.pharosObject) {
+            this.pharosObject = this._route.snapshot.data.pharosObject;
+            this.componentHost.viewContainerRef.clear();
+            this.changeDetector.markForCheck(); // refresh the component manually
+            this.makeComponents();
+          }
         }
-      }
-    });
+      });
   }
 
   /**
@@ -168,7 +170,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
       this._data
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(obj => {
-          if(obj) {
+          if (obj) {
             dynamicComponent.instance.data = obj;
           }
         });

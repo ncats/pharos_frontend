@@ -59,7 +59,6 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
   }
 
   ngOnInit() {
-    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -107,7 +106,6 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
   }
 
   getTooltip(label: string): string {
-    console.log(label);
     const labels = this.apiSources.filter(source => source.field === label)[0];
     return labels ? labels.description : '';
   }

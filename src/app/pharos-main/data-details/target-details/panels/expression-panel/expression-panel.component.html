@@ -24,7 +24,12 @@
          fxLayoutAlign="space-around start">
       <div fxFlex = "95" >
       <mat-tab-group [dynamicHeight]="true" (animationDone)="doneAnimating()" (selectedTabChange)="drawRadar($event)">
-      <mat-tab label="Human">
+      <mat-tab>
+        <ng-template mat-tab-label><div
+          [matTooltip] = "getTooltip('expression')"
+          [matTooltipClass] = "'pharos-tooltip'">
+          Human</div>
+        </ng-template>
     <div fxLayout = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="anatamogram-row">
       <div fxFlex="50">
         <img class = "hg" src = {{imgUrl}}>
@@ -59,17 +64,33 @@
       </div>
     </div>
       </mat-tab>-->
-        <mat-tab label = "Specificity" (selectedTabChange)="drawRadar($event)">
+        <mat-tab (selectedTabChange)="drawRadar($event)">
+          <ng-template mat-tab-label><div
+            [matTooltip] = "getTooltip('specificity')"
+            [matTooltipClass] = "'pharos-tooltip'">
+            Specificity</div>
+          </ng-template>
           <div fxLayout = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="radarchart anatamogram-row">
             <div fxFlex="50" fxFlexAlign="stretch">
               <pharos-radar-chart [data] = radarData [shape]="true" [size] = "'medium-shape'" [origin]="'expression'"></pharos-radar-chart>
           </div>
           </div>
         </mat-tab>
-        <mat-tab label = "Differential" *ngIf=diseaseSources>
+        <mat-tab *ngIf=diseaseSources>
+          <ng-template mat-tab-label><div
+            [matTooltip] = "getTooltip('differential')"
+            [matTooltipClass] = "'pharos-tooltip'">
+            Differential</div>
+          </ng-template>
           <pharos-generic-table [data]= tableArr [fieldsConfig] = fields></pharos-generic-table>
         </mat-tab>
-        <mat-tab label = "Ortholog" *ngIf="orthologs && orthologs.length > 0">
+        <mat-tab *ngIf="orthologs && orthologs.length > 0">
+          <ng-template mat-tab-label>
+            <div
+            [matTooltip] = "getTooltip('orthologs')"
+            [matTooltipClass] = "'pharos-tooltip'">
+            Orthologs ({{orthologs.length}})</div>
+          </ng-template>
           <pharos-ortholog-panel [data]= orthologs></pharos-ortholog-panel>
         </mat-tab>
     </mat-tab-group>

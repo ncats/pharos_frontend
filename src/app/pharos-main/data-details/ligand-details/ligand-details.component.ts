@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, Inject, Injector, Input, OnDestroy, OnInit
 import {CustomContentDirective} from '../../../tools/custom-content.directive';
 import {DataDetailsResolver} from '../data-details.resolver';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
-import {takeUntil} from 'rxjs/operators';
+import {map, takeLast, takeUntil, takeWhile} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {Ligand} from '../../../models/ligand';
 import {HelpDataService} from '../../../tools/help-panel/services/help-data.service';
@@ -57,19 +57,17 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
    * @param {BreakpointObserver} breakpointObserver
    * @param {ComponentInjectorService} componentInjectorService
    */
-  constructor(
-    private _injector: Injector,
-    @Inject(DOCUMENT) private document: Document,
-    private dataDetailsResolver: DataDetailsResolver,
-    private router: Router,
-    private route: ActivatedRoute,
-    private navSectionsService: NavSectionsService,
-    private changeDetector: ChangeDetectorRef,
-    private pharosConfig: PharosConfig,
-    private helpDataService: HelpDataService,
-    public breakpointObserver: BreakpointObserver,
-    private componentInjectorService: ComponentInjectorService
-  ) {
+  constructor(private _injector: Injector,
+              @Inject(DOCUMENT) private document: Document,
+              private dataDetailsResolver: DataDetailsResolver,
+              private router: Router,
+              private route: ActivatedRoute,
+              private navSectionsService: NavSectionsService,
+              private changeDetector: ChangeDetectorRef,
+              private pharosConfig: PharosConfig,
+              private helpDataService: HelpDataService,
+              public breakpointObserver: BreakpointObserver,
+              private componentInjectorService: ComponentInjectorService) {
     super();
   }
 
@@ -98,7 +96,6 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
             const url = apiCall.url.replace('_id_', this.ligand.id);
             /**this call is pushed up to the pharos api and changes are subscribed to in the generic details page, then set here*/
             this.dataDetailsResolver.getDetailsByUrl(url, apiCall.field);
-
             /** this will be used to track the object fields to get */
             keys.push(apiCall.field);
           }
@@ -106,9 +103,11 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
         /** make component */
         const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
         const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
+        childComponent.instance.disease = this.ligand;
+        childComponent.instance.id = this.ligand.id;
+
         if (component.navHeader) {
           this.sections.push(component.navHeader);
-          this.navSectionsService.setSections(Array.from(new Set([...this.sections])));
           this.helpDataService.setSources(component.navHeader.section,
             {
               sources: component.api,
@@ -116,19 +115,38 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
               mainDescription: component.navHeader.mainDescription ? component.navHeader.mainDescription : null
             }
           );
+          childComponent.instance.description = component.navHeader.mainDescription;
+          childComponent.instance.apiSources = component.api;
           childComponent.instance.field = component.navHeader.section;
           childComponent.instance.label = component.navHeader.label;
         }
 
-        // todo need to cover when no results are returned - do we still want to make the component?
         this._data
-          .pipe(takeUntil(this.ngUnsubscribe))
+          .pipe(
+            map(res => this.pick(res, keys)),
+            takeWhile(res => Object.values(res).includes(undefined), true),
+            takeLast(1)
+          )
           .subscribe(obj => {
-            childComponent.instance.ligand = this.ligand;
-            childComponent.instance.id = this.ligand.id;
-            const dataObject = this.pick(obj, keys);
-            if (!Object.values(dataObject).includes(undefined)) {
-              childComponent.instance.data = dataObject;
+            if (!Object.values(obj).includes(undefined)) {
+              childComponent.instance.data = obj;
+              let count = Object.values(obj).length;
+              Object.values(obj).forEach(val => {
+                if (val == 0) {
+                  count--
+                }
+                else if (val === []) {
+                  count--
+                }
+                else if (val['content'] && val['content'].length === 0) {
+                  count--
+                } // this one covers ppi section
+              });
+              if (count === 0 && component.navHeader) {
+                // this.sections = this.sections.filter(section => section.section !== component.navHeader.section);
+                // this.navSectionsService.setSections(this.sections);
+                childComponent.destroy();
+              }
             }
           });
       });

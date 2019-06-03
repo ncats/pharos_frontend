@@ -470,7 +470,7 @@ const EXPRESSION_PANEL: PharosPanel = {
       field: 'expression',
       label: 'Gene expression Data',
       url: _APIURL + 'targets/_id_/properties(label=*Tissue)',
-      description: ''
+      description: 'Tissues that this gene may be differentially expressed in.'
     },
     {
       field: 'specificity',
@@ -483,14 +483,26 @@ const EXPRESSION_PANEL: PharosPanel = {
       field: 'differential',
       label: 'Differential Expression',
       url: _APIURL + 'targets/_id_/links(kind=ix.idg.models.Disease)',
-      description: 'Diseases in which this target has shown to have differential expression ' +
-      'as reported in Expression Atlas'
+      description: `Diseases in which, according to the Expression Atlas resource, the target is differentially
+       expressed. The table lists the disease name, the log2 fold change and the associated p-value. Larger absolute 
+       values of fold change indicate a higher degree of differential expression between the disease state and the 
+       normal state.`
     },
     {
       field: 'orthologs',
       label: 'Ortholog Species',
       url: _APIURL + 'targets/_id_/links(kind=ix.idg.models.Ortholog)',
-      description: 'Ortholog species'
+      description: 'Ortholog species available.'
+    },
+    {
+      field: 'IDGexpression',
+      label: 'IDG Expression Results',
+      description: `The function which computes consensus expression level aggregates expression values from GTEx, 
+      HPM and HPA into 11 tissue types (e.g., Digestive Tract, Endocrine System, etc.). A consensus expression value 
+      for a given target is simply the mode (most frequent) of the qualitative expression values in the aggregated set.
+       The confidence value associated with a consensus expression value is derived taking into consideration both the 
+       number and consistency of supporting data. Confidence for Low and Medium levels should be interpreted to mean 
+       confidence for that level of expression or higher.`
     }
   ]
 };
@@ -509,7 +521,10 @@ const PROTEIN_PROTEIN_PANEL: PharosPanel = {
   api: [
     {
       field: 'interactions',
-      url: _APIURL + 'predicates?filter=predicate%3D%27Protein-Protein+Interactions%27+AND+subject.refid%3D_id_'
+      label: 'Protein to Protein Interactions',
+      url: _APIURL + 'predicates?filter=predicate%3D%27Protein-Protein+Interactions%27+AND+subject.refid%3D_id_',
+      description: 'List of protein to protein interactions associated with this gene.'
+
     }
   ]
 };
@@ -732,11 +747,17 @@ const DISEASE_DETAILS_COMPONENT: PharosPanel = {
  */
 const TARGET_LIST_PANEL: PharosPanel = {
   token: TOKENS.TARGET_LIST_PANEL,
+  navHeader: {
+    label: 'Related Targets',
+    section: 'relatedTargets',
+    mainDescription: 'List of targets within Pharos that are related to this disease.'
+  },
   api: [
     {
       field: 'targets',
       label: 'Related Targets',
-      url: _APIURL + 'diseases/_id_/links(kind=ix.idg.models.Target)?top=10'
+      url: _APIURL + 'diseases/_id_/links(kind=ix.idg.models.Target)?top=10',
+      description: 'List of targets associated with this disease.'
     }
   ]
 };
@@ -782,6 +803,7 @@ const LIGAND_HEADER_COMPONENT: PharosPanel = {
  */
 const LIGAND_DESCRIPTION_COMPONENT: PharosPanel = {
   token: TOKENS.LIGAND_DESCRIPTION_COMPONENT,
+
   api: [
     {
       field: 'description',
@@ -797,10 +819,18 @@ const LIGAND_DESCRIPTION_COMPONENT: PharosPanel = {
  */
 const STRUCTURE_VIEW_PANEL: PharosPanel = {
   token: TOKENS.STRUCTURE_VIEW_PANEL,
+  navHeader: {
+    label: 'Structure View',
+    section: 'structure',
+    mainDescription: 'Visual representation of the ligand.'
+  },
+
   api: [
     {
       field: 'structure',
-      url: _APIURL + 'ligands/_id_/links(kind=ix.core.models.Structure)'
+      label: 'Structure',
+      url: _APIURL + 'ligands/_id_/links(kind=ix.core.models.Structure)',
+      description: 'Pharos structure object for this ligand.'
     }
   ]
 };
@@ -811,10 +841,19 @@ const STRUCTURE_VIEW_PANEL: PharosPanel = {
  */
 const TARGET_RELEVANCE_PANEL: PharosPanel = {
   token: TOKENS.TARGET_RELEVANCE_PANEL,
+  navHeader: {
+    label: 'Related Targets',
+    section: 'relatedTargets',
+    mainDescription: 'List of targets within Pharos that are related to this ligand.'
+  },
   api: [
     {
       field: 'targetRelevance',
-      url: _APIURL + 'ligands/_id_/links(kind=ix.idg.models.Target)'
+      label: 'Target Relevance',
+      url: _APIURL + 'ligands/_id_/links(kind=ix.idg.models.Target)',
+      description: 'List of targets this ligand has been tested on, passing the activity cutoff levels described.',
+      article: ARTICLES.LIGAND_ACTIVITY_ARTICLE
+
     }
   ]
 };
@@ -825,10 +864,17 @@ const TARGET_RELEVANCE_PANEL: PharosPanel = {
  */
 const SYNONYMS_PANEL: PharosPanel = {
   token: TOKENS.SYNONYMS_PANEL,
+  navHeader: {
+    label: 'Synonyms',
+    section: 'synonyms',
+    mainDescription: 'List of ligand synonyms.'
+  },
   api: [
     {
       field: 'synonyms',
-      url: _APIURL + 'ligands/_id_/synonyms'
+      label: 'Synonyms',
+      url: _APIURL + 'ligands/_id_/synonyms',
+      description: 'List of ligand synonyms.'
     }
   ]
 };
@@ -839,10 +885,17 @@ const SYNONYMS_PANEL: PharosPanel = {
  */
 const MOLECULAR_DEFINITION_PANEL: PharosPanel = {
   token: TOKENS.MOLECULAR_DEFINITION_PANEL,
+  navHeader: {
+    label: 'Molecular Definition',
+    section: 'molecularDefinition',
+    mainDescription: 'List of this ligand\'s molecular properties.'
+  },
   api: [
     {
       field: 'properties',
-      url: _APIURL + 'ligands/_id_/links(kind=ix.core.models.Structure)'
+      label: 'Molecular Properties',
+      url: _APIURL + 'ligands/_id_/links(kind=ix.core.models.Structure)',
+      description: 'List of associated molecular properties.'
     }
   ]
 };

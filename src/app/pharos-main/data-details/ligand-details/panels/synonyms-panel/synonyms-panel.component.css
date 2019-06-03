@@ -2,6 +2,12 @@
   grid-column: 1 / 2;
 }
 
+.link-list {
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  font-size: 1.1em;
+}
+
 .full-height {
   align-self: stretch;
   justify-self: stretch;
