@@ -1,17 +1,12 @@
-import {Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {MatTabChangeEvent} from '@angular/material';
 import {PharosProperty} from '../../../../../models/pharos-property';
-import {BehaviorSubject} from 'rxjs/index';
-import {Ortholog, OrthologSerializer} from '../../../../../models/ortholog';
-import {DiseaseRelevance} from '../../../../../models/disease-relevance';
 import {takeUntil} from 'rxjs/operators';
-import {DiseaseRelevanceSerializer} from '../../../../../models/disease-relevance';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
 import {AnatamogramHoverService} from '../../../../../tools/anatamogram/anatamogram-hover.service';
 import {PharosConfig} from '../../../../../../config/pharos-config';
-import {PageData} from "../../../../../models/page-data";
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 @Component({
@@ -117,8 +112,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   }
 
   setterFunction() {
-    console.log(this);
-
     if (this.data.expression) {
       this.tissueData.clear();
       this.mapTissueData();
@@ -129,7 +122,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     if(this.data.specificity) {
       this.radarData = [];
       const axes: any [] = [];
-      const radar: any = [];
       this.data.specificity.forEach(data => {
         axes.push({axis: data.label, value: data['numval']});
       });

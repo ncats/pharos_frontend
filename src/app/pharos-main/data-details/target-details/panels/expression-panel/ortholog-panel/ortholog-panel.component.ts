@@ -11,7 +11,6 @@ import {PageData} from "../../../../../../models/page-data";
   styleUrls: ['./ortholog-panel.component.css']
 })
 export class OrthologPanelComponent extends DynamicPanelComponent implements OnInit {
-  orthologSerializer: OrthologSerializer = new OrthologSerializer();
   fields: PharosProperty[] = [
     new PharosProperty({
     name: 'species',
@@ -36,10 +35,6 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
   species: string[];
   tableArr: any[] = [];
 
-  /**
-   * page data object to track pagination
-   */
-  orthoPageData: PageData;
 
   /**
    * no args constructor
