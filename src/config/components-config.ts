@@ -1000,10 +1000,10 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           LEVEL_SUMMARY_PANEL,
          // IDG_RESOURCES_PANEL,
           DISEASE_SOURCE_PANEL,
-          DRUGS_PANEL,
-          LIGANDS_PANEL,
-          PDB_PANEL,
-          EXPRESSION_PANEL,
+           DRUGS_PANEL,
+           LIGANDS_PANEL,
+           PDB_PANEL,
+           EXPRESSION_PANEL,
           PROTEIN_PROTEIN_PANEL,
           PUBLICATION_INFO_PANEL,
           AA_SEQUENCE_PANEL,
@@ -1031,7 +1031,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       tclin: {
         components: [
           TARGET_GENE_SUMMARY_COMPONENT,
-          PHAROS_BREADCRUMB_COMPONENT,
+           PHAROS_BREADCRUMB_COMPONENT,
           SUMMARY_PANEL,
           LEVEL_SUMMARY_PANEL,
          // IDG_RESOURCES_PANEL,
@@ -1043,7 +1043,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PROTEIN_PROTEIN_PANEL,
            PUBLICATION_INFO_PANEL,
            AA_SEQUENCE_PANEL,
-           TARGET_FACET_PANEL
+            TARGET_FACET_PANEL
         ]
       }
     }],

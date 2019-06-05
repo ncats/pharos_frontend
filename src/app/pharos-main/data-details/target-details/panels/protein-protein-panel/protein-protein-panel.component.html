@@ -1,8 +1,11 @@
 <mat-card id ="ppi"
           (pharosScrollspy)="active('ppi')"
           #ppi
-          *ngIf="allTargets.length > 0">
+         >
   <mat-card-content>
+    <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
+      <mat-spinner></mat-spinner>
+    </div>
     <div fxLayout="row"
          fxLayout.lt-md="column"
          class="tkrow"

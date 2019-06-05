@@ -156,6 +156,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
         if (Object.values(this.data).length > 0) {
           this.ngUnsubscribe.next();
           this.setterFunction();
+          this.loading = false;
         }
       });
   }

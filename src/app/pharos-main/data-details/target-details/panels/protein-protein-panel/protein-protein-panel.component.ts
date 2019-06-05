@@ -77,7 +77,9 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
            }
          );
        }
+       this.loading = false;
       });
+
   }
 
   /**

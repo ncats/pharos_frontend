@@ -11,6 +11,7 @@ import {CustomContentDirective} from '../../../tools/custom-content.directive';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {NavSectionsService} from '../../../tools/sidenav-panel/services/nav-sections.service';
 import {HelpDataService} from '../../../tools/help-panel/services/help-data.service';
+import {tap} from "rxjs/internal/operators";
 
 /**
  * main holder component for target details
@@ -49,6 +50,8 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
    * currently active element
    */
   activeElement: string;
+
+
 
   /**
    * set up lots of dependencies to watch for data changes, navigate and parse and inject components
@@ -91,6 +94,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
    * this data object is then injected into the dynamic component
    */
   ngOnInit() {
+    this.loading = true;
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
     const components: any = this.pharosConfig.getComponents(this.path, this.target.idgTDL.toLowerCase());
     if (components) {
@@ -121,6 +125,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
               mainDescription: component.navHeader.mainDescription ? component.navHeader.mainDescription : null
             }
           );
+          this.navSectionsService.setSections(this.sections);
           childComponent.instance.description = component.navHeader.mainDescription;
           childComponent.instance.apiSources = component.api;
           childComponent.instance.field = component.navHeader.section;
@@ -129,7 +134,9 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
 
         this._data
           .pipe(
-            map(res => this.pick(res, keys)),
+            map(res => {
+              return this.pick(res, keys)
+            }),
             takeWhile(res => Object.values(res).includes(undefined), true),
             takeLast(1)
           )
@@ -138,9 +145,10 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
               childComponent.instance.data = obj;
               let count = Object.values(obj).length;
               Object.values(obj).forEach(val => {
-                if(val == 0){count--}
-                else if(val === []){count--}
-                else if(val['content'] && val['content'].length === 0){count--} // this one covers ppi section
+                if(Array.isArray(val['content']) && !val['content'].length){count--}// this one covers ppi section
+                else if (Array.isArray(val) && !val.length){count--}
+                else if(val === 0){count--}
+
               });
               if (count === 0 && component.navHeader) {
                this.sections = this.sections.filter(section => section.section !== component.navHeader.section);

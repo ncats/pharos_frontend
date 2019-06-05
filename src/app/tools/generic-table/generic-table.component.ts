@@ -260,11 +260,11 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
    * set default paginator values
    */
   setPage() {
-    if (this.showPaginator && this.pageData) {
+    /*if (this.showPaginator && this.pageData) {
       this.paginator.length = this.pageData.total;
       this.paginator.pageSize = this.pageData.top;
       this.paginator.pageIndex = Math.ceil(this.pageData.skip / this.pageData.top);
-    }
+    }*/
   }
 
   /**

@@ -48,7 +48,7 @@ const pharosMainRoutes: Routes = [
     resolve: {
       pharosObject: DataDetailsResolver
     },
-    runGuardsAndResolvers: 'always'
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange'
   }
 ];
 

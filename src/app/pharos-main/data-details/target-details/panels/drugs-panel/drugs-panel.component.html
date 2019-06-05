@@ -4,6 +4,9 @@
           (pharosScrollspy)="active(field)"
            #drugs>
   <mat-card-content>
+    <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
+      <mat-spinner></mat-spinner>
+    </div>
     <div fxLayout="row"
          fxLayout.lt-md="column"
          class="tkrow"
@@ -18,7 +21,7 @@
         <pharos-help-panel-trigger [origin] = "'drugs'" [label]="'Approved Drugs'"></pharos-help-panel-trigger>
       </div>
     </div>
-    <mat-paginator
+   <!-- <mat-paginator
       #drugPaginator
       *ngIf = "pageData && drugsList.length > 0"
       [pageSize]="10"
@@ -26,7 +29,8 @@
                    [hidePageSize]="hidePageSize"
                    [showFirstLastButtons]="true"
                    (page)="paginate($event)">
-    </mat-paginator>
+    </mat-paginator>-->
+    <pharos-custom-paginator [pageData]="pageData" (page)="paginate($event)"></pharos-custom-paginator>
     <div class ="structure-grid">
     <div *ngFor="let drug of drugsList">
       <pharos-ligand-card [ligand]="drug" [target]="target"></pharos-ligand-card>

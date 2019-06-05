@@ -3,6 +3,9 @@
           id = "resources"
           (pharosScrollspy)="active('resources')" #resources>
   <mat-card-content>
+    <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
+      <mat-spinner></mat-spinner>
+    </div>
     <div fxLayout="row"
          fxLayout.lt-md="column"
          class="tkrow"

@@ -337,6 +337,9 @@ export class PharosApiService {
           }
         );
       });
+      if(path === 'ligands') {
+        strArr.push(`view=full`);
+      }
       str = str + strArr.join('&');
     }
     return str;
