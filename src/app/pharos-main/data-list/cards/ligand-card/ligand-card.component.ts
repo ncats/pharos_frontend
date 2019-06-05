@@ -40,7 +40,6 @@ export class LigandCardComponent implements OnInit {
   ngOnInit() {
     if (this.target) {
       this.primeActivity = [this.ligand.activities.sort(activity => this.target.gene === activity.target)[0]];
-
     }
   }
 

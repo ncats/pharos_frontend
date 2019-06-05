@@ -13,7 +13,7 @@ import {LigandsPanelComponent} from './panels/ligands-panel/ligands-panel.compon
 import {IdgResourcesPanelComponent} from './panels/idg-resources-panel/idg-resources-panel.component';
 import {ExpressionPanelComponent} from './panels/expression-panel/expression-panel.component';
 import {SummaryPanelComponent} from './panels/summary-panel/summary-panel.component';
-import {OrthologPanelComponent} from './panels/ortholog-panel/ortholog-panel.component';
+import {OrthologPanelComponent} from './panels/expression-panel/ortholog-panel/ortholog-panel.component';
 import {IdgLevelSummaryModule} from './panels/level-summary-panel/idg-level-summary.module';
 import {SharedModule} from '../../../shared/shared.module';
 import {SharedDetailsModule} from '../../../shared/shared-details.module';
@@ -28,6 +28,7 @@ import {LigandCardComponent} from '../../data-list/cards/ligand-card/ligand-card
 import {LigandTableModule} from '../../data-list/tables/ligand-table/ligand-table.module';
 import {StructureViewComponent} from '../../../tools/structure-view/structure-view.component';
 import {DrugsPanelComponent} from "./panels/drugs-panel/drugs-panel.component";
+import { DifferentialPanelComponent } from './panels/expression-panel/differential-panel/differential-panel.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import {DrugsPanelComponent} from "./panels/drugs-panel/drugs-panel.component";
     TargetFacetPanelComponent,
     IdgResourcesPanelComponent,
     LigandsPanelComponent,
-    DrugsPanelComponent
+    DrugsPanelComponent,
+    DifferentialPanelComponent
   ],
   imports: [
     CommonModule,
@@ -94,7 +96,6 @@ import {DrugsPanelComponent} from "./panels/drugs-panel/drugs-panel.component";
     {provide: TOKENS.DISEASE_SOURCE_PANEL, useValue: DiseaseSourceComponent},
     {provide: TOKENS.EXPRESSION_PANEL, useValue: ExpressionPanelComponent},
     {provide: TOKENS.PROTEIN_PROTEIN_PANEL, useValue: ProteinProteinPanelComponent},
-    {provide: TOKENS.ORTHOLOG_PANEL, useValue: OrthologPanelComponent},
     {provide: TOKENS.TARGET_FACET_PANEL, useValue: TargetFacetPanelComponent},
     {provide: TOKENS.ASSAY_PANEL, useValue: AssayPanelComponent},
     {provide: TOKENS.AA_SEQUENCE_PANEL, useValue: AaSequencePanelComponent},

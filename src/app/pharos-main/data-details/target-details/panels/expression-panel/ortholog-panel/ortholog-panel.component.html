@@ -1,7 +1,7 @@
 <div>
     <pharos-generic-table
-      (pageChange)="paginate($event)"
-      [pageData]="pageData"
+      (pageChange)="page($event)"
+      [pageData]="orthoPageData"
       [data]="tableArr"
       [fieldsConfig] = fields>
     </pharos-generic-table>

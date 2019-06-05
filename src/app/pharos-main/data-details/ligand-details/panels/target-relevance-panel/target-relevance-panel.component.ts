@@ -84,11 +84,16 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
               activity: new PharosProperty(target.properties
                 .filter(prop => prop.label === 'Ligand Activity' || prop.label === 'Pharmalogical Action')[0])
             };
+           /* if(data.activity) {
+              console.log(data.activity);
+              data.activity.term = `p${data.activity.term}`;
+            }*/
             data['developmentLevelValue'] = new PharosProperty(
               target.properties.filter(prop => prop.label === data.activity.term)[0] ?
                 target.properties.filter(prop => prop.label === data.activity.term)[0] :
                 data.activity
             );
+            data['developmentLevelValue'].term = `p${data['developmentLevelValue'].term}`;
             data.target.internalLink = ['/targets', data.target.term as string];
             this.tableArr.push(data);
           });

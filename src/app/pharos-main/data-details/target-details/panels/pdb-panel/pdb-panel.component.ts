@@ -122,7 +122,6 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        console.log(x);
         if (this.data.pdb && this.data.pdb.length > 0) {
           this.ngUnsubscribe.next();
           this.setterFunction();
@@ -140,14 +139,14 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
     const terms = this.data.pdb.map(pdb => pdb = pdb.term);
     this._http.get(REPORT_URL + terms.join(','), {responseType: 'text'}).subscribe(res => {
         this.csvJSON(res);
-       /* this.reports = this.reports
-          .filter(entry => entry.ligandId);
-*/
       this.pageData = this.makePageData(this.reports.length);
       this.tableArr = this.reports
           .slice(this.pageData.skip, this.pageData.top)
         .map(report => this.pdbReportSerializer._asProperties(report));
-        this.pdbid = this.tableArr.length ? this.tableArr.filter(val => val.ligandId.term)[0].structureId['term'] : null;
+      const pdbids = this.tableArr.filter(val => val.structureId.term);
+      if(pdbids && pdbids.length) {
+        this.pdbid = pdbids[0].structureId['term'];
+      }
       this.ref.detectChanges();
     });
   }
@@ -186,7 +185,6 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
 
   /**
    * change the molecule displayed in the protein structure viewer
-   * todo: verify that this happens
    * @param entry
    */
   changePdbId(entry: any) {

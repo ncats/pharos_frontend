@@ -11,6 +11,7 @@ import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/na
 import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
 import {AnatamogramHoverService} from '../../../../../tools/anatamogram/anatamogram-hover.service';
 import {PharosConfig} from '../../../../../../config/pharos-config';
+import {PageData} from "../../../../../models/page-data";
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 @Component({
@@ -66,62 +67,16 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     'UBERON_0001870'
   ];
 
-  @ViewChild(RadarChartComponent, {static: true}) radarComponent: RadarChartComponent;
+  @ViewChild('radar', {read: RadarChartComponent, static: false}) radarComponent: RadarChartComponent;
 
   _URL: string;
   id: string;
   tissueData: Map<string, PharosProperty[]> = new Map<string, PharosProperty[]>();
-  diseaseRelevanceSerializer: DiseaseRelevanceSerializer = new DiseaseRelevanceSerializer();
-  orthologSerializer: OrthologSerializer = new OrthologSerializer();
   hgData: any[] = [];
   imgUrl: string;
-  diseaseSources: any;
-  orthologs: any;
   tableArr: any[];
-  fields: PharosProperty[] = [
-    new PharosProperty({
-      name: 'IDG Disease',
-      label: 'Disease',
-      sortable: true
-    }),
 
-    new PharosProperty({
-        name: 'log2foldchange',
-        label: 'log2 FC',
-        sortable: true
-      }
-    ),
-
-    new PharosProperty({
-        name: 'pvalue',
-        label: 'P-value',
-        sortable: true,
-        sorted: 'desc'
-      }
-    )];
-
-  /**
-   * initialize a private variable _radarData, it's a BehaviorSubject
-   * @type {BehaviorSubject<any>}
-   * @private
-   */
-  protected _radarData = new BehaviorSubject<any>([]);
-  /**
-   * pushes changed data to {BehaviorSubject}
-   * @param value
-   */
-  @Input()
-  set radarData(value: any) {
-    this._radarData.next(value);
-  }
-
-  /**
-   * returns value of {BehaviorSubject}
-   * @returns {any}
-   */
-  get radarData() {
-    return this._radarData.getValue();
-  }
+  radarData: any[] = [];
 
   sources: any[] = [
     {label: 'GTEx Tissue', name: 'gtex'},
@@ -135,7 +90,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   ];
 
   sourceList = [];
-  selectedTab: string;
+  selectedTab: number;
 
   constructor(private navSectionsService: NavSectionsService,
               private pharosConfig: PharosConfig,
@@ -162,44 +117,25 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   }
 
   setterFunction() {
+    console.log(this);
+
     if (this.data.expression) {
       this.tissueData.clear();
       this.mapTissueData();
-      this.radarData = this.setRadarData();
       this.hgData = this.tissueData.get(this.sources[0].label);
       this.imgUrl = this._URL + this.sourceList[0].name;
     }
-    if (this.data.differential) {
-      this.tableArr = [];
-      this.diseaseSources = this.data.differential.filter(term =>
-        term.properties.filter(prop => prop.term === 'Expression Atlas').length > 0);
-      this.diseaseSources.forEach(dr => {
-        // create new disease relevance object to get PharosProperty class properties
-        const readDR: DiseaseRelevance = this.diseaseRelevanceSerializer.fromJson(dr);
-        // get array of diseases from source map
-        const tableData: any = {};
-        readDR.properties.forEach(prop => {
-          tableData[prop.label] = new PharosProperty(prop);
-        });
-        this.tableArr.push(tableData);
+
+    if(this.data.specificity) {
+      this.radarData = [];
+      const axes: any [] = [];
+      const radar: any = [];
+      this.data.specificity.forEach(data => {
+        axes.push({axis: data.label, value: data['numval']});
       });
+      this.radarData.push({className: this.id, axes: axes});
     }
 
-
-    if (this.data.orthologs) {
-      this.orthologs = [];
-      const temp: Ortholog[] = [];
-      this.data.orthologs.forEach(obj => {
-        // create new object to get PharosProperty class properties
-        const newObj: Ortholog = this.orthologSerializer.fromJson(obj);
-        // get source label
-        const labelProp: PharosProperty =
-          new PharosProperty(newObj.properties.filter(prop => prop.label === 'Ortholog Species')[0]);
-        const dataSources: PharosProperty[] =
-          newObj.properties.filter(prop => prop.label === 'Data Source').map(lab => new PharosProperty(lab));
-        this.orthologs.push({species: labelProp, source: dataSources});
-      });
-    }
   }
 
   mapTissueData(): void {
@@ -217,18 +153,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     this.sourceList = this.sources.filter(source => keys.includes(source.label));
   }
 
-  setRadarData(): any[] {
-    const axes: any [] = [];
-    const radar: any = [];
-    const filters = ['GTEx Tissue Specificity Index', 'HPM Protein Tissue Specificity Index', 'HPA RNA Tissue Specificity Index'];
-    filters.forEach(field => {
-      const data: any = this.tissueData.get(field) ? this.tissueData.get(field)[0] : {numval: 0};
-      axes.push({axis: field, value: data['numval']});
-    });
-    radar.push({className: this.id, axes: axes});
-    return radar;
-  }
-
   getData(field: string): PharosProperty[] {
     return this.tissueData.get(field);
   }
@@ -243,10 +167,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
 
   }
 
-  drawRadar(change: MatTabChangeEvent) {
-    this.selectedTab = change.tab.textLabel;
-  }
-
   /**
    * set tissue that is hovered from list
    * @param {string} tissue
@@ -255,16 +175,20 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     this.anatamogramHoverService.setTissue(tissue);
   }
 
+  drawRadar(change: MatTabChangeEvent) {
+    this.selectedTab = change.index;
+  }
+
   /**
    * redraws radar chart when the tab changes, this is due to the lazy loaded tabs
    */
   doneAnimating() {
-    if (this.selectedTab === 'Specificity') {
+    if (this.selectedTab === 1) {
       this.radarComponent.drawChart();
       this.radarComponent.updateChart();
     }
-  //  this.imgUrl = this._URL + this.sources[0].name;
   }
+
   getTooltip(label: string): string {
     return this.apiSources.filter(source => source.field === label)[0].description;
   }

@@ -153,10 +153,12 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
    * @private
    */
   private _mapLigands(data: any[]): void {
+    const acc: string = this.target.gene;
     const ligandsArr: Ligand[] = [];
     data.forEach(ligand => {
       const activity: any = ligand.links
         .filter(link => link.kind === 'ix.idg.models.Target')
+        .filter(link => link.properties.filter(prop => prop.term === acc).length > 0)
         .map(target => this._getActivity(target));
       // .sort(activity => activity.target !== this.target.gene);
       const strucProp = ligand.links.filter(link => link.kind === 'ix.core.models.Structure')[0];
@@ -168,16 +170,17 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
           refid: refid,
           activities: activity,
           imageUrl: `${this._STRUCTUREURLBASE}${refid}.svg?size=250`,
-          internalUrl: `/idg/ligands/${ligand.id}`
+          internalLink: ['/ligands', ligand.id]
         });
       } else {
          lig = this.ligandSerializer.fromJson({
           name: ligand.name,
           imageUrl: null,
           activities: activity,
-          internalUrl: `/idg/ligands/${ligand.id}`
+          internalLink: ['/ligands', ligand.id]
         });
       }
+
       ligandsArr.push(lig);
     });
     this.ligandsList = ligandsArr;

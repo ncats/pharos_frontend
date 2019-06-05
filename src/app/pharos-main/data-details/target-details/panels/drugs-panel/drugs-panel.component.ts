@@ -169,14 +169,14 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
           refid: refid,
           activities: activity,
           imageUrl: `${this._STRUCTUREURLBASE}${refid}.svg?size=250`,
-          internalUrl: `/idg/ligands/${drug.id}`
+           internalLink: ['/ligands', drug.id]
         });
       } else {
          lig = this.drugSerializer.fromJson({
           name: drug.name,
           imageUrl: null,
           activities: activity,
-          internalUrl: `/idg/ligands/${drug.id}`
+           internalLink: ['/ligands', drug.id]
         });
       }
       drugsArr.push(lig);

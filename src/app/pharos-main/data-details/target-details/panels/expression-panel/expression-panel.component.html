@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
-      <div fxFlex>
+      <div fxFlex="95">
       <mat-tab-group [dynamicHeight]="true" (animationDone)="doneAnimating()" (selectedTabChange)="drawRadar($event)">
       <mat-tab>
         <ng-template mat-tab-label>
@@ -64,39 +64,45 @@
       </div>
     </div>
       </mat-tab>-->
-        <mat-tab (selectedTabChange)="drawRadar($event)">
-          <ng-template mat-tab-label><div
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <div
             [matTooltip] = "getTooltip('specificity')"
             [matTooltipClass] = "'pharos-tooltip'">
             Specificity</div>
           </ng-template>
           <div fxLayout = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="radarchart anatamogram-row">
             <div fxFlex="50" fxFlexAlign="stretch">
-              <pharos-radar-chart [data] = radarData [shape]="true" [size] = "'medium-shape'" [origin]="'expression'"></pharos-radar-chart>
+              <pharos-radar-chart
+                #radar
+                id ="radar"
+                [data] = radarData
+                [shape]="true"
+                [size] = "'medium-shape'"
+                [origin]="'expression'"></pharos-radar-chart>
           </div>
           </div>
         </mat-tab>
-        <mat-tab *ngIf=diseaseSources>
-          <ng-template mat-tab-label><div
+        <mat-tab *ngIf=data.differential>
+          <ng-template mat-tab-label>
+            <div
             [matTooltip] = "getTooltip('differential')"
             [matTooltipClass] = "'pharos-tooltip'">
             Differential</div>
           </ng-template>
           <div class="table-holder" fxFlex>
-         <pharos-generic-table
-            [data]= tableArr
-            [fieldsConfig] = fields></pharos-generic-table>
+            <pharos-differential-panel [data]="data.differential"></pharos-differential-panel>
         </div>
         </mat-tab>
-        <mat-tab *ngIf="orthologs && orthologs.length > 0">
+        <mat-tab *ngIf="data.orthologs && data.orthologs.length > 0">
           <ng-template mat-tab-label>
             <div
             [matTooltip] = "getTooltip('orthologs')"
             [matTooltipClass] = "'pharos-tooltip'">
-            Orthologs ({{orthologs.length}})</div>
+            Orthologs ({{data.orthologs.length}})</div>
           </ng-template>
           <div class="table-holder">
-          <pharos-ortholog-panel [data]= orthologs></pharos-ortholog-panel>
+          <pharos-ortholog-panel [data]= data.orthologs></pharos-ortholog-panel>
           </div>
         </mat-tab>
     </mat-tab-group>

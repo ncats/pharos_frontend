@@ -475,7 +475,7 @@ const EXPRESSION_PANEL: PharosPanel = {
     {
       field: 'specificity',
       label: 'Target Tissue Specificity',
-      url: _APIURL + 'targets/_id_/properties(label=*Tissue)',
+      url: _APIURL + 'targets/_id_/properties(label=*Index)',
       description: 'Target tissue specificity, ranges from 0 (non-specific) - 1 specific to one tissue, calculated ' +
       'according to Yanai et al, Bioinformatics 2005, 650-659'
     },

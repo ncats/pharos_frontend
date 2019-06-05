@@ -112,6 +112,7 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
               name: ligand.name,
               refid: refid,
               activities: activity,
+              internalLink: ['/ligands', ligand.id],
               imageUrl: ligand.image ? ligand.image : this._STRUCTUREURLBASE + refid + '.svg?size=250'
             };
 
