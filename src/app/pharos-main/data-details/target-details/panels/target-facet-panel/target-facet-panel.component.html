@@ -2,6 +2,9 @@
           (pharosScrollspy)="active('relatedTargets')"
 #relatedTargets>
   <mat-card-content>
+    <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
+      <mat-spinner></mat-spinner>
+    </div>
     <div fxLayout="row"
          class="tkrow"
          fxLayoutAlign="start stretch">

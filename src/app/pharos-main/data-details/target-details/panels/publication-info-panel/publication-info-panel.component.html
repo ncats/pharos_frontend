@@ -2,6 +2,9 @@
           (pharosScrollspy)="active('publicationsPanel')"
           #publicationsPanel>
   <mat-card-content>
+    <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
+      <mat-spinner></mat-spinner>
+    </div>
     <div fxLayout="row"
          class="tkrow"
          fxLayoutAlign="start stretch"
@@ -22,9 +25,6 @@
       <mat-tab-group >
         <mat-tab label="Publication Statistics">
           <div class = "timelines-panel">
-          <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
-            <mat-spinner></mat-spinner>
-          </div>
           <ng-container *ngIf="pmscoreTimeline && pmscoreTimeline.length">
             <div fxLayout="row" fxLayoutAlign="start stretch"  class="timeline-holder">
               <div fxFlex="95">

@@ -54,6 +54,7 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
     )
     .subscribe(x => {
       if (Object.values(this.data).length > 0) {
+        this.loading = false;
         this.ngUnsubscribe.next();
       }
     });

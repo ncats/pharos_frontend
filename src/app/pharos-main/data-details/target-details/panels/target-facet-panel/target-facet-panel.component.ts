@@ -68,6 +68,7 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
       )
       .subscribe(x => {
         this.setterFunction();
+        this.loading = false;
       });
   }
 

@@ -4,6 +4,9 @@
           (pharosScrollspy)="active(field)"
           #ligands #drugs>
   <mat-card-content>
+    <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
+      <mat-spinner></mat-spinner>
+    </div>
     <div fxLayout="row"
          class="tkrow"
          fxLayoutAlign="start stretch">
@@ -17,14 +20,15 @@
         <pharos-help-panel-trigger [origin] = "'ligands'" [label]="'Active Ligands'"></pharos-help-panel-trigger>
       </div>
     </div>
-    <mat-paginator
+    <!--<mat-paginator
       #ligandPaginator
       [pageSize]="10"
       [pageSizeOptions]="[10, 20, 50]"
                    [hidePageSize]="hidePageSize"
                    [showFirstLastButtons]="true"
                    (page)="paginate($event)">
-    </mat-paginator>
+    </mat-paginator>-->
+    <pharos-custom-paginator [pageData]="pageData" (page)="paginate($event)"></pharos-custom-paginator>
    <!--
       <mat-paginator
         [pageData]="pageData"

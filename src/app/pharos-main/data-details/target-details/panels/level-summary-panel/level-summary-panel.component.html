@@ -1,5 +1,8 @@
 <mat-card *ngIf=data class="section-card" id="development" (pharosScrollspy)="active('development')">
   <mat-card-content>
+    <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
+      <mat-spinner></mat-spinner>
+    </div>
     <div fxLayout="row"
          class="tkrow"
          fxLayoutAlign="start stretch"

@@ -126,6 +126,7 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
    */
   setterFunction(): void {
     this._mapDrugs(this.data[this.field]);
+    this.loading = false;
     this.changeDetector.markForCheck();
   }
 
@@ -143,7 +144,6 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
       .subscribe(res => {
         this._mapDrugs(res);
         this.pageData.skip = $event.pageIndex * $event.pageSize;
-        this.loading = false;
       });
   }
 
@@ -188,11 +188,11 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
    * set default paginator values
    */
   setPage() {
-    if (this.pageData) {
+    /*if (this.pageData) {
       this.drugPaginator.length = this.pageData.total;
       this.drugPaginator.pageSize = this.pageData.top;
       this.drugPaginator.pageIndex = Math.ceil(this.pageData.skip / this.pageData.top);
-    }
+    }*/
   }
 
   /**

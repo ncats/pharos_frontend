@@ -12,7 +12,6 @@ import {IdgLevelIndicatorComponent} from './idg-level-indicator/idg-level-indica
 import {KnowledgeTableComponent} from './knowledge-table/knowledge-table.component';
 import {LinkListComponent} from './link-list/link-list.component';
 import {SketcherComponent} from './marvin-sketcher/sketcher.component';
-import {PharosPaginatorComponent} from './pharos-paginator/pharos-paginator.component';
 import {ProteinStructureViewerComponent} from './protein-structure-viewer/protein-structure-viewer.component';
 import {GenericTableModule} from './generic-table/generic-table.module';
 import {SharedModule} from '../shared/shared.module';
@@ -23,6 +22,7 @@ import {SearchComponent} from './search-component/search.component';
 import {HighlightPipe} from './search-component/highlight.pipe';
 import {NcatsHeaderComponent} from './ncats-header/ncats-header.component';
 import { StructureViewComponent } from './structure-view/structure-view.component';
+import {PharosPaginatorModule} from "./pharos-paginator/pharos-paginator.module";
 
 @NgModule({
   declarations: [
@@ -37,7 +37,6 @@ import { StructureViewComponent } from './structure-view/structure-view.componen
     KnowledgeTableComponent,
     LinkListComponent,
     SketcherComponent,
-    PharosPaginatorComponent,
     ProteinStructureViewerComponent,
     HighlightPipe,
     SearchComponent,
@@ -51,7 +50,8 @@ import { StructureViewComponent } from './structure-view/structure-view.componen
     AnatamogramModule,
     NgxJsonViewerModule,
     GenericTableModule,
-    RadarChartModule
+    RadarChartModule,
+    PharosPaginatorModule
   ],
   entryComponents: [
     BreadcrumbComponent,
@@ -72,7 +72,7 @@ import { StructureViewComponent } from './structure-view/structure-view.componen
     KnowledgeTableComponent,
     LinkListComponent,
     SketcherComponent,
-    PharosPaginatorComponent,
+    PharosPaginatorModule,
     ProteinStructureViewerComponent,
     HighlightPipe,
     SearchComponent,

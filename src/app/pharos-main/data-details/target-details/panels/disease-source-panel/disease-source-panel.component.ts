@@ -56,6 +56,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
         if (Object.values(this.data).length > 0) {
           this.ngUnsubscribe.next();
           this.setterFunction();
+          this.loading = false;
         }
       });
   }

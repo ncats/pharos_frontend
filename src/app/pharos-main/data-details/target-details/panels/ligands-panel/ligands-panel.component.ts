@@ -143,7 +143,6 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
       .subscribe(res => {
         this._mapLigands(res);
         this.pageData.skip = $event.pageIndex * $event.pageSize;
-        this.loading = false;
       });
   }
 
@@ -182,17 +181,18 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
       ligandsArr.push(lig);
     });
     this.ligandsList = ligandsArr;
+    this.loading = false;
   }
 
   /**
    * set default paginator values
    */
   setPage() {
-    if (this.pageData) {
+/*    if (this.ligandPaginator && this.pageData) {
       this.ligandPaginator.length = this.pageData.total;
       this.ligandPaginator.pageSize = this.pageData.top;
       this.ligandPaginator.pageIndex = Math.ceil(this.pageData.skip / this.pageData.top);
-    }
+    }*/
   }
 
   /**

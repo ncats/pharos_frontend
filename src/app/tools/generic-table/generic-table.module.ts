@@ -5,6 +5,7 @@ import {MaterialModule} from '../../../assets/material/material.module';
 import {PropertyDisplayComponent} from './components/property-display/property-display.component';
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {RouterModule} from "@angular/router";
+import {PharosPaginatorModule} from "../pharos-paginator/pharos-paginator.module";
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import {RouterModule} from "@angular/router";
     RouterModule,
     CommonModule,
     MaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    PharosPaginatorModule
   ],
   exports: [
     GenericTableComponent,

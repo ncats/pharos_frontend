@@ -122,9 +122,11 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
+        console.log(x);
         if (this.data.pdb && this.data.pdb.length > 0) {
           this.ngUnsubscribe.next();
           this.setterFunction();
+          this.loading = false;
         }
       });
   }

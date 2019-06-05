@@ -300,6 +300,7 @@ dataTypes: string[] = [];
         });
       });
     }
+    this.loading = false;
     });
 
 
