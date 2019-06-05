@@ -1,13 +1,8 @@
-<mat-card class ="flex30" *ngIf="data">
-  <mat-card-header>
-    <mat-card-title ><span class="mat-title">Ortholog ({{tableArr?.length}})</span></mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
+<div>
     <pharos-generic-table
       (pageChange)="paginate($event)"
       [pageData]="pageData"
       [data]="tableArr"
       [fieldsConfig] = fields>
     </pharos-generic-table>
-  </mat-card-content>
-</mat-card>
+</div>

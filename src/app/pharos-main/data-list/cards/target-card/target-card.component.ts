@@ -36,6 +36,7 @@ export class TargetCardComponent implements OnInit, OnChanges {
   /**
    * set up http calls to fetch radar chart data
    * @param {HttpClient} http
+   * @param {ChangeDetectorRef} ref
    * @param {PharosConfig} pharosConfig
    */
   constructor(private http: HttpClient,

@@ -5,7 +5,6 @@
           #expression>
   <mat-card-content>
     <div fxLayout="row"
-         fxLayout.lt-md="column"
          class="tkrow"
          fxLayoutAlign="start stretch">
       <div fxFlex="95">
@@ -18,20 +17,18 @@
         <pharos-help-panel-trigger [origin] = "'expression'" [label]="'Expression Data'"></pharos-help-panel-trigger>
       </div>
     </div>
-    <div fxLayout="row"
-         fxLayout.lt-md="column"
-         class=""
-         fxLayoutAlign="space-around start">
-      <div fxFlex = "95" >
+    <div class = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
+      <div fxFlex>
       <mat-tab-group [dynamicHeight]="true" (animationDone)="doneAnimating()" (selectedTabChange)="drawRadar($event)">
       <mat-tab>
-        <ng-template mat-tab-label><div
+        <ng-template mat-tab-label>
+          <div
           [matTooltip] = "getTooltip('expression')"
           [matTooltipClass] = "'pharos-tooltip'">
           Human</div>
         </ng-template>
     <div fxLayout = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="anatamogram-row">
-      <div fxFlex="50">
+      <div fxFlex="48">
         <img class = "hg" src = {{imgUrl}}>
 <!--
         <pharos-anatamogram [tissues]="tissues" [species]="'homo_sapiens'"></pharos-anatamogram>
@@ -82,7 +79,11 @@
             [matTooltipClass] = "'pharos-tooltip'">
             Differential</div>
           </ng-template>
-          <pharos-generic-table [data]= tableArr [fieldsConfig] = fields></pharos-generic-table>
+          <div class="table-holder" fxFlex>
+         <pharos-generic-table
+            [data]= tableArr
+            [fieldsConfig] = fields></pharos-generic-table>
+        </div>
         </mat-tab>
         <mat-tab *ngIf="orthologs && orthologs.length > 0">
           <ng-template mat-tab-label>
@@ -91,7 +92,9 @@
             [matTooltipClass] = "'pharos-tooltip'">
             Orthologs ({{orthologs.length}})</div>
           </ng-template>
+          <div class="table-holder">
           <pharos-ortholog-panel [data]= orthologs></pharos-ortholog-panel>
+          </div>
         </mat-tab>
     </mat-tab-group>
     </div>

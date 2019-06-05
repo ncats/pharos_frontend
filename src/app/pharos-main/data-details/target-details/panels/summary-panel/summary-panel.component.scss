@@ -3,12 +3,19 @@
   font-size: 124px;
 }
 
-.kchart {
+.radar-chart {
   margin: 0 auto;
   height: 40vh;
   margin-bottom: 4vh;
 }
 
-@media only screen and (max-width: 768px) {
+.kchart {
+  height: 40vh;
+  margin-bottom: 4vh;
+}
 
+@media only screen and (max-width: 768px) {
+  .radar-chart {
+    min-width: 100%;
+  }
 }

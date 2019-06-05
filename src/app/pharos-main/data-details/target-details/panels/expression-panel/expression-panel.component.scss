@@ -12,8 +12,10 @@
 }
 
 @media only screen and (max-width: 768px) {
-  :host {
-  }
+img.hg {
+  max-height: 200px;
+  max-width: 200px;
+}
 }
 
 

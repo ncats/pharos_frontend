@@ -3,6 +3,10 @@
   padding: 1vw;
 }
 
+.close-button {
+  margin-top: 1vh;
+}
+
 .full-width-field {
   width: 100%;
 }
@@ -14,4 +18,10 @@ span.mat-display-1 {
 
 span.mat-subheading-1 {
   margin-bottom: -4px;
+}
+
+@media only screen and (max-width: 768px) {
+  .help-panel-content{
+    width: 95vw;
+  }
 }

@@ -2,7 +2,7 @@
     <mat-sidenav-container class="main-content">
       <mat-sidenav #navpanel
                    class="nav-panel"
-                   [mode]="'side'"
+                   [mode]="isSmallScreen!==true ? 'side' : 'over'"
                     [fixedInViewport]="true"
                    [fixedTopGap]="120"
                    role="directory"

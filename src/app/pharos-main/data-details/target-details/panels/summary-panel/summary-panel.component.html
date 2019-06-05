@@ -1,7 +1,6 @@
 <mat-card *ngIf = data class ="section-card" id = "summary" (pharosScrollspy)="active('summary')" #summary>
   <mat-card-content>
     <div fxLayout="row"
-         fxLayout.lt-md="column"
          class ="tkrow"
          fxLayoutAlign="start stretch"
          #summary>
@@ -66,7 +65,9 @@
            </ul>
          </ng-container>
       </div>
-      <div fxFlex="30" class = "kchart full-height" *ngIf="data.knowledge && data.knowledge.length > 0; else noDataDiv">
+      <div fxFlex="30"
+           class = "radar-chart full-height"
+           *ngIf="data.knowledge && data.knowledge.length > 0; else noDataDiv">
         <mat-card-subtitle
           [matTooltip] = "getTooltip('Illumination Graph')"
           [matTooltipClass] = "'pharos-tooltip'">

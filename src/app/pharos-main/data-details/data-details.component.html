@@ -12,7 +12,8 @@
                    [mode]="'over'"
                    [opened]="false">
         <!-- sidenav content -->
-        <pharos-help-panel></pharos-help-panel>
+        <pharos-help-panel (closeClick)="helppanel.toggle()"
+        ></pharos-help-panel>
       </mat-sidenav>
       <mat-sidenav-content>
       <ng-template appPharosCustomContent ></ng-template>

@@ -1,4 +1,4 @@
-import {Component, Injector, OnInit, QueryList, Type, ViewChildren} from '@angular/core';
+import {Component, EventEmitter, Injector, OnInit, Output, QueryList, Type, ViewChildren} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {HelpDataService} from './services/help-data.service';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
@@ -13,6 +13,11 @@ import {CdkPortalOutlet, ComponentPortal} from '@angular/cdk/portal';
   styleUrls: ['./help-panel.component.scss']
 })
 export class HelpPanelComponent implements OnInit {
+  /**
+   * close the filter panel
+   * @type {EventEmitter<boolean>}
+   */
+  @Output() closeClick: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   /**
    * list of possible help article injection sites
@@ -129,5 +134,12 @@ export class HelpPanelComponent implements OnInit {
     this.opened[index] = false;
     const outlet = this.articlePortalOutlets.toArray()[index];
     outlet.detach();
+  }
+
+  /**
+   * close the help panel
+   */
+  closeMenu() {
+    this.closeClick.emit();
   }
 }
