@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
+import {PageData} from "../../../../../models/page-data";
 
 /**
  * shows what targets the ligand was tested on
@@ -55,6 +56,13 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
     tableArr: any[] = [];
 
   /**
+   * page data object to track pagination
+   */
+  pageData: PageData;
+
+  targets: any[] = [];
+
+  /**
    * no args constructor
    * calls super object constructor
    */
@@ -84,21 +92,34 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
               activity: new PharosProperty(target.properties
                 .filter(prop => prop.label === 'Ligand Activity' || prop.label === 'Pharmalogical Action')[0])
             };
-           /* if(data.activity) {
-              console.log(data.activity);
-              data.activity.term = `p${data.activity.term}`;
-            }*/
             data['developmentLevelValue'] = new PharosProperty(
               target.properties.filter(prop => prop.label === data.activity.term)[0] ?
                 target.properties.filter(prop => prop.label === data.activity.term)[0] :
                 data.activity
             );
-            data['developmentLevelValue'].term = `p${data['developmentLevelValue'].term}`;
+           // data['developmentLevelValue'].term = `p${data['developmentLevelValue'].term}`;
             data.target.internalLink = ['/targets', data.target.term as string];
-            this.tableArr.push(data);
+            if(data.activity && data.activity.term !=='Pharmalogical Action') {
+              console.log(data.activity);
+              data.activity.term = `p${data.activity.term}`;
+            }
+            this.targets.push(data);
           });
-        }
+          this.pageData = new PageData(
+            {
+              top: 10,
+              skip: 0,
+              total: this.targets.length,
+              count: 10
+            });
+          this.tableArr = this.targets
+            .slice(this.pageData.skip, this.pageData.top);
+      }
       });
-
   }
+
+  page(event) {
+    this.tableArr = this.targets.slice(event.pageIndex * event.pageSize, (event.pageIndex + 1) * event.pageSize);
+  }
+
 }

@@ -37,8 +37,7 @@ export class ProteinStructureViewerComponent implements OnInit, OnChanges {
     window.addEventListener( 'resize', ( event ) => {
       this.stage.handleResize();
     }, false );
-    this.stage.loadFile(`rcsb://${this.pdbid}`, {defaultRepresentation: true}).then(component => {
-    });
+    this.stage.loadFile(`rcsb://${this.pdbid}`, {defaultRepresentation: true}).then().catch();
   }
 
   ngOnChanges(change) {

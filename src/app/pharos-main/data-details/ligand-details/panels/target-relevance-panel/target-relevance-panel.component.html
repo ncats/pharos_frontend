@@ -15,7 +15,11 @@
           <pharos-help-panel-trigger [origin] = "'relatedTargets'" [label]="'Target Relevance'"></pharos-help-panel-trigger>
         </div>
       </div>
-<pharos-generic-table [data]="tableArr" [fieldsConfig]="fields"></pharos-generic-table>
+<pharos-generic-table
+  [data]="tableArr"
+  [pageData]="pageData"
+  [fieldsConfig]="fields"
+  (pageChange)="page($event)"></pharos-generic-table>
     </mat-card-content>
   </mat-card>
 </div>
