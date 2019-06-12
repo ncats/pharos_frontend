@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {PharosConfig} from '../../../config/pharos-config';
 import {BehaviorSubject} from 'rxjs/index';
 import {takeWhile} from 'rxjs/internal/operators';
@@ -11,7 +11,8 @@ import {PharosProperty} from '../../models/pharos-property';
   selector: 'pharos-structure-view',
   templateUrl: './structure-view.component.html',
   styleUrls: ['./structure-view.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StructureViewComponent implements OnInit {
 
@@ -51,7 +52,7 @@ export class StructureViewComponent implements OnInit {
    */
   constructor(
     private pharosConfig: PharosConfig,
-    private ref: ChangeDetectorRef
+  //  private ref: ChangeDetectorRef
   ) {
   }
 

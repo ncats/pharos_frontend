@@ -38,5 +38,6 @@ export class PharosPoint implements ScatterPoint {
     Object.entries((data)).forEach((prop) => this[prop[0]] = prop[1]);
     this.id = this.name ? data.name.replace(/ /g, '-').toLowerCase() :
       `pharos-${this.x.toFixed(0).toString()}-${this.y.toFixed(0).toString()}`;
+    this.id = this.id.replace(/'/g, '');
   }
 }

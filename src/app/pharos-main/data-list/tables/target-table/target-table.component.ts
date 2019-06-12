@@ -102,10 +102,17 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       width: '7vw'
     }),
     new PharosProperty({
+      name: 'ppiCount',
+      label: 'Protein Protein Interactions',
+      sortable: true,
+      width: '5vw'
+    }),
+    new PharosProperty({
       name: 'knowledgeAvailability',
       label: 'Knowledge Availability',
       customComponent: RADAR_CHART_TOKEN,
-      width: '10vw'
+      sortable: true,
+      width: '8vw'
     })
   ];
 

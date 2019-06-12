@@ -4,6 +4,10 @@ import {MatTableDataSource} from '@angular/material';
 import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../../models/page-data';
 import {DynamicTablePanelComponent} from '../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
+import {Target, TargetSerializer} from "../../../../models/target";
+import {Disease, DiseaseSerializer} from "../../../../models/disease";
+import {IDG_LEVEL_TOKEN, RADAR_CHART_TOKEN} from "../target-table/target-table.component";
+import {PharosProperty} from "../../../../models/pharos-property";
 
 /**
  * display a pageable/ sortable list of disease objects
@@ -17,10 +21,25 @@ import {DynamicTablePanelComponent} from '../../../../tools/dynamic-table-panel/
 export class DiseaseTableComponent extends DynamicTablePanelComponent implements OnInit, OnDestroy {
 
   /**
-   * object fields for the table to show
-   * @type {string[]}
+   * fields to be show in the pdb table
+   * @type {PharosProperty[]}
    */
-  displayColumns: string[] = ['id', 'name', 'description'];
+  fieldsData: PharosProperty[] = [
+    new PharosProperty({
+      name: 'id',
+      label: 'Disease ID',
+      width: '10vw'
+    }),
+    new PharosProperty({
+      name: 'name',
+      label: 'Disease Name',
+      width: '35vw'
+    }),
+    new PharosProperty({
+      name: 'description',
+      label: 'Description'
+    })
+  ];
 
   /**
    * total count of results
@@ -41,10 +60,15 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
   @Output() readonly pageChange: EventEmitter<string> = new EventEmitter<string>();
 
   /**
+   * page data object set by parent component
+   */
+  @Input() pageData: PageData;
+
+/*  /!**
    * material design datasource subject
    * @type {MatTableDataSource<any>}
-   */
-  dataSource = new MatTableDataSource<any>(this.data);
+   *!/
+  dataSource = new MatTableDataSource<any>(this.data);*/
 
   /**
    * material design selection model for when the table becomes selectable
@@ -53,11 +77,10 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
    */
   rowSelection = new SelectionModel<any>(true, []);
 
-  /**
-   * page data object set by parent component
-   */
-  @Input() pageData: PageData;
+  diseaseSerializer: DiseaseSerializer = new DiseaseSerializer();
 
+  diseaseObjs: Disease[];
+  diseases: any[];
 
   /**
    * no required services, call super object constructor
@@ -79,7 +102,14 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
        takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        this.dataSource.data = this.data;
+        if (this.data.length) {
+          this.diseaseObjs = this.data
+            .map(disease => this.diseaseSerializer.fromJson(disease));
+          const diseaseProps = this.diseaseObjs
+            .map(disease => disease = this.diseaseSerializer._asProperties(disease));
+          this.diseases = diseaseProps;
+          this.loading = false;
+        }
       });
   }
 

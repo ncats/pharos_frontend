@@ -123,6 +123,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
       )
       .subscribe(x => {
         if (this.data.pdb && this.data.pdb.length > 0) {
+        //  this.ref.reattach();
           this.ngUnsubscribe.next();
           this.setterFunction();
           this.loading = false;
@@ -149,7 +150,6 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
         this.pdbid = pdbids.structureId.term;
        // this.pdbid = pdbids[0].structureId['term'];
       }
-      this.ref.detectChanges();
     });
   }
 
@@ -192,7 +192,6 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
   changePdbId(entry: any) {
     if(this.pdbid !== entry.structureId.term) {
       this.pdbid = entry.structureId.term;
-      this.ref.detectChanges();
     }
   }
 

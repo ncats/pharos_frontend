@@ -1,22 +1,40 @@
-import { Component, OnInit } from '@angular/core';
-import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
-
+import {Component, InjectionToken, OnInit} from '@angular/core';
 import {PharosProperty} from '../../../../models/pharos-property';
+import {HttpClient} from "@angular/common/http";
+import {Target} from "../../../../models/target";
+import {zipAll, map} from "rxjs/operators";
+import {from} from "rxjs/index";
+import {PageData} from "../../../../tools/generic-table/models/page-data";
+import {DynamicTablePanelComponent} from "../../../../tools/dynamic-table-panel/dynamic-table-panel.component";
+import {Disease} from "../../../../models/disease";
+import {Publication} from "../../../../models/publication";
+import {PharosConfig} from "../../../../../config/pharos-config";
+
+/**
+ * token to inject structure viewer into generic table component
+ * @type {InjectionToken<any>}
+ */
+export const IDG_LEVEL_TOKEN = new InjectionToken('IDGLevelComponent');
 
 @Component({
   selector: 'pharos-target-list-panel',
   templateUrl: './target-list-panel.component.html',
   styleUrls: ['./target-list-panel.component.css']
 })
-export class TargetListPanelComponent extends DynamicPanelComponent implements OnInit {
+export class TargetListPanelComponent extends DynamicTablePanelComponent implements OnInit {
+
+  disease: Disease;
+
   fields: PharosProperty[] = [
-    new PharosProperty( {
+    new PharosProperty({
       name: 'target',
       label: 'IDG Target'
     }),
-    new PharosProperty( {
+    new PharosProperty({
       name: 'developmentLevel',
-      label: 'IDG Development Level'
+      label: 'Development Level',
+      customComponent: IDG_LEVEL_TOKEN,
+      width: '10vw'
     }),
     new PharosProperty({
       name: 'targetFamily',
@@ -31,14 +49,23 @@ export class TargetListPanelComponent extends DynamicPanelComponent implements O
   tableArr: any[] = [];
 
   /**
+   * pagination data object
+   */
+  pageData: PageData;
+
+  /**
    * no args constructor
    * calls spuer object constructor
    */
-  constructor() {
+  constructor(
+    private http: HttpClient,
+    private pharosConfig: PharosConfig
+    ) {
     super();
   }
 
   ngOnInit() {
+    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -49,24 +76,70 @@ export class TargetListPanelComponent extends DynamicPanelComponent implements O
       .subscribe(x => {
         if (this.data.targets && this.data.targets.length > 0) {
           this.tableArr = [];
-          this.data.targets.forEach(target => {
+          from(this.data.targets.map(target => {
             const data = {
-             target: new PharosProperty({
-                name: 'target',
-                label: 'Target',
-                term: target.name,
-                sortable: true
-              }),
-            //  target: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target')[0]),
+              //  target: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target')[0]),
               developmentLevel: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Development Level')[0]),
               targetFamily: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target Family')[0]),
               dataSource: new PharosProperty(target.properties.filter(prop => prop.label === 'Data Source')[0]),
             };
-            this.tableArr.push(data);
-          });
+            return {target: data, data: this.http.get(target.href)};
+          })).pipe(
+            map<any, any>(res => {
+                return res.data.pipe(
+                  map<Target, any>(response => {
+                    res.target.target = new PharosProperty({
+                      label: 'Target',
+                      term: response.gene,
+                      internalLink: ['/targets', response.accession]
+                    });
+                    return res.target;
+                  })
+                )
+              }),
+            zipAll()
+          ).subscribe(res => {
+            this.pageData = this.makePageData(this.disease._links.count);
+            this.tableArr = res;
+          })
         }
-      });
-
+      })
   }
+
+  getMoreTargets(event) {
+    const url = `${this.pharosConfig.getApiPath()}diseases/${this.disease.id}/links(kind=ix.idg.models.Target)?skip=${event.pageIndex * event.pageSize}&top=${event.pageSize}`;
+    // this.loading = true;
+    this.http.get<any>(url)
+      .subscribe(res => {
+        from(res.map(target => {
+          const data = {
+            //  target: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target')[0]),
+            developmentLevel: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Development Level')[0]),
+            targetFamily: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target Family')[0]),
+            dataSource: new PharosProperty(target.properties.filter(prop => prop.label === 'Data Source')[0]),
+          };
+          return {target: data, data: this.http.get(target.href)};
+        })).pipe(
+          map<any, any>(res => {
+            return res.data.pipe(
+              map<Target, any>(response => {
+                res.target.target = new PharosProperty({
+                  label: 'Target',
+                  term: response.gene,
+                  internalLink: ['/targets', response.accession]
+                });
+                return res.target;
+              })
+            )
+          }),
+          zipAll()
+        ).subscribe(res => {
+          this.tableArr = res;
+          this.pageData.skip = event.pageIndex * event.pageSize;
+        })
+      });
+  }
+
 }
+
 

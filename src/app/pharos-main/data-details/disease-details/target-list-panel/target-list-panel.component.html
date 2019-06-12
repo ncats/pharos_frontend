@@ -9,13 +9,17 @@
         <span class="mat-title"
               [matTooltip] = description
               [matTooltipClass] = "'pharos-tooltip'">
-          Related Targets</span>
+          Related Targets ({{disease._links.count}})</span>
       </div>
       <div fxFlex="5">
         <pharos-help-panel-trigger [origin] = "'relatedTargets'" [label]="'Related Targets'"></pharos-help-panel-trigger>
       </div>
     </div>
-      <pharos-generic-table [data]="tableArr" [fieldsConfig]="fields"></pharos-generic-table>
+      <pharos-generic-table [data]="tableArr"
+                            [pageData]="pageData"
+                            [fieldsConfig]="fields"
+                            (pageChange)="getMoreTargets($event)"
+                            *ngIf="tableArr"></pharos-generic-table>
     </mat-card-content>
   </mat-card>
 </div>

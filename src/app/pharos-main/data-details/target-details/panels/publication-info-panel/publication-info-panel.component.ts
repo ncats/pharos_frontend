@@ -33,7 +33,7 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
 
   /**
    * data array
-   */
+   */node
   generifs: Publication[];
 
   /**

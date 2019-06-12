@@ -32,6 +32,11 @@
                       [matTooltip] = "getTooltip('pubmed')"
                       [matTooltipClass] = "'pharos-tooltip'"
                 >PubMed Score </span>&nbsp;<span>{{target.jensenScore.toFixed(2)}}</span>
+                <br>
+                <br>
+                <div fxLayout="row" fxLayoutAlign="center center">
+                  <div><b>PubMed score by year</b></div>
+                </div>
                 <pharos-scatter-plot [data]="pmscoreTimeline" [options]="chartOptions"></pharos-scatter-plot>
               </div>
             </div>
@@ -43,6 +48,11 @@
                       [matTooltip] = "getTooltip('pubtator')"
                       [matTooltipClass] = "'pharos-tooltip'"
                 >PubTator Score </span>&nbsp;<span>{{raisePubtator()}}</span>
+                <br>
+                <br>
+                <div fxLayout="row" fxLayoutAlign="center center">
+                  <div><b>PubTator score by year</b></div>
+                </div>
                 <pharos-scatter-plot [data]="pubtatorTimeline" [options]="chartOptions"></pharos-scatter-plot>
               </div>
             </div>

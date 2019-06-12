@@ -12,7 +12,7 @@ export class Disease extends PharosBase {
   /**
    * description of disease
    */
-  description: string;
+  description?: string;
   /**
    * sublist object for links
    */
@@ -100,16 +100,18 @@ export class DiseaseSerializer implements PharosSerializer {
 
   /**
    * return properties from object
-   * @param {PharosBase} T
+   * @param {Disease} disease
    * @return {any}
    * @private
    */
-  _asProperties<T extends PharosBase>(T: PharosBase): any {
+  _asProperties<T extends PharosBase>(disease: Disease): any {
     const newObj: any = {};
-    Object.keys(T).map(field => {
-      const property: PharosProperty = {name: field, label: field, term: T[field]};
+    Object.keys(disease).map(field => {
+      const property: PharosProperty = {name: field, label: field, term: disease[field]};
       newObj[field] = property;
     });
+    newObj.name.internalLink = ['/diseases', disease.id];
+    newObj.id.internalLink = ['/diseases', disease.id];
     return newObj;
   }
 }

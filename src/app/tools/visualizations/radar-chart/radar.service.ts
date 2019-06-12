@@ -80,7 +80,7 @@ export class RadarService {
    * @param {HttpClient} http
    * @param {PharosConfig} pharosConfig
    */
-  constructor(private http: HttpCacheService,
+  constructor(private http: HttpClient,
               private pharosConfig: PharosConfig) {
   }
 

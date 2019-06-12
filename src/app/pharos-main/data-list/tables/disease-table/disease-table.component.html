@@ -7,45 +7,16 @@
     <pharos-custom-paginator [pageData]="pageData" (page)="changePage($event)"></pharos-custom-paginator>
   </div>
 </div>
-<mat-table [dataSource]="dataSource" matSort  (matSortChange)="changeSort($event)">
-  <!--<ng-container matColumnDef="list-select">
-    <mat-header-cell *matHeaderCellDef> Compare </mat-header-cell>
-    <mat-cell *matCellDef="let row" class="col2">
-      <mat-checkbox (click)="$event.stopPropagation()"
-                    (change)="$event ? rowSelection.toggle(row) : null"
-                    [checked]="rowSelection.isSelected(row)">
-      </mat-checkbox>
-    </mat-cell>
-  </ng-container>-->
-  <ng-container matColumnDef="id">
-    <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
-    <mat-cell *matCellDef="let row">
-<!--
-     {{row.id}}
--->
-      <a routerLink={{row.id}} >{{row.id}} </a>
-    </mat-cell>
-  </ng-container>
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-    <mat-cell *matCellDef="let row">
-      <a routerLink={{row.id}} >{{row.name}} </a>
-<!--
-      {{row.name}}
--->
-    </mat-cell>
-  </ng-container>
-  <ng-container matColumnDef="description">
-    <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
-    <mat-cell *matCellDef="let row">
-     {{row.description}}
-    </mat-cell>
-  </ng-container>
 
-  <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayColumns;">
-  </mat-row>
-</mat-table>
+<pharos-generic-table *ngIf = "diseases"
+                      [pageData]="pageData"
+                      [showPaginator]="false"
+                      [fieldsConfig]="fieldsData"
+                      [data]="diseases"
+                      (sortChange)="changeSort($event)"
+                      (pageChange)="changePage($event)">
+</pharos-generic-table>
+
 <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
   <div fxFlex="45">
   </div>

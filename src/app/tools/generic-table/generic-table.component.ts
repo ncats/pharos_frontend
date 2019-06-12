@@ -388,7 +388,8 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
     }
 
     if(component.instance.ref) {
-      this.ref.detach();
+      // todo this is still problematic because injected components are redrawn.
+       this.ref.detach();
     }
   }
 

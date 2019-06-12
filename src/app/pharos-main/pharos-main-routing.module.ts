@@ -33,6 +33,7 @@ import {DiseaseCardComponent} from './data-list/cards/disease-card/disease-card.
 import {TopicTableComponent} from './data-list/tables/topic-table/topic-table.component';
 import {PharosD3Service} from './data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-d3.service';
 import {NcatsFdgModule} from '../tools/force-directed-graph/ncats-fdg.module';
+import {DiseaseDetailsModule} from "./data-details/disease-details/disease-details.module";
 
 
 
@@ -61,6 +62,7 @@ const pharosMainRoutes: Routes = [
     DiseaseTableModule,
     SharedDetailsModule,
     LigandDetailsModule,
+    DiseaseDetailsModule,
     NcatsFdgModule,
     RouterModule.forChild(pharosMainRoutes)
 
@@ -79,18 +81,12 @@ const pharosMainRoutes: Routes = [
     {provide: TOKENS.TOPIC_GRAPH_PANEL, useValue: TopicGraphPanelComponent},
     {provide: TOKENS.NODE_DISPLAY_PANEL, useValue: NodeDisplayComponent},
 
-    // diseases
-    {provide: TOKENS.DISEASE_DETAILS_COMPONENT, useValue: DiseaseDetailsComponent},
-    {provide: TOKENS.DISEASE_HEADER_COMPONENT, useValue: DiseaseHeaderComponent},
-    {provide: TOKENS.TARGET_LIST_PANEL, useValue: TargetListPanelComponent},
+
 
   ],
   entryComponents: [
     PharosMainComponent,
 
-    DiseaseDetailsComponent,
-    DiseaseHeaderComponent,
-    TargetListPanelComponent,
     TopicTableComponent,
     TopicDetailsComponent,
     TopicHeaderComponent,
@@ -101,9 +97,6 @@ const pharosMainRoutes: Routes = [
   ],
   declarations: [
     PharosMainComponent,
-    DiseaseDetailsComponent,
-    DiseaseHeaderComponent,
-    TargetListPanelComponent,
     TopicTableComponent,
     TopicDetailsComponent,
     TopicHeaderComponent,

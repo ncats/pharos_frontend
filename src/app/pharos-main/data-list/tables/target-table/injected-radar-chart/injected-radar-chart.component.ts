@@ -48,7 +48,7 @@ export class InjectedRadarChartComponent implements InjectedComponent, OnInit {
 
   constructor(
     // todo: this prevents excessive re-injection of the radar chart, but breaks the tooltip
-   // private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
