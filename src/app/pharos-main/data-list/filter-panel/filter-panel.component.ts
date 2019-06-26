@@ -7,6 +7,7 @@ import {Subject} from 'rxjs';
 import {PathResolverService} from '../../../pharos-services/path-resolver.service';
 import {FacetRetrieverService} from './facet-retriever.service';
 import {PharosConfig} from '../../../../config/pharos-config';
+import {PharosProfileService} from "../../../auth/pharos-profile.service";
 
 /**
  * panel that hold a facet table for selection
@@ -70,16 +71,20 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    */
   private ngUnsubscribe: Subject<any> = new Subject();
 
+  customLists: Facet[];
+
   /**
    * set up services to get facets
    * @param {PathResolverService} pathResolverService
    * @param {ChangeDetectorRef} ref
+   * @param profileService
    * @param {FacetRetrieverService} facetRetrieverService
    * @param {PharosConfig} pharosConfig
    */
   constructor(
               private pathResolverService: PathResolverService,
               private ref: ChangeDetectorRef,
+              private profileService: PharosProfileService,
               private facetRetrieverService: FacetRetrieverService,
               private pharosConfig: PharosConfig) { }
 
@@ -87,6 +92,22 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * set up subscriptions to get facets
     */
   ngOnInit() {
+/*    this.profileService.profile$.subscribe(user => {
+      console.log(user);
+      if (user && user.data().savedTargets) {
+        if(this.facets) {
+          this.customLists = [user.data().savedTargets];
+          this.facets = this.customLists.concat(this.filteredFacets);
+          this.ref.markForCheck();
+        }
+      } else {
+        this.customLists = null;
+        this.facets = this.filteredFacets;
+        this.ref.markForCheck();
+      }
+      console.log(this);
+    });*/
+
     this.loading = true;
     const flist = this.pharosConfig.getFacets(this.pathResolverService.getPath());
     this.facetRetrieverService.getAllFacets().subscribe(facets => {

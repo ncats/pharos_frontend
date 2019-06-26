@@ -213,7 +213,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * subscribe to data changes
    */
   ngOnInit() {
-    console.log(this);
     this.loading = true;
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
 

@@ -5,8 +5,8 @@
 <ng-container matColumnDef="select">
   <mat-cell *matCellDef="let row" class="filter-cell checkbox">
     <mat-checkbox (click)="$event.stopPropagation()"
-                  (change)="$event ? filterSelection.toggle(row.label) : null"
-                  [checked]="filterSelection.isSelected(row.label)">
+                  (change)="$event ? filterSelection.toggle(row.value ? row.value : row.label) : null"
+                  [checked]="filterSelection.isSelected(row.value ? row.value : row.label)">
     </mat-checkbox>
   </mat-cell>
 </ng-container>
@@ -14,6 +14,6 @@
 <mat-cell *matCellDef="let row" class="filter-cell {{field}}" ><span class="field-text">{{row[field]}}</span></mat-cell>
 </ng-container>
 
-<mat-row *matRowDef="let row; columns: displayColumns;" (click)= "filterSelection.toggle(row.label)" class="facet-row">
+<mat-row *matRowDef="let row; columns: displayColumns;" (click)= "filterSelection.toggle(row.value ? row.value : row.label)" class="facet-row">
 </mat-row>
 </mat-table>

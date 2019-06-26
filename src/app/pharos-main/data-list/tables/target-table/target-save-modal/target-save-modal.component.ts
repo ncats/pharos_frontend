@@ -64,9 +64,7 @@ export class TargetSaveModalComponent {
       })
     };
     this.http.post(`${this.pharosConfig.getApiPath()}targets/resolve`, this.data.selection.join(), httpOptions).subscribe(res => {
-      console.log(res);
       ret.value = res['etag'];
-      console.log(this.data.user.data());
       let customFacet: Facet = this.data.user.data().savedTargets;
       if (customFacet) {
         customFacet.values.push(ret);
@@ -77,7 +75,6 @@ export class TargetSaveModalComponent {
           values: [ret]
         };
       }
-      console.log(customFacet);
       this.pharosProfileService.updateProfile(customFacet);
     });
     this.dialogRef.close(ret);

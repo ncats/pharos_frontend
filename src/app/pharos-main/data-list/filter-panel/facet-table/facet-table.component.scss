@@ -8,6 +8,11 @@
 .facet-row {
   padding-bottom: 1vh;
   align-items: start;
+  cursor: pointer;
+}
+
+.facet-row:hover {
+  background-color: #f6f6f6;
 }
 
 .field-text {

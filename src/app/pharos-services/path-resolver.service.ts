@@ -84,9 +84,11 @@ export class PathResolverService {
       this._facets.forEach(facet => {
         if (facet.facet === 'query') {
           q = facet.fields[0];
+        } else if (facet.facet === 'etag') {
+          q = `etag:${facet.fields[0]}`;
+          //   this._facetMap.delete('etag');
         } else {
-          facet.fields.map(field => facetList.push(this._makeFacetString(facet.facet, field)));
-
+          facet.fields.forEach(field => facetList.push(this._makeFacetString(facet.facet, field)));
         }
       });
 
@@ -157,7 +159,11 @@ export class PathResolverService {
       // this cleans up the emtpy searches that return blank facets
       if (qList.length > 0) {
         qList = qList.map(q => q.replace(/"/g, '').replace(/\+/g, ' '));
-        this._facetMap.set('query', qList);
+        if(qList[0].includes('etag')) {
+          this._facetMap.set('etag', [qList[0].split(':')[1]]);
+        }else {
+          this._facetMap.set('query', qList);
+        }
       }
       this._flattenMap();
     }

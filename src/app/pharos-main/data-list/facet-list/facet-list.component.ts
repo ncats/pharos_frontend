@@ -30,10 +30,7 @@ export class FacetListComponent implements OnInit {
    * set up subscriptions for fetching facets and watching route changes
    */
   ngOnInit() {
-    this.pathResolverService.facets$.subscribe(res => {
-      console.log(res);
-      this.facets = res
-    });
+    this.pathResolverService.facets$.subscribe(res => this.facets = res);
     this._route.queryParamMap.subscribe(res => this.pathResolverService.mapToFacets(res));
   }
 
