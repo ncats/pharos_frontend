@@ -1,6 +1,12 @@
 import {Component, Input} from '@angular/core';
 import {SlideInOutAnimation} from './header-animations';
 import {ActivatedRoute, Route} from "@angular/router";
+import {LoginModalComponent} from "../../auth/login-modal/login-modal.component";
+import {MatDialog} from "@angular/material";
+import {PharosAuthService} from "../../auth/pharos-auth.service";
+import * as firebase from 'firebase/app';
+import {PharosProfileService} from "../../auth/pharos-profile.service";
+
 
 /**
  * Component that contains basic NCATS branded menu, also contains pharos options
@@ -22,13 +28,23 @@ export class NcatsHeaderComponent {
    */
   @Input() headerClass?: string;
 
+  user;
+  profile;
+
   /**
    * animation state changed by scrolling
    * @type {string}
    */
   @Input() animationState ? = 'in';
 
-  constructor(private route: ActivatedRoute) {
+  constructor(
+    public dialog: MatDialog,
+    private route: ActivatedRoute,
+    private profileService: PharosProfileService
+    ) {
+    this.profileService.profile$.subscribe(profile => {
+        this.profile = profile && profile.data() ? profile.data() : profile;
+    });
   }
 
   isActive(path: string): boolean {
@@ -39,5 +55,17 @@ export class NcatsHeaderComponent {
     } else {
       return false;
     }
+  }
+
+  openSignInModal() {
+    const dialogRef = this.dialog.open(LoginModalComponent, {
+        height: '75vh',
+        width: '66vw',
+      }
+    );
+  }
+
+  signOut(): void {
+    this.profileService.logout();
   }
 }

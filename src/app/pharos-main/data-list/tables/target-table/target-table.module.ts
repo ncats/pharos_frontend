@@ -8,13 +8,15 @@ import {CommonToolsModule} from '../../../../tools/common-tools.module';
 import {TargetCardComponent} from '../../cards/target-card/target-card.component';
 import {IdgLevelIndicatorComponent} from "../../../../tools/idg-level-indicator/idg-level-indicator.component";
 import {InjectedRadarChartComponent} from './injected-radar-chart/injected-radar-chart.component';
+import {TargetSaveModalComponent} from "./target-save-modal/target-save-modal.component";
 
 @NgModule({
   declarations: [
     TargetTableComponent,
     // todo target card should probably be its own module
     TargetCardComponent,
-    InjectedRadarChartComponent
+    InjectedRadarChartComponent,
+    TargetSaveModalComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +32,8 @@ import {InjectedRadarChartComponent} from './injected-radar-chart/injected-radar
   entryComponents: [
     TargetTableComponent,
     IdgLevelIndicatorComponent,
-    InjectedRadarChartComponent
+    InjectedRadarChartComponent,
+    TargetSaveModalComponent
   ],
   exports: [
     TargetTableComponent,
