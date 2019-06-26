@@ -32,6 +32,7 @@
                 </button>
                 <button mat-menu-item
                         *ngIf="loggedIn === true"
+                        (click)="saveQuery()"
                 ><mat-icon>save_alt</mat-icon>Save Query</button>
       </mat-menu>
     </div>

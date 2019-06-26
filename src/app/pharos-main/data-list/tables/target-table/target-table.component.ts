@@ -213,6 +213,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * subscribe to data changes
    */
   ngOnInit() {
+    console.log(this);
     this.loading = true;
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
 
@@ -331,6 +332,30 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
         data: {
           selection: targetList,
           user: this.user
+        }
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.loading = true;
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'text/plain',
+        })
+      };
+    });
+  }
+
+  saveQuery() {
+    const targetList = this.rowSelection.selected.map(target => target = target.accession.term);
+    const dialogRef = this.dialog.open(TargetSaveModalComponent, {
+        height: '50vh',
+        width: '50vw',
+        data: {
+          etag: this.etag,
+          sideway: this.sideway,
+          user: this.user,
+          count: this.pageData.total
         }
       }
     );

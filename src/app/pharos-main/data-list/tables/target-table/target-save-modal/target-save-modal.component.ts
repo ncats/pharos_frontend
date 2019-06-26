@@ -55,7 +55,7 @@ export class TargetSaveModalComponent {
   submitList(): void {
     const ret: Field = {
       label: this.targetCtrl.value,
-      count: this.data.selection.length,
+      count: this.data.selection? this.data.selection.length : this.data.count,
     };
 
     const httpOptions = {
@@ -63,20 +63,36 @@ export class TargetSaveModalComponent {
         'Content-Type': 'text/plain',
       })
     };
-    this.http.post(`${this.pharosConfig.getApiPath()}targets/resolve`, this.data.selection.join(), httpOptions).subscribe(res => {
-      ret.value = res['etag'];
+
+    if(this.data.etag) {
+      ret.value = this.data.etag;
       let customFacet: Facet = this.data.user.data().savedTargets;
       if (customFacet) {
         customFacet.values.push(ret);
       } else {
-         customFacet = {
+        customFacet = {
           name: 'etag',
           label: 'Custom Lists',
           values: [ret]
         };
       }
       this.pharosProfileService.updateProfile(customFacet);
-    });
+    } else {
+        this.http.post(`${this.pharosConfig.getApiPath()}targets/resolve`, this.data.selection.join(), httpOptions).subscribe(res => {
+          ret.value = res['etag'];
+          let customFacet: Facet = this.data.user.data().savedTargets;
+          if (customFacet) {
+            customFacet.values.push(ret);
+          } else {
+            customFacet = {
+              name: 'etag',
+              label: 'Custom Lists',
+              values: [ret]
+            };
+          }
+          this.pharosProfileService.updateProfile(customFacet);
+        });
+      }
     this.dialogRef.close(ret);
   }
 
