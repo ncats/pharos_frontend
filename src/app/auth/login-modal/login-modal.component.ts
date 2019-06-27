@@ -1,8 +1,6 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import * as firebaseui from 'firebaseui'
+import {Component, OnInit} from '@angular/core';
 import {MatDialogRef} from "@angular/material";
 import {PharosAuthService} from "../pharos-auth.service";
-import {AngularFirestoreCollection} from "@angular/fire/firestore";
 
 
 @Component({

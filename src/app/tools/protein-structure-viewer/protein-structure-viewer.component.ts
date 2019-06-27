@@ -23,10 +23,13 @@ export class ProteinStructureViewerComponent implements OnInit, OnChanges {
 
   stage: any;
 
-  /**
+
+/**
    * no args
    */
-  constructor() { }
+  constructor() {
+
+}
 
   /**
    * create ngl instance and load view
@@ -36,7 +39,7 @@ export class ProteinStructureViewerComponent implements OnInit, OnChanges {
     // Handle window resizing
     window.addEventListener( 'resize', ( event ) => {
       this.stage.handleResize();
-    }, false );
+    }, {passive: false} );
     this.stage.loadFile(`rcsb://${this.pdbid}`, {defaultRepresentation: true}).then().catch();
   }
 
