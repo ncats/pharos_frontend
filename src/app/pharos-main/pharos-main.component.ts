@@ -42,7 +42,6 @@ export class PharosMainComponent implements OnInit {
   }
 
   closeSidenav() {
-    console.log('close');
     this.header.sidenav.close();
   }
 }

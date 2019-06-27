@@ -29,7 +29,6 @@ export class PharosAuthService {
       return this.afAuth.auth
         .signInWithPopup(provider)
         .then(res => {
-          console.log(res);
           this.fetchUserProfile(res.user);
           dialogRef.close();
         }, err => {
@@ -38,68 +37,6 @@ export class PharosAuthService {
         })
     })
   }
-
-  /*
-    doFacebookLogin(dialogRef: MatDialogRef<any>) {
-      console.log("facebook in service");
-      return new Promise<any>((resolve, reject) => {
-        let provider = new firebase.auth.FacebookAuthProvider();
-        return this.afAuth.auth
-          .signInWithPopup(provider)
-          .then(res => {
-            this.fetchUserProfile(res.user);
-            dialogRef.close();
-          }, err => {
-            console.log(err);
-            reject(err);
-          })
-      })
-    }
-
-    doGoogleLogin(dialogRef: MatDialogRef<any>) {
-      return new Promise<any>((resolve, reject) => {
-        let provider = new firebase.auth.GoogleAuthProvider();
-        this.afAuth.auth
-          .signInWithPopup(provider)
-          .then(res => {
-            this.fetchUserProfile(res.user);
-            dialogRef.close();
-          }, err => {
-            console.log(err);
-            reject(err);
-          })
-      })
-    }
-
-    doTwitterLogin(dialogRef: MatDialogRef<any>) {
-      return new Promise<any>((resolve, reject) => {
-        let provider = new firebase.auth.TwitterAuthProvider();
-        this.afAuth.auth
-          .signInWithPopup(provider)
-          .then(res => {
-            this.fetchUserProfile(res.user);
-            dialogRef.close();
-          }, err => {
-            console.log(err);
-            reject(err);
-          })
-      })
-    }
-
-    doGithubLogin(dialogRef: MatDialogRef<any>) {
-      return new Promise<any>((resolve, reject) => {
-        let provider = new firebase.auth.GithubAuthProvider();
-        this.afAuth.auth
-          .signInWithPopup(provider)
-          .then(res => {
-            this.fetchUserProfile(res.user);
-            dialogRef.close();
-          }, err => {
-            console.log(err);
-            reject(err);
-          })
-      })
-    }*/
 
   doRegister(value, dialogRef: MatDialogRef<any>) {
     return new Promise<any>((resolve, reject) => {

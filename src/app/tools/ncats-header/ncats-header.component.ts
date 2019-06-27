@@ -17,7 +17,7 @@ import {PharosProfileService} from "../../auth/pharos-profile.service";
   styleUrls: ['./ncats-header.component.scss'],
   animations: [SlideInOutAnimation]
 })
-export class NcatsHeaderComponent implements OnInit, AfterViewInit {
+export class NcatsHeaderComponent implements OnInit {
 
   @ViewChild('mobilesidenav', {static: true}) sidenav: MatSidenav;
   /**
@@ -46,7 +46,6 @@ export class NcatsHeaderComponent implements OnInit, AfterViewInit {
     ) { }
 
   ngOnInit() {
-    console.log(this);
     this.profileService.profile$.subscribe(profile => {
       this.profile = profile && profile.data() ? profile.data() : profile;
     });
