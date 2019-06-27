@@ -1,8 +1,8 @@
-import {Component, Input} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {SlideInOutAnimation} from './header-animations';
 import {ActivatedRoute, Route} from "@angular/router";
 import {LoginModalComponent} from "../../auth/login-modal/login-modal.component";
-import {MatDialog} from "@angular/material";
+import {MatDialog, MatSidenav} from "@angular/material";
 import {PharosAuthService} from "../../auth/pharos-auth.service";
 import * as firebase from 'firebase/app';
 import {PharosProfileService} from "../../auth/pharos-profile.service";
@@ -17,7 +17,9 @@ import {PharosProfileService} from "../../auth/pharos-profile.service";
   styleUrls: ['./ncats-header.component.scss'],
   animations: [SlideInOutAnimation]
 })
-export class NcatsHeaderComponent {
+export class NcatsHeaderComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('mobilesidenav', {static: true}) sidenav: MatSidenav;
   /**
    * show search bar
    */
@@ -41,11 +43,15 @@ export class NcatsHeaderComponent {
     public dialog: MatDialog,
     private route: ActivatedRoute,
     private profileService: PharosProfileService
-    ) {
+    ) { }
+
+  ngOnInit() {
+    console.log(this);
     this.profileService.profile$.subscribe(profile => {
-        this.profile = profile && profile.data() ? profile.data() : profile;
+      this.profile = profile && profile.data() ? profile.data() : profile;
     });
   }
+
 
   isActive(path: string): boolean {
     if (this.route.snapshot.data && this.route.snapshot.data.path) {

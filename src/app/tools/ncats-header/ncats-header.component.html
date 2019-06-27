@@ -1,16 +1,25 @@
-<mat-sidenav-container class="mobile-menu-container">
+<mat-sidenav-container class="mobile-menu-container" >
   <mat-sidenav #mobilesidenav class="mobile-menu-panel"
                [position]="'end'"
+               [disableClose]="false"
                [fixedInViewport]= true [fixedTopGap]="60">
-    <button mat-button routerLink="/targets" class="nav-menu-button" [ngClass]="{active: isActive('targets')}">Targets</button>
-    <button mat-button routerLink="/diseases" class="nav-menu-button" [ngClass]="{active: isActive('diseases')}">Diseases</button>
-    <button  mat-button routerLink="/ligands" class="nav-menu-button" [ngClass]="{active: isActive('ligands')}">Ligands</button>
+    <div *ngIf = profile class="profile-section"  [matMenuTriggerFor]="profileMenu" >
+      <img [src] = profile.profilePic class ="profile-pic" *ngIf="profile?.profilePic">
+      <span class="user-name">{{profile.name}}</span>
+    </div>
+    <button mat-button class="nav-menu-button" (click)= "openSignInModal(); mobilesidenav.close()" *ngIf="!profile">
+      Sign In</button>
+    <button mat-button class="nav-menu-button" (click)= "signOut()" *ngIf="profile">
+      Sign Out</button>
+    <button mat-button (click)="mobilesidenav.close()" routerLink="/targets" class="nav-menu-button" [ngClass]="{active: isActive('targets')}">Targets</button>
+    <button mat-button (click)="mobilesidenav.close()" routerLink="/diseases" class="nav-menu-button" [ngClass]="{active: isActive('diseases')}">Diseases</button>
+    <button  mat-button (click)="mobilesidenav.close()" routerLink="/ligands" class="nav-menu-button" [ngClass]="{active: isActive('ligands')}">Ligands</button>
 <!--
     <button mat-button routerLink="/topics" class="nav-menu-button">Topics</button>
 -->
-    <button mat-button routerLink="/api" class="nav-menu-button" [ngClass]="{active: isActive('api')}">API</button>
-    <button  mat-button routerLink="/about" class="nav-menu-button" [ngClass]="{active: isActive('about')}">About</button>
-    <button  mat-button routerLink="/faq" class="nav-menu-button" [ngClass]="{active: isActive('faq')}">FAQ</button>
+    <button mat-button (click)="mobilesidenav.close()" routerLink="/api" class="nav-menu-button" [ngClass]="{active: isActive('api')}">API</button>
+    <button  mat-button (click)="mobilesidenav.close()" routerLink="/about" class="nav-menu-button" [ngClass]="{active: isActive('about')}">About</button>
+    <button  mat-button (click)="mobilesidenav.close()" routerLink="/faq" class="nav-menu-button" [ngClass]="{active: isActive('faq')}">FAQ</button>
     <pharos-search-component class="mobile-search"></pharos-search-component>
   </mat-sidenav>
 
@@ -30,26 +39,19 @@
   </div>
   <span class="fill-remaining-space"></span>
     <pharos-search-component [fxHide.lt-md]="true" [placeholderStr]="'search'" *ngIf=searchBar></pharos-search-component>
-  <span *ngIf = profile>YO! What up: {{profile.name}}</span>
+  <div *ngIf = profile class="profile-section"  [matMenuTriggerFor]="profileMenu" fxHide.lt-md>
+    <img [src] = profile.profilePic class ="profile-pic" *ngIf="profile?.profilePic">
+    <span class="user-name">{{profile.name}}</span>
+  </div>
   <button mat-button class="menu-button" (click)= "openSignInModal()" *ngIf="!profile" fxHide.lt-md>
 Sign In</button>
-  <button mat-icon-button class="menu-button" (click)="signOut()" *ngIf="profile" fxHide.lt-md>
-     Sign Out
+  <mat-menu #profileMenu="matMenu">
+    <button mat-menu-item (click)="signOut()">
+      Sign Out
     </button>
+  </mat-menu>
   <button mat-icon-button class="menu-button" (click)="mobilesidenav.toggle()" fxHide fxShow.lt-md>
       <mat-icon>menu</mat-icon>
     </button>
-<!--    <mat-menu #appMenu="matMenu" class="mobile-menu" yPosition="below">
-      <ng-template matMenuContent>
-      <a mat-menu-item routerLink="/targets">Targets</a>
-      <a mat-menu-item routerLink="/diseases">Diseases</a>
-      <a mat-menu-item routerLink="/ligands">Ligands</a>
-      <a mat-menu-item routerLink="/topics">Topics</a>
-      <a mat-menu-item routerLink="/api">API</a>
-      <a mat-menu-item routerLink="/about">About</a>
-      <a mat-menu-item routerLink="/faq">FAQ</a>
-      <pharos-search-component *ngIf=searchBar></pharos-search-component>
-      </ng-template>
-    </mat-menu>-->
 </mat-toolbar>
 </mat-sidenav-container>

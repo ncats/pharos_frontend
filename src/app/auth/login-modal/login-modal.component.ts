@@ -20,11 +20,28 @@ export class LoginModalComponent implements OnInit {
   ngOnInit() {}
 
   loginFacebook() {
-    this.pharosAuthService.doFacebookLogin(this.dialogRef);
+    this.pharosAuthService.doLogin(this.dialogRef, 'facebook');
   }
 
   loginGoogle() {
     console.log("google login in modal");
-    this.pharosAuthService.doGoogleLogin(this.dialogRef);
+    this.pharosAuthService.doLogin(this.dialogRef, 'google');
   }
+
+  loginTwitter() {
+    console.log("twitter login in modal");
+    this.pharosAuthService.doLogin(this.dialogRef, 'twitter');
+  }
+
+  loginGithub() {
+    console.log("github login in modal");
+    this.pharosAuthService.doLogin(this.dialogRef, 'github');
+  }
+
+  loginEmail() {
+    console.log("email login in modal");
+    // this.pharosAuthService.doRegister(this.dialogRef);
+  }
+
+
 }

@@ -45,7 +45,10 @@ export class PharosProfileService {
         } else {
           this.userCollection.collection('users')
             .doc(user.uid)
-            .set({name: user.displayName}).then(res => {
+            .set({
+              name: user.displayName,
+              profilePic: user.photoURL
+            }).then(res => {
               this._profileSource.next(res);
             }
           );

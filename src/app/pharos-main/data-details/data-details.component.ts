@@ -12,6 +12,7 @@ import {PharosConfig} from "../../../config/pharos-config";
 import {PharosBase} from "../../models/pharos-base";
 import {PharosApiService} from "../../pharos-services/pharos-api.service";
 import {LoadingService} from "../../pharos-services/loading.service";
+import {NcatsHeaderComponent} from "../../tools/ncats-header/ncats-header.component";
 
 /**
  * component that holds dynamically injected details panels for various object types
@@ -23,7 +24,7 @@ import {LoadingService} from "../../pharos-services/loading.service";
 @Component({
   selector: 'pharos-data-details',
   templateUrl: './data-details.component.html',
-  styleUrls: ['./data-details.component.css']
+  styleUrls: ['./data-details.component.scss']
 
 })
 export class DataDetailsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
@@ -52,6 +53,8 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
    * reference to help menu to toggle opening and closing
    */
   @ViewChild('helppanel', {static: true}) helpPanel: MatDrawer;
+
+  @ViewChild('appHeader', {static: true}) header: NcatsHeaderComponent;
 
   /**
    * set up lots of dependencies to watch for data changes, navigate and parse and inject components
@@ -178,6 +181,11 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
     this.loading = false;
     this.loadingService.toggleVisible(false);
     this.componentsLoaded = true;
+  }
+
+  closeSidenav() {
+    console.log('close');
+    this.header.sidenav.close();
   }
 
   /**

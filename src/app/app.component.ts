@@ -6,7 +6,7 @@ import {LoadingService} from './pharos-services/loading.service';
  */
 @Component({
   selector: 'app-root',
-  template: '<router-outlet></router-outlet>',
+  template: `<router-outlet></router-outlet>`,
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {}

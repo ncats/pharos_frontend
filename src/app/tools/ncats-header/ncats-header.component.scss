@@ -2,13 +2,40 @@
   position: fixed;
 }
 
+.profile-section {
+  text-align: center;
+}
+
+.profile-pic {
+  height: 45px;
+  margin: 15px 5px -15px 5px;
+  border-radius: 50px;
+}
+
+.menu-button {
+  margin-right: 1vw;
+  margin-left: 1vw;
+  text-align: center;
+}
+
+
+.user-name {
+  font-size: 12px;
+  display: block;
+}
+
+.profile-loading-spinner {
+  height: 50px;
+  margin-top: 7px;
+}
+
 img.pharos-logo {
   height: 100%;
   cursor: pointer;
 }
 
 .header-search {
-  width:15%;
+  width:25%;
 }
 
 .ncats-toolbar {
@@ -26,7 +53,7 @@ img.pharos-logo {
 
 .mobile-menu-panel{
   color: black;
-  height: 100vh;
+ // height: 100vh;
   width:65vw;
 }
 
@@ -42,5 +69,9 @@ button.nav-menu-button.mat-button {
   .menu-button {
     position: absolute;
     right: 15px;
+  }
+
+  .profile-pic {
+    margin-bottom: 5px;
   }
 }
