@@ -1,0 +1,29 @@
+<div fxLayout="row" fxLayoutAlign="center center" fxLayout.lt-md="column">
+  <div class="buttons" fxFlex="30" fxFlex.lt-md="100">
+    <ul class ="buttons-list">
+      <li><button (click)="loginGoogle()" class="login-button google">
+        <img src="./assets/images/social-icons/google.png" class="login-icon">
+        Sign In with Google
+      </button></li>
+    <li><button (click)="loginFacebook()" class="login-button facebook">
+      <img src="./assets/images/social-icons/facebook.png" class="login-icon">
+      Sign In with Facebook
+    </button></li>
+      <li><button (click)="loginTwitter()" class="login-button twitter">
+        <img src="./assets/images/social-icons/twitter.png" class="login-icon">
+        Sign In with Twitter
+      </button></li>
+      <li><button (click)="loginGithub()" class="login-button github">
+        <img src="./assets/images/social-icons/github.png" class="login-icon">
+        Sign In with Github
+      </button></li>
+    </ul>
+  </div>
+</div>
+<div fxLayout="row" fxLayoutAlign="center center">
+    <p class="disclaimer">
+  By continuing, you are indicating that you accept our <a href ="https://ncats.nih.gov/disclaimer" target="_blank">Terms of Service</a>
+  and <a href="https://ncats.nih.gov/privacy" target="_blank">Privacy Policy</a>.
+</p>
+    <br>
+  </div>

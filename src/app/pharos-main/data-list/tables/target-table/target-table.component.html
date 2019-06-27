@@ -1,57 +1,76 @@
 <div *ngIf="targets">
   <mat-toolbar [color]="'primary'" class="target-table-toolbar" *ngIf="showToolbar">
-      <div class = pharos-display-1 *ngIf="showLabel">Targets <span *ngIf ="pageData">({{pageData.total}})</span>
-      </div>
+    <div class=pharos-display-1 *ngIf="showLabel">Targets <span *ngIf="pageData">({{pageData.total}})</span>
+    </div>
     <div fxFlex></div>
-    <div fxFlex = "5">
-      <button mat-icon-button [matMenuTriggerFor]="appMenu"><mat-icon>apps</mat-icon></button>
+    <div fxFlex="5">
+      <button mat-icon-button [matMenuTriggerFor]="appMenu">
+        <mat-icon>apps</mat-icon>
+      </button>
       <mat-menu #appMenu="matMenu">
-        <button mat-menu-item (click)="batchUpload()"><mat-icon>create</mat-icon>Upload Target List</button>
-<!--        <span matTooltip= "Please select 2-4 targets to compare"
-              [matTooltipDisabled] = "!rowSelection.isEmpty()">
-        <button mat-menu-item
-                (click)="compareTargets()"
-                [disabled]="rowSelection.isEmpty() || (rowSelection.selected.length < 2 || rowSelection.selected.length > 4)"
-        ><mat-icon>swap_horiz</mat-icon>Compare Targets</button>
-        </span>
-        <button mat-menu-item (click)="createTopic()" [disabled]="rowSelection.isEmpty()"><mat-icon>bubble_chart</mat-icon>Generate Topic</button>
-        <button mat-menu-item (click)="saveTargets()" [disabled]="rowSelection.isEmpty()"><mat-icon>save</mat-icon>Save Selected</button>
-        <button mat-menu-item><mat-icon>save_alt</mat-icon>Save Query</button>
-        <button mat-menu-item><mat-icon>info</mat-icon>Help</button>-->
+        <button mat-menu-item (click)="batchUpload()">
+          <mat-icon>create</mat-icon>
+          Upload Target List
+        </button>
+                <!--<span matTooltip= "Please select 2-4 targets to compare"-->
+                      <!--[matTooltipDisabled] = "!rowSelection.isEmpty()">-->
+                <!--<button mat-menu-item-->
+                        <!--(click)="compareTargets()"-->
+                        <!--[disabled]="rowSelection.isEmpty() || (rowSelection.selected.length < 2 || rowSelection.selected.length > 4)"-->
+                <!--&gt;<mat-icon>swap_horiz</mat-icon>Compare Targets</button>-->
+                <!--</span>-->
+                <!--<button mat-menu-item-->
+                        <!--(click)="createTopic()"-->
+                        <!--[disabled]="rowSelection.isEmpty()">-->
+                  <!--<mat-icon>bubble_chart</mat-icon>-->
+                  <!--Generate Topic</button>-->
+                <button mat-menu-item
+                        *ngIf="loggedIn === true"
+                        (click)="saveTargets()"
+                        [disabled]="rowSelection.isEmpty()">
+                  <mat-icon>save</mat-icon>Save Selected
+                </button>
+                <button mat-menu-item
+                        *ngIf="loggedIn === true"
+                        (click)="saveQuery()"
+                ><mat-icon>save_alt</mat-icon>Save Query</button>
       </mat-menu>
     </div>
   </mat-toolbar>
-<div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row target-table">
-  <div fxFlex="45" fxLayoutAlign.lt-sm="center">
+  <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="10px" fxLayoutAlign="space-around start"
+       class="body-row target-table">
+    <div fxFlex="45" fxLayoutAlign.lt-sm="center">
 
+    </div>
+    <div fxFlex="45" fxFlexAlign="end">
+      <pharos-custom-paginator
+        [pageData]="pageData"
+        (page)="changePage($event)">
+      </pharos-custom-paginator>
+    </div>
   </div>
-  <div fxFlex="45" fxFlexAlign="end">
-    <pharos-custom-paginator
-      [pageData]="pageData"
-      (page)="changePage($event)">
-    </pharos-custom-paginator>
-  </div>
-</div>
   <div *ngIf="!isSmallScreen">
-  <pharos-generic-table *ngIf = "targets"
-  [pageData]="pageData"
-  [showPaginator]="false"
-  [fieldsConfig]="fieldsData"
-  [data]="targets"
-  (sortChange)="changeSort($event)"
-  (pageChange)="changePage($event)">
-  </pharos-generic-table>
+    <pharos-generic-table *ngIf="targets"
+                          [pageData]="pageData"
+                          [showPaginator]="false"
+                          [fieldsConfig]="fieldsData"
+                          [data]="targets"
+                          [selectableRows]= "loggedIn"
+                          (rowSelectionChange) = "setSelectedTargets($event)"
+                          (sortChange)="changeSort($event)"
+                          (pageChange)="changePage($event)">
+    </pharos-generic-table>
   </div>
-<div class ="target-grid" *ngIf="isSmallScreen">
-  <div *ngFor="let target of targetObjs">
-    <pharos-target-card [target]="target"></pharos-target-card>
+  <div class="target-grid" *ngIf="isSmallScreen">
+    <div *ngFor="let target of targetObjs">
+      <pharos-target-card [target]="target"></pharos-target-card>
+    </div>
   </div>
-</div>
-<div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
-  <div fxFlex="45">
+  <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
+    <div fxFlex="45">
+    </div>
+    <div fxFlex="45" fxFlexAlign="end">
+      <pharos-custom-paginator [pageData]="pageData" (page)="changePage($event)"></pharos-custom-paginator>
+    </div>
   </div>
-  <div fxFlex="45" fxFlexAlign="end">
-    <pharos-custom-paginator [pageData]="pageData" (page)="changePage($event)"></pharos-custom-paginator>
-  </div>
-</div>
 </div>

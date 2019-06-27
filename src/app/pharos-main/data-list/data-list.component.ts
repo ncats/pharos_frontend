@@ -143,6 +143,8 @@ export class DataListComponent implements OnInit, OnDestroy {
                                     });
                                   }
                   dynamicComponent.instance.data = dataList.data.content;
+                  dynamicComponent.instance.etag = dataList.data.etag;
+                  dynamicComponent.instance.sideway = dataList.data.sideway;
                 }
               });
             }

@@ -11,7 +11,7 @@ export class Facet {
   /**
    * readable label for facet
    */
-  label: string;
+  label?: string;
 
   /**
    * list of facet values
@@ -29,7 +29,17 @@ export class Field {
   label: string;
 
   /**
+   * facet-able field
+   */
+  name?: string;
+
+  /**
+   * facet-able field
+   */
+  value?: string;
+
+  /**
    * cound of facetable values
    */
-  count: number;
+  count?: number;
 }

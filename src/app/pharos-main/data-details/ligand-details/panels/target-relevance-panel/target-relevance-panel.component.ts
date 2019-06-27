@@ -100,7 +100,6 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
            // data['developmentLevelValue'].term = `p${data['developmentLevelValue'].term}`;
             data.target.internalLink = ['/targets', data.target.term as string];
             if(data.activity && data.activity.term !=='Pharmalogical Action') {
-              console.log(data.activity);
               data.activity.term = `p${data.activity.term}`;
             }
             this.targets.push(data);

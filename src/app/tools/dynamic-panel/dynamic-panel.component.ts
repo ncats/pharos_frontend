@@ -42,6 +42,9 @@ export class DynamicPanelComponent {
    */
   apiSources: any[];
 
+  etag?: string;
+  sideway?: string[];
+
   // todo: check to make sure all extending components are using this subject
   /**
    * Behaviour subject to allow extending class to unsubscribe on destroy

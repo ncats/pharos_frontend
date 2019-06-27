@@ -1,0 +1,60 @@
+.buttons {
+  justify-items: center;
+}
+
+.buttons-list {
+  list-style: none;
+}
+
+.login-button {
+  padding: .5vh 1vw .5vh 1vw;
+  width: 15vw;
+  margin: 1vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+  color: #ffffff;
+  border: none;
+  background: rgba(158,158,158,.2);
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+.login-icon {
+  height: 32px;
+  width: 32px;
+  padding: 6px;
+}
+
+.google {
+  background-color: #ffffff;
+  color: #757575;
+}
+
+.facebook {
+  background-color: #3b5998;
+
+}
+
+.github {
+  background-color: #333333;
+
+}
+
+.twitter {
+  background-color: #1da1f2;
+
+}
+
+.disclaimer {
+  font-size: .8rem;
+  text-align: center;
+}
+
+@media only screen and (max-width: 960px) {
+  .login-button {
+    width: 100%;
+    margin: 1vh 0 1vh 0;
+  }
+}

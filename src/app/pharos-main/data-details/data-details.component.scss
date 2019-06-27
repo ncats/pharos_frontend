@@ -1,0 +1,10 @@
+.main-content {
+  margin-top:60px;
+  z-index: 0;
+}
+
+@media only screen and (max-width: 960px) {
+  .main-content {
+    margin-top: 70px;
+  }
+}

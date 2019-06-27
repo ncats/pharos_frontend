@@ -21,6 +21,7 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {CommonToolsModule} from './tools/common-tools.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import {AuthModule} from "./auth/auth.module";
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AppRoutingModule,
-    CommonToolsModule
+    CommonToolsModule,
+    AuthModule
     // todo: might be used later
     // AngularFireStorageModule // imports firebase/storage only needed for storage features
   ],

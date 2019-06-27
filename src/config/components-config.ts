@@ -916,6 +916,10 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       default: _APIURL + 'targets/search?top=10&skip=0',
       facets: [
         {
+          name: 'etag',
+          label: 'Custom Lists'
+        },
+        {
           name: 'IDG Development Level',
           label: 'Development Level'
         },
@@ -1243,6 +1247,10 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
         }
       ],
       facets: [
+        {
+          name: 'etag',
+          label: 'Custom Lists'
+        },
         {
           name: 'IDG Development Level',
           label: 'Development Level'

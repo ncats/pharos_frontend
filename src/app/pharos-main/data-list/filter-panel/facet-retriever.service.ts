@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Facet} from '../../../models/facet';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {PharosApiService} from "../../../pharos-services/pharos-api.service";
+import {PharosProfileService} from "../../../auth/pharos-profile.service";
 
 /**
  * Service to parse and filter facets from api responses
@@ -33,13 +34,26 @@ export class FacetRetrieverService {
   /**
    * set up subscription to parse the response object from the response service
    * @param {PharosApiService} pharosApiService
+   * @param profileService
    */
-  constructor(private pharosApiService: PharosApiService) {
+  constructor(
+    private pharosApiService: PharosApiService,
+    private profileService: PharosProfileService
+  ) {
     this.pharosApiService.facetsData$.subscribe(res => {
       res.forEach(facet => {
         this.facetMap.set(facet.name, facet);
       });
       this._facets.next(this.facetMap);
+    });
+    this.profileService.profile$.subscribe(user => {
+      if (user && user.data().savedTargets) {
+        this.facetMap.set(user.data().savedTargets.name, user.data().savedTargets);
+        this._facets.next(this.facetMap);
+      } else {
+        this.facetMap.delete('etag');
+        this._facets.next(this.facetMap);
+      }
     });
   }
 

@@ -1,6 +1,6 @@
-<div class="pharos-main">
-  <app-ncats-header [searchBar]=true></app-ncats-header>
-      <router-outlet></router-outlet>
+<app-ncats-header [searchBar]=true #appHeader></app-ncats-header>
+<div class="pharos-main" (click)="closeSidenav()">
+      <router-outlet ></router-outlet>
       <pharos-scroll-to-top></pharos-scroll-to-top>
 
 </div>

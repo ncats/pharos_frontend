@@ -20,6 +20,7 @@ import {PageData} from './models/page-data';
 import {MatPaginator, MatRow, MatSort, MatTableDataSource, Sort} from '@angular/material';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {DataProperty} from './components/property-display/data-property';
+import {SelectionModel} from "@angular/cdk/collections";
 
 /**
  * component to show flexible data consisting of multiple data types, custom components
@@ -88,32 +89,28 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
     return this._fieldsConfig.getValue();
   }
 
-/*  /!**
+  /**
    * sets up page data as a behavior subject
    * @type {BehaviorSubject<PageData>}
    * @private
-   *!/
-  protected _pageConfig: BehaviorSubject<PageData> = new BehaviorSubject<PageData>(/!*{
-    total: 0,
-    top: 0,
-    skip: 0,
-    count: 0
-  }*!/ null);
+   */
+  protected _rowSelectConfig: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  /!**
+  /**
    * pushes changed data to {BehaviorSubject}
-   *!/
+   */
   @Input()
-  set pageData(value: PageData) {
-    this._pageConfig.next(value);
+  set selectableRows(value: boolean) {
+    this._rowSelectConfig.next(value);
+    this.fetchTableFields();
   }
 
-  /!**
+  /**
    * returns value of {BehaviorSubject}
-   *!/
-  get pageData(): PageData {
-    return this._pageConfig.getValue();
-  }*/
+   */
+  get selectableRows(): boolean {
+    return this._rowSelectConfig.getValue();
+  }
 
   @Input() pageData: PageData;
   /**
@@ -205,6 +202,11 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
    */
   @Input() condensed = false;
 
+@Output() rowSelectionChange: EventEmitter<SelectionModel<any>> = new EventEmitter<SelectionModel<any>>();
+
+  selection = new SelectionModel<any>(true, []);
+
+
   /**
    * injector for custom data
    */
@@ -221,6 +223,10 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this._data.subscribe(res => this.dataSource.data = res);
     this._fieldsConfig.subscribe(res => this.fetchTableFields());
+    this.selection.changed.subscribe(change => {
+      this.ref.detectChanges();
+      this.rowSelectionChange.emit(this.selection);
+    })
   }
 
   ngOnChanges (change) {
@@ -318,7 +324,14 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
     if (!this.displayFields.length) {
       this.displayFields = this.fieldsConfig;
     }
-    this.displayColumns = this.displayFields.map(field => field.name);
+    if(this.selectableRows) {
+      this.displayColumns = ['select'].concat(this.displayFields.map(field => field.name));
+    //  this.ref.reattach();
+      this.ref.detectChanges();
+    } else {
+      this.displayColumns = this.displayFields.map(field => field.name);
+      this.ref.detectChanges();
+    }
   }
 
 
@@ -407,5 +420,21 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
    */
   rowClicked(row: MatRow): void {
     this.rowClick.emit(row);
+  }
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected == numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.dataSource.data.forEach(row => this.selection.select(row));
+    this.ref.detectChanges();
+
   }
 }

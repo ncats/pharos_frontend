@@ -5,6 +5,7 @@ import {MatDrawer, MatSidenav} from '@angular/material';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {FilterPanelComponent} from "./data-list/filter-panel/filter-panel.component";
 import {LoadingService} from "../pharos-services/loading.service";
+import {NcatsHeaderComponent} from "../tools/ncats-header/ncats-header.component";
 
 @Component({
   selector: 'pharos-pharos-main',
@@ -12,6 +13,7 @@ import {LoadingService} from "../pharos-services/loading.service";
   styleUrls: ['./pharos-main.component.css']
 })
 export class PharosMainComponent implements OnInit {
+@ViewChild('appHeader', {static: true}) header: NcatsHeaderComponent;
 
   /**
    * boolean for mobile view
@@ -37,5 +39,10 @@ export class PharosMainComponent implements OnInit {
   ngOnInit() {
     this.loadingService.loading$.subscribe(res=> this.loading = res);
   this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
+  }
+
+  closeSidenav() {
+    console.log('close');
+    this.header.sidenav.close();
   }
 }

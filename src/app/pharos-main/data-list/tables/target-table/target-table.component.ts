@@ -1,9 +1,17 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, InjectionToken, Input, OnDestroy, OnInit,
-  Output, ViewEncapsulation
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  InjectionToken,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewEncapsulation
 } from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
-import {MatDialog, MatTableDataSource} from '@angular/material';
+import {MatDialog} from '@angular/material';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../../models/page-data';
@@ -12,10 +20,12 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {NavigationExtras, Router} from '@angular/router';
 import {PharosConfig} from '../../../../../config/pharos-config';
-import {STRUCTURE_VIEW_TOKEN} from "../../../data-details/target-details/panels/pdb-panel/pdb-panel.component";
 import {PharosProperty} from "../../../../models/pharos-property";
 import {Target, TargetSerializer} from "../../../../models/target";
-import {Publication} from "../../../../models/publication";
+import * as firebase from 'firebase/app';
+import {TargetSaveModalComponent} from "./target-save-modal/target-save-modal.component";
+import {PharosProfileService} from "../../../../auth/pharos-profile.service";
+
 
 /**
  * token to inject structure viewer into generic table component
@@ -168,17 +178,22 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * selection model for when rows are selectable in table, used for compare and storing targets
    * @type {SelectionModel<any>}
    */
-  rowSelection = new SelectionModel<any>(true, []);
+  rowSelection = new SelectionModel<any>();
 
   targetSerializer: TargetSerializer = new TargetSerializer();
 
   targetObjs: Target[];
+
+  loggedIn = false;
+
+  user: any;
 
   /**
    * set up dependencies
    * @param {MatDialog} dialog
    * @param {HttpClient} http
    * @param {Router} router
+   * @param profileService
    * @param {PharosConfig} pharosConfig
    * @param {ChangeDetectorRef} ref
    * @param {BreakpointObserver} breakpointObserver
@@ -186,6 +201,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   constructor(public dialog: MatDialog,
               public http: HttpClient,
               private router: Router,
+              private profileService: PharosProfileService,
               private pharosConfig: PharosConfig,
               private ref: ChangeDetectorRef,
               public breakpointObserver: BreakpointObserver) {
@@ -197,8 +213,22 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * subscribe to data changes
    */
   ngOnInit() {
+    console.log(this);
     this.loading = true;
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
+
+    this.profileService.profile$.subscribe(user => {
+      if (user) {
+        this.user = user;
+        this.loggedIn = true;
+        this.ref.markForCheck();
+        // User is signed in.
+      } else {
+        this.loggedIn = false;
+        this.ref.markForCheck();
+        // No user is signed in.
+      }
+    });
 
     this._data
     // listen to data as long as term is undefined or null
@@ -239,7 +269,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   /**
    * create and open batch upload dialog,
    * fetch results on close and redirect to search by etag
-   * //todo change to config parameters
    */
   batchUpload() {
     const dialogRef = this.dialog.open(BatchUploadModalComponent, {
@@ -296,10 +325,54 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * todo: implement
    */
   saveTargets() {
-    console.log(this.rowSelection.selected);
+    const targetList = this.rowSelection.selected.map(target => target = target.accession.term);
+    const dialogRef = this.dialog.open(TargetSaveModalComponent, {
+        height: '50vh',
+        width: '50vw',
+        data: {
+          selection: targetList,
+          user: this.user
+        }
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.loading = true;
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'text/plain',
+        })
+      };
+    });
   }
 
-  convertTarget
+  saveQuery() {
+    const targetList = this.rowSelection.selected.map(target => target = target.accession.term);
+    const dialogRef = this.dialog.open(TargetSaveModalComponent, {
+        height: '50vh',
+        width: '50vw',
+        data: {
+          etag: this.etag,
+          sideway: this.sideway,
+          user: this.user,
+          count: this.pageData.total
+        }
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.loading = true;
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'text/plain',
+        })
+      };
+    });
+  }
+
+  setSelectedTargets(selection) {
+    this.rowSelection  = selection;
+  }
 
   /**
    * clean up
