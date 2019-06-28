@@ -24,7 +24,7 @@ export class PharosApiService {
    * @type {Subject<Facet[]>}
    * @private
    */
-  private _facetsDataSource = new Subject<Facet[]>();
+  private _facetsDataSource = new BehaviorSubject<Facet[]>(null);
 
   /**
    * RxJs Behavior subject for main table data
@@ -191,15 +191,12 @@ export class PharosApiService {
 
   /**
    * Api call to get main level paged data
-   * if the call is a search, redirects to a different series of calls
    * @param {string} path The url sub path 'targets', diseases', 'ligands' etc.
    * @param {ParamMap} params The angular router parameters generated in subcomponents includes query, facet, sort and paging information.
    * @return void
    */
-  getData(path: string, params: ParamMap): void {
-    if (path === 'search') {
-      this.search(params);
-    } else {
+  getData(path: string, params: ParamMap): Observable<any> {
+
       // todo: delete when api filled out
      /* if (path === 'topics') {
         of(this.TOPICS).subscribe(topics => {
@@ -211,18 +208,13 @@ export class PharosApiService {
         });
       } else {*/
         const url = this._mapParams(path, params);
-        this.http.get<any>(url)
+       return this.http.get<any>(url)
           .pipe(
+            tap(res=> {
+              this._facetsDataSource.next(res.facets)
+            }),
             catchError(this.handleError('getData', []))
           )
-          .subscribe(response => {
-            this._tableDataSource.next({content: [{kind: path, data: response}]});
-            this._paginationDataSource.next(new PageData(response));
-        if (response.facets) {
-          this._facetsDataSource.next(response.facets);
-        }
-          });
-    }
   }
 
   /**
@@ -231,7 +223,7 @@ export class PharosApiService {
    * and also allows for paging and faceting independently of the data type
    * @param {ParamMap} params
    */
-  search(params: ParamMap): void {
+  search(params: ParamMap): Observable<any> {
     const apis = this._SEARCHURLS.map(api => {
       return this.http.get<any>(this._mapParams(api.field, params))
         .pipe(
@@ -239,10 +231,7 @@ export class PharosApiService {
         );
     });
 
-    forkJoin(...apis).subscribe(res => {
-      this._tableDataSource.next({content: res});
-     // this._.next({content: res});
-    });
+    return forkJoin(...apis)
   }
 
   /**

@@ -1,5 +1,8 @@
-import {Component, OnDestroy, OnInit, Type, ViewChild} from '@angular/core';
-import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, OnDestroy, OnInit, Type,
+  ViewChild
+} from '@angular/core';
+import {ActivatedRoute, NavigationEnd, NavigationExtras, Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {CustomContentDirective} from '../../tools/custom-content.directive';
@@ -28,7 +31,8 @@ const navigationExtras: NavigationExtras = {
 @Component({
   selector: 'pharos-data-list',
   templateUrl: './data-list.component.html',
-  styleUrls: ['./data-list.component.css']
+  styleUrls: ['./data-list.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 /**
@@ -40,7 +44,6 @@ export class DataListComponent implements OnInit, OnDestroy {
    * help panel element
    */
   @ViewChild('helppanel', {static: true}) helpPanel: MatDrawer;
-  @ViewChild('sidenav', {static: true}) sidenav: MatSidenav;
   @ViewChild('filters', {static: true}) filterPanel: FilterPanelComponent;
 
   /**
@@ -66,14 +69,22 @@ export class DataListComponent implements OnInit, OnDestroy {
    */
   isSmallScreen = false;
 
+  loadedComponents: Map<any, any> = new Map<any, any>();
+
+  componentsLoaded = false;
+  path: string;
+  data: any[];
+  search: any[];
+  etag: string;
+  sideway: string[];
+
   /**
    * set up routing and component injection
    * @param {ActivatedRoute} _route
    * @param {Router} router
+   * @param ref
    * @param {PharosApiService} pharosApiService
    * @param {BreakpointObserver} breakpointObserver
-   * @param {FacetRetrieverService} facetRetrieverService
-   * @param {DataListResolver} dataListResolver
    * @param {LoadingService} loadingService
    * @param {HelpPanelOpenerService} helpPanelOpenerService
    * @param {PharosConfig} pharosConfig
@@ -81,24 +92,30 @@ export class DataListComponent implements OnInit, OnDestroy {
    */
   constructor(private _route: ActivatedRoute,
               private router: Router,
+              private ref: ChangeDetectorRef,
               private pharosApiService: PharosApiService,
               public breakpointObserver: BreakpointObserver,
-  private facetRetrieverService: FacetRetrieverService,
-              private dataListResolver: DataListResolver,
               public loadingService: LoadingService,
               private helpPanelOpenerService: HelpPanelOpenerService,
               private pharosConfig: PharosConfig,
               private componentInjectorService: ComponentInjectorService) {}
-
-
-  // todo: (targets, diseases, etc) and call each api. This turns search into multiple separate calls/components, and leaves
-  // todo: pagins/filtering as single components
 
   /**
    * subscribe to loading service to toggle spinner
    * subscribe to data changes and load and inject required components
    */
   ngOnInit() {
+    console.log(this);
+    this.path = this._route.snapshot.data.path;
+    this.data = this._route.snapshot.data.data.content;
+    this.search = this._route.snapshot.data.search;
+    this.etag = this._route.snapshot.data.data.etag;
+    this.sideway = this._route.snapshot.data.data.sideway;
+
+    if (!this.componentsLoaded) {
+      this.makeComponents();
+    }
+
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
 
     this.helpPanelOpenerService.toggle$.subscribe(res => this.helpPanel.toggle());
@@ -107,60 +124,78 @@ export class DataListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => this.loading = res);
 
-
-    /**
-     * THIS COMPONENT ISN'T DYNAMICALLY INJECTED, SO NO APIS ARE CALLED
-     * this is triggered by list data change from above
-     * empties current data and clears view (this may need to be re-evaluated
-     * data is mapped by type -- this is mainly for search, but could be anywhere
-     * for each data type, the list type is retrieved
-     * that component is injected
-     * the data map is set to the component instance
-     * one each data change the process is repeated, including the api calls
-      */
-    this.pharosApiService.tableData$
+    this.router.events
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-        if (res.content) {
-          this.componentHost.viewContainerRef.clear();
-          res.content.forEach(dataList => {
-            const components: any = this.pharosConfig.getComponents(dataList.kind, 'list');
-            if (components) {
-              components.forEach(component => {
-                if (component.token) {
-                  const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
-                  const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
-                                    dynamicComponent.instance.pageData = new PageData(dataList.data);
-                  if (dynamicComponent.instance.sortChange) {
-                                    dynamicComponent.instance.sortChange.subscribe((event) => {
-                                      this.sortTable(event);
-                                      // todo sort arrows are not staying after column select
-                                    });
-                                  }
-                                  if (dynamicComponent.instance.pageChange) {
-                                    dynamicComponent.instance.pageChange.subscribe((event) => {
-                                      this.paginationChanges(event);
-                                    });
-                                  }
-                  dynamicComponent.instance.data = dataList.data.content;
-                  dynamicComponent.instance.etag = dataList.data.etag;
-                  dynamicComponent.instance.sideway = dataList.data.sideway;
-                }
-              });
-            }
-          });
-
-          this.loadingService.toggleVisible(false);
+      .subscribe((e: any) => {
+        // If it is a NavigationEnd event re-initalise the component
+        if (e instanceof NavigationEnd) {
+          this.path = this._route.snapshot.data.path;
+          this.data = this._route.snapshot.data.data.content;
+          this.search = this._route.snapshot.data.search;
+          this.etag = this._route.snapshot.data.data.etag;
+          this.sideway = this._route.snapshot.data.data.sideway;
+          this.makeComponents();
         }
       });
   }
-    // todo: this is changed each pagination change, so something needs to persist the selected rows
-    /*    this.rowSelection.onChange
-          .pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe(change => {
-            console.log(this.rowSelection.selected);
-          });*/
- // }
+
+  /**
+   * THIS COMPONENT ISN'T DYNAMICALLY INJECTED, SO NO APIS ARE CALLED
+   * this is triggered by list data change from above
+   * empties current data and clears view (this may need to be re-evaluated
+   * data is mapped by type -- this is mainly for search, but could be anywhere
+   * for each data type, the list type is retrieved
+   * that component is injected
+   * the data map is set to the component instance
+   * one each data change the process is repeated, including the api calls
+   */
+  makeComponents() {
+    const components: any = this.pharosConfig.getComponents(this.path, 'list');
+    components.forEach(component => {
+      // make component
+      const instance: ComponentRef<any> = this.loadedComponents.get(component.token);
+      console.log(instance);
+      if(!instance) {
+        const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
+        const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
+        if (dynamicComponent.instance.sortChange) {
+          dynamicComponent.instance.sortChange.subscribe((event) => {
+            this.sortTable(event);
+          });
+        }
+        if (dynamicComponent.instance.pageChange) {
+          dynamicComponent.instance.pageChange.subscribe((event) => {
+            this.paginationChanges(event);
+          });
+        }
+
+        if (this.search) {
+          console.log(dynamicComponent);
+          console.log(this);
+          const data: any = this.search.filter(data => data.kind === dynamicComponent.instance.path)[0];
+          console.log(data);
+          dynamicComponent.instance.pageData = new PageData(data.data);
+          dynamicComponent.instance.data = data.data.content;
+        } else {
+          dynamicComponent.instance.pageData = new PageData(this._route.snapshot.data.data);
+          dynamicComponent.instance.data = this.data;
+        }
+        dynamicComponent.instance.etag = this.etag;
+        dynamicComponent.instance.sideway = this.sideway;
+        this.loadedComponents.set(component.token, dynamicComponent);
+      } else {
+        instance.instance.data = this.data;
+        this.loadedComponents.set(component.token, instance);
+      }
+
+    });
+    this.loading = false;
+    this.loadingService.toggleVisible(false);
+    this.componentsLoaded = true;
+  }
+
+
+
 
 // todo remove ordering on default switch
   /**
@@ -197,13 +232,6 @@ export class DataListComponent implements OnInit, OnDestroy {
     this._navigate(navigationExtras);
   }
 
-/*  /!**
-   * get all facets
-   *!/
-  loadFacets() {
-    this.facetRetrieverService._loaded.next(true);
-  }*/
-
   /**
    * close full width filter panel when clicking outside of panel
    */
@@ -221,8 +249,6 @@ export class DataListComponent implements OnInit, OnDestroy {
       navigationExtras.queryParams = {
         page: event.pageIndex + 1,
         rows: event.pageSize
-        // top: event.pageSize,
-       // skip: event.pageIndex * event.pageSize,
       };
       this._navigate(navigationExtras);
   }

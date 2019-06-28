@@ -7,6 +7,7 @@ import {DataListResolver} from './data-list.resolver';
 import {RouterModule, Routes} from '@angular/router';
 import {DataListComponent} from './data-list.component';
 import {LigandTableModule} from './tables/ligand-table/ligand-table.module';
+import {SearchResultsResolver} from "./search-results.resolver";
 
 const pharosListRoutes: Routes = [
 {
@@ -14,7 +15,8 @@ const pharosListRoutes: Routes = [
   pathMatch: 'full',
   component: DataListComponent,
     resolve: {
-  data: DataListResolver
+      data: DataListResolver,
+      search: SearchResultsResolver
 },
    runGuardsAndResolvers: 'paramsOrQueryParamsChange'
 }

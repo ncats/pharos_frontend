@@ -1228,7 +1228,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       }
     }],
     ['search', {
-      api: [
+          api: [
         {
           field: 'targets',
           url: _APIURL + 'targets/search?q='
@@ -1240,12 +1240,19 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
         {
           field: 'ligands',
           url: _APIURL + 'ligands/search?view=full&q='
-        },
+        }/*,
         {
           field: 'publications',
           url: _APIURL + 'publications/search?q='
-        }
+        }*/
       ],
+      list: {
+        components: [
+          TARGET_TABLE_COMPONENT,
+          DISEASE_TABLE_COMPONENT,
+          LIGAND_TABLE_COMPONENT
+        ]
+      },
       facets: [
         {
           name: 'etag',

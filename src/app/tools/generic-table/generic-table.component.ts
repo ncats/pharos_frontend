@@ -56,7 +56,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
    */
   @Input()
   set data(value: any) {
-    //  this.setPage();
+    console.log(value);
     this._data.next(value);
   }
 
@@ -221,7 +221,12 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
    * Table data is tracked by the data getter and setter
    */
   ngOnInit() {
-    this._data.subscribe(res => this.dataSource.data = res);
+    this._data.subscribe(res => {
+      console.log(res);
+      this.dataSource.data = res;
+      this.ref.detectChanges();
+      console.log(this);
+    });
     this._fieldsConfig.subscribe(res => this.fetchTableFields());
     this.selection.changed.subscribe(change => {
       this.ref.detectChanges();

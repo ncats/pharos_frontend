@@ -13,6 +13,9 @@ import {PharosConfig} from '../../../../../config/pharos-config';
   styleUrls: ['./ligand-table.component.css']
 })
 export class LigandTableComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
+
+  path = 'ligands';
+
   /**
    * map of ligands
    * @type {Map<string, any>}
@@ -91,8 +94,10 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
    * set ligand overview data and map activity data
    */
   setterFunction(): void {
+    console.log(this.data);
     const ligandsArr = [];
     this.data.forEach(ligand => {
+      console.log(ligand);
           const mappedLig = this.ligandsMap.get(ligand.id);
           if (!mappedLig) {
             // placeholder to block repetitive calls

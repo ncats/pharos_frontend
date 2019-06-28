@@ -13,6 +13,7 @@ import {
 } from '../pharos-main/data-list/data-list-visualizations/visualization-options/visualization-options.component';
 import {DataListResolver} from '../pharos-main/data-list/data-list.resolver';
 import {CommonToolsModule} from '../tools/common-tools.module';
+import {SearchResultsResolver} from "../pharos-main/data-list/search-results.resolver";
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {CommonToolsModule} from '../tools/common-tools.module';
     VisualizationOptionsComponent
   ],
   providers: [
-    DataListResolver
+    DataListResolver,
+    SearchResultsResolver
   ],
   exports: [
     SharedModule,

@@ -59,7 +59,7 @@ const navigationExtras: NavigationExtras = {
 })
 
 export class TargetTableComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
-
+  path = 'targets';
   /**
    * columns to display in table
    * @type {string[]}
@@ -131,8 +131,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    */
  targets: Target[];
 
-
-
   /**
    * event emitter of sort event on table
    * @type {EventEmitter<string>}
@@ -167,12 +165,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * @type {boolean}
    */
   isSmallScreen = false;
-
-/*  /!**
-   * main table data source
-   * @type {MatTableDataSource<any>}
-   *!/
-  dataSource = new MatTableDataSource<any>([]);*/
 
   /**
    * selection model for when rows are selectable in table, used for compare and storing targets
@@ -213,7 +205,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * subscribe to data changes
    */
   ngOnInit() {
-    console.log(this);
     this.loading = true;
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
 
@@ -239,12 +230,9 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
         if (this.data.length) {
           this.targetObjs = this.data
             .map(target => this.targetSerializer.fromJson(target));
-         const targetProps = this.targetObjs
+          this.targets = this.targetObjs
             .map(target => target = this.targetSerializer._asProperties(target));
-         // this.data = this.data.map(target => this.targetSerializer._asProperties(this.targetSerializer.fromJson(target)));
-        //  this.dataSource.data = this.data;
-          this.targets = targetProps;
-        //  this.ref.detectChanges();
+          this.ref.detectChanges();
           this.loading = false;
         }
       });

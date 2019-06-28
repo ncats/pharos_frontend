@@ -20,6 +20,8 @@ import {PharosProperty} from "../../../../models/pharos-property";
 })
 export class DiseaseTableComponent extends DynamicTablePanelComponent implements OnInit, OnDestroy {
 
+  path = 'diseases';
+
   /**
    * fields to be show in the pdb table
    * @type {PharosProperty[]}

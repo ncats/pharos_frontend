@@ -32,12 +32,6 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
   facets: Facet[];
 
   /**
-   * map of facets since they are dynamically loaded
-   * @type {Map<string, any>}
-   */
-  facetsMap: Map<string, any> = new Map<string, any>();
-
-  /**
    * list of initial facets to display
    */
   filteredFacets: Facet[];
@@ -71,8 +65,6 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    */
   private ngUnsubscribe: Subject<any> = new Subject();
 
-  customLists: Facet[];
-
   /**
    * set up services to get facets
    * @param {PathResolverService} pathResolverService
@@ -92,22 +84,6 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * set up subscriptions to get facets
     */
   ngOnInit() {
-/*    this.profileService.profile$.subscribe(user => {
-      console.log(user);
-      if (user && user.data().savedTargets) {
-        if(this.facets) {
-          this.customLists = [user.data().savedTargets];
-          this.facets = this.customLists.concat(this.filteredFacets);
-          this.ref.markForCheck();
-        }
-      } else {
-        this.customLists = null;
-        this.facets = this.filteredFacets;
-        this.ref.markForCheck();
-      }
-      console.log(this);
-    });*/
-
     this.loading = true;
     const flist = this.pharosConfig.getFacets(this.pathResolverService.getPath());
     this.facetRetrieverService.getAllFacets().subscribe(facets => {
