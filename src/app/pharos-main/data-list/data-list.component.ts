@@ -110,7 +110,6 @@ export class DataListComponent implements OnInit, OnDestroy {
    * subscribe to data changes and load and inject required components
    */
   ngOnInit() {
-    console.log(this);
     this.path = this._route.snapshot.data.path;
     this.data = this._route.snapshot.data.data.content;
     this.search = this._route.snapshot.data.search;
@@ -278,12 +277,9 @@ export class DataListComponent implements OnInit, OnDestroy {
   }
 
   private typePagination(event, origin: string): Observable<any> {
-    console.log(event);
-    console.log(this);
     let strArr = [];
     const query = this._route.snapshot.queryParamMap.has('q') ? `q=${this._route.snapshot.queryParamMap.get('q')}&` : null;
     Object.entries(event).map(val => {
-      console.log(val);
         switch (val[0]) {
           case 'pageIndex': {
             const rows = event['pageSize'];
@@ -331,10 +327,8 @@ export class DataListComponent implements OnInit, OnDestroy {
         }
       }
     );
-    console.log(strArr);
     // this.loading = true;
     const url = `${this.pharosConfig.getApiPath()}${origin}/search?${query}${this.sort}${strArr.join('&')}`;
-    console.log(url);
     return this._http.get<any[]>(url);
   }
 

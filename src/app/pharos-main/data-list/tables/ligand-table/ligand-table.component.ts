@@ -94,10 +94,8 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
    * set ligand overview data and map activity data
    */
   setterFunction(): void {
-    console.log(this.data);
     const ligandsArr = [];
     this.data.forEach(ligand => {
-      console.log(ligand);
           const mappedLig = this.ligandsMap.get(ligand.id);
           if (!mappedLig) {
             // placeholder to block repetitive calls
