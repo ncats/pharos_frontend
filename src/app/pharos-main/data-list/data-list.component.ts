@@ -3,7 +3,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {ActivatedRoute, NavigationEnd, NavigationExtras, Router} from '@angular/router';
-import {Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {CustomContentDirective} from '../../tools/custom-content.directive';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
@@ -17,6 +17,8 @@ import {FilterPanelComponent} from "./filter-panel/filter-panel.component";
 import {MatDrawer, MatSidenav} from "@angular/material";
 import {HelpPanelOpenerService} from "../../tools/help-panel/services/help-panel-opener.service";
 import {BreakpointObserver} from "@angular/cdk/layout";
+import {Publication} from "../../models/publication";
+import {HttpClient} from "@angular/common/http";
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -73,10 +75,11 @@ export class DataListComponent implements OnInit, OnDestroy {
 
   componentsLoaded = false;
   path: string;
-  data: any[];
+  data: any[] = [];
   search: any[];
   etag: string;
   sideway: string[];
+  sort: any;
 
   /**
    * set up routing and component injection
@@ -88,6 +91,7 @@ export class DataListComponent implements OnInit, OnDestroy {
    * @param {LoadingService} loadingService
    * @param {HelpPanelOpenerService} helpPanelOpenerService
    * @param {PharosConfig} pharosConfig
+   * @param _http
    * @param {ComponentInjectorService} componentInjectorService
    */
   constructor(private _route: ActivatedRoute,
@@ -98,6 +102,7 @@ export class DataListComponent implements OnInit, OnDestroy {
               public loadingService: LoadingService,
               private helpPanelOpenerService: HelpPanelOpenerService,
               private pharosConfig: PharosConfig,
+              private _http: HttpClient,
               private componentInjectorService: ComponentInjectorService) {}
 
   /**
@@ -154,26 +159,12 @@ export class DataListComponent implements OnInit, OnDestroy {
     components.forEach(component => {
       // make component
       const instance: ComponentRef<any> = this.loadedComponents.get(component.token);
-      console.log(instance);
       if(!instance) {
         const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
         const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
-        if (dynamicComponent.instance.sortChange) {
-          dynamicComponent.instance.sortChange.subscribe((event) => {
-            this.sortTable(event);
-          });
-        }
-        if (dynamicComponent.instance.pageChange) {
-          dynamicComponent.instance.pageChange.subscribe((event) => {
-            this.paginationChanges(event);
-          });
-        }
 
-        if (this.search) {
-          console.log(dynamicComponent);
-          console.log(this);
+        if (this.search && this.search.length) {
           const data: any = this.search.filter(data => data.kind === dynamicComponent.instance.path)[0];
-          console.log(data);
           dynamicComponent.instance.pageData = new PageData(data.data);
           dynamicComponent.instance.data = data.data.content;
         } else {
@@ -182,6 +173,30 @@ export class DataListComponent implements OnInit, OnDestroy {
         }
         dynamicComponent.instance.etag = this.etag;
         dynamicComponent.instance.sideway = this.sideway;
+
+        if (dynamicComponent.instance.sortChange) {
+          dynamicComponent.instance.sortChange.subscribe((event) => {
+            if(this.path === 'search'){
+              this.typePagination(event, dynamicComponent.instance.path).subscribe(res=> {
+                dynamicComponent.instance.data = res.content;
+              })
+            } else {
+              this.sortTable(event);
+            }
+          });
+        }
+        if (dynamicComponent.instance.pageChange) {
+          dynamicComponent.instance.pageChange.subscribe((event) => {
+            if(this.path === 'search'){
+              this.typePagination(event, dynamicComponent.instance.path).subscribe(res=> {
+                dynamicComponent.instance.data = res.content;
+              })
+            } else {
+              this.paginationChanges(event);
+            }
+          });
+        }
+
         this.loadedComponents.set(component.token, dynamicComponent);
       } else {
         instance.instance.data = this.data;
@@ -260,8 +275,69 @@ export class DataListComponent implements OnInit, OnDestroy {
    */
   private _navigate(navExtras: NavigationExtras): void {
     this.router.navigate([], navExtras);
-
   }
+
+  private typePagination(event, origin: string): Observable<any> {
+    console.log(event);
+    console.log(this);
+    let strArr = [];
+    const query = this._route.snapshot.queryParamMap.has('q') ? `q=${this._route.snapshot.queryParamMap.get('q')}&` : null;
+    Object.entries(event).map(val => {
+      console.log(val);
+        switch (val[0]) {
+          case 'pageIndex': {
+            const rows = event['pageSize'];
+            if (rows) {
+              strArr.push('top=' + rows);
+            } else {
+              strArr.push('top=' + 10);
+              strArr.push('skip=' + 10 * (+val[1]));
+            }
+            break;
+          }
+          case 'pageSize': {
+            const page = event['pageIndex'];
+            if (page) {
+              strArr.push('skip=' + +val[1] * (+page));
+            }
+            break;
+          }
+          case 'direction': {
+            let sort = null;
+            switch (event.direction) {
+              case 'asc': {
+                sort = '^' + event.active;
+               this.sort = `&order=${sort}&`;
+                break;
+              }
+              case 'desc': {
+                sort = '$' + event.active;
+               this.sort = `&order=${sort}&`;
+                break;
+              }
+              default: {
+                sort = null;
+                break;
+              }
+            }
+            break;
+          }
+          default: {
+            if(val[0] !== 'length' && val[0] !== 'active') {
+              strArr.push(val[0] + '=' + val[1]);
+            }
+            break;
+          }
+        }
+      }
+    );
+    console.log(strArr);
+    // this.loading = true;
+    const url = `${this.pharosConfig.getApiPath()}${origin}/search?${query}${this.sort}${strArr.join('&')}`;
+    console.log(url);
+    return this._http.get<any[]>(url);
+  }
+
 
   /**
    * clears data
