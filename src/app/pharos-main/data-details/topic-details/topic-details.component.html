@@ -1,16 +1,22 @@
-<!--
 <div fxLayout="row wrap" fxLayoutAlign="start stretch" class="topic-details-header">
   <ng-template appPharosCustomContent></ng-template>
 </div>
-
 <div fxLayout="row wrap" fxLayoutAlign="space-around start">
   <div fxFlex="95">
- <mat-tab-group (selectedTabChange)="changeTab($event)">
-   <mat-tab label="Targets ({{allTargets.length}})" class="full-tab">
-     <ng-template matTabContent>
+    <mat-tab-group (selectedTabChange)="changeTab($event)">
+      <mat-tab label="Targets ({{allTargets.length}})" class="full-tab">
+        <ng-template matTabContent>
+          <pharos-target-table [data] = targets [pageData]="targetPageData" (pageChange)="paginateTargets($event)" *ngIf="targets.length"></pharos-target-table>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+<!--
+
+
        <pharos-node-display [nodes] = displayTargets [path] = "'targets'" *ngIf="displayTargets"></pharos-node-display>
 &lt;!&ndash;
-       <pharos-target-table [data] = targets [pageData]="targetPageData" (pageChange)="paginateTargets($event)" *ngIf="targets.length"></pharos-target-table>
 &ndash;&gt;
      </ng-template>
    </mat-tab>

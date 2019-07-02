@@ -41,10 +41,12 @@ export class FacetRetrieverService {
     private profileService: PharosProfileService
   ) {
     this.pharosApiService.facetsData$.subscribe(res => {
-      res.forEach(facet => {
-        this.facetMap.set(facet.name, facet);
-      });
-      this._facets.next(this.facetMap);
+      if(res) {
+        res.forEach(facet => {
+          this.facetMap.set(facet.name, facet);
+        });
+        this._facets.next(this.facetMap);
+      }
     });
     this.profileService.profile$.subscribe(user => {
       if (user && user.data().savedTargets) {

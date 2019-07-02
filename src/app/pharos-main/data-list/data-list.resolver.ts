@@ -32,12 +32,10 @@ export class DataListResolver implements Resolve<any> {
   resolve(route: ActivatedRouteSnapshot): Observable<any[]> {
       this.loadingService.toggleVisible(true);
       this.pathResolverService.setPath(route.data.path);
-      // todo this will be using the path service (i think)
-/*      if (route.data.path === 'search' && !route.queryParamMap.get('q')) {
-        this.pathResolverService.navigate('targets');
-      } else {*/
+      if (route.data.path === 'topics') {
+          return of([]);
+      } else {
         return this.pharosApiService.getData(route.data.path, route.queryParamMap);
       }
-       //  return of([]);
-   // }
+    }
 }

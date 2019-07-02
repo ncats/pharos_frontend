@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ToiCardComponent } from './toi-card.component';
+import { ToiCardComponent } from './topic-card.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {AppRoutingModule} from '../../app-routing.module';
-import {SharedModule} from '../../shared/shared.module';
-import {SuggestApiService} from '../../tools/search-component/suggest-api.service';
+import {AppRoutingModule} from '../../../../app-routing.module';
+import {SharedModule} from '../../../../shared/shared.module';
+import {SuggestApiService} from '../../../../tools/search-component/suggest-api.service';
 import {APP_BASE_HREF} from '@angular/common';
-import {AboutPageComponent} from '../../about-page/about-page.component';
-import {DataTypesPanelComponent} from '../data-types-panel/data-types-panel.component';
-import {AboutPanelComponent} from '../about-panel/about-panel.component';
-import {ApiPageComponent} from '../../api-page/api-page.component';
-import {FaqPageComponent} from '../../faq-page/faq-page.component';
-import {NewsPanelComponent} from '../news-panel/news-panel.component';
-import {ApiViewerComponent} from '../../tools/api-viewer/api-viewer.component';
-import {Topic} from "../../models/topic";
+import {AboutPageComponent} from '../../../../about-page/about-page.component';
+import {DataTypesPanelComponent} from '../../../../pharos-home/data-types-panel/data-types-panel.component';
+import {AboutPanelComponent} from '../../../../pharos-home/about-panel/about-panel.component';
+import {ApiPageComponent} from '../../../../api-page/api-page.component';
+import {FaqPageComponent} from '../../../../faq-page/faq-page.component';
+import {NewsPanelComponent} from '../../../../pharos-home/news-panel/news-panel.component';
+import {ApiViewerComponent} from '../../../../tools/api-viewer/api-viewer.component';
+import {Topic} from "../../../../models/topic";
 
 describe('ToiCardComponent', () => {
   let component: ToiCardComponent;

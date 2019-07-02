@@ -54,6 +54,10 @@ export class Topic extends PharosBase {
    * list of cheater targets
    */
   targetList?: string[];
+
+  url?: string;
+
+  etag?: string;
 }
 
 /**

@@ -900,6 +900,24 @@ const MOLECULAR_DEFINITION_PANEL: PharosPanel = {
   ]
 };
 
+/**
+ * main list of topics component
+ * @type {PharosPanel}
+ */
+const TOPIC_TABLE_COMPONENT: PharosPanel = {
+  token: TOKENS.TOPIC_TABLE_COMPONENT,
+  api: [ ]
+};
+
+/**
+ * main topic details page component
+ * @type {PharosPanel}
+ */
+const TOPIC_DETAILS_COMPONENT: PharosPanel = {
+  token: TOKENS.TOPIC_DETAILS_COMPONENT,
+  api: []
+};
+
 
 /**
  *map of components to build section of pharos
@@ -1197,17 +1215,13 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
     ['topics', {
       list: {
         components: [
-          {
-            token: TOKENS.TOPIC_TABLE_COMPONENT
-          }
+           TOPIC_TABLE_COMPONENT
         ]
       },
 
       details: {
         components: [
-          {
-            token: TOKENS.TOPIC_DETAILS_COMPONENT
-          }
+          TOPIC_DETAILS_COMPONENT
         ]
       },
       panels: {

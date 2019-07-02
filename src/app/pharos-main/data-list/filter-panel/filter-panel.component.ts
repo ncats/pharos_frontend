@@ -87,7 +87,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     this.loading = true;
     const flist = this.pharosConfig.getFacets(this.pathResolverService.getPath());
     this.facetRetrieverService.getAllFacets().subscribe(facets => {
-      if(facets) {
+      if(facets && facets.size) {
         this.filteredFacets = [];
         this.allFacets = Array.from(facets.values());
        flist.forEach(f => {

@@ -8,9 +8,10 @@ import {RouterModule, Routes} from '@angular/router';
 import {DataListComponent} from './data-list.component';
 import {LigandTableModule} from './tables/ligand-table/ligand-table.module';
 import {SearchResultsResolver} from "./search-results.resolver";
+import {TopicTableModule} from "./tables/topic-table/topic-table.module";
 
 const pharosListRoutes: Routes = [
-{
+  {
    path: '',
   pathMatch: 'full',
   component: DataListComponent,
@@ -24,6 +25,7 @@ const pharosListRoutes: Routes = [
 
 @NgModule({
   declarations: [
+
   ],
   imports: [
     CommonModule,
@@ -32,6 +34,7 @@ const pharosListRoutes: Routes = [
     DiseaseTableModule,
     TargetTableModule,
     LigandTableModule,
+    TopicTableModule,
     RouterModule.forChild(pharosListRoutes)
   ],
   exports: [

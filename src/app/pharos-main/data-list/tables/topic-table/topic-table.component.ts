@@ -6,6 +6,9 @@ import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-pan
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {PageData} from '../../../../models/page-data';
 import {HttpClient} from '@angular/common/http';
+import {Message} from "../../../../pharos-home/news-panel/news-panel.component";
+import {AngularFirestore} from "@angular/fire/firestore";
+import {Topic} from "../../../../models/topic";
 
 
 @Component({
@@ -13,85 +16,40 @@ import {HttpClient} from '@angular/common/http';
   templateUrl: './topic-table.component.html',
   styleUrls: ['./topic-table.component.css']
 })
-export class TopicTableComponent extends DynamicPanelComponent implements OnInit, AfterViewInit, OnDestroy  {
-  // @Input() data: Topic[];
-  topicsDataSource: MatTableDataSource<any[]> = new MatTableDataSource<any[]>();
+export class TopicTableComponent implements OnInit {
   /**
-   * event emitter of sort event on table
-   * @type {EventEmitter<string>}
+   * list of messages from firebase
    */
-  @Output() readonly sortChange: EventEmitter<string> = new EventEmitter<string>();
-
-  /**
-   * event emitter for page change on table
-   * @type {EventEmitter<string>}
-   */
-  @Output() readonly pageChange: EventEmitter<string> = new EventEmitter<string>();
-
-  /**
-   * page data object set by parent component
-   */
-  @Input() pageData: PageData;
-
-
-  /**
-   *  Paginator object from Angular Material
-   */
-  @ViewChild(MatPaginator, {static: true}) ligandPaginator: MatPaginator;
+  topics: Message[];
 
 
   /**
    * set up dependencies
    * @param {ChangeDetectorRef} changeDetector
+   * @param db
    * @param {HttpClient} _http
    */
   constructor(
     private changeDetector: ChangeDetectorRef,
+    private db: AngularFirestore,
     private _http: HttpClient) {
-    super();
   }
 
   /**
    * subscribe to data changes
    */
   ngOnInit() {
-    this._data.subscribe(d => {
+    console.log(this);
+    this.db.collection<Message>('topics').valueChanges()
+      .subscribe(topics => {
+        console.log(topics);
+        this.topics = topics.sort((a, b) => b.index - a.index);
+      });
+  /*  this._data.subscribe(d => {
       if (this.data) {
         this.topicsDataSource.data = this.data;
       }
-    });
+    });*/
   }
-
-  /**
-   * ititialize paginator
-   */
-  ngAfterViewInit() {
-    this.topicsDataSource.paginator = this.ligandPaginator;
-    this.changeDetector.detectChanges();
-  }
-  /**
-   * send table sort event to emitter, external component handles sorting
-   * @param $event
-   */
-  changeSort($event): void {
-    this.sortChange.emit($event);
-  }
-
-  /**
-   * send table page event to emitter, external component handles paging
-   * @param $event
-   */
-  changePage($event): void {
-    this.pageChange.emit($event);
-  }
-
-  /**
-   * cleanup on destroy
-   */
-  ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
-
 }
 

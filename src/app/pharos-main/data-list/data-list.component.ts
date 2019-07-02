@@ -155,10 +155,13 @@ export class DataListComponent implements OnInit, OnDestroy {
    */
   makeComponents() {
     const components: any = this.pharosConfig.getComponents(this.path, 'list');
+    console.log(components);
     components.forEach(component => {
       // make component
       const instance: ComponentRef<any> = this.loadedComponents.get(component.token);
       if(!instance) {
+        console.log(component);
+        console.log(component.token);
         const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
         const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
 

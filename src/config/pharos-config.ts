@@ -30,6 +30,7 @@ const PHAROSCONFIG: any = {
   structureImageUrl: _HOST + _API + 'struc/',
   homunculusUrl: _HOST + _API + 'expression/homunculus?acc=_id_&source=',
   molConvertUrl: _HOST + _API + 'smiles',
+  topicResolveUrl: `${_HOST}${_API}topics/target`,
   autocompleteFields: ['UniProt_Gene', 'Target', 'Disease', 'OMIM_Term', 'UniProt_Name'],
   components: COMPONENTSCONFIG
 };
@@ -96,6 +97,10 @@ export class PharosConfig {
    */
    getMolConvertUrl(): string {
     return PHAROSCONFIG.molConvertUrl;
+  }
+
+  getTopicResolveUrl(): string {
+     return PHAROSCONFIG.topicResolveUrl;
   }
 
 

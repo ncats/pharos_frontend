@@ -4,7 +4,7 @@
 <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start"
      class="body-row topic-table">
   <div fxFlex="45">
-    <div class=mat-display-1>Topics <span *ngIf="topicsDataSource.data">({{topicsDataSource.data.length}})</span></div>
+    <div class=mat-display-1>Topics <span *ngIf="topics">({{topics.length}})</span></div>
   </div>
   <div fxFlex="45" fxFlexAlign="end">
 
@@ -14,8 +14,8 @@
      class="body-row topic-table">
   <div fxFlex="95">
     <div class="topic-grid">
-      <div *ngFor="let toi of topicsDataSource.connect() | async" class="topic-card">
-        <pharos-toi-card [toi]=toi [desc]="true"></pharos-toi-card>
+      <div *ngFor="let topic of topics" class="topic-card">
+        <pharos-topic-card [topic]=topic [desc]="true"></pharos-topic-card>
       </div>
     </div>
   </div>
