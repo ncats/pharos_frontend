@@ -5,7 +5,6 @@ import {PathResolverService} from '../../pharos-services/path-resolver.service';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {SuggestApiService} from '../../tools/search-component/suggest-api.service';
 import {RouterTestingModule} from '@angular/router/testing';
-import {LoadingService} from '../../pharos-services/loading.service';
 import {PharosMainRoutingModule} from '../pharos-main-routing.module';
 import {FacetRetrieverService} from './filter-panel/facet-retriever.service';
 import {APP_BASE_HREF} from '@angular/common';
@@ -30,7 +29,6 @@ describe('DataListComponent', () => {
       providers: [
         PathResolverService,
         PharosApiService,
-        LoadingService,
         FacetRetrieverService,
         SuggestApiService,
         {provide: APP_BASE_HREF, useValue: '/targets' }

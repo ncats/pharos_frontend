@@ -33,7 +33,7 @@ const navigationExtras: NavigationExtras = {
 @Component({
   selector: 'pharos-data-list',
   templateUrl: './data-list.component.html',
-  styleUrls: ['./data-list.component.css'],
+  styleUrls: ['./data-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -52,7 +52,7 @@ export class DataListComponent implements OnInit, OnDestroy {
    * show loading spinner
    * @type {boolean}
    */
-  loading = false;
+  loading = true;
 
   /**
    * holder for injected elements
@@ -110,11 +110,18 @@ export class DataListComponent implements OnInit, OnDestroy {
    * subscribe to data changes and load and inject required components
    */
   ngOnInit() {
+    console.log(this);
+    console.log('making components1');
     this.path = this._route.snapshot.data.path;
-    this.data = this._route.snapshot.data.data.content;
-    this.search = this._route.snapshot.data.search;
-    this.etag = this._route.snapshot.data.data.etag;
-    this.sideway = this._route.snapshot.data.data.sideway;
+
+    if(this._route.snapshot.data.search) {
+      this.search = this._route.snapshot.data.search;
+    }
+    if(this._route.snapshot.data.data) {
+          this.data = this._route.snapshot.data.data.content;
+          this.etag = this._route.snapshot.data.data.etag;
+          this.sideway = this._route.snapshot.data.data.sideway;
+        }
 
     if (!this.componentsLoaded) {
       this.makeComponents();
@@ -122,7 +129,13 @@ export class DataListComponent implements OnInit, OnDestroy {
 
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
 
-    this.helpPanelOpenerService.toggle$.subscribe(res => this.helpPanel.toggle());
+    this.helpPanelOpenerService.toggle$.subscribe(res => {
+    console.log(res);
+    if(res) {
+      console.log(res);
+      this.helpPanel.toggle();
+    }
+  });
 
     this.loadingService.loading$
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -139,6 +152,7 @@ export class DataListComponent implements OnInit, OnDestroy {
           this.etag = this._route.snapshot.data.data.etag;
           this.sideway = this._route.snapshot.data.data.sideway;
           this.makeComponents();
+          this.ref.detectChanges();
         }
       });
   }
@@ -154,6 +168,7 @@ export class DataListComponent implements OnInit, OnDestroy {
    * one each data change the process is repeated, including the api calls
    */
   makeComponents() {
+    console.log('making components');
     const components: any = this.pharosConfig.getComponents(this.path, 'list');
     console.log(components);
     components.forEach(component => {
@@ -209,6 +224,7 @@ export class DataListComponent implements OnInit, OnDestroy {
     this.loading = false;
     this.loadingService.toggleVisible(false);
     this.componentsLoaded = true;
+    this.ref.detectChanges();
   }
 
 

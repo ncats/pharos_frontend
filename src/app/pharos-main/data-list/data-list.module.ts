@@ -13,11 +13,9 @@ import {TopicTableModule} from "./tables/topic-table/topic-table.module";
 const pharosListRoutes: Routes = [
   {
    path: '',
-  pathMatch: 'full',
   component: DataListComponent,
     resolve: {
-      data: DataListResolver,
-      search: SearchResultsResolver
+      data: DataListResolver
 },
    runGuardsAndResolvers: 'paramsOrQueryParamsChange'
 }
@@ -29,13 +27,13 @@ const pharosListRoutes: Routes = [
   ],
   imports: [
     CommonModule,
-    SharedListModule,
+    RouterModule.forChild(pharosListRoutes),
     // todo: these modules don't seem to be loading - no provider errors are thrown
+    SharedListModule,
     DiseaseTableModule,
     TargetTableModule,
     LigandTableModule,
-    TopicTableModule,
-    RouterModule.forChild(pharosListRoutes)
+    TopicTableModule
   ],
   exports: [
 

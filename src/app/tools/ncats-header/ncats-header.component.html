@@ -23,9 +23,9 @@
     <pharos-search-component class="mobile-search"></pharos-search-component>
   </mat-sidenav>
 
-<mat-toolbar class="ncats-toolbar" ngClass = {{headerClass}} [@slideInOut]="animationState">
-  <img *ngIf="animationState === 'out'" src="./assets/images/Pharos_Logo_Rd8-white.svg" routerLink="/index" alt="Pharos logo" class="pharos-logo">
-  <img *ngIf="animationState === 'in'" src="./assets/images/Pharos_Logo_Rd8.svg" routerLink="/index" alt="Pharos logo" class="pharos-logo">
+<mat-toolbar class="ncats-toolbar" [@slideInOut]="animationState">
+  <img *ngIf="animationState === 'out'" src = "./assets/images/Pharos_Logo_Rd8-white.svg" routerLink="/index" alt="Pharos logo" class="pharos-logo">
+  <img src = "./assets/images/Pharos_Logo_Rd8.svg" routerLink="/index" alt="Pharos logo" class="pharos-logo">
   <div id="links" fxHide.lt-md>
     <a mat-button routerLink="/targets" [ngClass]="{active: isActive('targets')}">Targets</a>
     <a mat-button routerLink="/diseases" [ngClass]="{active: isActive('diseases')}">Diseases</a>

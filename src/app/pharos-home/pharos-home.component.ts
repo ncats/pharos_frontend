@@ -1,6 +1,7 @@
-import {Component, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, ContentChild, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {Topic} from '../models/topic';
 import {PharosApiService} from '../pharos-services/pharos-api.service';
+import {NcatsHeaderComponent} from "../tools/ncats-header/ncats-header.component";
 
 @Component({
   selector: 'pharos-home',
@@ -13,6 +14,8 @@ import {PharosApiService} from '../pharos-services/pharos-api.service';
  *
  */
 export class PharosHomeComponent implements OnInit {
+
+  @ContentChild('appHeader', {static: true}) header: NcatsHeaderComponent;
 
   /**
    * elements of the page scroll to
@@ -34,9 +37,13 @@ export class PharosHomeComponent implements OnInit {
    * grab topics dummy data
    */
   ngOnInit() {
+    console.log(this);
     this.topics = this.pharosApiService.TOPICS.slice(1, 5);
   }
 
+  ngAfterViewInit() {
+    console.log(this);
+  }
   /**
    * scroll to details section of the home page
    */

@@ -7,7 +7,6 @@ import {CommonToolsModule} from '../tools/common-tools.module';
 import {PharosMainComponent} from './pharos-main.component';
 import {DataDetailsResolver} from './data-details/data-details.resolver';
 
-import {LoadingService} from '../pharos-services/loading.service';
 
 import {SharedModule} from '../shared/shared.module';
 import {SharedDetailsModule} from '../shared/shared-details.module';
@@ -25,7 +24,6 @@ import {TopicDetailsModule} from "./data-details/topic-details/topic-details.mod
 const pharosMainRoutes: Routes = [
   {
     path: '',
-    component: PharosMainComponent,
     loadChildren: () => import('./data-list/data-list.module').then(m => m.DataListModule)
   },
   {
@@ -57,15 +55,9 @@ const pharosMainRoutes: Routes = [
     RouterModule
   ],
   providers: [
-    LoadingService
   ],
-  entryComponents: [
-    PharosMainComponent
-
-
-  ],
+  entryComponents: [],
   declarations: [
-    PharosMainComponent
   ]
 })
 export class PharosMainRoutingModule {

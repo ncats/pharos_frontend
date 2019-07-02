@@ -6,6 +6,7 @@ import {ApiPageComponent} from './api-page/api-page.component';
 import {StructureSearchPageComponent} from './structure-search-page/structure-search-page.component';
 import {SequenceSearchPageComponent} from './sequence-search-page/sequence-search-page.component';
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
+import {PharosMainComponent} from "./pharos-main/pharos-main.component";
 
 
 
@@ -13,6 +14,7 @@ const ROUTES: Routes = [
   {
     path: 'index',
     loadChildren: () => import('./pharos-home/pharos-home.module').then(m => m.PharosHomeModule),
+    data: { path: 'home' }
   },
   {
     path: 'about',
@@ -44,20 +46,20 @@ const ROUTES: Routes = [
   },
   {
     path: 'targets',
-    loadChildren: () => import('./pharos-main/pharos-main.module').then(m => m.PharosMainModule),
+    loadChildren: () => import('./pharos-main/modules/targets/targets.module').then(m => m.TargetsModule),
     data: { path: 'targets' }
   }, {
     path: 'diseases',
-    loadChildren: () => import('./pharos-main/pharos-main.module').then(m => m.PharosMainModule),
+    loadChildren: () => import('./pharos-main/modules/diseases/diseases.module').then(m => m.DiseasesModule),
     data: { path: 'diseases' }
   }, {
     path: 'ligands',
-    loadChildren: () => import('./pharos-main/pharos-main.module').then(m => m.PharosMainModule),
+    loadChildren: () => import('./pharos-main/modules/ligands/ligands.module').then(m => m.LigandsModule),
     data: { path: 'ligands' }
   },
   {
     path: 'topics',
-    loadChildren: () => import('./pharos-main/pharos-main.module').then(m => m.PharosMainModule),
+    loadChildren: () => import('./pharos-main/modules/topics/topics.module').then(m => m.TopicsModule),
     data: { path: 'topics' }
   },
   {
@@ -81,11 +83,12 @@ const ROUTES: Routes = [
       anchorScrolling: 'enabled',
       //onSameUrlNavigation: 'reload',
       scrollOffset: [0, 120],
-      preloadingStrategy: PreloadAllModules
+      // preloadingStrategy: PreloadAllModules
       })
   ],
   providers: [],
   entryComponents: [],
+  declarations: [],
   exports: [ RouterModule ]
 })
 export class AppRoutingModule { }

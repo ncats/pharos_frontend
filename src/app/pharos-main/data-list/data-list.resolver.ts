@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
+import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
 import { Observable , of} from 'rxjs';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
@@ -30,12 +30,10 @@ export class DataListResolver implements Resolve<any> {
    * @returns {Observable<any[]>}
    */
   resolve(route: ActivatedRouteSnapshot): Observable<any[]> {
+    console.log("resolving");
+    console.log(route);
       this.loadingService.toggleVisible(true);
       this.pathResolverService.setPath(route.data.path);
-      if (route.data.path === 'topics') {
-          return of([]);
-      } else {
-        return this.pharosApiService.getData(route.data.path, route.queryParamMap);
-      }
-    }
+      return this.pharosApiService.getData(route.data.path, route.queryParamMap);
+  }
 }

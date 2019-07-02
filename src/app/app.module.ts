@@ -1,6 +1,5 @@
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
-import {LoadingService} from './pharos-services/loading.service';
 import {AppRoutingModule} from './app-routing.module';
 import {PharosApiService} from './pharos-services/pharos-api.service';
 import {PathResolverService} from './pharos-services/path-resolver.service';
@@ -22,6 +21,8 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import {CommonToolsModule} from './tools/common-tools.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import {AuthModule} from "./auth/auth.module";
+import {MaterialModule} from "../assets/material/material.module";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -33,23 +34,21 @@ import {AuthModule} from "./auth/auth.module";
     SequenceSearchPageComponent,
     PageNotFoundComponent
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     SharedModule.forRoot(),
     BrowserAnimationsModule,
+    RouterModule,
     AngularFireModule.initializeApp(environment.firebase), // imports firebase/app needed for everything
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AppRoutingModule,
     CommonToolsModule,
+    MaterialModule,
     AuthModule
-    // todo: might be used later
-    // AngularFireStorageModule // imports firebase/storage only needed for storage features
   ],
   providers: [
     PharosApiService,
     PathResolverService,
-    LoadingService,
     FacetRetrieverService,
     SuggestApiService,
     MolConverterService,

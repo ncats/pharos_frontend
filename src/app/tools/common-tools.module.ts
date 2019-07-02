@@ -18,11 +18,9 @@ import {SharedModule} from '../shared/shared.module';
 import {RouterModule} from '@angular/router';
 import {NgxJsonViewerModule} from 'ngx-json-viewer';
 import {RadarChartModule} from './visualizations/radar-chart/radar-chart.module';
-import {SearchComponent} from './search-component/search.component';
-import {HighlightPipe} from './search-component/highlight.pipe';
-import {NcatsHeaderComponent} from './ncats-header/ncats-header.component';
 import { StructureViewComponent } from './structure-view/structure-view.component';
 import {PharosPaginatorModule} from "./pharos-paginator/pharos-paginator.module";
+import {NcatsHeaderModule} from "./ncats-header/ncats-header.module";
 
 @NgModule({
   declarations: [
@@ -38,9 +36,6 @@ import {PharosPaginatorModule} from "./pharos-paginator/pharos-paginator.module"
     LinkListComponent,
     SketcherComponent,
     ProteinStructureViewerComponent,
-    HighlightPipe,
-    SearchComponent,
-    NcatsHeaderComponent,
     StructureViewComponent
   ],
   imports: [
@@ -51,13 +46,15 @@ import {PharosPaginatorModule} from "./pharos-paginator/pharos-paginator.module"
     NgxJsonViewerModule,
     GenericTableModule,
     RadarChartModule,
-    PharosPaginatorModule
+    PharosPaginatorModule,
+    NcatsHeaderModule
   ],
   entryComponents: [
     BreadcrumbComponent,
     BatchUploadModalComponent
   ],
   exports: [
+    NcatsHeaderModule,
     AnatamogramModule,
     RadarChartModule,
     GenericTableModule,
@@ -74,9 +71,6 @@ import {PharosPaginatorModule} from "./pharos-paginator/pharos-paginator.module"
     SketcherComponent,
     PharosPaginatorModule,
     ProteinStructureViewerComponent,
-    HighlightPipe,
-    SearchComponent,
-    NcatsHeaderComponent
   ]
 })
 export class CommonToolsModule { }

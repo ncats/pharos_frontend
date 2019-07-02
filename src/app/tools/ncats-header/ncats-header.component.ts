@@ -25,11 +25,6 @@ export class NcatsHeaderComponent implements OnInit {
    */
   @Input() searchBar?: boolean;
 
-  /**
-   * toggleable class for the header
-   */
-  @Input() headerClass?: string;
-
   user;
   profile;
 
@@ -37,7 +32,7 @@ export class NcatsHeaderComponent implements OnInit {
    * animation state changed by scrolling
    * @type {string}
    */
-  @Input() animationState ? = 'in';
+  @Input() animationState = 'in';
 
   constructor(
     public dialog: MatDialog,
@@ -46,9 +41,12 @@ export class NcatsHeaderComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    console.log(this);
     this.profileService.profile$.subscribe(profile => {
       this.profile = profile && profile.data() ? profile.data() : profile;
     });
+
+
   }
 
 
