@@ -6,6 +6,7 @@ import {MatDialog, MatSidenav} from "@angular/material";
 import {PharosAuthService} from "../../auth/pharos-auth.service";
 import * as firebase from 'firebase/app';
 import {PharosProfileService} from "../../auth/pharos-profile.service";
+import {HeaderOptionsService} from "../../pharos-services/header-options.service";
 
 
 /**
@@ -32,18 +33,22 @@ export class NcatsHeaderComponent implements OnInit {
    * animation state changed by scrolling
    * @type {string}
    */
-  @Input() animationState = 'in';
+  @Input() animationState = 'out';
 
   constructor(
     public dialog: MatDialog,
     private route: ActivatedRoute,
+    private headerOptionsService: HeaderOptionsService,
     private profileService: PharosProfileService
     ) { }
 
   ngOnInit() {
-    console.log(this);
     this.profileService.profile$.subscribe(profile => {
       this.profile = profile && profile.data() ? profile.data() : profile;
+    });
+
+    this.headerOptionsService.headerOptions$.subscribe(res => {
+      Object.entries(res).forEach((prop) => this[prop[0]] = prop[1]);
     });
 
 

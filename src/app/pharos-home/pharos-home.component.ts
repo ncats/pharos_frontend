@@ -1,7 +1,12 @@
-import {Component, ContentChild, ElementRef, HostListener, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {
+  Component, ContentChild, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import {Topic} from '../models/topic';
 import {PharosApiService} from '../pharos-services/pharos-api.service';
 import {NcatsHeaderComponent} from "../tools/ncats-header/ncats-header.component";
+import {HeaderOptionsService} from "../pharos-services/header-options.service";
+import {DOCUMENT} from "@angular/common";
 
 @Component({
   selector: 'pharos-home',
@@ -13,9 +18,7 @@ import {NcatsHeaderComponent} from "../tools/ncats-header/ncats-header.component
 /**
  *
  */
-export class PharosHomeComponent implements OnInit {
-
-  @ContentChild('appHeader', {static: true}) header: NcatsHeaderComponent;
+export class PharosHomeComponent implements OnInit, OnDestroy {
 
   /**
    * elements of the page scroll to
@@ -27,10 +30,12 @@ export class PharosHomeComponent implements OnInit {
    */
   @ViewChild('details', {read: ElementRef, static: true}) elemRef: ElementRef;
   topics: any;
-  position: string;
-  animationState = 'out';
 
-  constructor(private pharosApiService: PharosApiService) {
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
+    private headerOptionsService: HeaderOptionsService,
+    private pharosApiService: PharosApiService) {
+    this.headerOptionsService.setOptions({searchBar: false, animationState: 'out'});
   }
 
   /**
@@ -65,12 +70,15 @@ export class PharosHomeComponent implements OnInit {
    */
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
-    // todo: work around window api for angular universal
-    if (window.pageYOffset > 64 || document.documentElement.scrollTop > 64 || document.body.scrollTop > 64) {
-      this.animationState = 'in';
-    } else if (this.position && window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop < 64) {
-      this.animationState = 'out';
+    if (window.pageYOffset > 64 || this.document.documentElement.scrollTop > 64 || this.document.body.scrollTop > 64) {
+      this.headerOptionsService.setOptions({animationState: 'in'});
+    } else if (window.pageYOffset || this.document.documentElement.scrollTop || this.document.body.scrollTop < 64) {
+      this.headerOptionsService.setOptions({animationState: 'out'});
     }
+  }
+
+  ngOnDestroy() {
+    this.headerOptionsService.setOptions({searchBar: true, animationState: 'in'});
   }
 
 }
