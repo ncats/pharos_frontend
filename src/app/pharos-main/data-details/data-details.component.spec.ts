@@ -4,7 +4,6 @@ import {LoadingService} from '../../pharos-services/loading.service';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {SuggestApiService} from '../../tools/search-component/suggest-api.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {PharosMainRoutingModule} from '../pharos-main-routing.module';
 import {FacetRetrieverService} from '../data-list/filter-panel/facet-retriever.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
@@ -20,8 +19,7 @@ describe('DataDetailsComponent', () => {
       imports: [
         SharedListModule,
         RouterTestingModule,
-        BrowserAnimationsModule,
-        PharosMainRoutingModule
+        BrowserAnimationsModule
       ],
       declarations: [
       ],

@@ -23,6 +23,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import {AuthModule} from "./auth/auth.module";
 import {MaterialModule} from "../assets/material/material.module";
 import {RouterModule} from "@angular/router";
+import {DataListResolver} from "./pharos-main/data-list/data-list.resolver";
+import {SearchResultsResolver} from "./pharos-main/data-list/search-results.resolver";
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import {RouterModule} from "@angular/router";
     AuthModule
   ],
   providers: [
+    DataListResolver,
+    SearchResultsResolver,
     PharosApiService,
     PathResolverService,
     FacetRetrieverService,

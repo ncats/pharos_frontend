@@ -7,12 +7,14 @@ import {LigandDetailsModule} from "../../data-details/ligand-details/ligand-deta
 import {NgModule} from "@angular/core";
 import {DataDetailsResolver} from "../../data-details/data-details.resolver";
 import {DataDetailsComponent} from "../../data-details/data-details.component";
+import {DataListResolver} from "../../data-list/data-list.resolver";
+import {DataListComponent} from "../../data-list/data-list.component";
 
 
 const pharosLigandsRoutes: Routes = [
   {
     path: '',
-    loadChildren: () => import('../../../pharos-main/data-list/data-list.module').then(m => m.DataListModule)
+    loadChildren: () => import('../../../pharos-main/data-list/tables/ligand-table/ligand-table.module').then(m => m.LigandTableModule)
   },
   {
     path: ':id',

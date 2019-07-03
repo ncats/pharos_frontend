@@ -7,7 +7,6 @@ import {SuggestApiService} from '../../../tools/search-component/suggest-api.ser
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LoadingService} from '../../../pharos-services/loading.service';
 import {SharedModule} from '../../../shared/shared.module';
-import {PharosMainRoutingModule} from '../../pharos-main-routing.module';
 import {FacetRetrieverService} from './facet-retriever.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -21,8 +20,7 @@ describe('FilterPanelComponent', () => {
       imports: [
         SharedModule,
         RouterTestingModule,
-        BrowserAnimationsModule,
-        PharosMainRoutingModule
+        BrowserAnimationsModule
       ],
       declarations: [
       ],

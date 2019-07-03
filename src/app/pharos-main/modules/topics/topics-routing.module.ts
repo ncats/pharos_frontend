@@ -8,12 +8,14 @@ import {SharedListModule} from "../../../shared/shared-list.module";
 import {SharedDetailsModule} from "../../../shared/shared-details.module";
 import {TopicDetailsModule} from "../../data-details/topic-details/topic-details.module";
 import {TopicTableModule} from "../../data-list/tables/topic-table/topic-table.module";
+import {DataListResolver} from "../../data-list/data-list.resolver";
+import {DataListComponent} from "../../data-list/data-list.component";
 
 
 const pharosTopicsRoutes: Routes = [
   {
     path: '',
-    loadChildren: () => import('../../../pharos-main/data-list/data-list.module').then(m => m.DataListModule)
+    loadChildren: () => import('../../../pharos-main/data-list/tables/topic-table/topic-table.module').then(m => m.TopicTableModule)
   },
   {
     path: ':id',

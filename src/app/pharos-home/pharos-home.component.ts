@@ -1,10 +1,14 @@
 import {
-  Component, ContentChild, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild,
+  Component,
+  ElementRef,
+  HostListener,
+  Inject,
+  OnDestroy,
+  OnInit,
+  ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import {Topic} from '../models/topic';
 import {PharosApiService} from '../pharos-services/pharos-api.service';
-import {NcatsHeaderComponent} from "../tools/ncats-header/ncats-header.component";
 import {HeaderOptionsService} from "../pharos-services/header-options.service";
 import {DOCUMENT} from "@angular/common";
 
@@ -42,13 +46,9 @@ export class PharosHomeComponent implements OnInit, OnDestroy {
    * grab topics dummy data
    */
   ngOnInit() {
-    console.log(this);
     this.topics = this.pharosApiService.TOPICS.slice(1, 5);
   }
 
-  ngAfterViewInit() {
-    console.log(this);
-  }
   /**
    * scroll to details section of the home page
    */

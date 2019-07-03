@@ -1,13 +1,10 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 import {AboutPageComponent} from './about-page/about-page.component';
 import {FaqPageComponent} from './faq-page/faq-page.component';
 import {ApiPageComponent} from './api-page/api-page.component';
 import {StructureSearchPageComponent} from './structure-search-page/structure-search-page.component';
 import {SequenceSearchPageComponent} from './sequence-search-page/sequence-search-page.component';
-import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
-import {PharosMainComponent} from "./pharos-main/pharos-main.component";
-
 
 
 const ROUTES: Routes = [
@@ -45,6 +42,14 @@ const ROUTES: Routes = [
     component: ApiPageComponent
   },
   {
+    path: 'search',
+    loadChildren: () => import('./pharos-main/modules/search/search.module').then(m => {
+      console.log(m);
+      return m.SearchModule
+    }),
+    data: { path: 'search' }
+  },
+  {
     path: 'targets',
     loadChildren: () => import('./pharos-main/modules/targets/targets.module').then(m => m.TargetsModule),
     data: { path: 'targets' }
@@ -62,11 +67,6 @@ const ROUTES: Routes = [
     loadChildren: () => import('./pharos-main/modules/topics/topics.module').then(m => m.TopicsModule),
     data: { path: 'topics' }
   },
-  {
-    path: 'search',
-    loadChildren: () => import('./pharos-main/pharos-main.module').then(m => m.PharosMainModule),
-    data: { path: 'search' }
-  },
   { path: '',
     redirectTo: '/index',
     pathMatch: 'full'
@@ -83,7 +83,7 @@ const ROUTES: Routes = [
       anchorScrolling: 'enabled',
       //onSameUrlNavigation: 'reload',
       scrollOffset: [0, 120],
-      // preloadingStrategy: PreloadAllModules
+       preloadingStrategy: PreloadAllModules
       })
   ],
   providers: [],

@@ -1,8 +1,6 @@
 import {RouterModule, Routes} from "@angular/router";
-import {PharosMainComponent} from "../../pharos-main.component";
 import {DataDetailsComponent} from "../../data-details/data-details.component";
 import {DataDetailsResolver} from "../../data-details/data-details.resolver";
-import {TargetDetailsModule} from "../../data-details/target-details/target-details.module";
 import {SharedModule} from "../../../shared/shared.module";
 import {CommonToolsModule} from "../../../tools/common-tools.module";
 import {SharedListModule} from "../../../shared/shared-list.module";
@@ -16,7 +14,7 @@ import {NcatsHeaderModule} from "../../../tools/ncats-header/ncats-header.module
 const pharosDiseaseRoutes: Routes = [
   {
     path: '',
-    loadChildren: () => import('../../../pharos-main/data-list/data-list.module').then(m => m.DataListModule)
+    loadChildren: () => import('../../../pharos-main/data-list/tables/disease-table/disease-table.module').then(m => m.DiseaseTableModule)
   },
   {
     path: ':id',

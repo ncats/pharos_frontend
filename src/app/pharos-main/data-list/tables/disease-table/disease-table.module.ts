@@ -1,10 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {TOKENS} from '../../../../../config/component-tokens';
 import {SharedModule} from '../../../../shared/shared.module';
 import {CommonToolsModule} from '../../../../tools/common-tools.module';
 import {DiseaseTableComponent} from './disease-table.component';
+import {DataListResolver} from "../../data-list.resolver";
+import {DataListComponent} from "../../data-list.component";
+import {SharedListModule} from "../../../../shared/shared-list.module";
+
+const pharosListRoutes: Routes = [
+  {
+    path: '',
+    component: DataListComponent,
+    resolve: {
+      data: DataListResolver
+    },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange'
+  }
+];
 
 @NgModule({
   declarations: [
@@ -12,9 +26,10 @@ import {DiseaseTableComponent} from './disease-table.component';
   ],
   imports: [
     CommonModule,
-    RouterModule,
+    RouterModule.forChild(pharosListRoutes),
     SharedModule,
-    CommonToolsModule
+    CommonToolsModule,
+    SharedListModule
   ],
   providers: [
     {provide: TOKENS.DISEASE_TABLE_COMPONENT, useValue: DiseaseTableComponent}

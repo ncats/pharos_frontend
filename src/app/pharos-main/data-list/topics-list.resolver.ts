@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
-import {Observable, of} from 'rxjs';
+import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
+import { Observable , of} from 'rxjs';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
@@ -9,7 +9,7 @@ import {PathResolverService} from '../../pharos-services/path-resolver.service';
  * resolver to retrieve list of data happens on every main level (/targets, /diseases, /ligands, etc) change
  */
 @Injectable()
-export class SearchResultsResolver implements Resolve<any> {
+export class DataListResolver implements Resolve<any> {
 
   /**
    * create services
@@ -17,11 +17,9 @@ export class SearchResultsResolver implements Resolve<any> {
    * @param {LoadingService} loadingService
    * @param {PharosApiService} pharosApiService
    */
-  constructor(private pathResolverService: PathResolverService,
-              private loadingService: LoadingService,
-              private pharosApiService: PharosApiService) {
-    console.log("search constructor");
-  }
+    constructor(private pathResolverService: PathResolverService,
+                private loadingService: LoadingService,
+                private pharosApiService: PharosApiService) {  }
 
   /**
    * toggle loading modal
@@ -32,9 +30,10 @@ export class SearchResultsResolver implements Resolve<any> {
    * @returns {Observable<any[]>}
    */
   resolve(route: ActivatedRouteSnapshot): Observable<any[]> {
-    console.log("search resolver");
-    this.loadingService.toggleVisible(true);
-    this.pathResolverService.setPath(route.data.path);
-      return this.pharosApiService.search(route.queryParamMap);
+    console.log("resolving");
+    console.log(route);
+      this.loadingService.toggleVisible(true);
+      this.pathResolverService.setPath(route.data.path);
+      return this.pharosApiService.getData(route.data.path, route.queryParamMap);
   }
 }

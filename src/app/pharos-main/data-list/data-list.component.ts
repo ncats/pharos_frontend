@@ -130,9 +130,7 @@ export class DataListComponent implements OnInit, OnDestroy {
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
 
     this.helpPanelOpenerService.toggle$.subscribe(res => {
-    console.log(res);
     if(res) {
-      console.log(res);
       this.helpPanel.toggle();
     }
   });
@@ -181,6 +179,7 @@ export class DataListComponent implements OnInit, OnDestroy {
         const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
 
         if (this.search && this.search.length) {
+         console.log(this);
           const data: any = this.search.filter(data => data.kind === dynamicComponent.instance.path)[0];
           dynamicComponent.instance.pageData = new PageData(data.data);
           dynamicComponent.instance.data = data.data.content;
