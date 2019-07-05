@@ -35,10 +35,10 @@ const pharosListRoutes: Routes = [
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(pharosListRoutes),
     SharedModule,
     CommonToolsModule,
-    SharedListModule
+    SharedListModule,
+    RouterModule.forChild(pharosListRoutes)
   ],
   providers: [
     {provide: TOKENS.TARGET_TABLE_COMPONENT, useValue: TargetTableComponent},

@@ -27,9 +27,9 @@ const pharosListRoutes: Routes = [
   ],
   imports: [
     CommonModule,
-    RouterModule,
     SharedModule,
-    CommonToolsModule
+    CommonToolsModule,
+    RouterModule.forChild(pharosListRoutes)
   ],
   providers: [
     {provide: TOKENS.LIGAND_TABLE_COMPONENT, useValue: LigandTableComponent},

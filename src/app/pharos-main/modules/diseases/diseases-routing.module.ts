@@ -9,11 +9,13 @@ import {SharedDetailsModule} from "../../../shared/shared-details.module";
 import {DiseaseDetailsModule} from "../../data-details/disease-details/disease-details.module";
 import {NgModule} from "@angular/core";
 import {NcatsHeaderModule} from "../../../tools/ncats-header/ncats-header.module";
+import {PharosMainComponent} from "../../pharos-main.component";
 
 
 const pharosDiseaseRoutes: Routes = [
   {
     path: '',
+    component: PharosMainComponent,
     loadChildren: () => import('../../../pharos-main/data-list/tables/disease-table/disease-table.module').then(m => m.DiseaseTableModule)
   },
   {

@@ -8,8 +8,10 @@ import {PathResolverService} from '../../pharos-services/path-resolver.service';
 /**
  * resolver to retrieve list of data happens on every main level (/targets, /diseases, /ligands, etc) change
  */
-@Injectable()
-export class DataListResolver implements Resolve<any> {
+@Injectable({
+  providedIn: 'root'
+})
+export class TopicsListResolver implements Resolve<any> {
 
   /**
    * create services
@@ -30,7 +32,7 @@ export class DataListResolver implements Resolve<any> {
    * @returns {Observable<any[]>}
    */
   resolve(route: ActivatedRouteSnapshot): Observable<any[]> {
-    console.log("resolving");
+    console.log("topics resolving");
     console.log(route);
       this.loadingService.toggleVisible(true);
       this.pathResolverService.setPath(route.data.path);

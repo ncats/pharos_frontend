@@ -1,5 +1,11 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, OnDestroy, OnInit, Type,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ComponentRef,
+  OnDestroy,
+  OnInit,
+  Type,
   ViewChild
 } from '@angular/core';
 import {ActivatedRoute, NavigationEnd, NavigationExtras, Router} from '@angular/router';
@@ -8,16 +14,13 @@ import {LoadingService} from '../../pharos-services/loading.service';
 import {CustomContentDirective} from '../../tools/custom-content.directive';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
 import {takeUntil} from 'rxjs/operators';
-import {DataListResolver} from './data-list.resolver';
 import {PageData} from '../../models/page-data';
 import {PharosConfig} from '../../../config/pharos-config';
 import {PharosApiService} from "../../pharos-services/pharos-api.service";
-import {FacetRetrieverService} from "./filter-panel/facet-retriever.service";
 import {FilterPanelComponent} from "./filter-panel/filter-panel.component";
-import {MatDrawer, MatSidenav} from "@angular/material";
+import {MatDrawer} from "@angular/material";
 import {HelpPanelOpenerService} from "../../tools/help-panel/services/help-panel-opener.service";
 import {BreakpointObserver} from "@angular/cdk/layout";
-import {Publication} from "../../models/publication";
 import {HttpClient} from "@angular/common/http";
 
 /**
