@@ -1,4 +1,4 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {PharosApiService} from './pharos-services/pharos-api.service';
@@ -19,12 +19,10 @@ import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {CommonToolsModule} from './tools/common-tools.module';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {AuthModule} from "./auth/auth.module";
 import {MaterialModule} from "../assets/material/material.module";
 import {RouterModule} from "@angular/router";
-import {DataListResolver} from "./pharos-main/data-list/data-list.resolver";
-import {SearchResultsResolver} from "./pharos-main/data-list/search-results.resolver";
 
 @NgModule({
   declarations: [
@@ -35,6 +33,7 @@ import {SearchResultsResolver} from "./pharos-main/data-list/search-results.reso
     StructureSearchPageComponent,
     SequenceSearchPageComponent,
     PageNotFoundComponent
+
   ],
   imports: [
     SharedModule.forRoot(),
@@ -49,8 +48,6 @@ import {SearchResultsResolver} from "./pharos-main/data-list/search-results.reso
     AuthModule
   ],
   providers: [
-    DataListResolver,
-    SearchResultsResolver,
     PharosApiService,
     PathResolverService,
     FacetRetrieverService,

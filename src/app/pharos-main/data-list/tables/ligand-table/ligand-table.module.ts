@@ -32,6 +32,7 @@ const pharosListRoutes: Routes = [
     RouterModule.forChild(pharosListRoutes)
   ],
   providers: [
+    DataListResolver,
     {provide: TOKENS.LIGAND_TABLE_COMPONENT, useValue: LigandTableComponent},
   ],
   entryComponents: [

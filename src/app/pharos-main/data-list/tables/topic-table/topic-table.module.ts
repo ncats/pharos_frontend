@@ -14,7 +14,7 @@ const pharosListRoutes: Routes = [
     path: '',
     component: DataListComponent,
     resolve: {
-      data: TopicsListResolver
+      search: TopicsListResolver
     },
     runGuardsAndResolvers: 'paramsOrQueryParamsChange'
   }

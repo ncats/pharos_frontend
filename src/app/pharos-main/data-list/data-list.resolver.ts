@@ -8,9 +8,7 @@ import {PathResolverService} from '../../pharos-services/path-resolver.service';
 /**
  * resolver to retrieve list of data happens on every main level (/targets, /diseases, /ligands, etc) change
  */
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class DataListResolver implements Resolve<any> {
 
   /**

@@ -5,6 +5,7 @@ import {FaqPageComponent} from './faq-page/faq-page.component';
 import {ApiPageComponent} from './api-page/api-page.component';
 import {StructureSearchPageComponent} from './structure-search-page/structure-search-page.component';
 import {SequenceSearchPageComponent} from './sequence-search-page/sequence-search-page.component';
+import {PharosMainComponent} from "./pharos-main/pharos-main.component";
 
 
 const ROUTES: Routes = [
@@ -41,13 +42,18 @@ const ROUTES: Routes = [
     path: 'api',
     component: ApiPageComponent
   },
-  {
+ /* {
     path: 'search',
     loadChildren: () => import('./pharos-main/modules/search/search.module').then(m => {
       console.log(m);
       return m.SearchModule
     }),
     data: { path: 'search' }
+  },*/
+  {
+    path: 'topics',
+    loadChildren: () => import('./pharos-main/modules/topics/topics.module').then(m => m.TopicsModule),
+    data: { path: 'topics' }
   },
   {
     path: 'targets',
@@ -62,11 +68,7 @@ const ROUTES: Routes = [
     loadChildren: () => import('./pharos-main/modules/ligands/ligands.module').then(m => m.LigandsModule),
     data: { path: 'ligands' }
   },
-  {
-    path: 'topics',
-    loadChildren: () => import('./pharos-main/modules/topics/topics.module').then(m => m.TopicsModule),
-    data: { path: 'topics' }
-  },
+
   { path: '',
     redirectTo: '/index',
     pathMatch: 'full'
@@ -83,7 +85,7 @@ const ROUTES: Routes = [
       anchorScrolling: 'enabled',
       //onSameUrlNavigation: 'reload',
       scrollOffset: [0, 120],
-       preloadingStrategy: PreloadAllModules
+      // preloadingStrategy: PreloadAllModules
       })
   ],
   providers: [],

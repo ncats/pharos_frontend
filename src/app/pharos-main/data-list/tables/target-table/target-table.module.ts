@@ -41,6 +41,7 @@ const pharosListRoutes: Routes = [
     RouterModule.forChild(pharosListRoutes)
   ],
   providers: [
+    DataListResolver,
     {provide: TOKENS.TARGET_TABLE_COMPONENT, useValue: TargetTableComponent},
     {provide: IDG_LEVEL_TOKEN, useValue: IdgLevelIndicatorComponent},
     {provide: RADAR_CHART_TOKEN, useValue: InjectedRadarChartComponent}

@@ -3,25 +3,23 @@ import {FilterPanelComponent} from '../pharos-main/data-list/filter-panel/filter
 import {FacetTableComponent} from '../pharos-main/data-list/filter-panel/facet-table/facet-table.component';
 import {DataListComponent} from '../pharos-main/data-list/data-list.component';
 import {FacetListComponent} from '../pharos-main/data-list/facet-list/facet-list.component';
-import {
-  DataListVisualizationsComponent
-} from '../pharos-main/data-list/data-list-visualizations/data-list-visualizations.component';
+import {DataListVisualizationsComponent} from '../pharos-main/data-list/data-list-visualizations/data-list-visualizations.component';
 import {SharedModule} from './shared.module';
 import {DonutChartComponent} from '../tools/visualizations/donut-chart/donut-chart.component';
-import {
-  VisualizationOptionsComponent
-} from '../pharos-main/data-list/data-list-visualizations/visualization-options/visualization-options.component';
-import {DataListResolver} from '../pharos-main/data-list/data-list.resolver';
+import {VisualizationOptionsComponent} from '../pharos-main/data-list/data-list-visualizations/visualization-options/visualization-options.component';
 import {CommonToolsModule} from '../tools/common-tools.module';
-import {SearchResultsResolver} from "../pharos-main/data-list/search-results.resolver";
+import {PharosMainComponent} from "../pharos-main/pharos-main.component";
+import {RouterModule} from "@angular/router";
 
 
 @NgModule({
   imports: [
     SharedModule,
-    CommonToolsModule
+    CommonToolsModule,
+    RouterModule
   ],
   declarations: [
+    PharosMainComponent,
     DataListComponent,
     DataListVisualizationsComponent,
     FilterPanelComponent,
@@ -31,8 +29,6 @@ import {SearchResultsResolver} from "../pharos-main/data-list/search-results.res
     VisualizationOptionsComponent
   ],
   providers: [
-    DataListResolver,
-    SearchResultsResolver
   ],
   exports: [
     SharedModule,
