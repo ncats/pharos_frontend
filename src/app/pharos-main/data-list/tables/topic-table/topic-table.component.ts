@@ -9,6 +9,7 @@ import {HttpClient} from '@angular/common/http';
 import {Message} from "../../../../pharos-home/news-panel/news-panel.component";
 import {AngularFirestore} from "@angular/fire/firestore";
 import {Topic} from "../../../../models/topic";
+import {ActivatedRoute, Route} from "@angular/router";
 
 
 @Component({
@@ -20,36 +21,31 @@ export class TopicTableComponent implements OnInit {
   /**
    * list of messages from firebase
    */
-  topics: Message[];
+  topics: any[];
 
 
   /**
    * set up dependencies
    * @param {ChangeDetectorRef} changeDetector
-   * @param db
+   * @param _route
    * @param {HttpClient} _http
    */
   constructor(
     private changeDetector: ChangeDetectorRef,
-    private db: AngularFirestore,
+    private _route: ActivatedRoute,
     private _http: HttpClient) {
   }
+
 
   /**
    * subscribe to data changes
    */
   ngOnInit() {
     console.log(this);
-    this.db.collection<Message>('topics').valueChanges()
-      .subscribe(topics => {
-        console.log(topics);
-        this.topics = topics.sort((a, b) => b.index - a.index);
-      });
-  /*  this._data.subscribe(d => {
-      if (this.data) {
-        this.topicsDataSource.data = this.data;
-      }
-    });*/
+   this._route.snapshot.data.data.valueChanges().subscribe(res => {
+      console.log(res);
+      this.topics = res;
+    });
   }
 }
 

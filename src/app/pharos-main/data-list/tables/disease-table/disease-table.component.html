@@ -1,4 +1,4 @@
-<br>
+<div *ngIf= "diseases && diseases.length > 0">
 <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row disease-table">
   <div fxFlex="45">
     <div class = mat-display-1>Diseases <span *ngIf ="pageData">({{pageData.total}})</span></div>
@@ -23,4 +23,5 @@
   <div fxFlex="45" fxFlexAlign="end">
     <pharos-custom-paginator [pageData]="pageData" (page)="changePage($event)"></pharos-custom-paginator>
   </div>
+</div>
 </div>

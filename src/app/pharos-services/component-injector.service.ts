@@ -3,9 +3,7 @@ import {ComponentFactoryResolver, Injectable, InjectionToken, Injector, Type} fr
 /**
  * dynamically inject a component into an element host
  */
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 
 export class ComponentInjectorService {
 
@@ -15,8 +13,7 @@ export class ComponentInjectorService {
    * @param {Injector} _injector
    */
   constructor(private _componentFactoryResolver: ComponentFactoryResolver,
-              private _injector: Injector) {
-  }
+              private _injector: Injector) {}
 
   /**
    * created component instance,

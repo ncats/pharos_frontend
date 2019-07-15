@@ -51,7 +51,8 @@ import {NcatsHeaderModule} from "./ncats-header/ncats-header.module";
   ],
   entryComponents: [
     BreadcrumbComponent,
-    BatchUploadModalComponent
+    BatchUploadModalComponent,
+    IdgLevelIndicatorComponent
   ],
   exports: [
     NcatsHeaderModule,

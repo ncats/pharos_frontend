@@ -807,7 +807,7 @@ const LIGAND_DESCRIPTION_COMPONENT: PharosPanel = {
   api: [
     {
       field: 'description',
-     // url: _APIURL + 'targets/_id_/properties(label=NCBI%20Gene%20Summary)'
+      // url: _APIURL + 'targets/_id_/properties(label=NCBI%20Gene%20Summary)'
       description: 'Description of the ligand.'
     }
   ]
@@ -906,7 +906,7 @@ const MOLECULAR_DEFINITION_PANEL: PharosPanel = {
  */
 const TOPIC_TABLE_COMPONENT: PharosPanel = {
   token: TOKENS.TOPIC_TABLE_COMPONENT,
-  api: [ ]
+  api: []
 };
 
 /**
@@ -1004,7 +1004,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_BREADCRUMB_COMPONENT,
           SUMMARY_PANEL,
           LEVEL_SUMMARY_PANEL,
-         // IDG_RESOURCES_PANEL,
+          // IDG_RESOURCES_PANEL,
           DISEASE_SOURCE_PANEL,
           PDB_PANEL,
           EXPRESSION_PANEL,
@@ -1020,12 +1020,12 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_BREADCRUMB_COMPONENT,
           SUMMARY_PANEL,
           LEVEL_SUMMARY_PANEL,
-         // IDG_RESOURCES_PANEL,
+          // IDG_RESOURCES_PANEL,
           DISEASE_SOURCE_PANEL,
-           DRUGS_PANEL,
-           LIGANDS_PANEL,
-           PDB_PANEL,
-           EXPRESSION_PANEL,
+          DRUGS_PANEL,
+          LIGANDS_PANEL,
+          PDB_PANEL,
+          EXPRESSION_PANEL,
           PROTEIN_PROTEIN_PANEL,
           PUBLICATION_INFO_PANEL,
           AA_SEQUENCE_PANEL,
@@ -1038,7 +1038,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_BREADCRUMB_COMPONENT,
           SUMMARY_PANEL,
           LEVEL_SUMMARY_PANEL,
-         // IDG_RESOURCES_PANEL,
+          // IDG_RESOURCES_PANEL,
           DRUGS_PANEL,
           LIGANDS_PANEL,
           DISEASE_SOURCE_PANEL,
@@ -1053,19 +1053,19 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       tclin: {
         components: [
           TARGET_GENE_SUMMARY_COMPONENT,
-           PHAROS_BREADCRUMB_COMPONENT,
+          PHAROS_BREADCRUMB_COMPONENT,
           SUMMARY_PANEL,
           LEVEL_SUMMARY_PANEL,
-         // IDG_RESOURCES_PANEL,
+          // IDG_RESOURCES_PANEL,
           DRUGS_PANEL,
           LIGANDS_PANEL,
           DISEASE_SOURCE_PANEL,
           PDB_PANEL,
           EXPRESSION_PANEL,
           PROTEIN_PROTEIN_PANEL,
-           PUBLICATION_INFO_PANEL,
-           AA_SEQUENCE_PANEL,
-            TARGET_FACET_PANEL
+          PUBLICATION_INFO_PANEL,
+          AA_SEQUENCE_PANEL,
+          TARGET_FACET_PANEL
         ]
       }
     }],
@@ -1198,7 +1198,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       },
       details: {
         components: [
-          PHAROS_BREADCRUMB_COMPONENT,
+          //   PHAROS_BREADCRUMB_COMPONENT,
           LIGAND_HEADER_COMPONENT,
           LIGAND_DETAILS_COMPONENT
         ]
@@ -1215,7 +1215,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
     ['topics', {
       list: {
         components: [
-           TOPIC_TABLE_COMPONENT
+          TOPIC_TABLE_COMPONENT
         ]
       },
 
@@ -1226,9 +1226,9 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       },
       panels: {
         components: [
-          {
-            token: TOKENS.PHAROS_BREADCRUMB_COMPONENT
-          },
+          /* {
+             token: TOKENS.PHAROS_BREADCRUMB_COMPONENT
+           },*/
           {
             token: TOKENS.TOPIC_HEADER_COMPONENT
           },
@@ -1242,10 +1242,10 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       }
     }],
     ['search', {
-          api: [
+      api: [
         {
-          field: 'targets',
-          url: _APIURL + 'targets/search?q='
+          field: 'search',
+          url: _APIURL + 'search?q='
         },
         {
           field: 'diseases',
@@ -1254,7 +1254,12 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
         {
           field: 'ligands',
           url: _APIURL + 'ligands/search?view=full&q='
-        }/*,
+        },
+        {
+          field: 'targets',
+          url: _APIURL + 'targets/search?q='
+        },
+        /*,
         {
           field: 'publications',
           url: _APIURL + 'publications/search?q='
@@ -1328,6 +1333,6 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
         cloud: []
       }
     }]
-    ]
+  ]
 );
 

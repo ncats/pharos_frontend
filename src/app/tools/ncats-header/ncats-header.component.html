@@ -57,7 +57,7 @@
       <img [src]=profile.profilePic class="profile-pic" *ngIf="profile?.profilePic">
       <span class="user-name">{{profile.name}}</span>
     </div>
-    <button mat-button class="menu-button" (click)="openSignInModal()" *ngIf="!profile" fxHide.lt-md>
+    <button mat-button class="menu-button" aria-label = "signin button" (click)="openSignInModal()" *ngIf="!profile" fxHide.lt-md>
       Sign In
     </button>
     <mat-menu #profileMenu="matMenu">
@@ -65,7 +65,7 @@
         Sign Out
       </button>
     </mat-menu>
-    <button mat-icon-button class="menu-button" (click)="mobilesidenav.toggle()" fxHide fxShow.lt-md>
+    <button mat-icon-button class="menu-button" aria-label = "menu button" (click)="mobilesidenav.toggle()" fxHide fxShow.lt-md>
       <mat-icon>menu</mat-icon>
     </button>
   </mat-toolbar>

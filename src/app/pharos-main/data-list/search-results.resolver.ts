@@ -20,7 +20,6 @@ export class SearchResultsResolver implements Resolve<any> {
   constructor(private pathResolverService: PathResolverService,
               private loadingService: LoadingService,
               private pharosApiService: PharosApiService) {
-    console.log("search constructor");
   }
 
   /**
@@ -32,9 +31,12 @@ export class SearchResultsResolver implements Resolve<any> {
    * @returns {Observable<any[]>}
    */
   resolve(route: ActivatedRouteSnapshot): Observable<any[]> {
-    console.log("search resolver");
     this.loadingService.toggleVisible(true);
-    this.pathResolverService.setPath(route.data.path);
+    if (route.data.path === 'search' && !route.queryParamMap.get('q')) {
+      this.pathResolverService.navigate('targets');
+    } else {
+      this.pathResolverService.setPath(route.data.path);
       return this.pharosApiService.search(route.queryParamMap);
+    }
   }
 }

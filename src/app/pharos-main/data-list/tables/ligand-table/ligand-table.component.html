@@ -1,4 +1,4 @@
-<br>
+<div *ngIf="data && data.length > 0">
 <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row ligand-table">
   <div fxFlex="45">
     <div class = mat-display-1>Ligands <span *ngIf ="pageData">({{pageData.total}})</span></div>
@@ -16,3 +16,4 @@
           <pharos-ligand-card [ligand]="ligand"></pharos-ligand-card>
       </div>
       </div>
+</div>

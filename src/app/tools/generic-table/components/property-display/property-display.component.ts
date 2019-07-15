@@ -9,7 +9,7 @@ import {DataProperty} from './data-property';
 @Component({
   selector: 'ncats-property-display',
   templateUrl: './property-display.component.html',
-  styleUrls: ['./property-display.component.css']
+  styleUrls: ['./property-display.component.scss']
 })
 
 export class PropertyDisplayComponent implements OnInit {
@@ -34,11 +34,6 @@ export class PropertyDisplayComponent implements OnInit {
   get property() {
     // get the latest value from _data BehaviorSubject
     const prop = this._data.getValue();
-/*    if (prop && prop.label ==='IDG Disease') {
-/!*      prop.internalLink = '/diseases' + prop.href.split('/diseases')[1];
-      console.log(prop);*!/
-      prop.href = null;
-    }*/
     return prop;
   }
 
@@ -52,14 +47,4 @@ export class PropertyDisplayComponent implements OnInit {
       )
       .subscribe(x => x);
   }
-
-/*  getLink():string {
-/!*    if (this.property.href) {
-      console.log(this.property.href)
-      return this.property.href;
-    }
-     else *!/if(this.property.internalLink) {
-      return this.property.internalLink;
-    }
-  }*/
 }

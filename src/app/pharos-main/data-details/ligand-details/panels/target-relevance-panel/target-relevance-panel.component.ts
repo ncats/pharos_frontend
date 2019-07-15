@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {PageData} from "../../../../../models/page-data";
+import {IDG_LEVEL_TOKEN} from "../../../disease-details/target-list-panel/target-list-panel.component";
 
 /**
  * shows what targets the ligand was tested on
@@ -28,7 +29,7 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
       name: 'developmentLevel',
       label: 'IDG Development Level',
       sortable: true,
-      externalLink: true
+      customComponent: IDG_LEVEL_TOKEN
     }),
     new PharosProperty({
       name: 'targetFamily',

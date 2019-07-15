@@ -211,7 +211,9 @@ export class PharosApiService {
        return this.http.get<any>(url)
           .pipe(
             tap(res=> {
-              this._facetsDataSource.next(res.facets)
+              if(path !== 'topics') {
+                this._facetsDataSource.next(res.facets)
+              }
             }),
             catchError(this.handleError('getData', []))
           )
@@ -227,7 +229,14 @@ export class PharosApiService {
     const apis = this._SEARCHURLS.map(api => {
       return this.http.get<any>(this._mapParams(api.field, params))
         .pipe(
-          map(res => res = {kind: api.field, data: res})
+          map(res => {
+            if(api.field !== 'search') {
+              return res = {kind: api.field, data: res}
+            } else {
+              this._facetsDataSource.next(res.facets);
+              return {};
+            }
+          })
         );
     });
 

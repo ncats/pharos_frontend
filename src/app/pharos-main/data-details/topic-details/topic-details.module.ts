@@ -7,7 +7,7 @@ import {TopicGraphPanelComponent} from "./panels/topic-graph-panel/topic-graph-p
 import {SharedModule} from "../../../shared/shared.module";
 import {CommonToolsModule} from "../../../tools/common-tools.module";
 import {SharedDetailsModule} from "../../../shared/shared-details.module";
-import {TargetTableModule} from "../../data-list/tables/target-table/target-table.module";
+import {TargetTableModule} from "../../modules/targets/target-list.module";
 
 @NgModule({
   declarations: [

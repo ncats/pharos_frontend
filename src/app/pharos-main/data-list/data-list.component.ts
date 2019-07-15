@@ -113,8 +113,6 @@ export class DataListComponent implements OnInit, OnDestroy {
    * subscribe to data changes and load and inject required components
    */
   ngOnInit() {
-    console.log(this);
-    console.log('making components1');
     this.path = this._route.snapshot.data.path;
 
     if(this._route.snapshot.data.search) {
@@ -148,10 +146,14 @@ export class DataListComponent implements OnInit, OnDestroy {
         // If it is a NavigationEnd event re-initalise the component
         if (e instanceof NavigationEnd) {
           this.path = this._route.snapshot.data.path;
-          this.data = this._route.snapshot.data.data.content;
-          this.search = this._route.snapshot.data.search;
-          this.etag = this._route.snapshot.data.data.etag;
-          this.sideway = this._route.snapshot.data.data.sideway;
+          if(this._route.snapshot.data.search) {
+            this.search = this._route.snapshot.data.search;
+          }
+          if(this._route.snapshot.data.data) {
+            this.data = this._route.snapshot.data.data.content;
+            this.etag = this._route.snapshot.data.data.etag;
+            this.sideway = this._route.snapshot.data.data.sideway;
+          }
           this.makeComponents();
           this.ref.detectChanges();
         }
@@ -169,20 +171,15 @@ export class DataListComponent implements OnInit, OnDestroy {
    * one each data change the process is repeated, including the api calls
    */
   makeComponents() {
-    console.log('making components');
     const components: any = this.pharosConfig.getComponents(this.path, 'list');
-    console.log(components);
     components.forEach(component => {
       // make component
       const instance: ComponentRef<any> = this.loadedComponents.get(component.token);
       if(!instance) {
-        console.log(component);
-        console.log(component.token);
         const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
         const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
 
         if (this.search && this.search.length) {
-         console.log(this);
           const data: any = this.search.filter(data => data.kind === dynamicComponent.instance.path)[0];
           dynamicComponent.instance.pageData = new PageData(data.data);
           dynamicComponent.instance.data = data.data.content;
@@ -218,10 +215,16 @@ export class DataListComponent implements OnInit, OnDestroy {
 
         this.loadedComponents.set(component.token, dynamicComponent);
       } else {
-        instance.instance.data = this.data;
-        this.loadedComponents.set(component.token, instance);
+        if (this.search && this.search.length) {
+          const data: any = this.search.filter(data => data.kind === instance.instance.path)[0];
+          instance.instance.pageData = new PageData(data.data);
+          instance.instance.data = data.data.content;
+        } else {
+          instance.instance.pageData = new PageData(this._route.snapshot.data.data);
+          instance.instance.data = this.data;
+          this.loadedComponents.set(component.token, instance);
+        }
       }
-
     });
     this.loading = false;
     this.loadingService.toggleVisible(false);
