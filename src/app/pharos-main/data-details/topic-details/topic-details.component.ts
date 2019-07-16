@@ -175,6 +175,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
 
   }
 
+  changeTab(event){}
 
 
   /**

@@ -8,12 +8,14 @@ import {SharedModule} from "../../../shared/shared.module";
 import {CommonToolsModule} from "../../../tools/common-tools.module";
 import {SharedDetailsModule} from "../../../shared/shared-details.module";
 import {TargetTableModule} from "../../modules/targets/target-list.module";
+import {NodeDisplayComponent} from "./panels/node-display/node-display.component";
 
 @NgModule({
   declarations: [
     TopicDetailsComponent,
     TopicHeaderComponent,
-    TopicGraphPanelComponent
+    TopicGraphPanelComponent,
+    NodeDisplayComponent
   ],
   imports: [
     CommonModule,
