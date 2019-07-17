@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {DataDetailsResolver} from "../../data-details/data-details.resolver";
+import {DataDetailsResolver} from "../../resolvers/data-details.resolver";
 import {DataDetailsComponent} from "../../data-details/data-details.component";
 
 const routes: Routes = [

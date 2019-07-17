@@ -13,7 +13,7 @@ import {TargetSaveModalComponent} from "../../data-list/tables/target-table/targ
 import {SharedModule} from "../../../shared/shared.module";
 import {CommonToolsModule} from "../../../tools/common-tools.module";
 import {SharedListModule} from "../../../shared/shared-list.module";
-import {DataListResolver} from "../../data-list/data-list.resolver";
+import {DataListResolver} from "../../resolvers/data-list.resolver";
 import {TOKENS} from "../../../../config/component-tokens";
 import {IdgLevelIndicatorComponent} from "../../../tools/idg-level-indicator/idg-level-indicator.component";
 

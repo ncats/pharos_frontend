@@ -6,7 +6,7 @@
 <mat-list>
   <mat-list-item *ngFor = "let item of list | slice:0:9">
     <div *ngIf = "item.internalLink; else noLink">
-      <a [routerLink] = item.internalLink [queryParams] = item.queryParams target="_blank">{{item.term}}</a>
+      <a [routerLink] = item.internalLink [queryParams] = item.queryParams target="_blank" rel="noreferrer">{{item.term}}</a>
     </div>
     <ng-template #noLink>{{item.term}}</ng-template>
   </mat-list-item>

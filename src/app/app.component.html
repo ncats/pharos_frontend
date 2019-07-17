@@ -1,6 +1,12 @@
+<header>
 <app-ncats-header [searchBar] = true [animationState]="'in'" #appHeader></app-ncats-header>
+</header>
+<main role ="main">
 <div class ="main">
 <router-outlet></router-outlet>
 </div>
 <pharos-scroll-to-top></pharos-scroll-to-top>
+</main>
+<footer>
 <app-pharos-footer></app-pharos-footer>
+</footer>

@@ -17,6 +17,10 @@ body {
   box-sizing: border-box;
 }
 
+header, nav, main, footer, article, section, aside {
+  display:block;
+}
+
 a {
   color: mat-color($pharos-app-primary);
   font-weight: 600;

@@ -6,7 +6,7 @@ import {ComponentInjectorService} from '../../pharos-services/component-injector
 import {HelpPanelOpenerService} from '../../tools/help-panel/services/help-panel-opener.service';
 import {MatDrawer} from '@angular/material';
 import {DynamicPanelComponent} from '../../tools/dynamic-panel/dynamic-panel.component';
-import {DataDetailsResolver} from './data-details.resolver';
+import {DataDetailsResolver} from '../resolvers/data-details.resolver';
 import {ScrollDispatcher} from '@angular/cdk/scrolling';
 import {PharosConfig} from "../../../config/pharos-config";
 import {PharosBase} from "../../models/pharos-base";
@@ -113,8 +113,8 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
         // If it is a NavigationEnd event re-initalise the component
         if (e instanceof NavigationEnd) {
           this.path = this._route.snapshot.data.path;
-          if (this._route.snapshot.data.pharosObject != this.pharosObject) {
-            this.pharosObject = this._route.snapshot.data.pharosObject;
+          if (this._route.snapshot.data.pharosObject && (this._route.snapshot.data.pharosObject != this.pharosObject)) {
+              this.pharosObject = this._route.snapshot.data.pharosObject;
             this.componentHost.viewContainerRef.clear();
             this.changeDetector.markForCheck(); // refresh the component manually
             this.makeComponents();

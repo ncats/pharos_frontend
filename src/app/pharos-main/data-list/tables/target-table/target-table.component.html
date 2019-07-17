@@ -1,10 +1,11 @@
+<section>
 <div *ngIf="targets">
   <mat-toolbar [color]="'primary'" class="target-table-toolbar" *ngIf="showToolbar">
     <div class=pharos-display-1 *ngIf="showLabel">Targets <span *ngIf="pageData">({{pageData.total}})</span>
     </div>
     <div fxFlex></div>
     <div fxFlex="5">
-      <button mat-icon-button [matMenuTriggerFor]="appMenu">
+      <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="target table tools">
         <mat-icon>apps</mat-icon>
       </button>
       <mat-menu #appMenu="matMenu">
@@ -74,3 +75,4 @@
     </div>
   </div>
 </div>
+</section>

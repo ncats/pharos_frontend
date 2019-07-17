@@ -12,16 +12,16 @@ var marvinSketcherInstance;
 
 $(document).ready(function handleDocumentReady (e) {
 	$(".index_box").click(function(){
-		 var a = $(this).find("a").attr("href"); 
+		 var a = $(this).find("a").attr("href");
 		 window.open(a);
 	});
-	
+
 	$(".index_box").hover(function () {
 	    window.status = $(this).find("a").attr("href");
 	}, function () {
 	    window.status = "";
 	});
-	
+
 	MarvinJSUtil.getEditor("#sketch").then(function (sketcherInstance) {
 		marvinSketcherInstance = sketcherInstance;
 	},function (error) {
@@ -43,7 +43,7 @@ $(document).ready(function handleDocumentReady (e) {
 </div>
 <div class="index_box api">
 	<h1>
-		<a href="jsdoc.html" target="_blank">JavaScript-API</a>
+		<a href="jsdoc.html" target="_blank" rel="noreferrer">JavaScript-API</a>
 	</h1>
 </div>
 <div class="index_box examples">

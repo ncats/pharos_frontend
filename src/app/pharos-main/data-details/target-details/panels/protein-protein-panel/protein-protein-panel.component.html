@@ -1,4 +1,5 @@
-<mat-card id ="ppi"
+<article>
+  <mat-card id ="ppi"
           (pharosScrollspy)="active('ppi')"
           #ppi
          >
@@ -22,3 +23,4 @@
 <pharos-target-table [data] = targets [pageData]="targetPageData" [showLabel] = false [showToolbar]="false" (pageChange)="paginateTargets($event)" *ngIf="targets"></pharos-target-table>
   </mat-card-content>
 </mat-card>
+</article>

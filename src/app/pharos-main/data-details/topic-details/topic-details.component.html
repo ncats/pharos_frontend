@@ -1,3 +1,4 @@
+<section>
 <div fxLayout="row wrap" fxLayoutAlign="start stretch" class="topic-details-header">
   <ng-template appPharosCustomContent></ng-template>
 </div>
@@ -6,12 +7,29 @@
     <mat-tab-group (selectedTabChange)="changeTab($event)">
       <mat-tab label="Targets ({{allTargets.length}})" class="full-tab">
         <ng-template matTabContent>
+          <article>
           <pharos-target-table [data] = targets [pageData]="targetPageData" (pageChange)="paginateTargets($event)" *ngIf="targets.length"></pharos-target-table>
+          </article>
+        </ng-template>
+      </mat-tab>
+      <mat-tab label="Diseases ({{allDiseases.length}})" class="full-tab">
+        <ng-template matTabContent>
+         <article>
+          <pharos-disease-table [data] = diseases [pageData]="diseasePageData" (pageChange)="paginateDiseases($event)" *ngIf="targets.length"></pharos-disease-table>
+         </article>
+        </ng-template>
+      </mat-tab>
+      <mat-tab label="Ligands ({{allLigands.length}})" class="full-tab">
+        <ng-template matTabContent>
+          <article>
+          <pharos-ligand-table [data] = ligands [pageData]="ligandPageData" (pageChange)="paginateLigands($event)" *ngIf="targets.length"></pharos-ligand-table>
+          </article>
         </ng-template>
       </mat-tab>
     </mat-tab-group>
   </div>
 </div>
+</section>
 <!--
 
 

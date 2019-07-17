@@ -5,7 +5,7 @@ import {LigandListRoutingModule} from './ligand-list-routing.module';
 import {SharedModule} from "../../../shared/shared.module";
 import {LigandCardComponent} from "../../data-list/cards/ligand-card/ligand-card.component";
 import {TOKENS} from "../../../../config/component-tokens";
-import {DataListResolver} from "../../data-list/data-list.resolver";
+import {DataListResolver} from "../../resolvers/data-list.resolver";
 import {SharedListModule} from "../../../shared/shared-list.module";
 import {CommonToolsModule} from "../../../tools/common-tools.module";
 import {LigandTableComponent} from "../../data-list/tables/ligand-table/ligand-table.component";

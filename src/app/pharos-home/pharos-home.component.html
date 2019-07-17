@@ -1,6 +1,7 @@
 <!--
 <app-ncats-header [searchBar]=false [animationState]="animationState"></app-ncats-header>
 -->
+<section>
 <div class="dashboard-main-div">
   <div class="overlay">
   <div fxLayout="row" fxLayoutAlign="center center" class="dashboard-search">
@@ -8,6 +9,7 @@
       <pharos-search-component class="large-search"></pharos-search-component>
     </div>
   </div>
+
   <!--<div (click)="goToTopics()" class="learn-link" fxHide fxShow.lt-sm>
     <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
       <div fxFlex="20" class="learn-more">
@@ -49,9 +51,11 @@
   </a>
 </div>
 </div>
+</section>
   <!--
 <pharos-data-types-panel #details></pharos-data-types-panel>
 -->
+<section>
 <pharos-about-panel #details></pharos-about-panel>
 <pharos-news-panel fxHide.lt-md></pharos-news-panel>
-
+</section>

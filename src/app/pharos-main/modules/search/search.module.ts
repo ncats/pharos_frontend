@@ -10,7 +10,7 @@ import {DiseaseListModule} from "../diseases/disease-list.module";
 import {LigandListModule} from "../ligands/ligand-list.module";
 import {TOKENS} from "../../../../config/component-tokens";
 import {TargetTableComponent} from "../../data-list/tables/target-table/target-table.component";
-import {SearchResultsResolver} from "../../data-list/search-results.resolver";
+import {SearchResultsResolver} from "../../resolvers/search-results.resolver";
 import {LigandTableComponent} from "../../data-list/tables/ligand-table/ligand-table.component";
 import {DiseaseTableComponent} from "../../data-list/tables/disease-table/disease-table.component";
 

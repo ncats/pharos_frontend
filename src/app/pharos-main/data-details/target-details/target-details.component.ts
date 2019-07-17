@@ -5,7 +5,7 @@ import {BreakpointObserver} from '@angular/cdk/layout';
 import {map, takeLast, takeWhile} from 'rxjs/operators';
 import {PharosConfig} from "../../../../config/pharos-config";
 import {Target} from '../../../models/target';
-import {DataDetailsResolver} from '../data-details.resolver';
+import {DataDetailsResolver} from '../../resolvers/data-details.resolver';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
 import {CustomContentDirective} from '../../../tools/custom-content.directive';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';

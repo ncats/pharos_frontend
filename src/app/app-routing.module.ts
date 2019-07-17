@@ -6,7 +6,7 @@ import {ApiPageComponent} from './api-page/api-page.component';
 import {StructureSearchPageComponent} from './structure-search-page/structure-search-page.component';
 import {SequenceSearchPageComponent} from './sequence-search-page/sequence-search-page.component';
 import {PharosMainComponent} from "./pharos-main/pharos-main.component";
-import {DataDetailsResolver} from "./pharos-main/data-details/data-details.resolver";
+import {DataDetailsResolver} from "./pharos-main/resolvers/data-details.resolver";
 import {DataDetailsComponent} from "./pharos-main/data-details/data-details.component";
 
 

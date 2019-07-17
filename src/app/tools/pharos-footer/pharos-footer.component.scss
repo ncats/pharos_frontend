@@ -5,6 +5,7 @@
   background-color: mat-color($pharos-app-primary);
   padding: 5vh 1vw 5vh 1vw;
   margin: 0!important;
+  position: relative;
 }
 
 .links-header{
@@ -12,6 +13,7 @@
   text-align: center;
   font-size: 1.2em;
   text-transform: uppercase;
+  color: white;
 }
 
 .link-list {
@@ -29,9 +31,11 @@ text-align: center;
 
   .links-header{
     font-size: 1em;
+    padding: 2vw;
   }
 
   .link-list > a {
     font-size: .8em;
+    padding: 3vw;
   }
 }

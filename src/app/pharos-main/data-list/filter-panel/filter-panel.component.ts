@@ -101,6 +101,8 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
         this.facets = this.filteredFacets;
 
         this.ref.markForCheck();
+      } else {
+        this.closeMenu()
       }
     });
     this.loading = false;

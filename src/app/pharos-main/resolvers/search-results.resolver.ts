@@ -24,7 +24,7 @@ export class SearchResultsResolver implements Resolve<any> {
 
   /**
    * toggle loading modal
-   * set path todo: see how much this is still used
+   * set path
    * call api - api returns through different subscriptions, so the data ins't actually returned here
    * hence the empty observable returned
    * @param {ActivatedRouteSnapshot} route

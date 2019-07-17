@@ -1,4 +1,5 @@
-<mat-card class="section-card"
+<article>
+  <mat-card class="section-card"
           (pharosScrollspy)="active('pdbview')"
           #pdbview
           id="pdbview"
@@ -30,7 +31,7 @@
         <p *ngIf="tableArr.length > 0 && pdbid" class="pdbid-display">Displaying: {{pdbid}}</p>
         <p *ngIf="tableArr.length > 0 && pdbid" class="slice-help">  <mat-icon [color]="'primary'" class = "help-icon">info</mat-icon> Click on a
           row in the table to change the structure displayed. More information can be found at
-          <a href="http://www.rcsb.org/" target="_blank">RCSB PDB <mat-icon [inline]="true">open_in_new</mat-icon></a></p>
+          <a href="http://www.rcsb.org/" target="_blank" rel="noreferrer" rel="noreferrer">RCSB PDB <mat-icon [inline]="true">open_in_new</mat-icon></a></p>
       </div>
     </div>
     <pharos-generic-table
@@ -44,3 +45,4 @@
 
   </mat-card-content>
 </mat-card>
+</article>

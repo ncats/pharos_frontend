@@ -1,4 +1,5 @@
-<mat-card *ngIf = data class ="section-card" id = "summary" (pharosScrollspy)="active('summary')" #summary>
+<article>
+  <mat-card *ngIf = data class ="section-card" id = "summary" (pharosScrollspy)="active('summary')" #summary>
   <mat-card-content>
     <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
       <mat-spinner></mat-spinner>
@@ -102,5 +103,5 @@
     </ng-template>
   </mat-card-content>
 </mat-card>
-
+</article>
 

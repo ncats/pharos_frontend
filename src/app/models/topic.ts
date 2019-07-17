@@ -58,6 +58,9 @@ export class Topic extends PharosBase {
   url?: string;
 
   etag?: string;
+
+  graphData? : any;
+  targets?: any;
 }
 
 /**

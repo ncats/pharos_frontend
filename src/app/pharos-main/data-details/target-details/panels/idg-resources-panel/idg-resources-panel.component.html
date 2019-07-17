@@ -1,4 +1,5 @@
-<mat-card
+<article>
+  <mat-card
           class ="section-card"
           id = "resources"
           (pharosScrollspy)="active('resources')" #resources>
@@ -39,13 +40,13 @@
         <div class="data-grid">
           <div *ngFor ="let reagent of reagentsList">
             <mat-card class = "resource-card">
-              <div class="mat-subheading-2"><a href="{{reagent.data_page_link}}" target="_blank">{{reagent.name}}</a></div><br>
+              <div class="mat-subheading-2"><a href="{{reagent.data_page_link}}" target="_blank" rel="noreferrer">{{reagent.name}}</a></div><br>
               <div class="thumb-holder">
               <img src = './assets/images/resource-types/{{reagent.resourceType}}.png' alt = "image for {{reagent.name}}" class="resource-thumb">
               </div>
              <div fxLayout="row" fxLayoutAlign="space-between end">
                <div fxFlex = "55">Order {{reagent.resourceType}}</div>
-               <div fxFlex="40" fxLayoutAlign="end"><a href = {{reagent.vendor_cat}} target="_blank">{{reagent.vendor}}</a></div>
+               <div fxFlex="40" fxLayoutAlign="end"><a href = {{reagent.vendor_cat}} target="_blank" rel="noreferrer">{{reagent.vendor}}</a></div>
              </div>
               <br>
               <br>
@@ -72,7 +73,7 @@
           <div class="data-source-grid">
             <div *ngFor ="let dataSource of dataSourceList">
               <mat-card class = "resource-card">
-                <div class="mat-subheading-2"><a href="{{dataSource.data_page_link}}" target="_blank">{{dataSource.name}}</a></div><br>
+                <div class="mat-subheading-2"><a href="{{dataSource.data_page_link}}" target="_blank" rel="noreferrer">{{dataSource.name}}</a></div><br>
                 <div fxLayout="row" fxLayoutAlign="space-around start">
                   <div fxFlex="33">
                     <div class="thumb-holder">
@@ -123,7 +124,7 @@
                 </div>
                 <!--<div fxLayout="row" fxLayoutAlign="space-between end">
                   <div fxFlex = "55">Download {{dataSource.resourceType}}</div>
-                  <div fxFlex="40" fxLayoutAlign="end"><a href = {{dataSource.vendor_cat}} target="_blank">{{dataSource.vendor}}</a></div>
+                  <div fxFlex="40" fxLayoutAlign="end"><a href = {{dataSource.vendor_cat}} target="_blank" rel="noreferrer">{{dataSource.vendor}}</a></div>
                 </div>-->
               </mat-card>
             </div>
@@ -133,4 +134,4 @@
     </mat-tab-group>
   </mat-card-content>
 </mat-card>
-
+</article>

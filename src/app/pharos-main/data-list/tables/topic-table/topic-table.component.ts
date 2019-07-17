@@ -31,7 +31,7 @@ export class TopicTableComponent implements OnInit {
    * @param {HttpClient} _http
    */
   constructor(
-    private changeDetector: ChangeDetectorRef,
+    private ref: ChangeDetectorRef,
     private _route: ActivatedRoute,
     private _http: HttpClient) {
   }
@@ -45,6 +45,7 @@ export class TopicTableComponent implements OnInit {
    this._route.snapshot.data.data.valueChanges().subscribe(res => {
       console.log(res);
       this.topics = res;
+      this.ref.markForCheck();
     });
   }
 }

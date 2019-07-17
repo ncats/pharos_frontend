@@ -1,14 +1,19 @@
+
 <mat-sidenav-container class="main-content">
   <mat-sidenav #sidenav
                [mode]="'side'"
                class="filters-panel"
                [opened]="isSmallScreen!==true">
     <!-- sidenav content -->
-    <pharos-filter-panel #filters (closeClick)="sidenav.toggle()"></pharos-filter-panel>
+    <nav>
+    <pharos-filter-panel #filters (closeClick)="sidenav.close()"></pharos-filter-panel>
+    </nav>
   </mat-sidenav>
   <mat-sidenav #helppanel [position]="'end'" class="help-panel" [mode]="'over'" [opened]="false">
     <!-- sidenav content -->
+    <aside>
     <pharos-help-panel></pharos-help-panel>
+    </aside>
   </mat-sidenav>
   <mat-sidenav-content (click)="close()" class="list-content">
     <div fxLayout="row" fxLayoutAlign="start start" class="filter-help">
@@ -21,9 +26,14 @@
         </button>
       </div>
     </div>
+    <section>
     <pharos-data-list-visualizations></pharos-data-list-visualizations>
+    </section>
     <mat-divider class="space-divider"></mat-divider>
+    <section>
     <pharos-facet-list></pharos-facet-list>
+    </section>
+    <section>
 <div class="table-list">
   <div *ngIf=" loading" class = "loadingIcon" fxLayoutAlign="center center">
     <mat-spinner></mat-spinner>
@@ -34,5 +44,6 @@
     </div>
   </div>
 </div>
+    </section>
   </mat-sidenav-content>
 </mat-sidenav-container>

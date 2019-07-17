@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, Inject, Injector, Input, OnDestroy, OnInit, Type, ViewChild} from '@angular/core';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
-import {DataDetailsResolver} from '../data-details.resolver';
+import {DataDetailsResolver} from '../../resolvers/data-details.resolver';
 import {CustomContentDirective} from '../../../tools/custom-content.directive';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
 import {map, takeLast, takeUntil, takeWhile} from 'rxjs/operators';

@@ -3,7 +3,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {TargetDetailsComponent} from './target-details.component';
 import {SharedModule} from '../../../shared/shared.module';
 import {TargetHeaderComponent} from './target-header/target-header.component';
-import {DataDetailsResolver} from '../data-details.resolver';
+import {DataDetailsResolver} from '../../resolvers/data-details.resolver';
 import {LoadingService} from '../../../pharos-services/loading.service';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';

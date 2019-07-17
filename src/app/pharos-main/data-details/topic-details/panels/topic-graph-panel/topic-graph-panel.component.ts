@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {LinkService, NodeService} from "smrtgraph-core";
 
 
 
@@ -7,7 +8,8 @@ import {HttpClient} from '@angular/common/http';
   selector: 'pharos-topic-graph-panel',
   templateUrl: './topic-graph-panel.component.html',
   styleUrls: ['./topic-graph-panel.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [NodeService, LinkService]
 })
 export class TopicGraphPanelComponent<T extends Node> implements OnInit {
 

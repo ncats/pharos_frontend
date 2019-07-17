@@ -1,6 +1,6 @@
 import {RouterModule, Routes} from "@angular/router";
 import {NgModule} from "@angular/core";
-import {SearchResultsResolver} from "../../data-list/search-results.resolver";
+import {SearchResultsResolver} from "../../resolvers/search-results.resolver";
 import {DataListComponent} from "../../data-list/data-list.component";
 
 const pharosTargetsRoutes: Routes = [

@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {DataListComponent} from "../../data-list/data-list.component";
-import {TopicsListResolver} from "../../data-list/topics-list.resolver";
+import {TopicsListResolver} from "../../resolvers/topics-list.resolver";
 import {SharedModule} from "../../../shared/shared.module";
 import {TOKENS} from "../../../../config/component-tokens";
 import {CommonToolsModule} from "../../../tools/common-tools.module";

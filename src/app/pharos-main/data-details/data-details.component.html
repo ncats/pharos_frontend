@@ -1,23 +1,25 @@
-<app-ncats-header [searchBar]="true" class="details-header"  #appHeader></app-ncats-header>
 <div class = "pharos-main" (click)="closeSidenav()">
   <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
     <mat-spinner></mat-spinner>
   </div>
-    <mat-sidenav-container class="main-content">
-      <mat-sidenav #helppanel
-                   class="help-panel"
-                   [position]="'end'"
-                   [fixedInViewport] = true
-                   [fixedTopGap]="60"
-                   [mode]="'over'"
-                   [opened]="false">
-        <!-- sidenav content -->
-        <pharos-help-panel (closeClick)="helppanel.toggle()"
-        ></pharos-help-panel>
-      </mat-sidenav>
-      <mat-sidenav-content>
-      <ng-template appPharosCustomContent ></ng-template>
-        <pharos-scroll-to-top></pharos-scroll-to-top>
-      </mat-sidenav-content>
-    </mat-sidenav-container>
-  </div>
+  <mat-sidenav-container class="main-content">
+    <mat-sidenav #helppanel
+                 class="help-panel"
+                 [position]="'end'"
+                 [fixedInViewport] = true
+                 [fixedTopGap]="60"
+                 [mode]="'over'"
+                 [opened]="false">
+      <!-- sidenav content -->
+      <aside>
+      <pharos-help-panel (closeClick)="helppanel.toggle()"
+      ></pharos-help-panel>
+      </aside>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <section>
+        <ng-template appPharosCustomContent ></ng-template>
+      </section>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

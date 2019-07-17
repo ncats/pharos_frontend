@@ -7,14 +7,14 @@
   </a>
   <div class="ligand-footer">
     <div *ngFor="let activity of primeActivity">
-      <a href="/targets/{{activity?.target}}" target="_blank">{{activity?.target}}</a>
+      <a href="/targets/{{activity?.target}}" target="_blank" rel="noreferrer">{{activity?.target}}</a>
       <pharos-idg-level-indicator [level]="activity?.idgLevel"></pharos-idg-level-indicator>
       {{activity?.targetFamily}}<br>
       <br>
       {{_getActivityType(activity?.activity)}} {{activity?.activity?.numval?.toFixed(2) || activity?.activity?.term}}
       <br>
       <br>
-      <div *ngIf="ligand.activities.length > 1">Also tested on <a routerLink="/ligands/{{ligand.id}}" target="_blank">{{ligand.activities.length}}</a>
+      <div *ngIf="ligand.activities.length > 1">Also tested on <a routerLink="/ligands/{{ligand.id}}" target="_blank" rel="noreferrer">{{ligand.activities.length}}</a>
         other targets
       </div>
     </div>
