@@ -23,9 +23,9 @@
     <button mat-button (click)="mobilesidenav.close()" routerLink="/ligands" class="nav-menu-button"
             [ngClass]="{active: isActive('ligands')}">Ligands
     </button>
-    <button mat-button (click)="mobilesidenav.close()" routerLink="/topics" class="nav-menu-button"
+    <!--<button mat-button (click)="mobilesidenav.close()" routerLink="/topics" class="nav-menu-button"
             [ngClass]="{active: isActive('topics')}">Topics</button>
-    <button mat-button (click)="mobilesidenav.close()" routerLink="/api" class="nav-menu-button"
+  -->  <button mat-button (click)="mobilesidenav.close()" routerLink="/api" class="nav-menu-button"
             [ngClass]="{active: isActive('api')}">API
     </button>
     <button mat-button (click)="mobilesidenav.close()" routerLink="/about" class="nav-menu-button"
@@ -46,7 +46,9 @@
       <a mat-button routerLink="/targets" [ngClass]="{active: isActive('targets')}">Targets</a>
       <a mat-button routerLink="/diseases" [ngClass]="{active: isActive('diseases')}">Diseases</a>
       <a mat-button routerLink="/ligands" [ngClass]="{active: isActive('ligands')}">Ligands</a>
+<!--
       <a mat-button routerLink="/topics" [ngClass]="{active: isActive('topics')}">Topics</a>
+-->
       <a mat-button routerLink="/api" [ngClass]="{active: isActive('api')}">API</a>
       <a mat-button routerLink="/about" [ngClass]="{active: isActive('about')}">About</a>
       <a mat-button routerLink="/faq" [ngClass]="{active: isActive('faq')}">FAQ</a>
