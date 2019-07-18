@@ -39,7 +39,7 @@ export class ProteinStructureViewerComponent implements OnInit, OnChanges {
     // Handle window resizing
     window.addEventListener( 'resize', ( event ) => {
       this.stage.handleResize();
-    }, {passive: false} );
+    }, {passive: true} );
     this.stage.loadFile(`rcsb://${this.pdbid}`, {defaultRepresentation: true}).then().catch();
   }
 

@@ -1,11 +1,18 @@
 @import '../../ncats-theme';
 
 .dashboard-main-div {
-  background-image: url("/assets/images/dna.jpg");
   height:100vh;
   background-color: mat-color($pharos-app-primary);
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.no-webp .dashboard-main-div {
+   background-image: url("/assets/images/dna.jpg");
+}
+
+.webp .dashboard-main-div{
+  background-image: url("/assets/images/dna.webp");
 }
 
 .spacer {

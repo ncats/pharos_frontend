@@ -13,7 +13,11 @@
       </ul>
     </div>
       <div fxFlex="65" fxFlexAlign="center" fxHide.lt-sm>
-      <img src ="./assets/images/primary.png" alt="pharos screenshot" class = "screenshot">
+        <picture>
+          <source type="image/webp" srcset="./assets/images/primary.webp" alt="pharos screenshot" class = "screenshot">
+          <source type="image/png" srcset ="./assets/images/primary.png" alt="pharos screenshot" class = "screenshot">
+          <img src ="./assets/images/primary.png" alt="pharos screenshot" class = "screenshot">
+        </picture>
       </div>
   </div>
 </div>
