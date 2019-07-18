@@ -1,13 +1,10 @@
 import {NgModule} from '@angular/core';
-import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {AboutPageComponent} from './about-page/about-page.component';
 import {FaqPageComponent} from './faq-page/faq-page.component';
 import {ApiPageComponent} from './api-page/api-page.component';
 import {StructureSearchPageComponent} from './structure-search-page/structure-search-page.component';
 import {SequenceSearchPageComponent} from './sequence-search-page/sequence-search-page.component';
-import {PharosMainComponent} from "./pharos-main/pharos-main.component";
-import {DataDetailsResolver} from "./pharos-main/resolvers/data-details.resolver";
-import {DataDetailsComponent} from "./pharos-main/data-details/data-details.component";
 
 
 const ROUTES: Routes = [

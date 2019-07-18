@@ -24,6 +24,8 @@ import {AuthModule} from './auth/auth.module';
 import {MaterialModule} from '../assets/material/material.module';
 import {RouterModule} from '@angular/router';
 import {ServiceWorkerModule} from '@angular/service-worker';
+import {BrowserModule} from '@angular/platform-browser';
+import {AppServerModule} from './app.server.module';
 
 @NgModule({
   declarations: [
@@ -37,17 +39,17 @@ import {ServiceWorkerModule} from '@angular/service-worker';
 
   ],
   imports: [
-    SharedModule.forRoot(),
-    BrowserAnimationsModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    AppRoutingModule,
     RouterModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     AngularFireModule.initializeApp(environment.firebase), // imports firebase/app needed for everything
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
-    AppRoutingModule,
     CommonToolsModule,
     MaterialModule,
     AuthModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    SharedModule.forRoot()
   ],
   providers: [
     PharosApiService,
