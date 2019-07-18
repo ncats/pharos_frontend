@@ -30,8 +30,6 @@ export class DataListResolver implements Resolve<any> {
    * @returns {Observable<any[]>}
    */
   resolve(route: ActivatedRouteSnapshot): Observable<any[]> {
-    console.log("resolving");
-    console.log(route);
       this.loadingService.toggleVisible(true);
       this.pathResolverService.setPath(route.data.path);
       return this.pharosApiService.getData(route.data.path, route.queryParamMap);

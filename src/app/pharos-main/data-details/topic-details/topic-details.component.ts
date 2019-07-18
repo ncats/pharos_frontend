@@ -163,9 +163,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
       })
     };
 
-    console.log(this);
     this._route.snapshot.data.pharosObject.subscribe(res => {
-      console.log(res);
       this.topic = res.data();
       this.graphParser.setId(this.topic.id).subscribe(res => {
         console.log(res);

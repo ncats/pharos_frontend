@@ -20,10 +20,10 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {CommonToolsModule} from './tools/common-tools.module';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
-import {AuthModule} from "./auth/auth.module";
-import {MaterialModule} from "../assets/material/material.module";
-import {RouterModule} from "@angular/router";
-import { ServiceWorkerModule } from '@angular/service-worker';
+import {AuthModule} from './auth/auth.module';
+import {MaterialModule} from '../assets/material/material.module';
+import {RouterModule} from '@angular/router';
+import {ServiceWorkerModule} from '@angular/service-worker';
 
 @NgModule({
   declarations: [

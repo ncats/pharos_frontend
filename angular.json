@@ -24,7 +24,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/manifest.webmanifest"
+              "src/manifest.json"
             ],
             "styles": [
               "node_modules/swagger-ui/dist/swagger-ui.css",
@@ -60,7 +60,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "pharos:build",
+            "browserTarget": "pharos:build"
           },
           "configurations": {
             "production": {
@@ -88,7 +88,7 @@
             "assets": [
               "src/assets",
               "src/favicon.ico",
-              "src/manifest.webmanifest"
+              "src/manifest.json"
             ]
           }
         },

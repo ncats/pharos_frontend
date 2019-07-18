@@ -93,10 +93,6 @@ const ROUTES: Routes = [
     loadChildren: () => import('./pharos-main/modules/ligands/ligand-details.module').then(m => m.LigandDetailsModule),
     data: { path: 'ligands' }
   },
-  { path: '',
-    redirectTo: '/index',
-    pathMatch: 'full'
-  },
   { path: '**',
     redirectTo: '/index'
   },

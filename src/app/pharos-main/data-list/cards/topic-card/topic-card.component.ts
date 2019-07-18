@@ -25,7 +25,6 @@ export class TopicCardComponent {
    * no args
    */
   constructor() {
-    console.log(this);
   }
 
 }
