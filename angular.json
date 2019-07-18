@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "pharos-beta": {
+    "pharos": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -23,7 +23,8 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "node_modules/swagger-ui/dist/swagger-ui.css",
@@ -50,25 +51,27 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
-              ]
+              ],
+              "serviceWorker": true,
+              "ngswConfigPath": "ngsw-config.json"
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "pharos-beta:build",
+            "browserTarget": "pharos:build",
           },
           "configurations": {
             "production": {
-              "browserTarget": "pharos-beta:build:production"
+              "browserTarget": "pharos:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "pharos-beta:build"
+            "browserTarget": "pharos:build"
           }
         },
         "test": {
@@ -84,7 +87,8 @@
             ],
             "assets": [
               "src/assets",
-              "src/favicon.ico"
+              "src/favicon.ico",
+              "src/manifest.webmanifest"
             ]
           }
         },
@@ -102,7 +106,7 @@
         }
       }
     },
-    "pharos-beta-e2e": {
+    "pharos-e2e": {
       "root": "",
       "sourceRoot": "",
       "projectType": "application",
@@ -111,7 +115,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "pharos-beta:serve"
+            "devServerTarget": "pharos:serve"
           }
         },
         "lint": {
@@ -128,7 +132,7 @@
       }
     }
   },
-  "defaultProject": "pharos-beta",
+  "defaultProject": "pharos",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "pharos",

@@ -23,6 +23,7 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {AuthModule} from "./auth/auth.module";
 import {MaterialModule} from "../assets/material/material.module";
 import {RouterModule} from "@angular/router";
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {RouterModule} from "@angular/router";
     AppRoutingModule,
     CommonToolsModule,
     MaterialModule,
-    AuthModule
+    AuthModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     PharosApiService,
