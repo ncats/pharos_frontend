@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {NcatsHeaderComponent} from './tools/ncats-header/ncats-header.component';
 
 /**
  * main app component holder
@@ -8,4 +9,11 @@ import {Component, OnInit} from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {}
+export class AppComponent {
+
+  @ViewChild('appHeader', {static: true}) header: NcatsHeaderComponent;
+
+  closeSidenav() {
+    this.header.sidenav.close();
+  }
+}

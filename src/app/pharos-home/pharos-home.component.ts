@@ -15,8 +15,7 @@ import {DOCUMENT} from "@angular/common";
 @Component({
   selector: 'pharos-home',
   templateUrl: './pharos-home.component.html',
-  styleUrls: ['./pharos-home.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./pharos-home.component.scss']
 })
 
 /**

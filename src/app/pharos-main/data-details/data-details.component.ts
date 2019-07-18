@@ -8,11 +8,11 @@ import {MatDrawer} from '@angular/material';
 import {DynamicPanelComponent} from '../../tools/dynamic-panel/dynamic-panel.component';
 import {DataDetailsResolver} from '../resolvers/data-details.resolver';
 import {ScrollDispatcher} from '@angular/cdk/scrolling';
-import {PharosConfig} from "../../../config/pharos-config";
-import {PharosBase} from "../../models/pharos-base";
-import {PharosApiService} from "../../pharos-services/pharos-api.service";
-import {LoadingService} from "../../pharos-services/loading.service";
-import {NcatsHeaderComponent} from "../../tools/ncats-header/ncats-header.component";
+import {PharosConfig} from '../../../config/pharos-config';
+import {PharosBase} from '../../models/pharos-base';
+import {PharosApiService} from '../../pharos-services/pharos-api.service';
+import {LoadingService} from '../../pharos-services/loading.service';
+import {NcatsHeaderComponent} from '../../tools/ncats-header/ncats-header.component';
 
 /**
  * component that holds dynamically injected details panels for various object types
@@ -53,8 +53,6 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
    * reference to help menu to toggle opening and closing
    */
   @ViewChild('helppanel', {static: true}) helpPanel: MatDrawer;
-
-  @ViewChild('appHeader', {static: true}) header: NcatsHeaderComponent;
 
   /**
    * set up lots of dependencies to watch for data changes, navigate and parse and inject components
@@ -181,10 +179,6 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
     this.loading = false;
     this.loadingService.toggleVisible(false);
     this.componentsLoaded = true;
-  }
-
-  closeSidenav() {
-    this.header.sidenav.close();
   }
 
   /**

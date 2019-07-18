@@ -15,9 +15,7 @@ const httpOptions = {
 /**
  * service to convert marvinjs mol file to a smiles string
  */
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class MolConverterService {
 
   /**

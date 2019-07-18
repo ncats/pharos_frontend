@@ -1,10 +1,12 @@
 import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {RouterModule, Routes, PreloadAllModules} from '@angular/router';
 import {AboutPageComponent} from './about-page/about-page.component';
 import {FaqPageComponent} from './faq-page/faq-page.component';
-import {ApiPageComponent} from './api-page/api-page.component';
-import {StructureSearchPageComponent} from './structure-search-page/structure-search-page.component';
 import {SequenceSearchPageComponent} from './sequence-search-page/sequence-search-page.component';
+import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {CommonModule} from '@angular/common';
+import {CommonToolsModule} from './tools/common-tools.module';
+import {SharedModule} from './shared/shared.module';
 
 
 const ROUTES: Routes = [
@@ -27,7 +29,7 @@ const ROUTES: Routes = [
   },
   {
     path: 'structure',
-    component: StructureSearchPageComponent
+    loadChildren: () => import('./structure-search-page/structure-search-page.module').then(m => m.StructureSearchPageModule),
   },
   { path: 'sketcher',
     redirectTo: '/structure',
@@ -43,7 +45,7 @@ const ROUTES: Routes = [
   },
   {
     path: 'api',
-    component: ApiPageComponent
+    loadChildren: () => import('./api-page/api-page.module').then(m => m.ApiPageModule),
   },
   {
     path: 'search',
@@ -91,23 +93,31 @@ const ROUTES: Routes = [
     data: { path: 'ligands' }
   },
   { path: '**',
-    redirectTo: '/index'
+    redirectTo: '/'
   },
 ];
 
 @NgModule({
   imports: [
+    CommonModule,
+    SharedModule.forRoot(),
+    CommonToolsModule,
     RouterModule.forRoot(ROUTES, {
       scrollPositionRestoration: 'enabled',
       anchorScrolling: 'enabled',
-      //onSameUrlNavigation: 'reload',
+      // onSameUrlNavigation: 'reload',
       scrollOffset: [0, 120],
-     // preloadingStrategy: PreloadAllModules
+      preloadingStrategy: PreloadAllModules
       })
   ],
   providers: [],
   entryComponents: [],
-  declarations: [],
+  declarations: [
+    AboutPageComponent,
+    FaqPageComponent,
+    SequenceSearchPageComponent,
+    PageNotFoundComponent
+  ],
   exports: [ RouterModule ]
 })
 export class AppRoutingModule { }

@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {SearchComponent} from "./search.component";
-import {HighlightPipe} from "./highlight.pipe";
-import {SuggestApiService} from "./suggest-api.service";
-import {MaterialModule} from "../../../assets/material/material.module";
-import {ReactiveFormsModule} from "@angular/forms";
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {SearchComponent} from './search.component';
+import {HighlightPipe} from './highlight.pipe';
+import {SuggestApiService} from './suggest-api.service';
+import {MaterialModule} from '../../../assets/material/material.module';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,7 @@ import {ReactiveFormsModule} from "@angular/forms";
     MaterialModule,
     ReactiveFormsModule
   ],
-  providers:[
+  providers: [
     SuggestApiService
   ],
   exports: [
