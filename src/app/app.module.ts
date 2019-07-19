@@ -34,7 +34,6 @@ import {ServiceWorkerModule} from '@angular/service-worker';
     StructureSearchPageComponent,
     SequenceSearchPageComponent,
     PageNotFoundComponent
-
   ],
   imports: [
     SharedModule.forRoot(),

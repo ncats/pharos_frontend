@@ -148,6 +148,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
   makeComponents(): void {
     const components: any = this.pharosConfig.getComponents(this.path, 'details');
     components.forEach(component => {
+      console.log(component);
       // start api calls before making component
       const keys: string[] = [];
       if (component.api) {

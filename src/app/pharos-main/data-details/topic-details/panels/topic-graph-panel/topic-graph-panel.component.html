@@ -1,29 +1,12 @@
+<div class="info-panel">
 <!--
-<div class ="flex30">
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start">
-    <div fxFlex="95" fxFlexAlign="stretch" class="graph-holder">
-      <div class = "fdg-container">
-        <mat-sidenav-container class="sctl-graph-container" [hasBackdrop]="false">
-          <mat-sidenav #graphMenu [opened]="true" mode="over"
-                       class="menu-drawer">
-            <app-graph-menu
-              (optionsChange)="filterGraph($event)"
-              (close)="graphMenu.close()"
-            ></app-graph-menu>
-          </mat-sidenav>
-          <mat-sidenav-content>
-            <button mat-button (click)="graphMenu.toggle()" class="open-button">
-              <mat-icon>arrow_right</mat-icon>open
-            </button>
-            <div class = "info-panel" cdkDrag>
-              <app-node-details-box></app-node-details-box>
-            </div>
-            <app-force-directed-graph cdkDropList></app-force-directed-graph>
-          </mat-sidenav-content>
-        </mat-sidenav-container>
-      </div>
-
-    </div>
-  </div>
-</div>
+  <app-node-details-box></app-node-details-box>
 -->
+</div>
+<div class = "smartgraph-fdg">
+  <smrtgraph
+    [graph] = graph
+    (nodeEvents)="nodeEvents($event)"
+    (linkEvents)="linkEvents($event)"
+    *ngIf="graph"></smrtgraph>
+</div>

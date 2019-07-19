@@ -14,7 +14,7 @@ import {TargetTableModule} from "../targets/target-list.module";
 import {LigandListModule} from "../ligands/ligand-list.module";
 import {TopicDetailsResolver} from "../../resolvers/topic-details.resolver";
 import {DiseaseListModule} from "../diseases/disease-list.module";
-import {LinkService, NodeService, SmrtgraphCoreModule} from "smrtgraph-core";
+import {SmrtgraphCoreModule} from "smrtgraph-core";
 
 
 @NgModule({

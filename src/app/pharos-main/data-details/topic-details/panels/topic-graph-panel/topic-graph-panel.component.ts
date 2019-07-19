@@ -1,6 +1,8 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {LinkService, NodeService} from "smrtgraph-core";
+import {GraphParserService} from "./services/graph-parser.service";
+import {PharosNodeSerializer} from "../../../../../models/topic-graph/pharos-node-serializer";
 
 
 
@@ -8,12 +10,11 @@ import {LinkService, NodeService} from "smrtgraph-core";
   selector: 'pharos-topic-graph-panel',
   templateUrl: './topic-graph-panel.component.html',
   styleUrls: ['./topic-graph-panel.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  providers: [NodeService, LinkService]
+  providers: [NodeService, LinkService, GraphParserService]
 })
 export class TopicGraphPanelComponent<T extends Node> implements OnInit {
 
-
+  @Input() topic;
 
   dataMap: Map<string, any> = new Map<string, any>();
 
@@ -24,10 +25,17 @@ export class TopicGraphPanelComponent<T extends Node> implements OnInit {
 
   constructor(
     private _http: HttpClient,
-
+    private graphParserService: GraphParserService
   ) {}
 
   ngOnInit() {
+    console.log(this);
+    this.graphParserService.setSerializers({node: new PharosNodeSerializer()});
+
+    this.graphParserService.setId(this.topic.id).subscribe(res => {
+      console.log(res);
+    });
+    this.graphParserService.data$.subscribe(res=> this.graph = res);
     //  this.dataParserService.LoadData();
 /*    this.dataParserService.loadData().subscribe(res => {
 
@@ -93,6 +101,9 @@ export class TopicGraphPanelComponent<T extends Node> implements OnInit {
         return nodes;
       }*/
   }
+
+  nodeEvents(event){}
+  linkEvents(event){}
 
   _filterEdges(params: Event, nodes: T) {
     const data = params['data'] ? params['data'] : 'nscs';

@@ -13,7 +13,8 @@ import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {takeUntil} from "rxjs/operators";
 import {map} from "rxjs/internal/operators";
 import {AngularFirestore} from "@angular/fire/firestore";
-import {GraphParserService} from "./services/graph-parser.service";
+import {GraphParserService} from "./panels/topic-graph-panel/services/graph-parser.service";
+import {LinkService, NodeService} from "smrtgraph-core";
 
 
 /**
@@ -37,7 +38,7 @@ interface TopicData {
   selector: 'pharos-topic-details',
   templateUrl: './topic-details.component.html',
   styleUrls: ['./topic-details.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  providers: [NodeService, LinkService, GraphParserService]
 })
 export class TopicDetailsComponent extends DynamicPanelComponent implements OnInit {
   /**
@@ -143,7 +144,6 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
               private _route: ActivatedRoute,
               private router: Router,
               private pharosConfig: PharosConfig,
-              private dataDetailsResolver: DataDetailsResolver,
               private ref: ChangeDetectorRef,
               private db: AngularFirestore,
               private graphParser: GraphParserService,
@@ -162,12 +162,12 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
         'Content-Type': 'text/plain',
       })
     };
-
+console.log(this);
     this._route.snapshot.data.pharosObject.subscribe(res => {
       this.topic = res.data();
-      this.graphParser.setId(this.topic.id).subscribe(res => {
+      this.graphParser.setId(this.topic.id)/*.subscribe(res => {
         console.log(res);
-      });
+      });*/
       this.allTargets = this.topic.allTargets;
 /*      this.topic.map(entry => {
         if(entry.graphData.ligands) {

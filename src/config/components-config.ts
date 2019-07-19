@@ -1229,7 +1229,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           /* {
              token: TOKENS.PHAROS_BREADCRUMB_COMPONENT
            },*/
-          {
+/*          {
             token: TOKENS.TOPIC_HEADER_COMPONENT
           },
           {
@@ -1237,7 +1237,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           },
           {
             token: TOKENS.NODE_DISPLAY_PANEL
-          }
+          }*/
         ]
       }
     }],
