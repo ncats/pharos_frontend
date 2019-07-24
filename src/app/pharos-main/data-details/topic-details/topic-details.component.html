@@ -27,9 +27,11 @@
         </ng-template>
       </mat-tab>
       <mat-tab label="Network" class="full-tab">
-          <article>
+        <ng-template matTabContent>
+        <article>
            <pharos-topic-graph-panel [topic]="topic" *ngIf="topic && topic.id"></pharos-topic-graph-panel>
           </article>
+        </ng-template>
       </mat-tab>
     </mat-tab-group>
   </div>

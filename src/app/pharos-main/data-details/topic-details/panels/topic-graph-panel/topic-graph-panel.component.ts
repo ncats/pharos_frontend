@@ -2,7 +2,7 @@ import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {LinkService, NodeService} from "smrtgraph-core";
 import {GraphParserService} from "./services/graph-parser.service";
-import {PharosNodeSerializer} from "../../../../../models/topic-graph/pharos-node-serializer";
+import {PharosNodeSerializer} from './models/topic-graph/pharos-node-serializer';
 
 
 
@@ -14,7 +14,7 @@ import {PharosNodeSerializer} from "../../../../../models/topic-graph/pharos-nod
 })
 export class TopicGraphPanelComponent<T extends Node> implements OnInit {
 
-  @Input() topic;
+  @Input() topic = {id: 1};
 
   dataMap: Map<string, any> = new Map<string, any>();
 
@@ -33,7 +33,6 @@ export class TopicGraphPanelComponent<T extends Node> implements OnInit {
     this.graphParserService.setSerializers({node: new PharosNodeSerializer()});
 
     this.graphParserService.setId(this.topic.id).subscribe(res => {
-      console.log(res);
     });
     this.graphParserService.data$.subscribe(res=> this.graph = res);
     //  this.dataParserService.LoadData();

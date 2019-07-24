@@ -26,7 +26,6 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
   }
 
   setSerializers(serializers) {
-    console.log(serializers);
     if(serializers.node) {
       this.nodeService.setSerializer(serializers.node);
     }
@@ -43,10 +42,10 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
   _parseData(queries: any) {
       console.log(queries);
       queries.forEach(data => {
-        const tnode = this.nodeService.makeNode(data.graphData.target, data.graphData.target.id);
+        const tnode = this.nodeService.makeNode(data.graphData.target, `target${data.graphData.target.id}`);
         if (data.graphData.ligands) {
           data.graphData.ligands.forEach(ligand => {
-            const lnode = this.nodeService.makeNode(ligand, ligand.id);
+            const lnode = this.nodeService.makeNode(ligand, `ligand${ligand.id}`);
             tnode.linkCount++;
             lnode.linkCount++;
             this.nodeService.setNode(tnode);
@@ -56,7 +55,7 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
         }
         if (data.graphData.diseases) {
           data.graphData.diseases.forEach(disease => {
-            const dnode = this.nodeService.makeNode(disease, disease.id);
+            const dnode = this.nodeService.makeNode(disease, `disease${disease.id}`);
             tnode.linkCount++;
             dnode.linkCount++;
             this.nodeService.setNode(tnode);
