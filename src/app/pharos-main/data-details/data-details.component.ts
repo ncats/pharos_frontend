@@ -185,7 +185,9 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
   }
 
   closeSidenav() {
-    this.header.sidenav.close();
+    if(this.header) {
+      this.header.sidenav.close();
+    }
   }
 
   /**

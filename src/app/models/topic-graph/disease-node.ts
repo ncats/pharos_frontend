@@ -9,6 +9,7 @@ export class DiseaseNode extends SGNode {
   IDG_Disease: string;
   IDG_Confidence?: number;
   IDG_Evidence?: string;
+  color = 'green';
   // todo: fix api to remove hyphen
 //  'IDG_Z-score'?: number;
  // disease: Disease;
@@ -24,12 +25,10 @@ export class DiseaseNodeSerializer implements NodeSerializer {
    * @return {DiseaseNode}
    */
   fromJson (obj: any, id?: string): DiseaseNode {
-    console.log(obj);
     const node = new DiseaseNode();
     Object.entries((obj)).forEach((prop) => node[prop[0]] = prop[1]);
    // node.disease = new DiseaseSerializer().fromJson(node);
   //  node.targets = [];
-    console.log(node);
     return node;
   }
   /**

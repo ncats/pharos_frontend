@@ -24,12 +24,10 @@ export class LigandNodeSerializer implements NodeSerializer {
    * @return {LigandNode}
    */
   fromJson (obj: any, id?: string): LigandNode {
-    console.log(obj);
     const node = new LigandNode();
     Object.entries((obj)).forEach((prop) => node[prop[0]] = prop[1]);
     // node.ligand = new LigandSerializer().fromJson(node);
     //  node.targets = [];
-    console.log(node);
     return node;
   }
   /**

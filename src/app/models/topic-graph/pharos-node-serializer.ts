@@ -34,7 +34,6 @@ export class PharosNodeSerializer extends NodeSerializer {
       }
 
       case 'ix.idg.models.Ligand': {
-        console.log(convertedJson);
         return this.ligandNodeSerializer.fromJson(convertedJson, id);
       }
       default : {

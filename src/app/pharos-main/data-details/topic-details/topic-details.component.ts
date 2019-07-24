@@ -15,6 +15,7 @@ import {map} from "rxjs/internal/operators";
 import {AngularFirestore} from "@angular/fire/firestore";
 import {GraphParserService} from "./panels/topic-graph-panel/services/graph-parser.service";
 import {LinkService, NodeService} from "smrtgraph-core";
+import {PharosNodeSerializer} from "../../../models/topic-graph/pharos-node-serializer";
 
 
 /**
@@ -163,6 +164,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
       })
     };
 console.log(this);
+this.graphParser.setSerializers({node: new PharosNodeSerializer()});
     this._route.snapshot.data.pharosObject.subscribe(res => {
       this.topic = res.data();
       this.graphParser.setId(this.topic.id)/*.subscribe(res => {

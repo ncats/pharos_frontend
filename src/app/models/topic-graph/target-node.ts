@@ -23,12 +23,30 @@ export class TargetNodeSerializer implements NodeSerializer {
    * @return {TargetNode}
    */
   fromJson (obj: any, id?: string): TargetNode {
-    console.log(obj);
     const node = new TargetNode();
     Object.entries((obj)).forEach((prop) => node[prop[0]] = prop[1]);
     // node.target = new TargetSerializer().fromJson(node);
     //  node.targets = [];
-    console.log(node);
+    switch(node.tdl) {
+      case 'Tdark': {
+        node.color = '#f44336';
+        break;
+      }
+      case 'Tchem': {
+        node.color = '#5bc0de';
+        break;
+      }
+      case 'Tbio': {
+        node.color = '#ffb259';
+        break;
+      }
+      case 'Tclin': {
+        node.color = '#337ab7';
+        break;
+      }
+
+
+    }
     return node;
   }
   /**
