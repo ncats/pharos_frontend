@@ -1,12 +1,25 @@
-<div class="info-panel">
-<!--
-  <app-node-details-box></app-node-details-box>
--->
-</div>
-<div class = "smartgraph-fdg">
-  <smrtgraph
-    [graph] = graph
-    (nodeEvents)="nodeEvents($event)"
-    (linkEvents)="linkEvents($event)"
-    *ngIf="graph"></smrtgraph>
-</div>
+<mat-sidenav-container class="upperSection">
+  <button type="button" class="sidenavToggle" mat-raised-button [color]="'accent'" (click)="sidenav.toggle()">
+    Filter Graph <mat-icon>filter_list</mat-icon>
+  </button>
+  <mat-sidenav #sidenav [mode]="'side'" [opened]="true" >
+    <!-- sidenav content -->
+    <pharos-topic-graph-filters></pharos-topic-graph-filters>
+  </mat-sidenav>
+
+  <div class="info-panel" [ngClass]="{'sidenav-opened': sidenav.opened === true }">
+    <app-node-details-box [node]="hoveredNode" [link]="hoveredLink"></app-node-details-box>
+  </div>
+  <!-- primary content -->
+  <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div class = "smartgraph-fdg">
+    <smrtgraph #smrtgraph
+      [graph] = graph
+      (nodeEvents)="nodeEvents($event)"
+      (linkEvents)="linkEvents($event)"
+      *ngIf="graph"></smrtgraph>
+  </div>
+</mat-sidenav-container>
+

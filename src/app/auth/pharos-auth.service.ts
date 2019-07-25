@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
-import {AngularFirestore} from "@angular/fire/firestore";
-import {BehaviorSubject} from "rxjs/index";
-import {MatDialogRef} from "@angular/material";
-import {PharosProfileService} from "./pharos-profile.service";
+import {AngularFirestore} from '@angular/fire/firestore';
+import {BehaviorSubject} from 'rxjs/index';
+import {MatDialogRef} from '@angular/material';
+import {PharosProfileService} from './pharos-profile.service';
 
 @Injectable({
   providedIn: 'root'
@@ -34,8 +34,8 @@ export class PharosAuthService {
         }, err => {
           console.log(err);
           this.handleError(err);
-        })
-    })
+        });
+    });
   }
 
   doRegister(value, dialogRef: MatDialogRef<any>) {
@@ -47,8 +47,8 @@ export class PharosAuthService {
         }, err => {
           console.log(err);
           reject(err);
-        })
-    })
+        });
+    });
   }
 
   logout() {
@@ -68,9 +68,9 @@ export class PharosAuthService {
       // Step 2.
       // User's email already exists.
       // The pending GitHub credential.
-      var pendingCred = error.credential;
+      const pendingCred = error.credential;
       // The provider account's email address.
-      var email = error.email;
+      const email = error.email;
       // Get sign-in methods for this email.
       this.afAuth.auth.fetchSignInMethodsForEmail(email).then((methods) => {
         // Step 3.

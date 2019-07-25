@@ -1,8 +1,9 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {LinkService, NodeService} from "smrtgraph-core";
-import {GraphParserService} from "./services/graph-parser.service";
+import {LinkService, NodeService, SmrtgraphCoreComponent} from 'smrtgraph-core';
+import {GraphParserService} from './services/graph-parser.service';
 import {PharosNodeSerializer} from './models/topic-graph/pharos-node-serializer';
+import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
 
 
 
@@ -10,18 +11,25 @@ import {PharosNodeSerializer} from './models/topic-graph/pharos-node-serializer'
   selector: 'pharos-topic-graph-panel',
   templateUrl: './topic-graph-panel.component.html',
   styleUrls: ['./topic-graph-panel.component.scss'],
-  providers: [NodeService, LinkService, GraphParserService]
+  providers: [NodeService, LinkService, GraphParserService],
+  encapsulation: ViewEncapsulation.None
 })
-export class TopicGraphPanelComponent<T extends Node> implements OnInit {
+export class TopicGraphPanelComponent<T extends Node> implements OnInit, AfterViewInit {
+
+  @ViewChild('smrtgraph', {read: SmrtgraphCoreComponent, static: false}) smrtGraph: SmrtgraphCoreComponent;
 
   @Input() topic = {id: 1};
 
   dataMap: Map<string, any> = new Map<string, any>();
 
 
-  public loaded = false;
+  public loading = true;
 
   graph: any;
+
+  hoveredNode: any;
+  hoveredLink: any;
+
 
   constructor(
     private _http: HttpClient,
@@ -34,11 +42,15 @@ export class TopicGraphPanelComponent<T extends Node> implements OnInit {
 
     this.graphParserService.setId(this.topic.id).subscribe(res => {
     });
-    this.graphParserService.data$.subscribe(res=> this.graph = res);
-    //  this.dataParserService.LoadData();
-/*    this.dataParserService.loadData().subscribe(res => {
+    this.graphParserService.data$.subscribe(res => {
+      this.graph = res;
+      this.loading = false;
+    });
+  }
 
-    });*/
+  ngAfterViewInit() {
+    // this.smrtGraph.graphObject.simulation.stop();
+
   }
 
   filterGraph(event: Event) {
@@ -101,11 +113,20 @@ export class TopicGraphPanelComponent<T extends Node> implements OnInit {
       }*/
   }
 
-  nodeEvents(event){}
-  linkEvents(event){}
+  nodeEvents(event) {
+    if (event.nodeHover) {
+      this.hoveredNode = event.nodeHover;
+    }
+  }
+
+  linkEvents(event) {
+    if (event.linkHover) {
+      this.hoveredLink = event.linkHover;
+    }
+  }
 
   _filterEdges(params: Event, nodes: T) {
-    const data = params['data'] ? params['data'] : 'nscs';
+   // const data = params['data'] ? params['data'] : 'nscs';
    // const links: Link[] = this.dataMap.get(data).links as Link[];
     /*const currentNodes = nodes.map(node => node.uuid);
     links = links.filter(link => {

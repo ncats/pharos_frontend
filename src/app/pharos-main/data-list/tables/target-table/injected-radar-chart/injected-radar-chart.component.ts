@@ -2,10 +2,10 @@ import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit,
   Output
 } from '@angular/core';
-import {InjectedComponent} from "../../../../../tools/injected-component";
-import {PharosProperty} from "../../../../../models/pharos-property";
-import {BehaviorSubject, Subject} from "rxjs/index";
-import {takeUntil} from "rxjs/operators";
+import {InjectedComponent} from '../../../../../tools/injected-component';
+import {PharosProperty} from '../../../../../models/pharos-property';
+import {BehaviorSubject, Subject} from 'rxjs/index';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'pharos-injected-radar-chart',
@@ -55,6 +55,6 @@ export class InjectedRadarChartComponent implements InjectedComponent, OnInit {
     this._data
       .subscribe(res => {
       this.accession = this.object.accession.term;
-    })
+    });
   }
 }

@@ -8,11 +8,11 @@ import {MatDrawer} from '@angular/material';
 import {DynamicPanelComponent} from '../../tools/dynamic-panel/dynamic-panel.component';
 import {DataDetailsResolver} from '../resolvers/data-details.resolver';
 import {ScrollDispatcher} from '@angular/cdk/scrolling';
-import {PharosConfig} from "../../../config/pharos-config";
-import {PharosBase} from "../../models/pharos-base";
-import {PharosApiService} from "../../pharos-services/pharos-api.service";
-import {LoadingService} from "../../pharos-services/loading.service";
-import {NcatsHeaderComponent} from "../../tools/ncats-header/ncats-header.component";
+import {PharosConfig} from '../../../config/pharos-config';
+import {PharosBase} from '../../models/pharos-base';
+import {PharosApiService} from '../../pharos-services/pharos-api.service';
+import {LoadingService} from '../../pharos-services/loading.service';
+import {NcatsHeaderComponent} from '../../tools/ncats-header/ncats-header.component';
 
 /**
  * component that holds dynamically injected details panels for various object types
@@ -185,7 +185,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
   }
 
   closeSidenav() {
-    if(this.header) {
+    if (this.header) {
       this.header.sidenav.close();
     }
   }

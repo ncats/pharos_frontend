@@ -108,7 +108,7 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
   }
 
   ngOnChanges (change) {
-    if(this.drugPaginator) {
+    if (this.drugPaginator) {
       this.setPage();
     }
   }
@@ -162,7 +162,7 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
       // .sort(activity => activity.target !== this.target.gene);
       const strucProp = drug.links.filter(link => link.kind === 'ix.core.models.Structure')[0];
       let lig: Ligand;
-      if(strucProp) {
+      if (strucProp) {
         const refid: string = strucProp.refid;
          lig = this.drugSerializer.fromJson({
           name: drug.name,

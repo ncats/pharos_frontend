@@ -8,8 +8,8 @@ import {SharedModule} from './shared.module';
 import {DonutChartComponent} from '../tools/visualizations/donut-chart/donut-chart.component';
 import {VisualizationOptionsComponent} from '../pharos-main/data-list/data-list-visualizations/visualization-options/visualization-options.component';
 import {CommonToolsModule} from '../tools/common-tools.module';
-import {PharosMainComponent} from "../pharos-main/pharos-main.component";
-import {RouterModule} from "@angular/router";
+import {PharosMainComponent} from '../pharos-main/pharos-main.component';
+import {RouterModule} from '@angular/router';
 
 
 @NgModule({

@@ -136,7 +136,7 @@ export class PathResolverService {
    * @param {ParamMap} map
    */
   mapToFacets(map: ParamMap): void {
-    if(map.keys.length === 0) {
+    if (map.keys.length === 0) {
       this._facetMap.clear();
     } else {
       const fList = map.getAll('facet');
@@ -159,9 +159,9 @@ export class PathResolverService {
       // this cleans up the emtpy searches that return blank facets
       if (qList.length > 0) {
         qList = qList.map(q => q.replace(/"/g, '').replace(/\+/g, ' '));
-        if(qList[0].includes('etag')) {
+        if (qList[0].includes('etag')) {
           this._facetMap.set('etag', [qList[0].split(':')[1]]);
-        }else {
+        } else {
           this._facetMap.set('query', qList);
         }
       }

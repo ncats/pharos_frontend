@@ -133,13 +133,11 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
               let count = Object.values(obj).length;
               Object.values(obj).forEach(val => {
                 if (val == 0) {
-                  count--
-                }
-                else if (val === []) {
-                  count--
-                }
-                else if (val['content'] && val['content'].length === 0) {
-                  count--
+                  count--;
+                } else if (val === []) {
+                  count--;
+                } else if (val['content'] && val['content'].length === 0) {
+                  count--;
                 } // this one covers ppi section
               });
               if (count === 0 && component.navHeader) {

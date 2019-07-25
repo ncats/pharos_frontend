@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
+import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 
 @Component({
   selector: 'pharos-ligand-description',
@@ -24,7 +24,7 @@ export class LigandDescriptionComponent extends DynamicPanelComponent implements
         //    takeWhile(() => !this.data['references'])
       )
       .subscribe(x => {
-        if(this.ligand) {
+        if (this.ligand) {
           this.description = this.ligand.description;
         }
       });

@@ -429,7 +429,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
   setData() {
     if (this._chartOptions.xAxisScale === 'year' ) {
       d3.merge(this.displayData).map( d => {
-         if(typeof d.x !== 'object') {
+         if (typeof d.x !== 'object') {
            d.x = new Date(d.x, 0);
          }
         return d;

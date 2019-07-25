@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialogRef} from "@angular/material";
-import {PharosAuthService} from "../pharos-auth.service";
+import {MatDialogRef} from '@angular/material';
+import {PharosAuthService} from '../pharos-auth.service';
 
 
 @Component({

@@ -54,12 +54,12 @@ export class DataListVisualizationsComponent implements OnInit {
   ngOnInit() {
         this.chartFacets = this.pharosConfig.getAllChartFacets(this.pathResolverService.getPath());
     this.facetRetrieverService.getAllFacets().subscribe(facets => {
-      if(facets  && facets.size > 0) {
+      if (facets  && facets.size > 0) {
         if (this.chartFacets.donut.length > 0) {
           this.filteredFacets = [];
           this.chartFacets.donut.forEach(f => {
             const facet = facets.get(f.name);
-            if(facet) {
+            if (facet) {
               facet.label = f.label;
               this.filteredFacets.push(facet);
             }

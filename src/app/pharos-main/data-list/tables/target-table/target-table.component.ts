@@ -20,11 +20,11 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {NavigationExtras, Router} from '@angular/router';
 import {PharosConfig} from '../../../../../config/pharos-config';
-import {PharosProperty} from "../../../../models/pharos-property";
-import {Target, TargetSerializer} from "../../../../models/target";
+import {PharosProperty} from '../../../../models/pharos-property';
+import {Target, TargetSerializer} from '../../../../models/target';
 import * as firebase from 'firebase/app';
-import {TargetSaveModalComponent} from "./target-save-modal/target-save-modal.component";
-import {PharosProfileService} from "../../../../auth/pharos-profile.service";
+import {TargetSaveModalComponent} from './target-save-modal/target-save-modal.component';
+import {PharosProfileService} from '../../../../auth/pharos-profile.service';
 
 
 /**

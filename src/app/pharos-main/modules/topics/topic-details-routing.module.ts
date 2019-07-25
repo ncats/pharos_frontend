@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {DataDetailsComponent} from "../../data-details/data-details.component";
-import {TopicDetailsResolver} from "../../resolvers/topic-details.resolver";
+import {DataDetailsComponent} from '../../data-details/data-details.component';
+import {TopicDetailsResolver} from '../../resolvers/topic-details.resolver';
 
 const routes: Routes = [
   {

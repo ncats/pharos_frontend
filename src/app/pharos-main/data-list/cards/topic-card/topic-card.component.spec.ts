@@ -13,7 +13,7 @@ import {ApiPageComponent} from '../../../../api-page/api-page.component';
 import {FaqPageComponent} from '../../../../faq-page/faq-page.component';
 import {NewsPanelComponent} from '../../../../pharos-home/news-panel/news-panel.component';
 import {ApiViewerComponent} from '../../../../tools/api-viewer/api-viewer.component';
-import {Topic} from "../../../../models/topic";
+import {Topic} from '../../../../models/topic';
 
 describe('ToiCardComponent', () => {
   let component: ToiCardComponent;

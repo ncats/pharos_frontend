@@ -1,14 +1,14 @@
 import {Component, InjectionToken, OnInit} from '@angular/core';
 import {PharosProperty} from '../../../../models/pharos-property';
-import {HttpClient} from "@angular/common/http";
-import {Target} from "../../../../models/target";
-import {zipAll, map} from "rxjs/operators";
-import {from} from "rxjs/index";
-import {PageData} from "../../../../tools/generic-table/models/page-data";
-import {DynamicTablePanelComponent} from "../../../../tools/dynamic-table-panel/dynamic-table-panel.component";
-import {Disease} from "../../../../models/disease";
-import {Publication} from "../../../../models/publication";
-import {PharosConfig} from "../../../../../config/pharos-config";
+import {HttpClient} from '@angular/common/http';
+import {Target} from '../../../../models/target';
+import {zipAll, map} from 'rxjs/operators';
+import {from} from 'rxjs/index';
+import {PageData} from '../../../../tools/generic-table/models/page-data';
+import {DynamicTablePanelComponent} from '../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
+import {Disease} from '../../../../models/disease';
+import {Publication} from '../../../../models/publication';
+import {PharosConfig} from '../../../../../config/pharos-config';
 
 /**
  * token to inject structure viewer into generic table component
@@ -94,15 +94,15 @@ export class TargetListPanelComponent extends DynamicTablePanelComponent impleme
                     });
                     return res.target;
                   })
-                )
+                );
               }),
             zipAll()
           ).subscribe(res => {
             this.pageData = this.makePageData(this.disease._links.count);
             this.tableArr = res;
-          })
+          });
         }
-      })
+      });
   }
 
   getMoreTargets(event) {
@@ -129,13 +129,13 @@ export class TargetListPanelComponent extends DynamicTablePanelComponent impleme
                 });
                 return res.target;
               })
-            )
+            );
           }),
           zipAll()
         ).subscribe(res => {
           this.tableArr = res;
           this.pageData.skip = event.pageIndex * event.pageSize;
-        })
+        });
       });
   }
 

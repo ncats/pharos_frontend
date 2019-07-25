@@ -3,7 +3,7 @@ import {Ortholog, OrthologSerializer} from '../../../../../../models/ortholog';
 import {DynamicPanelComponent} from '../../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import {PharosProperty} from '../../../../../../models/pharos-property';
-import {PageData} from "../../../../../../models/page-data";
+import {PageData} from '../../../../../../models/page-data';
 
 @Component({
   selector: 'pharos-ortholog-panel',
@@ -80,7 +80,7 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
           count: 10
         });
     this.tableArr = this.orthologs
-      .slice(this.orthoPageData.skip, this.orthoPageData.top)
+      .slice(this.orthoPageData.skip, this.orthoPageData.top);
     }
 
   page(event) {

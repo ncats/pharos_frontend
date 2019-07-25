@@ -14,14 +14,15 @@ import {TargetTableModule} from '../targets/target-list.module';
 import {LigandListModule} from '../ligands/ligand-list.module';
 import {TopicDetailsResolver} from '../../resolvers/topic-details.resolver';
 import {DiseaseListModule} from '../diseases/disease-list.module';
-import {SmrtgraphCoreModule} from 'smrtgraph-core';
+import {GraphDataService, LinkService, NodeService, SmrtgraphCoreModule} from 'smrtgraph-core';
+import {PharosGraphModule} from '../../data-details/topic-details/panels/topic-graph-panel/pharos-graph.module';
+import {GraphParserService} from '../../data-details/topic-details/panels/topic-graph-panel/services/graph-parser.service';
 
 
 @NgModule({
   declarations: [
     TopicDetailsComponent,
     TopicHeaderComponent,
-    TopicGraphPanelComponent,
     NodeDisplayComponent
   ],
   imports: [
@@ -33,11 +34,16 @@ import {SmrtgraphCoreModule} from 'smrtgraph-core';
     TargetTableModule,
     LigandListModule,
     DiseaseListModule,
-    SmrtgraphCoreModule,
+    PharosGraphModule,
     SharedModule.forRoot()
   ],
   providers: [
     TopicDetailsResolver,
+    GraphParserService,
+    GraphDataService,
+    NodeService,
+    LinkService,
+
     // topics
     {provide: TOKENS.TOPIC_DETAILS_COMPONENT, useValue: TopicDetailsComponent},
     {provide: TOKENS.TOPIC_HEADER_COMPONENT, useValue: TopicHeaderComponent},
@@ -46,7 +52,6 @@ import {SmrtgraphCoreModule} from 'smrtgraph-core';
   entryComponents: [
     TopicDetailsComponent,
     TopicHeaderComponent,
-    TopicGraphPanelComponent,
     NodeDisplayComponent
   ]
 

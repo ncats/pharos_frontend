@@ -119,7 +119,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
       this.imgUrl = this._URL + this.sourceList[0].name;
     }
 
-    if(this.data.specificity) {
+    if (this.data.specificity) {
       this.radarData = [];
       const axes: any [] = [];
       this.data.specificity.forEach(data => {

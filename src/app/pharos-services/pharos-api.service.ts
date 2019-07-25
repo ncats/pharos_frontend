@@ -6,10 +6,10 @@ import {ParamMap} from '@angular/router';
 import {Topic} from '../models/topic';
 import {map, tap} from 'rxjs/internal/operators';
 import {PharosConfig} from '../../config/pharos-config';
-import {HttpCacheService} from "./http-cache.service";
-import {PharosBase} from "../models/pharos-base";
-import {PageData} from "../models/page-data";
-import {Facet} from "../models/facet";
+import {HttpCacheService} from './http-cache.service';
+import {PharosBase} from '../models/pharos-base';
+import {PageData} from '../models/page-data';
+import {Facet} from '../models/facet';
 
 
 /**
@@ -210,13 +210,13 @@ export class PharosApiService {
         const url = this._mapParams(path, params);
        return this.http.get<any>(url)
           .pipe(
-            tap(res=> {
-              if(path !== 'topics') {
-                this._facetsDataSource.next(res.facets)
+            tap(res => {
+              if (path !== 'topics') {
+                this._facetsDataSource.next(res.facets);
               }
             }),
             catchError(this.handleError('getData', []))
-          )
+          );
   }
 
   /**
@@ -230,8 +230,8 @@ export class PharosApiService {
       return this.http.get<any>(this._mapParams(api.field, params))
         .pipe(
           map(res => {
-            if(api.field !== 'search') {
-              return res = {kind: api.field, data: res}
+            if (api.field !== 'search') {
+              return res = {kind: api.field, data: res};
             } else {
               this._facetsDataSource.next(res.facets);
               return {};
@@ -240,7 +240,7 @@ export class PharosApiService {
         );
     });
 
-    return forkJoin(...apis)
+    return forkJoin(...apis);
   }
 
   /**
@@ -335,7 +335,7 @@ export class PharosApiService {
           }
         );
       });
-      if(path === 'ligands') {
+      if (path === 'ligands') {
         strArr.push(`view=full`);
       }
       str = str + strArr.join('&');

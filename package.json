@@ -42,7 +42,7 @@
     "ngl": "^2.0.0-dev.36",
     "ngx-json-viewer": "^2.4.0",
     "rxjs": "^6.4.0",
-    "smrtgraph-core": "0.0.4",
+    "smrtgraph-core": "^0.0.5",
     "stream": "^0.0.2",
     "swagger-ui": "^3.22.2",
     "tslib": "^1.9.0",

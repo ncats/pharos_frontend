@@ -1,10 +1,10 @@
 import {Component, Inject} from '@angular/core';
-import {FormControl} from "@angular/forms";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {PharosConfig} from "../../../../../../config/pharos-config";
-import {PharosProfileService} from "../../../../../auth/pharos-profile.service";
-import {Facet, Field} from "../../../../../models/facet";
+import {FormControl} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {PharosConfig} from '../../../../../../config/pharos-config';
+import {PharosProfileService} from '../../../../../auth/pharos-profile.service';
+import {Facet, Field} from '../../../../../models/facet';
 
 export interface SavedTargets {
   name: string;
@@ -55,7 +55,7 @@ export class TargetSaveModalComponent {
   submitList(): void {
     const ret: Field = {
       label: this.targetCtrl.value,
-      count: this.data.selection? this.data.selection.length : this.data.count,
+      count: this.data.selection ? this.data.selection.length : this.data.count,
     };
 
     const httpOptions = {
@@ -64,7 +64,7 @@ export class TargetSaveModalComponent {
       })
     };
 
-    if(this.data.etag) {
+    if (this.data.etag) {
       ret.value = this.data.etag;
       let customFacet: Facet = this.data.user.data().savedTargets;
       if (customFacet) {

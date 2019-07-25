@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NodeDisplayComponent } from './node-display.component';
-import {SharedModule} from "../../../../../shared/shared.module";
+import {SharedModule} from '../../../../../shared/shared.module';
 
 describe('NodeDisplayComponent', () => {
   let component: NodeDisplayComponent;

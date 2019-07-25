@@ -1,0 +1,77 @@
+<div fxLayout="row" fxLayoutAlign="space-around center">
+  <div fxFlex="95">
+    <h3>Legend</h3>
+    <div class="row-close">
+      <div class="switch-labels"><span class="mat-slide-toggle-label">Hide</span>&nbsp;
+        <mat-slide-toggle
+          (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle('tclin') : null"
+          [checked]="selection.isSelected('tclin')">
+          Show
+        </mat-slide-toggle>
+      </div>
+      <div class="circle tclin"></div>
+      : Tclin target
+    </div>
+    <div class="row-close">
+      <div class="switch-labels"><span class="mat-slide-toggle-label">Hide</span>&nbsp;
+        <mat-slide-toggle
+          (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle('tchem') : null"
+          [checked]="selection.isSelected('tchem')">
+          Show
+        </mat-slide-toggle>
+      </div>
+      <div class="circle tchem"></div>
+      : Tchem target
+    </div>
+    <div class="row-close">
+      <div class="switch-labels"><span class="mat-slide-toggle-label">Hide</span>&nbsp;
+        <mat-slide-toggle
+          (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle('tbio') : null"
+          [checked]="selection.isSelected('tbio')">
+          Show
+        </mat-slide-toggle>
+      </div>
+      <div class="circle tbio"></div>
+      : Tbio target
+    </div>
+    <div class="row-close">
+      <div class="switch-labels"><span class="mat-slide-toggle-label">Hide</span>&nbsp;
+        <mat-slide-toggle
+          (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle('tdark') : null"
+          [checked]="selection.isSelected('tdark')">
+          Show
+        </mat-slide-toggle>
+      </div>
+      <div class="circle tdark"></div>
+      : Tdark target
+    </div>
+    <div class="row-close">
+      <div class="switch-labels"><span class="mat-slide-toggle-label">Hide</span>&nbsp;
+        <mat-slide-toggle
+          (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle('disease') : null"
+          [checked]="selection.isSelected('disease')">
+          Show
+        </mat-slide-toggle>
+      </div>
+      <div class="circle disease"></div>
+      : Disease
+    </div>
+    <div class="row-close">
+      <div class="switch-labels"><span class="mat-slide-toggle-label">Hide</span>&nbsp;
+        <mat-slide-toggle
+          (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle('ligand') : null"
+          [checked]="selection.isSelected('ligand')">
+          Show
+        </mat-slide-toggle>
+      </div>
+      <div class="circle ligand"></div>
+      : Ligand
+    </div>
+  </div>
+</div>

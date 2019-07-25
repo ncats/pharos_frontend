@@ -116,7 +116,7 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
               refid: refid,
               activities: activity,
               internalLink: ['/ligands', ligand.id],
-              imageUrl: ligand.image ? ligand.image : this._STRUCTUREURLBASE + refid + '.svg?size=250'
+              imageUrl: this.parseImageUrl(ligand, refid)
             };
 
             if (ligand.target) {
@@ -151,6 +151,18 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
     });
         return otherActivity ? otherActivity[0] : na;
       }
+
+  private parseImageUrl(ligand: any, refid: string): string {
+    if (refid) {
+      return this._STRUCTUREURLBASE + refid + '.svg?size=250';
+    } else if (ligand.image && (ligand.image.split(this._STRUCTUREURLBASE).length > 1)) {
+      return ligand.image;
+    } else if (ligand.image && (ligand.image.split(this._STRUCTUREURLBASE).length <= 1)) {
+      return `${this._STRUCTUREURLBASE}${ligand.image.split('/structure/')[1]}`;
+    } else {
+      return null;
+    }
+  }
 
   /**
    * clean up on destroy

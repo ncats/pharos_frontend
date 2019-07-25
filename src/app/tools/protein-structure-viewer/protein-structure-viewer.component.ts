@@ -44,7 +44,7 @@ export class ProteinStructureViewerComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(change) {
-    if(this.stage) {
+    if (this.stage) {
       this.stage.removeAllComponents();
       this.stage.loadFile(`rcsb://${this.pdbid}`, {defaultRepresentation: true}).then(component => {
       });

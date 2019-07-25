@@ -4,7 +4,7 @@ import { NewsPanelComponent } from './news-panel.component';
 import {SharedModule} from '../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FirestoreStub} from '../../../../test/firestore-stub';
-import {AngularFirestore} from "@angular/fire/firestore";
+import {AngularFirestore} from '@angular/fire/firestore';
 
 describe('NewsPanelComponent', () => {
   let component: NewsPanelComponent;

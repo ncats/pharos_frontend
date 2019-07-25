@@ -144,9 +144,9 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
       this.tableArr = this.reports
           .slice(this.pageData.skip, this.pageData.top)
         .map(report => this.pdbReportSerializer._asProperties(report));
-      const pdbids = this.tableArr.find(entry => entry.structureId.term && entry.ligandId.term)
-        //this.tableArr.filter(val => val.structureId.term);
-      if(pdbids) {
+      const pdbids = this.tableArr.find(entry => entry.structureId.term && entry.ligandId.term);
+        // this.tableArr.filter(val => val.structureId.term);
+      if (pdbids) {
         this.pdbid = pdbids.structureId.term;
        // this.pdbid = pdbids[0].structureId['term'];
       }
@@ -190,7 +190,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
    * @param entry
    */
   changePdbId(entry: any) {
-    if(this.pdbid !== entry.structureId.term) {
+    if (this.pdbid !== entry.structureId.term) {
       this.pdbid = entry.structureId.term;
     }
   }

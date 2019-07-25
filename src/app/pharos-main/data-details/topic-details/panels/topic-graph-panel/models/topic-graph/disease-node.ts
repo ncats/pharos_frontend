@@ -1,7 +1,7 @@
 /**
  * target that extends node object
  */
-import {NodeSerializer, SGNode} from "smrtgraph-core";
+import {NodeSerializer, SGNode} from 'smrtgraph-core';
 
 export class DiseaseNode extends SGNode {
   kind = 'disease';

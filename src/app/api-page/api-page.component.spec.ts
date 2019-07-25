@@ -3,7 +3,7 @@ import {ApiPageComponent} from './api-page.component';
 import {SharedModule} from '../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from '../app-routing.module';
-import {APP_BASE_HREF} from "@angular/common";
+import {APP_BASE_HREF} from '@angular/common';
 
 
 describe('ApiPageComponent', () => {

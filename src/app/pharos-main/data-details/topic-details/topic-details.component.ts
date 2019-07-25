@@ -9,13 +9,13 @@ import {ComponentInjectorService} from '../../../pharos-services/component-injec
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Target} from '../../../models/target';
 import {PageData} from '../../../models/page-data';
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-import {takeUntil} from "rxjs/operators";
-import {map} from "rxjs/internal/operators";
-import {AngularFirestore} from "@angular/fire/firestore";
-import {GraphParserService} from "./panels/topic-graph-panel/services/graph-parser.service";
-import {LinkService, NodeService} from "smrtgraph-core";
-import {PharosNodeSerializer} from "../../../models/topic-graph/pharos-node-serializer";
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {takeUntil} from 'rxjs/operators';
+import {map} from 'rxjs/internal/operators';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {GraphParserService} from './panels/topic-graph-panel/services/graph-parser.service';
+import {LinkService, NodeService} from 'smrtgraph-core';
+import {PharosNodeSerializer} from './panels/topic-graph-panel/models/topic-graph/pharos-node-serializer';
 
 
 /**
@@ -39,7 +39,7 @@ interface TopicData {
   selector: 'pharos-topic-details',
   templateUrl: './topic-details.component.html',
   styleUrls: ['./topic-details.component.scss'],
-  providers: [NodeService, LinkService, GraphParserService]
+  // providers: [NodeService, LinkService]
 })
 export class TopicDetailsComponent extends DynamicPanelComponent implements OnInit {
   /**
@@ -167,7 +167,7 @@ console.log(this);
 this.graphParser.setSerializers({node: new PharosNodeSerializer()});
     this._route.snapshot.data.pharosObject.subscribe(res => {
       this.topic = res.data();
-      this.graphParser.setId(this.topic.id)/*.subscribe(res => {
+      this.graphParser.setId(this.topic.id); /*.subscribe(res => {
         console.log(res);
       });*/
       this.allTargets = this.topic.allTargets;
@@ -198,7 +198,7 @@ this.graphParser.setSerializers({node: new PharosNodeSerializer()});
         }
       })*/
       this.allLigands = this.topic.allLigands;
-      this.allDiseases =this.topic.allDiseases;
+      this.allDiseases = this.topic.allDiseases;
 
       this.targetPageData = new PageData({
         top: 10,
@@ -284,7 +284,7 @@ this.diseasePageData = new PageData({
       .doc('wd40graph')
       .set({
         graphData: this.queries
-      })
+      });
   }
 
    /* if(this.topic.url) {
@@ -310,13 +310,13 @@ this.diseasePageData = new PageData({
         'Content-Type': 'text/plain',
       })
     };
-    this.http.post(`${this.pharosConfig.getTopicResolveUrl()}`, targets.slice(0,10).join(','), httpOptions).subscribe(res=> {
+    this.http.post(`${this.pharosConfig.getTopicResolveUrl()}`, targets.slice(0, 10).join(','), httpOptions).subscribe(res => {
       console.log(res);
-    })
+    });
 
   }
 
-  changeTab(event){}
+  changeTab(event) {}
 
 
   /**
@@ -334,4 +334,83 @@ this.diseasePageData = new PageData({
   paginateDiseases($event) {
     this.diseases = this.allDiseases.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize);
   }
+
+  findTarget(id: string): Target {
+    const allTargets = [].concat(...Array.from(this.targetsMap.values()));
+    return allTargets.filter(target => target.id === id)[0];
+  }
+
+  mapTargetRanks() {
+    this.allTargets.map(target => {
+      const targets = this.targetsMap.get(target.idgTDL);
+      if (targets) {
+        targets.push(target);
+        this.targetsMap.set(target.idgTDL, targets);
+      } else {
+        this.targetsMap.set(target.idgTDL, [target]);
+      }
+    });
+// todo: this is technically the highest/lowest knowledge of highest/lowest level, not across the whole spectrum
+    const highestLevel = this.getHighestLevel();
+    const mostPotential = this.getHighestLevel(true);
+    const lowestLevel = this.getLowestLevel();
+    const mostKnowledgeTarget = this.targetsMap.get(highestLevel) ? this.targetsMap.get(highestLevel)
+      .sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0] : {};
+    const mostPotentialTarget = this.targetsMap.get(mostPotential) ? this.targetsMap.get(mostPotential)
+      .sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0] : {};
+    const mostPotentialDarkestTarget = this.targetsMap.get(lowestLevel) ? this.targetsMap.get(lowestLevel)
+      .sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)[0] : {};
+    const leastKnowledgeTarget = this.targetsMap.get(lowestLevel) ? this.targetsMap.get(lowestLevel)
+      .sort((a, b) => a.knowledgeAvailability - b.knowledgeAvailability)[0] : {};
+    this.displayTargets.mostKnowledge = this.topic.displayTargets && this.topic.displayTargets.mostKnowledge ?
+      this.findTarget(this.topic.displayTargets.mostKnowledge) : mostKnowledgeTarget;
+    this.displayTargets.mostPotential = this.topic.displayTargets && this.topic.displayTargets.mostPotential ?
+      this.findTarget(this.topic.displayTargets.mostPotential) : mostPotentialTarget;
+    this.displayTargets.mostPotentialDarkest = this.topic.displayTargets &&
+    this.topic.displayTargets.mostPotentialDarkest ?
+      this.findTarget(this.topic.displayTargets.mostPotentialDarkest) : mostPotentialDarkestTarget;
+    this.displayTargets.leastKnowledge = this.topic.displayTargets &&
+    this.topic.displayTargets.leastKnowledge ?
+      this.findTarget(this.topic.displayTargets.leastKnowledge) : leastKnowledgeTarget;
+    const tdark = this.targetsMap.get('Tdark') ? this.targetsMap.get('Tdark') : [];
+    const tbio = this.targetsMap.get('Tbio') ? this.targetsMap.get('Tbio') : [];
+    const tchem = this.targetsMap.get('Tchem') ? this.targetsMap.get('Tchem') : [];
+    const tclin = this.targetsMap.get('Tclin') ? this.targetsMap.get('Tclin') : [];
+    const sortedTopics = tdark.sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability)
+      .concat(tbio.sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability))
+      .concat( tchem.sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability))
+      .concat( tclin.sort((a, b) => b.knowledgeAvailability - a.knowledgeAvailability));
+    this.allTargets = sortedTopics;
+  }
+
+getHighestLevel(potential?: boolean): string {
+  const levels = Array.from(this.targetsMap.keys());
+  if (levels.length === 1) {
+    return levels[0];
+  }
+  if (!potential && levels.includes('Tclin')) {
+    return 'Tclin';
+  } else if (!potential && levels.includes('Tchem')) {
+    return 'Tchem';
+  } else if (levels.includes('Tbio')) {
+    return 'Tbio';
+  } else if (levels.includes('Tdark')) {
+    return 'Tdark';
+  }
+}
+getLowestLevel(): string {
+  const levels = Array.from(this.targetsMap.keys());
+  if (levels.length === 1) {
+    return levels[0];
+  }
+  if (levels.includes('Tdark')) {
+    return 'Tdark';
+  } else if (levels.includes('Tbio')) {
+    return 'Tbio';
+  } else if (levels.includes('Tclin')) {
+    return 'Tclin';
+  } else if (levels.includes('Tchem')) {
+    return 'Tchem';
+  }
+}
 }

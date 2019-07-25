@@ -7,7 +7,7 @@ import {AppRoutingModule} from '../app-routing.module';
 import {APP_BASE_HREF} from '@angular/common';
 import {KatexRenderService} from '../tools/equation-renderer/services/katex-render.service';
 import {FirestoreStub} from '../../../test/firestore-stub';
-import {AngularFirestore} from "@angular/fire/firestore";
+import {AngularFirestore} from '@angular/fire/firestore';
 
 describe('FaqPageComponent', () => {
   let component: FaqPageComponent;

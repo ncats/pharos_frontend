@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Target} from '../../../../../../../models/target';
-import {DynamicPanelComponent} from "../../../../../../../tools/dynamic-panel/dynamic-panel.component";
+import {DynamicPanelComponent} from '../../../../../../../tools/dynamic-panel/dynamic-panel.component';
 
 /**
  * shows details about tdark targets

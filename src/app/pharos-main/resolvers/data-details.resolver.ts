@@ -4,7 +4,7 @@ import { Observable , of} from 'rxjs';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
-import {PharosBase} from "../../models/pharos-base";
+import {PharosBase} from '../../models/pharos-base';
 
 /**
  * resolves the details for a specific object

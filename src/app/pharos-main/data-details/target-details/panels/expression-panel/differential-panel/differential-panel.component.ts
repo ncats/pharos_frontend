@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {DynamicPanelComponent} from "../../../../../../tools/dynamic-panel/dynamic-panel.component";
-import {DiseaseRelevance, DiseaseRelevanceSerializer} from "../../../../../../models/disease-relevance";
-import {PharosProperty} from "../../../../../../models/pharos-property";
-import {PageData} from "../../../../../../models/page-data";
-import {takeUntil} from "rxjs/internal/operators";
+import {DynamicPanelComponent} from '../../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {DiseaseRelevance, DiseaseRelevanceSerializer} from '../../../../../../models/disease-relevance';
+import {PharosProperty} from '../../../../../../models/pharos-property';
+import {PageData} from '../../../../../../models/page-data';
+import {takeUntil} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'pharos-differential-panel',
@@ -89,7 +89,7 @@ export class DifferentialPanelComponent extends DynamicPanelComponent implements
       count: 10
     });
     this.tableArr = this.diseaseSources
-      .slice(this.pageData.skip, this.pageData.top)
+      .slice(this.pageData.skip, this.pageData.top);
   }
 
   page(event) {

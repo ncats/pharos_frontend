@@ -8,7 +8,7 @@ import {Component} from '@angular/core';
   templateUrl: './association-score-article.component.html',
   styleUrls: ['./association-score-article.component.scss']
 })
-export class AssociationScoreArticleComponent{
+export class AssociationScoreArticleComponent {
 
   /**
    * no args

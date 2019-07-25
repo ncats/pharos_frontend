@@ -10,7 +10,7 @@ import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-pan
 import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
 import {PharosConfig} from '../../../../../../config/pharos-config';
-import {filter, map} from "rxjs/internal/operators";
+import {filter, map} from 'rxjs/internal/operators';
 
 /**
  * displays publication information and statistics about a target
@@ -33,7 +33,7 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
 
   /**
    * data array
-   */node
+   */node;
   generifs: Publication[];
 
   /**
@@ -150,7 +150,7 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
    * create timelines if data is available
    */
   setterFunction() {
-    if(this.data.publications) {
+    if (this.data.publications) {
       const publications: Publication[] = this.data.publications
         .filter(publication => publication)
         .map(publication => this.publicationSerializer.fromJson(publication));
@@ -159,7 +159,7 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
       this.publicationsPageData = this.makePageData(this.target._publications.count);
     }
 
-    if(this.data.generifs) {
+    if (this.data.generifs) {
       const rifs: Publication[] = this.data.generifs
         .map(publication => this.publicationSerializer.fromJson(publication));
 

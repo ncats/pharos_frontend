@@ -6,10 +6,10 @@ import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-pan
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {PageData} from '../../../../models/page-data';
 import {HttpClient} from '@angular/common/http';
-import {Message} from "../../../../pharos-home/news-panel/news-panel.component";
-import {AngularFirestore} from "@angular/fire/firestore";
-import {Topic} from "../../../../models/topic";
-import {ActivatedRoute, Route} from "@angular/router";
+import {Message} from '../../../../pharos-home/news-panel/news-panel.component';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {Topic} from '../../../../models/topic';
+import {ActivatedRoute, Route} from '@angular/router';
 
 
 @Component({

@@ -29,7 +29,7 @@ export class DiseaseRelevanceSerializer implements PharosSerializer {
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
     DiseaseRelevance.mapDates(obj);
     obj.properties = obj.properties.map(prop => prop = new PharosProperty(prop));
-    const disease = obj.properties.filter(prop => prop.label === "IDG Disease")[0];
+    const disease = obj.properties.filter(prop => prop.label === 'IDG Disease')[0];
     disease.internalLink = ['/diseases', obj.refid];
     return obj;
   }

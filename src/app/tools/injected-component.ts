@@ -1,5 +1,5 @@
-import {PharosBase} from "../models/pharos-base";
-import {EventEmitter} from "@angular/core";
+import {PharosBase} from '../models/pharos-base';
+import {EventEmitter} from '@angular/core';
 
 export interface InjectedComponent {
   data: any;

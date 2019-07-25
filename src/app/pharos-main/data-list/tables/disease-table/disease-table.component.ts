@@ -4,10 +4,10 @@ import {MatTableDataSource} from '@angular/material';
 import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../../models/page-data';
 import {DynamicTablePanelComponent} from '../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
-import {Target, TargetSerializer} from "../../../../models/target";
-import {Disease, DiseaseSerializer} from "../../../../models/disease";
-import {IDG_LEVEL_TOKEN, RADAR_CHART_TOKEN} from "../target-table/target-table.component";
-import {PharosProperty} from "../../../../models/pharos-property";
+import {Target, TargetSerializer} from '../../../../models/target';
+import {Disease, DiseaseSerializer} from '../../../../models/disease';
+import {IDG_LEVEL_TOKEN, RADAR_CHART_TOKEN} from '../target-table/target-table.component';
+import {PharosProperty} from '../../../../models/pharos-property';
 
 /**
  * display a pageable/ sortable list of disease objects

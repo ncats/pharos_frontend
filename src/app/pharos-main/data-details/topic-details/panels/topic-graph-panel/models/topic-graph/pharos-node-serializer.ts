@@ -1,7 +1,7 @@
-import {NodeSerializer, SGNode} from "smrtgraph-core";
-import {DiseaseNodeSerializer} from "./disease-node";
-import {LigandNodeSerializer} from "./ligand-node";
-import {TargetNodeSerializer} from "./target-node";
+import {NodeSerializer, SGNode} from 'smrtgraph-core';
+import {DiseaseNodeSerializer} from './disease-node';
+import {LigandNodeSerializer} from './ligand-node';
+import {TargetNodeSerializer} from './target-node';
 
 export class PharosNodeSerializer extends NodeSerializer {
   targetNodeSerializer: TargetNodeSerializer = new TargetNodeSerializer();

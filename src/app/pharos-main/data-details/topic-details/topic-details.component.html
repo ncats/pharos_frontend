@@ -1,38 +1,40 @@
 <section>
 <div fxLayout="row wrap" fxLayoutAlign="start stretch" class="topic-details-header">
+<!--
   <ng-template appPharosCustomContent></ng-template>
+-->
+  <pharos-topic-header [topic]="topic"></pharos-topic-header>
 </div>
 <div fxLayout="row wrap" fxLayoutAlign="space-around start">
   <div fxFlex="95">
-    <mat-tab-group (selectedTabChange)="changeTab($event)">
-      <mat-tab label="Targets ({{allTargets.length}})" class="full-tab">
+    <mat-tab-group>
+      <mat-tab label="Network">
+        <article class="full-tab">
+          <pharos-topic-graph-panel class="full-tab" [topic]="topic" *ngIf="topic && topic.id"></pharos-topic-graph-panel>
+        </article>
+      </mat-tab>
+      <mat-tab label="Targets ({{allTargets.length}})">
         <ng-template matTabContent>
-          <article>
-          <pharos-target-table [data] = targets [pageData]="targetPageData" (pageChange)="paginateTargets($event)" *ngIf="targets.length"></pharos-target-table>
+          <article class="full-tab">
+          <pharos-target-table [data] = targets [pageData]="targetPageData" (pageChange)="paginateTargets($event)" [showToolbar]="false" *ngIf="targets.length"></pharos-target-table>
           </article>
         </ng-template>
       </mat-tab>
-      <mat-tab label="Diseases ({{allDiseases.length}})" class="full-tab">
+      <mat-tab label="Diseases ({{allDiseases.length}})">
         <ng-template matTabContent>
-         <article>
+         <article class="full-tab">
           <pharos-disease-table [data] = diseases [pageData]="diseasePageData" (pageChange)="paginateDiseases($event)" *ngIf="targets.length"></pharos-disease-table>
          </article>
         </ng-template>
       </mat-tab>
-      <mat-tab label="Ligands ({{allLigands.length}})" class="full-tab">
+      <mat-tab label="Ligands ({{allLigands.length}})">
         <ng-template matTabContent>
-          <article>
+          <article class="full-tab">
           <pharos-ligand-table [data] = ligands [pageData]="ligandPageData" (pageChange)="paginateLigands($event)" *ngIf="targets.length"></pharos-ligand-table>
           </article>
         </ng-template>
       </mat-tab>
-      <mat-tab label="Network" class="full-tab">
-        <ng-template matTabContent>
-        <article>
-           <pharos-topic-graph-panel [topic]="topic" *ngIf="topic && topic.id"></pharos-topic-graph-panel>
-          </article>
-        </ng-template>
-      </mat-tab>
+
     </mat-tab-group>
   </div>
 </div>

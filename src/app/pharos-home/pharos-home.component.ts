@@ -9,8 +9,8 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import {PharosApiService} from '../pharos-services/pharos-api.service';
-import {HeaderOptionsService} from "../pharos-services/header-options.service";
-import {DOCUMENT} from "@angular/common";
+import {HeaderOptionsService} from '../pharos-services/header-options.service';
+import {DOCUMENT} from '@angular/common';
 
 @Component({
   selector: 'pharos-home',

@@ -2,36 +2,36 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {TargetDetailsRoutingModule} from './target-details-routing.module';
-import {TargetDetailsComponent} from "../../data-details/target-details/target-details.component";
-import {TargetHeaderComponent} from "../../data-details/target-details/target-header/target-header.component";
-import {SummaryPanelComponent} from "../../data-details/target-details/panels/summary-panel/summary-panel.component";
-import {RadarChartViewerComponent} from "../../../tools/radar-chart-viewer/radar-chart-viewer.component";
-import {DiseaseSourceComponent} from "../../data-details/target-details/panels/disease-source-panel/disease-source-panel.component";
-import {PublicationInfoPanelComponent} from "../../data-details/target-details/panels/publication-info-panel/publication-info-panel.component";
-import {ExpressionPanelComponent} from "../../data-details/target-details/panels/expression-panel/expression-panel.component";
-import {AaSequencePanelComponent} from "../../data-details/target-details/panels/aa-sequence-panel/aa-sequence-panel.component";
-import {ProteinProteinPanelComponent} from "../../data-details/target-details/panels/protein-protein-panel/protein-protein-panel.component";
-import {OrthologPanelComponent} from "../../data-details/target-details/panels/expression-panel/ortholog-panel/ortholog-panel.component";
-import {AssayPanelComponent} from "../../data-details/target-details/panels/assay-panel/assay-panel.component";
+import {TargetDetailsComponent} from '../../data-details/target-details/target-details.component';
+import {TargetHeaderComponent} from '../../data-details/target-details/target-header/target-header.component';
+import {SummaryPanelComponent} from '../../data-details/target-details/panels/summary-panel/summary-panel.component';
+import {RadarChartViewerComponent} from '../../../tools/radar-chart-viewer/radar-chart-viewer.component';
+import {DiseaseSourceComponent} from '../../data-details/target-details/panels/disease-source-panel/disease-source-panel.component';
+import {PublicationInfoPanelComponent} from '../../data-details/target-details/panels/publication-info-panel/publication-info-panel.component';
+import {ExpressionPanelComponent} from '../../data-details/target-details/panels/expression-panel/expression-panel.component';
+import {AaSequencePanelComponent} from '../../data-details/target-details/panels/aa-sequence-panel/aa-sequence-panel.component';
+import {ProteinProteinPanelComponent} from '../../data-details/target-details/panels/protein-protein-panel/protein-protein-panel.component';
+import {OrthologPanelComponent} from '../../data-details/target-details/panels/expression-panel/ortholog-panel/ortholog-panel.component';
+import {AssayPanelComponent} from '../../data-details/target-details/panels/assay-panel/assay-panel.component';
 import {
   PdbPanelComponent,
   STRUCTURE_VIEW_TOKEN
-} from "../../data-details/target-details/panels/pdb-panel/pdb-panel.component";
-import {GeneSummaryComponent} from "../../data-details/target-details/target-header/gene-summary/gene-summary.component";
-import {TargetFacetPanelComponent} from "../../data-details/target-details/panels/target-facet-panel/target-facet-panel.component";
-import {IdgResourcesPanelComponent} from "../../data-details/target-details/panels/idg-resources-panel/idg-resources-panel.component";
-import {LigandsPanelComponent} from "../../data-details/target-details/panels/ligands-panel/ligands-panel.component";
-import {DrugsPanelComponent} from "../../data-details/target-details/panels/drugs-panel/drugs-panel.component";
-import {DifferentialPanelComponent} from "../../data-details/target-details/panels/expression-panel/differential-panel/differential-panel.component";
-import {SharedModule} from "../../../shared/shared.module";
-import {CommonToolsModule} from "../../../tools/common-tools.module";
-import {SharedDetailsModule} from "../../../shared/shared-details.module";
-import {IdgLevelSummaryModule} from "../../data-details/target-details/panels/level-summary-panel/idg-level-summary.module";
-import {StructureViewComponent} from "../../../tools/structure-view/structure-view.component";
-import {TOKENS} from "../../../../config/component-tokens";
-import {BreadcrumbComponent} from "../../../tools/breadcrumb/breadcrumb.component";
-import {TargetTableModule} from "./target-list.module";
-import {LigandListModule} from "../ligands/ligand-list.module";
+} from '../../data-details/target-details/panels/pdb-panel/pdb-panel.component';
+import {GeneSummaryComponent} from '../../data-details/target-details/target-header/gene-summary/gene-summary.component';
+import {TargetFacetPanelComponent} from '../../data-details/target-details/panels/target-facet-panel/target-facet-panel.component';
+import {IdgResourcesPanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/idg-resources-panel.component';
+import {LigandsPanelComponent} from '../../data-details/target-details/panels/ligands-panel/ligands-panel.component';
+import {DrugsPanelComponent} from '../../data-details/target-details/panels/drugs-panel/drugs-panel.component';
+import {DifferentialPanelComponent} from '../../data-details/target-details/panels/expression-panel/differential-panel/differential-panel.component';
+import {SharedModule} from '../../../shared/shared.module';
+import {CommonToolsModule} from '../../../tools/common-tools.module';
+import {SharedDetailsModule} from '../../../shared/shared-details.module';
+import {IdgLevelSummaryModule} from '../../data-details/target-details/panels/level-summary-panel/idg-level-summary.module';
+import {StructureViewComponent} from '../../../tools/structure-view/structure-view.component';
+import {TOKENS} from '../../../../config/component-tokens';
+import {BreadcrumbComponent} from '../../../tools/breadcrumb/breadcrumb.component';
+import {TargetTableModule} from './target-list.module';
+import {LigandListModule} from '../ligands/ligand-list.module';
 
 @NgModule({
   declarations: [

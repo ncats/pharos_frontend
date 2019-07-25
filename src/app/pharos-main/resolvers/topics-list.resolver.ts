@@ -4,8 +4,8 @@ import { Observable , of} from 'rxjs';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
-import {Message} from "../../pharos-home/news-panel/news-panel.component";
-import {AngularFirestore} from "@angular/fire/firestore";
+import {Message} from '../../pharos-home/news-panel/news-panel.component';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 /**
  * resolver to retrieve list of data happens on every main level (/targets, /diseases, /ligands, etc) change

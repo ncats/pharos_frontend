@@ -22,7 +22,7 @@ private _list: any[] = [];
     if (values) {
       values.forEach(prop => {
         // todo - make link
-        this._list.push(prop)
+        this._list.push(prop);
       });
     }
     // set the latest value for _data BehaviorSubject

@@ -10,7 +10,7 @@ import {TinxArticleComponent} from '../tools/help-panel/articles/tinx-article/ti
 import {PubmedScoreArticleComponent} from '../tools/help-panel/articles/pubmed-score-article/pubmed-score-article.component';
 import {EquationRendererComponent} from '../tools/equation-renderer/equation-renderer.component';
 import {KatexRendererDirective} from '../tools/equation-renderer/katex-renderer.directive';
-import {AssociationScoreArticleComponent} from "../tools/help-panel/articles/association-score-article/association-score-article.component";
+import {AssociationScoreArticleComponent} from '../tools/help-panel/articles/association-score-article/association-score-article.component';
 
 @NgModule({
   declarations: [

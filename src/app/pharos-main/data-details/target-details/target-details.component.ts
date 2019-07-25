@@ -3,7 +3,7 @@ import {DOCUMENT} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {map, takeLast, takeWhile} from 'rxjs/operators';
-import {PharosConfig} from "../../../../config/pharos-config";
+import {PharosConfig} from '../../../../config/pharos-config';
 import {Target} from '../../../models/target';
 import {DataDetailsResolver} from '../../resolvers/data-details.resolver';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
@@ -11,7 +11,7 @@ import {CustomContentDirective} from '../../../tools/custom-content.directive';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {NavSectionsService} from '../../../tools/sidenav-panel/services/nav-sections.service';
 import {HelpDataService} from '../../../tools/help-panel/services/help-data.service';
-import {tap} from "rxjs/internal/operators";
+import {tap} from 'rxjs/internal/operators';
 
 /**
  * main holder component for target details
@@ -135,7 +135,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
         this._data
           .pipe(
             map(res => {
-              return this.pick(res, keys)
+              return this.pick(res, keys);
             }),
             takeWhile(res => Object.values(res).includes(undefined), true),
             takeLast(1)
@@ -145,9 +145,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
               childComponent.instance.data = obj;
               let count = Object.values(obj).length;
               Object.values(obj).forEach(val => {
-                if(Array.isArray(val['content']) && !val['content'].length){count--}// this one covers ppi section
-                else if (Array.isArray(val) && !val.length){count--}
-                else if(val === 0){count--}
+                if (Array.isArray(val['content']) && !val['content'].length) {count--; } else if (Array.isArray(val) && !val.length) {count--; } else if (val === 0) {count--; }
 
               });
               if (count === 0 && component.navHeader) {

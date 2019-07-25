@@ -2,11 +2,11 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
 import { Observable , of} from 'rxjs';
-import {PathResolverService} from "../../pharos-services/path-resolver.service";
-import {LoadingService} from "../../pharos-services/loading.service";
-import {PharosApiService} from "../../pharos-services/pharos-api.service";
-import {PharosBase} from "../../models/pharos-base";
-import {AngularFirestore} from "@angular/fire/firestore";
+import {PathResolverService} from '../../pharos-services/path-resolver.service';
+import {LoadingService} from '../../pharos-services/loading.service';
+import {PharosApiService} from '../../pharos-services/pharos-api.service';
+import {PharosBase} from '../../models/pharos-base';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 /**
  * resolves the details for a specific object
@@ -42,7 +42,7 @@ export class TopicDetailsResolver implements Resolve<any> {
      //
       // this.db.collection('topics', ref => ref.where("topicId", "==", 1))
       this.db.collection('topics').doc(route.paramMap.get('id')).get()
-    )
+    );
    //   .doc(route.paramMap.get('id')).get());
   }
 }

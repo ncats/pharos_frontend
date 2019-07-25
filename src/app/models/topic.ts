@@ -59,7 +59,7 @@ export class Topic extends PharosBase {
 
   etag?: string;
 
-  graphData? : any;
+  graphData?: any;
   targets?: any;
 }
 

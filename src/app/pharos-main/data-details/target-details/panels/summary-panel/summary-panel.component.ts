@@ -5,7 +5,7 @@ import {takeUntil} from 'rxjs/operators';
 import {RadarChartViewerComponent} from '../../../../../tools/radar-chart-viewer/radar-chart-viewer.component';
 import {Target} from '../../../../../models/target';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
-import {HelpDataService} from "../../../../../tools/help-panel/services/help-data.service";
+import {HelpDataService} from '../../../../../tools/help-panel/services/help-data.service';
 
 
 /**

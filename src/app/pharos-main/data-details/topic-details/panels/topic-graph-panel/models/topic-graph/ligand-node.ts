@@ -1,7 +1,7 @@
 /**
  * target that extends node object
  */
-import {NodeSerializer, SGNode} from "smrtgraph-core";
+import {NodeSerializer, SGNode} from 'smrtgraph-core';
 
 export class LigandNode extends SGNode {
   kind = 'ligand';
@@ -12,6 +12,7 @@ export class LigandNode extends SGNode {
   // todo: fix api to remove hyphen
 //  'IDG_Z-score'?: number;
   // ligand: Ligand;
+  internalLink: string[];
 }
 /**
  * serializer to generate a ligand node for a force-directed graph
@@ -26,6 +27,8 @@ export class LigandNodeSerializer implements NodeSerializer {
   fromJson (obj: any, id?: string): LigandNode {
     const node = new LigandNode();
     Object.entries((obj)).forEach((prop) => node[prop[0]] = prop[1]);
+    node.internalLink = ['/ligands', obj.id];
+
     // node.ligand = new LigandSerializer().fromJson(node);
     //  node.targets = [];
     return node;

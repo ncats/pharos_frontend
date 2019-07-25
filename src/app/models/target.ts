@@ -156,11 +156,11 @@ export class TargetSerializer implements PharosSerializer {
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
     Target.mapDates(obj);
 
-    if(obj.novelty) {
+    if (obj.novelty) {
     obj.novelty = +obj.novelty.toFixed(2);
     }
 
-    if(obj.jensenScore) {
+    if (obj.jensenScore) {
     obj.jensenScore = +obj.jensenScore.toFixed(2);
     }
 

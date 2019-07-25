@@ -20,7 +20,7 @@ import {PageData} from './models/page-data';
 import {MatPaginator, MatRow, MatSort, MatTableDataSource, Sort} from '@angular/material';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {DataProperty} from './components/property-display/data-property';
-import {SelectionModel} from "@angular/cdk/collections";
+import {SelectionModel} from '@angular/cdk/collections';
 
 /**
  * component to show flexible data consisting of multiple data types, custom components
@@ -228,11 +228,11 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
     this.selection.changed.subscribe(change => {
       this.ref.detectChanges();
       this.rowSelectionChange.emit(this.selection);
-    })
+    });
   }
 
   ngOnChanges (change) {
-    if(this.paginator) {
+    if (this.paginator) {
       this.setPage();
     }
   }
@@ -326,7 +326,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
     if (!this.displayFields.length) {
       this.displayFields = this.fieldsConfig;
     }
-    if(this.selectableRows) {
+    if (this.selectableRows) {
       this.displayColumns = ['select'].concat(this.displayFields.map(field => field.name));
     //  this.ref.reattach();
       this.ref.detectChanges();
@@ -402,7 +402,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
       });
     }
 
-    if(component.instance.ref) {
+    if (component.instance.ref) {
       // todo this is still problematic because injected components are redrawn.
        this.ref.detach();
     }

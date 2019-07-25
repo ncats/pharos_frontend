@@ -2,15 +2,24 @@
 /**
  * target that extends node object
  */
-import {NodeSerializer, SGNode} from "smrtgraph-core";
+import {NodeSerializer, SGNode} from 'smrtgraph-core';
 
 export class TargetNode extends SGNode {
   kind = 'target';
   accession: string;
-  family: string;
+ // family: string;
   gene: string;
   name: string;
-  tdl: string;
+  // tdl: string;
+  /**
+   * idg family distinction
+   */
+  idgFamily: string;
+
+  /**
+   * idg development level
+   */
+  idgTDL: string;
 }
 /**
  * serializer to generate a target node for a force-directed graph
@@ -25,9 +34,13 @@ export class TargetNodeSerializer implements NodeSerializer {
   fromJson (obj: any, id?: string): TargetNode {
     const node = new TargetNode();
     Object.entries((obj)).forEach((prop) => node[prop[0]] = prop[1]);
+    node.idgFamily = obj.family;
+    node.idgTDL = obj.tdl;
+    delete node['family'];
+    delete node['tdl'];
     // node.target = new TargetSerializer().fromJson(node);
     //  node.targets = [];
-    switch(node.tdl) {
+    switch (node.idgTDL) {
       case 'Tdark': {
         node.color = '#f44336';
         break;

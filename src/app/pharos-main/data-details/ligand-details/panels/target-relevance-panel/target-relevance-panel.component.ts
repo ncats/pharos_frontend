@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
-import {PageData} from "../../../../../models/page-data";
-import {IDG_LEVEL_TOKEN} from "../../../disease-details/target-list-panel/target-list-panel.component";
+import {PageData} from '../../../../../models/page-data';
+import {IDG_LEVEL_TOKEN} from '../../../disease-details/target-list-panel/target-list-panel.component';
 
 /**
  * shows what targets the ligand was tested on
@@ -100,7 +100,7 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
             );
            // data['developmentLevelValue'].term = `p${data['developmentLevelValue'].term}`;
             data.target.internalLink = ['/targets', data.target.term as string];
-            if(data.activity && data.activity.term !=='Pharmalogical Action') {
+            if (data.activity && data.activity.term !== 'Pharmalogical Action') {
               data.activity.term = `p${data.activity.term}`;
             }
             this.targets.push(data);

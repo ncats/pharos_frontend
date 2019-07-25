@@ -108,7 +108,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
   }
 
   ngOnChanges (change) {
-    if(this.ligandPaginator) {
+    if (this.ligandPaginator) {
       this.setPage();
     }
   }
@@ -163,7 +163,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
       // .sort(activity => activity.target !== this.target.gene);
       const strucProp = ligand.links.filter(link => link.kind === 'ix.core.models.Structure')[0];
       let lig: Ligand;
-      if(strucProp) {
+      if (strucProp) {
         const refid: string = strucProp.refid;
          lig = this.ligandSerializer.fromJson({
           name: ligand.name,

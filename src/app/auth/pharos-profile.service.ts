@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {AngularFirestore} from "@angular/fire/firestore";
-import {BehaviorSubject} from "rxjs/index";
-import * as firebase from "firebase";
+import {AngularFirestore} from '@angular/fire/firestore';
+import {BehaviorSubject} from 'rxjs/index';
+import * as firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +41,7 @@ export class PharosProfileService {
       .get()
       .subscribe(profile => {
         if (profile.exists) {
-          this._profileSource.next(profile)
+          this._profileSource.next(profile);
         } else {
           this.userCollection.collection('users')
             .doc(user.uid)
@@ -53,7 +53,7 @@ export class PharosProfileService {
             }
           );
         }
-      })
+      });
   }
 
   setProfile(profile) {

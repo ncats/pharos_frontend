@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {BehaviorSubject} from "rxjs/index";
-import {PharosProperty} from "../../models/pharos-property";
+import {BehaviorSubject} from 'rxjs/index';
+import {PharosProperty} from '../../models/pharos-property';
 
 /**
  * UI component to display the idg level of a target using Material Design chip
@@ -34,11 +34,11 @@ export class IdgLevelIndicatorComponent {
   }
 
 
-  constructor(){}
+  constructor() {}
 
   ngOnInit() {
     this._data.subscribe(res => {
-      if(res) {
+      if (res) {
         this.level = res.term as string;
       }
     });

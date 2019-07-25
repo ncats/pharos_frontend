@@ -7,7 +7,7 @@ import {Subject} from 'rxjs';
 import {PathResolverService} from '../../../pharos-services/path-resolver.service';
 import {FacetRetrieverService} from './facet-retriever.service';
 import {PharosConfig} from '../../../../config/pharos-config';
-import {PharosProfileService} from "../../../auth/pharos-profile.service";
+import {PharosProfileService} from '../../../auth/pharos-profile.service';
 
 /**
  * panel that hold a facet table for selection
@@ -87,12 +87,12 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     this.loading = true;
     const flist = this.pharosConfig.getFacets(this.pathResolverService.getPath());
     this.facetRetrieverService.getAllFacets().subscribe(facets => {
-      if(facets && facets.size) {
+      if (facets && facets.size) {
         this.filteredFacets = [];
         this.allFacets = Array.from(facets.values());
        flist.forEach(f => {
           const facet = facets.get(f.name);
-          if(facet) {
+          if (facet) {
             facet.label = f.label;
             this.filteredFacets.push(facet);
           }
@@ -102,7 +102,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
 
         this.ref.markForCheck();
       } else {
-        this.closeMenu()
+        this.closeMenu();
       }
     });
     this.loading = false;

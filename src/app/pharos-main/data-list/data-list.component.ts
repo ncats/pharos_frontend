@@ -16,12 +16,12 @@ import {ComponentInjectorService} from '../../pharos-services/component-injector
 import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../models/page-data';
 import {PharosConfig} from '../../../config/pharos-config';
-import {PharosApiService} from "../../pharos-services/pharos-api.service";
-import {FilterPanelComponent} from "./filter-panel/filter-panel.component";
-import {MatDrawer} from "@angular/material";
-import {HelpPanelOpenerService} from "../../tools/help-panel/services/help-panel-opener.service";
-import {BreakpointObserver} from "@angular/cdk/layout";
-import {HttpClient} from "@angular/common/http";
+import {PharosApiService} from '../../pharos-services/pharos-api.service';
+import {FilterPanelComponent} from './filter-panel/filter-panel.component';
+import {MatDrawer} from '@angular/material';
+import {HelpPanelOpenerService} from '../../tools/help-panel/services/help-panel-opener.service';
+import {BreakpointObserver} from '@angular/cdk/layout';
+import {HttpClient} from '@angular/common/http';
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -115,10 +115,10 @@ export class DataListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.path = this._route.snapshot.data.path;
 
-    if(this._route.snapshot.data.search) {
+    if (this._route.snapshot.data.search) {
       this.search = this._route.snapshot.data.search;
     }
-    if(this._route.snapshot.data.data) {
+    if (this._route.snapshot.data.data) {
           this.data = this._route.snapshot.data.data.content;
           this.etag = this._route.snapshot.data.data.etag;
           this.sideway = this._route.snapshot.data.data.sideway;
@@ -131,7 +131,7 @@ export class DataListComponent implements OnInit, OnDestroy {
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
 
     this.helpPanelOpenerService.toggle$.subscribe(res => {
-    if(res) {
+    if (res) {
       this.helpPanel.toggle();
     }
   });
@@ -146,10 +146,10 @@ export class DataListComponent implements OnInit, OnDestroy {
         // If it is a NavigationEnd event re-initalise the component
         if (e instanceof NavigationEnd) {
           this.path = this._route.snapshot.data.path;
-          if(this._route.snapshot.data.search) {
+          if (this._route.snapshot.data.search) {
             this.search = this._route.snapshot.data.search;
           }
-          if(this._route.snapshot.data.data) {
+          if (this._route.snapshot.data.data) {
             this.data = this._route.snapshot.data.data.content;
             this.etag = this._route.snapshot.data.data.etag;
             this.sideway = this._route.snapshot.data.data.sideway;
@@ -175,7 +175,7 @@ export class DataListComponent implements OnInit, OnDestroy {
     components.forEach(component => {
       // make component
       const instance: ComponentRef<any> = this.loadedComponents.get(component.token);
-      if(!instance) {
+      if (!instance) {
         const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
         const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
 
@@ -192,10 +192,10 @@ export class DataListComponent implements OnInit, OnDestroy {
 
         if (dynamicComponent.instance.sortChange) {
           dynamicComponent.instance.sortChange.subscribe((event) => {
-            if(this.path === 'search'){
-              this.typePagination(event, dynamicComponent.instance.path).subscribe(res=> {
+            if (this.path === 'search') {
+              this.typePagination(event, dynamicComponent.instance.path).subscribe(res => {
                 dynamicComponent.instance.data = res.content;
-              })
+              });
             } else {
               this.sortTable(event);
             }
@@ -203,10 +203,10 @@ export class DataListComponent implements OnInit, OnDestroy {
         }
         if (dynamicComponent.instance.pageChange) {
           dynamicComponent.instance.pageChange.subscribe((event) => {
-            if(this.path === 'search'){
-              this.typePagination(event, dynamicComponent.instance.path).subscribe(res=> {
+            if (this.path === 'search') {
+              this.typePagination(event, dynamicComponent.instance.path).subscribe(res => {
                 dynamicComponent.instance.data = res.content;
-              })
+              });
             } else {
               this.paginationChanges(event);
             }
@@ -301,7 +301,7 @@ export class DataListComponent implements OnInit, OnDestroy {
   }
 
   private typePagination(event, origin: string): Observable<any> {
-    let strArr = [];
+    const strArr = [];
     const query = this._route.snapshot.queryParamMap.has('q') ? `q=${this._route.snapshot.queryParamMap.get('q')}&` : null;
     Object.entries(event).map(val => {
         switch (val[0]) {
@@ -343,7 +343,7 @@ export class DataListComponent implements OnInit, OnDestroy {
             break;
           }
           default: {
-            if(val[0] !== 'length' && val[0] !== 'active') {
+            if (val[0] !== 'length' && val[0] !== 'active') {
               strArr.push(val[0] + '=' + val[1]);
             }
             break;

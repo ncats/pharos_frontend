@@ -70,7 +70,7 @@ export class StructureViewComponent implements OnInit {
       )
       .subscribe(x => {
         if (!this.url) {
-          if(this.data.term === ''){
+          if (this.data.term === '') {
             this.url = null;
           } else {
             this.url = `${this.pharosConfig.getApiPath()}render/${this.parseSmiles(this.data.term)}?size=150`;

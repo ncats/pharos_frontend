@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Facet} from '../../../models/facet';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {PharosApiService} from "../../../pharos-services/pharos-api.service";
-import {PharosProfileService} from "../../../auth/pharos-profile.service";
+import {PharosApiService} from '../../../pharos-services/pharos-api.service';
+import {PharosProfileService} from '../../../auth/pharos-profile.service';
 
 /**
  * Service to parse and filter facets from api responses
@@ -41,7 +41,7 @@ export class FacetRetrieverService {
     private profileService: PharosProfileService
   ) {
     this.pharosApiService.facetsData$.subscribe(res => {
-      if(res) {
+      if (res) {
         res.forEach(facet => {
           this.facetMap.set(facet.name, facet);
         });

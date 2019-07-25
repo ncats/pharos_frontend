@@ -7,7 +7,7 @@ import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/na
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
-import {NestedTreeControl} from "@angular/cdk/tree";
+import {NestedTreeControl} from '@angular/cdk/tree';
 
 interface DiseaseTreeNode {
   name: PharosProperty;
@@ -67,7 +67,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
 
   setterFunction(): void {
     this.data.diseases.forEach(disease => {
-      const dobj:PharosProperty = new PharosProperty(disease.properties.filter(prop => prop.label === 'IDG Disease')[0]);
+      const dobj: PharosProperty = new PharosProperty(disease.properties.filter(prop => prop.label === 'IDG Disease')[0]);
       dobj.internalLink = ['/diseases', dobj.term as string];
       const dname: string = dobj.term as string;
       const dlist = this.newdiseasemap.get(dname);
@@ -80,17 +80,17 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
         ]
       };
 
-      if(diseaseSource.children.length === 0) {
-        diseaseSource = {name: diseaseSource.name}
+      if (diseaseSource.children.length === 0) {
+        diseaseSource = {name: diseaseSource.name};
       }
-      if(dlist) {
+      if (dlist) {
         dlist.children.push(diseaseSource);
         this.newdiseasemap.set(dname, dlist);
       } else {
         this.newdiseasemap.set(dname, {name: dobj, children: [diseaseSource]});
       }
     });
-    const sortedDiseases = Array.from(this.newdiseasemap.entries()).sort((a,b) => {
+    const sortedDiseases = Array.from(this.newdiseasemap.entries()).sort((a, b) => {
       if (a[1].children.length < b[1].children.length) {
         return 1;
       }
@@ -137,7 +137,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
   }
 
   paginate(event: PageEvent) {
-    this.dataSource.data = this.treeData.slice((event.pageIndex * event.pageSize), ((event.pageIndex + 1) * event.pageSize))
+    this.dataSource.data = this.treeData.slice((event.pageIndex * event.pageSize), ((event.pageIndex + 1) * event.pageSize));
   }
 
   getTooltip(label: string): string {
