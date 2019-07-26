@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {LinkService, NodeService, SmrtGraph, SmrtGraphDataParserInterface} from 'smrtgraph-core';
 import {Observable, of, Subject} from 'rxjs/index';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {PharosConfig} from '../../../../../../../config/pharos-config';
+import {take} from 'rxjs/internal/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +20,7 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
   constructor(
     private nodeService: NodeService,
     private linkService: LinkService,
+    private pharosConfig: PharosConfig,
     private db: AngularFirestore) {
   }
 
@@ -34,18 +37,19 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
 
   loadData(): Observable<SmrtGraph> {
     // console.log(id);
-    this.db.collection('topics', ref => ref.where('topicId', '==', this.id))
-      .valueChanges()
+    this.db.collection('topics', ref => ref.where('topicLinkId', '==', this.id))
+      .valueChanges().pipe(take(1))
       .subscribe(res => this._parseData(res));
     return of(this.graph);
   }
 
   _parseData(queries: any) {
-      console.log(queries);
       queries.forEach(data => {
         const tnode = this.nodeService.makeNode(data.graphData.target, `target${data.graphData.target.id}`);
         if (data.graphData.ligands) {
           data.graphData.ligands.forEach(ligand => {
+/*            ligand.structureId = ligand['image'].split('/structure/')[1].split('.')[0];
+            ligand.internalLink = ['/ligands', ligand.id];*/
             const lnode = this.nodeService.makeNode(ligand, `ligand${ligand.id}`);
             tnode.linkCount++;
             lnode.linkCount++;
@@ -56,8 +60,8 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
         }
         if (data.graphData.diseases) {
           data.graphData.diseases.forEach(disease => {
-            if (disease.IDG_Confidence){
-              this.confidences.push(disease.IDG_Confidence)
+            if (disease.IDG_Confidence) {
+              this.confidences.push(disease.IDG_Confidence);
             }
             const dnode = this.nodeService.makeNode(disease, `disease${disease.id}`);
             tnode.linkCount++;
@@ -67,17 +71,21 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
             this.linkService.makeLink(`${data.graphData.target.id}-${disease.id}`, tnode, dnode);
           });
         }
+        //console.log(data.graphData.ligands);
+        /*this.db.collection('topics')
+          .doc(data.graphData.graphData.query)
+          .set({
+            topicLinkId: this.id,
+            graphData: data.graphData.graphData
+          });*/
       });
 
     // this.confidences = [...new Set(this.confidences)];
-    console.log(this.confidences);
     const ret: SmrtGraph = {
         nodes: this.nodeService.getNodesArr(),
         links: this.linkService.getLinksArr()
         };
-
-        console.log(ret);
-        this._data.next(ret);
+     this._data.next(ret);
     }
 
   getData(): Observable<SmrtGraph> {

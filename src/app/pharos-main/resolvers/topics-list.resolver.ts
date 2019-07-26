@@ -38,7 +38,7 @@ export class TopicsListResolver implements Resolve<any> {
       this.loadingService.toggleVisible(true);
       this.pathResolverService.setPath(route.data.path);
 
-    return of(this.db.collection<any>('topics'));
+    return of(this.db.collection<any>('topics', ref => ref.where('topicId', '==', 1)));
 
 
    //   return this.pharosApiService.getData(route.data.path, route.queryParamMap);

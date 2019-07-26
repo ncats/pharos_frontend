@@ -5,7 +5,9 @@
   <div *ngIf="node">
     <div [ngSwitch]= node.kind>
       <pharos-target-card *ngSwitchCase="'ix.idg.models.Target'"  [target]="node"></pharos-target-card>
-      <div *ngSwitchCase="'ix.idg.models.Disease'"><span><h1><a routerLink="/diseases/{{node.name}}">{{node?.name}}</a></h1></span>
+      <div *ngSwitchCase="'ix.idg.models.Disease'">
+        <span><h1><a routerLink="/diseases/{{node.name}}">{{node?.name}}</a></h1></span>
+        <div>Confidence: {{node.IDG_Confidence}}</div>
       </div>
       <pharos-ligand-card *ngSwitchCase="'ix.idg.models.Ligand'"  [ligand]="node"></pharos-ligand-card>
       <div *ngSwitchDefault></div>

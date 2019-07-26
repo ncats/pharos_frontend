@@ -4,7 +4,9 @@
   </button>
   <mat-sidenav #sidenav [mode]="'side'" [opened]="true" >
     <!-- sidenav content -->
-    <pharos-topic-graph-filters></pharos-topic-graph-filters>
+    <pharos-topic-graph-filters
+      (confidenceChange)="filterConfidence($event)"
+      (filterSelectionChange)="filterGraph($event)"></pharos-topic-graph-filters>
   </mat-sidenav>
 
   <div class="info-panel" [ngClass]="{'sidenav-opened': sidenav.opened === true }">

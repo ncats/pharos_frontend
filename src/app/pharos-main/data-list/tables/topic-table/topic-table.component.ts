@@ -42,6 +42,7 @@ export class TopicTableComponent implements OnInit {
    */
   ngOnInit() {
    this._route.snapshot.data.data.valueChanges().subscribe(res => {
+     console.log(res);
       this.topics = res;
       this.ref.markForCheck();
     });

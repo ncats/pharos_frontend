@@ -48,7 +48,7 @@ export class LigandCardComponent implements OnInit {
     if (this.target) {
       this.primeActivity = [this.ligand.activities.sort(activity => this.target.gene === activity.target)[0]];
     }
-    if(!this.ligand.imageUrl) {
+    if (!this.ligand.imageUrl) {
       this.ligand.imageUrl = this.parseImageUrl();
     }
   }
@@ -77,6 +77,6 @@ export class LigandCardComponent implements OnInit {
 
 
   private parseImageUrl(): string {
-      return `${this._STRUCTUREURLBASE}${this.ligand['image'].split('/structure/')[1]}`;
+    return this._STRUCTUREURLBASE + this.ligand['structureId'] + '.svg?size=250';
   }
 }

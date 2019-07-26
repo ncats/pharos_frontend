@@ -1,5 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {SelectionModel} from '@angular/cdk/collections';
+import {SelectionChange, SelectionModel} from '@angular/cdk/collections';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'pharos-topic-graph-filters',
@@ -7,17 +8,27 @@ import {SelectionModel} from '@angular/cdk/collections';
   styleUrls: ['./topic-graph-filters.component.scss']
 })
 export class TopicGraphFiltersComponent implements OnInit {
-  selection = new SelectionModel<any>(true, ['tclin','tchem','tbio','tdark','disease','ligand']);
-  @Output() filterSelectionChange: EventEmitter<SelectionModel<any>> = new EventEmitter<SelectionModel<any>>();
+  selection = new SelectionModel<any>(true, ['Tclin', 'Tchem', 'Tbio', 'Tdark', 'disease', 'ligand']);
+  @Output() filterSelectionChange: EventEmitter<SelectionChange<string>> = new EventEmitter<SelectionChange<string>>();
+  @Output() confidenceChange: EventEmitter<{value: number, confidence: boolean}> = new EventEmitter<{value: number, confidence: boolean}>();
+  confidenceCtrl: FormControl = new FormControl(0);
+  showNoConfidence = true;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     this.selection.changed.subscribe(change => {
-      console.log(this.selection);
-      this.filterSelectionChange.emit(this.selection);
+      this.filterSelectionChange.emit(change);
     });
 
+    this.confidenceCtrl.valueChanges.subscribe(value => {
+      this.confidenceChange.emit({value: value, confidence: this.showNoConfidence});
+    });
+  }
+
+  showConfidenceChange() {
+    this.showNoConfidence = !this.showNoConfidence;
+    this.confidenceChange.emit({value: this.confidenceCtrl.value, confidence: this.showNoConfidence});
   }
 
   setFilterType(event, field) {

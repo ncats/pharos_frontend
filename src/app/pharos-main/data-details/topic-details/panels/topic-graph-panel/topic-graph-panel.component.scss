@@ -17,6 +17,10 @@ mat-sidenav {
   top: 5vh;
 }
 
+.info-panel.sidenav-opened {
+  left: 55vw;
+}
+
 .smartgraph-fdg {
   height: 100%;
   min-height: 60vh;

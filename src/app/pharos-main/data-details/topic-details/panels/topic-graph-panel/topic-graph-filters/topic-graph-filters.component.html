@@ -5,8 +5,8 @@
       <div class="switch-labels"><span class="mat-slide-toggle-label">Hide</span>&nbsp;
         <mat-slide-toggle
           (click)="$event.stopPropagation()"
-          (change)="$event ? selection.toggle('tclin') : null"
-          [checked]="selection.isSelected('tclin')">
+          (change)="$event ? selection.toggle('Tclin') : null"
+          [checked]="selection.isSelected('Tclin')">
           Show
         </mat-slide-toggle>
       </div>
@@ -17,8 +17,8 @@
       <div class="switch-labels"><span class="mat-slide-toggle-label">Hide</span>&nbsp;
         <mat-slide-toggle
           (click)="$event.stopPropagation()"
-          (change)="$event ? selection.toggle('tchem') : null"
-          [checked]="selection.isSelected('tchem')">
+          (change)="$event ? selection.toggle('Tchem') : null"
+          [checked]="selection.isSelected('Tchem')">
           Show
         </mat-slide-toggle>
       </div>
@@ -29,8 +29,8 @@
       <div class="switch-labels"><span class="mat-slide-toggle-label">Hide</span>&nbsp;
         <mat-slide-toggle
           (click)="$event.stopPropagation()"
-          (change)="$event ? selection.toggle('tbio') : null"
-          [checked]="selection.isSelected('tbio')">
+          (change)="$event ? selection.toggle('Tbio') : null"
+          [checked]="selection.isSelected('Tbio')">
           Show
         </mat-slide-toggle>
       </div>
@@ -41,8 +41,8 @@
       <div class="switch-labels"><span class="mat-slide-toggle-label">Hide</span>&nbsp;
         <mat-slide-toggle
           (click)="$event.stopPropagation()"
-          (change)="$event ? selection.toggle('tdark') : null"
-          [checked]="selection.isSelected('tdark')">
+          (change)="$event ? selection.toggle('Tdark') : null"
+          [checked]="selection.isSelected('Tdark')">
           Show
         </mat-slide-toggle>
       </div>
@@ -60,6 +60,27 @@
       </div>
       <div class="circle disease"></div>
       : Disease
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <div fxFlex="95">
+        <mat-slider matInput fxLayoutAlign="center center"
+                    aria-label="activity level"
+                    class="example-margin"
+                    [invert] = true
+                    [color]="'primary'"
+                    [max]="5"
+                    [min]="0"
+                    [step]=".01"
+                    [thumbLabel]="true"
+                    [formControl]="confidenceCtrl"
+                    [value]="0">
+        </mat-slider>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <div fxFlex="95">
+       <mat-checkbox [checked] = showNoConfidence (change)="showConfidenceChange()">Show nodes without confidence values</mat-checkbox>
+      </div>
     </div>
     <div class="row-close">
       <div class="switch-labels"><span class="mat-slide-toggle-label">Hide</span>&nbsp;

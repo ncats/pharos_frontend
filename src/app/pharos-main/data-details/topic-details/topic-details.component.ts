@@ -258,7 +258,7 @@ this.diseasePageData = new PageData({
               this.db.collection('topics')
                 .doc(res.content[0].query)
                 .set({
-                  topicId: this.topic.id,
+                  topicLinkId: this.topic.id,
                   graphData: res.content[0]
                 })
             })

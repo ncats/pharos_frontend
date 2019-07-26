@@ -1,9 +1,11 @@
 import {AfterViewInit, Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {LinkService, NodeService, SmrtgraphCoreComponent} from 'smrtgraph-core';
+import {GraphDataService, LinkService, NodeService, SGLink, SGNode, SmrtgraphCoreComponent} from 'smrtgraph-core';
 import {GraphParserService} from './services/graph-parser.service';
 import {PharosNodeSerializer} from './models/topic-graph/pharos-node-serializer';
 import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
+import {MatSelectionListChange} from '@angular/material';
+import {SelectionChange} from '@angular/cdk/collections';
 
 
 
@@ -14,15 +16,24 @@ import {RadarChartComponent} from '../../../../../tools/visualizations/radar-cha
   providers: [NodeService, LinkService, GraphParserService],
   encapsulation: ViewEncapsulation.None
 })
-export class TopicGraphPanelComponent<T extends Node> implements OnInit, AfterViewInit {
+export class TopicGraphPanelComponent<T extends SGNode> implements OnInit, AfterViewInit {
 
   @ViewChild('smrtgraph', {read: SmrtgraphCoreComponent, static: false}) smrtGraph: SmrtgraphCoreComponent;
 
   @Input() topic = {id: 1};
 
+  options = ['Tclin', 'Tchem', 'Tbio', 'Tdark', 'disease', 'ligand'];
+
   dataMap: Map<string, any> = new Map<string, any>();
 
-
+  nodesMap: Map<string, any[]> = new Map<string, any[]>([
+    ['Tclin', []],
+    ['Tchem', []],
+    ['Tbio', []],
+    ['Tdark', []],
+    ['disease', []],
+    ['ligand', []],
+  ]);
   public loading = true;
 
   graph: any;
@@ -33,6 +44,7 @@ export class TopicGraphPanelComponent<T extends Node> implements OnInit, AfterVi
 
   constructor(
     private _http: HttpClient,
+    private graphDataService: GraphDataService,
     private graphParserService: GraphParserService
   ) {}
 
@@ -44,6 +56,51 @@ export class TopicGraphPanelComponent<T extends Node> implements OnInit, AfterVi
     });
     this.graphParserService.data$.subscribe(res => {
       this.graph = res;
+      this.graph.nodes.forEach(node => {
+        switch (node.kind) {
+          case 'ix.idg.models.Target': {
+            switch (node.idgTDL) {
+              case 'Tchem' : {
+                const nodes = this.nodesMap.get('Tchem');
+                nodes.push(node);
+                this.nodesMap.set('Tchem', nodes);
+                break;
+              }
+              case 'Tclin' : {
+                const nodes = this.nodesMap.get('Tclin');
+                nodes.push(node);
+                this.nodesMap.set('Tclin', nodes);
+                break;
+              }
+              case 'Tbio' : {
+                const nodes = this.nodesMap.get('Tbio');
+                nodes.push(node);
+                this.nodesMap.set('Tbio', nodes);
+                break;
+              }
+              case 'Tdark' : {
+                const nodes = this.nodesMap.get('Tdark');
+                nodes.push(node);
+                this.nodesMap.set('Tdark', nodes);
+                break;
+              }
+            }
+            break;
+          }
+          case 'ix.idg.models.Disease': {
+            const nodes = this.nodesMap.get('disease');
+            nodes.push(node);
+            this.nodesMap.set('disease', nodes);
+            break;
+          }
+          case 'ix.idg.models.Ligand': {
+            const nodes = this.nodesMap.get('ligand');
+            nodes.push(node);
+            this.nodesMap.set('ligand', nodes);
+            break;
+          }
+        }
+      })
       this.loading = false;
     });
   }
@@ -53,65 +110,51 @@ export class TopicGraphPanelComponent<T extends Node> implements OnInit, AfterVi
 
   }
 
-  filterGraph(event: Event) {
-    /*    const nodes = this._filterNodes(event);
-        const edges = this._filterEdges(event, nodes);
-        this.graphDataService.setGraph({
-          nodes: nodes,
-          links: edges
-        });*/
+  filterGraph(event: SelectionChange<string>) {
+    this.loading = true;
+        event.removed.forEach(filter => {
+          const nodesArr = this.nodesMap.get(filter);
+          nodesArr.map(node => node['tempcolor'] = 'transparent');
+          this.nodesMap.set(filter, nodesArr);
+        });
+
+    event.added.forEach(filter => {
+      const nodesArr = this.nodesMap.get(filter);
+      nodesArr.map(node => node['tempcolor'] = null);
+      this.nodesMap.set(filter, nodesArr);
+    });
+
+    this.graphDataService.setGraph({
+      nodes: [].concat(...this.nodesMap.values()),
+      links: this.graph.links
+    });
+    this.smrtGraph.graphObject.simulation.tick();
+    this.loading = false;
   }
 
-  _filterNodes(params: Event): Node[] {
-    return [];
-    /*  const data = params['data'] ? params['data'] : 'nscs';
-      let nodes: Protein[] = this.dataMap.get(data).nodes as Protein[];
-      if(params['reset']){
-        return nodes.map(node => {
-          node.tempcolor = null;
-          return node;
-        });
-      } else {
-        Object.keys(params).forEach(param => {
-          // skip iterating from the fade parameter
-          if (param !== 'fade') {
-            if (Array.isArray(params[param])) {
-              if (params['fade'] === true) {
-                nodes = nodes.map(node => {
-                  if (node[param] >= params[param][0] && node[param] <= params[param][1]) {
-                    node.tempcolor = null;
-                  } else {
-                    node.tempcolor = '#f6f6f6';
-                  }
-                  return node;
-                });
-              } else {
-                nodes = nodes.filter(node => {
-                  node.tempcolor = null;
-                  return node[param] >= params[param][0] && node[param] <= params[param][1];
-                });
-              }
-            }
-          }
-        });
-        if (params['no_data'] === true) {
-          nodes = nodes.filter(node => {
-            return node.hESC_NSC_Fold_Change !== -100
-          });
+  filterConfidence(event: {value: number, confidence: boolean}) {
+    this.loading = true;
+    console.log(event);
+    const diseases = this.nodesMap.get('disease');
+    diseases.forEach(disease => {
+       if ((!disease['IDG_Confidence'] && event.confidence === false) || disease['IDG_Confidence']
+         && disease['IDG_Confidence'] <= event.value ) {
+         disease['tempcolor'] = 'transparent';
+       } else {
+         disease['tempcolor'] = null;
+       }
+    });
+      this.nodesMap.set('disease', diseases);
+      this.graphDataService.setGraph({
+        nodes: [].concat(...this.nodesMap.values()),
+        links: this.graph.links
+      });
+      this.smrtGraph.graphObject.simulation.tick();
+      this.loading = false;
+    // });
 
-        }
-        if (params['subgraph']) {
-          if (params['subgraph'] !== 'null') {
-            const node = nodes.filter(node => {
-              return node.name === params['subgraph']
-            });
-            this.nodeService.hoveredNode(node);
-            this.d3Service._manualClick(node[0], this.graphDataService.returnGraph());
-          }
-        }
-        return nodes;
-      }*/
   }
+
 
   nodeEvents(event) {
     if (event.nodeHover) {
@@ -123,17 +166,5 @@ export class TopicGraphPanelComponent<T extends Node> implements OnInit, AfterVi
     if (event.linkHover) {
       this.hoveredLink = event.linkHover;
     }
-  }
-
-  _filterEdges(params: Event, nodes: T) {
-   // const data = params['data'] ? params['data'] : 'nscs';
-   // const links: Link[] = this.dataMap.get(data).links as Link[];
-    /*const currentNodes = nodes.map(node => node.uuid);
-    links = links.filter(link => {
-      const source: string = link.getSourceId();
-      const target: string = link.getTargetId();
-      return currentNodes.includes(source) && currentNodes.includes(target);
-    });*/
-   // return links;
   }
 }
