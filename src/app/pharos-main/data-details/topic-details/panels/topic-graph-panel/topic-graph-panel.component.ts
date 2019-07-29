@@ -125,7 +125,7 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit, After
     });
 
     this.graphDataService.setGraph({
-      nodes: [].concat(...this.nodesMap.values()),
+      nodes: [].concat(...Array.from(this.nodesMap.values())),
       links: this.graph.links
     });
     this.smrtGraph.graphObject.simulation.tick();
@@ -146,7 +146,7 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit, After
     });
       this.nodesMap.set('disease', diseases);
       this.graphDataService.setGraph({
-        nodes: [].concat(...this.nodesMap.values()),
+        nodes: [].concat(...Array.from(this.nodesMap.values())),
         links: this.graph.links
       });
       this.smrtGraph.graphObject.simulation.tick();
