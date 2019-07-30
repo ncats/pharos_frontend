@@ -94,6 +94,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
           const facet = facets.get(f.name);
           if (facet) {
             facet.label = f.label;
+            facet.open = f.open;
             this.filteredFacets.push(facet);
           }
         });

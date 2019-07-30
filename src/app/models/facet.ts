@@ -17,6 +17,11 @@ export class Facet {
    * list of facet values
    */
   values: Field[];
+
+  /**
+   * show or hide the facet panel by default
+   */
+  open?: boolean;
 }
 
 /**

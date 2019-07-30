@@ -1,7 +1,7 @@
 {
   "name": "pharos",
   "short_name": "pharos",
-  "theme_color": "#1976d2",
+  "theme_color": "#23364e",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "/",

@@ -7,12 +7,12 @@
   background-size: cover;
 }
 
-.no-webp .dashboard-main-div {
-   background-image: url("/assets/images/dna.jpg");
+.webp .dashboard-main-div {
+  background-image: url("/assets/images/dna.webp");
 }
 
-.webp .dashboard-main-div{
-  background-image: url("/assets/images/dna.webp");
+.no-webp .dashboard-main-div {
+   background-image: url("/assets/images/dna.jpg");
 }
 
 .spacer {

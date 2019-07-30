@@ -14,7 +14,7 @@ export class StructureViewPanelComponent extends DynamicPanelComponent implement
 
   constructor(
     private pharosConfig: PharosConfig,
-    private structureSetter: StructureSetterService
+   // private structureSetter: StructureSetterService
   ) {
     super();
   }
@@ -36,7 +36,7 @@ export class StructureViewPanelComponent extends DynamicPanelComponent implement
   }
 
   setSmiles() {
-      this.structureSetter.setStructure(this.data.structure[0].href.toString());
+    //  this.structureSetter.setStructure(this.data.structure[0].href.toString());
   }
 
 }

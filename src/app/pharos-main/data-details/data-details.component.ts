@@ -54,8 +54,6 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
    */
   @ViewChild('helppanel', {static: true}) helpPanel: MatDrawer;
 
-  @ViewChild('appHeader', {static: true}) header: NcatsHeaderComponent;
-
   /**
    * set up lots of dependencies to watch for data changes, navigate and parse and inject components
    * @param {ActivatedRoute} _route
@@ -148,7 +146,6 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
   makeComponents(): void {
     const components: any = this.pharosConfig.getComponents(this.path, 'details');
     components.forEach(component => {
-      console.log(component);
       // start api calls before making component
       const keys: string[] = [];
       if (component.api) {
@@ -182,12 +179,6 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
     this.loading = false;
     this.loadingService.toggleVisible(false);
     this.componentsLoaded = true;
-  }
-
-  closeSidenav() {
-    if (this.header) {
-      this.header.sidenav.close();
-    }
   }
 
   /**

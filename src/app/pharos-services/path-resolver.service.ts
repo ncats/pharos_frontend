@@ -5,7 +5,9 @@ import {NavigationExtras, ParamMap, Router} from '@angular/router';
 /**
  * service to parse and resolve the url path to retrieve api info
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class PathResolverService {
   /**
    * main list of facets for navigation

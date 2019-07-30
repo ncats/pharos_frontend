@@ -43,15 +43,10 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
-import '@webcomponents/custom-elements/custom-elements.min';
 
  /**
   *these variables are used for the swagger ui
   */
-declare var require: any;
-
-/**
- * these variables are used for the swagger ui
- */
-declare var global: any;
-global.Buffer = global.Buffer || require('buffer').Buffer;
+ (window as any).global = window;
+// @ts-ignore
+window.Buffer = window.Buffer || require('buffer').Buffer;

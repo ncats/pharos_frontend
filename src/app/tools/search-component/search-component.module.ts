@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {SearchComponent} from './search.component';
 import {HighlightPipe} from './highlight.pipe';
 import {SuggestApiService} from './suggest-api.service';

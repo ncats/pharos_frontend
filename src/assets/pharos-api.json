@@ -3,7 +3,7 @@
   "info": {
     "title": "Pharos API",
     "version": "1.0.0",
-    "description": "Documentation for the Pharos API based on <a href='http://juniper.health.unm.edu/tcrd/'>TCRD</a> version <code>@IDGApp.tcrdVersion</code>. While the API provides a convenient means to quickly access the underlying data programmatically, for bulk access please consider using our read-only MySQL/MariaDB instance at <code>tcrd.kmc.io</code>; e.g., one can access this TCRD version with <code>mysql</code> client as follows:<pre>mysql -h tcrd.kmc.io -u tcrd tcrd@IDGApp.tcrdVersion(false)</pre>Programmatic examples using the Python programming language to access either the API or database are available <a href='https://spotlite.nih.gov/ncats/pharos/snippets'>here</a>. Please feel free to send us <a href='mailto:pharos@nih.gov'>email</a> if you have any problems.",
+    "description": "Documentation for the Pharos API based on <a href='http://juniper.health.unm.edu/tcrd/'>TCRD</a> version <code>5.4.0</code>. While the API provides a convenient means to quickly access the underlying data programmatically, for bulk access please consider using our read-only MySQL/MariaDB instance at <code>tcrd.kmc.io</code>; e.g., one can access this TCRD version with <code>mysql</code> client as follows:<pre>mysql -h tcrd.kmc.io -u tcrd tcrd540</pre>Programmatic examples using the Python programming language to access either the API or database are available <a href='https://spotlite.nih.gov/ncats/pharos/snippets'>here</a>. Please feel free to send us <a href='mailto:pharos@nih.gov'>email</a> if you have any problems.",
     "termsOfService": "http://swagger.io/terms/",
     "contact": {
       "name": "Pharos Support",

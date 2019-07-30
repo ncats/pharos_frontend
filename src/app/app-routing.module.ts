@@ -1,13 +1,12 @@
 import {NgModule} from '@angular/core';
-import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
+import {RouterModule, Routes, PreloadAllModules} from '@angular/router';
 import {AboutPageComponent} from './about-page/about-page.component';
 import {FaqPageComponent} from './faq-page/faq-page.component';
-import {ApiPageComponent} from './api-page/api-page.component';
-import {StructureSearchPageComponent} from './structure-search-page/structure-search-page.component';
 import {SequenceSearchPageComponent} from './sequence-search-page/sequence-search-page.component';
-import {PharosMainComponent} from './pharos-main/pharos-main.component';
-import {DataDetailsResolver} from './pharos-main/resolvers/data-details.resolver';
-import {DataDetailsComponent} from './pharos-main/data-details/data-details.component';
+import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {CommonModule} from '@angular/common';
+import {CommonToolsModule} from './tools/common-tools.module';
+import {SharedModule} from './shared/shared.module';
 
 
 const ROUTES: Routes = [
@@ -17,6 +16,7 @@ const ROUTES: Routes = [
   },
   {
     path: '',
+    pathMatch: 'full',
     loadChildren: () => import('./pharos-home/pharos-home.module').then(m => m.PharosHomeModule),
     data: { path: 'home' }
   },
@@ -30,7 +30,7 @@ const ROUTES: Routes = [
   },
   {
     path: 'structure',
-    component: StructureSearchPageComponent
+    loadChildren: () => import('./structure-search-page/structure-search-page.module').then(m => m.StructureSearchPageModule),
   },
   { path: 'sketcher',
     redirectTo: '/structure',
@@ -46,7 +46,7 @@ const ROUTES: Routes = [
   },
   {
     path: 'api',
-    component: ApiPageComponent
+    loadChildren: () => import('./api-page/api-page.module').then(m => m.ApiPageModule),
   },
   {
     path: 'search',
@@ -94,12 +94,15 @@ const ROUTES: Routes = [
     data: { path: 'ligands' }
   },
   { path: '**',
-    redirectTo: '/index'
+    redirectTo: '/'
   },
 ];
 
 @NgModule({
   imports: [
+    CommonModule,
+    SharedModule.forRoot(),
+    CommonToolsModule,
     RouterModule.forRoot(ROUTES, {
       scrollPositionRestoration: 'enabled',
       anchorScrolling: 'enabled',
@@ -110,7 +113,12 @@ const ROUTES: Routes = [
   ],
   providers: [],
   entryComponents: [],
-  declarations: [],
+  declarations: [
+    AboutPageComponent,
+    FaqPageComponent,
+    SequenceSearchPageComponent,
+    PageNotFoundComponent
+  ],
   exports: [ RouterModule ]
 })
 export class AppRoutingModule { }
