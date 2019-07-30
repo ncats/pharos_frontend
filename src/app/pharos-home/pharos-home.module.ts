@@ -7,7 +7,7 @@ import {NewsPanelComponent} from './news-panel/news-panel.component';
 import {SharedModule} from '../shared/shared.module';
 import {RouterModule, Routes} from '@angular/router';
 import {CommonToolsModule} from '../tools/common-tools.module';
-import {SearchComponentModule} from "../tools/search-component/search-component.module";
+import {SearchComponentModule} from '../tools/search-component/search-component.module';
 
 const pharosHomeRoutes: Routes = [
   {

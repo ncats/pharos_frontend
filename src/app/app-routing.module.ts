@@ -16,6 +16,7 @@ const ROUTES: Routes = [
   },
   {
     path: '',
+    pathMatch: 'full',
     loadChildren: () => import('./pharos-home/pharos-home.module').then(m => m.PharosHomeModule),
     data: { path: 'home' }
   },
@@ -107,7 +108,7 @@ const ROUTES: Routes = [
       anchorScrolling: 'enabled',
       // onSameUrlNavigation: 'reload',
       scrollOffset: [0, 120],
-      preloadingStrategy: PreloadAllModules
+     // preloadingStrategy: PreloadAllModules
       })
   ],
   providers: [],

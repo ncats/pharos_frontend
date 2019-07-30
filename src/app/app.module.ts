@@ -14,7 +14,7 @@ import {NcatsHeaderModule} from './tools/ncats-header/ncats-header.module';
 import {PharosFooterComponent} from './tools/pharos-footer/pharos-footer.component';
 import {ScrollToTopComponent} from './tools/scroll-to-top/scroll-to-top.component';
 import {MaterialModule} from '../assets/material/material.module';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -23,13 +23,13 @@ import {NoopAnimationsModule} from '@angular/platform-browser/animations';
     ScrollToTopComponent
   ],
   imports: [
-    MaterialModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
-    NoopAnimationsModule,
-   // BrowserAnimationsModule,
+    MaterialModule,
+    BrowserAnimationsModule,
+   // NoopAnimationsModule,
     AppRoutingModule,
     RouterModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     AngularFireModule.initializeApp(environment.firebase), // imports firebase/app needed for everything
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,

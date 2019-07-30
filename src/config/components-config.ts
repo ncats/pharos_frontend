@@ -935,15 +935,18 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       facets: [
         {
           name: 'etag',
-          label: 'Custom Lists'
+          label: 'Custom Lists',
+          open: true
         },
         {
           name: 'IDG Development Level',
-          label: 'Development Level'
+          label: 'Development Level',
+          open: true
         },
         {
           name: 'Collection',
-          label: 'Collection'
+          label: 'Collection',
+          open: true
         },
         {
           name: 'IMPC Term',

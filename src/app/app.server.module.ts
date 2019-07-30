@@ -3,9 +3,10 @@ import { ServerModule } from '@angular/platform-server';
 
 import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
-import { Routes, RouterModule } from '@angular/router';
+import {Routes, RouterModule, Router} from '@angular/router';
 import { AppShellComponent } from './app-shell/app-shell.component';
 import {FlexLayoutServerModule} from '@angular/flex-layout/server';
+
 
 const routes: Routes = [ { path: 'shell', component: AppShellComponent }];
 
@@ -14,9 +15,13 @@ const routes: Routes = [ { path: 'shell', component: AppShellComponent }];
     AppModule,
     ServerModule,
     FlexLayoutServerModule,
-    RouterModule.forRoot(routes),
+RouterModule.forRoot(routes),
   ],
   bootstrap: [AppComponent],
   declarations: [AppShellComponent],
 })
-export class AppServerModule {}
+export class AppServerModule {
+  constructor(private router: Router) {
+    this.router.resetConfig(routes);
+  }
+}
