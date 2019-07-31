@@ -3,6 +3,7 @@
 </header>
 <main role ="main">
 <div class ="main" (click)="closeSidenav()">
+  <pharos-loading-spinner [showSpinner] = "loading"></pharos-loading-spinner>
 <router-outlet></router-outlet>
 </div>
 <pharos-scroll-to-top></pharos-scroll-to-top>

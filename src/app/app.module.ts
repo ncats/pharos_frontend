@@ -11,10 +11,11 @@ import {RouterModule} from '@angular/router';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {BrowserModule} from '@angular/platform-browser';
 import {NcatsHeaderModule} from './tools/ncats-header/ncats-header.module';
+import {PharosLoadingSpinnerModule} from './tools/pharos-loading-spinner/pharos-loading-spinner.module';
 import {PharosFooterComponent} from './tools/pharos-footer/pharos-footer.component';
 import {ScrollToTopComponent} from './tools/scroll-to-top/scroll-to-top.component';
 import {MaterialModule} from '../assets/material/material.module';
-import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-b
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     MaterialModule,
     BrowserAnimationsModule,
-   // NoopAnimationsModule,
+    PharosLoadingSpinnerModule,
     AppRoutingModule,
     RouterModule,
     AngularFireModule.initializeApp(environment.firebase), // imports firebase/app needed for everything

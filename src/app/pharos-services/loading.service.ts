@@ -13,7 +13,7 @@ export class LoadingService {
    * @type {Subject<boolean>}
    * @private
    */
-  private _loadingSource = new Subject<boolean>();
+  private _loadingSource = new BehaviorSubject<boolean>(true);
 
   /**
    * Observable stream of visibility changes
