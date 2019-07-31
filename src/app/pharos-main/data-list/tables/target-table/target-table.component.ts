@@ -205,7 +205,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * subscribe to data changes
    */
   ngOnInit() {
-    this.loading = true;
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
 
     this.profileService.profile$.subscribe(user => {
@@ -233,7 +232,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
           this.targets = this.targetObjs
             .map(target => target = this.targetSerializer._asProperties(target));
           this.ref.detectChanges();
-          this.loading = false;
         }
       });
   }
@@ -266,7 +264,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      this.loading = true;
       const httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'text/plain',
@@ -287,7 +284,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * @private
    */
   private _navigate(navExtras: NavigationExtras): void {
-    this.loading = false;
     this.router.navigate([], navExtras);
 
   }
@@ -325,7 +321,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      this.loading = true;
       const httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'text/plain',
@@ -349,7 +344,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      this.loading = true;
       const httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'text/plain',

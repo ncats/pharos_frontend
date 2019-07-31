@@ -66,7 +66,6 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
    * set image url and subscribe to data changes
    */
   ngOnInit() {
-    console.log(this);
     this._STRUCTUREURLBASE = this.pharosConfig.getStructureImageUrl();
     this._data.subscribe(d => {
       if (this.data) {
@@ -154,9 +153,7 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
       }
 
   private parseImageUrl(ligand: any, refid: string): string {
-    console.log(ligand);
     if (refid || ligand.structureId) {
-      console.log(ligand);
       return this._STRUCTUREURLBASE + refid + '.svg?size=250';
     } else if (ligand.image && (ligand.image.split(this._STRUCTUREURLBASE).length > 1)) {
       return ligand.image;

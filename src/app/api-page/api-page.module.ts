@@ -17,12 +17,12 @@ const routes: Routes = [
     ApiPageComponent
   ],
   imports: [
-    CommonModule,
-    ApiViewerModule,
+    RouterModule.forChild(routes),
     SharedModule.forRoot(),
-    RouterModule.forChild(routes)
+    CommonModule,
+    ApiViewerModule
   ],
-  entryComponents: [
+  exports: [
     ApiPageComponent
     ]
 })

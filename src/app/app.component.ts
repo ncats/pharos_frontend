@@ -1,6 +1,8 @@
-import {Component, OnInit, AfterViewInit, ViewChild, Input} from '@angular/core';
+import {Component, OnInit, AfterViewInit, ViewChild, Input, ChangeDetectorRef} from '@angular/core';
 import {NcatsHeaderComponent} from './tools/ncats-header/ncats-header.component';
-import {LoadingService} from './pharos-services/loading.service'
+import {LoadingService} from './pharos-services/loading.service';
+import {NavigationEnd, NavigationStart, Router} from '@angular/router';
+import {takeUntil} from 'rxjs/operators';
 /**
  * main app component holder
  */
@@ -9,17 +11,30 @@ import {LoadingService} from './pharos-services/loading.service'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit {
 
   @ViewChild('appHeader', {static: true}) header: NcatsHeaderComponent;
-  @Input() loading: boolean;
+  @Input() loading = true;
 
   constructor (
-    private loadingService: LoadingService
-  ){}
+    // private loadingService: LoadingService,
+    private router: Router
+  ) {}
 
-  ngAfterViewInit(){
-    this.loadingService.loading$.subscribe(res => this.loading = res);
+  ngOnInit() {
+    console.log(this.router);
+    this.router.events
+      .subscribe((e: any) => {
+        if (e instanceof NavigationStart) {
+          this.loading = true;
+        }
+        if (e instanceof NavigationEnd) {
+          this.loading = false;
+        }
+      });
+  }
+
+  ngAfterViewInit() {
   }
   closeSidenav() {
     this.header.sidenav.close();

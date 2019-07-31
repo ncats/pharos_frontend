@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
@@ -11,6 +12,7 @@ import {
 import {PharosApiService} from '../pharos-services/pharos-api.service';
 import {HeaderOptionsService} from '../pharos-services/header-options.service';
 import {DOCUMENT} from '@angular/common';
+import {LoadingService} from '../pharos-services/loading.service';
 
 @Component({
   selector: 'pharos-home',
@@ -22,7 +24,7 @@ import {DOCUMENT} from '@angular/common';
 /**
  *
  */
-export class PharosHomeComponent implements OnInit, OnDestroy {
+export class PharosHomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /**
    * elements of the page scroll to
@@ -38,6 +40,7 @@ export class PharosHomeComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private headerOptionsService: HeaderOptionsService,
+    private loadingService: LoadingService,
     private pharosApiService: PharosApiService) {
     this.headerOptionsService.setOptions({searchBar: false, animationState: 'out'});
   }
@@ -47,6 +50,9 @@ export class PharosHomeComponent implements OnInit, OnDestroy {
    */
   ngOnInit() {
     this.topics = this.pharosApiService.TOPICS.slice(1, 5);
+  }
+  ngAfterViewInit() {
+    this.loadingService.toggleVisible(false);
   }
 
   /**

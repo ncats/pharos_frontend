@@ -1082,11 +1082,13 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       facets: [
         {
           name: 'IDG Development Level',
-          label: 'Development Level'
+          label: 'Development Level',
+          open: true
         },
         {
           name: 'IDG Target Family',
-          label: 'Target Family'
+          label: 'Target Family',
+          open: true
         },
         {
           name: 'IDG Drug',
@@ -1146,11 +1148,13 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       facets: [
         {
           name: 'IDG Development Level',
-          label: 'Development Level'
+          label: 'Development Level',
+          open: true
         },
         {
           name: 'IDG Target Family',
-          label: 'Target Family'
+          label: 'Target Family',
+          open: true
         },
         {
           name: 'IDG Target',

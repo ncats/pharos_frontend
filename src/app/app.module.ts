@@ -28,14 +28,14 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     MaterialModule,
     BrowserAnimationsModule,
-    PharosLoadingSpinnerModule,
     AppRoutingModule,
     RouterModule,
     AngularFireModule.initializeApp(environment.firebase), // imports firebase/app needed for everything
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AuthModule,
-    NcatsHeaderModule
+    NcatsHeaderModule,
+    PharosLoadingSpinnerModule
   ],
   providers: [
   ],

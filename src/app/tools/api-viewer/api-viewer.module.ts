@@ -9,9 +9,9 @@ import {ApiViewerComponent} from './api-viewer.component';
   exports: [
     ApiViewerComponent
   ],
-  entryComponents: [
+/*  entryComponents: [
     ApiViewerComponent
-  ],
+  ],*/
   imports: [
     CommonModule
   ]

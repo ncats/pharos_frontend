@@ -101,10 +101,6 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
         this._data.next(res);
       });
 
-    /*
-        this.loadingService.loading$.subscribe(res=> this.loading = res);
-    */
-
     this.router.events
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((e: any) => {

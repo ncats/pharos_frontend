@@ -46,7 +46,11 @@ const ROUTES: Routes = [
   },
   {
     path: 'api',
-    loadChildren: () => import('./api-page/api-page.module').then(m => m.ApiPageModule),
+    loadChildren: () => import('./api-page/api-page.module').then(m => {
+      console.log(m);
+
+      return m.ApiPageModule;
+    }),
   },
   {
     path: 'search',
@@ -108,7 +112,7 @@ const ROUTES: Routes = [
       anchorScrolling: 'enabled',
       // onSameUrlNavigation: 'reload',
       scrollOffset: [0, 120],
-     // preloadingStrategy: PreloadAllModules
+      preloadingStrategy: PreloadAllModules
       })
   ],
   providers: [],

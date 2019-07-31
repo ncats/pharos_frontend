@@ -136,9 +136,9 @@ export class DataListComponent implements OnInit, OnDestroy {
     }
   });
 
-    this.loadingService.loading$
+/*    this.loadingService.loading$
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => this.loading = res);
+      .subscribe(res => this.loading = res);*/
 
     this.router.events
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -226,8 +226,8 @@ export class DataListComponent implements OnInit, OnDestroy {
         }
       }
     });
-    this.loading = false;
-    this.loadingService.toggleVisible(false);
+    console.log("hide spinner");
+  //  this.loadingService.toggleVisible(false);
     this.componentsLoaded = true;
     this.ref.detectChanges();
   }

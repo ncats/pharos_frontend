@@ -7,22 +7,11 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class PharosLoadingSpinnerComponent implements OnInit {
 
-  @Input() showSpinner = false;
+ // @Input() showSpinner = true;
+  @Input() showText = true;
 
   constructor() { }
 
   ngOnInit() {
   }
-
- /* toggle() {
-    this.showSpinner = !showSpinner;
-  }
-
-  show() {
-    this.showSpinner = true;
-  }
-
-  hide() {
-    this.showSpinner = false;
-  }*/
 }
