@@ -4,7 +4,7 @@
           #publicationsPanel>
   <mat-card-content>
     <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
-      <mat-spinner></mat-spinner>
+      <img class="spinner rotating" src="./assets/images/pharos_spinner.svg">
     </div>
     <div fxLayout="row"
          class="tkrow"
@@ -78,7 +78,7 @@
             Text Mined References ({{publicationsPageData?.total}})</div>
           </ng-template>
           <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
-            <mat-spinner></mat-spinner>
+            <img class="spinner rotating" src="./assets/images/pharos_spinner.svg">
           </div>
           <ng-template matTabContent>
           <pharos-generic-table
@@ -96,7 +96,7 @@
                   GeneRif Annotations ({{rifPageData?.total}})</div>
           </ng-template>
           <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
-            <mat-spinner></mat-spinner>
+            <img class="spinner rotating" src="./assets/images/pharos_spinner.svg">
           </div>
           <ng-template matTabContent>
           <pharos-generic-table

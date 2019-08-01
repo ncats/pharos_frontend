@@ -6,7 +6,7 @@
           *ngIf="data">
   <mat-card-content>
     <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
-      <mat-spinner></mat-spinner>
+      <img class="spinner rotating" src="./assets/images/pharos_spinner.svg">
     </div>
     <div fxLayout="row"
          class="tkrow"
@@ -22,7 +22,7 @@
       </div>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-around center">
-<div fxFlex="60">
+<div fxFlex="60" class="pdb-holder">
       <pharos-protein-structure-viewer [pdbid] = pdbid *ngIf="tableArr.length > 0 && pdbid"></pharos-protein-structure-viewer>
 </div>
     </div>
@@ -34,6 +34,7 @@
           <a href="http://www.rcsb.org/" target="_blank" rel="noreferrer" rel="noreferrer">RCSB PDB <mat-icon [inline]="true">open_in_new</mat-icon></a></p>
       </div>
     </div>
+    <div fxHide.lt-md>
     <pharos-generic-table
       [pageData]= pageData
       [data]= tableArr
@@ -41,8 +42,16 @@
       (pageChange)="pagePDB($event)"
       (rowClick)="changePdbId($event)">
     </pharos-generic-table>
-
-
+    </div>
+      <div fxHide.gt-md>
+    <pharos-generic-table
+      [pageData]= pageData
+      [data]= tableArr
+      [fieldsConfig]= shortFieldsData
+      (pageChange)="pagePDB($event)"
+      (rowClick)="changePdbId($event)">
+    </pharos-generic-table>
+      </div>
   </mat-card-content>
 </mat-card>
 </article>

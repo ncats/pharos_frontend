@@ -120,13 +120,13 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
 
   /**
    * Split a string into chunks of the given size
-   * @param  {String} string is the String to split
+   * @param  {String} sstring is the String to split
    * @param  {Number} size is the size you of the cuts
    * @return {Array} an Array with the strings
    */
-  splitString (string: string, size: number): string[] {
+  splitString (sstring: string, size: number): string[] {
     const re: RegExp  = new RegExp('.{1,' + size + '}', 'g');
-    return string.match(re);
+    return sstring.match(re);
   }
 
   getTooltip(label: string): string {

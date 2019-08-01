@@ -30,6 +30,10 @@
   user-select: none;          /* Likely future */
 }
 
+.break {
+  word-break: break-all;
+}
+
 /*@media only screen and (max-width: 768px) {
   :host {
     flex: 1 1 100%;

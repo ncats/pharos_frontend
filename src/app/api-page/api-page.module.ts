@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ApiPageComponent} from './api-page.component';
-import {ApiViewerModule} from '../tools/api-viewer/api-viewer.module';
 import {RouterModule, Routes} from '@angular/router';
 import {SharedModule} from '../shared/shared.module';
 
@@ -18,9 +17,7 @@ const routes: Routes = [
   ],
   imports: [
     RouterModule.forChild(routes),
-    SharedModule.forRoot(),
-    CommonModule,
-    ApiViewerModule
+    CommonModule
   ],
   exports: [
     ApiPageComponent

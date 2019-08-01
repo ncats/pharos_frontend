@@ -29,7 +29,6 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatStepperModule} from '@angular/material/stepper';
 import {PortalModule} from '@angular/cdk/portal';
 import {MatListModule} from '@angular/material/list';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatTooltipModule} from '@angular/material/tooltip';
@@ -40,13 +39,13 @@ import {MatTreeModule} from '@angular/material/tree';
 
 @NgModule({
   imports: [MatButtonModule, MatAutocompleteModule, MatMenuModule, MatToolbarModule,
-    MatInputModule, MatIconModule, MatListModule, MatSliderModule, MatProgressSpinnerModule,
+    MatInputModule, MatIconModule, MatListModule, MatSliderModule,
     MatTableModule, MatSortModule, MatSidenavModule, MatSlideToggleModule, MatRadioModule,
     MatTabsModule, MatCheckboxModule, MatCardModule, MatTooltipModule, MatSelectModule, MatExpansionModule, MatPaginatorModule,
     MatChipsModule, MatGridListModule, MatDividerModule, MatDialogModule, LayoutModule, DragDropModule, ScrollingModule,
     MatProgressBarModule, MatStepperModule, PortalModule, MatFormFieldModule, MatTreeModule],
   exports: [MatButtonModule, MatAutocompleteModule, MatMenuModule, MatToolbarModule,
-    MatInputModule, MatIconModule, MatListModule, MatSliderModule, MatProgressSpinnerModule,
+    MatInputModule, MatIconModule, MatListModule, MatSliderModule,
     MatTableModule, MatSortModule, MatSidenavModule, MatSlideToggleModule, MatRadioModule,
     MatTabsModule, MatCheckboxModule, MatCardModule, MatTooltipModule, MatSelectModule, MatExpansionModule, MatPaginatorModule,
     MatChipsModule, MatGridListModule, MatDividerModule, MatDialogModule, ScrollingModule,

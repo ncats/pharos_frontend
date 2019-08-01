@@ -32,6 +32,7 @@ import {TOKENS} from '../../../../config/component-tokens';
 import {BreadcrumbComponent} from '../../../tools/breadcrumb/breadcrumb.component';
 import {TargetTableModule} from './target-list.module';
 import {LigandListModule} from '../ligands/ligand-list.module';
+import {PharosLoadingSpinnerModule} from '../../../tools/pharos-loading-spinner/pharos-loading-spinner.module';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import {LigandListModule} from '../ligands/ligand-list.module';
     SharedDetailsModule,
     IdgLevelSummaryModule,
     TargetTableModule,
-    LigandListModule
+    LigandListModule,
+    PharosLoadingSpinnerModule
   ],
   exports: [
   ],

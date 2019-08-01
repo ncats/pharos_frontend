@@ -1,5 +1,6 @@
 <mat-sidenav-container class="mobile-menu-container">
   <nav>
+    <!--mobile sidenav menu-->
   <mat-sidenav #mobilesidenav class="mobile-menu-panel"
                [position]="'end'"
                [disableClose]="false"
@@ -37,6 +38,7 @@
     <pharos-search-component class="mobile-search"></pharos-search-component>
   </mat-sidenav>
 
+    <!--full width menu-->
   <mat-toolbar class="ncats-toolbar" [@slideInOut]="animationState">
     <img *ngIf="animationState === 'out'" src="./assets/images/Pharos_Logo_Rd8-white.svg" routerLink="/"
          alt="Pharos logo" class="pharos-logo">
@@ -68,6 +70,9 @@
         Sign Out
       </button>
     </mat-menu>
+   <!-- <button mat-icon-button class="share-button" [color]="'primary'" aria-label = "share link button" fxHide fxShow.lt-md>
+      <mat-icon>share</mat-icon>
+    </button>-->
     <button mat-icon-button class="menu-button" aria-label = "menu button" (click)="mobilesidenav.toggle()" fxHide fxShow.lt-md>
       <mat-icon>menu</mat-icon>
     </button>

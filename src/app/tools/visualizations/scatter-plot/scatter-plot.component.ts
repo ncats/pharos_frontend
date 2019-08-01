@@ -227,7 +227,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       }
 
       case 'year': {
-        return d3.scaleTime().range(range);
+        return d3.scaleTime().rangeRound(range);
       }
 
       case 'linear': {
@@ -295,7 +295,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       .tickPadding(10);
 
     if (this._chartOptions.xAxisScale === 'year') {
-     xAxis = d3.axisBottom(this.x).ticks(d3.timeYear.every(1)).tickSize(-this.height)
+     xAxis = d3.axisBottom(this.x).ticks(d3.timeYear.every(3)).tickSize(-this.height)
        .tickPadding(10).tickFormat(d3.timeFormat('%Y'));
     }
 

@@ -9,7 +9,9 @@
          class ="input-field">
   <mat-label class="search-label">Target search</mat-label>
   <mat-autocomplete #auto="matAutocomplete" (optionSelected) = "search()" [displayWith]="displayFn">
-    <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="50"></mat-spinner></mat-option>
+    <mat-option *ngIf="isLoading" class="is-loading">
+      <img class="spinner rotating" src="./assets/images/pharos_spinner.svg">
+    </mat-option>
     <ng-container *ngIf="!isLoading">
       <mat-option *ngFor="let option of options" [value]="option">
         <div [innerHTML]= "option.genes  | highlight : searchForm.get('typeaheadInput').value"></div>

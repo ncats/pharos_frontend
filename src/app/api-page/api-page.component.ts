@@ -1,4 +1,6 @@
-import {Component} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
+import SwaggerUI from 'swagger-ui';
+
 
 /**
  * ui page holder for a swagger UI API documentation viewer
@@ -10,10 +12,26 @@ import {Component} from '@angular/core';
 })
 
 
-export class ApiPageComponent {
+export class ApiPageComponent implements AfterViewInit {
+
+  /**
+   * container that holds the swagger ui
+   */
+  @ViewChild('swagger', {static: true}) el: ElementRef;
 
   /**
    * no args constructor
    */
-  constructor() { }
+  constructor() {
+  }
+
+  /**
+   * create swagger ui viewer
+   */
+  ngAfterViewInit() {
+    const ui = SwaggerUI({
+      url: './assets/pharos-api.yaml',
+      domNode: this.el.nativeElement
+    });
+  }
 }

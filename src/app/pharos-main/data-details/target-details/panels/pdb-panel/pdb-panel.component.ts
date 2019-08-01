@@ -44,10 +44,6 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
   name: 'pubmedId',
   label: 'PMID'
 }),
-/*{
-  name: 'chainId',
-    label: 'Chain Id',
-},*/
     new PharosProperty({
   name: 'ligandId',
     label: 'Ligand Id'
@@ -70,6 +66,26 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
     label: 'Title'
 })
 ];
+
+  shortFieldsData: PharosProperty[] = [
+    new PharosProperty({
+      name: 'structureId',
+      label: 'PDB Structure Id',
+    }),
+    new PharosProperty({
+      name: 'pubmedId',
+      label: 'PMID'
+    }),
+    new PharosProperty({
+      name: 'ligandId',
+      label: 'Ligand Id'
+    }),
+    new PharosProperty({
+      name: 'ligandSmiles',
+      label: 'Ligand',
+      customComponent: STRUCTURE_VIEW_TOKEN
+    })
+    ]
 
   /**
    * all retrieved reports

@@ -44,14 +44,7 @@ const ROUTES: Routes = [
     path: 'faq',
     component: FaqPageComponent
   },
-  {
-    path: 'api',
-    loadChildren: () => import('./api-page/api-page.module').then(m => {
-      console.log(m);
 
-      return m.ApiPageModule;
-    }),
-  },
   {
     path: 'search',
     loadChildren: () => import('./pharos-main/modules/search/search.module').then(m => m.SearchModule),
@@ -96,6 +89,10 @@ const ROUTES: Routes = [
     path: 'ligands/:id',
     loadChildren: () => import('./pharos-main/modules/ligands/ligand-details.module').then(m => m.LigandDetailsModule),
     data: { path: 'ligands' }
+  },
+  {
+    path: 'api',
+    loadChildren: () => import('./api-page/api-page.module').then(m =>  m.ApiPageModule),
   },
   { path: '**',
     redirectTo: '/'

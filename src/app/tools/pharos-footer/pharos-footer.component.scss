@@ -32,8 +32,14 @@ text-align: center;
   .links-header{
     font-size: 1em;
     padding: 2vw;
+    text-align: start;
   }
 
+  .link-list {
+    display: flex;
+    margin-top:1vh;
+    margin-bottom:1vh;
+  }
   .link-list > a {
     font-size: .8em;
     padding: 3vw;

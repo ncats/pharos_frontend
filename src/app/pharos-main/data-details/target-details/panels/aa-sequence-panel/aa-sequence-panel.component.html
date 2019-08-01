@@ -6,7 +6,7 @@
   class="section-card">
   <mat-card-content>
     <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
-      <mat-spinner></mat-spinner>
+      <img class="spinner rotating" src="./assets/images/pharos_spinner.svg">
     </div>
     <div fxLayout="row"
          class="tkrow"
@@ -28,8 +28,8 @@
           Residue Counts
         </span>
     </div>
-    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="center center">
-      <div fxFlex="90">
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <div fxFlex="90" fxFlex.lt-md="100">
         <pharos-bar-chart [data]="residueCounts" *ngIf="residueCounts"></pharos-bar-chart>
       </div>
     </div>
@@ -39,7 +39,7 @@
             [matTooltipClass]="'pharos-tooltip'">
         Sequence</span>
     </div>
-    <div fxLayout="row" fxHide.lt-sm fxLayout.lt-sm="column" fxLayoutAlign="center center">
+    <div fxLayout="row" fxHide.lt-sm fxLayoutAlign="center center">
       <div fxFlex="100">
         <div class="well">
           <div fxLayout="row" fxLayoutAlign="start center" *ngFor="let chunk of aasequence" fxLayout="start stretch">
@@ -50,6 +50,13 @@
               {{chunk?.residues}}
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row" fxHide.gt-sm fxLayoutAlign="center center">
+      <div fxFlex="100">
+        <div class="well break" *ngIf="data && data.sequence">
+          {{data?.sequence[0].text}}
         </div>
       </div>
     </div>
