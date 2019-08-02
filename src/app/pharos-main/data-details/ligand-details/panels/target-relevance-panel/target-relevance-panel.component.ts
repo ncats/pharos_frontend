@@ -10,7 +10,7 @@ import {IDG_LEVEL_TOKEN} from '../../../disease-details/target-list-panel/target
 @Component({
   selector: 'pharos-target-relevance-panel',
   templateUrl: './target-relevance-panel.component.html',
-  styleUrls: ['./target-relevance-panel.component.css']
+  styleUrls: ['./target-relevance-panel.component.scss']
 })
 
 export class TargetRelevancePanelComponent extends DynamicTablePanelComponent implements OnInit {
@@ -100,10 +100,14 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
             );
            // data['developmentLevelValue'].term = `p${data['developmentLevelValue'].term}`;
             data.target.internalLink = ['/targets', data.target.term as string];
-            if (data.activity && data.activity.term !== 'Pharmalogical Action') {
+            if (data.activity && data.activity.label !== 'Pharmalogical Action') {
               data.activity.term = `p${data.activity.term}`;
             }
-            this.targets.push(data);
+
+            if (data.activity && data.activity.label === 'Pharmalogical Action') {
+            delete data['developmentLevelValue'];
+            }
+              this.targets.push(data);
           });
           this.pageData = new PageData(
             {

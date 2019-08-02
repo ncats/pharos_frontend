@@ -9,7 +9,7 @@
   </div>
   <div fxLayout="row" fxLayoutAlign="space-between center" class="tools-row">
     <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
-      <img class="spinner rotating" src="./assets/images/pharos_spinner.svg">
+      <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
     </div>
     <div fxFlex="15">
       <button type="button" mat-raised-button [color]="'primary'" (click)="toggleFacets()" *ngIf="!fullWidth; else close">
@@ -44,7 +44,7 @@
   </div>
   <div class="grid-list">
     <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
-      <img class="spinner rotating" src="./assets/images/pharos_spinner.svg">
+      <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
     </div>
     <div *ngFor="let facet of facets; trackBy: trackByFn;">
       <mat-expansion-panel [expanded]="facet.open" *ngIf="facet.values.length > 0" class="full-height">

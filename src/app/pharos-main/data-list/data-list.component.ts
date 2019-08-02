@@ -226,8 +226,6 @@ export class DataListComponent implements OnInit, OnDestroy {
         }
       }
     });
-    console.log("hide spinner");
-  //  this.loadingService.toggleVisible(false);
     this.componentsLoaded = true;
     this.ref.detectChanges();
   }

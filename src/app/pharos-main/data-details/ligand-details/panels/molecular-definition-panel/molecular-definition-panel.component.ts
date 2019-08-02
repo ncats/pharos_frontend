@@ -5,7 +5,7 @@ import {HttpClient} from '@angular/common/http';
 @Component({
   selector: 'pharos-molecular-definition-panel',
   templateUrl: './molecular-definition-panel.component.html',
-  styleUrls: ['./molecular-definition-panel.component.css']
+  styleUrls: ['./molecular-definition-panel.component.scss']
 })
 export class MolecularDefinitionPanelComponent extends DynamicPanelComponent implements OnInit {
   properties: any;

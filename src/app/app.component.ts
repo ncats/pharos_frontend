@@ -14,15 +14,13 @@ import {takeUntil} from 'rxjs/operators';
 export class AppComponent implements OnInit, AfterViewInit {
 
   @ViewChild('appHeader', {static: true}) header: NcatsHeaderComponent;
-  @Input() loading = true;
+  loading = true;
 
   constructor (
-    // private loadingService: LoadingService,
     private router: Router
   ) {}
 
   ngOnInit() {
-    console.log(this.router);
     this.router.events
       .subscribe((e: any) => {
         if (e instanceof NavigationStart) {

@@ -1,5 +1,4 @@
 <article>
-  <div class="full-height">
   <mat-card>
     <div fxLayout="row"
          fxLayout.lt-md="column"
@@ -14,16 +13,14 @@
       <div fxFlex="5">
         <pharos-help-panel-trigger [origin] = "'molecularDefinition'" [label]="'Molecular Definition'"></pharos-help-panel-trigger>
       </div>
-    </div>    <mat-card-content>
+    </div>
+    <mat-card-content>
       <mat-list>
-        <mat-list-item><div><b>Canonical Smiles:</b> <span> {{properties?.smiles}}</span></div></mat-list-item>
+        <mat-list-item><div><b>Canonical Smiles:</b> <span class="smiles"> {{properties?.smiles}}</span></div></mat-list-item>
         <mat-list-item><div><b>Formula:</b> <span> {{properties?.formula}}</span></div></mat-list-item>
         <mat-list-item><div><b>Molecular Weight:</b> <span> {{properties?.mwt}}</span></div></mat-list-item>
         <mat-list-item><div><b>Stereocenters:</b> <span> {{properties?.definedStereo}}/{{properties?.stereoCenters}}</span></div></mat-list-item>
       </mat-list>
-
     </mat-card-content>
   </mat-card>
-
-</div>
 </article>

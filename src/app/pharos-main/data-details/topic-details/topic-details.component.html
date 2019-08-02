@@ -50,7 +50,7 @@
    <mat-tab label="Ligands  ({{allLigands.length}})" class="full-tab">
      <ng-template matTabContent>
        <div *ngIf=" loading" class = "loadingIcon full-loading" fxLayoutAlign="center center">
-      <img class="spinner rotating" src="./assets/images/pharos_spinner.svg">
+      <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
        </div>
 &lt;!&ndash;
        <pharos-ligand-table class = "full-tab" [data]= ligands [pageData]= "ligandPageData" (pageChange)="paginateLigands($event)"></pharos-ligand-table>
@@ -60,7 +60,7 @@
    <mat-tab label="Diseases  ({{allDiseases.length}})" class="full-tab">
      <ng-template matTabContent>
        <div *ngIf=" loading" class = "loadingIcon full-loading" fxLayoutAlign="center center">
-      <img class="spinner rotating" src="./assets/images/pharos_spinner.svg">
+      <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
        </div>
        <pharos-generic-table [data]= allDiseases [fieldsConfig]="diseaseFields" [tableLabel]= "diseaseLabel"></pharos-generic-table>
      </ng-template>
@@ -68,7 +68,7 @@
    &lt;!&ndash;<mat-tab label="Graph" class="full-tab">
      <ng-template matTabContent>
        <div *ngIf=" loading" class = "loadingIcon full-loading" fxLayoutAlign="center center">
-      <img class="spinner rotating" src="./assets/images/pharos_spinner.svg">
+      <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
        </div>
 &lt;!&ndash;
        <pharos-topic-graph></pharos-topic-graph>

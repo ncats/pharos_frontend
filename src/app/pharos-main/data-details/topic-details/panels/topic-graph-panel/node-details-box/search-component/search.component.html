@@ -10,7 +10,7 @@
   <mat-label class="search-label">Target search</mat-label>
   <mat-autocomplete #auto="matAutocomplete" (optionSelected) = "search()" [displayWith]="displayFn">
     <mat-option *ngIf="isLoading" class="is-loading">
-      <img class="spinner rotating" src="./assets/images/pharos_spinner.svg">
+      <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
     </mat-option>
     <ng-container *ngIf="!isLoading">
       <mat-option *ngFor="let option of options" [value]="option">

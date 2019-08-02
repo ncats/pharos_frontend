@@ -163,7 +163,6 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
         'Content-Type': 'text/plain',
       })
     };
-console.log(this);
 this.graphParser.setSerializers({node: new PharosNodeSerializer()});
     this._route.snapshot.data.pharosObject.subscribe(res => {
       this.topic = res.data();
