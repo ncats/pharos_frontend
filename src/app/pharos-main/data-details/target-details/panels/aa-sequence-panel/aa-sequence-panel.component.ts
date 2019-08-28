@@ -75,10 +75,10 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
    */
   setterFunction() {
     this.parseSequence();
-   /* const r = new Protvista({
+    const r = new Protvista({
       el: this.viewerContainer.nativeElement,
       uniprotacc: this.id
-    });*/
+    });
     this.getCounts();
   }
 
