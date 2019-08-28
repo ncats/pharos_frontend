@@ -7,19 +7,40 @@ import {LigandNode} from '../../models/topic-graph/ligand-node';
 import {TargetNode} from '../../models/topic-graph/target-node';
 import {GraphDataService} from 'smrtgraph-core';
 
-
+/**
+ * copied search component from tools
+ */
 @Component({
   selector: 'app-search-component',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-@Output()
-  public selected: EventEmitter<Node> = new EventEmitter();
+  /**
+   * selected autocomplete value
+   */
+  @Output() public selected: EventEmitter<Node> = new EventEmitter();
+
+  /**
+   * search input form
+   */
   searchForm: FormGroup;
+
+  /**
+   * display options
+   */
   options: any;
+
+  /**
+   * tracks if loading autocomplete options
+   */
   isLoading = false;
 
+  /**
+   * build search form and input graph data
+   * @param fb
+   * @param graphDataService
+   */
   constructor(
     private fb: FormBuilder,
     @Inject(GraphDataService) private graphDataService
@@ -56,11 +77,17 @@ export class SearchComponent implements OnInit {
       });
   }
 
+  /**
+   * how to display autocomplete data
+   * @param node
+   */
   displayFn(node?: TargetNode | DiseaseNode | LigandNode ): string | undefined {
     return node ? node.name : undefined;
   }
 
-
+  /**
+   * emit search value
+   */
   search() {
     this.selected.emit(this.searchForm.get('typeaheadInput').value);
   }

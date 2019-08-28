@@ -3,12 +3,18 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {BehaviorSubject} from 'rxjs/index';
 import * as firebase from 'firebase/app';
 
+/**
+ * service to retrieve profile info from firebase, based on user id token
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class PharosProfileService {
 
 
+  /**
+   * subject to track user profile
+   */
   private _profileSource = new BehaviorSubject<any>(null);
 
 
@@ -18,9 +24,16 @@ export class PharosProfileService {
    */
   profile$ = this._profileSource.asObservable();
 
+  /**
+   * user object
+   * todo once standardized, should be an object model
+   */
   private user;
-  private profile;
 
+  /**
+   * get and filter user collection on init
+   * @param userCollection
+   */
   constructor(
     private userCollection: AngularFirestore,
   ) {
@@ -35,6 +48,10 @@ export class PharosProfileService {
     });
   }
 
+  /**
+   * fetch and broadcast user profile. if it doesn't exist, create one from the user collection login
+   * @param user
+   */
   fetchUserProfile(user) {
     this.userCollection.collection('users')
       .doc(user.uid)
@@ -56,10 +73,18 @@ export class PharosProfileService {
       });
   }
 
+  /**
+   * broadcast profile object
+   * @param profile
+   */
   setProfile(profile) {
     this._profileSource.next(profile);
   }
 
+  /**
+   * update profile with new data or saved target collections
+   * @param data
+   */
   updateProfile(data) {
     this.userCollection.collection('users')
       .doc(this.user.uid)
@@ -68,6 +93,9 @@ export class PharosProfileService {
     });
   }
 
+  /**
+   * logout and remove user profile
+   */
   logout() {
     firebase.auth().signOut();
     this._profileSource.next(null);

@@ -2,15 +2,19 @@ import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {BehaviorSubject} from 'rxjs/index';
 import {MatDialogRef} from '@angular/material';
 import {PharosProfileService} from './pharos-profile.service';
 
+/**
+ * service to register and handle user login
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class PharosAuthService {
-
+  /**
+   * list of provider objects used by the auth service
+   */
   providers: Map<string, firebase.auth.AuthProvider> = new Map<string, firebase.auth.AuthProvider>([
     ['facebook', new firebase.auth.FacebookAuthProvider()],
     ['google', new firebase.auth.GoogleAuthProvider()],
@@ -18,11 +22,24 @@ export class PharosAuthService {
     ['github', new firebase.auth.GithubAuthProvider()],
   ]);
 
+  /**
+   * get user info from firebase
+   * @param userCollection
+   * @param pharosProfileService
+   * @param afAuth
+   */
   constructor(private userCollection: AngularFirestore,
               private pharosProfileService: PharosProfileService,
               public afAuth: AngularFireAuth) {
   }
 
+  /**
+   * gets info from modal
+   * fetch and login using the proper auth service
+   * clsoes modal
+   * @param dialogRef
+   * @param providerName
+   */
   doLogin(dialogRef: MatDialogRef<any>, providerName: string) {
     const provider = this.providers.get(providerName);
     return new Promise<any>((resolve, reject) => {
@@ -38,6 +55,12 @@ export class PharosAuthService {
     });
   }
 
+  /**
+   * registers no user
+   * todo: this ins't set up in the UI
+   * @param value
+   * @param dialogRef
+   */
   doRegister(value, dialogRef: MatDialogRef<any>) {
     return new Promise<any>((resolve, reject) => {
       firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
@@ -51,6 +74,9 @@ export class PharosAuthService {
     });
   }
 
+  /**
+   * logout user, remove profile via profile service
+   */
   logout() {
     this.afAuth.auth.signOut().then(res => {
       this.pharosProfileService.setProfile(null);
@@ -58,10 +84,18 @@ export class PharosAuthService {
     });
   }
 
+  /**
+   * get profile of user
+   * @param user
+   */
   fetchUserProfile(user: any) {
     this.pharosProfileService.fetchUserProfile(user);
   }
 
+  /**
+   * handle errors, if there are multiple accounts, or popups are blocked
+   * @param error
+   */
   handleError(error) {
     // An error happened.
     if (error.code === 'auth/account-exists-with-different-credential') {

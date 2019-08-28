@@ -1,14 +1,29 @@
-
-/**
- * target that extends node object
- */
 import {NodeSerializer, SGNode} from 'smrtgraph-core';
 
+/**
+ * target node that extends node object
+ */
 export class TargetNode extends SGNode {
+
+  /**
+   * node type
+   */
   kind = 'target';
+
+  /**
+   * node accession id
+   */
   accession: string;
  // family: string;
+
+  /**
+   * gene string
+   */
   gene: string;
+
+  /**
+   * target name string
+   */
   name: string;
   // tdl: string;
   /**

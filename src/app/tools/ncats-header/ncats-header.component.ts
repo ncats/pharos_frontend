@@ -20,14 +20,20 @@ import {HeaderOptionsService} from '../../pharos-services/header-options.service
 })
 export class NcatsHeaderComponent implements OnInit {
 
+  /**
+   * sidenav instance for mobile navigation menu
+   */
   @ViewChild('mobilesidenav', {static: true}) sidenav: MatSidenav;
   /**
    * show search bar
    */
   @Input() searchBar?: boolean;
 
-  user;
-  profile;
+  /**
+   * profile object
+   * todo: create type object and see if useer and profile can be merged
+   */
+  profile: any;
 
   /**
    * animation state changed by scrolling
@@ -35,6 +41,13 @@ export class NcatsHeaderComponent implements OnInit {
    */
   @Input() animationState = 'out';
 
+  /**
+   * constructor initialization
+   * @param dialog
+   * @param route
+   * @param headerOptionsService
+   * @param profileService
+   */
   constructor(
     public dialog: MatDialog,
     private route: ActivatedRoute,
@@ -42,6 +55,9 @@ export class NcatsHeaderComponent implements OnInit {
     private profileService: PharosProfileService
     ) { }
 
+  /**
+   * subscribe to profile and header options services
+   */
   ngOnInit() {
     this.profileService.profile$.subscribe(profile => {
       this.profile = profile && profile.data() ? profile.data() : profile;
@@ -50,11 +66,12 @@ export class NcatsHeaderComponent implements OnInit {
     this.headerOptionsService.headerOptions$.subscribe(res => {
       Object.entries(res).forEach((prop) => this[prop[0]] = prop[1]);
     });
-
-
   }
 
-
+  /**
+   * sets active section in nav
+   * @param path
+   */
   isActive(path: string): boolean {
     if (this.route.snapshot.data && this.route.snapshot.data.path) {
       return path === this.route.snapshot.data.path;
@@ -65,14 +82,20 @@ export class NcatsHeaderComponent implements OnInit {
     }
   }
 
+  /**
+   * opens modal for user to sign in
+   */
   openSignInModal() {
-    const dialogRef = this.dialog.open(LoginModalComponent, {
+    this.dialog.open(LoginModalComponent, {
         height: '75vh',
         width: '66vw',
       }
     );
   }
 
+  /**
+   * sign out user
+   */
   signOut(): void {
     this.profileService.logout();
   }

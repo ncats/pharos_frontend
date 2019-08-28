@@ -1,14 +1,39 @@
-/**
- * target that extends node object
- */
+
 import {NodeSerializer, SGNode} from 'smrtgraph-core';
 
+/**
+ * disease node that extends node object
+ * todo: need to clean up these labels from the API
+ */
 export class DiseaseNode extends SGNode {
+  /**
+   * node type
+   */
   kind = 'disease';
+
+  /**
+   * data source string
+   */
   Data_Source: string;
+
+  /**
+   * disease name
+   */
   IDG_Disease: string;
+
+  /**
+   * optional confidence value
+   */
   IDG_Confidence?: number;
+
+  /**
+   * optgional confidence type
+   */
   IDG_Evidence?: string;
+
+  /**
+   * default display color
+   */
   color = 'green';
   // todo: fix api to remove hyphen
 //  'IDG_Z-score'?: number;

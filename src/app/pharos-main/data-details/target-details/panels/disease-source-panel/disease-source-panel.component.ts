@@ -9,8 +9,17 @@ import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
 import {NestedTreeControl} from '@angular/cdk/tree';
 
+/**
+ * interface to track disease tree nodes
+ */
 interface DiseaseTreeNode {
+  /**
+   * disease name
+   */
   name: PharosProperty;
+  /**
+   * list of children nodes
+   */
   children?: DiseaseTreeNode[];
 }
 
@@ -29,22 +38,49 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    * */
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
+  /**
+   * tnx data
+   */
   tinx: PharosPoint[];
+
+  /**
+   * shows if component is fully loaded or not
+   */
   loaded = false;
+
+  /**
+   * display options for the tinx plot
+   */
   chartOptions: ScatterOptions;
 
+  /**
+   * maps disease sources
+   */
   newdiseasemap: Map<string, any> = new Map<string, any>();
+  /**
+   * controls open and closed tree nodes
+   */
   treeControl: NestedTreeControl<DiseaseTreeNode> = new NestedTreeControl<DiseaseTreeNode>(node => node.children);
+
+  /**
+   * main data source for disease tree
+   */
   dataSource: MatTreeNestedDataSource<DiseaseTreeNode> = new MatTreeNestedDataSource<DiseaseTreeNode>();
+
+  /**
+   * list of tree nodes to show
+   */
   treeData: DiseaseTreeNode[] = [];
 
   constructor(
-    private navSectionsService: NavSectionsService,
-    private ref: ChangeDetectorRef
+    private navSectionsService: NavSectionsService
   ) {
     super();
   }
 
+  /**
+   * subscribe to data changes and generate tree
+   */
   ngOnInit() {
     this._data
     // listen to data as long as term is undefined or null
@@ -61,15 +97,15 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       });
   }
 
- /* ngAfterViewInit() {
-    this.paginator
-  }*/
-
+  /**
+   * parse data
+   * creates map to reduce duplicate disease names, and adds sources to disease name
+   */
   setterFunction(): void {
     this.data.diseases.forEach(disease => {
       const dobj: PharosProperty = new PharosProperty(disease.properties.filter(prop => prop.label === 'IDG Disease')[0]);
       dobj.internalLink = ['/diseases', dobj.term as string];
-      const dname: string = dobj.term as string;
+      const dname: string = dobj.term as string; // todo: ignore case would be cool
       const dlist = this.newdiseasemap.get(dname);
       let diseaseSource: DiseaseTreeNode = {
         name: new PharosProperty(disease.properties.filter(prop => prop.label === 'Data Source')[0]),
@@ -136,14 +172,27 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
     this.navSectionsService.setActiveSection(fragment);
   }
 
+  /**
+   * paginate disease list datasource
+   * @param event
+   */
   paginate(event: PageEvent) {
     this.dataSource.data = this.treeData.slice((event.pageIndex * event.pageSize), ((event.pageIndex + 1) * event.pageSize));
   }
 
+  /**
+   * sets tooltip to show the description of the disease
+   * @param label
+   */
   getTooltip(label: string): string {
     return this.apiSources.filter(source => source.field === label)[0].description;
   }
 
+  /**
+   * check to see if a disease tree node has a child node list
+   * @param _
+   * @param node
+   */
   hasChild = (_: number, node: DiseaseTreeNode) => !!node.children && node.children.length > 0;
 
 }

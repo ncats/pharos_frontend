@@ -9,12 +9,18 @@ import {AnatamogramHoverService} from '../../../../../tools/anatamogram/anatamog
 import {PharosConfig} from '../../../../../../config/pharos-config';
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
+/**
+ * expression panel component
+ */
 @Component({
   selector: 'pharos-expression-panel',
   templateUrl: './expression-panel.component.html',
   styleUrls: ['./expression-panel.component.scss']
 })
 export class ExpressionPanelComponent extends DynamicPanelComponent implements OnInit {
+  /**
+   * tissues to display, currently contains dummy data
+   */
   tissues: string[] = [
     'UBERON_0001897',
     'UBERON_0001898',
@@ -62,17 +68,55 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     'UBERON_0001870'
   ];
 
+  /**
+   * radar chart component for differential data
+   */
   @ViewChild('radar', {read: RadarChartComponent, static: false}) radarComponent: RadarChartComponent;
 
+  /**
+   * base homunculus url
+   * todo deprecate when tcrd v6 is out
+   */
   _URL: string;
+
+  /**
+   * target id
+   */
   id: string;
+
+  /**
+   * map of tissue data to display
+   * todo: may become obsolete
+   */
   tissueData: Map<string, PharosProperty[]> = new Map<string, PharosProperty[]>();
+
+  /**
+   * harmonigram data
+   * todo: deprecated
+   */
   hgData: any[] = [];
+
+  /**
+   * parsed homunculus url
+   * todo: deprecated
+   */
   imgUrl: string;
+
+  /**
+   * list of table dat to display
+   * todo: may be deprecated
+   */
   tableArr: any[];
 
+  /**
+   * radar chart data to display
+   */
   radarData: any[] = [];
 
+  /**
+   * tissue expression sources
+   * todo: will be rewritten like disease sources
+   */
   sources: any[] = [
     {label: 'GTEx Tissue', name: 'gtex'},
     {label: 'HPM Tissue', name: 'hpm'},
@@ -84,15 +128,32 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     {label: 'IDG Tissue Ref', name: 'gtex'}
   ];
 
+  /**
+   * list of sources for tab display
+   */
   sourceList = [];
+
+  /**
+   * tab that is selected
+   */
   selectedTab: number;
 
+  /**
+   * attach required services
+   * @param navSectionsService
+   * @param pharosConfig
+   * @param anatamogramHoverService
+   */
   constructor(private navSectionsService: NavSectionsService,
               private pharosConfig: PharosConfig,
               private anatamogramHoverService: AnatamogramHoverService) {
     super();
   }
 
+  /**
+   * set up display url,
+   * subscribe to data changes
+   */
   ngOnInit() {
     // https://pharos.ncats.io/idg/api/v1/expression?acc=P25092
     this._URL = this.pharosConfig.getHomunculusUrl(this.id);
@@ -111,6 +172,9 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
       });
   }
 
+  /**
+   * parse and generate data
+   */
   setterFunction() {
     if (this.data.expression) {
       this.tissueData.clear();
@@ -130,6 +194,9 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
 
   }
 
+  /**
+   * map tissue expression data
+   */
   mapTissueData(): void {
     this.data.expression.forEach(tissue => {
       const tissueTerm: PharosProperty = new PharosProperty(tissue);
@@ -145,18 +212,29 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     this.sourceList = this.sources.filter(source => keys.includes(source.label));
   }
 
+  /**
+   * get tissue data by field
+   * @param field
+   */
   getData(field: string): PharosProperty[] {
     return this.tissueData.get(field);
   }
 
+  /**
+   * get count of surces available
+   * @param source
+   */
   getSourceCount(source: string): number {
     return this.tissueData.get(source) ? this.tissueData.get(source).length : 0;
   }
 
+  /**
+   * change tab data
+   * @param event
+   */
   changeHarminogramTabData(event: MatTabChangeEvent) {
     this.hgData = this.tissueData.get(this.sourceList[event.index].label);
     this.imgUrl = this._URL + this.sourceList[event.index].name;
-
   }
 
   /**
@@ -167,6 +245,10 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     this.anatamogramHoverService.setTissue(tissue);
   }
 
+  /**
+   * draw radar chart on tab change
+   * @param change
+   */
   drawRadar(change: MatTabChangeEvent) {
     this.selectedTab = change.index;
   }
@@ -181,6 +263,10 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     }
   }
 
+  /**
+   * show tooltip
+   * @param label
+   */
   getTooltip(label: string): string {
     return this.apiSources.filter(source => source.field === label)[0].description;
   }

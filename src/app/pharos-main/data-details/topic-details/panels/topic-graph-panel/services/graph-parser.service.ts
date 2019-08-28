@@ -5,18 +5,46 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {PharosConfig} from '../../../../../../../config/pharos-config';
 import {take} from 'rxjs/internal/operators';
 
+/**
+ * service to parse graph data into a format required by smrtgraph
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class GraphParserService implements SmrtGraphDataParserInterface {
+  /**
+   * id of graph
+   */
   id: number;
+
+  /**
+   * generated graph object
+   */
   graph: SmrtGraph;
 
+  /**
+   * subject to watch smrtgraph object changes
+   */
   _data = new Subject<SmrtGraph>();
 
+  /**
+   * return subject as observable
+   */
   data$ = this._data.asObservable();
+
+  /**
+   * confidence values available
+   * used to set min and max confidences
+   */
   confidences = [];
 
+  /**
+   * import services and config to build graph
+   * @param nodeService
+   * @param linkService
+   * @param pharosConfig
+   * @param db
+   */
   constructor(
     private nodeService: NodeService,
     private linkService: LinkService,
@@ -24,17 +52,29 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
     private db: AngularFirestore) {
   }
 
+  /**
+   * set topic graph id. fetches from firebase
+   * @param id
+   */
   setId(id: number): Observable<SmrtGraph> {
     this.id = id;
     return this.loadData();
   }
 
+  /**
+   * set node serializer types, passes this to node service
+   * @param serializers
+   */
   setSerializers(serializers) {
     if (serializers.node) {
       this.nodeService.setSerializer(serializers.node);
     }
   }
 
+  /**
+   * fetches graph data from firebase, gets data, parses it and returns graph
+   * todo: if i am storing graphs in firebase, i should store the actual graph so i don't need to regenerate it each time
+   */
   loadData(): Observable<SmrtGraph> {
     this.db.collection('topics', ref => ref.where('topicLinkId', '==', this.id))
       .valueChanges().pipe(take(1))
@@ -42,6 +82,12 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
     return of(this.graph);
   }
 
+  /**
+   * parse out object data from returned firebase info
+   * todo: this function should only be needed when a graph is first generated
+   * @param queries
+   * @private
+   */
   _parseData(queries: any) {
       queries.forEach(data => {
         const tnode = this.nodeService.makeNode(data.graphData.target, `target${data.graphData.target.id}`);
@@ -87,6 +133,9 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
      this._data.next(ret);
     }
 
+  /**
+   * fetch graph data
+   */
   getData(): Observable<SmrtGraph> {
     return this.data$;
   }

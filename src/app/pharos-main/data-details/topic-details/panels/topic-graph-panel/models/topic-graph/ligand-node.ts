@@ -1,17 +1,38 @@
-/**
- * target that extends node object
- */
-import {NodeSerializer, SGNode} from 'smrtgraph-core';
 
+import {NodeSerializer, SGNode} from 'smrtgraph-core';
+/**
+ * ligand node that extends node object
+ */
 export class LigandNode extends SGNode {
+  /**
+   * node type
+   */
   kind = 'ligand';
+  /**
+   * data source string
+   */
   Data_Source: string;
+
+  /**
+   * ligand name
+   */
   IDG_Ligand: string;
+  /**
+   * ligand confidence value
+   */
   IDG_Confidence?: number;
+
+  /**
+   * ligandevidence type
+   */
   IDG_Evidence?: string;
   // todo: fix api to remove hyphen
 //  'IDG_Z-score'?: number;
   // ligand: Ligand;
+
+  /**
+   * internal link for ligand
+   */
   internalLink: string[];
 }
 /**

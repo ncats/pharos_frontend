@@ -1,8 +1,7 @@
-import {Component, OnInit, AfterViewInit, ViewChild, Input, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {NcatsHeaderComponent} from './tools/ncats-header/ncats-header.component';
-import {LoadingService} from './pharos-services/loading.service';
 import {NavigationEnd, NavigationStart, Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+
 /**
  * main app component holder
  */
@@ -11,15 +10,29 @@ import {takeUntil} from 'rxjs/operators';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit {
 
+  /**
+   * reference to header oject. used to change display options
+   */
   @ViewChild('appHeader', {static: true}) header: NcatsHeaderComponent;
+
+  /**
+   * is component loading or not
+   */
   loading = true;
 
+  /**
+   * get navigation router
+   * @param router
+   */
   constructor (
     private router: Router
   ) {}
 
+  /**
+   * toggle loading component based on navigation change
+   */
   ngOnInit() {
     this.router.events
       .subscribe((e: any) => {
@@ -32,8 +45,9 @@ export class AppComponent implements OnInit, AfterViewInit {
       });
   }
 
-  ngAfterViewInit() {
-  }
+  /**
+   * close sidenav for header menu
+   */
   closeSidenav() {
     this.header.sidenav.close();
   }

@@ -5,12 +5,19 @@ import {takeUntil} from 'rxjs/operators';
 import {PharosProperty} from '../../../../../../models/pharos-property';
 import {PageData} from '../../../../../../models/page-data';
 
+/**
+ * displays orthologs available for a target
+ */
 @Component({
   selector: 'pharos-ortholog-panel',
   templateUrl: './ortholog-panel.component.html',
   styleUrls: ['./ortholog-panel.component.css']
 })
+
 export class OrthologPanelComponent extends DynamicPanelComponent implements OnInit {
+  /**
+   * list of table fields to display
+   */
   fields: PharosProperty[] = [
     new PharosProperty({
     name: 'species',
@@ -29,10 +36,24 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
    */
   orthoPageData: PageData;
 
+  /**
+   * serializer to create new ortholog objects
+   */
   orthologSerializer: OrthologSerializer = new OrthologSerializer();
 
+  /**
+   * list of orthologs
+   */
   orthologs: any[];
+
+  /**
+   * list of species
+   */
   species: string[];
+
+  /**
+   * table data to display
+   */
   tableArr: any[] = [];
 
 
@@ -44,6 +65,9 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
     super();
   }
 
+  /**
+   * subscribe to data changes and create orthologs
+   */
   ngOnInit() {
     this._data
     // listen to data as long as term is undefined or null
@@ -59,6 +83,9 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
       });
   }
 
+  /**
+   * parse data to serialize orthologs
+   */
   setterFunction(): void {
       this.orthologs = [];
       const temp: Ortholog[] = [];
@@ -83,6 +110,10 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
       .slice(this.orthoPageData.skip, this.orthoPageData.top);
     }
 
+  /**
+   * page ortholog list
+   * @param event
+   */
   page(event) {
     this.tableArr = this.orthologs.slice(event.pageIndex * event.pageSize, (event.pageIndex + 1) * event.pageSize);
   }

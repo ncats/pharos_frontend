@@ -2,6 +2,9 @@ import {Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation} from
 import {KatexRenderService} from './services/katex-render.service';
 import * as katex from 'katex';
 
+/**
+ * component to render kates directives
+ */
 @Component({
   selector: 'pharos-equation-renderer',
   templateUrl: './equation-renderer.component.html',
@@ -9,14 +12,30 @@ import * as katex from 'katex';
   encapsulation: ViewEncapsulation.None,
   providers: [KatexRenderService]
 })
+/**
+ * exported equation rendering component
+ */
 export class EquationRendererComponent implements OnInit {
-@ViewChild('equationHolder', {static: true}) element: ElementRef;
-@Input() equation: string;
+  /**
+   * element that contains an equation
+   */
+  @ViewChild('equationHolder', {static: true}) element: ElementRef;
+  /**
+   * equation text string input
+   */
+  @Input() equation: string;
 
+  /**
+   * todo: the rendering service is currently not used - may need to be reassessed
+   * @param katexRenderService
+   */
   constructor(
     private katexRenderService: KatexRenderService
   ) { }
 
+  /**
+   * render equation using katex instead of service.
+   */
   ngOnInit() {
       katex.render(this.equation, this.element.nativeElement, {});
 

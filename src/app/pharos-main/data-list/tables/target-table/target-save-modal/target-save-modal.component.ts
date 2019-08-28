@@ -6,12 +6,27 @@ import {PharosConfig} from '../../../../../../config/pharos-config';
 import {PharosProfileService} from '../../../../../auth/pharos-profile.service';
 import {Facet, Field} from '../../../../../models/facet';
 
+/**
+ * interface to track saved targets types
+ */
 export interface SavedTargets {
+  /**
+   * name of saved collection
+   */
   name: string;
+  /**
+   * list of saved target strings
+   */
   targets: string[];
+  /**
+   * etag for a saved query/etag
+   */
   tag: string;
 }
 
+/**
+ * modal component that opens when users save target lists
+ */
 @Component({
   selector: 'pharos-target-save-modal',
   templateUrl: './target-save-modal.component.html',

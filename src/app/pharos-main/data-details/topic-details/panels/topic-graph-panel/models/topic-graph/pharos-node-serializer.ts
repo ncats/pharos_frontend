@@ -3,10 +3,28 @@ import {DiseaseNodeSerializer} from './disease-node';
 import {LigandNodeSerializer} from './ligand-node';
 import {TargetNodeSerializer} from './target-node';
 
+/**
+ * mega-serializer to parse node by type and create node using the correct serializers
+ */
 export class PharosNodeSerializer extends NodeSerializer {
+  /**
+   * target node serializer
+   */
   targetNodeSerializer: TargetNodeSerializer = new TargetNodeSerializer();
+
+  /**
+   * disease node serializer
+   */
   diseaseNodeSerializer: DiseaseNodeSerializer = new DiseaseNodeSerializer();
+
+  /**
+   * ligand node serializer
+   */
   ligandNodeSerializer: LigandNodeSerializer = new LigandNodeSerializer();
+
+  /**
+   * default generic serializer
+   */
   nodeSerializer: NodeSerializer = new NodeSerializer();
 
   /**

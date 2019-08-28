@@ -1,5 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {GraphDataService, LinkService, NodeService, SGLink, SGNode, SmrtgraphCoreComponent} from 'smrtgraph-core';
 import {GraphParserService} from './services/graph-parser.service';
 import {PharosNodeSerializer} from './models/topic-graph/pharos-node-serializer';
@@ -7,8 +6,12 @@ import {RadarChartComponent} from '../../../../../tools/visualizations/radar-cha
 import {MatSelectionListChange} from '@angular/material';
 import {SelectionChange} from '@angular/cdk/collections';
 
-
-
+/**
+ * topic graph panel component
+ * contains smrtgraph instance
+ * filters panel
+ * node details section
+ */
 @Component({
   selector: 'pharos-topic-graph-panel',
   templateUrl: './topic-graph-panel.component.html',
@@ -16,16 +19,34 @@ import {SelectionChange} from '@angular/cdk/collections';
   providers: [NodeService, LinkService, GraphParserService],
   encapsulation: ViewEncapsulation.None
 })
-export class TopicGraphPanelComponent<T extends SGNode> implements OnInit, AfterViewInit {
-
+export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
+  /**
+   * smrtgraph object from component it is injected into
+   */
   @ViewChild('smrtgraph', {read: SmrtgraphCoreComponent, static: false}) smrtGraph: SmrtgraphCoreComponent;
 
+  /**
+   * top[ic id input
+   */
   @Input() topic = {id: 1};
 
+  /**
+   * possible filterable options
+   */
   options = ['Tclin', 'Tchem', 'Tbio', 'Tdark', 'disease', 'ligand'];
 
+  /**
+   * map of data listed
+   * todo: currently not used, should probably contain the master nodes list
+   */
   dataMap: Map<string, any> = new Map<string, any>();
 
+  /**
+   * filtered nodes map, changes node properties based on filtering
+   * todo: this sghould be replaced, because it is still to messy to filter this way. rather than change the objects, a new graph should
+   * todo: be built with these nodes, and the links filtered/regenerated
+   * todo: should node sizes stay the same?
+   */
   nodesMap: Map<string, any[]> = new Map<string, any[]>([
     ['Tclin', []],
     ['Tchem', []],
@@ -34,20 +55,44 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit, After
     ['disease', []],
     ['ligand', []],
   ]);
+
+  /**
+   * tracks if graph is loading
+   */
   public loading = true;
 
+  /**
+   * graph object
+   * todo: should propbably be typed
+   */
   graph: any;
 
+  /**
+   * node that is hovered on, set on smrtgraph hovered object emitter
+   * todo: should probably be typed
+   */
   hoveredNode: any;
+  /**
+   * link that is hovered on, set on smrtgraph hovered object emitter
+   * todo: should probably be typed
+   */
   hoveredLink: any;
 
-
+  /**
+   * get graph data and graph parsing services to interact with the graph
+   * @param graphDataService
+   * @param graphParserService
+   */
   constructor(
-    private _http: HttpClient,
     private graphDataService: GraphDataService,
     private graphParserService: GraphParserService
   ) {}
 
+  /**
+   * set serializers to parse the data passed into the component
+   * maps nodes as different objects
+   * builds graph
+   */
   ngOnInit() {
     console.log(this);
     this.graphParserService.setSerializers({node: new PharosNodeSerializer()});
@@ -105,11 +150,11 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit, After
     });
   }
 
-  ngAfterViewInit() {
-    // this.smrtGraph.graphObject.simulation.stop();
-
-  }
-
+  /**
+   * filter graph based on parameter
+   * todo: this currently hides/decolors the nodes, but they should really be removed
+   * @param event
+   */
   filterGraph(event: SelectionChange<string>) {
     this.loading = true;
         event.removed.forEach(filter => {
@@ -132,6 +177,11 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit, After
     this.loading = false;
   }
 
+  /**
+   * filter nodes by link confidence values
+   * todo: this currently hides/decolors the nodes, but they should really be removed
+   * @param event
+   */
   filterConfidence(event: {value: number, confidence: boolean}) {
     this.loading = true;
     console.log(event);
@@ -155,13 +205,20 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit, After
 
   }
 
-
+  /**
+   * reads node event emitter from smrtgraph and sets hovered node, this gets passed to the display component
+   * @param event
+   */
   nodeEvents(event) {
     if (event.nodeHover) {
       this.hoveredNode = event.nodeHover;
     }
   }
 
+  /**
+   * reads link event emitter from smrtgraph, and sets hovered link, this gets passed to the display component
+   * @param event
+   */
   linkEvents(event) {
     if (event.linkHover) {
       this.hoveredLink = event.linkHover;

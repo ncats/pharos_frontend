@@ -1,23 +1,57 @@
 import {DOCUMENT, isPlatformBrowser} from '@angular/common';
-import { AfterViewInit, Directive,
+import {
+  AfterViewInit, Directive,
   ElementRef, EventEmitter, Inject,
-  NgZone, OnDestroy, Output, PLATFORM_ID } from '@angular/core';
-import { fromEvent, Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+  NgZone, OnDestroy, Output, PLATFORM_ID
+} from '@angular/core';
+import {fromEvent, Subscription} from 'rxjs';
+import {debounceTime} from 'rxjs/operators';
+
+/**
+ * directive to watch scroll location and track menu/jump to top button
+ */
 @Directive({
   selector: '[pharosScrollspy]'
 })
+
+/**
+ * directive to watch scroll location and track menu/jump to top button
+ */
 export class ScrollspyDirective implements AfterViewInit, OnDestroy {
 
+  /**
+   * emitter for when scroll position reaches specific locations
+   */
   @Output() public pharosScrollspy: EventEmitter<any> = new EventEmitter();
 
+  /**
+   * observes position of scroll
+   */
   private _intersectionObserver?: IntersectionObserver;
+
+  /**
+   * subscription for scroll events
+   */
   private _scrollSubscription?: Subscription;
+
+  /**
+   * root object to watch scrolling of
+   */
   private root: any;
+
+  /**
+   * ratio of scroll to watch for
+   */
   private prevRatio = 0.0;
 
-
-  constructor (
+  /**
+   * grabs necessary dom components and sets root based on directive id
+   * @param document
+   * @param _element
+   * @param _zone
+   * @param platformId
+   */
+  constructor(
     @Inject(DOCUMENT) private document: Document,
     private _element: ElementRef,
     private _zone: NgZone,
@@ -26,7 +60,10 @@ export class ScrollspyDirective implements AfterViewInit, OnDestroy {
     this.root = this.document.getElementById('scrollspy-main');
   }
 
-  public ngAfterViewInit () {
+  /**
+   * registers intersection observers, and adds scroll listeners
+   */
+  public ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
       if (this.hasCompatibleBrowser()) {
         this.registerIntersectionObserver();
@@ -39,7 +76,10 @@ export class ScrollspyDirective implements AfterViewInit, OnDestroy {
     }
   }
 
-  public hasCompatibleBrowser (): boolean {
+  /**
+   * basically checks to see if it is mocrosoft edge
+   */
+  public hasCompatibleBrowser(): boolean {
     const hasIntersectionObserver = 'IntersectionObserver' in window;
     const userAgent = window.navigator.userAgent;
     const matches = userAgent.match(/Edge\/(\d*)\./i);
@@ -50,11 +90,17 @@ export class ScrollspyDirective implements AfterViewInit, OnDestroy {
     return hasIntersectionObserver && (!isEdge || isEdgeVersion16OrBetter);
   }
 
-  public ngOnDestroy () {
+  /**
+   * remove listeners on destroy
+   */
+  public ngOnDestroy() {
     this.removeListeners();
   }
 
-  private registerIntersectionObserver (): void {
+  /**
+   * create new intersection observer to watch element for the specified ratio/threshold
+   */
+  private registerIntersectionObserver(): void {
     if (!!this._intersectionObserver) {
       return;
     }
@@ -66,6 +112,11 @@ export class ScrollspyDirective implements AfterViewInit, OnDestroy {
     });
   }
 
+  /**
+   * checks dom for intersection, calls function or unobserves.
+   * removed unobserve for frequent scrolling
+   * @param entries
+   */
   private checkForIntersection = (entries: Array<IntersectionObserverEntry>) => {
     entries.forEach((entry: IntersectionObserverEntry) => {
       if (this.checkIfIntersecting(entry)) {
@@ -78,9 +129,13 @@ export class ScrollspyDirective implements AfterViewInit, OnDestroy {
         }
       }
     });
-  }
+  };
 
-  private checkIfIntersecting (entry: IntersectionObserverEntry) {
+  /**
+   * checks to see if the element is intersecting the viewport
+   * @param entry
+   */
+  private checkIfIntersecting(entry: IntersectionObserverEntry) {
     // For Samsung native browser, IO has been partially implemented where by the
     // callback fires, but entry object is empty. We will check manually.
     if (entry && Object.keys(entry).length) {
@@ -89,12 +144,18 @@ export class ScrollspyDirective implements AfterViewInit, OnDestroy {
     return this.isVisible();
   }
 
-  private load (): void {
+  /**
+   * emit scroll event, removes listeners, but not needed
+   */
+  private load(): void {
     //   this.removeListeners();
     this.pharosScrollspy.emit();
   }
 
-  private addScrollListeners () {
+  /**
+   * add listeners to watch scroll
+   */
+  private addScrollListeners() {
     if (this.isVisible()) {
       this.load();
       return;
@@ -106,7 +167,10 @@ export class ScrollspyDirective implements AfterViewInit, OnDestroy {
     });
   }
 
-  private removeListeners () {
+  /**
+   * remove and unsubscribe from listeners
+   */
+  private removeListeners() {
     if (this._scrollSubscription) {
       this._scrollSubscription.unsubscribe();
     }
@@ -116,19 +180,28 @@ export class ScrollspyDirective implements AfterViewInit, OnDestroy {
     }
   }
 
+  /**
+   * run load function outside of angular change detection
+   */
   private onScroll = () => {
     if (this.isVisible()) {
       this._zone.run(() => this.load());
     }
   }
 
-  private isVisible () {
+  /**
+   * checks if element is visible
+   */
+  private isVisible() {
     const scrollPosition = this.getScrollPosition();
     const elementOffset = this._element.nativeElement.offsetTop;
     return elementOffset <= scrollPosition;
   }
 
-  private getScrollPosition () {
+  /**
+   * gets position of screen measured by window offsets
+   */
+  private getScrollPosition() {
     // Getting screen size and scroll position for IE
     return (window.scrollY || window.pageYOffset)
       + (document.documentElement.clientHeight || document.body.clientHeight);

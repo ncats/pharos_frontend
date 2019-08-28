@@ -7,6 +7,10 @@ import {PharosProperty} from '../../../../../models/pharos-property';
 import {BehaviorSubject, Subject} from 'rxjs/index';
 import {takeUntil} from 'rxjs/operators';
 
+/**
+ * component that is injected into a generic table
+ * implements interface to standardize input and output
+ */
 @Component({
   selector: 'pharos-injected-radar-chart',
   templateUrl: './injected-radar-chart.component.html',
@@ -15,8 +19,14 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class InjectedRadarChartComponent implements InjectedComponent, OnInit {
 
+  /**
+   * emits click event, whis is broadcast up
+   */
   @Output() readonly clickEvent: EventEmitter<any> = new EventEmitter<any>();
 
+  /**
+   * tracks when component is finished attaching
+   */
   attached = false;
   /**
    *   initialize a private variable _data, it's a BehaviorSubject
@@ -35,9 +45,19 @@ export class InjectedRadarChartComponent implements InjectedComponent, OnInit {
     return this._data.getValue();
   }
 
+  /**
+   * initialize default object
+   */
   object: any = {};
+
+  /**
+   * initialize default container
+   */
   container: any = {};
-  imageUrl: string;
+
+  /**
+   * target accession id
+   */
   accession: string;
 
   /**
@@ -46,11 +66,18 @@ export class InjectedRadarChartComponent implements InjectedComponent, OnInit {
    */
   protected ngUnsubscribe: Subject<any> = new Subject();
 
+  /**
+   * inject change detector ref
+   * @param ref
+   */
   constructor(
     // todo: this prevents excessive re-injection of the radar chart, but breaks the tooltip
     private ref: ChangeDetectorRef
   ) { }
 
+  /**
+   * subscribe to data changes
+   */
   ngOnInit() {
     this._data
       .subscribe(res => {
