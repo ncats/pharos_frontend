@@ -96,7 +96,7 @@ const ROUTES: Routes = [
   },
   { path: '**',
     redirectTo: '/'
-  },
+  }
 ];
 
 @NgModule({

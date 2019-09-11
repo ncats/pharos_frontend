@@ -249,6 +249,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * @param $event
    */
   changePage($event): void {
+    console.log($event)
     this.pageChange.emit($event);
   }
 
