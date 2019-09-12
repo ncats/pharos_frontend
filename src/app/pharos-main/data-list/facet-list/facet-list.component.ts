@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {PathResolverService} from '../../../pharos-services/path-resolver.service';
 
@@ -11,7 +11,7 @@ import {PathResolverService} from '../../../pharos-services/path-resolver.servic
   styleUrls: ['./facet-list.component.scss']
 })
 
-export class FacetListComponent implements OnInit {
+export class FacetListComponent implements OnInit, OnDestroy {
   /**
    * list of selected facets
    */
@@ -58,5 +58,10 @@ export class FacetListComponent implements OnInit {
    */
   removeAll(): void {
     this.pathResolverService.removeAll();
+  }
+
+  ngOnDestroy(): void {
+    this.facets = [];
+    this.removeAll();
   }
 }

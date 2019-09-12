@@ -2,7 +2,7 @@
   <a [routerLink] = ligand.internalLink>
     <div class="ligand-content">
       <div class="mat-title centered">{{ligand.name}}</div>
-      <img [src]=ligand.imageUrl alt="image for {{ligand.name}}" class="ligand-image">
+      <img *ngIf="ligand.structureId || ligand.refid" [src]=ligand.imageUrl alt="image for {{ligand.name}}" class="ligand-image">
     </div>
   </a>
   <div class="ligand-footer">

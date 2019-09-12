@@ -12,6 +12,7 @@ import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.
 import {NavSectionsService} from '../../../tools/sidenav-panel/services/nav-sections.service';
 import {HelpDataService} from '../../../tools/help-panel/services/help-data.service';
 import {tap} from 'rxjs/internal/operators';
+import {Title} from '@angular/platform-browser';
 
 /**
  * main holder component for target details
@@ -77,6 +78,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
               private helpDataService: HelpDataService,
               public breakpointObserver: BreakpointObserver,
               private pharosConfig: PharosConfig,
+              private titleService: Title,
               private componentInjectorService: ComponentInjectorService) {
     super();
   }
@@ -94,6 +96,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
    * this data object is then injected into the dynamic component
    */
   ngOnInit() {
+    this.titleService.setTitle(`${this.target.accession}/${this.target.gene} details`);
     this.loading = true;
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
     const components: any = this.pharosConfig.getComponents(this.path, this.target.idgTDL.toLowerCase());
