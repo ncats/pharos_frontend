@@ -1,21 +1,9 @@
-# Angular 5 boilerplate app
-This app contains:
-1. NCATS header
-2. NCATS footer
-3. sticky footer
-4. Angular Material design module
-5. services to hook up a websocket
-6. loading modal service
-7. Federal government operating status check
-8. IE browser warning
-9. NCATS scss color scheme
-10. NCATS favicon
+# Pharos front end UI
+[Pharos](https://pharos.nih.gov) 
 
-https://medium.com/@tomsu/building-web-components-with-angular-elements-746cd2a38d5b
-https://github.com/semantic-release/semantic-release
-https://github.com/commitizen/cz-cli
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8+.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.0.
+Update `environment` variables for your instance
 
 Run `npm install` to get all dependencies
 
@@ -30,7 +18,6 @@ Run `ng generate component component-name` to generate a new component. You can 
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-` ng build --prod --base-href /pharos2/`
 
 ## Running unit tests
 
