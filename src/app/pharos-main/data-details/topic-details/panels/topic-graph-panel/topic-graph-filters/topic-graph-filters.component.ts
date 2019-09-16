@@ -27,6 +27,9 @@ export class TopicGraphFiltersComponent implements OnInit {
    */
   @Output() confidenceChange: EventEmitter<{value: number, confidence: boolean}> = new EventEmitter<{value: number, confidence: boolean}>();
 
+
+  @Output() resetGraphEmitter: EventEmitter<any> = new EventEmitter<any>();
+
   /**
    * form control to track changes to the confidence slider
    */
@@ -47,6 +50,7 @@ export class TopicGraphFiltersComponent implements OnInit {
    */
   ngOnInit() {
     this.selection.changed.subscribe(change => {
+      console.log(change);
       this.filterSelectionChange.emit(change);
     });
 
@@ -61,6 +65,11 @@ export class TopicGraphFiltersComponent implements OnInit {
   showConfidenceChange() {
     this.showNoConfidence = !this.showNoConfidence;
     this.confidenceChange.emit({value: this.confidenceCtrl.value, confidence: this.showNoConfidence});
+  }
+
+  resetGraph() {
+    this.selection.select(...['Tclin', 'Tchem', 'Tbio', 'Tdark', 'disease', 'ligand']);
+    this.resetGraphEmitter.emit();
   }
 
   /**
