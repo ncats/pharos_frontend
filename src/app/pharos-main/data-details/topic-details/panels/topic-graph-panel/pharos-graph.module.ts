@@ -13,7 +13,6 @@ import {TargetTableModule} from '../../../../modules/targets/target-list.module'
 import {LigandListModule} from '../../../../modules/ligands/ligand-list.module';
 import {RouterModule} from '@angular/router';
 import { TopicGraphFiltersComponent } from './topic-graph-filters/topic-graph-filters.component';
-import { NodeMenuPopupComponent } from './node-menu-popup/node-menu-popup.component';
 
 @NgModule({
   declarations: [
@@ -21,8 +20,7 @@ import { NodeMenuPopupComponent } from './node-menu-popup/node-menu-popup.compon
     NodeDetailsBoxComponent,
     SearchComponent,
     HighlightPipe,
-    TopicGraphFiltersComponent,
-    NodeMenuPopupComponent
+    TopicGraphFiltersComponent
   ],
   imports: [
     CommonModule,

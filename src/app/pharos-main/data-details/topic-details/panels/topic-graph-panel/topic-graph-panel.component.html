@@ -5,10 +5,8 @@
   <mat-sidenav #sidenav [mode]="'side'" [opened]="true" >
     <!-- sidenav content -->
     <pharos-topic-graph-filters
-      (resetGraphEmitter)="reset()"
       (confidenceChange)="filterConfidence($event)"
-      (filterSelectionChange)="filterGraph($event)">
-    </pharos-topic-graph-filters>
+      (filterSelectionChange)="filterGraph($event)"></pharos-topic-graph-filters>
   </mat-sidenav>
 
   <div class="info-panel" [ngClass]="{'sidenav-opened': sidenav.opened === true }">
@@ -23,19 +21,7 @@
       [graph] = graph
       (nodeEvents)="nodeEvents($event)"
       (linkEvents)="linkEvents($event)"
-               (svgEvents)="svgClicked($event)"
       *ngIf="graph"></smrtgraph>
-    <pharos-node-menu-popup>
-      <h3 class="title">{{selectedNode?.name}}</h3>
-      <div class="items">
-        <p (click)="itemSelected('Tdark')">Expand Tdark</p>
-        <p (click)="itemSelected('Tbio')">Expand Tbio</p>
-        <p (click)="itemSelected('Tclin')">Expand Tclin</p>
-        <p (click)="itemSelected('Tchem')">Expand Tchem</p>
-        <p (click)="itemSelected('disease')">Expand Diseases</p>
-        <p (click)="itemSelected('ligand')">Expand Ligands</p>
-      </div>
-    </pharos-node-menu-popup>
   </div>
 </mat-sidenav-container>
 
