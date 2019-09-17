@@ -62,7 +62,7 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
 
   linksMap: Map<string, any[]> = new Map<string, any[]>([
     ['links', []]
-  ])
+  ]);
 
 
     /**
@@ -75,20 +75,21 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
    * todo: should propbably be typed
    */
   graph: any;
+  masterGraph: any;
   /**
    * node that is hovered on, set on smrtgraph hovered object emitter
    * todo: should probably be typed
    */
-  hoveredNode: any;
+  hoveredNode: T;
 
-  selectedNode: any;
+  selectedNode: T;
   /**
    * link that is hovered on, set on smrtgraph hovered object emitter
    * todo: should probably be typed
    */
-  hoveredLink: any;
+  hoveredLink: SGLink;
 
-  graphBuild = false;
+  pathBuild = 0;
 
   /**
    * get graph data and graph parsing services to interact with the graph
@@ -115,11 +116,11 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
     });
     this.graphParserService.data$.subscribe(res => {
       console.log(res);
-      this.graph = res;
+      this.masterGraph = res;
       const masterLinks = [];
-      this.graph.links.forEach(link => masterLinks.push(link));
+      this.masterGraph.links.forEach(link => masterLinks.push(link));
       this.linksMap.set('links', masterLinks);
-      this.graph.nodes.forEach(node => {
+      this.masterGraph.nodes.forEach(node => {
         switch (node.kind) {
           case 'ix.idg.models.Target': {
             switch (node.idgTDL) {
@@ -164,8 +165,17 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
           }
         }
       });
+      this.graph = this.masterGraph;
       this.loading = false;
     });
+  }
+
+
+  togglePathBuilder(event) {
+    console.log("path builder");
+    console.log(event);
+    this.pathBuild = ++this.pathBuild;
+    console.log(this);
   }
 
   /**
@@ -342,6 +352,7 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
 
   getRelatedNodes(nodeType: string) {
    // let removedNodes = [];
+    this.loading = true;
     const addedNodes = [this.selectedNode];
     const deletedLinksArr = [];
     const addedLinksArr = [];
@@ -378,21 +389,33 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
           }
         });
 
-        let newGraph: SmrtGraph = {nodes: [], links: []};
+      //  let newGraph: SmrtGraph = {nodes: [], links: []};
         if (addedNodes.length > 1) {
-           newGraph = {
-            links: this.graph.links.concat(addedLinksArr),
-            nodes: this.graph.nodes.concat(addedNodes)
-          };
+          if (this.pathBuild > 1) {
+            console.log("concat");
+            this.graph = {
+              links: this.graph.links.concat(addedLinksArr),
+              nodes: this.graph.nodes.concat(addedNodes)
+            };
+          } else {
+            this.graph = {
+              links: addedLinksArr,
+              nodes: addedNodes
+            };
+            if (this.pathBuild === 1) {
+              this.pathBuild = ++this.pathBuild;
+            }
+          }
         } else {
           alert('No nodes available');
         }
-
-        this.graphDataService.setGraph(newGraph);
-      /* nodesArr.map(node => node['tempcolor'] = 'transparent');
-       this.nodesMap.set(filter, nodesArr);*/
+        console.log(this.graph);
+        this.graphDataService.setGraph(this.graph);
       this.ref.markForCheck();
-}
+    /* nodesArr.map(node => node['tempcolor'] = 'transparent');
+     this.nodesMap.set(filter, nodesArr);*/
+    this.loading = false;
+  }
 
 
   openMenu(e) {
@@ -407,13 +430,17 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
   }
 
   reset() {
+    this.loading = true;
     console.log("resetting");
     console.log(this);
-    this.graphDataService.setGraph({
+    this.pathBuild = 0;
+    this.graph = {
       nodes: [].concat(...Array.from(this.nodesMap.values())),
       links: this.linksMap.get('links')
-    });
+    };
+    this.graphDataService.setGraph(this.graph);
     this.ref.markForCheck();
+    this.loading = false;
   }
 
   svgClicked(event) {

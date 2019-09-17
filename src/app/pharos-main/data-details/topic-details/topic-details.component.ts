@@ -166,9 +166,9 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
 this.graphParser.setSerializers({node: new PharosNodeSerializer()});
     this._route.snapshot.data.pharosObject.subscribe(res => {
       this.topic = res.data();
-      this.graphParser.setId(this.topic.id); /*.subscribe(res => {
-        console.log(res);
-      });*/
+    //  this.graphParser.setId(this.topic.id); /*.subscribe(res => {
+    //    console.log(res);
+    //  });*/
       this.allTargets = this.topic.allTargets;
 /*      this.topic.map(entry => {
         if(entry.graphData.ligands) {

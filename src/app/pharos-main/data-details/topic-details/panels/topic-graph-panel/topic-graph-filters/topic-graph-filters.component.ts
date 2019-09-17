@@ -17,6 +17,8 @@ export class TopicGraphFiltersComponent implements OnInit {
    */
   selection = new SelectionModel<any>(true, ['Tclin', 'Tchem', 'Tbio', 'Tdark', 'disease', 'ligand']);
 
+  pathBuilder = new SelectionModel<boolean>();
+
   /**
    * output changes on toggle filter changes
    */
@@ -29,6 +31,7 @@ export class TopicGraphFiltersComponent implements OnInit {
 
 
   @Output() resetGraphEmitter: EventEmitter<any> = new EventEmitter<any>();
+  @Output() pathBuildEmitter: EventEmitter<any> = new EventEmitter<any>();
 
   /**
    * form control to track changes to the confidence slider
@@ -57,6 +60,8 @@ export class TopicGraphFiltersComponent implements OnInit {
     this.confidenceCtrl.valueChanges.subscribe(value => {
       this.confidenceChange.emit({value: value, confidence: this.showNoConfidence});
     });
+
+    this.pathBuilder.changed.subscribe(change => this.pathBuildEmitter.emit());
   }
 
   /**
