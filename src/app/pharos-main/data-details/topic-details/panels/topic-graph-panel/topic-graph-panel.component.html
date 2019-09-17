@@ -6,6 +6,7 @@
     <!-- sidenav content -->
     <pharos-topic-graph-filters
       (resetGraphEmitter)="reset()"
+      (pathBuildEmitter)="togglePathBuilder($event)"
       (confidenceChange)="filterConfidence($event)"
       (filterSelectionChange)="filterGraph($event)">
     </pharos-topic-graph-filters>
@@ -28,12 +29,18 @@
     <pharos-node-menu-popup>
       <h3 class="title">{{selectedNode?.name}}</h3>
       <div class="items">
+        <div *ngIf = "selectedNode?.kind === 'ix.idg.models.Disease' || selectedNode?.kind ==='ix.idg.models.Ligand'">
         <p (click)="itemSelected('Tdark')">Expand Tdark</p>
         <p (click)="itemSelected('Tbio')">Expand Tbio</p>
         <p (click)="itemSelected('Tclin')">Expand Tclin</p>
         <p (click)="itemSelected('Tchem')">Expand Tchem</p>
-        <p (click)="itemSelected('disease')">Expand Diseases</p>
-        <p (click)="itemSelected('ligand')">Expand Ligands</p>
+        </div>
+        <p *ngIf = "selectedNode?.kind === 'ix.idg.models.Target' || selectedNode?.kind ==='ix.idg.models.Ligand'"
+          (click)="itemSelected('disease')">Expand Diseases</p>
+        <p *ngIf = "(selectedNode?.kind === 'ix.idg.models.Target' &&
+        (selectedNode?.idgTDL === 'Tclin' || selectedNode?.idgTDL === 'Tchem' ))
+        || selectedNode?.kind ==='ix.idg.models.Disease'"
+           (click)="itemSelected('ligand')">Expand Ligands</p>
       </div>
     </pharos-node-menu-popup>
   </div>

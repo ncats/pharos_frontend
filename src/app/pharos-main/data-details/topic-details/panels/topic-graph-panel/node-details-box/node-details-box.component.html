@@ -13,4 +13,13 @@
       <div *ngSwitchDefault></div>
     </div>
   </div>
+
+  <div *ngIf="link">
+    <mat-card>
+    <div *ngIf="link.properties?.activity">
+      <h4>{{link.source.name}} --> {{link.target.name}}</h4><br><br>
+      {{link.properties?.activity}}
+    </div>
+    </mat-card>
+  </div>
 </div>

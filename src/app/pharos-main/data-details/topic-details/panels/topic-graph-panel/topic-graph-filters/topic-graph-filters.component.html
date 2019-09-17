@@ -1,5 +1,28 @@
 <div fxLayout="row" fxLayoutAlign="space-around center">
   <div fxFlex="95">
+    <h3>Path Builder</h3>
+    <div class="row-close">
+      <div><p>Path builder lets you show node connections on a node-by-node basis.</p></div><br>
+    </div>
+    <div class="row-close">
+    <div class="switch-labels"><span class="mat-slide-toggle-label">Off</span>&nbsp;
+        <mat-slide-toggle
+          (click)="$event.stopPropagation()"
+          (change)="$event ? pathBuilder.toggle() : null"
+          [checked]="pathBuilder.isSelected()">
+          On
+        </mat-slide-toggle>
+      </div>
+  </div>
+    <br>
+    <div class="row-close">
+      <button mat-raised-button (click)="resetGraph()" [color]="'primary'">Reset Graph</button>
+    </div>
+</div>
+</div>
+<br>
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+  <div fxFlex="95">
     <h3>Legend</h3>
     <div class="row-close">
       <div class="switch-labels"><span class="mat-slide-toggle-label">Hide</span>&nbsp;
@@ -94,8 +117,6 @@
       <div class="circle ligand"></div>
       : Ligand
     </div>
-    <div class="row-close">
-    <button mat-raised-button (click)="resetGraph()" [color]="'primary'">Reset Graph</button>
-    </div>
+
   </div>
 </div>
