@@ -113,7 +113,7 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
             dnode.linkCount++;
             this.nodeService.setNode(tnode);
             this.nodeService.setNode(dnode);
-            this.linkService.makeLink(`${data.graphData.target.id}-${disease.id}`, tnode, dnode);
+            this.linkService.makeLink(`${data.graphData.target.id}-${disease.id}`, tnode, dnode, this._getConfidence(disease));
           });
         }
         //console.log(data.graphData.ligands);
@@ -162,5 +162,22 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
       }
 
     return data;
+  }
+
+  private _getConfidence(disease: any): any {
+    let data: any = {};
+    if (disease.Data_Source) {
+      data = {
+        properties: {
+          confidence: disease.IDG_Confidence,
+          dataSource: disease.Data_Source,
+          evidence: disease.IDG_Evidence,
+          log2foldchange: disease.log2foldchange,
+          pvalue: disease.pvalue ? disease.pvalue.toFixed(3) : null
+        }
+      };
+    }
+
+      return data;
   }
 }

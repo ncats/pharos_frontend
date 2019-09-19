@@ -184,6 +184,7 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
    * @param event
    */
   filterGraph(event: SelectionChange<string>) {
+    this.menu.close();
     this.loading = true;
     let removedNodes = [];
     let addedNodes = [];
@@ -280,9 +281,9 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
     if (event.nodeHover) {
       this.hoveredNode = event.nodeHover;
     }
+console.log(event);
     if (event.event && !event.nodeHover) {
-      console.log("open in topic graph panel");
-      console.log(event.event);
+      console.log(event);
       this.selectedNode = event.event.node;
       this.menu.open(event.event);
     }
@@ -293,6 +294,7 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
    * @param event
    */
   linkEvents(event) {
+    console.log(event);
     if (event.linkHover) {
       this.hoveredLink = event.linkHover;
     }
@@ -425,8 +427,8 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
 
   itemSelected(item: string) {
     console.log('Item', item);
-    this.getRelatedNodes(item);
     this.menu.close();
+    this.getRelatedNodes(item);
   }
 
   reset() {
