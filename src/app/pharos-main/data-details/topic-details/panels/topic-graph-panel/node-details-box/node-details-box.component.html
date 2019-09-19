@@ -7,7 +7,6 @@
       <pharos-target-card *ngSwitchCase="'ix.idg.models.Target'"  [target]="node"></pharos-target-card>
       <div *ngSwitchCase="'ix.idg.models.Disease'">
         <span><h1><a routerLink="/diseases/{{node.name}}">{{node?.name}}</a></h1></span>
-        <div>Confidence: {{node.IDG_Confidence}}</div>
       </div>
       <pharos-ligand-card *ngSwitchCase="'ix.idg.models.Ligand'"  [ligand]="node"></pharos-ligand-card>
       <div *ngSwitchDefault></div>
@@ -19,6 +18,14 @@
     <div *ngIf="link.properties?.activity">
       <h4>{{link.source.name}} --> {{link.target.name}}</h4><br><br>
       {{link.properties?.activity}}
+    </div>
+      <div *ngIf="link.properties?.dataSource">
+      <h4>{{link.source.name}} --> {{link.target.name}}</h4><br><br>
+        <div *ngIf="link.properties?.dataSource">Data Source: {{link.properties?.dataSource}}</div>
+        <div *ngIf="link.properties?.confidence">Confidence: {{link.properties?.confidence}}</div>
+        <div *ngIf="link.properties?.log2foldchange">Log2 Fold Change: {{link.properties?.log2foldchange}}</div>
+        <div *ngIf="link.properties?.pvalue">Pvalue: {{link.properties?.pvalue}}</div>
+        <div *ngIf="link.properties?.IDG_Evidence">Evidence: {{link.properties?.IDG_Evidence}}</div>
     </div>
     </mat-card>
   </div>
