@@ -20,7 +20,6 @@ export class NodeMenuPopupComponent implements OnInit {
   }
   open(e: any) {
     this.visibility = 'hidden';
-    console.log(e);
     this.x = `${e.event.pageX / 2}px`;
     this.y = `${e.event.pageY / 2}px`;
     this.visibility = 'visible';

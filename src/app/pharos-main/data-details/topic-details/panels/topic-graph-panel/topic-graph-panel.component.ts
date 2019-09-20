@@ -78,14 +78,12 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
   masterGraph: any;
   /**
    * node that is hovered on, set on smrtgraph hovered object emitter
-   * todo: should probably be typed
    */
   hoveredNode: T;
 
   selectedNode: T;
   /**
    * link that is hovered on, set on smrtgraph hovered object emitter
-   * todo: should probably be typed
    */
   hoveredLink: SGLink;
 
@@ -115,7 +113,6 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
     this.graphParserService.setId(this.topic.id).subscribe(res => {
     });
     this.graphParserService.data$.subscribe(res => {
-      console.log(res);
       this.masterGraph = res;
       const masterLinks = [];
       this.masterGraph.links.forEach(link => masterLinks.push(link));
@@ -172,15 +169,11 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
 
 
   togglePathBuilder(event) {
-    console.log("path builder");
-    console.log(event);
     this.pathBuild = ++this.pathBuild;
-    console.log(this);
   }
 
   /**
    * filter graph based on parameter
-   * todo: this currently hides/decolors the nodes, but they should really be removed
    * @param event
    */
   filterGraph(event: SelectionChange<string>) {
@@ -201,17 +194,11 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
           }
         });
       });
-      /* nodesArr.map(node => node['tempcolor'] = 'transparent');
-       this.nodesMap.set(filter, nodesArr);*/
-      console.log(deletedLinksArr);
     });
 
     event.added.forEach(filter => {
-      //  const nodesArr = this.nodesMap.get(filter);
       const nodes = this.nodesMap.get(filter);
       addedNodes =  addedNodes.concat(nodes);
-      // this.graph.links.filter(link => removedNodes);
-     // console.log(this.linksMap.get('links'));
       nodes.forEach(node => {
         this.linksMap.get('links').forEach(link => {
           if (link.source.id === node.id || link.target.id === node.id) {
@@ -219,8 +206,6 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
           }
         });
       });
-      //   nodesArr.map(node => node['tempcolor'] = null);
-      //  this.nodesMap.set(filter, nodesArr);
     });
     console.log(addedLinksArr);
 
@@ -231,10 +216,8 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
       removedLinks: deletedLinksArr
     };
 
-    console.log(diff);
     this.applyDiff(diff);
     this.countLinks();
-    console.log(this);
     this.graphDataService.setGraph(this.graph);
     this.ref.markForCheck();
 
@@ -281,9 +264,7 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
     if (event.nodeHover) {
       this.hoveredNode = event.nodeHover;
     }
-console.log(event);
     if (event.event && !event.nodeHover) {
-      console.log(event);
       this.selectedNode = event.event.node;
       this.menu.open(event.event);
     }
@@ -294,7 +275,6 @@ console.log(event);
    * @param event
    */
   linkEvents(event) {
-    console.log(event);
     if (event.linkHover) {
       this.hoveredLink = event.linkHover;
     }
@@ -358,12 +338,9 @@ console.log(event);
     const addedNodes = [this.selectedNode];
     const deletedLinksArr = [];
     const addedLinksArr = [];
-    console.log(this.nodesMap);
       const links = this.linksMap.get('links');
       // removedNodes = removedNodes.concat(nodes);
         links.forEach(link => {
-        //  if (link.source.id === this.selectedNode.id || link.target.id === this.selectedNode.id) {
-          //  addedLinksArr.push(link);
             if (nodeType === 'disease') {
               if (link.source.id === this.selectedNode.id && link.target.kind === 'ix.idg.models.Disease') {
                 addedNodes.push(link.target);
@@ -377,6 +354,14 @@ console.log(event);
                 addedNodes.push(link.target);
                 addedLinksArr.push(link);
               } else if (link.target.id === this.selectedNode.id && link.source.kind === 'ix.idg.models.Ligand') {
+                addedNodes.push(link.source);
+                addedLinksArr.push(link);
+              }
+            } else if (nodeType === 'allTargets') {
+              if (link.source.id === this.selectedNode.id && link.target.kind === 'ix.idg.models.Target') {
+                addedNodes.push(link.target);
+                addedLinksArr.push(link);
+              } else if (link.target.id === this.selectedNode.id && link.source.kind === 'ix.idg.models.Target') {
                 addedNodes.push(link.source);
                 addedLinksArr.push(link);
               }
@@ -421,20 +406,16 @@ console.log(event);
 
 
   openMenu(e) {
-    console.log("open in topic graph panel");
     this.menu.open(e);
   }
 
   itemSelected(item: string) {
-    console.log('Item', item);
     this.menu.close();
     this.getRelatedNodes(item);
   }
 
   reset() {
     this.loading = true;
-    console.log("resetting");
-    console.log(this);
     this.pathBuild = 0;
     this.graph = {
       nodes: [].concat(...Array.from(this.nodesMap.values())),
@@ -446,7 +427,6 @@ console.log(event);
   }
 
   svgClicked(event) {
-    console.log(event);
     this.menu.close();
   }
 }
