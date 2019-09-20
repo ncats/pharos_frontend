@@ -16,13 +16,15 @@ import {SharedListModule} from '../../../shared/shared-list.module';
 import {DataListResolver} from '../../resolvers/data-list.resolver';
 import {TOKENS} from '../../../../config/component-tokens';
 import {IdgLevelIndicatorComponent} from '../../../tools/idg-level-indicator/idg-level-indicator.component';
+import {TopicSaveModalComponent} from '../../data-list/tables/target-table/topic-save-modal/topic-save-modal.component';
 
 @NgModule({
   declarations: [
     TargetTableComponent,
     TargetCardComponent,
     InjectedRadarChartComponent,
-    TargetSaveModalComponent
+    TargetSaveModalComponent,
+    TopicSaveModalComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +43,8 @@ import {IdgLevelIndicatorComponent} from '../../../tools/idg-level-indicator/idg
     TargetTableComponent,
     IdgLevelIndicatorComponent,
     InjectedRadarChartComponent,
-    TargetSaveModalComponent
+    TargetSaveModalComponent,
+    TopicSaveModalComponent
   ],
   exports: [
     TargetTableComponent,

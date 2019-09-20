@@ -158,6 +158,7 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
    * initialize data change subsctiptions, fetch data
    */
   ngOnInit() {
+    console.log(this);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'text/plain',
@@ -220,7 +221,6 @@ this.diseasePageData = new PageData({
         total: this.allDiseases.length
       });
       this.diseases = this.allDiseases.slice(this.diseasePageData.skip, this.diseasePageData.top);
-      console.log(this);
       this.ref.markForCheck();
 /*
 
