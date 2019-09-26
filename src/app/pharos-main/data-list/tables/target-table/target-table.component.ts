@@ -27,6 +27,11 @@ import {TargetSaveModalComponent} from './target-save-modal/target-save-modal.co
 import {PharosProfileService} from '../../../../auth/pharos-profile.service';
 import {TopicSaveModalComponent} from './topic-save-modal/topic-save-modal.component';
 
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'text/plain',
+  })
+};
 
 /**
  * token to inject structure viewer into generic table component
@@ -265,11 +270,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'text/plain',
-        })
-      };
       this.http.post(`${this.pharosConfig.getApiPath()}targets/resolve`, result.join(), httpOptions).subscribe(res => {
         navigationExtras.queryParams = {
           q: `etag:${res['etag']}`
@@ -315,12 +315,9 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'text/plain',
-        })
-      };
-    });  }
+      console.log(result);
+    });
+  }
 
   /**
    * stub for target list saving
@@ -339,11 +336,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'text/plain',
-        })
-      };
+
     });
   }
 
@@ -362,11 +355,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'text/plain',
-        })
-      };
+
     });
   }
 
