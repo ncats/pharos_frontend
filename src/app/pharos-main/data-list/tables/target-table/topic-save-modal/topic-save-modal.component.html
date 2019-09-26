@@ -1,7 +1,9 @@
 <div fxLayout="row" fxLayoutAlign="space-around center">
   <div fxFlex="90">
     <h1 mat-dialog-title *ngIf = data.selection>Saving {{data.selection?.length}} Targets</h1>
+<!--
     <h1 mat-dialog-title *ngIf = data.sideway>Saving {{data.sideway?.join()}} Query</h1>
+-->
   </div>
   <button mat-icon-button (click)="cancel()"><mat-icon>close</mat-icon></button>
 </div>
@@ -11,7 +13,7 @@
       Create topic:
       <form (submit)="submitList()">
         <mat-form-field class = "full-width">
-          <input matInput [formControl]= targetCtrl placeholder="Name this collection"/>
+          <input matInput [formControl]= targetCtrl placeholder="Name this topic"/>
         </mat-form-field>
       </form>
     </div>
