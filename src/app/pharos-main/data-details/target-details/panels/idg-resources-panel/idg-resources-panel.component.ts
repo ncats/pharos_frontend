@@ -8,6 +8,8 @@ import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-pan
 import {FormControl} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {Target} from '../../../../../models/target';
+import {IDGResourceSerializer} from '../../../../../models/idg-resources/resource-serializer';
+import {BaseResource} from '../../../../../models/idg-resources/base-resource';
 
 /**
  * panel to show idg generated resources. currently stub functionality
@@ -273,6 +275,8 @@ dataTypes: string[] = [];
    */
   tableArr: any[] = [];
 
+   resourceSerializer = new IDGResourceSerializer();
+
   /**
    * set up nav sections
    * @param {HttpClient} http
@@ -290,13 +294,27 @@ dataTypes: string[] = [];
    * initialize filter subscriptions
    */
   ngOnInit() {
-    this.reagentsList = this.reagents;
-    this.dataSourceList = this.dataSources;
-
+    console.log(this);
+ //   this.reagentsList = this.reagents;
+  //  this.dataSourceList = this.dataSources;
+    console.log(this.target);
     this.http.get(`http://dev3.ccs.miami.edu:8080/rss-api/target/search?term=${this.target.gene}`).subscribe(res => {
+      console.log(res);
       if (res && res['data']) {
         res['data'].forEach(data => {
-        this.http.get(data.id).subscribe(resource => {
+          console.log(data);
+        //  const resourceObj2: BaseResource = this.resourceSerializer.fromJson(data);
+//console.log(resourceObj2);        /*  if (resourceObj.resourceType === 'reagent' ) {
+           // this.reagentsList.push(resourceObj);
+       //   } else {*/
+        //  }
+        this.http.get(`http://dev3.ccs.miami.edu:8080/rss-api/target/id?id=${data.id}`).subscribe(resource => {
+       //   Object.entries((data)).forEach((prop) => resource['data'][0].resource[prop[0]] = prop[1]);
+          console.log(JSON.parse(JSON.stringify(resource)));
+          console.log(resource['data'][0].resource);
+          const resourceObj: BaseResource = this.resourceSerializer.fromJson(resource['data'][0].resource, data.resourceType);
+          console.log(resourceObj);
+       //   this.reagentsList.push(resourceObj);
         });
       });
     }
