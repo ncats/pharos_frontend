@@ -89,6 +89,8 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
 
   pathBuild = 0;
 
+  filterConfidence;
+
   /**
    * get graph data and graph parsing services to interact with the graph
    * @param ref

@@ -8,8 +8,8 @@
     <div class="switch-labels"><span class="mat-slide-toggle-label">Off</span>&nbsp;
         <mat-slide-toggle
           (click)="$event.stopPropagation()"
-          (change)="$event ? pathBuilder.toggle() : null"
-          [checked]="pathBuilder.isSelected()">
+          (change)="$event ? pathBuilder.toggle($event) : null"
+          [checked]="pathBuilder.isSelected(true)">
           On
         </mat-slide-toggle>
       </div>
