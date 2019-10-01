@@ -26,7 +26,7 @@ export class GraphDataGeneratorService {
   }
 
   generateTopicNodes() {
-    this._http.get(URL, {responseType: 'text'}).subscribe(response => {
+   /* this._http.get(URL, {responseType: 'text'}).subscribe(response => {
       const lines: string[] = response.split(/\r\n|\n/);
       console.log(lines);
       lines.forEach(target => {
@@ -58,7 +58,7 @@ export class GraphDataGeneratorService {
             }
           });
       });
-    });
+    });*/
     /*  map(response => this.csvJSON(response.trim())),
       catchError(this.handleError('fetch uniprot ids', []))
     ).subscribe();*/
