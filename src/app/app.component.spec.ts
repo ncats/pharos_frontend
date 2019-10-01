@@ -16,7 +16,6 @@ import {FaqPageComponent} from './faq-page/faq-page.component';
 import {DataTypesPanelComponent} from './pharos-home/data-types-panel/data-types-panel.component';
 import {AboutPanelComponent} from './pharos-home/about-panel/about-panel.component';
 import {NewsPanelComponent} from './pharos-home/news-panel/news-panel.component';
-import {ApiViewerComponent} from './tools/api-viewer/api-viewer.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -34,8 +33,7 @@ describe('AppComponent', () => {
         FaqPageComponent,
         DataTypesPanelComponent,
         AboutPanelComponent,
-        NewsPanelComponent,
-        ApiViewerComponent
+        NewsPanelComponent
 
       ],
       providers: [
