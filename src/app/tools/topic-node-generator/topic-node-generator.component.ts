@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {bufferCount, concatAll, map, mergeAll, mergeMap, take, windowCount, zipAll} from 'rxjs/internal/operators';
+import {bufferCount, concatAll, concatMap, map, mergeAll, mergeMap, take, windowCount, zipAll} from 'rxjs/internal/operators';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {PharosConfig} from '../../../config/pharos-config';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {forkJoin, from, Observable, of, zip} from 'rxjs';
+import {concat, forkJoin, from, interval, merge, Observable, of, pipe, zip} from 'rxjs';
 const URL = './assets/uniprot_IDs.csv';
 
 
@@ -32,7 +32,7 @@ const httpOptions = {
   templateUrl: './topic-node-generator.component.html',
   styleUrls: ['./topic-node-generator.component.scss']
 })
-export class TopicNodeGeneratorComponent {
+export class TopicNodeGeneratorComponent implements OnInit {
 
   saved: string[] = [];
   errors: any[] = [];
@@ -43,6 +43,10 @@ export class TopicNodeGeneratorComponent {
               private db: AngularFirestore) {
   }
 
+  ngOnInit() {
+    //this.db.collection('topic-nodes').get().subscribe(res => console.log(res.size));
+  }
+
 getData(target) {
   return this.db.collection('topic-nodes').doc(target).valueChanges();
 }
@@ -51,52 +55,61 @@ getData(target) {
     this.saved = [];
     this.errors = [];
     this.alreadySaved = [];
-    from(batch.map(target => {
+   const calls = from(batch.map(target => {
       const topicData: TopicData = {target: target, data: this.getData(target)};
       return topicData;
-    })).pipe(
+    }))
+     .pipe(
       map(res => {
-        return res['data'].pipe(
+        return res['data']
+      .pipe(
           take(1),
-          map(response => {
+          mergeMap(response => {
+          console.log(response);
+          // return of(response);
             if (!response) {
-              return this._http.post<any>(`${this.pharosConfig.getTopicResolveUrl()}`, res['target'], httpOptions).subscribe(r => {
-              //  console.log(r);
-                if (r.content) {
-                  if (r.content[0].ligands) {
-                    r.content[0].ligands = r.content[0].ligands.filter(ligand => !ligand['']);
-                  }
-                  if (r.content[0].diseases) {
-                    r.content[0].diseases = r.content[0].diseases.filter(disease => disease.Data_Source === 'Monarch' ||
-                      disease.Data_Source === 'DrugCentral Indication');
-                  }
-                  //console.log(r.content[0].diseases);
-                 // return {};
-                  this.db.collection('topic-nodes')
+               return this._http.post<any>(`${this.pharosConfig.getTopicResolveUrl()}`, res['target'], httpOptions)
+                  .pipe(
+                    map(r => {
+                      //  console.log(r);
+                      if (r.content) {
+                        if (r.content[0].ligands) {
+                          r.content[0].ligands = r.content[0].ligands.filter(ligand => !ligand['']);
+                        }
+                        if (r.content[0].diseases) {
+                          r.content[0].diseases = r.content[0].diseases.filter(disease => disease.Data_Source === 'Monarch' ||
+                            disease.Data_Source === 'DrugCentral Indication');
+                        }
+                        return of(r.content[0]);
+                      }
+                    })
+                  );
+
+                /*  this.db.collection('topic-nodes')
                     .doc(res['target'])
                     .set({
                       graphData: r.content[0]
                     })
                     .then(() =>  {
                       this.saved.push(res['target']);
-                      return {};
+                      console.log("target saved");
+                      return response;
                     })
-                    .catch((error) => this.errors.push(res['target']));
-                }
-              });
+                    .catch((error) => this.errors.push(res['target']));*/
+               // }
+              //});
             } else {
               this.alreadySaved.push(res['target']);
-              return {};
+              return of(res['target']);
             }
             //   });
           }));
       }),
-      zipAll()
-    ).subscribe(res => {
-     console.log(res);
-    });
+      concatAll()
+    ); // .subscribe();
 
-
+ console.log(calls);
+ return of(calls);
 
 
 
@@ -147,6 +160,7 @@ firebaseobs
   }
 
   generate() {
+    this.db.collection('topic-nodes').get().subscribe(res => console.log(res.size));
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'text/plain',
@@ -154,17 +168,19 @@ firebaseobs
     };
 
     this._http.get(URL, {responseType: 'text'}).subscribe(response => {
-      const linesobs = from(response.split(/\r\n|\n/).slice(0, 2000));
-  console.log(linesobs);
+      const linesobs = from(response.split(/\r\n|\n/).slice(9200, 9340));
   // this.fetchData(response.split(/\r\n|\n/).slice(0, 100));
       const result = linesobs.pipe(
         bufferCount(20),
        // map(batch => this.fetchData(batch)),
-        map(batch => this.fetchData(batch))
+        mergeMap(batch => this.fetchData(batch))
       );
 
       console.log(result)
-      result.subscribe(x => console.log(x));
+      result.subscribe(x => {
+        console.log(x);
+        x.subscribe(ress => console.log(ress));
+      });
     /*  lines.forEach(target => {
         this.db.collection('topic-nodes').doc(target)// ref => ref.where('documentid', '==', target))
           .valueChanges().pipe(take(1))
