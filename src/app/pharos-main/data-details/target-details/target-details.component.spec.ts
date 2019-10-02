@@ -11,6 +11,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
 import {TESTTARGET} from '../../../../../test/test-target';
 import {APP_BASE_HREF} from '@angular/common';
+import {SharedDetailsModule} from '../../../shared/shared-details.module';
 
 describe('TargetDetailsComponent', () => {
   let component: TargetDetailsComponent;
@@ -20,13 +21,16 @@ describe('TargetDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
+        SharedDetailsModule,
         RouterTestingModule,
         BrowserAnimationsModule
       ],
-      declarations: [ TargetDetailsComponent, TargetHeaderComponent],
+      declarations: [
+        TargetDetailsComponent,
+        TargetHeaderComponent
+      ],
       providers: [
         DataDetailsResolver,
-        PharosApiService,
         LoadingService,
         ComponentInjectorService,
         {provide: APP_BASE_HREF, useValue: '/targets' }

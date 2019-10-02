@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SynonymsPanelComponent } from './synonyms-panel.component';
+import {SharedModule} from '../../../../../shared/shared.module';
+import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
 
 describe('SynonymsPanelComponent', () => {
   let component: SynonymsPanelComponent;
@@ -8,7 +10,11 @@ describe('SynonymsPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SynonymsPanelComponent ]
+      declarations: [ SynonymsPanelComponent ],
+      imports: [
+        SharedModule,
+        GenericTableModule
+      ]
     })
     .compileComponents();
   }));

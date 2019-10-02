@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LigandsPanelComponent } from './ligands-panel.component';
 import {SharedModule} from '../../../../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {PharosPaginatorModule} from '../../../../../tools/pharos-paginator/pharos-paginator.module';
 
 describe('LigandsPanelComponent', () => {
   let component: LigandsPanelComponent;
@@ -10,7 +11,11 @@ describe('LigandsPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule, BrowserAnimationsModule],
+      imports: [
+        SharedModule,
+        BrowserAnimationsModule,
+        PharosPaginatorModule
+      ],
       declarations: [ LigandsPanelComponent ],
       providers: [
       ]

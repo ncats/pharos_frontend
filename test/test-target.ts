@@ -25,6 +25,9 @@ export const TESTTARGET: Target = new TargetSerializer().fromJson({
   ppiCount: null,
   knowledgeAvailability: 51.342101729874294,
   pubTatorScore: 4.59645142492597,
+  sequence: [
+    'GATTACA'
+  ],
   self: 'https://pharos.nih.gov/idg/api/v1/targets(7617)?view=full',
   _organism: null,
   _synonyms: {'count': 231, 'href': 'https://pharos.nih.gov/idg/api/v1/targets(7617)/synonyms'},

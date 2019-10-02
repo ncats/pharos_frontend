@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StructureViewPanelComponent } from './structure-view-panel.component';
+import {SharedModule} from '../../../../../shared/shared.module';
 
 describe('StructureViewPanelComponent', () => {
   let component: StructureViewPanelComponent;
@@ -8,7 +9,10 @@ describe('StructureViewPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StructureViewPanelComponent ]
+      declarations: [ StructureViewPanelComponent ],
+      imports: [
+        SharedModule
+      ]
     })
     .compileComponents();
   }));

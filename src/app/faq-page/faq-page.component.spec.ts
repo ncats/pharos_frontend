@@ -16,9 +16,7 @@ describe('FaqPageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        BrowserAnimationsModule,
-        SharedModule,
-        AppRoutingModule
+        SharedModule
       ],
       declarations: [
         FaqPageComponent

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LigandActivityArticleComponent } from './ligand-activity-article.component';
+import {SharedModule} from '../../../../shared/shared.module';
 
 describe('LigandActivityArticleComponent', () => {
   let component: LigandActivityArticleComponent;
@@ -8,7 +9,10 @@ describe('LigandActivityArticleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LigandActivityArticleComponent ]
+      declarations: [ LigandActivityArticleComponent ],
+      imports: [
+        SharedModule
+      ]
     })
     .compileComponents();
   }));

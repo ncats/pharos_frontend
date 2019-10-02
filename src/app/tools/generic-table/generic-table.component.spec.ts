@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { GenericTableComponent } from './generic-table.component';
 import {MaterialModule} from '../../../assets/material/material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {SharedModule} from '../../shared/shared.module';
+import {GenericTableModule} from './generic-table.module';
 
 describe('GenericTableComponent', () => {
   let component: GenericTableComponent;
@@ -10,8 +12,14 @@ describe('GenericTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, MaterialModule],
-      declarations: [ GenericTableComponent ]
+      imports: [
+        BrowserAnimationsModule,
+        SharedModule,
+        GenericTableModule
+      ],
+      declarations: [
+        GenericTableComponent
+      ]
     })
     .compileComponents();
   }));

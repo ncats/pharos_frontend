@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TinxArticleComponent } from './tinx-article.component';
+import {SharedModule} from '../../../../shared/shared.module';
 
 describe('TinxArticleComponent', () => {
   let component: TinxArticleComponent;
@@ -8,7 +9,8 @@ describe('TinxArticleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TinxArticleComponent ]
+      declarations: [
+      ]
     })
     .compileComponents();
   }));

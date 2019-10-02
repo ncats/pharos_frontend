@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IlluminationGraphArticleComponent } from './illumination-graph-article.component';
+import {SharedModule} from '../../../../shared/shared.module';
 
 describe('IlluminationGraphArticleComponent', () => {
   let component: IlluminationGraphArticleComponent;
@@ -8,7 +9,10 @@ describe('IlluminationGraphArticleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IlluminationGraphArticleComponent ]
+      declarations: [ IlluminationGraphArticleComponent ],
+      imports: [
+        SharedModule
+      ]
     })
     .compileComponents();
   }));
