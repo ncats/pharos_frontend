@@ -15,10 +15,15 @@ import {PharosLoadingSpinnerModule} from './tools/pharos-loading-spinner/pharos-
 import {ScrollToTopComponent} from './tools/scroll-to-top/scroll-to-top.component';
 import {PharosFooterComponent} from './tools/pharos-footer/pharos-footer.component';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {FirestoreStub} from '../../test/firestore-stub';
-
+import {FIRESTORESTUB} from '../../test/firestore-stub';
+import * as firebase from 'firebase';
+import {AngularFireStorage} from '@angular/fire/storage';
+import {AngularFireModule} from '@angular/fire';
+import {environment} from '../environments/environment';
+import {COMMON_CONFIG} from '../../test/test-config';
 
 describe('AppComponent', () => {
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -26,7 +31,8 @@ describe('AppComponent', () => {
         AppRoutingModule,
         SharedModule,
         NcatsHeaderModule,
-        PharosLoadingSpinnerModule
+        PharosLoadingSpinnerModule,
+     //   AngularFireModule.initializeApp(COMMON_CONFIG),
       ],
       declarations: [
         ScrollToTopComponent,
@@ -39,7 +45,7 @@ describe('AppComponent', () => {
         LoadingService,
         FacetRetrieverService,
         SuggestApiService,
-        { provide: AngularFirestore, useValue: FirestoreStub },
+        { provide: AngularFirestore, useValue: FIRESTORESTUB },
         {provide: APP_BASE_HREF, useValue: '/' }
       ],
     }).compileComponents();

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TopicSaveModalComponent } from './topic-save-modal.component';
+import {SharedModule} from '../../../../../shared/shared.module';
 
 describe('TopicSaveModalComponent', () => {
   let component: TopicSaveModalComponent;
@@ -8,7 +9,10 @@ describe('TopicSaveModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TopicSaveModalComponent ]
+      declarations: [ TopicSaveModalComponent ],
+      imports: [
+        SharedModule
+      ]
     })
     .compileComponents();
   }));

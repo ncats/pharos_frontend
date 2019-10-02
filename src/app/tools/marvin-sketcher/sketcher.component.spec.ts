@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SketcherComponent } from './sketcher.component';
 import {MolConverterService} from './services/mol-converter.service';
+import {HttpClientModule} from '@angular/common/http';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('SketcherComponent', () => {
   let component: SketcherComponent;
@@ -11,7 +13,8 @@ describe('SketcherComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ SketcherComponent ],
       providers: [
-        MolConverterService
+        MolConverterService,
+        {provide: HttpClientModule, useClass: HttpClientTestingModule}
       ]
     })
     .compileComponents();

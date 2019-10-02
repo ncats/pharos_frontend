@@ -6,6 +6,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
 import {PharosPaginatorModule} from '../../../../../tools/pharos-paginator/pharos-paginator.module';
 import {LigandCardComponent} from '../../../../data-list/cards/ligand-card/ligand-card.component';
+import {RouterModule} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('DrugsPanelComponent', () => {
   let component: DrugsPanelComponent;
@@ -23,6 +25,7 @@ describe('DrugsPanelComponent', () => {
         DrugsPanelComponent
       ],
       providers: [
+        {provide: RouterModule, useClass: RouterTestingModule}
       ]
     })
     .compileComponents();

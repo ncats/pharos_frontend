@@ -4,6 +4,7 @@ import { IdgResourcesPanelComponent } from './idg-resources-panel.component';
 import {SharedModule} from '../../../../../shared/shared.module';
 import {PharosPaginatorModule} from '../../../../../tools/pharos-paginator/pharos-paginator.module';
 import {TESTTARGET} from '../../../../../../../test/test-target';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('IdgResourcesPanelComponent', () => {
   let component: IdgResourcesPanelComponent;
@@ -13,6 +14,7 @@ describe('IdgResourcesPanelComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ IdgResourcesPanelComponent ],
       imports: [
+        BrowserAnimationsModule,
         SharedModule,
         PharosPaginatorModule
       ]
@@ -24,6 +26,7 @@ describe('IdgResourcesPanelComponent', () => {
     fixture = TestBed.createComponent(IdgResourcesPanelComponent);
     component = fixture.componentInstance;
     component.data = ({object: TESTTARGET, references: []});
+    component.target = TESTTARGET;
     fixture.detectChanges();
   });
 

@@ -12,6 +12,8 @@ import {ComponentInjectorService} from '../../../pharos-services/component-injec
 import {TESTTARGET} from '../../../../../test/test-target';
 import {APP_BASE_HREF} from '@angular/common';
 import {SharedDetailsModule} from '../../../shared/shared-details.module';
+import {CommonToolsModule} from '../../../tools/common-tools.module';
+import {RouterModule} from '@angular/router';
 
 describe('TargetDetailsComponent', () => {
   let component: TargetDetailsComponent;
@@ -22,8 +24,8 @@ describe('TargetDetailsComponent', () => {
       imports: [
         SharedModule,
         SharedDetailsModule,
-        RouterTestingModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        CommonToolsModule
       ],
       declarations: [
         TargetDetailsComponent,
@@ -33,6 +35,7 @@ describe('TargetDetailsComponent', () => {
         DataDetailsResolver,
         LoadingService,
         ComponentInjectorService,
+        { provide: RouterModule, useClass: RouterTestingModule },
         {provide: APP_BASE_HREF, useValue: '/targets' }
       ]
     })

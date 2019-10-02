@@ -11,6 +11,8 @@ import {TESTLIGAND} from '../../../../../test/test-ligand';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
 import {LoadingService} from '../../../pharos-services/loading.service';
 import {StructureViewComponent} from '../../../tools/structure-view/structure-view.component';
+import {CommonToolsModule} from '../../../tools/common-tools.module';
+import {SharedModule} from '../../../shared/shared.module';
 
 describe('LigandDetailsComponent', () => {
   let component: LigandDetailsComponent;
@@ -19,7 +21,6 @@ describe('LigandDetailsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        StructureViewComponent,
         LigandDetailsComponent
       ],
       providers: [
@@ -29,7 +30,9 @@ describe('LigandDetailsComponent', () => {
       ],
       imports: [
         RouterTestingModule,
-        SharedDetailsModule
+        SharedDetailsModule,
+        SharedModule,
+        CommonToolsModule
       ]
     })
     .compileComponents();

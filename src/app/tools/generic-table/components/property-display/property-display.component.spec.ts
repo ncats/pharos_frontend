@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PropertyDisplayComponent } from './property-display.component';
 import {SharedModule} from '../../../../shared/shared.module';
+import {RouterModule} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('PropertyDisplayComponent', () => {
   let component: PropertyDisplayComponent;
@@ -12,6 +14,9 @@ describe('PropertyDisplayComponent', () => {
       declarations: [ PropertyDisplayComponent ],
       imports: [
         SharedModule
+      ],
+      providers: [
+        {provide: RouterModule, useClass: RouterTestingModule}
       ]
     })
     .compileComponents();

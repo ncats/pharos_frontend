@@ -10,6 +10,9 @@ import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
 import {GenericTableModule} from '../../../../tools/generic-table/generic-table.module';
 import {RadarChartModule} from '../../../../tools/visualizations/radar-chart/radar-chart.module';
 import {PharosPaginatorModule} from '../../../../tools/pharos-paginator/pharos-paginator.module';
+import {HttpClient} from '@angular/common/http';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {RouterModule} from '@angular/router';
 
 describe('TargetTableComponent', () => {
   let component: TargetTableComponent;
@@ -18,18 +21,20 @@ describe('TargetTableComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
-        RouterTestingModule,
         BrowserAnimationsModule,
+        SharedModule,
         GenericTableModule,
         RadarChartModule,
         PharosPaginatorModule
       ],
       providers: [
+        { provide: RouterModule, useClass: RouterTestingModule },
         RadarService,
         PharosApiService
       ],
-      declarations: [ TargetTableComponent, RadarChartComponent ]
+      declarations: [
+        TargetTableComponent
+      ]
     })
     .compileComponents();
   }));

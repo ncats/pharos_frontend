@@ -9,7 +9,9 @@ describe('IlluminationGraphArticleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IlluminationGraphArticleComponent ],
+      declarations: [
+        IlluminationGraphArticleComponent
+      ],
       imports: [
         SharedModule
       ]

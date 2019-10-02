@@ -1,22 +1,12 @@
 import {BehaviorSubject, from, Observable} from 'rxjs/index';
 
-export const FirestoreStub = {
+
+export const FIRESTORESTUB = {
   collection: (name: string) => ({
-    public: (_id: string) => ({
-      valueChanges: () => new BehaviorSubject([]),
-      set: (_d: any) => new Promise((resolve, _reject) => resolve()),
-    }),
-    faqs: (_id: string) => ({
-      valueChanges: () => new BehaviorSubject([]),
-      set: (_d: any) => new Promise((resolve, _reject) => resolve()),
-    }),
-    users: (_id: string) => ({
-      valueChanges: () => new BehaviorSubject([]),
-      set: (_d: any) => new Promise((resolve, _reject) => resolve()),
-    }),
-    'topic-nodes': (_id: string) => ({
-      valueChanges: () => new BehaviorSubject([]),
+    doc: (_id: string) => ({
+      valueChanges: () => new BehaviorSubject({ foo: 'bar' }),
       set: (_d: any) => new Promise((resolve, _reject) => resolve()),
     }),
   }),
 };
+

@@ -24,6 +24,7 @@ describe('DiseaseSourceComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DiseaseSourceComponent);
     component = fixture.componentInstance;
+    component.data = {diseases: []};
     fixture.detectChanges();
   });
 

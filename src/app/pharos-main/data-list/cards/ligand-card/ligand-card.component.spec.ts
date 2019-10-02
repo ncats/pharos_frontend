@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LigandCardComponent } from './ligand-card.component';
+import {SharedModule} from '../../../../shared/shared.module';
+import {RouterTestingModule} from '@angular/router/testing';
+import {RouterModule} from '@angular/router';
 
 describe('LigandCardComponent', () => {
   let component: LigandCardComponent;
@@ -8,7 +11,13 @@ describe('LigandCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LigandCardComponent ]
+      declarations: [ LigandCardComponent ],
+      imports: [
+        SharedModule
+      ],
+      providers: [
+        {provide: RouterModule, useClass: RouterTestingModule}
+      ]
     })
     .compileComponents();
   }));

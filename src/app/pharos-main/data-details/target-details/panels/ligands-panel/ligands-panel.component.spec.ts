@@ -4,6 +4,7 @@ import { LigandsPanelComponent } from './ligands-panel.component';
 import {SharedModule} from '../../../../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PharosPaginatorModule} from '../../../../../tools/pharos-paginator/pharos-paginator.module';
+import {LigandCardComponent} from '../../../../data-list/cards/ligand-card/ligand-card.component';
 
 describe('LigandsPanelComponent', () => {
   let component: LigandsPanelComponent;
@@ -16,7 +17,9 @@ describe('LigandsPanelComponent', () => {
         BrowserAnimationsModule,
         PharosPaginatorModule
       ],
-      declarations: [ LigandsPanelComponent ],
+      declarations: [
+        LigandCardComponent,
+        LigandsPanelComponent ],
       providers: [
       ]
     })

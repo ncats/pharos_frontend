@@ -9,6 +9,7 @@ import {HighlightPipe} from './highlight.pipe';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from '../../../../../../../shared/shared.module';
+import {GraphDataService} from 'smrtgraph-core';
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
@@ -25,6 +26,7 @@ describe('SearchComponent', () => {
         HighlightPipe
       ],
       providers: [
+        GraphDataService
       ]
     })
     .compileComponents();
