@@ -77,7 +77,7 @@ export class ScrollspyDirective implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * basically checks to see if it is mocrosoft edge
+   * basically checks to see if it is microsoft edge
    */
   public hasCompatibleBrowser(): boolean {
     const hasIntersectionObserver = 'IntersectionObserver' in window;

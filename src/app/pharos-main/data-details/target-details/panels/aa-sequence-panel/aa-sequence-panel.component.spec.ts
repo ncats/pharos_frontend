@@ -4,6 +4,7 @@ import { AaSequencePanelComponent } from './aa-sequence-panel.component';
 import {SharedModule} from '../../../../../shared/shared.module';
 import {TESTDISEASE} from '../../../../../../../test/test-disease';
 import {TESTTARGET} from '../../../../../../../test/test-target';
+import {By} from '@angular/platform-browser';
 
 describe('AaSequencePanelComponent', () => {
   let component: AaSequencePanelComponent;
@@ -20,8 +21,9 @@ describe('AaSequencePanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AaSequencePanelComponent);
     component = fixture.componentInstance;
-    component.apiSources = [{label: '', description: ''}];
+    component.apiSources = [{label: '', field: '', description: ''}];
     component.data = ({object: TESTTARGET, references: []});
+    component.viewerContainer = fixture.debugElement.query(By.css('protVistaViewer')).nativeElement;
     fixture.detectChanges();
   });
 

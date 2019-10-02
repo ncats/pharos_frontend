@@ -4,6 +4,8 @@ import { PdbPanelComponent } from './pdb-panel.component';
 import {SharedModule} from '../../../../../shared/shared.module';
 import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ProteinStructureViewerComponent} from '../../../../../tools/protein-structure-viewer/protein-structure-viewer.component';
+import {TESTTARGET} from '../../../../../../../test/test-target';
 
 describe('PdbPanelComponent', () => {
   let component: PdbPanelComponent;
@@ -11,7 +13,10 @@ describe('PdbPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PdbPanelComponent ],
+      declarations: [
+        ProteinStructureViewerComponent,
+        PdbPanelComponent
+      ],
       imports: [
         SharedModule,
         GenericTableModule,
@@ -24,6 +29,8 @@ describe('PdbPanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PdbPanelComponent);
     component = fixture.componentInstance;
+    component.data = TESTTARGET;
+    component['target'] = TESTTARGET;
     fixture.detectChanges();
   });
 

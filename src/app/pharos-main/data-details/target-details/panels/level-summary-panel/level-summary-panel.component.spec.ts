@@ -34,7 +34,8 @@ describe('LevelSummaryPanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LevelSummaryPanelComponent);
     component = fixture.componentInstance;
-    component.data = ({object: TESTTARGET, references: []});
+    component.data = TESTTARGET;
+    component['target'] = TESTTARGET;
     fixture.detectChanges();
   });
 

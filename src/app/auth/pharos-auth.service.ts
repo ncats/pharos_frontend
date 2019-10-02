@@ -29,8 +29,9 @@ export class PharosAuthService {
    * @param afAuth
    */
   constructor(private userCollection: AngularFirestore,
-              private pharosProfileService: PharosProfileService,
-              public afAuth: AngularFireAuth) {
+              public afAuth: AngularFireAuth,
+              private pharosProfileService: PharosProfileService
+  ) {
   }
 
   /**

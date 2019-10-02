@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AnatomogramImageComponent } from './anatomogram-image.component';
+import {SharedModule} from '../../../shared/shared.module';
 
 describe('AnatomogramImageComponent', () => {
   let component: AnatomogramImageComponent;
@@ -8,7 +9,10 @@ describe('AnatomogramImageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AnatomogramImageComponent ]
+      declarations: [ AnatomogramImageComponent ],
+      imports: [
+        SharedModule
+      ]
     })
     .compileComponents();
   }));

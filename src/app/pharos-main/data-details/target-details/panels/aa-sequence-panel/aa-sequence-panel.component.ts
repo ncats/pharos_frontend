@@ -129,10 +129,6 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
     return sstring.match(re);
   }
 
-  getTooltip(label: string): string {
-    return this.apiSources.filter(source => source.field === label)[0].description;
-  }
-
   /**
    * active section view tracker
    * @param {string} fragment

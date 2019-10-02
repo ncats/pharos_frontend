@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LigandTableComponent } from './ligand-table.component';
+import {CommonToolsModule} from '../../../../tools/common-tools.module';
+import {SharedModule} from '../../../../shared/shared.module';
 
 describe('LigandTableComponent', () => {
   let component: LigandTableComponent;
@@ -8,7 +10,13 @@ describe('LigandTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LigandTableComponent ]
+      declarations: [
+        LigandTableComponent
+      ],
+      imports: [
+        CommonToolsModule,
+        SharedModule
+      ]
     })
     .compileComponents();
   }));

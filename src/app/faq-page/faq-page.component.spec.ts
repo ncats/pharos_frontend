@@ -6,8 +6,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from '../app-routing.module';
 import {APP_BASE_HREF} from '@angular/common';
 import {KatexRenderService} from '../tools/equation-renderer/services/katex-render.service';
-import {FirestoreStub} from '../../../test/firestore-stub';
+import {FIRESTORESTUB} from '../../../test/firestore-stub';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFireModule} from '@angular/fire';
+import {COMMON_CONFIG} from '../../../test/test-config';
 
 describe('FaqPageComponent', () => {
   let component: FaqPageComponent;
@@ -16,14 +18,15 @@ describe('FaqPageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule
+        SharedModule,
+       // AngularFireModule.initializeApp(COMMON_CONFIG),
       ],
       declarations: [
         FaqPageComponent
       ],
       providers: [
         KatexRenderService,
-        { provide: AngularFirestore, useValue: FirestoreStub },
+        { provide: AngularFirestore, useValue: FIRESTORESTUB },
         {provide: APP_BASE_HREF, useValue: '/index' }
       ]
     })

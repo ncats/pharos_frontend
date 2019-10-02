@@ -20,6 +20,7 @@ describe('ExpressionPanelComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        BrowserAnimationsModule,
         SharedModule,
         SharedDetailsModule,
         RadarChartModule,
