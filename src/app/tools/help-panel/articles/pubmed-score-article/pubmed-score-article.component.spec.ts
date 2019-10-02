@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PubmedScoreArticleComponent } from './pubmed-score-article.component';
+import {SharedModule} from '../../../../shared/shared.module';
 
 describe('PubmedScoreArticleComponent', () => {
   let component: PubmedScoreArticleComponent;
@@ -8,7 +9,10 @@ describe('PubmedScoreArticleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PubmedScoreArticleComponent ]
+      declarations: [ PubmedScoreArticleComponent ],
+      imports: [
+        SharedModule
+      ]
     })
     .compileComponents();
   }));

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TopicHeaderComponent } from './topic-header.component';
+import {SharedModule} from '../../../../shared/shared.module';
 
 describe('TopicHeaderComponent', () => {
   let component: TopicHeaderComponent;
@@ -8,7 +9,10 @@ describe('TopicHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TopicHeaderComponent ]
+      declarations: [ TopicHeaderComponent ],
+      imports: [
+        SharedModule
+      ]
     })
     .compileComponents();
   }));

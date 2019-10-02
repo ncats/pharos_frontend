@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DiseaseSourceComponent } from './disease-source-panel.component';
 import {SharedModule} from '../../../../../shared/shared.module';
+import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
+import {CommonToolsModule} from '../../../../../tools/common-tools.module';
 
 describe('DiseaseSourceComponent', () => {
   let component: DiseaseSourceComponent;
@@ -9,7 +11,11 @@ describe('DiseaseSourceComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule],
+      imports: [
+        SharedModule,
+        GenericTableModule,
+        CommonToolsModule
+      ],
       declarations: [ DiseaseSourceComponent ]
     })
     .compileComponents();

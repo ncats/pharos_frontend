@@ -9,6 +9,8 @@ import {APP_BASE_HREF} from '@angular/common';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
 import {RouterTestingModule} from '@angular/router/testing';
 import {SharedListModule} from '../../shared/shared-list.module';
+import {SharedDetailsModule} from '../../shared/shared-details.module';
+import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
 
 describe('DataDetailsComponent', () => {
   let component: DataDetailsComponent;
@@ -18,6 +20,7 @@ describe('DataDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         SharedListModule,
+        SharedDetailsModule,
         RouterTestingModule,
         BrowserAnimationsModule
       ],
@@ -29,6 +32,7 @@ describe('DataDetailsComponent', () => {
         LoadingService,
         FacetRetrieverService,
         SuggestApiService,
+        ComponentInjectorService,
         {provide: APP_BASE_HREF, useValue: '/targets' }
       ]
     })

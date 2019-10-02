@@ -21,9 +21,9 @@ describe('FacetListComponent', () => {
         SharedModule,
         RouterTestingModule,
         BrowserAnimationsModule
-
       ],
       declarations: [
+        FacetListComponent
       ],
       providers: [
         PathResolverService,

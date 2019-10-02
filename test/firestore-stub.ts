@@ -10,5 +10,13 @@ export const FirestoreStub = {
       valueChanges: () => new BehaviorSubject([]),
       set: (_d: any) => new Promise((resolve, _reject) => resolve()),
     }),
+    users: (_id: string) => ({
+      valueChanges: () => new BehaviorSubject([]),
+      set: (_d: any) => new Promise((resolve, _reject) => resolve()),
+    }),
+    'topic-nodes': (_id: string) => ({
+      valueChanges: () => new BehaviorSubject([]),
+      set: (_d: any) => new Promise((resolve, _reject) => resolve()),
+    }),
   }),
 };

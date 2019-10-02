@@ -4,6 +4,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TopicDetailsComponent} from './topic-details.component';
 import {APP_BASE_HREF} from '@angular/common';
+import {TopicHeaderComponent} from './topic-header/topic-header.component';
 
 
 describe('TopicDetailsComponent', () => {
@@ -18,6 +19,7 @@ describe('TopicDetailsComponent', () => {
         BrowserAnimationsModule
       ],
       declarations: [
+        TopicHeaderComponent,
         TopicDetailsComponent
 
       ],

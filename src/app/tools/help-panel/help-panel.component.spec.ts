@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HelpPanelComponent } from './help-panel.component';
+import {SharedModule} from '../../shared/shared.module';
 
 describe('HelpPanelComponent', () => {
   let component: HelpPanelComponent;
@@ -8,7 +9,10 @@ describe('HelpPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HelpPanelComponent ]
+      declarations: [ HelpPanelComponent ],
+      imports: [
+        SharedModule
+      ]
     })
     .compileComponents();
   }));

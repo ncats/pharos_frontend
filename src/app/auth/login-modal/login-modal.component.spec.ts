@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginModalComponent } from './login-modal.component';
+import {SharedModule} from '../../shared/shared.module';
+import {MatDialogRef} from '@angular/material';
 
 describe('LoginModalComponent', () => {
   let component: LoginModalComponent;
@@ -8,7 +10,10 @@ describe('LoginModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoginModalComponent ]
+      declarations: [ LoginModalComponent ],
+      imports: [
+        SharedModule
+      ]
     })
     .compileComponents();
   }));
