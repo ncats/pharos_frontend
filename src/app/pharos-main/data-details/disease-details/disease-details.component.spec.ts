@@ -15,6 +15,9 @@ import {IdgLevelIndicatorComponent} from '../../../tools/idg-level-indicator/idg
 import {TOKENS} from '../../../../config/component-tokens';
 import {DiseaseHeaderComponent} from './disease-header/disease-header.component';
 import {SharedModule} from '../../../shared/shared.module';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
+import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('DiseaseDetailsComponent', () => {
   let component: DiseaseDetailsComponent;
@@ -30,6 +33,7 @@ describe('DiseaseDetailsComponent', () => {
       ],
       imports: [
         SharedModule,
+        BrowserAnimationsModule,
         RouterTestingModule,
         GenericTableModule
       ],
@@ -40,8 +44,20 @@ describe('DiseaseDetailsComponent', () => {
         {provide: TOKENS.DISEASE_HEADER_COMPONENT, useValue: DiseaseHeaderComponent},
         {provide: TOKENS.TARGET_LIST_PANEL, useValue: TargetListPanelComponent},
         {provide: IDG_LEVEL_TOKEN, useValue: IdgLevelIndicatorComponent}
+      ],
+      schemas: [
+        NO_ERRORS_SCHEMA
       ]
     })
+      .overrideModule(BrowserDynamicTestingModule, { set: {
+          entryComponents: [
+            IdgLevelIndicatorComponent,
+            TargetListPanelComponent,
+            DiseaseHeaderComponent,
+            DiseaseDetailsComponent
+          ]
+      }
+      })
     .compileComponents();
   }));
 

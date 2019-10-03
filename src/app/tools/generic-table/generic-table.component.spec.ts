@@ -35,6 +35,7 @@ describe('GenericTableComponent', () => {
     fixture = TestBed.createComponent(GenericTableComponent);
     component = fixture.componentInstance;
     component.data = [];
+    component.fieldsConfig = [];
     fixture.detectChanges();
   });
 

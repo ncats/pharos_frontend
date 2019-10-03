@@ -16,6 +16,11 @@ import {RouterModule} from '@angular/router';
 import {TargetCardComponent} from '../../cards/target-card/target-card.component';
 import {IdgLevelIndicatorComponent} from '../../../../tools/idg-level-indicator/idg-level-indicator.component';
 import {KnowledgeTableComponent} from '../../../../tools/knowledge-table/knowledge-table.component';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {FIRESTORESTUB} from '../../../../../../test/firestore-stub';
+import {AngularFireModule} from '@angular/fire';
+import {COMMON_CONFIG} from '../../../../../../test/test-config';
+import {AngularFireAuth} from '@angular/fire/auth';
 
 describe('TargetTableComponent', () => {
   let component: TargetTableComponent;
@@ -29,11 +34,14 @@ describe('TargetTableComponent', () => {
         GenericTableModule,
         RadarChartModule,
         PharosPaginatorModule,
-        RouterTestingModule
+        RouterTestingModule,
+        AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
       providers: [
         RadarService,
-        PharosApiService
+        PharosApiService,
+        AngularFireAuth,
+        { provide: AngularFirestore, useValue: FIRESTORESTUB }
       ],
       declarations: [
         IdgLevelIndicatorComponent,

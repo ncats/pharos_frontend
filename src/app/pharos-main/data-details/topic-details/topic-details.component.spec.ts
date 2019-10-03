@@ -9,6 +9,13 @@ import {TopicGraphPanelComponent} from './panels/topic-graph-panel/topic-graph-p
 import {TargetTableComponent} from '../../data-list/tables/target-table/target-table.component';
 import {DiseaseTableComponent} from '../../data-list/tables/disease-table/disease-table.component';
 import {LigandTableComponent} from '../../data-list/tables/ligand-table/ligand-table.component';
+import {TopicGraphFiltersComponent} from './panels/topic-graph-panel/topic-graph-filters/topic-graph-filters.component';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
+import {GraphDataService, LinkService, NodeService, SmrtgraphCoreModule} from 'smrtgraph-core';
+import {GraphParserService} from './panels/topic-graph-panel/services/graph-parser.service';
+import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
 
 
 describe('TopicDetailsComponent', () => {
@@ -20,7 +27,8 @@ describe('TopicDetailsComponent', () => {
       imports: [
         SharedDetailsModule,
         RouterTestingModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        SmrtgraphCoreModule
       ],
       declarations: [
         TopicHeaderComponent,
@@ -28,10 +36,20 @@ describe('TopicDetailsComponent', () => {
         TopicGraphPanelComponent,
         TargetTableComponent,
         DiseaseTableComponent,
-        LigandTableComponent
+        LigandTableComponent,
+        TopicGraphFiltersComponent
       ],
       providers: [
-        {provide: APP_BASE_HREF, useValue: '/targets' }
+        GraphParserService,
+        GraphDataService,
+        NodeService,
+        LinkService,
+        ComponentInjectorService,
+        {provide: APP_BASE_HREF, useValue: '/targets' },
+        { provide: AngularFirestore, useValue: FIRESTORESTUB }
+      ],
+      schemas: [
+        NO_ERRORS_SCHEMA
       ]
     })
     .compileComponents();

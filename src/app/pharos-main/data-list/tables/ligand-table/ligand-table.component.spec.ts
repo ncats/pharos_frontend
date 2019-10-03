@@ -28,6 +28,7 @@ describe('LigandTableComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LigandTableComponent);
     component = fixture.componentInstance;
+    component.data = [];
     fixture.detectChanges();
   });
 

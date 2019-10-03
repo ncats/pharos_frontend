@@ -136,8 +136,9 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
    * @param _route
    * @param router
    * @param pharosConfig
-   * @param dataDetailsResolver
    * @param ref
+   * @param db
+   * @param graphParser
    * @param componentInjectorService
    */
   constructor(private _injector: Injector,

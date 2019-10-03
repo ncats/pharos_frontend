@@ -26,7 +26,7 @@ export class TopicTableComponent implements OnInit {
 
   /**
    * set up dependencies
-   * @param {ChangeDetectorRef} changeDetector
+   * @param ref
    * @param _route
    * @param {HttpClient} _http
    */

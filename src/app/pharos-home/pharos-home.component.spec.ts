@@ -12,6 +12,8 @@ import {AboutPanelComponent} from './about-panel/about-panel.component';
 import {SearchComponentModule} from '../tools/search-component/search-component.module';
 import {Router, RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {FIRESTORESTUB} from '../../../test/firestore-stub';
 
 describe('PharosHomeComponent', () => {
   let component: PharosHomeComponent;
@@ -34,6 +36,7 @@ describe('PharosHomeComponent', () => {
       providers: [
         LoadingService,
         {provide: Router, useClass: RouterTestingModule},
+        { provide: AngularFirestore, useValue: FIRESTORESTUB },
         {provide: APP_BASE_HREF, useValue: '/index' }
       ]
     })

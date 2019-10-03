@@ -57,13 +57,13 @@ export class ScrollspyDirective implements AfterViewInit, OnDestroy {
     private _zone: NgZone,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
-    this.root = this.document.getElementById('scrollspy-main');
   }
 
   /**
    * registers intersection observers, and adds scroll listeners
    */
   public ngAfterViewInit() {
+    this.root = this.document.getElementById('scrollspy-main');
     if (isPlatformBrowser(this.platformId)) {
       if (this.hasCompatibleBrowser()) {
         this.registerIntersectionObserver();
@@ -107,7 +107,7 @@ export class ScrollspyDirective implements AfterViewInit, OnDestroy {
     this._intersectionObserver = new IntersectionObserver(entries => {
       this.checkForIntersection(entries);
     }, {
-      root: this.root.nativeElement,
+      root: this.root ? this.root.nativeElement : null,
       threshold: [.5, 1]
     });
   }

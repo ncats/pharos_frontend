@@ -9,7 +9,6 @@ import {AngularFirestore} from '@angular/fire/firestore';
 describe('NewsPanelComponent', () => {
   let component: NewsPanelComponent;
   let fixture: ComponentFixture<NewsPanelComponent>;
-  let angularFirestore: AngularFirestore;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -17,9 +16,11 @@ describe('NewsPanelComponent', () => {
         BrowserAnimationsModule,
         SharedModule
       ],
-      declarations: [ NewsPanelComponent ],
+      declarations: [
+        NewsPanelComponent
+      ],
       providers: [
-        { provide: AngularFirestore, useValue: FIRESTORESTUB },
+        { provide: AngularFirestore, useValue: FIRESTORESTUB }
       ]
     })
     .compileComponents();
@@ -27,9 +28,7 @@ describe('NewsPanelComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NewsPanelComponent);
-    angularFirestore = TestBed.get(AngularFirestore);
     component = fixture.componentInstance;
- //   angularFirestore.collection('public').valueChanges().subscribe(res => component.items = res);
     fixture.detectChanges();
   });
 

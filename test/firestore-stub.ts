@@ -7,6 +7,8 @@ export const FIRESTORESTUB = {
       valueChanges: () => new BehaviorSubject({ foo: 'bar' }),
       set: (_d: any) => new Promise((resolve, _reject) => resolve()),
     }),
+    valueChanges: () => new BehaviorSubject({ foo: 'bar' })
   }),
+  valueChanges: () => new BehaviorSubject({ foo: 'bar' }),
 };
 

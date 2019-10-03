@@ -69,7 +69,9 @@ export class NewsPanelComponent implements OnInit {
   ngOnInit() {
     this.db.collection<Message>('public').valueChanges()
       .subscribe(items => {
-        this.items = items.sort((a, b) => b.index - a.index).slice(0, 4);
+        if (items && items.length) {
+          this.items = items.sort((a, b) => b.index - a.index).slice(0, 4);
+        }
       });
   }
 

@@ -13,8 +13,6 @@ import {inject} from '@angular/core';
 describe('LoginModalComponent', () => {
   let component: LoginModalComponent;
   let fixture: ComponentFixture<LoginModalComponent>;
-/*  let app: FirebaseApp;
-  let afAuth: AngularFireAuth;*/
   const matDialogRefStub = {};
 
   beforeEach(async(() => {
@@ -22,12 +20,12 @@ describe('LoginModalComponent', () => {
       declarations: [ LoginModalComponent ],
       imports: [
         SharedModule,
-/*        AngularFireModule.initializeApp(COMMON_CONFIG),
-        AngularFireAuthModule*/
+        AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefStub },
-        { provide: AngularFirestore, useValue: FIRESTORESTUB }
+        { provide: AngularFirestore, useValue: FIRESTORESTUB },
+        AngularFireAuth
       ]
     })
     .compileComponents();

@@ -33,6 +33,16 @@ import {StructureViewComponent} from '../../../tools/structure-view/structure-vi
 import {RadarChartViewerComponent} from '../../../tools/radar-chart-viewer/radar-chart-viewer.component';
 import {OrthologPanelComponent} from './panels/expression-panel/ortholog-panel/ortholog-panel.component';
 import {DifferentialPanelComponent} from './panels/expression-panel/differential-panel/differential-panel.component';
+import {TargetTableModule} from '../../modules/targets/target-list.module';
+import {LigandCardComponent} from '../../data-list/cards/ligand-card/ligand-card.component';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
+import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
+import {IdgLevelSummaryModule} from './panels/level-summary-panel/idg-level-summary.module';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireModule} from '@angular/fire';
+import {COMMON_CONFIG} from '../../../../../test/test-config';
 
 describe('TargetDetailsComponent', () => {
   let component: TargetDetailsComponent;
@@ -41,11 +51,14 @@ describe('TargetDetailsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        AngularFireModule.initializeApp(COMMON_CONFIG),
         SharedModule,
         SharedDetailsModule,
         BrowserAnimationsModule,
         CommonToolsModule,
-        RouterTestingModule
+        RouterTestingModule,
+        TargetTableModule,
+        IdgLevelSummaryModule
       ],
       declarations: [
         TargetDetailsComponent,
@@ -65,12 +78,14 @@ describe('TargetDetailsComponent', () => {
         IdgResourcesPanelComponent,
         LigandsPanelComponent,
         DrugsPanelComponent,
-        DifferentialPanelComponent
+        DifferentialPanelComponent,
+        LigandCardComponent
       ],
       providers: [
         DataDetailsResolver,
         LoadingService,
         ComponentInjectorService,
+        AngularFireAuth,
         // breadcrumb
         {provide: TOKENS.PHAROS_BREADCRUMB_COMPONENT, useValue: BreadcrumbComponent},
         {provide: TOKENS.TARGET_GENE_SUMMARY_COMPONENT, useValue: GeneSummaryComponent},
@@ -90,9 +105,39 @@ describe('TargetDetailsComponent', () => {
         {provide: TOKENS.DRUGS_PANEL, useValue: DrugsPanelComponent},
         {provide: TOKENS.PDB_PANEL, useValue: PdbPanelComponent},
         {provide: STRUCTURE_VIEW_TOKEN, useValue: StructureViewComponent},
-        {provide: APP_BASE_HREF, useValue: '/targets' }
+        {provide: APP_BASE_HREF, useValue: '/targets' },
+        { provide: AngularFirestore, useValue: FIRESTORESTUB }
+      ],
+      schemas: [
+        NO_ERRORS_SCHEMA
       ]
     })
+      .overrideModule(BrowserDynamicTestingModule, { set: {
+          entryComponents: [
+            TargetHeaderComponent,
+            TargetDetailsComponent,
+            GeneSummaryComponent,
+            BreadcrumbComponent,
+            SummaryPanelComponent,
+            RadarChartViewerComponent,
+            DiseaseSourceComponent,
+            PublicationInfoPanelComponent,
+            ExpressionPanelComponent,
+            AaSequencePanelComponent,
+            ProteinProteinPanelComponent,
+            OrthologPanelComponent,
+            AssayPanelComponent,
+            PdbPanelComponent,
+            GeneSummaryComponent,
+            TargetFacetPanelComponent,
+            IdgResourcesPanelComponent,
+            LigandsPanelComponent,
+            DrugsPanelComponent,
+            DifferentialPanelComponent,
+            LigandCardComponent
+          ]
+        }
+      })
     .compileComponents();
   }));
 
@@ -100,8 +145,8 @@ describe('TargetDetailsComponent', () => {
     fixture = TestBed.createComponent(TargetDetailsComponent);
     component = fixture.componentInstance;
     component.path = 'targets';
-    component.data = ({object: TESTTARGET, references: []});
     component.target = TESTTARGET;
+    component.data = TESTTARGET;
     fixture.detectChanges();
   });
 

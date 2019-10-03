@@ -1,12 +1,7 @@
-import { ScrollspyDirective } from './scrollspy.directive';
-import {ElementRef, Inject, NgZone, PLATFORM_ID} from "@angular/core";
-import {DOCUMENT} from "@angular/common";
+import {ScrollspyDirective} from './scrollspy.directive';
 import {async, TestBed} from '@angular/core/testing';
 import {SharedModule} from '../../../shared/shared.module';
-import {RouterTestingModule} from '@angular/router/testing';
 import {SidenavPanelComponent} from '../sidenav-panel.component';
-import {RouterModule} from '@angular/router';
-const mockDocument = { location: 'targets'};
 
 describe('ScrollspyDirective', () => {
   beforeEach(async(() => {
@@ -16,16 +11,14 @@ describe('ScrollspyDirective', () => {
         SharedModule
       ],
       providers: [
-        { provide: DOCUMENT, useValue: mockDocument },
-        { provide: PLATFORM_ID, useValue: 'browser' },
       ]
     })
       .compileComponents();
   }));
 
   it('should create an instance', () => {
-    const directive = new ScrollspyDirective(null, null, null, PLATFORM_ID);
-     directive['root'] = directive['document'].getElementById('scrollspy-main');
+    const directive = new ScrollspyDirective(null, null, null, null);
+    directive['_intersectionObserver'] = new IntersectionObserver(() => {});
     expect(directive).toBeTruthy();
   });
 });

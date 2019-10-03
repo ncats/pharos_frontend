@@ -24,7 +24,7 @@ describe('TdarkSummaryComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TdarkSummaryComponent);
     component = fixture.componentInstance;
-    component.data = ({object: TESTTARGET, references: []});
+    component.data = [];
     component.target = TESTTARGET;
     component.apiSources = [{label: '', field: '', description: ''}];
     fixture.detectChanges();

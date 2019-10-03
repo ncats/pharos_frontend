@@ -5,6 +5,7 @@ import {SharedModule} from '../../../../../shared/shared.module';
 import {TESTDISEASE} from '../../../../../../../test/test-disease';
 import {TESTTARGET} from '../../../../../../../test/test-target';
 import {By} from '@angular/platform-browser';
+import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 
 describe('AaSequencePanelComponent', () => {
   let component: AaSequencePanelComponent;
@@ -13,7 +14,13 @@ describe('AaSequencePanelComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [SharedModule],
-      declarations: [ AaSequencePanelComponent ]
+      declarations: [
+        AaSequencePanelComponent
+      ],
+      schemas: [
+        NO_ERRORS_SCHEMA,
+        CUSTOM_ELEMENTS_SCHEMA
+      ]
     })
     .compileComponents();
   }));
@@ -24,11 +31,13 @@ describe('AaSequencePanelComponent', () => {
     component.apiSources = [{label: '', field: '', description: ''}];
     component.data = {
       object: TESTTARGET,
-      references: []
+      references: [],
+      sequence: [
+        {text: 'GATTACA'}
+      ]
     };
-    component.aasequence = [];
+    // component.aasequence = [];
     component.loading = false;
-   // component.viewerContainer = fixture.debugElement.query(By.css('protVistaViewer')).nativeElement;
     fixture.detectChanges();
   });
 

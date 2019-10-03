@@ -74,12 +74,14 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
    * // todo set boolean breakpoint and only load if not mobile
    */
   setterFunction() {
-    this.parseSequence();
+    if (this.data.sequence[0].text) {
+      this.parseSequence();
+      this.getCounts();
+    }
     const r = new Protvista({
       el: this.viewerContainer.nativeElement,
       uniprotacc: this.id
     });
-    this.getCounts();
   }
 
   /**
@@ -126,7 +128,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
    */
   splitString (sstring: string, size: number): string[] {
     const re: RegExp  = new RegExp('.{1,' + size + '}', 'g');
-    return sstring.match(re);
+      return sstring.match(re);
   }
 
   /**
