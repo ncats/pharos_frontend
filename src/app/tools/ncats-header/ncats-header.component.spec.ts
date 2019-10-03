@@ -6,6 +6,11 @@ import {SharedModule} from '../../shared/shared.module';
 import {SuggestApiService} from '../search-component/suggest-api.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SearchComponentModule} from '../search-component/search-component.module';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {FIRESTORESTUB} from '../../../../test/firestore-stub';
+import {AngularFireModule} from '@angular/fire';
+import {COMMON_CONFIG} from '../../../../test/test-config';
+import {AngularFireAuth} from '@angular/fire/auth';
 
 describe('NcatsHeaderComponent', () => {
   let component: NcatsHeaderComponent;
@@ -17,13 +22,16 @@ describe('NcatsHeaderComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule,
         SearchComponentModule,
-        SharedModule
+        SharedModule,
+        AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
       declarations: [
         NcatsHeaderComponent
       ],
       providers: [
-        SuggestApiService
+        SuggestApiService,
+        AngularFireAuth,
+        { provide: AngularFirestore, useValue: FIRESTORESTUB }
       ]
     })
     .compileComponents();

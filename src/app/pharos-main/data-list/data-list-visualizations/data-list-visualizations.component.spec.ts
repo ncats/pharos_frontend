@@ -8,6 +8,12 @@ import {LoadingService} from '../../../pharos-services/loading.service';
 import {SharedListModule} from '../../../shared/shared-list.module';
 import {DonutChartComponent} from '../../../tools/visualizations/donut-chart/donut-chart.component';
 import {SharedModule} from '../../../shared/shared.module';
+import {VisualizationOptionsComponent} from './visualization-options/visualization-options.component';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireModule} from '@angular/fire';
+import {COMMON_CONFIG} from '../../../../../test/test-config';
 
 
 describe('DataListVisualizationsComponent', () => {
@@ -17,18 +23,22 @@ describe('DataListVisualizationsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        AngularFireModule.initializeApp(COMMON_CONFIG),
         SharedModule,
         RouterTestingModule
       ],
       declarations: [
         DonutChartComponent,
+        VisualizationOptionsComponent,
         DataListVisualizationsComponent
       ],
       providers: [
         PathResolverService,
         PharosApiService,
         LoadingService,
-        {provide: APP_BASE_HREF, useValue: '/targets' }
+        AngularFireAuth,
+        {provide: APP_BASE_HREF, useValue: '/targets' },
+        { provide: AngularFirestore, useValue: FIRESTORESTUB }
       ]
     })
     .compileComponents();

@@ -64,7 +64,7 @@ export class PharosAuthService {
    */
   doRegister(value, dialogRef: MatDialogRef<any>) {
     return new Promise<any>((resolve, reject) => {
-      firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
+      this.afAuth.auth.createUserWithEmailAndPassword(value.email, value.password)
         .then(res => {
           this.fetchUserProfile(res.user);
           dialogRef.close();

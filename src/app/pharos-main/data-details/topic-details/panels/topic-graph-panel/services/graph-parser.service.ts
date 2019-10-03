@@ -78,7 +78,11 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
   loadData(): Observable<SmrtGraph> {
     this.db.collection('topics', ref => ref.where('topicLinkId', '==', this.id))
       .valueChanges().pipe(take(1))
-      .subscribe(res => this._parseData(res));
+      .subscribe(res => {
+        if (res && res.length) {
+          this._parseData(res);
+        }
+      });
     return of(this.graph);
   }
 

@@ -6,6 +6,11 @@ import {SharedModule} from '../../../../../shared/shared.module';
 import {TESTTARGET} from '../../../../../../../test/test-target';
 import {TargetTableModule} from '../../../../modules/targets/target-list.module';
 import {RouterTestingModule} from '@angular/router/testing';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
+import {AngularFireModule, FirebaseAuth} from '@angular/fire';
+import {COMMON_CONFIG} from '../../../../../../../test/test-config';
+import {AngularFireAuth} from '@angular/fire/auth';
 
 describe('ProteinProteinPanelComponent', () => {
   let component: ProteinProteinPanelComponent;
@@ -19,7 +24,12 @@ describe('ProteinProteinPanelComponent', () => {
       imports: [
         RouterTestingModule,
         TargetTableModule,
-        SharedModule
+        SharedModule,
+        AngularFireModule.initializeApp(COMMON_CONFIG)
+      ],
+      providers: [
+        AngularFireAuth,
+        { provide: AngularFirestore, useValue: FIRESTORESTUB }
       ]
     })
     .compileComponents();

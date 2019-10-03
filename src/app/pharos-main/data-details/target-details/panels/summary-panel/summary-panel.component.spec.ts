@@ -7,6 +7,8 @@ import {RadarChartComponent} from '../../../../../tools/visualizations/radar-cha
 import {PropertyDisplayComponent} from '../../../../../tools/generic-table/components/property-display/property-display.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {KnowledgeTableComponent} from '../../../../../tools/knowledge-table/knowledge-table.component';
+import {PharosPaginatorModule} from '../../../../../tools/pharos-paginator/pharos-paginator.module';
+import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
 
 describe('SummaryPanelComponent', () => {
   let component: SummaryPanelComponent;
@@ -16,13 +18,13 @@ describe('SummaryPanelComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        SharedModule
+        SharedModule,
+        GenericTableModule
       ],
       providers: [
         RadarService
       ],
       declarations: [
-        PropertyDisplayComponent,
         SummaryPanelComponent,
         KnowledgeTableComponent,
         RadarChartComponent

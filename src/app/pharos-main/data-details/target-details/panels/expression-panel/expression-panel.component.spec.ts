@@ -42,6 +42,7 @@ describe('ExpressionPanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ExpressionPanelComponent);
     component = fixture.componentInstance;
+    component.apiSources = [{label: '', field: '', description: ''}];
     component.sources = [];
     component.data = {
         loaded: true,

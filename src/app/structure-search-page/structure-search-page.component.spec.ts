@@ -5,6 +5,7 @@ import {CommonToolsModule} from '../tools/common-tools.module';
 import {SharedModule} from '../shared/shared.module';
 import {SketcherModule} from '../tools/marvin-sketcher/sketcher.module';
 import {RouterTestingModule} from '@angular/router/testing';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('StructureSearchPageComponent', () => {
   let component: StructureSearchPageComponent;
@@ -16,6 +17,7 @@ describe('StructureSearchPageComponent', () => {
         StructureSearchPageComponent
       ],
       imports: [
+        BrowserAnimationsModule,
         RouterTestingModule,
         CommonToolsModule,
         SketcherModule,
