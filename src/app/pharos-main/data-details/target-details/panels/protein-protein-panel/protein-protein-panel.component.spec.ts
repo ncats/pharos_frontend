@@ -5,6 +5,7 @@ import {MaterialModule} from '../../../../../../assets/material/material.module'
 import {SharedModule} from '../../../../../shared/shared.module';
 import {TESTTARGET} from '../../../../../../../test/test-target';
 import {TargetTableModule} from '../../../../modules/targets/target-list.module';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('ProteinProteinPanelComponent', () => {
   let component: ProteinProteinPanelComponent;
@@ -13,8 +14,10 @@ describe('ProteinProteinPanelComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        ProteinProteinPanelComponent ],
+        ProteinProteinPanelComponent
+      ],
       imports: [
+        RouterTestingModule,
         TargetTableModule,
         SharedModule
       ]

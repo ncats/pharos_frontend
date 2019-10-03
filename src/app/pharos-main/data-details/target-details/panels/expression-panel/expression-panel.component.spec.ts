@@ -42,6 +42,11 @@ describe('ExpressionPanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ExpressionPanelComponent);
     component = fixture.componentInstance;
+    component.sources = [];
+    component.data = {
+        loaded: true,
+        diseases: []
+    };
     fixture.detectChanges();
   });
 

@@ -32,7 +32,6 @@ describe('PharosPaginatorComponent', () => {
         {provide: APP_BASE_HREF, useValue: '/targets' }
       ],
       declarations: [
-        PharosPaginatorComponent
       ]
     })
     .compileComponents();

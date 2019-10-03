@@ -18,12 +18,15 @@ describe('DiseaseTableComponent', () => {
         SharedModule,
         RouterTestingModule,
         BrowserAnimationsModule,
-        GenericTableModule
+        GenericTableModule,
+        PharosPaginatorModule
       ],
       providers: [
         PharosApiService
       ],
-      declarations: [ DiseaseTableComponent ]
+      declarations: [
+        DiseaseTableComponent
+      ]
     })
     .compileComponents();
   }));

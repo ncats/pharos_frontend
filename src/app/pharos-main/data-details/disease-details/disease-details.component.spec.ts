@@ -14,6 +14,7 @@ import {GenericTableModule} from '../../../tools/generic-table/generic-table.mod
 import {IdgLevelIndicatorComponent} from '../../../tools/idg-level-indicator/idg-level-indicator.component';
 import {TOKENS} from '../../../../config/component-tokens';
 import {DiseaseHeaderComponent} from './disease-header/disease-header.component';
+import {SharedModule} from '../../../shared/shared.module';
 
 describe('DiseaseDetailsComponent', () => {
   let component: DiseaseDetailsComponent;
@@ -28,8 +29,8 @@ describe('DiseaseDetailsComponent', () => {
         DiseaseDetailsComponent
       ],
       imports: [
+        SharedModule,
         RouterTestingModule,
-        SharedDetailsModule,
         GenericTableModule
       ],
       providers: [

@@ -13,6 +13,9 @@ import {PharosPaginatorModule} from '../../../../tools/pharos-paginator/pharos-p
 import {HttpClient} from '@angular/common/http';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterModule} from '@angular/router';
+import {TargetCardComponent} from '../../cards/target-card/target-card.component';
+import {IdgLevelIndicatorComponent} from '../../../../tools/idg-level-indicator/idg-level-indicator.component';
+import {KnowledgeTableComponent} from '../../../../tools/knowledge-table/knowledge-table.component';
 
 describe('TargetTableComponent', () => {
   let component: TargetTableComponent;
@@ -25,15 +28,18 @@ describe('TargetTableComponent', () => {
         SharedModule,
         GenericTableModule,
         RadarChartModule,
-        PharosPaginatorModule
+        PharosPaginatorModule,
+        RouterTestingModule
       ],
       providers: [
-        { provide: RouterModule, useClass: RouterTestingModule },
         RadarService,
         PharosApiService
       ],
       declarations: [
-        TargetTableComponent
+        IdgLevelIndicatorComponent,
+        KnowledgeTableComponent,
+        TargetTableComponent,
+        TargetCardComponent
       ]
     })
     .compileComponents();

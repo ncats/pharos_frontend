@@ -5,6 +5,8 @@ import {SharedModule} from '../../../../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PharosPaginatorModule} from '../../../../../tools/pharos-paginator/pharos-paginator.module';
 import {LigandCardComponent} from '../../../../data-list/cards/ligand-card/ligand-card.component';
+import {RouterTestingModule} from '@angular/router/testing';
+import {IdgLevelIndicatorComponent} from '../../../../../tools/idg-level-indicator/idg-level-indicator.component';
 
 describe('LigandsPanelComponent', () => {
   let component: LigandsPanelComponent;
@@ -15,11 +17,14 @@ describe('LigandsPanelComponent', () => {
       imports: [
         SharedModule,
         BrowserAnimationsModule,
-        PharosPaginatorModule
+        PharosPaginatorModule,
+        RouterTestingModule
       ],
       declarations: [
         LigandCardComponent,
-        LigandsPanelComponent ],
+        LigandsPanelComponent,
+        IdgLevelIndicatorComponent
+      ],
       providers: [
       ]
     })

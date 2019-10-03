@@ -16,6 +16,7 @@ import {TargetDetailsComponent} from './target-details/target-details.component'
 import {IdgLevelIndicatorComponent} from '../../tools/idg-level-indicator/idg-level-indicator.component';
 import {TargetListPanelComponent} from './disease-details/target-list-panel/target-list-panel.component';
 import {CommonToolsModule} from '../../tools/common-tools.module';
+import {TOKENS} from '../../../config/component-tokens';
 
 describe('DataDetailsComponent', () => {
   let component: DataDetailsComponent;
@@ -42,6 +43,7 @@ describe('DataDetailsComponent', () => {
         FacetRetrieverService,
         SuggestApiService,
         ComponentInjectorService,
+        // {provide: TOKENS.TARGET_HEADER_COMPONENT, useValue: TargetHeaderComponent},
         {provide: APP_BASE_HREF, useValue: '/targets' }
       ]
     })

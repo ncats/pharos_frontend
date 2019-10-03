@@ -4,6 +4,8 @@ import { LigandCardComponent } from './ligand-card.component';
 import {SharedModule} from '../../../../shared/shared.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {RouterModule} from '@angular/router';
+import {CommonToolsModule} from '../../../../tools/common-tools.module';
+import {TESTLIGAND} from '../../../../../../test/test-ligand';
 
 describe('LigandCardComponent', () => {
   let component: LigandCardComponent;
@@ -13,10 +15,11 @@ describe('LigandCardComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ LigandCardComponent ],
       imports: [
-        SharedModule
+        SharedModule,
+        CommonToolsModule,
+        RouterTestingModule
       ],
       providers: [
-        {provide: RouterModule, useClass: RouterTestingModule}
       ]
     })
     .compileComponents();
@@ -25,6 +28,7 @@ describe('LigandCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LigandCardComponent);
     component = fixture.componentInstance;
+    component.ligand = TESTLIGAND;
     fixture.detectChanges();
   });
 

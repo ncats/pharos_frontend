@@ -4,6 +4,7 @@ import { SidenavPanelComponent } from './sidenav-panel.component';
 import {SharedModule} from '../../shared/shared.module';
 import {RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
+import {CommonToolsModule} from '../common-tools.module';
 
 describe('SidenavPanelComponent', () => {
   let component: SidenavPanelComponent;
@@ -13,10 +14,11 @@ describe('SidenavPanelComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ SidenavPanelComponent ],
       imports: [
-        SharedModule
+        SharedModule,
+        CommonToolsModule,
+        RouterTestingModule
       ],
       providers: [
-        {provide: RouterModule, useClass: RouterTestingModule}
       ]
     })
     .compileComponents();

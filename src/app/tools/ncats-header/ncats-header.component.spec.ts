@@ -5,6 +5,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {SharedModule} from '../../shared/shared.module';
 import {SuggestApiService} from '../search-component/suggest-api.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {SearchComponentModule} from '../search-component/search-component.module';
 
 describe('NcatsHeaderComponent', () => {
   let component: NcatsHeaderComponent;
@@ -15,9 +16,12 @@ describe('NcatsHeaderComponent', () => {
       imports: [
         BrowserAnimationsModule,
         RouterTestingModule,
+        SearchComponentModule,
         SharedModule
       ],
-      declarations: [ ],
+      declarations: [
+        NcatsHeaderComponent
+      ],
       providers: [
         SuggestApiService
       ]

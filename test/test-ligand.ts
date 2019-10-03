@@ -10,6 +10,7 @@ export const TESTLIGAND: Ligand = new LigandSerializer().fromJson({
   deprecated: false,
   name: "naratriptan",
   description: null,
+  structureId: 'dfc2f200-7d05-4d3a-9158-bcbcf300c957',
   self: "https://pharos.nih.gov/idg/api/v1/ligands(1)?view=full",
   kind: "ix.idg.models.Ligand",
   _properties: {

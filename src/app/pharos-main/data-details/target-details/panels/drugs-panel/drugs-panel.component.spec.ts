@@ -8,6 +8,7 @@ import {PharosPaginatorModule} from '../../../../../tools/pharos-paginator/pharo
 import {LigandCardComponent} from '../../../../data-list/cards/ligand-card/ligand-card.component';
 import {RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
+import {IdgLevelIndicatorComponent} from '../../../../../tools/idg-level-indicator/idg-level-indicator.component';
 
 describe('DrugsPanelComponent', () => {
   let component: DrugsPanelComponent;
@@ -16,16 +17,18 @@ describe('DrugsPanelComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        BrowserAnimationsModule,
+        RouterTestingModule,
         SharedModule,
         GenericTableModule,
         PharosPaginatorModule
       ],
       declarations: [
         LigandCardComponent,
-        DrugsPanelComponent
+        DrugsPanelComponent,
+        IdgLevelIndicatorComponent
       ],
       providers: [
-        {provide: RouterModule, useClass: RouterTestingModule}
       ]
     })
     .compileComponents();
