@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AnatamogramComponent } from './anatamogram.component';
 import {SharedModule} from '../../shared/shared.module';
 import {AnatomogramImageComponent} from './anatomogram-image/anatomogram-image.component';
+import {AnatamogramHoverService} from './anatamogram-hover.service';
 
 describe('AnatamogramComponent', () => {
   let component: AnatamogramComponent;
@@ -16,6 +17,9 @@ describe('AnatamogramComponent', () => {
       ],
       imports: [
         SharedModule
+      ],
+      providers: [
+        AnatamogramHoverService
       ]
     })
     .compileComponents();

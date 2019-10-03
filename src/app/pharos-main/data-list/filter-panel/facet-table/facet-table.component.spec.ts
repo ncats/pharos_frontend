@@ -25,6 +25,7 @@ describe('FacetTableComponent', () => {
         BrowserAnimationsModule
       ],
       declarations: [
+        FacetTableComponent
       ],
       providers: [
         PathResolverService,

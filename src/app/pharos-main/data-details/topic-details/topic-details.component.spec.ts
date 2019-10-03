@@ -5,6 +5,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TopicDetailsComponent} from './topic-details.component';
 import {APP_BASE_HREF} from '@angular/common';
 import {TopicHeaderComponent} from './topic-header/topic-header.component';
+import {TopicGraphPanelComponent} from './panels/topic-graph-panel/topic-graph-panel.component';
+import {TargetTableComponent} from '../../data-list/tables/target-table/target-table.component';
+import {DiseaseTableComponent} from '../../data-list/tables/disease-table/disease-table.component';
+import {LigandTableComponent} from '../../data-list/tables/ligand-table/ligand-table.component';
 
 
 describe('TopicDetailsComponent', () => {
@@ -20,8 +24,11 @@ describe('TopicDetailsComponent', () => {
       ],
       declarations: [
         TopicHeaderComponent,
-        TopicDetailsComponent
-
+        TopicDetailsComponent,
+        TopicGraphPanelComponent,
+        TargetTableComponent,
+        DiseaseTableComponent,
+        LigandTableComponent
       ],
       providers: [
         {provide: APP_BASE_HREF, useValue: '/targets' }

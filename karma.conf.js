@@ -19,6 +19,9 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, 'coverage'), reports: [ 'html', 'lcovonly' ],
       fixWebpackSourcePaths: true
     },
+    files: [
+    { pattern: 'src/assets/vendor/marvin/js/marvinjslauncher.js',  served: true, watched: false, included: true },
+  ],
     angularCli: {
       environment: 'dev'
     },

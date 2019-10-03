@@ -23,6 +23,7 @@ describe('FilterPanelComponent', () => {
         BrowserAnimationsModule
       ],
       declarations: [
+        FilterPanelComponent
       ],
       providers: [
         PathResolverService,

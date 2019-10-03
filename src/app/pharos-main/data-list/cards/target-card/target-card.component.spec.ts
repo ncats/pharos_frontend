@@ -16,7 +16,8 @@ describe('TargetCardComponent', () => {
       declarations: [ TargetCardComponent ],
       imports: [
         SharedModule,
-        CommonToolsModule
+        CommonToolsModule,
+        RouterTestingModule
       ],
       providers: [
         { provide: RouterModule, useClass: RouterTestingModule }

@@ -17,7 +17,9 @@ describe('BreadcrumbComponent', () => {
         SharedModule
       ],
       providers: [PathResolverService],
-      declarations: []
+      declarations: [
+        BreadcrumbComponent
+      ]
     })
     .compileComponents();
   }));

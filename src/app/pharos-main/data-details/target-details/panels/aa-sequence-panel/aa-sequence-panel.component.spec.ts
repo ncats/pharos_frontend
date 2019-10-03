@@ -22,12 +22,18 @@ describe('AaSequencePanelComponent', () => {
     fixture = TestBed.createComponent(AaSequencePanelComponent);
     component = fixture.componentInstance;
     component.apiSources = [{label: '', field: '', description: ''}];
-    component.data = ({object: TESTTARGET, references: []});
-    component.viewerContainer = fixture.debugElement.query(By.css('protVistaViewer')).nativeElement;
+    component.data = {
+      object: TESTTARGET,
+      references: []
+    };
+    component.aasequence = [];
+    component.loading = false;
+   // component.viewerContainer = fixture.debugElement.query(By.css('protVistaViewer')).nativeElement;
     fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });

@@ -66,7 +66,7 @@ import { TopicNodeGeneratorComponent } from './topic-node-generator/topic-node-g
     KnowledgeTableComponent,
     LinkListComponent,
     PharosPaginatorModule,
-    ProteinStructureViewerComponent,
+    ProteinStructureViewerComponent
   ]
 })
 export class CommonToolsModule { }

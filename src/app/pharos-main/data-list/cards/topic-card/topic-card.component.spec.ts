@@ -6,6 +6,7 @@ import {SharedModule} from '../../../../shared/shared.module';
 import {SuggestApiService} from '../../../../tools/search-component/suggest-api.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {Topic} from '../../../../models/topic';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('TopicCardComponent', () => {
   let component: TopicCardComponent;
@@ -16,7 +17,8 @@ describe('TopicCardComponent', () => {
       imports: [
         BrowserAnimationsModule,
         SharedModule,
-        AppRoutingModule
+        AppRoutingModule,
+        RouterTestingModule
       ],
       declarations: [
         TopicCardComponent

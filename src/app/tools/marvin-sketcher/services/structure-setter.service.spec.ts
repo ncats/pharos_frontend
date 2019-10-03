@@ -7,8 +7,10 @@ import {HttpClient} from '@angular/common/http';
 describe('StructureSetterService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule
+      ],
       providers: [
-        { provide: HttpClient, useClass: HttpClientTestingModule },
         StructureSetterService
       ]
     });

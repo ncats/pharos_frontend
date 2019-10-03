@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TopicTableComponent } from './topic-table.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {TopicCardComponent} from '../../cards/topic-card/topic-card.component';
+import {SharedModule} from '../../../../shared/shared.module';
 
 describe('TopicTableComponent', () => {
   let component: TopicTableComponent;
@@ -11,11 +13,15 @@ describe('TopicTableComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        SharedModule,
         RouterTestingModule,
         BrowserAnimationsModule
       ],
 
-      declarations: [ TopicTableComponent ]
+      declarations: [
+        TopicCardComponent,
+        TopicTableComponent
+      ]
     })
     .compileComponents();
   }));

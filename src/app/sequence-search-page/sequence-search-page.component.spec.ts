@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SequenceSearchPageComponent } from './sequence-search-page.component';
 import {SharedModule} from '../shared/shared.module';
 import {NcatsHeaderModule} from '../tools/ncats-header/ncats-header.module';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('SequenceSearchPageComponent', () => {
   let component: SequenceSearchPageComponent;
@@ -11,11 +12,12 @@ describe('SequenceSearchPageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        NcatsHeaderModule,
         SequenceSearchPageComponent
       ],
       imports: [
-        SharedModule
+        NcatsHeaderModule,
+        SharedModule,
+        RouterTestingModule
       ]
     })
     .compileComponents();

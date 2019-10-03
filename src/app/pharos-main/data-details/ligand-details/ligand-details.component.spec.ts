@@ -13,6 +13,7 @@ import {LoadingService} from '../../../pharos-services/loading.service';
 import {StructureViewComponent} from '../../../tools/structure-view/structure-view.component';
 import {CommonToolsModule} from '../../../tools/common-tools.module';
 import {SharedModule} from '../../../shared/shared.module';
+import {IdgLevelIndicatorComponent} from '../../../tools/idg-level-indicator/idg-level-indicator.component';
 
 describe('LigandDetailsComponent', () => {
   let component: LigandDetailsComponent;
@@ -21,7 +22,8 @@ describe('LigandDetailsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        LigandDetailsComponent
+        LigandDetailsComponent,
+        IdgLevelIndicatorComponent
       ],
       providers: [
         DataDetailsResolver,
@@ -30,7 +32,6 @@ describe('LigandDetailsComponent', () => {
       ],
       imports: [
         RouterTestingModule,
-        SharedDetailsModule,
         SharedModule,
         CommonToolsModule
       ]

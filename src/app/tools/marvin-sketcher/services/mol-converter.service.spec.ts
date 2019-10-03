@@ -7,8 +7,10 @@ import {HttpClient} from '@angular/common/http';
 describe('MolConverterService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule
+      ],
       providers: [
-        { provide: HttpClient, useClass: HttpClientTestingModule },
         MolConverterService
       ]
     });

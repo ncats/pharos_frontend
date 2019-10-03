@@ -25,6 +25,7 @@ describe('ScrollspyDirective', () => {
 
   it('should create an instance', () => {
     const directive = new ScrollspyDirective(null, null, null, PLATFORM_ID);
+     directive['root'] = directive['document'].getElementById('scrollspy-main');
     expect(directive).toBeTruthy();
   });
 });
