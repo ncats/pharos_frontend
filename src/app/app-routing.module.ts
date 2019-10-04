@@ -45,17 +45,17 @@ const ROUTES: Routes = [
     path: 'faq',
     component: FaqPageComponent
   },
-  {
+/*  {
     path: 'topic-generator',
     component: TopicNodeGeneratorComponent
-  },
+  },*/
 
   {
     path: 'search',
     loadChildren: () => import('./pharos-main/modules/search/search.module').then(m => m.SearchModule),
     data: { path: 'search' }
   },
-  {
+/*  {
     path: 'topics',
     loadChildren: () => import('./pharos-main/modules/topics/topic-list.module').then(m => m.TopicListModule),
     data: { path: 'topics' }
@@ -64,7 +64,7 @@ const ROUTES: Routes = [
     path: 'topics/:id',
     loadChildren: () => import('./pharos-main/modules/topics/topic-details.module').then(m => m.TopicDetailsModule),
     data: { path: 'topics' }
-  },
+  },*/
   {
     path: 'targets',
     loadChildren: () => import('./pharos-main/modules/targets/target-list.module').then(m => m.TargetTableModule),
