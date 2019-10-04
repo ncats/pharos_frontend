@@ -5,7 +5,7 @@ import {
   Component,
   EventEmitter,
   Injector,
-  Input,
+  Input, OnChanges,
   OnInit,
   Output,
   QueryList,
@@ -43,7 +43,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 /**
  * Generic table Component that iterates over a list of {@link TableData} options to display fields
  */
-export class GenericTableComponent implements OnInit, AfterViewInit {
+export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
 
   /**
    * initialize a private variable _data, it's a BehaviorSubject
@@ -366,8 +366,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
     if (this.rowOutlet) {
       if (field.customComponent) {
         const comp = this._injector.get<Type<any>>(field.customComponent);
-        const portal: ComponentPortal<any> = new ComponentPortal(comp);
-        return portal;
+        return new ComponentPortal(comp);
       }
     }
   }
@@ -428,7 +427,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit {
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
-    return numSelected == numRows;
+    return numSelected === numRows;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */

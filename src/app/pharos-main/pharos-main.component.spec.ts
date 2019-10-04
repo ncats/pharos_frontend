@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PharosMainComponent } from './pharos-main.component';
+import {RouterModule} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('PharosMainComponent', () => {
   let component: PharosMainComponent;
@@ -8,7 +10,14 @@ describe('PharosMainComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PharosMainComponent ]
+      declarations: [
+        PharosMainComponent
+      ],
+      providers: [
+      ],
+      imports: [
+        RouterTestingModule
+      ]
     })
     .compileComponents();
   }));

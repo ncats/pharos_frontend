@@ -123,7 +123,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    * @param {string} q
    */
   filterFacet(q: string): void {
-  console.log(q);
+  // console.log(q);
   }
 
 

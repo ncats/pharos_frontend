@@ -1,0 +1,19 @@
+<button mat-raised-button [color]="'primary'" (click)="generate()">Generate</button>
+
+
+
+<div fxLayout="row" fxLayoutAlign="space-around start">
+  <div fxFlex="30">
+    Saved {{saved.length}}:
+    {{saved | json}}
+  </div>
+  <div fxFlex="30">
+    Already Saved {{alreadySaved.length}}:
+    {{alreadySaved | json}}
+  </div>
+  <div fxFlex="30">
+    Errors {{errors.length}}:
+    {{errors | json}}
+  </div>
+
+</div>

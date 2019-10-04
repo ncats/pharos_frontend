@@ -16,6 +16,7 @@ describe('EquationRendererComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EquationRendererComponent);
     component = fixture.componentInstance;
+    component.equation = 'yo^2';
     fixture.detectChanges();
   });
 

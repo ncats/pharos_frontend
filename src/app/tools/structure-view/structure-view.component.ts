@@ -69,7 +69,7 @@ export class StructureViewComponent implements OnInit {
         takeWhile(() => !this.url)
       )
       .subscribe(x => {
-        if (!this.url) {
+        if (!this.url && (this.data && this.data.term)) {
           if (this.data.term === '') {
             this.url = null;
           } else {

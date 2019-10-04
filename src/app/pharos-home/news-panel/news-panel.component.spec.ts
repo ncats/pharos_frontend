@@ -3,13 +3,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NewsPanelComponent } from './news-panel.component';
 import {SharedModule} from '../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {FirestoreStub} from '../../../../test/firestore-stub';
+import {FIRESTORESTUB} from '../../../../test/firestore-stub';
 import {AngularFirestore} from '@angular/fire/firestore';
 
 describe('NewsPanelComponent', () => {
   let component: NewsPanelComponent;
   let fixture: ComponentFixture<NewsPanelComponent>;
-  let angularFirestore: AngularFirestore;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -17,9 +16,11 @@ describe('NewsPanelComponent', () => {
         BrowserAnimationsModule,
         SharedModule
       ],
-      declarations: [ NewsPanelComponent ],
+      declarations: [
+        NewsPanelComponent
+      ],
       providers: [
-        { provide: AngularFirestore, useValue: FirestoreStub },
+        { provide: AngularFirestore, useValue: FIRESTORESTUB }
       ]
     })
     .compileComponents();
@@ -27,9 +28,7 @@ describe('NewsPanelComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NewsPanelComponent);
-    angularFirestore = TestBed.get(AngularFirestore);
     component = fixture.componentInstance;
- //   angularFirestore.collection('public').valueChanges().subscribe(res => component.items = res);
     fixture.detectChanges();
   });
 

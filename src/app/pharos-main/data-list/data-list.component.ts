@@ -145,8 +145,6 @@ export class DataListComponent implements OnInit, OnDestroy {
       .subscribe((e: any) => {
         // If it is a NavigationEnd event re-initalise the component
         if (e instanceof NavigationEnd) {
-          console.log("fghfghfgh")
-          console.log(this)
           this.path = this._route.snapshot.data.path;
           if (this._route.snapshot.data.search) {
             this.search = this._route.snapshot.data.search;
@@ -157,7 +155,6 @@ export class DataListComponent implements OnInit, OnDestroy {
             this.sideway = this._route.snapshot.data.data.sideway;
           }
           this.makeComponents();
-          console.log("detect changes");
           this.ref.detectChanges();
         }
       });
@@ -183,7 +180,7 @@ export class DataListComponent implements OnInit, OnDestroy {
         const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
 
         if (this.search && this.search.length) {
-          const data: any = this.search.filter(data => data.kind === dynamicComponent.instance.path)[0];
+          const data: any = this.search.filter(datum => datum.kind === dynamicComponent.instance.path)[0];
           dynamicComponent.instance.pageData = new PageData(data.data);
           dynamicComponent.instance.data = data.data.content;
         } else {
@@ -219,7 +216,7 @@ export class DataListComponent implements OnInit, OnDestroy {
         this.loadedComponents.set(component.token, dynamicComponent);
       } else {
         if (this.search && this.search.length) {
-          const data: any = this.search.filter(data => data.kind === instance.instance.path)[0];
+          const data: any = this.search.filter(datum => datum.kind === instance.instance.path)[0];
           instance.instance.pageData = new PageData(data.data);
           instance.instance.data = data.data.content;
         } else {

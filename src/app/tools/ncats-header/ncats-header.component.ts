@@ -1,10 +1,8 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {SlideInOutAnimation} from './header-animations';
-import {ActivatedRoute, Route} from '@angular/router';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {slideInOutAnimation} from './header-animations';
+import {ActivatedRoute} from '@angular/router';
 import {LoginModalComponent} from '../../auth/login-modal/login-modal.component';
 import {MatDialog, MatSidenav} from '@angular/material';
-import {PharosAuthService} from '../../auth/pharos-auth.service';
-import * as firebase from 'firebase/app';
 import {PharosProfileService} from '../../auth/pharos-profile.service';
 import {HeaderOptionsService} from '../../pharos-services/header-options.service';
 
@@ -16,7 +14,7 @@ import {HeaderOptionsService} from '../../pharos-services/header-options.service
   selector: 'app-ncats-header',
   templateUrl: './ncats-header.component.html',
   styleUrls: ['./ncats-header.component.scss'],
-  animations: [SlideInOutAnimation]
+  animations: [slideInOutAnimation]
 })
 export class NcatsHeaderComponent implements OnInit {
 
