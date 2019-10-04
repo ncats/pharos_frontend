@@ -78,13 +78,18 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
   loadData(): Observable<SmrtGraph> {
     this.db.collection('topics', ref => ref.where('topicLinkId', '==', this.id))
       .valueChanges().pipe(take(1))
-      .subscribe(res => this._parseData(res));
+      .subscribe(res => {
+        if (res && res.length) {
+          this._parseData(res);
+        }
+      });
     return of(this.graph);
   }
 
   /**
    * parse out object data from returned firebase info
    * todo: this function should only be needed when a graph is first generated
+   * todo: the ligand activity is rewritten for each relationship
    * @param queries
    * @private
    */
@@ -93,14 +98,12 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
         const tnode = this.nodeService.makeNode(data.graphData.target, `target${data.graphData.target.id}`);
         if (data.graphData.ligands) {
           data.graphData.ligands.forEach(ligand => {
-/*            ligand.structureId = ligand['image'].split('/structure/')[1].split('.')[0];
-            ligand.internalLink = ['/ligands', ligand.id];*/
             const lnode = this.nodeService.makeNode(ligand, `ligand${ligand.id}`);
             tnode.linkCount++;
             lnode.linkCount++;
             this.nodeService.setNode(tnode);
             this.nodeService.setNode(lnode);
-            this.linkService.makeLink(`${data.graphData.target.id}-${ligand.id}`, tnode, lnode);
+            this.linkService.makeLink(`${ligand.id}-${data.graphData.target.id}`, lnode, tnode, this._getActivity(ligand));
           });
         }
         if (data.graphData.diseases) {
@@ -113,10 +116,10 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
             dnode.linkCount++;
             this.nodeService.setNode(tnode);
             this.nodeService.setNode(dnode);
-            this.linkService.makeLink(`${data.graphData.target.id}-${disease.id}`, tnode, dnode);
+            this.linkService.makeLink(`${data.graphData.target.id}-${disease.id}`, tnode, dnode, this._getConfidence(disease));
           });
         }
-        //console.log(data.graphData.ligands);
+        // console.log(data.graphData.ligands);
         /*this.db.collection('topics')
           .doc(data.graphData.graphData.query)
           .set({
@@ -138,5 +141,46 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
    */
   getData(): Observable<SmrtGraph> {
     return this.data$;
+  }
+
+  private _getActivity(ligand: any): any {
+    let data: any = {};
+      if (ligand.Ligand_Activity) {
+        data = {
+          properties: {
+            activity: `${ligand.Ligand_Activity}: ${ligand[ligand.Ligand_Activity]}`,
+            activityType: ligand.Ligand_Activity,
+            value: ligand[ligand.Ligand_Activity]
+          }
+        };
+      }
+      if (ligand.Pharmalogical_Action) {
+        data = {
+          properties: {
+            activity: `${ligand.Pharmalogical_Action}: ${ligand[ligand.Pharmalogical_Action]}`,
+            activityType: ligand.Pharmalogical_Action,
+            value: ligand[ligand.Pharmalogical_Action]
+          }
+        };
+      }
+
+    return data;
+  }
+
+  private _getConfidence(disease: any): any {
+    let data: any = {};
+    if (disease.Data_Source) {
+      data = {
+        properties: {
+          confidence: disease.IDG_Confidence,
+          dataSource: disease.Data_Source,
+          evidence: disease.IDG_Evidence,
+          log2foldchange: disease.log2foldchange,
+          pvalue: disease.pvalue ? disease.pvalue.toFixed(3) : null
+        }
+      };
+    }
+
+      return data;
   }
 }

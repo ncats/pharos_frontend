@@ -7,6 +7,11 @@ import {RadarService} from '../../../../../tools/visualizations/radar-chart/rada
 import {SharedDetailsModule} from '../../../../../shared/shared-details.module';
 import {DiseaseSourceComponent} from '../disease-source-panel/disease-source-panel.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {RadarChartModule} from '../../../../../tools/visualizations/radar-chart/radar-chart.module';
+import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
+import {CommonToolsModule} from '../../../../../tools/common-tools.module';
+import {DifferentialPanelComponent} from './differential-panel/differential-panel.component';
+import {OrthologPanelComponent} from './ortholog-panel/ortholog-panel.component';
 
 describe('ExpressionPanelComponent', () => {
   let component: ExpressionPanelComponent;
@@ -15,16 +20,19 @@ describe('ExpressionPanelComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        BrowserAnimationsModule,
         SharedModule,
         SharedDetailsModule,
-        BrowserAnimationsModule
+        RadarChartModule,
+        GenericTableModule,
+        CommonToolsModule
       ],
       providers: [
-        RadarService],
-
+      ],
       declarations: [
+        DifferentialPanelComponent,
+        OrthologPanelComponent,
         ExpressionPanelComponent,
-        RadarChartComponent,
         DiseaseSourceComponent
       ]
     })
@@ -34,6 +42,12 @@ describe('ExpressionPanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ExpressionPanelComponent);
     component = fixture.componentInstance;
+    component.apiSources = [{label: '', field: '', description: ''}];
+    component.sources = [];
+    component.data = {
+        loaded: true,
+        diseases: []
+    };
     fixture.detectChanges();
   });
 

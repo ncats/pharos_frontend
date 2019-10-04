@@ -1,20 +1,24 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {SharedDetailsModule} from '../../../shared/shared-details.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {TopicHeaderComponent} from '../../pharos-main/data-details/topic-details/topic-header/topic-header.component';
-import {GraphDataService} from '../../../tools/force-directed-graph/fdg-core/graph-component/services/graph-data.service';
-import {LoadingService} from '../../../pharos-services/loading.service';
-import {PharosNodeService} from '../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-node.service';
-import {ResponseParserService} from '../../../pharos-services/response-parser.service';
-import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
-import {PathResolverService} from '../../../pharos-services/path-resolver.service';
-import {DataDetailsResolver} from '../../pharos-main/data-details/data-details.resolver';
-import {PharosApiService} from '../../../pharos-services/pharos-api.service';
-import {PharosD3Service} from '../../pharos-main/data-details/topic-details/panels/topic-graph-panel/topic-directed-graph/pharos-d3.service';
-import {TopicDetailsComponent} from '../../pharos-main/data-details/topic-details/topic-details.component';
-import {NodeDisplayComponent} from '../../pharos-main/data-details/topic-details/panels/node-display/node-display.component';
+import {TopicDetailsComponent} from './topic-details.component';
 import {APP_BASE_HREF} from '@angular/common';
+import {TopicHeaderComponent} from './topic-header/topic-header.component';
+import {TopicGraphPanelComponent} from './panels/topic-graph-panel/topic-graph-panel.component';
+import {TargetTableComponent} from '../../data-list/tables/target-table/target-table.component';
+import {DiseaseTableComponent} from '../../data-list/tables/disease-table/disease-table.component';
+import {LigandTableComponent} from '../../data-list/tables/ligand-table/ligand-table.component';
+import {TopicGraphFiltersComponent} from './panels/topic-graph-panel/topic-graph-filters/topic-graph-filters.component';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
+import {GraphDataService, LinkService, NodeService, SmrtgraphCoreModule} from 'smrtgraph-core';
+import {GraphParserService} from './panels/topic-graph-panel/services/graph-parser.service';
+import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
+import {ActivatedRoute} from '@angular/router';
+import {MockActivatedRoute} from '../../../../../test/mock-activate-route';
+import {of} from 'rxjs';
 
 
 describe('TopicDetailsComponent', () => {
@@ -26,25 +30,42 @@ describe('TopicDetailsComponent', () => {
       imports: [
         SharedDetailsModule,
         RouterTestingModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        SmrtgraphCoreModule
       ],
       declarations: [
-        TopicDetailsComponent,
         TopicHeaderComponent,
-        NodeDisplayComponent
+        TopicDetailsComponent,
+        TopicGraphPanelComponent,
+        TargetTableComponent,
+        DiseaseTableComponent,
+        LigandTableComponent,
+        TopicGraphFiltersComponent
       ],
       providers: [
+        GraphParserService,
         GraphDataService,
-        LoadingService,
-        PharosNodeService,
-        PharosLinkService,
-        PharosD3Service,
-        PharosApiService,
-        DataDetailsResolver,
-        PathResolverService,
-        ResponseParserService,
+        NodeService,
+        LinkService,
         ComponentInjectorService,
-        {provide: APP_BASE_HREF, useValue: '/targets' }
+        {provide: APP_BASE_HREF, useValue: '/targets' },
+        { provide: AngularFirestore, useValue: FIRESTORESTUB },
+        { provide: ActivatedRoute, useValue: {
+          snapshot: {
+              data: {
+                pharosObject:  of({data: () => {
+                  return {allTargets: ['LRRK2'],
+                    allDiseases: [],
+                    allLigands: []
+                  };
+                  }})
+              }
+            }
+          }
+        }
+      ],
+      schemas: [
+        NO_ERRORS_SCHEMA
       ]
     })
     .compileComponents();

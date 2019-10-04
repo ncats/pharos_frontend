@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { KnowledgeTableComponent } from './knowledge-table.component';
+import {SharedModule} from '../../shared/shared.module';
+import {GenericTableModule} from '../generic-table/generic-table.module';
 
 describe('KnowledgeTableComponent', () => {
   let component: KnowledgeTableComponent;
@@ -8,7 +10,13 @@ describe('KnowledgeTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ KnowledgeTableComponent ]
+      declarations: [
+        KnowledgeTableComponent
+      ],
+      imports: [
+        SharedModule,
+        GenericTableModule
+      ]
     })
     .compileComponents();
   }));

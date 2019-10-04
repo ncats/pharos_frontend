@@ -3,7 +3,7 @@
   <mat-sidenav #sidenav
                [mode]="'side'"
                class="filters-panel"
-               [opened]="isSmallScreen!==true">
+               [opened]="isSmallScreen !== true">
     <!-- sidenav content -->
     <nav>
     <pharos-filter-panel #filters (closeClick)="sidenav.close()"></pharos-filter-panel>

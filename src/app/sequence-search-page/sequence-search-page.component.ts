@@ -38,7 +38,7 @@ export class SequenceSearchPageComponent {
    * grab form values and submit via url/api navigation
    */
   search() {
-    const navigationExtras: NavigationExtras = {
+   /* const navigationExtras: NavigationExtras = {
       queryParams: {
         q: this.sequenceCtrl.value,
         type: 'sequence',
@@ -47,6 +47,6 @@ export class SequenceSearchPageComponent {
       },
       queryParamsHandling: ''
     };
-    this._router.navigate(['/targets'], navigationExtras);
+    this._router.navigate(['/targets'], navigationExtras);*/
   }
 }

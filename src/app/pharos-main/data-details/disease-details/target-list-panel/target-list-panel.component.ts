@@ -119,8 +119,8 @@ export class TargetListPanelComponent extends DynamicTablePanelComponent impleme
           };
           return {target: data, data: this.http.get(target.href)};
         })).pipe(
-          map<any, any>(res => {
-            return res.data.pipe(
+          map<any, any>(resp => {
+            return resp.data.pipe(
               map<Target, any>(response => {
                 res.target.target = new PharosProperty({
                   label: 'Target',
@@ -132,8 +132,8 @@ export class TargetListPanelComponent extends DynamicTablePanelComponent impleme
             );
           }),
           zipAll()
-        ).subscribe(res => {
-          this.tableArr = res;
+        ).subscribe(r => {
+          this.tableArr = r;
           this.pageData.skip = event.pageIndex * event.pageSize;
         });
       });

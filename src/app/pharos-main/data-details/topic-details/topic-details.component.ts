@@ -136,8 +136,9 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
    * @param _route
    * @param router
    * @param pharosConfig
-   * @param dataDetailsResolver
    * @param ref
+   * @param db
+   * @param graphParser
    * @param componentInjectorService
    */
   constructor(private _injector: Injector,
@@ -166,9 +167,9 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
 this.graphParser.setSerializers({node: new PharosNodeSerializer()});
     this._route.snapshot.data.pharosObject.subscribe(res => {
       this.topic = res.data();
-      this.graphParser.setId(this.topic.id); /*.subscribe(res => {
-        console.log(res);
-      });*/
+    //  this.graphParser.setId(this.topic.id); /*.subscribe(res => {
+    //    console.log(res);
+    //  });*/
       this.allTargets = this.topic.allTargets;
 /*      this.topic.map(entry => {
         if(entry.graphData.ligands) {
@@ -220,7 +221,6 @@ this.diseasePageData = new PageData({
         total: this.allDiseases.length
       });
       this.diseases = this.allDiseases.slice(this.diseasePageData.skip, this.diseasePageData.top);
-      console.log(this);
       this.ref.markForCheck();
 /*
 
@@ -310,7 +310,6 @@ this.diseasePageData = new PageData({
       })
     };
     this.http.post(`${this.pharosConfig.getTopicResolveUrl()}`, targets.slice(0, 10).join(','), httpOptions).subscribe(res => {
-      console.log(res);
     });
 
   }
