@@ -9,5 +9,5 @@ import { Component } from '@angular/core';
   templateUrl: './pharos-main.component.html',
   styleUrls: ['./pharos-main.component.scss']
 })
-export class PharosMainComponent{
+export class PharosMainComponent {
 }

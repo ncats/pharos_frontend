@@ -81,7 +81,7 @@ export class InjectedRadarChartComponent implements InjectedComponent, OnInit {
   ngOnInit() {
     this._data
       .subscribe(res => {
-      this.accession = this.object.accession.term;
+      this.accession = this.object.accession ? this.object.accession.term : null;
     });
   }
 }

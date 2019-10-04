@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StructureSearchPageComponent } from './structure-search-page.component';
+import {CommonToolsModule} from '../tools/common-tools.module';
+import {SharedModule} from '../shared/shared.module';
+import {SketcherModule} from '../tools/marvin-sketcher/sketcher.module';
+import {RouterTestingModule} from '@angular/router/testing';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('StructureSearchPageComponent', () => {
   let component: StructureSearchPageComponent;
@@ -8,7 +13,16 @@ describe('StructureSearchPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StructureSearchPageComponent ]
+      declarations: [
+        StructureSearchPageComponent
+      ],
+      imports: [
+        BrowserAnimationsModule,
+        RouterTestingModule,
+        CommonToolsModule,
+        SketcherModule,
+        SharedModule
+      ]
     })
     .compileComponents();
   }));

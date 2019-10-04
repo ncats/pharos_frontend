@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {CdkScrollable, ScrollDispatcher} from '@angular/cdk/scrolling';
 import {PharosProperty} from '../models/pharos-property';
-import {SOURCES} from '../../assets/data-sources';
+import {SOURCES} from '../../config/data-sources';
 
 /**
  * about page component

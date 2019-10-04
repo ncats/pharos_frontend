@@ -1,26 +1,28 @@
 <article>
-  <mat-card id ="ppi"
-          (pharosScrollspy)="active('ppi')"
-          #ppi
-         >
-  <mat-card-content>
-    <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
-      <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
-    </div>
-    <div fxLayout="row"
-         class="tkrow"
-         fxLayoutAlign="start stretch">
-      <div fxFlex="95">
+  <mat-card id="ppi"
+            (pharosScrollspy)="active('ppi')"
+            #ppi
+  >
+    <mat-card-content>
+      <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+        <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+      </div>
+      <div fxLayout="row"
+           class="tkrow"
+           fxLayoutAlign="start stretch">
+        <div fxFlex="95">
         <span class="mat-title"
-              [matTooltip] = description
-              [matTooltipClass] = "'pharos-tooltip'">
+              [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">
           Protein-Protein Interactions ({{allTargets.length}})</span>
+        </div>
+        <div fxFlex="5">
+          <pharos-help-panel-trigger [origin]="'ppi'"
+                                     [label]="'Protein-Protein Interactions'"></pharos-help-panel-trigger>
+        </div>
       </div>
-      <div fxFlex="5">
-        <pharos-help-panel-trigger [origin] = "'ppi'" [label]="'Protein-Protein Interactions'"></pharos-help-panel-trigger>
-      </div>
-    </div>
-<pharos-target-table [data] = targets [pageData]="targetPageData" [showLabel] = false [showToolbar]="false" (pageChange)="paginateTargets($event)" *ngIf="targets"></pharos-target-table>
-  </mat-card-content>
-</mat-card>
+      <pharos-target-table [data]=targets [pageData]="targetPageData" [showLabel]=false [showToolbar]="false"
+                           (pageChange)="paginateTargets($event)" *ngIf="targets"></pharos-target-table>
+    </mat-card-content>
+  </mat-card>
 </article>

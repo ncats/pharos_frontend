@@ -4,6 +4,11 @@ import { SummaryPanelComponent } from './summary-panel.component';
 import {SharedModule} from '../../../../../shared/shared.module';
 import {RadarService} from '../../../../../tools/visualizations/radar-chart/radar.service';
 import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
+import {PropertyDisplayComponent} from '../../../../../tools/generic-table/components/property-display/property-display.component';
+import {RouterTestingModule} from '@angular/router/testing';
+import {KnowledgeTableComponent} from '../../../../../tools/knowledge-table/knowledge-table.component';
+import {PharosPaginatorModule} from '../../../../../tools/pharos-paginator/pharos-paginator.module';
+import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
 
 describe('SummaryPanelComponent', () => {
   let component: SummaryPanelComponent;
@@ -11,9 +16,19 @@ describe('SummaryPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule],
-      providers: [RadarService],
-      declarations: [ SummaryPanelComponent, RadarChartComponent]
+      imports: [
+        RouterTestingModule,
+        SharedModule,
+        GenericTableModule
+      ],
+      providers: [
+        RadarService
+      ],
+      declarations: [
+        SummaryPanelComponent,
+        KnowledgeTableComponent,
+        RadarChartComponent
+      ]
     })
     .compileComponents();
   }));

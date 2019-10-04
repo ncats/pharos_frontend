@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PublicationInfoPanelComponent } from './publication-info-panel.component';
+import {SharedModule} from '../../../../../shared/shared.module';
+import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('PublicationInfoPanelComponent', () => {
   let component: PublicationInfoPanelComponent;
@@ -8,7 +11,14 @@ describe('PublicationInfoPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PublicationInfoPanelComponent ]
+      declarations: [
+        PublicationInfoPanelComponent
+      ],
+      imports: [
+        BrowserAnimationsModule,
+        SharedModule,
+        GenericTableModule
+      ]
     })
     .compileComponents();
   }));

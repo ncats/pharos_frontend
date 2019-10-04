@@ -7,6 +7,7 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {CommonModule} from '@angular/common';
 import {CommonToolsModule} from './tools/common-tools.module';
 import {SharedModule} from './shared/shared.module';
+import {TopicNodeGeneratorComponent} from './tools/topic-node-generator/topic-node-generator.component';
 
 
 const ROUTES: Routes = [
@@ -43,6 +44,10 @@ const ROUTES: Routes = [
   {
     path: 'faq',
     component: FaqPageComponent
+  },
+  {
+    path: 'topic-generator',
+    component: TopicNodeGeneratorComponent
   },
 
   {

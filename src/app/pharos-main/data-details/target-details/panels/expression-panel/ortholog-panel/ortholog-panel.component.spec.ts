@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrthologPanelComponent } from './ortholog-panel.component';
 import {SharedModule} from '../../../../../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {GenericTableModule} from '../../../../../../tools/generic-table/generic-table.module';
 
 describe('OrthologPanelComponent', () => {
   let component: OrthologPanelComponent;
@@ -10,7 +11,11 @@ describe('OrthologPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule, BrowserAnimationsModule],
+      imports: [
+        SharedModule,
+        GenericTableModule,
+        BrowserAnimationsModule
+      ],
       declarations: [ OrthologPanelComponent ]
     })
     .compileComponents();
