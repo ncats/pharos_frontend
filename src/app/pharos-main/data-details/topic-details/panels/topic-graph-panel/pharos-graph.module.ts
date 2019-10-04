@@ -13,11 +13,13 @@ import {TargetTableModule} from '../../../../modules/targets/target-list.module'
 import {LigandListModule} from '../../../../modules/ligands/ligand-list.module';
 import {RouterModule} from '@angular/router';
 import { TopicGraphFiltersComponent } from './topic-graph-filters/topic-graph-filters.component';
+import {NodeMenuPopupComponent} from './node-menu-popup/node-menu-popup.component';
 
 @NgModule({
   declarations: [
     TopicGraphPanelComponent,
     NodeDetailsBoxComponent,
+    NodeMenuPopupComponent,
     SearchComponent,
     HighlightPipe,
     TopicGraphFiltersComponent
