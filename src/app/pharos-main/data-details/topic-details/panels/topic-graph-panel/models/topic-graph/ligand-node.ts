@@ -11,21 +11,21 @@ export class LigandNode extends SGNode {
   /**
    * data source string
    */
-  Data_Source: string;
+  'Data_Source': string;
 
   /**
    * ligand name
    */
-  IDG_Ligand: string;
+  'IDG_Ligand': string;
   /**
    * ligand confidence value
    */
-  IDG_Confidence?: number;
+  'IDG_Confidence'?: number;
 
   /**
    * ligandevidence type
    */
-  IDG_Evidence?: string;
+  'IDG_Evidence'?: string;
   // todo: fix api to remove hyphen
 //  'IDG_Z-score'?: number;
   // ligand: Ligand;

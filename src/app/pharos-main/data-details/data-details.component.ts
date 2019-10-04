@@ -107,7 +107,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
         // If it is a NavigationEnd event re-initalise the component
         if (e instanceof NavigationEnd) {
           this.path = this._route.snapshot.data.path;
-          if (this._route.snapshot.data.pharosObject && (this._route.snapshot.data.pharosObject != this.pharosObject)) {
+          if (this._route.snapshot.data.pharosObject && (this._route.snapshot.data.pharosObject !== this.pharosObject)) {
               this.pharosObject = this._route.snapshot.data.pharosObject;
             this.componentHost.viewContainerRef.clear();
             this.changeDetector.markForCheck(); // refresh the component manually

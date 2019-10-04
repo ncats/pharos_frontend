@@ -66,6 +66,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
    * @param {HelpDataService} helpDataService
    * @param {BreakpointObserver} breakpointObserver
    * @param {PharosConfig} pharosConfig
+   * @param titleService
    * @param {ComponentInjectorService} componentInjectorService
    */
   constructor(private _injector: Injector,
@@ -148,7 +149,9 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
               childComponent.instance.data = obj;
               let count = Object.values(obj).length;
               Object.values(obj).forEach(val => {
-                if (Array.isArray(val['content']) && !val['content'].length) {count--; } else if (Array.isArray(val) && !val.length) {count--; } else if (val === 0) {count--; }
+                if (Array.isArray(val['content']) && !val['content'].length) {
+                  count--;
+                } else if (Array.isArray(val) && !val.length) {count--; } else if (val === 0) {count--; }
 
               });
               if (count === 0 && component.navHeader) {

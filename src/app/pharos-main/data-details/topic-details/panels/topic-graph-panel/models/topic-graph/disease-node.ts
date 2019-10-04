@@ -14,22 +14,22 @@ export class DiseaseNode extends SGNode {
   /**
    * data source string
    */
-  Data_Source: string;
+ 'Data_Source': string;
 
   /**
    * disease name
    */
-  IDG_Disease: string;
+  'IDG_Disease': string;
 
   /**
    * optional confidence value
    */
-  IDG_Confidence?: number;
+  'IDG_Confidence'?: number;
 
   /**
    * optgional confidence type
    */
-  IDG_Evidence?: string;
+  'IDG_Evidence'?: string;
 
   /**
    * default display color

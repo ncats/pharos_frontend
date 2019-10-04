@@ -132,7 +132,7 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
               childComponent.instance.data = obj;
               let count = Object.values(obj).length;
               Object.values(obj).forEach(val => {
-                if (val == 0) {
+                if (val === 0) {
                   count--;
                 } else if (val === []) {
                   count--;

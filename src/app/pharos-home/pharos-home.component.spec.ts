@@ -3,12 +3,17 @@ import {PharosHomeComponent} from './pharos-home.component';
 import {SharedModule} from '../shared/shared.module';
 import {LoadingService} from '../pharos-services/loading.service';
 import {SuggestApiService} from '../tools/search-component/suggest-api.service';
-import {AppRoutingModule} from '../app-routing.module';
+
 import {APP_BASE_HREF} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DataTypesPanelComponent} from './data-types-panel/data-types-panel.component';
 import {NewsPanelComponent} from './news-panel/news-panel.component';
 import {AboutPanelComponent} from './about-panel/about-panel.component';
+import {SearchComponentModule} from '../tools/search-component/search-component.module';
+import {Router, RouterModule} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {FIRESTORESTUB} from '../../../test/firestore-stub';
 
 describe('PharosHomeComponent', () => {
   let component: PharosHomeComponent;
@@ -19,7 +24,8 @@ describe('PharosHomeComponent', () => {
       imports: [
         BrowserAnimationsModule,
         SharedModule,
-        AppRoutingModule
+        SearchComponentModule,
+        RouterModule.forRoot([]),
       ],
       declarations: [
         PharosHomeComponent,
@@ -29,7 +35,8 @@ describe('PharosHomeComponent', () => {
       ],
       providers: [
         LoadingService,
-        SuggestApiService,
+        {provide: Router, useClass: RouterTestingModule},
+        { provide: AngularFirestore, useValue: FIRESTORESTUB },
         {provide: APP_BASE_HREF, useValue: '/index' }
       ]
     })

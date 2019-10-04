@@ -20,17 +20,19 @@
                         <!--[disabled]="rowSelection.isEmpty() || (rowSelection.selected.length < 2 || rowSelection.selected.length > 4)"-->
                 <!--&gt;<mat-icon>swap_horiz</mat-icon>Compare Targets</button>-->
                 <!--</span>-->
-                <!--<button mat-menu-item-->
-                        <!--(click)="createTopic()"-->
-                        <!--[disabled]="rowSelection.isEmpty()">-->
-                  <!--<mat-icon>bubble_chart</mat-icon>-->
-                  <!--Generate Topic</button>-->
+
                 <button mat-menu-item
                         *ngIf="loggedIn === true"
                         (click)="saveTargets()"
                         [disabled]="rowSelection.isEmpty()">
                   <mat-icon>save</mat-icon>Save Selected
                 </button>
+        <button mat-menu-item
+                *ngIf="loggedIn === true"
+                (click)="createTopic()"
+                [disabled]="rowSelection.isEmpty()">
+          <mat-icon>bubble_chart</mat-icon>
+          Generate Topic</button>
 <!--                <button mat-menu-item
                         *ngIf="loggedIn === true"
                         (click)="saveQuery()"
@@ -38,10 +40,13 @@
       </mat-menu>
     </div>
   </mat-toolbar>
-  <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="10px" fxLayoutAlign="space-around start"
+  <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-between center"
        class="body-row target-table">
     <div fxFlex="45" fxLayoutAlign.lt-sm="center">
-
+       <!-- <mat-checkbox
+          (change)="$event ? selectAll() : null">
+          Select All {{pageData?.total}}
+        </mat-checkbox>-->
     </div>
     <div fxFlex="45" fxFlexAlign="end">
       <pharos-custom-paginator

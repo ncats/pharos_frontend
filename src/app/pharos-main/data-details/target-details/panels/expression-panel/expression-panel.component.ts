@@ -264,14 +264,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   }
 
   /**
-   * show tooltip
-   * @param label
-   */
-  getTooltip(label: string): string {
-    return this.apiSources.filter(source => source.field === label)[0].description;
-  }
-
-  /**
    * active section view tracker
    * @param {string} fragment
    */

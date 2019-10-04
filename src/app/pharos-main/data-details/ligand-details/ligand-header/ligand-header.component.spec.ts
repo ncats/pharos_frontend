@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LigandHeaderComponent } from './ligand-header.component';
+import {TESTLIGAND} from '../../../../../../test/test-ligand';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
 
 describe('LigandHeaderComponent', () => {
   let component: LigandHeaderComponent;
@@ -8,7 +10,10 @@ describe('LigandHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LigandHeaderComponent ]
+      declarations: [ LigandHeaderComponent ],
+      schemas: [
+        NO_ERRORS_SCHEMA
+      ]
     })
     .compileComponents();
   }));
@@ -16,6 +21,7 @@ describe('LigandHeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LigandHeaderComponent);
     component = fixture.componentInstance;
+    component.ligand = TESTLIGAND;
     fixture.detectChanges();
   });
 

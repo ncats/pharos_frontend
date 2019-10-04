@@ -72,28 +72,30 @@ export class FaqPageComponent implements OnInit {
     this.db.collection<Question>('faqs').valueChanges()
       .subscribe(items => {
         // create and map questions by subject
-        items.map(question => {
-          const qArr: Question[] = this.questionsMap.get(question.subject);
-          if (qArr) {
-            qArr.push(question);
-            this.questionsMap.set(question.subject, qArr);
-          } else {
-            this.questionsMap.set(question.subject, [question]);
-          }
-        });
-
-        // get list of subjects for accordion
-        this.subjects = Array.from(this.questionsMap.keys());
-
-        // find and render equations with katex
-        this.answers.changes.subscribe(answers => {
-          const equations: any[] = answers.filter(answer => {
-            return answer.nativeElement.classList.contains('equation');
+        if (items && items.length) {
+          items.map(question => {
+            const qArr: Question[] = this.questionsMap.get(question.subject);
+            if (qArr) {
+              qArr.push(question);
+              this.questionsMap.set(question.subject, qArr);
+            } else {
+              this.questionsMap.set(question.subject, [question]);
+            }
           });
-          equations.forEach(element => {
-            this.katexRenderService.renderMathInElement(element.nativeElement, {});
+
+          // get list of subjects for accordion
+          this.subjects = Array.from(this.questionsMap.keys());
+
+          // find and render equations with katex
+          this.answers.changes.subscribe(answers => {
+            const equations: any[] = answers.filter(answer => {
+              return answer.nativeElement.classList.contains('equation');
+            });
+            equations.forEach(element => {
+              this.katexRenderService.renderMathInElement(element.nativeElement, {});
+            });
           });
-        });
+        }
       });
   }
 }

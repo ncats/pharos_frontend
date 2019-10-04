@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {Target} from '../../../../../models/target';
 import {PageData} from '../../../../../models/page-data';
@@ -10,7 +10,6 @@ import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-pan
 import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
 import {PharosConfig} from '../../../../../../config/pharos-config';
-import {filter, map} from 'rxjs/internal/operators';
 
 /**
  * displays publication information and statistics about a target
@@ -20,7 +19,7 @@ import {filter, map} from 'rxjs/internal/operators';
   templateUrl: './publication-info-panel.component.html',
   styleUrls: ['./publication-info-panel.component.scss']
 })
-export class PublicationInfoPanelComponent extends DynamicTablePanelComponent implements OnInit {
+export class PublicationInfoPanelComponent extends DynamicTablePanelComponent implements OnInit, OnDestroy {
   /**
    * parent target
    */

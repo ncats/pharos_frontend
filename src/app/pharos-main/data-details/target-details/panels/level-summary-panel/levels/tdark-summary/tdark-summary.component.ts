@@ -29,6 +29,13 @@ export class TdarkSummaryComponent {
   }
 
   getTooltip(label: string): string {
-    return this.apiSources.filter(source => source.field === label)[0].description;
+    if (this.apiSources) {
+      const tooltip = this.apiSources.filter(source => source.field === label);
+      if (tooltip.length) {
+        return tooltip[0].description;
+      } else {
+        return null;
+      }
+    }
   }
 }
