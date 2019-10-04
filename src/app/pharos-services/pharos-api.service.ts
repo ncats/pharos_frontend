@@ -240,7 +240,7 @@ export class PharosApiService {
         );
     });
 
-    return forkJoin(...apis);
+    return forkJoin([...apis]);
   }
 
   /**

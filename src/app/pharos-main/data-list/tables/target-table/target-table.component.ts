@@ -71,7 +71,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * @type {string[]}
    */
   displayColumns: string[] = ['name', 'gene', 'idgTDL', 'idgFamily', 'novelty', 'jensenScore', 'antibodyCount', 'knowledgeAvailability'];
-  // displayColumns: string[] = ['list-select', 'name', 'gene', 'idgTDL', 'idgFamily', 'novelty', 'jensenScore', 'antibodyCount', 'knowledgeAvailability'];
 
   /**
    * fields to be show in the pdb table
