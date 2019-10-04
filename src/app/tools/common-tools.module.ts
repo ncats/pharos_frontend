@@ -19,6 +19,7 @@ import {RadarChartModule} from './visualizations/radar-chart/radar-chart.module'
 import {StructureViewComponent} from './structure-view/structure-view.component';
 import {PharosPaginatorModule} from './pharos-paginator/pharos-paginator.module';
 import {NcatsHeaderModule} from './ncats-header/ncats-header.module';
+import { TopicNodeGeneratorComponent } from './topic-node-generator/topic-node-generator.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import {NcatsHeaderModule} from './ncats-header/ncats-header.module';
     KnowledgeTableComponent,
     LinkListComponent,
     ProteinStructureViewerComponent,
-    StructureViewComponent
+    StructureViewComponent,
+    TopicNodeGeneratorComponent
   ],
   imports: [
     CommonModule,
@@ -64,7 +66,7 @@ import {NcatsHeaderModule} from './ncats-header/ncats-header.module';
     KnowledgeTableComponent,
     LinkListComponent,
     PharosPaginatorModule,
-    ProteinStructureViewerComponent,
+    ProteinStructureViewerComponent
   ]
 })
 export class CommonToolsModule { }

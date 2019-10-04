@@ -1,11 +1,18 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { StructureSetterService } from './structure-setter.service';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {HttpClient} from '@angular/common/http';
 
 describe('StructureSetterService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [StructureSetterService]
+      imports: [
+        HttpClientTestingModule
+      ],
+      providers: [
+        StructureSetterService
+      ]
     });
   });
 

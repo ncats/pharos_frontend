@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SketcherComponent } from './sketcher.component';
+import {MolConverterService} from './services/mol-converter.service';
+import {HttpClientModule} from '@angular/common/http';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {StructureSetterService} from './services/structure-setter.service';
 
 describe('SketcherComponent', () => {
   let component: SketcherComponent;
@@ -8,7 +12,16 @@ describe('SketcherComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SketcherComponent ]
+      declarations: [
+        SketcherComponent
+      ],
+      providers: [
+        StructureSetterService,
+        MolConverterService
+      ],
+      imports: [
+        HttpClientTestingModule
+      ]
     })
     .compileComponents();
   }));

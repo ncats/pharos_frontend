@@ -26,7 +26,7 @@ export class TopicTableComponent implements OnInit {
 
   /**
    * set up dependencies
-   * @param {ChangeDetectorRef} changeDetector
+   * @param ref
    * @param _route
    * @param {HttpClient} _http
    */
@@ -41,11 +41,10 @@ export class TopicTableComponent implements OnInit {
    * subscribe to data changes
    */
   ngOnInit() {
-   this._route.snapshot.data.data.valueChanges().subscribe(res => {
-     console.log(res);
+/*   this._route.snapshot.data.data.valueChanges().subscribe(res => {
       this.topics = res;
       this.ref.markForCheck();
-    });
+    });*/
   }
 }
 

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TopicGraphFiltersComponent } from './topic-graph-filters.component';
+import {SharedDetailsModule} from '../../../../../../shared/shared-details.module';
 
 describe('TopicGraphFiltersComponent', () => {
   let component: TopicGraphFiltersComponent;
@@ -8,7 +9,10 @@ describe('TopicGraphFiltersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TopicGraphFiltersComponent ]
+      declarations: [ TopicGraphFiltersComponent ],
+      imports: [
+        SharedDetailsModule
+      ]
     })
     .compileComponents();
   }));

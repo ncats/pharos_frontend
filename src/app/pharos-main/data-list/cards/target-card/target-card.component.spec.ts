@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TargetCardComponent } from './target-card.component';
+import {SharedModule} from '../../../../shared/shared.module';
+import {RadarChartModule} from '../../../../tools/visualizations/radar-chart/radar-chart.module';
+import {CommonToolsModule} from '../../../../tools/common-tools.module';
+import {RouterTestingModule} from '@angular/router/testing';
+import {RouterModule} from '@angular/router';
 
 describe('TargetCardComponent', () => {
   let component: TargetCardComponent;
@@ -8,7 +13,15 @@ describe('TargetCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TargetCardComponent ]
+      declarations: [ TargetCardComponent ],
+      imports: [
+        SharedModule,
+        CommonToolsModule,
+        RouterTestingModule
+      ],
+      providers: [
+        { provide: RouterModule, useClass: RouterTestingModule }
+      ]
     })
     .compileComponents();
   }));

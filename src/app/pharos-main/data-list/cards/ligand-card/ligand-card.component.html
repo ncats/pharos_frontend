@@ -1,8 +1,8 @@
 <mat-card class="ligand-card" *ngIf="ligand">
-  <a [routerLink] = ligand.internalLink>
+  <a [routerLink] = ligand.internalLink target="_blank">
     <div class="ligand-content">
       <div class="mat-title centered">{{ligand.name}}</div>
-      <img *ngIf="ligand.structureId || ligand.refid" [src]=ligand.imageUrl alt="image for {{ligand.name}}" class="ligand-image">
+      <img *ngIf="ligand.imageUrl" [src]=ligand.imageUrl alt="image for {{ligand.name}}" class="ligand-image">
     </div>
   </a>
   <div class="ligand-footer">

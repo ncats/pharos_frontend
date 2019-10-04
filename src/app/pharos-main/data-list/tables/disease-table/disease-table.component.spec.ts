@@ -4,8 +4,9 @@ import {DiseaseTableComponent} from './disease-table.component';
 import {SharedModule} from '../../../../shared/shared.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {PharosPaginatorComponent} from '../../../../tools/pharos-paginator/pharos-paginator.component';
 import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
+import {PharosPaginatorModule} from '../../../../tools/pharos-paginator/pharos-paginator.module';
+import {GenericTableModule} from '../../../../tools/generic-table/generic-table.module';
 
 describe('DiseaseTableComponent', () => {
   let component: DiseaseTableComponent;
@@ -16,12 +17,16 @@ describe('DiseaseTableComponent', () => {
       imports: [
         SharedModule,
         RouterTestingModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        GenericTableModule,
+        PharosPaginatorModule
       ],
       providers: [
         PharosApiService
       ],
-      declarations: [ DiseaseTableComponent, PharosPaginatorComponent ]
+      declarations: [
+        DiseaseTableComponent
+      ]
     })
     .compileComponents();
   }));

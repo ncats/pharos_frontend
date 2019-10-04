@@ -9,6 +9,12 @@ import {FacetRetrieverService} from './filter-panel/facet-retriever.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedListModule} from '../../shared/shared-list.module';
+import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {FIRESTORESTUB} from '../../../../test/firestore-stub';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireModule} from '@angular/fire';
+import {COMMON_CONFIG} from '../../../../test/test-config';
 
 describe('DataListComponent', () => {
   let component: DataListComponent;
@@ -17,6 +23,7 @@ describe('DataListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        AngularFireModule.initializeApp(COMMON_CONFIG),
         SharedListModule,
         RouterTestingModule,
         BrowserAnimationsModule
@@ -25,11 +32,14 @@ describe('DataListComponent', () => {
 
       ],
       providers: [
+        ComponentInjectorService,
         PathResolverService,
         PharosApiService,
         FacetRetrieverService,
         SuggestApiService,
-        {provide: APP_BASE_HREF, useValue: '/targets' }
+        AngularFireAuth,
+        {provide: APP_BASE_HREF, useValue: '/targets' },
+        { provide: AngularFirestore, useValue: FIRESTORESTUB }
       ]
     })
     .compileComponents();
@@ -38,6 +48,8 @@ describe('DataListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DataListComponent);
     component = fixture.componentInstance;
+    component.path = 'targets';
+    component.componentsLoaded = true;
     fixture.detectChanges();
   });
 

@@ -12,11 +12,6 @@ import {KatexRenderService} from './services/katex-render.service';
  */
 export class KatexRendererDirective {
   /**
-   * error handling output
-   */
-  @Output() onError = new EventEmitter<any>();
-
-  /**
    * get element and render math using render service
    * @param el
    * @param katexRenderService

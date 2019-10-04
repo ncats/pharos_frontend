@@ -85,7 +85,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
       label: 'Ligand',
       customComponent: STRUCTURE_VIEW_TOKEN
     })
-    ]
+    ];
 
   /**
    * all retrieved reports

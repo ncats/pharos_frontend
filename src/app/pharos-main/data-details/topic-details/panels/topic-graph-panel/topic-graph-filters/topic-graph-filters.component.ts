@@ -17,6 +17,8 @@ export class TopicGraphFiltersComponent implements OnInit {
    */
   selection = new SelectionModel<any>(true, ['Tclin', 'Tchem', 'Tbio', 'Tdark', 'disease', 'ligand']);
 
+  pathBuilder = new SelectionModel<boolean>();
+
   /**
    * output changes on toggle filter changes
    */
@@ -26,6 +28,10 @@ export class TopicGraphFiltersComponent implements OnInit {
    * output on link confidence filter changes
    */
   @Output() confidenceChange: EventEmitter<{value: number, confidence: boolean}> = new EventEmitter<{value: number, confidence: boolean}>();
+
+
+  @Output() resetGraphEmitter: EventEmitter<any> = new EventEmitter<any>();
+  @Output() pathBuildEmitter: EventEmitter<any> = new EventEmitter<any>();
 
   /**
    * form control to track changes to the confidence slider
@@ -53,6 +59,8 @@ export class TopicGraphFiltersComponent implements OnInit {
     this.confidenceCtrl.valueChanges.subscribe(value => {
       this.confidenceChange.emit({value: value, confidence: this.showNoConfidence});
     });
+
+    this.pathBuilder.changed.subscribe(change => this.pathBuildEmitter.emit());
   }
 
   /**
@@ -63,14 +71,18 @@ export class TopicGraphFiltersComponent implements OnInit {
     this.confidenceChange.emit({value: this.confidenceCtrl.value, confidence: this.showNoConfidence});
   }
 
+  resetGraph() {
+    this.selection.select(...['Tclin', 'Tchem', 'Tbio', 'Tdark', 'disease', 'ligand']);
+    this.resetGraphEmitter.emit();
+  }
+
   /**
    * todo: this doesn't do anything
    * @param event
    * @param field
    */
   setFilterType(event, field) {
-    console.log(event);
-    console.log(field);
+
   }
 
 }
