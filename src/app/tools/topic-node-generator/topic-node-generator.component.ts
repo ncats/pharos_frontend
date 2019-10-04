@@ -158,12 +158,6 @@ firebaseobs
   }
 
   generate() {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'text/plain',
-      })
-    };
-
     this._http.get(URL, {responseType: 'text'}).subscribe(response => {
       const linesobs = from(response.split(/\r\n|\n/).slice(9200, 9340));
   // this.fetchData(response.split(/\r\n|\n/).slice(0, 100));

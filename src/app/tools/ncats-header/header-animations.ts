@@ -5,7 +5,7 @@ import { trigger, state, style, transition,
 /**
  * animation object than animates the header menu changing background color and pharos logo
  */
-export const SlideInOutAnimation = [
+export const slideInOutAnimation = [
   trigger('slideInOut', [
     state('in', style({
       'background-color': 'whitesmoke',
