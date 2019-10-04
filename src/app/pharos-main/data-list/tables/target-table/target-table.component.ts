@@ -294,7 +294,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * todo: implement
    */
   compareTargets() {
-    console.log(this.rowSelection.selected);
+   // console.log(this.rowSelection.selected);
   }
 
   /**
@@ -314,9 +314,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       }
     );
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-    });
+    dialogRef.afterClosed().subscribe(result => {});
   }
 
   /**

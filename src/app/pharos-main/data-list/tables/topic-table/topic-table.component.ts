@@ -41,10 +41,10 @@ export class TopicTableComponent implements OnInit {
    * subscribe to data changes
    */
   ngOnInit() {
-   this._route.snapshot.data.data.valueChanges().subscribe(res => {
+/*   this._route.snapshot.data.data.valueChanges().subscribe(res => {
       this.topics = res;
       this.ref.markForCheck();
-    });
+    });*/
   }
 }
 

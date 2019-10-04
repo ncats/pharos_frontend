@@ -53,7 +53,6 @@ export class TopicGraphFiltersComponent implements OnInit {
    */
   ngOnInit() {
     this.selection.changed.subscribe(change => {
-      console.log(change);
       this.filterSelectionChange.emit(change);
     });
 
@@ -83,8 +82,7 @@ export class TopicGraphFiltersComponent implements OnInit {
    * @param field
    */
   setFilterType(event, field) {
-    console.log(event);
-    console.log(field);
+
   }
 
 }

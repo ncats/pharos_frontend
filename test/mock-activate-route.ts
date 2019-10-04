@@ -8,6 +8,7 @@ export class MockActivatedRoute {
     snapshot: {
       data: {
         data: { data: 'myTitle ' }
+        pharosObject: {}
       }
     };
     routeConfig: { children: { filter: () => {} } };

@@ -176,7 +176,7 @@ export class PharosApiService {
   /**
    * main object tracker to help with caching
    */
-  returnedObject: {};
+  returnedObject: any = {};
 
   /**
    * get config info and set up http service

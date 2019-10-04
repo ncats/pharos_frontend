@@ -65,9 +65,7 @@ export class GraphDataGeneratorService {
   }
 
   private csvJSON(csv): void {
-    console.log(csv);
     const lines: string[] = csv.split(/\r\n|\n/);
-    console.log(lines);
   //  return lines;
   }
 

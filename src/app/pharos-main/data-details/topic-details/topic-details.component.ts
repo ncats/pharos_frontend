@@ -159,7 +159,6 @@ export class TopicDetailsComponent extends DynamicPanelComponent implements OnIn
    * initialize data change subsctiptions, fetch data
    */
   ngOnInit() {
-    console.log(this);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'text/plain',
@@ -311,7 +310,6 @@ this.diseasePageData = new PageData({
       })
     };
     this.http.post(`${this.pharosConfig.getTopicResolveUrl()}`, targets.slice(0, 10).join(','), httpOptions).subscribe(res => {
-      console.log(res);
     });
 
   }
