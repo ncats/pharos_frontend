@@ -94,7 +94,6 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
    * @private
    */
   _parseData(queries: any) {
-    console.log(queries);
       queries.forEach(data => {
         const tnode = this.nodeService.makeNode(data.graphData.target, `target${data.graphData.target.id}`);
         if (data.graphData.ligands) {
@@ -120,7 +119,7 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
             this.linkService.makeLink(`${data.graphData.target.id}-${disease.id}`, tnode, dnode, this._getConfidence(disease));
           });
         }
-        //console.log(data.graphData.ligands);
+        // console.log(data.graphData.ligands);
         /*this.db.collection('topics')
           .doc(data.graphData.graphData.query)
           .set({

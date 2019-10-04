@@ -129,7 +129,7 @@ export class ScrollspyDirective implements AfterViewInit, OnDestroy {
         }
       }
     });
-  };
+  }
 
   /**
    * checks to see if the element is intersecting the viewport

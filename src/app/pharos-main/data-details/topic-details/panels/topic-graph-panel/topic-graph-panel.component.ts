@@ -109,7 +109,6 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
    * builds graph
    */
   ngOnInit() {
-    console.log(this);
     this.graphParserService.setSerializers({node: new PharosNodeSerializer()});
 
     this.graphParserService.setId(this.topic.id).subscribe(res => {
@@ -209,7 +208,6 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
         });
       });
     });
-    console.log(addedLinksArr);
 
     const diff = {
       addedNodes: addedNodes,
@@ -381,7 +379,6 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
       //  let newGraph: SmrtGraph = {nodes: [], links: []};
         if (addedNodes.length > 1) {
           if (this.pathBuild > 1) {
-            console.log("concat");
             this.graph = {
               links: this.graph.links.concat(addedLinksArr),
               nodes: this.graph.nodes.concat(addedNodes)
@@ -398,7 +395,6 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
         } else {
           alert('No nodes available');
         }
-        console.log(this.graph);
         this.graphDataService.setGraph(this.graph);
       this.ref.markForCheck();
     /* nodesArr.map(node => node['tempcolor'] = 'transparent');

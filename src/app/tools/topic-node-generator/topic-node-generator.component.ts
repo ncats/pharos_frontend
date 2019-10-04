@@ -44,7 +44,7 @@ export class TopicNodeGeneratorComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.db.collection('topic-nodes').get().subscribe(res => console.log(res.size));
+    // this.db.collection('topic-nodes').get().subscribe(res => console.log(res.size));
   }
 
 getData(target) {
@@ -65,7 +65,6 @@ getData(target) {
       .pipe(
           take(1),
           mergeMap(response => {
-          console.log(response);
           // return of(response);
             if (!response) {
                return this._http.post<any>(`${this.pharosConfig.getTopicResolveUrl()}`, res['target'], httpOptions)
@@ -97,7 +96,7 @@ getData(target) {
                     })
                     .catch((error) => this.errors.push(res['target']));*/
                // }
-              //});
+              // });
             } else {
               this.alreadySaved.push(res['target']);
               return of(res['target']);
@@ -108,7 +107,6 @@ getData(target) {
       concatAll()
     ); // .subscribe();
 
- console.log(calls);
  return of(calls);
 
 
@@ -160,7 +158,6 @@ firebaseobs
   }
 
   generate() {
-    this.db.collection('topic-nodes').get().subscribe(res => console.log(res.size));
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'text/plain',
@@ -176,10 +173,8 @@ firebaseobs
         mergeMap(batch => this.fetchData(batch))
       );
 
-      console.log(result)
       result.subscribe(x => {
-        console.log(x);
-        x.subscribe(ress => console.log(ress));
+        x.subscribe(ress => {}); // console.log(ress));
       });
     /*  lines.forEach(target => {
         this.db.collection('topic-nodes').doc(target)// ref => ref.where('documentid', '==', target))

@@ -97,25 +97,21 @@ export class TopicSaveModalComponent {
      */
     // todo make better use of rxjs for this
     this.data.selection.forEach(target => {
-      console.log(target);
       this.db.collection('topic-nodes').doc(target)// ref => ref.where('documentid', '==', target))
         .valueChanges().pipe(take(1))
         .subscribe(res => {
           if (!res) {
-            console.log("getting new data");
             this.http.post<any>(`${this.pharosConfig.getTopicResolveUrl()}`, target, httpOptions).subscribe(response => {
-              console.log(response);
               if (response.content) {
                 if (response.content[0].ligands) {
                   response.content[0].ligands = response.content[0].ligands.filter(ligand => !ligand['']);
-                  console.log(response.content[0].ligands);
                 }
                 this.db.collection('topic-nodes')
                   .doc(target)
                   .set({
                     graphData: response.content[0]
                   });
-                //this._parseData(res)
+                // this._parseData(res)
               }
             });
           }

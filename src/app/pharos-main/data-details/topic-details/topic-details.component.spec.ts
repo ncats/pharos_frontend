@@ -16,6 +16,9 @@ import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
 import {GraphDataService, LinkService, NodeService, SmrtgraphCoreModule} from 'smrtgraph-core';
 import {GraphParserService} from './panels/topic-graph-panel/services/graph-parser.service';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
+import {ActivatedRoute} from '@angular/router';
+import {MockActivatedRoute} from '../../../../../test/mock-activate-route';
+import {of} from 'rxjs';
 
 
 describe('TopicDetailsComponent', () => {
@@ -46,7 +49,20 @@ describe('TopicDetailsComponent', () => {
         LinkService,
         ComponentInjectorService,
         {provide: APP_BASE_HREF, useValue: '/targets' },
-        { provide: AngularFirestore, useValue: FIRESTORESTUB }
+        { provide: AngularFirestore, useValue: FIRESTORESTUB },
+        { provide: ActivatedRoute, useValue: {
+          snapshot: {
+              data: {
+                pharosObject:  of({data: () => {
+                  return {allTargets: ['LRRK2'],
+                    allDiseases: [],
+                    allLigands: []
+                  };
+                  }})
+              }
+            }
+          }
+        }
       ],
       schemas: [
         NO_ERRORS_SCHEMA
