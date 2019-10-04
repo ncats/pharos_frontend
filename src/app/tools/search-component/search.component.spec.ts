@@ -4,7 +4,6 @@ import { SearchComponent } from './search.component';
 import {SharedModule} from '../../shared/shared.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import {MaterialModule} from '../../../assets/material/material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {CommonModule} from '@angular/common';
 import {HighlightPipe} from './highlight.pipe';
@@ -22,11 +21,7 @@ describe('SearchComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule,
         CommonModule,
-        HttpClientModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MaterialModule,
-        FlexLayoutModule
+        SharedModule
       ],
       declarations: [
         SearchComponent,

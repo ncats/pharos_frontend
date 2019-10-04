@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SidenavPanelComponent } from './sidenav-panel.component';
+import {SharedModule} from '../../shared/shared.module';
+import {RouterModule} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
+import {CommonToolsModule} from '../common-tools.module';
 
 describe('SidenavPanelComponent', () => {
   let component: SidenavPanelComponent;
@@ -8,7 +12,14 @@ describe('SidenavPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SidenavPanelComponent ]
+      declarations: [ SidenavPanelComponent ],
+      imports: [
+        SharedModule,
+        CommonToolsModule,
+        RouterTestingModule
+      ],
+      providers: [
+      ]
     })
     .compileComponents();
   }));

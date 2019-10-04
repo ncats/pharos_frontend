@@ -10,6 +10,12 @@ import {SharedModule} from '../../../shared/shared.module';
 import {FacetRetrieverService} from './facet-retriever.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {RouterTestingModule} from '@angular/router/testing';
+import {FacetTableComponent} from './facet-table/facet-table.component';
+import {AngularFireModule} from '@angular/fire';
+import {COMMON_CONFIG} from '../../../../../test/test-config';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
 
 describe('FilterPanelComponent', () => {
   let component: FilterPanelComponent;
@@ -18,11 +24,14 @@ describe('FilterPanelComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        AngularFireModule.initializeApp(COMMON_CONFIG),
         SharedModule,
         RouterTestingModule,
         BrowserAnimationsModule
       ],
       declarations: [
+        FilterPanelComponent,
+        FacetTableComponent
       ],
       providers: [
         PathResolverService,
@@ -31,6 +40,8 @@ describe('FilterPanelComponent', () => {
         LoadingService,
         FacetRetrieverService,
         SuggestApiService,
+        AngularFireAuth,
+        { provide: AngularFirestore, useValue: FIRESTORESTUB },
         {provide: APP_BASE_HREF, useValue: '/targets' }
       ]     })
     .compileComponents();

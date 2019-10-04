@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TargetListPanelComponent } from './target-list-panel.component';
+import {SharedModule} from '../../../../shared/shared.module';
+import {GenericTableModule} from '../../../../tools/generic-table/generic-table.module';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {TESTDISEASE} from '../../../../../../test/test-disease';
 
 describe('TargetListPanelComponent', () => {
   let component: TargetListPanelComponent;
@@ -8,7 +12,12 @@ describe('TargetListPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TargetListPanelComponent ]
+      declarations: [ TargetListPanelComponent ],
+      imports: [
+        BrowserAnimationsModule,
+        SharedModule,
+        GenericTableModule
+      ]
     })
     .compileComponents();
   }));
@@ -16,6 +25,8 @@ describe('TargetListPanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TargetListPanelComponent);
     component = fixture.componentInstance;
+    component.data = ({object: TESTDISEASE, references: []});
+    component.disease = TESTDISEASE;
     fixture.detectChanges();
   });
 

@@ -1,8 +1,8 @@
-import {PharosProperty} from '../app/models/pharos-property';
-
 /**
  * onject to display data sources in about page
  */
+import {PharosProperty} from '../app/models/pharos-property';
+
 class SourceObject {
   /**
    * name of data source

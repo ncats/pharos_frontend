@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RadarChartViewerComponent } from './radar-chart-viewer.component';
+import {TargetHeaderComponent} from '../../pharos-main/data-details/target-details/target-header/target-header.component';
+import {SharedModule} from '../../shared/shared.module';
+import {CommonToolsModule} from '../common-tools.module';
 
 describe('RadarChartViewerComponent', () => {
   let component: RadarChartViewerComponent;
@@ -8,7 +11,14 @@ describe('RadarChartViewerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RadarChartViewerComponent ]
+      declarations: [
+        TargetHeaderComponent,
+        RadarChartViewerComponent ],
+      imports: [
+        SharedModule,
+        CommonToolsModule
+      ]
+
     })
     .compileComponents();
   }));

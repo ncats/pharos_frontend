@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {BehaviorSubject} from 'rxjs/index';
 import * as firebase from 'firebase/app';
+import {AngularFireAuth} from '@angular/fire/auth';
 
 /**
  * service to retrieve profile info from firebase, based on user id token
@@ -33,11 +34,14 @@ export class PharosProfileService {
   /**
    * get and filter user collection on init
    * @param userCollection
+   * @param afAuth
    */
   constructor(
     private userCollection: AngularFirestore,
+    public afAuth: AngularFireAuth
+
   ) {
-    firebase.auth().onAuthStateChanged(user => {
+    this.afAuth.auth.onAuthStateChanged(user => {
       this.user = user;
       if (user) {
         this.fetchUserProfile(user);

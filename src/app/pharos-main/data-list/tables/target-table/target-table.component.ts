@@ -25,7 +25,13 @@ import {Target, TargetSerializer} from '../../../../models/target';
 import * as firebase from 'firebase/app';
 import {TargetSaveModalComponent} from './target-save-modal/target-save-modal.component';
 import {PharosProfileService} from '../../../../auth/pharos-profile.service';
+import {TopicSaveModalComponent} from './topic-save-modal/topic-save-modal.component';
 
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'text/plain',
+  })
+};
 
 /**
  * token to inject structure viewer into generic table component
@@ -65,7 +71,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * @type {string[]}
    */
   displayColumns: string[] = ['name', 'gene', 'idgTDL', 'idgFamily', 'novelty', 'jensenScore', 'antibodyCount', 'knowledgeAvailability'];
-  // displayColumns: string[] = ['list-select', 'name', 'gene', 'idgTDL', 'idgFamily', 'novelty', 'jensenScore', 'antibodyCount', 'knowledgeAvailability'];
 
   /**
    * fields to be show in the pdb table
@@ -249,7 +254,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * @param $event
    */
   changePage($event): void {
-    console.log($event)
     this.pageChange.emit($event);
   }
 
@@ -265,11 +269,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'text/plain',
-        })
-      };
       this.http.post(`${this.pharosConfig.getApiPath()}targets/resolve`, result.join(), httpOptions).subscribe(res => {
         navigationExtras.queryParams = {
           q: `etag:${res['etag']}`
@@ -294,7 +293,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * todo: implement
    */
   compareTargets() {
-    console.log(this.rowSelection.selected);
+   // console.log(this.rowSelection.selected);
   }
 
   /**
@@ -302,7 +301,19 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * todo: implement
    */
   createTopic() {
-    console.log(this.rowSelection.selected);
+    const targetList = this.rowSelection.selected.map(target => target = target.accession.term);
+    const dialogRef = this.dialog.open(TopicSaveModalComponent, {
+        height: '50vh',
+        width: '50vw',
+        data: {
+          selection: targetList,
+          user: this.user,
+          count: this.pageData.total
+        }
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(result => {});
   }
 
   /**
@@ -322,11 +333,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'text/plain',
-        })
-      };
+
     });
   }
 
@@ -345,16 +352,16 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'text/plain',
-        })
-      };
+
     });
   }
 
   setSelectedTargets(selection) {
     this.rowSelection  = selection;
+  }
+
+  selectAll() {
+
   }
 
   /**

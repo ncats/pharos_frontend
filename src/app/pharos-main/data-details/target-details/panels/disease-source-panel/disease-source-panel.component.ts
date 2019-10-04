@@ -180,13 +180,6 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
     this.dataSource.data = this.treeData.slice((event.pageIndex * event.pageSize), ((event.pageIndex + 1) * event.pageSize));
   }
 
-  /**
-   * sets tooltip to show the description of the disease
-   * @param label
-   */
-  getTooltip(label: string): string {
-    return this.apiSources.filter(source => source.field === label)[0].description;
-  }
 
   /**
    * check to see if a disease tree node has a child node list

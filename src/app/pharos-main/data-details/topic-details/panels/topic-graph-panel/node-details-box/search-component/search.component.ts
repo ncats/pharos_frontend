@@ -53,7 +53,6 @@ export class SearchComponent implements OnInit {
    * // todo: should unsubscribe
    */
   ngOnInit() {
-    console.log(this);
     this.searchForm = this.fb.group({
       typeaheadInput: null
     });
