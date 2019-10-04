@@ -2,6 +2,9 @@
 import 'zone.js/dist/zone-node';
 import 'reflect-metadata';
 
+(global as any).WebSocket = require('ws');
+(global as any).XMLHttpRequest = require('xhr2');
+
 import { enableProdMode } from '@angular/core';
 
 import * as express from 'express';
