@@ -20,6 +20,8 @@ import {StructureViewComponent} from './structure-view/structure-view.component'
 import {PharosPaginatorModule} from './pharos-paginator/pharos-paginator.module';
 import {NcatsHeaderModule} from './ncats-header/ncats-header.module';
 import { TopicNodeGeneratorComponent } from './topic-node-generator/topic-node-generator.component';
+import { AppShellRenderDirective } from './app-shell-render.directive';
+import { AppShellNoRenderDirective } from './app-shell-no-render.directive';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { TopicNodeGeneratorComponent } from './topic-node-generator/topic-node-g
     LinkListComponent,
     ProteinStructureViewerComponent,
     StructureViewComponent,
-    TopicNodeGeneratorComponent
+    TopicNodeGeneratorComponent,
+    AppShellRenderDirective,
+    AppShellNoRenderDirective
   ],
   imports: [
     CommonModule,
