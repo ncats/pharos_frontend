@@ -100,12 +100,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
    */
   ngOnInit() {
     this.titleService.setTitle(`${this.target.accession}/${this.target.gene} details`);
-    this.metaService.addTags([
-      { name: 'twitter:card', content: 'summary' },
-      { name: 'og:title', content: this.target.name },
-      { name: 'og:description', content: this.target.description },
-      // { name: 'og:image', content: this.data.image }
-    ]);
+    this.setMetadata();
     this.loading = true;
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
     const components: any = this.pharosConfig.getComponents(this.path, this.target.idgTDL.toLowerCase());
@@ -181,6 +176,19 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
    */
   pick(o, props): any {
     return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
+  }
+
+  setMetadata() {
+    this.metaService.updateTag({
+        content: `${this.target.name}, UniprotID: ${this.target.accession}, Gene: ${this.target.accession}`
+      },
+      'property="og:title"'
+    );
+    this.metaService.updateTag({
+        content: `${this.target.name}, UniprotID: ${this.target.accession}, Gene: ${this.target.accession}`
+      },
+      'name="twitter:title"'
+    );
   }
 
   /**
