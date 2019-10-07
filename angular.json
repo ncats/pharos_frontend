@@ -134,7 +134,7 @@
           "options": {
             "browserTarget": "pharos:build",
             "serverTarget": "pharos:server",
-            "route": "shell"
+            "route": "/"
           },
           "configurations": {
             "production": {
