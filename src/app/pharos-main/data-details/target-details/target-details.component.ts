@@ -12,7 +12,7 @@ import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.
 import {NavSectionsService} from '../../../tools/sidenav-panel/services/nav-sections.service';
 import {HelpDataService} from '../../../tools/help-panel/services/help-data.service';
 import {tap} from 'rxjs/internal/operators';
-import {Title} from '@angular/platform-browser';
+import {Meta, Title} from '@angular/platform-browser';
 
 /**
  * main holder component for target details
@@ -67,6 +67,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
    * @param {BreakpointObserver} breakpointObserver
    * @param {PharosConfig} pharosConfig
    * @param titleService
+   * @param metaService
    * @param {ComponentInjectorService} componentInjectorService
    */
   constructor(private _injector: Injector,
@@ -80,6 +81,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
               public breakpointObserver: BreakpointObserver,
               private pharosConfig: PharosConfig,
               private titleService: Title,
+              private metaService: Meta,
               private componentInjectorService: ComponentInjectorService) {
     super();
   }
@@ -98,6 +100,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
    */
   ngOnInit() {
     this.titleService.setTitle(`${this.target.accession}/${this.target.gene} details`);
+    this.setMetadata();
     this.loading = true;
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
     const components: any = this.pharosConfig.getComponents(this.path, this.target.idgTDL.toLowerCase());
@@ -173,6 +176,19 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
    */
   pick(o, props): any {
     return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
+  }
+
+  setMetadata() {
+    this.metaService.updateTag({
+        content: `${this.target.name}, UniprotID: ${this.target.accession}, Gene: ${this.target.accession}`
+      },
+      'property="og:title"'
+    );
+    this.metaService.updateTag({
+        content: `${this.target.name}, UniprotID: ${this.target.accession}, Gene: ${this.target.accession}`
+      },
+      'name="twitter:title"'
+    );
   }
 
   /**
