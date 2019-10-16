@@ -11,10 +11,11 @@
     "lint": "ng lint pharos",
     "lintfix": "ng lint pharos --fix",
     "e2e": "ng e2e",
+    "build:appshell": "ng run pharos:app-shell:production",
     "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json -s -w --theme material",
     "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
     "serve:ssr": "node dist/server.js",
-    "build:client-and-server-bundles": "ng build pharos --prod && ng run pharos:server",
+    "build:client-and-server-bundles": "ng build pharos --prod && ng run pharos:server:production --bundleDependencies none",
     "webpack:server": "webpack --config webpack.server.config.js --progress --colors"
   },
   "private": true,
@@ -36,8 +37,9 @@
     "@angular/router": "8.2.8",
     "@angular/service-worker": "8.2.8",
     "@angular/upgrade": "^8.1.2",
+    "@nguniversal/common": "^8.1.1",
     "@nguniversal/express-engine": "^8.1.1",
-    "@nguniversal/module-map-ngfactory-loader": "^7.0.0",
+    "@nguniversal/module-map-ngfactory-loader": "8.1.1",
     "@webcomponents/custom-elements": "^1.2.1",
     "ProtVista": "^2.0.13",
     "classlist.js": "^1.1.20150312",
@@ -69,6 +71,7 @@
     "@types/jasmine": "~3.4.2",
     "@types/jasminewd2": "~2.0.6",
     "@types/node": "^12.6.8",
+    "bufferutil": "^4.0.1",
     "codelyzer": "^5.0.1",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
@@ -82,6 +85,9 @@
     "ts-node": "^8.3.0",
     "tslint": "~5.20.0",
     "typescript": ">=3.4 <3.6",
-    "webpack-cli": "^3.1.0"
+    "utf-8-validate": "^5.0.2",
+    "webpack-cli": "^3.1.0",
+    "ws": "^7.1.2",
+    "xhr2": "^0.2.0"
   }
 }

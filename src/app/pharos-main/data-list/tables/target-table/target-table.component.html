@@ -67,7 +67,7 @@
                           (pageChange)="changePage($event)">
     </pharos-generic-table>
   </div>
-  <div class="target-grid" *ngIf="isSmallScreen">
+  <div class="target-grid" *ngIf="isSmallScreen" >
     <div *ngFor="let target of targetObjs">
       <pharos-target-card [target]="target"></pharos-target-card>
     </div>
