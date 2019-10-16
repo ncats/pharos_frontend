@@ -17,6 +17,8 @@ import {ScrollToTopComponent} from './tools/scroll-to-top/scroll-to-top.componen
 import {MaterialModule} from '../assets/material/material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {TransferHttpCacheModule} from '@nguniversal/common';
+
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
   imports: [
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    TransferHttpCacheModule,
     MaterialModule,
     BrowserAnimationsModule,
     AppRoutingModule,
