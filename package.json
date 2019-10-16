@@ -11,6 +11,7 @@
     "lint": "ng lint pharos",
     "lintfix": "ng lint pharos --fix",
     "e2e": "ng e2e",
+    "build:appshell": "ng run pharos:app-shell:production",
     "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json -s -w --theme material",
     "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
     "serve:ssr": "node dist/server.js",

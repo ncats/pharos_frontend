@@ -18,7 +18,7 @@ import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
     ServerTransferStateModule,
     ModuleMapLoaderModule,
     FlexLayoutServerModule,
-  //  RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes),
   ],
   bootstrap: [AppComponent],
   declarations: [
@@ -26,7 +26,7 @@ import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
    ],
 })
 export class AppServerModule {
-/*  constructor(private router: Router) {
+  constructor(private router: Router) {
     this.router.resetConfig(routes);
-  }*/
+  }
 }
