@@ -3,6 +3,7 @@ import {takeUntil} from 'rxjs/operators';
 import {Target} from '../../../../../models/target';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {BreakpointObserver} from '@angular/cdk/layout';
+import {Meta} from '@angular/platform-browser';
 
 /**
  * displays the description of a target
@@ -41,9 +42,11 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
   /**
    * set mobile breakpoints
    * @param breakpointObserver
+   * @param metaService
    */
   constructor(
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private metaService: Meta
   ) {
     super();
   }
@@ -87,5 +90,16 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
       this.fullDescription = false;
       this.truncatedDescription = this.description.slice(0, 500);
     }
+
+    this.metaService.updateTag({
+        content: this.description
+      },
+      'property="og:description"'
+    );
+    this.metaService.updateTag({
+        content: this.description
+      },
+      'name="twitter:description"'
+    );
   }
 }

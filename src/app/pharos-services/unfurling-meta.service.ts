@@ -21,7 +21,7 @@ export class UnfurlingMetaService {
    */
     setMetaData(data: any): void {
         this.metaService.updateTag({
-                content: data.toolName
+                content: data.name
             },
             'property="og:description"'
         );
@@ -31,12 +31,12 @@ export class UnfurlingMetaService {
             'name="twitter:description"'
         );
         this.metaService.updateTag({
-                content: data.toolName
+                content: data.name
             },
             'property="og:title"'
         );
         this.metaService.updateTag({
-                content: data.toolName
+                content: data.name
             },
             'name="twitter:title"'
         );
