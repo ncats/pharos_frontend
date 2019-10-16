@@ -46,7 +46,7 @@ export class LigandCardComponent implements OnInit, OnChanges {
     this._STRUCTUREURLBASE = this.pharosConfig.getStructureImageUrl();
 
     if (this.target) {
-      this.primeActivity = [this.ligand.activities.sort(activity => this.target.gene === activity.target)[0]];
+      this.primeActivity = [this.ligand.activities.filter(activity => this.target.gene === activity.target)[0]];
     }
     if (!this.ligand.imageUrl) {
       this.ligand.imageUrl = this.parseImageUrl();
