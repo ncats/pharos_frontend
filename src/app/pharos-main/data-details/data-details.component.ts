@@ -87,6 +87,31 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
    * set up subscriptions to watch help panel, data responses and router event changes
    */
   ngOnInit() {
+    /*this.pharosApiService.callApolloQuery('17782', 'sym'
+    );
+    this.pharosApiService.callApolloQuery('17782', `
+    tdl
+    name
+    `);
+    this.pharosApiService.callApolloQuery('17782', `
+     description
+              tcrdid
+              uniprot
+    `);
+    this.pharosApiService.callApolloQuery('17782', `
+    fam
+              novelty
+              tdl
+    `);
+    this.pharosApiService.callApolloQuery('17782', `
+     props {
+                name
+                value
+              }
+    `);
+    this.pharosApiService.callApolloQuery('17782', `
+    tdl
+    `);*/
     if (!this.componentsLoaded) {
       this.makeComponents();
     }
