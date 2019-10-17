@@ -13,6 +13,7 @@ import {NavSectionsService} from '../../../tools/sidenav-panel/services/nav-sect
 import {HelpDataService} from '../../../tools/help-panel/services/help-data.service';
 import {tap} from 'rxjs/internal/operators';
 import {Meta, Title} from '@angular/platform-browser';
+import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 
 /**
  * main holder component for target details
@@ -82,6 +83,7 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
               private pharosConfig: PharosConfig,
               private titleService: Title,
               private metaService: Meta,
+              private pharosApiService: PharosApiService,
               private componentInjectorService: ComponentInjectorService) {
     super();
   }
@@ -106,6 +108,11 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
     const components: any = this.pharosConfig.getComponents(this.path, this.target.idgTDL.toLowerCase());
     if (components) {
       components.forEach(component => {
+        if (component.dataFields) {
+          this.pharosApiService.callApolloQuery(this.target.accession as String, component.dataFields);
+        }
+
+
         // start api calls before making component
         const keys: string[] = [];
         component.api.forEach(apiCall => {

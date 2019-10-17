@@ -10,6 +10,8 @@ import {HttpCacheService} from './http-cache.service';
 import {PharosBase} from '../models/pharos-base';
 import {PageData} from '../models/page-data';
 import {Facet} from '../models/facet';
+import {Apollo} from 'apollo-angular';
+import gql from 'graphql-tag';
 
 
 /**
@@ -181,9 +183,11 @@ export class PharosApiService {
   /**
    * get config info and set up http service
    * @param {HttpClient} http
+   * @param apollo
    * @param {PharosConfig} pharosConfig
    */
   constructor(private http: HttpClient,
+              private apollo: Apollo,
               private pharosConfig: PharosConfig) {
     this._URL = this.pharosConfig.getApiPath();
     this._SEARCHURLS = this.pharosConfig.getSearchPaths();
@@ -260,6 +264,28 @@ export class PharosApiService {
           catchError(this.handleError('getDataObject', []))
         );
     }
+  }
+
+  callApolloQuery(id: string | number, fields: string) {
+    console.log(fields);
+    this.apollo.watchQuery({
+      query: gql`
+        {
+          target(
+            q: {
+              #geneid:116328
+              #tcrdid:15380
+              uniprot: "${id}"
+            }
+          ){
+            ${fields}
+            }
+        }
+      `,
+    }).valueChanges.subscribe(res => {
+      console.log(res);
+    });
+
   }
 
   /**

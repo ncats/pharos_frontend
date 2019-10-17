@@ -18,6 +18,8 @@ import {MaterialModule} from '../assets/material/material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {TransferHttpCacheModule} from '@nguniversal/common';
+import { GraphQLModule } from './graphql.module';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -40,7 +42,9 @@ import {TransferHttpCacheModule} from '@nguniversal/common';
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AuthModule,
     NcatsHeaderModule,
-    PharosLoadingSpinnerModule
+    PharosLoadingSpinnerModule,
+    GraphQLModule,
+    HttpClientModule
   ],
   providers: [
   ],
