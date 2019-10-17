@@ -33,6 +33,31 @@ export class DataResource extends BaseResource {
    * Dataset name that is descriptive of the data
    */
   title: string;
+
+  /**
+   *base resource type
+   */
+  baseType = 'datasource';
+
+  constructor(data: any) {
+    super(data);
+
+    if (data.authors) {
+      this.authors = data.authors;
+    }
+    if (data.datasetID) {
+      this.datasetID = data.datasetID;
+    }
+    if (data.releaseDate) {
+      this.releaseDate = data.releaseDate;
+    }
+    if (data.repository) {
+      this.repository = data.repository;
+    }
+    if (data.title) {
+      this.title = data.title;
+    }
+  }
 }
 
 /**
@@ -68,6 +93,35 @@ export class MouseImageData extends DataResource {
    * UBERON ID
    */
   tissueID: string;
+
+  resourceType = 'mouseImageData';
+
+
+  constructor(data: any) {
+    super(data);
+
+    if (data.dataPageLink) {
+      this.dataPageLink = data.dataPageLink;
+    }
+    if (data.geneExpressed) {
+      this.geneExpressed = data.geneExpressed;
+    }
+    if (data.mmrrcId) {
+      this.mmrrcId = data.mmrrcId;
+    }
+    if (data.strainName) {
+      this.strainName = data.strainName;
+    }
+    if (data.tissue) {
+      this.tissue = data.tissue;
+    }
+    if (data.tissueID) {
+      this.tissueID = data.tissueID;
+    }
+    if (data.geneExpressed) {
+      this.geneExpressed = data.geneExpressed;
+    }
+  }
 }
 
 /**
@@ -127,6 +181,44 @@ export class ProbeData extends DataResource {
    * Image of the chemical structure based on SMILES provided by DRGC
    */
   structure: string;
+
+  resourceType = 'dataset';
+
+  constructor(data: any) {
+    super(data);
+
+    if (data.activity) {
+      this.activity = data.activity;
+    }
+
+    if (data['External ID']) {
+      this.externalID = data['External ID'];
+    }
+    if (data['External ID registration system']) {
+      this.externalIDRegistrationSystem = data['External ID registration system'];
+    }
+
+    if (data.moleculeName) {
+      this.moleculeName = data.moleculeName;
+    }
+    if (data.negativeControlName) {
+      this.negativeControlName = data.negativeControlName;
+    }
+    if (data.negativeControlStructure) {
+      this.negativeControlStructure = data.negativeControlStructure;
+    }if (data.probePage) {
+      this.probePage = data.probePage;
+    }
+    if (data.selectivity) {
+      this.selectivity = data.selectivity;
+    }
+    if (data.structure) {
+      this.structure = data.structure;
+    }
+    if (data.Repository) {
+      this.repository = new Repository(data);
+    }
+  }
 }
 
 
