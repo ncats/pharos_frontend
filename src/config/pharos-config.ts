@@ -32,7 +32,8 @@ const PHAROSCONFIG: any = {
   molConvertUrl: _HOST + _API + 'smiles',
   topicResolveUrl: `${_HOST}${_API}topics/target`,
   autocompleteFields: ['UniProt_Gene', 'Target', 'Disease', 'OMIM_Term', 'UniProt_Name'],
-  components: COMPONENTSCONFIG
+  components: COMPONENTSCONFIG,
+  graphqlUrl: 'https://ncats-ifx.appspot.com/graphql'
 };
 
 /**
@@ -48,6 +49,14 @@ export class PharosConfig {
    */
    getApiPath(): string {
     return PHAROSCONFIG.apiUrl;
+  }
+
+  /**
+   * get search url for typeahead suggestions
+   * @returns {string}
+   */
+   getGraPath(): string {
+    return PHAROSCONFIG.suggestUrl;
   }
 
   /**
