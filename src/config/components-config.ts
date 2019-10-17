@@ -136,7 +136,8 @@ const TARGET_GENE_SUMMARY_COMPONENT: PharosPanel = {
       field: 'geneSummary',
       url: _APIURL + 'targets/_id_/properties(label=NCBI%20Gene%20Summary)'
     }
-  ]
+  ],
+  dataFields: ['props(name: "NCBI Gene Summary") {name,value}']
 };
 
 /**
@@ -179,6 +180,7 @@ const SUMMARY_PANEL: PharosPanel = {
     mainDescription: 'Gene symbols, accession ids and various other target identifiers. Also contains the illumination ' +
     'graph which highlights the amount of knowledge available. Click the \'?\' button for more information'
   },
+  dataFields: ['props(name: "NCBI Gene Summary") {name,value}'],
   api: [
     {
       field: 'synonyms',
