@@ -40,17 +40,18 @@
         <div class="data-grid">
           <div *ngFor ="let reagent of reagentsList">
             <mat-card class = "resource-card">
-              <div class="mat-subheading-2"><a href="{{reagent.data_page_link}}" target="_blank" rel="noreferrer">{{reagent.name}}</a></div><br>
+              <div class="mat-subheading-2"><a href="{{reagent.data_page_link}}" target="_blank" rel="noreferrer">{{reagent.name}} ({{reagent.resourceType}})</a></div><br>
               <div class="thumb-holder">
-              <img src = './assets/images/resource-types/{{reagent.resourceType}}.png' alt = "image for {{reagent.name}}" class="resource-thumb">
+              <img *ngIf="reagent.smiles" [src] = parseSmiles(reagent.smiles) alt = "image for {{reagent.name}}" class="resource-thumb">
+              <img *ngIf="!reagent.smiles" src = './assets/images/resource-types/{{reagent.resourceType}}.png' alt = "image for {{reagent.name}}" class="resource-thumb">
               </div>
-             <div fxLayout="row" fxLayoutAlign="space-between end">
-               <div fxFlex = "55">Order {{reagent.resourceType}}</div>
-               <div fxFlex="40" fxLayoutAlign="end"><a href = {{reagent.vendor_cat}} target="_blank" rel="noreferrer">{{reagent.vendor}}</a></div>
+             <div fxLayout="row" fxLayoutAlign="space-between start">
+               <div fxFlex = "55">Order {{reagent.name}} from:</div></div>
+              <div fxLayout="row" fxLayoutAlign="space-between start">
+              <div fxFlex="40"><a href = {{reagent.vendor_cat}} target="_blank" rel="noreferrer">{{reagent.vendor}}</a></div>
              </div>
               <br>
               <br>
-              <div>Extra details can go here</div>
             </mat-card>
           </div>
         </div>

@@ -8,6 +8,7 @@ import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-pan
 import {FormControl} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {Target} from '../../../../../models/target';
+import {PharosConfig} from '../../../../../../config/pharos-config';
 
 /**
  * panel to show idg generated resources. currently stub functionality
@@ -25,29 +26,29 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
    */
   reagents = [
     {
-      resourceType: 'smallMolecule',
-      gene: 'BRSK2',
-      name: 'small molecule',
+      resourceType: 'Small Molecule',
+      gene: 'CDK13',
+      name: 'THZ531',
       logP_hydrophobicity: null,
       water_solubility: null,
-      molecular_weight: '385.38',
+      molecular_weight: '558.07',
       purity: null,
       ZINC_ID: null,
       chembl_id: null,
       pubchem_id: null,
-      vendor_cat: 'https://infoporte.unc.edu/cores/buy.php?cid=144',
-      vendor: 'SGC-UNC',
-      smiles: 'COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1',
+      vendor_cat: 'https://www.medchemexpress.com/THZ531.html',
+      vendor: 'MedChemExpress',
+      smiles: 'ClC1=CN=C(N[C@H]2CN(C(C3=CC=C(NC(/C=C/CN(C)C)=O)C=C3)=O)CCC2)N=C1C4=CNC5=C4C=CC=C5',
       canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360506',
-      external_id: '143121',
+      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360510',
+      external_id: '143122',
       external_id_registration_system: [
         'ChEBI'
       ],
       repository: null,
       repository_page_link: null
     },
-    {
+/*    {
       resourceType: 'antibody',
       gene: 'BRSK2',
       name: 'antibody',
@@ -161,7 +162,8 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
       ],
       repository: null,
       repository_page_link: null
-    }, {
+    },
+    {
       resourceType: 'smallMolecule',
       gene: 'BRSK2',
       name: 'reallyreallyreallylongchemicalname',
@@ -183,13 +185,13 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
       ],
       repository: null,
       repository_page_link: null
-    }
+    }*/
   ];
   /**
    * dummy data
    */
   dataSources = [
-    {
+/*    {
       resourceType: 'mouseImagingData',
       gene: 'BRSK2',
       name: 'mouseImagingData',
@@ -257,7 +259,7 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
       ],
       repository: null,
       repository_page_link: null
-    }
+    }*/
   ];
   reagentsList = [];
   dataSourceList = [];
@@ -280,7 +282,8 @@ dataTypes: string[] = [];
    */
   constructor(
     private http: HttpClient,
-    private navSectionsService: NavSectionsService
+    private navSectionsService: NavSectionsService,
+    private pharosConfig: PharosConfig
   ) {
     super();
   }
@@ -294,14 +297,18 @@ dataTypes: string[] = [];
     this.dataSourceList = this.dataSources;
 
     this.http.get(`http://dev3.ccs.miami.edu:8080/rss-api/target/search?term=${this.target.gene}`).subscribe(res => {
+      console.log(res);
       if (res && res['data']) {
         res['data'].forEach(data => {
-        this.http.get(data.id).subscribe(resource => {
+        this.http.get(`http://dev3.ccs.miami.edu:8080/rss-api/target/id?id=${data.id}&json=true`).subscribe(resource => {
+          console.log(resource);
         });
       });
-    }
-    this.loading = false;
+    } else {
+
+      }
     });
+    this.loading = false;
 
 
     this.reagentFilterCtrl.valueChanges.subscribe(change => {
@@ -364,6 +371,10 @@ this.pageData = this.makePageData(this.reagents.length);
    */
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
+  }
+
+  parseSmiles(smiles) {
+    return `${this.pharosConfig.getApiPath()}render/${encodeURIComponent(smiles)}?size=250`;
   }
 
   /**
