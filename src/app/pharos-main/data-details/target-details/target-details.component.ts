@@ -108,9 +108,9 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
     const components: any = this.pharosConfig.getComponents(this.path, this.target.idgTDL.toLowerCase());
     if (components) {
       components.forEach(component => {
-        if (component.dataFields) {
+/*        if (component.dataFields) {
           this.pharosApiService.callApolloQuery(this.target.accession as String, component.dataFields);
-        }
+        }*/
 
 
         // start api calls before making component
