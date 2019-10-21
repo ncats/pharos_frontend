@@ -223,6 +223,78 @@ export class PharosApiService {
           );
   }
 
+
+  /**
+   * call graphql pagination
+   * skip
+   * top
+   * filter
+   * term
+   * @param {string} path
+   * @param {ParamMap} params
+   * @return {Observable<any>}
+   */
+  getGraphQlData(path: string, params: ParamMap): Observable<any> {
+    console.log(params);
+    console.log(path);
+
+    const variables = this._mapVariables(path, params);
+  console.log(variables);
+   // const url = this._mapParams(path, params);
+
+    /**
+     * With query() you fetch data, receive the result, then an Observable completes.
+     * With watchQuery() you fetch data, receive the result and an Observable is keep opened for new
+     * emissions so it never completes.
+     * @type {Observable<ApolloQueryResult<any>>}
+     */
+    const fetchQuery = this.apollo.query({
+      query: gql`
+        query PaginateTargets($skip: Int, $top: Int, $filter: Filter){
+          targets(
+            top: $top,
+            skip:$skip,
+            filter: $filter
+          )
+          {
+            tcrdid
+            name
+            gene: sym
+            accession: uniprot
+            idgFamily: fam
+            idgTDL: tdl
+            novelty
+            jensenScore: props(name: "JensenLab PubMed Score") {
+              value
+            }
+            antibodyCount: props(name: "Ab Count") {
+              value
+            }
+            ppiCount: ppiCounts {
+              value
+            }
+          }
+        }
+      `,
+      variables: variables,
+      forceFetch: true
+    });
+
+
+    // fetchQuery.fetchMore()
+return fetchQuery;
+
+   /* return this.http.get<any>(url)
+      .pipe(
+        tap(res => {
+          if (path !== 'topics') {
+            this._facetsDataSource.next(res.facets);
+          }
+        }),
+        catchError(this.handleError('getData', []))
+      );*/
+  }
+
   /**
    * creates a fork join to return the results of api search calls to targeted object kinds
    * this reduces the number of irrelevant results return that need to be parsed,
@@ -312,6 +384,41 @@ export class PharosApiService {
   flushData() {
     this.returnedObject = {};
     this._detailsDataSource.next(null);
+  }
+
+
+  private _mapVariables(path: string, params: ParamMap): any {
+  const ret: any = {};
+    params.keys.map(key => {
+      params.getAll(key).map(val => {
+          switch (key) {
+            case 'page': {
+              const rows = params.get('rows');
+              if (rows) {
+               ret.top = +rows;
+              } else {
+                ret.top = 10;
+                ret.skip = 10 * (+val - 1);
+              }
+              break;
+            }
+            case 'rows': {
+              const page = params.get('page');
+              if (page) {
+                ret.skip = +val * (+page - 1);
+              }
+              break;
+            }
+            default: {
+              ret[key] = val;
+              break;
+            }
+          }
+        }
+      );
+    });
+
+  return ret;
   }
 
   /**

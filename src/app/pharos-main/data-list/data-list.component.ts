@@ -106,22 +106,25 @@ export class DataListComponent implements OnInit, OnDestroy {
               private helpPanelOpenerService: HelpPanelOpenerService,
               private pharosConfig: PharosConfig,
               private _http: HttpClient,
-              private componentInjectorService: ComponentInjectorService) {}
+              private componentInjectorService: ComponentInjectorService) {
+  }
 
   /**
    * subscribe to loading service to toggle spinner
    * subscribe to data changes and load and inject required components
    */
   ngOnInit() {
+    console.log(this);
     this.path = this._route.snapshot.data.path;
 
     if (this._route.snapshot.data.search) {
       this.search = this._route.snapshot.data.search;
     }
-    if (this._route.snapshot.data.data) {
-          this.data = this._route.snapshot.data.data.content;
-          this.etag = this._route.snapshot.data.data.etag;
-          this.sideway = this._route.snapshot.data.data.sideway;
+    if (this._route.snapshot.data[this.path]) {
+      console.log("init");
+      this.data = this._route.snapshot.data[this.path].data[this.path];
+        //  this.etag = this._route.snapshot.data.data.etag;
+        //  this.sideway = this._route.snapshot.data.data.sideway;
         }
 
     if (!this.componentsLoaded) {
@@ -149,10 +152,11 @@ export class DataListComponent implements OnInit, OnDestroy {
           if (this._route.snapshot.data.search) {
             this.search = this._route.snapshot.data.search;
           }
-          if (this._route.snapshot.data.data) {
-            this.data = this._route.snapshot.data.data.content;
-            this.etag = this._route.snapshot.data.data.etag;
-            this.sideway = this._route.snapshot.data.data.sideway;
+          if (this._route.snapshot.data[this.path]) {
+            console.log("router");
+            this.data = this._route.snapshot.data[this.path].data[this.path];
+          //  this.etag = this._route.snapshot.data.data.etag;
+          //  this.sideway = this._route.snapshot.data.data.sideway;
           }
           this.makeComponents();
           this.ref.detectChanges();
@@ -178,13 +182,17 @@ export class DataListComponent implements OnInit, OnDestroy {
       if (!instance) {
         const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
         const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
-
+        const newPD = new PageData({
+          top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,
+          skip: (+this._route.snapshot.queryParamMap.get('page') - 1) * + this._route.snapshot.queryParamMap.get('rows'),
+          total: 20244
+        });
         if (this.search && this.search.length) {
           const data: any = this.search.filter(datum => datum.kind === dynamicComponent.instance.path)[0];
-          dynamicComponent.instance.pageData = new PageData(data.data);
+          dynamicComponent.instance.pageData = newPD;
           dynamicComponent.instance.data = data.data.content;
         } else {
-          dynamicComponent.instance.pageData = new PageData(this._route.snapshot.data.data);
+          dynamicComponent.instance.pageData = newPD;
           dynamicComponent.instance.data = this.data;
         }
         dynamicComponent.instance.etag = this.etag;
@@ -203,6 +211,8 @@ export class DataListComponent implements OnInit, OnDestroy {
         }
         if (dynamicComponent.instance.pageChange) {
           dynamicComponent.instance.pageChange.subscribe((event) => {
+            console.log("page change");
+            console.log(event);
             if (this.path === 'search') {
               this.typePagination(event, dynamicComponent.instance.path).subscribe(res => {
                 dynamicComponent.instance.data = res.content;
@@ -215,14 +225,24 @@ export class DataListComponent implements OnInit, OnDestroy {
 
         this.loadedComponents.set(component.token, dynamicComponent);
       } else {
+        const newPD = new PageData({
+          top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,
+          skip: (+this._route.snapshot.queryParamMap.get('page') - 1) * + this._route.snapshot.queryParamMap.get('rows'),
+          total: 20244
+        });
         if (this.search && this.search.length) {
           const data: any = this.search.filter(datum => datum.kind === instance.instance.path)[0];
-          instance.instance.pageData = new PageData(data.data);
+          instance.instance.pageData = newPD;
           instance.instance.data = data.data.content;
         } else {
-          instance.instance.pageData = new PageData(this._route.snapshot.data.data);
+         console.log("setting page atat");
+         console.log(this._route.snapshot.queryParamMap);
+
+         console.log(newPD);
+          instance.instance.pageData = newPD;
           instance.instance.data = this.data;
           this.loadedComponents.set(component.token, instance);
+          this.ref.markForCheck();
         }
       }
     });
@@ -248,7 +268,7 @@ export class DataListComponent implements OnInit, OnDestroy {
         break;
       }
       case 'desc': {
-        sort = '$' + event.active;
+        sort = '!' + event.active;
         break;
       }
       default: {
