@@ -88,19 +88,26 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       width: '10vw'
     }),
     new PharosProperty({
+      name: 'accession',
+      label: 'Uniprot ID',
+      width: '10vw'
+    }),
+    new PharosProperty({
       name: 'idgTDL',
       label: 'Development Level',
       customComponent: IDG_LEVEL_TOKEN,
+      sortable: true,
       width: '10vw'
     }),
     new PharosProperty({
       name: 'idgFamily',
       label: 'Target Family',
+      sortable: true,
       width: '10vw'
     }),
     new PharosProperty({
       name: 'novelty',
-      label: 'Log Novelty',
+      label: 'Novelty',
       sortable: true,
       width: '7vw'
     }),
@@ -210,6 +217,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * subscribe to data changes
    */
   ngOnInit() {
+    console.log(this);
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
 
     this.profileService.profile$.subscribe(user => {

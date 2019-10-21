@@ -156,13 +156,28 @@ export class TargetSerializer implements PharosSerializer {
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
     Target.mapDates(obj);
 
+    /**
+     * mapping graphql responses, since they are returned as arrays
+     */
     if (obj.novelty) {
     obj.novelty = +obj.novelty.toFixed(2);
     }
 
-    if (obj.jensenScore) {
-    obj.jensenScore = +obj.jensenScore.toFixed(2);
+    if (obj.jensenScore && Array(obj.jensenScore).length) {
+    obj.jensenScore = +(+obj.jensenScore[0].value).toFixed(2);
     }
+
+    if (obj.antibodyCount && Array(obj.antibodyCount).length) {
+    obj.antibodyCount = +(+obj.antibodyCount[0].value).toFixed(2);
+    }
+
+    if (obj.ppiCount) {
+      console.log(obj.ppiCount);
+    obj.ppiCount = obj.ppiCount.reduce((prev, cur) => prev + cur.value, 0);
+    console.log(obj.ppiCount);
+    }
+
+
 
     if (obj._links) {
       obj._links = new PharosSubList(obj._links);
