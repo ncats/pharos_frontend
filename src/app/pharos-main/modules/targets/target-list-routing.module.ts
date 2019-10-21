@@ -8,7 +8,7 @@ const routes: Routes = [
     path: '',
     component: DataListComponent,
     resolve: {
-      data: DataListResolver
+      targets: DataListResolver
     },
     runGuardsAndResolvers: 'paramsOrQueryParamsChange'
   }
