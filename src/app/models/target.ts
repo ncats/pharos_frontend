@@ -1,10 +1,59 @@
 import {PharosBase, PharosSerializer, PharosSubList} from './pharos-base';
 import {PharosProperty} from './pharos-property';
+import gql from 'graphql-tag';
+
+const LISTFIELDS =  gql`
+  fragment listFields on Target {
+    _tcrdid:tcrdid
+    name
+    gene: sym
+    accession: uniprot
+    idgFamily: fam
+    idgTDL: tdl
+    novelty
+    jensenScore: props(name: "JensenLab PubMed Score") {
+      value
+    }
+    antibodyCount: props(name: "Ab Count") {
+      value
+    }
+    ppiCount: ppiCounts {
+      value
+    }
+  }
+`;
+
+
+const DETAILSFIELDS = gql`
+  #import "./listFields.gql"
+  fragment detailsFields on Target {
+    ...listFields
+    symbols: synonyms(name: "symbol") {
+      name
+      value
+    }
+    uniprotIds: synonyms(name: "uniprot") {
+      name
+      value
+    }
+    ensemblId: synonyms(name: "Uniprot") {
+      name
+      value
+    }
+  }
+  ${LISTFIELDS}
+`;
+
+
 
 /**
  * main target object
  */
 export class Target extends PharosBase {
+
+  static listfragments  = LISTFIELDS;
+
+  static detailsfragments = DETAILSFIELDS;
 
   /**
    * target name
@@ -42,6 +91,16 @@ export class Target extends PharosBase {
   novelty:  number;
 
   /**
+   * text mined publication score
+   */
+  jensenScore:  number;
+
+
+  uniprotIds: string[];
+
+  symbols: string[];
+
+  /**
    * antibodipedia.org? count
    */
   antibodyCount:  number;
@@ -57,10 +116,7 @@ export class Target extends PharosBase {
    */
   pubmedCount:  number;
 
-  /**
-   * text mined publication score
-   */
-  jensenScore:  number;
+
 
   /**
    * number of patents
@@ -85,7 +141,7 @@ export class Target extends PharosBase {
   /**
    * number of protein-protein interactions
    */
-  ppiCount:  number;
+  ppiCount:  number | any[];
 
   /**
    * knowledge availability score
@@ -134,6 +190,10 @@ export class Target extends PharosBase {
    * count of publications
    */
   _publicationsCount: number;
+
+  _tcrdid: string;
+
+
 }
 
 /**
@@ -154,30 +214,37 @@ export class TargetSerializer implements PharosSerializer {
   fromJson(json: any): Target {
     const obj = new Target();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
-    Target.mapDates(obj);
 
     /**
      * mapping graphql responses, since they are returned as arrays
      */
-    if (obj.novelty) {
-    obj.novelty = +obj.novelty.toFixed(2);
+    if (json.novelty) {
+    obj.novelty = +json.novelty.toFixed(2);
     }
 
-    if (obj.jensenScore && Array(obj.jensenScore).length) {
-    obj.jensenScore = +(+obj.jensenScore[0].value).toFixed(2);
+    if (json.jensenScore && json.jensenScore.length) {
+    obj.jensenScore = +(+json.jensenScore[0].value).toFixed(2);
     }
 
-    if (obj.antibodyCount && Array(obj.antibodyCount).length) {
-    obj.antibodyCount = +(+obj.antibodyCount[0].value).toFixed(2);
+    if (json.antibodyCount && json.antibodyCount.length) {
+    obj.antibodyCount = +(+json.antibodyCount[0].value).toFixed(2);
     }
 
-    if (obj.ppiCount) {
-      console.log(obj.ppiCount);
-    obj.ppiCount = obj.ppiCount.reduce((prev, cur) => prev + cur.value, 0);
-    console.log(obj.ppiCount);
+    if (json.ppiCount) {
+    obj.ppiCount = json.ppiCount.reduce((prev, cur) => prev + cur.value, 0);
     }
 
+    if (json.uniprotIds) {
+      obj.uniprotIds = [obj.accession, ...json.uniprotIds.map(id => id.value)];
+    } else {
+      obj.uniprotIds = [obj.accession];
+    }
 
+    if (json.symbols) {
+      obj.symbols = [...new Set<string>(json.symbols.map(sym => sym.value))];
+    }
+
+console.log(obj);
 
     if (obj._links) {
       obj._links = new PharosSubList(obj._links);
@@ -236,6 +303,8 @@ export class TargetSerializer implements PharosSerializer {
     Object.keys(properties).forEach(prop => target[prop] = properties[prop].term);
     return target;
   }
+
+
 }
 
 

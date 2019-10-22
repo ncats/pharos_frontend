@@ -35,7 +35,6 @@ export class OrthologSerializer implements PharosSerializer {
   fromJson(json: any): Ortholog {
     const obj = new Ortholog();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
-    Ortholog.mapDates(obj);
     return obj;
   }
 
