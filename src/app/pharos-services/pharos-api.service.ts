@@ -8,6 +8,7 @@ import {map, tap} from 'rxjs/internal/operators';
 import {PharosConfig} from '../../config/pharos-config';
 import {HttpCacheService} from './http-cache.service';
 import {PharosBase} from '../models/pharos-base';
+import {Target} from '../models/target';
 import {PageData} from '../models/page-data';
 import {Facet} from '../models/facet';
 import {Apollo} from 'apollo-angular';
@@ -232,16 +233,11 @@ export class PharosApiService {
    * term
    * @param {string} path
    * @param {ParamMap} params
+   * @param fragments
    * @return {Observable<any>}
    */
-  getGraphQlData(path: string, params: ParamMap): Observable<any> {
-    console.log(params);
-    console.log(path);
-
+  getGraphQlData(path: string, params: ParamMap, fragments?: any): Observable<any> {
     const variables = this._mapVariables(path, params);
-  console.log(variables);
-   // const url = this._mapParams(path, params);
-
     /**
      * With query() you fetch data, receive the result, then an Observable completes.
      * With watchQuery() you fetch data, receive the result and an Observable is keep opened for new
@@ -250,52 +246,56 @@ export class PharosApiService {
      */
     const fetchQuery = this.apollo.query({
       query: gql`
-        query PaginateTargets($skip: Int, $top: Int, $filter: Filter){
-          targets(
+        query PaginateData($skip: Int, $top: Int, $filter: IFilter){
+          results:${path} (
+            skip: $skip,
             top: $top,
-            skip:$skip,
             filter: $filter
-          )
-          {
-            tcrdid
-            name
-            gene: sym
-            accession: uniprot
-            idgFamily: fam
-            idgTDL: tdl
-            novelty
-            jensenScore: props(name: "JensenLab PubMed Score") {
-              value
-            }
-            antibodyCount: props(name: "Ab Count") {
-              value
-            }
-            ppiCount: ppiCounts {
-              value
+          ) {
+            skip
+            top
+            count
+            ${path} {
+            ...listFields
             }
           }
         }
+        ${fragments}
       `,
-      variables: variables,
-      forceFetch: true
+      variables: variables
+    });
+return fetchQuery;
+  }
+
+
+  getDetailsData(path: string, params: ParamMap, fragments?: any): Observable<any> {
+    const variables: any = {term: params.get('id')};
+console.log(variables);
+console.log(fragments);
+    const fetchQuery = this.apollo.query({
+      query: gql`
+        query fetchTarget($term: String) {
+          target(q: {
+            sym: $term,
+            #tcrdid: $term,
+            uniprot: $term,
+            stringid:$term
+          }) {
+        ...detailsFields
+        }
+        }
+        ${fragments}
+      `,
+      variables: variables
     });
 
 
     // fetchQuery.fetchMore()
-return fetchQuery;
+    return fetchQuery;
 
-   /* return this.http.get<any>(url)
-      .pipe(
-        tap(res => {
-          if (path !== 'topics') {
-            this._facetsDataSource.next(res.facets);
-          }
-        }),
-        catchError(this.handleError('getData', []))
-      );*/
   }
 
-  /**
+    /**
    * creates a fork join to return the results of api search calls to targeted object kinds
    * this reduces the number of irrelevant results return that need to be parsed,
    * and also allows for paging and faceting independently of the data type

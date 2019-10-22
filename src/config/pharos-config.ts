@@ -1,4 +1,4 @@
-import {COMPONENTSCONFIG} from '../config/components-config';
+import {COMPONENTSCONFIG, PharosPanel} from '../config/components-config';
 import {environment} from '../environments/environment.prod';
 import {Injectable} from '@angular/core';
 
@@ -167,7 +167,7 @@ export class PharosConfig {
    * @returns {any[]} array of component tokens/api calls or null
    *
    */
-   getComponents(path: string, subpath?: string): any[] {
+   getComponents(path: string, subpath?: string): PharosPanel[] {
     if (PHAROSCONFIG.components.has(path)) {
       if (subpath) {
         const value = subpath

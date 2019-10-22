@@ -61,7 +61,6 @@ export class PharosPaginatorComponent implements OnInit, OnDestroy {
   /** set page data manually, allowing different instances */
   @Input()
   set pageData(pageData: PageData) {
-    console.log(pageData);
     if (pageData) {
       this.pageSize = pageData.top;
       // this.length = Math.floor(pageData.total / pageData.top);
@@ -147,9 +146,7 @@ export class PharosPaginatorComponent implements OnInit, OnDestroy {
   /** Advances to the next page if it exists. */
   nextPage(): void {
     if (!this.hasNextPage()) { return; }
-    console.log(this.pageIndex);
     this.pageIndex++;
-    console.log(this.pageIndex);
     this._emitPageEvent();
   }
 

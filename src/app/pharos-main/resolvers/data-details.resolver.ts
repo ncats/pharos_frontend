@@ -5,6 +5,7 @@ import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
 import {PharosBase} from '../../models/pharos-base';
+import {map} from 'rxjs/internal/operators';
 
 /**
  * resolves the details for a specific object
@@ -33,8 +34,13 @@ export class DataDetailsResolver implements Resolve<any> {
     resolve(route: ActivatedRouteSnapshot): Observable<PharosBase> {
       this.loadingService.toggleVisible(true);
       this.pharosApiService.flushData();
-      this.pathResolverService.setPath(route.data.path);
-       return this.pharosApiService.getDataObject(route.data.path, route.paramMap);
+      console.log(route);
+    //  this.pathResolverService.setPath(route.data.path);
+     // return this.pharosApiService.getDataObject(route.data.path, route.paramMap);
+    return this.pharosApiService.getDetailsData(route.data.path, route.paramMap, route.data.fragments)
+      .pipe(
+        map(res =>  res.data)
+      );
     }
 
   /**

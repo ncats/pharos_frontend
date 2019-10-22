@@ -90,7 +90,7 @@ fromJson(json: any, type?: string): T {
   _asProperties(data: T): any {
   const newObj: any = {};
   Object.keys(data).map(field => {
-    const property: DataProperty = {name: field, label: field, term: T[field]};
+    const property: DataProperty = {name: field, label: field, term: data[field]};
     newObj[field] = property;
   });
   return newObj;
