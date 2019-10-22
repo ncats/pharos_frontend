@@ -4,6 +4,7 @@ import { Observable , of} from 'rxjs';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
+import {map} from 'rxjs/internal/operators';
 
 /**
  * resolver to retrieve list of data happens on every main level (/targets, /diseases, /ligands, etc) change
@@ -23,16 +24,17 @@ export class DataListResolver implements Resolve<any> {
 
   /**
    * toggle loading modal
-   * set path todo: see how much this is still used
    * call api
-   * hence the empty observable returned
    * @param {ActivatedRouteSnapshot} route
    * @returns {Observable<any[]>}
    */
   resolve(route: ActivatedRouteSnapshot): Observable<any[]> {
       this.loadingService.toggleVisible(true);
-      this.pathResolverService.setPath(route.data.path);
+      // this.pathResolverService.setPath(route.data.path);
       // this.pharosApiService.getData(route.data.path, route.queryParamMap);
-      return this.pharosApiService.getGraphQlData(route.data.path, route.queryParamMap);
+      return this.pharosApiService.getGraphQlData(route.data.path, route.queryParamMap, route.data.fragments)
+        .pipe(
+          map(res =>  res.data.results)
+        );
   }
 }

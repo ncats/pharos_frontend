@@ -17,6 +17,7 @@ import {DataListResolver} from '../../resolvers/data-list.resolver';
 import {TOKENS} from '../../../../config/component-tokens';
 import {IdgLevelIndicatorComponent} from '../../../tools/idg-level-indicator/idg-level-indicator.component';
 import {TopicSaveModalComponent} from '../../data-list/tables/target-table/topic-save-modal/topic-save-modal.component';
+import {ComponentsResolver} from '../../resolvers/components.resolver';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import {TopicSaveModalComponent} from '../../data-list/tables/target-table/topic
   ],
   providers: [
     DataListResolver,
+    ComponentsResolver,
     {provide: TOKENS.TARGET_TABLE_COMPONENT, useValue: TargetTableComponent},
     {provide: IDG_LEVEL_TOKEN, useValue: IdgLevelIndicatorComponent},
     {provide: RADAR_CHART_TOKEN, useValue: InjectedRadarChartComponent}

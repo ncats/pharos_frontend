@@ -22,6 +22,7 @@ import {MatDrawer} from '@angular/material';
 import {HelpPanelOpenerService} from '../../tools/help-panel/services/help-panel-opener.service';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {HttpClient} from '@angular/common/http';
+import {PharosPanel} from '../../../config/components-config';
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -76,6 +77,7 @@ export class DataListComponent implements OnInit, OnDestroy {
 
   loadedComponents: Map<any, any> = new Map<any, any>();
 
+  components: PharosPanel[];
   componentsLoaded = false;
   path: string;
   data: any[] = [];
@@ -89,7 +91,6 @@ export class DataListComponent implements OnInit, OnDestroy {
    * @param {ActivatedRoute} _route
    * @param {Router} router
    * @param ref
-   * @param {PharosApiService} pharosApiService
    * @param {BreakpointObserver} breakpointObserver
    * @param {LoadingService} loadingService
    * @param {HelpPanelOpenerService} helpPanelOpenerService
@@ -100,10 +101,10 @@ export class DataListComponent implements OnInit, OnDestroy {
   constructor(private _route: ActivatedRoute,
               private router: Router,
               private ref: ChangeDetectorRef,
-              private pharosApiService: PharosApiService,
               public breakpointObserver: BreakpointObserver,
               public loadingService: LoadingService,
               private helpPanelOpenerService: HelpPanelOpenerService,
+             // todo: this can be removed when searchcapabilities are changed
               private pharosConfig: PharosConfig,
               private _http: HttpClient,
               private componentInjectorService: ComponentInjectorService) {
@@ -116,13 +117,13 @@ export class DataListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     console.log(this);
     this.path = this._route.snapshot.data.path;
+    this.components = this._route.snapshot.data.components;
 
     if (this._route.snapshot.data.search) {
       this.search = this._route.snapshot.data.search;
     }
-    if (this._route.snapshot.data[this.path]) {
-      console.log("init");
-      this.data = this._route.snapshot.data[this.path].data[this.path];
+    if (this._route.snapshot.data.results) {
+      this.data = this._route.snapshot.data.results[this.path];
         //  this.etag = this._route.snapshot.data.data.etag;
         //  this.sideway = this._route.snapshot.data.data.sideway;
         }
@@ -152,9 +153,8 @@ export class DataListComponent implements OnInit, OnDestroy {
           if (this._route.snapshot.data.search) {
             this.search = this._route.snapshot.data.search;
           }
-          if (this._route.snapshot.data[this.path]) {
-            console.log("router");
-            this.data = this._route.snapshot.data[this.path].data[this.path];
+          if (this._route.snapshot.data.results) {
+            this.data = this._route.snapshot.data.results[this.path];
           //  this.etag = this._route.snapshot.data.data.etag;
           //  this.sideway = this._route.snapshot.data.data.sideway;
           }
@@ -175,8 +175,8 @@ export class DataListComponent implements OnInit, OnDestroy {
    * one each data change the process is repeated, including the api calls
    */
   makeComponents() {
-    const components: any = this.pharosConfig.getComponents(this.path, 'list');
-    components.forEach(component => {
+   //  const components: any = this.pharosConfig.getComponents(this.path, 'list');
+    this.components.forEach(component => {
       // make component
       const instance: ComponentRef<any> = this.loadedComponents.get(component.token);
       if (!instance) {
@@ -185,7 +185,7 @@ export class DataListComponent implements OnInit, OnDestroy {
         const newPD = new PageData({
           top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,
           skip: (+this._route.snapshot.queryParamMap.get('page') - 1) * + this._route.snapshot.queryParamMap.get('rows'),
-          total: 20244
+          total: this._route.snapshot.data.results.count
         });
         if (this.search && this.search.length) {
           const data: any = this.search.filter(datum => datum.kind === dynamicComponent.instance.path)[0];
@@ -228,17 +228,13 @@ export class DataListComponent implements OnInit, OnDestroy {
         const newPD = new PageData({
           top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,
           skip: (+this._route.snapshot.queryParamMap.get('page') - 1) * + this._route.snapshot.queryParamMap.get('rows'),
-          total: 20244
+          total: this._route.snapshot.data.results.count
         });
         if (this.search && this.search.length) {
           const data: any = this.search.filter(datum => datum.kind === instance.instance.path)[0];
           instance.instance.pageData = newPD;
           instance.instance.data = data.data.content;
         } else {
-         console.log("setting page atat");
-         console.log(this._route.snapshot.queryParamMap);
-
-         console.log(newPD);
           instance.instance.pageData = newPD;
           instance.instance.data = this.data;
           this.loadedComponents.set(component.token, instance);

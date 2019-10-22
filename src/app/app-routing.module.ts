@@ -73,7 +73,10 @@ const ROUTES: Routes = [
   {
     path: 'targets/:id',
     loadChildren: () => import('./pharos-main/modules/targets/target-details.module').then(m => m.TargetDetailsModule),
-    data: { path: 'targets' }
+    data: {
+      path: 'targets',
+      subpath: 'details'
+    }
   },
   {
     path: 'diseases',
