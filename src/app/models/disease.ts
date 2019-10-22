@@ -1,10 +1,29 @@
 import {PharosBase, PharosSerializer, PharosSubList} from './pharos-base';
 import {PharosProperty} from './pharos-property';
+import gql from 'graphql-tag';
 
 /**
  * main disease object, mainly list of associated targets
  */
 export class Disease extends PharosBase {
+  static fragments = {
+    listFields: gql`
+      fragment listFields on Disease {
+        type
+        name
+        did
+        description
+        drug
+        targetCounts{
+          name
+          value
+        }
+        source
+        reference
+      }
+    `,
+  };
+
   /**
    * name of disease
    */

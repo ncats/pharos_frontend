@@ -101,10 +101,12 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
    * this data object is then injected into the dynamic component
    */
   ngOnInit() {
+    console.log(this);
     this.titleService.setTitle(`${this.target.accession}/${this.target.gene} details`);
     this.setMetadata();
     this.loading = true;
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
+    // todo: this isn't routed, so the components can't be passed by the router
     const components: any = this.pharosConfig.getComponents(this.path, this.target.idgTDL.toLowerCase());
     if (components) {
       components.forEach(component => {

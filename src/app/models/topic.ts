@@ -81,7 +81,6 @@ export class TopicSerializer implements Serializer {
   fromJson(json: any): Topic {
     const obj = new Topic();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
-    Topic.mapDates(obj);
     return obj;
   }
 

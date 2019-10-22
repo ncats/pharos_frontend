@@ -8,12 +8,17 @@ export class PageData {
   total: number;
 
   /**
+   * current page number
+   */
+  count: number;
+
+  /**
    * page size
    */
   skip: number;
 
   /**
-   * number of rows
+   * page number
    */
   top: number;
 
@@ -23,7 +28,8 @@ export class PageData {
    */
   constructor (obj: any) {
     this.total = obj.total ? obj.total : 0;
+    this.count = obj.count ? obj.count : 0;
     this.skip = obj.skip ? obj.skip : 0;
-    this.top = obj.top ? obj.top : 10;
+    this.top = obj.top ? obj.top : 0;
   }
 }
