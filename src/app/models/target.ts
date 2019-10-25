@@ -1,6 +1,7 @@
 import {PharosBase, PharosSerializer, PharosSubList} from './pharos-base';
 import {PharosProperty} from './pharos-property';
 import gql from 'graphql-tag';
+import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
 
 const LISTFIELDS =  gql`
   fragment listFields on Target {
@@ -11,6 +12,10 @@ const LISTFIELDS =  gql`
     idgFamily: fam
     idgTDL: tdl
     novelty
+    description
+    uniProtFunction: props (name: "UniProt Function"){
+      value
+    }
     jensenScore: props(name: "JensenLab PubMed Score") {
       value
     }
@@ -96,7 +101,7 @@ export class Target extends PharosBase {
   jensenScore:  number;
 
 
-  uniprotIds: string[];
+  uniprotIds: string[] | any[];
 
   symbols: string[];
 
@@ -190,10 +195,6 @@ export class Target extends PharosBase {
    * count of publications
    */
   _publicationsCount: number;
-
-  _tcrdid: string;
-
-
 }
 
 /**
@@ -235,16 +236,20 @@ export class TargetSerializer implements PharosSerializer {
     }
 
     if (json.uniprotIds) {
-      obj.uniprotIds = [obj.accession, ...json.uniprotIds.map(id => id.value)];
+      obj.uniprotIds = [{uniprotId: obj.accession}, ...json.uniprotIds.map(id => id = {uniprotId: id.value})];
     } else {
-      obj.uniprotIds = [obj.accession];
+      obj.uniprotIds = [{uniprotId: obj.accession}];
     }
 
     if (json.symbols) {
       obj.symbols = [...new Set<string>(json.symbols.map(sym => sym.value))];
     }
 
-console.log(obj);
+    if (json.uniProtFunction) {
+      obj.description = `${(json.uniProtFunction.map(id => id.value)).join(' ')} ${obj.description}`;
+    }
+
+    // console.log(obj);
 
     if (obj._links) {
       obj._links = new PharosSubList(obj._links);
@@ -281,21 +286,27 @@ console.log(obj);
    * @private
    */
   _asProperties(obj: Target): any {
-    const newObj: any = {};
-    Object.keys(obj).map(field => {
-      const property: PharosProperty = {name: field, label: field, term: obj[field]};
-      newObj[field] = property;
-    });
-   // newObj._name.internalLink = obj.uuid;
+    const newObj: any = this._mapField(obj);
     if (newObj.accession && newObj.accession.term) {
-      newObj.name.internalLink = ['/targets', obj.accession];
+      newObj.name.internalLink = ['/targets', newObj.accession.term];
     }
 
     if (newObj.gene && newObj.gene.term) {
-      newObj.gene.internalLink = ['/targets', obj.gene];
+      newObj.gene.internalLink = ['/targets', newObj.gene.term];
     }
-
     return newObj;
+  }
+
+  private _mapField (obj: any) {
+    const retObj: {} = obj;
+      Object.keys(obj).map(objField => {
+        if (Array.isArray(obj[objField])) {
+          obj[objField].map(arrObj => this._mapField(arrObj));
+        } else {
+          retObj[objField] = new DataProperty({name: objField, label: objField, term: obj[objField]});
+        }
+      });
+    return retObj;
   }
 
   _fromProperties(properties: any): Target {

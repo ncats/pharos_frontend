@@ -55,8 +55,10 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
    * subscribe to data changes
    */
   ngOnInit() {
+    console.log(this);
+   // this.setterFunction();
     const isSmallScreen = this.breakpointObserver.isMatched('(max-width: 768px)');
-    this._data
+    /*this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
       .pipe(
@@ -67,21 +69,22 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
           this.ngUnsubscribe.next();
           this.setterFunction();
         }
-      });
-  }
+      });*/
+  // }
 
   /**
    * concatanate description from various sources, and truncate if too long
    */
-  setterFunction() {
-    if (this.data.geneSummary) {
+ // setterFunction() {
+  //  console.log(this);
+/*    if (this.data.geneSummary) {
       this.geneSummary = this.data.geneSummary.map(sum => sum.text).join(' ');
       if (this.target.description) {
         this.description = this.target.description ? this.target.description.concat(`\n ${this.geneSummary}`) : this.geneSummary;
       }
-    } else {
+    } else {*/
       this.description = this.target.description;
-    }
+   // }
     if (this.description && this.description.length > 1000) {
       this.fullDescription = false;
       this.truncatedDescription = this.description.slice(0, 1000);

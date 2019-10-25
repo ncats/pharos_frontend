@@ -1,1 +1,4 @@
-<router-outlet></router-outlet>
+<ng-template [cdkPortalOutlet]="getOutlet('header')" id="header"></ng-template>
+<ng-template [cdkPortalOutlet]="getOutlet('content')" id="content"></ng-template>
+<ng-template [cdkPortalOutlet]="getOutlet('left-sidenav')" id = "left-sidenav"></ng-template>
+<ng-template [cdkPortalOutlet]="getOutlet('right-sidenav')" id = "right-sidenav"></ng-template>

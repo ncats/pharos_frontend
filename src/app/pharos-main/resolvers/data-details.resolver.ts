@@ -39,7 +39,7 @@ export class DataDetailsResolver implements Resolve<any> {
      // return this.pharosApiService.getDataObject(route.data.path, route.paramMap);
     return this.pharosApiService.getDetailsData(route.data.path, route.paramMap, route.data.fragments)
       .pipe(
-        map(res =>  res.data)
+        map(res =>  res.data[route.data.path])
       );
     }
 

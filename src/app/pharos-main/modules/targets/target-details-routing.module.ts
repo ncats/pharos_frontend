@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {DataDetailsResolver} from '../../resolvers/data-details.resolver';
 import {DataDetailsComponent} from '../../data-details/data-details.component';
-import {Target} from '../../../models/target';
+import {Target, TargetSerializer} from '../../../models/target';
 
 const routes: Routes = [
   {
@@ -12,7 +12,8 @@ const routes: Routes = [
       pharosObject: DataDetailsResolver
     },
     data: {
-      fragments: Target.detailsfragments
+      fragments: Target.detailsfragments,
+      serializer: new TargetSerializer()
     },
     runGuardsAndResolvers: 'paramsOrQueryParamsChange'
   }
