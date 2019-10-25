@@ -17,7 +17,7 @@ import {
   PdbPanelComponent,
   STRUCTURE_VIEW_TOKEN
 } from '../../data-details/target-details/panels/pdb-panel/pdb-panel.component';
-import {GeneSummaryComponent} from '../../data-details/target-details/target-header/gene-summary/gene-summary.component';
+import {GeneSummaryComponent} from '../../data-details/target-details/panels/gene-summary/gene-summary.component';
 import {TargetFacetPanelComponent} from '../../data-details/target-details/panels/target-facet-panel/target-facet-panel.component';
 import {IdgResourcesPanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/idg-resources-panel.component';
 import {LigandsPanelComponent} from '../../data-details/target-details/panels/ligands-panel/ligands-panel.component';
@@ -29,7 +29,7 @@ import {SharedDetailsModule} from '../../../shared/shared-details.module';
 import {IdgLevelSummaryModule} from '../../data-details/target-details/panels/level-summary-panel/idg-level-summary.module';
 import {StructureViewComponent} from '../../../tools/structure-view/structure-view.component';
 import {TOKENS} from '../../../../config/component-tokens';
-import {BreadcrumbComponent} from '../../../tools/breadcrumb/breadcrumb.component';
+import {BreadcrumbComponent} from '../../data-details/target-details/panels/breadcrumb/breadcrumb.component';
 import {TargetTableModule} from './target-list.module';
 import {LigandListModule} from '../ligands/ligand-list.module';
 import {PharosLoadingSpinnerModule} from '../../../tools/pharos-loading-spinner/pharos-loading-spinner.module';
@@ -38,6 +38,7 @@ import {PharosLoadingSpinnerModule} from '../../../tools/pharos-loading-spinner/
   declarations: [
     TargetDetailsComponent,
     TargetHeaderComponent,
+    BreadcrumbComponent,
     SummaryPanelComponent,
     RadarChartViewerComponent,
     DiseaseSourceComponent,
@@ -71,6 +72,7 @@ import {PharosLoadingSpinnerModule} from '../../../tools/pharos-loading-spinner/
   entryComponents: [
     TargetHeaderComponent,
     TargetDetailsComponent,
+    BreadcrumbComponent,
     SummaryPanelComponent,
     DiseaseSourceComponent,
     PublicationInfoPanelComponent,

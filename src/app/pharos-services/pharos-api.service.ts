@@ -246,16 +246,10 @@ export class PharosApiService {
      */
     const fetchQuery = this.apollo.query({
       query: gql`
-        query PaginateData($skip: Int, $top: Int, $filter: IFilter){
-          results:${path} (
-            skip: $skip,
-            top: $top,
-            filter: $filter
-          ) {
-            skip
-            top
+        query PaginateData($skip: Int, $top: Int){
+          results:${path}  {
             count
-            ${path} {
+            ${path}(skip: $skip, top: $top) {
             ...listFields
             }
           }
@@ -275,7 +269,7 @@ console.log(fragments);
     const fetchQuery = this.apollo.query({
       query: gql`
         query fetchTarget($term: String) {
-          target(q: {
+          targets: target(q: {
             sym: $term,
             #tcrdid: $term,
             uniprot: $term,

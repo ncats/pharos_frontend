@@ -98,7 +98,8 @@ export class DataListComponent implements OnInit, OnDestroy {
    * @param _http
    * @param {ComponentInjectorService} componentInjectorService
    */
-  constructor(private _route: ActivatedRoute,
+  constructor(
+              private _route: ActivatedRoute,
               private router: Router,
               private ref: ChangeDetectorRef,
               public breakpointObserver: BreakpointObserver,
@@ -123,7 +124,7 @@ export class DataListComponent implements OnInit, OnDestroy {
       this.search = this._route.snapshot.data.search;
     }
     if (this._route.snapshot.data.results) {
-      this.data = this._route.snapshot.data.results[this.path];
+      this.data = this._route.snapshot.data.results;
         //  this.etag = this._route.snapshot.data.data.etag;
         //  this.sideway = this._route.snapshot.data.data.sideway;
         }
@@ -149,12 +150,13 @@ export class DataListComponent implements OnInit, OnDestroy {
       .subscribe((e: any) => {
         // If it is a NavigationEnd event re-initalise the component
         if (e instanceof NavigationEnd) {
+          console.log("end nav");
           this.path = this._route.snapshot.data.path;
           if (this._route.snapshot.data.search) {
             this.search = this._route.snapshot.data.search;
           }
           if (this._route.snapshot.data.results) {
-            this.data = this._route.snapshot.data.results[this.path];
+            this.data = this._route.snapshot.data.results;
           //  this.etag = this._route.snapshot.data.data.etag;
           //  this.sideway = this._route.snapshot.data.data.sideway;
           }
@@ -175,6 +177,11 @@ export class DataListComponent implements OnInit, OnDestroy {
    * one each data change the process is repeated, including the api calls
    */
   makeComponents() {
+    const newPD = new PageData({
+      top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,
+      skip: (+this._route.snapshot.queryParamMap.get('page') - 1) * + this._route.snapshot.queryParamMap.get('rows'),
+      total: this._route.snapshot.data.results.count
+    });
    //  const components: any = this.pharosConfig.getComponents(this.path, 'list');
     this.components.forEach(component => {
       // make component
@@ -182,11 +189,6 @@ export class DataListComponent implements OnInit, OnDestroy {
       if (!instance) {
         const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
         const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
-        const newPD = new PageData({
-          top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,
-          skip: (+this._route.snapshot.queryParamMap.get('page') - 1) * + this._route.snapshot.queryParamMap.get('rows'),
-          total: this._route.snapshot.data.results.count
-        });
         if (this.search && this.search.length) {
           const data: any = this.search.filter(datum => datum.kind === dynamicComponent.instance.path)[0];
           dynamicComponent.instance.pageData = newPD;
@@ -225,11 +227,6 @@ export class DataListComponent implements OnInit, OnDestroy {
 
         this.loadedComponents.set(component.token, dynamicComponent);
       } else {
-        const newPD = new PageData({
-          top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,
-          skip: (+this._route.snapshot.queryParamMap.get('page') - 1) * + this._route.snapshot.queryParamMap.get('rows'),
-          total: this._route.snapshot.data.results.count
-        });
         if (this.search && this.search.length) {
           const data: any = this.search.filter(datum => datum.kind === instance.instance.path)[0];
           instance.instance.pageData = newPD;
@@ -237,6 +234,7 @@ export class DataListComponent implements OnInit, OnDestroy {
         } else {
           instance.instance.pageData = newPD;
           instance.instance.data = this.data;
+
           this.loadedComponents.set(component.token, instance);
           this.ref.markForCheck();
         }

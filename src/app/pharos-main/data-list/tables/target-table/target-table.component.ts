@@ -18,7 +18,7 @@ import {PageData} from '../../../../models/page-data';
 import {BatchUploadModalComponent} from '../../../../tools/batch-upload-modal/batch-upload-modal.component';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import {NavigationExtras, Router} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {PharosConfig} from '../../../../../config/pharos-config';
 import {PharosProperty} from '../../../../models/pharos-property';
 import {Target, TargetSerializer} from '../../../../models/target';
@@ -141,7 +141,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   /**
    * main list of paginated targets
    */
- targets: Target[];
+  targets: Target[];
 
   /**
    * event emitter of sort event on table
@@ -188,12 +188,9 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
 
   targetObjs: Target[];
 
-  loggedIn = false;
-
-  user: any;
-
   /**
    * set up dependencies
+   * @param _route
    * @param {MatDialog} dialog
    * @param {HttpClient} http
    * @param {Router} router
@@ -202,15 +199,21 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * @param {ChangeDetectorRef} ref
    * @param {BreakpointObserver} breakpointObserver
    */
-  constructor(public dialog: MatDialog,
-              public http: HttpClient,
-              private router: Router,
-              private profileService: PharosProfileService,
-              private pharosConfig: PharosConfig,
-              private ref: ChangeDetectorRef,
-              public breakpointObserver: BreakpointObserver) {
+  constructor(
+    private _route: ActivatedRoute,
+    public dialog: MatDialog,
+    public http: HttpClient,
+    private router: Router,
+    private profileService: PharosProfileService,
+    private pharosConfig: PharosConfig,
+    private ref: ChangeDetectorRef,
+    public breakpointObserver: BreakpointObserver) {
     super();
   }
+
+  loggedIn = false;
+
+  user: any;
 
   /**
    * check for mobile view,
@@ -232,6 +235,8 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
         // No user is signed in.
       }
     });
+    this.ref.detectChanges();
+
 
     this._data
     // listen to data as long as term is undefined or null
@@ -239,11 +244,9 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (this.data.length) {
-          this.targetObjs = this.data
-            .map(target => this.targetSerializer.fromJson(target));
-          this.targets = this.targetObjs
-            .map(target => target = this.targetSerializer._asProperties(target));
+        if (this.data) {
+          this.targets = this.data.targets;
+          this.targetObjs = this.data.targetsProps;
           this.ref.detectChanges();
         }
       });
@@ -301,7 +304,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * todo: implement
    */
   compareTargets() {
-   // console.log(this.rowSelection.selected);
+    // console.log(this.rowSelection.selected);
   }
 
   /**
@@ -321,7 +324,8 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       }
     );
 
-    dialogRef.afterClosed().subscribe(result => {});
+    dialogRef.afterClosed().subscribe(result => {
+    });
   }
 
   /**
@@ -365,7 +369,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   setSelectedTargets(selection) {
-    this.rowSelection  = selection;
+    this.rowSelection = selection;
   }
 
   selectAll() {
