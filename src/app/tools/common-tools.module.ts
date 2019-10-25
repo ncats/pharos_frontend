@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {AnatamogramModule} from './anatamogram/anatamogram.module';
 import {BatchUploadModalComponent} from './batch-upload-modal/batch-upload-modal.component';
-import {BreadcrumbComponent} from './breadcrumb/breadcrumb.component';
 import {DynamicPanelComponent} from './dynamic-panel/dynamic-panel.component';
 import {DynamicTablePanelComponent} from './dynamic-table-panel/dynamic-table-panel.component';
 import {EquationRendererComponent} from './equation-renderer/equation-renderer.component';
@@ -26,7 +25,6 @@ import { AppShellNoRenderDirective } from './app-shell-no-render.directive';
 @NgModule({
   declarations: [
     BatchUploadModalComponent,
-    BreadcrumbComponent,
     DynamicPanelComponent,
     DynamicTablePanelComponent,
     EquationRendererComponent,
@@ -51,7 +49,6 @@ import { AppShellNoRenderDirective } from './app-shell-no-render.directive';
     PharosPaginatorModule
   ],
   entryComponents: [
-    BreadcrumbComponent,
     BatchUploadModalComponent,
     IdgLevelIndicatorComponent
   ],
@@ -61,7 +58,6 @@ import { AppShellNoRenderDirective } from './app-shell-no-render.directive';
     RadarChartModule,
     GenericTableModule,
     BatchUploadModalComponent,
-    BreadcrumbComponent,
     DynamicPanelComponent,
     DynamicTablePanelComponent,
     EquationRendererComponent,

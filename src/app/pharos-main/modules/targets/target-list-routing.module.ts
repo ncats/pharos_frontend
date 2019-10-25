@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {DataListResolver} from '../../resolvers/data-list.resolver';
 import {DataListComponent} from '../../data-list/data-list.component';
 import {ComponentsResolver} from '../../resolvers/components.resolver';
-import {Target} from '../../../models/target';
+import {Target, TargetSerializer} from '../../../models/target';
 
 const routes: Routes = [
   {
@@ -14,7 +14,8 @@ const routes: Routes = [
       results: DataListResolver
     },
     data: {
-      fragments: Target.listfragments
+      fragments: Target.listfragments,
+      serializer: new TargetSerializer()
     },
     runGuardsAndResolvers: 'paramsOrQueryParamsChange'
   }

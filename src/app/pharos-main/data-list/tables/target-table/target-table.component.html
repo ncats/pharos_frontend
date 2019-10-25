@@ -60,7 +60,7 @@
                           [pageData]="pageData"
                           [showPaginator]="false"
                           [fieldsConfig]="fieldsData"
-                          [data]="targets"
+                          [data]="targetObjs"
                           [selectableRows]= "loggedIn"
                           (rowSelectionChange) = "setSelectedTargets($event)"
                           (sortChange)="changeSort($event)"
@@ -68,7 +68,7 @@
     </pharos-generic-table>
   </div>
   <div class="target-grid" *ngIf="isSmallScreen" >
-    <div *ngFor="let target of targetObjs">
+    <div *ngFor="let target of targets">
       <pharos-target-card [target]="target"></pharos-target-card>
     </div>
   </div>

@@ -89,7 +89,8 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
   ngOnInit() {
     console.log(this);
 
-    this._data.next(this._route.snapshot.data.pharosObject);
+    // this._data.next(this._route.snapshot.data.pharosObject);
+
     if (!this.componentsLoaded) {
       this.makeComponents();
     }
@@ -98,12 +99,12 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => this.helpPanel.toggle());
 
-    this.pharosApiService.detailsData$
+    /*this.pharosApiService.detailsData$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this._data.next(res);
       });
-
+*/
     this.router.events
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((e: any) => {
@@ -120,15 +121,15 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
       });
   }
 
-  /**
+/*  /!**
    * pick specified properties from a main data object
    * @param o
    * @param props
    * @returns {any}
-   */
+   *!/
   pick(o, props): any {
     return Object.assign({}, ...props.map(prop => ({[prop]: o[prop]})));
-  }
+  }*/
 
   /**
    * fetch components for a specific object type.
@@ -150,7 +151,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
       if (component.api) {
         component.api.forEach(apiCall => {
           if (apiCall.url && apiCall.url.length > 0) {
-            const url = apiCall.url.replace('_id_', this.pharosObject.id);
+            const url = apiCall.url.replace('_id_', this.pharosObject._tcrdid);
             // this call is pushed up to the api and changes are subscribed to in the generic details page, then set here
             this.dataDetailsResolver.getDetailsByUrl(url, apiCall.field);
             // this will be used to track the object fields to get
@@ -164,17 +165,17 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
       // todo: fix this. this is terrible
       // this is to handle the fact that it could be a target, disease or ligand
       dynamicComponent.instance[this.path.slice(0, this.path.length - 1)] = this.pharosObject;
-      dynamicComponent.instance.id = this.pharosObject.id;
+      // dynamicComponent.instance.id = this.pharosObject.id;
       dynamicComponent.instance.path = this.path;
 
-      this._data
+      /*this._data
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(obj => {
           console.log(obj);
           if (obj) {
             dynamicComponent.instance.data = obj;
           }
-        });
+        });*/
     });
     this.loading = false;
     this.loadingService.toggleVisible(false);

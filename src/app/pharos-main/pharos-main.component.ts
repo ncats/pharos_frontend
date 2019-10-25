@@ -10,4 +10,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./pharos-main.component.scss']
 })
 export class PharosMainComponent {
+
+  getOutlet(sss) {
+    console.log(sss);
+  }
 }
