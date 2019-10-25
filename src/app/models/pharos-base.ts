@@ -5,6 +5,8 @@ import gql from 'graphql-tag';
  */
 export class PharosBase {
 
+  _tcrdid: number;
+
   /**
    * id of the object
    */

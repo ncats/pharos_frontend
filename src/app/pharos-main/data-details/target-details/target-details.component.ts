@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {map, takeLast, takeWhile} from 'rxjs/operators';
 import {PharosConfig} from '../../../../config/pharos-config';
-import {Target} from '../../../models/target';
+import {Target, TargetSerializer} from '../../../models/target';
 import {DataDetailsResolver} from '../../resolvers/data-details.resolver';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
 import {CustomContentDirective} from '../../../tools/custom-content.directive';
@@ -53,15 +53,16 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
    */
   activeElement: string;
 
+  targetSerializer: TargetSerializer = new TargetSerializer();
 
-
+  targetFields: any;
   /**
    * set up lots of dependencies to watch for data changes, navigate and parse and inject components
    * @param {Injector} _injector
    * @param {Document} document
    * @param {DataDetailsResolver} dataDetailsResolver
-   * @param {Router} router
-   * @param {ActivatedRoute} route
+   * @param _router
+   * @param _route
    * @param {NavSectionsService} navSectionsService
    * @param {ChangeDetectorRef} changeDetector
    * @param {HelpDataService} helpDataService
@@ -69,13 +70,13 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
    * @param {PharosConfig} pharosConfig
    * @param titleService
    * @param metaService
+   * @param pharosApiService
    * @param {ComponentInjectorService} componentInjectorService
    */
   constructor(private _injector: Injector,
               @Inject(DOCUMENT) private document: Document,
-              private dataDetailsResolver: DataDetailsResolver,
-              private router: Router,
-              private route: ActivatedRoute,
+             // private dataDetailsResolver: DataDetailsResolver,
+              private _route: ActivatedRoute,
               private navSectionsService: NavSectionsService,
               private changeDetector: ChangeDetectorRef,
               private helpDataService: HelpDataService,
@@ -102,6 +103,8 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
    */
   ngOnInit() {
     console.log(this);
+    /*this.target =  this.targetSerializer.fromJson(this.target);
+    this.targetFields = this.targetSerializer._asProperties(this.target);*/
     this.titleService.setTitle(`${this.target.accession}/${this.target.gene} details`);
     this.setMetadata();
     this.loading = true;
@@ -117,19 +120,20 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
 
         // start api calls before making component
         const keys: string[] = [];
-        component.api.forEach(apiCall => {
+        /*component.api.forEach(apiCall => {
           if (apiCall.url && apiCall.url.length > 0) {
             const url = apiCall.url.replace('_accession_', this.target.accession).replace('_id_', this.target.id);
-            /**this call is pushed up to the pharos api and changes are subscribed to in the generic details page, then set here*/
+            /!**this call is pushed up to the pharos api and changes are subscribed to in the generic details page, then set here*!/
             this.dataDetailsResolver.getDetailsByUrl(url, apiCall.field);
-            /** this will be used to track the object fields to get */
+            /!** this will be used to track the object fields to get *!/
             keys.push(apiCall.field);
           }
-        });
+        });*/
         /** make component */
         const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
         const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
         childComponent.instance.target = this.target;
+        childComponent.instance.targetFields = this.targetFields;
         childComponent.instance.id = this.target.accession;
 
         if (component.navHeader) {

@@ -20,13 +20,15 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {TransferHttpCacheModule} from '@nguniversal/common';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
+import {PharosMainComponent} from './pharos-main/pharos-main.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     PharosFooterComponent,
-    ScrollToTopComponent
+    ScrollToTopComponent,
+    PharosMainComponent
   ],
   imports: [
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),

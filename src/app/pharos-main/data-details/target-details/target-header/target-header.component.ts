@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Target} from '../../../../models/target';
+import {Target, TargetSerializer} from '../../../../models/target';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 
@@ -11,6 +11,7 @@ import {takeUntil} from 'rxjs/operators';
 export class TargetHeaderComponent extends DynamicPanelComponent implements OnInit {
   @Input() target: Target;
 
+  targetSerializer: TargetSerializer = new TargetSerializer();
   /**
    * no args constructor
    * call super object constructor
@@ -20,17 +21,20 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
   }
 
   ngOnInit() {
-    this._data
-    // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe(x => {
-        if (this.target) {
-          this.ngUnsubscribe.next();
-        }
-      });
+    console.log(this);
+    this.target =  this.targetSerializer.fromJson(this.target);
+
+    /* this._data
+     // listen to data as long as term is undefined or null
+     // Unsubscribe once term has value
+       .pipe(
+         takeUntil(this.ngUnsubscribe)
+       )
+       .subscribe(x => {
+         if (this.target) {
+           this.ngUnsubscribe.next();
+         }
+       });*/
   }
 
   getHeaderClass(): string {
