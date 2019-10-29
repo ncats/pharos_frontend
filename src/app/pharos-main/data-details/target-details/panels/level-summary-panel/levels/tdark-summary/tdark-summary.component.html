@@ -17,7 +17,7 @@
         [matTooltip]="getTooltip('pubmed')"
         [matTooltipClass]="'pharos-tooltip'"
         [ngClass]="{'mat-body-2': target?.jensenScore >= 5}">
-        Pubmed score: {{target?.jensenScore.toFixed(2)}}</span>
+        Pubmed score: {{target?.jensenScore}}</span>
       &nbsp;<span class="required-val"><i> (req: > 5)</i></span>
     </div>
     <br>
@@ -25,20 +25,21 @@
       <mat-progress-bar
         class = "tdl-progress"
         mode="determinate"
-        [value]="target?.jensenScore <= 5 ? (target?.jensenScore === 0 ? 0 : 5 / target?.jensenScore) : 100"
+        maxlength ="5"
+        [value]="target?.jensenScore <= 5 ? (target?.jensenScore === 0 ? 0 :  (target?.jensenScore / 5) * 100) : 100"
       ></mat-progress-bar>
     </div>
     <div fxLayout="row" fxLayoutAlign="start center">
       <mat-icon
-        [ngClass]="{'disabled-icon' : data.generif?.length < 3}"
+        [ngClass]="{'disabled-icon' : target.generifCount < 3}"
         [color]="'accent'">check_circle
       </mat-icon>
       &nbsp;&nbsp;
       <span
         [matTooltip]="getTooltip('generif')"
         [matTooltipClass]="'pharos-tooltip'"
-        [ngClass]="{'mat-body-2': data.generif?.length >= 3}">
-    Gene RIFs: {{data.generif?.length}}</span>
+        [ngClass]="{'mat-body-2': target.generifCount >= 3}">
+    Gene RIFs: {{target.generifCount}}</span>
       &nbsp;<span class="required-val"><i> (req: > 3)</i></span>
     </div>
     <br>
@@ -46,7 +47,7 @@
       <mat-progress-bar
         class = "tdl-progress"
         mode="determinate"
-        [value]="data.generif?.length <= 3 ? (data.generif?.length === 0 ? 0 : 3 /  data.generif?.length): 100"
+        [value]="target.generifCount <= 3 ? (target.generifCount === 0 ? 0 : (target.generifCount / 3) * 100 ): 100"
       ></mat-progress-bar>
     </div>
     <div fxLayout="row" fxLayoutAlign="start center">

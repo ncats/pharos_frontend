@@ -58,24 +58,25 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
     console.log(this);
    // this.setterFunction();
     const isSmallScreen = this.breakpointObserver.isMatched('(max-width: 768px)');
-    /*this._data
+    this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
       .pipe(
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (this.data && this.data.geneSummary) {
+        if (this.data && this.data.targets) {
+          this.target = this.data.targets;
           this.ngUnsubscribe.next();
           this.setterFunction();
         }
-      });*/
-  // }
+      });
+   }
 
   /**
    * concatanate description from various sources, and truncate if too long
    */
- // setterFunction() {
+  setterFunction() {
   //  console.log(this);
 /*    if (this.data.geneSummary) {
       this.geneSummary = this.data.geneSummary.map(sum => sum.text).join(' ');

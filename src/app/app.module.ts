@@ -27,8 +27,7 @@ import {PharosMainComponent} from './pharos-main/pharos-main.component';
   declarations: [
     AppComponent,
     PharosFooterComponent,
-    ScrollToTopComponent,
-    PharosMainComponent
+    ScrollToTopComponent
   ],
   imports: [
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
@@ -47,6 +46,9 @@ import {PharosMainComponent} from './pharos-main/pharos-main.component';
     PharosLoadingSpinnerModule,
     GraphQLModule,
     HttpClientModule
+  ],
+  entryComponents: [
+    PharosFooterComponent
   ],
   providers: [
   ],

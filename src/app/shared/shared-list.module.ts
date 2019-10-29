@@ -10,16 +10,17 @@ import {VisualizationOptionsComponent} from '../pharos-main/data-list/data-list-
 import {CommonToolsModule} from '../tools/common-tools.module';
 import {PharosMainComponent} from '../pharos-main/pharos-main.component';
 import {RouterModule} from '@angular/router';
+import {PharosLoadingSpinnerModule} from '../tools/pharos-loading-spinner/pharos-loading-spinner.module';
 
 
 @NgModule({
   imports: [
     SharedModule,
     CommonToolsModule,
-    RouterModule
+    RouterModule,
+    PharosLoadingSpinnerModule
   ],
   declarations: [
-    PharosMainComponent,
     DataListComponent,
     DataListVisualizationsComponent,
     FilterPanelComponent,

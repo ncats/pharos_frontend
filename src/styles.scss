@@ -37,6 +37,18 @@ a:hover {
   flex: 1 1 auto;
 }
 
+.pharos-title {
+  font: 400 3rem/3rem Roboto, "Helvetica Neue", sans-serif;
+  margin: 0 0 3rem;
+  letter-spacing: -0.02em;
+}
+
+.pharos-headline {
+  font: 300 1.5rem/1.5rem Roboto, "Helvetica Neue", sans-serif;
+  margin: 0 0 3rem;
+  letter-spacing: -0.02em;
+}
+
 .tbio{
   background-color: mat-color($pharos-app-accent);
   color: black;

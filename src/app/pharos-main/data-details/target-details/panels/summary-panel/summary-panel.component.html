@@ -27,56 +27,56 @@
             Uniprot Accession IDs
           </mat-card-subtitle>
           <ul class = "inline-list wrap">
-            <li *ngFor=" let term of target.uniprotIds">
-              <ncats-property-display [property] = term [showLabel]="false"></ncats-property-display><br>
+            <li *ngFor=" let term of targetProps.uniprotIds">
+              <ncats-property-display [property] = term.uniprotId [showLabel]="false"></ncats-property-display><br>
             </li>
           </ul>
         </ng-container>
-        <ng-container *ngIf="data.gene?.length > 0">
+        <ng-container *ngIf="targetProps.gene">
           <br>
           <mat-card-subtitle
             [matTooltip] = "getTooltip('Gene Name')"
             [matTooltipClass] = "'pharos-tooltip'"
           >Gene Name</mat-card-subtitle>
           <ul class = "inline-list wrap">
-            <li *ngFor=" let term of data.gene">
-              <ncats-property-display [property]= term  [showLabel]="false"></ncats-property-display>
+            <li>
+              <ncats-property-display [property]= targetProps.gene  [showLabel]="false"></ncats-property-display>
             </li>
           </ul>
         </ng-container>
-        <ng-container *ngIf="data.ensembl?.length > 0">
+        <ng-container *ngIf="targetProps.ensembl?.length > 0">
           <br>
           <mat-card-subtitle
             [matTooltip] = "getTooltip('Ensembl ID')"
             [matTooltipClass] = "'pharos-tooltip'"
           >Ensembl ID</mat-card-subtitle>
           <ul class = "inline-list wrap">
-            <li *ngFor=" let term of data.ensembl">
-              <ncats-property-display [property]= term  [showLabel]="false"></ncats-property-display>
+            <li *ngFor=" let term of targetProps.ensembl">
+              <ncats-property-display [property]= term.ensembl  [showLabel]="false"></ncats-property-display>
             </li>
           </ul>
         </ng-container>
-         <ng-container *ngIf="data.symbol?.length > 0">
+         <ng-container *ngIf="targetProps.symbols?.length > 0">
            <br>
            <mat-card-subtitle
              [matTooltip] = "getTooltip('Symbol')"
              [matTooltipClass] = "'pharos-tooltip'">
              Symbol</mat-card-subtitle>
            <ul class = "inline-list wrap">
-             <li *ngFor=" let term of data.symbol">
-               <ncats-property-display [property] = term [showLabel]="false"></ncats-property-display>
+             <li *ngFor=" let term of targetProps.symbols">
+               <ncats-property-display [property] = term.symbol [showLabel]="false"></ncats-property-display>
              </li>
            </ul>
          </ng-container>
       </div>
       <div fxFlex="30"
            class = "radar-chart full-height"
-           *ngIf="data.knowledge && data.knowledge.length > 0; else noDataDiv">
+           *ngIf="target.accession else noDataDiv">
         <mat-card-subtitle
           [matTooltip] = "getTooltip('Illumination Graph')"
           [matTooltipClass] = "'pharos-tooltip'">
           Illumination Graph</mat-card-subtitle>
-        <pharos-radar-chart [data] = data.knowledge [shape]="false" [size] = "'medium'" (click)="openModal()" [origin]="'knowledge'"></pharos-radar-chart>
+        <pharos-radar-chart [id]= "target.accession" [shape]="false" [size] = "'medium'" (click)="openModal()" [origin]="'knowledge'"></pharos-radar-chart>
       </div>
         <div fxFlex = "30" class = "kchart full-height" *ngIf="data.knowledge && data.knowledge.length > 0; else noDataDiv">
           <mat-card-subtitle

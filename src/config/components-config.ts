@@ -3,6 +3,13 @@ import {TOKENS} from '../config/component-tokens';
 import {ARTICLES} from '../config/help-article-tokens';
 import {environment} from '../environments/environment.prod';
 
+enum Position {
+  Header = 'headerPortalOutlet',
+  Content = 'contentPortalOutlet',
+  Left = 'leftPortalOutlet',
+  Right = 'rightPortalOutlet',
+}
+
 /**
  * basic interface for a pharos api call configuration object
  */
@@ -67,6 +74,8 @@ export interface PharosPanel {
    * token for the panel component
    */
   token: InjectionToken<string>;
+
+  section?: Position;
   /**
    * navigation header to add to the sidenav
    */
@@ -105,6 +114,7 @@ const _APIURL = _HOST + _API;
  */
 const TARGET_TABLE_COMPONENT: PharosPanel = {
   token: TOKENS.TARGET_TABLE_COMPONENT,
+  section: Position.Content,
   api: [
     {
       field: 'facets',
@@ -116,12 +126,44 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
   ]
 };
 
+
+/**
+ * main target facet component
+ * @type {PharosPanel}
+ */
+const PHAROS_FACETS_COMPONENT: PharosPanel = {
+  token: TOKENS.PHAROS_FACETS_COMPONENT,
+  section: Position.Header,
+  api: []
+};
+
+/**
+ * main target details sub-navigation component
+ * @type {PharosPanel}
+ */
+const PHAROS_SUBNAV_COMPONENT: PharosPanel = {
+  token: TOKENS.PHAROS_SUBNAV_COMPONENT,
+  section: Position.Left,
+  api: []
+};
+
+/**
+ * main target help panel component
+ * @type {PharosPanel}
+ */
+const PHAROS_HELPPANEL_COMPONENT: PharosPanel = {
+  token: TOKENS.PHAROS_HELPPANEL_COMPONENT,
+  section: Position.Right,
+  api: []
+};
+
 /**
  * main target header component
  * @type {PharosPanel}
  */
 const TARGET_HEADER_COMPONENT: PharosPanel = {
   token: TOKENS.TARGET_HEADER_COMPONENT,
+  section: Position.Header,
   api: []
 };
 
@@ -131,6 +173,7 @@ const TARGET_HEADER_COMPONENT: PharosPanel = {
  */
 const TARGET_GENE_SUMMARY_COMPONENT: PharosPanel = {
   token: TOKENS.TARGET_GENE_SUMMARY_COMPONENT,
+  section: Position.Content,
   api: [
     {
       field: 'geneSummary',
@@ -146,6 +189,7 @@ const TARGET_GENE_SUMMARY_COMPONENT: PharosPanel = {
  */
 const PHAROS_BREADCRUMB_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_BREADCRUMB_COMPONENT,
+  section: Position.Content,
   api: [
     {
       field: 'dto',
@@ -165,6 +209,7 @@ const PHAROS_BREADCRUMB_COMPONENT: PharosPanel = {
  */
 const TARGET_DETAILS_COMPONENT: PharosPanel = {
   token: TOKENS.TARGET_DETAILS_COMPONENT,
+  section: Position.Content,
   api: []
 };
 
@@ -935,11 +980,6 @@ const TOPIC_DETAILS_COMPONENT: PharosPanel = {
 export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
   [
     ['targets', {
-      list: {
-        components: [
-          TARGET_TABLE_COMPONENT
-        ]
-      },
       default: _APIURL + 'targets/search?top=10&skip=0',
       facets: [
         {
@@ -1004,80 +1044,31 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
         sunburst: [],
         cloud: []
       },
+      list: {
+        components: [
+          PHAROS_FACETS_COMPONENT,
+          TARGET_TABLE_COMPONENT
+        ]
+      },
       details: {
         components: [
+          PHAROS_SUBNAV_COMPONENT,
+          PHAROS_HELPPANEL_COMPONENT,
           TARGET_HEADER_COMPONENT,
-          TARGET_DETAILS_COMPONENT
-        ]
-      },
-      tdark: {
-        components: [
-          TARGET_GENE_SUMMARY_COMPONENT,
-          PHAROS_BREADCRUMB_COMPONENT,
-          SUMMARY_PANEL,
-          LEVEL_SUMMARY_PANEL,
-          IDG_RESOURCES_PANEL,
-          DISEASE_SOURCE_PANEL,
-          PDB_PANEL,
-          EXPRESSION_PANEL,
-          PROTEIN_PROTEIN_PANEL,
-          PUBLICATION_INFO_PANEL,
-          AA_SEQUENCE_PANEL,
-          TARGET_FACET_PANEL
-        ]
-      },
-      tbio: {
-        components: [
-          TARGET_GENE_SUMMARY_COMPONENT,
-          PHAROS_BREADCRUMB_COMPONENT,
-          SUMMARY_PANEL,
-          LEVEL_SUMMARY_PANEL,
-          IDG_RESOURCES_PANEL,
-          DISEASE_SOURCE_PANEL,
-          DRUGS_PANEL,
-          LIGANDS_PANEL,
-          PDB_PANEL,
-          EXPRESSION_PANEL,
-          PROTEIN_PROTEIN_PANEL,
-          PUBLICATION_INFO_PANEL,
-          AA_SEQUENCE_PANEL,
-          TARGET_FACET_PANEL
-        ]
-      },
-      tchem: {
-        components: [
           TARGET_GENE_SUMMARY_COMPONENT,
           PHAROS_BREADCRUMB_COMPONENT,
           SUMMARY_PANEL,
           LEVEL_SUMMARY_PANEL,
           IDG_RESOURCES_PANEL,
           DRUGS_PANEL,
-          LIGANDS_PANEL,
-          DISEASE_SOURCE_PANEL,
-          PDB_PANEL,
-          EXPRESSION_PANEL,
-          PROTEIN_PROTEIN_PANEL,
-          PUBLICATION_INFO_PANEL,
-          AA_SEQUENCE_PANEL,
-          TARGET_FACET_PANEL
-        ]
-      },
-      tclin: {
-        components: [
-          TARGET_GENE_SUMMARY_COMPONENT,
-          PHAROS_BREADCRUMB_COMPONENT,
-          SUMMARY_PANEL,
-          LEVEL_SUMMARY_PANEL,
-          IDG_RESOURCES_PANEL,
-          DRUGS_PANEL,
-          LIGANDS_PANEL,
-          DISEASE_SOURCE_PANEL,
-          PDB_PANEL,
-          EXPRESSION_PANEL,
-          PROTEIN_PROTEIN_PANEL,
-          PUBLICATION_INFO_PANEL,
-          AA_SEQUENCE_PANEL,
-          TARGET_FACET_PANEL
+          /* LIGANDS_PANEL,
+           DISEASE_SOURCE_PANEL,
+           PDB_PANEL,
+           EXPRESSION_PANEL,
+           PROTEIN_PROTEIN_PANEL,
+           PUBLICATION_INFO_PANEL,
+           AA_SEQUENCE_PANEL,
+           TARGET_FACET_PANEL*/
         ]
       }
     }],
