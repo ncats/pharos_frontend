@@ -17,7 +17,7 @@ export class HelpPanelTriggerComponent {
   @Input() origin?: string;
 
   /**
-   * readeable label for the data source
+   * readable label for the data source
    */
   @Input() label?: string;
 

@@ -8,6 +8,7 @@ import {PathResolverService} from '../../../pharos-services/path-resolver.servic
 import {FacetRetrieverService} from './facet-retriever.service';
 import {PharosConfig} from '../../../../config/pharos-config';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
+import {PanelOptions} from '../../pharos-main.component';
 
 /**
  * panel that hold a facet table for selection
@@ -20,6 +21,16 @@ import {PharosProfileService} from '../../../auth/pharos-profile.service';
 
 })
 export class FilterPanelComponent implements OnInit, OnDestroy {
+  panelOptions: PanelOptions = {
+    mode : 'side',
+    class : 'filters-panel',
+    opened: true,
+    fixedInViewport: true,
+    role: 'directory'
+    /* [mode]="isSmallScreen!==true ? 'side' : 'over'"
+     [opened]="isSmallScreen !== true"*/
+  };
+
   /**
    * close the filter panel
    * @type {EventEmitter<boolean>}

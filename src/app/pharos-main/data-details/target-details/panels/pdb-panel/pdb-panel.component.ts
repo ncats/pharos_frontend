@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, InjectionToken, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, InjectionToken, Input, OnInit} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {HttpClient} from '@angular/common/http';
@@ -6,6 +6,7 @@ import {PdbReportData, PdbReportSerializer} from '../../../../../models/pdb-repo
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {PageData} from '../../../../../models/page-data';
+import {Target} from '../../../../../models/target';
 
 /**
  * token to inject structure viewer into generic table component
@@ -87,6 +88,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
     })
     ];
 
+  @Input() target: Target;
   /**
    * all retrieved reports
    * @type {any[]}
@@ -138,10 +140,10 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (this.data.pdb && this.data.pdb.length > 0) {
-        //  this.ref.reattach();
+        if (this.data.target) {
           this.ngUnsubscribe.next();
-          this.setterFunction();
+          this.target = this.data.target;
+          // this.setterFunction();
           this.loading = false;
         }
       });

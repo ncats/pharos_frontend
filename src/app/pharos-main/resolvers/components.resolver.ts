@@ -24,6 +24,6 @@ export class ComponentsResolver implements Resolve<any> {
    * @returns {Observable<PharosBase>}
    */
     resolve(route: ActivatedRouteSnapshot): Observable<PharosPanel[]> {
-    return of(this.pharosConfig.getComponents(route.data.path, 'list'));
+    return of(this.pharosConfig.getComponents(route.data.path, route.data.subpath));
     }
 }

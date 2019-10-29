@@ -10,6 +10,7 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class TargetHeaderComponent extends DynamicPanelComponent implements OnInit {
   @Input() target: Target;
+  @Input() targetProps: any;
 
   targetSerializer: TargetSerializer = new TargetSerializer();
   /**
@@ -22,19 +23,21 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
 
   ngOnInit() {
     console.log(this);
-    this.target =  this.targetSerializer.fromJson(this.target);
+  //  this.target =  this.targetSerializer.fromJson(this.target);
 
-    /* this._data
+     this._data
      // listen to data as long as term is undefined or null
      // Unsubscribe once term has value
        .pipe(
          takeUntil(this.ngUnsubscribe)
        )
        .subscribe(x => {
+         this.target = this.data.targets;
+         this.targetProps = this.data.targetsProps;
          if (this.target) {
            this.ngUnsubscribe.next();
          }
-       });*/
+       });
   }
 
   getHeaderClass(): string {
