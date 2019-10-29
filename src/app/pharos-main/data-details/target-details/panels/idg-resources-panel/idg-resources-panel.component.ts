@@ -293,21 +293,35 @@ dataTypes: string[] = [];
    * initialize filter subscriptions
    */
   ngOnInit() {
+    this._data
+    // listen to data as long as term is undefined or null
+    // Unsubscribe once term has value
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(x => {
+        if (this.data.target) {
+          this.ngUnsubscribe.next();
+          this.target = this.data.target;
+          this.loading = false;
+          this.http.get(`http://dev3.ccs.miami.edu:8080/rss-api/target/search?term=${this.target.gene}`).subscribe(res => {
+            console.log(res);
+            if (res && res['data']) {
+              res['data'].forEach(data => {
+                this.http.get(`http://dev3.ccs.miami.edu:8080/rss-api/target/id?id=${data.id}&json=true`).subscribe(resource => {
+                  console.log(resource);
+                });
+              });
+            } else {
+
+            }
+          });
+          // this.setterFunction();
+        }
+      });
+
     this.reagentsList = this.reagents;
     this.dataSourceList = this.dataSources;
-
-    this.http.get(`http://dev3.ccs.miami.edu:8080/rss-api/target/search?term=${this.target.gene}`).subscribe(res => {
-      console.log(res);
-      if (res && res['data']) {
-        res['data'].forEach(data => {
-        this.http.get(`http://dev3.ccs.miami.edu:8080/rss-api/target/id?id=${data.id}&json=true`).subscribe(resource => {
-          console.log(resource);
-        });
-      });
-    } else {
-
-      }
-    });
     this.loading = false;
 
 
@@ -343,18 +357,6 @@ this.dataTypes = Array.from(new Set(this.dataSources.map(reagent => reagent.reso
   });
 
 this.pageData = this.makePageData(this.reagents.length);
-    this._data
-    // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe(x => {
-        if (Object.values(this.data).length > 0) {
-          this.ngUnsubscribe.next();
-          // this.setterFunction();
-        }
-      });
   }
 
   /**

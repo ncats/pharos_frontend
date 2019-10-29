@@ -80,10 +80,7 @@ export class HelpDataService {
    */
   constructor(
     private pharosApiService: PharosApiService
-  ) {
-    this.pharosApiService.detailsData$
-      .subscribe(res => this.data = res);
-  }
+  ) {}
 
   /**
    * set data origin
@@ -93,7 +90,7 @@ export class HelpDataService {
   setOrigin(field: string): void {
     this.field = field;
     this._helpDescriptionSource.next(this.sourcesMap.get(field));
-    this._helpDataSource.next(this.data[this.field]);
+ //   this._helpDataSource.next(this.data[this.field]);
   }
 
   /**

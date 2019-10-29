@@ -1,6 +1,6 @@
 import {
-  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges,
-  OnInit, ViewChild, ViewChildren
+  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges,
+  OnInit, Output, ViewChild, ViewChildren
 } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
@@ -11,6 +11,7 @@ import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/na
 import {Target} from '../../../../../models/target';
 import {HttpClient} from '@angular/common/http';
 import {PharosConfig} from '../../../../../../config/pharos-config';
+import {BehaviorSubject} from 'rxjs';
 
 /**
  * panel to generically display drugs as a pageable list of drug cards
@@ -28,6 +29,8 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
     this.drugPaginator = mp;
     this.setPage();
   }
+
+  @Output() selfDestruct: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   drugPaginator: MatPaginator;
 
@@ -93,6 +96,12 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
+        this.target = this.data.targets;
+        if (!this.target.drugs) {
+          this.navSectionsService.removeSection(this.field);
+          this.removeSelf();
+          this.ngUnsubscribe.next();
+        } else {
         if (this.data[this.field] && this.data[this.field].length > 0) {
           this.pageData = new PageData(
             {
@@ -103,6 +112,7 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
             });
           this.ngUnsubscribe.next();
           this.setterFunction();
+        }
         }
       });
   }
@@ -230,7 +240,11 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
    * checks to see if the display section is within view
    * @param {string} fragment
    */
-  active(fragment: string) {
-    this.navSectionsService.setActiveSection(fragment);
+  active() {
+    this.navSectionsService.setActiveSection(this.field);
+  }
+
+  removeSelf() {
+    this.selfDestruct.next('destroy');
   }
 }

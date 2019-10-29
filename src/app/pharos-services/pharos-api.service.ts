@@ -264,8 +264,6 @@ return fetchQuery;
 
   getDetailsData(path: string, params: ParamMap, fragments?: any): Observable<any> {
     const variables: any = {term: params.get('id')};
-console.log(variables);
-console.log(fragments);
     const fetchQuery = this.apollo.query({
       query: gql`
         query fetchTarget($term: String) {

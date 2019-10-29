@@ -4,18 +4,20 @@ import {DataListResolver} from '../../resolvers/data-list.resolver';
 import {DataListComponent} from '../../data-list/data-list.component';
 import {ComponentsResolver} from '../../resolvers/components.resolver';
 import {Target, TargetSerializer} from '../../../models/target';
+import {PharosMainComponent} from '../../pharos-main.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: DataListComponent,
+    component: PharosMainComponent,
+    data: {
+      fragments: Target.listfragments,
+      serializer: new TargetSerializer(),
+      subpath: 'list'
+    },
     resolve: {
       components: ComponentsResolver,
       results: DataListResolver
-    },
-    data: {
-      fragments: Target.listfragments,
-      serializer: new TargetSerializer()
     },
     runGuardsAndResolvers: 'paramsOrQueryParamsChange'
   }

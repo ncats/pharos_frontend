@@ -33,6 +33,8 @@ import {BreadcrumbComponent} from '../../data-details/target-details/panels/brea
 import {TargetTableModule} from './target-list.module';
 import {LigandListModule} from '../ligands/ligand-list.module';
 import {PharosLoadingSpinnerModule} from '../../../tools/pharos-loading-spinner/pharos-loading-spinner.module';
+import {HelpPanelComponent} from '../../../tools/help-panel/help-panel.component';
+import {SidenavPanelComponent} from '../../../tools/sidenav-panel/sidenav-panel.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +72,8 @@ import {PharosLoadingSpinnerModule} from '../../../tools/pharos-loading-spinner/
   exports: [
   ],
   entryComponents: [
+    HelpPanelComponent,
+    SidenavPanelComponent,
     TargetHeaderComponent,
     TargetDetailsComponent,
     BreadcrumbComponent,
@@ -92,6 +96,8 @@ import {PharosLoadingSpinnerModule} from '../../../tools/pharos-loading-spinner/
   ],
   providers: [
     // breadcrumb
+    {provide: TOKENS.PHAROS_SUBNAV_COMPONENT, useValue: SidenavPanelComponent},
+    {provide: TOKENS.PHAROS_HELPPANEL_COMPONENT, useValue: HelpPanelComponent},
     {provide: TOKENS.PHAROS_BREADCRUMB_COMPONENT, useValue: BreadcrumbComponent},
     {provide: TOKENS.TARGET_GENE_SUMMARY_COMPONENT, useValue: GeneSummaryComponent},
     // targets

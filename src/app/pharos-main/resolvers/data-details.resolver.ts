@@ -4,7 +4,7 @@ import { Observable , of} from 'rxjs';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
-import {PharosBase} from '../../models/pharos-base';
+import {PharosBase, Serializer} from '../../models/pharos-base';
 import {map} from 'rxjs/internal/operators';
 
 /**
@@ -34,12 +34,17 @@ export class DataDetailsResolver implements Resolve<any> {
     resolve(route: ActivatedRouteSnapshot): Observable<PharosBase> {
       this.loadingService.toggleVisible(true);
       this.pharosApiService.flushData();
-      console.log(route);
+    const serializer: Serializer = route.data.serializer;
     //  this.pathResolverService.setPath(route.data.path);
      // return this.pharosApiService.getDataObject(route.data.path, route.paramMap);
     return this.pharosApiService.getDetailsData(route.data.path, route.paramMap, route.data.fragments)
       .pipe(
-        map(res =>  res.data[route.data.path])
+        map(res =>  {
+          const tobj = serializer.fromJson(res.data[route.data.path]);
+          res.data[route.data.path] = tobj;
+          res.data[`${[route.data.path]}Props`] = serializer._asProperties(tobj);
+          return res.data;
+        })
       );
     }
 
