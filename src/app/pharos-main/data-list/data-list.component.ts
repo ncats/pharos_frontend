@@ -23,6 +23,8 @@ import {HelpPanelOpenerService} from '../../tools/help-panel/services/help-panel
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {HttpClient} from '@angular/common/http';
 import {PharosPanel} from '../../../config/components-config';
+import {CdkPortalOutlet, ComponentPortal} from '@angular/cdk/portal';
+import {PharosFooterComponent} from '../../tools/pharos-footer/pharos-footer.component';
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -52,11 +54,14 @@ export class DataListComponent implements OnInit, OnDestroy {
   @ViewChild('helppanel', {static: true}) helpPanel: MatDrawer;
   @ViewChild('filters', {static: true}) filterPanel: FilterPanelComponent;
 
+  @ViewChild('headertemplate', {static: true}) headerPortalOutlet: CdkPortalOutlet;
+  @ViewChild('contenttemplate', {static: true}) contentPortalOutlet: CdkPortalOutlet;
+
   /**
    * show loading spinner
    * @type {boolean}
    */
-  loading = true;
+ // loading = true;
 
   /**
    * holder for injected elements
@@ -108,19 +113,36 @@ export class DataListComponent implements OnInit, OnDestroy {
              // todo: this can be removed when searchcapabilities are changed
               private pharosConfig: PharosConfig,
               private _http: HttpClient,
-              private componentInjectorService: ComponentInjectorService) {
+              private componentInjectorService: ComponentInjectorService
+  ) {
   }
 
   /**
    * subscribe to loading service to toggle spinner
    * subscribe to data changes and load and inject required components
    */
-  ngOnInit() {
+
+
+  ngAfterViewInit() {
+console.log(this);
+    this.headerPortalOutlet.detach();
+    const taskDetailCompoentPortal = new ComponentPortal<PharosFooterComponent>(
+      PharosFooterComponent
+    );
+    const ref = this.headerPortalOutlet.attach(taskDetailCompoentPortal);
+
+    this.contentPortalOutlet.detach();
+    const contt = new ComponentPortal<PharosFooterComponent>(
+      PharosFooterComponent
+    );
+    const ref2 = this.contentPortalOutlet.attach(taskDetailCompoentPortal);
+  }
+    ngOnInit() {
     console.log(this);
     this.path = this._route.snapshot.data.path;
     this.components = this._route.snapshot.data.components;
 
-    if (this._route.snapshot.data.search) {
+  /*  if (this._route.snapshot.data.search) {
       this.search = this._route.snapshot.data.search;
     }
     if (this._route.snapshot.data.results) {
@@ -141,9 +163,9 @@ export class DataListComponent implements OnInit, OnDestroy {
     }
   });
 
-/*    this.loadingService.loading$
+/!*    this.loadingService.loading$
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => this.loading = res);*/
+      .subscribe(res => this.loading = res);*!/
 
     this.router.events
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -163,7 +185,7 @@ export class DataListComponent implements OnInit, OnDestroy {
           this.makeComponents();
           this.ref.detectChanges();
         }
-      });
+      });*/
   }
 
   /**

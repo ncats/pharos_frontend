@@ -37,6 +37,7 @@ const DETAILSFIELDS = gql`
       name
       value
     }
+    generifCount
     uniprotIds: synonyms(name: "uniprot") {
       name
       value
@@ -110,6 +111,13 @@ export class Target extends PharosBase {
    */
   antibodyCount:  number;
 
+  /**
+   * Gene RiF count
+   */
+  generifCount:  number;
+
+
+  drugs: [];
   /**
    * monoclonal count
    * // todo: not used
@@ -242,7 +250,7 @@ export class TargetSerializer implements PharosSerializer {
     }
 
     if (json.symbols) {
-      obj.symbols = [...new Set<string>(json.symbols.map(sym => sym.value))];
+      obj.symbols = [...new Set<string>(json.symbols.map(sym => sym = {symbol: sym.value}))];
     }
 
     if (json.uniProtFunction) {
@@ -286,6 +294,7 @@ export class TargetSerializer implements PharosSerializer {
    * @private
    */
   _asProperties(obj: Target): any {
+    console.log(obj);
     const newObj: any = this._mapField(obj);
     if (newObj.accession && newObj.accession.term) {
       newObj.name.internalLink = ['/targets', newObj.accession.term];
@@ -294,14 +303,15 @@ export class TargetSerializer implements PharosSerializer {
     if (newObj.gene && newObj.gene.term) {
       newObj.gene.internalLink = ['/targets', newObj.gene.term];
     }
+    console.log(newObj);
     return newObj;
   }
 
   private _mapField (obj: any) {
-    const retObj: {} = obj;
+    const retObj: {} = Object.assign({}, obj);
       Object.keys(obj).map(objField => {
         if (Array.isArray(obj[objField])) {
-          obj[objField].map(arrObj => this._mapField(arrObj));
+          retObj[objField] = obj[objField].map(arrObj => this._mapField(arrObj));
         } else {
           retObj[objField] = new DataProperty({name: objField, label: objField, term: obj[objField]});
         }

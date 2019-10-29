@@ -3,6 +3,9 @@ import {FormControl} from '@angular/forms';
 import {HelpDataService} from './services/help-data.service';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
 import {CdkPortalOutlet, ComponentPortal} from '@angular/cdk/portal';
+import {PanelOptions} from '../../pharos-main/pharos-main.component';
+import {ActivatedRoute} from '@angular/router';
+import {HelpPanelOpenerService} from './services/help-panel-opener.service';
 
 /**
  * component to hold help information
@@ -13,11 +16,22 @@ import {CdkPortalOutlet, ComponentPortal} from '@angular/cdk/portal';
   styleUrls: ['./help-panel.component.scss']
 })
 export class HelpPanelComponent implements OnInit {
+  panelOptions: PanelOptions = {
+    mode : 'over',
+    class : 'filters-panel',
+    opened: false,
+    fixedInViewport: true,
+    fixedTopGap: 118,
+    role: 'directory'
+    /* [mode]="isSmallScreen!==true ? 'side' : 'over'"
+     [opened]="isSmallScreen !== true"*/
+  };
+
   /**
-   * close the filter panel
+   * close the help panel
    * @type {EventEmitter<boolean>}
    */
-  @Output() closeClick: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() menuToggle: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   /**
    * list of possible help article injection sites
@@ -55,6 +69,22 @@ export class HelpPanelComponent implements OnInit {
   sources: any[] = [];
 
   /**
+   * initialize data retrieval and component injection services
+   * @param {HelpDataService} helpDataService
+   * @param helpPanelOpenerService
+   * @param _route
+   * @param {ComponentInjectorService} componentInjectorService
+   * @param {Injector} _injector
+   */
+  constructor(
+    private helpDataService: HelpDataService,
+    private helpPanelOpenerService: HelpPanelOpenerService,
+    private _route: ActivatedRoute,
+    private componentInjectorService: ComponentInjectorService,
+    private _injector: Injector) {
+  }
+
+  /**
    * specific injected article that has been selected
    */
   selectedArticle: string;
@@ -66,32 +96,37 @@ export class HelpPanelComponent implements OnInit {
   opened: boolean[] = [];
 
   /**
-   * initialize data retrieval and component injection services
-   * @param {HelpDataService} helpDataService
-   * @param {ComponentInjectorService} componentInjectorService
-   * @param {Injector} _injector
-   */
-  constructor(private helpDataService: HelpDataService,
-              private componentInjectorService: ComponentInjectorService,
-              private _injector: Injector) {
-  }
-
-  /**
    * subscribe to dat asource changes and parse data object
    */
   ngOnInit() {
+    console.log(this);
+    this._route.snapshot.data.components
+      .filter(comp => comp.navHeader)
+      .map(component => {
+      this.helpDataService.setSources(component.navHeader.section,
+        {
+          sources: component.api,
+          title: component.navHeader.label,
+          mainDescription: component.navHeader.mainDescription ? component.navHeader.mainDescription : null
+        }
+      );
+    });
+
     this.helpDataService.sources$.subscribe(res => {
+      console.log(res);
       if (res) {
         this.sources = res.sources;
         this.description = res.mainDescription;
         this.title = res.title;
         if (this.sources && this.sources.length) {
           this.sources.forEach(source => {
-            this.rawData[source.field] = this.helpDataService.data[source.field];
+          //  this.rawData[source.field] = this.helpDataService.data[source.field];
           });
         }
       }
     });
+
+    this.helpPanelOpenerService.toggle$.subscribe(res => this.toggleMenu(res));
   }
 
   /**
@@ -139,7 +174,7 @@ export class HelpPanelComponent implements OnInit {
   /**
    * close the help panel
    */
-  closeMenu() {
-    this.closeClick.emit();
+  toggleMenu(force?: boolean) {
+    this.menuToggle.emit(force);
   }
 }

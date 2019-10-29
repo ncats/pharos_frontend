@@ -2,6 +2,8 @@ import {Component, EventEmitter, Inject, Input, OnInit, Optional, Output} from '
 import {NavSectionsService} from './services/nav-sections.service';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {DOCUMENT} from '@angular/common';
+import {PanelOptions} from '../../pharos-main/pharos-main.component';
+import {PharosPanel} from '../../../config/components-config';
 
 /**
  * panel that lists available sections of the details page, with jump to section navigation
@@ -17,7 +19,7 @@ export class SidenavPanelComponent implements OnInit {
    * close the filter panel
    * @type {EventEmitter<boolean>}
    */
-  @Output() closeClick: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() menuToggle: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   /**
    * page section currently in view
@@ -28,17 +30,28 @@ export class SidenavPanelComponent implements OnInit {
    * list of all available sections
    * @type {any[]}
    */
-  sections: any[] = [];
+  @Input() sections: PharosPanel[] = [];
+
+  panelOptions: PanelOptions = {
+    mode : 'side',
+    class : 'filters-panel',
+    opened: true,
+    fixedInViewport: true,
+    fixedTopGap: 120,
+    role: 'directory'
+     /* [mode]="isSmallScreen!==true ? 'side' : 'over'"
+      [opened]="isSmallScreen !== true"*/
+  };
 
   /**
    * get router to navigate
    * @param {Router} router
-   * @param {ActivatedRoute} route
+   * @param _route
    * @param {NavSectionsService} navSectionsService
    */
   constructor(
               private router: Router,
-              private route: ActivatedRoute,
+              private _route: ActivatedRoute,
               private navSectionsService: NavSectionsService) {
   }
 
@@ -47,13 +60,17 @@ export class SidenavPanelComponent implements OnInit {
    * change active element on scroll change
    */
   ngOnInit() {
+      this.navSectionsService.setSections(this._route.snapshot.data.components
+        .filter(component => component.navHeader)
+        .map(comp => comp.navHeader));
+
+
     this.navSectionsService.sections$.subscribe(res => {
       if (res && res.length) {
         this.sections = res;
         this.activeElement = this.sections[0].section;
       }
     });
-
     this.navSectionsService.activeSection$.subscribe(res => {
       if (res) {
         this.activeElement = res;
@@ -61,7 +78,7 @@ export class SidenavPanelComponent implements OnInit {
     });
 
     // this covers url change when navigation/click to go to section
-    this.route.fragment.subscribe(fragment => {
+    this._route.fragment.subscribe(fragment => {
       this.activeElement = fragment;
     });
   }
@@ -69,8 +86,8 @@ export class SidenavPanelComponent implements OnInit {
   /**
    * close the filter panel
    */
-  closeMenu() {
-    this.closeClick.emit();
+  toggleMenu() {
+    this.menuToggle.emit();
   }
 
   /**

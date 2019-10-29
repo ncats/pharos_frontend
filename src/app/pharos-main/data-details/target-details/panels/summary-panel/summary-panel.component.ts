@@ -29,6 +29,8 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
    */
   @Input() target: Target;
 
+  @Input() targetProps: any;
+
   /**
    * dialog for radar modal and navigation sections service
    * @param {MatDialog} dialog
@@ -54,9 +56,11 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
       takeUntil(this.ngUnsubscribe),
     )
     .subscribe(x => {
-      if (Object.values(this.data).length > 0) {
-        this.loading = false;
+      if (this.data && this.data.targets) {
+        this.target = this.data.targets;
+        this.targetProps = this.data.targetsProps;
         this.ngUnsubscribe.next();
+        this.loading = false;
       }
     });
 }

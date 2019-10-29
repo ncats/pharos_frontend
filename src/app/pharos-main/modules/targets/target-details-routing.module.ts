@@ -3,17 +3,22 @@ import {RouterModule, Routes} from '@angular/router';
 import {DataDetailsResolver} from '../../resolvers/data-details.resolver';
 import {DataDetailsComponent} from '../../data-details/data-details.component';
 import {Target, TargetSerializer} from '../../../models/target';
+import {PharosMainComponent} from '../../pharos-main.component';
+import {ComponentsResolver} from '../../resolvers/components.resolver';
+import {DataListResolver} from '../../resolvers/data-list.resolver';
 
 const routes: Routes = [
   {
     path: '',
-    component: DataDetailsComponent,
+    component: PharosMainComponent,
     resolve: {
-      pharosObject: DataDetailsResolver
+      results: DataDetailsResolver,
+      components: ComponentsResolver
     },
     data: {
       fragments: Target.detailsfragments,
-      serializer: new TargetSerializer()
+      serializer: new TargetSerializer(),
+      subpath: 'details'
     },
     runGuardsAndResolvers: 'paramsOrQueryParamsChange'
   }

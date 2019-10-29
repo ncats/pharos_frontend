@@ -32,8 +32,6 @@ export class DataListResolver implements Resolve<any> {
   resolve(route: ActivatedRouteSnapshot): Observable<PharosBase[]> {
       this.loadingService.toggleVisible(true);
       const serializer: Serializer = route.data.serializer;
-      // this.pathResolverService.setPath(route.data.path);
-      // this.pharosApiService.getData(route.data.path, route.queryParamMap);
       return this.pharosApiService.getGraphQlData(route.data.path, route.queryParamMap, route.data.fragments)
         .pipe(
           map(res =>  {

@@ -1,5 +1,4 @@
 import {InjectionToken} from '@angular/core';
-import {TargetRelevancePanelComponent} from '../app/pharos-main/data-details/ligand-details/panels/target-relevance-panel/target-relevance-panel.component';
 
 /**
  * main class of injection tokens
@@ -19,6 +18,18 @@ export class TOKENS {
    * injection token to add the target details header
    */
   public static TARGET_HEADER_COMPONENT = new InjectionToken<string>('TargetHeaderComponent');
+/**
+   * injection token to add the target details header
+   */
+  public static PHAROS_FACETS_COMPONENT = new InjectionToken<string>('PharosFacetComponent');
+/**
+   * injection token to add the target details header
+   */
+  public static PHAROS_SUBNAV_COMPONENT = new InjectionToken<string>('PharosSubnavComponent');
+/**
+   * injection token to add the target details header
+   */
+  public static PHAROS_HELPPANEL_COMPONENT = new InjectionToken<string>('PharosHelpPanelComponent');
 
   /**
    * injection token to link to the target table component
@@ -157,7 +168,6 @@ public static MOLECULAR_DEFINITION_PANEL = new InjectionToken<string>('Molecular
  * injection token to link to target relevance data
  */
 public static TARGET_RELEVANCE_PANEL = new InjectionToken<string>('TargetRelevancePanelComponent');
-
   /**
    * injection token to link to protein database data
    */

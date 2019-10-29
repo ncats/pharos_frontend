@@ -8,6 +8,7 @@ import {PharosProperty} from '../../../../../models/pharos-property';
 import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
 import {NestedTreeControl} from '@angular/cdk/tree';
+import {Target} from '../../../../../models/target';
 
 /**
  * interface to track disease tree nodes
@@ -37,6 +38,8 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    * Paginator object from Angular Material
    * */
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
+  @Input() target: Target;
 
   /**
    * tnx data
@@ -89,9 +92,10 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       takeUntil(this.ngUnsubscribe)
     )
       .subscribe(x => {
-        if (Object.values(this.data).length > 0) {
+        if (this.data.target) {
           this.ngUnsubscribe.next();
-          this.setterFunction();
+          this.target = this.data.target;
+         // this.setterFunction();
           this.loading = false;
         }
       });
