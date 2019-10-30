@@ -207,7 +207,9 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
    * @param origin
    */
   paginate($event, origin: string) {
-    const url = `${this.pharosConfig.getApiPath()}targets/${this.target.accession}/${origin}?skip=${$event.pageIndex * $event.pageSize}&top=${$event.pageSize}`;
+    console.log($event);
+    console.log(origin);
+   /* const url = `${this.pharosConfig.getApiPath()}targets/${this.target.accession}/${origin}?skip=${$event.pageIndex * $event.pageSize}&top=${$event.pageSize}`;
    // this.loading = true;
     this._http.get<Publication[]>(url)
       .subscribe(res => {
@@ -220,16 +222,7 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
         if (origin === 'generifs') {
           this.rifPageData.skip = $event.pageIndex * $event.pageSize;
         }
-      });
-  }
-
-  /**
-   * math function to convert pubtator score
-   */
-  raisePubtator() {
-    if (this.target) {
-      return Math.pow(10, this.target.pubTatorScore).toFixed(2);
-    }
+      });*/
   }
 
   /**
