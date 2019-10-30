@@ -44,15 +44,15 @@
             </li>
           </ul>
         </ng-container>
-        <ng-container *ngIf="targetProps.ensembl?.length > 0">
+        <ng-container *ngIf="targetProps.ensemblIDs?.length > 0">
           <br>
           <mat-card-subtitle
             [matTooltip] = "getTooltip('Ensembl ID')"
             [matTooltipClass] = "'pharos-tooltip'"
           >Ensembl ID</mat-card-subtitle>
           <ul class = "inline-list wrap">
-            <li *ngFor=" let term of targetProps.ensembl">
-              <ncats-property-display [property]= term.ensembl  [showLabel]="false"></ncats-property-display>
+            <li *ngFor=" let term of targetProps.ensemblIDs">
+              <ncats-property-display [property]= term.ensemblId  [showLabel]="false"></ncats-property-display>
             </li>
           </ul>
         </ng-container>
