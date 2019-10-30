@@ -34,8 +34,6 @@ const DETAILSFIELDS = gql`
   #import "./listFields.gql"
   fragment detailsFields on Target {
     ...listFields
-    generifCount
-    sequence: seq
     symbols: synonyms(name: "symbol") {
       name
       value
@@ -44,13 +42,22 @@ const DETAILSFIELDS = gql`
       name
       value
     }
-  patentScores {
+    ensemblIDs: xrefs(source:"Ensembl") { 
+    value 
+    }
+    generifCount
+    sequence: seq
+  pubTatorScores {
     year
     score
   }
     pubmedScores {
     year
     score
+  }
+  patentCounts {
+  year
+  count
   }
    publicationCount: pubCount
     publications: pubs {
@@ -135,8 +142,10 @@ export class Target extends PharosBase {
 
   drugs: [];
 
-  patentScores: [{year, score}];
+  pubTatorScores: [{year, score}];
   pubmedScores: [{year, score}];
+  patentCounts: [{year, count}];
+  ensemblIDs: [];
 
   /**
    * monoclonal count
@@ -272,6 +281,10 @@ export class TargetSerializer implements PharosSerializer {
       obj.uniprotIds = [{uniprotId: obj.accession}];
     }
 
+    if (json.ensemblIDs) {
+      obj.ensemblIDs = json.ensemblIDs.map(id => id = {ensemblId: id.value});
+    }
+
     if (json.symbols) {
       obj.symbols = [...new Set<string>(json.symbols.map(sym => sym = {symbol: sym.value}))];
     }
@@ -279,8 +292,6 @@ export class TargetSerializer implements PharosSerializer {
     if (json.uniProtFunction) {
       obj.description = `${(json.uniProtFunction.map(id => id.value)).join(' ')} ${obj.description}`;
     }
-
-    // console.log(obj);
 
     if (obj._links) {
       obj._links = new PharosSubList(obj._links);
@@ -325,8 +336,14 @@ export class TargetSerializer implements PharosSerializer {
     }
 
     if (newObj.gene && newObj.gene.term) {
-      newObj.gene.internalLink = ['/targets', newObj.gene.term];
+      newObj.gene.externalLink = `https://www.genenames.org/data/gene-symbol-report/#!/symbol/${newObj.gene.term}`;
     }
+
+    if (newObj.uniprotIds && newObj.uniprotIds.length) {
+      console.log(newObj.uniprotIds);
+      newObj.uniprotIds.map(uniprot => uniprot.uniprotId.externalLink = `https://www.uniprot.org/uniprot/${uniprot.uniprotId.term}`);
+    }
+
     if (newObj.publications) {
       const pubSerializer = new PublicationSerializer();
       newObj.publications = obj.publications.map(pub => pubSerializer._asProperties(pub));
