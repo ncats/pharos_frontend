@@ -2,6 +2,7 @@ import {PharosBase, PharosSerializer, PharosSubList} from './pharos-base';
 import {PharosProperty} from './pharos-property';
 import gql from 'graphql-tag';
 import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
+import {Publication, PublicationSerializer} from './publication';
 
 const LISTFIELDS =  gql`
   fragment listFields on Target {
@@ -33,18 +34,31 @@ const DETAILSFIELDS = gql`
   #import "./listFields.gql"
   fragment detailsFields on Target {
     ...listFields
+    generifCount
+    sequence: seq
     symbols: synonyms(name: "symbol") {
       name
       value
     }
-    generifCount
     uniprotIds: synonyms(name: "uniprot") {
       name
       value
     }
-    ensemblId: synonyms(name: "Uniprot") {
-      name
-      value
+  patentScores {
+    year
+    score
+  }
+    pubmedScores {
+    year
+    score
+  }
+   publicationCount: pubCount
+    publications: pubs {
+      date
+      pmid
+      title
+      journal
+      abstract
     }
   }
   ${LISTFIELDS}
@@ -106,6 +120,8 @@ export class Target extends PharosBase {
 
   symbols: string[];
 
+  sequence: string;
+
   /**
    * antibodipedia.org? count
    */
@@ -118,6 +134,10 @@ export class Target extends PharosBase {
 
 
   drugs: [];
+
+  patentScores: [{year, score}];
+  pubmedScores: [{year, score}];
+
   /**
    * monoclonal count
    * // todo: not used
@@ -166,6 +186,9 @@ export class Target extends PharosBase {
    */
   pubTatorScore:  number;
 
+  publicationCount: number;
+
+  publications: Publication[];
   /**
    * sublist object for links
    */
@@ -271,10 +294,11 @@ export class TargetSerializer implements PharosSerializer {
       obj._synonyms = new PharosSubList(obj._synonyms);
       obj._synonymsCount = obj._synonyms.count;
     }
-    if (obj._publications) {
-      obj._publications = new PharosSubList(obj._publications);
-      obj._publicationsCount = obj._publications.count;
+    if (obj.publications) {
+      const pubSerializer = new PublicationSerializer();
+      obj.publications = json.publications.map(pub => pubSerializer.fromJson(pub));
     }
+
     return obj;
   }
 
@@ -302,6 +326,10 @@ export class TargetSerializer implements PharosSerializer {
 
     if (newObj.gene && newObj.gene.term) {
       newObj.gene.internalLink = ['/targets', newObj.gene.term];
+    }
+    if (newObj.publications) {
+      const pubSerializer = new PublicationSerializer();
+      newObj.publications = obj.publications.map(pub => pubSerializer._asProperties(pub));
     }
     console.log(newObj);
     return newObj;

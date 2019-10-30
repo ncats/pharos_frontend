@@ -12,7 +12,6 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
   @Input() target: Target;
   @Input() targetProps: any;
 
-  targetSerializer: TargetSerializer = new TargetSerializer();
   /**
    * no args constructor
    * call super object constructor
@@ -22,9 +21,6 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
   }
 
   ngOnInit() {
-    console.log(this);
-  //  this.target =  this.targetSerializer.fromJson(this.target);
-
      this._data
      // listen to data as long as term is undefined or null
      // Unsubscribe once term has value
@@ -33,7 +29,6 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
        )
        .subscribe(x => {
          this.target = this.data.targets;
-         this.targetProps = this.data.targetsProps;
          if (this.target) {
            this.ngUnsubscribe.next();
          }

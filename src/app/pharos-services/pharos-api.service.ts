@@ -331,7 +331,6 @@ return fetchQuery;
   }
 
   callApolloQuery(id: string | number, fields: string) {
-    console.log(fields);
     this.apollo.watchQuery({
       query: gql`
         {
