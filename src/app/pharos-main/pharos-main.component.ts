@@ -38,6 +38,7 @@ export class PharosMainComponent implements OnInit {
   components: PharosPanel[];
   componentsLoaded = false;
   loadedComponents: Map<any, any> = new Map<any, any>();
+  autosize = true;
 
   constructor(
     private _route: ActivatedRoute,
@@ -173,6 +174,7 @@ export class PharosMainComponent implements OnInit {
      });
      */
      this.componentsLoaded = true;
+     this.autosize = false;
      this.changeRef.detectChanges();
       } else {
         instance.instance.data = this._route.snapshot.data.results;
