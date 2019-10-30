@@ -12,8 +12,7 @@ const routes: Routes = [
     component: PharosMainComponent,
     data: {
       fragments: Target.listfragments,
-      serializer: new TargetSerializer(),
-      subpath: 'list'
+      serializer: new TargetSerializer()
     },
     resolve: {
       components: ComponentsResolver,

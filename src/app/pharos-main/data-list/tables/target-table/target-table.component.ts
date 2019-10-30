@@ -245,6 +245,11 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       )
       .subscribe(x => {
         if (this.data) {
+          this.pageData = new PageData({
+            top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,
+            skip: (+this._route.snapshot.queryParamMap.get('page') - 1) * +this._route.snapshot.queryParamMap.get('rows'),
+            total: this._route.snapshot.data.results.count
+          });
           this.targets = this.data.targets;
           this.targetObjs = this.data.targetsProps;
           this.ref.detectChanges();
@@ -265,7 +270,8 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * @param $event
    */
   changePage($event): void {
-    this.pageChange.emit($event);
+    this.paginationChanges($event);
+   // this.pageChange.emit($event);
   }
 
   /**
@@ -290,13 +296,24 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   /**
-   * navigate to search with etag after batch upload
+   * change pages of list
+   * @param event
+   */
+  paginationChanges(event: any) {
+    navigationExtras.queryParams = {
+      page: event.pageIndex + 1,
+      rows: event.pageSize
+    };
+    this._navigate(navigationExtras);
+  }
+
+  /**
+   * navigate on changes, mainly just changes url, shouldn't reload entire page, just data
    * @param {NavigationExtras} navExtras
    * @private
    */
   private _navigate(navExtras: NavigationExtras): void {
     this.router.navigate([], navExtras);
-
   }
 
   /**
