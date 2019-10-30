@@ -26,7 +26,7 @@
       <mat-tab-group >
         <mat-tab label="Publication Statistics">
           <div class = "timelines-panel">
-          <ng-container *ngIf="pmscoreTimeline && pmscoreTimeline.length">
+          <ng-container *ngIf="pmscoreTimeline.length">
             <div fxLayout="row" fxLayoutAlign="start stretch"  class="timeline-holder">
               <div fxFlex="95">
                 <span class="mat-title"
@@ -58,7 +58,7 @@
               </div>
             </div>
           </ng-container>
-            <ng-container *ngIf="patentTimeline && patentTimeline.length">
+            <ng-container *ngIf="patentTimeline.length">
             <div fxLayout="row" fxLayoutAlign="start stretch" class="timeline-holder">
               <div fxFlex="95">
                 <span class="mat-title"

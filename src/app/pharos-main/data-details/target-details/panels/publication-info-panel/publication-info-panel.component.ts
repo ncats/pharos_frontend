@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {Target} from '../../../../../models/target';
 import {PageData} from '../../../../../models/page-data';
@@ -17,7 +17,8 @@ import {PharosConfig} from '../../../../../../config/pharos-config';
 @Component({
   selector: 'pharos-publication-info-panel',
   templateUrl: './publication-info-panel.component.html',
-  styleUrls: ['./publication-info-panel.component.scss']
+  styleUrls: ['./publication-info-panel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PublicationInfoPanelComponent extends DynamicTablePanelComponent implements OnInit, OnDestroy {
   /**
@@ -25,6 +26,7 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
    */
   @Input() target: Target;
 
+  targetProps: any;
   /**
    * data array
    */
@@ -121,6 +123,7 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
    */
   constructor(private navSectionsService: NavSectionsService,
               private _http: HttpClient,
+              private changeRef: ChangeDetectorRef,
               private pharosConfig: PharosConfig) {
     super();
   }
@@ -129,6 +132,7 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
    * subscribe to data changes
    */
   ngOnInit() {
+    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -136,9 +140,11 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (Object.values(this.data).length > 0) {
-          this.ngUnsubscribe.next();
+        if (this.data && this.data.targets) {
+          this.target = this.data.targets;
+          this.targetProps = this.data.targetsProps;
           this.setterFunction();
+          this.ngUnsubscribe.next();
         }
       });
   }
@@ -149,13 +155,9 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
    * create timelines if data is available
    */
   setterFunction() {
-    if (this.data.publications) {
-      const publications: Publication[] = this.data.publications
-        .filter(publication => publication)
-        .map(publication => this.publicationSerializer.fromJson(publication));
-      this.publications = publications
-        .map(publication => publication = this.publicationSerializer._asProperties(publication));
-      this.publicationsPageData = this.makePageData(this.target._publications.count);
+    if (this.target.publications) {
+      this.publications = this.targetProps.publications;
+      this.publicationsPageData = this.makePageData(this.target.publicationCount);
     }
 
     if (this.data.generifs) {
@@ -167,22 +169,25 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
 
       this.rifPageData = this.makePageData(this.data.generifCount);
     }
-    if (this.data.pmscore) {
+
+    if (this.target.pubmedScores) {
       const tempArr: PharosPoint[] = [];
-      this.data.pmscore.map(point => {
+      this.target.pubmedScores.map(point => {
         const pt: PharosPoint = new PharosPoint({x: +point.year, y: point.score});
         tempArr.push(pt);
       });
       this.pmscoreTimeline = tempArr;
     }
-    if (this.data.patents) {
+
+    if (this.target.patentScores) {
       const tempArr: PharosPoint[] = [];
-      this.data.patents.map(point => {
-        const pt: PharosPoint = new PharosPoint({x: +point.year, y: +point.count});
+      this.target.patentScores.map(point => {
+        const pt: PharosPoint = new PharosPoint({x: +point.year, y: +point.score});
         tempArr.push(pt);
       });
       this.patentTimeline = tempArr;
     }
+
     if (this.data.pubtator) {
       const tempArr: PharosPoint[] = [];
       this.data.pubtator.map(point => {
@@ -193,6 +198,7 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
     }
 
     this.loading = false;
+    this.changeRef.detectChanges();
   }
 
   /**

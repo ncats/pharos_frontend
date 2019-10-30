@@ -61,7 +61,6 @@ export class FacetListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('destroy');
     this.facets = [];
    // this.removeAll();
   }

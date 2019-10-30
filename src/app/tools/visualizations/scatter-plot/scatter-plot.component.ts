@@ -251,6 +251,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     //////////// Create the container SVG and g /////////////
     const element = this.chartContainer.nativeElement;
     const margin = this._chartOptions.margin;
+    console.log(element.offsetWidth);
     this.width = element.offsetWidth - margin.left - margin.right;
     this.height = element.offsetHeight - margin.top - margin.bottom;
     // Remove whatever chart with the same id/class was present before

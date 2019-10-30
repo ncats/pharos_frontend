@@ -99,7 +99,6 @@ export class HelpPanelComponent implements OnInit {
    * subscribe to dat asource changes and parse data object
    */
   ngOnInit() {
-    console.log(this);
     this._route.snapshot.data.components
       .filter(comp => comp.navHeader)
       .map(component => {

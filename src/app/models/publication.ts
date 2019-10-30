@@ -1,5 +1,6 @@
 import {Serializer} from './pharos-base';
 import {PharosProperty} from './pharos-property';
+import {Target} from './target';
 
 /**
  * publication object
@@ -16,44 +17,9 @@ export class Publication {
   pmid?: number;
 
   /**
-   * pmcid
-   */
-  pmcid?: number;
-
-  /**
-   * pbulication/article title
+   * article title
    */
   title?: string;
-
-  /**
-   * year published
-   */
-  year?: number;
-
-  /**
-   * pages in issue
-   */
-  pages?: string;
-
-  /**
-   * doi link
-   */
-  doi?: string;
-
-  /**
-   * article keywords
-   */
-  keywords?: string[];
-
-  /**
-   * mesh terms
-   */
-  mesh?: string[];
-
-  /**
-   * text of abstract
-   */
-  abstractText?: string;
 
   /**
    * journal name
@@ -61,14 +27,19 @@ export class Publication {
   journal?: string;
 
   /**
-   * urls to figures
+   * date published: YYYY-MM orYYYY-MM-DD
    */
-  figures?: string;
+  date?: number;
 
   /**
-   * list of authors
+   * text of abstract
    */
-  _authors?: string;
+  abstract?: string;
+
+  targetCounts?: number;
+
+  targets?: Target[];
+
 }
 
 /**
