@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, forkJoin, Observable, of, Subject} from 'rxjs';
-import {catchError} from 'rxjs/operators';
+import {catchError, take} from 'rxjs/operators';
 import {ParamMap} from '@angular/router';
 import {Topic} from '../models/topic';
 import {map, tap} from 'rxjs/internal/operators';
@@ -11,8 +11,23 @@ import {PharosBase} from '../models/pharos-base';
 import {Target} from '../models/target';
 import {PageData} from '../models/page-data';
 import {Facet} from '../models/facet';
-import {Apollo} from 'apollo-angular';
+import {Apollo, Query, QueryRef} from 'apollo-angular';
 import gql from 'graphql-tag';
+
+const PAGINATESUBTYPESSTUB = `
+query fetchPublications ($skip: Int, $top: Int, $term: String) {
+  targets: target(
+    q: {
+    sym: "HTT"
+    #tcrdid: $term
+  }
+) {
+    _tcrdid: tcrdid
+    uniprot
+    
+  }
+}`
+
 
 
 /**
@@ -181,6 +196,8 @@ export class PharosApiService {
    */
   returnedObject: any = {};
 
+  openQueries: Map<string, QueryRef<any>> = new Map<string, QueryRef<any>>();
+
   /**
    * get config info and set up http service
    * @param {HttpClient} http
@@ -237,15 +254,18 @@ export class PharosApiService {
    * @return {Observable<any>}
    */
   getGraphQlData(path: string, params: ParamMap, fragments?: any): Observable<any> {
+    console.log(this);
+    console.log("get list data");
     const variables = this._mapVariables(path, params);
-    /**
-     * With query() you fetch data, receive the result, then an Observable completes.
-     * With watchQuery() you fetch data, receive the result and an Observable is keep opened for new
-     * emissions so it never completes.
-     * @type {Observable<ApolloQueryResult<any>>}
-     */
-    const fetchQuery = this.apollo.query({
-      query: gql`
+      /**
+       * With query() you fetch data, receive the result, then an Observable completes.
+       * With watchQuery() you fetch data, receive the result and an Observable is keep opened for new
+       * emissions so it never completes.
+       * @type {Observable<ApolloQueryResult<any>>}
+       */
+
+     const fetchQuery = this.apollo.query<any>({
+        query: gql`
         query PaginateData($skip: Int, $top: Int){
           results:${path}  {
             count
@@ -256,9 +276,9 @@ export class PharosApiService {
         }
         ${fragments}
       `,
-      variables: variables
-    });
-return fetchQuery;
+        variables: variables
+      });
+      return fetchQuery;
   }
 
 

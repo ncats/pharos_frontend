@@ -1,6 +1,27 @@
 import {Serializer} from './pharos-base';
 import {PharosProperty} from './pharos-property';
 import {Target} from './target';
+import gql from 'graphql-tag';
+
+const PROPERTYLISTFIELDS =  gql`
+  fragment listFields on PubMed {
+    date
+      pmid
+      title
+      journal
+    abstract
+  }
+`;
+
+const PROPERTYLISTQUERY =  gql`
+  fragment listFields on PubMed {
+    date
+      pmid
+      title
+      journal
+    abstract
+  }
+`;
 
 /**
  * publication object

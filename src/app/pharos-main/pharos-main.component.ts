@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, OnInit, Type, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, OnDestroy, OnInit, Type, ViewChild} from '@angular/core';
 import {CdkPortalOutlet, ComponentPortal} from '@angular/cdk/portal';
 import {PharosFooterComponent} from '../tools/pharos-footer/pharos-footer.component';
 import {MatDrawer, MatSidenav} from '@angular/material';
@@ -26,7 +26,7 @@ export class PanelOptions {
   styleUrls: ['./pharos-main.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PharosMainComponent implements OnInit {
+export class PharosMainComponent implements OnInit, OnDestroy {
   @ViewChild('leftpanel', {static: true}) leftPanelInstance: MatSidenav;
   @ViewChild('rightpanel', {static: true}) rightPanelInstance: MatSidenav;
 
@@ -57,12 +57,6 @@ export class PharosMainComponent implements OnInit {
   }
 
   makeComponents() {
-    /*const newPD = new PageData({
-      top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,
-      skip: (+this._route.snapshot.queryParamMap.get('page') - 1) * + this._route.snapshot.queryParamMap.get('rows'),
-      total: this._route.snapshot.data.results.count
-    });*/
-    //  const components: any = this.pharosConfig.getComponents(this.path, 'list');
     this.components.forEach(component => {
       let portalOutlet: CdkPortalOutlet;
       // make component
@@ -120,6 +114,8 @@ export class PharosMainComponent implements OnInit {
             componentPortal.detach();
           });
         }
+
+
         /* const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
          if (this.search && this.search.length) {
            const data: any = this.search.filter(datum => datum.kind === dynamicComponent.instance.path)[0];
@@ -192,5 +188,9 @@ export class PharosMainComponent implements OnInit {
       this.filterPanel.fullWidth = false;
       this.filterPanel.closeMenu();
     }*/
+  }
+
+  ngOnDestroy() {
+    console.log("destroying pharos main");
   }
 }

@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
 import {Publication, PublicationSerializer} from './publication';
 
-const LISTFIELDS =  gql`
+const TARGETLISTFIELDS =  gql`
   fragment listFields on Target {
     _tcrdid:tcrdid
     name
@@ -20,6 +20,9 @@ const LISTFIELDS =  gql`
     jensenScore: props(name: "JensenLab PubMed Score") {
       value
     }
+    pubTatorScore: props(name: "PubTator Score") {
+      value
+    }
     antibodyCount: props(name: "Ab Count") {
       value
     }
@@ -30,7 +33,7 @@ const LISTFIELDS =  gql`
 `;
 
 
-const DETAILSFIELDS = gql`
+const TARGETDETAILSFIELDS = gql`
   #import "./listFields.gql"
   fragment detailsFields on Target {
     ...listFields
@@ -68,7 +71,7 @@ const DETAILSFIELDS = gql`
       abstract
     }
   }
-  ${LISTFIELDS}
+  ${TARGETLISTFIELDS}
 `;
 
 
@@ -78,9 +81,9 @@ const DETAILSFIELDS = gql`
  */
 export class Target extends PharosBase {
 
-  static listfragments  = LISTFIELDS;
+  static listfragments  = TARGETLISTFIELDS;
 
-  static detailsfragments = DETAILSFIELDS;
+  static detailsfragments = TARGETDETAILSFIELDS;
 
   /**
    * target name
@@ -121,7 +124,6 @@ export class Target extends PharosBase {
    * text mined publication score
    */
   jensenScore:  number;
-
 
   uniprotIds: string[] | any[];
 
@@ -267,6 +269,10 @@ export class TargetSerializer implements PharosSerializer {
     obj.jensenScore = +(+json.jensenScore[0].value).toFixed(2);
     }
 
+    if (json.pubTatorScore && json.pubTatorScore.length) {
+    obj.pubTatorScore = +(+json.pubTatorScore[0].value).toFixed(2);
+    }
+
     if (json.antibodyCount && json.antibodyCount.length) {
     obj.antibodyCount = +(+json.antibodyCount[0].value).toFixed(2);
     }
@@ -329,7 +335,6 @@ export class TargetSerializer implements PharosSerializer {
    * @private
    */
   _asProperties(obj: Target): any {
-    console.log(obj);
     const newObj: any = this._mapField(obj);
     if (newObj.accession && newObj.accession.term) {
       newObj.name.internalLink = ['/targets', newObj.accession.term];
@@ -340,7 +345,6 @@ export class TargetSerializer implements PharosSerializer {
     }
 
     if (newObj.uniprotIds && newObj.uniprotIds.length) {
-      console.log(newObj.uniprotIds);
       newObj.uniprotIds.map(uniprot => uniprot.uniprotId.externalLink = `https://www.uniprot.org/uniprot/${uniprot.uniprotId.term}`);
     }
 
@@ -348,7 +352,6 @@ export class TargetSerializer implements PharosSerializer {
       const pubSerializer = new PublicationSerializer();
       newObj.publications = obj.publications.map(pub => pubSerializer._asProperties(pub));
     }
-    console.log(newObj);
     return newObj;
   }
 

@@ -17,8 +17,7 @@ const routes: Routes = [
     },
     data: {
       fragments: Target.detailsfragments,
-      serializer: new TargetSerializer(),
-      subpath: 'details'
+      serializer: new TargetSerializer()
     },
     runGuardsAndResolvers: 'paramsOrQueryParamsChange'
   }
