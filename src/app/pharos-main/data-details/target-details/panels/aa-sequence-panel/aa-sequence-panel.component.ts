@@ -1,8 +1,9 @@
-import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import * as Protvista from 'ProtVista';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
+import {Target} from '../../../../../models/target';
 
 /**
  * displays amino acid sequence data
@@ -14,10 +15,15 @@ import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/na
   selector: 'pharos-aa-sequence-panel',
   templateUrl: './aa-sequence-panel.component.html',
   styleUrls: ['./aa-sequence-panel.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class AaSequencePanelComponent extends DynamicPanelComponent implements OnInit {
+  /**
+   * target to display
+   */
+  @Input() target: Target;
 
   /**
    * div element that holds the protvista viewer
@@ -33,11 +39,6 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
    * amino acid residue counts
    */
   residueCounts: any[];
-
-  /**
-   * target id for uniprot viewer
-   */
-  id: string;
 
   /**
    * set up active sidenav component
@@ -60,10 +61,10 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (this.data.sequence) {
+        if (this.data && this.data.targets) {
+          this.target = this.data.targets;
           this.ngUnsubscribe.next();
           this.setterFunction();
-          this.loading = false;
         }
       });
   }
@@ -74,14 +75,13 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
    * // todo set boolean breakpoint and only load if not mobile
    */
   setterFunction() {
-    if (this.data.sequence[0].text) {
-      this.parseSequence();
-      this.getCounts();
-    }
+    this.parseSequence();
+    this.getCounts();
     const r = new Protvista({
       el: this.viewerContainer.nativeElement,
-      uniprotacc: this.id
+      uniprotacc: this.target.accession
     });
+    this.loading = false;
   }
 
   /**
@@ -90,7 +90,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
    */
   getCounts(): void {
     const charMap: Map<string, number> = new Map<string, number>();
-    this.data.sequence[0].text.split('').map(char => {
+    this.target.sequence.split('').map(char => {
       let count = charMap.get(char);
       if (count) {
         charMap.set(char, ++count);
@@ -106,13 +106,13 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
    */
   parseSequence(): void {
     const length = 70;
-    const split = this.splitString(this.data.sequence[0].text, length);
+    const split = this.splitString(this.target.sequence, length);
   const splitseq: any[] = [];
   split.forEach((chunk, index) =>  {
      if (index === 0) {
        splitseq.push({chunk: chunk, residues: index + 1 + '-' + (index + 1) * length});
      } else if (index === split.length - 1) {
-       splitseq.push({chunk: chunk, residues: index * length + '-' + this.data.sequence[0].text.length});
+       splitseq.push({chunk: chunk, residues: index * length + '-' + this.target.sequence.length});
      } else {
        splitseq.push({chunk: chunk, residues: index * length + '-' + (index + 1) * length});
      }

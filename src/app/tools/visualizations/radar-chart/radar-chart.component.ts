@@ -296,6 +296,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     //////////// Create the container SVG and g /////////////
     const element = this.chartContainer.nativeElement;
     const margin = this._chartOptions.margin;
+    console.log(element.offsetWidth);
     this.width = element.offsetWidth - margin.left - margin.right;
     this.height = element.offsetHeight - margin.top - margin.bottom;
 
