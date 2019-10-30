@@ -31,6 +31,7 @@ export class Publication {
    */
   date?: number;
 
+  year: string;
   /**
    * text of abstract
    */

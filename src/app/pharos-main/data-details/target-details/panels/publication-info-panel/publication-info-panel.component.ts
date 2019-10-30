@@ -179,22 +179,22 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
       this.pmscoreTimeline = tempArr;
     }
 
-    if (this.target.patentScores) {
+    if (this.target.pubTatorScores) {
       const tempArr: PharosPoint[] = [];
-      this.target.patentScores.map(point => {
+      this.target.pubTatorScores.map(point => {
         const pt: PharosPoint = new PharosPoint({x: +point.year, y: +point.score});
         tempArr.push(pt);
       });
-      this.patentTimeline = tempArr;
+      this.pubtatorTimeline = tempArr;
     }
 
-    if (this.data.pubtator) {
+    if (this.target.patentCounts) {
       const tempArr: PharosPoint[] = [];
-      this.data.pubtator.map(point => {
-        const pt: PharosPoint = new PharosPoint({x: +point.year, y: point.score});
+      this.target.patentCounts.map(point => {
+        const pt: PharosPoint = new PharosPoint({x: +point.year, y: point.count});
         tempArr.push(pt);
       });
-      this.pubtatorTimeline = tempArr;
+      this.patentTimeline = tempArr;
     }
 
     this.loading = false;
