@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, forkJoin, Observable, of, Subject} from 'rxjs';
 import {catchError, take} from 'rxjs/operators';
@@ -13,6 +13,7 @@ import {PageData} from '../models/page-data';
 import {Facet} from '../models/facet';
 import {Apollo, Query, QueryRef} from 'apollo-angular';
 import gql from 'graphql-tag';
+import {PathResolverService} from './path-resolver.service';
 
 const PAGINATESUBTYPESSTUB = `
 query fetchPublications ($skip: Int, $top: Int, $term: String) {
@@ -26,8 +27,8 @@ query fetchPublications ($skip: Int, $top: Int, $term: String) {
     uniprot
     
   }
-}`
-
+}
+`;
 
 
 /**
@@ -116,9 +117,9 @@ export class PharosApiService {
       id: 0,
       name: 'Bromodomain Inhibitors',
       description: 'BET inhibitors are a class of drugs with anti-cancer, immunosuppressive, and other effects in ' +
-      'clinical trials in the United States and Europe and widely used in research. These molecules reversibly bind ' +
-      'the bromodomains of Bromodomain and Extra-Terminal motif (BET) proteins BRD2, BRD3, BRD4, and BRDT, and prevent ' +
-      'protein-protein interaction between BET proteins and acetylated histones and transcription factors.',
+        'clinical trials in the United States and Europe and widely used in research. These molecules reversibly bind ' +
+        'the bromodomains of Bromodomain and Extra-Terminal motif (BET) proteins BRD2, BRD3, BRD4, and BRDT, and prevent ' +
+        'protein-protein interaction between BET proteins and acetylated histones and transcription factors.',
       class: 'target',
       targetList: ['BRD2', 'BRD3', 'BRD4', 'BRDT'],
       diseaseCt: 0,
@@ -140,7 +141,7 @@ export class PharosApiService {
       id: 2,
       name: 'Regulation of Autophagy',
       description: 'Any process that modulates the frequency, rate or extent of autophagy. ' +
-      'Autophagy is the process in which cells digest parts of their own cytoplasm. [GOC:dph, GOC:tb] [GO]',
+        'Autophagy is the process in which cells digest parts of their own cytoplasm. [GOC:dph, GOC:tb] [GO]',
       url: 'targets/search?facet=GO+Process/regulation%20of%20autophagy&top=100',
       class: 'target',
       diseaseCt: 53,
@@ -151,9 +152,9 @@ export class PharosApiService {
       id: 3,
       name: 'GPCR: Class F frizzled-type',
       description: 'A family of seven-pass transmembrane cell-surface proteins that combines with LOW DENSITY ' +
-      'LIPROTEIN RECEPTOR-RELATED PROTEIN-5 or LOW DENSITY LIPROTEIN RECEPTOR-RELATED PROTEIN-5 to form receptors ' +
-      'for WNT PROTEINS. Frizzled receptors often couple with HETEROTRIMERIC G PROTEINS and regulate the WNT ' +
-      'SIGNALING PATHWAY.',
+        'LIPROTEIN RECEPTOR-RELATED PROTEIN-5 or LOW DENSITY LIPROTEIN RECEPTOR-RELATED PROTEIN-5 to form receptors ' +
+        'for WNT PROTEINS. Frizzled receptors often couple with HETEROTRIMERIC G PROTEINS and regulate the WNT ' +
+        'SIGNALING PATHWAY.',
       class: 'targets',
       url: 'targets/search?facet=IDG+Target+Family/GPCR&facet=DTO+Protein+Class+%281%29/Class+F+frizzled-type&top=20',
       diseaseCt: 10,
@@ -164,9 +165,9 @@ export class PharosApiService {
       id: 4,
       name: 'WD40 repeat domain proteins',
       description: 'The WD40 repeat (also known as the WD or beta-transducin repeat) is a short structural motif of ' +
-      'approximately 40 amino acids, often terminating in a tryptophan-aspartic acid (W-D) dipeptide.[2] Tandem copies' +
-      ' of these repeats typically fold together to form a type of circular solenoid protein domain called the WD40 ' +
-      'domain.',
+        'approximately 40 amino acids, often terminating in a tryptophan-aspartic acid (W-D) dipeptide.[2] Tandem copies' +
+        ' of these repeats typically fold together to form a type of circular solenoid protein domain called the WD40 ' +
+        'domain.',
       class: 'targets',
       url: 'targets/search?facet=UniProt+Keyword/WD+repeat&top=300',
       displayTargets: {
@@ -206,6 +207,7 @@ export class PharosApiService {
    */
   constructor(private http: HttpClient,
               private apollo: Apollo,
+              @Inject(PathResolverService) private pathResolverService,
               private pharosConfig: PharosConfig) {
     this._URL = this.pharosConfig.getApiPath();
     this._SEARCHURLS = this.pharosConfig.getSearchPaths();
@@ -219,26 +221,26 @@ export class PharosApiService {
    */
   getData(path: string, params: ParamMap): Observable<any> {
 
-      // todo: delete when api filled out
-     /* if (path === 'topics') {
-        of(this.TOPICS).subscribe(topics => {
-          this._dataSource.next(
-            {
-              content: [{kind: path, data: {content: topics}}],
-              facets: []
-            });
-        });
-      } else {*/
-        const url = this._mapParams(path, params);
-       return this.http.get<any>(url)
-          .pipe(
-            tap(res => {
-              if (path !== 'topics') {
-                this._facetsDataSource.next(res.facets);
-              }
-            }),
-            catchError(this.handleError('getData', []))
-          );
+    // todo: delete when api filled out
+    /* if (path === 'topics') {
+       of(this.TOPICS).subscribe(topics => {
+         this._dataSource.next(
+           {
+             content: [{kind: path, data: {content: topics}}],
+             facets: []
+           });
+       });
+     } else {*/
+    const url = this._mapParams(path, params);
+    return this.http.get<any>(url)
+      .pipe(
+        tap(res => {
+          if (path !== 'topics') {
+            this._facetsDataSource.next(res.facets);
+          }
+        }),
+        catchError(this.handleError('getData', []))
+      );
   }
 
 
@@ -255,30 +257,39 @@ export class PharosApiService {
    */
   getGraphQlData(path: string, params: ParamMap, fragments?: any): Observable<any> {
     console.log(this);
-    console.log("get list data");
+    console.log('get list data');
+    console.log(fragments);
     const variables = this._mapVariables(path, params);
-      /**
-       * With query() you fetch data, receive the result, then an Observable completes.
-       * With watchQuery() you fetch data, receive the result and an Observable is keep opened for new
-       * emissions so it never completes.
-       * @type {Observable<ApolloQueryResult<any>>}
-       */
+    /**
+     * With query() you fetch data, receive the result, then an Observable completes.
+     * With watchQuery() you fetch data, receive the result and an Observable is keep opened for new
+     * emissions so it never completes.
+     * @type {Observable<ApolloQueryResult<any>>}
+     */
 
-     const fetchQuery = this.apollo.query<any>({
-        query: gql`
-        query PaginateData($skip: Int, $top: Int){
-          results:${path}  {
+    const fetchQuery = this.apollo.query<any>({
+      query: gql`
+        query PaginateData($skip: Int, $top: Int, $filter: IFilter){
+          results:${path} (filter: $filter) {
             count
+              facets {
+                facet
+                count
+                  values {
+                   name
+                   value
+                }
+              }
             ${path}(skip: $skip, top: $top) {
-            ...listFields
+            ...${path}ListFields
             }
           }
         }
         ${fragments}
       `,
-        variables: variables
-      });
-      return fetchQuery;
+      variables: variables
+    });
+    return fetchQuery;
   }
 
 
@@ -307,7 +318,7 @@ export class PharosApiService {
 
   }
 
-    /**
+  /**
    * creates a fork join to return the results of api search calls to targeted object kinds
    * this reduces the number of irrelevant results return that need to be parsed,
    * and also allows for paging and faceting independently of the data type
@@ -339,7 +350,7 @@ export class PharosApiService {
    */
   getDataObject(path: string, params: ParamMap): Observable<any> {
     if (path === 'topics') {
-     return  of(this.TOPICS[params.get('id')]);
+      return of(this.TOPICS[params.get('id')]);
     } else {
       const url = `${this._URL}${path}/${params.get('id')}`;
 
@@ -382,9 +393,9 @@ export class PharosApiService {
       .pipe(
         catchError(this.handleError('getDetailsByUrl', []))
       ).subscribe(response => {
-        this.returnedObject[origin] = response;
-     //   this._dataSource.next({details: this.returnedObject});
-        this._detailsDataSource.next(this.returnedObject);
+      this.returnedObject[origin] = response;
+      //   this._dataSource.next({details: this.returnedObject});
+      this._detailsDataSource.next(this.returnedObject);
       //  this._detailsUrlSource.next({origin: origin, data: response});
     });
   }
@@ -399,14 +410,15 @@ export class PharosApiService {
 
 
   private _mapVariables(path: string, params: ParamMap): any {
-  const ret: any = {};
+    console.log(params);
+    const ret: {top?: number, skip?: number, filter?: {term, facets}} = {};
     params.keys.map(key => {
       params.getAll(key).map(val => {
           switch (key) {
             case 'page': {
               const rows = params.get('rows');
               if (rows) {
-               ret.top = +rows;
+                ret.top = +rows;
               } else {
                 ret.top = 10;
                 ret.skip = 10 * (+val - 1);
@@ -420,7 +432,17 @@ export class PharosApiService {
               }
               break;
             }
+            case 'facet': {
+              const filter: any = ret.filter ? ret.filter : {};
+              console.log(this.pathResolverService.getFacetsAsObjects());
+              filter.facets = this.pathResolverService.getFacetsAsObjects()
+               .map(facet => facet = {facet: facet.facet, values: facet.values.map(value => value.name)});
+              console.log(filter);
+              ret.filter = filter;
+             break;
+            }
             default: {
+              console.log(val);
               ret[key] = val;
               break;
             }
@@ -428,8 +450,8 @@ export class PharosApiService {
         }
       );
     });
-
-  return ret;
+  console.log(ret);
+    return ret;
   }
 
   /**
@@ -450,32 +472,32 @@ export class PharosApiService {
         str = this.pharosConfig.getDefaultUrl(path);
       }
     } else {
-      str = this._URL + (path !== 'search' ? path + '/' : '')  + 'search?';
+      str = this._URL + (path !== 'search' ? path + '/' : '') + 'search?';
       params.keys.map(key => {
         params.getAll(key).map(val => {
-          switch (key) {
-            case 'page': {
-              const rows = params.get('rows');
-              if (rows) {
-                strArr.push('top=' + rows);
-              } else {
-                strArr.push('top=' + 10);
-                strArr.push('skip=' + 10 * (+val - 1));
+            switch (key) {
+              case 'page': {
+                const rows = params.get('rows');
+                if (rows) {
+                  strArr.push('top=' + rows);
+                } else {
+                  strArr.push('top=' + 10);
+                  strArr.push('skip=' + 10 * (+val - 1));
+                }
+                break;
               }
-              break;
-            }
-            case 'rows': {
-              const page = params.get('page');
-              if (page) {
-                strArr.push('skip=' + +val * (+page - 1));
+              case 'rows': {
+                const page = params.get('page');
+                if (page) {
+                  strArr.push('skip=' + +val * (+page - 1));
+                }
+                break;
               }
-              break;
+              default: {
+                strArr.push(key + '=' + val);
+                break;
+              }
             }
-            default: {
-              strArr.push(key + '=' + val);
-              break;
-            }
-          }
           }
         );
       });

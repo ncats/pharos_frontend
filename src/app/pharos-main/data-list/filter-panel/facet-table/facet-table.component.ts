@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy,
 import { MatTableDataSource} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SelectionModel} from '@angular/cdk/collections';
-import {Field} from '../../../../models/facet';
+import {Facet, Field} from '../../../../models/facet';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {PathResolverService} from '../../../../pharos-services/path-resolver.service';
@@ -20,7 +20,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
   /**
    * facet to display fields of
    */
-  @Input() facet: any;
+  @Input() facet: Facet;
 
   /**
    * data source of filters to display in the table
@@ -38,12 +38,12 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    * facet selection fields to display
    * @type {string[]}
    */
-  displayColumns: string [] = ['select', 'label', 'count'];
+  displayColumns: string [] = ['select', 'name', 'value'];
   /**
    *object fields headings to track and show
    * @type {string[]}
    */
-  fieldColumns: string [] = ['label', 'count'];
+  fieldColumns: string [] = ['name', 'value'];
 
   /**
    * unsubscribe subject
@@ -84,9 +84,9 @@ export class FacetTableComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
       res.filter(facetObj =>
-        facetObj.facet.toLowerCase() === this.facet.name.toLowerCase()).forEach(filtered => {
+        facetObj.facet === this.facet.facet).forEach(filtered => {
           this.propogate = false;
-        this.filterSelection.select(...filtered.fields);
+        this.filterSelection.select(...filtered.values);
       }
     );
         this.propogate = true;
@@ -100,8 +100,9 @@ export class FacetTableComponent implements OnInit, OnDestroy {
     this.filterSelection.changed
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(change => {
+        console.log(change);
           if (this.propogate === true) {
-            this.pathResolverService.mapSelection({name: this.facet.name, change: change});
+            this.pathResolverService.setFacets({name: this.facet.facet, change: change});
             this.pathResolverService.navigate();
           }
          });
@@ -114,7 +115,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    * @returns {string}
    */
   trackByFunction(index, item: Field) {
-    return item.label;
+    return item.name;
   }
 
   /**

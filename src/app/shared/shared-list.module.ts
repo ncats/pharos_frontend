@@ -8,10 +8,11 @@ import {SharedModule} from './shared.module';
 import {DonutChartComponent} from '../tools/visualizations/donut-chart/donut-chart.component';
 import {VisualizationOptionsComponent} from '../pharos-main/data-list/data-list-visualizations/visualization-options/visualization-options.component';
 import {CommonToolsModule} from '../tools/common-tools.module';
-import {PharosMainComponent} from '../pharos-main/pharos-main.component';
 import {RouterModule} from '@angular/router';
 import {PharosLoadingSpinnerModule} from '../tools/pharos-loading-spinner/pharos-loading-spinner.module';
-
+import {DataListResolver} from '../pharos-main/resolvers/data-list.resolver';
+import {ComponentsResolver} from '../pharos-main/resolvers/components.resolver';
+import {TOKENS} from '../../config/component-tokens';
 
 @NgModule({
   imports: [
@@ -30,6 +31,16 @@ import {PharosLoadingSpinnerModule} from '../tools/pharos-loading-spinner/pharos
     VisualizationOptionsComponent
   ],
   providers: [
+    DataListResolver,
+    ComponentsResolver,
+    {provide: TOKENS.PHAROS_VISUALIZATION_COMPONENT, useValue: DataListVisualizationsComponent},
+    {provide: TOKENS.PHAROS_SELECTED_FACET_LIST_COMPONENT, useValue: FacetListComponent},
+    {provide: TOKENS.PHAROS_FACETS_COMPONENT, useValue: FilterPanelComponent}
+  ],
+  entryComponents: [
+    FilterPanelComponent,
+    VisualizationOptionsComponent,
+    DataListVisualizationsComponent
   ],
   exports: [
     SharedModule,

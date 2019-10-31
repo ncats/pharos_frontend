@@ -19,15 +19,23 @@ export class TOKENS {
    */
   public static TARGET_HEADER_COMPONENT = new InjectionToken<string>('TargetHeaderComponent');
 /**
-   * injection token to add the target details header
+   * injection token to add the facets sidenav
    */
   public static PHAROS_FACETS_COMPONENT = new InjectionToken<string>('PharosFacetComponent');
+  /**
+   * injection token to add the selected facets list component
+   */
+  public static PHAROS_SELECTED_FACET_LIST_COMPONENT = new InjectionToken<string>('PharosFacetComponent');
 /**
-   * injection token to add the target details header
+   * injection token to add the facet donut chart
+   */
+  public static PHAROS_VISUALIZATION_COMPONENT = new InjectionToken<string>('PharosFacetVisualizationComponent');
+/**
+   * injection token to add the target details subnavigation component
    */
   public static PHAROS_SUBNAV_COMPONENT = new InjectionToken<string>('PharosSubnavComponent');
 /**
-   * injection token to add the target details header
+   * injection token to add the help panel sidenav
    */
   public static PHAROS_HELPPANEL_COMPONENT = new InjectionToken<string>('PharosHelpPanelComponent');
 

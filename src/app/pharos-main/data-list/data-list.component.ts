@@ -308,10 +308,10 @@ console.log(this);
    * close full width filter panel when clicking outside of panel
    */
   close() {
-    if (this.filterPanel.fullWidth) {
+    /*if (this.filterPanel.fullWidth) {
       this.filterPanel.fullWidth = false;
       this.filterPanel.closeMenu();
-    }
+    }*/
   }
   /**
    * change pages of list

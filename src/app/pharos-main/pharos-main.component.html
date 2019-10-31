@@ -6,13 +6,16 @@
       <ng-container id="lefttemplate" #lefttemplate cdkPortalOutlet></ng-container>
     </nav>
   </mat-sidenav>
+
   <mat-sidenav #rightpanel [position]="'end'" [opened] = false>
     <!-- sidenav content -->
     <aside>
       <ng-container id="righttemplate" #righttemplate cdkPortalOutlet></ng-container>
     </aside>
   </mat-sidenav>
+
   <mat-sidenav-content (click)="close()" class="pharos-sidenav-content" role="main" id="scrollspy-main">
+
     <div fxLayout="row" fxLayoutAlign="start start" class="sidenav-buttons">
       <div fxFlex="5">
         <button type="button"  *ngIf="!leftpanel.opened" class="sidenavToggle" mat-raised-button [color]="'primary'" (click)="leftpanel.toggle()">
@@ -20,6 +23,7 @@
         </button>
       </div>
     </div>
+
     <ng-container id="contenttemplate" #contenttemplate cdkPortalOutlet></ng-container>
   </mat-sidenav-content>
 </mat-sidenav-container>

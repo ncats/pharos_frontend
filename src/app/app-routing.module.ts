@@ -68,7 +68,8 @@ const ROUTES: Routes = [
   {
     path: 'targets',
     loadChildren: () => import('./pharos-main/modules/targets/target-list.module').then(m => m.TargetTableModule),
-    data: { path: 'targets',
+    data: {
+      path: 'targets',
       subpath: 'list'
     }
   },
@@ -82,24 +83,34 @@ const ROUTES: Routes = [
   },
   {
     path: 'diseases',
-    loadChildren: () => import('./pharos-main/modules/diseases/disease-list.module').then(m => m.DiseaseListModule),
-    data: { path: 'diseases' }
+    redirectTo: '/targets',
+    // pathMatch: 'full'
+    /*loadChildren: () => import('./pharos-main/modules/diseases/disease-list.module').then(m => m.DiseaseListModule),
+    data: {
+      path: 'diseases',
+      subpath: 'list'
+    }*/
   },
   {
     path: 'diseases/:id',
-    loadChildren: () => import('./pharos-main/modules/diseases/disease-details.module').then(m => m.DiseaseDetailsModule),
-    data: { path: 'diseases' }
+    redirectTo: '/search',
+   /* loadChildren: () => import('./pharos-main/modules/diseases/disease-details.module').then(m => m.DiseaseDetailsModule),
+    data: {
+      path: 'diseases',
+      subpath: 'details'
+    }*/
   },
   {
     path: 'ligands',
-    loadChildren: () => import('./pharos-main/modules/ligands/ligand-list.module').then(m => m.LigandListModule),
-    data: { path: 'ligands' }
+    redirectTo: '/targets'
+   // loadChildren: () => import('./pharos-main/modules/ligands/ligand-list.module').then(m => m.LigandListModule),
+   // data: { path: 'ligands' }
   },
-  {
+/*  {
     path: 'ligands/:id',
     loadChildren: () => import('./pharos-main/modules/ligands/ligand-details.module').then(m => m.LigandDetailsModule),
     data: { path: 'ligands' }
-  },
+  },*/
   {
     path: 'api',
     loadChildren: () => import('./api-page/api-page.module').then(m =>  m.ApiPageModule),
@@ -117,7 +128,7 @@ const ROUTES: Routes = [
     RouterModule.forRoot(ROUTES, {
       scrollPositionRestoration: 'enabled',
       anchorScrolling: 'enabled',
-      // onSameUrlNavigation: 'reload',
+      onSameUrlNavigation: 'reload',
       scrollOffset: [0, 120],
       // preloadingStrategy: PreloadAllModules
       })
