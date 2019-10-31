@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Subject, BehaviorSubject} from 'rxjs';
 import {NavigationExtras, ParamMap, Router} from '@angular/router';
+import {Facet, Field} from '../models/facet';
 
 /**
  * service to parse and resolve the url path to retrieve api info
@@ -23,13 +24,7 @@ export class PathResolverService {
    */
   private _facetMap: Map<string, string[]> = new Map<string, string[]>();
 
-  /**
-   * source that watches changes in the url path
-   * todo: check usage - this may also be causing the lazty loaded modules issues
-   * @type {BehaviorSubject<string>}
-   * @private
-   */
-  private _pathSource = new BehaviorSubject<string>('targets');
+  private _facetObjMap: Map<string, Facet> = new Map<string, Facet>();
 
   /**
    * RxJs Behavior subject to broadcast changes in selected facets
@@ -37,12 +32,6 @@ export class PathResolverService {
    * @private
    */
   private _facetSource = new Subject<any[]>();
-
-  /**
-   * Observable stream for path changes
-   * @type {Observable<string>}
-   */
-  path$ = this._pathSource.asObservable();
 
   /**
    * Observable stream for facet changes
@@ -56,21 +45,41 @@ export class PathResolverService {
    */
   constructor(private _router: Router) { }
 
-  /**
-   * sets the path from a url
-   * todo: check usage of this
-   * @param {string} path
-   */
-  setPath(path: string): void {
-    this._pathSource.next(path);
+  setFacets(facetObj: any) {
+    console.log(facetObj);
+    const facet: Facet = this._facetObjMap.get(facetObj.name);
+    if (facet) {
+      if (facetObj.change.added) {
+    facet.values = [...new Set(facet.values.concat(facetObj.change.added.map(add => add = new Field({name: add}))))];
+        this._facetObjMap.set(facetObj.name, facet);
+      }
+        if (facetObj.change.removed) {
+          facet.values = facet.values.map(value => value.name)
+            .filter(val => ! facetObj.change.removed.includes(val))
+            .map(newVal =>  new Field({name: newVal}));
+          this._facetObjMap.set(facetObj.name, facet);
+           }
+      this._facetObjMap.set(facetObj.name, facet);
+    } else {
+      this._facetObjMap.set(facetObj.name,
+        new Facet({facet: facetObj.name, values: facetObj.change.added.map(field => field = {name: field})})
+      );
+    }
+    console.log(this._facetObjMap);
+    console.log(Array.from(this._facetObjMap.values()));
+    this.getFacetsAsUrlStrings();
   }
 
-  /**
-   * get path from source
-   * @return {string}
-   */
-  getPath(): string {
-    return this._pathSource.value;
+  getFacetsAsUrlStrings(): string[] {
+    const retArr: string[] = [];
+    const facets: Facet[] = Array.from(this._facetObjMap.values());
+    facets.forEach(facet => facet.values.forEach(value => retArr.push(this._makeFacetString(facet.facet, value.name))));
+    console.log(retArr);
+    return retArr;
+  }
+
+  getFacetsAsObjects(): Facet[] {
+    return Array.from(this._facetObjMap.values());
   }
 
   /**
@@ -81,19 +90,19 @@ export class PathResolverService {
    * @param {string} path
    */
   navigate(path?: string): void {
-      const facetList = [];
+      const facetList = this.getFacetsAsUrlStrings();
       let q: string;
-      this._facets.forEach(facet => {
+      /*this._facets.forEach(facet => {
         if (facet.facet === 'query') {
           q = facet.fields[0];
         } else if (facet.facet === 'etag') {
           q = `etag:${facet.fields[0]}`;
           //   this._facetMap.delete('etag');
         } else {
-          facet.fields.forEach(field => facetList.push(this._makeFacetString(facet.facet, field)));
+          facet.values.forEach(field => facetList.push(this._makeFacetString(facet.facet, field)));
         }
-      });
-
+      });*/
+      console.log(facetList);
       /**
        * forces to first page on facet changes
        * @type {NavigationExtras}
@@ -114,6 +123,7 @@ export class PathResolverService {
       }
 
       this._router.onSameUrlNavigation = 'reload'; // forces reload since this is the same navigation url
+    console.log(navigationExtras);
       if (path) { // move up a level
         this._router.navigate([path], navigationExtras);
       } else { // lateral navigation
@@ -177,6 +187,7 @@ export class PathResolverService {
    * @param facet
    */
   mapSelection(facet: any): void {
+    console.log(facet);
     let fields = this._facetMap.get(facet.name);
     if (fields) {
       if (facet.change.removed) {
@@ -201,9 +212,10 @@ export class PathResolverService {
     this._facets = [];
     this._facetMap.forEach((value, key) => {
       if (value.length > 0) {
-        this._facets.push({facet: key, fields: value});
+        this._facets.push({facet: key, values: value});
       }
     });
+    console.log(this._facets);
     this._facetSource.next(this._facets);
   }
 

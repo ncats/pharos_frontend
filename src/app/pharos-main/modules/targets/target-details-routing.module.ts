@@ -16,7 +16,7 @@ const routes: Routes = [
       components: ComponentsResolver
     },
     data: {
-      fragments: Target.detailsfragments,
+      fragments: Target.targetDetailsFragments,
       serializer: new TargetSerializer()
     },
     runGuardsAndResolvers: 'paramsOrQueryParamsChange'

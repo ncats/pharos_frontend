@@ -36,15 +36,11 @@ import {FilterPanelComponent} from '../../data-list/filter-panel/filter-panel.co
     SharedListModule
   ],
   providers: [
-    DataListResolver,
-    ComponentsResolver,
-    {provide: TOKENS.PHAROS_FACETS_COMPONENT, useValue: FilterPanelComponent},
     {provide: TOKENS.TARGET_TABLE_COMPONENT, useValue: TargetTableComponent},
     {provide: IDG_LEVEL_TOKEN, useValue: IdgLevelIndicatorComponent},
     {provide: RADAR_CHART_TOKEN, useValue: InjectedRadarChartComponent}
   ],
   entryComponents: [
-    FilterPanelComponent,
     TargetTableComponent,
     IdgLevelIndicatorComponent,
     InjectedRadarChartComponent,

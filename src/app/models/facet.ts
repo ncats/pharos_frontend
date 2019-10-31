@@ -1,12 +1,13 @@
 /**
  * Facet object from api
  */
+
 export class Facet {
 
   /**
    * name of facet
    */
-  name: string;
+  facet: string;
 
   /**
    * readable label for facet
@@ -18,10 +19,10 @@ export class Facet {
    */
   values: Field[];
 
-  /**
-   * show or hide the facet panel by default
-   */
-  open?: boolean;
+  constructor (json: any) {
+    this.facet = json.facet;
+    this.values = json.values.map(val => new Field(val));
+  }
 }
 
 /**
@@ -31,20 +32,15 @@ export class Field {
   /**
    * facet-able field
    */
-  label: string;
+  name: string;
 
   /**
    * facet-able field
+   * optional for filter flattening
    */
-  name?: string;
+  value?: number;
 
-  /**
-   * facet-able field
-   */
-  value?: string;
-
-  /**
-   * cound of facetable values
-   */
-  count?: number;
+  constructor (json: any) {
+    Object.entries((json)).forEach((prop) => this[prop[0]] = prop[1]);
+  }
 }

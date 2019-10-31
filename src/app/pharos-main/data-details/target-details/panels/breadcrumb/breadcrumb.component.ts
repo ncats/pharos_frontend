@@ -63,7 +63,7 @@ export class BreadcrumbComponent implements OnInit {
    * Build array of links based on current url path
    */
   ngOnInit() {
-    const pt = this.pathResolverService.getPath();
+    const pt = this.route.snapshot.data.path;
     this.path = {term: pt, label: pt};
     this._data.subscribe(x => {
       if (this.data) {
@@ -82,7 +82,7 @@ export class BreadcrumbComponent implements OnInit {
    */
   goTo(link: any): void {
     this.pathResolverService.mapSelection({name: link.label, change: {added: [link.term]}});
-    this.pathResolverService.navigate(this.pathResolverService.getPath());
+    this.pathResolverService.navigate(this.route.snapshot.data.path);
 }
 
 }

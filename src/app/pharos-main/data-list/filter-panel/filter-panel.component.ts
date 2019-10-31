@@ -26,6 +26,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     class : 'filters-panel',
     opened: true,
     fixedInViewport: true,
+    fixedTopGap: 70,
     role: 'directory'
     /* [mode]="isSmallScreen!==true ? 'side' : 'over'"
      [opened]="isSmallScreen !== true"*/
@@ -35,7 +36,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * close the filter panel
    * @type {EventEmitter<boolean>}
    */
-  @Output() closeClick: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() menuToggle: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   /**
    * list of facets shown in the filter panel
@@ -69,6 +70,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    */
   loading = false;
 
+  data: any = {};
 
   /**
    * subject to unsubscribe on destroy
@@ -88,14 +90,15 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
               private pathResolverService: PathResolverService,
               private ref: ChangeDetectorRef,
               private profileService: PharosProfileService,
-              private facetRetrieverService: FacetRetrieverService,
+          //    private facetRetrieverService: FacetRetrieverService,
               private pharosConfig: PharosConfig) { }
 
   /**
    * set up subscriptions to get facets
     */
   ngOnInit() {
-    this.loading = true;
+    console.log(this);
+/*    this.loading = true;
     const flist = this.pharosConfig.getFacets(this.pathResolverService.getPath());
     this.facetRetrieverService.getAllFacets().subscribe(facets => {
       if (facets && facets.size) {
@@ -108,17 +111,17 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
             facet.open = f.open;
             this.filteredFacets.push(facet);
           }
-        });
+        });*/
         this.loading = false;
-        this.facets = this.filteredFacets;
+        this.facets = this.data.facets;
 
         this.ref.markForCheck();
-      } else {
+      } /*else {
         this.closeMenu();
       }
     });
-    this.loading = false;
-  }
+    this.loading = false;*/
+ // }
 
   /**
    * toggle the show all facets view
@@ -175,8 +178,8 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
   /**
    * close the filter panel
    */
-  closeMenu() {
-    this.closeClick.emit();
+  toggleMenu() {
+    this.menuToggle.emit();
   }
 
   /**

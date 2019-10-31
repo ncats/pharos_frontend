@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {PharosConfig} from '../../../../config/pharos-config';
 import {PathResolverService} from '../../../pharos-services/path-resolver.service';
 import {FacetRetrieverService} from '../filter-panel/facet-retriever.service';
@@ -12,6 +12,7 @@ import {Facet} from '../../../models/facet';
   selector: 'pharos-data-list-visualizations',
   templateUrl: './data-list-visualizations.component.html',
   styleUrls: ['./data-list-visualizations.component.scss'],
+
 })
 
 export class DataListVisualizationsComponent implements OnInit {
@@ -33,7 +34,9 @@ export class DataListVisualizationsComponent implements OnInit {
   /**
    * list of initial facets to display
    */
-  filteredFacets: Facet[];
+   facets: Facet[];
+
+  @Input() data: any = {};
 
   /**
    * constructor to get config object and specified facets
@@ -52,7 +55,8 @@ export class DataListVisualizationsComponent implements OnInit {
    * get list of available facets, then retrieve the first facet (default) on the list
    */
   ngOnInit() {
-        this.chartFacets = this.pharosConfig.getAllChartFacets(this.pathResolverService.getPath());
+    console.log(this);
+    /*    this.chartFacets = this.pharosConfig.getAllChartFacets(this.pathResolverService.getPath());
     this.facetRetrieverService.getAllFacets().subscribe(facets => {
       if (facets  && facets.size > 0) {
         if (this.chartFacets.donut.length > 0) {
@@ -64,11 +68,13 @@ export class DataListVisualizationsComponent implements OnInit {
               this.filteredFacets.push(facet);
             }
           });
-          this.donutData = this.filteredFacets[0];
+*/
+          this.facets = this.data.facets;
+          this.donutData = this.data.facets[0];
         }
-      }
-    });
-  }
+    /*  }
+    });*/
+ // }
 
   /**
    * retrieve facet data for a selected field
@@ -77,7 +83,7 @@ export class DataListVisualizationsComponent implements OnInit {
    */
   changeDonutChart(field: string): void {
     this.selectedDonut = field;
-    this.donutData = this.filteredFacets.filter(facet => facet.name === field)[0];
+    this.donutData = this.facets.filter(facet => facet.facet === field)[0];
   }
 
   /**
@@ -85,7 +91,8 @@ export class DataListVisualizationsComponent implements OnInit {
    * @param data
    */
   filterDonutChart(data: any ) {
-    this.pathResolverService.mapSelection({name: this.donutData.name, change: {added: [data.label] }});
+    console.log(data);
+    this.pathResolverService.mapSelection({name: this.donutData.facet, change: {added: [data.name] }});
     this.pathResolverService.navigate();
   }
 }

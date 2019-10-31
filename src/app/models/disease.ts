@@ -1,33 +1,30 @@
 import {PharosBase, PharosSerializer, PharosSubList} from './pharos-base';
 import {PharosProperty} from './pharos-property';
 import gql from 'graphql-tag';
+import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
+
+const DISEASELISTFIELDS =  gql`
+      fragment diseasesListFields on Disease {
+        name
+        associationCount
+      }
+    `;
 
 /**
  * main disease object, mainly list of associated targets
  */
 export class Disease extends PharosBase {
-  static fragments = {
-    listFields: gql`
-      fragment listFields on Disease {
-        type
-        name
-        did
-        description
-        drug
-        targetCounts{
-          name
-          value
-        }
-        source
-        reference
-      }
-    `,
-  };
+
+  static diseaseListFragments  = DISEASELISTFIELDS;
+
 
   /**
    * name of disease
    */
   name: string;
+
+  associationCounts: number;
+
   /**
    * description of disease
    */
@@ -123,15 +120,24 @@ export class DiseaseSerializer implements PharosSerializer {
    * @return {any}
    * @private
    */
-  _asProperties<T extends PharosBase>(disease: Disease): any {
-    const newObj: any = {};
-    Object.keys(disease).map(field => {
-      const property: PharosProperty = {name: field, label: field, term: disease[field]};
-      newObj[field] = property;
-    });
-    newObj.name.internalLink = ['/diseases', disease.id];
-    newObj.id.internalLink = ['/diseases', disease.id];
+  _asProperties<T extends PharosBase>(obj: Disease): any {
+    const newObj: any = this._mapField(obj);
+
+  //  newObj.name.internalLink = ['/diseases', obj.id];
+  //  newObj.id.internalLink = ['/diseases', obj.id];
     return newObj;
+  }
+
+  private _mapField (obj: any) {
+    const retObj: {} = Object.assign({}, obj);
+    Object.keys(obj).map(objField => {
+      if (Array.isArray(obj[objField])) {
+        retObj[objField] = obj[objField].map(arrObj => this._mapField(arrObj));
+      } else {
+        retObj[objField] = new DataProperty({name: objField, label: objField, term: obj[objField]});
+      }
+    });
+    return retObj;
   }
 }
 
