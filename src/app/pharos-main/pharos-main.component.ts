@@ -3,13 +3,15 @@ import {CdkPortalOutlet, ComponentPortal} from '@angular/cdk/portal';
 import {PharosFooterComponent} from '../tools/pharos-footer/pharos-footer.component';
 import {MatDrawer, MatSidenav} from '@angular/material';
 import {FilterPanelComponent} from './data-list/filter-panel/filter-panel.component';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {PharosPanel} from '../../config/components-config';
 import {PageData} from '../models/page-data';
 import {ComponentInjectorService} from '../pharos-services/component-injector.service';
 import {HelpDataService} from '../tools/help-panel/services/help-data.service';
 import {Position} from '@angular/compiler/src/aot/formatted_error';
 import {NavSectionsService} from '../tools/sidenav-panel/services/nav-sections.service';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 export class PanelOptions {
   mode?: string;
@@ -39,8 +41,15 @@ export class PharosMainComponent implements OnInit, OnDestroy {
   componentsLoaded = false;
   loadedComponents: Map<any, any> = new Map<any, any>();
   autosize = true;
+  data: any = {};
+  /**
+   * Behaviour subject to allow extending class to unsubscribe on destroy
+   * @type {Subject<any>}
+   */
+  protected ngUnsubscribe: Subject<any> = new Subject();
 
   constructor(
+    private router: Router,
     private _route: ActivatedRoute,
     private changeRef: ChangeDetectorRef,
     private helpDataService: HelpDataService,
@@ -52,8 +61,24 @@ export class PharosMainComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log(this);
-    this.components = this._route.snapshot.data.components;
+    this.data = this._route.snapshot.data;
+    this.components = this.data.components;
     this.makeComponents();
+
+    this.router.events
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((e: any) => {
+        // If it is a NavigationEnd event re-initalise the component
+        if (e instanceof NavigationEnd) {
+/*          if (this._route.snapshot.data.search) {
+            this.search = this._route.snapshot.data.search;
+          }*/
+            this.data = this._route.snapshot.data;
+
+          this.makeComponents();
+          this.changeRef.detectChanges();
+        }
+      });
   }
 
   makeComponents() {
@@ -72,7 +97,7 @@ export class PharosMainComponent implements OnInit, OnDestroy {
           dynamicChildToken
         );
         const componentInstance: ComponentRef<any> = portalOutlet.attachComponentPortal(componentPortal);
-        componentInstance.instance.data =  this._route.snapshot.data.results;
+        componentInstance.instance.data =  this.data.results;
 
         // left side panel functionality
         if (component.section === 'leftPortalOutlet' && componentInstance.instance['panelOptions']) {
@@ -163,7 +188,7 @@ export class PharosMainComponent implements OnInit, OnDestroy {
            instance.instance.pageData = newPD;
            instance.instance.data = this.data;
 
-           this.loadedComponents.set(component.token, instance);
+
            this.changeRef.markForCheck();
          }
        }
@@ -171,10 +196,12 @@ export class PharosMainComponent implements OnInit, OnDestroy {
      */
      this.componentsLoaded = true;
      this.autosize = false;
+     this.loadedComponents.set(component.token, componentInstance);
      this.changeRef.detectChanges();
       } else {
-        instance.instance.data = this._route.snapshot.data.results;
+        instance.instance.data = this.data.results;
         this.loadedComponents.set(component.token, instance);
+        this.changeRef.detectChanges();
       }
     });
   }
@@ -190,7 +217,13 @@ export class PharosMainComponent implements OnInit, OnDestroy {
     }*/
   }
 
-  ngOnDestroy() {
-    console.log("destroying pharos main");
+  /**
+   * clears data
+   * empties component
+   * unsubscribes from observables
+   */
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

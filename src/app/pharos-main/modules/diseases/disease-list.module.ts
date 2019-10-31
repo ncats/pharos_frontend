@@ -9,6 +9,7 @@ import {CommonToolsModule} from '../../../tools/common-tools.module';
 import {SharedListModule} from '../../../shared/shared-list.module';
 import {DiseaseTableComponent} from '../../data-list/tables/disease-table/disease-table.component';
 import {ComponentsResolver} from '../../resolvers/components.resolver';
+import {FilterPanelComponent} from '../../data-list/filter-panel/filter-panel.component';
 
 @NgModule({
   declarations: [
@@ -22,11 +23,10 @@ import {ComponentsResolver} from '../../resolvers/components.resolver';
     SharedListModule
   ],
   providers: [
-    DataListResolver,
-    ComponentsResolver,
     {provide: TOKENS.DISEASE_TABLE_COMPONENT, useValue: DiseaseTableComponent}
   ],
   entryComponents: [
+    FilterPanelComponent,
     DiseaseTableComponent
   ],
   exports: [

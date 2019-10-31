@@ -75,6 +75,8 @@ export interface PharosSerializer extends Serializer {
    * @private
    */
   _asProperties(object: PharosBase): any;
+
+
 }
 
 /**

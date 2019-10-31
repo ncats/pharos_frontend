@@ -68,10 +68,10 @@ export class TargetSaveModalComponent {
    * submit control value and close modal
    */
   submitList(): void {
-    const ret: Field = {
-      label: this.targetCtrl.value,
-      count: this.data.selection ? this.data.selection.length : this.data.count,
-    };
+    const ret: Field =  new Field({
+      name: this.targetCtrl.value,
+      value: this.data.selection ? this.data.selection.length : this.data.count,
+    });
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -86,7 +86,7 @@ export class TargetSaveModalComponent {
         customFacet.values.push(ret);
       } else {
         customFacet = {
-          name: 'etag',
+          facet: 'etag',
           label: 'Custom Lists',
           values: [ret]
         };
@@ -100,7 +100,7 @@ export class TargetSaveModalComponent {
             customFacet.values.push(ret);
           } else {
             customFacet = {
-              name: 'etag',
+              facet: 'etag',
               label: 'Custom Lists',
               values: [ret]
             };

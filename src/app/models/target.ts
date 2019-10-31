@@ -5,7 +5,7 @@ import {DataProperty} from '../tools/generic-table/components/property-display/d
 import {Publication, PublicationSerializer} from './publication';
 
 const TARGETLISTFIELDS =  gql`
-  fragment listFields on Target {
+  fragment targetsListFields on Target {
     _tcrdid:tcrdid
     name
     gene: sym
@@ -34,9 +34,9 @@ const TARGETLISTFIELDS =  gql`
 
 
 const TARGETDETAILSFIELDS = gql`
-  #import "./listFields.gql"
-  fragment detailsFields on Target {
-    ...listFields
+  #import "./targetsListFields.gql"
+  fragment targetsDetailsFields on Target {
+    ...targetsListFields
     symbols: synonyms(name: "symbol") {
       name
       value
@@ -81,9 +81,9 @@ const TARGETDETAILSFIELDS = gql`
  */
 export class Target extends PharosBase {
 
-  static listfragments  = TARGETLISTFIELDS;
+  static targetListFragments  = TARGETLISTFIELDS;
 
-  static detailsfragments = TARGETDETAILSFIELDS;
+  static targetDetailsFragments = TARGETDETAILSFIELDS;
 
   /**
    * target name

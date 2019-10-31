@@ -3,7 +3,7 @@ import {PharosProperty} from './pharos-property';
 import {Target} from './target';
 import gql from 'graphql-tag';
 
-const PROPERTYLISTFIELDS =  gql`
+/*const PROPERTYLISTFIELDS =  gql`
   fragment listFields on PubMed {
     date
       pmid
@@ -21,7 +21,7 @@ const PROPERTYLISTQUERY =  gql`
       journal
     abstract
   }
-`;
+`;*/
 
 /**
  * publication object

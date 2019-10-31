@@ -35,7 +35,7 @@ export class SearchResultsResolver implements Resolve<any> {
     if (route.data.path === 'search' && !route.queryParamMap.get('q')) {
       this.pathResolverService.navigate('targets');
     } else {
-      this.pathResolverService.setPath(route.data.path);
+     // this.pathResolverService.setPath(route.data.path);
       return this.pharosApiService.search(route.queryParamMap);
     }
   }

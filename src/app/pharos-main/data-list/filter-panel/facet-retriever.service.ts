@@ -43,7 +43,7 @@ export class FacetRetrieverService {
     this.pharosApiService.facetsData$.subscribe(res => {
       if (res) {
         res.forEach(facet => {
-          this.facetMap.set(facet.name, facet);
+          this.facetMap.set(facet.facet, facet);
         });
         this._facets.next(this.facetMap);
       }

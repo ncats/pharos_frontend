@@ -55,14 +55,6 @@ export class PharosConfig {
    * get search url for typeahead suggestions
    * @returns {string}
    */
-   getGraPath(): string {
-    return PHAROSCONFIG.suggestUrl;
-  }
-
-  /**
-   * get search url for typeahead suggestions
-   * @returns {string}
-   */
    getSuggestPath(): string {
     return PHAROSCONFIG.suggestUrl;
   }
@@ -139,24 +131,6 @@ export class PharosConfig {
    */
    getDefaultUrl(path: string): string {
     return PHAROSCONFIG.components.has(path) ? PHAROSCONFIG.components.get(path).default : null;
-  }
-
-  /**
-   * get filter facets for a specific data type
-   * @param {string} path
-   * @returns {any[]}
-   */
-   getFacets(path: string): any[] {
-    return PHAROSCONFIG.components.has(path) ? PHAROSCONFIG.components.get(path).facets : null;
-  }
-
-  /**
-   * returns all chart facets
-   * @param {string} path
-   * @returns {any[]}
-   */
-   getAllChartFacets(path: string): any[] {
-    return PHAROSCONFIG.components.has(path) ? PHAROSCONFIG.components.get(path).chartFacets : null;
   }
 
   /**

@@ -3,18 +3,20 @@ import {RouterModule, Routes} from '@angular/router';
 import {DataListComponent} from '../../data-list/data-list.component';
 import {DataListResolver} from '../../resolvers/data-list.resolver';
 import {ComponentsResolver} from '../../resolvers/components.resolver';
-import {Disease} from '../../../models/disease';
+import {Disease, DiseaseSerializer} from '../../../models/disease';
+import {PharosMainComponent} from '../../pharos-main.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: DataListComponent,
+    component: PharosMainComponent,
+    data: {
+      fragments: Disease.diseaseListFragments,
+      serializer: new DiseaseSerializer()
+    },
     resolve: {
       components: ComponentsResolver,
       results: DataListResolver
-    },
-    data: {
-      fragments: Disease.fragments.listFields
     },
     runGuardsAndResolvers: 'paramsOrQueryParamsChange'
   }
