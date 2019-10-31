@@ -133,8 +133,25 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
  */
 const PHAROS_FACETS_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_FACETS_COMPONENT,
-  section: Position.Header,
-  api: []
+  section: Position.Left
+};
+
+/**
+ * main target facet component
+ * @type {PharosPanel}
+ */
+const PHAROS_SELECTED_FACET_LIST_COMPONENT: PharosPanel = {
+  token: TOKENS.PHAROS_SELECTED_FACET_LIST_COMPONENT,
+  section: Position.Content
+};
+
+/**
+ * main target donut chart visualization component
+ * @type {PharosPanel}
+ */
+const PHAROS_FACET_VISUALIZATION_COMPONENT: PharosPanel = {
+  token: TOKENS.PHAROS_VISUALIZATION_COMPONENT,
+  section: Position.Content
 };
 
 /**
@@ -143,8 +160,7 @@ const PHAROS_FACETS_COMPONENT: PharosPanel = {
  */
 const PHAROS_SUBNAV_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_SUBNAV_COMPONENT,
-  section: Position.Left,
-  api: []
+  section: Position.Left
 };
 
 /**
@@ -153,8 +169,7 @@ const PHAROS_SUBNAV_COMPONENT: PharosPanel = {
  */
 const PHAROS_HELPPANEL_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_HELPPANEL_COMPONENT,
-  section: Position.Right,
-  api: []
+  section: Position.Right
 };
 
 /**
@@ -163,8 +178,7 @@ const PHAROS_HELPPANEL_COMPONENT: PharosPanel = {
  */
 const TARGET_HEADER_COMPONENT: PharosPanel = {
   token: TOKENS.TARGET_HEADER_COMPONENT,
-  section: Position.Header,
-  api: []
+  section: Position.Header
 };
 
 /**
@@ -766,6 +780,7 @@ const TARGET_FACET_PANEL: PharosPanel = {
  */
 const DISEASE_TABLE_COMPONENT: PharosPanel = {
   token: TOKENS.DISEASE_TABLE_COMPONENT,
+  section: Position.Content,
   api: [
     {
       field: 'facets',
@@ -980,73 +995,10 @@ const TOPIC_DETAILS_COMPONENT: PharosPanel = {
 export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
   [
     ['targets', {
-      default: _APIURL + 'targets/search?top=10&skip=0',
-      facets: [
-        {
-          name: 'etag',
-          label: 'Custom Lists',
-          open: true
-        },
-        {
-          name: 'IDG Development Level',
-          label: 'Development Level',
-          open: true
-        },
-        {
-          name: 'Collection',
-          label: 'Collection',
-          open: true
-        },
-        {
-          name: 'IMPC Term',
-          label: 'IMPC Term'
-        },
-        {
-          name: 'IDG Disease',
-          label: 'Disease'
-        },
-        {
-          name: 'IDG Tissue',
-          label: 'Tissue'
-        },
-        {
-          name: 'IDG Target Family',
-          label: 'Target Family'
-        }
-      ],
-      chartFacets: {
-        donut: [
-          {
-            name: 'IDG Development Level',
-            label: 'Development Level'
-          },
-          {
-            name: 'Collection',
-            label: 'Collection'
-          },
-          {
-            name: 'IMPC Term',
-            label: 'IMPC Term'
-          },
-          {
-            name: 'IDG Disease',
-            label: 'Disease'
-          },
-          {
-            name: 'IDG Tissue',
-            label: 'Tissue'
-          },
-          {
-            name: 'IDG Target Family',
-            label: 'Target Family'
-          }
-        ],
-        sunburst: [],
-        cloud: []
-      },
       list: {
         components: [
           PHAROS_FACETS_COMPONENT,
+          PHAROS_FACET_VISUALIZATION_COMPONENT,
           TARGET_TABLE_COMPONENT
         ]
       },
@@ -1075,55 +1027,9 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
     ['diseases', {
       list: {
         components: [
+          PHAROS_FACETS_COMPONENT,
           DISEASE_TABLE_COMPONENT
         ]
-      },
-      default: _APIURL + 'diseases/search?top=10&skip=0',
-      facets: [
-        {
-          name: 'IDG Development Level',
-          label: 'Development Level',
-          open: true
-        },
-        {
-          name: 'IDG Target Family',
-          label: 'Target Family',
-          open: true
-        },
-        {
-          name: 'IDG Drug',
-          label: 'Drug'
-        },
-        {
-          name: 'Data Source',
-          label: 'Data Source'
-        },
-        {
-          name: 'DisGeNET Source',
-          label: 'DisGeNET Source'
-        }
-      ],
-      chartFacets: {
-        donut: [
-          {
-            name: 'IDG Development Level',
-            label: 'Development Level'
-          },
-          {
-            name: 'IDG Target Family',
-            label: 'Target Family'
-          },
-          {
-            name: 'Data Source',
-            label: 'Data Source'
-          },
-          {
-            name: 'DisGeNET Source',
-            label: 'DisGeNET Source'
-          }
-        ],
-        sunburst: [],
-        cloud: []
       },
       details: {
         components: [
@@ -1143,65 +1049,6 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
         components: [
           LIGAND_TABLE_COMPONENT
         ]
-      },
-      default: _APIURL + 'ligands/search?top=20&skip=0&view=full',
-      facets: [
-        {
-          name: 'IDG Development Level',
-          label: 'Development Level',
-          open: true
-        },
-        {
-          name: 'IDG Target Family',
-          label: 'Target Family',
-          open: true
-        },
-        {
-          name: 'IDG Target',
-          label: 'Target'
-        },
-        {
-          name: 'Pharmalogical Action',
-          label: 'Pharmalogical Action'
-        },
-        {
-          name: 'Ligand Activity',
-          label: 'Ligand Activity'
-        },
-        {
-          name: 'Ligand Source',
-          label: 'Ligand Source'
-        }
-      ],
-      chartFacets: {
-        donut: [
-          {
-            name: 'IDG Development Level',
-            label: 'Development Level'
-          },
-          {
-            name: 'IDG Target Family',
-            label: 'Target Family'
-          },
-          {
-            name: 'IDG Target',
-            label: 'Target'
-          },
-          {
-            name: 'Pharmalogical Action',
-            label: 'Pharmalogical Action'
-          },
-          {
-            name: 'Ligand Activity',
-            label: 'Ligand Activity'
-          },
-          {
-            name: 'Ligand Source',
-            label: 'Ligand Source'
-          }
-        ],
-        sunburst: [],
-        cloud: []
       },
       details: {
         components: [
@@ -1278,66 +1125,6 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           DISEASE_TABLE_COMPONENT,
           LIGAND_TABLE_COMPONENT
         ]
-      },
-      facets: [
-        {
-          name: 'etag',
-          label: 'Custom Lists'
-        },
-        {
-          name: 'IDG Development Level',
-          label: 'Development Level'
-        },
-        {
-          name: 'Collection',
-          label: 'Collection'
-        },
-        {
-          name: 'IMPC Term',
-          label: 'IMPC Term'
-        },
-        {
-          name: 'IDG Disease',
-          label: 'Disease'
-        },
-        {
-          name: 'IDG Tissue',
-          label: 'Tissue'
-        },
-        {
-          name: 'IDG Target Family',
-          label: 'Target Family'
-        }
-      ],
-      chartFacets: {
-        donut: [
-          {
-            name: 'IDG Development Level',
-            label: 'Development Level'
-          },
-          {
-            name: 'Collection',
-            label: 'Collection'
-          },
-          {
-            name: 'IMPC Term',
-            label: 'IMPC Term'
-          },
-          {
-            name: 'IDG Disease',
-            label: 'Disease'
-          },
-          {
-            name: 'IDG Tissue',
-            label: 'Tissue'
-          },
-          {
-            name: 'IDG Target Family',
-            label: 'Target Family'
-          }
-        ],
-        sunburst: [],
-        cloud: []
       }
     }]
   ]

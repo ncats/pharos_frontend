@@ -37,7 +37,6 @@ export class TopicDetailsResolver implements Resolve<any> {
    */
   resolve(route: ActivatedRouteSnapshot): Observable<any> {
     this.loadingService.toggleVisible(true);
-    this.pathResolverService.setPath(route.data.path);
     return of(
      //
       // this.db.collection('topics', ref => ref.where("topicId", "==", 1))

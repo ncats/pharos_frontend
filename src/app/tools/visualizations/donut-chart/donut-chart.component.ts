@@ -117,10 +117,10 @@ export class DonutChartComponent implements OnInit, OnChanges {
     d3.selectAll('.toolCircle').remove();
     const pie = d3.pie()
       .sort(function (a, b) {
-        return a.count - b.count;
+        return a.value - b.value;
       })
       .value(function (d) {
-        return d.count;
+        return d.value;
       });
 
     const arc = d3.arc()
@@ -134,7 +134,7 @@ export class DonutChartComponent implements OnInit, OnChanges {
       .outerRadius(this.radius * 0.9)
       .innerRadius(this.radius * 0.9);
 
-    const key = (d => d.data.label);
+    const key = (d => d.data.name);
 
     const color = d3.scaleOrdinal(['#b07c47',
       '#c47f2d',
@@ -161,7 +161,7 @@ export class DonutChartComponent implements OnInit, OnChanges {
   slice.enter()
       .insert('path')
       .style('fill', function (d) {
-        return color(d.data.label);
+        return color(d.data.name);
       })
       .attr('class', 'slice')
       .attr('d', arc)
@@ -198,16 +198,16 @@ export class DonutChartComponent implements OnInit, OnChanges {
     element.append('circle')
       .attr('class', 'toolCircle')
       .attr('r', this.radius * 0.65) // radius of tooltip circle
-      .style('fill', color(d.data.label)) // colour based on category mouse is over
+      .style('fill', color(d.data.name)) // colour based on category mouse is over
       .style('fill-opacity', 0.35);
     element.append('text')
       .attr('class', 'toolCircle')
       .attr('dy', -15) // hard-coded. can adjust this to adjust text vertical alignment in tooltip*/
-      .html(d.data.label); // add text to the circle.
+      .html(d.data.name); // add text to the circle.
        element.append('text')
-      .attr('class', 'toolCircle count')
+      .attr('class', 'toolCircle value')
       .attr('dy', 30) // hard-coded. can adjust this to adjust text vertical alignment in tooltip*/
-      .html(d.data.count);
+      .html(d.data.value);
     element.transition()
       .duration(200)
       .style('opacity', .9);

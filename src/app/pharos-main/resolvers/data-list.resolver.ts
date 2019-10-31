@@ -6,6 +6,7 @@ import {LoadingService} from '../../pharos-services/loading.service';
 import {PathResolverService} from '../../pharos-services/path-resolver.service';
 import {map} from 'rxjs/internal/operators';
 import {PharosBase, Serializer} from '../../models/pharos-base';
+import {Facet} from '../../models/facet';
 
 /**
  * resolver to retrieve list of data happens on every main level (/targets, /diseases, /ligands, etc) change
@@ -30,11 +31,14 @@ export class DataListResolver implements Resolve<any> {
    * @returns {Observable<any[]>}
    */
   resolve(route: ActivatedRouteSnapshot): Observable<PharosBase[]> {
+    console.log(route);
       this.loadingService.toggleVisible(true);
       const serializer: Serializer = route.data.serializer;
       return this.pharosApiService.getGraphQlData(route.data.path, route.queryParamMap, route.data.fragments)
         .pipe(
           map(res =>  {
+            console.log(res);
+            res.data.results.facets = res.data.results.facets.map(facet => new Facet(facet));
             res.data.results[`${[route.data.path]}Props`] = [];
             res.data.results[route.data.path].map(obj => {
             const tobj = serializer.fromJson(obj);
