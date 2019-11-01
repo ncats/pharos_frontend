@@ -70,8 +70,8 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
   const dialogRef = this.dialog.open(RadarChartViewerComponent, {
     height: '90vh',
     width: '85vw',
-    data: { data: this.data.knowledge,
-            id: this.data.knowledge[0].className,
+    data: { data: [this.target.hgdata],
+            id: this.target.accession,
       target: this.target,
       size: 'large'}
   });
