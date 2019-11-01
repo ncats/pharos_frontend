@@ -134,9 +134,14 @@ export class PharosMainComponent implements OnInit, OnDestroy {
 
         // put this last or errors are thrown because the instance keeps getting used.
         if (componentInstance.instance.selfDestruct) {
+          console.log(componentInstance);
           componentInstance.instance.selfDestruct.subscribe(res => {
-            componentInstance.destroy();
-            componentPortal.detach();
+            console.log(res);
+            if (res) {
+             console.log("destroyyyyyyyy");
+              componentInstance.destroy();
+              componentPortal.detach();
+            }
           });
         }
 

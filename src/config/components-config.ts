@@ -999,6 +999,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
         components: [
           PHAROS_FACETS_COMPONENT,
           PHAROS_FACET_VISUALIZATION_COMPONENT,
+
           TARGET_TABLE_COMPONENT
         ]
       },
@@ -1012,13 +1013,13 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           SUMMARY_PANEL,
           LEVEL_SUMMARY_PANEL,
           IDG_RESOURCES_PANEL,
-          DRUGS_PANEL,
+        //  DRUGS_PANEL,
         //  LIGANDS_PANEL,
         //  DISEASE_SOURCE_PANEL,
         //  PDB_PANEL,
         //  EXPRESSION_PANEL,
         //  PROTEIN_PROTEIN_PANEL,
-          PUBLICATION_INFO_PANEL,
+        //  PUBLICATION_INFO_PANEL,
           AA_SEQUENCE_PANEL,
         //  TARGET_FACET_PANEL
         ]
