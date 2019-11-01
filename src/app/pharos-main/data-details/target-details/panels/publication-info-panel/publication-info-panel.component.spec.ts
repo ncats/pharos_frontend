@@ -4,6 +4,10 @@ import { PublicationInfoPanelComponent } from './publication-info-panel.componen
 import {SharedModule} from '../../../../../shared/shared.module';
 import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ActivatedRoute} from '@angular/router';
+import {MockActivatedRoute} from '../../../../../../../test/mock-activate-route';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('PublicationInfoPanelComponent', () => {
   let component: PublicationInfoPanelComponent;
@@ -17,7 +21,12 @@ describe('PublicationInfoPanelComponent', () => {
       imports: [
         BrowserAnimationsModule,
         SharedModule,
-        GenericTableModule
+        GenericTableModule,
+        ApolloTestingModule,
+        RouterTestingModule
+      ],
+      providers: [
+        { provide: ActivatedRoute, useClass: MockActivatedRoute }
       ]
     })
     .compileComponents();

@@ -5,6 +5,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {SharedModule} from '../../../../../shared/shared.module';
 import {BrowserTestingModule} from '@angular/platform-browser/testing';
 import {PathResolverService} from '../../../../../pharos-services/path-resolver.service';
+import {ApolloTestingModule} from 'apollo-angular/testing';
 
 describe('BreadcrumbComponent', () => {
   let component: BreadcrumbComponent;
@@ -13,8 +14,9 @@ describe('BreadcrumbComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
-        SharedModule
+        SharedModule,
+        ApolloTestingModule,
+        RouterTestingModule
       ],
       providers: [PathResolverService],
       declarations: [

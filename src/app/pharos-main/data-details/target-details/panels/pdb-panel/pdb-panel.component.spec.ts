@@ -6,6 +6,8 @@ import {GenericTableModule} from '../../../../../tools/generic-table/generic-tab
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ProteinStructureViewerComponent} from '../../../../../tools/protein-structure-viewer/protein-structure-viewer.component';
 import {TESTTARGET} from '../../../../../../../test/test-target';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('PdbPanelComponent', () => {
   let component: PdbPanelComponent;
@@ -20,7 +22,9 @@ describe('PdbPanelComponent', () => {
       imports: [
         SharedModule,
         GenericTableModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        ApolloTestingModule,
+        RouterTestingModule
       ]
     })
     .compileComponents();

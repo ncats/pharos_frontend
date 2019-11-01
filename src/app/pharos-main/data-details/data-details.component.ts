@@ -92,7 +92,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
     // this._data.next(this._route.snapshot.data.pharosObject);
 
     if (!this.componentsLoaded) {
-      this.makeComponents();
+    //  this.makeComponents();
     }
 
     this.helpPanelOpenerService.toggle$
@@ -115,7 +115,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
               this.pharosObject = this._route.snapshot.data.pharosObject;
             this.componentHost.viewContainerRef.clear();
             this.changeDetector.markForCheck(); // refresh the component manually
-            this.makeComponents();
+       //     this.makeComponents();
           }
         }
       });
@@ -144,7 +144,7 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
    * todo this doesn't handle cases where there is no data returned to an object
    */
   makeComponents(): void {
-    const components: any = this.pharosConfig.getComponents(this.path, 'details');
+    const components: any = []; /// this.pharosConfig.getComponents(this.path, 'details');
     components.forEach(component => {
       // start api calls before making component
       const keys: string[] = [];

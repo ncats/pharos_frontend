@@ -92,7 +92,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
         this.propogate = true;
       });
     this.ref.markForCheck();
-  this.dataSource.data = this.facet.values;
+    this.dataSource.data = this.facet.values;
 
     /**
      * this changes the facets that are mapped to the url path in the service
@@ -108,6 +108,9 @@ export class FacetTableComponent implements OnInit, OnDestroy {
          });
   }
 
+  ngOnChanges(change) {
+    console.log(change);
+  }
   /**
    * track facet changes to avoid unnecessary changes
    * @param index

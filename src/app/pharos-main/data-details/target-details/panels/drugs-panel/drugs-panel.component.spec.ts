@@ -6,9 +6,11 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
 import {PharosPaginatorModule} from '../../../../../tools/pharos-paginator/pharos-paginator.module';
 import {LigandCardComponent} from '../../../../data-list/cards/ligand-card/ligand-card.component';
-import {RouterModule} from '@angular/router';
+import {ActivatedRoute, RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {IdgLevelIndicatorComponent} from '../../../../../tools/idg-level-indicator/idg-level-indicator.component';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {MockActivatedRoute} from '../../../../../../../test/mock-activate-route';
 
 describe('DrugsPanelComponent', () => {
   let component: DrugsPanelComponent;
@@ -21,7 +23,8 @@ describe('DrugsPanelComponent', () => {
         RouterTestingModule,
         SharedModule,
         GenericTableModule,
-        PharosPaginatorModule
+        PharosPaginatorModule,
+        ApolloTestingModule
       ],
       declarations: [
         LigandCardComponent,
@@ -29,6 +32,7 @@ describe('DrugsPanelComponent', () => {
         IdgLevelIndicatorComponent
       ],
       providers: [
+        { provide: ActivatedRoute, useClass: MockActivatedRoute }
       ]
     })
     .compileComponents();

@@ -12,6 +12,8 @@ import {GenericTableModule} from '../../../../../tools/generic-table/generic-tab
 import {CommonToolsModule} from '../../../../../tools/common-tools.module';
 import {DifferentialPanelComponent} from './differential-panel/differential-panel.component';
 import {OrthologPanelComponent} from './ortholog-panel/ortholog-panel.component';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('ExpressionPanelComponent', () => {
   let component: ExpressionPanelComponent;
@@ -25,7 +27,9 @@ describe('ExpressionPanelComponent', () => {
         SharedDetailsModule,
         RadarChartModule,
         GenericTableModule,
-        CommonToolsModule
+        CommonToolsModule,
+        ApolloTestingModule,
+        RouterTestingModule
       ],
       providers: [
       ],

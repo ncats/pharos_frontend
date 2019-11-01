@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LigandDescriptionComponent } from './ligand-description.component';
+import {ApolloTestingModule} from 'apollo-angular/testing';
 
 describe('LigandDescriptionComponent', () => {
   let component: LigandDescriptionComponent;
@@ -8,7 +9,11 @@ describe('LigandDescriptionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LigandDescriptionComponent ]
+      declarations: [ LigandDescriptionComponent ],
+      imports: [
+        ApolloTestingModule
+      ]
+
     })
     .compileComponents();
   }));

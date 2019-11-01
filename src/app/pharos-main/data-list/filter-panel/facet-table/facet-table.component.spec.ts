@@ -42,7 +42,7 @@ describe('FacetTableComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FacetTableComponent);
     component = fixture.componentInstance;
-    component.facet = {label: 'tim'};
+    component.facet = {facet: 'tim', values: [{name: 'tim'}]};
     fixture.detectChanges();
   });
 
