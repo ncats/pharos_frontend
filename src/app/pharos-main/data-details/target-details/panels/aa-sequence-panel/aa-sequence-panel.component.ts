@@ -1,4 +1,7 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import * as Protvista from 'ProtVista';
@@ -43,9 +46,11 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
   /**
    * set up active sidenav component
    * @param navSectionsService
+   * @param changeRef
    */
   constructor(
-    private navSectionsService: NavSectionsService
+    private navSectionsService: NavSectionsService,
+    private changeRef: ChangeDetectorRef
   ) {
     super();
   }
@@ -82,6 +87,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
       uniprotacc: this.target.accession
     });
     this.loading = false;
+    this.changeRef.markForCheck();
   }
 
   /**

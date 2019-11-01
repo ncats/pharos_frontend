@@ -25,8 +25,8 @@ export class Reagent extends BaseResource {
   constructor(data: any) {
     super(data);
 
-    if (data['Data page link']) {
-      this.dataPageLink = data['Data page link'];
+    if (data.Data_page_link) {
+      this.dataPageLink = data.Data_page_link;
     }
     if (data.Vendor) {
       this.vendors.push(new Vendor(data));
@@ -53,19 +53,11 @@ export class Vendor {
   resourceID?: string;
 
   constructor (data: any) {
-    console.log(data);
-    if (data.Vendor) {
-      console.log(data.Vendor['@value']);
-      this.vendor = data.Vendor['@value'];
-    }
-
-    if (data.Vendor_cat) {
+      this.vendor = data.Vendor;
       this.vendorUrl = data.Vendor_cat;
-    }
-
-    if (data.resourceID) {
-      this.resourceID = data.resourceID;
-    }
+      if (data.resource_ID) {
+        this.resourceID = data.resource_ID;
+      }
   }
 }
 
@@ -231,24 +223,23 @@ export class SmallMolecule extends Reagent {
    */
   externalIDRegistrationSystem: string;
 
-  resourceType = 'smallMolecule';
+  resourceType = 'Small Molecule';
 
 
   constructor(data: any) {
     super(data);
-  console.log(data);
     if (data.SMILES) {
       this.smiles = data.SMILES;
     }
 
-    if (data['Canonical SMILES']) {
-      this.canonicalSmiles = data['Canonical SMILES'];
+    if (data.Canonical_SMILES) {
+      this.canonicalSmiles = data.Canonical_SMILES;
     }
-    if (data['External ID']) {
-      this.externalID = data['External ID'];
+    if (data.External_ID) {
+      this.externalID = data.External_ID;
     }
-    if (data['External ID registration system']) {
-      this.externalIDRegistrationSystem = data['External ID registration system'];
+    if (data.External_ID_registration_system) {
+      this.externalIDRegistrationSystem = data.External_ID_registration_system;
     }
   }
 }

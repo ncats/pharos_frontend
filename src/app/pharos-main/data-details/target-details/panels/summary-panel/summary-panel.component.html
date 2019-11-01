@@ -71,19 +71,19 @@
       </div>
       <div fxFlex="30"
            class = "radar-chart full-height"
-           *ngIf="target.accession else noDataDiv">
+           *ngIf="target.hgdata else noDataDiv">
         <mat-card-subtitle
           [matTooltip] = "getTooltip('Illumination Graph')"
           [matTooltipClass] = "'pharos-tooltip'">
           Illumination Graph</mat-card-subtitle>
-        <pharos-radar-chart [id]= "target.accession" [shape]="false" [size] = "'medium'" (click)="openModal()" [origin]="'knowledge'"></pharos-radar-chart>
+        <pharos-radar-chart [data]= "[target.hgdata]" [shape]="false" [size] = "'medium'" (click)="openModal()" [origin]="'knowledge'"></pharos-radar-chart>
       </div>
-        <div fxFlex = "30" class = "kchart full-height" *ngIf="data.knowledge && data.knowledge.length > 0; else noDataDiv">
+        <div fxFlex = "30" class = "kchart full-height" *ngIf="target.hgdata; else noDataDiv">
           <mat-card-subtitle
             [matTooltip] = "getTooltip('Knowledge Table')"
             [matTooltipClass] = "'pharos-tooltip'">
             Knowledge Table</mat-card-subtitle>
-          <pharos-knowledge-table [data] = data.knowledge></pharos-knowledge-table>
+          <pharos-knowledge-table [data] = targetProps.hgdata></pharos-knowledge-table>
         </div>
         <br>
         <br>

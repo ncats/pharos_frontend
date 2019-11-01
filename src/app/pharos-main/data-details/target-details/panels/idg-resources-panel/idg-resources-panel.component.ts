@@ -9,6 +9,9 @@ import {FormControl} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {Target} from '../../../../../models/target';
 import {PharosConfig} from '../../../../../../config/pharos-config';
+import {IDGResourceSerializer} from '../../../../../models/idg-resources/resource-serializer';
+import {DataResource} from '../../../../../models/idg-resources/data-resource';
+import {Reagent} from '../../../../../models/idg-resources/reagent';
 
 /**
  * panel to show idg generated resources. currently stub functionality
@@ -23,248 +26,15 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
   @Output() selfDestruct: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   @Input() target: Target;
-  /**
-   * dummy data
-   */
-  reagents = [
-    /*{
-      resourceType: 'Small Molecule',
-      gene: 'CDK13',
-      name: 'THZ531',
-      logP_hydrophobicity: null,
-      water_solubility: null,
-      molecular_weight: '558.07',
-      purity: null,
-      ZINC_ID: null,
-      chembl_id: null,
-      pubchem_id: null,
-      vendor_cat: 'https://www.medchemexpress.com/THZ531.html',
-      vendor: 'MedChemExpress',
-      smiles: 'ClC1=CN=C(N[C@H]2CN(C(C3=CC=C(NC(/C=C/CN(C)C)=O)C=C3)=O)CCC2)N=C1C4=CNC5=C4C=CC=C5',
-      canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360510',
-      external_id: '143122',
-      external_id_registration_system: [
-        'ChEBI'
-      ],
-      repository: null,
-      repository_page_link: null
-    },*/
-/*    {
-      resourceType: 'antibody',
-      gene: 'BRSK2',
-      name: 'antibody',
-      logP_hydrophobicity: null,
-      water_solubility: null,
-      molecular_weight: '385.38',
-      purity: null,
-      ZINC_ID: null,
-      chembl_id: null,
-      pubchem_id: null,
-      vendor_cat: 'https://infoporte.unc.edu/cores/buy.php?cid=144',
-      vendor: 'SGC-UNC',
-      smiles: 'COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1',
-      canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360506',
-      external_id: '143121',
-      external_id_registration_system: [
-        'ChEBI'
-      ],
-      repository: null,
-      repository_page_link: null
-    },
-    {
-      resourceType: 'cell',
-      gene: 'BRSK2',
-      name: 'cell',
-      logP_hydrophobicity: null,
-      water_solubility: null,
-      molecular_weight: '385.38',
-      purity: null,
-      ZINC_ID: null,
-      chembl_id: null,
-      pubchem_id: null,
-      vendor_cat: 'https://infoporte.unc.edu/cores/buy.php?cid=144',
-      vendor: 'SGC-UNC',
-      smiles: 'COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1',
-      canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360506',
-      external_id: '143121',
-      external_id_registration_system: [
-        'ChEBI'
-      ],
-      repository: null,
-      repository_page_link: null
-    },
-    {
-      resourceType: 'geneticConstruct',
-      gene: 'BRSK2',
-      name: 'geneticConstruct',
-      logP_hydrophobicity: null,
-      water_solubility: null,
-      molecular_weight: '385.38',
-      purity: null,
-      ZINC_ID: null,
-      chembl_id: null,
-      pubchem_id: null,
-      vendor_cat: 'https://infoporte.unc.edu/cores/buy.php?cid=144',
-      vendor: 'SGC-UNC',
-      smiles: 'COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1',
-      canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360506',
-      external_id: '143121',
-      external_id_registration_system: [
-        'ChEBI'
-      ],
-      repository: null,
-      repository_page_link: null
-    },
-    {
-      resourceType: 'mouse',
-      gene: 'BRSK2',
-      name: 'mouse',
-      logP_hydrophobicity: null,
-      water_solubility: null,
-      molecular_weight: '385.38',
-      purity: null,
-      ZINC_ID: null,
-      chembl_id: null,
-      pubchem_id: null,
-      vendor_cat: 'https://infoporte.unc.edu/cores/buy.php?cid=144',
-      vendor: 'SGC-UNC',
-      smiles: 'COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1',
-      canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360506',
-      external_id: '143121',
-      external_id_registration_system: [
-        'ChEBI'
-      ],
-      repository: null,
-      repository_page_link: null
-    },
-    {
-      resourceType: 'peptide',
-      gene: 'BRSK2',
-      name: 'peptide',
-      logP_hydrophobicity: null,
-      water_solubility: null,
-      molecular_weight: '385.38',
-      purity: null,
-      ZINC_ID: null,
-      chembl_id: null,
-      pubchem_id: null,
-      vendor_cat: 'https://infoporte.unc.edu/cores/buy.php?cid=144',
-      vendor: 'SGC-UNC',
-      smiles: 'COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1',
-      canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360506',
-      external_id: '143121',
-      external_id_registration_system: [
-        'ChEBI'
-      ],
-      repository: null,
-      repository_page_link: null
-    },
-    {
-      resourceType: 'smallMolecule',
-      gene: 'BRSK2',
-      name: 'reallyreallyreallylongchemicalname',
-      logP_hydrophobicity: null,
-      water_solubility: null,
-      molecular_weight: '385.38',
-      purity: null,
-      ZINC_ID: null,
-      chembl_id: null,
-      pubchem_id: null,
-      vendor_cat: 'https://infoporte.unc.edu/cores/buy.php?cid=144',
-      vendor: 'SGC-UNC',
-      smiles: 'COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1',
-      canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360506',
-      external_id: '143121',
-      external_id_registration_system: [
-        'ChEBI'
-      ],
-      repository: null,
-      repository_page_link: null
-    }*/
-  ];
-  /**
-   * dummy data
-   */
-  dataSources = [
-/*    {
-      resourceType: 'mouseImagingData',
-      gene: 'BRSK2',
-      name: 'mouseImagingData',
-      logP_hydrophobicity: null,
-      water_solubility: null,
-      molecular_weight: '385.38',
-      purity: null,
-      ZINC_ID: null,
-      chembl_id: null,
-      pubchem_id: null,
-      vendor_cat: 'https://infoporte.unc.edu/cores/buy.php?cid=144',
-      vendor: 'SGC-UNC',
-      smiles: 'COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1',
-      canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360506',
-      external_id: '143121',
-      external_id_registration_system: [
-        'ChEBI'
-      ],
-      repository: null,
-      repository_page_link: null
-    },
-    {
-      resourceType: 'probeData',
-      gene: 'BRSK2',
-      name: 'probeData',
-      logP_hydrophobicity: null,
-      water_solubility: null,
-      molecular_weight: '385.38',
-      purity: null,
-      ZINC_ID: null,
-      chembl_id: null,
-      pubchem_id: null,
-      vendor_cat: 'https://infoporte.unc.edu/cores/buy.php?cid=144',
-      vendor: 'SGC-UNC',
-      smiles: 'COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1',
-      canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360506',
-      external_id: '143121',
-      external_id_registration_system: [
-        'ChEBI'
-      ],
-      repository: null,
-      repository_page_link: null
-    },
-    {
-      resourceType: 'dataResource',
-      gene: 'BRSK2',
-      name: 'otherDataResource',
-      logP_hydrophobicity: null,
-      water_solubility: null,
-      molecular_weight: '385.38',
-      purity: null,
-      ZINC_ID: null,
-      chembl_id: null,
-      pubchem_id: null,
-      vendor_cat: 'https://infoporte.unc.edu/cores/buy.php?cid=144',
-      vendor: 'SGC-UNC',
-      smiles: 'COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1',
-      canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360506',
-      external_id: '143121',
-      external_id_registration_system: [
-        'ChEBI'
-      ],
-      repository: null,
-      repository_page_link: null
-    }*/
-  ];
+
+resourceSerializer: IDGResourceSerializer<DataResource | Reagent> = new IDGResourceSerializer<DataResource | Reagent>();
+  reagents = [];
+
+  datasources = [];
+
   reagentsList = [];
   dataSourceList = [];
+
   reagentFilterCtrl: FormControl = new FormControl();
   dataFilterCtrl: FormControl = new FormControl();
 
@@ -288,15 +58,13 @@ dataTypes: string[] = [];
     private pharosConfig: PharosConfig
   ) {
     super();
-    console.log(this);
-  }
+    }
 
   /**
    * subscribe to data changes
    * initialize filter subscriptions
    */
   ngOnInit() {
-    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -308,19 +76,20 @@ dataTypes: string[] = [];
           this.ngUnsubscribe.next();
           this.target = this.data.targets;
           this.loading = false;
-          this.http.get(`http://dev3.ccs.miami.edu:8080/rss-api/target/search?term=${this.target.gene}`).subscribe(res => {
-            console.log(res);
-            if (res && res['data']) {
-              res['data'].forEach(data => {
-                this.http.get(`http://dev3.ccs.miami.edu:8080/rss-api/target/id?id=${data.id}&json=true`).subscribe(resource => {
+          this.http.get<any>(`http://dev3.ccs.miami.edu:8080/rss-api/target/search?term=${this.target.gene}`).subscribe(res => {
+            if (res && res.data) {
+              res.data.forEach(data => {
+                console.log(data);
+                this.http.get<any>(`http://dev3.ccs.miami.edu:8080/rss-api/target/id?id=${data.id}&json=true`).subscribe(resource => {
                   console.log(resource);
+                  const resc = this.resourceSerializer.fromJson(resource.data[0], data.resourceType);
+                  console.log(resc);
+                  this[`${resc.baseType}s`].push(resc);
                 });
               });
             } else {
-              console.log("no data");
               this.navSectionsService.removeSection(this.field);
-              this.selfDestruct.next('true');
-            //  this.ngUnsubscribe.next();
+              this.selfDestruct.next(true);
             }
           });
           // this.setterFunction();
@@ -328,7 +97,7 @@ dataTypes: string[] = [];
       });
 
     this.reagentsList = this.reagents;
-    this.dataSourceList = this.dataSources;
+    this.dataSourceList = this.datasources;
     this.loading = false;
 
 
@@ -342,7 +111,7 @@ dataTypes: string[] = [];
     this.dataFilterCtrl.valueChanges.subscribe(change => {
       this.dataSourceList = [];
       change.forEach(field => {
-        this.dataSourceList.push(...this.dataSources.filter(reagent => reagent.resourceType === field));
+        this.dataSourceList.push(...this.datasources.filter(reagent => reagent.resourceType === field));
       });
     });
 
@@ -355,7 +124,7 @@ dataTypes: string[] = [];
     return ret;
   });
 
-this.dataTypes = Array.from(new Set(this.dataSources.map(reagent => reagent.resourceType))).map(reagent => {
+this.dataTypes = Array.from(new Set(this.datasources.map(reagent => reagent.resourceType))).map(reagent => {
     const ret: any = {
       value: reagent,
       label: reagent.replace(/([A-Z]+)/g, ' $1').replace(/([A-Z][a-z])/g, ' $1')
@@ -392,5 +161,6 @@ this.pageData = this.makePageData(this.reagents.length);
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    this._data.unsubscribe();
   }
 }

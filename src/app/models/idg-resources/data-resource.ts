@@ -20,11 +20,6 @@ export class DataResource extends BaseResource {
   releaseDate?: string | number | Date;
 
   /**
-   * repository where the data was released
-   */
-  repository?: Repository;
-
-  /**
    * data type: AP-MS, Channel Activity, CyCIF, Fluorescence imaging, IHC, KINOMEScan, Mouse Phenotype Data, NanoBRET, RNA-seq
    */
   resourceType?: string;
@@ -42,20 +37,18 @@ export class DataResource extends BaseResource {
   constructor(data: any) {
     super(data);
 
-    if (data.authors) {
-      this.authors = data.authors;
+    if (data.Authors && data.Authors !== 'null') {
+      this.authors = data.Authors;
     }
-    if (data.datasetID) {
-      this.datasetID = data.datasetID;
+    if (data.Dataset_ID && data.Dataset_ID !== 'null') {
+      this.datasetID = data.Dataset_ID;
     }
-    if (data.releaseDate) {
-      this.releaseDate = data.releaseDate;
+    if (data.Release_date && data.Release_date !== 'null') {
+      this.releaseDate = data.Release_date;
     }
-    if (data.repository) {
-      this.repository = data.repository;
-    }
-    if (data.title) {
-      this.title = data.title;
+
+    if (data.Title && data.Title !== 'null') {
+      this.title = data.Title;
     }
   }
 }
@@ -124,6 +117,50 @@ export class MouseImageData extends DataResource {
   }
 }
 
+
+export class Dataset extends DataResource {
+
+  assayID?: string;
+  dataFormat?: string;
+  dataLink?: string;
+  dataRepository?: string;
+  description?: string;
+  endpoint?: string;
+  endpointDetection?: string;
+  resourceType = 'dataset';
+
+
+  constructor(data: any) {
+    super(data);
+
+    if (data.Assay_ID && data.Assay_ID !== 'null') {
+      this.assayID = data.Assay_ID;
+    }
+    if (data.Data_format && data.Data_format !== 'null') {
+      this.dataFormat = data.Data_format;
+    }
+    if (data.Data_link && data.Data_link !== 'null') {
+      this.dataLink = data.Data_link;
+    }
+    if (data.Data_repository && data.Data_repository !== 'null') {
+      this.dataRepository = data.Data_repository;
+    }
+    if (data.Description && data.Description !== 'null') {
+      this.description = data.Description;
+    }
+    if (data.Endpoint && data.Endpoint !== 'null') {
+      this.endpoint = data.Endpoint;
+    }
+    if (data.Endpoint_detection && data.Endpoint_detection !== 'null') {
+      this.endpointDetection = data.Endpoint_detection;
+    }
+
+    if (data.Title && data.Title !== 'null') {
+      this.title = data.Title;
+    }
+  }
+}
+
 /**
  * main probe data class
  */
@@ -182,7 +219,7 @@ export class ProbeData extends DataResource {
    */
   structure: string;
 
-  resourceType = 'dataset';
+  resourceType = 'probe';
 
   constructor(data: any) {
     super(data);

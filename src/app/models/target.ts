@@ -3,6 +3,7 @@ import {PharosProperty} from './pharos-property';
 import gql from 'graphql-tag';
 import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
 import {Publication, PublicationSerializer} from './publication';
+import {PharosPoint} from './pharos-point';
 
 const TARGETLISTFIELDS =  gql`
   fragment targetsListFields on Target {
@@ -29,6 +30,12 @@ const TARGETLISTFIELDS =  gql`
     ppiCount: ppiCounts {
       value
     }
+    hgdata:harmonizome {
+      summary{
+        name
+        value
+      }
+    }
   }
 `;
 
@@ -47,6 +54,9 @@ const TARGETDETAILSFIELDS = gql`
     }
     ensemblIDs: xrefs(source:"Ensembl") { 
     value 
+    }
+    pdbs: xrefs(source: "PDB") {
+      value
     }
     generifCount
     sequence: seq
@@ -131,6 +141,9 @@ export class Target extends PharosBase {
 
   sequence: string;
 
+  pdbs: any[];
+
+  hgdata: any[];
   /**
    * antibodipedia.org? count
    */
@@ -142,12 +155,12 @@ export class Target extends PharosBase {
   generifCount:  number;
 
 
-  drugs: [];
+  drugs: any[];
 
   pubTatorScores: [{year, score}];
   pubmedScores: [{year, score}];
   patentCounts: [{year, count}];
-  ensemblIDs: [];
+  ensemblIDs: any[];
 
   /**
    * monoclonal count
@@ -291,12 +304,20 @@ export class TargetSerializer implements PharosSerializer {
       obj.ensemblIDs = json.ensemblIDs.map(id => id = {ensemblId: id.value});
     }
 
+    if (json.pdbs) {
+      obj.pdbs = json.pdbs.map(id => id = {pdbs: id.value});
+    }
+
     if (json.symbols) {
       obj.symbols = [...new Set<string>(json.symbols.map(sym => sym = {symbol: sym.value}))];
     }
 
     if (json.uniProtFunction) {
       obj.description = `${(json.uniProtFunction.map(id => id.value)).join(' ')} ${obj.description}`;
+    }
+
+    if (json.hgdata) {
+      obj.hgdata = json.hgdata.summary;
     }
 
     if (obj._links) {
