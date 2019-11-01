@@ -14,6 +14,7 @@ import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFireModule} from '@angular/fire';
 import {COMMON_CONFIG} from '../../../../../test/test-config';
+import {ApolloTestingModule} from 'apollo-angular/testing';
 
 
 describe('DataListVisualizationsComponent', () => {
@@ -25,7 +26,8 @@ describe('DataListVisualizationsComponent', () => {
       imports: [
         AngularFireModule.initializeApp(COMMON_CONFIG),
         SharedModule,
-        RouterTestingModule
+        RouterTestingModule,
+        ApolloTestingModule
       ],
       declarations: [
         DonutChartComponent,

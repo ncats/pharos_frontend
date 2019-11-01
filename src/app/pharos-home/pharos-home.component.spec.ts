@@ -14,6 +14,7 @@ import {Router, RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FIRESTORESTUB} from '../../../test/firestore-stub';
+import {ApolloTestingModule} from 'apollo-angular/testing';
 
 describe('PharosHomeComponent', () => {
   let component: PharosHomeComponent;
@@ -25,6 +26,7 @@ describe('PharosHomeComponent', () => {
         BrowserAnimationsModule,
         SharedModule,
         SearchComponentModule,
+        ApolloTestingModule,
         RouterModule.forRoot([]),
       ],
       declarations: [

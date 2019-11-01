@@ -9,6 +9,9 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {KnowledgeTableComponent} from '../../../../../tools/knowledge-table/knowledge-table.component';
 import {PharosPaginatorModule} from '../../../../../tools/pharos-paginator/pharos-paginator.module';
 import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {ActivatedRoute} from '@angular/router';
+import {MockActivatedRoute} from '../../../../../../../test/mock-activate-route';
 
 describe('SummaryPanelComponent', () => {
   let component: SummaryPanelComponent;
@@ -19,10 +22,12 @@ describe('SummaryPanelComponent', () => {
       imports: [
         RouterTestingModule,
         SharedModule,
-        GenericTableModule
+        GenericTableModule,
+        ApolloTestingModule
       ],
       providers: [
-        RadarService
+        RadarService,
+        { provide: ActivatedRoute, useClass: MockActivatedRoute }
       ],
       declarations: [
         SummaryPanelComponent,

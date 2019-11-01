@@ -15,6 +15,9 @@ import {FIRESTORESTUB} from '../../../../test/firestore-stub';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFireModule} from '@angular/fire';
 import {COMMON_CONFIG} from '../../../../test/test-config';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {ActivatedRoute} from '@angular/router';
+import {MockActivatedRoute} from '../../../../test/mock-activate-route';
 
 describe('DataListComponent', () => {
   let component: DataListComponent;
@@ -26,7 +29,8 @@ describe('DataListComponent', () => {
         AngularFireModule.initializeApp(COMMON_CONFIG),
         SharedListModule,
         RouterTestingModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        ApolloTestingModule
       ],
       declarations: [
 
@@ -39,7 +43,8 @@ describe('DataListComponent', () => {
         SuggestApiService,
         AngularFireAuth,
         {provide: APP_BASE_HREF, useValue: '/targets' },
-        { provide: AngularFirestore, useValue: FIRESTORESTUB }
+        { provide: AngularFirestore, useValue: FIRESTORESTUB },
+        { provide: ActivatedRoute, useClass: MockActivatedRoute }
       ]
     })
     .compileComponents();

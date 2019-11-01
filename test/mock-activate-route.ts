@@ -7,7 +7,15 @@ export class MockActivatedRoute {
 
     snapshot: {
       data: {
-        data: { data: 'myTitle ' }
+        results: {
+          count: 666,
+          targets: [{}],
+          targetsProps: {}
+        },
+        components: [{}],
+        data: { data: 'myTitle ',
+          components: [{}],
+        }
         pharosObject: {}
       }
     };

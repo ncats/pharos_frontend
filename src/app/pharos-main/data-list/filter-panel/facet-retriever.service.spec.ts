@@ -9,6 +9,7 @@ import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFireModule} from '@angular/fire';
 import {COMMON_CONFIG} from '../../../../../test/test-config';
+import {ApolloTestingModule} from 'apollo-angular/testing';
 
 describe('FacetRetrieverService', () => {
   beforeEach(() => {
@@ -16,6 +17,7 @@ describe('FacetRetrieverService', () => {
       imports: [
         AngularFireModule.initializeApp(COMMON_CONFIG),
         RouterTestingModule,
+        ApolloTestingModule,
         SharedModule
       ],
       providers: [

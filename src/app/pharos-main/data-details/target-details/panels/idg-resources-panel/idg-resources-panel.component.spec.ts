@@ -5,6 +5,8 @@ import {SharedModule} from '../../../../../shared/shared.module';
 import {PharosPaginatorModule} from '../../../../../tools/pharos-paginator/pharos-paginator.module';
 import {TESTTARGET} from '../../../../../../../test/test-target';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('IdgResourcesPanelComponent', () => {
   let component: IdgResourcesPanelComponent;
@@ -16,7 +18,9 @@ describe('IdgResourcesPanelComponent', () => {
       imports: [
         BrowserAnimationsModule,
         SharedModule,
-        PharosPaginatorModule
+        PharosPaginatorModule,
+        ApolloTestingModule,
+        RouterTestingModule
       ]
     })
     .compileComponents();

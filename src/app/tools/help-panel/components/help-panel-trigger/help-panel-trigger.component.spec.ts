@@ -5,6 +5,8 @@ import {SharedModule} from '../../../../shared/shared.module';
 import {MaterialModule} from '../../../../../assets/material/material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('HelpPanelTriggerComponent', () => {
   let component: HelpPanelTriggerComponent;
@@ -18,7 +20,9 @@ describe('HelpPanelTriggerComponent', () => {
       imports: [
         HttpClientTestingModule,
         MaterialModule,
-        FlexLayoutModule
+        FlexLayoutModule,
+        ApolloTestingModule,
+        RouterTestingModule
       ]
     })
     .compileComponents();

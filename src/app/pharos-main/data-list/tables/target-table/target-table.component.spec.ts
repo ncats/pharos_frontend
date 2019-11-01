@@ -12,7 +12,7 @@ import {RadarChartModule} from '../../../../tools/visualizations/radar-chart/rad
 import {PharosPaginatorModule} from '../../../../tools/pharos-paginator/pharos-paginator.module';
 import {HttpClient} from '@angular/common/http';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {RouterModule} from '@angular/router';
+import {ActivatedRoute, RouterModule} from '@angular/router';
 import {TargetCardComponent} from '../../cards/target-card/target-card.component';
 import {IdgLevelIndicatorComponent} from '../../../../tools/idg-level-indicator/idg-level-indicator.component';
 import {KnowledgeTableComponent} from '../../../../tools/knowledge-table/knowledge-table.component';
@@ -21,6 +21,7 @@ import {FIRESTORESTUB} from '../../../../../../test/firestore-stub';
 import {AngularFireModule} from '@angular/fire';
 import {COMMON_CONFIG} from '../../../../../../test/test-config';
 import {AngularFireAuth} from '@angular/fire/auth';
+import {MockActivatedRoute} from '../../../../../../test/mock-activate-route';
 
 describe('TargetTableComponent', () => {
   let component: TargetTableComponent;
@@ -41,6 +42,7 @@ describe('TargetTableComponent', () => {
         RadarService,
         PharosApiService,
         AngularFireAuth,
+        {provide: ActivatedRoute, useValue: MockActivatedRoute},
         { provide: AngularFirestore, useValue: FIRESTORESTUB }
       ],
       declarations: [

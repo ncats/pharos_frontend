@@ -3,7 +3,6 @@ import {catchError} from 'rxjs/operators';
 import {Observable, of} from 'rxjs/index';
 import {HttpClient} from '@angular/common/http';
 import {PharosConfig} from '../../../../config/pharos-config';
-import {HttpCacheService} from '../../../pharos-services/http-cache.service';
 
 
 /**

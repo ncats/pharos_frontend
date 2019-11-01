@@ -10,12 +10,12 @@ export class Reagent extends BaseResource {
   /**
    * External link to published images or data relevant for the current Pharos page
    */
-  dataPageLink: string;
+  dataPageLink?: string;
 
   /**
    * list of vendor names/links for purchasing
    */
-  vendors: Vendor[] = [];
+  vendors?: Vendor[] = [];
 
   /**
    *base resource type

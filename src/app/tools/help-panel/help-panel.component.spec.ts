@@ -7,6 +7,8 @@ import {HelpArticlesModule} from '../../shared/help-articles.module';
 import {NgxJsonViewerModule} from 'ngx-json-viewer';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('HelpPanelComponent', () => {
   let component: HelpPanelComponent;
@@ -21,7 +23,9 @@ describe('HelpPanelComponent', () => {
         HttpClientTestingModule,
         SharedModule,
         NgxJsonViewerModule,
-        HelpArticlesModule
+        HelpArticlesModule,
+        ApolloTestingModule,
+        RouterTestingModule
       ],
       providers: [
         ComponentInjectorService

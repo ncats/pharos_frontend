@@ -76,7 +76,7 @@ export class PharosMainComponent implements OnInit, OnDestroy {
             this.data = this._route.snapshot.data;
 
           this.makeComponents();
-          this.changeRef.detectChanges();
+          this.changeRef.markForCheck();
         }
       });
   }
@@ -129,7 +129,7 @@ export class PharosMainComponent implements OnInit, OnDestroy {
           componentInstance.instance.apiSources = component.api;
           componentInstance.instance.field = component.navHeader.section;
           componentInstance.instance.label = component.navHeader.label;
-          this.changeRef.detectChanges();
+          this.changeRef.markForCheck();
         }
 
         // put this last or errors are thrown because the instance keeps getting used.
@@ -197,11 +197,11 @@ export class PharosMainComponent implements OnInit, OnDestroy {
      this.componentsLoaded = true;
      this.autosize = false;
      this.loadedComponents.set(component.token, componentInstance);
-     this.changeRef.detectChanges();
+     this.changeRef.markForCheck();
       } else {
         instance.instance.data = this.data.results;
         this.loadedComponents.set(component.token, instance);
-        this.changeRef.detectChanges();
+        this.changeRef.markForCheck();
       }
     });
   }

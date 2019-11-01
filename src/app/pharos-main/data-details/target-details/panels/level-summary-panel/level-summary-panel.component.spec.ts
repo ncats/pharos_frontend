@@ -9,6 +9,8 @@ import {TbioSummaryComponent} from './levels/tbio-summary/tbio-summary.component
 import {TchemSummaryComponent} from './levels/tchem-summary/tchem-summary.component';
 import {TclinSummaryComponent} from './levels/tclin-summary/tclin-summary.component';
 import {TESTTARGET} from '../../../../../../../test/test-target';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('LevelSummaryPanelComponent', () => {
   let component: LevelSummaryPanelComponent;
@@ -25,7 +27,9 @@ describe('LevelSummaryPanelComponent', () => {
       ],
       imports: [
         SharedModule,
-        CommonToolsModule
+        CommonToolsModule,
+        ApolloTestingModule,
+        RouterTestingModule
       ]
     })
     .compileComponents();

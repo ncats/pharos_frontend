@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MolecularDefinitionPanelComponent } from './molecular-definition-panel.component';
 import {SharedModule} from '../../../../../shared/shared.module';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('MolecularDefinitionPanelComponent', () => {
   let component: MolecularDefinitionPanelComponent;
@@ -11,7 +13,9 @@ describe('MolecularDefinitionPanelComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ MolecularDefinitionPanelComponent ],
       imports: [
-        SharedModule
+        SharedModule,
+        ApolloTestingModule,
+        RouterTestingModule
       ]
     })
     .compileComponents();

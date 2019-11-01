@@ -95,10 +95,6 @@ export class TOKENS {
   public static EXPRESSION_PANEL = new InjectionToken<string>('ExpressionPanelComponent');
 
   /**
-   * injection token to link to gene rif data
-   */
-  public static ASSAY_PANEL = new InjectionToken<string>('AssayComponent');
-  /**
    * injection token to link to amino acid sequence data
    */
   public static AA_SEQUENCE_PANEL = new InjectionToken<string>('AASequenceComponent');

@@ -12,7 +12,6 @@ import {ExpressionPanelComponent} from '../../data-details/target-details/panels
 import {AaSequencePanelComponent} from '../../data-details/target-details/panels/aa-sequence-panel/aa-sequence-panel.component';
 import {ProteinProteinPanelComponent} from '../../data-details/target-details/panels/protein-protein-panel/protein-protein-panel.component';
 import {OrthologPanelComponent} from '../../data-details/target-details/panels/expression-panel/ortholog-panel/ortholog-panel.component';
-import {AssayPanelComponent} from '../../data-details/target-details/panels/assay-panel/assay-panel.component';
 import {
   PdbPanelComponent,
   STRUCTURE_VIEW_TOKEN
@@ -49,7 +48,6 @@ import {SidenavPanelComponent} from '../../../tools/sidenav-panel/sidenav-panel.
     AaSequencePanelComponent,
     ProteinProteinPanelComponent,
     OrthologPanelComponent,
-    AssayPanelComponent,
     PdbPanelComponent,
     GeneSummaryComponent,
     TargetFacetPanelComponent,
@@ -85,7 +83,6 @@ import {SidenavPanelComponent} from '../../../tools/sidenav-panel/sidenav-panel.
     OrthologPanelComponent,
     TargetFacetPanelComponent,
     AaSequencePanelComponent,
-    AssayPanelComponent,
     PdbPanelComponent,
     GeneSummaryComponent,
     RadarChartViewerComponent,
@@ -110,7 +107,6 @@ import {SidenavPanelComponent} from '../../../tools/sidenav-panel/sidenav-panel.
     {provide: TOKENS.EXPRESSION_PANEL, useValue: ExpressionPanelComponent},
     {provide: TOKENS.PROTEIN_PROTEIN_PANEL, useValue: ProteinProteinPanelComponent},
     {provide: TOKENS.TARGET_FACET_PANEL, useValue: TargetFacetPanelComponent},
-    {provide: TOKENS.ASSAY_PANEL, useValue: AssayPanelComponent},
     {provide: TOKENS.AA_SEQUENCE_PANEL, useValue: AaSequencePanelComponent},
     {provide: TOKENS.LIGANDS_PANEL, useValue: LigandsPanelComponent},
     {provide: TOKENS.DRUGS_PANEL, useValue: DrugsPanelComponent},

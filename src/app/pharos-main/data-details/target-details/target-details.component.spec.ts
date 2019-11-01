@@ -5,7 +5,6 @@ import {SharedModule} from '../../../shared/shared.module';
 import {TargetHeaderComponent} from './target-header/target-header.component';
 import {DataDetailsResolver} from '../../resolvers/data-details.resolver';
 import {LoadingService} from '../../../pharos-services/loading.service';
-import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
@@ -13,7 +12,6 @@ import {TESTTARGET} from '../../../../../test/test-target';
 import {APP_BASE_HREF} from '@angular/common';
 import {SharedDetailsModule} from '../../../shared/shared-details.module';
 import {CommonToolsModule} from '../../../tools/common-tools.module';
-import {RouterModule} from '@angular/router';
 import {GeneSummaryComponent} from './panels/gene-summary/gene-summary.component';
 import {TOKENS} from '../../../../config/component-tokens';
 import {BreadcrumbComponent} from './panels/breadcrumb/breadcrumb.component';
@@ -24,7 +22,6 @@ import {DiseaseSourceComponent} from './panels/disease-source-panel/disease-sour
 import {ExpressionPanelComponent} from './panels/expression-panel/expression-panel.component';
 import {ProteinProteinPanelComponent} from './panels/protein-protein-panel/protein-protein-panel.component';
 import {TargetFacetPanelComponent} from './panels/target-facet-panel/target-facet-panel.component';
-import {AssayPanelComponent} from './panels/assay-panel/assay-panel.component';
 import {AaSequencePanelComponent} from './panels/aa-sequence-panel/aa-sequence-panel.component';
 import {LigandsPanelComponent} from './panels/ligands-panel/ligands-panel.component';
 import {DrugsPanelComponent} from './panels/drugs-panel/drugs-panel.component';
@@ -71,7 +68,6 @@ describe('TargetDetailsComponent', () => {
         AaSequencePanelComponent,
         ProteinProteinPanelComponent,
         OrthologPanelComponent,
-        AssayPanelComponent,
         PdbPanelComponent,
         GeneSummaryComponent,
         TargetFacetPanelComponent,
@@ -99,7 +95,6 @@ describe('TargetDetailsComponent', () => {
         {provide: TOKENS.EXPRESSION_PANEL, useValue: ExpressionPanelComponent},
         {provide: TOKENS.PROTEIN_PROTEIN_PANEL, useValue: ProteinProteinPanelComponent},
         {provide: TOKENS.TARGET_FACET_PANEL, useValue: TargetFacetPanelComponent},
-        {provide: TOKENS.ASSAY_PANEL, useValue: AssayPanelComponent},
         {provide: TOKENS.AA_SEQUENCE_PANEL, useValue: AaSequencePanelComponent},
         {provide: TOKENS.LIGANDS_PANEL, useValue: LigandsPanelComponent},
         {provide: TOKENS.DRUGS_PANEL, useValue: DrugsPanelComponent},
@@ -126,7 +121,6 @@ describe('TargetDetailsComponent', () => {
             AaSequencePanelComponent,
             ProteinProteinPanelComponent,
             OrthologPanelComponent,
-            AssayPanelComponent,
             PdbPanelComponent,
             GeneSummaryComponent,
             TargetFacetPanelComponent,

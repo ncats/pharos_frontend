@@ -2,6 +2,8 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { HelpDataService } from './help-data.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('HelpDataService', () => {
   beforeEach(() => {
@@ -10,7 +12,9 @@ describe('HelpDataService', () => {
         HelpDataService
       ],
       imports: [
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        ApolloTestingModule,
+        RouterTestingModule
       ]
     });
   });
