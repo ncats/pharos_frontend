@@ -22,8 +22,12 @@
     </div>
     <mat-tab-group>
       <mat-tab label="Reagents ({{reagents?.length}})" matTooltip="View and order IDG produced resources from vendors">
-          <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" class="filter-row">
-            <div fxFlex="25">
+          <div
+            *ngIf="reagentTypes.length > 1 || reagentsList.length > 10"
+            fxLayout="row"
+               fxLayout.xs="column"
+               fxLayoutAlign="space-between center" class="filter-row">
+            <div fxFlex="25" *ngIf="reagentTypes.length > 1">
               <mat-form-field class="full-width-field">
                 <mat-select
                   [formControl]="reagentFilterCtrl"
@@ -33,22 +37,23 @@
                 </mat-select>
               </mat-form-field>
             </div>
-            <div fxFlex="50">
+            <div [fxFlex]="reagentTypes.length > 1 ? 50 : 100" fxLayoutAlign="end">
               <pharos-custom-paginator [pageData]="pageData"></pharos-custom-paginator>
             </div>
           </div>
         <div class="data-grid">
           <div *ngFor ="let reagent of reagentsList">
             <mat-card class = "resource-card">
-              <div class="mat-subheading-2"><a href="{{reagent.data_page_link}}" target="_blank" rel="noreferrer">{{reagent.name}} ({{reagent.resourceType}})</a></div><br>
+              <div class="mat-subheading-2" *ngIf = reagent.dataPageLink><a href="{{reagent.dataPageLink}}" target="_blank" rel="noreferrer">{{reagent.name}} ({{reagent.resourceType}})</a></div><br>
+              <div class="mat-subheading-2" *ngIf = !reagent.dataPageLink>{{reagent.name}} ({{reagent.resourceType}})</div><br>
               <div class="thumb-holder">
-              <img *ngIf="reagent.smiles" [src] = parseSmiles(reagent.smiles) alt = "image for {{reagent.name}}" class="resource-thumb">
+              <img *ngIf="reagent.smiles" [src] = parseSmiles(reagent.smiles) alt = "image for {{reagent.name}}">
               <img *ngIf="!reagent.smiles" src = './assets/images/resource-types/{{reagent.resourceType}}.png' alt = "image for {{reagent.name}}" class="resource-thumb">
               </div>
              <div fxLayout="row" fxLayoutAlign="space-between start">
                <div fxFlex = "55">Order {{reagent.name}} from:</div></div>
-              <div fxLayout="row" fxLayoutAlign="space-between start">
-              <div fxFlex="40"><a href = {{reagent.vendor_cat}} target="_blank" rel="noreferrer">{{reagent.vendor}}</a></div>
+              <div fxLayout="row" fxLayoutAlign="space-between start" *ngFor = "let vendor of reagent.vendors">
+              <div fxFlex="40"><a href = {{vendor.vendorUrl}} target="_blank" rel="noreferrer">{{vendor.vendor}}</a></div>
              </div>
               <br>
               <br>
@@ -58,8 +63,13 @@
       </mat-tab>
       <mat-tab label="Data Resources ({{dataSourceList?.length}})" matTooltip="View and explore IDG produced data sets">
         <ng-template matTabContent>
-          <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" class="filter-row">
-            <div fxFlex="25">
+          <div
+            *ngIf="dataTypes.length > 1 || dataSourceList.length > 10"
+            fxLayout="row"
+               fxLayout.xs="column"
+               fxLayoutAlign="space-between center"
+               class="filter-row">
+            <div fxFlex="25" *ngIf="dataTypes.length > 1">
               <mat-form-field class="full-width-field">
                 <mat-select [formControl]="dataFilterCtrl"
                             [multiple]="true" placeholder="Filter By:">
@@ -67,30 +77,33 @@
                 </mat-select>
               </mat-form-field>
             </div>
-            <div fxFlex="50">
+            <div [fxFlex]="reagentTypes.length > 1 ? 50 : 100" fxLayoutAlign="end">
               <pharos-custom-paginator [pageData]="pageData"></pharos-custom-paginator>
             </div>
           </div>
           <div class="data-source-grid">
             <div *ngFor ="let dataSource of dataSourceList">
               <mat-card class = "resource-card">
-                <div class="mat-subheading-2"><a href="{{dataSource.data_page_link}}" target="_blank" rel="noreferrer">{{dataSource.name}}</a></div><br>
+                <div class="mat-subheading-2" *ngIf = "dataSource.dataPageLink || dataSource.dataLink"><a href="{{dataSource.dataPageLink || dataSource.dataLink}}" target="_blank" rel="noreferrer">{{dataSource.name || dataSource.title}} ({{dataSource.resourceType}})</a></div><br>
+                <div class="mat-subheading-2" *ngIf = "!dataSource.dataPageLink && !dataSource.dataLink">{{dataSource.name || dataSource.title}} ({{dataSource.resourceType}})</div><br>
                 <div fxLayout="row" fxLayoutAlign="space-around start">
                   <div fxFlex="33">
                     <div class="thumb-holder">
-                      <img src = './assets/images/resource-types/{{dataSource.resourceType}}.png' alt = "image for {{dataSource.name}}" class="resource-thumb">
+                      <img src = './assets/images/resource-types/{{dataSource.resourceType}}.png' alt = "image for {{dataSource.name || dataSource.title}}" class="resource-thumb">
                     </div>
                   </div>
-                  <div fxFlex="66" *ngIf = "dataSource.resourceType ==='dataResource'">
+                  <div fxFlex="66" *ngIf = "dataSource.resourceType ==='dataset'">
                     <ul>
-                      <li>authors</li>
-                      <li>datasetID</li>
-                      <li>releaseDate</li>
-                      <li>link to repository</li>
-                      <li>activity</li>
-                      <li>externalID & externalIDRegistrationSystem </li>
+                      <li *ngIf="dataSource.assayID"><b>Assay ID: </b>{{dataSource.assayID}}</li>
+                      <li *ngIf="dataSource.dataFormat"><b>Data Format: </b>{{dataSource.dataFormat}}</li>
+                      <li *ngIf="dataSource.dataLink"><b>Repository: </b>
+                        <a href="{{dataSource.dataLink}}" target="_blank" rel="noreferrer">{{dataSource.dataRepository}}</a></li>
+                      <li *ngIf="dataSource.description"><b>Description: </b>{{dataSource.description}}</li>
+                      <li *ngIf="dataSource.endpoint"><b>endpoint: </b>{{dataSource.endpoint}}</li>
+                      <li *ngIf="dataSource.endpointDetection"><b>Endpoint Detection: </b>{{dataSource.endpointDetection}}</li>
                     </ul>
                   </div>
+
                     <div fxFlex="66" *ngIf = "dataSource.resourceType ==='probeData'">
                       <ul>
                         <li>authors</li>

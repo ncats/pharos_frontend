@@ -5,7 +5,7 @@ import {LigandNodeSerializer} from '../../pharos-main/data-details/topic-details
 import {Serializer} from '../pharos-base';
 import {Antibody, Cell, GeneticConstruct, Mouse, Peptide, Reagent, SmallMolecule} from './reagent';
 import {DataProperty} from '../../tools/generic-table/components/property-display/data-property';
-import {MouseImageData, ProbeData} from './data-resource';
+import {Dataset, MouseImageData, ProbeData} from './data-resource';
 import {BaseResource} from './base-resource';
 
 /**
@@ -62,8 +62,8 @@ fromJson(json: any, type?: string): T {
       obj = new ProbeData(json);
       break;
     }
-    case 'dataset': {
-      obj = new ProbeData(json);
+    case 'Dataset': {
+      obj = new Dataset(json);
       break;
     }
   }
