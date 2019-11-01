@@ -17,20 +17,18 @@ export class BaseResource {
    */
   resourceType?: string;
 
-  /**
-   * GPCR, Ion-Channel, Kinase
-   */
-  generatingIC?: string;
+  repository?: Repository;
 
   constructor(data: any) {
-    if (data.name) {
-      this.name = data.name;
+    if (data.Name) {
+      this.name = data.Name;
     }
     if (data.resourceType) {
       this.resourceType = data.resourceType.replace(' ', '')[0].toLowerCase();
     }
-    if (data.generatingIC) {
-      this.generatingIC = data.generatingIC;
+
+    if ((data.Repository && (data.Repository !== 'null')) || data.Repository_page_link  && (data.Repository_page_link !== 'null')) {
+      this.repository = new Repository((data));
     }
   }
 }
@@ -56,8 +54,8 @@ export class Repository {
     if (data.Repository) {
       this.repositoryName = data.Repository;
     }
-    if (data['Repository page link']) {
-      this.repositoryUrl = data['Repository page link'];
+    if (data.Repository_page_link) {
+      this.repositoryUrl = data.Repository_page_link;
     }
   }
 }

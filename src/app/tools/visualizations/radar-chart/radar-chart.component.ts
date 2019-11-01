@@ -26,7 +26,7 @@ export class RadarChartOptions {
   /**
    * The margins of the SVG
    */
-  margin: any = {top: 50, right: 20, bottom: 20, left: 20};
+  margin: any = {top: 50, right: 5, bottom: 20, left: 5};
   /**
    *  How many levels or inner circles should there be drawn
    */
@@ -271,7 +271,8 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     const maxValues: number[] = [this._chartOptions.maxValue];
     if (this.data) {
       this.data.map(data => {
-        maxValues.push(Math.max(...data.axes.map(o => o.value)));
+        console.log(data);
+        maxValues.push(Math.max(...data.map(o => o.value)));
       });
       return Math.max(...maxValues);
     } else {
@@ -296,8 +297,9 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     //////////// Create the container SVG and g /////////////
     const element = this.chartContainer.nativeElement;
     const margin = this._chartOptions.margin;
-    this.width = element.offsetWidth - margin.left - margin.right;
-    this.height = element.offsetHeight - margin.top - margin.bottom;
+    console.log(element.offsetWidth);
+    this.width = element.offsetWidth - margin.left - margin.right  > 100 ? element.offsetWidth - margin.left - margin.right : 100;
+    this.height = element.offsetHeight - margin.top - margin.bottom > 100 ? element.offsetHeight - margin.top - margin.bottom : 100;
 
     // Remove whatever chart with the same id/class was present before
     d3.select(element).selectAll('svg').remove();
@@ -305,12 +307,12 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     // Initiate the radar chart SVG
     this.svg = d3.select(element)
       .append('svg:svg')
-      .attr('width', this.width + margin.left + margin.right)
-      .attr('height', this.height + margin.top + margin.bottom * 2)
+      .attr('width', '100%')
+      .attr('height', '100%')
       .attr('class', 'radar')
       .append('g')
-      .attr('transform', 'translate(' + (this.width / 2 + this._chartOptions.margin.left) + ','
-        + (this.height / 2 + this._chartOptions.margin.top) + ')'); // background shapes
+      .attr('transform', 'translate(' + (this.width / 2 - (margin.left * 2) ) + ','
+        + (this.height / 2) + ')'); // background shapes
     this.svg.append('g').attr('class', 'levelWrapper').attr('transform', 'rotate(30)');
     this.svg.append('g').attr('class', 'axisLabel');
     this.svg.append('g').attr('class', 'axisWrapper');
@@ -366,7 +368,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     // If the supplied maxValue is smaller than the actual one, replace by the max in the data
 
     const maxValue: number = this.getMaxValue();
-    const allAxis = this.data[0].axes.map((i, j) => i.axis),	// Names of each axis
+    const allAxis = this.data[0].map((i, j) => i.name),	// Names of each axis
       total = allAxis.length,					// The number of different axes
       radius = Math.min(this.width / 2, this.height / 2), 	// Radius of the outermost circle
       format = d3.format(this._chartOptions.format),			 	// Formatting
@@ -489,7 +491,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     blobWrapper
       .append('path')
       .attr('class', 'radarArea')
-      .attr('d', d => radarLine(d.axes))
+      .attr('d', d => radarLine(d))
       .style('fill', (d, i) => this._chartOptions.color(i))
       .style('fill-opacity', this._chartOptions.opacityArea)
       .on('mouseover', function (d, i) {
@@ -513,7 +515,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     blobWrapper.append('path')
       .attr('class', 'radarStroke')
       .attr('d', function (d, i) {
-        return radarLine(d.axes);
+        return radarLine(d);
       })
       .style('stroke-width', this._chartOptions.strokeWidth + 'px')
       .style('stroke', (d, i) => this._chartOptions.color(i))
@@ -522,7 +524,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
 
     // Append the circles
     blobWrapper.selectAll('.radarCircle')
-      .data(d => d.axes)
+      .data(d => d)
       .enter()
       .append('circle')
       .attr('class', 'radarCircle')
@@ -541,7 +543,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
 
     // Append a set of invisible circles on top for the mouseover pop-up
     blobCircleWrapper.selectAll('.radarInvisibleCircle')
-      .data(d => d.axes)
+      .data(d => d)
       .enter()
       .append('circle')
       .attr('class', 'radarInvisibleCircle')
@@ -556,7 +558,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
           .transition()
           .duration(100)
           .style('opacity', .9);
-        this.tooltip.html('<span>' + d.axis + ': <br>' + d.value + '</span>')
+        this.tooltip.html('<span>' + d.name + ': <br>' + d.value + '</span>')
           .style('left', d3.event.layerX + 'px')
           .style('top', d3.event.layerY + 'px')
           .style('width', this._chartOptions.wrapWidth);

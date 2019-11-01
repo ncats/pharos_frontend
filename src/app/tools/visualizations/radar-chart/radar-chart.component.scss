@@ -2,9 +2,8 @@
 
 pharos-radar-chart {
 
-  .radar-chart {
-    margin: 0 auto;
-    height: 100%;
+  .radar-chart svg {
+      overflow: visible;
   }
 
   .radar-tooltip {

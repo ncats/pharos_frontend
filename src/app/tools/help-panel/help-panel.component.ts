@@ -112,7 +112,6 @@ export class HelpPanelComponent implements OnInit {
     });
 
     this.helpDataService.sources$.subscribe(res => {
-      console.log(res);
       if (res) {
         this.sources = res.sources;
         this.description = res.mainDescription;
