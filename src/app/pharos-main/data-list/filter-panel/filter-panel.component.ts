@@ -107,11 +107,10 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
       .subscribe((e: any) => {
         // If it is a NavigationEnd event re-initalise the component
         if (e instanceof NavigationEnd) {
-
           this.facets = this.data.facets;
           console.log(this.data.facets);
           console.log(this.facets);
-          this.changeRef.markForCheck();
+          this.changeRef.detectChanges();
         }
       });
         this.loading = false;
