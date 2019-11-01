@@ -1,7 +1,7 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import * as d3 from 'd3';
-import {from} from 'rxjs';
+import {BehaviorSubject, from} from 'rxjs';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
@@ -20,12 +20,14 @@ import {PharosConfig} from '../../../../../../config/pharos-config';
 })
 export class IdgResourcesPanelComponent extends DynamicTablePanelComponent implements OnInit, OnDestroy {
 
+  @Output() selfDestruct: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+
   @Input() target: Target;
   /**
    * dummy data
    */
   reagents = [
-    {
+    /*{
       resourceType: 'Small Molecule',
       gene: 'CDK13',
       name: 'THZ531',
@@ -47,7 +49,7 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
       ],
       repository: null,
       repository_page_link: null
-    },
+    },*/
 /*    {
       resourceType: 'antibody',
       gene: 'BRSK2',
@@ -286,6 +288,7 @@ dataTypes: string[] = [];
     private pharosConfig: PharosConfig
   ) {
     super();
+    console.log(this);
   }
 
   /**
@@ -293,6 +296,7 @@ dataTypes: string[] = [];
    * initialize filter subscriptions
    */
   ngOnInit() {
+    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -300,9 +304,9 @@ dataTypes: string[] = [];
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (this.data.target) {
+        if (this.data.targets) {
           this.ngUnsubscribe.next();
-          this.target = this.data.target;
+          this.target = this.data.targets;
           this.loading = false;
           this.http.get(`http://dev3.ccs.miami.edu:8080/rss-api/target/search?term=${this.target.gene}`).subscribe(res => {
             console.log(res);
@@ -313,7 +317,10 @@ dataTypes: string[] = [];
                 });
               });
             } else {
-
+              console.log("no data");
+              this.navSectionsService.removeSection(this.field);
+              this.selfDestruct.next('true');
+            //  this.ngUnsubscribe.next();
             }
           });
           // this.setterFunction();

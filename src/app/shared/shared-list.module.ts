@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {FilterPanelComponent} from '../pharos-main/data-list/filter-panel/filter-panel.component';
 import {FacetTableComponent} from '../pharos-main/data-list/filter-panel/facet-table/facet-table.component';
 import {DataListComponent} from '../pharos-main/data-list/data-list.component';
-import {FacetListComponent} from '../pharos-main/data-list/facet-list/facet-list.component';
+import {FacetListComponent} from '../pharos-main/data-list/data-list-visualizations/facet-list/facet-list.component';
 import {DataListVisualizationsComponent} from '../pharos-main/data-list/data-list-visualizations/data-list-visualizations.component';
 import {SharedModule} from './shared.module';
 import {DonutChartComponent} from '../tools/visualizations/donut-chart/donut-chart.component';

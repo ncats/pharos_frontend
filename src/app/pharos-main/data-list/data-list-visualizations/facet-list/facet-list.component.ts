@@ -1,6 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {PathResolverService} from '../../../pharos-services/path-resolver.service';
+import {PathResolverService} from '../../../../pharos-services/path-resolver.service';
+import {Facet} from '../../../../models/facet';
 
 /**
  * panel to show selected facets or queries, and remove them
@@ -15,7 +16,7 @@ export class FacetListComponent implements OnInit, OnDestroy {
   /**
    * list of selected facets
    */
-  facets: any[];
+  @Input() facets: Facet[];
 
   /**
    * set up route watching
@@ -30,13 +31,17 @@ export class FacetListComponent implements OnInit, OnDestroy {
    * set up subscriptions for fetching facets and watching route changes
    */
   ngOnInit() {
-    this.pathResolverService.facets$.subscribe(res => {
+    console.log(this);
+    this.facets = this.pathResolverService.getFacetsAsObjects();
+    /*this.pathResolverService.facets$.subscribe(res => {
       console.log(res);
       this.facets = res;
-    });
+    });*/
     this._route.queryParamMap.subscribe(res => {
       console.log(res);
-      this.pathResolverService.mapToFacets(res)
+     // this.pathResolverService.mapToFacets(res)
+      this.facets = this.pathResolverService.getFacetsAsObjects();
+
     });
   }
 
