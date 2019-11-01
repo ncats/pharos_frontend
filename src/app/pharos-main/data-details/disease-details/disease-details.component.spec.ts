@@ -18,6 +18,7 @@ import {SharedModule} from '../../../shared/shared.module';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ApolloTestingModule} from 'apollo-angular/testing';
 
 describe('DiseaseDetailsComponent', () => {
   let component: DiseaseDetailsComponent;
@@ -33,6 +34,7 @@ describe('DiseaseDetailsComponent', () => {
       ],
       imports: [
         SharedModule,
+        ApolloTestingModule,
         BrowserAnimationsModule,
         RouterTestingModule,
         GenericTableModule

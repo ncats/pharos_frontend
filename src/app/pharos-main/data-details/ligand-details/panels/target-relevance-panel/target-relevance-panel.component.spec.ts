@@ -4,6 +4,8 @@ import { TargetRelevancePanelComponent } from './target-relevance-panel.componen
 import {SharedModule} from '../../../../../shared/shared.module';
 import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('TargetRelevancePanelComponent', () => {
   let component: TargetRelevancePanelComponent;
@@ -15,7 +17,9 @@ describe('TargetRelevancePanelComponent', () => {
       imports: [
         SharedModule,
         GenericTableModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        ApolloTestingModule,
+        RouterTestingModule
       ],
     })
     .compileComponents();

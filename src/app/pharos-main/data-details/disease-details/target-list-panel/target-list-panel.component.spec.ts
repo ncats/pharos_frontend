@@ -5,6 +5,8 @@ import {SharedModule} from '../../../../shared/shared.module';
 import {GenericTableModule} from '../../../../tools/generic-table/generic-table.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TESTDISEASE} from '../../../../../../test/test-disease';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('TargetListPanelComponent', () => {
   let component: TargetListPanelComponent;
@@ -14,6 +16,8 @@ describe('TargetListPanelComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ TargetListPanelComponent ],
       imports: [
+        ApolloTestingModule,
+        RouterTestingModule,
         BrowserAnimationsModule,
         SharedModule,
         GenericTableModule

@@ -29,7 +29,7 @@ describe('VisualizationOptionsComponent', () => {
     fixture = TestBed.createComponent(VisualizationOptionsComponent);
     component = fixture.componentInstance;
     component.facets = [
-      {name: 'tim', label: 'tim'}
+      {facet: 'tim', values: [{name: 'tim'}]}
     ];
     fixture.detectChanges();
   });

@@ -20,19 +20,19 @@
     </div>
     <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="space-between start">
        <div fxFlex = "30" class="synonyms">
-        <ng-container *ngIf="target.uniprotIds?.length > 0">
+        <ng-container *ngIf="target?.uniprotIds?.length > 0">
           <mat-card-subtitle
             [matTooltip] = "getTooltip('Uniprot Accession IDs')"
             [matTooltipClass] = "'pharos-tooltip'">
             Uniprot Accession IDs
           </mat-card-subtitle>
           <ul class = "inline-list wrap">
-            <li *ngFor=" let term of targetProps.uniprotIds">
+            <li *ngFor=" let term of targetProps?.uniprotIds">
               <ncats-property-display [property] = term.uniprotId [showLabel]="false"></ncats-property-display><br>
             </li>
           </ul>
         </ng-container>
-        <ng-container *ngIf="targetProps.gene">
+        <ng-container *ngIf="targetProps?.gene">
           <br>
           <mat-card-subtitle
             [matTooltip] = "getTooltip('Gene Name')"
