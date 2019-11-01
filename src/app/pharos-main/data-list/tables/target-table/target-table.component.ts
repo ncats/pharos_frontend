@@ -130,7 +130,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       width: '5vw'
     }),
     new PharosProperty({
-      name: 'knowledgeAvailability',
+      name: 'hgdata',
       label: 'Knowledge Availability',
       customComponent: RADAR_CHART_TOKEN,
       sortable: true,

@@ -70,11 +70,7 @@ export class PharosMainComponent implements OnInit, OnDestroy {
       .subscribe((e: any) => {
         // If it is a NavigationEnd event re-initalise the component
         if (e instanceof NavigationEnd) {
-/*          if (this._route.snapshot.data.search) {
-            this.search = this._route.snapshot.data.search;
-          }*/
             this.data = this._route.snapshot.data;
-
           this.makeComponents();
           this.changeRef.markForCheck();
         }
@@ -134,13 +130,11 @@ export class PharosMainComponent implements OnInit, OnDestroy {
 
         // put this last or errors are thrown because the instance keeps getting used.
         if (componentInstance.instance.selfDestruct) {
-          console.log(componentInstance);
           componentInstance.instance.selfDestruct.subscribe(res => {
-            console.log(res);
             if (res) {
-             console.log("destroyyyyyyyy");
               componentInstance.destroy();
-              componentPortal.detach();
+              //  this.changeRef.markForCheck();
+              // componentPortal.detach();
             }
           });
         }

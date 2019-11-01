@@ -511,13 +511,13 @@ const PDB_PANEL: PharosPanel = {
   navHeader: {
     label: 'PDB Viewer',
     section: 'pdbview',
-    mainDescription: 'List of protens and ligands sourced from the RCSB PDB database'
+    mainDescription: 'List of proteins and ligands sourced from the RCSB PDB database'
   },
   api: [
     {
       field: 'pdb',
       url: _APIURL + 'targets/_id_/synonyms(label=PDB%20ID)',
-      description: 'Publications associated with this target, as identified using the JensenLab text mining protocol'
+      description: 'Proteins and ligands sourced from the RCSB PDB database'
     }
   ]
 };
@@ -1013,10 +1013,10 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           SUMMARY_PANEL,
           LEVEL_SUMMARY_PANEL,
           IDG_RESOURCES_PANEL,
-        //  DRUGS_PANEL,
+         // DRUGS_PANEL,
         //  LIGANDS_PANEL,
         //  DISEASE_SOURCE_PANEL,
-        //  PDB_PANEL,
+          PDB_PANEL,
         //  EXPRESSION_PANEL,
         //  PROTEIN_PROTEIN_PANEL,
         //  PUBLICATION_INFO_PANEL,

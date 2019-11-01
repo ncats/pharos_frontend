@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, InjectionToken, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, InjectionToken, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {HttpClient} from '@angular/common/http';
@@ -7,6 +7,7 @@ import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/na
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {PageData} from '../../../../../models/page-data';
 import {Target} from '../../../../../models/target';
+import {BehaviorSubject} from 'rxjs';
 
 /**
  * token to inject structure viewer into generic table component
@@ -27,9 +28,12 @@ const REPORT_URL = 'https://www.rcsb.org/pdb/rest/customReport.csv?customReportC
 @Component({
   selector: 'pharos-pdb-panel',
   templateUrl: './pdb-panel.component.html',
-  styleUrls: ['./pdb-panel.component.scss']
+  styleUrls: ['./pdb-panel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PdbPanelComponent extends DynamicTablePanelComponent implements OnInit {
+export class PdbPanelComponent extends DynamicTablePanelComponent implements OnInit, OnDestroy {
+
+  @Output() selfDestruct: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
 
   /**
@@ -119,12 +123,12 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
   /**
    * set up httpservice
    * @param {NavSectionsService} navSectionsService
-   * @param {ChangeDetectorRef} ref
+   * @param changeRef
    * @param {HttpClient} _http
    */
   constructor(
     private navSectionsService: NavSectionsService,
-    private ref: ChangeDetectorRef,
+    private changeRef: ChangeDetectorRef,
     private _http: HttpClient) {
     super();
   }
@@ -140,11 +144,14 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (this.data.target) {
+          this.target = this.data.targets;
+        if (this.target.pdbs && this.target.pdbs.length > 0) {
           this.ngUnsubscribe.next();
-          this.target = this.data.target;
-          // this.setterFunction();
+          this.setterFunction();
           this.loading = false;
+        } else {
+          this.navSectionsService.removeSection(this.field);
+          this.selfDestruct.next(true);
         }
       });
   }
@@ -155,19 +162,18 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
   setterFunction() {
     this.tableArr = [];
     this.reports = [];
-    const terms = this.data.pdb.map(pdb => pdb = pdb.term);
-    this._http.get(REPORT_URL + terms.join(','), {responseType: 'text'}).subscribe(res => {
+    const pdbsArr: any[] = this.target.pdbs.map<any>(pdb => pdb = pdb.pdbs);
+    this._http.get(REPORT_URL + pdbsArr.join(','), {responseType: 'text'}).subscribe(res => {
         this.csvJSON(res);
       this.pageData = this.makePageData(this.reports.length);
       this.tableArr = this.reports
           .slice(this.pageData.skip, this.pageData.top)
         .map(report => this.pdbReportSerializer._asProperties(report));
       const pdbids = this.tableArr.find(entry => entry.structureId.term && entry.ligandId.term);
-        // this.tableArr.filter(val => val.structureId.term);
       if (pdbids) {
         this.pdbid = pdbids.structureId.term;
-       // this.pdbid = pdbids[0].structureId['term'];
       }
+      this.changeRef.markForCheck();
     });
   }
 
@@ -201,6 +207,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
   pagePDB(event) {
     this.tableArr = this.reports.slice(event.pageIndex * event.pageSize, (event.pageIndex + 1) * event.pageSize)
       .map(report => this.pdbReportSerializer._asProperties(report));
+    this.changeRef.markForCheck();
   }
 
   /**
@@ -210,6 +217,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
   changePdbId(entry: any) {
     if (this.pdbid !== entry.structureId.term) {
       this.pdbid = entry.structureId.term;
+      this.changeRef.markForCheck();
     }
   }
 
@@ -219,5 +227,14 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
    */
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
+  }
+
+  /**
+   * cleanp on destroy
+   */
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    this._data.unsubscribe();
   }
 }

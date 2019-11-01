@@ -1,5 +1,5 @@
 import {
-  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges,
+  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy,
   OnInit, Output, ViewChild, ViewChildren
 } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
@@ -21,7 +21,7 @@ import {BehaviorSubject} from 'rxjs';
   templateUrl: './drugs-panel.component.html',
   styleUrls: ['./drugs-panel.component.scss']
 })
-export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit, OnChanges, AfterViewInit {
+export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   /**
    * Paginator object from Angular Material
    * */
@@ -97,22 +97,19 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
       )
       .subscribe(x => {
         this.target = this.data.targets;
-        if (!this.target.drugs) {
-          this.navSectionsService.removeSection(this.field);
-          this.removeSelf();
+        if (this.target.drugs) {
           this.ngUnsubscribe.next();
-        } else {
-        if (this.data[this.field] && this.data[this.field].length > 0) {
           this.pageData = new PageData(
             {
               top: 10,
               skip: 0,
-              total: this.data.drugscount,
+            //  total: this.target.drugscount,
               count: 10
             });
-          this.ngUnsubscribe.next();
           this.setterFunction();
-        }
+        } else {
+          this.navSectionsService.removeSection(this.field);
+          this.selfDestruct.next(true);
         }
       });
   }
@@ -244,7 +241,11 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
     this.navSectionsService.setActiveSection(this.field);
   }
 
-  removeSelf() {
-    this.selfDestruct.next('destroy');
+  /**
+   * cleanp on destroy
+   */
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }
