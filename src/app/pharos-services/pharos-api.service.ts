@@ -6,7 +6,6 @@ import {ParamMap} from '@angular/router';
 import {Topic} from '../models/topic';
 import {map, tap} from 'rxjs/internal/operators';
 import {PharosConfig} from '../../config/pharos-config';
-import {HttpCacheService} from './http-cache.service';
 import {PharosBase} from '../models/pharos-base';
 import {Target} from '../models/target';
 import {PageData} from '../models/page-data';
@@ -304,7 +303,7 @@ export class PharosApiService {
             uniprot: $term,
             stringid:$term
           }) {
-        ...detailsFields
+        ...targetsDetailsFields
         }
         }
         ${fragments}

@@ -7,6 +7,7 @@ import {PharosPaginatorModule} from '../../../../../tools/pharos-paginator/pharo
 import {LigandCardComponent} from '../../../../data-list/cards/ligand-card/ligand-card.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {IdgLevelIndicatorComponent} from '../../../../../tools/idg-level-indicator/idg-level-indicator.component';
+import {ApolloTestingModule} from 'apollo-angular/testing';
 
 describe('LigandsPanelComponent', () => {
   let component: LigandsPanelComponent;
@@ -18,7 +19,8 @@ describe('LigandsPanelComponent', () => {
         SharedModule,
         BrowserAnimationsModule,
         PharosPaginatorModule,
-        RouterTestingModule
+        RouterTestingModule,
+        ApolloTestingModule
       ],
       declarations: [
         LigandCardComponent,

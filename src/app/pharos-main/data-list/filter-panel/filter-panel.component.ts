@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit,
   Output
 } from '@angular/core';
 import {Facet} from '../../../models/facet';
@@ -9,6 +9,8 @@ import {FacetRetrieverService} from './facet-retriever.service';
 import {PharosConfig} from '../../../../config/pharos-config';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
 import {PanelOptions} from '../../pharos-main.component';
+import {takeUntil} from 'rxjs/operators';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 
 /**
  * panel that hold a facet table for selection
@@ -41,7 +43,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
   /**
    * list of facets shown in the filter panel
    */
-  facets: Facet[];
+  @Input() facets: Facet[];
 
   /**
    * list of initial facets to display
@@ -70,7 +72,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    */
   loading = false;
 
-  data: any = {};
+  @Input() data: any = {};
 
   /**
    * subject to unsubscribe on destroy
@@ -81,16 +83,17 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
   /**
    * set up services to get facets
    * @param {PathResolverService} pathResolverService
-   * @param {ChangeDetectorRef} ref
+   * @param changeRef
+   * @param router
+   * @param _route
    * @param profileService
-   * @param {FacetRetrieverService} facetRetrieverService
    * @param {PharosConfig} pharosConfig
    */
   constructor(
               private pathResolverService: PathResolverService,
-              private ref: ChangeDetectorRef,
+              private changeRef: ChangeDetectorRef,
+              private router: Router,
               private profileService: PharosProfileService,
-          //    private facetRetrieverService: FacetRetrieverService,
               private pharosConfig: PharosConfig) { }
 
   /**
@@ -98,30 +101,24 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     */
   ngOnInit() {
     console.log(this);
-/*    this.loading = true;
-    const flist = this.pharosConfig.getFacets(this.pathResolverService.getPath());
-    this.facetRetrieverService.getAllFacets().subscribe(facets => {
-      if (facets && facets.size) {
-        this.filteredFacets = [];
-        this.allFacets = Array.from(facets.values());
-       flist.forEach(f => {
-          const facet = facets.get(f.name);
-          if (facet) {
-            facet.label = f.label;
-            facet.open = f.open;
-            this.filteredFacets.push(facet);
-          }
-        });*/
+
+    this.router.events
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((e: any) => {
+        // If it is a NavigationEnd event re-initalise the component
+        if (e instanceof NavigationEnd) {
+
+          this.facets = this.data.facets;
+          console.log(this.data.facets);
+          console.log(this.facets);
+          this.changeRef.markForCheck();
+        }
+      });
         this.loading = false;
         this.facets = this.data.facets;
 
-        this.ref.markForCheck();
-      } /*else {
-        this.closeMenu();
+        this.changeRef.markForCheck();
       }
-    });
-    this.loading = false;*/
- // }
 
   /**
    * toggle the show all facets view

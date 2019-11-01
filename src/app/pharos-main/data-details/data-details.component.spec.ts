@@ -26,7 +26,6 @@ import {PublicationInfoPanelComponent} from './target-details/panels/publication
 import {TargetFacetPanelComponent} from './target-details/panels/target-facet-panel/target-facet-panel.component';
 import {LigandsPanelComponent} from './target-details/panels/ligands-panel/ligands-panel.component';
 import {IdgResourcesPanelComponent} from './target-details/panels/idg-resources-panel/idg-resources-panel.component';
-import {AssayPanelComponent} from './target-details/panels/assay-panel/assay-panel.component';
 import {AaSequencePanelComponent} from './target-details/panels/aa-sequence-panel/aa-sequence-panel.component';
 import {SummaryPanelComponent} from './target-details/panels/summary-panel/summary-panel.component';
 import {PdbPanelComponent} from './target-details/panels/pdb-panel/pdb-panel.component';
@@ -47,6 +46,9 @@ import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFireModule} from '@angular/fire';
 import {COMMON_CONFIG} from '../../../../test/test-config';
+import {ActivatedRoute} from '@angular/router';
+import {MockActivatedRoute} from '../../../../test/mock-activate-route';
+import {ApolloTestingModule} from 'apollo-angular/testing';
 
 describe('DataDetailsComponent', () => {
   let component: DataDetailsComponent;
@@ -61,9 +63,11 @@ describe('DataDetailsComponent', () => {
         RouterTestingModule,
         CommonToolsModule,
         BrowserAnimationsModule,
-        IdgLevelSummaryModule
+        IdgLevelSummaryModule,
+        ApolloTestingModule,
       ],
       declarations: [
+        BreadcrumbComponent,
         TargetDetailsComponent,
         TargetHeaderComponent,
         TargetListPanelComponent,
@@ -77,7 +81,6 @@ describe('DataDetailsComponent', () => {
         AaSequencePanelComponent,
         ProteinProteinPanelComponent,
         OrthologPanelComponent,
-        AssayPanelComponent,
         PdbPanelComponent,
         GeneSummaryComponent,
         TargetFacetPanelComponent,
@@ -107,11 +110,11 @@ describe('DataDetailsComponent', () => {
         {provide: TOKENS.EXPRESSION_PANEL, useValue: ExpressionPanelComponent},
         {provide: TOKENS.PROTEIN_PROTEIN_PANEL, useValue: ProteinProteinPanelComponent},
         {provide: TOKENS.TARGET_FACET_PANEL, useValue: TargetFacetPanelComponent},
-        {provide: TOKENS.ASSAY_PANEL, useValue: AssayPanelComponent},
         {provide: TOKENS.AA_SEQUENCE_PANEL, useValue: AaSequencePanelComponent},
         {provide: TOKENS.LIGANDS_PANEL, useValue: LigandsPanelComponent},
         {provide: TOKENS.DRUGS_PANEL, useValue: DrugsPanelComponent},
         {provide: TOKENS.PDB_PANEL, useValue: PdbPanelComponent},
+        { provide: ActivatedRoute, useClass: MockActivatedRoute }
       ],
       schemas: [
         NO_ERRORS_SCHEMA
@@ -131,7 +134,6 @@ describe('DataDetailsComponent', () => {
           AaSequencePanelComponent,
           ProteinProteinPanelComponent,
           OrthologPanelComponent,
-          AssayPanelComponent,
           PdbPanelComponent,
           GeneSummaryComponent,
           TargetFacetPanelComponent,

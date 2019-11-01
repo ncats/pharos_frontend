@@ -7,32 +7,32 @@ export class DataResource extends BaseResource {
   /**
    * List of data generators
    */
-  authors: string[]; // todo: is this just strings, or needs links?
+  authors?: string[]; // todo: is this just strings, or needs links?
 
   /**
    * Identifier as registered by a repository (e.g. GEO ID, PubChem AID, Synpase ID, etc.)
    */
-  datasetID: string; // todo: can there be multiple?
+  datasetID?: string; // todo: can there be multiple?
 
   /**
    * Date when the data was publicly released (to the external repository)
    */
-  releaseDate: string | number | Date;
+  releaseDate?: string | number | Date;
 
   /**
    * repository where the data was released
    */
-  repository: Repository;
+  repository?: Repository;
 
   /**
    * data type: AP-MS, Channel Activity, CyCIF, Fluorescence imaging, IHC, KINOMEScan, Mouse Phenotype Data, NanoBRET, RNA-seq
    */
-  resourceType: string;
+  resourceType?: string;
 
   /**
    * Dataset name that is descriptive of the data
    */
-  title: string;
+  title?: string;
 
   /**
    *base resource type

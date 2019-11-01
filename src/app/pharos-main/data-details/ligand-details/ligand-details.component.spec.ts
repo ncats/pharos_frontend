@@ -24,6 +24,7 @@ import {TargetRelevancePanelComponent} from './panels/target-relevance-panel/tar
 import {SynonymsPanelComponent} from './panels/synonyms-panel/synonyms-panel.component';
 import {MolecularDefinitionPanelComponent} from './panels/molecular-definition-panel/molecular-definition-panel.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ApolloTestingModule} from 'apollo-angular/testing';
 
 describe('LigandDetailsComponent', () => {
   let component: LigandDetailsComponent;
@@ -50,7 +51,8 @@ describe('LigandDetailsComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule,
         SharedModule,
-        CommonToolsModule
+        CommonToolsModule,
+        ApolloTestingModule
       ],
       schemas: [
         NO_ERRORS_SCHEMA

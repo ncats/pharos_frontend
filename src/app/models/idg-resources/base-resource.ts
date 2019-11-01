@@ -10,17 +10,17 @@ export class BaseResource {
   /**
    * name of reagent
    */
-  name: string;
+  name?: string;
 
   /**
    * Antibody, Cell, Genetic Construct, Mouse, Small Molecule
    */
-  resourceType: string;
+  resourceType?: string;
 
   /**
    * GPCR, Ion-Channel, Kinase
    */
-  generatingIC: string;
+  generatingIC?: string;
 
   constructor(data: any) {
     if (data.name) {

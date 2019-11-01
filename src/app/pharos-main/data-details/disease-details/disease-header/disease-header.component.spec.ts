@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DiseaseHeaderComponent } from './disease-header.component';
+import {ApolloTestingModule} from 'apollo-angular/testing';
 
 describe('DiseaseHeaderComponent', () => {
   let component: DiseaseHeaderComponent;
@@ -8,7 +9,10 @@ describe('DiseaseHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DiseaseHeaderComponent ]
+      declarations: [ DiseaseHeaderComponent ],
+      imports: [
+        ApolloTestingModule
+      ]
     })
     .compileComponents();
   }));
