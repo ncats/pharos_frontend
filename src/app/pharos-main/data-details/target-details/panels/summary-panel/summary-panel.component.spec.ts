@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SummaryPanelComponent } from './summary-panel.component';
 import {SharedModule} from '../../../../../shared/shared.module';
-import {RadarService} from '../../../../../tools/visualizations/radar-chart/radar.service';
 import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
 import {PropertyDisplayComponent} from '../../../../../tools/generic-table/components/property-display/property-display.component';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -26,7 +25,6 @@ describe('SummaryPanelComponent', () => {
         ApolloTestingModule
       ],
       providers: [
-        RadarService,
         { provide: ActivatedRoute, useClass: MockActivatedRoute }
       ],
       declarations: [
