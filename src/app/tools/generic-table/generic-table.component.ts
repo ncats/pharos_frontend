@@ -380,6 +380,10 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
    * @param field
    */
   componentAttached(component: any, index?: number, field?: DataProperty) {
+    console.log(index);
+    console.log(this.data);
+    console.log(this.data[index]);
+    console.log(this.data[index][field.name]);
     if (component.instance.data === null && this.data[index][field.name]) {
       component.instance.data = this.data[index][field.name];
     }

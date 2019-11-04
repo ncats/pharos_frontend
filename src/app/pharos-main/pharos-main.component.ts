@@ -93,7 +93,7 @@ export class PharosMainComponent implements OnInit, OnDestroy {
           dynamicChildToken
         );
         const componentInstance: ComponentRef<any> = portalOutlet.attachComponentPortal(componentPortal);
-        componentInstance.instance.data =  this.data.results;
+        componentInstance.instance.data = this.data.results;
 
         // left side panel functionality
         if (component.section === 'leftPortalOutlet' && componentInstance.instance['panelOptions']) {

@@ -36,8 +36,8 @@ export class InjectedRadarChartComponent implements InjectedComponent, OnInit {
 // change data to use getter and setter
   @Input()
   set data(value: any[]) {
-    // set the latest value for _data BehaviorSubject
-    this._data.next(value.map(point => point = {name: point.name.term, value: point.value.term}));
+      // set the latest value for _data BehaviorSubject
+      this._data.next(value);
   }
 
   get data() {
@@ -66,6 +66,8 @@ export class InjectedRadarChartComponent implements InjectedComponent, OnInit {
    */
   protected ngUnsubscribe: Subject<any> = new Subject();
 
+  hgData: any[] = [];
+
   /**
    * inject change detector ref
    * @param ref
@@ -79,10 +81,9 @@ export class InjectedRadarChartComponent implements InjectedComponent, OnInit {
    * subscribe to data changes
    */
   ngOnInit() {
-    console.log(this);
     this._data
       .subscribe(res => {
-        this.data = this.data.map(point => point = {name: point.name.term, value: point.value.term});
+        this.hgData = res.map(point => point = {name: point.name.term, value: point.value.term});
     });
   }
 }

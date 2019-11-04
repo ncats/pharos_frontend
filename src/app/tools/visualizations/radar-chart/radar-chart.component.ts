@@ -26,7 +26,7 @@ export class RadarChartOptions {
   /**
    * The margins of the SVG
    */
-  margin: any = {top: 50, right: 5, bottom: 20, left: 5};
+  margin: any = {top: 50, right: 20, bottom: 20, left: 20};
   /**
    *  How many levels or inner circles should there be drawn
    */
@@ -209,32 +209,9 @@ export class RadarChartComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.drawChart();
-    // data passed in by opening modal
-    if (this.modalData) {
-      Object.keys(this.modalData).forEach(key => this[key] = this.modalData[key]);
-    }
-
-    if (!this.data) {
-      // data passed in by id (target list)
-      this.radarDataService.getData(this.id, this.origin).subscribe(res => {
-        this.data = res;
-      });
-    } else {
       this.data.forEach(graph => this.radarDataService.setData(graph.className, graph, this.origin));
-    }
-
-    // data set by component, also handles setting by modal opening and data retrieved by id
-    this._data.subscribe(x => {
-      if (this.data && this.data.length) {
-        this.data.forEach(graph => {
-          if (graph) {
             this.drawChart();
             this.updateChart();
-          }
-        });
-      }
-    });
 
   }
 
@@ -271,7 +248,6 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     const maxValues: number[] = [this._chartOptions.maxValue];
     if (this.data) {
       this.data.map(data => {
-        console.log(data);
         maxValues.push(Math.max(...data.map(o => o.value)));
       });
       return Math.max(...maxValues);
@@ -297,9 +273,8 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     //////////// Create the container SVG and g /////////////
     const element = this.chartContainer.nativeElement;
     const margin = this._chartOptions.margin;
-    console.log(element.offsetWidth);
-    this.width = element.offsetWidth - margin.left - margin.right  > 100 ? element.offsetWidth - margin.left - margin.right : 100;
-    this.height = element.offsetHeight - margin.top - margin.bottom > 100 ? element.offsetHeight - margin.top - margin.bottom : 100;
+    this.width = element.offsetWidth;
+    this.height = element.offsetHeight;
 
     // Remove whatever chart with the same id/class was present before
     d3.select(element).selectAll('svg').remove();
@@ -307,12 +282,12 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     // Initiate the radar chart SVG
     this.svg = d3.select(element)
       .append('svg:svg')
-      .attr('width', '100%')
-      .attr('height', '100%')
+      .attr('width', this.width + margin.left + margin.right)
+      .attr('height', this.height + margin.top + margin.bottom * 2)
       .attr('class', 'radar')
       .append('g')
-      .attr('transform', 'translate(' + (this.width / 2 - (margin.left * 2) ) + ','
-        + (this.height / 2) + ')'); // background shapes
+      .attr('transform', 'translate(' + (element.offsetWidth - margin.left - margin.right) / 2 + ','
+        + (element.offsetHeight - margin.top - margin.bottom) / 2 + ')'); // background shapes
     this.svg.append('g').attr('class', 'levelWrapper').attr('transform', 'rotate(30)');
     this.svg.append('g').attr('class', 'axisLabel');
     this.svg.append('g').attr('class', 'axisWrapper');
@@ -370,7 +345,8 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     const maxValue: number = this.getMaxValue();
     const allAxis = this.data[0].map((i, j) => i.name),	// Names of each axis
       total = allAxis.length,					// The number of different axes
-      radius = Math.min(this.width / 2, this.height / 2), 	// Radius of the outermost circle
+      radius = Math.min((this.width - this._chartOptions.margin.left - this._chartOptions.margin.right) / 2,
+        (this.height - this._chartOptions.margin.top - this._chartOptions.margin.bottom) / 2), 	// Radius of the outermost circle
       format = d3.format(this._chartOptions.format),			 	// Formatting
       angleSlice = Math.PI * 2 / total;		// The width in radians of each "slice"
 
