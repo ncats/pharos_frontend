@@ -100,7 +100,6 @@ export class FacetTableComponent implements OnInit, OnDestroy {
     this.filterSelection.changed
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(change => {
-        console.log(change);
           if (this.propogate === true) {
             this.pathResolverService.setFacets({name: this.facet.facet, change: change});
             this.pathResolverService.navigate();
@@ -108,9 +107,6 @@ export class FacetTableComponent implements OnInit, OnDestroy {
          });
   }
 
-  ngOnChanges(change) {
-    console.log(change);
-  }
   /**
    * track facet changes to avoid unnecessary changes
    * @param index
