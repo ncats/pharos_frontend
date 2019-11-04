@@ -1,7 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RadarChartComponent } from './radar-chart.component';
-import {RadarService} from './radar.service';
+import {RadarChartComponent} from './radar-chart.component';
 import {HttpClientModule} from '@angular/common/http';
 
 describe('RadarChartComponent', () => {
@@ -12,7 +11,6 @@ describe('RadarChartComponent', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule],
       providers: [
-        RadarService
       ],
       declarations: [ RadarChartComponent ]
     })

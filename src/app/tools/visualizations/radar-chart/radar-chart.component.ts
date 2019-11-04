@@ -14,9 +14,48 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import * as d3 from 'd3';
-import {RadarService} from './radar.service';
 import {MAT_DIALOG_DATA} from '@angular/material';
 import {BehaviorSubject} from 'rxjs/index';
+
+const RADAR_SIZES: Map<string, any> = new Map<string, any>(
+  [
+    ['small', {
+      maxValue: 1,
+      margin: {top: 5, right: 5, bottom: 5, left: 5},
+      levels: 1,
+      dotRadius: 0, 			// The size of the colored circles of each blog
+      format: '.1f',
+      labels: false,
+      axisLabels: false
+    }
+    ], ['medium', {
+    maxValue: 1,
+    levels: 5,
+    format: '.1f',
+    labels: false,
+    axisLabels: true
+  }
+  ], ['medium-shape', {
+    maxValue: 1,
+    levels: 5,
+    format: '.2f',
+    labels: true,
+    labelFactor: 1.1,
+    axisLabels: false
+  }
+  ] , ['large', {
+    maxValue: 1,
+    margin: {top: 30, right: 20, bottom: 50, left: 20},
+    levels: 10,
+    dotRadius: 2.5, 			// The size of the colored circles of each blog
+    format: '.2f',
+    labelFactor: 1.05,
+    labels: true,
+    axisLabels: true
+  }
+  ]
+  ]
+);
 
 /**
  *basic config options for a radar chart
@@ -201,18 +240,15 @@ export class RadarChartComponent implements OnInit, OnDestroy {
 
   /**
    * create a graph object, needs a radarService and optional injected data for a modal object
-   * @param {RadarService} radarDataService
    * @param modalData
    */
-  constructor(private radarDataService: RadarService,
+  constructor(
               @Optional() @Inject(MAT_DIALOG_DATA) public modalData: any) {
   }
 
   ngOnInit() {
-      this.data.forEach(graph => this.radarDataService.setData(graph.className, graph, this.origin));
             this.drawChart();
             this.updateChart();
-
   }
 
   ngOnDestroy(): void {
@@ -222,7 +258,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
   getOptions() {
     // get chart options
     if (this.size) {
-      this._chartOptions = new RadarChartOptions(this.radarDataService.getOptions(this.size));
+      this._chartOptions = new RadarChartOptions(RADAR_SIZES.get(this.size));
     } else {
       this._chartOptions = new RadarChartOptions({});
     }
