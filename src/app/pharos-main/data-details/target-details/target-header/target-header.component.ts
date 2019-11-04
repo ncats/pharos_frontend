@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {Target, TargetSerializer} from '../../../../models/target';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
@@ -6,7 +6,8 @@ import {takeUntil} from 'rxjs/operators';
 @Component({
   selector: 'pharos-target-header',
   templateUrl: './target-header.component.html',
-  styleUrls: ['./target-header.component.scss']
+  styleUrls: ['./target-header.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TargetHeaderComponent extends DynamicPanelComponent implements OnInit {
   @Input() target: Target;
@@ -28,9 +29,11 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
          takeUntil(this.ngUnsubscribe)
        )
        .subscribe(x => {
-         this.target = this.data.targets;
-         if (this.target) {
-           this.ngUnsubscribe.next();
+         if (this.data && this.data.targets) {
+           this.target = this.data.targets;
+           if (this.target) {
+             this.ngUnsubscribe.next();
+           }
          }
        });
   }

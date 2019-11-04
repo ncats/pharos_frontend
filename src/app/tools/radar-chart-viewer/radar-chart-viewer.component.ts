@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit, Optional} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, Input, OnInit, Optional, ViewEncapsulation} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/index';
 import {RadarService} from '../visualizations/radar-chart/radar.service';
 import {MAT_DIALOG_DATA} from '@angular/material';
@@ -10,7 +10,9 @@ import {PharosProperty} from '../../models/pharos-property';
 @Component({
   selector: 'pharos-radar-chart-viewer',
   templateUrl: './radar-chart-viewer.component.html',
-  styleUrls: ['./radar-chart-viewer.component.scss']
+  styleUrls: ['./radar-chart-viewer.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RadarChartViewerComponent implements OnInit {
   /**
@@ -81,6 +83,7 @@ export class RadarChartViewerComponent implements OnInit {
    * load modal data and retrieve knowledge sources
    */
   ngOnInit() {
+    console.log(this);
     if (this.modalData) {
       Object.keys(this.modalData).forEach(key => this[key] = this.modalData[key]);
     }
@@ -101,8 +104,9 @@ export class RadarChartViewerComponent implements OnInit {
    * @param event
    */
   getSource(event: any) {
+    console.log(event);
     this.fieldSources = [];
-    this.axis = event.axis;
+    this.axis = event.name;
     const src = this.sources.get(this.axis);
     if (src) {
       src.forEach(source => {
