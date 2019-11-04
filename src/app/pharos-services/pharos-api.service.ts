@@ -256,8 +256,6 @@ export class PharosApiService {
    */
   getGraphQlData(path: string, params: ParamMap, fragments?: any): Observable<any> {
     console.log(this);
-    console.log('get list data');
-    console.log(fragments);
     const variables = this._mapVariables(path, params);
     /**
      * With query() you fetch data, receive the result, then an Observable completes.
@@ -433,10 +431,24 @@ export class PharosApiService {
             }
             case 'facet': {
               const filter: any = ret.filter ? ret.filter : {};
+              const currentFacets = this.pathResolverService.getFacetsAsObjects();
               console.log(this.pathResolverService.getFacetsAsObjects());
-              filter.facets = this.pathResolverService.getFacetsAsObjects()
-               .map(facet => facet = {facet: facet.facet, values: facet.values.map(value => value.name)});
-              console.log(filter);
+              console.log(val);
+              // map facet string to object for API
+              if (!currentFacets.length) {
+                const fArr = val.split('/');
+                const facetName: string = fArr[0].replace(/\+/g, ' ');
+                const fieldName: string = decodeURI(fArr[1])
+                  .replace('%2F', '/')
+                  .replace('%2C', ',')
+                  .replace('%3A', ':');
+                filter.facets = [{facet: facetName, values: [fieldName]}];
+              } else {
+                // map facet object to be mapped
+                filter.facets = currentFacets
+                  .map(facet => facet = {facet: facet.facet, values: facet.values.map(value => value.name)});
+                console.log(filter);
+              }
               ret.filter = filter;
              break;
             }

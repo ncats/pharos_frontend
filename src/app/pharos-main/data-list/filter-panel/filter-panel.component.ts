@@ -93,6 +93,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
               private pathResolverService: PathResolverService,
               private changeRef: ChangeDetectorRef,
               private router: Router,
+              private _route: ActivatedRoute,
               private profileService: PharosProfileService,
               private pharosConfig: PharosConfig) { }
 
@@ -102,11 +103,15 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
   ngOnInit() {
     console.log(this);
 
+    // todo subscribe to query params map and then map facets
+
+
     this.router.events
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((e: any) => {
         // If it is a NavigationEnd event re-initalise the component
         if (e instanceof NavigationEnd) {
+          console.log(this);
           this.facets = this.data.facets;
           console.log(this.data.facets);
           console.log(this.facets);
