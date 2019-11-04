@@ -1,9 +1,8 @@
 @import '../../../../ncats-theme';
 
-pharos-radar-chart {
-
-  .radar-chart svg {
-      overflow: visible;
+  .radar-chart {
+    overflow: visible;
+    height: 100%;
   }
 
   .radar-tooltip {
@@ -22,14 +21,6 @@ pharos-radar-chart {
     fill: mat-color($pharos-app-accent) !important;
 
   }
-
-
-}
-.popup-radar > .sticky-container > .target-header {
-  width: 80vw;
-  margin-top: 1vh;
-  margin-left: -24px;
-}
 
 .content-row {
   margin-top: 2vh;
