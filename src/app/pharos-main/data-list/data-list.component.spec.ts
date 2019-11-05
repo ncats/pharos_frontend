@@ -5,7 +5,7 @@ import {PathResolverService} from '../../pharos-services/path-resolver.service';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {SuggestApiService} from '../../tools/search-component/suggest-api.service';
 import {RouterTestingModule} from '@angular/router/testing';
-import {FacetRetrieverService} from './filter-panel/facet-retriever.service';
+import {SelectedFacetService} from './filter-panel/selected-facet.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedListModule} from '../../shared/shared-list.module';
@@ -39,7 +39,7 @@ describe('DataListComponent', () => {
         ComponentInjectorService,
         PathResolverService,
         PharosApiService,
-        FacetRetrieverService,
+        SelectedFacetService,
         SuggestApiService,
         AngularFireAuth,
         {provide: APP_BASE_HREF, useValue: '/targets' },

@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {PharosConfig} from '../../../../config/pharos-config';
 import {PathResolverService} from '../../../pharos-services/path-resolver.service';
-import {FacetRetrieverService} from '../filter-panel/facet-retriever.service';
+import {SelectedFacetService} from '../filter-panel/selected-facet.service';
 import {Facet} from '../../../models/facet';
 
 /**
@@ -34,47 +34,29 @@ export class DataListVisualizationsComponent implements OnInit {
   /**
    * list of initial facets to display
    */
-   facets: Facet[];
+  facets: Facet[];
 
   @Input() data: any = {};
 
   /**
    * constructor to get config object and specified facets
-   * todo: could be done without the pathresolver service
    * @param {PathResolverService} pathResolverService
-   * @param {FacetRetrieverService} facetRetrieverService
+   * @param selectedFacetService
    * @param {PharosConfig} pharosConfig
    */
-  constructor(
-    private pathResolverService: PathResolverService,
-    private facetRetrieverService: FacetRetrieverService,
-    private pharosConfig: PharosConfig) { }
+  constructor(private pathResolverService: PathResolverService,
+              private selectedFacetService: SelectedFacetService,
+              private pharosConfig: PharosConfig) {
+  }
 
 
   /**
    * get list of available facets, then retrieve the first facet (default) on the list
    */
   ngOnInit() {
-    console.log(this);
-    /*    this.chartFacets = this.pharosConfig.getAllChartFacets(this.pathResolverService.getPath());
-    this.facetRetrieverService.getAllFacets().subscribe(facets => {
-      if (facets  && facets.size > 0) {
-        if (this.chartFacets.donut.length > 0) {
-          this.filteredFacets = [];
-          this.chartFacets.donut.forEach(f => {
-            const facet = facets.get(f.name);
-            if (facet) {
-              facet.label = f.label;
-              this.filteredFacets.push(facet);
-            }
-          });
-*/
-          this.facets = this.data.facets;
-          this.donutData = this.data.facets[0];
-        }
-    /*  }
-    });*/
- // }
+    this.facets = this.data.facets;
+    this.donutData = this.data.facets[0];
+  }
 
   /**
    * retrieve facet data for a selected field
@@ -90,9 +72,9 @@ export class DataListVisualizationsComponent implements OnInit {
    * change url and fetch filtered data based on facet selection
    * @param data
    */
-  filterDonutChart(data: any ) {
-    console.log(data);
-    this.pathResolverService.mapSelection({name: this.donutData.facet, change: {added: [data.name] }});
-    this.pathResolverService.navigate();
+  filterDonutChart(data: any) {
+    this.selectedFacetService.setFacets({name: this.donutData.facet, change: {added: [data.name]}});
+    const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
+    this.pathResolverService.navigate(queryParams);
   }
 }

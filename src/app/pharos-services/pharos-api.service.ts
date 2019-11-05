@@ -13,6 +13,7 @@ import {Facet} from '../models/facet';
 import {Apollo, Query, QueryRef} from 'apollo-angular';
 import gql from 'graphql-tag';
 import {PathResolverService} from './path-resolver.service';
+import {SelectedFacetService} from '../pharos-main/data-list/filter-panel/selected-facet.service';
 
 const PAGINATESUBTYPESSTUB = `
 query fetchPublications ($skip: Int, $top: Int, $term: String) {
@@ -202,11 +203,12 @@ export class PharosApiService {
    * get config info and set up http service
    * @param {HttpClient} http
    * @param apollo
+   * @param selectedFacetService
    * @param {PharosConfig} pharosConfig
    */
   constructor(private http: HttpClient,
               private apollo: Apollo,
-              @Inject(PathResolverService) private pathResolverService,
+              @Inject(SelectedFacetService) private selectedFacetService,
               private pharosConfig: PharosConfig) {
     this._URL = this.pharosConfig.getApiPath();
     this._SEARCHURLS = this.pharosConfig.getSearchPaths();
@@ -431,8 +433,8 @@ export class PharosApiService {
             }
             case 'facet': {
               const filter: any = ret.filter ? ret.filter : {};
-              const currentFacets = this.pathResolverService.getFacetsAsObjects();
-              console.log(this.pathResolverService.getFacetsAsObjects());
+              const currentFacets = this.selectedFacetService.getFacetsAsObjects();
+              console.log(this.selectedFacetService.getFacetsAsObjects());
               console.log(val);
               // map facet string to object for API
               if (!currentFacets.length) {
@@ -446,7 +448,8 @@ export class PharosApiService {
               } else {
                 // map facet object to be mapped
                 filter.facets = currentFacets
-                  .map(facet => facet = {facet: facet.facet, values: facet.values.map(value => value.name)});
+                  .map(facet => facet = {facet: facet.facet, values: facet.values.map(value => value.name)})
+                .filter(facets => facets.values.length !== 0);
                 console.log(filter);
               }
               ret.filter = filter;

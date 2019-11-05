@@ -5,7 +5,7 @@ import {
 import {Facet} from '../../../models/facet';
 import {Subject} from 'rxjs';
 import {PathResolverService} from '../../../pharos-services/path-resolver.service';
-import {FacetRetrieverService} from './facet-retriever.service';
+import {SelectedFacetService} from './selected-facet.service';
 import {PharosConfig} from '../../../../config/pharos-config';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
 import {PanelOptions} from '../../pharos-main.component';
@@ -82,19 +82,21 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
 
   /**
    * set up services to get facets
-   * @param {PathResolverService} pathResolverService
+   * @param selectedFacetService
    * @param changeRef
    * @param router
    * @param _route
    * @param profileService
+   * @param pathResolverService
    * @param {PharosConfig} pharosConfig
    */
   constructor(
-              private pathResolverService: PathResolverService,
+              private selectedFacetService: SelectedFacetService,
               private changeRef: ChangeDetectorRef,
               private router: Router,
               private _route: ActivatedRoute,
               private profileService: PharosProfileService,
+              private pathResolverService: PathResolverService,
               private pharosConfig: PharosConfig) { }
 
   /**
@@ -102,26 +104,20 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     */
   ngOnInit() {
     console.log(this);
-
-    // todo subscribe to query params map and then map facets
-
-
     this.router.events
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((e: any) => {
         // If it is a NavigationEnd event re-initalise the component
         if (e instanceof NavigationEnd) {
-          console.log(this);
           this.facets = this.data.facets;
-          console.log(this.data.facets);
-          console.log(this.facets);
+          this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
           this.changeRef.detectChanges();
         }
       });
         this.loading = false;
         this.facets = this.data.facets;
-
-        this.changeRef.markForCheck();
+    this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
+    this.changeRef.markForCheck();
       }
 
   /**
@@ -162,7 +158,9 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * remove all selected facets
    */
   removeAll(): void {
-    this.pathResolverService.removeAll();
+    this.selectedFacetService.clearFacets();
+    const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
+    this.pathResolverService.navigate(queryParams);
   }
 
 
@@ -173,7 +171,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * @returns {Facet}
    */
   trackByFn(index: string, item: Facet) {
-    return item;
+    return item.facet;
   }
 
   /**
