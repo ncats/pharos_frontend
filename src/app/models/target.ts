@@ -60,6 +60,8 @@ const TARGETDETAILSFIELDS = gql`
     }
     generifCount
     sequence: seq
+    goCounts {value}
+    
   pubTatorScores {
     year
     score
@@ -162,6 +164,7 @@ export class Target extends PharosBase {
   patentCounts: [{year, count}];
   ensemblIDs: any[];
 
+  goCount: number;
   /**
    * monoclonal count
    * // todo: not used
@@ -314,6 +317,10 @@ export class TargetSerializer implements PharosSerializer {
 
     if (json.uniProtFunction) {
       obj.description = `${(json.uniProtFunction.map(id => id.value)).join(' ')} ${obj.description}`;
+    }
+
+    if (json.goCounts) {
+      obj.goCount = json.goCounts.reduce((prev, cur) => prev + cur.value, 0);
     }
 
     if (json.hgdata) {
