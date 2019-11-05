@@ -73,6 +73,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    * retrieve and set facet values, subscribe to changes
    */
   ngOnInit() {
+
     // sets initially selected values in service
      this.pathResolverService.mapToFacets(this.route.snapshot.queryParamMap);
 

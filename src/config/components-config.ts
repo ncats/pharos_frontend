@@ -332,7 +332,7 @@ const LEVEL_SUMMARY_PANEL: PharosPanel = {
     {
       field: 'goMolecularFunctions',
       label: 'Gene Ontology Molecular Function',
-      description: 'Number of Gene Ontology (GO) annotations for this target, consisting of the sum of GO Function, GO Component' +
+      description: 'Number of Gene Ontology (GO) annotations for this target, consisting of the sum of GO Function, GO Component ' +
         'and GO Process.'
     },
     {
@@ -999,7 +999,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
         components: [
           PHAROS_FACETS_COMPONENT,
           PHAROS_FACET_VISUALIZATION_COMPONENT,
-
+          PHAROS_SELECTED_FACET_LIST_COMPONENT,
           TARGET_TABLE_COMPONENT
         ]
       },
