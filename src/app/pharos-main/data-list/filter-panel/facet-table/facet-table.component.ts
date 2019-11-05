@@ -1,11 +1,12 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
-import { MatTableDataSource} from '@angular/material';
-import {ActivatedRoute, Router} from '@angular/router';
+import {MatTableDataSource} from '@angular/material';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Facet, Field} from '../../../../models/facet';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {PathResolverService} from '../../../../pharos-services/path-resolver.service';
+import {SelectedFacetService} from '../selected-facet.service';
 
 /**
  * table to display selectable fields
@@ -13,7 +14,8 @@ import {PathResolverService} from '../../../../pharos-services/path-resolver.ser
 @Component({
   selector: 'pharos-facet-table',
   templateUrl: './facet-table.component.html',
-  styleUrls: ['./facet-table.component.scss']
+  styleUrls: ['./facet-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FacetTableComponent implements OnInit, OnDestroy {
 
@@ -21,6 +23,8 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    * facet to display fields of
    */
   @Input() facet: Facet;
+
+  @Input() values: Field[];
 
   /**
    * data source of filters to display in the table
@@ -59,13 +63,18 @@ export class FacetTableComponent implements OnInit, OnDestroy {
 
   /**
    * add route and change tracking dependencies
-   * @param {ActivatedRoute} route
-   * @param {ChangeDetectorRef} ref
+   * @param _route
+   * @param router
+   * @param changeRef
+   * @param selectedFacetService
    * @param {PathResolverService} pathResolverService
    */
-  constructor(private route: ActivatedRoute,
-              private ref: ChangeDetectorRef,
-              private pathResolverService: PathResolverService) { }
+  constructor(private _route: ActivatedRoute,
+              private router: Router,
+              private changeRef: ChangeDetectorRef,
+              private selectedFacetService: SelectedFacetService,
+              private pathResolverService: PathResolverService) {
+  }
 
   // todo: on redirect (click targets button), the checked boxes remain
 
@@ -73,27 +82,22 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    * retrieve and set facet values, subscribe to changes
    */
   ngOnInit() {
-
-    // sets initially selected values in service
-     this.pathResolverService.mapToFacets(this.route.snapshot.queryParamMap);
-
-    // TODO this fires for each facet in the list, even though the same selected facet is returned
-    /**
-     * this tracks which facets are selected, based on the url path
-     */
-    this.pathResolverService.facets$
+    this.router.events
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-      res.filter(facetObj =>
-        facetObj.facet === this.facet.facet).forEach(filtered => {
-          this.propogate = false;
-        this.filterSelection.select(...filtered.values);
-      }
-    );
-        this.propogate = true;
+      .subscribe((e: any) => {
+        // If it is a NavigationEnd event re-initalize the component
+        if (e instanceof NavigationEnd) {
+          // update field values
+          this.dataSource.data = this.facet.values;
+          // update selected fields
+          this.mapSelected();
+          this.changeRef.markForCheck();
+        }
       });
-    this.ref.markForCheck();
+    // update field values
     this.dataSource.data = this.facet.values;
+    // update selected fields
+    this.mapSelected();
 
     /**
      * this changes the facets that are mapped to the url path in the service
@@ -101,11 +105,26 @@ export class FacetTableComponent implements OnInit, OnDestroy {
     this.filterSelection.changed
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(change => {
-          if (this.propogate === true) {
-            this.pathResolverService.setFacets({name: this.facet.facet, change: change});
-            this.pathResolverService.navigate();
-          }
-         });
+        console.log("ccccccc")
+        if (this.propogate === true) {
+          this.selectedFacetService.setFacets({name: this.facet.facet, change: change});
+          const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
+          this.pathResolverService.navigate(queryParams);
+        }
+      });
+  }
+
+  mapSelected() {
+    const selected: Facet = this.selectedFacetService.getFacetByName(this.facet.facet);
+    if (selected) {
+      this.propogate = false;
+      this.filterSelection.select(...selected.values.map(val => val.name));
+      this.propogate = true;
+    } else {
+      this.propogate = false;
+      this.filterSelection.clear();
+      this.propogate = true;
+    }
   }
 
   /**
@@ -124,7 +143,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    * @param {string} q
    */
   filterFacet(q: string): void {
-  // console.log(q);
+    // console.log(q);
   }
 
 

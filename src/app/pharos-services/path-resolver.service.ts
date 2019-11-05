@@ -46,53 +46,17 @@ export class PathResolverService {
   constructor(private _router: Router) {
   }
 
-  // this handles graphql facet object, parses them to the url, and stores them as separate objects
-  setFacets(facetObj: any) {
-    const facet: Facet = this._facetObjMap.get(facetObj.name);
-    if (facet) {
-      if (facetObj.change.added) {
-    facet.values = [...new Set(facet.values.concat(facetObj.change.added.map(add => add = new Field({name: add}))))];
-        this._facetObjMap.set(facetObj.name, facet);
-      }
-        if (facetObj.change.removed) {
-          facet.values = facet.values.map(value => value.name)
-            .filter(val => ! facetObj.change.removed.includes(val))
-            .map(newVal =>  new Field({name: newVal}));
-          this._facetObjMap.set(facetObj.name, facet);
-           }
-      this._facetObjMap.set(facetObj.name, facet);
-    } else {
-      this._facetObjMap.set(facetObj.name,
-        new Facet({facet: facetObj.name, values: facetObj.change.added.map(field => field = {name: field})})
-      );
-    }
-    this.getFacetsAsUrlStrings();
-  }
-
-  getFacetsAsUrlStrings(): string[] {
-    const retArr: string[] = [];
-    const facets: Facet[] = Array.from(this._facetObjMap.values());
-    facets.forEach(facet => facet.values.forEach(value => retArr.push(this._makeFacetString(facet.facet, value.name))));
-    console.log(retArr);
-    return retArr;
-  }
-
-  getFacetsAsObjects(): Facet[] {
-    return Array.from(this._facetObjMap.values());
-  }
-
-
-
 
   /**
    * creates url string to pass as a quey parameter from a list of facets
    * creates {Router} {NavigationExtras} object
    * navigates to url, which updates data
    * optional path allows traversal up the path
+   * @param params
    * @param {string} path
    */
-  navigate(path?: string): void {
-      const facetList = this.getFacetsAsUrlStrings();
+  navigate(params: any, path?: string): void {
+    console.log(params);
       let q: string;
       /*this._facets.forEach(facet => {
         if (facet.facet === 'query') {
@@ -104,7 +68,7 @@ export class PathResolverService {
           facet.values.forEach(field => facetList.push(this._makeFacetString(facet.facet, field)));
         }
       });*/
-      console.log(facetList);
+      console.log(params);
       /**
        * forces to first page on facet changes
        * @type {NavigationExtras}
@@ -119,9 +83,9 @@ export class PathResolverService {
 
       if (q) {
         navigationExtras.queryParams.q = q;
-        navigationExtras.queryParams.facet = facetList.length > 0 ? facetList : null;
+        navigationExtras.queryParams.facet = params.length > 0 ? params : null;
       } else {
-        navigationExtras.queryParams.facet = facetList.length > 0 ? facetList : null;
+        navigationExtras.queryParams.facet = params.length > 0 ? params : null;
       }
 
       this._router.onSameUrlNavigation = 'reload'; // forces reload since this is the same navigation url
@@ -133,16 +97,7 @@ export class PathResolverService {
       }
     }
 
-  /**
-   * converts a facet name and field into url readable string
-   * @param {string} facet
-   * @param {string} field
-   * @returns {string}
-   * @private
-   */
-  private _makeFacetString(facet: string, field: string): string {
-    return facet.replace(/ /g, '+') + '/' + encodeURIComponent(field.toString());
-  }
+
 
   /**
    * this converts previous queries into an array of object that can be consumed by a component

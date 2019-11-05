@@ -6,7 +6,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {APP_BASE_HREF} from '@angular/common';
 import {LoadingService} from './pharos-services/loading.service';
 import {PathResolverService} from './pharos-services/path-resolver.service';
-import {FacetRetrieverService} from './pharos-main/data-list/filter-panel/facet-retriever.service';
+import {SelectedFacetService} from './pharos-main/data-list/filter-panel/selected-facet.service';
 import {PharosApiService} from './pharos-services/pharos-api.service';
 import {SuggestApiService} from './tools/search-component/suggest-api.service';
 import {NcatsHeaderModule} from './tools/ncats-header/ncats-header.module';
@@ -46,7 +46,7 @@ describe('AppComponent', () => {
         PharosApiService,
         PathResolverService,
         LoadingService,
-        FacetRetrieverService,
+        SelectedFacetService,
         SuggestApiService,
         AngularFireAuth,
         { provide: AngularFirestore, useValue: FIRESTORESTUB },
