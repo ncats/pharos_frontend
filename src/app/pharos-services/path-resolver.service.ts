@@ -43,11 +43,11 @@ export class PathResolverService {
    * initialize router
    * @param {Router} _router
    */
-  constructor(private _router: Router) { }
+  constructor(private _router: Router) {
+  }
 
   // this handles graphql facet object, parses them to the url, and stores them as separate objects
   setFacets(facetObj: any) {
-    console.log(facetObj);
     const facet: Facet = this._facetObjMap.get(facetObj.name);
     if (facet) {
       if (facetObj.change.added) {
@@ -66,8 +66,6 @@ export class PathResolverService {
         new Facet({facet: facetObj.name, values: facetObj.change.added.map(field => field = {name: field})})
       );
     }
-    console.log(this._facetObjMap);
-    console.log(Array.from(this._facetObjMap.values()));
     this.getFacetsAsUrlStrings();
   }
 

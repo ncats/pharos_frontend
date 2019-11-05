@@ -15,11 +15,6 @@ export class TbioSummaryComponent {
    */
   @Input() target: Target;
 
-  /**
-   * additional data for tracking completion
-   */
-  @Input() data: any;
-
   @Input() apiSources: any[];
   /**
    * no args constructor

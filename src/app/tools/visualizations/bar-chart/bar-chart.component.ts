@@ -52,7 +52,7 @@ export class BarChartComponent implements OnInit {
 
   /**
    * margin for padding
-   * todo should probabl still use the chart options config object
+   * todo should probably still use the chart options config object
    * @type {{top: number; bottom: number; left: number; right: number}}
    */
   private margin: any = {top: 20, bottom: 20, left: 20, right: 20};
