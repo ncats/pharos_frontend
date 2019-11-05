@@ -7,7 +7,7 @@ import {SuggestApiService} from '../../../tools/search-component/suggest-api.ser
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LoadingService} from '../../../pharos-services/loading.service';
 import {SharedModule} from '../../../shared/shared.module';
-import {FacetRetrieverService} from './facet-retriever.service';
+import {SelectedFacetService} from './selected-facet.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FacetTableComponent} from './facet-table/facet-table.component';
@@ -38,7 +38,7 @@ describe('FilterPanelComponent', () => {
         PharosApiService,
         PathResolverService,
         LoadingService,
-        FacetRetrieverService,
+        SelectedFacetService,
         SuggestApiService,
         AngularFireAuth,
         { provide: AngularFirestore, useValue: FIRESTORESTUB },

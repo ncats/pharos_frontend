@@ -1,19 +1,19 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {FacetListComponent} from './facet-list.component';
+import {SelectedFacetListComponent} from './selected-facet-list.component';
 import {PathResolverService} from '../../../pharos-services/path-resolver.service';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {SuggestApiService} from '../../../tools/search-component/suggest-api.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LoadingService} from '../../../pharos-services/loading.service';
 import {SharedModule} from '../../../shared/shared.module';
-import {FacetRetrieverService} from '../filter-panel/facet-retriever.service';
+import {SelectedFacetService} from '../filter-panel/selected-facet.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {RouterTestingModule} from '@angular/router/testing';
 
-describe('FacetListComponent', () => {
-  let component: FacetListComponent;
-  let fixture: ComponentFixture<FacetListComponent>;
+describe('SelectedFacetListComponent', () => {
+  let component: SelectedFacetListComponent;
+  let fixture: ComponentFixture<SelectedFacetListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -23,14 +23,14 @@ describe('FacetListComponent', () => {
         BrowserAnimationsModule
       ],
       declarations: [
-        FacetListComponent
+        SelectedFacetListComponent
       ],
       providers: [
         PathResolverService,
         PharosApiService,
         PathResolverService,
         LoadingService,
-        FacetRetrieverService,
+        SelectedFacetService,
         SuggestApiService,
         {provide: APP_BASE_HREF, useValue: '/targets' }
       ]
@@ -39,7 +39,7 @@ describe('FacetListComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FacetListComponent);
+    fixture = TestBed.createComponent(SelectedFacetListComponent);
     component = fixture.componentInstance;
     component.facets = [];
     fixture.detectChanges();

@@ -8,7 +8,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PathResolverService} from '../../../../pharos-services/path-resolver.service';
 import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../../../pharos-services/loading.service';
-import {FacetRetrieverService} from '../../../../pharos-main/data-list/filter-panel/facet-retriever.service';
+import {SelectedFacetService} from '../selected-facet.service';
 import {SuggestApiService} from '../../../../tools/search-component/suggest-api.service';
 
 
@@ -31,7 +31,7 @@ describe('FacetTableComponent', () => {
         PathResolverService,
         PharosApiService,
         LoadingService,
-        FacetRetrieverService,
+        SelectedFacetService,
         SuggestApiService,
         {provide: APP_BASE_HREF, useValue: '/targets' }
       ]

@@ -1,6 +1,6 @@
 import {inject, TestBed} from '@angular/core/testing';
 
-import {FacetRetrieverService} from './facet-retriever.service';
+import {SelectedFacetService} from './selected-facet.service';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {SharedModule} from '../../../shared/shared.module';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -11,7 +11,7 @@ import {AngularFireModule} from '@angular/fire';
 import {COMMON_CONFIG} from '../../../../../test/test-config';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 
-describe('FacetRetrieverService', () => {
+describe('SelectedFacetService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -22,14 +22,14 @@ describe('FacetRetrieverService', () => {
       ],
       providers: [
         PharosApiService,
-        FacetRetrieverService,
+        SelectedFacetService,
         AngularFireAuth,
         { provide: AngularFirestore, useValue: FIRESTORESTUB }
       ]
     });
   });
 
-  it('should be created', inject([FacetRetrieverService], (service: FacetRetrieverService) => {
+  it('should be created', inject([SelectedFacetService], (service: SelectedFacetService) => {
     expect(service).toBeTruthy();
   }));
 });

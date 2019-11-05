@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {FilterPanelComponent} from '../pharos-main/data-list/filter-panel/filter-panel.component';
 import {FacetTableComponent} from '../pharos-main/data-list/filter-panel/facet-table/facet-table.component';
 import {DataListComponent} from '../pharos-main/data-list/data-list.component';
-import {FacetListComponent} from '../pharos-main/data-list/selected-facet-list/facet-list.component';
+import {SelectedFacetListComponent} from '../pharos-main/data-list/selected-facet-list/selected-facet-list.component';
 import {DataListVisualizationsComponent} from '../pharos-main/data-list/data-list-visualizations/data-list-visualizations.component';
 import {SharedModule} from './shared.module';
 import {DonutChartComponent} from '../tools/visualizations/donut-chart/donut-chart.component';
@@ -26,7 +26,7 @@ import {TOKENS} from '../../config/component-tokens';
     DataListVisualizationsComponent,
     FilterPanelComponent,
     FacetTableComponent,
-    FacetListComponent,
+    SelectedFacetListComponent,
     DonutChartComponent,
     VisualizationOptionsComponent
   ],
@@ -34,11 +34,11 @@ import {TOKENS} from '../../config/component-tokens';
     DataListResolver,
     ComponentsResolver,
     {provide: TOKENS.PHAROS_VISUALIZATION_COMPONENT, useValue: DataListVisualizationsComponent},
-    {provide: TOKENS.PHAROS_SELECTED_FACET_LIST_COMPONENT, useValue: FacetListComponent},
+    {provide: TOKENS.PHAROS_SELECTED_FACET_LIST_COMPONENT, useValue: SelectedFacetListComponent},
     {provide: TOKENS.PHAROS_FACETS_COMPONENT, useValue: FilterPanelComponent}
   ],
   entryComponents: [
-    FacetListComponent,
+    SelectedFacetListComponent,
     FilterPanelComponent,
     VisualizationOptionsComponent,
     DataListVisualizationsComponent
@@ -49,7 +49,7 @@ import {TOKENS} from '../../config/component-tokens';
     DataListVisualizationsComponent,
     FilterPanelComponent,
     FacetTableComponent,
-    FacetListComponent,
+    SelectedFacetListComponent,
     DonutChartComponent,
     VisualizationOptionsComponent
 
