@@ -81,8 +81,8 @@ export class BreadcrumbComponent implements OnInit {
    * @param link
    */
   goTo(link: any): void {
-    this.pathResolverService.mapSelection({name: link.label, change: {added: [link.term]}});
-    this.pathResolverService.navigate(this.route.snapshot.data.path);
+   // this.pathResolverService.mapSelection({name: link.label, change: {added: [link.term]}});
+   // this.pathResolverService.navigate(this.route.snapshot.data.path);
 }
 
 }

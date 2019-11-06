@@ -35,7 +35,7 @@ export class DiseaseDetailsComponent extends DynamicPanelComponent implements On
   /**
    * disease object displayed
    */
-  @Input()   disease: Disease;
+  @Input()   disease: any = {};
 
   /**
    * div element all panels are injected into

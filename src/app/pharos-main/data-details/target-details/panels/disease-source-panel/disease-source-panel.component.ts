@@ -9,6 +9,10 @@ import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {Target} from '../../../../../models/target';
+import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
+import {ActivatedRoute} from '@angular/router';
+import {PageData} from '../../../../../models/page-data';
+import {DiseaseSerializer} from '../../../../../models/disease';
 
 /**
  * interface to track disease tree nodes
@@ -39,7 +43,12 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    * */
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
+  /**
+   * target to display
+   */
   @Input() target: Target;
+
+  @Input() targetProps: any;
 
   /**
    * tnx data
@@ -76,6 +85,8 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
   treeData: DiseaseTreeNode[] = [];
 
   constructor(
+    private pharosApiService: PharosApiService,
+    private _route: ActivatedRoute,
     private navSectionsService: NavSectionsService
   ) {
     super();
@@ -85,20 +96,10 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    * subscribe to data changes and generate tree
    */
   ngOnInit() {
-    this._data
-    // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
-  .pipe(
-      takeUntil(this.ngUnsubscribe)
-    )
-      .subscribe(x => {
-        if (this.data.target) {
-          this.ngUnsubscribe.next();
-          this.target = this.data.target;
-         // this.setterFunction();
+          this.target = this.data.targets;
+           this.targetProps = this.data.targetsProps;
+          this.setterFunction();
           this.loading = false;
-        }
-      });
   }
 
   /**
@@ -106,56 +107,30 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    * creates map to reduce duplicate disease names, and adds sources to disease name
    */
   setterFunction(): void {
-    this.data.diseases.forEach(disease => {
-      const dobj: PharosProperty = new PharosProperty(disease.properties.filter(prop => prop.label === 'IDG Disease')[0]);
-      dobj.internalLink = ['/diseases', dobj.term as string];
-      const dname: string = dobj.term as string; // todo: ignore case would be cool
-      const dlist = this.newdiseasemap.get(dname);
-      let diseaseSource: DiseaseTreeNode = {
-        name: new PharosProperty(disease.properties.filter(prop => prop.label === 'Data Source')[0]),
+    this.dataSource.data = this.targetProps.diseases.map(disease => {
+      const diseaseSource: DiseaseTreeNode = {
+        name: disease.name,
         children: [
-          ...disease.properties
-            .filter(prop => prop.label !== 'Data Source' && prop.label !== 'IDG Disease' )
-            .map(prop => new PharosProperty(prop))
+          ...disease.associations.map(da => da = {name: da.type, children: Object.values(da).filter(prop => prop['name'] !== 'type')})
         ]
       };
-
-      if (diseaseSource.children.length === 0) {
-        diseaseSource = {name: diseaseSource.name};
-      }
-      if (dlist) {
-        dlist.children.push(diseaseSource);
-        this.newdiseasemap.set(dname, dlist);
-      } else {
-        this.newdiseasemap.set(dname, {name: dobj, children: [diseaseSource]});
-      }
+      return diseaseSource;
     });
-    const sortedDiseases = Array.from(this.newdiseasemap.entries()).sort((a, b) => {
-      if (a[1].children.length < b[1].children.length) {
-        return 1;
-      }
-      if (a[1].children.length > b[1].children.length) {
-        return -1;
-      }
-      return 0;
-    });
-    this.treeData = Array.from(new Map(sortedDiseases).values());
-    this.dataSource.data = this.treeData.slice(0, 10);
-      this.loaded = true;
 
-    if (this.data.tinx && this.data.tinx.importances) {
+    if (this.target.tinx && this.target.tinx.importances) {
       this.tinx = [];
-       this.data.tinx.importances.map(point => {
-         if (point.dname) {
-           const p: PharosPoint = new PharosPoint({
-             label: point.doid,
-             x: point.dnovelty,
-             y: point.imp,
-             name: point.dname
-           });
-           this.tinx.push(p);
-         }
+      this.target.tinx.importances.map(point => {
+        if (point.dname) {
+          const p: PharosPoint = new PharosPoint({
+            label: point.doid,
+            x: point.dnovelty,
+            y: point.imp,
+            name: point.dname
+          });
+          this.tinx.push(p);
+        }
       });
+    }
 
        this.chartOptions = new ScatterOptions({
            line: false,
@@ -165,7 +140,8 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
          yLabel: 'Importance',
           margin: {top: 20, right: 45, bottom: 25, left: 35}
        });
-    }
+       this.loading = false;
+    // }
   }
 
   /**
@@ -181,7 +157,17 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    * @param event
    */
   paginate(event: PageEvent) {
-    this.dataSource.data = this.treeData.slice((event.pageIndex * event.pageSize), ((event.pageIndex + 1) * event.pageSize));
+    this.loading = true;
+    const diseaseSerializer = new DiseaseSerializer();
+    const pageParams = {
+      diseasetop: event.pageSize,
+      diseaseskip: event.pageIndex * event.pageSize,
+    };
+    this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams).valueChanges.subscribe(res => {
+      this.target.diseases = res.data.targets.diseases;
+      this.targetProps.diseases = res.data.targets.diseases.map(disease => diseaseSerializer._asProperties(disease));
+      this.setterFunction();
+    });
   }
 
 

@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
 import {Publication, PublicationSerializer} from './publication';
 import {PharosPoint} from './pharos-point';
+import {Disease, DiseaseSerializer} from './disease';
 
 const TARGETLISTFIELDS =  gql`
   fragment targetsListFields on Target {
@@ -35,6 +36,9 @@ const TARGETLISTFIELDS =  gql`
         name
         value
       }
+    }
+    diseaseCounts {
+     value
     }
   }
 `;
@@ -75,14 +79,20 @@ const TARGETDETAILSFIELDS = gql`
   count
   }
    publicationCount: pubCount
-    publications: pubs {
-      date
+    publications: pubs(top: $publicationstop, skip: $publicationsskip) {
+      year
       pmid
       title
       journal
       abstract
     }
+   omimCount: mimCount 
+   omimTerms:  mim{
+      term
+      mimid
+    }
   }
+  
   ${TARGETLISTFIELDS}
 `;
 
@@ -165,6 +175,7 @@ export class Target extends PharosBase {
   ensemblIDs: any[];
 
   goCount: number;
+  omimCount: number;
   /**
    * monoclonal count
    * // todo: not used
@@ -176,6 +187,11 @@ export class Target extends PharosBase {
    */
   pubmedCount:  number;
 
+  diseases: Disease[];
+
+  diseaseCount: number;
+
+tinx: any;
 
 
   /**
@@ -216,43 +232,7 @@ export class Target extends PharosBase {
   publicationCount: number;
 
   publications: Publication[];
-  /**
-   * sublist object for links
-   */
-  _links: PharosSubList;
 
-  /**
-   * links count
-   */
-  _linksCount: number;
-  /**
-   * sublist object for properties
-   */
-  _properties: PharosSubList;
-
-  /**
-   * properties count
-   */
-  _propertiesCount: number;
-  /**
-   * sublist object for synonyms
-   */
-  _synonyms: PharosSubList;
-
-  /**
-   * synonyms count
-   */
-  _synonymsCount: number;
-
-  /**
-   * sublist object for publications
-   */
-  _publications: PharosSubList;
-
-  /**
-   * count of publications
-   */
-  _publicationsCount: number;
 }
 
 /**
@@ -327,21 +307,18 @@ export class TargetSerializer implements PharosSerializer {
       obj.hgdata = json.hgdata.summary;
     }
 
-    if (obj._links) {
-      obj._links = new PharosSubList(obj._links);
-      obj._linksCount = obj._links.count;
+    if (json.diseaseCounts) {
+      obj.diseaseCount = json.diseaseCounts.length;
     }
-    if (obj._properties) {
-      obj._properties = new PharosSubList(obj._properties);
-      obj._propertiesCount = obj._properties.count;
-    }
-    if (obj._synonyms) {
-      obj._synonyms = new PharosSubList(obj._synonyms);
-      obj._synonymsCount = obj._synonyms.count;
-    }
-    if (obj.publications) {
+
+      if (json.publications) {
       const pubSerializer = new PublicationSerializer();
       obj.publications = json.publications.map(pub => pubSerializer.fromJson(pub));
+    }
+
+      if (json.diseases) {
+      const diseaseerializer = new DiseaseSerializer();
+      obj.diseases = json.diseases.map(disease => diseaseerializer.fromJson(disease));
     }
 
     return obj;
@@ -379,6 +356,11 @@ export class TargetSerializer implements PharosSerializer {
     if (newObj.publications) {
       const pubSerializer = new PublicationSerializer();
       newObj.publications = obj.publications.map(pub => pubSerializer._asProperties(pub));
+    }
+
+    if (newObj.diseases) {
+      const diseaseSerializer = new DiseaseSerializer();
+      newObj.diseases = obj.diseases.map(disease => diseaseSerializer._asProperties(disease));
     }
     return newObj;
   }
