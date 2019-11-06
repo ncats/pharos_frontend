@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component, ElementRef, HostListener, Input, OnChanges, OnDestroy, OnInit, ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -16,7 +17,8 @@ import {PharosPoint} from '../../../models/pharos-point';
   selector: 'pharos-scatter-plot',
   templateUrl: './scatter-plot.component.html',
   styleUrls: ['./scatter-plot.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
   /**
@@ -24,33 +26,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    */
   @ViewChild('scatterPlotTarget', {static: true}) chartContainer: ElementRef;
 
-  /**
-   * behavior subject that is used to get and set chart data
-   * @type {BehaviorSubject<any>}
-   * @private
-   */
-  private _data: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-
-  /**
-   * setter for chart data
-   * force sorting when data comes in, then set it and pass it to the setter function
-   * @param value
-   */
-  @Input()
-  set data(value: any) {
-    if (value) {
-      // value = value.sort((a, b) => a.x - b.x);
-      this._data.next(value);
-    }
-  }
-
-  /**
-   * getter for chart data
-   * @returns {any}
-   */
-  get data(): any {
-    return this._data.value;
-  }
+  @Input() data: any;
 
   /**
    * options opbject passed from component
@@ -146,11 +122,8 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    */
   @HostListener('window:resize', ['$event'])
   onResize() {
-    d3.select(this.chartContainer.nativeElement).selectAll('svg').remove();
     this.drawChart();
-    // this.voronoiGroup.call(this.zoom);
     this.setData();
-   // / this.reset();
   }
 
   /**
@@ -159,8 +132,6 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    * and update with data
    */
   ngOnInit() {
-    this._data.subscribe(x => {
-      if (this.data) {
         if (this.filters) {
           this.filters.forEach(filter => {
             this.displayData.push(this.data.get(filter));
@@ -169,9 +140,8 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
           this.displayData = [this.data];
         }
         this.drawChart();
+        console.log(this.data);
         this.setData();
-      }
-    });
   }
 
   /**
@@ -251,9 +221,10 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     //////////// Create the container SVG and g /////////////
     const element = this.chartContainer.nativeElement;
     const margin = this._chartOptions.margin;
+    console.log(element);
     console.log(element.offsetWidth);
-    this.width = element.offsetWidth - margin.left - margin.right;
-    this.height = element.offsetHeight - margin.top - margin.bottom;
+    this.width = element.offsetWidth;
+    this.height = element.offsetHeight;
     // Remove whatever chart with the same id/class was present before
     d3.select(element).selectAll('svg').remove();
 

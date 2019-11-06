@@ -71,6 +71,7 @@ export class TargetListPanelComponent extends DynamicTablePanelComponent impleme
         //    takeWhile(() => !this.data['references'])
       )
       .subscribe(x => {
+/*
         if (this.data.targets && this.data.targets.length > 0) {
           this.tableArr = [];
           from(this.data.targets.map(target => {
@@ -100,11 +101,12 @@ export class TargetListPanelComponent extends DynamicTablePanelComponent impleme
             this.tableArr = res;
           });
         }
+*/
       });
   }
 
   getMoreTargets(event) {
-    const url = `${this.pharosConfig.getApiPath()}diseases/${this.disease.id}/links(kind=ix.idg.models.Target)?skip=${event.pageIndex * event.pageSize}&top=${event.pageSize}`;
+  /*  const url = `${this.pharosConfig.getApiPath()}diseases/${this.disease.id}/links(kind=ix.idg.models.Target)?skip=${event.pageIndex * event.pageSize}&top=${event.pageSize}`;
     // this.loading = true;
     this.http.get<any>(url)
       .subscribe(res => {
@@ -134,7 +136,7 @@ export class TargetListPanelComponent extends DynamicTablePanelComponent impleme
           this.tableArr = r;
           this.pageData.skip = event.pageIndex * event.pageSize;
         });
-      });
+      });*/
   }
 
 }

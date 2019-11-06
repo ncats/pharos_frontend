@@ -1,15 +1,25 @@
+pharos-publication-info-panel {
+  .timelines-panel {
+    padding-top: 2vh;
+    padding-bottom: 5vh;
+  }
 
-.timelines-panel {
-  padding-top: 2vh;
-  padding-bottom: 5vh;
-}
+  .timeline-holder {
+    margin-top: 5vh;
+    padding-left: 1vw;
+  }
 
-.timeline-holder {
-  margin-top: 5vh;
-  padding-left:1vw;
-}
+  .scatter-plot-holder {
+    margin: 0 auto;
+    background-color: red;
+  }
 
-@media only screen and (max-width: 768px) {
-  :host {
+  .pub-table {
+    overflow: visible
+  }
+
+  @media only screen and (max-width: 768px) {
+    :host {
+    }
   }
 }

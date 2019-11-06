@@ -303,7 +303,17 @@ export class PharosApiService {
   getDetailsData(path: string, params: ParamMap, fragments?: any): Observable<any> {
     const variables: any = {term: params.get('id')};
     this.detailsQuery = gql`
-        query fetchTarget($term: String, $diseasetop: Int, $diseaseskip: Int, $publicationstop: Int, $publicationsskip: Int) {
+        query fetchTarget(
+        $term: String, 
+        $diseasetop: Int, 
+        $diseaseskip: Int, 
+        $publicationstop: Int, 
+        $publicationsskip: Int,
+        $publicationsterm: String, 
+        $generifstop: Int, 
+        $generifsskip: Int,
+        $generifsterm: String
+        ) {
           targets: target(q: {
             sym: $term,
             #tcrdid: $term,
@@ -350,8 +360,6 @@ export class PharosApiService {
   }
 
   fetchMore(path, addtParams) {
-    console.log(this);
-    console.log(addtParams);
     const watchQuery =  this.openQueries.get(`${path}-details`);
      watchQuery.fetchMore({
       variables: addtParams,
@@ -368,10 +376,6 @@ export class PharosApiService {
         });*/
       },
     });
-
-   /* watchQuery.fetchMore(addtParams).then(res => {
-      console.log(res);
-    })*/
    return watchQuery;
   }
 
@@ -418,27 +422,6 @@ export class PharosApiService {
     }
   }
 
-  callApolloQuery(id: string | number, fields: string) {
-    this.apollo.watchQuery({
-      query: gql`
-        {
-          target(
-            q: {
-              #geneid:116328
-              #tcrdid:15380
-              uniprot: "${id}"
-            }
-          ){
-            ${fields}
-            }
-        }
-      `,
-    }).valueChanges.subscribe(res => {
-      console.log(res);
-    });
-
-  }
-
   /**
    * Api call to get specific data detail information
    * always return a response. the ingesting methods filter out empty responses
@@ -467,7 +450,6 @@ export class PharosApiService {
 
 
   private _mapVariables(path: string, params: ParamMap): any {
-    console.log(params);
     const ret: {top?: number, skip?: number, filter?: {term, facets}} = {};
     params.keys.map(key => {
       params.getAll(key).map(val => {
@@ -492,8 +474,6 @@ export class PharosApiService {
             case 'facet': {
               const filter: any = ret.filter ? ret.filter : {};
               const currentFacets = this.selectedFacetService.getFacetsAsObjects();
-              console.log(this.selectedFacetService.getFacetsAsObjects());
-              console.log(val);
               // map facet string to object for API
               if (!currentFacets.length) {
                 const fArr = val.split('/');
@@ -508,13 +488,11 @@ export class PharosApiService {
                 filter.facets = currentFacets
                   .map(facet => facet = {facet: facet.facet, values: facet.values.map(value => value.name)})
                 .filter(facets => facets.values.length !== 0);
-                console.log(filter);
               }
               ret.filter = filter;
              break;
             }
             default: {
-              console.log(val);
               ret[key] = val;
               break;
             }
@@ -522,7 +500,6 @@ export class PharosApiService {
         }
       );
     });
-  console.log(ret);
     return ret;
   }
 
