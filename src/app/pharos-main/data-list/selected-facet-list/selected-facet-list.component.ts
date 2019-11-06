@@ -42,7 +42,6 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
    * set up subscriptions for fetching facets and watching route changes
    */
   ngOnInit() {
-    console.log(this);
     this.router.events
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((e: any) => {
@@ -53,7 +52,8 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
         }
       });
     this.facets = this.selectedFacetService.getFacetsAsObjects();
-    }
+    this.changeRef.markForCheck();
+  }
 
   /**
    * remove a specific facet and all selected fields
@@ -71,6 +71,7 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
    * @param {string} field
    */
   removeField(facet: string, field: string): void {
+    this.selectedFacetService.removeField(facet, field);
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
     this.pathResolverService.navigate(queryParams);
   }

@@ -40,7 +40,6 @@ export class SelectedFacetService {
   constructor(
     private profileService: PharosProfileService
   ) {
-    console.log("constructing selected facet service");
     this.profileService.profile$.subscribe(user => {
       if (user && user.data().savedTargets) {
         this._facetMap.set(user.data().savedTargets.name, user.data().savedTargets);
@@ -57,37 +56,37 @@ export class SelectedFacetService {
     const facet: Facet = this._facetMap.get(facetObj.name);
     if (facet) {
       if (facetObj.change.added) {
-        facet.values = [...new Set(facet.values.concat(facetObj.change.added.map(add => add = new Field({name: add}))))];
-       console.log(facet.values);
+        if (facet.values.length > 0) {
+          facet.values =
+            [... new Set((facet.values.concat(facetObj.change.added.map(add => add = new Field({name: add})))).filter(name => name.name))];
+        } else {
+          facet.values = facetObj.change.added.map(add => add = new Field({name: add}));
+        }
+       // facet.values = [...new Set(facet.values.concat(facetObj.change.added.map(add => add = new Field({name: add}))))];
         this._facetMap.set(facetObj.name, facet);
       }
-      if (facetObj.change.removed) {
-        console.log("facet removed");
+      if (facetObj.change.removed && facetObj.change.removed.length > 0) {
         facet.values = facet.values.map(value => value.name)
           .filter(val => ! facetObj.change.removed.includes(val))
           .map(newVal =>  new Field({name: newVal}));
         if (facet.values.length > 0) {
           this._facetMap.set(facetObj.name, facet);
         } else {
-          console.log("delete facet")
           this._facetMap.delete(facetObj.name);
         }
       }
     } else {
-      this._facetMap.set(facetObj.name,
-        new Facet({facet: facetObj.name, values: facetObj.change.added.map(field => field = {name: field})})
-      );
+      const values = facetObj.change.added.map(field => field = {name: field});
+      const newFacet: Facet = new Facet({facet: facetObj.name, values: values});
+
+      this._facetMap.set(facetObj.name, newFacet);
     }
-   //
-    //
-    // this.getFacetsAsUrlStrings();
   }
 
   getFacetsAsUrlStrings(): string[] {
     const retArr: string[] = [];
     const facets: Facet[] = Array.from(this._facetMap.values());
     facets.forEach(facet => facet.values.forEach(value => retArr.push(this._makeFacetString(facet.facet, value.name))));
-    console.log(retArr);
     return retArr;
   }
 
@@ -173,6 +172,8 @@ export class SelectedFacetService {
         const facet: Facet = this._facetMap.get(facetName);
         if (facet) {
           facet.values.push(new Field({name: fieldName}));
+          const tempvalues: any[] = [... new Set(facet.values.map(val => val.name))];
+          facet.values = tempvalues.map(newVal => newVal = new Field({name: newVal}));
           this._facetMap.set(facetName, facet);
         } else {
           const fct = new Facet({facet: facetName, values: [{name: fieldName}]});

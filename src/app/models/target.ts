@@ -5,6 +5,7 @@ import {DataProperty} from '../tools/generic-table/components/property-display/d
 import {Publication, PublicationSerializer} from './publication';
 import {PharosPoint} from './pharos-point';
 import {Disease, DiseaseSerializer} from './disease';
+import {Generif, GenerifSerializer} from './generif';
 
 const TARGETLISTFIELDS =  gql`
   fragment targetsListFields on Target {
@@ -79,12 +80,23 @@ const TARGETDETAILSFIELDS = gql`
   count
   }
    publicationCount: pubCount
-    publications: pubs(top: $publicationstop, skip: $publicationsskip) {
+    publications: pubs(top: $publicationstop, skip: $publicationsskip, term: $publicationsterm) {
       year
       pmid
       title
       journal
       abstract
+    }
+    generifCount
+    generifs (top: $generifstop, skip: $generifsskip term: $generifsterm){
+      text
+      pubs {
+        year
+        pmid
+        title
+        journal
+        abstract
+      }
     }
    omimCount: mimCount 
    omimTerms:  mim{
@@ -233,6 +245,8 @@ tinx: any;
 
   publications: Publication[];
 
+  generifs: Generif[];
+
 }
 
 /**
@@ -314,6 +328,11 @@ export class TargetSerializer implements PharosSerializer {
       if (json.publications) {
       const pubSerializer = new PublicationSerializer();
       obj.publications = json.publications.map(pub => pubSerializer.fromJson(pub));
+    }
+
+    if (json.generifs) {
+      const generifSerializer = new GenerifSerializer();
+      obj.generifs = json.generifs.map(rif => generifSerializer.fromJson(rif));
     }
 
       if (json.diseases) {

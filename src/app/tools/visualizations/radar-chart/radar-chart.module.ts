@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SharedModule} from '../../../shared/shared.module';
 import {RadarChartComponent} from './radar-chart.component';
+import {RadarService} from './radar.service';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import {RadarChartComponent} from './radar-chart.component';
     SharedModule
   ],
   providers: [
+    RadarService
   ],
   exports: [
     RadarChartComponent

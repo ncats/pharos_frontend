@@ -26,9 +26,7 @@ export class IDGResourceSerializer <T extends BaseResource> implements Serialize
  */
 
 fromJson(json: any, type?: string): T {
-  console.log(json);
   let obj: any;
-  console.log(type.replace(' ', ''));
   switch (type.replace(' ', '')) {
     case 'Antibody': {
       obj = new Antibody(json);
@@ -67,8 +65,6 @@ fromJson(json: any, type?: string): T {
       break;
     }
   }
-  console.log(json);
-  console.log(obj);
   return obj;
 }
 

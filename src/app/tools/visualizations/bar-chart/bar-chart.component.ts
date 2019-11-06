@@ -52,7 +52,7 @@ export class BarChartComponent implements OnInit {
 
   /**
    * margin for padding
-   * todo should probably still use the chart options config object
+   * todo should probabl still use the chart options config object
    * @type {{top: number; bottom: number; left: number; right: number}}
    */
   private margin: any = {top: 20, bottom: 20, left: 20, right: 20};
@@ -107,7 +107,7 @@ export class BarChartComponent implements OnInit {
     this.drawGraph();
     this._data.subscribe(x => {
       if (this.data) {
-         this.updateGraph();
+        this.updateGraph();
       }
     });
   }
@@ -184,7 +184,7 @@ export class BarChartComponent implements OnInit {
       .attr('y', function(d) { return y(+d[1]); })
       .attr('height', d => this.height - y(+d[1]))
       .attr('transform', 'translate(20, 0)')
-  .style('pointer-events', 'all')
+      .style('pointer-events', 'all')
       .on('mouseover', (d, i, bars) => {
         d3.select(bars[i]).classed('hovered', true);
         this.tooltip
