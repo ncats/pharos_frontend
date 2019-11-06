@@ -63,7 +63,6 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
     this.selectedFacetService.removefacetFamily(facet);
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
     this.pathResolverService.navigate(queryParams);
-
   }
 
   /**
@@ -80,11 +79,14 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
    * clear all queries/facets
    */
   removeAll(): void {
-    this.pathResolverService.removeAll();
+    this.selectedFacetService.clearFacets();
+    const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
+    this.pathResolverService.navigate(queryParams);
   }
 
   ngOnDestroy(): void {
     this.facets = [];
-   // this.removeAll();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

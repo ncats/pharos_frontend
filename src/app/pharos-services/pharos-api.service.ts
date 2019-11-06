@@ -30,6 +30,11 @@ query fetchPublications ($skip: Int, $top: Int, $term: String) {
 }
 `;
 
+const LISTQUERY = `
+
+`
+
+
 
 /**
  * main service to fetch and parse data from the pharos api
@@ -199,6 +204,9 @@ export class PharosApiService {
 
   openQueries: Map<string, QueryRef<any>> = new Map<string, QueryRef<any>>();
 
+  detailsQuery: any;
+
+  listQuery: any;
   /**
    * get config info and set up http service
    * @param {HttpClient} http
@@ -294,9 +302,8 @@ export class PharosApiService {
 
   getDetailsData(path: string, params: ParamMap, fragments?: any): Observable<any> {
     const variables: any = {term: params.get('id')};
-    const fetchQuery = this.apollo.query({
-      query: gql`
-        query fetchTarget($term: String) {
+    this.detailsQuery = gql`
+        query fetchTarget($term: String, $diseasetop: Int, $diseaseskip: Int, $publicationstop: Int, $publicationsskip: Int) {
           targets: target(q: {
             sym: $term,
             #tcrdid: $term,
@@ -304,17 +311,68 @@ export class PharosApiService {
             stringid:$term
           }) {
         ...targetsDetailsFields
+        diseases(top: $diseasetop, skip: $diseaseskip) {
+          name
+          associationCount
+          associations {
+            type
+            name
+            source
+            zscore
+            evidence
+            conf
+            reference
+            log2foldchange
+            pvalue
+            score
+          }
+        }
         }
         }
         ${fragments}
-      `,
+      `;
+
+    const fetchQuery = this.apollo.query({
+      query: this.detailsQuery,
       variables: variables
     });
 
+    const watchDetailsQuery = this.apollo.watchQuery({
+      query: this.detailsQuery,
+      variables: variables
+    });
+
+    this.openQueries.set(`${path}-details`, watchDetailsQuery);
 
     // fetchQuery.fetchMore()
     return fetchQuery;
 
+  }
+
+  fetchMore(path, addtParams) {
+    console.log(this);
+    console.log(addtParams);
+    const watchQuery =  this.openQueries.get(`${path}-details`);
+     watchQuery.fetchMore({
+      variables: addtParams,
+      // We are able to figure out which offset to use because it matches
+      // the feed length, but we could also use state, or the previous
+      // variables to calculate this (see the cursor example below)
+      updateQuery: (prev, { fetchMoreResult }) => {
+        console.log(prev);
+        console.log(fetchMoreResult);
+        return fetchMoreResult;
+    /*    if (!fetchMoreResult) { return prev; }
+        return Object.assign({}, prev, {
+          data: [...prev.feed, ...fetchMoreResult.feed],
+        });*/
+      },
+    });
+
+   /* watchQuery.fetchMore(addtParams).then(res => {
+      console.log(res);
+    })*/
+   return watchQuery;
   }
 
   /**

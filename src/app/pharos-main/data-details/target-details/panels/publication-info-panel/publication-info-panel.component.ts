@@ -10,6 +10,10 @@ import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-pan
 import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
 import {PharosConfig} from '../../../../../../config/pharos-config';
+import {DiseaseSerializer} from '../../../../../models/disease';
+import {PageEvent} from '@angular/material';
+import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
+import {ActivatedRoute} from '@angular/router';
 
 /**
  * displays publication information and statistics about a target
@@ -119,11 +123,14 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
    *
    * @param navSectionsService
    * @param _http
+   * @param changeRef
+   * @param pharosApiService
    * @param pharosConfig
    */
   constructor(private navSectionsService: NavSectionsService,
-              private _http: HttpClient,
+              private _route: ActivatedRoute,
               private changeRef: ChangeDetectorRef,
+              private pharosApiService: PharosApiService,
               private pharosConfig: PharosConfig) {
     super();
   }
@@ -133,20 +140,10 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
    */
   ngOnInit() {
     console.log(this);
-    this._data
-    // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe(x => {
-        if (this.data && this.data.targets) {
           this.target = this.data.targets;
           this.targetProps = this.data.targetsProps;
-          this.setterFunction();
-          this.ngUnsubscribe.next();
-        }
-      });
+         this.publicationsPageData = this.makePageData(this.target.publicationCount);
+        this.setterFunction();
   }
 
   /**
@@ -157,7 +154,6 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
   setterFunction() {
     if (this.target.publications) {
       this.publications = this.targetProps.publications;
-      this.publicationsPageData = this.makePageData(this.target.publicationCount);
     }
 
     if (this.data.generifs) {
@@ -171,30 +167,15 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
     }
 
     if (this.target.pubmedScores) {
-      const tempArr: PharosPoint[] = [];
-      this.target.pubmedScores.map(point => {
-        const pt: PharosPoint = new PharosPoint({x: +point.year, y: point.score});
-        tempArr.push(pt);
-      });
-      this.pmscoreTimeline = tempArr;
+      this.pmscoreTimeline = this.target.pubmedScores.map(point =>  new PharosPoint({x: +point.year, y: point.score}));
     }
 
     if (this.target.pubTatorScores) {
-      const tempArr: PharosPoint[] = [];
-      this.target.pubTatorScores.map(point => {
-        const pt: PharosPoint = new PharosPoint({x: +point.year, y: +point.score});
-        tempArr.push(pt);
-      });
-      this.pubtatorTimeline = tempArr;
+      this.pubtatorTimeline = this.target.pubTatorScores.map(point => new PharosPoint({x: +point.year, y: +point.score}));
     }
 
     if (this.target.patentCounts) {
-      const tempArr: PharosPoint[] = [];
-      this.target.patentCounts.map(point => {
-        const pt: PharosPoint = new PharosPoint({x: +point.year, y: point.count});
-        tempArr.push(pt);
-      });
-      this.patentTimeline = tempArr;
+      this.patentTimeline = this.target.patentCounts.map(point => new PharosPoint({x: +point.year, y: point.count}));
     }
 
     this.loading = false;
@@ -203,13 +184,28 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
 
   /**
    * paginate any of the publication tables (generif or publication)
-   * @param $event
+   * @param event
    * @param origin
    */
-  paginate($event, origin: string) {
-    console.log($event);
+  paginate(event: PageEvent, origin: string) {
+    console.log(event);
     console.log(origin);
-   /* const url = `${this.pharosConfig.getApiPath()}targets/${this.target.accession}/${origin}?skip=${$event.pageIndex * $event.pageSize}&top=${$event.pageSize}`;
+    this.loading = true;
+    const pageParams = {
+      [`${origin}top`]: event.pageSize,
+      [`${origin}skip`]: event.pageIndex * event.pageSize,
+    };
+    this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams).valueChanges.subscribe(res => {
+     console.log(res);
+       // this.target[origin] = res.data.targets[origin];
+      this[origin] = res.data.targets[origin].map(pub => this.publicationSerializer._asProperties(pub));
+     // this.setterFunction();
+      console.log(this);
+      this.loading = false;
+      this.changeRef.markForCheck();
+    });
+
+    /* const url = `${this.pharosConfig.getApiPath()}targets/${this.target.accession}/${origin}?skip=${$event.pageIndex * $event.pageSize}&top=${$event.pageSize}`;
    // this.loading = true;
     this._http.get<Publication[]>(url)
       .subscribe(res => {

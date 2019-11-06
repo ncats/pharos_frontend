@@ -2,12 +2,10 @@ import {Component, InjectionToken, OnInit} from '@angular/core';
 import {PharosProperty} from '../../../../models/pharos-property';
 import {HttpClient} from '@angular/common/http';
 import {Target} from '../../../../models/target';
-import {zipAll, map} from 'rxjs/operators';
+import {map, zipAll} from 'rxjs/operators';
 import {from} from 'rxjs/index';
 import {PageData} from '../../../../tools/generic-table/models/page-data';
 import {DynamicTablePanelComponent} from '../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
-import {Disease} from '../../../../models/disease';
-import {Publication} from '../../../../models/publication';
 import {PharosConfig} from '../../../../../config/pharos-config';
 
 /**
@@ -23,7 +21,7 @@ export const IDG_LEVEL_TOKEN = new InjectionToken('IDGLevelComponent');
 })
 export class TargetListPanelComponent extends DynamicTablePanelComponent implements OnInit {
 
-  disease: Disease;
+  disease: any = {};
 
   fields: PharosProperty[] = [
     new PharosProperty({

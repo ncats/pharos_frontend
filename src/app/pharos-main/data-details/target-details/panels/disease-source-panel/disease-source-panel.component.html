@@ -15,7 +15,7 @@
         <span class="mat-title"
               [matTooltip] = description
               [matTooltipClass] = "'pharos-tooltip'">
-          Disease Associations by Source ({{treeData?.length}})</span>
+          Disease Associations by Source ({{target.diseaseCount}})</span>
       </div>
         <div fxFlex="5">
           <pharos-help-panel-trigger [origin] = "'diseaseSources'" [label]="'Disease Sources'"></pharos-help-panel-trigger>
@@ -25,7 +25,7 @@
         <div fxFlex="95" class = "disease-tree">
           <mat-paginator
             [pageSize]="10"
-            [length]="treeData.length"
+            [length]="target.diseaseCount"
             [hidePageSize]="true"
             [showFirstLastButtons] = true
             (page) = paginate($event)
@@ -37,7 +37,7 @@
               <li class="mat-tree-node">
                 <!-- use a disabled button to provide padding for tree leaf -->
                 <button mat-icon-button disabled></button>
-                <ncats-property-display [property]="node.name ? node.name : node" [showLabel]="!node.name"></ncats-property-display>
+                <ncats-property-display [property]="node"></ncats-property-display>
                 <span *ngIf = "node.children && node.children.length > 0">({{node.children?.length}})</span>
               </li>
             </ul>
