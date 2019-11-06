@@ -422,7 +422,7 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
     {
       field: 'diseases',
       label: 'Disease Association Sources',
-      url: _APIURL + 'targets/_id_/links(kind=ix.idg.models.Disease)',
+     // url: _APIURL + 'targets/_id_/links(kind=ix.idg.models.Disease)',
       description: 'Disease-gene associations mined from Medline Franklid et al, Methods, 2015, 83-89'
     },
     {
@@ -435,7 +435,7 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
     {
       field: 'tinx',
       label: 'Disease Novelty (Tin-x)',
-      url: _APIURL + 'tinx/target/_accession_',
+     // url: _APIURL + 'tinx/target/_accession_',
       description: 'TIN-X is an interactive visualization tool for discovering interesting associations between diseases ' +
         'and potential drug targets. Click the \'?\' button for more information.',
       article: ARTICLES.TINX_ARTICLE
@@ -1015,11 +1015,11 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           IDG_RESOURCES_PANEL,
          // DRUGS_PANEL,
         //  LIGANDS_PANEL,
-        //  DISEASE_SOURCE_PANEL,
+          DISEASE_SOURCE_PANEL,
           PDB_PANEL,
         //  EXPRESSION_PANEL,
         //  PROTEIN_PROTEIN_PANEL,
-        //  PUBLICATION_INFO_PANEL,
+          PUBLICATION_INFO_PANEL,
           AA_SEQUENCE_PANEL,
         //  TARGET_FACET_PANEL
         ]
