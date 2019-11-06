@@ -83,10 +83,11 @@ export class RadarChartViewerComponent implements OnInit {
    * load modal data and retrieve knowledge sources
    */
   ngOnInit() {
-    console.log(this);
     if (this.modalData) {
       Object.keys(this.modalData).forEach(key => this[key] = this.modalData[key]);
     }
+
+    // todo - refactor this to use sources from graphql, then remove radarService provider
     if (this.data) {
       this.radarDataService.getData(this.id, 'knowledge-sources').subscribe(res => {
         if (res.sources) {
@@ -104,7 +105,6 @@ export class RadarChartViewerComponent implements OnInit {
    * @param event
    */
   getSource(event: any) {
-    console.log(event);
     this.fieldSources = [];
     this.axis = event.name;
     const src = this.sources.get(this.axis);

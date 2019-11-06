@@ -76,9 +76,9 @@ export class PublicationSerializer implements Serializer {
    * @return {Publication}
    */
   fromJson(obj: any, id?: string): Publication {
-    const node = new Publication();
-    Object.entries((obj)).forEach((prop) => node[prop[0]] = prop[1]);
-    return node;
+    const newObj = new Publication();
+    Object.entries((obj)).forEach((prop) => newObj[prop[0]] = prop[1]);
+    return newObj;
   }
 
   /**

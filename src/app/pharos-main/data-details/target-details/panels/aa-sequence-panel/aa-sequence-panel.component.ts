@@ -48,44 +48,25 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
    * @param navSectionsService
    * @param changeRef
    */
-  constructor(
-    private navSectionsService: NavSectionsService,
-    private changeRef: ChangeDetectorRef
-  ) {
+  constructor(private navSectionsService: NavSectionsService,
+              private changeRef: ChangeDetectorRef) {
     super();
   }
 
   /**
+   *    * count and parse sequence
+   * initialize protvista viewer
+   *    * // todo set boolean breakpoint and only load if not mobile
    * set up data change subscription
    */
   ngOnInit() {
-    this._data
-    // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe(x => {
-        if (this.data && this.data.targets) {
-          this.target = this.data.targets;
-          this.ngUnsubscribe.next();
-          this.setterFunction();
-        }
-      });
-  }
-
-  /**
-   * count and parse sequence
-   * initialize protvista viewer
-   * // todo set boolean breakpoint and only load if not mobile
-   */
-  setterFunction() {
+    this.target = this.data.targets;
     this.parseSequence();
     this.getCounts();
-    const r = new Protvista({
+   /* const r = new Protvista({
       el: this.viewerContainer.nativeElement,
       uniprotacc: this.target.accession
-    });
+    });*/
     this.loading = false;
     this.changeRef.markForCheck();
   }
@@ -113,16 +94,16 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
   parseSequence(): void {
     const length = 70;
     const split = this.splitString(this.target.sequence, length);
-  const splitseq: any[] = [];
-  split.forEach((chunk, index) =>  {
-     if (index === 0) {
-       splitseq.push({chunk: chunk, residues: index + 1 + '-' + (index + 1) * length});
-     } else if (index === split.length - 1) {
-       splitseq.push({chunk: chunk, residues: index * length + '-' + this.target.sequence.length});
-     } else {
-       splitseq.push({chunk: chunk, residues: index * length + '-' + (index + 1) * length});
-     }
-   });
+    const splitseq: any[] = [];
+    split.forEach((chunk, index) => {
+      if (index === 0) {
+        splitseq.push({chunk: chunk, residues: index + 1 + '-' + (index + 1) * length});
+      } else if (index === split.length - 1) {
+        splitseq.push({chunk: chunk, residues: index * length + '-' + this.target.sequence.length});
+      } else {
+        splitseq.push({chunk: chunk, residues: index * length + '-' + (index + 1) * length});
+      }
+    });
     this.aasequence = splitseq;
   }
 
@@ -132,9 +113,9 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
    * @param  {Number} size is the size you of the cuts
    * @return {Array} an Array with the strings
    */
-  splitString (sstring: string, size: number): string[] {
-    const re: RegExp  = new RegExp('.{1,' + size + '}', 'g');
-      return sstring.match(re);
+  splitString(sstring: string, size: number): string[] {
+    const re: RegExp = new RegExp('.{1,' + size + '}', 'g');
+    return sstring.match(re);
   }
 
   /**

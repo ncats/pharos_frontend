@@ -25,8 +25,7 @@
 
       <mat-tab-group >
         <mat-tab label="Publication Statistics">
-          <div class = "timelines-panel">
-          <ng-container *ngIf="pmscoreTimeline.length">
+          <div class = "timelines-panel" *ngIf="pmscoreTimeline.length">
             <div fxLayout="row" fxLayoutAlign="start stretch"  class="timeline-holder">
               <div fxFlex="95">
                 <span class="mat-title"
@@ -38,11 +37,14 @@
                 <div fxLayout="row" fxLayoutAlign="center center">
                   <div><b>PubMed score by year</b></div>
                 </div>
+                <div fxLayout="row" fxLayoutAlign="center center">
+                <div fxFlex="95" class="scatter-plot-holder">
                 <pharos-scatter-plot [data]="pmscoreTimeline" [options]="chartOptions"></pharos-scatter-plot>
+                </div>
+                </div>
               </div>
             </div>
-          </ng-container>
-            <ng-container *ngIf="pubtatorTimeline && pubtatorTimeline.length">
+            <ng-container *ngIf="pubtatorTimeline && pubtatorTimeline.length > 0" >
             <div fxLayout="row" fxLayoutAlign="start stretch" class="timeline-holder">
               <div fxFlex="95">
                 <span class="mat-title"
@@ -54,24 +56,32 @@
                 <div fxLayout="row" fxLayoutAlign="center center">
                   <div><b>PubTator score by year</b></div>
                 </div>
+                <div fxLayout="row" fxLayoutAlign="center center">
+                  <div fxFlex="95" class="scatter-plot-holder">
                 <pharos-scatter-plot [data]="pubtatorTimeline" [options]="chartOptions"></pharos-scatter-plot>
+                  </div>
+                </div>
               </div>
             </div>
           </ng-container>
             <ng-container *ngIf="patentTimeline.length">
             <div fxLayout="row" fxLayoutAlign="start stretch" class="timeline-holder">
-              <div fxFlex="95">
+              <div fxFlex="95" class="scatter-plot-holder">
                 <span class="mat-title"
                       [matTooltip] = "getTooltip('patents')"
                       [matTooltipClass] = "'pharos-tooltip'"
                 >Patents </span>
+                <div fxLayout="row" fxLayoutAlign="center center">
+                  <div fxFlex="95">
                 <pharos-scatter-plot [data]="patentTimeline" [options]="chartOptions"></pharos-scatter-plot>
+                  </div>
+              </div>
               </div>
             </div>
           </ng-container>
           </div>
         </mat-tab>
-        <mat-tab  *ngIf="publications && publications.length > 0">
+        <mat-tab  *ngIf="publications && publications.length > 0" >
           <ng-template mat-tab-label><div
             [matTooltip] = "getTooltip('publications')"
             [matTooltipClass] = "'pharos-tooltip'">
@@ -81,12 +91,14 @@
             <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
           </div>
           <ng-template matTabContent>
+            <div class="pub-table" fxFlex="95">
           <pharos-generic-table
             [pageData]="publicationsPageData"
             [data]= publications
             (pageChange)="paginate($event, 'publications')"
             [fieldsConfig] = publicationTableFields>
           </pharos-generic-table>
+            </div>
           </ng-template>
         </mat-tab>
         <mat-tab *ngIf="generifs && generifs.length > 0">
@@ -99,12 +111,14 @@
             <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
           </div>
           <ng-template matTabContent>
-          <pharos-generic-table
+            <div class="pub-table" fxFlex="95">
+            <pharos-generic-table
               [pageData]="rifPageData"
               [data]= generifs
               (pageChange)="paginate($event, 'generifs')"
               [fieldsConfig] = rifTableFields>
             </pharos-generic-table>
+            </div>
           </ng-template>
         </mat-tab>
       </mat-tab-group>

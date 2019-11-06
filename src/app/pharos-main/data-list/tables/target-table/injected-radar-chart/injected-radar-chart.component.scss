@@ -1,7 +1,8 @@
 .injected-radar {
   height: 9vh !important;
-  max-height: 9vh !important;
+  min-height: 9vh !important;
   width: 10vw;
   margin-right: 1vw;
   margin-top: 1vh;
+  overflow: visible;
 }

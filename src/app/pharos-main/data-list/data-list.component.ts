@@ -124,7 +124,6 @@ export class DataListComponent implements OnInit, OnDestroy {
 
 
   ngAfterViewInit() {
-console.log(this);
     this.headerPortalOutlet.detach();
     const taskDetailCompoentPortal = new ComponentPortal<PharosFooterComponent>(
       PharosFooterComponent
