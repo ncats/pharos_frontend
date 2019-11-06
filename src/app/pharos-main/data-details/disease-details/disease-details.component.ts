@@ -93,6 +93,7 @@ export class DiseaseDetailsComponent extends DynamicPanelComponent implements On
   ngOnInit() {
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
     const components: any = this.pharosConfig.getComponents(this.path, 'panels');
+/*
     if (components) {
       components.forEach(component => {
         // start api calls before making component
@@ -100,13 +101,13 @@ export class DiseaseDetailsComponent extends DynamicPanelComponent implements On
         component.api.forEach(apiCall => {
           if (apiCall.url && apiCall.url.length > 0) {
             const url = apiCall.url.replace('_id_', this.disease.id);
-            /**this call is pushed up to the pharos api and changes are subscribed to in the generic details page, then set here*/
+            /!**this call is pushed up to the pharos api and changes are subscribed to in the generic details page, then set here*!/
             this.dataDetailsResolver.getDetailsByUrl(url, apiCall.field);
-            /** this will be used to track the object fields to get */
+            /!** this will be used to track the object fields to get *!/
             keys.push(apiCall.field);
           }
         });
-        /** make component */
+        /!** make component *!/
         const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
         const childComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
         childComponent.instance.disease = this.disease;
@@ -154,6 +155,7 @@ export class DiseaseDetailsComponent extends DynamicPanelComponent implements On
           });
       });
     }
+*/
   }
 
   /**

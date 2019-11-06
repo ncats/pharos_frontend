@@ -1,7 +1,5 @@
-import { Injectable } from '@angular/core';
-import {Subject, BehaviorSubject} from 'rxjs';
-import {NavigationExtras, ParamMap, Router} from '@angular/router';
-import {Facet, Field} from '../models/facet';
+import {Injectable} from '@angular/core';
+import {NavigationExtras, Router} from '@angular/router';
 
 /**
  * service to parse and resolve the url path to retrieve api info
@@ -10,34 +8,6 @@ import {Facet, Field} from '../models/facet';
   providedIn: 'root'
 })
 export class PathResolverService {
-  /**
-   * main list of facets for navigation
-   * @type {any[]}
-   * @private
-   */
-  private _facets: any[] = [];
-
-  /**
-   * map of facets, converted to {_facets}
-   * @type {Map<string, string[]>}
-   * @private
-   */
-  private _facetMap: Map<string, string[]> = new Map<string, string[]>();
-
-  private _facetObjMap: Map<string, Facet> = new Map<string, Facet>();
-
-  /**
-   * RxJs Behavior subject to broadcast changes in selected facets
-   * @type {BehaviorSubject<any[]>}
-   * @private
-   */
-  private _facetSource = new Subject<any[]>();
-
-  /**
-   * Observable stream for facet changes
-   * @type {Observable<any[]>}
-   */
-  facets$ = this._facetSource.asObservable();
 
   /**
    * initialize router
@@ -56,7 +26,6 @@ export class PathResolverService {
    * @param {string} path
    */
   navigate(params: any, path?: string): void {
-    console.log(params);
       let q: string;
       /*this._facets.forEach(facet => {
         if (facet.facet === 'query') {
@@ -68,7 +37,6 @@ export class PathResolverService {
           facet.values.forEach(field => facetList.push(this._makeFacetString(facet.facet, field)));
         }
       });*/
-      console.log(params);
       /**
        * forces to first page on facet changes
        * @type {NavigationExtras}
@@ -89,7 +57,6 @@ export class PathResolverService {
       }
 
       this._router.onSameUrlNavigation = 'reload'; // forces reload since this is the same navigation url
-    console.log(navigationExtras);
       if (path) { // move up a level
         this._router.navigate([path], navigationExtras);
       } else { // lateral navigation

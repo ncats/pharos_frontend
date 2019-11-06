@@ -101,7 +101,6 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
    * subscribe to data observable, since the data changes on paging/filtering, only unsubscribe on destroy
    */
   ngOnInit() {
-  console.log(this);
     this._data
     // listen to data as long as term is undefined or null
       .pipe(

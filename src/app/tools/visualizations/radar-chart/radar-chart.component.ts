@@ -159,29 +159,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
    */
   @Input() id: any;
 
-  /**
-   * behavior subject that is used to get and set chart data
-   * @type {BehaviorSubject<any>}
-   * @private
-   */
-  private _data: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-
-  /**
-   * setter for chart data
-   * @param value
-   */
-  @Input()
-  set data(value: any) {
-    this._data.next(value);
-  }
-
-  /**
-   * getter for chart data
-   * @returns {any}
-   */
-  get data(): any {
-    return this._data.value;
-  }
+  @Input() data: any;
 
   /**
    * optional size parameter, used to retrieve a config object from the radar service

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {Target} from '../../../../../models/target';
 import {PageData} from '../../../../../models/page-data';
@@ -14,6 +14,7 @@ import {DiseaseSerializer} from '../../../../../models/disease';
 import {PageEvent} from '@angular/material';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
+import {Generif} from '../../../../../models/generif';
 
 /**
  * displays publication information and statistics about a target
@@ -22,6 +23,7 @@ import {ActivatedRoute} from '@angular/router';
   selector: 'pharos-publication-info-panel',
   templateUrl: './publication-info-panel.component.html',
   styleUrls: ['./publication-info-panel.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PublicationInfoPanelComponent extends DynamicTablePanelComponent implements OnInit, OnDestroy {
@@ -39,7 +41,7 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
   /**
    * data array
    */node;
-  generifs: Publication[];
+  generifs: Generif[];
 
   /**
    * pagination data
@@ -143,6 +145,7 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
           this.target = this.data.targets;
           this.targetProps = this.data.targetsProps;
          this.publicationsPageData = this.makePageData(this.target.publicationCount);
+         this.rifPageData = this.makePageData(this.target.generifCount);
         this.setterFunction();
   }
 
@@ -156,14 +159,15 @@ export class PublicationInfoPanelComponent extends DynamicTablePanelComponent im
       this.publications = this.targetProps.publications;
     }
 
-    if (this.data.generifs) {
-      const rifs: Publication[] = this.data.generifs
+    if (this.target.generifs) {
+      this.generifs = this.targetProps.generifs;
+/*      const rifs: Publication[] = this.data.generifs
         .map(publication => this.publicationSerializer.fromJson(publication));
 
       this.generifs = rifs
         .map(publication => publication = this.publicationSerializer._asProperties(publication));
 
-      this.rifPageData = this.makePageData(this.data.generifCount);
+      this.rifPageData = this.makePageData(this.data.generifCount);*/
     }
 
     if (this.target.pubmedScores) {
