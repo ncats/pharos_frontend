@@ -85,9 +85,14 @@ export class TOKENS {
   public static TARGET_LIST_PANEL = new InjectionToken<string>('TargetListPanel');
 
   /**
+   * injection token to link to the publication statistics for a target
+   */
+  public static PUBLICATION_STATISTICS_PANEL = new InjectionToken<string>('PublicationStatisticsComponent');
+
+  /**
    * injection token to link to the publication info for a target
    */
-  public static PUBLICATION_INFO_PANEL = new InjectionToken<string>('PublicationInfoPanelComponent');
+  public static RELATED_PUBLICATIONS_PANEL = new InjectionToken<string>('RelatedPublicationsComponent');
 
   /**
    * injection token to link to target expression data visualizations

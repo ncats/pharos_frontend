@@ -1,13 +1,13 @@
-pharos-scatter-plot {
   .d3-scatter-chart {
-    background-color: blue;
-    width:1000px
+    margin: 0 auto;
+    height: 100%;
+    width:100%;
   }
 
   .d3-scatter-chart svg {
-/*    padding-top: 1vh;
+    padding-top: 1vh;
     padding-bottom: 2vh;
-    padding-left: 1vw;*/
+    padding-left: 1vw;
   }
 
   .line-tooltip {
@@ -18,7 +18,7 @@ pharos-scatter-plot {
     background-color: rgba(255, 255, 255, .9);
     border: 1px solid #f1f1f1;
     pointer-events: none;
-    z-index: 666;
+    z-index: 66666;
   }
 
   .axis path {
@@ -55,4 +55,4 @@ pharos-scatter-plot {
   .xaxis > .tick > text {
     transform: translate(-15px, 6px) rotate(-45deg)
   }
-}
+

@@ -1,9 +1,14 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {takeUntil} from 'rxjs/operators';
 import * as Protvista from 'ProtVista';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {Target} from '../../../../../models/target';
