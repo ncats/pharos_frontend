@@ -253,16 +253,16 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
           }
         }*/
   }
-
-  /**
+/*
+  /!**
    * used to track data changes
    * @param {number} index
    * @param item
    * @return {any}
-   */
+   *!/
   trackByFn(index: number, item: any) {
     return item.uuid && item.uuid.term ? item.uuid.term : item;
-  }
+  }*/
 
   /**
    * set default paginator values

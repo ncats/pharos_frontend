@@ -19,6 +19,8 @@ import {IdgLevelIndicatorComponent} from '../../../tools/idg-level-indicator/idg
 import {TopicSaveModalComponent} from '../../data-list/tables/target-table/topic-save-modal/topic-save-modal.component';
 import {ComponentsResolver} from '../../resolvers/components.resolver';
 import {FilterPanelComponent} from '../../data-list/filter-panel/filter-panel.component';
+import { PublicationStatisticsComponent } from '../../data-details/target-details/panels/publication-statistics/publication-statistics.component';
+import { RelatedPublicationsComponent } from '../../data-details/target-details/panels/related-publications/related-publications.component';
 
 @NgModule({
   declarations: [

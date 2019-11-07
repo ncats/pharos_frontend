@@ -7,7 +7,6 @@ import {TargetHeaderComponent} from '../../data-details/target-details/target-he
 import {SummaryPanelComponent} from '../../data-details/target-details/panels/summary-panel/summary-panel.component';
 import {RadarChartViewerComponent} from '../../../tools/radar-chart-viewer/radar-chart-viewer.component';
 import {DiseaseSourceComponent} from '../../data-details/target-details/panels/disease-source-panel/disease-source-panel.component';
-import {PublicationInfoPanelComponent} from '../../data-details/target-details/panels/publication-info-panel/publication-info-panel.component';
 import {ExpressionPanelComponent} from '../../data-details/target-details/panels/expression-panel/expression-panel.component';
 import {AaSequencePanelComponent} from '../../data-details/target-details/panels/aa-sequence-panel/aa-sequence-panel.component';
 import {ProteinProteinPanelComponent} from '../../data-details/target-details/panels/protein-protein-panel/protein-protein-panel.component';
@@ -34,6 +33,8 @@ import {LigandListModule} from '../ligands/ligand-list.module';
 import {PharosLoadingSpinnerModule} from '../../../tools/pharos-loading-spinner/pharos-loading-spinner.module';
 import {HelpPanelComponent} from '../../../tools/help-panel/help-panel.component';
 import {SidenavPanelComponent} from '../../../tools/sidenav-panel/sidenav-panel.component';
+import {PublicationStatisticsComponent} from '../../data-details/target-details/panels/publication-statistics/publication-statistics.component';
+import {RelatedPublicationsComponent} from '../../data-details/target-details/panels/related-publications/related-publications.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {SidenavPanelComponent} from '../../../tools/sidenav-panel/sidenav-panel.
     SummaryPanelComponent,
     RadarChartViewerComponent,
     DiseaseSourceComponent,
-    PublicationInfoPanelComponent,
+    PublicationStatisticsComponent,
+    RelatedPublicationsComponent,
     ExpressionPanelComponent,
     AaSequencePanelComponent,
     ProteinProteinPanelComponent,
@@ -77,7 +79,8 @@ import {SidenavPanelComponent} from '../../../tools/sidenav-panel/sidenav-panel.
     BreadcrumbComponent,
     SummaryPanelComponent,
     DiseaseSourceComponent,
-    PublicationInfoPanelComponent,
+    PublicationStatisticsComponent,
+    RelatedPublicationsComponent,
     ExpressionPanelComponent,
     ProteinProteinPanelComponent,
     OrthologPanelComponent,
@@ -102,7 +105,9 @@ import {SidenavPanelComponent} from '../../../tools/sidenav-panel/sidenav-panel.
     {provide: TOKENS.TARGET_DETAILS_COMPONENT, useValue: TargetDetailsComponent},
     {provide: TOKENS.SUMMARY_PANEL, useValue: SummaryPanelComponent},
     {provide: TOKENS.IDG_RESOURCES_PANEL, useValue: IdgResourcesPanelComponent},
-    {provide: TOKENS.PUBLICATION_INFO_PANEL, useValue: PublicationInfoPanelComponent},
+
+    {provide: TOKENS.PUBLICATION_STATISTICS_PANEL, useValue: PublicationStatisticsComponent},
+    {provide: TOKENS.RELATED_PUBLICATIONS_PANEL, useValue: RelatedPublicationsComponent},
     {provide: TOKENS.DISEASE_SOURCE_PANEL, useValue: DiseaseSourceComponent},
     {provide: TOKENS.EXPRESSION_PANEL, useValue: ExpressionPanelComponent},
     {provide: TOKENS.PROTEIN_PROTEIN_PANEL, useValue: ProteinProteinPanelComponent},

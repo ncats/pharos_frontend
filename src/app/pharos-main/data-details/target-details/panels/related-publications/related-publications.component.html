@@ -1,0 +1,72 @@
+<article>
+  <mat-card id="relatedPublications" class="section-card"
+            (pharosScrollspy)="active('relatedPublications')"
+            #relatedPublications>
+    <mat-card-content>
+      <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
+        <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
+      </div>
+      <div fxLayout="row"
+           class="tkrow"
+           fxLayoutAlign="start stretch"
+           #development>
+        <div fxFlex="95">
+        <span class="mat-title"
+              [matTooltip] = description
+              [matTooltipClass] = "'pharos-tooltip'">
+         Related Publications</span>
+        </div>
+        <div fxFlex="5">
+          <pharos-help-panel-trigger [origin] = "'relatedPublications'" [label]="'Publication Information'"></pharos-help-panel-trigger>
+        </div>
+      </div>
+      <div class = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
+        <div fxFlex>
+
+          <mat-tab-group>
+            <mat-tab  *ngIf="publications && publications.length > 0" >
+              <ng-template mat-tab-label><div
+                [matTooltip] = "getTooltip('publications')"
+                [matTooltipClass] = "'pharos-tooltip'">
+                Text Mined References ({{publicationsPageData?.total}})</div>
+              </ng-template>
+              <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
+                <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
+              </div>
+              <ng-template matTabContent>
+                <div class="pub-table" fxFlex="95">
+                  <pharos-generic-table
+                    [pageData]="publicationsPageData"
+                    [data]= publications
+                    (pageChange)="paginate($event, 'publications')"
+                    [fieldsConfig] = publicationTableFields>
+                  </pharos-generic-table>
+                </div>
+              </ng-template>
+            </mat-tab>
+            <mat-tab *ngIf="generifs && generifs.length > 0">
+              <ng-template mat-tab-label><div
+                [matTooltip] = "getTooltip('generifs')"
+                [matTooltipClass] = "'pharos-tooltip'">
+                GeneRif Annotations ({{rifPageData?.total}})</div>
+              </ng-template>
+              <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
+                <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
+              </div>
+              <ng-template matTabContent>
+                <div class="pub-table" fxFlex="95">
+                  <pharos-generic-table
+                    [pageData]="rifPageData"
+                    [data]= generifs
+                    (pageChange)="paginate($event, 'generifs')"
+                    [fieldsConfig] = rifTableFields>
+                  </pharos-generic-table>
+                </div>
+              </ng-template>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</article>

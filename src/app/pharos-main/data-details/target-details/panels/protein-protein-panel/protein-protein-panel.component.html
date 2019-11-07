@@ -14,15 +14,18 @@
         <span class="mat-title"
               [matTooltip]=description
               [matTooltipClass]="'pharos-tooltip'">
-          Protein-Protein Interactions ({{allTargets.length}})</span>
+          Protein-Protein Interactions ({{target.ppiCount}})</span>
         </div>
         <div fxFlex="5">
           <pharos-help-panel-trigger [origin]="'ppi'"
                                      [label]="'Protein-Protein Interactions'"></pharos-help-panel-trigger>
         </div>
       </div>
-      <pharos-target-table [data]=targets [pageData]="targetPageData" [showLabel]=false [showToolbar]="false"
-                           (pageChange)="paginateTargets($event)" *ngIf="targets"></pharos-target-table>
+      <pharos-target-table [data]= ppis
+                           [pageData]="targetPageData"
+                           [showLabel]=false
+                           [showToolbar]="false"
+                           (pageChange)="paginateTargets($event)" *ngIf="target"></pharos-target-table>
     </mat-card-content>
   </mat-card>
 </article>
