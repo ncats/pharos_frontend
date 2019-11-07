@@ -83,6 +83,9 @@ export class SidenavPanelComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    console.log("sidenav intialized");
+  }
   /**
    * close the filter panel
    */
