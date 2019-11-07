@@ -590,9 +590,51 @@ const PROTEIN_PROTEIN_PANEL: PharosPanel = {
     {
       field: 'interactions',
       label: 'Protein to Protein Interactions',
-      url: _APIURL + 'predicates?filter=predicate%3D%27Protein-Protein+Interactions%27+AND+subject.refid%3D_id_',
+     // url: _APIURL + 'predicates?filter=predicate%3D%27Protein-Protein+Interactions%27+AND+subject.refid%3D_id_',
       description: 'List of protein to protein interactions associated with this gene.'
 
+    }
+  ]
+};
+
+/**
+ * target publication statistics
+ * @type {PharosPanel}
+ */
+const PUBLICATION_STATISTICS_PANEL: PharosPanel = {
+  token: TOKENS.PUBLICATION_STATISTICS_PANEL,
+  navHeader: {
+    label: 'Publication Statistics',
+    section: 'publicationStatistics',
+    mainDescription: 'Statistics about the occurence of this target in literature, extracted via text mining. GeneRIFs,' +
+      'and text-mined publications are also displayed. For more details, click the \'?\' button.'
+  },
+  api: [
+    {
+      field: 'pubmed',
+      label: 'Pubmed Score',
+     // url: _APIURL + 'targets/_id_/properties(label=NCBI%20Gene%20PubMed%20Count)',
+      description: `The Pubmed Score (also sometimes referred to as the Jensen Score) is 
+      derived from text mining a set of Pubmed abstracts.`,
+      article: ARTICLES.PUBMED_SCORE_ARTICLE
+    },
+    {
+      field: 'pmscore',
+      label: 'Pubmed Score Timeline',
+     // url: _APIURL + 'targets/_id_/pmscore',
+      description: 'Timeline of pubmed scores for each available year.'
+    },
+    {
+      field: 'pubtator',
+      label: 'Pubtator Score Timeline',
+     // url: _APIURL + 'targets/_id_/pubtator',
+      description: 'Timeline of pubtator scores for each available year.'
+    },
+    {
+      field: 'patents',
+      label: 'Patents Timeline',
+    //  url: _APIURL + 'targets/_id_/patents',
+      description: 'Timeline of patent counts for each available year.'
     }
   ]
 };
@@ -601,41 +643,14 @@ const PROTEIN_PROTEIN_PANEL: PharosPanel = {
  * target publication and gene rif component
  * @type {PharosPanel}
  */
-const PUBLICATION_INFO_PANEL: PharosPanel = {
-  token: TOKENS.PUBLICATION_INFO_PANEL,
+const RELATED_PUBLICATIONS_PANEL: PharosPanel = {
+  token: TOKENS.RELATED_PUBLICATIONS_PANEL,
   navHeader: {
-    label: 'Publication Information',
-    section: 'publicationsPanel',
-    mainDescription: 'Statistics about the occurence of this target in literature, extracted via text mining. GeneRIFs,' +
-      'and text-mined publications are also displayed. For more details, click the \'?\' button.'
+    label: 'Related Publications',
+    section: 'relatedPublications',
+    mainDescription: 'Text-mining extracted GeneRIFs, and publications. For more details, click the \'?\' button.'
   },
   api: [
-    {
-      field: 'pubmed',
-      label: 'Pubmed Score',
-      url: _APIURL + 'targets/_id_/properties(label=NCBI%20Gene%20PubMed%20Count)',
-      description: `The Pubmed Score (also sometimes referred to as the Jensen Score) is 
-      derived from text mining a set of Pubmed abstracts.`,
-      article: ARTICLES.PUBMED_SCORE_ARTICLE
-    },
-    {
-      field: 'pmscore',
-      label: 'Pubmed Score Timeline',
-      url: _APIURL + 'targets/_id_/pmscore',
-      description: 'Timeline of pubmed scores for each available year.'
-    },
-    {
-      field: 'pubtator',
-      label: 'Pubtator Score Timeline',
-      url: _APIURL + 'targets/_id_/pubtator',
-      description: 'Timeline of pubtator scores for each available year.'
-    },
-    {
-      field: 'patents',
-      label: 'Patents Timeline',
-      url: _APIURL + 'targets/_id_/patents',
-      description: 'Timeline of patent counts for each available year.'
-    },
     {
       field: 'publicationCount',
       label: 'Publication Count',
@@ -644,19 +659,19 @@ const PUBLICATION_INFO_PANEL: PharosPanel = {
     {
       field: 'publications',
       label: 'Text Mined References',
-      url: _APIURL + 'targets/_id_/publications?top=10',
+     // url: _APIURL + 'targets/_id_/publications?top=10',
       description: 'Publications associated with this target, as identified using the JensenLab text mining protocol'
     },
     {
       field: 'generifCount',
       label: 'GeneRIF Count',
-      url: _APIURL + 'targets/_id_/generifs/@count',
+     // url: _APIURL + 'targets/_id_/generifs/@count',
       description: 'Total count of NCBI Gene Reference Into Function hits for target listed in parenthesis'
     },
     {
       field: 'generifs',
       label: 'GeneRIFs',
-      url: _APIURL + 'targets/_id_/generifs',
+    //  url: _APIURL + 'targets/_id_/generifs',
       description: 'Total count of NCBI Gene Reference Into Function hits for target listed in parenthesis, ' +
         'and summary table with links to publications per PMID with the specific text in article that includes ' +
         'the reported target.'
@@ -679,7 +694,7 @@ const AA_SEQUENCE_PANEL: PharosPanel = {
     {
       field: 'sequence',
       label: 'Sequence',
-      url: _APIURL + 'targets/_id_/properties(label=UniProt%20Sequence)',
+     // url: _APIURL + 'targets/_id_/properties(label=UniProt%20Sequence)',
       description: 'Amino acid sequence of target protein, bar graph summarizing quantity of each amino acid. ' +
         'Click on looking glass icon for ability to conduct sequence search.'
     },
@@ -1018,8 +1033,9 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           DISEASE_SOURCE_PANEL,
           PDB_PANEL,
           EXPRESSION_PANEL,
-        //  PROTEIN_PROTEIN_PANEL,
-          PUBLICATION_INFO_PANEL,
+          PROTEIN_PROTEIN_PANEL,
+          PUBLICATION_STATISTICS_PANEL,
+          RELATED_PUBLICATIONS_PANEL,
           AA_SEQUENCE_PANEL,
         //  TARGET_FACET_PANEL
         ]

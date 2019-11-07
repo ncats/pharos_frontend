@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component, ElementRef, HostListener, Input, OnChanges, OnDestroy, OnInit, ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -18,7 +18,7 @@ import {PharosPoint} from '../../../models/pharos-point';
   templateUrl: './scatter-plot.component.html',
   styleUrls: ['./scatter-plot.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+ // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
   /**
@@ -63,12 +63,6 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    */
   @Input()
   filters: string[];
-
-  /**
-   * unsubscribe subject
-   * @type {Subject<any>}
-   */
-  private ngUnsubscribe: Subject<any> = new Subject();
 
   /**
    * array of data sources, allows for multiple lines/data sets
@@ -126,6 +120,11 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     this.setData();
   }
 
+  constructor(
+    private changeRef: ChangeDetectorRef
+  ) {}
+
+
   /**
    * subscrible to data change, and parse data
    * draw chart object,
@@ -179,7 +178,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     const range: any[] = [];
     if (axis === 'x') {
       range[0] = 0;
-      range[1] = this.width;
+      range[1] = this.width * .85;
     }
     if (axis === 'y') {
       range[0] = this.height;
@@ -220,8 +219,8 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     //////////// Create the container SVG and g /////////////
     const element = this.chartContainer.nativeElement;
     const margin = this._chartOptions.margin;
-    this.width = element.offsetWidth;
-    this.height = element.offsetHeight;
+    this.width = element.offsetWidth - margin.left - margin.right;
+    this.height = element.offsetHeight - margin.top - margin.bottom;
     // Remove whatever chart with the same id/class was present before
     d3.select(element).selectAll('svg').remove();
 
@@ -238,7 +237,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       .x((d: ScatterPoint) => this.x(d.x))
       .y((d: ScatterPoint) => this.y(d.y))
       .extent([[-this._chartOptions.margin.left, -this._chartOptions.margin.top],
-        [this.width + this._chartOptions.margin.right, this.height + this._chartOptions.margin.bottom]]);
+        [this.width, this.height + this._chartOptions.margin.bottom]]);
 
     if (this._chartOptions.xAxisScale === 'year') {
       this.x.domain(
@@ -277,15 +276,15 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
 
     this.svg = d3.select(element)
       .append('svg:svg')
-      .attr('width', this.width + margin.left + margin.right)
-      .attr('height', this.height + margin.top + margin.bottom * 2)
+      .attr('width', element.offsetWidth * .85)
+      .attr('height', element.offsetHeight)
       .append('svg:g')
       .attr('id', 'group')
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      .attr('transform', 'translate(' + (margin.left + 2) + ',' + margin.top + ')');
 
     this.svg.append('text')
       .attr('transform',
-        'translate(' + (this.width / 2) + ' ,' + (this.height + margin.top + 20) + ')')
+        'translate(' + ((element.offsetWidth * .85) / 2) + ' ,' + (this.height + margin.top + 20) + ')')
       .attr('class', 'axis-label')
       .text(this._chartOptions.xLabel);
 
@@ -390,6 +389,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       .on('zoom', zoomed);
 
     this.voronoiGroup.call(this.zoom);
+    this.changeRef.markForCheck();
   }
 
   /**
@@ -573,10 +573,9 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    * function to unsubscribe on destroy
    */
   ngOnDestroy() {
-    const element = this.chartContainer.nativeElement;
-    d3.select(element).selectAll('this.svg').remove();
+    console.log("destroy scatter");
+/*    const element = this.chartContainer.nativeElement;
+    d3.select(element).selectAll('this.svg').remove();*/
     d3.select('body').selectAll('.line-tooltip').remove();
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 }

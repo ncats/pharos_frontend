@@ -309,10 +309,10 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
    * redraws radar chart when the tab changes, this is due to the lazy loaded tabs
    */
   doneAnimating() {
-    if (this.selectedTab === 1) {
+/*    if (this.selectedTab === 1) {
       this.radarComponent.drawChart();
       this.radarComponent.updateChart();
-    }
+    }*/
   }
 
   /**

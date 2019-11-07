@@ -1,0 +1,87 @@
+<article>
+  <mat-card id="publicationStatistics" class="section-card"
+            (pharosScrollspy)="active('publicationStatistics')"
+            #publicationStatistics>
+    <mat-card-content>
+      <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+        <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+      </div>
+      <div fxLayout="row"
+           class="tkrow"
+           fxLayoutAlign="start stretch"
+           #development>
+        <div fxFlex="95">
+        <span class="mat-title"
+              [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">
+          Publication Statistics</span>
+        </div>
+        <div fxFlex="5">
+          <pharos-help-panel-trigger [origin]="'publicationStatistics'"
+                                     [label]="'Publication Statistics'"></pharos-help-panel-trigger>
+        </div>
+      </div>
+      <div class="row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
+        <div fxFlex>
+          <div class="all-timelines">
+            <div class="timelines-panel" *ngIf="pmscoreTimeline.length">
+              <div fxLayout="row" fxLayoutAlign="start stretch" class="timeline-holder">
+                <div fxFlex="95">
+                <span class="mat-title"
+                      [matTooltip]="getTooltip('pubmed')"
+                      [matTooltipClass]="'pharos-tooltip'"
+                >PubMed Score </span>&nbsp;<span>{{target.jensenScore.toFixed(2)}}</span>
+                  <br>
+                  <br>
+                  <div fxLayout="row" fxLayoutAlign="center center">
+                    <div><b>PubMed score by year</b></div>
+                  </div>
+                  <div fxLayout="row" fxLayoutAlign="center center">
+                    <div fxFlex="95" class="scatter-plot-holder">
+                      <pharos-scatter-plot [data]="pmscoreTimeline" [options]="chartOptions"></pharos-scatter-plot>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ng-container *ngIf="pubtatorTimeline && pubtatorTimeline.length > 0">
+              <div fxLayout="row" fxLayoutAlign="start stretch" class="timeline-holder">
+                <div fxFlex="95">
+                <span class="mat-title"
+                      [matTooltip]="getTooltip('pubtator')"
+                      [matTooltipClass]="'pharos-tooltip'"
+                >PubTator Score </span>&nbsp;<span>{{target.pubTatorScore}}</span>
+                  <br>
+                  <br>
+                  <div fxLayout="row" fxLayoutAlign="center center">
+                    <div><b>PubTator score by year</b></div>
+                  </div>
+                  <div fxLayout="row" fxLayoutAlign="center center">
+                    <div fxFlex="95" class="scatter-plot-holder">
+                      <pharos-scatter-plot [data]="pubtatorTimeline" [options]="chartOptions"></pharos-scatter-plot>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="patentTimeline.length > 0">
+              <div fxLayout="row" fxLayoutAlign="start stretch" class="timeline-holder">
+                <div fxFlex="95" class="scatter-plot-holder">
+                <span class="mat-title"
+                      [matTooltip]="getTooltip('patents')"
+                      [matTooltipClass]="'pharos-tooltip'"
+                >Patents </span>
+                  <div fxLayout="row" fxLayoutAlign="center center">
+                    <div fxFlex="95">
+                      <pharos-scatter-plot [data]="patentTimeline" [options]="chartOptions"></pharos-scatter-plot>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</article>
