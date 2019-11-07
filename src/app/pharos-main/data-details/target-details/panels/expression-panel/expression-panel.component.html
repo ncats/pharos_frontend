@@ -95,15 +95,15 @@
             <pharos-differential-panel [data]="data.differential"></pharos-differential-panel>
         </div>
         </mat-tab>
-        <mat-tab *ngIf="data.orthologs && data.orthologs.length > 0">
+        <mat-tab *ngIf="target.orthologs && target.orthologCounts > 0">
           <ng-template mat-tab-label>
             <div
             [matTooltip] = "getTooltip('orthologs')"
             [matTooltipClass] = "'pharos-tooltip'">
-            Orthologs ({{data.orthologs.length}})</div>
+            Orthologs ({{target.orthologCounts}})</div>
           </ng-template>
           <div class="table-holder">
-          <pharos-ortholog-panel [data]= data.orthologs></pharos-ortholog-panel>
+          <pharos-ortholog-panel [data]= data></pharos-ortholog-panel>
           </div>
         </mat-tab>
     </mat-tab-group>

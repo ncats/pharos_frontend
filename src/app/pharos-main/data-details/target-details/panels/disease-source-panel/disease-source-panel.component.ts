@@ -1,8 +1,6 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {DiseaseRelevance, DiseaseRelevanceSerializer} from '../../../../../models/disease-relevance';
-import {MatPaginator, MatTabChangeEvent, MatTreeNestedDataSource, PageEvent} from '@angular/material';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {MatTreeNestedDataSource, PageEvent} from '@angular/material';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {takeUntil} from 'rxjs/operators';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {PharosPoint} from '../../../../../models/pharos-point';
@@ -11,7 +9,6 @@ import {NestedTreeControl} from '@angular/cdk/tree';
 import {Target} from '../../../../../models/target';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
-import {PageData} from '../../../../../models/page-data';
 import {DiseaseSerializer} from '../../../../../models/disease';
 
 /**
@@ -38,10 +35,6 @@ interface DiseaseTreeNode {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DiseaseSourceComponent extends DynamicPanelComponent implements OnInit {
-  /**
-   * Paginator object from Angular Material
-   * */
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   /**
    * target to display
@@ -65,10 +58,6 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    */
   chartOptions: ScatterOptions;
 
-  /**
-   * maps disease sources
-   */
-  newdiseasemap: Map<string, any> = new Map<string, any>();
   /**
    * controls open and closed tree nodes
    */
@@ -167,7 +156,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       this.target.diseases = res.data.targets.diseases;
       this.targetProps.diseases = res.data.targets.diseases.map(disease => diseaseSerializer._asProperties(disease));
       this.setterFunction();
-    });
+    }).unsubscribe();
   }
 
 

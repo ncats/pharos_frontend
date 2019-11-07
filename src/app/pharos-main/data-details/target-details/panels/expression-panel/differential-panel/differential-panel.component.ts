@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {DiseaseRelevance, DiseaseRelevanceSerializer} from '../../../../../../models/disease-relevance';
 import {PharosProperty} from '../../../../../../models/pharos-property';
 import {PageData} from '../../../../../../models/page-data';
 import {takeUntil} from 'rxjs/internal/operators';
@@ -38,7 +37,7 @@ export class DifferentialPanelComponent extends DynamicPanelComponent implements
    */
   pageData: PageData;
 
-  diseaseRelevanceSerializer: DiseaseRelevanceSerializer = new DiseaseRelevanceSerializer();
+  diseaseRelevanceSerializer: any = {};
 
   diseaseSources: any[] = [];
 
@@ -73,7 +72,7 @@ export class DifferentialPanelComponent extends DynamicPanelComponent implements
     .filter(term => term.properties.filter(prop => prop.term === 'Expression Atlas').length > 0)
     .forEach(dr => {
     // create new disease relevance object to get PharosProperty class properties
-    const readDR: DiseaseRelevance = this.diseaseRelevanceSerializer.fromJson(dr);
+    const readDR: any = this.diseaseRelevanceSerializer.fromJson(dr);
     // get array of diseases from source map
     const tableData: any = {};
     readDR.properties.forEach(prop => {

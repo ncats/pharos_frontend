@@ -1,8 +1,14 @@
 <div>
+  <mat-paginator
+    [pageSize]="10"
+    [length]="target.orthologCounts"
+    [hidePageSize]="true"
+    [showFirstLastButtons] = true
+    (page) = paginate($event)
+    #orthopaginator></mat-paginator>
     <pharos-generic-table
-      (pageChange)="page($event)"
-      [pageData]="orthoPageData"
-      [data]="tableArr"
+      [showPaginator] =false
+      [data]="targetProps.orthologs"
       [fieldsConfig] = fields>
     </pharos-generic-table>
 </div>
