@@ -1,12 +1,34 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {MatTabChangeEvent} from '@angular/material';
+import {MatTabChangeEvent, MatTreeNestedDataSource} from '@angular/material';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {takeUntil} from 'rxjs/operators';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
 import {AnatamogramHoverService} from '../../../../../tools/anatamogram/anatamogram-hover.service';
 import {PharosConfig} from '../../../../../../config/pharos-config';
+import {Target} from '../../../../../models/target';
+import {PharosPoint} from '../../../../../models/pharos-point';
+import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
+import {NestedTreeControl} from '@angular/cdk/tree';
+import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
+import {ActivatedRoute} from '@angular/router';
+
+// todo: make 1 node class/interface
+/**
+ * interface to track disease tree nodes
+ */
+interface ExpressionTreeNode {
+  /**
+   * disease name
+   */
+  name: PharosProperty;
+  /**
+   * list of children nodes
+   */
+  children?: ExpressionTreeNode[];
+}
+
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 /**
@@ -18,6 +40,44 @@ import {PharosConfig} from '../../../../../../config/pharos-config';
   styleUrls: ['./expression-panel.component.scss']
 })
 export class ExpressionPanelComponent extends DynamicPanelComponent implements OnInit {
+  /**
+   * target to display
+   */
+  @Input() target: Target;
+
+  @Input() targetProps: any;
+
+  /**
+   * tnx data
+   */
+  tinx: PharosPoint[];
+
+  /**
+   * shows if component is fully loaded or not
+   */
+  loaded = false;
+
+  /**
+   * display options for the tinx plot
+   */
+  chartOptions: ScatterOptions;
+
+  /**
+   * controls open and closed tree nodes
+   */
+  treeControl: NestedTreeControl<ExpressionTreeNode> = new NestedTreeControl<ExpressionTreeNode>(node => node.children);
+
+  /**
+   * main data source for disease tree
+   */
+  dataSource: MatTreeNestedDataSource<ExpressionTreeNode> = new MatTreeNestedDataSource<ExpressionTreeNode>();
+
+  /**
+   * list of tree nodes to show
+   */
+  treeData: ExpressionTreeNode[] = [];
+
+
   /**
    * tissues to display, currently contains dummy data
    */
@@ -140,36 +200,28 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
 
   /**
    * attach required services
+   * @param pharosApiService
+   * @param _route
    * @param navSectionsService
-   * @param pharosConfig
    * @param anatamogramHoverService
    */
-  constructor(private navSectionsService: NavSectionsService,
-              private pharosConfig: PharosConfig,
-              private anatamogramHoverService: AnatamogramHoverService) {
+  constructor(
+    private pharosApiService: PharosApiService,
+    private _route: ActivatedRoute,
+    private navSectionsService: NavSectionsService,
+    private anatamogramHoverService: AnatamogramHoverService
+  ) {
     super();
   }
 
   /**
-   * set up display url,
-   * subscribe to data changes
+   * subscribe to data changes and generate tree
    */
   ngOnInit() {
-    // https://pharos.ncats.io/idg/api/v1/expression?acc=P25092
-    this._URL = this.pharosConfig.getHomunculusUrl(this.id);
-    this._data
-    // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe(x => {
-        if (Object.values(this.data).length > 0) {
-          this.ngUnsubscribe.next();
-          this.setterFunction();
-          this.loading = false;
-        }
-      });
+    this.target = this.data.targets;
+    this.targetProps = this.data.targetsProps;
+    this.setterFunction();
+    this.loading = false;
   }
 
   /**

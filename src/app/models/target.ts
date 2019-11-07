@@ -6,6 +6,7 @@ import {Publication, PublicationSerializer} from './publication';
 import {PharosPoint} from './pharos-point';
 import {Disease, DiseaseSerializer} from './disease';
 import {Generif, GenerifSerializer} from './generif';
+import {Ortholog, OrthologSerializer} from './ortholog';
 
 const TARGETLISTFIELDS =  gql`
   fragment targetsListFields on Target {
@@ -66,7 +67,15 @@ const TARGETDETAILSFIELDS = gql`
     generifCount
     sequence: seq
     goCounts {value}
-    
+    orthologCounts {value}
+     orthologs (top: $orthologstop, skip: $orthologsskip){
+      species
+      sym
+      name
+      dbid
+      geneid
+      source 
+     }
   pubTatorScores {
     year
     score
@@ -246,6 +255,8 @@ tinx: any;
   publications: Publication[];
 
   generifs: Generif[];
+  orthologs: Ortholog[];
+  orthologCounts: number;
 
 }
 
@@ -325,6 +336,10 @@ export class TargetSerializer implements PharosSerializer {
       obj.diseaseCount = json.diseaseCounts.length;
     }
 
+    if (json.orthologCounts) {
+      obj.orthologCounts = json.orthologCounts.length;
+    }
+
       if (json.publications) {
       const pubSerializer = new PublicationSerializer();
       obj.publications = json.publications.map(pub => pubSerializer.fromJson(pub));
@@ -336,8 +351,13 @@ export class TargetSerializer implements PharosSerializer {
     }
 
       if (json.diseases) {
-      const diseaseerializer = new DiseaseSerializer();
-      obj.diseases = json.diseases.map(disease => diseaseerializer.fromJson(disease));
+      const diseaseSerializer = new DiseaseSerializer();
+      obj.diseases = json.diseases.map(disease => diseaseSerializer.fromJson(disease));
+    }
+
+if (json.orthologs) {
+      const orthologSerializer = new OrthologSerializer();
+      obj.orthologs = json.orthologs.map(ortholog => orthologSerializer.fromJson(ortholog));
     }
 
     return obj;
@@ -380,6 +400,11 @@ export class TargetSerializer implements PharosSerializer {
     if (newObj.diseases) {
       const diseaseSerializer = new DiseaseSerializer();
       newObj.diseases = obj.diseases.map(disease => diseaseSerializer._asProperties(disease));
+    }
+
+    if (newObj.orthologs) {
+      const orthologSerializer = new OrthologSerializer();
+      newObj.orthologs = obj.orthologs.map(ortholog => orthologSerializer._asProperties(ortholog));
     }
     return newObj;
   }
