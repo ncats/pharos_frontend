@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -22,12 +23,6 @@ export class BarChartComponent implements OnInit {
    */
   @ViewChild('barChartTarget', {static: true}) chartContainer: ElementRef;
 
-  /**
-   * data subject, allows for dynamic updating of data
-   * @type {BehaviorSubject<PharosPoint[]>}
-   * @private
-   */
-  private _data: BehaviorSubject<PharosPoint[]> = new BehaviorSubject< PharosPoint[]>(null);
 
   /**
    * set data value
@@ -37,18 +32,8 @@ export class BarChartComponent implements OnInit {
    *
    * @param {PharosPoint[]} value
    */
-  @Input()
-  set data(value: PharosPoint[]) {
-    this._data.next(value);
-  }
+  @Input() data: PharosPoint[];
 
-  /**
-   * fetch data value
-   * @returns {PharosPoint[]}
-   */
-  get data(): PharosPoint[] {
-    return this._data.getValue();
-  }
 
   /**
    * margin for padding
@@ -97,26 +82,22 @@ export class BarChartComponent implements OnInit {
   /**
    * no args constructor
    */
-  constructor() {
-  }
+  constructor() {}
 
   /**
    * draw basic graph elements, and once data is available, update graph with data
    */
   ngOnInit() {
     this.drawGraph();
-    this._data.subscribe(x => {
       if (this.data) {
         this.updateGraph();
       }
-    });
   }
 
   /**
    * draw the very basic graph elements, axes, etc
    */
   drawGraph(): void {
-
     const element = this.chartContainer.nativeElement;
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
@@ -124,11 +105,12 @@ export class BarChartComponent implements OnInit {
 
     this.svg = d3.select(element)
       .append('svg:svg')
-      .attr('width', this.width + this.margin.left + this.margin.right)
-      .attr('height', this.height + this.margin.top + this.margin.bottom)
+      .attr('width', element.offsetWidth)
+      .attr('height', element.offsetWidth)
       .append('svg:g')
       .attr('id', 'group')
-      .attr('class', 'bar-container');
+      .attr('class', 'bar-container')
+    .attr('transform', `translate(${this.margin.right}, 0)`);
 
     // Add the X Axis
     this.svg.append('g')
@@ -138,7 +120,7 @@ export class BarChartComponent implements OnInit {
     // Add the Y Axis
     this.svg.append('g')
       .attr('class', 'yaxis')
-      .attr('transform', 'translate(20, 0)');
+      .attr('transform', `translate(${this.margin.left}, 0)`);
 
     this.svg.append('g')
       .attr('class', 'bar-holder');
@@ -153,8 +135,9 @@ export class BarChartComponent implements OnInit {
    * the entire chart
    */
   updateGraph(): void {
+    // todo: multiplying the width was a cheap fix - the div width is not computed correctly because of the sidenav
     const x = d3.scaleBand()
-      .rangeRound([0, this.width], .1)
+      .rangeRound([0, this.width * .75], .1)
       .paddingInner(0.1);
 
     const y = d3.scaleLinear()

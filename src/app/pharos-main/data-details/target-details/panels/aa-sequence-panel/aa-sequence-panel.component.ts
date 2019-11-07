@@ -7,6 +7,7 @@ import {takeUntil} from 'rxjs/operators';
 import * as Protvista from 'ProtVista';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {Target} from '../../../../../models/target';
+import {BreakpointObserver} from '@angular/cdk/layout';
 
 /**
  * displays amino acid sequence data
@@ -45,10 +46,13 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
 
   /**
    * set up active sidenav component
+   * @param breakpointObserver
    * @param navSectionsService
    * @param changeRef
    */
-  constructor(private navSectionsService: NavSectionsService,
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private navSectionsService: NavSectionsService,
               private changeRef: ChangeDetectorRef) {
     super();
   }
@@ -56,17 +60,19 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
   /**
    *    * count and parse sequence
    * initialize protvista viewer
-   *    * // todo set boolean breakpoint and only load if not mobile
    * set up data change subscription
    */
   ngOnInit() {
+    const isSmallScreen = this.breakpointObserver.isMatched('(max-width: 768px)');
     this.target = this.data.targets;
     this.parseSequence();
     this.getCounts();
-   /* const r = new Protvista({
-      el: this.viewerContainer.nativeElement,
-      uniprotacc: this.target.accession
-    });*/
+    if (!this.isSmallScreen) {
+      const r = new Protvista({
+        el: this.viewerContainer.nativeElement,
+        uniprotacc: this.target.accession
+      });
+    }
     this.loading = false;
     this.changeRef.markForCheck();
   }

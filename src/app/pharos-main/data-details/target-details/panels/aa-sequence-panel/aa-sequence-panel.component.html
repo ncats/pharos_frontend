@@ -5,10 +5,10 @@
   #sequence
   class="section-card">
   <mat-card-content>
-<!--    <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
+    <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
       <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
-    </div>-->
-<!--    <div fxLayout="row"
+    </div>
+    <div fxLayout="row"
          class="tkrow"
          fxLayoutAlign="start stretch">
       <div fxFlex="95">
@@ -27,13 +27,13 @@
               [matTooltipClass]="'pharos-tooltip'">
           Residue Counts
         </span>
-    </div>-->
+    </div>
     <div fxLayout="row" fxLayoutAlign="center start">
       <div fxFlex="95" fxFlex.lt-md="100" class="residue-count-holder">
         <pharos-bar-chart [data]="residueCounts" *ngIf="residueCounts"></pharos-bar-chart>
       </div>
     </div>
-   <!-- <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
+    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
       <span class="pharos-subtitle"
             [matTooltip]="getTooltip('sequence')"
             [matTooltipClass]="'pharos-tooltip'">
@@ -59,10 +59,8 @@
           {{data?.sequence[0].text}}
         </div>
       </div>
-    </div>-->
-<!--
+    </div>
     <div #protVistaViewer id="protVistaViewer" fxHide.lt-md></div>
--->
   </mat-card-content>
 </mat-card>
 </article>
