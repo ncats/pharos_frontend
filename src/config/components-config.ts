@@ -1017,7 +1017,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
         //  LIGANDS_PANEL,
           DISEASE_SOURCE_PANEL,
           PDB_PANEL,
-        //  EXPRESSION_PANEL,
+          EXPRESSION_PANEL,
         //  PROTEIN_PROTEIN_PANEL,
           PUBLICATION_INFO_PANEL,
           AA_SEQUENCE_PANEL,

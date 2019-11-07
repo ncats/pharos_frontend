@@ -15,27 +15,6 @@ import gql from 'graphql-tag';
 import {PathResolverService} from './path-resolver.service';
 import {SelectedFacetService} from '../pharos-main/data-list/filter-panel/selected-facet.service';
 
-const PAGINATESUBTYPESSTUB = `
-query fetchPublications ($skip: Int, $top: Int, $term: String) {
-  targets: target(
-    q: {
-    sym: "HTT"
-    #tcrdid: $term
-  }
-) {
-    _tcrdid: tcrdid
-    uniprot
-    
-  }
-}
-`;
-
-const LISTQUERY = `
-
-`
-
-
-
 /**
  * main service to fetch and parse data from the pharos api
  */
@@ -205,8 +184,10 @@ export class PharosApiService {
   openQueries: Map<string, QueryRef<any>> = new Map<string, QueryRef<any>>();
 
   detailsQuery: any;
+  detailsWatchQuery: any;
 
   listQuery: any;
+
   /**
    * get config info and set up http service
    * @param {HttpClient} http
@@ -312,7 +293,9 @@ export class PharosApiService {
         $publicationsterm: String, 
         $generifstop: Int, 
         $generifsskip: Int,
-        $generifsterm: String
+        $generifsterm: String,
+        $orthologstop: Int, 
+        $orthologsskip: Int
         ) {
           targets: target(q: {
             sym: $term,
