@@ -222,11 +222,11 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnInit() {
     this._data.subscribe(res => {
       this.dataSource.data = res;
-      this.ref.detectChanges();
+      this.ref.markForCheck();
     });
     this._fieldsConfig.subscribe(res => this.fetchTableFields());
     this.selection.changed.subscribe(change => {
-      this.ref.detectChanges();
+      this.ref.markForCheck();
       this.rowSelectionChange.emit(this.selection);
     });
   }
