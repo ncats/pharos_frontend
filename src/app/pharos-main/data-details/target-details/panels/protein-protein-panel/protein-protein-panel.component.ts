@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {HttpClient} from '@angular/common/http';
@@ -7,6 +7,10 @@ import {PageData} from '../../../../../../app/models/page-data';
 import {map, zipAll} from 'rxjs/operators';
 import {from} from 'rxjs/index';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
+import {DiseaseSerializer} from '../../../../../models/disease';
+import {PageEvent} from '@angular/material';
+import {ActivatedRoute} from '@angular/router';
+import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 
 /**
  * shows a list of protein to protein interactions for a target
@@ -14,7 +18,8 @@ import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/na
 @Component({
   selector: 'pharos-protein-protein-panel',
   templateUrl: './protein-protein-panel.component.html',
-  styleUrls: ['./protein-protein-panel.component.css']
+  styleUrls: ['./protein-protein-panel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProteinProteinPanelComponent extends DynamicPanelComponent implements OnInit {
   /**
@@ -26,7 +31,14 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
    * list of all targets
    * @type {any[]}
    */
-  allTargets: Target[] = [];
+  ppis: any = {};
+
+  /**
+   * parent target
+   */
+  @Input() target: Target;
+
+  targetProps: any;
 
   /**
    * pagination data for target table
@@ -34,24 +46,41 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
   targetPageData: PageData;
 
   /**
-   * set up sidenav service nad http calls to fetch full target data
+   * @param pharosApiService
+   * @param _route
    * @param {NavSectionsService} navSectionsService
-   * @param {HttpClient} http
    */
   constructor(
-    private navSectionsService: NavSectionsService,
-    private http: HttpClient
+    private pharosApiService: PharosApiService,
+    private _route: ActivatedRoute,
+    private navSectionsService: NavSectionsService
   ) {
     super();
   }
 
   /**
-   * this gets all ppi targets, then retrieves the full target object for additional details
-   * todo: this may not be needed anymore to show the target info
-   * should page first, then retrieve the target info
+   * this gets all ppi targets
    */
   ngOnInit() {
-    this._data
+    console.log(this);
+    this.target = this.data.targets;
+    // todo: there is randomly a uniprot object field here
+    this.ppis = {
+      targets: this.data.targets.ppis.map(ppi => ppi.target),
+      targetsProps: this.data.targetsProps.ppis
+    };
+
+
+
+
+    this.targetPageData = new PageData({
+      top: 10,
+      skip: 0,
+      count: 10,
+      total: this.target.ppiCount
+    });
+    this.loading = false;
+    /*this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
       .pipe(
@@ -79,15 +108,26 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
        }
        this.loading = false;
       });
-
+*/
   }
 
   /**
    * paginate the list of targets
-   * @param $event
+   * @param event
    */
-  paginateTargets($event) {
-    this.targets = this.allTargets.slice($event.pageIndex * $event.pageSize, ($event.pageIndex + 1) * $event.pageSize);
+  paginate(event: PageEvent) {
+    this.loading = true;
+    const targetSerializer = new TargetSerializer();
+    const pageParams = {
+      diseasetop: event.pageSize,
+      diseaseskip: event.pageIndex * event.pageSize,
+    };
+    this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams).valueChanges.subscribe(res => {
+      this.target.ppis = res.data.targets.ppis;
+      this.targetProps = res.data.targets
+        .map(target => targetSerializer.fromJson(target))
+      .map(ppi => targetSerializer._asProperties(ppi));
+    });
   }
 
   /**

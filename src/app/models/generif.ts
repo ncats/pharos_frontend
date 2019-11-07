@@ -1,12 +1,13 @@
-import {PharosProperty} from './pharos-property';
 import {Serializer} from './pharos-base';
 import {Publication, PublicationSerializer} from './publication';
+import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
 
 export class Generif {
   rifid?: number;
   text?: string;
   target?: any;
   publications?: [Publication];
+  pubPmids?: any[];
 }
 
 
@@ -28,6 +29,10 @@ export class GenerifSerializer implements Serializer {
       const pubSerializer = new PublicationSerializer();
       obj.publications = json.pubs.map(pub => pubSerializer.fromJson(pub));
     }
+
+    if (json.pubs) {
+      obj.pubPmids = json.pubs.map(pub => pub = {pmid: pub.pmid});
+    }
     return obj;
   }
 
@@ -43,16 +48,25 @@ export class GenerifSerializer implements Serializer {
    * @private
    */
   _asProperties(obj: Generif): any {
-    const newObj: any = {};
-    Object.keys(obj).map(field => {
-      newObj[field] =  new PharosProperty({name: field, label: field, term: obj[field]});
-    });
-    if (newObj.publications) {
-      const pubSerializer = new PublicationSerializer();
-      newObj.publications = obj.publications.map(pub => pubSerializer._asProperties(pub));
-    }
+    const newObj: any = this._mapField(obj);
+    newObj.pubPmids = newObj.pubPmids.map(source => source.pmid)
+      //console.log(newObj.pubPmids);
+                                          . map(pmid => ({...pmid, externalLink: `http://www.ncbi.nlm.nih.gov/pubmed/${pmid.term}`}));
+
 
     return newObj;
+  }
+
+  private _mapField (obj: any) {
+    const retObj: {} = Object.assign({}, obj);
+    Object.keys(obj).map(objField => {
+      if (Array.isArray(obj[objField])) {
+        retObj[objField] = obj[objField].map(arrObj => this._mapField(arrObj));
+      } else {
+        retObj[objField] = new DataProperty({name: objField, label: objField, term: obj[objField]});
+      }
+    });
+    return retObj;
   }
 }
 

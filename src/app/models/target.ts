@@ -64,6 +64,11 @@ const TARGETDETAILSFIELDS = gql`
     pdbs: xrefs(source: "PDB") {
       value
     }
+    ppis {
+      target{
+        ...targetsListFields
+      }
+    }
     generifCount
     sequence: seq
     goCounts {value}
@@ -257,6 +262,7 @@ tinx: any;
   generifs: Generif[];
   orthologs: Ortholog[];
   orthologCounts: number;
+  ppis: Target[];
 
 }
 
@@ -340,7 +346,12 @@ export class TargetSerializer implements PharosSerializer {
       obj.orthologCounts = json.orthologCounts.length;
     }
 
-      if (json.publications) {
+      if (json.ppis) {
+      const targetSerializer = new TargetSerializer();
+      obj.ppis = json.ppis.map(ppi =>  targetSerializer.fromJson(ppi['target']));
+    }
+
+    if (json.publications) {
       const pubSerializer = new PublicationSerializer();
       obj.publications = json.publications.map(pub => pubSerializer.fromJson(pub));
     }
@@ -355,7 +366,7 @@ export class TargetSerializer implements PharosSerializer {
       obj.diseases = json.diseases.map(disease => diseaseSerializer.fromJson(disease));
     }
 
-if (json.orthologs) {
+    if (json.orthologs) {
       const orthologSerializer = new OrthologSerializer();
       obj.orthologs = json.orthologs.map(ortholog => orthologSerializer.fromJson(ortholog));
     }
@@ -395,6 +406,17 @@ if (json.orthologs) {
     if (newObj.publications) {
       const pubSerializer = new PublicationSerializer();
       newObj.publications = obj.publications.map(pub => pubSerializer._asProperties(pub));
+    }
+
+    if (newObj.ppis) {
+      const targetSerializer = new TargetSerializer();
+      newObj.ppis = obj.ppis.map(ppi => targetSerializer._asProperties(ppi));
+      console.log(newObj);
+    }
+
+    if (newObj.generifs) {
+      const generifSerializer = new GenerifSerializer();
+      newObj.generifs = obj.generifs.map(generif => generifSerializer._asProperties(generif));
     }
 
     if (newObj.diseases) {
