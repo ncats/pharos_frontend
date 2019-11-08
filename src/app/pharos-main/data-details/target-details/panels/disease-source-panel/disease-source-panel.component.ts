@@ -152,10 +152,16 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       diseasetop: event.pageSize,
       diseaseskip: event.pageIndex * event.pageSize,
     };
-    this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams).valueChanges.subscribe(res => {
-      this.target.diseases = res.data.targets.diseases;
+    this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams, 'diseaseSources').valueChanges.subscribe(res => {
+      console.log("yoyoyoyoyoy");
+      console.log(res);
+      this.loading=false;
+      /*if (res.data.origin === 'diseaseSources') {
+     /!* this.target.diseases = res.data.targets.diseases;
       this.targetProps.diseases = res.data.targets.diseases.map(disease => diseaseSerializer._asProperties(disease));
       this.setterFunction();
+*!/
+      }*/
     });
   }
 

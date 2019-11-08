@@ -1,11 +1,9 @@
-import {Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {MatDialog} from '@angular/material';
-import {takeUntil} from 'rxjs/operators';
 import {RadarChartViewerComponent} from '../../../../../tools/radar-chart-viewer/radar-chart-viewer.component';
 import {Target} from '../../../../../models/target';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
-import {HelpDataService} from '../../../../../tools/help-panel/services/help-data.service';
 
 
 /**
@@ -16,7 +14,8 @@ import {HelpDataService} from '../../../../../tools/help-panel/services/help-dat
   selector: 'pharos-summary-panel',
   templateUrl: './summary-panel.component.html',
   styleUrls: ['./summary-panel.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 /**
@@ -47,20 +46,9 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
    * fetch all of the data - most is directly displayed, so no setter function needed
    */
   ngOnInit() {
-  this._data
-  // listen to data as long as term is undefined or null
-  // Unsubscribe once term has value
-    .pipe(
-      takeUntil(this.ngUnsubscribe),
-    )
-    .subscribe(x => {
-      if (this.data && this.data.targets) {
         this.target = this.data.targets;
         this.targetProps = this.data.targetsProps;
-        this.ngUnsubscribe.next();
         this.loading = false;
-      }
-    });
 }
 
   /**
