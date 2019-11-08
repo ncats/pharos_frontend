@@ -215,6 +215,8 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
 
   user: any;
 
+  @Input() showCustomPaginator = true;
+
   /**
    * check for mobile view,
    * subscribe to data changes

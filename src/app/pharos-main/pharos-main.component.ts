@@ -1,14 +1,10 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, OnDestroy, OnInit, Type, ViewChild} from '@angular/core';
 import {CdkPortalOutlet, ComponentPortal} from '@angular/cdk/portal';
-import {PharosFooterComponent} from '../tools/pharos-footer/pharos-footer.component';
-import {MatDrawer, MatSidenav} from '@angular/material';
-import {FilterPanelComponent} from './data-list/filter-panel/filter-panel.component';
+import {MatSidenav} from '@angular/material';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {PharosPanel} from '../../config/components-config';
-import {PageData} from '../models/page-data';
 import {ComponentInjectorService} from '../pharos-services/component-injector.service';
 import {HelpDataService} from '../tools/help-panel/services/help-data.service';
-import {Position} from '@angular/compiler/src/aot/formatted_error';
 import {NavSectionsService} from '../tools/sidenav-panel/services/nav-sections.service';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
@@ -114,13 +110,6 @@ export class PharosMainComponent implements OnInit, OnDestroy {
         }
 
         if (component.navHeader) {
-          /*this.helpDataService.setSources(component.navHeader.section,
-            {
-              sources: component.api,
-              title: component.navHeader.label,
-              mainDescription: component.navHeader.mainDescription ? component.navHeader.mainDescription : null
-            }
-          );*/
           componentInstance.instance.description = component.navHeader.mainDescription;
           componentInstance.instance.apiSources = component.api;
           componentInstance.instance.field = component.navHeader.section;
