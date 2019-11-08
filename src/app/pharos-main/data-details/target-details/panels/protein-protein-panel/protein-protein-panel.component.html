@@ -21,11 +21,20 @@
                                      [label]="'Protein-Protein Interactions'"></pharos-help-panel-trigger>
         </div>
       </div>
+      <mat-paginator
+        [pageSize]="10"
+        [length]="target.ppiCount"
+        [hidePageSize]="true"
+        [showFirstLastButtons] = true
+        (page) = "paginate($event)"
+        #ppipaginator></mat-paginator>
       <pharos-target-table [data]= ppis
                            [pageData]="targetPageData"
                            [showLabel]=false
                            [showToolbar]="false"
-                           (pageChange)="paginateTargets($event)" *ngIf="target"></pharos-target-table>
+                           [showCustomPaginator] = false
+                           (pageChange)="skip()"
+                           *ngIf="target"></pharos-target-table>
     </mat-card-content>
   </mat-card>
 </article>

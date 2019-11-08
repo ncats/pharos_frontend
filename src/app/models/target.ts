@@ -64,7 +64,7 @@ const TARGETDETAILSFIELDS = gql`
     pdbs: xrefs(source: "PDB") {
       value
     }
-    ppis {
+    ppis (top: $ppistop, skip: $ppisskip){
       target{
         ...targetsListFields
       }
@@ -305,7 +305,9 @@ export class TargetSerializer implements PharosSerializer {
     }
 
     if (json.ppiCount) {
-    obj.ppiCount = json.ppiCount.reduce((prev, cur) => prev + cur.value, 0);
+      if (json.ppiCount.length > 0) {
+        obj.ppiCount = json.ppiCount.reduce((prev, cur) => prev + cur.value, 0);
+      }
     }
 
     if (json.uniprotIds) {

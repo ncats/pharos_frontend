@@ -295,7 +295,9 @@ export class PharosApiService {
         $generifsskip: Int,
         $generifsterm: String,
         $orthologstop: Int, 
-        $orthologsskip: Int
+        $orthologsskip: Int,
+        $ppistop: Int,
+        $ppisskip: Int
         ) {
           targets: target(q: {
             sym: $term,
@@ -342,7 +344,8 @@ export class PharosApiService {
 
   }
 
-  fetchMore(path, addtParams) {
+  fetchMore(path, addtParams, origin?) {
+    console.log(origin);
     const watchQuery =  this.openQueries.get(`${path}-details`);
      watchQuery.fetchMore({
       variables: addtParams,
@@ -352,13 +355,22 @@ export class PharosApiService {
       updateQuery: (prev, { fetchMoreResult }) => {
         console.log(prev);
         console.log(fetchMoreResult);
-        return fetchMoreResult;
-    /*    if (!fetchMoreResult) { return prev; }
-        return Object.assign({}, prev, {
-          data: [...prev.feed, ...fetchMoreResult.feed],
-        });*/
+        console.log(origin);
+       // return fetchMoreResult;
+        if (!fetchMoreResult) {
+          console.log("returning prev");
+          console.log(prev);
+          return prev;
+         }
+        return Object.assign({}, {
+        data: {data: fetchMoreResult,
+          origin: origin
+        }});
       },
-    });
+    }).then(res => {
+      console.log(res);
+      return res;
+     });
    return watchQuery;
   }
 
