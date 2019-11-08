@@ -1,6 +1,6 @@
 <mat-card *ngIf="target" routerLink='/targets/{{target.accession}}' target="_blank" class="target-card">
       <div class="target-content">
-    <div fxLayout="row" class ="tkrow" fxLayoutAlign="space-around start">
+    <div fxLayout="row wrap" class ="tkrow" fxLayoutAlign="space-around start">
       <div fxFlex="48">
         <pharos-idg-level-indicator [level]="target?.idgTDL"></pharos-idg-level-indicator>
       </div>
@@ -14,9 +14,9 @@
         <span class="mat-title target-link">{{target?.name}}</span>
       </div>
     </div>
-    <div fxLayout="row" class ="radar-row target-card-radar" fxLayoutAlign="start stretch">
+    <div fxLayout="row" class ="radar-row target-card-radar" fxLayoutAlign="space-around stretch">
       <div fxFlex="95">
-    <pharos-radar-chart  *ngIf = knowledge [data]="knowledge"></pharos-radar-chart>
+    <pharos-radar-chart [size]="'small'" *ngIf = target.hgdata [data]="[target.hgdata.summary ? target.hgdata.summary : target.hgdata]"></pharos-radar-chart>
       </div>
     </div>
     <div fxLayout="row" class ="tkrow" fxLayoutAlign="start stretch" *ngIf="showKnowledge">
@@ -25,7 +25,7 @@
       </div>
     </div>
       </div>
-  <div fxLayout="row" fxLayoutAlign="start stretch">
+  <div fxLayout="row" fxLayoutAlign="start stretch" >
     <div fxFlex="95">
       <span>Target Family: {{target?.idgFamily}}</span>
     </div>

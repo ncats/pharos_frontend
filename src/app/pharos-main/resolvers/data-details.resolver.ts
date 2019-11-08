@@ -35,8 +35,6 @@ export class DataDetailsResolver implements Resolve<any> {
       this.loadingService.toggleVisible(true);
       this.pharosApiService.flushData();
     const serializer: Serializer = route.data.serializer;
-    //  this.pathResolverService.setPath(route.data.path);
-     // return this.pharosApiService.getDataObject(route.data.path, route.paramMap);
     return this.pharosApiService.getDetailsData(route.data.path, route.paramMap, route.data.fragments)
       .pipe(
         map(res =>  {

@@ -13,6 +13,7 @@ import * as Protvista from 'ProtVista';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {Target} from '../../../../../models/target';
 import {BreakpointObserver} from '@angular/cdk/layout';
+import {takeUntil} from 'rxjs/operators';
 
 /**
  * displays amino acid sequence data
@@ -69,17 +70,26 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
    */
   ngOnInit() {
     const isSmallScreen = this.breakpointObserver.isMatched('(max-width: 768px)');
-    this.target = this.data.targets;
-    this.parseSequence();
-    this.getCounts();
-    if (!this.isSmallScreen) {
-      const r = new Protvista({
-        el: this.viewerContainer.nativeElement,
-        uniprotacc: this.target.accession
+    this._data
+    // listen to data as long as term is undefined or null
+    // Unsubscribe once term has value
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(x => {
+        this.target = this.data.targets;
+        this.parseSequence();
+        this.getCounts();
+        if (!this.isSmallScreen) {
+          const r = new Protvista({
+            el: this.viewerContainer.nativeElement,
+            uniprotacc: this.target.accession
+          });
+        }
+        this.loading = false;
+        this.changeRef.markForCheck();
       });
-    }
-    this.loading = false;
-    this.changeRef.markForCheck();
+
   }
 
   /**

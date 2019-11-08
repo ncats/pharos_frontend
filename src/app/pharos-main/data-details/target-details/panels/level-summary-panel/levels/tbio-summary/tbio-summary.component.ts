@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {Target} from '../../../../../../../models/target';
 
 /**
@@ -7,7 +7,8 @@ import {Target} from '../../../../../../../models/target';
 @Component({
   selector: 'pharos-tbio-summary',
   templateUrl: './tbio-summary.component.html',
-  styleUrls: ['./tbio-summary.component.scss']
+  styleUrls: ['./tbio-summary.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TbioSummaryComponent {
   /**
@@ -21,6 +22,7 @@ export class TbioSummaryComponent {
    */
   constructor() {
   }
+
 
   getTooltip(label: string): string {
     if (this.apiSources) {

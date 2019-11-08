@@ -282,7 +282,8 @@ export class PharosApiService {
 
 
   getDetailsData(path: string, params: ParamMap, fragments?: any): Observable<any> {
-    const variables: any = {term: params.get('id')};
+    const variables: any = {term: params.get('id')};;
+
     this.detailsQuery = gql`
         query fetchTarget(
         $term: String, 
@@ -344,8 +345,7 @@ export class PharosApiService {
 
   }
 
-  fetchMore(path, addtParams, origin?) {
-    console.log(origin);
+  fetchMore(path, addtParams) {
     const watchQuery =  this.openQueries.get(`${path}-details`);
      watchQuery.fetchMore({
       variables: addtParams,
@@ -353,22 +353,13 @@ export class PharosApiService {
       // the feed length, but we could also use state, or the previous
       // variables to calculate this (see the cursor example below)
       updateQuery: (prev, { fetchMoreResult }) => {
-        console.log(prev);
-        console.log(fetchMoreResult);
-        console.log(origin);
        // return fetchMoreResult;
         if (!fetchMoreResult) {
-          console.log("returning prev");
-          console.log(prev);
           return prev;
          }
-        return Object.assign({}, {
-        data: {data: fetchMoreResult,
-          origin: origin
-        }});
+        return fetchMoreResult;
       },
     }).then(res => {
-      console.log(res);
       return res;
      });
    return watchQuery;

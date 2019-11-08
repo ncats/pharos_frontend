@@ -36,8 +36,7 @@ import {SelectionModel} from '@angular/cdk/collections';
       state('expanded', style({height: '*'})),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  ]
 })
 
 /**
@@ -222,11 +221,11 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnInit() {
     this._data.subscribe(res => {
       this.dataSource.data = res;
-      this.ref.markForCheck();
+      this.ref.detectChanges();
     });
     this._fieldsConfig.subscribe(res => this.fetchTableFields());
     this.selection.changed.subscribe(change => {
-      this.ref.markForCheck();
+      this.ref.detectChanges();
       this.rowSelectionChange.emit(this.selection);
     });
   }
@@ -253,16 +252,16 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
           }
         }*/
   }
-/*
-  /!**
+
+  /**
    * used to track data changes
    * @param {number} index
    * @param item
    * @return {any}
-   *!/
+   */
   trackByFn(index: number, item: any) {
-    return item.uuid && item.uuid.term ? item.uuid.term : item;
-  }*/
+    return item.nmae && item.name.term ? item.name.term : item;
+  }
 
   /**
    * set default paginator values
