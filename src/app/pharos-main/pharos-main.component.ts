@@ -1,4 +1,7 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, OnDestroy, OnInit, Type, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, Input, OnDestroy, OnInit, Type,
+  ViewChild
+} from '@angular/core';
 import {CdkPortalOutlet, ComponentPortal} from '@angular/cdk/portal';
 import {MatSidenav} from '@angular/material';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
@@ -28,6 +31,8 @@ export class PharosMainComponent implements OnInit, OnDestroy {
   @ViewChild('leftpanel', {static: true}) leftPanelInstance: MatSidenav;
   @ViewChild('rightpanel', {static: true}) rightPanelInstance: MatSidenav;
 
+
+  // todo set as viewchildren, then map the array
   @ViewChild('lefttemplate', {static: true, read: CdkPortalOutlet}) leftPortalOutlet: CdkPortalOutlet;
   @ViewChild('righttemplate', {static: true, read: CdkPortalOutlet}) rightPortalOutlet: CdkPortalOutlet;
   @ViewChild('headertemplate', {static: true, read: CdkPortalOutlet}) headerPortalOutlet: CdkPortalOutlet;
@@ -37,7 +42,7 @@ export class PharosMainComponent implements OnInit, OnDestroy {
   componentsLoaded = false;
   loadedComponents: Map<any, any> = new Map<any, any>();
   autosize = true;
-  data: any = {};
+  @Input() data: any = {};
   /**
    * Behaviour subject to allow extending class to unsubscribe on destroy
    * @type {Subject<any>}
@@ -68,7 +73,7 @@ export class PharosMainComponent implements OnInit, OnDestroy {
         if (e instanceof NavigationEnd) {
             this.data = this._route.snapshot.data;
           this.makeComponents();
-          this.changeRef.markForCheck();
+          this.changeRef.detectChanges();
         }
       });
   }
@@ -122,66 +127,11 @@ export class PharosMainComponent implements OnInit, OnDestroy {
           componentInstance.instance.selfDestruct.subscribe(res => {
             if (res) {
               componentInstance.destroy();
-              //  this.changeRef.markForCheck();
+              // this.changeRef.markForCheck();
               // componentPortal.detach();
             }
           });
         }
-
-
-        /* const dynamicComponent: any = this.componentInjectorService.appendComponent(this.componentHost, dynamicChildToken);
-         if (this.search && this.search.length) {
-           const data: any = this.search.filter(datum => datum.kind === dynamicComponent.instance.path)[0];
-           dynamicComponent.instance.pageData = newPD;
-           dynamicComponent.instance.data = data.data.content;
-         } else {
-           dynamicComponent.instance.pageData = newPD;
-           dynamicComponent.instance.data = this.data;
-         }
-         dynamicComponent.instance.etag = this.etag;
-         dynamicComponent.instance.sideway = this.sideway;
-
-         if (dynamicComponent.instance.sortChange) {
-           dynamicComponent.instance.sortChange.subscribe((event) => {
-             if (this.path === 'search') {
-               this.typePagination(event, dynamicComponent.instance.path).subscribe(res => {
-                 dynamicComponent.instance.data = res.content;
-               });
-             } else {
-               this.sortTable(event);
-             }
-           });
-         }
-         if (dynamicComponent.instance.pageChange) {
-           dynamicComponent.instance.pageChange.subscribe((event) => {
-             console.log("page change");
-             console.log(event);
-             if (this.path === 'search') {
-               this.typePagination(event, dynamicComponent.instance.path).subscribe(res => {
-                 dynamicComponent.instance.data = res.content;
-               });
-             } else {
-               this.paginationChanges(event);
-             }
-           });
-         }
-
-         this.loadedComponents.set(component.token, dynamicComponent);
-       } else {
-         if (this.search && this.search.length) {
-           const data: any = this.search.filter(datum => datum.kind === instance.instance.path)[0];
-           instance.instance.pageData = newPD;
-           instance.instance.data = data.data.content;
-         } else {
-           instance.instance.pageData = newPD;
-           instance.instance.data = this.data;
-
-
-           this.changeRef.markForCheck();
-         }
-       }
-     });
-     */
      this.componentsLoaded = true;
      this.autosize = false;
      this.loadedComponents.set(component.token, componentInstance);
@@ -189,7 +139,7 @@ export class PharosMainComponent implements OnInit, OnDestroy {
       } else {
         instance.instance.data = this.data.results;
         this.loadedComponents.set(component.token, instance);
-        this.changeRef.markForCheck();
+        this.changeRef.detectChanges();
       }
     });
   }

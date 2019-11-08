@@ -11,6 +11,7 @@
 </div>
 <table mat-table matSort #genericTable
        [dataSource]="dataSource"
+       [trackBy]="trackByFn"
        [multiTemplateDataRows]="expandable"
        (matSortChange)="changeSort($event)"
        [ngClass]="{'condensed': condensed}">

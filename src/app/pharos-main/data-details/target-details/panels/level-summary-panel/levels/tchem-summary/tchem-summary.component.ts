@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {Target} from '../../../../../../../models/target';
 
 /**
@@ -7,7 +7,8 @@ import {Target} from '../../../../../../../models/target';
 @Component({
   selector: 'pharos-tchem-summary',
   templateUrl: './tchem-summary.component.html',
-  styleUrls: ['./tchem-summary.component.scss']
+  styleUrls: ['./tchem-summary.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TchemSummaryComponent {
   /**

@@ -55,7 +55,6 @@ export class PathResolverService {
       } else {
         navigationExtras.queryParams.facet = params.length > 0 ? params : null;
       }
-
       this._router.onSameUrlNavigation = 'reload'; // forces reload since this is the same navigation url
       if (path) { // move up a level
         this._router.navigate([path], navigationExtras);

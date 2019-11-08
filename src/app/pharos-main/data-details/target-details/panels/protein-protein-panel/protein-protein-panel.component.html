@@ -28,13 +28,19 @@
         [showFirstLastButtons] = true
         (page) = "paginate($event)"
         #ppipaginator></mat-paginator>
-      <pharos-target-table [data]= ppis
+      <div class="target-grid">
+        <div *ngFor="let ppi of target.ppis">
+          <pharos-target-card [target]="ppi"></pharos-target-card>
+        </div>
+      </div>
+
+     <!-- <pharos-target-table [data]= ppis
                            [pageData]="targetPageData"
                            [showLabel]=false
                            [showToolbar]="false"
                            [showCustomPaginator] = false
                            (pageChange)="skip()"
-                           *ngIf="target"></pharos-target-table>
+                           *ngIf="target"></pharos-target-table>-->
     </mat-card-content>
   </mat-card>
 </article>

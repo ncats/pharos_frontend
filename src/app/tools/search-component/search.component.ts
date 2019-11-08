@@ -77,7 +77,7 @@ export class SearchComponent implements OnInit {
    * @private
    */
   private _navigate(navExtras: NavigationExtras): void {
-    this._router.navigate(['/search'], navExtras);
+    this._router.navigate(['/targets'], navExtras);
 
   }
 }

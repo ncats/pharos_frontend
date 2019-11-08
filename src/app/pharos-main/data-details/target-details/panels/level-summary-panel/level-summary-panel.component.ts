@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Target} from '../../../../../models/target';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {MatDialog} from '@angular/material';
@@ -20,7 +20,8 @@ export class LevelSummaryPanelComponent extends DynamicPanelComponent implements
   @Input() targetProps: any;
 
  constructor(
-   private navSectionsService: NavSectionsService
+   private navSectionsService: NavSectionsService,
+   private changeRef: ChangeDetectorRef
  ) {
     super();
   }
@@ -33,12 +34,10 @@ export class LevelSummaryPanelComponent extends DynamicPanelComponent implements
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (this.data && this.data.targets) {
           this.target = this.data.targets;
-          this.targetProps = this.data.targetsProps;
-          this.ngUnsubscribe.next();
+        this.targetProps = this.data.targetsProps;
           this.loading = false;
-        }
+        this.changeRef.markForCheck();
       });
   }
 

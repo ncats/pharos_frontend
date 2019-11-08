@@ -60,7 +60,6 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
    * subscribe to data changes and create orthologs
    */
   ngOnInit() {
-    console.log(this);
     this.target = this.data.targets;
     this.targetProps = this.data.targetsProps;
 /*    this._data
