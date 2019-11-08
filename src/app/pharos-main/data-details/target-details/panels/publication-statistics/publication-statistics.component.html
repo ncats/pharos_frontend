@@ -64,7 +64,7 @@
                 </div>
               </div>
             </ng-container>
-            <ng-container *ngIf="patentTimeline.length > 0">
+            <ng-container *ngIf="patentTimeline && patentTimeline.length > 0">
               <div fxLayout="row" fxLayoutAlign="start stretch" class="timeline-holder">
                 <div fxFlex="95" class="scatter-plot-holder">
                 <span class="mat-title"
@@ -72,7 +72,7 @@
                       [matTooltipClass]="'pharos-tooltip'"
                 >Patents </span>
                   <div fxLayout="row" fxLayoutAlign="center center">
-                    <div fxFlex="95">
+                    <div fxFlex="95" class="scatter-plot-holder">
                       <pharos-scatter-plot [data]="patentTimeline" [options]="chartOptions"></pharos-scatter-plot>
                     </div>
                   </div>

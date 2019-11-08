@@ -1,5 +1,28 @@
-
-@media only screen and (max-width: 768px) {
-  :host {
-  }
+.target-grid {
+  display: grid;
+  grid-auto-rows: max-content;
+  grid-template-columns: repeat(auto-fill, minmax(18%, 1fr));
+  grid-gap: .5em;
+  justify-items: center;
+  padding-left: 2.5vw;
+  padding-right: 2.5vw;
 }
+
+.target-grid > div {
+  margin-bottom: 1em;
+  min-width: 100%;
+  max-width: 100%;
+  min-height: 110%;
+ // height:20vh;
+}
+
+.radar-row {
+  height: 8vh !important;
+}
+
+.radar-row.target-card-radar {
+ // margin: 0 auto !important;
+  margin-top: 1vh !important;
+}
+
+

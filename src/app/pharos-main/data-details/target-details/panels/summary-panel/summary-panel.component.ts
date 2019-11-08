@@ -4,6 +4,7 @@ import {MatDialog} from '@angular/material';
 import {RadarChartViewerComponent} from '../../../../../tools/radar-chart-viewer/radar-chart-viewer.component';
 import {Target} from '../../../../../models/target';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
+import {takeUntil} from 'rxjs/operators';
 
 
 /**
@@ -46,9 +47,17 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
    * fetch all of the data - most is directly displayed, so no setter function needed
    */
   ngOnInit() {
+    this._data
+    // listen to data as long as term is undefined or null
+    // Unsubscribe once term has value
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(x => {
         this.target = this.data.targets;
         this.targetProps = this.data.targetsProps;
         this.loading = false;
+      });
 }
 
   /**

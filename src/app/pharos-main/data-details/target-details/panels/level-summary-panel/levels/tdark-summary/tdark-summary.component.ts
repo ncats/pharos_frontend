@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {Target} from '../../../../../../../models/target';
 import {DynamicPanelComponent} from '../../../../../../../tools/dynamic-panel/dynamic-panel.component';
 
@@ -8,7 +8,8 @@ import {DynamicPanelComponent} from '../../../../../../../tools/dynamic-panel/dy
 @Component({
   selector: 'pharos-tdark-summary',
   templateUrl: './tdark-summary.component.html',
-  styleUrls: ['./tdark-summary.component.scss']
+  styleUrls: ['./tdark-summary.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class TdarkSummaryComponent {
   /**

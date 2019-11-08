@@ -413,7 +413,6 @@ export class TargetSerializer implements PharosSerializer {
     if (newObj.ppis) {
       const targetSerializer = new TargetSerializer();
       newObj.ppis = obj.ppis.map(ppi => targetSerializer._asProperties(ppi));
-      console.log(newObj);
     }
 
     if (newObj.generifs) {

@@ -49,14 +49,14 @@
         </mat-checkbox>-->
     </div>
     <div fxFlex="45" fxFlexAlign="end">
-      <pharos-custom-paginator *ngIf="showCustomPaginator"
+      <pharos-custom-paginator
         [pageData]="pageData"
         (page)="changePage($event)">
       </pharos-custom-paginator>
     </div>
   </div>
   <div *ngIf="!isSmallScreen">
-    <pharos-generic-table *ngIf="targets"
+    <pharos-generic-table *ngIf="targetObjs"
                           [pageData]="pageData"
                           [showPaginator]="false"
                           [fieldsConfig]="fieldsData"

@@ -73,7 +73,6 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
    * create timelines if data is available
    */
   ngOnInit() {
-    console.log(this);
     this.target = this.data.targets;
     this.targetProps = this.data.targetsProps;
 

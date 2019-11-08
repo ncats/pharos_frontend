@@ -72,28 +72,24 @@ dataTypes: string[] = [];
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (this.data.targets) {
-          this.ngUnsubscribe.next();
+        this.reagentTypes = [];
+        this.dataTypes = [];
           this.target = this.data.targets;
           this.loading = false;
           this.http.get<any>(`http://dev3.ccs.miami.edu:8080/rss-api/target/search?term=${this.target.gene}`).subscribe(res => {
             if (res && res.data) {
               res.data.forEach(data => {
-                console.log(data);
                 this.http.get<any>(`http://dev3.ccs.miami.edu:8080/rss-api/target/id?id=${data.id}&json=true`).subscribe(resource => {
-                  console.log(resource);
                   const resc = this.resourceSerializer.fromJson(resource.data[0], data.resourceType);
-                  console.log(resc);
                   this[`${resc.baseType}s`].push(resc);
                 });
               });
             } else {
               this.navSectionsService.removeSection(this.field);
-              this.selfDestruct.next(true);
+              this.selfDestruct.next('true');
             }
           });
           // this.setterFunction();
-        }
       });
 
     this.reagentsList = this.reagents;

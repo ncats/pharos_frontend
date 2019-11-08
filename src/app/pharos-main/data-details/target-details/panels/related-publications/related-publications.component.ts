@@ -21,6 +21,7 @@ import {PharosApiService} from '../../../../../pharos-services/pharos-api.servic
 import {ActivatedRoute} from '@angular/router';
 import {Generif, GenerifSerializer} from '../../../../../models/generif';
 import {ScatterPlotComponent} from '../../../../../tools/visualizations/scatter-plot/scatter-plot.component';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'pharos-related-publications',
@@ -131,22 +132,30 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
    * create timelines if data is available
    */
   ngOnInit() {
-    console.log(this);
-    this.target = this.data.targets;
-    this.targetProps = this.data.targetsProps;
+    this._data
+    // listen to data as long as term is undefined or null
+    // Unsubscribe once term has value
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(x => {
+        this.target = this.data.targets;
+        this.targetProps = this.data.targetsProps;
 
-    if (this.target.publications) {
-      this.publications = this.targetProps.publications;
-      this.publicationsPageData = this.makePageData(this.target.publicationCount);
-    }
+        if (this.target.publications) {
+          this.publications = this.targetProps.publications;
+          this.publicationsPageData = this.makePageData(this.target.publicationCount);
+        }
 
-    if (this.target.generifs) {
-      this.generifs = this.targetProps.generifs;
-      this.rifPageData = this.makePageData(this.target.generifCount);
-    }
+        if (this.target.generifs) {
+          this.generifs = this.targetProps.generifs;
+          this.rifPageData = this.makePageData(this.target.generifCount);
+        }
 
-    this.loading = false;
-    this.changeRef.markForCheck();
+        this.loading = false;
+        this.changeRef.markForCheck();
+      });
+
   }
 
   /**
