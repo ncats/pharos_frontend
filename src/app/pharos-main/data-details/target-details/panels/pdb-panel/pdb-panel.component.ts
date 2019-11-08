@@ -31,7 +31,7 @@ const REPORT_URL = 'https://www.rcsb.org/pdb/rest/customReport.csv?customReportC
   styleUrls: ['./pdb-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PdbPanelComponent extends DynamicTablePanelComponent implements OnInit, OnDestroy {
+export class PdbPanelComponent extends DynamicTablePanelComponent implements OnInit {
 
   @Output() selfDestruct: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
@@ -144,16 +144,21 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-          this.target = this.data.targets;
+        this.target = this.data.targets;
         if (this.target.pdbs && this.target.pdbs.length > 0) {
-          this.ngUnsubscribe.next();
           this.setterFunction();
           this.loading = false;
         } else {
+
+          this.loading = false;
           this.navSectionsService.removeSection(this.field);
           this.selfDestruct.next(true);
+          this.ngUnsubscribe.next();
+          this.ngUnsubscribe.unsubscribe();
+          this.ngUnsubscribe.complete();
         }
       });
+
   }
 
   /**
@@ -227,14 +232,5 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
    */
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
-  }
-
-  /**
-   * cleanp on destroy
-   */
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-    this._data.unsubscribe();
   }
 }

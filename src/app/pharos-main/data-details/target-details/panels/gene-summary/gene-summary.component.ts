@@ -63,11 +63,9 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (this.data && this.data.targets) {
           this.target = this.data.targets;
           this.ngUnsubscribe.next();
           this.setterFunction();
-        }
       });
    }
 

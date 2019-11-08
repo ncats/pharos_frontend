@@ -10,6 +10,7 @@ import {Target} from '../../../../../models/target';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {DiseaseSerializer} from '../../../../../models/disease';
+import {takeUntil} from 'rxjs/operators';
 
 /**
  * interface to track disease tree nodes
@@ -85,10 +86,18 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    * subscribe to data changes and generate tree
    */
   ngOnInit() {
+    this._data
+    // listen to data as long as term is undefined or null
+    // Unsubscribe once term has value
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(x => {
           this.target = this.data.targets;
            this.targetProps = this.data.targetsProps;
           this.setterFunction();
           this.loading = false;
+      });
   }
 
   /**
@@ -152,16 +161,11 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       diseasetop: event.pageSize,
       diseaseskip: event.pageIndex * event.pageSize,
     };
-    this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams, 'diseaseSources').valueChanges.subscribe(res => {
-      console.log("yoyoyoyoyoy");
+    this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams).valueChanges.subscribe(res => {
       console.log(res);
-      this.loading=false;
-      /*if (res.data.origin === 'diseaseSources') {
-     /!* this.target.diseases = res.data.targets.diseases;
+      this.target.diseases = res.data.targets.diseases;
       this.targetProps.diseases = res.data.targets.diseases.map(disease => diseaseSerializer._asProperties(disease));
       this.setterFunction();
-*!/
-      }*/
     });
   }
 
