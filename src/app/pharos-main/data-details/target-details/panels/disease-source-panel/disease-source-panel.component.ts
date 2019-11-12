@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {MatTreeNestedDataSource, PageEvent} from '@angular/material';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
@@ -35,7 +35,7 @@ interface DiseaseTreeNode {
   styleUrls: ['./disease-source-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DiseaseSourceComponent extends DynamicPanelComponent implements OnInit {
+export class DiseaseSourceComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
 
   /**
    * target to display
@@ -90,7 +90,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
       .pipe(
-        takeUntil(this.ngUnsubscribe)
+       // takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
           this.target = this.data.targets;
@@ -162,7 +162,6 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       diseaseskip: event.pageIndex * event.pageSize,
     };
     this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams).valueChanges.subscribe(res => {
-      console.log(res);
       this.target.diseases = res.data.targets.diseases;
       this.targetProps.diseases = res.data.targets.diseases.map(disease => diseaseSerializer._asProperties(disease));
       this.setterFunction();
@@ -177,5 +176,12 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    */
   hasChild = (_: number, node: DiseaseTreeNode) => !!node.children && node.children.length > 0;
 
+  /**
+   * clean up on leaving component
+   */
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
 }
 

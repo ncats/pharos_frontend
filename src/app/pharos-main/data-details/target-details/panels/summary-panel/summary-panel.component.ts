@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {MatDialog} from '@angular/material';
 import {RadarChartViewerComponent} from '../../../../../tools/radar-chart-viewer/radar-chart-viewer.component';
@@ -38,6 +38,7 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
    */
   constructor(
     public dialog: MatDialog,
+    private changeRef: ChangeDetectorRef,
     private navSectionsService: NavSectionsService
   ) {
     super();
@@ -57,6 +58,7 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
         this.target = this.data.targets;
         this.targetProps = this.data.targetsProps;
         this.loading = false;
+        this.changeRef.markForCheck();
       });
 }
 

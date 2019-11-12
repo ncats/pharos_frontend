@@ -87,7 +87,6 @@ export class DataDetailsComponent extends DynamicPanelComponent implements OnIni
    * set up subscriptions to watch help panel, data responses and router event changes
    */
   ngOnInit() {
-    console.log(this);
 
     // this._data.next(this._route.snapshot.data.pharosObject);
 

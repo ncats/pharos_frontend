@@ -11,6 +11,7 @@ import {PharosProfileService} from '../../../auth/pharos-profile.service';
 import {PanelOptions} from '../../pharos-main.component';
 import {takeUntil} from 'rxjs/operators';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 
 /**
  * panel that hold a facet table for selection
@@ -97,24 +98,28 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
               private _route: ActivatedRoute,
               private profileService: PharosProfileService,
               private pathResolverService: PathResolverService,
+              private pharosApiService: PharosApiService,
               private pharosConfig: PharosConfig) { }
 
   /**
    * set up subscriptions to get facets
     */
   ngOnInit() {
+    console.log(this);
     this.router.events
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((e: any) => {
         // If it is a NavigationEnd event re-initalise the component
         if (e instanceof NavigationEnd) {
-          this.facets = this.data.facets;
+          this.filteredFacets = this.data.facets;
+          this.facets = this.filteredFacets;
           this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
           this.changeRef.detectChanges();
         }
       });
         this.loading = false;
-        this.facets = this.data.facets;
+    this.filteredFacets = this.data.facets;
+    this.facets = this.filteredFacets;
     this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
     this.changeRef.markForCheck();
       }
@@ -124,12 +129,23 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * load all facets as needed
    */
   toggleFacets() {
-    this.loading = true;
     this.fullWidth = !this.fullWidth;
     if (this.fullWidth) {
-          this.facets = this.allFacets;
-      this.loading = false;
+      this.panelOptions.mode = 'over';
+      this.loading = true;
+      if (!this.allFacets || this.allFacets.length === 0) {
+            this.pharosApiService.getAllFacets(
+              this._route.snapshot.data.path,
+              this._route.snapshot.queryParamMap,
+              this._route.snapshot.data.fragments).valueChanges.subscribe(res => {
+                this.allFacets = res.data.results.facets;
+              this.loading = false;
+              this.facets = this.allFacets;
+              this.changeRef.markForCheck();
+            });
+          }
     } else {
+      this.panelOptions.mode = 'side';
       this.facets = this.filteredFacets;
       this.loading = false;
     }

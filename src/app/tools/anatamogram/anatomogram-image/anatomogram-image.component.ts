@@ -87,8 +87,23 @@ export class AnatomogramImageComponent implements OnInit {
           .style('stroke-width', '.5')
           .style('fill', 'rgba(255, 178, 89, 1')
         )
-
         .on('mouseout', (d, i, f) => d3.select(f[i].parentNode).selectAll('path')
+          .style('stroke', 'rgba(35, 54, 78, .4')
+          .style('stroke-width', '.5')
+          .style('fill', 'rgba(35, 54, 78, .4'))
+        .style('stroke', 'rgba(35, 54, 78, .4')
+
+        .style('stroke', 'rgba(35, 54, 78, .4')
+        .style('stroke-width', '.5')
+        .style('fill', 'rgba(35, 54, 78, .4'));
+
+ this.tissues.forEach(tissue => d3.select(`#${tissue}`)
+        .on('mouseover', (d, i, f) => d3.select(f[i].parentNode)
+          .style('stroke', 'rgba(255, 178, 89, 1')
+          .style('stroke-width', '.5')
+          .style('fill', 'rgba(255, 178, 89, 1')
+        )
+        .on('mouseout', (d, i, f) => d3.select(f[i].parentNode)
           .style('stroke', 'rgba(35, 54, 78, .4')
           .style('stroke-width', '.5')
           .style('fill', 'rgba(35, 54, 78, .4'))
@@ -129,11 +144,19 @@ export class AnatomogramImageComponent implements OnInit {
    */
   highlightTissue(tissue?: string) {
     if (tissue) {
+      this.svg.select(`#${tissue}`)
+        .style('stroke', 'rgba(255, 178, 89, 1')
+        .style('stroke-width', '.5')
+        .style('fill', 'rgba(255, 178, 89, 1');
       this.svg.select(`#${tissue}`).selectAll('path')
         .style('stroke', 'rgba(255, 178, 89, 1')
         .style('stroke-width', '.5')
         .style('fill', 'rgba(255, 178, 89, 1');
     } else {
+      this.svg.select(`#${this.hovered}`)
+        .style('stroke', 'rgba(35, 54, 78, .4')
+        .style('stroke-width', '.5')
+        .style('fill', 'rgba(35, 54, 78, .4');
       this.svg.select(`#${this.hovered}`).selectAll('path')
         .style('stroke', 'rgba(35, 54, 78, .4')
         .style('stroke-width', '.5')

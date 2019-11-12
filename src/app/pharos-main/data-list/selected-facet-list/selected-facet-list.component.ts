@@ -62,8 +62,11 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
   removefacetFamily(facet: Facet): void {
     this.selectedFacetService.removefacetFamily(facet);
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
-    this.pathResolverService.navigate(queryParams);
-  }
+    if (this._route.snapshot.queryParamMap.has('q') && queryParams.length > 0) {
+      this.pathResolverService.navigate(queryParams, this._route.snapshot.queryParamMap.get('q'));
+    } else {
+      this.pathResolverService.navigate(queryParams);
+    }  }
 
   /**
    * remove single field from a facet
@@ -73,7 +76,11 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
   removeField(facet: string, field: string): void {
     this.selectedFacetService.removeField(facet, field);
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
-    this.pathResolverService.navigate(queryParams);
+    if (this._route.snapshot.queryParamMap.has('q') && queryParams.length > 0) {
+      this.pathResolverService.navigate(queryParams, this._route.snapshot.queryParamMap.get('q'));
+    } else {
+      this.pathResolverService.navigate(queryParams);
+    }
   }
 
   /**

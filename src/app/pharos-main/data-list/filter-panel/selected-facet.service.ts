@@ -85,7 +85,8 @@ export class SelectedFacetService {
 
   getFacetsAsUrlStrings(): string[] {
     const retArr: string[] = [];
-    const facets: Facet[] = Array.from(this._facetMap.values());
+   // this._facetMap.delete('query');
+    const facets: Facet[] = Array.from(this._facetMap.values()).filter(fac => fac.facet !== 'query');
     facets.forEach(facet => facet.values.forEach(value => retArr.push(this._makeFacetString(facet.facet, value.name))));
     return retArr;
   }
@@ -161,6 +162,9 @@ export class SelectedFacetService {
     if (map.keys.length === 0) {
       this._facetMap.clear();
     } else {
+      if (map.has('q')) {
+        this._facetMap.set('query', new Facet({facet: 'query', values: [{name: map.get('q')}]}));
+      }
       const fList = map.getAll('facet');
       fList.forEach(facetString => {
         const fArr = facetString.split('/');
