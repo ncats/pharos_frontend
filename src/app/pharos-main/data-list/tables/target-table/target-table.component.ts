@@ -244,7 +244,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       )
       .subscribe(x => {
         if (this.data) {
-          console.log(this.data);
           this.pageData = new PageData({
             top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,
             skip: (+this._route.snapshot.queryParamMap.get('page') - 1) * +this._route.snapshot.queryParamMap.get('rows'),

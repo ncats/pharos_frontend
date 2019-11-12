@@ -46,10 +46,10 @@ export class LigandCardComponent implements OnInit, OnChanges {
     this._STRUCTUREURLBASE = this.pharosConfig.getStructureImageUrl();
 
     if (this.target) {
-      this.primeActivity = [this.ligand.activities.filter(activity => this.target.gene === activity.target)[0]];
+   //   this.primeActivity = [this.ligand.activities.filter(activity => this.target.gene === activity.target)[0]];
     }
     if (!this.ligand.imageUrl) {
-      this.ligand.imageUrl = this.parseImageUrl();
+    //  this.ligand.imageUrl = this.parseImageUrl();
     }
   }
 
@@ -76,11 +76,11 @@ export class LigandCardComponent implements OnInit, OnChanges {
   }
 
 
-  private parseImageUrl(): string {
+  private parseImageUrl() {
     if (this.ligand['image']) {
-     return `${this._STRUCTUREURLBASE}${this.ligand['image'].split('structure')[1]}`;
+    // return `${this._STRUCTUREURLBASE}${this.ligand['image'].split('structure')[1]}`;
     } else {
-      return this._STRUCTUREURLBASE + this.ligand['structureId'] + '.svg?size=250';
+    //  return this._STRUCTUREURLBASE + this.ligand['structureId'] + '.svg?size=250';
     }
   }
 
@@ -91,10 +91,10 @@ export class LigandCardComponent implements OnInit, OnChanges {
   ngOnChanges(changes) {
     if (!changes.ligand.firstChange) {
       if (this.target) {
-        this.primeActivity = [this.ligand.activities.sort(activity => this.target.gene === activity.target)[0]];
+       // this.primeActivity = [this.ligand.activities.sort(activity => this.target.gene === activity.target)[0]];
       }
       if (!this.ligand.imageUrl) {
-        this.ligand.imageUrl = this.parseImageUrl();
+      //  this.ligand.imageUrl = this.parseImageUrl();
       }
     }
   }

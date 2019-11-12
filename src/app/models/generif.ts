@@ -50,8 +50,7 @@ export class GenerifSerializer implements Serializer {
   _asProperties(obj: Generif): any {
     const newObj: any = this._mapField(obj);
     newObj.pubPmids = newObj.pubPmids.map(source => source.pmid)
-      //console.log(newObj.pubPmids);
-                                          . map(pmid => ({...pmid, externalLink: `http://www.ncbi.nlm.nih.gov/pubmed/${pmid.term}`}));
+      .map(pmid => ({...pmid, externalLink: `http://www.ncbi.nlm.nih.gov/pubmed/${pmid.term}`}));
 
 
     return newObj;

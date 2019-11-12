@@ -1,9 +1,6 @@
-import {
-  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges,
-  OnInit, ViewChild, ViewChildren
-} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {MatPaginator, MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatTableDataSource, PageEvent} from '@angular/material';
 import {Ligand, LigandSerializer} from '../../../../../models/ligand';
 import {PageData} from '../../../../../models/page-data';
 import {takeUntil} from 'rxjs/operators';
@@ -11,6 +8,9 @@ import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/na
 import {Target} from '../../../../../models/target';
 import {HttpClient} from '@angular/common/http';
 import {PharosConfig} from '../../../../../../config/pharos-config';
+import {DiseaseSerializer} from '../../../../../models/disease';
+import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
+import {ActivatedRoute} from '@angular/router';
 
 /**
  * panel to generically display ligands as a pageable list of ligand cards
@@ -18,19 +18,10 @@ import {PharosConfig} from '../../../../../../config/pharos-config';
 @Component({
   selector: 'pharos-ligands-panel',
   templateUrl: './ligands-panel.component.html',
-  styleUrls: ['./ligands-panel.component.scss']
+  styleUrls: ['./ligands-panel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LigandsPanelComponent extends DynamicPanelComponent implements OnInit, OnChanges, AfterViewInit {
-  /**
-   * Paginator object from Angular Material
-   * */
-  @ViewChild('ligandPaginator', {read: MatPaginator, static: false}) set matPaginator(mp: MatPaginator) {
-    this.ligandPaginator = mp;
-    this.setPage();
-  }
-
-  ligandPaginator: MatPaginator;
-
+export class LigandsPanelComponent extends DynamicPanelComponent implements OnInit {
   /**
    * target object
    */
@@ -53,14 +44,6 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
   private _STRUCTUREURLBASE: string;
 
   /**
-   * serializer to map ligands
-   * @type {LigandSerializer}
-   */
-  ligandSerializer: LigandSerializer = new LigandSerializer();
-
-  ligandsList: any[] = [];
-
-  /**
    * most of these dependencies handle the pagination of the data
    *
    * calls super object constructor
@@ -72,10 +55,12 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
    * @param {ChangeDetectorRef} ref
    * @param {PharosConfig} pharosConfig
    */
-  constructor(private navSectionsService: NavSectionsService,
-              private changeDetector: ChangeDetectorRef,
+  constructor(
+    private navSectionsService: NavSectionsService,
               private _http: HttpClient,
-              private ref: ChangeDetectorRef,
+              private _route: ActivatedRoute,
+              private pharosApiService: PharosApiService,
+              private changeRef: ChangeDetectorRef,
               private pharosConfig: PharosConfig) {
     super();
     this._STRUCTUREURLBASE = this.pharosConfig.getStructureImageUrl();
@@ -86,6 +71,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
    * subscribe to data changes and set data when it arrives
    */
   ngOnInit() {
+    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -93,65 +79,36 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (this.data[this.field] && this.data[this.field].length > 0) {
-          this.pageData = new PageData(
-            {
-              top: 10,
-              skip: 0,
-              total: this.data.ligandcount,
-              count: 10
-            });
-          this.ngUnsubscribe.next();
-          this.setterFunction();
-        }
+        this.target = this.data.targets;
+        this.loading = false;
+
       });
   }
 
-  ngOnChanges (change) {
-    if (this.ligandPaginator) {
-      this.setPage();
-    }
-  }
-
   /**
-   * set the sort and paginators
-   * since the total is not know, it needs to be manually set based on the page data passes in
+   * paginate ligand list datasource
+   * @param event
    */
-  ngAfterViewInit() {
-    this.setPage();
-  }
-
-  /**
-   * create page data object and map data
-   */
-  setterFunction(): void {
-    this._mapLigands(this.data[this.field]);
-    this.changeDetector.markForCheck();
-  }
-
-  /**
-   * call api to get next page of ligands and map the response
-   * @param $event
-   */
-  paginate($event) {
-    const path: string = this.pharosConfig.getApiPath();
-    const acc: string = this.target.accession;
-    const url = `${path}targets/${acc}/${this.field}?skip=${($event.pageIndex) * $event.pageSize}&top=${$event.pageSize}&view=full`;
+  paginate(event: PageEvent) {
     this.loading = true;
-    this._http.get<Ligand[]>(
-      url)
-      .subscribe(res => {
-        this._mapLigands(res);
-        this.pageData.skip = $event.pageIndex * $event.pageSize;
-      });
+    const ligandSerializer = new LigandSerializer();
+    const pageParams = {
+      ligandtop: event.pageSize,
+      ligandskip: event.pageIndex * event.pageSize,
+    };
+    this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams).valueChanges.subscribe(res => {
+      console.log(res);
+      this.target.ligands = res.data.targets.ligands;
+      this.changeRef.markForCheck();
+    });
   }
-
   /**
    * filters out ligand activity values
    * uses ligand serializer to map ligand object
    * @param {any[]} data
    * @private
    */
+/*
   private _mapLigands(data: any[]): void {
     const acc: string = this.target.gene;
     const ligandsArr: Ligand[] = [];
@@ -187,23 +144,12 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
     this.loading = false;
   }
 
-  /**
-   * set default paginator values
-   */
-  setPage() {
-/*    if (this.ligandPaginator && this.pageData) {
-      this.ligandPaginator.length = this.pageData.total;
-      this.ligandPaginator.pageSize = this.pageData.top;
-      this.ligandPaginator.pageIndex = Math.ceil(this.pageData.skip / this.pageData.top);
-    }*/
-  }
-
-  /**
+  /!**
    * filters ligand activities from a ligand object
    * @param ligand
    * @return {any}
    * @private
-   */
+   *!/
   private _getActivity(ligand: any): any {
     let otherActivity: any;
     const ret: any[] = [];
@@ -227,7 +173,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
     });
     return otherActivity ? otherActivity : na;
   }
-
+*/
 
   /**
    * checks to see if the display section is within view

@@ -50,11 +50,11 @@ const ROUTES: Routes = [
     component: TopicNodeGeneratorComponent
   },*/
 
-  {
+/*  {
     path: 'search',
     loadChildren: () => import('./pharos-main/modules/search/search.module').then(m => m.SearchModule),
     data: { path: 'search' }
-  },
+  },*/
 /*  {
     path: 'topics',
     loadChildren: () => import('./pharos-main/modules/topics/topic-list.module').then(m => m.TopicListModule),

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {Target} from '../../../../models/target';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
@@ -11,11 +11,14 @@ import {takeUntil} from 'rxjs/operators';
 export class TargetHeaderComponent extends DynamicPanelComponent implements OnInit {
   @Input() target: Target;
 
+  @Input() data: any;
   /**
    * no args constructor
    * call super object constructor
    */
-  constructor() {
+  constructor(
+    private changeRef: ChangeDetectorRef
+  ) {
     super();
   }
 
@@ -28,6 +31,7 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
       )
       .subscribe(x => {
        this.target = this.data.targets;
+        this.changeRef.markForCheck();
       });
   }
 

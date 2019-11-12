@@ -137,7 +137,6 @@ export class DataListComponent implements OnInit, OnDestroy {
     const ref2 = this.contentPortalOutlet.attach(taskDetailCompoentPortal);
   }
     ngOnInit() {
-    console.log(this);
     this.path = this._route.snapshot.data.path;
     this.components = this._route.snapshot.data.components;
 
@@ -234,8 +233,6 @@ export class DataListComponent implements OnInit, OnDestroy {
         }
         if (dynamicComponent.instance.pageChange) {
           dynamicComponent.instance.pageChange.subscribe((event) => {
-            console.log("page change");
-            console.log(event);
             if (this.path === 'search') {
               this.typePagination(event, dynamicComponent.instance.path).subscribe(res => {
                 dynamicComponent.instance.data = res.content;

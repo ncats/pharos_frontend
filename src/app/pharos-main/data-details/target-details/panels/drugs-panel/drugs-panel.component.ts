@@ -3,7 +3,7 @@ import {
   OnInit, Output, ViewChild, ViewChildren
 } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {MatPaginator, MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatTableDataSource, PageEvent} from '@angular/material';
 import {Ligand, LigandSerializer} from '../../../../../models/ligand';
 import {PageData} from '../../../../../models/page-data';
 import {takeUntil} from 'rxjs/operators';
@@ -12,6 +12,8 @@ import {Target} from '../../../../../models/target';
 import {HttpClient} from '@angular/common/http';
 import {PharosConfig} from '../../../../../../config/pharos-config';
 import {BehaviorSubject} from 'rxjs';
+import {DiseaseSerializer} from '../../../../../models/disease';
+import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 
 /**
  * panel to generically display drugs as a pageable list of drug cards
@@ -79,6 +81,7 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
               private changeDetector: ChangeDetectorRef,
               private _http: HttpClient,
               private ref: ChangeDetectorRef,
+              private pharosApiService: PharosApiService,
               private pharosConfig: PharosConfig) {
     super();
     this._STRUCTUREURLBASE = this.pharosConfig.getStructureImageUrl();
@@ -132,26 +135,28 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
    * create page data object and map data
    */
   setterFunction(): void {
-    this._mapDrugs(this.data[this.field]);
+  //  this._mapDrugs(this.data[this.field]);
     this.loading = false;
     this.changeDetector.markForCheck();
   }
 
   /**
-   * call api to get next page of drugs and map the response
-   * @param $event
+   * paginate disease list datasource
+   * @param event
    */
-  paginate($event) {
-    const path: string = this.pharosConfig.getApiPath();
-    const acc: string = this.target.accession;
-    const url = `${path}targets/${acc}/${this.field}?skip=${($event.pageIndex) * $event.pageSize}&top=${$event.pageSize}&view=full`;
+  paginate(event: PageEvent) {
     this.loading = true;
-    this._http.get<Ligand[]>(
-      url)
-      .subscribe(res => {
-        this._mapDrugs(res);
-        this.pageData.skip = $event.pageIndex * $event.pageSize;
-      });
+    const diseaseSerializer = new DiseaseSerializer();
+    const pageParams = {
+      diseasetop: event.pageSize,
+      diseaseskip: event.pageIndex * event.pageSize,
+    };
+   /* this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams).valueChanges.subscribe(res => {
+      console.log(res);
+      this.target.diseases = res.data.targets.diseases;
+      this.targetProps.diseases = res.data.targets.diseases.map(disease => diseaseSerializer._asProperties(disease));
+      this.setterFunction();
+    });*/
   }
 
   /**
@@ -160,6 +165,7 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
    * @param {any[]} data
    * @private
    */
+/*
   private _mapDrugs(data: any[]): void {
     const drugsArr: Ligand[] = [];
     data.forEach(drug => {
@@ -190,6 +196,7 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
     });
     this.drugsList = drugsArr;
   }
+*/
 
   /**
    * set default paginator values
@@ -208,6 +215,7 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
    * @return {any}
    * @private
    */
+/*
   private _getActivity(drug: any): any {
     let otherActivity: any;
     const ret: any[] = [];
@@ -231,6 +239,7 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
     });
     return otherActivity ? otherActivity : na;
   }
+*/
 
 
   /**
