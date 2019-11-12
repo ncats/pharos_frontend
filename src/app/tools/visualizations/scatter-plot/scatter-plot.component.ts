@@ -573,9 +573,8 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    * function to unsubscribe on destroy
    */
   ngOnDestroy() {
-    console.log("destroy scatter");
-/*    const element = this.chartContainer.nativeElement;
-    d3.select(element).selectAll('this.svg').remove();*/
+   const element = this.chartContainer.nativeElement;
+    d3.select(element).selectAll('this.svg').remove();
     d3.select('body').selectAll('.line-tooltip').remove();
   }
 }

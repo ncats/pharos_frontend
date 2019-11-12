@@ -115,13 +115,11 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
        orthologsskip: event.pageIndex * event.pageSize,
       };
       this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams).valueChanges.subscribe(res => {
-        console.log(res);
         const tempArr = res.data.targets.orthologs
           .map(ortholog => orthologSerializer.fromJson(ortholog))
           .map(ortho => orthologSerializer._asProperties(ortho));
         this.targetProps.orthologs = tempArr;
         this.loading = false;
-        this.changeRef.markForCheck();
       });
     }
 }

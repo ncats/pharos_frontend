@@ -11,6 +11,7 @@ import {HelpDataService} from '../tools/help-panel/services/help-data.service';
 import {NavSectionsService} from '../tools/sidenav-panel/services/nav-sections.service';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
+import {BreakpointObserver} from '@angular/cdk/layout';
 
 export class PanelOptions {
   mode?: string;
@@ -49,19 +50,22 @@ export class PharosMainComponent implements OnInit, OnDestroy {
    */
   protected ngUnsubscribe: Subject<any> = new Subject();
 
+  isSmallScreen = false;
+
   constructor(
     private router: Router,
     private _route: ActivatedRoute,
     private changeRef: ChangeDetectorRef,
     private helpDataService: HelpDataService,
     private navSectionsService: NavSectionsService,
+    public breakpointObserver: BreakpointObserver,
     private componentInjectorService: ComponentInjectorService
   ) {
 
   }
 
   ngOnInit() {
-    console.log(this);
+    this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
     this.data = this._route.snapshot.data;
     this.components = this.data.components;
     this.makeComponents();
@@ -73,7 +77,6 @@ export class PharosMainComponent implements OnInit, OnDestroy {
         if (e instanceof NavigationEnd) {
             this.data = this._route.snapshot.data;
           this.makeComponents();
-          this.changeRef.detectChanges();
         }
       });
   }
@@ -126,9 +129,8 @@ export class PharosMainComponent implements OnInit, OnDestroy {
         if (componentInstance.instance.selfDestruct) {
           componentInstance.instance.selfDestruct.subscribe(res => {
             if (res) {
+              this.loadedComponents.delete(component.token);
               componentInstance.destroy();
-              // this.changeRef.markForCheck();
-              // componentPortal.detach();
             }
           });
         }
@@ -149,11 +151,16 @@ export class PharosMainComponent implements OnInit, OnDestroy {
    * close full width filter panel when clicking outside of panel
    */
   close() {
-   /* if (this.filterPanel.fullWidth) {
-      this.filterPanel.fullWidth = false;
-      this.filterPanel.closeMenu();
-    }*/
+    [...this.loadedComponents.values()].forEach(component => {
+      if (component.instance.fullWidth && component.instance.panelOptions) {
+        component.instance.fullWidth = false;
+        component.instance.panelOptions.opened = false;
+        component.instance.changeRef.markForCheck();
+      }
+    });
   }
+
+
 
   /**
    * clears data
