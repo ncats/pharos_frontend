@@ -3,7 +3,7 @@
           (pharosScrollspy)="active('pdbview')"
           #pdbview
           id="pdbview"
-          *ngIf="data">
+          *ngIf="target.pdbs && target.pdbs.length > 0">
   <mat-card-content>
     <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
       <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">

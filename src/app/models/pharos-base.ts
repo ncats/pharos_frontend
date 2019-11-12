@@ -16,11 +16,6 @@ export class PharosBase {
    * pharos object model java class
    */
   kind?: string;
-
-  /**
-   * object namespace
-   */
-  _namespace: string;
 }
 
 /**

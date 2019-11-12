@@ -5,7 +5,7 @@ import {
   Component,
   EventEmitter,
   Injector,
-  Input, OnChanges,
+  Input, OnChanges, OnDestroy,
   OnInit,
   Output,
   QueryList,
@@ -14,13 +14,14 @@ import {
   ViewChildren,
   ViewContainerRef
 } from '@angular/core';
-import {BehaviorSubject, combineLatest} from 'rxjs';
+import {BehaviorSubject, combineLatest, Subject} from 'rxjs';
 import {ComponentPortal} from '@angular/cdk/portal';
 import {PageData} from './models/page-data';
 import {MatPaginator, MatRow, MatSort, MatTableDataSource, Sort} from '@angular/material';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {DataProperty} from './components/property-display/data-property';
 import {SelectionModel} from '@angular/cdk/collections';
+import {takeUntil} from 'rxjs/operators';
 
 /**
  * component to show flexible data consisting of multiple data types, custom components
@@ -42,7 +43,12 @@ import {SelectionModel} from '@angular/cdk/collections';
 /**
  * Generic table Component that iterates over a list of {@link TableData} options to display fields
  */
-export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
+export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+  /**
+   * Behaviour subject to allow extending class to unsubscribe on destroy
+   * @type {Subject<any>}
+   */
+  protected ngUnsubscribe: Subject<any> = new Subject();
 
   /**
    * initialize a private variable _data, it's a BehaviorSubject
@@ -219,12 +225,26 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
    * Table data is tracked by the data getter and setter
    */
   ngOnInit() {
-    this._data.subscribe(res => {
+    this._data
+    // listen to data as long as term is undefined or null
+    // Unsubscribe once term has value
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(res => {
       this.dataSource.data = res;
       this.ref.detectChanges();
     });
-    this._fieldsConfig.subscribe(res => this.fetchTableFields());
-    this.selection.changed.subscribe(change => {
+
+    this._fieldsConfig.pipe(
+      takeUntil(this.ngUnsubscribe)
+    )
+      .subscribe(res => this.fetchTableFields());
+    this.selection.changed
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(change => {
       this.ref.detectChanges();
       this.rowSelectionChange.emit(this.selection);
     });
@@ -436,5 +456,13 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
       this.dataSource.data.forEach(row => this.selection.select(row));
     this.ref.detectChanges();
 
+  }
+
+  /**
+   * clean up on leaving component
+   */
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

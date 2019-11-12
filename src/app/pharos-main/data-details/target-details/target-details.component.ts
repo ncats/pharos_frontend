@@ -102,7 +102,6 @@ export class TargetDetailsComponent extends DynamicPanelComponent implements OnI
    * this data object is then injected into the dynamic component
    */
   ngOnInit() {
-    console.log(this);
     /*this.target =  this.targetSerializer.fromJson(this.target);
     this.targetFields = this.targetSerializer._asProperties(this.target);*/
     this.titleService.setTitle(`${this.target.accession}/${this.target.gene} details`);

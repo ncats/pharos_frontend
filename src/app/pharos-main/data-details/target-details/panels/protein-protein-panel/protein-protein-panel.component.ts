@@ -77,7 +77,6 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
    * @param event
    */
   paginate(event: PageEvent) {
-    console.log(event);
     this.loading = true;
     const targetSerializer = new TargetSerializer();
     const pageParams = {

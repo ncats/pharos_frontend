@@ -1029,7 +1029,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           LEVEL_SUMMARY_PANEL,
           IDG_RESOURCES_PANEL,
          // DRUGS_PANEL,
-        //  LIGANDS_PANEL,
+         // LIGANDS_PANEL,
           DISEASE_SOURCE_PANEL,
           PDB_PANEL,
           EXPRESSION_PANEL,

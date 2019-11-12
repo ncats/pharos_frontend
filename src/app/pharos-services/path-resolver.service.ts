@@ -23,10 +23,10 @@ export class PathResolverService {
    * navigates to url, which updates data
    * optional path allows traversal up the path
    * @param params
+   * @param query
    * @param {string} path
    */
-  navigate(params: any, path?: string): void {
-      let q: string;
+  navigate(params: any, query?: string, path?: string): void {
       /*this._facets.forEach(facet => {
         if (facet.facet === 'query') {
           q = facet.fields[0];
@@ -49,8 +49,8 @@ export class PathResolverService {
         queryParamsHandling: ''
       };
 
-      if (q) {
-        navigationExtras.queryParams.q = q;
+      if (query) {
+        navigationExtras.queryParams.q = query;
         navigationExtras.queryParams.facet = params.length > 0 ? params : null;
       } else {
         navigationExtras.queryParams.facet = params.length > 0 ? params : null;

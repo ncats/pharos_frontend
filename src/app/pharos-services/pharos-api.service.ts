@@ -188,6 +188,8 @@ export class PharosApiService {
 
   listQuery: any;
 
+  queryString: string;
+
   /**
    * get config info and set up http service
    * @param {HttpClient} http
@@ -246,7 +248,6 @@ export class PharosApiService {
    * @return {Observable<any>}
    */
   getGraphQlData(path: string, params: ParamMap, fragments?: any): Observable<any> {
-    console.log(this);
     const variables = this._mapVariables(path, params);
     /**
      * With query() you fetch data, receive the result, then an Observable completes.
@@ -282,7 +283,7 @@ export class PharosApiService {
 
 
   getDetailsData(path: string, params: ParamMap, fragments?: any): Observable<any> {
-    const variables: any = {term: params.get('id')};;
+    const variables: any = {term: params.get('id')};
 
     this.detailsQuery = gql`
         query fetchTarget(
@@ -363,6 +364,68 @@ export class PharosApiService {
       return res;
      });
    return watchQuery;
+  }
+
+  // todo: this is probably not ideal , although it returns a more useful query than the initial list query
+  getAllFacets(path: string, params: ParamMap, fragments?: any): QueryRef<any> {
+      const variables = this._mapVariables(path, params);
+    /**
+     * With query() you fetch data, receive the result, then an Observable completes.
+     * With watchQuery() you fetch data, receive the result and an Observable is keep opened for new
+     * emissions so it never completes.
+     * @type {Observable<ApolloQueryResult<any>>}
+     */
+
+    const allFacetsQuery = this.apollo.watchQuery<any>({
+      query: gql`
+      query getAllFacets {
+  results: ${path}(
+    facets: [
+      "Target Development Level",
+      "UniProt Keyword",
+      "Family",
+      "Indication",
+      "Monarch Disease",
+      "UniProt Disease",
+      "Ortholog",
+      "IMPC Phenotype",
+      "JAX/MGI Phenotype",
+      "GO Process",
+      "GO Component",
+      "GO Function",
+      "GWAS",
+      "Expression: CCLE",
+      "Expression: HCA RNA",
+      "Expression: HPM Protein",
+      "Expression: HPA",
+      "Expression: JensenLab Experiment HPA",
+      "Expression: HPM Gene",
+      "Expression: JensenLab Experiment HPA-RNA",
+      "Expression: JensenLab Experiment GNF",
+      "Expression: Consensus",
+      "Expression: JensenLab Experiment Exon array",
+      "Expression: JensenLab Experiment RNA-seq",
+      "Expression: JensenLab Experiment UniGene",
+      "Expression: UniProt Tissue",
+      "Expression: JensenLab Knowledge UniProtKB-RC",
+      "Expression: JensenLab Text Mining",
+      "Expression: JensenLab Experiment Cardiac proteome",
+      "Expression: Cell Surface Protein Atlas"
+    ]
+) {
+  facets {
+    facet
+    values {
+      name
+      value
+    }
+  }
+}
+}
+     `,
+      variables: variables
+    });
+    return allFacetsQuery;
   }
 
   /**
@@ -477,6 +540,14 @@ export class PharosApiService {
               }
               ret.filter = filter;
              break;
+            }
+            case 'query':
+            case 'q': {
+              const filter: any = ret.filter ? ret.filter : {};
+              filter.term = val;
+              ret.filter = filter;
+              this.queryString = val;
+              break;
             }
             default: {
               ret[key] = val;

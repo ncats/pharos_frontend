@@ -7,6 +7,7 @@ import {PharosPoint} from './pharos-point';
 import {Disease, DiseaseSerializer} from './disease';
 import {Generif, GenerifSerializer} from './generif';
 import {Ortholog, OrthologSerializer} from './ortholog';
+import {Ligand, LigandSerializer} from './ligand';
 
 const TARGETLISTFIELDS =  gql`
   fragment targetsListFields on Target {
@@ -117,6 +118,43 @@ const TARGETDETAILSFIELDS = gql`
       term
       mimid
     }
+     expressions (top: 1000, filter: {
+    facets: [ 
+    {
+      facet: "type"
+      values: [ 
+        "HPA",
+       # "HCA RNA",
+      "JensenLab Experiment HPA",
+      "JensenLab Experiment GNF",
+        "HPM Gene",
+        "HPM Protein",
+        "JensenLab Experiment HPA-RNA",
+        "JensenLab Experiment HPM",
+        "JensenLab Experiment Exon array",
+        "Uniprot Tissue",
+      # "Consensus",
+        "JensenLab Experiment RNA-seq",
+        "JensenLab Knowledge UniProtKB-RC",
+        "JensenLab Text Mining",
+        "JensenLab Experiment UniGene",
+       "JensenLab Experiment Cardiac proteome"
+      ]
+    }
+  ]
+  }) {
+    type
+    tissue
+    qual
+    value
+    evidence
+  zscore
+  conf
+    uberon {
+      name
+      uid
+    }
+  }
   }
   
   ${TARGETLISTFIELDS}
@@ -193,7 +231,8 @@ export class Target extends PharosBase {
   generifCount:  number;
 
 
-  drugs: any[];
+  drugs: Ligand[];
+  ligands: Ligand[];
 
   pubTatorScores: [{year, score}];
   pubmedScores: [{year, score}];
@@ -263,6 +302,8 @@ tinx: any;
   orthologs: Ortholog[];
   orthologCounts: number;
   ppis: Target[];
+
+  expressions: any[];
 
 }
 
@@ -353,6 +394,18 @@ export class TargetSerializer implements PharosSerializer {
       obj.ppis = json.ppis.map(ppi =>  targetSerializer.fromJson(ppi['target']));
     }
 
+  if (json.ligands) {
+    const ligandSerializer = new LigandSerializer();
+    json.ligands.forEach(ligand => {
+      const lig: Ligand = ligandSerializer.fromJson(ligand);
+      if (lig.isdrug) {
+        obj.drugs.push(lig);
+      } else {
+        obj.ligands.push(lig);
+      }
+    });
+  }
+
     if (json.publications) {
       const pubSerializer = new PublicationSerializer();
       obj.publications = json.publications.map(pub => pubSerializer.fromJson(pub));
@@ -423,6 +476,16 @@ export class TargetSerializer implements PharosSerializer {
     if (newObj.diseases) {
       const diseaseSerializer = new DiseaseSerializer();
       newObj.diseases = obj.diseases.map(disease => diseaseSerializer._asProperties(disease));
+    }
+
+    if (newObj.drugs) {
+      const drugSerializer = new LigandSerializer();
+      newObj.drugs = obj.drugs.map(drug => drugSerializer._asProperties(drug));
+    }
+
+    if (newObj.ligands) {
+      const ligandSerializer = new LigandSerializer();
+      newObj.ligands = obj.ligands.map(ligand => ligandSerializer._asProperties(ligand));
     }
 
     if (newObj.orthologs) {
