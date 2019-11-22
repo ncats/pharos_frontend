@@ -68,7 +68,7 @@ export class SidenavPanelComponent implements OnInit {
     this.navSectionsService.sections$.subscribe(res => {
       if (res && res.length) {
         this.sections = res;
-        this.activeElement = this.sections[0].section;
+        this.activeElement = this.sections[0].section.toString();
       }
     });
     this.navSectionsService.activeSection$.subscribe(res => {

@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {TargetDetailsRoutingModule} from './target-details-routing.module';
-import {TargetDetailsComponent} from '../../data-details/target-details/target-details.component';
 import {TargetHeaderComponent} from '../../data-details/target-details/target-header/target-header.component';
 import {SummaryPanelComponent} from '../../data-details/target-details/panels/summary-panel/summary-panel.component';
 import {RadarChartViewerComponent} from '../../../tools/radar-chart-viewer/radar-chart-viewer.component';
@@ -11,10 +10,7 @@ import {ExpressionPanelComponent} from '../../data-details/target-details/panels
 import {AaSequencePanelComponent} from '../../data-details/target-details/panels/aa-sequence-panel/aa-sequence-panel.component';
 import {ProteinProteinPanelComponent} from '../../data-details/target-details/panels/protein-protein-panel/protein-protein-panel.component';
 import {OrthologPanelComponent} from '../../data-details/target-details/panels/expression-panel/ortholog-panel/ortholog-panel.component';
-import {
-  PdbPanelComponent,
-  STRUCTURE_VIEW_TOKEN
-} from '../../data-details/target-details/panels/pdb-panel/pdb-panel.component';
+import {PdbPanelComponent, STRUCTURE_VIEW_TOKEN} from '../../data-details/target-details/panels/pdb-panel/pdb-panel.component';
 import {GeneSummaryComponent} from '../../data-details/target-details/panels/gene-summary/gene-summary.component';
 import {TargetFacetPanelComponent} from '../../data-details/target-details/panels/target-facet-panel/target-facet-panel.component';
 import {IdgResourcesPanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/idg-resources-panel.component';
@@ -38,7 +34,6 @@ import {RelatedPublicationsComponent} from '../../data-details/target-details/pa
 
 @NgModule({
   declarations: [
-    TargetDetailsComponent,
     TargetHeaderComponent,
     BreadcrumbComponent,
     SummaryPanelComponent,
@@ -75,7 +70,6 @@ import {RelatedPublicationsComponent} from '../../data-details/target-details/pa
     HelpPanelComponent,
     SidenavPanelComponent,
     TargetHeaderComponent,
-    TargetDetailsComponent,
     BreadcrumbComponent,
     SummaryPanelComponent,
     DiseaseSourceComponent,
@@ -102,7 +96,6 @@ import {RelatedPublicationsComponent} from '../../data-details/target-details/pa
     {provide: TOKENS.TARGET_GENE_SUMMARY_COMPONENT, useValue: GeneSummaryComponent},
     // targets
     {provide: TOKENS.TARGET_HEADER_COMPONENT, useValue: TargetHeaderComponent},
-    {provide: TOKENS.TARGET_DETAILS_COMPONENT, useValue: TargetDetailsComponent},
     {provide: TOKENS.SUMMARY_PANEL, useValue: SummaryPanelComponent},
     {provide: TOKENS.IDG_RESOURCES_PANEL, useValue: IdgResourcesPanelComponent},
 

@@ -6,6 +6,7 @@ import {SharedModule} from '../../../../../shared/shared.module';
 import {BrowserTestingModule} from '@angular/platform-browser/testing';
 import {PathResolverService} from '../../../../../pharos-services/path-resolver.service';
 import {ApolloTestingModule} from 'apollo-angular/testing';
+import {TESTTARGET} from '../../../../../../../test/test-target';
 
 describe('BreadcrumbComponent', () => {
   let component: BreadcrumbComponent;
@@ -29,9 +30,7 @@ describe('BreadcrumbComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BreadcrumbComponent);
     component = fixture.componentInstance;
-    component.links = ['targets'];
-    component.path = 'targets';
-    component.data = [];
+    component.data = TESTTARGET;
     fixture.detectChanges();
   });
 

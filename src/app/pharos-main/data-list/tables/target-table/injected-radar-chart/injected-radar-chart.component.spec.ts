@@ -20,6 +20,7 @@ describe('InjectedRadarChartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(InjectedRadarChartComponent);
     component = fixture.componentInstance;
+    component.data = [];
     fixture.detectChanges();
   });
 

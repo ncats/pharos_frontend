@@ -12,6 +12,14 @@ import {DifferentialPanelComponent} from './differential-panel/differential-pane
 import {OrthologPanelComponent} from './ortholog-panel/ortholog-panel.component';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {RouterTestingModule} from '@angular/router/testing';
+import {ActivatedRoute} from '@angular/router';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route';
+import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {COMMON_CONFIG} from '../../../../../../../test/test-config';
+import {AngularFireModule} from '@angular/fire';
+import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../test/test-target';
 
 describe('ExpressionPanelComponent', () => {
   let component: ExpressionPanelComponent;
@@ -27,9 +35,13 @@ describe('ExpressionPanelComponent', () => {
         GenericTableModule,
         CommonToolsModule,
         ApolloTestingModule,
-        RouterTestingModule
+        RouterTestingModule,
+        AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
       providers: [
+        AngularFireAuth,
+        { provide: AngularFirestore, useValue: FIRESTORESTUB },
+        { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
       ],
       declarations: [
         DifferentialPanelComponent,
@@ -46,10 +58,7 @@ describe('ExpressionPanelComponent', () => {
     component = fixture.componentInstance;
     component.apiSources = [{label: '', field: '', description: ''}];
     component.sources = [];
-    component.data = {
-        loaded: true,
-        diseases: []
-    };
+    component.data = {targets: TESTTARGET, targetsProps: TESTTARGETPROPS};
     fixture.detectChanges();
   });
 

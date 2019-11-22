@@ -5,7 +5,8 @@ import {SharedModule} from '../../shared/shared.module';
 import {ActivatedRoute, RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {CommonToolsModule} from '../common-tools.module';
-import {MockActivatedRoute} from '../../../../test/mock-activate-route';
+import {MOCKACTIVATEDROUTE} from '../../../../test/mock-activate-route';
+import {AngularFireAuth} from '@angular/fire/auth';
 
 describe('SidenavPanelComponent', () => {
   let component: SidenavPanelComponent;
@@ -20,7 +21,7 @@ describe('SidenavPanelComponent', () => {
         RouterTestingModule
       ],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute }
+        { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
       ]
     })
     .compileComponents();

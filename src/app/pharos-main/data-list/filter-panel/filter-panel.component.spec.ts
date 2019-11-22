@@ -16,6 +16,7 @@ import {COMMON_CONFIG} from '../../../../../test/test-config';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
+import {ApolloTestingModule} from 'apollo-angular/testing';
 
 describe('FilterPanelComponent', () => {
   let component: FilterPanelComponent;
@@ -25,6 +26,7 @@ describe('FilterPanelComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         AngularFireModule.initializeApp(COMMON_CONFIG),
+        ApolloTestingModule,
         SharedModule,
         RouterTestingModule,
         BrowserAnimationsModule

@@ -65,7 +65,7 @@ export class BreadcrumbComponent implements OnInit {
   ngOnInit() {
     const pt = this.route.snapshot.data.path;
     this.path = {term: pt, label: pt};
-    this._data.subscribe(x => {
+    /*this._data.subscribe(x => {
       if (this.data) {
         if (this.data.dto && this.data.dto.length > 0) {
           this.links = this.data.dto.sort((a, b) => b.label < a.label);
@@ -73,7 +73,7 @@ export class BreadcrumbComponent implements OnInit {
           this.links = this.data.breadcrumb.sort((a, b) => b.label < a.label);
         }
       }
-    });
+    });*/
   }
 
   /**
