@@ -17,7 +17,7 @@ import {GraphDataService, LinkService, NodeService, SmrtgraphCoreModule} from 's
 import {GraphParserService} from './panels/topic-graph-panel/services/graph-parser.service';
 import {ComponentInjectorService} from '../../../pharos-services/component-injector.service';
 import {ActivatedRoute} from '@angular/router';
-import {MockActivatedRoute} from '../../../../../test/mock-activate-route';
+import {MOCKACTIVATEDROUTE} from '../../../../../test/mock-activate-route';
 import {of} from 'rxjs';
 
 

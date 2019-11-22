@@ -10,6 +10,11 @@ import {SharedModule} from '../../../shared/shared.module';
 import {SelectedFacetService} from '../filter-panel/selected-facet.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {RouterTestingModule} from '@angular/router/testing';
+import {COMMON_CONFIG} from '../../../../../test/test-config';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireModule} from '@angular/fire';
+import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 describe('SelectedFacetListComponent', () => {
   let component: SelectedFacetListComponent;
@@ -20,7 +25,8 @@ describe('SelectedFacetListComponent', () => {
       imports: [
         SharedModule,
         RouterTestingModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule ,
+        AngularFireModule.initializeApp(COMMON_CONFIG),
       ],
       declarations: [
         SelectedFacetListComponent
@@ -32,6 +38,8 @@ describe('SelectedFacetListComponent', () => {
         LoadingService,
         SelectedFacetService,
         SuggestApiService,
+        { provide: AngularFirestore, useValue: FIRESTORESTUB },
+        AngularFireAuth,
         {provide: APP_BASE_HREF, useValue: '/targets' }
       ]
     })

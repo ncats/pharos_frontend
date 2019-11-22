@@ -23,6 +23,7 @@ describe('ScatterPlotComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ScatterPlotComponent);
     component = fixture.componentInstance;
+    component.data = [];
     fixture.detectChanges();
   });
 

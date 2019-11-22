@@ -15,6 +15,10 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFireModule} from '@angular/fire';
 import {COMMON_CONFIG} from '../../../../../test/test-config';
 import {ApolloTestingModule} from 'apollo-angular/testing';
+import {ActivatedRoute} from '@angular/router';
+import {MOCKACTIVATEDROUTE} from '../../../../../test/mock-activate-route';
+import {TESTTARGET} from '../../../../../test/test-target';
+import {Facet} from '../../../models/facet';
 
 
 describe('DataListVisualizationsComponent', () => {
@@ -40,7 +44,8 @@ describe('DataListVisualizationsComponent', () => {
         LoadingService,
         AngularFireAuth,
         {provide: APP_BASE_HREF, useValue: '/targets' },
-        { provide: AngularFirestore, useValue: FIRESTORESTUB }
+        { provide: AngularFirestore, useValue: FIRESTORESTUB },
+        { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
       ]
     })
     .compileComponents();
@@ -49,6 +54,8 @@ describe('DataListVisualizationsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DataListVisualizationsComponent);
     component = fixture.componentInstance;
+    component.data = {facets: []};
+    component.donutData = {facet: 'facet', values: []} as Facet;
     fixture.detectChanges();
   });
 

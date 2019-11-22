@@ -7,6 +7,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
 import {PharosPaginatorModule} from '../../../../tools/pharos-paginator/pharos-paginator.module';
 import {GenericTableModule} from '../../../../tools/generic-table/generic-table.module';
+import {ActivatedRoute} from '@angular/router';
+import {MOCKACTIVATEDROUTE} from '../../../../../../test/mock-activate-route';
 
 describe('DiseaseTableComponent', () => {
   let component: DiseaseTableComponent;
@@ -22,7 +24,8 @@ describe('DiseaseTableComponent', () => {
         PharosPaginatorModule
       ],
       providers: [
-        PharosApiService
+        PharosApiService,
+        { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
       ],
       declarations: [
         DiseaseTableComponent
