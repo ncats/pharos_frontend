@@ -101,6 +101,11 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
   }
 
   getTooltip(label: string): string {
-    return this.apiSources.filter(source => source.field === label)[0].description;
+    const tooltip = this.apiSources.filter(source => source.field === label);
+    if (tooltip.length) {
+      return tooltip[0].description;
+    } else {
+      return null;
+    }
   }
 }

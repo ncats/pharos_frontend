@@ -8,6 +8,7 @@ import {SharedModule} from '../shared/shared.module';
 import {RouterModule, Routes} from '@angular/router';
 import {CommonToolsModule} from '../tools/common-tools.module';
 import {SearchComponentModule} from '../tools/search-component/search-component.module';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 const pharosHomeRoutes: Routes = [
   {
@@ -27,6 +28,7 @@ const pharosHomeRoutes: Routes = [
   imports: [
     CommonModule,
     SharedModule,
+    AngularFirestore,
     CommonToolsModule,
     SearchComponentModule,
     RouterModule.forChild(pharosHomeRoutes)

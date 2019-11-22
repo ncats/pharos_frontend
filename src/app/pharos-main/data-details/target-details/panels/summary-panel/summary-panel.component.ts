@@ -85,8 +85,12 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
 }
 
   getTooltip(label: string): string {
-    return this.apiSources.filter(source => source.label === label)[0].description;
-  }
+    const tooltip = this.apiSources.filter(source => source.field === label);
+    if (tooltip.length) {
+      return tooltip[0].description;
+    } else {
+      return null;
+    }  }
 
   /**
    * clean up on leaving component

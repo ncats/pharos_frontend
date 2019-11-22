@@ -17,7 +17,7 @@ import {FIRESTORESTUB} from '../../../../../../test/firestore-stub';
 import {AngularFireModule} from '@angular/fire';
 import {COMMON_CONFIG} from '../../../../../../test/test-config';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {MockActivatedRoute} from '../../../../../../test/mock-activate-route';
+import {MOCKACTIVATEDROUTE} from '../../../../../../test/mock-activate-route';
 
 describe('TargetTableComponent', () => {
   let component: TargetTableComponent;
@@ -37,7 +37,7 @@ describe('TargetTableComponent', () => {
       providers: [
         PharosApiService,
         AngularFireAuth,
-        {provide: ActivatedRoute, useValue: MockActivatedRoute},
+        {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE},
         { provide: AngularFirestore, useValue: FIRESTORESTUB }
       ],
       declarations: [

@@ -10,7 +10,13 @@ import {ActivatedRoute, RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {IdgLevelIndicatorComponent} from '../../../../../tools/idg-level-indicator/idg-level-indicator.component';
 import {ApolloTestingModule} from 'apollo-angular/testing';
-import {MockActivatedRoute} from '../../../../../../../test/mock-activate-route';
+import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {COMMON_CONFIG} from '../../../../../../../test/test-config';
+import {AngularFireModule} from '@angular/fire';
+import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../test/test-target';
 
 describe('DrugsPanelComponent', () => {
   let component: DrugsPanelComponent;
@@ -24,7 +30,8 @@ describe('DrugsPanelComponent', () => {
         SharedModule,
         GenericTableModule,
         PharosPaginatorModule,
-        ApolloTestingModule
+        ApolloTestingModule,
+        AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
       declarations: [
         LigandCardComponent,
@@ -32,8 +39,10 @@ describe('DrugsPanelComponent', () => {
         IdgLevelIndicatorComponent
       ],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute }
-      ]
+        AngularFireAuth,
+        { provide: AngularFirestore, useValue: FIRESTORESTUB },
+        { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
+      ],
     })
     .compileComponents();
   }));
@@ -41,6 +50,7 @@ describe('DrugsPanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DrugsPanelComponent);
     component = fixture.componentInstance;
+    component.data = {targets: TESTTARGET, targetsProps: TESTTARGETPROPS};
     fixture.detectChanges();
   });
 

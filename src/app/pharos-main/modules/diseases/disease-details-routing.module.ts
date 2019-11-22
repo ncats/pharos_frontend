@@ -1,12 +1,12 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {DataDetailsResolver} from '../../resolvers/data-details.resolver';
-import {DataDetailsComponent} from '../../data-details/data-details.component';
+import {PharosMainComponent} from '../../pharos-main.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: DataDetailsComponent,
+    component: PharosMainComponent,
     resolve: {
       pharosObject: DataDetailsResolver
     },

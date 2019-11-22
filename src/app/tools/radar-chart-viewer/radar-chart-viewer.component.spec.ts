@@ -26,6 +26,7 @@ describe('RadarChartViewerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RadarChartViewerComponent);
     component = fixture.componentInstance;
+    component.data = [[]];
     fixture.detectChanges();
   });
 

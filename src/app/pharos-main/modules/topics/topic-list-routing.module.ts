@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {DataListComponent} from '../../data-list/data-list.component';
 import {TopicsListResolver} from '../../resolvers/topics-list.resolver';
 import {SharedModule} from '../../../shared/shared.module';
 import {TOKENS} from '../../../../config/component-tokens';
@@ -8,11 +7,12 @@ import {CommonToolsModule} from '../../../tools/common-tools.module';
 import {SharedListModule} from '../../../shared/shared-list.module';
 import {TopicCardComponent} from '../../data-list/cards/topic-card/topic-card.component';
 import {TopicTableComponent} from '../../data-list/tables/topic-table/topic-table.component';
+import {PharosMainComponent} from '../../pharos-main.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: DataListComponent,
+    component: PharosMainComponent,
     resolve: {
       data: TopicsListResolver
     },

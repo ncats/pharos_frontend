@@ -6,6 +6,12 @@ import {GenericTableModule} from '../../../../../tools/generic-table/generic-tab
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {RouterTestingModule} from '@angular/router/testing';
+import {COMMON_CONFIG} from '../../../../../../../test/test-config';
+import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireModule} from '@angular/fire';
+import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 describe('TargetRelevancePanelComponent', () => {
   let component: TargetRelevancePanelComponent;
@@ -19,8 +25,17 @@ describe('TargetRelevancePanelComponent', () => {
         GenericTableModule,
         BrowserAnimationsModule,
         ApolloTestingModule,
-        RouterTestingModule
+        RouterTestingModule,
+        AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
+      providers: [
+        AngularFireAuth,
+        { provide: AngularFirestore, useValue: FIRESTORESTUB }
+      ],
+      schemas: [
+        NO_ERRORS_SCHEMA,
+        CUSTOM_ELEMENTS_SCHEMA
+      ]
     })
     .compileComponents();
   }));

@@ -25,7 +25,7 @@ describe('TbioSummaryComponent', () => {
     fixture = TestBed.createComponent(TbioSummaryComponent);
     component = fixture.componentInstance;
     component.apiSources = [{label: '', field: '', description: ''}];
-    component.data = ({object: TESTTARGET, references: []});
+   // component.data = ({object: TESTTARGET, references: []});
     component.target = TESTTARGET;
     fixture.detectChanges();
   });

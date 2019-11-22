@@ -3,7 +3,10 @@ import {ComponentFactoryResolver, Injectable, InjectionToken, Injector, Type} fr
 /**
  * dynamically inject a component into an element host
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+  }
+)
 
 export class ComponentInjectorService {
 

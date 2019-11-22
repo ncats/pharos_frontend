@@ -12,13 +12,11 @@ import {SharedModule} from '../../../shared/shared.module';
 import {StructureViewPanelComponent} from '../../data-details/ligand-details/panels/structure-view-panel/structure-view-panel.component';
 import {MolecularDefinitionPanelComponent} from '../../data-details/ligand-details/panels/molecular-definition-panel/molecular-definition-panel.component';
 import {SharedDetailsModule} from '../../../shared/shared-details.module';
-import {LigandDetailsComponent} from '../../data-details/ligand-details/ligand-details.component';
 import {IDG_LEVEL_TOKEN} from '../../data-details/disease-details/target-list-panel/target-list-panel.component';
 import {IdgLevelIndicatorComponent} from '../../../tools/idg-level-indicator/idg-level-indicator.component';
 
 @NgModule({
   declarations: [
-    LigandDetailsComponent,
     LigandHeaderComponent,
     SynonymsPanelComponent,
     StructureViewPanelComponent,
@@ -35,7 +33,6 @@ import {IdgLevelIndicatorComponent} from '../../../tools/idg-level-indicator/idg
   ],
   providers: [
     // ligands
-    {provide: TOKENS.LIGAND_DETAILS_COMPONENT, useValue: LigandDetailsComponent},
     {provide: TOKENS.LIGAND_HEADER_COMPONENT, useValue: LigandHeaderComponent},
     {provide: TOKENS.SYNONYMS_PANEL, useValue: SynonymsPanelComponent},
     {provide: TOKENS.STRUCTURE_VIEW_PANEL, useValue: StructureViewPanelComponent},
@@ -44,7 +41,6 @@ import {IdgLevelIndicatorComponent} from '../../../tools/idg-level-indicator/idg
     {provide: IDG_LEVEL_TOKEN, useValue: IdgLevelIndicatorComponent}
   ],
   entryComponents: [
-    LigandDetailsComponent,
     LigandHeaderComponent,
     SynonymsPanelComponent,
     StructureViewPanelComponent,

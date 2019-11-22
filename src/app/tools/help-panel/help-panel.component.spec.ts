@@ -9,6 +9,13 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {RouterTestingModule} from '@angular/router/testing';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {COMMON_CONFIG} from '../../../../test/test-config';
+import {FIRESTORESTUB} from '../../../../test/firestore-stub';
+import {AngularFireModule} from '@angular/fire';
+import {MOCKACTIVATEDROUTE} from '../../../../test/mock-activate-route';
+import {ActivatedRoute} from '@angular/router';
 
 describe('HelpPanelComponent', () => {
   let component: HelpPanelComponent;
@@ -25,9 +32,13 @@ describe('HelpPanelComponent', () => {
         NgxJsonViewerModule,
         HelpArticlesModule,
         ApolloTestingModule,
-        RouterTestingModule
+        RouterTestingModule,
+        AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
       providers: [
+        AngularFireAuth,
+        { provide: AngularFirestore, useValue: FIRESTORESTUB },
+        { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE },
         ComponentInjectorService
       ]
     })
