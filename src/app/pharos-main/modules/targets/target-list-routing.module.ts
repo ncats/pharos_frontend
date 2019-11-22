@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {DataListResolver} from '../../resolvers/data-list.resolver';
-import {DataListComponent} from '../../data-list/data-list.component';
 import {ComponentsResolver} from '../../resolvers/components.resolver';
 import {Target, TargetSerializer} from '../../../models/target';
 import {PharosMainComponent} from '../../pharos-main.component';

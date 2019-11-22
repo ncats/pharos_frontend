@@ -61,7 +61,7 @@ export class DifferentialPanelComponent extends DynamicPanelComponent implements
       .subscribe(x => {
         if (Object.values(this.data).length > 0) {
           this.ngUnsubscribe.next();
-          this.setterFunction();
+       //   this.setterFunction();
         }
       });
   }

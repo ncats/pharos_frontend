@@ -21,7 +21,7 @@ describe('RadarChartComponent', () => {
     fixture = TestBed.createComponent(RadarChartComponent);
     component = fixture.componentInstance;
     component.id = 0;
-    component.data = [];
+    component.data = [[]];
     fixture.detectChanges();
   });
 

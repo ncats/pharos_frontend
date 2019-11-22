@@ -8,7 +8,7 @@ import {SharedModule} from '../../../../shared/shared.module';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FIRESTORESTUB} from '../../../../../../test/firestore-stub';
 import {ActivatedRoute} from '@angular/router';
-import {MockActivatedRoute} from '../../../../../../test/mock-activate-route';
+import {MOCKACTIVATEDROUTE} from '../../../../../../test/mock-activate-route';
 
 describe('TopicTableComponent', () => {
   let component: TopicTableComponent;
@@ -28,7 +28,7 @@ describe('TopicTableComponent', () => {
       ],
       providers: [
         { provide: AngularFirestore, useValue: FIRESTORESTUB },
-        { provide: ActivatedRoute, useClass: MockActivatedRoute }
+        { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
       ]
     })
     .compileComponents();

@@ -38,7 +38,7 @@ export class TopicSaveModalComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private http: HttpClient,
     private pharosConfig: PharosConfig,
-    private db: AngularFirestore,
+   // private db: AngularFirestore,
     private pharosProfileService: PharosProfileService,
     public dialogRef: MatDialogRef<TopicSaveModalComponent>
   ) { }
@@ -96,7 +96,7 @@ export class TopicSaveModalComponent {
      * redirect to topic by id
      */
     // todo make better use of rxjs for this
-    this.data.selection.forEach(target => {
+  /*  this.data.selection.forEach(target => {
       this.db.collection('topic-nodes').doc(target)// ref => ref.where('documentid', '==', target))
         .valueChanges().pipe(take(1))
         .subscribe(res => {
@@ -116,7 +116,7 @@ export class TopicSaveModalComponent {
             });
           }
         });
-    });
+    });*/
      // this.http.post(`${this.pharosConfig.getTopicResolveUrl()}`, this.data.selection.slice(0,10).join(), httpOptions).subscribe(res => {
      //   console.log(res);
        /* ret.value = res['etag'];

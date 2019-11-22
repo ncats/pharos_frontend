@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {FilterPanelComponent} from '../pharos-main/data-list/filter-panel/filter-panel.component';
 import {FacetTableComponent} from '../pharos-main/data-list/filter-panel/facet-table/facet-table.component';
-import {DataListComponent} from '../pharos-main/data-list/data-list.component';
 import {SelectedFacetListComponent} from '../pharos-main/data-list/selected-facet-list/selected-facet-list.component';
 import {DataListVisualizationsComponent} from '../pharos-main/data-list/data-list-visualizations/data-list-visualizations.component';
 import {SharedModule} from './shared.module';
@@ -22,7 +21,6 @@ import {TOKENS} from '../../config/component-tokens';
     PharosLoadingSpinnerModule
   ],
   declarations: [
-    DataListComponent,
     DataListVisualizationsComponent,
     FilterPanelComponent,
     FacetTableComponent,
@@ -45,7 +43,6 @@ import {TOKENS} from '../../config/component-tokens';
   ],
   exports: [
     SharedModule,
-    DataListComponent,
     DataListVisualizationsComponent,
     FilterPanelComponent,
     FacetTableComponent,

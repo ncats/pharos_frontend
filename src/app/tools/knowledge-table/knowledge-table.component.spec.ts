@@ -24,6 +24,7 @@ describe('KnowledgeTableComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(KnowledgeTableComponent);
     component = fixture.componentInstance;
+    component.data = [];
     fixture.detectChanges();
   });
 

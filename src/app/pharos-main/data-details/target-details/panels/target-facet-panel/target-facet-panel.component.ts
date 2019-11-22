@@ -67,7 +67,7 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
         //    takeWhile(() => !this.data['references'])
       )
       .subscribe(x => {
-        this.setterFunction();
+       // this.setterFunction();
         this.loading = false;
       });
   }
