@@ -27,6 +27,11 @@ import {TargetSaveModalComponent} from './target-save-modal/target-save-modal.co
 import {PharosProfileService} from '../../../../auth/pharos-profile.service';
 import {TopicSaveModalComponent} from './topic-save-modal/topic-save-modal.component';
 
+/**
+ * default http header
+ * todo: move http post call to a service and remove http calls here
+ * @type {{headers: HttpHeaders}}
+ */
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'text/plain',
