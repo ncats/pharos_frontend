@@ -2,22 +2,79 @@ import {Serializer} from './pharos-base';
 import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
 
 export class DiseaseAssociation {
+  /**
+   * internal disease association id
+   */
   disassid?: number;
-  type?: string;
-  name?: string;
-  did?: string;
-  description?: string;
-  zscore?: number;
-  evidence?: string;
-  conf?: number;
-  reference?: string;
-  drug?: string;
-  log2foldchange?: number;
-  pvalue?: number;
-  score?: number;
-  source?: string;
-  targetCounts?: number;
 
+  /**
+   * disease association type
+   */
+  type?: string;
+
+  /**
+   * disease name
+   */
+  name?: string;
+
+  /**
+   * disease id
+   */
+  did?: string;
+  /**
+   * disease descriptions
+   */
+  description?: string;
+
+  /**
+   * disease association z-score
+   */
+  zscore?: number;
+
+  /**
+   * disease association evidence
+   */
+  evidence?: string;
+
+  /**
+   * disease association confidence
+   */
+  conf?: number;
+
+  /**
+   * disease association reference
+   */
+  reference?: string;
+
+  /**
+   * disease association relevant drug name
+   */
+  drug?: string;
+
+  /**
+   * disease assocaition log2 fold change
+   */
+  log2foldchange?: number;
+
+  /**
+   * disease association p value
+   */
+  pvalue?: number;
+
+  /**
+   * disease association score
+   */
+  score?: number;
+
+  /**
+   * disease association source
+   */
+  source?: string;
+
+  /**
+   * number of targets related to disease association
+   */
+  targetCounts?: number;
 }
 
 /**
@@ -66,6 +123,12 @@ export class DiseaseAssocationSerializer implements Serializer {
     return newObj;
   }
 
+  /**
+   * recursive mapping function
+   * @param obj
+   * @return {{}}
+   * @private
+   */
   private _mapField (obj: any) {
     const retObj: {} = Object.assign({}, obj);
     Object.keys(obj).map(objField => {

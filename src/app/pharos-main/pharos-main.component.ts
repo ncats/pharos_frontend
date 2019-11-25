@@ -13,15 +13,44 @@ import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {BreakpointObserver} from '@angular/cdk/layout';
 
+/**
+ * class or interface to set properties for an injected sidenav panel
+ */
 export class PanelOptions {
+  /**
+   * sidenav panel mode, 'push' 'over' or 'side'
+   */
   mode?: string;
+
+  /**
+   * optional sidenav panel class
+   */
   class?: string;
+
+  /**
+   * set panel to be opened or closed by default
+   */
   opened?: boolean;
+
+  /**
+   * fix sidenav in viewport
+   */
   fixedInViewport?: boolean;
+
+  /**
+   * top gap for fixed panel, bumps the sidenav down for headers
+   */
   fixedTopGap?: number;
+
+  /**
+   * sidenav role, ie navigation
+   */
   role?: string;
 }
 
+/**
+ * main component that hold all injected panels
+ */
 @Component({
   selector: 'pharos-main',
   templateUrl: './pharos-main.component.html',
@@ -29,20 +58,59 @@ export class PanelOptions {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PharosMainComponent implements OnInit, OnDestroy {
-  @ViewChild('leftpanel', {static: true}) leftPanelInstance: MatSidenav;
-  @ViewChild('rightpanel', {static: true}) rightPanelInstance: MatSidenav;
-
-
   // todo set as viewchildren, then map the array
+  /**
+   * left sidenav panel instance
+   */
+  @ViewChild('leftpanel', {static: true}) leftPanelInstance: MatSidenav;
+  /**
+   * right sidenav panel instance
+   */
+  @ViewChild('rightpanel', {static: true}) rightPanelInstance: MatSidenav;
+  /**
+   * left sidenav panel instance
+   */
   @ViewChild('lefttemplate', {static: true, read: CdkPortalOutlet}) leftPortalOutlet: CdkPortalOutlet;
+  /**
+   * right sidenav panel instance
+   */
   @ViewChild('righttemplate', {static: true, read: CdkPortalOutlet}) rightPortalOutlet: CdkPortalOutlet;
+
+  /**
+   * full width headet area
+   */
   @ViewChild('headertemplate', {static: true, read: CdkPortalOutlet}) headerPortalOutlet: CdkPortalOutlet;
+  /**
+   * content are, constrained by sidenavs, if applicable
+   */
   @ViewChild('contenttemplate', {static: true, read: CdkPortalOutlet}) contentPortalOutlet: CdkPortalOutlet;
 
+  /**
+   * full width footer template
+   */
+  @ViewChild('footertemplate', {static: true, read: CdkPortalOutlet}) footerPortalOutlet: CdkPortalOutlet;
+
+  /**
+   * list of pharos panel component objects
+   */
   components: PharosPanel[];
-  componentsLoaded = false;
+
+  /**
+   * track loaded and injected components
+   * @type {Map<any, any>}
+   */
   loadedComponents: Map<any, any> = new Map<any, any>();
+
+  /**
+   * boolean to adjust the content area size based on sidenavs. set to false when all items loaded.
+   * @type {boolean}
+   */
   autosize = true;
+
+  /**
+   * data object
+   * @type {{}}
+   */
   @Input() data: any = {};
   /**
    * Behaviour subject to allow extending class to unsubscribe on destroy
@@ -50,8 +118,22 @@ export class PharosMainComponent implements OnInit, OnDestroy {
    */
   protected ngUnsubscribe: Subject<any> = new Subject();
 
+  /**
+   * boolean to toggle mobile views and parameters
+   * @type {boolean}
+   */
   isSmallScreen = false;
 
+  /**
+   * add necessary services
+   * @param {Router} router
+   * @param {ActivatedRoute} _route
+   * @param {ChangeDetectorRef} changeRef
+   * @param {HelpDataService} helpDataService
+   * @param {NavSectionsService} navSectionsService
+   * @param {BreakpointObserver} breakpointObserver
+   * @param {ComponentInjectorService} componentInjectorService
+   */
   constructor(
     private router: Router,
     private _route: ActivatedRoute,
@@ -64,6 +146,13 @@ export class PharosMainComponent implements OnInit, OnDestroy {
 
   }
 
+  /**
+   * set mobile view
+   * fetch data from route
+   * fetch component configs
+   * generate new components
+   * subsctibe to router change events and re-generate components and reset data
+   */
   ngOnInit() {
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
     this.data = this._route.snapshot.data;
@@ -81,6 +170,10 @@ export class PharosMainComponent implements OnInit, OnDestroy {
       });
   }
 
+  /**
+   * iterate over each component, make a CDKPortalOutlet, inject it, and set required properties. Sets up listeners
+   * for event emitting
+   */
   makeComponents() {
     this.components.forEach(component => {
       if (component) {
@@ -135,7 +228,6 @@ export class PharosMainComponent implements OnInit, OnDestroy {
               }
             });
           }
-          this.componentsLoaded = true;
           this.autosize = false;
           this.loadedComponents.set(component.token, componentInstance);
           this.changeRef.markForCheck();

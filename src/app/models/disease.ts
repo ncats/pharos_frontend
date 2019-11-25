@@ -3,6 +3,9 @@ import gql from 'graphql-tag';
 import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
 import {DiseaseAssocationSerializer, DiseaseAssociation} from './disease-association';
 
+/**
+ * apollo graphQL query fragment to retrieve common fields for a disease list view
+ */
 const DISEASELISTFIELDS =  gql`
       fragment diseasesListFields on Disease {
         diseases(top: $diseasetop) {
@@ -22,6 +25,9 @@ const DISEASELISTFIELDS =  gql`
  */
 export class Disease {
 
+  /**
+   * fragment of common fields. fetched by the route resolver
+   */
   static diseaseListFragments  = DISEASELISTFIELDS;
 
 
@@ -30,8 +36,14 @@ export class Disease {
    */
   name: string;
 
+  /**
+   * number of disease associations
+   */
   associationCounts: number;
 
+  /**
+   * List of disease association objects
+   */
   associations: DiseaseAssociation[];
 }
 
@@ -88,6 +100,12 @@ export class DiseaseSerializer implements Serializer {
     return newObj;
   }
 
+  /**
+   * recursive mapping function
+   * @param obj
+   * @return {{}}
+   * @private
+   */
   private _mapField (obj: any) {
     const retObj: {} = Object.assign({}, obj);
     Object.keys(obj).map(objField => {

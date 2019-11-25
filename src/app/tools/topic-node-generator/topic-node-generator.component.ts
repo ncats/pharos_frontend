@@ -4,6 +4,11 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {PharosConfig} from '../../../config/pharos-config';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {concat, forkJoin, from, interval, merge, Observable, of, pipe, zip} from 'rxjs';
+
+/**
+ * list of all pharos unbiprot ids, to manually generate nodes
+ * @type {string}
+ */
 const URL = './assets/uniprot_IDs.csv';
 
 
@@ -21,12 +26,19 @@ interface TopicData {
   data: any;
 }
 
+/**
+ * http options to post
+ * @type {{headers: HttpHeaders}}
+ */
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'text/plain',
   })
 };
 
+/**
+ * generates topic nodes
+ */
 @Component({
   selector: 'pharos-topic-node-generator',
   templateUrl: './topic-node-generator.component.html',
@@ -34,23 +46,56 @@ const httpOptions = {
 })
 export class TopicNodeGeneratorComponent implements OnInit {
 
+  /**
+   * list of saved nodes
+   * @type {any[]}
+   */
   saved: string[] = [];
+
+  /**
+   * list of errors
+   * @type {any[]}
+   */
   errors: any[] = [];
+
+  /**
+   * list of nodes that have already been saved
+   * @type {any[]}
+   */
   alreadySaved: any[] = [];
 
+  /**
+   * constructor
+   * @param {HttpClient} _http
+   * @param {PharosConfig} pharosConfig
+   * @param {AngularFirestore} db
+   */
   constructor(private _http: HttpClient,
               private pharosConfig: PharosConfig,
               private db: AngularFirestore) {
   }
 
+  /**
+   * init function
+   */
   ngOnInit() {
     // this.db.collection('topic-nodes').get().subscribe(res => console.log(res.size));
   }
 
-getData(target) {
+  /**
+   * get already saved nodes db
+   * @param target
+   * @return {Observable<any>}
+   */
+  getData(target) {
   return this.db.collection('topic-nodes').doc(target).valueChanges();
 }
 
+  /**
+   * fetch data that is already generated
+   * @param batch
+   * @return {Observable<Observable<any>>}
+   */
   fetchData(batch) {
     this.saved = [];
     this.errors = [];
@@ -157,6 +202,9 @@ firebaseobs
 */
   }
 
+  /**
+   * generate node from url
+   */
   generate() {
     this._http.get(URL, {responseType: 'text'}).subscribe(response => {
       const linesobs = from(response.split(/\r\n|\n/).slice(9200, 9340));

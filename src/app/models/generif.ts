@@ -2,23 +2,46 @@ import {Serializer} from './pharos-base';
 import {Publication, PublicationSerializer} from './publication';
 import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
 
+/**
+ * Generif object
+ */
 export class Generif {
+  /**
+   * internal generif id
+   */
   rifid?: number;
+
+  /**
+   * text for the generif
+   */
   text?: string;
+
+  /**
+   * target the generif is for.
+   * todo: make target object --may need to be serialized
+   */
   target?: any;
+
+  /**
+   * list of publications associated with this generif
+   */
   publications?: [Publication];
+
+  /**
+   * list of pubmed ids from the publication
+   */
   pubPmids?: any[];
 }
 
 
 /**
- * serializer publication object operations
+ * serializer generif object operations
  */
 export class GenerifSerializer implements Serializer {
 
   /**
-   * create publication from json
-   * @param obj
+   * create generif from json
+   * @param json
    * @param {string} id
    * @return {Publication}
    */
@@ -37,13 +60,13 @@ export class GenerifSerializer implements Serializer {
   }
 
   /**
-   * flattern publication
+   * flattern generif
    */
   toJson() {}
 
   /**
-   * return publication as properties
-   * @param {Publication} obj
+   * return generif as properties
+   * @param {Generif} obj
    * @return {any}
    * @private
    */
@@ -56,6 +79,12 @@ export class GenerifSerializer implements Serializer {
     return newObj;
   }
 
+  /**
+   * recursive mapping function
+   * @param obj
+   * @return {{}}
+   * @private
+   */
   private _mapField (obj: any) {
     const retObj: {} = Object.assign({}, obj);
     Object.keys(obj).map(objField => {
