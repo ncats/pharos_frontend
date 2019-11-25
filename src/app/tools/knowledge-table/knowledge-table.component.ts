@@ -1,9 +1,10 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {DynamicPanelComponent} from '../dynamic-panel/dynamic-panel.component';
 import {PharosProperty} from '../../models/pharos-property';
-import {takeWhile} from 'rxjs/internal/operators';
-import {takeUntil} from 'rxjs/operators';
 
+/**
+ * table of 5 properties to show harmonizome data
+ */
 @Component({
   selector: 'pharos-knowledge-table',
   templateUrl: './knowledge-table.component.html',
@@ -11,7 +12,15 @@ import {takeUntil} from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class KnowledgeTableComponent extends DynamicPanelComponent implements OnInit {
+  /**
+   * data to display
+   */
   tableData: any;
+
+  /**
+   * list of fields to display. The labels are adapted
+   * @type {PharosProperty[]}
+   */
   fields: PharosProperty[] = [
     new PharosProperty({
       name: 'name',
@@ -25,12 +34,19 @@ export class KnowledgeTableComponent extends DynamicPanelComponent implements On
     })
   ];
 
+  /**
+   * add change detection
+   * @param {ChangeDetectorRef} changeRef
+   */
   constructor(
     private changeRef: ChangeDetectorRef
   ) {
     super();
   }
 
+  /**
+   * set table data and truncate values
+   */
   ngOnInit() {
           this.tableData = this.data.slice(0, 5).map(val => {
             val.value.term = val.value.term.toFixed(2);

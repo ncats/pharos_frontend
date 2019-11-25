@@ -5,11 +5,34 @@ import {DataProperty} from '../tools/generic-table/components/property-display/d
  * similar to a disease source, a name and list of properties
  */
 export class Ortholog {
+  /**
+   * ortholog species
+   */
   species: string;
+
+  /**
+   * ortholog gene symbol
+   */
   sym: string;
+
+  /**
+   * ortholog name
+   */
   name: string;
+
+  /**
+   * internal db id
+   */
   dbid: string;
+
+  /**
+   * id for related gene
+   */
   geneid: string;
+
+  /**
+   * list of ortholog sources (not links)
+   */
   source: any[];
 }
 
@@ -56,6 +79,12 @@ export class OrthologSerializer implements Serializer {
     return newObj;
   }
 
+  /**
+   * recursive mapping function
+   * @param obj
+   * @return {{}}
+   * @private
+   */
   private _mapField (obj: any) {
     const retObj: {} = Object.assign({}, obj);
     Object.keys(obj).map(objField => {

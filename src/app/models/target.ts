@@ -9,6 +9,9 @@ import {Generif, GenerifSerializer} from './generif';
 import {Ortholog, OrthologSerializer} from './ortholog';
 import {Ligand, LigandSerializer} from './ligand';
 
+/**
+ * apollo graphQL query fragment to retrieve common fields for a target list view
+ */
 const TARGETLISTFIELDS =  gql`
   fragment targetsListFields on Target {
     _tcrdid:tcrdid
@@ -46,7 +49,9 @@ const TARGETLISTFIELDS =  gql`
   }
 `;
 
-
+/**
+ * apollo graphQL query fragment to retrieve common fields for a target details view
+ */
 const TARGETDETAILSFIELDS = gql`
   #import "./targetsListFields.gql"
   fragment targetsDetailsFields on Target {
@@ -167,8 +172,14 @@ const TARGETDETAILSFIELDS = gql`
  */
 export class Target extends PharosBase {
 
+  /**
+   * fragment of common fields. fetched by the route resolver
+   */
   static targetListFragments  = TARGETLISTFIELDS;
 
+  /**
+   * fragment of common fields. fetched by the route resolver
+   */
   static targetDetailsFragments = TARGETDETAILSFIELDS;
 
   /**
@@ -211,17 +222,33 @@ export class Target extends PharosBase {
    */
   jensenScore:  number;
 
+  /**
+   * list of uniprot ids
+   */
   uniprotIds: string[] | any[];
 
+  /**
+   * list of gene symbols
+   */
   symbols: string[];
 
+  /**
+   * gene sequence
+   */
   sequence: string;
 
+  /**
+   * list of pdb ids
+   */
   pdbs: any[];
 
-  hgdata: any[];
   /**
-   * antibodipedia.org? count
+   * list of harmonizome data
+   */
+  hgdata: any[];
+
+  /**
+   * antibodipedia.org antibody count
    */
   antibodyCount:  number;
 
@@ -230,17 +257,46 @@ export class Target extends PharosBase {
    */
   generifCount:  number;
 
-
+  /**
+   * list of approved drugs
+   */
   drugs: Ligand[];
+
+  /**
+   *list of active ligands
+   */
   ligands: Ligand[];
 
+  /**
+   * array of pubtator scores for timeline
+   */
   pubTatorScores: [{year, score}];
+
+  /**
+   * array of pubmed scores for timeline
+   */
   pubmedScores: [{year, score}];
+
+  /**
+   * array of patent counts for timeline
+   */
   patentCounts: [{year, count}];
+
+  /**
+   * list of ensembl ids
+   */
   ensemblIDs: any[];
 
+  /**
+   * count og GO terms
+   */
   goCount: number;
+
+  /**
+   * number of OMIM phenotypes
+   */
   omimCount: number;
+
   /**
    * monoclonal count
    * // todo: not used
@@ -252,37 +308,26 @@ export class Target extends PharosBase {
    */
   pubmedCount:  number;
 
+  /**
+   * pageable list of associated diseases
+   * todo see how this relates to the disease association object
+   */
   diseases: Disease[];
 
+  /**
+   * number of associated diseases
+   */
   diseaseCount: number;
 
-tinx: any;
-
+  /**
+   * tin-x data
+   */
+  tinx: any;
 
   /**
    * number of patents
    */
   patentCount:  number;
-
-  /**
-   * number of grants
-   */
-  grantCount:  number;
-
-  /**
-   * amount of grant funding
-   */
-  grantTotalCost:  number;
-
-  /**
-   * number of r01 grants
-   */
-  r01Count:  number;
-
-  /**
-   * number of protein-protein interactions
-   */
-  ppiCount:  number | any[];
 
   /**
    * knowledge availability score
@@ -294,21 +339,50 @@ tinx: any;
    */
   pubTatorScore:  number;
 
+  /**
+   * number of associated publications
+   */
   publicationCount: number;
 
+  /**
+   * pageable list of associated publications
+   */
   publications: Publication[];
 
+  /**
+   * pageable list of generifs
+   */
   generifs: Generif[];
+
+  /**
+   * pageable list of orthologs
+   */
   orthologs: Ortholog[];
+
+  /**
+   * number of orthologs
+   */
   orthologCounts: number;
+
+  /**
+   * pageable list of protein-protein interactions
+   */
   ppis: Target[];
 
+  /**
+   * number of protein-protein interactions
+   */
+  ppiCount:  number | any[];
+
+  /**
+   * list of expression data
+   */
   expressions: any[];
 
 }
 
 /**
- * serializer for publicaiton object operations
+ * serializer for target object operations
  */
 export class TargetSerializer implements PharosSerializer {
 
@@ -495,6 +569,12 @@ export class TargetSerializer implements PharosSerializer {
     return newObj;
   }
 
+  /**
+   * recursive mapping function
+   * @param obj
+   * @return {{}}
+   * @private
+   */
   private _mapField (obj: any) {
     const retObj: {} = Object.assign({}, obj);
       Object.keys(obj).map(objField => {
@@ -506,14 +586,6 @@ export class TargetSerializer implements PharosSerializer {
       });
     return retObj;
   }
-
-  _fromProperties(properties: any): Target {
-    const target = new Target();
-    Object.keys(properties).forEach(prop => target[prop] = properties[prop].term);
-    return target;
-  }
-
-
 }
 
 

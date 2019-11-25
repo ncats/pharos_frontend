@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -15,8 +15,11 @@ import {
 } from '@angular/core';
 import * as d3 from 'd3';
 import {MAT_DIALOG_DATA} from '@angular/material';
-import {BehaviorSubject} from 'rxjs/index';
 
+/**
+ * map of size and visualization parameters for various radar chart sizes
+ * @type {Map<string, any>}
+ */
 const RADAR_SIZES: Map<string, any> = new Map<string, any>(
   [
     ['small', {
@@ -134,7 +137,9 @@ export class RadarChartOptions {
 
 // todo: fix centering of chart in respect to labels
 // todo: create chart options service that reads from a chart config file, like environment variables
-
+/**
+ *extendable radar chart component
+ */
 @Component({
   selector: 'pharos-radar-chart',
   templateUrl: './radar-chart.component.html',
@@ -159,6 +164,9 @@ export class RadarChartComponent implements OnInit, OnDestroy {
    */
   @Input() id: any;
 
+  /**
+   * data object that is input
+   */
   @Input() data: any;
 
   /**
@@ -202,8 +210,16 @@ export class RadarChartComponent implements OnInit, OnDestroy {
    */
   private height: number;
 
-
+  /**
+   * event emitter for hover events
+   * @type {EventEmitter<any>}
+   */
   @Output() readonly hoverEvent: EventEmitter<any> = new EventEmitter<any>();
+
+  /**
+   * event emitter for click events
+   * @type {EventEmitter<any>}
+   */
   @Output() readonly clickEvent: EventEmitter<any> = new EventEmitter<any>();
 
 
@@ -224,15 +240,25 @@ export class RadarChartComponent implements OnInit, OnDestroy {
               @Optional() @Inject(MAT_DIALOG_DATA) public modalData: any) {
   }
 
+  /**
+   * draw and update graph
+   */
   ngOnInit() {
             this.drawChart();
             this.updateChart();
   }
 
+
+  /**
+   * remove tooltips on destroy
+   */
   ngOnDestroy(): void {
     d3.select('body').selectAll('.radar-tooltip').remove();
   }
 
+  /**
+   * get and set chart configuration options
+   */
   getOptions() {
     // get chart options
     if (this.size) {
@@ -242,6 +268,11 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * determine the number of data points for a circular chart
+   * @param num
+   * @return {any[]}
+   */
   pointsOnCircle(num) {
     const angle = (2 * Math.PI) / num;
     const points = [];
@@ -258,6 +289,10 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     return points;
   }
 
+  /**
+   * get max value from data
+   * @return {number}
+   */
   getMaxValue(): number {
     const maxValues: number[] = [this._chartOptions.maxValue];
     if (this.data) {
@@ -270,6 +305,12 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * generate a shape for the chart, rather than a circle
+   * @param {number} total
+   * @param scale
+   * @return {any[]}
+   */
   shapeToPoints(total: number, scale: any): any[] {
     const shape = this.pointsOnCircle(total);
 
@@ -280,6 +321,9 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     return [polygon];
   }
 
+  /**
+   * set up initial d3 svg elements. these tend to change less frequently
+   */
   drawChart(): void {
     if (!this._chartOptions) {
       this.getOptions();
@@ -312,6 +356,9 @@ export class RadarChartComponent implements OnInit, OnDestroy {
       .style('opacity', 0);
   }
 
+  /**
+   * update data displayed in the chart
+   */
   updateChart(): void {
     const max = Math.max;
     const sin = Math.sin;

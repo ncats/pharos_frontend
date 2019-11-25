@@ -11,9 +11,15 @@ import {DataProperty} from './data-property';
 })
 
 export class PropertyDisplayComponent {
-
+  /**
+   * show the label/field name
+   * @type {boolean}
+   */
   @Input() showLabel = true;
 
+  /**
+   * property object being shown
+   */
   @Input() property: DataProperty;
 
 }

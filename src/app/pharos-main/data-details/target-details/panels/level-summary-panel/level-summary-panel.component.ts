@@ -6,6 +6,9 @@ import {takeUntil} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 
+/**
+ * displays illumination progress for a target
+ */
 @Component({
   selector: 'pharos-level-summary',
   templateUrl: './level-summary-panel.component.html',
@@ -17,8 +20,16 @@ export class LevelSummaryPanelComponent extends DynamicPanelComponent implements
    */
   @Input() target: Target;
 
+  /**
+   * properties object of target
+   */
   @Input() targetProps: any;
 
+  /**
+   * fetch services
+   * @param {NavSectionsService} navSectionsService
+   * @param {ChangeDetectorRef} changeRef
+   */
  constructor(
    private navSectionsService: NavSectionsService,
    private changeRef: ChangeDetectorRef
@@ -26,6 +37,9 @@ export class LevelSummaryPanelComponent extends DynamicPanelComponent implements
     super();
   }
 
+  /**
+   * set objects from data
+   */
   ngOnInit() {
     this._data
     // listen to data as long as term is undefined or null
@@ -41,10 +55,17 @@ export class LevelSummaryPanelComponent extends DynamicPanelComponent implements
       });
   }
 
+  /**
+   * set active section
+   * @param {string} fragment
+   */
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
   }
 
+  /**
+   * unsubscribe from data
+   */
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();

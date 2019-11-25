@@ -4,7 +4,15 @@ import {HttpLinkModule, HttpLink} from 'apollo-angular-link-http';
 import {InMemoryCache} from 'apollo-cache-inmemory';
 import {environment} from '../environments/environment.prod';
 
+/**
+ * default graphql instance url
+ */
 const uri = environment.graphqlUrl; // <-- add the URL of the GraphQL server here
+
+/**
+ * initialize graphQL instance
+ * @param httpLink
+ */
 export function createApollo(httpLink: HttpLink) {
   return {
     link: httpLink.create({uri}),
