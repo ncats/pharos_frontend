@@ -119,17 +119,51 @@ export class MouseImageData extends DataResource {
 
 
 export class Dataset extends DataResource {
-
+  /**
+   * internal assay id
+   */
   assayID?: string;
+
+  /**
+   * format of assay data
+   */
   dataFormat?: string;
+
+  /**
+   * link to data
+   */
   dataLink?: string;
+
+  /**
+   * link to repository for data
+   */
   dataRepository?: string;
+
+  /**
+   * description of assay
+   */
   description?: string;
+
+  /**
+   * assay endpoint
+   */
   endpoint?: string;
+
+  /**
+   * endpoint detection
+   */
   endpointDetection?: string;
+
+  /**
+   * default resource type
+   * @type {string}
+   */
   resourceType = 'dataset';
 
-
+  /**
+   * iterate over values. they need to be renamed due to the RSS api
+   * @param data
+   */
   constructor(data: any) {
     super(data);
 
