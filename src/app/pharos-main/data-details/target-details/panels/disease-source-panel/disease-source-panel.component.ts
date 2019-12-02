@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {MatTreeNestedDataSource, PageEvent} from '@angular/material';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
@@ -54,12 +54,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    */
   loaded = false;
 
-  /**
-   * display options for the tinx plot
-   */
-  chartOptions: ScatterOptions;
-
-  /**
+   /**
    * controls open and closed tree nodes
    */
   treeControl: NestedTreeControl<DiseaseTreeNode> = new NestedTreeControl<DiseaseTreeNode>(node => node.children);
@@ -74,9 +69,22 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    */
   treeData: DiseaseTreeNode[] = [];
 
+  /**
+   * display options for the tinx plot
+   */
+  chartOptions: ScatterOptions = new ScatterOptions({
+    line: false,
+    xAxisScale: 'log',
+    yAxisScale: 'log',
+    xLabel: 'Novelty',
+    yLabel: 'Importance',
+    margin: {top: 20, right: 175, bottom: 25, left: 35}
+  });
+
   constructor(
     private pharosApiService: PharosApiService,
     private _route: ActivatedRoute,
+    private changeRef: ChangeDetectorRef,
     private navSectionsService: NavSectionsService
   ) {
     super();
@@ -90,12 +98,26 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
       .pipe(
-       // takeUntil(this.ngUnsubscribe)
+        takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
           this.target = this.data.targets;
            this.targetProps = this.data.targetsProps;
-          this.setterFunction();
+        if (this.target.tinx) {
+          this.tinx = [];
+          this.target.tinx.map(point => {
+            if (point.disease) {
+              const p: PharosPoint = new PharosPoint({
+                label: point.disease.doid,
+                x: point.novelty,
+                y: point.score,
+                name: point.disease.name
+              });
+              this.tinx.push(p);
+            }
+          });
+        }
+        this.setterFunction();
           this.loading = false;
       });
   }
@@ -115,31 +137,8 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       return diseaseSource;
     });
 
-    if (this.target.tinx && this.target.tinx.importances) {
-      this.tinx = [];
-      this.target.tinx.importances.map(point => {
-        if (point.dname) {
-          const p: PharosPoint = new PharosPoint({
-            label: point.doid,
-            x: point.dnovelty,
-            y: point.imp,
-            name: point.dname
-          });
-          this.tinx.push(p);
-        }
-      });
-    }
-
-       this.chartOptions = new ScatterOptions({
-           line: false,
-         xAxisScale: 'log',
-         yAxisScale: 'log',
-         xLabel: 'Novelty',
-         yLabel: 'Importance',
-          margin: {top: 20, right: 45, bottom: 25, left: 35}
-       });
-       this.loading = false;
-    // }
+    this.loading = false;
+    this.changeRef.markForCheck();
   }
 
   /**

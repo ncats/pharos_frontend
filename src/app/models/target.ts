@@ -8,6 +8,7 @@ import {Disease, DiseaseSerializer} from './disease';
 import {Generif, GenerifSerializer} from './generif';
 import {Ortholog, OrthologSerializer} from './ortholog';
 import {Ligand, LigandSerializer} from './ligand';
+import {LIGANDDETAILSFIELDS} from './ligand';
 
 /**
  * apollo graphQL query fragment to retrieve common fields for a target list view
@@ -54,6 +55,7 @@ const TARGETLISTFIELDS =  gql`
  */
 const TARGETDETAILSFIELDS = gql`
   #import "./targetsListFields.gql"
+  #import "./ligandsDetailsFields.gql"
   fragment targetsDetailsFields on Target {
     ...targetsListFields
     symbols: synonyms(name: "symbol") {
@@ -99,7 +101,18 @@ const TARGETDETAILSFIELDS = gql`
   year
   count
   }
-   publicationCount: pubCount
+    ligandCounts{
+      name
+      value
+    }
+  drugs:ligands(top: $drugstop, skip: $drugsskip, isdrug: true) {
+      ...ligandsDetailsFields
+    }
+    ligands(top: $ligandstop, skip: $ligandsskip, isdrug: false) {
+      ...ligandsDetailsFields
+    }
+    
+    publicationCount: pubCount
     publications: pubs(top: $publicationstop, skip: $publicationsskip, term: $publicationsterm) {
       year
       pmid
@@ -117,6 +130,18 @@ const TARGETDETAILSFIELDS = gql`
         journal
         abstract
       }
+    }
+    tinx {
+      score
+      novelty
+      disease{
+        doid
+        name
+      }
+    }
+    go {
+      type
+      term
     }
    omimCount: mimCount 
    omimTerms:  mim{
@@ -163,6 +188,7 @@ const TARGETDETAILSFIELDS = gql`
   }
   
   ${TARGETLISTFIELDS}
+  ${LIGANDDETAILSFIELDS}
 `;
 
 
@@ -379,6 +405,15 @@ export class Target extends PharosBase {
    */
   expressions: any[];
 
+  ligandCount = 0;
+
+  drugCount = 0;
+
+  goComponents: string[] = [];
+  goFunctions: string[] = [];
+  goProcess: string[] = [];
+
+
 }
 
 /**
@@ -451,6 +486,25 @@ export class TargetSerializer implements PharosSerializer {
       obj.goCount = json.goCounts.reduce((prev, cur) => prev + cur.value, 0);
     }
 
+    if (json.go) {
+      json.go.forEach(go => {
+        switch (go.type) {
+          case 'C': {
+            obj.goComponents.push(go.term);
+            break;
+          }
+          case 'F': {
+            obj.goFunctions.push(go.term);
+          break;
+          }
+          case 'P': {
+            obj.goProcess.push(go.term);
+            break;
+          }
+        }
+      });
+    }
+
     if (json.hgdata) {
       obj.hgdata = json.hgdata.summary;
     }
@@ -468,16 +522,28 @@ export class TargetSerializer implements PharosSerializer {
       obj.ppis = json.ppis.map(ppi =>  targetSerializer.fromJson(ppi['target']));
     }
 
+    if (json.ligandCounts) {
+      json.ligandCounts.forEach(count => {
+        if (count.name === 'drug') {
+          obj.drugCount = count.value;
+        }
+        if (count.name === 'ligand') {
+          obj.ligandCount = count.value;
+        }
+    });
+     // delete obj.ligandCounts;
+    }
+
   if (json.ligands) {
     const ligandSerializer = new LigandSerializer();
-    json.ligands.forEach(ligand => {
-      const lig: Ligand = ligandSerializer.fromJson(ligand);
-      if (lig.isdrug) {
-        obj.drugs.push(lig);
-      } else {
-        obj.ligands.push(lig);
-      }
-    });
+    obj.ligands = json.ligands
+      .filter(lig => !lig['isdrug'])
+      .map(ligand => ligandSerializer.fromJson(ligand));
+  }
+
+  if (json.drugs) {
+    const ligandSerializer = new LigandSerializer();
+    obj.drugs = json.drugs.map(ligand => ligandSerializer.fromJson(ligand));
   }
 
     if (json.publications) {

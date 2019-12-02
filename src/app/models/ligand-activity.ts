@@ -21,8 +21,7 @@ export class LigandActivity {
   value?: number;
 
   /**
-   * ligand MOA
-   * todo: what is moa?
+   * ligand Mechanism of Action
    */
   moa?: string;
 

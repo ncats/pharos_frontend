@@ -236,12 +236,12 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     this.voronoi = d3.voronoi()
       .x((d: ScatterPoint) => this.x(d.x))
       .y((d: ScatterPoint) => this.y(d.y))
-      .extent([[-this._chartOptions.margin.left, -this._chartOptions.margin.top],
+      .extent([[-this._chartOptions.margin.left, - this._chartOptions.margin.top],
         [this.width, this.height + this._chartOptions.margin.bottom]]);
 
     if (this._chartOptions.xAxisScale === 'year') {
       this.x.domain(
-        d3.extent(d3.merge(this.displayData).map(d =>  new Date(d.x, 0))));
+        d3.extent(d3.merge(this.displayData).map(d => new Date(+d.x, 0))));
     } else {
       this.x.domain(
         (d3.extent(d3.merge(this.displayData).map(d => d.x)))
@@ -263,14 +263,16 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       .tickPadding(10);
 
     if (this._chartOptions.xAxisScale === 'year') {
-     xAxis = d3.axisBottom(this.x).ticks(d3.timeYear.every(3)).tickSize(-this.height)
+     xAxis = d3.axisBottom(this.x)
+       .ticks(d3.timeYear.every(this.displayData.length < 3 ? 1 : 3))
+       .tickSize(-this.height)
        .tickPadding(10).tickFormat(d3.timeFormat('%Y'));
     }
 
-    const yAxis = d3.axisRight(this.y)
+    const yAxis = d3.axisLeft(this.y)
       .ticks(5)
-      .tickSize(this.width)
-      .tickPadding(-20 - this.width);
+      .tickSize(-this.width + margin.left + margin.right)
+      .tickPadding(0);
 
 
 
@@ -280,17 +282,17 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       .attr('height', element.offsetHeight)
       .append('svg:g')
       .attr('id', 'group')
-      .attr('transform', 'translate(' + (margin.left + 2) + ',' + margin.top + ')');
+      .attr('transform', 'translate(' + (margin.left + 2) + ',' + (margin.top - margin.bottom) + ')');
 
     this.svg.append('text')
       .attr('transform',
-        'translate(' + ((element.offsetWidth * .85) / 2) + ' ,' + (this.height + margin.top + 20) + ')')
+        'translate(' + ((element.offsetWidth * .85) / 2) + ' ,' + (this.height + margin.top + margin.bottom) + ')')
       .attr('class', 'axis-label')
       .text(this._chartOptions.xLabel);
 
     this.svg.append('text')
       .attr('transform', 'rotate(-90)')
-      .attr('y', 0 - margin.left / 1.4)
+      .attr('y', 0 - margin.left / 1.6)
       .attr('x', 0 - (this.height / 2))
       .attr('class', 'axis-label')
       .text(this._chartOptions.yLabel);

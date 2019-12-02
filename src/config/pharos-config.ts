@@ -33,7 +33,7 @@ const PHAROSCONFIG: any = {
   topicResolveUrl: `${_HOST}${_API}topics/target`,
   autocompleteFields: ['UniProt_Gene', 'Target', 'Disease', 'OMIM_Term', 'UniProt_Name'],
   components: COMPONENTSCONFIG,
-  graphqlUrl: 'https://ncats-ifx.appspot.com/graphql'
+  graphqlUrl: 'https://pharos-api.ncats.io/graphql'
 };
 
 /**
