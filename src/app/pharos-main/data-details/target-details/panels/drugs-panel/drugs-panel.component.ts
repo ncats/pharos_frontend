@@ -14,6 +14,7 @@ import {PharosConfig} from '../../../../../../config/pharos-config';
 import {BehaviorSubject} from 'rxjs';
 import {DiseaseSerializer} from '../../../../../models/disease';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
+import {ActivatedRoute} from '@angular/router';
 
 /**
  * panel to generically display drugs as a pageable list of drug cards
@@ -23,47 +24,17 @@ import {PharosApiService} from '../../../../../pharos-services/pharos-api.servic
   templateUrl: './drugs-panel.component.html',
   styleUrls: ['./drugs-panel.component.scss']
 })
-export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
-  /**
-   * Paginator object from Angular Material
-   * */
-  @ViewChild('drugPaginator', {read: MatPaginator, static: false}) set matPaginator(mp: MatPaginator) {
-    this.drugPaginator = mp;
-    this.setPage();
-  }
-
-  @Output() selfDestruct: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-
-  drugPaginator: MatPaginator;
-
+export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   /**
    * target object
    */
   @Input() target: Target;
 
   /**
-   * data source used to page the drug list
+   * data source used to page the ligand list
    * @type {MatTableDataSource<Ligand>}
    */
   dataSource: MatTableDataSource<Ligand> = new MatTableDataSource<Ligand>();
-
-  /**
-   * page data object to track pagination
-   */
-  pageData: PageData;
-
-  /**
-   * url for the structure lookup url
-   */
-  private _STRUCTUREURLBASE: string;
-
-  /**
-   * serializer to map drugs
-   * @type {LigandSerializer}
-   */
-  drugSerializer: LigandSerializer = new LigandSerializer();
-
-  drugsList: any[] = [];
 
   /**
    * most of these dependencies handle the pagination of the data
@@ -72,19 +43,20 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
    * sets default structure url
    *
    * @param {NavSectionsService} navSectionsService
-   * @param {ChangeDetectorRef} changeDetector
    * @param {HttpClient} _http
-   * @param {ChangeDetectorRef} ref
+   * @param _route
+   * @param pharosApiService
+   * @param changeRef
    * @param {PharosConfig} pharosConfig
    */
-  constructor(private navSectionsService: NavSectionsService,
-              private changeDetector: ChangeDetectorRef,
-              private _http: HttpClient,
-              private ref: ChangeDetectorRef,
-              private pharosApiService: PharosApiService,
-              private pharosConfig: PharosConfig) {
+  constructor(
+    private navSectionsService: NavSectionsService,
+    private _http: HttpClient,
+    private _route: ActivatedRoute,
+    private pharosApiService: PharosApiService,
+    private changeRef: ChangeDetectorRef,
+    private pharosConfig: PharosConfig) {
     super();
-    this._STRUCTUREURLBASE = this.pharosConfig.getStructureImageUrl();
   }
 
   /**
@@ -92,6 +64,7 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
    * subscribe to data changes and set data when it arrives
    */
   ngOnInit() {
+    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -100,147 +73,29 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
       )
       .subscribe(x => {
         this.target = this.data.targets;
-        if (this.target.drugs) {
-          this.ngUnsubscribe.next();
-          this.pageData = new PageData(
-            {
-              top: 10,
-              skip: 0,
-            //  total: this.target.drugscount,
-              count: 10
-            });
-          this.setterFunction();
-        } else {
-          this.navSectionsService.removeSection(this.field);
-          this.selfDestruct.next(true);
-        }
+        this.loading = false;
+
       });
   }
 
-  ngOnChanges (change) {
-    if (this.drugPaginator) {
-      this.setPage();
-    }
-  }
-
   /**
-   * set the sort and paginators
-   * since the total is not know, it needs to be manually set based on the page data passes in
-   */
-  ngAfterViewInit() {
-    this.setPage();
-  }
-
-  /**s
-   * create page data object and map data
-   */
-  setterFunction(): void {
-  //  this._mapDrugs(this.data[this.field]);
-    this.loading = false;
-    this.changeDetector.markForCheck();
-  }
-
-  /**
-   * paginate disease list datasource
+   * paginate ligand list datasource
    * @param event
    */
   paginate(event: PageEvent) {
     this.loading = true;
-    const diseaseSerializer = new DiseaseSerializer();
+    const ligandSerializer = new LigandSerializer();
     const pageParams = {
-      diseasetop: event.pageSize,
-      diseaseskip: event.pageIndex * event.pageSize,
+      ligandstop: event.pageSize,
+      ligandsskip: event.pageIndex * event.pageSize,
     };
-   /* this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams).valueChanges.subscribe(res => {
+    this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams).valueChanges.subscribe(res => {
       console.log(res);
-      this.target.diseases = res.data.targets.diseases;
-      this.targetProps.diseases = res.data.targets.diseases.map(disease => diseaseSerializer._asProperties(disease));
-      this.setterFunction();
-    });*/
-  }
-
-  /**
-   * filters out drug activity values
-   * uses drug serializer to map drug object
-   * @param {any[]} data
-   * @private
-   */
-/*
-  private _mapDrugs(data: any[]): void {
-    const drugsArr: Ligand[] = [];
-    data.forEach(drug => {
-      const activity: any = drug.links
-        .filter(link => link.kind === 'ix.idg.models.Target')
-        .map(target => this._getActivity(target));
-      // .sort(activity => activity.target !== this.target.gene);
-      const strucProp = drug.links.filter(link => link.kind === 'ix.core.models.Structure')[0];
-      let lig: Ligand;
-      if (strucProp) {
-        const refid: string = strucProp.refid;
-         lig = this.drugSerializer.fromJson({
-          name: drug.name,
-          refid: refid,
-          activities: activity,
-          imageUrl: `${this._STRUCTUREURLBASE}${refid}.svg?size=250`,
-           internalLink: ['/ligands', drug.id]
-        });
-      } else {
-         lig = this.drugSerializer.fromJson({
-          name: drug.name,
-          imageUrl: null,
-          activities: activity,
-           internalLink: ['/ligands', drug.id]
-        });
-      }
-      drugsArr.push(lig);
+      this.target.ligands = res.data.targets.ligands.map(lig => ligandSerializer.fromJson(lig));
+      this.loading = false;
+      this.changeRef.markForCheck();
     });
-    this.drugsList = drugsArr;
   }
-*/
-
-  /**
-   * set default paginator values
-   */
-  setPage() {
-    /*if (this.pageData) {
-      this.drugPaginator.length = this.pageData.total;
-      this.drugPaginator.pageSize = this.pageData.top;
-      this.drugPaginator.pageIndex = Math.ceil(this.pageData.skip / this.pageData.top);
-    }*/
-  }
-
-  /**
-   * filters drug activities from a drug object
-   * @param drug
-   * @return {any}
-   * @private
-   */
-/*
-  private _getActivity(drug: any): any {
-    let otherActivity: any;
-    const ret: any[] = [];
-    const na = {label: 'N/A', numval: ''};
-    drug.properties.filter(prop => {
-      if (prop.label === 'Ligand Activity') {
-        otherActivity = {
-          activity: drug.properties.filter(p => p.label === prop.term)[0],
-          target: drug.properties.filter(p => p.label === 'IDG Target')[0].term,
-          targetFamily: drug.properties.filter(p => p.label === 'IDG Target Family')[0].term,
-          idgLevel: drug.properties.filter(p => p.label === 'IDG Development Level')[0].term,
-        };
-      } else if (prop.label === 'Pharmalogical Action') {
-        otherActivity = {
-          activity: prop,
-          target: drug.properties.filter(p => p.label === 'IDG Target')[0].term,
-          targetFamily: drug.properties.filter(p => p.label === 'IDG Target Family')[0].term,
-          idgLevel: drug.properties.filter(p => p.label === 'IDG Development Level')[0].term,
-        };
-      }
-    });
-    return otherActivity ? otherActivity : na;
-  }
-*/
-
 
   /**
    * checks to see if the display section is within view
