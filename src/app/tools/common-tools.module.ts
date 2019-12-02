@@ -61,6 +61,7 @@ import { TopicNodeGeneratorComponent } from './topic-node-generator/topic-node-g
     IdgLevelIndicatorComponent,
     KnowledgeTableComponent,
     LinkListComponent,
+    StructureViewComponent,
     PharosPaginatorModule,
     ProteinStructureViewerComponent
   ]

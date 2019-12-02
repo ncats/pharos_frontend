@@ -66,23 +66,26 @@
           </mat-tree>
         </div>
       </div>
-      <div fxLayout="row" *ngIf="tinx && tinx.length > 0"
-           fxLayout.lt-md="column" fxLayoutAlign="start stretch"
-           class="tinx-row">
+
+    <ng-container *ngIf="tinx && tinx.length > 0">
+      <div fxLayout="row"
+           fxLayoutAlign="start stretch">
         <div fxFlex="95">
-          <span
-            [matTooltip] = "getTooltip('tinx')"
-            [matTooltipClass] = "'pharos-tooltip'"
-            class="mat-title">Disease Novelty (Tin-x)</span>
+        <span class="mat-title"
+              [matTooltip]="getTooltip('tinx')"
+              [matTooltipClass] = "'pharos-tooltip'">
+          Disease Novelty (Tin-x)</span>
         </div>
         <div fxFlex="5">
-          <pharos-help-panel-trigger [origin] = "'diseaseSources'" [label]="'Disease Sources'"></pharos-help-panel-trigger>
+          <pharos-help-panel-trigger [origin] = "'diseaseSources'" [label]="'Tin-X'"></pharos-help-panel-trigger>
         </div>
       </div>
-        <div fxLayout="row" *ngIf="tinx && tinx.length > 0" fxLayout.lt-md="column" class ="tkrow tinx" fxLayoutAlign="start stretch">
-        <div fxFlex="100">
-          <pharos-scatter-plot [data]="tinx" [options]="chartOptions" #scatterInstance></pharos-scatter-plot>
-    </div>
-      </div>
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <div fxFlex="95" class="scatter-plot-holder">
+              <pharos-scatter-plot [data]="tinx" [options]="chartOptions"></pharos-scatter-plot>
+            </div>
+          </div>
+    </ng-container>
   </mat-card-content>
 </mat-card>
+</article>

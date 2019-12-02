@@ -21,6 +21,8 @@ export class StructureViewComponent implements OnInit {
    */
   @Input() url: string;
 
+  @Input() smiles: string;
+
   /**
    *   initialize a private variable _data, it's a BehaviorSubject
    */
@@ -77,6 +79,9 @@ export class StructureViewComponent implements OnInit {
           }
         }
       });
+    if (this.smiles) {
+      this.url = `${this.pharosConfig.getApiPath()}render/${this.parseSmiles(this.smiles)}?size=150`;
+    }
   }
 
   /**

@@ -15,24 +15,25 @@
         <span class="mat-title"
               [matTooltip] = description
               [matTooltipClass] = "'pharos-tooltip'">
-          {{label}} ({{data.drugscount}})</span>
+          {{label}} ({{target.drugCount}})</span>
       </div>
       <div fxFlex="5">
         <pharos-help-panel-trigger [origin] = "'drugs'" [label]="'Approved Drugs'"></pharos-help-panel-trigger>
       </div>
     </div>
-   <!-- <mat-paginator
-      #drugPaginator
-      *ngIf = "pageData && drugsList.length > 0"
+    <mat-paginator
       [pageSize]="10"
-      [pageSizeOptions]="[10, 20, 50]"
-                   [hidePageSize]="hidePageSize"
-                   [showFirstLastButtons]="true"
-                   (page)="paginate($event)">
-    </mat-paginator>-->
+      [length]="target.drugCount"
+      [hidePageSize]="true"
+      [showFirstLastButtons] = true
+      (page) = paginate($event)
+      #drugsspaginator></mat-paginator>
+
+<!--
     <pharos-custom-paginator [pageData]="pageData" (page)="paginate($event)"></pharos-custom-paginator>
+-->
     <div class ="structure-grid">
-    <div *ngFor="let drug of drugsList">
+    <div *ngFor="let drug of target.drugs">
       <pharos-ligand-card [ligand]="drug" [target]="target"></pharos-ligand-card>
     </div>
     </div>

@@ -299,7 +299,11 @@ export class PharosApiService {
         $orthologstop: Int, 
         $orthologsskip: Int,
         $ppistop: Int,
-        $ppisskip: Int
+        $ppisskip: Int,
+        $drugstop: Int,
+        $drugsskip: Int,
+        $ligandstop: Int,
+        $ligandsskip: Int
         ) {
           targets: target(q: {
             sym: $term,
