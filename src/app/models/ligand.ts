@@ -1,14 +1,40 @@
 import {PharosBase, PharosSerializer, PharosSubList} from './pharos-base';
 import {PharosProperty} from './pharos-property';
 import {LigandActivity} from './ligand-activity';
+import gql from 'graphql-tag';
 
+/**
+ * apollo graphQL query fragment to retrieve common fields for a target list view
+ */
+export const LIGANDDETAILSFIELDS =  gql`
+  fragment ligandsDetailsFields on Ligand {
+    name
+    description
+    isdrug
+    smiles
+    synonyms {
+      name
+      value
+    }
+    activities(all: false) {
+      type
+      moa
+      value
+      reference
+      target {
+        sym
+      }
+    }
+  }
+`;
 /**
  * ligand object
  */
 export class Ligand extends PharosBase {
-  lychi?: string;
-  isdrug?: boolean;
+  description?: string;
   synonyms?: any[];
+  chemblName?: string;
+  pubChemID?: string;
   smiles?: string;
 
 
@@ -16,18 +42,6 @@ export class Ligand extends PharosBase {
    * name of ligand
    */
   name?: string;
-
-  /**
-   * activity type of ligand
-   * not returned by api
-   */
-  activityType?: string;
-
-  /**
-   * ligand activity
-   * not returned by api
-   */
-  activity?: any;
 
   /**
    * list of activities
@@ -59,6 +73,19 @@ export class LigandSerializer implements PharosSerializer {
   fromJson(json: any): Ligand {
     const obj = new Ligand();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
+
+    if (obj.synonyms) {
+      obj.synonyms.forEach(syn => {
+        if (syn.name === 'ChEMBL') {
+          obj.chemblName = syn.value;
+        }
+        if (syn.name === 'PubChem') {
+          obj.pubChemID = syn.value;
+        }
+      });
+    }
+
+
     return obj;
   }
 
