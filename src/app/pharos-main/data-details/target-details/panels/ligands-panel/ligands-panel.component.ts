@@ -1,4 +1,14 @@
-import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {MatPaginator, MatTableDataSource, PageEvent} from '@angular/material';
 import {Ligand, LigandSerializer} from '../../../../../models/ligand';
@@ -11,6 +21,7 @@ import {PharosConfig} from '../../../../../../config/pharos-config';
 import {DiseaseSerializer} from '../../../../../models/disease';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
+import {BehaviorSubject} from 'rxjs';
 
 /**
  * panel to generically display ligands as a pageable list of ligand cards
@@ -22,6 +33,9 @@ import {ActivatedRoute} from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LigandsPanelComponent extends DynamicPanelComponent implements OnInit {
+
+  @Output() selfDestruct: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+
   /**
    * target object
    */
@@ -61,7 +75,6 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
    * subscribe to data changes and set data when it arrives
    */
   ngOnInit() {
-    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -70,8 +83,15 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
       )
       .subscribe(x => {
         this.target = this.data.targets;
+        if (this.target.drugs && this.target.drugs.length === 0) {
+          this.loading = false;
+          this.navSectionsService.removeSection(this.field);
+          this.ngUnsubscribe.next();
+          this.ngUnsubscribe.complete();
+          this.changeRef.detectChanges();
+          this.selfDestruct.next('true');
+        }
         this.loading = false;
-
       });
   }
 
