@@ -26,6 +26,7 @@ import * as firebase from 'firebase/app';
 import {TargetSaveModalComponent} from './target-save-modal/target-save-modal.component';
 import {PharosProfileService} from '../../../../auth/pharos-profile.service';
 import {TopicSaveModalComponent} from './topic-save-modal/topic-save-modal.component';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 /**
  * default http header
@@ -202,17 +203,18 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * @param profileService
    * @param {PharosConfig} pharosConfig
    * @param {ChangeDetectorRef} ref
+   * @param targetCollection
    * @param {BreakpointObserver} breakpointObserver
    */
-  constructor(
-    private _route: ActivatedRoute,
-    public dialog: MatDialog,
-    public http: HttpClient,
-    private router: Router,
-    private profileService: PharosProfileService,
-    private pharosConfig: PharosConfig,
-    private ref: ChangeDetectorRef,
-    public breakpointObserver: BreakpointObserver) {
+  constructor(private _route: ActivatedRoute,
+              public dialog: MatDialog,
+              public http: HttpClient,
+              private router: Router,
+              private profileService: PharosProfileService,
+              private pharosConfig: PharosConfig,
+              private ref: ChangeDetectorRef,
+              private targetCollection: AngularFirestore,
+              public breakpointObserver: BreakpointObserver) {
     super();
   }
 
@@ -275,29 +277,9 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    */
   changePage($event): void {
     this.paginationChanges($event);
-   // this.pageChange.emit($event);
+    // this.pageChange.emit($event);
   }
 
-  /**
-   * create and open batch upload dialog,
-   * fetch results on close and redirect to search by etag
-   */
-  batchUpload() {
-    const dialogRef = this.dialog.open(BatchUploadModalComponent, {
-        height: '75vh',
-        width: '66vw',
-      }
-    );
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.http.post(`${this.pharosConfig.getApiPath()}targets/resolve`, result.join(), httpOptions).subscribe(res => {
-        navigationExtras.queryParams = {
-          q: `etag:${res['etag']}`
-        };
-        this._navigate(navigationExtras);
-      });
-    });
-  }
 
   /**
    * change pages of list
@@ -329,6 +311,36 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   /**
+   * create and open batch upload dialog,
+   * fetch results on close and redirect to search by etag
+   */
+  batchUpload() {
+    const dialogRef = this.dialog.open(BatchUploadModalComponent, {
+        height: '75vh',
+        width: '66vw',
+        data: {
+          title: 'Upload Targets',
+          nameable: this.loggedIn,
+          saveToProfile: true
+        }
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.targetCollection.collection('target-collection').add(
+        result
+      ).then(doc => {
+        console.log(doc);
+        if (this.loggedIn && result.saveList) {
+          this.profileService.updateSavedCollection(doc.id);
+        }
+
+        // todo : navigate
+      });
+    });
+  }
+
+  /**
    * stub for topic creation
    * todo: implement
    */
@@ -338,7 +350,9 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
         height: '50vh',
         width: '50vw',
         data: {
+          title: 'Create Topic',
           selection: targetList,
+          nameable: this.loggedIn,
           user: this.user,
           count: this.pageData.total
         }
@@ -346,6 +360,14 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     );
 
     dialogRef.afterClosed().subscribe(result => {
+      this.targetCollection.collection('target-collection').add(
+        result
+      ).then(doc => {
+        console.log(doc);
+        if (this.loggedIn && result.saveList) {
+          this.profileService.updateSavedCollection(doc.id);
+        }
+      });
     });
   }
 
@@ -354,28 +376,37 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * todo: implement
    */
   saveTargets() {
+    console.log(this.user.data());
     const targetList = this.rowSelection.selected.map(target => target = target.accession.term);
-    const dialogRef = this.dialog.open(TargetSaveModalComponent, {
+    const dialogRef = this.dialog.open(BatchUploadModalComponent, {
         height: '50vh',
         width: '50vw',
         data: {
+          title: `Saving ${targetList.length} Targets`,
           selection: targetList,
-          user: this.user
+          user: this.user,
+          nameable: this.loggedIn,
         }
       }
     );
 
     dialogRef.afterClosed().subscribe(result => {
-
+      this.targetCollection.collection('target-collection').add(
+        result
+      ).then(doc => {
+        console.log(doc);
+        this.profileService.updateSavedCollection(doc.id);
+      });
     });
   }
 
   saveQuery() {
     const targetList = this.rowSelection.selected.map(target => target = target.accession.term);
-    const dialogRef = this.dialog.open(TargetSaveModalComponent, {
+    const dialogRef = this.dialog.open(BatchUploadModalComponent, {
         height: '50vh',
         width: '50vw',
         data: {
+          title: `Saving Query`,
           etag: this.etag,
           sideway: this.sideway,
           user: this.user,

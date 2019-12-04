@@ -216,7 +216,31 @@ const TARGETDETAILSFIELDS = gql`
     ) {
       term
     }
-  
+
+    hpaTissueSpecificityIndex: props(name: "HPA Tissue Specificity Index") {
+      name
+      value
+    }
+    hpmProteinTissueSpecificityIndex: props(name: "HPM Protein Tissue Specificity Index") {
+      name
+      value
+    }
+    gtexTissueSpecificityIndex: props(name: "GTEx Tissue Specificity Index") {
+      name
+      value
+    }
+    hpaRNATissueSpecificityIndex: props(name: "HPA RNA Tissue Specificity Index") {
+      name
+      value
+    }
+    hpaProteinTissueSpecificity: props(name: "HPA Protein Tissue Specificity") {
+      name
+      value
+    }
+    hpmGeneTissueSpecificityIndex: props(name: "HPM Gene Tissue Specificity Index") {
+      name
+      value
+    }
   }
   
   ${TARGETLISTFIELDS}
@@ -445,6 +469,12 @@ export class Target extends PharosBase {
   goFunction: string[];
   goProcess: string[];
   uniprotKeyword: string[];
+  hpaTissueSpecificityIndex: [{name, value}];
+  hpmProteinTissueSpecificityIndex: [{name, value}];
+  gtexTissueSpecificityIndex: [{name, value}];
+  hpaRNATissueSpecificityIndex: [{name, value}];
+  hpaProteinTissueSpecificity: [{name, value}];
+  hpmGeneTissueSpecificityIndex: [{name, value}];
 
 }
 
@@ -519,7 +549,10 @@ export class TargetSerializer implements PharosSerializer {
     }
 
     if (json.hgdata) {
-      obj.hgdata = json.hgdata.summary;
+      obj.hgdata = json.hgdata.summary.map(hg => {
+        hg.value = hg.value.toFixed(2);
+      return hg;
+      });
     }
 
     if (json.diseaseCounts) {
