@@ -91,7 +91,7 @@ export class TargetSaveModalComponent {
           values: [ret]
         };
       }
-      this.pharosProfileService.updateProfile(customFacet);
+     // this.pharosProfileService.updateSavedCollection(customFacet);
     } else {
         this.http.post(`${this.pharosConfig.getApiPath()}targets/resolve`, this.data.selection.join(), httpOptions).subscribe(res => {
           ret.value = res['etag'];
@@ -105,7 +105,7 @@ export class TargetSaveModalComponent {
               values: [ret]
             };
           }
-          this.pharosProfileService.updateProfile(customFacet);
+      //    this.pharosProfileService.updateProfile(customFacet);
         });
       }
     this.dialogRef.close(ret);

@@ -102,15 +102,20 @@ const ROUTES: Routes = [
   },
   {
     path: 'ligands',
-    redirectTo: '/targets'
-   // loadChildren: () => import('./pharos-main/modules/ligands/ligand-list.module').then(m => m.LigandListModule),
-   // data: { path: 'ligands' }
+    loadChildren: () => import('./pharos-main/modules/ligands/ligand-list.module').then(m => m.LigandListModule),
+    data: {
+      path: 'ligands',
+      subpath: 'list'
+    }
   },
-/*  {
+  {
     path: 'ligands/:id',
     loadChildren: () => import('./pharos-main/modules/ligands/ligand-details.module').then(m => m.LigandDetailsModule),
-    data: { path: 'ligands' }
-  },*/
+    data: {
+      path: 'ligands',
+      subpath: 'details'
+    }
+  },
   {
     path: 'api',
     loadChildren: () => import('./api-page/api-page.module').then(m =>  m.ApiPageModule),
