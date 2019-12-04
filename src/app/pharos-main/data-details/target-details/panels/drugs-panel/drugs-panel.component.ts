@@ -25,6 +25,9 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./drugs-panel.component.scss']
 })
 export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
+
+  @Output() selfDestruct: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+
   /**
    * target object
    */
@@ -64,7 +67,6 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
    * subscribe to data changes and set data when it arrives
    */
   ngOnInit() {
-    console.log(this);
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -73,8 +75,15 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
       )
       .subscribe(x => {
         this.target = this.data.targets;
+        if (this.target.drugs && this.target.drugs.length === 0) {
+          this.loading = false;
+          this.navSectionsService.removeSection(this.field);
+          this.ngUnsubscribe.next();
+          this.ngUnsubscribe.complete();
+          this.changeRef.detectChanges();
+          this.selfDestruct.next('true');
+        }
         this.loading = false;
-
       });
   }
 

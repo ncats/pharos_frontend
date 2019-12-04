@@ -721,7 +721,7 @@ const TARGET_FACET_PANEL: PharosPanel = {
     {
       field: 'pantherProteinClass',
       label: 'Panther Protein Class',
-      url: _APIURL + 'targets/_id_/properties(label=PANTHER%20Protein%20Class*)',
+     // url: _APIURL + 'targets/_id_/properties(label=PANTHER%20Protein%20Class*)',
       description: `The PANTHER (Protein ANalysis THrough Evolutionary Relationships) Classification System was designed
        to classify proteins (and their genes) in order to facilitate high-throughput analysis. The PANTHER 
        Classifications are the result of human curation as well as sophisticated bioinformatics algorithms.`,
@@ -730,14 +730,14 @@ const TARGET_FACET_PANEL: PharosPanel = {
     {
       field: 'goFunction',
       label: 'GO Function',
-      url: _APIURL + 'targets/_id_/properties(label=GO%20Function*)',
+   //   url: _APIURL + 'targets/_id_/properties(label=GO%20Function*)',
       description: 'Function listed by GO database for target, with total count listed in parenthesis. ' +
         'Listing individual functions with links to GO. Click on bargraph icon to explore further the Summary of GO Function.'
     },
     {
       field: 'goComponent',
       label: 'GO Component',
-      url: _APIURL + 'targets/_id_/properties(label=GO%20Component*)',
+    //  url: _APIURL + 'targets/_id_/properties(label=GO%20Component*)',
       description: 'Cellular component listed by GO database for target, with total count listed in ' +
         'parenthesis. Listing individual functions with links to GO. Click on bargraph icon to explore further ' +
         'the Summary of GO Function.'
@@ -745,7 +745,7 @@ const TARGET_FACET_PANEL: PharosPanel = {
     {
       field: 'goProcess',
       label: 'GO Process',
-      url: _APIURL + 'targets/_id_/properties(label=GO%20Process*)',
+     // url: _APIURL + 'targets/_id_/properties(label=GO%20Process*)',
       description: 'Biological process listed by GO database for target, with total count listed in parenthesis.' +
         'Listing individual functions with links to GO. Click on bargraph icon to explore further the Summary ' +
         'of GO Function.'
@@ -755,7 +755,7 @@ const TARGET_FACET_PANEL: PharosPanel = {
       }, {*/
       field: 'gwasTrait',
       label: 'GWAS Trait',
-      url: _APIURL + 'targets/_id_/properties(label=GWAS%20Trait*)',
+   //   url: _APIURL + 'targets/_id_/properties(label=GWAS%20Trait*)',
       description: ` The GWAS Catalog provides a consistent, searchable, visualisable and freely available database of 
       published SNP-trait associations.`,
       source: 'https://www.ebi.ac.uk/gwas/home'
@@ -763,21 +763,21 @@ const TARGET_FACET_PANEL: PharosPanel = {
     {
       field: 'rnaCellLine',
       label: 'RNA Cell Line',
-      url: _APIURL + 'targets/_id_/properties(label=HCA%20RNA%20Cell%20Line*)',
+    //  url: _APIURL + 'targets/_id_/properties(label=HCA%20RNA%20Cell%20Line*)',
       description: `RNA Cell lines listed in the Human Cell Atlas`,
       source: `https://www.humancellatlas.org/`
     },
     {
       field: 'omim',
       label: 'OMIM Term',
-      url: _APIURL + 'targets/_id_/properties(label=OMIM%20Term*)',
+    //  url: _APIURL + 'targets/_id_/properties(label=OMIM%20Term*)',
       description: `Terms listed in the OMIM (Online Mendelian Inheritance in Man) database.`,
       source: 'https://www.omim.org/'
     },
     {
       field: 'uniprotKeyword',
       label: 'Uniprot Keyword',
-      url: _APIURL + 'targets/_id_/properties(label=UniProt%20Keyword*)',
+    //  url: _APIURL + 'targets/_id_/properties(label=UniProt%20Keyword*)',
       description: 'Occurrence of target in the 10 categories of UniProt keywords.'
     }
   ]
@@ -1037,7 +1037,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PUBLICATION_STATISTICS_PANEL,
           RELATED_PUBLICATIONS_PANEL,
           AA_SEQUENCE_PANEL,
-        //  TARGET_FACET_PANEL
+          TARGET_FACET_PANEL
         ]
       }
     }],

@@ -58,7 +58,7 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
   publicationsPageData: PageData;
 
   /**
-   * pgaination data
+   * pagination data
    */
   rifPageData: PageData;
 
