@@ -31,6 +31,13 @@ export const LIGANDDETAILSFIELDS =  gql`
  * ligand object
  */
 export class Ligand extends PharosBase {
+
+  /**
+   * fragment of common fields. fetched by the route resolver
+   */
+  static ligandListFragments = LIGANDDETAILSFIELDS;
+  static ligandDetailsFragments = LIGANDDETAILSFIELDS;
+
   description?: string;
   synonyms?: any[];
   chemblName?: string;

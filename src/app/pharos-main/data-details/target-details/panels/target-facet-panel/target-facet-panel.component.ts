@@ -39,7 +39,7 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
 
   @Input() targetProps: any;
 
-  facets: any[] = [];
+  facets: any[];
 
   fields: PharosProperty[] = [
     new PharosProperty({
@@ -68,6 +68,7 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
         //    takeWhile(() => !this.data['references'])
       )
       .subscribe(x => {
+        this.facets = [];
         this.target = this.data.targets;
         this.targetProps = this.data.targetsProps;
          this.setterFunction();

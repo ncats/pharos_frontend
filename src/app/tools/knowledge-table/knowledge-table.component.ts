@@ -45,13 +45,10 @@ export class KnowledgeTableComponent extends DynamicPanelComponent implements On
   }
 
   /**
-   * set table data and truncate values
+   * set table data
    */
   ngOnInit() {
-          this.tableData = this.data.slice(0, 5).map(val => {
-            val.value.term = val.value.term.toFixed(2);
-            return val;
-          });
+          this.tableData = this.data.slice(0, 5);
           this.changeRef.markForCheck();
   }
 }

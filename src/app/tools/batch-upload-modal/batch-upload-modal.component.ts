@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {MatDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 
 /**
  * modal component for batch search/upload
@@ -16,22 +16,31 @@ import {MatDialogRef} from '@angular/material';
  */
 export class BatchUploadModalComponent {
 
+  nameable = false;
+
+  saveToProfile = false;
+
   /**
    * target input form
    */
-  targetCtrl: FormControl = new FormControl();
+  targetListCtrl: FormControl = new FormControl();
+  collectionNameCtrl: FormControl = new FormControl();
 
   /**
    * add dialog controller
+   * @param data
    * @param dialogRef
    */
   constructor(
-
+    @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<BatchUploadModalComponent>
-  ) { }
+  ) {
+    this.nameable = this.data.nameable;
+    this.targetListCtrl.setValue(data.selection);
+  }
 
   /**
-   * canel and close modal
+   * cancel and close modal
    */
   cancel(): void {
     this.dialogRef.close();
@@ -42,7 +51,18 @@ export class BatchUploadModalComponent {
    * submit control value and close modal
    */
   submitList(): void {
-      this.dialogRef.close(this.targetCtrl.value ? this.targetCtrl.value.trim().split(/[\t\n,;]+/) : null);
+    let retArr;
+    if (Array.isArray(this.targetListCtrl.value)) {
+      retArr = this.targetListCtrl.value;
+    } else {
+      retArr = this.targetListCtrl.value.trim().split(/[\t\n,;]+/);
+    }
+
+    this.dialogRef.close({
+        targetList: retArr,
+        collectionName: this.collectionNameCtrl.value,
+        saveList: this.saveToProfile
+  });
   }
 
 }

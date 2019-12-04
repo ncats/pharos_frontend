@@ -86,13 +86,21 @@ export class PharosProfileService {
   }
 
   /**
-   * update profile with new data or saved target collections
-   * @param data
+   * update profile with saved target collections
+   * @param id
    */
-  updateProfile(data) {
+  updateSavedCollection(id: string) {
+    const profile = this._profileSource.getValue().data();
+  if (profile.collection) {
+    profile.collection.push(id);
+   // profile.collection = savedTargets;
+    } else {
+
+    profile.collection = [id];
+    }
     this.userCollection.collection('users')
       .doc(this.user.uid)
-      .update({savedTargets: data}).then(res => {
+      .update(profile).then(res => {
       this.fetchUserProfile(this.user);
     });
   }
