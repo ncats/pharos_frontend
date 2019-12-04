@@ -280,7 +280,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
    * @return {any}
    */
   trackByFn(index: number, item: any) {
-    return item.nmae && item.name.term ? item.name.term : item;
+    return (item.name && item.name.term) ? item.name.term : item;
   }
 
   /**

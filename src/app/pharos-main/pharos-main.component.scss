@@ -6,7 +6,12 @@
 }
 
 .pharos-sidenav-content {
- padding: 1vw;
+  padding: 1vw;
+  padding-top: 10vh;
+}
+
+.sidenav-buttons {
+  padding-bottom: 5vh;
 }
 
 mat-sidenav-content.mat-drawer-content.mat-sidenav-content {
