@@ -249,6 +249,8 @@ export class PharosApiService {
    */
   getGraphQlData(path: string, params: ParamMap, fragments?: any): Observable<any> {
     const variables = this._mapVariables(path, params);
+    console.log(variables);
+    console.log(fragments);
     /**
      * With query() you fetch data, receive the result, then an Observable completes.
      * With watchQuery() you fetch data, receive the result and an Observable is keep opened for new
