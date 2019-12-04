@@ -67,10 +67,10 @@ const TARGETDETAILSFIELDS = gql`
       value
     }
     ensemblIDs: xrefs(source:"Ensembl") { 
-    value 
+    name 
     }
     pdbs: xrefs(source: "PDB") {
-      value
+      name
     }
     ppis (top: $ppistop, skip: $ppisskip){
       target{
@@ -139,12 +139,8 @@ const TARGETDETAILSFIELDS = gql`
         name
       }
     }
-    go {
-      type
-      term
-    }
    omimCount: mimCount 
-   omimTerms:  mim{
+   omimTerms:  mim {
       term
       mimid
     }
@@ -185,6 +181,42 @@ const TARGETDETAILSFIELDS = gql`
       uid
     }
   }
+     uniprotKeyword:xrefs (source: "UniProt Keyword") {
+      value
+      name
+    }
+    goComponent:go (filter: {facets: [ {
+          facet: "type"
+          values: ["C"]
+        }
+      ]
+    }
+    ) {
+      term
+    }
+  goFunction:go (filter: {
+      facets: [
+        {
+          facet: "type"
+          values: ["F"]
+        }
+      ]
+    }
+    ) {
+      term
+    }
+  goProcess:go (filter: {
+      facets: [
+        {
+          facet: "type"
+          values: ["P"]
+        }
+      ]
+    }
+    ) {
+      term
+    }
+  
   }
   
   ${TARGETLISTFIELDS}
@@ -409,10 +441,10 @@ export class Target extends PharosBase {
 
   drugCount = 0;
 
-  goComponents: string[] = [];
-  goFunctions: string[] = [];
-  goProcess: string[] = [];
-
+  goComponent: string[];
+  goFunction: string[];
+  goProcess: string[];
+  uniprotKeyword: string[];
 
 }
 
@@ -467,42 +499,23 @@ export class TargetSerializer implements PharosSerializer {
     }
 
     if (json.ensemblIDs) {
-      obj.ensemblIDs = json.ensemblIDs.map(id => id = {ensemblId: id.value});
+      obj.ensemblIDs = json.ensemblIDs.map(id => id = {ensemblId: id.name});
     }
 
     if (json.pdbs) {
-      obj.pdbs = json.pdbs.map(id => id = {pdbs: id.value});
+      obj.pdbs = json.pdbs.map(id => id = {pdbs: id.name});
     }
 
     if (json.symbols) {
       obj.symbols = [...new Set<string>(json.symbols.map(sym => sym = {symbol: sym.value}))];
     }
 
-    if (json.uniProtFunction) {
+    if (json.uniProtFunction && json.uniProtFunction.length > 0) {
       obj.description = `${(json.uniProtFunction.map(id => id.value)).join(' ')} ${obj.description}`;
     }
 
     if (json.goCounts) {
       obj.goCount = json.goCounts.reduce((prev, cur) => prev + cur.value, 0);
-    }
-
-    if (json.go) {
-      json.go.forEach(go => {
-        switch (go.type) {
-          case 'C': {
-            obj.goComponents.push(go.term);
-            break;
-          }
-          case 'F': {
-            obj.goFunctions.push(go.term);
-          break;
-          }
-          case 'P': {
-            obj.goProcess.push(go.term);
-            break;
-          }
-        }
-      });
     }
 
     if (json.hgdata) {
@@ -531,7 +544,6 @@ export class TargetSerializer implements PharosSerializer {
           obj.ligandCount = count.value;
         }
     });
-     // delete obj.ligandCounts;
     }
 
   if (json.ligands) {
@@ -632,6 +644,39 @@ export class TargetSerializer implements PharosSerializer {
       const orthologSerializer = new OrthologSerializer();
       newObj.orthologs = obj.orthologs.map(ortholog => orthologSerializer._asProperties(ortholog));
     }
+
+    if (newObj.goComponent) {
+       newObj.goComponent.forEach(component => {
+          component.term.internalLink = ['/targets'];
+          component.term.queryParams = {facet: `GO Component/${component.term.term}`};
+          return component;
+      });
+    }
+
+  if (newObj.goProcess) {
+       newObj.goProcess.forEach(component => {
+          component.term.internalLink = ['/targets'];
+          component.term.queryParams = {facet: `GO Process/${component.term.term}`};
+          return component;
+      });
+    }
+
+  if (newObj.goFunction) {
+       newObj.goFunction.forEach(component => {
+          component.term.internalLink = ['/targets'];
+          component.term.queryParams = {facet: `GO Function/${component.term.term}`};
+          return component;
+      });
+    }
+  if (newObj.uniprotKeyword) {
+       newObj.uniprotKeyword.forEach(component => {
+          component.value.internalLink = ['/targets'];
+          component.value.externalLink = `https://www.uniprot.org/keywords/${component.name.term}`;
+          component.value.queryParams = {facet: `UniProt Keyword/${component.value.term}`};
+          return component.value;
+      });
+    }
+
     return newObj;
   }
 

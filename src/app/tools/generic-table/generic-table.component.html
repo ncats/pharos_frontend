@@ -12,7 +12,7 @@
 <table mat-table matSort #genericTable
        [dataSource]="dataSource"
        [trackBy]="trackByFn"
-       [multiTemplateDataRows]="expandable"
+       [multiTemplateDataRows] = "expandable"
        (matSortChange)="changeSort($event)"
        [ngClass]="{'condensed': condensed}">
   <ng-container matColumnDef="select">
