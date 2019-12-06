@@ -3,6 +3,9 @@ import {PharosConfig} from '../../../../config/pharos-config';
 import {PathResolverService} from '../../../pharos-services/path-resolver.service';
 import {SelectedFacetService} from '../filter-panel/selected-facet.service';
 import {Facet} from '../../../models/facet';
+import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
+import {takeUntil} from 'rxjs/operators';
+import {PageData} from '../../../models/page-data';
 
 /**
  * component to show various facets like a dashboard.
@@ -15,7 +18,7 @@ import {Facet} from '../../../models/facet';
 
 })
 
-export class DataListVisualizationsComponent implements OnInit {
+export class DataListVisualizationsComponent extends DynamicPanelComponent implements OnInit {
   /**
    * data passed to visualization
    */
@@ -47,6 +50,7 @@ export class DataListVisualizationsComponent implements OnInit {
   constructor(private pathResolverService: PathResolverService,
               private selectedFacetService: SelectedFacetService,
               private pharosConfig: PharosConfig) {
+    super();
   }
 
 
@@ -54,8 +58,18 @@ export class DataListVisualizationsComponent implements OnInit {
    * get list of available facets, then retrieve the first facet (default) on the list
    */
   ngOnInit() {
-    this.facets = this.data.facets;
-    this.donutData = this.data.facets[0];
+    this._data
+    // listen to data as long as term is undefined or null
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(x => {
+        console.log(this);
+        if (this.data && this.data.facets) {
+          this.facets = this.data.facets;
+          this.donutData = this.data.facets[0];
+        }
+      });
   }
 
   /**

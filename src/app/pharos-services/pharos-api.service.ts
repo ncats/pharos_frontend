@@ -2,7 +2,7 @@ import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, forkJoin, Observable, of, Subject} from 'rxjs';
 import {catchError, take} from 'rxjs/operators';
-import {ParamMap} from '@angular/router';
+import {ActivatedRouteSnapshot, NavigationExtras, ParamMap} from '@angular/router';
 import {Topic} from '../models/topic';
 import {map, tap} from 'rxjs/internal/operators';
 import {PharosConfig} from '../../config/pharos-config';
@@ -14,6 +14,7 @@ import {Apollo, Query, QueryRef} from 'apollo-angular';
 import gql from 'graphql-tag';
 import {PathResolverService} from './path-resolver.service';
 import {SelectedFacetService} from '../pharos-main/data-list/filter-panel/selected-facet.service';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 /**
  * main service to fetch and parse data from the pharos api
@@ -194,11 +195,13 @@ export class PharosApiService {
    * get config info and set up http service
    * @param {HttpClient} http
    * @param apollo
+   * @param firebaseService
    * @param selectedFacetService
    * @param {PharosConfig} pharosConfig
    */
   constructor(private http: HttpClient,
               private apollo: Apollo,
+              private firebaseService: AngularFirestore,
               @Inject(SelectedFacetService) private selectedFacetService,
               private pharosConfig: PharosConfig) {
     this._URL = this.pharosConfig.getApiPath();
@@ -242,47 +245,50 @@ export class PharosApiService {
    * top
    * filter
    * term
-   * @param {string} path
-   * @param {ParamMap} params
-   * @param fragments
+   * With query() you fetch data, receive the result, then an Observable completes.
+   * With watchQuery() you fetch data, receive the result and an Observable is keep opened for new
+   * emissions so it never completes.
+   * @type {Observable<ApolloQueryResult<any>>}
    * @return {Observable<any>}
+   * @param route
+   * @param state
    */
-  getGraphQlData(path: string, params: ParamMap, fragments?: any): Observable<any> {
+  getGraphQlData(route: ActivatedRouteSnapshot, state?: any): Observable<any> {
+    const path = route.data.path;
+    const params = route.queryParamMap;
+    let fragments;
+    let fetchQuery = null;
+    if (route.data.fragments) {
+      fragments = route.data.fragments;
+    }
     const variables = this._mapVariables(path, params);
-    console.log(variables);
-    console.log(fragments);
-    /**
-     * With query() you fetch data, receive the result, then an Observable completes.
-     * With watchQuery() you fetch data, receive the result and an Observable is keep opened for new
-     * emissions so it never completes.
-     * @type {Observable<ApolloQueryResult<any>>}
-     */
+    if (state) {
+        variables.batchIds = state.batchIds;
+    }
 
-    const fetchQuery = this.apollo.query<any>({
-      query: gql`
-        query PaginateData($skip: Int, $top: Int, $filter: IFilter){
-          results:${path} (filter: $filter) {
+    const LISTQUERY =  gql`
+        query PaginateData($batchIds: [String], $skip: Int, $top: Int, $filter: IFilter){
+          batch (${path}: $batchIds, filter: $filter) {
+          results:${path.slice(0, path.length - 1)}Result {
             count
               facets {
-                facet
-                count
-                  values {
-                   name
-                   value
-                }
+                ...facetFields
               }
             ${path}(skip: $skip, top: $top) {
             ...${path}ListFields
             }
           }
         }
-        ${fragments}
-      `,
-      variables: variables
-    });
-    return fetchQuery;
+        }
+        ${fragments.list}
+        ${fragments.facets}
+`;
+       fetchQuery = this.apollo.query<any>({
+        query: LISTQUERY,
+        variables: variables
+      });
+      return fetchQuery;
   }
-
 
   getDetailsData(path: string, params: ParamMap, fragments?: any): Observable<any> {
     const variables: any = {term: params.get('id')};
@@ -505,6 +511,7 @@ export class PharosApiService {
 
 
   private _mapVariables(path: string, params: ParamMap): any {
+    console.log(params);
     const ret: {top?: number, skip?: number, filter?: {term, facets}} = {};
     params.keys.map(key => {
       params.getAll(key).map(val => {
@@ -553,6 +560,10 @@ export class PharosApiService {
               filter.term = val;
               ret.filter = filter;
               this.queryString = val;
+              break;
+            }
+            case 'collection': {
+              console.log(val);
               break;
             }
             default: {

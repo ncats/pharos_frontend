@@ -548,9 +548,9 @@ export class TargetSerializer implements PharosSerializer {
       obj.goCount = json.goCounts.reduce((prev, cur) => prev + cur.value, 0);
     }
 
-    if (json.hgdata) {
+    if (json.hgdata && json.hgdata.summary) {
       obj.hgdata = json.hgdata.summary.map(hg => {
-        hg.value = hg.value.toFixed(2);
+        hg.value = +-hg.value;  //.toFixed(2);
       return hg;
       });
     }
