@@ -9,9 +9,10 @@ import {PharosPanel} from '../../config/components-config';
 import {ComponentInjectorService} from '../pharos-services/component-injector.service';
 import {HelpDataService} from '../tools/help-panel/services/help-data.service';
 import {NavSectionsService} from '../tools/sidenav-panel/services/nav-sections.service';
-import {takeUntil} from 'rxjs/operators';
+import {map, takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {BreakpointObserver} from '@angular/cdk/layout';
+import {Facet} from '../models/facet';
 
 /**
  * class or interface to set properties for an injected sidenav panel

@@ -250,11 +250,11 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (this.data) {
+        if (this.data && this.data.targets) {
           this.pageData = new PageData({
             top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,
             skip: (+this._route.snapshot.queryParamMap.get('page') - 1) * +this._route.snapshot.queryParamMap.get('rows'),
-            total: this._route.snapshot.data.results.count
+            total: this.data.count
           });
           this.targets = this.data.targets;
           this.targetObjs = this.data.targetsProps;
@@ -327,6 +327,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     );
 
     dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
       this.targetCollection.collection('target-collection').add(
         result
       ).then(doc => {
@@ -334,6 +335,13 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
         if (this.loggedIn && result.saveList) {
           this.profileService.updateSavedCollection(doc.id);
         }
+        navigationExtras.state = {batchIds: result.targetList};
+        navigationExtras.queryParams = {
+          collection: doc.id,
+        //  batchIds: result.targetList
+        };
+        this._navigate(navigationExtras);
+
 
         // todo : navigate
       });
