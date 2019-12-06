@@ -105,16 +105,19 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * set up subscriptions to get facets
     */
   ngOnInit() {
-    console.log(this);
+    console.log(this.data);
+
     this.router.events
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((e: any) => {
         // If it is a NavigationEnd event re-initalise the component
         if (e instanceof NavigationEnd) {
-          this.filteredFacets = this.data.facets;
-          this.facets = this.filteredFacets;
-          this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
-          this.changeRef.detectChanges();
+          if (this.data) {
+            this.filteredFacets = this.data.facets;
+            this.facets = this.filteredFacets;
+            this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
+            this.changeRef.detectChanges();
+          }
         }
       });
         this.loading = false;
