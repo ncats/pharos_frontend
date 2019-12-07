@@ -42,12 +42,12 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    * facet selection fields to display
    * @type {string[]}
    */
-  displayColumns: string [] = ['select', 'name', 'value'];
+  displayColumns: string [] = ['select', 'name', 'count'];
   /**
    *object fields headings to track and show
    * @type {string[]}
    */
-  fieldColumns: string [] = ['name', 'value'];
+  fieldColumns: string [] = ['name', 'count'];
 
   /**
    * unsubscribe subject

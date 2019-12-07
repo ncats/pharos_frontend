@@ -50,7 +50,7 @@
       <mat-expansion-panel [expanded]= true *ngIf="facet.values.length > 0" class="full-height">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <span class="mat-title facet-title">{{facet.facet}}</span>
+            <span class="mat-title facet-title">{{facet.label ? facet.label : facet.facet}}</span>
           </mat-panel-title>
         </mat-expansion-panel-header>
         <pharos-facet-table [facet]="facet"></pharos-facet-table>
