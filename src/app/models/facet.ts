@@ -9,7 +9,7 @@ facet
 count
 values {
   name
-  value
+  count:value
 }
 }
 `;
@@ -34,13 +34,19 @@ export class Facet {
    */
   label?: string;
 
+  description?: string;
+
+
   /**
    * list of facet values
    */
   values: Field[];
 
+
   constructor (json: any) {
     this.facet = json.facet;
+    this.label = json.label;
+    this.description = json.description;
     this.values = json.values.map(val => new Field(val));
   }
 }
@@ -58,7 +64,10 @@ export class Field {
    * facet-able field
    * optional for filter flattening
    */
-  value?: number;
+  value?: string;
+
+  count?: number;
+
 
   constructor (json: any) {
     Object.entries((json)).forEach((prop) => this[prop[0]] = prop[1]);

@@ -2,16 +2,17 @@ import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit,
   Output
 } from '@angular/core';
-import {Facet} from '../../../models/facet';
-import {Subject} from 'rxjs';
+import {Facet, Field} from '../../../models/facet';
+import {forkJoin, Observable, of, Subject} from 'rxjs';
 import {PathResolverService} from '../../../pharos-services/path-resolver.service';
 import {SelectedFacetService} from './selected-facet.service';
 import {PharosConfig} from '../../../../config/pharos-config';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
 import {PanelOptions} from '../../pharos-main.component';
-import {takeUntil} from 'rxjs/operators';
+import {map, take, takeUntil} from 'rxjs/operators';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 /**
  * panel that hold a facet table for selection
@@ -75,6 +76,10 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
 
   @Input() data: any = {};
 
+  user: any;
+
+  @Input()customFacets: Facet;
+
   /**
    * subject to unsubscribe on destroy
    * @type {Subject<any>}
@@ -99,6 +104,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
               private profileService: PharosProfileService,
               private pathResolverService: PathResolverService,
               private pharosApiService: PharosApiService,
+              private firestore: AngularFirestore,
               private pharosConfig: PharosConfig) { }
 
   /**
@@ -107,6 +113,49 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
   ngOnInit() {
     console.log(this.data);
 
+    this.profileService.profile$.subscribe(user => {
+      if (user) {
+        this.user = user;
+        console.log(user.data());
+        if (user.data().collection) {
+           this.customFacets = new Facet({
+            facet: 'collection',
+            label: 'Custom Collections',
+            values: []
+          });
+          console.log(user.data().collection.slice(0, 10));
+          const collections: [Observable<Field>] = user.data().collection.slice(0, 10).map(batch => {
+            return this.firestore.collection<any[]>('target-collection')
+              .doc<any[]>(batch)
+              .valueChanges()
+              .pipe(
+                take(1),
+              map(res => {
+                  console.log(res);
+                  const ret = new Field({
+                    name: res['collectionName'],
+                    value: batch,
+                    count: res['targetList'].length
+                  });
+                  return ret;
+                })
+              );
+          });
+
+            forkJoin([...collections]).subscribe(res => {
+              console.log(res);
+              this.customFacets.values = res;
+              console.log("set facets");
+              console.log(this.customFacets);
+              this.facets = [this.customFacets].concat(this.filteredFacets);
+              this.changeRef.markForCheck();
+            });
+
+        }
+        // User is signed in.
+      }
+    });
+
     this.router.events
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((e: any) => {
@@ -114,15 +163,15 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
         if (e instanceof NavigationEnd) {
           if (this.data) {
             this.filteredFacets = this.data.facets;
-            this.facets = this.filteredFacets;
+            this.facets = [this.customFacets].concat(this.filteredFacets);
             this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
             this.changeRef.detectChanges();
           }
         }
       });
-        this.loading = false;
+    this.loading = false;
     this.filteredFacets = this.data.facets;
-    this.facets = this.filteredFacets;
+    this.facets = [this.customFacets].concat(this.filteredFacets);
     this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
     this.changeRef.markForCheck();
       }
@@ -141,7 +190,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
               this._route.snapshot.data.path,
               this._route.snapshot.queryParamMap,
               this._route.snapshot.data.fragments).valueChanges.subscribe(res => {
-                this.allFacets = res.data.results.facets;
+                this.allFacets = [this.customFacets].concat(res.data.results.facets);
               this.loading = false;
               this.facets = this.allFacets;
               this.changeRef.markForCheck();
