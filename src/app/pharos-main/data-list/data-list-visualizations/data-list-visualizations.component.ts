@@ -64,7 +64,6 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        console.log(this);
         if (this.data && this.data.facets) {
           this.facets = this.data.facets;
           this.donutData = this.data.facets[0];

@@ -511,7 +511,6 @@ export class PharosApiService {
 
 
   private _mapVariables(path: string, params: ParamMap): any {
-    console.log(params);
     const ret: {top?: number, skip?: number, filter?: {term, facets}} = {};
     params.keys.map(key => {
       params.getAll(key).map(val => {

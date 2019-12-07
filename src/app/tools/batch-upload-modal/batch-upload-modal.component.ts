@@ -53,11 +53,8 @@ export class BatchUploadModalComponent {
   submitList(): void {
     let retArr;
     if (Array.isArray(this.targetListCtrl.value)) {
-      console.log("is array");
       retArr = this.targetListCtrl.value.map(val => val = val.trim());
-      console.log(retArr);
     } else {
-      console.log("not an array");
       retArr = this.targetListCtrl.value.trim().split(/[\t\n,;]+/).map(val => val.trim());
     }
 

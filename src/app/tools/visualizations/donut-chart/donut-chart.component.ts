@@ -117,10 +117,10 @@ export class DonutChartComponent implements OnInit, OnChanges {
     d3.selectAll('.toolCircle').remove();
     const pie = d3.pie()
       .sort(function (a, b) {
-        return a.value - b.value;
+        return a.count - b.count;
       })
       .value(function (d) {
-        return d.value;
+        return d.count;
       });
 
     const arc = d3.arc()
@@ -207,7 +207,7 @@ export class DonutChartComponent implements OnInit, OnChanges {
        element.append('text')
       .attr('class', 'toolCircle value')
       .attr('dy', 30) // hard-coded. can adjust this to adjust text vertical alignment in tooltip*/
-      .html(d.data.value);
+      .html(d.data.count);
     element.transition()
       .duration(200)
       .style('opacity', .9);
