@@ -1,24 +1,12 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  ViewChild
-} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Output} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {MatPaginator, MatTableDataSource, PageEvent} from '@angular/material';
+import {MatTableDataSource, PageEvent} from '@angular/material';
 import {Ligand, LigandSerializer} from '../../../../../models/ligand';
-import {PageData} from '../../../../../models/page-data';
 import {takeUntil} from 'rxjs/operators';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {Target} from '../../../../../models/target';
 import {HttpClient} from '@angular/common/http';
 import {PharosConfig} from '../../../../../../config/pharos-config';
-import {DiseaseSerializer} from '../../../../../models/disease';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {BehaviorSubject} from 'rxjs';
@@ -82,8 +70,9 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
+        console.log(this);
         this.target = this.data.targets;
-        if (this.target.drugs && this.target.drugs.length === 0) {
+        if (this.target.ligands && this.target.ligands.length === 0) {
           this.loading = false;
           this.navSectionsService.removeSection(this.field);
           this.ngUnsubscribe.next();

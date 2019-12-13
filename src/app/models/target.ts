@@ -247,6 +247,56 @@ const TARGETDETAILSFIELDS = gql`
   ${LIGANDDETAILSFIELDS}
 `;
 
+const TARGETDETAILSQUERY = gql`
+  #import "./targetsListFields.gql"
+  #import "./ligandsDetailsFields.gql"
+ query fetchDetails(
+        $term: String, 
+        $diseasetop: Int, 
+        $diseaseskip: Int, 
+        $publicationstop: Int, 
+        $publicationsskip: Int,
+        $publicationsterm: String, 
+        $generifstop: Int, 
+        $generifsskip: Int,
+        $generifsterm: String,
+        $orthologstop: Int, 
+        $orthologsskip: Int,
+        $ppistop: Int,
+        $ppisskip: Int,
+        $drugstop: Int,
+        $drugsskip: Int,
+        $ligandstop: Int,
+        $ligandsskip: Int
+        ) {
+          targets: target(q: {
+            sym: $term,
+            #tcrdid: $term,
+            uniprot: $term,
+            stringid:$term
+          }) {
+        ...targetsDetailsFields
+        diseases(top: $diseasetop, skip: $diseaseskip) {
+          name
+          associationCount
+          associations {
+            type
+            name
+            source
+            zscore
+            evidence
+            conf
+            reference
+            log2foldchange
+            pvalue
+            score
+          }
+        }
+        }
+        }
+          ${TARGETDETAILSFIELDS}
+`;
+
 
 
 /**
@@ -264,6 +314,7 @@ export class Target extends PharosBase {
    */
   static targetDetailsFragments = TARGETDETAILSFIELDS;
 
+  static targetDetailsQuery = TARGETDETAILSQUERY;
   /**
    * target name
    */
@@ -550,7 +601,7 @@ export class TargetSerializer implements PharosSerializer {
 
     if (json.hgdata && json.hgdata.summary) {
       obj.hgdata = json.hgdata.summary.map(hg => {
-        hg.value = +-hg.value;  //.toFixed(2);
+        hg.value = hg.value.toFixed(2);
       return hg;
       });
     }

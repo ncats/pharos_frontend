@@ -83,22 +83,21 @@ const ROUTES: Routes = [
   },
   {
     path: 'diseases',
-    redirectTo: '/targets',
-    // pathMatch: 'full'
-    /*loadChildren: () => import('./pharos-main/modules/diseases/disease-list.module').then(m => m.DiseaseListModule),
+   // redirectTo: '/targets',
+    loadChildren: () => import('./pharos-main/modules/diseases/disease-list.module').then(m => m.DiseaseListModule),
     data: {
       path: 'diseases',
       subpath: 'list'
-    }*/
+    }
   },
   {
     path: 'diseases/:id',
-    redirectTo: '/search',
-   /* loadChildren: () => import('./pharos-main/modules/diseases/disease-details.module').then(m => m.DiseaseDetailsModule),
+   // redirectTo: '/search',
+    loadChildren: () => import('./pharos-main/modules/diseases/disease-details.module').then(m => m.DiseaseDetailsModule),
     data: {
       path: 'diseases',
       subpath: 'details'
-    }*/
+    }
   },
   {
     path: 'ligands',

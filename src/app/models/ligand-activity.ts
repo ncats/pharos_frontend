@@ -1,5 +1,8 @@
 import {Ligand} from './ligand';
 import {Publication} from './publication';
+import {Serializer} from './pharos-base';
+import {Target} from './target';
+import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
 
 /**
  * Ligand Activity class, acts as a wrapper around a Ligand object
@@ -39,4 +42,50 @@ export class LigandActivity {
    * list of publications that this ligand activity is relevant to
    */
   pubs?: Publication[];
+}
+
+export class LigActSerializer implements Serializer {
+
+  /**
+   * no args constructor
+   */
+  constructor () {}
+
+  /**
+   * create target object from json
+   * @param json
+   * @return {Target}
+   */
+  fromJson(json: any): LigandActivity {
+    const obj = new LigandActivity();
+    Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
+
+    return obj;
+  }
+
+  toJson(object: any): any {
+  }
+
+  _asProperties(obj: any): any {
+      const newObj: any = this._mapField(obj);
+      return newObj;
+  }
+
+  /**
+   * recursive mapping function
+   * @param obj
+   * @return {{}}
+   * @private
+   */
+  private _mapField (obj: any) {
+    const retObj: {} = Object.assign({}, obj);
+    Object.keys(obj).map(objField => {
+      if (Array.isArray(obj[objField])) {
+        retObj[objField] = obj[objField].map(arrObj => this._mapField(arrObj));
+      } else {
+        retObj[objField] = new DataProperty({name: objField, label: objField, term: obj[objField]});
+      }
+    });
+    return retObj;
+  }
 }

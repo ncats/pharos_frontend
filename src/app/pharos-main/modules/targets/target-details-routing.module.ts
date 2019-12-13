@@ -14,7 +14,10 @@ const routes: Routes = [
       components: ComponentsResolver
     },
     data: {
-      fragments: Target.targetDetailsFragments,
+      fragments: {
+        details: Target.targetDetailsFragments,
+        query: Target.targetDetailsQuery
+      },
       serializer: new TargetSerializer()
     },
     runGuardsAndResolvers: 'paramsOrQueryParamsChange'

@@ -1,14 +1,7 @@
 <article>
   <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center">
     <div fxFlex="95" fxFlexAlign="">
-      <span class = "pharos-title toolbar">{{ligand?.name}}</span>
-<!--      <span class="spacer"></span>
-      <span fxFlex fxLayoutAlign= "end center">
-&lt;!&ndash;    <button mat-icon-button><mat-icon class="example-icon">save</mat-icon></button>
-    <button mat-icon-button><mat-icon class="example-icon">code</mat-icon></button>
-    <button mat-icon-button><mat-icon class="example-icon">file_download</mat-icon></button>
-    <button mat-icon-button><mat-icon class="example-icon">bookmark</mat-icon></button>&ndash;&gt;
-    </span>-->
+      <span class = "pharos-title toolbar">{{ligand?.chemblName || ligand.name}}</span>
     </div>
   </div>
 <br>
