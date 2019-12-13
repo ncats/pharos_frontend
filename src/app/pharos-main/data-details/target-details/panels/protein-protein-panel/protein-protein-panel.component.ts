@@ -8,7 +8,7 @@ import {map, zipAll} from 'rxjs/operators';
 import {from} from 'rxjs/index';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {DiseaseSerializer} from '../../../../../models/disease';
-import {PageEvent} from '@angular/material';
+import { PageEvent } from '@angular/material/paginator';
 import {ActivatedRoute} from '@angular/router';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 

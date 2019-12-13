@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {PharosConfig} from '../../../../../../config/pharos-config';
 import {PharosProfileService} from '../../../../../auth/pharos-profile.service';

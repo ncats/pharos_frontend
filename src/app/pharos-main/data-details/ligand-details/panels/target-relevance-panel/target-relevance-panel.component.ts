@@ -5,7 +5,8 @@ import {PageData} from '../../../../../models/page-data';
 import {IDG_LEVEL_TOKEN} from '../../../disease-details/target-list-panel/target-list-panel.component';
 import {Ligand} from '../../../../../models/ligand';
 import {takeUntil} from 'rxjs/operators';
-import {MatPaginator, MatTableDataSource} from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import {Target} from '../../../../../models/target';
 
 /**

@@ -20,7 +20,7 @@ import {
   Output,
 } from '@angular/core';
 import {Subscription} from 'rxjs';
-import {MatPaginatorIntl} from '@angular/material';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 import {PageData} from '../../models/page-data';
 
 /** The default page size if there is no page size and there are no provided page size options. */
