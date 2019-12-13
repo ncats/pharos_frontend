@@ -88,7 +88,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   /**
    * radar chart component for differential data
    */
-  @ViewChild('radar', {read: RadarChartComponent, static: false}) radarComponent: RadarChartComponent;
+  @ViewChild('radar', { read: RadarChartComponent }) radarComponent: RadarChartComponent;
 
   /**
    * base homunculus url

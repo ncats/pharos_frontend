@@ -24,9 +24,9 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
   /**
    * smrtgraph object from component it is injected into
    */
-  @ViewChild('smrtgraph', {read: SmrtgraphCoreComponent, static: false}) smrtGraph: SmrtgraphCoreComponent;
+  @ViewChild('smrtgraph', { read: SmrtgraphCoreComponent }) smrtGraph: SmrtgraphCoreComponent;
 
-  @ViewChild(NodeMenuPopupComponent, {static: false}) menu: NodeMenuPopupComponent;
+  @ViewChild(NodeMenuPopupComponent) menu: NodeMenuPopupComponent;
 
   /**
    * top[ic id input
