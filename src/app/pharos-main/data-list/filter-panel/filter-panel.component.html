@@ -42,7 +42,7 @@
       </mat-form-field>
     </div>
   </div>
-  <div class="grid-list">
+  <div class="grid-list" *ngIf="facets">
     <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
       <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
     </div>

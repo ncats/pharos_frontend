@@ -1,8 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {PageData} from '../../../../../models/page-data';
 import {IDG_LEVEL_TOKEN} from '../../../disease-details/target-list-panel/target-list-panel.component';
+import {Ligand} from '../../../../../models/ligand';
+import {takeUntil} from 'rxjs/operators';
+import {MatPaginator, MatTableDataSource} from '@angular/material';
+import {Target} from '../../../../../models/target';
 
 /**
  * shows what targets the ligand was tested on
@@ -10,23 +14,30 @@ import {IDG_LEVEL_TOKEN} from '../../../disease-details/target-list-panel/target
 @Component({
   selector: 'pharos-target-relevance-panel',
   templateUrl: './target-relevance-panel.component.html',
-  styleUrls: ['./target-relevance-panel.component.scss']
+  styleUrls: ['./target-relevance-panel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class TargetRelevancePanelComponent extends DynamicTablePanelComponent implements OnInit {
+  /**
+   * ligand object
+   */
+  @Input() ligand: Ligand;
+
+  ligandProps: any;
 
   /**
    * table config fields
    * @type {PharosProperty[]}
    */
   fields: PharosProperty[] = [
-    new PharosProperty( {
-      name: 'target',
+/*    new PharosProperty( {
+      name: 'target.symbol',
       label: 'IDG Target',
       sortable: true
     }),
     new PharosProperty( {
-      name: 'developmentLevel',
+      name: 'target.idgTdl',
       label: 'IDG Development Level',
       sortable: true,
       customComponent: IDG_LEVEL_TOKEN
@@ -35,18 +46,26 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
       name: 'targetFamily',
       label: 'Target Family',
       sortable: true
+    }),*/
+    new PharosProperty( {
+      name: 'type',
+      label: 'Activity Type'
     }),
     new PharosProperty( {
-      name: 'activity',
-      label: 'Ligand Activity',
-      sortable: true,
-      externalLink: true
+      name: 'value',
+      label: 'Activity Value'
     }),
     new PharosProperty( {
-      name: 'developmentLevelValue',
-      label: 'Activity Value',
-      sortable: true,
-      externalLink: true
+      name: 'moa',
+      label: 'Mechanism of Action'
+    }),
+    new PharosProperty( {
+      name: 'reference',
+      label: 'Activity Reference'
+    }),
+    new PharosProperty( {
+      name: 'pubs',
+      label: 'Publications'
     })
     ];
 
@@ -63,11 +82,15 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
 
   targets: any[] = [];
 
-  /**
-   * no args constructor
-   * calls super object constructor
-   */
-  constructor() {
+  activities: any[];
+
+  activitiesTargetDataSource = new MatTableDataSource<any>();
+
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
+  constructor(
+    private changeRef: ChangeDetectorRef
+  ) {
     super();
   }
 
@@ -76,6 +99,26 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
    */
   ngOnInit() {
     this._data
+    // listen to data as long as term is undefined or null
+    // Unsubscribe once term has value
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(x => {
+        if (this.data && this.data.ligands) {
+          console.log(this);
+          this.ligand = this.data.ligands;
+          this.ligandProps = this.data.ligandsProps;
+          this.loading = false;
+          this.activitiesTargetDataSource.data = this.ligandProps.activities;
+           /* [...this.ligand.activitiesMap.values()]
+            .sort((a, b) => b.activities.length - a.activities.length);*/
+          this.activitiesTargetDataSource.paginator = this.paginator;
+          this.changeRef.markForCheck();
+        }
+      });
+
+    /*this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
       .pipe(
@@ -119,7 +162,7 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
           this.tableArr = this.targets
             .slice(this.pageData.skip, this.pageData.top);
       }
-      });
+      });*/
   }
 
   page(event) {

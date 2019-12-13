@@ -6,19 +6,44 @@ import {DiseaseAssocationSerializer, DiseaseAssociation} from './disease-associa
 /**
  * apollo graphQL query fragment to retrieve common fields for a disease list view
  */
-const DISEASELISTFIELDS =  gql`
+export const DISEASELISTFIELDS =  gql`
       fragment diseasesListFields on Disease {
-        diseases(top: $diseasetop) {
           name
           associationCount
-          associations {
+          associations(top: $associationtop, skip: $associationskip) {
             type
             name
+            description
+            zscore
+            evidence
+            conf
+            log2foldchange
+            drug
             source
+            targetCounts {
+              name
+              value
+            }
           }
         }
-      }
     `;
+
+const DISEASEDETAILSQUERY = gql`
+  #import "./diseasesListFields.gql"
+ query fetchDetails(
+        $term: String,
+        $associationtop: Int, 
+        $associationskip: Int, 
+        ) {
+          diseases: disease(
+            name: $term,
+          ) {
+        ...diseasesListFields
+        }
+        }
+          ${DISEASELISTFIELDS}
+`;
+
 
 /**
  * main disease object, mainly list of associated targets
@@ -29,6 +54,8 @@ export class Disease {
    * fragment of common fields. fetched by the route resolver
    */
   static diseaseListFragments  = DISEASELISTFIELDS;
+
+  static diseaseDetailsQuery = DISEASEDETAILSQUERY;
 
 
   /**

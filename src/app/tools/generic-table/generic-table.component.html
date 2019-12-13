@@ -1,12 +1,10 @@
 <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end center" class="body-row paginator-row">
   <div fxFlex="55" fxFlexAlign="end">
-<!--    <mat-paginator *ngIf="showPaginator" #paginator
+<!--    <mat-paginator
                    [pageSizeOptions]="[10, 20, 50]"
-                   [hidePageSize]="hidePageSize"
-                   [showFirstLastButtons]="true"
-                   (page)="changePage($event)">
+                   [hidePageSize]="hidePageSize">
     </mat-paginator>-->
-    <pharos-custom-paginator  *ngIf="showPaginator" [pageData]="pageData" (page)="changePage($event)"></pharos-custom-paginator>
+    <pharos-custom-paginator *ngIf="showPaginator" [pageData]="pageData" (page)="changePage($event)"></pharos-custom-paginator>
   </div>
 </div>
 <table mat-table matSort #genericTable
@@ -75,7 +73,7 @@
 
 <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end center" class="body-row">
   <div fxFlex="55" fxFlexAlign="end">
-    <pharos-custom-paginator  *ngIf="showPaginator" [pageData]="pageData" (page)="changePage($event)"></pharos-custom-paginator>
+    <pharos-custom-paginator  *ngIf="showBottomPaginator" [pageData]="pageData" (page)="changePage($event)"></pharos-custom-paginator>
     <!--    <mat-paginator *ngIf="showBottomPaginator"
                        [pageSizeOptions]="[10, 20, 50]"
                        [hidePageSize]="hidePageSize"

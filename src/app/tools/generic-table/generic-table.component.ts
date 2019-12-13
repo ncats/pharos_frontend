@@ -6,7 +6,7 @@ import {
   EventEmitter,
   Injector,
   Input, OnChanges, OnDestroy,
-  OnInit,
+  OnInit, Optional,
   Output,
   QueryList,
   Type,
@@ -44,6 +44,7 @@ import {takeUntil} from 'rxjs/operators';
  * Generic table Component that iterates over a list of {@link TableData} options to display fields
  */
 export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+
   /**
    * Behaviour subject to allow extending class to unsubscribe on destroy
    * @type {Subject<any>}
@@ -133,6 +134,8 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
   @Input() showPaginator = true;
 
 
+  @Input() showCustomPaginator = false;
+
   /**
    * show/hide the bottom paginator
    */
@@ -142,6 +145,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
    * Paginator object from Angular Material
    * */
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
 
   /**
    * Sort object from Angular Material
@@ -206,6 +210,8 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
    */
   @Input() condensed = false;
 
+  @Input() asDataSource = false;
+
 @Output() rowSelectionChange: EventEmitter<SelectionModel<any>> = new EventEmitter<SelectionModel<any>>();
 
   selection = new SelectionModel<any>(true, []);
@@ -232,7 +238,18 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(res => {
-      this.dataSource.data = res;
+        if (this.asDataSource) {
+          this.dataSource = new MatTableDataSource<any>(res);
+          this.dataSource.paginator = this.paginator;
+          this.ref.detectChanges();
+        } else {
+          this.dataSource.data = res;
+        }
+        if (this.pageData && this.paginator) {
+          this.dataSource.paginator.length = this.pageData.total;
+          this.dataSource.paginator.pageSize = this.pageData.top;
+          this.dataSource.paginator.pageIndex = Math.ceil(this.pageData.skip / this.pageData.top);
+        }
       this.ref.detectChanges();
     });
 
@@ -287,10 +304,12 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
    * set default paginator values
    */
   setPage() {
-    /*if (this.showPaginator && this.pageData) {
-      this.paginator.length = this.pageData.total;
-      this.paginator.pageSize = this.pageData.top;
-      this.paginator.pageIndex = Math.ceil(this.pageData.skip / this.pageData.top);
+   /* this.dataSource.paginator = this.paginator;
+    console.log(this.pageData)
+    if (this.showPaginator && (this.paginator && this.pageData)) {
+      this.dataSource.paginator.length = this.pageData.total;
+      this.dataSource.paginator.pageSize = this.pageData.top;
+      this.dataSource.paginator.pageIndex = Math.ceil(this.pageData.skip / this.pageData.top);
     }*/
   }
 

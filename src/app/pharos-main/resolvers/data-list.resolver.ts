@@ -67,7 +67,6 @@ export class DataListResolver implements Resolve<Observable<any>> {
       return this.pharosApiService.getGraphQlData(route, navigation.extras.state)
         .pipe(
           map(res => {
-            console.log(res);
             res.data.batch.results.facets = res.data.batch.results.facets.map(facet => new Facet(facet));
             res.data.batch.results[`${[route.data.path]}Props`] = [];
             res.data.batch.results[route.data.path].map(obj => {

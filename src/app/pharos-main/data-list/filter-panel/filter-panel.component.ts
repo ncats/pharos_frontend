@@ -78,7 +78,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
 
   user: any;
 
-  @Input()customFacets: Facet;
+  @Input()customFacets: Facet[] = [];
 
   /**
    * subject to unsubscribe on destroy
@@ -111,19 +111,18 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * set up subscriptions to get facets
     */
   ngOnInit() {
-    console.log(this.data);
-
     this.profileService.profile$.subscribe(user => {
+      console.log(user);
       if (user) {
         this.user = user;
-        console.log(user.data());
         if (user.data().collection) {
-           this.customFacets = new Facet({
+           const customFacets = new Facet({
             facet: 'collection',
             label: 'Custom Collections',
             values: []
           });
-          console.log(user.data().collection.slice(0, 10));
+
+           // todo this isn't pageable
           const collections: [Observable<Field>] = user.data().collection.slice(0, 10).map(batch => {
             return this.firestore.collection<any[]>('target-collection')
               .doc<any[]>(batch)
@@ -131,7 +130,6 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
               .pipe(
                 take(1),
               map(res => {
-                  console.log(res);
                   const ret = new Field({
                     name: res['collectionName'],
                     value: batch,
@@ -143,16 +141,21 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
           });
 
             forkJoin([...collections]).subscribe(res => {
-              console.log(res);
-              this.customFacets.values = res;
-              console.log("set facets");
-              console.log(this.customFacets);
-              this.facets = [this.customFacets].concat(this.filteredFacets);
+              customFacets.values = res;
+              this.customFacets.push(customFacets);
+              this.facets = this.customFacets.concat(this.filteredFacets);
               this.changeRef.markForCheck();
             });
 
         }
         // User is signed in.
+      } else {
+        console.log('signing out?');
+        this.customFacets = [];
+        if (this.data && this.data.facets) {
+          this.facets = this.customFacets.concat(this.filteredFacets);
+        }
+        this.changeRef.markForCheck();
       }
     });
 
@@ -163,7 +166,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
         if (e instanceof NavigationEnd) {
           if (this.data) {
             this.filteredFacets = this.data.facets;
-            this.facets = [this.customFacets].concat(this.filteredFacets);
+            this.facets = this.customFacets.concat(this.filteredFacets);
             this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
             this.changeRef.detectChanges();
           }
@@ -171,7 +174,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
       });
     this.loading = false;
     this.filteredFacets = this.data.facets;
-    this.facets = [this.customFacets].concat(this.filteredFacets);
+    this.facets = this.customFacets.concat(this.filteredFacets);
     this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
     this.changeRef.markForCheck();
       }
@@ -190,7 +193,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
               this._route.snapshot.data.path,
               this._route.snapshot.queryParamMap,
               this._route.snapshot.data.fragments).valueChanges.subscribe(res => {
-                this.allFacets = [this.customFacets].concat(res.data.results.facets);
+                this.allFacets = this.customFacets.concat(res.data.results.facets);
               this.loading = false;
               this.facets = this.allFacets;
               this.changeRef.markForCheck();
