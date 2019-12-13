@@ -4,13 +4,17 @@ import {DataListResolver} from '../../resolvers/data-list.resolver';
 import {PharosMainComponent} from '../../pharos-main.component';
 import {ComponentsResolver} from '../../resolvers/components.resolver';
 import {Ligand, LigandSerializer} from '../../../models/ligand';
+import {Facet} from '../../../models/facet';
 
 const routes: Routes = [
   {
     path: '',
     component: PharosMainComponent,
     data: {
-      fragments: Ligand.ligandDetailsFragments,
+      fragments: {
+        list: Ligand.ligandListFragments,
+        facets: Facet.facetFieldsFragments
+      },
       serializer: new LigandSerializer()
     },
     resolve: {

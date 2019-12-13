@@ -1,5 +1,4 @@
 <section>
-<div *ngIf="data && data.length > 0">
 <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row ligand-table">
   <div fxFlex="45">
     <div class = mat-display-1>Ligands <span *ngIf ="pageData">({{pageData.total}})</span></div>
@@ -13,9 +12,8 @@
   </div>
 </div>
       <div class ="structure-grid">
-        <div *ngFor="let ligand of ligandsDataSource.connect() | async">
-          <pharos-ligand-card [ligand]="ligand"></pharos-ligand-card>
+        <div *ngFor="let ligand of ligands">
+          <pharos-ligand-card [ligand]="ligand" [internalLink]="true"></pharos-ligand-card>
       </div>
       </div>
-</div>
 </section>

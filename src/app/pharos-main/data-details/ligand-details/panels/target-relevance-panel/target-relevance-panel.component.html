@@ -16,11 +16,25 @@
           <pharos-help-panel-trigger [origin] = "'relatedTargets'" [label]="'Target Relevance'"></pharos-help-panel-trigger>
         </div>
       </div>
-<pharos-generic-table
-  [data]="tableArr"
-  [pageData]="pageData"
-  [fieldsConfig]="fields"
-  (pageChange)="page($event)"></pharos-generic-table>
+      <mat-paginator [pageSize]="10"></mat-paginator>
+      <div *ngFor = "let activity of activitiesTargetDataSource.connect() | async">
+        <div fxLayout="row" fxLayoutAlign="start center">
+        <h2>{{activity.target.term.symbol}}</h2>
+          <pharos-idg-level-indicator [level]="activity.target.term.idgTDL"></pharos-idg-level-indicator>
+          <h2>{{activity.target.term.name}}</h2>&nbsp;&nbsp;
+          <h3>{{activity.activities.length}} Activities</h3>
+        </div>
+        <pharos-generic-table
+          [data]="activity.activities"
+          [asDataSource]="true"
+          [showCustomPaginator] = false
+          [fieldsConfig]="fields"
+          ></pharos-generic-table>
+<!--
+        <mat-table> </mat-table>
+-->
+      </div>
+
     </mat-card-content>
   </mat-card>
 </div>

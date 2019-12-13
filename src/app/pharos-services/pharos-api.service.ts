@@ -256,7 +256,7 @@ export class PharosApiService {
   getGraphQlData(route: ActivatedRouteSnapshot, state?: any): Observable<any> {
     const path = route.data.path;
     const params = route.queryParamMap;
-    let fragments;
+    let fragments = null;
     let fetchQuery = null;
     if (route.data.fragments) {
       fragments = route.data.fragments;
@@ -293,52 +293,10 @@ export class PharosApiService {
   getDetailsData(path: string, params: ParamMap, fragments?: any): Observable<any> {
     const variables: any = {term: params.get('id')};
 
+    console.log(fragments);
+
     this.detailsQuery = gql`
-        query fetchTarget(
-        $term: String, 
-        $diseasetop: Int, 
-        $diseaseskip: Int, 
-        $publicationstop: Int, 
-        $publicationsskip: Int,
-        $publicationsterm: String, 
-        $generifstop: Int, 
-        $generifsskip: Int,
-        $generifsterm: String,
-        $orthologstop: Int, 
-        $orthologsskip: Int,
-        $ppistop: Int,
-        $ppisskip: Int,
-        $drugstop: Int,
-        $drugsskip: Int,
-        $ligandstop: Int,
-        $ligandsskip: Int
-        ) {
-          targets: target(q: {
-            sym: $term,
-            #tcrdid: $term,
-            uniprot: $term,
-            stringid:$term
-          }) {
-        ...targetsDetailsFields
-        diseases(top: $diseasetop, skip: $diseaseskip) {
-          name
-          associationCount
-          associations {
-            type
-            name
-            source
-            zscore
-            evidence
-            conf
-            reference
-            log2foldchange
-            pvalue
-            score
-          }
-        }
-        }
-        }
-        ${fragments}
+       ${fragments.query}
       `;
 
     const fetchQuery = this.apollo.query({
@@ -354,6 +312,7 @@ export class PharosApiService {
     this.openQueries.set(`${path}-details`, watchDetailsQuery);
 
     // fetchQuery.fetchMore()
+    console.log(fetchQuery);
     return fetchQuery;
 
   }
