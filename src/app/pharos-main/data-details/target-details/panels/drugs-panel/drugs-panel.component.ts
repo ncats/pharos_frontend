@@ -3,7 +3,8 @@ import {
   OnInit, Output, ViewChild, ViewChildren
 } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {MatPaginator, MatTableDataSource, PageEvent} from '@angular/material';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import {Ligand, LigandSerializer} from '../../../../../models/ligand';
 import {PageData} from '../../../../../models/page-data';
 import {takeUntil} from 'rxjs/operators';

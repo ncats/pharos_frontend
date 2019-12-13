@@ -3,7 +3,8 @@ import {
   ViewChild
 } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
-import {MatPaginator, MatTableDataSource} from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import {PageData} from '../../../../models/page-data';
 import {HttpClient} from '@angular/common/http';
 import {Message} from '../../../../pharos-home/news-panel/news-panel.component';

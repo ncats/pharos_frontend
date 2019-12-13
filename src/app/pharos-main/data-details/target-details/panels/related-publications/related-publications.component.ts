@@ -16,7 +16,7 @@ import {PharosProperty} from '../../../../../models/pharos-property';
 import {Publication, PublicationSerializer} from '../../../../../models/publication';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {PharosConfig} from '../../../../../../config/pharos-config';
-import {PageEvent} from '@angular/material';
+import { PageEvent } from '@angular/material/paginator';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {Generif, GenerifSerializer} from '../../../../../models/generif';

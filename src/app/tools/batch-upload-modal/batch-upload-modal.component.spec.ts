@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BatchUploadModalComponent } from './batch-upload-modal.component';
 import {SharedModule} from '../../shared/shared.module';
-import {MatDialogRef} from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('BatchUploadModalComponent', () => {

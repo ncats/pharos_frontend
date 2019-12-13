@@ -1,6 +1,8 @@
 import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {MatTabChangeEvent, MatTreeNestedDataSource, PageEvent} from '@angular/material';
+import { PageEvent } from '@angular/material/paginator';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {takeUntil} from 'rxjs/operators';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
