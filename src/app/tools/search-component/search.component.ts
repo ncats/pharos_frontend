@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {NavigationExtras, Router} from '@angular/router';
-import {MatAutocomplete, MatAutocompleteTrigger} from '@angular/material';
+import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 /**
  * search component functionality. needs to be hooked up to a suggest api service

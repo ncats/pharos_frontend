@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {PageData} from '../../../../models/page-data';
-import {MatTableDataSource} from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import {PharosConfig} from '../../../../../config/pharos-config';
 import {Ligand} from '../../../../models/ligand';
 import {ActivatedRoute} from '@angular/router';

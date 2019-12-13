@@ -3,7 +3,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {CdkPortalOutlet, ComponentPortal} from '@angular/cdk/portal';
-import {MatSidenav} from '@angular/material';
+import { MatSidenav } from '@angular/material/sidenav';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {PharosPanel} from '../../config/components-config';
 import {ComponentInjectorService} from '../pharos-services/component-injector.service';
