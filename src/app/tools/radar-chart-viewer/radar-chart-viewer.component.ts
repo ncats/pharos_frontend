@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnInit, Optional, ViewEncapsulation} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/index';
 import {RadarService} from '../visualizations/radar-chart/radar.service';
-import {MAT_DIALOG_DATA} from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {PharosProperty} from '../../models/pharos-property';
 import {Target} from '../../models/target';
 

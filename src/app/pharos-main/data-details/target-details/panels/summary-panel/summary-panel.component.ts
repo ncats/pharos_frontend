@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import {RadarChartViewerComponent} from '../../../../../tools/radar-chart-viewer/radar-chart-viewer.component';
 import {Target} from '../../../../../models/target';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';

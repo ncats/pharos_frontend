@@ -17,7 +17,9 @@ import {
 import {BehaviorSubject, combineLatest, Subject} from 'rxjs';
 import {ComponentPortal} from '@angular/cdk/portal';
 import {PageData} from './models/page-data';
-import {MatPaginator, MatRow, MatSort, MatTableDataSource, Sort} from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatRow, MatTableDataSource } from '@angular/material/table';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {DataProperty} from './components/property-display/data-property';
 import {SelectionModel} from '@angular/cdk/collections';

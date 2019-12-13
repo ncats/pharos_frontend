@@ -3,7 +3,7 @@ import {GraphDataService, LinkService, NodeService, SGLink, SGNode, SmrtGraph, S
 import {GraphParserService} from './services/graph-parser.service';
 import {PharosNodeSerializer} from './models/topic-graph/pharos-node-serializer';
 import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
-import {MatSelectionListChange} from '@angular/material';
+import { MatSelectionListChange } from '@angular/material/list';
 import {SelectionChange} from '@angular/cdk/collections';
 import {NodeMenuPopupComponent} from './node-menu-popup/node-menu-popup.component';
 

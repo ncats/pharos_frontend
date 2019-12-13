@@ -14,7 +14,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import * as d3 from 'd3';
-import {MAT_DIALOG_DATA} from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 /**
  * map of size and visualization parameters for various radar chart sizes

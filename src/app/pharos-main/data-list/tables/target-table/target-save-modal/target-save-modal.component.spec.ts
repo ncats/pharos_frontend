@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TargetSaveModalComponent } from './target-save-modal.component';
 import {SharedModule} from '../../../../../shared/shared.module';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
 import {AngularFireModule} from '@angular/fire';
