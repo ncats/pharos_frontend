@@ -3,6 +3,8 @@ import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-pan
 import {PageData} from '../../../../models/page-data';
 import {MatTableDataSource} from '@angular/material';
 import {PharosConfig} from '../../../../../config/pharos-config';
+import {Ligand} from '../../../../models/ligand';
+import {ActivatedRoute} from '@angular/router';
 
 /**
  * table/list view of ligand overviews
@@ -16,18 +18,7 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
 
   path = 'ligands';
 
-  /**
-   * map of ligands
-   * @type {Map<string, any>}
-   */
-  ligandsMap: Map<string, any> = new Map<string, any>();
-
-  /**
-   * map of dat sources
-   * @type {MatTableDataSource<any[]>}
-   */
-  ligandsDataSource: MatTableDataSource<any[]> = new MatTableDataSource<any[]>();
-
+  ligands: Ligand[];
   /**
    * event emitter of sort event on table
    * @type {EventEmitter<string>}
@@ -52,11 +43,12 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
 
   /**
    * set up config and change detection
-   * @param {ChangeDetectorRef} changeDetector
+   * @param ref
    * @param {PharosConfig} pharosConfig
    */
   constructor(
-    private changeDetector: ChangeDetectorRef,
+    private _route: ActivatedRoute,
+    private ref: ChangeDetectorRef,
     private pharosConfig: PharosConfig
   ) {
     super();
@@ -68,8 +60,16 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
   ngOnInit() {
     this._STRUCTUREURLBASE = this.pharosConfig.getStructureImageUrl();
     this._data.subscribe(d => {
-      if (this.data) {
-        this.setterFunction();
+      if (this.data && this.data.ligands) {
+        this.pageData = new PageData({
+          top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,
+          skip: (+this._route.snapshot.queryParamMap.get('page') - 1) * +this._route.snapshot.queryParamMap.get('rows'),
+          total: this.data.count
+        });
+        this.ligands = this.data.ligands;
+        console.log(this.ligands);
+        this.loading = false;
+        this.ref.detectChanges();
       }
     });
   }
@@ -95,6 +95,7 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
    */
   setterFunction(): void {
     const ligandsArr = [];
+/*
     this.data.forEach(ligand => {
           const mappedLig = this.ligandsMap.get(ligand.id);
           if (!mappedLig) {
@@ -130,6 +131,7 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
             ligandsArr.push(newLigand);
             this.ligandsDataSource.data = ligandsArr;
         });
+*/
   }
 
   /**

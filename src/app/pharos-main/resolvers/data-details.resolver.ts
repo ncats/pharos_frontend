@@ -38,6 +38,7 @@ export class DataDetailsResolver implements Resolve<any> {
     return this.pharosApiService.getDetailsData(route.data.path, route.paramMap, route.data.fragments)
       .pipe(
         map(res =>  {
+          console.log(res);
           const tobj = serializer.fromJson(res.data[route.data.path]);
           res.data[route.data.path] = tobj;
           res.data[`${[route.data.path]}Props`] = serializer._asProperties(tobj);

@@ -25,6 +25,11 @@ export class LigandCardComponent implements OnInit {
   @Input() target?: Target;
 
   /**
+   * whether to have the link open in a new window, for target details pages, or stay in the same window, like the main list view
+   */
+  @Input() internalLink = false;
+
+  /**
    * find the first target activity for the ligand
    */
   primeActivity: any;
@@ -41,12 +46,17 @@ export class LigandCardComponent implements OnInit {
    * find prime activity based on ligand activites for the target
    */
   ngOnInit() {
-    this.primeActivity = this.ligand.activities.filter(act => act.moa);
-    if (this.primeActivity.length === 0) {
-      this.primeActivity = this.ligand.activities.filter(act => act.type === 'Kd' || act.type === 'Ki');
+    console.log(this);
+    if (this.ligand.activities) {
+      const actArr = [...this.ligand.activities.map(act => act.activities)];
+      console.log(actArr);
+      this.primeActivity = actArr.filter(act => act.moa);
+      if (this.primeActivity.length === 0) {
+        this.primeActivity = actArr.filter(act => act.type === 'Kd' || act.type === 'Ki');
+      }
+      if (this.primeActivity.length === 0) {
+        this.primeActivity = actArr.sort((a, b) => a.value - b.value);
+      }
     }
-    if (this.primeActivity.length === 0) {
-      this.primeActivity = this.ligand.activities.sort((a, b) => a.value - b.value);
-    }
-    }
+  }
 }

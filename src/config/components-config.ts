@@ -503,7 +503,7 @@ const DRUGS_PANEL: PharosPanel = {
 };
 
 /**
- * Protein database viewer component
+ * Protein data bank viewer component
  * @type {PharosPanel}
  */
 const PDB_PANEL: PharosPanel = {
@@ -853,23 +853,7 @@ const TARGET_LIST_PANEL: PharosPanel = {
 const LIGAND_TABLE_COMPONENT: PharosPanel = {
   token: TOKENS.LIGAND_TABLE_COMPONENT,
   api: [
-    {
-      field: 'facets',
-      url: _APIURL + 'ligands/search?top=20'
-    }, {
-      field: 'data',
-      url: _APIURL + 'ligands?top=20'
-    }
   ]
-};
-
-/**
- * main ligand details page component
- * @type {PharosPanel}
- */
-const LIGAND_DETAILS_COMPONENT: PharosPanel = {
-  token: TOKENS.LIGAND_DETAILS_COMPONENT,
-  api: []
 };
 
 /**
@@ -893,6 +877,33 @@ const LIGAND_DESCRIPTION_COMPONENT: PharosPanel = {
       field: 'description',
       // url: _APIURL + 'targets/_id_/properties(label=NCBI%20Gene%20Summary)'
       description: 'Description of the ligand.'
+    }
+  ]
+};
+
+/**
+ * ligand details component
+ * @type {PharosPanel}
+ */
+const LIGAND_DETAILS_COMPONENT: PharosPanel = {
+  token: TOKENS.LIGAND_DETAILS_COMPONENT,
+  navHeader: {
+    label: 'Ligand Details',
+    section: 'details',
+    mainDescription: 'Visual representation of the ligand, as well as synonyms, if available.'
+  },
+  api: [
+    {
+      field: 'structure',
+      label: 'Structure',
+      url: _APIURL + 'ligands/_id_/links(kind=ix.core.models.Structure)',
+      description: 'Pharos structure object for this ligand.'
+    },
+    {
+      field: 'synonyms',
+      label: 'Synonyms',
+      url: _APIURL + 'ligands/_id_/synonyms',
+      description: 'List of ligand synonyms.'
     }
   ]
 };
@@ -1045,18 +1056,14 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       list: {
         components: [
           PHAROS_FACETS_COMPONENT,
+          PHAROS_FACET_VISUALIZATION_COMPONENT,
+          PHAROS_SELECTED_FACET_LIST_COMPONENT,
           DISEASE_TABLE_COMPONENT
         ]
       },
       details: {
         components: [
           DISEASE_HEADER_COMPONENT,
-          DISEASE_DETAILS_COMPONENT
-        ]
-      },
-      panels: {
-        components: [
-          // PHAROS_BREADCRUMB_COMPONENT,
           TARGET_LIST_PANEL
         ]
       }
@@ -1064,6 +1071,9 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
     ['ligands', {
       list: {
         components: [
+          PHAROS_FACETS_COMPONENT,
+          PHAROS_FACET_VISUALIZATION_COMPONENT,
+          PHAROS_SELECTED_FACET_LIST_COMPONENT,
           LIGAND_TABLE_COMPONENT
         ]
       },
@@ -1071,17 +1081,14 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
         components: [
           //   PHAROS_BREADCRUMB_COMPONENT,
           LIGAND_HEADER_COMPONENT,
-          LIGAND_DETAILS_COMPONENT
-        ]
-      },
-      panels: {
-        components: [
-          STRUCTURE_VIEW_PANEL,
+          LIGAND_DESCRIPTION_COMPONENT,
+          LIGAND_DETAILS_COMPONENT,
+         // STRUCTURE_VIEW_PANEL,
           TARGET_RELEVANCE_PANEL,
-          SYNONYMS_PANEL,
-          MOLECULAR_DEFINITION_PANEL
+        //  SYNONYMS_PANEL,
+        //  MOLECULAR_DEFINITION_PANEL
         ]
-      },
+      }
     }],
     ['topics', {
       list: {

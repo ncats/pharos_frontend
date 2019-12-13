@@ -38,7 +38,9 @@
                   <pharos-generic-table
                     [pageData]="publicationsPageData"
                     [data]= publications
+                    [showPaginator]="true"
                     (pageChange)="paginate($event, 'publications')"
+                    [showBottomPaginator]="false"
                     [fieldsConfig] = publicationTableFields>
                   </pharos-generic-table>
                 </div>
@@ -58,7 +60,9 @@
                   <pharos-generic-table
                     [pageData]="rifPageData"
                     [data]= generifs
+                    [showPaginator]="true"
                     (pageChange)="paginate($event, 'generifs')"
+                    [showBottomPaginator]="false"
                     [fieldsConfig] = rifTableFields>
                   </pharos-generic-table>
                 </div>

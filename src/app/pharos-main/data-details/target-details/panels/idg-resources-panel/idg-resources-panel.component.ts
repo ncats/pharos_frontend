@@ -76,10 +76,10 @@ dataTypes: string[] = [];
         this.dataTypes = [];
           this.target = this.data.targets;
           this.loading = false;
-          this.http.get<any>(`http://dev3.ccs.miami.edu:8080/rss-api/target/search?term=${this.target.gene}`).subscribe(res => {
+          this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/search?term=${this.target.gene}`).subscribe(res => {
             if (res && res.data) {
               res.data.forEach(data => {
-                this.http.get<any>(`http://dev3.ccs.miami.edu:8080/rss-api/target/id?id=${data.id}&json=true`).subscribe(resource => {
+                this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/id?id=${data.id}&json=true`).subscribe(resource => {
                   const resc = this.resourceSerializer.fromJson(resource.data[0], data.resourceType);
                   this[`${resc.baseType}s`].push(resc);
                 });

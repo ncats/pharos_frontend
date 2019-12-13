@@ -1,13 +1,16 @@
 import {PharosBase, PharosSerializer, PharosSubList} from './pharos-base';
 import {PharosProperty} from './pharos-property';
-import {LigandActivity} from './ligand-activity';
+import {LigActSerializer, LigandActivity} from './ligand-activity';
 import gql from 'graphql-tag';
+import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
+
 
 /**
  * apollo graphQL query fragment to retrieve common fields for a target list view
  */
-export const LIGANDDETAILSFIELDS =  gql`
-  fragment ligandsDetailsFields on Ligand {
+export const LIGANDLISTFIELDS = gql`
+  fragment ligandsListFields on Ligand {
+    ligid
     name
     description
     isdrug
@@ -16,17 +19,48 @@ export const LIGANDDETAILSFIELDS =  gql`
       name
       value
     }
+    activityCount:actcnt
+  }
+`;
+
+/**
+ * apollo graphQL query fragment to retrieve common fields for a target list view
+ */
+export const LIGANDDETAILSFIELDS = gql`
+  fragment ligandsDetailsFields on Ligand {
+    ...ligandsListFields
     activities(all: false) {
       type
       moa
       value
       reference
       target {
-        sym
+        symbol:sym
+        idgTDL:tdl
+        name:name
+      }
+      pubs {
+        pmid
       }
     }
   }
+  ${LIGANDLISTFIELDS}
 `;
+
+
+const LIGANDDETAILSQUERY = gql`
+  #import "./ligandsDetailsFields.gql"
+ query fetchDetails(
+        $term: String
+        ) {
+          ligands: ligand(ligid: $term){
+       ...ligandsDetailsFields
+          }
+        }
+          ${LIGANDDETAILSFIELDS}
+`;
+
+
 /**
  * ligand object
  */
@@ -35,14 +69,17 @@ export class Ligand extends PharosBase {
   /**
    * fragment of common fields. fetched by the route resolver
    */
-  static ligandListFragments = LIGANDDETAILSFIELDS;
+  static ligandListFragments = LIGANDLISTFIELDS;
   static ligandDetailsFragments = LIGANDDETAILSFIELDS;
+  static ligandDetailsQuery = LIGANDDETAILSQUERY;
 
+  ligid: string;
   description?: string;
   synonyms?: any[];
-  chemblName?: string;
+  chemblName: string;
   pubChemID?: string;
   smiles?: string;
+  activityCount: number;
 
 
   /**
@@ -54,7 +91,9 @@ export class Ligand extends PharosBase {
    * list of activities
    * not returned by api
    */
-  activities?: LigandActivity[];
+  activities?: any;
+  activitiesMap: Map<string, { target: any, activities: LigandActivity[] }>;
+
   /**
    * url for structure image
    */
@@ -70,7 +109,8 @@ export class LigandSerializer implements PharosSerializer {
   /**
    * no args constructor
    */
-  constructor () {}
+  constructor() {
+  }
 
   /**
    * create ligand object from json
@@ -81,8 +121,8 @@ export class LigandSerializer implements PharosSerializer {
     const obj = new Ligand();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
 
-    if (obj.synonyms) {
-      obj.synonyms.forEach(syn => {
+    if (json.synonyms) {
+      json.synonyms.forEach(syn => {
         if (syn.name === 'ChEMBL') {
           obj.chemblName = syn.value;
         }
@@ -92,6 +132,22 @@ export class LigandSerializer implements PharosSerializer {
       });
     }
 
+    if (json.activities) {
+      const actMap: Map<string, { target: any, activities: LigandActivity[] }> =
+        new Map<string, { target: any, activities: LigandActivity[] }>();
+      const ligActSerializer: LigActSerializer = new LigActSerializer();
+        json.activities.forEach(act => {
+        if (actMap.has(act.target.symbol)) {
+          const acts = actMap.get(act.target.symbol);
+          acts.activities.push(ligActSerializer.fromJson(act));
+          actMap.set(act.target.symbol, acts);
+        } else {
+          actMap.set(act.target.symbol, {target: act.target, activities: [ligActSerializer.fromJson(act)]});
+        }
+      });
+        obj.activities = [...actMap.values()].sort((a, b) => b.activities.length - a.activities.length);
+        obj.activitiesMap = actMap;
+    }
 
     return obj;
   }
@@ -111,12 +167,27 @@ export class LigandSerializer implements PharosSerializer {
    * @return {any}
    * @private
    */
-  _asProperties<T extends PharosBase>(obj: Ligand): any {
-    const newObj: any = {};
-    Object.keys(obj).map(field => {
-      const property: PharosProperty = {name: field, label: field, term: obj[field]};
-      newObj[field] = property;
-    });
+  _asProperties(obj: any): any {
+    console.log(obj);
+    const newObj: any = this._mapField(obj);
     return newObj;
+  }
+
+  /**
+   * recursive mapping function
+   * @param obj
+   * @return {{}}
+   * @private
+   */
+  private _mapField(obj: any) {
+    const retObj: {} = Object.assign({}, obj);
+    Object.keys(obj).map(objField => {
+      if (Array.isArray(obj[objField])) {
+        retObj[objField] = obj[objField].map(arrObj => this._mapField(arrObj));
+      } else {
+        retObj[objField] = new DataProperty({name: objField, label: objField, term: obj[objField]});
+      }
+    });
+    return retObj;
   }
 }
