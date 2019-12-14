@@ -67,7 +67,6 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
           total: this.data.count
         });
         this.ligands = this.data.ligands;
-        console.log(this.ligands);
         this.loading = false;
         this.ref.detectChanges();
       }
