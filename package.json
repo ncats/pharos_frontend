@@ -12,11 +12,12 @@
     "lintfix": "ng lint pharos --fix",
     "e2e": "ng e2e",
     "build:appshell": "ng run pharos:app-shell:production",
-    "compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json -s -w --theme material",
+    "compodoc": "./node_modules/.bin/compodoc -p tsconfig.app.json -s -w --theme material",
     "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
     "serve:ssr": "node dist/server.js",
     "build:client-and-server-bundles": "ng build pharos --prod && ng run pharos:server:production --bundleDependencies none",
-    "webpack:server": "webpack --config webpack.server.config.js --progress --colors"
+    "webpack:server": "webpack --config webpack.server.config.js --progress --colors",
+    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points"
   },
   "private": true,
   "dependencies": {
@@ -36,9 +37,9 @@
     "@angular/router": "9.0.0-rc.6",
     "@angular/service-worker": "9.0.0-rc.6",
     "@angular/upgrade": "^9.0.0-rc.6",
-    "@nguniversal/common": "^8.1.1",
-    "@nguniversal/express-engine": "^8.1.1",
-    "@nguniversal/module-map-ngfactory-loader": "8.1.1",
+    "@nguniversal/common": "^8.2.6",
+    "@nguniversal/express-engine": "^8.2.6",
+    "@nguniversal/module-map-ngfactory-loader": "8.2.6",
     "@webcomponents/custom-elements": "^1.2.1",
     "ProtVista": "^2.0.13",
     "apollo-angular": "^1.8.0",
