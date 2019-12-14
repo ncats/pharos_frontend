@@ -44,7 +44,6 @@ describe('PharosMainComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PharosMainComponent);
     component = fixture.componentInstance;
-    console.log(component);
     fixture.detectChanges();
   });
 

@@ -71,7 +71,6 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        console.log(this);
         this.target = this.data.targets;
         if (this.target.ligands && this.target.ligands.length === 0) {
           this.loading = false;
@@ -97,7 +96,6 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
       ligandsskip: event.pageIndex * event.pageSize,
     };
     this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams).valueChanges.subscribe(res => {
-      console.log(res);
       this.target.ligands = res.data.targets.ligands.map(lig => ligandSerializer.fromJson(lig));
       this.loading = false;
       this.changeRef.markForCheck();

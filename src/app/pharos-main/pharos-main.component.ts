@@ -157,7 +157,6 @@ export class PharosMainComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
     this.data = this._route.snapshot.data;
-    console.log(this.data);
     this.components = this.data.components;
     this.makeComponents();
 
