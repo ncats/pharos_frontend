@@ -327,11 +327,9 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       this.targetCollection.collection('target-collection').add(
         result
       ).then(doc => {
-        console.log(doc);
         if (this.loggedIn && result.saveList) {
           this.profileService.updateSavedCollection(doc.id);
         }
@@ -371,7 +369,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       this.targetCollection.collection('target-collection').add(
         result
       ).then(doc => {
-        console.log(doc);
         if (this.loggedIn && result.saveList) {
           this.profileService.updateSavedCollection(doc.id);
         }
@@ -384,7 +381,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * todo: implement
    */
   saveTargets() {
-    console.log(this.user.data());
     const targetList = this.rowSelection.selected.map(target => target = target.accession.term);
     const dialogRef = this.dialog.open(BatchUploadModalComponent, {
         height: '50vh',
@@ -402,7 +398,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       this.targetCollection.collection('target-collection').add(
         result
       ).then(doc => {
-        console.log(doc);
         this.profileService.updateSavedCollection(doc.id);
       });
     });

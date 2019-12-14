@@ -168,7 +168,6 @@ export class LigandSerializer implements PharosSerializer {
    * @private
    */
   _asProperties(obj: any): any {
-    console.log(obj);
     const newObj: any = this._mapField(obj);
     return newObj;
   }

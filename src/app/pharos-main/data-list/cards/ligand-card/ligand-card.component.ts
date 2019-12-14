@@ -46,10 +46,8 @@ export class LigandCardComponent implements OnInit {
    * find prime activity based on ligand activites for the target
    */
   ngOnInit() {
-    console.log(this);
     if (this.ligand.activities) {
       const actArr = [...this.ligand.activities.map(act => act.activities)];
-      console.log(actArr);
       this.primeActivity = actArr.filter(act => act.moa);
       if (this.primeActivity.length === 0) {
         this.primeActivity = actArr.filter(act => act.type === 'Kd' || act.type === 'Ki');

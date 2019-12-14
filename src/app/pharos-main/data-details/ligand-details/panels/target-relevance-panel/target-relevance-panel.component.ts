@@ -107,7 +107,6 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
       )
       .subscribe(x => {
         if (this.data && this.data.ligands) {
-          console.log(this);
           this.ligand = this.data.ligands;
           this.ligandProps = this.data.ligandsProps;
           this.loading = false;

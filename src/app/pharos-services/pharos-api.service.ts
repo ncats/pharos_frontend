@@ -293,8 +293,6 @@ export class PharosApiService {
   getDetailsData(path: string, params: ParamMap, fragments?: any): Observable<any> {
     const variables: any = {term: params.get('id')};
 
-    console.log(fragments);
-
     this.detailsQuery = gql`
        ${fragments.query}
       `;
@@ -312,7 +310,6 @@ export class PharosApiService {
     this.openQueries.set(`${path}-details`, watchDetailsQuery);
 
     // fetchQuery.fetchMore()
-    console.log(fetchQuery);
     return fetchQuery;
 
   }
@@ -521,7 +518,6 @@ export class PharosApiService {
               break;
             }
             case 'collection': {
-              console.log(val);
               break;
             }
             default: {
