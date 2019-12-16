@@ -4,7 +4,6 @@ import { DrugsPanelComponent } from './drugs-panel.component';
 import {SharedModule} from '../../../../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
-import {PharosPaginatorModule} from '../../../../../tools/pharos-paginator/pharos-paginator.module';
 import {LigandCardComponent} from '../../../../data-list/cards/ligand-card/ligand-card.component';
 import {ActivatedRoute, RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -29,7 +28,6 @@ describe('DrugsPanelComponent', () => {
         RouterTestingModule,
         SharedModule,
         GenericTableModule,
-        PharosPaginatorModule,
         ApolloTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],

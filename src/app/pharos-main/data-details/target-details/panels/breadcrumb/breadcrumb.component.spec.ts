@@ -1,10 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { BreadcrumbComponent } from './breadcrumb.component';
+import {BreadcrumbComponent} from './breadcrumb.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {SharedModule} from '../../../../../shared/shared.module';
-import {BrowserTestingModule} from '@angular/platform-browser/testing';
-import {PathResolverService} from '../../../../../pharos-services/path-resolver.service';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {TESTTARGET} from '../../../../../../../test/test-target';
 
@@ -19,7 +17,6 @@ describe('BreadcrumbComponent', () => {
         ApolloTestingModule,
         RouterTestingModule
       ],
-      providers: [PathResolverService],
       declarations: [
         BreadcrumbComponent
       ]

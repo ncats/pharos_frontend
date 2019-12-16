@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IdgResourcesPanelComponent } from './idg-resources-panel.component';
 import {SharedModule} from '../../../../../shared/shared.module';
-import {PharosPaginatorModule} from '../../../../../tools/pharos-paginator/pharos-paginator.module';
 import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../test/test-target';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ApolloTestingModule} from 'apollo-angular/testing';
@@ -25,7 +24,6 @@ describe('IdgResourcesPanelComponent', () => {
       imports: [
         BrowserAnimationsModule,
         SharedModule,
-        PharosPaginatorModule,
         ApolloTestingModule,
         RouterTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)

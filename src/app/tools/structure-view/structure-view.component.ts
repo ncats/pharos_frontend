@@ -78,12 +78,12 @@ export class StructureViewComponent implements OnInit {
           if (this.data.term === '') {
             this.url = null;
           } else {
-            this.url = `${this.pharosConfig.getApiPath()}render/${this.parseSmiles(this.data.term)}?size=${this.size}`;
+            this.url = `${this.pharosConfig.getApiPath()}render/${encodeURIComponent(this.data.term.toString())}?size=${this.size}`;
           }
         }
       });
     if (this.smiles) {
-      this.url = `${this.pharosConfig.getApiPath()}render/${this.parseSmiles(this.smiles)}?size=${this.size}`;
+      this.url = `${this.pharosConfig.getApiPath()}render/${encodeURIComponent(this.smiles)}?size=${this.size}`;
     }
   }
 

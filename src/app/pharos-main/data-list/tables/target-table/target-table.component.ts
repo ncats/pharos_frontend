@@ -11,33 +11,20 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
-import { MatDialog } from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../../models/page-data';
 import {BatchUploadModalComponent} from '../../../../tools/batch-upload-modal/batch-upload-modal.component';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {PharosConfig} from '../../../../../config/pharos-config';
 import {PharosProperty} from '../../../../models/pharos-property';
 import {Target, TargetSerializer} from '../../../../models/target';
-import * as firebase from 'firebase/app';
-import {TargetSaveModalComponent} from './target-save-modal/target-save-modal.component';
 import {PharosProfileService} from '../../../../auth/pharos-profile.service';
 import {TopicSaveModalComponent} from './topic-save-modal/topic-save-modal.component';
 import {AngularFirestore} from '@angular/fire/firestore';
 
-/**
- * default http header
- * todo: move http post call to a service and remove http calls here
- * @type {{headers: HttpHeaders}}
- */
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'text/plain',
-  })
-};
 
 /**
  * token to inject structure viewer into generic table component
@@ -198,7 +185,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * set up dependencies
    * @param _route
    * @param {MatDialog} dialog
-   * @param {HttpClient} http
    * @param {Router} router
    * @param profileService
    * @param {PharosConfig} pharosConfig
@@ -208,7 +194,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    */
   constructor(private _route: ActivatedRoute,
               public dialog: MatDialog,
-              public http: HttpClient,
               private router: Router,
               private profileService: PharosProfileService,
               private pharosConfig: PharosConfig,

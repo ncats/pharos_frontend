@@ -1,7 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
 import {FilterPanelComponent} from './filter-panel.component';
-import {PathResolverService} from '../../../pharos-services/path-resolver.service';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {SuggestApiService} from '../../../tools/search-component/suggest-api.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -36,9 +34,7 @@ describe('FilterPanelComponent', () => {
         FacetTableComponent
       ],
       providers: [
-        PathResolverService,
         PharosApiService,
-        PathResolverService,
         LoadingService,
         SelectedFacetService,
         SuggestApiService,

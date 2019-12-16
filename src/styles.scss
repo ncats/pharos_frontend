@@ -89,9 +89,13 @@ a:hover {
   align-items: stretch;
 }
 
-pharos-custom-paginator.mat-paginator {
-  background: transparent !important;
+.paginator-row {
+  background-color: #ffffff;
 }
+
+/*pharos-custom-paginator.mat-paginator {
+  background: transparent !important;
+}*/
 
 .loadingIcon {
   position: absolute; /* Sit on top of the page content */

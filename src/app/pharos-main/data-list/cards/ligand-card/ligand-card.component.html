@@ -1,13 +1,13 @@
 <mat-card class="ligand-card" *ngIf="ligand">
   <a *ngIf="!internalLink" routerLink = '/ligands/{{ligand.ligid}}' target="_blank">
     <div class="ligand-content">
-      <div class="mat-title centered">{{ligand.chemblName || ligand.name}}</div>
+      <div class="mat-title centered ligand-name">{{ligand.chemblName || ligand.name}}</div>
       <pharos-structure-view [smiles]="ligand.smiles"></pharos-structure-view>
     </div>
   </a>
   <a *ngIf="internalLink" routerLink = '/ligands/{{ligand.ligid}}' >
     <div class="ligand-content">
-      <div class="mat-title centered">{{ligand.chemblName || ligand.name}}</div>
+      <div class="mat-title centered ligand-name">{{ligand.chemblName || ligand.name}}</div>
       <pharos-structure-view [smiles]="ligand.smiles"></pharos-structure-view>
     </div>
   </a>
@@ -27,7 +27,7 @@
       </div>-->
     </div>
     <ng-template #activityCount>
-      <span>{{ligand.activityCount | number}} activity measurements available</span>
+      <span>Activity values for {{ligand.activityCount | number}} targets</span>
     </ng-template>
   </div>
 </mat-card>

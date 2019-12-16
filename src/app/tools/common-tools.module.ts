@@ -16,7 +16,6 @@ import {RouterModule} from '@angular/router';
 import {NgxJsonViewerModule} from 'ngx-json-viewer';
 import {RadarChartModule} from './visualizations/radar-chart/radar-chart.module';
 import {StructureViewComponent} from './structure-view/structure-view.component';
-import {PharosPaginatorModule} from './pharos-paginator/pharos-paginator.module';
 import {NcatsHeaderModule} from './ncats-header/ncats-header.module';
 import { TopicNodeGeneratorComponent } from './topic-node-generator/topic-node-generator.component';
 
@@ -41,12 +40,7 @@ import { TopicNodeGeneratorComponent } from './topic-node-generator/topic-node-g
     AnatamogramModule,
     NgxJsonViewerModule,
     GenericTableModule,
-    RadarChartModule,
-    PharosPaginatorModule
-  ],
-  entryComponents: [
-    BatchUploadModalComponent,
-    IdgLevelIndicatorComponent
+    RadarChartModule
   ],
   exports: [
     NcatsHeaderModule,
@@ -62,7 +56,6 @@ import { TopicNodeGeneratorComponent } from './topic-node-generator/topic-node-g
     KnowledgeTableComponent,
     LinkListComponent,
     StructureViewComponent,
-    PharosPaginatorModule,
     ProteinStructureViewerComponent
   ]
 })

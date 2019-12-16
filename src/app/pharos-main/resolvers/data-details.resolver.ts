@@ -3,7 +3,6 @@ import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
 import { Observable , of} from 'rxjs';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
-import {PathResolverService} from '../../pharos-services/path-resolver.service';
 import {PharosBase, Serializer} from '../../models/pharos-base';
 import {map} from 'rxjs/internal/operators';
 
@@ -15,11 +14,10 @@ export class DataDetailsResolver implements Resolve<any> {
 
   /**
    * create services
-   * @param {PathResolverService} pathResolverService
    * @param {LoadingService} loadingService
    * @param {PharosApiService} pharosApiService
    */
-    constructor(private pathResolverService: PathResolverService,
+    constructor(
                 public loadingService: LoadingService,
                 private pharosApiService: PharosApiService) {  }
 

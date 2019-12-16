@@ -1,19 +1,14 @@
-import {
-  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy,
-  OnInit, Output, ViewChild, ViewChildren
-} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import {PageEvent} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
 import {Ligand, LigandSerializer} from '../../../../../models/ligand';
-import {PageData} from '../../../../../models/page-data';
 import {takeUntil} from 'rxjs/operators';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {Target} from '../../../../../models/target';
 import {HttpClient} from '@angular/common/http';
 import {PharosConfig} from '../../../../../../config/pharos-config';
 import {BehaviorSubject} from 'rxjs';
-import {DiseaseSerializer} from '../../../../../models/disease';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 
@@ -47,24 +42,19 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
    * sets default structure url
    *
    * @param {NavSectionsService} navSectionsService
-   * @param {HttpClient} _http
    * @param _route
    * @param pharosApiService
    * @param changeRef
-   * @param {PharosConfig} pharosConfig
    */
   constructor(
     private navSectionsService: NavSectionsService,
-    private _http: HttpClient,
     private _route: ActivatedRoute,
     private pharosApiService: PharosApiService,
-    private changeRef: ChangeDetectorRef,
-    private pharosConfig: PharosConfig) {
+    private changeRef: ChangeDetectorRef) {
     super();
   }
 
   /**
-   * todo pagination might still be a little slow, as the first load is not paginated
    * subscribe to data changes and set data when it arrives
    */
   ngOnInit() {

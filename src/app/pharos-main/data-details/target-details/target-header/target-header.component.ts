@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {Target} from '../../../../models/target';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
@@ -6,7 +6,8 @@ import {takeUntil} from 'rxjs/operators';
 @Component({
   selector: 'pharos-target-header',
   templateUrl: './target-header.component.html',
-  styleUrls: ['./target-header.component.scss']
+  styleUrls: ['./target-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TargetHeaderComponent extends DynamicPanelComponent implements OnInit {
   @Input() target: Target;

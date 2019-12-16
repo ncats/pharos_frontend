@@ -79,7 +79,7 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
     new PharosProperty({
       name: 'pmid',
       label: 'PMID',
-      width: 12
+      width: 15
     }),
     new PharosProperty({
       name: 'year',
@@ -89,8 +89,8 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
     }),
     new PharosProperty({
       name: 'title',
-      label: 'title',
-      width: 80
+      label: 'Title',
+      width: 70
     })
   ];
 
@@ -101,7 +101,7 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
     new PharosProperty({
       name: 'pubPmids',
       label: 'PMID',
-      width: 10
+      width: 15
     }),
     new PharosProperty({
       name: 'text',
