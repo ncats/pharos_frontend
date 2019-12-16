@@ -47,11 +47,6 @@ import {PharosMainComponent} from './pharos-main/pharos-main.component';
     GraphQLModule,
     HttpClientModule
   ],
-  entryComponents: [
-    PharosFooterComponent
-  ],
-  providers: [
-  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

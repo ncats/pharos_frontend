@@ -1,12 +1,12 @@
-import {Component, InjectionToken, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, InjectionToken, Input, OnDestroy, OnInit} from '@angular/core';
 import {PharosProperty} from '../../../../models/pharos-property';
-import {HttpClient} from '@angular/common/http';
-import {Target} from '../../../../models/target';
-import {map, zipAll} from 'rxjs/operators';
-import {from} from 'rxjs/index';
+import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../../tools/generic-table/models/page-data';
 import {DynamicTablePanelComponent} from '../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
-import {PharosConfig} from '../../../../../config/pharos-config';
+import {PageEvent} from '@angular/material/paginator';
+import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
+import {DiseaseAssocationSerializer} from '../../../../models/disease-association';
+import {Disease} from '../../../../models/disease';
 
 /**
  * token to inject structure viewer into generic table component
@@ -17,11 +17,11 @@ export const IDG_LEVEL_TOKEN = new InjectionToken('IDGLevelComponent');
 @Component({
   selector: 'pharos-target-list-panel',
   templateUrl: './target-list-panel.component.html',
-  styleUrls: ['./target-list-panel.component.css']
+  styleUrls: ['./target-list-panel.component.scss']
 })
-export class TargetListPanelComponent extends DynamicTablePanelComponent implements OnInit {
+export class TargetListPanelComponent extends DynamicTablePanelComponent implements OnInit, OnDestroy {
 
-  disease: any = {};
+  disease: Disease;
 
   fields: PharosProperty[] = [
     new PharosProperty({
@@ -51,14 +51,16 @@ export class TargetListPanelComponent extends DynamicTablePanelComponent impleme
    */
   pageData: PageData;
 
+  @Input() data: any;
+
   /**
    * no args constructor
-   * calls spuer object constructor
+   * call super object constructor
    */
   constructor(
-    private http: HttpClient,
-    private pharosConfig: PharosConfig
-    ) {
+    private changeRef: ChangeDetectorRef,
+    private pharosApiService: PharosApiService,
+  ) {
     super();
   }
 
@@ -67,78 +69,37 @@ export class TargetListPanelComponent extends DynamicTablePanelComponent impleme
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
       .pipe(
-        // todo: this unsubscribe doesn't seem to work
-        //    takeWhile(() => !this.data['references'])
+        takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-/*
-        if (this.data.targets && this.data.targets.length > 0) {
-          this.tableArr = [];
-          from(this.data.targets.map(target => {
-            const data = {
-              //  target: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target')[0]),
-              developmentLevel: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Development Level')[0]),
-              targetFamily: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target Family')[0]),
-              dataSource: new PharosProperty(target.properties.filter(prop => prop.label === 'Data Source')[0]),
-            };
-            return {target: data, data: this.http.get(target.href)};
-          })).pipe(
-            map<any, any>(res => {
-                return res.data.pipe(
-                  map<Target, any>(response => {
-                    res.target.target = new PharosProperty({
-                      label: 'Target',
-                      term: response.gene,
-                      internalLink: ['/targets', response.accession]
-                    });
-                    return res.target;
-                  })
-                );
-              }),
-            zipAll()
-          ).subscribe(res => {
-            this.pageData = this.makePageData(this.disease._links.count);
-            this.tableArr = res;
-          });
-        }
-*/
+        this.disease = this.data.diseases;
+        this.loading = false;
       });
   }
 
-  getMoreTargets(event) {
-  /*  const url = `${this.pharosConfig.getApiPath()}diseases/${this.disease.id}/links(kind=ix.idg.models.Target)?skip=${event.pageIndex * event.pageSize}&top=${event.pageSize}`;
-    // this.loading = true;
-    this.http.get<any>(url)
-      .subscribe(res => {
-        from(res.map(target => {
-          const data = {
-            //  target: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target')[0]),
-            developmentLevel: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Development Level')[0]),
-            targetFamily: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target Family')[0]),
-            dataSource: new PharosProperty(target.properties.filter(prop => prop.label === 'Data Source')[0]),
-          };
-          return {target: data, data: this.http.get(target.href)};
-        })).pipe(
-          map<any, any>(resp => {
-            return resp.data.pipe(
-              map<Target, any>(response => {
-                res.target.target = new PharosProperty({
-                  label: 'Target',
-                  term: response.gene,
-                  internalLink: ['/targets', response.accession]
-                });
-                return res.target;
-              })
-            );
-          }),
-          zipAll()
-        ).subscribe(r => {
-          this.tableArr = r;
-          this.pageData.skip = event.pageIndex * event.pageSize;
-        });
-      });*/
+  /**
+   * paginate ligand list datasource
+   * @param event
+   */
+  paginate(event: PageEvent) {
+    this.loading = true;
+    const associationSerializer = new DiseaseAssocationSerializer();
+    const pageParams = {
+      associationtop: event.pageSize,
+      associationskip: event.pageIndex * event.pageSize,
+    };
+    this.pharosApiService.fetchMore('diseases', pageParams).valueChanges.subscribe(res => {
+      this.disease.associations = res.data.diseases.associations.map(association => associationSerializer.fromJson(association));
+      this.loading = false;
+      this.changeRef.markForCheck();
+    });
   }
 
+  /**
+   * cleanp on destroy
+   */
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
 }
-
-

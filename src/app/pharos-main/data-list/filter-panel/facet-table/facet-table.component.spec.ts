@@ -5,7 +5,6 @@ import {RouterTestingModule} from '@angular/router/testing';
 import { FacetTableComponent } from './facet-table.component';
 import {SharedModule} from '../../../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {PathResolverService} from '../../../../pharos-services/path-resolver.service';
 import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../../../pharos-services/loading.service';
 import {SelectedFacetService} from '../selected-facet.service';
@@ -36,7 +35,6 @@ describe('FacetTableComponent', () => {
         FacetTableComponent
       ],
       providers: [
-        PathResolverService,
         PharosApiService,
         LoadingService,
         SelectedFacetService,

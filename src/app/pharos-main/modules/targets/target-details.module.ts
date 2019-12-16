@@ -64,30 +64,6 @@ import {RelatedPublicationsComponent} from '../../data-details/target-details/pa
     LigandListModule,
     PharosLoadingSpinnerModule
   ],
-  exports: [
-  ],
-  entryComponents: [
-    HelpPanelComponent,
-    SidenavPanelComponent,
-    TargetHeaderComponent,
-    BreadcrumbComponent,
-    SummaryPanelComponent,
-    DiseaseSourceComponent,
-    PublicationStatisticsComponent,
-    RelatedPublicationsComponent,
-    ExpressionPanelComponent,
-    ProteinProteinPanelComponent,
-    OrthologPanelComponent,
-    TargetFacetPanelComponent,
-    AaSequencePanelComponent,
-    PdbPanelComponent,
-    GeneSummaryComponent,
-    RadarChartViewerComponent,
-    IdgResourcesPanelComponent,
-    LigandsPanelComponent,
-    StructureViewComponent,
-    DrugsPanelComponent
-  ],
   providers: [
     // breadcrumb
     {provide: TOKENS.PHAROS_SUBNAV_COMPONENT, useValue: SidenavPanelComponent},

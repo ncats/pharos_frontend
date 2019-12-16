@@ -34,21 +34,28 @@
           <a href="http://www.rcsb.org/" target="_blank"  rel="noreferrer">RCSB PDB <mat-icon [inline]="true">open_in_new</mat-icon></a></p>
       </div>
     </div>
+    <div fxLayout="row" fxLayoutAlign="end center">
+      <mat-paginator
+        [pageSize]="10"
+        [length]="reports?.length"
+        [hidePageSize]="true"
+        [showFirstLastButtons] = true
+        (page) = pagePDB($event)
+        #pdbpaginator></mat-paginator>
+    </div>
     <div fxHide.lt-md>
     <pharos-generic-table
-      [pageData]= pageData
       [data]= tableArr
+      [showPaginator]="false"
       [fieldsConfig]= fieldsData
-      (pageChange)="pagePDB($event)"
       (rowClick)="changePdbId($event)">
     </pharos-generic-table>
     </div>
       <div fxHide.gt-md>
     <pharos-generic-table
-      [pageData]= pageData
       [data]= tableArr
+      [showPaginator]="false"
       [fieldsConfig]= shortFieldsData
-      (pageChange)="pagePDB($event)"
       (rowClick)="changePdbId($event)">
     </pharos-generic-table>
       </div>

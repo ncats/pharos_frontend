@@ -2,12 +2,10 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Vi
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {PageData} from '../../../../../models/page-data';
-import {IDG_LEVEL_TOKEN} from '../../../disease-details/target-list-panel/target-list-panel.component';
 import {Ligand} from '../../../../../models/ligand';
 import {takeUntil} from 'rxjs/operators';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import {Target} from '../../../../../models/target';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
 
 /**
  * shows what targets the ligand was tested on
@@ -71,19 +69,9 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
     ];
 
   /**
-   * array of data shown in the table
-   * @type {any[]}
-   */
-    tableArr: any[] = [];
-
-  /**
    * page data object to track pagination
    */
   pageData: PageData;
-
-  targets: any[] = [];
-
-  activities: any[];
 
   activitiesTargetDataSource = new MatTableDataSource<any>();
 
@@ -111,62 +99,9 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
           this.ligandProps = this.data.ligandsProps;
           this.loading = false;
           this.activitiesTargetDataSource.data = this.ligandProps.activities;
-           /* [...this.ligand.activitiesMap.values()]
-            .sort((a, b) => b.activities.length - a.activities.length);*/
           this.activitiesTargetDataSource.paginator = this.paginator;
           this.changeRef.markForCheck();
         }
       });
-
-    /*this._data
-    // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
-      .pipe(
-        // todo: this unsubscribe doesn't seem to work
-        //    takeWhile(() => !this.data['references'])
-      )
-      .subscribe(x => {
-        if (this.data.targetRelevance && this.data.targetRelevance.length > 0) {
-          this.tableArr = [];
-          this.data.targetRelevance.forEach(target => {
-            const data = {
-              target: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target')[0]),
-              developmentLevel: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Development Level')[0]),
-              targetFamily: new PharosProperty(target.properties.filter(prop => prop.label === 'IDG Target Family')[0]),
-              activity: new PharosProperty(target.properties
-                .filter(prop => prop.label === 'Ligand Activity' || prop.label === 'Pharmalogical Action')[0])
-            };
-            data['developmentLevelValue'] = new PharosProperty(
-              target.properties.filter(prop => prop.label === data.activity.term)[0] ?
-                target.properties.filter(prop => prop.label === data.activity.term)[0] :
-                data.activity
-            );
-           // data['developmentLevelValue'].term = `p${data['developmentLevelValue'].term}`;
-            data.target.internalLink = ['/targets', data.target.term as string];
-            if (data.activity && data.activity.label !== 'Pharmalogical Action') {
-              data.activity.term = `p${data.activity.term}`;
-            }
-
-            if (data.activity && data.activity.label === 'Pharmalogical Action') {
-            delete data['developmentLevelValue'];
-            }
-              this.targets.push(data);
-          });
-          this.pageData = new PageData(
-            {
-              top: 10,
-              skip: 0,
-              total: this.targets.length,
-              count: 10
-            });
-          this.tableArr = this.targets
-            .slice(this.pageData.skip, this.pageData.top);
-      }
-      });*/
   }
-
-  page(event) {
-    this.tableArr = this.targets.slice(event.pageIndex * event.pageSize, (event.pageIndex + 1) * event.pageSize);
-  }
-
 }

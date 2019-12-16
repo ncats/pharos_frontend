@@ -48,12 +48,6 @@ import {GraphParserService} from '../../data-details/topic-details/panels/topic-
     {provide: TOKENS.TOPIC_DETAILS_COMPONENT, useValue: TopicDetailsComponent},
     {provide: TOKENS.TOPIC_HEADER_COMPONENT, useValue: TopicHeaderComponent},
     {provide: TOKENS.TOPIC_GRAPH_PANEL, useValue: TopicGraphPanelComponent},
-  ],
-  entryComponents: [
-    TopicDetailsComponent,
-    TopicHeaderComponent,
-    NodeDisplayComponent
   ]
-
 })
 export class TopicDetailsModule { }

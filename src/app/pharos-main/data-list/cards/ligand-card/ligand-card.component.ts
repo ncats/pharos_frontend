@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit} from '@angular/core';
 import {Ligand} from '../../../../models/ligand';
 import {Target} from '../../../../models/target';
 import {PharosConfig} from '../../../../../config/pharos-config';
@@ -34,11 +34,8 @@ export class LigandCardComponent implements OnInit {
    */
   primeActivity: any;
 
-
-  /**
-   * no args constructor
-   */
   constructor(
+    private ref: ChangeDetectorRef
   ) {
   }
 
@@ -55,6 +52,18 @@ export class LigandCardComponent implements OnInit {
       if (this.primeActivity.length === 0) {
         this.primeActivity = actArr.sort((a, b) => a.value - b.value);
       }
+      if (this.primeActivity.length > 0) {
+        this.primeActivity = this.primeActivity.pop();
+      }
+      this.ref.markForCheck();
+    }
+
+    if (this.ligand.name.length > 50) {
+      this.ligand.synonyms.forEach(syn => {
+        if (syn.name === 'ChEMBL') {
+          this.ligand.chemblName = syn.value;
+        }
+      });
     }
   }
 }

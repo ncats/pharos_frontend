@@ -26,10 +26,6 @@ import {LigandTableComponent} from '../../data-list/tables/ligand-table/ligand-t
     DataListResolver,
     {provide: TOKENS.LIGAND_TABLE_COMPONENT, useValue: LigandTableComponent},
   ],
-  entryComponents: [
-    LigandCardComponent,
-    LigandTableComponent
-  ],
   exports: [
     LigandCardComponent,
     LigandTableComponent

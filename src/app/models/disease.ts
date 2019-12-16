@@ -10,21 +10,6 @@ export const DISEASELISTFIELDS =  gql`
       fragment diseasesListFields on Disease {
           name
           associationCount
-          associations(top: $associationtop, skip: $associationskip) {
-            type
-            name
-            description
-            zscore
-            evidence
-            conf
-            log2foldchange
-            drug
-            source
-            targetCounts {
-              name
-              value
-            }
-          }
         }
     `;
 
@@ -39,6 +24,21 @@ const DISEASEDETAILSQUERY = gql`
             name: $term,
           ) {
         ...diseasesListFields
+         associations(top: $associationtop, skip: $associationskip) {
+            type
+            name
+            description
+            zscore
+            evidence
+            conf
+            log2foldchange
+            drug
+            source
+            targetCounts {
+              name
+              value
+            }
+          }
         }
         }
           ${DISEASELISTFIELDS}
@@ -66,7 +66,7 @@ export class Disease {
   /**
    * number of disease associations
    */
-  associationCounts: number;
+  associationCount: number;
 
   /**
    * List of disease association objects
@@ -118,11 +118,12 @@ export class DiseaseSerializer implements Serializer {
   _asProperties<T extends PharosBase>(obj: Disease): any {
     const newObj: any = this._mapField(obj);
 
+
     if (obj.associations) {
       const associationSerializer = new DiseaseAssocationSerializer();
       newObj.associations = obj.associations.map(ass => associationSerializer._asProperties(ass));
     }
-  //  newObj.name.internalLink = ['/diseases', obj.id];
+    newObj.name.internalLink = ['/diseases', obj.name];
   //  newObj.id.internalLink = ['/diseases', obj.id];
     return newObj;
   }

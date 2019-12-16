@@ -30,11 +30,6 @@ import {IdgLevelIndicatorComponent} from '../../../tools/idg-level-indicator/idg
     {provide: TOKENS.DISEASE_HEADER_COMPONENT, useValue: DiseaseHeaderComponent},
     {provide: TOKENS.TARGET_LIST_PANEL, useValue: TargetListPanelComponent},
     {provide: IDG_LEVEL_TOKEN, useValue: IdgLevelIndicatorComponent}
-
-  ],
-  entryComponents: [
-    DiseaseHeaderComponent,
-    TargetListPanelComponent
   ]
 })
 export class DiseaseDetailsModule { }

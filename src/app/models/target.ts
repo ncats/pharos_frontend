@@ -601,7 +601,7 @@ export class TargetSerializer implements PharosSerializer {
 
     if (json.hgdata && json.hgdata.summary) {
       obj.hgdata = json.hgdata.summary.map(hg => {
-        hg.value = hg.value.toFixed(2);
+        hg.value = +hg.value.toFixed(2);
       return hg;
       });
     }
