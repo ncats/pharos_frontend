@@ -4,11 +4,13 @@
     <div class = mat-display-1>Ligands <span *ngIf ="pageData">({{pageData.total}})</span></div>
   </div>
   <div fxFlex="45" fxFlexAlign="end">
-    <pharos-custom-paginator
-      [pageData]="pageData"
-      [pageSize]="20"
+    <mat-paginator
+      [pageSize]= pageData.top
+      [pageIndex]="pageData.skip / pageData.top"
+      [length]= pageData.total
       [pageSizeOptions]="[10, 20, 60, 100]"
-      (page)="changePage($event)"></pharos-custom-paginator>
+      [showFirstLastButtons]="true"
+      (page)="changePage($event)"></mat-paginator>
   </div>
 </div>
       <div class ="structure-grid">

@@ -137,9 +137,6 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       };
       return diseaseSource;
     });
-
-    this.loading = false;
-    this.changeRef.markForCheck();
   }
 
   /**
@@ -165,6 +162,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       this.target.diseases = res.data.targets.diseases;
       this.targetProps.diseases = res.data.targets.diseases.map(disease => diseaseSerializer._asProperties(disease));
       this.setterFunction();
+      this.loading = false;
     });
   }
 

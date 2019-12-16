@@ -1,11 +1,11 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, NavigationExtras, Router} from '@angular/router';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Facet, Field} from '../../../../models/facet';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
-import {PathResolverService} from '../../../../pharos-services/path-resolver.service';
+import {PathResolverService} from '../path-resolver.service';
 import {SelectedFacetService} from '../selected-facet.service';
 
 /**
@@ -106,12 +106,13 @@ export class FacetTableComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(change => {
         if (this.propogate === true) {
+          console.log(change);
           this.selectedFacetService.setFacets({name: this.facet.facet, change: change});
           const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
-          if (this._route.snapshot.queryParamMap.has('q')) {
-            this.pathResolverService.navigate(queryParams, this._route.snapshot.queryParamMap.get('q'));
+          if (this.facet.facet === 'collection') {
+            this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getFacetByName('collection'));
           } else {
-            this.pathResolverService.navigate(queryParams);
+            this.pathResolverService.navigate(queryParams, this._route);
           }
         }
       });

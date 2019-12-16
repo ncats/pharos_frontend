@@ -38,7 +38,8 @@
                   <pharos-generic-table
                     [pageData]="publicationsPageData"
                     [data]= publications
-                    [showPaginator]="true"
+                    [showPaginator] = true
+                    [useInternalPaginator]="false"
                     (pageChange)="paginate($event, 'publications')"
                     [showBottomPaginator]="false"
                     [fieldsConfig] = publicationTableFields>

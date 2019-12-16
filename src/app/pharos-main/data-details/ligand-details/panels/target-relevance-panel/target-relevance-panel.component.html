@@ -10,7 +10,7 @@
         <span class="mat-title"
               [matTooltip] = description
               [matTooltipClass] = "'pharos-tooltip'">
-         Target Relevance</span>
+         Target Activities</span>
         </div>
         <div fxFlex="5">
           <pharos-help-panel-trigger [origin] = "'relatedTargets'" [label]="'Target Relevance'"></pharos-help-panel-trigger>
@@ -26,13 +26,10 @@
         </div>
         <pharos-generic-table
           [data]="activity.activities"
-          [asDataSource]="true"
-          [showCustomPaginator] = false
+          [showPaginator]="true"
+          [useInternalPaginator] = "true"
           [fieldsConfig]="fields"
           ></pharos-generic-table>
-<!--
-        <mat-table> </mat-table>
--->
       </div>
 
     </mat-card-content>

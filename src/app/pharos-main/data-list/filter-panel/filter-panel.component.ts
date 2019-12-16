@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import {Facet, Field} from '../../../models/facet';
 import {forkJoin, Observable, of, Subject} from 'rxjs';
-import {PathResolverService} from '../../../pharos-services/path-resolver.service';
+import {PathResolverService} from './path-resolver.service';
 import {SelectedFacetService} from './selected-facet.service';
 import {PharosConfig} from '../../../../config/pharos-config';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
@@ -111,6 +111,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * set up subscriptions to get facets
     */
   ngOnInit() {
+    console.log(this);
     this.profileService.profile$.subscribe(user => {
       if (user) {
         this.user = user;
@@ -228,7 +229,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
   removeAll(): void {
     this.selectedFacetService.clearFacets();
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
-    this.pathResolverService.navigate(queryParams);
+    this.pathResolverService.navigate(queryParams, this._route);
   }
 
 

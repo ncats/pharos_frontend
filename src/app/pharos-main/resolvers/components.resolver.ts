@@ -18,9 +18,7 @@ export class ComponentsResolver implements Resolve<any> {
    */
     constructor(
       private pharosConfig: PharosConfig
-  ) {
-      console.log(this);
-  }
+  ) {}
 
   /**
    * retrieve components for section based on path and subpath
@@ -28,7 +26,6 @@ export class ComponentsResolver implements Resolve<any> {
    * @returns {Observable<PharosBase>}
    */
     resolve(route: ActivatedRouteSnapshot): Observable<PharosPanel[]> {
-      console.log(route);
     return of(this.pharosConfig.getComponents(route.data.path, route.data.subpath));
     }
 }

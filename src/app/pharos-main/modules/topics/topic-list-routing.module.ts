@@ -36,10 +36,6 @@ const routes: Routes = [
     TopicsListResolver,
     {provide: TOKENS.TOPIC_TABLE_COMPONENT, useValue: TopicTableComponent},
   ],
-  entryComponents: [
-    TopicTableComponent,
-    TopicCardComponent
-  ],
   exports: [
     TopicTableComponent,
     TopicCardComponent,

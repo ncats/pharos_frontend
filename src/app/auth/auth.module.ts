@@ -15,9 +15,6 @@ import {FlexLayoutModule} from '@angular/flex-layout';
   ],
   exports: [
     LoginModalComponent
-  ],
-  entryComponents: [
-    LoginModalComponent
   ]
 })
 export class AuthModule { }

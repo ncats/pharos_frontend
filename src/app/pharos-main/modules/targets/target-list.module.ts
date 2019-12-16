@@ -33,13 +33,6 @@ import {TopicSaveModalComponent} from '../../data-list/tables/target-table/topic
     {provide: IDG_LEVEL_TOKEN, useValue: IdgLevelIndicatorComponent},
     {provide: RADAR_CHART_TOKEN, useValue: InjectedRadarChartComponent}
   ],
-  entryComponents: [
-    TargetTableComponent,
-    IdgLevelIndicatorComponent,
-    InjectedRadarChartComponent,
-    TargetSaveModalComponent,
-    TopicSaveModalComponent
-  ],
   exports: [
     TargetTableComponent,
     TargetCardComponent

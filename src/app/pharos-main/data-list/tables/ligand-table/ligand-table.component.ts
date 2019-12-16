@@ -1,10 +1,16 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {PageData} from '../../../../models/page-data';
-import { MatTableDataSource } from '@angular/material/table';
 import {PharosConfig} from '../../../../../config/pharos-config';
 import {Ligand} from '../../../../models/ligand';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
+
+/**
+ * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
+ */
+const navigationExtras: NavigationExtras = {
+  queryParamsHandling: 'merge'
+};
 
 /**
  * table/list view of ligand overviews
@@ -12,7 +18,7 @@ import {ActivatedRoute} from '@angular/router';
 @Component({
   selector: 'pharos-ligand-table',
   templateUrl: './ligand-table.component.html',
-  styleUrls: ['./ligand-table.component.css']
+  styleUrls: ['./ligand-table.component.scss']
 })
 export class LigandTableComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
 
@@ -43,11 +49,14 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
 
   /**
    * set up config and change detection
+   * @param _route
+   * @param router
    * @param ref
    * @param {PharosConfig} pharosConfig
    */
   constructor(
     private _route: ActivatedRoute,
+    private router: Router,
     private ref: ChangeDetectorRef,
     private pharosConfig: PharosConfig
   ) {
@@ -82,12 +91,35 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   /**
-   * emits pagination event
+   * send table page event to emitter, external component handles paging
    * @param $event
    */
   changePage($event): void {
-    this.pageChange.emit($event);
+    this.paginationChanges($event);
+    // this.pageChange.emit($event);
   }
+
+  /**
+   * change pages of list
+   * @param event
+   */
+  paginationChanges(event: any) {
+    navigationExtras.queryParams = {
+      page: event.pageIndex + 1,
+      rows: event.pageSize
+    };
+    this._navigate(navigationExtras);
+  }
+
+  /**
+   * navigate on changes, mainly just changes url, shouldn't reload entire page, just data
+   * @param {NavigationExtras} navExtras
+   * @private
+   */
+  private _navigate(navExtras: NavigationExtras): void {
+    this.router.navigate([], navExtras);
+  }
+
 
   /**
    * set ligand overview data and map activity data

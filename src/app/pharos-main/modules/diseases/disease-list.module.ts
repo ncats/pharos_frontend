@@ -25,10 +25,6 @@ import {FilterPanelComponent} from '../../data-list/filter-panel/filter-panel.co
   providers: [
     {provide: TOKENS.DISEASE_TABLE_COMPONENT, useValue: DiseaseTableComponent}
   ],
-  entryComponents: [
-    FilterPanelComponent,
-    DiseaseTableComponent
-  ],
   exports: [
     DiseaseTableComponent
   ]

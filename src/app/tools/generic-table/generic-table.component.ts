@@ -5,8 +5,10 @@ import {
   Component,
   EventEmitter,
   Injector,
-  Input, OnChanges, OnDestroy,
-  OnInit, Optional,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
   Output,
   QueryList,
   Type,
@@ -14,12 +16,12 @@ import {
   ViewChildren,
   ViewContainerRef
 } from '@angular/core';
-import {BehaviorSubject, combineLatest, Subject} from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
 import {ComponentPortal} from '@angular/cdk/portal';
 import {PageData} from './models/page-data';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatRow, MatTableDataSource } from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort, Sort} from '@angular/material/sort';
+import {MatRow, MatTableDataSource} from '@angular/material/table';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {DataProperty} from './components/property-display/data-property';
 import {SelectionModel} from '@angular/cdk/collections';
@@ -33,6 +35,7 @@ import {takeUntil} from 'rxjs/operators';
   selector: 'pharos-generic-table',
   templateUrl: './generic-table.component.html',
   styleUrls: ['./generic-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
@@ -136,18 +139,12 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
   @Input() showPaginator = true;
 
 
-  @Input() showCustomPaginator = false;
+  @Input() useInternalPaginator = false;
 
   /**
    * show/hide the bottom paginator
    */
   @Input() showBottomPaginator = false;
-
-  /**
-   * Paginator object from Angular Material
-   * */
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-
 
   /**
    * Sort object from Angular Material
@@ -218,7 +215,13 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
 
   selection = new SelectionModel<any>(true, []);
 
-
+  /**
+   * Paginator object from Angular Material
+   *
+   */
+  @ViewChild(MatPaginator) set paginator(paginator: MatPaginator) {
+        this.dataSource.paginator = paginator;
+      }
   /**
    * injector for custom data
    */
@@ -240,17 +243,11 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(res => {
-        if (this.asDataSource) {
+        if (this.useInternalPaginator) {
           this.dataSource = new MatTableDataSource<any>(res);
-          this.dataSource.paginator = this.paginator;
-          this.ref.detectChanges();
+          this.pageData = new PageData({total: res.length});
         } else {
           this.dataSource.data = res;
-        }
-        if (this.pageData && this.paginator) {
-          this.dataSource.paginator.length = this.pageData.total;
-          this.dataSource.paginator.pageSize = this.pageData.top;
-          this.dataSource.paginator.pageIndex = Math.ceil(this.pageData.skip / this.pageData.top);
         }
       this.ref.detectChanges();
     });
@@ -270,9 +267,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
   }
 
   ngOnChanges (change) {
-    if (this.paginator) {
-      this.setPage();
-    }
+
   }
 
   /**
@@ -280,9 +275,6 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
    * since the total is not know, it needs to be manually set based on the page data passes in
    */
   ngAfterViewInit() {
-    this.setPage();
-
-
     /*    if (this.fieldsConfig) {
           const defaultSort = this.fieldsConfig.filter(field => field.sorted);
           if (defaultSort.length > 0) {
@@ -303,19 +295,6 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
   }
 
   /**
-   * set default paginator values
-   */
-  setPage() {
-   /* this.dataSource.paginator = this.paginator;
-    console.log(this.pageData)
-    if (this.showPaginator && (this.paginator && this.pageData)) {
-      this.dataSource.paginator.length = this.pageData.total;
-      this.dataSource.paginator.pageSize = this.pageData.top;
-      this.dataSource.paginator.pageIndex = Math.ceil(this.pageData.skip / this.pageData.top);
-    }*/
-  }
-
-  /**
    * emit sort change events
    * @param sort
    */
@@ -324,11 +303,11 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
   }
 
   /**
-   * emit page change events
+   * emit page change events or use internal paginator
    * @param $event
    */
   changePage($event): void {
-    this.pageChange.emit($event);
+      this.pageChange.emit($event);
   }
 
   /**

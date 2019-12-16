@@ -28,10 +28,6 @@
       [showFirstLastButtons] = true
       (page) = paginate($event)
       #drugsspaginator></mat-paginator>
-
-<!--
-    <pharos-custom-paginator [pageData]="pageData" (page)="paginate($event)"></pharos-custom-paginator>
--->
     <div class ="structure-grid">
     <div *ngFor="let drug of target.drugs">
       <pharos-ligand-card [ligand]="drug" [target]="target"></pharos-ligand-card>

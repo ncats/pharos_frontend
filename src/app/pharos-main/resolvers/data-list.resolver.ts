@@ -3,7 +3,6 @@ import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@ang
 import {concat, from, Observable, of, zip} from 'rxjs';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
-import {PathResolverService} from '../../pharos-services/path-resolver.service';
 import {concatMap, map, mergeMap, take, zipAll} from 'rxjs/internal/operators';
 import {PharosBase, Serializer} from '../../models/pharos-base';
 import {Facet} from '../../models/facet';
@@ -18,11 +17,10 @@ export class DataListResolver implements Resolve<Observable<any>> {
 
   /**
    * create services
-   * @param {PathResolverService} pathResolverService
    * @param {LoadingService} loadingService
    * @param {PharosApiService} pharosApiService
    */
-  constructor(private pathResolverService: PathResolverService,
+  constructor(
               private loadingService: LoadingService,
               private router: Router,
               private firebaseService: AngularFirestore,
@@ -47,7 +45,7 @@ export class DataListResolver implements Resolve<Observable<any>> {
         .pipe(
           take(1),
           mergeMap( response => {
-          return this.pharosApiService.getGraphQlData(route, {batchIds: response['targetList']})
+          return this.pharosApiService.getGraphQlData(route, {batchIds: response['targetList'].map(target => target.trim())})
         .pipe(
           map(res => {
             res.data.batch.results.facets = res.data.batch.results.facets.map(facet => new Facet(facet));

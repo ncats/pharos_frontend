@@ -37,13 +37,6 @@ import {LigandDetailsComponent} from '../../data-details/ligand-details/panels/l
     {provide: TOKENS.TARGET_RELEVANCE_PANEL, useValue: TargetRelevancePanelComponent},
     {provide: TOKENS.MOLECULAR_DEFINITION_PANEL, useValue: MolecularDefinitionPanelComponent},
     {provide: IDG_LEVEL_TOKEN, useValue: IdgLevelIndicatorComponent}
-  ],
-  entryComponents: [
-    LigandHeaderComponent,
-    LigandDetailsComponent,
-    LigandDescriptionComponent,
-    TargetRelevancePanelComponent,
-    MolecularDefinitionPanelComponent
   ]
 })
 export class LigandDetailsModule { }

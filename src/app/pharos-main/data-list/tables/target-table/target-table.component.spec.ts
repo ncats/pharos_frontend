@@ -7,7 +7,6 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
 import {GenericTableModule} from '../../../../tools/generic-table/generic-table.module';
 import {RadarChartModule} from '../../../../tools/visualizations/radar-chart/radar-chart.module';
-import {PharosPaginatorModule} from '../../../../tools/pharos-paginator/pharos-paginator.module';
 import {ActivatedRoute} from '@angular/router';
 import {TargetCardComponent} from '../../cards/target-card/target-card.component';
 import {IdgLevelIndicatorComponent} from '../../../../tools/idg-level-indicator/idg-level-indicator.component';
@@ -30,7 +29,6 @@ describe('TargetTableComponent', () => {
         SharedModule,
         GenericTableModule,
         RadarChartModule,
-        PharosPaginatorModule,
         RouterTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],

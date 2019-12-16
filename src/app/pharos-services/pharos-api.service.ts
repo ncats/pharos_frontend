@@ -12,7 +12,6 @@ import {PageData} from '../models/page-data';
 import {Facet} from '../models/facet';
 import {Apollo, Query, QueryRef} from 'apollo-angular';
 import gql from 'graphql-tag';
-import {PathResolverService} from './path-resolver.service';
 import {SelectedFacetService} from '../pharos-main/data-list/filter-panel/selected-facet.service';
 import {AngularFirestore} from '@angular/fire/firestore';
 
