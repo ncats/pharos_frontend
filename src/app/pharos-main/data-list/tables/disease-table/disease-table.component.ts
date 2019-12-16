@@ -20,7 +20,7 @@ const navigationExtras: NavigationExtras = {
 @Component({
   selector: 'pharos-disease-table',
   templateUrl: './disease-table.component.html',
-  styleUrls: ['./disease-table.component.css'],
+  styleUrls: ['./disease-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DiseaseTableComponent extends DynamicTablePanelComponent implements OnInit, OnDestroy {
@@ -41,7 +41,7 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
     }),
     new PharosProperty({
       name: 'associationCount',
-      label: 'Association Count'
+      label: 'Associated Targets'
     })
   ];
 

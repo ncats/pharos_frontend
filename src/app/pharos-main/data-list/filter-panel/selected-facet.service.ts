@@ -84,9 +84,10 @@ export class SelectedFacetService {
   }
 
   getFacetsAsUrlStrings(): string[] {
+    console.log(this._facetMap);
     const retArr: string[] = [];
    // this._facetMap.delete('query');
-    const facets: Facet[] = Array.from(this._facetMap.values()).filter(fac => fac.facet !== 'query');
+    const facets: Facet[] = Array.from(this._facetMap.values()).filter(fac => fac.facet !== 'query' && fac.facet !== 'collection');
     facets.forEach(facet => facet.values.forEach(value => retArr.push(this._makeFacetString(facet.facet, value.name))));
     return retArr;
   }
@@ -159,11 +160,15 @@ export class SelectedFacetService {
    * @param {ParamMap} map
    */
   getFacetsFromParamMap(map: ParamMap): void {
+    console.log(this._facetMap);
     if (map.keys.length === 0) {
       this._facetMap.clear();
     } else {
       if (map.has('q')) {
         this._facetMap.set('query', new Facet({facet: 'query', values: [{name: map.get('q')}]}));
+      }
+      if (map.has('collection')) {
+        this._facetMap.set('collection', new Facet({facet: 'collection', values: [{name: map.get('collection')}]}));
       }
       const fList = map.getAll('facet');
       fList.forEach(facetString => {
@@ -186,24 +191,6 @@ export class SelectedFacetService {
       });
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   /**
    * return all facets

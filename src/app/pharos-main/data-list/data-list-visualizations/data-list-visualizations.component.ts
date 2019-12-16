@@ -1,11 +1,12 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {PharosConfig} from '../../../../config/pharos-config';
-import {PathResolverService} from '../../../pharos-services/path-resolver.service';
 import {SelectedFacetService} from '../filter-panel/selected-facet.service';
 import {Facet} from '../../../models/facet';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../models/page-data';
+import {PathResolverService} from '../filter-panel/path-resolver.service';
+import {ActivatedRoute} from '@angular/router';
 
 /**
  * component to show various facets like a dashboard.
@@ -43,11 +44,13 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
 
   /**
    * constructor to get config object and specified facets
-   * @param {PathResolverService} pathResolverService
+   * @param pathResolverService
+   * @param _route
    * @param selectedFacetService
    * @param {PharosConfig} pharosConfig
    */
   constructor(private pathResolverService: PathResolverService,
+              private _route: ActivatedRoute,
               private selectedFacetService: SelectedFacetService,
               private pharosConfig: PharosConfig) {
     super();
@@ -88,6 +91,6 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
   filterDonutChart(data: any) {
     this.selectedFacetService.setFacets({name: this.donutData.facet, change: {added: [data.name]}});
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
-    this.pathResolverService.navigate(queryParams);
+    this.pathResolverService.navigate(queryParams, this._route);
   }
 }

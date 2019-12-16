@@ -34,14 +34,6 @@ import {AssociationScoreArticleComponent} from '../tools/help-panel/articles/ass
     {provide: ARTICLES.TINX_ARTICLE, useValue: TinxArticleComponent },
     {provide: ARTICLES.PUBMED_SCORE_ARTICLE, useValue: PubmedScoreArticleComponent },
     {provide: ARTICLES.ASSOCIATION_SCORES_ARTICLE, useValue: AssociationScoreArticleComponent },
-  ],
-  entryComponents: [
-    IlluminationGraphArticleComponent,
-    TargetDevelopmentArticleComponent,
-    LigandActivityArticleComponent,
-    TinxArticleComponent,
-    PubmedScoreArticleComponent,
-    AssociationScoreArticleComponent
   ]
 })
 export class HelpArticlesModule { }

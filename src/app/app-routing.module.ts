@@ -137,8 +137,6 @@ const ROUTES: Routes = [
      // preloadingStrategy: PreloadAllModules
       })
   ],
-  providers: [],
-  entryComponents: [],
   declarations: [
     AboutPageComponent,
     FaqPageComponent,

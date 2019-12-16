@@ -5,7 +5,7 @@ import {PharosProperty} from '../../../../../../models/pharos-property';
 import {PharosApiService} from '../../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {Target} from '../../../../../../models/target';
-import {PageEvent} from '../../../../../../tools/pharos-paginator/pharos-paginator.component';
+import {PageEvent} from '@angular/material/paginator';
 
 /**
  * displays orthologs available for a target

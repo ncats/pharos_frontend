@@ -2,7 +2,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
 import { Observable , of} from 'rxjs';
-import {PathResolverService} from '../../pharos-services/path-resolver.service';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {PharosBase} from '../../models/pharos-base';
@@ -16,15 +15,13 @@ export class TopicDetailsResolver implements Resolve<any> {
 
   /**
    * create services
-   * @param {PathResolverService} pathResolverService
    * @param {LoadingService} loadingService
    * @param db
    * @param {PharosApiService} pharosApiService
    */
-  constructor(private pathResolverService: PathResolverService,
-                     private loadingService: LoadingService,
-                     private db: AngularFirestore,
-                     private pharosApiService: PharosApiService) {
+  constructor(private loadingService: LoadingService,
+              private db: AngularFirestore,
+              private pharosApiService: PharosApiService) {
   }
 
   /**

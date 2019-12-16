@@ -35,12 +35,6 @@ import {TOKENS} from '../../config/component-tokens';
     {provide: TOKENS.PHAROS_SELECTED_FACET_LIST_COMPONENT, useValue: SelectedFacetListComponent},
     {provide: TOKENS.PHAROS_FACETS_COMPONENT, useValue: FilterPanelComponent}
   ],
-  entryComponents: [
-    SelectedFacetListComponent,
-    FilterPanelComponent,
-    VisualizationOptionsComponent,
-    DataListVisualizationsComponent
-  ],
   exports: [
     SharedModule,
     DataListVisualizationsComponent,

@@ -3,7 +3,6 @@ import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/rou
 import { Observable , of} from 'rxjs';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
-import {PathResolverService} from '../../pharos-services/path-resolver.service';
 import {Message} from '../../pharos-home/news-panel/news-panel.component';
 import {AngularFirestore} from '@angular/fire/firestore';
 
@@ -15,12 +14,11 @@ export class TopicsListResolver implements Resolve<any> {
 
   /**
    * create services
-   * @param {PathResolverService} pathResolverService
    * @param {LoadingService} loadingService
    * @param db
    * @param {PharosApiService} pharosApiService
    */
-    constructor(private pathResolverService: PathResolverService,
+    constructor(
                 private loadingService: LoadingService,
                 private db: AngularFirestore,
                 private pharosApiService: PharosApiService) {

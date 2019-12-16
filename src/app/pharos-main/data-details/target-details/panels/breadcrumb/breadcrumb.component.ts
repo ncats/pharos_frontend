@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {BehaviorSubject} from 'rxjs/index';
-import {PathResolverService} from '../../../../../pharos-services/path-resolver.service';
 import {Target} from '../../../../../models/target';
 
 /**
@@ -56,8 +55,7 @@ export class BreadcrumbComponent implements OnInit {
    * uses {ActivatedRoute} path to populate links
    * @param {ActivatedRoute} route
    */
-  constructor(private route: ActivatedRoute,
-  private pathResolverService: PathResolverService) { }
+  constructor(private route: ActivatedRoute) { }
 
   /**
    * Build array of links based on current url path

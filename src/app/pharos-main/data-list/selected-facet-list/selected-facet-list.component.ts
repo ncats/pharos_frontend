@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {PathResolverService} from '../../../pharos-services/path-resolver.service';
+import {ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
 import {Facet} from '../../../models/facet';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {SelectedFacetService} from '../filter-panel/selected-facet.service';
+import {PathResolverService} from '../filter-panel/path-resolver.service';
 
 /**
  * panel to show selected facets or queries, and remove them
@@ -62,11 +62,8 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
   removefacetFamily(facet: Facet): void {
     this.selectedFacetService.removefacetFamily(facet);
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
-    if (this._route.snapshot.queryParamMap.has('q') && queryParams.length > 0) {
-      this.pathResolverService.navigate(queryParams, this._route.snapshot.queryParamMap.get('q'));
-    } else {
-      this.pathResolverService.navigate(queryParams);
-    }  }
+      this.pathResolverService.navigate(queryParams, this._route);
+     }
 
   /**
    * remove single field from a facet
@@ -76,11 +73,7 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
   removeField(facet: string, field: string): void {
     this.selectedFacetService.removeField(facet, field);
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
-    if (this._route.snapshot.queryParamMap.has('q') && queryParams.length > 0) {
-      this.pathResolverService.navigate(queryParams, this._route.snapshot.queryParamMap.get('q'));
-    } else {
-      this.pathResolverService.navigate(queryParams);
-    }
+      this.pathResolverService.navigate(queryParams, this._route);
   }
 
   /**
@@ -89,7 +82,7 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
   removeAll(): void {
     this.selectedFacetService.clearFacets();
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
-    this.pathResolverService.navigate(queryParams);
+    this.pathResolverService.navigate(queryParams, this._route);
   }
 
   ngOnDestroy(): void {
