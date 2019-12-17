@@ -1,3 +1,4 @@
+<div class = "upload-form">
 <div fxLayout="row" fxLayoutAlign="space-around center">
   <div fxFlex="90">
     <h1 mat-dialog-title>{{data.title}}</h1>
@@ -6,11 +7,17 @@
     <mat-icon>close</mat-icon>
   </button>
 </div>
-<div mat-dialog-content>
-  <div fxLayout="row" fxLayoutAlign="space-around center" *ngIf="nameable">
+<div mat-dialog-content class ="upload-form-content">
+  <div fxLayout="row" fxLayoutAlign="space-around center" *ngIf="nameable === true">
     <div fxFlex="90">
       <mat-form-field class="full-width">
-        <input matInput [formControl]=collectionNameCtrl placeholder="Name this collection to save it to your profile"/>
+        <input matInput
+               [formControl]=collectionNameCtrl
+               [required]="nameable"
+               placeholder="Name this collection to save it to your profile"/>
+        <mat-error *ngIf="collectionNameCtrl.touched && collectionNameCtrl.hasError('required')">
+          required*
+        </mat-error>
       </mat-form-field>
     </div>
   </div>
@@ -20,8 +27,24 @@
         <textarea
           cdkTextareaAutosize
           matInput
+          [required]="true"
           [formControl]=targetListCtrl
+          [rows]="10"
           placeholder="Enter up to 100 newline or comma separated targets"></textarea>
+        <mat-error *ngIf="targetListCtrl.touched && targetListCtrl.hasError('required')">
+          required*
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-around center">
+    <div fxFlex="90">
+      <mat-form-field class="full-width">
+        <textarea
+          cdkTextareaAutosize
+          matInput
+          [formControl]=descriptionCtrl
+          placeholder="Enter a description of this list. (optional)"></textarea>
       </mat-form-field>
     </div>
   </div>
@@ -33,6 +56,10 @@
 
 </div>
 <div mat-dialog-actions [dir]="'rtl'">
-  <button mat-flat-button [color]="'primary'" (click)="submitList()" cdkFocusInitial>Submit</button>
+  <button mat-flat-button
+          [color]="'primary'"
+          [disabled]="(nameable && collectionNameCtrl.hasError('required')) && targetListCtrl.hasError('required')"
+          (click)="submitList()">Submit</button>
   <button mat-flat-button (click)="cancel()">Cancel</button>
+</div>
 </div>

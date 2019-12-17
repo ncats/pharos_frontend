@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {BehaviorSubject} from 'rxjs/index';
+import {BehaviorSubject, ReplaySubject} from 'rxjs/index';
 import * as firebase from 'firebase/app';
 import {AngularFireAuth} from '@angular/fire/auth';
+import {map} from 'rxjs/internal/operators';
 
 /**
  * service to retrieve profile info from firebase, based on user id token
@@ -31,6 +32,9 @@ export class PharosProfileService {
    */
   private user;
 
+
+  isLoggedIn: ReplaySubject<boolean> = new ReplaySubject<boolean>(null);
+
   /**
    * get and filter user collection on init
    * @param userCollection
@@ -44,9 +48,11 @@ export class PharosProfileService {
     this.afAuth.auth.onAuthStateChanged(user => {
       this.user = user;
       if (user) {
+        this.isLoggedIn.next(true);
         this.fetchUserProfile(user);
       } else {
         //  firebase.auth().updateCurrentUser(null);
+        this.isLoggedIn.next(false);
         this._profileSource.next(null);
       }
     });
@@ -62,6 +68,7 @@ export class PharosProfileService {
       .get()
       .subscribe(profile => {
         if (profile.exists) {
+          this.isLoggedIn.next(true);
           this._profileSource.next(profile);
         } else {
           this.userCollection.collection('users')
@@ -70,7 +77,8 @@ export class PharosProfileService {
               name: user.displayName,
               profilePic: user.photoURL
             }).then(res => {
-              this._profileSource.next(res);
+            this.isLoggedIn.next(true);
+            this._profileSource.next(res);
             }
           );
         }
@@ -93,11 +101,19 @@ export class PharosProfileService {
     const profile = this._profileSource.getValue().data();
   if (profile.collection) {
     profile.collection.push(id);
-   // profile.collection = savedTargets;
     } else {
-
     profile.collection = [id];
     }
+    this.userCollection.collection('users')
+      .doc(this.user.uid)
+      .update(profile).then(res => {
+      this.fetchUserProfile(this.user);
+    });
+  }
+
+  updateEntireCollection(ids: string[]) {
+    const profile = this._profileSource.getValue().data();
+      profile.collection = ids;
     this.userCollection.collection('users')
       .doc(this.user.uid)
       .update(profile).then(res => {
@@ -110,6 +126,21 @@ export class PharosProfileService {
    */
   logout() {
     firebase.auth().signOut();
+    this.isLoggedIn.next(false);
     this._profileSource.next(null);
   }
+
+/*  isLoggedIn() {
+    return this.afAuth.authState.pipe(
+      map(
+        (response: any) => {
+          console.log(response);
+          this.isLoggedIn.next(response);
+          return response;
+        }
+      ));
+  }*/
 }
+
+
+
