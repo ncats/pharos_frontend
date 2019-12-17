@@ -1,4 +1,4 @@
-<div fxLayout="row" fxLayoutAlign="space-around center"  class="facet-list-row">
+<div *ngIf=facets.length fxLayout="row" fxLayoutAlign="space-around center"  class="facet-list-row">
   <div fxFlex="95">
     <div fxLayout="row" fxLayoutAlign="space-between center">
       <div fxFlex="70">
@@ -7,7 +7,7 @@
       <div fxFlex="30" fxLayoutAlign="end" (click)="removeAll()">
         <mat-chip [selected]="'true'" [color]="'warn'" (click)="removeAll()">
           <span>Clear All</span>
-          <mat-icon matChipRemove class="removeIcon">cancel</mat-icon>
+          <mat-icon matChipRemove class="removeIcon"  (click)="removeAll()">cancel</mat-icon>
         </mat-chip>
       </div>
     </div>

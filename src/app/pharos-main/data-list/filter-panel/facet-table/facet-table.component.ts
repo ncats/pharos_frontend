@@ -106,10 +106,9 @@ export class FacetTableComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(change => {
         if (this.propogate === true) {
-          console.log(change);
           this.selectedFacetService.setFacets({name: this.facet.facet, change: change});
           const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
-          if (this.facet.facet === 'collection') {
+          if (this.facet.facet === 'collection' || this.selectedFacetService.getFacetByName('collection')) {
             this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getFacetByName('collection'));
           } else {
             this.pathResolverService.navigate(queryParams, this._route);

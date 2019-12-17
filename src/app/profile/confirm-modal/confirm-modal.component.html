@@ -1,0 +1,19 @@
+<div class = "confirm-delete-modal">
+  <div fxLayout="row" fxLayoutAlign="end center">
+  <button mat-icon-button (click)="cancel()">
+    <mat-icon>close</mat-icon>
+  </button>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-around center">
+    <div fxFlex="90">
+      <h1 mat-dialog-title>Are you sure you want to delete this collection?</h1>
+    </div>
+
+  </div>
+  <div mat-dialog-actions [dir]="'rtl'">
+    <button mat-flat-button
+            [color]="'primary'"
+            (click)="confirm()">Delete</button>
+    <button mat-flat-button (click)="cancel()">Cancel</button>
+  </div>
+</div>

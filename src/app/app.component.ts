@@ -1,6 +1,7 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {NcatsHeaderComponent} from './tools/ncats-header/ncats-header.component';
 import {NavigationEnd, NavigationStart, Router} from '@angular/router';
+import {LoadingService} from './pharos-services/loading.service';
 
 /**
  * main app component holder
@@ -20,20 +21,22 @@ export class AppComponent implements OnInit {
   /**
    * is component loading or not
    */
-  loading = true;
+  @Input()loading = true;
 
   /**
    * get navigation router
    * @param router
    */
   constructor (
-    private router: Router
+    private router: Router,
+    private loadingService: LoadingService
   ) {}
 
   /**
    * toggle loading component based on navigation change
    */
   ngOnInit() {
+    this.loadingService.loading$.subscribe(res => this.loading = res);
     this.router.events
       .subscribe((e: any) => {
         if (e instanceof NavigationStart) {
