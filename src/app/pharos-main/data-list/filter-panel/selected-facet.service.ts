@@ -84,7 +84,6 @@ export class SelectedFacetService {
   }
 
   getFacetsAsUrlStrings(): string[] {
-    console.log(this._facetMap);
     const retArr: string[] = [];
    // this._facetMap.delete('query');
     const facets: Facet[] = Array.from(this._facetMap.values()).filter(fac => fac.facet !== 'query' && fac.facet !== 'collection');
@@ -93,8 +92,7 @@ export class SelectedFacetService {
   }
 
   getFacetFromUrlString(urlString: string) {
-    console.log(urlString);
-    console.log(this._facetMap);
+
   }
 
 /*  getFacetsFromParamMap(params: ParamMap) {
@@ -160,7 +158,6 @@ export class SelectedFacetService {
    * @param {ParamMap} map
    */
   getFacetsFromParamMap(map: ParamMap): void {
-    console.log(this._facetMap);
     if (map.keys.length === 0) {
       this._facetMap.clear();
     } else {

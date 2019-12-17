@@ -24,6 +24,7 @@ import {Target, TargetSerializer} from '../../../../models/target';
 import {PharosProfileService} from '../../../../auth/pharos-profile.service';
 import {TopicSaveModalComponent} from './topic-save-modal/topic-save-modal.component';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 
 /**
@@ -190,6 +191,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * @param {PharosConfig} pharosConfig
    * @param {ChangeDetectorRef} ref
    * @param targetCollection
+   * @param snackBar
    * @param {BreakpointObserver} breakpointObserver
    */
   constructor(private _route: ActivatedRoute,
@@ -199,6 +201,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
               private pharosConfig: PharosConfig,
               private ref: ChangeDetectorRef,
               private targetCollection: AngularFirestore,
+              private snackBar: MatSnackBar,
               public breakpointObserver: BreakpointObserver) {
     super();
   }
@@ -312,22 +315,22 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      this.targetCollection.collection('target-collection').add(
-        result
-      ).then(doc => {
-        if (this.loggedIn && result.saveList) {
-          this.profileService.updateSavedCollection(doc.id);
-        }
-        navigationExtras.state = {batchIds: result.targetList};
-        navigationExtras.queryParams = {
-          collection: doc.id,
-        //  batchIds: result.targetList
-        };
-        this._navigate(navigationExtras);
-
-
-        // todo : navigate
-      });
+      if (result) {
+        this.targetCollection.collection('target-collection').add(
+          result
+        ).then(doc => {
+          if (this.loggedIn && result.saveList) {
+            this.profileService.updateSavedCollection(doc.id);
+          }
+          this.snackBar.open('Targets uploaded!');
+          navigationExtras.state = {batchIds: result.targetList};
+          navigationExtras.queryParams = {
+            collection: doc.id,
+          };
+          this.snackBar.dismiss();
+          this._navigate(navigationExtras);
+        });
+      }
     });
   }
 
@@ -380,11 +383,14 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      this.targetCollection.collection('target-collection').add(
-        result
-      ).then(doc => {
-        this.profileService.updateSavedCollection(doc.id);
-      });
+      if (result) {
+        this.targetCollection.collection('target-collection').add(
+          result
+        ).then(doc => {
+          this.profileService.updateSavedCollection(doc.id);
+          this.snackBar.open('Targets saved!');
+        });
+      }
     });
   }
 

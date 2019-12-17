@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {ChangeDetectorRef, Component, Inject, Input, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
@@ -14,9 +14,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 /**
  * batch upload modal class
  */
-export class BatchUploadModalComponent {
+export class BatchUploadModalComponent implements OnInit {
 
-  nameable = false;
+  @Input() nameable = false;
 
   saveToProfile = false;
 
@@ -25,6 +25,7 @@ export class BatchUploadModalComponent {
    */
   targetListCtrl: FormControl = new FormControl();
   collectionNameCtrl: FormControl = new FormControl();
+  descriptionCtrl: FormControl = new FormControl();
 
   /**
    * add dialog controller
@@ -33,17 +34,23 @@ export class BatchUploadModalComponent {
    */
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<BatchUploadModalComponent>
+    public dialogRef: MatDialogRef<BatchUploadModalComponent>,
+    private changeRef: ChangeDetectorRef
   ) {
+
+  }
+
+  ngOnInit() {
     this.nameable = this.data.nameable;
-    this.targetListCtrl.setValue(data.selection);
+    this.targetListCtrl.setValue(this.data.selection);
+    this.changeRef.detectChanges();
   }
 
   /**
    * cancel and close modal
    */
   cancel(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(null);
   }
 
 
@@ -61,6 +68,7 @@ export class BatchUploadModalComponent {
     this.dialogRef.close({
         targetList: retArr,
         collectionName: this.collectionNameCtrl.value,
+        description: this.descriptionCtrl.value,
         saveList: this.saveToProfile
   });
   }

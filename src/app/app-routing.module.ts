@@ -8,6 +8,9 @@ import {CommonModule} from '@angular/common';
 import {CommonToolsModule} from './tools/common-tools.module';
 import {SharedModule} from './shared/shared.module';
 import {TopicNodeGeneratorComponent} from './tools/topic-node-generator/topic-node-generator.component';
+import {AuthGuard} from './auth/auth.guard';
+import {ProfileComponent} from './profile/profile/profile.component';
+import {ConfirmModalComponent} from './profile/confirm-modal/confirm-modal.component';
 
 
 const ROUTES: Routes = [
@@ -116,6 +119,11 @@ const ROUTES: Routes = [
     }
   },
   {
+    path: 'profile',
+    // loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule)
+    component: ProfileComponent
+  },
+  {
     path: 'api',
     loadChildren: () => import('./api-page/api-page.module').then(m =>  m.ApiPageModule),
   },
@@ -141,7 +149,9 @@ const ROUTES: Routes = [
     AboutPageComponent,
     FaqPageComponent,
     SequenceSearchPageComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ProfileComponent,
+    ConfirmModalComponent
   ],
   exports: [ RouterModule ]
 })
