@@ -26,9 +26,6 @@ export class PathResolverService {
    * @param route
    */
   navigate(params: any, route: ActivatedRoute, queries?: any): void {
-    console.log(params);
-    console.log(route);
-    console.log(queries);
       /**
        * forces to first page on facet changes
        * @type {NavigationExtras}

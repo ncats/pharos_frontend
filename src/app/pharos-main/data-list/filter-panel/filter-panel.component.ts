@@ -94,6 +94,8 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * @param _route
    * @param profileService
    * @param pathResolverService
+   * @param pharosApiService
+   * @param firestore
    * @param {PharosConfig} pharosConfig
    */
   constructor(
@@ -111,7 +113,6 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * set up subscriptions to get facets
     */
   ngOnInit() {
-    console.log(this);
     this.profileService.profile$.subscribe(user => {
       if (user) {
         this.user = user;
@@ -123,7 +124,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
           });
 
            // todo this isn't pageable
-          const collections: [Observable<Field>] = user.data().collection.slice(0, 10).map(batch => {
+          const collections: [Observable<Field>] = user.data().collection.map(batch => {
             return this.firestore.collection<any[]>('target-collection')
               .doc<any[]>(batch)
               .valueChanges()
