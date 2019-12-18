@@ -154,7 +154,7 @@ export class HelpPanelComponent implements OnInit {
           const comp = this._injector.get<Type<any>>(source.article);
           const outlet = this.articlePortalOutlets.toArray()[index];
           const compPortal = new ComponentPortal(comp);
-           outlet.attach(compPortal);
+          outlet.attach(compPortal);
       }
     }
   }

@@ -30,7 +30,7 @@ export class PharosNodeSerializer extends NodeSerializer {
   /**
    * no args constructor
    */
-  constructor () {
+  constructor() {
     super();
   }
 

@@ -4,17 +4,6 @@ import {Observable, of} from 'rxjs/index';
 import {HttpClient} from '@angular/common/http';
 import {PharosConfig} from '../../../../config/pharos-config';
 
-
-/**
- * ds?field=radar-attr_type&value=viral%20protein
- /idg/hg/data?q=Q9NXB0&type=radar-attr_group
- /idg/hg/data?q=Q9NXB0&type=radar-data_type
- /idg/hg
- */
-
-
-
-
 /**
  * different config settings for radar types
  * todo: put in different config file
@@ -31,7 +20,7 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
       labels: false,
       axisLabels: false
     }
-], ['medium', {
+    ], ['medium', {
     maxValue: 1,
     levels: 5,
     format: '.1f',
@@ -46,17 +35,17 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
     labelFactor: 1.1,
     axisLabels: false
   }
-] , ['large', {
-      maxValue: 1,
+  ], ['large', {
+    maxValue: 1,
     margin: {top: 30, right: 20, bottom: 50, left: 20},
     levels: 10,
-      dotRadius: 2.5, 			// The size of the colored circles of each blog
-      format: '.2f',
-      labelFactor: 1.05,
-      labels: true,
-      axisLabels: true
-    }
-]
+    dotRadius: 2.5, 			// The size of the colored circles of each blog
+    format: '.2f',
+    labelFactor: 1.05,
+    labels: true,
+    axisLabels: true
+  }
+  ]
   ]
 );
 
@@ -92,21 +81,21 @@ export class RadarService {
   getData(id: string, origin: string): any {
     let url: string;
     let temp: any; // = this.radarDataMap.get(id);
-  //  if (!temp || !temp[origin]) {
-      if (origin === 'knowledge') {
-        url = `${this.pharosConfig.getRadarPath()}${id}`;
-      } else if (origin === 'knowledge-sources') {
-        url = `${this.pharosConfig.getRadarSourcesPath()}${id}`;
-      }
-      temp = this._fetchData(url);
+    //  if (!temp || !temp[origin]) {
+    if (origin === 'knowledge') {
+      url = `${this.pharosConfig.getRadarPath()}${id}`;
+    } else if (origin === 'knowledge-sources') {
+      url = `${this.pharosConfig.getRadarSourcesPath()}${id}`;
+    }
+    temp = this._fetchData(url);
     //  console.log(temp);
     //  this.setData(id, temp, origin);
-      return temp;
-   // } else {
+    return temp;
+    // } else {
     //  console.log(temp);
-      // this is wrapped as an array or it won't show on page return, ie list -> details -> list
-   //   return of(temp[origin]);
-   // }
+    // this is wrapped as an array or it won't show on page return, ie list -> details -> list
+    //   return of(temp[origin]);
+    // }
   }
 
   /**
@@ -120,7 +109,7 @@ export class RadarService {
     if (temp) {
       temp[origin] = data;
     } else {
-      temp = {[origin] : data};
+      temp = {[origin]: data};
     }
     this.radarDataMap.set(id, temp);
   }
@@ -144,8 +133,8 @@ export class RadarService {
     return this.http.get<any[]>(url)
       .pipe(
         catchError(this.handleError('getRadarData', []))
-        );
-    }
+      );
+  }
 
   /**
    * Handle Http operation that failed.
@@ -156,9 +145,9 @@ export class RadarService {
   private handleError<T>(operation = 'operation', result?: T): any {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
-     // console.error(error); // log to console instead
+      // console.error(error); // log to console instead
       // TODO: better job of transforming error for user consumption
-    //  console.log(`${operation} failed: ${error.message}`);
+      //  console.log(`${operation} failed: ${error.message}`);
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };

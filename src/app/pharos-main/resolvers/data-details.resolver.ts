@@ -32,8 +32,8 @@ export class DataDetailsResolver implements Resolve<any> {
     resolve(route: ActivatedRouteSnapshot): Observable<PharosBase> {
       this.loadingService.toggleVisible(true);
       this.pharosApiService.flushData();
-    const serializer: Serializer = route.data.serializer;
-    return this.pharosApiService.getDetailsData(route.data.path, route.paramMap, route.data.fragments)
+      const serializer: Serializer = route.data.serializer;
+      return this.pharosApiService.getDetailsData(route.data.path, route.paramMap, route.data.fragments)
       .pipe(
         map(res =>  {
           const tobj = serializer.fromJson(res.data[route.data.path]);

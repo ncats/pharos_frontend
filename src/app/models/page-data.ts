@@ -26,7 +26,7 @@ export class PageData {
    * map object values as available, set defaults for others
    * @param obj
    */
-  constructor (obj: any) {
+  constructor(obj: any) {
     this.total = obj.total ? obj.total : 0;
     this.count = obj.count ? obj.count : 0;
     this.skip = obj.skip ? obj.skip : 0;

@@ -87,7 +87,7 @@ export class DiseaseAssocationSerializer implements Serializer {
   /**
    * no args constructor
    */
-  constructor () {}
+  constructor() {}
 
   /**
    * return disease object from json, mapping sublists
@@ -98,7 +98,9 @@ export class DiseaseAssocationSerializer implements Serializer {
     const obj = new DiseaseAssociation();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
 
-    obj.targetCountsTotal = json.targetCounts.reduce((prev, cur) => prev + cur.value, 0);
+    if (json.targetCounts) {
+      obj.targetCountsTotal = json.targetCounts.reduce((prev, cur) => prev + cur.value, 0);
+    }
 
     return obj;
   }
@@ -133,7 +135,7 @@ export class DiseaseAssocationSerializer implements Serializer {
    * @return {{}}
    * @private
    */
-  private _mapField (obj: any) {
+  private _mapField(obj: any) {
     const retObj: {} = Object.assign({}, obj);
     Object.keys(obj).map(objField => {
       if (Array.isArray(obj[objField])) {

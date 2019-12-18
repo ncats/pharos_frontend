@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
-import { MatTreeNestedDataSource } from '@angular/material/tree';
+import {PageEvent} from '@angular/material/paginator';
+import {MatTreeNestedDataSource} from '@angular/material/tree';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {PharosProperty} from '../../../../../models/pharos-property';
@@ -12,6 +12,7 @@ import {PharosApiService} from '../../../../../pharos-services/pharos-api.servic
 import {ActivatedRoute} from '@angular/router';
 import {DiseaseSerializer} from '../../../../../models/disease';
 import {takeUntil} from 'rxjs/operators';
+import {DataProperty} from '../../../../../tools/generic-table/components/property-display/data-property';
 
 /**
  * interface to track disease tree nodes
@@ -55,7 +56,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    */
   loaded = false;
 
-   /**
+  /**
    * controls open and closed tree nodes
    */
   treeControl: NestedTreeControl<DiseaseTreeNode> = new NestedTreeControl<DiseaseTreeNode>(node => node.children);
@@ -102,8 +103,8 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-          this.target = this.data.targets;
-           this.targetProps = this.data.targetsProps;
+        this.target = this.data.targets;
+        this.targetProps = this.data.targetsProps;
         if (this.target.tinx) {
           this.tinx = [];
           this.target.tinx.map(point => {
@@ -119,7 +120,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
           });
         }
         this.setterFunction();
-          this.loading = false;
+        this.loading = false;
       });
   }
 
@@ -132,7 +133,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       const diseaseSource: DiseaseTreeNode = {
         name: disease.name,
         children: [
-          ...disease.associations.map(da => da = {name: da.type, children: Object.values(da).filter(prop => prop['name'] !== 'type')})
+          ...disease.associations.map(da => da = {name: da.type, children: Object.values(da as DataProperty[]).filter(prop => prop.name !== 'type')})
         ]
       };
       return diseaseSource;

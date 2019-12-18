@@ -99,7 +99,7 @@ export class PharosProfileService {
    */
   updateSavedCollection(id: string) {
     const profile = this._profileSource.getValue().data();
-  if (profile.collection) {
+    if (profile.collection) {
     profile.collection.push(id);
     } else {
     profile.collection = [id];
@@ -113,7 +113,7 @@ export class PharosProfileService {
 
   updateEntireCollection(ids: string[]) {
     const profile = this._profileSource.getValue().data();
-      profile.collection = ids;
+    profile.collection = ids;
     this.userCollection.collection('users')
       .doc(this.user.uid)
       .update(profile).then(res => {

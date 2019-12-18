@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
     private dialog: MatDialog,
     private pharosProfileService: PharosProfileService,
     private loadingService: LoadingService,
-  private router: Router) {}
+    private router: Router) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -34,7 +34,7 @@ export class AuthGuard implements CanActivate {
             //  return of(true);
           } else {
             this.loadingService.toggleVisible(false);
-           const signin = this.dialog.open(LoginModalComponent, {
+            const signin = this.dialog.open(LoginModalComponent, {
                 height: '75vh',
                 width: '66vw',
               }

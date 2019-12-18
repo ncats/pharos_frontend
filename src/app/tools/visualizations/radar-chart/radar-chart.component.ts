@@ -14,7 +14,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import * as d3 from 'd3';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 /**
  * map of size and visualization parameters for various radar chart sizes
@@ -46,7 +46,7 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
     labelFactor: 1.1,
     axisLabels: false
   }
-  ] , ['large', {
+  ], ['large', {
     maxValue: 1,
     margin: {top: 30, right: 20, bottom: 50, left: 20},
     levels: 10,
@@ -61,7 +61,7 @@ const RADAR_SIZES: Map<string, any> = new Map<string, any>(
 );
 
 /**
- *basic config options for a radar chart
+ * basic config options for a radar chart
  * todo: should extract this for other chart types
  */
 export class RadarChartOptions {
@@ -138,7 +138,7 @@ export class RadarChartOptions {
 // todo: fix centering of chart in respect to labels
 // todo: create chart options service that reads from a chart config file, like environment variables
 /**
- *extendable radar chart component
+ * extendable radar chart component
  */
 @Component({
   selector: 'pharos-radar-chart',
@@ -237,15 +237,15 @@ export class RadarChartComponent implements OnInit, OnDestroy {
    * @param modalData
    */
   constructor(
-              @Optional() @Inject(MAT_DIALOG_DATA) public modalData: any) {
+    @Optional() @Inject(MAT_DIALOG_DATA) public modalData: any) {
   }
 
   /**
    * draw and update graph
    */
   ngOnInit() {
-            this.drawChart();
-            this.updateChart();
+    this.drawChart();
+    this.updateChart();
   }
 
 
@@ -367,10 +367,10 @@ export class RadarChartComponent implements OnInit, OnDestroy {
 
     // Wraps SVG text - Taken from http://bl.ocks.org/mbostock/7555321
     const wrap = (texts, width) => {
-      texts.each(function () {
+      texts.each(function() {
         const text = d3.select(this);
         const words = text.text().split(/\s+/).reverse();
-        let word;
+        // let word;
         let line = [];
         let lineNumber = 0;
         const lineHeight = 1.4; // ems
@@ -382,8 +382,8 @@ export class RadarChartComponent implements OnInit, OnDestroy {
           .attr('x', x).attr('y', y)
           .attr('dy', dy + 'em');
 
-        while (word = words.pop()) {
-
+        // while (word = words.pop()) {
+        words.forEach(word => {
           line.push(word);
           tspan.text(line.join(' '));
           if (tspan.node().getComputedTextLength() > width) {
@@ -397,19 +397,19 @@ export class RadarChartComponent implements OnInit, OnDestroy {
               .attr('dy', ++lineNumber * lineHeight + dy + 'em')
               .text(word);
           }
-        }
+        });
       });
     }; // wrap
 
     // If the supplied maxValue is smaller than the actual one, replace by the max in the data
 
     const maxValue: number = this.getMaxValue();
-    const allAxis = this.data[0].map((i, j) => i.name),	// Names of each axis
-      total = allAxis.length,					// The number of different axes
-      radius = Math.min((this.width - this._chartOptions.margin.left - this._chartOptions.margin.right) / 2,
-        (this.height - this._chartOptions.margin.top - this._chartOptions.margin.bottom) / 2), 	// Radius of the outermost circle
-      format = d3.format(this._chartOptions.format),			 	// Formatting
-      angleSlice = Math.PI * 2 / total;		// The width in radians of each "slice"
+    const allAxis = this.data[0].map((i, j) => i.name);	// Names of each axis
+    const total = allAxis.length;					// The number of different axes
+    const radius = Math.min((this.width - this._chartOptions.margin.left - this._chartOptions.margin.right) / 2,
+      (this.height - this._chartOptions.margin.top - this._chartOptions.margin.bottom) / 2); 	// Radius of the outermost circle
+    const format = d3.format(this._chartOptions.format);			 	// Formatting
+    const angleSlice = Math.PI * 2 / total;		// The width in radians of each "slice"
 
     // Scale for the radius
     const rScale = d3.scaleLinear()
@@ -531,7 +531,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
       .attr('d', d => radarLine(d))
       .style('fill', (d, i) => this._chartOptions.color(i))
       .style('fill-opacity', this._chartOptions.opacityArea)
-      .on('mouseover', function (d, i) {
+      .on('mouseover', function(d, i) {
         // Dim all blobs
         d3.selectAll('.radarArea')
           .transition().duration(200)
@@ -551,9 +551,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     // Create the outlines
     blobWrapper.append('path')
       .attr('class', 'radarStroke')
-      .attr('d', function (d, i) {
-        return radarLine(d);
-      })
+      .attr('d', d => radarLine(d))
       .style('stroke-width', this._chartOptions.strokeWidth + 'px')
       .style('stroke', (d, i) => this._chartOptions.color(i))
       .style('fill', 'none');
@@ -609,5 +607,4 @@ export class RadarChartComponent implements OnInit, OnDestroy {
         d3.select(circles[i]).classed('hovered', false);
       });
   }
-
 }

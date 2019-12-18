@@ -166,7 +166,7 @@ export class PharosMainComponent implements OnInit, OnDestroy {
         // If it is a NavigationEnd event re-initalise the component
         if (e instanceof NavigationEnd) {
             this.data = this._route.snapshot.data;
-          this.makeComponents();
+            this.makeComponents();
         }
       });
   }
@@ -195,8 +195,8 @@ export class PharosMainComponent implements OnInit, OnDestroy {
           componentInstance.instance.data = this.data.results;
 
           // left side panel functionality
-          if (component.section === 'leftPortalOutlet' && componentInstance.instance['panelOptions']) {
-            Object.entries(componentInstance.instance['panelOptions']).forEach(ent => this.leftPanelInstance[ent[0]] = ent[1]);
+          if (component.section === 'leftPortalOutlet' && componentInstance.instance.panelOptions) {
+            Object.entries(componentInstance.instance.panelOptions).forEach(ent => this.leftPanelInstance[ent[0]] = ent[1]);
             // handle emitted close events
             if (componentInstance.instance.menuToggle) {
               componentInstance.instance.menuToggle.subscribe(res => this.leftPanelInstance.toggle(res));
@@ -204,8 +204,8 @@ export class PharosMainComponent implements OnInit, OnDestroy {
           }
 
           // right side panel functionality
-          if (component.section === 'rightPortalOutlet' && componentInstance.instance['panelOptions']) {
-            Object.entries(componentInstance.instance['panelOptions']).forEach(ent => this.rightPanelInstance[ent[0]] = ent[1]);
+          if (component.section === 'rightPortalOutlet' && componentInstance.instance.panelOptions) {
+            Object.entries(componentInstance.instance.panelOptions).forEach(ent => this.rightPanelInstance[ent[0]] = ent[1]);
             // handle emitted close events
             if (componentInstance.instance.menuToggle) {
               componentInstance.instance.menuToggle.subscribe(res => this.rightPanelInstance.toggle(res));

@@ -45,7 +45,7 @@ export class LigandNodeSerializer implements NodeSerializer {
    * @param {string} id
    * @return {LigandNode}
    */
-  fromJson (obj: any, id?: string): LigandNode {
+  fromJson(obj: any, id?: string): LigandNode {
     const node = new LigandNode();
     Object.entries((obj)).forEach((prop) => node[prop[0]] = prop[1]);
     node.internalLink = ['/ligands', obj.id];

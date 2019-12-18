@@ -24,7 +24,7 @@ describe('PharosAuthService', () => {
   }));
 
   it('should be created', () => {
-    const service: PharosAuthService = TestBed.get(PharosAuthService);
+    const service: PharosAuthService = TestBed.inject(PharosAuthService);
     expect(service).toBeTruthy();
   });
 });

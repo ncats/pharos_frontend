@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {NavigationExtras, Router} from '@angular/router';
-import { MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import {MatAutocomplete, MatAutocompleteTrigger} from '@angular/material/autocomplete';
 
 /**
  * search component functionality. needs to be hooked up to a suggest api service
@@ -43,11 +43,12 @@ export class SearchComponent implements OnInit {
   constructor(
     private _router: Router,
     private suggestApiService: SuggestApiService
-  ) {  }
+  ) {
+  }
 
 
   /**
-   *add placeholder string if required
+   * add placeholder string if required
    * set up subscription for input value changes
    * // todo: should unsubscribe
    */

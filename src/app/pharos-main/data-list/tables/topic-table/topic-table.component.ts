@@ -1,16 +1,6 @@
-import {
-  AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output,
-  ViewChild
-} from '@angular/core';
-import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import {PageData} from '../../../../models/page-data';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Message} from '../../../../pharos-home/news-panel/news-panel.component';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {Topic} from '../../../../models/topic';
-import {ActivatedRoute, Route} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 
 
 @Component({
@@ -42,10 +32,10 @@ export class TopicTableComponent implements OnInit {
    * subscribe to data changes
    */
   ngOnInit() {
-/*   this._route.snapshot.data.data.valueChanges().subscribe(res => {
-      this.topics = res;
-      this.ref.markForCheck();
-    });*/
+    /*   this._route.snapshot.data.data.valueChanges().subscribe(res => {
+          this.topics = res;
+          this.ref.markForCheck();
+        });*/
   }
 }
 
