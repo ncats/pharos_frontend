@@ -12,10 +12,10 @@
     "lintfix": "ng lint pharos --fix",
     "e2e": "ng e2e",
     "build:appshell": "ng run pharos:app-shell:production",
-    "compodoc": "./node_modules/.bin/compodoc -p tsconfig.app.json -s -w --theme material",
+    "compodoc": "npx compodoc -p tsconfig.app.json -s -w --theme material",
     "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
     "serve:ssr": "node dist/server.js",
-    "build:client-and-server-bundles": "ng build pharos --prod && ng run pharos:server:production --bundleDependencies none",
+    "build:client-and-server-bundles": "ng run pharos:app-shell:production && ng run pharos:server:production --bundleDependencies none",
     "webpack:server": "webpack --config webpack.server.config.js --progress --colors",
     "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points"
   },
