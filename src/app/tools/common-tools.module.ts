@@ -17,7 +17,6 @@ import {NgxJsonViewerModule} from 'ngx-json-viewer';
 import {RadarChartModule} from './visualizations/radar-chart/radar-chart.module';
 import {StructureViewComponent} from './structure-view/structure-view.component';
 import {NcatsHeaderModule} from './ncats-header/ncats-header.module';
-import { TopicNodeGeneratorComponent } from './topic-node-generator/topic-node-generator.component';
 
 @NgModule({
   declarations: [
@@ -30,8 +29,7 @@ import { TopicNodeGeneratorComponent } from './topic-node-generator/topic-node-g
     KnowledgeTableComponent,
     LinkListComponent,
     ProteinStructureViewerComponent,
-    StructureViewComponent,
-    TopicNodeGeneratorComponent
+    StructureViewComponent
   ],
   imports: [
     CommonModule,
