@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/index';
 
 /**
@@ -15,7 +15,7 @@ export class HeaderOptionsService {
   /**
    * observable string and boolean sources to return changes
    */
-  private headerOptions = new BehaviorSubject<{searchBar?: boolean, animationState: string}>(this.options);
+  private headerOptions = new BehaviorSubject<{ searchBar?: boolean, animationState: string }>(this.options);
 
   /**
    * options subject returned as observable

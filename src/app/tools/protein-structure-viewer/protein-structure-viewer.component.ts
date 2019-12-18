@@ -24,12 +24,12 @@ export class ProteinStructureViewerComponent implements OnInit, OnChanges {
   stage: any;
 
 
-/**
+  /**
    * no args
    */
   constructor() {
 
-}
+  }
 
   /**
    * create ngl instance and load view
@@ -38,9 +38,9 @@ export class ProteinStructureViewerComponent implements OnInit, OnChanges {
     this.stage = new NGL.Stage(this.viewerContainer.nativeElement, {backgroundColor: 'white'});
     this.stage.handleResize();
     // Handle window resizing
-    window.addEventListener( 'resize', ( event ) => {
+    window.addEventListener('resize', (event) => {
       this.stage.handleResize();
-    }, {passive: true} );
+    }, {passive: true});
     this.stage.loadFile(`rcsb://${this.pdbid}`, {defaultRepresentation: true}).then().catch();
   }
 

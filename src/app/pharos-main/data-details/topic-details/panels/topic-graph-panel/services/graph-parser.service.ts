@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {LinkService, NodeService, SmrtGraph, SmrtGraphDataParserInterface} from 'smrtgraph-core';
 import {Observable, of, Subject} from 'rxjs/index';
 import {AngularFirestore} from '@angular/fire/firestore';
@@ -94,47 +94,47 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
    * @private
    */
   _parseData(queries: any) {
-      queries.forEach(data => {
-        const tnode = this.nodeService.makeNode(data.graphData.target, `target${data.graphData.target.id}`);
-        if (data.graphData.ligands) {
-          data.graphData.ligands.forEach(ligand => {
-            const lnode = this.nodeService.makeNode(ligand, `ligand${ligand.id}`);
-            tnode.linkCount++;
-            lnode.linkCount++;
-            this.nodeService.setNode(tnode);
-            this.nodeService.setNode(lnode);
-            this.linkService.makeLink(`${ligand.id}-${data.graphData.target.id}`, lnode, tnode, this._getActivity(ligand));
-          });
-        }
-        if (data.graphData.diseases) {
-          data.graphData.diseases.forEach(disease => {
-            if (disease.IDG_Confidence) {
-              this.confidences.push(disease.IDG_Confidence);
-            }
-            const dnode = this.nodeService.makeNode(disease, `disease${disease.id}`);
-            tnode.linkCount++;
-            dnode.linkCount++;
-            this.nodeService.setNode(tnode);
-            this.nodeService.setNode(dnode);
-            this.linkService.makeLink(`${data.graphData.target.id}-${disease.id}`, tnode, dnode, this._getConfidence(disease));
-          });
-        }
-        // console.log(data.graphData.ligands);
-        /*this.db.collection('topics')
-          .doc(data.graphData.graphData.query)
-          .set({
-            topicLinkId: this.id,
-            graphData: data.graphData.graphData
-          });*/
-      });
+    queries.forEach(data => {
+      const tnode = this.nodeService.makeNode(data.graphData.target, `target${data.graphData.target.id}`);
+      if (data.graphData.ligands) {
+        data.graphData.ligands.forEach(ligand => {
+          const lnode = this.nodeService.makeNode(ligand, `ligand${ligand.id}`);
+          tnode.linkCount++;
+          lnode.linkCount++;
+          this.nodeService.setNode(tnode);
+          this.nodeService.setNode(lnode);
+          this.linkService.makeLink(`${ligand.id}-${data.graphData.target.id}`, lnode, tnode, this._getActivity(ligand));
+        });
+      }
+      if (data.graphData.diseases) {
+        data.graphData.diseases.forEach(disease => {
+          if (disease.IDG_Confidence) {
+            this.confidences.push(disease.IDG_Confidence);
+          }
+          const dnode = this.nodeService.makeNode(disease, `disease${disease.id}`);
+          tnode.linkCount++;
+          dnode.linkCount++;
+          this.nodeService.setNode(tnode);
+          this.nodeService.setNode(dnode);
+          this.linkService.makeLink(`${data.graphData.target.id}-${disease.id}`, tnode, dnode, this._getConfidence(disease));
+        });
+      }
+      // console.log(data.graphData.ligands);
+      /*this.db.collection('topics')
+        .doc(data.graphData.graphData.query)
+        .set({
+          topicLinkId: this.id,
+          graphData: data.graphData.graphData
+        });*/
+    });
 
     // this.confidences = [...new Set(this.confidences)];
     const ret: SmrtGraph = {
-        nodes: this.nodeService.getNodesArr(),
-        links: this.linkService.getLinksArr()
-        };
-     this._data.next(ret);
-    }
+      nodes: this.nodeService.getNodesArr(),
+      links: this.linkService.getLinksArr()
+    };
+    this._data.next(ret);
+  }
 
   /**
    * fetch graph data
@@ -145,24 +145,24 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
 
   private _getActivity(ligand: any): any {
     let data: any = {};
-      if (ligand.Ligand_Activity) {
-        data = {
-          properties: {
-            activity: `${ligand.Ligand_Activity}: ${ligand[ligand.Ligand_Activity]}`,
-            activityType: ligand.Ligand_Activity,
-            value: ligand[ligand.Ligand_Activity]
-          }
-        };
-      }
-      if (ligand.Pharmalogical_Action) {
-        data = {
-          properties: {
-            activity: `${ligand.Pharmalogical_Action}: ${ligand[ligand.Pharmalogical_Action]}`,
-            activityType: ligand.Pharmalogical_Action,
-            value: ligand[ligand.Pharmalogical_Action]
-          }
-        };
-      }
+    if (ligand.Ligand_Activity) {
+      data = {
+        properties: {
+          activity: `${ligand.Ligand_Activity}: ${ligand[ligand.Ligand_Activity]}`,
+          activityType: ligand.Ligand_Activity,
+          value: ligand[ligand.Ligand_Activity]
+        }
+      };
+    }
+    if (ligand.Pharmalogical_Action) {
+      data = {
+        properties: {
+          activity: `${ligand.Pharmalogical_Action}: ${ligand[ligand.Pharmalogical_Action]}`,
+          activityType: ligand.Pharmalogical_Action,
+          value: ligand[ligand.Pharmalogical_Action]
+        }
+      };
+    }
 
     return data;
   }
@@ -181,6 +181,6 @@ export class GraphParserService implements SmrtGraphDataParserInterface {
       };
     }
 
-      return data;
+    return data;
   }
 }

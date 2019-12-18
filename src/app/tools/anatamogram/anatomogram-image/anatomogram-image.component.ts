@@ -97,7 +97,7 @@ export class AnatomogramImageComponent implements OnInit {
         .style('stroke-width', '.5')
         .style('fill', 'rgba(35, 54, 78, .4'));
 
- this.tissues.forEach(tissue => d3.select(`#${tissue}`)
+      this.tissues.forEach(tissue => d3.select(`#${tissue}`)
         .on('mouseover', (d, i, f) => d3.select(f[i].parentNode)
           .style('stroke', 'rgba(255, 178, 89, 1')
           .style('stroke-width', '.5')

@@ -10,7 +10,7 @@ describe('AnatamogramHoverService', () => {
   }));
 
   it('should be created', () => {
-    const service: AnatamogramHoverService = TestBed.get(AnatamogramHoverService);
+    const service: AnatamogramHoverService = TestBed.inject(AnatamogramHoverService);
     expect(service).toBeTruthy();
   });
 });

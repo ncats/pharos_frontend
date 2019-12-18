@@ -51,11 +51,11 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
    */
   constructor(
     private navSectionsService: NavSectionsService,
-              private _http: HttpClient,
-              private _route: ActivatedRoute,
-              private pharosApiService: PharosApiService,
-              private changeRef: ChangeDetectorRef,
-              private pharosConfig: PharosConfig) {
+    private _http: HttpClient,
+    private _route: ActivatedRoute,
+    private pharosApiService: PharosApiService,
+    private changeRef: ChangeDetectorRef,
+    private pharosConfig: PharosConfig) {
     super();
   }
 

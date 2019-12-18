@@ -1,21 +1,18 @@
 import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import { PageEvent } from '@angular/material/paginator';
-import { MatTabChangeEvent } from '@angular/material/tabs';
-import { MatTreeNestedDataSource } from '@angular/material/tree';
+import {PageEvent} from '@angular/material/paginator';
+import {MatTabChangeEvent} from '@angular/material/tabs';
+import {MatTreeNestedDataSource} from '@angular/material/tree';
 import {PharosProperty} from '../../../../../models/pharos-property';
-import {takeUntil} from 'rxjs/operators';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
 import {AnatamogramHoverService} from '../../../../../tools/anatamogram/anatamogram-hover.service';
-import {PharosConfig} from '../../../../../../config/pharos-config';
 import {Target} from '../../../../../models/target';
 import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
-import {DiseaseSerializer} from '../../../../../models/disease';
 import {DataProperty} from '../../../../../tools/generic-table/components/property-display/data-property';
 
 // todo: make 1 node class/interface
@@ -90,7 +87,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   /**
    * radar chart component for differential data
    */
-  @ViewChild('radar', { read: RadarChartComponent }) radarComponent: RadarChartComponent;
+  @ViewChild('radar', {read: RadarChartComponent}) radarComponent: RadarChartComponent;
 
   /**
    * base homunculus url
@@ -202,7 +199,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     this.targetProps.expressions.forEach(expression => {
       if (expression.uberon && expression.uberon.term) {
         const uberon = expression.uberon.term.uid;
-        this.tissues.push(uberon.replace(':' , '_'));
+        this.tissues.push(uberon.replace(':', '_'));
         const uberons = this.uberonMap.get(uberon);
         if (uberons) {
           uberons.push(expression);
@@ -213,7 +210,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
       }
     });
 
-this.sortedExpressions = [...this.uberonMap.values()].sort((a, b) => b.length - a.length);
+    this.sortedExpressions = [...this.uberonMap.values()].sort((a, b) => b.length - a.length);
 
 
     this.dataSource.data = this.mapExpressionTree(this.sortedExpressions.slice(0, 10));
@@ -243,9 +240,10 @@ this.sortedExpressions = [...this.uberonMap.values()].sort((a, b) => b.length - 
         name: new DataProperty({
           name: expressions[0].uberon.term.name,
           term: expressions[0].uberon.term.name,
-          label: expressions[0].uberon.term.uid}),
+          label: expressions[0].uberon.term.uid
+        }),
         children: [
-          ...expressions.map(da => da = {name: da.type, children: Object.values(da).filter(prop => prop['name'] !== 'type')})
+          ...expressions.map(da => da = {name: da.type, children: Object.values(da as DataProperty[]).filter(prop => prop.name !== 'type')})
         ]
       };
       return expressionSource;
@@ -270,30 +268,30 @@ this.sortedExpressions = [...this.uberonMap.values()].sort((a, b) => b.length - 
     this.sourceList = this.sources.filter(source => keys.includes(source.label));
   }
 
-/*  /!**
-   * get tissue data by field
-   * @param field
-   *!/
-  getData(field: string): PharosProperty[] {
-    return this.tissueData.get(field);
-  }
+  /*  /!**
+     * get tissue data by field
+     * @param field
+     *!/
+    getData(field: string): PharosProperty[] {
+      return this.tissueData.get(field);
+    }
 
-  /!**
-   * get count of surces available
-   * @param source
-   *!/
-  getSourceCount(source: string): number {
-    return this.tissueData.get(source) ? this.tissueData.get(source).length : 0;
-  }
+    /!**
+     * get count of surces available
+     * @param source
+     *!/
+    getSourceCount(source: string): number {
+      return this.tissueData.get(source) ? this.tissueData.get(source).length : 0;
+    }
 
-  /!**
-   * change tab data
-   * @param event
-   *!/
-  changeHarminogramTabData(event: MatTabChangeEvent) {
-    this.hgData = this.tissueData.get(this.sourceList[event.index].label);
-    this.imgUrl = this._URL + this.sourceList[event.index].name;
-  }*/
+    /!**
+     * change tab data
+     * @param event
+     *!/
+    changeHarminogramTabData(event: MatTabChangeEvent) {
+      this.hgData = this.tissueData.get(this.sourceList[event.index].label);
+      this.imgUrl = this._URL + this.sourceList[event.index].name;
+    }*/
 
   /**
    * set tissue that is hovered from list
@@ -319,10 +317,10 @@ this.sortedExpressions = [...this.uberonMap.values()].sort((a, b) => b.length - 
    * redraws radar chart when the tab changes, this is due to the lazy loaded tabs
    */
   doneAnimating() {
-/*    if (this.selectedTab === 1) {
-      this.radarComponent.drawChart();
-      this.radarComponent.updateChart();
-    }*/
+    /*    if (this.selectedTab === 1) {
+          this.radarComponent.drawChart();
+          this.radarComponent.updateChart();
+        }*/
   }
 
   /**
@@ -333,7 +331,7 @@ this.sortedExpressions = [...this.uberonMap.values()].sort((a, b) => b.length - 
     this.loading = true;
     this.dataSource.data = this.mapExpressionTree(this.sortedExpressions.slice(event.pageIndex * event.pageSize,
       (event.pageIndex + 1) * event.pageSize));
-  this.loading = false;
+    this.loading = false;
   }
 
   /**

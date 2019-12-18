@@ -1,6 +1,6 @@
 export class ScatterOptions {
   /**
-   *basic config options for a scatter plot
+   * basic config options for a scatter plot
    */
   /**
    * The margins of the SVG

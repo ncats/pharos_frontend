@@ -20,7 +20,7 @@ describe('GraphParserService', () => {
   }));
 
   it('should be created', () => {
-    const service: GraphParserService = TestBed.get(GraphParserService);
+    const service: GraphParserService = TestBed.inject(GraphParserService);
     expect(service).toBeTruthy();
   });
 });

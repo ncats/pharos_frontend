@@ -85,12 +85,12 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
     };
     this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams).valueChanges.subscribe(res => {
 const retTarget: any =  res.data.targets.target ? res.data.targets.target : res.data.targets;
-      if (retTarget.ppiCount.length > 0) {
+if (retTarget.ppiCount.length > 0) {
         retTarget.ppiCount = retTarget.ppiCount.reduce((prev, cur) => prev + cur.value, 0);
       }
-      this.target = retTarget;
-        this.loading = false;
-      this.changeRef.markForCheck();
+this.target = retTarget;
+this.loading = false;
+this.changeRef.markForCheck();
 
     });
   }

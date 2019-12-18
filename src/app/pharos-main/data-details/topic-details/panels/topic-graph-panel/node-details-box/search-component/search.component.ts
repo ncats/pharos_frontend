@@ -1,7 +1,6 @@
-import {Component, EventEmitter, Inject, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
-import {finalize, tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, finalize, switchMap, tap} from 'rxjs/operators';
 import {DiseaseNode} from '../../models/topic-graph/disease-node';
 import {LigandNode} from '../../models/topic-graph/ligand-node';
 import {TargetNode} from '../../models/topic-graph/target-node';
@@ -44,11 +43,12 @@ export class SearchComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     @Inject(GraphDataService) private graphDataService
-  ) {  }
+  ) {
+  }
 
 
   /**
-   *add placeholder string if required
+   * add placeholder string if required
    * set up subscription for input value changes
    * // todo: should unsubscribe
    */
@@ -65,7 +65,7 @@ export class SearchComponent implements OnInit {
         distinctUntilChanged(),
         tap(() => this.isLoading = true),
         switchMap(term => {
-          return this.graphDataService.searchNodes(term.name ? term.name : term)
+            return this.graphDataService.searchNodes(term.name ? term.name : term)
               .pipe(
                 finalize(() => this.isLoading = false),
               );
@@ -80,7 +80,7 @@ export class SearchComponent implements OnInit {
    * how to display autocomplete data
    * @param node
    */
-  displayFn(node?: TargetNode | DiseaseNode | LigandNode ): string | undefined {
+  displayFn(node?: TargetNode | DiseaseNode | LigandNode): string | undefined {
     return node ? node.name : undefined;
   }
 

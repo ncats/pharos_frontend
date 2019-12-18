@@ -1,5 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Topic} from '../../../../models/topic';
+import {Component, Input} from '@angular/core';
 
 /**
  * card display for specific topics
@@ -14,7 +13,7 @@ export class TopicCardComponent {
   /**
    * topic of interest
    */
-  @Input() topic?: Topic;
+  @Input() topic?: any;
 
   /**
    * boolean to show description

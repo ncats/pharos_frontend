@@ -1015,7 +1015,7 @@ const TOPIC_DETAILS_COMPONENT: PharosPanel = {
 
 
 /**
- *map of components to build section of pharos
+ * map of components to build section of pharos
  * @type {Map<string, any>}
  */
 export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
@@ -1083,9 +1083,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           LIGAND_HEADER_COMPONENT,
           LIGAND_DESCRIPTION_COMPONENT,
           LIGAND_DETAILS_COMPONENT,
-         // STRUCTURE_VIEW_PANEL,
           TARGET_RELEVANCE_PANEL,
-        //  SYNONYMS_PANEL,
         //  MOLECULAR_DEFINITION_PANEL
         ]
       }

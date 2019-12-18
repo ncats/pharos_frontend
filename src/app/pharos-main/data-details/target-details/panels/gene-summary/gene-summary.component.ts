@@ -74,21 +74,23 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
    */
   setterFunction() {
       this.description = this.target.description;
-    if (this.description && this.description.length > 1000) {
+      if (this.description && this.description.length > 1000) {
       this.fullDescription = false;
       this.truncatedDescription = this.description.slice(0, 1000);
     }
-    if (this.breakpointObserver.isMatched('(max-width: 768px)')) {
+      if (this.breakpointObserver.isMatched('(max-width: 768px)')) {
       this.fullDescription = false;
-      this.truncatedDescription = this.description.slice(0, 500);
+        if (this.description && this.description.length > 500) {
+          this.truncatedDescription = this.description.slice(0, 500);
+        }
     }
 
-    this.metaService.updateTag({
+      this.metaService.updateTag({
         content: this.description
       },
       'property="og:description"'
     );
-    this.metaService.updateTag({
+      this.metaService.updateTag({
         content: this.description
       },
       'name="twitter:description"'

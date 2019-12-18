@@ -6,9 +6,9 @@ import {DataProperty} from '../tools/generic-table/components/property-display/d
 export class PharosProperty extends DataProperty {
   constructor(obj: any) {
    super(obj);
-    if (obj.numval && !this.term) {this.term = obj.numval.toFixed(2); }
-    if (obj.intval && !this.term) {this.term = obj.intval; }
-    if (obj.text && !this.term) {this.term = obj.text; }
+   if (obj.numval && !this.term) {this.term = obj.numval.toFixed(2); }
+   if (obj.intval && !this.term) {this.term = obj.intval; }
+   if (obj.text && !this.term) {this.term = obj.text; }
    // if(obj.href) {this.externalLink = obj.href}
     /*if (this.numval || this.intval) {
       this.exponential = this.numval ? Number.parseFloat(this.numval.toString()).toExponential(1) :

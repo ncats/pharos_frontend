@@ -84,7 +84,7 @@ export class DynamicPanelComponent {
    * No dependencies
    *
    */
-  constructor () {
+  constructor() {
   }
 
   getTooltip(label: string): string {

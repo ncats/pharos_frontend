@@ -1,20 +1,24 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {PharosProperty} from '../../models/pharos-property';
 
-/**Component to iterate over and display a provided list of Term objects */
+/**
+ * Component to iterate over and display a provided list of Term objects
+ */
 @Component({
   selector: 'pharos-link-list',
   templateUrl: './link-list.component.html',
   styleUrls: ['./link-list.component.css']
 })
 export class LinkListComponent implements OnInit {
-  /**Label for the term group */
-@Input() label: string;
+  /**
+   * Label for the term group
+   */
+  @Input() label: string;
 
-/** object array that holds transformed term object.
- * Todo: this will likely be changed as more term complexity is added
- */
-private _list: any[] = [];
+  /** object array that holds transformed term object.
+   * Todo: this will likely be changed as more term complexity is added
+   */
+  private _list: any[] = [];
 
   @Input()
   set list(values: PharosProperty[]) {
@@ -26,7 +30,7 @@ private _list: any[] = [];
       });
     }
     // set the latest value for _data BehaviorSubject
-   // this._list = value;
+    // this._list = value;
   }
 
   get list() {
@@ -38,7 +42,8 @@ private _list: any[] = [];
   /**
    * No dependencies needed
    */
-  constructor() { }
+  constructor() {
+  }
 
 
   ngOnInit(): void {

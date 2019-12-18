@@ -1,9 +1,15 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
-  Component, ElementRef, HostListener, Input, OnChanges, OnDestroy, OnInit, ViewChild,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import {BehaviorSubject, Subject} from 'rxjs/index';
 import * as d3 from 'd3';
 import {SelectionModel} from '@angular/cdk/collections';
 import {ScatterOptions} from './models/scatter-options';
@@ -403,7 +409,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
          if (typeof d.x !== 'object') {
            d.x = new Date(d.x, 0);
          }
-        return d;
+         return d;
       });
     }
 
@@ -576,7 +582,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    */
   ngOnDestroy() {
    const element = this.chartContainer.nativeElement;
-    d3.select(element).selectAll('this.svg').remove();
-    d3.select('body').selectAll('.line-tooltip').remove();
+   d3.select(element).selectAll('this.svg').remove();
+   d3.select('body').selectAll('.line-tooltip').remove();
   }
 }

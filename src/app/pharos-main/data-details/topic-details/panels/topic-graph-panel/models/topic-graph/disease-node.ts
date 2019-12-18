@@ -49,7 +49,7 @@ export class DiseaseNodeSerializer implements NodeSerializer {
    * @param {string} id
    * @return {DiseaseNode}
    */
-  fromJson (obj: any, id?: string): DiseaseNode {
+  fromJson(obj: any, id?: string): DiseaseNode {
     const node = new DiseaseNode();
     Object.entries((obj)).forEach((prop) => node[prop[0]] = prop[1]);
    // node.disease = new DiseaseSerializer().fromJson(node);

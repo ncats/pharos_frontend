@@ -82,7 +82,7 @@ export class DiseaseSerializer implements Serializer {
   /**
    * no args constructor
    */
-  constructor () {}
+  constructor() {}
 
   /**
    * return disease object from json, mapping sublists
@@ -134,7 +134,7 @@ export class DiseaseSerializer implements Serializer {
    * @return {{}}
    * @private
    */
-  private _mapField (obj: any) {
+  private _mapField(obj: any) {
     const retObj: {} = Object.assign({}, obj);
     Object.keys(obj).map(objField => {
       if (Array.isArray(obj[objField])) {
