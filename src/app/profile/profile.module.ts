@@ -6,7 +6,10 @@ import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 
 
 @NgModule({
-  declarations: [ProfileComponent, ConfirmModalComponent],
+  declarations: [
+    // ProfileComponent,
+    // ConfirmModalComponent
+    ],
   imports: [
     CommonModule
   ]
