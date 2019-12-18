@@ -14,6 +14,30 @@ values {
 }
 `;
 
+
+/**
+ * field object for facets
+ */
+export class Field {
+  /**
+   * facet-able field
+   */
+  name: string;
+
+  /**
+   * facet-able field
+   * optional for filter flattening
+   */
+  value?: string;
+
+  count?: number;
+
+
+  constructor(json: any) {
+    Object.entries((json)).forEach((prop) => this[prop[0]] = prop[1]);
+  }
+}
+
 /**
  * Facet object from api
  */
@@ -43,33 +67,10 @@ export class Facet {
   values: Field[];
 
 
-  constructor (json: any) {
+  constructor(json: any) {
     this.facet = json.facet;
     this.label = json.label;
     this.description = json.description;
     this.values = json.values.map(val => new Field(val));
-  }
-}
-
-/**
- * field object for facets
- */
-export class Field {
-  /**
-   * facet-able field
-   */
-  name: string;
-
-  /**
-   * facet-able field
-   * optional for filter flattening
-   */
-  value?: string;
-
-  count?: number;
-
-
-  constructor (json: any) {
-    Object.entries((json)).forEach((prop) => this[prop[0]] = prop[1]);
   }
 }

@@ -147,7 +147,7 @@ export class PharosConfig {
         const value = subpath
           .split('.')
           .reduce((a, b) => a[b], PHAROSCONFIG.components.get(path));
-        return value['components'];
+        return value.components;
       } else {
         return PHAROSCONFIG.components.get(path);
       }

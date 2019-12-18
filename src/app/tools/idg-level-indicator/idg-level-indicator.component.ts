@@ -13,7 +13,7 @@ import {PharosProperty} from '../../models/pharos-property';
 export class IdgLevelIndicatorComponent implements OnInit {
   /**
    * String to be displayed background level correlates to level and is set in parent scss file
-   * */
+   */
   @Input() level: string;
 
   /**
@@ -48,7 +48,8 @@ export class IdgLevelIndicatorComponent implements OnInit {
   /**
    * no args
    */
-  constructor() {}
+  constructor() {
+  }
 
   /**
    * subscribe to data changes

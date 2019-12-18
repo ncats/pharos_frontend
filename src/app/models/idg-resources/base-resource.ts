@@ -1,38 +1,3 @@
-import {Serializer} from '../pharos-base';
-import {DataProperty} from '../../tools/generic-table/components/property-display/data-property';
-import {Antibody, Cell, GeneticConstruct, Mouse, Peptide, Reagent, SmallMolecule} from './reagent';
-import {MouseImageData, ProbeData} from './data-resource';
-
-/**
- * extendable base resource class
- */
-export class BaseResource {
-  /**
-   * name of reagent
-   */
-  name?: string;
-
-  /**
-   * Antibody, Cell, Genetic Construct, Mouse, Small Molecule
-   */
-  resourceType?: string;
-
-  repository?: Repository;
-
-  constructor(data: any) {
-    if (data.Name) {
-      this.name = data.Name;
-    }
-    if (data.resourceType) {
-      this.resourceType = data.resourceType.replace(' ', '')[0].toLowerCase();
-    }
-
-    if ((data.Repository && (data.Repository !== 'null')) || data.Repository_page_link  && (data.Repository_page_link !== 'null')) {
-      this.repository = new Repository((data));
-    }
-  }
-}
-
 /**
  * helper repository class
  */
@@ -60,86 +25,32 @@ export class Repository {
   }
 }
 
-
 /**
- * serializer for reagent object operations
-export class IDGResourceSerializer <T extends BaseResource> implements Serializer {
+ * extendable base resource class
+ */
+export class BaseResource {
+  /**
+   * name of reagent
+   */
+  name?: string;
 
-  /!**
-   * no args - chemicals don't have any main level vocabulary terms
-   *!/
-  constructor () {}
+  /**
+   * Antibody, Cell, Genetic Construct, Mouse, Small Molecule
+   */
+  resourceType?: string;
 
-  /!**
-   * create reagent from json object
-   * @param json
-   * @return {Reagent}
-   *!/
-  fromJson(json: any): T {
-    let obj: any;
-    switch (json.resourceType.toLowerCase()) {
-      case 'antibody': {
-        obj = new Antibody();
-        break;
-      }
-      case 'cell': {
-        obj = new Cell();
-        break;
-      }
-      case 'genetic construct': {
-        obj = new GeneticConstruct();
-        break;
-      }
-      case 'mouse': {
-        obj = new Mouse();
-        break;
-      }
-      case 'small molecule': {
-        obj = new SmallMolecule();
-        break;
-      }
-      case 'peptide': {
-        obj = new Peptide();
-        break;
-      }
-      case 'mouse image data': {
-        obj = new MouseImageData();
-        break;
-      }
-      case 'probe data': {
-        obj = new ProbeData();
-        break;
-      }
-      case 'dataset': {
-        obj = new ProbeData();
-        break;
-      }
+  repository?: Repository;
+
+  constructor(data: any) {
+    if (data.Name) {
+      this.name = data.Name;
     }
-    Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
-    return obj;
-  }
+    if (data.resourceType) {
+      this.resourceType = data.resourceType.replace(' ', '')[0].toLowerCase();
+    }
 
-  /!**
-   * flatten reagent
-   * @param {Reagent} obj
-   * @return {any}
-   *!/
-  toJson(obj: Reagent): any {
-    return [];
+    if ((data.Repository && (data.Repository !== 'null')) || data.Repository_page_link && (data.Repository_page_link !== 'null')) {
+      this.repository = new Repository((data));
+    }
   }
-
-  /!**
-   * return reagent as properties
-   * @param {Reagent} T
-   * @return {any}
-   * @private
-   *!/
-  _asProperties(datadata: T): any {
-    const newObj: any = {};
-    Object.keys(T).map(field => {
-      const property: DataProperty = {name: field, label: field, term: T[field]};
-      newObj[field] = property;
-    });
-    return newObj;
-  }
-}*/
+}

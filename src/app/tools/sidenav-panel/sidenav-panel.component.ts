@@ -65,20 +65,20 @@ export class SidenavPanelComponent implements OnInit {
         .map(comp => comp.navHeader));
 
 
-    this.navSectionsService.sections$.subscribe(res => {
+      this.navSectionsService.sections$.subscribe(res => {
       if (res && res.length) {
         this.sections = res;
         this.activeElement = this.sections[0].section.toString();
       }
     });
-    this.navSectionsService.activeSection$.subscribe(res => {
+      this.navSectionsService.activeSection$.subscribe(res => {
       if (res) {
         this.activeElement = res;
       }
     });
 
     // this covers url change when navigation/click to go to section
-    this._route.fragment.subscribe(fragment => {
+      this._route.fragment.subscribe(fragment => {
       this.activeElement = fragment;
     });
   }
@@ -96,7 +96,7 @@ export class SidenavPanelComponent implements OnInit {
    */
   public scroll(fragment: any): void {
     const navigationExtras: NavigationExtras = {
-      fragment: fragment
+      fragment
     };
     this.router.navigate([], navigationExtras);
   }

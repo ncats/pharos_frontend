@@ -1,16 +1,14 @@
 import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, forkJoin, Observable, of, Subject} from 'rxjs';
-import {catchError, take} from 'rxjs/operators';
-import {ActivatedRouteSnapshot, NavigationExtras, ParamMap} from '@angular/router';
-import {Topic} from '../models/topic';
+import {catchError} from 'rxjs/operators';
+import {ActivatedRouteSnapshot, ParamMap} from '@angular/router';
 import {map, tap} from 'rxjs/internal/operators';
 import {PharosConfig} from '../../config/pharos-config';
 import {PharosBase} from '../models/pharos-base';
-import {Target} from '../models/target';
 import {PageData} from '../models/page-data';
 import {Facet} from '../models/facet';
-import {Apollo, Query, QueryRef} from 'apollo-angular';
+import {Apollo, QueryRef} from 'apollo-angular';
 import gql from 'graphql-tag';
 import {SelectedFacetService} from '../pharos-main/data-list/filter-panel/selected-facet.service';
 import {AngularFirestore} from '@angular/fire/firestore';
@@ -94,7 +92,6 @@ export class PharosApiService {
   // todo: delete when api exists
   /**
    * garbage
-   * @type {Topic[]}
    */
   TOPICS = [
     {
@@ -282,11 +279,11 @@ export class PharosApiService {
         ${fragments.list}
         ${fragments.facets}
 `;
-       fetchQuery = this.apollo.query<any>({
+    fetchQuery = this.apollo.query<any>({
         query: LISTQUERY,
-        variables: variables
+        variables
       });
-      return fetchQuery;
+    return fetchQuery;
   }
 
   getDetailsData(path: string, params: ParamMap, fragments?: any): Observable<any> {
@@ -298,12 +295,12 @@ export class PharosApiService {
 
     const fetchQuery = this.apollo.query({
       query: this.detailsQuery,
-      variables: variables
+      variables
     });
 
     const watchDetailsQuery = this.apollo.watchQuery({
       query: this.detailsQuery,
-      variables: variables
+      variables
     });
 
     this.openQueries.set(`${path}-details`, watchDetailsQuery);
@@ -315,7 +312,7 @@ export class PharosApiService {
 
   fetchMore(path, addtParams) {
     const watchQuery =  this.openQueries.get(`${path}-details`);
-     watchQuery.fetchMore({
+    watchQuery.fetchMore({
       variables: addtParams,
       // We are able to figure out which offset to use because it matches
       // the feed length, but we could also use state, or the previous
@@ -330,7 +327,7 @@ export class PharosApiService {
     }).then(res => {
       return res;
      });
-   return watchQuery;
+    return watchQuery;
   }
 
   // todo: this is probably not ideal , although it returns a more useful query than the initial list query
@@ -343,7 +340,7 @@ export class PharosApiService {
      * @type {Observable<ApolloQueryResult<any>>}
      */
 
-    const allFacetsQuery = this.apollo.watchQuery<any>({
+      const allFacetsQuery = this.apollo.watchQuery<any>({
       query: gql`
       query getAllFacets {
   results: ${path}(
@@ -390,9 +387,9 @@ export class PharosApiService {
 }
 }
      `,
-      variables: variables
+      variables
     });
-    return allFacetsQuery;
+      return allFacetsQuery;
   }
 
   /**
@@ -506,7 +503,7 @@ export class PharosApiService {
                 .filter(facets => facets.values.length !== 0);
               }
               ret.filter = filter;
-             break;
+              break;
             }
             case 'query':
             case 'q': {

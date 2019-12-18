@@ -1,10 +1,5 @@
-import {
-  ChangeDetectorRef,
-  Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild,
-  ViewEncapsulation
-} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 import * as d3 from 'd3';
-import {BehaviorSubject} from 'rxjs/index';
 import {PharosPoint} from '../../../models/pharos-point';
 
 /**
@@ -34,11 +29,9 @@ export class BarChartComponent implements OnInit {
    */
   @Input() data: PharosPoint[];
 
-
   /**
    * margin for padding
    * todo should probabl still use the chart options config object
-   * @type {{top: number; bottom: number; left: number; right: number}}
    */
   private margin: any = {top: 20, bottom: 20, left: 20, right: 20};
 
@@ -82,16 +75,17 @@ export class BarChartComponent implements OnInit {
   /**
    * no args constructor
    */
-  constructor() {}
+  constructor() {
+  }
 
   /**
    * draw basic graph elements, and once data is available, update graph with data
    */
   ngOnInit() {
     this.drawGraph();
-      if (this.data) {
-        this.updateGraph();
-      }
+    if (this.data) {
+      this.updateGraph();
+    }
   }
 
   /**
@@ -110,7 +104,7 @@ export class BarChartComponent implements OnInit {
       .append('svg:g')
       .attr('id', 'group')
       .attr('class', 'bar-container')
-    .attr('transform', `translate(${this.margin.right}, 0)`);
+      .attr('transform', `translate(${this.margin.right}, 0)`);
 
     // Add the X Axis
     this.svg.append('g')
@@ -149,8 +143,8 @@ export class BarChartComponent implements OnInit {
     const yAxis = d3.axisLeft()
       .scale(y);
 
-    x.domain(this.data.map(function(d) { return d[0]; }));
-    y.domain([0, d3.max(this.data, function(d) { return +d[1]; })]);
+    x.domain(this.data.map( d =>  d[0]));
+    y.domain([0, d3.max(this.data, d => +d[1])]);
 
     const xaxis = this.svg.select('.xaxis')
       .call(xAxis);
@@ -162,9 +156,9 @@ export class BarChartComponent implements OnInit {
       .data(this.data)
       .enter().append('rect')
       .attr('class', 'bar')
-      .attr('x', function(d) { return x(d[0]); })
+      .attr('x',  d => x(d[0]))
       .attr('width', x.bandwidth())
-      .attr('y', function(d) { return y(+d[1]); })
+      .attr('y',  d => y(+d[1]))
       .attr('height', d => this.height - y(+d[1]))
       .attr('transform', 'translate(20, 0)')
       .style('pointer-events', 'all')

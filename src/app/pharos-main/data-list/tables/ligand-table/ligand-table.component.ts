@@ -186,7 +186,7 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
         );
       }
     });
-        return otherActivity ? otherActivity[0] : na;
+    return otherActivity ? otherActivity[0] : na;
       }
 
   private parseImageUrl(ligand: any, refid: string): string {

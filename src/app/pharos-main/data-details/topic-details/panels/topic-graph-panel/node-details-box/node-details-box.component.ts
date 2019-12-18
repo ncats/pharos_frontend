@@ -27,6 +27,6 @@ export class NodeDetailsBoxComponent {
   /**
    * no args
    */
-  constructor(
-  ) { }
+  constructor() {
+  }
 }

@@ -46,13 +46,13 @@ export class TargetNodeSerializer implements NodeSerializer {
    * @param {string} id
    * @return {TargetNode}
    */
-  fromJson (obj: any, id?: string): TargetNode {
+  fromJson(obj: any, id?: string): TargetNode {
     const node = new TargetNode();
     Object.entries((obj)).forEach((prop) => node[prop[0]] = prop[1]);
     node.idgFamily = obj.family;
     node.idgTDL = obj.tdl;
-    delete node['family'];
-    delete node['tdl'];
+  /*  delete node.family;
+    delete node.tdl;*/
     // node.target = new TargetSerializer().fromJson(node);
     //  node.targets = [];
     switch (node.idgTDL) {

@@ -1,9 +1,7 @@
 import {ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {GraphDataService, LinkService, NodeService, SGLink, SGNode, SmrtGraph, SmrtgraphCoreComponent} from 'smrtgraph-core';
+import {GraphDataService, LinkService, NodeService, SGLink, SGNode, SmrtgraphCoreComponent} from 'smrtgraph-core';
 import {GraphParserService} from './services/graph-parser.service';
 import {PharosNodeSerializer} from './models/topic-graph/pharos-node-serializer';
-import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
-import { MatSelectionListChange } from '@angular/material/list';
 import {SelectionChange} from '@angular/cdk/collections';
 import {NodeMenuPopupComponent} from './node-menu-popup/node-menu-popup.component';
 
@@ -24,7 +22,7 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
   /**
    * smrtgraph object from component it is injected into
    */
-  @ViewChild('smrtgraph', { read: SmrtgraphCoreComponent }) smrtGraph: SmrtgraphCoreComponent;
+  @ViewChild('smrtgraph', {read: SmrtgraphCoreComponent}) smrtGraph: SmrtgraphCoreComponent;
 
   @ViewChild(NodeMenuPopupComponent) menu: NodeMenuPopupComponent;
 
@@ -65,7 +63,7 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
   ]);
 
 
-    /**
+  /**
    * tracks if graph is loading
    */
   public loading = true;
@@ -101,7 +99,8 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
     private ref: ChangeDetectorRef,
     private graphDataService: GraphDataService,
     private graphParserService: GraphParserService
-  ) {}
+  ) {
+  }
 
   /**
    * set serializers to parse the data passed into the component
@@ -199,7 +198,7 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
 
     event.added.forEach(filter => {
       const nodes = this.nodesMap.get(filter);
-      addedNodes =  addedNodes.concat(nodes);
+      addedNodes = addedNodes.concat(nodes);
       nodes.forEach(node => {
         this.linksMap.get('links').forEach(link => {
           if (link.source.id === node.id || link.target.id === node.id) {
@@ -210,8 +209,8 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
     });
 
     const diff = {
-      addedNodes: addedNodes,
-      removedNodes: removedNodes,
+      addedNodes,
+      removedNodes,
       addedLinks: addedLinksArr,
       removedLinks: deletedLinksArr
     };
@@ -233,6 +232,7 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
    * todo: this currently hides/decolors the nodes, but they should really be removed
    * @param event
    */
+
   /*filterConfidence(event: {value: number, confidence: boolean}) {
     this.loading = true;
     console.log(event);
@@ -280,36 +280,36 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
     }
   }
 
- /* makeGraph(graph: SmrtGraph): void {
-    const newNodes = this.graph.nodes.filter((elem, pos, arr) => {
-      return arr.indexOf(elem) === pos;
-    });
-    const newLinks = this.graph.links.filter((elem, pos, arr) => {
-      return arr.indexOf(elem) === pos;
-    });
+  /* makeGraph(graph: SmrtGraph): void {
+     const newNodes = this.graph.nodes.filter((elem, pos, arr) => {
+       return arr.indexOf(elem) === pos;
+     });
+     const newLinks = this.graph.links.filter((elem, pos, arr) => {
+       return arr.indexOf(elem) === pos;
+     });
 
-    console.log(newNodes);
-    console.log(newLinks);
+     console.log(newNodes);
+     console.log(newLinks);
 
-    const diff = {
-      removedNodes: this.graph.nodes.filter(node => newNodes.indexOf(node) === -1),
-      addedNodes: newNodes.filter(node => this.graph.nodes.indexOf(node) === -1),
-      removedLinks: this.graph.links.filter(link => newLinks.indexOf(link) === -1),
-      addedLinks: newLinks.filter(link => this.graph.links.indexOf(link) === -1)
-    };
+     const diff = {
+       removedNodes: this.graph.nodes.filter(node => newNodes.indexOf(node) === -1),
+       addedNodes: newNodes.filter(node => this.graph.nodes.indexOf(node) === -1),
+       removedLinks: this.graph.links.filter(link => newLinks.indexOf(link) === -1),
+       addedLinks: newLinks.filter(link => this.graph.links.indexOf(link) === -1)
+     };
 
-    console.log(diff);
-    // apply diff to current graph
-    this.applyDiff(diff);
-    this.countLinks();
-    this.graphDataService.setGraph(this.graph);
-    // update graph
-    /!*this._graphHistorySource.next(this.graph);
-    this.nodeList = [];
-    this.linkList = [];
-    this.filter = false;*!/
-  }
-*/
+     console.log(diff);
+     // apply diff to current graph
+     this.applyDiff(diff);
+     this.countLinks();
+     this.graphDataService.setGraph(this.graph);
+     // update graph
+     /!*this._graphHistorySource.next(this.graph);
+     this.nodeList = [];
+     this.linkList = [];
+     this.filter = false;*!/
+   }
+ */
   applyDiff(diff: any): void {
     // todo: need to iterate over remaining nodes and links and remove them
     diff.removedNodes.forEach(node => {
@@ -327,76 +327,76 @@ export class TopicGraphPanelComponent<T extends SGNode> implements OnInit {
   countLinks(): void {
     this.graph.nodes.forEach(node => node.linkCount = 1);
     for (const l of this.graph.links) {
-      l.source.linkCount ++;
-      l.target.linkCount ++;
+      l.source.linkCount++;
+      l.target.linkCount++;
     }
   }
 
   getRelatedNodes(nodeType: string) {
-   // let removedNodes = [];
+    // let removedNodes = [];
     this.loading = true;
     const addedNodes = [this.selectedNode];
     const deletedLinksArr = [];
     const addedLinksArr = [];
-      const links = this.linksMap.get('links');
-      // removedNodes = removedNodes.concat(nodes);
-        links.forEach(link => {
-            if (nodeType === 'disease') {
-              if (link.source.id === this.selectedNode.id && link.target.kind === 'ix.idg.models.Disease') {
-                addedNodes.push(link.target);
-                addedLinksArr.push(link);
-              } else if (link.target.id === this.selectedNode.id && link.source.kind === 'ix.idg.models.Disease') {
-                addedNodes.push(link.source);
-                addedLinksArr.push(link);
-              }
-            } else if (nodeType === 'ligand') {
-              if (link.source.id === this.selectedNode.id && link.target.kind === 'ix.idg.models.Ligand') {
-                addedNodes.push(link.target);
-                addedLinksArr.push(link);
-              } else if (link.target.id === this.selectedNode.id && link.source.kind === 'ix.idg.models.Ligand') {
-                addedNodes.push(link.source);
-                addedLinksArr.push(link);
-              }
-            } else if (nodeType === 'allTargets') {
-              if (link.source.id === this.selectedNode.id && link.target.kind === 'ix.idg.models.Target') {
-                addedNodes.push(link.target);
-                addedLinksArr.push(link);
-              } else if (link.target.id === this.selectedNode.id && link.source.kind === 'ix.idg.models.Target') {
-                addedNodes.push(link.source);
-                addedLinksArr.push(link);
-              }
-            } else {
-            if (link.source.id === this.selectedNode.id && link.target.idgTDL === nodeType) {
-              addedNodes.push(link.target);
-              addedLinksArr.push(link);
-            } else if (link.target.id === this.selectedNode.id && link.source.idgTDL === nodeType) {
-              addedNodes.push(link.source);
-              addedLinksArr.push(link);
-            }
-          }
-        });
-
-      //  let newGraph: SmrtGraph = {nodes: [], links: []};
-        if (addedNodes.length > 1) {
-          if (this.pathBuild > 1) {
-            this.graph = {
-              links: this.graph.links.concat(addedLinksArr),
-              nodes: this.graph.nodes.concat(addedNodes)
-            };
-          } else {
-            this.graph = {
-              links: addedLinksArr,
-              nodes: addedNodes
-            };
-            if (this.pathBuild === 1) {
-              this.pathBuild = ++this.pathBuild;
-            }
-          }
-        } else {
-          alert('No nodes available');
+    const links = this.linksMap.get('links');
+    // removedNodes = removedNodes.concat(nodes);
+    links.forEach(link => {
+      if (nodeType === 'disease') {
+        if (link.source.id === this.selectedNode.id && link.target.kind === 'ix.idg.models.Disease') {
+          addedNodes.push(link.target);
+          addedLinksArr.push(link);
+        } else if (link.target.id === this.selectedNode.id && link.source.kind === 'ix.idg.models.Disease') {
+          addedNodes.push(link.source);
+          addedLinksArr.push(link);
         }
-        this.graphDataService.setGraph(this.graph);
-      this.ref.markForCheck();
+      } else if (nodeType === 'ligand') {
+        if (link.source.id === this.selectedNode.id && link.target.kind === 'ix.idg.models.Ligand') {
+          addedNodes.push(link.target);
+          addedLinksArr.push(link);
+        } else if (link.target.id === this.selectedNode.id && link.source.kind === 'ix.idg.models.Ligand') {
+          addedNodes.push(link.source);
+          addedLinksArr.push(link);
+        }
+      } else if (nodeType === 'allTargets') {
+        if (link.source.id === this.selectedNode.id && link.target.kind === 'ix.idg.models.Target') {
+          addedNodes.push(link.target);
+          addedLinksArr.push(link);
+        } else if (link.target.id === this.selectedNode.id && link.source.kind === 'ix.idg.models.Target') {
+          addedNodes.push(link.source);
+          addedLinksArr.push(link);
+        }
+      } else {
+        if (link.source.id === this.selectedNode.id && link.target.idgTDL === nodeType) {
+          addedNodes.push(link.target);
+          addedLinksArr.push(link);
+        } else if (link.target.id === this.selectedNode.id && link.source.idgTDL === nodeType) {
+          addedNodes.push(link.source);
+          addedLinksArr.push(link);
+        }
+      }
+    });
+
+    //  let newGraph: SmrtGraph = {nodes: [], links: []};
+    if (addedNodes.length > 1) {
+      if (this.pathBuild > 1) {
+        this.graph = {
+          links: this.graph.links.concat(addedLinksArr),
+          nodes: this.graph.nodes.concat(addedNodes)
+        };
+      } else {
+        this.graph = {
+          links: addedLinksArr,
+          nodes: addedNodes
+        };
+        if (this.pathBuild === 1) {
+          this.pathBuild = ++this.pathBuild;
+        }
+      }
+    } else {
+      alert('No nodes available');
+    }
+    this.graphDataService.setGraph(this.graph);
+    this.ref.markForCheck();
     /* nodesArr.map(node => node['tempcolor'] = 'transparent');
      this.nodesMap.set(filter, nodesArr);*/
     this.loading = false;

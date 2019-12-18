@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject, Subject} from 'rxjs';
 
 /**
@@ -17,7 +17,7 @@ export class LoadingService {
 
   /**
    * Observable stream of visibility changes
-    * @type {Observable<boolean>}
+   * @type {Observable<boolean>}
    */
   loading$ = this._loadingSource.asObservable();
 

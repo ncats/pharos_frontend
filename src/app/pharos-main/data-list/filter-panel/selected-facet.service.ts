@@ -77,7 +77,7 @@ export class SelectedFacetService {
       }
     } else {
       const values = facetObj.change.added.map(field => field = {name: field});
-      const newFacet: Facet = new Facet({facet: facetObj.name, values: values});
+      const newFacet: Facet = new Facet({facet: facetObj.name, values});
 
       this._facetMap.set(facetObj.name, newFacet);
     }

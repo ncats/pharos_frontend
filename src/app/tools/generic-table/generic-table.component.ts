@@ -130,7 +130,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
 
   /** boolean to toggle completion of page loading
    * todo: currently not used
-   * */
+   */
   loading = false;
 
   /**
@@ -148,17 +148,17 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
 
   /**
    * Sort object from Angular Material
-   * */
+   */
   @ViewChild(MatSort, {static: true}) _sort: MatSort;
 
   /**
    * generated string array of fields that are to be displayed in the table
-   * */
+   */
   displayColumns: string[];
 
   /**
    * generated  array of DataProperties that are to be displayed in the table
-   * */
+   */
   displayFields: DataProperty[];
 
 
@@ -211,7 +211,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
 
   @Input() asDataSource = false;
 
-@Output() rowSelectionChange: EventEmitter<SelectionModel<any>> = new EventEmitter<SelectionModel<any>>();
+  @Output() rowSelectionChange: EventEmitter<SelectionModel<any>> = new EventEmitter<SelectionModel<any>>();
 
   selection = new SelectionModel<any>(true, []);
 
@@ -220,13 +220,14 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
    *
    */
   @ViewChild(MatPaginator) set paginator(paginator: MatPaginator) {
-        this.dataSource.paginator = paginator;
-      }
+    this.dataSource.paginator = paginator;
+  }
+
   /**
    * injector for custom data
    */
   constructor(
-   private ref: ChangeDetectorRef,
+    private ref: ChangeDetectorRef,
     private _injector: Injector
   ) {
   }
@@ -249,8 +250,8 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
         } else {
           this.dataSource.data = res;
         }
-      this.ref.detectChanges();
-    });
+        this.ref.detectChanges();
+      });
 
     this._fieldsConfig.pipe(
       takeUntil(this.ngUnsubscribe)
@@ -261,12 +262,12 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(change => {
-      this.ref.detectChanges();
-      this.rowSelectionChange.emit(this.selection);
-    });
+        this.ref.detectChanges();
+        this.rowSelectionChange.emit(this.selection);
+      });
   }
 
-  ngOnChanges (change) {
+  ngOnChanges(change) {
 
   }
 
@@ -307,7 +308,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
    * @param $event
    */
   changePage($event): void {
-      this.pageChange.emit($event);
+    this.pageChange.emit($event);
   }
 
   /**
@@ -337,7 +338,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
   }
 
   /**
-   *sets a flat array of the {@link DataProperty} fields
+   * sets a flat array of the {@link DataProperty} fields
    */
   fetchTableFields(): void {
     this.displayColumns = [];
@@ -347,7 +348,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
     }
     if (this.selectableRows) {
       this.displayColumns = ['select'].concat(this.displayFields.map(field => field.name));
-    //  this.ref.reattach();
+      //  this.ref.reattach();
       this.ref.detectChanges();
     } else {
       this.displayColumns = this.displayFields.map(field => field.name);
@@ -422,7 +423,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
 
     if (component.instance.ref) {
       // todo this is still problematic because injected components are redrawn.
-       this.ref.detach();
+      this.ref.detach();
     }
   }
 

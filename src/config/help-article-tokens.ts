@@ -8,11 +8,12 @@ export class ARTICLES {
    * injection token to link to illumination graph description article
    */
   public static ILLUMINATION_GRAPH_ARTICLE = new InjectionToken<string>('IlluminationGraphArticleComponent');
- /**
+
+  /**
    * injection token to link to target developmentlevel  description article
    */
   public static TARGET_DEVELOPMENT_ARTICLE = new InjectionToken<string>('TargetDevelopmentArticleComponent');
- /**
+  /**
    * injection token to link to ligand activity description article
    */
   public static LIGAND_ACTIVITY_ARTICLE = new InjectionToken<string>('LigandActivityArticleComponent');

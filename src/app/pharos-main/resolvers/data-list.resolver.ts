@@ -44,8 +44,9 @@ export class DataListResolver implements Resolve<Observable<any>> {
         .valueChanges()
         .pipe(
           take(1),
-          mergeMap( response => {
-          return this.pharosApiService.getGraphQlData(route, {batchIds: response['targetList'].map(target => target.trim())})
+          mergeMap(response => {
+            const typedResponse: any = response as any;
+            return this.pharosApiService.getGraphQlData(route, {batchIds: typedResponse.targetList.map(target => target.trim())})
         .pipe(
           map(res => {
             res.data.batch.results.facets = res.data.batch.results.facets.map(facet => new Facet(facet));
@@ -60,7 +61,7 @@ export class DataListResolver implements Resolve<Observable<any>> {
           );
           })
         );
-     return docidObs;
+      return docidObs;
     } else {
       return this.pharosApiService.getGraphQlData(route, navigation.extras.state)
         .pipe(
