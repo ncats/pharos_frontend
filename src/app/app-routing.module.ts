@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {RouterModule, Routes, PreloadAllModules} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {AboutPageComponent} from './about-page/about-page.component';
 import {FaqPageComponent} from './faq-page/faq-page.component';
 import {SequenceSearchPageComponent} from './sequence-search-page/sequence-search-page.component';
@@ -7,8 +7,6 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {CommonModule} from '@angular/common';
 import {CommonToolsModule} from './tools/common-tools.module';
 import {SharedModule} from './shared/shared.module';
-import {TopicNodeGeneratorComponent} from './tools/topic-node-generator/topic-node-generator.component';
-import {AuthGuard} from './auth/auth.guard';
 import {ProfileComponent} from './profile/profile/profile.component';
 import {ConfirmModalComponent} from './profile/confirm-modal/confirm-modal.component';
 
@@ -48,26 +46,6 @@ const ROUTES: Routes = [
     path: 'faq',
     component: FaqPageComponent
   },
-/*  {
-    path: 'topic-generator',
-    component: TopicNodeGeneratorComponent
-  },*/
-
-/*  {
-    path: 'search',
-    loadChildren: () => import('./pharos-main/modules/search/search.module').then(m => m.SearchModule),
-    data: { path: 'search' }
-  },*/
-/*  {
-    path: 'topics',
-    loadChildren: () => import('./pharos-main/modules/topics/topic-list.module').then(m => m.TopicListModule),
-    data: { path: 'topics' }
-  },
-  {
-    path: 'topics/:id',
-    loadChildren: () => import('./pharos-main/modules/topics/topic-details.module').then(m => m.TopicDetailsModule),
-    data: { path: 'topics' }
-  },*/
   {
     path: 'targets',
     loadChildren: () => import('./pharos-main/modules/targets/target-list.module').then(m => m.TargetTableModule),
