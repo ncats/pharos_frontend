@@ -12,7 +12,7 @@ import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-pan
   styleUrls: ['./ligand-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LigandHeaderComponent extends DynamicPanelComponent implements OnInit{
+export class LigandHeaderComponent extends DynamicPanelComponent implements OnInit {
   /**
    * ligand to be displayed
    */

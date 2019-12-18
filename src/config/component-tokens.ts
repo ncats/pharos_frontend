@@ -18,7 +18,7 @@ export class TOKENS {
    * injection token to add the target details header
    */
   public static TARGET_HEADER_COMPONENT = new InjectionToken<string>('TargetHeaderComponent');
-/**
+  /**
    * injection token to add the facets sidenav
    */
   public static PHAROS_FACETS_COMPONENT = new InjectionToken<string>('PharosFacetComponent');
@@ -26,15 +26,15 @@ export class TOKENS {
    * injection token to add the selected facets list component
    */
   public static PHAROS_SELECTED_FACET_LIST_COMPONENT = new InjectionToken<string>('PharosFacetComponent');
-/**
+  /**
    * injection token to add the facet donut chart
    */
   public static PHAROS_VISUALIZATION_COMPONENT = new InjectionToken<string>('PharosFacetVisualizationComponent');
-/**
+  /**
    * injection token to add the target details subnavigation component
    */
   public static PHAROS_SUBNAV_COMPONENT = new InjectionToken<string>('PharosSubnavComponent');
-/**
+  /**
    * injection token to add the help panel sidenav
    */
   public static PHAROS_HELPPANEL_COMPONENT = new InjectionToken<string>('PharosHelpPanelComponent');
@@ -165,20 +165,20 @@ export class TOKENS {
    * injection token to link to synonyms data
    */
   public static SYNONYMS_PANEL = new InjectionToken<string>('SynonymsComponent');
- /**
- * injection token to link to structure view data
- */
-public static STRUCTURE_VIEW_PANEL = new InjectionToken<string>('StructureViewComponent');
- /**
- * injection token to link to molecular definition data
- */
-public static MOLECULAR_DEFINITION_PANEL = new InjectionToken<string>('MolecularDefinitionComponent');
- /**
- * injection token to link to target relevance data
- */
-public static TARGET_RELEVANCE_PANEL = new InjectionToken<string>('TargetRelevancePanelComponent');
+  /**
+   * injection token to link to structure view data
+   */
+  public static STRUCTURE_VIEW_PANEL = new InjectionToken<string>('StructureViewComponent');
+  /**
+   * injection token to link to molecular definition data
+   */
+  public static MOLECULAR_DEFINITION_PANEL = new InjectionToken<string>('MolecularDefinitionComponent');
+  /**
+   * injection token to link to target relevance data
+   */
+  public static TARGET_RELEVANCE_PANEL = new InjectionToken<string>('TargetRelevancePanelComponent');
   /**
    * injection token to link to protein database data
    */
   public static PDB_PANEL = new InjectionToken<string>('PdbPanelComponent');
- }
+}

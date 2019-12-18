@@ -29,7 +29,6 @@ describe('AboutPageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AboutPageComponent);
     component = fixture.componentInstance;
-    component['data'] = [];
     fixture.detectChanges();
   });
 

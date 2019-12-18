@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {PharosConfig} from '../../../../../../../config/pharos-config';
 import {HttpClient} from '@angular/common/http';
-import {catchError, map, take} from 'rxjs/internal/operators';
 import {Observable, of} from 'rxjs';
 
 const URL = './assets/uniprot_IDs.csv';
@@ -26,39 +25,39 @@ export class GraphDataGeneratorService {
   }
 
   generateTopicNodes() {
-   /* this._http.get(URL, {responseType: 'text'}).subscribe(response => {
-      const lines: string[] = response.split(/\r\n|\n/);
-      console.log(lines);
-      lines.forEach(target => {
-        this.db.collection('topic-nodes').doc(target)// ref => ref.where('documentid', '==', target))
-          .valueChanges().pipe(take(1))
-          .subscribe(res => {
-            if (!res) {
-              console.log("getting new data");
-              this._http.post<any>(`${this.pharosConfig.getTopicResolveUrl()}`, target, httpOptions).subscribe(response => {
-                console.log(response);
-                if (response.content) {
-                  if (response.content[0].ligands) {
-                    response.content[0].ligands = response.content[0].ligands.filter(ligand => !ligand['']);
-                    console.log(response.content[0].ligands);
-                  }
-                  this.db.collection('topic-nodes')
-                    .doc(target)
-                    .set({
-                      graphData: response.content[0]
-                    })
-                    .then(() => this.saved.push(target))
-                    .catch((error) => this.errors.push(error));
+    /* this._http.get(URL, {responseType: 'text'}).subscribe(response => {
+       const lines: string[] = response.split(/\r\n|\n/);
+       console.log(lines);
+       lines.forEach(target => {
+         this.db.collection('topic-nodes').doc(target)// ref => ref.where('documentid', '==', target))
+           .valueChanges().pipe(take(1))
+           .subscribe(res => {
+             if (!res) {
+               console.log("getting new data");
+               this._http.post<any>(`${this.pharosConfig.getTopicResolveUrl()}`, target, httpOptions).subscribe(response => {
+                 console.log(response);
+                 if (response.content) {
+                   if (response.content[0].ligands) {
+                     response.content[0].ligands = response.content[0].ligands.filter(ligand => !ligand['']);
+                     console.log(response.content[0].ligands);
+                   }
+                   this.db.collection('topic-nodes')
+                     .doc(target)
+                     .set({
+                       graphData: response.content[0]
+                     })
+                     .then(() => this.saved.push(target))
+                     .catch((error) => this.errors.push(error));
 
-                  //this._parseData(res)
-                }
-              });
-            } else {
-              this.alreadySaved.push(target);
-            }
-          });
-      });
-    });*/
+                   //this._parseData(res)
+                 }
+               });
+             } else {
+               this.alreadySaved.push(target);
+             }
+           });
+       });
+     });*/
     /*  map(response => this.csvJSON(response.trim())),
       catchError(this.handleError('fetch uniprot ids', []))
     ).subscribe();*/
@@ -66,7 +65,7 @@ export class GraphDataGeneratorService {
 
   private csvJSON(csv): void {
     const lines: string[] = csv.split(/\r\n|\n/);
-  //  return lines;
+    //  return lines;
   }
 
 

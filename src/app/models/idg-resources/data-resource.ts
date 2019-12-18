@@ -30,7 +30,7 @@ export class DataResource extends BaseResource {
   title?: string;
 
   /**
-   *base resource type
+   * base resource type
    */
   baseType = 'datasource';
 
@@ -69,7 +69,7 @@ export class MouseImageData extends DataResource {
 
   /**
    * ID as registered with MMRRC
-    */
+   */
   mmrrcId: string;
 
   /**
@@ -229,7 +229,7 @@ export class ProbeData extends DataResource {
   negativeControlName: string;
 
   /**
-   *Structure of inactive analog (probe is the active analog in the "probe pair")
+   * Structure of inactive analog (probe is the active analog in the "probe pair")
    */
   negativeControlStructure: string;
 
@@ -277,7 +277,8 @@ export class ProbeData extends DataResource {
     }
     if (data.negativeControlStructure) {
       this.negativeControlStructure = data.negativeControlStructure;
-    }if (data.probePage) {
+    }
+    if (data.probePage) {
       this.probePage = data.probePage;
     }
     if (data.selectivity) {

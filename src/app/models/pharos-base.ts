@@ -92,7 +92,7 @@ export class PharosSubList {
    * deconstruct object to create typed object
    * @param obj
    */
-  constructor (obj: any) {
+  constructor(obj: any) {
     Object.entries((obj)).forEach((prop) => this[prop[0]] = prop[1]);
   }
 }

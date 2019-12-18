@@ -1,9 +1,6 @@
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit,
-  Output
-} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Facet, Field} from '../../../models/facet';
-import {forkJoin, Observable, of, Subject} from 'rxjs';
+import {forkJoin, Observable, Subject} from 'rxjs';
 import {PathResolverService} from './path-resolver.service';
 import {SelectedFacetService} from './selected-facet.service';
 import {PharosConfig} from '../../../../config/pharos-config';
@@ -26,8 +23,8 @@ import {AngularFirestore} from '@angular/fire/firestore';
 })
 export class FilterPanelComponent implements OnInit, OnDestroy {
   panelOptions: PanelOptions = {
-    mode : 'side',
-    class : 'filters-panel',
+    mode: 'side',
+    class: 'filters-panel',
     opened: true,
     fixedInViewport: true,
     fixedTopGap: 70,
@@ -78,7 +75,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
 
   user: any;
 
-  @Input()customFacets: Facet[] = [];
+  @Input() customFacets: Facet[] = [];
 
   /**
    * subject to unsubscribe on destroy
@@ -99,54 +96,55 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * @param {PharosConfig} pharosConfig
    */
   constructor(
-              private selectedFacetService: SelectedFacetService,
-              private changeRef: ChangeDetectorRef,
-              private router: Router,
-              private _route: ActivatedRoute,
-              private profileService: PharosProfileService,
-              private pathResolverService: PathResolverService,
-              private pharosApiService: PharosApiService,
-              private firestore: AngularFirestore,
-              private pharosConfig: PharosConfig) { }
+    private selectedFacetService: SelectedFacetService,
+    private changeRef: ChangeDetectorRef,
+    private router: Router,
+    private _route: ActivatedRoute,
+    private profileService: PharosProfileService,
+    private pathResolverService: PathResolverService,
+    private pharosApiService: PharosApiService,
+    private firestore: AngularFirestore,
+    private pharosConfig: PharosConfig) {
+  }
 
   /**
    * set up subscriptions to get facets
-    */
+   */
   ngOnInit() {
     this.profileService.profile$.subscribe(user => {
       if (user) {
         this.user = user;
         if (user.data().collection) {
-           const customFacets = new Facet({
+          const customFacets = new Facet({
             facet: 'collection',
             label: 'Custom Collections',
             values: []
           });
 
-           // todo this isn't pageable
+          // todo this isn't pageable
           const collections: [Observable<Field>] = user.data().collection.map(batch => {
-            return this.firestore.collection<any[]>('target-collection')
-              .doc<any[]>(batch)
+            return this.firestore.collection<any>('target-collection')
+              .doc<any>(batch)
               .valueChanges()
               .pipe(
                 take(1),
-              map(res => {
+                map(res => {
                   const ret = new Field({
-                    name: res['collectionName'],
+                    name: res.collectionName,
                     value: batch,
-                    count: res['targetList'].length
+                    count: res.targetList.length
                   });
                   return ret;
                 })
               );
           });
 
-            forkJoin([...collections]).subscribe(res => {
-              customFacets.values = res;
-              this.customFacets.push(customFacets);
-              this.facets = this.customFacets.concat(this.filteredFacets);
-              this.changeRef.markForCheck();
-            });
+          forkJoin([...collections]).subscribe(res => {
+            customFacets.values = res;
+            this.customFacets.push(customFacets);
+            this.facets = this.customFacets.concat(this.filteredFacets);
+            this.changeRef.markForCheck();
+          });
 
         }
         // User is signed in.
@@ -177,7 +175,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     this.facets = this.customFacets.concat(this.filteredFacets);
     this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
     this.changeRef.markForCheck();
-      }
+  }
 
   /**
    * toggle the show all facets view
@@ -189,16 +187,16 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
       this.panelOptions.mode = 'over';
       this.loading = true;
       if (!this.allFacets || this.allFacets.length === 0) {
-            this.pharosApiService.getAllFacets(
-              this._route.snapshot.data.path,
-              this._route.snapshot.queryParamMap,
-              this._route.snapshot.data.fragments).valueChanges.subscribe(res => {
-                this.allFacets = this.customFacets.concat(res.data.results.facets);
-              this.loading = false;
-              this.facets = this.allFacets;
-              this.changeRef.markForCheck();
-            });
-          }
+        this.pharosApiService.getAllFacets(
+          this._route.snapshot.data.path,
+          this._route.snapshot.queryParamMap,
+          this._route.snapshot.data.fragments).valueChanges.subscribe(res => {
+          this.allFacets = this.customFacets.concat(res.data.results.facets);
+          this.loading = false;
+          this.facets = this.allFacets;
+          this.changeRef.markForCheck();
+        });
+      }
     } else {
       this.panelOptions.mode = 'side';
       this.facets = this.filteredFacets;

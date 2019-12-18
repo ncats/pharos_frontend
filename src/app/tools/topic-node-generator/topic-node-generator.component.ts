@@ -81,38 +81,40 @@ export class TopicNodeGeneratorComponent implements OnInit {
   ngOnInit() {
     // this.db.collection('topic-nodes').get().subscribe(res => console.log(res.size));
   }
+}
+/*
 
-  /**
+  /!**
    * get already saved nodes db
    * @param target
    * @return {Observable<any>}
-   */
+   *!/
   getData(target) {
   return this.db.collection('topic-nodes').doc(target).valueChanges();
 }
 
-  /**
+  /!**
    * fetch data that is already generated
    * @param batch
    * @return {Observable<Observable<any>>}
-   */
+   *!/
   fetchData(batch) {
-    this.saved = [];
+   /!* this.saved = [];
     this.errors = [];
     this.alreadySaved = [];
-   const calls = from(batch.map(target => {
-      const topicData: TopicData = {target: target, data: this.getData(target)};
+    const calls = from(batch.map(target => {
+      const topicData: TopicData = {target, data: this.getData(target)};
       return topicData;
     }))
      .pipe(
       map(res => {
-        return res['data']
+        return res.data
       .pipe(
           take(1),
           mergeMap(response => {
           // return of(response);
             if (!response) {
-               return this._http.post<any>(`${this.pharosConfig.getTopicResolveUrl()}`, res['target'], httpOptions)
+               return this._http.post<any>(`${this.pharosConfig.getTopicResolveUrl()}`, res.target, httpOptions)
                   .pipe(
                     map(r => {
                       //  console.log(r);
@@ -129,7 +131,7 @@ export class TopicNodeGeneratorComponent implements OnInit {
                     })
                   );
 
-                /*  this.db.collection('topic-nodes')
+                /!*  this.db.collection('topic-nodes')
                     .doc(res['target'])
                     .set({
                       graphData: r.content[0]
@@ -139,12 +141,12 @@ export class TopicNodeGeneratorComponent implements OnInit {
                       console.log("target saved");
                       return response;
                     })
-                    .catch((error) => this.errors.push(res['target']));*/
+                    .catch((error) => this.errors.push(res['target']));*!/
                // }
               // });
             } else {
-              this.alreadySaved.push(res['target']);
-              return of(res['target']);
+              this.alreadySaved.push(res.target);
+              return of(res.target);
             }
             //   });
           }));
@@ -152,14 +154,14 @@ export class TopicNodeGeneratorComponent implements OnInit {
       concatAll()
     ); // .subscribe();
 
- return of(calls);
+    return of(calls);
 
 
 
 
 
-
-   /* const firebaseobs =
+*!/
+   /!* const firebaseobs =
       batchobs.pipe(
     map(target => {
       console.log(target);
@@ -172,10 +174,10 @@ export class TopicNodeGeneratorComponent implements OnInit {
       zipAll()
     );
 
-      console.log(firebaseobs);*/
+      console.log(firebaseobs);*!/
 
 
-/*      .pipe(
+/!*      .pipe(
       mergeMap(target => {
         console.log(target);
         return this.db.collection('topic-nodes').doc(target).valueChanges()// ref => ref.where('documentid', '==', target))
@@ -190,8 +192,8 @@ export class TopicNodeGeneratorComponent implements OnInit {
             return of(res);
           });*!/
       })
-      ))*/
-/*
+      ))*!/
+/!*
 firebaseobs
   .subscribe(res => {
         console.log(res);
@@ -199,12 +201,12 @@ firebaseobs
     } ) //.subscribe(res => console.log(res));
   //  batch.subscribe(res => console.log(res));
   //  return batch;
-*/
+*!/
   }
 
-  /**
+  /!**
    * generate node from url
-   */
+   *!/
   generate() {
     this._http.get(URL, {responseType: 'text'}).subscribe(response => {
       const linesobs = from(response.split(/\r\n|\n/).slice(9200, 9340));
@@ -218,7 +220,7 @@ firebaseobs
       result.subscribe(x => {
         x.subscribe(ress => {}); // console.log(ress));
       });
-    /*  lines.forEach(target => {
+    /!*  lines.forEach(target => {
         this.db.collection('topic-nodes').doc(target)// ref => ref.where('documentid', '==', target))
           .valueChanges().pipe(take(1))
           .subscribe(res => {
@@ -246,11 +248,12 @@ firebaseobs
               this.alreadySaved.push(target);
             }
           });
-      });*/
+      });*!/
     });
-    /*  map(response => this.csvJSON(response.trim())),
+    /!*  map(response => this.csvJSON(response.trim())),
       catchError(this.handleError('fetch uniprot ids', []))
-    ).subscribe();*/
+    ).subscribe();*!/
   }
 
 }
+*/

@@ -63,6 +63,6 @@ export class StructureSearchPageComponent implements OnInit {
     if (this.typeCtrl.value === 'similarity') {
       navigationExtras.queryParams.cutoff = this.percentCtrl.value;
     }
-      this._router.navigate(['/ligands'], navigationExtras);
+    this._router.navigate(['/ligands'], navigationExtras);
   }
 }

@@ -5,7 +5,6 @@ import {AppRoutingModule} from '../../../../app-routing.module';
 import {SharedModule} from '../../../../shared/shared.module';
 import {SuggestApiService} from '../../../../tools/search-component/suggest-api.service';
 import {APP_BASE_HREF} from '@angular/common';
-import {Topic} from '../../../../models/topic';
 import {RouterTestingModule} from '@angular/router/testing';
 
 describe('TopicCardComponent', () => {
@@ -34,7 +33,6 @@ describe('TopicCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TopicCardComponent);
     component = fixture.componentInstance;
-    const top: Topic = new Topic();
     /*top = {
       name: 'Bromodomain Inhibitors',
       class: 'target',

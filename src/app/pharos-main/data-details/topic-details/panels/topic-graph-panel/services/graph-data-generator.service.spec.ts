@@ -20,7 +20,7 @@ describe('GraphDataGeneratorService', () => {
   }));
 
   it('should be created', () => {
-    const service: GraphDataGeneratorService = TestBed.get(GraphDataGeneratorService);
+    const service: GraphDataGeneratorService = TestBed.inject(GraphDataGeneratorService);
     expect(service).toBeTruthy();
   });
 });

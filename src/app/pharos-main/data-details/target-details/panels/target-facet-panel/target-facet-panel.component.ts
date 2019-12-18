@@ -71,7 +71,7 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
         this.facets = [];
         this.target = this.data.targets;
         this.targetProps = this.data.targetsProps;
-         this.setterFunction();
+        this.setterFunction();
         this.loading = false;
       });
   }

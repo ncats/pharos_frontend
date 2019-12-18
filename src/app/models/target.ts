@@ -13,7 +13,7 @@ import {LIGANDDETAILSFIELDS} from './ligand';
 /**
  * apollo graphQL query fragment to retrieve common fields for a target list view
  */
-const TARGETLISTFIELDS =  gql`
+const TARGETLISTFIELDS = gql`
   fragment targetsListFields on Target {
     _tcrdid:tcrdid
     name
@@ -298,7 +298,6 @@ const TARGETDETAILSQUERY = gql`
 `;
 
 
-
 /**
  * main target object
  */
@@ -307,7 +306,7 @@ export class Target extends PharosBase {
   /**
    * fragment of common fields. fetched by the route resolver
    */
-  static targetListFragments  = TARGETLISTFIELDS;
+  static targetListFragments = TARGETLISTFIELDS;
 
   /**
    * fragment of common fields. fetched by the route resolver
@@ -348,12 +347,12 @@ export class Target extends PharosBase {
   /**
    * idg novelty score
    */
-  novelty:  number;
+  novelty: number;
 
   /**
    * text mined publication score
    */
-  jensenScore:  number;
+  jensenScore: number;
 
   /**
    * list of uniprot ids
@@ -383,12 +382,12 @@ export class Target extends PharosBase {
   /**
    * antibodipedia.org antibody count
    */
-  antibodyCount:  number;
+  antibodyCount: number;
 
   /**
    * Gene RiF count
    */
-  generifCount:  number;
+  generifCount: number;
 
   /**
    * list of approved drugs
@@ -396,24 +395,24 @@ export class Target extends PharosBase {
   drugs: Ligand[];
 
   /**
-   *list of active ligands
+   * list of active ligands
    */
   ligands: Ligand[];
 
   /**
    * array of pubtator scores for timeline
    */
-  pubTatorScores: [{year, score}];
+  pubTatorScores: [{ year, score }];
 
   /**
    * array of pubmed scores for timeline
    */
-  pubmedScores: [{year, score}];
+  pubmedScores: [{ year, score }];
 
   /**
    * array of patent counts for timeline
    */
-  patentCounts: [{year, count}];
+  patentCounts: [{ year, count }];
 
   /**
    * list of ensembl ids
@@ -439,7 +438,7 @@ export class Target extends PharosBase {
   /**
    * number of publications
    */
-  pubmedCount:  number;
+  pubmedCount: number;
 
   /**
    * pageable list of associated diseases
@@ -460,17 +459,17 @@ export class Target extends PharosBase {
   /**
    * number of patents
    */
-  patentCount:  number;
+  patentCount: number;
 
   /**
    * knowledge availability score
    */
-  knowledgeAvailability:  number;
+  knowledgeAvailability: number;
 
   /**
    * pubtator literature score
    */
-  pubTatorScore:  number;
+  pubTatorScore: number;
 
   /**
    * number of associated publications
@@ -505,7 +504,7 @@ export class Target extends PharosBase {
   /**
    * number of protein-protein interactions
    */
-  ppiCount:  number | any[];
+  ppiCount: number | any[];
 
   /**
    * list of expression data
@@ -520,12 +519,12 @@ export class Target extends PharosBase {
   goFunction: string[];
   goProcess: string[];
   uniprotKeyword: string[];
-  hpaTissueSpecificityIndex: [{name, value}];
-  hpmProteinTissueSpecificityIndex: [{name, value}];
-  gtexTissueSpecificityIndex: [{name, value}];
-  hpaRNATissueSpecificityIndex: [{name, value}];
-  hpaProteinTissueSpecificity: [{name, value}];
-  hpmGeneTissueSpecificityIndex: [{name, value}];
+  hpaTissueSpecificityIndex: [{ name, value }];
+  hpmProteinTissueSpecificityIndex: [{ name, value }];
+  gtexTissueSpecificityIndex: [{ name, value }];
+  hpaRNATissueSpecificityIndex: [{ name, value }];
+  hpaProteinTissueSpecificity: [{ name, value }];
+  hpmGeneTissueSpecificityIndex: [{ name, value }];
 
 }
 
@@ -537,7 +536,8 @@ export class TargetSerializer implements PharosSerializer {
   /**
    * no args constructor
    */
-  constructor () {}
+  constructor() {
+  }
 
   /**
    * create target object from json
@@ -552,19 +552,19 @@ export class TargetSerializer implements PharosSerializer {
      * mapping graphql responses, since they are returned as arrays
      */
     if (json.novelty) {
-    obj.novelty = +json.novelty.toFixed(2);
+      obj.novelty = +json.novelty.toFixed(2);
     }
 
     if (json.jensenScore && json.jensenScore.length) {
-    obj.jensenScore = +(+json.jensenScore[0].value).toFixed(2);
+      obj.jensenScore = +(+json.jensenScore[0].value).toFixed(2);
     }
 
     if (json.pubTatorScore && json.pubTatorScore.length) {
-    obj.pubTatorScore = +(+json.pubTatorScore[0].value).toFixed(2);
+      obj.pubTatorScore = +(+json.pubTatorScore[0].value).toFixed(2);
     }
 
     if (json.antibodyCount && json.antibodyCount.length) {
-    obj.antibodyCount = +(+json.antibodyCount[0].value).toFixed(2);
+      obj.antibodyCount = +(+json.antibodyCount[0].value).toFixed(2);
     }
 
     if (json.ppiCount) {
@@ -602,7 +602,7 @@ export class TargetSerializer implements PharosSerializer {
     if (json.hgdata && json.hgdata.summary) {
       obj.hgdata = json.hgdata.summary.map(hg => {
         hg.value = +hg.value.toFixed(2);
-      return hg;
+        return hg;
       });
     }
 
@@ -614,9 +614,9 @@ export class TargetSerializer implements PharosSerializer {
       obj.orthologCounts = json.orthologCounts.length;
     }
 
-      if (json.ppis) {
+    if (json.ppis) {
       const targetSerializer = new TargetSerializer();
-      obj.ppis = json.ppis.map(ppi =>  targetSerializer.fromJson(ppi['target']));
+      obj.ppis = json.ppis.map(ppi => targetSerializer.fromJson(ppi.target));
     }
 
     if (json.ligandCounts) {
@@ -627,20 +627,20 @@ export class TargetSerializer implements PharosSerializer {
         if (count.name === 'ligand') {
           obj.ligandCount = count.value;
         }
-    });
+      });
     }
 
-  if (json.ligands) {
-    const ligandSerializer = new LigandSerializer();
-    obj.ligands = json.ligands
-      .filter(lig => !lig['isdrug'])
-      .map(ligand => ligandSerializer.fromJson(ligand));
-  }
+    if (json.ligands) {
+      const ligandSerializer = new LigandSerializer();
+      obj.ligands = json.ligands
+        .filter(lig => !lig.isdrug)
+        .map(ligand => ligandSerializer.fromJson(ligand));
+    }
 
-  if (json.drugs) {
-    const ligandSerializer = new LigandSerializer();
-    obj.drugs = json.drugs.map(ligand => ligandSerializer.fromJson(ligand));
-  }
+    if (json.drugs) {
+      const ligandSerializer = new LigandSerializer();
+      obj.drugs = json.drugs.map(ligand => ligandSerializer.fromJson(ligand));
+    }
 
     if (json.publications) {
       const pubSerializer = new PublicationSerializer();
@@ -652,7 +652,7 @@ export class TargetSerializer implements PharosSerializer {
       obj.generifs = json.generifs.map(rif => generifSerializer.fromJson(rif));
     }
 
-      if (json.diseases) {
+    if (json.diseases) {
       const diseaseSerializer = new DiseaseSerializer();
       obj.diseases = json.diseases.map(disease => diseaseSerializer.fromJson(disease));
     }
@@ -730,34 +730,34 @@ export class TargetSerializer implements PharosSerializer {
     }
 
     if (newObj.goComponent) {
-       newObj.goComponent.forEach(component => {
-          component.term.internalLink = ['/targets'];
-          component.term.queryParams = {facet: `GO Component/${component.term.term}`};
-          return component;
+      newObj.goComponent.forEach(component => {
+        component.term.internalLink = ['/targets'];
+        component.term.queryParams = {facet: `GO Component/${component.term.term}`};
+        return component;
       });
     }
 
-  if (newObj.goProcess) {
-       newObj.goProcess.forEach(component => {
-          component.term.internalLink = ['/targets'];
-          component.term.queryParams = {facet: `GO Process/${component.term.term}`};
-          return component;
+    if (newObj.goProcess) {
+      newObj.goProcess.forEach(component => {
+        component.term.internalLink = ['/targets'];
+        component.term.queryParams = {facet: `GO Process/${component.term.term}`};
+        return component;
       });
     }
 
-  if (newObj.goFunction) {
-       newObj.goFunction.forEach(component => {
-          component.term.internalLink = ['/targets'];
-          component.term.queryParams = {facet: `GO Function/${component.term.term}`};
-          return component;
+    if (newObj.goFunction) {
+      newObj.goFunction.forEach(component => {
+        component.term.internalLink = ['/targets'];
+        component.term.queryParams = {facet: `GO Function/${component.term.term}`};
+        return component;
       });
     }
-  if (newObj.uniprotKeyword) {
-       newObj.uniprotKeyword.forEach(component => {
-          component.value.internalLink = ['/targets'];
-          component.value.externalLink = `https://www.uniprot.org/keywords/${component.name.term}`;
-          component.value.queryParams = {facet: `UniProt Keyword/${component.value.term}`};
-          return component.value;
+    if (newObj.uniprotKeyword) {
+      newObj.uniprotKeyword.forEach(component => {
+        component.value.internalLink = ['/targets'];
+        component.value.externalLink = `https://www.uniprot.org/keywords/${component.name.term}`;
+        component.value.queryParams = {facet: `UniProt Keyword/${component.value.term}`};
+        return component.value;
       });
     }
 
@@ -770,15 +770,15 @@ export class TargetSerializer implements PharosSerializer {
    * @return {{}}
    * @private
    */
-  private _mapField (obj: any) {
+  private _mapField(obj: any) {
     const retObj: {} = Object.assign({}, obj);
-      Object.keys(obj).map(objField => {
-        if (Array.isArray(obj[objField])) {
-          retObj[objField] = obj[objField].map(arrObj => this._mapField(arrObj));
-        } else {
-          retObj[objField] = new DataProperty({name: objField, label: objField, term: obj[objField]});
-        }
-      });
+    Object.keys(obj).map(objField => {
+      if (Array.isArray(obj[objField])) {
+        retObj[objField] = obj[objField].map(arrObj => this._mapField(arrObj));
+      } else {
+        retObj[objField] = new DataProperty({name: objField, label: objField, term: obj[objField]});
+      }
+    });
     return retObj;
   }
 }

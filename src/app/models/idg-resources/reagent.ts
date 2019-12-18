@@ -1,38 +1,5 @@
-import {BaseResource, Repository} from './base-resource';
-import {Serializer} from '../pharos-base';
-import {DataProperty} from '../../tools/generic-table/components/property-display/data-property';
+import {BaseResource} from './base-resource';
 
-/**
- * main extendable reagent class
- */
-export class Reagent extends BaseResource {
-
-  /**
-   * External link to published images or data relevant for the current Pharos page
-   */
-  dataPageLink?: string;
-
-  /**
-   * list of vendor names/links for purchasing
-   */
-  vendors?: Vendor[] = [];
-
-  /**
-   *base resource type
-   */
-  baseType = 'reagent';
-
-  constructor(data: any) {
-    super(data);
-
-    if (data.Data_page_link) {
-      this.dataPageLink = data.Data_page_link;
-    }
-    if (data.Vendor) {
-      this.vendors.push(new Vendor(data));
-    }
-  }
-}
 
 /**
  * vendor helper object class
@@ -52,12 +19,44 @@ export class Vendor {
    */
   resourceID?: string;
 
-  constructor (data: any) {
-      this.vendor = data.Vendor;
-      this.vendorUrl = data.Vendor_cat;
-      if (data.resource_ID) {
-        this.resourceID = data.resource_ID;
-      }
+  constructor(data: any) {
+    this.vendor = data.Vendor;
+    this.vendorUrl = data.Vendor_cat;
+    if (data.resource_ID) {
+      this.resourceID = data.resource_ID;
+    }
+  }
+}
+
+/**
+ * main extendable reagent class
+ */
+export class Reagent extends BaseResource {
+
+  /**
+   * External link to published images or data relevant for the current Pharos page
+   */
+  dataPageLink?: string;
+
+  /**
+   * list of vendor names/links for purchasing
+   */
+  vendors?: Vendor[] = [];
+
+  /**
+   * base resource type
+   */
+  baseType = 'reagent';
+
+  constructor(data: any) {
+    super(data);
+
+    if (data.Data_page_link) {
+      this.dataPageLink = data.Data_page_link;
+    }
+    if (data.Vendor) {
+      this.vendors.push(new Vendor(data));
+    }
   }
 }
 
@@ -127,7 +126,7 @@ export class GeneticConstruct extends Reagent {
    */
   RRID: string;
   /**
-   *As registered with repository
+   * As registered with repository
    */
   vectorName: string;
   /**
@@ -170,12 +169,12 @@ export class Mouse extends Reagent {
   /**
    * Link to the external repository where the construct was described
    */
-  constructDetails: any; //Repository;
+  constructDetails: any; // Repository;
 
   /**
    * Link to the external repository where the construct was registered
    */
-  correspondingConstruct:  any; // Repository;
+  correspondingConstruct: any; // Repository;
 
   resourceType = 'mouse';
 
@@ -190,7 +189,7 @@ export class Mouse extends Reagent {
       this.allele = data.allele;
     }
     if (data.constructDetails) {
-      this. constructDetails = data.constructDetails;
+      this.constructDetails = data.constructDetails;
     }
 
     if (data.correspondingConstruct) {

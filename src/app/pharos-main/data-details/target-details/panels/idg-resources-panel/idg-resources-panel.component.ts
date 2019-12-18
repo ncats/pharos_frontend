@@ -74,9 +74,9 @@ dataTypes: string[] = [];
       .subscribe(x => {
         this.reagentTypes = [];
         this.dataTypes = [];
-          this.target = this.data.targets;
-          this.loading = false;
-          this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/search?term=${this.target.gene}`).subscribe(res => {
+        this.target = this.data.targets;
+        this.loading = false;
+        this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/search?term=${this.target.gene}`).subscribe(res => {
             if (res && res.data) {
               res.data.forEach(data => {
                 this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/id?id=${data.id}&json=true`).subscribe(resource => {
@@ -120,7 +120,7 @@ dataTypes: string[] = [];
     return ret;
   });
 
-this.dataTypes = Array.from(new Set(this.datasources.map(reagent => reagent.resourceType))).map(reagent => {
+    this.dataTypes = Array.from(new Set(this.datasources.map(reagent => reagent.resourceType))).map(reagent => {
     const ret: any = {
       value: reagent,
       label: reagent.replace(/([A-Z]+)/g, ' $1').replace(/([A-Z][a-z])/g, ' $1')
@@ -128,7 +128,7 @@ this.dataTypes = Array.from(new Set(this.datasources.map(reagent => reagent.reso
     return ret;
   });
 
-this.pageData = this.makePageData(this.reagents.length);
+    this.pageData = this.makePageData(this.reagents.length);
   }
 
   /**

@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Topic} from '../../../../models/topic';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 
@@ -16,7 +15,7 @@ export class TopicHeaderComponent extends DynamicPanelComponent implements OnIni
   /**
    * topic being displayed
    */
-  @Input() topic: Topic;
+  @Input() topic: any;
 
   /**
    * no args constructor

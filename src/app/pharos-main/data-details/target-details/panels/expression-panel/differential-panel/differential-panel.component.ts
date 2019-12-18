@@ -87,7 +87,7 @@ export class DifferentialPanelComponent extends DynamicPanelComponent implements
       total: this.diseaseSources.length,
       count: 10
     });
-    this.tableArr = this.diseaseSources
+  this.tableArr = this.diseaseSources
       .slice(this.pageData.skip, this.pageData.top);
   }
 

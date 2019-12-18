@@ -100,8 +100,8 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
    * checks to see if the display section is within view
    * @param {string} fragment
    */
-  active() {
-    this.navSectionsService.setActiveSection(this.field);
+  active(fragment: string) {
+    this.navSectionsService.setActiveSection(fragment);
   }
 
   /**

@@ -38,6 +38,6 @@ export class HelpPanelTriggerComponent {
     if (this.origin) {
       this.helpDataService.setOrigin(this.origin);
     }
-      this.helpPanelOpenerService.toggleVisible();
+    this.helpPanelOpenerService.toggleVisible();
   }
 }

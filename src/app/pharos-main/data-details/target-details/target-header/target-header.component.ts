@@ -32,7 +32,7 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
       )
       .subscribe(x => {
        this.target = this.data.targets;
-        this.changeRef.markForCheck();
+       this.changeRef.markForCheck();
       });
   }
 

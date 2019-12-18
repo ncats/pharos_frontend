@@ -32,8 +32,12 @@ export class TargetCardComponent implements OnInit {
    * if target exists, fetch radar chart data
    */
   ngOnInit() {
-    if (this.target['target']) {
-      this.target = this.target['target'];
+    // todo add harmonizome serializer or find out why mapped list data in the resolver doesn't work
+    if (this.target.hgdata) {
+      const data = this.target.hgdata as any;
+      if (data.summary) {
+        this.target.hgdata = data.summary;
+      }
     }
   }
 }

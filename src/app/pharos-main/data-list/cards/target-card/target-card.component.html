@@ -16,14 +16,14 @@
     </div>
     <div fxLayout="row" class ="radar-row target-card-radar" fxLayoutAlign="space-around stretch">
       <div fxFlex="95">
-    <pharos-radar-chart [size]="'small'" *ngIf = target.hgdata [data]="[target.hgdata.summary ? target.hgdata.summary : target.hgdata]"></pharos-radar-chart>
+    <pharos-radar-chart [size]="'small'" *ngIf = target.hgdata [data]="[target.hgdata]"></pharos-radar-chart>
       </div>
     </div>
-    <div fxLayout="row" class ="tkrow" fxLayoutAlign="start stretch" *ngIf="showKnowledge">
+<!--    <div fxLayout="row" class ="tkrow" fxLayoutAlign="start stretch" *ngIf="showKnowledge">
       <div fxFlex="95">
     <pharos-knowledge-table *ngIf = knowledge [data] = knowledge></pharos-knowledge-table>
       </div>
-    </div>
+    </div>-->
       </div>
   <div fxLayout="row" fxLayoutAlign="start stretch" >
     <div fxFlex="95">

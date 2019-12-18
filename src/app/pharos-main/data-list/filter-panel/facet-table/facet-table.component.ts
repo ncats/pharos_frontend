@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import {ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, NavigationExtras, Router} from '@angular/router';
+import {MatTableDataSource} from '@angular/material/table';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Facet, Field} from '../../../../models/facet';
 import {takeUntil} from 'rxjs/operators';
@@ -43,8 +43,9 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    * @type {string[]}
    */
   displayColumns: string [] = ['select', 'name', 'count'];
+
   /**
-   *object fields headings to track and show
+   * object fields headings to track and show
    * @type {string[]}
    */
   fieldColumns: string [] = ['name', 'count'];
@@ -76,8 +77,6 @@ export class FacetTableComponent implements OnInit, OnDestroy {
               private pathResolverService: PathResolverService) {
   }
 
-  // todo: on redirect (click targets button), the checked boxes remain
-
   /**
    * retrieve and set facet values, subscribe to changes
    */
@@ -106,7 +105,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(change => {
         if (this.propogate === true) {
-          this.selectedFacetService.setFacets({name: this.facet.facet, change: change});
+          this.selectedFacetService.setFacets({name: this.facet.facet, change});
           const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
           if (this.facet.facet === 'collection' || this.selectedFacetService.getFacetByName('collection')) {
             this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getFacetByName('collection'));

@@ -59,7 +59,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
   constructor(
     private breakpointObserver: BreakpointObserver,
     private navSectionsService: NavSectionsService,
-              private changeRef: ChangeDetectorRef) {
+    private changeRef: ChangeDetectorRef) {
     super();
   }
 
@@ -118,11 +118,11 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
     const splitseq: any[] = [];
     split.forEach((chunk, index) => {
       if (index === 0) {
-        splitseq.push({chunk: chunk, residues: index + 1 + '-' + (index + 1) * length});
+        splitseq.push({chunk, residues: index + 1 + '-' + (index + 1) * length});
       } else if (index === split.length - 1) {
-        splitseq.push({chunk: chunk, residues: index * length + '-' + this.target.sequence.length});
+        splitseq.push({chunk, residues: index * length + '-' + this.target.sequence.length});
       } else {
-        splitseq.push({chunk: chunk, residues: index * length + '-' + (index + 1) * length});
+        splitseq.push({chunk, residues: index * length + '-' + (index + 1) * length});
       }
     });
     this.aasequence = splitseq;

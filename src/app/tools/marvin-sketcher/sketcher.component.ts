@@ -64,7 +64,7 @@ export class SketcherComponent implements OnInit {
    * initialize marvin js instance
    */
   ngOnInit() {
-    window['MarvinJSUtil'].getPackage('#sketcher').then((marvin) => {
+   /* window.MarvinJSUtil.getPackage('#sketcher').then((marvin) => {
       this.marvinSketcherInstance = marvin.sketcherInstance;
       this.marvinSketcherInstance.on('molchange', () => {
         this.marvinSketcherInstance.exportStructure('mol').then((mol: any) => {
@@ -75,9 +75,9 @@ export class SketcherComponent implements OnInit {
           });
         });
       });
-        this.marvinSketcherInstance.importStructure('mol', this.passedStructure);
+      this.marvinSketcherInstance.importStructure('mol', this.passedStructure);
       }).catch(err => console.log(err));
-
+*/
     this.structureSetter.structure$.subscribe(res => {
       this.passedStructure = res;
     });

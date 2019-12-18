@@ -57,7 +57,7 @@ export class TopicGraphFiltersComponent implements OnInit {
     });
 
     this.confidenceCtrl.valueChanges.subscribe(value => {
-      this.confidenceChange.emit({value: value, confidence: this.showNoConfidence});
+      this.confidenceChange.emit({value, confidence: this.showNoConfidence});
     });
 
     this.pathBuilder.changed.subscribe(change => this.pathBuildEmitter.emit());

@@ -49,9 +49,9 @@ export class LevelSummaryPanelComponent extends DynamicPanelComponent implements
       )
       .subscribe(x => {
           this.target = this.data.targets;
-        this.targetProps = this.data.targetsProps;
+          this.targetProps = this.data.targetsProps;
           this.loading = false;
-        this.changeRef.markForCheck();
+          this.changeRef.markForCheck();
       });
   }
 

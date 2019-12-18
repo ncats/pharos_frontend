@@ -136,7 +136,7 @@ export class LigandSerializer implements PharosSerializer {
       const actMap: Map<string, { target: any, activities: LigandActivity[] }> =
         new Map<string, { target: any, activities: LigandActivity[] }>();
       const ligActSerializer: LigActSerializer = new LigActSerializer();
-        json.activities.forEach(act => {
+      json.activities.forEach(act => {
         if (actMap.has(act.target.symbol)) {
           const acts = actMap.get(act.target.symbol);
           acts.activities.push(ligActSerializer.fromJson(act));
@@ -145,8 +145,8 @@ export class LigandSerializer implements PharosSerializer {
           actMap.set(act.target.symbol, {target: act.target, activities: [ligActSerializer.fromJson(act)]});
         }
       });
-        obj.activities = [...actMap.values()].sort((a, b) => b.activities.length - a.activities.length);
-        obj.activitiesMap = actMap;
+      obj.activities = [...actMap.values()].sort((a, b) => b.activities.length - a.activities.length);
+      obj.activitiesMap = actMap;
     }
 
     return obj;
