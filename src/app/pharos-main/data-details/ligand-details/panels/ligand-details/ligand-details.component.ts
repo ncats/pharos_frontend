@@ -11,20 +11,16 @@ import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/na
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LigandDetailsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
-  /**
-   * ligand description
-   */
-  description: string;
 
   /**
    * ligand object
    */
-@Input() ligand: Ligand;
+  @Input() ligand: Ligand;
 
   constructor(
     private navSectionsService: NavSectionsService,
     private changeRef: ChangeDetectorRef
-) {
+  ) {
     super();
   }
 
@@ -61,7 +57,8 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
       return tooltip[0].description;
     } else {
       return null;
-    }  }
+    }
+  }
 
   /**
    * clean up on leaving component

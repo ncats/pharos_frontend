@@ -35,17 +35,19 @@ export class ProteinStructureViewerComponent implements OnInit, OnChanges {
    * create ngl instance and load view
    */
   ngOnInit() {
-    this.stage = new NGL.Stage(this.viewerContainer.nativeElement, {backgroundColor: 'white'});
-    this.stage.handleResize();
-    // Handle window resizing
-    window.addEventListener('resize', (event) => {
+    if (this.pdbid) {
+      this.stage = new NGL.Stage(this.viewerContainer.nativeElement, {backgroundColor: 'white'});
       this.stage.handleResize();
-    }, {passive: true});
-    this.stage.loadFile(`rcsb://${this.pdbid}`, {defaultRepresentation: true}).then().catch();
+      // Handle window resizing
+      window.addEventListener('resize', (event) => {
+        this.stage.handleResize();
+      }, {passive: true});
+      this.stage.loadFile(`rcsb://${this.pdbid}`, {defaultRepresentation: true}).then().catch();
+    }
   }
 
   ngOnChanges(change) {
-    if (this.stage) {
+    if (this.stage && this.pdbid) {
       this.stage.removeAllComponents();
       this.stage.loadFile(`rcsb://${this.pdbid}`, {defaultRepresentation: true}).then(component => {
       });

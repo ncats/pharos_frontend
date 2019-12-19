@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { TargetListPanelComponent } from './target-list-panel.component';
+import {TargetListPanelComponent} from './target-list-panel.component';
 import {SharedModule} from '../../../../shared/shared.module';
 import {GenericTableModule} from '../../../../tools/generic-table/generic-table.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -44,8 +44,9 @@ describe('TargetListPanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TargetListPanelComponent);
     component = fixture.componentInstance;
-    component.data = ({object: TESTDISEASE, references: []});
-    component.disease = TESTDISEASE;
+    component.data = {
+      diseases: TESTDISEASE
+    };
     fixture.detectChanges();
   });
 

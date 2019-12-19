@@ -10,6 +10,7 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFireModule} from '@angular/fire';
 import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {TESTLIGAND} from '../../../../../../../test/test-ligand';
 
 describe('MolecularDefinitionPanelComponent', () => {
   let component: MolecularDefinitionPanelComponent;
@@ -39,6 +40,9 @@ describe('MolecularDefinitionPanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MolecularDefinitionPanelComponent);
     component = fixture.componentInstance;
+    component.data = {
+      ligands: TESTLIGAND
+    };
     fixture.detectChanges();
   });
 
