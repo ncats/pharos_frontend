@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-
 import {TargetListRoutingModule} from './target-list-routing.module';
 import {IDG_LEVEL_TOKEN, RADAR_CHART_TOKEN, TargetTableComponent} from '../../data-list/tables/target-table/target-table.component';
 import {TargetCardComponent} from '../../data-list/cards/target-card/target-card.component';

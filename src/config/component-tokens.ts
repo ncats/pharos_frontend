@@ -121,29 +121,29 @@ export class TOKENS {
    * injection token to link to the other facets for a specific target
    */
   public static TARGET_FACET_PANEL = new InjectionToken<string>('TargetFacetPanelComponent');
-  /**
+  /*/!**
    * Injection token for topics list
-   */
+   *!/
   public static TOPIC_TABLE_COMPONENT = new InjectionToken<string>('TopicTableComponent');
-  /**
+  /!**
    * Injection token for topics details component
-   */
+   *!/
   public static TOPIC_DETAILS_COMPONENT = new InjectionToken<string>('TopicDetailsComponent');
 
-  /**
+  /!**
    * injection token to add the topic details header
-   */
+   *!/
   public static TOPIC_HEADER_COMPONENT = new InjectionToken<string>('TopicHeaderComponent');
 
-  /**
+  /!**
    * injection token to add the neo4j graph vis
-   */
+   *!/
   public static TOPIC_GRAPH_PANEL = new InjectionToken<string>('TopicGraphPanelComponent');
-  /**
+  /!**
    * injection token to add the neo4j graph node details
-   */
+   *!/
   public static NODE_DISPLAY_PANEL = new InjectionToken<string>('NodeDisplayComponent');
-
+*/
   /**
    * Injection token for ligands list
    */

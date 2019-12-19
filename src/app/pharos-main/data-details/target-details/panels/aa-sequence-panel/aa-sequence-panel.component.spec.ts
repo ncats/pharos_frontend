@@ -1,10 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AaSequencePanelComponent } from './aa-sequence-panel.component';
+import {AaSequencePanelComponent} from './aa-sequence-panel.component';
 import {SharedModule} from '../../../../../shared/shared.module';
-import {TESTDISEASE} from '../../../../../../../test/test-disease';
-import {TESTTARGET} from '../../../../../../../test/test-target';
-import {By} from '@angular/platform-browser';
+import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../test/test-target';
 import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {ActivatedRoute} from '@angular/router';
@@ -24,24 +22,14 @@ describe('AaSequencePanelComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
-        ApolloTestingModule,
-        RouterTestingModule,
-        AngularFireModule.initializeApp(COMMON_CONFIG)
-      ],
-      declarations: [
-        AaSequencePanelComponent
-      ],
-      providers: [
-        AngularFireAuth,
-        { provide: AngularFirestore, useValue: FIRESTORESTUB },
-        { provide: ActivatedRoute, useClass: MOCKACTIVATEDROUTE }
+        RouterTestingModule
       ],
       schemas: [
         NO_ERRORS_SCHEMA,
         CUSTOM_ELEMENTS_SCHEMA
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -49,15 +37,13 @@ describe('AaSequencePanelComponent', () => {
     component = fixture.componentInstance;
     component.apiSources = [{label: '', field: '', description: ''}];
     component.data = {
-      targets: TESTTARGET
+      targets: TESTTARGET,
+      targetsProps: TESTTARGETPROPS
     };
-    // component.aasequence = [];
-    component.loading = false;
     fixture.detectChanges();
   });
 
   it('should create', () => {
-    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });
