@@ -909,28 +909,6 @@ const LIGAND_DETAILS_COMPONENT: PharosPanel = {
 };
 
 /**
- * ligand structure view component
- * @type {PharosPanel}
- */
-const STRUCTURE_VIEW_PANEL: PharosPanel = {
-  token: TOKENS.STRUCTURE_VIEW_PANEL,
-  navHeader: {
-    label: 'Structure View',
-    section: 'structure',
-    mainDescription: 'Visual representation of the ligand.'
-  },
-
-  api: [
-    {
-      field: 'structure',
-      label: 'Structure',
-      url: _APIURL + 'ligands/_id_/links(kind=ix.core.models.Structure)',
-      description: 'Pharos structure object for this ligand.'
-    }
-  ]
-};
-
-/**
  * targets related to a ligand component
  * @type {PharosPanel}
  */
@@ -949,27 +927,6 @@ const TARGET_RELEVANCE_PANEL: PharosPanel = {
       description: 'List of targets this ligand has been tested on, passing the activity cutoff levels described.',
       article: ARTICLES.LIGAND_ACTIVITY_ARTICLE
 
-    }
-  ]
-};
-
-/**
- * ligand synonyms component
- * @type {PharosPanel}
- */
-const SYNONYMS_PANEL: PharosPanel = {
-  token: TOKENS.SYNONYMS_PANEL,
-  navHeader: {
-    label: 'Synonyms',
-    section: 'synonyms',
-    mainDescription: 'List of ligand synonyms.'
-  },
-  api: [
-    {
-      field: 'synonyms',
-      label: 'Synonyms',
-      url: _APIURL + 'ligands/_id_/synonyms',
-      description: 'List of ligand synonyms.'
     }
   ]
 };
@@ -995,23 +952,25 @@ const MOLECULAR_DEFINITION_PANEL: PharosPanel = {
   ]
 };
 
-/**
+/*
+/!**
  * main list of topics component
  * @type {PharosPanel}
- */
+ *!/
 const TOPIC_TABLE_COMPONENT: PharosPanel = {
   token: TOKENS.TOPIC_TABLE_COMPONENT,
   api: []
 };
 
-/**
+/!**
  * main topic details page component
  * @type {PharosPanel}
- */
+ *!/
 const TOPIC_DETAILS_COMPONENT: PharosPanel = {
   token: TOKENS.TOPIC_DETAILS_COMPONENT,
   api: []
 };
+*/
 
 
 /**
@@ -1088,7 +1047,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
         ]
       }
     }],
-    ['topics', {
+    /*['topics', {
       list: {
         components: [
           TOPIC_TABLE_COMPONENT
@@ -1102,10 +1061,10 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       },
       panels: {
         components: [
-          /* {
+          /!* {
              token: TOKENS.PHAROS_BREADCRUMB_COMPONENT
-           },*/
-          /*          {
+           },*!/
+          /!*          {
                       token: TOKENS.TOPIC_HEADER_COMPONENT
                     },
                     {
@@ -1113,11 +1072,11 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
                     },
                     {
                       token: TOKENS.NODE_DISPLAY_PANEL
-                    }*/
+                    }*!/
         ]
       }
-    }],
-    ['search', {
+    }],*/
+  /*  ['search', {
       api: [
         {
           field: 'search',
@@ -1135,11 +1094,11 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           field: 'targets',
           url: _APIURL + 'targets/search?q='
         },
-        /*,
+        /!*,
         {
           field: 'publications',
           url: _APIURL + 'publications/search?q='
-        }*/
+        }*!/
       ],
       list: {
         components: [
@@ -1148,7 +1107,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           LIGAND_TABLE_COMPONENT
         ]
       }
-    }]
+    }]*/
   ]
 );
 

@@ -36,7 +36,6 @@ describe('DataListVisualizationsComponent', () => {
         DataListVisualizationsComponent
       ],
       providers: [
-        ,
         PharosApiService,
         LoadingService,
         AngularFireAuth,

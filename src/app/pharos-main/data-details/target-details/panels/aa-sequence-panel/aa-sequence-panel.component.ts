@@ -78,8 +78,10 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
       )
       .subscribe(x => {
         this.target = this.data.targets;
-        this.parseSequence();
-        this.getCounts();
+        if (this.target.sequence) {
+          this.parseSequence();
+          this.getCounts();
+        }
         if (!this.isSmallScreen) {
           const r = new Protvista({
             el: this.viewerContainer.nativeElement,

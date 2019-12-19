@@ -7,6 +7,10 @@ import {LigandCardComponent} from '../../cards/ligand-card/ligand-card.component
 import {RouterTestingModule} from '@angular/router/testing';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../../test/mock-activate-route';
+import {PageData} from '../../../../models/page-data';
+import {TESTTARGET} from '../../../../../../test/test-target';
+import {TESTLIGAND} from '../../../../../../test/test-ligand';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('LigandTableComponent', () => {
   let component: LigandTableComponent;
@@ -21,7 +25,8 @@ describe('LigandTableComponent', () => {
       imports: [
         RouterTestingModule,
         CommonToolsModule,
-        SharedModule
+        SharedModule,
+        BrowserAnimationsModule
       ],
       providers: [
         { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
@@ -33,7 +38,10 @@ describe('LigandTableComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LigandTableComponent);
     component = fixture.componentInstance;
-    component.data = [];
+    component.pageData = new PageData({});
+    component.data = {
+      ligands: [TESTLIGAND]
+    };
     fixture.detectChanges();
   });
 

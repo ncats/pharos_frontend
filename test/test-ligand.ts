@@ -1,34 +1,49 @@
 import {Target, TargetSerializer} from '../src/app/models/target';
-import {Disease, DiseaseSerializer} from '../src/app/models/disease';
 import {Ligand, LigandSerializer} from '../src/app/models/ligand';
 
 export const TESTLIGAND: Ligand = new LigandSerializer().fromJson({
-  id: 1,
-  version: 1,
-  created: 1554855492000,
-  modified: 1554855494000,
-  deprecated: false,
-  name: 'naratriptan',
-  description: null,
-  structureId: 'dfc2f200-7d05-4d3a-9158-bcbcf300c957',
-  self: 'https://pharos.nih.gov/idg/api/v1/ligands(1)?view=full',
-  kind: 'ix.idg.models.Ligand',
-  _properties: {
-    count: 14,
-    href: 'https://pharos.nih.gov/idg/api/v1/ligands(1)/properties',
+  ligid: 'T16444CNC2AA',
+  name: 'sunitinib',
+  description: 'inhibits VEGF-R2 and PDGF-Rbeta tyrosine kinase; has antineoplastic activity',
+  isdrug: true,
+  smiles: 'CCN(CC)CCNC(=O)C1=C(C)NC(\\C=C2/C(=O)NC3=C2C=C(F)C=C3)=C1C',
+  synonyms: [
+    {
+      name: 'PubChem', value: '5329102', __typename: 'Prop'
+    }, {
+      name: 'DrugCentral',
+      value: '2544',
+      __typename: 'Prop'
+    }],
+  activityCount: 256,
+  __typename: 'Ligand',
+  activities: [{
+    type: 'IC50',
+    moa: 'INHIBITOR',
+    value: 8.8,
+    reference: null,
+    target: {
+      symbol: 'RET', idgTDL: 'Tclin', name: 'Proto-oncogene tyrosine-protein kinase receptor Ret', __typename: 'Target'
+    },
+    pubs: null,
+    __typename: 'LigandActivity'
   },
-  _links: {
-    count: 5,
-    href: 'https://pharos.nih.gov/idg/api/v1/ligands(1)/links',
-  },
-  _synonyms: {
-    count: 4,
-    href: 'https://pharos.nih.gov/idg/api/v1/ligands(1)/synonyms',
-  },
-  _publications: null,
-  _namespace: null,
-});
+    {
+      type: 'IC50',
+      moa: null,
+      value: 8.80000019,
+      reference: null,
+      target: {
+        symbol: 'RET', idgTDL: 'Tclin', name: 'Proto-oncogene tyrosine-protein kinase receptor Ret', __typename: 'Target'
+      },
+      pubs: null,
+      __typename: 'LigandActivity'
+    }]
+}
+);
 
+
+export const TESTLIGANDPROPS: Target = new LigandSerializer()._asProperties(TESTLIGAND);
 
 
 
