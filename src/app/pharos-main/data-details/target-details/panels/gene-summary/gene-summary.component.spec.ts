@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GeneSummaryComponent } from './gene-summary.component';
-import {TESTTARGET} from '../../../../../../../test/test-target';
+import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../test/test-target';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route';
@@ -26,10 +26,10 @@ describe('GeneSummaryComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GeneSummaryComponent);
     component = fixture.componentInstance;
-    component.data = {targets: TESTTARGET};
-    component.target = TESTTARGET;
-
-   // component.geneSummary = 'this is a gene';
+    component.data = {
+      targets: TESTTARGET,
+      targetsProps: TESTTARGETPROPS
+    };
     fixture.detectChanges();
   });
 

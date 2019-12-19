@@ -15,6 +15,7 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
 import {ApolloTestingModule} from 'apollo-angular/testing';
+import {TESTFACET} from '../../../../../test/test-facet';
 
 describe('FilterPanelComponent', () => {
   let component: FilterPanelComponent;
@@ -48,6 +49,9 @@ describe('FilterPanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FilterPanelComponent);
     component = fixture.componentInstance;
+    component.data = {
+      facets: [TESTFACET]
+    };
     fixture.detectChanges();
   });
 

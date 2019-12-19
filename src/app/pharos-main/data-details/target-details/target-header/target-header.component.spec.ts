@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TargetHeaderComponent } from './target-header.component';
 import {SharedModule} from '../../../../shared/shared.module';
-import {TESTTARGET} from '../../../../../../test/test-target';
+import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../test/test-target';
 import {CommonToolsModule} from '../../../../tools/common-tools.module';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../../test/mock-activate-route';
@@ -31,7 +31,10 @@ describe('TargetHeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TargetHeaderComponent);
     component = fixture.componentInstance;
-    // component.target = testTarget;
+    component.data = {
+      targets: TESTTARGET,
+      targetsProps: TESTTARGETPROPS
+    };
     fixture.detectChanges();
   });
 
