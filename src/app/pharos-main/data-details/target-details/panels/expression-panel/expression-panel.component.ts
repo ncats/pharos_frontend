@@ -215,23 +215,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
 
     this.dataSource.data = this.mapExpressionTree(this.sortedExpressions.slice(0, 10));
     this.loading = false;
-
-    /*    if (this.data.expression) {
-          this.tissueData.clear();
-          this.mapTissueData();
-          this.hgData = this.tissueData.get(this.sources[0].label);
-          this.imgUrl = this._URL + this.sourceList[0].name;
-        }
-
-        if (this.data.specificity) {
-          this.radarData = [];
-          const axes: any [] = [];
-          this.data.specificity.forEach(data => {
-            axes.push({axis: data.label, value: data['numval']});
-          });
-          this.radarData.push({className: this.id, axes: axes});
-        }*/
-
   }
 
   mapExpressionTree(exprArr: any[]): ExpressionTreeNode[] {
@@ -243,7 +226,11 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
           label: expressions[0].uberon.term.uid
         }),
         children: [
-          ...expressions.map(da => da = {name: da.type, children: Object.values(da as DataProperty[]).filter(prop => prop.name !== 'type')})
+          ...expressions.map(da => da = {name: da.type, children: Object.values(da as DataProperty[]).filter(prop => {
+            if (prop.term && (prop.name !== 'type' && prop.name !== 'uberon')) {
+              return true;
+            }
+            })})
         ]
       };
       return expressionSource;

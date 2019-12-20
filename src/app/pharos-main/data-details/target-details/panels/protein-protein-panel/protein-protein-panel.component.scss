@@ -25,4 +25,19 @@
   margin-top: 1vh !important;
 }
 
+@media only screen and (max-width: 960px) {
+  .target-grid {
+    display: grid;
+    grid-auto-rows: max-content;
+    grid-template-columns: repeat(auto-fill, minmax(90%, 1fr));
+    grid-gap: .5em;
+    justify-items: center;
+    padding-left: 2.5vw;
+    padding-right: 2.5vw;
+  }
 
+  .target-grid > div {
+    margin-bottom: 1em;
+    min-width: 100%;
+  }
+}
