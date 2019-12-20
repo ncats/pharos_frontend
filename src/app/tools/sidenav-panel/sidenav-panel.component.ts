@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Inject, Input, OnInit, Optional, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NavSectionsService} from './services/nav-sections.service';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
-import {DOCUMENT} from '@angular/common';
 import {PanelOptions} from '../../pharos-main/pharos-main.component';
 import {PharosPanel} from '../../../config/components-config';
+import {BreakpointObserver} from '@angular/cdk/layout';
 
 /**
  * panel that lists available sections of the details page, with jump to section navigation
@@ -32,15 +32,21 @@ export class SidenavPanelComponent implements OnInit {
    */
   @Input() sections: PharosPanel[] = [];
 
+  /**
+   * boolean to toggle mobile views and parameters
+   * @type {boolean}
+   */
+  isSmallScreen = false;
+
   panelOptions: PanelOptions = {
-    mode : 'side',
-    class : 'filters-panel',
+    mode: 'side',
+    class: 'filters-panel',
     opened: true,
     fixedInViewport: true,
     fixedTopGap: 120,
     role: 'directory'
-     /* [mode]="isSmallScreen!==true ? 'side' : 'over'"
-      [opened]="isSmallScreen !== true"*/
+    /* [mode]="isSmallScreen!==true ? 'side' : 'over'"
+     [opened]="isSmallScreen !== true"*/
   };
 
   /**
@@ -50,9 +56,10 @@ export class SidenavPanelComponent implements OnInit {
    * @param {NavSectionsService} navSectionsService
    */
   constructor(
-              private router: Router,
-              private _route: ActivatedRoute,
-              private navSectionsService: NavSectionsService) {
+    private router: Router,
+    private _route: ActivatedRoute,
+    public breakpointObserver: BreakpointObserver,
+    private navSectionsService: NavSectionsService) {
   }
 
   /**
@@ -60,25 +67,31 @@ export class SidenavPanelComponent implements OnInit {
    * change active element on scroll change
    */
   ngOnInit() {
-      this.navSectionsService.setSections(this._route.snapshot.data.components
-        .filter(component => component.navHeader)
-        .map(comp => comp.navHeader));
+    this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
+    if (this.isSmallScreen) {
+      this.panelOptions.opened = false;
+      this.panelOptions.mode = 'over';
+      this.toggleMenu();
+    }
+    this.navSectionsService.setSections(this._route.snapshot.data.components
+      .filter(component => component.navHeader)
+      .map(comp => comp.navHeader));
 
 
-      this.navSectionsService.sections$.subscribe(res => {
+    this.navSectionsService.sections$.subscribe(res => {
       if (res && res.length) {
         this.sections = res;
         this.activeElement = this.sections[0].section.toString();
       }
     });
-      this.navSectionsService.activeSection$.subscribe(res => {
+    this.navSectionsService.activeSection$.subscribe(res => {
       if (res) {
         this.activeElement = res;
       }
     });
 
     // this covers url change when navigation/click to go to section
-      this._route.fragment.subscribe(fragment => {
+    this._route.fragment.subscribe(fragment => {
       this.activeElement = fragment;
     });
   }

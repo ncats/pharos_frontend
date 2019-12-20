@@ -31,3 +31,9 @@ mat-sidenav-content.mat-drawer-content.mat-sidenav-content {
 .list-content {
   overflow: visible;
 }
+
+@media only screen and (max-width: 960px) {
+  .pharos-sidenav-content {
+    padding-top: 10vh;
+  }
+}
