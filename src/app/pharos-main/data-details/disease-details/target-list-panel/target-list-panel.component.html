@@ -17,6 +17,15 @@
                                        [label]="'Related Targets'"></pharos-help-panel-trigger>
           </div>
         </div>
+        <div fxLayout="row" fxLayoutAlign="start top">
+          <div FxFlex class = "assoc-count">
+            <div *ngFor='let assocCount of disease.associations[0].targetCounts'>
+              <div class = "assoc-count">
+                <pharos-idg-level-indicator [level]="assocCount.name"></pharos-idg-level-indicator> <h3>{{assocCount.value}}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
         <mat-paginator
           [pageSize]="10"
           [length]="disease.associationCount"
@@ -28,7 +37,9 @@
           <div fxFlex="25"><h3><span>Association Origin</span></h3></div>
           <div fxFlex="25"><h3><span>Association Evidence</span></h3></div>
           <div fxFlex="10"><h3><span>Total Targets</span></h3></div>
+<!--
           <div fxFlex><h3><span>Targets by Level</span></h3></div>
+-->
         </div>
         <hr>
         <div *ngFor="let association of disease.associations">
@@ -47,13 +58,6 @@
             </div>
             <div fxFlex="10">
               <span>{{association.targetCountsTotal}} Targets</span>
-            </div>
-            <div FxFlex class = "assoc-count">
-              <div *ngFor='let assocCount of association.targetCounts'>
-                <div class = "assoc-count">
-                  <pharos-idg-level-indicator [level]="assocCount.name"></pharos-idg-level-indicator> <h3>{{assocCount.value}}</h3>
-                </div>
-              </div>
             </div>
           </div>
           <hr>

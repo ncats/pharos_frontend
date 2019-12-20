@@ -69,6 +69,15 @@ const TARGETDETAILSFIELDS = gql`
     ensemblIDs: xrefs(source:"Ensembl") { 
     name 
     }
+     dto {
+     name
+    }
+    pantherPaths{
+      name
+    }
+    pantherClasses {
+      name
+    }
     pdbs: xrefs(source: "PDB") {
       name
     }
@@ -525,7 +534,9 @@ export class Target extends PharosBase {
   hpaRNATissueSpecificityIndex: [{ name, value }];
   hpaProteinTissueSpecificity: [{ name, value }];
   hpmGeneTissueSpecificityIndex: [{ name, value }];
-
+  pantherPath: string[];
+  pantherClass: string[];
+  dto: string[];
 }
 
 /**
@@ -585,6 +596,18 @@ export class TargetSerializer implements PharosSerializer {
 
     if (json.pdbs) {
       obj.pdbs = json.pdbs.map(id => id = {pdbs: id.name});
+    }
+
+    if (json.dto) {
+      obj.dto = json.dto.map(id => id = id.name).reverse();
+    }
+
+    if (json.pantherClass) {
+      obj.pantherClass = json.pantherClass.map(id => id = id.name);
+    }
+
+    if (json.pantherPath) {
+      obj.pantherPath = json.pantherPath.map(id => id = id.name);
     }
 
     if (json.symbols) {
@@ -771,7 +794,7 @@ export class TargetSerializer implements PharosSerializer {
    * @private
    */
   private _mapField(obj: any) {
-    const retObj: {} = Object.assign({}, obj);
+    const retObj: any = Object.assign({}, obj);
     Object.keys(obj).map(objField => {
       if (Array.isArray(obj[objField])) {
         retObj[objField] = obj[objField].map(arrObj => this._mapField(arrObj));
@@ -779,6 +802,9 @@ export class TargetSerializer implements PharosSerializer {
         retObj[objField] = new DataProperty({name: objField, label: objField, term: obj[objField]});
       }
     });
+    if (obj.__typename) {
+      delete retObj.__typename;
+    }
     return retObj;
   }
 }

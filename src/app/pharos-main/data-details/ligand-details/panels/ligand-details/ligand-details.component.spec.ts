@@ -19,7 +19,6 @@ describe('LigandDetailsComponent', () => {
   let fixture: ComponentFixture<LigandDetailsComponent>;
 
   beforeEach(async(() => {
-    console.log("getting providers");
     TestBed.configureTestingModule({
       declarations: [LigandDetailsComponent],
       imports: [
@@ -37,7 +36,6 @@ describe('LigandDetailsComponent', () => {
   }));
 
   beforeEach(() => {
-    console.log("before each")
     fixture = TestBed.createComponent(LigandDetailsComponent);
     console.log(fixture);
     component = fixture.componentInstance;
