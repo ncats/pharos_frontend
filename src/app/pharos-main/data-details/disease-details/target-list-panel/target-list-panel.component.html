@@ -19,7 +19,7 @@
         </div>
         <div fxLayout="row" fxLayoutAlign="start top">
           <div FxFlex class = "assoc-count">
-            <div *ngFor='let assocCount of disease.associations[0].targetCounts'>
+            <div *ngFor='let assocCount of disease?.associations[0]?.targetCounts'>
               <div class = "assoc-count">
                 <pharos-idg-level-indicator [level]="assocCount.name"></pharos-idg-level-indicator> <h3>{{assocCount.value}}</h3>
               </div>
