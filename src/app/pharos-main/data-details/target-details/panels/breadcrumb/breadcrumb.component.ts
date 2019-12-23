@@ -23,7 +23,7 @@ export class BreadcrumbComponent extends DynamicPanelComponent implements OnInit
   /**
    * string array of current links based on the url
    */
-  links: any[];
+  links: any[] = [];
 
   /**
    * object to hold path data. prevents bad links
@@ -51,15 +51,15 @@ export class BreadcrumbComponent extends DynamicPanelComponent implements OnInit
       .subscribe(x => {
         this.path = this.route.snapshot.data.path;
         this.target = this.data.targets;
-        if (this.target.pantherClass) {
+        if (this.target && this.target.pantherClass) {
           this.links = this.target.pantherClass;
         }
 
-        if (this.target.pantherPath) {
+        if (this.target && this.target.pantherPath) {
           this.links = this.target.pantherPath;
         }
 
-        if (this.target.dto) {
+        if (this.target && this.target.dto) {
           this.links = this.target.dto;
         }
         //  this.targetProps = this.data.targetsProps;
