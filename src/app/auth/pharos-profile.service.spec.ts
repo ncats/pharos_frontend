@@ -22,7 +22,7 @@ describe('PharosProfileService', () => {
   }));
 
   it('should be created', () => {
-    const service: PharosProfileService = TestBed.get(PharosProfileService);
+    const service: PharosProfileService = TestBed.inject(PharosProfileService);
     expect(service).toBeTruthy();
   });
 });

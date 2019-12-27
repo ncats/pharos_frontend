@@ -5,15 +5,20 @@
     <div class = mat-display-1>Diseases <span *ngIf ="pageData">({{pageData.total}})</span></div>
   </div>
   <div fxFlex="45" fxFlexAlign="end">
-    <pharos-custom-paginator [pageData]="pageData" (page)="changePage($event)"></pharos-custom-paginator>
+    <mat-paginator
+      [pageSize]= pageData.top
+      [pageIndex]="pageData.skip / pageData.top"
+      [length]= pageData.total
+      [pageSizeOptions]="[10, 20, 60, 100]"
+      [showFirstLastButtons]="true"
+      (page)="changePage($event)"></mat-paginator>
   </div>
 </div>
-
-<pharos-generic-table *ngIf = "diseases"
+<pharos-generic-table *ngIf = "diseaseObjs"
                       [pageData]="pageData"
                       [showPaginator]="false"
                       [fieldsConfig]="fieldsData"
-                      [data]="diseases"
+                      [data]="diseaseObjs"
                       (sortChange)="changeSort($event)"
                       (pageChange)="changePage($event)">
 </pharos-generic-table>
@@ -22,7 +27,13 @@
   <div fxFlex="45">
   </div>
   <div fxFlex="45" fxFlexAlign="end">
-    <pharos-custom-paginator [pageData]="pageData" (page)="changePage($event)"></pharos-custom-paginator>
+    <mat-paginator
+      [pageSize]= pageData.top
+      [pageIndex]="pageData.skip / pageData.top"
+      [length]= pageData.total
+      [pageSizeOptions]="[10, 20, 60, 100]"
+      [showFirstLastButtons]="true"
+      (page)="changePage($event)"></mat-paginator>
   </div>
 </div>
 </div>

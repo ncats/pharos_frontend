@@ -9,11 +9,11 @@ export const slideInOutAnimation = [
   trigger('slideInOut', [
     state('in', style({
       'background-color': 'whitesmoke',
-      'color': 'black'
+      color: 'black'
 })),
     state('out', style({
       'background-color': 'transparent',
-      'color': 'white'
+      color: 'white'
     })),
     transition('in => out', [group([
       animate('300ms ease-out')

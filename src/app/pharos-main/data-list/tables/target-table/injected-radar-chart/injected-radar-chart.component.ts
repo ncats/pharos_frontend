@@ -31,13 +31,13 @@ export class InjectedRadarChartComponent implements InjectedComponent, OnInit {
   /**
    *   initialize a private variable _data, it's a BehaviorSubject
    */
-  private _data = new BehaviorSubject<PharosProperty>(null);
+  private _data = new BehaviorSubject<any[]>(null);
 
 // change data to use getter and setter
   @Input()
-  set data(value: any) {
-    // set the latest value for _data BehaviorSubject
-    this._data.next(value);
+  set data(value: any[]) {
+      // set the latest value for _data BehaviorSubject
+      this._data.next(value);
   }
 
   get data() {
@@ -66,6 +66,8 @@ export class InjectedRadarChartComponent implements InjectedComponent, OnInit {
    */
   protected ngUnsubscribe: Subject<any> = new Subject();
 
+  hgData: any[] = [];
+
   /**
    * inject change detector ref
    * @param ref
@@ -81,7 +83,7 @@ export class InjectedRadarChartComponent implements InjectedComponent, OnInit {
   ngOnInit() {
     this._data
       .subscribe(res => {
-      this.accession = this.object.accession ? this.object.accession.term : null;
+        this.hgData = res.map(point => point = {name: point.name.term, value: point.value.term});
     });
   }
 }

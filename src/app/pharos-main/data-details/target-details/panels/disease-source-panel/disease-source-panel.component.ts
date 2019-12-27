@@ -1,13 +1,18 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {DiseaseRelevance, DiseaseRelevanceSerializer} from '../../../../../models/disease-relevance';
-import {MatPaginator, MatTabChangeEvent, MatTreeNestedDataSource, PageEvent} from '@angular/material';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {PageEvent} from '@angular/material/paginator';
+import {MatTreeNestedDataSource} from '@angular/material/tree';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {takeUntil} from 'rxjs/operators';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
 import {NestedTreeControl} from '@angular/cdk/tree';
+import {Target} from '../../../../../models/target';
+import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
+import {ActivatedRoute} from '@angular/router';
+import {DiseaseSerializer} from '../../../../../models/disease';
+import {takeUntil} from 'rxjs/operators';
+import {DataProperty} from '../../../../../tools/generic-table/components/property-display/data-property';
 
 /**
  * interface to track disease tree nodes
@@ -32,11 +37,14 @@ interface DiseaseTreeNode {
   styleUrls: ['./disease-source-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DiseaseSourceComponent extends DynamicPanelComponent implements OnInit {
+export class DiseaseSourceComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
+
   /**
-   * Paginator object from Angular Material
-   * */
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+   * target to display
+   */
+  @Input() target: Target;
+
+  @Input() targetProps: any;
 
   /**
    * tnx data
@@ -48,15 +56,6 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    */
   loaded = false;
 
-  /**
-   * display options for the tinx plot
-   */
-  chartOptions: ScatterOptions;
-
-  /**
-   * maps disease sources
-   */
-  newdiseasemap: Map<string, any> = new Map<string, any>();
   /**
    * controls open and closed tree nodes
    */
@@ -72,7 +71,22 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    */
   treeData: DiseaseTreeNode[] = [];
 
+  /**
+   * display options for the tinx plot
+   */
+  chartOptions: ScatterOptions = new ScatterOptions({
+    line: false,
+    xAxisScale: 'log',
+    yAxisScale: 'log',
+    xLabel: 'Novelty',
+    yLabel: 'Importance',
+    margin: {top: 20, right: 175, bottom: 25, left: 35}
+  });
+
   constructor(
+    private pharosApiService: PharosApiService,
+    private _route: ActivatedRoute,
+    private changeRef: ChangeDetectorRef,
     private navSectionsService: NavSectionsService
   ) {
     super();
@@ -85,15 +99,28 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
-  .pipe(
-      takeUntil(this.ngUnsubscribe)
-    )
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
       .subscribe(x => {
-        if (Object.values(this.data).length > 0) {
-          this.ngUnsubscribe.next();
-          this.setterFunction();
-          this.loading = false;
+        this.target = this.data.targets;
+        this.targetProps = this.data.targetsProps;
+        if (this.target.tinx) {
+          this.tinx = [];
+          this.target.tinx.map(point => {
+            if (point.disease) {
+              const p: PharosPoint = new PharosPoint({
+                label: point.disease.doid,
+                x: point.novelty,
+                y: point.score,
+                name: point.disease.name
+              });
+              this.tinx.push(p);
+            }
+          });
         }
+        this.setterFunction();
+        this.loading = false;
       });
   }
 
@@ -102,66 +129,15 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    * creates map to reduce duplicate disease names, and adds sources to disease name
    */
   setterFunction(): void {
-    this.data.diseases.forEach(disease => {
-      const dobj: PharosProperty = new PharosProperty(disease.properties.filter(prop => prop.label === 'IDG Disease')[0]);
-      dobj.internalLink = ['/diseases', dobj.term as string];
-      const dname: string = dobj.term as string; // todo: ignore case would be cool
-      const dlist = this.newdiseasemap.get(dname);
-      let diseaseSource: DiseaseTreeNode = {
-        name: new PharosProperty(disease.properties.filter(prop => prop.label === 'Data Source')[0]),
+    this.dataSource.data = this.targetProps.diseases.map(disease => {
+      const diseaseSource: DiseaseTreeNode = {
+        name: disease.name,
         children: [
-          ...disease.properties
-            .filter(prop => prop.label !== 'Data Source' && prop.label !== 'IDG Disease' )
-            .map(prop => new PharosProperty(prop))
+          ...disease.associations.map(da => da = {name: da.type, children: Object.values(da as DataProperty[]).filter(prop => prop.name !== 'type')})
         ]
       };
-
-      if (diseaseSource.children.length === 0) {
-        diseaseSource = {name: diseaseSource.name};
-      }
-      if (dlist) {
-        dlist.children.push(diseaseSource);
-        this.newdiseasemap.set(dname, dlist);
-      } else {
-        this.newdiseasemap.set(dname, {name: dobj, children: [diseaseSource]});
-      }
+      return diseaseSource;
     });
-    const sortedDiseases = Array.from(this.newdiseasemap.entries()).sort((a, b) => {
-      if (a[1].children.length < b[1].children.length) {
-        return 1;
-      }
-      if (a[1].children.length > b[1].children.length) {
-        return -1;
-      }
-      return 0;
-    });
-    this.treeData = Array.from(new Map(sortedDiseases).values());
-    this.dataSource.data = this.treeData.slice(0, 10);
-      this.loaded = true;
-
-    if (this.data.tinx && this.data.tinx.importances) {
-      this.tinx = [];
-       this.data.tinx.importances.map(point => {
-         if (point.dname) {
-           const p: PharosPoint = new PharosPoint({
-             label: point.doid,
-             x: point.dnovelty,
-             y: point.imp,
-             name: point.dname
-           });
-           this.tinx.push(p);
-         }
-      });
-
-       this.chartOptions = new ScatterOptions({
-           line: false,
-         xAxisScale: 'log',
-         yAxisScale: 'log',
-         xLabel: 'Novelty',
-         yLabel: 'Importance',
-          margin: {top: 20, right: 45, bottom: 25, left: 35}
-       });
-    }
   }
 
   /**
@@ -177,7 +153,18 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    * @param event
    */
   paginate(event: PageEvent) {
-    this.dataSource.data = this.treeData.slice((event.pageIndex * event.pageSize), ((event.pageIndex + 1) * event.pageSize));
+    this.loading = true;
+    const diseaseSerializer = new DiseaseSerializer();
+    const pageParams = {
+      diseasetop: event.pageSize,
+      diseaseskip: event.pageIndex * event.pageSize,
+    };
+    this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams).valueChanges.subscribe(res => {
+      this.target.diseases = res.data.targets.diseases;
+      this.targetProps.diseases = res.data.targets.diseases.map(disease => diseaseSerializer._asProperties(disease));
+      this.setterFunction();
+      this.loading = false;
+    });
   }
 
 
@@ -188,5 +175,12 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    */
   hasChild = (_: number, node: DiseaseTreeNode) => !!node.children && node.children.length > 0;
 
+  /**
+   * clean up on leaving component
+   */
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
 }
 

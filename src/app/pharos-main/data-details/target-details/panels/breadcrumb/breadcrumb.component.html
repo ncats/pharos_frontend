@@ -1,0 +1,17 @@
+  <div class="breadcrumb">
+<!--    <a routerLink="/" class="breadcrumb-link"> Home </a>
+    <span class="disabled mat-title breadcrumb-link slash"> / </span>-->
+    <a routerLink="/{{path}}" class="breadcrumb-link"> {{path | titlecase}} </a>
+    <span *ngFor="let link of links">
+    <span class="mat-title slash"> / </span>
+      <span class="breadcrumb-link" >{{link | titlecase}}</span>
+<!--
+    <a (click)="goTo(link)" class="breadcrumb-link" >{{link | titlecase}}</a>
+-->
+      </span>
+    <span *ngIf="!links.length">
+          <span class="disabled mat-title breadcrumb-link slash"> / </span>
+      <a class = "disabled">{{target?.name | titlecase}}</a>
+    </span>
+  </div>
+<br>

@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -14,12 +14,54 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import * as d3 from 'd3';
-import {RadarService} from './radar.service';
-import {MAT_DIALOG_DATA} from '@angular/material';
-import {BehaviorSubject} from 'rxjs/index';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 /**
- *basic config options for a radar chart
+ * map of size and visualization parameters for various radar chart sizes
+ * @type {Map<string, any>}
+ */
+const RADAR_SIZES: Map<string, any> = new Map<string, any>(
+  [
+    ['small', {
+      maxValue: 1,
+      margin: {top: 5, right: 5, bottom: 5, left: 5},
+      levels: 1,
+      dotRadius: 0, 			// The size of the colored circles of each blog
+      format: '.1f',
+      labels: false,
+      axisLabels: false
+    }
+    ], ['medium', {
+    maxValue: 1,
+    levels: 5,
+    format: '.1f',
+    labels: false,
+    axisLabels: true
+  }
+  ], ['medium-shape', {
+    maxValue: 1,
+    levels: 5,
+    format: '.2f',
+    labels: true,
+    labelFactor: 1.1,
+    axisLabels: false
+  }
+  ], ['large', {
+    maxValue: 1,
+    margin: {top: 30, right: 20, bottom: 50, left: 20},
+    levels: 10,
+    dotRadius: 2.5, 			// The size of the colored circles of each blog
+    format: '.2f',
+    labelFactor: 1.05,
+    labels: true,
+    axisLabels: true
+  }
+  ]
+  ]
+);
+
+/**
+ * basic config options for a radar chart
  * todo: should extract this for other chart types
  */
 export class RadarChartOptions {
@@ -95,7 +137,9 @@ export class RadarChartOptions {
 
 // todo: fix centering of chart in respect to labels
 // todo: create chart options service that reads from a chart config file, like environment variables
-
+/**
+ * extendable radar chart component
+ */
 @Component({
   selector: 'pharos-radar-chart',
   templateUrl: './radar-chart.component.html',
@@ -121,28 +165,9 @@ export class RadarChartComponent implements OnInit, OnDestroy {
   @Input() id: any;
 
   /**
-   * behavior subject that is used to get and set chart data
-   * @type {BehaviorSubject<any>}
-   * @private
+   * data object that is input
    */
-  private _data: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-
-  /**
-   * setter for chart data
-   * @param value
-   */
-  @Input()
-  set data(value: any) {
-    this._data.next(value);
-  }
-
-  /**
-   * getter for chart data
-   * @returns {any}
-   */
-  get data(): any {
-    return this._data.value;
-  }
+  @Input() data: any;
 
   /**
    * optional size parameter, used to retrieve a config object from the radar service
@@ -185,8 +210,16 @@ export class RadarChartComponent implements OnInit, OnDestroy {
    */
   private height: number;
 
-
+  /**
+   * event emitter for hover events
+   * @type {EventEmitter<any>}
+   */
   @Output() readonly hoverEvent: EventEmitter<any> = new EventEmitter<any>();
+
+  /**
+   * event emitter for click events
+   * @type {EventEmitter<any>}
+   */
   @Output() readonly clickEvent: EventEmitter<any> = new EventEmitter<any>();
 
 
@@ -201,56 +234,45 @@ export class RadarChartComponent implements OnInit, OnDestroy {
 
   /**
    * create a graph object, needs a radarService and optional injected data for a modal object
-   * @param {RadarService} radarDataService
    * @param modalData
    */
-  constructor(private radarDataService: RadarService,
-              @Optional() @Inject(MAT_DIALOG_DATA) public modalData: any) {
+  constructor(
+    @Optional() @Inject(MAT_DIALOG_DATA) public modalData: any) {
   }
 
+  /**
+   * draw and update graph
+   */
   ngOnInit() {
-    // this.drawChart();
-    // data passed in by opening modal
-    if (this.modalData) {
-      Object.keys(this.modalData).forEach(key => this[key] = this.modalData[key]);
-    }
-
-    if (!this.data) {
-      // data passed in by id (target list)
-      this.radarDataService.getData(this.id, this.origin).subscribe(res => {
-        this.data = res;
-      });
-    } else {
-      this.data.forEach(graph => this.radarDataService.setData(graph.className, graph, this.origin));
-    }
-
-    // data set by component, also handles setting by modal opening and data retrieved by id
-    this._data.subscribe(x => {
-      if (this.data && this.data.length) {
-        this.data.forEach(graph => {
-          if (graph) {
-            this.drawChart();
-            this.updateChart();
-          }
-        });
-      }
-    });
-
+    this.drawChart();
+    this.updateChart();
   }
 
+
+  /**
+   * remove tooltips on destroy
+   */
   ngOnDestroy(): void {
     d3.select('body').selectAll('.radar-tooltip').remove();
   }
 
+  /**
+   * get and set chart configuration options
+   */
   getOptions() {
     // get chart options
     if (this.size) {
-      this._chartOptions = new RadarChartOptions(this.radarDataService.getOptions(this.size));
+      this._chartOptions = new RadarChartOptions(RADAR_SIZES.get(this.size));
     } else {
       this._chartOptions = new RadarChartOptions({});
     }
   }
 
+  /**
+   * determine the number of data points for a circular chart
+   * @param num
+   * @return {any[]}
+   */
   pointsOnCircle(num) {
     const angle = (2 * Math.PI) / num;
     const points = [];
@@ -267,11 +289,15 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     return points;
   }
 
+  /**
+   * get max value from data
+   * @return {number}
+   */
   getMaxValue(): number {
     const maxValues: number[] = [this._chartOptions.maxValue];
     if (this.data) {
       this.data.map(data => {
-        maxValues.push(Math.max(...data.axes.map(o => o.value)));
+        maxValues.push(Math.max(...data.map(o => o.value)));
       });
       return Math.max(...maxValues);
     } else {
@@ -279,6 +305,12 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * generate a shape for the chart, rather than a circle
+   * @param {number} total
+   * @param scale
+   * @return {any[]}
+   */
   shapeToPoints(total: number, scale: any): any[] {
     const shape = this.pointsOnCircle(total);
 
@@ -289,6 +321,9 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     return [polygon];
   }
 
+  /**
+   * set up initial d3 svg elements. these tend to change less frequently
+   */
   drawChart(): void {
     if (!this._chartOptions) {
       this.getOptions();
@@ -296,8 +331,8 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     //////////// Create the container SVG and g /////////////
     const element = this.chartContainer.nativeElement;
     const margin = this._chartOptions.margin;
-    this.width = element.offsetWidth - margin.left - margin.right;
-    this.height = element.offsetHeight - margin.top - margin.bottom;
+    this.width = element.offsetWidth;
+    this.height = element.offsetHeight;
 
     // Remove whatever chart with the same id/class was present before
     d3.select(element).selectAll('svg').remove();
@@ -309,8 +344,8 @@ export class RadarChartComponent implements OnInit, OnDestroy {
       .attr('height', this.height + margin.top + margin.bottom * 2)
       .attr('class', 'radar')
       .append('g')
-      .attr('transform', 'translate(' + (this.width / 2 + this._chartOptions.margin.left) + ','
-        + (this.height / 2 + this._chartOptions.margin.top) + ')'); // background shapes
+      .attr('transform', 'translate(' + (element.offsetWidth - margin.left - margin.right) / 2 + ','
+        + (element.offsetHeight - margin.top - margin.bottom) / 2 + ')'); // background shapes
     this.svg.append('g').attr('class', 'levelWrapper').attr('transform', 'rotate(30)');
     this.svg.append('g').attr('class', 'axisLabel');
     this.svg.append('g').attr('class', 'axisWrapper');
@@ -321,6 +356,9 @@ export class RadarChartComponent implements OnInit, OnDestroy {
       .style('opacity', 0);
   }
 
+  /**
+   * update data displayed in the chart
+   */
   updateChart(): void {
     const max = Math.max;
     const sin = Math.sin;
@@ -329,10 +367,10 @@ export class RadarChartComponent implements OnInit, OnDestroy {
 
     // Wraps SVG text - Taken from http://bl.ocks.org/mbostock/7555321
     const wrap = (texts, width) => {
-      texts.each(function () {
+      texts.each(function() {
         const text = d3.select(this);
         const words = text.text().split(/\s+/).reverse();
-        let word;
+        // let word;
         let line = [];
         let lineNumber = 0;
         const lineHeight = 1.4; // ems
@@ -344,8 +382,8 @@ export class RadarChartComponent implements OnInit, OnDestroy {
           .attr('x', x).attr('y', y)
           .attr('dy', dy + 'em');
 
-        while (word = words.pop()) {
-
+        // while (word = words.pop()) {
+        words.forEach(word => {
           line.push(word);
           tspan.text(line.join(' '));
           if (tspan.node().getComputedTextLength() > width) {
@@ -359,18 +397,19 @@ export class RadarChartComponent implements OnInit, OnDestroy {
               .attr('dy', ++lineNumber * lineHeight + dy + 'em')
               .text(word);
           }
-        }
+        });
       });
     }; // wrap
 
     // If the supplied maxValue is smaller than the actual one, replace by the max in the data
 
     const maxValue: number = this.getMaxValue();
-    const allAxis = this.data[0].axes.map((i, j) => i.axis),	// Names of each axis
-      total = allAxis.length,					// The number of different axes
-      radius = Math.min(this.width / 2, this.height / 2), 	// Radius of the outermost circle
-      format = d3.format(this._chartOptions.format),			 	// Formatting
-      angleSlice = Math.PI * 2 / total;		// The width in radians of each "slice"
+    const allAxis = this.data[0].map((i, j) => i.name);	// Names of each axis
+    const total = allAxis.length;					// The number of different axes
+    const radius = Math.min((this.width - this._chartOptions.margin.left - this._chartOptions.margin.right) / 2,
+      (this.height - this._chartOptions.margin.top - this._chartOptions.margin.bottom) / 2); 	// Radius of the outermost circle
+    const format = d3.format(this._chartOptions.format);			 	// Formatting
+    const angleSlice = Math.PI * 2 / total;		// The width in radians of each "slice"
 
     // Scale for the radius
     const rScale = d3.scaleLinear()
@@ -489,10 +528,10 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     blobWrapper
       .append('path')
       .attr('class', 'radarArea')
-      .attr('d', d => radarLine(d.axes))
+      .attr('d', d => radarLine(d))
       .style('fill', (d, i) => this._chartOptions.color(i))
       .style('fill-opacity', this._chartOptions.opacityArea)
-      .on('mouseover', function (d, i) {
+      .on('mouseover', function(d, i) {
         // Dim all blobs
         d3.selectAll('.radarArea')
           .transition().duration(200)
@@ -512,9 +551,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     // Create the outlines
     blobWrapper.append('path')
       .attr('class', 'radarStroke')
-      .attr('d', function (d, i) {
-        return radarLine(d.axes);
-      })
+      .attr('d', d => radarLine(d))
       .style('stroke-width', this._chartOptions.strokeWidth + 'px')
       .style('stroke', (d, i) => this._chartOptions.color(i))
       .style('fill', 'none');
@@ -522,7 +559,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
 
     // Append the circles
     blobWrapper.selectAll('.radarCircle')
-      .data(d => d.axes)
+      .data(d => d)
       .enter()
       .append('circle')
       .attr('class', 'radarCircle')
@@ -541,7 +578,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
 
     // Append a set of invisible circles on top for the mouseover pop-up
     blobCircleWrapper.selectAll('.radarInvisibleCircle')
-      .data(d => d.axes)
+      .data(d => d)
       .enter()
       .append('circle')
       .attr('class', 'radarInvisibleCircle')
@@ -556,7 +593,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
           .transition()
           .duration(100)
           .style('opacity', .9);
-        this.tooltip.html('<span>' + d.axis + ': <br>' + d.value + '</span>')
+        this.tooltip.html('<span>' + d.name + ': <br>' + d.value + '</span>')
           .style('left', d3.event.layerX + 'px')
           .style('top', d3.event.layerY + 'px')
           .style('width', this._chartOptions.wrapWidth);
@@ -570,5 +607,4 @@ export class RadarChartComponent implements OnInit, OnDestroy {
         d3.select(circles[i]).classed('hovered', false);
       });
   }
-
 }

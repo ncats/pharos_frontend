@@ -4,6 +4,7 @@ import { DifferentialPanelComponent } from './differential-panel.component';
 import {SharedModule} from '../../../../../../shared/shared.module';
 import {GenericTableModule} from '../../../../../../tools/generic-table/generic-table.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../../test/test-target';
 
 describe('DifferentialPanelComponent', () => {
   let component: DifferentialPanelComponent;
@@ -24,6 +25,7 @@ describe('DifferentialPanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DifferentialPanelComponent);
     component = fixture.componentInstance;
+    component.data = {targets: TESTTARGET, targetsProps: TESTTARGETPROPS};
     fixture.detectChanges();
   });
 

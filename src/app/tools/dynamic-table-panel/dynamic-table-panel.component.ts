@@ -65,7 +65,7 @@ export class DynamicTablePanelComponent extends DynamicPanelComponent {
       {
         top: 10,
         skip: 0,
-        total: total,
+        total,
         count: 10
       });
   }

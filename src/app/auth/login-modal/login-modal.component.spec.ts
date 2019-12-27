@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginModalComponent } from './login-modal.component';
 import {SharedModule} from '../../shared/shared.module';
-import {MatDialogRef} from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FIRESTORESTUB} from '../../../../test/firestore-stub';
 import {COMMON_CONFIG} from '../../../../test/test-config';

@@ -1,23 +1,34 @@
 <mat-card class="ligand-card" *ngIf="ligand">
-  <a [routerLink] = ligand.internalLink target="_blank">
+  <a *ngIf="!internalLink" routerLink = '/ligands/{{ligand.ligid}}' target="_blank">
     <div class="ligand-content">
-      <div class="mat-title centered">{{ligand.name}}</div>
-      <img *ngIf="ligand.imageUrl" [src]=ligand.imageUrl alt="image for {{ligand.name}}" class="ligand-image">
+      <div class="mat-title centered ligand-name">{{ligand.chemblName || ligand.name}}</div>
+      <pharos-structure-view [smiles]="ligand.smiles"></pharos-structure-view>
+    </div>
+  </a>
+  <a *ngIf="internalLink" routerLink = '/ligands/{{ligand.ligid}}' >
+    <div class="ligand-content">
+      <div class="mat-title centered ligand-name">{{ligand.chemblName || ligand.name}}</div>
+      <pharos-structure-view [smiles]="ligand.smiles"></pharos-structure-view>
     </div>
   </a>
   <div class="ligand-footer">
-    <div *ngFor="let activity of primeActivity">
-      <a href="/targets/{{activity?.target}}" target="_blank" rel="noreferrer">{{activity?.target}}</a>
-      <pharos-idg-level-indicator [level]="activity?.idgLevel"></pharos-idg-level-indicator>
-      {{activity?.targetFamily}}<br>
-      <br>
-      {{_getActivityType(activity?.activity)}} {{activity?.activity?.numval?.toFixed(2) || activity?.activity?.term}}
-      <br>
-      <br>
-      <div *ngIf="ligand.activities.length > 1">Also tested on <a routerLink="/ligands/{{ligand.id}}" target="_blank" rel="noreferrer">{{ligand.activities.length}}</a>
-        other targets
-      </div>
+    <div *ngIf="target">
+    <a href="/targets/{{target.gene}}" target="_blank" rel="noreferrer">{{target.gene}}</a>
+    <pharos-idg-level-indicator [level]="target.idgTDL"></pharos-idg-level-indicator>
+    {{target.idgFamily}}<br>
     </div>
+    <div *ngIf="primeActivity; else activityCount">
+      <br>
+      {{primeActivity[0]?.moa}} {{primeActivity[0]?.type}}: {{primeActivity[0]?.value}}
+      <br>
+      <br>
+<!--      <div *ngIf="ligand.activities.length > 1">Also tested on <a routerLink="/ligands/{{ligand.chemblName || ligand.name}}" target="_blank" rel="noreferrer">{{ligand.activities.length}}</a>
+        other targets
+      </div>-->
+    </div>
+    <ng-template #activityCount>
+      <span>Activity values for {{ligand.activityCount | number}} targets</span>
+    </ng-template>
   </div>
 </mat-card>
 

@@ -4,6 +4,15 @@ import { OrthologPanelComponent } from './ortholog-panel.component';
 import {SharedModule} from '../../../../../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {GenericTableModule} from '../../../../../../tools/generic-table/generic-table.module';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {COMMON_CONFIG} from '../../../../../../../../test/test-config';
+import {AngularFireModule} from '@angular/fire';
+import {ActivatedRoute} from '@angular/router';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {MOCKACTIVATEDROUTE} from '../../../../../../../../test/mock-activate-route';
+import {FIRESTORESTUB} from '../../../../../../../../test/firestore-stub';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../../test/test-target';
 
 describe('OrthologPanelComponent', () => {
   let component: OrthologPanelComponent;
@@ -14,7 +23,14 @@ describe('OrthologPanelComponent', () => {
       imports: [
         SharedModule,
         GenericTableModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        ApolloTestingModule,
+        AngularFireModule.initializeApp(COMMON_CONFIG)
+      ],
+      providers: [
+        AngularFireAuth,
+        { provide: AngularFirestore, useValue: FIRESTORESTUB },
+        { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
       ],
       declarations: [ OrthologPanelComponent ]
     })
@@ -24,6 +40,7 @@ describe('OrthologPanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrthologPanelComponent);
     component = fixture.componentInstance;
+    component.data = {targets: TESTTARGET, targetsProps: TESTTARGETPROPS};
     fixture.detectChanges();
   });
 

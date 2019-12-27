@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {Target} from '../../../../../../../models/target';
 
 /**
@@ -7,7 +7,8 @@ import {Target} from '../../../../../../../models/target';
 @Component({
   selector: 'pharos-tclin-summary',
   templateUrl: './tclin-summary.component.html',
-  styleUrls: ['./tclin-summary.component.scss']
+  styleUrls: ['./tclin-summary.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TclinSummaryComponent {
   /**
@@ -26,6 +27,7 @@ export class TclinSummaryComponent {
    * no args constructor
    */
   constructor() {
+
   }
 
   getTooltip(label: string): string {

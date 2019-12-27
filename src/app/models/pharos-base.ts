@@ -1,50 +1,21 @@
+import gql from 'graphql-tag';
+
 /**
  * base class of objects (target, disease, ligand) returned by the Pharos Api
  */
 export class PharosBase {
-  /**
-   * date created
-   */
-  created:  string;
-  /**
-   * if object is deprecated
-   */
-  deprecated: boolean;
-  /**
-   * link to expanded object view
-   */
-  href: string;
+
+  _tcrdid: number;
+
   /**
    * id of the object
    */
   id: number;
+
   /**
    * pharos object model java class
    */
   kind?: string;
-  /**
-   * date last modified
-   */
-  modified:  number;
-  /**
-   * object version number
-   */
-  version: number;
-  /**
-   * object namespace
-   */
-  _namespace: string;
-
-  /**
-   * return date string from an object
-   * // todo: see if this is ever used
-   * @param obj
-   * @return {string}
-   */
-  static mapDates(obj: any): string {
-    obj.created = new Date(obj.created).toLocaleDateString();
-    return obj;
-  }
 }
 
 /**
@@ -99,6 +70,8 @@ export interface PharosSerializer extends Serializer {
    * @private
    */
   _asProperties(object: PharosBase): any;
+
+
 }
 
 /**
@@ -119,7 +92,7 @@ export class PharosSubList {
    * deconstruct object to create typed object
    * @param obj
    */
-  constructor (obj: any) {
+  constructor(obj: any) {
     Object.entries((obj)).forEach((prop) => this[prop[0]] = prop[1]);
   }
 }

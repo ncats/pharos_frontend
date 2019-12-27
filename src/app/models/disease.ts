@@ -1,66 +1,88 @@
-import {PharosBase, PharosSerializer, PharosSubList} from './pharos-base';
-import {PharosProperty} from './pharos-property';
+import {PharosBase, Serializer} from './pharos-base';
+import gql from 'graphql-tag';
+import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
+import {DiseaseAssocationSerializer, DiseaseAssociation} from './disease-association';
+
+/**
+ * apollo graphQL query fragment to retrieve common fields for a disease list view
+ */
+export const DISEASELISTFIELDS =  gql`
+      fragment diseasesListFields on Disease {
+          name
+          associationCount
+        }
+    `;
+
+const DISEASEDETAILSQUERY = gql`
+  #import "./diseasesListFields.gql"
+ query fetchDetails(
+        $term: String,
+        $associationtop: Int, 
+        $associationskip: Int, 
+        ) {
+          diseases: disease(
+            name: $term,
+          ) {
+        ...diseasesListFields
+         associations(top: $associationtop, skip: $associationskip) {
+            type
+            name
+            description
+            zscore
+            evidence
+            conf
+            log2foldchange
+            drug
+            source
+            targetCounts {
+              name
+              value
+            }
+          }
+        }
+        }
+          ${DISEASELISTFIELDS}
+`;
+
 
 /**
  * main disease object, mainly list of associated targets
  */
-export class Disease extends PharosBase {
+export class Disease {
+
+  /**
+   * fragment of common fields. fetched by the route resolver
+   */
+  static diseaseListFragments  = DISEASELISTFIELDS;
+
+  static diseaseDetailsQuery = DISEASEDETAILSQUERY;
+
+
   /**
    * name of disease
    */
   name: string;
-  /**
-   * description of disease
-   */
-  description?: string;
-  /**
-   * sublist object for links
-   */
-  _links: PharosSubList;
 
   /**
-   * links count
+   * number of disease associations
    */
-  _linksCount: number;
-  /**
-   * sublist object for properties
-   */
-  _properties: PharosSubList;
+  associationCount: number;
 
   /**
-   * properties count
+   * List of disease association objects
    */
-  _propertiesCount: number;
-  /**
-   * sublist object for synonyms
-   */
-  _synonyms: PharosSubList;
-
-  /**
-   * synonyms count
-   */
-  _synonymsCount: number;
-
-  /**
-   * sublist object for publications
-   */
-  _publications: PharosSubList;
-
-  /**
-   * count of publications
-   */
-  _publicationsCount: number;
+  associations: DiseaseAssociation[];
 }
 
 /**
  * serializer for a disease object
  */
-export class DiseaseSerializer implements PharosSerializer {
+export class DiseaseSerializer implements Serializer {
 
   /**
    * no args constructor
    */
-  constructor () {}
+  constructor() {}
 
   /**
    * return disease object from json, mapping sublists
@@ -70,21 +92,10 @@ export class DiseaseSerializer implements PharosSerializer {
   fromJson(json: any): Disease {
     const obj = new Disease();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
-    if (obj._links) {
-      obj._links = new PharosSubList(obj._links);
-      obj._linksCount = obj._links.count;
-    }
-    if (obj._properties) {
-      obj._properties = new PharosSubList(obj._properties);
-      obj._propertiesCount = obj._properties.count;
-    }
-    if (obj._synonyms) {
-      obj._synonyms = new PharosSubList(obj._synonyms);
-      obj._synonymsCount = obj._synonyms.count;
-    }
-    if (obj._publications) {
-      obj._publications = new PharosSubList(obj._publications);
-      obj._publicationsCount = obj._publications.count;
+
+    if (json.associations) {
+      const associationSerializer = new DiseaseAssocationSerializer();
+      obj.associations = json.associations.map(ass => associationSerializer.fromJson(ass));
     }
     return obj;
   }
@@ -104,15 +115,35 @@ export class DiseaseSerializer implements PharosSerializer {
    * @return {any}
    * @private
    */
-  _asProperties<T extends PharosBase>(disease: Disease): any {
-    const newObj: any = {};
-    Object.keys(disease).map(field => {
-      const property: PharosProperty = {name: field, label: field, term: disease[field]};
-      newObj[field] = property;
-    });
-    newObj.name.internalLink = ['/diseases', disease.id];
-    newObj.id.internalLink = ['/diseases', disease.id];
+  _asProperties<T extends PharosBase>(obj: Disease): any {
+    const newObj: any = this._mapField(obj);
+
+
+    if (obj.associations) {
+      const associationSerializer = new DiseaseAssocationSerializer();
+      newObj.associations = obj.associations.map(ass => associationSerializer._asProperties(ass));
+    }
+    newObj.name.internalLink = ['/diseases', obj.name];
+  //  newObj.id.internalLink = ['/diseases', obj.id];
     return newObj;
+  }
+
+  /**
+   * recursive mapping function
+   * @param obj
+   * @return {{}}
+   * @private
+   */
+  private _mapField(obj: any) {
+    const retObj: {} = Object.assign({}, obj);
+    Object.keys(obj).map(objField => {
+      if (Array.isArray(obj[objField])) {
+        retObj[objField] = obj[objField].map(arrObj => this._mapField(arrObj));
+      } else {
+        retObj[objField] = new DataProperty({name: objField, label: objField, term: obj[objField]});
+      }
+    });
+    return retObj;
   }
 }
 

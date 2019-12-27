@@ -10,6 +10,7 @@
 </div>
 <div fxLayout="row" fxLayoutAlign="space-around start">
       <div fxFlex="60" fxFlex.lt-md="80" *ngIf=donutData>
-    <pharos-visualization-options (fieldChange)="changeDonutChart($event)" [facets] = filteredFacets></pharos-visualization-options>
+    <pharos-visualization-options (fieldChange)="changeDonutChart($event)" [facets] = facets></pharos-visualization-options>
   </div>
 </div>
+<mat-divider class="space-divider"></mat-divider>

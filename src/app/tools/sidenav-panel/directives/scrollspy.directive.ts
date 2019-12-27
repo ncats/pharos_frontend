@@ -27,7 +27,7 @@ export class ScrollspyDirective implements AfterViewInit, OnDestroy {
   /**
    * observes position of scroll
    */
-  private _intersectionObserver?: IntersectionObserver;
+   _intersectionObserver?: IntersectionObserver;
 
   /**
    * subscription for scroll events
@@ -55,7 +55,7 @@ export class ScrollspyDirective implements AfterViewInit, OnDestroy {
     @Inject(DOCUMENT) private document: Document,
     private _element: ElementRef,
     private _zone: NgZone,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: object
   ) {
   }
 
@@ -68,7 +68,7 @@ export class ScrollspyDirective implements AfterViewInit, OnDestroy {
       if (this.hasCompatibleBrowser()) {
         this.registerIntersectionObserver();
         if (this._intersectionObserver && this._element.nativeElement) {
-          this._intersectionObserver.observe(<Element>(this._element.nativeElement));
+          this._intersectionObserver.observe((this._element.nativeElement) as Element);
         }
       } else {
         this.addScrollListeners();
@@ -139,7 +139,7 @@ export class ScrollspyDirective implements AfterViewInit, OnDestroy {
     // For Samsung native browser, IO has been partially implemented where by the
     // callback fires, but entry object is empty. We will check manually.
     if (entry && Object.keys(entry).length) {
-      return (<any>entry).isIntersecting && entry.target === this._element.nativeElement;
+      return (entry as any).isIntersecting && entry.target === this._element.nativeElement;
     }
     return this.isVisible();
   }

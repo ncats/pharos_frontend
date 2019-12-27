@@ -6,7 +6,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from '../../shared/shared.module';
 import {GenericTableModule} from './generic-table.module';
 import {PropertyDisplayComponent} from './components/property-display/property-display.component';
-import {PharosPaginatorModule} from '../pharos-paginator/pharos-paginator.module';
 import {RouterTestingModule} from '@angular/router/testing';
 
 describe('GenericTableComponent', () => {
@@ -17,7 +16,6 @@ describe('GenericTableComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
-        PharosPaginatorModule,
         RouterTestingModule,
         SharedModule
       ],

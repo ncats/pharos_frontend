@@ -1,14 +1,25 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {DataListResolver} from '../../resolvers/data-list.resolver';
-import {DataListComponent} from '../../data-list/data-list.component';
+import {ComponentsResolver} from '../../resolvers/components.resolver';
+import {Target, TargetSerializer} from '../../../models/target';
+import {PharosMainComponent} from '../../pharos-main.component';
+import {Facet} from '../../../models/facet';
 
 const routes: Routes = [
   {
     path: '',
-    component: DataListComponent,
+    component: PharosMainComponent,
+    data: {
+      fragments: {
+        list: Target.targetListFragments,
+        facets: Facet.facetFieldsFragments
+      },
+      serializer: new TargetSerializer()
+    },
     resolve: {
-      data: DataListResolver
+      components: ComponentsResolver,
+      results: DataListResolver
     },
     runGuardsAndResolvers: 'paramsOrQueryParamsChange'
   }

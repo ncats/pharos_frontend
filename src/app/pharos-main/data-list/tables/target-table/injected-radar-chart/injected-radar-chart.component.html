@@ -1,7 +1,8 @@
 <div class="injected-radar">
 <pharos-radar-chart
   [id]="accession"
+  [data]="[hgData]"
   [size]="'small'"
   [origin]="'knowledge'"
-  *ngIf="accession"></pharos-radar-chart>
+  *ngIf="hgData && hgData.length"></pharos-radar-chart>
 </div>

@@ -1,0 +1,50 @@
+<article>
+  <mat-card *ngIf = data class ="section-card" id = "details" (pharosScrollspy)="active('details')" #summary>
+    <mat-card-content>
+      <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
+        <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
+      </div>
+      <div fxLayout="row"
+           class ="tkrow"
+           fxLayoutAlign="start stretch"
+           #details>
+        <div fxFlex="95">
+      <span class="mat-title"
+            [matTooltip] = description
+            [matTooltipClass] = "'pharos-tooltip'"
+      >Ligand Summary</span>
+        </div>
+        <div fxFlex="5">
+          <pharos-help-panel-trigger [origin]="'details'" [label]="'Ligand Summary'"></pharos-help-panel-trigger>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="space-between start">
+        <div fxFlex = "30" class="structure">
+          <ng-container *ngIf="ligand.smiles">
+            <mat-card-subtitle
+              [matTooltip] = "getTooltip('structure')"
+              [matTooltipClass] = "'pharos-tooltip'">
+              Ligand Structure
+            </mat-card-subtitle>
+            <div class="ligand-image">
+            <pharos-structure-view [smiles]="ligand.smiles" [size] = 400></pharos-structure-view>
+            </div>
+          </ng-container>
+        </div>
+        <div fxFlex="30"
+             *ngIf="ligand.synonyms">
+          <mat-card-subtitle
+            [matTooltip] = "getTooltip('synonyms')"
+            [matTooltipClass] = "'pharos-tooltip'">
+            Synonyms</mat-card-subtitle>
+          <div *ngFor = "let term of data.synonyms" class="link-list">
+            <ncats-property-display [property]="term" [showLabel]="false" ></ncats-property-display>
+          </div>
+        </div>
+        <br>
+        <br>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</article>
+

@@ -1,8 +1,15 @@
 import {
-  Component, ElementRef, HostListener, Input, OnChanges, OnDestroy, OnInit, ViewChild,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import {BehaviorSubject, Subject} from 'rxjs/index';
 import * as d3 from 'd3';
 import {SelectionModel} from '@angular/cdk/collections';
 import {ScatterOptions} from './models/scatter-options';
@@ -16,7 +23,8 @@ import {PharosPoint} from '../../../models/pharos-point';
   selector: 'pharos-scatter-plot',
   templateUrl: './scatter-plot.component.html',
   styleUrls: ['./scatter-plot.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+ // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
   /**
@@ -24,33 +32,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    */
   @ViewChild('scatterPlotTarget', {static: true}) chartContainer: ElementRef;
 
-  /**
-   * behavior subject that is used to get and set chart data
-   * @type {BehaviorSubject<any>}
-   * @private
-   */
-  private _data: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-
-  /**
-   * setter for chart data
-   * force sorting when data comes in, then set it and pass it to the setter function
-   * @param value
-   */
-  @Input()
-  set data(value: any) {
-    if (value) {
-      // value = value.sort((a, b) => a.x - b.x);
-      this._data.next(value);
-    }
-  }
-
-  /**
-   * getter for chart data
-   * @returns {any}
-   */
-  get data(): any {
-    return this._data.value;
-  }
+  @Input() data: any;
 
   /**
    * options opbject passed from component
@@ -87,12 +69,6 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    */
   @Input()
   filters: string[];
-
-  /**
-   * unsubscribe subject
-   * @type {Subject<any>}
-   */
-  private ngUnsubscribe: Subject<any> = new Subject();
 
   /**
    * array of data sources, allows for multiple lines/data sets
@@ -146,12 +122,14 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    */
   @HostListener('window:resize', ['$event'])
   onResize() {
-    d3.select(this.chartContainer.nativeElement).selectAll('svg').remove();
     this.drawChart();
-    // this.voronoiGroup.call(this.zoom);
     this.setData();
-   // / this.reset();
   }
+
+  constructor(
+    private changeRef: ChangeDetectorRef
+  ) {}
+
 
   /**
    * subscrible to data change, and parse data
@@ -159,8 +137,6 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    * and update with data
    */
   ngOnInit() {
-    this._data.subscribe(x => {
-      if (this.data) {
         if (this.filters) {
           this.filters.forEach(filter => {
             this.displayData.push(this.data.get(filter));
@@ -170,8 +146,6 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
         }
         this.drawChart();
         this.setData();
-      }
-    });
   }
 
   /**
@@ -210,7 +184,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     const range: any[] = [];
     if (axis === 'x') {
       range[0] = 0;
-      range[1] = this.width;
+      range[1] = this.width * .85;
     }
     if (axis === 'y') {
       range[0] = this.height;
@@ -268,12 +242,12 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     this.voronoi = d3.voronoi()
       .x((d: ScatterPoint) => this.x(d.x))
       .y((d: ScatterPoint) => this.y(d.y))
-      .extent([[-this._chartOptions.margin.left, -this._chartOptions.margin.top],
-        [this.width + this._chartOptions.margin.right, this.height + this._chartOptions.margin.bottom]]);
+      .extent([[-this._chartOptions.margin.left, - this._chartOptions.margin.top],
+        [this.width, this.height + this._chartOptions.margin.bottom]]);
 
     if (this._chartOptions.xAxisScale === 'year') {
       this.x.domain(
-        d3.extent(d3.merge(this.displayData).map(d =>  new Date(d.x, 0))));
+        d3.extent(d3.merge(this.displayData).map(d => new Date(+d.x, 0))));
     } else {
       this.x.domain(
         (d3.extent(d3.merge(this.displayData).map(d => d.x)))
@@ -295,34 +269,36 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       .tickPadding(10);
 
     if (this._chartOptions.xAxisScale === 'year') {
-     xAxis = d3.axisBottom(this.x).ticks(d3.timeYear.every(3)).tickSize(-this.height)
+     xAxis = d3.axisBottom(this.x)
+       .ticks(d3.timeYear.every(this.displayData.length < 3 ? 1 : 3))
+       .tickSize(-this.height)
        .tickPadding(10).tickFormat(d3.timeFormat('%Y'));
     }
 
-    const yAxis = d3.axisRight(this.y)
+    const yAxis = d3.axisLeft(this.y)
       .ticks(5)
-      .tickSize(this.width)
-      .tickPadding(-20 - this.width);
+      .tickSize(-this.width + margin.left + margin.right)
+      .tickPadding(0);
 
 
 
     this.svg = d3.select(element)
       .append('svg:svg')
-      .attr('width', this.width + margin.left + margin.right)
-      .attr('height', this.height + margin.top + margin.bottom * 2)
+      .attr('width', element.offsetWidth * .85)
+      .attr('height', element.offsetHeight)
       .append('svg:g')
       .attr('id', 'group')
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      .attr('transform', 'translate(' + (margin.left + 2) + ',' + (margin.top - margin.bottom) + ')');
 
     this.svg.append('text')
       .attr('transform',
-        'translate(' + (this.width / 2) + ' ,' + (this.height + margin.top + 20) + ')')
+        'translate(' + ((element.offsetWidth * .85) / 2) + ' ,' + (this.height + margin.top + margin.bottom) + ')')
       .attr('class', 'axis-label')
       .text(this._chartOptions.xLabel);
 
     this.svg.append('text')
       .attr('transform', 'rotate(-90)')
-      .attr('y', 0 - margin.left / 1.4)
+      .attr('y', 0 - margin.left / 1.6)
       .attr('x', 0 - (this.height / 2))
       .attr('class', 'axis-label')
       .text(this._chartOptions.yLabel);
@@ -421,6 +397,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       .on('zoom', zoomed);
 
     this.voronoiGroup.call(this.zoom);
+    this.changeRef.markForCheck();
   }
 
   /**
@@ -432,7 +409,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
          if (typeof d.x !== 'object') {
            d.x = new Date(d.x, 0);
          }
-        return d;
+         return d;
       });
     }
 
@@ -604,10 +581,8 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    * function to unsubscribe on destroy
    */
   ngOnDestroy() {
-    const element = this.chartContainer.nativeElement;
-    d3.select(element).selectAll('this.svg').remove();
-    d3.select('body').selectAll('.line-tooltip').remove();
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+   const element = this.chartContainer.nativeElement;
+   d3.select(element).selectAll('this.svg').remove();
+   d3.select('body').selectAll('.line-tooltip').remove();
   }
 }

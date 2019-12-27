@@ -11,27 +11,21 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
-import {MatDialog} from '@angular/material';
+import {MatDialog} from '@angular/material/dialog';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../../models/page-data';
 import {BatchUploadModalComponent} from '../../../../tools/batch-upload-modal/batch-upload-modal.component';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import {NavigationExtras, Router} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {PharosConfig} from '../../../../../config/pharos-config';
 import {PharosProperty} from '../../../../models/pharos-property';
 import {Target, TargetSerializer} from '../../../../models/target';
-import * as firebase from 'firebase/app';
-import {TargetSaveModalComponent} from './target-save-modal/target-save-modal.component';
 import {PharosProfileService} from '../../../../auth/pharos-profile.service';
 import {TopicSaveModalComponent} from './topic-save-modal/topic-save-modal.component';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'text/plain',
-  })
-};
 
 /**
  * token to inject structure viewer into generic table component
@@ -88,19 +82,26 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       width: '10vw'
     }),
     new PharosProperty({
+      name: 'accession',
+      label: 'Uniprot ID',
+      width: '10vw'
+    }),
+    new PharosProperty({
       name: 'idgTDL',
       label: 'Development Level',
       customComponent: IDG_LEVEL_TOKEN,
+      sortable: true,
       width: '10vw'
     }),
     new PharosProperty({
       name: 'idgFamily',
       label: 'Target Family',
+      sortable: true,
       width: '10vw'
     }),
     new PharosProperty({
       name: 'novelty',
-      label: 'Log Novelty',
+      label: 'Novelty',
       sortable: true,
       width: '7vw'
     }),
@@ -123,7 +124,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       width: '5vw'
     }),
     new PharosProperty({
-      name: 'knowledgeAvailability',
+      name: 'hgdata',
       label: 'Knowledge Availability',
       customComponent: RADAR_CHART_TOKEN,
       sortable: true,
@@ -134,7 +135,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   /**
    * main list of paginated targets
    */
- targets: Target[];
+  @Input() targets: Target[];
 
   /**
    * event emitter of sort event on table
@@ -181,29 +182,33 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
 
   targetObjs: Target[];
 
-  loggedIn = false;
-
-  user: any;
-
   /**
    * set up dependencies
+   * @param _route
    * @param {MatDialog} dialog
-   * @param {HttpClient} http
    * @param {Router} router
    * @param profileService
    * @param {PharosConfig} pharosConfig
    * @param {ChangeDetectorRef} ref
+   * @param targetCollection
+   * @param snackBar
    * @param {BreakpointObserver} breakpointObserver
    */
-  constructor(public dialog: MatDialog,
-              public http: HttpClient,
+  constructor(private _route: ActivatedRoute,
+              public dialog: MatDialog,
               private router: Router,
               private profileService: PharosProfileService,
               private pharosConfig: PharosConfig,
               private ref: ChangeDetectorRef,
+              private targetCollection: AngularFirestore,
+              private snackBar: MatSnackBar,
               public breakpointObserver: BreakpointObserver) {
     super();
   }
+
+  loggedIn = false;
+
+  user: any;
 
   /**
    * check for mobile view,
@@ -224,6 +229,8 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
         // No user is signed in.
       }
     });
+    this.ref.markForCheck();
+
 
     this._data
     // listen to data as long as term is undefined or null
@@ -231,11 +238,14 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (this.data.length) {
-          this.targetObjs = this.data
-            .map(target => this.targetSerializer.fromJson(target));
-          this.targets = this.targetObjs
-            .map(target => target = this.targetSerializer._asProperties(target));
+        if (this.data && this.data.targets) {
+          this.pageData = new PageData({
+            top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,
+            skip: (+this._route.snapshot.queryParamMap.get('page') - 1) * +this._route.snapshot.queryParamMap.get('rows'),
+            total: this.data.count
+          });
+          this.targets = this.data.targets;
+          this.targetObjs = this.data.targetsProps;
           this.ref.detectChanges();
         }
       });
@@ -254,7 +264,38 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * @param $event
    */
   changePage($event): void {
-    this.pageChange.emit($event);
+    this.paginationChanges($event);
+    // this.pageChange.emit($event);
+  }
+
+
+  /**
+   * change pages of list
+   * @param event
+   */
+  paginationChanges(event: any) {
+    navigationExtras.queryParams = {
+      page: event.pageIndex + 1,
+      rows: event.pageSize
+    };
+    this._navigate(navigationExtras);
+  }
+
+  /**
+   * navigate on changes, mainly just changes url, shouldn't reload entire page, just data
+   * @param {NavigationExtras} navExtras
+   * @private
+   */
+  private _navigate(navExtras: NavigationExtras): void {
+    this.router.navigate([], navExtras);
+  }
+
+  /**
+   * stub for target comparison
+   * todo: implement
+   */
+  compareTargets() {
+    // console.log(this.rowSelection.selected);
   }
 
   /**
@@ -265,35 +306,32 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     const dialogRef = this.dialog.open(BatchUploadModalComponent, {
         height: '75vh',
         width: '66vw',
+        data: {
+          title: 'Upload Targets',
+          nameable: this.loggedIn,
+          saveToProfile: true
+        }
       }
     );
 
     dialogRef.afterClosed().subscribe(result => {
-      this.http.post(`${this.pharosConfig.getApiPath()}targets/resolve`, result.join(), httpOptions).subscribe(res => {
-        navigationExtras.queryParams = {
-          q: `etag:${res['etag']}`
-        };
-        this._navigate(navigationExtras);
-      });
+      if (result) {
+        this.targetCollection.collection('target-collection').add(
+          result
+        ).then(doc => {
+          if (this.loggedIn && result.saveList) {
+            this.profileService.updateSavedCollection(doc.id);
+          }
+          this.snackBar.open('Targets uploaded!');
+          navigationExtras.state = {batchIds: result.targetList};
+          navigationExtras.queryParams = {
+            collection: doc.id,
+          };
+          this.snackBar.dismiss();
+          this._navigate(navigationExtras);
+        });
+      }
     });
-  }
-
-  /**
-   * navigate to search with etag after batch upload
-   * @param {NavigationExtras} navExtras
-   * @private
-   */
-  private _navigate(navExtras: NavigationExtras): void {
-    this.router.navigate([], navExtras);
-
-  }
-
-  /**
-   * stub for target comparison
-   * todo: implement
-   */
-  compareTargets() {
-   // console.log(this.rowSelection.selected);
   }
 
   /**
@@ -306,14 +344,24 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
         height: '50vh',
         width: '50vw',
         data: {
+          title: 'Create Topic',
           selection: targetList,
+          nameable: this.loggedIn,
           user: this.user,
           count: this.pageData.total
         }
       }
     );
 
-    dialogRef.afterClosed().subscribe(result => {});
+    dialogRef.afterClosed().subscribe(result => {
+      this.targetCollection.collection('target-collection').add(
+        result
+      ).then(doc => {
+        if (this.loggedIn && result.saveList) {
+          this.profileService.updateSavedCollection(doc.id);
+        }
+      });
+    });
   }
 
   /**
@@ -322,27 +370,37 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    */
   saveTargets() {
     const targetList = this.rowSelection.selected.map(target => target = target.accession.term);
-    const dialogRef = this.dialog.open(TargetSaveModalComponent, {
+    const dialogRef = this.dialog.open(BatchUploadModalComponent, {
         height: '50vh',
         width: '50vw',
         data: {
+          title: `Saving ${targetList.length} Targets`,
           selection: targetList,
-          user: this.user
+          user: this.user,
+          nameable: this.loggedIn,
         }
       }
     );
 
     dialogRef.afterClosed().subscribe(result => {
-
+      if (result) {
+        this.targetCollection.collection('target-collection').add(
+          result
+        ).then(doc => {
+          this.profileService.updateSavedCollection(doc.id);
+          this.snackBar.open('Targets saved!');
+        });
+      }
     });
   }
 
   saveQuery() {
     const targetList = this.rowSelection.selected.map(target => target = target.accession.term);
-    const dialogRef = this.dialog.open(TargetSaveModalComponent, {
+    const dialogRef = this.dialog.open(BatchUploadModalComponent, {
         height: '50vh',
         width: '50vw',
         data: {
+          title: `Saving Query`,
           etag: this.etag,
           sideway: this.sideway,
           user: this.user,
@@ -357,7 +415,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   setSelectedTargets(selection) {
-    this.rowSelection  = selection;
+    this.rowSelection = selection;
   }
 
   selectAll() {
