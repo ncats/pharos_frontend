@@ -1,31 +1,48 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {Ligand} from '../../../../../models/ligand';
+import {takeUntil} from 'rxjs/operators';
 
+/**
+ * displays description of ligand
+ */
 @Component({
   selector: 'pharos-ligand-description',
   templateUrl: './ligand-description.component.html',
-  styleUrls: ['./ligand-description.component.scss']
+  styleUrls: ['./ligand-description.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LigandDescriptionComponent extends DynamicPanelComponent implements OnInit {
+  /**
+   * ligand description
+   */
   description: string;
 
-  ligand: any;
+  /**
+   * ligand object
+   */
+  @Input() ligand: Ligand;
 
-  constructor() {
+  constructor(
+    private changeRef: ChangeDetectorRef
+  ) {
     super();
   }
 
+  /**
+   * set data
+   */
   ngOnInit() {
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
       .pipe(
-        // todo: this unsubscribe doesn't seem to work
-        //    takeWhile(() => !this.data['references'])
+        takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (this.ligand) {
-          this.description = this.ligand.description;
+        if (this.data && this.data.ligands) {
+          this.ligand = this.data.ligands;
+          this.changeRef.markForCheck();
         }
       });
   }

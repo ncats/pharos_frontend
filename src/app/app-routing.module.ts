@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {RouterModule, Routes, PreloadAllModules} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {AboutPageComponent} from './about-page/about-page.component';
 import {FaqPageComponent} from './faq-page/faq-page.component';
 import {SequenceSearchPageComponent} from './sequence-search-page/sequence-search-page.component';
@@ -7,7 +7,8 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {CommonModule} from '@angular/common';
 import {CommonToolsModule} from './tools/common-tools.module';
 import {SharedModule} from './shared/shared.module';
-import {TopicNodeGeneratorComponent} from './tools/topic-node-generator/topic-node-generator.component';
+import {ProfileComponent} from './profile/profile/profile.component';
+import {ConfirmModalComponent} from './profile/confirm-modal/confirm-modal.component';
 
 
 const ROUTES: Routes = [
@@ -45,55 +46,60 @@ const ROUTES: Routes = [
     path: 'faq',
     component: FaqPageComponent
   },
-/*  {
-    path: 'topic-generator',
-    component: TopicNodeGeneratorComponent
-  },*/
-
-  {
-    path: 'search',
-    loadChildren: () => import('./pharos-main/modules/search/search.module').then(m => m.SearchModule),
-    data: { path: 'search' }
-  },
-/*  {
-    path: 'topics',
-    loadChildren: () => import('./pharos-main/modules/topics/topic-list.module').then(m => m.TopicListModule),
-    data: { path: 'topics' }
-  },
-  {
-    path: 'topics/:id',
-    loadChildren: () => import('./pharos-main/modules/topics/topic-details.module').then(m => m.TopicDetailsModule),
-    data: { path: 'topics' }
-  },*/
   {
     path: 'targets',
     loadChildren: () => import('./pharos-main/modules/targets/target-list.module').then(m => m.TargetTableModule),
-    data: { path: 'targets' }
+    data: {
+      path: 'targets',
+      subpath: 'list'
+    }
   },
   {
     path: 'targets/:id',
     loadChildren: () => import('./pharos-main/modules/targets/target-details.module').then(m => m.TargetDetailsModule),
-    data: { path: 'targets' }
+    data: {
+      path: 'targets',
+      subpath: 'details'
+    }
   },
   {
     path: 'diseases',
+   // redirectTo: '/targets',
     loadChildren: () => import('./pharos-main/modules/diseases/disease-list.module').then(m => m.DiseaseListModule),
-    data: { path: 'diseases' }
+    data: {
+      path: 'diseases',
+      subpath: 'list'
+    }
   },
   {
     path: 'diseases/:id',
+   // redirectTo: '/search',
     loadChildren: () => import('./pharos-main/modules/diseases/disease-details.module').then(m => m.DiseaseDetailsModule),
-    data: { path: 'diseases' }
+    data: {
+      path: 'diseases',
+      subpath: 'details'
+    }
   },
   {
     path: 'ligands',
     loadChildren: () => import('./pharos-main/modules/ligands/ligand-list.module').then(m => m.LigandListModule),
-    data: { path: 'ligands' }
+    data: {
+      path: 'ligands',
+      subpath: 'list'
+    }
   },
   {
     path: 'ligands/:id',
     loadChildren: () => import('./pharos-main/modules/ligands/ligand-details.module').then(m => m.LigandDetailsModule),
-    data: { path: 'ligands' }
+    data: {
+      path: 'ligands',
+      subpath: 'details'
+    }
+  },
+  {
+    path: 'profile',
+    // loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule)
+    component: ProfileComponent
   },
   {
     path: 'api',
@@ -112,18 +118,18 @@ const ROUTES: Routes = [
     RouterModule.forRoot(ROUTES, {
       scrollPositionRestoration: 'enabled',
       anchorScrolling: 'enabled',
-      // onSameUrlNavigation: 'reload',
+      onSameUrlNavigation: 'reload',
       scrollOffset: [0, 120],
-      // preloadingStrategy: PreloadAllModules
+     // preloadingStrategy: PreloadAllModules
       })
   ],
-  providers: [],
-  entryComponents: [],
   declarations: [
     AboutPageComponent,
     FaqPageComponent,
     SequenceSearchPageComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ProfileComponent,
+    ConfirmModalComponent
   ],
   exports: [ RouterModule ]
 })

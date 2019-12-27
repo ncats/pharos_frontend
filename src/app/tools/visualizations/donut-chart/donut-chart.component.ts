@@ -116,12 +116,10 @@ export class DonutChartComponent implements OnInit, OnChanges {
   updateChart(): void {
     d3.selectAll('.toolCircle').remove();
     const pie = d3.pie()
-      .sort(function (a, b) {
+      .sort((a, b) => {
         return a.count - b.count;
       })
-      .value(function (d) {
-        return d.count;
-      });
+      .value(d => d.count);
 
     const arc = d3.arc()
       .outerRadius(this.radius)
@@ -134,7 +132,7 @@ export class DonutChartComponent implements OnInit, OnChanges {
       .outerRadius(this.radius * 0.9)
       .innerRadius(this.radius * 0.9);
 
-    const key = (d => d.data.label);
+    const key = (d => d.data.name);
 
     const color = d3.scaleOrdinal(['#b07c47',
       '#c47f2d',
@@ -158,11 +156,9 @@ export class DonutChartComponent implements OnInit, OnChanges {
     const slice = d3.select('.slices').selectAll('path.slice')
       .data(pie(this.data), key);
 
-  slice.enter()
+    slice.enter()
       .insert('path')
-      .style('fill', function (d) {
-        return color(d.data.label);
-      })
+      .style('fill', (d => color(d.data.name)))
       .attr('class', 'slice')
       .attr('d', arc)
 
@@ -170,7 +166,7 @@ export class DonutChartComponent implements OnInit, OnChanges {
       d3.selectAll('.toolCircle').remove();
       this.addTooltip(div, d, color);
       })
-    .on('mouseout', function (d) {
+    .on('mouseout', (d) => {
       /*  div.transition()
           .duration(500)
           .style('opacity', 0);*/
@@ -198,14 +194,14 @@ export class DonutChartComponent implements OnInit, OnChanges {
     element.append('circle')
       .attr('class', 'toolCircle')
       .attr('r', this.radius * 0.65) // radius of tooltip circle
-      .style('fill', color(d.data.label)) // colour based on category mouse is over
+      .style('fill', color(d.data.name)) // colour based on category mouse is over
       .style('fill-opacity', 0.35);
     element.append('text')
       .attr('class', 'toolCircle')
       .attr('dy', -15) // hard-coded. can adjust this to adjust text vertical alignment in tooltip*/
-      .html(d.data.label); // add text to the circle.
-       element.append('text')
-      .attr('class', 'toolCircle count')
+      .html(d.data.name); // add text to the circle.
+    element.append('text')
+      .attr('class', 'toolCircle value')
       .attr('dy', 30) // hard-coded. can adjust this to adjust text vertical alignment in tooltip*/
       .html(d.data.count);
     element.transition()

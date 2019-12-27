@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, InjectionToken, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, InjectionToken, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {HttpClient} from '@angular/common/http';
@@ -6,6 +6,8 @@ import {PdbReportData, PdbReportSerializer} from '../../../../../models/pdb-repo
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {PageData} from '../../../../../models/page-data';
+import {Target} from '../../../../../models/target';
+import {BehaviorSubject} from 'rxjs';
 
 /**
  * token to inject structure viewer into generic table component
@@ -26,9 +28,12 @@ const REPORT_URL = 'https://www.rcsb.org/pdb/rest/customReport.csv?customReportC
 @Component({
   selector: 'pharos-pdb-panel',
   templateUrl: './pdb-panel.component.html',
-  styleUrls: ['./pdb-panel.component.scss']
+  styleUrls: ['./pdb-panel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PdbPanelComponent extends DynamicTablePanelComponent implements OnInit {
+export class PdbPanelComponent extends DynamicTablePanelComponent implements OnInit, OnDestroy {
+
+  @Output() selfDestruct: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
 
   /**
@@ -87,6 +92,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
     })
     ];
 
+  @Input() target: Target;
   /**
    * all retrieved reports
    * @type {any[]}
@@ -117,12 +123,12 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
   /**
    * set up httpservice
    * @param {NavSectionsService} navSectionsService
-   * @param {ChangeDetectorRef} ref
+   * @param changeRef
    * @param {HttpClient} _http
    */
   constructor(
     private navSectionsService: NavSectionsService,
-    private ref: ChangeDetectorRef,
+    private changeRef: ChangeDetectorRef,
     private _http: HttpClient) {
     super();
   }
@@ -138,13 +144,20 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (this.data.pdb && this.data.pdb.length > 0) {
-        //  this.ref.reattach();
-          this.ngUnsubscribe.next();
+        this.target = this.data.targets;
+        if (this.target.pdbs && this.target.pdbs.length > 0) {
           this.setterFunction();
           this.loading = false;
+        } else {
+          this.loading = false;
+          this.navSectionsService.removeSection(this.field);
+          this.ngUnsubscribe.next();
+          this.ngUnsubscribe.complete();
+          this.changeRef.detectChanges();
+          this.selfDestruct.next('true');
         }
       });
+
   }
 
   /**
@@ -153,19 +166,18 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
   setterFunction() {
     this.tableArr = [];
     this.reports = [];
-    const terms = this.data.pdb.map(pdb => pdb = pdb.term);
-    this._http.get(REPORT_URL + terms.join(','), {responseType: 'text'}).subscribe(res => {
+    const pdbsArr: any[] = this.target.pdbs.map<any>(pdb => pdb = pdb.pdbs);
+    this._http.get(REPORT_URL + pdbsArr.join(','), {responseType: 'text'}).subscribe(res => {
         this.csvJSON(res);
-      this.pageData = this.makePageData(this.reports.length);
-      this.tableArr = this.reports
+        this.pageData = this.makePageData(this.reports.length);
+        this.tableArr = this.reports
           .slice(this.pageData.skip, this.pageData.top)
         .map(report => this.pdbReportSerializer._asProperties(report));
-      const pdbids = this.tableArr.find(entry => entry.structureId.term && entry.ligandId.term);
-        // this.tableArr.filter(val => val.structureId.term);
-      if (pdbids) {
+        const pdbids = this.tableArr.find(entry => entry.structureId.term && entry.ligandId.term);
+        if (pdbids) {
         this.pdbid = pdbids.structureId.term;
-       // this.pdbid = pdbids[0].structureId['term'];
       }
+        this.changeRef.markForCheck();
     });
   }
 
@@ -199,6 +211,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
   pagePDB(event) {
     this.tableArr = this.reports.slice(event.pageIndex * event.pageSize, (event.pageIndex + 1) * event.pageSize)
       .map(report => this.pdbReportSerializer._asProperties(report));
+    this.changeRef.markForCheck();
   }
 
   /**
@@ -208,6 +221,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
   changePdbId(entry: any) {
     if (this.pdbid !== entry.structureId.term) {
       this.pdbid = entry.structureId.term;
+      this.changeRef.markForCheck();
     }
   }
 
@@ -217,5 +231,13 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
    */
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
+  }
+
+  /**
+   * clean up on leaving component
+   */
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

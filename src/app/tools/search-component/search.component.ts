@@ -1,9 +1,10 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {SuggestApiService} from './suggest-api.service';
 import {Observable} from 'rxjs';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {NavigationExtras, Router} from '@angular/router';
+import {MatAutocomplete, MatAutocompleteTrigger} from '@angular/material/autocomplete';
 
 /**
  * search component functionality. needs to be hooked up to a suggest api service
@@ -16,6 +17,8 @@ import {NavigationExtras, Router} from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class SearchComponent implements OnInit {
+
+  @ViewChild(MatAutocompleteTrigger, {static: true}) autocomplete: MatAutocompleteTrigger;
   /**
    * optional placeholder search string
    */
@@ -40,11 +43,12 @@ export class SearchComponent implements OnInit {
   constructor(
     private _router: Router,
     private suggestApiService: SuggestApiService
-  ) {  }
+  ) {
+  }
 
 
   /**
-   *add placeholder string if required
+   * add placeholder string if required
    * set up subscription for input value changes
    * // todo: should unsubscribe
    */
@@ -64,8 +68,12 @@ export class SearchComponent implements OnInit {
    * adds facet for query and follows navigation patterns
    * @returns void
    */
-  search(): void {
-    const query = '"' + this.typeaheadCtrl.value.replace(/ /g, '+')  + '"';
+  search(wildcard?: boolean): void {
+    this.autocomplete.closePanel();
+    let query = this.typeaheadCtrl.value;
+    if (wildcard) {
+      query = `${query}.*`;
+    }
     const navigationExtras: NavigationExtras = {};
     navigationExtras.queryParams = {q: query};
     this._navigate(navigationExtras);
@@ -77,7 +85,7 @@ export class SearchComponent implements OnInit {
    * @private
    */
   private _navigate(navExtras: NavigationExtras): void {
-    this._router.navigate(['/search'], navExtras);
+    this._router.navigate(['/targets'], navExtras);
 
   }
 }

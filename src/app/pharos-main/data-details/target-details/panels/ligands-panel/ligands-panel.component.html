@@ -1,9 +1,9 @@
 <article>
   <mat-card id = {{field}}
           class="section-card"
-          *ngIf = "ligandsList.length > 0"
+          *ngIf = "target.ligands"
           (pharosScrollspy)="active(field)"
-          #ligands #drugs>
+          #ligands>
   <mat-card-content>
     <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
       <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
@@ -15,29 +15,21 @@
         <span class="mat-title"
               [matTooltip] = description
               [matTooltipClass] = "'pharos-tooltip'">
-          {{label}} ({{data.ligandcount}})</span>
+          {{label}} ({{target.ligandCount}})</span>
       </div>
       <div fxFlex="5">
         <pharos-help-panel-trigger [origin] = "'ligands'" [label]="'Active Ligands'"></pharos-help-panel-trigger>
       </div>
     </div>
-    <!--<mat-paginator
-      #ligandPaginator
+    <mat-paginator
       [pageSize]="10"
-      [pageSizeOptions]="[10, 20, 50]"
-                   [hidePageSize]="hidePageSize"
-                   [showFirstLastButtons]="true"
-                   (page)="paginate($event)">
-    </mat-paginator>-->
-    <pharos-custom-paginator [pageData]="pageData" (page)="paginate($event)"></pharos-custom-paginator>
-   <!--
-      <mat-paginator
-        [pageData]="pageData"
-        [pageSize]="10"
-        [pageSizeOptions]="[10, 20, 60, 100]"
-        (page)="paginate($event)"></mat-paginator>-->
+      [length]="target.ligandCount"
+      [hidePageSize]="true"
+      [showFirstLastButtons] = true
+      (page) = paginate($event)
+      #ligandspaginator></mat-paginator>
     <div class ="structure-grid">
-    <div *ngFor="let ligand of ligandsList">
+    <div *ngFor="let ligand of target.ligands">
       <pharos-ligand-card [ligand]="ligand" [target]="target"></pharos-ligand-card>
     </div>
     </div>

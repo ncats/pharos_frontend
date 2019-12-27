@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {environment} from '../environments/environment';
-import {SharedModule} from './shared/shared.module';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuthModule} from '@angular/fire/auth';
@@ -18,7 +17,8 @@ import {MaterialModule} from '../assets/material/material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {TransferHttpCacheModule} from '@nguniversal/common';
-
+import {GraphQLModule} from './graphql.module';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -40,9 +40,9 @@ import {TransferHttpCacheModule} from '@nguniversal/common';
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AuthModule,
     NcatsHeaderModule,
-    PharosLoadingSpinnerModule
-  ],
-  providers: [
+    PharosLoadingSpinnerModule,
+    GraphQLModule,
+    HttpClientModule
   ],
   bootstrap: [AppComponent]
 })

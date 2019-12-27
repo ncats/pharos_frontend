@@ -1,5 +1,4 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
-import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
@@ -14,6 +13,7 @@ import {HelpPanelOpenerService} from '../tools/help-panel/services/help-panel-op
 import {ScrollspyDirective} from '../tools/sidenav-panel/directives/scrollspy.directive';
 import {HelpArticlesModule} from './help-articles.module';
 import {ScatterPlotComponent} from '../tools/visualizations/scatter-plot/scatter-plot.component';
+import {PharosMainComponent} from '../pharos-main/pharos-main.component';
 
 
 @NgModule({
@@ -31,7 +31,8 @@ import {ScatterPlotComponent} from '../tools/visualizations/scatter-plot/scatter
     BarChartComponent,
     HelpPanelTriggerComponent,
     ScrollspyDirective,
-    ScatterPlotComponent
+    ScatterPlotComponent,
+    PharosMainComponent
   ],
   providers: [
     HelpDataService,
@@ -49,11 +50,12 @@ import {ScatterPlotComponent} from '../tools/visualizations/scatter-plot/scatter
     BarChartComponent,
     HelpPanelTriggerComponent,
     ScrollspyDirective,
-    ScatterPlotComponent
+    ScatterPlotComponent,
+    PharosMainComponent
   ]
 })
 export class SharedModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<SharedModule> {
     return {
       ngModule: SharedModule,
       providers: [

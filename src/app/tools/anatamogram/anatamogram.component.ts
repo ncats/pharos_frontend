@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {MatRadioChange} from '@angular/material';
+import { MatRadioChange } from '@angular/material/radio';
 import {AnatomogramImageComponent} from './anatomogram-image/anatomogram-image.component';
 import {AnatamogramHoverService} from './anatamogram-hover.service';
 

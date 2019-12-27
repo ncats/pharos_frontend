@@ -8,7 +8,16 @@ import {TdarkSummaryComponent} from './levels/tdark-summary/tdark-summary.compon
 import {TbioSummaryComponent} from './levels/tbio-summary/tbio-summary.component';
 import {TchemSummaryComponent} from './levels/tchem-summary/tchem-summary.component';
 import {TclinSummaryComponent} from './levels/tclin-summary/tclin-summary.component';
-import {TESTTARGET} from '../../../../../../../test/test-target';
+import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../test/test-target';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {RouterTestingModule} from '@angular/router/testing';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {ActivatedRoute} from '@angular/router';
+import {COMMON_CONFIG} from '../../../../../../../test/test-config';
+import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
+import {AngularFireModule} from '@angular/fire';
 
 describe('LevelSummaryPanelComponent', () => {
   let component: LevelSummaryPanelComponent;
@@ -25,8 +34,16 @@ describe('LevelSummaryPanelComponent', () => {
       ],
       imports: [
         SharedModule,
-        CommonToolsModule
-      ]
+        CommonToolsModule,
+        ApolloTestingModule,
+        RouterTestingModule,
+        AngularFireModule.initializeApp(COMMON_CONFIG)
+      ],
+      providers: [
+        AngularFireAuth,
+        { provide: AngularFirestore, useValue: FIRESTORESTUB },
+        { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
+      ],
     })
     .compileComponents();
   }));
@@ -34,8 +51,7 @@ describe('LevelSummaryPanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LevelSummaryPanelComponent);
     component = fixture.componentInstance;
-    component.data = TESTTARGET;
-    component['target'] = TESTTARGET;
+    component.data = {targets: TESTTARGET, targetsProps: TESTTARGETPROPS};
     fixture.detectChanges();
   });
 

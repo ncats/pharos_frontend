@@ -1,13 +1,17 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import * as d3 from 'd3';
-import {from} from 'rxjs';
+import {BehaviorSubject, from} from 'rxjs';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {FormControl} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {Target} from '../../../../../models/target';
+import {PharosConfig} from '../../../../../../config/pharos-config';
+import {IDGResourceSerializer} from '../../../../../models/idg-resources/resource-serializer';
+import {DataResource} from '../../../../../models/idg-resources/data-resource';
+import {Reagent} from '../../../../../models/idg-resources/reagent';
 
 /**
  * panel to show idg generated resources. currently stub functionality
@@ -19,248 +23,18 @@ import {Target} from '../../../../../models/target';
 })
 export class IdgResourcesPanelComponent extends DynamicTablePanelComponent implements OnInit, OnDestroy {
 
+  @Output() selfDestruct: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+
   @Input() target: Target;
-  /**
-   * dummy data
-   */
-  reagents = [
-    {
-      resourceType: 'smallMolecule',
-      gene: 'BRSK2',
-      name: 'small molecule',
-      logP_hydrophobicity: null,
-      water_solubility: null,
-      molecular_weight: '385.38',
-      purity: null,
-      ZINC_ID: null,
-      chembl_id: null,
-      pubchem_id: null,
-      vendor_cat: 'https://infoporte.unc.edu/cores/buy.php?cid=144',
-      vendor: 'SGC-UNC',
-      smiles: 'COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1',
-      canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360506',
-      external_id: '143121',
-      external_id_registration_system: [
-        'ChEBI'
-      ],
-      repository: null,
-      repository_page_link: null
-    },
-    {
-      resourceType: 'antibody',
-      gene: 'BRSK2',
-      name: 'antibody',
-      logP_hydrophobicity: null,
-      water_solubility: null,
-      molecular_weight: '385.38',
-      purity: null,
-      ZINC_ID: null,
-      chembl_id: null,
-      pubchem_id: null,
-      vendor_cat: 'https://infoporte.unc.edu/cores/buy.php?cid=144',
-      vendor: 'SGC-UNC',
-      smiles: 'COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1',
-      canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360506',
-      external_id: '143121',
-      external_id_registration_system: [
-        'ChEBI'
-      ],
-      repository: null,
-      repository_page_link: null
-    },
-    {
-      resourceType: 'cell',
-      gene: 'BRSK2',
-      name: 'cell',
-      logP_hydrophobicity: null,
-      water_solubility: null,
-      molecular_weight: '385.38',
-      purity: null,
-      ZINC_ID: null,
-      chembl_id: null,
-      pubchem_id: null,
-      vendor_cat: 'https://infoporte.unc.edu/cores/buy.php?cid=144',
-      vendor: 'SGC-UNC',
-      smiles: 'COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1',
-      canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360506',
-      external_id: '143121',
-      external_id_registration_system: [
-        'ChEBI'
-      ],
-      repository: null,
-      repository_page_link: null
-    },
-    {
-      resourceType: 'geneticConstruct',
-      gene: 'BRSK2',
-      name: 'geneticConstruct',
-      logP_hydrophobicity: null,
-      water_solubility: null,
-      molecular_weight: '385.38',
-      purity: null,
-      ZINC_ID: null,
-      chembl_id: null,
-      pubchem_id: null,
-      vendor_cat: 'https://infoporte.unc.edu/cores/buy.php?cid=144',
-      vendor: 'SGC-UNC',
-      smiles: 'COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1',
-      canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360506',
-      external_id: '143121',
-      external_id_registration_system: [
-        'ChEBI'
-      ],
-      repository: null,
-      repository_page_link: null
-    },
-    {
-      resourceType: 'mouse',
-      gene: 'BRSK2',
-      name: 'mouse',
-      logP_hydrophobicity: null,
-      water_solubility: null,
-      molecular_weight: '385.38',
-      purity: null,
-      ZINC_ID: null,
-      chembl_id: null,
-      pubchem_id: null,
-      vendor_cat: 'https://infoporte.unc.edu/cores/buy.php?cid=144',
-      vendor: 'SGC-UNC',
-      smiles: 'COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1',
-      canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360506',
-      external_id: '143121',
-      external_id_registration_system: [
-        'ChEBI'
-      ],
-      repository: null,
-      repository_page_link: null
-    },
-    {
-      resourceType: 'peptide',
-      gene: 'BRSK2',
-      name: 'peptide',
-      logP_hydrophobicity: null,
-      water_solubility: null,
-      molecular_weight: '385.38',
-      purity: null,
-      ZINC_ID: null,
-      chembl_id: null,
-      pubchem_id: null,
-      vendor_cat: 'https://infoporte.unc.edu/cores/buy.php?cid=144',
-      vendor: 'SGC-UNC',
-      smiles: 'COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1',
-      canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360506',
-      external_id: '143121',
-      external_id_registration_system: [
-        'ChEBI'
-      ],
-      repository: null,
-      repository_page_link: null
-    }, {
-      resourceType: 'smallMolecule',
-      gene: 'BRSK2',
-      name: 'reallyreallyreallylongchemicalname',
-      logP_hydrophobicity: null,
-      water_solubility: null,
-      molecular_weight: '385.38',
-      purity: null,
-      ZINC_ID: null,
-      chembl_id: null,
-      pubchem_id: null,
-      vendor_cat: 'https://infoporte.unc.edu/cores/buy.php?cid=144',
-      vendor: 'SGC-UNC',
-      smiles: 'COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1',
-      canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360506',
-      external_id: '143121',
-      external_id_registration_system: [
-        'ChEBI'
-      ],
-      repository: null,
-      repository_page_link: null
-    }
-  ];
-  /**
-   * dummy data
-   */
-  dataSources = [
-    {
-      resourceType: 'mouseImagingData',
-      gene: 'BRSK2',
-      name: 'mouseImagingData',
-      logP_hydrophobicity: null,
-      water_solubility: null,
-      molecular_weight: '385.38',
-      purity: null,
-      ZINC_ID: null,
-      chembl_id: null,
-      pubchem_id: null,
-      vendor_cat: 'https://infoporte.unc.edu/cores/buy.php?cid=144',
-      vendor: 'SGC-UNC',
-      smiles: 'COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1',
-      canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360506',
-      external_id: '143121',
-      external_id_registration_system: [
-        'ChEBI'
-      ],
-      repository: null,
-      repository_page_link: null
-    },
-    {
-      resourceType: 'probeData',
-      gene: 'BRSK2',
-      name: 'probeData',
-      logP_hydrophobicity: null,
-      water_solubility: null,
-      molecular_weight: '385.38',
-      purity: null,
-      ZINC_ID: null,
-      chembl_id: null,
-      pubchem_id: null,
-      vendor_cat: 'https://infoporte.unc.edu/cores/buy.php?cid=144',
-      vendor: 'SGC-UNC',
-      smiles: 'COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1',
-      canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360506',
-      external_id: '143121',
-      external_id_registration_system: [
-        'ChEBI'
-      ],
-      repository: null,
-      repository_page_link: null
-    },
-    {
-      resourceType: 'dataResource',
-      gene: 'BRSK2',
-      name: 'otherDataResource',
-      logP_hydrophobicity: null,
-      water_solubility: null,
-      molecular_weight: '385.38',
-      purity: null,
-      ZINC_ID: null,
-      chembl_id: null,
-      pubchem_id: null,
-      vendor_cat: 'https://infoporte.unc.edu/cores/buy.php?cid=144',
-      vendor: 'SGC-UNC',
-      smiles: 'COC1=CC2=C(NC3=C2C4=C(C(NC4=O)=O)C5=C3NC6=C5C=C(OC)C=C6)C=C1',
-      canonical_smiles: null,
-      data_page_link: 'https://www.synapse.org/#!Synapse:syn18360506',
-      external_id: '143121',
-      external_id_registration_system: [
-        'ChEBI'
-      ],
-      repository: null,
-      repository_page_link: null
-    }
-  ];
+
+resourceSerializer: IDGResourceSerializer<DataResource | Reagent> = new IDGResourceSerializer<DataResource | Reagent>();
+  reagents = [];
+
+  datasources = [];
+
   reagentsList = [];
   dataSourceList = [];
+
   reagentFilterCtrl: FormControl = new FormControl();
   dataFilterCtrl: FormControl = new FormControl();
 
@@ -280,28 +54,47 @@ dataTypes: string[] = [];
    */
   constructor(
     private http: HttpClient,
-    private navSectionsService: NavSectionsService
+    private navSectionsService: NavSectionsService,
+    private pharosConfig: PharosConfig
   ) {
     super();
-  }
+    }
 
   /**
    * subscribe to data changes
    * initialize filter subscriptions
    */
   ngOnInit() {
-    this.reagentsList = this.reagents;
-    this.dataSourceList = this.dataSources;
-
-    this.http.get(`http://dev3.ccs.miami.edu:8080/rss-api/target/search?term=${this.target.gene}`).subscribe(res => {
-      if (res && res['data']) {
-        res['data'].forEach(data => {
-        this.http.get(data.id).subscribe(resource => {
-        });
+    this._data
+    // listen to data as long as term is undefined or null
+    // Unsubscribe once term has value
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(x => {
+        this.reagentTypes = [];
+        this.dataTypes = [];
+        this.target = this.data.targets;
+        this.loading = false;
+        this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/search?term=${this.target.gene}`).subscribe(res => {
+            if (res && res.data) {
+              res.data.forEach(data => {
+                this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/id?id=${data.id}&json=true`).subscribe(resource => {
+                  const resc = this.resourceSerializer.fromJson(resource.data[0], data.resourceType);
+                  this[`${resc.baseType}s`].push(resc);
+                });
+              });
+            } else {
+              this.navSectionsService.removeSection(this.field);
+              this.selfDestruct.next('true');
+            }
+          });
+          // this.setterFunction();
       });
-    }
+
+    this.reagentsList = this.reagents;
+    this.dataSourceList = this.datasources;
     this.loading = false;
-    });
 
 
     this.reagentFilterCtrl.valueChanges.subscribe(change => {
@@ -314,7 +107,7 @@ dataTypes: string[] = [];
     this.dataFilterCtrl.valueChanges.subscribe(change => {
       this.dataSourceList = [];
       change.forEach(field => {
-        this.dataSourceList.push(...this.dataSources.filter(reagent => reagent.resourceType === field));
+        this.dataSourceList.push(...this.datasources.filter(reagent => reagent.resourceType === field));
       });
     });
 
@@ -327,7 +120,7 @@ dataTypes: string[] = [];
     return ret;
   });
 
-this.dataTypes = Array.from(new Set(this.dataSources.map(reagent => reagent.resourceType))).map(reagent => {
+    this.dataTypes = Array.from(new Set(this.datasources.map(reagent => reagent.resourceType))).map(reagent => {
     const ret: any = {
       value: reagent,
       label: reagent.replace(/([A-Z]+)/g, ' $1').replace(/([A-Z][a-z])/g, ' $1')
@@ -335,19 +128,7 @@ this.dataTypes = Array.from(new Set(this.dataSources.map(reagent => reagent.reso
     return ret;
   });
 
-this.pageData = this.makePageData(this.reagents.length);
-    this._data
-    // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe(x => {
-        if (Object.values(this.data).length > 0) {
-          this.ngUnsubscribe.next();
-          // this.setterFunction();
-        }
-      });
+    this.pageData = this.makePageData(this.reagents.length);
   }
 
   /**
@@ -366,11 +147,16 @@ this.pageData = this.makePageData(this.reagents.length);
     this.navSectionsService.setActiveSection(fragment);
   }
 
+  parseSmiles(smiles) {
+    return `${this.pharosConfig.getApiPath()}render/${encodeURIComponent(smiles)}?size=250`;
+  }
+
   /**
    * cleanp on destroy
    */
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    this._data.unsubscribe();
   }
 }

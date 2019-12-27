@@ -1,18 +1,19 @@
-<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end center" class="body-row paginator-row">
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end center" class="body-row paginator-row" *ngIf="showPaginator && pageData">
   <div fxFlex="55" fxFlexAlign="end">
-<!--    <mat-paginator *ngIf="showPaginator" #paginator
+    <mat-paginator
                    [pageSizeOptions]="[10, 20, 50]"
-                   [hidePageSize]="hidePageSize"
-                   [showFirstLastButtons]="true"
-                   (page)="changePage($event)">
-    </mat-paginator>-->
-    <pharos-custom-paginator  *ngIf="showPaginator" [pageData]="pageData" (page)="changePage($event)"></pharos-custom-paginator>
+                   [pageSize]="pageData.skip > 0 ? pageData.skip : 10"
+                   [length]="pageData.total ? pageData.total : 10"
+                   [showFirstLastButtons] = true
+                   (page)="changePage($event)"
+                   [hidePageSize]="hidePageSize">
+    </mat-paginator>
   </div>
 </div>
 <table mat-table matSort #genericTable
        [dataSource]="dataSource"
        [trackBy]="trackByFn"
-       [multiTemplateDataRows]="expandable"
+       [multiTemplateDataRows] = "expandable"
        (matSortChange)="changeSort($event)"
        [ngClass]="{'condensed': condensed}">
   <ng-container matColumnDef="select">
@@ -75,7 +76,6 @@
 
 <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end center" class="body-row">
   <div fxFlex="55" fxFlexAlign="end">
-    <pharos-custom-paginator  *ngIf="showPaginator" [pageData]="pageData" (page)="changePage($event)"></pharos-custom-paginator>
     <!--    <mat-paginator *ngIf="showBottomPaginator"
                        [pageSizeOptions]="[10, 20, 50]"
                        [hidePageSize]="hidePageSize"

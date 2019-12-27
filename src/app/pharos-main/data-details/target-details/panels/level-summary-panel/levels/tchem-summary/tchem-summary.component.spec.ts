@@ -25,7 +25,7 @@ describe('TchemSummaryComponent', () => {
     fixture = TestBed.createComponent(TchemSummaryComponent);
     component = fixture.componentInstance;
     component.apiSources = [{label: '', field: '', description: ''}];
-    component.data = ({object: TESTTARGET, references: []});
+    component.data = {targets: TESTTARGET};
     component.target = TESTTARGET;
     fixture.detectChanges();
   });

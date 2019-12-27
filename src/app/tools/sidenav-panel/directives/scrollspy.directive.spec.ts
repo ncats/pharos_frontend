@@ -18,7 +18,7 @@ describe('ScrollspyDirective', () => {
 
   it('should create an instance', () => {
     const directive = new ScrollspyDirective(null, null, null, null);
-    directive['_intersectionObserver'] = new IntersectionObserver(() => {});
+    directive._intersectionObserver = new IntersectionObserver(() => {});
     expect(directive).toBeTruthy();
   });
 });

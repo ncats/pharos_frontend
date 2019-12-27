@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {Target} from '../../../../models/target';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
@@ -6,16 +6,20 @@ import {takeUntil} from 'rxjs/operators';
 @Component({
   selector: 'pharos-target-header',
   templateUrl: './target-header.component.html',
-  styleUrls: ['./target-header.component.scss']
+  styleUrls: ['./target-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TargetHeaderComponent extends DynamicPanelComponent implements OnInit {
   @Input() target: Target;
 
+  @Input() data: any;
   /**
    * no args constructor
    * call super object constructor
    */
-  constructor() {
+  constructor(
+    private changeRef: ChangeDetectorRef
+  ) {
     super();
   }
 
@@ -27,13 +31,14 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (this.target) {
-          this.ngUnsubscribe.next();
-        }
+       this.target = this.data.targets;
+       this.changeRef.markForCheck();
       });
   }
 
   getHeaderClass(): string {
+    if (this.target) {
       return this.target.idgTDL.toLowerCase() + '-header';
+    }
   }
 }

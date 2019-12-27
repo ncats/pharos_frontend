@@ -1,11 +1,18 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AaSequencePanelComponent } from './aa-sequence-panel.component';
+import {AaSequencePanelComponent} from './aa-sequence-panel.component';
 import {SharedModule} from '../../../../../shared/shared.module';
-import {TESTDISEASE} from '../../../../../../../test/test-disease';
-import {TESTTARGET} from '../../../../../../../test/test-target';
-import {By} from '@angular/platform-browser';
+import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../test/test-target';
 import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {ActivatedRoute} from '@angular/router';
+import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route';
+import {RouterTestingModule} from '@angular/router/testing';
+import {COMMON_CONFIG} from '../../../../../../../test/test-config';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireModule} from '@angular/fire';
+import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 describe('AaSequencePanelComponent', () => {
   let component: AaSequencePanelComponent;
@@ -13,16 +20,16 @@ describe('AaSequencePanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule],
-      declarations: [
-        AaSequencePanelComponent
+      imports: [
+        SharedModule,
+        RouterTestingModule
       ],
       schemas: [
         NO_ERRORS_SCHEMA,
         CUSTOM_ELEMENTS_SCHEMA
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -30,19 +37,13 @@ describe('AaSequencePanelComponent', () => {
     component = fixture.componentInstance;
     component.apiSources = [{label: '', field: '', description: ''}];
     component.data = {
-      object: TESTTARGET,
-      references: [],
-      sequence: [
-        {text: 'GATTACA'}
-      ]
+      targets: TESTTARGET,
+      targetsProps: TESTTARGETPROPS
     };
-    // component.aasequence = [];
-    component.loading = false;
     fixture.detectChanges();
   });
 
   it('should create', () => {
-    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });

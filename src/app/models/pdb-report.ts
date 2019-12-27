@@ -58,7 +58,7 @@ export class PdbReportSerializer implements PharosSerializer {
   /**
    * no args constructor
    */
-  constructor () {}
+  constructor() {}
 
   /**
    * generatate pdb from json
