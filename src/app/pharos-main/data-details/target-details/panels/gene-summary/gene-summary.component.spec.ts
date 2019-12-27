@@ -5,6 +5,7 @@ import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../test/test-target
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route';
+import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 
 describe('GeneSummaryComponent', () => {
   let component: GeneSummaryComponent;
@@ -16,8 +17,9 @@ describe('GeneSummaryComponent', () => {
       imports: [
         ApolloTestingModule
       ],
-      providers: [
-        { provide: ActivatedRoute, useClass: MOCKACTIVATEDROUTE }
+      schemas: [
+        NO_ERRORS_SCHEMA,
+        CUSTOM_ELEMENTS_SCHEMA
       ]
     })
     .compileComponents();
