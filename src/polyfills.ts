@@ -22,32 +22,36 @@
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
  import 'classlist.js';  // Run `npm install --save classlist.js`.
 
-/** IE10 and IE11 requires the following for the Reflect API. */
-/** Evergreen browsers require these. **/
+/*
+ IE10 and IE11 requires the following for the Reflect API.
+*/
+/*
+  Evergreen browsers require these.
+ */
 // Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
-import 'core-js/es/reflect';
+ import 'core-js/es/reflect';
 
 
-/**
+/*
  * Required to support Web Animations `@angular/platform-browser/animations`.
  * Needed for: All but Chrome, Firefox and Opera. http://caniuse.com/#feat=web-animation
- **/
+ */
  import 'web-animations-js';  // Run `npm install --save web-animations-js`.
 
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
-import 'zone.js/dist/zone';  // Included with Angular CLI.
+ import 'zone.js/dist/zone';  // Included with Angular CLI.
 
 
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
 
- /**
-  *these variables are used for the swagger ui
+ /*
+  these variables are used for the swagger ui
   */
  (window as any).global = window;
 // @ts-ignore
 
-(window as any).global.Buffer = (window as any).global.Buffer || require('buffer').Buffer;
+ (window as any).global.Buffer = (window as any).global.Buffer || require('buffer').Buffer;

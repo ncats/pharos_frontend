@@ -41,7 +41,7 @@
     </div>
   </mat-toolbar>
   <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-between center"
-       class="body-row target-table">
+       class="paginator-row">
     <div fxFlex="45" fxLayoutAlign.lt-sm="center">
        <!-- <mat-checkbox
           (change)="$event ? selectAll() : null">
@@ -49,18 +49,21 @@
         </mat-checkbox>-->
     </div>
     <div fxFlex="45" fxFlexAlign="end">
-      <pharos-custom-paginator
-        [pageData]="pageData"
-        (page)="changePage($event)">
-      </pharos-custom-paginator>
+      <mat-paginator
+        [pageSize]= pageData.top
+        [pageIndex]="pageData.skip / pageData.top"
+        [length]= pageData.total
+        [pageSizeOptions]="[10, 20, 60, 100]"
+        [showFirstLastButtons]="true"
+        (page)="changePage($event)"></mat-paginator>
     </div>
   </div>
   <div *ngIf="!isSmallScreen">
-    <pharos-generic-table *ngIf="targets"
+    <pharos-generic-table *ngIf="targetObjs"
                           [pageData]="pageData"
                           [showPaginator]="false"
                           [fieldsConfig]="fieldsData"
-                          [data]="targets"
+                          [data]="targetObjs"
                           [selectableRows]= "loggedIn"
                           (rowSelectionChange) = "setSelectedTargets($event)"
                           (sortChange)="changeSort($event)"
@@ -68,7 +71,7 @@
     </pharos-generic-table>
   </div>
   <div class="target-grid" *ngIf="isSmallScreen" >
-    <div *ngFor="let target of targetObjs">
+    <div *ngFor="let target of targets">
       <pharos-target-card [target]="target"></pharos-target-card>
     </div>
   </div>
@@ -76,7 +79,13 @@
     <div fxFlex="45">
     </div>
     <div fxFlex="45" fxFlexAlign="end">
-      <pharos-custom-paginator [pageData]="pageData" (page)="changePage($event)"></pharos-custom-paginator>
+      <mat-paginator
+        [pageSize]= pageData.top
+        [pageIndex]="pageData.skip / pageData.top"
+        [length]= pageData.total
+        [pageSizeOptions]="[10, 20, 60, 100]"
+        [showFirstLastButtons]="true"
+        (page)="changePage($event)"></mat-paginator>
     </div>
   </div>
 </div>

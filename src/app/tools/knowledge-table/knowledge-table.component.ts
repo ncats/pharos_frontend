@@ -1,18 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {DynamicPanelComponent} from '../dynamic-panel/dynamic-panel.component';
 import {PharosProperty} from '../../models/pharos-property';
-import {takeWhile} from 'rxjs/internal/operators';
 
+/**
+ * table of 5 properties to show harmonizome data
+ */
 @Component({
   selector: 'pharos-knowledge-table',
   templateUrl: './knowledge-table.component.html',
-  styleUrls: ['./knowledge-table.component.css']
+  styleUrls: ['./knowledge-table.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class KnowledgeTableComponent extends DynamicPanelComponent implements OnInit {
+  /**
+   * data to display
+   */
   tableData: any;
+
+  /**
+   * list of fields to display. The labels are adapted
+   * @type {PharosProperty[]}
+   */
   fields: PharosProperty[] = [
     new PharosProperty({
-      name: 'field',
+      name: 'name',
       label: 'Most Knowledge About',
       width: '85vw'
     }),
@@ -23,29 +34,21 @@ export class KnowledgeTableComponent extends DynamicPanelComponent implements On
     })
   ];
 
-  constructor() {
+  /**
+   * add change detection
+   * @param {ChangeDetectorRef} changeRef
+   */
+  constructor(
+    private changeRef: ChangeDetectorRef
+  ) {
     super();
   }
 
+  /**
+   * set table data
+   */
   ngOnInit() {
-    this._data
-    // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
-      .pipe(
-        // todo: this unsubscribe doesn't seem to work
-        //   takeWhile(() => !this.data[0])
-      )
-      .subscribe(x => {
-        if (this.data && this.data.length > 0) {
-          this.tableData = [];
-          this.data[0].axes.slice(0).sort((a, b) => b.value - a.value).slice(0, 5).forEach(
-            field => this.tableData.push(
-              {
-                field: {label: field.axis, term: field.axis},
-                value: {label: field.axis, term: field.value.toFixed(2)}
-              })
-          );
-        }
-      });
+          this.tableData = this.data.slice(0, 5);
+          this.changeRef.markForCheck();
   }
 }

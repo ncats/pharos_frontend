@@ -5,11 +5,17 @@ import {RouterTestingModule} from '@angular/router/testing';
 import { FacetTableComponent } from './facet-table.component';
 import {SharedModule} from '../../../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {PathResolverService} from '../../../../pharos-services/path-resolver.service';
 import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../../../pharos-services/loading.service';
-import {FacetRetrieverService} from '../../../../pharos-main/data-list/filter-panel/facet-retriever.service';
+import {SelectedFacetService} from '../selected-facet.service';
 import {SuggestApiService} from '../../../../tools/search-component/suggest-api.service';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {MOCKACTIVATEDROUTE} from '../../../../../../test/mock-activate-route';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {ActivatedRoute} from '@angular/router';
+import {COMMON_CONFIG} from '../../../../../../test/test-config';
+import {FIRESTORESTUB} from '../../../../../../test/firestore-stub';
+import {AngularFireModule} from '@angular/fire';
 
 
 
@@ -22,17 +28,19 @@ describe('FacetTableComponent', () => {
       imports: [
         SharedModule,
         RouterTestingModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
       declarations: [
         FacetTableComponent
       ],
       providers: [
-        PathResolverService,
         PharosApiService,
         LoadingService,
-        FacetRetrieverService,
+        SelectedFacetService,
         SuggestApiService,
+        AngularFireAuth,
+        { provide: AngularFirestore, useValue: FIRESTORESTUB },
         {provide: APP_BASE_HREF, useValue: '/targets' }
       ]
     })
@@ -42,7 +50,7 @@ describe('FacetTableComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FacetTableComponent);
     component = fixture.componentInstance;
-    component.facet = {label: 'tim'};
+    component.facet = {facet: 'tim', values: [{name: 'tim'}]};
     fixture.detectChanges();
   });
 

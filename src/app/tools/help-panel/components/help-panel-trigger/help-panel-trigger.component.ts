@@ -17,7 +17,7 @@ export class HelpPanelTriggerComponent {
   @Input() origin?: string;
 
   /**
-   * readeable label for the data source
+   * readable label for the data source
    */
   @Input() label?: string;
 
@@ -38,6 +38,6 @@ export class HelpPanelTriggerComponent {
     if (this.origin) {
       this.helpDataService.setOrigin(this.origin);
     }
-      this.helpPanelOpenerService.toggleVisible();
+    this.helpPanelOpenerService.toggleVisible();
   }
 }

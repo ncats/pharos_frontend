@@ -1,27 +1,77 @@
 <article>
   <div class="flex30">
-  <mat-card class="full-height-card">
-    <mat-card-content>
-    <div fxLayout="row"
-         fxLayout.lt-md="column"
-         class="tkrow"
-         fxLayoutAlign="start stretch">
-      <div fxFlex="95">
+    <mat-card class="full-height-card">
+      <mat-card-content>
+        <div fxLayout="row"
+             fxLayout.lt-md="column"
+             class="tkrow"
+             fxLayoutAlign="start stretch">
+          <div fxFlex="95">
         <span class="mat-title"
-              [matTooltip] = description
-              [matTooltipClass] = "'pharos-tooltip'">
-          Related Targets ({{disease._links.count}})</span>
-      </div>
-      <div fxFlex="5">
-        <pharos-help-panel-trigger [origin] = "'relatedTargets'" [label]="'Related Targets'"></pharos-help-panel-trigger>
-      </div>
-    </div>
-      <pharos-generic-table [data]="tableArr"
-                            [pageData]="pageData"
-                            [fieldsConfig]="fields"
-                            (pageChange)="getMoreTargets($event)"
-                            *ngIf="tableArr"></pharos-generic-table>
-    </mat-card-content>
-  </mat-card>
-</div>
+              [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">
+          Related Targets ({{disease.associationCount}})</span>
+          </div>
+          <div fxFlex="5">
+            <pharos-help-panel-trigger [origin]="'relatedTargets'"
+                                       [label]="'Related Targets'"></pharos-help-panel-trigger>
+          </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start top">
+          <div FxFlex class = "assoc-count">
+            <div *ngFor='let assocCount of disease?.associations[0]?.targetCounts'>
+              <div class = "assoc-count">
+                <pharos-idg-level-indicator [level]="assocCount.name"></pharos-idg-level-indicator> <h3>{{assocCount.value}}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <mat-paginator
+          [pageSize]="10"
+          [length]="disease.associationCount"
+          [hidePageSize]="true"
+          [showFirstLastButtons] = true
+          (page) = paginate($event)
+          #drugsspaginator></mat-paginator>
+        <div fxLayout="row" fxLayoutAlign="start top">
+          <div fxFlex="25"><h3><span>Association Origin</span></h3></div>
+          <div fxFlex="25"><h3><span>Association Evidence</span></h3></div>
+          <div fxFlex="10"><h3><span>Total Targets</span></h3></div>
+<!--
+          <div fxFlex><h3><span>Targets by Level</span></h3></div>
+-->
+        </div>
+        <hr>
+        <div *ngFor="let association of disease.associations">
+          <div fxLayout="row" fxLayoutAlign="start top">
+            <div fxFlex="25">
+              <span *ngIf="association.type">{{association.type}}</span><br>
+              <span *ngIf="association.source">{{association.source}}</span><br>
+              <span *ngIf="association.reference">{{association.reference}}</span><br>
+              <span *ngIf="association.description">{{association.description}}</span><br>
+            </div>
+            <div fxFlex="25">
+              <span *ngIf="association.evidence">Evidence: {{association.evidence}}</span><br>
+              <span *ngIf="association.conf">Confidence: {{association.conf}}</span><br>
+              <span *ngIf="association.log2foldchange">Log2 Fold Change: {{association.log2foldchange}}</span><br>
+              <span *ngIf="association.pvalue">Pvalue: {{association.pvalue}}</span><br>
+            </div>
+            <div fxFlex="10">
+              <span>{{association.targetCountsTotal}} Targets</span>
+            </div>
+          </div>
+          <hr>
+        </div>
+
+        <!-- <pharos-generic-table [data]="disease.associations"
+                               [pageData]="pageData"
+                               [fieldsConfig]="fields"
+                               [showPaginator] = true
+                               [useInternalPaginator]="false"
+                               [showBottomPaginator]="false"
+                               (pageChange)="paginate($event)"
+                               *ngIf="tableArr"></pharos-generic-table>-->
+      </mat-card-content>
+    </mat-card>
+  </div>
 </article>

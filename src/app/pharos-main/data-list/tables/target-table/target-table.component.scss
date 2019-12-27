@@ -1,11 +1,18 @@
-.target-table-toolbar {
+/*.target-table-toolbar {
   width: 100%;
-}
+}*/
 
 .mat-column-idgTDL {
   overflow: visible;
   padding: 1%;
 }
+
+.mat-column-select {
+  min-width: 2vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
+}
+
 
 .pharos-display-1 {
   font: 400 34px/40px Roboto, "Helvetica Neue", sans-serif;

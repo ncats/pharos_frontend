@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {SharedModule} from '../../../shared/shared.module';
-import {RadarService} from './radar.service';
 import {RadarChartComponent} from './radar-chart.component';
+import {RadarService} from './radar.service';
 
 @NgModule({
   declarations: [

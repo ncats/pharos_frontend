@@ -1,8 +1,9 @@
-import {Component, Inject, Input, OnInit, Optional} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnInit, Optional, ViewEncapsulation} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/index';
 import {RadarService} from '../visualizations/radar-chart/radar.service';
-import {MAT_DIALOG_DATA} from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {PharosProperty} from '../../models/pharos-property';
+import {Target} from '../../models/target';
 
 /**
  * radar chart modal viewer has the radar chart and sources list
@@ -10,7 +11,9 @@ import {PharosProperty} from '../../models/pharos-property';
 @Component({
   selector: 'pharos-radar-chart-viewer',
   templateUrl: './radar-chart-viewer.component.html',
-  styleUrls: ['./radar-chart-viewer.component.scss']
+  styleUrls: ['./radar-chart-viewer.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RadarChartViewerComponent implements OnInit {
   /**
@@ -50,7 +53,7 @@ export class RadarChartViewerComponent implements OnInit {
   /**
    * optional target parameter, used to display target name and idg level
    */
-  @Input() target?: string;
+  @Input() target?: Target;
 
   /**
    * all data sources for the radar chart
@@ -74,6 +77,7 @@ export class RadarChartViewerComponent implements OnInit {
    * @param modalData
    */
   constructor(private radarDataService: RadarService,
+              private changeRef: ChangeDetectorRef,
               @Optional() @Inject(MAT_DIALOG_DATA) public modalData: any) {
   }
 
@@ -83,7 +87,10 @@ export class RadarChartViewerComponent implements OnInit {
   ngOnInit() {
     if (this.modalData) {
       Object.keys(this.modalData).forEach(key => this[key] = this.modalData[key]);
+      this.changeRef.detectChanges();
     }
+
+    // todo - refactor this to use sources from graphql, then remove radarService provider
     if (this.data) {
       this.radarDataService.getData(this.id, 'knowledge-sources').subscribe(res => {
         if (res.sources) {
@@ -102,7 +109,7 @@ export class RadarChartViewerComponent implements OnInit {
    */
   getSource(event: any) {
     this.fieldSources = [];
-    this.axis = event.axis;
+    this.axis = event.name;
     const src = this.sources.get(this.axis);
     if (src) {
       src.forEach(source => {

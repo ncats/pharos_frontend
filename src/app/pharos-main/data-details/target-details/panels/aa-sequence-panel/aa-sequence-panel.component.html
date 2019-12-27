@@ -28,8 +28,8 @@
           Residue Counts
         </span>
     </div>
-    <div fxLayout="row" fxLayoutAlign="center center">
-      <div fxFlex="90" fxFlex.lt-md="100">
+    <div fxLayout="row" fxLayoutAlign="center start">
+      <div fxFlex="95" fxFlex.lt-md="100" class="residue-count-holder">
         <pharos-bar-chart [data]="residueCounts" *ngIf="residueCounts"></pharos-bar-chart>
       </div>
     </div>
@@ -55,8 +55,8 @@
     </div>
     <div fxLayout="row" fxHide.gt-sm fxLayoutAlign="center center">
       <div fxFlex="100">
-        <div class="well break" *ngIf="data && data.sequence">
-          {{data?.sequence[0].text}}
+        <div class="well break" *ngIf="target && target.sequence">
+          {{target.sequence}}
         </div>
       </div>
     </div>

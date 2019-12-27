@@ -1,9 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Ortholog, OrthologSerializer} from '../../../../../../models/ortholog';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {OrthologSerializer} from '../../../../../../models/ortholog';
 import {DynamicPanelComponent} from '../../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {takeUntil} from 'rxjs/operators';
 import {PharosProperty} from '../../../../../../models/pharos-property';
-import {PageData} from '../../../../../../models/page-data';
+import {PharosApiService} from '../../../../../../pharos-services/pharos-api.service';
+import {ActivatedRoute} from '@angular/router';
+import {Target} from '../../../../../../models/target';
+import {PageEvent} from '@angular/material/paginator';
 
 /**
  * displays orthologs available for a target
@@ -11,10 +13,19 @@ import {PageData} from '../../../../../../models/page-data';
 @Component({
   selector: 'pharos-ortholog-panel',
   templateUrl: './ortholog-panel.component.html',
-  styleUrls: ['./ortholog-panel.component.css']
+  styleUrls: ['./ortholog-panel.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class OrthologPanelComponent extends DynamicPanelComponent implements OnInit {
+@Input() data: any;
+  /**
+   * target to display
+   */
+  @Input() target: Target;
+
+  @Input() targetProps: any;
+
   /**
    * list of table fields to display
    */
@@ -31,37 +42,17 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
     })
   ];
 
-  /**
-   * page data object to track pagination
-   */
-  orthoPageData: PageData;
-
-  /**
-   * serializer to create new ortholog objects
-   */
-  orthologSerializer: OrthologSerializer = new OrthologSerializer();
-
-  /**
-   * list of orthologs
-   */
-  orthologs: any[];
-
-  /**
-   * list of species
-   */
-  species: string[];
-
-  /**
-   * table data to display
-   */
-  tableArr: any[] = [];
 
 
   /**
    * no args constructor
    * calls super object
    */
-  constructor() {
+  constructor(
+    private pharosApiService: PharosApiService,
+    private _route: ActivatedRoute,
+    private changeRef: ChangeDetectorRef
+  ) {
     super();
   }
 
@@ -69,7 +60,9 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
    * subscribe to data changes and create orthologs
    */
   ngOnInit() {
-    this._data
+    this.target = this.data.targets;
+    this.targetProps = this.data.targetsProps;
+/*    this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
       .pipe(
@@ -80,14 +73,14 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
           this.ngUnsubscribe.next();
           this.setterFunction();
         }
-      });
+      });*/
   }
 
   /**
    * parse data to serialize orthologs
    */
   setterFunction(): void {
-      this.orthologs = [];
+     /* this.orthologs = [];
       const temp: Ortholog[] = [];
       this.data.forEach(obj => {
         // create new object to get PharosProperty class properties
@@ -107,15 +100,26 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
           count: 10
         });
     this.tableArr = this.orthologs
-      .slice(this.orthoPageData.skip, this.orthoPageData.top);
+      .slice(this.orthoPageData.skip, this.orthoPageData.top);*/
     }
 
-  /**
-   * page ortholog list
-   * @param event
-   */
-  page(event) {
-    this.tableArr = this.orthologs.slice(event.pageIndex * event.pageSize, (event.pageIndex + 1) * event.pageSize);
-  }
-
+    /**
+     * paginate ortholog list datasource
+     * @param event
+     */
+    paginate(event: PageEvent) {
+      this.loading = true;
+      const orthologSerializer = new OrthologSerializer();
+      const pageParams = {
+        orthologstop: event.pageSize,
+       orthologsskip: event.pageIndex * event.pageSize,
+      };
+      this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams).valueChanges.subscribe(res => {
+        const tempArr = res.data.targets.orthologs
+          .map(ortholog => orthologSerializer.fromJson(ortholog))
+          .map(ortho => orthologSerializer._asProperties(ortho));
+        this.targetProps.orthologs = tempArr;
+        this.loading = false;
+      });
+    }
 }

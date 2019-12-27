@@ -1,16 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {HttpClient} from '@angular/common/http';
+import {Ligand} from '../../../../../models/ligand';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'pharos-molecular-definition-panel',
   templateUrl: './molecular-definition-panel.component.html',
-  styleUrls: ['./molecular-definition-panel.component.scss']
+  styleUrls: ['./molecular-definition-panel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MolecularDefinitionPanelComponent extends DynamicPanelComponent implements OnInit {
   properties: any;
+  /**
+   * ligand object
+   */
+  @Input() ligand: Ligand;
 
-  constructor(private _http: HttpClient) {
+
+  constructor(
+    private changeRef: ChangeDetectorRef
+  ) {
     super();
   }
 
@@ -19,15 +29,15 @@ export class MolecularDefinitionPanelComponent extends DynamicPanelComponent imp
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
       .pipe(
-        // todo: this unsubscribe doesn't seem to work
-        //    takeWhile(() => !this.data['references'])
+        takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-         if (this.data.properties && this.data.properties.length > 0) {
-           this._http.get<any>(this.data.properties[0].href + '?view=full').subscribe(res => {
-             this.properties = res;
-           });
-         }
+        if (this.data && this.data.ligands) {
+          this.ligand = this.data.ligands;
+          this.loading = false;
+
+          this.changeRef.markForCheck();
+        }
       });
   }
 }

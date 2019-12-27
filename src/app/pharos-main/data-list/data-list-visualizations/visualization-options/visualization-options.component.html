@@ -1,10 +1,10 @@
 <mat-chip-list fxLayoutAlign="center" #chipList >
   <mat-chip *ngFor="let facet of facets"
-            [selected]="isSelected(facet.name)"
+            [selected]="isSelected(facet.facet)"
 
             [color]="'accent'"
-            (click)="changeData(facet.name)">
-    {{facet.label}}
+            (click)="changeData(facet.facet)">
+    {{facet.facet}}
   </mat-chip>
   <br>
 </mat-chip-list>

@@ -1,5 +1,27 @@
 import {Serializer} from './pharos-base';
 import {PharosProperty} from './pharos-property';
+import {Target} from './target';
+import gql from 'graphql-tag';
+
+/*const PROPERTYLISTFIELDS =  gql`
+  fragment listFields on PubMed {
+    date
+      pmid
+      title
+      journal
+    abstract
+  }
+`;
+
+const PROPERTYLISTQUERY =  gql`
+  fragment listFields on PubMed {
+    date
+      pmid
+      title
+      journal
+    abstract
+  }
+`;*/
 
 /**
  * publication object
@@ -16,44 +38,9 @@ export class Publication {
   pmid?: number;
 
   /**
-   * pmcid
-   */
-  pmcid?: number;
-
-  /**
-   * pbulication/article title
+   * article title
    */
   title?: string;
-
-  /**
-   * year published
-   */
-  year?: number;
-
-  /**
-   * pages in issue
-   */
-  pages?: string;
-
-  /**
-   * doi link
-   */
-  doi?: string;
-
-  /**
-   * article keywords
-   */
-  keywords?: string[];
-
-  /**
-   * mesh terms
-   */
-  mesh?: string[];
-
-  /**
-   * text of abstract
-   */
-  abstractText?: string;
 
   /**
    * journal name
@@ -61,14 +48,21 @@ export class Publication {
   journal?: string;
 
   /**
-   * urls to figures
+   * date published: YYYY-MM orYYYY-MM-DD
    */
-  figures?: string;
+  date?: number;
 
+  year: string;
   /**
-   * list of authors
+   * text of abstract
    */
-  _authors?: string;
+  abstract?: string;
+
+  targetCounts?: number;
+
+  targets?: Target[];
+
+
 }
 
 /**
@@ -83,9 +77,9 @@ export class PublicationSerializer implements Serializer {
    * @return {Publication}
    */
   fromJson(obj: any, id?: string): Publication {
-    const node = new Publication();
-    Object.entries((obj)).forEach((prop) => node[prop[0]] = prop[1]);
-    return node;
+    const newObj = new Publication();
+    Object.entries((obj)).forEach((prop) => newObj[prop[0]] = prop[1]);
+    return newObj;
   }
 
   /**

@@ -1,24 +1,4 @@
 /**
- * extendable base resource class
- */
-export class BaseResource {
-  /**
-   * name of reagent
-   */
-  name: string;
-
-  /**
-   * Antibody, Cell, Genetic Construct, Mouse, Small Molecule
-   */
-  resourceType: string;
-
-  /**
-   * GPCR, Ion-Channel, Kinase
-   */
-  generatingIC: string;
-}
-
-/**
  * helper repository class
  */
 export class Repository {
@@ -33,4 +13,44 @@ export class Repository {
    * Link to external data repository containing key dataset metadata
    */
   repositoryUrl: string;
+
+  constructor(data: any) {
+
+    if (data.Repository) {
+      this.repositoryName = data.Repository;
+    }
+    if (data.Repository_page_link) {
+      this.repositoryUrl = data.Repository_page_link;
+    }
+  }
+}
+
+/**
+ * extendable base resource class
+ */
+export class BaseResource {
+  /**
+   * name of reagent
+   */
+  name?: string;
+
+  /**
+   * Antibody, Cell, Genetic Construct, Mouse, Small Molecule
+   */
+  resourceType?: string;
+
+  repository?: Repository;
+
+  constructor(data: any) {
+    if (data.Name) {
+      this.name = data.Name;
+    }
+    if (data.resourceType) {
+      this.resourceType = data.resourceType.replace(' ', '')[0].toLowerCase();
+    }
+
+    if ((data.Repository && (data.Repository !== 'null')) || data.Repository_page_link && (data.Repository_page_link !== 'null')) {
+      this.repository = new Repository((data));
+    }
+  }
 }

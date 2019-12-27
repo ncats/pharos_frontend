@@ -27,9 +27,6 @@ class SourceObject {
 
 /**
  * list of data sources shown on about page
- * @type {({source: PharosProperty; targetCount: PharosProperty} | {source: PharosProperty; targetCount: PharosProperty;
-  * diseaseCount: PharosProperty} | {source: PharosProperty; ligandCount: PharosProperty} | {source: PharosProperty} |
-  * {source: PharosProperty; targetCount: PharosProperty; diseaseCount: PharosProperty; ligandCount: PharosProperty})[]}
  */
 export const SOURCES: SourceObject[] =
   [

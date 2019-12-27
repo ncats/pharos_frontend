@@ -1,4 +1,4 @@
-import {COMPONENTSCONFIG} from '../config/components-config';
+import {COMPONENTSCONFIG, PharosPanel} from '../config/components-config';
 import {environment} from '../environments/environment.prod';
 import {Injectable} from '@angular/core';
 
@@ -32,7 +32,8 @@ const PHAROSCONFIG: any = {
   molConvertUrl: _HOST + _API + 'smiles',
   topicResolveUrl: `${_HOST}${_API}topics/target`,
   autocompleteFields: ['UniProt_Gene', 'Target', 'Disease', 'OMIM_Term', 'UniProt_Name'],
-  components: COMPONENTSCONFIG
+  components: COMPONENTSCONFIG,
+  graphqlUrl: 'https://pharos-api.ncats.io/graphql'
 };
 
 /**
@@ -133,24 +134,6 @@ export class PharosConfig {
   }
 
   /**
-   * get filter facets for a specific data type
-   * @param {string} path
-   * @returns {any[]}
-   */
-   getFacets(path: string): any[] {
-    return PHAROSCONFIG.components.has(path) ? PHAROSCONFIG.components.get(path).facets : null;
-  }
-
-  /**
-   * returns all chart facets
-   * @param {string} path
-   * @returns {any[]}
-   */
-   getAllChartFacets(path: string): any[] {
-    return PHAROSCONFIG.components.has(path) ? PHAROSCONFIG.components.get(path).chartFacets : null;
-  }
-
-  /**
    * fetches components by main level path, and subpath if provided.
    * If there are no associated components null is returned
    * @param {string} path The top level path for the environment object
@@ -158,13 +141,13 @@ export class PharosConfig {
    * @returns {any[]} array of component tokens/api calls or null
    *
    */
-   getComponents(path: string, subpath?: string): any[] {
+   getComponents(path: string, subpath?: string): PharosPanel[] {
     if (PHAROSCONFIG.components.has(path)) {
       if (subpath) {
         const value = subpath
           .split('.')
           .reduce((a, b) => a[b], PHAROSCONFIG.components.get(path));
-        return value['components'];
+        return value.components;
       } else {
         return PHAROSCONFIG.components.get(path);
       }
