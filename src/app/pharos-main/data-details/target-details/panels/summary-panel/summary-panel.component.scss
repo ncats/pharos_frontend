@@ -1,21 +1,22 @@
+pharos-summary-panel {
+  .huge {
+    font-size: 124px;
+  }
 
-.huge {
-  font-size: 124px;
-}
-
-.radar-chart {
-  margin: 0 auto;
-  height: 40vh;
-  margin-bottom: 4vh;
-}
-
-.kchart {
-  height: 40vh;
-  margin-bottom: 4vh;
-}
-
-@media only screen and (max-width: 768px) {
   .radar-chart {
-    min-width: 100%;
+    margin: 0 auto;
+    height: 40vh;
+    margin-bottom: 4vh;
+  }
+
+  .kchart {
+    height: 40vh;
+    margin-bottom: 4vh;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .radar-chart {
+      min-width: 100%;
+    }
   }
 }

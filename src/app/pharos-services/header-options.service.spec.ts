@@ -6,7 +6,7 @@ describe('HeaderOptionsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: HeaderOptionsService = TestBed.get(HeaderOptionsService);
+    const service: HeaderOptionsService = TestBed.inject(HeaderOptionsService);
     expect(service).toBeTruthy();
   });
 });

@@ -14,6 +14,12 @@ import {Router, RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FIRESTORESTUB} from '../../../test/firestore-stub';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {COMMON_CONFIG} from '../../../test/test-config';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireModule} from '@angular/fire';
+import {PharosProfileService} from '../auth/pharos-profile.service';
+import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 
 describe('PharosHomeComponent', () => {
   let component: PharosHomeComponent;
@@ -25,7 +31,9 @@ describe('PharosHomeComponent', () => {
         BrowserAnimationsModule,
         SharedModule,
         SearchComponentModule,
+        ApolloTestingModule,
         RouterModule.forRoot([]),
+        AngularFireModule.initializeApp(COMMON_CONFIG),
       ],
       declarations: [
         PharosHomeComponent,
@@ -34,10 +42,16 @@ describe('PharosHomeComponent', () => {
         AboutPanelComponent
       ],
       providers: [
+        PharosProfileService,
+        AngularFireAuth,
         LoadingService,
         {provide: Router, useClass: RouterTestingModule},
         { provide: AngularFirestore, useValue: FIRESTORESTUB },
         {provide: APP_BASE_HREF, useValue: '/index' }
+      ],
+      schemas: [
+        NO_ERRORS_SCHEMA,
+        CUSTOM_ELEMENTS_SCHEMA
       ]
     })
     .compileComponents();

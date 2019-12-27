@@ -46,5 +46,8 @@
   }
 
 @media only screen and (max-width: 768px) {
-
+  .data-grid,
+  .data-source-grid {
+    grid-template-columns: repeat(auto-fill, minmax(90%, 1fr));
+  }
 }

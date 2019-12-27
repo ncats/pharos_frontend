@@ -17,7 +17,7 @@ export class ApiPageComponent implements AfterViewInit {
   /**
    * container that holds the swagger ui
    */
-  @ViewChild('swagger', {static: true}) el: ElementRef;
+  @ViewChild('swagger') el: ElementRef;
 
   /**
    * no args constructor

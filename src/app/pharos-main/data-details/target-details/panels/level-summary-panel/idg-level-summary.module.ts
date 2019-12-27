@@ -17,9 +17,6 @@ import {CommonToolsModule} from '../../../../../tools/common-tools.module';
     TclinSummaryComponent,
     LevelSummaryPanelComponent
   ],
-  entryComponents: [
-    LevelSummaryPanelComponent
-  ],
   imports: [
     CommonModule,
     SharedModule,

@@ -20,7 +20,7 @@ export class DynamicPanelComponent {
    * loading boolean flag
    * @type {boolean}
    */
-  loading = true;
+  @Input() loading = true;
 
   /**
    * main field name
@@ -84,7 +84,7 @@ export class DynamicPanelComponent {
    * No dependencies
    *
    */
-  constructor () {
+  constructor() {
   }
 
   getTooltip(label: string): string {

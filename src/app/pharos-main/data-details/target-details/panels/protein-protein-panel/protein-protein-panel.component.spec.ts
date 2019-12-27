@@ -11,6 +11,9 @@ import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
 import {AngularFireModule, FirebaseAuth} from '@angular/fire';
 import {COMMON_CONFIG} from '../../../../../../../test/test-config';
 import {AngularFireAuth} from '@angular/fire/auth';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {ActivatedRoute} from '@angular/router';
+import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route';
 
 describe('ProteinProteinPanelComponent', () => {
   let component: ProteinProteinPanelComponent;
@@ -25,10 +28,12 @@ describe('ProteinProteinPanelComponent', () => {
         RouterTestingModule,
         TargetTableModule,
         SharedModule,
+        ApolloTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
       providers: [
         AngularFireAuth,
+        {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE},
         { provide: AngularFirestore, useValue: FIRESTORESTUB }
       ]
     })
@@ -38,8 +43,8 @@ describe('ProteinProteinPanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProteinProteinPanelComponent);
     component = fixture.componentInstance;
-    component.data = TESTTARGET;
-    component.targets = [TESTTARGET];
+    component.data = {targets: TESTTARGET};
+    component.target = TESTTARGET;
     fixture.detectChanges();
   });
 

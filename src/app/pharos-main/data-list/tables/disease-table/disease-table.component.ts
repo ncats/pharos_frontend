@@ -1,14 +1,18 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
-import {MatTableDataSource} from '@angular/material';
 import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../../models/page-data';
 import {DynamicTablePanelComponent} from '../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
-import {Target, TargetSerializer} from '../../../../models/target';
 import {Disease, DiseaseSerializer} from '../../../../models/disease';
-import {IDG_LEVEL_TOKEN, RADAR_CHART_TOKEN} from '../target-table/target-table.component';
 import {PharosProperty} from '../../../../models/pharos-property';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 
+/**
+ * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
+ */
+const navigationExtras: NavigationExtras = {
+  queryParamsHandling: 'merge'
+};
 /**
  * display a pageable/ sortable list of disease objects
  * extends dynamic panel to utilize data getters and setters
@@ -16,30 +20,28 @@ import {PharosProperty} from '../../../../models/pharos-property';
 @Component({
   selector: 'pharos-disease-table',
   templateUrl: './disease-table.component.html',
-  styleUrls: ['./disease-table.component.css']
+  styleUrls: ['./disease-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DiseaseTableComponent extends DynamicTablePanelComponent implements OnInit, OnDestroy {
-
-  path = 'diseases';
-
   /**
    * fields to be show in the pdb table
    * @type {PharosProperty[]}
    */
   fieldsData: PharosProperty[] = [
-    new PharosProperty({
+/*    new PharosProperty({
       name: 'id',
       label: 'Disease ID',
       width: '10vw'
-    }),
+    }),*/
     new PharosProperty({
       name: 'name',
       label: 'Disease Name',
       width: '35vw'
     }),
     new PharosProperty({
-      name: 'description',
-      label: 'Description'
+      name: 'associationCount',
+      label: 'Associated Targets'
     })
   ];
 
@@ -87,7 +89,11 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
   /**
    * no required services, call super object constructor
    */
-  constructor() {
+  constructor(
+    private _route: ActivatedRoute,
+    private router: Router,
+    private changeRef: ChangeDetectorRef
+  ) {
     super();
   }
 
@@ -95,22 +101,21 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
    * subscribe to data observable, since the data changes on paging/filtering, only unsubscribe on destroy
    */
   ngOnInit() {
-
     this._data
     // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
       .pipe(
-        // todo: this unsubscribe doesn't seem to work
-       takeUntil(this.ngUnsubscribe)
+        takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (this.data.length) {
-          this.diseaseObjs = this.data
-            .map(disease => this.diseaseSerializer.fromJson(disease));
-          const diseaseProps = this.diseaseObjs
-            .map(disease => disease = this.diseaseSerializer._asProperties(disease));
-          this.diseases = diseaseProps;
-          this.loading = false;
+        if (this.data) {
+          this.pageData = new PageData({
+            top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,
+            skip: (+this._route.snapshot.queryParamMap.get('page') - 1) * +this._route.snapshot.queryParamMap.get('rows'),
+            total: this._route.snapshot.data.results.count
+          });
+          this.diseases = this.data.diseases;
+          this.diseaseObjs = this.data.diseasesProps;
+          this.changeRef.detectChanges();
         }
       });
   }
@@ -129,7 +134,28 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
    * @param $event
    */
   changePage($event): void {
-    this.pageChange.emit($event);
+    this.paginationChanges($event);
+  }
+
+  /**
+   * change pages of list
+   * @param event
+   */
+  paginationChanges(event: any) {
+    navigationExtras.queryParams = {
+      page: event.pageIndex + 1,
+      rows: event.pageSize
+    };
+    this._navigate(navigationExtras);
+  }
+
+  /**
+   * navigate on changes, mainly just changes url, shouldn't reload entire page, just data
+   * @param {NavigationExtras} navExtras
+   * @private
+   */
+  private _navigate(navExtras: NavigationExtras): void {
+    this.router.navigate([], navExtras);
   }
 
   /**

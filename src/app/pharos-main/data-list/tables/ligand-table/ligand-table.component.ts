@@ -1,8 +1,16 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {PageData} from '../../../../models/page-data';
-import {MatTableDataSource} from '@angular/material';
 import {PharosConfig} from '../../../../../config/pharos-config';
+import {Ligand} from '../../../../models/ligand';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
+
+/**
+ * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
+ */
+const navigationExtras: NavigationExtras = {
+  queryParamsHandling: 'merge'
+};
 
 /**
  * table/list view of ligand overviews
@@ -10,24 +18,13 @@ import {PharosConfig} from '../../../../../config/pharos-config';
 @Component({
   selector: 'pharos-ligand-table',
   templateUrl: './ligand-table.component.html',
-  styleUrls: ['./ligand-table.component.css']
+  styleUrls: ['./ligand-table.component.scss']
 })
 export class LigandTableComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
 
   path = 'ligands';
 
-  /**
-   * map of ligands
-   * @type {Map<string, any>}
-   */
-  ligandsMap: Map<string, any> = new Map<string, any>();
-
-  /**
-   * map of dat sources
-   * @type {MatTableDataSource<any[]>}
-   */
-  ligandsDataSource: MatTableDataSource<any[]> = new MatTableDataSource<any[]>();
-
+  ligands: Ligand[];
   /**
    * event emitter of sort event on table
    * @type {EventEmitter<string>}
@@ -52,11 +49,15 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
 
   /**
    * set up config and change detection
-   * @param {ChangeDetectorRef} changeDetector
+   * @param _route
+   * @param router
+   * @param ref
    * @param {PharosConfig} pharosConfig
    */
   constructor(
-    private changeDetector: ChangeDetectorRef,
+    private _route: ActivatedRoute,
+    private router: Router,
+    private ref: ChangeDetectorRef,
     private pharosConfig: PharosConfig
   ) {
     super();
@@ -68,8 +69,15 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
   ngOnInit() {
     this._STRUCTUREURLBASE = this.pharosConfig.getStructureImageUrl();
     this._data.subscribe(d => {
-      if (this.data) {
-        this.setterFunction();
+      if (this.data && this.data.ligands) {
+        this.pageData = new PageData({
+          top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,
+          skip: (+this._route.snapshot.queryParamMap.get('page') - 1) * +this._route.snapshot.queryParamMap.get('rows'),
+          total: this.data.count
+        });
+        this.ligands = this.data.ligands;
+        this.loading = false;
+        this.ref.detectChanges();
       }
     });
   }
@@ -83,18 +91,42 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   /**
-   * emits pagination event
+   * send table page event to emitter, external component handles paging
    * @param $event
    */
   changePage($event): void {
-    this.pageChange.emit($event);
+    this.paginationChanges($event);
+    // this.pageChange.emit($event);
   }
+
+  /**
+   * change pages of list
+   * @param event
+   */
+  paginationChanges(event: any) {
+    navigationExtras.queryParams = {
+      page: event.pageIndex + 1,
+      rows: event.pageSize
+    };
+    this._navigate(navigationExtras);
+  }
+
+  /**
+   * navigate on changes, mainly just changes url, shouldn't reload entire page, just data
+   * @param {NavigationExtras} navExtras
+   * @private
+   */
+  private _navigate(navExtras: NavigationExtras): void {
+    this.router.navigate([], navExtras);
+  }
+
 
   /**
    * set ligand overview data and map activity data
    */
   setterFunction(): void {
     const ligandsArr = [];
+/*
     this.data.forEach(ligand => {
           const mappedLig = this.ligandsMap.get(ligand.id);
           if (!mappedLig) {
@@ -130,6 +162,7 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
             ligandsArr.push(newLigand);
             this.ligandsDataSource.data = ligandsArr;
         });
+*/
   }
 
   /**
@@ -153,7 +186,7 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
         );
       }
     });
-        return otherActivity ? otherActivity[0] : na;
+    return otherActivity ? otherActivity[0] : na;
       }
 
   private parseImageUrl(ligand: any, refid: string): string {

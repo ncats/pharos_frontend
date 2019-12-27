@@ -1,21 +1,21 @@
 <section>
-<div *ngIf="data && data.length > 0">
 <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row ligand-table">
   <div fxFlex="45">
     <div class = mat-display-1>Ligands <span *ngIf ="pageData">({{pageData.total}})</span></div>
   </div>
   <div fxFlex="45" fxFlexAlign="end">
-    <pharos-custom-paginator
-      [pageData]="pageData"
-      [pageSize]="20"
+    <mat-paginator
+      [pageSize]= pageData.top
+      [pageIndex]="pageData.skip / pageData.top"
+      [length]= pageData.total
       [pageSizeOptions]="[10, 20, 60, 100]"
-      (page)="changePage($event)"></pharos-custom-paginator>
+      [showFirstLastButtons]="true"
+      (page)="changePage($event)"></mat-paginator>
   </div>
 </div>
       <div class ="structure-grid">
-        <div *ngFor="let ligand of ligandsDataSource.connect() | async">
-          <pharos-ligand-card [ligand]="ligand"></pharos-ligand-card>
+        <div *ngFor="let ligand of ligands">
+          <pharos-ligand-card [ligand]="ligand" [internalLink]="true"></pharos-ligand-card>
       </div>
       </div>
-</div>
 </section>

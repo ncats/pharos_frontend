@@ -21,9 +21,6 @@ const routes: Routes = [
     SharedModule.forRoot(),
     RouterModule.forChild(routes),
     SketcherModule
-  ],
-  entryComponents: [
-    StructureSearchPageComponent
   ]
 })
 export class StructureSearchPageModule { }

@@ -12,9 +12,6 @@ import {StructureSetterService} from './services/structure-setter.service';
   exports: [
     SketcherComponent
   ],
-  entryComponents: [
-    SketcherComponent
-  ],
   providers: [
     MolConverterService,
     StructureSetterService

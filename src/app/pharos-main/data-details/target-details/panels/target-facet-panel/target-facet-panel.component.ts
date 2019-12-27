@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
+import {Target} from '../../../../../models/target';
 
 /**
  * this is a list of the facets shown - this could probably be set in the config files
@@ -26,13 +27,17 @@ const LABELS: Map<string, string> = new Map<string, string> (
 @Component({
   selector: 'pharos-target-facet-panel',
   templateUrl: './target-facet-panel.component.html',
-  styleUrls: ['./target-facet-panel.component.css']
+  styleUrls: ['./target-facet-panel.component.scss']
 })
 export class TargetFacetPanelComponent extends DynamicPanelComponent implements OnInit {
   /**
    * keys to the facets
    */
   keys: string[];
+
+  @Input() target: Target;
+
+  @Input() targetProps: any;
 
   facets: any[];
 
@@ -41,11 +46,6 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
       name: 'field',
       label: ''
     }),
-   /*  // todo: add back in when counts are returned
-    new PharosProperty({
-      name: 'count',
-      label: ''
-    }),*/
     new PharosProperty({
       name: 'externalLink',
       label: ''
@@ -58,6 +58,7 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
     super();
   }
 
+  // todo support pagination for each facet table
   ngOnInit() {
     this._data
     // listen to data as long as term is undefined or null
@@ -67,39 +68,30 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
         //    takeWhile(() => !this.data['references'])
       )
       .subscribe(x => {
+        this.facets = [];
+        this.target = this.data.targets;
+        this.targetProps = this.data.targetsProps;
         this.setterFunction();
         this.loading = false;
       });
   }
 
   setterFunction(): void {
-    if (this.data) {
-      this.facets = [];
-      this.keys = Object.keys(this.data);
-      this.keys.forEach(key => {
-        if (this.data[key]) {
-          const links: PharosProperty[] = this.data[key].map(facet => {
-            return {
-              field:
-                new PharosProperty({
-                  term: facet.term,
-                 // href: facet.href, // todo: remove when this is standardized
-                  internalLink: ['/targets'],
-                  queryParams: {facet: `${facet.label}/${facet.term}`}
-
-                }),
-           //   count: new PharosProperty({intval: 0}),
-              externalLink:
-                new PharosProperty({
-                externalLink: facet.href
-              })
-            };
-          });
-          this.facets.push({label: key, fields: links});
-        }
-      });
-      this.facets = this.facets.filter(facet => facet.fields.length > 0);
-    }
+    [...LABELS.keys()].map(key => {
+      if (this.targetProps[key] && this.targetProps[key].length > 0) {
+        this.facets.push(
+          {
+            name: key,
+            label: LABELS.get(key),
+            fields: this.targetProps[key].map(field => field = {
+                field: field.term ? field.term : field.value,
+                externalLink: {externalLink: field.value && field.value.externalLink ? field.value.externalLink : null}
+              }
+              )
+          }
+          );
+      }
+    });
   }
 
   getLabel(value: string) {

@@ -1,5 +1,5 @@
-  <div *ngIf="data">
-  <pharos-target-header *ngIf="target" [target]="target" class="popup-radar"></pharos-target-header>
+  <div>
+  <pharos-target-header *ngIf="target" [data]="{'target': target}" [target]="target" class="popup-radar"></pharos-target-header>
   <div fxLayout="row" class="content-row">
     <div fxFlex="25">
       <h3>{{axis}} data provided by the following sources: </h3>

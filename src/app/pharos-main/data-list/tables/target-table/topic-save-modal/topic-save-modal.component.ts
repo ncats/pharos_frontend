@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {PharosProfileService} from '../../../../../auth/pharos-profile.service';
 import {Facet, Field} from '../../../../../models/facet';
 import {PharosConfig} from '../../../../../../config/pharos-config';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {FormControl} from '@angular/forms';
 import {take} from 'rxjs/internal/operators';
@@ -38,7 +38,7 @@ export class TopicSaveModalComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private http: HttpClient,
     private pharosConfig: PharosConfig,
-    private db: AngularFirestore,
+   // private db: AngularFirestore,
     private pharosProfileService: PharosProfileService,
     public dialogRef: MatDialogRef<TopicSaveModalComponent>
   ) { }
@@ -55,10 +55,10 @@ export class TopicSaveModalComponent {
    * submit control value and close modal
    */
   submitList(): void {
-    const ret: Field = {
-      label: this.targetCtrl.value,
-      count: this.data.selection ? this.data.selection.length : this.data.count,
-    };
+    const ret: Field = new Field({
+      name: this.targetCtrl.value,
+      value: this.data.selection ? this.data.selection.length : this.data.count,
+    });
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -96,7 +96,7 @@ export class TopicSaveModalComponent {
      * redirect to topic by id
      */
     // todo make better use of rxjs for this
-    this.data.selection.forEach(target => {
+  /*  this.data.selection.forEach(target => {
       this.db.collection('topic-nodes').doc(target)// ref => ref.where('documentid', '==', target))
         .valueChanges().pipe(take(1))
         .subscribe(res => {
@@ -116,7 +116,7 @@ export class TopicSaveModalComponent {
             });
           }
         });
-    });
+    });*/
      // this.http.post(`${this.pharosConfig.getTopicResolveUrl()}`, this.data.selection.slice(0,10).join(), httpOptions).subscribe(res => {
      //   console.log(res);
        /* ret.value = res['etag'];

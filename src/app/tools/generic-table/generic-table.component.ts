@@ -5,7 +5,9 @@ import {
   Component,
   EventEmitter,
   Injector,
-  Input, OnChanges,
+  Input,
+  OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   QueryList,
@@ -14,13 +16,16 @@ import {
   ViewChildren,
   ViewContainerRef
 } from '@angular/core';
-import {BehaviorSubject, combineLatest} from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
 import {ComponentPortal} from '@angular/cdk/portal';
 import {PageData} from './models/page-data';
-import {MatPaginator, MatRow, MatSort, MatTableDataSource, Sort} from '@angular/material';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort, Sort} from '@angular/material/sort';
+import {MatRow, MatTableDataSource} from '@angular/material/table';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {DataProperty} from './components/property-display/data-property';
 import {SelectionModel} from '@angular/cdk/collections';
+import {takeUntil} from 'rxjs/operators';
 
 /**
  * component to show flexible data consisting of multiple data types, custom components
@@ -30,20 +35,26 @@ import {SelectionModel} from '@angular/cdk/collections';
   selector: 'pharos-generic-table',
   templateUrl: './generic-table.component.html',
   styleUrls: ['./generic-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
       state('expanded', style({height: '*'})),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  ]
 })
 
 /**
  * Generic table Component that iterates over a list of {@link TableData} options to display fields
  */
-export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
+export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+
+  /**
+   * Behaviour subject to allow extending class to unsubscribe on destroy
+   * @type {Subject<any>}
+   */
+  protected ngUnsubscribe: Subject<any> = new Subject();
 
   /**
    * initialize a private variable _data, it's a BehaviorSubject
@@ -119,7 +130,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
 
   /** boolean to toggle completion of page loading
    * todo: currently not used
-   * */
+   */
   loading = false;
 
   /**
@@ -128,29 +139,26 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() showPaginator = true;
 
 
+  @Input() useInternalPaginator = false;
+
   /**
    * show/hide the bottom paginator
    */
   @Input() showBottomPaginator = false;
 
   /**
-   * Paginator object from Angular Material
-   * */
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-
-  /**
    * Sort object from Angular Material
-   * */
+   */
   @ViewChild(MatSort, {static: true}) _sort: MatSort;
 
   /**
    * generated string array of fields that are to be displayed in the table
-   * */
+   */
   displayColumns: string[];
 
   /**
    * generated  array of DataProperties that are to be displayed in the table
-   * */
+   */
   displayFields: DataProperty[];
 
 
@@ -201,16 +209,25 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
    */
   @Input() condensed = false;
 
-@Output() rowSelectionChange: EventEmitter<SelectionModel<any>> = new EventEmitter<SelectionModel<any>>();
+  @Input() asDataSource = false;
+
+  @Output() rowSelectionChange: EventEmitter<SelectionModel<any>> = new EventEmitter<SelectionModel<any>>();
 
   selection = new SelectionModel<any>(true, []);
 
+  /**
+   * Paginator object from Angular Material
+   *
+   */
+  @ViewChild(MatPaginator) set paginator(paginator: MatPaginator) {
+    this.dataSource.paginator = paginator;
+  }
 
   /**
    * injector for custom data
    */
   constructor(
-   private ref: ChangeDetectorRef,
+    private ref: ChangeDetectorRef,
     private _injector: Injector
   ) {
   }
@@ -220,21 +237,38 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
    * Table data is tracked by the data getter and setter
    */
   ngOnInit() {
-    this._data.subscribe(res => {
-      this.dataSource.data = res;
-      this.ref.detectChanges();
-    });
-    this._fieldsConfig.subscribe(res => this.fetchTableFields());
-    this.selection.changed.subscribe(change => {
-      this.ref.detectChanges();
-      this.rowSelectionChange.emit(this.selection);
-    });
+    this._data
+    // listen to data as long as term is undefined or null
+    // Unsubscribe once term has value
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(res => {
+        if (this.useInternalPaginator) {
+          this.dataSource = new MatTableDataSource<any>(res);
+          this.pageData = new PageData({total: res.length});
+        } else {
+          this.dataSource.data = res;
+        }
+        this.ref.detectChanges();
+      });
+
+    this._fieldsConfig.pipe(
+      takeUntil(this.ngUnsubscribe)
+    )
+      .subscribe(res => this.fetchTableFields());
+    this.selection.changed
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(change => {
+        this.ref.detectChanges();
+        this.rowSelectionChange.emit(this.selection);
+      });
   }
 
-  ngOnChanges (change) {
-    if (this.paginator) {
-      this.setPage();
-    }
+  ngOnChanges(change) {
+
   }
 
   /**
@@ -242,9 +276,6 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
    * since the total is not know, it needs to be manually set based on the page data passes in
    */
   ngAfterViewInit() {
-    this.setPage();
-
-
     /*    if (this.fieldsConfig) {
           const defaultSort = this.fieldsConfig.filter(field => field.sorted);
           if (defaultSort.length > 0) {
@@ -261,18 +292,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
    * @return {any}
    */
   trackByFn(index: number, item: any) {
-    return item.uuid && item.uuid.term ? item.uuid.term : item;
-  }
-
-  /**
-   * set default paginator values
-   */
-  setPage() {
-    /*if (this.showPaginator && this.pageData) {
-      this.paginator.length = this.pageData.total;
-      this.paginator.pageSize = this.pageData.top;
-      this.paginator.pageIndex = Math.ceil(this.pageData.skip / this.pageData.top);
-    }*/
+    return (item.name && item.name.term) ? item.name.term : item;
   }
 
   /**
@@ -284,7 +304,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   /**
-   * emit page change events
+   * emit page change events or use internal paginator
    * @param $event
    */
   changePage($event): void {
@@ -318,7 +338,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   /**
-   *sets a flat array of the {@link DataProperty} fields
+   * sets a flat array of the {@link DataProperty} fields
    */
   fetchTableFields(): void {
     this.displayColumns = [];
@@ -328,7 +348,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
     }
     if (this.selectableRows) {
       this.displayColumns = ['select'].concat(this.displayFields.map(field => field.name));
-    //  this.ref.reattach();
+      //  this.ref.reattach();
       this.ref.detectChanges();
     } else {
       this.displayColumns = this.displayFields.map(field => field.name);
@@ -403,7 +423,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
 
     if (component.instance.ref) {
       // todo this is still problematic because injected components are redrawn.
-       this.ref.detach();
+      this.ref.detach();
     }
   }
 
@@ -437,5 +457,13 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges {
       this.dataSource.data.forEach(row => this.selection.select(row));
     this.ref.detectChanges();
 
+  }
+
+  /**
+   * clean up on leaving component
+   */
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

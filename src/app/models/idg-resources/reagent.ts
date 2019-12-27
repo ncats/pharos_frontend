@@ -1,6 +1,32 @@
-import {BaseResource, Repository} from './base-resource';
-import {Serializer} from '../pharos-base';
-import {DataProperty} from '../../tools/generic-table/components/property-display/data-property';
+import {BaseResource} from './base-resource';
+
+
+/**
+ * vendor helper object class
+ */
+export class Vendor {
+  /**
+   * Physical repository from which resource can be purchased
+   */
+  vendor: string;
+  /**
+   * External link to physical and/or digital repositories containing key metadata and ordering information for the resource
+   */
+  vendorUrl: string;
+
+  /**
+   * vendor specific identifier for a resource
+   */
+  resourceID?: string;
+
+  constructor(data: any) {
+    this.vendor = data.Vendor;
+    this.vendorUrl = data.Vendor_cat;
+    if (data.resource_ID) {
+      this.resourceID = data.resource_ID;
+    }
+  }
+}
 
 /**
  * main extendable reagent class
@@ -10,31 +36,28 @@ export class Reagent extends BaseResource {
   /**
    * External link to published images or data relevant for the current Pharos page
    */
-  dataPageLink: string;
+  dataPageLink?: string;
 
   /**
    * list of vendor names/links for purchasing
    */
-  vendors: Vendor[];
-}
-
-/**
- * vendor helper object class
- */
-export class Vendor {
-  /**
-   * Physical repository from which resource can be purchased
-   */
-  vendorName: string;
-  /**
-   * External link to physical and/or digital repositories containing key metadata and ordering information for the resource
-   */
-  vendorPageLink: string;
+  vendors?: Vendor[] = [];
 
   /**
-   * vendor specific identifier for a resource
+   * base resource type
    */
-  resourceID: string;
+  baseType = 'reagent';
+
+  constructor(data: any) {
+    super(data);
+
+    if (data.Data_page_link) {
+      this.dataPageLink = data.Data_page_link;
+    }
+    if (data.Vendor) {
+      this.vendors.push(new Vendor(data));
+    }
+  }
 }
 
 /**
@@ -45,6 +68,16 @@ export class Antibody extends Reagent {
    * Experiments and assays for which the antibodies have been tested and validated
    */
   usage: string[];
+
+  resourceType = 'antibody';
+
+  constructor(data: any) {
+    super(data);
+
+    if (data.usage) {
+      this.usage = data.usage;
+    }
+  }
 }
 
 /**
@@ -65,6 +98,23 @@ export class Cell extends Reagent {
    * IDG Identifier of the vector utilized to modify the cells for experimental purposes
    */
   vectorID: string;
+
+  resourceType = 'cell';
+
+
+  constructor(data: any) {
+    super(data);
+
+    if (data.cellID) {
+      this.cellID = data.cellID;
+    }
+    if (data.modificationType) {
+      this.modificationType = data.modificationType;
+    }
+    if (data.vectorID) {
+      this.vectorID = data.vectorID;
+    }
+  }
 }
 
 /**
@@ -76,13 +126,30 @@ export class GeneticConstruct extends Reagent {
    */
   RRID: string;
   /**
-   *As registered with repository
+   * As registered with repository
    */
   vectorName: string;
   /**
    * Purpose/type of construct associated with gene
    */
   vectorType: string;
+
+  resourceType = 'geneticConstruct';
+
+
+  constructor(data: any) {
+    super(data);
+
+    if (data.RRID) {
+      this.RRID = data.RRID;
+    }
+    if (data.vectorName) {
+      this.vectorName = data.vectorName;
+    }
+    if (data.RRID) {
+      this.vectorType = data.vectorType;
+    }
+  }
 }
 
 /**
@@ -102,12 +169,33 @@ export class Mouse extends Reagent {
   /**
    * Link to the external repository where the construct was described
    */
-  constructDetails: Repository;
+  constructDetails: any; // Repository;
 
   /**
    * Link to the external repository where the construct was registered
    */
-  correspondingConstruct: Repository;
+  correspondingConstruct: any; // Repository;
+
+  resourceType = 'mouse';
+
+
+  constructor(data: any) {
+    super(data);
+
+    if (data.MMRRCID) {
+      this.MMRRCID = data.MMRRCID;
+    }
+    if (data.allele) {
+      this.allele = data.allele;
+    }
+    if (data.constructDetails) {
+      this.constructDetails = data.constructDetails;
+    }
+
+    if (data.correspondingConstruct) {
+      this.correspondingConstruct = data.correspondingConstruct;
+    }
+  }
 }
 
 /**
@@ -117,7 +205,7 @@ export class SmallMolecule extends Reagent {
   /**
    * Batch SMILES sequence (including salt and other modifications) of molecule
    */
-  batchSmiles: string;
+  smiles: string;
 
   /**
    * Canonical SMILES sequence of molecule
@@ -133,6 +221,26 @@ export class SmallMolecule extends Reagent {
    * Repository corresponding to the external ID
    */
   externalIDRegistrationSystem: string;
+
+  resourceType = 'Small Molecule';
+
+
+  constructor(data: any) {
+    super(data);
+    if (data.SMILES) {
+      this.smiles = data.SMILES;
+    }
+
+    if (data.Canonical_SMILES) {
+      this.canonicalSmiles = data.Canonical_SMILES;
+    }
+    if (data.External_ID) {
+      this.externalID = data.External_ID;
+    }
+    if (data.External_ID_registration_system) {
+      this.externalIDRegistrationSystem = data.External_ID_registration_system;
+    }
+  }
 }
 
 /**
@@ -143,79 +251,19 @@ export class Peptide extends Reagent {
    * Is the peptide used in PRM-based experiments
    */
   prmType: string;
-}
 
-/**
- * serializer for reagent object operations
- */
-export class ReagentSerializer implements Serializer {
+  resourceType = 'peptide';
 
-  /**
-   * no args - chemicals don't have any main level vocabulary terms
-   */
-  constructor () {}
+  constructor(data: any) {
+    super(data);
 
-  /**
-   * create reagent from json object
-   * @param json
-   * @return {Reagent}
-   */
-  fromJson(json: any): Reagent {
-    let obj: Reagent;
-    switch (json.resourceType) {
-      case 'antibody': {
-        obj = new Antibody();
-        break;
-      }
-      case 'cell': {
-        obj = new Cell();
-        break;
-      }
-      case 'genetic construct': {
-        obj = new GeneticConstruct();
-        break;
-      }
-      case 'mouse': {
-        obj = new Mouse();
-        break;
-      }
-      case 'small molecule': {
-        obj = new SmallMolecule();
-        break;
-      }
-      case 'peptide': {
-        obj = new Peptide();
-        break;
-      }
+    if (data.prmType) {
+      this.prmType = data.prmType;
     }
-    Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
-    return obj;
-  }
-
-  /**
-   * flatten reagent
-   * @param {Reagent} obj
-   * @return {any}
-   */
-  toJson(obj: Reagent): any {
-    return [];
-  }
-
-  /**
-   * return reagent as properties
-   * @param {Reagent} T
-   * @return {any}
-   * @private
-   */
-  _asProperties<T extends Reagent>(T: Reagent): any {
-    const newObj: any = {};
-    Object.keys(T).map(field => {
-      const property: DataProperty = {name: field, label: field, term: T[field]};
-      newObj[field] = property;
-    });
-    return newObj;
   }
 }
+
+
 
 
 

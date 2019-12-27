@@ -5,7 +5,16 @@ import {SharedModule} from '../../../../../shared/shared.module';
 import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ProteinStructureViewerComponent} from '../../../../../tools/protein-structure-viewer/protein-structure-viewer.component';
-import {TESTTARGET} from '../../../../../../../test/test-target';
+import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../test/test-target';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {RouterTestingModule} from '@angular/router/testing';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {ActivatedRoute} from '@angular/router';
+import {COMMON_CONFIG} from '../../../../../../../test/test-config';
+import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
+import {AngularFireModule} from '@angular/fire';
 
 describe('PdbPanelComponent', () => {
   let component: PdbPanelComponent;
@@ -20,8 +29,16 @@ describe('PdbPanelComponent', () => {
       imports: [
         SharedModule,
         GenericTableModule,
-        BrowserAnimationsModule
-      ]
+        BrowserAnimationsModule,
+        ApolloTestingModule,
+        RouterTestingModule,
+        AngularFireModule.initializeApp(COMMON_CONFIG)
+      ],
+      providers: [
+        AngularFireAuth,
+        { provide: AngularFirestore, useValue: FIRESTORESTUB },
+        { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
+      ],
     })
     .compileComponents();
   }));
@@ -29,8 +46,7 @@ describe('PdbPanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PdbPanelComponent);
     component = fixture.componentInstance;
-    component.data = TESTTARGET;
-    component['target'] = TESTTARGET;
+    component.data = {targets: TESTTARGET, targetsProps: TESTTARGETPROPS};
     fixture.detectChanges();
   });
 

@@ -49,10 +49,16 @@ export class NavSectionsService {
   activeSection$ = this._activeSectionSource.asObservable();
 
   setSections(sections: any[]): void {
-    this._navSectionsSource.next(sections);
+    this._sections = sections;
+    this._navSectionsSource.next(this._sections);
   }
 
   setActiveSection(section: string) {
     this._activeSectionSource.next(section);
+  }
+
+  removeSection(remSection: string) {
+    this._sections = this._sections.filter(section => section.section !== remSection);
+    this._navSectionsSource.next(this._sections);
   }
 }

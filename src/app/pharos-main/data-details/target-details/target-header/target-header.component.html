@@ -1,6 +1,6 @@
 <article>
   <div class="sticky-container" #home>
-<div fxLayout="row wrap" fxLayoutAlign="start center" class ="sticky target-header"
+<div fxLayout="row wrap" fxLayoutAlign="start center" class ="sticky target-header" *ngIf="target"
      ngClass = {{getHeaderClass()}}>
   <div fxFlex="10" fxFlex.lt-sm="35" >
     <pharos-idg-level-indicator [level]="target?.idgTDL"></pharos-idg-level-indicator>

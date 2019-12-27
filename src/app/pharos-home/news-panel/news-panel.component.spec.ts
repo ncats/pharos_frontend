@@ -5,6 +5,9 @@ import {SharedModule} from '../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FIRESTORESTUB} from '../../../../test/firestore-stub';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {COMMON_CONFIG} from '../../../../test/test-config';
+import {AngularFireModule} from '@angular/fire';
+import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 
 describe('NewsPanelComponent', () => {
   let component: NewsPanelComponent;
@@ -14,13 +17,18 @@ describe('NewsPanelComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
-        SharedModule
+        SharedModule,
+        AngularFireModule.initializeApp(COMMON_CONFIG),
       ],
       declarations: [
         NewsPanelComponent
       ],
       providers: [
         { provide: AngularFirestore, useValue: FIRESTORESTUB }
+      ],
+      schemas: [
+        NO_ERRORS_SCHEMA,
+        CUSTOM_ELEMENTS_SCHEMA
       ]
     })
     .compileComponents();

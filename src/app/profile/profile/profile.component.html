@@ -1,0 +1,30 @@
+<div class="profile-container">
+  <div *ngIf="collections; else nocollections">
+  <div *ngFor="let collection of collections">
+    <mat-toolbar [color]="'primary'" class="target-table-toolbar">
+      <div class=pharos-display-1>{{collection.collectionName}} <span>({{collection.targetList.length}})</span>
+      </div>
+      <div fxFlex></div>
+      <div fxFlex="5">
+        <button mat-icon-button
+                (click)="deleteCollection(collection)" aria-label="delete collection">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+    <div fxLayout="row" fxLayoutAlign="space-around start" *ngIf="collection.description">
+    <div fxFlex="90">
+    <p>{{collection.description}}</p>
+    </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-around start">
+      <div fxFlex="90">
+        <p>{{collection.targetList.join(', ')}}</p>
+    </div>
+    </div>
+  </div>
+</div>
+<ng-template #nocollections>
+  <h3>You have no target collections saved.</h3>
+</ng-template>
+</div>

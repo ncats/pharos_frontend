@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Facet} from '../../../../models/facet';
 
 /**
  * list of facets available under the donut chart
@@ -13,7 +14,7 @@ export class VisualizationOptionsComponent implements OnInit {
   /**
    * list of available facets
    */
-  @Input() facets: any[];
+  @Input() facets: Facet[];
 
   /**
    * event emitter for facet change that changes the donut slices listed
@@ -35,7 +36,7 @@ export class VisualizationOptionsComponent implements OnInit {
    * load the first facet by default
    */
   ngOnInit() {
-    this.changeData(this.facets[0].name);
+    this.changeData(this.facets[0].facet);
   }
 
   /**

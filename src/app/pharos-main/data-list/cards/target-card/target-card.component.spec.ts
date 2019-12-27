@@ -6,6 +6,7 @@ import {RadarChartModule} from '../../../../tools/visualizations/radar-chart/rad
 import {CommonToolsModule} from '../../../../tools/common-tools.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {RouterModule} from '@angular/router';
+import {TESTTARGET} from '../../../../../../test/test-target';
 
 describe('TargetCardComponent', () => {
   let component: TargetCardComponent;
@@ -29,6 +30,7 @@ describe('TargetCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TargetCardComponent);
     component = fixture.componentInstance;
+    component.target = TESTTARGET;
     fixture.detectChanges();
   });
 

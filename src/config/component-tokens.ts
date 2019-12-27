@@ -1,5 +1,4 @@
 import {InjectionToken} from '@angular/core';
-import {TargetRelevancePanelComponent} from '../app/pharos-main/data-details/ligand-details/panels/target-relevance-panel/target-relevance-panel.component';
 
 /**
  * main class of injection tokens
@@ -19,6 +18,26 @@ export class TOKENS {
    * injection token to add the target details header
    */
   public static TARGET_HEADER_COMPONENT = new InjectionToken<string>('TargetHeaderComponent');
+  /**
+   * injection token to add the facets sidenav
+   */
+  public static PHAROS_FACETS_COMPONENT = new InjectionToken<string>('PharosFacetComponent');
+  /**
+   * injection token to add the selected facets list component
+   */
+  public static PHAROS_SELECTED_FACET_LIST_COMPONENT = new InjectionToken<string>('PharosFacetComponent');
+  /**
+   * injection token to add the facet donut chart
+   */
+  public static PHAROS_VISUALIZATION_COMPONENT = new InjectionToken<string>('PharosFacetVisualizationComponent');
+  /**
+   * injection token to add the target details subnavigation component
+   */
+  public static PHAROS_SUBNAV_COMPONENT = new InjectionToken<string>('PharosSubnavComponent');
+  /**
+   * injection token to add the help panel sidenav
+   */
+  public static PHAROS_HELPPANEL_COMPONENT = new InjectionToken<string>('PharosHelpPanelComponent');
 
   /**
    * injection token to link to the target table component
@@ -66,19 +85,20 @@ export class TOKENS {
   public static TARGET_LIST_PANEL = new InjectionToken<string>('TargetListPanel');
 
   /**
+   * injection token to link to the publication statistics for a target
+   */
+  public static PUBLICATION_STATISTICS_PANEL = new InjectionToken<string>('PublicationStatisticsComponent');
+
+  /**
    * injection token to link to the publication info for a target
    */
-  public static PUBLICATION_INFO_PANEL = new InjectionToken<string>('PublicationInfoPanelComponent');
+  public static RELATED_PUBLICATIONS_PANEL = new InjectionToken<string>('RelatedPublicationsComponent');
 
   /**
    * injection token to link to target expression data visualizations
    */
   public static EXPRESSION_PANEL = new InjectionToken<string>('ExpressionPanelComponent');
 
-  /**
-   * injection token to link to gene rif data
-   */
-  public static ASSAY_PANEL = new InjectionToken<string>('AssayComponent');
   /**
    * injection token to link to amino acid sequence data
    */
@@ -101,29 +121,29 @@ export class TOKENS {
    * injection token to link to the other facets for a specific target
    */
   public static TARGET_FACET_PANEL = new InjectionToken<string>('TargetFacetPanelComponent');
-  /**
+  /*/!**
    * Injection token for topics list
-   */
+   *!/
   public static TOPIC_TABLE_COMPONENT = new InjectionToken<string>('TopicTableComponent');
-  /**
+  /!**
    * Injection token for topics details component
-   */
+   *!/
   public static TOPIC_DETAILS_COMPONENT = new InjectionToken<string>('TopicDetailsComponent');
 
-  /**
+  /!**
    * injection token to add the topic details header
-   */
+   *!/
   public static TOPIC_HEADER_COMPONENT = new InjectionToken<string>('TopicHeaderComponent');
 
-  /**
+  /!**
    * injection token to add the neo4j graph vis
-   */
+   *!/
   public static TOPIC_GRAPH_PANEL = new InjectionToken<string>('TopicGraphPanelComponent');
-  /**
+  /!**
    * injection token to add the neo4j graph node details
-   */
+   *!/
   public static NODE_DISPLAY_PANEL = new InjectionToken<string>('NodeDisplayComponent');
-
+*/
   /**
    * Injection token for ligands list
    */
@@ -145,21 +165,20 @@ export class TOKENS {
    * injection token to link to synonyms data
    */
   public static SYNONYMS_PANEL = new InjectionToken<string>('SynonymsComponent');
- /**
- * injection token to link to structure view data
- */
-public static STRUCTURE_VIEW_PANEL = new InjectionToken<string>('StructureViewComponent');
- /**
- * injection token to link to molecular definition data
- */
-public static MOLECULAR_DEFINITION_PANEL = new InjectionToken<string>('MolecularDefinitionComponent');
- /**
- * injection token to link to target relevance data
- */
-public static TARGET_RELEVANCE_PANEL = new InjectionToken<string>('TargetRelevancePanelComponent');
-
+  /**
+   * injection token to link to structure view data
+   */
+  public static STRUCTURE_VIEW_PANEL = new InjectionToken<string>('StructureViewComponent');
+  /**
+   * injection token to link to molecular definition data
+   */
+  public static MOLECULAR_DEFINITION_PANEL = new InjectionToken<string>('MolecularDefinitionComponent');
+  /**
+   * injection token to link to target relevance data
+   */
+  public static TARGET_RELEVANCE_PANEL = new InjectionToken<string>('TargetRelevancePanelComponent');
   /**
    * injection token to link to protein database data
    */
   public static PDB_PANEL = new InjectionToken<string>('PdbPanelComponent');
- }
+}
