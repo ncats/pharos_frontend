@@ -37,6 +37,8 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
   }
 
   getHeaderClass(): string {
-    return this.target.idgTDL.toLowerCase() + '-header';
+    if (this.target) {
+      return this.target.idgTDL.toLowerCase() + '-header';
+    }
   }
 }
