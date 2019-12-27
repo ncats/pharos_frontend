@@ -80,7 +80,7 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
     }
       if (this.breakpointObserver.isMatched('(max-width: 768px)')) {
       this.fullDescription = false;
-        if (this.description && this.description.length > 500) {
+      if (this.description && this.description.length > 500) {
           this.truncatedDescription = this.description.slice(0, 500);
         }
     }

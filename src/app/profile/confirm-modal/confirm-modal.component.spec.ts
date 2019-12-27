@@ -21,7 +21,7 @@ describe('ConfirmModalComponent', () => {
         {provide: MatDialogRef, useValue: matDialogRefStub},
       ]
     })
-      .compileComponents()
+      .compileComponents();
   }));
 
   beforeEach(() => {
