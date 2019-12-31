@@ -7,23 +7,23 @@ import {CommonToolsModule} from '../../../../tools/common-tools.module';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../../test/mock-activate-route';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 
 describe('TargetHeaderComponent', () => {
   let component: TargetHeaderComponent;
   let fixture: ComponentFixture<TargetHeaderComponent>;
-  const testTarget = TESTTARGET;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      declarations: [ TargetHeaderComponent ],
       imports: [
-        CommonToolsModule,
-        SharedModule,
-        BrowserAnimationsModule
+        ApolloTestingModule
       ],
-      providers: [
-        { provide: ActivatedRoute, useClass: MOCKACTIVATEDROUTE }
-      ],
-      declarations: [ TargetHeaderComponent ]
+      schemas: [
+        NO_ERRORS_SCHEMA,
+        CUSTOM_ELEMENTS_SCHEMA
+      ]
     })
     .compileComponents();
   }));
@@ -33,7 +33,6 @@ describe('TargetHeaderComponent', () => {
     component = fixture.componentInstance;
     component.data = {
       targets: TESTTARGET,
-      targetsProps: TESTTARGETPROPS
     };
     fixture.detectChanges();
   });
