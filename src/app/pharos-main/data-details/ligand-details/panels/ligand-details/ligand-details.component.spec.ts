@@ -22,14 +22,11 @@ describe('LigandDetailsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [LigandDetailsComponent],
       imports: [
-        SharedModule,
         ApolloTestingModule,
-        AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
-      providers: [
-        AngularFireAuth,
-        {provide: AngularFirestore, useValue: FIRESTORESTUB},
-        {provide: ActivatedRoute, useClass: MOCKACTIVATEDROUTE}
+      schemas: [
+        NO_ERRORS_SCHEMA,
+        CUSTOM_ELEMENTS_SCHEMA
       ]
     })
       .compileComponents();
