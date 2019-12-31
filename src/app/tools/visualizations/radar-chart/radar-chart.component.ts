@@ -275,7 +275,6 @@ export class RadarChartComponent implements OnInit, OnDestroy {
    * draw and update graph
    */
   ngOnInit() {
-    this.drawChart();
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -283,9 +282,8 @@ export class RadarChartComponent implements OnInit, OnDestroy {
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        console.log(this.data);
+        this.drawChart();
         this.updateChart();
-      //  this.changeRef.markForCheck();
       });
   }
 
@@ -403,7 +401,6 @@ export class RadarChartComponent implements OnInit, OnDestroy {
    * update data displayed in the chart
    */
   updateChart(): void {
-    console.log(this.data);
     const max = Math.max;
     const sin = Math.sin;
     const cos = Math.cos;
@@ -454,7 +451,6 @@ export class RadarChartComponent implements OnInit, OnDestroy {
       (this.height - this._chartOptions.margin.top - this._chartOptions.margin.bottom) / 2); 	// Radius of the outermost circle
     const format = d3.format(this._chartOptions.format);			 	// Formatting
     const angleSlice = Math.PI * 2 / total;		// The width in radians of each "slice"
-    console.log(maxValue);
     // Scale for the radius
     const rScale = d3.scaleLinear()
       .range([0, radius])

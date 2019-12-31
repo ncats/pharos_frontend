@@ -1,6 +1,11 @@
-import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
+import {
+  Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import * as d3 from 'd3';
 import {PharosPoint} from '../../../models/pharos-point';
+import {takeUntil} from 'rxjs/operators';
+import {BehaviorSubject, Subject} from 'rxjs';
 
 /**
  * component to create a d3 bar chart
@@ -11,23 +16,46 @@ import {PharosPoint} from '../../../models/pharos-point';
   styleUrls: ['./bar-chart.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class BarChartComponent implements OnInit {
+export class BarChartComponent implements OnInit, OnDestroy {
 
   /**
    * element container
    */
   @ViewChild('barChartTarget', {static: true}) chartContainer: ElementRef;
 
+  /**
+   * Behaviour subject to allow extending class to unsubscribe on destroy
+   * @type {Subject<any>}
+   */
+  protected ngUnsubscribe: Subject<any> = new Subject();
 
   /**
-   * set data value
+   * initialize a private variable _data, it's a BehaviorSubject
+   * @type {BehaviorSubject<any>}
+   * @private
+   */
+  protected _data = new BehaviorSubject<any>({});
+
+  /**
+   * pushes changed data to {BehaviorSubject}
    * @param value
    */
+  @Input()
+  set data(value: any) {
+    if (value.data) {
+      this._data.next(value.data);
+    } else {
+      this._data.next(value);
+    }
+  }
+
   /**
-   *
-   * @param {PharosPoint[]} value
+   * returns value of {BehaviorSubject}
+   * @returns {any}
    */
-  @Input() data: PharosPoint[];
+  get data() {
+    return this._data.getValue();
+  }
 
   /**
    * margin for padding
@@ -75,17 +103,24 @@ export class BarChartComponent implements OnInit {
   /**
    * no args constructor
    */
-  constructor() {
-  }
+  constructor() {}
 
   /**
    * draw basic graph elements, and once data is available, update graph with data
    */
   ngOnInit() {
-    this.drawGraph();
-    if (this.data) {
-      this.updateGraph();
-    }
+    this._data
+    // listen to data as long as term is undefined or null
+    // Unsubscribe once term has value
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(x => {
+        this.drawGraph();
+        if (this.data) {
+          this.updateGraph();
+        }
+      });
   }
 
   /**
@@ -180,5 +215,13 @@ export class BarChartComponent implements OnInit {
           .style('opacity', 0);
         d3.select(bars[i]).classed('hovered', false);
       });
+  }
+
+  /**
+   * clean up on leaving component
+   */
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }
