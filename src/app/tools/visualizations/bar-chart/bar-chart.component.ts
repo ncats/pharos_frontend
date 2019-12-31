@@ -41,12 +41,8 @@ export class BarChartComponent implements OnInit, OnDestroy {
    * @param value
    */
   @Input()
-  set data(value: any) {
-    if (value.data) {
-      this._data.next(value.data);
-    } else {
+  set data(value: any[]) {
       this._data.next(value);
-    }
   }
 
   /**
