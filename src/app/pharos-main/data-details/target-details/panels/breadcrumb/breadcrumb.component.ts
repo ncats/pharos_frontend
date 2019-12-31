@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {BehaviorSubject} from 'rxjs/index';
 import {Target} from '../../../../../models/target';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
@@ -62,30 +61,7 @@ export class BreadcrumbComponent extends DynamicPanelComponent implements OnInit
         if (this.target && this.target.dto) {
           this.links = this.target.dto;
         }
-        //  this.targetProps = this.data.targetsProps;
-
-
-//    this.path = {term: pt, label: pt};
-        /*this._data.subscribe(x => {
-          if (this.data) {
-            if (this.data.dto && this.data.dto.length > 0) {
-              this.links = this.data.dto.sort((a, b) => b.label < a.label);
-            } else if (this.data.breadcrumb && this.data.breadcrumb.length > 0) {
-              this.links = this.data.breadcrumb.sort((a, b) => b.label < a.label);
-            }
-          }
-        });*/
       });
   }
-
-  /**
-   * navigate to url, using link the same way facets are used
-   * @param link
-   */
-  goTo(link: any): void {
-    console.log(link);
-   // this.pathResolverService.mapSelection({name: link.label, change: {added: [link.term]}});
-   // this.pathResolverService.navigate(this.route.snapshot.data.path);
-}
 
 }
