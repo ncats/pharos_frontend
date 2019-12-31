@@ -6,7 +6,6 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build pharos --base-href=/idg/ --prod",
-    "build-test": "ng build pharos --base-href=/idg/ --prod",
     "test": "ng test pharos --code-coverage",
     "lint": "ng lint pharos",
     "lintfix": "ng lint pharos --fix",
