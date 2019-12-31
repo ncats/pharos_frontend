@@ -15,6 +15,8 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {ScatterOptions} from './models/scatter-options';
 import {ScatterPoint} from './models/scatter-point';
 import {PharosPoint} from '../../../models/pharos-point';
+import {takeUntil} from 'rxjs/operators';
+import {BehaviorSubject, Subject} from 'rxjs';
 
 /**
  * flexible scatterplot/line chart viewer, has click events, hoverover, and voronoi plots for easier hoverover
@@ -24,7 +26,7 @@ import {PharosPoint} from '../../../models/pharos-point';
   templateUrl: './scatter-plot.component.html',
   styleUrls: ['./scatter-plot.component.scss'],
   encapsulation: ViewEncapsulation.None,
- // changeDetection: ChangeDetectionStrategy.OnPush
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
   /**
@@ -32,7 +34,39 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    */
   @ViewChild('scatterPlotTarget', {static: true}) chartContainer: ElementRef;
 
-  @Input() data: any;
+  /**
+   * Behaviour subject to allow extending class to unsubscribe on destroy
+   * @type {Subject<any>}
+   */
+  protected ngUnsubscribe: Subject<any> = new Subject();
+
+  /**
+   * initialize a private variable _data, it's a BehaviorSubject
+   * @type {BehaviorSubject<any>}
+   * @private
+   */
+  protected _data = new BehaviorSubject<any>({});
+
+  /**
+   * pushes changed data to {BehaviorSubject}
+   * @param value
+   */
+  @Input()
+  set data(value: any) {
+    if (value.data) {
+      this._data.next(value.data);
+    } else {
+      this._data.next(value);
+    }
+  }
+
+  /**
+   * returns value of {BehaviorSubject}
+   * @returns {any}
+   */
+  get data() {
+    return this._data.getValue();
+  }
 
   /**
    * options opbject passed from component
@@ -126,9 +160,8 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     this.setData();
   }
 
-  constructor(
-    private changeRef: ChangeDetectorRef
-  ) {}
+  constructor(private changeRef: ChangeDetectorRef) {
+  }
 
 
   /**
@@ -137,6 +170,13 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    * and update with data
    */
   ngOnInit() {
+    this._data
+    // listen to data as long as term is undefined or null
+    // Unsubscribe once term has value
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(x => {
         if (this.filters) {
           this.filters.forEach(filter => {
             this.displayData.push(this.data.get(filter));
@@ -146,6 +186,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
         }
         this.drawChart();
         this.setData();
+      });
   }
 
   /**
@@ -242,7 +283,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     this.voronoi = d3.voronoi()
       .x((d: ScatterPoint) => this.x(d.x))
       .y((d: ScatterPoint) => this.y(d.y))
-      .extent([[-this._chartOptions.margin.left, - this._chartOptions.margin.top],
+      .extent([[-this._chartOptions.margin.left, -this._chartOptions.margin.top],
         [this.width, this.height + this._chartOptions.margin.bottom]]);
 
     if (this._chartOptions.xAxisScale === 'year') {
@@ -256,7 +297,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
 
     if (this._chartOptions.yAxisScale === 'year') {
       this.y.domain(
-        d3.extent(d3.merge(this.displayData).map(d =>  new Date(d.y, 0))));
+        d3.extent(d3.merge(this.displayData).map(d => new Date(d.y, 0))));
     } else {
       this.y.domain(
         (d3.extent(d3.merge(this.displayData).map(d => d.y)))
@@ -269,17 +310,16 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       .tickPadding(10);
 
     if (this._chartOptions.xAxisScale === 'year') {
-     xAxis = d3.axisBottom(this.x)
-       .ticks(d3.timeYear.every(this.displayData.length < 3 ? 1 : 3))
-       .tickSize(-this.height)
-       .tickPadding(10).tickFormat(d3.timeFormat('%Y'));
+      xAxis = d3.axisBottom(this.x)
+        .ticks(d3.timeYear.every(this.displayData.length < 3 ? 1 : 3))
+        .tickSize(-this.height)
+        .tickPadding(10).tickFormat(d3.timeFormat('%Y'));
     }
 
     const yAxis = d3.axisLeft(this.y)
       .ticks(5)
       .tickSize(-this.width + margin.left + margin.right)
       .tickPadding(0);
-
 
 
     this.svg = d3.select(element)
@@ -404,16 +444,16 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    * set data in chart, and draw objects as needed
    */
   setData() {
-    if (this._chartOptions.xAxisScale === 'year' ) {
-      d3.merge(this.displayData).map( d => {
-         if (typeof d.x !== 'object') {
-           d.x = new Date(d.x, 0);
-         }
-         return d;
+    if (this._chartOptions.xAxisScale === 'year') {
+      d3.merge(this.displayData).map(d => {
+        if (typeof d.x !== 'object') {
+          d.x = new Date(d.x, 0);
+        }
+        return d;
       });
     }
 
-       // JOIN new data with old elements.
+    // JOIN new data with old elements.
     const circles = this.svg.select('.points').selectAll('.linePoints')
       .data(d3.merge(this.displayData), d => d);
     circles.enter()
@@ -426,7 +466,6 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       .style('fill', d => '#23364e')
       .style('pointer-events', 'all')
       .exit();
-
 
 
     // Add the valueline path.
@@ -449,8 +488,8 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    * update chart data and redraw elements as needed
    */
   updateData(): void {
-    if (this._chartOptions.xAxisScale === 'year' ) {
-     // d3.merge(this.displayData).map( d => d.x = new Date(d.x, 0));
+    if (this._chartOptions.xAxisScale === 'year') {
+      // d3.merge(this.displayData).map( d => d.x = new Date(d.x, 0));
     }
 
     const t = d3.transition()
@@ -474,7 +513,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       .attr('r', 2.5 / this.k)
       .attr('id', d => d.id)
       .attr('cy', d => this.y(d.y))
-      .attr('cx', d =>  this.x(d.x))
+      .attr('cx', d => this.x(d.x))
       .style('fill', d => '#23364e')
       .style('pointer-events', 'all')
       .transition(t)
@@ -581,8 +620,10 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    * function to unsubscribe on destroy
    */
   ngOnDestroy() {
-   const element = this.chartContainer.nativeElement;
-   d3.select(element).selectAll('this.svg').remove();
-   d3.select('body').selectAll('.line-tooltip').remove();
+    const element = this.chartContainer.nativeElement;
+    d3.select(element).selectAll('this.svg').remove();
+    d3.select('body').selectAll('.line-tooltip').remove();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }
