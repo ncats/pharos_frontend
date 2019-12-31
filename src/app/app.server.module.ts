@@ -9,7 +9,7 @@ import {FlexLayoutServerModule} from '@angular/flex-layout/server';
 import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
 
 
- const routes: Routes = [ { path: 'shell', component: AppShellComponent }];
+const routes: Routes = [ { path: 'shell', component: AppShellComponent }];
 
 @NgModule({
   imports: [
