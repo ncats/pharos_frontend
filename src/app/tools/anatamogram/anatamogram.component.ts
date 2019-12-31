@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
 import {AnatomogramImageComponent} from './anatomogram-image/anatomogram-image.component';
 import {AnatamogramHoverService} from './anatamogram-hover.service';
@@ -9,7 +9,8 @@ import {AnatamogramHoverService} from './anatamogram-hover.service';
 @Component({
   selector: 'pharos-anatamogram',
   templateUrl: './anatamogram.component.html',
-  styleUrls: ['./anatamogram.component.scss']
+  styleUrls: ['./anatamogram.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class AnatamogramComponent implements OnInit {
@@ -40,9 +41,11 @@ export class AnatamogramComponent implements OnInit {
   /**
    * import hover service
    * @param {AnatamogramHoverService} anatamogramHoverService
+   * @param changeRef
    */
   constructor(
-    private anatamogramHoverService: AnatamogramHoverService
+    private anatamogramHoverService: AnatamogramHoverService,
+    private changeRef: ChangeDetectorRef
   ) { }
 
   /**
@@ -60,7 +63,7 @@ export class AnatamogramComponent implements OnInit {
    */
   toggleView(change: MatRadioChange) {
     this.details = change.value;
-
+    this.changeRef.markForCheck();
   }
 
   /**
