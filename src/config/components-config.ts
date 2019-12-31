@@ -178,7 +178,8 @@ const PHAROS_HELPPANEL_COMPONENT: PharosPanel = {
  */
 const TARGET_HEADER_COMPONENT: PharosPanel = {
   token: TOKENS.TARGET_HEADER_COMPONENT,
-  section: Position.Header
+  section: Position.Header,
+  api: []
 };
 
 /**
@@ -1046,68 +1047,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
         //  MOLECULAR_DEFINITION_PANEL
         ]
       }
-    }],
-    /*['topics', {
-      list: {
-        components: [
-          TOPIC_TABLE_COMPONENT
-        ]
-      },
-
-      details: {
-        components: [
-          TOPIC_DETAILS_COMPONENT
-        ]
-      },
-      panels: {
-        components: [
-          /!* {
-             token: TOKENS.PHAROS_BREADCRUMB_COMPONENT
-           },*!/
-          /!*          {
-                      token: TOKENS.TOPIC_HEADER_COMPONENT
-                    },
-                    {
-                      token: TOKENS.TOPIC_GRAPH_PANEL
-                    },
-                    {
-                      token: TOKENS.NODE_DISPLAY_PANEL
-                    }*!/
-        ]
-      }
-    }],*/
-  /*  ['search', {
-      api: [
-        {
-          field: 'search',
-          url: _APIURL + 'search?q='
-        },
-        {
-          field: 'diseases',
-          url: _APIURL + 'diseases/search?q='
-        },
-        {
-          field: 'ligands',
-          url: _APIURL + 'ligands/search?view=full&q='
-        },
-        {
-          field: 'targets',
-          url: _APIURL + 'targets/search?q='
-        },
-        /!*,
-        {
-          field: 'publications',
-          url: _APIURL + 'publications/search?q='
-        }*!/
-      ],
-      list: {
-        components: [
-          TARGET_TABLE_COMPONENT,
-          DISEASE_TABLE_COMPONENT,
-          LIGAND_TABLE_COMPONENT
-        ]
-      }
-    }]*/
+    }]
   ]
 );
 
