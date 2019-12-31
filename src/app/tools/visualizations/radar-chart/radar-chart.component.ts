@@ -15,6 +15,8 @@ import {
 } from '@angular/core';
 import * as d3 from 'd3';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {takeUntil} from 'rxjs/operators';
+import {BehaviorSubject, Subject} from 'rxjs';
 
 /**
  * map of size and visualization parameters for various radar chart sizes
@@ -165,9 +167,38 @@ export class RadarChartComponent implements OnInit, OnDestroy {
   @Input() id: any;
 
   /**
-   * data object that is input
+   * Behaviour subject to allow extending class to unsubscribe on destroy
+   * @type {Subject<any>}
    */
-  @Input() data: any;
+  protected ngUnsubscribe: Subject<any> = new Subject();
+
+  /**
+   * initialize a private variable _data, it's a BehaviorSubject
+   * @type {BehaviorSubject<any>}
+   * @private
+   */
+  protected _data = new BehaviorSubject<any>({});
+
+  /**
+   * pushes changed data to {BehaviorSubject}
+   * @param value
+   */
+  @Input()
+  set data(value: any) {
+    if (value.data) {
+      this._data.next(value.data);
+    } else {
+      this._data.next(value);
+    }
+  }
+
+  /**
+   * returns value of {BehaviorSubject}
+   * @returns {any}
+   */
+  get data() {
+    return this._data.getValue();
+  }
 
   /**
    * optional size parameter, used to retrieve a config object from the radar service
@@ -244,8 +275,16 @@ export class RadarChartComponent implements OnInit, OnDestroy {
    * draw and update graph
    */
   ngOnInit() {
-    this.drawChart();
-    this.updateChart();
+    this._data
+    // listen to data as long as term is undefined or null
+    // Unsubscribe once term has value
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(x => {
+        this.drawChart();
+        this.updateChart();
+      });
   }
 
 
@@ -254,6 +293,8 @@ export class RadarChartComponent implements OnInit, OnDestroy {
    */
   ngOnDestroy(): void {
     d3.select('body').selectAll('.radar-tooltip').remove();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   /**
@@ -410,7 +451,6 @@ export class RadarChartComponent implements OnInit, OnDestroy {
       (this.height - this._chartOptions.margin.top - this._chartOptions.margin.bottom) / 2); 	// Radius of the outermost circle
     const format = d3.format(this._chartOptions.format);			 	// Formatting
     const angleSlice = Math.PI * 2 / total;		// The width in radians of each "slice"
-
     // Scale for the radius
     const rScale = d3.scaleLinear()
       .range([0, radius])
@@ -567,7 +607,9 @@ export class RadarChartComponent implements OnInit, OnDestroy {
       .attr('cx', (d, i) => rScale(d.value) * cos(angleSlice * i - HALF_PI))
       .attr('cy', (d, i) => rScale(d.value) * sin(angleSlice * i - HALF_PI))
       .style('fill', (d) => this._chartOptions.color(d.id))
-      .style('fill-opacity', 0.8);
+      .style('fill-opacity', 0.8)
+      .exit()
+      .remove();
 
     //////// Append invisible circles for tooltip ///////////
     // Wrapper for the invisible circles on top

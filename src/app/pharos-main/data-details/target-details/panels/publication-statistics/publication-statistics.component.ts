@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {Target} from '../../../../../models/target';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
@@ -7,6 +7,7 @@ import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/m
 import {PharosConfig} from '../../../../../../config/pharos-config';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'pharos-publication-statistics',
@@ -15,7 +16,7 @@ import {ActivatedRoute} from '@angular/router';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PublicationStatisticsComponent extends DynamicTablePanelComponent implements OnInit {
+export class PublicationStatisticsComponent extends DynamicTablePanelComponent implements OnInit, OnDestroy {
 
   /**
    * parent target
@@ -73,23 +74,31 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
    * create timelines if data is available
    */
   ngOnInit() {
-    this.target = this.data.targets;
-    this.targetProps = this.data.targetsProps;
+    this._data
+    // listen to data as long as term is undefined or null
+    // Unsubscribe once term has value
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(x => {
+        this.target = this.data.targets;
+        this.targetProps = this.data.targetsProps;
 
-    if (this.target.pubmedScores) {
-      this.pmscoreTimeline = this.target.pubmedScores.map(point =>  new PharosPoint({x: +point.year, y: point.score}));
-    }
+        if (this.target.pubmedScores) {
+          this.pmscoreTimeline = this.target.pubmedScores.map(point => new PharosPoint({x: +point.year, y: point.score}));
+        }
 
-    if (this.target.pubTatorScores) {
-      this.pubtatorTimeline = this.target.pubTatorScores.map(point => new PharosPoint({x: +point.year, y: +point.score}));
-    }
+        if (this.target.pubTatorScores) {
+          this.pubtatorTimeline = this.target.pubTatorScores.map(point => new PharosPoint({x: +point.year, y: +point.score}));
+        }
 
-    if (this.target.patentCounts) {
-      this.patentTimeline = this.target.patentCounts.map(point => new PharosPoint({x: +point.year, y: point.count}));
-    }
+        if (this.target.patentCounts) {
+          this.patentTimeline = this.target.patentCounts.map(point => new PharosPoint({x: +point.year, y: point.count}));
+        }
 
-    this.loading = false;
-    this.changeRef.markForCheck();
+        this.loading = false;
+        this.changeRef.markForCheck();
+      });
   }
 
   /**
@@ -107,5 +116,13 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
     } else {
       return null;
     }
+  }
+
+  /**
+   * clean up on leaving component
+   */
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }
