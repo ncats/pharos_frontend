@@ -46,6 +46,8 @@ export class AnatomogramImageComponent implements OnInit {
    */
   hovered: string;
 
+  id =  Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
   /**
    * no args constructor
    */
@@ -59,14 +61,14 @@ export class AnatomogramImageComponent implements OnInit {
   ngOnInit() {
     const imageUrl = `./assets/images/svgs/${this.species}.${this.details}.svg`;
     d3.xml(imageUrl).then(data => {
-      d3.select(this.anatamogram.nativeElement).node().append(data.documentElement);
-      this.svg = d3.select('#anatamogram');
+      const sss = d3.select(this.anatamogram.nativeElement).node().append(data.documentElement);
+      this.svg = d3.select('#anatamogram').attr('id', this.id) ;
 
       /**
        * zoom function called
        */
       const zoom = () => {
-        this.svg.select('#anatamogram-holder').attr('transform', d3.event.transform);
+        this.svg.select(`#anatamogram-holder-${this.species}-${this.details}`).attr('transform', d3.event.transform);
       };
 
       /**
@@ -81,7 +83,7 @@ export class AnatomogramImageComponent implements OnInit {
        * every path in the parent needs to be selected, since the tissues cna be made of multiple paths
        * set mouseover and mouseout funcitons on each tissue to cover selection and hover changes
        */
-      this.tissues.forEach(tissue => d3.select(`#${tissue}`).selectAll('path')
+      this.tissues.forEach(tissue => this.svg.select(`#${tissue}`).selectAll('path')
         .on('mouseover', (d, i, f) => d3.select(f[i].parentNode).selectAll('path')
           .style('stroke', 'rgba(255, 178, 89, 1')
           .style('stroke-width', '.5')
@@ -97,7 +99,7 @@ export class AnatomogramImageComponent implements OnInit {
         .style('stroke-width', '.5')
         .style('fill', 'rgba(35, 54, 78, .4'));
 
-      this.tissues.forEach(tissue => d3.select(`#${tissue}`)
+      this.tissues.forEach(tissue => this.svg.select(`#${tissue}`)
         .on('mouseover', (d, i, f) => d3.select(f[i].parentNode)
           .style('stroke', 'rgba(255, 178, 89, 1')
           .style('stroke-width', '.5')
@@ -127,7 +129,7 @@ export class AnatomogramImageComponent implements OnInit {
    * reset zoom level (can also be called from external components)
    */
   resetZoom() {
-    const holder = this.svg.select('#anatamogram-holder');
+    const holder = this.svg.select(`#anatamogram-holder-${this.species}-${this.details}`);
     if (holder) {
       holder
         .transition()
