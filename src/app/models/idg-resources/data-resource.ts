@@ -158,7 +158,7 @@ export class Dataset extends DataResource {
    * default resource type
    * @type {string}
    */
-  resourceType = 'dataset';
+  resourceType = 'nanoBRET';
 
   /**
    * iterate over values. they need to be renamed due to the RSS api
@@ -177,7 +177,7 @@ export class Dataset extends DataResource {
       this.dataLink = data.Data_link;
     }
     if (data.Data_repository && data.Data_repository !== 'null') {
-      this.dataRepository = data.Data_repository;
+      this.dataRepository = data.Data_Repository;
     }
     if (data.Description && data.Description !== 'null') {
       this.description = data.Description;

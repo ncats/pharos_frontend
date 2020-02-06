@@ -77,12 +77,16 @@ dataTypes: string[] = [];
         this.target = this.data.targets;
         this.loading = false;
         this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/search?term=${this.target.gene}`).subscribe(res => {
+            console.log(res);
             if (res && res.data) {
               res.data.forEach(data => {
-                this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/id?id=${data.id}&json=true`).subscribe(resource => {
-                  const resc = this.resourceSerializer.fromJson(resource.data[0], data.resourceType);
-                  this[`${resc.baseType}s`].push(resc);
-                });
+                if ( data.id) {
+                  this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/id?id=${data.id}&json=true`).subscribe(resource => {
+                    console.log(data);
+                    const resc = this.resourceSerializer.fromJson(resource.data[0], data.resourceType);
+                    this[`${resc.baseType}s`].push(resc);
+                  });
+                }
               });
             } else {
               this.navSectionsService.removeSection(this.field);
@@ -90,6 +94,7 @@ dataTypes: string[] = [];
             }
           });
           // this.setterFunction();
+        this.ngUnsubscribe.next();
       });
 
     this.reagentsList = this.reagents;

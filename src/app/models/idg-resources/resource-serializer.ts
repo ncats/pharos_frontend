@@ -40,7 +40,7 @@ export class IDGResourceSerializer<T extends BaseResource> implements Serializer
         obj = new Mouse(json);
         break;
       }
-      case 'SmallMolecule': {
+      case 'Small Molecule': {
         obj = new SmallMolecule(json);
         break;
       }
@@ -56,7 +56,7 @@ export class IDGResourceSerializer<T extends BaseResource> implements Serializer
         obj = new ProbeData(json);
         break;
       }
-      case 'Dataset': {
+      case 'NanoBRET': {
         obj = new Dataset(json);
         break;
       }
