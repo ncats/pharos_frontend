@@ -1,10 +1,12 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
 import {NavSectionsService} from './services/nav-sections.service';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {PanelOptions} from '../../pharos-main/pharos-main.component';
 import {PharosPanel} from '../../../config/components-config';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {Location} from '@angular/common';
+import {DynamicPanelComponent} from '../dynamic-panel/dynamic-panel.component';
+import {CustomContentDirective} from '../custom-content.directive';
 
 /**
  * panel that lists available sections of the details page, with jump to section navigation
@@ -14,7 +16,9 @@ import {Location} from '@angular/common';
   templateUrl: './sidenav-panel.component.html',
   styleUrls: ['./sidenav-panel.component.scss']
 })
-export class SidenavPanelComponent implements OnInit {
+export class SidenavPanelComponent implements OnInit, AfterViewInit {
+  @ViewChildren(CustomContentDirective) componentHost: CustomContentDirective;
+
 
   /**
    * close the filter panel
@@ -55,14 +59,14 @@ export class SidenavPanelComponent implements OnInit {
    * @param {Router} router
    * @param _route
    * @param breakpointObserver
-   * @param location
+   * @param shared
    * @param {NavSectionsService} navSectionsService
    */
   constructor(
     private router: Router,
     private _route: ActivatedRoute,
     public breakpointObserver: BreakpointObserver,
-    private location: Location,
+    @Inject('AppComponentService') shared,
     private navSectionsService: NavSectionsService) {
   }
 
@@ -71,6 +75,7 @@ export class SidenavPanelComponent implements OnInit {
    * change active element on scroll change
    */
   ngOnInit() {
+    console.log(this);
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
     if (this.isSmallScreen) {
       this.panelOptions.opened = false;
@@ -113,9 +118,9 @@ export class SidenavPanelComponent implements OnInit {
    */
   public scroll(fragment: any): void {
     const navigationExtras: NavigationExtras = {
+      queryParamsHandling: 'merge',
       fragment
     };
-   // this.location.replaceState(`${this.location.path()}/${fragment}`);
     this.router.onSameUrlNavigation = 'ignore';
     console.log(this.router);
     this.router.navigate([], navigationExtras);
@@ -128,5 +133,9 @@ export class SidenavPanelComponent implements OnInit {
    */
   isActive(check: string): boolean {
     return this.activeElement === check;
+  }
+
+  ngAfterViewInit() {
+    console.log(this);
   }
 }
