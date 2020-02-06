@@ -39,6 +39,7 @@ global['window'] = win;
 global['document'] = win.document;
 global['branch'] = null;
 global['object'] = win.object;
+global['console'] = win.console;
 
 // Express server
 const app = express();
