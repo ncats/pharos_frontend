@@ -3,7 +3,7 @@
           class="section-card"
           id = "expression"
           (pharosScrollspy)="active('expression')"
-          #expression>
+          #expression appPharosCustomContent>
   <mat-card-content>
     <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
       <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
