@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, Input, OnDestroy, OnInit, Type,
-  ViewChild
+  ViewChild, ViewChildren
 } from '@angular/core';
 import {CdkPortalOutlet, ComponentPortal} from '@angular/cdk/portal';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -13,6 +13,7 @@ import {map, takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {Facet} from '../models/facet';
+import {CustomContentDirective} from '../tools/custom-content.directive';
 
 /**
  * class or interface to set properties for an injected sidenav panel
@@ -125,6 +126,8 @@ export class PharosMainComponent implements OnInit, OnDestroy {
    */
   isSmallScreen = false;
 
+  @ViewChildren(CustomContentDirective) componentHost: CustomContentDirective;
+
   /**
    * add necessary services
    * @param {Router} router
@@ -155,6 +158,7 @@ export class PharosMainComponent implements OnInit, OnDestroy {
    * subsctibe to router change events and re-generate components and reset data
    */
   ngOnInit() {
+    console.log(this);
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
     this.data = this._route.snapshot.data;
     this.components = this.data.components;
