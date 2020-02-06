@@ -4,6 +4,7 @@ import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {PanelOptions} from '../../pharos-main/pharos-main.component';
 import {PharosPanel} from '../../../config/components-config';
 import {BreakpointObserver} from '@angular/cdk/layout';
+import {Location} from '@angular/common';
 
 /**
  * panel that lists available sections of the details page, with jump to section navigation
@@ -53,12 +54,15 @@ export class SidenavPanelComponent implements OnInit {
    * get router to navigate
    * @param {Router} router
    * @param _route
+   * @param breakpointObserver
+   * @param location
    * @param {NavSectionsService} navSectionsService
    */
   constructor(
     private router: Router,
     private _route: ActivatedRoute,
     public breakpointObserver: BreakpointObserver,
+    private location: Location,
     private navSectionsService: NavSectionsService) {
   }
 
@@ -111,6 +115,9 @@ export class SidenavPanelComponent implements OnInit {
     const navigationExtras: NavigationExtras = {
       fragment
     };
+   // this.location.replaceState(`${this.location.path()}/${fragment}`);
+    this.router.onSameUrlNavigation = 'ignore';
+    console.log(this.router);
     this.router.navigate([], navigationExtras);
   }
 

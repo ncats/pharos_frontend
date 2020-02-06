@@ -102,7 +102,7 @@
                       <img src = './assets/images/resource-types/{{dataSource.resourceType}}.png' alt = "image for {{dataSource.name || dataSource.title}}" class="resource-thumb">
                     </div>
                   </div>
-                  <div fxFlex="66" *ngIf = "dataSource.resourceType ==='dataset'">
+                  <div fxFlex="66" *ngIf = "dataSource.resourceType ==='nanoBRET'">
                     <ul>
                       <li *ngIf="dataSource.assayID"><b>Assay ID: </b>{{dataSource.assayID}}</li>
                       <li *ngIf="dataSource.dataFormat"><b>Data Format: </b>{{dataSource.dataFormat}}</li>
