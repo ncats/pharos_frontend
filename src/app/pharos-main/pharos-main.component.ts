@@ -1,18 +1,23 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, Input, OnDestroy, OnInit, Type,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ComponentRef, Injector,
+  Input,
+  OnDestroy,
+  OnInit,
+  Type,
   ViewChild
 } from '@angular/core';
 import {CdkPortalOutlet, ComponentPortal} from '@angular/cdk/portal';
-import { MatSidenav } from '@angular/material/sidenav';
+import {MatSidenav} from '@angular/material/sidenav';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {PharosPanel} from '../../config/components-config';
-import {ComponentInjectorService} from '../pharos-services/component-injector.service';
 import {HelpDataService} from '../tools/help-panel/services/help-data.service';
 import {NavSectionsService} from '../tools/sidenav-panel/services/nav-sections.service';
-import {map, takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import {Facet} from '../models/facet';
 
 /**
  * class or interface to set properties for an injected sidenav panel
@@ -129,6 +134,7 @@ export class PharosMainComponent implements OnInit, OnDestroy {
    * add necessary services
    * @param {Router} router
    * @param {ActivatedRoute} _route
+   * @param _injector
    * @param {ChangeDetectorRef} changeRef
    * @param {HelpDataService} helpDataService
    * @param {NavSectionsService} navSectionsService
@@ -138,11 +144,11 @@ export class PharosMainComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private _route: ActivatedRoute,
+    private _injector: Injector,
     private changeRef: ChangeDetectorRef,
     private helpDataService: HelpDataService,
     private navSectionsService: NavSectionsService,
-    public breakpointObserver: BreakpointObserver,
-    private componentInjectorService: ComponentInjectorService
+    public breakpointObserver: BreakpointObserver
   ) {
 
   }
@@ -182,7 +188,7 @@ export class PharosMainComponent implements OnInit, OnDestroy {
         // make component
         const instance: ComponentRef<any> = this.loadedComponents.get(component.token);
         if (!instance) {
-          const dynamicChildToken: Type<any> = this.componentInjectorService.getComponentToken(component.token);
+          const dynamicChildToken: Type<any> = this._injector.get<Type<any>>(component.token);
           if (component.section) {
             portalOutlet = this[component.section];
           } else {
