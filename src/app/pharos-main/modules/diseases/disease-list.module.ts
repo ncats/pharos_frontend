@@ -17,7 +17,7 @@ import {FilterPanelComponent} from '../../data-list/filter-panel/filter-panel.co
   ],
   imports: [
     CommonModule,
-    SharedModule.forRoot(),
+    SharedModule,
     CommonToolsModule,
     DiseaseListRoutingModule,
     SharedListModule

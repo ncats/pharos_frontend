@@ -34,7 +34,6 @@ describe('LigandDetailsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LigandDetailsComponent);
-    console.log(fixture);
     component = fixture.componentInstance;
     component.apiSources = [{label: '', field: '', description: ''}];
     component.data = {

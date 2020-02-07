@@ -24,7 +24,7 @@ import {LigandDetailsComponent} from '../../data-details/ligand-details/panels/l
   ],
   imports: [
     CommonModule,
-    SharedModule.forRoot(),
+    SharedModule,
     LigandDetailsRoutingModule,
     SharedDetailsModule,
     CommonToolsModule
