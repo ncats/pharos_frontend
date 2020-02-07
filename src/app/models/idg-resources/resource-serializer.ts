@@ -40,7 +40,7 @@ export class IDGResourceSerializer<T extends BaseResource> implements Serializer
         obj = new Mouse(json);
         break;
       }
-      case 'Small Molecule': {
+      case 'SmallMolecule': {
         obj = new SmallMolecule(json);
         break;
       }
