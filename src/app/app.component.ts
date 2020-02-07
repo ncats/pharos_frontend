@@ -26,10 +26,11 @@ export class AppComponent implements OnInit {
   /**
    * get navigation router
    * @param router
+   * @param loadingService
    */
   constructor(
     private router: Router,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
   ) {}
 
   /**

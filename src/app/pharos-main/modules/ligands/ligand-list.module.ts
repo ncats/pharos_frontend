@@ -17,7 +17,7 @@ import {LigandTableComponent} from '../../data-list/tables/ligand-table/ligand-t
   ],
   imports: [
     CommonModule,
-    SharedModule.forRoot(),
+    SharedModule,
     LigandListRoutingModule,
     SharedListModule,
     CommonToolsModule

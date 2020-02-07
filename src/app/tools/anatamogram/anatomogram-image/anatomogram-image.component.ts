@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
 import * as d3 from 'd3';
 
 /**
@@ -9,7 +9,7 @@ import * as d3 from 'd3';
   templateUrl: './anatomogram-image.component.html',
   styleUrls: ['./anatomogram-image.component.scss']
 })
-export class AnatomogramImageComponent implements OnInit {
+export class AnatomogramImageComponent implements OnInit, OnChanges {
   /**
    * the html element to inject the svg content into
    */
@@ -61,7 +61,7 @@ export class AnatomogramImageComponent implements OnInit {
   ngOnInit() {
     const imageUrl = `./assets/images/svgs/${this.species}.${this.details}.svg`;
     d3.xml(imageUrl).then(data => {
-      const sss = d3.select(this.anatamogram.nativeElement).node().append(data.documentElement);
+      d3.select(this.anatamogram.nativeElement).node().append(data.documentElement);
       this.svg = d3.select('#anatamogram').attr('id', this.id) ;
 
       /**
@@ -79,50 +79,58 @@ export class AnatomogramImageComponent implements OnInit {
         .on('zoom', zoom);
 
       /**
-       * iterate over the tissue ids and find them in d3
-       * every path in the parent needs to be selected, since the tissues cna be made of multiple paths
-       * set mouseover and mouseout funcitons on each tissue to cover selection and hover changes
-       */
-      this.tissues.forEach(tissue => this.svg.select(`#${tissue}`).selectAll('path')
-        .on('mouseover', (d, i, f) => d3.select(f[i].parentNode).selectAll('path')
-          .style('stroke', 'rgba(255, 178, 89, 1')
-          .style('stroke-width', '.5')
-          .style('fill', 'rgba(255, 178, 89, 1')
-        )
-        .on('mouseout', (d, i, f) => d3.select(f[i].parentNode).selectAll('path')
-          .style('stroke', 'rgba(35, 54, 78, .4')
-          .style('stroke-width', '.5')
-          .style('fill', 'rgba(35, 54, 78, .4'))
-        .style('stroke', 'rgba(35, 54, 78, .4')
-
-        .style('stroke', 'rgba(35, 54, 78, .4')
-        .style('stroke-width', '.5')
-        .style('fill', 'rgba(35, 54, 78, .4'));
-
-      this.tissues.forEach(tissue => this.svg.select(`#${tissue}`)
-        .on('mouseover', (d, i, f) => d3.select(f[i].parentNode)
-          .style('stroke', 'rgba(255, 178, 89, 1')
-          .style('stroke-width', '.5')
-          .style('fill', 'rgba(255, 178, 89, 1')
-        )
-        .on('mouseout', (d, i, f) => d3.select(f[i].parentNode)
-          .style('stroke', 'rgba(35, 54, 78, .4')
-          .style('stroke-width', '.5')
-          .style('fill', 'rgba(35, 54, 78, .4'))
-        .style('stroke', 'rgba(35, 54, 78, .4')
-
-        .style('stroke', 'rgba(35, 54, 78, .4')
-        .style('stroke-width', '.5')
-        .style('fill', 'rgba(35, 54, 78, .4'));
-
-      /**
        * set pointer events and zoom function
        */
       d3.select('#anatamogram')
         .style('pointer-events', 'all')
         .call(this.zoom);
+      this.updateImage();
     });
+  }
 
+    /**
+     * iterate over the tissue ids and find them in d3
+     * every path in the parent needs to be selected, since the tissues cna be made of multiple paths
+     * set mouseover and mouseout funcitons on each tissue to cover selection and hover changes
+     */
+    updateImage() {
+      this.tissues.forEach(tissue => this.svg.select(`#${tissue}`).selectAll('path')
+      .on('mouseover', (d, i, f) => d3.select(f[i].parentNode).selectAll('path')
+        .style('stroke', 'rgba(255, 178, 89, 1')
+        .style('stroke-width', '.5')
+        .style('fill', 'rgba(255, 178, 89, 1')
+      )
+      .on('mouseout', (d, i, f) => d3.select(f[i].parentNode).selectAll('path')
+        .style('stroke', 'rgba(35, 54, 78, .4')
+        .style('stroke-width', '.5')
+        .style('fill', 'rgba(35, 54, 78, .4'))
+      .style('stroke', 'rgba(35, 54, 78, .4')
+
+      .style('stroke', 'rgba(35, 54, 78, .4')
+      .style('stroke-width', '.5')
+      .style('fill', 'rgba(35, 54, 78, .4'));
+
+    this.tissues.forEach(tissue => this.svg.select(`#${tissue}`)
+      .on('mouseover', (d, i, f) => d3.select(f[i].parentNode)
+        .style('stroke', 'rgba(255, 178, 89, 1')
+        .style('stroke-width', '.5')
+        .style('fill', 'rgba(255, 178, 89, 1')
+      )
+      .on('mouseout', (d, i, f) => d3.select(f[i].parentNode)
+        .style('stroke', 'rgba(35, 54, 78, .4')
+        .style('stroke-width', '.5')
+        .style('fill', 'rgba(35, 54, 78, .4'))
+      .style('stroke', 'rgba(35, 54, 78, .4')
+
+      .style('stroke', 'rgba(35, 54, 78, .4')
+      .style('stroke-width', '.5')
+      .style('fill', 'rgba(35, 54, 78, .4'));
+  }
+
+  ngOnChanges(change: any) {
+    if(change.tissues && !change.tissues.firstChange) {
+      this.updateImage();
+    }
   }
 
   /**

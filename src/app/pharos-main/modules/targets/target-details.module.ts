@@ -55,7 +55,7 @@ import {RelatedPublicationsComponent} from '../../data-details/target-details/pa
   ],
   imports: [
     CommonModule,
-    SharedModule.forRoot(),
+    SharedModule,
     TargetDetailsRoutingModule,
     CommonToolsModule,
     SharedDetailsModule,
