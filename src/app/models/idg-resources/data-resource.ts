@@ -173,8 +173,8 @@ export class Dataset extends DataResource {
     if (data.Data_format && data.Data_format !== 'null') {
       this.dataFormat = data.Data_format;
     }
-    if (data.Data_link && data.Data_link !== 'null') {
-      this.dataLink = data.Data_link;
+    if (data.Data_Link && data.Data_Link !== 'null') {
+      this.dataLink = data.Data_Link;
     }
     if (data.Data_repository && data.Data_repository !== 'null') {
       this.dataRepository = data.Data_Repository;
