@@ -20,7 +20,7 @@ import {TopicSaveModalComponent} from '../../data-list/tables/target-table/topic
   ],
   imports: [
     CommonModule,
-    SharedModule.forRoot(),
+    SharedModule,
     TargetListRoutingModule,
     CommonToolsModule,
     SharedListModule

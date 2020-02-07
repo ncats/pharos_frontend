@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Injector, OnInit, Output, QueryList, Type, ViewChildren} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {HelpDataService} from './services/help-data.service';
-import {ComponentInjectorService} from '../../pharos-services/component-injector.service';
 import {CdkPortalOutlet, ComponentPortal} from '@angular/cdk/portal';
 import {PanelOptions} from '../../pharos-main/pharos-main.component';
 import {ActivatedRoute} from '@angular/router';
@@ -80,7 +79,6 @@ export class HelpPanelComponent implements OnInit {
     private helpDataService: HelpDataService,
     private helpPanelOpenerService: HelpPanelOpenerService,
     private _route: ActivatedRoute,
-    private componentInjectorService: ComponentInjectorService,
     private _injector: Injector) {
   }
 

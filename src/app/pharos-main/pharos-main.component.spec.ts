@@ -6,7 +6,6 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {MOCKACTIVATEDROUTE} from '../../../test/mock-activate-route';
 import {SharedModule} from '../shared/shared.module';
 import {ApolloTestingModule} from 'apollo-angular/testing';
-import {ComponentInjectorService} from '../pharos-services/component-injector.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FIRESTORESTUB} from '../../../test/firestore-stub';
@@ -24,7 +23,6 @@ describe('PharosMainComponent', () => {
       declarations: [
       ],
       providers: [
-        ComponentInjectorService,
         NavSectionsService,
         AngularFireAuth,
         { provide: AngularFirestore, useValue: FIRESTORESTUB },
