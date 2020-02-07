@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {PageEvent} from '@angular/material/paginator';
 import {MatTabChangeEvent} from '@angular/material/tabs';
@@ -168,6 +168,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   constructor(
     private pharosApiService: PharosApiService,
     private _route: ActivatedRoute,
+    private changeRef: ChangeDetectorRef,
     private navSectionsService: NavSectionsService,
     private anatamogramHoverService: AnatamogramHoverService
   ) {
@@ -185,6 +186,8 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
         // takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
+        this.tissues = [];
+        this.uberonMap.clear();
         this.target = this.data.targets;
         this.targetProps = this.data.targetsProps;
         this.setterFunction();
@@ -208,6 +211,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
           this.uberonMap.set(uberon, [expression]);
         }
       }
+      this.changeRef.markForCheck();
     });
 
     this.sortedExpressions = [...this.uberonMap.values()].sort((a, b) => b.length - a.length);

@@ -20,7 +20,7 @@ import {IdgLevelIndicatorComponent} from '../../../tools/idg-level-indicator/idg
   ],
   imports: [
     CommonModule,
-    SharedModule.forRoot(),
+    SharedModule,
     CommonToolsModule,
     SharedDetailsModule,
     DiseaseDetailsRoutingModule

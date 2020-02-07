@@ -4,8 +4,6 @@ import {HttpClientModule} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MaterialModule} from '../../assets/material/material.module';
-import {CustomContentDirective} from '../tools/custom-content.directive';
-import {ComponentInjectorService} from '../pharos-services/component-injector.service';
 import {BarChartComponent} from '../tools/visualizations/bar-chart/bar-chart.component';
 import {HelpPanelTriggerComponent} from '../tools/help-panel/components/help-panel-trigger/help-panel-trigger.component';
 import {HelpDataService} from '../tools/help-panel/services/help-data.service';
@@ -27,7 +25,6 @@ import {PharosMainComponent} from '../pharos-main/pharos-main.component';
     HelpArticlesModule
   ],
   declarations: [
-    CustomContentDirective,
     BarChartComponent,
     HelpPanelTriggerComponent,
     ScrollspyDirective,
@@ -45,7 +42,6 @@ import {PharosMainComponent} from '../pharos-main/pharos-main.component';
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
-    CustomContentDirective,
     HelpArticlesModule,
     BarChartComponent,
     HelpPanelTriggerComponent,
@@ -54,13 +50,4 @@ import {PharosMainComponent} from '../pharos-main/pharos-main.component';
     PharosMainComponent
   ]
 })
-export class SharedModule {
-  static forRoot(): ModuleWithProviders<SharedModule> {
-    return {
-      ngModule: SharedModule,
-      providers: [
-        ComponentInjectorService
-      ]
-    };
-  }
-}
+export class SharedModule {}
