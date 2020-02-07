@@ -113,7 +113,7 @@ const ROUTES: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule.forRoot(),
+    SharedModule,
     CommonToolsModule,
     RouterModule.forRoot(ROUTES, {
       scrollPositionRestoration: 'enabled',

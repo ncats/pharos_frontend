@@ -18,7 +18,7 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    SharedModule.forRoot(),
+    SharedModule,
     RouterModule.forChild(routes),
     SketcherModule
   ]
