@@ -80,8 +80,9 @@ dataTypes: string[] = [];
             if (res && res.data) {
               res.data.forEach(data => {
                 if ( data.id) {
-                  this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/id?id=${data.id}&json=true`).subscribe(resource => {
-                    const resc = this.resourceSerializer.fromJson(resource.data[0], data.resourceType);
+                  this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/id?id=${data.id}&json=true`)
+                    .subscribe(resource => {
+                    const resc = this.resourceSerializer.fromJson(resource.data[0], data.name, data.resourceType);
                     this[`${resc.baseType}s`].push(resc);
                   });
                 }

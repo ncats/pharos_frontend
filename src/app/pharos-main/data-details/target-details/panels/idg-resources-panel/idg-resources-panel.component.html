@@ -20,8 +20,10 @@
         <pharos-help-panel-trigger [origin] = "'resources'" [label]="'IDG Generated Resources'"></pharos-help-panel-trigger>
       </div>
     </div>
-    <mat-tab-group>
-      <mat-tab label="Reagents ({{reagents?.length}})" matTooltip="View and order IDG produced resources from vendors">
+    <mat-tab-group [selectedIndex] ="reagents?.length ? 0 : 1">
+      <mat-tab
+        label="Reagents ({{reagents?.length}})"
+        matTooltip="View and order IDG produced resources from vendors">
           <div
             *ngIf="reagentTypes.length > 1 || reagentsList.length > 10"
             fxLayout="row"
@@ -33,7 +35,9 @@
                   [formControl]="reagentFilterCtrl"
                   [multiple]="true"
                   placeholder="Filter By:">
-                  <mat-option *ngFor ="let option of reagentTypes" [value]="option.value">{{option.label.charAt(0).toUpperCase() + option.label.slice(1)}}</mat-option>
+                  <mat-option *ngFor ="let option of reagentTypes" [value]="option.value">
+                    {{option.label.charAt(0).toUpperCase() + option.label.slice(1)}}
+                  </mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
@@ -49,16 +53,38 @@
         <div class="data-grid">
           <div *ngFor ="let reagent of reagentsList">
             <mat-card class = "resource-card">
-              <div class="mat-subheading-2" *ngIf = reagent.dataPageLink><a href="{{reagent.dataPageLink}}" target="_blank" rel="noreferrer">{{reagent.name}} ({{reagent.resourceType}})</a></div><br>
-              <div class="mat-subheading-2" *ngIf = !reagent.dataPageLink>{{reagent.name}} ({{reagent.resourceType}})</div><br>
+              <div fxLayout="row" fxLayoutAlign="end start">
+                <b>{{reagent.resourceType | titlecase}}</b>
+              </div>
+
+              <div class="mat-subheading-2"
+                   *ngIf = reagent.dataPageLink>
+                <a href="{{reagent.dataPageLink}}" target="_blank" rel="noreferrer">{{reagent.name}}</a>
+              </div>
+              <div class="mat-subheading-2" *ngIf = !reagent.dataPageLink>{{reagent.name}}</div>
+              <br>
+
               <div class="thumb-holder">
               <img *ngIf="reagent.smiles" [src] = parseSmiles(reagent.smiles) alt = "image for {{reagent.name}}">
               <img *ngIf="!reagent.smiles" src = './assets/images/resource-types/{{reagent.resourceType}}.png' alt = "image for {{reagent.name}}" class="resource-thumb">
               </div>
+
              <div fxLayout="row" fxLayoutAlign="space-between start">
-               <div fxFlex = "55">Order {{reagent.name}} from:</div></div>
-              <div fxLayout="row" fxLayoutAlign="space-between start" *ngFor = "let vendor of reagent.vendors">
-              <div fxFlex="40"><a href = {{vendor.vendorUrl}} target="_blank" rel="noreferrer">{{vendor.vendor}}</a></div>
+               <div><b>{{reagent.name}}</b> ordered from:</div>
+             </div>
+              <div fxLayout="row" fxLayoutAlign="end start" *ngFor = "let vendor of reagent.vendors">
+              <div>
+                <a href = {{vendor.vendorUrl}} target="_blank" rel="noreferrer">{{vendor.vendor}}</a>
+              </div>
+             </div>
+              <br>
+              <div *ngIf= "reagent?.repository" fxLayout="row" fxLayoutAlign="space-between start">
+                <div>Order <b>{{reagent.name}}</b> from:</div>
+             </div>
+              <div fxLayout="row" fxLayoutAlign="end start">
+              <div>
+                <a href = {{reagent.repository?.repositoryUrl}} target="_blank" rel="noreferrer">{{reagent.repository?.repositoryName}}</a>
+              </div>
              </div>
               <br>
               <br>
@@ -94,8 +120,14 @@
           <div class="data-source-grid">
             <div *ngFor ="let dataSource of dataSourceList">
               <mat-card class = "resource-card">
-                <div class="mat-subheading-2" *ngIf = "dataSource.dataPageLink || dataSource.dataLink"><a href="{{dataSource.dataPageLink || dataSource.dataLink}}" target="_blank" rel="noreferrer">{{dataSource.name || dataSource.title}} ({{dataSource.resourceType}})</a></div><br>
-                <div class="mat-subheading-2" *ngIf = "!dataSource.dataPageLink && !dataSource.dataLink">{{dataSource.name || dataSource.title}} ({{dataSource.resourceType}})</div><br>
+                <div fxLayout="row" fxLayoutAlign="end start">
+                 <b>{{dataSource.resourceType | titlecase}}</b>
+                </div>
+
+                <div class="mat-subheading-2" *ngIf = "dataSource.dataPageLink || dataSource.dataLink"><a href="{{dataSource.dataPageLink || dataSource.dataLink}}" target="_blank" rel="noreferrer">{{dataSource.name || dataSource.title}}</a></div>
+                <div class="mat-subheading-2" *ngIf = "!dataSource.dataPageLink && !dataSource.dataLink">{{dataSource.name || dataSource.title}}</div>
+                <br>
+
                 <div fxLayout="row" fxLayoutAlign="space-around start">
                   <div fxFlex="33">
                     <div class="thumb-holder">
