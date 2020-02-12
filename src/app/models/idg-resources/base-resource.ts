@@ -42,8 +42,8 @@ export class BaseResource {
   repository?: Repository;
 
   constructor(data: any) {
-    if (data.Name) {
-      this.name = data.Name;
+    if (data.Name || data.name) {
+      this.name = data.Name ? data.Name : data.name;
     }
     if (data.resourceType) {
       this.resourceType = data.resourceType.replace(' ', '')[0].toLowerCase();
