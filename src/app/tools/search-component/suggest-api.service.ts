@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {catchError,  map } from 'rxjs/operators';
-import {PharosConfig} from '../../../config/pharos-config';
+import {Apollo} from "apollo-angular";
+import gql from "graphql-tag";
 
 /**
  * api helper service to connect to search suggest fields
@@ -21,15 +21,10 @@ export class SuggestApiService {
   autocompleteFields: string[];
 
   /**
-   * set up http call services
-   * @param {HttpClient} http
-   * @param {PharosConfig} pharosConfig
+   * set up http graphQL suggestion service
+   * @param {Apollo} apollo
    */
-  constructor(private http: HttpClient,
-              private pharosConfig: PharosConfig) {
-    this.url = this.pharosConfig.getSuggestPath();
-    this.autocompleteFields = this.pharosConfig.getAutocompleteFields();
-  }
+  constructor(private apollo: Apollo) {}
 
   /**
    * search function
@@ -39,21 +34,56 @@ export class SuggestApiService {
    */
   search(query: string): Observable<any[]> {
     const autocomplete = [];
-    return this.http.get<any[]>(this.url +  query)
-      .pipe(
-        map(response => {
-          this.autocompleteFields.forEach(field => {
-            if (response[field] && response[field].length > 0) {
-              autocomplete.push({
-                name: [field.replace(/_/g, ' ')],
-                options: response[field].sort((a, b) => a.key.toUpperCase().localeCompare(b.key.toUpperCase()))
-              });
-            }
-          });
+
+    const SUGGESTQUERY = gql(`
+      query {
+        autocomplete(name:"${query}")
+        {
+          elapsedTime
+          genes{
+            key
+          }
+          targets{
+            key
+          }
+          diseases{
+            key
+          }
+          phenotypes{
+            key
+          }
+          keywords{
+            key
+          }
+        }
+      }
+    `);
+
+    let fetchQuery = this.apollo.query<any>({query: SUGGESTQUERY});
+
+    return fetchQuery.pipe(
+      map(response => {
+        if(!response.data.autocomplete){
           return autocomplete;
-        }),
-        catchError(this.handleError('getProtocols', []))
-      );
+        }
+        if (!!response.data.autocomplete.genes && response.data.autocomplete.genes.length > 0) {
+          autocomplete.push({name: ["UniProt Gene"], options: response.data.autocomplete.genes});
+        }
+        if (!!response.data.autocomplete.targets && response.data.autocomplete.targets.length > 0) {
+          autocomplete.push({name: ["Target"], options: response.data.autocomplete.targets});
+        }
+        if (!!response.data.autocomplete.diseases && response.data.autocomplete.diseases.length > 0) {
+          autocomplete.push({name: ["Disease"], options: response.data.autocomplete.diseases});
+        }
+        if (!!response.data.autocomplete.phenotypes && response.data.autocomplete.phenotypes.length > 0) {
+          autocomplete.push({name: ["IMPC Phenotype"], options: response.data.autocomplete.phenotypes});
+        }
+        if (!!response.data.autocomplete.keywords && response.data.autocomplete.keywords.length > 0) {
+          autocomplete.push({name: ["UniProt Keyword"], options: response.data.autocomplete.keywords});
+        }
+        return autocomplete;
+      }),
+      catchError(this.handleError('graphQL suggestion', [])));
   }
 
   /**
