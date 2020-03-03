@@ -33,7 +33,7 @@ export class SuggestApiService {
 
   /**
    * search function
-   * this primarily happens on input change, but it could be anything
+   * this primarily happens on input change, but it could be anything.
    * @param {string} query
    * @returns {Observable<any[]>}
    */
