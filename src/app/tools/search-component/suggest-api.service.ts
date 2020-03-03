@@ -33,13 +33,12 @@ export class SuggestApiService {
 
   /**
    * search function
-   * thius primarily happens on input change, but it could be anything
+   * this primarily happens on input change, but it could be anything
    * @param {string} query
    * @returns {Observable<any[]>}
    */
   search(query: string): Observable<any[]> {
     const autocomplete = [];
-    const upper = query.toUpperCase();
     return this.http.get<any[]>(this.url +  query)
       .pipe(
         map(response => {
@@ -47,9 +46,7 @@ export class SuggestApiService {
             if (response[field] && response[field].length > 0) {
               autocomplete.push({
                 name: [field.replace(/_/g, ' ')],
-                options: response[field].sort((a, b) => a.key.toUpperCase() - b.key.toUpperCase()).sort((a, b) =>
-                   a.key.toUpperCase() === query.toUpperCase() ? -1 : b.key.toUpperCase() === query.toUpperCase() ? 1 : 0
-                )
+                options: response[field].sort((a, b) => a.key.toUpperCase().localeCompare(b.key.toUpperCase()))
               });
             }
           });
