@@ -94,7 +94,7 @@
     "ts-loader": "^6.2.1",
     "ts-node": "^8.3.0",
     "tslint": "~6.0.0",
-    "typescript": "3.8.3",
+    "typescript": " >=3.6.4 and <3.8.0",
     "utf-8-validate": "^5.0.2",
     "webpack-cli": "^3.1.0",
     "ws": "^7.1.2",
