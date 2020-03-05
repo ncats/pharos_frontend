@@ -16,8 +16,8 @@ export class Repository {
 
   constructor(data: any) {
 
-    if (data.Repository) {
-      this.repositoryName = data.Repository;
+    if (data.Repository || data.Data_Repository) {
+      this.repositoryName = data.Repository ? data.Repository : data.Data_Repository;
     }
     if (data.Repository_page_link) {
       this.repositoryUrl = data.Repository_page_link;
@@ -42,8 +42,8 @@ export class BaseResource {
   repository?: Repository;
 
   constructor(data: any) {
-    if (data.Name) {
-      this.name = data.Name;
+    if (data.Name || data.name) {
+      this.name = data.Name ? data.Name : data.name;
     }
     if (data.resourceType) {
       this.resourceType = data.resourceType.replace(' ', '')[0].toLowerCase();
