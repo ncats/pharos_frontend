@@ -17,6 +17,7 @@ export const environment = {
   production: true,
   host: _HOST,
   api: _API,
+  graphqlUrl: 'https://pharos-api.ncats.io/graphql',
   firebase: {
     apiKey: '',
     authDomain: '',
