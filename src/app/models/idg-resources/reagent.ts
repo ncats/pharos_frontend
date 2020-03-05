@@ -222,7 +222,7 @@ export class SmallMolecule extends Reagent {
    */
   externalIDRegistrationSystem: string;
 
-  resourceType = 'Small Molecule';
+  resourceType = 'Chemical Tool';
 
 
   constructor(data: any) {
