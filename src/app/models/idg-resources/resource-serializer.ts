@@ -48,6 +48,10 @@ export class IDGResourceSerializer<T extends BaseResource> implements Serializer
         obj = new SmallMolecule(json);
         break;
       }
+      case 'ChemicalTool': {
+        obj = new SmallMolecule(json);
+        break;
+      }
       case 'Peptide': {
         obj = new Peptide(json);
         break;
