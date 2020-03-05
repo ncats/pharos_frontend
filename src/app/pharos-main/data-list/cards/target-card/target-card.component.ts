@@ -1,6 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {PharosConfig} from '../../../../../config/pharos-config';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {Target} from '../../../../models/target';
 
 /**
@@ -24,8 +22,8 @@ export class TargetCardComponent implements OnInit {
    */
   @Input() showKnowledge = false;
 
-  constructor() {
-
+  constructor(
+  ) {
   }
 
   /**

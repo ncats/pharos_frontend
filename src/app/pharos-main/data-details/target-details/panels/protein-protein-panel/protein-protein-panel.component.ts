@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {HttpClient} from '@angular/common/http';
@@ -22,7 +30,7 @@ import {PharosApiService} from '../../../../../pharos-services/pharos-api.servic
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProteinProteinPanelComponent extends DynamicPanelComponent implements OnInit {
+export class ProteinProteinPanelComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   /**
    * parent target
    */
@@ -78,7 +86,6 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
    */
   paginate(event: PageEvent) {
     this.loading = true;
-    const targetSerializer = new TargetSerializer();
     const pageParams = {
       ppistop: event.pageSize,
       ppisskip: event.pageIndex * event.pageSize,
@@ -88,7 +95,10 @@ const retTarget: any =  res.data.targets.target ? res.data.targets.target : res.
 if (retTarget.ppiCount.length > 0) {
         retTarget.ppiCount = retTarget.ppiCount.reduce((prev, cur) => prev + cur.value, 0);
       }
-this.target = retTarget;
+retTarget.ppis = retTarget.ppis.map(ppi => {
+  return ppi.target ? ppi.target : ppi;
+});
+      this.target = retTarget;
 this.loading = false;
 this.changeRef.markForCheck();
 
@@ -101,5 +111,13 @@ this.changeRef.markForCheck();
    */
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
+  }
+
+  /**
+   * cleanp on destroy
+   */
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

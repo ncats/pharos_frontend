@@ -21,7 +21,7 @@ export class Vendor {
 
   constructor(data: any) {
     this.vendor = data.Vendor;
-    this.vendorUrl = data.Vendor_cat;
+    this.vendorUrl = data.Vendor_cat === 'null'? null : data.Vendor_cat;
     if (data.resource_ID) {
       this.resourceID = data.resource_ID;
     }
@@ -222,7 +222,7 @@ export class SmallMolecule extends Reagent {
    */
   externalIDRegistrationSystem: string;
 
-  resourceType = 'Small Molecule';
+  resourceType = 'Chemical Tool';
 
 
   constructor(data: any) {

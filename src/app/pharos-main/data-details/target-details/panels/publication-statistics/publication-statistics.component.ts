@@ -85,14 +85,45 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
         this.targetProps = this.data.targetsProps;
 
         if (this.target.pubmedScores) {
-          this.pmscoreTimeline = this.target.pubmedScores.map(point => new PharosPoint({x: +point.year, y: point.score}));
+          const values: Map<string, {year: number, score: number}> = new Map<string, {year: number, score: number}>();
+            this.target.pubmedScores.forEach(val => {
+            if(values.has(val.year)) {
+                let vals = values.get(val.year);
+                vals.score = vals.score + val.score;
+                values.set(val.year, vals);
+            } else {
+              values.set(val.year, val);
+            }
+          });
+          this.pmscoreTimeline = Array.from(values.values())
+            .map(point => new PharosPoint({x: +point.year, y: point.score}));
         }
 
         if (this.target.pubTatorScores) {
+          const values: Map<string, {year: number, score: number}> = new Map<string, {year: number, score: number}>();
+          this.target.pubmedScores.forEach(val => {
+            if(values.has(val.year)) {
+              let vals = values.get(val.year);
+              vals.score = vals.score + val.score;
+              values.set(val.year, vals);
+            } else {
+              values.set(val.year, val);
+            }
+          });
           this.pubtatorTimeline = this.target.pubTatorScores.map(point => new PharosPoint({x: +point.year, y: +point.score}));
         }
 
         if (this.target.patentCounts) {
+          const values: Map<string, {year: number, count: number}> = new Map<string, {year: number, count: number}>();
+          this.target.patentCounts.forEach(val => {
+            if(values.has(val.year)) {
+              let vals = values.get(val.year);
+              vals.count = vals.count + val.count;
+              values.set(val.year, vals);
+            } else {
+              values.set(val.year, val);
+            }
+          });
           this.patentTimeline = this.target.patentCounts.map(point => new PharosPoint({x: +point.year, y: point.count}));
         }
 
@@ -116,6 +147,26 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
     } else {
       return null;
     }
+  }
+
+  deDupeArr(arr: {year: string, score?: number, count?: number}[]): {year: string, score?: number, count?: number}[] {
+    const values: Map<string, {year: string, score?: number, count?: number}> =
+      new Map<string, {year: string, score?: number, count?: number}>();
+    arr.forEach(val => {
+      if(values.has(val.year)) {
+        let vals = values.get(val.year);
+        if(val.count) {
+          vals.count = vals.count + val.count;
+        }
+        if(val.score) {
+          vals.score = vals.score + val.score;
+        }
+        values.set(val.year, vals);
+      } else {
+        values.set(val.year, val);
+      }
+    });
+    return Array.from(values.values());
   }
 
   /**

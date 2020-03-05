@@ -18,11 +18,15 @@ export class IDGResourceSerializer<T extends BaseResource> implements Serializer
   /**
    * create reagent from json object
    * @param json
+   * @param name
    * @param type
    */
 
-  fromJson(json: any, type?: string): T {
+  fromJson(json: any, name?: string, type?: string): T {
     let obj: any;
+    if (name) {
+      json.name = name;
+    }
     switch (type.replace(' ', '')) {
       case 'Antibody': {
         obj = new Antibody(json);
@@ -41,6 +45,10 @@ export class IDGResourceSerializer<T extends BaseResource> implements Serializer
         break;
       }
       case 'SmallMolecule': {
+        obj = new SmallMolecule(json);
+        break;
+      }
+      case 'ChemicalTool': {
         obj = new SmallMolecule(json);
         break;
       }
