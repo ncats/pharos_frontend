@@ -47,7 +47,8 @@ export class SuggestApiService {
             if (response[field] && response[field].length > 0) {
               autocomplete.push({
                 name: [field.replace(/_/g, ' ')],
-                options: response[field].sort((a, b) => a.key.toUpperCase() - b.key.toUpperCase()).sort((a, b) =>
+                options: response[field].sort((a, b) => a.key.toUpperCase() - b.key.toUpperCase())
+                  .sort((a, b) =>
                    a.key.toUpperCase() === query.toUpperCase() ? -1 : b.key.toUpperCase() === query.toUpperCase() ? 1 : 0
                 )
               });
