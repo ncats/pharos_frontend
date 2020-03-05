@@ -84,7 +84,8 @@
              </div>
               <div fxLayout="row" fxLayoutAlign="end start">
               <div>
-                <a href = {{reagent.repository?.repositoryUrl}} target="_blank" rel="noreferrer">{{reagent.repository?.repositoryName}}</a>
+                <a  *ngIf="reagent.repository?.repositoryUrl" href = {{reagent.repository?.repositoryUrl}} target="_blank" rel="noreferrer">{{reagent.repository?.repositoryName}}</a>
+                <div *ngIf= "!reagent.repository?.repositoryUrl">{{reagent.repository?.repositoryName}}</div>
               </div>
              </div>
               <br>
