@@ -16,8 +16,8 @@ export class Repository {
 
   constructor(data: any) {
 
-    if (data.Repository) {
-      this.repositoryName = data.Repository;
+    if (data.Repository || data.Data_Repository) {
+      this.repositoryName = data.Repository ? data.Repository : data.Data_Repository;
     }
     if (data.Repository_page_link) {
       this.repositoryUrl = data.Repository_page_link;

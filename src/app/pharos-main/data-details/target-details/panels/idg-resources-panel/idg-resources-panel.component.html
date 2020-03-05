@@ -65,20 +65,21 @@
               <br>
 
               <div class="thumb-holder">
-              <img *ngIf="reagent.smiles" [src] = parseSmiles(reagent.smiles) alt = "image for {{reagent.name}}">
-              <img *ngIf="!reagent.smiles" src = './assets/images/resource-types/{{reagent.resourceType}}.png' alt = "image for {{reagent.name}}" class="resource-thumb">
+              <img *ngIf="reagent.smiles || reagent.canonicalSmiles" [src] = parseSmiles(reagent) alt = "image for {{reagent.name}}">
+              <img *ngIf="!reagent.smiles && !reagent.canonicalSmiles" src = './assets/images/resource-types/{{reagent.resourceType}}.png' alt = "image for {{reagent.name}}" class="resource-thumb">
               </div>
 
-             <div fxLayout="row" fxLayoutAlign="space-between start">
+             <div fxLayout="row" fxLayoutAlign="space-between start" *ngIf = 'reagent.vendors && reagent.vendors.length > 0'>
                <div><b>{{reagent.name}}</b> ordered from:</div>
              </div>
               <div fxLayout="row" fxLayoutAlign="end start" *ngFor = "let vendor of reagent.vendors">
               <div>
-                <a href = {{vendor.vendorUrl}} target="_blank" rel="noreferrer">{{vendor.vendor}}</a>
+                <a *ngIf= "vendor.vendorUrl" href = {{vendor.vendorUrl}} target="_blank" rel="noreferrer">{{vendor.vendor}}</a>
+                <div *ngIf= "!vendor.vendorUrl">{{vendor.vendor}}</div>
               </div>
              </div>
               <br>
-              <div *ngIf= "reagent?.repository" fxLayout="row" fxLayoutAlign="space-between start">
+              <div *ngIf= "reagent?.repository && reagent.repository?.repositoryUrl" fxLayout="row" fxLayoutAlign="space-between start">
                 <div>Order <b>{{reagent.name}}</b> from:</div>
              </div>
               <div fxLayout="row" fxLayoutAlign="end start">
@@ -139,7 +140,8 @@
                       <li *ngIf="dataSource.assayID"><b>Assay ID: </b>{{dataSource.assayID}}</li>
                       <li *ngIf="dataSource.dataFormat"><b>Data Format: </b>{{dataSource.dataFormat}}</li>
                       <li *ngIf="dataSource.dataLink"><b>Repository: </b>
-                        <a href="{{dataSource.dataLink}}" target="_blank" rel="noreferrer">{{dataSource.dataRepository}}</a></li>
+                        <a href="{{dataSource.dataLink}}" target="_blank" rel="noreferrer">
+                          {{dataSource.dataRepository ? dataSource.dataRepository : dataSource.dataLink }}</a></li>
                       <li *ngIf="dataSource.description"><b>Description: </b>{{dataSource.description}}</li>
                       <li *ngIf="dataSource.endpoint"><b>endpoint: </b>{{dataSource.endpoint}}</li>
                       <li *ngIf="dataSource.endpointDetection"><b>Endpoint Detection: </b>{{dataSource.endpointDetection}}</li>

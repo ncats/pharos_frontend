@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build pharos --base-href=/idg/ --prod",
+    "build": "ng build pharos --prod",
     "test": "ng test pharos --code-coverage",
     "lint": "ng lint pharos",
     "lintfix": "ng lint pharos --fix",
@@ -16,7 +16,9 @@
     "serve:ssr": "node dist/server.js",
     "build:client-and-server-bundles": "ng build pharos --prod && ng run pharos:server:production",
     "webpack:server": "webpack --config webpack.server.config.js --progress --colors",
-    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points"
+    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
+    "scully": "scully",
+    "scully:serve": "scully serve"
   },
   "private": true,
   "dependencies": {
@@ -39,6 +41,9 @@
     "@nguniversal/common": "^9.0.0",
     "@nguniversal/express-engine": "^9.0.0",
     "@nguniversal/module-map-ngfactory-loader": "8.2.6",
+    "@scullyio/init": "0.0.23",
+    "@scullyio/ng-lib": "latest",
+    "@scullyio/scully": "latest",
     "@webcomponents/custom-elements": "^1.2.1",
     "ProtVista": "^2.0.13",
     "apollo-angular": "^1.8.0",

@@ -29,7 +29,8 @@
   Evergreen browsers require these.
  */
 // Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
- import 'core-js/es/reflect';
+  import 'core-js/es/reflect';
+  import 'core-js/es/array';
 
 
 /*
@@ -55,3 +56,9 @@
 // @ts-ignore
 
  (window as any).global.Buffer = (window as any).global.Buffer || require('buffer').Buffer;
+
+/***************************************************************************************************
+* SCULLY IMPORTS
+*/
+// tslint:disable-next-line: align
+import 'zone.js/dist/task-tracking';

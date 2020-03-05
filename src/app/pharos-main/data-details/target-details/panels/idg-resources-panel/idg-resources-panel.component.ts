@@ -51,6 +51,7 @@ dataTypes: string[] = [];
    * set up nav sections
    * @param {HttpClient} http
    * @param {NavSectionsService} navSectionsService
+   * @param pharosConfig
    */
   constructor(
     private http: HttpClient,
@@ -79,7 +80,7 @@ dataTypes: string[] = [];
         this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/search?term=${this.target.gene}`).subscribe(res => {
             if (res && res.data) {
               res.data.forEach(data => {
-                if ( data.id) {
+                if ( data.id && data.name) {
                   this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/id?id=${data.id}&json=true`)
                     .subscribe(resource => {
                     const resc = this.resourceSerializer.fromJson(resource.data[0], data.name, data.resourceType);
@@ -149,7 +150,14 @@ dataTypes: string[] = [];
     this.navSectionsService.setActiveSection(fragment);
   }
 
-  parseSmiles(smiles) {
+  parseSmiles(reagent: any) {
+    let smiles :string;
+     if (reagent.smiles) {
+       smiles = reagent.smiles;
+     }
+     if (reagent.canonicalSmiles) {
+       smiles = reagent.canonicalSmiles;
+     }
     return `${this.pharosConfig.getApiPath()}render/${encodeURIComponent(smiles)}?size=250`;
   }
 
