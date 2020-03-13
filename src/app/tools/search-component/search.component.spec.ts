@@ -10,6 +10,7 @@ import {HighlightPipe} from './highlight.pipe';
 import {SuggestApiService} from './suggest-api.service';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {Apollo} from "apollo-angular";
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
@@ -28,7 +29,8 @@ describe('SearchComponent', () => {
         HighlightPipe
       ],
       providers: [
-        SuggestApiService
+        SuggestApiService,
+        Apollo
       ]
     })
     .compileComponents();
