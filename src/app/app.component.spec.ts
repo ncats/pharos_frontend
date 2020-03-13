@@ -18,6 +18,7 @@ import {AngularFireModule} from '@angular/fire';
 import {COMMON_CONFIG} from '../../test/test-config';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {PharosProfileService} from './auth/pharos-profile.service';
+import {Apollo} from "apollo-angular";
 
 describe('AppComponent', () => {
 
@@ -47,6 +48,7 @@ describe('AppComponent', () => {
         SelectedFacetService,
         SuggestApiService,
         AngularFireAuth,
+        Apollo,
         { provide: AngularFirestore, useValue: FIRESTORESTUB },
         {provide: APP_BASE_HREF, useValue: '/' }
       ],
