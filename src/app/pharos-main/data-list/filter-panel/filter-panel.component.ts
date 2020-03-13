@@ -201,6 +201,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
       this.panelOptions.mode = 'side';
       this.facets = this.filteredFacets;
       this.loading = false;
+      this.changeRef.markForCheck();
     }
   }
 
@@ -246,6 +247,9 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * close the filter panel
    */
   toggleMenu() {
+    this.panelOptions.mode = 'side';
+    this.fullWidth = false;
+    this.loading = false;
     this.menuToggle.emit();
   }
 

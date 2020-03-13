@@ -33,7 +33,6 @@
               "src/styles.scss"
             ],
             "scripts": [
-             // "src/assets/vendor/marvin/js/marvinjslauncher.js",
               "src/assets/vendor/modernizr-custom.js"
             ]
           },

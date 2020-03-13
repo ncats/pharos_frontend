@@ -9,16 +9,16 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="start center">
       <mat-icon
-        [ngClass]="{'disabled-icon': target?.jensenScore < 5}"
+        [ngClass]="{'disabled-icon': target?.jensenScore > 5}"
         [color]="'accent'">check_circle
       </mat-icon>
       &nbsp;&nbsp;
       <span
         [matTooltip]="getTooltip('pubmed')"
         [matTooltipClass]="'pharos-tooltip'"
-        [ngClass]="{'mat-body-2': target?.jensenScore >= 5}">
+        [ngClass]="{'mat-body-2': target?.jensenScore <= 5}">
         Pubmed score: {{target?.jensenScore}}</span>
-      &nbsp;<span class="required-val"><i> (req: > 5)</i></span>
+      &nbsp;<span class="required-val"><i> (req: < 5)</i></span>
     </div>
     <br>
     <div fxLayout="row">
@@ -31,16 +31,16 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="start center">
       <mat-icon
-        [ngClass]="{'disabled-icon' : target.generifCount < 3}"
+        [ngClass]="{'disabled-icon' : target.generifCount > 3}"
         [color]="'accent'">check_circle
       </mat-icon>
       &nbsp;&nbsp;
       <span
         [matTooltip]="getTooltip('generif')"
         [matTooltipClass]="'pharos-tooltip'"
-        [ngClass]="{'mat-body-2': target.generifCount >= 3}">
+        [ngClass]="{'mat-body-2': target.generifCount <= 3}">
     Gene RIFs: {{target.generifCount}}</span>
-      &nbsp;<span class="required-val"><i> (req: > 3)</i></span>
+      &nbsp;<span class="required-val"><i> (req: < 3)</i></span>
     </div>
     <br>
     <div fxLayout="row">
@@ -52,16 +52,16 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="start center">
       <mat-icon
-        [ngClass]="{'disabled-icon': target?.antibodyCount < 50}"
+        [ngClass]="{'disabled-icon': target?.antibodyCount > 50}"
         [color]="'accent'">check_circle
       </mat-icon>
       &nbsp;&nbsp;
       <span
         [matTooltip]="getTooltip('antibodies')"
         [matTooltipClass]="'pharos-tooltip'"
-        [ngClass]="{'mat-body-2': target?.antibodyCount >= 50}">
+        [ngClass]="{'mat-body-2': target?.antibodyCount <= 50}">
   Antibodies: {{target?.antibodyCount}}</span>
-      &nbsp; <span class="required-val"><i> (req: > 50)</i></span>
+      &nbsp; <span class="required-val"><i> (req: < 50)</i></span>
     </div>
     <br>
     <div fxLayout="row">
