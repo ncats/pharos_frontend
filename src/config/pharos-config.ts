@@ -31,9 +31,9 @@ const PHAROSCONFIG: any = {
   homunculusUrl: _HOST + _API + 'expression/homunculus?acc=_id_&source=',
   molConvertUrl: _HOST + _API + 'smiles',
   topicResolveUrl: `${_HOST}${_API}topics/target`,
-  autocompleteFields: ['UniProt_Gene', 'Target', 'Disease', 'OMIM_Term', 'UniProt_Name', 'PANTHER_Protein_Class_(2)'],
+  autocompleteFields: ['UniProt_Gene', 'Target', 'Disease', 'OMIM_Term', 'UniProt_Name'],
   components: COMPONENTSCONFIG,
-  graphqlUrl: 'http://localhost:4000/graphql'
+  graphqlUrl: 'https://pharos-api.ncats.io/graphql'
 };
 
 /**
