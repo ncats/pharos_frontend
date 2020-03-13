@@ -11,6 +11,7 @@ import {FIRESTORESTUB} from '../../../../test/firestore-stub';
 import {AngularFireModule} from '@angular/fire';
 import {COMMON_CONFIG} from '../../../../test/test-config';
 import {AngularFireAuth} from '@angular/fire/auth';
+import {Apollo} from "apollo-angular";
 
 describe('NcatsHeaderComponent', () => {
   let component: NcatsHeaderComponent;
@@ -31,6 +32,7 @@ describe('NcatsHeaderComponent', () => {
       providers: [
         SuggestApiService,
         AngularFireAuth,
+        Apollo,
         { provide: AngularFirestore, useValue: FIRESTORESTUB }
       ]
     })
