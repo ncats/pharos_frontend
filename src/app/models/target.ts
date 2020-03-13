@@ -737,12 +737,12 @@ export class TargetSerializer implements PharosSerializer {
       newObj.diseases = obj.diseases.map(disease => diseaseSerializer._asProperties(disease));
     }
 
-    if (newObj.drugs) {
+    if (newObj.drugs && newObj.drugs.length > 0) {
       const drugSerializer = new LigandSerializer();
       newObj.drugs = obj.drugs.map(drug => drugSerializer._asProperties(drug));
     }
 
-    if (newObj.ligands) {
+    if (newObj.ligands && newObj.ligands.length > 0) {
       const ligandSerializer = new LigandSerializer();
       newObj.ligands = obj.ligands.map(ligand => ligandSerializer._asProperties(ligand));
     }
