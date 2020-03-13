@@ -4,6 +4,7 @@ import { SuggestApiService } from './suggest-api.service';
 import {SharedModule} from '../../shared/shared.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {Apollo} from "apollo-angular";
 
 describe('SuggestApiService', () => {
   beforeEach(() => {
@@ -14,7 +15,8 @@ describe('SuggestApiService', () => {
         HttpClientTestingModule
       ],
       providers: [
-        SuggestApiService
+        SuggestApiService,
+        Apollo
       ]
     });
   });
