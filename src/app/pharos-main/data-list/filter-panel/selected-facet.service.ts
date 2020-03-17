@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Facet, Field} from '../../../models/facet';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
 import {ParamMap} from '@angular/router';
 
@@ -158,8 +157,9 @@ export class SelectedFacetService {
    * @param {ParamMap} map
    */
   getFacetsFromParamMap(map: ParamMap): void {
+    this.clearFacets();
     if (map.keys.length === 0) {
-      this._facetMap.clear();
+      return;
     } else {
       if (map.has('q')) {
         this._facetMap.set('query', new Facet({facet: 'query', values: [{name: map.get('q')}]}));
