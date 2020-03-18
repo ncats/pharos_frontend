@@ -1,17 +1,17 @@
 <article>
   <div class="sticky-container" #home>
-<div fxLayout="row wrap" fxLayoutAlign="start center" class ="sticky target-header" *ngIf="target"
-     ngClass = {{getHeaderClass()}}>
-  <div fxFlex="10" fxFlex.lt-sm="35" >
-    <pharos-idg-level-indicator [level]="target?.idgTDL"></pharos-idg-level-indicator>
-  </div>
-  <div fxFlex="15" fxFlex.lt-sm="35">
-    <span class = "pharos-title toolbar">{{target?.gene}}</span>
-  </div>
-    <div fxFlex="60" fxFlex.lt-sm="100" class="title-holder">
-    <span class = "pharos-headline toolbar">{{target?.name}}</span>
+    <div fxLayout="row wrap" fxLayoutAlign="start center" class="sticky target-header" *ngIf="target"
+         ngClass={{getHeaderClass()}}>
+      <div fxFlex.lt-sm="35">
+        <pharos-idg-level-indicator [level]="target?.idgTDL"></pharos-idg-level-indicator>
+      </div>
+      <div fxFlex="20" fxFlex.lt-sm="35">
+        <span class="pharos-title toolbar">{{target?.gene}}</span>
+      </div>
+      <div fxFlex="60" fxFlex.lt-sm="100" class="title-holder">
+        <span class="pharos-headline toolbar">{{target?.name}}</span>
+      </div>
     </div>
-</div>
-  <br>
-</div>
+    <br>
+  </div>
 </article>
