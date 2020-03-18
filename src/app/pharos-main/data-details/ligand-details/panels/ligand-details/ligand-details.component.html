@@ -37,8 +37,8 @@
             [matTooltip] = "getTooltip('synonyms')"
             [matTooltipClass] = "'pharos-tooltip'">
             Synonyms</mat-card-subtitle>
-          <div *ngFor = "let term of data.synonyms" class="link-list">
-            <ncats-property-display [property]="term" [showLabel]="false" ></ncats-property-display>
+          <div *ngFor = "let synonym of ligand.synonymLabels()" class="link-list">
+            <ncats-property-display [property]="synonym" [showLabel]="true" ></ncats-property-display>
           </div>
         </div>
         <br>
@@ -47,4 +47,3 @@
     </mat-card-content>
   </mat-card>
 </article>
-
