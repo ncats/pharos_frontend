@@ -39,6 +39,13 @@ export class LigandCardComponent implements OnInit {
   ) {
   }
 
+  /*
+  Determines if the ligand is also in the approved drug panel
+   */
+  isApprovedDrug(){
+    return this.ligand.isdrug;
+  }
+
   /**
    * find prime activity based on ligand activites for the target
    */

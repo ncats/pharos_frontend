@@ -80,6 +80,7 @@ export class Ligand extends PharosBase {
   pubChemID?: string;
   smiles?: string;
   activityCount: number;
+  isdrug: boolean;
 
   /*
   Retrieves an array of synonyms suitable for displaying as a property

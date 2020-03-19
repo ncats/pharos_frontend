@@ -656,7 +656,6 @@ export class TargetSerializer implements PharosSerializer {
     if (json.ligands) {
       const ligandSerializer = new LigandSerializer();
       obj.ligands = json.ligands
-        .filter(lig => !lig.isdrug)
         .map(ligand => ligandSerializer.fromJson(ligand));
     }
 
