@@ -15,7 +15,7 @@
         <span class="mat-title"
               [matTooltip] = description
               [matTooltipClass] = "'pharos-tooltip'">
-          {{label}} ({{target.ligands.length}})</span>
+          {{label}} ({{target.ligandCount}})</span>
       </div>
       <div fxFlex="5">
         <pharos-help-panel-trigger [origin] = "'ligands'" [label]="'Active Ligands'"></pharos-help-panel-trigger>
@@ -23,7 +23,7 @@
     </div>
     <mat-paginator
       [pageSize]="10"
-      [length]="target.ligands.length"
+      [length]="target.ligandCount"
       [hidePageSize]="true"
       [showFirstLastButtons] = true
       (page) = paginate($event)
