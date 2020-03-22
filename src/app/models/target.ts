@@ -66,8 +66,8 @@ const TARGETDETAILSFIELDS = gql`
       name
       value
     }
-    ensemblIDs: xrefs(source:"Ensembl") { 
-    name 
+    ensemblIDs: xrefs(source:"Ensembl") {
+    name
     }
      dto {
      name
@@ -96,7 +96,7 @@ const TARGETDETAILSFIELDS = gql`
       name
       dbid
       geneid
-      source 
+      source
      }
   pubTatorScores {
     year
@@ -120,7 +120,7 @@ const TARGETDETAILSFIELDS = gql`
     ligands(top: $ligandstop, skip: $ligandsskip, isdrug: false) {
       ...ligandsDetailsFields
     }
-    
+
     publicationCount: pubCount
     publications: pubs(top: $publicationstop, skip: $publicationsskip, term: $publicationsterm) {
       year
@@ -148,16 +148,16 @@ const TARGETDETAILSFIELDS = gql`
         name
       }
     }
-   omimCount: mimCount 
+   omimCount: mimCount
    omimTerms:  mim {
       term
       mimid
     }
      expressions (top: 1000, filter: {
-    facets: [ 
+    facets: [
     {
       facet: "type"
-      values: [ 
+      values: [
         "HPA",
        # "HCA RNA",
       "JensenLab Experiment HPA",
@@ -251,7 +251,7 @@ const TARGETDETAILSFIELDS = gql`
       value
     }
   }
-  
+
   ${TARGETLISTFIELDS}
   ${LIGANDDETAILSFIELDS}
 `;
@@ -260,16 +260,16 @@ const TARGETDETAILSQUERY = gql`
   #import "./targetsListFields.gql"
   #import "./ligandsDetailsFields.gql"
  query fetchDetails(
-        $term: String, 
-        $diseasetop: Int, 
-        $diseaseskip: Int, 
-        $publicationstop: Int, 
+        $term: String,
+        $diseasetop: Int,
+        $diseaseskip: Int,
+        $publicationstop: Int,
         $publicationsskip: Int,
-        $publicationsterm: String, 
-        $generifstop: Int, 
+        $publicationsterm: String,
+        $generifstop: Int,
         $generifsskip: Int,
         $generifsterm: String,
-        $orthologstop: Int, 
+        $orthologstop: Int,
         $orthologsskip: Int,
         $ppistop: Int,
         $ppisskip: Int,
@@ -615,7 +615,7 @@ export class TargetSerializer implements PharosSerializer {
     }
 
     if (json.uniProtFunction && json.uniProtFunction.length > 0) {
-      obj.description = `${(json.uniProtFunction.map(id => id.value)).join(' ')} ${obj.description}`;
+        obj.description = `${(json.uniProtFunction.map(id => id.value)).join(' ')}${!!obj.description ? ' ' + obj.description : ''}`;
     }
 
     if (json.goCounts) {
@@ -656,7 +656,6 @@ export class TargetSerializer implements PharosSerializer {
     if (json.ligands) {
       const ligandSerializer = new LigandSerializer();
       obj.ligands = json.ligands
-        .filter(lig => !lig.isdrug)
         .map(ligand => ligandSerializer.fromJson(ligand));
     }
 
