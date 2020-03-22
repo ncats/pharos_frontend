@@ -80,7 +80,31 @@ export class Ligand extends PharosBase {
   pubChemID?: string;
   smiles?: string;
   activityCount: number;
+  isdrug: boolean;
 
+  /*
+  Retrieves an array of synonyms suitable for displaying as a property
+   */
+  public synonymLabels()
+  {
+    let labels = [];
+    for(let syn of this.synonyms){
+      let source = syn.name;
+      let id = syn.value;
+      let link = "";
+      if(source == "DrugCentral"){
+        link = "http://drugcentral.org/drugcard/" + id;
+      }
+      else if(source == "ChEMBL"){
+        link = "https://www.ebi.ac.uk/chembl/compound_report_card/" + id + "/";
+      }
+      else if(source == "PubChem") {
+        link = "https://pubchem.ncbi.nlm.nih.gov/compound/" + id;
+      }
+      labels.push({label: source, term: id, externalLink: link});
+    }
+    return labels;
+  }
 
   /**
    * name of ligand

@@ -1,4 +1,4 @@
-<mat-card class="ligand-card" *ngIf="ligand">
+<mat-card class="ligand-card" *ngIf="ligand" [ngClass]="{'drug-card':isApprovedDrug()}">
   <a *ngIf="!internalLink" routerLink = '/ligands/{{ligand.ligid}}' target="_blank">
     <div class="ligand-content">
       <div class="mat-title centered ligand-name">{{ligand.chemblName || ligand.name}}</div>
