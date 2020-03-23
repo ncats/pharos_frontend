@@ -6,6 +6,7 @@ import {PharosApiService} from '../../../../../../pharos-services/pharos-api.ser
 import {ActivatedRoute} from '@angular/router';
 import {Target} from '../../../../../../models/target';
 import {PageEvent} from '@angular/material/paginator';
+import {TargetComponents} from "../../../../../../models/target-components";
 
 /**
  * displays orthologs available for a target
@@ -75,12 +76,13 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
         orthologstop: event.pageSize,
        orthologsskip: event.pageIndex * event.pageSize,
       };
-      this.pharosApiService.getComponentPage(this._route.snapshot, pageParams,'orthologs').subscribe(res => {
+      this.pharosApiService.getComponentPage(this._route.snapshot, pageParams,TargetComponents.Component.Orthologs).subscribe(res => {
         const tempArr = res.data.targets.orthologs
           .map(ortholog => orthologSerializer.fromJson(ortholog))
           .map(ortho => orthologSerializer._asProperties(ortho));
         this.targetProps.orthologs = tempArr;
         this.loading = false;
+        this.changeRef.markForCheck();
       });
     }
 }

@@ -13,7 +13,7 @@ import {ActivatedRoute} from '@angular/router';
 import {DISEASELISTFIELDS, DiseaseSerializer} from '../../../../../models/disease';
 import {catchError, map, takeUntil} from 'rxjs/operators';
 import {DataProperty} from '../../../../../tools/generic-table/components/property-display/data-property';
-import gql from "graphql-tag";
+import {TargetComponents} from "../../../../../models/target-components";
 
 /**
  * interface to track disease tree nodes
@@ -155,13 +155,14 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       diseasetop: event.pageSize,
       diseaseskip: event.pageIndex * event.pageSize,
     };
-    this.pharosApiService.getComponentPage(this._route.snapshot, pageParams,'diseaseSources')
+    this.pharosApiService.getComponentPage(this._route.snapshot, pageParams,TargetComponents.Component.DiseaseSources)
       .subscribe(
         res => {
           this.target.diseases = res.data.targets.diseases;
           this.targetProps.diseases = res.data.targets.diseases.map(disease => diseaseSerializer._asProperties(disease));
           this.setterFunction();
           this.loading = false;
+          this.changeRef.markForCheck();
         }
       );
   }

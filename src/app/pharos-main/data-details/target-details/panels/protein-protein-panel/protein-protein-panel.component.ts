@@ -19,6 +19,7 @@ import {DiseaseSerializer} from '../../../../../models/disease';
 import {PageEvent} from '@angular/material/paginator';
 import {ActivatedRoute} from '@angular/router';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
+import {TargetComponents} from "../../../../../models/target-components";
 
 /**
  * shows a list of protein to protein interactions for a target
@@ -90,7 +91,7 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
       ppistop: event.pageSize,
       ppisskip: event.pageIndex * event.pageSize,
     };
-    this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, "ppi").subscribe(res => {
+    this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, TargetComponents.Component.ProteinProteinInteractions).subscribe(res => {
       const retTarget: any = res.data.targets.target ? res.data.targets.target : res.data.targets;
       if (retTarget.ppiCount.length > 0) {
         retTarget.ppiCount = retTarget.ppiCount.reduce((prev, cur) => prev + cur.value, 0);
