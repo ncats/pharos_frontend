@@ -19,7 +19,7 @@ export const environment = {
   production: false,
   host: _HOST,
   api: _API,
-  graphqlUrl: 'https://ncatsidg-dev.appspot.com/graphql',
+  graphqlUrl: 'https://pharos-api.ncats.io/graphql',
   firebase: {
     apiKey: '',
     authDomain: '',
