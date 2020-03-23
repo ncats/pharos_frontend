@@ -287,7 +287,10 @@ export class PharosApiService {
     return fetchQuery;
   }
 
-  getComponentPage(snapshot: ActivatedRouteSnapshot, addtParams, component): Observable<any>{
+  /*
+  * retrieves the query for getting the next page of data for one of the target details components
+  * */
+  getComponentPage(snapshot: ActivatedRouteSnapshot, addtParams, component : TargetComponents.Component): Observable<any>{
     const variables: any = {term: snapshot.paramMap.get('id'), ...addtParams};
     if (snapshot.data.path == "targets"){
       this.detailsQuery = TargetComponents.getComponentPageQuery(component);

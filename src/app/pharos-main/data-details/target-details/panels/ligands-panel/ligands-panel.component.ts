@@ -11,6 +11,7 @@ import {PharosConfig} from '../../../../../../config/pharos-config';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {BehaviorSubject} from 'rxjs';
+import {TargetComponents} from "../../../../../models/target-components";
 
 /**
  * panel to generically display ligands as a pageable list of ligand cards
@@ -95,7 +96,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
       ligandstop: event.pageSize,
       ligandsskip: event.pageIndex * event.pageSize,
     };
-    this.pharosApiService.getComponentPage(this._route.snapshot,pageParams,"ligands").subscribe(res => {
+    this.pharosApiService.getComponentPage(this._route.snapshot,pageParams,TargetComponents.Component.Ligands).subscribe(res => {
       this.target.ligands = res.data.targets.ligands.map(lig => ligandSerializer.fromJson(lig));
       this.loading = false;
       this.changeRef.markForCheck();

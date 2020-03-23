@@ -1,5 +1,9 @@
 import gql from "graphql-tag";
+import {Target} from "./target";
 
+/**
+ * apollo graphQL query fragment to retrieve fields for disease associations for a target details view
+ */
 const DISEASE_FIELDS = gql`
   fragment disease_fields on Disease {
     name
@@ -19,6 +23,9 @@ const DISEASE_FIELDS = gql`
   }
 `;
 
+/*
+* apollo graphQL query to fetch the next page of disease association data
+* */
 const TARGET_DISEASE_QUERY = gql`
   #import "./disease_fields.gql"
   query fetchDetails($term: String, $diseasetop: Int, $diseaseskip: Int) {
@@ -30,6 +37,9 @@ const TARGET_DISEASE_QUERY = gql`
   }
 ${DISEASE_FIELDS}`;
 
+/**
+ * apollo graphQL query fragment to retrieve fields for orthologs for a target details view
+ */
 const ORTHOLOG_FIELDS = gql`
   fragment ortholog_fields on Ortholog {
     species
@@ -40,6 +50,9 @@ const ORTHOLOG_FIELDS = gql`
     source
   }`;
 
+/*
+* apollo graphQL query to fetch the next page of orthologs data
+* */
 const TARGET_ORTHOLOG_QUERY = gql`
   #import "./ortholog_fields.gql"
   query fetchDetails($term: String, $orthologstop: Int, $orthologsskip: Int) {
@@ -52,7 +65,7 @@ const TARGET_ORTHOLOG_QUERY = gql`
 ${ORTHOLOG_FIELDS}`;
 
 /**
- * apollo graphQL query fragment to retrieve common fields for a target list view
+ * apollo graphQL query fragment to retrieve ligand fields for a target list view or a target details view
  */
 export const LIGANDLISTFIELDS = gql`
   fragment ligandsListFields on Ligand {
@@ -68,8 +81,9 @@ export const LIGANDLISTFIELDS = gql`
     activityCount:actcnt
   }
 `;
+
 /**
- * apollo graphQL query fragment to retrieve common fields for a target list view
+ * apollo graphQL query fragment to retrieve ligand fields for a target details view
  */
 export const LIGANDDETAILSFIELDS = gql`
   fragment ligandsDetailsFields on Ligand {
@@ -91,6 +105,7 @@ export const LIGANDDETAILSFIELDS = gql`
   }
   ${LIGANDLISTFIELDS}
 `;
+
 export const LIGANDDETAILSQUERY = gql`
   #import "./ligandsDetailsFields.gql"
   query fetchDetails(
@@ -103,6 +118,9 @@ export const LIGANDDETAILSQUERY = gql`
   ${LIGANDDETAILSFIELDS}
 `;
 
+/*
+* apollo graphQL query to fetch the next page of ligand data
+* */
 const TARGET_LIGAND_QUERY = gql`
   #import "./ligandsDetailsFields.gql"
   query fetchDetails($term: String, $ligandstop: Int, $ligandsskip: Int) {
@@ -114,6 +132,9 @@ const TARGET_LIGAND_QUERY = gql`
   }
 ${LIGANDDETAILSFIELDS}`;
 
+/*
+* apollo graphQL query to fetch the next page of drugs data
+* */
 const TARGET_DRUG_QUERY = gql`
   #import "./ligandsDetailsFields.gql"
   query fetchDetails($term: String, $ligandstop: Int, $ligandsskip: Int) {
@@ -165,6 +186,9 @@ export const TARGETLISTFIELDS = gql`
   }
 `;
 
+/*
+* apollo graphQL query to fetch the next page of protein-protein interaction data
+* */
 const TARGET_PPI_QUERY = gql`
   #import "./targetsListFields.gql"
   query fetchDetails($term: String, $ppistop: Int, $ppisskip: Int) {
@@ -179,6 +203,9 @@ const TARGET_PPI_QUERY = gql`
   }
 ${TARGETLISTFIELDS}`;
 
+/**
+ * apollo graphQL query fragment to retrieve fields for publications for a target details view
+ */
 export const PUBLICATION_FIELDS = gql`
   fragment publication_fields on PubMed {
     year
@@ -188,6 +215,9 @@ export const PUBLICATION_FIELDS = gql`
     abstract
   }`;
 
+/*
+* apollo graphQL query to fetch the next page of publications data
+* */
 const TARGET_PUBS_QUERY = gql`
   #import "./publication_fields.gql"
   query fetchDetails($term: String, $publicationstop: Int, $publicationsskip: Int, $publicationsterm: String) {
@@ -199,7 +229,9 @@ const TARGET_PUBS_QUERY = gql`
   }
 ${PUBLICATION_FIELDS}`;
 
-
+/*
+* apollo graphQL query to fetch the next page of generifs data
+* */
 const TARGET_GENERIFS_QUERY = gql`
   #import "./publication_fields.gql"
   query fetchDetails($term: String, $generifstop: Int, $generifsskip: Int, $generifsterm: String) {
@@ -214,32 +246,8 @@ const TARGET_GENERIFS_QUERY = gql`
   }
 ${PUBLICATION_FIELDS}`;
 
-export class TargetComponents {
-
-  static getComponentPageQuery(component) {
-    switch (component) {
-      case('diseaseSources'):
-        return TARGET_DISEASE_QUERY;
-      case('orthologs'):
-        return TARGET_ORTHOLOG_QUERY;
-      case('ligands'):
-        return TARGET_LIGAND_QUERY;
-      case('drugs'):
-        return TARGET_DRUG_QUERY;
-      case('ppi'):
-        return TARGET_PPI_QUERY;
-      case('publications'):
-        return TARGET_PUBS_QUERY;
-      case('generifs'):
-        return TARGET_GENERIFS_QUERY;
-    }
-    return null;
-  }
-
-}
-
 /**
- * apollo graphQL query fragment to retrieve common fields for a target details view
+ * apollo graphQL query fragment to retrieve target fields for a target details view
  */
 export const TARGETDETAILSFIELDS = gql`
   #import "./targetsListFields.gql"
@@ -434,6 +442,10 @@ export const TARGETDETAILSFIELDS = gql`
   ${ORTHOLOG_FIELDS}
   ${PUBLICATION_FIELDS}
 `;
+
+/**
+ * apollo graphQL query to retrieve the data for a target details view
+ */
 export const TARGETDETAILSQUERY = gql`
   #import "./targetsListFields.gql"
   #import "./ligandsDetailsFields.gql"
@@ -472,3 +484,45 @@ export const TARGETDETAILSQUERY = gql`
   ${TARGETDETAILSFIELDS}
   ${DISEASE_FIELDS}
 `;
+
+/*
+* Retrieves the appropriate apollo graphql query for pagination for the given component
+* */
+export class TargetComponents {
+  static getComponentPageQuery(component : TargetComponents.Component) {
+    switch (component) {
+      case(TargetComponents.Component.DiseaseSources):
+        return TARGET_DISEASE_QUERY;
+      case(TargetComponents.Component.Orthologs):
+        return TARGET_ORTHOLOG_QUERY;
+      case(TargetComponents.Component.Ligands):
+        return TARGET_LIGAND_QUERY;
+      case(TargetComponents.Component.Drugs):
+        return TARGET_DRUG_QUERY;
+      case(TargetComponents.Component.ProteinProteinInteractions):
+        return TARGET_PPI_QUERY;
+      case(TargetComponents.Component.Publications):
+        return TARGET_PUBS_QUERY;
+      case(TargetComponents.Component.Generifs):
+        return TARGET_GENERIFS_QUERY;
+    }
+    return null;
+  }
+}
+
+/* Components which can be Paginated via getComponentPage */
+export namespace TargetComponents {
+  export enum Component{
+    DiseaseSources,
+    Orthologs,
+    Ligands,
+    Drugs,
+    ProteinProteinInteractions,
+    Publications,
+    Generifs
+  }
+}
+
+
+
+
