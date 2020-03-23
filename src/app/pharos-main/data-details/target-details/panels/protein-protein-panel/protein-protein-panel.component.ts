@@ -16,7 +16,7 @@ import {map, zipAll} from 'rxjs/operators';
 import {from} from 'rxjs/index';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {DiseaseSerializer} from '../../../../../models/disease';
-import { PageEvent } from '@angular/material/paginator';
+import {PageEvent} from '@angular/material/paginator';
 import {ActivatedRoute} from '@angular/router';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 
@@ -90,18 +90,17 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
       ppistop: event.pageSize,
       ppisskip: event.pageIndex * event.pageSize,
     };
-    this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams).valueChanges.subscribe(res => {
-const retTarget: any =  res.data.targets.target ? res.data.targets.target : res.data.targets;
-if (retTarget.ppiCount.length > 0) {
+    this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, "ppi").subscribe(res => {
+      const retTarget: any = res.data.targets.target ? res.data.targets.target : res.data.targets;
+      if (retTarget.ppiCount.length > 0) {
         retTarget.ppiCount = retTarget.ppiCount.reduce((prev, cur) => prev + cur.value, 0);
       }
-retTarget.ppis = retTarget.ppis.map(ppi => {
-  return ppi.target ? ppi.target : ppi;
-});
+      retTarget.ppis = retTarget.ppis.map(ppi => {
+        return ppi.target ? ppi.target : ppi;
+      });
       this.target = retTarget;
-this.loading = false;
-this.changeRef.markForCheck();
-
+      this.loading = false;
+      this.changeRef.markForCheck();
     });
   }
 

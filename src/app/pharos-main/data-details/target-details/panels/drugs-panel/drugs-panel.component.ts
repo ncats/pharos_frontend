@@ -89,7 +89,7 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
       ligandstop: event.pageSize,
       ligandsskip: event.pageIndex * event.pageSize,
     };
-    this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams).valueChanges.subscribe(res => {
+    this.pharosApiService.getComponentPage(this._route.snapshot,pageParams,"drugs").subscribe(res => {
       this.target.ligands = res.data.targets.ligands.map(lig => ligandSerializer.fromJson(lig));
       this.loading = false;
       this.changeRef.markForCheck();
