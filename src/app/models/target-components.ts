@@ -244,6 +244,8 @@ export class TargetComponents {
 export const TARGETDETAILSFIELDS = gql`
   #import "./targetsListFields.gql"
   #import "./ligandsDetailsFields.gql"
+  #import "./ortholog_fields.gql"
+  #import "./publication_fields.gql"
   fragment targetsDetailsFields on Target {
     ...targetsListFields
     symbols: synonyms(name: "symbol") {
@@ -279,12 +281,7 @@ export const TARGETDETAILSFIELDS = gql`
     goCounts {value}
     orthologCounts {value}
     orthologs (top: $orthologstop, skip: $orthologsskip){
-      species
-      sym
-      name
-      dbid
-      geneid
-      source
+      ...ortholog_fields
     }
     pubTatorScores {
       year
@@ -311,21 +308,13 @@ export const TARGETDETAILSFIELDS = gql`
 
     publicationCount: pubCount
     publications: pubs(top: $publicationstop, skip: $publicationsskip, term: $publicationsterm) {
-      year
-      pmid
-      title
-      journal
-      abstract
+      ...publication_fields
     }
     generifCount
     generifs (top: $generifstop, skip: $generifsskip term: $generifsterm){
       text
       pubs {
-        year
-        pmid
-        title
-        journal
-        abstract
+        ...publication_fields
       }
     }
     tinx {
@@ -442,10 +431,13 @@ export const TARGETDETAILSFIELDS = gql`
 
   ${TARGETLISTFIELDS}
   ${LIGANDDETAILSFIELDS}
+  ${ORTHOLOG_FIELDS}
+  ${PUBLICATION_FIELDS}
 `;
 export const TARGETDETAILSQUERY = gql`
   #import "./targetsListFields.gql"
   #import "./ligandsDetailsFields.gql"
+  #import "./disease_fields.gql"
   query fetchDetails(
     $term: String,
     $diseasetop: Int,
@@ -473,22 +465,10 @@ export const TARGETDETAILSQUERY = gql`
     }) {
       ...targetsDetailsFields
       diseases(top: $diseasetop, skip: $diseaseskip) {
-        name
-        associationCount
-        associations {
-          type
-          name
-          source
-          zscore
-          evidence
-          conf
-          reference
-          log2foldchange
-          pvalue
-          score
-        }
+        ...disease_fields
       }
     }
   }
   ${TARGETDETAILSFIELDS}
+  ${DISEASE_FIELDS}
 `;
