@@ -1,5 +1,5 @@
 import {COMPONENTSCONFIG, PharosPanel} from '../config/components-config';
-import {environment} from '../environments/environment.prod';
+import {environment} from '../environments/environment';
 import {Injectable} from '@angular/core';
 
 
@@ -33,7 +33,7 @@ const PHAROSCONFIG: any = {
   topicResolveUrl: `${_HOST}${_API}topics/target`,
   autocompleteFields: ['UniProt_Gene', 'Target', 'Disease', 'OMIM_Term', 'UniProt_Name'],
   components: COMPONENTSCONFIG,
-  graphqlUrl: 'https://pharos-api.ncats.io/graphql'
+  graphqlUrl: environment.graphqlUrl
 };
 
 /**
