@@ -76,7 +76,6 @@ export class OrthologSerializer implements Serializer {
   _asProperties(obj: Ortholog): any {
     const newObj: any = this._mapField(obj);
     newObj.source = newObj.source.map(source => source.name);
-    newObj.source = newObj.source.map(t => !!t.term.name ? {name:t.name,label:t.label,term:t.term.name} : t);
     return newObj;
   }
 

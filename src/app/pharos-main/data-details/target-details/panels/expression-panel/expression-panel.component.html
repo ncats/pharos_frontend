@@ -41,7 +41,7 @@
       <div fxFlex = "48">
         <mat-paginator
           [pageSize]="10"
-          [length]="tissues.length"
+          [length]="this.sortedExpressions.length"
           [hidePageSize]="true"
           [showFirstLastButtons] = true
           (page) = paginate($event)
