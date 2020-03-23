@@ -16,10 +16,10 @@ const _API = 'api/v1/';
  * environment object to set basic urls and firebase configuration
  */
 export const environment = {
-  production: true,
+  production: false,
   host: _HOST,
   api: _API,
-  graphqlUrl: 'https://pharos-api.ncats.io/graphql',
+  graphqlUrl: 'https://ncatsidg-dev.appspot.com/graphql',
   firebase: {
     apiKey: '',
     authDomain: '',

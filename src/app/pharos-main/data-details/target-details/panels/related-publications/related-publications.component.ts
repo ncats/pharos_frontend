@@ -22,6 +22,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Generif, GenerifSerializer} from '../../../../../models/generif';
 import {ScatterPlotComponent} from '../../../../../tools/visualizations/scatter-plot/scatter-plot.component';
 import {takeUntil} from 'rxjs/operators';
+import {TargetComponents} from "../../../../../models/target-components";
 
 @Component({
   selector: 'pharos-related-publications',
@@ -169,7 +170,16 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
       [`${origin}top`]: event.pageSize,
       [`${origin}skip`]: event.pageIndex * event.pageSize,
     };
-    this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams).valueChanges.subscribe(res => {
+    var pageData = this.publicationsPageData;
+    var component = TargetComponents.Component.Publications;
+    if(origin == 'generifs'){
+      pageData = this.rifPageData;
+      component = TargetComponents.Component.Generifs;
+    }
+    pageData.top = event.pageSize;
+    pageData.skip = event.pageIndex * event.pageSize;
+
+    this.pharosApiService.getComponentPage(this._route.snapshot,pageParams,component).subscribe(res => {
       this[origin] = res.data.targets[origin]
         .map(pub => this[`${origin}Serializer`].fromJson(pub))
         .map(pubObj => this[`${origin}Serializer`]._asProperties(pubObj));
