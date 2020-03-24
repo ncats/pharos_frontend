@@ -30,25 +30,28 @@ Target, disease and ligand information are collected and displayed.">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,400i,700&display=swap" rel="stylesheet">
 
-  <!--[if lt IE 10]>
-  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-  <![endif]-->
 <!--  <script async>
     var global = global || window;
   </script>-->
   <script src="./assets/vendor/modernizr-custom.js" async></script>
   <script async type="text/javascript" src = "https://tripod.nih.gov/js/check-status.js"></script>
 
+  <style>
+    .browsehappy {display:none;}
+    .no-es6object .browsehappy {display:block;}
+  </style>
+
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#23364e">
   <meta name="google-site-verification" content="jUlNvm9wOtJNcwrV1gVuJDltBreaQezhUx398ZLkZgU" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons&amp;display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="operating-status"></div>
+  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <app-root></app-root>
   <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons&amp;display=swap" rel="stylesheet">
 <!--
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,600,400italic&amp;display=swap">
 -->
