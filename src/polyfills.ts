@@ -31,8 +31,7 @@
 // Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
   import 'core-js/es/reflect';
   import 'core-js/es/array';
-// for IE11
-  import 'core-js/es/map';
+
 
 /*
  * Required to support Web Animations `@angular/platform-browser/animations`.
@@ -44,6 +43,7 @@
  * Zone JS is required by default for Angular itself.
  */
  import 'zone.js/dist/zone';  // Included with Angular CLI.
+
 
 /***************************************************************************************************
  * APPLICATION IMPORTS
