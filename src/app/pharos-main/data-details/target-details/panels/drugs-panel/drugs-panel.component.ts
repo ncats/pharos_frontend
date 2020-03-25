@@ -87,11 +87,11 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
     this.loading = true;
     const ligandSerializer = new LigandSerializer();
     const pageParams = {
-      ligandstop: event.pageSize,
-      ligandsskip: event.pageIndex * event.pageSize,
+      drugstop: event.pageSize,
+      drugsskip: event.pageIndex * event.pageSize,
     };
     this.pharosApiService.getComponentPage(this._route.snapshot,pageParams,TargetComponents.Component.Drugs).subscribe(res => {
-      this.target.ligands = res.data.targets.ligands.map(lig => ligandSerializer.fromJson(lig));
+      this.target.drugs = res.data.targets.drugs.map(lig => ligandSerializer.fromJson(lig));
       this.loading = false;
       this.changeRef.markForCheck();
     });
