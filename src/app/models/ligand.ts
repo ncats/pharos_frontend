@@ -1,64 +1,7 @@
-import {PharosBase, PharosSerializer, PharosSubList} from './pharos-base';
-import {PharosProperty} from './pharos-property';
+import {PharosBase, PharosSerializer} from './pharos-base';
 import {LigActSerializer, LigandActivity} from './ligand-activity';
-import gql from 'graphql-tag';
 import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
-
-
-/**
- * apollo graphQL query fragment to retrieve common fields for a target list view
- */
-export const LIGANDLISTFIELDS = gql`
-  fragment ligandsListFields on Ligand {
-    ligid
-    name
-    description
-    isdrug
-    smiles
-    synonyms {
-      name
-      value
-    }
-    activityCount:actcnt
-  }
-`;
-
-/**
- * apollo graphQL query fragment to retrieve common fields for a target list view
- */
-export const LIGANDDETAILSFIELDS = gql`
-  fragment ligandsDetailsFields on Ligand {
-    ...ligandsListFields
-    activities(all: false) {
-      type
-      moa
-      value
-      reference
-      target {
-        symbol:sym
-        idgTDL:tdl
-        name:name
-      }
-      pubs {
-        pmid
-      }
-    }
-  }
-  ${LIGANDLISTFIELDS}
-`;
-
-
-const LIGANDDETAILSQUERY = gql`
-  #import "./ligandsDetailsFields.gql"
- query fetchDetails(
-        $term: String
-        ) {
-          ligands: ligand(ligid: $term){
-       ...ligandsDetailsFields
-          }
-        }
-          ${LIGANDDETAILSFIELDS}
-`;
+import {LIGANDDETAILSFIELDS, LIGANDDETAILSQUERY, LIGANDLISTFIELDS} from "./target-components";
 
 
 /**

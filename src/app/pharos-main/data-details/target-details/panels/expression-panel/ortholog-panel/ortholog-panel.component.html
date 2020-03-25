@@ -6,9 +6,12 @@
     [showFirstLastButtons] = true
     (page) = paginate($event)
     #orthopaginator></mat-paginator>
-    <pharos-generic-table
-      [showPaginator] =false
-      [data]="targetProps.orthologs"
-      [fieldsConfig] = fields>
-    </pharos-generic-table>
+  <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+    <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+  </div>
+  <pharos-generic-table
+    [showPaginator] =false
+    [data]="targetProps.orthologs"
+    [fieldsConfig] = fields>
+  </pharos-generic-table>
 </div>

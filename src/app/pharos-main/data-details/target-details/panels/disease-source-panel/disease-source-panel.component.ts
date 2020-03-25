@@ -10,9 +10,10 @@ import {NestedTreeControl} from '@angular/cdk/tree';
 import {Target} from '../../../../../models/target';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
-import {DiseaseSerializer} from '../../../../../models/disease';
-import {takeUntil} from 'rxjs/operators';
+import {DISEASELISTFIELDS, DiseaseSerializer} from '../../../../../models/disease';
+import {catchError, map, takeUntil} from 'rxjs/operators';
 import {DataProperty} from '../../../../../tools/generic-table/components/property-display/data-property';
+import {TargetComponents} from "../../../../../models/target-components";
 
 /**
  * interface to track disease tree nodes
@@ -50,11 +51,6 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    * tnx data
    */
   tinx: PharosPoint[];
-
-  /**
-   * shows if component is fully loaded or not
-   */
-  loaded = false;
 
   /**
    * controls open and closed tree nodes
@@ -159,14 +155,17 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       diseasetop: event.pageSize,
       diseaseskip: event.pageIndex * event.pageSize,
     };
-    this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams).valueChanges.subscribe(res => {
-      this.target.diseases = res.data.targets.diseases;
-      this.targetProps.diseases = res.data.targets.diseases.map(disease => diseaseSerializer._asProperties(disease));
-      this.setterFunction();
-      this.loading = false;
-    });
+    this.pharosApiService.getComponentPage(this._route.snapshot, pageParams,TargetComponents.Component.DiseaseSources)
+      .subscribe(
+        res => {
+          this.target.diseases = res.data.targets.diseases;
+          this.targetProps.diseases = res.data.targets.diseases.map(disease => diseaseSerializer._asProperties(disease));
+          this.setterFunction();
+          this.loading = false;
+          this.changeRef.markForCheck();
+        }
+      );
   }
-
 
   /**
    * check to see if a disease tree node has a child node list

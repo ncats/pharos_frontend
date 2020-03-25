@@ -1,7 +1,7 @@
 import {InjectionToken} from '@angular/core';
 import {TOKENS} from '../config/component-tokens';
 import {ARTICLES} from '../config/help-article-tokens';
-import {environment} from '../environments/environment.prod';
+import {environment} from '../environments/environment';
 
 enum Position {
   Header = 'headerPortalOutlet',
@@ -411,11 +411,11 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
   navHeader: {
     label: 'Disease Associations by Source',
     section: 'diseaseSources',
-    mainDescription: `This is a list of diseases associated with this target, compiled by several resources. Each 
+    mainDescription: `This is a list of diseases associated with this target, compiled by several resources. Each
     resource provides different confidence measurements and association values, which are described below. Disease
     target associations are sourced from the DISEASES database, which computes an association score between a disease
     and a target. Pharos applies a threshold on this score, such that disease-target associations with a score greater
-    than this threshold are displayed If you\'re not seeing a disease associated with a target, it is either not 
+    than this threshold are displayed If you\'re not seeing a disease associated with a target, it is either not
     associated with the target, or else its association score does not cross the threshold employed by Pharos
     (implying that the mined association is not strong enough).`
   },
@@ -553,8 +553,8 @@ const EXPRESSION_PANEL: PharosPanel = {
       label: 'Differential Expression',
       url: _APIURL + 'targets/_id_/links(kind=ix.idg.models.Disease)',
       description: `Diseases in which, according to the Expression Atlas resource, the target is differentially
-       expressed. The table lists the disease name, the log2 fold change and the associated p-value. Larger absolute 
-       values of fold change indicate a higher degree of differential expression between the disease state and the 
+       expressed. The table lists the disease name, the log2 fold change and the associated p-value. Larger absolute
+       values of fold change indicate a higher degree of differential expression between the disease state and the
        normal state.`
     },
     {
@@ -566,11 +566,11 @@ const EXPRESSION_PANEL: PharosPanel = {
     {
       field: 'IDGexpression',
       label: 'IDG Expression Results',
-      description: `The function which computes consensus expression level aggregates expression values from GTEx, 
-      HPM and HPA into 11 tissue types (e.g., Digestive Tract, Endocrine System, etc.). A consensus expression value 
+      description: `The function which computes consensus expression level aggregates expression values from GTEx,
+      HPM and HPA into 11 tissue types (e.g., Digestive Tract, Endocrine System, etc.). A consensus expression value
       for a given target is simply the mode (most frequent) of the qualitative expression values in the aggregated set.
-       The confidence value associated with a consensus expression value is derived taking into consideration both the 
-       number and consistency of supporting data. Confidence for Low and Medium levels should be interpreted to mean 
+       The confidence value associated with a consensus expression value is derived taking into consideration both the
+       number and consistency of supporting data. Confidence for Low and Medium levels should be interpreted to mean
        confidence for that level of expression or higher.`
     }
   ]
@@ -615,7 +615,7 @@ const PUBLICATION_STATISTICS_PANEL: PharosPanel = {
       field: 'pubmed',
       label: 'Pubmed Score',
      // url: _APIURL + 'targets/_id_/properties(label=NCBI%20Gene%20PubMed%20Count)',
-      description: `The Pubmed Score (also sometimes referred to as the Jensen Score) is 
+      description: `The Pubmed Score (also sometimes referred to as the Jensen Score) is
       derived from text mining a set of Pubmed abstracts.`,
       article: ARTICLES.PUBMED_SCORE_ARTICLE
     },
@@ -724,7 +724,7 @@ const TARGET_FACET_PANEL: PharosPanel = {
       label: 'Panther Protein Class',
      // url: _APIURL + 'targets/_id_/properties(label=PANTHER%20Protein%20Class*)',
       description: `The PANTHER (Protein ANalysis THrough Evolutionary Relationships) Classification System was designed
-       to classify proteins (and their genes) in order to facilitate high-throughput analysis. The PANTHER 
+       to classify proteins (and their genes) in order to facilitate high-throughput analysis. The PANTHER
        Classifications are the result of human curation as well as sophisticated bioinformatics algorithms.`,
       source: 'http://pantherdb.org/'
     },
@@ -757,7 +757,7 @@ const TARGET_FACET_PANEL: PharosPanel = {
       field: 'gwasTrait',
       label: 'GWAS Trait',
    //   url: _APIURL + 'targets/_id_/properties(label=GWAS%20Trait*)',
-      description: ` The GWAS Catalog provides a consistent, searchable, visualisable and freely available database of 
+      description: ` The GWAS Catalog provides a consistent, searchable, visualisable and freely available database of
       published SNP-trait associations.`,
       source: 'https://www.ebi.ac.uk/gwas/home'
     },
