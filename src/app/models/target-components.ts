@@ -137,9 +137,9 @@ ${LIGANDDETAILSFIELDS}`;
 * */
 const TARGET_DRUG_QUERY = gql`
   #import "./ligandsDetailsFields.gql"
-  query fetchDetails($term: String, $ligandstop: Int, $ligandsskip: Int) {
+  query fetchDetails($term: String, $drugstop: Int, $drugsskip: Int) {
     targets: target(q: { sym: $term, uniprot: $term, stringid: $term }) {
-      drugs:ligands (top: $ligandstop, skip: $ligandsskip, isdrug: true){
+      drugs:ligands (top: $drugstop, skip: $drugsskip, isdrug: true){
         ...ligandsDetailsFields
       }
     }
