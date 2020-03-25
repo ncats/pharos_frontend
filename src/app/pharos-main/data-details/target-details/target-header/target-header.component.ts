@@ -31,7 +31,7 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-       this.target = this.data.target;
+       this.target = this.data.targets;
        this.changeRef.markForCheck();
       });
   }
