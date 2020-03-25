@@ -12,6 +12,7 @@ import {Apollo, QueryRef} from 'apollo-angular';
 import gql from 'graphql-tag';
 import {SelectedFacetService} from '../pharos-main/data-list/filter-panel/selected-facet.service';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {TargetComponents} from "../models/target-components";
 
 /**
  * main service to fetch and parse data from the pharos api
@@ -283,6 +284,19 @@ export class PharosApiService {
         query: LISTQUERY,
         variables
       });
+    return fetchQuery;
+  }
+
+  /*
+  * retrieves the query for getting the next page of data for one of the target details components
+  * */
+  getComponentPage(snapshot: ActivatedRouteSnapshot, addtParams, component : TargetComponents.Component): Observable<any>{
+    const variables: any = {term: snapshot.paramMap.get('id'), ...addtParams};
+    if (snapshot.data.path == "targets"){
+      this.detailsQuery = TargetComponents.getComponentPageQuery(component);
+    }
+    else {return null;}
+    const fetchQuery = this.apollo.query({query:this.detailsQuery, variables});
     return fetchQuery;
   }
 

@@ -11,6 +11,7 @@ import {PharosConfig} from '../../../../../../config/pharos-config';
 import {BehaviorSubject} from 'rxjs';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
+import {TargetComponents} from "../../../../../models/target-components";
 
 /**
  * panel to generically display drugs as a pageable list of drug cards
@@ -89,7 +90,7 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
       ligandstop: event.pageSize,
       ligandsskip: event.pageIndex * event.pageSize,
     };
-    this.pharosApiService.fetchMore(this._route.snapshot.data.path, pageParams).valueChanges.subscribe(res => {
+    this.pharosApiService.getComponentPage(this._route.snapshot,pageParams,TargetComponents.Component.Drugs).subscribe(res => {
       this.target.ligands = res.data.targets.ligands.map(lig => ligandSerializer.fromJson(lig));
       this.loading = false;
       this.changeRef.markForCheck();
