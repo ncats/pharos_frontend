@@ -14,6 +14,8 @@ import {PdbPanelComponent, STRUCTURE_VIEW_TOKEN} from '../../data-details/target
 import {GeneSummaryComponent} from '../../data-details/target-details/panels/gene-summary/gene-summary.component';
 import {TargetFacetPanelComponent} from '../../data-details/target-details/panels/target-facet-panel/target-facet-panel.component';
 import {IdgResourcesPanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/idg-resources-panel.component';
+import {ReagentPanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/reagent-panel/reagent-panel.component';
+import {DataResourcePanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/data-resource-panel/data-resource-panel.component';
 import {LigandsPanelComponent} from '../../data-details/target-details/panels/ligands-panel/ligands-panel.component';
 import {DrugsPanelComponent} from '../../data-details/target-details/panels/drugs-panel/drugs-panel.component';
 import {DifferentialPanelComponent} from '../../data-details/target-details/panels/expression-panel/differential-panel/differential-panel.component';
@@ -49,6 +51,8 @@ import {RelatedPublicationsComponent} from '../../data-details/target-details/pa
     GeneSummaryComponent,
     TargetFacetPanelComponent,
     IdgResourcesPanelComponent,
+    ReagentPanelComponent,
+    DataResourcePanelComponent,
     LigandsPanelComponent,
     DrugsPanelComponent,
     DifferentialPanelComponent

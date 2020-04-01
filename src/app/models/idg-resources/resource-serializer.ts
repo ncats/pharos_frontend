@@ -27,7 +27,7 @@ export class IDGResourceSerializer<T extends BaseResource> implements Serializer
     if (name) {
       json.name = name;
     }
-    switch (type.replace(' ', '')) {
+    switch (type) {
       case 'Antibody': {
         obj = new Antibody(json);
         break;
@@ -36,7 +36,7 @@ export class IDGResourceSerializer<T extends BaseResource> implements Serializer
         obj = new Cell(json);
         break;
       }
-      case 'GeneticConstruct': {
+      case 'Genetic Construct': {
         obj = new GeneticConstruct(json);
         break;
       }
@@ -44,11 +44,8 @@ export class IDGResourceSerializer<T extends BaseResource> implements Serializer
         obj = new Mouse(json);
         break;
       }
-      case 'SmallMolecule': {
-        obj = new SmallMolecule(json);
-        break;
-      }
-      case 'ChemicalTool': {
+      case 'Small Molecule':
+      case 'Chemical Tool':  {
         obj = new SmallMolecule(json);
         break;
       }
@@ -56,19 +53,22 @@ export class IDGResourceSerializer<T extends BaseResource> implements Serializer
         obj = new Peptide(json);
         break;
       }
-      case 'MouseImageData': {
+      case 'GPCR Mouse Imaging': {
         obj = new MouseImageData(json);
         break;
       }
-      case 'probe data': {
+      case 'Probe': {
         obj = new ProbeData(json);
         break;
       }
-      case 'NanoBRET': {
+      case 'Expression':
+      case 'NanoBRET':
+      case 'Mouse Phenotype': {
         obj = new Dataset(json);
         break;
       }
     }
+    if(!!obj) {obj.resourceType = type;}
     return obj;
   }
 
