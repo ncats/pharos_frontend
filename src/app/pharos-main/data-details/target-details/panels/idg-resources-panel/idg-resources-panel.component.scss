@@ -29,22 +29,6 @@
   //  min-height: 100%;
   }
 
-  .resource-card {
-    max-width: 100%;
-    box-sizing: border-box;
-    min-height: 100%;
-  }
-
-  .thumb-holder {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 2vh;
-  }
-
-  .resource-thumb {
-    max-height: 4rem;
-  }
-
 @media only screen and (max-width: 768px) {
   .data-grid,
   .data-source-grid {

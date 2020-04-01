@@ -1,0 +1,56 @@
+<mat-card class="resource-card">
+  <div>
+    <div fxLayout="row" fxLayoutAlign="end">
+      <b>{{reagent.resourceType}}</b>
+    </div>
+    <ncats-property-display [showLabel]="false"
+                            [property]="{term:reagent.name}"></ncats-property-display>
+  </div>
+
+  <div class="thumb-holder">
+    <div *ngIf="reagent.hasStructureInfo(); then structureBlock else staticImageBlock"></div>
+    <ng-template #structureBlock><img [src]=reagent.parseSmiles() alt="image for {{reagent.name}}"></ng-template>
+    <ng-template #staticImageBlock><img src='./assets/images/resource-types/{{reagent.resourceImageName}}.png'
+                                        alt="image for {{reagent.name}}" class="resource-thumb"></ng-template>
+  </div>
+
+  <div>
+    <div class="display-props" *ngIf="reagent.displayProperties.length > 0">
+      <b>Details:</b>
+      <ul>
+        <li *ngFor="let prop of reagent.displayProperties">
+          <ncats-property-display [property]="prop" [showLabel]="true"></ncats-property-display>
+        </li>
+      </ul>
+    </div>
+
+    <div class="reagent-data" *ngIf="!!reagent.dataRepository.repositoryName">
+      <b>Data:</b>
+      <ul>
+        <li>
+          <ncats-property-display [showLabel]="false"
+                                  [property]="{term:reagent.dataRepository.repositoryName, externalLink:reagent.dataRepository.repositoryUrl}"></ncats-property-display>
+        </li>
+        <li *ngIf='reagent.vendors && reagent.vendors.length > 0'>
+          <b>{{reagent.resourceType}}</b> ordered from:
+          <ul>
+            <li *ngFor="let vendor of reagent.vendors">
+              <ncats-property-display [showLabel]="false"
+                                      [property]="{term:vendor.vendor,externalLink:vendor.vendorUrl}"></ncats-property-display>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="orderingInfo-holder">
+      <div *ngIf='reagent?.hostRepository && reagent.hostRepository?.repositoryUrl'>
+        <div>Order {{reagent.resourceType}} from:</div>
+        <div fxLayoutAlign="end">
+          <ncats-property-display [showLabel]="false"
+                                  [property]="{term:reagent.hostRepository?.repositoryName, externalLink:reagent.hostRepository?.repositoryUrl}"></ncats-property-display>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>
