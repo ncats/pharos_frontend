@@ -1,0 +1,26 @@
+<div
+  *ngIf="types.length > 1 || fullList.length > pageData.top"
+  fxLayout="row"
+  fxLayout.xs="column"
+  fxLayoutAlign="space-between center" class="filter-row">
+  <div fxFlex="25" *ngIf="types.length > 1">
+    <mat-form-field class="full-width-field">
+      <mat-select
+        [formControl]="FilterCtrl"
+        [multiple]="true"
+        placeholder="Filter By:">
+        <mat-option *ngFor ="let option of types" [value]="option.value">
+          {{option.label}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div *ngIf="filteredList.length > pageData.top" [fxFlex]="types.length > 1 ? 50 : 100" fxLayoutAlign="end">
+    <mat-paginator
+      [pageSize]= pageData.top
+      [pageIndex]="pageData.skip / pageData.top"
+      [length]= pageData.total
+      (page) = paginate($event)
+      [showFirstLastButtons]="true"></mat-paginator>
+  </div>
+</div>

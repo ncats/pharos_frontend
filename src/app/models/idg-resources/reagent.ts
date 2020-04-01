@@ -1,4 +1,4 @@
-import {BaseResource} from './base-resource';
+import {BaseResource, HasStructureInfo} from './base-resource';
 
 
 /**
@@ -21,8 +21,10 @@ export class Vendor {
 
   constructor(data: any) {
     this.vendor = data.Vendor;
-    this.vendorUrl = data.Vendor_cat === 'null'? null : data.Vendor_cat;
-    if (data.resource_ID) {
+    if(BaseResource.fieldNotNull(data.Vendor_cat)){
+      this.vendorUrl = data.Vendor_cat;
+    }
+    if (BaseResource.fieldNotNull(data.resource_ID)) {
       this.resourceID = data.resource_ID;
     }
   }
@@ -34,26 +36,13 @@ export class Vendor {
 export class Reagent extends BaseResource {
 
   /**
-   * External link to published images or data relevant for the current Pharos page
-   */
-  dataPageLink?: string;
-
-  /**
    * list of vendor names/links for purchasing
    */
   vendors?: Vendor[] = [];
 
-  /**
-   * base resource type
-   */
-  baseType = 'reagent';
-
   constructor(data: any) {
     super(data);
 
-    if (data.Data_page_link) {
-      this.dataPageLink = data.Data_page_link;
-    }
     if (data.Vendor) {
       this.vendors.push(new Vendor(data));
     }
@@ -65,18 +54,16 @@ export class Reagent extends BaseResource {
  */
 export class Antibody extends Reagent {
   /**
-   * Experiments and assays for which the antibodies have been tested and validated
+   * name of the image to show on the resource cards for each implementing class
+   * ./assets/images/resource-types/{{reagent.resourceImageName}}.png
    */
-  usage: string[];
-
-  resourceType = 'antibody';
+  resourceImageName = 'antibody';
 
   constructor(data: any) {
     super(data);
-
-    if (data.usage) {
-      this.usage = data.usage;
-    }
+    this.addDisplayProperty(data.usage,"Usage");
+    this.addDisplayProperty(data.Species_origin, "Origin");
+    this.addDisplayProperty(data.Target_species, "Target");
   }
 }
 
@@ -85,35 +72,21 @@ export class Antibody extends Reagent {
  */
 export class Cell extends Reagent {
   /**
-   * Identifier as registered by repository/ontology (e.g. CLO ID, RRID, etc.)
+   * name of the image to show on the resource cards for each implementing class
+   * ./assets/images/resource-types/{{reagent.resourceImageName}}.png
    */
-  cellID: string;
-
-  /**
-   * Type of modification (if any) performed on the cells
-   */
-  modificationType: string;
-
-  /**
-   * IDG Identifier of the vector utilized to modify the cells for experimental purposes
-   */
-  vectorID: string;
-
-  resourceType = 'cell';
-
+  resourceImageName = 'cell';
 
   constructor(data: any) {
     super(data);
 
-    if (data.cellID) {
-      this.cellID = data.cellID;
-    }
-    if (data.modificationType) {
-      this.modificationType = data.modificationType;
-    }
-    if (data.vectorID) {
-      this.vectorID = data.vectorID;
-    }
+    this.addDisplayProperty(data.Vector_ID,"Vector");
+    this.addDisplayProperty(data.Mod_type,"Modification");
+    this.addDisplayProperty(data.Knockout,"Knockout");
+    this.addDisplayProperty(data.RRID,"RRID");
+    this.addDisplayProperty(data.Cellosaurus_ID, "Cellosaurus ID");
+    // this.addDisplayProperty(data.Tissue,"Tissue");  // Some HEK cells were giving me spleen, so i took this out
+    this.addDisplayProperty(data.Species,"Species");
   }
 }
 
@@ -121,34 +94,22 @@ export class Cell extends Reagent {
  * Genetic Construct class
  */
 export class GeneticConstruct extends Reagent {
-  /**
-   * Genetic construct RRID
-   */
-  RRID: string;
-  /**
-   * As registered with repository
-   */
-  vectorName: string;
-  /**
-   * Purpose/type of construct associated with gene
-   */
-  vectorType: string;
 
-  resourceType = 'geneticConstruct';
-
+  /**
+   * name of the image to show on the resource cards for each implementing class
+   * ./assets/images/resource-types/{{reagent.resourceImageName}}.png
+   */
+  resourceImageName = 'geneticConstruct';
 
   constructor(data: any) {
     super(data);
 
-    if (data.RRID) {
-      this.RRID = data.RRID;
-    }
-    if (data.vectorName) {
-      this.vectorName = data.vectorName;
-    }
-    if (data.RRID) {
-      this.vectorType = data.vectorType;
-    }
+    this.addDisplayProperty(data.RRID,"RRID");
+    this.addDisplayProperty(data.Vector_ID,"Vector",data.Vector_page_link);
+    this.addDisplayProperty(data.Vector_type,"Vector type");
+    this.addDisplayProperty(data.Vector_backbone_id,"Vector backbone");
+    this.addDisplayProperty(data.Promoter,"Promoter");
+    this.addDisplayProperty(data.Tag,"Tag");
   }
 }
 
@@ -156,52 +117,25 @@ export class GeneticConstruct extends Reagent {
  * mouse cell line class
  */
 export class Mouse extends Reagent {
-  /**
-   * ID as registered with MMRRC
-   */
-  MMRRCID: string;
 
   /**
-   * Specific nature of genetic modification made (modificationType?)
+   * name of the image to show on the resource cards for each implementing class
+   * ./assets/images/resource-types/{{reagent.resourceImageName}}.png
    */
-  allele: string;
-
-  /**
-   * Link to the external repository where the construct was described
-   */
-  constructDetails: any; // Repository;
-
-  /**
-   * Link to the external repository where the construct was registered
-   */
-  correspondingConstruct: any; // Repository;
-
-  resourceType = 'mouse';
-
+  resourceImageName = 'mouse';
 
   constructor(data: any) {
     super(data);
-
-    if (data.MMRRCID) {
-      this.MMRRCID = data.MMRRCID;
-    }
-    if (data.allele) {
-      this.allele = data.allele;
-    }
-    if (data.constructDetails) {
-      this.constructDetails = data.constructDetails;
-    }
-
-    if (data.correspondingConstruct) {
-      this.correspondingConstruct = data.correspondingConstruct;
-    }
+    this.addDisplayProperty(data.MMRRC_ID, "MMRRC ID");
+    this.addDisplayProperty(data.Allele,"Allele");
+    this.addDisplayProperty(data.Corresponding_construct,"Construct",data.Corresponding_construct);
   }
 }
 
 /**
  * small molecule class
  */
-export class SmallMolecule extends Reagent {
+export class SmallMolecule extends Reagent implements HasStructureInfo{
   /**
    * Batch SMILES sequence (including salt and other modifications) of molecule
    */
@@ -212,34 +146,18 @@ export class SmallMolecule extends Reagent {
    */
   canonicalSmiles: string;
 
-  /**
-   * External ID (PubChem, CheBI, ZINC, etc.) corresponding to the canonical representation
-   */
-  externalID: string;
-
-  /**
-   * Repository corresponding to the external ID
-   */
-  externalIDRegistrationSystem: string;
-
-  resourceType = 'Chemical Tool';
-
-
   constructor(data: any) {
     super(data);
     if (data.SMILES) {
       this.smiles = data.SMILES;
     }
-
     if (data.Canonical_SMILES) {
       this.canonicalSmiles = data.Canonical_SMILES;
     }
-    if (data.External_ID) {
-      this.externalID = data.External_ID;
-    }
-    if (data.External_ID_registration_system) {
-      this.externalIDRegistrationSystem = data.External_ID_registration_system;
-    }
+    this.addDisplayProperty(data.External_ID,data.External_ID_registration_system);
+    this.addDisplayProperty(data.Provider_institution,"Provider");
+    this.addDisplayProperty(data.Activity,"Activity");
+    this.addDisplayProperty(data.Selectivity, "Selectivity");
   }
 }
 
@@ -247,19 +165,16 @@ export class SmallMolecule extends Reagent {
  * peptide class
  */
 export class Peptide extends Reagent {
-  /**
-   * Is the peptide used in PRM-based experiments
-   */
-  prmType: string;
 
-  resourceType = 'peptide';
+  /**
+   * name of the image to show on the resource cards for each implementing class
+   * ./assets/images/resource-types/{{reagent.resourceImageName}}.png
+   */
+  resourceImageName = 'peptide';
 
   constructor(data: any) {
     super(data);
-
-    if (data.prmType) {
-      this.prmType = data.prmType;
-    }
+    this.addDisplayProperty(data.PRM_type,"PRM Type");
   }
 }
 
