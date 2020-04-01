@@ -1,0 +1,28 @@
+<mat-card class="resource-card">
+  <div fxLayout="row" fxLayoutAlign="end start">
+    <b>{{dataResource.resourceType}}</b>
+  </div>
+
+  <div class="mat-subheading-2">
+    <ncats-property-display [showLabel]="false" [property]="{term:displayName(), externalLink: dataResource.dataRepository.repositoryUrl}"></ncats-property-display>
+  </div>
+
+  <div fxLayout="row">
+    <div fxFlex="33" fxLayoutAlign="space-around start">
+
+      <div class="thumb-holder">
+        <div *ngIf="dataResource.hasStructureInfo(); then structureBlock else staticImageBlock"></div>
+        <ng-template #structureBlock><img [src]=dataResource.parseSmiles() alt="image for {{dataResource.name}}"></ng-template>
+        <ng-template #staticImageBlock><img src='./assets/images/resource-types/{{dataResource.resourceImageName}}.png'
+                                            alt="image for {{displayName()}}" class="resource-thumb"></ng-template>
+      </div>
+    </div>
+    <div fxFlex="66">
+      <ul>
+        <li *ngFor="let prop of dataResource.displayProperties">
+          <ncats-property-display [property]="prop" [showLabel]="true"></ncats-property-display>
+        </li>
+      </ul>
+    </div>
+  </div>
+</mat-card>
