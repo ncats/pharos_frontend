@@ -13,6 +13,8 @@ import {PharosApiService} from '../pharos-services/pharos-api.service';
 import {HeaderOptionsService} from '../pharos-services/header-options.service';
 import {DOCUMENT} from '@angular/common';
 import {LoadingService} from '../pharos-services/loading.service';
+import {environment} from "../../environments/environment";
+import {DataProperty} from "../tools/generic-table/components/property-display/data-property";
 
 @Component({
   selector: 'pharos-home',
@@ -54,6 +56,21 @@ export class PharosHomeComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.loadingService.toggleVisible(false);
   }
+
+  inDevMode(){
+    return !environment.production;
+  }
+
+  getEnvironmentInfo(): DataProperty[]
+  {
+    if(this.inDevMode()){
+      let returnData = new Array<DataProperty>() ;
+      returnData.push(new DataProperty({term: environment.graphqlUrl, label:"GraphQL server", externalLink:environment.graphqlUrl}));
+      return returnData;
+    }
+    return null;
+  }
+
 
   /**
    * scroll to details section of the home page
