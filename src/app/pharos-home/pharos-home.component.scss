@@ -46,7 +46,14 @@ button.more-topics.mat-fab.mat-primary:hover {
   border: 2px solid mat-color($pharos-app-primary);
 }
 
+.devMode{
+  display: flow-root;
+  height: 0;
+}
 
+.devMode, .devMode a{
+  color: papayawhip;
+}
 
 .toi-grid-list {
   display: grid;
