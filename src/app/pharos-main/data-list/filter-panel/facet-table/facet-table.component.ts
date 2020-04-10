@@ -166,7 +166,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
       this.facet.facet,
       this.facet.count).subscribe({next:
       res => {
-        this.facet = res.data.results.facets[0];  // todo, get the right one by name, instead of index
+        this.facet = res.data.results.facets.find(resfacet => resfacet.facet == this.facet.facet);
         this.dataSource.data = this.facet.values;
         this.mapSelected();
         this.loading = false;
