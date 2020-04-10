@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, forkJoin, Observable, of, Subject} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {ActivatedRouteSnapshot, ParamMap} from '@angular/router';
-import {map, tap} from 'rxjs/internal/operators';
+import {map, mergeMap, tap} from 'rxjs/internal/operators';
 import {PharosConfig} from '../../config/pharos-config';
 import {PharosBase} from '../models/pharos-base';
 import {PageData} from '../models/page-data';
@@ -13,6 +13,7 @@ import gql from 'graphql-tag';
 import {SelectedFacetService} from '../pharos-main/data-list/filter-panel/selected-facet.service';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {TargetComponents} from "../models/target-components";
+import {TargetListService} from "./target-list.service";
 
 /**
  * main service to fetch and parse data from the pharos api
@@ -200,7 +201,8 @@ export class PharosApiService {
               private apollo: Apollo,
               private firebaseService: AngularFirestore,
               @Inject(SelectedFacetService) private selectedFacetService,
-              private pharosConfig: PharosConfig) {
+              private pharosConfig: PharosConfig,
+              private targetListService: TargetListService) {
     this._URL = this.pharosConfig.getApiPath();
     this._SEARCHURLS = this.pharosConfig.getSearchPaths();
   }
@@ -260,43 +262,44 @@ export class PharosApiService {
     }
     const variables = this._mapVariables(path, params);
     if (state) {
-        variables.batchIds = state.batchIds;
+      variables.batchIds = state.batchIds;
     }
 
-    const LISTQUERY =  gql`
-        query PaginateData($batchIds: [String], $skip: Int, $top: Int, $filter: IFilter){
-          batch (${path}: $batchIds, filter: $filter) {
-          results:${path.slice(0, path.length - 1)}Result {
-            count
-              facets {
-                ...facetFields
-              }
-            ${path}(skip: $skip, top: $top) {
-            ...${path}ListFields
-            }
-          }
-        }
-        }
-        ${fragments.list}
-        ${fragments.facets}
-`;
+    const LISTQUERY = gql`
+      query PaginateData($batchIds: [String], $skip: Int, $top: Int, $filter: IFilter){
+        batch (${path}: $batchIds, filter: $filter) {
+      results:${path.slice(0, path.length - 1)}Result {
+      count
+      facets {
+      ...facetFields
+      }
+      ${path}(skip: $skip, top: $top) {
+      ...${path}ListFields
+      }
+      }
+      }
+      }
+      ${fragments.list}
+      ${fragments.facets}
+    `;
     fetchQuery = this.apollo.query<any>({
-        query: LISTQUERY,
-        variables
-      });
+      query: LISTQUERY,
+      variables
+    });
     return fetchQuery;
   }
 
   /*
   * retrieves the query for getting the next page of data for one of the target details components
   * */
-  getComponentPage(snapshot: ActivatedRouteSnapshot, addtParams, component : TargetComponents.Component): Observable<any>{
+  getComponentPage(snapshot: ActivatedRouteSnapshot, addtParams, component: TargetComponents.Component): Observable<any> {
     const variables: any = {term: snapshot.paramMap.get('id'), ...addtParams};
-    if (snapshot.data.path == "targets"){
+    if (snapshot.data.path == "targets") {
       this.detailsQuery = TargetComponents.getComponentPageQuery(component);
+    } else {
+      return null;
     }
-    else {return null;}
-    const fetchQuery = this.apollo.query({query:this.detailsQuery, variables});
+    const fetchQuery = this.apollo.query({query: this.detailsQuery, variables});
     return fetchQuery;
   }
 
@@ -304,8 +307,8 @@ export class PharosApiService {
     const variables: any = {term: params.get('id')};
 
     this.detailsQuery = gql`
-       ${fragments.query}
-      `;
+      ${fragments.query}
+    `;
 
     const fetchQuery = this.apollo.query({
       query: this.detailsQuery,
@@ -325,87 +328,99 @@ export class PharosApiService {
   }
 
   fetchMore(path, addtParams) {
-    const watchQuery =  this.openQueries.get(`${path}-details`);
+    const watchQuery = this.openQueries.get(`${path}-details`);
     watchQuery.fetchMore({
       variables: addtParams,
       // We are able to figure out which offset to use because it matches
       // the feed length, but we could also use state, or the previous
       // variables to calculate this (see the cursor example below)
-      updateQuery: (prev, { fetchMoreResult }) => {
-       // return fetchMoreResult;
+      updateQuery: (prev, {fetchMoreResult}) => {
+        // return fetchMoreResult;
         if (!fetchMoreResult) {
           return prev;
-         }
+        }
         return fetchMoreResult;
       },
     }).then(res => {
       return res;
-     });
+    });
     return watchQuery;
   }
 
-  // todo: this is probably not ideal , although it returns a more useful query than the initial list query
-  getAllFacets(path: string, params: ParamMap, fragments?: any): QueryRef<any> {
-      const variables = this._mapVariables(path, params);
-    /**
-     * With query() you fetch data, receive the result, then an Observable completes.
-     * With watchQuery() you fetch data, receive the result and an Observable is keep opened for new
-     * emissions so it never completes.
-     * @type {Observable<ApolloQueryResult<any>>}
-     */
+  /**
+   * retrieves and cleans up the params to be used as variables in a facet search
+   * @param path
+   * @param params
+   */
+  getVariablesForFacetQuery(path: string, params: ParamMap) {
+    let map = this._mapVariables(path, params);
+    if (map?.filter?.facets) {
+      map.filter.facets = map.filter.facets.filter(f => f.facet != "query" && f.facet != "collection");
+    }
+    return map
+  }
 
-      const allFacetsQuery = this.apollo.watchQuery<any>({
-      query: gql`
-      query getAllFacets {
-  results: ${path}(
-    facets: [
-      "Target Development Level",
-      "UniProt Keyword",
-      "Family",
-      "Indication",
-      "Monarch Disease",
-      "UniProt Disease",
-      "Ortholog",
-      "IMPC Phenotype",
-      "JAX/MGI Phenotype",
-      "GO Process",
-      "GO Component",
-      "GO Function",
-      "GWAS",
-      "Expression: CCLE",
-      "Expression: HCA RNA",
-      "Expression: HPM Protein",
-      "Expression: HPA",
-      "Expression: JensenLab Experiment HPA",
-      "Expression: HPM Gene",
-      "Expression: JensenLab Experiment HPA-RNA",
-      "Expression: JensenLab Experiment GNF",
-      "Expression: Consensus",
-      "Expression: JensenLab Experiment Exon array",
-      "Expression: JensenLab Experiment RNA-seq",
-      "Expression: JensenLab Experiment UniGene",
-      "Expression: UniProt Tissue",
-      "Expression: JensenLab Knowledge UniProtKB-RC",
-      "Expression: JensenLab Text Mining",
-      "Expression: JensenLab Experiment Cardiac proteome",
-      "Expression: Cell Surface Protein Atlas"
-    ]
-) {
-  facets {
-    facet
-    values {
-      name
-      value
+  /**
+   * constructs the query for retrieving all facets options for a given facet
+   * @param path
+   * @param params
+   * @param facet
+   * @param facetCount
+   */
+  getAllFacetOptions(path: string, params: ParamMap, facet: string, facetCount: number): Observable<any> {
+    let variables = this.getVariablesForFacetQuery(path, params);
+    variables = {facetTop: facetCount, facet: facet, ...variables};
+    const docid: string = params.get('collection');
+    if (!!docid) {
+      return this.targetListService.getList(docid).pipe(mergeMap(
+        list => {
+          const typedList: any = list as any;
+          variables = {batchIDs: typedList as any, ...variables};
+          return this.executeAllFacetOptionsQuery(path, variables);
+        }
+      ));
+    } else {
+      return this.executeAllFacetOptionsQuery(path, variables);
     }
   }
-}
-}
-     `,
-      variables
-    });
-      return allFacetsQuery;
+
+  /**
+   * Returns the query object for retrieving all the facet options for a single facet for a targetlist
+   * @param path
+   * @param variables
+   */
+  private executeAllFacetOptionsQuery(path: string, variables) {
+    return this.apollo.query({query: Facet.getAllFacetOptionsQuery(path), variables});
   }
 
+// todo: this is probably not ideal , although it returns a more useful query than the initial list query
+  getAllFacets(path: string, params: ParamMap): Observable<any> {
+    let variables = this.getVariablesForFacetQuery(path, params);
+    variables = {facets: Facet.getFacetList(path), ...variables};
+
+    const docid: string = params.get('collection');
+    if (!!docid) {
+      return this.targetListService.getList(docid).pipe(mergeMap(
+        list => {
+          const typedList: any = list as any;
+          variables = {batchIDs: typedList as any, ...variables};
+          return this.executeAllFacetsQuery(path, variables);
+        }
+      ));
+    } else {
+      return this.executeAllFacetsQuery(path, variables);
+    }
+    return this.executeAllFacetsQuery(path,variables);
+  }
+
+  /**
+   * returns the query object to get all the facets for a targetlist
+   * @param path
+   * @param variables
+   */
+  private executeAllFacetsQuery(path: string, variables)  {
+    return this.apollo.query<any>({query: Facet.getAllFacetsQuery(path), variables});
+  }
   /**
    * creates a fork join to return the results of api search calls to targeted object kinds
    * this reduces the number of irrelevant results return that need to be parsed,
@@ -477,7 +492,7 @@ export class PharosApiService {
 
 
   private _mapVariables(path: string, params: ParamMap): any {
-    const ret: {top?: number, skip?: number, filter?: {term, facets}} = {};
+    const ret: { top?: number, skip?: number, filter?: { term, facets } } = {};
     params.keys.map(key => {
       params.getAll(key).map(val => {
           switch (key) {
@@ -503,18 +518,27 @@ export class PharosApiService {
               const currentFacets = this.selectedFacetService.getFacetsAsObjects();
               // map facet string to object for API
               if (!currentFacets.length) {
-                const fArr = val.split('/');
+                const fArr = val.split(Facet.separator);
                 const facetName: string = fArr[0].replace(/\+/g, ' ');
                 const fieldName: string = decodeURI(fArr[1])
                   .replace('%2F', '/')
                   .replace('%2C', ',')
                   .replace('%3A', ':');
-                filter.facets = [{facet: facetName, values: [fieldName]}];
+                if (!filter.facets) {
+                  filter.facets = [{facet: facetName, values: [fieldName]}];
+                } else {
+                  let currentFacet = filter.facets.find(f => f.facet == facetName);
+                  if (!!currentFacet) {
+                    currentFacet.values.push(fieldName);
+                  } else {
+                    filter.facets.push({facet: facetName, values: [fieldName]});
+                  }
+                }
               } else {
                 // map facet object to be mapped
                 filter.facets = currentFacets
                   .map(facet => facet = {facet: facet.facet, values: facet.values.map(value => value.name)})
-                .filter(facets => facets.values.length !== 0);
+                  .filter(facets => facets.values.length !== 0);
               }
               ret.filter = filter;
               break;

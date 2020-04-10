@@ -1,21 +1,26 @@
 <!--<mat-form-field class="table-search">
   <input matInput (keyup)="filterFacet($event.target.value)" placeholder="Search {{facet.label}}">
 </mat-form-field>-->
-<mat-table [dataSource]="dataSource">
-<ng-container matColumnDef="select">
-  <mat-cell *matCellDef="let row" class="filter-cell checkbox">
-    <mat-checkbox (click)="$event.stopPropagation()"
-                  (change)="$event ? filterSelection.toggle(row.value ? row.value : row.name) : null"
-                  [checked]="filterSelection.isSelected(row.value ? row.value : row.name)">
-    </mat-checkbox>
-  </mat-cell>
-</ng-container>
-  <ng-container matColumnDef="{{field}}" *ngFor="let field of fieldColumns">
-<mat-cell *matCellDef="let row" class="filter-cell {{field}}" ><span class="field-text">{{row[field]}}</span></mat-cell>
-</ng-container>
-
-<mat-row *matRowDef="let row; columns: displayColumns;"
-         (click)= "filterSelection.toggle(row.value ? row.value : row.name)"
-         class="facet-row">
-</mat-row>
-</mat-table>
+<div class="container">
+  <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+    <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+  </div>
+  <mat-table [dataSource]="dataSource" (scroll)="scrollDetected($event)">
+    <ng-container matColumnDef="select">
+      <mat-cell *matCellDef="let row" class="filter-cell checkbox">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? filterSelection.toggle(row.value ? row.value : row.name) : null"
+                      [checked]="filterSelection.isSelected(row.value ? row.value : row.name)">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="{{field}}" *ngFor="let field of fieldColumns">
+      <mat-cell *matCellDef="let row" class="filter-cell {{field}}"><span class="field-text">{{row[field]}}</span>
+      </mat-cell>
+    </ng-container>
+    <mat-row *matRowDef="let row; columns: displayColumns;"
+             (click)="filterSelection.toggle(row.value ? row.value : row.name)"
+             class="facet-row">
+    </mat-row>
+  </mat-table>
+</div>

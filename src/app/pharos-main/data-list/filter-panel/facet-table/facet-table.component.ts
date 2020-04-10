@@ -1,12 +1,21 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Facet, Field} from '../../../../models/facet';
-import {takeUntil} from 'rxjs/operators';
+import {map, takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {PathResolverService} from '../path-resolver.service';
 import {SelectedFacetService} from '../selected-facet.service';
+import {PharosApiService} from "../../../../pharos-services/pharos-api.service";
 
 /**
  * table to display selectable fields
@@ -57,6 +66,10 @@ export class FacetTableComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
 
   /**
+   * flag to show or hide the spinner for loading all facet options
+   */
+  loading = false;
+  /**
    * boolean to track facets selection - without this flag, the facet selection triggers a constant change
    * @type {boolean}
    */
@@ -71,6 +84,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    * @param {PathResolverService} pathResolverService
    */
   constructor(private _route: ActivatedRoute,
+              private pharosApiService: PharosApiService,
               private router: Router,
               private changeRef: ChangeDetectorRef,
               private selectedFacetService: SelectedFacetService,
@@ -127,6 +141,38 @@ export class FacetTableComponent implements OnInit, OnDestroy {
       this.filterSelection.clear();
       this.propogate = true;
     }
+  }
+
+  /**
+   * detects scrolling of the options div
+   * @param event
+   */
+  scrollDetected(event) {
+    if (event.target.scrollHeight - event.target.offsetHeight - event.target.scrollTop <= 5 ) {
+      if (this.facet.values.length < this.facet.count) {
+        this.fetchAllFilterOptions();
+      }
+    }
+  }
+
+  /**
+   * fetches all the filter options for the component's facet
+   */
+  fetchAllFilterOptions() {
+    this.loading = true;
+    this.pharosApiService.getAllFacetOptions(
+      this._route.snapshot.data.path,
+      this._route.snapshot.queryParamMap,
+      this.facet.facet,
+      this.facet.count).subscribe({next:
+      res => {
+        this.facet = res.data.results.facets[0];  // todo, get the right one by name, instead of index
+        this.dataSource.data = this.facet.values;
+        this.mapSelected();
+        this.loading = false;
+      },error: e=>{
+        throw(e);
+      }});
   }
 
   /**

@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {APP_BASE_HREF} from '@angular/common';
 import {RouterTestingModule} from '@angular/router/testing';
-
 import { FacetTableComponent } from './facet-table.component';
 import {SharedModule} from '../../../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -16,6 +15,7 @@ import {ActivatedRoute} from '@angular/router';
 import {COMMON_CONFIG} from '../../../../../../test/test-config';
 import {FIRESTORESTUB} from '../../../../../../test/firestore-stub';
 import {AngularFireModule} from '@angular/fire';
+import {Apollo} from "apollo-angular";
 
 
 
@@ -40,6 +40,7 @@ describe('FacetTableComponent', () => {
         SelectedFacetService,
         SuggestApiService,
         AngularFireAuth,
+        Apollo,
         { provide: AngularFirestore, useValue: FIRESTORESTUB },
         {provide: APP_BASE_HREF, useValue: '/targets' }
       ]
@@ -50,7 +51,7 @@ describe('FacetTableComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FacetTableComponent);
     component = fixture.componentInstance;
-    component.facet = {facet: 'tim', values: [{name: 'tim'}]};
+    component.facet = {facet: 'tim', values: [{name: 'tim'}], count: 40};
     fixture.detectChanges();
   });
 

@@ -148,7 +148,7 @@ export class SelectedFacetService {
    * @private
    */
   private _makeFacetString(facet: string, field: string): string {
-    return facet.replace(/ /g, '+') + '/' + encodeURIComponent(field.toString());
+    return facet.replace(/ /g, '+') + Facet.separator + encodeURIComponent(field.toString());
   }
 
   /**
@@ -169,7 +169,7 @@ export class SelectedFacetService {
       }
       const fList = map.getAll('facet');
       fList.forEach(facetString => {
-        const fArr = facetString.split('/');
+        const fArr = facetString.split(Facet.separator);
         const facetName: string = fArr[0].replace(/\+/g, ' ');
         const fieldName: string = decodeURI(fArr[1])
           .replace('%2F', '/')
