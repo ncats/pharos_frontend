@@ -1,11 +1,11 @@
-<!--<mat-form-field class="table-search">
+<mat-form-field *ngIf="dataSource.data.length > 8" class="table-search">
   <input matInput (keyup)="filterFacet($event.target.value)" placeholder="Search {{facet.label}}">
-</mat-form-field>-->
+</mat-form-field>
 <div class="container">
   <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
     <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
   </div>
-  <mat-table [dataSource]="dataSource" (scroll)="scrollDetected($event)">
+  <mat-table [dataSource]="filteredDataSource" (scroll)="scrollDetected($event)">
     <ng-container matColumnDef="select">
       <mat-cell *matCellDef="let row" class="filter-cell checkbox">
         <mat-checkbox (click)="$event.stopPropagation()"
@@ -14,8 +14,12 @@
         </mat-checkbox>
       </mat-cell>
     </ng-container>
-    <ng-container matColumnDef="{{field}}" *ngFor="let field of fieldColumns">
-      <mat-cell *matCellDef="let row" class="filter-cell {{field}}"><span class="field-text">{{row[field]}}</span>
+    <ng-container matColumnDef="name">
+      <mat-cell *matCellDef="let row" class="filter-cell name"><span class="field-text" [innerHTML]="highlightText(row.name)"></span>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="count">
+      <mat-cell *matCellDef="let row" class="filter-cell count"><span class="field-text">{{row["count"]}}</span>
       </mat-cell>
     </ng-container>
     <mat-row *matRowDef="let row; columns: displayColumns;"
