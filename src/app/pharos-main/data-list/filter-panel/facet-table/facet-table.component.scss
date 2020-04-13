@@ -1,3 +1,16 @@
+.table-search{
+  width:100%;
+}
+
+mat-table{
+  max-height: 400px;
+  overflow: scroll;
+}
+
+.container{
+  position: relative;
+}
+
 .facet-row {
   padding-bottom: 1vh;
   align-items: start;
@@ -14,10 +27,6 @@
 
 .mat-column-select {
   overflow: visible;
-}
-
-.col10{
-  min-width: 10%;
 }
 
 .mat-row {
