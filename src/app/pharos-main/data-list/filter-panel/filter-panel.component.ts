@@ -163,6 +163,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
         // If it is a NavigationEnd event re-initalise the component
         if (e instanceof NavigationEnd) {
           if (this.data) {
+            this.allFacets = [];
             this.filteredFacets = this.data.facets;
             this.facets = this.customFacets.concat(this.filteredFacets);
             this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
@@ -170,7 +171,6 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
           }
         }
       });
-    this.loading = false;
     this.filteredFacets = this.data.facets;
     this.facets = this.customFacets.concat(this.filteredFacets);
     this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
@@ -182,27 +182,54 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * load all facets as needed
    */
   toggleFacets() {
+    this.loading = true;
     this.fullWidth = !this.fullWidth;
     if (this.fullWidth) {
-      this.panelOptions.mode = 'over';
-      this.loading = true;
       if (!this.allFacets || this.allFacets.length === 0) {
-        this.pharosApiService.getAllFacets(
-          this._route.snapshot.data.path,
-          this._route.snapshot.queryParamMap,
-          this._route.snapshot.data.fragments).valueChanges.subscribe(res => {
-          this.allFacets = this.customFacets.concat(res.data.results.facets);
-          this.loading = false;
-          this.facets = this.allFacets;
-          this.changeRef.markForCheck();
-        });
+        this.GetDataAndShowFullPanel();
+      } else {
+        this.openFullPanel();
       }
     } else {
-      this.panelOptions.mode = 'side';
-      this.facets = this.filteredFacets;
-      this.loading = false;
-      this.changeRef.markForCheck();
+      this.closeFullPanel();
     }
+  }
+
+  /**
+   * retrieve data from the server about all the facets, and open the full page view
+   */
+  GetDataAndShowFullPanel(){
+    this.pharosApiService.getAllFacets(
+      this._route.snapshot.data.path,
+      this._route.snapshot.queryParamMap).subscribe({
+      next: res => {
+        this.allFacets = this.customFacets.concat(res.data.results.facets.map(facet => new Facet(facet)));
+        this.openFullPanel();
+      },
+      error: e => {
+        throw(e);
+      }
+    });
+  }
+
+  /**
+   * open the sidebar view
+   */
+  closeFullPanel() {
+    this.panelOptions.mode = 'side';
+    this.facets = this.filteredFacets;
+    this.loading = false;
+    this.changeRef.markForCheck();
+  }
+
+  /**
+   * open the full page view
+   */
+  openFullPanel() {
+    this.panelOptions.mode = 'over';
+    this.facets = this.allFacets;
+    this.loading = false;
+    this.changeRef.markForCheck();
   }
 
   /**

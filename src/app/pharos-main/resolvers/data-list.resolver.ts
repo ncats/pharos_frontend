@@ -7,7 +7,7 @@ import {concatMap, map, mergeMap, take, zipAll} from 'rxjs/internal/operators';
 import {PharosBase, Serializer} from '../../models/pharos-base';
 import {Facet} from '../../models/facet';
 import {SelectedFacetService} from '../data-list/filter-panel/selected-facet.service';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {TargetListService} from "../../pharos-services/target-list.service";
 
 /**
  * resolver to retrieve list of data happens on every main level (/targets, /diseases, /ligands, etc) change
@@ -23,7 +23,7 @@ export class DataListResolver implements Resolve<Observable<any>> {
   constructor(
               private loadingService: LoadingService,
               private router: Router,
-              private firebaseService: AngularFirestore,
+              private targetListService: TargetListService,
               private pharosApiService: PharosApiService) {
   }
 
@@ -39,14 +39,12 @@ export class DataListResolver implements Resolve<Observable<any>> {
     const serializer: Serializer = route.data.serializer;
     if (route.queryParamMap.has('collection') && !navigation.extras.state) {
       const docid: string = route.queryParamMap.get('collection');
-      const docidObs = this.firebaseService.collection<any>('target-collection')
-        .doc(docid)
-        .valueChanges()
+      const docidObs = this.targetListService.getList(docid)
         .pipe(
           take(1),
-          mergeMap(response => {
-            const typedResponse: any = response as any;
-            return this.pharosApiService.getGraphQlData(route, {batchIds: typedResponse.targetList.map(target => target.trim())})
+          mergeMap(targetList => {
+            return this.pharosApiService.getGraphQlData(route, {batchIds: targetList});
+          }))
         .pipe(
           map(res => {
             res.data.batch.results.facets = res.data.batch.results.facets.map(facet => new Facet(facet));
@@ -59,8 +57,6 @@ export class DataListResolver implements Resolve<Observable<any>> {
             return res.data.batch.results;
           })
           );
-          })
-        );
       return docidObs;
     } else {
       return this.pharosApiService.getGraphQlData(route, navigation.extras.state)
