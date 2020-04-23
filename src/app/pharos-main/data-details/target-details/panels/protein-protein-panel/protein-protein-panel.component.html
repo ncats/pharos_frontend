@@ -10,11 +10,12 @@
       <div fxLayout="row"
            class="tkrow"
            fxLayoutAlign="start stretch">
-        <div fxFlex="95">
-        <span class="mat-title"
-              [matTooltip]=description
-              [matTooltipClass]="'pharos-tooltip'">
-          Protein-Protein Interactions ({{target.ppiCount}})</span>
+        <div fxFlex="95" class="headerContainer">
+        <span class="mat-title" [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">Protein-Protein Interactions ({{target.ppiCount}})</span>
+          <ncats-property-display class="mat-title" [showLabel]="false" matTooltip="Open the target list with the interacting proteins"
+                                  [property]="{term:'Explore Interacting Targets', internalLink:'/targets', queryParams:{ppiTarget:target.gene}}">
+          </ncats-property-display>
         </div>
         <div fxFlex="5">
           <pharos-help-panel-trigger [origin]="'ppi'"
@@ -25,8 +26,8 @@
         [pageSize]="10"
         [length]="target.ppiCount"
         [hidePageSize]="true"
-        [showFirstLastButtons] = true
-        (page) = "paginate($event)"
+        [showFirstLastButtons]=true
+        (page)="paginate($event)"
         #ppipaginator></mat-paginator>
       <div class="target-grid">
         <div *ngFor="let ppi of target.ppis">

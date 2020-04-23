@@ -85,7 +85,7 @@ export class SelectedFacetService {
   getFacetsAsUrlStrings(): string[] {
     const retArr: string[] = [];
    // this._facetMap.delete('query');
-    const facets: Facet[] = Array.from(this._facetMap.values()).filter(fac => fac.facet !== 'query' && fac.facet !== 'collection');
+    const facets: Facet[] = Array.from(this._facetMap.values()).filter(fac => fac.facet !== 'query' && fac.facet !== 'collection' && fac.facet !== 'ppiTarget');
     facets.forEach(facet => facet.values.forEach(value => retArr.push(this._makeFacetString(facet.facet, value.name))));
     return retArr;
   }
@@ -108,6 +108,13 @@ export class SelectedFacetService {
     return this._facetMap.get(name);
   }
 
+  getPseudoFacets(): Facet[]{
+    return [
+      this.getFacetByName('collection'),
+      this.getFacetByName('query'),
+      this.getFacetByName('ppiTarget')
+    ];
+  }
   /**
    * remove entire group of facet values from query string
    * @param facet
@@ -161,11 +168,14 @@ export class SelectedFacetService {
     if (map.keys.length === 0) {
       return;
     } else {
-      if (map.has('q')) {
-        this._facetMap.set('query', new Facet({facet: 'query', values: [{name: map.get('q')}]}));
+      if (map.has('q') || map.has('query')) {
+        this._facetMap.set('query', new Facet({facet: 'query', values: [{name: map.get('q') || map.get('query')}]}));
       }
       if (map.has('collection')) {
         this._facetMap.set('collection', new Facet({facet: 'collection', values: [{name: map.get('collection')}]}));
+      }
+      if(map.has('ppiTarget')){
+        this._facetMap.set('ppiTarget', new Facet({label: 'PPI Target', facet:'ppiTarget', values: [{name: map.get('ppiTarget')}]}));
       }
       const fList = map.getAll('facet');
       fList.forEach(facetString => {

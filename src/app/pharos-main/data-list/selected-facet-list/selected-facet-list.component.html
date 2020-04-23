@@ -16,7 +16,7 @@
       <div fxFlex="17" *ngFor="let facet of facets">
         <div fxLayout="row" fxLayoutAlign="space-between center">
           <div fxFlex="90" class="facetHeader">
-            <span class="mat-subheader">{{facet.facet}}</span>
+            <span class="mat-subheader">{{facet.label || facet.facet}}</span>
           </div>
           <div fxFlex="10">
             <button mat-icon-button (click)='removefacetFamily(facet)'>
