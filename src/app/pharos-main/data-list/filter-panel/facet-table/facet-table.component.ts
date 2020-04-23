@@ -130,11 +130,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
         if (this.propogate === true) {
           this.selectedFacetService.setFacets({name: this.facet.facet, change});
           const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
-          if (this.facet.facet === 'collection' || this.selectedFacetService.getFacetByName('collection')) {
-            this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getFacetByName('collection'));
-          } else {
-            this.pathResolverService.navigate(queryParams, this._route);
-          }
+          this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
         }
       });
   }
