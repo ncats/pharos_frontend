@@ -6,6 +6,7 @@ import {Generif, GenerifSerializer} from './generif';
 import {Ortholog, OrthologSerializer} from './ortholog';
 import {Ligand, LigandSerializer} from './ligand';
 import {TARGETDETAILSFIELDS, TARGETDETAILSQUERY, TARGETLISTFIELDS} from "./target-components";
+import {Facet} from "./facet";
 
 
 /**
@@ -455,7 +456,7 @@ export class TargetSerializer implements PharosSerializer {
     if (newObj.goComponent) {
       newObj.goComponent.forEach(component => {
         component.term.internalLink = ['/targets'];
-        component.term.queryParams = {facet: `GO Component/${component.term.term}`};
+        component.term.queryParams = {facet: `GO Component${Facet.separator}${component.term.term}`};
         return component;
       });
     }
@@ -463,7 +464,7 @@ export class TargetSerializer implements PharosSerializer {
     if (newObj.goProcess) {
       newObj.goProcess.forEach(component => {
         component.term.internalLink = ['/targets'];
-        component.term.queryParams = {facet: `GO Process/${component.term.term}`};
+        component.term.queryParams = {facet: `GO Process${Facet.separator}${component.term.term}`};
         return component;
       });
     }
@@ -471,7 +472,7 @@ export class TargetSerializer implements PharosSerializer {
     if (newObj.goFunction) {
       newObj.goFunction.forEach(component => {
         component.term.internalLink = ['/targets'];
-        component.term.queryParams = {facet: `GO Function/${component.term.term}`};
+        component.term.queryParams = {facet: `GO Function${Facet.separator}${component.term.term}`};
         return component;
       });
     }
@@ -479,7 +480,7 @@ export class TargetSerializer implements PharosSerializer {
       newObj.uniprotKeyword.forEach(component => {
         component.value.internalLink = ['/targets'];
         component.value.externalLink = `https://www.uniprot.org/keywords/${component.name.term}`;
-        component.value.queryParams = {facet: `UniProt Keyword/${component.value.term}`};
+        component.value.queryParams = {facet: `UniProt Keyword${Facet.separator}${component.value.term}`};
         return component.value;
       });
     }

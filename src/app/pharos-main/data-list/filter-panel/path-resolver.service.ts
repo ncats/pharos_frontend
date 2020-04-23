@@ -18,7 +18,7 @@ export class PathResolverService {
 
 
   /**
-   * creates url string to pass as a quey parameter from a list of facets
+   * creates url string to pass as a query parameter from a list of facets
    * creates {Router} {NavigationExtras} object
    * navigates to url, which updates data
    * optional path allows traversal up the path
@@ -38,11 +38,12 @@ export class PathResolverService {
         queryParamsHandling: ''
       };
 
-      if (route.snapshot.queryParamMap.has('q')) {
-        navigationExtras.queryParams.q = route.snapshot.queryParamMap.get('q');
-      }
-      if (queries) {
-        navigationExtras.queryParams.collection = queries.values.map(val => val.name);
+      if(queries) {
+        for (let i = 0; i < queries.length; i++) {
+          if (queries[i]) {
+            navigationExtras.queryParams[queries[i].facet] = queries[i].values.map(val => val.name);
+          }
+        }
       }
       navigationExtras.queryParams.facet = params.length > 0 ? params : null;
       this._router.onSameUrlNavigation = 'reload'; // forces reload since this is the same navigation url
