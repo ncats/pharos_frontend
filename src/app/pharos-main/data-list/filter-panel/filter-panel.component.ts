@@ -113,6 +113,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.profileService.profile$.subscribe(user => {
       if (user) {
+        // User is signed in.
         this.user = user;
         if (user.data().collection) {
           const customFacets = new Facet({
@@ -147,8 +148,8 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
           });
 
         }
-        // User is signed in.
       } else {
+        // User is not signed in.
         this.customFacets = [];
         if (this.data && this.data.facets) {
           this.facets = this.customFacets.concat(this.filteredFacets);
