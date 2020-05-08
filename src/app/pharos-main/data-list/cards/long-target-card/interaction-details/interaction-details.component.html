@@ -1,0 +1,25 @@
+<mat-card-subtitle>Interaction Details</mat-card-subtitle>
+<div class="subsection" *ngIf="target.interactionDetails.score">
+  <div class="list-header">StringDB stats
+    <div class="list-item">
+      <ncats-property-display
+        [property]="{term: target.interactionDetails.score, label: 'score', tooltip: getTooltip('stringScore')}"></ncats-property-display>
+    </div>
+  </div>
+</div>
+<div class="subsection" *ngIf="target.interactionDetails.p_int">
+  <div class="list-header">BioPlex stats
+    <div class="list-item">
+      <ncats-property-display
+        [property]="{term: target.interactionDetails.p_int, label: 'p_int', tooltip: getTooltip('p_int')}"></ncats-property-display>
+    </div>
+    <div class="list-item">
+      <ncats-property-display
+        [property]="{term: target.interactionDetails.p_ni, label: 'p_ni', tooltip: getTooltip('p_ni')}"></ncats-property-display>
+    </div>
+    <div class="list-item">
+      <ncats-property-display
+        [property]="{term: target.interactionDetails.p_wrong, label: 'p_wrong', tooltip: getTooltip('p_wrong')}"></ncats-property-display>
+    </div>
+  </div>
+</div>

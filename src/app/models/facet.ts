@@ -93,66 +93,6 @@ export class Facet {
   }
 
   /**
-   * retrieve the full list of facets for each of the paths
-   * @param path
-   */
-  static getFacetList(path){
-    if (path == "targets") {
-      return Facet.TargetFacets;
-    } else if (path == "diseases") {
-      return Facet.DiseaseFacets;
-    } else if (path == "ligands") {
-      return Facet.LigandFacets;
-    }
-  }
-  /**
-   * List of all facets to collect when opening the Full Page panel of facets of targets
-   */
-  static TargetFacets = [
-    "Target Development Level",
-    "UniProt Keyword",
-    "Family",
-    "Indication",
-    "Monarch Disease",
-    "UniProt Disease",
-    "Ortholog",
-    "IMPC Phenotype",
-    "JAX/MGI Phenotype",
-    "GO Process",
-    "GO Component",
-    "GO Function",
-    "GWAS",
-    "Expression: CCLE",
-    "Expression: HCA RNA",
-    "Expression: HPM Protein",
-    "Expression: HPA",
-    "Expression: JensenLab Experiment HPA",
-    "Expression: HPM Gene",
-    "Expression: JensenLab Experiment HPA-RNA",
-    "Expression: JensenLab Experiment GNF",
-    "Expression: Consensus",
-    "Expression: JensenLab Experiment Exon array",
-    "Expression: JensenLab Experiment RNA-seq",
-    "Expression: JensenLab Experiment UniGene",
-    "Expression: UniProt Tissue",
-    "Expression: JensenLab Knowledge UniProtKB-RC",
-    "Expression: JensenLab Text Mining",
-    "Expression: JensenLab Experiment Cardiac proteome",
-    "Expression: Cell Surface Protein Atlas"];
-
-
-  /**
-   * List of all facets to collect when opening the Full Page panel of facets of diseases
-   */
-  static DiseaseFacets = ["Data Source", "Drug", "Target Development Level"];
-
-
-  /**
-   * List of all facets to collect when opening the Full Page panel of facets of ligands
-   */
-  static LigandFacets = ["type", "activity"];
-
-  /**
    * retrieves a query object for getting all the facet options for a single facet for a list of targets / diseases / ligands
    * @param path
    */

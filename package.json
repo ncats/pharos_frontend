@@ -12,13 +12,15 @@
     "e2e": "ng e2e",
     "build:appshell": "ng run pharos:app-shell:production",
     "compodoc": "npx compodoc -p tsconfig.app.json -s -w --theme material",
-    "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
-    "serve:ssr": "node dist/server.js",
+    "build:ssr": "ng build --prod && ng run pharos:server:production",
+    "serve:ssr": "node dist/server/main.js",
     "build:client-and-server-bundles": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build pharos --prod && ng run pharos:server:production",
     "webpack:server": "webpack --config webpack.server.config.js --progress --colors",
     "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
     "scully": "scully",
-    "scully:serve": "scully serve"
+    "scully:serve": "scully serve",
+    "dev:ssr": "ng run pharos:serve-ssr",
+    "prerender": "ng run pharos:prerender"
   },
   "private": true,
   "dependencies": {
@@ -71,12 +73,14 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.900.0",
+    "@angular-devkit/build-angular": "0.900.7",
+    "@angular-devkit/build-optimizer": "0.900.7",
     "@angular/cli": "~9.0.0",
     "@angular/compiler-cli": "9.0.5",
     "@angular/language-service": "9.0.5",
     "@compodoc/compodoc": "^1.1.11",
     "@firebase/testing": "^0.16.13",
+    "@nguniversal/builders": "^9.1.0",
     "@types/express": "^4.0.39",
     "@types/jasmine": "~3.5.8",
     "@types/jasminewd2": "~2.0.6",

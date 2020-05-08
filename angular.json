@@ -116,8 +116,9 @@
           "builder": "@angular-devkit/build-angular:server",
           "options": {
             "outputPath": "dist/server",
-            "main": "src/main.server.ts",
-            "tsConfig": "tsconfig.server.json"
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json",
+            "externalDependencies": ["@firebase/firestore"]
           },
           "configurations": {
             "production": {
@@ -144,6 +145,32 @@
               "browserTarget": "pharos:build:production",
               "serverTarget": "pharos:server:production"
             }
+          }
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "options": {
+            "browserTarget": "pharos:build",
+            "serverTarget": "pharos:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "pharos:build:production",
+              "serverTarget": "pharos:server:production"
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "pharos:build:production",
+            "serverTarget": "pharos:server:production",
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {}
           }
         }
       }

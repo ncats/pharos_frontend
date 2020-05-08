@@ -1,92 +1,106 @@
 <section>
-<div *ngIf="targets">
-  <mat-toolbar [color]="'primary'" class="target-table-toolbar" *ngIf="showToolbar">
-    <div class=pharos-display-1 *ngIf="showLabel">Targets <span *ngIf="pageData">({{pageData.total}})</span>
-    </div>
-    <div fxFlex></div>
-    <div fxFlex="5">
-      <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="target table tools">
-        <mat-icon>apps</mat-icon>
-      </button>
-      <mat-menu #appMenu="matMenu">
-        <button mat-menu-item (click)="batchUpload()">
-          <mat-icon>create</mat-icon>
-          Upload Target List
+  <div *ngIf="targets">
+    <mat-toolbar [color]="'primary'" class="target-table-toolbar" *ngIf="showToolbar">
+      <div class=pharos-display-1 *ngIf="showLabel">Targets <span *ngIf="pageData">({{pageData.total}})</span>
+      </div>
+      <div fxFlex></div>
+      <div fxFlex="5">
+        <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="target table tools">
+          <mat-icon>apps</mat-icon>
         </button>
-                <!--<span matTooltip= "Please select 2-4 targets to compare"-->
-                      <!--[matTooltipDisabled] = "!rowSelection.isEmpty()">-->
-                <!--<button mat-menu-item-->
-                        <!--(click)="compareTargets()"-->
-                        <!--[disabled]="rowSelection.isEmpty() || (rowSelection.selected.length < 2 || rowSelection.selected.length > 4)"-->
-                <!--&gt;<mat-icon>swap_horiz</mat-icon>Compare Targets</button>-->
-                <!--</span>-->
+        <mat-menu #appMenu="matMenu">
+          <button mat-menu-item (click)="batchUpload()">
+            <mat-icon>create</mat-icon>
+            Upload Target List
+          </button>
+          <!--<span matTooltip= "Please select 2-4 targets to compare"-->
+          <!--[matTooltipDisabled] = "!rowSelection.isEmpty()">-->
+          <!--<button mat-menu-item-->
+          <!--(click)="compareTargets()"-->
+          <!--[disabled]="rowSelection.isEmpty() || (rowSelection.selected.length < 2 || rowSelection.selected.length > 4)"-->
+          <!--&gt;<mat-icon>swap_horiz</mat-icon>Compare Targets</button>-->
+          <!--</span>-->
 
-                <button mat-menu-item
-                        *ngIf="loggedIn === true"
-                        (click)="saveTargets()"
-                        [disabled]="rowSelection.isEmpty()">
-                  <mat-icon>save</mat-icon>Save Selected
-                </button>
-        <button mat-menu-item
-                *ngIf="loggedIn === true"
-                (click)="createTopic()"
-                [disabled]="rowSelection.isEmpty()">
-          <mat-icon>bubble_chart</mat-icon>
-          Generate Topic</button>
-<!--                <button mat-menu-item
-                        *ngIf="loggedIn === true"
-                        (click)="saveQuery()"
-                ><mat-icon>save_alt</mat-icon>Save Query</button>-->
-      </mat-menu>
+          <button mat-menu-item
+                  *ngIf="loggedIn === true"
+                  (click)="saveTargets()"
+                  [disabled]="rowSelection.isEmpty()">
+            <mat-icon>save</mat-icon>
+            Save Selected
+          </button>
+          <button mat-menu-item
+                  *ngIf="loggedIn === true"
+                  (click)="createTopic()"
+                  [disabled]="rowSelection.isEmpty()">
+            <mat-icon>bubble_chart</mat-icon>
+            Generate Topic
+          </button>
+          <!--                <button mat-menu-item
+                                  *ngIf="loggedIn === true"
+                                  (click)="saveQuery()"
+                          ><mat-icon>save_alt</mat-icon>Save Query</button>-->
+        </mat-menu>
+      </div>
+    </mat-toolbar>
+    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-between center"
+         class="paginator-row">
+      <div fxFlex="20" *ngIf="loggedIn">
+        <mat-checkbox (click)="$event.stopPropagation()" [matTooltip]="this.selectionTooltip() || 'Select all targets'"
+                      (change)="$event ? this.toggleAll($event) : null"
+                      [checked]="this.allSelected()"
+                      [indeterminate]="this.someSelected()">Selected {{this.rowSelection.selected.length}} targets
+        </mat-checkbox>
+      </div>
+      <div class="sort-select">
+        <mat-form-field>
+          <mat-select [(value)]="this.selectedSortObject" placeholder="Sort" (valueChange)="sortChanged($event)"
+                      matTooltip="Sort the target list">
+            <mat-option>Default</mat-option>
+            <mat-option *ngFor="let sortKey of this.sortMap.keys()" [value]="this.sortMap.get(sortKey)">
+              {{sortKey}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-button *ngIf="previousSortObject" (click)="toggleSortOrder()">
+          <mat-icon *ngIf="previousSortObject.order === 'desc'" matTooltip="descending">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="previousSortObject.order === 'asc'" matTooltip="ascending">keyboard_arrow_up</mat-icon>
+        </button>
+      </div>
+      <div fxFlex="75" fxFlexAlign="end">
+        <mat-paginator
+          [pageSize]=pageData.top
+          [pageIndex]="pageData.skip / pageData.top"
+          [length]=pageData.total
+          [pageSizeOptions]="[10, 20, 60, 100]"
+          [showFirstLastButtons]="true"
+          (page)="changePage($event)"></mat-paginator>
+      </div>
     </div>
-  </mat-toolbar>
-  <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-between center"
-       class="paginator-row">
-    <div fxFlex="45" fxLayoutAlign.lt-sm="center">
-       <!-- <mat-checkbox
-          (change)="$event ? selectAll() : null">
-          Select All {{pageData?.total}}
-        </mat-checkbox>-->
+    <div *ngIf="!isSmallScreen">
+      <div *ngFor="let target of targets">
+        <pharos-long-target-card [target]="target" [selected]="isSelected(target)"
+                                 (selectionChanged)="updateTargetSelection(target, $event)"
+                                 [loggedIn]="loggedIn"
+                                 [apiSources]="apiSources"></pharos-long-target-card>
+      </div>
     </div>
-    <div fxFlex="45" fxFlexAlign="end">
-      <mat-paginator
-        [pageSize]= pageData.top
-        [pageIndex]="pageData.skip / pageData.top"
-        [length]= pageData.total
-        [pageSizeOptions]="[10, 20, 60, 100]"
-        [showFirstLastButtons]="true"
-        (page)="changePage($event)"></mat-paginator>
+    <div class="target-grid" *ngIf="isSmallScreen">
+      <div *ngFor="let target of targets">
+        <pharos-target-card [target]="target"></pharos-target-card>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
+      <div fxFlex="45">
+      </div>
+      <div fxFlex="45" fxFlexAlign="end">
+        <mat-paginator
+          [pageSize]=pageData.top
+          [pageIndex]="pageData.skip / pageData.top"
+          [length]=pageData.total
+          [pageSizeOptions]="[10, 20, 60, 100]"
+          [showFirstLastButtons]="true"
+          (page)="changePage($event)"></mat-paginator>
+      </div>
     </div>
   </div>
-  <div *ngIf="!isSmallScreen">
-    <pharos-generic-table *ngIf="targetObjs"
-                          [pageData]="pageData"
-                          [showPaginator]="false"
-                          [fieldsConfig]="fieldsData"
-                          [data]="targetObjs"
-                          [selectableRows]= "loggedIn"
-                          (rowSelectionChange) = "setSelectedTargets($event)"
-                          (sortChange)="changeSort($event)"
-                          (pageChange)="changePage($event)">
-    </pharos-generic-table>
-  </div>
-  <div class="target-grid" *ngIf="isSmallScreen" >
-    <div *ngFor="let target of targets">
-      <pharos-target-card [target]="target"></pharos-target-card>
-    </div>
-  </div>
-  <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
-    <div fxFlex="45">
-    </div>
-    <div fxFlex="45" fxFlexAlign="end">
-      <mat-paginator
-        [pageSize]= pageData.top
-        [pageIndex]="pageData.skip / pageData.top"
-        [length]= pageData.total
-        [pageSizeOptions]="[10, 20, 60, 100]"
-        [showFirstLastButtons]="true"
-        (page)="changePage($event)"></mat-paginator>
-    </div>
-  </div>
-</div>
 </section>
