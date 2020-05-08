@@ -29,6 +29,11 @@ export class DataProperty {
   href?: string;
 
   /**
+   * optional tooltip to show when hovering the label
+   */
+  tooltip?: string;
+
+  /**
    * should column be sortable
    */
   sortable?: boolean;

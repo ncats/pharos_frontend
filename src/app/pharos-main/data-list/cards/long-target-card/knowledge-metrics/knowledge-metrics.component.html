@@ -1,0 +1,13 @@
+<mat-card-subtitle>Knowledge Metrics</mat-card-subtitle>
+<div class="subsection">
+  <ncats-property-display
+    [property]="{term: this.target.ppiCount, label: 'PPIs', tooltip: getTooltip('ppis')}"></ncats-property-display>
+  <ncats-property-display
+    [property]="{term: target.jensenScore, label: 'PubMed Score', tooltip: getTooltip('pubmed')}"></ncats-property-display>
+  <ncats-property-display
+    [property]="{term: target.pubTatorScore, label: 'PubTator Score', tooltip: getTooltip('pubtator')}"></ncats-property-display>
+  <ncats-property-display
+    [property]="{term: target.antibodyCount, label: 'Antibody Count', tooltip: getTooltip('abcount')}"></ncats-property-display>
+  <ncats-property-display
+    [property]="{term: target.novelty, label: 'Novelty', tooltip: getTooltip('novelty')}"></ncats-property-display>
+</div>

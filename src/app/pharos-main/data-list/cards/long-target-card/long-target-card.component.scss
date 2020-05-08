@@ -1,0 +1,53 @@
+.container {
+  display: flex;
+  box-sizing: border-box;
+}
+
+.mat-card-title{
+  cursor:pointer;
+}
+
+.mat-card-content{
+  width: 100%;
+}
+
+.mat-card-subtitle{
+  font-size: x-large;
+}
+
+.container:hover {
+  background-color: #f6f6f6;
+}
+
+.toprow{
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: start;
+}
+
+.target-details {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.list-header{
+  margin-top: 10px;
+}
+
+.list-item{
+  margin-left: 10px;
+}
+
+.section{
+  max-width: 33%;
+  min-width: 20%;
+  padding: 20px;
+}
+
+.radar-chart {
+  width: 150px;
+  height: 150px;
+}

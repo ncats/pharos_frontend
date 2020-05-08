@@ -4,7 +4,7 @@ import { Observable , of} from 'rxjs';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {PharosBase, Serializer} from '../../models/pharos-base';
-import {map} from 'rxjs/internal/operators';
+import {catchError, map} from 'rxjs/internal/operators';
 
 /**
  * resolves the details for a specific object
@@ -40,6 +40,10 @@ export class DataDetailsResolver implements Resolve<any> {
           res.data[route.data.path] = tobj;
           res.data[`${[route.data.path]}Props`] = serializer._asProperties(tobj);
           return res.data;
+        }),
+        catchError(err => {
+          alert(JSON.stringify(err));
+          return null;
         })
       );
     }

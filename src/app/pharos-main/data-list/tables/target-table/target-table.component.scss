@@ -13,6 +13,12 @@
   padding-right: 1vw;
 }
 
+.sort-select{
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-around;
+}
 
 .pharos-display-1 {
   font: 400 34px/40px Roboto, "Helvetica Neue", sans-serif;

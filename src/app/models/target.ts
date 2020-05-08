@@ -7,6 +7,7 @@ import {Ortholog, OrthologSerializer} from './ortholog';
 import {Ligand, LigandSerializer} from './ligand';
 import {TARGETDETAILSFIELDS, TARGETDETAILSQUERY, TARGETLISTFIELDS} from "./target-components";
 import {Facet} from "./facet";
+import {InteractionDetails} from "./interaction-details";
 
 
 /**
@@ -239,6 +240,9 @@ export class Target extends PharosBase {
   pantherPath: string[];
   pantherClass: string[];
   dto: string[];
+
+  properties: DataProperty[] = [];
+  interactionDetails?: InteractionDetails;
 }
 
 /**
@@ -258,6 +262,9 @@ export class TargetSerializer implements PharosSerializer {
    * @return {Target}
    */
   fromJson(json: any): Target {
+    if (Object.getPrototypeOf(json).constructor.name == "Target"){ // cached data is sometimes already parsed
+      return json;
+    }
     const obj = new Target();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
 
@@ -282,8 +289,20 @@ export class TargetSerializer implements PharosSerializer {
 
     if (json.ppiCount) {
       if (json.ppiCount.length > 0) {
-        obj.ppiCount = json.ppiCount.reduce((prev, cur) => prev + cur.value, 0);
+        obj.ppiCount = json.ppiCount.reduce((prev, cur) => Math.max(prev, cur.value), 0);
       }
+    }
+
+    if(json.interactionDetails){
+      obj.interactionDetails = {
+        dataSources: json.interactionDetails.ppitypes ? json.interactionDetails.ppitypes.split(",") : [],
+        evidence: json.interactionDetails.evidence,
+        interaction_type: json.interactionDetails.interaction_type,
+        score: json.interactionDetails.score,
+        p_int: json.interactionDetails.p_int,
+        p_ni: json.interactionDetails.p_ni,
+        p_wrong: json.interactionDetails.p_wrong
+      };
     }
 
     if (json.uniprotIds) {
@@ -342,6 +361,18 @@ export class TargetSerializer implements PharosSerializer {
     if (json.ppis) {
       const targetSerializer = new TargetSerializer();
       obj.ppis = json.ppis.map(ppi => targetSerializer.fromJson(ppi.target));
+      for(let i = 0 ; i < obj.ppis.length ; i++){
+        obj.ppis[i].properties = [];
+        if (json.ppis[i].props && json.ppis[i].props.length > 0) {
+          for(let j = 0 ; j < json.ppis[i].props.length; j++){
+            obj.ppis[i].properties.push(
+              new DataProperty(
+                {label: json.ppis[i].props[j].name, term: json.ppis[i].props[j].value}
+                )
+            );
+          }
+        }
+      }
     }
 
     if (json.ligandCounts) {
@@ -499,7 +530,14 @@ export class TargetSerializer implements PharosSerializer {
     Object.keys(obj).map(objField => {
       if (Array.isArray(obj[objField])) {
         retObj[objField] = obj[objField].map(arrObj => this._mapField(arrObj));
-      } else {
+      }
+      else if (obj[objField] && obj[objField]["__typename"]){
+        retObj[objField] = {};
+        for(const prop in obj[objField]){
+          retObj[objField][prop] = new DataProperty({name: prop, label: prop, term: obj[objField][prop]});
+        }
+      }
+      else {
         retObj[objField] = new DataProperty({name: objField, label: objField, term: obj[objField]});
       }
     });
