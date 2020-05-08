@@ -13,9 +13,22 @@
         <div fxFlex="95" class="headerContainer">
         <span class="mat-title" [matTooltip]=description
               [matTooltipClass]="'pharos-tooltip'">Protein-Protein Interactions ({{target.ppiCount}})</span>
-          <ncats-property-display class="mat-title" [showLabel]="false" matTooltip="Open the target list with the interacting proteins"
-                                  [property]="{term:'Explore Interacting Targets', internalLink:'/targets', queryParams:{ppiTarget:target.gene}}">
-          </ncats-property-display>
+          <ul>
+            <li>
+              <ncats-property-display class="mat-title" [showLabel]="false"
+                                      matTooltip="Open the target list with the interacting proteins" matTooltipClass="pharos-tooltip"
+                                      matTooltipPosition="after"
+                                      [property]="{term:'Explore Interacting Targets', internalLink:'/targets', queryParams:{ppiTarget:target.gene}}">
+              </ncats-property-display>
+            </li>
+            <li>
+              <ncats-property-display class="mat-title" [showLabel]="false"
+                                      matTooltip="See interacting proteins on String-db.org" matTooltipClass="pharos-tooltip"
+                                      matTooltipPosition="after"
+                                      [property]="{term:'See Interactions on String-DB', externalLink:'https://string-db.org/network/homo_sapiens/' + target.gene}">
+              </ncats-property-display>
+            </li>
+          </ul>
         </div>
         <div fxFlex="5">
           <pharos-help-panel-trigger [origin]="'ppi'"

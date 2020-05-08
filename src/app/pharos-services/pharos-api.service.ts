@@ -396,7 +396,7 @@ export class PharosApiService {
 // todo: this is probably not ideal , although it returns a more useful query than the initial list query
   getAllFacets(path: string, params: ParamMap): Observable<any> {
     let variables = this.getVariablesForFacetQuery(path, params);
-    variables = {facets: Facet.getFacetList(path), ...variables};
+    variables = {facets: "all", ...variables};
 
     const docid: string = params.get('collection');
     if (!!docid) {
@@ -557,6 +557,11 @@ export class PharosApiService {
               this.queryString = val;
               break;
             }
+            case 'sortColumn':
+              const filter: any = ret.filter ? ret.filter : {};
+              filter.order = val;
+              ret.filter = filter;
+              break;
             case 'collection': {
               break;
             }
