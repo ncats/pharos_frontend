@@ -19,8 +19,7 @@ import {BatchUploadModalComponent} from '../../../../tools/batch-upload-modal/ba
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {PharosConfig} from '../../../../../config/pharos-config';
-import {PharosProperty} from '../../../../models/pharos-property';
-import {Target, TargetSerializer} from '../../../../models/target';
+import {Target} from '../../../../models/target';
 import {PharosProfileService} from '../../../../auth/pharos-profile.service';
 import {TopicSaveModalComponent} from './topic-save-modal/topic-save-modal.component';
 import {AngularFirestore} from '@angular/fire/firestore';
@@ -38,7 +37,6 @@ export const IDG_LEVEL_TOKEN = new InjectionToken('IDGLevelComponent');
  * @type {InjectionToken<any>}
  */
 export const RADAR_CHART_TOKEN = new InjectionToken('RadarChartComponent');
-
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -60,94 +58,16 @@ const navigationExtras: NavigationExtras = {
 
 export class TargetTableComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   path = 'targets';
-  /**
-   * columns to display in table
-   * @type {string[]}
-   */
-  displayColumns: string[] = ['name', 'gene', 'idgTDL', 'idgFamily', 'novelty', 'jensenScore', 'antibodyCount', 'knowledgeAvailability'];
 
   /**
-   * fields to be show in the pdb table
-   * @type {PharosProperty[]}
+   * holds the gene that is used as the binding partner for the current target list
    */
-  fieldsData: PharosProperty[] = [
-    new PharosProperty({
-      name: 'name',
-      label: 'Target Name',
-      width: '35vw'
-    }),
-    new PharosProperty({
-      name: 'gene',
-      label: 'Gene',
-      width: '10vw'
-    }),
-    new PharosProperty({
-      name: 'accession',
-      label: 'Uniprot ID',
-      width: '10vw'
-    }),
-    new PharosProperty({
-      name: 'idgTDL',
-      label: 'Development Level',
-      customComponent: IDG_LEVEL_TOKEN,
-      sortable: true,
-      width: '10vw'
-    }),
-    new PharosProperty({
-      name: 'idgFamily',
-      label: 'Target Family',
-      sortable: true,
-      width: '10vw'
-    }),
-    new PharosProperty({
-      name: 'novelty',
-      label: 'Novelty',
-      sortable: true,
-      width: '7vw'
-    }),
-    new PharosProperty({
-      name: 'jensenScore',
-      label: 'Pubmed Score',
-      sortable: true,
-      width: '7vw'
-    }),
-    new PharosProperty({
-      name: 'antibodyCount',
-      label: 'Antibody Count',
-      sortable: true,
-      width: '7vw'
-    }),
-    new PharosProperty({
-      name: 'ppiCount',
-      label: 'Protein Protein Interactions',
-      sortable: true,
-      width: '5vw'
-    }),
-    new PharosProperty({
-      name: 'hgdata',
-      label: 'Knowledge Availability',
-      customComponent: RADAR_CHART_TOKEN,
-      sortable: true,
-      width: '8vw'
-    })
-  ];
+  ppiTarget: String = "";
 
   /**
    * main list of paginated targets
    */
   @Input() targets: Target[];
-
-  /**
-   * event emitter of sort event on table
-   * @type {EventEmitter<string>}
-   */
-  @Output() readonly sortChange: EventEmitter<string> = new EventEmitter<string>();
-
-  /**
-   * event emitter for page change on table
-   * @type {EventEmitter<string>}
-   */
-  @Output() readonly pageChange: EventEmitter<string> = new EventEmitter<string>();
 
   /**
    * page data object set by parent component
@@ -176,11 +96,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * selection model for when rows are selectable in table, used for compare and storing targets
    * @type {SelectionModel<any>}
    */
-  rowSelection = new SelectionModel<any>();
-
-  targetSerializer: TargetSerializer = new TargetSerializer();
-
-  targetObjs: Target[];
+  rowSelection = new SelectionModel<any>(true);
 
   /**
    * set up dependencies
@@ -206,8 +122,72 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     super();
   }
 
-  loggedIn = false;
+  sortMap: Map<string, any>;
 
+  defautlSortMap: Map<string, any> = new Map([
+    ["Target Name", {sortKey: "name", order: "asc"}],
+    ["Gene", {sortKey: "sym", order: "asc"}],
+    ["UniProt", {sortKey: "uniprot", order: "asc"}],
+    ["Development Level", {sortKey: "tdl", order: "desc"}],
+    ["Family", {sortKey: "fam", order: "asc"}],
+    ["Novelty", {sortKey: "novelty", order: "desc"}],
+    ["PubMed Score", {sortKey: "tdl_info.JensenLab PubMed Score", order: "desc"}],
+    ["Antibody Count", {sortKey: "tdl_info.Ab Count", order: "desc"}]
+  ]);
+
+  ppiSortMap: Map<string, any> = new Map([
+    ["score", {sortKey: "ncats_ppi.score", order: "desc"}],
+    ["p_int", {sortKey: "ncats_ppi.p_int", order: "desc"}],
+    ["p_ni", {sortKey: "ncats_ppi.p_ni", order: "desc"}],
+    ["p_wrong", {sortKey: "ncats_ppi.p_wrong", order: "desc"}],
+    ...this.defautlSortMap
+  ]);
+
+  selectedSortObject: { sortKey, order };
+  previousSortObject: { sortKey, order };
+
+  sortChanged(sortObject: { sortKey, order }) {
+    if (!sortObject) {
+      delete this.previousSortObject;
+      this.sortTargets();
+    }
+    let key = sortObject.sortKey;
+    let order = sortObject.order;
+    if (key === this.previousSortObject?.sortKey) {
+      order = this.swapOrder(this.previousSortObject.order);
+    }
+    this.sortTargets(key, order);
+  }
+
+  toggleSortOrder(){
+    this.sortTargets(this.previousSortObject.sortKey, this.swapOrder(this.previousSortObject.order));
+  }
+
+  sortTargets(sortKey?: string, direction?: string): void {
+    this.previousSortObject = {sortKey: sortKey, order: direction};
+    if (sortKey) {
+      const prefix = direction == 'asc' ? '^' : '!';
+      navigationExtras.queryParams = {
+        sortColumn: prefix + sortKey,
+        page: null
+      };
+    } else {
+      navigationExtras.queryParams = {
+        sortColumn: null,
+        page: null
+      };
+    }
+    this._navigate(navigationExtras);
+  }
+
+  swapOrder(order: string) {
+    if (order === "desc") {
+      return "asc";
+    }
+    return "desc";
+  }
+
+  loggedIn = false;
   user: any;
 
   /**
@@ -233,11 +213,13 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
 
 
     this._data
-    // listen to data as long as term is undefined or null
+      // listen to data as long as term is undefined or null
       .pipe(
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
+        this.ppiTarget = this._route.snapshot.queryParamMap.get("ppiTarget");
+        this.sortMap = (!!this.ppiTarget) ? this.ppiSortMap : this.defautlSortMap;
         if (this.data && this.data.targets) {
           this.pageData = new PageData({
             top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,
@@ -245,18 +227,9 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
             total: this.data.count
           });
           this.targets = this.data.targets;
-          this.targetObjs = this.data.targetsProps;
           this.ref.detectChanges();
         }
       });
-  }
-
-  /**
-   * send table sort event to emitter, external component handles sorting
-   * @param $event
-   */
-  changeSort($event): void {
-    this.sortChange.emit($event);
   }
 
   /**
@@ -264,19 +237,9 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * @param $event
    */
   changePage($event): void {
-    this.paginationChanges($event);
-    // this.pageChange.emit($event);
-  }
-
-
-  /**
-   * change pages of list
-   * @param event
-   */
-  paginationChanges(event: any) {
     navigationExtras.queryParams = {
-      page: event.pageIndex + 1,
-      rows: event.pageSize
+      page: $event.pageIndex + 1,
+      rows: $event.pageSize
     };
     this._navigate(navigationExtras);
   }
@@ -339,7 +302,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * todo: implement
    */
   createTopic() {
-    const targetList = this.rowSelection.selected.map(target => target = target.accession.term);
+    const targetList = this.rowSelection.selected.map(target => target = target.accession);
     const dialogRef = this.dialog.open(TopicSaveModalComponent, {
         height: '50vh',
         width: '50vw',
@@ -369,7 +332,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * todo: implement
    */
   saveTargets() {
-    const targetList = this.rowSelection.selected.map(target => target = target.accession.term);
+    const targetList = this.rowSelection.selected.map(target => target = target.accession);
     const dialogRef = this.dialog.open(BatchUploadModalComponent, {
         height: '50vh',
         width: '50vw',
@@ -395,7 +358,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   saveQuery() {
-    const targetList = this.rowSelection.selected.map(target => target = target.accession.term);
+    const targetList = this.rowSelection.selected.map(target => target = target.accession);
     const dialogRef = this.dialog.open(BatchUploadModalComponent, {
         height: '50vh',
         width: '50vw',
@@ -412,6 +375,66 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     dialogRef.afterClosed().subscribe(result => {
 
     });
+  }
+
+  getSelected(target: Target) {
+    return this.rowSelection.selected.find(t => {
+      return t._tcrdid == target._tcrdid;
+    });
+  }
+
+  isSelected(target: Target): boolean {
+    return !!this.getSelected(target);
+  }
+
+  updateTargetSelection(target: Target, selected?: any) {
+    if (selected) {
+      if (!this.isSelected(target)) {
+        this.rowSelection.select(target);
+      }
+    } else {
+      this.rowSelection.deselect(this.getSelected(target));
+    }
+  }
+
+  toggleAll($event: any) {
+    if ($event.checked) {
+      this.targets.forEach(t => {
+        if (!this.isSelected(t)) {
+          this.rowSelection.select(t)
+        }
+      });
+    } else {
+      this.rowSelection.clear();
+      // this.targets.forEach(t => {
+      //   this.rowSelection.deselect(this.getSelected(t));
+      // });
+    }
+  }
+
+  selectionTooltip(): string {
+    return this.rowSelection.selected.map(t => {
+      return t.gene || t.accession;
+    }).join(', ');
+  }
+
+  allSelected(): boolean {
+    return this.countPageSelections() === this.targets.length;
+  }
+
+  someSelected(): boolean {
+    let pageCount = this.countPageSelections();
+    return pageCount > 0 && pageCount < this.targets.length;
+  }
+
+  countPageSelections() {
+    let count = 0;
+    for (let i = 0; i < this.targets.length; i++) {
+      if (this.isSelected(this.targets[i])) {
+        count++;
+      }
+    }
+    return count;
   }
 
   setSelectedTargets(selection) {

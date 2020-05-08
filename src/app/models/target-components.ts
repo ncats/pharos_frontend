@@ -159,6 +159,15 @@ export const TARGETLISTFIELDS = gql`
     idgTDL: tdl
     novelty
     description
+    interactionDetails: ppiTargetInteractionDetails{
+      ppitypes
+      interaction_type
+      evidence
+      score
+      p_ni
+      p_int
+      p_wrong
+    }
     uniProtFunction: props (name: "UniProt Function"){
       value
     }
@@ -195,6 +204,10 @@ const TARGET_PPI_QUERY = gql`
     targets: target(q: { sym: $term, uniprot: $term, stringid: $term }) {
       ...targetsListFields
       ppis (top: $ppistop, skip: $ppisskip){
+        props{
+          name
+          value
+        }
         target{
           ...targetsListFields
         }
@@ -280,6 +293,10 @@ export const TARGETDETAILSFIELDS = gql`
       name
     }
     ppis (top: $ppistop, skip: $ppisskip){
+      props{
+        name
+        value
+      }
       target{
         ...targetsListFields
       }

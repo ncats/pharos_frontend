@@ -1,29 +1,29 @@
-<div class ="close-button" [dir]="'rtl'">
+<div class="close-button" [dir]="'rtl'">
   <button mat-icon-button (click)="toggleMenu(false)" class="close-button">
     <mat-icon>close</mat-icon>
   </button>
 </div>
-<div class = "help-panel-content" *ngIf="sources && sources.length > 0">
-<!--<div fxLayout="row" class = "search-row">
-  <div fxFlex>
-  <mat-form-field class = "full-width-field" [floatLabel] = "'never'">
-    <input matInput
-           placeholder="search help"
-           (keyup.enter)="search()"
-           aria-label="Search"
-           [formControl]="searchCtrl"
-           class ="input-field">
-    <button mat-button mat-icon-button matSuffix aria-label="search"><mat-icon>search</mat-icon></button>
-  </mat-form-field>
-</div>
-</div>-->
+<div class="help-panel-content" *ngIf="sources && sources.length > 0">
+  <!--<div fxLayout="row" class = "search-row">
+    <div fxFlex>
+    <mat-form-field class = "full-width-field" [floatLabel] = "'never'">
+      <input matInput
+             placeholder="search help"
+             (keyup.enter)="search()"
+             aria-label="Search"
+             [formControl]="searchCtrl"
+             class ="input-field">
+      <button mat-button mat-icon-button matSuffix aria-label="search"><mat-icon>search</mat-icon></button>
+    </mat-form-field>
+  </div>
+  </div>-->
 
-  <div class = "description-row">
+  <div class="description-row">
     <div fxLayout="row" fxLayoutAlign="start center">
-      <span class = "mat-headline"> <strong>{{title}}</strong></span>
+      <span class="mat-headline"> <strong>{{title}}</strong></span>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-around start" *ngIf="description">
-      <div fxFlex = "95">
+      <div fxFlex="95">
         {{description}}
       </div>
     </div>
@@ -35,49 +35,52 @@
       <mat-expansion-panel-header>
         <span class="mat-headline">Descriptions and Definitions</span>
       </mat-expansion-panel-header>
-        <ng-template matExpansionPanelContent *ngIf=" sources.length">
-          <div class = "description-row"  *ngFor="let source of sources; let i = index;">
+      <ng-template matExpansionPanelContent *ngIf="sources.length">
+        <div class="description-row" *ngFor="let source of sources; let i = index;">
+          <div *ngIf="source.label">
             <div fxLayout="row" fxLayoutAlign="start center">
-            <span class = "mat-subheading-1"> <strong>{{source.label}}:</strong></span>
-          </div>
-          <div fxLayout="row" fxLayoutAlign="space-around start">
-            <div fxFlex = "95">
-              <p class="mat-body">{{source.description}}</p>
-              <button *ngIf="source.article && !opened[i]" mat-stroked-button [color]="'primary'" (click)="showArticle(source, i)">
-                Learn More...
-              </button>
-              <button *ngIf="source.article && opened[i]" mat-stroked-button [color]="'primary'" (click)="closeArticle(i)">
-                Close
-              </button>
-              <ng-template cdkPortalOutlet>
-              </ng-template>
-              <br>
+              <span class="mat-subheading-1"> <strong>{{source.label}}:</strong></span>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="space-around start">
+              <div fxFlex="95">
+                <p class="mat-body">{{source.description}}</p>
+                <button *ngIf="source.article && !opened[i]" mat-stroked-button [color]="'primary'"
+                        (click)="showArticle(source, i)">
+                  Learn More...
+                </button>
+                <button *ngIf="source.article && opened[i]" mat-stroked-button [color]="'primary'"
+                        (click)="closeArticle(i)">
+                  Close
+                </button>
+                <ng-template cdkPortalOutlet>
+                </ng-template>
+                <br>
+              </div>
             </div>
           </div>
-          </div>
-        </ng-template>
+        </div>
+      </ng-template>
     </mat-expansion-panel>
 
-<!--        <mat-expansion-panel [expanded]="true">
-          <mat-expansion-panel-header>
-            <span class="mat-headline">Related Topics</span>
-          </mat-expansion-panel-header>
-          <ng-template matExpansionPanelContent>
+    <!--        <mat-expansion-panel [expanded]="true">
+              <mat-expansion-panel-header>
+                <span class="mat-headline">Related Topics</span>
+              </mat-expansion-panel-header>
+              <ng-template matExpansionPanelContent>
 
-          </ng-template>
-        </mat-expansion-panel>-->
+              </ng-template>
+            </mat-expansion-panel>-->
 
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <span class="mat-headline">Raw Data</span>
-          </mat-expansion-panel-header>
-          <ng-template matExpansionPanelContent>
-            <div fxLayout="row" class = "search-row">
-              <ngx-json-viewer [json] = rawData></ngx-json-viewer>
-            </div>
-          </ng-template>
-        </mat-expansion-panel>
-
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <span class="mat-headline">Raw Data</span>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <div fxLayout="row" class="search-row">
+          <ngx-json-viewer [json]=rawData></ngx-json-viewer>
+        </div>
+      </ng-template>
+    </mat-expansion-panel>
 
 
   </mat-accordion>

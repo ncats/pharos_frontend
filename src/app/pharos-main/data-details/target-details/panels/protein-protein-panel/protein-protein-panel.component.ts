@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {HttpClient} from '@angular/common/http';
@@ -12,6 +20,7 @@ import {PageEvent} from '@angular/material/paginator';
 import {ActivatedRoute} from '@angular/router';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {TargetComponents} from "../../../../../models/target-components";
+import {DataProperty} from "../../../../../tools/generic-table/components/property-display/data-property";
 
 /**
  * shows a list of protein to protein interactions for a target
@@ -62,8 +71,8 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
    */
   ngOnInit() {
     this._data
-    // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
+      // listen to data as long as term is undefined or null
+      // Unsubscribe once term has value
       .pipe(
         takeUntil(this.ngUnsubscribe)
       )
@@ -83,18 +92,37 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
       ppistop: event.pageSize,
       ppisskip: event.pageIndex * event.pageSize,
     };
-    this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, TargetComponents.Component.ProteinProteinInteractions).subscribe(res => {
-      const retTarget: any = res.data.targets.target ? res.data.targets.target : res.data.targets;
-      if (retTarget.ppiCount.length > 0) {
-        retTarget.ppiCount = retTarget.ppiCount.reduce((prev, cur) => prev + cur.value, 0);
-      }
-      retTarget.ppis = retTarget.ppis.map(ppi => {
-        return ppi.target ? ppi.target : ppi;
-      });
-      this.target = retTarget;
-      this.loading = false;
-      this.changeRef.markForCheck();
-    });
+    this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, TargetComponents.Component.ProteinProteinInteractions)
+      .subscribe({next: res => {
+        try {
+          const retTarget: any = res.data.targets.target ? res.data.targets.target : res.data.targets;
+          if (retTarget.ppiCount.length > 0) {
+            retTarget.ppiCount = retTarget.ppiCount.reduce((prev, cur) => Math.max(prev, cur.value), 0);
+          }
+          retTarget.ppis = retTarget.ppis.map(ppi => {
+            if(!ppi.target) {return ppi;}
+            ppi.target.properties = [];
+            for (let j = 0; j < ppi.props.length; j++) {
+              ppi.target.properties.push(
+                new DataProperty(
+                  {label: ppi.props[j].name, term: ppi.props[j].value}
+                )
+              );
+            }
+            return ppi.target;
+          });
+
+          this.target = retTarget;
+          this.loading = false;
+          this.changeRef.markForCheck();
+        }
+        catch(e){
+          throw(e);
+        }
+      },
+      error: (err) => {
+        throw err;
+      }});
   }
 
   /**

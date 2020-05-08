@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@ang
 import {concat, from, Observable, of, zip} from 'rxjs';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
-import {concatMap, map, mergeMap, take, zipAll} from 'rxjs/internal/operators';
+import {catchError, concatMap, map, mergeMap, take, zipAll} from 'rxjs/internal/operators';
 import {PharosBase, Serializer} from '../../models/pharos-base';
 import {Facet} from '../../models/facet';
 import {SelectedFacetService} from '../data-list/filter-panel/selected-facet.service';
@@ -21,10 +21,10 @@ export class DataListResolver implements Resolve<Observable<any>> {
    * @param {PharosApiService} pharosApiService
    */
   constructor(
-              private loadingService: LoadingService,
-              private router: Router,
-              private targetListService: TargetListService,
-              private pharosApiService: PharosApiService) {
+    private loadingService: LoadingService,
+    private router: Router,
+    private targetListService: TargetListService,
+    private pharosApiService: PharosApiService) {
   }
 
   /**
@@ -55,8 +55,12 @@ export class DataListResolver implements Resolve<Observable<any>> {
               return tobj;
             });
             return res.data.batch.results;
+          }),
+          catchError(err => {
+            alert(JSON.stringify(err));
+            return null;
           })
-          );
+        );
       return docidObs;
     } else {
       return this.pharosApiService.getGraphQlData(route, navigation.extras.state)
@@ -64,12 +68,16 @@ export class DataListResolver implements Resolve<Observable<any>> {
           map(res => {
             res.data.batch.results.facets = res.data.batch.results.facets.map(facet => new Facet(facet));
             res.data.batch.results[`${[route.data.path]}Props`] = [];
-            res.data.batch.results[route.data.path].map(obj => {
+            res.data.batch.results[route.data.path] = res.data.batch.results[route.data.path].map(obj => {
               const tobj = serializer.fromJson(obj);
               res.data.batch.results[`${[route.data.path]}Props`].push(serializer._asProperties(tobj));
               return tobj;
             });
             return res.data.batch.results;
+          }),
+          catchError(err => {
+            alert((err.message || "no message") + "\n" + (err.stack || "no stack trace"));
+            return null;
           })
         );
     }

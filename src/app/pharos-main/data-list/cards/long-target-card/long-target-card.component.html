@@ -1,0 +1,36 @@
+<mat-card *ngIf="target" class="container">
+  <mat-card-content>
+    <div class="">
+      <div fxFlex="95" class="toprow">
+        <mat-checkbox *ngIf="loggedIn" (click)="$event.stopPropagation()"
+                      (change)="$event ? this.toggleSelection($event) : null"
+                      [checked]="this.selected">
+        </mat-checkbox>
+        <pharos-idg-level-indicator [level]="target.idgTDL" [matTooltip]="getTooltip('tdl')"></pharos-idg-level-indicator>
+        <span class="mat-card-title" [matTooltip]="'See details for ' + target.gene"
+             routerLink='/targets/{{target.accession}}' target="_blank">
+          {{target?.name}}
+        </span>
+      </div>
+      <div>
+        <pharos-help-panel-trigger [origin]="'targetList'"></pharos-help-panel-trigger>
+      </div>
+    </div>
+    <div class="target-details">
+      <div class="section">
+        <pharos-gene-details [target]="target" [apiSources]="apiSources"></pharos-gene-details>
+      </div>
+      <div class="section">
+        <pharos-knowledge-metrics [target]="target" [apiSources]="apiSources"></pharos-knowledge-metrics>
+      </div>
+      <div class="section interaction_details" *ngIf="target.interactionDetails">
+        <pharos-interaction-details [target]="target" [apiSources]="apiSources"></pharos-interaction-details>
+      </div>
+      <div class="section radar-chart">
+        <mat-card-subtitle>Illumination Graph</mat-card-subtitle>
+        <pharos-radar-chart [size]="'small'"
+                            *ngIf=target.hgdata [data]="[target.hgdata]" [matTooltip]="getTooltip('illuminationGraph')"></pharos-radar-chart>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
