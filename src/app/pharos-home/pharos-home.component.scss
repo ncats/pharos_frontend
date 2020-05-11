@@ -55,6 +55,12 @@ button.more-topics.mat-fab.mat-primary:hover {
   color: papayawhip;
 }
 
+@-moz-document url-prefix() {
+  .devMode li{
+    list-style: none;
+  }
+}
+
 .toi-grid-list {
   display: grid;
   grid-template-columns: 22vw 22vw 22vw 22vw 5vw;
