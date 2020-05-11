@@ -54,38 +54,38 @@ export class SplitAtDelimiters {
     const finalData = [];
 
     startData.forEach( text => {
-      if (text === 'text') {
+      if (text.type === 'text') {
         let lookingForLeft = true;
         let currIndex = 0;
         let nextIndex;
 
-        nextIndex = text.indexOf(leftDelim);
+        nextIndex = text.data.indexOf(leftDelim);
         if (nextIndex !== -1) {
           currIndex = nextIndex;
           finalData.push({
             type: 'text',
-            data: text.slice(0, currIndex),
+            data: text.data.slice(0, currIndex),
           });
           lookingForLeft = false;
         }
 
         while (true) {
           if (lookingForLeft) {
-            nextIndex = text.indexOf(leftDelim, currIndex);
+            nextIndex = text.data.indexOf(leftDelim, currIndex);
             if (nextIndex === -1) {
               break;
             }
 
             finalData.push({
               type: 'text',
-              data: text.slice(currIndex, nextIndex),
+              data: text.data.slice(currIndex, nextIndex),
             });
 
             currIndex = nextIndex;
           } else {
             nextIndex = this.findEndOfMath(
               rightDelim,
-              text,
+              text.data,
               currIndex + leftDelim.length);
             if (nextIndex === -1) {
               break;
@@ -93,10 +93,10 @@ export class SplitAtDelimiters {
 
             finalData.push({
               type: 'math',
-              data: text.slice(
+              data: text.data.slice(
                 currIndex + leftDelim.length,
                 nextIndex),
-              rawData: text.slice(
+              rawData: text.data.slice(
                 currIndex,
                 nextIndex + rightDelim.length),
               display,
@@ -110,7 +110,7 @@ export class SplitAtDelimiters {
 
         finalData.push({
           type: 'text',
-          data: text.slice(currIndex),
+          data: text.data.slice(currIndex),
         });
       } else {
         finalData.push(text);
