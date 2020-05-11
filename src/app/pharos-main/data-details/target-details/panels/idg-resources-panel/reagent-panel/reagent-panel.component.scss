@@ -32,3 +32,9 @@ ncats-property-display{
   word-wrap: break-word;
   word-break: break-word;
 }
+
+@-moz-document url-prefix() {
+  .display-props li, .reagent-data li, .resource-data li {
+    list-style: none;
+  }
+}

@@ -17,7 +17,7 @@
                                             alt="image for {{displayName()}}" class="resource-thumb"></ng-template>
       </div>
     </div>
-    <div fxFlex="66">
+    <div fxFlex="66" class="resource-data">
       <ul>
         <li *ngFor="let prop of dataResource.displayProperties">
           <ncats-property-display [property]="prop" [showLabel]="true"></ncats-property-display>
