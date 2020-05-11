@@ -6,6 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build pharos --prod",
+    "postbuild" : "node ./delete_unused_katex_fonts.js",
     "test": "ng test pharos --code-coverage",
     "lint": "ng lint pharos",
     "lintfix": "ng lint pharos --fix",
