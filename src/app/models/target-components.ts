@@ -355,7 +355,7 @@ export const TARGETDETAILSFIELDS = gql`
       term
       mimid
     }
-    expressions (top: 1000, filter: {
+    expressions (top: 10000, filter: {
       facets: [
         {
           facet: "type"
