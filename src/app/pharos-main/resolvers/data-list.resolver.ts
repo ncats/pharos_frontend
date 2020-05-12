@@ -49,7 +49,7 @@ export class DataListResolver implements Resolve<Observable<any>> {
           map(res => {
             res.data.batch.results.facets = res.data.batch.results.facets.map(facet => new Facet(facet));
             res.data.batch.results[`${[route.data.path]}Props`] = [];
-            res.data.batch.results[route.data.path].map(obj => {
+            res.data.batch.results[route.data.path] = res.data.batch.results[route.data.path].map(obj => {
               const tobj = serializer.fromJson(obj);
               res.data.batch.results[`${[route.data.path]}Props`].push(serializer._asProperties(tobj));
               return tobj;
