@@ -200,8 +200,8 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
    */
   setterFunction() {
     this.targetProps.expressions.forEach(expression => {
-      if (expression.uberon && expression.uberon.term) {
-        const uberon = expression.uberon.term.uid;
+      if (expression.uberon && expression.uberon.uid && expression.uberon.uid.term) {
+        const uberon = expression.uberon.uid.term;
         this.tissues.push(uberon.replace(':', '_'));
         const uberons = this.uberonMap.get(uberon);
         if (uberons) {
@@ -225,9 +225,9 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     return exprArr.map(expressions => {
       const expressionSource: ExpressionTreeNode = {
         name: new DataProperty({
-          name: expressions[0].uberon.term.name,
-          term: expressions[0].uberon.term.name,
-          label: expressions[0].uberon.term.uid
+          name: expressions[0].uberon.name.term,
+          term: expressions[0].uberon.name.term,
+          label: expressions[0].uberon.uid.term
         }),
         children: [
           ...expressions.map(da => da = {name: da.type, children: Object.values(da as DataProperty[]).filter(prop => {
