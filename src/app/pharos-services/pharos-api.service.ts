@@ -355,7 +355,7 @@ export class PharosApiService {
   getVariablesForFacetQuery(path: string, params: ParamMap) {
     let map = this._mapVariables(path, params);
     if (map?.filter?.facets) {
-      map.filter.facets = map.filter.facets.filter(f => f.facet != "query" && f.facet != "collection" && f.facet != "ppiTarget");
+      map.filter.facets = map.filter.facets.filter(f => f.facet != "query" && f.facet != "collection" && f.facet != "associatedTarget");
     }
     return map
   }
@@ -543,9 +543,9 @@ export class PharosApiService {
               ret.filter = filter;
               break;
             }
-            case 'ppiTarget':{
+            case 'associatedTarget':{
               const filter: any = ret.filter ? ret.filter : {};
-              filter.ppiTarget = val;
+              filter.associatedTarget = val;
               ret.filter = filter;
               break;
             }
