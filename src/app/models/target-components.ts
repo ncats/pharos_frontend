@@ -9,6 +9,8 @@ const DISEASE_FIELDS = gql`
     name
     associationCount
     associations {
+      did
+      drug
       type
       name
       source

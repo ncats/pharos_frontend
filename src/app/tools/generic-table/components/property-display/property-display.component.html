@@ -9,7 +9,7 @@
     *ngIf="property.internalLink; then facet; else externalLink">
   </ng-container>
   <ng-template #facet>
-    <a [routerLink] = property.internalLink [queryParams]="property?.queryParams">{{property.term}}</a>
+    <a [routerLink] = property.internalLink [queryParams]="property?.queryParams" [matTooltip]="property.tooltip">{{property.term}}</a>
     <!--<a href="{{property.internalLink}}">{{property.getData()}}</a>-->
   </ng-template>
   <ng-template #externalLink>
