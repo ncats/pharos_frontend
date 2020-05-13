@@ -62,7 +62,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   /**
    * holds the gene that is used as the binding partner for the current target list
    */
-  ppiTarget: String = "";
+  associatedTarget: String = "";
 
   /**
    * main list of paginated targets
@@ -218,8 +218,8 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        this.ppiTarget = this._route.snapshot.queryParamMap.get("ppiTarget");
-        this.sortMap = (!!this.ppiTarget) ? this.ppiSortMap : this.defautlSortMap;
+        this.associatedTarget = this._route.snapshot.queryParamMap.get("associatedTarget");
+        this.sortMap = (!!this.associatedTarget) ? this.ppiSortMap : this.defautlSortMap;
         if (this.data && this.data.targets) {
           this.pageData = new PageData({
             top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,

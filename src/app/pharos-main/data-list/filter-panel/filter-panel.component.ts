@@ -115,7 +115,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
       if (user) {
         // User is signed in.
         this.user = user;
-        if (user.data().collection) {
+        if (user.data().collection && this._route.snapshot.data.path === 'targets') {
           const customFacets = new Facet({
             facet: 'collection',
             label: 'Custom Collections',
