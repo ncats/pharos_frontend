@@ -229,7 +229,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     }
     if (axis === 'y') {
       range[0] = this.height;
-      range[1] = 0;
+      range[1] = this.height * .15;
     }
 
     switch (type) {

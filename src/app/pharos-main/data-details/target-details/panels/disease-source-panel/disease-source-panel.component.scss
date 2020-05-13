@@ -2,27 +2,13 @@
     padding-bottom: 8vh;
   }
 
-  .disease-tree-invisible {
-    display: none;
-  }
-
-  .disease-tree ul,
-  .disease-tree li {
-    margin-top: .5vh;
-    margin-bottom: .5vh;
-    list-style-type: none;
-  }
-
-  .tree-leaf {
-    display: flex;
-    align-items: center;
-  }
-
   .scatter-plot-holder {
     height: 20vh;
     width: 65vw;
   }
-
+  .disease-card-container{
+    padding-bottom: 3vh;
+  }
   .tinx {
     padding-top: 2vh;
     padding-bottom: 5vh;
