@@ -1,15 +1,15 @@
 <div fxLayout="row" fxLayoutAlign="center center" *ngIf= "details === 'brain'; else body">
   <div fxFlex="95">
-      <ncats-anatomogram-image [species]="species" [details]="'brain'" [tissues]="tissues"></ncats-anatomogram-image>
+      <ncats-anatomogram-image [species]="species" [details]="'brain'" [tissues]="tissues" (tissueClick)="this.handleClicks($event)"></ncats-anatomogram-image>
     </div>
 </div>
 <ng-template #body>
   <div fxLayout="row" fxLayoutAlign="center center">
   <div fxFlex="50">
-      <ncats-anatomogram-image [species]="species" [details]="'female'" [tissues]="tissues"></ncats-anatomogram-image>
+      <ncats-anatomogram-image [species]="species" [details]="'female'" [tissues]="tissues" (tissueClick)="this.handleClicks($event)"></ncats-anatomogram-image>
     </div>
   <div fxFlex="50">
-    <ncats-anatomogram-image [species]="species" [details]="'male'" [tissues]="tissues"></ncats-anatomogram-image>
+    <ncats-anatomogram-image [species]="species" [details]="'male'" [tissues]="tissues" (tissueClick)="this.handleClicks($event)"></ncats-anatomogram-image>
   </div>
 </div>
 </ng-template>
