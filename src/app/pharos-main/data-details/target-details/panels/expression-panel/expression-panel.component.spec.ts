@@ -57,7 +57,6 @@ describe('ExpressionPanelComponent', () => {
     fixture = TestBed.createComponent(ExpressionPanelComponent);
     component = fixture.componentInstance;
     component.apiSources = [{label: '', field: '', description: ''}];
-    component.sources = [];
     component.data = {targets: TESTTARGET, targetsProps: TESTTARGETPROPS};
     fixture.detectChanges();
   });
