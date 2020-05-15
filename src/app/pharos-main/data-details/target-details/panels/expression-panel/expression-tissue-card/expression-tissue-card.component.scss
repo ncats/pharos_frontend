@@ -1,0 +1,25 @@
+.header-helptext{
+  padding-left: 1vw;
+  font-weight: 300;
+  opacity: 1;
+  top: 0;
+  position: relative;
+  transition: all .25s linear;
+}
+
+.hidden{
+  top: 2vh;
+  opacity: 0;
+}
+
+.table-search{
+  width:100%;
+}
+
+.expression-grid{
+  display: grid;
+  grid-auto-rows: max-content;
+  grid-template-columns: repeat(auto-fill, minmax(48%, 1fr));
+  grid-gap: 1em;
+  padding-left: 1vw;
+}

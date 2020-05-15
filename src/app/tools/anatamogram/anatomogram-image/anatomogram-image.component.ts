@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import * as d3 from 'd3';
 
 /**
@@ -32,7 +32,13 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
   @Input() tissues: string[];
 
   /**
-   * zoom functino to be set on init, seeting it in scope here allows other methods to call it
+   * event emitter for click events
+   * @type {EventEmitter<any>}
+   */
+  @Output() readonly tissueClick: EventEmitter<any> = new EventEmitter<any>();
+
+  /**
+   * zoom function to be set on init, seeting it in scope here allows other methods to call it
    */
   zoom;
 
@@ -46,7 +52,7 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
    */
   hovered: string;
 
-  id =  Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+  id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
   /**
    * no args constructor
@@ -62,7 +68,7 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
     const imageUrl = `./assets/images/svgs/${this.species}.${this.details}.svg`;
     d3.xml(imageUrl).then(data => {
       d3.select(this.anatamogram.nativeElement).node().append(data.documentElement);
-      this.svg = d3.select('#anatamogram').attr('id', this.id) ;
+      this.svg = d3.select('#anatamogram').attr('id', this.id);
 
       /**
        * zoom function called
@@ -88,13 +94,13 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
     });
   }
 
-    /**
-     * iterate over the tissue ids and find them in d3
-     * every path in the parent needs to be selected, since the tissues cna be made of multiple paths
-     * set mouseover and mouseout funcitons on each tissue to cover selection and hover changes
-     */
-    updateImage() {
-      this.tissues.forEach(tissue => this.svg.select(`#${tissue}`).selectAll('path')
+  /**
+   * iterate over the tissue ids and find them in d3
+   * every path in the parent needs to be selected, since the tissues cna be made of multiple paths
+   * set mouseover and mouseout funcitons on each tissue to cover selection and hover changes
+   */
+  updateImage() {
+    this.tissues.forEach(tissue => this.svg.select(`#${tissue}`).selectAll('path')
       .on('mouseover', (d, i, f) => d3.select(f[i].parentNode).selectAll('path')
         .style('stroke', 'rgba(255, 178, 89, 1')
         .style('stroke-width', '.5')
@@ -111,12 +117,15 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
       .style('fill', 'rgba(35, 54, 78, .4'));
 
     this.tissues.forEach(tissue => this.svg.select(`#${tissue}`)
-      .on('mouseover', (d, i, f) => d3.select(f[i].parentNode)
+      .on('click', (d, i, f) => {
+        this.tissueClick.emit(tissue);
+      }, tissue, this.tissueClick)
+      .on('mouseover', (d, i, f) => d3.select(f[i])
         .style('stroke', 'rgba(255, 178, 89, 1')
         .style('stroke-width', '.5')
         .style('fill', 'rgba(255, 178, 89, 1')
       )
-      .on('mouseout', (d, i, f) => d3.select(f[i].parentNode)
+      .on('mouseout', (d, i, f) => d3.select(f[i])
         .style('stroke', 'rgba(35, 54, 78, .4')
         .style('stroke-width', '.5')
         .style('fill', 'rgba(35, 54, 78, .4'))
@@ -128,7 +137,7 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(change: any) {
-    if(change.tissues && !change.tissues.firstChange) {
+    if (change.tissues && !change.tissues.firstChange) {
       this.updateImage();
     }
   }
