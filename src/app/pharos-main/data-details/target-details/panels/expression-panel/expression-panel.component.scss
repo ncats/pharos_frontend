@@ -1,25 +1,4 @@
 
-.radarchart {
-  height: 30vh;
-}
-
-
-.disease-tree-invisible {
-  display: none;
-}
-
-.disease-tree ul,
-.disease-tree li {
-  margin-top: .5vh;
-  margin-bottom: .5vh;
-  list-style-type: none;
-}
-
-.tree-leaf {
-  display: flex;
-  align-items: center;
-}
-
 .full-height {
 /*  align-self: stretch;
   justify-self: stretch;
@@ -39,4 +18,13 @@ img.hg {
 }
 }
 
+.alphabetize-button{
+  border: none;
+  margin-left: 1vw;
+}
 
+.expression-card-list{
+  height: 550px;
+  overflow: scroll;
+  transition: scrollTop 2s linear;
+}

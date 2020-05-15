@@ -22,18 +22,18 @@
                                      [label]="'Disease Sources'"></pharos-help-panel-trigger>
         </div>
       </div>
-<!--      <div>-->
-<!--        <ul>-->
-<!--          <li>-->
-<!--            <ncats-property-display class="mat-title" [showLabel]="false"-->
-<!--                                    matTooltip="Open the disease list with the associated diseases"-->
-<!--                                    matTooltipClass="pharos-tooltip"-->
-<!--                                    matTooltipPosition="after"-->
-<!--                                    [property]="{term:'Explore Associated Diseases', internalLink:'/diseases', queryParams:{associatedTarget:target.gene}}">-->
-<!--            </ncats-property-display>-->
-<!--          </li>-->
-<!--        </ul>-->
-<!--      </div>-->
+      <div>
+        <ul>
+          <li>
+            <ncats-property-display class="mat-title" [showLabel]="false"
+                                    matTooltip="Open the disease list with the associated diseases"
+                                    matTooltipClass="pharos-tooltip"
+                                    matTooltipPosition="after"
+                                    [property]="{term:'Explore Associated Diseases', internalLink:'/diseases', queryParams:{associatedTarget:target.accession}}">
+            </ncats-property-display>
+          </li>
+        </ul>
+      </div>
       <div fxLayout="row" fxLayout.lt-md="column" class="tkrow" fxLayoutAlign="space-around stretch">
         <div fxFlex="95" class="disease-card-container">
           <mat-paginator

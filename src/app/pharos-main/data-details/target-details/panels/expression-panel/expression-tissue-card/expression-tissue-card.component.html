@@ -1,0 +1,19 @@
+<mat-expansion-panel (closed)="this.collapsed=true" (opened)="this.collapsed=false" [expanded]="this.clickedTissue == tissueExpressionSources[0].uberon.uid" [attr.id]="'panel-' + tissueExpressionSources[0].uberon.uid">
+  <mat-expansion-panel-header (mouseover)="this.setHover(tissueExpressionSources[0].uberon.uid)" (mouseleave)="this.setHover(null)">
+    {{tissueExpressionSources[0].uberon.name}}
+    <div class="header-helptext" [ngClass]="{'hidden': !this.collapsed}" matTooltip="Data sources for this tissue. Click for details.">{{this.tissueSourceString(tissueExpressionSources)}}</div>
+  </mat-expansion-panel-header>
+  <div class="expression-grid">
+    <div *ngFor="let exp of tissueExpressionSources">
+      <mat-card-subtitle>{{exp.type}}</mat-card-subtitle>
+      <ul>
+        <li  *ngIf="exp.tissue" ><ncats-property-display [property]="{label:'Tissue' ,term:exp.tissue}"></ncats-property-display></li>
+        <li  *ngIf="exp.qual" ><ncats-property-display [property]="{label:'Quality' ,term:exp.qual}"></ncats-property-display></li>
+        <li  *ngIf="exp.value" ><ncats-property-display [property]="{label:'Value' ,term:exp.value}"></ncats-property-display></li>
+        <li  *ngIf="exp.evidence" ><ncats-property-display [property]="{label:'Evidence' ,term:exp.evidence}"></ncats-property-display></li>
+        <li  *ngIf="exp.zscore" ><ncats-property-display [property]="{label:'zscore' ,term:exp.zscore}"></ncats-property-display></li>
+        <li  *ngIf="exp.conf" ><ncats-property-display [property]="{label:'Confidence' ,term:exp.conf}"></ncats-property-display></li>
+      </ul>
+    </div>
+  </div>
+</mat-expansion-panel>

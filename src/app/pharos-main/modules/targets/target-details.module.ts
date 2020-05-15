@@ -9,6 +9,7 @@ import {DiseaseSourceComponent} from '../../data-details/target-details/panels/d
 import {DiseaseCardComponent} from "../../data-details/target-details/panels/disease-source-panel/disease-card/disease-card.component";
 import {DiseaseAssociationComponent} from "../../data-details/target-details/panels/disease-source-panel/disease-association/disease-association.component";
 import {ExpressionPanelComponent} from '../../data-details/target-details/panels/expression-panel/expression-panel.component';
+import {ExpressionTissueCardComponent} from "../../data-details/target-details/panels/expression-panel/expression-tissue-card/expression-tissue-card.component";
 import {AaSequencePanelComponent} from '../../data-details/target-details/panels/aa-sequence-panel/aa-sequence-panel.component';
 import {ProteinProteinPanelComponent} from '../../data-details/target-details/panels/protein-protein-panel/protein-protein-panel.component';
 import {OrthologPanelComponent} from '../../data-details/target-details/panels/expression-panel/ortholog-panel/ortholog-panel.component';
@@ -35,6 +36,7 @@ import {HelpPanelComponent} from '../../../tools/help-panel/help-panel.component
 import {SidenavPanelComponent} from '../../../tools/sidenav-panel/sidenav-panel.component';
 import {PublicationStatisticsComponent} from '../../data-details/target-details/panels/publication-statistics/publication-statistics.component';
 import {RelatedPublicationsComponent} from '../../data-details/target-details/panels/related-publications/related-publications.component';
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 @NgModule({
   declarations: [
@@ -48,6 +50,7 @@ import {RelatedPublicationsComponent} from '../../data-details/target-details/pa
     PublicationStatisticsComponent,
     RelatedPublicationsComponent,
     ExpressionPanelComponent,
+    ExpressionTissueCardComponent,
     AaSequencePanelComponent,
     ProteinProteinPanelComponent,
     OrthologPanelComponent,
@@ -70,11 +73,13 @@ import {RelatedPublicationsComponent} from '../../data-details/target-details/pa
     IdgLevelSummaryModule,
     TargetTableModule,
     LigandListModule,
-    PharosLoadingSpinnerModule
+    PharosLoadingSpinnerModule,
+    MatButtonToggleModule
   ],
   exports: [
     DiseaseCardComponent,
-    DiseaseAssociationComponent
+    DiseaseAssociationComponent,
+    ExpressionTissueCardComponent
   ],
   providers: [
     // breadcrumb

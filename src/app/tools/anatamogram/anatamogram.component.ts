@@ -31,6 +31,13 @@ export class AnatamogramComponent implements OnInit {
    */
   @Input() tissues: string[];
 
+  @Input() clickHandler;
+  handleClicks(event){
+    if(this.clickHandler){
+      this.clickHandler(event);
+    }
+  }
+
   /**
    * View Children gives each instance of the anatamogram image to allow changes in highlighting to happen
    * in the parent component

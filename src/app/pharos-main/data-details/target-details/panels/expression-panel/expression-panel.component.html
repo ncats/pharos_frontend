@@ -1,165 +1,124 @@
 <article>
   <mat-card *ngIf=data
-          class="section-card"
-          id = "expression"
-          (pharosScrollspy)="active('expression')"
-          #expression>
-  <mat-card-content>
-    <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
-      <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
-    </div>
-    <div fxLayout="row"
-         class="tkrow"
-         fxLayoutAlign="start stretch">
-      <div fxFlex="95">
+            class="section-card"
+            id="expression"
+            (pharosScrollspy)="active('expression')"
+            #expression>
+    <mat-card-content>
+      <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+        <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+      </div>
+      <div fxLayout="row"
+           class="tkrow"
+           fxLayoutAlign="start stretch">
+        <div fxFlex="95">
         <span class="mat-title"
-              [matTooltip] = description
-              [matTooltipClass] = "'pharos-tooltip'">
+              [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">
           Expression Data</span>
+        </div>
+        <div fxFlex="5">
+          <pharos-help-panel-trigger [origin]="'expression'" [label]="'Expression Data'"></pharos-help-panel-trigger>
+        </div>
       </div>
-      <div fxFlex="5">
-        <pharos-help-panel-trigger [origin] = "'expression'" [label]="'Expression Data'"></pharos-help-panel-trigger>
-      </div>
-    </div>
-    <div class = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
-      <div fxFlex="95">
-      <mat-tab-group [dynamicHeight]="true" (animationDone)="doneAnimating()" (selectedTabChange)="drawRadar($event)">
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <div
-          [matTooltip] = "getTooltip('expression')"
-          [matTooltipClass] = "'pharos-tooltip'">
-          Human</div>
-        </ng-template>
-    <div fxLayout = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="anatamogram-row">
-      <div fxFlex="48">
-<!--
-        <img class = "hg" src = {{imgUrl}} alt ="representative human image with organs colored by expression">
--->
-        <pharos-anatamogram [tissues]="tissues" [species]="'homo_sapiens'"></pharos-anatamogram>
-      </div>
-      <div fxFlex = "48">
-        <mat-paginator
-          [pageSize]="10"
-          [length]="this.sortedExpressions.length"
-          [hidePageSize]="true"
-          [showFirstLastButtons] = true
-          (page) = paginate($event)
-          #treepaginator></mat-paginator>
-        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="disease-tree">
-          <!-- This is the tree node template for leaf nodes -->
-          <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
-            <ul>
-              <li class="mat-tree-node"  >
-                <!-- use a disabled button to provide padding for tree leaf -->
-                <button mat-icon-button disabled></button>
-                <ncats-property-display [property]="node"></ncats-property-display>
-<!--
-                <span *ngIf = "node.children && node.children.length > 0">({{node.children?.length}})</span>
--->
-              </li>
-            </ul>
-          </mat-tree-node>
-          <!-- This is the tree node template for expandable nodes -->
-          <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
-            <ul>
-              <li>
-                <div class="mat-tree-node">
-                  <button mat-icon-button
-                          matTreeNodeToggle
-                          [attr.aria-label]="'toggle ' + node.name.term">
-                    <mat-icon class="mat-icon-rtl-mirror">
-                      {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-                    </mat-icon>
-                  </button>
-                  <ncats-property-display [property]="node.name" [showLabel]="false"
-                                          (mouseover)="setHover(node)"
-                                          (mouseout)="setHover(null)"
-                                         ></ncats-property-display>
-                  &nbsp;({{node.children.length}} sources)
+      <div class="row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
+        <div fxFlex="95">
+          <mat-tab-group [dynamicHeight]="true">
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <div
+                  [matTooltip]="getTooltip('expression')"
+                  [matTooltipClass]="'pharos-tooltip'">
+                  Human</div>
+              </ng-template>
+              <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="anatamogram-row">
+                <div fxFlex="48">
+                  <!--
+                          <img class = "hg" src = {{imgUrl}} alt ="representative human image with organs colored by expression">
+                  -->
+                  <pharos-anatamogram [tissues]="tissues" [species]="'homo_sapiens'"
+                                      [clickHandler]="this.tissueClicked.bind(this)"></pharos-anatamogram>
                 </div>
-                <ul [class.disease-tree-invisible]="!treeControl.isExpanded(node)">
-                  <ng-container matTreeNodeOutlet></ng-container>
-                </ul>
-              </li>
-            </ul>
-          </mat-nested-tree-node>
-        </mat-tree>
-
-<!--          <mat-tab-group (selectedTabChange)="changeHarminogramTabData($event)" [dynamicHeight]="true">
-            <mat-tab *ngFor="let source of sourceList" label = "{{source.label}} ({{getSourceCount(source.label)}})"  >
-                    <pharos-link-list [list]= hgData [label]=source.label></pharos-link-list>
-&lt;!&ndash;
-              <div *ngFor ="let tissue of tissues" (mouseover)="setHover(tissue)" (mouseout)="setHover()">{{tissue}}</div>
-&ndash;&gt;
-
+                <div fxFlex="48">
+                  <div *ngIf="this.uberonMap.size > 8">
+                    <mat-form-field class="table-search" [attr.id]="'expressionFilter'">
+                      <input matInput (keyup)="filterTissues($event.target.value)" placeholder="Search tissues">
+                    </mat-form-field>
+                    <mat-button-toggle class="alphabetize-button" name="alphabetize" (change)="alphabetize($event)" [value]="this.alphabetized">
+                      <mat-icon matTooltip="Alphabetize tissue list">sort_by_alpha</mat-icon>
+                    </mat-button-toggle>
+                  </div>
+                  <div class="expression-card-list" [attr.id]="'expression-card-list'">
+                    <div *ngFor="let exprSources of this.sortedExpressions">
+                      <pharos-expression-tissue-card [tissueExpressionSources]="exprSources"
+                                                     [clickedTissue]="this.clickedTissue"></pharos-expression-tissue-card>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </mat-tab>
-          </mat-tab-group>-->
-      </div>
-    </div>
-      </mat-tab>
-<!--      <mat-tab label="Mouse">
-    <div fxLayout = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="anatamogram-row">
-      <div fxFlex="50">
-        <pharos-anatamogram [tissues]="tissues" [species]="'mus_musculus'"></pharos-anatamogram>
-      </div>
-      <div fxFlex = "50">
-          <mat-tab-group (selectedTabChange)="changeHarminogramTabData($event)" [dynamicHeight]="true">
-            <mat-tab *ngFor="let source of sourceList" label = "{{source.label}} ({{getSourceCount(source.label)}})"  >
-                    <pharos-link-list [list]= hgData [label]=source.label></pharos-link-list>
+            <!--      <mat-tab label="Mouse">
+                <div fxLayout = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="anatamogram-row">
+                  <div fxFlex="50">
+                    <pharos-anatamogram [tissues]="tissues" [species]="'mus_musculus'"></pharos-anatamogram>
+                  </div>
+                  <div fxFlex = "50">
+                      <mat-tab-group (selectedTabChange)="changeHarminogramTabData($event)" [dynamicHeight]="true">
+                        <mat-tab *ngFor="let source of sourceList" label = "{{source.label}} ({{getSourceCount(source.label)}})"  >
+                                <pharos-link-list [list]= hgData [label]=source.label></pharos-link-list>
+                        </mat-tab>
+                      </mat-tab-group>
+                  </div>
+                </div>
+                  </mat-tab>-->
+            <!--
+                    <mat-tab>
+                      <ng-template mat-tab-label>
+                        <div
+                        [matTooltip] = "getTooltip('specificity')"
+                        [matTooltipClass] = "'pharos-tooltip'">
+                        Specificity</div>
+                      </ng-template>
+                      <div fxLayout = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="radarchart anatamogram-row">
+                        <div fxFlex="50" fxFlexAlign="stretch">
+                         &lt;!&ndash; <pharos-radar-chart
+                            #radar
+                            id ="radar"
+                            [data] = radarData
+                            [shape]="true"
+                            [size] = "'medium-shape'"
+                            [origin]="'expression'"></pharos-radar-chart>&ndash;&gt;
+                      </div>
+                      </div>
+                    </mat-tab>
+            -->
+            <!--
+                    <mat-tab *ngIf=data.differential>
+                      <ng-template mat-tab-label>
+                        <div
+                        [matTooltip] = "getTooltip('differential')"
+                        [matTooltipClass] = "'pharos-tooltip'">
+                        Differential</div>
+                      </ng-template>
+                      <div class="table-holder" fxFlex>
+                        <pharos-differential-panel [data]="data.differential"></pharos-differential-panel>
+                    </div>
+                    </mat-tab>
+            -->
+            <mat-tab *ngIf="target.orthologs && target.orthologCounts > 0">
+              <ng-template mat-tab-label>
+                <div
+                  [matTooltip]="getTooltip('orthologs')"
+                  [matTooltipClass]="'pharos-tooltip'">
+                  Orthologs ({{target.orthologCounts}})</div>
+              </ng-template>
+              <div class="table-holder">
+                <pharos-ortholog-panel [data]=data></pharos-ortholog-panel>
+              </div>
             </mat-tab>
           </mat-tab-group>
-      </div>
-    </div>
-      </mat-tab>-->
-<!--
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <div
-            [matTooltip] = "getTooltip('specificity')"
-            [matTooltipClass] = "'pharos-tooltip'">
-            Specificity</div>
-          </ng-template>
-          <div fxLayout = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="radarchart anatamogram-row">
-            <div fxFlex="50" fxFlexAlign="stretch">
-             &lt;!&ndash; <pharos-radar-chart
-                #radar
-                id ="radar"
-                [data] = radarData
-                [shape]="true"
-                [size] = "'medium-shape'"
-                [origin]="'expression'"></pharos-radar-chart>&ndash;&gt;
-          </div>
-          </div>
-        </mat-tab>
--->
-<!--
-        <mat-tab *ngIf=data.differential>
-          <ng-template mat-tab-label>
-            <div
-            [matTooltip] = "getTooltip('differential')"
-            [matTooltipClass] = "'pharos-tooltip'">
-            Differential</div>
-          </ng-template>
-          <div class="table-holder" fxFlex>
-            <pharos-differential-panel [data]="data.differential"></pharos-differential-panel>
         </div>
-        </mat-tab>
--->
-        <mat-tab *ngIf="target.orthologs && target.orthologCounts > 0">
-          <ng-template mat-tab-label>
-            <div
-            [matTooltip] = "getTooltip('orthologs')"
-            [matTooltipClass] = "'pharos-tooltip'">
-            Orthologs ({{target.orthologCounts}})</div>
-          </ng-template>
-          <div class="table-holder">
-          <pharos-ortholog-panel [data]= data></pharos-ortholog-panel>
-          </div>
-        </mat-tab>
-    </mat-tab-group>
-    </div>
-    </div>
-  </mat-card-content>
-</mat-card>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </article>
