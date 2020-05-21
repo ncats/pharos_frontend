@@ -1,74 +1,144 @@
+/*// These are important and needed before anything else
+import 'zone.js/dist/zone-node';
+import 'reflect-metadata';*/
+
+(global as any).WebSocket = require('ws');
+(global as any).XMLHttpRequest = require('xhr2');
+
+/**
+ * *** NOTE ON IMPORTING FROM ANGULAR AND NGUNIVERSAL IN THIS FILE ***
+ *
+ * If your application uses third-party dependencies, you'll need to
+ * either use Webpack or the Angular CLI's `bundleDependencies` feature
+ * in order to adequately package them for use on the server without a
+ * node_modules directory.
+ *
+ * However, due to the nature of the CLI's `bundleDependencies`, importing
+ * Angular in this file will create a different instance of Angular than
+ * the version in the compiled application code. This leads to unavoidable
+ * conflicts. Therefore, please do not explicitly import from @angular or
+ * @nguniversal in this file. You can export any needed resources
+ * from your application's main.server.ts file, as seen below with the
+ * import for `ngExpressEngine`.
+ */
+
 import 'zone.js/dist/zone-node';
 
-import {ngExpressEngine} from '@nguniversal/express-engine';
 import * as express from 'express';
 import {join} from 'path';
 
-import {AppServerModule} from './src/main.server';
-import {APP_BASE_HREF} from '@angular/common';
-import {existsSync} from 'fs';
-import {AngularFirestore} from "@angular/fire/firestore";
+const domino = require('domino');
+const fs = require('fs');
+const path = require('path');
+const templateA = fs.readFileSync(path.join('dist/browser', 'index.html')).toString();
+const win = domino.createWindow(templateA);
+win.Object = Object;
+win.Math = Math;
+win.process = process;
+global['window'] = win;
+global['document'] = win.document;
+global['branch'] = null;
+global['object'] = win.object;
+global['console'] = win.console;
 
-// The Express app is exported so that it can be used by serverless Functions.
-// TODO : NGL doesn't work with SSR, so you have to figure that out, or disable it
-// TODO : swagger probably won't ever work with SSR, so it'd be a good idea to redo the API page first
-export function app() {
-  const server = express();
-  const distFolder = join(process.cwd(), 'dist/browser');
-  const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
+// Express server
+const app = express();
 
-  // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
-  server.engine('html', ngExpressEngine({
-    bootstrap: AppServerModule
-  }));
+const PORT = process.env.PORT || 4000;
+const DIST_FOLDER = join(process.cwd(), 'dist/browser');
 
-  server.set('view engine', 'html');
-  server.set('views', distFolder);
+// * NOTE :: leave this as require() since this file is built Dynamically from webpack
+const {AppServerModuleNgFactory, LAZY_MODULE_MAP, ngExpressEngine, provideModuleMap} = require('./dist/server/main');
 
-  // Example Express Rest API endpoints
-  // server.get('/api/**', (req, res) => { });
-  // Serve static files from /browser
-  server.get('*.*', express.static(distFolder, {
-    maxAge: '1y'
-  }));
+// Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
+app.engine('html', ngExpressEngine({
+  bootstrap: AppServerModuleNgFactory,
+  providers: [
+    provideModuleMap(LAZY_MODULE_MAP)
+  ]
+}));
 
-  // All regular routes use the Universal engine
-  server.get('*', (req, res) => {
-    res.render(indexHtml, {
-      req,
-      providers: [{provide: APP_BASE_HREF, useValue: req.baseUrl}, AngularFirestore]
-    });
-  });
+app.set('view engine', 'html');
+app.set('views', DIST_FOLDER);
 
-  return server;
-}
+// Example Express Rest API endpoints
+// app.get('/api/**', (req, res) => { });
+// Serve static files from /browser
+app.get('*.*', express.static(DIST_FOLDER, {
+  maxAge: '1y'
+}));
 
-function run() {
-  const port = process.env.PORT || 4200;
+// All regular routes use the Universal engine
+app.get('*', (req, res) => {
+  res.render('index', { req });
+});
 
-  process.on('uncaughtException', function (err) {
-    console.error('Caught exception: ', err);
-  });
-  try {
-    // Start up the Node server
-    const server = app();
+// Start up the Node server
+app.listen(PORT, () => {
+  console.log(`Node Express server listening on http://localhost:${PORT}`);
+});
 
-    server.listen(port, () => {
-      console.log(`Node Express server listening on http://localhost:${port}`);
-    });
-  } catch (err) {
-    console.error(err);
-  }
-}
 
-// Webpack will replace 'require' with '__webpack_require__'
-// '__non_webpack_require__' is a proxy to Node 'require'
-// The below code is to ensure that the server is run only when not requiring the bundle.
-declare const __non_webpack_require__: NodeRequire;
-const mainModule = __non_webpack_require__.main;
-const moduleFilename = mainModule && mainModule.filename || '';
-if (moduleFilename === __filename || moduleFilename.includes('iisnode')) {
-  run();
-}
 
-export * from './src/main.server';
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+import { enableProdMode } from '@angular/core';
+
+import * as express from 'express';
+import { join } from 'path';
+
+// Faster server renders w/ Prod mode (dev mode never needed)
+enableProdMode();
+
+// Express server
+const app = express();
+
+const PORT = process.env.PORT || 4000;
+const DIST_FOLDER = join(process.cwd(), 'dist');
+// * NOTE :: leave this as require() since this file is built Dynamically from webpack
+const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist/server/main');
+
+// Express Engine
+import { ngExpressEngine } from '@nguniversal/express-engine';
+// Import module map for lazy loading
+import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
+
+app.engine('html', ngExpressEngine({
+  bootstrap: AppServerModuleNgFactory,
+  providers: [
+    provideModuleMap(LAZY_MODULE_MAP)
+  ]
+}));
+
+app.set('view engine', 'html');
+app.set('views', join(DIST_FOLDER, 'browser'));
+// TODO: implement data requests securely
+app.get('/api/!*', (req, res) => {
+  res.status(404).send('data requests are not supported');
+});
+
+// Server static files from /browser
+app.get('*.*', express.static(join(DIST_FOLDER, 'browser')));
+
+// All regular routes use the Universal engine
+app.get('*', (req, res) => {
+  res.render('index', { req });
+});
+
+// Start up the Node server
+app.listen(PORT, () => {
+  console.log(`Node server listening on http://localhost:${PORT}`);
+});
+*/

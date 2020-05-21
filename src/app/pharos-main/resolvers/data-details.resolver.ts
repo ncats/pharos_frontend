@@ -42,7 +42,7 @@ export class DataDetailsResolver implements Resolve<any> {
           return res.data;
         }),
         catchError(err => {
-          console.error(JSON.stringify(err));
+          alert(JSON.stringify(err));
           return null;
         })
       );
