@@ -21,6 +21,19 @@
         <pharos-help-panel-trigger [origin] = "'drugs'" [label]="'Approved Drugs'"></pharos-help-panel-trigger>
       </div>
     </div>
+    <div class="exploreSection">
+      <ul>
+        <li>
+          <ncats-property-display class="mat-title" [showLabel]="false"
+                                  matTooltip="Open the ligand list with the approved drugs"
+                                  matTooltipClass="pharos-tooltip"
+                                  matTooltipPosition="after"
+                                  [property]="{term:'Explore Approved Drugs', internalLink:'/ligands',
+                                  queryParams:{associatedTarget:target.accession,facet:'Type' + this.Facet.separator + 'Drug'}}">
+          </ncats-property-display>
+        </li>
+      </ul>
+    </div>
     <mat-paginator
       [pageSize]="10"
       [length]="target?.drugCount"

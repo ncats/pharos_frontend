@@ -12,6 +12,7 @@ import {BehaviorSubject} from 'rxjs';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {TargetComponents} from "../../../../../models/target-components";
+import {Facet} from "../../../../../models/facet";
 
 /**
  * panel to generically display drugs as a pageable list of drug cards
@@ -36,6 +37,10 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
    */
   dataSource: MatTableDataSource<Ligand> = new MatTableDataSource<Ligand>();
 
+  /**
+   * reference to Facet class for use in the html
+   */
+  Facet = Facet;
   /**
    * most of these dependencies handle the pagination of the data
    *
