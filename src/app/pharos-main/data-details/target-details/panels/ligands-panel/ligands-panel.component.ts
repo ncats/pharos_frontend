@@ -19,7 +19,7 @@ import {TargetComponents} from "../../../../../models/target-components";
 @Component({
   selector: 'pharos-ligands-panel',
   templateUrl: './ligands-panel.component.html',
-  styleUrls: ['./ligands-panel.component.scss'],
+  styleUrls: ['../drugs-panel/drugs-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LigandsPanelComponent extends DynamicPanelComponent implements OnInit {
