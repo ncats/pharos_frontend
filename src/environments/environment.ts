@@ -19,7 +19,8 @@ export const environment = {
   production: false,
   host: _HOST,
   api: _API,
-  graphqlUrl: 'https://ncatsidg-dev.appspot.com/graphql',
+  // graphqlUrl: 'https://ncatsidg-dev.appspot.com/graphql',
+  graphqlUrl: 'http://localhost:4000/graphql',
   firebase: {
     apiKey: '',
     authDomain: '',
