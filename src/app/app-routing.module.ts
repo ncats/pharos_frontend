@@ -11,7 +11,7 @@ import {ProfileComponent} from './profile/profile/profile.component';
 import {ConfirmModalComponent} from './profile/confirm-modal/confirm-modal.component';
 
 
-export const ROUTES: Routes = [
+const ROUTES: Routes = [
   { path: 'index',
     redirectTo: '/',
     pathMatch: 'full'

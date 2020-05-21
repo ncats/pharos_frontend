@@ -57,7 +57,7 @@ export class DataListResolver implements Resolve<Observable<any>> {
             return res.data.batch.results;
           }),
           catchError(err => {
-            console.log(JSON.stringify(err));
+            alert(JSON.stringify(err));
             return null;
           })
         );
@@ -76,7 +76,7 @@ export class DataListResolver implements Resolve<Observable<any>> {
             return res.data.batch.results;
           }),
           catchError(err => {
-            console.log((err.message || "no message") + "\n" + (err.stack || "no stack trace"));
+            alert((err.message || "no message") + "\n" + (err.stack || "no stack trace"));
             return null;
           })
         );

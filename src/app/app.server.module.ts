@@ -1,13 +1,15 @@
-import {NgModule} from '@angular/core';
+import { NgModule } from '@angular/core';
 import {ServerModule, ServerTransferStateModule} from '@angular/platform-server';
 
-import {AppModule} from './app.module';
-import {AppComponent} from './app.component';
-import {RouterModule, Router} from '@angular/router';
+import { AppModule } from './app.module';
+import { AppComponent } from './app.component';
+import {Routes, RouterModule, Router} from '@angular/router';
+import { AppShellComponent } from './app-shell/app-shell.component';
 import {FlexLayoutServerModule} from '@angular/flex-layout/server';
 import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
-import {ROUTES} from "./app-routing.module";
-import {AppShellComponent} from "./app-shell/app-shell.component";
+
+
+const routes: Routes = [ { path: 'shell', component: AppShellComponent }];
 
 @NgModule({
   imports: [
@@ -16,13 +18,7 @@ import {AppShellComponent} from "./app-shell/app-shell.component";
     ServerTransferStateModule,
     ModuleMapLoaderModule,
     FlexLayoutServerModule,
-    RouterModule.forRoot(ROUTES, {
-      initialNavigation: 'enabled',
-      scrollPositionRestoration: 'enabled',
-      anchorScrolling: 'enabled',
-      onSameUrlNavigation: 'reload',
-      scrollOffset: [0, 120]
-    }),
+    RouterModule.forRoot(routes),
   ],
   bootstrap: [AppComponent],
   declarations: [
@@ -31,6 +27,6 @@ import {AppShellComponent} from "./app-shell/app-shell.component";
 })
 export class AppServerModule {
   constructor(private router: Router) {
-    this.router.resetConfig(ROUTES);
+    this.router.resetConfig(routes);
   }
 }
