@@ -19,7 +19,6 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {TransferHttpCacheModule} from '@nguniversal/common';
 import {GraphQLModule} from './graphql.module';
 import {HttpClientModule} from '@angular/common/http';
-import { ScullyLibModule } from '@scullyio/ng-lib';
 
 @NgModule({
   declarations: [
@@ -43,8 +42,7 @@ import { ScullyLibModule } from '@scullyio/ng-lib';
     NcatsHeaderModule,
     PharosLoadingSpinnerModule,
     GraphQLModule,
-    HttpClientModule,
-    ScullyLibModule
+    HttpClientModule
   ],
   bootstrap: [AppComponent]
 })
