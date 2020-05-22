@@ -661,7 +661,7 @@ const PROTEIN_PROTEIN_PANEL: PharosPanel = {
   navHeader: {
     label: 'Protein to Protein Interactions',
     section: 'ppi',
-    mainDescription: 'List of protein to protein interactions associated with this gene.'
+    mainDescription: 'List of protein to protein interactions associated with this gene. Interactions are reported from Reactome, BioPlex, and StringDB. StringDB score must be above 0.400 to be shown here. Explore on the String-DB website to see lower likelihood targets.'
   },
   api: [
     {
