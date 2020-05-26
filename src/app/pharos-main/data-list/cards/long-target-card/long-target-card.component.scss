@@ -1,6 +1,8 @@
 .container {
   display: flex;
   box-sizing: border-box;
+  margin: 2px 0;
+  padding-bottom: 30px;
 }
 
 .mat-card-title{
@@ -51,3 +53,4 @@
   width: 150px;
   height: 150px;
 }
+
