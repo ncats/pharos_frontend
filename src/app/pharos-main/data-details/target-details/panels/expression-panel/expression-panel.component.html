@@ -40,12 +40,12 @@
                                       [clickHandler]="this.tissueClicked.bind(this)"></pharos-anatamogram>
                 </div>
                 <div fxFlex="48">
-                  <div *ngIf="this.uberonMap.size > 8">
+                  <div *ngIf="this.uberonMap.size > 8" class="search-container">
                     <mat-form-field class="table-search" [attr.id]="'expressionFilter'">
                       <input matInput (keyup)="filterTissues($event.target.value)" placeholder="Search tissues">
                     </mat-form-field>
                     <mat-button-toggle class="alphabetize-button" name="alphabetize" (change)="alphabetize($event)" [value]="this.alphabetized">
-                      <mat-icon matTooltip="Alphabetize tissue list">sort_by_alpha</mat-icon>
+                      <mat-icon matTooltip="Alphabetize tissue list" [color]="'primary'">sort_by_alpha</mat-icon>
                     </mat-button-toggle>
                   </div>
                   <div class="expression-card-list" [attr.id]="'expression-card-list'">
