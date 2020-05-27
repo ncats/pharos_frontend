@@ -28,7 +28,8 @@
                                   matTooltip="Open the ligand list with the active ligands"
                                   matTooltipClass="pharos-tooltip"
                                   matTooltipPosition="after"
-                                  [property]="{term:'Explore Active Ligands', internalLink:'/ligands', queryParams:{associatedTarget:target.accession}}">
+                                  [property]="{term:'Explore Active Ligands', internalLink:'/ligands',
+                                  queryParams:{associatedTarget:target.accession,facet:'Type' + this.Facet.separator + 'Ligand'}}">
           </ncats-property-display>
         </li>
       </ul>

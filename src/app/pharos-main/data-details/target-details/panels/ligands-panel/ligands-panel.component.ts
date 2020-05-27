@@ -12,6 +12,7 @@ import {PharosApiService} from '../../../../../pharos-services/pharos-api.servic
 import {ActivatedRoute} from '@angular/router';
 import {BehaviorSubject} from 'rxjs';
 import {TargetComponents} from "../../../../../models/target-components";
+import {Facet} from "../../../../../models/facet";
 
 /**
  * panel to generically display ligands as a pageable list of ligand cards
@@ -37,6 +38,10 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
    */
   dataSource: MatTableDataSource<Ligand> = new MatTableDataSource<Ligand>();
 
+  /**
+   * reference to Facet class for use in the html
+   */
+  Facet = Facet;
   /**
    * most of these dependencies handle the pagination of the data
    *
