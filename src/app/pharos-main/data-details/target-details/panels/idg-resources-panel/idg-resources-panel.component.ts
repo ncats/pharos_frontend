@@ -7,7 +7,7 @@ import {HttpClient} from '@angular/common/http';
 import {Target} from '../../../../../models/target';
 import {PharosConfig} from '../../../../../../config/pharos-config';
 import {IDGResourceSerializer} from '../../../../../models/idg-resources/resource-serializer';
-import {DataResource} from '../../../../../models/idg-resources/data-resource';
+import {DataResource, MouseImageData} from '../../../../../models/idg-resources/data-resource';
 import {Reagent} from '../../../../../models/idg-resources/reagent';
 import {PageData} from "../../../../../models/page-data";
 
@@ -50,6 +50,9 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
    * List of all dataResources to show in the panel
    */
   dataResources: DataResource[] = [];
+
+  mouseExpressions: DataResource[] = [];
+  mouseExpressionsUpdated: Subject<void> = new Subject<void>();
   /**
    * List of dataResources currently shown in the panel, subject to filtering and paging
    */
@@ -84,7 +87,6 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
       .subscribe(x => {
           this.target = this.data.targets;
           this.loading = true;
-          //this.fetchTestData(); return;
           this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/search?term=${this.target.gene}`).subscribe(resourceList => {
             if (resourceList && resourceList.data) {
               resourceList.data.forEach(resourceMetadata => {
@@ -100,36 +102,6 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
           });
         }
       );
-  }
-
-  /**
-   * testing code to show all types of resources on a target details page. uncomment call to fetchTestData above.
-   */
-  private fetchTestData(){
-    const testData = [
-      {resourceType: 'Cell', id: '2786292a-51d0-4d81-90dc-7a605569bcc2', target: 'CLCN6', name: 'IDG-HEK293T-CLCN6-V5-OE'},
-      {resourceType: 'Cell', id: 'd5774cdd-ced3-4dfd-8339-c0322c6dd3b0', target: 'CHRNA2', name: 'IDG-HEK293T-CHRNA2-V5-OE'},
-      {resourceType: 'Chemical Tool', id: 'de219ecf-81d1-4b74-9666-c454f44c82a6', target: 'HIPK4', name: 'PA-16-0081C'},
-      {resourceType: 'Chemical Tool', id: '92192412-263c-48b8-a670-26ca94e2cb5c', target: 'MKNK2', name: 'UNC-BE1-004'},
-      {resourceType: 'Expression', id: 'd462e644-289d-4dce-9411-e92d80e2f97d', target: 'KCNA6', name: 'Expression ofKcna6 in Dorsal Root Ganglion'},
-      {resourceType: 'Expression', id: '04c8a1cf-c289-45d0-9a43-399c8da13fc3', target: 'TMC7', name: 'Expression ofTmc7 in Dorsal Root Ganglion'},
-      {resourceType: 'Genetic Construct', id: 'e7425931-114d-4c4e-9e7c-d58fa1e61a90', target: 'PKD2L2', name: 'IDG_PKD2L2_OE_1'},
-      {resourceType: 'Genetic Construct', id: 'ae18e8c0-f24f-4cb9-af29-4188022c330c', target: 'KCNIP1', name: 'IDG_KCNIP1_OE_1'},
-      {resourceType: 'GPCR Mouse Imaging', id: 'f0eb8b4d-a875-4851-8e3f-01b20a93c61e', target: 'GPR85', name: 'FLAG-GPR85-IRES-CRExAi9_spleen_male'},
-      {resourceType: 'GPCR Mouse Imaging', id: '3fc152ee-a52f-4dd4-8973-ccc0c6a7633b', target: 'TAS2R4', name: 'FLAG-TAS2R4-IRES-CRExAi9_Brain_male'},
-      {resourceType: 'Mouse', id: '5730f6da-3fb8-4bda-a781-5515c8019a26', target: 'GPR68', name: 'C57BL/6J-Gpr68em1(cre)Blr/Mmnc'},
-      {resourceType: 'Mouse', id: '8b1fe4a5-6e4b-41e0-94d7-90184dd092b8', target: 'GPR85', name: 'C57BL/6J-Gpr85em1(Gpr85*,cre)Blr/Mmnc'},
-      {resourceType: 'Mouse phenotype data', id: 'e763807c-1868-4267-aa19-0519f95da7e4', target: 'KCNAB3', name: 'Phenotype of Kcnab3 knockout mice from International Mouse Phenotype Consortium'},
-      {resourceType: 'Mouse phenotype data', id: '8febf7dc-941e-4ed2-95db-e61f4a7cc9f3', target: 'KCNIP4', name: 'Phenotype of Kcnip4 knockout mice from International Mouse Phenotype Consortium'},
-      {resourceType: 'NanoBRET',id: 'f0b127a3-1a74-4b27-9336-7086831881df', target: 'BRSK2', name: 'NanoLuc®-BRSK2'},
-      {resourceType: 'NanoBRET',id: '38076d76-02ec-4d03-88e9-c15020021e77', target: 'DCLK3', name: 'NanoLuc®-fused DCLK3'},
-      {resourceType: 'Peptide', id: 'd6507f40-c1c4-4134-a699-d7c7ce862940', target: 'SCYL2', name: 'SCYL2-LGSSSLTNIPEEVR'},
-      {resourceType: 'Peptide', id: '6c364c55-48c4-4718-86fa-899665868f7e', target: 'TLK2', name: 'TLK2-ISALENSK'}
-      ];
-      for(let testmetadata of testData){
-        this.fetchResourceDetails(testmetadata);
-      }
-      this.loading = false;
   }
 
   /**
@@ -172,10 +144,15 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
    * @param newElement
    */
   private updateDataResourceLists(newElement) {
-    this.dataResources.push(newElement);
-    this.dataResourcePageData = this.makePageData(this.dataResources.length);
-    this.dataResourceList = this.dataResources;
-    this.dataResourcesUpdated.next();
+    if (newElement instanceof MouseImageData) {
+      this.mouseExpressions.push(newElement);
+      this.mouseExpressionsUpdated.next();
+    } else {
+      this.dataResources.push(newElement);
+      this.dataResourcePageData = this.makePageData(this.dataResources.length);
+      this.dataResourceList = this.dataResources;
+      this.dataResourcesUpdated.next();
+    }
   }
 
   /**

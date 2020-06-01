@@ -19,6 +19,7 @@ import {TargetFacetPanelComponent} from '../../data-details/target-details/panel
 import {IdgResourcesPanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/idg-resources-panel.component';
 import {ReagentPanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/reagent-panel/reagent-panel.component';
 import {DataResourcePanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/data-resource-panel/data-resource-panel.component';
+import {MouseExpressionComponent} from "../../data-details/target-details/panels/idg-resources-panel/mouse-expression/mouse-expression.component";
 import {LigandsPanelComponent} from '../../data-details/target-details/panels/ligands-panel/ligands-panel.component';
 import {DrugsPanelComponent} from '../../data-details/target-details/panels/drugs-panel/drugs-panel.component';
 import {DifferentialPanelComponent} from '../../data-details/target-details/panels/expression-panel/differential-panel/differential-panel.component';
@@ -60,6 +61,7 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     IdgResourcesPanelComponent,
     ReagentPanelComponent,
     DataResourcePanelComponent,
+    MouseExpressionComponent,
     LigandsPanelComponent,
     DrugsPanelComponent,
     DifferentialPanelComponent

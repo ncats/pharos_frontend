@@ -1,4 +1,4 @@
-<mat-expansion-panel (closed)="this.collapsed=true" (opened)="this.collapsed=false" [expanded]="this.clickedTissue == tissueExpressionSources[0].uberon.uid" [attr.id]="'panel-' + tissueExpressionSources[0].uberon.uid">
+<mat-expansion-panel (closed)="this.collapsed=true" (opened)="this.collapsed=false" [expanded]="this.clickedTissue == tissueExpressionSources[0].uberon.uid">
   <mat-expansion-panel-header (mouseover)="this.setHover(tissueExpressionSources[0].uberon.uid)" (mouseleave)="this.setHover(null)">
     {{tissueExpressionSources[0].uberon.name}}
     <div class="header-helptext" [ngClass]="{'hidden': !this.collapsed}" matTooltip="Data sources for this tissue. Click for details.">{{this.tissueSourceString(tissueExpressionSources)}}</div>

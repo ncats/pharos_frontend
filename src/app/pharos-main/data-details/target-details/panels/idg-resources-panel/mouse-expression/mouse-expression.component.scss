@@ -1,0 +1,20 @@
+.container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.expression-card-list{
+  height: 550px;
+  overflow: scroll;
+  transition: scrollTop 2s linear;
+}
+
+.header-helptext{
+  padding-left: 1vw;
+  font-weight: 300;
+  opacity: 1;
+  top: 0;
+  position: relative;
+  transition: all .25s linear;
+}

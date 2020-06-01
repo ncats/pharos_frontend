@@ -23,12 +23,6 @@
     grid-gap: 1em;
   }
 
-  .data-grid > div, .data-source-grid > div {
-    margin-bottom: 2em;
-    margin-top: 2em;
-  //  min-height: 100%;
-  }
-
 @media only screen and (max-width: 768px) {
   .data-grid,
   .data-source-grid {
