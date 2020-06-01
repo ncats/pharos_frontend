@@ -42,7 +42,7 @@ export class ExpressionTissueCardComponent implements OnInit {
    */
   setHover(uberon?: any) {
     if (uberon) {
-      this.anatamogramHoverService.setTissue(uberon.replace(':', '_'));
+      this.anatamogramHoverService.setTissue(uberon);
     } else {
       this.anatamogramHoverService.setTissue(null);
     }

@@ -36,13 +36,10 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
 
   tissueClicked(tissue) {
     this.searchString = "";
+    this.clickedTissue = tissue;
     this.setExpressionList();
-    this.clickedTissue = tissue.replace('_', ':');
     var scrollWindow = window.document.getElementById('expression-card-list');
-    var tissuePanel = window.document.getElementById("panel-" + this.clickedTissue);
-    var expressionFilter = window.document.getElementById("expressionFilter");
-    var topPos = tissuePanel.offsetTop - expressionFilter.clientHeight;
-    scrollWindow.scrollTop = topPos;
+    scrollWindow.scrollTop = 0;
   }
 
   clickedTissue: string;
@@ -101,8 +98,9 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   setterFunction() {
     this.target.expressions.forEach(expression => {
       if (expression.uberon && expression.uberon.uid) {
+        expression.uberon.uid = expression.uberon.uid.replace(':', '_');
         const uberon = expression.uberon.uid;
-        this.tissues.push(uberon.replace(':', '_'));
+        this.tissues.push(uberon);
         const uberons = this.uberonMap.get(uberon);
         if (uberons) {
           uberons.push(expression);
@@ -131,9 +129,15 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
       });
     }
     if (this.alphabetized) {
-      this.sortedExpressions = this.sortedExpressions.sort((a, b) => a[0].uberon.name.localeCompare(b[0].uberon.name));
+      this.sortedExpressions = this.sortedExpressions.sort((a, b) => {
+        if (a[0].uberon.uid === this.clickedTissue) return -1;
+        if (b[0].uberon.uid === this.clickedTissue) return 1;
+        return a[0].uberon.name.localeCompare(b[0].uberon.name);});
     } else {
-      this.sortedExpressions = this.sortedExpressions.sort((a, b) => b.length - a.length);
+      this.sortedExpressions = this.sortedExpressions.sort((a, b) => {
+        if (a[0].uberon.uid === this.clickedTissue) return -1;
+        if (b[0].uberon.uid === this.clickedTissue) return 1;
+        return b.length - a.length;});
     }
   }
 
@@ -144,6 +148,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
 
   alphabetize(event) {
     this.alphabetized = !this.alphabetized;
+    this.clickedTissue = "";
     this.setExpressionList();
     var scrollWindow = window.document.getElementById('expression-card-list');
     scrollWindow.scrollTop = 0;

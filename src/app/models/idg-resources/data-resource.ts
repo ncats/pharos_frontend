@@ -38,12 +38,26 @@ export class MouseImageData extends DataResource {
    */
   resourceImageName? = 'mouseImageData';
 
+  uberon : string = "";
+  tissue: string = "";
+  expressed: boolean;
   /**
    * creates object, adds Data and Strain Info to the list of displayed properties
    * @param data
    */
   constructor(data: any) {
     super(data);
+    if(data.Tissue_ID) {
+      this.uberon = data.Tissue_ID.replace(':', '_');
+    }
+    this.tissue = data.Tissue;
+    if(data.Expression_data){
+      this.expressed = (data.Expression_data.toLowerCase() == 'yes');
+    }
+    else {
+      this.expressed = false;
+    }
+    this.addDisplayProperty(this.expressed ? "Yes" : "No", "Expressed");
     this.addDisplayProperty(this.dataRepository.repositoryName,"Data",this.dataRepository.repositoryUrl);
     this.addDisplayProperty(this.hostRepository.repositoryName,"Strain Info", this.hostRepository.repositoryUrl);
   }
