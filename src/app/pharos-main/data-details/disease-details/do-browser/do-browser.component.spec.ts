@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DoBrowserComponent } from './do-browser.component';
+import {ApolloTestingModule} from 'apollo-angular/testing';
 import {TESTTARGET} from "../../../../../../test/test-target";
 
 describe('DoBrowserComponent', () => {
@@ -8,7 +9,10 @@ describe('DoBrowserComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DoBrowserComponent ]
+      declarations: [ DoBrowserComponent ],
+      imports: [
+        ApolloTestingModule
+      ]
     })
     .compileComponents();
   }));
@@ -16,7 +20,7 @@ describe('DoBrowserComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DoBrowserComponent);
     component = fixture.componentInstance;
-    component.data.diseases = TESTTARGET.diseases;
+    component.data.diseases = TESTTARGET.diseases[0];
     component.disease = TESTTARGET.diseases[0];
     fixture.detectChanges();
   });

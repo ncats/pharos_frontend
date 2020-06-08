@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { DiseaseHeaderComponent } from './disease-header.component';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {TESTTARGET} from "../../../../../../test/test-target";

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ExploreListButtonComponent } from './explore-list-button.component';
+import {ApolloTestingModule} from "apollo-angular/testing";
 
 describe('ExploreListButtonComponent', () => {
   let component: ExploreListButtonComponent;
@@ -8,7 +8,10 @@ describe('ExploreListButtonComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ExploreListButtonComponent ]
+      declarations: [ ExploreListButtonComponent ],
+      imports: [
+        ApolloTestingModule
+      ]
     })
     .compileComponents();
   }));
