@@ -1,7 +1,3 @@
-.exploreSection li{
-  list-style: none;
-}
-
 .structure-grid {
   display: grid;
   grid-auto-rows: max-content;
@@ -47,4 +43,10 @@
     min-height: 100%;
   }
 
+}
+
+.headerSection{
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 }

@@ -1,0 +1,31 @@
+.content{
+  display: flex;
+  flex-direction: row;
+
+}
+
+.section{
+  padding: 0 2em 2em 2em;
+  margin: 3px;
+}
+
+.section > div{
+  margin-top: 2vh;
+}
+
+.mat-card-subtitle{
+  padding-top: 2em;
+}
+
+.mat-card{
+  width: 95vw;
+}
+
+.assoc-count {
+  display: flex;
+  align-items: center;
+}
+
+.assoc-count:first-child{
+  padding-left: 0;
+}

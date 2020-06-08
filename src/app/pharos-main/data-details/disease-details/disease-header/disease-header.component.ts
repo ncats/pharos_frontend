@@ -9,7 +9,7 @@ import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-pan
 @Component({
   selector: 'pharos-disease-header',
   templateUrl: './disease-header.component.html',
-  styleUrls: ['./disease-header.component.css'],
+  styleUrls: ['./disease-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -19,6 +19,7 @@ export class DiseaseHeaderComponent extends DynamicPanelComponent implements OnI
    */
   @Input() disease: Disease;
   @Input() data: any;
+
   /**
    * no args constructor
    * call super object constructor

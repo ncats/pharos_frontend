@@ -893,6 +893,11 @@ const DISEASE_HEADER_COMPONENT: PharosPanel = {
   api: []
 };
 
+const DISEASE_DO_BROWSER_COMPONENT: PharosPanel = {
+  token: TOKENS.DISEASE_DO_BROWSER_COMPONENT,
+  api: []
+}
+
 /**
  * main disease details page component
  * @type {PharosPanel}
@@ -1100,7 +1105,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       details: {
         components: [
           DISEASE_HEADER_COMPONENT,
-          TARGET_LIST_PANEL
+          DISEASE_DO_BROWSER_COMPONENT
         ]
       }
     }],

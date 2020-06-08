@@ -1,51 +1,42 @@
 <article>
-  <mat-card id = {{field}}
-          class="section-card"
-          *ngIf = "data"
-          (pharosScrollspy)="active(field)"
-           #drugs>
-  <mat-card-content>
-    <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
-      <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
-    </div>
-    <div fxLayout="row"
-         class="tkrow"
-         fxLayoutAlign="start stretch">
-      <div fxFlex="95">
+  <mat-card id={{field}}
+            class="section-card"
+            *ngIf="data"
+            (pharosScrollspy)="active(field)"
+            #drugs>
+    <mat-card-content>
+      <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+        <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+      </div>
+      <div fxLayout="row"
+           class="tkrow"
+           fxLayoutAlign="start stretch">
+        <div fxFlex="95">
         <span class="mat-title"
-              [matTooltip] = description
-              [matTooltipClass] = "'pharos-tooltip'">
+              [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">
           {{label}} ({{target?.drugCount}})</span>
+        </div>
+        <div fxFlex="5">
+          <pharos-help-panel-trigger [origin]="'drugs'" [label]="'Approved Drugs'"></pharos-help-panel-trigger>
+        </div>
       </div>
-      <div fxFlex="5">
-        <pharos-help-panel-trigger [origin] = "'drugs'" [label]="'Approved Drugs'"></pharos-help-panel-trigger>
+      <div class="headerSection">
+        <pharos-explore-list-button [path]="'/ligands'" [buttonText]="'Explore Approved Drugs'"
+                                    [queryParams]="{associatedTarget:target.accession,facet:'Type' + this.Facet.separator + 'Drug'}"></pharos-explore-list-button>
+        <mat-paginator
+          [pageSize]="10"
+          [length]="target?.drugCount"
+          [hidePageSize]="true"
+          [showFirstLastButtons]=true
+          (page)=paginate($event)
+          #drugsspaginator></mat-paginator>
       </div>
-    </div>
-    <div class="exploreSection">
-      <ul>
-        <li>
-          <ncats-property-display class="mat-title" [showLabel]="false"
-                                  matTooltip="Open the ligand list with the approved drugs"
-                                  matTooltipClass="pharos-tooltip"
-                                  matTooltipPosition="after"
-                                  [property]="{term:'Explore Approved Drugs', internalLink:'/ligands',
-                                  queryParams:{associatedTarget:target.accession,facet:'Type' + this.Facet.separator + 'Drug'}}">
-          </ncats-property-display>
-        </li>
-      </ul>
-    </div>
-    <mat-paginator
-      [pageSize]="10"
-      [length]="target?.drugCount"
-      [hidePageSize]="true"
-      [showFirstLastButtons] = true
-      (page) = paginate($event)
-      #drugsspaginator></mat-paginator>
-    <div class ="structure-grid">
-    <div *ngFor="let drug of target.drugs">
-      <pharos-ligand-card [ligand]="drug" [target]="target"></pharos-ligand-card>
-    </div>
-    </div>
-  </mat-card-content>
-</mat-card>
+      <div class="structure-grid">
+        <div *ngFor="let drug of target.drugs">
+          <pharos-ligand-card [ligand]="drug" [target]="target"></pharos-ligand-card>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </article>

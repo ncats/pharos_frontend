@@ -13,27 +13,15 @@
         <div fxFlex="95" class="headerContainer">
         <span class="mat-title" [matTooltip]=description
               [matTooltipClass]="'pharos-tooltip'">Protein-Protein Interactions ({{target.ppiCount}})</span>
-          <ul>
-            <li>
-              <ncats-property-display class="mat-title" [showLabel]="false"
-                                      matTooltip="Open the target list with the interacting proteins" matTooltipClass="pharos-tooltip"
-                                      matTooltipPosition="after"
-                                      [property]="{term:'Explore Interacting Targets', internalLink:'/targets', queryParams:{associatedTarget:target.accession}}">
-              </ncats-property-display>
-            </li>
-            <li>
-              <ncats-property-display class="mat-title" [showLabel]="false"
-                                      matTooltip="See interacting proteins on String-db.org" matTooltipClass="pharos-tooltip"
-                                      matTooltipPosition="after"
-                                      [property]="{term:'See Interactions on String-DB', externalLink:'https://string-db.org/network/homo_sapiens/' + target.gene}">
-              </ncats-property-display>
-            </li>
-          </ul>
         </div>
         <div fxFlex="5">
           <pharos-help-panel-trigger [origin]="'ppi'"
                                      [label]="'Protein-Protein Interactions'"></pharos-help-panel-trigger>
         </div>
+      </div>
+      <div class="headerRow">
+      <div>
+        <pharos-explore-list-button [path]="'/targets'" [queryParams]="{associatedTarget:target.accession}" [buttonText]="'Explore Interacting Targets'"></pharos-explore-list-button>
       </div>
       <mat-paginator
         [pageSize]="10"
@@ -42,6 +30,16 @@
         [showFirstLastButtons]=true
         (page)="paginate($event)"
         #ppipaginator></mat-paginator>
+      </div>
+      <ul>
+        <li>
+          <ncats-property-display class="mat-title" [showLabel]="false"
+                                  matTooltip="See interacting proteins on String-db.org" matTooltipClass="pharos-tooltip"
+                                  matTooltipPosition="after"
+                                  [property]="{term:'See Interactions on String-DB', externalLink:'https://string-db.org/network/homo_sapiens/' + target.gene}">
+          </ncats-property-display>
+        </li>
+      </ul>
       <div class="target-grid">
         <div *ngFor="let ppi of target.ppis">
           <pharos-target-card [target]="ppi"></pharos-target-card>

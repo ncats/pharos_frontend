@@ -44,9 +44,10 @@
                     <mat-form-field class="table-search">
                       <input matInput (keyup)="filterTissues($event.target.value)" placeholder="Search tissues">
                     </mat-form-field>
-                    <mat-button-toggle class="alphabetize-button" name="alphabetize" (change)="alphabetize($event)" [value]="this.alphabetized">
-                      <mat-icon matTooltip="Alphabetize tissue list" [color]="'primary'">sort_by_alpha</mat-icon>
-                    </mat-button-toggle>
+                    <button type="button" mat-raised-button class="alphabetize-button" name="alphabetize"
+                            (click)="this.alphabetize($event)" [ngClass]="{pressed:this.alphabetized}" [color]="'primary'">
+                      <mat-icon matTooltip="Alphabetize tissue list">sort_by_alpha</mat-icon>
+                    </button>
                   </div>
                   <div id="expression-card-list" class="expression-card-list">
                     <div *ngFor="let exprSources of this.sortedExpressions">

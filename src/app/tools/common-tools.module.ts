@@ -18,6 +18,7 @@ import {RadarChartModule} from './visualizations/radar-chart/radar-chart.module'
 import {StructureViewComponent} from './structure-view/structure-view.component';
 import {NcatsHeaderModule} from './ncats-header/ncats-header.module';
 import { ListFilterComponent } from './list-filter/list-filter.component';
+import { ExploreListButtonComponent } from './explore-list-button/explore-list-button.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ListFilterComponent } from './list-filter/list-filter.component';
     LinkListComponent,
     ProteinStructureViewerComponent,
     StructureViewComponent,
-    ListFilterComponent
+    ListFilterComponent,
+    ExploreListButtonComponent
   ],
   imports: [
     CommonModule,
@@ -42,22 +44,23 @@ import { ListFilterComponent } from './list-filter/list-filter.component';
     GenericTableModule,
     RadarChartModule
   ],
-    exports: [
-        NcatsHeaderModule,
-        AnatamogramModule,
-        RadarChartModule,
-        GenericTableModule,
-        BatchUploadModalComponent,
-        DynamicPanelComponent,
-        DynamicTablePanelComponent,
-        EquationRendererComponent,
-        HelpPanelComponent,
-        IdgLevelIndicatorComponent,
-        KnowledgeTableComponent,
-        LinkListComponent,
-        StructureViewComponent,
-        ProteinStructureViewerComponent,
-        ListFilterComponent
-    ]
+  exports: [
+    NcatsHeaderModule,
+    AnatamogramModule,
+    RadarChartModule,
+    GenericTableModule,
+    BatchUploadModalComponent,
+    DynamicPanelComponent,
+    DynamicTablePanelComponent,
+    EquationRendererComponent,
+    HelpPanelComponent,
+    IdgLevelIndicatorComponent,
+    KnowledgeTableComponent,
+    LinkListComponent,
+    StructureViewComponent,
+    ProteinStructureViewerComponent,
+    ListFilterComponent,
+    ExploreListButtonComponent
+  ]
 })
 export class CommonToolsModule { }

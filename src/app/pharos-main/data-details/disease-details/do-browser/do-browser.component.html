@@ -1,0 +1,43 @@
+<article>
+  <div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" *ngIf="this.disease.parents.length > 0 || this.disease.children.length > 0">
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title>
+          Disease Ontology
+        </mat-card-title>
+        <div class="content">
+          <mat-card class="section">
+            <mat-card-subtitle>Parents</mat-card-subtitle>
+            <div *ngFor="let parent of this.disease.parents">
+              <ncats-property-display [showLabel]="false"
+                                      [property]="{term:parent.name + ' (' + parent.associationCount + ')', internalLink:'/diseases/' + parent.name}">{{parent.targetCountsTotal}}</ncats-property-display>
+              <div FxFlex class="assoc-count">
+                <div *ngFor='let assocCount of parent.targetCounts'>
+                  <div class="assoc-count">
+                    <pharos-idg-level-indicator [level]="assocCount.name"></pharos-idg-level-indicator>
+                    <h3>{{assocCount.value}}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-card>
+          <mat-card class="section">
+            <mat-card-subtitle>Children</mat-card-subtitle>
+            <div *ngFor="let child of this.disease.children">
+              <ncats-property-display [showLabel]="false"
+                                      [property]="{term:child.name + ' (' + child.associationCount + ')', internalLink:'/diseases/' + child.name}">{{child.targetCountsTotal}}</ncats-property-display>
+              <div FxFlex class="assoc-count">
+                <div *ngFor='let assocCount of child.targetCounts'>
+                  <div class="assoc-count">
+                    <pharos-idg-level-indicator [level]="assocCount.name"></pharos-idg-level-indicator>
+                    <h3>{{assocCount.value}}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</article>
