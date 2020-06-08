@@ -1,51 +1,42 @@
 <article>
-  <mat-card id = {{field}}
-          class="section-card"
-          *ngIf = "target.ligands"
-          (pharosScrollspy)="active(field)"
-          #ligands>
-  <mat-card-content>
-    <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
-      <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
-    </div>
-    <div fxLayout="row"
-         class="tkrow"
-         fxLayoutAlign="start stretch">
-      <div fxFlex="95">
+  <mat-card id={{field}}
+            class="section-card"
+            *ngIf="target.ligands"
+            (pharosScrollspy)="active(field)"
+            #ligands>
+    <mat-card-content>
+      <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+        <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+      </div>
+      <div fxLayout="row"
+           class="tkrow"
+           fxLayoutAlign="start stretch">
+        <div fxFlex="95">
         <span class="mat-title"
-              [matTooltip] = description
-              [matTooltipClass] = "'pharos-tooltip'">
+              [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">
           {{label}} ({{target.ligandCount}})</span>
+        </div>
+        <div fxFlex="5">
+          <pharos-help-panel-trigger [origin]="'ligands'" [label]="'Active Ligands'"></pharos-help-panel-trigger>
+        </div>
       </div>
-      <div fxFlex="5">
-        <pharos-help-panel-trigger [origin] = "'ligands'" [label]="'Active Ligands'"></pharos-help-panel-trigger>
+      <div class="headerSection">
+        <pharos-explore-list-button [path]="'/ligands'" [buttonText]="'Explore Active Ligands'"
+                                    [queryParams]="{associatedTarget:target.accession,facet:'Type' + this.Facet.separator + 'Ligand'}"></pharos-explore-list-button>
+        <mat-paginator
+          [pageSize]="10"
+          [length]="target.ligandCount"
+          [hidePageSize]="true"
+          [showFirstLastButtons]=true
+          (page)=paginate($event)
+          #ligandspaginator></mat-paginator>
       </div>
-    </div>
-    <div class="exploreSection">
-      <ul>
-        <li>
-          <ncats-property-display class="mat-title" [showLabel]="false"
-                                  matTooltip="Open the ligand list with the active ligands"
-                                  matTooltipClass="pharos-tooltip"
-                                  matTooltipPosition="after"
-                                  [property]="{term:'Explore Active Ligands', internalLink:'/ligands',
-                                  queryParams:{associatedTarget:target.accession,facet:'Type' + this.Facet.separator + 'Ligand'}}">
-          </ncats-property-display>
-        </li>
-      </ul>
-    </div>
-    <mat-paginator
-      [pageSize]="10"
-      [length]="target.ligandCount"
-      [hidePageSize]="true"
-      [showFirstLastButtons] = true
-      (page) = paginate($event)
-      #ligandspaginator></mat-paginator>
-    <div class ="structure-grid">
-    <div *ngFor="let ligand of target.ligands">
-      <pharos-ligand-card [ligand]="ligand" [target]="target"></pharos-ligand-card>
-    </div>
-    </div>
-  </mat-card-content>
-</mat-card>
+      <div class="structure-grid">
+        <div *ngFor="let ligand of target.ligands">
+          <pharos-ligand-card [ligand]="ligand" [target]="target"></pharos-ligand-card>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </article>

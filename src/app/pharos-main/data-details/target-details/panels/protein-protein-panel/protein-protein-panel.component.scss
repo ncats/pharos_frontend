@@ -43,3 +43,9 @@
 .headerContainer li{
   list-style: none;
 }
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}

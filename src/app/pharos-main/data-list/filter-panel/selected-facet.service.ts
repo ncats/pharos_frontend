@@ -85,7 +85,11 @@ export class SelectedFacetService {
   getFacetsAsUrlStrings(): string[] {
     const retArr: string[] = [];
    // this._facetMap.delete('query');
-    const facets: Facet[] = Array.from(this._facetMap.values()).filter(fac => fac.facet !== 'query' && fac.facet !== 'collection' && fac.facet !== 'associatedTarget');
+    const facets: Facet[] = Array.from(this._facetMap.values()).filter(
+      fac => fac.facet !== 'query' && //TODO use pseudoFacet list instead
+        fac.facet !== 'collection' &&
+        fac.facet !== 'associatedTarget' &&
+        fac.facet !== 'associatedDisease');
     facets.forEach(facet => facet.values.forEach(value => retArr.push(this._makeFacetString(facet.facet, value.name))));
     return retArr;
   }
@@ -112,7 +116,8 @@ export class SelectedFacetService {
     return [
       this.getFacetByName('collection'),
       this.getFacetByName('query'),
-      this.getFacetByName('associatedTarget')
+      this.getFacetByName('associatedTarget'),
+      this.getFacetByName('associatedDisease')
     ];
   }
   /**
@@ -176,6 +181,9 @@ export class SelectedFacetService {
       }
       if(map.has('associatedTarget')){
         this._facetMap.set('associatedTarget', new Facet({label: 'Associated Target', facet:'associatedTarget', values: [{name: map.get('associatedTarget')}]}));
+      }
+      if(map.has('associatedDisease')){
+        this._facetMap.set('associatedDisease', new Facet({label: 'Associated Disease', facet:'associatedDisease', values: [{name: map.get('associatedDisease')}]}));
       }
       const fList = map.getAll('facet');
       fList.forEach(facetString => {
