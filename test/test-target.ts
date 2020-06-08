@@ -4980,6 +4980,8 @@ export const TESTTARGET: Target = new TargetSerializer().fromJson(
         id: "htt",
         dataSources: ["Expression Atlas"]
       }],
+      parents: [],
+      children: [],
       associationCount: 5,
       associations: [{
         type: 'UniProt Disease',
