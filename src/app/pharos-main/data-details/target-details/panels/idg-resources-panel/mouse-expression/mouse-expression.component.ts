@@ -47,9 +47,13 @@ export class MouseExpressionComponent implements OnInit {
     this.sortTissues();
   }
 
+  @ViewChild("expression_card_list") expressionList: ElementRef;
+
   sortTissues(){
-    var scrollWindow = window.document.getElementById('expression-card-list');
-    scrollWindow.scrollTop = 0;
+    if(this.expressionList) {
+      var scrollWindow = this.expressionList.nativeElement;
+      scrollWindow.scrollTop = 0;
+    }
     this.tissues = this.tissues.sort((a,b) => {
       if(a === this.clickedTissue) return -1;
       if(b === this.clickedTissue) return 1;
