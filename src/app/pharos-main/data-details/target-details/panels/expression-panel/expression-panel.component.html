@@ -49,7 +49,7 @@
                       <mat-icon matTooltip="Alphabetize tissue list">sort_by_alpha</mat-icon>
                     </button>
                   </div>
-                  <div id="expression-card-list" class="expression-card-list">
+                  <div class="expression-card-list" #expression_card_list>
                     <div *ngFor="let exprSources of this.sortedExpressions">
                       <pharos-expression-tissue-card [tissueExpressionSources]="exprSources"
                                                      [clickedTissue]="this.clickedTissue"></pharos-expression-tissue-card>
