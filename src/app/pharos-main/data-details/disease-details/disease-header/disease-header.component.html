@@ -1,18 +1,56 @@
 <article>
-  <div class ="flex30">
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start">
+  <div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="space-around start">
     <div fxFlex="95" fxFlexAlign="stretch">
-      <span class = "mat-display-3 toolbar">{{disease?.name}}</span>
-      <span class="spacer"></span>
-      <span fxFlex fxLayoutAlign= "end center">
- <!--   <button mat-icon-button><mat-icon class="example-icon">save</mat-icon></button>
-    <button mat-icon-button><mat-icon class="example-icon">code</mat-icon></button>
-    <button mat-icon-button><mat-icon class="example-icon">file_download</mat-icon></button>
-    <button mat-icon-button><mat-icon class="example-icon">bookmark</mat-icon></button>-->
-    </span>
+      <span class="mat-display-3 toolbar">{{disease?.name}}</span>
     </div>
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title>
+          Disease Summary
+        </mat-card-title>
+        <div class="content">
+          <div class="section">
+            <mat-card-subtitle>Associated Targets ({{this.disease.targetCountsTotal}})</mat-card-subtitle>
+            <div FxFlex class="assoc-count">
+              <div *ngFor='let assocCount of this.disease?.targetCounts'>
+                <div class="assoc-count">
+                  <pharos-idg-level-indicator [level]="assocCount.name"></pharos-idg-level-indicator> <h3>{{assocCount.value}}</h3>
+                </div>
+              </div>
+            </div>
+            <br/>
+            <pharos-explore-list-button [path]="'/targets'" [queryParams]="{associatedDisease:disease?.name}"
+                                        [buttonText]="'Explore Associated Targets'">
+            </pharos-explore-list-button>
+          </div>
+          <div class="section">
+            <div *ngIf="this.disease.uniprotDescription">
+              <mat-card-subtitle>
+                Uniprot Description
+              </mat-card-subtitle>
+              {{this.disease.uniprotDescription}}
+            </div>
+            <div *ngIf="this.disease.doDescription">
+              <mat-card-subtitle>
+                Disease Ontology Description
+              </mat-card-subtitle>
+              {{this.disease.doDescription}}
+            </div>
+          </div>
+          <div class="section" *ngIf="this.disease.diseaseIDs.length">
+            <mat-card-subtitle>
+              DataSource References
+            </mat-card-subtitle>
+            <div *ngFor="let id of this.disease.diseaseIDs">
+              <div *ngFor="let source of id.dataSources">
+                <ncats-property-display
+                  [property]="{label:source, term: id.id}"></ncats-property-display>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
   <br>
-  <br>
-</div>
 </article>

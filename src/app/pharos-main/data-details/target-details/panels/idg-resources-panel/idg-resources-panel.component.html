@@ -18,7 +18,7 @@
                                      [label]="'IDG Generated Resources'"></pharos-help-panel-trigger>
         </div>
       </div>
-      <mat-tab-group [selectedIndex]="reagents?.length ? 0 : 1">
+      <mat-tab-group>
         <mat-tab *ngIf="reagents?.length > 0"
                  label="Reagents ({{reagents?.length}})"
                  matTooltip="View and order IDG produced resources from vendors">
@@ -48,6 +48,12 @@
               <pharos-data-resource-panel [dataResource]="dataResource"></pharos-data-resource-panel>
             </div>
           </div>
+        </mat-tab>
+        <mat-tab *ngIf="mouseExpressions?.length > 0"
+          label="Mouse Imaging ({{mouseExpressions.length}})"
+        matTooltip="View and explore mouse expression data">
+          <pharos-mouse-expression [mouseExpressions]="this.mouseExpressions"
+          [mouseExpressionUpdates]="mouseExpressionsUpdated.asObservable()"></pharos-mouse-expression>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

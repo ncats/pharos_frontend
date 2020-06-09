@@ -93,6 +93,7 @@ export class HelpPanelComponent implements OnInit {
    */
   opened: boolean[] = [];
 
+  loading: boolean = true;
   /**
    * subscribe to dat asource changes and parse data object
    */
@@ -122,7 +123,8 @@ export class HelpPanelComponent implements OnInit {
       }
     });
 
-    this.helpPanelOpenerService.toggle$.subscribe(res => this.toggleMenu(res));
+    this.helpPanelOpenerService.toggle$.subscribe(res => this.toggleMenu(!this.loading));
+    this.loading = false;
   }
 
   /**

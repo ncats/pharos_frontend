@@ -4976,6 +4976,12 @@ export const TESTTARGET: Target = new TargetSerializer().fromJson(
   diseases: [
     {
       name: 'Huntington disease',
+      diseaseIDs: [{
+        id: "htt",
+        dataSources: ["Expression Atlas"]
+      }],
+      parents: [],
+      children: [],
       associationCount: 5,
       associations: [{
         type: 'UniProt Disease',

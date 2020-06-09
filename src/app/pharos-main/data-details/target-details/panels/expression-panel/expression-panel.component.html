@@ -40,15 +40,16 @@
                                       [clickHandler]="this.tissueClicked.bind(this)"></pharos-anatamogram>
                 </div>
                 <div fxFlex="48">
-                  <div *ngIf="this.uberonMap.size > 8">
-                    <mat-form-field class="table-search" [attr.id]="'expressionFilter'">
+                  <div *ngIf="this.uberonMap.size > 8" class="search-container">
+                    <mat-form-field class="table-search">
                       <input matInput (keyup)="filterTissues($event.target.value)" placeholder="Search tissues">
                     </mat-form-field>
-                    <mat-button-toggle class="alphabetize-button" name="alphabetize" (change)="alphabetize($event)" [value]="this.alphabetized">
+                    <button type="button" mat-raised-button class="alphabetize-button" name="alphabetize"
+                            (click)="this.alphabetize($event)" [ngClass]="{pressed:this.alphabetized}" [color]="'primary'">
                       <mat-icon matTooltip="Alphabetize tissue list">sort_by_alpha</mat-icon>
-                    </mat-button-toggle>
+                    </button>
                   </div>
-                  <div class="expression-card-list" [attr.id]="'expression-card-list'">
+                  <div id="expression-card-list" class="expression-card-list">
                     <div *ngFor="let exprSources of this.sortedExpressions">
                       <pharos-expression-tissue-card [tissueExpressionSources]="exprSources"
                                                      [clickedTissue]="this.clickedTissue"></pharos-expression-tissue-card>
@@ -57,54 +58,6 @@
                 </div>
               </div>
             </mat-tab>
-            <!--      <mat-tab label="Mouse">
-                <div fxLayout = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="anatamogram-row">
-                  <div fxFlex="50">
-                    <pharos-anatamogram [tissues]="tissues" [species]="'mus_musculus'"></pharos-anatamogram>
-                  </div>
-                  <div fxFlex = "50">
-                      <mat-tab-group (selectedTabChange)="changeHarminogramTabData($event)" [dynamicHeight]="true">
-                        <mat-tab *ngFor="let source of sourceList" label = "{{source.label}} ({{getSourceCount(source.label)}})"  >
-                                <pharos-link-list [list]= hgData [label]=source.label></pharos-link-list>
-                        </mat-tab>
-                      </mat-tab-group>
-                  </div>
-                </div>
-                  </mat-tab>-->
-            <!--
-                    <mat-tab>
-                      <ng-template mat-tab-label>
-                        <div
-                        [matTooltip] = "getTooltip('specificity')"
-                        [matTooltipClass] = "'pharos-tooltip'">
-                        Specificity</div>
-                      </ng-template>
-                      <div fxLayout = "row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="radarchart anatamogram-row">
-                        <div fxFlex="50" fxFlexAlign="stretch">
-                         &lt;!&ndash; <pharos-radar-chart
-                            #radar
-                            id ="radar"
-                            [data] = radarData
-                            [shape]="true"
-                            [size] = "'medium-shape'"
-                            [origin]="'expression'"></pharos-radar-chart>&ndash;&gt;
-                      </div>
-                      </div>
-                    </mat-tab>
-            -->
-            <!--
-                    <mat-tab *ngIf=data.differential>
-                      <ng-template mat-tab-label>
-                        <div
-                        [matTooltip] = "getTooltip('differential')"
-                        [matTooltipClass] = "'pharos-tooltip'">
-                        Differential</div>
-                      </ng-template>
-                      <div class="table-holder" fxFlex>
-                        <pharos-differential-panel [data]="data.differential"></pharos-differential-panel>
-                    </div>
-                    </mat-tab>
-            -->
             <mat-tab *ngIf="target.orthologs && target.orthologCounts > 0">
               <ng-template mat-tab-label>
                 <div

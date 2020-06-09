@@ -1,0 +1,27 @@
+<div class="container">
+<div fxFlex="40">
+  <pharos-anatamogram [species]="'mus_musculus'" [tissues]="this.tissues" [clickHandler]="this.tissueClicked.bind(this)"></pharos-anatamogram>
+</div>
+<div fxFlex="56">
+  <div id="expression-card-list" class="expression-card-list" >
+    <div
+      *ngFor="let uberon of this.tissues">
+      <mat-expansion-panel [expanded]="this.clickedTissue === uberon">
+        <mat-expansion-panel-header
+          (mouseover)="this.setHover(uberon)"
+          (mouseleave)="this.setHover(null)">
+          {{this.getExpressions(uberon)[0].tissue}}
+          <div class="header-helptext" [ngClass]="{'hidden': !this.collapsed}" matTooltip="Number of experimental conditions showing expression for this tissue.">
+            {{this.expressionDataString(uberon)}}
+          </div>
+        </mat-expansion-panel-header>
+        <div class="expression-grid">
+          <div *ngFor="let expr of this.getExpressions(uberon)">
+            <pharos-data-resource-panel [dataResource]="expr"></pharos-data-resource-panel>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </div>
+  </div>
+</div>
+</div>

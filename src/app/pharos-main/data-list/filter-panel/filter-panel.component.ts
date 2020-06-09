@@ -7,7 +7,7 @@ import {PharosConfig} from '../../../../config/pharos-config';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
 import {PanelOptions} from '../../pharos-main.component';
 import {map, take, takeUntil} from 'rxjs/operators';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {AngularFirestore} from '@angular/fire/firestore';
 
@@ -162,6 +162,9 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((e: any) => {
         // If it is a NavigationEnd event re-initalise the component
+        if (e instanceof NavigationStart && e.navigationTrigger === "popstate"){
+          this.selectedFacetService.clearFacets();
+        }
         if (e instanceof NavigationEnd) {
           if (this.data) {
             this.allFacets = [];

@@ -28,7 +28,6 @@
               "src/manifest.json"
             ],
             "styles": [
-              "node_modules/swagger-ui/dist/swagger-ui.css",
               "node_modules/ProtVista/build/css/main.css",
               "src/styles.scss"
             ],
