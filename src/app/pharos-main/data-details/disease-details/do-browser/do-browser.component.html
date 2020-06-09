@@ -10,7 +10,7 @@
             <mat-card-subtitle>Parents</mat-card-subtitle>
             <div *ngFor="let parent of this.disease.parents">
               <ncats-property-display [showLabel]="false"
-                                      [property]="{term:parent.name + ' (' + parent.associationCount + ')', internalLink:'/diseases/' + parent.name}">{{parent.targetCountsTotal}}</ncats-property-display>
+                                      [property]="{term:parent.name + ' (' + parent.targetCountsTotal + ')', internalLink:'/diseases/' + parent.name}">{{parent.targetCountsTotal}}</ncats-property-display>
               <div FxFlex class="assoc-count">
                 <div *ngFor='let assocCount of parent.targetCounts'>
                   <div class="assoc-count">
@@ -25,7 +25,7 @@
             <mat-card-subtitle>Children</mat-card-subtitle>
             <div *ngFor="let child of this.disease.children">
               <ncats-property-display [showLabel]="false"
-                                      [property]="{term:child.name + ' (' + child.associationCount + ')', internalLink:'/diseases/' + child.name}">{{child.targetCountsTotal}}</ncats-property-display>
+                                      [property]="{term:child.name + ' (' + child.targetCountsTotal + ')', internalLink:'/diseases/' + child.name}">{{child.targetCountsTotal}}</ncats-property-display>
               <div FxFlex class="assoc-count">
                 <div *ngFor='let assocCount of child.targetCounts'>
                   <div class="assoc-count">

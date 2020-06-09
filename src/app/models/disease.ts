@@ -10,6 +10,10 @@ export const DISEASELISTFIELDS = gql`
   fragment diseasesListFields on Disease {
     name
     associationCount
+    targetCounts {
+      name
+      value
+    }
   }
 `;
 
@@ -144,6 +148,14 @@ export class DiseaseSerializer implements Serializer {
 
     if (json.targetCounts) {
       obj.targetCountsTotal = json.targetCounts.reduce((prev, cur) => prev + cur.value, 0);
+    }
+
+    if(json.parents){
+      obj.parents = json.parents.map(parent => this.fromJson(parent)).sort((a,b) => {return b.targetCountsTotal - a.targetCountsTotal});
+    }
+
+    if(json.children){
+      obj.children = json.children.map(child => this.fromJson(child)).sort((a,b) => {return b.targetCountsTotal - a.targetCountsTotal});
     }
 
     return obj;
