@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
@@ -34,11 +34,13 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
    */
   tissues: string[] = [];
 
+  @ViewChild("expression_card_list") expressionList: ElementRef;
+
   tissueClicked(tissue) {
     this.searchString = "";
     this.clickedTissue = tissue;
     this.setExpressionList();
-    var scrollWindow = window.document.getElementById('expression-card-list');
+    var scrollWindow = this.expressionList.nativeElement;
     scrollWindow.scrollTop = 0;
   }
 
@@ -150,7 +152,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     this.alphabetized = !this.alphabetized;
     this.clickedTissue = "";
     this.setExpressionList();
-    var scrollWindow = window.document.getElementById('expression-card-list');
+    var scrollWindow = this.expressionList.nativeElement;
     scrollWindow.scrollTop = 0;
   }
 
