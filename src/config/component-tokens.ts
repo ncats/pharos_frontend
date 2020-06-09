@@ -79,6 +79,7 @@ export class TOKENS {
    * injection token to link to the target summary component
    */
   public static DISEASE_HEADER_COMPONENT = new InjectionToken<string>('DiseaseHeaderComponent');
+  public static DISEASE_DO_BROWSER_COMPONENT = new InjectionToken<string>('DiseaseDoBrowserComponent');
   /**
    * injection token to link to the disease source panel
    */

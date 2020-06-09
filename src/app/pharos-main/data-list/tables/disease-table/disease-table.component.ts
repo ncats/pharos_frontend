@@ -40,7 +40,7 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
       width: '35vw'
     }),
     new PharosProperty({
-      name: 'associationCount',
+      name: 'targetCountsTotal',
       label: 'Associated Targets'
     })
   ];

@@ -1,9 +1,17 @@
-
 .full-height {
 /*  align-self: stretch;
   justify-self: stretch;
   min-height: 100%;
   height: 100%;*/
+}
+
+.search-container{
+  display: flex;
+  flex-direction: row;
+}
+
+.table-search{
+  flex: 1;
 }
 
 .table-holder {
@@ -21,6 +29,10 @@ img.hg {
 .alphabetize-button{
   border: none;
   margin-left: 1vw;
+}
+
+.alphabetize-button.pressed{
+  opacity: 50%;
 }
 
 .expression-card-list{

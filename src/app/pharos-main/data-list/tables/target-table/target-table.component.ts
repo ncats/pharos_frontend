@@ -63,7 +63,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * holds the gene that is used as the binding partner for the current target list
    */
   associatedTarget: String = "";
-
+  associatedDisease: String = "";
   /**
    * main list of paginated targets
    */
@@ -219,7 +219,8 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       )
       .subscribe(x => {
         this.associatedTarget = this._route.snapshot.queryParamMap.get("associatedTarget");
-        this.sortMap = (!!this.associatedTarget) ? this.ppiSortMap : this.defautlSortMap;
+        this.associatedDisease = this._route.snapshot.queryParamMap.get("associatedDisease");
+        this.sortMap = (!!this.associatedTarget) ? this.ppiSortMap : this.defautlSortMap; // TODO: different sort map for disease?
         if (this.data && this.data.targets) {
           this.pageData = new PageData({
             top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,

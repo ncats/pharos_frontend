@@ -6,42 +6,70 @@ import {DiseaseAssocationSerializer, DiseaseAssociation} from './disease-associa
 /**
  * apollo graphQL query fragment to retrieve common fields for a disease list view
  */
-export const DISEASELISTFIELDS =  gql`
-      fragment diseasesListFields on Disease {
-          name
-          associationCount
-        }
-    `;
+export const DISEASELISTFIELDS = gql`
+  fragment diseasesListFields on Disease {
+    name
+    associationCount
+    targetCounts {
+      name
+      value
+    }
+  }
+`;
 
 const DISEASEDETAILSQUERY = gql`
   #import "./diseasesListFields.gql"
- query fetchDetails(
-        $term: String,
-        $associationtop: Int, 
-        $associationskip: Int, 
-        ) {
-          diseases: disease(
-            name: $term,
-          ) {
-        ...diseasesListFields
-         associations(top: $associationtop, skip: $associationskip) {
-            type
-            name
-            description
-            zscore
-            evidence
-            conf
-            log2foldchange
-            drug
-            source
-            targetCounts {
-              name
-              value
-            }
-          }
+  query fetchDetails(
+    $term: String,
+    $associationtop: Int,
+    $associationskip: Int,
+  ) {
+    diseases: disease(
+      name: $term,
+    ) {
+      ...diseasesListFields
+      uniprotDescription
+      doDescription
+      diseaseIDs:dids{
+        id
+        dataSources
+        doName
+        doDefinition
+      }
+      targetCounts {
+        name
+        value
+      }
+      associations(top: $associationtop, skip: $associationskip) {
+        type
+        name
+        description
+        zscore
+        evidence
+        conf
+        log2foldchange
+        drug
+        source
+      }
+      parents{
+        name
+        associationCount
+        targetCounts {
+          name
+          value
         }
+      }
+      children{
+        name
+        associationCount
+        targetCounts {
+          name
+          value
         }
-          ${DISEASELISTFIELDS}
+      }
+    }
+  }
+  ${DISEASELISTFIELDS}
 `;
 
 
@@ -53,10 +81,9 @@ export class Disease {
   /**
    * fragment of common fields. fetched by the route resolver
    */
-  static diseaseListFragments  = DISEASELISTFIELDS;
+  static diseaseListFragments = DISEASELISTFIELDS;
 
   static diseaseDetailsQuery = DISEASEDETAILSQUERY;
-
 
   /**
    * name of disease
@@ -68,12 +95,32 @@ export class Disease {
    */
   associationCount: number;
 
+  uniprotDescription: string;
+  doDescription: string;
+
+  diseaseIDs: DiseaseID[];
+
   /**
    * List of disease association objects
    */
   associations: DiseaseAssociation[];
+  /**
+   * number of targets related to disease association
+   */
+  targetCounts?: any[];
+
+  targetCountsTotal: number;
+
+  parents?: Disease[];
+  children?: Disease[];
 }
 
+export class DiseaseID{
+  id: string;
+  dataSources: string[];
+  doName: string;
+  doDefinition: string;
+}
 /**
  * serializer for a disease object
  */
@@ -82,7 +129,8 @@ export class DiseaseSerializer implements Serializer {
   /**
    * no args constructor
    */
-  constructor() {}
+  constructor() {
+  }
 
   /**
    * return disease object from json, mapping sublists
@@ -95,8 +143,21 @@ export class DiseaseSerializer implements Serializer {
 
     if (json.associations) {
       const associationSerializer = new DiseaseAssocationSerializer();
-      obj.associations = json.associations.map(ass => associationSerializer.fromJson(ass));
+      obj.associations = json.associations.map(assoc => associationSerializer.fromJson(assoc));
     }
+
+    if (json.targetCounts) {
+      obj.targetCountsTotal = json.targetCounts.reduce((prev, cur) => prev + cur.value, 0);
+    }
+
+    if(json.parents){
+      obj.parents = json.parents.map(parent => this.fromJson(parent)).sort((a,b) => {return b.targetCountsTotal - a.targetCountsTotal});
+    }
+
+    if(json.children){
+      obj.children = json.children.map(child => this.fromJson(child)).sort((a,b) => {return b.targetCountsTotal - a.targetCountsTotal});
+    }
+
     return obj;
   }
 
@@ -124,7 +185,7 @@ export class DiseaseSerializer implements Serializer {
       newObj.associations = obj.associations.map(ass => associationSerializer._asProperties(ass));
     }
     newObj.name.internalLink = ['/diseases', obj.name];
-  //  newObj.id.internalLink = ['/diseases', obj.id];
+    //  newObj.id.internalLink = ['/diseases', obj.id];
     return newObj;
   }
 

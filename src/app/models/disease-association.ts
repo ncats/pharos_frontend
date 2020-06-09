@@ -70,13 +70,6 @@ export class DiseaseAssociation {
    * disease association source
    */
   source?: string;
-
-  /**
-   * number of targets related to disease association
-   */
-  targetCounts?: number;
-
-  targetCountsTotal: number;
 }
 
 /**
@@ -97,10 +90,6 @@ export class DiseaseAssocationSerializer implements Serializer {
   fromJson(json: any): DiseaseAssociation {
     const obj = new DiseaseAssociation();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
-
-    if (json.targetCounts) {
-      obj.targetCountsTotal = json.targetCounts.reduce((prev, cur) => prev + cur.value, 0);
-    }
 
     return obj;
   }

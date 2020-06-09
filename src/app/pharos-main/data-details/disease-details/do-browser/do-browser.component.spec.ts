@@ -1,15 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DiseaseHeaderComponent } from './disease-header.component';
+import { DoBrowserComponent } from './do-browser.component';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {TESTTARGET} from "../../../../../../test/test-target";
 
-describe('DiseaseHeaderComponent', () => {
-  let component: DiseaseHeaderComponent;
-  let fixture: ComponentFixture<DiseaseHeaderComponent>;
+describe('DoBrowserComponent', () => {
+  let component: DoBrowserComponent;
+  let fixture: ComponentFixture<DoBrowserComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DiseaseHeaderComponent ],
+      declarations: [ DoBrowserComponent ],
       imports: [
         ApolloTestingModule
       ]
@@ -18,7 +18,7 @@ describe('DiseaseHeaderComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DiseaseHeaderComponent);
+    fixture = TestBed.createComponent(DoBrowserComponent);
     component = fixture.componentInstance;
     component.data.diseases = TESTTARGET.diseases[0];
     component.disease = TESTTARGET.diseases[0];
