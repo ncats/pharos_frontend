@@ -3,7 +3,7 @@
   <pharos-anatamogram [species]="'mus_musculus'" [tissues]="this.tissues" [clickHandler]="this.tissueClicked.bind(this)"></pharos-anatamogram>
 </div>
 <div fxFlex="56">
-  <div id="expression-card-list" class="expression-card-list" >
+  <div class="expression-card-list" #expression_card_list>
     <div
       *ngFor="let uberon of this.tissues">
       <mat-expansion-panel [expanded]="this.clickedTissue === uberon">
