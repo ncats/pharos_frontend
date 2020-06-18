@@ -70,6 +70,9 @@ export class DiseaseAssociation {
    * disease association source
    */
   source?: string;
+
+  O2S?: number;
+  S2O?: number;
 }
 
 /**
