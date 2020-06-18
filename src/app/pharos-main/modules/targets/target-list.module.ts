@@ -15,6 +15,7 @@ import {GeneDetailsComponent} from "../../data-list/cards/long-target-card/gene-
 import {InteractionDetailsComponent} from "../../data-list/cards/long-target-card/interaction-details/interaction-details.component";
 import {KnowledgeMetricsComponent} from "../../data-list/cards/long-target-card/knowledge-metrics/knowledge-metrics.component";
 import {HelpPanelComponent} from "../../../tools/help-panel/help-panel.component";
+import {DiseaseAssociationDetailsComponent} from "../../data-list/cards/long-target-card/disease-association-details/disease-association-details.component";
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import {HelpPanelComponent} from "../../../tools/help-panel/help-panel.component
     LongTargetCardComponent,
     GeneDetailsComponent,
     InteractionDetailsComponent,
+    DiseaseAssociationDetailsComponent,
     KnowledgeMetricsComponent,
     InjectedRadarChartComponent,
     TopicSaveModalComponent
@@ -46,6 +48,7 @@ import {HelpPanelComponent} from "../../../tools/help-panel/help-panel.component
     LongTargetCardComponent,
     GeneDetailsComponent,
     InteractionDetailsComponent,
+    DiseaseAssociationDetailsComponent,
     KnowledgeMetricsComponent
   ]
 })

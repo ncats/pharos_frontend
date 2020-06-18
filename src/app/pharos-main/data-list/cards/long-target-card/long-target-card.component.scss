@@ -5,15 +5,15 @@
   padding-bottom: 30px;
 }
 
-.mat-card-title{
-  cursor:pointer;
+.mat-card-title {
+  cursor: pointer;
 }
 
-.mat-card-content{
+.mat-card-content {
   width: 100%;
 }
 
-.mat-card-subtitle{
+.mat-card-subtitle {
   font-size: x-large;
 }
 
@@ -21,7 +21,7 @@
   background-color: #f6f6f6;
 }
 
-.toprow{
+.toprow {
   display: flex;
   flex-direction: row;
   align-items: baseline;
@@ -35,15 +35,15 @@
   box-sizing: border-box;
 }
 
-.list-header{
-  margin-top: 10px;
+.list-header {
+  margin-top: 0.5vh;
 }
 
-.list-item{
+.list-item {
   margin-left: 10px;
 }
 
-.section{
+.section {
   max-width: 33%;
   min-width: 20%;
   padding: 20px;
@@ -54,3 +54,16 @@
   height: 150px;
 }
 
+.diseaseList {
+  margin-top: 1.5vh;
+  margin-bottom: 0;
+}
+
+.diseaseName {
+  font-weight: bold;
+  font-size: larger;
+}
+
+.association-list {
+  margin-left: 1vw;
+}
