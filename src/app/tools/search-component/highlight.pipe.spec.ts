@@ -28,7 +28,7 @@ describe('AutoComplete Component - Highlight pipe', () => {
     expect(result).toBe('search <span class="search-highlight">text</span>');
   });
 
-  it('shoudl return same text', () => {
+  it('should return same text', () => {
     const result = pipe.transform('search text', '');
     expect(result).toBe('search text', 'search text');
   });

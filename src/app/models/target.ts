@@ -8,6 +8,7 @@ import {Ligand, LigandSerializer} from './ligand';
 import {TARGETDETAILSFIELDS, TARGETDETAILSQUERY, TARGETLISTFIELDS} from "./target-components";
 import {Facet} from "./facet";
 import {InteractionDetails} from "./interaction-details";
+import {DiseaseAssocationSerializer, DiseaseAssociation} from "./disease-association";
 
 
 /**
@@ -243,6 +244,7 @@ export class Target extends PharosBase {
 
   properties: DataProperty[] = [];
   interactionDetails?: InteractionDetails;
+  diseaseAssociationDetails?: DiseaseAssociation[] = [];
 }
 
 /**
@@ -303,6 +305,11 @@ export class TargetSerializer implements PharosSerializer {
         p_ni: json.interactionDetails.p_ni,
         p_wrong: json.interactionDetails.p_wrong
       };
+    }
+
+    if(json.diseaseAssociationDetails){
+      const assocationSerializer = new DiseaseAssocationSerializer();
+      obj.diseaseAssociationDetails = json.diseaseAssociationDetails.map(assoc => assocationSerializer.fromJson(assoc));
     }
 
     if (json.uniprotIds) {
