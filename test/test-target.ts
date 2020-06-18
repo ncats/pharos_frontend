@@ -4973,6 +4973,14 @@ export const TESTTARGET: Target = new TargetSerializer().fromJson(
       uberon: {name: 'retina', uid: 'UBERON:0000966', __typename: 'Uberon'},
       __typename: 'Expression'
     }],
+    diseaseAssociationDetails: [
+      {
+        name: "benign ependymoma"
+      },
+      {
+        name: "malignant ependymoma"
+      }
+    ],
   diseases: [
     {
       name: 'Huntington disease',

@@ -170,6 +170,21 @@ export const TARGETLISTFIELDS = gql`
       p_int
       p_wrong
     }
+    diseaseAssociationDetails{
+      name
+      type: dataType
+      evidence
+      zscore
+      conf
+      reference
+      drug: drug_name
+      log2foldchange
+      pvalue
+      score
+      source
+      O2S
+      S2O
+    }
     uniProtFunction: props (name: "UniProt Function"){
       value
     }

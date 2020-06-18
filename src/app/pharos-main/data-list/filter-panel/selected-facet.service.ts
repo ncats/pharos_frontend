@@ -183,7 +183,7 @@ export class SelectedFacetService {
         this._facetMap.set('associatedTarget', new Facet({label: 'Associated Target', facet:'associatedTarget', values: [{name: map.get('associatedTarget')}]}));
       }
       if(map.has('associatedDisease')){
-        this._facetMap.set('associatedDisease', new Facet({label: 'Associated Disease', facet:'associatedDisease', values: [{name: map.get('associatedDisease')}]}));
+        this._facetMap.set('associatedDisease', new Facet({label: 'Disease Subtree', facet:'associatedDisease', values: [{name: map.get('associatedDisease')}]}));
       }
       const fList = map.getAll('facet');
       fList.forEach(facetString => {
