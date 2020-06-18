@@ -18,7 +18,7 @@
                                      [label]="'IDG Generated Resources'"></pharos-help-panel-trigger>
         </div>
       </div>
-      <mat-tab-group>
+      <mat-tab-group #tabs>
         <mat-tab *ngIf="reagents?.length > 0"
                  label="Reagents ({{reagents?.length}})"
                  matTooltip="View and order IDG produced resources from vendors">

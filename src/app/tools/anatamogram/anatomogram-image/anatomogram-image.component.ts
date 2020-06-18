@@ -100,6 +100,7 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
    * set mouseover and mouseout funcitons on each tissue to cover selection and hover changes
    */
   updateImage() {
+    if(!this.svg) {return;}
     this.tissues.forEach(tissue => this.svg.select(`#${tissue}`).selectAll('path')
       .on('mouseover', (d, i, f) => d3.select(f[i].parentNode).selectAll('path')
         .style('stroke', 'rgba(255, 178, 89, 1')
@@ -110,8 +111,6 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
         .style('stroke', 'rgba(35, 54, 78, .4')
         .style('stroke-width', '.5')
         .style('fill', 'rgba(35, 54, 78, .4'))
-      .style('stroke', 'rgba(35, 54, 78, .4')
-
       .style('stroke', 'rgba(35, 54, 78, .4')
       .style('stroke-width', '.5')
       .style('fill', 'rgba(35, 54, 78, .4'));
@@ -129,8 +128,6 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
         .style('stroke', 'rgba(35, 54, 78, .4')
         .style('stroke-width', '.5')
         .style('fill', 'rgba(35, 54, 78, .4'))
-      .style('stroke', 'rgba(35, 54, 78, .4')
-
       .style('stroke', 'rgba(35, 54, 78, .4')
       .style('stroke-width', '.5')
       .style('fill', 'rgba(35, 54, 78, .4'));
