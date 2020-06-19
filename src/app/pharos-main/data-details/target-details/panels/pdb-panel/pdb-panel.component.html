@@ -1,4 +1,4 @@
-<article>
+<article *ngIf="this.target.pdbs && this.target.pdbs.length > 0">
   <mat-card class="section-card"
           (pharosScrollspy)="active('pdbview')"
           #pdbview
