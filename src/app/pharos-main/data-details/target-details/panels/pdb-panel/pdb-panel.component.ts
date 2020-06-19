@@ -147,15 +147,12 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
         this.target = this.data.targets;
         if (this.target.pdbs && this.target.pdbs.length > 0) {
           this.setterFunction();
-          this.loading = false;
+          this.navSectionsService.showSection(this.field);
         } else {
-          this.loading = false;
-          this.navSectionsService.removeSection(this.field);
-          this.ngUnsubscribe.next();
-          this.ngUnsubscribe.complete();
-          this.changeRef.detectChanges();
-          this.selfDestruct.next('true');
+          this.navSectionsService.hideSection(this.field);
         }
+        this.changeRef.markForCheck();
+        this.loading = false;
       });
 
   }

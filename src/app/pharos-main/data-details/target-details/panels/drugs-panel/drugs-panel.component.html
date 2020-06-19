@@ -1,4 +1,4 @@
-<article>
+<article *ngIf="(this.target?.drugs?.length > 0)">
   <mat-card id={{field}}
             class="section-card"
             *ngIf="data"

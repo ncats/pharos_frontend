@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
@@ -71,7 +71,8 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
   constructor(
     private http: HttpClient,
     private navSectionsService: NavSectionsService,
-    private pharosConfig: PharosConfig) {
+    private pharosConfig: PharosConfig,
+    private changeRef: ChangeDetectorRef) {
     super();
   }
 
@@ -89,6 +90,9 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
       .subscribe(x => {
           this.target = this.data.targets;
           this.loading = true;
+          this.dataResources = [];
+          this.reagents = [];
+          this.mouseExpressions = [];
           this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/search?term=${this.target.gene}`).subscribe(resourceList => {
             if (resourceList && resourceList.data) {
               resourceList.data.forEach(resourceMetadata => {
@@ -96,11 +100,12 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
                   this.fetchResourceDetails(resourceMetadata);
                 }
               });
-              this.loading = false;
+              this.navSectionsService.showSection(this.field);
             } else {
-              this.navSectionsService.removeSection(this.field);
-              this.selfDestruct.next('true');
+              this.navSectionsService.hideSection(this.field);
             }
+            this.changeRef.markForCheck();
+            this.loading = false;
           });
         }
       );

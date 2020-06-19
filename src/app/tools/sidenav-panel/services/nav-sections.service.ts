@@ -15,7 +15,8 @@ export class NavSectionsService {
   /**
    *   initialize a private variable _data, it's a BehaviorSubject
    */
-  private _sections: any[] = [];
+  private _visibleSections: any[] = [];
+  private _allSections: any[] = [];
 
   /**
    * RxJs subject to broadcast help panel data changes
@@ -49,16 +50,24 @@ export class NavSectionsService {
   activeSection$ = this._activeSectionSource.asObservable();
 
   setSections(sections: any[]): void {
-    this._sections = sections;
-    this._navSectionsSource.next(this._sections);
+    this._visibleSections = sections;
+    this._allSections = sections;
+    this._navSectionsSource.next(this._visibleSections);
   }
 
   setActiveSection(section: string) {
     this._activeSectionSource.next(section);
   }
 
-  removeSection(remSection: string) {
-    this._sections = this._sections.filter(section => section.section !== remSection);
-    this._navSectionsSource.next(this._sections);
+  hideSection(remSection: string) {
+    this._visibleSections = this._visibleSections.filter(section => section.section !== remSection);
+    this._navSectionsSource.next(this._visibleSections);
+  }
+
+  showSection(addSection: string){
+    this._visibleSections = this._allSections.filter(section => {
+      return section.section === addSection || this._visibleSections.includes(section);
+    });
+    this._navSectionsSource.next(this._visibleSections);
   }
 }

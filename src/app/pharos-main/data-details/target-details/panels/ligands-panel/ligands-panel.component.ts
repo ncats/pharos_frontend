@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Output} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import { PageEvent } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import {PageEvent} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
 import {Ligand, LigandSerializer} from '../../../../../models/ligand';
 import {takeUntil} from 'rxjs/operators';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
@@ -42,6 +42,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
    * reference to Facet class for use in the html
    */
   Facet = Facet;
+
   /**
    * most of these dependencies handle the pagination of the data
    *
@@ -71,21 +72,21 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
    */
   ngOnInit() {
     this._data
-    // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
+      // listen to data as long as term is undefined or null
+      // Unsubscribe once term has value
       .pipe(
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
         this.target = this.data.targets;
-        if (this.target.ligands && this.target.ligands.length === 0) {
-          this.loading = false;
-          this.navSectionsService.removeSection(this.field);
-          this.ngUnsubscribe.next();
-          this.ngUnsubscribe.complete();
-          this.changeRef.detectChanges();
-          this.selfDestruct.next('true');
+        if (this.target.ligands) {
+          if (this.target.ligands.length === 0) {
+            this.navSectionsService.hideSection(this.field);
+          } else {
+            this.navSectionsService.showSection(this.field);
+          }
         }
+        this.changeRef.markForCheck();
         this.loading = false;
       });
   }
@@ -101,7 +102,7 @@ export class LigandsPanelComponent extends DynamicPanelComponent implements OnIn
       ligandstop: event.pageSize,
       ligandsskip: event.pageIndex * event.pageSize,
     };
-    this.pharosApiService.getComponentPage(this._route.snapshot,pageParams,TargetComponents.Component.Ligands).subscribe(res => {
+    this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, TargetComponents.Component.Ligands).subscribe(res => {
       this.target.ligands = res.data.targets.ligands.map(lig => ligandSerializer.fromJson(lig));
       this.loading = false;
       this.changeRef.markForCheck();
