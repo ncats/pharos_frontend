@@ -30,7 +30,6 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
    * target object
    */
   @Input() target: Target;
-
   /**
    * data source used to page the ligand list
    * @type {MatTableDataSource<Ligand>}
@@ -72,14 +71,15 @@ export class DrugsPanelComponent extends DynamicPanelComponent implements OnInit
       )
       .subscribe(x => {
         this.target = this.data.targets;
-        if (this.target.drugs && this.target.drugs.length === 0) {
-          this.loading = false;
-          this.navSectionsService.removeSection(this.field);
-          this.ngUnsubscribe.next();
-          this.ngUnsubscribe.complete();
-          this.changeRef.detectChanges();
-          this.selfDestruct.next('true');
+        if (this.target.drugs) {
+          if (this.target.drugs.length === 0) {
+            this.navSectionsService.hideSection(this.field);
+          }
+          else{
+            this.navSectionsService.showSection(this.field);
+          }
         }
+        this.changeRef.markForCheck();
         this.loading = false;
       });
   }
