@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
@@ -10,6 +10,7 @@ import {IDGResourceSerializer} from '../../../../../models/idg-resources/resourc
 import {DataResource, MouseImageData} from '../../../../../models/idg-resources/data-resource';
 import {Reagent} from '../../../../../models/idg-resources/reagent';
 import {PageData} from "../../../../../models/page-data";
+import {MatTabGroup} from "@angular/material/tabs";
 
 /**
  * panel to show idg generated resources
@@ -24,6 +25,7 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
   @Output() selfDestruct: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   @Input() target: Target;
 
+  @ViewChild('tabs') tabGroup: MatTabGroup;
   /**
    * Serializer to parse API results into Resource objects
    */
@@ -69,7 +71,8 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
   constructor(
     private http: HttpClient,
     private navSectionsService: NavSectionsService,
-    private pharosConfig: PharosConfig) {
+    private pharosConfig: PharosConfig,
+    private changeRef: ChangeDetectorRef) {
     super();
   }
 
@@ -87,6 +90,9 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
       .subscribe(x => {
           this.target = this.data.targets;
           this.loading = true;
+          this.dataResources = [];
+          this.reagents = [];
+          this.mouseExpressions = [];
           this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/search?term=${this.target.gene}`).subscribe(resourceList => {
             if (resourceList && resourceList.data) {
               resourceList.data.forEach(resourceMetadata => {
@@ -94,11 +100,12 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
                   this.fetchResourceDetails(resourceMetadata);
                 }
               });
-              this.loading = false;
+              this.navSectionsService.showSection(this.field);
             } else {
-              this.navSectionsService.removeSection(this.field);
-              this.selfDestruct.next('true');
+              this.navSectionsService.hideSection(this.field);
             }
+            this.changeRef.markForCheck();
+            this.loading = false;
           });
         }
       );
@@ -147,6 +154,7 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
     if (newElement instanceof MouseImageData) {
       this.mouseExpressions.push(newElement);
       this.mouseExpressionsUpdated.next();
+      this.tabGroup.selectedIndex = 2;
     } else {
       this.dataResources.push(newElement);
       this.dataResourcePageData = this.makePageData(this.dataResources.length);
