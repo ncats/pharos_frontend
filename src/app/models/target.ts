@@ -270,6 +270,16 @@ export class TargetSerializer implements PharosSerializer {
     const obj = new Target();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
 
+    if(json.expressions){ // deduplicate expresssions, and translate uberon ID
+      let map = new Map<string, any>();
+      for(let i = 0 ; i < json.expressions.length ; i++){
+        if (json.expressions[i].uberon && json.expressions[i].uberon.uid) {
+          json.expressions[i].uberon.uid = json.expressions[i].uberon.uid.replace(':', '_');
+        }
+        map.set(JSON.stringify(json.expressions[i]), json.expressions[i]);
+      }
+     obj.expressions = Array.from(map.values());
+    }
     /**
      * mapping graphql responses, since they are returned as arrays
      */

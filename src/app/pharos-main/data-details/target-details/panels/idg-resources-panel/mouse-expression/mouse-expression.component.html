@@ -1,6 +1,7 @@
 <div class="container">
 <div fxFlex="40">
-  <pharos-anatamogram [species]="'mus_musculus'" [tissues]="this.tissues" [clickHandler]="this.tissueClicked.bind(this)"></pharos-anatamogram>
+  <pharos-anatamogram [species]="'mus_musculus'" [tissues]="this.tissues" [shadingMap]="this.shadingMap" [shadingKey]="this.shadingKey"
+                      [redrawAnatamogram]="this.redrawAnatamogram" [clickHandler]="this.tissueClicked.bind(this)"></pharos-anatamogram>
 </div>
 <div fxFlex="56">
   <div class="expression-card-list" #expression_card_list>

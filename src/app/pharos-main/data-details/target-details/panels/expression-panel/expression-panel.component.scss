@@ -40,3 +40,20 @@ img.hg {
   overflow: scroll;
   transition: scrollTop 2s linear;
 }
+
+.sort-select{
+  width: 50%;
+  margin-left: 5px;
+}
+
+.resource-thumb {
+  max-height: 12rem;
+}
+
+.thumb-holder {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  margin-bottom: 2vh;
+  margin-top: 2vh;
+}

@@ -5,6 +5,7 @@
   top: 0;
   position: relative;
   transition: all .25s linear;
+  white-space: nowrap;
 }
 
 .hidden{
@@ -18,4 +19,15 @@
   grid-template-columns: repeat(auto-fill, minmax(48%, 1fr));
   grid-gap: 1em;
   padding-left: 1vw;
+  word-wrap: break-word;
+}
+
+.types{
+  padding: 5px;
+}
+
+.sorting{
+  border: 1px solid;
+  border-radius: 5px;
+  border-color: gray;
 }
