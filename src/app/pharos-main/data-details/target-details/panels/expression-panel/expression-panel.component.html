@@ -29,14 +29,17 @@
                 <div
                   [matTooltip]="getTooltip('expression')"
                   [matTooltipClass]="'pharos-tooltip'">
-                  Human</div>
+                  Human
+                </div>
               </ng-template>
               <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around stretch" class="anatamogram-row">
                 <div fxFlex="48">
                   <!--
                           <img class = "hg" src = {{imgUrl}} alt ="representative human image with organs colored by expression">
                   -->
-                  <pharos-anatamogram [tissues]="tissues" [species]="'homo_sapiens'"
+                  <pharos-anatamogram [tissues]="tissues" [species]="'homo_sapiens'" [shadingKey]="this.shadingKey"
+                                      [shadingMap]="this.shadingMap"
+                                      [redrawAnatamogram]="this.redrawAnatamogram"
                                       [clickHandler]="this.tissueClicked.bind(this)"></pharos-anatamogram>
                 </div>
                 <div fxFlex="48">
@@ -44,26 +47,71 @@
                     <mat-form-field class="table-search">
                       <input matInput (keyup)="filterTissues($event.target.value)" placeholder="Search tissues">
                     </mat-form-field>
+                    <mat-form-field class="sort-select">
+                      <mat-select *ngIf="shadingMap.keys()" [(value)]="this.shadingKey" placeholder="DataSource"
+                                  (valueChange)="sortChanged($event)"
+                                  matTooltip="Sort the expression list">
+                        <mat-option *ngFor="let item of this.shadingMap | keyvalue" [value]="item.key">
+                          {{item.key}} ({{this.tissueCountFromMap(item.value)}} tissues)
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
                     <button type="button" mat-raised-button class="alphabetize-button" name="alphabetize"
-                            (click)="this.alphabetize($event)" [ngClass]="{pressed:this.alphabetized}" [color]="'primary'">
+                            (click)="this.alphabetize($event)" [ngClass]="{pressed:this.alphabetized}"
+                            [color]="'primary'">
                       <mat-icon matTooltip="Alphabetize tissue list">sort_by_alpha</mat-icon>
                     </button>
                   </div>
                   <div class="expression-card-list" #expression_card_list>
                     <div *ngFor="let exprSources of this.sortedExpressions">
-                      <pharos-expression-tissue-card [tissueExpressionSources]="exprSources"
+                      <pharos-expression-tissue-card [tissueExpressionSources]="exprSources" [sortKey]="this.shadingKey"
+                                                     [dataField]="this.getPreferredField(this.shadingKey)"
                                                      [clickedTissue]="this.clickedTissue"></pharos-expression-tissue-card>
                     </div>
                   </div>
                 </div>
               </div>
             </mat-tab>
+            <mat-tab *ngIf="this.cellLinesMap.size > 0">
+              <ng-template mat-tab-label>
+                <div
+                  class="mat-tab-label"
+                  [matTooltip]="getTooltip('cell lines')"
+                  [matTooltipClass]="'pharos-tooltip'">
+                  Cell Lines ({{this.cellLinesMap.size}})
+                </div>
+              </ng-template>
+              <div>
+                <div class="thumb-holder" fxFlex="28">
+                  <img src='./assets/images/resource-types/cell.png' class="resource-thumb"
+                       alt="image for cell types">
+                </div>
+                <div fxFlex="68">
+                <div *ngIf="this.cellLinesMap.size > 8" class="search-container">
+                  <mat-form-field class="table-search">
+                    <input matInput (keyup)="filterCellLines($event.target.value)" placeholder="Search tissues">
+                  </mat-form-field>
+                  <button type="button" mat-raised-button class="alphabetize-button" name="alphabetize"
+                          (click)="this.alphabetizeCellLines($event)" [ngClass]="{pressed:this.alphabetizedCellLines}"
+                          [color]="'primary'">
+                    <mat-icon matTooltip="Alphabetize cell lines">sort_by_alpha</mat-icon>
+                  </button>
+                </div>
+                <div class="expression-card-list" #cell_lines_card_list>
+                  <div *ngFor="let cellLine of this.sortedCellLines">
+                    <pharos-expression-tissue-card [tissueExpressionSources]="this.cellLinesMap.get(cellLine)">
+                    </pharos-expression-tissue-card>
+                  </div>
+                </div>
+              </div></div>
+            </mat-tab>
             <mat-tab *ngIf="target.orthologs && target.orthologCounts > 0">
               <ng-template mat-tab-label>
                 <div
                   [matTooltip]="getTooltip('orthologs')"
                   [matTooltipClass]="'pharos-tooltip'">
-                  Orthologs ({{target.orthologCounts}})</div>
+                  Orthologs ({{target.orthologCounts}})
+                </div>
               </ng-template>
               <div class="table-holder">
                 <pharos-ortholog-panel [data]=data></pharos-ortholog-panel>

@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {DataResource, MouseImageData} from "../../../../../../models/idg-resources/data-resource";
-import {Observable, Subscription} from "rxjs";
+import {Observable, Subject, Subscription} from "rxjs";
 import {AnatamogramHoverService} from "../../../../../../tools/anatamogram/anatamogram-hover.service";
 
 @Component({
@@ -18,6 +18,9 @@ export class MouseExpressionComponent implements OnInit {
   updateSubscription: Subscription;
   collapsed: boolean = true;
   expressionMap: Map<string, MouseImageData[]> = new Map<string, MouseImageData[]>();
+  shadingKey: string = "expressed";
+  shadingMap: Map<string, Map<string, number>> = new Map<string, Map<string, number>>();
+  redrawAnatamogram: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private anatamogramHoverService: AnatamogramHoverService,
@@ -30,6 +33,7 @@ export class MouseExpressionComponent implements OnInit {
   ngOnInit(): void {
     this.updateSubscription = this.mouseExpressionUpdates.subscribe(() => this.initializeLists());
     this.initializeLists();
+
   }
 
   initializeLists() {
@@ -44,7 +48,14 @@ export class MouseExpressionComponent implements OnInit {
       }
     });
     this.tissues = Array.from(this.expressionMap.keys());
+    let map = new Map<string, number>();
+    this.expressionMap.forEach((value, key) => {
+      let pctExpressed = value.filter(a => a.expressed).length / value.length;
+      map.set(key, pctExpressed);
+    });
+    this.shadingMap.set("expressed", map);
     this.sortTissues();
+    this.redrawAnatamogram.next(true);
   }
 
   @ViewChild("expression_card_list") expressionList: ElementRef;
@@ -57,8 +68,21 @@ export class MouseExpressionComponent implements OnInit {
     this.tissues = this.tissues.sort((a,b) => {
       if(a === this.clickedTissue) return -1;
       if(b === this.clickedTissue) return 1;
-      return a.localeCompare(b);
+      let expr_a = this.getExpressionValue(a);
+      let expr_b = this.getExpressionValue(b);
+      if (expr_a == expr_b){
+        return  this.getNameFromUberon(a).localeCompare(this.getNameFromUberon(b));
+      }
+      return expr_b - expr_a;
     });
+  }
+
+  getNameFromUberon(uid){
+    return this.expressionMap.get(uid)[0].tissue;
+  }
+
+  getExpressionValue(tissue): number{
+    return this.shadingMap.get("expressed").get(tissue);
   }
 
   clickedTissue: string = "";
