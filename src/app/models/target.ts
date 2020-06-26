@@ -135,7 +135,7 @@ export class Target extends PharosBase {
   /**
    * count og GO terms
    */
-  goCount: number;
+  goCount: GoCounts;
 
   /**
    * number of OMIM phenotypes
@@ -245,6 +245,25 @@ export class Target extends PharosBase {
   properties: DataProperty[] = [];
   interactionDetails?: InteractionDetails;
   diseaseAssociationDetails?: DiseaseAssociation[] = [];
+}
+
+export class GoCounts{
+  components: number;
+  functions: number;
+  processes: number;
+  TBioCount() {return this.functions + this.processes;}
+
+  constructor(json: any) {
+    this.processes = json.find(type => {
+      return type.name === "P";
+    })?.value || 0;
+    this.functions = json.find(type => {
+      return type.name === "F";
+    })?.value || 0;
+    this.components = json.find(type => {
+      return type.name === "C";
+    })?.value || 0;
+  }
 }
 
 /**
@@ -357,7 +376,7 @@ export class TargetSerializer implements PharosSerializer {
     }
 
     if (json.goCounts) {
-      obj.goCount = json.goCounts.reduce((prev, cur) => prev + cur.value, 0);
+      obj.goCount = new GoCounts(json.goCounts);
     }
 
     if (json.hgdata && json.hgdata.summary) {

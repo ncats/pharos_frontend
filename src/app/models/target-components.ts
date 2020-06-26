@@ -320,7 +320,10 @@ export const TARGETDETAILSFIELDS = gql`
     }
     generifCount
     sequence: seq
-    goCounts {value}
+    goCounts {
+      value
+      name
+    }
     orthologCounts {value}
     orthologs (top: $orthologstop, skip: $orthologsskip){
       ...ortholog_fields
