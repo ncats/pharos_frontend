@@ -34,7 +34,7 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
   /**
    * List of all reagents to show in the panel
    */
-  reagents: Reagent[] = [] ;
+  reagents: Reagent[] = [];
   /**
    * List of reagents currently shown in the panel, subject to filters and paging
    */
@@ -132,8 +132,7 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
    * active section view tracker
    * @param {string} fragment
    */
-  active(fragment: string)
-  {
+  active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
   }
 
@@ -154,7 +153,9 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
     if (newElement instanceof MouseImageData) {
       this.mouseExpressions.push(newElement);
       this.mouseExpressionsUpdated.next();
-      this.tabGroup.selectedIndex = 2;
+      if (this.tabGroup) {
+        this.tabGroup.selectedIndex = 2;
+      }
     } else {
       this.dataResources.push(newElement);
       this.dataResourcePageData = this.makePageData(this.dataResources.length);

@@ -400,10 +400,14 @@ export const TARGETDETAILSFIELDS = gql`
       type
       tissue
       qual
+      url
       value
       evidence
       zscore
       conf
+      pub {
+        pmid
+      }
       uberon {
         name
         uid

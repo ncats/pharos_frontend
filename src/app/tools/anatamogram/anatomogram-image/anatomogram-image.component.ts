@@ -1,5 +1,6 @@
 import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
 import * as d3 from 'd3';
+import {Subject} from "rxjs";
 
 /**
  * holder for different types of anatamogram svgs
@@ -30,6 +31,10 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
    * list of tissues to highlight
    */
   @Input() tissues: string[];
+  @Input() shadingKey: string;
+  @Input() shadingMap: Map<string, Map<string, number>>;
+
+  @Input() redrawAnatamogram: Subject<boolean> = new Subject<boolean>();
 
   /**
    * event emitter for click events
@@ -51,13 +56,16 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
    * id of the tissues that is currently hovered on
    */
   hovered: string;
+  default_opacity: number = 0.4;
+  max_opacity: number = 0.6;
 
   id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
   /**
    * no args constructor
    */
-  constructor() {}
+  constructor() {
+  }
 
   /**
    * set url and retrieve svg image
@@ -66,6 +74,7 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
    */
   ngOnInit() {
     const imageUrl = `./assets/images/svgs/${this.species}.${this.details}.svg`;
+
     d3.xml(imageUrl).then(data => {
       d3.select(this.anatamogram.nativeElement).node().append(data.documentElement);
       this.svg = d3.select('#anatamogram').attr('id', this.id);
@@ -92,45 +101,75 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
         .call(this.zoom);
       this.updateImage();
     });
+
+    this.redrawAnatamogram.subscribe(response => {
+      if (response) {
+        this.updateImage();
+      }
+    });
   }
 
+  normalizedCount = 0;
+  normalizeMaps(){
+    if(this.tissues.length > this.normalizedCount){
+      this.shadingMap.forEach((oneMap) => {
+        let maxVal = Math.max(...Array.from(oneMap.values()));
+        oneMap.forEach((value, key) => {
+            oneMap.set(key, this.max_opacity * value / maxVal)
+          }
+        );
+      });
+      this.normalizedCount = this.tissues.length;
+    }
+  }
   /**
    * iterate over the tissue ids and find them in d3
    * every path in the parent needs to be selected, since the tissues cna be made of multiple paths
    * set mouseover and mouseout funcitons on each tissue to cover selection and hover changes
    */
   updateImage() {
-    if(!this.svg) {return;}
-    this.tissues.forEach(tissue => this.svg.select(`#${tissue}`).selectAll('path')
-      .on('mouseover', (d, i, f) => d3.select(f[i].parentNode).selectAll('path')
-        .style('stroke', 'rgba(255, 178, 89, 1')
-        .style('stroke-width', '.5')
-        .style('fill', 'rgba(255, 178, 89, 1')
-      )
-      .on('mouseout', (d, i, f) => d3.select(f[i].parentNode).selectAll('path')
-        .style('stroke', 'rgba(35, 54, 78, .4')
-        .style('stroke-width', '.5')
-        .style('fill', 'rgba(35, 54, 78, .4'))
-      .style('stroke', 'rgba(35, 54, 78, .4')
-      .style('stroke-width', '.5')
-      .style('fill', 'rgba(35, 54, 78, .4'));
+    if (!this.svg) {
+      return;
+    }
+    this.normalizeMaps();
+    let shadingMap = this.shadingMap?.get(this.shadingKey);
+    this.tissues.forEach(tissue => {
+        const opacity = this.getOpacity(tissue);
+        this.unhighlight_tissue(this.svg.select(`#${tissue}`).selectAll('path'), tissue)
+          .on('mouseover', (d, i, f) => this.highlight_tissue(d3.select(f[i].parentNode).selectAll('path'))
+          )
+          .on('mouseout', (d, i, f) => this.unhighlight_tissue(d3.select(f[i].parentNode).selectAll('path'), f[i].parentNode.id)
+          );
+      }
+    );
+    this.tissues.forEach(tissue => {
+        const opacity = this.getOpacity(tissue);
+        this.unhighlight_tissue(this.svg.select(`#${tissue}`), tissue)
+          .on('click', (d, i, f) => {
+            this.tissueClick.emit(tissue);
+          }, tissue, this.tissueClick)
+          .on('mouseover', (d, i, f) => this.highlight_tissue(d3.select(f[i]))
+          )
+          .on('mouseout', (d, i, f) => this.unhighlight_tissue(d3.select(f[i]), f[i].id));
+      }
+    );
+  }
 
-    this.tissues.forEach(tissue => this.svg.select(`#${tissue}`)
-      .on('click', (d, i, f) => {
-        this.tissueClick.emit(tissue);
-      }, tissue, this.tissueClick)
-      .on('mouseover', (d, i, f) => d3.select(f[i])
-        .style('stroke', 'rgba(255, 178, 89, 1')
-        .style('stroke-width', '.5')
-        .style('fill', 'rgba(255, 178, 89, 1')
-      )
-      .on('mouseout', (d, i, f) => d3.select(f[i])
-        .style('stroke', 'rgba(35, 54, 78, .4')
-        .style('stroke-width', '.5')
-        .style('fill', 'rgba(35, 54, 78, .4'))
-      .style('stroke', 'rgba(35, 54, 78, .4')
+  private highlight_tissue(segment: any): any {
+    segment
+      .style('stroke', 'rgba(255, 178, 89, 1')
       .style('stroke-width', '.5')
-      .style('fill', 'rgba(35, 54, 78, .4'));
+      .style('fill', 'rgba(255, 178, 89, 1');
+    return segment;
+  }
+
+  private unhighlight_tissue(segment: any, tissue: string): any {
+    const opacity = this.getOpacity(tissue);
+    segment
+      .style('stroke', 'rgba(35, 54, 78, ' + opacity)
+      .style('stroke-width', '.5')
+      .style('fill', 'rgba(35, 54, 78, ' + opacity);
+    return segment;
   }
 
   ngOnChanges(change: any) {
@@ -152,6 +191,18 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
     }
   }
 
+  getOpacity(tissue?: string) {
+    let opacity = this.default_opacity;
+    if (!tissue) {
+      return 0;
+    }
+    if (this.shadingMap) {
+      let shadingMap = this.shadingMap?.get(this.shadingKey);
+      opacity = shadingMap?.get(tissue) || 0;
+    }
+    return opacity;
+  }
+
   /**
    * highlighting function
    * todo could probably be merged with the above one, or called by the initializing function
@@ -160,23 +211,11 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
    */
   highlightTissue(tissue?: string) {
     if (tissue) {
-      this.svg.select(`#${tissue}`)
-        .style('stroke', 'rgba(255, 178, 89, 1')
-        .style('stroke-width', '.5')
-        .style('fill', 'rgba(255, 178, 89, 1');
-      this.svg.select(`#${tissue}`).selectAll('path')
-        .style('stroke', 'rgba(255, 178, 89, 1')
-        .style('stroke-width', '.5')
-        .style('fill', 'rgba(255, 178, 89, 1');
+      this.highlight_tissue(this.svg.select(`#${tissue}`));
+      this.highlight_tissue(this.svg.select(`#${tissue}`).selectAll('path'));
     } else {
-      this.svg.select(`#${this.hovered}`)
-        .style('stroke', 'rgba(35, 54, 78, .4')
-        .style('stroke-width', '.5')
-        .style('fill', 'rgba(35, 54, 78, .4');
-      this.svg.select(`#${this.hovered}`).selectAll('path')
-        .style('stroke', 'rgba(35, 54, 78, .4')
-        .style('stroke-width', '.5')
-        .style('fill', 'rgba(35, 54, 78, .4');
+      this.unhighlight_tissue(this.svg.select(`#${this.hovered}`), this.hovered);
+      this.unhighlight_tissue(this.svg.select(`#${this.hovered}`).selectAll('path'), this.hovered);
     }
     this.hovered = tissue;
   }
