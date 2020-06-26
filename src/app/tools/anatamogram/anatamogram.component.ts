@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Qu
 import { MatRadioChange } from '@angular/material/radio';
 import {AnatomogramImageComponent} from './anatomogram-image/anatomogram-image.component';
 import {AnatamogramHoverService} from './anatamogram-hover.service';
+import {Subject} from "rxjs";
 
 /**
  * anatamabram viewer, passes paramaters to various images based on the svg urls
@@ -30,6 +31,9 @@ export class AnatamogramComponent implements OnInit {
    * todo expand to tissue, label and value object
    */
   @Input() tissues: string[];
+  @Input() shadingKey: string;
+  @Input() shadingMap: Map<string, Map<string, number>>;
+  @Input() redrawAnatamogram: Subject<boolean> = new Subject<boolean>();
 
   @Input() clickHandler;
   handleClicks(event){

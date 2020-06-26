@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AnatamogramHoverService} from "../../../../../../tools/anatamogram/anatamogram-hover.service";
+import {ExpressionPanelComponent} from "../expression-panel.component";
 
 @Component({
   selector: 'pharos-expression-tissue-card',
@@ -13,26 +14,48 @@ export class ExpressionTissueCardComponent implements OnInit {
   ) { }
 
   @Input() tissueExpressionSources: any;
+  @Input() sortKey: string;
   @Input() clickedTissue: string;
+  @Input() dataField: string;
   collapsed: boolean = true;
 
   ngOnInit(): void {
   }
 
-  tissueSourceString(tissueExpressions: any){
-    const max = 2;
-    let types = tissueExpressions.map(j => j.type);
-    const uniqueTypes = [];
-    for (let t of types) {
-      if (!uniqueTypes.includes(t)) {
-        uniqueTypes.push(t);
+  friendlyName(field){
+    switch (field) {
+      case 'tissue' :
+        return 'Tissue';
+      case 'qual' :
+        return 'Qualitative';
+      case 'value' :
+        return 'Value';
+      case 'evidence' :
+        return 'Evidence';
+      case 'conf' :
+        return 'Confidence';
+      case 'pmid' :
+        return 'Pubmed ID';
+    }
+      return field;
+  }
+
+  tissueSourceString(tissueExpressions: any[]){
+    let descStr: string;
+    if(!this.sortKey){
+      let types = tissueExpressions.map(j => j.type + ": " + j[ExpressionPanelComponent.getPreferredField(j.type)]);
+      descStr = types.join(', ');
+    }
+    else{
+      let data = tissueExpressions.filter(a => a.type === this.sortKey);
+      if(data.length === 0){
+        descStr = 'no data';
+      }
+      else{
+        descStr = this.friendlyName(this.dataField) + ': ' + data.map(a => a[this.dataField]).join(', ');
       }
     }
-    let str = uniqueTypes.slice(0, max).join(', ');
-    if (uniqueTypes.length > max) {
-      str = `${str} and ${uniqueTypes.length - max} more`;
-    }
-    return str;
+    return descStr;
   }
 
 
