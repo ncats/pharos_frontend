@@ -124,7 +124,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
 
   sortMap: Map<string, any>;
 
-  defautlSortMap: Map<string, any> = new Map([
+  defaultSortMap: Map<string, any> = new Map([
     ["Target Name", {sortKey: "name", order: "asc"}],
     ["Gene", {sortKey: "sym", order: "asc"}],
     ["UniProt", {sortKey: "uniprot", order: "asc"}],
@@ -140,7 +140,17 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     ["p_int", {sortKey: "ncats_ppi.p_int", order: "desc"}],
     ["p_ni", {sortKey: "ncats_ppi.p_ni", order: "desc"}],
     ["p_wrong", {sortKey: "ncats_ppi.p_wrong", order: "desc"}],
-    ...this.defautlSortMap
+    ...this.defaultSortMap
+  ]);
+
+  diseaseSortMap: Map<string, any> = new Map([
+    ["JensenLab Text Mining zscore", {sortKey: "disease.zscore", order: "desc"}],
+    ["JensenLab conf", {sortKey: "disease.conf", order: "desc"}],
+    ["Expression Atlas log2foldchange", {sortKey: "disease.log2foldchange", order: "desc"}],
+    ["Expression Atlas pvalue", {sortKey: "disease.pvalue", order: "asc"}],
+    ["DisGeNET score", {sortKey: "disease.score", order: "desc"}],
+    ["Monarch S2O", {sortKey: "disease.S2O", order: "desc"}],
+    ...this.defaultSortMap
   ]);
 
   selectedSortObject: { sortKey, order };
@@ -220,17 +230,38 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       .subscribe(x => {
         this.associatedTarget = this._route.snapshot.queryParamMap.get("associatedTarget");
         this.associatedDisease = this._route.snapshot.queryParamMap.get("associatedDisease");
-        this.sortMap = (!!this.associatedTarget) ? this.ppiSortMap : this.defautlSortMap; // TODO: different sort map for disease?
+        if(this.associatedTarget){
+          this.sortMap = this.ppiSortMap;
+        }
+        else if(this.associatedDisease){
+          this.sortMap = this.diseaseSortMap;
+        }
+        else{
+          this.sortMap = this.defaultSortMap;
+        }
         if (this.data && this.data.targets) {
           this.pageData = new PageData({
             top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,
             skip: (+this._route.snapshot.queryParamMap.get('page') - 1) * +this._route.snapshot.queryParamMap.get('rows'),
             total: this.data.count
           });
+          let navSortParam = this._route.snapshot.queryParamMap.get('sortColumn');
+          if(navSortParam){
+            this.selectedSortObject = {sortKey: navSortParam.substring(1), order: navSortParam.substring(0,1) === '^' ? 'asc' : 'desc'};
+            this.previousSortObject = this.selectedSortObject;
+          }
+          else{
+            this.selectedSortObject = null;
+            this.previousSortObject = null;
+          }
           this.targets = this.data.targets;
           this.ref.detectChanges();
         }
       });
+  }
+
+  compareSortKeys(key1, key2){
+    return key1 && key2 && key1.sortKey === key2.sortKey;
   }
 
   /**
