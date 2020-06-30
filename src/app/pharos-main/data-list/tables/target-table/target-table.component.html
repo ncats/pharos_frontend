@@ -52,18 +52,18 @@
         </mat-checkbox>
       </div>
       <div class="sort-select">
-        <mat-form-field>
+        <mat-form-field class="sort-dropdown">
           <mat-select [(value)]="this.selectedSortObject" placeholder="Sort" (valueChange)="sortChanged($event)"
-                      matTooltip="Sort the target list">
+                      matTooltip="Sort the target list" [compareWith]="compareSortKeys">
             <mat-option>Default</mat-option>
-            <mat-option *ngFor="let sortKey of this.sortMap.keys()" [value]="this.sortMap.get(sortKey)">
-              {{sortKey}}
+            <mat-option *ngFor="let item of this.sortMap | keyvalue" [value]="item.value">
+              {{item.key}}
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <button mat-button *ngIf="previousSortObject" (click)="toggleSortOrder()">
-          <mat-icon *ngIf="previousSortObject.order === 'desc'" matTooltip="descending">keyboard_arrow_down</mat-icon>
-          <mat-icon *ngIf="previousSortObject.order === 'asc'" matTooltip="ascending">keyboard_arrow_up</mat-icon>
+        <button mat-button *ngIf="selectedSortObject" (click)="toggleSortOrder()">
+          <mat-icon *ngIf="selectedSortObject.order === 'desc'" matTooltip="descending">keyboard_arrow_down</mat-icon>
+          <mat-icon *ngIf="selectedSortObject.order === 'asc'" matTooltip="ascending">keyboard_arrow_up</mat-icon>
         </button>
       </div>
       <div fxFlex="75" fxFlexAlign="end">
