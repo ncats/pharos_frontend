@@ -1,0 +1,70 @@
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
+import {Target} from "../../../../../models/target";
+import {takeUntil} from "rxjs/operators";
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
+import {PageEvent} from "@angular/material/paginator";
+import {TargetComponents} from "../../../../../models/target-components";
+import {DataProperty} from "../../../../../tools/generic-table/components/property-display/data-property";
+import {VirusDetails} from "../../../../../models/virus-interactions";
+
+@Component({
+  selector: 'pharos-viral-interaction-panel',
+  templateUrl: './viral-interaction-panel.component.html',
+  styleUrls: ['./viral-interaction-panel.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+})
+export class ViralInteractionPanelComponent extends DynamicPanelComponent implements OnInit {
+  /**
+   * parent target
+   */
+  @Input() target: Target;
+  constructor(private navSectionsService: NavSectionsService) {
+    super();
+  }
+
+  ngOnInit(): void {
+    this._data
+      // listen to data as long as term is undefined or null
+      // Unsubscribe once term has value
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(x => {
+        this.target = this.data.targets;
+        if (this.target?.interactingViruses?.length > 0) {
+          this.setterFunction();
+          this.navSectionsService.showSection(this.field);
+        } else {
+          this.navSectionsService.hideSection(this.field);
+        }
+        this.loading = false;
+      });
+  }
+
+
+  visibleList: VirusDetails[];
+
+  setterFunction() : void {
+    this.target.interactingViruses = this.target.interactingViruses.sort((a,b) => {return b.interactionDetails.length - a.interactionDetails.length})
+    this.visibleList = this.target.interactingViruses.slice(0, 10);
+  }
+
+  /**
+   * paginate the list of targets
+   * @param event
+   */
+  paginate(event: PageEvent) {
+    let startNum = event.pageIndex * event.pageSize;
+    this.visibleList = this.target.interactingViruses.slice(startNum, startNum + event.pageSize);
+  }
+
+
+  /**
+   * active section view tracker
+   * @param {string} fragment
+   */
+  active(fragment: string) {
+    this.navSectionsService.setActiveSection(fragment);
+  }
+}

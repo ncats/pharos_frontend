@@ -9,6 +9,7 @@ import {TARGETDETAILSFIELDS, TARGETDETAILSQUERY, TARGETLISTFIELDS} from "./targe
 import {Facet} from "./facet";
 import {InteractionDetails} from "./interaction-details";
 import {DiseaseAssocationSerializer, DiseaseAssociation} from "./disease-association";
+import {VirusDetails} from "./virus-interactions";
 
 
 /**
@@ -245,6 +246,8 @@ export class Target extends PharosBase {
   properties: DataProperty[] = [];
   interactionDetails?: InteractionDetails;
   diseaseAssociationDetails?: DiseaseAssociation[] = [];
+
+  interactingViruses?: VirusDetails[];
 }
 
 export class GoCounts{

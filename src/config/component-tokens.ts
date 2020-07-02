@@ -109,6 +109,11 @@ export class TOKENS {
    * @type {InjectionToken<string>}
    */
   public static PROTEIN_PROTEIN_PANEL = new InjectionToken<string>('ProteinProteinPanelComponent');
+
+  /**
+   * injection token to show predicted viral interactions
+   */
+  public static VIRAL_INTERACTIONS_PANEL = new InjectionToken<string>('ViralInteractionPanelComponent');
   /**
    * injection token to link to active ligand data
    */

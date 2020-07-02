@@ -12,6 +12,8 @@ import {ExpressionPanelComponent} from '../../data-details/target-details/panels
 import {ExpressionTissueCardComponent} from "../../data-details/target-details/panels/expression-panel/expression-tissue-card/expression-tissue-card.component";
 import {AaSequencePanelComponent} from '../../data-details/target-details/panels/aa-sequence-panel/aa-sequence-panel.component';
 import {ProteinProteinPanelComponent} from '../../data-details/target-details/panels/protein-protein-panel/protein-protein-panel.component';
+import {ViralInteractionPanelComponent} from '../../data-details/target-details/panels/viral-interaction-panel/viral-interaction-panel.component'
+import {VirusDetailsComponent} from '../../data-details/target-details/panels/viral-interaction-panel/virus-details/virus-details.component'
 import {OrthologPanelComponent} from '../../data-details/target-details/panels/expression-panel/ortholog-panel/ortholog-panel.component';
 import {PdbPanelComponent, STRUCTURE_VIEW_TOKEN} from '../../data-details/target-details/panels/pdb-panel/pdb-panel.component';
 import {GeneSummaryComponent} from '../../data-details/target-details/panels/gene-summary/gene-summary.component';
@@ -54,6 +56,8 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     ExpressionTissueCardComponent,
     AaSequencePanelComponent,
     ProteinProteinPanelComponent,
+    ViralInteractionPanelComponent,
+    VirusDetailsComponent,
     OrthologPanelComponent,
     PdbPanelComponent,
     GeneSummaryComponent,
@@ -81,7 +85,8 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
   exports: [
     DiseaseCardComponent,
     DiseaseAssociationComponent,
-    ExpressionTissueCardComponent
+    ExpressionTissueCardComponent,
+    VirusDetailsComponent
   ],
   providers: [
     // breadcrumb
@@ -99,6 +104,7 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     {provide: TOKENS.DISEASE_SOURCE_PANEL, useValue: DiseaseSourceComponent},
     {provide: TOKENS.EXPRESSION_PANEL, useValue: ExpressionPanelComponent},
     {provide: TOKENS.PROTEIN_PROTEIN_PANEL, useValue: ProteinProteinPanelComponent},
+    {provide: TOKENS.VIRAL_INTERACTIONS_PANEL, useValue: ViralInteractionPanelComponent},
     {provide: TOKENS.TARGET_FACET_PANEL, useValue: TargetFacetPanelComponent},
     {provide: TOKENS.AA_SEQUENCE_PANEL, useValue: AaSequencePanelComponent},
     {provide: TOKENS.LIGANDS_PANEL, useValue: LigandsPanelComponent},

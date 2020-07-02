@@ -1,0 +1,37 @@
+<article *ngIf="this.target?.interactingViruses?.length > 0">
+  <mat-card id="viral"
+            class="section-card"
+            (pharosScrollspy)="active('viral')"
+            #viral
+  >
+    <mat-card-content>
+      <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+        <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+      </div>
+      <div fxLayout="row"
+           class="tkrow"
+           fxLayoutAlign="start stretch">
+        <div fxFlex="95" class="headerContainer">
+        <span class="mat-title" [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">Predicted Viral Interactions ({{target.interactingViruses.length}})</span>
+        </div>
+        <div fxFlex="5">
+          <pharos-help-panel-trigger [origin]="'viral'"
+                                     [label]="'Predicted Viral Interactions'"></pharos-help-panel-trigger>
+        </div>
+      </div>
+      <div class="headerRow">
+        <mat-paginator
+          [pageSize]="10"
+          [length]="target.interactingViruses.length"
+          [hidePageSize]="true"
+          [showFirstLastButtons]=true
+          (page)="paginate($event)"
+          #viralpaginator></mat-paginator>
+      </div>
+      <div *ngFor="let virus of this.visibleList">
+        <pharos-virus-details [virus]="virus"></pharos-virus-details>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</article>
