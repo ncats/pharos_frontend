@@ -476,6 +476,22 @@ export const TARGETDETAILSFIELDS = gql`
       name
       value
     }
+    interactingViruses {
+      taxonomyID
+      name
+      nucleic1
+      nucleic2
+      order
+      family
+      subfamily
+      genus
+      species
+      interactionDetails {
+        finalLR
+        protein_name
+        protein_ncbi
+      }
+    }
   }
 
   ${TARGETLISTFIELDS}

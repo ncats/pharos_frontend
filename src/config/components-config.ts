@@ -675,6 +675,28 @@ const PROTEIN_PROTEIN_PANEL: PharosPanel = {
 };
 
 /**
+ * Target predicted viral interactions
+ */
+const VIRAL_INTERACTIONS_PANEL: PharosPanel = {
+  token: TOKENS.VIRAL_INTERACTIONS_PANEL,
+  navHeader: {
+    label: 'Predicted Viral Interactions',
+    section: 'viral',
+    mainDescription: 'Details about predicted viral interactions with this protein, from P-HIPSTer.'
+  },
+  api: [
+    {
+      field: 'LR',
+      label: 'LR',
+      description: 'The likelihood ratio (LR) describes the likelihood of an observed value for a particular feature ' +
+        '(e.g. structural similarity of the two query proteins with respect to a protein complex) expected in a pair of ' +
+        'interacting proteins in comparison with the likelihood for the same observed value in a pair of non-interacting ' +
+        'proteins.'
+    }
+  ]
+};
+
+/**
  * target publication statistics
  * @type {PharosPanel}
  */
@@ -1084,6 +1106,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           LIGANDS_PANEL,
           DISEASE_SOURCE_PANEL,
           PDB_PANEL,
+          VIRAL_INTERACTIONS_PANEL,
           EXPRESSION_PANEL,
           PROTEIN_PROTEIN_PANEL,
           PUBLICATION_STATISTICS_PANEL,
