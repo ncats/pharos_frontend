@@ -320,7 +320,10 @@ export const TARGETDETAILSFIELDS = gql`
     }
     generifCount
     sequence: seq
-    goCounts {value}
+    goCounts {
+      value
+      name
+    }
     orthologCounts {value}
     orthologs (top: $orthologstop, skip: $orthologsskip){
       ...ortholog_fields
@@ -472,6 +475,22 @@ export const TARGETDETAILSFIELDS = gql`
     hpmGeneTissueSpecificityIndex: props(name: "HPM Gene Tissue Specificity Index") {
       name
       value
+    }
+    interactingViruses {
+      taxonomyID
+      name
+      nucleic1
+      nucleic2
+      order
+      family
+      subfamily
+      genus
+      species
+      interactionDetails {
+        finalLR
+        protein_name
+        protein_ncbi
+      }
     }
   }
 

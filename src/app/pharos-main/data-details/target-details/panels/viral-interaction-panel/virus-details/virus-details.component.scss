@@ -1,0 +1,35 @@
+.protein-grid {
+  display: grid;
+  grid-auto-rows: max-content;
+  grid-template-columns: repeat(auto-fill, minmax(32%, 1fr));
+  grid-gap: 1em;
+  padding-left: 1vw;
+}
+
+.protein-grid mat-card-subtitle{
+  margin-bottom: 0.75vh;
+}
+
+.protein-details{
+  margin-bottom: 2vh;
+}
+
+.header-helptext{
+  padding-left: 1vw;
+  font-weight: 300;
+  opacity: 1;
+  top: 0;
+  position: relative;
+  transition: all .25s linear;
+}
+
+.content{
+  margin-left: 1vw;
+  flex-direction: row;
+  display: flex;
+}
+
+.hidden{
+  top: 2vh;
+  opacity: 0;
+}
