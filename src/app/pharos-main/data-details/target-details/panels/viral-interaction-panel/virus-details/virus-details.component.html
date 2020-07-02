@@ -1,0 +1,37 @@
+<mat-expansion-panel #panel (closed)="this.collapsed=true" (opened)="this.collapsed=false">
+  <mat-expansion-panel-header>
+    {{virus.name}}
+    <div class="header-helptext" [ngClass]="{'hidden': !this.collapsed}"
+         matTooltip="Data sources for this disease. Click for details.">{{this.virusDetailsString()}}</div>
+  </mat-expansion-panel-header>
+  <div class="content" fxFlex="95">
+    <mat-card fxFlex="25">
+      <mat-card-subtitle>Virus Details</mat-card-subtitle>
+      <div class="virus-details">
+        <ncats-property-display [property]="{label:'Virus type', term:virus.nucleic2}"></ncats-property-display>
+        <ncats-property-display *ngIf="virus.taxonomyID"
+                                [property]="{label:'Taxonomy ID', term:virus.taxonomyID}"></ncats-property-display>
+        <ncats-property-display *ngIf="virus.order"
+                                [property]="{label:'Order', term:virus.order}"></ncats-property-display>
+        <ncats-property-display *ngIf="virus.family"
+                                [property]="{label:'Family', term:virus.family}"></ncats-property-display>
+        <ncats-property-display *ngIf="virus.subfamily"
+                                [property]="{label:'Subfamily', term:virus.subfamily}"></ncats-property-display>
+        <ncats-property-display *ngIf="virus.genus"
+                                [property]="{label:'Genus', term:virus.genus}"></ncats-property-display>
+        <ncats-property-display *ngIf="virus.species"
+                                [property]="{label:'Species', term:virus.species}"></ncats-property-display>
+      </div>
+    </mat-card>
+    <mat-card fxFlex="95">
+      <mat-card-subtitle>Interacting Viral Proteins ({{virus.interactionDetails.length}})</mat-card-subtitle>
+      <div class="protein-grid">
+        <div class="protein-details" *ngFor="let interaction of virus.interactionDetails">
+          <mat-card-subtitle>{{interaction.protein_name}}</mat-card-subtitle>
+          <ncats-property-display [property]="{term: interaction.protein_ncbi, label:'NCBI'}"></ncats-property-display>
+          <ncats-property-display [property]="{term: interaction.finalLR, label:'finalLR'}"></ncats-property-display>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</mat-expansion-panel>
