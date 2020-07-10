@@ -70,7 +70,7 @@ export const SOURCES: SourceObject[] =
       source:
         new PharosProperty({
           term: 'Consensus',
-          externalLink: '"http://targetcentral.ws'
+          externalLink: 'http://targetcentral.ws'
         }),
       targetCount: new PharosProperty({
         term: 18503,

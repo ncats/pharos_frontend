@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, InjectionToken, OnInit, PLATFORM_ID} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
+import {isPlatformBrowser} from "@angular/common";
 
 /**
  * ui page holder for a graphQL UI API documentation viewer
@@ -15,7 +16,8 @@ export class ApiPageComponent implements OnInit{
   /**
    * no args constructor
    */
-  constructor(public dialog: MatDialog){}
+  constructor(public dialog: MatDialog,
+              @Inject(PLATFORM_ID) private platformID: Object){}
 
   openDialog() {
     const dialogRef = this.dialog.open(ApiHelpComponent);
@@ -26,7 +28,9 @@ export class ApiPageComponent implements OnInit{
   }
 
   ngOnInit(){
-    this.openDialog();
+    if(isPlatformBrowser(this.platformID)) {
+      this.openDialog();
+    }
   }
 }
 

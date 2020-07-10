@@ -1,6 +1,16 @@
-import {Component, ElementRef, OnInit, QueryList, ViewChildren, ViewEncapsulation} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  PLATFORM_ID,
+  QueryList,
+  ViewChildren,
+  ViewEncapsulation
+} from '@angular/core';
 import {KatexRenderService} from '../tools/equation-renderer/services/katex-render.service';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {isPlatformBrowser} from "@angular/common";
 
 /**
  * Question model for object retrieved from firebase
@@ -62,7 +72,8 @@ export class FaqPageComponent implements OnInit {
    * @param {KatexRenderService} katexRenderService
    */
   constructor(private db: AngularFirestore,
-              private katexRenderService: KatexRenderService) {
+              private katexRenderService: KatexRenderService,
+              @Inject(PLATFORM_ID) private platformID: Object) {
   }
 
   /**
@@ -87,14 +98,16 @@ export class FaqPageComponent implements OnInit {
           this.subjects = Array.from(this.questionsMap.keys());
 
           // find and render equations with katex
-          this.answers.changes.subscribe(answers => {
-            const equations: any[] = answers.filter(answer => {
-              return answer.nativeElement.classList.contains('equation');
+          if (isPlatformBrowser(this.platformID)) {
+            this.answers.changes.subscribe(answers => {
+              const equations: any[] = answers.filter(answer => {
+                return answer.nativeElement.classList.contains('equation');
+              });
+              equations.forEach(element => {
+                this.katexRenderService.renderMathInElement(element.nativeElement, {});
+              });
             });
-            equations.forEach(element => {
-              this.katexRenderService.renderMathInElement(element.nativeElement, {});
-            });
-          });
+          }
         }
       });
   }

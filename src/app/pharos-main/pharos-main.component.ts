@@ -1,14 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ComponentRef, Injector,
-  Input,
-  OnDestroy,
-  OnInit,
-  Type,
-  ViewChild
-} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, Inject, Injector, Input, OnDestroy, OnInit, PLATFORM_ID, Type, ViewChild} from '@angular/core';
 import {CdkPortalOutlet, ComponentPortal} from '@angular/cdk/portal';
 import {MatSidenav} from '@angular/material/sidenav';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
@@ -18,6 +8,7 @@ import {NavSectionsService} from '../tools/sidenav-panel/services/nav-sections.s
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {BreakpointObserver} from '@angular/cdk/layout';
+import {isPlatformBrowser} from "@angular/common";
 
 /**
  * class or interface to set properties for an injected sidenav panel
@@ -148,7 +139,8 @@ export class PharosMainComponent implements OnInit, OnDestroy {
     private changeRef: ChangeDetectorRef,
     private helpDataService: HelpDataService,
     private navSectionsService: NavSectionsService,
-    public breakpointObserver: BreakpointObserver
+    public breakpointObserver: BreakpointObserver,
+    @Inject(PLATFORM_ID) private platformID: Object
   ) {
 
   }
@@ -259,6 +251,24 @@ export class PharosMainComponent implements OnInit, OnDestroy {
         component.instance.changeRef.markForCheck();
       }
     });
+  }
+
+  /**
+   * SSR doesn't set the padding right for mat-sidenav-content. this is a workaround until this is fixed:
+   * https://github.com/angular/components/issues/8969
+   * also, the server won't know about this.isSmallScreen, because media queries don't work on the server
+   */
+  getClassForMarginsOnServer(){
+    if(isPlatformBrowser(this.platformID)){
+      return "";
+    }
+    if(this._route.snapshot.data.subpath === 'list'){
+      return "wideNavPanel";
+    }
+    if(this._route.snapshot.data.subpath === 'details' && this._route.snapshot.data.path === 'targets'){
+      return "thinNavPanel";
+    }
+    return "";
   }
 
 
