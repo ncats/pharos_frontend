@@ -1,8 +1,9 @@
 import {
-  Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, ViewChild,
+  Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnChanges, OnInit, Output, PLATFORM_ID, ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 import * as d3 from 'd3';
+import {isPlatformBrowser} from "@angular/common";
 
 /**
  * component to display a donut chart visualization
@@ -56,7 +57,7 @@ export class DonutChartComponent implements OnInit, OnChanges {
   /**
    * listener to resize the chart on page resize
    */
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize', [])
   onResize() {
     this.drawChart();
     this.updateChart();
@@ -64,7 +65,7 @@ export class DonutChartComponent implements OnInit, OnChanges {
   /**
    * no args constructor
    */
-  constructor() {}
+  constructor(@Inject(PLATFORM_ID) private platformID: Object) {}
 
   /**
    * measure and layou the chart component
@@ -75,8 +76,10 @@ export class DonutChartComponent implements OnInit, OnChanges {
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
     this.radius = Math.min(this.width, this.height) / 2;
 
-    this.drawChart();
-    this.updateChart();
+    if(isPlatformBrowser(this.platformID)) {
+      this.drawChart();
+      this.updateChart();
+    }
   }
 
   /**

@@ -9,7 +9,7 @@ import {
   OnDestroy,
   OnInit,
   Optional,
-  Output,
+  Output, PLATFORM_ID,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -17,6 +17,7 @@ import * as d3 from 'd3';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {takeUntil} from 'rxjs/operators';
 import {BehaviorSubject, Subject} from 'rxjs';
+import {isPlatformBrowser} from "@angular/common";
 
 /**
  * map of size and visualization parameters for various radar chart sizes
@@ -257,7 +258,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
   /**
    * function to redraw/scale the graph on window resize
    */
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize', [])
   onResize() {
     this.drawChart();
     this.updateChart();
@@ -268,6 +269,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
    * @param modalData
    */
   constructor(
+    @Inject(PLATFORM_ID) private platformID: Object,
     @Optional() @Inject(MAT_DIALOG_DATA) public modalData: any) {
   }
 
@@ -282,8 +284,10 @@ export class RadarChartComponent implements OnInit, OnDestroy {
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        this.drawChart();
-        this.updateChart();
+        if(isPlatformBrowser(this.platformID)){
+          this.drawChart();
+          this.updateChart();
+        }
       });
   }
 
@@ -292,7 +296,9 @@ export class RadarChartComponent implements OnInit, OnDestroy {
    * remove tooltips on destroy
    */
   ngOnDestroy(): void {
-    d3.select('body').selectAll('.radar-tooltip').remove();
+    if(isPlatformBrowser(this.platformID)) {
+      d3.select('body').selectAll('.radar-tooltip').remove();
+    }
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }

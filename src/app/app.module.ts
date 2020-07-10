@@ -27,8 +27,8 @@ import {HttpClientModule} from '@angular/common/http';
     ScrollToTopComponent
   ],
   imports: [
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    BrowserModule.withServerTransition({ appId: 'pharos' }),
     TransferHttpCacheModule,
     MaterialModule,
     BrowserAnimationsModule,

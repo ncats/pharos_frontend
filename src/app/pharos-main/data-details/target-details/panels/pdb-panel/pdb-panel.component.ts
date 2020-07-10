@@ -1,4 +1,14 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, InjectionToken, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component, Inject,
+  InjectionToken,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  PLATFORM_ID
+} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {HttpClient} from '@angular/common/http';
@@ -8,6 +18,7 @@ import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-pan
 import {PageData} from '../../../../../models/page-data';
 import {Target} from '../../../../../models/target';
 import {BehaviorSubject} from 'rxjs';
+import {isPlatformBrowser} from "@angular/common";
 
 /**
  * token to inject structure viewer into generic table component
@@ -129,7 +140,8 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
   constructor(
     private navSectionsService: NavSectionsService,
     private changeRef: ChangeDetectorRef,
-    private _http: HttpClient) {
+    private _http: HttpClient,
+    @Inject(PLATFORM_ID) private platformID: Object) {
     super();
   }
 
@@ -164,18 +176,20 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
     this.tableArr = [];
     this.reports = [];
     const pdbsArr: any[] = this.target.pdbs.map<any>(pdb => pdb = pdb.pdbs);
-    this._http.get(REPORT_URL + pdbsArr.join(','), {responseType: 'text'}).subscribe(res => {
+    if(isPlatformBrowser(this.platformID)) {
+      this._http.get(REPORT_URL + pdbsArr.join(','), {responseType: 'text'}).subscribe(res => {
         this.csvJSON(res);
         this.pageData = this.makePageData(this.reports.length);
         this.tableArr = this.reports
           .slice(this.pageData.skip, this.pageData.top)
-        .map(report => this.pdbReportSerializer._asProperties(report));
+          .map(report => this.pdbReportSerializer._asProperties(report));
         const pdbids = this.tableArr.find(entry => entry.structureId.term && entry.ligandId.term);
         if (pdbids) {
-        this.pdbid = pdbids.structureId.term;
-      }
+          this.pdbid = pdbids.structureId.term;
+        }
         this.changeRef.markForCheck();
-    });
+      });
+    }
   }
 
   /**

@@ -2,9 +2,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
+  ElementRef, Inject,
   Input,
-  OnInit,
+  OnInit, PLATFORM_ID,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -14,6 +14,7 @@ import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/na
 import {Target} from '../../../../../models/target';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {takeUntil} from 'rxjs/operators';
+import {isPlatformBrowser} from "@angular/common";
 
 /**
  * displays amino acid sequence data
@@ -59,7 +60,8 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
   constructor(
     private breakpointObserver: BreakpointObserver,
     private navSectionsService: NavSectionsService,
-    private changeRef: ChangeDetectorRef) {
+    private changeRef: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) private platformID: Object) {
     super();
   }
 
@@ -82,7 +84,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
           this.parseSequence();
           this.getCounts();
         }
-        if (!this.isSmallScreen) {
+        if (!this.isSmallScreen && isPlatformBrowser(this.platformID)) {
           const r = new Protvista({
             el: this.viewerContainer.nativeElement,
             uniprotacc: this.target.accession
