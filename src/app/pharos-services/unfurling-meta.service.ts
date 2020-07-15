@@ -3,9 +3,10 @@ import {Meta} from '@angular/platform-browser';
 
 /**
  * Service designed to update meta tags for SEO and link unfurling.
- * todo: target details pages need to implement this
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class UnfurlingMetaService {
 
   /**
@@ -20,34 +21,10 @@ export class UnfurlingMetaService {
    * @param data
    */
     setMetaData(data: any): void {
-        this.metaService.updateTag({
-                content: data.name
-            },
-            'property="og:description"'
-        );
-        this.metaService.updateTag({
-                content: data.description
-            },
-            'name="twitter:description"'
-        );
-        this.metaService.updateTag({
-                content: data.name
-            },
-            'property="og:title"'
-        );
-        this.metaService.updateTag({
-                content: data.name
-            },
-            'name="twitter:title"'
-        );
-        /*this.metaService.addTags([{
-                content: window.location.href + '/assets/' + this.intern.mugshot,
-                property: 'og:image'
-            }, {
-                content: window.location.href + '/assets/' + this.intern.mugshot,
-                name: 'twitter:image'
-            }],
-            true
-        );*/
+      this.metaService.updateTag({ content: data.description }, `name='Description'`);
+      this.metaService.updateTag({ content: data.description }, `property='og:description'`);
+      this.metaService.updateTag({ content: data.description }, `name='twitter:description'`);
+      this.metaService.updateTag({ content: data.title }, `name='twitter:title'`);
+      this.metaService.updateTag({ content: data.title }, `property='og:title'`);
     }
 }

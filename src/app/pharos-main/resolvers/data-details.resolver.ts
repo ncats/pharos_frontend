@@ -1,10 +1,11 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
 import { Observable , of} from 'rxjs';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {PharosBase, Serializer} from '../../models/pharos-base';
 import {catchError, map} from 'rxjs/internal/operators';
+import {isPlatformBrowser} from "@angular/common";
 
 /**
  * resolves the details for a specific object
@@ -19,7 +20,8 @@ export class DataDetailsResolver implements Resolve<any> {
    */
     constructor(
                 public loadingService: LoadingService,
-                private pharosApiService: PharosApiService) {  }
+                private pharosApiService: PharosApiService,
+                @Inject(PLATFORM_ID) private platformID: Object) {  }
 
   /**
    * toggle loading modal
@@ -42,7 +44,12 @@ export class DataDetailsResolver implements Resolve<any> {
           return res.data;
         }),
         catchError(err => {
-          alert(JSON.stringify(err));
+          if(isPlatformBrowser(this.platformID)) {
+            alert(JSON.stringify(err));
+          }
+          else{
+            console.log(JSON.stringify(err));
+          }
           return null;
         })
       );

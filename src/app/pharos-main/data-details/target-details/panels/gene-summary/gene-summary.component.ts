@@ -1,9 +1,17 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component, Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID
+} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {Target} from '../../../../../models/target';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import {Meta} from '@angular/platform-browser';
+import {UnfurlingMetaService} from "../../../../../pharos-services/unfurling-meta.service";
 
 /**
  * displays the description of a target
@@ -37,8 +45,9 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
    * @param changeRef
    */
   constructor(private breakpointObserver: BreakpointObserver,
-              private metaService: Meta,
-              private changeRef: ChangeDetectorRef) {
+              private metaService: UnfurlingMetaService,
+              private changeRef: ChangeDetectorRef,
+              @Inject(PLATFORM_ID) private platformID: Object) {
     super();
   }
 
@@ -76,16 +85,8 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
       }
     }
 
-    this.metaService.updateTag({
-        content: this.target.description
-      },
-      'property="og:description"'
-    );
-    this.metaService.updateTag({
-        content: this.target.description
-      },
-      'name="twitter:description"'
-    );
+    let newTitle = `Pharos: ${this.target.name} (${this.target.idgTDL})`;
+    this.metaService.setMetaData({description: this.target.description, title: newTitle});
     this.changeRef.markForCheck();
   }
 

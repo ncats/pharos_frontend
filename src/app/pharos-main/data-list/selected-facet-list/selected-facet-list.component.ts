@@ -5,6 +5,7 @@ import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {SelectedFacetService} from '../filter-panel/selected-facet.service';
 import {PathResolverService} from '../filter-panel/path-resolver.service';
+import {UnfurlingMetaService} from "../../../pharos-services/unfurling-meta.service";
 
 /**
  * panel to show selected facets or queries, and remove them
@@ -34,7 +35,8 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
               private router: Router,
               private changeRef: ChangeDetectorRef,
               private selectedFacetService: SelectedFacetService,
-              private pathResolverService: PathResolverService) {
+              private pathResolverService: PathResolverService,
+              private metaService: UnfurlingMetaService) {
     super();
   }
 
@@ -52,7 +54,30 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
         }
       });
     this.facets = this.selectedFacetService.getFacetsAsObjects();
+    this.metaService.setMetaData({description: this.newDescription(), title: this.newTitle()});
     this.changeRef.markForCheck();
+  }
+
+  /**
+   * constructs the new title to show for the unfurled URL link
+   */
+  newTitle(): string{
+    let listType = this._route.snapshot.data.path;
+    let listName = listType.replace("/","").toLowerCase().slice(0,listType.length-1);
+    const listTitle = listName.charAt(0).toUpperCase() + listName.slice(1);
+    return `Pharos: ${listTitle} List`;
+  }
+
+  /**
+   * constructs the new description to show for the unfurled URL link
+   */
+  newDescription(): string{
+    let str = `Found ${this._route.snapshot.data.results.count} ${this._route.snapshot.data.path}. `;
+    if(this.facets.length){
+      str += 'The following filters were applied: ';
+      str += this.facets.map(f => f.facet + " = " + f.values.map(v => v.name).join(' OR ')).join((" AND "));
+    }
+    return str;
   }
 
   /**
