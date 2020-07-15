@@ -5,7 +5,6 @@
   "scripts": {
     "ng": "ng",
     "start": "node dist/server/main.js",
-    "deploy": "npm run build:ssr && gcloud app deploy",
     "build": "ng build pharos --prod",
     "postbuild": "node ./delete_unused_katex_fonts.js",
     "test": "ng test pharos --code-coverage",
@@ -14,7 +13,7 @@
     "e2e": "ng e2e",
     "build:appshell": "ng run pharos:app-shell:production",
     "compodoc": "npx compodoc -p tsconfig.app.json -s -w --theme material",
-    "build:ssr": "ng build --prod && ng run pharos:server:production",
+    "build:ssr": "ng build --prod && node ./delete_unused_katex_fonts.js && ng run pharos:server:production",
     "serve:ssr": "node dist/server/main.js",
     "rerun:ssr": "npm run build:ssr && say pharos is ready && npm run serve:ssr",
     "build:client-and-server-bundles": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build pharos --prod && ng run pharos:server:production",

@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} fr
 import {Ligand} from '../../../../models/ligand';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
+import {UnfurlingMetaService} from "../../../../pharos-services/unfurling-meta.service";
 
 /**
  * displays ligand header component
@@ -22,7 +23,8 @@ export class LigandHeaderComponent extends DynamicPanelComponent implements OnIn
    * no args constructor
    */
   constructor(
-    private changeRef: ChangeDetectorRef
+    private changeRef: ChangeDetectorRef,
+    private metaService: UnfurlingMetaService
   ) {
     super();
   }
@@ -37,6 +39,11 @@ export class LigandHeaderComponent extends DynamicPanelComponent implements OnIn
 .subscribe(x => {
   if (this.data && this.data.ligands) {
   this.ligand = this.data.ligands;
+
+  let newDescription = this.ligand.description;
+  let newTitle = "Pharos: " + this.ligand.name;
+  this.metaService.setMetaData({description: newDescription, title: newTitle});
+
   this.changeRef.markForCheck();
 }
 });

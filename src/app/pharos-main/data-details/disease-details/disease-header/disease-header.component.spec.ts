@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DiseaseHeaderComponent } from './disease-header.component';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {TESTTARGET} from "../../../../../../test/test-target";
+import {UnfurlingMetaService} from "../../../../pharos-services/unfurling-meta.service";
 
 describe('DiseaseHeaderComponent', () => {
   let component: DiseaseHeaderComponent;
@@ -9,6 +10,7 @@ describe('DiseaseHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      providers: [UnfurlingMetaService],
       declarations: [ DiseaseHeaderComponent ],
       imports: [
         ApolloTestingModule
