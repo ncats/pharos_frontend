@@ -15,7 +15,6 @@ import {ProteinProteinPanelComponent} from '../../data-details/target-details/pa
 import {ViralInteractionPanelComponent} from '../../data-details/target-details/panels/viral-interaction-panel/viral-interaction-panel.component'
 import {VirusDetailsComponent} from '../../data-details/target-details/panels/viral-interaction-panel/virus-details/virus-details.component'
 import {OrthologPanelComponent} from '../../data-details/target-details/panels/expression-panel/ortholog-panel/ortholog-panel.component';
-import {PdbPanelComponent, STRUCTURE_VIEW_TOKEN} from '../../data-details/target-details/panels/pdb-panel/pdb-panel.component';
 import {GeneSummaryComponent} from '../../data-details/target-details/panels/gene-summary/gene-summary.component';
 import {TargetFacetPanelComponent} from '../../data-details/target-details/panels/target-facet-panel/target-facet-panel.component';
 import {IdgResourcesPanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/idg-resources-panel.component';
@@ -40,6 +39,8 @@ import {SidenavPanelComponent} from '../../../tools/sidenav-panel/sidenav-panel.
 import {PublicationStatisticsComponent} from '../../data-details/target-details/panels/publication-statistics/publication-statistics.component';
 import {RelatedPublicationsComponent} from '../../data-details/target-details/panels/related-publications/related-publications.component';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {PdbDetailsComponent} from "../../data-details/target-details/panels/pdb-panel/pdb-details/pdb-details.component";
+import {PdbPanelComponent} from "../../data-details/target-details/panels/pdb-panel/pdb-panel.component";
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     VirusDetailsComponent,
     OrthologPanelComponent,
     PdbPanelComponent,
+    PdbDetailsComponent,
     GeneSummaryComponent,
     TargetFacetPanelComponent,
     IdgResourcesPanelComponent,
@@ -110,7 +112,6 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
     {provide: TOKENS.LIGANDS_PANEL, useValue: LigandsPanelComponent},
     {provide: TOKENS.DRUGS_PANEL, useValue: DrugsPanelComponent},
     {provide: TOKENS.PDB_PANEL, useValue: PdbPanelComponent},
-    {provide: STRUCTURE_VIEW_TOKEN, useValue: StructureViewComponent}
   ]
 })
 export class TargetDetailsModule { }

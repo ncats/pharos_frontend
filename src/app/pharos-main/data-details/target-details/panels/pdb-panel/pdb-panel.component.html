@@ -2,8 +2,7 @@
   <mat-card class="section-card"
             (pharosScrollspy)="active('pdbview')"
             #pdbview
-            id="pdbview"
-            *ngIf="target.pdbs && target.pdbs.length > 0">
+            id="pdbview">
     <mat-card-content>
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
@@ -15,35 +14,27 @@
         <span class="mat-title"
               [matTooltip]=description
               [matTooltipClass]="'pharos-tooltip'">
-         Protein Data Bank ({{reports?.length}})</span>
+         Protein Data Bank ({{this.target?.pdbs?.length}})</span>
         </div>
         <div fxFlex="5">
           <pharos-help-panel-trigger [origin]="'pdbview'"
                                      [label]="'Protein Data Bank Viewer'"></pharos-help-panel-trigger>
         </div>
       </div>
-      <div fxLayout="row" fxLayoutAlign="space-around center">
+      <div fxLayout="row" class="image-container">
         <div fxFlex="60" class="pdb-holder">
-          <pharos-protein-structure-viewer [pdbid]=pdbid
-                                           *ngIf="tableArr.length > 0 && pdbid"></pharos-protein-structure-viewer>
+          <mat-card-title *ngIf="pdbid && pdbid.citation && pdbid.citation.title">{{pdbid.citation.title}}</mat-card-title>
+          <pharos-protein-structure-viewer [pdbid]=pdbid.structureId
+                                           *ngIf="pdbResponses.length > 0 && pdbid.structureId"></pharos-protein-structure-viewer>
         </div>
-      </div>
-      <div fxLayout="row" fxLayoutAlign="space-around center">
-        <div fxFlex="60" fxFlex.lt-md="80">
-          <p *ngIf="tableArr.length > 0 && pdbid" class="pdbid-display">Displaying: {{pdbid}}</p>
-          <p *ngIf="tableArr.length > 0 && pdbid" class="slice-help">
-            <mat-icon [color]="'primary'" class="help-icon">info</mat-icon>
-            Click on a
-            row in the table to change the structure displayed. More information can be found at
-            <a href="http://www.rcsb.org/" target="_blank" rel="noreferrer">RCSB PDB
-              <mat-icon [inline]="true">open_in_new</mat-icon>
-            </a></p>
+        <div fxFlex="35">
+          <pharos-pdb-details [pdbResult]="pdbid"></pharos-pdb-details>
         </div>
       </div>
       <div fxLayout="row" fxLayoutAlign="end center">
         <mat-paginator
-          [pageSize]="10"
-          [length]="reports?.length"
+          [pageSize]="5"
+          [length]="this.target?.pdbs?.length"
           [hidePageSize]="true"
           [showFirstLastButtons]=true
           (page)=pagePDB($event)
@@ -51,7 +42,7 @@
       </div>
       <div fxHide.lt-md>
         <pharos-generic-table
-          [data]=tableArr
+          [data]=this.pdbViewObjects
           [showPaginator]="false"
           [fieldsConfig]=fieldsData
           (rowClick)="changePdbId($event)">
@@ -59,7 +50,7 @@
       </div>
       <div fxHide.gt-md>
         <pharos-generic-table
-          [data]=tableArr
+          [data]=this.pdbViewObjects
           [showPaginator]="false"
           [fieldsConfig]=shortFieldsData
           (rowClick)="changePdbId($event)">

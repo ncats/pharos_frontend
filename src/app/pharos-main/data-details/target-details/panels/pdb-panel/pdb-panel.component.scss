@@ -6,3 +6,9 @@
 .pdb-holder {
   height: 40vh;
 }
+
+.image-container{
+  display: flex;
+  place-content: center space-evenly;
+  align-items: flex-start;
+}
