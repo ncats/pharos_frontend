@@ -83,8 +83,12 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
       label: 'PDB Structure Id',
     }),
     new PharosProperty({
-      name: 'ligands',
-      label: 'Ligand'
+      name: 'molecularWeight',
+      label: 'M.W.'
+    }),
+    new PharosProperty({
+      name: 'resolution',
+      label: 'Resolution'
     }),
     new PharosProperty({
       name: 'pubYear',
