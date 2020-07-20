@@ -5,6 +5,13 @@
 
 .pdb-holder {
   height: 40vh;
+  flex-direction: row;
+}
+
+@media only screen and (max-width: 768px) {
+  .pdb-holder{
+    flex-direction: column;
+  }
 }
 
 .image-container{
