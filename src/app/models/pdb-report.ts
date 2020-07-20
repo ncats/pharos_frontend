@@ -1,12 +1,15 @@
 import {PharosBase, PharosSerializer} from './pharos-base';
 import {PharosProperty} from './pharos-property';
 import {DataProperty} from "../tools/generic-table/components/property-display/data-property";
+import {Data} from "@angular/router";
 
 export class PDBResult {
   structureId: string;
   methods: string[];
   ligands?: PDBLigand[];
   citation?: PDBCitation;
+  resolution?: number[];
+  molecularWeight?: number;
 }
 
 export class PDBResultSerializer implements PharosSerializer {
@@ -20,6 +23,8 @@ export class PDBResultSerializer implements PharosSerializer {
     if(obj.citation && obj.citation.pubmedId){
       obj.citation.link = `http://www.ncbi.nlm.nih.gov/pubmed/${obj.citation.pubmedId}`;
     }
+    obj.molecularWeight = json.entryInfo.molecular_weight;
+    obj.resolution = json.entryInfo.resolution_combined;
     return obj;
   }
 }
@@ -58,17 +63,27 @@ export class PDBLigandSerializer implements PharosSerializer {
 }
 
 export class PDBViewObject {
+
   structureId: DataProperty;
+  pubYear: DataProperty;
+  resolution: DataProperty;
+  molecularWeight: DataProperty;
+
   methods: DataProperty[] = [];
   links: DataProperty[] = [];
   title: DataProperty;
   ligands: DataProperty[] = [];
   ligandIds: DataProperty[] = [];
+
   constructor(result: PDBResult) {
+    if(!result) {return;}
     this.structureId = {term: result.structureId, label: result.structureId};
     this.title = {term: result.citation?.title, label: result.citation?.title, externalLink: result.citation?.link};
     this.methods = result.methods?.map(c => {return {term: c, label: c};});
     this.ligands = result.ligands?.map(c => {return {term: c.names[0], label: c.names[0]};});
     this.ligandIds = result.ligands?.map(c => {return {term: c.id, label: c.id};});
+    this.pubYear = {term: result.citation?.year?.toString(), label: result.citation?.year?.toString()};
+    this.resolution = {term: result.resolution?.join(', ')?.toString(), label: result.resolution?.join(', ')?.toString()};
+    this.molecularWeight = {term: result.molecularWeight?.toString(), label: result.molecularWeight?.toString()};
   }
 }

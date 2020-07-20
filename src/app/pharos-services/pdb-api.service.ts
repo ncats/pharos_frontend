@@ -38,6 +38,10 @@ export class PdbApiService {
           journal:journal_abbrev
           year
         }
+        entryInfo:rcsb_entry_info{
+          molecular_weight
+          resolution_combined
+        }
         ligands:nonpolymer_entities{
           nonpolymer_comp{
             rcsb_id
