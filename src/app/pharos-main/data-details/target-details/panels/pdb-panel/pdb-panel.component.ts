@@ -51,10 +51,25 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
       width: '30vw'
     }),
     new PharosProperty({
-  name: 'methods',
-    label: 'Method',
+      name: 'methods',
+      label: 'Method',
       width: '20vw'
-}),
+    }),
+    new PharosProperty({
+      name: 'resolution',
+      label: 'Resolution',
+      width: '10vw'
+    }),
+    new PharosProperty({
+      name: 'molecularWeight',
+      label: 'M.W.',
+      width: '10vw'
+    }),
+    new PharosProperty({
+      name: 'pubYear',
+      label: 'Pub Year',
+      width: '10vw'
+    }),
     new PharosProperty({
       name: 'title',
       label: 'Title',
@@ -70,6 +85,10 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
     new PharosProperty({
       name: 'ligands',
       label: 'Ligand'
+    }),
+    new PharosProperty({
+      name: 'pubYear',
+      label: 'Pub Year'
     })
   ];
 
@@ -158,12 +177,13 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
         this.changeRef.detectChanges();
       });
   }
+
   /**
    * change the molecule displayed in the protein structure viewer
    * @param entry
    */
   changePdbId(entry: any) {
-    if (this.pdbid.structureId !== entry.structureId.term) {
+    if (this.pdbid?.structureId !== entry.structureId.term) {
       this.pdbid = this.pdbResponses.find(r => r.structureId === entry.structureId.term);
       this.changeRef.markForCheck();
     }
