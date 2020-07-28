@@ -12,6 +12,7 @@ export const MOCKACTIVATEDROUTE = {
         ["associatedDisease","benign ependymoma"]
       ]),
       data: {
+        path: 'targets',
         results: {
           count: 666,
           targets: [TESTTARGET],

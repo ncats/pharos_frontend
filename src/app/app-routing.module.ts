@@ -116,12 +116,12 @@ const ROUTES: Routes = [
     SharedModule,
     CommonToolsModule,
     RouterModule.forRoot(ROUTES, {
-      scrollPositionRestoration: 'enabled',
-      anchorScrolling: 'enabled',
-      onSameUrlNavigation: 'reload',
-      scrollOffset: [0, 120],
-     // preloadingStrategy: PreloadAllModules
-      })
+    scrollPositionRestoration: 'enabled',
+    anchorScrolling: 'enabled',
+    onSameUrlNavigation: 'reload',
+    scrollOffset: [0, 120],
+    initialNavigation: 'enabled'
+})
   ],
   declarations: [
     AboutPageComponent,

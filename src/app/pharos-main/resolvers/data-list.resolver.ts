@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
 import {concat, from, Observable, of, zip} from 'rxjs';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
@@ -8,6 +8,7 @@ import {PharosBase, Serializer} from '../../models/pharos-base';
 import {Facet} from '../../models/facet';
 import {SelectedFacetService} from '../data-list/filter-panel/selected-facet.service';
 import {TargetListService} from "../../pharos-services/target-list.service";
+import {isPlatformBrowser} from "@angular/common";
 
 /**
  * resolver to retrieve list of data happens on every main level (/targets, /diseases, /ligands, etc) change
@@ -24,7 +25,8 @@ export class DataListResolver implements Resolve<Observable<any>> {
     private loadingService: LoadingService,
     private router: Router,
     private targetListService: TargetListService,
-    private pharosApiService: PharosApiService) {
+    private pharosApiService: PharosApiService,
+    @Inject(PLATFORM_ID) private platformID: Object) {
   }
 
   /**
@@ -57,7 +59,12 @@ export class DataListResolver implements Resolve<Observable<any>> {
             return res.data.batch.results;
           }),
           catchError(err => {
-            alert(JSON.stringify(err));
+            if(isPlatformBrowser(this.platformID)) {
+              alert(JSON.stringify(err));
+            }
+            else{
+              console.log(JSON.stringify(err));
+            }
             return null;
           })
         );
@@ -76,7 +83,13 @@ export class DataListResolver implements Resolve<Observable<any>> {
             return res.data.batch.results;
           }),
           catchError(err => {
-            alert((err.message || "no message") + "\n" + (err.stack || "no stack trace"));
+            let message = (err.message || "no message") + "\n" + (err.stack || "no stack trace")
+            if(isPlatformBrowser(this.platformID)) {
+              alert(JSON.stringify(message));
+            }
+            else{
+              console.log(JSON.stringify(message));
+            }
             return null;
           })
         );

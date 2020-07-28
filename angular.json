@@ -117,7 +117,7 @@
             "outputPath": "dist/server",
             "main": "server.ts",
             "tsConfig": "tsconfig.server.json",
-            "externalDependencies": ["@firebase/firestore"]
+            "externalDependencies": ["@firebase/firestore", "@firebase/app"]
           },
           "configurations": {
             "production": {

@@ -4,6 +4,7 @@ import {SharedModule} from '../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from '../app-routing.module';
 import {APP_BASE_HREF} from '@angular/common';
+import {UnfurlingMetaService} from "../pharos-services/unfurling-meta.service";
 
 
 describe('ApiPageComponent', () => {
@@ -21,7 +22,8 @@ describe('ApiPageComponent', () => {
         ApiPageComponent,
       ],
       providers: [
-        {provide: APP_BASE_HREF, useValue: '/index' }
+        {provide: APP_BASE_HREF, useValue: '/index' },
+        UnfurlingMetaService
       ]
     })
     .compileComponents();

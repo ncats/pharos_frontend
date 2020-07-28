@@ -1,0 +1,23 @@
+<mat-card>
+  <div *ngIf="pdbResult && pdbResult.ligands && pdbResult.ligands.length > 0">
+    <mat-card-title>Ligands ({{pdbResult.ligands.length}})</mat-card-title>
+    <div class="ligand-container">
+      <div *ngFor="let lig of pdbResult.ligands">
+        {{lig.names[0]}} ({{lig.id}})
+        <pharos-structure-view [smiles]="lig.smiles || lig.canonical_smiles"></pharos-structure-view>
+      </div>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="space-around center">
+    <div>
+      <p *ngIf="pdbResult && pdbResult.structureId" class="pdbid-display">Displaying: {{pdbResult.structureId}}</p>
+      <p *ngIf="pdbResult && pdbResult.structureId" class="slice-help">
+        <mat-icon [color]="'primary'" class="help-icon">info</mat-icon>
+        Click on a row in the table to change the structure displayed. More information can be found at
+        <a href="http://www.rcsb.org/" target="_blank" rel="noreferrer">RCSB PDB
+          <mat-icon [inline]="true">open_in_new</mat-icon>
+        </a></p>
+    </div>
+  </div>
+</mat-card>

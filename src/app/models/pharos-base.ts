@@ -34,7 +34,7 @@ export interface Serializer {
    * @param object
    * @return {any}
    */
-  toJson(object: any): any;
+  toJson?(object: any): any;
 
   /**
    * return object as series of property objects
@@ -42,7 +42,7 @@ export interface Serializer {
    * @return {any}
    * @private
    */
-  _asProperties(object: any): any;
+  _asProperties?(object: any): any;
 }
 
 /**
@@ -61,7 +61,7 @@ export interface PharosSerializer extends Serializer {
    * @param {PharosBase} object
    * @return {any}
    */
-  toJson(object: PharosBase): any;
+  toJson?(object: PharosBase): any;
 
   /**
    * return object as parsed properties
@@ -69,7 +69,7 @@ export interface PharosSerializer extends Serializer {
    * @return {any}
    * @private
    */
-  _asProperties(object: PharosBase): any;
+  _asProperties?(object: PharosBase): any;
 
 
 }

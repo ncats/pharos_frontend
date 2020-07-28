@@ -1,6 +1,17 @@
-import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter, Inject,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  PLATFORM_ID,
+  ViewChild
+} from '@angular/core';
 import * as d3 from 'd3';
 import {Subject} from "rxjs";
+import {isPlatformBrowser} from "@angular/common";
 
 /**
  * holder for different types of anatamogram svgs
@@ -64,7 +75,7 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
   /**
    * no args constructor
    */
-  constructor() {
+  constructor(@Inject(PLATFORM_ID) private platformID: Object) {
   }
 
   /**
@@ -74,34 +85,34 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
    */
   ngOnInit() {
     const imageUrl = `./assets/images/svgs/${this.species}.${this.details}.svg`;
+    if(isPlatformBrowser(this.platformID)) {
+      d3.xml(imageUrl).then(data => {
+        d3.select(this.anatamogram.nativeElement).node().append(data.documentElement);
+        this.svg = d3.select('#anatamogram').attr('id', this.id);
 
-    d3.xml(imageUrl).then(data => {
-      d3.select(this.anatamogram.nativeElement).node().append(data.documentElement);
-      this.svg = d3.select('#anatamogram').attr('id', this.id);
+        /**
+         * zoom function called
+         */
+        const zoom = () => {
+          this.svg.select(`#anatamogram-holder-${this.species}-${this.details}`).attr('transform', d3.event.transform);
+        };
 
-      /**
-       * zoom function called
-       */
-      const zoom = () => {
-        this.svg.select(`#anatamogram-holder-${this.species}-${this.details}`).attr('transform', d3.event.transform);
-      };
+        /**
+         * set the zoom function on the parent scope
+         */
+        this.zoom = d3.zoom()
+          .scaleExtent([1, 8])
+          .on('zoom', zoom);
 
-      /**
-       * set the zoom function on the parent scope
-       */
-      this.zoom = d3.zoom()
-        .scaleExtent([1, 8])
-        .on('zoom', zoom);
-
-      /**
-       * set pointer events and zoom function
-       */
-      d3.select('#anatamogram')
-        .style('pointer-events', 'all')
-        .call(this.zoom);
-      this.updateImage();
-    });
-
+        /**
+         * set pointer events and zoom function
+         */
+        d3.select('#anatamogram')
+          .style('pointer-events', 'all')
+          .call(this.zoom);
+        this.updateImage();
+      });
+    }
     this.redrawAnatamogram.subscribe(response => {
       if (response) {
         this.updateImage();

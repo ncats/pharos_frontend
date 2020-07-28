@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LigandHeaderComponent } from './ligand-header.component';
 import {TESTLIGAND} from '../../../../../../test/test-ligand';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
+import {UnfurlingMetaService} from "../../../../pharos-services/unfurling-meta.service";
 
 describe('LigandHeaderComponent', () => {
   let component: LigandHeaderComponent;
@@ -10,6 +11,7 @@ describe('LigandHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      providers: [UnfurlingMetaService],
       declarations: [ LigandHeaderComponent ],
       schemas: [
         NO_ERRORS_SCHEMA
