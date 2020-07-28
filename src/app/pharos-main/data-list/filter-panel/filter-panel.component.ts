@@ -29,8 +29,6 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     fixedInViewport: true,
     fixedTopGap: 70,
     role: 'directory'
-    /* [mode]="isSmallScreen!==true ? 'side' : 'over'"
-     [opened]="isSmallScreen !== true"*/
   };
 
   /**

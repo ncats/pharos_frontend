@@ -1,6 +1,8 @@
 <ng-container id="headertemplate" #headertemplate cdkPortalOutlet></ng-container>
 <mat-sidenav-container class="main-content" [autosize]= autosize>
-  <mat-sidenav #leftpanel>
+  <mat-sidenav #leftpanel
+               [mode]="isSmallScreen!==true ? 'side' : 'over'"
+               [opened]="isSmallScreen !== true">
     <!-- sidenav content -->
     <nav>
       <ng-container id="lefttemplate" #lefttemplate cdkPortalOutlet></ng-container>
@@ -14,7 +16,7 @@
     </aside>
   </mat-sidenav>
 
-  <mat-sidenav-content (click)="close()" class="pharos-sidenav-content" role="main" id="scrollspy-main">
+  <mat-sidenav-content [ngClass]="this.getClassForMarginsOnServer()" (click)="close()" class="pharos-sidenav-content" role="main" id="scrollspy-main">
 
     <div fxLayout="row" fxLayoutAlign="start start" class="sidenav-buttons">
       <div fxFlex="5">

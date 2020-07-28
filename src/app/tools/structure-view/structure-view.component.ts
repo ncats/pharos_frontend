@@ -78,12 +78,12 @@ export class StructureViewComponent implements OnInit {
           if (this.data.term === '') {
             this.url = null;
           } else {
-            this.url = `${this.pharosConfig.getApiPath()}render/${encodeURIComponent(this.data.term.toString())}?size=${this.size}`;
+            this.url = `https://tripod.nih.gov/servlet/renderServletv13?standardize=true&size=${this.size}&structure=${encodeURIComponent(this.smiles)}`;
           }
         }
       });
     if (this.smiles) {
-      this.url = `${this.pharosConfig.getApiPath()}render/${encodeURIComponent(this.smiles)}?size=${this.size}`;
+      this.url = `https://tripod.nih.gov/servlet/renderServletv13?standardize=true&size=${this.size}&structure=${encodeURIComponent(this.smiles)}`;
     }
   }
 

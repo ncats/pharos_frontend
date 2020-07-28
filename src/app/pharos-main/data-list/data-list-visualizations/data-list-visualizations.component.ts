@@ -1,10 +1,9 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {PharosConfig} from '../../../../config/pharos-config';
 import {SelectedFacetService} from '../filter-panel/selected-facet.service';
 import {Facet} from '../../../models/facet';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
-import {PageData} from '../../../models/page-data';
 import {PathResolverService} from '../filter-panel/path-resolver.service';
 import {ActivatedRoute} from '@angular/router';
 
@@ -62,14 +61,14 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
    */
   ngOnInit() {
     this._data
-    // listen to data as long as term is undefined or null
+      // listen to data as long as term is undefined or null
       .pipe(
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
         if (this.data && this.data.facets) {
           let selection = this.data.facets[0];
-          if(!!this.selectedDonut) { // remember which facet was selected, if there was one
+          if (!!this.selectedDonut) { // remember which facet was selected, if there was one
             selection = this.data.facets.find(x => {
               return x.facet == this.selectedDonut
             });
@@ -88,6 +87,7 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
   changeDonutChart(field: string): void {
     this.selectedDonut = field;
     this.donutData = this.facets.filter(facet => facet.facet === field)[0];
+    this.donutData.values = this.donutData.values.filter(v => {return true;}); // trigger changes on bound property
   }
 
   /**
@@ -97,6 +97,7 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
   filterDonutChart(data: any) {
     this.selectedFacetService.setFacets({name: this.donutData.facet, change: {added: [data.name]}});
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
-    this.pathResolverService.navigate(queryParams, this._route);
+    this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
   }
+
 }

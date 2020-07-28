@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AppShellComponent } from './app-shell.component';
+import { PdbDetailsComponent } from './pdb-details.component';
 
-describe('AppShellComponent', () => {
-  let component: AppShellComponent;
-  let fixture: ComponentFixture<AppShellComponent>;
+describe('PdbDetailsComponent', () => {
+  let component: PdbDetailsComponent;
+  let fixture: ComponentFixture<PdbDetailsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AppShellComponent ]
+      declarations: [ PdbDetailsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AppShellComponent);
+    fixture = TestBed.createComponent(PdbDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

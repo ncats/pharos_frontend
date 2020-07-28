@@ -1,26 +1,25 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, InjectionToken, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component, Inject,
+  InjectionToken,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  PLATFORM_ID
+} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {HttpClient} from '@angular/common/http';
-import {PdbReportData, PdbReportSerializer} from '../../../../../models/pdb-report';
+import {PDBResult, PDBResultSerializer, PDBViewObject} from '../../../../../models/pdb-report';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {PageData} from '../../../../../models/page-data';
 import {Target} from '../../../../../models/target';
 import {BehaviorSubject} from 'rxjs';
-
-/**
- * token to inject structure viewer into generic table component
- * @type {InjectionToken<any>}
- */
-export const STRUCTURE_VIEW_TOKEN = new InjectionToken('StructureViewComponent');
-
-/**
- * pbd report generating url
- * @type {string}
- */
-const REPORT_URL = 'https://www.rcsb.org/pdb/rest/customReport.csv?customReportColumns=structureId,ligandId,ligandSmiles,' +
-  'EC50,IC50,Ka,Kd,Ki,pubmedId,releaseDate,experimentalTechnique,structureTitle&service=wsfile&format=csv&pdbids=';
+import {isPlatformBrowser} from "@angular/common";
+import {PdbApiService} from "../../../../../pharos-services/pdb-api.service";
 
 /**
  * component to fetch data from the rcsb protein databank and display tested ligands nested in a protein structure
@@ -44,33 +43,39 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
     new PharosProperty({
       name: 'structureId',
       label: 'PDB Structure Id',
+      width: '20vw'
     }),
     new PharosProperty({
-  name: 'pubmedId',
-  label: 'PMID'
-}),
+      name: 'ligands',
+      label: 'Ligand',
+      width: '30vw'
+    }),
     new PharosProperty({
-  name: 'ligandId',
-    label: 'Ligand Id'
-}),
+      name: 'methods',
+      label: 'Method',
+      width: '20vw'
+    }),
     new PharosProperty({
-  name: 'ligandSmiles',
-    label: 'Ligand',
-  customComponent: STRUCTURE_VIEW_TOKEN
-}),
+      name: 'resolution',
+      label: 'Resolution',
+      width: '10vw'
+    }),
     new PharosProperty({
-  name: 'activities',
-    label: 'Activity'
-}),
+      name: 'molecularWeight',
+      label: 'M.W.',
+      width: '10vw'
+    }),
     new PharosProperty({
-  name: 'experimentalTechnique',
-    label: 'Method'
-}),
+      name: 'pubYear',
+      label: 'Pub Year',
+      width: '10vw'
+    }),
     new PharosProperty({
-  name: 'structureTitle',
-    label: 'Title'
-})
-];
+      name: 'title',
+      label: 'Title',
+      width: '30vw'
+    })
+  ];
 
   shortFieldsData: PharosProperty[] = [
     new PharosProperty({
@@ -78,31 +83,23 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
       label: 'PDB Structure Id',
     }),
     new PharosProperty({
-      name: 'pubmedId',
-      label: 'PMID'
+      name: 'molecularWeight',
+      label: 'M.W.'
     }),
     new PharosProperty({
-      name: 'ligandId',
-      label: 'Ligand Id'
+      name: 'resolution',
+      label: 'Resolution'
     }),
     new PharosProperty({
-      name: 'ligandSmiles',
-      label: 'Ligand',
-      customComponent: STRUCTURE_VIEW_TOKEN
+      name: 'pubYear',
+      label: 'Pub Year'
     })
-    ];
+  ];
 
   @Input() target: Target;
-  /**
-   * all retrieved reports
-   * @type {any[]}
-   */
-  reports: PdbReportData[] = [];
-  /**
-   * list of pharos property objects to display in table
-   * @type {any[]}
-   */
-  tableArr: any[] = [];
+  pdbResponses: PDBResult[] = [];
+  pdbViewObjects: PDBViewObject[] = [];
+  pdbIDs: string[] = [];
 
   /**
    * pagination data object
@@ -112,13 +109,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
   /**
    * active pdb id shown in protein structure viewer
    */
-  pdbid: string;
-
-  /**
-   * serializer to parse json into classes
-   * @type {PdbReportSerializer}
-   */
-  pdbReportSerializer: PdbReportSerializer = new PdbReportSerializer();
+  pdbid: PDBResult;
 
   /**
    * set up httpservice
@@ -129,7 +120,9 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
   constructor(
     private navSectionsService: NavSectionsService,
     private changeRef: ChangeDetectorRef,
-    private _http: HttpClient) {
+    private _http: HttpClient,
+    @Inject(PLATFORM_ID) private platformID: Object,
+    private pdbApollo: PdbApiService) {
     super();
   }
 
@@ -138,8 +131,8 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
    */
   ngOnInit() {
     this._data
-    // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
+      // listen to data as long as term is undefined or null
+      // Unsubscribe once term has value
       .pipe(
         takeUntil(this.ngUnsubscribe)
       )
@@ -161,43 +154,11 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
    * fetch pdb data from rcsb, create pagedata object and parse first page of reports
    */
   setterFunction() {
-    this.tableArr = [];
-    this.reports = [];
-    const pdbsArr: any[] = this.target.pdbs.map<any>(pdb => pdb = pdb.pdbs);
-    this._http.get(REPORT_URL + pdbsArr.join(','), {responseType: 'text'}).subscribe(res => {
-        this.csvJSON(res);
-        this.pageData = this.makePageData(this.reports.length);
-        this.tableArr = this.reports
-          .slice(this.pageData.skip, this.pageData.top)
-        .map(report => this.pdbReportSerializer._asProperties(report));
-        const pdbids = this.tableArr.find(entry => entry.structureId.term && entry.ligandId.term);
-        if (pdbids) {
-        this.pdbid = pdbids.structureId.term;
-      }
-        this.changeRef.markForCheck();
-    });
-  }
-
-  /**
-   * convert csv from rcsb to json
-   * maps json to typed pdbreport object
-   * @param {string} csv
-   */
-  private csvJSON(csv: string): void {
-    const lines: string[] = csv.split(/\r\n|\n/);
-    const headers = lines.shift().split(',');
-    if (lines.length > 0) {
-      for (const i of lines) {
-        if (i) {
-          const currentline = i.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-          const data: {} = {};
-          for (const j of Object.keys(headers)) {
-            data[headers[j]] = currentline[j].replace(/"/g, '');
-          }
-          const pdb: PdbReportData = this.pdbReportSerializer.fromJson(data);
-          this.reports.push(pdb);
-        }
-      }
+    this.pdbIDs = this.target.pdbs.map<any>(pdb => pdb = pdb.pdbs);
+    this.pageData = this.makePageData(this.target.pdbs.length);
+    this.pageData.top = 5;
+    if (isPlatformBrowser(this.platformID)) {
+      this.fetchPDB();
     }
   }
 
@@ -206,9 +167,19 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
    * @param event
    */
   pagePDB(event) {
-    this.tableArr = this.reports.slice(event.pageIndex * event.pageSize, (event.pageIndex + 1) * event.pageSize)
-      .map(report => this.pdbReportSerializer._asProperties(report));
-    this.changeRef.markForCheck();
+    this.pageData.skip = event.pageIndex * event.pageSize;
+    this.pageData.top = (event.pageIndex + 1) * event.pageSize;
+    this.fetchPDB();
+  }
+
+  fetchPDB() {
+    this.pdbApollo.getEntries(this.pdbIDs.slice(this.pageData.skip, this.pageData.top))
+      .then(response => {
+        this.pdbResponses = response.data.entries.map(obj => new PDBResultSerializer().fromJson(obj));
+        this.pdbViewObjects = this.pdbResponses.map(r => new PDBViewObject(r));
+        this.pdbid = this.pdbResponses[0];
+        this.changeRef.detectChanges();
+      });
   }
 
   /**
@@ -216,8 +187,8 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
    * @param entry
    */
   changePdbId(entry: any) {
-    if (this.pdbid !== entry.structureId.term) {
-      this.pdbid = entry.structureId.term;
+    if (this.pdbid?.structureId !== entry.structureId.term) {
+      this.pdbid = this.pdbResponses.find(r => r.structureId === entry.structureId.term);
       this.changeRef.markForCheck();
     }
   }

@@ -7,7 +7,7 @@ import {Facet} from '../../../../models/facet';
 @Component({
   selector: 'pharos-visualization-options',
   templateUrl: './visualization-options.component.html',
-  styleUrls: ['./visualization-options.component.css']
+  styleUrls: ['./visualization-options.component.scss']
 })
 export class VisualizationOptionsComponent implements OnInit {
 

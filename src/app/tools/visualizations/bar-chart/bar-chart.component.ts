@@ -1,11 +1,11 @@
 import {
-  Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild,
+  Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnDestroy, OnInit, Output, PLATFORM_ID, ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 import * as d3 from 'd3';
-import {PharosPoint} from '../../../models/pharos-point';
 import {takeUntil} from 'rxjs/operators';
 import {BehaviorSubject, Subject} from 'rxjs';
+import {isPlatformBrowser} from "@angular/common";
 
 /**
  * component to create a d3 bar chart
@@ -90,7 +90,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
   /**
    * function to redraw/scale the graph on window resize
    */
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize', [])
   onResize() {
     this.drawGraph();
     this.updateGraph();
@@ -99,7 +99,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
   /**
    * no args constructor
    */
-  constructor() {}
+  constructor(@Inject(PLATFORM_ID) private platformID: Object) {}
 
   /**
    * draw basic graph elements, and once data is available, update graph with data
@@ -112,9 +112,11 @@ export class BarChartComponent implements OnInit, OnDestroy {
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        this.drawGraph();
-        if (this.data) {
-          this.updateGraph();
+        if(isPlatformBrowser(this.platformID)){
+          this.drawGraph();
+          if (this.data) {
+            this.updateGraph();
+          }
         }
       });
   }

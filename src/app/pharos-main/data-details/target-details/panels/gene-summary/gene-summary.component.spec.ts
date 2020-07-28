@@ -6,6 +6,7 @@ import {ApolloTestingModule} from 'apollo-angular/testing';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route';
 import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
+import {UnfurlingMetaService} from "../../../../../pharos-services/unfurling-meta.service";
 
 describe('GeneSummaryComponent', () => {
   let component: GeneSummaryComponent;
@@ -13,6 +14,7 @@ describe('GeneSummaryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      providers: [UnfurlingMetaService],
       declarations: [ GeneSummaryComponent ],
       imports: [
         ApolloTestingModule

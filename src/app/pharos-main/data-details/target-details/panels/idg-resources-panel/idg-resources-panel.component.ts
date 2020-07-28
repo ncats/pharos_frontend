@@ -1,4 +1,14 @@
-import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  PLATFORM_ID,
+  ViewChild
+} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
@@ -11,6 +21,7 @@ import {DataResource, MouseImageData} from '../../../../../models/idg-resources/
 import {Reagent} from '../../../../../models/idg-resources/reagent';
 import {PageData} from "../../../../../models/page-data";
 import {MatTabGroup} from "@angular/material/tabs";
+import {isPlatformBrowser} from "@angular/common";
 
 /**
  * panel to show idg generated resources
@@ -72,7 +83,8 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
     private http: HttpClient,
     private navSectionsService: NavSectionsService,
     private pharosConfig: PharosConfig,
-    private changeRef: ChangeDetectorRef) {
+    private changeRef: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) private platformID: Object) {
     super();
   }
 
@@ -93,20 +105,25 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
           this.dataResources = [];
           this.reagents = [];
           this.mouseExpressions = [];
-          this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/search?term=${this.target.gene}`).subscribe(resourceList => {
-            if (resourceList && resourceList.data) {
-              resourceList.data.forEach(resourceMetadata => {
-                if (resourceMetadata.id && resourceMetadata.name) {
-                  this.fetchResourceDetails(resourceMetadata);
-                }
-              });
-              this.navSectionsService.showSection(this.field);
-            } else {
-              this.navSectionsService.hideSection(this.field);
-            }
-            this.changeRef.markForCheck();
-            this.loading = false;
-          });
+          if (isPlatformBrowser(this.platformID)) {
+            this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/search?term=${this.target.gene}`).subscribe(resourceList => {
+              if (resourceList && resourceList.data) {
+                resourceList.data.forEach(resourceMetadata => {
+                  if (resourceMetadata.id && resourceMetadata.name) {
+                    this.fetchResourceDetails(resourceMetadata);
+                  }
+                });
+                this.navSectionsService.showSection(this.field);
+              } else {
+                this.navSectionsService.hideSection(this.field);
+              }
+              this.changeRef.markForCheck();
+              this.loading = false;
+            });
+          }
+          else{
+            this.navSectionsService.hideSection(this.field);
+          }
         }
       );
   }

@@ -14,6 +14,9 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {AngularFireModule} from '@angular/fire';
 import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {UnfurlingMetaService} from "../../../pharos-services/unfurling-meta.service";
+import {MOCKACTIVATEDROUTE} from "../../../../../test/mock-activate-route";
+import {ActivatedRoute} from "@angular/router";
 
 describe('SelectedFacetListComponent', () => {
   let component: SelectedFacetListComponent;
@@ -35,6 +38,8 @@ describe('SelectedFacetListComponent', () => {
         LoadingService,
         SelectedFacetService,
         SuggestApiService,
+        UnfurlingMetaService,
+        { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE },
         { provide: AngularFirestore, useValue: FIRESTORESTUB },
         AngularFireAuth,
         {provide: APP_BASE_HREF, useValue: '/targets' }

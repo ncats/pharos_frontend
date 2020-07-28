@@ -2,11 +2,11 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  HostListener,
+  HostListener, Inject,
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
+  OnInit, PLATFORM_ID,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -17,6 +17,7 @@ import {ScatterPoint} from './models/scatter-point';
 import {PharosPoint} from '../../../models/pharos-point';
 import {takeUntil} from 'rxjs/operators';
 import {BehaviorSubject, Subject} from 'rxjs';
+import {isPlatformBrowser} from "@angular/common";
 
 /**
  * flexible scatterplot/line chart viewer, has click events, hoverover, and voronoi plots for easier hoverover
@@ -154,13 +155,14 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * function to redraw/scale the graph on window resize
    */
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize', [])
   onResize() {
     this.drawChart();
     this.setData();
   }
 
-  constructor(private changeRef: ChangeDetectorRef) {
+  constructor(private changeRef: ChangeDetectorRef,
+              @Inject(PLATFORM_ID) private platformID: Object) {
   }
 
 
@@ -171,8 +173,8 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    */
   ngOnInit() {
     this._data
-    // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
+      // listen to data as long as term is undefined or null
+      // Unsubscribe once term has value
       .pipe(
         takeUntil(this.ngUnsubscribe)
       )
@@ -184,8 +186,10 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
         } else {
           this.displayData = [this.data];
         }
-        this.drawChart();
-        this.setData();
+        if (isPlatformBrowser(this.platformID)) {
+          this.drawChart();
+          this.setData();
+        }
       });
   }
 
@@ -621,8 +625,10 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    */
   ngOnDestroy() {
     const element = this.chartContainer.nativeElement;
-    d3.select(element).selectAll('this.svg').remove();
-    d3.select('body').selectAll('.line-tooltip').remove();
+    if(isPlatformBrowser(this.platformID)){
+      d3.select(element).selectAll('this.svg').remove();
+      d3.select('body').selectAll('.line-tooltip').remove();
+    }
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
