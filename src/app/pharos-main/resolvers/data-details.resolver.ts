@@ -44,11 +44,15 @@ export class DataDetailsResolver implements Resolve<any> {
           return res.data;
         }),
         catchError(err => {
+          let message = JSON.stringify(err);
+          if(err.message === 'Cannot convert undefined or null to object'){
+            message = `Can\'t resolve ${route.data.path.slice(0,-1)} "${route.params?.id}"`;
+          }
           if(isPlatformBrowser(this.platformID)) {
-            alert(JSON.stringify(err));
+            alert(message);
           }
           else{
-            console.log(JSON.stringify(err));
+            console.log(message);
           }
           return null;
         })
