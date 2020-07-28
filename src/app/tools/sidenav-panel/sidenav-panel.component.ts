@@ -1,10 +1,10 @@
-import {AfterContentInit, AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AfterContentInit, AfterViewInit, Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import {NavSectionsService} from './services/nav-sections.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PanelOptions} from '../../pharos-main/pharos-main.component';
 import {PharosPanel} from '../../../config/components-config';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import {Location, ViewportScroller} from '@angular/common';
+import {DOCUMENT, Location, ViewportScroller} from '@angular/common';
 
 /**
  * panel that lists available sections of the details page, with jump to section navigation
@@ -15,8 +15,6 @@ import {Location, ViewportScroller} from '@angular/common';
   styleUrls: ['./sidenav-panel.component.scss']
 })
 export class SidenavPanelComponent implements OnInit, AfterContentInit {
-
-
   /**
    * close the filter panel
    * @type {EventEmitter<boolean>}
@@ -65,7 +63,8 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit {
     public breakpointObserver: BreakpointObserver,
     private location: Location,
     private viewportScroller: ViewportScroller,
-    private navSectionsService: NavSectionsService) {
+    private navSectionsService: NavSectionsService,
+    @Inject(DOCUMENT) private document: Document) {
   }
 
   /**
@@ -83,16 +82,17 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit {
       .filter(component => component.navHeader)
       .map(comp => comp.navHeader));
 
-
     this.navSectionsService.sections$.subscribe(res => {
       if (res && res.length) {
         this.sections = res;
-        this.activeElement = this.activeFragment ? this.activeFragment : this.sections[0].section.toString();
-        this.viewportScroller.scrollToAnchor( this.activeElement);
+        this.activeElement = this.activeFragment;
+        if (this.activeElement) {
+          this.viewportScroller.scrollToAnchor(this.activeElement);
+        }
       }
     });
-    this.navSectionsService.activeSection$.subscribe(res => {
 
+    this.navSectionsService.activeSection$.subscribe(res => {
       if (res && !this.activeFragment) {
         this.activeElement = res;
       }
