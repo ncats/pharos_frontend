@@ -121,6 +121,9 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
               this.loading = false;
             });
           }
+          else{
+            this.navSectionsService.hideSection(this.field);
+          }
         }
       );
   }
