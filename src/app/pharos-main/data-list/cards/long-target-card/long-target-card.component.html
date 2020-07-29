@@ -8,7 +8,7 @@
         </mat-checkbox>
         <pharos-idg-level-indicator [level]="target.idgTDL" [matTooltip]="getTooltip('tdl')"></pharos-idg-level-indicator>
         <span class="mat-card-title" [matTooltip]="'See details for ' + target.gene"
-             routerLink='/targets/{{target.accession}}' target="_blank">
+             routerLink='/targets/{{target.gene || target.accession}}' target="_blank">
           {{target?.name}}
         </span>
       </div>
