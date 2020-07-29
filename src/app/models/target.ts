@@ -477,7 +477,7 @@ export class TargetSerializer implements PharosSerializer {
   _asProperties(obj: Target): any {
     const newObj: any = this._mapField(obj);
     if (newObj.accession && newObj.accession.term) {
-      newObj.name.internalLink = ['/targets', newObj.accession.term];
+      newObj.name.internalLink = ['/targets', newObj.gene.term || newObj.accession.term];
     }
 
     if (newObj.gene && newObj.gene.term) {

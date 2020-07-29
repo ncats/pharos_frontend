@@ -24,7 +24,7 @@
       </div>
       <div class="headerRow">
         <pharos-explore-list-button [buttonText]="'Explore Associated Diseases'" [path]="'/diseases'"
-                                    [queryParams]="{associatedTarget:target.accession}">
+                                    [queryParams]="{associatedTarget:target.gene || target.accession}">
         </pharos-explore-list-button>
         <mat-paginator
           [pageSize]="10"
