@@ -7,7 +7,6 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AuthModule} from './auth/auth.module';
 import {RouterModule} from '@angular/router';
-import {ServiceWorkerModule} from '@angular/service-worker';
 import {BrowserModule} from '@angular/platform-browser';
 import {NcatsHeaderModule} from './tools/ncats-header/ncats-header.module';
 import {PharosLoadingSpinnerModule} from './tools/pharos-loading-spinner/pharos-loading-spinner.module';
