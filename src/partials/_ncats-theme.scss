@@ -1,0 +1,73 @@
+@import '~@angular/material/theming';
+
+$pharos-primary: (
+  50 : #e5e7ea,
+  100 : #bdc3ca,
+  200 : #919ba7,
+  300 : #657283,
+  400 : #445469,
+  500 : #23364e,
+  600 : #1f3047,
+  700 : #1a293d,
+  800 : #152235,
+  900 : #0c1625,
+  A100 : #639dff,
+  A200 : #307dff,
+  A400 : #005dfc,
+  A700 : #0054e3,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #ffffff,
+    A400 : #ffffff,
+    A700 : #ffffff,
+  )
+);
+$pharos-app-primary:  mat-palette($pharos-primary);
+
+$pharos-secondary: (
+  50 : #fff6eb,
+  100 : #ffe8cd,
+  200 : #ffd9ac,
+  300 : #ffc98b,
+  400 : #ffbe72,
+  500 : #ffb259,
+  600 : #ffab51,
+  700 : #ffa248,
+  800 : #ff993e,
+  900 : #ff8a2e,
+  A100 : #ffffff,
+  A200 : #ffffff,
+  A400 : #ffe9da,
+  A700 : #ffdac0,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
+    700 : #000000,
+    800 : #000000,
+    900 : #000000,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+$pharos-app-accent:  mat-palette($pharos-secondary);
+
+$ncats-app-warn:    mat-palette($mat-red);
+
+$ncats-app-theme: mat-light-theme($pharos-app-primary, $pharos-app-accent, $ncats-app-warn);
