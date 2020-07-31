@@ -1,5 +1,5 @@
 <article>
-  <mat-card
+  <mat-card *ngIf="this.target"
     class="section-card"
     id="diseaseSources"
     (pharosScrollspy)="active('diseaseSources')"

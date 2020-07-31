@@ -1,11 +1,21 @@
-import {ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+  ViewChild
+} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {Target} from '../../../../../models/target';
-import {PharosPoint} from '../../../../../models/pharos-point';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {Subject} from "rxjs";
+import {isPlatformBrowser} from "@angular/common";
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 /**
@@ -85,30 +95,32 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     private pharosApiService: PharosApiService,
     private _route: ActivatedRoute,
     private changeRef: ChangeDetectorRef,
-    private navSectionsService: NavSectionsService
+    private navSectionsService: NavSectionsService,
+    @Inject(PLATFORM_ID) private platformID: Object
   ) {
     super();
   }
-
   /**
    * subscribe to data changes and generate tree
    */
   ngOnInit() {
-    this._data
-      // listen to data as long as term is undefined or null
-      // Unsubscribe once term has value
-      .pipe(
-        // takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe(x => {
-        this.tissues = [];
-        this.uberonMap.clear();
-        this.cellLinesMap.clear();
-        this.target = this.data.targets;
-        this.targetProps = this.data.targetsProps;
-        this.setterFunction();
-        this.loading = false;
-      });
+      this._data
+        // listen to data as long as term is undefined or null
+        // Unsubscribe once term has value
+        .pipe(
+          // takeUntil(this.ngUnsubscribe)
+        )
+        .subscribe(x => {
+          if(isPlatformBrowser(this.platformID)){
+            this.tissues = [];
+            this.uberonMap.clear();
+            this.cellLinesMap.clear();
+            this.target = this.data.targets;
+            this.targetProps = this.data.targetsProps;
+            this.setterFunction();
+            this.loading = false;
+          }
+        });
   }
   /**
    * parse and generate data

@@ -95,7 +95,7 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
     }
 
     let newTitle = `Pharos: ${this.target.name} (${this.target.idgTDL})`;
-    this.metaService.setMetaData({description: this.target.description, title: newTitle});
+    this.metaService.setMetaData({description: this.target.description || '', title: newTitle});
     this.metaService.createCanonicalURL(['targets', (this.target.gene || this.target.accession)]);
     this.changeRef.markForCheck();
   }
