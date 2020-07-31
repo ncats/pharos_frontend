@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit, PLATFORM_ID
+} from '@angular/core';
 import {PageEvent} from '@angular/material/paginator';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
@@ -11,9 +19,10 @@ import {Target} from '../../../../../models/target';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {DISEASELISTFIELDS, DiseaseSerializer} from '../../../../../models/disease';
-import {catchError, map, takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {DataProperty} from '../../../../../tools/generic-table/components/property-display/data-property';
 import {TargetComponents} from "../../../../../models/target-components";
+import {isPlatformBrowser} from "@angular/common";
 
 /**
  * interface to track disease tree nodes
@@ -83,7 +92,8 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
     private pharosApiService: PharosApiService,
     private _route: ActivatedRoute,
     private changeRef: ChangeDetectorRef,
-    private navSectionsService: NavSectionsService
+    private navSectionsService: NavSectionsService,
+    @Inject(PLATFORM_ID) private platformID: Object
   ) {
     super();
   }
@@ -93,30 +103,32 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    */
   ngOnInit() {
     this._data
-    // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
+      // listen to data as long as term is undefined or null
+      // Unsubscribe once term has value
       .pipe(
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        this.target = this.data.targets;
-        this.targetProps = this.data.targetsProps;
-        if (this.target.tinx) {
-          this.tinx = [];
-          this.target.tinx.map(point => {
-            if (point.disease) {
-              const p: PharosPoint = new PharosPoint({
-                label: point.disease.doid,
-                x: point.novelty,
-                y: point.score,
-                name: point.disease.name
-              });
-              this.tinx.push(p);
-            }
-          });
+        if (isPlatformBrowser(this.platformID)) {
+          this.target = this.data.targets;
+          this.targetProps = this.data.targetsProps;
+          if (this.target.tinx) {
+            this.tinx = [];
+            this.target.tinx.map(point => {
+              if (point.disease) {
+                const p: PharosPoint = new PharosPoint({
+                  label: point.disease.doid,
+                  x: point.novelty,
+                  y: point.score,
+                  name: point.disease.name
+                });
+                this.tinx.push(p);
+              }
+            });
+          }
+          this.setterFunction();
+          this.loading = false;
         }
-        this.setterFunction();
-        this.loading = false;
       });
   }
 
@@ -155,7 +167,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       diseasetop: event.pageSize,
       diseaseskip: event.pageIndex * event.pageSize,
     };
-    this.pharosApiService.getComponentPage(this._route.snapshot, pageParams,TargetComponents.Component.DiseaseSources)
+    this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, TargetComponents.Component.DiseaseSources)
       .subscribe(
         res => {
           this.target.diseases = res.data.targets.diseases;

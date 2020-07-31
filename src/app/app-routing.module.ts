@@ -1,5 +1,5 @@
 import {Inject, Injectable, NgModule, PLATFORM_ID} from '@angular/core';
-import {PreloadAllModules, PreloadingStrategy, Route, RouterModule, Routes} from '@angular/router';
+import {PreloadingStrategy, Route, RouterModule, Routes} from '@angular/router';
 import {CommonModule, isPlatformServer} from '@angular/common';
 import {CommonToolsModule} from './tools/common-tools.module';
 import {SharedModule} from './shared/shared.module';

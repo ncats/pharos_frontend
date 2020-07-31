@@ -321,10 +321,7 @@ export class PharosApiService {
     });
 
     this.openQueries.set(`${path}-details`, watchDetailsQuery);
-
-    // fetchQuery.fetchMore()
     return fetchQuery;
-
   }
 
   fetchMore(path, addtParams) {
