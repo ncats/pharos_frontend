@@ -29,7 +29,8 @@
             ],
             "styles": [
               "node_modules/ProtVista/build/css/main.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/ncats-theme.scss"
             ],
             "scripts": [
               "src/assets/vendor/modernizr-custom.js"
