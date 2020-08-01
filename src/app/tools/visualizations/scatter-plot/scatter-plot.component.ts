@@ -292,7 +292,12 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
 
     if (this._chartOptions.xAxisScale === 'year') {
       this.x.domain(
-        d3.extent(d3.merge(this.displayData).map(d => new Date(+d.x, 0))));
+        d3.extent(d3.merge(this.displayData).map(d => {
+          if (d.x.constructor.name === "Date") {
+            return d.x;
+          }
+          return new Date(+d.x, 0)
+        })));
     } else {
       this.x.domain(
         (d3.extent(d3.merge(this.displayData).map(d => d.x)))
@@ -301,7 +306,12 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
 
     if (this._chartOptions.yAxisScale === 'year') {
       this.y.domain(
-        d3.extent(d3.merge(this.displayData).map(d => new Date(d.y, 0))));
+        d3.extent(d3.merge(this.displayData).map(d => {
+          if (d.y.constructor.name === "Date") {
+            return d.y;
+          }
+          return new Date(d.y, 0);
+        })));
     } else {
       this.y.domain(
         (d3.extent(d3.merge(this.displayData).map(d => d.y)))
@@ -492,10 +502,6 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    * update chart data and redraw elements as needed
    */
   updateData(): void {
-    if (this._chartOptions.xAxisScale === 'year') {
-      // d3.merge(this.displayData).map( d => d.x = new Date(d.x, 0));
-    }
-
     const t = d3.transition()
       .duration(100);
 
@@ -625,7 +631,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    */
   ngOnDestroy() {
     const element = this.chartContainer.nativeElement;
-    if(isPlatformBrowser(this.platformID)){
+    if (isPlatformBrowser(this.platformID)) {
       d3.select(element).selectAll('this.svg').remove();
       d3.select('body').selectAll('.line-tooltip').remove();
     }
