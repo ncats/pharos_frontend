@@ -57,7 +57,6 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
    * zoom function to be set on init, seeting it in scope here allows other methods to call it
    */
   zoom;
-
   /**
    * svg object from d3
    */
@@ -91,23 +90,22 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
         this.svg = d3.select('#anatamogram').attr('id', this.id);
 
         /**
-         * zoom function called
-         */
-        const zoom = () => {
-          this.svg.select(`#anatamogram-holder-${this.species}-${this.details}`).attr('transform', d3.event.transform);
-        };
-
-        /**
          * set the zoom function on the parent scope
          */
         this.zoom = d3.zoom()
           .scaleExtent([1, 8])
-          .on('zoom', zoom);
+          .on('zoom', () => {
+            var holder = this.svg.select(`#anatamogram-holder`);
+            var zoomFn = this.zoom.on('zoom', function() {
+              holder.attr("transform", d3.event.transform);
+            });
+            this.svg.call(zoomFn);
+          });
 
         /**
          * set pointer events and zoom function
          */
-        d3.select('#anatamogram')
+        d3.select(this.anatamogram.nativeElement)
           .style('pointer-events', 'all')
           .call(this.zoom);
         this.updateImage();
@@ -193,13 +191,8 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
    * reset zoom level (can also be called from external components)
    */
   resetZoom() {
-    const holder = this.svg.select(`#anatamogram-holder-${this.species}-${this.details}`);
-    if (holder) {
-      holder
-        .transition()
-        .duration(750)
-        .call(this.zoom.transform, d3.zoomIdentity);
-    }
+    var holder = this.svg.select(`#anatamogram-holder`);
+    holder.transition().duration(750).call(this.zoom.transform, d3.zoomIdentity);
   }
 
   getOpacity(tissue?: string) {
