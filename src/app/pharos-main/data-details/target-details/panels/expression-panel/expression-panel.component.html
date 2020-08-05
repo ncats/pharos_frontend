@@ -1,5 +1,5 @@
 <article>
-  <mat-card *ngIf=data
+  <mat-card *ngIf="this.target"
             class="section-card"
             id="expression"
             (pharosScrollspy)="active('expression')"
@@ -87,23 +87,24 @@
                        alt="image for cell types">
                 </div>
                 <div fxFlex="68">
-                <div *ngIf="this.cellLinesMap.size > 8" class="search-container">
-                  <mat-form-field class="table-search">
-                    <input matInput (keyup)="filterCellLines($event.target.value)" placeholder="Search tissues">
-                  </mat-form-field>
-                  <button type="button" mat-raised-button class="alphabetize-button" name="alphabetize"
-                          (click)="this.alphabetizeCellLines($event)" [ngClass]="{pressed:this.alphabetizedCellLines}"
-                          [color]="'primary'">
-                    <mat-icon matTooltip="Alphabetize cell lines">sort_by_alpha</mat-icon>
-                  </button>
-                </div>
-                <div class="expression-card-list" #cell_lines_card_list>
-                  <div *ngFor="let cellLine of this.sortedCellLines">
-                    <pharos-expression-tissue-card [tissueExpressionSources]="this.cellLinesMap.get(cellLine)">
-                    </pharos-expression-tissue-card>
+                  <div *ngIf="this.cellLinesMap.size > 8" class="search-container">
+                    <mat-form-field class="table-search">
+                      <input matInput (keyup)="filterCellLines($event.target.value)" placeholder="Search tissues">
+                    </mat-form-field>
+                    <button type="button" mat-raised-button class="alphabetize-button" name="alphabetize"
+                            (click)="this.alphabetizeCellLines($event)" [ngClass]="{pressed:this.alphabetizedCellLines}"
+                            [color]="'primary'">
+                      <mat-icon matTooltip="Alphabetize cell lines">sort_by_alpha</mat-icon>
+                    </button>
+                  </div>
+                  <div class="expression-card-list" #cell_lines_card_list>
+                    <div *ngFor="let cellLine of this.sortedCellLines">
+                      <pharos-expression-tissue-card [tissueExpressionSources]="this.cellLinesMap.get(cellLine)">
+                      </pharos-expression-tissue-card>
+                    </div>
                   </div>
                 </div>
-              </div></div>
+              </div>
             </mat-tab>
             <mat-tab *ngIf="target.orthologs && target.orthologCounts > 0">
               <ng-template mat-tab-label>

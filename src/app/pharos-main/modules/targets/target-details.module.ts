@@ -60,7 +60,7 @@ import {PdbPanelComponent} from "../../data-details/target-details/panels/pdb-pa
     ViralInteractionPanelComponent,
     VirusDetailsComponent,
     OrthologPanelComponent,
-    PdbPanelComponent,
+    PdbPanelComponent,PdbDetailsComponent,
     PdbDetailsComponent,
     GeneSummaryComponent,
     TargetFacetPanelComponent,

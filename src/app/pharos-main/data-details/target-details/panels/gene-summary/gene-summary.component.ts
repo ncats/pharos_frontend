@@ -12,6 +12,7 @@ import {Target} from '../../../../../models/target';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {UnfurlingMetaService} from "../../../../../pharos-services/unfurling-meta.service";
+import {NavigationEnd, Router} from "@angular/router";
 
 /**
  * displays the description of a target
@@ -47,7 +48,8 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
   constructor(private breakpointObserver: BreakpointObserver,
               private metaService: UnfurlingMetaService,
               private changeRef: ChangeDetectorRef,
-              @Inject(PLATFORM_ID) private platformID: Object) {
+              @Inject(PLATFORM_ID) private platformID: Object,
+              private router: Router) {
     super();
   }
 
@@ -56,6 +58,13 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
    */
   ngOnInit() {
     const isSmallScreen = this.breakpointObserver.isMatched('(max-width: 768px)');
+    this.router.events
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((e: any) => {
+        if (e instanceof NavigationEnd) {
+          this.metaService.destroyCanonicalURL();
+        }
+      });
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
@@ -86,12 +95,14 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
     }
 
     let newTitle = `Pharos: ${this.target.name} (${this.target.idgTDL})`;
-    this.metaService.setMetaData({description: this.target.description, title: newTitle});
+    this.metaService.setMetaData({description: this.target.description || '', title: newTitle});
+    this.metaService.createCanonicalURL(['targets', (this.target.gene || this.target.accession)]);
     this.changeRef.markForCheck();
   }
 
   ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+    this.metaService.destroyCanonicalURL();
   }
 }

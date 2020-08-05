@@ -1,18 +1,26 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {AboutPageComponent} from './about-page/about-page.component';
-import {FaqPageComponent} from './faq-page/faq-page.component';
-import {SequenceSearchPageComponent} from './sequence-search-page/sequence-search-page.component';
-import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
-import {CommonModule} from '@angular/common';
+import {Inject, Injectable, NgModule, PLATFORM_ID} from '@angular/core';
+import {PreloadingStrategy, Route, RouterModule, Routes} from '@angular/router';
+import {CommonModule, isPlatformServer} from '@angular/common';
 import {CommonToolsModule} from './tools/common-tools.module';
 import {SharedModule} from './shared/shared.module';
-import {ProfileComponent} from './profile/profile/profile.component';
-import {ConfirmModalComponent} from './profile/confirm-modal/confirm-modal.component';
+import {Observable, of} from "rxjs";
 
+@Injectable({providedIn: 'root'})
+class PharosPreloader implements PreloadingStrategy {
+  constructor(@Inject(PLATFORM_ID) private platformID: Object) {
+  }
+
+  preload(route: Route, fn: () => Observable<any>): Observable<any> {
+    if (isPlatformServer(this.platformID)) {
+      return of(null);
+    }
+    return route.data && route.data.preload ? fn() : of(null);
+  }
+}
 
 const ROUTES: Routes = [
-  { path: 'index',
+  {
+    path: 'index',
     redirectTo: '/',
     pathMatch: 'full'
   },
@@ -20,13 +28,14 @@ const ROUTES: Routes = [
     path: '',
     pathMatch: 'full',
     loadChildren: () => import('./pharos-home/pharos-home.module').then(m => m.PharosHomeModule),
-    data: { path: 'home' }
+    data: {path: 'home'}
   },
   {
     path: 'about',
-    component: AboutPageComponent
+    loadChildren: () => import('./about-page/about-page.module').then(m => m.AboutPageModule)
   },
-  { path: 'help',
+  {
+    path: 'help',
     redirectTo: '/about',
     pathMatch: 'full'
   },
@@ -34,24 +43,26 @@ const ROUTES: Routes = [
     path: 'structure',
     loadChildren: () => import('./structure-search-page/structure-search-page.module').then(m => m.StructureSearchPageModule),
   },
-  { path: 'sketcher',
+  {
+    path: 'sketcher',
     redirectTo: '/structure',
     pathMatch: 'full'
   },
   {
     path: 'sequence',
-    component: SequenceSearchPageComponent
+    loadChildren: () => import('./sequence-search-page/sequence-search.module').then(m => m.SequenceSearchModule)
   },
   {
     path: 'faq',
-    component: FaqPageComponent
+    loadChildren: () => import('./faq-page/faq-page.module').then(m => m.FaqPageModule)
   },
   {
     path: 'targets',
     loadChildren: () => import('./pharos-main/modules/targets/target-list.module').then(m => m.TargetTableModule),
     data: {
       path: 'targets',
-      subpath: 'list'
+      subpath: 'list',
+      preload: true
     }
   },
   {
@@ -59,25 +70,26 @@ const ROUTES: Routes = [
     loadChildren: () => import('./pharos-main/modules/targets/target-details.module').then(m => m.TargetDetailsModule),
     data: {
       path: 'targets',
-      subpath: 'details'
+      subpath: 'details',
+      preload: true
     }
   },
   {
     path: 'diseases',
-   // redirectTo: '/targets',
     loadChildren: () => import('./pharos-main/modules/diseases/disease-list.module').then(m => m.DiseaseListModule),
     data: {
       path: 'diseases',
-      subpath: 'list'
+      subpath: 'list',
+      preload: true
     }
   },
   {
     path: 'diseases/:id',
-   // redirectTo: '/search',
     loadChildren: () => import('./pharos-main/modules/diseases/disease-details.module').then(m => m.DiseaseDetailsModule),
     data: {
       path: 'diseases',
-      subpath: 'details'
+      subpath: 'details',
+      preload: true
     }
   },
   {
@@ -85,7 +97,8 @@ const ROUTES: Routes = [
     loadChildren: () => import('./pharos-main/modules/ligands/ligand-list.module').then(m => m.LigandListModule),
     data: {
       path: 'ligands',
-      subpath: 'list'
+      subpath: 'list',
+      preload: true
     }
   },
   {
@@ -93,19 +106,20 @@ const ROUTES: Routes = [
     loadChildren: () => import('./pharos-main/modules/ligands/ligand-details.module').then(m => m.LigandDetailsModule),
     data: {
       path: 'ligands',
-      subpath: 'details'
+      subpath: 'details',
+      preload: true
     }
   },
   {
     path: 'profile',
-    // loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule)
-    component: ProfileComponent
+    loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule)
   },
   {
     path: 'api',
-    loadChildren: () => import('./api-page/api-page.module').then(m =>  m.ApiPageModule),
+    loadChildren: () => import('./api-page/api-page.module').then(m => m.ApiPageModule),
   },
-  { path: '**',
+  {
+    path: '**',
     redirectTo: '/'
   }
 ];
@@ -116,21 +130,18 @@ const ROUTES: Routes = [
     SharedModule,
     CommonToolsModule,
     RouterModule.forRoot(ROUTES, {
-    scrollPositionRestoration: 'enabled',
-    anchorScrolling: 'enabled',
-    onSameUrlNavigation: 'reload',
-    scrollOffset: [0, 120],
-    initialNavigation: 'enabled'
-})
+      scrollPositionRestoration: 'enabled',
+      anchorScrolling: 'enabled',
+      onSameUrlNavigation: 'reload',
+      scrollOffset: [0, 120],
+      initialNavigation: 'enabled',
+      preloadingStrategy: PharosPreloader
+    })
   ],
-  declarations: [
-    AboutPageComponent,
-    FaqPageComponent,
-    SequenceSearchPageComponent,
-    PageNotFoundComponent,
-    ProfileComponent,
-    ConfirmModalComponent
-  ],
-  exports: [ RouterModule ]
+  providers: [PharosPreloader],
+  exports: [RouterModule]
 })
-export class AppRoutingModule { }
+
+export class AppRoutingModule {
+}
+
