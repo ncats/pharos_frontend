@@ -1,4 +1,4 @@
-@import '../../../../ncats-theme';
+@import '../../../../partials/ncats-theme';
 
   .radar-chart {
     overflow: visible;
@@ -19,7 +19,6 @@
 
   .hovered {
     fill: mat-color($pharos-app-accent) !important;
-
   }
 
 .content-row {

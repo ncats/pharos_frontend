@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, Inject, Input, OnInit, PLATFORM_ID, ViewEncapsulation} from '@angular/core';
 import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
 import {Target} from "../../../../../models/target";
 import {takeUntil} from "rxjs/operators";
@@ -7,6 +7,7 @@ import {PageEvent} from "@angular/material/paginator";
 import {TargetComponents} from "../../../../../models/target-components";
 import {DataProperty} from "../../../../../tools/generic-table/components/property-display/data-property";
 import {VirusDetails} from "../../../../../models/virus-interactions";
+import {isPlatformBrowser} from "@angular/common";
 
 @Component({
   selector: 'pharos-viral-interaction-panel',
@@ -19,7 +20,8 @@ export class ViralInteractionPanelComponent extends DynamicPanelComponent implem
    * parent target
    */
   @Input() target: Target;
-  constructor(private navSectionsService: NavSectionsService) {
+  constructor(private navSectionsService: NavSectionsService,
+    @Inject(PLATFORM_ID) private platformID: Object) {
     super();
   }
 
@@ -31,14 +33,16 @@ export class ViralInteractionPanelComponent extends DynamicPanelComponent implem
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        this.target = this.data.targets;
-        if (this.target?.interactingViruses?.length > 0) {
-          this.setterFunction();
-          this.navSectionsService.showSection(this.field);
-        } else {
-          this.navSectionsService.hideSection(this.field);
+        if(isPlatformBrowser(this.platformID)) {
+          this.target = this.data.targets;
+          if (this.target?.interactingViruses?.length > 0) {
+            this.setterFunction();
+            this.navSectionsService.showSection(this.field);
+          } else {
+            this.navSectionsService.hideSection(this.field);
+          }
+          this.loading = false;
         }
-        this.loading = false;
       });
   }
 

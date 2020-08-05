@@ -334,7 +334,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * todo: implement
    */
   createTopic() {
-    const targetList = this.rowSelection.selected.map(target => target = target.accession);
+    const targetList = this.rowSelection.selected.map(target => target = target.gene || target.accession);
     const dialogRef = this.dialog.open(TopicSaveModalComponent, {
         height: '50vh',
         width: '50vw',
@@ -364,7 +364,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * todo: implement
    */
   saveTargets() {
-    const targetList = this.rowSelection.selected.map(target => target = target.accession);
+    const targetList = this.rowSelection.selected.map(target => target = target.gene || target.accession);
     const dialogRef = this.dialog.open(BatchUploadModalComponent, {
         height: '50vh',
         width: '50vw',
@@ -390,7 +390,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   saveQuery() {
-    const targetList = this.rowSelection.selected.map(target => target = target.accession);
+    const targetList = this.rowSelection.selected.map(target => target = target.gene || target.accession);
     const dialogRef = this.dialog.open(BatchUploadModalComponent, {
         height: '50vh',
         width: '50vw',

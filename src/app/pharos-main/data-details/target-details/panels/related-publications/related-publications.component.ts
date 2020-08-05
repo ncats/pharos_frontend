@@ -1,10 +1,10 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, Inject,
   Input,
   OnDestroy,
-  OnInit,
+  OnInit, PLATFORM_ID,
   QueryList,
   ViewChildren,
   ViewEncapsulation
@@ -16,13 +16,14 @@ import {PharosProperty} from '../../../../../models/pharos-property';
 import {Publication, PublicationSerializer} from '../../../../../models/publication';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {PharosConfig} from '../../../../../../config/pharos-config';
-import { PageEvent } from '@angular/material/paginator';
+import {PageEvent} from '@angular/material/paginator';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {Generif, GenerifSerializer} from '../../../../../models/generif';
 import {ScatterPlotComponent} from '../../../../../tools/visualizations/scatter-plot/scatter-plot.component';
 import {takeUntil} from 'rxjs/operators';
 import {TargetComponents} from "../../../../../models/target-components";
+import {isPlatformBrowser} from "@angular/common";
 
 @Component({
   selector: 'pharos-related-publications',
@@ -123,7 +124,8 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
               private _route: ActivatedRoute,
               private changeRef: ChangeDetectorRef,
               private pharosApiService: PharosApiService,
-              private pharosConfig: PharosConfig) {
+              private pharosConfig: PharosConfig,
+              @Inject(PLATFORM_ID) private platformID: Object) {
     super();
   }
 
@@ -134,29 +136,31 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
    */
   ngOnInit() {
     this._data
-    // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
+      // listen to data as long as term is undefined or null
+      // Unsubscribe once term has value
       .pipe(
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        this.target = this.data.targets;
-        this.targetProps = this.data.targetsProps;
 
-        if (this.target.publications) {
-          this.publications = this.targetProps.publications;
-          this.publicationsPageData = this.makePageData(this.target.publicationCount);
+        if (isPlatformBrowser(this.platformID)) {
+          this.target = this.data.targets;
+          this.targetProps = this.data.targetsProps;
+
+          if (this.target.publications) {
+            this.publications = this.targetProps.publications;
+            this.publicationsPageData = this.makePageData(this.target.publicationCount);
+          }
+
+          if (this.target.generifs) {
+            this.generifs = this.targetProps.generifs;
+            this.rifPageData = this.makePageData(this.target.generifCount);
+          }
+
+          this.loading = false;
+          this.changeRef.markForCheck();
         }
-
-        if (this.target.generifs) {
-          this.generifs = this.targetProps.generifs;
-          this.rifPageData = this.makePageData(this.target.generifCount);
-        }
-
-        this.loading = false;
-        this.changeRef.markForCheck();
       });
-
   }
 
   /**
@@ -172,14 +176,14 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
     };
     var pageData = this.publicationsPageData;
     var component = TargetComponents.Component.Publications;
-    if(origin == 'generifs'){
+    if (origin == 'generifs') {
       pageData = this.rifPageData;
       component = TargetComponents.Component.Generifs;
     }
     pageData.top = event.pageSize;
     pageData.skip = event.pageIndex * event.pageSize;
 
-    this.pharosApiService.getComponentPage(this._route.snapshot,pageParams,component).subscribe(res => {
+    this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, component).subscribe(res => {
       this[origin] = res.data.targets[origin]
         .map(pub => this[`${origin}Serializer`].fromJson(pub))
         .map(pubObj => this[`${origin}Serializer`]._asProperties(pubObj));
@@ -202,9 +206,8 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
       return tooltip[0].description;
     } else {
       return null;
-    }  }
-
-
+    }
+  }
 
 
   /**

@@ -107,7 +107,7 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
           this.mouseExpressions = [];
           if (isPlatformBrowser(this.platformID)) {
             this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/search?term=${this.target.gene}`).subscribe(resourceList => {
-              if (resourceList && resourceList.data) {
+              if (resourceList && resourceList.data && resourceList.data.length) {
                 resourceList.data.forEach(resourceMetadata => {
                   if (resourceMetadata.id && resourceMetadata.name) {
                     this.fetchResourceDetails(resourceMetadata);

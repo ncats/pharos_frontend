@@ -1,13 +1,13 @@
 <mat-card class="ligand-card" *ngIf="ligand">
-  <a *ngIf="!internalLink" routerLink = '/ligands/{{ligand.ligid}}' target="_blank">
+  <a *ngIf="!internalLink" routerLink = '/ligands/{{ligand.isdrug ? ligand.name : ligand.ligid}}' target="_blank">
     <div class="ligand-content">
-      <div class="mat-title centered ligand-name">{{ligand.chemblName || ligand.name}}</div>
+      <div class="mat-title centered ligand-name">{{ligand.isdrug ? ligand.name : ligand.chemblName || ligand.name}}</div>
       <pharos-structure-view [smiles]="ligand.smiles"></pharos-structure-view>
     </div>
   </a>
-  <a *ngIf="internalLink" routerLink = '/ligands/{{ligand.ligid}}' >
+  <a *ngIf="internalLink" routerLink = '/ligands/{{ligand.isdrug ? ligand.name : ligand.ligid}}' >
     <div class="ligand-content">
-      <div class="mat-title centered ligand-name">{{ligand.chemblName || ligand.name}}</div>
+      <div class="mat-title centered ligand-name">{{ligand.isdrug ? ligand.name : ligand.chemblName || ligand.name}}</div>
       <pharos-structure-view [smiles]="ligand.smiles"></pharos-structure-view>
     </div>
   </a>
