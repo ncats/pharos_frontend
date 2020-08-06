@@ -103,14 +103,18 @@ export class DonutChartComponent implements OnInit, OnChanges {
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
     this.radius = Math.min(this.width, this.height) / 2;
-    const svg = d3.select(element).append('svg')
-      .attr('width', this.width + this.margin.left + this.margin.right)
-      .attr('height', this.height + this.margin.top + this.margin.bottom * 2)
-      .append('g')
-      .attr('class', 'donut-container');
-    svg.append('g')
-      .attr('class', 'slices');
-    svg.attr('transform', 'translate(' + this.width / 2 + ',' + this.height / 2 + ')');
+    let width = this.width + this.margin.left + this.margin.right;
+    let height = this.height + this.margin.top + this.margin.bottom * 2;
+    if (width > 0 && height > 0) {
+      const svg = d3.select(element).append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .append('g')
+        .attr('class', 'donut-container');
+      svg.append('g')
+        .attr('class', 'slices');
+      svg.attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
+    }
   }
 
   /**
