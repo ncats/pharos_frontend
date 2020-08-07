@@ -1,7 +1,6 @@
-<mat-chip-list fxLayoutAlign="center" #chipList >
+<mat-chip-list fxLayoutAlign="center" #chipList aria-label="Facet List">
   <mat-chip *ngFor="let facet of facets"
             [selected]="isSelected(facet.facet)"
-
             [color]="'accent'"
             (click)="changeData(facet.facet)">
     {{facet.facet}}
