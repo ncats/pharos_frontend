@@ -8,7 +8,7 @@
   <mat-table [dataSource]="filteredDataSource" (scroll)="scrollDetected($event)">
     <ng-container matColumnDef="select">
       <mat-cell *matCellDef="let row" class="filter-cell checkbox">
-        <mat-checkbox (click)="$event.stopPropagation()"
+        <mat-checkbox (click)="$event.stopPropagation()" aria-label="Select facet option"
                       (change)="$event ? filterSelection.toggle(row.value ? row.value : row.name) : null"
                       [checked]="filterSelection.isSelected(row.value ? row.value : row.name)">
         </mat-checkbox>
