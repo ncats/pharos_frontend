@@ -44,7 +44,8 @@ export class LigandCardComponent implements OnInit {
    */
   ngOnInit() {
     if (this.ligand.activities) {
-      const actArr = [...this.ligand.activities.map(act => act.activities)];
+      const actArr = [...this.ligand.activities.map(act => act.activities)[0]];
+
       this.primeActivity = actArr.filter(act => act.moa);
       if (this.primeActivity.length === 0) {
         this.primeActivity = actArr.filter(act => act.type === 'Kd' || act.type === 'Ki');

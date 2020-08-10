@@ -84,6 +84,18 @@ export const LIGANDLISTFIELDS = gql`
   }
 `;
 
+export const LIGANDDETAILSFIELDSFORTARGET = gql`
+  fragment ligandsDetailsFieldsForTarget on Ligand {
+    ...ligandsListFields
+    activities(all: false) {
+      type
+      moa
+      value
+    }
+  }
+  ${LIGANDLISTFIELDS}
+`;
+
 /**
  * apollo graphQL query fragment to retrieve ligand fields for a target details view
  */
@@ -128,11 +140,11 @@ const TARGET_LIGAND_QUERY = gql`
   query fetchDetails($term: String, $ligandstop: Int, $ligandsskip: Int) {
     targets: target(q: { sym: $term, uniprot: $term, stringid: $term }) {
       ligands (top: $ligandstop, skip: $ligandsskip, isdrug: false){
-        ...ligandsDetailsFields
+        ...ligandsDetailsFieldsForTarget
       }
     }
   }
-${LIGANDDETAILSFIELDS}`;
+${LIGANDDETAILSFIELDSFORTARGET}`;
 
 /*
 * apollo graphQL query to fetch the next page of drugs data
@@ -142,11 +154,11 @@ const TARGET_DRUG_QUERY = gql`
   query fetchDetails($term: String, $drugstop: Int, $drugsskip: Int) {
     targets: target(q: { sym: $term, uniprot: $term, stringid: $term }) {
       drugs:ligands (top: $drugstop, skip: $drugsskip, isdrug: true){
-        ...ligandsDetailsFields
+        ...ligandsDetailsFieldsForTarget
       }
     }
   }
-${LIGANDDETAILSFIELDS}`;
+${LIGANDDETAILSFIELDSFORTARGET}`;
 
 /**
  * apollo graphQL query fragment to retrieve common fields for a target list view
@@ -345,10 +357,10 @@ export const TARGETDETAILSFIELDS = gql`
       value
     }
     drugs:ligands(top: $drugstop, skip: $drugsskip, isdrug: true) {
-      ...ligandsDetailsFields
+      ...ligandsDetailsFieldsForTarget
     }
     ligands(top: $ligandstop, skip: $ligandsskip, isdrug: false) {
-      ...ligandsDetailsFields
+      ...ligandsDetailsFieldsForTarget
     }
 
     publicationCount: pubCount
@@ -495,7 +507,7 @@ export const TARGETDETAILSFIELDS = gql`
   }
 
   ${TARGETLISTFIELDS}
-  ${LIGANDDETAILSFIELDS}
+  ${LIGANDDETAILSFIELDSFORTARGET}
   ${ORTHOLOG_FIELDS}
   ${PUBLICATION_FIELDS}
 `;
