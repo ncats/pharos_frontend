@@ -29,8 +29,7 @@ const DISEASE_FIELDS = gql`
 * apollo graphQL query to fetch the next page of disease association data
 * */
 const TARGET_DISEASE_QUERY = gql`
-  #import "./disease_fields.gql"
-  query fetchDetails($term: String, $diseasetop: Int, $diseaseskip: Int) {
+  query fetchDiseasePage($term: String, $diseasetop: Int, $diseaseskip: Int) {
     targets: target(q: { sym: $term, uniprot: $term, stringid: $term }) {
       diseases(top: $diseasetop, skip: $diseaseskip) {
         ...disease_fields
@@ -56,8 +55,7 @@ const ORTHOLOG_FIELDS = gql`
 * apollo graphQL query to fetch the next page of orthologs data
 * */
 const TARGET_ORTHOLOG_QUERY = gql`
-  #import "./ortholog_fields.gql"
-  query fetchDetails($term: String, $orthologstop: Int, $orthologsskip: Int) {
+  query fetchOrthologPage($term: String, $orthologstop: Int, $orthologsskip: Int) {
     targets: target(q: { sym: $term, uniprot: $term, stringid: $term }) {
       orthologs (top: $orthologstop, skip: $orthologsskip){
         ...ortholog_fields
@@ -84,16 +82,23 @@ export const LIGANDLISTFIELDS = gql`
   }
 `;
 
-export const LIGANDDETAILSFIELDSFORTARGET = gql`
-  fragment ligandsDetailsFieldsForTarget on Ligand {
-    ...ligandsListFields
+export const LIGANDCARDFIELDS = gql`
+  fragment ligandCardFields on Ligand {
+    ligid
+    name
+    isdrug
+    smiles
+    synonyms {
+      name
+      value
+    }
+    activityCount:actcnt
     activities(all: false) {
       type
       moa
       value
     }
   }
-  ${LIGANDLISTFIELDS}
 `;
 
 /**
@@ -121,8 +126,7 @@ export const LIGANDDETAILSFIELDS = gql`
 `;
 
 export const LIGANDDETAILSQUERY = gql`
-  #import "./ligandsDetailsFields.gql"
-  query fetchDetails(
+  query fetchLigandDetails(
     $term: String
   ) {
     ligands: ligand(ligid: $term){
@@ -136,29 +140,44 @@ export const LIGANDDETAILSQUERY = gql`
 * apollo graphQL query to fetch the next page of ligand data
 * */
 const TARGET_LIGAND_QUERY = gql`
-  #import "./ligandsDetailsFields.gql"
-  query fetchDetails($term: String, $ligandstop: Int, $ligandsskip: Int) {
+  query fetchLigandPage($term: String, $ligandstop: Int, $ligandsskip: Int) {
     targets: target(q: { sym: $term, uniprot: $term, stringid: $term }) {
       ligands (top: $ligandstop, skip: $ligandsskip, isdrug: false){
-        ...ligandsDetailsFieldsForTarget
+        ...ligandCardFields
       }
     }
   }
-${LIGANDDETAILSFIELDSFORTARGET}`;
+${LIGANDCARDFIELDS}`;
 
 /*
 * apollo graphQL query to fetch the next page of drugs data
 * */
 const TARGET_DRUG_QUERY = gql`
-  #import "./ligandsDetailsFields.gql"
-  query fetchDetails($term: String, $drugstop: Int, $drugsskip: Int) {
+  query fetchDrugPage($term: String, $drugstop: Int, $drugsskip: Int) {
     targets: target(q: { sym: $term, uniprot: $term, stringid: $term }) {
       drugs:ligands (top: $drugstop, skip: $drugsskip, isdrug: true){
-        ...ligandsDetailsFieldsForTarget
+        ...ligandCardFields
       }
     }
   }
-${LIGANDDETAILSFIELDSFORTARGET}`;
+${LIGANDCARDFIELDS}`;
+
+export const TARGETCARDFIELDS = gql`
+    fragment targetCardFields on Target {
+      _tcrdid: tcrdid
+      name
+      gene: sym
+      idgTDL: tdl
+      idgFamily: fam
+      accession: uniprot
+      hgdata:harmonizome {
+        summary {
+          name
+          value
+        }
+      }
+    }
+`;
 
 /**
  * apollo graphQL query fragment to retrieve common fields for a target list view
@@ -228,8 +247,7 @@ export const TARGETLISTFIELDS = gql`
 * apollo graphQL query to fetch the next page of protein-protein interaction data
 * */
 const TARGET_PPI_QUERY = gql`
-  #import "./targetsListFields.gql"
-  query fetchDetails($term: String, $ppistop: Int, $ppisskip: Int) {
+  query fetchPPIpage($term: String, $ppistop: Int, $ppisskip: Int) {
     targets: target(q: { sym: $term, uniprot: $term, stringid: $term }) {
       ...targetsListFields
       ppis (top: $ppistop, skip: $ppisskip){
@@ -238,11 +256,12 @@ const TARGET_PPI_QUERY = gql`
           value
         }
         target{
-          ...targetsListFields
+          ...targetCardFields
         }
       }
     }
   }
+  ${TARGETCARDFIELDS}
 ${TARGETLISTFIELDS}`;
 
 /**
@@ -261,8 +280,7 @@ export const PUBLICATION_FIELDS = gql`
 * apollo graphQL query to fetch the next page of publications data
 * */
 const TARGET_PUBS_QUERY = gql`
-  #import "./publication_fields.gql"
-  query fetchDetails($term: String, $publicationstop: Int, $publicationsskip: Int, $publicationsterm: String) {
+  query fetchPublicationPage($term: String, $publicationstop: Int, $publicationsskip: Int, $publicationsterm: String) {
     targets: target(q: { sym: $term, uniprot: $term, stringid: $term }) {
       publications: pubs(top: $publicationstop, skip: $publicationsskip, term: $publicationsterm) {
         ...publication_fields
@@ -275,8 +293,7 @@ ${PUBLICATION_FIELDS}`;
 * apollo graphQL query to fetch the next page of generifs data
 * */
 const TARGET_GENERIFS_QUERY = gql`
-  #import "./publication_fields.gql"
-  query fetchDetails($term: String, $generifstop: Int, $generifsskip: Int, $generifsterm: String) {
+  query fetchGenerifPage($term: String, $generifstop: Int, $generifsskip: Int, $generifsterm: String) {
     targets: target(q: { sym: $term, uniprot: $term, stringid: $term }) {
       generifs (top: $generifstop, skip: $generifsskip term: $generifsterm){
         text
@@ -292,10 +309,6 @@ ${PUBLICATION_FIELDS}`;
  * apollo graphQL query fragment to retrieve target fields for a target details view
  */
 export const TARGETDETAILSFIELDS = gql`
-  #import "./targetsListFields.gql"
-  #import "./ligandsDetailsFields.gql"
-  #import "./ortholog_fields.gql"
-  #import "./publication_fields.gql"
   fragment targetsDetailsFields on Target {
     ...targetsListFields
     symbols: synonyms(name: "symbol") {
@@ -327,7 +340,7 @@ export const TARGETDETAILSFIELDS = gql`
         value
       }
       target{
-        ...targetsListFields
+        ...targetCardFields
       }
     }
     generifCount
@@ -357,10 +370,10 @@ export const TARGETDETAILSFIELDS = gql`
       value
     }
     drugs:ligands(top: $drugstop, skip: $drugsskip, isdrug: true) {
-      ...ligandsDetailsFieldsForTarget
+      ...ligandCardFields
     }
     ligands(top: $ligandstop, skip: $ligandsskip, isdrug: false) {
-      ...ligandsDetailsFieldsForTarget
+      ...ligandCardFields
     }
 
     publicationCount: pubCount
@@ -507,7 +520,8 @@ export const TARGETDETAILSFIELDS = gql`
   }
 
   ${TARGETLISTFIELDS}
-  ${LIGANDDETAILSFIELDSFORTARGET}
+  ${TARGETCARDFIELDS}
+  ${LIGANDCARDFIELDS}
   ${ORTHOLOG_FIELDS}
   ${PUBLICATION_FIELDS}
 `;
@@ -516,10 +530,7 @@ export const TARGETDETAILSFIELDS = gql`
  * apollo graphQL query to retrieve the data for a target details view
  */
 export const TARGETDETAILSQUERY = gql`
-  #import "./targetsListFields.gql"
-  #import "./ligandsDetailsFields.gql"
-  #import "./disease_fields.gql"
-  query fetchDetails(
+  query fetchTargetDetails(
     $term: String,
     $diseasetop: Int,
     $diseaseskip: Int,
