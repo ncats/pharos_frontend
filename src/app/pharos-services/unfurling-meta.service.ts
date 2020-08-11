@@ -22,11 +22,15 @@ export class UnfurlingMetaService {
    * @param data
    */
   setMetaData(data: any): void {
-    this.metaService.updateTag({content: data.description}, `name='Description'`);
-    this.metaService.updateTag({content: data.description}, `property='og:description'`);
-    this.metaService.updateTag({content: data.description}, `name='twitter:description'`);
-    this.metaService.updateTag({content: data.title}, `name='twitter:title'`);
-    this.metaService.updateTag({content: data.title}, `property='og:title'`);
+    if (data.description) {
+      this.metaService.updateTag({content: data.description}, `name='Description'`);
+      this.metaService.updateTag({content: data.description}, `property='og:description'`);
+      this.metaService.updateTag({content: data.description}, `name='twitter:description'`);
+    }
+    if (data.title) {
+      this.metaService.updateTag({content: data.title}, `name='twitter:title'`);
+      this.metaService.updateTag({content: data.title}, `property='og:title'`);
+    }
   }
 
   destroyCanonicalURL() {
@@ -37,6 +41,7 @@ export class UnfurlingMetaService {
     let canURL = this.dom.URL;
     if (path) {
       canURL = [this.dom.location.origin, ...path].join('/');
+      canURL = canURL.replace('http://','https://');
     }
 
     let link: HTMLLinkElement = this.dom.createElement('link');
