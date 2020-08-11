@@ -28,20 +28,17 @@ export class Ligand extends PharosBase {
   /*
   Retrieves an array of synonyms suitable for displaying as a property
    */
-  public synonymLabels()
-  {
+  public synonymLabels() {
     let labels = [];
-    for(let syn of this.synonyms){
+    for (let syn of this.synonyms) {
       let source = syn.name;
       let id = syn.value;
       let link = "";
-      if(source == "DrugCentral"){
+      if (source == "DrugCentral") {
         link = "http://drugcentral.org/drugcard/" + id;
-      }
-      else if(source == "ChEMBL"){
+      } else if (source == "ChEMBL") {
         link = "https://www.ebi.ac.uk/chembl/compound_report_card/" + id + "/";
-      }
-      else if(source == "PubChem") {
+      } else if (source == "PubChem") {
         link = "https://pubchem.ncbi.nlm.nih.gov/compound/" + id;
       }
       labels.push({label: source, term: id, externalLink: link});
@@ -104,13 +101,14 @@ export class LigandSerializer implements PharosSerializer {
         new Map<string, { target: any, activities: LigandActivity[] }>();
       const ligActSerializer: LigActSerializer = new LigActSerializer();
       json.activities.forEach(act => {
-        if (actMap.has(act.target.symbol)) {
-          const acts = actMap.get(act.target.symbol);
-          acts.activities.push(ligActSerializer.fromJson(act));
-          actMap.set(act.target.symbol, acts);
-        } else {
-          actMap.set(act.target.symbol, {target: act.target, activities: [ligActSerializer.fromJson(act)]});
-        }
+        let currSymbol = act.target?.symbol || "default";
+          if (actMap.has(currSymbol)) {
+            const acts = actMap.get(currSymbol);
+            acts.activities.push(ligActSerializer.fromJson(act));
+            actMap.set(currSymbol, acts);
+          } else {
+            actMap.set(currSymbol, {target: act.target, activities: [ligActSerializer.fromJson(act)]});
+          }
       });
       obj.activities = [...actMap.values()].sort((a, b) => b.activities.length - a.activities.length);
       obj.activitiesMap = actMap;

@@ -108,8 +108,7 @@ export class BaseResource {
       if (this['canonicalSmiles']) {
         smiles = this['canonicalSmiles'];
       }
-
-      return `${this.pharosConfig.getApiPath()}render/${encodeURIComponent(smiles)}?size=250`;
+      return `https://tripod.nih.gov/servlet/renderServletv13?standardize=true&size=250&structure=${encodeURIComponent(smiles)}`;
     }
     return null;
   }

@@ -16,7 +16,7 @@ import {VirusDetails} from "./virus-interactions";
  * main target object
  */
 export class Target extends PharosBase {
-
+  parsed: boolean = false;
   /**
    * fragment of common fields. fetched by the route resolver
    */
@@ -286,10 +286,11 @@ export class TargetSerializer implements PharosSerializer {
    * @return {Target}
    */
   fromJson(json: any): Target {
-    if (Object.getPrototypeOf(json).constructor.name == "Target"){ // cached data is sometimes already parsed
+    if (json.parsed){ // cached data is sometimes already parsed
       return json;
     }
     const obj = new Target();
+    obj.parsed = true;
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
 
     if(json.expressions){ // deduplicate expresssions, and translate uberon ID

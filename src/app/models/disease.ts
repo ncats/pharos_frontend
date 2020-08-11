@@ -19,7 +19,7 @@ export const DISEASELISTFIELDS = gql`
 
 const DISEASEDETAILSQUERY = gql`
   #import "./diseasesListFields.gql"
-  query fetchDetails(
+  query fetchDiseaseDetails(
     $term: String,
     $associationtop: Int,
     $associationskip: Int,

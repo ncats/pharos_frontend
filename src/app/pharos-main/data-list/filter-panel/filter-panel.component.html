@@ -1,6 +1,6 @@
 <div class="facet-list" [ngClass]="{ 'full-width': fullWidth}">
   <div class ="close-button" [dir]="'rtl'">
-    <button mat-icon-button (click)="toggleMenu()" class="close-button">
+    <button mat-icon-button (click)="toggleMenu()" class="close-button" aria-label="Close filter panel">
       <mat-icon>close</mat-icon>
     </button>
   </div>
@@ -24,7 +24,7 @@
       </ng-template>
     </div>
     <div fxFlex="30" class =" clear-all" fxLayoutAlign="end">
-      <mat-chip-list class="mat-chip-list">
+      <mat-chip-list class="mat-chip-list" aria-label="Clear All">
         <mat-chip [selected]="'true'" [color]="'warn'" (click)="removeAll()">
           <span>Clear All</span>
           <mat-icon matChipRemove class="removeIcon">cancel</mat-icon>

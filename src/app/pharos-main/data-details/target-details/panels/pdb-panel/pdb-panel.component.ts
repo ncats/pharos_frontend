@@ -57,12 +57,12 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
     }),
     new PharosProperty({
       name: 'resolution',
-      label: 'Resolution',
+      label: 'Resolution (Å)',
       width: '10vw'
     }),
     new PharosProperty({
       name: 'molecularWeight',
-      label: 'M.W.',
+      label: 'M.W. (kDa)',
       width: '10vw'
     }),
     new PharosProperty({

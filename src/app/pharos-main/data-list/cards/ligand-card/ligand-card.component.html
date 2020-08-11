@@ -19,7 +19,7 @@
     </div>
     <div *ngIf="primeActivity; else activityCount">
       <br>
-      {{primeActivity[0]?.moa}} {{primeActivity[0]?.type}}: {{primeActivity[0]?.value}}
+      {{primeActivity.moa}} {{primeActivity.type}}: {{primeActivity.value}}
       <br>
       <br>
 <!--      <div *ngIf="ligand.activities.length > 1">Also tested on <a routerLink="/ligands/{{ligand.chemblName || ligand.name}}" target="_blank" rel="noreferrer">{{ligand.activities.length}}</a>
