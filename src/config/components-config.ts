@@ -691,7 +691,7 @@ const VIRAL_INTERACTIONS_PANEL: PharosPanel = {
       description: 'The likelihood ratio (LR) describes the likelihood of an observed value for a particular feature ' +
         '(e.g. structural similarity of the two query proteins with respect to a protein complex) expected in a pair of ' +
         'interacting proteins in comparison with the likelihood for the same observed value in a pair of non-interacting ' +
-        'proteins.'
+        'proteins. Interactions shown here are limited to LR > 1000.'
     }
   ]
 };
