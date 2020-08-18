@@ -920,6 +920,11 @@ const DISEASE_DO_BROWSER_COMPONENT: PharosPanel = {
   api: []
 }
 
+const DISEASE_TINX_COMPONENT: PharosPanel = {
+  token: TOKENS.DISEASE_TINX_COMPONENT,
+  api: []
+}
+
 /**
  * main disease details page component
  * @type {PharosPanel}
@@ -1128,7 +1133,8 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       details: {
         components: [
           DISEASE_HEADER_COMPONENT,
-          DISEASE_DO_BROWSER_COMPONENT
+          DISEASE_DO_BROWSER_COMPONENT,
+          DISEASE_TINX_COMPONENT
         ]
       }
     }],
