@@ -27,7 +27,7 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
   }
 
   hasTooMuchData(){
-    return this.data.diseases.associationCount >= 10000;
+    return this.data.diseases.associationCount >= 5000;
   }
 
   ngOnInit(): void {
