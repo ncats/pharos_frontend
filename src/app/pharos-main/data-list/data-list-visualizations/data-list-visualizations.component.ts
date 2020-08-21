@@ -67,13 +67,13 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
       )
       .subscribe(x => {
         if (this.data && this.data.facets) {
-          let selection = this.data.facets[0];
+          this.facets = this.data.facets.filter(f => {return f.dataType !== "Numeric"});
+          let selection = this.facets[0];
           if (!!this.selectedDonut) { // remember which facet was selected, if there was one
-            selection = this.data.facets.find(x => {
+            selection = this.facets.find(x => {
               return x.facet == this.selectedDonut
             });
           }
-          this.facets = this.data.facets;
           this.donutData = selection;
         }
       });

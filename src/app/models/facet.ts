@@ -3,9 +3,11 @@ import gql from 'graphql-tag';
 /**
  * apollo graphQL query fragment to retrieve common fields for a target list view
  */
-const FACETFIELDS =  gql`
+const FACETFIELDS = gql`
   fragment facetFields on Facet {
     facet
+    dataType
+    binSize
     count
     values {
       name
@@ -16,6 +18,8 @@ const FACETFIELDS =  gql`
 const FACETFIELDSTOP = gql`
   fragment facetFieldsTop on Facet {
     facet
+    dataType
+    binSize
     count
     values(top:$facetTop){
       name
@@ -83,13 +87,34 @@ export class Facet {
    */
   values: Field[];
 
+  dataType?: string = "Category";
+  binSize?: number;
+  min?: number;
+  max?: number;
 
   constructor(json: any) {
     this.count = json.count;
     this.facet = json.facet;
     this.label = json.label;
     this.description = json.description;
-    this.values = json.values.map(val => new Field(val));
+    this.dataType = json.dataType;
+    this.binSize = json.binSize || 1;
+    if (this.dataType === "Numeric") { // set a last point since these are bins, not single points
+      this.values = [];
+      const map = new Map<number, number>();
+      json.values.forEach(d => map.set(parseFloat(d.name), d.count));
+      this.min = Math.min(...map.keys());
+      this.max = Math.max(...map.keys()) + this.binSize;
+      for (let num = this.min; num <= this.max; num += this.binSize) {
+        if (!map.has(num)) {
+          this.values.push({name: num.toString(), count: 0});
+        } else {
+          this.values.push({name: num.toString(), count: map.get(num)});
+        }
+      }
+    } else {
+      this.values = json.values.map(val => new Field(val));
+    }
   }
 
   /**
@@ -97,13 +122,13 @@ export class Facet {
    * @param path
    */
   static getAllFacetOptionsQuery(path) {
-    if(path == "targets"){
+    if (path == "targets") {
       return gql`
         #import "./facetFieldsTop.gql"
         query getAllFacetOptions($batchIDs:[String], $filter:IFilter, $facetTop:Int, $facet:String!){
           results: targets(facets:[$facet], filter:$filter, targets:$batchIDs){
             facets{
-                ...facetFieldsTop
+              ...facetFieldsTop
             }
           }
         }${FACETFIELDSTOP}`;
@@ -111,10 +136,10 @@ export class Facet {
     return gql`
       #import "./facetFieldsTop.gql"
       query getAllFacetOptions($filter:IFilter, $facetTop:Int, $facet:String!){
-        results: ${path}(filter:$filter){
-          facets(include:[$facet]){
-            ...facetFieldsTop
-          }
+      results: ${path}(filter:$filter){
+      facets(include:[$facet]){
+      ...facetFieldsTop
+      }
       }
       }${FACETFIELDSTOP}`;
   }
@@ -124,13 +149,13 @@ export class Facet {
    * @param path
    */
   static getAllFacetsQuery(path) {
-    if(path == "targets"){
+    if (path == "targets") {
       return gql`
         #import "./facetFields.gql"
         query getAllFacets($batchIDs:[String], $facets:[String!], $filter:IFilter) {
           results: targets(facets:$facets, filter:$filter, targets:$batchIDs) {
             facets {
-                ...facetFields
+              ...facetFields
             }
           }
         }${FACETFIELDS}`;
@@ -138,11 +163,11 @@ export class Facet {
     return gql`
       #import "./facetFields.gql"
       query getAllFacets($facets:[String!], $filter:IFilter) {
-        results: ${path}(filter:$filter) {
-          facets(include:$facets) {
-            ...facetFields
-          }
-        }
+      results: ${path}(filter:$filter) {
+      facets(include:$facets) {
+      ...facetFields
+      }
+      }
       }${FACETFIELDS}`;
   }
 }

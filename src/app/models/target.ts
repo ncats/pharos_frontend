@@ -62,6 +62,7 @@ export class Target extends PharosBase {
    * idg novelty score
    */
   novelty: number;
+  logNovelty: number;
 
   /**
    * text mined publication score
@@ -308,6 +309,7 @@ export class TargetSerializer implements PharosSerializer {
      */
     if (json.novelty) {
       obj.novelty = +json.novelty.toFixed(2);
+      obj.logNovelty = + Math.log(json.novelty).toFixed(2);
     }
 
     if (json.jensenScore && json.jensenScore.length) {

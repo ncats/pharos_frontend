@@ -53,7 +53,9 @@
             <span class="mat-title facet-title">{{facet.label ? facet.label : facet.facet}}</span>
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <pharos-facet-table [facet]="facet"></pharos-facet-table>
+        <div *ngIf="facet.dataType === 'Numeric'; then numericBlock else categoryBlock"></div>
+        <ng-template #categoryBlock><pharos-facet-table [facet]="facet"></pharos-facet-table></ng-template>
+        <ng-template #numericBlock><pharos-facet-histogram [facet]="facet"></pharos-facet-histogram></ng-template>
       </mat-expansion-panel>
       <mat-divider></mat-divider>
     </div>
