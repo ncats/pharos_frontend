@@ -106,7 +106,7 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
           this.reagents = [];
           this.mouseExpressions = [];
           if (isPlatformBrowser(this.platformID)) {
-            this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/search?term=${this.target.gene}`).subscribe(resourceList => {
+            this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/search?term=${this.target.gene}&pharosReady=true`).subscribe(resourceList => {
               if (resourceList && resourceList.data && resourceList.data.length) {
                 resourceList.data.forEach(resourceMetadata => {
                   if (resourceMetadata.id && resourceMetadata.name) {
@@ -132,7 +132,7 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
    * Helper function for fetching one resource's details from the server
    */
   private fetchResourceDetails(resourceMetadata) {
-    this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/id?id=${resourceMetadata.id}&json=true`)
+    this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/id?id=${resourceMetadata.id}&json=true&pharosReady=true`)
       .subscribe({
         next: resource => {
           const resc = this.resourceSerializer.fromJson(resource.data[0], resourceMetadata.name, resourceMetadata.resourceType);
