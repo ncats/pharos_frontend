@@ -107,6 +107,7 @@ export const _RangeSliderComponentMixinBase:
     '(keydown)': '_onKeydown($event)',
     '(keyup)': '_onKeyup()',
     '(mouseenter)': '_onMouseenter()',
+    '(mousedown)': '_onMouseDown($event)',
     '(slide)': '_onSlide($event)',
     '(slidestart)': '_onSlideStart($event)',
     '(slideend)': '_onSlideEnd()',
@@ -128,15 +129,15 @@ export const _RangeSliderComponentMixinBase:
     '[class.mat-slider-min-value]': '_isMinValue',
     '[class.mat-range-slider]': 'isRangeSlider()',
     '[class.mat-slider-hide-last-tick]': 'disabled || _isMinValue && _thumbGap && _invertAxis',
-    '[class._mat-animation-noopable]': '_animationMode === "NoopAnimations"',
+    // '[class._mat-animation-noopable]': '_animationMode === "NoopAnimations"',
   },
-
-    templateUrl: './range-slider.component.html',
-    styleUrls: ['./range-slider.component.scss'],
+  templateUrl: './range-slider.component.html',
+  styleUrls: ['./range-slider.component.scss'],
   inputs: ['disabled', 'color', 'tabIndex'],
- // encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class RangeSliderComponent extends _RangeSliderComponentMixinBase
   implements ControlValueAccessor, OnDestroy, CanDisable, CanColor, OnInit, HasTabIndex {
   /** Whether the slider is inverted. */
@@ -585,7 +586,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
   private _sliderDimensions: ClientRect | null = null;
 
   private _controlValueAccessorChangeFn: (value: any) => void = () => {
-  }
+  };
 
   /** Decimal places to round to, based on the step amount. */
   private _roundToDecimal: number;
@@ -658,20 +659,11 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
     this._updateTickIntervalPercent();
   }
 
-  _onClick(event: MouseEvent) {
+
+  _onMouseDown(event: any) {
     if (this.disabled) {
       return;
     }
-
-    let oldValue;
-    if (this.value instanceof Array) {
-      oldValue = [this.value[0], this.value[1]];
-    } else {
-      oldValue = this.value;
-    }
-
-    this._isSliding = false;
-    this._focusHostElement();
 
     if (!this._sliderDimensions) {
       return;
@@ -692,6 +684,42 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
     } else {
       this._currentSliderDir = 'r';
     }
+  }
+
+  _onClick(event: MouseEvent) {
+    if (this.disabled) {
+      return;
+    }
+
+    let oldValue;
+    if (this.value instanceof Array) {
+      oldValue = [this.value[0], this.value[1]];
+    } else {
+      oldValue = this.value;
+    }
+
+    this._isSliding = false;
+    this._focusHostElement();
+    //
+    // if (!this._sliderDimensions) {
+    //   return;
+    // }
+    // let offset = this.vertical ? this._sliderDimensions.top : this._sliderDimensions.left;
+    // let size = this.vertical ? this._sliderDimensions.height : this._sliderDimensions.width;
+    // let posComponent = this.vertical ? event.clientY : event.clientX;
+    //
+    // // The exact value is calculated from the event and used to find the closest snap value.
+    // let percent = Number(this._clamp((posComponent - offset) / size));
+    //
+    // if (this._shouldInvertMouseCoords()) {
+    //   percent = 1 - percent;
+    // }
+    //
+    // if (percent <= this.percent[0] + (this.percent[1] - this.percent[0]) / 2) {
+    //   this._currentSliderDir = 'l';
+    // } else {
+    //   this._currentSliderDir = 'r';
+    // }
 
     if (this._currentSliderDir === 'l') {
       this._updateValueFromPositionLeft({x: event.clientX, y: event.clientY});
@@ -714,6 +742,8 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
   }
 
   _onSlide(event: any, dir?) {
+    console.log("_onSlide");
+    console.log(event);
     if (this.disabled) {
       return;
     }
@@ -758,6 +788,8 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
   }
 
   _onSlideStart(event: any | null, dir?) {
+    console.log("_onSlideStart");
+    console.log(event);
     if (this.disabled || this._isSliding) {
       return;
     }
@@ -790,6 +822,7 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
   }
 
   _onSlideEnd() {
+    console.log("_onSlideEnd");
     this._isSliding = false;
 
     if (this._valueOnSlideStart != this.value && !this.disabled) {

@@ -4,11 +4,11 @@
                     [events]="boundsChangedSubject.asObservable()"></pharos-bar-chart>
 </div>
 <div class="slider-holder">
-  <mat-slider class="helper"></mat-slider>
   <range-slider class="hist-slider"
-                [min] = "this.minSetting"
-                [max] = "this.maxSetting"
+                [min] = "this.min"
+                [max] = "this.max"
                 [step] = "this.facet.binSize"
+                [tickInterval] = 1
                 (change)="boundsChanged($event)"
                 [value]="sliderRange()"
                 [thumbLabel]= true
@@ -16,10 +16,9 @@
   </range-slider>
 </div>
 <div class="footer">
-  <div class="range">{{currentRange()}}</div>
-  <div><button type="button" mat-raised-button [color]="'primary'" (click)="applyFilter()">
+  <div class="range">{{currentRangeDisplay()}}</div>
+  <div><button type="button" mat-raised-button [color]="'primary'" (click)="applyFilter()" [disabled]="this.currentSettingsAreApplied()">
     Apply
     <mat-icon>filter_alt</mat-icon>
   </button></div>
 </div>
-

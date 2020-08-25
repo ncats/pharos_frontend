@@ -1,12 +1,11 @@
-import {ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
-import {Apollo} from "apollo-angular";
-import gql from "graphql-tag";
+import {ChangeDetectorRef, Component, Inject, Input, OnInit, PLATFORM_ID} from '@angular/core';
 import {takeUntil} from "rxjs/operators";
 import {PharosPoint} from "../../../../models/pharos-point";
 import {ScatterOptions} from "../../../../tools/visualizations/scatter-plot/models/scatter-options";
 import {ActivatedRoute, NavigationStart, Router} from "@angular/router";
 import {DynamicPanelComponent} from "../../../../tools/dynamic-panel/dynamic-panel.component";
 import {isPlatformBrowser} from "@angular/common";
+import {PharosApiService} from "../../../../pharos-services/pharos-api.service";
 
 @Component({
   selector: 'pharos-tinx-disease',
@@ -15,10 +14,13 @@ import {isPlatformBrowser} from "@angular/common";
 })
 export class TinxDiseaseComponent extends DynamicPanelComponent implements OnInit {
 
-  tinx: PharosPoint[];
+  @Input()
+  inTinx: PharosPoint[] = [];
+
+  tinx: PharosPoint[] = [];
 
   constructor(
-    private apollo: Apollo,
+    private apiService: PharosApiService,
     private changeRef: ChangeDetectorRef,
     private _route: ActivatedRoute,
     private router: Router,
@@ -36,6 +38,8 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
       .subscribe((e: any) => {
         if (e instanceof NavigationStart) {
           this.loading = true;
+          this.tinx = [];
+          this.changeRef.markForCheck();
         }
       });
 
@@ -46,12 +50,10 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        let diseaseName = this._route.snapshot.paramMap.get('id');
-        let variables = {name: diseaseName};
-        this.tinx = [];
-        if (isPlatformBrowser(this.platformID) && !this.hasTooMuchData()) {
-          this.apollo.query<any>({query: this.tinxQuery, variables}).subscribe(res => {
-            this.tinx = [];
+        if (isPlatformBrowser(this.platformID) && !this.hasTooMuchData() && this.inTinx.length < 1) {
+          let diseaseName = this._route.snapshot.paramMap.get('id');
+          let variables = {name: diseaseName};
+          this.apiService.adHocQuery(this.apiService.TinxQuery, variables).subscribe(res => {
             res.data.disease.tinx.map(point => {
               if (point.targetID) {
                 const p: PharosPoint = new PharosPoint({
@@ -60,16 +62,14 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
                   y: point.details[0].importance,
                   name: point.targetName
                 });
-                this.tinx.push(p);
+                this.inTinx.push(p);
               }
             });
-            this.changeRef.markForCheck();
-            this.loading = false;
           });
         }
-        else{
-          this.loading = false;
-        }
+        this.tinx = this.inTinx;
+        this.loading = false;
+        this.changeRef.detectChanges();
       });
   }
 
@@ -79,23 +79,6 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
     yAxisScale: 'log',
     xLabel: 'Novelty',
     yLabel: 'Importance',
-    margin: {top: 20, right: 175, bottom: 25, left: 35}
+    margin: {top: 20, right: 35, bottom: 25, left: 35}
   });
-
-  tinxQuery = gql`query tinxDisease($name: String) {
-    disease(name: $name) {
-      tinx {
-        targetID
-        targetName
-        tdl
-        novelty
-        details {
-          doid
-          diseaseName
-          importance
-        }
-      }
-    }
-  }`;
-
 }
