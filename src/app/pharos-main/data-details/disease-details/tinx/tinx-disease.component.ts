@@ -28,7 +28,7 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
     super();
   }
 
-  hasTooMuchData(){
+  hasTooMuchData() {
     return this.data.diseases.associationCount >= 5000;
   }
 
@@ -38,7 +38,7 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
       .subscribe((e: any) => {
         if (e instanceof NavigationStart) {
           this.loading = true;
-          this.tinx = [];
+          this.tinx = []; this.inTinx = [];
           this.changeRef.markForCheck();
         }
       });
@@ -50,7 +50,7 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (isPlatformBrowser(this.platformID) && !this.hasTooMuchData() && this.inTinx.length < 1) {
+        if (isPlatformBrowser(this.platformID) && !this.hasTooMuchData() && this.tinx.length < 1) {
           let diseaseName = this._route.snapshot.paramMap.get('id');
           let variables = {name: diseaseName};
           this.apiService.adHocQuery(this.apiService.TinxQuery, variables).subscribe(res => {
@@ -65,11 +65,16 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
                 this.inTinx.push(p);
               }
             });
+            this.tinx = this.inTinx;
+            this.loading = false;
+            this.changeRef.detectChanges();
           });
         }
-        this.tinx = this.inTinx;
-        this.loading = false;
-        this.changeRef.detectChanges();
+        else {
+          this.tinx = this.inTinx;
+          this.loading = false;
+          this.changeRef.detectChanges();
+        }
       });
   }
 
