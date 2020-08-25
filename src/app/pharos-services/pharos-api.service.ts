@@ -657,5 +657,25 @@ export class PharosApiService {
       return of(result as T);
     };
   }
+
+  public adHocQuery(query: any, variables: any){
+    return this.apollo.query<any>({query: query, variables});
+  }
+
+  public TinxQuery = gql`query tinxDisease($name: String) {
+    disease(name: $name) {
+      tinx {
+        targetID
+        targetName
+        tdl
+        novelty
+        details {
+          doid
+          diseaseName
+          importance
+        }
+      }
+    }
+  }`;
 }
 

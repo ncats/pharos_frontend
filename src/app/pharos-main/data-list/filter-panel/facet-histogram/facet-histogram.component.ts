@@ -44,10 +44,15 @@ export class FacetHistogramComponent implements OnInit {
 
   min: number;
   minSetting: number;
+  minForTargetList?: number;
 
   max: number;
   maxSetting: number;
+  maxForTargetList?: number;
+
   boundsChanged(event){
+    this.minSetting = event.value[0];
+    this.maxSetting = event.value[1];
     this.changeRef.detectChanges();
     this.boundsChangedSubject.next();
   }
@@ -57,12 +62,13 @@ export class FacetHistogramComponent implements OnInit {
   }
 
   boundsChangedSubject: Subject<void> = new Subject<void>();
-  currentRange(){
-    return `(${this.minSetting}, ${this.maxSetting})`;
+  currentRangeDisplay(){
+    return `[${this.minSetting}, ${this.maxSetting}]`;
   }
+
   applyFilter(){
     this.selectedFacetService.removefacetFamily(this.facet);
-    this.selectedFacetService.setFacets({name: this.facet, change: {added: [this.currentRange()]}});
+    this.selectedFacetService.setFacets({name: this.facet.facet, change: {added: [this.currentRangeDisplay()]}});
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
     this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
   }
@@ -95,10 +101,29 @@ export class FacetHistogramComponent implements OnInit {
     });
     this.chartData = Array.from(valMap.entries());
 
-    this.minSetting = this.min;
-    this.maxSetting = this.max;
+    this.mapSelected();
+
   }
 
+  mapSelected() {
+    const selected: Facet = this.selectedFacetService.getFacetByName(this.facet.facet);
+    if (selected) {
+      let pieces = selected.values[0].name.split(",").map(s => s.replace(/[^0-9|\-|\.]/g, ''));
+      this.minForTargetList = pieces[0] == null ? null : +pieces[0];
+      this.maxForTargetList = pieces[1] == null ? this.max : +pieces[1];
+      this.minSetting = this.minForTargetList;
+      this.maxSetting = this.maxForTargetList;
+    } else {
+      this.minForTargetList = null;
+      this.maxForTargetList = null;
+      this.minSetting = this.min;
+      this.maxSetting = this.max;
+    }
+  }
+
+  currentSettingsAreApplied(){
+    return this.minSetting === this.minForTargetList && this.maxSetting === this.maxForTargetList;
+  }
 
   /**
    * function to unubscribe on destroy

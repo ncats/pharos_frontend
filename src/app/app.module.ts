@@ -27,10 +27,10 @@ import {HttpClientModule} from '@angular/common/http';
   ],
   imports: [
     // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    BrowserAnimationsModule,
+    MaterialModule,
     BrowserModule.withServerTransition({ appId: 'pharos' }),
     TransferHttpCacheModule,
-    MaterialModule,
-    BrowserAnimationsModule,
     AppRoutingModule,
     RouterModule,
     FlexLayoutModule,
@@ -41,7 +41,7 @@ import {HttpClientModule} from '@angular/common/http';
     NcatsHeaderModule,
     PharosLoadingSpinnerModule,
     GraphQLModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   bootstrap: [AppComponent]
 })

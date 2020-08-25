@@ -117,10 +117,12 @@ export class BarChartComponent implements OnInit, OnDestroy {
    * draw basic graph elements, and once data is available, update graph with data
    */
   ngOnInit() {
-    this.eventsSubscription = this.events.subscribe(() => {
-      this.drawGraph();
-      this.updateGraph();
-    })
+    if(this.events) {
+      this.eventsSubscription = this.events.subscribe(() => {
+        this.drawGraph();
+        this.updateGraph();
+      });
+    }
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
