@@ -18,7 +18,6 @@
     "rerun:ssr": "npm run build:ssr --prod && say pharos is ready && npm run serve:ssr",
     "build:client-and-server-bundles": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build pharos --prod && ng run pharos:server:production",
     "webpack:server": "webpack --config webpack.server.config.js --progress --colors",
-    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
     "dev:ssr": "ng run pharos:serve-ssr",
     "prerender": "ng run pharos:prerender"
   },
