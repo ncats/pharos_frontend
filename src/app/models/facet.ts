@@ -101,15 +101,17 @@ export class Facet {
     this.binSize = json.binSize || 1;
     if (this.dataType === "Numeric") { // set a last point since these are bins, not single points
       this.values = [];
-      const map = new Map<number, number>();
-      json.values.forEach(d => map.set(parseFloat(d.name), d.count));
-      this.min = Math.min(...map.keys());
-      this.max = Math.max(...map.keys()) + this.binSize;
+      const keyValues = json.values.map(obj => +obj.name);
+      this.min = Math.min(...keyValues);
+      this.max = Math.max(...keyValues) + this.binSize;
+
       for (let num = this.min; num <= this.max; num += this.binSize) {
-        if (!map.has(num)) {
-          this.values.push({name: num.toString(), count: 0});
+        num = Math.round(num / this.binSize) * this.binSize;
+        let closest = json.values.find(val => Math.abs(+val.name - num) < this.binSize / 10);
+        if (closest) {
+          this.values.push({name: num.toString(), count: closest.count});
         } else {
-          this.values.push({name: num.toString(), count: map.get(num)});
+          this.values.push({name: num.toString(), count: 0});
         }
       }
     } else {

@@ -90,11 +90,11 @@ export class FacetHistogramComponent implements OnInit {
 
   initialize(){
     const valMap: Map<string, number> = new Map<string, number>();
-    this.min = parseFloat(this.facet.values[0].name);
-    this.max = parseFloat(this.facet.values[0].name);
+    this.min = +(this.facet.values[0].name);
+    this.max = +(this.facet.values[0].name);
 
     this.facet.values.forEach(d => {
-      let curVal = parseFloat(d.name);
+      let curVal = +(d.name);
       this.min = curVal < this.min ? curVal : this.min;
       this.max = curVal > this.max ? curVal : this.max;
       valMap.set(d.name, d.count);
