@@ -1,6 +1,6 @@
 <div class="hist-holder">
   <pharos-bar-chart [data]="chartData" [showAxes]="false" [histogram]="true" [selectedLow]="this.minSetting"
-                    [selectedHigh]="this.maxSetting"
+                    [selectedHigh]="this.maxSetting" [binSize] = "this.facet.binSize"
                     [events]="boundsChangedSubject.asObservable()"></pharos-bar-chart>
 </div>
 <div class="slider-holder">

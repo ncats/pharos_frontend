@@ -56,6 +56,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
   @Input() showAxes: boolean = true;
 
   @Input() histogram: boolean = false;
+  @Input() binSize: number = 0;
 
   @Input() selectedLow?: number;
   @Input() selectedHigh?: number;
@@ -67,7 +68,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
    * todo should probabl still use the chart options config object
    */
   private barMargin: any = {top: 20, bottom: 20, left: 20, right: 20};
-  private histMargin: any = {top: 0, bottom: 20, left: 0, right: 0};
+  private histMargin: any = {top: 0, bottom: 20, left: 15, right: 10};
 
   private margin: any;
   /**
@@ -231,7 +232,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
           .transition()
           .duration(200)
           .style('opacity', .9);
-        this.tooltip.html('<span>' + d[0] + ': <br>' + d[1] + '</span>')
+        this.tooltip.html(this.histogram ?  '<span>' + d[0] + ' - ' + (this.binSize + +d[0]) + ': <br>' + d[1] + '</span>' : '<span>' + d[0] + ': <br>' + d[1] + '</span>')
           .style('left', d3.event.pageX + 'px')
           .style('top', d3.event.pageY + 'px')
           .style('width', 100);
