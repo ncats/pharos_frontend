@@ -57,6 +57,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
 
   @Input() histogram: boolean = false;
   @Input() binSize: number = 0;
+  decimals: number = 0;
 
   @Input() selectedLow?: number;
   @Input() selectedHigh?: number;
@@ -132,6 +133,9 @@ export class BarChartComponent implements OnInit, OnDestroy {
       )
       .subscribe(x => {
         this.margin = this.histogram ? this.histMargin : this.barMargin;
+        if(this.histogram && Math.floor(this.binSize) !== this.binSize){
+          this.decimals = this.binSize.toString().split(".")[1].length;
+        }
         if (isPlatformBrowser(this.platformID)) {
           this.drawGraph();
           if (this.data) {
@@ -232,7 +236,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
           .transition()
           .duration(200)
           .style('opacity', .9);
-        this.tooltip.html(this.histogram ?  '<span>' + d[0] + ' - ' + (this.binSize + +d[0]) + ': <br>' + d[1] + '</span>' : '<span>' + d[0] + ': <br>' + d[1] + '</span>')
+        this.tooltip.html(this.histogram ? this.histogramTooltip(d) : '<span>' + d[0] + ': <br>' + d[1] + '</span>')
           .style('left', d3.event.pageX + 'px')
           .style('top', d3.event.pageY + 'px')
           .style('width', 100);
@@ -253,6 +257,11 @@ export class BarChartComponent implements OnInit, OnDestroy {
     }
   }
 
+  histogramTooltip(d: any){
+    let min = (+d[0]).toFixed(this.decimals);
+    let max = (+d[0] + this.binSize).toFixed(this.decimals);
+    return '<span>[' + min + ',' + max + '] : <br>' + d[1] + '</span>';
+  }
   /**
    * clean up on leaving component
    */

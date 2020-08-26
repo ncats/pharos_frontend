@@ -90,27 +90,21 @@ export class FacetHistogramComponent implements OnInit {
 
   initialize(){
     const valMap: Map<string, number> = new Map<string, number>();
-    this.min = +(this.facet.values[0].name);
-    this.max = +(this.facet.values[0].name);
+    this.min = this.facet.min;
+    this.max = this.facet.max;
 
-    this.facet.values.forEach(d => {
-      let curVal = +(d.name);
-      this.min = curVal < this.min ? curVal : this.min;
-      this.max = curVal > this.max ? curVal : this.max;
-      valMap.set(d.name, d.count);
-    });
+    this.facet.values.forEach(d => {valMap.set(d.name, d.count);});
     this.chartData = Array.from(valMap.entries());
 
     this.mapSelected();
-
   }
 
   mapSelected() {
     const selected: Facet = this.selectedFacetService.getFacetByName(this.facet.facet);
     if (selected) {
       let pieces = selected.values[0].name.split(",").map(s => s.replace(/[^0-9|\-|\.]/g, ''));
-      this.minForTargetList = pieces[0] == null ? null : +pieces[0];
-      this.maxForTargetList = pieces[1] == null ? this.max : +pieces[1];
+      this.minForTargetList = pieces[0] == null || pieces[0].length === 0 ? null : +pieces[0];
+      this.maxForTargetList = pieces[1] == null || pieces[1].length === 0 ? this.max : +pieces[1];
       this.minSetting = this.minForTargetList;
       this.maxSetting = this.maxForTargetList;
     } else {
