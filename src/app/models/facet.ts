@@ -6,6 +6,7 @@ import gql from 'graphql-tag';
 const FACETFIELDS = gql`
   fragment facetFields on Facet {
     facet
+    modifier
     dataType
     binSize
     count
@@ -70,6 +71,8 @@ export class Facet {
    */
   facet: string;
 
+  modifier?: string;
+
   /**
    * readable label for facet
    */
@@ -95,6 +98,7 @@ export class Facet {
   constructor(json: any) {
     this.count = json.count;
     this.facet = json.facet;
+    this.modifier = json.modifier;
     this.label = json.label;
     this.description = json.description;
     this.dataType = json.dataType;
