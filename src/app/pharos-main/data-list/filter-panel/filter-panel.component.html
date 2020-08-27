@@ -51,6 +51,7 @@
         <mat-expansion-panel-header>
           <mat-panel-title>
             <span class="mat-title facet-title">{{facet.label ? facet.label : facet.facet}}</span>
+            <span class="facet-modifier" *ngIf="facet.modifier"> ( {{facet.modifier}} )</span>
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div *ngIf="facet.dataType === 'Numeric'; then numericBlock else categoryBlock"></div>

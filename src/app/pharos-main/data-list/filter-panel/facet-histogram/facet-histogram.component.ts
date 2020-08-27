@@ -63,7 +63,12 @@ export class FacetHistogramComponent implements OnInit {
 
   boundsChangedSubject: Subject<void> = new Subject<void>();
   currentRangeDisplay(){
-    return `[ ${this.minSetting}, ${this.maxSetting} ` + (this.maxSetting === this.max ? "]" : ")");
+    let decimals = 0;
+    if(Math.floor(this.facet.binSize) !== this.facet.binSize) {
+      decimals = this.facet.binSize.toString().split(".")[1].length;
+    }
+    return `[ ${this.minSetting.toFixed(decimals)}, ${this.maxSetting.toFixed(decimals)} `
+      + (this.maxSetting === this.max || this.maxSetting === this.minSetting ? "]" : ")");
   }
 
   applyFilter(){
