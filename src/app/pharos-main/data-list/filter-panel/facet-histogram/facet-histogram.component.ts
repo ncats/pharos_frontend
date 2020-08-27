@@ -63,7 +63,7 @@ export class FacetHistogramComponent implements OnInit {
 
   boundsChangedSubject: Subject<void> = new Subject<void>();
   currentRangeDisplay(){
-    return `[${this.minSetting}, ${this.maxSetting}]`;
+    return `[ ${this.minSetting}, ${this.maxSetting} ` + (this.maxSetting === this.max ? "]" : ")");
   }
 
   applyFilter(){
