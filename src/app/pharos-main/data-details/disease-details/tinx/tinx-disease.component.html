@@ -1,0 +1,16 @@
+<article>
+  <mat-card>
+    <mat-card-content>
+      <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
+        <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
+      </div>
+      <mat-card-title>
+        Target Novelty (Tin-x)
+      </mat-card-title>
+      <div class="scatter-plot-holder" *ngIf="!hasTooMuchData(); else tooMuchData">
+        <pharos-scatter-plot [data]="this.tinx" [options]="chartOptions"></pharos-scatter-plot>
+      </div>
+      <ng-template #tooMuchData><div><mat-card-subtitle>Too many associated targets</mat-card-subtitle></div></ng-template>
+    </mat-card-content>
+  </mat-card>
+</article>

@@ -40,6 +40,8 @@ export class Ligand extends PharosBase {
         link = "https://www.ebi.ac.uk/chembl/compound_report_card/" + id + "/";
       } else if (source == "PubChem") {
         link = "https://pubchem.ncbi.nlm.nih.gov/compound/" + id;
+      } else if (source == "Guide to Pharmacology"){
+        link = "http://www.guidetopharmacology.org/GRAC/LigandDisplayForward?ligandId=" + id;
       }
       labels.push({label: source, term: id, externalLink: link});
     }

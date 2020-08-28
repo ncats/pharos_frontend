@@ -9,7 +9,7 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "styleext": "scss"
+          "style": "scss"
         }
       },
       "architect": {
@@ -206,7 +206,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "pharos",
-      "styleext": "scss"
+      "style": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "pharos"

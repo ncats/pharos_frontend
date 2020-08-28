@@ -691,7 +691,7 @@ const VIRAL_INTERACTIONS_PANEL: PharosPanel = {
       description: 'The likelihood ratio (LR) describes the likelihood of an observed value for a particular feature ' +
         '(e.g. structural similarity of the two query proteins with respect to a protein complex) expected in a pair of ' +
         'interacting proteins in comparison with the likelihood for the same observed value in a pair of non-interacting ' +
-        'proteins.'
+        'proteins. Interactions shown here are limited to LR > 1000.'
     }
   ]
 };
@@ -920,6 +920,11 @@ const DISEASE_DO_BROWSER_COMPONENT: PharosPanel = {
   api: []
 }
 
+const DISEASE_TINX_COMPONENT: PharosPanel = {
+  token: TOKENS.DISEASE_TINX_COMPONENT,
+  api: []
+}
+
 /**
  * main disease details page component
  * @type {PharosPanel}
@@ -1128,7 +1133,8 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       details: {
         components: [
           DISEASE_HEADER_COMPONENT,
-          DISEASE_DO_BROWSER_COMPONENT
+          DISEASE_DO_BROWSER_COMPONENT,
+          DISEASE_TINX_COMPONENT
         ]
       }
     }],
