@@ -12,6 +12,8 @@ import {PharosLoadingSpinnerModule} from '../tools/pharos-loading-spinner/pharos
 import {DataListResolver} from '../pharos-main/resolvers/data-list.resolver';
 import {ComponentsResolver} from '../pharos-main/resolvers/components.resolver';
 import {TOKENS} from '../../config/component-tokens';
+import {FacetHistogramComponent} from "../pharos-main/data-list/filter-panel/facet-histogram/facet-histogram.component";
+import {RangeSliderComponent} from "../tools/range-slider/range-slider.component";
 
 @NgModule({
   imports: [
@@ -24,9 +26,11 @@ import {TOKENS} from '../../config/component-tokens';
     DataListVisualizationsComponent,
     FilterPanelComponent,
     FacetTableComponent,
+    FacetHistogramComponent,
     SelectedFacetListComponent,
     DonutChartComponent,
-    VisualizationOptionsComponent
+    VisualizationOptionsComponent,
+    RangeSliderComponent
   ],
   providers: [
     DataListResolver,
@@ -40,10 +44,11 @@ import {TOKENS} from '../../config/component-tokens';
     DataListVisualizationsComponent,
     FilterPanelComponent,
     FacetTableComponent,
+    FacetHistogramComponent,
     SelectedFacetListComponent,
     DonutChartComponent,
-    VisualizationOptionsComponent
-
+    VisualizationOptionsComponent,
+    RangeSliderComponent
   ]
 })
 export class SharedListModule { }

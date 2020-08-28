@@ -6,7 +6,6 @@ import {AppRoutingModule} from '../app-routing.module';
 import {APP_BASE_HREF} from '@angular/common';
 import {UnfurlingMetaService} from "../pharos-services/unfurling-meta.service";
 
-
 describe('ApiPageComponent', () => {
   let component: ApiPageComponent;
   let fixture: ComponentFixture<ApiPageComponent>;
