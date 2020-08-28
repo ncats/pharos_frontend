@@ -41,7 +41,7 @@ describe('TinxDiseaseComponent', () => {
     fixture = TestBed.createComponent(TinxDiseaseComponent);
     component = fixture.componentInstance;
     component.data.diseases = TESTDISEASE;
-    component.inTinx = [{x: 1, y: 2, id: 'yup', name: 'test', label: 'testLabel' }];
+    component.tinx = [{x: 1, y: 2, id: 'yup', name: 'test', label: 'testLabel' }];
     fixture.detectChanges();
   });
 
