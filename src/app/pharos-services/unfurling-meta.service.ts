@@ -34,7 +34,10 @@ export class UnfurlingMetaService {
   }
 
   destroyCanonicalURL() {
-    this.dom.getElementById('canonicalURL').remove();
+    const el = this.dom.getElementById('canonicalURL');
+    if (el) {
+      el.remove();
+    }
   }
 
   createCanonicalURL(path?: string[]) {
