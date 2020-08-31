@@ -260,7 +260,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
   histogramTooltip(d: any){
     let min = (+d[0]).toFixed(this.decimals);
     let max = (+d[0] + this.binSize).toFixed(this.decimals);
-    return '<span>[' + min + ',' + max + '] : <br>' + d[1] + '</span>';
+    return '<span>[' + min + ',' + max + ') : <br>' + d[1] + '</span>';
   }
   /**
    * clean up on leaving component

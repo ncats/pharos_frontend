@@ -84,7 +84,12 @@ export class LigandSerializer implements PharosSerializer {
    * @return {Ligand}
    */
   fromJson(json: any): Ligand {
+    if (json.parsed){ // cached data is sometimes already parsed
+      return json;
+    }
     const obj = new Ligand();
+    obj.parsed = true;
+
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
 
     if (json.synonyms) {

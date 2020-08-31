@@ -16,7 +16,6 @@ import {VirusDetails} from "./virus-interactions";
  * main target object
  */
 export class Target extends PharosBase {
-  parsed: boolean = false;
   /**
    * fragment of common fields. fetched by the route resolver
    */
