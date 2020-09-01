@@ -9,12 +9,13 @@
         "files": [
           "/favicon.ico",
           "/index.html",
+          "/manifest.json",
           "/*.css",
-          "/*.js",
-          "/manifest.json"
+          "/*.js"
         ]
       }
-    }, {
+    },
+    {
       "name": "assets",
       "installMode": "lazy",
       "updateMode": "prefetch",
@@ -22,15 +23,8 @@
         "files": [
           "/assets/**",
           "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
-        ],
-        "urls": [
-          "https://fonts.googleapis.com/**"
         ]
       }
     }
-  ],
-  "navigationUrls": [
-      "!/api/**",
-      "!/idg/api/**"
-]
+  ]
 }
