@@ -16,8 +16,8 @@
   </range-slider>
 </div>
 <div class="footer">
-  <div class="range">{{currentRangeDisplay()}}</div>
-  <div><button type="button" mat-raised-button [color]="'primary'" (click)="applyFilter()" [disabled]="this.currentSettingsAreApplied()">
+  <div class="range" [matTooltip]="currentRangeTooltip()" [matTooltipClass]="'pharos-tooltip'">{{currentRangeDisplay()}}</div>
+  <div><button type="button" [matTooltip]="applyButtonTooltip()" [matTooltipClass]="'pharos-tooltip'" mat-raised-button [color]="'primary'" (click)="applyFilter()" [disabled]="this.currentSettingsAreApplied()">
     Apply
     <mat-icon>filter_alt</mat-icon>
   </button></div>
