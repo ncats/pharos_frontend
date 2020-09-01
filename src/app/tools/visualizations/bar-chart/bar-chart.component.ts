@@ -157,7 +157,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
     this.svg = d3.select(element)
       .append('svg:svg')
       .attr('width', element.offsetWidth)
-      .attr('height', element.offsetWidth)
+      .attr('height', element.offsetHeight)
       .append('svg:g')
       .attr('id', 'group')
       .attr('class', 'bar-container')
