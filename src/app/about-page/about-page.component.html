@@ -2,7 +2,8 @@
   <div fxFlex="20" fxHide.lt-sm class="toc-wrapper">
     <div class="toc">
       <mat-nav-list>
-        <a mat-list-item class="list-button" (click)="scroll(introduction)" [ngClass]="{'active': isActive('introduction')}">
+        <a mat-list-item class="list-button" (click)="scroll(introduction)"
+           [ngClass]="{'active': isActive('introduction')}">
           Introduction
         </a>
         <a mat-list-item class="list-button" (click)="scroll(collaborators)"
@@ -14,27 +15,34 @@
         <a mat-list-item class="list-button" (click)="scroll(datatypes)" [ngClass]="{'active': isActive('datatypes')}">Data
           Types
         </a>
-        <a mat-list-item class="list-button" (click)="scroll(datasources)" [ngClass]="{'active': isActive('datasources')}">Data
+        <a mat-list-item class="list-button" (click)="scroll(datasources)"
+           [ngClass]="{'active': isActive('datasources')}">Data
           Sources
         </a>
-        <a mat-list-item class="list-button" (click)="scroll(datadownload)" [ngClass]="{'active': isActive('datadownload')}">
+        <a mat-list-item class="list-button" (click)="scroll(datadownload)"
+           [ngClass]="{'active': isActive('datadownload')}">
           Data Download
         </a>
-        <a mat-list-item class="list-button" (click)="scroll(license)" [ngClass]="{'active': isActive('license')}">Pharos License
+        <a mat-list-item class="list-button" (click)="scroll(license)" [ngClass]="{'active': isActive('license')}">Pharos
+          License
         </a>
         <a mat-list-item class="list-button" (click)="scroll(code)" [ngClass]="{'active': isActive('code')}">Pharos Code
         </a>
-        <a mat-list-item class="list-button" (click)="scroll(attribution)" [ngClass]="{'active': isActive('attribution')}">
+        <a mat-list-item class="list-button" (click)="scroll(attribution)"
+           [ngClass]="{'active': isActive('attribution')}">
           Attribution
         </a>
         <a mat-list-item class="list-button" (click)="scroll(help)" [ngClass]="{'active': isActive('help')}">
           Help
         </a>
+        <a mat-list-item class="list-button" (click)="scroll(changelog)" [ngClass]="{'active': isActive('changelog')}">
+          Change Log
+        </a>
       </mat-nav-list>
     </div>
   </div>
   <div fxFlex="80" fxFlex.lt-sm="90" id="scroller-wrapper" class="about-wrapper" cdkScrollable>
-    <div fxLayout="row" id = "introduction" #introduction #scrollSection>
+    <div fxLayout="row" id="introduction" #introduction #scrollSection>
       <div fxFlex="75">
         <div class="section-header" [ngClass]="{'active': isActive('introduction')}">Introduction</div>
         <div class="section-content">
@@ -45,7 +53,11 @@
               1U24CA224370-01</a>). The goal of KMC is to develop a comprehensive, integrated knowledge-base
             for the Druggable Genome (DG) to illuminate the uncharacterized and/or poorly annotated portion of
             the DG, focusing on three of the most commonly drug-targeted protein families:</p>
-          <ul><li>G-protein-coupled receptors (GPCRs)</li><li>ion channels (ICs)</li><li>kinases</li></ul>
+          <ul>
+            <li>G-protein-coupled receptors (GPCRs)</li>
+            <li>ion channels (ICs)</li>
+            <li>kinases</li>
+          </ul>
           <p>The Pharos interface provides facile access to all data types
             collected by the KMC.
             Given the complexity of the data surrounding any target, efficient and intuitive visualization has
@@ -57,7 +69,7 @@
         </div>
       </div>
     </div>
-    <div fxLayout="row" id ="collaborators" #collaborators #scrollSection>
+    <div fxLayout="row" id="collaborators" #collaborators #scrollSection>
       <div fxFlex="75">
         <div class="section-header" [ngClass]="{'active': isActive('collaborators')}">Our Collaborators</div>
         <div class="section-content">
@@ -71,7 +83,8 @@
           <p>
             The DRGC network is the experimental side of IDG. DRGC research focuses on illuminating the druggable
             GPCR-ome by two-pronged approach of empirical screening of drugs followed by computational screening against
-            modeled structures of the GPCR to produced optimized lead compounds, thereby providing high value data and knowledge
+            modeled structures of the GPCR to produced optimized lead compounds, thereby providing high value data and
+            knowledge
             for KMC. KMC in turn is tasked with providing guidance as to research priorities based on knowledge
             gaps and druggability likelihood analyses.
           </p>
@@ -120,7 +133,8 @@
             </mat-list-item>
             <mat-list-item>
               <div><span class="data-type">Genomic data</span> including expression (protein, RNA), transcription
-                factors and epigenomic associations</div>
+                factors and epigenomic associations
+              </div>
             </mat-list-item>
             <mat-list-item>
               <div><span class="data-type">Phenotypic data</span> including mouse phenotypes, mouse/human orthologs and
@@ -143,19 +157,21 @@
         </div>
       </div>
     </div>
-    <div fxLayout="row" id = "datasources" #datasources #scrollSection>
+    <div fxLayout="row" id="datasources" #datasources #scrollSection>
       <div fxFlex="75">
         <div class="section-header" [ngClass]="{'active': isActive('datasources')}">Data Sources</div>
         <div class="section-content">
           <p>
-            The goal of the IDG KMC is to integrate a variety of data sources to shed light on unstudied and understudied
+            The goal of the IDG KMC is to integrate a variety of data sources to shed light on unstudied and
+            understudied
             targets. To achieve this we have pulled together data on protein targets, small molecule activity, genomic
             behavior and disease links. <!--For a list of datasources, and their associated entity counts, see the About
           Pharos page. A visual representation of all targets and their representation in all IDG datasources can be
           viewed here.--> Over time we anticipate incorporating other relevant data sources. </p>
 
-          <pharos-generic-table [fieldsConfig]="sourceFields" [data]="_sources" [showPaginator]="false"></pharos-generic-table>
-      </div>
+          <pharos-generic-table [fieldsConfig]="sourceFields" [data]="_sources"
+                                [showPaginator]="false"></pharos-generic-table>
+        </div>
       </div>
     </div>
     <div fxLayout="row" id="datadownload" #datadownload #scrollSection>
@@ -183,7 +199,8 @@
       <div fxFlex="75">
         <div class="section-header" [ngClass]="{'active': isActive('code')}">Pharos Code</div>
         <div class="section-content">
-          <p>The sources for the Pharos web interface are available from <a href="https://spotlite.nih.gov/ncats/pharos">
+          <p>The sources for the Pharos web interface are available from <a
+            href="https://spotlite.nih.gov/ncats/pharos">
             https://spotlite.nih.gov/ncats/pharos</a>. The repository provides
             <a href="https://spotlite.nih.gov/ncats/pharos/tree/master">instructions</a>
             on building and installation</p>
@@ -208,10 +225,24 @@
       <div fxFlex="75">
         <div class="section-header" [ngClass]="{'active': isActive('help')}">Help</div>
         <div class="section-content">
-          <p>for help in Pharos, click the help icon <mat-icon class="help-icon">help</mat-icon> or check the
-            <a routerLink="/faq">Faq</a> page</p>
-          <p>For feedback and comments, please contact us at <a href = "mailto:pharos@mail.nih.gov?subject=Pharos feedback">pharos@mail.nih.gov</a></p>
-          <div class="slack-icon-span"><a href = "https://druggablegenome.slack.com" target="_blank" rel="noreferrer">Join our slack channel<img src ="./assets/images/slack-icon.png" alt ="slack web icon link" class="slack-icon"></a></div>
+          <p>for help in Pharos, click the help icon
+            <mat-icon class="help-icon">help</mat-icon>
+            or check the
+            <a routerLink="/faq">Faq</a> page
+          </p>
+          <p>For feedback and comments, please contact us at <a
+            href="mailto:pharos@mail.nih.gov?subject=Pharos feedback">pharos@mail.nih.gov</a></p>
+          <div class="slack-icon-span"><a href="https://druggablegenome.slack.com" target="_blank" rel="noreferrer">Join
+            our slack channel<img src="./assets/images/slack-icon.png" alt="slack web icon link" class="slack-icon"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row" id="changelog" #changelog #scrollSection>
+      <div fxFlex="75">
+        <div class="section-header" [ngClass]="{'active': isActive('changelog')}">Change Log</div>
+        <div class="section-content">
+          <markdown [src]="'./CHANGELOG.md'">inside</markdown>
         </div>
       </div>
     </div>
