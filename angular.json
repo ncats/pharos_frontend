@@ -26,7 +26,12 @@
               "src/favicon.ico",
               "src/assets",
               "src/manifest.json",
-              "src/robots.txt"
+              "src/robots.txt",
+              {
+                "glob": "CHANGELOG.md",
+                "input": ".",
+                "output": "/"
+              }
             ],
             "styles": [
               "node_modules/ProtVista/build/css/main.css",
@@ -34,7 +39,8 @@
               "src/ncats-theme.scss"
             ],
             "scripts": [
-              "src/assets/vendor/modernizr-custom.js"
+              "src/assets/vendor/modernizr-custom.js",
+              "node_modules/marked/lib/marked.js"
             ]
           },
           "configurations": {
@@ -96,7 +102,12 @@
             "assets": [
               "src/assets",
               "src/favicon.ico",
-              "src/manifest.json"
+              "src/manifest.json",
+              {
+                "glob": "CHANGELOG.md",
+                "input": ".",
+                "output": "/"
+              }
             ]
           }
         },

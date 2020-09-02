@@ -19,6 +19,7 @@ import {TransferHttpCacheModule} from '@nguniversal/common';
 import {GraphQLModule} from './graphql.module';
 import {HttpClientModule} from '@angular/common/http';
 import {ServiceWorkerModule} from "@angular/service-worker";
+import {MarkdownModule} from "ngx-markdown";
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import {ServiceWorkerModule} from "@angular/service-worker";
     PharosLoadingSpinnerModule,
     GraphQLModule,
     HttpClientModule,
+    MarkdownModule.forRoot()
   ],
   bootstrap: [AppComponent]
 })
