@@ -3,7 +3,6 @@ import {LigActSerializer, LigandActivity} from './ligand-activity';
 import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
 import {LIGANDDETAILSFIELDS, LIGANDDETAILSQUERY, LIGANDLISTFIELDS} from "./target-components";
 
-
 /**
  * ligand object
  */
@@ -141,6 +140,32 @@ export class LigandSerializer implements PharosSerializer {
    */
   _asProperties(obj: any): any {
     const newObj: any = this._mapField(obj);
+
+    if(newObj.activities){
+      newObj.activities.forEach(activity => {
+        if(activity.activities){
+          activity.activities.forEach(act => {
+            if (act.pmids) {
+              let dpArray = [];
+              for (let pmid of act.pmids.term.split(",")) {
+                const cleanPmid = pmid.trim();
+                dpArray.push(new DataProperty({
+                  term: cleanPmid, name: "pmids", label: "pmids",
+                  externalLink: `http://www.ncbi.nlm.nih.gov/pubmed/${cleanPmid}`
+                }));
+              }
+              act.pmids = dpArray;
+            }
+            if (act.reference && act.reference.term){
+              if(act.reference.term.substring(0,7) === "http://" || act.reference.term.substring(0,8) === "https://"){
+                act.reference.externalLink = act.reference.term;
+              }
+            }
+          })
+        }
+      });
+    }
+
     return newObj;
   }
 
