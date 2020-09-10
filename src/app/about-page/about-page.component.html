@@ -35,9 +35,6 @@
         <a mat-list-item class="list-button" (click)="scroll(help)" [ngClass]="{'active': isActive('help')}">
           Help
         </a>
-        <a mat-list-item class="list-button" (click)="scroll(changelog)" [ngClass]="{'active': isActive('changelog')}">
-          Change Log
-        </a>
       </mat-nav-list>
     </div>
   </div>
@@ -189,9 +186,8 @@
       <div fxFlex="75">
         <div class="section-header" [ngClass]="{'active': isActive('license')}">Pharos License</div>
         <div class="section-content">
-          <p>All data accessed from Pharos is made available under the <a
-            href="https://creativecommons.org/licenses/by-sa/4.0/">
-            CC BY-SA 4.0</a> license.</p>
+          <p>Data accessed from Pharos and TCRD is publicly available from the primary sources listed above. Please
+            respect their individual licenses regarding proper use and redistribution.</p>
         </div>
       </div>
     </div>
@@ -199,11 +195,10 @@
       <div fxFlex="75">
         <div class="section-header" [ngClass]="{'active': isActive('code')}">Pharos Code</div>
         <div class="section-content">
-          <p>The sources for the Pharos web interface are available from <a
-            href="https://spotlite.nih.gov/ncats/pharos">
-            https://spotlite.nih.gov/ncats/pharos</a>. The repository provides
-            <a href="https://spotlite.nih.gov/ncats/pharos/tree/master">instructions</a>
-            on building and installation</p>
+          <p>The sources for the Pharos web interface are available from
+            <a href="https://github.com/ncats/pharos_frontend">https://github.com/ncats/pharos_frontend</a> and
+            <a href="https://github.com/ncats/pharos-graphql-server">https://github.com/ncats/pharos-graphql-server</a>.
+            The repositories provide README instructions on building and installation.</p>
         </div>
       </div>
     </div>
@@ -225,7 +220,7 @@
       <div fxFlex="75">
         <div class="section-header" [ngClass]="{'active': isActive('help')}">Help</div>
         <div class="section-content">
-          <p>for help in Pharos, click the help icon
+          <p>For help in Pharos, click the help icon
             <mat-icon class="help-icon">help</mat-icon>
             or check the
             <a routerLink="/faq">Faq</a> page
@@ -235,14 +230,6 @@
           <div class="slack-icon-span"><a href="https://druggablegenome.slack.com" target="_blank" rel="noreferrer">Join
             our slack channel<img src="./assets/images/slack-icon.png" alt="slack web icon link" class="slack-icon"></a>
           </div>
-        </div>
-      </div>
-    </div>
-    <div fxLayout="row" id="changelog" #changelog #scrollSection>
-      <div fxFlex="75">
-        <div class="section-header" [ngClass]="{'active': isActive('changelog')}">Change Log</div>
-        <div class="section-content">
-          <markdown [src]="'./CHANGELOG.md'">inside</markdown>
         </div>
       </div>
     </div>

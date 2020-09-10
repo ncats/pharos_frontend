@@ -19,7 +19,7 @@
 * Previously there was no CHANGELOG.md file
 * Protein-protein interactions are better filtered for high probability interactions
 
-
+_______________
 # 2.x.0 (2020-07-02)
 
 ### Added Features

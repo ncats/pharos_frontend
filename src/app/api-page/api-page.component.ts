@@ -1,7 +1,9 @@
-import {Component, Inject, InjectionToken, OnInit, PLATFORM_ID} from '@angular/core';
+import {Component, Inject, InjectionToken, OnInit, PLATFORM_ID, SecurityContext} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {isPlatformBrowser} from "@angular/common";
+import {DomSanitizer} from '@angular/platform-browser';
 import {UnfurlingMetaService} from "../pharos-services/unfurling-meta.service";
+import {environment} from "../../environments/environment";
 
 /**
  * ui page holder for a graphQL UI API documentation viewer
@@ -17,16 +19,18 @@ export class ApiPageComponent implements OnInit{
   /**
    * no args constructor
    */
-  constructor(public dialog: MatDialog,
+  constructor(private sanitizer: DomSanitizer,
+              public dialog: MatDialog,
               @Inject(PLATFORM_ID) private platformID: Object,
               private metaService: UnfurlingMetaService){}
-
   openDialog() {
     const dialogRef = this.dialog.open(ApiHelpComponent);
 
     dialogRef.afterClosed().subscribe(result => {
     });
   }
+
+  url = this.sanitizer.bypassSecurityTrustResourceUrl(environment.graphqlUrl);
 
   ngOnInit(){
     if(isPlatformBrowser(this.platformID)) {
