@@ -32,7 +32,7 @@ export class AboutPageComponent extends DynamicPanelComponent implements OnInit,
   activeElement = 'introduction';
 
   @Input() dataSources: DataSource[];
-  @Input() dataSourcesProps: any;
+  @Input() dataSourcesProps: any[];
   /**
    *
    */
@@ -52,7 +52,7 @@ export class AboutPageComponent extends DynamicPanelComponent implements OnInit,
     new PharosProperty({
       name: 'targetCount',
       label: 'Targets',
-       sortable: true
+      sortable: true
     }),
     new PharosProperty({
       name: 'diseaseCount',
@@ -65,11 +65,6 @@ export class AboutPageComponent extends DynamicPanelComponent implements OnInit,
       sortable: true
     }),
   ];
-
-  /**
-   * sources list from assets file
-   */
-  _sources: any;
 
   /**
    * set up change detection and scroll dispatching
@@ -120,10 +115,12 @@ export class AboutPageComponent extends DynamicPanelComponent implements OnInit,
     });
   }
 
-  initialize(){
+  /**
+   * initialize the dataSource lists
+   */
+  initialize() {
     this.dataSources = this.data.results.dataSourceCounts;
     this.dataSourcesProps = this.data.results.dataSourceCountsProps;
-    this._sources = this.dataSourcesProps;
     this.loading = false;
   }
 
@@ -133,6 +130,33 @@ export class AboutPageComponent extends DynamicPanelComponent implements OnInit,
    */
   public scroll(el: any): void {
     el.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
+  }
+
+  sortChanged(event: any): void {
+    const field = event.active;
+    const dir = event.direction;
+
+    if (field === "dataSource") { // do string comparison
+      if (dir === "asc") {
+        this.dataSourcesProps.sort((a, b) => {
+          return a[field].term.localeCompare(b[field].term);
+        });
+      } else {
+        this.dataSourcesProps.sort((a, b) => {
+          return b[field].term.localeCompare(a[field].term);
+        });
+      }
+    } else { // do numeric comparison
+      if (dir === "asc") {
+        this.dataSourcesProps.sort((a, b) => {
+          return +a[field].term - +b[field].term;
+        });
+      } else {
+        this.dataSourcesProps.sort((a, b) => {
+          return +b[field].term - +a[field].term;
+        });
+      }
+    }
   }
 
   /**

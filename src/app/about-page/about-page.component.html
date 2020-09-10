@@ -43,7 +43,7 @@
       <div fxFlex="75">
         <div class="section-header" [ngClass]="{'active': isActive('introduction')}">Introduction</div>
         <div class="section-content">
-          <p>Pharos is the user interface to the <a href="http://targetcentral.ws/">Knowledge Management Center</a>
+          <p>Pharos is the user interface to the Knowledge Management Center
             (KMC) for the <a href="https://commonfund.nih.gov/idg/index">Illuminating the Druggable Genome</a>
             (IDG) program funded by the National Institutes of Health (NIH) Common Fund.
             (Grant No. <a href="https://projectreporter.nih.gov/project_info_description.cfm?aid=9461406&icde=38627613">
@@ -52,15 +52,14 @@
             the DG, focusing on three of the most commonly drug-targeted protein families:</p>
           <ul>
             <li>G-protein-coupled receptors (GPCRs)</li>
-            <li>ion channels (ICs)</li>
-            <li>kinases</li>
+            <li>Ion channels (ICs)</li>
+            <li>Kinases</li>
           </ul>
-          <p>The Pharos interface provides facile access to all data types
-            collected by the KMC.
+          <p>The Pharos interface provides facile access to most data types collected by the KMC.
             Given the complexity of the data surrounding any target, efficient and intuitive visualization has
             been a high priority, to enable users to quickly navigate &amp; summarize search results and
             rapidly identify patterns. A critical feature of the interface is the ability to perform flexible
-            search and subsequent drill down of search results. Underlying the interface is a RESTful API that
+            search and subsequent drill down of search results. Underlying the interface is a GraphQL API that
             provides programmatic access to all KMC data, allowing for easy consumption in user applications.
           </p>
         </div>
@@ -81,8 +80,7 @@
             The DRGC network is the experimental side of IDG. DRGC research focuses on illuminating the druggable
             GPCR-ome by two-pronged approach of empirical screening of drugs followed by computational screening against
             modeled structures of the GPCR to produced optimized lead compounds, thereby providing high value data and
-            knowledge
-            for KMC. KMC in turn is tasked with providing guidance as to research priorities based on knowledge
+            knowledge for KMC. KMC in turn is tasked with providing guidance as to research priorities based on knowledge
             gaps and druggability likelihood analyses.
           </p>
           <p>
@@ -103,7 +101,7 @@
             <a href="http://drugtargetontology.org/about.html">Drug Target Ontology</a> (DTO)
             from U. Miami. TCRD integration methodology involves
             importation by value or by reference to external sources, as informed by performance, provenance,
-            and other design criteria. See <a href="http://targetcentral.ws/Pharos">here</a> for a full listing
+            and other design criteria. See <a (click)="scroll(datasources)">below</a> for a full listing
             of datasets incorporated in to <a href="http://juniper.health.unm.edu/tcrd/">TCRD</a>.
           </p>
         </div>
@@ -162,12 +160,10 @@
             The goal of the IDG KMC is to integrate a variety of data sources to shed light on unstudied and
             understudied
             targets. To achieve this we have pulled together data on protein targets, small molecule activity, genomic
-            behavior and disease links. <!--For a list of datasources, and their associated entity counts, see the About
-          Pharos page. A visual representation of all targets and their representation in all IDG datasources can be
-          viewed here.--> Over time we anticipate incorporating other relevant data sources. </p>
+            behavior and disease links. We are continually researching ang incorporating other relevant data sources. </p>
 
-          <pharos-generic-table [fieldsConfig]="sourceFields" [data]="_sources"
-                                [showPaginator]="false"></pharos-generic-table>
+          <pharos-generic-table [fieldsConfig]="sourceFields" [data]="this.dataSourcesProps"
+                                [showPaginator]="false" (sortChange)="sortChanged($event)"></pharos-generic-table>
         </div>
       </div>
     </div>
