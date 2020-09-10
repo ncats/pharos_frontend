@@ -2,10 +2,10 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, DoCheck,
   EventEmitter,
   Injector,
-  Input,
+  Input, IterableDiffer, IterableDiffers,
   OnChanges,
   OnDestroy,
   OnInit,
@@ -26,6 +26,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {DataProperty} from './components/property-display/data-property';
 import {SelectionModel} from '@angular/cdk/collections';
 import {takeUntil} from 'rxjs/operators';
+import {Data} from "@angular/router";
 
 /**
  * component to show flexible data consisting of multiple data types, custom components
@@ -48,7 +49,7 @@ import {takeUntil} from 'rxjs/operators';
 /**
  * Generic table Component that iterates over a list of {@link TableData} options to display fields
  */
-export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy, DoCheck {
 
   /**
    * Behaviour subject to allow extending class to unsubscribe on destroy
@@ -223,13 +224,21 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
     this.dataSource.paginator = paginator;
   }
 
+  iterableDiffer:any;
+
+  ngDoCheck() {
+    if (this.iterableDiffer.diff(this.data)) {
+      this.data = this.data;
+    }
+  }
   /**
    * injector for custom data
    */
   constructor(
     private ref: ChangeDetectorRef,
-    private _injector: Injector
-  ) {
+    private _injector: Injector,
+    private iterableDiffers: IterableDiffers) {
+    this.iterableDiffer = iterableDiffers.find([]).create(null);
   }
 
   /**
@@ -301,6 +310,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
    */
   changeSort(sort: Sort): void {
     this.sortChange.emit(sort);
+    this.ref.detectChanges();
   }
 
   /**
