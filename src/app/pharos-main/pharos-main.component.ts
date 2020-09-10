@@ -9,6 +9,7 @@ import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {isPlatformBrowser} from "@angular/common";
+import {SelectedFacetService} from "./data-list/filter-panel/selected-facet.service";
 
 /**
  * class or interface to set properties for an injected sidenav panel
@@ -140,7 +141,8 @@ export class PharosMainComponent implements OnInit, OnDestroy {
     private helpDataService: HelpDataService,
     private navSectionsService: NavSectionsService,
     public breakpointObserver: BreakpointObserver,
-    @Inject(PLATFORM_ID) private platformID: Object
+    @Inject(PLATFORM_ID) private platformID: Object,
+    private selectedFacetService: SelectedFacetService
   ) {
 
   }
@@ -279,6 +281,7 @@ export class PharosMainComponent implements OnInit, OnDestroy {
    * unsubscribes from observables
    */
   ngOnDestroy(): void {
+    this.selectedFacetService.clearFacets();
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }

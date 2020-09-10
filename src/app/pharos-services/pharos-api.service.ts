@@ -658,7 +658,7 @@ export class PharosApiService {
     };
   }
 
-  public adHocQuery(query: any, variables: any){
+  public adHocQuery(query: any, variables?: any){
     return this.apollo.query<any>({query: query, variables});
   }
 
@@ -675,6 +675,16 @@ export class PharosApiService {
           importance
         }
       }
+    }
+  }`;
+
+  public static dataSourceQuery = gql`query batch{
+    dataSourceCounts{
+      dataSource
+      url
+      targetCount
+      ligandCount
+      diseaseCount
     }
   }`;
 }
