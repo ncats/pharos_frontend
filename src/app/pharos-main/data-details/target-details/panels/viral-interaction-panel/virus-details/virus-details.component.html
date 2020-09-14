@@ -29,7 +29,7 @@
         <div class="protein-details" *ngFor="let interaction of virus.interactionDetails">
           <mat-card-subtitle>{{interaction.protein_name}}</mat-card-subtitle>
           <ncats-property-display [property]="{term: interaction.protein_ncbi, label:'NCBI'}"></ncats-property-display>
-          <ncats-property-display [property]="{term: interaction.finalLR, label:'finalLR'}"></ncats-property-display>
+          <ncats-property-display [property]="{term: interaction.finalLR.toFixed(2), label:'finalLR'}"></ncats-property-display>
         </div>
       </div>
     </mat-card>

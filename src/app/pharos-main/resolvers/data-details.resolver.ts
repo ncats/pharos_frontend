@@ -38,27 +38,33 @@ export class DataDetailsResolver implements Resolve<any> {
       return this.pharosApiService.getDetailsData(route.data.path, route.paramMap, route.data.fragments)
       .pipe(
         map(res =>  {
+          if (!res.data[route.data.path]){
+            return this.logError(route, {message: "can't resolve"});
+          }
           const tobj = serializer.fromJson(res.data[route.data.path]);
           res.data[route.data.path] = tobj;
           res.data[`${[route.data.path]}Props`] = serializer._asProperties(tobj);
           return res.data;
         }),
         catchError(err => {
-          let message = JSON.stringify(err);
-          if(err.message === 'Cannot convert undefined or null to object'){
-            message = `Can\'t resolve ${route.data.path.slice(0,-1)} "${route.params?.id}"`;
-          }
-          if(isPlatformBrowser(this.platformID)) {
-            alert(message);
-          }
-          else{
-            console.log(message);
-          }
-          return null;
+          return this.logError(route, err);
         })
       );
     }
 
+    logError(route: ActivatedRouteSnapshot, err: any){
+      let message = JSON.stringify(err);
+      if(err.message === 'Cannot convert undefined or null to object' || err.message === "can't resolve"){
+        message = `Can\'t resolve ${route.data.path.slice(0,-1)} "${route.params?.id}"`;
+      }
+      if(isPlatformBrowser(this.platformID)) {
+        alert(message);
+      }
+      else{
+        console.log(message);
+      }
+      return null;
+    }
   /**
    *  calls a specific url to retrieve data
    *  todo: this may not be needed after May 2019 pharosconfig changes

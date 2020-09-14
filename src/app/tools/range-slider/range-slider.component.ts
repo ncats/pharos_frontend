@@ -700,26 +700,6 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
 
     this._isSliding = false;
     this._focusHostElement();
-    //
-    // if (!this._sliderDimensions) {
-    //   return;
-    // }
-    // let offset = this.vertical ? this._sliderDimensions.top : this._sliderDimensions.left;
-    // let size = this.vertical ? this._sliderDimensions.height : this._sliderDimensions.width;
-    // let posComponent = this.vertical ? event.clientY : event.clientX;
-    //
-    // // The exact value is calculated from the event and used to find the closest snap value.
-    // let percent = Number(this._clamp((posComponent - offset) / size));
-    //
-    // if (this._shouldInvertMouseCoords()) {
-    //   percent = 1 - percent;
-    // }
-    //
-    // if (percent <= this.percent[0] + (this.percent[1] - this.percent[0]) / 2) {
-    //   this._currentSliderDir = 'l';
-    // } else {
-    //   this._currentSliderDir = 'r';
-    // }
 
     if (this._currentSliderDir === 'l') {
       this._updateValueFromPositionLeft({x: event.clientX, y: event.clientY});
@@ -742,8 +722,6 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
   }
 
   _onSlide(event: any, dir?) {
-    console.log("_onSlide");
-    console.log(event);
     if (this.disabled) {
       return;
     }
@@ -788,8 +766,6 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
   }
 
   _onSlideStart(event: any | null, dir?) {
-    console.log("_onSlideStart");
-    console.log(event);
     if (this.disabled || this._isSliding) {
       return;
     }
@@ -822,7 +798,6 @@ export class RangeSliderComponent extends _RangeSliderComponentMixinBase
   }
 
   _onSlideEnd() {
-    console.log("_onSlideEnd");
     this._isSliding = false;
 
     if (this._valueOnSlideStart != this.value && !this.disabled) {

@@ -1,7 +1,20 @@
-import {ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren
+} from '@angular/core';
 import {CdkScrollable, ScrollDispatcher} from '@angular/cdk/scrolling';
 import {PharosProperty} from '../models/pharos-property';
-import {SOURCES} from '../../config/data-sources';
+import {DynamicPanelComponent} from "../tools/dynamic-panel/dynamic-panel.component";
+import {takeUntil} from "rxjs/operators";
+import {Ligand} from "../models/ligand";
+import {DataSource} from "../models/dataSource";
+import {ActivatedRoute} from "@angular/router";
 
 /**
  * about page component
@@ -11,13 +24,15 @@ import {SOURCES} from '../../config/data-sources';
   templateUrl: './about-page.component.html',
   styleUrls: ['./about-page.component.scss']
 })
-export class AboutPageComponent implements OnInit {
+export class AboutPageComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   /**
    * default active element for menu highlighting, will be replaced on scroll
    * @type {string}
    */
   activeElement = 'introduction';
 
+  @Input() dataSources: DataSource[];
+  @Input() dataSourcesProps: any[];
   /**
    *
    */
@@ -29,32 +44,27 @@ export class AboutPageComponent implements OnInit {
    */
   sourceFields: PharosProperty[] = [
     new PharosProperty({
-      name: 'source',
+      name: 'dataSource',
       label: 'Source',
       sortable: true,
       sorted: 'asc'
     }),
     new PharosProperty({
       name: 'targetCount',
-      label: 'Targets'
-    //  sortable: true
+      label: 'Targets',
+      sortable: true
     }),
     new PharosProperty({
       name: 'diseaseCount',
-      label: 'Diseases'
-     // sortable: true
+      label: 'Diseases',
+      sortable: true
     }),
     new PharosProperty({
       name: 'ligandCount',
       label: 'Ligands',
-      // sortable: true
+      sortable: true
     }),
   ];
-
-  /**
-   * sources list from assets file
-   */
-  _sources: any;
 
   /**
    * set up change detection and scroll dispatching
@@ -62,9 +72,10 @@ export class AboutPageComponent implements OnInit {
    * @param {ScrollDispatcher} scrollDispatcher
    */
   constructor(
-              private changeDetector: ChangeDetectorRef,
-              private scrollDispatcher: ScrollDispatcher) {
-    this._sources = SOURCES;
+    private changeDetector: ChangeDetectorRef,
+    private scrollDispatcher: ScrollDispatcher,
+    private _route: ActivatedRoute) {
+    super();
   }
 
   /**
@@ -72,6 +83,19 @@ export class AboutPageComponent implements OnInit {
    * todo could be updated to use the injectable sidenav
    */
   ngOnInit() {
+    this.data = this._route.snapshot.data;
+    this.initialize();
+    this._data
+      // listen to data as long as term is undefined or null
+      // Unsubscribe once term has value
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(x => {
+        if (this.data && this.data.results) {
+          this.initialize();
+        }
+      });
     this.scrollDispatcher.scrolled().subscribe((data: CdkScrollable) => {
       if (data) {
         let scrollTop: number = data.getElementRef().nativeElement.scrollTop + 100;
@@ -92,11 +116,47 @@ export class AboutPageComponent implements OnInit {
   }
 
   /**
+   * initialize the dataSource lists
+   */
+  initialize() {
+    this.dataSources = this.data.results.dataSourceCounts;
+    this.dataSourcesProps = this.data.results.dataSourceCountsProps;
+    this.loading = false;
+  }
+
+  /**
    * scroll to section
    * @param el
    */
   public scroll(el: any): void {
     el.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
+  }
+
+  sortChanged(event: any): void {
+    const field = event.active;
+    const dir = event.direction;
+
+    if (field === "dataSource") { // do string comparison
+      if (dir === "asc") {
+        this.dataSourcesProps.sort((a, b) => {
+          return a[field].term.localeCompare(b[field].term);
+        });
+      } else {
+        this.dataSourcesProps.sort((a, b) => {
+          return b[field].term.localeCompare(a[field].term);
+        });
+      }
+    } else { // do numeric comparison
+      if (dir === "asc") {
+        this.dataSourcesProps.sort((a, b) => {
+          return +a[field].term - +b[field].term;
+        });
+      } else {
+        this.dataSourcesProps.sort((a, b) => {
+          return +b[field].term - +a[field].term;
+        });
+      }
+    }
   }
 
   /**
@@ -106,5 +166,14 @@ export class AboutPageComponent implements OnInit {
    */
   isActive(check: string): boolean {
     return this.activeElement === check;
+  }
+
+
+  /**
+   * cleanp on destroy
+   */
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

@@ -35,6 +35,10 @@ const ROUTES: Routes = [
     loadChildren: () => import('./about-page/about-page.module').then(m => m.AboutPageModule)
   },
   {
+    path: 'changelog',
+    loadChildren: () => import('./changelog/changelog.module').then(m => m.ChangelogModule)
+  },
+  {
     path: 'help',
     redirectTo: '/about',
     pathMatch: 'full'

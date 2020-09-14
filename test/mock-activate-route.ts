@@ -21,6 +21,11 @@ export const MOCKACTIVATEDROUTE = {
         components: [],
         data: { data: 'myTitle ',
           components: [{}],
+          results: {
+            dataSourceCounts:[
+              {dataSource: "CCLE", targetCount: 1881}
+            ]
+          }
         },
         pharosObject: {}
       }

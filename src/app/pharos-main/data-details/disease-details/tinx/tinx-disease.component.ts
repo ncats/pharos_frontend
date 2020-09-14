@@ -56,13 +56,15 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
           this.apiService.adHocQuery(this.apiService.TinxQuery, variables).subscribe(res => {
             res.data.disease.tinx.map(point => {
               if (point.targetID) {
-                const p: PharosPoint = new PharosPoint({
-                  label: point.details[0].diseaseName,
-                  x: point.novelty,
-                  y: point.details[0].importance,
-                  name: point.targetName
-                });
-                this.inTinx.push(p);
+                for(let i = 0 ; i < point.details.length ; i++) {
+                  const p: PharosPoint = new PharosPoint({
+                    label: point.details[i].diseaseName,
+                    x: point.novelty,
+                    y: point.details[i].importance,
+                    name: `${point.targetName} (${point.tdl})`
+                  });
+                  this.inTinx.push(p);
+                }
               }
             });
             this.tinx = this.inTinx;
