@@ -17,6 +17,7 @@ export class PropertyDisplayComponent {
    */
   @Input() showLabel = true;
 
+  JSON: any = JSON;
   /**
    * property object being shown
    */

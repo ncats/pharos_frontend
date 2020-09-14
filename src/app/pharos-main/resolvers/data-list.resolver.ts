@@ -1,12 +1,11 @@
 import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
-import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
-import {concat, from, Observable, of, zip} from 'rxjs';
+import {ActivatedRouteSnapshot, Resolve, Router} from '@angular/router';
+import {Observable} from 'rxjs';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
-import {catchError, concatMap, map, mergeMap, take, zipAll} from 'rxjs/internal/operators';
+import {catchError, map, mergeMap, take} from 'rxjs/internal/operators';
 import {PharosBase, Serializer} from '../../models/pharos-base';
 import {Facet} from '../../models/facet';
-import {SelectedFacetService} from '../data-list/filter-panel/selected-facet.service';
 import {TargetListService} from "../../pharos-services/target-list.service";
 import {isPlatformBrowser} from "@angular/common";
 

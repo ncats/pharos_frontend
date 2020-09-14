@@ -18,6 +18,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {TransferHttpCacheModule} from '@nguniversal/common';
 import {GraphQLModule} from './graphql.module';
 import {HttpClientModule} from '@angular/common/http';
+import {ServiceWorkerModule} from "@angular/service-worker";
+import {MarkdownModule} from "ngx-markdown";
 
 @NgModule({
   declarations: [
@@ -26,7 +28,7 @@ import {HttpClientModule} from '@angular/common/http';
     ScrollToTopComponent
   ],
   imports: [
-    // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     BrowserAnimationsModule,
     MaterialModule,
     BrowserModule.withServerTransition({ appId: 'pharos' }),
@@ -42,6 +44,7 @@ import {HttpClientModule} from '@angular/common/http';
     PharosLoadingSpinnerModule,
     GraphQLModule,
     HttpClientModule,
+    MarkdownModule.forRoot()
   ],
   bootstrap: [AppComponent]
 })

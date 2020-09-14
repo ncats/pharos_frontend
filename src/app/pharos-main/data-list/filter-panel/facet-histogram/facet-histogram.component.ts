@@ -44,11 +44,11 @@ export class FacetHistogramComponent implements OnInit {
 
   min: number;
   minSetting: number;
-  minForTargetList?: number;
+  minUsedByList?: number;
 
   max: number;
   maxSetting: number;
-  maxForTargetList?: number;
+  maxUsedByList?: number;
 
   boundsChanged(event){
     this.minSetting = event.value[0];
@@ -68,7 +68,35 @@ export class FacetHistogramComponent implements OnInit {
       decimals = this.facet.binSize.toString().split(".")[1].length;
     }
     return `[ ${this.minSetting.toFixed(decimals)}, ${this.maxSetting.toFixed(decimals)} `
-      + (this.maxSetting === this.max || this.maxSetting === this.minSetting ? "]" : ")");
+      + (this.includeUpperBound() ? "]" : ")");
+  }
+
+  includeUpperBound(){
+    if(this.maxSetting === this.max){
+      return true;
+    }
+    if(this.maxSetting === this.minSetting){
+      return true;
+    }
+    return false;
+  }
+
+  currentSettingsAreApplied(){
+    return this.minSetting === this.minUsedByList && this.maxSetting === this.maxUsedByList;
+  }
+
+  currentRangeTooltip(){
+    const rangeText = `to values that are >= ${this.minSetting} and ${this.includeUpperBound() ? "<=" : "<"} ${this.maxSetting}`;
+    if(this.currentSettingsAreApplied()){
+      return `The list has been filtered ${rangeText}`;
+    }
+    else{
+      return `Tap 'Apply' to filter the list ${rangeText}`;
+    }
+  }
+
+  applyButtonTooltip(){
+    return `Filter the list to the current range`;
   }
 
   applyFilter(){
@@ -108,21 +136,18 @@ export class FacetHistogramComponent implements OnInit {
     const selected: Facet = this.selectedFacetService.getFacetByName(this.facet.facet);
     if (selected) {
       let pieces = selected.values[0].name.split(",").map(s => s.replace(/[^0-9|\-|\.]/g, ''));
-      this.minForTargetList = pieces[0] == null || pieces[0].length === 0 ? null : +pieces[0];
-      this.maxForTargetList = pieces[1] == null || pieces[1].length === 0 ? this.max : +pieces[1];
-      this.minSetting = this.minForTargetList;
-      this.maxSetting = this.maxForTargetList;
+      this.minUsedByList = pieces[0] == null || pieces[0].length === 0 ? null : +pieces[0];
+      this.maxUsedByList = pieces[1] == null || pieces[1].length === 0 ? this.max : +pieces[1];
+      this.minSetting = this.minUsedByList;
+      this.maxSetting = this.maxUsedByList;
     } else {
-      this.minForTargetList = null;
-      this.maxForTargetList = null;
+      this.minUsedByList = null;
+      this.maxUsedByList = null;
       this.minSetting = this.min;
       this.maxSetting = this.max;
     }
   }
 
-  currentSettingsAreApplied(){
-    return this.minSetting === this.minForTargetList && this.maxSetting === this.maxForTargetList;
-  }
 
   /**
    * function to unubscribe on destroy

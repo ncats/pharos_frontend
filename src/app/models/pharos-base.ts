@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
  * base class of objects (target, disease, ligand) returned by the Pharos Api
  */
 export class PharosBase {
+  parsed: boolean = false;
 
   _tcrdid: number;
 

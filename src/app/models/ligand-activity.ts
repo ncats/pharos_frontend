@@ -1,5 +1,5 @@
 import {Ligand} from './ligand';
-import {Publication} from './publication';
+import {Publication, PublicationSerializer} from './publication';
 import {Serializer} from './pharos-base';
 import {Target} from './target';
 import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
@@ -42,6 +42,10 @@ export class LigandActivity {
    * list of publications that this ligand activity is relevant to
    */
   pubs?: Publication[];
+  /**
+   * aggregate of PubMed IDs for table display
+   */
+  pmids?: string;
 }
 
 export class LigActSerializer implements Serializer {
@@ -59,7 +63,11 @@ export class LigActSerializer implements Serializer {
   fromJson(json: any): LigandActivity {
     const obj = new LigandActivity();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
-
+    if(json.pubs && json.pubs.length){
+      const publicationSerializer = new PublicationSerializer();
+      obj.pubs = json.pubs.map(p => publicationSerializer.fromJson(p));
+      obj.pmids = json.pubs.map(p => p.pmid).join(", ");
+    }
     return obj;
   }
 

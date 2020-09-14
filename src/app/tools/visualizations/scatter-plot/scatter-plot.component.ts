@@ -152,6 +152,9 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    */
   private zoom;
 
+  private baseRadius = 2.5;
+  private hoverRadius = 6;
+
   /**
    * function to redraw/scale the graph on window resize
    */
@@ -422,7 +425,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       }
 
       this.svg.select('.chartbody').selectAll('.linePoints')
-        .attr('r', (3 / this.k))
+        .attr('r', (this.baseRadius / this.k))
         .exit();
 
       // Add the valueline path.
@@ -472,9 +475,8 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       .data(d3.merge(this.displayData), d => d);
     circles.enter()
       .append('circle')
-      .attr('class', 'linePoints')
-      .attr('r', 2.5 / this.k)
-      .attr('id', d => d.id)
+      .attr('class', d => {return 'linePoints ' + d.id})
+      .attr('r', this.baseRadius / this.k)
       .attr('cy', d => this.y(d.y))
       .attr('cx', d => this.x(d.x))
       .style('fill', d => '#23364e')
@@ -519,9 +521,8 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     // ENTER new elements present in new data.
     circles.enter()
       .append('circle')
-      .attr('class', 'linePoints')
-      .attr('r', 2.5 / this.k)
-      .attr('id', d => d.id)
+      .attr('class', d => {return 'linePoints ' + d.id})
+      .attr('r', this.baseRadius / this.k)
       .attr('cy', d => this.y(d.y))
       .attr('cx', d => this.x(d.x))
       .style('fill', d => '#23364e')
@@ -577,8 +578,8 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    * @param data
    */
   mouseOn(data: any): void {
-    this.svg.select(`#${data.id}`)
-      .attr('r', 6 / this.k)
+    this.svg.selectAll(`.${data.id}`)
+      .attr('r', this.hoverRadius / this.k)
       .exit();
     this.tooltip
       .transition()
@@ -611,8 +612,8 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
       .transition()
       .duration(200)
       .style('opacity', 0);
-    this.svg.select(`#${data.id}`)
-      .attr('r', 2.5 / this.k)
+    this.svg.selectAll(`.${data.id}`)
+      .attr('r', this.baseRadius / this.k)
       .exit();
   }
 
