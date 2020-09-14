@@ -5,6 +5,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from '../shared/shared.module';
 import {GenericTableModule} from '../tools/generic-table/generic-table.module';
 import {RouterTestingModule} from '@angular/router/testing';
+import {ActivatedRoute} from "@angular/router";
+import {MOCKACTIVATEDROUTE} from "../../../test/mock-activate-route";
 
 
 describe('AboutPageComponent', () => {
@@ -18,6 +20,9 @@ describe('AboutPageComponent', () => {
         BrowserAnimationsModule,
         SharedModule,
         GenericTableModule
+      ],
+      providers: [
+        { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
       ],
       declarations: [
         AboutPageComponent
