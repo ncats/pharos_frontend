@@ -29,6 +29,11 @@ export class Ligand extends PharosBase {
    */
   public synonymLabels() {
     let labels = [];
+    let linkName = (this.isdrug ? this.name : this.pubChemID || this.chemblName);
+    if (linkName) {
+      labels.push({label: "NCATS Inxight: Drugs", term: linkName, externalLink: `https://drugs.ncats.io/drug/${linkName}`});
+    }
+
     for (let syn of this.synonyms) {
       let source = syn.name;
       let id = syn.value;
@@ -39,7 +44,7 @@ export class Ligand extends PharosBase {
         link = "https://www.ebi.ac.uk/chembl/compound_report_card/" + id + "/";
       } else if (source == "PubChem") {
         link = "https://pubchem.ncbi.nlm.nih.gov/compound/" + id;
-      } else if (source == "Guide to Pharmacology"){
+      } else if (source == "Guide to Pharmacology") {
         link = "http://www.guidetopharmacology.org/GRAC/LigandDisplayForward?ligandId=" + id;
       }
       labels.push({label: source, term: id, externalLink: link});
@@ -83,7 +88,7 @@ export class LigandSerializer implements PharosSerializer {
    * @return {Ligand}
    */
   fromJson(json: any): Ligand {
-    if (json.parsed){ // cached data is sometimes already parsed
+    if (json.parsed) { // cached data is sometimes already parsed
       return json;
     }
     const obj = new Ligand();
@@ -108,13 +113,13 @@ export class LigandSerializer implements PharosSerializer {
       const ligActSerializer: LigActSerializer = new LigActSerializer();
       json.activities.forEach(act => {
         let currSymbol = act.target?.symbol || "default";
-          if (actMap.has(currSymbol)) {
-            const acts = actMap.get(currSymbol);
-            acts.activities.push(ligActSerializer.fromJson(act));
-            actMap.set(currSymbol, acts);
-          } else {
-            actMap.set(currSymbol, {target: act.target, activities: [ligActSerializer.fromJson(act)]});
-          }
+        if (actMap.has(currSymbol)) {
+          const acts = actMap.get(currSymbol);
+          acts.activities.push(ligActSerializer.fromJson(act));
+          actMap.set(currSymbol, acts);
+        } else {
+          actMap.set(currSymbol, {target: act.target, activities: [ligActSerializer.fromJson(act)]});
+        }
       });
       obj.activities = [...actMap.values()].sort((a, b) => b.activities.length - a.activities.length);
       obj.activitiesMap = actMap;
@@ -141,9 +146,9 @@ export class LigandSerializer implements PharosSerializer {
   _asProperties(obj: any): any {
     const newObj: any = this._mapField(obj);
 
-    if(newObj.activities){
+    if (newObj.activities) {
       newObj.activities.forEach(activity => {
-        if(activity.activities){
+        if (activity.activities) {
           activity.activities.forEach(act => {
             if (act.pmids) {
               let dpArray = [];
@@ -156,8 +161,8 @@ export class LigandSerializer implements PharosSerializer {
               }
               act.pmids = dpArray;
             }
-            if (act.reference && act.reference.term){
-              if(act.reference.term.substring(0,7) === "http://" || act.reference.term.substring(0,8) === "https://"){
+            if (act.reference && act.reference.term) {
+              if (act.reference.term.substring(0, 7) === "http://" || act.reference.term.substring(0, 8) === "https://") {
                 act.reference.externalLink = act.reference.term;
               }
             }
