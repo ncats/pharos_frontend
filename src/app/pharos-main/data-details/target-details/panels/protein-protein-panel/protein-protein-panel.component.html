@@ -21,7 +21,7 @@
       </div>
       <div class="headerRow">
       <div>
-        <pharos-explore-list-button [path]="'/targets'" [queryParams]="{associatedTarget:target.gene || target.accession}" [buttonText]="'Explore Interacting Targets'"></pharos-explore-list-button>
+        <pharos-explore-list-button [path]="'/targets'" [queryParams]="{associatedTarget:target.accession}" [buttonText]="'Explore Interacting Targets'"></pharos-explore-list-button>
       </div>
       <mat-paginator
         [pageSize]="10"
