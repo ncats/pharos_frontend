@@ -23,7 +23,7 @@
       </div>
       <div class="headerSection">
         <pharos-explore-list-button [path]="'/ligands'" [buttonText]="'Explore Active Ligands'"
-                                    [queryParams]="{associatedTarget:target.gene || target.accession,facet:'Type' + this.Facet.separator + 'Ligand'}"></pharos-explore-list-button>
+                                    [queryParams]="{associatedTarget:target.accession,facet:'Type' + this.Facet.separator + 'Ligand'}"></pharos-explore-list-button>
         <mat-paginator
           [pageSize]="10"
           [length]="target.ligandCount"
