@@ -59,8 +59,8 @@
       <a mat-button routerLink="/faq" [ngClass]="{active: isActive('faq')}">FAQ</a>
     </div>
     <span class="fill-remaining-space"></span>
-    <pharos-search-component [fxHide.lt-md]="true" [placeholderStr]="'search'"
-                             *ngIf=searchBar></pharos-search-component>
+    <pharos-search-component [fxHide.lt-md]="true" [placeholderStr]="getPlaceholder()"
+                             *ngIf=searchBar [listType]="getListType()"></pharos-search-component>
     <div *ngIf=profile class="profile-section" [matMenuTriggerFor]="profileMenu" fxHide.lt-md>
       <img [src]=profile.profilePic class="profile-pic" *ngIf="profile?.profilePic">
       <span class="user-name">{{profile.name}}</span>

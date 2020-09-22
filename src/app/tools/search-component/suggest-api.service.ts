@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
-import {catchError,  map } from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
 
@@ -32,10 +32,33 @@ export class SuggestApiService {
    * @param {string} query
    * @returns {Observable<any[]>}
    */
-  search(query: string): Observable<any[]> {
+  search(query: string, listType: string): Observable<any[]> {
     const autocomplete = [];
 
-    const SUGGESTQUERY = gql(`
+    let SUGGESTQUERY;
+    if (listType === "diseases") {
+      SUGGESTQUERY = gql(`
+      query {
+        autocomplete(name:"${query}")
+        {
+          diseases{
+            key
+          }
+        }
+      }`);
+    } else if (listType === "ligands"){
+      SUGGESTQUERY = gql(`
+      query {
+        autocomplete(name:"${query}")
+        {
+          ligands{
+            key
+          }
+        }
+      }`);
+    }
+    else {
+      SUGGESTQUERY = gql(`
       query {
         autocomplete(name:"${query}")
         {
@@ -58,12 +81,13 @@ export class SuggestApiService {
         }
       }
     `);
+    }
 
     let fetchQuery = this.apollo.query<any>({query: SUGGESTQUERY});
 
     return fetchQuery.pipe(
       map(response => {
-        if(!response.data.autocomplete){
+        if (!response.data.autocomplete) {
           return autocomplete;
         }
         if (!!response.data.autocomplete.genes && response.data.autocomplete.genes.length > 0) {
@@ -76,10 +100,13 @@ export class SuggestApiService {
           autocomplete.push({name: ["Disease"], options: response.data.autocomplete.diseases});
         }
         if (!!response.data.autocomplete.phenotypes && response.data.autocomplete.phenotypes.length > 0) {
-          autocomplete.push({name: ["IMPC Phenotype"], options: response.data.autocomplete.phenotypes});
+          autocomplete.push({name: ["Phenotype"], options: response.data.autocomplete.phenotypes});
         }
         if (!!response.data.autocomplete.keywords && response.data.autocomplete.keywords.length > 0) {
           autocomplete.push({name: ["UniProt Keyword"], options: response.data.autocomplete.keywords});
+        }
+        if (!!response.data.autocomplete.ligands && response.data.autocomplete.ligands.length > 0) {
+          autocomplete.push({name: ["Ligands"], options: response.data.autocomplete.ligands});
         }
         return autocomplete;
       }),
