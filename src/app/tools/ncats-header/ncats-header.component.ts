@@ -2,8 +2,8 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {slideInOutAnimation} from './header-animations';
 import {ActivatedRoute} from '@angular/router';
 import {LoginModalComponent} from '../../auth/login-modal/login-modal.component';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSidenav } from '@angular/material/sidenav';
+import {MatDialog} from '@angular/material/dialog';
+import {MatSidenav} from '@angular/material/sidenav';
 import {PharosProfileService} from '../../auth/pharos-profile.service';
 import {HeaderOptionsService} from '../../pharos-services/header-options.service';
 
@@ -39,6 +39,18 @@ export class NcatsHeaderComponent implements OnInit {
    * @type {string}
    */
   @Input() animationState = 'out';
+
+  getListType() {
+    if (this.route.firstChild && this.route.firstChild.snapshot && this.route.firstChild.snapshot.data)
+    {
+      return this.route.firstChild.snapshot.data.path || "targets";
+    }
+    return "targets";
+  }
+
+  getPlaceholder() {
+    return 'search ' + this.getListType();
+  }
 
   /**
    * constructor initialization

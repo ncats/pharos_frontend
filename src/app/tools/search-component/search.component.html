@@ -10,7 +10,7 @@
   <mat-autocomplete #auto="matAutocomplete" (optionSelected) = "search()">
     <mat-optgroup *ngFor="let group of filteredGroups | async" [label]="group.name">
       <mat-option *ngFor="let option of group.options" [value]="option.key">
-        <div [innerHTML]= "option.key  | highlight : typeaheadCtrl.value"></div>
+        <div [innerHTML]= "option.key  | highlight : typeaheadCtrl.value" [matTooltip]="option.key"></div>
       </mat-option>
     </mat-optgroup>
   </mat-autocomplete>

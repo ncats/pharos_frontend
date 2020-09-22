@@ -24,6 +24,7 @@ export class SearchComponent implements OnInit {
    */
   @Input() placeholderStr?: string;
 
+  @Input() listType: string = "targets";
   /**
    * form control for text input
    * @type {FormControl}
@@ -60,7 +61,7 @@ export class SearchComponent implements OnInit {
       .pipe(
         debounceTime(400),
         distinctUntilChanged(),
-        switchMap(term => this.suggestApiService.search(term),
+        switchMap(term => this.suggestApiService.search(term, this.listType),
         ));
   }
 
@@ -85,7 +86,6 @@ export class SearchComponent implements OnInit {
    * @private
    */
   private _navigate(navExtras: NavigationExtras): void {
-    this._router.navigate(['/targets'], navExtras);
-
+    this._router.navigate(['/' + this.listType], navExtras);
   }
 }
