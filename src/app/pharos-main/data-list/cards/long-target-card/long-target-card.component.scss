@@ -5,8 +5,14 @@
   padding-bottom: 30px;
 }
 
-.mat-card-title {
+.mat-card-title, .mat-card-subtitle {
   cursor: pointer;
+}
+
+.title-bar{
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
 }
 
 .mat-card-content {
@@ -15,6 +21,7 @@
 
 .mat-card-subtitle {
   font-size: x-large;
+  padding-left: 15px;
 }
 
 .container:hover {
