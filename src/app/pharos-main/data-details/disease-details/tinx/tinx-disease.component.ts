@@ -32,6 +32,10 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
     return this.data.diseases.associationCount >= 5000;
   }
 
+  hasDOID() {
+    return this.data.diseases.hasDOID();
+  }
+
   ngOnInit(): void {
 
     this.router.events
@@ -50,7 +54,7 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if (isPlatformBrowser(this.platformID) && !this.hasTooMuchData() && this.tinx.length < 1) {
+        if (isPlatformBrowser(this.platformID) && !this.hasTooMuchData() && this.tinx.length < 1 && this.hasDOID()) {
           let diseaseName = this._route.snapshot.paramMap.get('id');
           let variables = {name: diseaseName};
           this.apiService.adHocQuery(this.apiService.TinxQuery, variables).subscribe(res => {
