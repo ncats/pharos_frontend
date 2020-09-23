@@ -5,7 +5,7 @@
          matTooltip="Data sources for this disease. Click for details.">{{this.virusDetailsString()}}</div>
   </mat-expansion-panel-header>
   <div class="content" fxFlex="95">
-    <mat-card fxFlex="25">
+    <mat-card class="virus-panel">
       <mat-card-subtitle>Virus Details</mat-card-subtitle>
       <div class="virus-details">
         <ncats-property-display [property]="{label:'Virus type', term:virus.nucleic2}"></ncats-property-display>
@@ -23,7 +23,7 @@
                                 [property]="{label:'Species', term:virus.species}"></ncats-property-display>
       </div>
     </mat-card>
-    <mat-card fxFlex="95">
+    <mat-card class="protein-panel">
       <mat-card-subtitle>Interacting Viral Proteins ({{virus.interactionDetails.length}})</mat-card-subtitle>
       <div class="protein-grid">
         <div class="protein-details" *ngFor="let interaction of virus.interactionDetails">

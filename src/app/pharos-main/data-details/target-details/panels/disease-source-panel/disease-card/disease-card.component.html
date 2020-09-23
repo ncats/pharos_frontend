@@ -1,15 +1,17 @@
 <mat-expansion-panel #panel (closed)="this.collapsed=true" (opened)="this.collapsed=false">
   <mat-expansion-panel-header>
-    <ncats-property-display [property]="{term:disease.name, internalLink:'/diseases/' + disease.name, tooltip:'Navigate to disease details'}"
-                            [showLabel]="false"></ncats-property-display>
-    <div class="header-helptext" [ngClass]="{'hidden': !this.collapsed}" matTooltip="Data sources for this disease. Click for details.">{{this.diseaseSourceString()}}</div>
+    {{disease.name}}
+    <div class="header-helptext" [ngClass]="{'hidden': !this.collapsed}"
+         matTooltip="Data sources for this disease. Click for details.">{{this.diseaseSourceString()}}</div>
   </mat-expansion-panel-header>
   <div class="association-grid">
     <div *ngIf="this.drugs.length > 0">
       <mat-card-subtitle>{{this.drugType}}</mat-card-subtitle>
       <ul>
         <li *ngFor="let assoc of this.drugs">
-          <ncats-property-display [property]="{label:'Drug' ,term:assoc.drug, internalLink:'/ligands/' + assoc.drug, tooltip:'Navigate to drug details'}" [showLabel]="false"></ncats-property-display>
+          <ncats-property-display
+            [property]="{label:'Drug' ,term:assoc.drug, internalLink:'/ligands/' + assoc.drug, tooltip:'Navigate to drug details'}"
+            [showLabel]="false"></ncats-property-display>
         </li>
       </ul>
     </div>

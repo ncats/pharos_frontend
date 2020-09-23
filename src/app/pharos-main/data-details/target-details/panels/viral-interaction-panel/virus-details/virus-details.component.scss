@@ -29,6 +29,20 @@
   display: flex;
 }
 
+.virus-panel{
+  width: 33%;
+}
+.protein-panel{
+  width: 66%;
+}
+@media only screen and (max-width: 768px) {
+  .content{
+    flex-direction: column;
+  }
+  .virus-panel, .protein-panel{
+    width: 100%;
+  }
+}
 .hidden{
   top: 2vh;
   opacity: 0;

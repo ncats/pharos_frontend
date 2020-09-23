@@ -1,7 +1,6 @@
 .content{
   display: flex;
   flex-direction: row;
-
 }
 
 .section{
@@ -37,4 +36,15 @@
 
 .ancestorListItem{
   padding-left: 1em;
+}
+
+@media only screen and (max-width: 960px) {
+  .content{
+    flex-direction: column;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .assoc-count{
+    flex-wrap: wrap;
+  }
 }
