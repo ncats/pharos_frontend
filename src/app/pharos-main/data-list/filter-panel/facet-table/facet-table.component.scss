@@ -44,8 +44,8 @@ mat-table{
 
 .filter-cell.count {
   padding-right: 0;
-  max-width: 4vw;
-  justify-content: center;
+  max-width: 10vw;
+  justify-content: flex-end;
 }
 
 .filter-cell.checkbox {
