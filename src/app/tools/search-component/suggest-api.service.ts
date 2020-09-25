@@ -3,6 +3,7 @@ import {Observable, of} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 import {Apollo} from "apollo-angular";
 import gql from "graphql-tag";
+import {Facet} from "../../models/facet";
 
 /**
  * api helper service to connect to search suggest fields
@@ -16,15 +17,11 @@ export class SuggestApiService {
   url: string;
 
   /**
-   * list of fields to display from autocomplete
-   */
-  autocompleteFields: string[];
-
-  /**
    * set up http graphQL suggestion service
    * @param {Apollo} apollo
    */
-  constructor(private apollo: Apollo) {}
+  constructor(private apollo: Apollo) {
+  }
 
   /**
    * search function
@@ -32,85 +29,32 @@ export class SuggestApiService {
    * @param {string} query
    * @returns {Observable<any[]>}
    */
-  search(query: string, listType: string): Observable<any[]> {
-    const autocomplete = [];
-
-    let SUGGESTQUERY;
-    if (listType === "diseases") {
-      SUGGESTQUERY = gql(`
+  search(query: string): Observable<any[]> {
+    let SUGGESTQUERY = gql(`
       query {
         autocomplete(name:"${query}")
         {
-          diseases{
-            key
+          value
+          categories {
+            category
+            reference_id
           }
         }
       }`);
-    } else if (listType === "ligands"){
-      SUGGESTQUERY = gql(`
-      query {
-        autocomplete(name:"${query}")
-        {
-          ligands{
-            key
-          }
-        }
-      }`);
-    }
-    else {
-      SUGGESTQUERY = gql(`
-      query {
-        autocomplete(name:"${query}")
-        {
-          elapsedTime
-          genes{
-            key
-          }
-          targets{
-            key
-          }
-          diseases{
-            key
-          }
-          phenotypes{
-            key
-          }
-          keywords{
-            key
-          }
-        }
-      }
-    `);
-    }
 
     let fetchQuery = this.apollo.query<any>({query: SUGGESTQUERY});
 
-    return fetchQuery.pipe(
-      map(response => {
-        if (!response.data.autocomplete) {
-          return autocomplete;
-        }
-        if (!!response.data.autocomplete.genes && response.data.autocomplete.genes.length > 0) {
-          autocomplete.push({name: ["UniProt Gene"], options: response.data.autocomplete.genes});
-        }
-        if (!!response.data.autocomplete.targets && response.data.autocomplete.targets.length > 0) {
-          autocomplete.push({name: ["Target"], options: response.data.autocomplete.targets});
-        }
-        if (!!response.data.autocomplete.diseases && response.data.autocomplete.diseases.length > 0) {
-          autocomplete.push({name: ["Disease"], options: response.data.autocomplete.diseases});
-        }
-        if (!!response.data.autocomplete.phenotypes && response.data.autocomplete.phenotypes.length > 0) {
-          autocomplete.push({name: ["Phenotype"], options: response.data.autocomplete.phenotypes});
-        }
-        if (!!response.data.autocomplete.keywords && response.data.autocomplete.keywords.length > 0) {
-          autocomplete.push({name: ["UniProt Keyword"], options: response.data.autocomplete.keywords});
-        }
-        if (!!response.data.autocomplete.ligands && response.data.autocomplete.ligands.length > 0) {
-          autocomplete.push({name: ["Ligands"], options: response.data.autocomplete.ligands});
-        }
-        return autocomplete;
-      }),
-      catchError(this.handleError('graphQL suggestion', [])));
+    return fetchQuery.pipe(map(
+          response => {
+            const results = [];
+            for(let row of response.data.autocomplete){
+              results.push(...autocompleteOption.parse(row));
+            }
+            return results;
+          }),
+        catchError(this.handleError('graphQL suggestion', []))
+      )
+    ;
   }
 
   /**
@@ -119,7 +63,7 @@ export class SuggestApiService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation', result ?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
@@ -128,5 +72,117 @@ export class SuggestApiService {
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
+  }
+}
+
+export class autocompleteOption{
+  value: string;
+  category: string;
+  reference_id?: string;
+  path: string;
+  facet?: string;
+  parameter?: string;
+
+  static getPath(obj: autocompleteOption){
+    if(autocompleteOption.hasQueryParam(obj)){
+      return obj.path;
+    }
+    if(obj.reference_id){
+      return obj.path + "/" + obj.reference_id;
+    }
+    return obj.path;
+  }
+
+  static getQueryParam(obj: autocompleteOption){
+    if(autocompleteOption.isDetailsPage(obj)){
+      return {};
+    }
+    if(obj.facet){
+      return {facet: obj.facet + Facet.separator + obj.value};
+    }
+    if(obj.parameter){
+      return {[obj.parameter]: obj.reference_id || obj.value};
+    }
+    return {q: obj.value}
+  }
+
+  static hasQueryParam(obj: autocompleteOption){
+    return !!obj.facet || !!obj.parameter;
+  }
+
+  static isDetailsPage(obj: autocompleteOption){
+    return !autocompleteOption.hasQueryParam(obj) && !!obj.reference_id;
+  }
+
+  static parse(queryRow: any): autocompleteOption[]{
+    const retArray = [];
+    for(let cat of queryRow.categories) {
+      if(cat.category === "Drugs"){
+        retArray.push({
+          value: queryRow.value,
+          reference_id: cat.reference_id,
+          path: "ligands"
+        } as autocompleteOption);
+      }
+      else if(cat.category === "Genes"){
+        retArray.push({
+          value: queryRow.value,
+          reference_id: cat.reference_id,
+          path: "targets"
+        } as autocompleteOption);
+        retArray.push({
+          value: queryRow.value,
+          reference_id: cat.reference_id,
+          path: "diseases",
+          parameter: "associatedTarget"
+        } as autocompleteOption);
+        retArray.push({
+          value: queryRow.value,
+          reference_id: cat.reference_id,
+          path: "ligands",
+          parameter: "associatedTarget"
+        } as autocompleteOption);
+      }
+      else if(cat.category === "Targets"){
+        retArray.push({
+          value: queryRow.value,
+          reference_id: cat.reference_id,
+          path: "targets"
+        } as autocompleteOption);
+        retArray.push({
+          value: queryRow.value,
+          reference_id: cat.reference_id,
+          path: "diseases",
+          parameter: "associatedTarget"
+        } as autocompleteOption);
+        retArray.push({
+          value: queryRow.value,
+          reference_id: cat.reference_id,
+          path: "ligands",
+          parameter: "associatedTarget"
+        } as autocompleteOption);
+      }
+      else if(cat.category === "Diseases"){
+        retArray.push({
+          value: queryRow.value,
+          reference_id: cat.reference_id,
+          path: "diseases"
+        } as autocompleteOption);
+        retArray.push({
+          value: queryRow.value,
+          reference_id: cat.reference_id,
+          path: "targets",
+          parameter: "associatedDisease"
+        } as autocompleteOption);
+      }
+      else{
+        retArray.push({
+          value: queryRow.value,
+          path: "targets",
+          facet: cat.category
+        })
+      }
+    }
+    return retArray;
   }
 }
