@@ -40,18 +40,6 @@ export class NcatsHeaderComponent implements OnInit {
    */
   @Input() animationState = 'out';
 
-  getListType() {
-    if (this.route.firstChild && this.route.firstChild.snapshot && this.route.firstChild.snapshot.data)
-    {
-      return this.route.firstChild.snapshot.data.path || "targets";
-    }
-    return "targets";
-  }
-
-  getPlaceholder() {
-    return 'search ' + this.getListType();
-  }
-
   /**
    * constructor initialization
    * @param dialog

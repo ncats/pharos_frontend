@@ -1,10 +1,10 @@
 import {Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {SuggestApiService} from './suggest-api.service';
+import {autocompleteOption, SuggestApiService} from './suggest-api.service';
 import {Observable} from 'rxjs';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {NavigationExtras, Router} from '@angular/router';
-import {MatAutocomplete, MatAutocompleteTrigger} from '@angular/material/autocomplete';
+import {MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from '@angular/material/autocomplete';
 
 /**
  * search component functionality. needs to be hooked up to a suggest api service
@@ -24,7 +24,6 @@ export class SearchComponent implements OnInit {
    */
   @Input() placeholderStr?: string;
 
-  @Input() listType: string = "targets";
   /**
    * form control for text input
    * @type {FormControl}
@@ -61,7 +60,7 @@ export class SearchComponent implements OnInit {
       .pipe(
         debounceTime(400),
         distinctUntilChanged(),
-        switchMap(term => this.suggestApiService.search(term, this.listType),
+        switchMap(term => this.suggestApiService.search(term),
         ));
   }
 
@@ -69,15 +68,42 @@ export class SearchComponent implements OnInit {
    * adds facet for query and follows navigation patterns
    * @returns void
    */
-  search(wildcard?: boolean): void {
-    this.autocomplete.closePanel();
-    let query = this.typeaheadCtrl.value;
-    if (wildcard) {
-      query = `${query}.*`;
+  search(event?: any): void {
+    if (this.isDoubleEvent(event)) {
+      return;
     }
+    let queryObject = this.typeaheadCtrl.value;
+    if (queryObject.text) {
+      this.doSearch(queryObject.extra);
+    } else {
+      this.doSearch({path: "targets", parameter: "q", value: this.typeaheadCtrl.value} as autocompleteOption);
+    }
+  }
+
+  doSearch(option: autocompleteOption){
     const navigationExtras: NavigationExtras = {};
-    navigationExtras.queryParams = {q: query};
-    this._navigate(navigationExtras);
+    navigationExtras.queryParams = autocompleteOption.getQueryParam(option);
+    this._navigate(navigationExtras, autocompleteOption.getPath(option));
+    this.typeaheadCtrl.reset();
+    this.autocomplete.closePanel();
+
+  }
+
+  lastSelectionTime: number = undefined;
+  autocompleteOption: any = autocompleteOption;
+
+  isDoubleEvent(event: any){
+    if (event instanceof MatAutocompleteSelectedEvent){
+      this.lastSelectionTime = Date.now();
+      return false;
+    }
+    if (!this.lastSelectionTime){
+      return false;
+    }
+    if (event instanceof KeyboardEvent){
+      return (Date.now() - this.lastSelectionTime) < 1000;
+    }
+    return false;
   }
 
   /**
@@ -85,7 +111,7 @@ export class SearchComponent implements OnInit {
    * @param {NavigationExtras} navExtras
    * @private
    */
-  private _navigate(navExtras: NavigationExtras): void {
-    this._router.navigate(['/' + this.listType], navExtras);
+  private _navigate(navExtras: NavigationExtras, path: string): void {
+    this._router.navigate(['/' + path], navExtras);
   }
 }
