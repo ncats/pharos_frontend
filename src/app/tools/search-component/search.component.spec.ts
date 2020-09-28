@@ -11,6 +11,12 @@ import {SuggestApiService} from './suggest-api.service';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {Apollo} from "apollo-angular";
+import {SelectedFacetService} from "../../pharos-main/data-list/filter-panel/selected-facet.service";
+import {AngularFirestore} from "@angular/fire/firestore";
+import {FIRESTORESTUB} from "../../../../test/firestore-stub";
+import {AngularFireAuth} from "@angular/fire/auth";
+import {AngularFireModule} from "@angular/fire";
+import {COMMON_CONFIG} from "../../../../test/test-config";
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
@@ -22,7 +28,8 @@ describe('SearchComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule,
         CommonModule,
-        SharedModule
+        SharedModule,
+        AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
       declarations: [
         SearchComponent,
@@ -30,7 +37,10 @@ describe('SearchComponent', () => {
       ],
       providers: [
         SuggestApiService,
-        Apollo
+        Apollo,
+        SelectedFacetService,
+        AngularFireAuth,
+        { provide: AngularFirestore, useValue: FIRESTORESTUB },
       ]
     })
     .compileComponents();
