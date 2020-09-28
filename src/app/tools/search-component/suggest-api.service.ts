@@ -29,7 +29,10 @@ export class SuggestApiService {
    * @param {string} query
    * @returns {Observable<any[]>}
    */
-  search(query: string): Observable<any[]> {
+  search(query: string): Observable<any[]> | []{
+    if(!query) {
+      return [];
+    }
     let SUGGESTQUERY = gql(`
       query {
         autocomplete(name:"${query}")
@@ -94,16 +97,20 @@ export class autocompleteOption{
   }
 
   static getQueryParam(obj: autocompleteOption){
+    let qParam = {facet: null, associatedDisease: null, associatedTarget: null, q: null};
     if(autocompleteOption.isDetailsPage(obj)){
-      return {};
+      return qParam;
     }
     if(obj.facet){
-      return {facet: obj.facet + Facet.separator + obj.value};
+      qParam.facet = obj.facet + Facet.separator + obj.value;
+      return qParam;
     }
     if(obj.parameter){
-      return {[obj.parameter]: obj.reference_id || obj.value};
+      qParam[obj.parameter] = obj.reference_id || obj.value;
+      return qParam;
     }
-    return {q: obj.value}
+    qParam.q = obj.value;
+    return qParam;
   }
 
   static hasQueryParam(obj: autocompleteOption){
