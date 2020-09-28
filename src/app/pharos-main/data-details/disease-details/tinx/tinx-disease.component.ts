@@ -33,7 +33,7 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
   }
 
   hasDOID() {
-    return this.data.diseases.hasDOID();
+    return this.data.diseases?.hasDOID();
   }
 
   ngOnInit(): void {

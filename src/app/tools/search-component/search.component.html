@@ -15,7 +15,7 @@
           Search {{path | titlecase}} for '{{typeaheadCtrl.value}}'
         </mat-option>
       </ng-container>
-      <mat-option *ngFor="let g of filteredGroups | async" [matTooltip]="g.value"
+      <mat-option *ngFor="let g of filteredGroups | async" [matTooltip]="getTooltip(g)"
         [value]="{text: typeaheadCtrl.value, extra: g}">
         <ng-container *ngIf="autocompleteOption.isDetailsPage(g); else dynamic">
           <mat-icon>description</mat-icon>

@@ -99,7 +99,7 @@ export class Disease {
   doDescription: string;
 
   hasDOID(){
-    return !!this.diseaseIDs.find(id => {return id.id.toUpperCase().includes("DOID");});
+    return !!this.diseaseIDs?.find(id => {return id.id.toUpperCase().includes("DOID");});
   }
 
   diseaseIDs: DiseaseID[];
