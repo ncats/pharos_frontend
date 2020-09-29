@@ -50,9 +50,9 @@ export class PDBLigandSerializer implements PharosSerializer {
   fromJson(json: any): any {
     const obj = new PDBLigand();
     obj.id = json.nonpolymer_comp.rcsb_id;
-    obj.names = json.nonpolymer_comp.synonyms.filter(n => {return n.provenance_source === "PDB Reference Data";})
+    obj.names = json.nonpolymer_comp?.synonyms?.filter(n => {return n.provenance_source === "PDB Reference Data";})
       .map(n => n = n.name)
-      .sort((a,b) => a.length - b.length);
+      .sort((a,b) => a.length - b.length) || [obj.id];
     obj.type = json.nonpolymer_comp.chem_comp.type;
     obj.smiles = json.nonpolymer_comp.smiles
       .find(smile => {return smile.type.toUpperCase() === "SMILES" && smile.program.toUpperCase() === this.smileFormat})?.descriptor;
@@ -77,7 +77,7 @@ export class PDBViewObject {
 
   constructor(result: PDBResult) {
     if(!result) {return;}
-    this.structureId = {term: result.structureId, label: result.structureId};
+    this.structureId = {term: result.structureId, label: result.structureId, externalLink: `https://www.rcsb.org/structure/${result.structureId}`};
     this.title = {term: result.citation?.title, label: result.citation?.title, externalLink: result.citation?.link};
     this.methods = result.methods?.map(c => {return {term: c, label: c};});
     this.ligands = result.ligands?.map(c => {return {term: c.names[0], label: c.names[0]};});

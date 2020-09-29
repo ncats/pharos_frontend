@@ -23,7 +23,7 @@
       </div>
       <div fxLayout="row" class="image-container">
         <div fxFlex="60" class="pdb-holder">
-          <mat-card-title *ngIf="pdbid && pdbid.citation && pdbid.citation.title">{{pdbid.citation.title}}</mat-card-title>
+          <mat-card-title *ngIf="pdbid">{{pdbid.structureId}}</mat-card-title>
           <pharos-protein-structure-viewer [pdbid]=pdbid.structureId
                                            *ngIf="pdbResponses.length > 0 && pdbid.structureId"></pharos-protein-structure-viewer>
         </div>
