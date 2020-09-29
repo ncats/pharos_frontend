@@ -4,20 +4,6 @@
   </button>
 </div>
 <div class="help-panel-content" *ngIf="sources && sources.length > 0">
-  <!--<div fxLayout="row" class = "search-row">
-    <div fxFlex>
-    <mat-form-field class = "full-width-field" [floatLabel] = "'never'">
-      <input matInput
-             placeholder="search help"
-             (keyup.enter)="search()"
-             aria-label="Search"
-             [formControl]="searchCtrl"
-             class ="input-field">
-      <button mat-button mat-icon-button matSuffix aria-label="search"><mat-icon>search</mat-icon></button>
-    </mat-form-field>
-  </div>
-  </div>-->
-
   <div class="description-row">
     <div fxLayout="row" fxLayoutAlign="start center">
       <span class="mat-headline"> <strong>{{title}}</strong></span>
@@ -25,25 +11,31 @@
     <div fxLayout="row" fxLayoutAlign="space-around start" *ngIf="description">
       <div fxFlex="95">
         {{description}}
+        <div *ngIf="mainSource" class="source-link">
+          <a [href]="mainSource" target="_blank" rel="noreferrer">{{mainSource}}<mat-icon [inline]="true">open_in_new</mat-icon></a>
+        </div>
       </div>
     </div>
   </div>
 
   <mat-accordion [multi]="true">
-
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
         <span class="mat-headline">Descriptions and Definitions</span>
       </mat-expansion-panel-header>
       <ng-template matExpansionPanelContent *ngIf="sources.length">
-        <div class="description-row" *ngFor="let source of sources; let i = index;">
+        <div *ngFor="let source of sources; let i = index;">
           <div *ngIf="source.label">
             <div fxLayout="row" fxLayoutAlign="start center">
               <span class="mat-subheading-1"> <strong>{{source.label}}:</strong></span>
             </div>
             <div fxLayout="row" fxLayoutAlign="space-around start">
               <div fxFlex="95">
-                <p class="mat-body">{{source.description}}</p>
+                <p class="mat-body">{{source.description}}
+                  <br/>
+                  <span *ngIf="source.source" class="source-link">
+                  <a [href]="source.source" target="_blank" rel="noreferrer">{{source.source}}<mat-icon [inline]="true">open_in_new</mat-icon></a>
+                </span></p>
                 <button *ngIf="source.article && !opened[i]" mat-stroked-button [color]="'primary'"
                         (click)="showArticle(source, i)">
                   Learn More...

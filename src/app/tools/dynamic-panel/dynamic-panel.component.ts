@@ -41,7 +41,7 @@ export class DynamicPanelComponent {
    * api sources, mainly used for the definitions
    */
   apiSources: any[];
-
+  mainSource: string;
   etag?: string;
   sideway?: string[];
 

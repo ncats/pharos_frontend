@@ -64,6 +64,11 @@ interface PharosNavHeader {
    * description of section to be used in help panel
    */
   mainDescription?: string;
+
+  /**
+   * link for the overall nav section
+   */
+  mainSource?: string;
 }
 
 /**
@@ -342,9 +347,7 @@ const SUMMARY_PANEL: PharosPanel = {
       label: 'Ensembl ID',
       url: _APIURL + 'targets/_id_/synonyms(label=Ensembl)',
       description: 'Ensembl identifier links.',
-      source: 'Ensembl is a genome browser for vertebrate genomes that supports research in comparative genomics,' +
-        ' evolution, sequence variation and transcriptional regulation. Ensembl annotate genes, computes ' +
-        'multiple alignments, predicts regulatory function and collects disease data. '
+      source: 'https://uswest.ensembl.org/'
     },
     {
       field: 'knowledge',
@@ -912,18 +915,83 @@ const DISEASE_TABLE_COMPONENT: PharosPanel = {
  */
 const DISEASE_HEADER_COMPONENT: PharosPanel = {
   token: TOKENS.DISEASE_HEADER_COMPONENT,
-  api: []
+  navHeader: {
+    label: 'Disease Summary',
+    section: 'diseaseHeader',
+    mainDescription: 'High level summary of knowledge for a disease, including descriptions and datasource references.'
+  },
+  api: [
+    {
+      field: 'associatedTargets',
+      label: 'Associated Targets',
+      description: 'Counts of Target Development Levels for diseases known to be associated with this disease. ' +
+        'If the disease has a valid DOID, targets known to be associated with all child diseases are aggregated. ' +
+        'Click "Explore Associated Targets" to view more facets and details for the target list.'
+    },
+    {
+      field: 'uniprotDescription',
+      label: 'UniProt Description',
+      description: 'Description from UniProt.',
+      source: 'https://www.uniprot.org/'
+    },
+    {
+      field: 'doDescription',
+      label: 'Disease Ontology Description',
+      description: 'Description from Disease Ontology',
+      source: 'https://disease-ontology.org/'
+    },
+    {
+      field: 'datasourceRefs',
+      label: 'DataSource References',
+      description: 'DataSources which have contributed target associations to this disease, and the identifiers by which the disease is referenced.'
+    }]
 };
 
 const DISEASE_DO_BROWSER_COMPONENT: PharosPanel = {
   token: TOKENS.DISEASE_DO_BROWSER_COMPONENT,
-  api: []
-}
+  navHeader: {
+    label: 'Disease Hierarchy',
+    section: 'doBrowser',
+    mainDescription: 'Related diseases are represented as parents or children following the disease heirarchy defined by Disease Ontology.',
+    mainSource: 'https://disease-ontology.org/'
+  },
+  api: [
+    {
+      field: 'parents',
+      label: 'Parents',
+      description: 'Disease categories representing more general classifications of the current disease. ' +
+        'Total count of associated targets, and a breakdown of targets by Target Development Level is shown.'
+    }
+,    {
+      field: 'children',
+      label: 'Children',
+      description: 'Disease categories representing more specific classifications of the current disease. ' +
+        'Total count of associated targets, and a breakdown of targets by Target Development Level is shown.'
+    }
+  ]
+};
 
 const DISEASE_TINX_COMPONENT: PharosPanel = {
   token: TOKENS.DISEASE_TINX_COMPONENT,
-  api: []
-}
+  navHeader: {
+    label: 'Target Novelty',
+    section: 'diseaseTINX',
+    mainDescription: 'The calculated importance and novelty for targets associated with this disease or it\'s children.',
+    mainSource: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5870731/'
+  },
+  api: [
+    {
+      field: 'importance',
+      label: 'Importance',
+      description: 'A bibliometric statistic that estimates the strength of the association between a target and a disease.'
+    },
+    {
+      field: 'novelty',
+      label: 'Novelty',
+      description: 'A bibliometric statistic that estimates the scarcity of publications about a target.'
+    }
+    ]
+};
 
 /**
  * main disease details page component
@@ -1132,6 +1200,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       },
       details: {
         components: [
+          PHAROS_HELPPANEL_COMPONENT,
           DISEASE_HEADER_COMPONENT,
           DISEASE_DO_BROWSER_COMPONENT,
           DISEASE_TINX_COMPONENT

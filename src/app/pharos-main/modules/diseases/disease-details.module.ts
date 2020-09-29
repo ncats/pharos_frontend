@@ -13,6 +13,7 @@ import {DiseaseHeaderComponent} from '../../data-details/disease-details/disease
 import {IdgLevelIndicatorComponent} from '../../../tools/idg-level-indicator/idg-level-indicator.component';
 import {DoBrowserComponent} from "../../data-details/disease-details/do-browser/do-browser.component";
 import {TinxDiseaseComponent} from "../../data-details/disease-details/tinx/tinx-disease.component";
+import {HelpPanelComponent} from "../../../tools/help-panel/help-panel.component";
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {TinxDiseaseComponent} from "../../data-details/disease-details/tinx/tinx
   ],
   providers: [
     // diseases
+    {provide: TOKENS.PHAROS_HELPPANEL_COMPONENT, useValue: HelpPanelComponent},
     {provide: TOKENS.DISEASE_HEADER_COMPONENT, useValue: DiseaseHeaderComponent},
     {provide: TOKENS.DISEASE_DO_BROWSER_COMPONENT, useValue: DoBrowserComponent},
     {provide: TOKENS.TARGET_LIST_PANEL, useValue: TargetListPanelComponent},
