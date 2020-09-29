@@ -31,7 +31,6 @@ const PHAROSCONFIG: any = {
   homunculusUrl: _HOST + _API + 'expression/homunculus?acc=_id_&source=',
   molConvertUrl: _HOST + _API + 'smiles',
   topicResolveUrl: `${_HOST}${_API}topics/target`,
-  autocompleteFields: ['UniProt_Gene', 'Target', 'Disease', 'OMIM_Term', 'UniProt_Name'],
   components: COMPONENTSCONFIG,
   graphqlUrl: environment.graphqlUrl
 };
@@ -73,14 +72,6 @@ export class PharosConfig {
    */
    getRadarSourcesPath(): string {
     return PHAROSCONFIG.radarSourcesUrl;
-  }
-
-  /**
-   * get string array of possible autocomplete fields
-   * @returns {string[]}
-   */
-   getAutocompleteFields(): string[] {
-    return PHAROSCONFIG.autocompleteFields;
   }
 
   /**

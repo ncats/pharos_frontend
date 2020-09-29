@@ -61,6 +61,15 @@ export class Facet {
    */
   static separator = '!';
 
+  static getReadableParameter(parameter: string){
+    if(parameter === 'associatedDisease'){
+      return "Disease Subtree";
+    }
+    if(parameter === "associatedTarget") {
+      return "Associated Target";
+    }
+    return parameter;
+  }
   /**
    * fragment of common fields. fetched by the route resolver
    */

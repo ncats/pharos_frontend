@@ -45,7 +45,6 @@ describe('PharosHomeComponent', () => {
         PharosProfileService,
         AngularFireAuth,
         LoadingService,
-        {provide: Router, useClass: RouterTestingModule},
         { provide: AngularFirestore, useValue: FIRESTORESTUB },
         {provide: APP_BASE_HREF, useValue: '/index' }
       ],

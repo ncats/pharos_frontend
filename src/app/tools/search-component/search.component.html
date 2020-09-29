@@ -1,19 +1,42 @@
-<div class ="search-row">
-<mat-form-field class = "typeahead-field search" [floatLabel] = "'never'">
-  <input matInput
-         (keyup.enter)="search()"
-         aria-label="Search"
-         [matAutocomplete]="auto"
-         [formControl]="typeaheadCtrl"
-         class ="input-field">
-  <mat-label class="search-label">{{placeholderStr}}</mat-label>
-  <mat-autocomplete #auto="matAutocomplete" (optionSelected) = "search()">
-    <mat-optgroup *ngFor="let group of filteredGroups | async" [label]="group.name">
-      <mat-option *ngFor="let option of group.options" [value]="option.key">
-        <div [innerHTML]= "option.key  | highlight : typeaheadCtrl.value"></div>
+<div class="search-row">
+  <mat-form-field class="typeahead-field search" [floatLabel]="'never'">
+    <input matInput
+           (keyup.enter)="search($event)"
+           aria-label="Search"
+           [matAutocomplete]="auto"
+           [formControl]="typeaheadCtrl"
+           class="input-field">
+    <mat-label class="search-label">{{placeholderStr}}</mat-label>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="search($event)">
+      <ng-container *ngIf="typeaheadCtrl.value">
+        <mat-option *ngFor="let path of ['targets','diseases','ligands']"
+                    [value]="{text: typeaheadCtrl.value, extra: {path: path, parameter: 'q', value: typeaheadCtrl.value}}">
+          <mat-icon>search</mat-icon>
+          Search {{path | titlecase}} for '{{typeaheadCtrl.value}}'
+        </mat-option>
+      </ng-container>
+      <mat-option *ngFor="let g of filteredGroups | async" [matTooltip]="getTooltip(g)"
+        [value]="{text: typeaheadCtrl.value, extra: g}">
+        <ng-container *ngIf="autocompleteOption.isDetailsPage(g); else dynamic">
+          <mat-icon>description</mat-icon>
+          <span [innerHTML]="g.value  | highlight : typeaheadCtrl.value"></span>
+          <span> ({{g.path.slice(0,-1) | titlecase}})</span>
+        </ng-container>
+        <ng-template #dynamic>
+          <mat-icon>list</mat-icon>
+          <ng-container *ngIf="g.reference_id; else traditionalFacet">
+          <span [innerHTML]="g.value  | highlight : typeaheadCtrl.value"></span>
+          <span> (Associated {{g.path | titlecase}})</span>
+          </ng-container>
+          <ng-template #traditionalFacet>
+            <span [innerHTML]="g.value  | highlight : typeaheadCtrl.value"></span>
+            <span> ({{g.facet}})</span>
+          </ng-template>
+        </ng-template>
       </mat-option>
-    </mat-optgroup>
-  </mat-autocomplete>
-  <button mat-button mat-icon-button matSuffix aria-label="search"(click)="search()"><mat-icon>search</mat-icon></button>
-</mat-form-field>
+    </mat-autocomplete>
+    <button mat-button mat-icon-button matSuffix aria-label="search" (click)="search()">
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
 </div>

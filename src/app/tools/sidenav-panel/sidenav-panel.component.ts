@@ -76,7 +76,6 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit {
     if (this.isSmallScreen) {
       this.panelOptions.opened = false;
       this.panelOptions.mode = 'over';
-      this.toggleMenu();
     }
     this.navSectionsService.setSections(this._route.snapshot.data.components
       .filter(component => component.navHeader)
