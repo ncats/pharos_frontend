@@ -1,10 +1,12 @@
 import {Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {SuggestApiService} from './suggest-api.service';
+import {autocompleteOption, SuggestApiService} from './suggest-api.service';
 import {Observable} from 'rxjs';
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
-import {NavigationExtras, Router} from '@angular/router';
-import {MatAutocomplete, MatAutocompleteTrigger} from '@angular/material/autocomplete';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
+import {MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from '@angular/material/autocomplete';
+import {SelectedFacetService} from "../../pharos-main/data-list/filter-panel/selected-facet.service";
+import {Facet} from "../../models/facet";
 
 /**
  * search component functionality. needs to be hooked up to a suggest api service
@@ -42,7 +44,9 @@ export class SearchComponent implements OnInit {
    */
   constructor(
     private _router: Router,
-    private suggestApiService: SuggestApiService
+    private _route: ActivatedRoute,
+    private suggestApiService: SuggestApiService,
+    private selectedFacetService: SelectedFacetService
   ) {
   }
 
@@ -68,15 +72,57 @@ export class SearchComponent implements OnInit {
    * adds facet for query and follows navigation patterns
    * @returns void
    */
-  search(wildcard?: boolean): void {
-    this.autocomplete.closePanel();
-    let query = this.typeaheadCtrl.value;
-    if (wildcard) {
-      query = `${query}.*`;
+  search(event?: any): void {
+    if (this.isDoubleEvent(event)) {
+      return;
     }
+    let query = this.typeaheadCtrl.value;
+    if (!query) {
+      return;
+    }
+    this.typeaheadCtrl.setValue(null);
+    this.autocomplete.closePanel();
+    if (query.extra) {
+      this.doSearch(query.extra);
+    } else {
+      this.doSearch({path: "targets", parameter: "q", value: query} as autocompleteOption);
+    }
+  }
+
+  doSearch(option: autocompleteOption) {
     const navigationExtras: NavigationExtras = {};
-    navigationExtras.queryParams = {q: query};
-    this._navigate(navigationExtras);
+    navigationExtras.queryParams = autocompleteOption.getQueryParam(option);
+    this._navigate(navigationExtras, autocompleteOption.getPath(option));
+  }
+
+  lastSelectionTime: number = undefined;
+  autocompleteOption: any = autocompleteOption;
+
+  isDoubleEvent(event: any) {
+    if (event instanceof MatAutocompleteSelectedEvent) {
+      this.lastSelectionTime = Date.now();
+      return false;
+    }
+    if (!this.lastSelectionTime) {
+      return false;
+    }
+    if (event instanceof KeyboardEvent) {
+      return (Date.now() - this.lastSelectionTime) < 1000;
+    }
+    return false;
+  }
+
+  getTooltip(option: autocompleteOption): string {
+    if (autocompleteOption.isDetailsPage(option)) {
+      return `See details for ${option.path.slice(0, -1)}: ${option.reference_id}`
+    }
+    if (option.reference_id) {
+      return `See ${option.path} associated with ${Facet.getReadableParameter(option.parameter)}: ${option.reference_id}`;
+    }
+    if (option.facet) {
+      return `See ${option.path} with ${option.facet}: ${option.value}`;
+    }
+    return option.value;
   }
 
   /**
@@ -84,8 +130,8 @@ export class SearchComponent implements OnInit {
    * @param {NavigationExtras} navExtras
    * @private
    */
-  private _navigate(navExtras: NavigationExtras): void {
-    this._router.navigate(['/targets'], navExtras);
-
+  private _navigate(navExtras: NavigationExtras, path: string): void {
+    this.selectedFacetService.clearFacets();
+    this._router.navigate(['/' + path], navExtras);
   }
 }

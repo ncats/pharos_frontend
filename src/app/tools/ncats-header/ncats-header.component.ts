@@ -2,8 +2,8 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {slideInOutAnimation} from './header-animations';
 import {ActivatedRoute} from '@angular/router';
 import {LoginModalComponent} from '../../auth/login-modal/login-modal.component';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSidenav } from '@angular/material/sidenav';
+import {MatDialog} from '@angular/material/dialog';
+import {MatSidenav} from '@angular/material/sidenav';
 import {PharosProfileService} from '../../auth/pharos-profile.service';
 import {HeaderOptionsService} from '../../pharos-services/header-options.service';
 

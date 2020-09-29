@@ -21,7 +21,9 @@
   }
 
   @media only screen and (max-width: 768px) {
-
+    .headerRow{
+      flex-direction: column;
+    }
   }
 
   .exploreSection li{

@@ -1,4 +1,4 @@
-<article>
+<article *ngIf="hasDOID()">
   <mat-card>
     <mat-card-content>
       <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">

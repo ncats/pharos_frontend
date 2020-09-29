@@ -33,6 +33,9 @@ export class Ligand extends PharosBase {
     if (linkName) {
       labels.push({label: "NCATS Inxight: Drugs", term: linkName, externalLink: `https://drugs.ncats.io/drug/${linkName}`});
     }
+    if(!this.isdrug){
+      labels.push({label: "Name", term: this.name});
+    }
 
     for (let syn of this.synonyms) {
       let source = syn.name;

@@ -98,6 +98,10 @@ export class Disease {
   uniprotDescription: string;
   doDescription: string;
 
+  hasDOID(){
+    return !!this.diseaseIDs?.find(id => {return id.id.toUpperCase().includes("DOID");});
+  }
+
   diseaseIDs: DiseaseID[];
 
   /**
