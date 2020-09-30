@@ -14,6 +14,7 @@ const FACETFIELDS = gql`
       name
       count:value
     }
+    sourceExplanation
   }`;
 
 const FACETFIELDSTOP = gql`
@@ -82,6 +83,7 @@ export class Facet {
 
   modifier?: string;
 
+  sourceExplanation?: string;
   /**
    * readable label for facet
    */
@@ -108,6 +110,7 @@ export class Facet {
     this.count = json.count;
     this.facet = json.facet;
     this.modifier = json.modifier;
+    this.sourceExplanation = json.sourceExplanation;
     this.label = json.label;
     this.description = json.description;
     this.dataType = json.dataType;
