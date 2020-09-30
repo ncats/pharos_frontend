@@ -12,7 +12,8 @@
       <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
     </div>
     <div fxFlex="15">
-      <button type="button" mat-raised-button [color]="'primary'" (click)="toggleFacets()" *ngIf="!fullWidth; else close">
+      <button type="button" mat-raised-button [color]="'primary'" (click)="toggleFacets()"
+              *ngIf="!fullWidth; else close">
         See All Categories
         <mat-icon>arrow_right_alt</mat-icon>
       </button>
@@ -35,7 +36,8 @@
   <div fxLayout="row" fxLayoutAlign="space-around center">
     <div fxFlex="95">
       <mat-form-field class="full-width-field" *ngIf=fullWidth>
-        <input matInput placeholder="search facets" aria-label="Filter facets" [(ngModel)]="value" (keyup)="search($event.target.value)">
+        <input matInput placeholder="search facets" aria-label="Filter facets" [(ngModel)]="value"
+               (keyup)="search($event.target.value)">
         <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="clear()">
           <mat-icon>close</mat-icon>
         </button>
@@ -56,9 +58,19 @@
             </span>
           </mat-panel-title>
         </mat-expansion-panel-header>
+        <span class="info" [ngClass]="{infoCollapsed: !showingInfo(facet)}" *ngIf="facet.sourceExplanation" >
+          <div *ngIf="showingInfo(facet)" class="explanation" [innerHTML]="facet.sourceExplanation"></div>
+          <div class="helpicon" (click)="toggleFacetInfo(facet)">
+            <mat-icon [color]="'primary'">help</mat-icon>
+          </div>
+        </span>
         <div *ngIf="facet.dataType === 'Numeric'; then numericBlock else categoryBlock"></div>
-        <ng-template #categoryBlock><pharos-facet-table [facet]="facet"></pharos-facet-table></ng-template>
-        <ng-template #numericBlock><pharos-facet-histogram [facet]="facet"></pharos-facet-histogram></ng-template>
+        <ng-template #categoryBlock>
+          <pharos-facet-table [facet]="facet"></pharos-facet-table>
+        </ng-template>
+        <ng-template #numericBlock>
+          <pharos-facet-histogram [facet]="facet"></pharos-facet-histogram>
+        </ng-template>
       </mat-expansion-panel>
       <mat-divider></mat-divider>
     </div>

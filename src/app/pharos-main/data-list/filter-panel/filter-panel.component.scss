@@ -1,3 +1,27 @@
+.info{
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.helpicon{
+  opacity: 0.25;
+}
+
+.helpicon:hover{
+  opacity: 1;
+}
+
+.infoCollapsed{
+  height: 3vh;
+}
+
+.explanation{
+  padding: 0 1vw;
+  margin-bottom: 1vh;
+  opacity: 0.54;
+}
 
 .full-height {
   min-height: 100%;
