@@ -1,11 +1,11 @@
 .info{
-  cursor: pointer;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
 }
 
 .helpicon{
+  cursor: pointer;
   opacity: 0.25;
 }
 
@@ -20,7 +20,11 @@
 .explanation{
   padding: 0 1vw;
   margin-bottom: 1vh;
-  opacity: 0.54;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.explanation a{
+  color: rgba(0, 0, 0, 1);
 }
 
 .full-height {
