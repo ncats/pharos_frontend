@@ -1,6 +1,54 @@
+@import '../../partials/ncats-theme';
+
+.header-text{
+  justify-content: center;
+  display: flex
+}
+.query-panel{
+  margin-top: 5px;
+}
+.editButton{
+  margin-top: 20px;
+}
+
+.list-button {
+  cursor: pointer;
+  font-weight: 300;
+}
+
+.snippet{
+  overflow: scroll;
+}
+
+.toc-wrapper {
+  padding-left: .3vw;
+  height: 90vh;
+  overflow-y: scroll;
+}
+
+.active {
+  border-left: 8px solid mat-color($pharos-app-primary);
+}
+
 .playground {
+  border: none;
+  min-height: 90vh;
+  width:100%;
+}
+
+.api-frame{
+  width:100%;
+}
+
+.container{
   width:100%;
   margin-top: 64px;
-  border: none;
-  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.button-list{
+  width: 20vw;
+  display: flex;
+  flex-direction: column;
 }
