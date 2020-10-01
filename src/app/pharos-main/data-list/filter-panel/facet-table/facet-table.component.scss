@@ -50,5 +50,6 @@ mat-table{
 
 .filter-cell.checkbox {
   padding-left: 0;
-  max-width: 3vw;
+  max-width: 1vw;
+  min-width: 20px;
 }
