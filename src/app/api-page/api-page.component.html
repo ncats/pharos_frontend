@@ -1,2 +1,24 @@
-<iframe [src]="this.url" class='playground'>
-</iframe>
+<div class="container">
+  <div fxFlex="20" fxHide.lt-sm class="toc-wrapper">
+    <mat-card-title class="header-text">Example queries</mat-card-title>
+    <mat-expansion-panel class="query-panel" *ngFor="let q of this.queryMap | keyvalue" [ngClass]="{'active': isActive(q.value.key)}"
+                         [expanded]="isActive(q.value.key)">
+      <mat-expansion-panel-header>{{q.value.name}}</mat-expansion-panel-header>
+      <div>
+        {{q.value.description}}
+      </div>
+      <button class="editButton" type="button" mat-raised-button [color]="'primary'" (click)="changeQuery(q.value)">
+        Edit & Run
+        <mat-icon>arrow_right_alt</mat-icon>
+      </button>
+      <pre class="snippet">
+        {{q.value.query}}
+      </pre>
+    </mat-expansion-panel>
+  </div>
+  <div class="api-frame">
+    <iframe [src]="this.url()" class='playground' name="graphQL_playground" id="graphQL_playground">
+    </iframe>
+  </div>
+</div>
+

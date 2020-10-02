@@ -11,7 +11,6 @@
 
   <div fxLayout="row" fxLayoutAlign="space-around center">
     <div>
-      <p *ngIf="pdbResult && pdbResult.structureId" class="pdbid-display">Displaying: {{pdbResult.structureId}}</p>
       <p *ngIf="pdbResult && pdbResult.structureId" class="slice-help">
         <mat-icon [color]="'primary'" class="help-icon">info</mat-icon>
         Click on a row in the table to change the structure displayed. More information can be found at

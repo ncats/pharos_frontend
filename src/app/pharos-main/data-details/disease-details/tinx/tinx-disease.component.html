@@ -4,8 +4,18 @@
       <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
       </div>
+      <div>
+        <div fxFlex="97">
+          <mat-card-title>
+            Target Novelty (Tin-x)
+          </mat-card-title>
+        </div>
+        <div>
+          <pharos-help-panel-trigger [origin]="'diseaseTINX'"
+                                     [label]="'tinx disease'"></pharos-help-panel-trigger>
+        </div>
+      </div>
       <mat-card-title>
-        Target Novelty (Tin-x)
       </mat-card-title>
       <div class="scatter-plot-holder" *ngIf="!hasTooMuchData(); else tooMuchData">
         <pharos-scatter-plot [data]="this.tinx" [options]="chartOptions"></pharos-scatter-plot>

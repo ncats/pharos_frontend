@@ -2,9 +2,17 @@
   <div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" *ngIf="this.disease.parents.length > 0 || this.disease.children.length > 0">
     <mat-card>
       <mat-card-content>
-        <mat-card-title>
-          Disease Hierarchy
-        </mat-card-title>
+        <div>
+          <div fxFlex="97">
+            <mat-card-title>
+              Disease Hierarchy
+            </mat-card-title>
+          </div>
+          <div>
+            <pharos-help-panel-trigger [origin]="'doBrowser'"
+                                       [label]="'heirarchy'"></pharos-help-panel-trigger>
+          </div>
+        </div>
         <div class="content">
           <mat-card class="section">
             <mat-card-subtitle>Parents</mat-card-subtitle>

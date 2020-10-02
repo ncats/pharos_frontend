@@ -1,17 +1,12 @@
 <mat-card *ngIf="target" routerLink='/targets/{{target.accession}}' target="_blank" class="target-card">
   <div class="target-content">
-    <div fxLayout="row wrap" class="tkrow" fxLayoutAlign="space-around start">
-      <div fxFlex="48">
+    <div fxLayout="row wrap" class="tkrow" fxLayoutAlign="end">
         <pharos-idg-level-indicator [level]="target?.idgTDL"></pharos-idg-level-indicator>
-      </div>
-      <div fxFlex="48" fxLayoutAlign="end">
-        <span class="mat-title gene">{{target?.gene}}</span>
-      </div>
     </div>
     <mat-divider></mat-divider>
     <div fxLayout="row" fxLayoutAlign="start center" class="name-row">
       <div fxFlex="95">
-        <span class="mat-title target-link">{{target?.name}}</span>
+        <span class="mat-title target-link" [matTooltip]="target?.name">{{target?.gene}}</span>
       </div>
     </div>
     <div class="target-lower-content">

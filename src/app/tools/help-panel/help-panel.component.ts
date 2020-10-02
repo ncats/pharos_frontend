@@ -54,6 +54,7 @@ export class HelpPanelComponent implements OnInit {
    * main help section description
    */
   description: string;
+  mainSource: string;
 
   /**
    * title for help section
@@ -105,7 +106,8 @@ export class HelpPanelComponent implements OnInit {
         {
           sources: component.api,
           title: component.navHeader.label,
-          mainDescription: component.navHeader.mainDescription ? component.navHeader.mainDescription : null
+          mainDescription: component.navHeader.mainDescription ? component.navHeader.mainDescription : null,
+          mainSource: component.navHeader.mainSource
         }
       );
     });
@@ -114,6 +116,7 @@ export class HelpPanelComponent implements OnInit {
       if (res) {
         this.sources = res.sources;
         this.description = res.mainDescription;
+        this.mainSource = res.mainSource;
         this.title = res.title;
         if (this.sources && this.sources.length) {
           this.sources.forEach(source => {

@@ -1,20 +1,29 @@
 <article>
   <div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="space-around start">
-    <div fxFlex="95" fxFlexAlign="stretch">
+    <div fxFlex="100" fxFlexAlign="stretch">
       <span class="mat-display-3 toolbar">{{disease?.name}}</span>
     </div>
     <mat-card>
       <mat-card-content>
-        <mat-card-title>
-          Disease Summary
-        </mat-card-title>
+        <div>
+          <div fxFlex="97">
+            <mat-card-title>
+              Disease Summary
+            </mat-card-title>
+          </div>
+          <div>
+            <pharos-help-panel-trigger [origin]="'diseaseHeader'"
+                                       [label]="'Disease Summary'"></pharos-help-panel-trigger>
+          </div>
+        </div>
         <div class="content">
           <div class="section">
             <mat-card-subtitle>Associated Targets ({{this.disease.targetCountsTotal}})</mat-card-subtitle>
             <div FxFlex class="assoc-count">
               <div *ngFor='let assocCount of this.disease?.targetCounts'>
                 <div class="assoc-count">
-                  <pharos-idg-level-indicator [level]="assocCount.name"></pharos-idg-level-indicator> <h3>{{assocCount.value}}</h3>
+                  <pharos-idg-level-indicator [level]="assocCount.name"></pharos-idg-level-indicator>
+                  <h3>{{assocCount.value}}</h3>
                 </div>
               </div>
             </div>

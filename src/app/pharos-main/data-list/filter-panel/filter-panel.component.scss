@@ -1,3 +1,26 @@
+.info{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.helpicon{
+  cursor: pointer;
+}
+
+.infoCollapsed{
+  height: 3vh;
+}
+
+.explanation{
+  padding: 0 1vw;
+  margin-bottom: 1vh;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.explanation a{
+  color: rgba(0, 0, 0, 1);
+}
 
 .full-height {
   min-height: 100%;
