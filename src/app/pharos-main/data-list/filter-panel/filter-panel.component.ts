@@ -42,6 +42,19 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    */
   @Input() facets: Facet[];
 
+  showInfo: Map<Facet, boolean> = new Map<Facet, boolean>();
+
+  toggleFacetInfo(facet: Facet){
+    const currentVal = this.showingInfo(facet);
+    this.showInfo.set(facet, !currentVal);
+  }
+
+  showingInfo(facet: Facet) : boolean{
+    if(this.showInfo.has(facet)){
+      return this.showInfo.get(facet);
+    }
+    return false;
+  }
   /**
    * list of initial facets to display
    */
