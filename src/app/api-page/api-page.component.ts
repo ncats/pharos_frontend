@@ -1,4 +1,4 @@
-import {Component, Inject, InjectionToken, OnInit, PLATFORM_ID, SecurityContext} from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID, SecurityContext} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {isPlatformBrowser} from "@angular/common";
 import {DomSanitizer} from '@angular/platform-browser';
@@ -28,20 +28,28 @@ export class ApiPageComponent implements OnInit {
     const dialogRef = this.dialog.open(ApiHelpComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      this.changeQuery(this.queryMap.values().next().value);
+
     });
   }
 
   query: QueryDetails;
-  previousquery: QueryDetails;
   queryInFrame: number;
+  dirty: boolean = true;
+  _url: any;
+
 
   url() {
-    if(!this.query || this.query.key === this.queryInFrame){
-      return;
+    if(!this.dirty) {
+      return this._url;
     }
-    this.queryInFrame = this.query.key;
-    return this.sanitizer.bypassSecurityTrustResourceUrl(environment.graphqlUrl + `?query=${encodeURIComponent(this.query.query)}`);
+    if(!this.query) { // first
+      this._url = this.sanitizer.bypassSecurityTrustResourceUrl(environment.graphqlUrl);
+    }
+    else { // user selected
+      this._url = this.sanitizer.bypassSecurityTrustResourceUrl(environment.graphqlUrl + `?query=${encodeURIComponent(this.query.query)}`);
+    }
+    this.dirty = false;
+    return this._url;
   }
 
   isActive(key: number) {
@@ -130,15 +138,10 @@ export class ApiPageComponent implements OnInit {
       }]
   ]);
 
-
-
-
-
-
-
-
   changeQuery(query: QueryDetails) {
     this.query = query;
+    this.queryInFrame = this.query.key;
+    this.dirty = true;
   }
 
   ngOnInit() {
