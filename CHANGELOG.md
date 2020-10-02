@@ -1,3 +1,23 @@
+# 3.1.0 (2020-10-02)
+### Added Features
+* **Better data provenance:**
+    * Info panels for disease details pages
+    * Information bubbles for facets
+* **Better API integration:**
+    * There are now several starting queries to begin querying the database
+* **Better search capabilities:**
+    * Capacity to search for diseases or ligands
+    * Updated typeahead functionality in all search fields
+        * navigate to disease lists, or disease details
+        * navigate to faceted target lists for search terms matching facet values
+
+### Bug Fixes & formatting changes
+* updated IUPHAR name to GtoPdb
+* update About page to current data sources
+* Make gene symbol more prominent on target cards
+* Show PDB id instead of title
+    
+_______________
 # 3.0.0 (2020-09-02)
 
 ### Added Features
