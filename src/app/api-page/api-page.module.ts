@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ApiHelpComponent, ApiPageComponent} from './api-page.component';
+import {ApiPageComponent} from './api-page.component';
 import {RouterModule, Routes} from '@angular/router';
 import {SharedModule} from '../shared/shared.module';
 import {CommonToolsModule} from "../tools/common-tools.module";
@@ -14,8 +14,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    ApiPageComponent,
-    ApiHelpComponent
+    ApiPageComponent
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -24,8 +23,7 @@ const routes: Routes = [
     CommonToolsModule
   ],
   exports: [
-    ApiPageComponent,
-    ApiHelpComponent
+    ApiPageComponent
     ]
 })
 export class ApiPageModule { }

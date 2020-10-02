@@ -1,20 +1,36 @@
 <div class="container">
   <div fxFlex="20" fxHide.lt-sm class="toc-wrapper">
-    <mat-card-title class="header-text">Example queries</mat-card-title>
-    <mat-expansion-panel class="query-panel" *ngFor="let q of this.queryMap | keyvalue" [ngClass]="{'active': isActive(q.value.key)}"
-                         [expanded]="isActive(q.value.key)">
-      <mat-expansion-panel-header>{{q.value.name}}</mat-expansion-panel-header>
+    <mat-card>
+
+      <mat-card-title class="header-text">Pharos API</mat-card-title>
       <div>
-        {{q.value.description}}
+        Welcome to the GraphQL Playground for the Pharos.
+        Queryable endpoints can be found on the DOCS tab on the right.
+        Datatype definitions are on the SCHEMA tab.
+        <hr/>
+        <ncats-property-display
+          [property]="{externalLink:'https://graphql.org/', term:'GraphQL.org', label:'Learn more about GraphQL'}"></ncats-property-display>
       </div>
-      <button class="editButton" type="button" mat-raised-button [color]="'primary'" (click)="changeQuery(q.value)">
-        Edit & Run
-        <mat-icon>arrow_right_alt</mat-icon>
-      </button>
-      <pre class="snippet">
+    </mat-card>
+
+    <mat-card>
+      <mat-card-title class="header-text">Example queries</mat-card-title>
+      <mat-expansion-panel class="query-panel" *ngFor="let q of this.queryMap | keyvalue"
+                           [ngClass]="{'active': isActive(q.value.key)}"
+                           [expanded]="isActive(q.value.key)">
+        <mat-expansion-panel-header>{{q.value.name}}</mat-expansion-panel-header>
+        <div>
+          {{q.value.description}}
+        </div>
+        <button class="editButton" type="button" mat-raised-button [color]="'primary'" (click)="changeQuery(q.value)">
+          Edit & Run
+          <mat-icon>arrow_right_alt</mat-icon>
+        </button>
+        <pre class="snippet">
         {{q.value.query}}
       </pre>
-    </mat-expansion-panel>
+      </mat-expansion-panel>
+    </mat-card>
   </div>
   <div class="api-frame">
     <iframe [src]="this.url()" class='playground' name="graphQL_playground" id="graphQL_playground">
