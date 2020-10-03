@@ -28,7 +28,7 @@
               "src/manifest.json",
               "src/robots.txt",
               {
-                "glob": "CHANGELOG*.md",
+                "glob": "CHANGELOG.md",
                 "input": ".",
                 "output": "/"
               }
