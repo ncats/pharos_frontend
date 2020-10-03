@@ -26,8 +26,11 @@ export function app() {
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
-  server.get('*.*', express.static(distFolder, {
+  server.get('CHANGELOG.md', express.static(distFolder, {
     maxAge: 0
+  }));
+  server.get('*.*', express.static(distFolder, {
+    maxAge: '1y'
   }));
 
   // All regular routes use the Universal engine
