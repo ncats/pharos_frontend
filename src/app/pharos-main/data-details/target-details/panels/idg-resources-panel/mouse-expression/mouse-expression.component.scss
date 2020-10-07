@@ -1,4 +1,9 @@
-.container{
+.panel-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.content-container{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -17,4 +22,22 @@
   top: 0;
   position: relative;
   transition: all .25s linear;
+}
+
+.content-panel{
+  width: 46%;
+}
+
+@media only screen and (max-width: 768px) {
+  .content-panel{
+    width: 96%;
+  }
+  .content-container{
+    flex-direction: column;
+  }
+}
+@media only screen and (max-width: 960px) {
+  .panel-header {
+    flex-direction: column;
+  }
 }
