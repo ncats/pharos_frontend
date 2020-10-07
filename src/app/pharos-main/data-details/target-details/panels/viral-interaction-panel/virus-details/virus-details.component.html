@@ -1,8 +1,10 @@
 <mat-expansion-panel #panel (closed)="this.collapsed=true" (opened)="this.collapsed=false">
   <mat-expansion-panel-header>
-    {{virus.name}}
-    <div class="header-helptext" [ngClass]="{'hidden': !this.collapsed}"
-         matTooltip="Data sources for this disease. Click for details.">{{this.virusDetailsString()}}</div>
+    <div class="panel-header">
+      <div>{{virus.name}}</div>
+      <div class="header-helptext" [ngClass]="{'hidden': !this.collapsed}"
+           matTooltip="Data sources for this disease. Click for details.">{{this.virusDetailsString()}}</div>
+    </div>
   </mat-expansion-panel-header>
   <div class="content" fxFlex="95">
     <mat-card class="virus-panel">
