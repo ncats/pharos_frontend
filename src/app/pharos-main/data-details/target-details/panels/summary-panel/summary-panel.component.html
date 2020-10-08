@@ -18,11 +18,20 @@
       <pharos-help-panel-trigger [origin]="'summary'" [label]="'Protein Summary'"></pharos-help-panel-trigger>
       </div>
     </div>
+    <div *ngIf="target.description">
+    <mat-card-subtitle>
+      <span
+      [matTooltip] = "getTooltip('description')"
+      [matTooltipClass] = "'pharos-tooltip'">
+        Description</span>
+    </mat-card-subtitle>
+    <pharos-gene-summary [target]="target"></pharos-gene-summary>
+    </div>
     <div fxLayout="row" fxLayout.lt-md="column" class ="tkrow" fxLayoutAlign="space-between start">
        <div fxFlex = "30" class="synonyms">
         <ng-container *ngIf="target?.uniprotIds?.length > 0">
           <mat-card-subtitle
-            [matTooltip] = "getTooltip('Uniprot Accession IDs')"
+            [matTooltip] = "getTooltip('synonyms')"
             [matTooltipClass] = "'pharos-tooltip'">
             Uniprot Accession IDs
           </mat-card-subtitle>
@@ -35,7 +44,7 @@
         <ng-container *ngIf="targetProps?.gene">
           <br>
           <mat-card-subtitle
-            [matTooltip] = "getTooltip('Gene Name')"
+            [matTooltip] = "getTooltip('gene')"
             [matTooltipClass] = "'pharos-tooltip'"
           >Gene Name</mat-card-subtitle>
           <ul class = "inline-list wrap">
@@ -47,7 +56,7 @@
         <ng-container *ngIf="targetProps.ensemblIDs?.length > 0">
           <br>
           <mat-card-subtitle
-            [matTooltip] = "getTooltip('Ensembl ID')"
+            [matTooltip] = "getTooltip('ensembl')"
             [matTooltipClass] = "'pharos-tooltip'"
           >Ensembl ID</mat-card-subtitle>
           <ul class = "inline-list wrap">
@@ -59,7 +68,7 @@
          <ng-container *ngIf="targetProps.symbols?.length > 0">
            <br>
            <mat-card-subtitle
-             [matTooltip] = "getTooltip('Symbol')"
+             [matTooltip] = "getTooltip('symbol')"
              [matTooltipClass] = "'pharos-tooltip'">
              Symbol</mat-card-subtitle>
            <ul class = "inline-list wrap">
@@ -73,14 +82,14 @@
            class = "radar-chart full-height"
            *ngIf="target.hgdata else noDataDiv">
         <mat-card-subtitle
-          [matTooltip] = "getTooltip('Illumination Graph')"
+          [matTooltip] = "getTooltip('knowledge')"
           [matTooltipClass] = "'pharos-tooltip'">
           Illumination Graph</mat-card-subtitle>
         <pharos-radar-chart [data]= "[target.hgdata]" [shape]="false" [size] = "'medium'" (click)="openModal()" [origin]="'knowledge'"></pharos-radar-chart>
       </div>
         <div fxFlex = "30" class = "kchart full-height" *ngIf="target.hgdata; else noDataDiv">
           <mat-card-subtitle
-            [matTooltip] = "getTooltip('Knowledge Table')"
+            [matTooltip] = "getTooltip('knowledgeTable')"
             [matTooltipClass] = "'pharos-tooltip'">
             Knowledge Table</mat-card-subtitle>
           <pharos-knowledge-table [data] = targetProps.hgdata></pharos-knowledge-table>

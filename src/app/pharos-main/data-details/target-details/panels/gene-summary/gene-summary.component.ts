@@ -65,16 +65,7 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
           this.metaService.destroyCanonicalURL();
         }
       });
-    this._data
-    // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe(x => {
-        this.target = this.data.targets;
-        this.setterFunction();
-      });
+    this.setterFunction();
   }
 
   /**
