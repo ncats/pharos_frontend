@@ -199,6 +199,17 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
       label: 'BioPlex p_wrong',
       description: 'BioPlex score representing the probability that the interacting protein was wrongly identified.'
     },
+    { field: 'evidence', label: 'evidence', description: 'A note from the data source regarding the evidence behind the association between disease and target.'},
+    { field: 'zscore',  label: 'zscore', description: 'A measure from JensenLab Text Mining quantifying the strength of the association between the disease and the target.'},
+    { field: 'conf',  label: 'conf', description: 'A measure from the JensenLab data sources quantifying the confidence in the association between the disease and the target.'},
+    { field: 'drug_name', label: 'DrugCentral Indication',
+      description: 'Based on data from DrugCentral, these are the names of drugs whose indication has yielded this association between disease and target.'},
+    { field: 'log2foldchange',  label: 'log2foldchange', description: 'Based on data from Expression Atlas, this measure quantifies th' +
+        'e change in expression between the disease and non-disease states which yielded this association between disease and target.'},
+    { field: 'pvalue',  label: 'pvalue', description: 'The significance of the association between disease and target based on the Expression Atlas log2foldchange.'},
+    { field: 'score',  label: 'score', description: 'From DisGeNET, this measure quantifies the strength of evidence for the association between disease and target.'},
+    { field: 'source',  label: 'source', description: 'A note from DisGeNET or eRAM regarding the dataset which supplied the data.'},
+    { field: 'S2O', label: 'S2O', description: 'A measure from Monarch quantifying the association betweeen disease and target.'},
     {
       field: 'illuminationGraph',
       label: 'Illumination Graph',

@@ -25,7 +25,7 @@
         <pharos-knowledge-metrics [target]="target" [apiSources]="apiSources"></pharos-knowledge-metrics>
       </div>
       <div class="section disease_details" *ngIf="target.diseaseAssociationDetails?.length > 0">
-        <pharos-disease-association-details [target]="target"></pharos-disease-association-details>
+        <pharos-disease-association-details [target]="target" [apiSources]="apiSources"></pharos-disease-association-details>
       </div>
       <div class="section interaction_details" *ngIf="target.interactionDetails">
         <pharos-interaction-details [target]="target" [apiSources]="apiSources"></pharos-interaction-details>
