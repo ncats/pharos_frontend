@@ -274,22 +274,6 @@ const TARGET_HEADER_COMPONENT: PharosPanel = {
 };
 
 /**
- * target gene summary component
- * @type {PharosPanel}
- */
-const TARGET_GENE_SUMMARY_COMPONENT: PharosPanel = {
-  token: TOKENS.TARGET_GENE_SUMMARY_COMPONENT,
-  section: Position.Content,
-  api: [
-    {
-      field: 'geneSummary',
-      url: _APIURL + 'targets/_id_/properties(label=NCBI%20Gene%20Summary)'
-    }
-  ],
-  // dataFields: ['props(name: "NCBI Gene Summary") {name,value}']
-};
-
-/**
  * target breadcrumb component
  * @type {PharosPanel}
  */
@@ -334,18 +318,17 @@ const SUMMARY_PANEL: PharosPanel = {
   // dataFields: ['props(name: "NCBI Gene Summary") {name,value}'],
   api: [
     {
+      field: 'description',
+      label: 'Description',
+      description: 'Description of the protein which includes the UniProt Function and the NCBI Gene Summary.'
+    },
+    {
       field: 'synonyms',
       label: 'Uniprot Accession IDs',
       url: _APIURL + 'targets/_id_/synonyms(label=UniProt%20Accession)',
       description: 'Uniprot linked accession values, symbols or commonly used abbreviations associated with' +
         ' this particular target.',
       source: ''
-    },
-    {
-      field: 'symbol',
-      label: 'Symbol',
-      url: _APIURL + 'targets/_id_/synonyms(label=UniProt%20Shortname)',
-      description: 'List of abbreviations or acronyms of the full target name.'
     },
     {
       field: 'gene',
@@ -359,6 +342,12 @@ const SUMMARY_PANEL: PharosPanel = {
       url: _APIURL + 'targets/_id_/synonyms(label=Ensembl)',
       description: 'Ensembl identifier links.',
       source: 'https://uswest.ensembl.org/'
+    },
+    {
+      field: 'symbol',
+      label: 'Symbol',
+      url: _APIURL + 'targets/_id_/synonyms(label=UniProt%20Shortname)',
+      description: 'List of abbreviations or acronyms of the full target name.'
     },
     {
       field: 'knowledge',
@@ -1181,7 +1170,6 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_SUBNAV_COMPONENT,
           PHAROS_HELPPANEL_COMPONENT,
           TARGET_HEADER_COMPONENT,
-          TARGET_GENE_SUMMARY_COMPONENT,
           PHAROS_BREADCRUMB_COMPONENT,
           SUMMARY_PANEL,
           LEVEL_SUMMARY_PANEL,

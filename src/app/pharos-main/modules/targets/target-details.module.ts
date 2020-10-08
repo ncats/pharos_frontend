@@ -95,7 +95,6 @@ import {PdbPanelComponent} from "../../data-details/target-details/panels/pdb-pa
     {provide: TOKENS.PHAROS_SUBNAV_COMPONENT, useValue: SidenavPanelComponent},
     {provide: TOKENS.PHAROS_HELPPANEL_COMPONENT, useValue: HelpPanelComponent},
     {provide: TOKENS.PHAROS_BREADCRUMB_COMPONENT, useValue: BreadcrumbComponent},
-    {provide: TOKENS.TARGET_GENE_SUMMARY_COMPONENT, useValue: GeneSummaryComponent},
     // targets
     {provide: TOKENS.TARGET_HEADER_COMPONENT, useValue: TargetHeaderComponent},
     {provide: TOKENS.SUMMARY_PANEL, useValue: SummaryPanelComponent},

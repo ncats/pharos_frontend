@@ -30,10 +30,7 @@ describe('GeneSummaryComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GeneSummaryComponent);
     component = fixture.componentInstance;
-    component.data = {
-      targets: TESTTARGET,
-      targetsProps: TESTTARGETPROPS
-    };
+    component.target = TESTTARGET;
     fixture.detectChanges();
   });
 
