@@ -15,7 +15,8 @@
       <div class="list-header">{{assoc.type}}
         <div class="list-item" *ngFor="let field of this.associationFields">
           <ncats-property-display *ngIf="assoc[field]"
-                                  [property]="{term: assoc[field], label: field, tooltip: getTooltip(field)}"></ncats-property-display>
+                                  [property]="{term: assoc[field], label: field, tooltip: getTooltip(field)}">
+          </ncats-property-display>
         </div>
       </div>
     </div>
@@ -28,7 +29,8 @@
     <div *ngFor="let diseaseName of drugOrder">
       <div class="list-item" *ngFor="let drugAssoc of drugMap.get(diseaseName)">
         <ncats-property-display [showLabel]="false"
-                                [property]="{term: drugAssoc.drug, tooltip: getTooltip('drug'), internalLink:'/ligands/' + drugAssoc.drug }"></ncats-property-display>
+                                [property]="{term: drugAssoc.drug, tooltip: getTooltip('drug'), internalLink:'/ligands/' + drugAssoc.drug }">
+        </ncats-property-display>
       </div>
     </div>
   </div>
