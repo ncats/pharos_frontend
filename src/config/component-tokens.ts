@@ -8,7 +8,6 @@ export class TOKENS {
    * injection token to maintain the breadcrumb component
    */
   public static PHAROS_BREADCRUMB_COMPONENT = new InjectionToken<string>('BreadcrumbComponent');
-
   /**
    * injection token to add the target details header
    */
