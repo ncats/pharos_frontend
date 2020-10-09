@@ -25,18 +25,12 @@ interface PharosApi {
   label?: string;
 
   /**
-   * url to call to retrieve data
-   */
-  url?: string;
-
-  /**
    * description of field/api call to be used in help panel
    */
   description?: string;
 
   /**
-   * source or provenance of data
-   * todo not yet implemented/retrieved
+   * link to data source for this field
    */
   source?: string;
 
@@ -92,27 +86,6 @@ export interface PharosPanel {
   api?: PharosApi[];
 }
 
-/**
- * pharos host url
- * @type {string}
- * @private
- */
-const _HOST = environment.host;
-
-/**
- * api version string
- * @type {string}
- * @private
- */
-const _API = environment.api;
-
-/**
- * full api url created by concating the host and api version
- * @type {string}
- * @private
- */
-const _APIURL = _HOST + _API;
-
 const disease_association_fields: PharosApi[] =
   [
     { field: 'evidence', label: 'evidence', description: 'A note from the data source regarding the evidence behind the association between disease and target.'},
@@ -140,12 +113,10 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
   section: Position.Content,
   api: [
     {
-      field: 'facets',
-      url: _APIURL + 'targets/search?top=0'
+      field: 'facets'
     },
     {
-      field: 'data',
-      url: _APIURL + 'targets?top=10'
+      field: 'data'
     },
     {
       field: 'tdl',
@@ -285,12 +256,10 @@ const PHAROS_BREADCRUMB_COMPONENT: PharosPanel = {
   section: Position.Content,
   api: [
     {
-      field: 'dto',
-      url: _APIURL + 'targets/_id_/properties(label=DTO%20Protein%20Class*)'
+      field: 'dto'
     },
     {
-      field: 'breadcrumb',
-      url: _APIURL + 'targets/_id_/properties(label=PANTHER%20Protein%20Class*)'
+      field: 'breadcrumb'
     }
   ]
 };
@@ -318,7 +287,6 @@ const SUMMARY_PANEL: PharosPanel = {
     mainDescription: 'Gene symbols, accession ids and various other target identifiers. Also contains the illumination ' +
       'graph which highlights the amount of knowledge available. Click the \'?\' button for more information'
   },
-  // dataFields: ['props(name: "NCBI Gene Summary") {name,value}'],
   api: [
     {
       field: 'description',
@@ -328,7 +296,6 @@ const SUMMARY_PANEL: PharosPanel = {
     {
       field: 'synonyms',
       label: 'Uniprot Accession IDs',
-      url: _APIURL + 'targets/_id_/synonyms(label=UniProt%20Accession)',
       description: 'Uniprot linked accession values, symbols or commonly used abbreviations associated with' +
         ' this particular target.',
       source: ''
@@ -336,32 +303,26 @@ const SUMMARY_PANEL: PharosPanel = {
     {
       field: 'gene',
       label: 'Gene Name',
-      url: _APIURL + 'targets/_id_/synonyms(label=UniProt%20Gene)',
       description: 'Approved gene symbol with link to HUGO Gene Nomenclature Committee.'
     },
     {
       field: 'ensembl',
       label: 'Ensembl ID',
-      url: _APIURL + 'targets/_id_/synonyms(label=Ensembl)',
       description: 'Ensembl identifier links.',
       source: 'https://uswest.ensembl.org/'
     },
     {
       field: 'symbol',
       label: 'Symbol',
-      url: _APIURL + 'targets/_id_/synonyms(label=UniProt%20Shortname)',
       description: 'List of abbreviations or acronyms of the full target name.'
     },
     {
       field: 'knowledge',
       label: 'Illumination Graph',
-      url: _APIURL + 'hg/data?type=radar-attr_type&q=_accession_',
       description: 'Radar plot depicting the variety of knowledge obtained by Pharos for a particular target. ' +
         'The more spikes in the plot, the more variety. The longer the length, the higher the quantity of that particular ' +
         'knowledge. Clicking the illumination graph opens an expanded view to explore the plot fuller by seeing ' +
         'plot with annotations of the different radii.',
-      // allowing for aggregation of knowledge radii based on ' +
-      // 'attribution type, group, or data type, as well as overlay plot with other information, and provide download file.'
       article: ARTICLES.ILLUMINATION_GRAPH_ARTICLE
     },
     {
@@ -401,7 +362,6 @@ const LEVEL_SUMMARY_PANEL: PharosPanel = {
     {
       field: 'generif',
       label: 'GeneRIF',
-      url: _APIURL + 'targets/_id_/links(kind=ix.core.models.Text)',
       description: 'Total count of NCBI Gene Reference Into Function hits for target listed in parenthesis, ' +
         'and summary table with links to publications per PMID with the specific text in article that includes ' +
         'the reported target.'
@@ -420,21 +380,18 @@ const LEVEL_SUMMARY_PANEL: PharosPanel = {
     {
       field: 'goFunction',
       label: 'GO Function',
-      url: _APIURL + 'targets/_id_/properties(label=GO%20Function*)',
       description: 'Function listed by GO database for target, with total count listed in parenthesis. ' +
         'Listing individual functions with links to GO.'
     },
     {
       field: 'goComponent',
       label: 'GO Component',
-      url: _APIURL + 'targets/_id_/properties(label=GO%20Component*)',
       description: 'Cellular component listed by GO database for target, with total count listed in ' +
         'parenthesis. Listing individual functions with links to GO.'
     },
     {
       field: 'goProcess',
       label: 'GO Process',
-      url: _APIURL + 'targets/_id_/properties(label=GO%20Process*)',
       description: 'Biological process listed by GO database for target, with total count listed in parenthesis.' +
         'Listing individual functions with links to GO. Click on bargraph icon to explore further the Summary ' +
         'of GO Function.'
@@ -442,7 +399,6 @@ const LEVEL_SUMMARY_PANEL: PharosPanel = {
     {
       field: 'ligandsCount',
       label: 'Ligands Count',
-      url: _APIURL + 'targets/_id_/ligands/@count',
       description: 'Ligands associated with a target, listed in ChEMBL, with activity over a cutoff relative to the target' +
         'class.',
       article: ARTICLES.LIGAND_ACTIVITY_ARTICLE
@@ -450,7 +406,6 @@ const LEVEL_SUMMARY_PANEL: PharosPanel = {
     {
       field: 'drugsCount',
       label: 'Drugs Count',
-      url: _APIURL + 'targets/_id_/drugs/@count',
       description: 'Approved drugs associated with a target.'
     }
   ]
@@ -471,7 +426,6 @@ const IDG_RESOURCES_PANEL: PharosPanel = {
     {
       field: 'gene',
       label: 'Gene Name',
-      url: _APIURL + 'targets/_id_/synonyms(label=UniProt%20Gene)',
       description: 'Approved gene symbol with link to HUGO Gene Nomenclature Committee.'
     }
   ]
@@ -505,7 +459,6 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
     {
       field: 'tinx',
       label: 'Disease Novelty (Tin-x)',
-      // url: _APIURL + 'tinx/target/_accession_',
       description: 'TIN-X is an interactive visualization tool for discovering interesting associations between diseases ' +
         'and potential drug targets. Click the \'?\' button for more information.',
       article: ARTICLES.TINX_ARTICLE
@@ -528,7 +481,6 @@ const LIGANDS_PANEL: PharosPanel = {
     {
       field: 'ligands',
       label: 'Ligands',
-      url: _APIURL + 'targets/_id_/ligands?view=full',
       description: 'Table allowing for paging of active ligands ligand lists.  ' +
         'The order is based on reported pKd or pKi.',
       article: ARTICLES.LIGAND_ACTIVITY_ARTICLE
@@ -551,7 +503,6 @@ const DRUGS_PANEL: PharosPanel = {
     {
       field: 'drugs',
       label: 'Approved Drugs',
-      url: _APIURL + 'targets/_id_/drugs?view=full',
       description: 'Table allowing for paging of associated drugs.  ' +
         'The order is based on reported pKd or pKi.'
     }
@@ -573,7 +524,6 @@ const PDB_PANEL: PharosPanel = {
     {
       field: 'pdb',
       label: 'Data Source',
-      url: _APIURL + 'targets/_id_/synonyms(label=PDB%20ID)',
       description: 'Proteins and ligands sourced from the RCSB PDB database'
     }
   ]
@@ -594,20 +544,17 @@ const EXPRESSION_PANEL: PharosPanel = {
     {
       field: 'expression',
       label: 'Gene expression Data',
-      url: _APIURL + 'targets/_id_/properties(label=*Tissue)',
       description: 'Tissues that this gene may be differentially expressed in.'
     },
     {
       field: 'specificity',
       label: 'Target Tissue Specificity',
-      url: _APIURL + 'targets/_id_/properties(label=*Index)',
       description: 'Target tissue specificity, ranges from 0 (non-specific) - 1 specific to one tissue, calculated ' +
         'according to Yanai et al, Bioinformatics 2005, 650-659'
     },
     {
       field: 'differential',
       label: 'Differential Expression',
-      url: _APIURL + 'targets/_id_/links(kind=ix.idg.models.Disease)',
       description: `Diseases in which, according to the Expression Atlas resource, the target is differentially
        expressed. The table lists the disease name, the log2 fold change and the associated p-value. Larger absolute
        values of fold change indicate a higher degree of differential expression between the disease state and the
@@ -616,7 +563,6 @@ const EXPRESSION_PANEL: PharosPanel = {
     {
       field: 'orthologs',
       label: 'Ortholog Species',
-      url: _APIURL + 'targets/_id_/links(kind=ix.idg.models.Ortholog)',
       description: 'Ortholog species available.'
     },
     {
@@ -647,9 +593,7 @@ const PROTEIN_PROTEIN_PANEL: PharosPanel = {
     {
       field: 'interactions',
       label: 'Protein to Protein Interactions',
-      // url: _APIURL + 'predicates?filter=predicate%3D%27Protein-Protein+Interactions%27+AND+subject.refid%3D_id_',
       description: 'List of protein to protein interactions associated with this gene.'
-
     }
   ]
 };
@@ -692,7 +636,6 @@ const PUBLICATION_STATISTICS_PANEL: PharosPanel = {
     {
       field: 'pubmed',
       label: 'Pubmed Score',
-      // url: _APIURL + 'targets/_id_/properties(label=NCBI%20Gene%20PubMed%20Count)',
       description: `The Pubmed Score (also sometimes referred to as the Jensen Score) is
       derived from text mining a set of Pubmed abstracts.`,
       article: ARTICLES.PUBMED_SCORE_ARTICLE
@@ -700,19 +643,16 @@ const PUBLICATION_STATISTICS_PANEL: PharosPanel = {
     {
       field: 'pmscore',
       label: 'Pubmed Score Timeline',
-      // url: _APIURL + 'targets/_id_/pmscore',
       description: 'Timeline of pubmed scores for each available year.'
     },
     {
       field: 'pubtator',
       label: 'Pubtator Score Timeline',
-      // url: _APIURL + 'targets/_id_/pubtator',
       description: 'Timeline of pubtator scores for each available year.'
     },
     {
       field: 'patents',
       label: 'Patents Timeline',
-      //  url: _APIURL + 'targets/_id_/patents',
       description: 'Timeline of patent counts for each available year.'
     }
   ]
@@ -738,19 +678,16 @@ const RELATED_PUBLICATIONS_PANEL: PharosPanel = {
     {
       field: 'publications',
       label: 'Text Mined References',
-      // url: _APIURL + 'targets/_id_/publications?top=10',
       description: 'Publications associated with this target, as identified using the JensenLab text mining protocol'
     },
     {
       field: 'generifCount',
       label: 'GeneRIF Count',
-      // url: _APIURL + 'targets/_id_/generifs/@count',
       description: 'Total count of NCBI Gene Reference Into Function hits for target listed in parenthesis'
     },
     {
       field: 'generifs',
       label: 'GeneRIFs',
-      //  url: _APIURL + 'targets/_id_/generifs',
       description: 'Total count of NCBI Gene Reference Into Function hits for target listed in parenthesis, ' +
         'and summary table with links to publications per PMID with the specific text in article that includes ' +
         'the reported target.'
@@ -773,7 +710,6 @@ const AA_SEQUENCE_PANEL: PharosPanel = {
     {
       field: 'sequence',
       label: 'Sequence',
-      // url: _APIURL + 'targets/_id_/properties(label=UniProt%20Sequence)',
       description: 'Amino acid sequence of target protein, bar graph summarizing quantity of each amino acid. ' +
         'Click on looking glass icon for ability to conduct sequence search.'
     },
@@ -800,7 +736,6 @@ const TARGET_FACET_PANEL: PharosPanel = {
     {
       field: 'pantherProteinClass',
       label: 'Panther Protein Class',
-      // url: _APIURL + 'targets/_id_/properties(label=PANTHER%20Protein%20Class*)',
       description: `The PANTHER (Protein ANalysis THrough Evolutionary Relationships) Classification System was designed
        to classify proteins (and their genes) in order to facilitate high-throughput analysis. The PANTHER
        Classifications are the result of human curation as well as sophisticated bioinformatics algorithms.`,
@@ -809,14 +744,12 @@ const TARGET_FACET_PANEL: PharosPanel = {
     {
       field: 'goFunction',
       label: 'GO Function',
-      //   url: _APIURL + 'targets/_id_/properties(label=GO%20Function*)',
       description: 'Function listed by GO database for target, with total count listed in parenthesis. ' +
         'Listing individual functions with links to GO. Click on bargraph icon to explore further the Summary of GO Function.'
     },
     {
       field: 'goComponent',
       label: 'GO Component',
-      //  url: _APIURL + 'targets/_id_/properties(label=GO%20Component*)',
       description: 'Cellular component listed by GO database for target, with total count listed in ' +
         'parenthesis. Listing individual functions with links to GO. Click on bargraph icon to explore further ' +
         'the Summary of GO Function.'
@@ -824,17 +757,12 @@ const TARGET_FACET_PANEL: PharosPanel = {
     {
       field: 'goProcess',
       label: 'GO Process',
-      // url: _APIURL + 'targets/_id_/properties(label=GO%20Process*)',
       description: 'Biological process listed by GO database for target, with total count listed in parenthesis.' +
         'Listing individual functions with links to GO. Click on bargraph icon to explore further the Summary ' +
         'of GO Function.'
     }, {
-      /*  field: 'goTerms',
-        url: _APIURL + 'targets/_id_/properties(label=NCBI%20Gene%20PubMed%20Count)'
-      }, {*/
       field: 'gwasTrait',
       label: 'GWAS Trait',
-      //   url: _APIURL + 'targets/_id_/properties(label=GWAS%20Trait*)',
       description: ` The GWAS Catalog provides a consistent, searchable, visualisable and freely available database of
       published SNP-trait associations.`,
       source: 'https://www.ebi.ac.uk/gwas/home'
@@ -842,21 +770,18 @@ const TARGET_FACET_PANEL: PharosPanel = {
     {
       field: 'rnaCellLine',
       label: 'RNA Cell Line',
-      //  url: _APIURL + 'targets/_id_/properties(label=HCA%20RNA%20Cell%20Line*)',
       description: `RNA Cell lines listed in the Human Cell Atlas`,
       source: `https://www.humancellatlas.org/`
     },
     {
       field: 'omim',
       label: 'OMIM Term',
-      //  url: _APIURL + 'targets/_id_/properties(label=OMIM%20Term*)',
       description: `Terms listed in the OMIM (Online Mendelian Inheritance in Man) database.`,
       source: 'https://www.omim.org/'
     },
     {
       field: 'uniprotKeyword',
       label: 'Uniprot Keyword',
-      //  url: _APIURL + 'targets/_id_/properties(label=UniProt%20Keyword*)',
       description: 'Occurrence of target in the 10 categories of UniProt keywords.'
     }
   ]
@@ -878,10 +803,8 @@ const DISEASE_TABLE_COMPONENT: PharosPanel = {
   api: [
     {
       field: 'facets',
-      url: _APIURL + 'disease/search?top=0'
     }, {
       field: 'data',
-      url: _APIURL + 'disease?top=10'
     }
   ]
 };
@@ -994,7 +917,6 @@ const TARGET_LIST_PANEL: PharosPanel = {
     {
       field: 'targets',
       label: 'Related Targets',
-      url: _APIURL + 'diseases/_id_/links(kind=ix.idg.models.Target)?top=10',
       description: 'List of targets associated with this disease.'
     }
   ]
@@ -1028,7 +950,6 @@ const LIGAND_DESCRIPTION_COMPONENT: PharosPanel = {
   api: [
     {
       field: 'description',
-      // url: _APIURL + 'targets/_id_/properties(label=NCBI%20Gene%20Summary)'
       description: 'Description of the ligand.'
     }
   ]
@@ -1049,13 +970,11 @@ const LIGAND_DETAILS_COMPONENT: PharosPanel = {
     {
       field: 'structure',
       label: 'Structure',
-      url: _APIURL + 'ligands/_id_/links(kind=ix.core.models.Structure)',
       description: 'Pharos structure object for this ligand.'
     },
     {
       field: 'synonyms',
       label: 'Synonyms',
-      url: _APIURL + 'ligands/_id_/synonyms',
       description: 'List of ligand synonyms.'
     }
   ]
@@ -1076,7 +995,6 @@ const TARGET_RELEVANCE_PANEL: PharosPanel = {
     {
       field: 'targetRelevance',
       label: 'Target Relevance',
-      url: _APIURL + 'ligands/_id_/links(kind=ix.idg.models.Target)',
       description: 'List of targets this ligand has been tested on, passing the activity cutoff levels described.',
       article: ARTICLES.LIGAND_ACTIVITY_ARTICLE
 
@@ -1099,7 +1017,6 @@ const MOLECULAR_DEFINITION_PANEL: PharosPanel = {
     {
       field: 'properties',
       label: 'Molecular Properties',
-      url: _APIURL + 'ligands/_id_/links(kind=ix.core.models.Structure)',
       description: 'List of associated molecular properties.'
     }
   ]
@@ -1205,4 +1122,3 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
     }]
   ]
 );
-
