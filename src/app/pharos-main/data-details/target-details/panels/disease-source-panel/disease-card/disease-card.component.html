@@ -19,7 +19,7 @@
       </ul>
     </div>
     <div *ngFor="let assoc of this.nonDrugs">
-      <pharos-disease-association [association]="assoc"></pharos-disease-association>
+      <pharos-disease-association [apiSources]="apiSources" [association]="assoc"></pharos-disease-association>
     </div>
   </div>
 </mat-expansion-panel>

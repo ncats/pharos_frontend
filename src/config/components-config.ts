@@ -113,6 +113,19 @@ const _API = environment.api;
  */
 const _APIURL = _HOST + _API;
 
+const disease_association_fields: PharosApi[] =
+  [
+    { field: 'evidence', label: 'evidence', description: 'A note from the data source regarding the evidence behind the association between disease and target.'},
+    { field: 'zscore',  label: 'zscore', description: 'A measure from JensenLab Text Mining quantifying the strength of the association between the disease and the target.'},
+    { field: 'conf',  label: 'conf', description: 'A measure from the JensenLab data sources quantifying the confidence in the association between the disease and the target.'},
+    { field: 'drug_name', label: 'DrugCentral Indication', description: 'Based on data from DrugCentral, these are the names of drugs whose indication has yielded this association between disease and target.'},
+    { field: 'log2foldchange',  label: 'log2foldchange', description: 'Based on data from Expression Atlas, this measure quantifies the change in expression between the disease and non-disease states which yielded this association between disease and target.'},
+    { field: 'pvalue',  label: 'pvalue', description: 'The significance of the association between disease and target based on the Expression Atlas log2foldchange.'},
+    { field: 'score',  label: 'score', description: 'From DisGeNET, this measure quantifies the strength of evidence for the association between disease and target.'},
+    { field: 'source',  label: 'source', description: 'A note from DisGeNET or eRAM regarding the dataset which supplied the data.'},
+    { field: 'S2O', label: 'S2O', description: 'A measure from Monarch quantifying the association betweeen disease and target.'}
+  ];
+
 /**
  * main target list table component
  * @type {PharosPanel}
@@ -199,17 +212,8 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
       label: 'BioPlex p_wrong',
       description: 'BioPlex score representing the probability that the interacting protein was wrongly identified.'
     },
-    { field: 'evidence', label: 'evidence', description: 'A note from the data source regarding the evidence behind the association between disease and target.'},
-    { field: 'zscore',  label: 'zscore', description: 'A measure from JensenLab Text Mining quantifying the strength of the association between the disease and the target.'},
-    { field: 'conf',  label: 'conf', description: 'A measure from the JensenLab data sources quantifying the confidence in the association between the disease and the target.'},
-    { field: 'drug_name', label: 'DrugCentral Indication',
-      description: 'Based on data from DrugCentral, these are the names of drugs whose indication has yielded this association between disease and target.'},
-    { field: 'log2foldchange',  label: 'log2foldchange', description: 'Based on data from Expression Atlas, this measure quantifies th' +
-        'e change in expression between the disease and non-disease states which yielded this association between disease and target.'},
-    { field: 'pvalue',  label: 'pvalue', description: 'The significance of the association between disease and target based on the Expression Atlas log2foldchange.'},
-    { field: 'score',  label: 'score', description: 'From DisGeNET, this measure quantifies the strength of evidence for the association between disease and target.'},
-    { field: 'source',  label: 'source', description: 'A note from DisGeNET or eRAM regarding the dataset which supplied the data.'},
-    { field: 'S2O', label: 'S2O', description: 'A measure from Monarch quantifying the association betweeen disease and target.'},
+      ...disease_association_fields
+    ,
     {
       field: 'illuminationGraph',
       label: 'Illumination Graph',
@@ -217,7 +221,6 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
     }
   ]
 };
-
 /**
  * main target facet component
  * @type {PharosPanel}
@@ -437,12 +440,6 @@ const LEVEL_SUMMARY_PANEL: PharosPanel = {
         'of GO Function.'
     },
     {
-      field: 'omim',
-      label: 'OMIM Phenotypes',
-      url: _APIURL + 'targets/_id_/properties(label=OMIM%20Term*)',
-      description: 'Phenotypes listed in OMIM relevant to this target.'
-    },
-    {
       field: 'ligandsCount',
       label: 'Ligands Count',
       url: _APIURL + 'targets/_id_/ligands/@count',
@@ -490,26 +487,20 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
     label: 'Disease Associations by Source',
     section: 'diseaseSources',
     mainDescription: `This is a list of diseases associated with this target, compiled by several resources. Each
-    resource provides different confidence measurements and association values, which are described below. Disease
-    target associations are sourced from the DISEASES database, which computes an association score between a disease
-    and a target. Pharos applies a threshold on this score, such that disease-target associations with a score greater
-    than this threshold are displayed If you\'re not seeing a disease associated with a target, it is either not
-    associated with the target, or else its association score does not cross the threshold employed by Pharos
-    (implying that the mined association is not strong enough).`
+    resource provides different confidence measurements and association values, which are described below.`
   },
   api: [
     {
-      field: 'diseases',
-      label: 'Disease Association Sources',
-      // url: _APIURL + 'targets/_id_/links(kind=ix.idg.models.Disease)',
-      description: 'Disease-gene associations mined from Medline Franklid et al, Methods, 2015, 83-89'
+      field: 'did',
+      label: 'Disease ID',
+      description: 'Identifier the data source is using for this disease association.'
     },
+    ...disease_association_fields,
     {
-      field: 'associationScore',
-      label: 'Association Score Parameters',
-      description: 'Different data sources use different metrics to score the confidence value of a target disease association. ' +
-        'More information about each metric can be found below.',
-      article: ARTICLES.ASSOCIATION_SCORES_ARTICLE
+      field: 'dataSources',
+      label: 'Data Source Links',
+      description: 'Associations between targets and diseases are based on data from several data sources. Click the button for links to each of them.',
+      article: ARTICLES.ASSOCIATION_DATA_SOURCES_ARTICLE
     },
     {
       field: 'tinx',
@@ -518,7 +509,7 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
       description: 'TIN-X is an interactive visualization tool for discovering interesting associations between diseases ' +
         'and potential drug targets. Click the \'?\' button for more information.',
       article: ARTICLES.TINX_ARTICLE
-    }
+    },
   ]
 };
 
@@ -531,8 +522,7 @@ const LIGANDS_PANEL: PharosPanel = {
   navHeader: {
     label: 'Active Ligands',
     section: 'ligands',
-    mainDescription: 'Active ligands that are associated with this target. Click the \'?\' button for information on ' +
-      'activity cutoffs.'
+    mainDescription: 'Active ligands that are associated with this target.'
   },
   api: [
     {
@@ -542,13 +532,6 @@ const LIGANDS_PANEL: PharosPanel = {
       description: 'Table allowing for paging of active ligands ligand lists.  ' +
         'The order is based on reported pKd or pKi.',
       article: ARTICLES.LIGAND_ACTIVITY_ARTICLE
-    },
-    {
-      field: 'ligandcount',
-      label: 'Ligands Count',
-      url: _APIURL + 'targets/_id_/ligands/@count',
-      description: 'Ligands associated with a target, listed in ChEMBL, with activity over a cutoff relative to the target' +
-        'class.'
     }
   ]
 };
@@ -571,12 +554,6 @@ const DRUGS_PANEL: PharosPanel = {
       url: _APIURL + 'targets/_id_/drugs?view=full',
       description: 'Table allowing for paging of associated drugs.  ' +
         'The order is based on reported pKd or pKi.'
-    },
-    {
-      field: 'drugscount',
-      label: 'Drugs Count',
-      url: _APIURL + 'targets/_id_/drugs/@count',
-      description: 'Approved drugs associated with a target.'
     }
   ]
 };

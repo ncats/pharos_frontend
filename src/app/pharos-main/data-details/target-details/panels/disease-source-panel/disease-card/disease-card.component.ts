@@ -13,6 +13,7 @@ export class DiseaseCardComponent implements OnInit {
   }
 
   @Input() disease: Disease;
+  @Input() apiSources: any[];
   collapsed: boolean = true;
 
   nonDrugs: DiseaseAssociation[];
