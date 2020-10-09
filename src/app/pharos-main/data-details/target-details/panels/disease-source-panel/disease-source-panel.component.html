@@ -37,7 +37,7 @@
       <div fxLayout="row" fxLayout.lt-md="column" class="tkrow" fxLayoutAlign="space-around stretch">
         <div fxFlex="95" class="disease-card-container">
           <div *ngFor="let disease of target.diseases">
-            <pharos-disease-card [disease]="disease"></pharos-disease-card>
+            <pharos-disease-card [apiSources]="apiSources" [disease]="disease"></pharos-disease-card>
           </div>
         </div>
       </div>
