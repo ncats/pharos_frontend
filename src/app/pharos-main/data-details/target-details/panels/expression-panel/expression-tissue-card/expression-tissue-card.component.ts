@@ -17,6 +17,7 @@ export class ExpressionTissueCardComponent implements OnInit {
   @Input() sortKey: string;
   @Input() clickedTissue: string;
   @Input() dataField: string;
+  @Input() apiSources: any[];
   collapsed: boolean = true;
 
   ngOnInit(): void {
@@ -68,6 +69,17 @@ export class ExpressionTissueCardComponent implements OnInit {
       this.anatamogramHoverService.setTissue(uberon);
     } else {
       this.anatamogramHoverService.setTissue(null);
+    }
+  }
+
+  getTooltip(label: string): string {
+    if (this.apiSources) {
+      const tooltip = this.apiSources.filter(source => source.field === label);
+      if (tooltip.length) {
+        return tooltip[0].description;
+      } else {
+        return null;
+      }
     }
   }
 }

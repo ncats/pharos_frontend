@@ -66,7 +66,7 @@
                     <div *ngFor="let exprSources of this.sortedExpressions">
                       <pharos-expression-tissue-card [tissueExpressionSources]="exprSources" [sortKey]="this.shadingKey"
                                                      [dataField]="this.getPreferredField(this.shadingKey)"
-                                                     [clickedTissue]="this.clickedTissue"></pharos-expression-tissue-card>
+                                                     [clickedTissue]="this.clickedTissue" [apiSources]="apiSources"></pharos-expression-tissue-card>
                     </div>
                   </div>
                 </div>
@@ -75,9 +75,9 @@
             <mat-tab *ngIf="this.cellLinesMap.size > 0">
               <ng-template mat-tab-label>
                 <div
-                  [matTooltip]="getTooltip('cell lines')"
+                  [matTooltip]="getTooltip('cellTypes')"
                   [matTooltipClass]="'pharos-tooltip'">
-                  Cell Lines ({{this.cellLinesMap.size}})
+                  Cell Types ({{this.cellLinesMap.size}})
                 </div>
               </ng-template>
               <div>
@@ -93,12 +93,12 @@
                     <button type="button" mat-raised-button class="alphabetize-button" name="alphabetize"
                             (click)="this.alphabetizeCellLines($event)" [ngClass]="{pressed:this.alphabetizedCellLines}"
                             [color]="'primary'" aria-label="Alphabetize">
-                      <mat-icon matTooltip="Alphabetize cell lines">sort_by_alpha</mat-icon>
+                      <mat-icon matTooltip="Alphabetize cell types">sort_by_alpha</mat-icon>
                     </button>
                   </div>
                   <div class="expression-card-list" #cell_lines_card_list>
                     <div *ngFor="let cellLine of this.sortedCellLines">
-                      <pharos-expression-tissue-card [tissueExpressionSources]="this.cellLinesMap.get(cellLine)">
+                      <pharos-expression-tissue-card [tissueExpressionSources]="this.cellLinesMap.get(cellLine)" [apiSources]="apiSources">
                       </pharos-expression-tissue-card>
                     </div>
                   </div>

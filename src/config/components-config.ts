@@ -88,15 +88,51 @@ export interface PharosPanel {
 
 const disease_association_fields: PharosApi[] =
   [
-    { field: 'evidence', label: 'evidence', description: 'A note from the data source regarding the evidence behind the association between disease and target.'},
-    { field: 'zscore',  label: 'zscore', description: 'A measure from JensenLab Text Mining quantifying the strength of the association between the disease and the target.'},
-    { field: 'conf',  label: 'conf', description: 'A measure from the JensenLab data sources quantifying the confidence in the association between the disease and the target.'},
-    { field: 'drug_name', label: 'DrugCentral Indication', description: 'Based on data from DrugCentral, these are the names of drugs whose indication has yielded this association between disease and target.'},
-    { field: 'log2foldchange',  label: 'log2foldchange', description: 'Based on data from Expression Atlas, this measure quantifies the change in expression between the disease and non-disease states which yielded this association between disease and target.'},
-    { field: 'pvalue',  label: 'pvalue', description: 'The significance of the association between disease and target based on the Expression Atlas log2foldchange.'},
-    { field: 'score',  label: 'score', description: 'From DisGeNET, this measure quantifies the strength of evidence for the association between disease and target.'},
-    { field: 'source',  label: 'source', description: 'A note from DisGeNET or eRAM regarding the dataset which supplied the data.'},
-    { field: 'S2O', label: 'S2O', description: 'A measure from Monarch quantifying the association betweeen disease and target.'}
+    {
+      field: 'evidence',
+      label: 'evidence',
+      description: 'A note from the data source regarding the evidence behind the association between disease and target.'
+    },
+    {
+      field: 'zscore',
+      label: 'zscore',
+      description: 'A measure from JensenLab Text Mining quantifying the strength of the association between the disease and the target.'
+    },
+    {
+      field: 'conf',
+      label: 'conf',
+      description: 'A measure from the JensenLab data sources quantifying the confidence in the association between the disease and the target.'
+    },
+    {
+      field: 'drug_name',
+      label: 'DrugCentral Indication',
+      description: 'Based on data from DrugCentral, these are the names of drugs whose indication has yielded this association between disease and target.'
+    },
+    {
+      field: 'log2foldchange',
+      label: 'log2foldchange',
+      description: 'Based on data from Expression Atlas, this measure quantifies the change in expression between the disease and non-disease states which yielded this association between disease and target.'
+    },
+    {
+      field: 'pvalue',
+      label: 'pvalue',
+      description: 'The significance of the association between disease and target based on the Expression Atlas log2foldchange.'
+    },
+    {
+      field: 'score',
+      label: 'score',
+      description: 'From DisGeNET, this measure quantifies the strength of evidence for the association between disease and target.'
+    },
+    {
+      field: 'source',
+      label: 'source',
+      description: 'A note from DisGeNET or eRAM regarding the dataset which supplied the data.'
+    },
+    {
+      field: 'S2O',
+      label: 'S2O',
+      description: 'A measure from Monarch quantifying the association betweeen disease and target.'
+    }
   ];
 
 /**
@@ -183,7 +219,7 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
       label: 'BioPlex p_wrong',
       description: 'BioPlex score representing the probability that the interacting protein was wrongly identified.'
     },
-      ...disease_association_fields
+    ...disease_association_fields
     ,
     {
       field: 'illuminationGraph',
@@ -481,8 +517,7 @@ const LIGANDS_PANEL: PharosPanel = {
     {
       field: 'ligands',
       label: 'Ligands',
-      description: 'Table allowing for paging of active ligands ligand lists.  ' +
-        'The order is based on reported pKd or pKi.',
+      description: 'Table allowing for paging of active ligands ligand lists.',
       article: ARTICLES.LIGAND_ACTIVITY_ARTICLE
     }
   ]
@@ -503,8 +538,7 @@ const DRUGS_PANEL: PharosPanel = {
     {
       field: 'drugs',
       label: 'Approved Drugs',
-      description: 'Table allowing for paging of associated drugs.  ' +
-        'The order is based on reported pKd or pKi.'
+      description: 'Table allowing for paging of associated drugs.'
     }
   ]
 };
@@ -538,43 +572,42 @@ const EXPRESSION_PANEL: PharosPanel = {
   navHeader: {
     label: 'Target Expression Data',
     section: 'expression',
-    mainDescription: 'Gene expression data from various sources.'
+    mainDescription: 'Expression data from various sources. When possible, tissues on the anatamograms are shaded ' +
+      'according to the level of reported expression for the current data source. Data sources are sorted by the number of ' +
+      'tissues evaluated for expression, but can be resorted alphabetically. Expand the tissue sections to survey data from ' +
+      'all data sources providing evidence for that tissue. Data from the currently selected data source is shown with a ' +
+      'border.'
   },
   api: [
     {
       field: 'expression',
-      label: 'Gene expression Data',
-      description: 'Tissues that this gene may be differentially expressed in.'
+      label: 'Human Tab',
+      description: 'Tissues with expression data for this target.'
     },
     {
-      field: 'specificity',
-      label: 'Target Tissue Specificity',
-      description: 'Target tissue specificity, ranges from 0 (non-specific) - 1 specific to one tissue, calculated ' +
-        'according to Yanai et al, Bioinformatics 2005, 650-659'
-    },
-    {
-      field: 'differential',
-      label: 'Differential Expression',
-      description: `Diseases in which, according to the Expression Atlas resource, the target is differentially
-       expressed. The table lists the disease name, the log2 fold change and the associated p-value. Larger absolute
-       values of fold change indicate a higher degree of differential expression between the disease state and the
-       normal state.`
+      field: 'cellTypes',
+      label: 'Cell Types Tab',
+      description: 'Cell types and cell lines with expression data for this target.'
     },
     {
       field: 'orthologs',
-      label: 'Ortholog Species',
-      description: 'Ortholog species available.'
+      label: 'Orthologs Tab',
+      description: 'Ortholog species available for this target.'
     },
+    { field: 'tissue', label: 'Tissue', description: 'Name of the tissue corresponding to the expression data.'},
+    { field: 'qual', label: 'Qualitative', description: 'Qualitative description of the expression level (one of: High, Medium, Low, Not Detected). '},
+    { field: 'value', label: 'Value', description: 'Text from the data source about the level of expression in the given tissue.'},
+    { field: 'evidence', label: 'Evidence', description: 'Text from the data source about the evidence (one of: Curated, Approved, Enhanced, Supported).'},
+    { field: 'zscore', label: 'zscore', description: 'A normalized measure from JensenLab Text Mining quantifying the confidence in the expression for this target in this tissue.'},
+    { field: 'conf', label: 'Confidence', description: 'A measure from JensenLab Data Sources quantifying the confidence in the degree of expression for this target in this tissue.'},
+    { field: 'pmid', label: 'pmid', description: 'Link to the publication for this expression data.'},
+    { field: 'url', label: 'url', description: 'Link to explore this data in the original data source.'},
     {
-      field: 'IDGexpression',
-      label: 'IDG Expression Results',
-      description: `The function which computes consensus expression level aggregates expression values from GTEx,
-      HPM and HPA into 11 tissue types (e.g., Digestive Tract, Endocrine System, etc.). A consensus expression value
-      for a given target is simply the mode (most frequent) of the qualitative expression values in the aggregated set.
-       The confidence value associated with a consensus expression value is derived taking into consideration both the
-       number and consistency of supporting data. Confidence for Low and Medium levels should be interpreted to mean
-       confidence for that level of expression or higher.`
-    }
+      field: 'dataSources',
+      label: 'Data Source Links',
+      description: 'Expression data comes from a number of data sources. Click the button for links to each of them.',
+      article: ARTICLES.EXPRESSION_DATA_SOURCES_ARTICLE
+    },
   ]
 };
 
@@ -862,7 +895,7 @@ const DISEASE_DO_BROWSER_COMPONENT: PharosPanel = {
       description: 'Disease categories representing more general classifications of the current disease. ' +
         'Total count of associated targets, and a breakdown of targets by Target Development Level is shown.'
     }
-,    {
+    , {
       field: 'children',
       label: 'Children',
       description: 'Disease categories representing more specific classifications of the current disease. ' +
@@ -890,7 +923,7 @@ const DISEASE_TINX_COMPONENT: PharosPanel = {
       label: 'Novelty',
       description: 'A bibliometric statistic that estimates the scarcity of publications about a target.'
     }
-    ]
+  ]
 };
 
 /**
