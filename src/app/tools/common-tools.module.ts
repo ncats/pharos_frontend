@@ -20,6 +20,7 @@ import {NcatsHeaderModule} from './ncats-header/ncats-header.module';
 import { ListFilterComponent } from './list-filter/list-filter.component';
 import { ExploreListButtonComponent } from './explore-list-button/explore-list-button.component';
 import { AssociationDataSourcesArticleComponent } from './help-panel/articles/association-data-sources-article/association-data-sources-article.component';
+import { ExpressionDataSourcesArticleComponent } from './help-panel/articles/expression-data-sources-article/expression-data-sources-article.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { AssociationDataSourcesArticleComponent } from './help-panel/articles/as
     StructureViewComponent,
     ListFilterComponent,
     ExploreListButtonComponent,
-    AssociationDataSourcesArticleComponent
+    AssociationDataSourcesArticleComponent,
+    ExpressionDataSourcesArticleComponent
   ],
   imports: [
     CommonModule,

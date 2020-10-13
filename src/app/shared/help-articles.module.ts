@@ -12,6 +12,7 @@ import {EquationRendererComponent} from '../tools/equation-renderer/equation-ren
 import {KatexRendererDirective} from '../tools/equation-renderer/katex-renderer.directive';
 import {AssociationScoreArticleComponent} from '../tools/help-panel/articles/association-score-article/association-score-article.component';
 import {AssociationDataSourcesArticleComponent} from "../tools/help-panel/articles/association-data-sources-article/association-data-sources-article.component";
+import {ExpressionDataSourcesArticleComponent} from "../tools/help-panel/articles/expression-data-sources-article/expression-data-sources-article.component";
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import {AssociationDataSourcesArticleComponent} from "../tools/help-panel/articl
     {provide: ARTICLES.TINX_ARTICLE, useValue: TinxArticleComponent },
     {provide: ARTICLES.PUBMED_SCORE_ARTICLE, useValue: PubmedScoreArticleComponent },
     {provide: ARTICLES.ASSOCIATION_SCORES_ARTICLE, useValue: AssociationScoreArticleComponent },
-    {provide: ARTICLES.ASSOCIATION_DATA_SOURCES_ARTICLE, useValue: AssociationDataSourcesArticleComponent}
+    {provide: ARTICLES.ASSOCIATION_DATA_SOURCES_ARTICLE, useValue: AssociationDataSourcesArticleComponent},
+    {provide: ARTICLES.EXPRESSION_DATA_SOURCES_ARTICLE, useValue: ExpressionDataSourcesArticleComponent}
   ]
 })
 export class HelpArticlesModule { }
