@@ -1,7 +1,6 @@
 import {InjectionToken} from '@angular/core';
 import {TOKENS} from '../config/component-tokens';
 import {ARTICLES} from '../config/help-article-tokens';
-import {environment} from '../environments/environment';
 
 enum Position {
   Header = 'headerPortalOutlet',
@@ -85,6 +84,29 @@ export interface PharosPanel {
    */
   api?: PharosApi[];
 }
+
+const ppi_interaction_fields: PharosApi[] = [
+  {
+    field: 'Score',
+    label: 'score',
+    description: 'String-DB score representing the confidence in the protein protein interaction.'
+  },
+  {
+    field: 'p_int',
+    label: 'p_int',
+    description: 'BioPlex score representing the probability of the protein protein interaction.'
+  },
+  {
+    field: 'p_ni',
+    label: 'p_ni',
+    description: 'BioPlex score representing the probability that the interaction detected was non-specific.'
+  },
+  {
+    field: 'p_wrong',
+    label: 'p_wrong',
+    description: 'BioPlex score representing the probability that the interacting protein was wrongly identified.'
+  }
+];
 
 const disease_association_fields: PharosApi[] =
   [
@@ -199,26 +221,7 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
       label: 'Novelty',
       description: 'Tin-X metric for the relative scarcity of specific publications for this target.'
     },
-    {
-      field: 'stringScore',
-      label: 'StringDB score',
-      description: 'String-DB score representing the confidence in the protein protein interaction.'
-    },
-    {
-      field: 'p_int',
-      label: 'BioPlex p_int',
-      description: 'BioPlex score representing the probability of the protein protein interaction.'
-    },
-    {
-      field: 'p_ni',
-      label: 'BioPlex p_ni',
-      description: 'BioPlex score representing the probability that the interaction detected was non-specific.'
-    },
-    {
-      field: 'p_wrong',
-      label: 'BioPlex p_wrong',
-      description: 'BioPlex score representing the probability that the interacting protein was wrongly identified.'
-    },
+    ...ppi_interaction_fields,
     ...disease_association_fields
     ,
     {
@@ -600,7 +603,7 @@ const EXPRESSION_PANEL: PharosPanel = {
     { field: 'evidence', label: 'Evidence', description: 'Text from the data source about the evidence (one of: Curated, Approved, Enhanced, Supported).'},
     { field: 'zscore', label: 'zscore', description: 'A normalized measure from JensenLab Text Mining quantifying the confidence in the expression for this target in this tissue.'},
     { field: 'conf', label: 'Confidence', description: 'A measure from JensenLab Data Sources quantifying the confidence in the degree of expression for this target in this tissue.'},
-    { field: 'pmid', label: 'pmid', description: 'Link to the publication for this expression data.'},
+    { field: 'pmid', label: 'Pubmed ID', description: 'Link to the publication for this expression data.'},
     { field: 'url', label: 'url', description: 'Link to explore this data in the original data source.'},
     {
       field: 'dataSources',
@@ -624,10 +627,27 @@ const PROTEIN_PROTEIN_PANEL: PharosPanel = {
   },
   api: [
     {
-      field: 'interactions',
-      label: 'Protein to Protein Interactions',
-      description: 'List of protein to protein interactions associated with this gene.'
-    }
+      field: 'family',
+      label: 'Family',
+      description: 'A broad classification of protein families'
+    },
+    {
+      field: 'Novelty',
+      label: 'Novelty',
+      description: 'Tin-X metric for the relative scarcity of specific publications for this target.'
+    },
+    ...ppi_interaction_fields,
+    {
+      field: 'Data Source',
+      label: 'Data Sources',
+      description: 'Data Sources reporting this protein-protein interaction.'
+    },
+    {
+      field: 'dataSourceLinks',
+      label: 'Data Source Links',
+      description: 'Interactions between targets are based on data from several data sources. Click the button for links to each of them.',
+      article: ARTICLES.PPI_DATA_SOURCES_ARTICLE
+    },
   ]
 };
 
@@ -740,16 +760,17 @@ const AA_SEQUENCE_PANEL: PharosPanel = {
     mainDescription: 'Amino acid sequence, and a detailed sequence structure viewer via the Uniprot Protvista viewer.'
   },
   api: [
+
+    {
+      field: 'residues',
+      label: 'Residue Counts',
+      description: `Bar chart summarizing the number of times each residue appears in the sequence.`
+    },
     {
       field: 'sequence',
       label: 'Sequence',
       description: 'Amino acid sequence of target protein, bar graph summarizing quantity of each amino acid. ' +
         'Click on looking glass icon for ability to conduct sequence search.'
-    },
-    {
-      field: 'residues',
-      label: 'Residue Counts',
-      description: `Bar chart summarizing the number of times each residue appears in the sequence.`
     }
   ]
 };
@@ -766,14 +787,6 @@ const TARGET_FACET_PANEL: PharosPanel = {
     mainDescription: 'List of targets within Pharos that are related to this target.'
   },
   api: [
-    {
-      field: 'pantherProteinClass',
-      label: 'Panther Protein Class',
-      description: `The PANTHER (Protein ANalysis THrough Evolutionary Relationships) Classification System was designed
-       to classify proteins (and their genes) in order to facilitate high-throughput analysis. The PANTHER
-       Classifications are the result of human curation as well as sophisticated bioinformatics algorithms.`,
-      source: 'http://pantherdb.org/'
-    },
     {
       field: 'goFunction',
       label: 'GO Function',
@@ -793,24 +806,6 @@ const TARGET_FACET_PANEL: PharosPanel = {
       description: 'Biological process listed by GO database for target, with total count listed in parenthesis.' +
         'Listing individual functions with links to GO. Click on bargraph icon to explore further the Summary ' +
         'of GO Function.'
-    }, {
-      field: 'gwasTrait',
-      label: 'GWAS Trait',
-      description: ` The GWAS Catalog provides a consistent, searchable, visualisable and freely available database of
-      published SNP-trait associations.`,
-      source: 'https://www.ebi.ac.uk/gwas/home'
-    },
-    {
-      field: 'rnaCellLine',
-      label: 'RNA Cell Line',
-      description: `RNA Cell lines listed in the Human Cell Atlas`,
-      source: `https://www.humancellatlas.org/`
-    },
-    {
-      field: 'omim',
-      label: 'OMIM Term',
-      description: `Terms listed in the OMIM (Online Mendelian Inheritance in Man) database.`,
-      source: 'https://www.omim.org/'
     },
     {
       field: 'uniprotKeyword',

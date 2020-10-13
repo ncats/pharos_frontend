@@ -21,6 +21,7 @@ import { ListFilterComponent } from './list-filter/list-filter.component';
 import { ExploreListButtonComponent } from './explore-list-button/explore-list-button.component';
 import { AssociationDataSourcesArticleComponent } from './help-panel/articles/association-data-sources-article/association-data-sources-article.component';
 import { ExpressionDataSourcesArticleComponent } from './help-panel/articles/expression-data-sources-article/expression-data-sources-article.component';
+import { PPIDataSourcesArticleComponent } from './help-panel/articles/ppidata-sources-article/ppidata-sources-article.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ExpressionDataSourcesArticleComponent } from './help-panel/articles/exp
     ListFilterComponent,
     ExploreListButtonComponent,
     AssociationDataSourcesArticleComponent,
-    ExpressionDataSourcesArticleComponent
+    ExpressionDataSourcesArticleComponent,
+    PPIDataSourcesArticleComponent
   ],
   imports: [
     CommonModule,

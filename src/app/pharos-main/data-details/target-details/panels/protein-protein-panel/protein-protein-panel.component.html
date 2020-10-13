@@ -42,7 +42,7 @@
       </ul>
       <div class="target-ppi-grid">
         <div *ngFor="let ppi of target.ppis">
-          <pharos-target-card [target]="ppi"></pharos-target-card>
+          <pharos-target-card [target]="ppi" [apiSources]="apiSources"></pharos-target-card>
         </div>
       </div>
     </mat-card-content>

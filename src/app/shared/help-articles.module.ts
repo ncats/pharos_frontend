@@ -13,6 +13,7 @@ import {KatexRendererDirective} from '../tools/equation-renderer/katex-renderer.
 import {AssociationScoreArticleComponent} from '../tools/help-panel/articles/association-score-article/association-score-article.component';
 import {AssociationDataSourcesArticleComponent} from "../tools/help-panel/articles/association-data-sources-article/association-data-sources-article.component";
 import {ExpressionDataSourcesArticleComponent} from "../tools/help-panel/articles/expression-data-sources-article/expression-data-sources-article.component";
+import {PPIDataSourcesArticleComponent} from "../tools/help-panel/articles/ppidata-sources-article/ppidata-sources-article.component";
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import {ExpressionDataSourcesArticleComponent} from "../tools/help-panel/article
     {provide: ARTICLES.PUBMED_SCORE_ARTICLE, useValue: PubmedScoreArticleComponent },
     {provide: ARTICLES.ASSOCIATION_SCORES_ARTICLE, useValue: AssociationScoreArticleComponent },
     {provide: ARTICLES.ASSOCIATION_DATA_SOURCES_ARTICLE, useValue: AssociationDataSourcesArticleComponent},
-    {provide: ARTICLES.EXPRESSION_DATA_SOURCES_ARTICLE, useValue: ExpressionDataSourcesArticleComponent}
+    {provide: ARTICLES.EXPRESSION_DATA_SOURCES_ARTICLE, useValue: ExpressionDataSourcesArticleComponent},
+    {provide: ARTICLES.PPI_DATA_SOURCES_ARTICLE, useValue: PPIDataSourcesArticleComponent}
   ]
 })
 export class HelpArticlesModule { }
