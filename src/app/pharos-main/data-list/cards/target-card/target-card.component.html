@@ -19,10 +19,10 @@
     <div fxLayout="row" fxLayoutAlign="start stretch">
       <div fxFlex="95">
         <ncats-property-display *ngIf="target?.idgFamily"
-                                [property]="{label:'Family', term:target?.idgFamily}"></ncats-property-display>
+                                [property]="{label:'Family', term:target?.idgFamily, tooltip: getTooltip('family')}"></ncats-property-display>
         <div *ngFor="let prop of target.properties">
           <ncats-property-display *ngIf="prop.label != 'tdl' && prop.label != 'fam'"
-                                  [property]="prop"></ncats-property-display>
+                                  [property]="getDisplayProp(prop)"></ncats-property-display>
         </div>
       </div>
     </div>
