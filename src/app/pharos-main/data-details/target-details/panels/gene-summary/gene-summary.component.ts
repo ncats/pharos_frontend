@@ -57,7 +57,6 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
    * subscribe to data changes
    */
   ngOnInit() {
-    const isSmallScreen = this.breakpointObserver.isMatched('(max-width: 768px)');
     this.router.events
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((e: any) => {

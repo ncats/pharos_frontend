@@ -24,6 +24,9 @@
     .headerRow{
       flex-direction: column;
     }
+    mat-paginator{
+      align-self: flex-end;
+    }
   }
 
   .exploreSection li{
