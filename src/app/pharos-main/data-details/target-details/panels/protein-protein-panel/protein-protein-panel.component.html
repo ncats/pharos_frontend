@@ -1,8 +1,8 @@
 <article>
   <mat-card id="ppi"
+            class="section-card"
             (pharosScrollspy)="active('ppi')"
-            #ppi
-  >
+            #ppi>
     <mat-card-content>
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
