@@ -15,7 +15,7 @@
         </div>
         <div class="content">
           <mat-card class="section">
-            <mat-card-subtitle>Parents</mat-card-subtitle>
+            <mat-card-subtitle [matTooltip]="getTooltip('parents')">Parents</mat-card-subtitle>
             <div *ngFor="let parent of this.disease.parents" class="ancestorListItem">
               <ncats-property-display [showLabel]="false"
                                       [property]="{term:parent.name + ' (' + parent.targetCountsTotal + ')', internalLink:'/diseases/' + parent.name}">{{parent.targetCountsTotal}}</ncats-property-display>
@@ -30,7 +30,7 @@
             </div>
           </mat-card>
           <mat-card class="section">
-            <mat-card-subtitle>Children</mat-card-subtitle>
+            <mat-card-subtitle [matTooltip]="getTooltip('children')">Children</mat-card-subtitle>
             <div *ngFor="let child of this.disease.children" class="ancestorListItem">
               <ncats-property-display [showLabel]="false"
                                       [property]="{term:child.name + ' (' + child.targetCountsTotal + ')', internalLink:'/diseases/' + child.name}">{{child.targetCountsTotal}}</ncats-property-display>
