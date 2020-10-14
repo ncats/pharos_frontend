@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Disease} from "../../../../../../models/disease";
 import {DiseaseAssociation} from "../../../../../../models/disease-association";
+import {BreakpointObserver} from "@angular/cdk/layout";
 
 @Component({
   selector: 'pharos-disease-card',
@@ -9,7 +10,7 @@ import {DiseaseAssociation} from "../../../../../../models/disease-association";
 })
 export class DiseaseCardComponent implements OnInit {
 
-  constructor() {
+  constructor(private breakpointObserver: BreakpointObserver) {
   }
 
   @Input() disease: Disease;
@@ -20,8 +21,10 @@ export class DiseaseCardComponent implements OnInit {
   drugs: DiseaseAssociation[];
 
   drugType = 'DrugCentral Indication';
+  isSmallScreen = false;
 
   ngOnInit(): void {
+    this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
     this.nonDrugs = this.disease.associations.filter(assoc => {
       return assoc.type != this.drugType;
     });
@@ -31,7 +34,7 @@ export class DiseaseCardComponent implements OnInit {
   }
 
   diseaseSourceString() {
-    const max = 3;
+    const max = this.isSmallScreen ? 1 : 3;
     let types = this.disease.associations.map(j => j.type);
     const uniqueTypes = [];
     for (let t of types) {
