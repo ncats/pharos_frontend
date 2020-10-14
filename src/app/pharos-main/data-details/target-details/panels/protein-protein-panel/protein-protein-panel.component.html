@@ -24,8 +24,9 @@
         <pharos-explore-list-button [path]="'/targets'" [queryParams]="{associatedTarget:target.accession}" [buttonText]="'Explore Interacting Targets'"></pharos-explore-list-button>
       </div>
       <mat-paginator
-        [pageSize]="10"
-        [length]="target.ppiCount"
+        [pageSize]= pageData.top
+        [pageIndex]="pageData.skip / pageData.top"
+        [length]= pageData.total
         [hidePageSize]="true"
         [showFirstLastButtons]=true
         (page)="paginate($event)"
@@ -44,6 +45,16 @@
         <div *ngFor="let ppi of target.ppis">
           <pharos-target-card [target]="ppi" [apiSources]="apiSources"></pharos-target-card>
         </div>
+      </div>
+      <div *ngIf="isSmallScreen">
+      <mat-paginator
+        [pageSize]= pageData.top
+        [pageIndex]="pageData.skip / pageData.top"
+        [length]= pageData.total
+        [hidePageSize]="true"
+        [showFirstLastButtons]=true
+        (page)="paginate($event)"
+        #ppipaginator></mat-paginator>
       </div>
     </mat-card-content>
   </mat-card>

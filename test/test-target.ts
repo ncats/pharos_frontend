@@ -16,6 +16,8 @@ export const TESTTARGET: Target = new TargetSerializer().fromJson(
   pubTatorScore: [{value: '1895.5972', __typename: 'Prop'}],
   antibodyCount: [{value: '738', __typename: 'Prop'}],
   ppiCount: [{value: 1875, __typename: 'IntProp'}, {value: 1, __typename: 'IntProp'}],
+    drugs: [],
+    ligands: [],
   hgdata: {
     summary: [{name: 'biological process', value: 0.99983015662837, __typename: 'FloatProp'}, {
       name: 'biological term',

@@ -21,8 +21,8 @@ import {IdgResourcesPanelComponent} from '../../data-details/target-details/pane
 import {ReagentPanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/reagent-panel/reagent-panel.component';
 import {DataResourcePanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/data-resource-panel/data-resource-panel.component';
 import {MouseExpressionComponent} from "../../data-details/target-details/panels/idg-resources-panel/mouse-expression/mouse-expression.component";
-import {LigandsPanelComponent} from '../../data-details/target-details/panels/ligands-panel/ligands-panel.component';
-import {DrugsPanelComponent} from '../../data-details/target-details/panels/drugs-panel/drugs-panel.component';
+import {LigandsPanelComponent} from '../../data-details/target-details/panels/drugs-ligands-panel/ligands-panel/ligands-panel.component';
+import {DrugsPanelComponent} from '../../data-details/target-details/panels/drugs-ligands-panel/drugs-panel/drugs-panel.component';
 import {DifferentialPanelComponent} from '../../data-details/target-details/panels/expression-panel/differential-panel/differential-panel.component';
 import {SharedModule} from '../../../shared/shared.module';
 import {CommonToolsModule} from '../../../tools/common-tools.module';
@@ -41,6 +41,7 @@ import {RelatedPublicationsComponent} from '../../data-details/target-details/pa
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {PdbDetailsComponent} from "../../data-details/target-details/panels/pdb-panel/pdb-details/pdb-details.component";
 import {PdbPanelComponent} from "../../data-details/target-details/panels/pdb-panel/pdb-panel.component";
+import {DrugsLigandsPanelComponent} from "../../data-details/target-details/panels/drugs-ligands-panel/drugs-ligands-panel.component";
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import {PdbPanelComponent} from "../../data-details/target-details/panels/pdb-pa
     MouseExpressionComponent,
     LigandsPanelComponent,
     DrugsPanelComponent,
-    DifferentialPanelComponent
+    DifferentialPanelComponent,
+    DrugsLigandsPanelComponent
   ],
   imports: [
     CommonModule,

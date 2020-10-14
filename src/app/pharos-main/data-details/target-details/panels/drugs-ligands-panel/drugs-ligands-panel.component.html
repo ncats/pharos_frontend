@@ -1,4 +1,4 @@
-<article *ngIf="(this.target?.drugs?.length > 0)">
+<article *ngIf="(this.target[this.params.fieldName].length > 0)">
   <mat-card id={{field}}
             class="section-card"
             *ngIf="data"
@@ -15,27 +15,38 @@
         <span class="mat-title"
               [matTooltip]=description
               [matTooltipClass]="'pharos-tooltip'">
-          {{label}} ({{target?.drugCount}})</span>
+          {{label}} ({{target[params.countName]}})</span>
         </div>
         <div fxFlex="5">
-          <pharos-help-panel-trigger [origin]="'drugs'" [label]="'Approved Drugs'"></pharos-help-panel-trigger>
+          <pharos-help-panel-trigger [origin]="this.params.fieldName"></pharos-help-panel-trigger>
         </div>
       </div>
       <div class="headerSection">
-        <pharos-explore-list-button [path]="'/ligands'" [buttonText]="'Explore Approved Drugs'"
-                                    [queryParams]="{associatedTarget:target.accession,facet:'Type' + this.Facet.separator + 'Drug'}"></pharos-explore-list-button>
+        <pharos-explore-list-button [path]="'/ligands'" [buttonText]="params.buttonText"
+                                    [queryParams]="{associatedTarget:target.accession,facet:'Type' + this.Facet.separator + params.buttonFilter}"></pharos-explore-list-button>
         <mat-paginator
-          [pageSize]="10"
-          [length]="target?.drugCount"
+          [pageSize]= pageData.top
+          [pageIndex]="pageData.skip / pageData.top"
+          [length]= pageData.total
           [hidePageSize]="true"
           [showFirstLastButtons]=true
           (page)=paginate($event)
           #drugsspaginator></mat-paginator>
       </div>
       <div class="structure-grid">
-        <div *ngFor="let drug of target.drugs">
+        <div *ngFor="let drug of target[params.fieldName]">
           <pharos-ligand-card [ligand]="drug" [target]="target"></pharos-ligand-card>
         </div>
+      </div>
+      <div *ngIf="isSmallScreen">
+      <mat-paginator
+      [pageSize]= pageData.top
+      [pageIndex]="pageData.skip / pageData.top"
+      [length]= pageData.total
+      [hidePageSize]="true"
+      [showFirstLastButtons]=true
+      (page)=paginate($event)
+      #drugsspaginator></mat-paginator>
       </div>
     </mat-card-content>
   </mat-card>

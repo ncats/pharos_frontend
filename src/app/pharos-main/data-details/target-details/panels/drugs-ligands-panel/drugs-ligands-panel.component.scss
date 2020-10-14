@@ -46,6 +46,10 @@
   .headerSection {
     flex-direction: column;
   }
+
+  mat-paginator{
+    align-self: flex-end;
+  }
 }
 
 .headerSection{
