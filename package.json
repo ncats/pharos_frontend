@@ -6,6 +6,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node dist/server/main.js",
+    "prebuild": "npm --no-git-tag-version version patch",
     "build": "ng build pharos --prod",
     "postbuild": "node ./post_process_build_dir.js",
     "test": "ng test pharos --code-coverage",
