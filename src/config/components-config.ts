@@ -522,6 +522,11 @@ const LIGANDS_PANEL: PharosPanel = {
       label: 'Ligands',
       description: 'Table allowing for paging of active ligands ligand lists.',
       article: ARTICLES.LIGAND_ACTIVITY_ARTICLE
+    },
+    {
+      field: 'activity',
+      label: 'Activity Value',
+      description: 'Activity value measured for the ligand against the given target. Units are -log (M), for example 1nM would correspond to a value of 9.'
     }
   ]
 };
@@ -542,6 +547,11 @@ const DRUGS_PANEL: PharosPanel = {
       field: 'drugs',
       label: 'Approved Drugs',
       description: 'Table allowing for paging of associated drugs.'
+    },
+    {
+      field: 'activity',
+      label: 'Activity Value',
+      description: 'Activity value measured for the drug against the given target. Units are -log (M), for example 1nM would correspond to a value of 9.'
     }
   ]
 };
