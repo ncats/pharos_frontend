@@ -25,7 +25,11 @@ mat-card {
 }
 
 .name-row {
- padding-top: 1vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: 0.5vh;
+  padding-bottom: 0.5vh;
 }
 
 .gene {

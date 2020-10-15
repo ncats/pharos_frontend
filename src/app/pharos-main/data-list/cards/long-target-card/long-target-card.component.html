@@ -9,7 +9,7 @@
         <pharos-idg-level-indicator [level]="target.idgTDL"
                                     [matTooltip]="getTooltip('tdl')"></pharos-idg-level-indicator>
         <span class="title-bar" [matTooltip]="'See details for ' + target.gene" routerLink='/targets/{{target.accession}}'>
-          <span class="mat-card-title">{{target?.gene}}</span>
+          <span class="mat-card-title">{{target?.gene || target?.accession}}</span>
           <span class="mat-card-subtitle">{{target?.name}}</span>
         </span>
       </div>
