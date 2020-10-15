@@ -29,6 +29,7 @@ export class LigandCardComponent implements OnInit {
    */
   @Input() internalLink = false;
 
+  @Input() apiSources: any;
   /**
    * find the first target activity for the ligand
    */
@@ -65,6 +66,17 @@ export class LigandCardComponent implements OnInit {
           this.ligand.chemblName = syn.value;
         }
       });
+    }
+  }
+
+  getTooltip(label: string): string {
+    if (this.apiSources) {
+      const tooltip = this.apiSources.filter(source => source.field === label);
+      if (tooltip.length) {
+        return tooltip[0].description;
+      } else {
+        return null;
+      }
     }
   }
 }
