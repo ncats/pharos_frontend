@@ -29,7 +29,7 @@ export class PathwaySerializer implements Serializer{
     });
     if(object.url){
       if(!object.sourceID){
-        newObj.sourceID = newObj.type;
+        newObj.sourceID = new PharosProperty(newObj.type);
       }
       newObj.sourceID.externalLink = object.url;
     }
