@@ -1,8 +1,6 @@
 import {Component, Inject, Input, OnChanges, OnInit, PLATFORM_ID, SimpleChanges} from '@angular/core';
 import {isPlatformBrowser} from "@angular/common";
 
-// import {Reactome} from '../../../../../../../assets/vendor/diagram.nocache';
-
 @Component({
   selector: 'pharos-reactome-pathway-browser',
   templateUrl: './reactome-pathway-browser.component.html',

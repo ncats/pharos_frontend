@@ -40,7 +40,6 @@
             ],
             "scripts": [
               "src/assets/vendor/modernizr-custom.js",
-              "src/assets/vendor/diagram.nocache.js",
               "node_modules/marked/lib/marked.js"
             ]
           },
