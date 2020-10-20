@@ -22,6 +22,7 @@ import { ExploreListButtonComponent } from './explore-list-button/explore-list-b
 import { AssociationDataSourcesArticleComponent } from './help-panel/articles/association-data-sources-article/association-data-sources-article.component';
 import { ExpressionDataSourcesArticleComponent } from './help-panel/articles/expression-data-sources-article/expression-data-sources-article.component';
 import { PPIDataSourcesArticleComponent } from './help-panel/articles/ppidata-sources-article/ppidata-sources-article.component';
+import { PathwayDataSourcesArticleComponent } from './help-panel/articles/pathway-data-sources-article/pathway-data-sources-article.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { PPIDataSourcesArticleComponent } from './help-panel/articles/ppidata-so
     ExploreListButtonComponent,
     AssociationDataSourcesArticleComponent,
     ExpressionDataSourcesArticleComponent,
-    PPIDataSourcesArticleComponent
+    PPIDataSourcesArticleComponent,
+    PathwayDataSourcesArticleComponent
   ],
   imports: [
     CommonModule,

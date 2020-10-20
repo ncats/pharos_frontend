@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-
 import {TargetDetailsRoutingModule} from './target-details-routing.module';
 import {TargetHeaderComponent} from '../../data-details/target-details/target-header/target-header.component';
 import {SummaryPanelComponent} from '../../data-details/target-details/panels/summary-panel/summary-panel.component';
@@ -42,6 +41,8 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {PdbDetailsComponent} from "../../data-details/target-details/panels/pdb-panel/pdb-details/pdb-details.component";
 import {PdbPanelComponent} from "../../data-details/target-details/panels/pdb-panel/pdb-panel.component";
 import {DrugsLigandsPanelComponent} from "../../data-details/target-details/panels/drugs-ligands-panel/drugs-ligands-panel.component";
+import {PathwaysPanelComponent} from "../../data-details/target-details/panels/pathways-panel/pathways-panel.component";
+import {ReactomePathwayBrowserComponent} from "../../data-details/target-details/panels/pathways-panel/reactome-pathway-browser/reactome-pathway-browser.component";
 
 @NgModule({
   declarations: [
@@ -58,6 +59,8 @@ import {DrugsLigandsPanelComponent} from "../../data-details/target-details/pane
     ExpressionTissueCardComponent,
     AaSequencePanelComponent,
     ProteinProteinPanelComponent,
+    PathwaysPanelComponent,
+    ReactomePathwayBrowserComponent,
     ViralInteractionPanelComponent,
     VirusDetailsComponent,
     OrthologPanelComponent,
@@ -113,6 +116,7 @@ import {DrugsLigandsPanelComponent} from "../../data-details/target-details/pane
     {provide: TOKENS.LIGANDS_PANEL, useValue: LigandsPanelComponent},
     {provide: TOKENS.DRUGS_PANEL, useValue: DrugsPanelComponent},
     {provide: TOKENS.PDB_PANEL, useValue: PdbPanelComponent},
+    {provide: TOKENS.PATHWAYS_PANEL, useValue: PathwaysPanelComponent}
   ]
 })
 export class TargetDetailsModule { }

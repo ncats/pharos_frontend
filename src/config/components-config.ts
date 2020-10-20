@@ -624,6 +624,54 @@ const EXPRESSION_PANEL: PharosPanel = {
   ]
 };
 
+const PATHWAYS_PANEL: PharosPanel = {
+  token: TOKENS.PATHWAYS_PANEL, navHeader: {
+    label: 'Pathways',
+    section: 'pathways',
+    mainDescription: 'Biochemical pathways containing the current target.'
+  },
+  api: [
+    {
+      field: 'reactome',
+      label: 'Reactome Tab',
+      description: 'Pathways and diagrams from Reactome.',
+    },
+
+    {
+      field: 'others',
+      label: 'Others Tab',
+      description: 'Pathways from other data sources, including KEGG, PathwayCommons, UniProt, and WikiPathways.',
+    },
+    {
+      field: 'browser',
+      label: 'Pathway Browser',
+      description: 'Interactive representation of the selected pathway.',
+      source: 'https://reactome.org/dev/diagram/js'
+    },
+
+    {
+      field: 'name',
+      label: 'Name',
+      description: 'Name of the pathway'
+    },
+    {
+      field: 'explore',
+      label: 'Explore in Pharos',
+      description: 'Explore within Pharos the list of targets in this pathway.'
+    },
+    {
+      field: 'sourceLink',
+      label: 'Explore in Source',
+      description: 'Explore this pathway on the referenced data source.'
+    },
+    {
+      field: 'dataSourceLinks',
+      label: 'Links to Data Sources',
+      description: 'Pathway data comes from multiple sources. Click the button for links to each of them',
+      article: ARTICLES.PATHWAY_DATA_SOURCES_ARTICLE
+    }
+  ]
+};
 /**
  * protein to protein interaction component
  * @type {PharosPanel}
@@ -1110,6 +1158,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           LIGANDS_PANEL,
           DISEASE_SOURCE_PANEL,
           PDB_PANEL,
+          PATHWAYS_PANEL,
           VIRAL_INTERACTIONS_PANEL,
           EXPRESSION_PANEL,
           PROTEIN_PROTEIN_PANEL,

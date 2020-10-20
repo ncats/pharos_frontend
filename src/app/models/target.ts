@@ -10,6 +10,7 @@ import {Facet} from "./facet";
 import {InteractionDetails} from "./interaction-details";
 import {DiseaseAssocationSerializer, DiseaseAssociation} from "./disease-association";
 import {VirusDetails} from "./virus-interactions";
+import {Pathway, PathwaySerializer} from "./pathway";
 
 
 /**
@@ -248,6 +249,14 @@ export class Target extends PharosBase {
   diseaseAssociationDetails?: DiseaseAssociation[] = [];
 
   interactingViruses?: VirusDetails[];
+
+  pathwayCount?: number;
+
+  reactomePathways?: Pathway[] = [];
+  reactomePathwayCount?: number;
+
+  otherPathways?: Pathway[] = [];
+  otherPathwayCount?: number;
 }
 
 export class GoCounts{
@@ -292,6 +301,19 @@ export class TargetSerializer implements PharosSerializer {
     const obj = new Target();
     obj.parsed = true;
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
+
+    if(json.otherPathways?.length > 0 || json.reactomePathways?.length > 0){
+      let pathwaySerializer = new PathwaySerializer();
+      if(json.otherPathways){
+        obj.otherPathways = json.otherPathways.map( obj => pathwaySerializer.fromJson(obj));
+      }
+      if(json.reactomePathways){
+        obj.reactomePathways = json.reactomePathways.map( obj => pathwaySerializer.fromJson(obj));
+      }
+      obj.pathwayCount = json.pathwayCounts.map(path => path.value).reduce((a, b) => a + b, 0);
+      obj.reactomePathwayCount = json.pathwayCounts.filter(path => path.name === "Reactome")[0].value;
+      obj.otherPathwayCount = obj.pathwayCount - obj.reactomePathwayCount;
+    }
 
     if(json.expressions){ // deduplicate expresssions, and translate uberon ID
       let map = new Map<string, any>();
@@ -557,6 +579,11 @@ export class TargetSerializer implements PharosSerializer {
       });
     }
 
+    if(newObj.reactomePathways || newObj.otherPathways) {
+      const pathwaySerializer = new PathwaySerializer();
+      newObj.reactomePathways = obj.reactomePathways.map(path => pathwaySerializer._asProperties(path));
+      newObj.otherPathways = obj.otherPathways.map(path => pathwaySerializer._asProperties(path));
+    }
     return newObj;
   }
 

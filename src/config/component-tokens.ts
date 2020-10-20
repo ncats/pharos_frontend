@@ -182,4 +182,8 @@ export class TOKENS {
    * injection token to link to protein database data
    */
   public static PDB_PANEL = new InjectionToken<string>('PdbPanelComponent');
+  /**
+   * injection token to link to the pathways data
+   */
+  public static PATHWAYS_PANEL = new InjectionToken<string>('PathwaysPanelComponent');
 }
