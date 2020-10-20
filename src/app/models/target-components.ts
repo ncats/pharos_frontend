@@ -276,6 +276,18 @@ export const PUBLICATION_FIELDS = gql`
     abstract
   }`;
 
+export const PATHWAY_FIELDS = gql`
+    fragment pathway_fields on Pathway {
+      name
+      type
+      url
+      sourceID
+      targetCounts{
+        name
+        value
+      }
+    }`;
+
 /*
 * apollo graphQL query to fetch the next page of publications data
 * */
@@ -305,6 +317,25 @@ const TARGET_GENERIFS_QUERY = gql`
   }
 ${PUBLICATION_FIELDS}`;
 
+const TARGET_REACTOME_PATHWAYS_QUERY = gql`
+  query fetchReactomePathwaysPage($term: String, $reactomepathwaystop: Int, $reactomepathwaysskip: Int) {
+    targets: target(q: { sym: $term, uniprot: $term, stringid: $term }) {
+      reactomePathways:pathways(type:"Reactome", top:$reactomepathwaystop, skip:$reactomepathwaysskip){
+        ...pathway_fields
+      }
+    }
+  }
+${PATHWAY_FIELDS}`;
+
+const TARGET_NONREACTOME_PATHWAYS_QUERY = gql`
+  query fetchNonReactomePathwaysPage($term: String, $nonreactomepathwaystop: Int, $nonreactomepathwaysskip: Int) {
+    targets: target(q: { sym: $term, uniprot: $term, stringid: $term }) {
+      otherPathways:pathways(excludeType:"Reactome", top:$nonreactomepathwaystop, skip:$nonreactomepathwaysskip){
+        ...pathway_fields
+      }
+    }
+  }
+${PATHWAY_FIELDS}`;
 /**
  * apollo graphQL query fragment to retrieve target fields for a target details view
  */
@@ -324,6 +355,16 @@ export const TARGETDETAILSFIELDS = gql`
     }
     dto {
       name
+    }
+    pathwayCounts{
+      name
+      value
+    }
+    reactomePathways:pathways(type:"Reactome", top: 5){
+      ...pathway_fields
+    }
+    otherPathways:pathways(excludeType:"Reactome", top: 5){
+      ...pathway_fields
     }
     pantherPaths{
       name
@@ -524,6 +565,7 @@ export const TARGETDETAILSFIELDS = gql`
   ${LIGANDCARDFIELDS}
   ${ORTHOLOG_FIELDS}
   ${PUBLICATION_FIELDS}
+  ${PATHWAY_FIELDS}
 `;
 
 /**
@@ -585,6 +627,10 @@ export class TargetComponents {
         return TARGET_PUBS_QUERY;
       case(TargetComponents.Component.Generifs):
         return TARGET_GENERIFS_QUERY;
+      case(TargetComponents.Component.ReactomePathways):
+        return TARGET_REACTOME_PATHWAYS_QUERY;
+      case(TargetComponents.Component.NonReactomePathways):
+        return TARGET_NONREACTOME_PATHWAYS_QUERY;
     }
     return null;
   }
@@ -599,7 +645,9 @@ export namespace TargetComponents {
     Drugs,
     ProteinProteinInteractions,
     Publications,
-    Generifs
+    Generifs,
+    ReactomePathways,
+    NonReactomePathways
   }
 }
 

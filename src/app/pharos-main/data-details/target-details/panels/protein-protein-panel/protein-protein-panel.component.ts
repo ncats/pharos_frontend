@@ -48,11 +48,6 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
   targetProps: any;
 
   /**
-   * pagination data for target table
-   */
-  targetPageData: PageData;
-
-  /**
    * @param pharosApiService
    * @param _route
    * @param {NavSectionsService} navSectionsService
