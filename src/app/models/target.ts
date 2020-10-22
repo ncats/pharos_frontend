@@ -257,6 +257,8 @@ export class Target extends PharosBase {
 
   otherPathways?: Pathway[] = [];
   otherPathwayCount?: number;
+
+  dataSources?: String[] = [];
 }
 
 export class GoCounts{
