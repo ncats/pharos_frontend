@@ -23,6 +23,7 @@ import { AssociationDataSourcesArticleComponent } from './help-panel/articles/as
 import { ExpressionDataSourcesArticleComponent } from './help-panel/articles/expression-data-sources-article/expression-data-sources-article.component';
 import { PPIDataSourcesArticleComponent } from './help-panel/articles/ppidata-sources-article/ppidata-sources-article.component';
 import { PathwayDataSourcesArticleComponent } from './help-panel/articles/pathway-data-sources-article/pathway-data-sources-article.component';
+import { AffiliateLinkComponent } from './affiliate-link/affiliate-link.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { PathwayDataSourcesArticleComponent } from './help-panel/articles/pathwa
     AssociationDataSourcesArticleComponent,
     ExpressionDataSourcesArticleComponent,
     PPIDataSourcesArticleComponent,
-    PathwayDataSourcesArticleComponent
+    PathwayDataSourcesArticleComponent,
+    AffiliateLinkComponent
   ],
   imports: [
     CommonModule,
@@ -68,7 +70,8 @@ import { PathwayDataSourcesArticleComponent } from './help-panel/articles/pathwa
     StructureViewComponent,
     ProteinStructureViewerComponent,
     ListFilterComponent,
-    ExploreListButtonComponent
+    ExploreListButtonComponent,
+    AffiliateLinkComponent
   ]
 })
 export class CommonToolsModule { }

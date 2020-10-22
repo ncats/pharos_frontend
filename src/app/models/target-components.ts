@@ -342,6 +342,7 @@ ${PATHWAY_FIELDS}`;
 export const TARGETDETAILSFIELDS = gql`
   fragment targetsDetailsFields on Target {
     ...targetsListFields
+    dataSources
     symbols: synonyms(name: "symbol") {
       name
       value
