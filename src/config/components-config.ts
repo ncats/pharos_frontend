@@ -639,7 +639,7 @@ const PATHWAYS_PANEL: PharosPanel = {
 
     {
       field: 'others',
-      label: 'Others Tab',
+      label: 'Other Sources Tab',
       description: 'Pathways from other data sources, including KEGG, PathwayCommons, UniProt, and WikiPathways.',
     },
     {
