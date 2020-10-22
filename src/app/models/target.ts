@@ -311,7 +311,7 @@ export class TargetSerializer implements PharosSerializer {
         obj.reactomePathways = json.reactomePathways.map( obj => pathwaySerializer.fromJson(obj));
       }
       obj.pathwayCount = json.pathwayCounts.map(path => path.value).reduce((a, b) => a + b, 0);
-      obj.reactomePathwayCount = json.pathwayCounts.filter(path => path.name === "Reactome")[0].value;
+      obj.reactomePathwayCount = json.pathwayCounts.filter(path => path.name === "Reactome")[0]?.value || 0;
       obj.otherPathwayCount = obj.pathwayCount - obj.reactomePathwayCount;
     }
 
