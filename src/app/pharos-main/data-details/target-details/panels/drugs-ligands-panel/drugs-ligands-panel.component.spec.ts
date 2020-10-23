@@ -1,57 +1,69 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { LigandsPanelComponent } from './ligands-panel.component';
 import {SharedModule} from '../../../../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
 import {LigandCardComponent} from '../../../../data-list/cards/ligand-card/ligand-card.component';
+import {ActivatedRoute} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {IdgLevelIndicatorComponent} from '../../../../../tools/idg-level-indicator/idg-level-indicator.component';
 import {ApolloTestingModule} from 'apollo-angular/testing';
-import {AngularFirestore} from '@angular/fire/firestore';
 import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {ActivatedRoute} from '@angular/router';
-import {COMMON_CONFIG} from '../../../../../../../test/test-config';
 import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {COMMON_CONFIG} from '../../../../../../../test/test-config';
 import {AngularFireModule} from '@angular/fire';
 import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../test/test-target';
+import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from "@angular/core";
+import {DrugPanelParameters, DrugsLigandsPanelComponent} from "./drugs-ligands-panel.component";
 
-describe('LigandsPanelComponent', () => {
-  let component: LigandsPanelComponent;
-  let fixture: ComponentFixture<LigandsPanelComponent>;
+describe('DrugsLigandsPanelComponent', () => {
+  let component: DrugsLigandsPanelComponent;
+  let fixture: ComponentFixture<DrugsLigandsPanelComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
         BrowserAnimationsModule,
         RouterTestingModule,
+        SharedModule,
+        GenericTableModule,
         ApolloTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
+      ],
+      declarations: [
+        LigandCardComponent,
+        DrugsLigandsPanelComponent,
+        IdgLevelIndicatorComponent
       ],
       providers: [
         AngularFireAuth,
         { provide: AngularFirestore, useValue: FIRESTORESTUB },
         { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
       ],
-      declarations: [
-        LigandCardComponent,
-        LigandsPanelComponent,
-        IdgLevelIndicatorComponent
+      schemas: [
+        NO_ERRORS_SCHEMA,
+        CUSTOM_ELEMENTS_SCHEMA
       ]
-
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(LigandsPanelComponent);
+  it('drugs panel should create', () => {
+    fixture = TestBed.createComponent(DrugsLigandsPanelComponent);
     component = fixture.componentInstance;
-    component.data = {targets: TESTTARGET, targetsProps: TESTTARGETPROPS};
+    component.params = new DrugPanelParameters();
+    component.data = {targets: TESTTARGET};
     fixture.detectChanges();
+    expect(component).toBeTruthy();
   });
 
-  it('should create', () => {
+  it('ligands panel should create', () => {
+    fixture = TestBed.createComponent(DrugsLigandsPanelComponent);
+    component = fixture.componentInstance;
+    component.params = new DrugPanelParameters(false);
+    component.data = {targets: TESTTARGET};
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });

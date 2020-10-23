@@ -48,6 +48,9 @@
   .headerRow{
     flex-direction: column;
   }
+  mat-paginator{
+    align-self: flex-end;
+  }
 }
 .headerRow {
   display: flex;

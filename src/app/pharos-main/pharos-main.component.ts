@@ -1,4 +1,18 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, Inject, Injector, Input, OnDestroy, OnInit, PLATFORM_ID, Type, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ComponentRef,
+  Inject,
+  Injector,
+  Input,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+  Type,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import {CdkPortalOutlet, ComponentPortal} from '@angular/cdk/portal';
 import {MatSidenav} from '@angular/material/sidenav';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
@@ -53,7 +67,8 @@ export class PanelOptions {
   selector: 'pharos-main',
   templateUrl: './pharos-main.component.html',
   styleUrls: ['./pharos-main.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class PharosMainComponent implements OnInit, OnDestroy {
   // todo set as viewchildren, then map the array

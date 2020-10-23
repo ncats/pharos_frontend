@@ -8,12 +8,6 @@ export class TOKENS {
    * injection token to maintain the breadcrumb component
    */
   public static PHAROS_BREADCRUMB_COMPONENT = new InjectionToken<string>('BreadcrumbComponent');
-
-  /**
-   * injection token to maintain the target gene summary component
-   */
-  public static TARGET_GENE_SUMMARY_COMPONENT = new InjectionToken<string>('GeneSummaryComponent');
-
   /**
    * injection token to add the target details header
    */
@@ -188,4 +182,8 @@ export class TOKENS {
    * injection token to link to protein database data
    */
   public static PDB_PANEL = new InjectionToken<string>('PdbPanelComponent');
+  /**
+   * injection token to link to the pathways data
+   */
+  public static PATHWAYS_PANEL = new InjectionToken<string>('PathwaysPanelComponent');
 }

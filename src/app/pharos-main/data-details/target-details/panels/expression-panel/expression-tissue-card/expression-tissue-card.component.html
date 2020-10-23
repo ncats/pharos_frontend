@@ -2,24 +2,50 @@
                      [expanded]="this.clickedTissue === tissueExpressionSources[0].uberon?.uid">
   <mat-expansion-panel-header (mouseover)="this.setHover(tissueExpressionSources[0].uberon?.uid)"
                               (mouseleave)="this.setHover(null)">
-    {{tissueExpressionSources[0].uberon?.name || tissueExpressionSources[0].tissue}}
-    <div class="header-helptext" [ngClass]="{'hidden': !this.collapsed}"
-         matTooltip="Expression value for this data source. Expand to see all data.">
-      {{this.tissueSourceString(tissueExpressionSources)}}</div>
+    <div class="panel-header">
+      <div>{{tissueExpressionSources[0].uberon?.name || tissueExpressionSources[0].tissue}}</div>
+      <div class="header-helptext" [ngClass]="{'hidden': !this.collapsed}"
+           matTooltip="Expression value for this data source. Expand to see all data.">
+        {{this.tissueSourceString(tissueExpressionSources)}}</div>
+    </div>
   </mat-expansion-panel-header>
   <div class="expression-grid">
     <div *ngFor="let exp of tissueExpressionSources">
       <div [ngClass]="{sorting:(exp.type === this.sortKey), types:true}">
         <mat-card-subtitle>{{exp.type}}</mat-card-subtitle>
         <ul>
-          <li *ngIf="exp.tissue" ><ncats-property-display [property]="{label:this.friendlyName('tissue') ,term:exp.tissue}"></ncats-property-display></li>
-          <li *ngIf="exp.qual" ><ncats-property-display [property]="{label:this.friendlyName('qual') ,term:exp.qual}"></ncats-property-display></li>
-          <li *ngIf="exp.value" ><ncats-property-display [property]="{label:this.friendlyName('value') ,term:exp.value}"></ncats-property-display></li>
-          <li *ngIf="exp.evidence" ><ncats-property-display [property]="{label:this.friendlyName('evidence') ,term:exp.evidence}"></ncats-property-display></li>
-          <li *ngIf="exp.zscore" ><ncats-property-display [property]="{label:this.friendlyName('zscore') ,term:exp.zscore}"></ncats-property-display></li>
-          <li *ngIf="exp.conf" ><ncats-property-display [property]="{label:this.friendlyName('conf') ,term:exp.conf}"></ncats-property-display></li>
-          <li *ngIf="exp.pub?.pmid"><ncats-property-display [property]="{label: this.friendlyName('pmid'), term:exp.pub?.pmid, externalLink:'https://pubmed.ncbi.nlm.nih.gov/' +exp.pub?.pmid+ '/'}"></ncats-property-display></li>
-          <li *ngIf="exp.url"><ncats-property-display [property]="{label: this.friendlyName('url'), term:exp.url, externalLink:exp.url}"></ncats-property-display></li>
+          <li *ngIf="exp.tissue">
+            <ncats-property-display
+              [property]="{label:this.friendlyName('tissue') ,term:exp.tissue, tooltip:getTooltip('tissue')}"></ncats-property-display>
+          </li>
+          <li *ngIf="exp.qual">
+            <ncats-property-display
+              [property]="{label:this.friendlyName('qual') ,term:exp.qual, tooltip:getTooltip('qual')}"></ncats-property-display>
+          </li>
+          <li *ngIf="exp.value">
+            <ncats-property-display
+              [property]="{label:this.friendlyName('value') ,term:exp.value, tooltip:getTooltip('value')}"></ncats-property-display>
+          </li>
+          <li *ngIf="exp.evidence">
+            <ncats-property-display
+              [property]="{label:this.friendlyName('evidence') ,term:exp.evidence, tooltip:getTooltip('evidence')}"></ncats-property-display>
+          </li>
+          <li *ngIf="exp.zscore">
+            <ncats-property-display
+              [property]="{label:this.friendlyName('zscore') ,term:exp.zscore, tooltip:getTooltip('zscore')}"></ncats-property-display>
+          </li>
+          <li *ngIf="exp.conf">
+            <ncats-property-display
+              [property]="{label:this.friendlyName('conf') ,term:exp.conf, tooltip:getTooltip('conf')}"></ncats-property-display>
+          </li>
+          <li *ngIf="exp.pub?.pmid">
+            <ncats-property-display
+              [property]="{label: this.friendlyName('pmid'), term:exp.pub?.pmid, tooltip:getTooltip('pmid'), externalLink:'https://pubmed.ncbi.nlm.nih.gov/' +exp.pub?.pmid+ '/'}"></ncats-property-display>
+          </li>
+          <li *ngIf="exp.url">
+            <ncats-property-display
+              [property]="{label: this.friendlyName('url'), term:exp.url, tooltip:getTooltip('url'), externalLink:exp.url}"></ncats-property-display>
+          </li>
         </ul>
       </div>
     </div>

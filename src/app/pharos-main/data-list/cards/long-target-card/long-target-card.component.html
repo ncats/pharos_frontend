@@ -9,7 +9,7 @@
         <pharos-idg-level-indicator [level]="target.idgTDL"
                                     [matTooltip]="getTooltip('tdl')"></pharos-idg-level-indicator>
         <span class="title-bar" [matTooltip]="'See details for ' + target.gene" routerLink='/targets/{{target.accession}}'>
-          <span class="mat-card-title">{{target?.gene}}</span>
+          <span class="mat-card-title">{{target?.gene || target?.accession}}</span>
           <span class="mat-card-subtitle">{{target?.name}}</span>
         </span>
       </div>
@@ -25,7 +25,7 @@
         <pharos-knowledge-metrics [target]="target" [apiSources]="apiSources"></pharos-knowledge-metrics>
       </div>
       <div class="section disease_details" *ngIf="target.diseaseAssociationDetails?.length > 0">
-        <pharos-disease-association-details [target]="target"></pharos-disease-association-details>
+        <pharos-disease-association-details [target]="target" [apiSources]="apiSources"></pharos-disease-association-details>
       </div>
       <div class="section interaction_details" *ngIf="target.interactionDetails">
         <pharos-interaction-details [target]="target" [apiSources]="apiSources"></pharos-interaction-details>

@@ -1,14 +1,37 @@
 <mat-card-subtitle>{{association.type}}</mat-card-subtitle>
 <ul>
-  <li  *ngIf="association.did" ><ncats-property-display [property]="{label:'Disease ID' ,term:association.did}"></ncats-property-display></li>
-  <li  *ngIf="association.description"><ncats-property-display [property]="{label:'Description' ,term:association.description}"></ncats-property-display></li>
-  <li  *ngIf="association.zscore"><ncats-property-display [property]="{label:'zscore' ,term:association.zscore}"></ncats-property-display></li>
-  <li  *ngIf="association.evidence"><ncats-property-display [property]="{label:'Evidence' ,term:association.evidence}"></ncats-property-display></li>
-  <li  *ngIf="association.conf"><ncats-property-display [property]="{label:'Confidence' ,term:association.conf}"></ncats-property-display></li>
-  <li  *ngIf="association.reference"><ncats-property-display [property]="{label:'Reference' ,term:association.reference}"></ncats-property-display></li>
-  <li  *ngIf="association.drug"><ncats-property-display [property]="{label:'Drug' ,term:association.drug}"></ncats-property-display></li>
-  <li  *ngIf="association.log2foldchange"><ncats-property-display [property]="{label:'Log 2 fold change' ,term:association.log2foldchange}"></ncats-property-display></li>
-  <li  *ngIf="association.pvalue"><ncats-property-display [property]="{label:'p-value' ,term:association.pvalue}"></ncats-property-display></li>
-  <li  *ngIf="association.score"><ncats-property-display [property]="{label:'score' ,term:association.score}"></ncats-property-display></li>
-  <li  *ngIf="association.source"><ncats-property-display [property]="{label:'Source' ,term:association.source}"></ncats-property-display></li>
+  <li *ngIf="association.did">
+    <ncats-property-display [property]="{label:'Disease ID' , term:association.did, tooltip:getTooltip('did')}"></ncats-property-display>
+  </li>
+  <li *ngIf="association.description">
+    <ncats-property-display [property]="{label:'Description' ,term:association.description}"></ncats-property-display>
+  </li>
+  <li *ngIf="association.zscore">
+    <ncats-property-display [property]="{label:'zscore' ,term:association.zscore, tooltip:getTooltip('zscore')}"></ncats-property-display>
+  </li>
+  <li *ngIf="association.evidence">
+    <ncats-property-display [property]="{label:'Evidence' ,term:association.evidence, tooltip:getTooltip('evidence')}"></ncats-property-display>
+  </li>
+  <li *ngIf="association.conf">
+    <ncats-property-display [property]="{label:'Confidence' ,term:association.conf, tooltip:getTooltip('conf')}"></ncats-property-display>
+  </li>
+  <li *ngIf="association.reference">
+    <ncats-property-display [property]="{label:'Reference' ,term:association.reference, tooltip:getTooltip('reference')}"></ncats-property-display>
+  </li>
+  <li *ngIf="association.drug">
+    <ncats-property-display [property]="{label:'Drug' ,term:association.drug, tooltip:getTooltip('drug')}"></ncats-property-display>
+  </li>
+  <li *ngIf="association.log2foldchange">
+    <ncats-property-display [property]="{label:'Log 2 fold change' ,term:association.log2foldchange, tooltip:getTooltip('log2foldchange')}"></ncats-property-display>
+  </li>
+  <li *ngIf="association.pvalue">
+    <ncats-property-display [property]="{label:'p-value' ,term:association.pvalue, tooltip:getTooltip('pvalue')}"></ncats-property-display>
+  </li>
+  <li *ngIf="association.score">
+    <ncats-property-display [property]="{label:'score' ,term:association.score, tooltip:getTooltip('score')}"></ncats-property-display>
+  </li>
+  <li *ngIf="association.source">
+    <ncats-property-display [property]="{label:'Source' ,term:association.source, tooltip:getTooltip('source')}"
+                            [matTooltip]='getTooltip("")'></ncats-property-display>
+  </li>
 </ul>

@@ -52,7 +52,7 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
     }),
     new PharosProperty({
       name: 'value',
-      label: 'Activity Value'
+      label: 'Activity Value -log(M)'
     }),
     new PharosProperty({
       name: 'moa',

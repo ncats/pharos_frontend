@@ -22,6 +22,7 @@ describe('DiseaseHeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DiseaseHeaderComponent);
     component = fixture.componentInstance;
+    component.apiSources = [{label: '', field: '', description: ''}];
     component.data.diseases = TESTTARGET.diseases[0];
     component.disease = TESTTARGET.diseases[0];
     fixture.detectChanges();

@@ -21,6 +21,7 @@ import {ActivatedRoute} from '@angular/router';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {TargetComponents} from "../../../../../models/target-components";
 import {DataProperty} from "../../../../../tools/generic-table/components/property-display/data-property";
+import {BreakpointObserver} from "@angular/cdk/layout";
 
 /**
  * shows a list of protein to protein interactions for a target
@@ -47,11 +48,6 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
   targetProps: any;
 
   /**
-   * pagination data for target table
-   */
-  targetPageData: PageData;
-
-  /**
    * @param pharosApiService
    * @param _route
    * @param {NavSectionsService} navSectionsService
@@ -61,7 +57,8 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
     private pharosApiService: PharosApiService,
     private _route: ActivatedRoute,
     private navSectionsService: NavSectionsService,
-    private changeRef: ChangeDetectorRef
+    private changeRef: ChangeDetectorRef,
+    public breakpointObserver: BreakpointObserver
   ) {
     super();
   }
@@ -70,6 +67,7 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
    * this gets all ppi targets
    */
   ngOnInit() {
+    this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 960px)');
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
@@ -80,14 +78,23 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
         this.target = this.data.targets;
         this.loading = false;
         this.changeRef.markForCheck();
+
+        this.pageData = new PageData({
+          total: this.target.ppiCount,
+          skip: 0,
+          top: 10
+        });
       });
   }
+
+  pageData: PageData;
   /**
    * paginate the list of targets
    * @param event
    */
   paginate(event: PageEvent) {
     this.loading = true;
+    this.pageData.skip = event.pageIndex * event.pageSize;
     const pageParams = {
       ppistop: event.pageSize,
       ppisskip: event.pageIndex * event.pageSize,

@@ -18,7 +18,7 @@
         </div>
         <div class="content">
           <div class="section">
-            <mat-card-subtitle>Associated Targets ({{this.disease.targetCountsTotal}})</mat-card-subtitle>
+            <mat-card-subtitle [matTooltip]="getTooltip('associatedTargets')">Associated Targets ({{this.disease.targetCountsTotal}})</mat-card-subtitle>
             <div FxFlex class="assoc-count">
               <div *ngFor='let assocCount of this.disease?.targetCounts'>
                 <div class="assoc-count">
@@ -34,20 +34,20 @@
           </div>
           <div class="section" fxFlex="35">
             <div *ngIf="this.disease.uniprotDescription">
-              <mat-card-subtitle>
+              <mat-card-subtitle [matTooltip]="getTooltip('uniprotDescription')">
                 Uniprot Description
               </mat-card-subtitle>
               {{this.disease.uniprotDescription}}
             </div>
             <div *ngIf="this.disease.doDescription">
-              <mat-card-subtitle>
+              <mat-card-subtitle [matTooltip]="getTooltip('doDescription')">
                 Disease Ontology Description
               </mat-card-subtitle>
               {{this.disease.doDescription}}
             </div>
           </div>
           <div class="section" *ngIf="this.disease.diseaseIDs.length">
-            <mat-card-subtitle>
+            <mat-card-subtitle [matTooltip]="getTooltip('datasourceRefs')">
               DataSource References
             </mat-card-subtitle>
             <div *ngFor="let id of this.disease.diseaseIDs">

@@ -19,6 +19,11 @@ import {StructureViewComponent} from './structure-view/structure-view.component'
 import {NcatsHeaderModule} from './ncats-header/ncats-header.module';
 import { ListFilterComponent } from './list-filter/list-filter.component';
 import { ExploreListButtonComponent } from './explore-list-button/explore-list-button.component';
+import { AssociationDataSourcesArticleComponent } from './help-panel/articles/association-data-sources-article/association-data-sources-article.component';
+import { ExpressionDataSourcesArticleComponent } from './help-panel/articles/expression-data-sources-article/expression-data-sources-article.component';
+import { PPIDataSourcesArticleComponent } from './help-panel/articles/ppidata-sources-article/ppidata-sources-article.component';
+import { PathwayDataSourcesArticleComponent } from './help-panel/articles/pathway-data-sources-article/pathway-data-sources-article.component';
+import { AffiliateLinkComponent } from './affiliate-link/affiliate-link.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +38,12 @@ import { ExploreListButtonComponent } from './explore-list-button/explore-list-b
     ProteinStructureViewerComponent,
     StructureViewComponent,
     ListFilterComponent,
-    ExploreListButtonComponent
+    ExploreListButtonComponent,
+    AssociationDataSourcesArticleComponent,
+    ExpressionDataSourcesArticleComponent,
+    PPIDataSourcesArticleComponent,
+    PathwayDataSourcesArticleComponent,
+    AffiliateLinkComponent
   ],
   imports: [
     CommonModule,
@@ -60,7 +70,8 @@ import { ExploreListButtonComponent } from './explore-list-button/explore-list-b
     StructureViewComponent,
     ProteinStructureViewerComponent,
     ListFilterComponent,
-    ExploreListButtonComponent
+    ExploreListButtonComponent,
+    AffiliateLinkComponent
   ]
 })
 export class CommonToolsModule { }

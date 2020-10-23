@@ -8,9 +8,12 @@ import {TargetDevelopmentArticleComponent} from '../tools/help-panel/articles/ta
 import {LigandActivityArticleComponent} from '../tools/help-panel/articles/ligand-activity-article/ligand-activity-article.component';
 import {TinxArticleComponent} from '../tools/help-panel/articles/tinx-article/tinx-article.component';
 import {PubmedScoreArticleComponent} from '../tools/help-panel/articles/pubmed-score-article/pubmed-score-article.component';
-import {EquationRendererComponent} from '../tools/equation-renderer/equation-renderer.component';
 import {KatexRendererDirective} from '../tools/equation-renderer/katex-renderer.directive';
 import {AssociationScoreArticleComponent} from '../tools/help-panel/articles/association-score-article/association-score-article.component';
+import {AssociationDataSourcesArticleComponent} from "../tools/help-panel/articles/association-data-sources-article/association-data-sources-article.component";
+import {ExpressionDataSourcesArticleComponent} from "../tools/help-panel/articles/expression-data-sources-article/expression-data-sources-article.component";
+import {PPIDataSourcesArticleComponent} from "../tools/help-panel/articles/ppidata-sources-article/ppidata-sources-article.component";
+import {PathwayDataSourcesArticleComponent} from "../tools/help-panel/articles/pathway-data-sources-article/pathway-data-sources-article.component";
 
 @NgModule({
   declarations: [
@@ -34,6 +37,10 @@ import {AssociationScoreArticleComponent} from '../tools/help-panel/articles/ass
     {provide: ARTICLES.TINX_ARTICLE, useValue: TinxArticleComponent },
     {provide: ARTICLES.PUBMED_SCORE_ARTICLE, useValue: PubmedScoreArticleComponent },
     {provide: ARTICLES.ASSOCIATION_SCORES_ARTICLE, useValue: AssociationScoreArticleComponent },
+    {provide: ARTICLES.ASSOCIATION_DATA_SOURCES_ARTICLE, useValue: AssociationDataSourcesArticleComponent},
+    {provide: ARTICLES.EXPRESSION_DATA_SOURCES_ARTICLE, useValue: ExpressionDataSourcesArticleComponent},
+    {provide: ARTICLES.PPI_DATA_SOURCES_ARTICLE, useValue: PPIDataSourcesArticleComponent},
+    {provide: ARTICLES.PATHWAY_DATA_SOURCES_ARTICLE, useValue: PathwayDataSourcesArticleComponent}
   ]
 })
 export class HelpArticlesModule { }

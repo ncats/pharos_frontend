@@ -23,7 +23,6 @@ import {takeUntil} from 'rxjs/operators';
  * summary panel class
  */
 export class SummaryPanelComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
-
   /**
    * target displayed
    */
@@ -31,6 +30,8 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
 
   @Input() targetProps: any;
 
+  affiliates: string[] = ["Dark Kinase Knowledgebase"];
+  affiliateLinks: any[] = [];
   /**
    * dialog for radar modal and navigation sections service
    * @param {MatDialog} dialog
@@ -57,6 +58,12 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
       )
       .subscribe(x => {
         this.target = this.data.targets;
+        this.affiliateLinks = [];
+        for(let i = 0 ; i < this.affiliates.length ; i++){
+          if(this.target.dataSources.includes(this.affiliates[i])){
+            this.affiliateLinks.push(this.affiliates[i]);
+          }
+        }
         this.targetProps = this.data.targetsProps;
         this.loading = false;
         this.changeRef.markForCheck();
