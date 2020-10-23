@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-
 import {TargetDetailsRoutingModule} from './target-details-routing.module';
 import {TargetHeaderComponent} from '../../data-details/target-details/target-header/target-header.component';
 import {SummaryPanelComponent} from '../../data-details/target-details/panels/summary-panel/summary-panel.component';
@@ -21,8 +20,8 @@ import {IdgResourcesPanelComponent} from '../../data-details/target-details/pane
 import {ReagentPanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/reagent-panel/reagent-panel.component';
 import {DataResourcePanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/data-resource-panel/data-resource-panel.component';
 import {MouseExpressionComponent} from "../../data-details/target-details/panels/idg-resources-panel/mouse-expression/mouse-expression.component";
-import {LigandsPanelComponent} from '../../data-details/target-details/panels/ligands-panel/ligands-panel.component';
-import {DrugsPanelComponent} from '../../data-details/target-details/panels/drugs-panel/drugs-panel.component';
+import {LigandsPanelComponent} from '../../data-details/target-details/panels/drugs-ligands-panel/ligands-panel/ligands-panel.component';
+import {DrugsPanelComponent} from '../../data-details/target-details/panels/drugs-ligands-panel/drugs-panel/drugs-panel.component';
 import {DifferentialPanelComponent} from '../../data-details/target-details/panels/expression-panel/differential-panel/differential-panel.component';
 import {SharedModule} from '../../../shared/shared.module';
 import {CommonToolsModule} from '../../../tools/common-tools.module';
@@ -41,6 +40,9 @@ import {RelatedPublicationsComponent} from '../../data-details/target-details/pa
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {PdbDetailsComponent} from "../../data-details/target-details/panels/pdb-panel/pdb-details/pdb-details.component";
 import {PdbPanelComponent} from "../../data-details/target-details/panels/pdb-panel/pdb-panel.component";
+import {DrugsLigandsPanelComponent} from "../../data-details/target-details/panels/drugs-ligands-panel/drugs-ligands-panel.component";
+import {PathwaysPanelComponent} from "../../data-details/target-details/panels/pathways-panel/pathways-panel.component";
+import {ReactomePathwayBrowserComponent} from "../../data-details/target-details/panels/pathways-panel/reactome-pathway-browser/reactome-pathway-browser.component";
 
 @NgModule({
   declarations: [
@@ -57,6 +59,8 @@ import {PdbPanelComponent} from "../../data-details/target-details/panels/pdb-pa
     ExpressionTissueCardComponent,
     AaSequencePanelComponent,
     ProteinProteinPanelComponent,
+    PathwaysPanelComponent,
+    ReactomePathwayBrowserComponent,
     ViralInteractionPanelComponent,
     VirusDetailsComponent,
     OrthologPanelComponent,
@@ -70,7 +74,8 @@ import {PdbPanelComponent} from "../../data-details/target-details/panels/pdb-pa
     MouseExpressionComponent,
     LigandsPanelComponent,
     DrugsPanelComponent,
-    DifferentialPanelComponent
+    DifferentialPanelComponent,
+    DrugsLigandsPanelComponent
   ],
   imports: [
     CommonModule,
@@ -95,7 +100,6 @@ import {PdbPanelComponent} from "../../data-details/target-details/panels/pdb-pa
     {provide: TOKENS.PHAROS_SUBNAV_COMPONENT, useValue: SidenavPanelComponent},
     {provide: TOKENS.PHAROS_HELPPANEL_COMPONENT, useValue: HelpPanelComponent},
     {provide: TOKENS.PHAROS_BREADCRUMB_COMPONENT, useValue: BreadcrumbComponent},
-    {provide: TOKENS.TARGET_GENE_SUMMARY_COMPONENT, useValue: GeneSummaryComponent},
     // targets
     {provide: TOKENS.TARGET_HEADER_COMPONENT, useValue: TargetHeaderComponent},
     {provide: TOKENS.SUMMARY_PANEL, useValue: SummaryPanelComponent},
@@ -112,6 +116,7 @@ import {PdbPanelComponent} from "../../data-details/target-details/panels/pdb-pa
     {provide: TOKENS.LIGANDS_PANEL, useValue: LigandsPanelComponent},
     {provide: TOKENS.DRUGS_PANEL, useValue: DrugsPanelComponent},
     {provide: TOKENS.PDB_PANEL, useValue: PdbPanelComponent},
+    {provide: TOKENS.PATHWAYS_PANEL, useValue: PathwaysPanelComponent}
   ]
 })
 export class TargetDetailsModule { }

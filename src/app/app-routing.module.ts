@@ -31,6 +31,10 @@ const ROUTES: Routes = [
     data: {path: 'home'}
   },
   {
+    path: 'idg/api',
+    redirectTo: '/api'
+  },
+  {
     path: 'about',
     loadChildren: () => import('./about-page/about-page.module').then(m => m.AboutPageModule)
   },

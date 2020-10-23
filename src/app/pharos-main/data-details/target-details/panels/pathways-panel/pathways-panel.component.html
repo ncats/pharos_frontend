@@ -1,0 +1,83 @@
+<article *ngIf="target?.reactomePathways?.length > 0 || target?.otherPathways?.length > 0">
+  <mat-card id="pathways"
+            class="section-card"
+            (pharosScrollspy)="active('pathways')"
+            #pathways>
+    <mat-card-content>
+      <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+        <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+      </div>
+      <div fxLayout="row"
+           class="tkrow"
+           fxLayoutAlign="start stretch">
+        <div fxFlex="95" class="headerContainer">
+        <span class="mat-title" [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">Pathways ({{target?.pathwayCount}})</span>
+        </div>
+        <div fxFlex="5">
+          <pharos-help-panel-trigger [origin]="'pathways'"></pharos-help-panel-trigger>
+        </div>
+      </div>
+      <div class="lower-content">
+        <mat-tab-group>
+          <mat-tab *ngIf="target?.reactomePathways?.length > 0"
+                   label="Reactome ({{target.reactomePathwayCount}})"
+                   [matTooltip]="getTooltip('reactome')">
+            <ng-template matTabContent>
+              <div class="pathway-container">
+                <mat-card-title>{{selectedStructure.name}} ({{selectedStructure.sourceID}})</mat-card-title>
+                <pharos-reactome-pathway-browser
+                  [symbol]="target.gene"
+                  [reactomeID]="selectedStructure.sourceID">
+                </pharos-reactome-pathway-browser>
+                <div fxLayout="row" fxLayoutAlign="space-around center">
+                  <div>
+                    <p class="slice-help">
+                      <mat-icon [color]="'primary'" class="help-icon">info</mat-icon>
+                      Click on a row in the table to change the structure displayed.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <mat-paginator
+                [pageSizeOptions]="[5, 10, 20, 50]"
+                [pageSize]="5"
+                [length]="target.reactomePathwayCount"
+                [showFirstLastButtons]=true
+                (page)="changePage($event, this.reactomeListParams)">
+              </mat-paginator>
+              <pharos-generic-table
+                [showPaginator]="false"
+                [pageData]="reactomePageData"
+                [data]="reactomeData"
+                [fieldsConfig]="reactomeFields"
+                (rowClick)="changePath($event)">
+              </pharos-generic-table>
+            </ng-template>
+          </mat-tab>
+          <mat-tab *ngIf="target?.otherPathways?.length > 0"
+                   label="Other Sources ({{target.otherPathwayCount}})"
+                   [matTooltip]="getTooltip('others')">
+            <ng-template matTabContent>
+              <div fxFlexAlign="end">
+                <mat-paginator
+                  [pageSizeOptions]="[5, 10, 20, 50]"
+                  [pageSize]="5"
+                  [length]="target.otherPathwayCount"
+                  [showFirstLastButtons]=true
+                  (page)="changePage($event, this.otherListParams)">
+                </mat-paginator>
+              </div>
+              <pharos-generic-table
+                [showPaginator]="false"
+                [pageData]="otherPageData"
+                [data]="otherData"
+                [fieldsConfig]="otherFields">
+              </pharos-generic-table>
+            </ng-template>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</article>

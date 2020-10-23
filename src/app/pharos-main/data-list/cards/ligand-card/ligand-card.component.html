@@ -19,7 +19,7 @@
     </div>
     <div *ngIf="primeActivity; else activityCount">
       <br>
-      {{primeActivity.moa}} {{primeActivity.type}}: {{primeActivity.value}}
+      <span [matTooltip]="getTooltip('activity')">{{primeActivity.moa}} {{primeActivity.type}}: {{primeActivity.value}}</span>
       <br>
       <br>
 <!--      <div *ngIf="ligand.activities.length > 1">Also tested on <a routerLink="/ligands/{{ligand.chemblName || ligand.name}}" target="_blank" rel="noreferrer">{{ligand.activities.length}}</a>

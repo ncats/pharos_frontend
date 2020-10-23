@@ -1,9 +1,9 @@
-<div class="container">
-<div fxFlex="40">
+<div class="content-container">
+<div class="content-panel">
   <pharos-anatamogram [species]="'mus_musculus'" [tissues]="this.tissues" [shadingMap]="this.shadingMap" [shadingKey]="this.shadingKey"
                       [redrawAnatamogram]="this.redrawAnatamogram" [clickHandler]="this.tissueClicked.bind(this)"></pharos-anatamogram>
 </div>
-<div fxFlex="56">
+<div class="content-panel">
   <div class="expression-card-list" #expression_card_list>
     <div
       *ngFor="let uberon of this.tissues">
@@ -11,9 +11,11 @@
         <mat-expansion-panel-header
           (mouseover)="this.setHover(uberon)"
           (mouseleave)="this.setHover(null)">
-          {{this.getExpressions(uberon)[0].tissue}}
-          <div class="header-helptext" [ngClass]="{'hidden': !this.collapsed}" matTooltip="Number of experimental conditions showing expression for this tissue.">
-            {{this.expressionDataString(uberon)}}
+          <div class="panel-header">
+            <div class="">{{this.getExpressions(uberon)[0].tissue}}</div>
+            <div class="header-helptext" [ngClass]="{'hidden': !this.collapsed}" matTooltip="Number of experimental conditions showing expression for this tissue.">
+              {{this.expressionDataString(uberon)}}
+            </div>
           </div>
         </mat-expansion-panel-header>
         <div class="expression-grid">

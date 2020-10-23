@@ -6,14 +6,6 @@
           <pharos-search-component class="large-search"></pharos-search-component>
         </div>
       </div>
-      <div class="devMode" *ngIf="inDevMode()">
-        <h4>This is the Pharos Dev Environment</h4>
-        <ul>
-          <li *ngFor="let prop of getEnvironmentInfo()">
-            <ncats-property-display [property]="prop"></ncats-property-display>
-          </li>
-        </ul>
-      </div>
       <a (click)="goToDetails()" class="learn-link" fxHide.lt-md>
         <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
           <div fxFlex="20" class="learn-more">

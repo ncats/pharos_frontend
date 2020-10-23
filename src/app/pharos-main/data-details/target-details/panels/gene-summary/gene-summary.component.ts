@@ -57,7 +57,6 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
    * subscribe to data changes
    */
   ngOnInit() {
-    const isSmallScreen = this.breakpointObserver.isMatched('(max-width: 768px)');
     this.router.events
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((e: any) => {
@@ -65,16 +64,7 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
           this.metaService.destroyCanonicalURL();
         }
       });
-    this._data
-    // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
-      .subscribe(x => {
-        this.target = this.data.targets;
-        this.setterFunction();
-      });
+    this.setterFunction();
   }
 
   /**

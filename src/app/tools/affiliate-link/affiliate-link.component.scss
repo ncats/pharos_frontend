@@ -1,0 +1,27 @@
+.medium {
+  font-size: 42px;
+}
+a:hover{
+  text-decoration: none;
+}
+.container:hover {
+  background-color: #f6f6f6;
+}
+
+.container {
+  height: 42px;
+  min-width: 25%;
+  max-width: 300px;
+}
+
+.link{
+  height: 42px;
+  display: flex;
+  flex-direction: row;
+}
+
+.affiliate-link{
+  margin-left: 20px;
+  margin-top: 11px;
+  font-size: 18px;
+}

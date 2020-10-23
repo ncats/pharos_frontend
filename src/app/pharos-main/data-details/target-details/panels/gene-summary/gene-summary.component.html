@@ -1,5 +1,5 @@
-<div fxLayout="row" fxLayoutAlign="space-around start" class="body-row" >
-  <div fxFlex="95">
+<div fxLayout="column" fxLayoutAlign="space-around start" class="body-row" >
+  <div class="description-row">
     <div *ngIf="fullDescription; else truncated">
       <span class="mat-body-1">{{target.description}}</span>
       <a (click) = "fullDescription = false" *ngIf="fullDescription && truncatedDescription"> ...less</a>

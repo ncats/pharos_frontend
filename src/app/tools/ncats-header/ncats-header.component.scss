@@ -1,10 +1,21 @@
-.ncats-toolbar {
-  position: fixed;
-}
-
 .profile-section {
   text-align: center;
 }
+
+.menu-container {
+  background-color: transparent;
+}
+
+.ncats-toolbar {
+  z-index: 666;
+}
+
+header{
+  position: fixed;
+  z-index: 555;
+  width: 100%;
+}
+
 
 .profile-pic {
   height: 45px;
@@ -45,10 +56,6 @@ img.pharos-logo {
   width:45%;
 }
 
-.ncats-toolbar {
-  z-index: 6667;
-}
-
 pharos-search-component {
   width: 25vw;
 }
@@ -57,10 +64,8 @@ pharos-search-component {
   text-decoration: underline;
 }
 
-
 .mobile-menu-panel{
   color: black;
- // height: 100vh;
   width:65vw;
 }
 

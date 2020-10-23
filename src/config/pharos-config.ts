@@ -2,35 +2,11 @@ import {COMPONENTSCONFIG, PharosPanel} from '../config/components-config';
 import {environment} from '../environments/environment';
 import {Injectable} from '@angular/core';
 
-
-/**
- * pharos host url
- * todo might not want to bring environment variables into play here
- * @type {string}
- * @private
- */
-const _HOST = environment.host;
-
-/**
- * api version string
- * @type {string}
- * @private
- */
-const _API = environment.api;
-
 /**
  * main bundle of api calls used in pharos
  * @type {any}
  */
 const PHAROSCONFIG: any = {
-  apiUrl: _HOST + _API,
-  suggestUrl: _HOST + _API + 'suggest?q=',
-  radarUrl: _HOST + _API + 'hg/data?type=radar-attr_type&q=',
-  radarSourcesUrl: _HOST + _API + 'hg/ds?type=radar-attr_type&q=',
-  structureImageUrl: _HOST + _API + 'struc/',
-  homunculusUrl: _HOST + _API + 'expression/homunculus?acc=_id_&source=',
-  molConvertUrl: _HOST + _API + 'smiles',
-  topicResolveUrl: `${_HOST}${_API}topics/target`,
   components: COMPONENTSCONFIG,
   graphqlUrl: environment.graphqlUrl
 };
@@ -48,14 +24,6 @@ export class PharosConfig {
    */
    getApiPath(): string {
     return PHAROSCONFIG.apiUrl;
-  }
-
-  /**
-   * get search url for typeahead suggestions
-   * @returns {string}
-   */
-   getSuggestPath(): string {
-    return PHAROSCONFIG.suggestUrl;
   }
 
   /**
