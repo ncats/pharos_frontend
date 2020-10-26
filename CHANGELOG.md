@@ -45,7 +45,7 @@ _______________
 ### Added Features
 * **IDG Resources:**
     * Fetching and Displaying IDG resources for Cell Lines, Constructs, Mouse Lines, Datasets, etc. from <a href="https://rss.ccs.miami.edu/rss-apis/" target="_blank">https://rss.ccs.miami.edu/rss-apis/</a>
-    * Display expression with a mouse anatamogram
+    * Display expression with a mouse anatomogram
 
 * **Predicted Viral Interactions:**
     * Showing Target List Facets, and Target Details Panel for Predicted Viral Interactions from <a href="http://phipster.org/" target="_blank">P-HIPSTer</a>.
