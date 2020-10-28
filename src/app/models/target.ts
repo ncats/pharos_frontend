@@ -9,7 +9,7 @@ import {TARGETDETAILSFIELDS, TARGETDETAILSQUERY, TARGETLISTFIELDS} from "./targe
 import {Facet} from "./facet";
 import {InteractionDetails} from "./interaction-details";
 import {DiseaseAssocationSerializer, DiseaseAssociation} from "./disease-association";
-import {VirusDetails} from "./virus-interactions";
+import {VirusDetails, VirusDetailsSerializer} from "./virus-interactions";
 import {Pathway, PathwaySerializer} from "./pathway";
 
 
@@ -303,6 +303,12 @@ export class TargetSerializer implements PharosSerializer {
     const obj = new Target();
     obj.parsed = true;
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
+
+    if(json.interactingViruses){
+      const virusDetailsSerializer = new VirusDetailsSerializer();
+      obj.interactingViruses = json.interactingViruses.map(virus => virusDetailsSerializer.fromJson(virus));
+      obj.interactingViruses = obj.interactingViruses.sort((a,b) => {return VirusDetails.sort(b, a);});
+    }
 
     if(json.otherPathways?.length > 0 || json.reactomePathways?.length > 0){
       let pathwaySerializer = new PathwaySerializer();

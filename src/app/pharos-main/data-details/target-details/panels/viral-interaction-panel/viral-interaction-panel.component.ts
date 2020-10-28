@@ -25,6 +25,28 @@ export class ViralInteractionPanelComponent extends DynamicPanelComponent implem
     super();
   }
 
+  confirmed() {
+    return this.target.interactingViruses.filter(virus => virus.confirmed()).length;
+  }
+  predicted() {
+    return this.target.interactingViruses.filter(virus => !virus.confirmed()).length;
+  }
+
+  countString(){
+    const conf = this.confirmed();
+    const pred = this.predicted();
+    if(conf && pred){
+      return `${pred} Predicted, ${conf} Confirmed`;
+    }
+    if(conf){
+      return `${conf} Confirmed`;
+    }
+    if(pred){
+      return `${pred} Predicted`;
+    }
+    return '0';
+  }
+
   ngOnInit(): void {
     this._data
       // listen to data as long as term is undefined or null
@@ -50,7 +72,6 @@ export class ViralInteractionPanelComponent extends DynamicPanelComponent implem
   visibleList: VirusDetails[];
 
   setterFunction() : void {
-    this.target.interactingViruses = this.target.interactingViruses.sort((a,b) => {return b.interactionDetails.length - a.interactionDetails.length})
     this.visibleList = this.target.interactingViruses.slice(0, 10);
   }
 
