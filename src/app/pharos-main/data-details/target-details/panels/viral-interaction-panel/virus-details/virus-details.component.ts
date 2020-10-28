@@ -26,8 +26,8 @@ export class VirusDetailsComponent implements OnInit {
     const conf = this.confirmed();
     const pred = this.predicted();
     if (conf) {
-      return `(${pred} predicted interactions, ${conf} confirmed interactions)`;
+      return `(${pred} predicted interaction${pred === 1 ? '' : 's'}, ${conf} confirmed interaction${conf === 1 ? '' : 's'})`;
     }
-    return `(${pred} predicted interactions)`;
+    return `(${pred} predicted interaction${pred === 1 ? '' : 's'})`;
   }
 }
