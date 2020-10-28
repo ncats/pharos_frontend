@@ -557,6 +557,7 @@ export const TARGETDETAILSFIELDS = gql`
         finalLR
         protein_name
         protein_ncbi
+        pdbIDs
       }
     }
   }
