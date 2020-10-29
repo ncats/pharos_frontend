@@ -92,14 +92,6 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
     this.navSectionsService.setActiveSection(fragment);
 }
 
-  getTooltip(label: string): string {
-    const tooltip = this.apiSources.filter(source => source.field === label);
-    if (tooltip.length) {
-      return tooltip[0].description;
-    } else {
-      return null;
-    }  }
-
   /**
    * clean up on leaving component
    */

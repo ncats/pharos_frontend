@@ -97,11 +97,6 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
     return LABELS.get(value) ? LABELS.get(value) : value;
   }
 
-  getTooltip(label: string): string {
-    const labels = this.apiSources.filter(source => source.field === label)[0];
-    return labels ? labels.description : '';
-  }
-
   /**
    * active section view tracker
    * @param {string} fragment

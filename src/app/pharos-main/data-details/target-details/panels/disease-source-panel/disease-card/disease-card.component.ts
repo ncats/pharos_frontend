@@ -2,19 +2,20 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Disease} from "../../../../../../models/disease";
 import {DiseaseAssociation} from "../../../../../../models/disease-association";
 import {BreakpointObserver} from "@angular/cdk/layout";
+import {DynamicPanelBaseComponent} from "../../../../../../tools/dynamic-panel-base/dynamic-panel-base.component";
 
 @Component({
   selector: 'pharos-disease-card',
   templateUrl: './disease-card.component.html',
   styleUrls: ['./disease-card.component.scss']
 })
-export class DiseaseCardComponent implements OnInit {
+export class DiseaseCardComponent extends DynamicPanelBaseComponent implements OnInit {
 
   constructor(private breakpointObserver: BreakpointObserver) {
+    super();
   }
 
   @Input() disease: Disease;
-  @Input() apiSources: any[];
   collapsed: boolean = true;
 
   nonDrugs: DiseaseAssociation[];

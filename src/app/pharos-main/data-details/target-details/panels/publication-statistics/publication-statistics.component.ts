@@ -140,15 +140,6 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
     this.navSectionsService.setActiveSection(fragment);
   }
 
-  getTooltip(label: string): string {
-    const tooltip = this.apiSources.filter(source => source.field === label);
-    if (tooltip.length) {
-      return tooltip[0].description;
-    } else {
-      return null;
-    }
-  }
-
   deDupeArr(arr: {year: string, score?: number, count?: number}[]): {year: string, score?: number, count?: number}[] {
     const values: Map<string, {year: string, score?: number, count?: number}> =
       new Map<string, {year: string, score?: number, count?: number}>();

@@ -81,7 +81,8 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
     private pharosApiService: PharosApiService,
     private changeRef: ChangeDetectorRef,
     private _route: ActivatedRoute,
-    public navSectionsService: NavSectionsService) {
+    public navSectionsService: NavSectionsService
+  ) {
     super(navSectionsService);
   }
 

@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Target} from "../../../../models/target";
 import {DynamicPanelComponent} from "../../../../tools/dynamic-panel/dynamic-panel.component";
 import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-sections.service";
+import {DynamicPanelBaseComponent} from "../../../../tools/dynamic-panel-base/dynamic-panel-base.component";
 
 @Component({
   selector: 'pharos-long-target-card',
@@ -9,18 +10,16 @@ import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-s
   styleUrls: ['./long-target-card.component.scss']
 })
 
-export class LongTargetCardComponent extends DynamicPanelComponent implements OnInit {
+export class LongTargetCardComponent extends DynamicPanelBaseComponent implements OnInit {
 
   @Input() target?: Target;
   @Input() selected: boolean;
   @Input() loggedIn: boolean;
-  @Input() apiSources: any[];
 
   @Output() selectionChanged = new EventEmitter<boolean>();
 
-  constructor(
-    public navSectionsService: NavSectionsService) {
-    super(navSectionsService);
+  constructor() {
+    super();
   }
 
   ngOnInit(): void {

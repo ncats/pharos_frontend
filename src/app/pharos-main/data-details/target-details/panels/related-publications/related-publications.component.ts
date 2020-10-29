@@ -200,16 +200,6 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
     this.navSectionsService.setActiveSection(fragment);
   }
 
-  getTooltip(label: string): string {
-    const tooltip = this.apiSources.filter(source => source.field === label);
-    if (tooltip.length) {
-      return tooltip[0].description;
-    } else {
-      return null;
-    }
-  }
-
-
   /**
    * cleanp on destroy
    */

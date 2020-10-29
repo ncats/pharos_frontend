@@ -17,8 +17,8 @@ export class NavSectionsService {
    */
   private _visibleSections: any[] = [];
   private _allSections: any[] = [];
-  private popSource = new BehaviorSubject(null);
-  pop$ = this.popSource.asObservable();
+  private rescrollSource = new BehaviorSubject(null);
+  rescroll$ = this.rescrollSource.asObservable();
 
   /**
    * RxJs subject to broadcast help panel data changes
@@ -62,7 +62,7 @@ export class NavSectionsService {
   }
 
   reScroll(){
-    this.popSource.next(null);
+    this.rescrollSource.next(null);
   }
 
   hideSection(remSection: string) {

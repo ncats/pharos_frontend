@@ -24,10 +24,12 @@ import { ExpressionDataSourcesArticleComponent } from './help-panel/articles/exp
 import { PPIDataSourcesArticleComponent } from './help-panel/articles/ppidata-sources-article/ppidata-sources-article.component';
 import { PathwayDataSourcesArticleComponent } from './help-panel/articles/pathway-data-sources-article/pathway-data-sources-article.component';
 import { AffiliateLinkComponent } from './affiliate-link/affiliate-link.component';
+import { DynamicPanelBaseComponent } from './dynamic-panel-base/dynamic-panel-base.component';
 
 @NgModule({
   declarations: [
     BatchUploadModalComponent,
+    DynamicPanelBaseComponent,
     DynamicPanelComponent,
     DynamicTablePanelComponent,
     EquationRendererComponent,
