@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {DynamicPanelComponent} from '../dynamic-panel/dynamic-panel.component';
 import {PageData} from '../../models/page-data';
 import {PharosProperty} from '../../models/pharos-property';
+import {NavSectionsService} from "../sidenav-panel/services/nav-sections.service";
 
 /**
  * extendable component that also adds table -related operations to a dynamic panel
@@ -42,8 +43,9 @@ export class DynamicTablePanelComponent extends DynamicPanelComponent {
    * no args constructor
    * calls super object constructor
    */
-  constructor() {
-    super();
+  constructor(
+    public navSectionsService: NavSectionsService ) {
+    super(navSectionsService);
   }
 
   /**
@@ -52,7 +54,7 @@ export class DynamicTablePanelComponent extends DynamicPanelComponent {
    * @param $event
    */
   paginateData($event) {
-    this.loading = true;
+    this.loadingStart();
   }
 
   /**

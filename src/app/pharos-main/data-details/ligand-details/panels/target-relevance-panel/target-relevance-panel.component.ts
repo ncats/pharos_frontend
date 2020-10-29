@@ -6,6 +6,7 @@ import {Ligand} from '../../../../../models/ligand';
 import {takeUntil} from 'rxjs/operators';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 /**
  * shows what targets the ligand was tested on
@@ -78,9 +79,10 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(
-    private changeRef: ChangeDetectorRef
+    private changeRef: ChangeDetectorRef,
+    public navSectionsService: NavSectionsService
   ) {
-    super();
+    super(navSectionsService);
   }
 
   /**
@@ -97,7 +99,7 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
         if (this.data && this.data.ligands) {
           this.ligand = this.data.ligands;
           this.ligandProps = this.data.ligandsProps;
-          this.loading = false;
+          this.loadingComplete();
           this.activitiesTargetDataSource.data = this.ligandProps.activities;
           this.activitiesTargetDataSource.paginator = this.paginator;
           this.changeRef.markForCheck();

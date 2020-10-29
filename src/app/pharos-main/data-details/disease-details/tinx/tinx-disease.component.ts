@@ -6,6 +6,7 @@ import {ActivatedRoute, NavigationStart, Router} from "@angular/router";
 import {DynamicPanelComponent} from "../../../../tools/dynamic-panel/dynamic-panel.component";
 import {isPlatformBrowser} from "@angular/common";
 import {PharosApiService} from "../../../../pharos-services/pharos-api.service";
+import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-sections.service";
 
 @Component({
   selector: 'pharos-tinx-disease',
@@ -24,8 +25,9 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
     private changeRef: ChangeDetectorRef,
     private _route: ActivatedRoute,
     private router: Router,
-    @Inject(PLATFORM_ID) private platformID: Object) {
-    super();
+    @Inject(PLATFORM_ID) private platformID: Object,
+    public navSectionsService: NavSectionsService) {
+    super(navSectionsService);
   }
 
   hasTooMuchData() {
@@ -41,7 +43,7 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
     this.router.events
       .subscribe((e: any) => {
         if (e instanceof NavigationStart) {
-          this.loading = true;
+          this.loadingStart();
           this.tinx = []; this.inTinx = [];
           this.changeRef.markForCheck();
         }
@@ -72,13 +74,13 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
               }
             });
             this.tinx = this.inTinx;
-            this.loading = false;
+            this.loadingComplete();
             this.changeRef.detectChanges();
           });
         }
         else {
           this.tinx = this.inTinx;
-          this.loading = false;
+          this.loadingComplete();
           this.changeRef.detectChanges();
         }
       });

@@ -59,10 +59,10 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
    */
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private navSectionsService: NavSectionsService,
     private changeRef: ChangeDetectorRef,
-    @Inject(PLATFORM_ID) private platformID: Object) {
-    super();
+    @Inject(PLATFORM_ID) private platformID: Object,
+    public navSectionsService: NavSectionsService) {
+    super(navSectionsService);
   }
 
   /**
@@ -90,7 +90,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
             uniprotacc: this.target.accession
           });
         }
-        this.loading = false;
+        this.loadingComplete();
         this.changeRef.markForCheck();
       });
 

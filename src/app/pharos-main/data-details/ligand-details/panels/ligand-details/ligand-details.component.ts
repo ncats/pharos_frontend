@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy,
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {Ligand} from '../../../../../models/ligand';
 import {takeUntil} from 'rxjs/operators';
-import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 @Component({
   selector: 'pharos-ligand-details',
@@ -17,11 +17,9 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
    */
   @Input() ligand: Ligand;
 
-  constructor(
-    private navSectionsService: NavSectionsService,
-    private changeRef: ChangeDetectorRef
-  ) {
-    super();
+  constructor(private changeRef: ChangeDetectorRef,
+              public navSectionsService: NavSectionsService) {
+    super(navSectionsService);
   }
 
   /**
@@ -37,7 +35,7 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
       .subscribe(x => {
         if (this.data && this.data.ligands) {
           this.ligand = this.data.ligands;
-          this.loading = false;
+          this.loadingComplete();
           this.changeRef.markForCheck();
         }
       });

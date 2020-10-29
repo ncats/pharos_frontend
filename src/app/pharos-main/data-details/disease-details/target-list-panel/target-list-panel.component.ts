@@ -7,6 +7,7 @@ import {PageEvent} from '@angular/material/paginator';
 import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
 import {DiseaseAssocationSerializer} from '../../../../models/disease-association';
 import {Disease} from '../../../../models/disease';
+import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-sections.service";
 
 /**
  * token to inject structure viewer into generic table component
@@ -60,8 +61,9 @@ export class TargetListPanelComponent extends DynamicTablePanelComponent impleme
   constructor(
     private changeRef: ChangeDetectorRef,
     private pharosApiService: PharosApiService,
+    public navSectionsService: NavSectionsService
   ) {
-    super();
+    super(navSectionsService);
   }
 
   ngOnInit() {
@@ -73,7 +75,7 @@ export class TargetListPanelComponent extends DynamicTablePanelComponent impleme
       )
       .subscribe(x => {
         this.disease = this.data.diseases;
-        this.loading = false;
+        this.loadingComplete();
       });
   }
 
@@ -82,7 +84,7 @@ export class TargetListPanelComponent extends DynamicTablePanelComponent impleme
    * @param event
    */
   paginate(event: PageEvent) {
-    this.loading = true;
+    this.loadingStart();
     const associationSerializer = new DiseaseAssocationSerializer();
     const pageParams = {
       associationtop: event.pageSize,
@@ -90,7 +92,7 @@ export class TargetListPanelComponent extends DynamicTablePanelComponent impleme
     };
     this.pharosApiService.fetchMore('diseases', pageParams).valueChanges.subscribe(res => {
       this.disease.associations = res.data.diseases.associations.map(association => associationSerializer.fromJson(association));
-      this.loading = false;
+      this.loadingComplete();
       this.changeRef.markForCheck();
     });
   }

@@ -95,10 +95,10 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     private pharosApiService: PharosApiService,
     private _route: ActivatedRoute,
     private changeRef: ChangeDetectorRef,
-    private navSectionsService: NavSectionsService,
-    @Inject(PLATFORM_ID) private platformID: Object
+    @Inject(PLATFORM_ID) private platformID: Object,
+    public navSectionsService: NavSectionsService
   ) {
-    super();
+    super(navSectionsService);
   }
   /**
    * subscribe to data changes and generate tree
@@ -118,7 +118,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
             this.target = this.data.targets;
             this.targetProps = this.data.targetsProps;
             this.setterFunction();
-            this.loading = false;
+            this.loadingComplete();
           }
         });
   }
@@ -158,7 +158,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     this.setCellLinesList();
     this.setExpressionList();
     this.changeRef.markForCheck();
-    this.loading = false;
+    this.loadingComplete();
   }
 
   addToShadingMap(expression: any) {

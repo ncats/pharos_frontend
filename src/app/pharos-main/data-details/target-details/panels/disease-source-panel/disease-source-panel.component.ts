@@ -92,10 +92,10 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
     private pharosApiService: PharosApiService,
     private _route: ActivatedRoute,
     private changeRef: ChangeDetectorRef,
-    private navSectionsService: NavSectionsService,
-    @Inject(PLATFORM_ID) private platformID: Object
+    @Inject(PLATFORM_ID) private platformID: Object,
+    public navSectionsService: NavSectionsService
   ) {
-    super();
+    super(navSectionsService);
   }
 
   /**
@@ -127,7 +127,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
             });
           }
           this.setterFunction();
-          this.loading = false;
+          this.loadingComplete();
         }
       });
   }
@@ -161,7 +161,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    * @param event
    */
   paginate(event: PageEvent) {
-    this.loading = true;
+    this.loadingStart();
     const diseaseSerializer = new DiseaseSerializer();
     const pageParams = {
       diseasetop: event.pageSize,
@@ -173,7 +173,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
           this.target.diseases = res.data.targets.diseases;
           this.targetProps.diseases = res.data.targets.diseases.map(disease => diseaseSerializer._asProperties(disease));
           this.setterFunction();
-          this.loading = false;
+          this.loadingComplete();
           this.changeRef.markForCheck();
         }
       );
