@@ -22,9 +22,9 @@
     <div id="facets-grid">
       <div *ngFor = "let facet of facets">
         <span class="mat-title"
-              [matTooltip]= "getTooltip(facet.label)"
+              [matTooltip]= "getTooltip(facet.name)"
               [matTooltipClass]="'pharos-tooltip'"
-        >{{getLabel(facet.label)}} <!--({{facet.fields.length}})--> </span>
+        >{{getLabel(facet.label)}}</span>
         <pharos-generic-table
           [data]="facet.fields.slice(0,10)"
           [fieldsConfig]="fields"

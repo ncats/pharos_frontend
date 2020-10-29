@@ -12,9 +12,9 @@ import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/na
 })
 export class DiseaseAssociationDetailsComponent extends GeneDetailsComponent implements OnInit {
 
-  constructor(private _route: ActivatedRoute,
-              public navSectionsService: NavSectionsService) {
-    super(navSectionsService);}
+  constructor(private _route: ActivatedRoute) {
+    super();
+  }
 
   associationFields: string[] =
     ['evidence', 'zscore', 'conf', 'reference', 'drug_name',

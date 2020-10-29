@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {Target} from '../../../../../../../models/target';
+import {DynamicPanelBaseComponent} from "../../../../../../../tools/dynamic-panel-base/dynamic-panel-base.component";
 
 /**
  * shows details about tchem targets
@@ -10,7 +11,7 @@ import {Target} from '../../../../../../../models/target';
   styleUrls: ['./tchem-summary.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TchemSummaryComponent {
+export class TchemSummaryComponent extends DynamicPanelBaseComponent{
   /**
    * input target
    */
@@ -21,21 +22,10 @@ export class TchemSummaryComponent {
    */
   @Input() data: any;
 
-  @Input() apiSources: any[];
   /**
    * no args constructor
    */
   constructor() {
-  }
-
-  getTooltip(label: string): string {
-    if (this.apiSources) {
-      const tooltip = this.apiSources.filter(source => source.field === label);
-      if (tooltip.length) {
-        return tooltip[0].description;
-      } else {
-        return null;
-      }
-    }
+    super();
   }
 }

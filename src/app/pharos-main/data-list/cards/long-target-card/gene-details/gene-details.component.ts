@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
 import {Target} from "../../../../../models/target";
 import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
+import {DynamicPanelBaseComponent} from "../../../../../tools/dynamic-panel-base/dynamic-panel-base.component";
 
 @Component({
   selector: 'pharos-gene-details',
@@ -9,24 +9,12 @@ import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/na
   styleUrls: ['../long-target-card.component.scss']
 })
 
-export class GeneDetailsComponent extends DynamicPanelComponent implements OnInit{
-  constructor(
-    public navSectionsService: NavSectionsService) {
-    super(navSectionsService);
+export class GeneDetailsComponent extends DynamicPanelBaseComponent implements OnInit{
+  constructor() {
+    super();
   }
   @Input() target?: Target;
-  @Input() apiSources: any[];
 
   ngOnInit(): void {
-  }
-  getTooltip(label: string): string {
-    if (this.apiSources) {
-      const tooltip = this.apiSources.filter(source => source.field === label);
-      if (tooltip.length) {
-        return tooltip[0].description;
-      } else {
-        return null;
-      }
-    }
   }
 }

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {Target} from '../../../../../../../models/target';
-import {DynamicPanelComponent} from '../../../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {DynamicPanelBaseComponent} from "../../../../../../../tools/dynamic-panel-base/dynamic-panel-base.component";
 
 /**
  * shows details about tdark targets
@@ -11,27 +11,16 @@ import {DynamicPanelComponent} from '../../../../../../../tools/dynamic-panel/dy
   styleUrls: ['./tdark-summary.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class TdarkSummaryComponent {
+export class TdarkSummaryComponent extends DynamicPanelBaseComponent{
   /**
    * input target
    */
   @Input() target: Target;
 
-  @Input() apiSources: any[];
   /**
    * no args constructor
    */
   constructor() {
-  }
-
-  getTooltip(label: string): string {
-    if (this.apiSources) {
-      const tooltip = this.apiSources.filter(source => source.field === label);
-      if (tooltip.length) {
-        return tooltip[0].description;
-      } else {
-        return null;
-      }
-    }
+    super();
   }
 }

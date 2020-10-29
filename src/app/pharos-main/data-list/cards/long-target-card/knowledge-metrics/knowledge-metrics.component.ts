@@ -9,8 +9,8 @@ import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/na
 })
 
 export class KnowledgeMetricsComponent extends GeneDetailsComponent implements OnInit {
-  constructor(public navSectionsService: NavSectionsService) {
-    super(navSectionsService);
+  constructor() {
+    super();
   }
 
   ngOnInit(): void {
