@@ -3,6 +3,7 @@ import {DynamicPanelComponent} from '../../../../../../tools/dynamic-panel/dynam
 import {PharosProperty} from '../../../../../../models/pharos-property';
 import {PageData} from '../../../../../../models/page-data';
 import {takeUntil} from 'rxjs/internal/operators';
+import {NavSectionsService} from "../../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 @Component({
   selector: 'pharos-differential-panel',
@@ -47,8 +48,9 @@ export class DifferentialPanelComponent extends DynamicPanelComponent implements
    * no args constructor
    * calls super object
    */
-  constructor() {
-    super();
+  constructor(
+    public navSectionsService: NavSectionsService) {
+    super(navSectionsService);
   }
 
   ngOnInit() {

@@ -3,6 +3,7 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import {HttpClient} from '@angular/common/http';
 import {Ligand} from '../../../../../models/ligand';
 import {takeUntil} from 'rxjs/operators';
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 @Component({
   selector: 'pharos-molecular-definition-panel',
@@ -19,9 +20,10 @@ export class MolecularDefinitionPanelComponent extends DynamicPanelComponent imp
 
 
   constructor(
-    private changeRef: ChangeDetectorRef
+    private changeRef: ChangeDetectorRef,
+    public navSectionsService: NavSectionsService
   ) {
-    super();
+    super(navSectionsService);
   }
 
   ngOnInit() {
@@ -34,7 +36,7 @@ export class MolecularDefinitionPanelComponent extends DynamicPanelComponent imp
       .subscribe(x => {
         if (this.data && this.data.ligands) {
           this.ligand = this.data.ligands;
-          this.loading = false;
+          this.loadingComplete();
 
           this.changeRef.markForCheck();
         }

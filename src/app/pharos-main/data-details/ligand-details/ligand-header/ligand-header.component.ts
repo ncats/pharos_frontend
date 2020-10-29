@@ -4,6 +4,7 @@ import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {UnfurlingMetaService} from "../../../../pharos-services/unfurling-meta.service";
 import {NavigationEnd, Router} from "@angular/router";
+import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-sections.service";
 
 /**
  * displays ligand header component
@@ -26,9 +27,10 @@ export class LigandHeaderComponent extends DynamicPanelComponent implements OnIn
   constructor(
     private changeRef: ChangeDetectorRef,
     private metaService: UnfurlingMetaService,
-    private router: Router
+    private router: Router,
+    public navSectionsService: NavSectionsService
   ) {
-    super();
+    super(navSectionsService);
   }
 
   ngOnInit(): void {

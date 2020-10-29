@@ -7,7 +7,7 @@ export class ViralInteractionDetails {
   dataSource: string;
   pdbIDs: string[] = [];
   confirmed(): boolean{
-    return this.pdbIDs.length > 0;
+    return this.pdbIDs?.length > 0;
   }
   static sort(a: ViralInteractionDetails, b: ViralInteractionDetails) : number {
     if(a.confirmed() && !b.confirmed()){
@@ -17,6 +17,13 @@ export class ViralInteractionDetails {
       return 1;
     }
     return b.finalLR - a.finalLR;
+  }
+  constructor(obj: ViralInteractionDetails = {} as ViralInteractionDetails) {
+    this.finalLR = obj.finalLR;
+    this.protein_name = obj.protein_name;
+    this.protein_ncbi = obj.protein_ncbi;
+    this.dataSource = obj.dataSource;
+    this.pdbIDs = obj.pdbIDs;
   }
 }
 

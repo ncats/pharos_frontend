@@ -77,12 +77,12 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
   ];
 
   constructor(
-    private navSectionsService: NavSectionsService,
     public breakpointObserver: BreakpointObserver,
     private pharosApiService: PharosApiService,
     private changeRef: ChangeDetectorRef,
-    private _route: ActivatedRoute) {
-    super();
+    private _route: ActivatedRoute,
+    public navSectionsService: NavSectionsService) {
+    super(navSectionsService);
   }
 
   ngOnInit(): void {
@@ -112,7 +112,7 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
         this.reactomePageData = new PageData({total: this.target.reactomePathwayCount, skip:5, top:0});
         this.otherData = this.data.targetsProps.otherPathways;
         this.otherPageData = new PageData({total: this.target.otherPathwayCount, skip:5, top:0});
-        this.loading = false;
+        this.loadingComplete();
       });
   }
 
@@ -121,7 +121,7 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
   }
 
   changePage(event: any, listParams: PathwayListParams){
-    this.loading = true;
+    this.loadingStart();
     const pathwaySerializer = new PathwaySerializer();
     let pageParams: any = {};
     this[listParams.pageDataName].skip = event.pageIndex * event.pageSize;
@@ -131,7 +131,7 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
     this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, listParams.componentName).subscribe(res => {
       this.target[listParams.targetFieldName] = res.data.targets[listParams.targetFieldName].map(path => pathwaySerializer.fromJson(path));
       this[listParams.panelFieldName] = res.data.targets[listParams.targetFieldName].map(path => pathwaySerializer._asProperties(path));
-      this.loading = false;
+      this.loadingComplete();
       this.changeRef.markForCheck();
     });
   }

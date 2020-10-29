@@ -41,9 +41,9 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
   constructor(
     public dialog: MatDialog,
     private changeRef: ChangeDetectorRef,
-    private navSectionsService: NavSectionsService
+    public navSectionsService: NavSectionsService
   ) {
-    super();
+    super(navSectionsService);
   }
 
   /**
@@ -65,7 +65,7 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
           }
         }
         this.targetProps = this.data.targetsProps;
-        this.loading = false;
+        this.loadingComplete();
         this.changeRef.markForCheck();
       });
 }

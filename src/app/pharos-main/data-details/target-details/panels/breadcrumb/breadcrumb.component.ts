@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Target} from '../../../../../models/target';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 /**
  * Component to track the hierarchy of a target
@@ -33,8 +34,9 @@ export class BreadcrumbComponent extends DynamicPanelComponent implements OnInit
    * uses {ActivatedRoute} path to populate links
    * @param {ActivatedRoute} route
    */
-  constructor(private route: ActivatedRoute) {
-  super();
+  constructor(private route: ActivatedRoute,
+              public navSectionsService: NavSectionsService) {
+  super(navSectionsService);
   }
 
   /**

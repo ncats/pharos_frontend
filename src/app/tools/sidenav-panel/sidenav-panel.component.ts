@@ -63,8 +63,8 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit {
     public breakpointObserver: BreakpointObserver,
     private location: Location,
     private viewportScroller: ViewportScroller,
-    private navSectionsService: NavSectionsService,
-    @Inject(DOCUMENT) private document: Document) {
+    @Inject(DOCUMENT) private document: Document,
+    public navSectionsService: NavSectionsService) {
   }
 
   /**
@@ -91,8 +91,12 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit {
       }
     });
 
+    this.navSectionsService.pop$.subscribe(res => {
+      setTimeout(() => {this.viewportScroller.scrollToAnchor(this.activeFragment);}, 50);
+    });
+
     this.navSectionsService.activeSection$.subscribe(res => {
-      if (res && !this.activeFragment) {
+      if (res) {
         this.activeElement = res;
       }
     });

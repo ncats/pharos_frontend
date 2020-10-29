@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
 import {Target} from "../../../../../models/target";
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 @Component({
   selector: 'pharos-gene-details',
@@ -9,8 +10,9 @@ import {Target} from "../../../../../models/target";
 })
 
 export class GeneDetailsComponent extends DynamicPanelComponent implements OnInit{
-  constructor() {
-    super();
+  constructor(
+    public navSectionsService: NavSectionsService) {
+    super(navSectionsService);
   }
   @Input() target?: Target;
   @Input() apiSources: any[];

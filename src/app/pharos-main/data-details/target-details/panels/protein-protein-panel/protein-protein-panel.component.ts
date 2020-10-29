@@ -56,11 +56,11 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
   constructor(
     private pharosApiService: PharosApiService,
     private _route: ActivatedRoute,
-    private navSectionsService: NavSectionsService,
     private changeRef: ChangeDetectorRef,
-    public breakpointObserver: BreakpointObserver
+    public breakpointObserver: BreakpointObserver,
+    public navSectionsService: NavSectionsService
   ) {
-    super();
+    super(navSectionsService);
   }
 
   /**
@@ -76,7 +76,7 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
       )
       .subscribe(x => {
         this.target = this.data.targets;
-        this.loading = false;
+        this.loadingComplete();
         this.changeRef.markForCheck();
 
         this.pageData = new PageData({
@@ -87,13 +87,13 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
       });
   }
 
-  pageData: PageData;
+  pageData: PageData = new PageData({});
   /**
    * paginate the list of targets
    * @param event
    */
   paginate(event: PageEvent) {
-    this.loading = true;
+    this.loadingStart();
     this.pageData.skip = event.pageIndex * event.pageSize;
     const pageParams = {
       ppistop: event.pageSize,
@@ -120,7 +120,7 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
           });
 
           this.target = retTarget;
-          this.loading = false;
+          this.loadingComplete();
           this.changeRef.markForCheck();
         }
         catch(e){

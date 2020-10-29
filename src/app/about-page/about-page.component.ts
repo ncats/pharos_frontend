@@ -15,6 +15,7 @@ import {takeUntil} from "rxjs/operators";
 import {Ligand} from "../models/ligand";
 import {DataSource} from "../models/dataSource";
 import {ActivatedRoute} from "@angular/router";
+import {NavSectionsService} from "../tools/sidenav-panel/services/nav-sections.service";
 
 /**
  * about page component
@@ -74,8 +75,9 @@ export class AboutPageComponent extends DynamicPanelComponent implements OnInit,
   constructor(
     private changeDetector: ChangeDetectorRef,
     private scrollDispatcher: ScrollDispatcher,
-    private _route: ActivatedRoute) {
-    super();
+    private _route: ActivatedRoute,
+    public navSectionsService: NavSectionsService) {
+    super(navSectionsService);
   }
 
   /**
@@ -121,7 +123,7 @@ export class AboutPageComponent extends DynamicPanelComponent implements OnInit,
   initialize() {
     this.dataSources = this.data.results.dataSourceCounts;
     this.dataSourcesProps = this.data.results.dataSourceCountsProps;
-    this.loading = false;
+    this.loadingComplete();
   }
 
   /**

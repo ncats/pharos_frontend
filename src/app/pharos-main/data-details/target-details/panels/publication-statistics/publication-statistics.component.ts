@@ -60,12 +60,12 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
    * @param pharosApiService
    * @param pharosConfig
    */
-  constructor(private navSectionsService: NavSectionsService,
-              private _route: ActivatedRoute,
+  constructor(private _route: ActivatedRoute,
               private changeRef: ChangeDetectorRef,
               private pharosApiService: PharosApiService,
-              private pharosConfig: PharosConfig) {
-    super();
+              private pharosConfig: PharosConfig,
+              public navSectionsService: NavSectionsService) {
+    super(navSectionsService);
   }
 
   /**
@@ -127,7 +127,7 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
           this.patentTimeline = this.target.patentCounts.map(point => new PharosPoint({x: +point.year, y: point.count}));
         }
 
-        this.loading = false;
+        this.loadingComplete();
         this.changeRef.markForCheck();
       });
   }

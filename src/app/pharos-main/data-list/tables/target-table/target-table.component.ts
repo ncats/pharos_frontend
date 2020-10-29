@@ -24,6 +24,7 @@ import {PharosProfileService} from '../../../../auth/pharos-profile.service';
 import {TopicSaveModalComponent} from './topic-save-modal/topic-save-modal.component';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-sections.service";
 
 
 /**
@@ -118,8 +119,9 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
               private ref: ChangeDetectorRef,
               private targetCollection: AngularFirestore,
               private snackBar: MatSnackBar,
-              public breakpointObserver: BreakpointObserver) {
-    super();
+              public breakpointObserver: BreakpointObserver,
+              public navSectionsService: NavSectionsService) {
+    super(navSectionsService);
   }
 
   sortMap: Map<string, any>;
