@@ -14,3 +14,10 @@
     grid-column: 1 / span 3;
   }
 }
+
+.table-paginator-row{
+  align-items: baseline;
+  display: flex;
+  flex-direction: row;
+  justify-items: flex-start;
+}

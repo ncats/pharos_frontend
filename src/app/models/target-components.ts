@@ -116,6 +116,7 @@ export const LIGANDDETAILSFIELDS = gql`
         symbol:sym
         idgTDL:tdl
         name:name
+        accession:uniprot
       }
       pubs {
         pmid

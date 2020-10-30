@@ -198,6 +198,7 @@ export class DonutChartComponent implements OnInit, OnChanges {
    * @param color
    */
   addTooltip(element: any, d: any, color: any): void {
+    if(!d){return;}
     element.append('circle')
       .attr('class', 'toolCircle')
       .attr('r', this.radius * 0.65) // radius of tooltip circle
