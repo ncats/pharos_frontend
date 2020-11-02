@@ -96,7 +96,7 @@ export class DrugsLigandsPanelComponent extends DynamicPanelComponent implements
 
     this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, this.params.componentName).subscribe(res => {
       this.target[this.params.fieldName] = res.data.targets[this.params.fieldName].map(lig => ligandSerializer.fromJson(lig));
-      this.loadingComplete();
+      this.loadingComplete(false);
       this.changeRef.markForCheck();
     });
   }

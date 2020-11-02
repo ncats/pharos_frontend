@@ -2,15 +2,15 @@ import {ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation} from '@a
 import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
 import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 import {Target} from "../../../../../models/target";
-import {takeUntil} from "rxjs/operators";
+import {skip, takeUntil} from "rxjs/operators";
 import {PageData} from "../../../../../models/page-data";
 import {BreakpointObserver} from "@angular/cdk/layout";
 import {Facet} from "../../../../../models/facet";
 import {PharosProperty} from "../../../../../models/pharos-property";
 import {Pathway, PathwaySerializer} from "../../../../../models/pathway";
 import {PharosApiService} from "../../../../../pharos-services/pharos-api.service";
-import {TargetComponents} from "../../../../../models/target-components";
 import {ActivatedRoute} from "@angular/router";
+import {TargetComponents} from "../../../../../models/target-components";
 
 @Component({
   selector: 'pharos-pathways-panel',
@@ -23,38 +23,16 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
    * parent target
    */
   @Input() target: Target;
+  @Input() targetsProps: any;
+
+  pageDataMap: Map<string, PageData> = new Map<string, PageData>();
+
+  pathOrder: string[];
+
   Facet = Facet;
-  reactomeData: any;
-  reactomePageData: PageData;
-  reactomeListParams = new PathwayListParams(false);
   selectedStructure: Pathway;
 
-  otherData: any;
-  otherPageData: PageData;
-  otherListParams = new PathwayListParams(true);
-
-  /**
-   * list of fields to display. The labels are adapted
-   * @type {PharosProperty[]}
-   */
-  reactomeFields: PharosProperty[] = [
-    new PharosProperty({
-      name: 'name',
-      label: 'Name',
-    }),
-    new PharosProperty({
-      name: 'facetLink',
-      label: 'Explore in Pharos',
-      width: '15vw'
-    }),
-    new PharosProperty({
-      name: 'sourceID',
-      label: 'Explore in Source',
-      width: '20vw'
-    })
-  ];
-
-  otherFields: PharosProperty[] = [
+  pathwayFields: PharosProperty[] = [
     new PharosProperty({
       name: 'type',
       label: 'Data Source',
@@ -76,8 +54,24 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
     })
   ];
 
+  shortPathwayFields: PharosProperty[] = [
+    new PharosProperty({
+      name: 'name',
+      label: 'Name'
+    }),
+    new PharosProperty({
+      name: 'facetLink',
+      label: 'Explore in Pharos',
+      width: '15vw'
+    }),
+    new PharosProperty({
+      name: 'sourceID',
+      label: 'Explore in Source',
+      width: '20vw'
+    })
+  ];
+
   constructor(
-    public breakpointObserver: BreakpointObserver,
     private pharosApiService: PharosApiService,
     private changeRef: ChangeDetectorRef,
     private _route: ActivatedRoute,
@@ -87,7 +81,6 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
   }
 
   ngOnInit(): void {
-    this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 960px)');
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
@@ -96,50 +89,85 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
       )
       .subscribe(x => {
         this.target = this.data.targets;
+        this.targetsProps = this.data.targetsProps;
+        this.pathOrder = [];
 
-        if (this.target.reactomePathways || this.target.otherPathways) {
-          if (this.target.reactomePathways.length === 0 && this.target.otherPathways.length === 0) {
-            this.navSectionsService.hideSection(this.field);
+        this.target.pathwayCounts.forEach(countObj => {
+          const pwType = countObj.name.split(':')[0];
+          if(!this.pathOrder.includes(pwType)){
+            this.pathOrder.push(pwType);
           }
-          else{
-            this.navSectionsService.showSection(this.field);
-          }
-        }
+          this.pageDataMap.set(pwType, new PageData({top: 5, skip: 0, total: this.getPathwayCount(pwType)}));
+        });
 
-        this.reactomeData = this.data.targetsProps.reactomePathways;
-        if(this.target.reactomePathways && this.target.reactomePathways.length > 0) {
-          this.selectedStructure = this.target.reactomePathways[0];
+        if(this.pathOrder.includes("Reactome")){
+          this.selectedStructure = this.target.pathwayMap.get("Reactome")[0];
         }
-        this.reactomePageData = new PageData({total: this.target.reactomePathwayCount, skip:5, top:0});
-        this.otherData = this.data.targetsProps.otherPathways;
-        this.otherPageData = new PageData({total: this.target.otherPathwayCount, skip:5, top:0});
+        this.pathOrder.sort((a,b) => {
+          if(a === "Reactome"){
+            return -1;
+          }
+          if(b === "Reactome"){
+            return 1;
+          }
+          return a.localeCompare(b);
+        });
+
+        if (this.target.pathways && this.target.pathways.length > 0) {
+          this.navSectionsService.showSection(this.field);
+        } else {
+          this.navSectionsService.hideSection(this.field);
+        }
         this.loadingComplete();
       });
+  }
+
+  getTotalPathwayCount() {
+    return this.target.pathwayCounts.reduce((prev, cur) => prev + cur.value, 0);
+  }
+
+  getPathwayCount(pwType: string) {
+    return this.target.pathwayCounts.filter(countObj => {
+      return countObj.name.includes(pwType);
+    }).reduce((prev, cur) => prev + cur.value, 0);
   }
 
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
   }
 
-  changePage(event: any, listParams: PathwayListParams){
+  changePage(event: any, pwType: string) {
     this.loadingStart();
-    const pathwaySerializer = new PathwaySerializer();
     let pageParams: any = {};
-    this[listParams.pageDataName].skip = event.pageIndex * event.pageSize;
-    pageParams[listParams.topParam] = event.pageSize;
-    pageParams[listParams.skipParam] = event.pageIndex * event.pageSize;
 
-    this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, listParams.componentName).subscribe(res => {
-      this.target[listParams.targetFieldName] = res.data.targets[listParams.targetFieldName].map(path => pathwaySerializer.fromJson(path));
-      this[listParams.panelFieldName] = res.data.targets[listParams.targetFieldName].map(path => pathwaySerializer._asProperties(path));
-      this.loadingComplete();
-      this.changeRef.markForCheck();
+    pageParams.pathwaystop = event.pageSize;
+    pageParams.pathwaysskip = event.pageIndex * event.pageSize;
+    pageParams.pwtype = pwType;
+
+    const pageData = this.pageDataMap.get(pwType);
+    pageData.top = event.pageSize;
+    pageData.skip = event.pageIndex * event.pageSize;
+
+    this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, TargetComponents.Component.PathwayPage)
+      .subscribe({
+      next: res => {
+        const pathwaySerializer = new PathwaySerializer();
+        this.target.pathwayMap.set(pwType, res.data.targets.pathways.map(path => pathwaySerializer.fromJson(path)));
+        this.targetsProps.pathwayMap.set(pwType, res.data.targets.pathways.map(path => pathwaySerializer._asProperties(path)));
+        this.loadingComplete(false);
+        this.changeRef.markForCheck();
+      }, error: err => {
+        err;
+      }
     });
   }
 
-  changePath(event: any){
+  changePath(event: any, pwType: string) {
+    if(pwType !== "Reactome"){
+      return;
+    }
     if (this.selectedStructure?.sourceID !== event.sourceID.term) {
-      this.selectedStructure = this.target.reactomePathways.find(path => {
+      this.selectedStructure = this.target.pathwayMap.get("Reactome").find(path => {
         return path.sourceID === event.sourceID.term
       });
       this.changeRef.markForCheck();
@@ -147,22 +175,12 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
   }
 }
 
-export class PathwayListParams{
-  pageDataName = "reactomePageData";
-  topParam = 'reactomepathwaystop';
-  skipParam = 'reactomepathwaysskip';
-  componentName = TargetComponents.Component.ReactomePathways;
-  targetFieldName = 'reactomePathways';
-  panelFieldName = "reactomeData";
+export class PathwayListParams {
+  topParam: string = 'pathwaystop';
+  skipParam: string = 'pathwaysskip';
+  pwType: string;
 
-  constructor(isOther: boolean = true) {
-    if(isOther){
-      this.pageDataName = "otherPageData";
-      this.topParam = 'nonreactomepathwaystop';
-      this.skipParam = 'nonreactomepathwaysskip';
-      this.componentName = TargetComponents.Component.NonReactomePathways;
-      this.targetFieldName = 'otherPathways';
-      this.panelFieldName = "otherData";
-    }
+  constructor(pwType: string = "Reactome") {
+    this.pwType = pwType;
   }
 }

@@ -16,7 +16,7 @@ export class Pathway{
 }
 
 export class PathwaySerializer implements Serializer{
-  fromJson(json: any): any {
+  fromJson(json: any): Pathway {
     const obj = new Pathway();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
     return obj;

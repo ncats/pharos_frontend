@@ -187,7 +187,7 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
       this[origin] = res.data.targets[origin]
         .map(pub => this[`${origin}Serializer`].fromJson(pub))
         .map(pubObj => this[`${origin}Serializer`]._asProperties(pubObj));
-      this.loadingComplete();
+      this.loadingComplete(false);
       this.changeRef.markForCheck();
     });
   }
