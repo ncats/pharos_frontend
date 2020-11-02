@@ -120,7 +120,7 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
           });
 
           this.target = retTarget;
-          this.loadingComplete();
+          this.loadingComplete(false);
           this.changeRef.markForCheck();
         }
         catch(e){

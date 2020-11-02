@@ -49,15 +49,6 @@ export class DynamicTablePanelComponent extends DynamicPanelComponent {
   }
 
   /**
-   * paginate ...
-   * todo does this ever get used?
-   * @param $event
-   */
-  paginateData($event) {
-    this.loadingStart();
-  }
-
-  /**
    * function to create page data object based on total results
    * @param {number} total
    * @return {PageData}

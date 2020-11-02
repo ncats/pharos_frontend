@@ -173,7 +173,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
           this.target.diseases = res.data.targets.diseases;
           this.targetProps.diseases = res.data.targets.diseases.map(disease => diseaseSerializer._asProperties(disease));
           this.setterFunction();
-          this.loadingComplete();
+          this.loadingComplete(false);
           this.changeRef.markForCheck();
         }
       );

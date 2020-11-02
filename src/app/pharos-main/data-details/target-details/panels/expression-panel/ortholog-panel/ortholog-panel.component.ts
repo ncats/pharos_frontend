@@ -83,7 +83,7 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
           .map(ortholog => orthologSerializer.fromJson(ortholog))
           .map(ortho => orthologSerializer._asProperties(ortho));
         this.targetProps.orthologs = tempArr;
-        this.loadingComplete();
+        this.loadingComplete(false);
         this.changeRef.markForCheck();
       });
     }
