@@ -106,7 +106,7 @@ export class HelpPanelComponent implements OnInit {
         {
           sources: component.api,
           title: component.navHeader.label,
-          mainDescription: component.navHeader.mainDescription ? component.navHeader.mainDescription : null,
+          mainDescription: component.navHeader.mainDescription || null,
           mainSource: component.navHeader.mainSource
         }
       );

@@ -19,9 +19,14 @@
         </div>
       </div>
       <mat-tab-group #tabs>
-        <mat-tab *ngIf="reagents?.length > 0"
-                 label="Reagents ({{reagents?.length}})"
-                 matTooltip="View and order IDG produced resources from vendors">
+        <mat-tab *ngIf="reagents?.length > 0">
+          <ng-template mat-tab-label>
+            <div
+              [matTooltip]="getTooltip('reagentsTab')"
+              [matTooltipClass]="'pharos-tooltip'">
+              Reagents ({{reagents?.length}})
+            </div>
+          </ng-template>
           <pharos-list-filter
             [fullList]="reagents"
             [(visibleList)]="reagentsList"
@@ -34,9 +39,14 @@
             </div>
           </div>
         </mat-tab>
-        <mat-tab *ngIf="dataResources?.length > 0"
-                 label="Data Resources ({{dataResources?.length}})"
-                 matTooltip="View and explore IDG produced data sets">
+        <mat-tab *ngIf="dataResources?.length > 0">
+          <ng-template mat-tab-label>
+            <div
+              [matTooltip]="getTooltip('dataResourcesTab')"
+              [matTooltipClass]="'pharos-tooltip'">
+              Data Resources ({{dataResources?.length}})
+            </div>
+          </ng-template>
           <pharos-list-filter
             [fullList]="dataResources"
             [(visibleList)]="dataResourceList"
@@ -49,9 +59,14 @@
             </div>
           </div>
         </mat-tab>
-        <mat-tab *ngIf="mouseExpressions?.length > 0"
-          label="Mouse Imaging ({{mouseExpressions.length}})"
-        matTooltip="View and explore mouse expression data">
+        <mat-tab *ngIf="mouseExpressions?.length > 0">
+          <ng-template mat-tab-label>
+            <div
+              [matTooltip]="getTooltip('mouseImagingTab')"
+              [matTooltipClass]="'pharos-tooltip'">
+              Mouse Imaging ({{mouseExpressions?.length}})
+            </div>
+          </ng-template>
           <pharos-mouse-expression [mouseExpressions]="this.mouseExpressions"
           [mouseExpressionUpdates]="mouseExpressionsUpdated.asObservable()"></pharos-mouse-expression>
         </mat-tab>

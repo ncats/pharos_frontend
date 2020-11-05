@@ -3,6 +3,7 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import {Ligand} from '../../../../../models/ligand';
 import {takeUntil} from 'rxjs/operators';
 import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
+import {DataProperty} from "../../../../../tools/generic-table/components/property-display/data-property";
 
 @Component({
   selector: 'pharos-ligand-details',
@@ -21,7 +22,7 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
               public navSectionsService: NavSectionsService) {
     super(navSectionsService);
   }
-
+  synonymList: DataProperty[];
   /**
    * set data
    */
@@ -35,6 +36,7 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
       .subscribe(x => {
         if (this.data && this.data.ligands) {
           this.ligand = this.data.ligands;
+          this.synonymList = this.ligand.synonymLabels();
           this.loadingComplete();
           this.changeRef.markForCheck();
         }
@@ -47,6 +49,11 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
    */
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
+  }
+
+  getTooltipProp(prop: DataProperty){
+    prop.tooltip = this.getTooltip(prop.label);
+    return prop;
   }
 
   /**
