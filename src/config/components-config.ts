@@ -463,9 +463,20 @@ const IDG_RESOURCES_PANEL: PharosPanel = {
   },
   api: [
     {
-      field: 'gene',
-      label: 'Gene Name',
-      description: 'Approved gene symbol with link to HUGO Gene Nomenclature Committee.'
+      field: 'reagentsTab',
+      label: 'Reagents Tab',
+      description: 'View and order IDG produced resources from vendors. This can include: Small Molecules, Peptides, ' +
+        'Antibodies, Genetic Constructs, Cell Lines and Mice.'
+    },
+    {
+      field: 'dataResourcesTab',
+      label: 'Data Resources Tab',
+      description: 'View and explore IDG produced data sets. This can include: Datasets and Probe data.'
+    },
+    {
+      field: 'mouseImagingTab',
+      label: 'Mouse Imaging Tab',
+      description: 'View and explore mouse expression data for this target.'
     }
   ]
 };
@@ -1050,18 +1061,18 @@ const LIGAND_DETAILS_COMPONENT: PharosPanel = {
   navHeader: {
     label: 'Ligand Details',
     section: 'details',
-    mainDescription: 'Visual representation of the ligand, as well as synonyms, if available.'
+    mainDescription: 'Visual representation of the ligand, as well as synonyms and links to other information sources.'
   },
   api: [
     {
       field: 'structure',
       label: 'Structure',
-      description: 'Pharos structure object for this ligand.'
+      description: 'Structural formula for this ligand.'
     },
     {
       field: 'synonyms',
-      label: 'Synonyms',
-      description: 'List of ligand synonyms.'
+      label: 'Synonyms & Links',
+      description: 'Synonyms for this ligand, and links to other sources that refer to it.'
     }
   ]
 };
@@ -1199,6 +1210,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       details: {
         components: [
           //   PHAROS_BREADCRUMB_COMPONENT,
+          PHAROS_HELPPANEL_COMPONENT,
           LIGAND_HEADER_COMPONENT,
           LIGAND_DESCRIPTION_COMPONENT,
           LIGAND_DETAILS_COMPONENT,
