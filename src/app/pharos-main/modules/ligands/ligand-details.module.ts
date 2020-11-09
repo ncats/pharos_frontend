@@ -13,6 +13,7 @@ import {SharedDetailsModule} from '../../../shared/shared-details.module';
 import {IDG_LEVEL_TOKEN} from '../../data-details/disease-details/target-list-panel/target-list-panel.component';
 import {IdgLevelIndicatorComponent} from '../../../tools/idg-level-indicator/idg-level-indicator.component';
 import {LigandDetailsComponent} from '../../data-details/ligand-details/panels/ligand-details/ligand-details.component';
+import {HelpPanelComponent} from "../../../tools/help-panel/help-panel.component";
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {LigandDetailsComponent} from '../../data-details/ligand-details/panels/l
   ],
   providers: [
     // ligands
+    {provide: TOKENS.PHAROS_HELPPANEL_COMPONENT, useValue: HelpPanelComponent},
     {provide: TOKENS.LIGAND_HEADER_COMPONENT, useValue: LigandHeaderComponent},
     {provide: TOKENS.LIGAND_DESCRIPTION_COMPONENT, useValue: LigandDescriptionComponent},
     {provide: TOKENS.LIGAND_DETAILS_COMPONENT, useValue: LigandDetailsComponent},

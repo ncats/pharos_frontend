@@ -118,12 +118,12 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
    * @param {HttpClient} _http
    */
   constructor(
-    private navSectionsService: NavSectionsService,
     private changeRef: ChangeDetectorRef,
     private _http: HttpClient,
     @Inject(PLATFORM_ID) private platformID: Object,
-    private pdbApollo: PdbApiService) {
-    super();
+    private pdbApollo: PdbApiService,
+    public navSectionsService: NavSectionsService) {
+    super(navSectionsService);
   }
 
   /**
@@ -145,7 +145,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
           this.navSectionsService.hideSection(this.field);
         }
         this.changeRef.markForCheck();
-        this.loading = false;
+        this.loadingComplete();
       });
 
   }

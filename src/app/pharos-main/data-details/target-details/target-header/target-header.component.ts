@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} fr
 import {Target} from '../../../../models/target';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
+import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-sections.service";
 
 @Component({
   selector: 'pharos-target-header',
@@ -18,9 +19,10 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
    * call super object constructor
    */
   constructor(
-    private changeRef: ChangeDetectorRef
+    private changeRef: ChangeDetectorRef,
+    public navSectionsService: NavSectionsService
   ) {
-    super();
+    super(navSectionsService);
   }
 
   ngOnInit() {

@@ -3,6 +3,7 @@ import {Disease} from '../../../../models/disease';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {UnfurlingMetaService} from "../../../../pharos-services/unfurling-meta.service";
+import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-sections.service";
 
 /**
  * header component for disease details page display
@@ -28,8 +29,9 @@ export class DiseaseHeaderComponent extends DynamicPanelComponent implements OnI
   constructor(
     private changeRef: ChangeDetectorRef,
     private metaService: UnfurlingMetaService,
+    public navSectionsService: NavSectionsService
   ) {
-    super();
+    super(navSectionsService);
   }
 
   ngOnInit() {

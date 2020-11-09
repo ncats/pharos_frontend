@@ -32,6 +32,9 @@
           <mat-card-subtitle>{{interaction.protein_name}}</mat-card-subtitle>
           <ncats-property-display [property]="{term: interaction.protein_ncbi, label:'NCBI'}"></ncats-property-display>
           <ncats-property-display [property]="{term: interaction.finalLR.toFixed(2), label:'finalLR'}"></ncats-property-display>
+          <div *ngFor="let pdb of interaction.pdbIDs">
+            <ncats-property-display [property]="{term: pdb, label: 'PDB', externalLink: 'https://www.rcsb.org/structure/' + pdb}"></ncats-property-display>
+          </div>
         </div>
       </div>
     </mat-card>

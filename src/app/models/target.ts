@@ -9,7 +9,7 @@ import {TARGETDETAILSFIELDS, TARGETDETAILSQUERY, TARGETLISTFIELDS} from "./targe
 import {Facet} from "./facet";
 import {InteractionDetails} from "./interaction-details";
 import {DiseaseAssocationSerializer, DiseaseAssociation} from "./disease-association";
-import {VirusDetails} from "./virus-interactions";
+import {VirusDetails, VirusDetailsSerializer} from "./virus-interactions";
 import {Pathway, PathwaySerializer} from "./pathway";
 
 
@@ -250,22 +250,22 @@ export class Target extends PharosBase {
 
   interactingViruses?: VirusDetails[];
 
+  pathways?: Pathway[] = [];
+  pathwayMap?: Map<string, Pathway[]>;
   pathwayCount?: number;
-
-  reactomePathways?: Pathway[] = [];
-  reactomePathwayCount?: number;
-
-  otherPathways?: Pathway[] = [];
-  otherPathwayCount?: number;
+  pathwayCounts?: any[];
 
   dataSources?: String[] = [];
 }
 
-export class GoCounts{
+export class GoCounts {
   components: number;
   functions: number;
   processes: number;
-  TBioCount() {return this.functions + this.processes;}
+
+  TBioCount() {
+    return this.functions + this.processes;
+  }
 
   constructor(json: any) {
     this.processes = json.find(type => {
@@ -297,42 +297,55 @@ export class TargetSerializer implements PharosSerializer {
    * @return {Target}
    */
   fromJson(json: any): Target {
-    if (json.parsed){ // cached data is sometimes already parsed
+    if (json.parsed) { // cached data is sometimes already parsed
       return json;
     }
     const obj = new Target();
     obj.parsed = true;
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
 
-    if(json.otherPathways?.length > 0 || json.reactomePathways?.length > 0){
-      let pathwaySerializer = new PathwaySerializer();
-      if(json.otherPathways){
-        obj.otherPathways = json.otherPathways.map( obj => pathwaySerializer.fromJson(obj));
-      }
-      if(json.reactomePathways){
-        obj.reactomePathways = json.reactomePathways.map( obj => pathwaySerializer.fromJson(obj));
-      }
-      obj.pathwayCount = json.pathwayCounts.map(path => path.value).reduce((a, b) => a + b, 0);
-      obj.reactomePathwayCount = json.pathwayCounts.filter(path => path.name === "Reactome")[0]?.value || 0;
-      obj.otherPathwayCount = obj.pathwayCount - obj.reactomePathwayCount;
+    if (json.interactingViruses) {
+      const virusDetailsSerializer = new VirusDetailsSerializer();
+      obj.interactingViruses = json.interactingViruses.map(virus => virusDetailsSerializer.fromJson(virus));
+      obj.interactingViruses = obj.interactingViruses.sort((a, b) => {
+        return VirusDetails.sort(b, a);
+      });
     }
 
-    if(json.expressions){ // deduplicate expresssions, and translate uberon ID
+    if (json.pathways && json.pathways.length > 0) {
+      obj.pathwayCounts = obj.pathwayCounts.sort((a,b) => {return a.name.localeCompare(b.name);});
+      let pathwaySerializer = new PathwaySerializer();
+      obj.pathwayMap = new Map<string, Pathway[]>();
+      json.pathways.forEach(jpath => {
+        const pathObj = pathwaySerializer.fromJson(jpath);
+        const pwType = pathObj.type.split(':')[0];
+        let pathList: Pathway[];
+        if (obj.pathwayMap.has(pwType)) {
+          pathList = obj.pathwayMap.get(pwType);
+        } else {
+          pathList = [];
+          obj.pathwayMap.set(pwType, pathList);
+        }
+        pathList.push(pathObj);
+      });
+    }
+
+    if (json.expressions) { // deduplicate expresssions, and translate uberon ID
       let map = new Map<string, any>();
-      for(let i = 0 ; i < json.expressions.length ; i++){
+      for (let i = 0; i < json.expressions.length; i++) {
         if (json.expressions[i].uberon && json.expressions[i].uberon.uid) {
           json.expressions[i].uberon.uid = json.expressions[i].uberon.uid.replace(':', '_');
         }
         map.set(JSON.stringify(json.expressions[i]), json.expressions[i]);
       }
-     obj.expressions = Array.from(map.values());
+      obj.expressions = Array.from(map.values());
     }
     /**
      * mapping graphql responses, since they are returned as arrays
      */
     if (json.novelty) {
       obj.novelty = +json.novelty.toFixed(2);
-      obj.logNovelty = + Math.log(json.novelty).toFixed(2);
+      obj.logNovelty = +Math.log(json.novelty).toFixed(2);
     }
 
     if (json.jensenScore && json.jensenScore.length) {
@@ -353,7 +366,7 @@ export class TargetSerializer implements PharosSerializer {
       }
     }
 
-    if(json.interactionDetails){
+    if (json.interactionDetails) {
       obj.interactionDetails = {
         dataSources: json.interactionDetails.ppitypes ? json.interactionDetails.ppitypes.split(",") : [],
         evidence: json.interactionDetails.evidence,
@@ -365,7 +378,7 @@ export class TargetSerializer implements PharosSerializer {
       };
     }
 
-    if(json.diseaseAssociationDetails){
+    if (json.diseaseAssociationDetails) {
       const assocationSerializer = new DiseaseAssocationSerializer();
       obj.diseaseAssociationDetails = json.diseaseAssociationDetails.map(assoc => assocationSerializer.fromJson(assoc));
     }
@@ -401,7 +414,7 @@ export class TargetSerializer implements PharosSerializer {
     }
 
     if (json.uniProtFunction && json.uniProtFunction.length > 0) {
-        obj.description = `${(json.uniProtFunction.map(id => id.value)).join(' ')}${!!obj.description ? ' ' + obj.description : ''}`;
+      obj.description = `${(json.uniProtFunction.map(id => id.value)).join(' ')}${!!obj.description ? ' ' + obj.description : ''}`;
     }
 
     if (json.goCounts) {
@@ -426,14 +439,14 @@ export class TargetSerializer implements PharosSerializer {
     if (json.ppis) {
       const targetSerializer = new TargetSerializer();
       obj.ppis = json.ppis.map(ppi => targetSerializer.fromJson(ppi.target));
-      for(let i = 0 ; i < obj.ppis.length ; i++){
+      for (let i = 0; i < obj.ppis.length; i++) {
         obj.ppis[i].properties = [];
         if (json.ppis[i].props && json.ppis[i].props.length > 0) {
-          for(let j = 0 ; j < json.ppis[i].props.length; j++){
+          for (let j = 0; j < json.ppis[i].props.length; j++) {
             obj.ppis[i].properties.push(
               new DataProperty(
                 {label: json.ppis[i].props[j].name, term: json.ppis[i].props[j].value}
-                )
+              )
             );
           }
         }
@@ -503,7 +516,7 @@ export class TargetSerializer implements PharosSerializer {
   _asProperties(obj: Target): any {
     const newObj: any = this._mapField(obj);
     if (newObj.accession && newObj.accession.term) {
-      newObj.name.internalLink = ['/targets', newObj.gene.term || newObj.accession.term];
+      newObj.name.internalLink = ['/targets', newObj.accession.term];
     }
 
     if (newObj.gene && newObj.gene.term) {
@@ -581,10 +594,21 @@ export class TargetSerializer implements PharosSerializer {
       });
     }
 
-    if(newObj.reactomePathways || newObj.otherPathways) {
+    if (newObj.pathways && newObj.pathways.length > 0) {
       const pathwaySerializer = new PathwaySerializer();
-      newObj.reactomePathways = obj.reactomePathways.map(path => pathwaySerializer._asProperties(path));
-      newObj.otherPathways = obj.otherPathways.map(path => pathwaySerializer._asProperties(path));
+      newObj.pathwayMap = new Map<string, any[]>();
+      obj.pathways.forEach(path => {
+        const pathObj = pathwaySerializer._asProperties(path);
+        const pwType = path.type.split(':')[0];
+        let pathList: any[];
+        if (newObj.pathwayMap.has(pwType)) {
+          pathList = newObj.pathwayMap.get(pwType);
+        } else {
+          pathList = [];
+          newObj.pathwayMap.set(pwType, pathList);
+        }
+        pathList.push(pathObj);
+      });
     }
     return newObj;
   }
@@ -600,14 +624,12 @@ export class TargetSerializer implements PharosSerializer {
     Object.keys(obj).map(objField => {
       if (Array.isArray(obj[objField])) {
         retObj[objField] = obj[objField].map(arrObj => this._mapField(arrObj));
-      }
-      else if (obj[objField] && obj[objField]["__typename"]){
+      } else if (obj[objField] && obj[objField]["__typename"]) {
         retObj[objField] = {};
-        for(const prop in obj[objField]){
+        for (const prop in obj[objField]) {
           retObj[objField][prop] = new DataProperty({name: prop, label: prop, term: obj[objField][prop]});
         }
-      }
-      else {
+      } else {
         retObj[objField] = new DataProperty({name: objField, label: objField, term: obj[objField]});
       }
     });

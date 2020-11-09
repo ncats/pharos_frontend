@@ -74,6 +74,14 @@ const ROUTES: Routes = [
     }
   },
   {
+    path: 'search',
+    loadChildren: () => import('./pharos-main/modules/targets/target-list.module').then(m => m.TargetTableModule),
+    data: {
+      path: 'targets',
+      subpath: 'list'
+    }
+  },
+  {
     path: 'targets/:id',
     loadChildren: () => import('./pharos-main/modules/targets/target-details.module').then(m => m.TargetDetailsModule),
     data: {

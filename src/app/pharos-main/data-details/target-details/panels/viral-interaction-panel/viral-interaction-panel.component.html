@@ -13,7 +13,7 @@
            fxLayoutAlign="start stretch">
         <div fxFlex="95" class="headerContainer">
         <span class="mat-title" [matTooltip]=description
-              [matTooltipClass]="'pharos-tooltip'">Predicted Viral Interactions ({{target.interactingViruses.length}})</span>
+              [matTooltipClass]="'pharos-tooltip'">Viral Interactions ({{countString()}})</span>
         </div>
         <div fxFlex="5">
           <pharos-help-panel-trigger [origin]="'viral'"

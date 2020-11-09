@@ -38,14 +38,14 @@ export class DrugsLigandsPanelComponent extends DynamicPanelComponent implements
   Facet = Facet;
 
   constructor(
-    private navSectionsService: NavSectionsService,
     private _http: HttpClient,
     private _route: ActivatedRoute,
     private pharosApiService: PharosApiService,
     private changeRef: ChangeDetectorRef,
     private pharosConfig: PharosConfig,
-    public breakpointObserver: BreakpointObserver) {
-  super();
+    public breakpointObserver: BreakpointObserver,
+    public navSectionsService: NavSectionsService) {
+  super(navSectionsService);
   }
 
   /**
@@ -76,7 +76,7 @@ export class DrugsLigandsPanelComponent extends DynamicPanelComponent implements
           top: 10
         });
         this.changeRef.markForCheck();
-        this.loading = false;
+        this.loadingComplete();
       });
   }
 
@@ -87,7 +87,7 @@ export class DrugsLigandsPanelComponent extends DynamicPanelComponent implements
    * @param event
    */
   paginate(event: PageEvent) {
-    this.loading = true;
+    this.loadingStart();
     const ligandSerializer = new LigandSerializer();
     let pageParams = {};
     this.pageData.skip = event.pageIndex * event.pageSize;
@@ -96,7 +96,7 @@ export class DrugsLigandsPanelComponent extends DynamicPanelComponent implements
 
     this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, this.params.componentName).subscribe(res => {
       this.target[this.params.fieldName] = res.data.targets[this.params.fieldName].map(lig => ligandSerializer.fromJson(lig));
-      this.loading = false;
+      this.loadingComplete(false);
       this.changeRef.markForCheck();
     });
   }

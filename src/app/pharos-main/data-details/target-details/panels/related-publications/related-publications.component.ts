@@ -120,13 +120,13 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
    * @param pharosApiService
    * @param pharosConfig
    */
-  constructor(private navSectionsService: NavSectionsService,
-              private _route: ActivatedRoute,
+  constructor(private _route: ActivatedRoute,
               private changeRef: ChangeDetectorRef,
               private pharosApiService: PharosApiService,
               private pharosConfig: PharosConfig,
-              @Inject(PLATFORM_ID) private platformID: Object) {
-    super();
+              @Inject(PLATFORM_ID) private platformID: Object,
+              public navSectionsService: NavSectionsService) {
+    super(navSectionsService);
   }
 
   /**
@@ -157,7 +157,7 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
             this.rifPageData = this.makePageData(this.target.generifCount);
           }
 
-          this.loading = false;
+          this.loadingComplete();
           this.changeRef.markForCheck();
         }
       });
@@ -169,7 +169,7 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
    * @param origin
    */
   paginate(event: PageEvent, origin: string) {
-    this.loading = true;
+    this.loadingStart();
     const pageParams = {
       [`${origin}top`]: event.pageSize,
       [`${origin}skip`]: event.pageIndex * event.pageSize,
@@ -187,7 +187,7 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
       this[origin] = res.data.targets[origin]
         .map(pub => this[`${origin}Serializer`].fromJson(pub))
         .map(pubObj => this[`${origin}Serializer`]._asProperties(pubObj));
-      this.loading = false;
+      this.loadingComplete(false);
       this.changeRef.markForCheck();
     });
   }
@@ -199,16 +199,6 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
   active(fragment: string) {
     this.navSectionsService.setActiveSection(fragment);
   }
-
-  getTooltip(label: string): string {
-    const tooltip = this.apiSources.filter(source => source.field === label);
-    if (tooltip.length) {
-      return tooltip[0].description;
-    } else {
-      return null;
-    }
-  }
-
 
   /**
    * cleanp on destroy

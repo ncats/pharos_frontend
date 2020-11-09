@@ -3,6 +3,7 @@ import {GeneDetailsComponent} from "../gene-details/gene-details.component";
 import {DiseaseAssociation} from "../../../../../models/disease-association";
 import {ActivatedRoute} from "@angular/router";
 import {Disease} from "../../../../../models/disease";
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 @Component({
   selector: 'pharos-disease-association-details',
@@ -11,7 +12,9 @@ import {Disease} from "../../../../../models/disease";
 })
 export class DiseaseAssociationDetailsComponent extends GeneDetailsComponent implements OnInit {
 
-  constructor(private _route: ActivatedRoute) { super();}
+  constructor(private _route: ActivatedRoute) {
+    super();
+  }
 
   associationFields: string[] =
     ['evidence', 'zscore', 'conf', 'reference', 'drug_name',

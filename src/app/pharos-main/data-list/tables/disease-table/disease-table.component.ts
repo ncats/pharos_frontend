@@ -6,6 +6,7 @@ import {DynamicTablePanelComponent} from '../../../../tools/dynamic-table-panel/
 import {Disease, DiseaseSerializer} from '../../../../models/disease';
 import {PharosProperty} from '../../../../models/pharos-property';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
+import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-sections.service";
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -92,9 +93,10 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
   constructor(
     private _route: ActivatedRoute,
     private router: Router,
-    private changeRef: ChangeDetectorRef
+    private changeRef: ChangeDetectorRef,
+    public navSectionsService: NavSectionsService
   ) {
-    super();
+    super(navSectionsService);
   }
 
   /**
