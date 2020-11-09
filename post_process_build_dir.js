@@ -13,4 +13,4 @@ for(let i = 0 ; i < files.length ; i++){
   }
 }
 
-fs.renameSync(buildDirectory + 'CHANGELOG.md', buildDirectory + 'CHANGELOG1.md');
+fs.renameSync(buildDirectory + 'CHANGELOG.md', buildDirectory + 'CHANGELOG_3.2.0.md');
