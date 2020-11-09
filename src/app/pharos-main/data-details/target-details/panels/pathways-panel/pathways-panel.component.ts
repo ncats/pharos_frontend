@@ -92,7 +92,7 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
         this.targetsProps = this.data.targetsProps;
         this.pathOrder = [];
 
-        this.target.pathwayCounts.forEach(countObj => {
+        this.target.pathwayCounts?.forEach(countObj => {
           const pwType = countObj.name.split(':')[0];
           if(!this.pathOrder.includes(pwType)){
             this.pathOrder.push(pwType);
