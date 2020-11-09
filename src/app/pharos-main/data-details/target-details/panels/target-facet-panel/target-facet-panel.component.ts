@@ -16,7 +16,6 @@ const LABELS: Map<string, string> = new Map<string, string> (
     ['goProcess', 'GO Process'],
     ['rnaCellLine', 'RNA Cell Line'],
     ['uniprotKeyword', 'Uniprot Keyword'],
-    ['pathways', 'Pathways'],
     ['mgiPhenotype', 'MGI Phenotype'],
     ['gwasTrait', 'GWAS Trait']
   ]);
