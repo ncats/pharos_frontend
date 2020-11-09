@@ -81,11 +81,11 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
    */
   constructor(
     private http: HttpClient,
-    private navSectionsService: NavSectionsService,
     private pharosConfig: PharosConfig,
     private changeRef: ChangeDetectorRef,
-    @Inject(PLATFORM_ID) private platformID: Object) {
-    super();
+    @Inject(PLATFORM_ID) private platformID: Object,
+    public navSectionsService: NavSectionsService) {
+    super(navSectionsService);
   }
 
   /**
@@ -101,7 +101,7 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
       )
       .subscribe(x => {
           this.target = this.data.targets;
-          this.loading = true;
+          this.loadingStart();
           this.dataResources = [];
           this.reagents = [];
           this.mouseExpressions = [];
@@ -118,7 +118,7 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
                 this.navSectionsService.hideSection(this.field);
               }
               this.changeRef.markForCheck();
-              this.loading = false;
+              this.loadingComplete();
             });
           }
           else{

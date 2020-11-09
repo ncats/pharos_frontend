@@ -18,7 +18,7 @@ describe('VirusDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(VirusDetailsComponent);
     component = fixture.componentInstance;
-    component.virus = {name: "viridae", interactionDetails: [{protein_name: "gag-pol", finalLR: 123} as ViralInteractionDetails]} as VirusDetails;
+    component.virus = {name: "viridae", interactionDetails: [new ViralInteractionDetails({protein_name: "gag-pol", finalLR: 123} as ViralInteractionDetails)]} as VirusDetails;
     fixture.detectChanges();
   });
 

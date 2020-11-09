@@ -1,41 +1,47 @@
 <article>
-<div class="full-height">
-  <mat-card>
-    <mat-card-content>
-      <div fxLayout="row"
-           fxLayout.lt-md="column"
-           class="tkrow"
-           fxLayoutAlign="start stretch">
-        <div fxFlex="95">
+  <div class="full-height">
+    <mat-card>
+      <mat-card-content>
+        <div fxLayout="row"
+             fxLayout.lt-md="column"
+             class="tkrow"
+             fxLayoutAlign="start stretch">
+          <div fxFlex="95">
         <span class="mat-title"
-              [matTooltip] = description
-              [matTooltipClass] = "'pharos-tooltip'">
+              [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">
          Target Activities</span>
+          </div>
+          <div fxFlex="5">
+            <pharos-help-panel-trigger [origin]="'relatedTargets'"
+                                       [label]="'Target Relevance'"></pharos-help-panel-trigger>
+          </div>
         </div>
-        <div fxFlex="5">
-          <pharos-help-panel-trigger [origin] = "'relatedTargets'" [label]="'Target Relevance'"></pharos-help-panel-trigger>
-        </div>
-      </div>
-      <mat-paginator [pageSize]="10"></mat-paginator>
-      <mat-accordion>
-      <mat-expansion-panel *ngFor = "let activity of activitiesTargetDataSource.connect() | async" [expanded]="false">
+        <mat-paginator [pageSize]="10"></mat-paginator>
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let activity of activitiesTargetDataSource.connect() | async" [expanded]="false">
             <mat-expansion-panel-header>
               <div fxLayout="row" fxLayoutAlign="start center" class="relevance-header">
-              <h2>{{activity.target.term.symbol}}</h2>
-              <pharos-idg-level-indicator [level]="activity.target.term.idgTDL"></pharos-idg-level-indicator>
-              <h2>{{activity.target.term.name}}</h2>&nbsp;&nbsp;
-              <h3>{{activity.activities.length}} Activities</h3>
+                <h2>{{activity.target.term.symbol}}</h2>
+                <pharos-idg-level-indicator [level]="activity.target.term.idgTDL"></pharos-idg-level-indicator>
+                <h2>{{activity.target.term.name}}</h2>&nbsp;&nbsp;
+                <h3>{{activity.activities.length}} Activities</h3>
               </div>
             </mat-expansion-panel-header>
-        <pharos-generic-table
-          [data]="activity.activities"
-          [showPaginator]="true"
-          [useInternalPaginator] = "true"
-          [fieldsConfig]="fields"
-          ></pharos-generic-table>
-      </mat-expansion-panel>
-      </mat-accordion>
-    </mat-card-content>
-  </mat-card>
-</div>
+            <pharos-generic-table
+              [data]="activity.activities"
+              [showPaginator]="true"
+              [useInternalPaginator]="true"
+              [fieldsConfig]="fields">
+              <button class="detailsButton" type="button" mat-raised-button [color]="'primary'" style="height: 36px;"
+                      [routerLink]="'/targets/' + activity.target.term.accession">
+                Explore Target: {{activity.target.term.symbol}}
+                <mat-icon>description</mat-icon>
+              </button>
+            </pharos-generic-table>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </article>

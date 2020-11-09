@@ -6,6 +6,7 @@ import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.
 import {SelectedFacetService} from '../filter-panel/selected-facet.service';
 import {PathResolverService} from '../filter-panel/path-resolver.service';
 import {UnfurlingMetaService} from "../../../pharos-services/unfurling-meta.service";
+import {NavSectionsService} from "../../../tools/sidenav-panel/services/nav-sections.service";
 
 /**
  * panel to show selected facets or queries, and remove them
@@ -36,8 +37,9 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
               private changeRef: ChangeDetectorRef,
               private selectedFacetService: SelectedFacetService,
               private pathResolverService: PathResolverService,
-              private metaService: UnfurlingMetaService) {
-    super();
+              private metaService: UnfurlingMetaService,
+              public navSectionsService: NavSectionsService) {
+    super(navSectionsService);
   }
 
   /**

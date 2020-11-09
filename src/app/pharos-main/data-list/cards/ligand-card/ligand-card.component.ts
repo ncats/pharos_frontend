@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges,
 import {Ligand} from '../../../../models/ligand';
 import {Target} from '../../../../models/target';
 import {PharosConfig} from '../../../../../config/pharos-config';
+import {DynamicPanelBaseComponent} from "../../../../tools/dynamic-panel-base/dynamic-panel-base.component";
 
 /**
  * component to display a condensed ligand view
@@ -12,7 +13,7 @@ import {PharosConfig} from '../../../../../config/pharos-config';
   styleUrls: ['./ligand-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LigandCardComponent implements OnInit {
+export class LigandCardComponent extends DynamicPanelBaseComponent implements OnInit {
 
   /**
    * ligand input to display
@@ -29,15 +30,13 @@ export class LigandCardComponent implements OnInit {
    */
   @Input() internalLink = false;
 
-  @Input() apiSources: any;
   /**
    * find the first target activity for the ligand
    */
   primeActivity: any;
 
-  constructor(
-    private ref: ChangeDetectorRef
-  ) {
+  constructor(private ref: ChangeDetectorRef) {
+    super();
   }
 
   /**
@@ -66,17 +65,6 @@ export class LigandCardComponent implements OnInit {
           this.ligand.chemblName = syn.value;
         }
       });
-    }
-  }
-
-  getTooltip(label: string): string {
-    if (this.apiSources) {
-      const tooltip = this.apiSources.filter(source => source.field === label);
-      if (tooltip.length) {
-        return tooltip[0].description;
-      } else {
-        return null;
-      }
     }
   }
 }

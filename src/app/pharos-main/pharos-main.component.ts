@@ -18,7 +18,6 @@ import {MatSidenav} from '@angular/material/sidenav';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {PharosPanel} from '../../config/components-config';
 import {HelpDataService} from '../tools/help-panel/services/help-data.service';
-import {NavSectionsService} from '../tools/sidenav-panel/services/nav-sections.service';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {BreakpointObserver} from '@angular/cdk/layout';
@@ -144,7 +143,6 @@ export class PharosMainComponent implements OnInit, OnDestroy {
    * @param _injector
    * @param {ChangeDetectorRef} changeRef
    * @param {HelpDataService} helpDataService
-   * @param {NavSectionsService} navSectionsService
    * @param {BreakpointObserver} breakpointObserver
    * @param {ComponentInjectorService} componentInjectorService
    */
@@ -154,7 +152,6 @@ export class PharosMainComponent implements OnInit, OnDestroy {
     private _injector: Injector,
     private changeRef: ChangeDetectorRef,
     private helpDataService: HelpDataService,
-    private navSectionsService: NavSectionsService,
     public breakpointObserver: BreakpointObserver,
     @Inject(PLATFORM_ID) private platformID: Object,
     private selectedFacetService: SelectedFacetService

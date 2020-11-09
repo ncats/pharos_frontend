@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {GeneDetailsComponent} from "../gene-details/gene-details.component";
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 @Component({
   selector: 'pharos-knowledge-metrics',

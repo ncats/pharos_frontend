@@ -15,7 +15,19 @@ export class VirusDetailsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  virusDetailsString(){
-    return `(${this.virus.interactionDetails.length} interacting proteins)`;
+  confirmed() {
+    return this.virus.interactionDetails.filter(ppi => ppi.confirmed()).length;
+  }
+  predicted() {
+    return this.virus.interactionDetails.filter(ppi => !ppi.confirmed()).length;
+  }
+
+  virusDetailsString() {
+    const conf = this.confirmed();
+    const pred = this.predicted();
+    if (conf) {
+      return `(${pred} predicted interaction${pred === 1 ? '' : 's'}, ${conf} confirmed interaction${conf === 1 ? '' : 's'})`;
+    }
+    return `(${pred} predicted interaction${pred === 1 ? '' : 's'})`;
   }
 }

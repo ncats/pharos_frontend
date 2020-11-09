@@ -4,7 +4,7 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import { MatDialog } from '@angular/material/dialog';
 import {takeUntil} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
-import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 /**
  * displays illumination progress for a target
@@ -30,11 +30,9 @@ export class LevelSummaryPanelComponent extends DynamicPanelComponent implements
    * @param {NavSectionsService} navSectionsService
    * @param {ChangeDetectorRef} changeRef
    */
- constructor(
-   private navSectionsService: NavSectionsService,
-   private changeRef: ChangeDetectorRef
- ) {
-    super();
+ constructor(private changeRef: ChangeDetectorRef,
+             public navSectionsService: NavSectionsService) {
+    super(navSectionsService);
   }
 
   /**
@@ -50,7 +48,7 @@ export class LevelSummaryPanelComponent extends DynamicPanelComponent implements
       .subscribe(x => {
           this.target = this.data.targets;
           this.targetProps = this.data.targetsProps;
-          this.loading = false;
+          this.loadingComplete();
           this.changeRef.markForCheck();
       });
   }

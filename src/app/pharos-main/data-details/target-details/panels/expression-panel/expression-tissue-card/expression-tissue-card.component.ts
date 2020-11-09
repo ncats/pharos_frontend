@@ -1,23 +1,23 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AnatamogramHoverService} from "../../../../../../tools/anatamogram/anatamogram-hover.service";
 import {ExpressionPanelComponent} from "../expression-panel.component";
+import {DynamicPanelBaseComponent} from "../../../../../../tools/dynamic-panel-base/dynamic-panel-base.component";
 
 @Component({
   selector: 'pharos-expression-tissue-card',
   templateUrl: './expression-tissue-card.component.html',
   styleUrls: ['./expression-tissue-card.component.scss']
 })
-export class ExpressionTissueCardComponent implements OnInit {
+export class ExpressionTissueCardComponent extends DynamicPanelBaseComponent implements OnInit {
 
-  constructor(
-    private anatamogramHoverService: AnatamogramHoverService
-  ) { }
+  constructor(private anatamogramHoverService: AnatamogramHoverService) {
+    super();
+  }
 
   @Input() tissueExpressionSources: any;
   @Input() sortKey: string;
   @Input() clickedTissue: string;
   @Input() dataField: string;
-  @Input() apiSources: any[];
   collapsed: boolean = true;
 
   ngOnInit(): void {
@@ -69,17 +69,6 @@ export class ExpressionTissueCardComponent implements OnInit {
       this.anatamogramHoverService.setTissue(uberon);
     } else {
       this.anatamogramHoverService.setTissue(null);
-    }
-  }
-
-  getTooltip(label: string): string {
-    if (this.apiSources) {
-      const tooltip = this.apiSources.filter(source => source.field === label);
-      if (tooltip.length) {
-        return tooltip[0].description;
-      } else {
-        return null;
-      }
     }
   }
 }

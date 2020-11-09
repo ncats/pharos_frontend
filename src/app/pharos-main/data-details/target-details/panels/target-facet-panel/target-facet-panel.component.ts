@@ -53,9 +53,8 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
   ];
 
   constructor(
-    private navSectionsService: NavSectionsService
-  ) {
-    super();
+    public navSectionsService: NavSectionsService) {
+    super(navSectionsService);
   }
 
   // todo support pagination for each facet table
@@ -72,7 +71,7 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
         this.target = this.data.targets;
         this.targetProps = this.data.targetsProps;
         this.setterFunction();
-        this.loading = false;
+        this.loadingComplete();
       });
   }
 
@@ -96,11 +95,6 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
 
   getLabel(value: string) {
     return LABELS.get(value) ? LABELS.get(value) : value;
-  }
-
-  getTooltip(label: string): string {
-    const labels = this.apiSources.filter(source => source.field === label)[0];
-    return labels ? labels.description : '';
   }
 
   /**

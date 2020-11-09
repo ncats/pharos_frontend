@@ -1,5 +1,5 @@
-<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="end center" class="body-row paginator-row" *ngIf="showPaginator && pageData">
-  <div fxFlex="55" fxFlexAlign="end">
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between" class="body-row paginator-row" *ngIf="showPaginator && pageData">
+    <ng-content></ng-content>
     <mat-paginator
                    [pageSizeOptions]="[10, 20, 50]"
                    [pageSize]="pageData.skip > 0 ? pageData.skip : 10"
@@ -8,7 +8,6 @@
                    (page)="changePage($event)"
                    [hidePageSize]="hidePageSize">
     </mat-paginator>
-  </div>
 </div>
 <table mat-table matSort #genericTable
        [dataSource]="dataSource"

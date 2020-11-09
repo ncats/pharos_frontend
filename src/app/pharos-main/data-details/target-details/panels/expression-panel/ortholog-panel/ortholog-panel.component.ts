@@ -7,6 +7,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Target} from '../../../../../../models/target';
 import {PageEvent} from '@angular/material/paginator';
 import {TargetComponents} from "../../../../../../models/target-components";
+import {NavSectionsService} from "../../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 /**
  * displays orthologs available for a target
@@ -52,9 +53,10 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
   constructor(
     private pharosApiService: PharosApiService,
     private _route: ActivatedRoute,
-    private changeRef: ChangeDetectorRef
+    private changeRef: ChangeDetectorRef,
+    public navSectionsService: NavSectionsService
   ) {
-    super();
+    super(navSectionsService);
   }
 
   /**
@@ -63,14 +65,14 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
   ngOnInit() {
     this.target = this.data.targets;
     this.targetProps = this.data.targetsProps;
-    this.loading = false;
+    this.loadingComplete();
   }
     /**
      * paginate ortholog list datasource
      * @param event
      */
     paginate(event: PageEvent) {
-      this.loading = true;
+      this.loadingStart();
       const orthologSerializer = new OrthologSerializer();
       const pageParams = {
         orthologstop: event.pageSize,
@@ -81,7 +83,7 @@ export class OrthologPanelComponent extends DynamicPanelComponent implements OnI
           .map(ortholog => orthologSerializer.fromJson(ortholog))
           .map(ortho => orthologSerializer._asProperties(ortho));
         this.targetProps.orthologs = tempArr;
-        this.loading = false;
+        this.loadingComplete(false);
         this.changeRef.markForCheck();
       });
     }

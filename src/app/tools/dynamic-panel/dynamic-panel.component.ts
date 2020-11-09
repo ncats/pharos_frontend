@@ -1,5 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {BehaviorSubject, Subject} from 'rxjs';
+import {NavSectionsService} from "../sidenav-panel/services/nav-sections.service";
+import {DynamicPanelBaseComponent} from "../dynamic-panel-base/dynamic-panel-base.component";
 
 /**
  * Base component to be expanded by dynamically injected panels
@@ -9,19 +11,27 @@ import {BehaviorSubject, Subject} from 'rxjs';
 @Component({
   template: ''
 })
-export class DynamicPanelComponent {
+export class DynamicPanelComponent extends DynamicPanelBaseComponent{
   /**
    * check to see if mobile or small screen
    * @type {boolean}
    */
   isSmallScreen = false;
-
   /**
    * loading boolean flag
    * @type {boolean}
    */
   @Input() loading = true;
-
+  navSectionsService: NavSectionsService;
+  loadingComplete(rescroll: boolean = true){
+    this.loading = false;
+    if(rescroll){
+      this.navSectionsService.reScroll();
+    }
+  }
+  loadingStart() {
+    this.loading = true;
+  }
   /**
    * main field name
    */
@@ -37,10 +47,6 @@ export class DynamicPanelComponent {
    */
   description: string;
 
-  /**
-   * api sources, mainly used for the definitions
-   */
-  apiSources: any[];
   mainSource: string;
   etag?: string;
   sideway?: string[];
@@ -84,15 +90,8 @@ export class DynamicPanelComponent {
    * No dependencies
    *
    */
-  constructor() {
-  }
-
-  getTooltip(label: string): string {
-    const tooltip = this.apiSources.filter(source => source.field === label);
-    if (tooltip.length) {
-      return tooltip[0].description;
-    } else {
-      return null;
-    }
+  constructor(navSectionsService: NavSectionsService) {
+    super();
+    this.navSectionsService = navSectionsService;
   }
 }

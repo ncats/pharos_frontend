@@ -2,7 +2,8 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy,
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {Ligand} from '../../../../../models/ligand';
 import {takeUntil} from 'rxjs/operators';
-import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
+import {DataProperty} from "../../../../../tools/generic-table/components/property-display/data-property";
 
 @Component({
   selector: 'pharos-ligand-details',
@@ -17,13 +18,11 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
    */
   @Input() ligand: Ligand;
 
-  constructor(
-    private navSectionsService: NavSectionsService,
-    private changeRef: ChangeDetectorRef
-  ) {
-    super();
+  constructor(private changeRef: ChangeDetectorRef,
+              public navSectionsService: NavSectionsService) {
+    super(navSectionsService);
   }
-
+  synonymList: DataProperty[];
   /**
    * set data
    */
@@ -37,7 +36,8 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
       .subscribe(x => {
         if (this.data && this.data.ligands) {
           this.ligand = this.data.ligands;
-          this.loading = false;
+          this.synonymList = this.ligand.synonymLabels();
+          this.loadingComplete();
           this.changeRef.markForCheck();
         }
       });
@@ -51,13 +51,9 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
     this.navSectionsService.setActiveSection(fragment);
   }
 
-  getTooltip(label: string): string {
-    const tooltip = this.apiSources.filter(source => source.field === label);
-    if (tooltip.length) {
-      return tooltip[0].description;
-    } else {
-      return null;
-    }
+  getTooltipProp(prop: DataProperty){
+    prop.tooltip = this.getTooltip(prop.label);
+    return prop;
   }
 
   /**

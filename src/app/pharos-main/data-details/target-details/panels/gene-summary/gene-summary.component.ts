@@ -13,6 +13,7 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {UnfurlingMetaService} from "../../../../../pharos-services/unfurling-meta.service";
 import {NavigationEnd, Router} from "@angular/router";
+import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 /**
  * displays the description of a target
@@ -49,8 +50,9 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
               private metaService: UnfurlingMetaService,
               private changeRef: ChangeDetectorRef,
               @Inject(PLATFORM_ID) private platformID: Object,
-              private router: Router) {
-    super();
+              private router: Router,
+              public navSectionsService: NavSectionsService) {
+    super(navSectionsService);
   }
 
   /**

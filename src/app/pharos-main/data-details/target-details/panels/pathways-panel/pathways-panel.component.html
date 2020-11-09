@@ -1,4 +1,4 @@
-<article *ngIf="target?.reactomePathways?.length > 0 || target?.otherPathways?.length > 0">
+<article *ngIf="target?.pathwayMap?.size > 0">
   <mat-card id="pathways"
             class="section-card"
             (pharosScrollspy)="active('pathways')"
@@ -12,7 +12,7 @@
            fxLayoutAlign="start stretch">
         <div fxFlex="95" class="headerContainer">
         <span class="mat-title" [matTooltip]=description
-              [matTooltipClass]="'pharos-tooltip'">Pathways ({{target?.pathwayCount}})</span>
+              [matTooltipClass]="'pharos-tooltip'">Pathways ({{getTotalPathwayCount()}})</span>
         </div>
         <div fxFlex="5">
           <pharos-help-panel-trigger [origin]="'pathways'"></pharos-help-panel-trigger>
@@ -20,11 +20,11 @@
       </div>
       <div class="lower-content">
         <mat-tab-group>
-          <mat-tab *ngIf="target?.reactomePathways?.length > 0"
-                   label="Reactome ({{target.reactomePathwayCount}})"
+          <mat-tab *ngFor="let pathType of this.pathOrder"
+                   [label]="pathType + ' (' + getPathwayCount(pathType) + ')'"
                    [matTooltip]="getTooltip('reactome')">
             <ng-template matTabContent>
-              <div class="pathway-container">
+              <div class="pathway-container" *ngIf="pathType == 'Reactome' && selectedStructure && target.pathwayMap.get(pathType).length > 0">
                 <mat-card-title>{{selectedStructure.name}} ({{selectedStructure.sourceID}})</mat-card-title>
                 <pharos-reactome-pathway-browser
                   [symbol]="target.gene"
@@ -41,38 +41,25 @@
               </div>
               <mat-paginator
                 [pageSizeOptions]="[5, 10, 20, 50]"
-                [pageSize]="5"
-                [length]="target.reactomePathwayCount"
+                [pageSize]= pageDataMap.get(pathType).top
+                [pageIndex]="pageDataMap.get(pathType).skip / pageDataMap.get(pathType).top"
+                [length]= "pageDataMap.get(pathType).total"
                 [showFirstLastButtons]=true
-                (page)="changePage($event, this.reactomeListParams)">
+                (page)="changePage($event, pathType)">
               </mat-paginator>
-              <pharos-generic-table
+              <pharos-generic-table fxHide.lt-md
                 [showPaginator]="false"
-                [pageData]="reactomePageData"
-                [data]="reactomeData"
-                [fieldsConfig]="reactomeFields"
-                (rowClick)="changePath($event)">
+                [pageData]="pageDataMap.get(pathType)"
+                [data]="targetsProps.pathwayMap.get(pathType)"
+                [fieldsConfig]="pathwayFields"
+                (rowClick)="changePath($event, pathType)">
               </pharos-generic-table>
-            </ng-template>
-          </mat-tab>
-          <mat-tab *ngIf="target?.otherPathways?.length > 0"
-                   label="Other Sources ({{target.otherPathwayCount}})"
-                   [matTooltip]="getTooltip('others')">
-            <ng-template matTabContent>
-              <div fxFlexAlign="end">
-                <mat-paginator
-                  [pageSizeOptions]="[5, 10, 20, 50]"
-                  [pageSize]="5"
-                  [length]="target.otherPathwayCount"
-                  [showFirstLastButtons]=true
-                  (page)="changePage($event, this.otherListParams)">
-                </mat-paginator>
-              </div>
-              <pharos-generic-table
+              <pharos-generic-table fxHide.gt-sm
                 [showPaginator]="false"
-                [pageData]="otherPageData"
-                [data]="otherData"
-                [fieldsConfig]="otherFields">
+                [pageData]="pageDataMap.get(pathType)"
+                [data]="targetsProps.pathwayMap.get(pathType)"
+                [fieldsConfig]="shortPathwayFields"
+                (rowClick)="changePath($event, pathType)">
               </pharos-generic-table>
             </ng-template>
           </mat-tab>
