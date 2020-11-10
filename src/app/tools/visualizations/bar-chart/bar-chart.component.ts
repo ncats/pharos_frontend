@@ -35,7 +35,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
    * @private
    */
   protected _data = new BehaviorSubject<any>({});
-
+  protected _expectedData = new BehaviorSubject<any>({});
   /**
    * pushes changed data to {BehaviorSubject}
    * @param value
@@ -44,6 +44,10 @@ export class BarChartComponent implements OnInit, OnDestroy {
   set data(value: any[]) {
     this._data.next(value);
   }
+  @Input()
+  set expectedData(value: any[]){
+    this._expectedData.next(value);
+  }
 
   /**
    * returns value of {BehaviorSubject}
@@ -51,6 +55,9 @@ export class BarChartComponent implements OnInit, OnDestroy {
    */
   get data() {
     return this._data.getValue();
+  }
+  get expectedData() {
+    return this._expectedData.getValue();
   }
 
   @Input() showAxes: boolean = true;
@@ -132,17 +139,28 @@ export class BarChartComponent implements OnInit, OnDestroy {
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        this.margin = this.histogram ? this.histMargin : this.barMargin;
-        if(this.histogram && Math.floor(this.binSize) !== this.binSize){
-          this.decimals = this.binSize.toString().split(".")[1].length;
-        }
-        if (isPlatformBrowser(this.platformID)) {
-          this.drawGraph();
-          if (this.data) {
-            this.updateGraph();
-          }
-        }
+        this.redrawGraph();
       });
+    this._expectedData
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(x => {
+        this.redrawGraph();
+      });
+  }
+
+  redrawGraph(){
+    this.margin = this.histogram ? this.histMargin : this.barMargin;
+    if(this.histogram && Math.floor(this.binSize) !== this.binSize){
+      this.decimals = this.binSize.toString().split(".")[1].length;
+    }
+    if (isPlatformBrowser(this.platformID)) {
+      this.drawGraph();
+      if (this.data) {
+        this.updateGraph();
+      }
+    }
   }
 
   /**
@@ -173,6 +191,10 @@ export class BarChartComponent implements OnInit, OnDestroy {
       this.svg.append('g')
         .attr('class', 'yaxis')
         .attr('transform', `translate(${this.margin.left}, 0)`);
+    }
+
+    if(this.expectedData.length > 0) {
+      this.svg.append('g').attr('class', 'expected-holder');
     }
 
     this.svg.append('g')
@@ -220,12 +242,45 @@ export class BarChartComponent implements OnInit, OnDestroy {
     }
 
 
+    let offset = 1;
+    let widthDivisor = 1;
+
+    if(this.expectedData.length > 0) {
+      offset = 1/5;
+      widthDivisor = 1.2;
+      this.svg.select('.expected-holder').selectAll('.exp')
+        .data(this.expectedData)
+        .enter().append('rect')
+        .attr('class', 'exp')
+        .attr('x', d => x(d[0])+x.bandwidth()*offset)
+        .attr('width', x.bandwidth()/widthDivisor)
+        .attr('y', d => y(d[1]))
+        .attr('height', d => this.height - y(+d[1]))
+        .attr('transform', 'translate(20, 0)')
+        .style('pointer-events', 'all')
+        .on('mouseover', (d, i, bars) => {
+          d3.select(bars[i]).classed('hovered', true);
+          this.tooltip.transition().duration(200).style('opacity', 0.9);
+          this.tooltip.html('<span>Expected ' + d[0] + ': <br>' + d[1].toFixed(2) + '</span>')
+            .style('left', d3.event.pageX + 'px')
+            .style('top', d3.event.pageY + 'px')
+            .style('width', 100);
+        })
+        .on('mouseout', (d, i, bars) => {
+          this.tooltip
+            .transition()
+            .duration(200)
+            .style('opacity', 0);
+          d3.select(bars[i]).classed('hovered', false);
+        });
+    }
+
     this.svg.select('.bar-holder').selectAll('.bar')
       .data(this.data)
       .enter().append('rect')
       .attr('class', 'bar')
       .attr('x', d => x(d[0]))
-      .attr('width', x.bandwidth())
+      .attr('width', x.bandwidth()/widthDivisor)
       .attr('y', d => y(+d[1]))
       .attr('height', d => this.height - y(+d[1]))
       .attr('transform', 'translate(20, 0)')

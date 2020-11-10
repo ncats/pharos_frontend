@@ -2,9 +2,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef, Inject,
+  ElementRef,
+  Inject,
   Input,
-  OnInit, PLATFORM_ID,
+  OnInit,
+  PLATFORM_ID,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -50,6 +52,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
    * amino acid residue counts
    */
   residueCounts: any[];
+  expectedResidueCounts: any[];
 
   /**
    * set up active sidenav component
@@ -73,8 +76,8 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
   ngOnInit() {
     const isSmallScreen = this.breakpointObserver.isMatched('(max-width: 768px)');
     this._data
-    // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
+      // listen to data as long as term is undefined or null
+      // Unsubscribe once term has value
       .pipe(
         takeUntil(this.ngUnsubscribe)
       )
@@ -102,15 +105,36 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
    */
   getCounts(): void {
     const charMap: Map<string, number> = new Map<string, number>();
+    const len = this.target.sequence.length;
+    this.expectedResidueCounts = [
+      ['L', 0.099591165 * len],
+      ['S', 0.083248996 * len],
+      ['E', 0.071040797 * len],
+      ['A', 0.07017658 * len],
+      ['G', 0.065741325 * len],
+      ['P', 0.063110442 * len],
+      ['V', 0.05966869 * len],
+      ['K', 0.057261837 * len],
+      ['R', 0.056425217 * len],
+      ['T', 0.053570831 * len],
+      ['Q', 0.047705615 * len],
+      ['D', 0.047388773 * len],
+      ['I', 0.043342517 * len],
+      ['F', 0.03647334 * len],
+      ['N', 0.035849413 * len],
+      ['Y', 0.026661623 * len],
+      ['H', 0.026235711 * len],
+      ['C', 0.023004718 * len],
+      ['M', 0.021316185 * len],
+      ['W', 0.012186227 * len]
+    ];
+    this.expectedResidueCounts.forEach(pair => charMap.set(pair[0], 0));
     this.target.sequence.split('').map(char => {
       let count = charMap.get(char);
-      if (count) {
-        charMap.set(char, ++count);
-      } else {
-        charMap.set(char, 1);
-      }
+      charMap.set(char, ++count);
     });
     this.residueCounts = Array.from(charMap.entries());
+
   }
 
   /**
