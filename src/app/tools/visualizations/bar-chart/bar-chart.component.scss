@@ -31,6 +31,12 @@
   fill: mat-color($pharos-app-primary) !important;
 }
 
+.exp{
+  fill: lightgray;
+}
+.exp.hovered {
+  fill: mat-color($pharos-app-accent, 0.6) !important;
+}
 .outOfBounds{
   fill: lightgray !important;
 }

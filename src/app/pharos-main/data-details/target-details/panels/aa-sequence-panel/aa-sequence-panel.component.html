@@ -30,7 +30,7 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="center start">
       <div fxFlex="95" fxFlex.lt-md="100" class="residue-count-holder">
-        <pharos-bar-chart [data]="residueCounts" *ngIf="residueCounts"></pharos-bar-chart>
+        <pharos-bar-chart [data]="residueCounts" [expectedData]="expectedResidueCounts" *ngIf="residueCounts"></pharos-bar-chart>
       </div>
     </div>
     <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
