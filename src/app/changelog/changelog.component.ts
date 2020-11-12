@@ -1,4 +1,8 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+// @ts-ignore
+import changelog from "raw-loader!./../../../CHANGELOG.md";
+
 
 @Component({
   selector: 'pharos-changelog',
@@ -9,8 +13,8 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 
 export class ChangelogComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private http: HttpClient) { }
+  data = changelog;
   ngOnInit(): void {
   }
 
