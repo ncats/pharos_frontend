@@ -17,7 +17,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {TransferHttpCacheModule} from '@nguniversal/common';
 import {GraphQLModule} from './graphql.module';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {ServiceWorkerModule} from "@angular/service-worker";
 import {MarkdownModule} from "ngx-markdown";
 
@@ -44,7 +44,7 @@ import {MarkdownModule} from "ngx-markdown";
     PharosLoadingSpinnerModule,
     GraphQLModule,
     HttpClientModule,
-    MarkdownModule.forRoot()
+    MarkdownModule.forRoot({ loader: HttpClient })
   ],
   bootstrap: [AppComponent]
 })
