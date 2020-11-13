@@ -35,6 +35,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
    * @private
    */
   protected _data = new BehaviorSubject<any>({});
+  protected _expectedData = new BehaviorSubject<any>({});
 
   /**
    * pushes changed data to {BehaviorSubject}
@@ -45,12 +46,21 @@ export class BarChartComponent implements OnInit, OnDestroy {
     this._data.next(value);
   }
 
+  @Input()
+  set expectedData(value: any[]) {
+    this._expectedData.next(value);
+  }
+
   /**
    * returns value of {BehaviorSubject}
    * @returns {any}
    */
   get data() {
     return this._data.getValue();
+  }
+
+  get expectedData() {
+    return this._expectedData.getValue();
   }
 
   @Input() showAxes: boolean = true;
@@ -64,6 +74,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
   private eventsSubscription: Subscription;
 
   @Input() events: Observable<void>;
+  @Input() getLongNameFunction: (string) => string;
   /**
    * margin for padding
    * todo should probabl still use the chart options config object
@@ -132,6 +143,18 @@ export class BarChartComponent implements OnInit, OnDestroy {
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
+        this.redrawGraph();
+      });
+    this._expectedData
+      .pipe(
+        takeUntil(this.ngUnsubscribe)
+      )
+      .subscribe(x => {
+        this.redrawGraph();
+      });
+  }
+
+  redrawGraph() {
         this.margin = this.histogram ? this.histMargin : this.barMargin;
         if(this.histogram && Math.floor(this.binSize) !== this.binSize){
           this.decimals = this.binSize.toString().split(".")[1].length;
@@ -142,7 +165,6 @@ export class BarChartComponent implements OnInit, OnDestroy {
             this.updateGraph();
           }
         }
-      });
   }
 
   /**
@@ -178,6 +200,10 @@ export class BarChartComponent implements OnInit, OnDestroy {
     this.svg.append('g')
       .attr('class', 'bar-holder');
 
+    if (this.expectedData.length > 0) {
+      this.svg.append('g').attr('class', 'expected-holder');
+    }
+
     this.tooltip = d3.select('body').append('div')
       .attr('class', 'bar-tooltip')
       .style('opacity', 0);
@@ -203,7 +229,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
       .range([this.height, 0]);
 
     x.domain(this.data.map(d => d[0]));
-    y.domain([0, d3.max(this.data, d => +d[1])]);
+    y.domain([0, Math.max(d3.max(this.data, d => +d[1]), d3.max(this.expectedData, d => d[1]) || 0)]);
 
     if (this.showAxes) {
       const xAxis = d3.axisBottom()
@@ -219,6 +245,36 @@ export class BarChartComponent implements OnInit, OnDestroy {
         .call(yAxis);
     }
 
+    if (this.expectedData.length > 0) {
+      const markerSize = 10;
+      this.svg.select('.expected-holder').selectAll('.exp')
+        .data(this.expectedData)
+        .enter().append('rect')
+        .attr('class', 'exp')
+        .attr('x', d => x(d[0]) + x.bandwidth() / 4)
+        .attr('width', x.bandwidth() / 2)
+        .attr('y', d => y(+d[1]))
+        .attr('height', 3)
+        .attr('transform', 'translate(20, 0)')
+        .style('pointer-events', 'all')
+        .on('mouseover', (d, i, bars) => {
+          d3.select(bars[i]).classed('hovered', true);
+          this.tooltip.transition().duration(200).style('opacity', 0.9);
+          this.tooltip.html('<span>Expected ' +
+              (this.getLongNameFunction ? this.getLongNameFunction(d[0]) : d[0]) +
+              ': <br>' + d[1].toFixed(2) + '</span>')
+            .style('left', d3.event.pageX + 'px')
+            .style('top', d3.event.pageY + 'px')
+            .style('width', 100);
+        })
+        .on('mouseout', (d, i, bars) => {
+          this.tooltip
+            .transition()
+            .duration(200)
+            .style('opacity', 0);
+          d3.select(bars[i]).classed('hovered', false);
+        });
+    }
 
     this.svg.select('.bar-holder').selectAll('.bar')
       .data(this.data)
@@ -236,7 +292,9 @@ export class BarChartComponent implements OnInit, OnDestroy {
           .transition()
           .duration(200)
           .style('opacity', .9);
-        this.tooltip.html(this.histogram ? this.histogramTooltip(d) : '<span>' + d[0] + ': <br>' + d[1] + '</span>')
+        this.tooltip.html(this.histogram ? this.histogramTooltip(d) : '<span>' +
+            (this.getLongNameFunction ? this.getLongNameFunction(d[0]) : d[0]) +
+            ': <br>' + d[1] + '</span>')
           .style('left', d3.event.pageX + 'px')
           .style('top', d3.event.pageY + 'px')
           .style('width', 100);
