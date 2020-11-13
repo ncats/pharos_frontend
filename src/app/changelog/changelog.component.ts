@@ -1,5 +1,4 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 // @ts-ignore
 import changelog from "raw-loader!./../../../CHANGELOG.md";
 
@@ -12,10 +11,8 @@ import changelog from "raw-loader!./../../../CHANGELOG.md";
 })
 
 export class ChangelogComponent implements OnInit {
-
-  constructor(private http: HttpClient) { }
+  constructor() { }
   data = changelog;
   ngOnInit(): void {
   }
-
 }
