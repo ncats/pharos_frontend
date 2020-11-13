@@ -833,7 +833,9 @@ const AA_SEQUENCE_PANEL: PharosPanel = {
     {
       field: 'residues',
       label: 'Residue Counts',
-      description: `Bar chart summarizing the number of times each residue appears in the sequence.`
+      description: 'Bar chart summarizing the number of times each residue appears in the sequence. The bars represent ' +
+        'the actual counts, while the gold lines represent the expected counts given the frequency of the amino acids in ' +
+        'all human genes.'
     },
     {
       field: 'sequence',

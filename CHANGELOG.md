@@ -1,17 +1,17 @@
 # 3.2.0 (2020-11-09)
 ### Added Features
-* ** Pathways for target details pages
+* **Pathways for target details pages:**
     * Show Reactome Pathway browser when possible
     * Show other pathway datasources and links to their pages
     * Link to targets lists of all targets in each pathway
-* ** Show PDB ids for virus interactions that have confirmed PDB ids
+* **Show PDB ids for virus interactions that have confirmed PDB ids:**
     * Allows distinction between predicted viral interactions, and confirmed viral interactions
     
 ### Bug Fixes
 * fixes for displaying on small screens
 * accept queries from /search?q=term links
 
-
+_______________
 # 3.1.0 (2020-10-02)
 ### Added Features
 * **Better data provenance:**
