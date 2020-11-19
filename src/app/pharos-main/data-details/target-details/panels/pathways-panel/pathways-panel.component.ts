@@ -154,7 +154,7 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
         const pathwaySerializer = new PathwaySerializer();
         this.target.pathwayMap.set(pwType, res.data.targets.pathways.map(path => pathwaySerializer.fromJson(path)));
         this.targetsProps.pathwayMap.set(pwType, res.data.targets.pathways.map(path => pathwaySerializer._asProperties(path)));
-        this.loadingComplete(false);
+        this.loadingComplete();
         this.changeRef.markForCheck();
       }, error: err => {
         err;

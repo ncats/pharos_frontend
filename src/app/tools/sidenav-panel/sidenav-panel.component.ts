@@ -91,10 +91,6 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit {
       }
     });
 
-    this.navSectionsService.rescroll$.subscribe(res => {
-      setTimeout(() => {this.viewportScroller.scrollToAnchor(this.activeFragment);}, 50);
-    });
-
     this.navSectionsService.activeSection$.subscribe(res => {
       if (res) {
         this.activeElement = res;

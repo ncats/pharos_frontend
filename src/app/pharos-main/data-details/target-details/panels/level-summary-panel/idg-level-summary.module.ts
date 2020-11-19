@@ -8,6 +8,7 @@ import {TbioSummaryComponent} from './levels/tbio-summary/tbio-summary.component
 import {TchemSummaryComponent} from './levels/tchem-summary/tchem-summary.component';
 import {SharedModule} from '../../../../../shared/shared.module';
 import {CommonToolsModule} from '../../../../../tools/common-tools.module';
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -17,11 +18,12 @@ import {CommonToolsModule} from '../../../../../tools/common-tools.module';
     TclinSummaryComponent,
     LevelSummaryPanelComponent
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    CommonToolsModule
-  ],
+    imports: [
+        CommonModule,
+        SharedModule,
+        CommonToolsModule,
+        RouterModule
+    ],
   providers: [
     {provide: TOKENS.LEVEL_SUMMARY_PANEL, useValue: LevelSummaryPanelComponent}
   ],
