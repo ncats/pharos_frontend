@@ -9,67 +9,41 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="start center">
       <mat-icon
-        [ngClass]="{'disabled-icon': target?.jensenScore > 5}"
+        [ngClass]="{'disabled-icon': target?.jensenScore >= 5 || target?.idgTDL !== 'Tdark'}"
         [color]="'accent'">check_circle
       </mat-icon>
-      &nbsp;&nbsp;
       <span
         [matTooltip]="getTooltip('pubmed')"
         [matTooltipClass]="'pharos-tooltip'"
-        [ngClass]="{'mat-body-2': target?.jensenScore <= 5}">
+        [ngClass]="{'mat-body-2': target?.jensenScore < 5}">
         Pubmed score: {{target?.jensenScore}}</span>
       &nbsp;<span class="required-val"><i> (req: < 5)</i></span>
     </div>
-    <br>
-    <div fxLayout="row">
-      <mat-progress-bar
-        class = "tdl-progress"
-        mode="determinate"
-        maxlength ="5"
-        [value]="target?.jensenScore <= 5 ? (target?.jensenScore === 0 ? 0 :  (target?.jensenScore / 5) * 100) : 100"
-      ></mat-progress-bar>
-    </div>
+    <div class="exploreLink" *ngIf="target.publicationCount > 0"><a (click)="scroll('relatedPublications', 'relatedPublications')">View Publications</a></div>
     <div fxLayout="row" fxLayoutAlign="start center">
       <mat-icon
-        [ngClass]="{'disabled-icon' : target.generifCount > 3}"
+        [ngClass]="{'disabled-icon' : target.generifCount > 3 || target?.idgTDL !== 'Tdark'}"
         [color]="'accent'">check_circle
       </mat-icon>
-      &nbsp;&nbsp;
       <span
         [matTooltip]="getTooltip('generif')"
         [matTooltipClass]="'pharos-tooltip'"
-        [ngClass]="{'mat-body-2': target.generifCount <= 3}">
-    Gene RIFs: {{target.generifCount}}</span>
+        [ngClass]="{'mat-body-2': target.generifCount <= 3}">Gene RIFs: {{target.generifCount}}</span>
       &nbsp;<span class="required-val"><i> (req: <= 3)</i></span>
     </div>
-    <br>
-    <div fxLayout="row">
-      <mat-progress-bar
-        class = "tdl-progress"
-        mode="determinate"
-        [value]="target.generifCount <= 3 ? (target.generifCount === 0 ? 0 : (target.generifCount / 3) * 100 ): 100"
-      ></mat-progress-bar>
-    </div>
+    <div class="exploreLink" *ngIf="target.generifCount > 0"><a (click)="scroll('relatedPublications', 'geneRIFs')">View Gene RIFs</a></div>
     <div fxLayout="row" fxLayoutAlign="start center">
       <mat-icon
-        [ngClass]="{'disabled-icon': target?.antibodyCount > 50}"
+        [ngClass]="{'disabled-icon': target?.antibodyCount > 50 || target?.idgTDL !== 'Tdark'}"
         [color]="'accent'">check_circle
       </mat-icon>
-      &nbsp;&nbsp;
       <span
         [matTooltip]="getTooltip('antibodies')"
         [matTooltipClass]="'pharos-tooltip'"
         [ngClass]="{'mat-body-2': target?.antibodyCount <= 50}">
   Antibodies: {{target?.antibodyCount}}</span>
-      &nbsp; <span class="required-val"><i> (req: < 50)</i></span>
+      &nbsp; <span class="required-val"><i> (req: <= 50)</i></span>
     </div>
-    <br>
-    <div fxLayout="row">
-      <mat-progress-bar
-        class = "tdl-progress"
-        mode="determinate"
-        [value]="target?.antibodyCount <= 50 ? (target?.antibodyCount === 0 ? 0 : 50 /  target?.antibodyCount): 100"
-      ></mat-progress-bar>
-    </div>
+    <div class="exploreLink" *ngIf="target.antibodyCount > 0 && target.antibodyURL"><a [href]="target.antibodyURL" target="_blank">View Antibodies <mat-icon [inline]="true">open_in_new</mat-icon></a></div>
   </div>
 </div>

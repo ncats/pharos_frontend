@@ -8,24 +8,18 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="start center">
       <mat-icon
-        [ngClass]="{'disabled-icon': target?.idgTDL != 'Tclin'}"
+        [ngClass]="{'disabled-icon': target?.idgTDL !== 'Tclin'}"
         [color]="'accent'">check_circle
       </mat-icon>
-      &nbsp;&nbsp;
       <span
         [matTooltip]="getTooltip('drugsCount')"
         [matTooltipClass]="'pharos-tooltip'"
         class='mat-body-2'>
       Active Drug<span *ngIf="target.drugCount>1">s</span>: {{target.drugCount}}
- </span>
+      </span>
     </div>
-    <br>
-    <div fxLayout="row" class = "pharos-progress">
-      <mat-progress-bar
-        class = "tdl-progress"
-        mode="determinate"
-        [value]="target.idgTDL ==='Tclin' ? 100 : 0"
-      ></mat-progress-bar>
+    <div class="exploreLink" *ngIf="target.drugCount > 0">
+      <a [routerLink]="'/ligands'" [queryParams]="{associatedTarget:target.accession,facet:'Type' + this.Facet.separator + 'Drug'}">Explore Approved Drugs</a>
     </div>
   </div>
 </div>

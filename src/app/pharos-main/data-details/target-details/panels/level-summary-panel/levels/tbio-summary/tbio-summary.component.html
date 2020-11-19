@@ -1,21 +1,57 @@
-
-
 <div fxLayout="row" fxLayoutAlign="space-around start">
   <div fxFlex="95">
     <div fxLayout="row">
       <p class="explanation">
         These targets do not have known drug or small molecule activities <br>
         <span class="centered">- AND -</span>
-        do not satisfy the criteria for Tdark
+        satisfy two or more of the following criteria:</p>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon
+        [ngClass]="{'disabled-icon': target?.jensenScore < 5 || target?.idgTDL !== 'Tbio'}"
+        [color]="'accent'">check_circle
+      </mat-icon>
+      <span
+        [matTooltip]="getTooltip('pubmed')"
+        [matTooltipClass]="'pharos-tooltip'"
+        [ngClass]="{'mat-body-2': target?.jensenScore >= 5}">
+        Pubmed score: {{target?.jensenScore}}</span>
+      &nbsp;<span class="required-val"><i> (req: >= 5)</i></span>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon
+        [ngClass]="{'disabled-icon' : target.generifCount <= 3 || target?.idgTDL !== 'Tbio'}"
+        [color]="'accent'">check_circle
+      </mat-icon>
+      <span
+        [matTooltip]="getTooltip('generif')"
+        [matTooltipClass]="'pharos-tooltip'"
+        [ngClass]="{'mat-body-2': target.generifCount > 3}">
+    Gene RIFs: {{target.generifCount}}</span>
+      &nbsp;<span class="required-val"><i> (req: > 3)</i></span>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon
+        [ngClass]="{'disabled-icon': target?.antibodyCount <= 50 || target?.idgTDL !== 'Tbio'}"
+        [color]="'accent'">check_circle
+      </mat-icon>
+      <span
+        [matTooltip]="getTooltip('antibodies')"
+        [matTooltipClass]="'pharos-tooltip'"
+        [ngClass]="{'mat-body-2': target?.antibodyCount > 50}">
+  Antibodies: {{target?.antibodyCount}}</span>
+      &nbsp; <span class="required-val"><i> (req: > 50)</i></span>
+    </div>
+    <div fxLayout="row">
+      <p class="explanation">
         <span class="centered">- OR -</span>
         satisfy the following criterion:</p>
     </div>
     <div fxLayout="row" fxLayoutAlign="start center">
       <mat-icon
-        [ngClass]="{'disabled-icon': target.goCount.TBioCount() < 1 }"
+        [ngClass]="{'disabled-icon': target.goCount.TBioCount() < 1  || target?.idgTDL !== 'Tbio'}"
         [color]="'accent'">check_circle
       </mat-icon>
-      &nbsp;&nbsp;
       <span
         [matTooltip]="getTooltip('goMolecularFunctions')"
         [matTooltipClass]="'pharos-tooltip'"
@@ -24,13 +60,6 @@
         *ngIf = "target.goCount.TBioCount() > 1">s</span>:
         {{target.goCount.TBioCount()}}</span>
     </div>
-    <br>
-    <div fxLayout="row">
-      <mat-progress-bar
-        class = "tdl-progress"
-        mode="determinate"
-        [value]="target.goCount.TBioCount() == 0 ? 0 : 100"
-      ></mat-progress-bar>
-    </div>
+    <div class="exploreLink" *ngIf="target.goCount.TBioCount() > 0"><a (click)="scroll('relatedTargets')">View GO Terms</a></div>
   </div>
 </div>

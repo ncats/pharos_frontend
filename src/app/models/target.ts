@@ -98,7 +98,7 @@ export class Target extends PharosBase {
    * antibodipedia.org antibody count
    */
   antibodyCount: number;
-
+  antibodyURL: string;
   /**
    * Gene RiF count
    */
@@ -358,6 +358,10 @@ export class TargetSerializer implements PharosSerializer {
 
     if (json.antibodyCount && json.antibodyCount.length) {
       obj.antibodyCount = +(+json.antibodyCount[0].value).toFixed(2);
+    }
+
+    if(json.antibodyURL && json.antibodyURL.length){
+      obj.antibodyURL = json.antibodyURL[0].value;
     }
 
     if (json.ppiCount) {
