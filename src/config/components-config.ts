@@ -413,8 +413,7 @@ const LEVEL_SUMMARY_PANEL: PharosPanel = {
     {
       field: 'goMolecularFunctions',
       label: 'Gene Ontology Molecular Function',
-      description: 'Number of Gene Ontology (GO) annotations for this target, consisting of the sum of GO Function, GO Component ' +
-        'and GO Process.'
+      description: 'Number of Gene Ontology (GO) annotations for this target, consisting of the sum of GO Functions and GO Processes.'
     },
     {
       field: 'goFunction',

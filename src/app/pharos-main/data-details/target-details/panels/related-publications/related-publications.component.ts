@@ -142,10 +142,12 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
       .subscribe(x => {
         this.activeTab = this._route.snapshot.fragment === "geneRIFs" ? 1 : 0;
         this.navSectionsService.activeTab$.subscribe(newTab => {
-          this.location.replaceState(`${this.location.path(false)}#${newTab}`);
-          this.viewportScroller.scrollToAnchor(newTab);
-          this.activeTab = newTab === "geneRIFs" ? 1 : newTab === "relatedPublications" ? 0 : this.activeTab;
-          this.changeRef.markForCheck();
+          if(!this.loading) {
+            this.location.replaceState(`${this.location.path(false)}#${newTab}`);
+            this.viewportScroller.scrollToAnchor(newTab);
+            this.activeTab = newTab === "geneRIFs" ? 1 : newTab === "relatedPublications" ? 0 : this.activeTab;
+            this.changeRef.markForCheck();
+          }
         });
         if (isPlatformBrowser(this.platformID)) {
           this.target = this.data.targets;
