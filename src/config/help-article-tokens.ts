@@ -27,11 +27,6 @@ export class ARTICLES {
    */
   public static PUBMED_SCORE_ARTICLE = new InjectionToken<string>('PubmedScoreArticleComponent');
 
-  /**
-   * injection token to link to association score description article
-   */
-  public static ASSOCIATION_SCORES_ARTICLE = new InjectionToken<string>('AssociationScoreArticleComponent');
-
   public static ASSOCIATION_DATA_SOURCES_ARTICLE = new InjectionToken<string>('AssociationDataSourcesArticleComponent');
 
   public static EXPRESSION_DATA_SOURCES_ARTICLE = new InjectionToken<string>('ExpressionDataSourcesArticleComponent');
