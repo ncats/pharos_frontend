@@ -140,6 +140,7 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
+        this.loadingStart();
         this.activeTab = this._route.snapshot.fragment === "geneRIFs" ? 1 : 0;
         this.navSectionsService.activeTab$.subscribe(newTab => {
           if(!this.loading) {
