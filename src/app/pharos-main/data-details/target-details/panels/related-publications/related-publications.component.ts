@@ -1,10 +1,12 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, Inject,
+  Component,
+  Inject,
   Input,
   OnDestroy,
-  OnInit, PLATFORM_ID,
+  OnInit,
+  PLATFORM_ID,
   QueryList,
   ViewChildren,
   ViewEncapsulation
@@ -13,13 +15,13 @@ import {Target} from '../../../../../models/target';
 import {PageData} from '../../../../../models/page-data';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {PharosProperty} from '../../../../../models/pharos-property';
-import {Publication, PublicationSerializer} from '../../../../../models/publication';
+import {Publication} from '../../../../../models/publication';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {PharosConfig} from '../../../../../../config/pharos-config';
 import {PageEvent} from '@angular/material/paginator';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
-import {Generif, GenerifSerializer} from '../../../../../models/generif';
+import {Generif} from '../../../../../models/generif';
 import {ScatterPlotComponent} from '../../../../../tools/visualizations/scatter-plot/scatter-plot.component';
 import {takeUntil} from 'rxjs/operators';
 import {TargetComponents} from "../../../../../models/target-components";
@@ -44,9 +46,12 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
   @Input() target: Target;
 
   activeTab: number = 0;
-  tabChanged(event){
-    this.activeTab = event.index;
-    this.navSectionsService.setActiveTab('relatedPublications', event.tab.textLabel);
+
+  tabChanged(event) {
+    if (this.activeTab != event.index) {
+      this.activeTab = event.index;
+      this.navSectionsService.setActiveTab('relatedPublications', event.tab.textLabel);
+    }
   }
 
   targetProps: any;
@@ -143,7 +148,7 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
         this.loadingStart();
         this.activeTab = this._route.snapshot.fragment === "geneRIFs" ? 1 : 0;
         this.navSectionsService.activeTab$.subscribe(newTab => {
-          if(!this.loading) {
+          if (!this.loading) {
             this.location.replaceState(`${this.location.path(false)}#${newTab}`);
             this.viewportScroller.scrollToAnchor(newTab);
             this.activeTab = newTab === "geneRIFs" ? 1 : newTab === "relatedPublications" ? 0 : this.activeTab;
