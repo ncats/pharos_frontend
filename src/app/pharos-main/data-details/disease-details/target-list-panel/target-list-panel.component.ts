@@ -92,7 +92,7 @@ export class TargetListPanelComponent extends DynamicTablePanelComponent impleme
     };
     this.pharosApiService.fetchMore('diseases', pageParams).valueChanges.subscribe(res => {
       this.disease.associations = res.data.diseases.associations.map(association => associationSerializer.fromJson(association));
-      this.loadingComplete(false);
+      this.loadingComplete();
       this.changeRef.markForCheck();
     });
   }

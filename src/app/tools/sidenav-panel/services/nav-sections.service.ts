@@ -17,8 +17,6 @@ export class NavSectionsService {
    */
   private _visibleSections: any[] = [];
   private _allSections: any[] = [];
-  private rescrollSource = new BehaviorSubject(null);
-  rescroll$ = this.rescrollSource.asObservable();
 
   /**
    * RxJs subject to broadcast help panel data changes
@@ -27,11 +25,12 @@ export class NavSectionsService {
    */
   private _navSectionsSource = new BehaviorSubject<any[]>(null);
 
+  private _activeTabSource = new BehaviorSubject<string>('relatedPublications');
   /**
    *   initialize a private variable _data, it's a BehaviorSubject
    */
   private _activeSection: string;
-
+  private _activeTab: string;
   /**
    * RxJs subject to broadcast help panel data changes
    * @type {Subject<boolean>}
@@ -45,6 +44,8 @@ export class NavSectionsService {
    */
   sections$ = this._navSectionsSource.asObservable();
 
+  activeTab$ = this._activeTabSource.asObservable();
+
   /**
    * Observable stream of help panel data changes
    * @type {Observable<boolean>}
@@ -57,12 +58,14 @@ export class NavSectionsService {
     this._navSectionsSource.next(this._visibleSections);
   }
 
-  setActiveSection(section: string) {
-    this._activeSectionSource.next(section);
+  setActiveTab(section: string, tab?: string): void {
+    this._activeTab = tab;
+    this._activeTabSource.next(tab || section);
+    this.setActiveSection(section);
   }
 
-  reScroll(){
-    this.rescrollSource.next(null);
+  setActiveSection(section: string) {
+    this._activeSectionSource.next(section);
   }
 
   hideSection(remSection: string) {

@@ -226,6 +226,9 @@ export const TARGETLISTFIELDS = gql`
     pubTatorScore: props(name: "PubTator Score") {
       value
     }
+    antibodyURL: props(name: "Antibodypedia.com URL"){
+      value
+    }
     antibodyCount: props(name: "Ab Count") {
       value
     }

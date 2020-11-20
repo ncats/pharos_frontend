@@ -1,4 +1,4 @@
-<article>
+<article id="geneRIFs" #geneRIFs>
   <mat-card id="relatedPublications" class="section-card" *ngIf="this.target"
             (pharosScrollspy)="active('relatedPublications')"
             #relatedPublications>
@@ -23,8 +23,8 @@
       <div class="row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
         <div fxFlex>
 
-          <mat-tab-group>
-            <mat-tab *ngIf="target.publicationCount > 0">
+          <mat-tab-group [selectedIndex]="activeTab" (selectedTabChange)="tabChanged($event)">
+            <mat-tab *ngIf="target.publicationCount > 0" label="relatedPublications">
               <ng-template mat-tab-label>
                 <div
                   [matTooltip]="getTooltip('publications')"
@@ -54,7 +54,7 @@
                 </div>
               </ng-template>
             </mat-tab>
-            <mat-tab *ngIf="target.generifCount > 0">
+            <mat-tab *ngIf="target.generifCount > 0" label="geneRIFs">
               <ng-template mat-tab-label>
                 <div
                   [matTooltip]="getTooltip('generifs')"
