@@ -1,10 +1,12 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, Inject,
+  Component,
+  Inject,
   Input,
   OnDestroy,
-  OnInit, PLATFORM_ID,
+  OnInit,
+  PLATFORM_ID,
   QueryList,
   ViewChildren,
   ViewEncapsulation
@@ -13,17 +15,17 @@ import {Target} from '../../../../../models/target';
 import {PageData} from '../../../../../models/page-data';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {PharosProperty} from '../../../../../models/pharos-property';
-import {Publication, PublicationSerializer} from '../../../../../models/publication';
+import {Publication} from '../../../../../models/publication';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {PharosConfig} from '../../../../../../config/pharos-config';
 import {PageEvent} from '@angular/material/paginator';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
-import {Generif, GenerifSerializer} from '../../../../../models/generif';
+import {Generif} from '../../../../../models/generif';
 import {ScatterPlotComponent} from '../../../../../tools/visualizations/scatter-plot/scatter-plot.component';
 import {takeUntil} from 'rxjs/operators';
 import {TargetComponents} from "../../../../../models/target-components";
-import {isPlatformBrowser} from "@angular/common";
+import {isPlatformBrowser, Location, ViewportScroller} from "@angular/common";
 
 @Component({
   selector: 'pharos-related-publications',
@@ -42,6 +44,15 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
    * parent target
    */
   @Input() target: Target;
+
+  activeTab: number = 0;
+
+  tabChanged(event) {
+    if (this.activeTab != event.index) {
+      this.activeTab = event.index;
+      this.navSectionsService.setActiveTab('relatedPublications', event.tab.textLabel);
+    }
+  }
 
   targetProps: any;
   /**
@@ -63,16 +74,6 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
    * pagination data
    */
   rifPageData: PageData;
-
-  /**
-   * serializer for publications
-   */
-  publicationsSerializer: PublicationSerializer = new PublicationSerializer();
-
-  /**
-   * serializer for generifs
-   */
-  generifsSerializer: GenerifSerializer = new GenerifSerializer();
 
   /**
    * publication table fields to display
@@ -125,7 +126,9 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
               private pharosApiService: PharosApiService,
               private pharosConfig: PharosConfig,
               @Inject(PLATFORM_ID) private platformID: Object,
-              public navSectionsService: NavSectionsService) {
+              public navSectionsService: NavSectionsService,
+              private location: Location,
+              private viewportScroller: ViewportScroller) {
     super(navSectionsService);
   }
 
@@ -142,7 +145,16 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-
+        this.loadingStart();
+        this.activeTab = this._route.snapshot.fragment === "geneRIFs" ? 1 : 0;
+        this.navSectionsService.activeTab$.subscribe(newTab => {
+          if (!this.loading) {
+            this.location.replaceState(`${this.location.path(false)}#${newTab}`);
+            this.viewportScroller.scrollToAnchor(newTab);
+            this.activeTab = newTab === "geneRIFs" ? 1 : newTab === "relatedPublications" ? 0 : this.activeTab;
+            this.changeRef.markForCheck();
+          }
+        });
         if (isPlatformBrowser(this.platformID)) {
           this.target = this.data.targets;
           this.targetProps = this.data.targetsProps;
@@ -187,7 +199,7 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
       this[origin] = res.data.targets[origin]
         .map(pub => this[`${origin}Serializer`].fromJson(pub))
         .map(pubObj => this[`${origin}Serializer`]._asProperties(pubObj));
-      this.loadingComplete(false);
+      this.loadingComplete();
       this.changeRef.markForCheck();
     });
   }

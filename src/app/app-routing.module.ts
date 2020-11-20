@@ -19,6 +19,14 @@ class PharosPreloader implements PreloadingStrategy {
 }
 
 const ROUTES: Routes = [
+  {path: 'idg/api',          redirectTo: 'api'},
+  {path: 'idg/targets',      redirectTo: 'targets'},
+  {path: 'idg/targets/:id',  redirectTo: 'targets/:id'},
+  {path: 'idg/diseases',     redirectTo: 'diseases'},
+  {path: 'idg/diseases/:id', redirectTo: 'diseases/:id'},
+  {path: 'idg/ligands',      redirectTo: 'ligands'},
+  {path: 'idg/ligands/:id',  redirectTo: 'ligands/:id'},
+  {path: 'search', redirectTo: 'targets'},
   {
     path: 'index',
     redirectTo: '/',
@@ -29,10 +37,6 @@ const ROUTES: Routes = [
     pathMatch: 'full',
     loadChildren: () => import('./pharos-home/pharos-home.module').then(m => m.PharosHomeModule),
     data: {path: 'home'}
-  },
-  {
-    path: 'idg/api',
-    redirectTo: '/api'
   },
   {
     path: 'about',
@@ -71,14 +75,6 @@ const ROUTES: Routes = [
       path: 'targets',
       subpath: 'list',
       preload: true
-    }
-  },
-  {
-    path: 'search',
-    loadChildren: () => import('./pharos-main/modules/targets/target-list.module').then(m => m.TargetTableModule),
-    data: {
-      path: 'targets',
-      subpath: 'list'
     }
   },
   {

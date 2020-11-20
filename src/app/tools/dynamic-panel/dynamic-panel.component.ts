@@ -23,11 +23,8 @@ export class DynamicPanelComponent extends DynamicPanelBaseComponent{
    */
   @Input() loading = true;
   navSectionsService: NavSectionsService;
-  loadingComplete(rescroll: boolean = true){
+  loadingComplete(){
     this.loading = false;
-    if(rescroll){
-      this.navSectionsService.reScroll();
-    }
   }
   loadingStart() {
     this.loading = true;
