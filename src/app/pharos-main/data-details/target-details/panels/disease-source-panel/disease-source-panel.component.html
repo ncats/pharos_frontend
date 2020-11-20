@@ -1,46 +1,48 @@
 <article>
-  <mat-card *ngIf="this.target"
-    class="section-card"
-    id="diseaseSources"
-    (pharosScrollspy)="active('diseaseSources')"
-    #diseaseSources>
+  <mat-card *ngIf="hasData()"
+            class="section-card"
+            id="diseaseSources"
+            (pharosScrollspy)="active('diseaseSources')"
+            #diseaseSources>
     <mat-card-content>
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
       </div>
-      <div fxLayout="row"
-           class="tkrow"
-           fxLayoutAlign="start stretch">
-        <div fxFlex="95">
+      <ng-container *ngIf="this.target.diseaseCount > 0">
+        <div fxLayout="row"
+             class="tkrow"
+             fxLayoutAlign="start stretch">
+          <div fxFlex="95">
         <span class="mat-title"
               [matTooltip]=description
               [matTooltipClass]="'pharos-tooltip'">
           Disease Associations ({{target.diseaseCount}})</span>
-        </div>
-        <div fxFlex="5">
-          <pharos-help-panel-trigger [origin]="'diseaseSources'"
-                                     [label]="'Disease Sources'"></pharos-help-panel-trigger>
-        </div>
-      </div>
-      <div class="headerRow">
-        <pharos-explore-list-button [buttonText]="'Explore Associated Diseases'" [path]="'/diseases'"
-                                    [queryParams]="{associatedTarget:target.accession}">
-        </pharos-explore-list-button>
-        <mat-paginator
-          [pageSize]="10"
-          [length]="target.diseaseCount"
-          [hidePageSize]="true"
-          [showFirstLastButtons]=true
-          (page)=paginate($event)
-          #treepaginator></mat-paginator>
-      </div>
-      <div fxLayout="row" fxLayout.lt-md="column" class="tkrow" fxLayoutAlign="space-around stretch">
-        <div fxFlex="95" class="disease-card-container">
-          <div *ngFor="let disease of target.diseases">
-            <pharos-disease-card [apiSources]="apiSources" [disease]="disease"></pharos-disease-card>
+          </div>
+          <div fxFlex="5">
+            <pharos-help-panel-trigger [origin]="'diseaseSources'"
+                                       [label]="'Disease Sources'"></pharos-help-panel-trigger>
           </div>
         </div>
-      </div>
+        <div class="headerRow">
+          <pharos-explore-list-button [buttonText]="'Explore Associated Diseases'" [path]="'/diseases'"
+                                      [queryParams]="{associatedTarget:target.accession}">
+          </pharos-explore-list-button>
+          <mat-paginator
+            [pageSize]="10"
+            [length]="target.diseaseCount"
+            [hidePageSize]="true"
+            [showFirstLastButtons]=true
+            (page)=paginate($event)
+            #treepaginator></mat-paginator>
+        </div>
+        <div fxLayout="row" fxLayout.lt-md="column" class="tkrow" fxLayoutAlign="space-around stretch">
+          <div fxFlex="95" class="disease-card-container">
+            <div *ngFor="let disease of target.diseases">
+              <pharos-disease-card [apiSources]="apiSources" [disease]="disease"></pharos-disease-card>
+            </div>
+          </div>
+        </div>
+      </ng-container>
       <ng-container *ngIf="tinx && tinx.length > 0">
         <div fxLayout="row"
              fxLayoutAlign="start stretch">
