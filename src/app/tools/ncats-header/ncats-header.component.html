@@ -40,6 +40,9 @@
             [ngClass]="{active: isActive('faq')}">FAQ
     </button>
     <pharos-search-component class="mobile-search"></pharos-search-component>
+    <button mat-icon-button class="jira-button" aria-label="submit feedback" matTooltip="Submit Feedback" (click)="submitFeedback($event)">
+      Submit Feedback <mat-icon>feedback</mat-icon>
+    </button>
   </mat-sidenav>
 
     <!--full width menu-->
@@ -80,6 +83,9 @@
    <!-- <button mat-icon-button class="share-button" [color]="'primary'" aria-label = "share link button" fxHide fxShow.lt-md>
       <mat-icon>share</mat-icon>
     </button>-->
+    <button mat-icon-button class="jira-button" aria-label="submit feedback" matTooltip="Submit Feedback" (click)="submitFeedback($event)" fxHide.lt-md>
+      <mat-icon>feedback</mat-icon>
+    </button>
     <button mat-icon-button class="menu-button" aria-label = "menu button" (click)="mobilesidenav.toggle()" fxHide fxShow.lt-md>
       <mat-icon>menu</mat-icon>
     </button>
