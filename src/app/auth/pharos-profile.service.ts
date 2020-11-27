@@ -3,7 +3,6 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {BehaviorSubject, ReplaySubject} from 'rxjs/index';
 import * as firebase from 'firebase/app';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {map} from 'rxjs/internal/operators';
 
 /**
  * service to retrieve profile info from firebase, based on user id token
@@ -45,13 +44,13 @@ export class PharosProfileService {
     public afAuth: AngularFireAuth
 
   ) {
-    this.afAuth.auth.onAuthStateChanged(user => {
+    this.afAuth.onAuthStateChanged(user => {
       this.user = user;
       if (user) {
         this.isLoggedIn.next(true);
         this.fetchUserProfile(user);
       } else {
-        //  firebase.auth().updateCurrentUser(null);
+        //  firebase.default.auth().updateCurrentUser(null);
         this.isLoggedIn.next(false);
         this._profileSource.next(null);
       }
@@ -125,7 +124,7 @@ export class PharosProfileService {
    * logout and remove user profile
    */
   logout() {
-    firebase.auth().signOut();
+    firebase.default.auth().signOut();
     this.isLoggedIn.next(false);
     this._profileSource.next(null);
   }

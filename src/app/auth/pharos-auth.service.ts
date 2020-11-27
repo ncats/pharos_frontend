@@ -15,11 +15,11 @@ export class PharosAuthService {
   /**
    * list of provider objects used by the auth service
    */
-  providers: Map<string, firebase.auth.AuthProvider> = new Map<string, firebase.auth.AuthProvider>([
-    ['facebook', new firebase.auth.FacebookAuthProvider()],
-    ['google', new firebase.auth.GoogleAuthProvider()],
-    ['twitter', new firebase.auth.TwitterAuthProvider()],
-    ['github', new firebase.auth.GithubAuthProvider()],
+  providers: Map<string, firebase.default.auth.AuthProvider> = new Map<string, firebase.default.auth.AuthProvider>([
+    ['facebook', new firebase.default.auth.FacebookAuthProvider()],
+    ['google', new firebase.default.auth.GoogleAuthProvider()],
+    ['twitter', new firebase.default.auth.TwitterAuthProvider()],
+    ['github', new firebase.default.auth.GithubAuthProvider()],
   ]);
 
   /**
@@ -44,8 +44,7 @@ export class PharosAuthService {
   doLogin(dialogRef: MatDialogRef<any>, providerName: string) {
     const provider = this.providers.get(providerName);
     return new Promise<any>((resolve, reject) => {
-      return this.afAuth.auth
-        .signInWithPopup(provider)
+      return this.afAuth.signInWithPopup(provider)
         .then(res => {
           this.fetchUserProfile(res.user);
           dialogRef.close();
@@ -64,7 +63,7 @@ export class PharosAuthService {
    */
   doRegister(value, dialogRef: MatDialogRef<any>) {
     return new Promise<any>((resolve, reject) => {
-      this.afAuth.auth.createUserWithEmailAndPassword(value.email, value.password)
+      this.afAuth.createUserWithEmailAndPassword(value.email, value.password)
         .then(res => {
           this.fetchUserProfile(res.user);
           dialogRef.close();
@@ -79,7 +78,7 @@ export class PharosAuthService {
    * logout user, remove profile via profile service
    */
   logout() {
-    this.afAuth.auth.signOut().then(res => {
+    this.afAuth.signOut().then(res => {
       this.pharosProfileService.setProfile(null);
       return null;
     });
@@ -107,7 +106,7 @@ export class PharosAuthService {
       // The provider account's email address.
       const email = error.email;
       // Get sign-in methods for this email.
-      this.afAuth.auth.fetchSignInMethodsForEmail(email).then((methods) => {
+      this.afAuth.fetchSignInMethodsForEmail(email).then((methods) => {
         // Step 3.
         // If the user has several sign-in methods,
         // the first method in the list will be the "recommended" method to use.
@@ -135,7 +134,7 @@ export class PharosAuthService {
         // Sign in to provider. Note: browsers usually block popup triggered asynchronously,
         // so in real scenario you should ask the user to click on a "continue" button
         // that will trigger the signInWithPopup.
-        this.afAuth.auth.signInWithPopup(provider).then(result => {
+        this.afAuth.signInWithPopup(provider).then(result => {
           // Remember that the user may have signed in with an account that has a different email
           // address than the first one. This can happen as Firebase doesn't control the provider's
           // sign in flow and the user is free to login using whichever account he owns.
