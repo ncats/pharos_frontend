@@ -1,4 +1,4 @@
 instance_class: F4
 # [START runtime]
-runtime: nodejs10
+runtime: nodejs14
 # [END runtime]
