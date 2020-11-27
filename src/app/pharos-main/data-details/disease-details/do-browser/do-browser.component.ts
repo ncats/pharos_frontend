@@ -12,7 +12,6 @@ import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-s
 export class DoBrowserComponent extends DynamicPanelComponent implements OnInit {
 
   @Input() disease: Disease;
-  @Input() data: any;
   constructor(
     private changeRef: ChangeDetectorRef,
     public navSectionsService: NavSectionsService) {
