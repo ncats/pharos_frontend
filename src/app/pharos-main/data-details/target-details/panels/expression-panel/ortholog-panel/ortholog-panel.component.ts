@@ -20,7 +20,6 @@ import {NavSectionsService} from "../../../../../../tools/sidenav-panel/services
 })
 
 export class OrthologPanelComponent extends DynamicPanelComponent implements OnInit {
-@Input() data: any;
   /**
    * target to display
    */

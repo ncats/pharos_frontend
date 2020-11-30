@@ -13,7 +13,6 @@ import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-s
 export class TargetHeaderComponent extends DynamicPanelComponent implements OnInit {
   @Input() target: Target;
 
-  @Input() data: any;
   /**
    * no args constructor
    * call super object constructor
