@@ -40,8 +40,6 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
    */
   facets: Facet[];
 
-  @Input() data: any = {};
-
   /**
    * constructor to get config object and specified facets
    * @param pathResolverService

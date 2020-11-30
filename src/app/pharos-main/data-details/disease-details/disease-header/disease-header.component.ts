@@ -20,7 +20,6 @@ export class DiseaseHeaderComponent extends DynamicPanelComponent implements OnI
    * disease object
    */
   @Input() disease: Disease;
-  @Input() data: any;
 
   /**
    * no args constructor

@@ -8,7 +8,7 @@ import {TargetTableModule} from '../../../../modules/targets/target-list.module'
 import {RouterTestingModule} from '@angular/router/testing';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
-import {AngularFireModule, FirebaseAuth} from '@angular/fire';
+import {AngularFireModule} from '@angular/fire';
 import {COMMON_CONFIG} from '../../../../../../../test/test-config';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {ApolloTestingModule} from 'apollo-angular/testing';

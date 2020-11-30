@@ -52,7 +52,8 @@ export class NcatsHeaderComponent implements OnInit {
     private route: ActivatedRoute,
     private headerOptionsService: HeaderOptionsService,
     private profileService: PharosProfileService
-    ) { }
+  ) {
+  }
 
   /**
    * subscribe to profile and header options services
@@ -74,7 +75,7 @@ export class NcatsHeaderComponent implements OnInit {
   isActive(path: string): boolean {
     if (this.route.snapshot.data && this.route.snapshot.data.path) {
       return path === this.route.snapshot.data.path;
-    } else if (this.route.snapshot.url && this.route.snapshot.url.length > 0 ) {
+    } else if (this.route.snapshot.url && this.route.snapshot.url.length > 0) {
       return path === this.route.snapshot.url[0].path;
     } else {
       return false;
@@ -90,6 +91,17 @@ export class NcatsHeaderComponent implements OnInit {
         width: '66vw',
       }
     );
+  }
+
+  /**
+   * Shows the jira issue collector dialog
+   */
+  submitFeedback(event) {
+    event.preventDefault();
+    const w = (window as any);
+    // w.ATL_JQ_PAGE_PROPS.fieldValues = w.ATL_JQ_PAGE_PROPS.fieldValues || {};
+    // w.ATL_JQ_PAGE_PROPS.fieldValues.description = 'something by default';
+    w.showCollectorDialog();
   }
 
   /**

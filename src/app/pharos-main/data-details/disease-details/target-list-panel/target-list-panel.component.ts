@@ -52,8 +52,6 @@ export class TargetListPanelComponent extends DynamicTablePanelComponent impleme
    */
   pageData: PageData;
 
-  @Input() data: any;
-
   /**
    * no args constructor
    * call super object constructor
