@@ -1,17 +1,53 @@
-  <div class="breadcrumb">
-<!--    <a routerLink="/" class="breadcrumb-link"> Home </a>
-    <span class="disabled mat-title breadcrumb-link slash"> / </span>-->
-    <a routerLink="/{{path}}" class="breadcrumb-link"> {{path | titlecase}} </a>
-    <span *ngFor="let link of links">
-    <span class="mat-title slash"> / </span>
-      <span class="breadcrumb-link" >{{link | titlecase}}</span>
-<!--
-    <a (click)="goTo(link)" class="breadcrumb-link" >{{link | titlecase}}</a>
--->
+<article>
+  <mat-card class="section-card" *ngIf="dtoLinks.length > 0 || pcLinks.length > 0"
+            id="breadcrumb"
+            #breadcrumb>
+    <mat-card-content>
+      <div fxLayout="row"
+           class="tkrow"
+           fxLayoutAlign="start stretch">
+        <div fxFlex="95">
+        <span class="mat-title"
+              [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">
+          Protein Classes</span>
+        </div>
+        <div fxFlex="5">
+          <pharos-help-panel-trigger [origin]="'breadcrumb'"></pharos-help-panel-trigger>
+        </div>
+      </div>
+      <div class="breadcrumb">
+  <div class="source-group" *ngIf="pcLinks.length > 0">
+    <mat-card-subtitle class="class-title" [matTooltip]="getTooltip('panther')">PANTHER Classes</mat-card-subtitle>
+    <span *ngFor="let linkList of pcLinks" class="link-list">
+      <span class="disabled"> Protein </span>
+      <span *ngFor="let link of linkList">
+        <span class="mat-title slash"> / </span>
+        <span *ngIf="link === '...'; else showPantherLink" class="disabled">{{link | titlecase}}</span>
+        <ng-template #showPantherLink>
+        <a routerLink="/{{path}}" [matTooltip]="'Explore targets in this PANTHER class'"
+           [queryParams]="{facet:'PANTHER Class' + this.Facet.separator + link}"
+           class="breadcrumb-link">{{link | titlecase}}</a>
+          </ng-template>
       </span>
-    <span *ngIf="!links.length">
-          <span class="disabled mat-title breadcrumb-link slash"> / </span>
-      <a class = "disabled">{{target?.name | titlecase}}</a>
+      <span class="disabled mat-title breadcrumb-link slash"> / </span>
+      <span class="disabled">{{target?.name | titlecase}}</span>
     </span>
   </div>
-<br>
+  <div class="source-group" *ngIf="dtoLinks.length > 0">
+    <mat-card-subtitle class="class-title" [matTooltip]="getTooltip('dto')">DTO Classes</mat-card-subtitle>
+    <span class="link-list">
+      <span *ngFor="let link of dtoLinks; let i=index">
+        <span *ngIf="i > 0" class="mat-title slash"> / </span>
+        <span *ngIf="i === dtoLinks.length - 1 || i === 0; else showDtoLink" class="disabled">{{link | titlecase}}</span>
+        <ng-template #showDtoLink>
+        <a routerLink="/{{path}}" [queryParams]="{facet:'DTO Class' + this.Facet.separator + link}" [matTooltip]="'Explore targets in this DTO class'"
+           class="breadcrumb-link">{{link | titlecase}}</a>
+        </ng-template>
+      </span>
+    </span>
+  </div>
+</div>
+    </mat-card-content>
+  </mat-card>
+</article>

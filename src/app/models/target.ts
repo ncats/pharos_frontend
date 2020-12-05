@@ -11,6 +11,7 @@ import {InteractionDetails} from "./interaction-details";
 import {DiseaseAssocationSerializer, DiseaseAssociation} from "./disease-association";
 import {VirusDetails, VirusDetailsSerializer} from "./virus-interactions";
 import {Pathway, PathwaySerializer} from "./pathway";
+import {PantherClass} from "./pantherClass";
 
 
 /**
@@ -240,8 +241,7 @@ export class Target extends PharosBase {
   hpaRNATissueSpecificityIndex: [{ name, value }];
   hpaProteinTissueSpecificity: [{ name, value }];
   hpmGeneTissueSpecificityIndex: [{ name, value }];
-  pantherPath: string[];
-  pantherClass: string[];
+  pantherClasses: PantherClass[] = [];
   dto: string[];
 
   properties: DataProperty[] = [];
@@ -405,12 +405,8 @@ export class TargetSerializer implements PharosSerializer {
       obj.dto = json.dto.map(id => id = id.name).reverse();
     }
 
-    if (json.pantherClass) {
-      obj.pantherClass = json.pantherClass.map(id => id = id.name);
-    }
-
-    if (json.pantherPath) {
-      obj.pantherPath = json.pantherPath.map(id => id = id.name);
+    if (json.pantherClasses) {
+      obj.pantherClasses = PantherClass.traslateFromJson(json.pantherClasses);
     }
 
     if (json.symbols) {
