@@ -293,12 +293,24 @@ const TARGET_HEADER_COMPONENT: PharosPanel = {
 const PHAROS_BREADCRUMB_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_BREADCRUMB_COMPONENT,
   section: Position.Content,
+  navHeader:{
+    mainDescription: 'Heirarchical classifications for this protein from different ontologies.',
+    section:'breadcrumb',
+    label: 'Protein Classes'
+  },
   api: [
     {
-      field: 'dto'
+      description: 'Classes for this protein according to Protein ANalysis THrough Evolutionary Relationships (PANTHER) Classification System.',
+      field: 'panther',
+      label: 'PANTHER Classes',
+      source: 'http://pantherdb.org/'
+
     },
     {
-      field: 'breadcrumb'
+      description: 'Classes for this protein according to by Drug Target Ontology (DTO).',
+      field: 'dto',
+      label: 'DTO Classes',
+      source: 'http://drugtargetontology.org/'
     }
   ]
 };

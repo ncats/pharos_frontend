@@ -359,11 +359,10 @@ export const TARGETDETAILSFIELDS = gql`
     pathways(top: 5, getTopForEachType: true){
       ...pathway_fields
     }
-    pantherPaths{
-      name
-    }
     pantherClasses {
       name
+      pcid
+      parents
     }
     pdbs: xrefs(source: "PDB") {
       name
