@@ -43,6 +43,7 @@ import {PdbPanelComponent} from "../../data-details/target-details/panels/pdb-pa
 import {DrugsLigandsPanelComponent} from "../../data-details/target-details/panels/drugs-ligands-panel/drugs-ligands-panel.component";
 import {PathwaysPanelComponent} from "../../data-details/target-details/panels/pathways-panel/pathways-panel.component";
 import {ReactomePathwayBrowserComponent} from "../../data-details/target-details/panels/pathways-panel/reactome-pathway-browser/reactome-pathway-browser.component";
+import {GoTermsComponent} from "../../data-details/target-details/panels/go-terms/go-terms.component";
 
 @NgModule({
   declarations: [
@@ -64,9 +65,10 @@ import {ReactomePathwayBrowserComponent} from "../../data-details/target-details
     ViralInteractionPanelComponent,
     VirusDetailsComponent,
     OrthologPanelComponent,
-    PdbPanelComponent,PdbDetailsComponent,
+    PdbPanelComponent,
     PdbDetailsComponent,
     GeneSummaryComponent,
+    GoTermsComponent,
     TargetFacetPanelComponent,
     IdgResourcesPanelComponent,
     ReagentPanelComponent,
@@ -116,7 +118,8 @@ import {ReactomePathwayBrowserComponent} from "../../data-details/target-details
     {provide: TOKENS.LIGANDS_PANEL, useValue: LigandsPanelComponent},
     {provide: TOKENS.DRUGS_PANEL, useValue: DrugsPanelComponent},
     {provide: TOKENS.PDB_PANEL, useValue: PdbPanelComponent},
-    {provide: TOKENS.PATHWAYS_PANEL, useValue: PathwaysPanelComponent}
+    {provide: TOKENS.PATHWAYS_PANEL, useValue: PathwaysPanelComponent},
+    {provide: TOKENS.GO_TERMS_PANEL, useValue: GoTermsComponent}
   ]
 })
 export class TargetDetailsModule { }

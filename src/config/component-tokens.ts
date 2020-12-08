@@ -186,4 +186,6 @@ export class TOKENS {
    * injection token to link to the pathways data
    */
   public static PATHWAYS_PANEL = new InjectionToken<string>('PathwaysPanelComponent');
+
+  public static GO_TERMS_PANEL = new InjectionToken<string>('GoTermsComponent');
 }

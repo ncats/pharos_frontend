@@ -293,9 +293,9 @@ const TARGET_HEADER_COMPONENT: PharosPanel = {
 const PHAROS_BREADCRUMB_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_BREADCRUMB_COMPONENT,
   section: Position.Content,
-  navHeader:{
+  navHeader: {
     mainDescription: 'Heirarchical classifications for this protein from different ontologies.',
-    section:'breadcrumb',
+    section: 'classes',
     label: 'Protein Classes'
   },
   api: [
@@ -629,20 +629,76 @@ const EXPRESSION_PANEL: PharosPanel = {
       label: 'Orthologs Tab',
       description: 'Ortholog species available for this target.'
     },
-    { field: 'tissue', label: 'Tissue', description: 'Name of the tissue corresponding to the expression data.'},
-    { field: 'qual', label: 'Qualitative', description: 'Qualitative description of the expression level (one of: High, Medium, Low, Not Detected). '},
-    { field: 'value', label: 'Value', description: 'Text from the data source about the level of expression in the given tissue.'},
-    { field: 'evidence', label: 'Evidence', description: 'Text from the data source about the evidence (one of: Curated, Approved, Enhanced, Supported).'},
-    { field: 'zscore', label: 'zscore', description: 'A normalized measure from JensenLab Text Mining quantifying the confidence in the expression for this target in this tissue.'},
-    { field: 'conf', label: 'Confidence', description: 'A measure from JensenLab Data Sources quantifying the confidence in the degree of expression for this target in this tissue.'},
-    { field: 'pmid', label: 'Pubmed ID', description: 'Link to the publication for this expression data.'},
-    { field: 'url', label: 'url', description: 'Link to explore this data in the original data source.'},
+    {field: 'tissue', label: 'Tissue', description: 'Name of the tissue corresponding to the expression data.'},
+    {
+      field: 'qual',
+      label: 'Qualitative',
+      description: 'Qualitative description of the expression level (one of: High, Medium, Low, Not Detected). '
+    },
+    {
+      field: 'value',
+      label: 'Value',
+      description: 'Text from the data source about the level of expression in the given tissue.'
+    },
+    {
+      field: 'evidence',
+      label: 'Evidence',
+      description: 'Text from the data source about the evidence (one of: Curated, Approved, Enhanced, Supported).'
+    },
+    {
+      field: 'zscore',
+      label: 'zscore',
+      description: 'A normalized measure from JensenLab Text Mining quantifying the confidence in the expression for this target in this tissue.'
+    },
+    {
+      field: 'conf',
+      label: 'Confidence',
+      description: 'A measure from JensenLab Data Sources quantifying the confidence in the degree of expression for this target in this tissue.'
+    },
+    {field: 'pmid', label: 'Pubmed ID', description: 'Link to the publication for this expression data.'},
+    {field: 'url', label: 'url', description: 'Link to explore this data in the original data source.'},
     {
       field: 'dataSources',
       label: 'Data Source Links',
       description: 'Expression data comes from a number of data sources. Click the button for links to each of them.',
       article: ARTICLES.EXPRESSION_DATA_SOURCES_ARTICLE
     },
+  ]
+};
+
+const GO_TERMS_PANEL: PharosPanel = {
+  token: TOKENS.GO_TERMS_PANEL,
+  navHeader: {
+    label: 'Gene Ontology Terms',
+    section: 'goTerms',
+    mainDescription: 'A network of biological classes describing the molecular function, cellular locations, and processes genes may carry out, as defined by the Gene Ontology Consortium.',
+    mainSource: 'http://geneontology.org/'
+  }, api: [
+    {
+      field: 'goFunction',
+      label: 'Functions Tab',
+      description: 'Function terms describe molecular activities performed by gene products. Terms may be broad, such as "catalytic activity" or narrow, such as "adenylate cyclase activity".'
+    },
+    {
+      field: 'goComponent',
+      label: 'Components Tab',
+      description: 'Component terms describe locations relative to cellular structures in which a gene product performs a function.'
+    },
+    {
+      field: 'goProcess',
+      label: 'Processes Tab',
+      description: 'Process terms describe larger "biological programs" accomplished by multiple molecular activities. Like Functions, Process terms can be broad, ' +
+        'such as "DNA repair", or narrow, such as "pyrimidine nucleobase biosynthetic process".'
+    },
+    {
+      field: 'evidence',
+      label: 'Evidence',
+      description: 'Evidence categories are defined by GO Consortium. The values shown here represent the evidence for the' +
+        ' target\'s association with the assigned GO term. List are sorted by the evidence, starting with experimentally verified' +
+        ' terms, phylogenetically-inferred terms, etc., as described below.',
+      source: 'http://geneontology.org/docs/guide-go-evidence-codes/',
+      article: ARTICLES.GO_TERMS_EVIDENCE_ARTICLE
+    }
   ]
 };
 
@@ -1183,6 +1239,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           DISEASE_SOURCE_PANEL,
           PDB_PANEL,
           PATHWAYS_PANEL,
+          GO_TERMS_PANEL,
           VIRAL_INTERACTIONS_PANEL,
           EXPRESSION_PANEL,
           PROTEIN_PROTEIN_PANEL,

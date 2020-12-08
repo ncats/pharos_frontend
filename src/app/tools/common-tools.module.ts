@@ -25,6 +25,7 @@ import { PPIDataSourcesArticleComponent } from './help-panel/articles/ppidata-so
 import { PathwayDataSourcesArticleComponent } from './help-panel/articles/pathway-data-sources-article/pathway-data-sources-article.component';
 import { AffiliateLinkComponent } from './affiliate-link/affiliate-link.component';
 import { DynamicPanelBaseComponent } from './dynamic-panel-base/dynamic-panel-base.component';
+import { GoTermsEvidenceArticleComponent } from './help-panel/articles/go-terms-evidence-article/go-terms-evidence-article.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { DynamicPanelBaseComponent } from './dynamic-panel-base/dynamic-panel-ba
     ExpressionDataSourcesArticleComponent,
     PPIDataSourcesArticleComponent,
     PathwayDataSourcesArticleComponent,
-    AffiliateLinkComponent
+    AffiliateLinkComponent,
+    GoTermsEvidenceArticleComponent
   ],
   imports: [
     CommonModule,
