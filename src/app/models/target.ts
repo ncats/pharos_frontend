@@ -267,6 +267,10 @@ export class GoCounts {
     return this.functions + this.processes;
   }
 
+  total(){
+    return this.functions + this.processes + this.components;
+  }
+
   constructor(json: any) {
     this.processes = json.find(type => {
       return type.name === "P";
@@ -564,6 +568,9 @@ export class TargetSerializer implements PharosSerializer {
 
     if (newObj.goComponent) {
       newObj.goComponent.forEach(component => {
+        if(component.explanation?.term){
+          component.explanation.term = component.explanation.term + ` (${component.evidence.term})`;
+        }
         component.term.internalLink = ['/targets'];
         component.term.queryParams = {facet: `GO Component${Facet.separator}${component.term.term}`};
         return component;
@@ -572,6 +579,9 @@ export class TargetSerializer implements PharosSerializer {
 
     if (newObj.goProcess) {
       newObj.goProcess.forEach(component => {
+        if(component.explanation?.term){
+          component.explanation.term = component.explanation.term + ` (${component.evidence.term})`;
+        }
         component.term.internalLink = ['/targets'];
         component.term.queryParams = {facet: `GO Process${Facet.separator}${component.term.term}`};
         return component;
@@ -580,6 +590,9 @@ export class TargetSerializer implements PharosSerializer {
 
     if (newObj.goFunction) {
       newObj.goFunction.forEach(component => {
+        if(component.explanation?.term){
+          component.explanation.term = component.explanation.term + ` (${component.evidence.term})`;
+        }
         component.term.internalLink = ['/targets'];
         component.term.queryParams = {facet: `GO Function${Facet.separator}${component.term.term}`};
         return component;

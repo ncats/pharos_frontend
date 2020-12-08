@@ -1,5 +1,4 @@
 import gql from "graphql-tag";
-import {Target} from "./target";
 
 /**
  * apollo graphQL query fragment to retrieve fields for disease associations for a target details view
@@ -164,20 +163,20 @@ const TARGET_DRUG_QUERY = gql`
 ${LIGANDCARDFIELDS}`;
 
 export const TARGETCARDFIELDS = gql`
-    fragment targetCardFields on Target {
-      _tcrdid: tcrdid
-      name
-      gene: sym
-      idgTDL: tdl
-      idgFamily: fam
-      accession: uniprot
-      hgdata:harmonizome {
-        summary {
-          name
-          value
-        }
+  fragment targetCardFields on Target {
+    _tcrdid: tcrdid
+    name
+    gene: sym
+    idgTDL: tdl
+    idgFamily: fam
+    accession: uniprot
+    hgdata:harmonizome {
+      summary {
+        name
+        value
       }
     }
+  }
 `;
 
 /**
@@ -281,16 +280,16 @@ export const PUBLICATION_FIELDS = gql`
   }`;
 
 export const PATHWAY_FIELDS = gql`
-    fragment pathway_fields on Pathway {
+  fragment pathway_fields on Pathway {
+    name
+    type
+    url
+    sourceID
+    targetCounts{
       name
-      type
-      url
-      sourceID
-      targetCounts{
-        name
-        value
-      }
-    }`;
+      value
+    }
+  }`;
 
 /*
 * apollo graphQL query to fetch the next page of publications data
@@ -330,6 +329,52 @@ const TARGET_PATHWAYS_QUERY = gql`
     }
   }
 ${PATHWAY_FIELDS}`;
+
+const TARGET_GO_COMPONENT_QUERY = gql`
+  query fetchGoTerms($gotype: String, $term: String, $gotop: Int, $goskip: Int) {
+    targets: target(q: { sym: $term, uniprot: $term, stringid: $term }) {
+      goComponent: go(top: $gotop, skip: $goskip, filter: {facets: [ {
+        facet: "type"
+        values: [$gotype]
+      }]})
+      {
+        term
+        evidence
+        explanation
+        assigned_by
+      }
+    }
+  }`;
+const TARGET_GO_PROCESS_QUERY = gql`
+  query fetchGoTerms($gotype: String, $term: String, $gotop: Int, $goskip: Int) {
+    targets: target(q: { sym: $term, uniprot: $term, stringid: $term }) {
+      goProcess: go(top: $gotop, skip: $goskip, filter: {facets: [ {
+        facet: "type"
+        values: [$gotype]
+      }]})
+      {
+        term
+        evidence
+        explanation
+        assigned_by
+      }
+    }
+  }`;
+const TARGET_GO_FUNCTION_QUERY = gql`
+  query fetchGoTerms($gotype: String, $term: String, $gotop: Int, $goskip: Int) {
+    targets: target(q: { sym: $term, uniprot: $term, stringid: $term }) {
+      goFunction: go(top: $gotop, skip: $goskip, filter: {facets: [ {
+        facet: "type"
+        values: [$gotype]
+      }]})
+      {
+        term
+        evidence
+        explanation
+        assigned_by
+      }
+    }
+  }`;
 
 /**
  * apollo graphQL query fragment to retrieve target fields for a target details view
@@ -478,7 +523,7 @@ export const TARGETDETAILSFIELDS = gql`
       value
       name
     }
-    goComponent:go (filter: {facets: [ {
+    goComponent:go (top: 10, filter: {facets: [ {
       facet: "type"
       values: ["C"]
     }
@@ -486,8 +531,11 @@ export const TARGETDETAILSFIELDS = gql`
     }
     ) {
       term
+      evidence
+      explanation
+      assigned_by
     }
-    goFunction:go (filter: {
+    goFunction:go (top: 10, filter: {
       facets: [
         {
           facet: "type"
@@ -497,8 +545,11 @@ export const TARGETDETAILSFIELDS = gql`
     }
     ) {
       term
+      evidence
+      explanation
+      assigned_by
     }
-    goProcess:go (filter: {
+    goProcess:go (top: 10, filter: {
       facets: [
         {
           facet: "type"
@@ -508,6 +559,9 @@ export const TARGETDETAILSFIELDS = gql`
     }
     ) {
       term
+      evidence
+      explanation
+      assigned_by
     }
 
     hpaTissueSpecificityIndex: props(name: "HPA Tissue Specificity Index") {
@@ -604,7 +658,7 @@ export const TARGETDETAILSQUERY = gql`
 * Retrieves the appropriate apollo graphql query for pagination for the given component
 * */
 export class TargetComponents {
-  static getComponentPageQuery(component : TargetComponents.Component) {
+  static getComponentPageQuery(component: TargetComponents.Component) {
     switch (component) {
       case(TargetComponents.Component.DiseaseSources):
         return TARGET_DISEASE_QUERY;
@@ -622,6 +676,12 @@ export class TargetComponents {
         return TARGET_GENERIFS_QUERY;
       case(TargetComponents.Component.PathwayPage):
         return TARGET_PATHWAYS_QUERY;
+      case(TargetComponents.Component.GoComponent):
+        return TARGET_GO_COMPONENT_QUERY;
+      case(TargetComponents.Component.GoFunction):
+        return TARGET_GO_FUNCTION_QUERY;
+      case(TargetComponents.Component.GoProcess):
+        return TARGET_GO_PROCESS_QUERY;
     }
     return null;
   }
@@ -629,7 +689,7 @@ export class TargetComponents {
 
 /* Components which can be Paginated via getComponentPage */
 export namespace TargetComponents {
-  export enum Component{
+  export enum Component {
     DiseaseSources,
     Orthologs,
     Ligands,
@@ -638,6 +698,9 @@ export namespace TargetComponents {
     Publications,
     Generifs,
     PathwayPage,
+    GoComponent,
+    GoProcess,
+    GoFunction
   }
 }
 
