@@ -202,7 +202,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    * @param change
    */
   ngOnChanges(change) {
-    if (this.filters && this.data) {
+    if (this.filters && this.data && isPlatformBrowser(this.platformID)) {
       if (change.filters) {
         this.displayData = [];
         change.filters.currentValue.forEach(filter => {
