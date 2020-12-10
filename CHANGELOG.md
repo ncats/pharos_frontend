@@ -1,3 +1,21 @@
+# 3.3.0 (2020-12-20)
+### Added Features
+* **New GO Terms component:**
+    * GO Terms used to be in the Related Targets section, now there's a dedicated component that allows you to browse all the target's GO terms, and explore lists of other targets with the same term.
+* **Angular Upgrade:**
+    * Upgrade to Angular 11
+    * And to Firebase 8
+* **Send Feedback:**
+    * Submit bug reports, or feature requests through the popup form. Click the comment icon in the header to submit it directly to our Jira Queue where we will triage it.
+* **Enhanced Amino Acid Counts:**
+    * Amino acid counts in the Protein Sequence section are shown with more context. Overlayed with the counts for the protein, are the expected counts based on amino acid prevalence in all targets, making it easier to see if a target is enriched or depleted for certain amino acids.
+    
+### Bug Fixes
+* Map old style /idg routes to their modern counterparts
+* Resolve targets for target details pages based on Ensembl IDs
+* Restyle TDL summary panel to be more intuitive
+
+_______________
 # 3.2.0 (2020-11-09)
 ### Added Features
 * **Pathways for target details pages:**
