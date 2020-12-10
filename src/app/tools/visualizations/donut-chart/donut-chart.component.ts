@@ -59,6 +59,7 @@ export class DonutChartComponent implements OnInit, OnChanges {
    */
   @HostListener('window:resize', [])
   onResize() {
+    console.error('resize attempt');
     this.drawChart();
     this.updateChart();
   }
@@ -88,7 +89,7 @@ export class DonutChartComponent implements OnInit, OnChanges {
    * @param changes
    */
   ngOnChanges(changes) {
-    if (!changes.data.firstChange) {
+    if (!changes.data.firstChange && isPlatformBrowser(this.platformID)) {
       this.drawChart();
       this.updateChart();
     }
