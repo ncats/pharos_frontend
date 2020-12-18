@@ -26,7 +26,8 @@
               "src/favicon.ico",
               "src/assets",
               "src/manifest.json",
-              "src/robots.txt"
+              "src/robots.txt",
+              "src/sitemap.xml"
             ],
             "styles": [
               "node_modules/ProtVista/build/css/main.css",
@@ -167,7 +168,22 @@
             "browserTarget": "pharos:build:production",
             "serverTarget": "pharos:server:production",
             "routes": [
-              "/"
+              "/",
+                "/targets/htt",
+                "/targets/ace2",
+              "/targets/TCEANC2",
+              "/targets/ZNF773",
+              "/targets/FAM153A",
+              "/targets/FAM117B",
+              "/targets/C2orf66",
+              "/targets/LINC01006",
+              "/targets/ZNF559",
+              "/targets/C16orf90",
+              "/targets/FAM171A1",
+              "/targets/CCDC84",
+              "/targets/ARMCX4",
+              "/targets/CLHC1"
+
             ]
           },
           "configurations": {
