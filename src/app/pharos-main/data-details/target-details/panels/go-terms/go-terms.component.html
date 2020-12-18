@@ -1,0 +1,80 @@
+<article
+  *ngIf="(target && target.goCount && target.goCount.total() > 0)">
+  <mat-card id={{field}}
+            class="section-card"
+            *ngIf="data"
+            (pharosScrollspy)="active(field)"
+            #drugs>
+    <mat-card-content>
+      <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+        <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+      </div>
+      <div fxLayout="row"
+           class="tkrow"
+           fxLayoutAlign="start stretch">
+        <div fxFlex="95">
+          <span class="mat-title" [matTooltip]=description
+                [matTooltipClass]="'pharos-tooltip'">Gene Ontology Terms ({{target?.goCount?.total()}})</span>
+        </div>
+        <div fxFlex="5">
+          <pharos-help-panel-trigger [origin]="'goTerms'"
+                                     [label]="'Gene Ontology Terms'"></pharos-help-panel-trigger>
+        </div>
+      </div>
+      <mat-tab-group>
+        <mat-tab *ngIf="target.goFunction.length > 0">
+          <ng-template mat-tab-label>
+            <div
+              [matTooltip]="getTooltip('goFunction')"
+              [matTooltipClass]="'pharos-tooltip'">
+              Functions ({{target?.goCount?.functions}})
+            </div>
+          </ng-template>
+          <mat-paginator
+            [pageSize]=functionPageData.top
+            [pageIndex]="functionPageData.skip / functionPageData.top"
+            [length]="functionPageData.total"
+            [showFirstLastButtons]=true
+            (page)="changePage($event, 'F')">
+          </mat-paginator>
+          <pharos-generic-table [data]="targetProps.goFunction" [fieldsConfig]="fields"></pharos-generic-table>
+        </mat-tab>
+        <mat-tab *ngIf="target.goComponent.length > 0">
+          <ng-template mat-tab-label>
+            <div
+              [matTooltip]="getTooltip('goComponent')"
+              [matTooltipClass]="'pharos-tooltip'">
+              Components ({{target?.goCount?.components}})
+            </div>
+          </ng-template>
+          <mat-paginator
+            [pageSize]=componentPageData.top
+            [pageIndex]="componentPageData.skip / componentPageData.top"
+            [length]="componentPageData.total"
+            [showFirstLastButtons]=true
+            (page)="changePage($event, 'C')">
+          </mat-paginator>
+          <pharos-generic-table [data]="targetProps.goComponent" [fieldsConfig]="fields"></pharos-generic-table>
+        </mat-tab>
+        <mat-tab *ngIf="target.goProcess.length > 0">
+          <ng-template mat-tab-label>
+            <div
+              [matTooltip]="getTooltip('goProcess')"
+              [matTooltipClass]="'pharos-tooltip'">
+              Processes ({{target?.goCount?.processes}})
+            </div>
+          </ng-template>
+          <mat-paginator
+            [pageSize]=processPageData.top
+            [pageIndex]="processPageData.skip / processPageData.top"
+            [length]="processPageData.total"
+            [showFirstLastButtons]=true
+            (page)="changePage($event, 'P')">
+          </mat-paginator>
+          <pharos-generic-table [data]="targetProps.goProcess" [fieldsConfig]="fields"></pharos-generic-table>
+        </mat-tab>
+      </mat-tab-group>
+
+    </mat-card-content>
+  </mat-card>
+</article>

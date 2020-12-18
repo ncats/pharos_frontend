@@ -34,4 +34,6 @@ export class ARTICLES {
   public static PPI_DATA_SOURCES_ARTICLE = new InjectionToken<string>('PPIDataSourcesArticleComponent');
 
   public static PATHWAY_DATA_SOURCES_ARTICLE = new InjectionToken<string>('PathwayDataSourcesArticleComponent');
+
+  public static GO_TERMS_EVIDENCE_ARTICLE = new InjectionToken<string>('GOTermsEvidenceArticleComponent');
 }

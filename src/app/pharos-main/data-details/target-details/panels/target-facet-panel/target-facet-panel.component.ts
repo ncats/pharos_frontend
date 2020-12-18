@@ -11,9 +11,6 @@ import {Target} from '../../../../../models/target';
 const LABELS: Map<string, string> = new Map<string, string> (
   [
     ['pantherProteinClass', 'Panther Protein Class'],
-    ['goFunction', 'GO Function'],
-    ['goComponent', 'GO Component'],
-    ['goProcess', 'GO Process'],
     ['rnaCellLine', 'RNA Cell Line'],
     ['uniprotKeyword', 'Uniprot Keyword'],
     ['mgiPhenotype', 'MGI Phenotype'],
