@@ -19,6 +19,11 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
+## Docker
+
+Run `docker build -t pharos .` to build image. Run `docker run -dp 80:4000 pharos:latest` to deploy to Docker
+
+
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
@@ -33,3 +38,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 
 Leave base href as '/' when deploying to AWS
+
+
