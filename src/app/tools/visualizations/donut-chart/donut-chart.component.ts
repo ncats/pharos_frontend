@@ -88,7 +88,7 @@ export class DonutChartComponent implements OnInit, OnChanges {
    * @param changes
    */
   ngOnChanges(changes) {
-    if (!changes.data.firstChange) {
+    if (!changes.data.firstChange && isPlatformBrowser(this.platformID)) {
       this.drawChart();
       this.updateChart();
     }

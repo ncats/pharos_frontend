@@ -41,6 +41,9 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * list of facets shown in the filter panel
    */
   @Input() facets: Facet[];
+  nonEmptyFacets() {
+    return this.facets.filter(facet => {return facet.values.length > 0;});
+  }
 
   showInfo: Map<Facet, boolean> = new Map<Facet, boolean>();
 
