@@ -59,7 +59,6 @@ export class DonutChartComponent implements OnInit, OnChanges {
    */
   @HostListener('window:resize', [])
   onResize() {
-    console.error('resize attempt');
     this.drawChart();
     this.updateChart();
   }
