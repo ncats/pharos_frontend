@@ -11,6 +11,7 @@ import {InteractionDetails} from "./interaction-details";
 import {DiseaseAssocationSerializer, DiseaseAssociation} from "./disease-association";
 import {VirusDetails, VirusDetailsSerializer} from "./virus-interactions";
 import {Pathway, PathwaySerializer} from "./pathway";
+import {PantherClass} from "./pantherClass";
 
 
 /**
@@ -240,8 +241,7 @@ export class Target extends PharosBase {
   hpaRNATissueSpecificityIndex: [{ name, value }];
   hpaProteinTissueSpecificity: [{ name, value }];
   hpmGeneTissueSpecificityIndex: [{ name, value }];
-  pantherPath: string[];
-  pantherClass: string[];
+  pantherClasses: PantherClass[] = [];
   dto: string[];
 
   properties: DataProperty[] = [];
@@ -265,6 +265,10 @@ export class GoCounts {
 
   TBioCount() {
     return this.functions + this.processes;
+  }
+
+  total(){
+    return this.functions + this.processes + this.components;
   }
 
   constructor(json: any) {
@@ -405,12 +409,8 @@ export class TargetSerializer implements PharosSerializer {
       obj.dto = json.dto.map(id => id = id.name).reverse();
     }
 
-    if (json.pantherClass) {
-      obj.pantherClass = json.pantherClass.map(id => id = id.name);
-    }
-
-    if (json.pantherPath) {
-      obj.pantherPath = json.pantherPath.map(id => id = id.name);
+    if (json.pantherClasses) {
+      obj.pantherClasses = PantherClass.traslateFromJson(json.pantherClasses);
     }
 
     if (json.symbols) {
@@ -568,6 +568,9 @@ export class TargetSerializer implements PharosSerializer {
 
     if (newObj.goComponent) {
       newObj.goComponent.forEach(component => {
+        if(component.explanation?.term){
+          component.explanation.term = component.explanation.term + ` (${component.evidence.term})`;
+        }
         component.term.internalLink = ['/targets'];
         component.term.queryParams = {facet: `GO Component${Facet.separator}${component.term.term}`};
         return component;
@@ -576,6 +579,9 @@ export class TargetSerializer implements PharosSerializer {
 
     if (newObj.goProcess) {
       newObj.goProcess.forEach(component => {
+        if(component.explanation?.term){
+          component.explanation.term = component.explanation.term + ` (${component.evidence.term})`;
+        }
         component.term.internalLink = ['/targets'];
         component.term.queryParams = {facet: `GO Process${Facet.separator}${component.term.term}`};
         return component;
@@ -584,6 +590,9 @@ export class TargetSerializer implements PharosSerializer {
 
     if (newObj.goFunction) {
       newObj.goFunction.forEach(component => {
+        if(component.explanation?.term){
+          component.explanation.term = component.explanation.term + ` (${component.evidence.term})`;
+        }
         component.term.internalLink = ['/targets'];
         component.term.queryParams = {facet: `GO Function${Facet.separator}${component.term.term}`};
         return component;

@@ -3,14 +3,16 @@
 @import '../../../../../../partials/ncats-theme';
 
 .breadcrumb {
-  margin-top: 2vh;
   margin-bottom: 2vh;
-  margin-left: 2vw;
 }
 
 .breadcrumb-link {
   text-decoration: none;
   color: mat-color($pharos-app-primary)
+}
+
+.link-list{
+  margin-left: 2vw;
 }
 
 a.disabled {
@@ -22,4 +24,15 @@ a.disabled {
 .slash {
   padding-left: 1vw;
   padding-right: 1vw;
+}
+
+.class-title{
+  max-width: 200px;
+  padding-top: 16px;
+  margin-bottom: 0px;
+}
+
+.source-group{
+  display: flex;
+  flex-direction: column;
 }
