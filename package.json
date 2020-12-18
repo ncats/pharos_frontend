@@ -1,6 +1,6 @@
 {
   "name": "pharos",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "tcrd_version": "6.7.0",
   "license": "MIT",
   "scripts": {
@@ -18,10 +18,9 @@
     "build:ssr": "npm --no-git-tag-version version patch && ng build --prod && node ./post_process_build_dir.js && ng run pharos:server:production",
     "serve:ssr": "node dist/server/main.js",
     "rerun:ssr": "npm run build:ssr --prod && say pharos is ready && npm run serve:ssr",
-    "build:client-and-server-bundles": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build pharos --prod && ng run pharos:server:production",
-    "webpack:server": "webpack --config webpack.server.config.js --progress --colors",
     "dev:ssr": "ng run pharos:serve-ssr",
-    "prerender": "ng run pharos:prerender"
+    "prerender": "ng run pharos:prerender:fix-exit && ng run pharos:prerender && node ./post_process_build_dir.js",
+    "prerender:fix-exit": "sed -i -e \"s/}))().then().catch();/}))().then(()=>process.exit(0)).catch(()=>process.exit(1));/g\" ./node_modules/@nguniversal/builders/src/prerender/render.js"
   },
   "private": true,
   "dependencies": {
@@ -98,7 +97,6 @@
     "tslint": "~6.1.0",
     "typescript": "4.0.5",
     "utf-8-validate": "^5.0.2",
-    "webpack-cli": "^3.3.12",
     "ws": "^7.1.2",
     "xhr2": "^0.2.0"
   }
