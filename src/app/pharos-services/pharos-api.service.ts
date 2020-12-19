@@ -356,7 +356,8 @@ export class PharosApiService {
         f.facet != "query" &&
         f.facet != "collection" &&
         f.facet != "associatedTarget" &&
-        f.facet != "associatedDisease");
+        f.facet != "associatedDisease" &&
+        f.facet != "similarity");
     }
     return map
   }
@@ -553,6 +554,12 @@ export class PharosApiService {
             case 'associatedDisease':{
               const filter: any = ret.filter ? ret.filter : {};
               filter.associatedDisease = val;
+              ret.filter = filter;
+              break;
+            }
+            case 'similarity':{
+              const filter: any = ret.filter ? ret.filter : {};
+              filter.similarity = val;
               ret.filter = filter;
               break;
             }
