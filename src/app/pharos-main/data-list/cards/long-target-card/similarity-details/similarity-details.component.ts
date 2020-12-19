@@ -17,16 +17,17 @@ export class SimilarityDetailsComponent extends GeneDetailsComponent implements 
 
   ngOnInit(): void {
 
-    const facetValue = this.selectedFacetService.getFacetByName('similarity').values[0].name.split(',');
+    const facetValue = this.selectedFacetService.getFacetByName('similarity')?.values[0]?.name?.split(',');
+    if(facetValue && facetValue.length > 1) {
+      const baseTarget = facetValue[0].trim();
+      if (baseTarget[0] === '(') {
+        this.baseTarget = baseTarget.slice(1).trim();
+      }
 
-    const baseTarget = facetValue[0].trim();
-    if(baseTarget[0] === '('){
-      this.baseTarget = baseTarget.slice(1).trim();
-    }
-
-    const similarityFacet =facetValue[1].trim();
-    if(similarityFacet[similarityFacet.length - 1] === ')'){
-      this.similarityFacet = similarityFacet.slice(0,similarityFacet.length - 1).trim();
+      const similarityFacet = facetValue[1].trim();
+      if (similarityFacet[similarityFacet.length - 1] === ')') {
+        this.similarityFacet = similarityFacet.slice(0, similarityFacet.length - 1).trim();
+      }
     }
   }
 }
