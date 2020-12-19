@@ -12,6 +12,7 @@ import {DiseaseAssocationSerializer, DiseaseAssociation} from "./disease-associa
 import {VirusDetails, VirusDetailsSerializer} from "./virus-interactions";
 import {Pathway, PathwaySerializer} from "./pathway";
 import {PantherClass} from "./pantherClass";
+import {SimilarityDetails} from "./similarityDetails";
 
 
 /**
@@ -247,7 +248,7 @@ export class Target extends PharosBase {
   properties: DataProperty[] = [];
   interactionDetails?: InteractionDetails;
   diseaseAssociationDetails?: DiseaseAssociation[] = [];
-
+  similarityDetails?: SimilarityDetails;
   interactingViruses?: VirusDetails[];
 
   pathways?: Pathway[] = [];

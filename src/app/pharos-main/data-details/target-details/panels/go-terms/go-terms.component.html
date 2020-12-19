@@ -30,13 +30,18 @@
               Functions ({{target?.goCount?.functions}})
             </div>
           </ng-template>
-          <mat-paginator
-            [pageSize]=functionPageData.top
-            [pageIndex]="functionPageData.skip / functionPageData.top"
-            [length]="functionPageData.total"
-            [showFirstLastButtons]=true
-            (page)="changePage($event, 'F')">
-          </mat-paginator>
+          <div class="headerRow">
+            <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Find Similar Targets'"
+                                        [facetName]="'GO Functions'"
+                                        [queryParams]="{similarity: '(' + target.accession + ', GO Function)'}"></pharos-explore-list-button>
+            <mat-paginator
+              [pageSize]=functionPageData.top
+              [pageIndex]="functionPageData.skip / functionPageData.top"
+              [length]="functionPageData.total"
+              [showFirstLastButtons]=true
+              (page)="changePage($event, 'F')">
+            </mat-paginator>
+          </div>
           <pharos-generic-table [data]="targetProps.goFunction" [fieldsConfig]="fields"></pharos-generic-table>
         </mat-tab>
         <mat-tab *ngIf="target.goComponent.length > 0">
@@ -47,13 +52,19 @@
               Components ({{target?.goCount?.components}})
             </div>
           </ng-template>
-          <mat-paginator
-            [pageSize]=componentPageData.top
-            [pageIndex]="componentPageData.skip / componentPageData.top"
-            [length]="componentPageData.total"
-            [showFirstLastButtons]=true
-            (page)="changePage($event, 'C')">
-          </mat-paginator>
+          <div class="headerRow">
+            <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Find Similar Targets'"
+                                        [facetName]="'GO Components'"
+                                        [queryParams]="{similarity: '(' + target.accession + ', GO Component)'}"></pharos-explore-list-button>
+
+            <mat-paginator
+              [pageSize]=componentPageData.top
+              [pageIndex]="componentPageData.skip / componentPageData.top"
+              [length]="componentPageData.total"
+              [showFirstLastButtons]=true
+              (page)="changePage($event, 'C')">
+            </mat-paginator>
+          </div>
           <pharos-generic-table [data]="targetProps.goComponent" [fieldsConfig]="fields"></pharos-generic-table>
         </mat-tab>
         <mat-tab *ngIf="target.goProcess.length > 0">
@@ -64,13 +75,18 @@
               Processes ({{target?.goCount?.processes}})
             </div>
           </ng-template>
-          <mat-paginator
-            [pageSize]=processPageData.top
-            [pageIndex]="processPageData.skip / processPageData.top"
-            [length]="processPageData.total"
-            [showFirstLastButtons]=true
-            (page)="changePage($event, 'P')">
-          </mat-paginator>
+          <div class="headerRow">
+            <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Find Similar Targets'"
+                                        [facetName]="'GO Processes'"
+                                        [queryParams]="{similarity: '(' + target.accession + ', GO Process)'}"></pharos-explore-list-button>
+            <mat-paginator
+              [pageSize]=processPageData.top
+              [pageIndex]="processPageData.skip / processPageData.top"
+              [length]="processPageData.total"
+              [showFirstLastButtons]=true
+              (page)="changePage($event, 'P')">
+            </mat-paginator>
+          </div>
           <pharos-generic-table [data]="targetProps.goProcess" [fieldsConfig]="fields"></pharos-generic-table>
         </mat-tab>
       </mat-tab-group>

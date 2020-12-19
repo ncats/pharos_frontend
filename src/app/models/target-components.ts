@@ -216,6 +216,13 @@ export const TARGETLISTFIELDS = gql`
       O2S
       S2O
     }
+    similarityDetails: similarity {
+      jaccard
+      overlap
+      baseSize
+      testSize
+      commonOptions
+    }
     uniProtFunction: props (name: "UniProt Function"){
       value
     }

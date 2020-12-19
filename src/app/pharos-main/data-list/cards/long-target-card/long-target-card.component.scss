@@ -75,7 +75,7 @@
   margin-left: 1vw;
 }
 
-.disease_details{
+.disease_details, .similarity_details{
   max-height:200px;
   overflow:hidden;
   -webkit-transition: all 0.5s ease-in-out;
@@ -85,7 +85,17 @@
   transition: all 0.5s ease-in-out;
 }
 
-.disease_details:hover{
+.disease_details:hover, .similarity_details:hover{
   max-height: 1000px;
 }
 
+.venn_diagram {
+  width: 100%;
+  height: 130px;
+  background-color: papayawhip;
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
