@@ -45,7 +45,7 @@ pipeline {
                 sshagent (credentials: ['871f96b5-9d34-449d-b6c3-3a04bbd4c0e4']) {
                     nodejs(configId: 'kw-npmrc', nodeJSInstallationName: 'LTS Node.js 10.16.0') {
                         withEnv([
-                            "IMAGE_NAME=adme-models-client",
+                            "IMAGE_NAME=pharos-frontend",
                             "BUILD_VERSION=" + (params.BUILD_VERSION ?: env.BUILD_VERSION)
                         ]) {
                             checkout scm
@@ -84,4 +84,3 @@ pipeline {
         }
     }
 }
-
