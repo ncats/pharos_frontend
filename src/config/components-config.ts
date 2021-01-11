@@ -157,6 +157,21 @@ const disease_association_fields: PharosApi[] =
     }
   ];
 
+const similarity_fields: PharosApi[] =
+  [
+    {
+      field: 'jaccard',
+      label: 'Jaccard Index',
+      description: 'A measure of the degree of overlap between two sets of values. It is calculated as the size of the union between' +
+        ' the two sets, divided by the size of the intersection between the two sets. J(A,B) = |A ∩ B| / |A ∪ B|'
+    },
+    {
+      field: 'common',
+      label: 'Common Values',
+      description: 'The shared values for the given measure that are common between the two targets.'
+    }
+  ];
+
 /**
  * main target list table component
  * @type {PharosPanel}
@@ -222,8 +237,8 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
       description: 'Tin-X metric for the relative scarcity of specific publications for this target.'
     },
     ...ppi_interaction_fields,
-    ...disease_association_fields
-    ,
+    ...disease_association_fields,
+    ...similarity_fields,
     {
       field: 'illuminationGraph',
       label: 'Illumination Graph',

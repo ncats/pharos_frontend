@@ -8,7 +8,7 @@ import {COMMON_CONFIG} from "../../../../../../../test/test-config";
 import {AngularFireAuth} from "@angular/fire/auth";
 import {TESTTARGET} from "../../../../../../../test/test-target";
 
-fdescribe('SimilarityDetailsComponent', () => {
+describe('SimilarityDetailsComponent', () => {
   let component: SimilarityDetailsComponent;
   let fixture: ComponentFixture<SimilarityDetailsComponent>;
 
