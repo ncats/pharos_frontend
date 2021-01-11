@@ -2,21 +2,16 @@
 <div class="subsection">
   <ncats-property-display
     [property]="{term: target.similarityDetails.jaccard, label: 'Jaccard Index', tooltip: getTooltip('jaccard')}"></ncats-property-display>
-  <div class="venn_diagram">VENN Diagram Goes HERE! oh yeah!
-  <ncats-property-display
-    [property]="{term: target.similarityDetails.baseSize, label: this.similarityFacet + ' count for ' + this.baseTarget, tooltip: getTooltip('base')}"></ncats-property-display>
-  <ncats-property-display
-    [property]="{term: target.similarityDetails.testSize, label: this.similarityFacet + ' count for ' + this.target.accession, tooltip: getTooltip('test')}"></ncats-property-display>
-  <ncats-property-display
-    [property]="{term: target.similarityDetails.overlap, label: 'Overlap', tooltip: getTooltip('overlap')}"></ncats-property-display>
+  <div class="venn_diagram">
+    <pharos-venn-diagram [data]="vennData"></pharos-venn-diagram>
   </div>
 
   <div class="list-header drugList">
-    Common Values
+    <span [matTooltip]="getTooltip('common')"><b>Common Values</b></span>
     <div class="subsection">
       <div class="list-item" *ngFor="let value of target.similarityDetails.commonOptions">
         <ncats-property-display [showLabel]="false"
-                                [property]="{term: value, tooltip: getTooltip('drug')}">
+                                [property]="{term: value, tooltip: getTooltip('common')}">
         </ncats-property-display>
       </div>
     </div>
