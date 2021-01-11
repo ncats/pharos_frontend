@@ -23,8 +23,10 @@
       <div *ngFor = "let facet of facets">
         <span class="mat-title"
               [matTooltip]= "getTooltip(facet.name)"
-              [matTooltipClass]="'pharos-tooltip'"
-        >{{getLabel(facet.label)}}</span>
+              [matTooltipClass]="'pharos-tooltip'">{{getLabel(facet.label)}}</span>
+        <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Find Similar Targets'"
+                                    [facetName]="getLabel(facet.label) + 's'"
+                                    [queryParams]="{similarity: '(' + target.accession + ', ' + getLabel(facet.name) + ')'}"></pharos-explore-list-button>
         <pharos-generic-table
           [data]="facet.fields.slice(0,10)"
           [fieldsConfig]="fields"
