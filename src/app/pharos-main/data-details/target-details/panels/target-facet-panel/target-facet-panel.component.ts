@@ -12,7 +12,7 @@ const LABELS: Map<string, string> = new Map<string, string> (
   [
     ['pantherProteinClass', 'Panther Protein Class'],
     ['rnaCellLine', 'RNA Cell Line'],
-    ['uniprotKeyword', 'Uniprot Keyword'],
+    ['uniprotKeyword', 'UniProt Keyword'],
     ['mgiPhenotype', 'MGI Phenotype'],
     ['gwasTrait', 'GWAS Trait']
   ]);

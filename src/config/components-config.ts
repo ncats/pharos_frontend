@@ -941,26 +941,6 @@ const TARGET_FACET_PANEL: PharosPanel = {
   },
   api: [
     {
-      field: 'goFunction',
-      label: 'GO Function',
-      description: 'Function listed by GO database for target, with total count listed in parenthesis. ' +
-        'Listing individual functions with links to GO. Click on bargraph icon to explore further the Summary of GO Function.'
-    },
-    {
-      field: 'goComponent',
-      label: 'GO Component',
-      description: 'Cellular component listed by GO database for target, with total count listed in ' +
-        'parenthesis. Listing individual functions with links to GO. Click on bargraph icon to explore further ' +
-        'the Summary of GO Function.'
-    },
-    {
-      field: 'goProcess',
-      label: 'GO Process',
-      description: 'Biological process listed by GO database for target, with total count listed in parenthesis.' +
-        'Listing individual functions with links to GO. Click on bargraph icon to explore further the Summary ' +
-        'of GO Function.'
-    },
-    {
       field: 'uniprotKeyword',
       label: 'Uniprot Keyword',
       description: 'Occurrence of target in the 10 categories of UniProt keywords.'
