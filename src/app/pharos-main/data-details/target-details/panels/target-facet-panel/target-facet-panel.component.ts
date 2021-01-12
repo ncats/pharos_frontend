@@ -8,13 +8,11 @@ import {Target} from '../../../../../models/target';
  * this is a list of the facets shown - this could probably be set in the config files
  * @type {Map<string, string>}
  */
-const LABELS: Map<string, string> = new Map<string, string> (
+const LABELS: Map<string, {label: string, facet: string}> = new Map<string, {label: string, facet: string}> (
   [
-    ['pantherProteinClass', 'Panther Protein Class'],
-    ['rnaCellLine', 'RNA Cell Line'],
-    ['uniprotKeyword', 'UniProt Keyword'],
-    ['mgiPhenotype', 'MGI Phenotype'],
-    ['gwasTrait', 'GWAS Trait']
+    ['uniprotKeyword', {label: 'UniProt Keyword', facet: 'UniProt Keyword'}],
+    ['mgiPhenotype', {label: 'MGI Phenotype', facet: 'MGI Phenotype'}], // doesn't work anyway
+    ['gwasTrait', {label: 'GWAS Trait', facet: 'GWAS'}]
   ]);
 
 /**
@@ -90,9 +88,11 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
   }
 
   getLabel(value: string) {
-    return LABELS.get(value) ? LABELS.get(value) : value;
+    return LABELS.get(value) ? LABELS.get(value).label : value;
   }
-
+  getFacet(value: string){
+    return LABELS.get(value) ? LABELS.get(value).facet : value;
+  }
   /**
    * active section view tracker
    * @param {string} fragment
