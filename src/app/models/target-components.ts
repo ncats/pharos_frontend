@@ -530,6 +530,9 @@ export const TARGETDETAILSFIELDS = gql`
       value
       name
     }
+    gwasTrait: gwas {
+      value: trait
+    }
     goComponent:go (top: 10, filter: {facets: [ {
       facet: "type"
       values: ["C"]

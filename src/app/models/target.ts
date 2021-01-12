@@ -236,6 +236,7 @@ export class Target extends PharosBase {
   goFunction: string[];
   goProcess: string[];
   uniprotKeyword: string[];
+  gwasTrait: string[];
   hpaTissueSpecificityIndex: [{ name, value }];
   hpmProteinTissueSpecificityIndex: [{ name, value }];
   gtexTissueSpecificityIndex: [{ name, value }];
@@ -606,6 +607,13 @@ export class TargetSerializer implements PharosSerializer {
         component.value.queryParams = {facet: `UniProt Keyword${Facet.separator}${component.value.term}`};
         return component.value;
       });
+    }
+    if(newObj.gwasTrait){
+      newObj.gwasTrait.forEach(trait => {
+        trait.value.internalLink = ['/targets'];
+        trait.value.queryParams = {facet: `GWAS${Facet.separator}${trait.value.term}`};
+        return trait.value;
+      })
     }
 
     if (newObj.pathways && newObj.pathways.length > 0) {

@@ -943,7 +943,12 @@ const TARGET_FACET_PANEL: PharosPanel = {
     {
       field: 'uniprotKeyword',
       label: 'Uniprot Keyword',
-      description: 'Occurrence of target in the 10 categories of UniProt keywords.'
+      description: 'Occurrence of this target in up to 10 categories of UniProt keywords.'
+    },
+    {
+      field: 'gwasTrait',
+      label: 'GWAS Trait',
+      description: 'Occurrence of this target in up to 10 categories of GWAS Traits.'
     }
   ]
 };
