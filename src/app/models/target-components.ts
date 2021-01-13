@@ -530,9 +530,6 @@ export const TARGETDETAILSFIELDS = gql`
       value
       name
     }
-    gwasTrait: gwas {
-      value: trait
-    }
     goComponent:go (top: 10, filter: {facets: [ {
       facet: "type"
       values: ["C"]
@@ -573,7 +570,7 @@ export const TARGETDETAILSFIELDS = gql`
       explanation
       assigned_by
     }
-
+    gwasTrait: facetValues(facetName: "GWAS")
     mgiPhenotype: facetValues(facetName: "JAX/MGI Phenotype")
     hpaTissueSpecificityIndex: props(name: "HPA Tissue Specificity Index") {
       name
