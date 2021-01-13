@@ -949,6 +949,11 @@ const TARGET_FACET_PANEL: PharosPanel = {
       field: 'gwasTrait',
       label: 'GWAS Trait',
       description: 'Occurrence of this target in up to 10 categories of GWAS Traits.'
+    },
+    {
+      field: 'mgiPhenotype',
+      label: "MGI Phenotype",
+      description: 'Occurrence of this target in up to 10 categories of JAX/MGI Phenotypes.'
     }
   ]
 };

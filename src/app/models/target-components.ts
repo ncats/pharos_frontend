@@ -574,6 +574,7 @@ export const TARGETDETAILSFIELDS = gql`
       assigned_by
     }
 
+    mgiPhenotype: facetValues(facetName: "JAX/MGI Phenotype")
     hpaTissueSpecificityIndex: props(name: "HPA Tissue Specificity Index") {
       name
       value

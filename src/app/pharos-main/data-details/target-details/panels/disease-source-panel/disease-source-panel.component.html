@@ -24,9 +24,14 @@
           </div>
         </div>
         <div class="headerRow">
-          <pharos-explore-list-button [buttonText]="'Explore Associated Diseases'" [path]="'/diseases'"
-                                      [queryParams]="{associatedTarget:target.accession}">
-          </pharos-explore-list-button>
+          <div>
+            <pharos-explore-list-button [buttonText]="'Explore Associated Diseases'" [path]="'/diseases'"
+                                        [queryParams]="{associatedTarget:target.accession}">
+            </pharos-explore-list-button>
+            <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Find Similar Targets'"
+                                        [facetName]="'Associated Disease'"
+                                        [queryParams]="{similarity: '(' + target.accession + ', Associated Disease)'}"></pharos-explore-list-button>
+          </div>
           <mat-paginator
             [pageSize]="10"
             [length]="target.diseaseCount"
