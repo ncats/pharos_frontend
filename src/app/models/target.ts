@@ -611,19 +611,21 @@ export class TargetSerializer implements PharosSerializer {
                 return component.value;
             });
         }
-        if (newObj.gwasTrait) {
-            newObj.gwasTrait.forEach(trait => {
-                trait.value.internalLink = ['/targets'];
-                trait.value.queryParams = {facet: `GWAS${Facet.separator}${trait.value.term}`};
-                return trait.value;
-            })
+        if (obj.gwasTrait) {
+            newObj.gwasTrait = obj.gwasTrait.map(trait => {
+                const prop: any = {};
+                prop.value = {
+                    term: trait,
+                    internalLink: ['/targets'],
+                    queryParams: {facet: `GWAS${Facet.separator}${trait}`}
+                };
+                return prop;
+            });
         }
         if (obj.mgiPhenotype) {
             newObj.mgiPhenotype = obj.mgiPhenotype.map(phen => {
                 const prop: any = {};
                 prop.value = {
-                    name: 'value',
-                    label: 'value',
                     term: phen,
                     internalLink: ['/targets'],
                     queryParams: {facet: `JAX/MGI Phenotype${Facet.separator}${phen}`}
