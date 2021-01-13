@@ -11,8 +11,8 @@ import {Target} from '../../../../../models/target';
 const LABELS: Map<string, {label: string, facet: string}> = new Map<string, {label: string, facet: string}> (
   [
     ['uniprotKeyword', {label: 'UniProt Keyword', facet: 'UniProt Keyword'}],
-    ['mgiPhenotype', {label: 'MGI Phenotype', facet: 'MGI Phenotype'}], // doesn't work anyway
-    ['gwasTrait', {label: 'GWAS Trait', facet: 'GWAS'}]
+    ['gwasTrait', {label: 'GWAS Trait', facet: 'GWAS'}],
+    ['mgiPhenotype', {label: 'MGI Phenotype', facet: 'JAX/MGI Phenotype'}],
   ]);
 
 /**
