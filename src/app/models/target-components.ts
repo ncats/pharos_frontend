@@ -178,7 +178,14 @@ export const TARGETCARDFIELDS = gql`
     }
   }
 `;
-
+export const TARGETLISTEXTRAS = gql`
+    fragment targetsExtras on TargetResult {
+      similarityTarget {
+        gene: sym
+        idgTDL: tdl
+        accession: uniprot
+      }
+    }`;
 /**
  * apollo graphQL query fragment to retrieve common fields for a target list view
  */

@@ -5,7 +5,7 @@ import {Disease, DiseaseSerializer} from './disease';
 import {Generif, GenerifSerializer} from './generif';
 import {Ortholog, OrthologSerializer} from './ortholog';
 import {Ligand, LigandSerializer} from './ligand';
-import {TARGETDETAILSFIELDS, TARGETDETAILSQUERY, TARGETLISTFIELDS} from "./target-components";
+import {TARGETDETAILSFIELDS, TARGETDETAILSQUERY, TARGETLISTEXTRAS, TARGETLISTFIELDS} from "./target-components";
 import {Facet} from "./facet";
 import {InteractionDetails} from "./interaction-details";
 import {DiseaseAssocationSerializer, DiseaseAssociation} from "./disease-association";
@@ -23,7 +23,7 @@ export class Target extends PharosBase {
      * fragment of common fields. fetched by the route resolver
      */
     static targetListFragments = TARGETLISTFIELDS;
-
+    static targetListExtras = TARGETLISTEXTRAS;
     /**
      * fragment of common fields. fetched by the route resolver
      */
@@ -678,6 +678,13 @@ export class TargetSerializer implements PharosSerializer {
         }
         return retObj;
     }
+
+  parseExtras(res: any): any {
+    if (res.similarityTarget) {
+      return {similarityTarget: this.fromJson(res.similarityTarget)};
+    }
+    return null;
+  }
 }
 
 

@@ -264,29 +264,47 @@ export class PharosApiService {
     if (state) {
       variables.batchIds = state.batchIds;
     }
-
-    const LISTQUERY = gql`
-      query PaginateData($batchIds: [String], $skip: Int, $top: Int, $filter: IFilter){
-        batch (${path}: $batchIds, filter: $filter) {
-      results:${path.slice(0, path.length - 1)}Result {
-      count
-      facets {
-      ...facetFields
-      }
-      ${path}(skip: $skip, top: $top) {
-      ...${path}ListFields
-      }
-      }
-      }
-      }
-      ${fragments.list}
-      ${fragments.facets}
-    `;
+    let LISTQUERY;
+    try {
+      LISTQUERY = gql`
+        query PaginateData($batchIds: [String], $skip: Int, $top: Int, $filter: IFilter){
+          batch (${path}: $batchIds, filter: $filter) {
+        results:${path.slice(0, path.length - 1)}Result {
+        count
+        facets {
+        ...facetFields
+        }
+        ${path}(skip: $skip, top: $top) {
+        ...${path}ListFields
+        }
+        ${this.insertExtras(fragments, path)}
+        }
+        }
+        }
+        ${fragments.list}
+        ${fragments.facets}
+        ${this.extrasRef(fragments)}
+      `;
+    }
+    catch(e){
+      e;
+    }
     fetchQuery = this.apollo.query<any>({
       query: LISTQUERY,
       variables
     });
     return fetchQuery;
+  }
+
+  extrasRef(fragments: any){
+    return fragments.extras || '';
+  }
+
+  insertExtras(fragments: any, path: string){
+    if(fragments.extras){
+      return `...${path}Extras`;
+    }
+    return '';
   }
 
   /*

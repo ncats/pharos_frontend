@@ -44,6 +44,8 @@ export interface Serializer {
    * @private
    */
   _asProperties?(object: any): any;
+
+  parseExtras?(obj: any): any;
 }
 
 /**
@@ -71,7 +73,6 @@ export interface PharosSerializer extends Serializer {
    * @private
    */
   _asProperties?(object: PharosBase): any;
-
 
 }
 

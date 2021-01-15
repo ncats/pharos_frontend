@@ -7,7 +7,8 @@ import {
   OnChanges,
   OnInit,
   PLATFORM_ID,
-  ViewChild
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import * as d3 from 'd3';
 import {isPlatformBrowser} from "@angular/common";
@@ -15,7 +16,8 @@ import {isPlatformBrowser} from "@angular/common";
 @Component({
   selector: 'pharos-venn-diagram',
   templateUrl: './venn-diagram.component.html',
-  styleUrls: ['./venn-diagram.component.scss']
+  styleUrls: ['./venn-diagram.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class VennDiagramComponent implements OnInit, OnChanges {
 
@@ -142,17 +144,7 @@ export class VennDiagramComponent implements OnInit, OnChanges {
       svg.attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
       svg.append('circle')
-        .style('fill', 'red')
-        .style('opacity', 0.5)
-        .attr('cx', -measurements.dist * this.fixedHeight / 2)
-        .attr('cy', 0)
-        .attr('r', measurements.radA * this.fixedHeight)
-        .on('mouseover', (d, i, circles) => this.showTooltip(d, i, circles, this.data.sizeA, this.data.nameA))
-        .on('mouseout', (d, i, circles) => this.hideTooltip(d, i, circles));
-
-      svg.append('circle')
-        .style('fill', 'lightblue')
-        .style('opacity', 0.5)
+        .style('fill', this.data.colorB)
         .attr('cx', measurements.dist * this.fixedHeight / 2)
         .attr('cy', 0)
         .attr('r', measurements.radB * this.fixedHeight)
@@ -160,22 +152,20 @@ export class VennDiagramComponent implements OnInit, OnChanges {
         .on('mouseover', (d, i, circles) => this.showTooltip(d, i, circles, this.data.sizeB, this.data.nameB))
         .on('mouseout', (d, i, circles) => this.hideTooltip(d, i, circles));
 
-      const myPath = d3.path();
+      svg.append('circle')
+        .style('fill', this.data.colorA)
+        .attr('cx', -measurements.dist * this.fixedHeight / 2)
+        .attr('cy', 0)
+        .attr('r', measurements.radA * this.fixedHeight)
+        .on('mouseover', (d, i, circles) => this.showTooltip(d, i, circles, this.data.sizeA, this.data.nameA))
+        .on('mouseout', (d, i, circles) => this.hideTooltip(d, i, circles));
 
-      if (this.data.sizeB === this.data.overlap && this.data.sizeA === this.data.overlap) {
-        myPath.arc(0, 0, measurements.radA * this.fixedHeight, -Math.PI, Math.PI);
-      } else {
-        if (this.data.sizeB !== this.data.overlap) {
-          myPath.arc(-measurements.dist * this.fixedHeight / 2, 0, measurements.radA * this.fixedHeight, -measurements.thetaA, measurements.thetaA);
-        }
-        if (this.data.sizeA !== this.data.overlap) {
-          myPath.arc(measurements.dist * this.fixedHeight / 2, 0, measurements.radB * this.fixedHeight, Math.PI - measurements.thetaB, Math.PI + measurements.thetaB,);
-        }
-      }
+      const overlapSection = this.fetchOverlapShape(measurements);
 
-      myPath.closePath();
-
-      svg.append('path').attr('d', myPath).attr('fill', 'transparent').attr('opacity', 0.5)
+      svg.append('path')
+        .attr('d', overlapSection)
+        .attr('fill', 'black')
+        .attr('opacity', 0.25)
         .on('mouseover', (d, i, shape) => this.showTooltip(d, i, shape, this.data.overlap, 'Common'))
         .on('mouseout', (d, i, shape) => this.hideTooltip(d, i, shape));
 
@@ -183,6 +173,24 @@ export class VennDiagramComponent implements OnInit, OnChanges {
         .attr('class', 'bar-tooltip')
         .style('opacity', 0);
     }
+  }
+
+  private fetchOverlapShape(measurements: { radA: number; radB: number; dist: number; thetaA: number; thetaB: number }) {
+    const myPath = d3.path();
+
+    if (this.data.sizeB === this.data.overlap && this.data.sizeA === this.data.overlap) {
+      myPath.arc(0, 0, measurements.radA * this.fixedHeight, -Math.PI, Math.PI);
+    } else {
+      if (this.data.sizeB !== this.data.overlap) {
+        myPath.arc(-measurements.dist * this.fixedHeight / 2, 0, measurements.radA * this.fixedHeight, -measurements.thetaA, measurements.thetaA);
+      }
+      if (this.data.sizeA !== this.data.overlap) {
+        myPath.arc(measurements.dist * this.fixedHeight / 2, 0, measurements.radB * this.fixedHeight, Math.PI - measurements.thetaB, Math.PI + measurements.thetaB,);
+      }
+    }
+
+    myPath.closePath();
+    return myPath;
   }
 
   showTooltip(d, i, circles, size, name) {
@@ -212,5 +220,7 @@ export class VennDiagramData {
   sizeB: number = 0;
   nameA: string = '';
   nameB: string = '';
+  colorA: string = '';
+  colorB: string = '';
   overlap: number = 0;
 }

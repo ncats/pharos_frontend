@@ -99,6 +99,8 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    */
   rowSelection = new SelectionModel<any>(true);
 
+  similarityTarget: Target;
+
   /**
    * set up dependencies
    * @param _route
@@ -257,6 +259,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
             this.previousSortObject = null;
           }
           this.targets = this.data.targets;
+          this.similarityTarget = this.data.similarityTarget;
           this.ref.detectChanges();
         }
       });
