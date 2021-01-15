@@ -78,7 +78,7 @@
     </div>
     <div *ngIf="!isSmallScreen">
       <div *ngFor="let target of targets">
-        <pharos-long-target-card [target]="target" [selected]="isSelected(target)"
+        <pharos-long-target-card [target]="target" [selected]="isSelected(target)" [similarityTarget]="similarityTarget"
                                  (selectionChanged)="updateTargetSelection(target, $event)"
                                  [loggedIn]="loggedIn"
                                  [apiSources]="apiSources"></pharos-long-target-card>

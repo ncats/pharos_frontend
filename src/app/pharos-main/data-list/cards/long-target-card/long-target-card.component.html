@@ -31,7 +31,7 @@
         <pharos-interaction-details [target]="target" [apiSources]="apiSources"></pharos-interaction-details>
       </div>
       <div class="section similarity_details" *ngIf="target.similarityDetails?.commonOptions?.length > 0">
-        <pharos-similarity-details [target]="target" [apiSources]="apiSources"></pharos-similarity-details>
+        <pharos-similarity-details [target]="target" [apiSources]="apiSources" [similarityTarget]="similarityTarget"></pharos-similarity-details>
       </div>
       <div class="section radar-chart">
         <mat-card-subtitle>Illumination Graph</mat-card-subtitle>

@@ -55,6 +55,9 @@ export class DataListResolver implements Resolve<Observable<any>> {
               res.data.batch.results[`${[route.data.path]}Props`].push(serializer._asProperties(tobj));
               return tobj;
             });
+            if(serializer.parseExtras) {
+              res.data.batch.results.extras = serializer.parseExtras(res.data.batch.results);
+            }
             return res.data.batch.results;
           }),
           catchError(err => {
@@ -79,10 +82,13 @@ export class DataListResolver implements Resolve<Observable<any>> {
               res.data.batch.results[`${[route.data.path]}Props`].push(serializer._asProperties(tobj));
               return tobj;
             });
+            if(serializer.parseExtras) {
+              res.data.batch.results.extras = serializer.parseExtras(res.data.batch.results);
+            }
             return res.data.batch.results;
           }),
           catchError(err => {
-            let message = (err.message || "no message") + "\n" + (err.stack || "no stack trace")
+            let message = (err.message || "no message") + "\n" + (err.stack || "no stack trace");
             if(isPlatformBrowser(this.platformID)) {
               alert(JSON.stringify(message));
             }

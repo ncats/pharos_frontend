@@ -13,6 +13,7 @@ import {DynamicPanelBaseComponent} from "../../../../tools/dynamic-panel-base/dy
 export class LongTargetCardComponent extends DynamicPanelBaseComponent implements OnInit {
 
   @Input() target?: Target;
+  @Input() similarityTarget?: Target;
   @Input() selected: boolean;
   @Input() loggedIn: boolean;
 

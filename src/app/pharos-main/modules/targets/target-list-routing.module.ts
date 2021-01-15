@@ -13,7 +13,8 @@ const routes: Routes = [
     data: {
       fragments: {
         list: Target.targetListFragments,
-        facets: Facet.facetFieldsFragments
+        facets: Facet.facetFieldsFragments,
+        extras: Target.targetListExtras
       },
       serializer: new TargetSerializer()
     },
