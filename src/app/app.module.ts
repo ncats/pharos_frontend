@@ -1,4 +1,4 @@
-import {Inject, NgModule, PLATFORM_ID} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {environment} from '../environments/environment';
@@ -20,10 +20,6 @@ import {GraphQLModule} from './graphql.module';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {ServiceWorkerModule} from "@angular/service-worker";
 import {MarkdownModule} from "ngx-markdown";
-import ProtVistaManager      from "protvista-manager";
-import ProtVistaNavigation   from "protvista-navigation";
-import ProtVistaSequenceLogo from "kelleher-sequence-logo";
-import {isPlatformBrowser} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -52,12 +48,4 @@ import {isPlatformBrowser} from "@angular/common";
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-  constructor(@Inject(PLATFORM_ID) private platformID: Object) {
-    if (isPlatformBrowser(this.platformID)) {
-      window.customElements.define('protvista-manager', ProtVistaManager);
-      window.customElements.define('protvista-navigation', ProtVistaNavigation);
-      window.customElements.define('protvista-sequence-logo', ProtVistaSequenceLogo);
-    }
-  }
-}
+export class AppModule { }

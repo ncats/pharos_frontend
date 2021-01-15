@@ -188,6 +188,4 @@ export class TOKENS {
   public static PATHWAYS_PANEL = new InjectionToken<string>('PathwaysPanelComponent');
 
   public static GO_TERMS_PANEL = new InjectionToken<string>('GoTermsComponent');
-
-  public static SEQUENCE_LOGO = new InjectionToken<string>('SequenceLogoComponent');
 }

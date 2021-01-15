@@ -1,4 +1,4 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TargetDetailsRoutingModule} from './target-details-routing.module';
 import {TargetHeaderComponent} from '../../data-details/target-details/target-header/target-header.component';
@@ -44,10 +44,8 @@ import {DrugsLigandsPanelComponent} from "../../data-details/target-details/pane
 import {PathwaysPanelComponent} from "../../data-details/target-details/panels/pathways-panel/pathways-panel.component";
 import {ReactomePathwayBrowserComponent} from "../../data-details/target-details/panels/pathways-panel/reactome-pathway-browser/reactome-pathway-browser.component";
 import {GoTermsComponent} from "../../data-details/target-details/panels/go-terms/go-terms.component";
-import {SequenceLogoComponent} from "../../data-details/target-details/panels/sequence-logo/sequence-logo.component";
 
 @NgModule({
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   declarations: [
     TargetHeaderComponent,
     BreadcrumbComponent,
@@ -79,8 +77,7 @@ import {SequenceLogoComponent} from "../../data-details/target-details/panels/se
     LigandsPanelComponent,
     DrugsPanelComponent,
     DifferentialPanelComponent,
-    DrugsLigandsPanelComponent,
-    SequenceLogoComponent
+    DrugsLigandsPanelComponent
   ],
   imports: [
     CommonModule,
@@ -122,9 +119,7 @@ import {SequenceLogoComponent} from "../../data-details/target-details/panels/se
     {provide: TOKENS.DRUGS_PANEL, useValue: DrugsPanelComponent},
     {provide: TOKENS.PDB_PANEL, useValue: PdbPanelComponent},
     {provide: TOKENS.PATHWAYS_PANEL, useValue: PathwaysPanelComponent},
-    {provide: TOKENS.GO_TERMS_PANEL, useValue: GoTermsComponent},
-    {provide: TOKENS.PATHWAYS_PANEL, useValue: PathwaysPanelComponent},
-    {provide: TOKENS.SEQUENCE_LOGO, useValue: SequenceLogoComponent}
+    {provide: TOKENS.GO_TERMS_PANEL, useValue: GoTermsComponent}
   ]
 })
 export class TargetDetailsModule { }

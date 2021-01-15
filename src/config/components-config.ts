@@ -899,22 +899,6 @@ const RELATED_PUBLICATIONS_PANEL: PharosPanel = {
   ]
 };
 
-const SEQUENCE_LOGO: PharosPanel = {
-  token: TOKENS.SEQUENCE_LOGO,
-  navHeader: {
-    label: 'TODO',
-    section: 'TODO',
-    mainDescription: 'TODO'
-  },
-  api: [
-    {
-      field: 'TODO',
-      label: 'TODO',
-      description: 'TODO'
-    }
-  ]
-};
-
 /**
  * target sequence component
  * @type {PharosPanel}
@@ -1252,8 +1236,6 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_HELPPANEL_COMPONENT,
           TARGET_HEADER_COMPONENT,
           PHAROS_BREADCRUMB_COMPONENT,
-          SEQUENCE_LOGO,
-          AA_SEQUENCE_PANEL,
           SUMMARY_PANEL,
           LEVEL_SUMMARY_PANEL,
           IDG_RESOURCES_PANEL,
@@ -1268,6 +1250,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PROTEIN_PROTEIN_PANEL,
           PUBLICATION_STATISTICS_PANEL,
           RELATED_PUBLICATIONS_PANEL,
+          AA_SEQUENCE_PANEL,
           TARGET_FACET_PANEL
         ]
       }
