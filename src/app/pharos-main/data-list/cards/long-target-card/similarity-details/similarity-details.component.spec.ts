@@ -31,6 +31,7 @@ describe('SimilarityDetailsComponent', () => {
     fixture = TestBed.createComponent(SimilarityDetailsComponent);
     component = fixture.componentInstance;
     component.target = TESTTARGET;
+    component.similarityTarget = TESTTARGET;
     fixture.detectChanges();
   });
 
