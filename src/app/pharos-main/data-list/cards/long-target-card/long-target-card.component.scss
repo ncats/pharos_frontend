@@ -75,7 +75,7 @@
   margin-left: 1vw;
 }
 
-.disease_details, .similarity_details{
+.unexpanded{
   max-height:200px;
   overflow:hidden;
   -webkit-transition: all 0.5s ease-in-out;
@@ -85,7 +85,7 @@
   transition: all 0.5s ease-in-out;
 }
 
-.disease_details:hover, .similarity_details:hover{
+.expanded{
   max-height: 1000px;
 }
 

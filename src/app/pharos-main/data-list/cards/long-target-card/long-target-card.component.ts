@@ -17,6 +17,13 @@ export class LongTargetCardComponent extends DynamicPanelBaseComponent implement
   @Input() selected: boolean;
   @Input() loggedIn: boolean;
 
+  expanded: boolean = false;
+  expandingDiseases: boolean = false;
+
+  toggleDiseases(){
+    this.expandingDiseases = true;
+    this.expanded = !this.expanded;
+  }
   @Output() selectionChanged = new EventEmitter<boolean>();
 
   constructor() {

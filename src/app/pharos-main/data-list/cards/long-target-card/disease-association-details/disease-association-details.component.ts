@@ -1,4 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Output,
+  ViewChild,
+  EventEmitter,
+  AfterViewInit,
+  OnChanges,
+  SimpleChanges, AfterViewChecked
+} from '@angular/core';
 import {GeneDetailsComponent} from "../gene-details/gene-details.component";
 import {DiseaseAssociation} from "../../../../../models/disease-association";
 import {ActivatedRoute} from "@angular/router";
@@ -12,13 +22,32 @@ import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/na
 })
 export class DiseaseAssociationDetailsComponent extends GeneDetailsComponent implements OnInit {
 
+  @ViewChild('componentContainer', {read: ElementRef, static: true}) container: ElementRef;
   constructor(private _route: ActivatedRoute) {
     super();
   }
 
+  get scrollable() : boolean {
+    if (this.container) {
+      return this.container.nativeElement.scrollHeight > this.container.nativeElement.clientHeight;
+    }
+    return false;
+  }
+
+  headerTooltip() : string {
+    if(this.scrollable){
+      if(this.expanded){
+        return 'Click to collapse';
+      }
+      else{
+        return 'Click to expand';
+      }
+    }
+    return '';
+  }
+
   associationFields: string[] =
-    ['evidence', 'zscore', 'conf', 'reference', 'drug_name',
-      'log2foldchange', 'pvalue', 'score', 'source', 'O2S', 'S2O'];
+    ['evidence', 'zscore', 'conf', 'reference', 'drug_name', 'log2foldchange', 'pvalue', 'score', 'source', 'O2S', 'S2O'];
 
   nonDrugMap: Map<string, DiseaseAssociation[]> = new Map<string, DiseaseAssociation[]>();
   drugMap: Map<string, DiseaseAssociation[]> = new Map<string, DiseaseAssociation[]>();
@@ -62,5 +91,4 @@ export class DiseaseAssociationDetailsComponent extends GeneDetailsComponent imp
       return a.localeCompare(b);
     });
   }
-
 }
