@@ -46,6 +46,7 @@
            class="section similarity_details"
            [ngClass]="{expanded: expanded, unexpanded: !expanded}">
         <pharos-similarity-details [target]="target" [apiSources]="apiSources" [similarityTarget]="similarityTarget" [expanded]="expanded"></pharos-similarity-details>
+        <span *ngIf="!expanded" class="expandLink">Click for details...</span>
       </div>
       <div class="section radar-chart">
         <mat-card-subtitle>Illumination Graph</mat-card-subtitle>
