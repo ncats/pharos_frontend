@@ -6,7 +6,6 @@
     <pharos-venn-diagram [data]="vennData"></pharos-venn-diagram>
   </div>
 
-  <span *ngIf="!expanded">Click for more...</span>
   <div class="list-header drugList" *ngIf="expanded">
     <span [matTooltip]="getTooltip('common')"><b>Common Values</b></span>
     <div class="subsection">
