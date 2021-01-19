@@ -49,7 +49,11 @@ pipeline {
                             "BUILD_VERSION=" + (params.BUILD_VERSION ?: env.BUILD_VERSION)
                         ]) {
                             checkout scm
+                            configFileProvider([
+                                configFile(fileId: 'environment.prod.ts', targetLocation: 'src/environments/environment.prod.ts')
+                            ]) {
                             script {
+                                sh 'chmod 774 src/environments/environment.prod.ts'
                                 // See: https://jenkins.io/doc/book/pipeline/docker/#building-containers
                                 docker.withRegistry("https://registry.ncats.nih.gov:5000", "564b9230-c7e3-482d-b004-8e79e5e9720a") {
                                     def image = docker.build(
@@ -58,6 +62,7 @@ pipeline {
                                     )
                                     // Push the image to the registry
                                     image.push("${env.BUILD_VERSION}")
+                                    }
                                 }
                             }
                         }
