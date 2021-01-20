@@ -30,7 +30,12 @@ export class VennDiagramComponent implements OnInit, OnChanges {
   };
   height: number;
   width: number;
-  fixedHeight: number = 130 / 2;
+
+  get fixedHeight(): number {
+    const baseHeight = 130/2;
+    const scaleHeight = baseHeight * this.width / 500;
+    return Math.min(baseHeight, scaleHeight);
+  }
 
   @HostListener('window:resize', [])
   onResize() {
