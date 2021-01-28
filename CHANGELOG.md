@@ -1,3 +1,13 @@
+# 3.4.0 (2020-02-26)
+### Added Features
+* **Search Similar Targets based on some multiple response target facets**
+    * You could always find targets that have a specific value for a target facet, for example, generate a target <a href="/targets?facet=GO%20Function!drug%20binding" target="_blank">list of targets</a> that have a "GO Function" of "drug binding". Now, target details pages have links to generate lists of targets that share overlapping values, ranked by the degree of overlap. For example, generate a <a href="/targets?similarity=(P14416,%20GO%20Function)" target="_blank">list of targets</a> that have the most "GO Functions" with "DRD2" 
+    * Links are available on target details pages for: GO Terms, Associated Diseases, Pathways, Interacting Viruses, and a few more.
+
+* **Updated database to TCRD 6.8.4**
+    * <a href="http://juniper.health.unm.edu/tcrd/download/old_versions/TCRD_v6.8.4.README" target="_blank">TCRD_v6.8.4.README</a>
+    
+
 # 3.3.0 (2020-12-20)
 ### Added Features
 * **New GO Terms component:**

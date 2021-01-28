@@ -1,7 +1,7 @@
 {
   "name": "pharos",
-  "version": "3.3.0",
-  "tcrd_version": "6.7.0",
+  "version": "3.4.0",
+  "tcrd_version": "6.8.4",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
