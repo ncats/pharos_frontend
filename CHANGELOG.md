@@ -76,7 +76,7 @@ _______________
     * Pharos will display histograms of values for some numeric measures. Users can select a range of values to use to filter the list. 
     
 * **Updated database to TCRD 6.7.0**
-    * <a href="http://juniper.health.unm.edu/tcrd/download/TCRD_v6.7.0.README" target="_blank">TCRD_v6.7.0.README</a>
+    * <a href="http://juniper.health.unm.edu/tcrd/download/old_versions/TCRD_v6.7.0.README" target="_blank">TCRD_v6.7.0.README</a>
     
 
 ### Bug Fixes
