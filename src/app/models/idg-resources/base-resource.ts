@@ -3,6 +3,7 @@
  */
 import {DataProperty} from "../../tools/generic-table/components/property-display/data-property";
 import {PharosConfig} from "../../../config/pharos-config";
+import {environment} from "../../../environments/environment";
 
 /**
  * Interface to implement for resources that contain structural information, in order to show the structure on the cards
@@ -108,7 +109,7 @@ export class BaseResource {
       if (this['canonicalSmiles']) {
         smiles = this['canonicalSmiles'];
       }
-      return `https://tripod.nih.gov/servlet/renderServletv13?standardize=true&size=250&structure=${encodeURIComponent(smiles)}`;
+      return `${environment.rendererUrl}?standardize=true&size=250&structure=${encodeURIComponent(smiles)}`;
     }
     return null;
   }
