@@ -899,6 +899,22 @@ const RELATED_PUBLICATIONS_PANEL: PharosPanel = {
   ]
 };
 
+const SEQUENCE_LOGO: PharosPanel = {
+  token: TOKENS.SEQUENCE_LOGO,
+  navHeader: {
+    label: 'TODO',
+    section: 'TODO',
+    mainDescription: 'TODO'
+  },
+  api: [
+    {
+      field: 'TODO',
+      label: 'TODO',
+      description: 'TODO'
+    }
+  ]
+};
+
 /**
  * target sequence component
  * @type {PharosPanel}
