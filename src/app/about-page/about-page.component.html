@@ -9,6 +9,9 @@
         <a mat-list-item class="list-button" (click)="scroll(collaborators)"
            [ngClass]="{'active': isActive('collaborators')}">Our Collaborators
         </a>
+        <a mat-list-item class="list-button" (click)="scroll(linkToPharos)"
+           [ngClass]="{'active': isActive('linkToPharos')}">How to Link to Pharos
+        </a>
         <a mat-list-item class="list-button" (click)="scroll(availabledata)"
            [ngClass]="{'active': isActive('availabledata')}">Available Data
         </a>
@@ -91,6 +94,31 @@
             To find more details on our collaborators visit the <a href="https://druggablegenome.net">
             IDG Consortium website</a>
           </p>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row" id="linkToPharos" #linkToPharos #scrollSection>
+      <div fxFlex="75">
+        <div class="section-header" [ngClass]="{'active': isActive('linkToPharos')}">How to Link to Pharos</div>
+        <div class="section-content">
+          <p>Link to target details pages with uniprot_id or gene symbol</p>
+            <blockquote class="active blockquote">
+              <div><span class="link-example">https://pharos.nih.gov/targets/<span class="dynamic">uniprot_id</span></span></div>
+              <div><span class="link-example">https://pharos.nih.gov/targets/<span class="dynamic">gene_symbol</span></span></div>
+            </blockquote>
+          <p>Link to disease details pages with disease name</p>
+            <blockquote class="active blockquote">
+              <div><span class="link-example">https://pharos.nih.gov/diseases/<span class="dynamic">disease_name</span></span></div>
+            </blockquote>
+          <p>Link to ligand details pages with drug name, or chembl ID</p>
+          <blockquote class="active blockquote">
+              <div><span class="link-example">https://pharos.nih.gov/ligands/<span class="dynamic">drug_name</span></span></div>
+              <div><span class="link-example">https://pharos.nih.gov/ligands/<span class="dynamic">chembl_ID</span></span></div>
+          </blockquote>
+          <p>Render structures with a URL encoded SMILES string</p>
+          <blockquote class="active blockquote">
+            <div><span class="link-example">https://ncatsidg.appspot.com/render?standardize=true&size=150&structure=<span class="dynamic">SMILES</span></span></div>
+          </blockquote>
         </div>
       </div>
     </div>
