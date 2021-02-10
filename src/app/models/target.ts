@@ -259,6 +259,8 @@ export class Target extends PharosBase {
     pathwayCounts?: any[];
 
     dataSources?: String[] = [];
+
+    sequence_variants?: {startResidue: number, residue_info: {aa: string, bits: number}[]};
 }
 
 export class GoCounts {

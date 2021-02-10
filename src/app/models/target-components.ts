@@ -397,6 +397,13 @@ export const TARGETDETAILSFIELDS = gql`
   fragment targetsDetailsFields on Target {
     ...targetsListFields
     dataSources
+    sequence_variants {
+      startResidue
+      residue_info{
+        aa
+        bits
+      }
+    }
     symbols: synonyms(name: "symbol") {
       name
       value

@@ -41,37 +41,11 @@ export class SequenceLogoComponent extends DynamicPanelComponent implements OnIn
 
         if (isPlatformBrowser(this.platformID)) {
           import("ncats-protvista-viewer").then(() => {
-            this.weblogo.nativeElement.setAttribute('sequence', this.fudgeUpSomeData(this.target.sequence));
+            this.weblogo.nativeElement.setAttribute('sequence', JSON.stringify(this.target.sequence_variants.residue_info));
           });
         }
 
         this.changeDetectorRef.detectChanges();
       });
-  }
-
-  fudgeUpSomeData(sequence: string) {
-    const annotatedSequence = [];
-    for (let aa of sequence) {
-      const residue = [];
-      let bits = [];
-      let total = 0, rr = 0;
-      for (let i = 0; i < 5; i++) {
-        rr = Math.random();
-        total += rr;
-        bits.push(rr);
-      }
-      const conservation = Math.random();
-      bits = bits.map(b => b * conservation / total).sort((a, b) => b - a);
-      residue.push({aa: aa, bits: bits[0]});
-      for (let i = 1; i < bits.length; i++) {
-        residue.push(
-          {
-            aa: sequence[Math.floor(sequence.length * Math.random())],
-            bits: bits[i]
-          });
-      }
-      annotatedSequence.push(residue);
-    }
-    return JSON.stringify(annotatedSequence);
   }
 }
