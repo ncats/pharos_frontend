@@ -4,7 +4,6 @@ import {Target} from "../../../../../models/target";
 import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 import {takeUntil} from "rxjs/operators";
 import {isPlatformBrowser} from "@angular/common";
-import * as fs from "fs";
 
 @Component({
   selector: 'pharos-sequence-logo',
@@ -41,11 +40,24 @@ export class SequenceLogoComponent extends DynamicPanelComponent implements OnIn
 
         if (isPlatformBrowser(this.platformID)) {
           import("ncats-protvista-viewer").then(() => {
-            this.weblogo.nativeElement.setAttribute('sequence', JSON.stringify(this.target.sequence_variants.residue_info));
+            if (this.hasVariants()) {
+              this.weblogo.nativeElement.setAttribute('sequence', JSON.stringify(this.target.sequence_variants.residue_info));
+            }
+            if (this.hasAnnotations()) {
+              this.weblogo.nativeElement.setAttribute('annotations', JSON.stringify(this.target.sequence_annotations));
+            }
           });
         }
 
         this.changeDetectorRef.detectChanges();
       });
   }
+
+  hasVariants(){
+    return this.target.sequence_variants && this.target.sequence_variants.residue_info && this.target.sequence_variants.residue_info.length > 0;
+  }
+  hasAnnotations(){
+    return this.target.sequence_annotations && this.target.sequence_annotations.length > 0;
+  }
+
 }

@@ -203,4 +203,9 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
       case 'V': return 	'Valine';
     }
   }
+
+  hasSequenceInfo(){
+    return this.target && (this.target.sequence_variants || (this.target.sequence_annotations && this.target.sequence_annotations.length > 0))
+  }
+
 }
