@@ -404,6 +404,12 @@ export const TARGETDETAILSFIELDS = gql`
         bits
       }
     }
+    sequence_annotations{
+      startResidue
+      endResidue
+      type
+      name
+    }
     symbols: synonyms(name: "symbol") {
       name
       value
