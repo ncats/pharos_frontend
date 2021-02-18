@@ -59,5 +59,4 @@ export class SequenceLogoComponent extends DynamicPanelComponent implements OnIn
   hasAnnotations(){
     return this.target.sequence_annotations && this.target.sequence_annotations.length > 0;
   }
-
 }

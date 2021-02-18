@@ -899,22 +899,6 @@ const RELATED_PUBLICATIONS_PANEL: PharosPanel = {
   ]
 };
 
-const SEQUENCE_LOGO: PharosPanel = {
-  token: TOKENS.SEQUENCE_LOGO,
-  navHeader: {
-    label: 'TODO',
-    section: 'TODO',
-    mainDescription: 'TODO'
-  },
-  api: [
-    {
-      field: 'TODO',
-      label: 'TODO',
-      description: 'TODO'
-    }
-  ]
-};
-
 /**
  * target sequence component
  * @type {PharosPanel}
@@ -934,6 +918,24 @@ const AA_SEQUENCE_PANEL: PharosPanel = {
       description: 'Bar chart summarizing the number of times each residue appears in the sequence. The bars represent ' +
         'the actual counts, while the gold lines represent the expected counts given the frequency of the amino acids in ' +
         'all human genes.'
+    },
+    {
+      field: 'variantsAndAnnotations',
+      label: 'Ortholog Variants and Sequence Annotations',
+      description: 'A plot of the degree of conservation of each residue for homologous kinases, across many different species. ' +
+        'Annotations are shown for different domains, motifs, and key amino acids aligned with the sequence variants. Data is from ProKinO.',
+      source: 'https://prokino.uga.edu/kinview/'
+    },
+    {
+      field: 'weblogoColors',
+      label: 'WebLogo Color Code',
+      description: 'Color coding for the zoomed in sequence variant plot. Amino acids are color coded according to chemical' +
+        ' properties including: polar, neutral, basic, acidic, and hydrophobic.'
+    },
+    {
+      field: 'annotations',
+      label: 'Kinase Annotations',
+      description: 'Annotations are shown for different domains, motifs, and key amino acids aligned with the sequence variants.'
     },
     {
       field: 'sequence',

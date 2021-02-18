@@ -34,15 +34,15 @@
       </div>
     </div>
     <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center" *ngIf="hasSequenceInfo()">
-        <span class="pharos-subtitle" fxFlex="100"
-              [matTooltip]="getTooltip('weblogo')"
+        <span class="pharos-subtitle"
+              [matTooltip]="getTooltip('variantsAndAnnotations')"
               [matTooltipClass]="'pharos-tooltip'">
           Ortholog Variants and Sequence Annotations
         </span>
     </div>
     <div fxLayout="row" *ngIf="hasSequenceInfo()">
       <div fxFlex="95" fxFlex.lt-md="100" class="weblogo">
-        <pharos-sequence-logo [target]="target"></pharos-sequence-logo>
+        <pharos-sequence-logo [target]="target" [apiSources]="apiSources"></pharos-sequence-logo>
       </div>
     </div>
     <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
