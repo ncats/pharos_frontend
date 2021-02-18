@@ -76,8 +76,8 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
   ngOnInit() {
     const isSmallScreen = this.breakpointObserver.isMatched('(max-width: 768px)');
     this._data
-    // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
+      // listen to data as long as term is undefined or null
+      // Unsubscribe once term has value
       .pipe(
         takeUntil(this.ngUnsubscribe)
       )
@@ -111,7 +111,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
     order.forEach(aa => charMap.set(aa, 0));
     this.target.sequence.split('').map(char => {
       let count = charMap.get(char);
-        charMap.set(char, ++count);
+      charMap.set(char, ++count);
     });
     this.residueCounts = Array.from(charMap.entries());
     this.expectedResidueCounts = [
@@ -176,36 +176,55 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
     this.navSectionsService.setActiveSection(fragment);
   }
 
-  getLongFormName(shortFormName: string) : string{
+  getLongFormName(shortFormName: string): string {
     switch (shortFormName) {
-      case 'A': return 	'Alanine';
-      case 'R': return 	'Arginine';
-      case 'N': return 	'Asparagine';
-      case 'D': return 	'Aspartate';
-      case 'C': return 	'Cysteine';
+      case 'A':
+        return 'Alanine';
+      case 'R':
+        return 'Arginine';
+      case 'N':
+        return 'Asparagine';
+      case 'D':
+        return 'Aspartate';
+      case 'C':
+        return 'Cysteine';
 
-      case 'E': return 	'Glutamate';
-      case 'Q': return 	'Glutamine';
-      case 'G': return 	'Glycine';
-      case 'H': return 	'Histidine';
-      case 'I': return 	'Isoleucine';
+      case 'E':
+        return 'Glutamate';
+      case 'Q':
+        return 'Glutamine';
+      case 'G':
+        return 'Glycine';
+      case 'H':
+        return 'Histidine';
+      case 'I':
+        return 'Isoleucine';
 
-      case 'L': return 	'Leucine';
-      case 'K': return 	'Lysine';
-      case 'M': return 	'Methionine';
-      case 'F': return 	'Phenylalanine';
-      case 'P': return 	'Proline';
+      case 'L':
+        return 'Leucine';
+      case 'K':
+        return 'Lysine';
+      case 'M':
+        return 'Methionine';
+      case 'F':
+        return 'Phenylalanine';
+      case 'P':
+        return 'Proline';
 
-      case 'S': return 	'Serine';
-      case 'T': return 	'Threonine';
-      case 'W': return 	'Tryptophan';
-      case 'Y': return 	'Tyrosine';
-      case 'V': return 	'Valine';
+      case 'S':
+        return 'Serine';
+      case 'T':
+        return 'Threonine';
+      case 'W':
+        return 'Tryptophan';
+      case 'Y':
+        return 'Tyrosine';
+      case 'V':
+        return 'Valine';
     }
   }
 
-  hasSequenceInfo(){
+  hasSequenceInfo() {
     return this.target && (this.target.sequence_variants || (this.target.sequence_annotations && this.target.sequence_annotations.length > 0))
   }
-
 }

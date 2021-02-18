@@ -17,6 +17,16 @@
   display: flex;
   flex-direction: row;
 }
+
+@media only screen and (max-width: 960px) {
+  .bottom-panel{
+    flex-direction: column;
+  }
+  .legend{
+    width: 95%;
+  }
+}
+
 .colorcode{
   display: flex;
   flex-direction: column;
@@ -47,4 +57,8 @@ pharos-affiliate-link{
 .chemistryType{
   width: 100px;
   display: inline-block;
+}
+protvista-tooltip * {
+  border-radius: 10px;
+  text-decoration: underline;
 }

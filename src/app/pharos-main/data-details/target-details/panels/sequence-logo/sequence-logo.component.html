@@ -2,7 +2,7 @@
   <ncats-protvista-viewer class="container" #weblogo></ncats-protvista-viewer>
   <div class="bottom-panel">
   <div class="legend colorcode">
-    <mat-card-subtitle>WebLogo Color Code</mat-card-subtitle>
+    <mat-card-subtitle [matTooltip]="getTooltip('weblogoColors')">WebLogo Color Code</mat-card-subtitle>
     <div>
       <div><span class="chemistryType">Polar</span><span class="polar">G S T Y C</span></div>
       <div><span class="chemistryType">Neutral</span><span class="neutral">Q N</span></div>
@@ -13,7 +13,7 @@
     <pharos-affiliate-link [value]="target.gene" [dataSource]="'ProKinO'"></pharos-affiliate-link>
   </div>
   <div class="legend">
-    <mat-card-subtitle>Sequence Annotations</mat-card-subtitle>
+    <mat-card-subtitle [matTooltip]="getTooltip('annotations')">Sequence Annotations</mat-card-subtitle>
     <ncats-protvista-legend></ncats-protvista-legend>
   </div>
   </div>
