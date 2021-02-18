@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SequenceLogoComponent } from './sequence-logo.component';
+import {TESTTARGET} from "../../../../../../../test/test-target";
 
 describe('SequenceLogoComponent', () => {
   let component: SequenceLogoComponent;
@@ -16,6 +17,7 @@ describe('SequenceLogoComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SequenceLogoComponent);
     component = fixture.componentInstance;
+    component.target = TESTTARGET;
     fixture.detectChanges();
   });
 

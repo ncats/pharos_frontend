@@ -1,1 +1,20 @@
-<ncats-protvista-viewer class="container" #weblogo></ncats-protvista-viewer>
+<div class="outer-container">
+  <ncats-protvista-viewer class="container" #weblogo></ncats-protvista-viewer>
+  <div class="bottom-panel">
+  <div class="legend colorcode">
+    <mat-card-subtitle>WebLogo Color Code</mat-card-subtitle>
+    <div>
+      <div>Polar<span class="polar">G S T Y C</span></div>
+      <div>Neutral<span class="neutral">Q N</span></div>
+      <div>Basic<span class="basic">K R H</span></div>
+      <div>Acidic<span class="acidic">D E</span></div>
+      <div>Hydrophobic<span class="hydrophobic">A V L I P W F M</span></div>
+    </div>
+    <pharos-affiliate-link [value]="target.gene" [dataSource]="'ProKinO'"></pharos-affiliate-link>
+  </div>
+  <div class="legend">
+    <mat-card-subtitle>Sequence Annotations</mat-card-subtitle>
+    <ncats-protvista-legend></ncats-protvista-legend>
+  </div>
+  </div>
+</div>

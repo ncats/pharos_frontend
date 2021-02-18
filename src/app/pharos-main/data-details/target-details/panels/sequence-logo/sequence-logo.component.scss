@@ -1,4 +1,46 @@
 .container{
-  width: 100%;
   position: relative;
+  border: 1px solid black;
+}
+.legend{
+  padding: 15px;
+  width: 50%;
+  border: 1px solid black;
+  align-content: flex-start;
+  justify-content: flex-start;
+}
+.outer-container{
+  display: flex;
+  flex-direction: column;
+}
+.bottom-panel{
+  display: flex;
+  flex-direction: row;
+}
+.colorcode{
+  display: flex;
+  flex-direction: column;
+}
+.polar,.neutral,.basic,.acidic,.hydrophobic{
+  font-size: 20pt;
+  margin-left: 5px;
+}
+
+.polar{
+  color: green;
+}
+.neutral{
+  color: purple;
+}
+.basic{
+  color: blue;
+}
+.acidic{
+  color: red;
+}
+.hydrophobic{
+  color: black;
+}
+pharos-affiliate-link{
+  padding-top: 10px;
 }
