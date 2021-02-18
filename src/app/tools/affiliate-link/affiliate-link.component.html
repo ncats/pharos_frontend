@@ -1,6 +1,6 @@
 <div class="container">
-  <a target="_blank" [href]="url" class="link" [matTooltip]="'Explore ' + value + ' on ' + dataSource">
+  <a target="_blank" [href]="url" class="link" [matTooltip]="getTooltip()">
     <mat-icon [color]="'primary'" class="medium">outbond</mat-icon>
-    <span class="affiliate-link">{{dataSource}}</span>
+    <span class="affiliate-link">{{getLinkText()}}</span>
   </a>
 </div>

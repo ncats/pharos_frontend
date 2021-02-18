@@ -34,10 +34,10 @@
       </div>
     </div>
     <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center" *ngIf="hasSequenceInfo()">
-        <span class="pharos-subtitle"
+        <span class="pharos-subtitle" fxFlex="100"
               [matTooltip]="getTooltip('weblogo')"
               [matTooltipClass]="'pharos-tooltip'">
-          Sequence WebLogo
+          Ortholog Variants and Sequence Annotations
         </span>
     </div>
     <div fxLayout="row" *ngIf="hasSequenceInfo()">
