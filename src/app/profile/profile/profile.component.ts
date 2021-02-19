@@ -78,7 +78,7 @@ export class ProfileComponent implements OnInit {
           .delete()
           .then(res => {
             this.profileService.updateEntireCollection(this.user.data().collection.filter(coll => coll !== collection.id));
-            this.snackBar.open('Collection deleted.', 'OK', {duration: 1000});
+            this.snackBar.open('Collection deleted.', 'OK');
           });
       }
     });
