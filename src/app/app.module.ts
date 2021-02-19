@@ -20,6 +20,7 @@ import {GraphQLModule} from './graphql.module';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {ServiceWorkerModule} from "@angular/service-worker";
 import {MarkdownModule} from "ngx-markdown";
+import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -28,10 +29,10 @@ import {MarkdownModule} from "ngx-markdown";
     ScrollToTopComponent
   ],
   imports: [
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
     BrowserAnimationsModule,
     MaterialModule,
-    BrowserModule.withServerTransition({ appId: 'pharos' }),
+    BrowserModule.withServerTransition({appId: 'pharos'}),
     TransferHttpCacheModule,
     AppRoutingModule,
     RouterModule,
@@ -44,8 +45,12 @@ import {MarkdownModule} from "ngx-markdown";
     PharosLoadingSpinnerModule,
     GraphQLModule,
     HttpClientModule,
-    MarkdownModule.forRoot({ loader: HttpClient })
+    MarkdownModule.forRoot({loader: HttpClient})
+  ],
+  providers: [
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}}
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
