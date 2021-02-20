@@ -940,8 +940,7 @@ const AA_SEQUENCE_PANEL: PharosPanel = {
     {
       field: 'sequence',
       label: 'Sequence',
-      description: 'Amino acid sequence of target protein, bar graph summarizing quantity of each amino acid. ' +
-        'Click on looking glass icon for ability to conduct sequence search.'
+      description: 'Amino acid sequence of the target protein.'
     }
   ]
 };

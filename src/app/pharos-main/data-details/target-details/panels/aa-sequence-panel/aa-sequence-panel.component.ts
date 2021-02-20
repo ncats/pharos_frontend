@@ -44,11 +44,6 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
   @ViewChild('protVistaViewer', {static: true}) viewerContainer: ElementRef;
 
   /**
-   * chunked amino acid sequence
-   */
-  aasequence: any[];
-
-  /**
    * amino acid residue counts
    */
   residueCounts: any[];
@@ -84,7 +79,6 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
       .subscribe(x => {
         this.target = this.data.targets;
         if (this.target.sequence) {
-          this.parseSequence();
           this.getCounts();
         }
         if (!this.isSmallScreen && isPlatformBrowser(this.platformID)) {
@@ -138,35 +132,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
     ];
   }
 
-  /**
-   * parse the amino acid sequence into smaller chunks for display
-   */
-  parseSequence(): void {
-    const length = 70;
-    const split = this.splitString(this.target.sequence, length);
-    const splitseq: any[] = [];
-    split.forEach((chunk, index) => {
-      if (index === 0) {
-        splitseq.push({chunk, residues: index + 1 + '-' + (index + 1) * length});
-      } else if (index === split.length - 1) {
-        splitseq.push({chunk, residues: index * length + '-' + this.target.sequence.length});
-      } else {
-        splitseq.push({chunk, residues: index * length + '-' + (index + 1) * length});
-      }
-    });
-    this.aasequence = splitseq;
-  }
 
-  /**
-   * Split a string into chunks of the given size
-   * @param  {String} sstring is the String to split
-   * @param  {Number} size is the size you of the cuts
-   * @return {Array} an Array with the strings
-   */
-  splitString(sstring: string, size: number): string[] {
-    const re: RegExp = new RegExp('.{1,' + size + '}', 'g');
-    return sstring.match(re);
-  }
 
   /**
    * active section view tracker
@@ -176,7 +142,11 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
     this.navSectionsService.setActiveSection(fragment);
   }
 
-  getLongFormName(shortFormName: string): string {
+  getLongFormName(shortFormName: string): string{
+    return AaSequencePanelComponent.getLongFormName(shortFormName);
+  }
+
+  static getLongFormName(shortFormName: string): string {
     switch (shortFormName) {
       case 'A':
         return 'Alanine';
