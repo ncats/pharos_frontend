@@ -1,0 +1,25 @@
+<div class="container">
+  <div>
+    <button type="button" mat-raised-button (click)="copySequence()" class="copy-button" aria-label="Copy Sequence"
+            [color]="'primary'">
+      <mat-icon>content_copy</mat-icon>
+      Copy Sequence
+    </button>
+  </div>
+  <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      {{panelOpenState ? "Collapse" : "Expand"}} Full Sequence
+    </mat-expansion-panel-header>
+    <div fxLayout="row" fxHide.lt-sm fxLayoutAlign="center center">
+      <div fxFlex="100">
+        <div class="well">
+          <div class="seq-grid">
+            <span class="seq-chunk" *ngFor="let chunk of aasequence">
+              <span class="seq-count">{{chunk?.lastIndex}}</span>{{chunk?.chunk}}
+          </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</div>

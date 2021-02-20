@@ -12,6 +12,7 @@ import {ScrollspyDirective} from '../tools/sidenav-panel/directives/scrollspy.di
 import {HelpArticlesModule} from './help-articles.module';
 import {ScatterPlotComponent} from '../tools/visualizations/scatter-plot/scatter-plot.component';
 import {PharosMainComponent} from '../pharos-main/pharos-main.component';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {PharosMainComponent} from '../pharos-main/pharos-main.component';
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
-    HelpArticlesModule
+    HelpArticlesModule,
+    ClipboardModule
   ],
   declarations: [
     BarChartComponent,

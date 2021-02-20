@@ -4,6 +4,7 @@ import {Target} from "../../../../../models/target";
 import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
 import {takeUntil} from "rxjs/operators";
 import {isPlatformBrowser} from "@angular/common";
+import {AaSequencePanelComponent} from "../aa-sequence-panel/aa-sequence-panel.component";
 
 @Component({
   selector: 'pharos-sequence-logo',
@@ -58,5 +59,9 @@ export class SequenceLogoComponent extends DynamicPanelComponent implements OnIn
   }
   hasAnnotations(){
     return this.target.sequence_annotations && this.target.sequence_annotations.length > 0;
+  }
+
+  aaName(symbol: string){
+    return AaSequencePanelComponent.getLongFormName(symbol);
   }
 }

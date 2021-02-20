@@ -45,6 +45,8 @@ import {PathwaysPanelComponent} from "../../data-details/target-details/panels/p
 import {ReactomePathwayBrowserComponent} from "../../data-details/target-details/panels/pathways-panel/reactome-pathway-browser/reactome-pathway-browser.component";
 import {GoTermsComponent} from "../../data-details/target-details/panels/go-terms/go-terms.component";
 import {SequenceLogoComponent} from "../../data-details/target-details/panels/sequence-logo/sequence-logo.component";
+import {SequenceComponent} from "../../data-details/target-details/panels/aa-sequence-panel/sequence/sequence.component";
+import {ClipboardModule} from "@angular/cdk/clipboard";
 
 @NgModule({
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
@@ -80,7 +82,8 @@ import {SequenceLogoComponent} from "../../data-details/target-details/panels/se
     DrugsPanelComponent,
     DifferentialPanelComponent,
     DrugsLigandsPanelComponent,
-    SequenceLogoComponent
+    SequenceLogoComponent,
+    SequenceComponent
   ],
   imports: [
     CommonModule,
@@ -92,7 +95,8 @@ import {SequenceLogoComponent} from "../../data-details/target-details/panels/se
     TargetTableModule,
     LigandListModule,
     PharosLoadingSpinnerModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    ClipboardModule
   ],
   exports: [
     DiseaseCardComponent,

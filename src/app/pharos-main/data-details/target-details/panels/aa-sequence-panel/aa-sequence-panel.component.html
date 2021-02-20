@@ -1,78 +1,74 @@
 <article>
-<mat-card
-  id="sequence"
-  (pharosScrollspy)="active('sequence')"
-  #sequence
-  class="section-card">
-  <mat-card-content>
-    <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
-      <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
-    </div>
-    <div fxLayout="row"
-         class="tkrow"
-         fxLayoutAlign="start stretch">
-      <div fxFlex="95">
+  <mat-card
+    id="sequence"
+    (pharosScrollspy)="active('sequence')"
+    #sequence
+    class="section-card">
+    <mat-card-content>
+      <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+        <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+      </div>
+      <div fxLayout="row"
+           class="tkrow"
+           fxLayoutAlign="start stretch">
+        <div fxFlex="95">
         <span class="mat-title"
               [matTooltip]=description
               [matTooltipClass]="'pharos-tooltip'">
           Amino Acid Sequence</span>
+        </div>
+        <div fxFlex="5">
+          <pharos-help-panel-trigger [origin]="'sequence'" [label]="'Sequence Details'"></pharos-help-panel-trigger>
+        </div>
       </div>
-      <div fxFlex="5">
-        <pharos-help-panel-trigger [origin]="'sequence'" [label]="'Sequence Details'"></pharos-help-panel-trigger>
-      </div>
-    </div>
-    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
+      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
         <span class="pharos-subtitle"
               [matTooltip]="getTooltip('residues')"
               [matTooltipClass]="'pharos-tooltip'">
           Residue Counts
         </span>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="center start">
-      <div fxFlex="95" fxFlex.lt-md="100" class="residue-count-holder">
-        <pharos-bar-chart [data]="residueCounts" [expectedData]="expectedResidueCounts" [getLongNameFunction]="getLongFormName" *ngIf="residueCounts"></pharos-bar-chart>
       </div>
-    </div>
-    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center" *ngIf="hasSequenceInfo()">
+      <div fxLayout="row" fxLayoutAlign="center start">
+        <div fxFlex="95" fxFlex.lt-md="100" class="residue-count-holder">
+          <pharos-bar-chart [data]="residueCounts" [expectedData]="expectedResidueCounts" [getLongNameFunction]="getLongFormName" *ngIf="residueCounts"></pharos-bar-chart>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center" *ngIf="hasSequenceInfo()">
         <span class="pharos-subtitle"
               [matTooltip]="getTooltip('variantsAndAnnotations')"
               [matTooltipClass]="'pharos-tooltip'">
           Ortholog Variants and Sequence Annotations
         </span>
-    </div>
-    <div fxLayout="row" *ngIf="hasSequenceInfo()">
-      <div fxFlex="95" fxFlex.lt-md="100" class="weblogo">
-        <pharos-sequence-logo [target]="target" [apiSources]="apiSources"></pharos-sequence-logo>
       </div>
-    </div>
-    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
+      <div fxLayout="row" *ngIf="hasSequenceInfo()">
+        <div fxFlex="95" fxFlex.lt-md="100" class="weblogo">
+          <pharos-sequence-logo [target]="target" [apiSources]="apiSources"></pharos-sequence-logo>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
       <span class="pharos-subtitle"
             [matTooltip]="getTooltip('sequence')"
             [matTooltipClass]="'pharos-tooltip'">
-        Sequence</span>
-    </div>
-    <div fxLayout="row" fxHide.lt-sm fxLayoutAlign="center center">
-      <div fxFlex="100">
-        <div class="well">
-          <div fxLayout="row" fxLayoutAlign="start center" *ngFor="let chunk of aasequence" fxLayout="start stretch">
-            <div fxFlex="85">
-              {{chunk?.chunk}}
-            </div>
-            <div fxFlex="15" class="no-copy" fxHide.lt-md>
-              {{chunk?.residues}}
-            </div>
-          </div>
+        Protein Sequence</span>
+      </div>
+      <div fxLayout="row">
+        <div fxFlex="95">
+          <pharos-sequence [target]="target" [apiSources]="apiSources"></pharos-sequence>
         </div>
       </div>
-    </div>
-    <div fxLayout="row" fxHide.gt-sm fxLayoutAlign="center center">
-      <div fxFlex="100">
-        <div class="well break" *ngIf="target && target.sequence">
-          {{target.sequence}}
+
+      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
+        <span class="pharos-subtitle"
+              [matTooltip]="getTooltip('protvistaViewer')"
+              [matTooltipClass]="'pharos-tooltip'">
+        ProtVista Viewer</span>
+      </div>
+      <div fxLayout="row">
+        <div fxFlex="95">
+          <div #protVistaViewer id="protVistaViewer" fxHide.lt-md></div>
         </div>
       </div>
-    </div>
-    <div #protVistaViewer id="protVistaViewer" fxHide.lt-md></div>
-  </mat-card-content>
-</mat-card>
+    </mat-card-content>
+  </mat-card>
 </article>
