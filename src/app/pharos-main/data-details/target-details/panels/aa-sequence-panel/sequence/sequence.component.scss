@@ -3,10 +3,10 @@
 }
 
 .container{
-  clear-after: both;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
+
 .well {
   margin: 0 auto;
   padding: 1vh;

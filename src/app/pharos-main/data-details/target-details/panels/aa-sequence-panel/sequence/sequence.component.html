@@ -1,15 +1,16 @@
 <div class="container">
-  <div>
-    <button type="button" mat-raised-button (click)="copySequence()" class="copy-button" aria-label="Copy Sequence"
-            [color]="'primary'">
-      <mat-icon>content_copy</mat-icon>
-      Copy Sequence
-    </button>
-  </div>
   <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
     <mat-expansion-panel-header>
-      {{panelOpenState ? "Collapse" : "Expand"}} Full Sequence
+      {{panelOpenState ? "Collapse" : "Show Full Sequence"}}
     </mat-expansion-panel-header>
+    <ng-template matExpansionPanelContent>
+    <div>
+      <button type="button" mat-raised-button (click)="copySequence()" class="copy-button" aria-label="Copy Sequence"
+              [color]="'primary'">
+        <mat-icon>content_copy</mat-icon>
+        Copy Sequence
+      </button>
+    </div>
     <div fxLayout="row" fxHide.lt-sm fxLayoutAlign="center center">
       <div fxFlex="100">
         <div class="well">
@@ -21,5 +22,6 @@
         </div>
       </div>
     </div>
+    </ng-template>
   </mat-expansion-panel>
 </div>
