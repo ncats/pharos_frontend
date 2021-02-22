@@ -40,11 +40,13 @@ const ROUTES: Routes = [
   },
   {
     path: 'about',
-    loadChildren: () => import('./about-page/about-page.module').then(m => m.AboutPageModule)
+    loadChildren: () => import('./about-page/about-page.module').then(m => m.AboutPageModule),
+    data: {title: 'About'}
   },
   {
     path: 'changelog',
-    loadChildren: () => import('./changelog/changelog.module').then(m => m.ChangelogModule)
+    loadChildren: () => import('./changelog/changelog.module').then(m => m.ChangelogModule),
+    data: {title: 'Changelog'}
   },
   {
     path: 'help',
@@ -54,6 +56,7 @@ const ROUTES: Routes = [
   {
     path: 'structure',
     loadChildren: () => import('./structure-search-page/structure-search-page.module').then(m => m.StructureSearchPageModule),
+    data: {title: 'Structure Search'}
   },
   {
     path: 'sketcher',
@@ -62,11 +65,13 @@ const ROUTES: Routes = [
   },
   {
     path: 'sequence',
-    loadChildren: () => import('./sequence-search-page/sequence-search.module').then(m => m.SequenceSearchModule)
+    loadChildren: () => import('./sequence-search-page/sequence-search.module').then(m => m.SequenceSearchModule),
+    data: {title: 'Sequence Search'}
   },
   {
     path: 'faq',
-    loadChildren: () => import('./faq-page/faq-page.module').then(m => m.FaqPageModule)
+    loadChildren: () => import('./faq-page/faq-page.module').then(m => m.FaqPageModule),
+    data: {title: 'Frequently Asked Questions'}
   },
   {
     path: 'targets',
@@ -74,7 +79,8 @@ const ROUTES: Routes = [
     data: {
       path: 'targets',
       subpath: 'list',
-      preload: true
+      preload: true,
+      title: 'Target List'
     }
   },
   {
@@ -83,7 +89,8 @@ const ROUTES: Routes = [
     data: {
       path: 'targets',
       subpath: 'details',
-      preload: true
+      preload: true,
+      title: 'Target Details'
     }
   },
   {
@@ -92,7 +99,8 @@ const ROUTES: Routes = [
     data: {
       path: 'diseases',
       subpath: 'list',
-      preload: true
+      preload: true,
+      title: 'Disease List'
     }
   },
   {
@@ -101,7 +109,8 @@ const ROUTES: Routes = [
     data: {
       path: 'diseases',
       subpath: 'details',
-      preload: true
+      preload: true,
+      title: 'Disease Details'
     }
   },
   {
@@ -110,7 +119,8 @@ const ROUTES: Routes = [
     data: {
       path: 'ligands',
       subpath: 'list',
-      preload: true
+      preload: true,
+      title: 'Ligand List'
     }
   },
   {
@@ -119,7 +129,8 @@ const ROUTES: Routes = [
     data: {
       path: 'ligands',
       subpath: 'details',
-      preload: true
+      preload: true,
+      title: 'Ligand Details'
     }
   },
   {
@@ -129,6 +140,7 @@ const ROUTES: Routes = [
   {
     path: 'api',
     loadChildren: () => import('./api-page/api-page.module').then(m => m.ApiPageModule),
+    data: {title: 'GraphQL API'}
   },
   {
     path: '**',
