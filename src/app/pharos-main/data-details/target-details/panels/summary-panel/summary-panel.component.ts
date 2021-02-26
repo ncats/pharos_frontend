@@ -85,14 +85,6 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
 }
 
   /**
-   * tracks if element is active in view
-   * @param {string} fragment
-   */
-  active(fragment: string) {
-    this.navSectionsService.setActiveSection(fragment);
-}
-
-  /**
    * clean up on leaving component
    */
   ngOnDestroy() {

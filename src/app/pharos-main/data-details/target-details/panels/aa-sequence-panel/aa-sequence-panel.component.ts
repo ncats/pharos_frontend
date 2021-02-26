@@ -132,16 +132,6 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
     ];
   }
 
-
-
-  /**
-   * active section view tracker
-   * @param {string} fragment
-   */
-  active(fragment: string) {
-    this.navSectionsService.setActiveSection(fragment);
-  }
-
   getLongFormName(shortFormName: string): string{
     return AaSequencePanelComponent.getLongFormName(shortFormName);
   }
@@ -194,7 +184,4 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
     }
   }
 
-  hasSequenceInfo() {
-    return this.target && (this.target.sequence_variants || (this.target.sequence_annotations && this.target.sequence_annotations.length > 0))
-  }
 }

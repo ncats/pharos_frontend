@@ -18,7 +18,7 @@
           Amino Acid Sequence</span>
         </div>
         <div fxFlex="5">
-          <pharos-help-panel-trigger [origin]="'sequence'" [label]="'Sequence Details'"></pharos-help-panel-trigger>
+          <pharos-help-panel-trigger [origin]="'sequence'" [label]="'Protein Sequence'"></pharos-help-panel-trigger>
         </div>
       </div>
       <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
@@ -33,18 +33,7 @@
           <pharos-bar-chart [data]="residueCounts" [expectedData]="expectedResidueCounts" [getLongNameFunction]="getLongFormName" *ngIf="residueCounts"></pharos-bar-chart>
         </div>
       </div>
-      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center" *ngIf="hasSequenceInfo()">
-        <span class="pharos-subtitle"
-              [matTooltip]="getTooltip('variantsAndAnnotations')"
-              [matTooltipClass]="'pharos-tooltip'">
-          Ortholog Variants and Sequence Annotations
-        </span>
-      </div>
-      <div fxLayout="row" *ngIf="hasSequenceInfo()">
-        <div fxFlex="95" fxFlex.lt-md="100" class="weblogo">
-          <pharos-sequence-logo [target]="target" [apiSources]="apiSources"></pharos-sequence-logo>
-        </div>
-      </div>
+
 
       <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
       <span class="pharos-subtitle"

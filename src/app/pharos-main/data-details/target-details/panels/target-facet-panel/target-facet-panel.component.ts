@@ -93,11 +93,4 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
   getFacet(value: string){
     return LABELS.get(value) ? LABELS.get(value).facet : value;
   }
-  /**
-   * active section view tracker
-   * @param {string} fragment
-   */
-  active(fragment: string) {
-    this.navSectionsService.setActiveSection(fragment);
-  }
 }

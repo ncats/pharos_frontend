@@ -37,7 +37,7 @@ export class AffiliateLinkComponent implements OnInit {
   getLinkText(): string {
     switch (this.dataSource) {
       case "ProKinO":
-        return "Compare Kinases on ProKinO";
+        return "Compare across kinases on ProKinO";
     }
     return this.dataSource;
 

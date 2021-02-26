@@ -44,9 +44,10 @@ import {DrugsLigandsPanelComponent} from "../../data-details/target-details/pane
 import {PathwaysPanelComponent} from "../../data-details/target-details/panels/pathways-panel/pathways-panel.component";
 import {ReactomePathwayBrowserComponent} from "../../data-details/target-details/panels/pathways-panel/reactome-pathway-browser/reactome-pathway-browser.component";
 import {GoTermsComponent} from "../../data-details/target-details/panels/go-terms/go-terms.component";
-import {SequenceLogoComponent} from "../../data-details/target-details/panels/sequence-logo/sequence-logo.component";
+import {SequenceLogoComponent} from "../../data-details/target-details/panels/ortholog-variants/sequence-logo/sequence-logo.component";
 import {SequenceComponent} from "../../data-details/target-details/panels/aa-sequence-panel/sequence/sequence.component";
 import {ClipboardModule} from "@angular/cdk/clipboard";
+import {OrthologVariantsComponent} from "../../data-details/target-details/panels/ortholog-variants/ortholog-variants.component";
 
 @NgModule({
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
@@ -82,6 +83,7 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
     DrugsPanelComponent,
     DifferentialPanelComponent,
     DrugsLigandsPanelComponent,
+    OrthologVariantsComponent,
     SequenceLogoComponent,
     SequenceComponent
   ],
@@ -128,7 +130,8 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
     {provide: TOKENS.PATHWAYS_PANEL, useValue: PathwaysPanelComponent},
     {provide: TOKENS.GO_TERMS_PANEL, useValue: GoTermsComponent},
     {provide: TOKENS.PATHWAYS_PANEL, useValue: PathwaysPanelComponent},
-    {provide: TOKENS.SEQUENCE_LOGO, useValue: SequenceLogoComponent}
+    {provide: TOKENS.SEQUENCE_LOGO, useValue: SequenceLogoComponent},
+    {provide: TOKENS.ORTHOLOG_VARIANT_PANEL, useValue: OrthologVariantsComponent}
   ]
 })
 export class TargetDetailsModule { }

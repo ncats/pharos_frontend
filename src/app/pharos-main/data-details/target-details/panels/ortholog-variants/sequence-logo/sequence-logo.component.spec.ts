@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SequenceLogoComponent } from './sequence-logo.component';
-import {TESTTARGET} from "../../../../../../../test/test-target";
+import {TESTTARGET} from "../../../../../../../../test/test-target";
 
 describe('SequenceLogoComponent', () => {
   let component: SequenceLogoComponent;
