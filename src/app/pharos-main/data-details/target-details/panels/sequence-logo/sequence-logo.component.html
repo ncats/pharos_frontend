@@ -3,7 +3,7 @@
   <div class="bottom-panel">
   <div class="legend colorcode" *ngIf="hasVariants()">
     <mat-card-subtitle [matTooltip]="getTooltip('weblogoColors')">WebLogo Color Code</mat-card-subtitle>
-    <div>
+    <div [ngClass]="{longLegend: !hasAnnotations()}">
       <div><span class="chemistryType">Polar</span>
         <span class="polar">
           <span [matTooltip]="aaName('G')">G </span>
