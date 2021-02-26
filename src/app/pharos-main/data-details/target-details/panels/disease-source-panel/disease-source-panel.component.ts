@@ -165,14 +165,6 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
   }
 
   /**
-   * active section view tracker
-   * @param {string} fragment
-   */
-  active(fragment: string) {
-    this.navSectionsService.setActiveSection(fragment);
-  }
-
-  /**
    * paginate disease list datasource
    * @param event
    */

@@ -138,10 +138,6 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
     }).reduce((prev, cur) => prev + cur.value, 0);
   }
 
-  active(fragment: string) {
-    this.navSectionsService.setActiveSection(fragment);
-  }
-
   changePage(event: any, pwType: string) {
     this.loadingStart();
     let pageParams: any = {};

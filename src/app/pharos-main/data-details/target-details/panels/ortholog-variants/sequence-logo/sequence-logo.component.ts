@@ -1,10 +1,10 @@
 import {ChangeDetectorRef, Component, ElementRef, Inject, Input, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
-import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
-import {Target} from "../../../../../models/target";
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
+import {DynamicPanelComponent} from "../../../../../../tools/dynamic-panel/dynamic-panel.component";
+import {Target} from "../../../../../../models/target";
+import {NavSectionsService} from "../../../../../../tools/sidenav-panel/services/nav-sections.service";
 import {takeUntil} from "rxjs/operators";
 import {isPlatformBrowser} from "@angular/common";
-import {AaSequencePanelComponent} from "../aa-sequence-panel/aa-sequence-panel.component";
+import {AaSequencePanelComponent} from "../../aa-sequence-panel/aa-sequence-panel.component";
 
 @Component({
   selector: 'pharos-sequence-logo',

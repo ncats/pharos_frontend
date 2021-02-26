@@ -316,14 +316,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   }
 
   /**
-   * active section view tracker
-   * @param {string} fragment
-   */
-  active(fragment: string) {
-    this.navSectionsService.setActiveSection(fragment);
-  }
-
-  /**
    * clean up on leaving component
    */
   ngOnDestroy() {

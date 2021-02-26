@@ -681,6 +681,36 @@ const EXPRESSION_PANEL: PharosPanel = {
   ]
 };
 
+const ORTHOLOG_VARIANT_PANEL: PharosPanel = {
+  token: TOKENS.ORTHOLOG_VARIANT_PANEL,
+  navHeader: {
+    label: 'Ortholog Variants',
+    section: 'variants',
+    mainDescription: 'A plot of the degree of conservation of each residue for homologous kinases, across many different species. ' +
+      'Zooming in on the variant plot reveals the specific amino acids at each residue. ' +
+      'Annotations are shown for different domains, motifs, and key amino acids aligned with the sequence variants. Data is from ProKinO.',
+    mainSource: 'https://prokino.uga.edu/kinview/'
+  }, api: [
+    {
+      field: 'none',
+      label: 'Variant Data',
+      description: 'Amino acid propensities for each residue are calculated based on the alignment of many ' +
+        'kinases from orthologous species.'
+    },
+    {
+      field: 'weblogoColors',
+      label: 'WebLogo Color Code',
+      description: 'Color coding for the zoomed in sequence variant plot. Amino acids are color coded according to chemical' +
+        ' properties including: polar, neutral, basic, acidic, and hydrophobic.'
+    },
+    {
+      field: 'annotations',
+      label: 'Kinase Annotations',
+      description: 'Annotations are shown for different domains, motifs, and key amino acids aligned with the sequence variants.'
+    },
+  ]
+};
+
 const GO_TERMS_PANEL: PharosPanel = {
   token: TOKENS.GO_TERMS_PANEL,
   navHeader: {
@@ -906,7 +936,7 @@ const RELATED_PUBLICATIONS_PANEL: PharosPanel = {
 const AA_SEQUENCE_PANEL: PharosPanel = {
   token: TOKENS.AA_SEQUENCE_PANEL,
   navHeader: {
-    label: 'Sequence Details',
+    label: 'Protein Sequence',
     section: 'sequence',
     mainDescription: 'Amino acid sequence, and a detailed sequence structure viewer via the Uniprot Protvista viewer.'
   },
@@ -920,27 +950,15 @@ const AA_SEQUENCE_PANEL: PharosPanel = {
         'all human genes.'
     },
     {
-      field: 'variantsAndAnnotations',
-      label: 'Ortholog Variants and Sequence Annotations',
-      description: 'A plot of the degree of conservation of each residue for homologous kinases, across many different species. ' +
-        'Annotations are shown for different domains, motifs, and key amino acids aligned with the sequence variants. Data is from ProKinO.',
-      source: 'https://prokino.uga.edu/kinview/'
-    },
-    {
-      field: 'weblogoColors',
-      label: 'WebLogo Color Code',
-      description: 'Color coding for the zoomed in sequence variant plot. Amino acids are color coded according to chemical' +
-        ' properties including: polar, neutral, basic, acidic, and hydrophobic.'
-    },
-    {
-      field: 'annotations',
-      label: 'Kinase Annotations',
-      description: 'Annotations are shown for different domains, motifs, and key amino acids aligned with the sequence variants.'
-    },
-    {
       field: 'sequence',
       label: 'Sequence',
       description: 'Amino acid sequence of the target protein.'
+    },
+    {
+      field: 'protvistaViewer',
+      label: 'ProtVista Viewer',
+      description: 'The protein sequence aligned with structural and functional annotations, as well as disease variants.',
+      source: 'https://www.uniprot.org/'
     }
   ]
 };
@@ -1268,6 +1286,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PUBLICATION_STATISTICS_PANEL,
           RELATED_PUBLICATIONS_PANEL,
           AA_SEQUENCE_PANEL,
+          ORTHOLOG_VARIANT_PANEL,
           TARGET_FACET_PANEL
         ]
       }

@@ -133,14 +133,6 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
   }
 
   /**
-   * active section view tracker
-   * @param {string} fragment
-   */
-  active(fragment: string) {
-    this.navSectionsService.setActiveSection(fragment);
-  }
-
-  /**
    * cleanp on destroy
    */
   ngOnDestroy() {

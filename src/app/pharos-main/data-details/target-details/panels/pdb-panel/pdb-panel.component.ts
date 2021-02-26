@@ -194,14 +194,6 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
   }
 
   /**
-   * checks to see if the display section is within view
-   * @param {string} fragment
-   */
-  active(fragment: string) {
-    this.navSectionsService.setActiveSection(fragment);
-  }
-
-  /**
    * clean up on leaving component
    */
   ngOnDestroy() {
