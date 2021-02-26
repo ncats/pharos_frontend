@@ -62,3 +62,12 @@ protvista-tooltip * {
   border-radius: 10px;
   text-decoration: underline;
 }
+
+.longLegend{
+  display: flex;
+  flex-wrap: wrap;
+}
+.longLegend .chemistryType{
+  width: unset;
+  padding-left: 50px;
+}

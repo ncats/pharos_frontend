@@ -21,11 +21,11 @@
     z-index: 66666;
   }
 
-  .axis path {
+  pharos-scatter-plot .axis path {
     display: none;
   }
 
-  .axis line {
+  pharos-scatter-plot .axis line {
     stroke-opacity: 0.05;
   }
 
