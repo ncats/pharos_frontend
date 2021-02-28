@@ -3,6 +3,7 @@ import {PharosConfig} from '../../../config/pharos-config';
 import {BehaviorSubject} from 'rxjs/index';
 import {takeWhile} from 'rxjs/internal/operators';
 import {PharosProperty} from '../../models/pharos-property';
+import {environment} from "../../../environments/environment";
 
 /**
  * displays a structure only from either a url or a smiles string
@@ -78,12 +79,12 @@ export class StructureViewComponent implements OnInit {
           if (this.data.term === '') {
             this.url = null;
           } else {
-            this.url = `https://tripod.nih.gov/servlet/renderServletv13?standardize=true&size=${this.size}&structure=${encodeURIComponent(this.smiles)}`;
+            this.url = `${environment.rendererUrl}?standardize=true&size=${this.size}&structure=${encodeURIComponent(this.smiles)}`;
           }
         }
       });
     if (this.smiles) {
-      this.url = `https://tripod.nih.gov/servlet/renderServletv13?standardize=true&size=${this.size}&structure=${encodeURIComponent(this.smiles)}`;
+      this.url = `${environment.rendererUrl}?standardize=true&size=${this.size}&structure=${encodeURIComponent(this.smiles)}`;
     }
   }
 

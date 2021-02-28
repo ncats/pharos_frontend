@@ -5280,7 +5280,10 @@ export const TESTTARGET: Target = new TargetSerializer().fromJson(
         __typename: 'DiseaseAssociation'
       }],
       __typename: 'Disease'
-    }]
+    }],
+    similarityDetails: {
+      jaccard: 1
+    }
 });
 
 export const TESTTARGETPROPS: Target = new TargetSerializer()._asProperties(TESTTARGET);

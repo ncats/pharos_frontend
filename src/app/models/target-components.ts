@@ -178,7 +178,14 @@ export const TARGETCARDFIELDS = gql`
     }
   }
 `;
-
+export const TARGETLISTEXTRAS = gql`
+    fragment targetsExtras on TargetResult {
+      similarityTarget {
+        gene: sym
+        idgTDL: tdl
+        accession: uniprot
+      }
+    }`;
 /**
  * apollo graphQL query fragment to retrieve common fields for a target list view
  */
@@ -215,6 +222,13 @@ export const TARGETLISTFIELDS = gql`
       source
       O2S
       S2O
+    }
+    similarityDetails: similarity {
+      jaccard
+      overlap
+      baseSize
+      testSize
+      commonOptions
     }
     uniProtFunction: props (name: "UniProt Function"){
       value
@@ -383,6 +397,19 @@ export const TARGETDETAILSFIELDS = gql`
   fragment targetsDetailsFields on Target {
     ...targetsListFields
     dataSources
+    sequence_variants {
+      startResidue
+      residue_info{
+        aa
+        bits
+      }
+    }
+    sequence_annotations{
+      startResidue
+      endResidue
+      type
+      name
+    }
     symbols: synonyms(name: "symbol") {
       name
       value
@@ -563,7 +590,8 @@ export const TARGETDETAILSFIELDS = gql`
       explanation
       assigned_by
     }
-
+    gwasTrait: facetValues(facetName: "GWAS")
+    mgiPhenotype: facetValues(facetName: "JAX/MGI Phenotype")
     hpaTissueSpecificityIndex: props(name: "HPA Tissue Specificity Index") {
       name
       value

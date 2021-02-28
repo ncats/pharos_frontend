@@ -151,12 +151,4 @@ export class GoTermsComponent extends DynamicPanelComponent implements OnInit {
     }
     return returnObj;
   }
-
-  /**
-   * set active section
-   * @param {string} fragment
-   */
-  active(fragment: string) {
-    this.navSectionsService.setActiveSection(fragment);
-  }
 }

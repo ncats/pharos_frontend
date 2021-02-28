@@ -89,7 +89,8 @@ export class SelectedFacetService {
       fac => fac.facet !== 'query' && //TODO use pseudoFacet list instead
         fac.facet !== 'collection' &&
         fac.facet !== 'associatedTarget' &&
-        fac.facet !== 'associatedDisease');
+        fac.facet !== 'associatedDisease' &&
+        fac.facet !== 'similarity');
     facets.forEach(facet => facet.values.forEach(value => retArr.push(this._makeFacetString(facet.facet, value.name))));
     return retArr;
   }
@@ -117,7 +118,8 @@ export class SelectedFacetService {
       this.getFacetByName('collection'),
       this.getFacetByName('query'),
       this.getFacetByName('associatedTarget'),
-      this.getFacetByName('associatedDisease')
+      this.getFacetByName('associatedDisease'),
+      this.getFacetByName('similarity')
     ];
   }
   /**
@@ -191,6 +193,13 @@ export class SelectedFacetService {
           {
             label: Facet.getReadableParameter('associatedDisease'),
             facet:'associatedDisease', values: [{name: map.get('associatedDisease')}]
+          }));
+      }
+      if(map.has('similarity')){
+        this._facetMap.set('similarity', new Facet(
+          {
+            label: Facet.getReadableParameter('similarity'),
+            facet:'similarity', values: [{name: map.get('similarity')}]
           }));
       }
       const fList = map.getAll('facet');

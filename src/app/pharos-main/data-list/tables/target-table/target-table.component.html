@@ -4,42 +4,19 @@
       <div class=pharos-display-1 *ngIf="showLabel">Targets <span *ngIf="pageData">({{pageData.total}})</span>
       </div>
       <div fxFlex></div>
-      <div fxFlex="5">
-        <button mat-icon-button [matMenuTriggerFor]="appMenu" aria-label="target table tools">
-          <mat-icon>apps</mat-icon>
-        </button>
-        <mat-menu #appMenu="matMenu">
-          <button mat-menu-item (click)="batchUpload()">
-            <mat-icon>create</mat-icon>
-            Upload Target List
-          </button>
-          <!--<span matTooltip= "Please select 2-4 targets to compare"-->
-          <!--[matTooltipDisabled] = "!rowSelection.isEmpty()">-->
-          <!--<button mat-menu-item-->
-          <!--(click)="compareTargets()"-->
-          <!--[disabled]="rowSelection.isEmpty() || (rowSelection.selected.length < 2 || rowSelection.selected.length > 4)"-->
-          <!--&gt;<mat-icon>swap_horiz</mat-icon>Compare Targets</button>-->
-          <!--</span>-->
-
-          <button mat-menu-item
-                  *ngIf="loggedIn === true"
+      <div fxFlex="10" fxLayoutAlign="end">
+        <span *ngIf="loggedIn === true" [matTooltip]="rowSelection.isEmpty()? 'Select targets to save as a custom collection' : null">
+          <button mat-button class="tool-button"
                   (click)="saveTargets()"
-                  [disabled]="rowSelection.isEmpty()">
-            <mat-icon>save</mat-icon>
-            Save Selected
+                  [disabled]="rowSelection.isEmpty()"
+                  matTooltip="Save Collection">
+            <mat-icon>playlist_add</mat-icon>
           </button>
-          <button mat-menu-item
-                  *ngIf="loggedIn === true"
-                  (click)="createTopic()"
-                  [disabled]="rowSelection.isEmpty()">
-            <mat-icon>bubble_chart</mat-icon>
-            Generate Topic
-          </button>
-          <!--                <button mat-menu-item
-                                  *ngIf="loggedIn === true"
-                                  (click)="saveQuery()"
-                          ><mat-icon>save_alt</mat-icon>Save Query</button>-->
-        </mat-menu>
+        </span>
+        <button mat-button class="tool-button" (click)="batchUpload()"
+                matTooltip="Upload Target List">
+          <mat-icon>upload</mat-icon>
+        </button>
       </div>
     </mat-toolbar>
     <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-between center"
@@ -78,7 +55,7 @@
     </div>
     <div *ngIf="!isSmallScreen">
       <div *ngFor="let target of targets">
-        <pharos-long-target-card [target]="target" [selected]="isSelected(target)"
+        <pharos-long-target-card [target]="target" [selected]="isSelected(target)" [similarityTarget]="similarityTarget"
                                  (selectionChanged)="updateTargetSelection(target, $event)"
                                  [loggedIn]="loggedIn"
                                  [apiSources]="apiSources"></pharos-long-target-card>

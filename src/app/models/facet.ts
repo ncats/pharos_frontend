@@ -69,6 +69,9 @@ export class Facet {
     if(parameter === "associatedTarget") {
       return "Associated Target";
     }
+    if(parameter === "similarity"){
+      return "Target Similarity";
+    }
     return parameter;
   }
   /**

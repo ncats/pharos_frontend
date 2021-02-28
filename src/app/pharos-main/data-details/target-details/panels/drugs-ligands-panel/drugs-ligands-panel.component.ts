@@ -101,14 +101,6 @@ export class DrugsLigandsPanelComponent extends DynamicPanelComponent implements
     });
   }
 
-  /**
-   * checks to see if the display section is within view
-   * @param {string} fragment
-   */
-  active(fragment: string) {
-    this.navSectionsService.setActiveSection(fragment);
-  }
-
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();

@@ -157,6 +157,21 @@ const disease_association_fields: PharosApi[] =
     }
   ];
 
+const similarity_fields: PharosApi[] =
+  [
+    {
+      field: 'jaccard',
+      label: 'Jaccard Index',
+      description: 'A measure of the degree of overlap between two sets of values. It is calculated as the size of the union between' +
+        ' the two sets, divided by the size of the intersection between the two sets. J(A,B) = |A ∩ B| / |A ∪ B|'
+    },
+    {
+      field: 'common',
+      label: 'Common Values',
+      description: 'The shared values for the given measure that are common between the two targets.'
+    }
+  ];
+
 /**
  * main target list table component
  * @type {PharosPanel}
@@ -222,8 +237,8 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
       description: 'Tin-X metric for the relative scarcity of specific publications for this target.'
     },
     ...ppi_interaction_fields,
-    ...disease_association_fields
-    ,
+    ...disease_association_fields,
+    ...similarity_fields,
     {
       field: 'illuminationGraph',
       label: 'Illumination Graph',
@@ -666,6 +681,36 @@ const EXPRESSION_PANEL: PharosPanel = {
   ]
 };
 
+const ORTHOLOG_VARIANT_PANEL: PharosPanel = {
+  token: TOKENS.ORTHOLOG_VARIANT_PANEL,
+  navHeader: {
+    label: 'Ortholog Variants',
+    section: 'variants',
+    mainDescription: 'A plot of the degree of conservation of each residue for homologous kinases, across many different species. ' +
+      'Zooming in on the variant plot reveals the specific amino acids at each residue. ' +
+      'Annotations are shown for different domains, motifs, and key amino acids aligned with the sequence variants. Data is from ProKinO.',
+    mainSource: 'https://prokino.uga.edu/kinview/'
+  }, api: [
+    {
+      field: 'none',
+      label: 'Variant Data',
+      description: 'Amino acid propensities for each residue are calculated based on the alignment of many ' +
+        'kinases from orthologous species.'
+    },
+    {
+      field: 'weblogoColors',
+      label: 'WebLogo Color Code',
+      description: 'Color coding for the zoomed in sequence variant plot. Amino acids are color coded according to chemical' +
+        ' properties including: polar, neutral, basic, acidic, and hydrophobic.'
+    },
+    {
+      field: 'annotations',
+      label: 'Kinase Annotations',
+      description: 'Annotations are shown for different domains, motifs, and key amino acids aligned with the sequence variants.'
+    },
+  ]
+};
+
 const GO_TERMS_PANEL: PharosPanel = {
   token: TOKENS.GO_TERMS_PANEL,
   navHeader: {
@@ -717,7 +762,7 @@ const PATHWAYS_PANEL: PharosPanel = {
 
     {
       field: 'others',
-      label: 'Other Sources Tab',
+      label: 'Other Resource Tabs',
       description: 'Pathways from other data sources, including KEGG, PathwayCommons, UniProt, and WikiPathways.',
     },
     {
@@ -891,7 +936,7 @@ const RELATED_PUBLICATIONS_PANEL: PharosPanel = {
 const AA_SEQUENCE_PANEL: PharosPanel = {
   token: TOKENS.AA_SEQUENCE_PANEL,
   navHeader: {
-    label: 'Sequence Details',
+    label: 'Protein Sequence',
     section: 'sequence',
     mainDescription: 'Amino acid sequence, and a detailed sequence structure viewer via the Uniprot Protvista viewer.'
   },
@@ -907,8 +952,13 @@ const AA_SEQUENCE_PANEL: PharosPanel = {
     {
       field: 'sequence',
       label: 'Sequence',
-      description: 'Amino acid sequence of target protein, bar graph summarizing quantity of each amino acid. ' +
-        'Click on looking glass icon for ability to conduct sequence search.'
+      description: 'Amino acid sequence of the target protein.'
+    },
+    {
+      field: 'protvistaViewer',
+      label: 'ProtVista Viewer',
+      description: 'The protein sequence aligned with structural and functional annotations, as well as disease variants.',
+      source: 'https://www.uniprot.org/'
     }
   ]
 };
@@ -926,29 +976,19 @@ const TARGET_FACET_PANEL: PharosPanel = {
   },
   api: [
     {
-      field: 'goFunction',
-      label: 'GO Function',
-      description: 'Function listed by GO database for target, with total count listed in parenthesis. ' +
-        'Listing individual functions with links to GO. Click on bargraph icon to explore further the Summary of GO Function.'
-    },
-    {
-      field: 'goComponent',
-      label: 'GO Component',
-      description: 'Cellular component listed by GO database for target, with total count listed in ' +
-        'parenthesis. Listing individual functions with links to GO. Click on bargraph icon to explore further ' +
-        'the Summary of GO Function.'
-    },
-    {
-      field: 'goProcess',
-      label: 'GO Process',
-      description: 'Biological process listed by GO database for target, with total count listed in parenthesis.' +
-        'Listing individual functions with links to GO. Click on bargraph icon to explore further the Summary ' +
-        'of GO Function.'
-    },
-    {
       field: 'uniprotKeyword',
       label: 'Uniprot Keyword',
-      description: 'Occurrence of target in the 10 categories of UniProt keywords.'
+      description: 'Occurrence of this target in up to 10 categories of UniProt keywords.'
+    },
+    {
+      field: 'gwasTrait',
+      label: 'GWAS Trait',
+      description: 'Occurrence of this target in up to 10 categories of GWAS Traits.'
+    },
+    {
+      field: 'mgiPhenotype',
+      label: "MGI Phenotype",
+      description: 'Occurrence of this target in up to 10 categories of JAX/MGI Phenotypes.'
     }
   ]
 };
@@ -1246,6 +1286,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PUBLICATION_STATISTICS_PANEL,
           RELATED_PUBLICATIONS_PANEL,
           AA_SEQUENCE_PANEL,
+          ORTHOLOG_VARIANT_PANEL,
           TARGET_FACET_PANEL
         ]
       }

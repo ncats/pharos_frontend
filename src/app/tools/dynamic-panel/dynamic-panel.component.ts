@@ -91,4 +91,12 @@ export class DynamicPanelComponent extends DynamicPanelBaseComponent{
     super();
     this.navSectionsService = navSectionsService;
   }
+
+  /**
+   * set active section
+   * @param {string} fragment
+   */
+  active(fragment: string) {
+    this.navSectionsService.setActiveSection(fragment);
+  }
 }

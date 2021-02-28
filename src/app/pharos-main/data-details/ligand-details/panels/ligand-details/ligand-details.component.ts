@@ -43,14 +43,6 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
       });
   }
 
-  /**
-   * tracks if element is active in view
-   * @param {string} fragment
-   */
-  active(fragment: string) {
-    this.navSectionsService.setActiveSection(fragment);
-  }
-
   getTooltipProp(prop: DataProperty){
     prop.tooltip = this.getTooltip(prop.label);
     return prop;

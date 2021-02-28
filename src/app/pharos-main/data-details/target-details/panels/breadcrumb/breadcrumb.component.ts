@@ -38,7 +38,7 @@ export class BreadcrumbComponent extends DynamicPanelComponent implements OnInit
    */
   constructor(private route: ActivatedRoute,
               public navSectionsService: NavSectionsService) {
-  super(navSectionsService);
+    super(navSectionsService);
   }
 
   /**
@@ -46,25 +46,37 @@ export class BreadcrumbComponent extends DynamicPanelComponent implements OnInit
    */
   ngOnInit() {
     this._data
-    // listen to data as long as term is undefined or null
-    // Unsubscribe once term has value
+      // listen to data as long as term is undefined or null
+      // Unsubscribe once term has value
       .pipe(
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
         this.path = this.route.snapshot.data.path;
         this.target = this.data.targets;
-        if (this.target && this.target.pantherClasses) {
-          this.pcLinks = [];
-          this.target.pantherClasses.forEach(pc => {
-            this.pcLinks.push(...pc.getPaths());
-          });
-        }
 
-        if (this.target && this.target.dto) {
-          this.dtoLinks = this.target.dto;
+        this.pcLinks = [];
+        this.dtoLinks = [];
+        if (this.target) {
+          if ((this.target.pantherClasses.length > 0 || this.target.dto.length > 0)) {
+            this.navSectionsService.showSection(this.field);
+            this.initialize();
+          } else {
+            this.navSectionsService.hideSection(this.field);
+          }
         }
       });
   }
 
+  initialize() {
+    if (this.target.pantherClasses) {
+      this.pcLinks = [];
+      this.target.pantherClasses.forEach(pc => {
+        this.pcLinks.push(...pc.getPaths());
+      });
+    }
+    if (this.target.dto) {
+      this.dtoLinks = this.target.dto;
+    }
+  }
 }

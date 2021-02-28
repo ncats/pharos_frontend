@@ -39,4 +39,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 Leave base href as '/' when deploying to AWS
 
-
+## To deploy on gcloud
+* git pull
+* npm install
+* npm run build:ssr
+* gcloud app deploy --version {name it}

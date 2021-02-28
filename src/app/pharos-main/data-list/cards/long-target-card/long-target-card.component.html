@@ -24,11 +24,29 @@
       <div class="section">
         <pharos-knowledge-metrics [target]="target" [apiSources]="apiSources"></pharos-knowledge-metrics>
       </div>
-      <div class="section disease_details" *ngIf="target.diseaseAssociationDetails?.length > 0">
-        <pharos-disease-association-details [target]="target" [apiSources]="apiSources"></pharos-disease-association-details>
+      <div *ngIf="target.diseaseAssociationDetails?.length > 0"
+          (click)="diseaseField.scrollable || expandingDiseases ? toggleDiseases(): null"
+          class="section disease_details">
+        <pharos-disease-association-details
+          [target]="target"
+          [apiSources]="apiSources"
+          [expanded]="expanded"
+          #diseaseField>
+        </pharos-disease-association-details>
+        <span *ngIf="!expanded && (diseaseField.scrollable || expandingDiseases)" class="expandLink">Click for more...</span>
       </div>
-      <div class="section interaction_details" *ngIf="target.interactionDetails">
-        <pharos-interaction-details [target]="target" [apiSources]="apiSources"></pharos-interaction-details>
+      <div *ngIf="target.interactionDetails"
+          (click)="expanded=!expanded"
+          class="section interaction_details"
+          [ngClass]="{expanded: expanded, unexpanded: !expanded}">
+        <pharos-interaction-details [target]="target" [apiSources]="apiSources" [expanded]="expanded"></pharos-interaction-details>
+      </div>
+      <div *ngIf="target.similarityDetails?.commonOptions?.length > 0"
+           (click)="expanded=!expanded"
+           class="section similarity_details"
+           [ngClass]="{expanded: expanded, unexpanded: !expanded}">
+        <pharos-similarity-details [target]="target" [apiSources]="apiSources" [similarityTarget]="similarityTarget" [expanded]="expanded"></pharos-similarity-details>
+        <span *ngIf="!expanded" class="expandLink">Click for details...</span>
       </div>
       <div class="section radar-chart">
         <mat-card-subtitle>Illumination Graph</mat-card-subtitle>

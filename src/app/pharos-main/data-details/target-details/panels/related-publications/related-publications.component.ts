@@ -205,14 +205,6 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
   }
 
   /**
-   * active section view tracker
-   * @param {string} fragment
-   */
-  active(fragment: string) {
-    this.navSectionsService.setActiveSection(fragment);
-  }
-
-  /**
    * cleanp on destroy
    */
   ngOnDestroy() {
