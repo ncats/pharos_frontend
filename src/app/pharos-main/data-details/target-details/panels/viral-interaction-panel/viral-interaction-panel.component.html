@@ -21,16 +21,17 @@
         </div>
       </div>
       <div class="headerRow">
-        <div fxFlex="100" fxFlexAlign="end">
-          <mat-paginator
-            [pageSize]="10"
-            [length]="target.interactingViruses.length"
-            [hidePageSize]="true"
-            [showFirstLastButtons]=true
-            (page)="paginate($event)"
-            #viralpaginator>
-          </mat-paginator>
-        </div>
+        <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Find Similar Targets'"
+                                    [facetName]="'Interacting Viruses'"
+                                    [queryParams]="{similarity: '(' + target.accession + ', Interacting Virus)'}"></pharos-explore-list-button>
+        <mat-paginator
+          [pageSize]="10"
+          [length]="target.interactingViruses.length"
+          [hidePageSize]="true"
+          [showFirstLastButtons]=true
+          (page)="paginate($event)"
+          #viralpaginator>
+        </mat-paginator>
       </div>
       <div *ngFor="let virus of this.visibleList">
         <pharos-virus-details [virus]="virus"></pharos-virus-details>

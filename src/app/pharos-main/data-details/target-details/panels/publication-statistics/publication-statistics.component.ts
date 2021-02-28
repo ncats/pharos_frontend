@@ -132,14 +132,6 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
       });
   }
 
-  /**
-   * active section view tracker
-   * @param {string} fragment
-   */
-  active(fragment: string) {
-    this.navSectionsService.setActiveSection(fragment);
-  }
-
   deDupeArr(arr: {year: string, score?: number, count?: number}[]): {year: string, score?: number, count?: number}[] {
     const values: Map<string, {year: string, score?: number, count?: number}> =
       new Map<string, {year: string, score?: number, count?: number}>();

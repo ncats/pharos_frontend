@@ -54,14 +54,6 @@ export class LevelSummaryPanelComponent extends DynamicPanelComponent implements
   }
 
   /**
-   * set active section
-   * @param {string} fragment
-   */
-  active(fragment: string) {
-    this.navSectionsService.setActiveSection(fragment);
-  }
-
-  /**
    * unsubscribe from data
    */
   ngOnDestroy() {

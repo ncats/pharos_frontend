@@ -83,13 +83,4 @@ export class ViralInteractionPanelComponent extends DynamicPanelComponent implem
     let startNum = event.pageIndex * event.pageSize;
     this.visibleList = this.target.interactingViruses.slice(startNum, startNum + event.pageSize);
   }
-
-
-  /**
-   * active section view tracker
-   * @param {string} fragment
-   */
-  active(fragment: string) {
-    this.navSectionsService.setActiveSection(fragment);
-  }
 }

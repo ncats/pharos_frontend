@@ -146,14 +146,6 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
   }
 
   /**
-   * active section view tracker
-   * @param {string} fragment
-   */
-  active(fragment: string) {
-    this.navSectionsService.setActiveSection(fragment);
-  }
-
-  /**
    * cleanp on destroy
    */
   ngOnDestroy() {

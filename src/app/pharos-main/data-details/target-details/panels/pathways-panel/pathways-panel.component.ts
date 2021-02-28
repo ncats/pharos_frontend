@@ -26,6 +26,12 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
   @Input() targetsProps: any;
 
   pageDataMap: Map<string, PageData> = new Map<string, PageData>();
+  facetDataMap: Map<string, {facet: string, friendlyName: string}> = new Map<string, {facet: string, friendlyName: string}>([
+      ["Reactome", {facet:"Reactome Pathway", friendlyName:"Reactome Pathways"}],
+      ["KEGG", {facet:"KEGG Pathway", friendlyName:"KEGG Pathways"}],
+      ["WikiPathways", {facet:"WikiPathways Pathway", friendlyName:"WikiPathways Pathways"}],
+      ["UniProt", {facet:"UniProt Pathway", friendlyName:"UniProt Pathways"}],
+      ["PathwayCommons", {facet:"PathwayCommons Pathway", friendlyName:"PathwayCommons Pathways"}]]);
 
   pathOrder: string[];
 
@@ -130,10 +136,6 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
     return this.target.pathwayCounts.filter(countObj => {
       return countObj.name.includes(pwType);
     }).reduce((prev, cur) => prev + cur.value, 0);
-  }
-
-  active(fragment: string) {
-    this.navSectionsService.setActiveSection(fragment);
   }
 
   changePage(event: any, pwType: string) {

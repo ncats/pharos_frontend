@@ -1,0 +1,20 @@
+<mat-card-subtitle [matTooltip]="expanded?'Click to collapse':'Click to expand'">{{similarityFacet}} Similarity</mat-card-subtitle>
+<div class="subsection">
+  <ncats-property-display
+    [property]="{term: target.similarityDetails.jaccard, label: 'Jaccard Index', tooltip: getTooltip('jaccard')}"></ncats-property-display>
+  <div class="venn_diagram">
+    <pharos-venn-diagram [data]="vennData"></pharos-venn-diagram>
+  </div>
+
+  <div class="list-header drugList" *ngIf="expanded">
+    <span [matTooltip]="getTooltip('common')"><b>Common Values</b></span>
+    <div class="subsection">
+      <div class="list-item" *ngFor="let value of target.similarityDetails.commonOptions">
+        <ncats-property-display [showLabel]="false"
+                                [property]="{term: value, tooltip: getTooltip('common')}">
+        </ncats-property-display>
+      </div>
+    </div>
+  </div>
+
+</div>

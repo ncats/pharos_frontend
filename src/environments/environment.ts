@@ -1,9 +1,12 @@
 /**
  * environment object to set basic urls and firebase configuration
  */
+const backend = 'https://ncatsidg-dev.appspot.com';
+
 export const environment = {
+  rendererUrl: `${backend}/render`,
   production: false,
-  graphqlUrl: 'https://ncatsidg-dev.appspot.com/graphql',
+  graphqlUrl: `${backend}/graphql`,
   firebase: {
     apiKey: '',
     authDomain: '',

@@ -1,36 +1,38 @@
-<mat-card-subtitle>Disease Association Details</mat-card-subtitle>
-<div class="diseaseList" *ngFor="let diseaseName of nonDrugOrder">
-
-  <span *ngIf="this.associatedDisease !== diseaseName; else directLink" >
-    <a class="diseaseName" [routerLink] = "'/diseases/' + diseaseName" [matTooltip]="'Explore Descendant Details'">{{diseaseName}}</a> (descendant)
+<div [ngClass]="{expanded: expanded, unexpanded: !expanded}" #componentContainer>
+  <mat-card-subtitle [matTooltip]="headerTooltip()">Disease Association Details</mat-card-subtitle>
+  <div class="diseaseList" *ngFor="let diseaseName of nonDrugOrder">
+  <span *ngIf="this.associatedDisease !== diseaseName; else directLink">
+    <a class="diseaseName" [routerLink]="'/diseases/' + diseaseName"
+       [matTooltip]="'Explore Descendant Details'">{{diseaseName}}</a> (descendant)
   </span>
-  <ng-template #directLink>
+    <ng-template #directLink>
   <span class="diseaseName">
-    <a [routerLink] = "'/diseases/' + diseaseName" [matTooltip]="'Explore Disease Details'">{{diseaseName}}</a>
+    <a [routerLink]="'/diseases/' + diseaseName" [matTooltip]="'Explore Disease Details'">{{diseaseName}}</a>
   </span>
-  </ng-template>
+    </ng-template>
 
-  <div class="association-list" *ngFor="let assoc of nonDrugMap.get(diseaseName)">
-    <div class="subsection">
-      <div class="list-header">{{assoc.type}}
-        <div class="list-item" *ngFor="let field of this.associationFields">
-          <ncats-property-display *ngIf="assoc[field]"
-                                  [property]="{term: assoc[field], label: field, tooltip: getTooltip(field)}">
-          </ncats-property-display>
+    <div class="association-list" *ngFor="let assoc of nonDrugMap.get(diseaseName)">
+      <div class="subsection">
+        <div class="list-header">{{assoc.type}}
+          <div class="list-item" *ngFor="let field of this.associationFields">
+            <ncats-property-display *ngIf="assoc[field]"
+                                    [property]="{term: assoc[field], label: field, tooltip: getTooltip(field)}">
+            </ncats-property-display>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="list-header drugList" *ngIf="drugOrder.length > 0">
-  {{this.drugSource}}
-  <div class="subsection">
-    <div *ngFor="let diseaseName of drugOrder">
-      <div class="list-item" *ngFor="let drugAssoc of drugMap.get(diseaseName)">
-        <ncats-property-display [showLabel]="false"
-                                [property]="{term: drugAssoc.drug, tooltip: getTooltip('drug'), internalLink:'/ligands/' + drugAssoc.drug }">
-        </ncats-property-display>
+  <div class="list-header drugList" *ngIf="drugOrder.length > 0">
+    {{this.drugSource}}
+    <div class="subsection">
+      <div *ngFor="let diseaseName of drugOrder">
+        <div class="list-item" *ngFor="let drugAssoc of drugMap.get(diseaseName)">
+          <ncats-property-display [showLabel]="false"
+                                  [property]="{term: drugAssoc.drug, tooltip: getTooltip('drug'), internalLink:'/ligands/' + drugAssoc.drug }">
+          </ncats-property-display>
+        </div>
       </div>
     </div>
   </div>

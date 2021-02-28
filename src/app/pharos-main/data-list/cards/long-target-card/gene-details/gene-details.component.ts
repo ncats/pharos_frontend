@@ -13,6 +13,7 @@ export class GeneDetailsComponent extends DynamicPanelBaseComponent implements O
   constructor() {
     super();
   }
+  @Input() expanded: boolean = false;
   @Input() target?: Target;
 
   ngOnInit(): void {

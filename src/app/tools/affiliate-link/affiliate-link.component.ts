@@ -20,7 +20,26 @@ export class AffiliateLinkComponent implements OnInit {
     switch (this.dataSource)  {
       case "Dark Kinase Knowledgebase":
         return `https://darkkinome.org/kinase/${this.value}`;
+      case "ProKinO":
+        return `https://prokino.uga.edu/kinview/`;
     }
     return "";
+  }
+
+  getTooltip(): string{
+    switch (this.dataSource) {
+      case "ProKinO":
+        return '';
+    }
+    return 'Explore ' + this.value + ' on ' + this.dataSource;
+  }
+
+  getLinkText(): string {
+    switch (this.dataSource) {
+      case "ProKinO":
+        return "Compare across kinases on ProKinO";
+    }
+    return this.dataSource;
+
   }
 }
