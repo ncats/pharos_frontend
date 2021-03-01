@@ -3,7 +3,7 @@ WORKDIR /app
 COPY . /app
 RUN rm -rf package-lock.json
 RUN npm install -g npm
-RUN npm install --verbose
+RUN npm install
 
 # max-old-space is needed to avoid any compilation issues because of missing memory
 ENV NODE_OPTIONS --max-old-space-size=4096
