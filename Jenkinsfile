@@ -6,7 +6,7 @@ pipeline {
         string(name: 'BUILD_VERSION', defaultValue: '', description: 'The build version to deploy (optional)')
     }
     agent {
-        label 'build && ncats'
+        label 'ncatsldvifx01'
     }
     triggers {
         pollSCM('H/5 * * * *')
