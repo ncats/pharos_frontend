@@ -1,6 +1,7 @@
 FROM node:14 as buildContainer
 WORKDIR /app
 COPY . /app
+RUN rm -rf package-lock.json
 RUN npm install -g npm
 RUN npm install --verbose
 
