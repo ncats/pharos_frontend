@@ -1,7 +1,7 @@
 FROM node:14 as buildContainer
 WORKDIR /app
 COPY . /app
-RUN npm install -g npm@7.6
+RUN npm install -g npm@7.6.0
 RUN npm install
 
 # max-old-space is needed to avoid any compilation issues because of missing memory
