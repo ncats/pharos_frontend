@@ -15,8 +15,8 @@ import {ActivatedRoute} from '@angular/router';
 import {COMMON_CONFIG} from '../../../../../../../test/test-config';
 import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
 import {AngularFireModule} from '@angular/fire';
-import {HttpLink} from "apollo-angular-link-http";
 import {HTTPLINKSTUB} from "../../../../../../../test/httpLink-stub";
+import {HttpLink} from "apollo-angular/http";
 
 describe('PdbPanelComponent', () => {
   let component: PdbPanelComponent;
