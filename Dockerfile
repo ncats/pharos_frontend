@@ -1,9 +1,9 @@
 FROM node:14 as buildContainer
 WORKDIR /app
-COPY ./package.json ./package-lock.json /app/
-RUN npm i -g npm@7.5.6
-RUN npm install
 COPY . /app
+RUN npm install -g npm@7.6.0
+RUN npm install
+
 # max-old-space is needed to avoid any compilation issues because of missing memory
 ENV NODE_OPTIONS --max-old-space-size=4096
 RUN npm run build:ssr
