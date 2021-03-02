@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {MatDialogRef} from '@angular/material/dialog';
 import {PharosProfileService} from './pharos-profile.service';
@@ -11,16 +11,11 @@ import {PharosProfileService} from './pharos-profile.service';
 @Injectable({
   providedIn: 'root'
 })
-export class PharosAuthService {
+export class PharosAuthService implements OnInit{
   /**
    * list of provider objects used by the auth service
    */
-  providers: Map<string, firebase.default.auth.AuthProvider> = new Map<string, firebase.default.auth.AuthProvider>([
-    ['facebook', new firebase.default.auth.FacebookAuthProvider()],
-    ['google', new firebase.default.auth.GoogleAuthProvider()],
-    ['twitter', new firebase.default.auth.TwitterAuthProvider()],
-    ['github', new firebase.default.auth.GithubAuthProvider()],
-  ]);
+  providers: Map<string, firebase.auth.AuthProvider>;
 
   /**
    * get user info from firebase
@@ -32,6 +27,15 @@ export class PharosAuthService {
               public afAuth: AngularFireAuth,
               private pharosProfileService: PharosProfileService
   ) {
+  }
+
+  ngOnInit(): void {
+    this.providers = new Map<string, firebase.auth.AuthProvider>([
+      ['facebook', new firebase.auth.FacebookAuthProvider()],
+      ['google', new firebase.auth.GoogleAuthProvider()],
+      ['twitter', new firebase.auth.TwitterAuthProvider()],
+      ['github', new firebase.auth.GithubAuthProvider()],
+    ]);
   }
 
   /**
