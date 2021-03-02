@@ -18,9 +18,9 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {TransferHttpCacheModule} from '@nguniversal/common';
 import {GraphQLModule} from './graphql.module';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
-import {ServiceWorkerModule} from "@angular/service-worker";
 import {MarkdownModule} from "ngx-markdown";
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from "@angular/material/snack-bar";
+import {ServiceWorkerModule} from "@angular/service-worker";
 
 @NgModule({
   declarations: [

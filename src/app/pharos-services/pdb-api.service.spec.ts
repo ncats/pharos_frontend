@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
 import { PdbApiService } from './pdb-api.service';
-import {HttpLink} from "apollo-angular-link-http";
 import {HTTPLINKSTUB} from "../../../test/httpLink-stub";
+import {HttpLink} from "apollo-angular/http";
 
 describe('PdbApiService', () => {
   let service: PdbApiService;

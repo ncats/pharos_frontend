@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {ApolloClient} from "apollo-client";
-import {InMemoryCache} from "apollo-cache-inmemory";
-import {HttpLink} from "apollo-angular-link-http";
+
 import gql from "graphql-tag";
+import {ApolloClient, InMemoryCache} from "@apollo/client/core";
+import {HttpLink} from "apollo-angular/http";
 
 @Injectable({
   providedIn: 'root'
