@@ -1,4 +1,4 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import firebase from 'firebase/app';
 import {AngularFirestore} from '@angular/fire/firestore';
@@ -11,7 +11,7 @@ import {PharosProfileService} from './pharos-profile.service';
 @Injectable({
   providedIn: 'root'
 })
-export class PharosAuthService implements OnInit{
+export class PharosAuthService {
   /**
    * list of provider objects used by the auth service
    */
@@ -29,15 +29,6 @@ export class PharosAuthService implements OnInit{
   ) {
   }
 
-  ngOnInit(): void {
-    this.providers = new Map<string, firebase.auth.AuthProvider>([
-      ['facebook', new firebase.auth.FacebookAuthProvider()],
-      ['google', new firebase.auth.GoogleAuthProvider()],
-      ['twitter', new firebase.auth.TwitterAuthProvider()],
-      ['github', new firebase.auth.GithubAuthProvider()],
-    ]);
-  }
-
   /**
    * gets info from modal
    * fetch and login using the proper auth service
@@ -46,6 +37,14 @@ export class PharosAuthService implements OnInit{
    * @param providerName
    */
   doLogin(dialogRef: MatDialogRef<any>, providerName: string) {
+    if (!this.providers) {
+      this.providers = new Map<string, firebase.auth.AuthProvider>([
+        ['facebook', new firebase.auth.FacebookAuthProvider()],
+        ['google', new firebase.auth.GoogleAuthProvider()],
+        ['twitter', new firebase.auth.TwitterAuthProvider()],
+        ['github', new firebase.auth.GithubAuthProvider()],
+      ]);
+    }
     const provider = this.providers.get(providerName);
     return new Promise<any>((resolve, reject) => {
       return this.afAuth.signInWithPopup(provider)
@@ -153,7 +152,7 @@ export class PharosAuthService implements OnInit{
       });
     }
     if (error.code === 'auth/popup-blocked') {
-        alert('Please allow popups for authentication');
+      alert('Please allow popups for authentication');
     }
     /*
       promptUserForPassword() {

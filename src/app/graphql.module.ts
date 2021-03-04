@@ -16,13 +16,20 @@ const uri = environment.graphqlUrl; // <-- add the URL of the GraphQL server her
 export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
   return {
     link: httpLink.create({uri}),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache(
+      {
+        typePolicies: {
+          Disease: {
+            keyFields: ['name']
+          }
+        }
+      }),
     connectToDevTools: !environment.production
   };
 }
 
 @NgModule({
-  //exports: [ApolloModule, HttpLinkModule],
+  // exports: [ApolloModule, HttpLinkModule],
   providers: [
     {
       provide: APOLLO_OPTIONS,
@@ -31,4 +38,5 @@ export function createApollo(httpLink: HttpLink): ApolloClientOptions<any> {
     },
   ],
 })
-export class GraphQLModule {}
+export class GraphQLModule {
+}
