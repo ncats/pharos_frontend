@@ -5,7 +5,7 @@ import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {PharosBase, Serializer} from '../../models/pharos-base';
 import {catchError, map} from 'rxjs/internal/operators';
-import {isPlatformBrowser} from "@angular/common";
+import {isPlatformBrowser} from '@angular/common';
 
 /**
  * resolves the details for a specific object
@@ -21,7 +21,7 @@ export class DataDetailsResolver implements Resolve<any> {
     constructor(
                 public loadingService: LoadingService,
                 private pharosApiService: PharosApiService,
-                @Inject(PLATFORM_ID) private platformID: Object) {  }
+                @Inject(PLATFORM_ID) private platformID: any) {  }
 
   /**
    * toggle loading modal
@@ -38,13 +38,16 @@ export class DataDetailsResolver implements Resolve<any> {
       return this.pharosApiService.getDetailsData(route.data.path, route.paramMap, route.data.fragments)
       .pipe(
         map(res =>  {
-          if (!res.data[route.data.path]){
-            return this.logError(route, {message: "can't resolve"});
+          const path = route.data.path;
+          const response = JSON.parse(JSON.stringify(res.data[path])); // copy readonly object
+          if (!response){
+            return this.logError(route, {message: 'can\'t resolve'});
           }
-          const tobj = serializer.fromJson(res.data[route.data.path]);
-          res.data[route.data.path] = tobj;
-          res.data[`${[route.data.path]}Props`] = serializer._asProperties(tobj);
-          return res.data;
+          const retObj = {};
+          const tobj = serializer.fromJson(response);
+          retObj[path] = tobj;
+          retObj[`${path}Props`] = serializer._asProperties(tobj);
+          return retObj;
         }),
         catchError(err => {
           return this.logError(route, err);
@@ -54,25 +57,15 @@ export class DataDetailsResolver implements Resolve<any> {
 
     logError(route: ActivatedRouteSnapshot, err: any){
       let message = JSON.stringify(err);
-      if(err.message === 'Cannot convert undefined or null to object' || err.message === "can't resolve"){
-        message = `Can\'t resolve ${route.data.path.slice(0,-1)} "${route.params?.id}"`;
+      if (err.message === 'Cannot convert undefined or null to object' || err.message === 'can\'t resolve'){
+        message = `Can\'t resolve ${route.data.path.slice(0, -1)} "${route.params?.id}"`;
       }
-      if(isPlatformBrowser(this.platformID)) {
+      if (isPlatformBrowser(this.platformID)) {
         alert(message);
       }
       else{
         console.log(message);
       }
       return null;
-    }
-  /**
-   *  calls a specific url to retrieve data
-   *  todo: this may not be needed after May 2019 pharosconfig changes
-   *  originally done to avoid circular dependencies
-   * @param {string} url
-   * @param {string} origin
-   */
-    getDetailsByUrl(url: string, origin: string): void {
-      this.pharosApiService.getDetailsByUrl(url, origin);
     }
 }
