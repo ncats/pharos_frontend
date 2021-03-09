@@ -2,12 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
   InjectionToken,
   Input,
   OnDestroy,
   OnInit,
-  Output,
   ViewEncapsulation
 } from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
@@ -24,7 +22,8 @@ import {PharosProfileService} from '../../../../auth/pharos-profile.service';
 import {TopicSaveModalComponent} from './topic-save-modal/topic-save-modal.component';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-sections.service";
+import {NavSectionsService} from '../../../../tools/sidenav-panel/services/nav-sections.service';
+import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
 
 
 /**
@@ -63,8 +62,8 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   /**
    * holds the gene that is used as the binding partner for the current target list
    */
-  associatedTarget: String = "";
-  associatedDisease: String = "";
+  associatedTarget = '';
+  associatedDisease = '';
   /**
    * main list of paginated targets
    */
@@ -129,31 +128,31 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   sortMap: Map<string, any>;
 
   defaultSortMap: Map<string, any> = new Map([
-    ["Target Name", {sortKey: "name", order: "asc"}],
-    ["Gene", {sortKey: "sym", order: "asc"}],
-    ["UniProt", {sortKey: "uniprot", order: "asc"}],
-    ["Development Level", {sortKey: "tdl", order: "desc"}],
-    ["Family", {sortKey: "fam", order: "asc"}],
-    ["Novelty", {sortKey: "novelty", order: "desc"}],
-    ["PubMed Score", {sortKey: "tdl_info.JensenLab PubMed Score", order: "desc"}],
-    ["Antibody Count", {sortKey: "tdl_info.Ab Count", order: "desc"}]
+    ['Target Name', {sortKey: 'name', order: 'asc'}],
+    ['Gene', {sortKey: 'sym', order: 'asc'}],
+    ['UniProt', {sortKey: 'uniprot', order: 'asc'}],
+    ['Development Level', {sortKey: 'tdl', order: 'desc'}],
+    ['Family', {sortKey: 'fam', order: 'asc'}],
+    ['Novelty', {sortKey: 'novelty', order: 'desc'}],
+    ['PubMed Score', {sortKey: 'tdl_info.JensenLab PubMed Score', order: 'desc'}],
+    ['Antibody Count', {sortKey: 'tdl_info.Ab Count', order: 'desc'}]
   ]);
 
   ppiSortMap: Map<string, any> = new Map([
-    ["score", {sortKey: "ncats_ppi.score", order: "desc"}],
-    ["p_int", {sortKey: "ncats_ppi.p_int", order: "desc"}],
-    ["p_ni", {sortKey: "ncats_ppi.p_ni", order: "desc"}],
-    ["p_wrong", {sortKey: "ncats_ppi.p_wrong", order: "desc"}],
+    ['score', {sortKey: 'ncats_ppi.score', order: 'desc'}],
+    ['p_int', {sortKey: 'ncats_ppi.p_int', order: 'desc'}],
+    ['p_ni', {sortKey: 'ncats_ppi.p_ni', order: 'desc'}],
+    ['p_wrong', {sortKey: 'ncats_ppi.p_wrong', order: 'desc'}],
     ...this.defaultSortMap
   ]);
 
   diseaseSortMap: Map<string, any> = new Map([
-    ["JensenLab Text Mining zscore", {sortKey: "disease.zscore", order: "desc"}],
-    ["JensenLab conf", {sortKey: "disease.conf", order: "desc"}],
-    ["Expression Atlas log2foldchange", {sortKey: "disease.log2foldchange", order: "desc"}],
-    ["Expression Atlas pvalue", {sortKey: "disease.pvalue", order: "asc"}],
-    ["DisGeNET score", {sortKey: "disease.score", order: "desc"}],
-    ["Monarch S2O", {sortKey: "disease.S2O", order: "desc"}],
+    ['JensenLab Text Mining zscore', {sortKey: 'disease.zscore', order: 'desc'}],
+    ['JensenLab conf', {sortKey: 'disease.conf', order: 'desc'}],
+    ['Expression Atlas log2foldchange', {sortKey: 'disease.log2foldchange', order: 'desc'}],
+    ['Expression Atlas pvalue', {sortKey: 'disease.pvalue', order: 'asc'}],
+    ['DisGeNET score', {sortKey: 'disease.score', order: 'desc'}],
+    ['Monarch S2O', {sortKey: 'disease.S2O', order: 'desc'}],
     ...this.defaultSortMap
   ]);
 
@@ -173,7 +172,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     this.sortTargets(key, order);
   }
 
-  toggleSortOrder(){
+  toggleSortOrder() {
     this.sortTargets(this.previousSortObject.sortKey, this.swapOrder(this.previousSortObject.order));
   }
 
@@ -195,10 +194,10 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   swapOrder(order: string) {
-    if (order === "desc") {
-      return "asc";
+    if (order === 'desc') {
+      return 'asc';
     }
-    return "desc";
+    return 'desc';
   }
 
   loggedIn = false;
@@ -232,15 +231,13 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        this.associatedTarget = this._route.snapshot.queryParamMap.get("associatedTarget");
-        this.associatedDisease = this._route.snapshot.queryParamMap.get("associatedDisease");
-        if(this.associatedTarget){
+        this.associatedTarget = this._route.snapshot.queryParamMap.get('associatedTarget');
+        this.associatedDisease = this._route.snapshot.queryParamMap.get('associatedDisease');
+        if (this.associatedTarget) {
           this.sortMap = this.ppiSortMap;
-        }
-        else if(this.associatedDisease){
+        } else if (this.associatedDisease) {
           this.sortMap = this.diseaseSortMap;
-        }
-        else{
+        } else {
           this.sortMap = this.defaultSortMap;
         }
         if (this.data && this.data.targets) {
@@ -250,11 +247,10 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
             total: this.data.count
           });
           let navSortParam = this._route.snapshot.queryParamMap.get('sortColumn');
-          if(navSortParam){
-            this.selectedSortObject = {sortKey: navSortParam.substring(1), order: navSortParam.substring(0,1) === '^' ? 'asc' : 'desc'};
+          if (navSortParam) {
+            this.selectedSortObject = {sortKey: navSortParam.substring(1), order: navSortParam.substring(0, 1) === '^' ? 'asc' : 'desc'};
             this.previousSortObject = this.selectedSortObject;
-          }
-          else{
+          } else {
             this.selectedSortObject = null;
             this.previousSortObject = null;
           }
@@ -265,7 +261,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       });
   }
 
-  compareSortKeys(key1, key2){
+  compareSortKeys(key1, key2) {
     return key1 && key2 && key1.sortKey === key2.sortKey;
   }
 
@@ -438,7 +434,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     if ($event.checked) {
       this.targets.forEach(t => {
         if (!this.isSelected(t)) {
-          this.rowSelection.select(t)
+          this.rowSelection.select(t);
         }
       });
     } else {
@@ -480,6 +476,13 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
 
   selectAll() {
 
+  }
+
+  downloadData() {
+    const dialogRef = this.dialog.open(FieldSelectionDialogComponent, {
+      data: {count: this.pageData.total, model: 'Targets'},
+      height: '75vh', width: '66vw'
+    }).afterClosed();
   }
 
   /**

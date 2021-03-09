@@ -1,0 +1,13 @@
+.scrollview{
+  height: 350px;
+  overflow-y: scroll;
+  width: 100%;
+
+}
+.field-checkbox{
+  margin-left: 15px;
+}
+.field-container{
+  display: flex;
+  flex-direction: row;
+}

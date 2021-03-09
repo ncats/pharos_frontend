@@ -12,8 +12,8 @@ import {Apollo, QueryRef} from 'apollo-angular';
 import gql from 'graphql-tag';
 import {SelectedFacetService} from '../pharos-main/data-list/filter-panel/selected-facet.service';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {TargetComponents} from "../models/target-components";
-import {TargetListService} from "./target-list.service";
+import {TargetComponents} from '../models/target-components';
+import {TargetListService} from './target-list.service';
 
 /**
  * main service to fetch and parse data from the pharos api
@@ -22,6 +22,34 @@ import {TargetListService} from "./target-list.service";
   providedIn: 'root'
 })
 export class PharosApiService {
+
+  /**
+   * get config info and set up http service
+   * @param {HttpClient} http
+   * @param apollo
+   * @param firebaseService
+   * @param selectedFacetService
+   * @param {PharosConfig} pharosConfig
+   */
+  constructor(private http: HttpClient,
+              private apollo: Apollo,
+              private firebaseService: AngularFirestore,
+              @Inject(SelectedFacetService) private selectedFacetService,
+              private pharosConfig: PharosConfig,
+              private targetListService: TargetListService) {
+    this._URL = this.pharosConfig.getApiPath();
+    this._SEARCHURLS = this.pharosConfig.getSearchPaths();
+  }
+
+  public static dataSourceQuery = gql`query batch{
+    dataSourceCounts{
+      dataSource
+      url
+      targetCount
+      ligandCount
+      diseaseCount
+    }
+  }`;
   /**
    * RxJs subject for facet data
    * @type {Subject<Facet[]>}
@@ -189,23 +217,58 @@ export class PharosApiService {
 
   queryString: string;
 
-  /**
-   * get config info and set up http service
-   * @param {HttpClient} http
-   * @param apollo
-   * @param firebaseService
-   * @param selectedFacetService
-   * @param {PharosConfig} pharosConfig
-   */
-  constructor(private http: HttpClient,
-              private apollo: Apollo,
-              private firebaseService: AngularFirestore,
-              @Inject(SelectedFacetService) private selectedFacetService,
-              private pharosConfig: PharosConfig,
-              private targetListService: TargetListService) {
-    this._URL = this.pharosConfig.getApiPath();
-    this._SEARCHURLS = this.pharosConfig.getSearchPaths();
-  }
+  public DownloadQuery = gql`query downloadQuery($model: String!, $fields: [String!], $sqlOnly: Boolean, $top: Int, $filter: IFilter, $batch: [String]) {
+    download(model: $model, fields: $fields, sqlOnly: $sqlOnly, top: $top, filter: $filter, batch: $batch) {
+      result
+      data
+      errorDetails
+      sql
+    }
+  }`;
+
+  public FieldQuery = gql`query fieldQuery {
+      configuration {
+        downloadLists(modelName: "Target") {
+          listName
+          field {
+            order
+            type
+            dataTable
+            dataColumn
+            select
+            whereClause
+            null_table
+            null_column
+            null_count_column
+            null_where_clause
+            dataType
+            binSize
+            log
+            sourceExplanation
+            modelName
+            rootTable
+            rootColumn
+          }
+        }
+      }
+    }`;
+
+  public TinxQuery = gql`query tinxDisease($name: String) {
+    disease(name: $name) {
+      name
+      tinx {
+        targetID
+        targetName
+        tdl
+        novelty
+        details {
+          doid
+          diseaseName
+          importance
+        }
+      }
+    }
+  }`;
 
   /**
    * Api call to get main level paged data
@@ -254,16 +317,12 @@ export class PharosApiService {
    */
   getGraphQlData(route: ActivatedRouteSnapshot, state?: any): Observable<any> {
     const path = route.data.path;
-    const params = route.queryParamMap;
     let fragments = null;
     let fetchQuery = null;
     if (route.data.fragments) {
       fragments = route.data.fragments;
     }
-    const variables = this._mapVariables(path, params);
-    if (state) {
-      variables.batchIds = state.batchIds;
-    }
+    const variables = this.parseVariables(route, state);
     let LISTQUERY;
     try {
       LISTQUERY = gql`
@@ -286,7 +345,7 @@ export class PharosApiService {
         ${this.extrasRef(fragments)}
       `;
     }
-    catch(e){
+    catch (e){
       e;
     }
     fetchQuery = this.apollo.query<any>({
@@ -296,12 +355,22 @@ export class PharosApiService {
     return fetchQuery;
   }
 
+  private parseVariables(route: ActivatedRouteSnapshot, state?: any) {
+    const path = route.data.path;
+    const params = route.queryParamMap;
+    const variables = this._mapVariables(path, params);
+    if (state) {
+      variables.batchIds = state.batchIds;
+    }
+    return variables;
+  }
+
   extrasRef(fragments: any){
     return fragments.extras || '';
   }
 
   insertExtras(fragments: any, path: string){
-    if(fragments.extras){
+    if (fragments.extras){
       return `...${path}Extras`;
     }
     return '';
@@ -312,7 +381,7 @@ export class PharosApiService {
   * */
   getComponentPage(snapshot: ActivatedRouteSnapshot, addtParams, component: TargetComponents.Component): Observable<any> {
     const variables: any = {term: snapshot.paramMap.get('id'), ...addtParams};
-    if (snapshot.data.path == "targets") {
+    if (snapshot.data.path === 'targets') {
       this.detailsQuery = TargetComponents.getComponentPageQuery(component);
     } else {
       return null;
@@ -368,16 +437,16 @@ export class PharosApiService {
    * @param params
    */
   getVariablesForFacetQuery(path: string, params: ParamMap) {
-    let map = this._mapVariables(path, params);
+    const map = this._mapVariables(path, params);
     if (map?.filter?.facets) {
       map.filter.facets = map.filter.facets.filter(f =>
-        f.facet != "query" &&
-        f.facet != "collection" &&
-        f.facet != "associatedTarget" &&
-        f.facet != "associatedDisease" &&
-        f.facet != "similarity");
+        f.facet !== 'query' &&
+        f.facet !== 'collection' &&
+        f.facet !== 'associatedTarget' &&
+        f.facet !== 'associatedDisease' &&
+        f.facet !== 'similarity');
     }
-    return map
+    return map;
   }
 
   /**
@@ -389,7 +458,7 @@ export class PharosApiService {
    */
   getAllFacetOptions(path: string, params: ParamMap, facet: string, facetCount: number): Observable<any> {
     let variables = this.getVariablesForFacetQuery(path, params);
-    variables = {facetTop: facetCount, facet: facet, ...variables};
+    variables = {facetTop: facetCount, facet, ...variables};
     const docid: string = params.get('collection');
     if (!!docid) {
       return this.targetListService.getList(docid).pipe(mergeMap(
@@ -416,7 +485,7 @@ export class PharosApiService {
 // todo: this is probably not ideal , although it returns a more useful query than the initial list query
   getAllFacets(path: string, params: ParamMap): Observable<any> {
     let variables = this.getVariablesForFacetQuery(path, params);
-    variables = {facets: "all", ...variables};
+    variables = {facets: 'all', ...variables};
 
     const docid: string = params.get('collection');
     if (!!docid) {
@@ -430,7 +499,7 @@ export class PharosApiService {
     } else {
       return this.executeAllFacetsQuery(path, variables);
     }
-    return this.executeAllFacetsQuery(path,variables);
+    return this.executeAllFacetsQuery(path, variables);
   }
 
   /**
@@ -485,24 +554,6 @@ export class PharosApiService {
   }
 
   /**
-   * Api call to get specific data detail information
-   * always return a response. the ingesting methods filter out empty responses
-   * @param {string} url
-   * @param {string} origin
-   */
-  getDetailsByUrl(url: string, origin: string): void {
-    this.http.get<any>(url)
-      .pipe(
-        catchError(this.handleError('getDetailsByUrl', []))
-      ).subscribe(response => {
-      this.returnedObject[origin] = response;
-      //   this._dataSource.next({details: this.returnedObject});
-      this._detailsDataSource.next(this.returnedObject);
-      //  this._detailsUrlSource.next({origin: origin, data: response});
-    });
-  }
-
-  /**
    * clear all data called
    */
   flushData() {
@@ -547,7 +598,7 @@ export class PharosApiService {
                 if (!filter.facets) {
                   filter.facets = [{facet: facetName, values: [fieldName]}];
                 } else {
-                  let currentFacet = filter.facets.find(f => f.facet == facetName);
+                  const currentFacet = filter.facets.find(f => f.facet == facetName);
                   if (!!currentFacet) {
                     currentFacet.values.push(fieldName);
                   } else {
@@ -563,19 +614,19 @@ export class PharosApiService {
               ret.filter = filter;
               break;
             }
-            case 'associatedTarget':{
+            case 'associatedTarget': {
               const filter: any = ret.filter ? ret.filter : {};
               filter.associatedTarget = val;
               ret.filter = filter;
               break;
             }
-            case 'associatedDisease':{
+            case 'associatedDisease': {
               const filter: any = ret.filter ? ret.filter : {};
               filter.associatedDisease = val;
               ret.filter = filter;
               break;
             }
-            case 'similarity':{
+            case 'similarity': {
               const filter: any = ret.filter ? ret.filter : {};
               filter.similarity = val;
               ret.filter = filter;
@@ -683,34 +734,28 @@ export class PharosApiService {
     };
   }
 
-  public adHocQuery(query: any, variables?: any){
-    return this.apollo.query<any>({query: query, variables});
+  public downloadQuery(route: ActivatedRouteSnapshot, variables?: any){
+    variables = {...variables, ...this.parseVariables(route)};
+    return this.fetchTargetList(route).then((res: string[]) => {
+      if (res && res.length > 0) {
+        variables.batch = res;
+      }
+      return this.apollo.query<any>({query: this.DownloadQuery, variables}).toPromise();
+    });
   }
 
-  public TinxQuery = gql`query tinxDisease($name: String) {
-    disease(name: $name) {
-      tinx {
-        targetID
-        targetName
-        tdl
-        novelty
-        details {
-          doid
-          diseaseName
-          importance
-        }
-      }
+  fetchTargetList(route: ActivatedRouteSnapshot) {
+    const docid: string = route.queryParamMap.get('collection');
+    if (!docid) {
+      return Promise.resolve([]);
     }
-  }`;
+    return this.targetListService.getList(docid).toPromise().then((list: string[]) => {
+      return list;
+    });
+  }
 
-  public static dataSourceQuery = gql`query batch{
-    dataSourceCounts{
-      dataSource
-      url
-      targetCount
-      ligandCount
-      diseaseCount
-    }
-  }`;
+  public adHocQuery(query: any, variables?: any) {
+    return this.apollo.query<any>({query, variables});
+  }
 }
 

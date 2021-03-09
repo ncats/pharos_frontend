@@ -75,9 +75,9 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
    */
   newDescription(): string{
     let str = `Found ${this._route.snapshot.data.results.count} ${this._route.snapshot.data.path}. `;
-    if(this.facets.length){
+    if (this.facets.length){
       str += 'The following filters were applied: ';
-      str += this.facets.map(f => f.facet + " = " + f.values.map(v => v.name).join(' OR ')).join((" AND "));
+      str += this.facets.map(f => f.facet + ' = ' + f.values.map(v => v.name).join(' OR ')).join((' AND '));
     }
     return str;
   }
