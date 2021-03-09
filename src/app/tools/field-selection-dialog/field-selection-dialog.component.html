@@ -1,0 +1,109 @@
+<div class="upload-form">
+  <div fxLayout="row" fxLayoutAlign="space-around center">
+    <div fxFlex="90">
+      <h1 mat-dialog-title>Download Data for {{data.count}} {{data.model}}</h1>
+    </div>
+    <button mat-icon-button (click)="cancel()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>
+<mat-toolbar [color]="'primary'" class="target-table-toolbar">
+  <div class=pharos-display-1>Build Download Query</div>
+</mat-toolbar>
+<mat-tab-group (selectedTabChange)="sqlTabSelected($event)" *ngIf="lists.length > 0">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <div [matTooltip]="'Select fields to download'">
+        Fields
+      </div>
+    </ng-template>
+    <div class="field-container">
+      <div class="scrollview">
+        <div>
+          <mat-checkbox class="list-checkbox"
+                        (change)="groupChanged($event, singles)"
+                        [checked]="groupComplete(singles)"
+                        [indeterminate]="groupIncomplete(singles)">
+            {{singles.listName.split('-')[1]}}
+          </mat-checkbox>
+          <div *ngFor="let field of singles.field">
+            <mat-checkbox class="field-checkbox" [checked]="selectedFields.includes(field.type)"
+                          (change)="fieldChanged($event, null)" [value]="field.type"
+                          [matTooltip]="field.sourceExplanation">
+              {{field.type}}
+            </mat-checkbox>
+          </div>
+        </div>
+
+        <div *ngFor="let list of lists">
+          <mat-checkbox class="list-checkbox"
+                        [disabled]="fieldDisabled(list)"
+                        (change)="groupChanged($event, list)"
+                        [checked]="groupComplete(list)"
+                        [indeterminate]="groupIncomplete(list)">
+            {{list.listName.split('-')[1]}}
+          </mat-checkbox>
+          <div *ngFor="let field of list.onlyMultiFields(singles)">
+            <mat-checkbox class="field-checkbox" [disabled]="fieldDisabled(list)"
+                          [checked]="selectedFields.includes(field.type)" (change)="fieldChanged($event, list)"
+                          [value]="field.type" [matTooltip]="field.sourceExplanation">
+              {{field.type}}
+            </mat-checkbox>
+          </div>
+        </div>
+
+      </div>
+      <div class="scrollview">
+        Currently Selected Fields:
+        <ul>
+          <li *ngFor="let field of selectedFields">
+            {{field}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <div [matTooltip]="'The MySQL query that will be run on the TCRD database'">
+        SQL Query
+      </div>
+    </ng-template>
+    <div class="scrollview">
+      <pre>{{this.sql}}</pre>
+    </div>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <div [matTooltip]="'A preview of the first rows of the dataset'">
+        CSV Preview
+      </div>
+    </ng-template>
+    <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+      <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+    </div>
+    <div class="scrollview">
+      <table mat-table [dataSource]="previewData" width="100%">
+
+        <ng-container *ngFor="let col of displayColumns" [matColumnDef]="col">
+          <th mat-header-cell *matHeaderCellDef> {{col}} </th>
+          <td mat-cell *matCellDef="let row"> {{abbrev(row,col)}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+        <tr mat-row *matRowDef="let rowData; columns: displayColumns"></tr>
+      </table>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+<div mat-dialog-actions [dir]="'rtl'">
+  <button mat-flat-button
+          (click)="doDownload()"
+          [color]="'primary'"
+          [matTooltip]="'Results will be saved from the browser'"
+  >Run Download Query
+  </button>
+  <button mat-flat-button (click)="cancel()">Cancel</button>
+</div>
