@@ -3,6 +3,7 @@ export class FieldList{
   field: FieldDetail[];
 
   equals(other: FieldList){
+    if (!other) {return false; }
     return this.listName === other.listName;
   }
 

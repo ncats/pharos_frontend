@@ -44,6 +44,7 @@
                         [indeterminate]="groupIncomplete(list)">
             {{list.listName.split('-')[1]}}
           </mat-checkbox>
+          <ng-container *ngIf="list.equals(selectedGroup)">
           <div *ngFor="let field of list.onlyMultiFields(singles)">
             <mat-checkbox class="field-checkbox" [disabled]="fieldDisabled(list)"
                           [checked]="selectedFields.includes(field.type)" (change)="fieldChanged($event, list)"
@@ -51,6 +52,7 @@
               {{field.type}}
             </mat-checkbox>
           </div>
+          </ng-container>
         </div>
 
       </div>
