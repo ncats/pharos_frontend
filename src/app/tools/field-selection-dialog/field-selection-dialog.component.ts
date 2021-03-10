@@ -172,12 +172,13 @@ export class FieldSelectionDialogComponent implements OnInit {
   }
 
   allSingles(): boolean{
+    let allSingles = true;
     this.singles.asFieldList().forEach(t => {
       if (!this.selectedFields.includes(t)){
-        return false;
+        allSingles = false;
       }
     });
-    return true;
+    return allSingles;
   }
 
   sqlTabSelected(event: MatTabChangeEvent) {
@@ -206,7 +207,7 @@ export class FieldSelectionDialogComponent implements OnInit {
       sqlOnly: false
     };
     this.runDownloadQuery(params, true);
-    this.dialogRef.close('Pizza!');
+    this.dialogRef.close();
   }
 
   updatePreviewData() {
@@ -229,8 +230,12 @@ export class FieldSelectionDialogComponent implements OnInit {
   }
 
   private runDownloadQuery(params: { model: string; fields: string[], sqlOnly: boolean }, save: boolean = false) {
-    if (!save) { this.loading = true; }
-    this.snackBar.open('Download Request Submitted', '', {duration: 10000});
+    if (!save) {
+      this.loading = true;
+    }
+    else {
+      this.snackBar.open('Download Request Submitted', '', {duration: 10000});
+    }
     this.pharosApiService.downloadQuery(this.route.snapshot, params).then((res: any) => {
       if (!params.sqlOnly) {
         if (save){
