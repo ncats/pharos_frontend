@@ -226,28 +226,17 @@ export class PharosApiService {
     }
   }`;
 
-  public FieldQuery = gql`query fieldQuery {
+  public FieldQuery = gql`query fieldQuery($model: String, $associatedModel: String) {
       configuration {
-        downloadLists(modelName: "Target") {
+        downloadLists(modelName: $model, associatedModelName: $associatedModel) {
           listName
           field {
             order
-            type
-            dataTable
-            dataColumn
-            select
-            whereClause
-            null_table
-            null_column
-            null_count_column
-            null_where_clause
+            name
+            description
+            group_method
             dataType
-            binSize
-            log
-            sourceExplanation
-            modelName
-            rootTable
-            rootColumn
+            default
           }
         }
       }

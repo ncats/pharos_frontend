@@ -14,17 +14,18 @@ export class PDBResult {
 
 export class PDBResultSerializer implements PharosSerializer {
   fromJson(json: any): any {
+    const copy = JSON.parse(JSON.stringify(json));
     const obj = new PDBResult();
     const ligandSerializer = new PDBLigandSerializer();
-    Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
-    obj.structureId = json.structureId;
-    obj.methods = json.exptl?.map(m => m.method);
-    obj.ligands = json.ligands?.map(l => l = ligandSerializer.fromJson(l));
-    if(obj.citation && obj.citation.pubmedId){
+    Object.entries((copy)).forEach((prop) => obj[prop[0]] = prop[1]);
+    obj.structureId = copy.structureId;
+    obj.methods = copy.exptl?.map(m => m.method);
+    obj.ligands = copy.ligands?.map(l => l = ligandSerializer.fromJson(l));
+    if (obj.citation && obj.citation.pubmedId){
       obj.citation.link = `http://www.ncbi.nlm.nih.gov/pubmed/${obj.citation.pubmedId}`;
     }
-    obj.molecularWeight = json.entryInfo.molecular_weight;
-    obj.resolution = json.entryInfo.resolution_combined;
+    obj.molecularWeight = copy.entryInfo.molecular_weight;
+    obj.resolution = copy.entryInfo.resolution_combined;
     return obj;
   }
 }

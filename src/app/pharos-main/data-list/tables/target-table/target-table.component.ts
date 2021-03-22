@@ -128,31 +128,31 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   sortMap: Map<string, any>;
 
   defaultSortMap: Map<string, any> = new Map([
-    ['Target Name', {sortKey: 'name', order: 'asc'}],
-    ['Gene', {sortKey: 'sym', order: 'asc'}],
-    ['UniProt', {sortKey: 'uniprot', order: 'asc'}],
-    ['Development Level', {sortKey: 'tdl', order: 'desc'}],
-    ['Family', {sortKey: 'fam', order: 'asc'}],
-    ['Novelty', {sortKey: 'novelty', order: 'desc'}],
-    ['PubMed Score', {sortKey: 'tdl_info.JensenLab PubMed Score', order: 'desc'}],
-    ['Antibody Count', {sortKey: 'tdl_info.Ab Count', order: 'desc'}]
+    ['Target Name', {sortKey: 'Name', order: 'asc'}],
+    ['Gene', {sortKey: 'Symbol', order: 'asc'}],
+    ['UniProt', {sortKey: 'UniProt', order: 'asc'}],
+    ['Development Level', {sortKey: 'Target Development Level', order: 'desc'}],
+    ['Family', {sortKey: 'Family', order: 'asc'}],
+    ['Novelty', {sortKey: 'Novelty', order: 'desc'}],
+    ['PubMed Score', {sortKey: 'PubMed Score', order: 'desc'}],
+    ['Antibody Count', {sortKey: 'Antibody Count', order: 'desc'}]
   ]);
 
   ppiSortMap: Map<string, any> = new Map([
-    ['score', {sortKey: 'ncats_ppi.score', order: 'desc'}],
-    ['p_int', {sortKey: 'ncats_ppi.p_int', order: 'desc'}],
-    ['p_ni', {sortKey: 'ncats_ppi.p_ni', order: 'desc'}],
-    ['p_wrong', {sortKey: 'ncats_ppi.p_wrong', order: 'desc'}],
+    ['score', {sortKey: 'StringDB Interaction Score', order: 'desc'}],
+    ['p_int', {sortKey: 'BioPlex Interaction Probability', order: 'desc'}],
+    ['p_ni', {sortKey: 'BioPlex p_ni', order: 'desc'}],
+    ['p_wrong', {sortKey: 'BioPlex p_wrong', order: 'desc'}],
     ...this.defaultSortMap
   ]);
 
   diseaseSortMap: Map<string, any> = new Map([
-    ['JensenLab Text Mining zscore', {sortKey: 'disease.zscore', order: 'desc'}],
-    ['JensenLab conf', {sortKey: 'disease.conf', order: 'desc'}],
-    ['Expression Atlas log2foldchange', {sortKey: 'disease.log2foldchange', order: 'desc'}],
-    ['Expression Atlas pvalue', {sortKey: 'disease.pvalue', order: 'asc'}],
-    ['DisGeNET score', {sortKey: 'disease.score', order: 'desc'}],
-    ['Monarch S2O', {sortKey: 'disease.S2O', order: 'desc'}],
+    ['JensenLab Text Mining zscore', {sortKey: 'JensenLab TextMining zscore', order: 'desc'}],
+    ['JensenLab conf', {sortKey: 'JensenLab Confidence', order: 'desc'}],
+    ['Expression Atlas log2foldchange', {sortKey: 'Expression Atlas Log2 Fold Change', order: 'desc'}],
+    ['Expression Atlas pvalue', {sortKey: 'Associated Disease P-value', order: 'asc'}],
+    ['DisGeNET score', {sortKey: 'DisGeNET Score', order: 'desc'}],
+    ['Monarch S2O', {sortKey: 'Monarch S2O', order: 'desc'}],
     ...this.defaultSortMap
   ]);
 
