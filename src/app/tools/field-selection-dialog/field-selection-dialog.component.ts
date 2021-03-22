@@ -6,8 +6,8 @@ import {MatCheckboxChange} from '@angular/material/checkbox';
 import {format} from 'sql-formatter';
 import {ActivatedRoute} from '@angular/router';
 import {TargetListService} from '../../pharos-services/target-list.service';
-import { saveAs } from 'file-saver';
-import { Parser } from 'json2csv';
+import {saveAs} from 'file-saver';
+import {Parser} from 'json2csv';
 import {FieldList} from '../../models/fieldList';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
@@ -32,6 +32,7 @@ export class FieldSelectionDialogComponent implements OnInit {
   }
 
   associatedTarget: string;
+  associatedDisease: string;
 
   lists: FieldList[] = [];
   singles: FieldList;
@@ -49,44 +50,43 @@ export class FieldSelectionDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.associatedTarget = this.route.snapshot.queryParamMap.get('associatedTarget');
-    this.pharosApiService.adHocQuery(this.pharosApiService.FieldQuery).subscribe(res => {
-      const specials = ['Target Field Group - Default', 'Target Field Group - Single Value Fields'];
-      this.lists = res.data.configuration.downloadLists.filter(list => {
-        if (list.listName === 'Target Field Group - Interacting Targets' && !this.associatedTarget) {
-          return false;
+    this.associatedDisease = this.route.snapshot.queryParamMap.get('associatedDisease');
+    const variables = {
+      model: 'Target',
+      associatedModel: this.associatedTarget ? 'Target' : this.associatedDisease ? 'Disease' : ''
+    };
+    this.pharosApiService.adHocQuery(this.pharosApiService.FieldQuery, variables).subscribe({
+        next: res => {
+          this.singles = new FieldList(res.data.configuration.downloadLists.find(list => list.listName === 'Single Value Fields'));
+          this.lists = res.data.configuration.downloadLists.filter(list => list.listName !== 'Single Value Fields').map(list => {
+            return new FieldList(list);
+          });
+          this.selectedFields = this.defaults.slice();
+        },
+      error: err => {
+          alert(err);
         }
-        return !specials.includes(list.listName);
-      }).map(list => {
-        return new FieldList(list);
-      });
-
-      this.defaults = new FieldList(res.data.configuration.downloadLists.find(list => list.listName === 'Target Field Group - Default'))
-        .field.map(field => field.type);
-
-      this.singles = new FieldList(res.data.configuration.downloadLists.find(list => list.listName === 'Target Field Group - Single Value Fields'));
-
-      this.selectedFields = this.defaults.slice();
-    });
+      }
+    );
   }
 
 
-  groupChanged(event: MatCheckboxChange, parentGroup: FieldList){
+  groupChanged(event: MatCheckboxChange, parentGroup: FieldList) {
     this.sqlDirty = true;
     this.dataDirty = true;
     if (event.checked) {
-      if (!parentGroup.equals(this.singles)){
+      if (!parentGroup.equals(this.singles)) {
         this.selectedGroup = parentGroup;
-        this.selectedFields = parentGroup.field.map(f => f.type);
-      } else{
+        this.selectedFields = parentGroup.field.map(f => f.name);
+      } else {
         // push all singles
         const multiNames = this.selectedFields.filter(f => !this.singles.asFieldList().includes(f));
         this.selectedFields = [...this.singles.asFieldList(), ...multiNames];
       }
-    }
-    else{
+    } else {
       this.selectedFields = this.selectedFields.filter(f => !this.getListOfFields(parentGroup).includes(f));
-      if (!parentGroup.equals(this.singles)){
-          this.selectedGroup = null;
+      if (!parentGroup.equals(this.singles)) {
+        this.selectedGroup = null;
       }
     }
 
@@ -98,7 +98,7 @@ export class FieldSelectionDialogComponent implements OnInit {
     this.dataDirty = true;
     const field: string = event.source.value;
     if (event.checked) {
-      if (parentGroup){
+      if (parentGroup) {
         this.selectedGroup = parentGroup;
       }
       if (!this.selectedFields.includes(field)) {
@@ -111,37 +111,36 @@ export class FieldSelectionDialogComponent implements OnInit {
         this.selectedFields = [
           ...singleNames,
           ...multiNames
-          ];
+        ];
       }
     } else {
       this.selectedFields = this.selectedFields.filter(f => f !== field);
 
-      if (this.allSingles()){
+      if (this.allSingles()) {
         this.selectedGroup = null;
       }
     }
   }
 
-  groupComplete(list: FieldList){
+  groupComplete(list: FieldList) {
     const fieldNames = this.getListOfFields(list);
     let retVal = true;
     fieldNames.forEach(field => {
-      if (!this.selectedFields.includes(field)){
+      if (!this.selectedFields.includes(field)) {
         retVal = false;
       }
     });
     return retVal;
   }
 
-  groupIncomplete(list: FieldList){
+  groupIncomplete(list: FieldList) {
     const fieldNames = this.getListOfFields(list);
     let hasChecked = false;
     let hasUnchecked = false;
     fieldNames.forEach(fieldInList => {
-      if (this.selectedFields.includes(fieldInList)){
+      if (this.selectedFields.includes(fieldInList)) {
         hasChecked = true;
-      }
-      else{
+      } else {
         hasUnchecked = true;
       }
     });
@@ -159,22 +158,21 @@ export class FieldSelectionDialogComponent implements OnInit {
     return fieldNames;
   }
 
-  isSingleValued(field: any){
-
-    return this.singles.field.map(f => f.modelName + '.' + f.type) .includes(field.modelName + '.' + field.type);
+  isSingleValued(field: any) {
+    return this.singles.field.map(f => f.name).includes(field.name);
   }
 
-  fieldDisabled(parentGroup: any){
+  fieldDisabled(parentGroup: any) {
     if (!this.selectedGroup) {
       return false;
     }
     return !this.selectedGroup.equals(parentGroup);
   }
 
-  allSingles(): boolean{
+  allSingles(): boolean {
     let allSingles = true;
     this.singles.asFieldList().forEach(t => {
-      if (!this.selectedFields.includes(t)){
+      if (!this.selectedFields.includes(t)) {
         allSingles = false;
       }
     });
@@ -232,34 +230,43 @@ export class FieldSelectionDialogComponent implements OnInit {
   private runDownloadQuery(params: { model: string; fields: string[], sqlOnly: boolean }, save: boolean = false) {
     if (!save) {
       this.loading = true;
-    }
-    else {
+    } else {
       this.snackBar.open('Download Request Submitted', '', {duration: 10000});
     }
     this.pharosApiService.downloadQuery(this.route.snapshot, params).then((res: any) => {
       if (!params.sqlOnly) {
-        if (save){
+        if (save) {
           const json2csvParser = new Parser();
           const csv = json2csvParser.parse(res.data.download.data);
           const blob = new Blob([csv], {type: 'text/plain;charset=utf-8'});
           saveAs(blob, 'pharos data download.csv');
           this.snackBar.dismiss();
-        }
-        else{
+        } else {
           this.previewData = res.data.download.data;
           this.dataDirty = false;
         }
       } else {
-        this.sql = format(res.data.download.sql, {language: 'mysql', uppercase: true});
+        if (res.data.download.result){
+          this.sql = format(res.data.download.sql, {language: 'mysql', uppercase: true});
+        }
+        else {
+          this.sql = res.data.download.errorDetails;
+        }
         this.sqlDirty = false;
       }
-      if (!save) { this.loading = false; }
+      if (!save) {
+        this.loading = false;
+      }
     });
   }
 
-  abbrev(data: any, field: string){
-    if (!data) { return ''; }
-    if (!data[field]) { return ''; }
+  abbrev(data: any, field: string) {
+    if (!data) {
+      return '';
+    }
+    if (!data[field]) {
+      return '';
+    }
     if (data[field].toString().length > 20) {
       return data[field].toString().substring(0, 17) + '...';
     }

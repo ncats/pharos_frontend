@@ -16,55 +16,33 @@ export class FieldList{
   }
 
   asFieldList(): string[]{
-    return this.field.map(f => f.type);
+    return this.field.map(f => f.name);
   }
 
   asMultiFieldList(singles: FieldList): string[] {
-    return this.onlyMultiFields(singles).map(f => f.type);
+    return this.onlyMultiFields(singles).map(f => f.name);
   }
 
   onlyMultiFields(singles: FieldList): FieldDetail[] {
     return this.field.filter(f => {
-      return !singles.asFieldList().includes(f.type);
+      return !singles.asFieldList().includes(f.name);
     });
   }
 }
 export class FieldDetail{
-  order: number ;
-  type: string;
-  dataTable: string;
-  dataColumn: string;
-  select: string;
-  whereClause: string;
-  null_table: string;
-  null_column: string;
-  null_count_column: string;
-  null_where_clause: string;
+  order: number;
+  name: string;
+  description: string;
+  group_method: string;
   dataType: string;
-  binSize: number;
-  log: boolean;
-  sourceExplanation: string;
-  modelName: string;
-  rootTable: string;
-  rootColumn: string;
+  default: boolean;
 
   constructor(obj: any) {
     this.order = obj.order;
-    this.type = obj.type;
-    this.dataTable = obj.dataTable;
-    this.dataColumn = obj.dataColumn;
-    this.select = obj.select;
-    this.whereClause = obj.whereClause;
-    this.null_table = obj.null_table;
-    this.null_column = obj.null_column;
-    this.null_count_column = obj.null_count_column;
-    this.null_where_clause = obj.null_where_clause;
+    this.name = obj.name;
+    this.description = obj.description;
+    this.group_method = obj.group_method;
     this.dataType = obj.dataType;
-    this.binSize = obj.binSize;
-    this.log = obj.log;
-    this.sourceExplanation = obj.sourceExplanation;
-    this.modelName = obj.modelName;
-    this.rootTable = obj.rootTable;
-    this.rootColumn = obj.rootColumn;
+    this.default = obj.default;
   }
 }

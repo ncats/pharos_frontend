@@ -25,13 +25,13 @@
                         (change)="groupChanged($event, singles)"
                         [checked]="groupComplete(singles)"
                         [indeterminate]="groupIncomplete(singles)">
-            {{singles.listName.split('-')[1]}}
+            {{singles.listName}}
           </mat-checkbox>
           <div *ngFor="let field of singles.field">
-            <mat-checkbox class="field-checkbox" [checked]="selectedFields.includes(field.type)"
-                          (change)="fieldChanged($event, null)" [value]="field.type"
-                          [matTooltip]="field.sourceExplanation">
-              {{field.type}}
+            <mat-checkbox class="field-checkbox" [checked]="selectedFields.includes(field.name)"
+                          (change)="fieldChanged($event, null)" [value]="field.name"
+                          [matTooltip]="field.description">
+              {{field.name}}
             </mat-checkbox>
           </div>
         </div>
@@ -42,14 +42,14 @@
                         (change)="groupChanged($event, list)"
                         [checked]="groupComplete(list)"
                         [indeterminate]="groupIncomplete(list)">
-            {{list.listName.split('-')[1]}}
+            {{list.listName}}
           </mat-checkbox>
           <ng-container *ngIf="list.equals(selectedGroup)">
           <div *ngFor="let field of list.onlyMultiFields(singles)">
             <mat-checkbox class="field-checkbox" [disabled]="fieldDisabled(list)"
-                          [checked]="selectedFields.includes(field.type)" (change)="fieldChanged($event, list)"
-                          [value]="field.type" [matTooltip]="field.sourceExplanation">
-              {{field.type}}
+                          [checked]="selectedFields.includes(field.name)" (change)="fieldChanged($event, list)"
+                          [value]="field.name" [matTooltip]="field.description">
+              {{field.name}}
             </mat-checkbox>
           </div>
           </ng-container>
