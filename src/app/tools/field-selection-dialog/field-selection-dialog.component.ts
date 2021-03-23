@@ -54,6 +54,7 @@ export class FieldSelectionDialogComponent implements OnInit {
   sqlDirty = true;
   dataDirty = true;
   loading = false;
+  maxDownload = 1000000;
 
   ngOnInit(): void {
     this.profileService.profile$.subscribe(profile => {
@@ -63,7 +64,7 @@ export class FieldSelectionDialogComponent implements OnInit {
     this.associatedTarget = this.data.route.snapshot.queryParamMap.get('associatedTarget');
     this.associatedDisease = this.data.route.snapshot.queryParamMap.get('associatedDisease');
     const variables = {
-      model: 'Target',
+      model: this.data.model,
       associatedModel: this.associatedTarget ? 'Target' : this.associatedDisease ? 'Disease' : ''
     };
     this.pharosApiService.adHocQuery(this.pharosApiService.FieldQuery, variables).subscribe({
@@ -211,11 +212,18 @@ export class FieldSelectionDialogComponent implements OnInit {
     this.dialogRef.close('canceled!');
   }
 
+  standardParams() {
+    return {
+      model: this.data.model + 's',
+      fields: this.selectedFields
+    };
+  }
+
   doDownload() {
     const params = {
-      model: 'Targets',
-      fields: this.selectedFields,
-      sqlOnly: false
+      ...this.standardParams(),
+      sqlOnly: false,
+      top: this.maxDownload
     };
     this.runDownloadQuery(params, true);
     this.dialogRef.close();
@@ -223,8 +231,7 @@ export class FieldSelectionDialogComponent implements OnInit {
 
   updatePreviewData() {
     const params = {
-      model: 'Targets',
-      fields: this.selectedFields,
+      ...this.standardParams(),
       sqlOnly: false,
       top: 20
     };
@@ -233,9 +240,9 @@ export class FieldSelectionDialogComponent implements OnInit {
 
   updateSQL() {
     const params = {
-      model: 'Targets',
-      fields: this.selectedFields,
-      sqlOnly: true
+      ...this.standardParams(),
+      sqlOnly: true,
+      top: this.maxDownload
     };
     this.runDownloadQuery(params);
   }
@@ -252,23 +259,23 @@ export class FieldSelectionDialogComponent implements OnInit {
           if (res.data.download.result){
             this.sql = format(res.data.download.sql, {language: 'mysql', uppercase: true});
 
+            const resultsAreMaxed = res.data.download.data.length === this.maxDownload;
             const json2csvParser = new Parser();
             const csv = json2csvParser.parse(res.data.download.data);
             const csvBlob = new Blob([csv], {type: 'text/plain;charset=utf-8'});
-            const metaBlob = new Blob([this.getMetadata()], {type: 'text/plain;charset=utf-8'});
+            const metaBlob = new Blob([this.getMetadata(resultsAreMaxed)], {type: 'text/plain;charset=utf-8'});
 
             const zip = new JSZip();
             zip.file('query results.csv', csvBlob);
             zip.file('query metadata.txt', metaBlob);
             zip.generateAsync({type: 'blob'}).then((content) => {
               saveAs(content, 'pharos data download.zip');
+              this.snackBar.dismiss();
             });
-
           }
           else {
             alert('Error: ' + res.data.download.errorDetails);
           }
-          this.snackBar.dismiss();
         } else {
           this.previewData = res.data.download.data;
           this.dataDirty = false;
@@ -285,6 +292,9 @@ export class FieldSelectionDialogComponent implements OnInit {
       if (!save) {
         this.loading = false;
       }
+    }).catch(error => {
+      alert('Download failed: the response may have been too large. ' +  error.message);
+      this.snackBar.dismiss();
     });
   }
 
@@ -301,7 +311,13 @@ export class FieldSelectionDialogComponent implements OnInit {
     return data[field];
   }
 
-  getMetadata(){
+  resultsMaxed(){
+    return `
+WARNING: Your results have been truncated to ${this.maxDownload} rows. You should probably filter your ${this.data.model.toLowerCase()} list a bit more judiciously, or use an analysis procedure that is more amenable to large datasets. Excel can't handle more rows than that anyway.
+`;
+  }
+
+  getMetadata(resultsAreMaxed: boolean){
     const metadata = `User: ${this.profile ? this.profile.name : 'not logged in'}
 ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}
 TCRD Version: ${tcrd_version}
@@ -312,7 +328,7 @@ ${this.selectedFacetService.newDescription(this.data.route)}
 
 Selected Fields for Download:
   ${this.selectedFields.join('\n  ')}
-
+${resultsAreMaxed ? this.resultsMaxed() : ''}
 SQL Query:
 ${this.sql}`;
     return  metadata;

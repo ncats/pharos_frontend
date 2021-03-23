@@ -1,7 +1,7 @@
 <div class="upload-form">
   <div fxLayout="row" fxLayoutAlign="space-around center">
     <div fxFlex="90">
-      <h1 mat-dialog-title>Download Data for {{data.count}} {{data.model}}</h1>
+      <h1 mat-dialog-title>Download Data for {{data.count}} {{data.model}}s</h1>
     </div>
     <button mat-icon-button (click)="cancel()">
       <mat-icon>close</mat-icon>
@@ -9,9 +9,9 @@
   </div>
 </div>
 <mat-toolbar [color]="'primary'" class="target-table-toolbar">
-  <div class=pharos-display-1>Build Download Query</div>
+  <div class=list-header>Build Download Query</div>
 </mat-toolbar>
-<mat-tab-group (selectedTabChange)="sqlTabSelected($event)" *ngIf="lists.length > 0">
+<mat-tab-group (selectedTabChange)="sqlTabSelected($event)" *ngIf="singles || lists.length > 0">
   <mat-tab>
     <ng-template mat-tab-label>
       <div [matTooltip]="'Select fields to download'">
