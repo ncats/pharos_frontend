@@ -1,7 +1,18 @@
 <section>
+  <mat-toolbar [color]="'primary'" class="target-table-toolbar">
+  <div class=list-header>Ligands <span *ngIf="pageData">({{pageData.total}})</span>
+  </div>
+  <div fxFlex></div>
+  <div fxFlex="10" fxLayoutAlign="end">
+    <button mat-button class="tool-button" (click)="downloadData()"
+            matTooltip="Download Ligand List Data">
+      <mat-icon>download</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
 <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row ligand-table">
   <div fxFlex="45">
-    <div class = mat-display-1>Ligands <span *ngIf ="pageData">({{pageData.total}})</span></div>
   </div>
   <div fxFlex="45" fxFlexAlign="end">
     <mat-paginator
