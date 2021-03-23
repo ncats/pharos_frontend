@@ -75,18 +75,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   @Input() pageData: PageData;
 
   /**
-   * boolean to show or hide the large "targets" label
-   * @type {boolean}
-   */
-  @Input() showLabel = true;
-
-  /**
-   * show the colored toolbar, which includes target list functionality
-   * @type {boolean}
-   */
-  @Input() showToolbar = true;
-
-  /**
    * checks for mobile view to toggle small card view
    * @type {boolean}
    */
@@ -481,7 +469,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
 
   downloadData() {
     const dialogRef = this.dialog.open(FieldSelectionDialogComponent, {
-      data: {count: this.pageData.total, model: 'Targets', route: this._route},
+      data: {count: this.pageData.total, model: 'Target', route: this._route},
       height: '75vh', width: '66vw'
     }).afterClosed();
   }

@@ -1,7 +1,7 @@
 <section>
   <div *ngIf="targets">
-    <mat-toolbar [color]="'primary'" class="target-table-toolbar" *ngIf="showToolbar">
-      <div class=pharos-display-1 *ngIf="showLabel">Targets <span *ngIf="pageData">({{pageData.total}})</span>
+    <mat-toolbar [color]="'primary'" class="target-table-toolbar">
+      <div class=list-header>Targets <span *ngIf="pageData">({{pageData.total}})</span>
       </div>
       <div fxFlex></div>
       <div fxFlex="10" fxLayoutAlign="end">

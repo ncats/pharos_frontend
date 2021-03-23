@@ -6,7 +6,9 @@ import {DynamicTablePanelComponent} from '../../../../tools/dynamic-table-panel/
 import {Disease, DiseaseSerializer} from '../../../../models/disease';
 import {PharosProperty} from '../../../../models/pharos-property';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
-import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-sections.service";
+import {NavSectionsService} from '../../../../tools/sidenav-panel/services/nav-sections.service';
+import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -91,6 +93,7 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
    * no required services, call super object constructor
    */
   constructor(
+    public dialog: MatDialog,
     private _route: ActivatedRoute,
     private router: Router,
     private changeRef: ChangeDetectorRef,
@@ -166,5 +169,12 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
+
+  downloadData() {
+    const dialogRef = this.dialog.open(FieldSelectionDialogComponent, {
+      data: {count: this.pageData.total, model: 'Disease', route: this._route},
+      height: '75vh', width: '66vw'
+    }).afterClosed();
   }
 }
