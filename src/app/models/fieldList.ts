@@ -12,7 +12,18 @@ export class FieldList{
     this.field = obj.field.map(f => {
       return new FieldDetail(f);
     });
-    this.field = this.field.sort((a,b) => a.order - b.order);
+    this.field = this.field.sort((a, b) => {
+      if (!a.order && !b.order) {
+        return 0;
+      }
+      if (!a.order) {
+        return 1;
+      }
+      if (!b.order) {
+        return -1;
+      }
+      return a.order - b.order;
+    });
   }
 
   asFieldList(): string[]{
