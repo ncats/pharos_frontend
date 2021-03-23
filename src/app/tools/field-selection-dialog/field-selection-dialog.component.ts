@@ -4,7 +4,7 @@ import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {MatTabChangeEvent} from '@angular/material/tabs';
 import {MatCheckboxChange} from '@angular/material/checkbox';
 import {format} from 'sql-formatter';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {TargetListService} from '../../pharos-services/target-list.service';
 import {saveAs} from 'file-saver';
 import {Parser} from 'json2csv';
@@ -31,7 +31,8 @@ export class FieldSelectionDialogComponent implements OnInit {
               private targetListService: TargetListService,
               private snackBar: MatSnackBar,
               private profileService: PharosProfileService,
-              private selectedFacetService: SelectedFacetService) {
+              private selectedFacetService: SelectedFacetService,
+              private router: Router) {
   }
 
   get displayColumns() {
@@ -322,6 +323,7 @@ WARNING: Your results have been truncated to ${this.maxDownload} rows. You shoul
 ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}
 TCRD Version: ${tcrd_version}
 Pharos Version: ${version}
+URL: https://pharos.nih.gov${this.router.url}
 
 ${this.selectedFacetService.newTitle(this.data.route)}
 ${this.selectedFacetService.newDescription(this.data.route)}
