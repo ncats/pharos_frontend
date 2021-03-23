@@ -10,6 +10,10 @@ import {saveAs} from 'file-saver';
 import {Parser} from 'json2csv';
 import {FieldList} from '../../models/fieldList';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {SelectedFacetService} from '../../pharos-main/data-list/filter-panel/selected-facet.service';
+import { version, tcrd_version } from '../../../../package.json';
+import {PharosProfileService} from '../../auth/pharos-profile.service';
+import JSZip from 'jszip';
 
 @Component({
   selector: 'pharos-field-selection-dialog',
@@ -18,13 +22,16 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class FieldSelectionDialogComponent implements OnInit {
 
+  profile: any;
+
   constructor(public dialogRef: MatDialogRef<FieldSelectionDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: { model: string, count: number },
+              @Inject(MAT_DIALOG_DATA) public data: { model: string, count: number , route: any},
               private pharosApiService: PharosApiService,
               private changeDetectorRef: ChangeDetectorRef,
-              private route: ActivatedRoute,
               private targetListService: TargetListService,
-              private snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar,
+              private profileService: PharosProfileService,
+              private selectedFacetService: SelectedFacetService) {
   }
 
   get displayColumns() {
@@ -49,8 +56,12 @@ export class FieldSelectionDialogComponent implements OnInit {
   loading = false;
 
   ngOnInit(): void {
-    this.associatedTarget = this.route.snapshot.queryParamMap.get('associatedTarget');
-    this.associatedDisease = this.route.snapshot.queryParamMap.get('associatedDisease');
+    this.profileService.profile$.subscribe(profile => {
+      this.profile = profile && profile.data() ? profile.data() : profile;
+    });
+
+    this.associatedTarget = this.data.route.snapshot.queryParamMap.get('associatedTarget');
+    this.associatedDisease = this.data.route.snapshot.queryParamMap.get('associatedDisease');
     const variables = {
       model: 'Target',
       associatedModel: this.associatedTarget ? 'Target' : this.associatedDisease ? 'Disease' : ''
@@ -180,16 +191,18 @@ export class FieldSelectionDialogComponent implements OnInit {
   }
 
   sqlTabSelected(event: MatTabChangeEvent) {
-    if (event.index === 1) {
-      if (this.sqlDirty) {
-        this.sql = '';
-        this.updateSQL();
+    if (this.selectedFields.length > 0) {
+      if (event.index === 1) {
+        if (this.sqlDirty) {
+          this.sql = '';
+          this.updateSQL();
+        }
       }
-    }
-    if (event.index === 2) {
-      if (this.dataDirty) {
-        this.previewData = [];
-        this.updatePreviewData();
+      if (event.index === 2) {
+        if (this.dataDirty) {
+          this.previewData = [];
+          this.updatePreviewData();
+        }
       }
     }
   }
@@ -231,15 +244,30 @@ export class FieldSelectionDialogComponent implements OnInit {
     if (!save) {
       this.loading = true;
     } else {
-      this.snackBar.open('Download Request Submitted', '', {duration: 10000});
+      this.snackBar.open('Your download query is being executed. Don\'t leave Pharos!', '', {duration: 10000000});
     }
-    this.pharosApiService.downloadQuery(this.route.snapshot, params).then((res: any) => {
+    this.pharosApiService.downloadQuery(this.data.route.snapshot, params).then((res: any) => {
       if (!params.sqlOnly) {
         if (save) {
-          const json2csvParser = new Parser();
-          const csv = json2csvParser.parse(res.data.download.data);
-          const blob = new Blob([csv], {type: 'text/plain;charset=utf-8'});
-          saveAs(blob, 'pharos data download.csv');
+          if (res.data.download.result){
+            this.sql = format(res.data.download.sql, {language: 'mysql', uppercase: true});
+
+            const json2csvParser = new Parser();
+            const csv = json2csvParser.parse(res.data.download.data);
+            const csvBlob = new Blob([csv], {type: 'text/plain;charset=utf-8'});
+            const metaBlob = new Blob([this.getMetadata()], {type: 'text/plain;charset=utf-8'});
+
+            const zip = new JSZip();
+            zip.file('query results.csv', csvBlob);
+            zip.file('query metadata.txt', metaBlob);
+            zip.generateAsync({type: 'blob'}).then((content) => {
+              saveAs(content, 'pharos data download.zip');
+            });
+
+          }
+          else {
+            alert('Error: ' + res.data.download.errorDetails);
+          }
           this.snackBar.dismiss();
         } else {
           this.previewData = res.data.download.data;
@@ -271,6 +299,23 @@ export class FieldSelectionDialogComponent implements OnInit {
       return data[field].toString().substring(0, 17) + '...';
     }
     return data[field];
+  }
+
+  getMetadata(){
+    const metadata = `User: ${this.profile ? this.profile.name : 'not logged in'}
+${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}
+TCRD Version: ${tcrd_version}
+Pharos Version: ${version}
+
+${this.selectedFacetService.newTitle(this.data.route)}
+${this.selectedFacetService.newDescription(this.data.route)}
+
+Selected Fields for Download:
+  ${this.selectedFields.join('\n  ')}
+
+SQL Query:
+${this.sql}`;
+    return  metadata;
   }
 
 }

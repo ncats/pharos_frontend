@@ -100,6 +100,9 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
 
   similarityTarget: Target;
 
+  loggedIn = false;
+
+  user: any;
   /**
    * set up dependencies
    * @param _route
@@ -164,7 +167,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       delete this.previousSortObject;
       this.sortTargets();
     }
-    let key = sortObject.sortKey;
+    const key = sortObject.sortKey;
     let order = sortObject.order;
     if (key === this.previousSortObject?.sortKey) {
       order = this.swapOrder(this.previousSortObject.order);
@@ -177,9 +180,9 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   sortTargets(sortKey?: string, direction?: string): void {
-    this.previousSortObject = {sortKey: sortKey, order: direction};
+    this.previousSortObject = {sortKey, order: direction};
     if (sortKey) {
-      const prefix = direction == 'asc' ? '^' : '!';
+      const prefix = direction === 'asc' ? '^' : '!';
       navigationExtras.queryParams = {
         sortColumn: prefix + sortKey,
         page: null
@@ -200,8 +203,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     return 'desc';
   }
 
-  loggedIn = false;
-  user: any;
 
   /**
    * check for mobile view,
@@ -246,7 +247,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
             skip: (+this._route.snapshot.queryParamMap.get('page') - 1) * +this._route.snapshot.queryParamMap.get('rows'),
             total: this.data.count
           });
-          let navSortParam = this._route.snapshot.queryParamMap.get('sortColumn');
+          const navSortParam = this._route.snapshot.queryParamMap.get('sortColumn');
           if (navSortParam) {
             this.selectedSortObject = {sortKey: navSortParam.substring(1), order: navSortParam.substring(0, 1) === '^' ? 'asc' : 'desc'};
             this.previousSortObject = this.selectedSortObject;
@@ -412,7 +413,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
 
   getSelected(target: Target) {
     return this.rowSelection.selected.find(t => {
-      return t._tcrdid == target._tcrdid;
+      return t._tcrdid === target._tcrdid;
     });
   }
 
@@ -456,7 +457,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   someSelected(): boolean {
-    let pageCount = this.countPageSelections();
+    const pageCount = this.countPageSelections();
     return pageCount > 0 && pageCount < this.targets.length;
   }
 
@@ -480,7 +481,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
 
   downloadData() {
     const dialogRef = this.dialog.open(FieldSelectionDialogComponent, {
-      data: {count: this.pageData.total, model: 'Targets'},
+      data: {count: this.pageData.total, model: 'Targets', route: this._route},
       height: '75vh', width: '66vw'
     }).afterClosed();
   }
