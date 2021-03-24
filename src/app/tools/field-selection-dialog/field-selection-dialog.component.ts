@@ -55,7 +55,7 @@ export class FieldSelectionDialogComponent implements OnInit {
   sqlDirty = true;
   dataDirty = true;
   loading = false;
-  maxDownload = 1000000;
+  maxDownload = 500000;
 
   ngOnInit(): void {
     this.profileService.profile$.subscribe(profile => {
