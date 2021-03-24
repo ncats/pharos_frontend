@@ -684,7 +684,7 @@ const EXPRESSION_PANEL: PharosPanel = {
 const ORTHOLOG_VARIANT_PANEL: PharosPanel = {
   token: TOKENS.ORTHOLOG_VARIANT_PANEL,
   navHeader: {
-    label: 'Ortholog Variants',
+    label: 'Ortholog Sequence Conservation',
     section: 'variants',
     mainDescription: 'A plot of the degree of conservation of each residue for homologous kinases, across many different species. ' +
       'Zooming in on the variant plot reveals the specific amino acids at each residue. ' +
