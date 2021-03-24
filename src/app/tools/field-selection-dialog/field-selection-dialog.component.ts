@@ -318,6 +318,32 @@ WARNING: Your results have been truncated to ${this.maxDownload} rows. You shoul
 `;
   }
 
+  getFieldsAndDescriptions(){
+    const lines = [];
+    this.selectedFields.forEach(field => {
+      let fieldInfo = this.singles.field.find(f => f.name === field);
+      if (fieldInfo) {
+        lines.push(field + ' - ' + fieldInfo.description);
+      }
+      else {
+        let found = false;
+        this.lists.forEach(list => {
+          if (!found){
+              fieldInfo = list.field.find(f => f.name === field);
+              if (fieldInfo){
+                found = true;
+                lines.push(field + ' - ' + fieldInfo.description);
+              }
+          }
+        });
+        if (!found){
+          lines.push(field);
+        }
+      }
+    });
+    return lines.join('\n  ');
+  }
+
   getMetadata(resultsAreMaxed: boolean){
     const metadata = `User: ${this.profile ? this.profile.name : 'not logged in'}
 ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}
@@ -329,7 +355,7 @@ ${this.selectedFacetService.newTitle(this.data.route)}
 ${this.selectedFacetService.newDescription(this.data.route)}
 
 Selected Fields for Download:
-  ${this.selectedFields.join('\n  ')}
+  ${this.getFieldsAndDescriptions()}
 ${resultsAreMaxed ? this.resultsMaxed() : ''}
 SQL Query:
 ${this.sql}`;
