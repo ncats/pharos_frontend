@@ -94,7 +94,14 @@ export class FieldSelectionDialogComponent implements OnInit {
       } else {
         // push all singles
         const multiNames = this.selectedFields.filter(f => !this.singles.asFieldList().includes(f));
-        this.selectedFields = [...this.singles.asFieldList(), ...multiNames];
+        this.selectedFields = [...this.singles.field.filter(f => {
+          if (!this.selectedGroup){
+            return true;
+          }
+          else {
+            return !f.group_method;
+          }
+        }).map(f => f.name), ...multiNames];
       }
     } else {
       this.selectedFields = this.selectedFields.filter(f => !this.getListOfFields(parentGroup).includes(f));
@@ -102,8 +109,6 @@ export class FieldSelectionDialogComponent implements OnInit {
         this.selectedGroup = null;
       }
     }
-
-    // this.changeDetectorRef.detectChanges();
   }
 
   fieldChanged(event: MatCheckboxChange, parentGroup: any) {
@@ -116,7 +121,7 @@ export class FieldSelectionDialogComponent implements OnInit {
       }
       if (!this.selectedFields.includes(field)) {
         this.selectedFields.push(field);
-        const singleNames = this.singles.asFieldList().filter(f => this.selectedFields.includes(f));
+        const singleNames = this.singles.asFieldList();
         const multiNames = [];
         if (this.selectedGroup) {
           multiNames.push(...this.selectedGroup.asMultiFieldList(this.singles));
@@ -124,7 +129,7 @@ export class FieldSelectionDialogComponent implements OnInit {
         this.selectedFields = [
           ...singleNames,
           ...multiNames
-        ];
+        ].filter(f => this.selectedFields.includes(f));
       }
     } else {
       this.selectedFields = this.selectedFields.filter(f => f !== field);
