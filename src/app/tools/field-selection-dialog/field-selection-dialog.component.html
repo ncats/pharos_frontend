@@ -28,10 +28,10 @@
             {{singles.listName}}
           </mat-checkbox>
           <div *ngFor="let field of singles.field">
-            <mat-checkbox class="field-checkbox" [checked]="selectedFields.includes(field.name)"
+            <mat-checkbox class="field-checkbox" [checked]="selectedFields.includes(field.name)" [disabled]="!!selectedGroup && !!field.group_method"
                           (change)="fieldChanged($event, null)" [value]="field.name"
                           [matTooltip]="field.description">
-              {{field.name}}
+              {{field.name}} {{field.group_method ? '(' + field.group_method + ')' : ''}}
             </mat-checkbox>
           </div>
         </div>
@@ -49,7 +49,7 @@
             <mat-checkbox class="field-checkbox" [disabled]="fieldDisabled(list)"
                           [checked]="selectedFields.includes(field.name)" (change)="fieldChanged($event, list)"
                           [value]="field.name" [matTooltip]="field.description">
-              {{field.name}}
+               {{field.name}} {{field.group_method ? '(' + field.group_method + ')' : ''}}
             </mat-checkbox>
           </div>
           </ng-container>
