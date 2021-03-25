@@ -314,7 +314,7 @@ export class FieldSelectionDialogComponent implements OnInit {
 
   resultsMaxed(){
     return `
-WARNING: Your results have been truncated to ${this.maxDownload} rows. You should probably filter your ${this.data.model.toLowerCase()} list a bit more judiciously, or use an analysis procedure that is more amenable to large datasets. Excel can't handle more rows than that anyway.
+WARNING: Your results have been truncated to ${this.maxDownload} rows. You should probably filter your ${this.data.model.toLowerCase()} list a bit more judiciously, or use an analysis procedure that is more amenable to large datasets.
 `;
   }
 
@@ -357,6 +357,13 @@ ${this.selectedFacetService.newDescription(this.data.route)}
 Selected Fields for Download:
   ${this.getFieldsAndDescriptions()}
 ${resultsAreMaxed ? this.resultsMaxed() : ''}
+
+How to cite Pharos:
+  Sheils, T., Mathias, S. et al, "TCRD and Pharos 2021: mining the human proteome for disease biology", Nucl. Acids Res., 2021.
+  DOI: https://doi.org/10.1093/nar/gkaa993">10.1093/nar/gkaa993
+
+Data accessed from Pharos and TCRD is publicly available from the primary data sources listed on https://pharos.ncats.nih.gov/about. Please respect their individual licenses regarding proper use, redistribution, and citations.
+
 SQL Query:
 ${this.sql}`;
     return  metadata;
