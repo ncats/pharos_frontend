@@ -14,6 +14,7 @@ import {SelectedFacetService} from '../../pharos-main/data-list/filter-panel/sel
 import { version, tcrd_version } from '../../../../package.json';
 import {PharosProfileService} from '../../auth/pharos-profile.service';
 import JSZip from 'jszip';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'pharos-field-selection-dialog',
@@ -25,7 +26,7 @@ export class FieldSelectionDialogComponent implements OnInit {
   profile: any;
 
   constructor(public dialogRef: MatDialogRef<FieldSelectionDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: { model: string, count: number , route: any},
+              @Inject(MAT_DIALOG_DATA) public data: { model: string, count: number , route: any, batch: string},
               private pharosApiService: PharosApiService,
               private changeDetectorRef: ChangeDetectorRef,
               private targetListService: TargetListService,
@@ -55,7 +56,7 @@ export class FieldSelectionDialogComponent implements OnInit {
   sqlDirty = true;
   dataDirty = true;
   loading = false;
-  maxDownload = 500000;
+  maxDownload = environment.maxDownload;
 
   ngOnInit(): void {
     this.profileService.profile$.subscribe(profile => {
@@ -221,7 +222,8 @@ export class FieldSelectionDialogComponent implements OnInit {
   standardParams() {
     return {
       model: this.data.model + 's',
-      fields: this.selectedFields
+      fields: this.selectedFields,
+      batch: this.data.batch
     };
   }
 

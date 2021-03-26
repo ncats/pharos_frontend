@@ -1,7 +1,8 @@
+<div class="download-container">
 <div class="upload-form">
   <div fxLayout="row" fxLayoutAlign="space-around center">
     <div fxFlex="90">
-      <h1 mat-dialog-title>Download Data for {{data.count}} {{data.model}}s</h1>
+      <h1 mat-dialog-title>Download Data for {{data.count}} {{data.model}}{{data.count > 1 ? 's' : ''}}</h1>
     </div>
     <button mat-icon-button (click)="cancel()">
       <mat-icon>close</mat-icon>
@@ -11,7 +12,7 @@
 <mat-toolbar [color]="'primary'" class="target-table-toolbar">
   <div class=list-header>Build Download Query</div>
 </mat-toolbar>
-<mat-tab-group (selectedTabChange)="sqlTabSelected($event)" *ngIf="singles || lists.length > 0">
+<mat-tab-group class="tab-holder" (selectedTabChange)="sqlTabSelected($event)" *ngIf="singles || lists.length > 0">
   <mat-tab>
     <ng-template mat-tab-label>
       <div [matTooltip]="'Select fields to download'">
@@ -30,7 +31,8 @@
           <div *ngFor="let field of singles.field">
             <mat-checkbox class="field-checkbox" [checked]="selectedFields.includes(field.name)" [disabled]="!!selectedGroup && !!field.group_method"
                           (change)="fieldChanged($event, null)" [value]="field.name"
-                          [matTooltip]="field.description">
+                          [matTooltip]="!!selectedGroup && !!field.group_method ? ('This column aggregates multiple rows of data, and ' +
+                          'would cause problems for the multiple row dataset you have selected - ' + selectedGroup.listName) : field.description">
               {{field.name}} {{field.group_method ? '(' + field.group_method + ')' : ''}}
             </mat-checkbox>
           </div>
@@ -41,7 +43,7 @@
                         [disabled]="fieldDisabled(list)"
                         (change)="groupChanged($event, list)"
                         [checked]="groupComplete(list)"
-                        [indeterminate]="groupIncomplete(list)">
+                        [indeterminate]="groupIncomplete(list)" [matTooltip]="fieldDisabled(list) ? 'You can only select one multiple row dataset at a time' : ''">
             {{list.listName}}
           </mat-checkbox>
           <ng-container *ngIf="list.equals(selectedGroup)">
@@ -100,12 +102,14 @@
   </mat-tab>
 </mat-tab-group>
 
-<div mat-dialog-actions [dir]="'rtl'">
+<div mat-dialog-actions class="action-container">
+  <mat-card-subtitle class="download-note">Note: Results are limited to {{maxDownload | number}} rows</mat-card-subtitle>
+  <button mat-flat-button (click)="cancel()">Cancel</button>
   <button mat-flat-button
           (click)="doDownload()"
           [color]="'primary'"
           [matTooltip]="'Results will be saved from the browser'"
   >Run Download Query
   </button>
-  <button mat-flat-button (click)="cancel()">Cancel</button>
+</div>
 </div>

@@ -3,6 +3,9 @@ import {Target} from '../../../../models/target';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-sections.service";
+import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'pharos-target-header',
@@ -18,6 +21,8 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
    * call super object constructor
    */
   constructor(
+    private _route: ActivatedRoute,
+    public dialog: MatDialog,
     private changeRef: ChangeDetectorRef,
     public navSectionsService: NavSectionsService
   ) {
@@ -41,5 +46,12 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
     if (this.target) {
       return this.target.idgTDL.toLowerCase() + '-header';
     }
+  }
+
+  downloadData() {
+    const dialogRef = this.dialog.open(FieldSelectionDialogComponent, {
+      data: {count: 1, model: 'Target', route: this._route, batch: this.target.accession},
+      height: '75vh', width: '66vw'
+    }).afterClosed();
   }
 }

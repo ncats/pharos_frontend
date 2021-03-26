@@ -1,8 +1,6 @@
 .scrollview{
-  height: 350px;
   overflow-y: scroll;
   width: 100%;
-
 }
 .field-checkbox{
   margin-left: 15px;
@@ -10,4 +8,24 @@
 .field-container{
   display: flex;
   flex-direction: row;
+}
+
+.download-note{
+  align-items: baseline;
+}
+
+.download-container{
+  display: flex;
+  flex-direction: column;
+  align-content: space-around;
+}
+
+.tab-holder{
+  height: 50vh;
+}
+
+.action-container{
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
 }
