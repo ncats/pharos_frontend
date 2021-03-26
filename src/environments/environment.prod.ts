@@ -7,6 +7,7 @@ export const environment = {
   rendererUrl: `${backend}/render`,
   production: true,
   graphqlUrl: `${backend}/graphql`,
+  maxDownload: 250000,
   firebase: {
     apiKey: '',
     authDomain: '',
