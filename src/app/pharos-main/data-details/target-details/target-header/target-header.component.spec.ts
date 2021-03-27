@@ -9,6 +9,8 @@ import {MOCKACTIVATEDROUTE} from '../../../../../../test/mock-activate-route';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
+import {UnfurlingMetaService} from '../../../../pharos-services/unfurling-meta.service';
+import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 
 describe('TargetHeaderComponent', () => {
   let component: TargetHeaderComponent;
@@ -18,11 +20,16 @@ describe('TargetHeaderComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ TargetHeaderComponent ],
       imports: [
+        MatDialogModule,
         ApolloTestingModule
       ],
       schemas: [
         NO_ERRORS_SCHEMA,
         CUSTOM_ELEMENTS_SCHEMA
+      ],
+      providers: [
+        {provide: MatDialogRef, useValue: {}},
+        { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
       ]
     })
     .compileComponents();
