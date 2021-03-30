@@ -53,6 +53,7 @@ export class FieldSelectionDialogComponent implements OnInit {
 
   previewData: any[] = [];
   sql = '';
+  warnings: string[] = [];
   sqlDirty = true;
   dataDirty = true;
   loading = false;
@@ -91,7 +92,7 @@ export class FieldSelectionDialogComponent implements OnInit {
     if (event.checked) {
       if (!parentGroup.equals(this.singles)) {
         this.selectedGroup = parentGroup;
-        this.selectedFields = parentGroup.field.map(f => f.name);
+        this.selectedFields = parentGroup.field.filter(f => !!f.order).map(f => f.name);
       } else {
         // push all singles
         const multiNames = this.selectedFields.filter(f => !this.singles.asFieldList().includes(f));
@@ -266,6 +267,7 @@ export class FieldSelectionDialogComponent implements OnInit {
         if (save) {
           if (res.data.download.result){
             this.sql = format(res.data.download.sql, {language: 'mysql', uppercase: true});
+            this.warnings = res.data.download.warnings;
 
             const resultsAreMaxed = res.data.download.data.length === this.maxDownload;
             const json2csvParser = new Parser();
@@ -291,6 +293,7 @@ export class FieldSelectionDialogComponent implements OnInit {
       } else {
         if (res.data.download.result){
           this.sql = format(res.data.download.sql, {language: 'mysql', uppercase: true});
+          this.warnings = res.data.download.warnings;
         }
         else {
           this.sql = res.data.download.errorDetails;
@@ -364,6 +367,7 @@ ${this.selectedFacetService.newDescription(this.data.route)}
 Selected Fields for Download:
   ${this.getFieldsAndDescriptions()}
 ${resultsAreMaxed ? this.resultsMaxed() : ''}
+${this.warnings}
 
 How to cite Pharos:
   Sheils, T., Mathias, S. et al, "TCRD and Pharos 2021: mining the human proteome for disease biology", Nucl. Acids Res., 2021.

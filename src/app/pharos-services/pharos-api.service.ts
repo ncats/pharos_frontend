@@ -223,6 +223,7 @@ export class PharosApiService {
       data
       errorDetails
       sql
+      warnings
     }
   }`;
 
