@@ -6,8 +6,8 @@ import {LoadingService} from '../../pharos-services/loading.service';
 import {catchError, map, mergeMap, take} from 'rxjs/internal/operators';
 import {PharosBase, Serializer} from '../../models/pharos-base';
 import {Facet} from '../../models/facet';
-import {TargetListService} from "../../pharos-services/target-list.service";
-import {isPlatformBrowser} from "@angular/common";
+import {TargetListService} from '../../pharos-services/target-list.service';
+import {isPlatformBrowser} from '@angular/common';
 
 /**
  * resolver to retrieve list of data happens on every main level (/targets, /diseases, /ligands, etc) change
@@ -25,7 +25,7 @@ export class DataListResolver implements Resolve<Observable<any>> {
     private router: Router,
     private targetListService: TargetListService,
     private pharosApiService: PharosApiService,
-    @Inject(PLATFORM_ID) private platformID: Object) {
+    @Inject(PLATFORM_ID) private platformID: any) {
   }
 
   /**
@@ -48,26 +48,10 @@ export class DataListResolver implements Resolve<Observable<any>> {
           }))
         .pipe(
           map(res => {
-            res.data.batch.results.facets = res.data.batch.results.facets.map(facet => new Facet(facet));
-            res.data.batch.results[`${[route.data.path]}Props`] = [];
-            res.data.batch.results[route.data.path] = res.data.batch.results[route.data.path].map(obj => {
-              const tobj = serializer.fromJson(obj);
-              res.data.batch.results[`${[route.data.path]}Props`].push(serializer._asProperties(tobj));
-              return tobj;
-            });
-            if(serializer.parseExtras) {
-              res.data.batch.results.extras = serializer.parseExtras(res.data.batch.results);
-            }
-            return res.data.batch.results;
+            return this.parseResponse(route, res, serializer);
           }),
           catchError(err => {
-            if(isPlatformBrowser(this.platformID)) {
-              alert(JSON.stringify(err));
-            }
-            else{
-              console.log(JSON.stringify(err));
-            }
-            return null;
+            return this.logError(err);
           })
         );
       return docidObs;
@@ -75,29 +59,38 @@ export class DataListResolver implements Resolve<Observable<any>> {
       return this.pharosApiService.getGraphQlData(route, navigation.extras.state)
         .pipe(
           map(res => {
-            res.data.batch.results.facets = res.data.batch.results.facets.map(facet => new Facet(facet));
-            res.data.batch.results[`${[route.data.path]}Props`] = [];
-            res.data.batch.results[route.data.path] = res.data.batch.results[route.data.path].map(obj => {
-              const tobj = serializer.fromJson(obj);
-              res.data.batch.results[`${[route.data.path]}Props`].push(serializer._asProperties(tobj));
-              return tobj;
-            });
-            if(serializer.parseExtras) {
-              res.data.batch.results.extras = serializer.parseExtras(res.data.batch.results);
-            }
-            return res.data.batch.results;
+            return this.parseResponse(route, res, serializer);
           }),
           catchError(err => {
-            let message = (err.message || "no message") + "\n" + (err.stack || "no stack trace");
-            if(isPlatformBrowser(this.platformID)) {
-              alert(JSON.stringify(message));
-            }
-            else{
-              console.log(JSON.stringify(message));
-            }
-            return null;
+            return this.logError(err);
           })
         );
     }
+  }
+
+  private logError(err) {
+    const message = (err.message || 'no message') + '\n' + (err.stack || 'no stack trace');
+    if (isPlatformBrowser(this.platformID)) {
+      alert(JSON.stringify(message));
+    } else {
+      console.log(JSON.stringify(message));
+    }
+    return null;
+  }
+
+  private parseResponse(route: ActivatedRouteSnapshot, res, serializer: Serializer) {
+    const path = route.data.path;
+    const results: any = JSON.parse(JSON.stringify(res.data.batch.results));
+    results.facets = results.facets.map(facet => new Facet(facet));
+    results[`${[path]}Props`] = [];
+    results[path] = results[path].map(obj => {
+      const tobj = serializer.fromJson(obj);
+      results[`${[path]}Props`].push(serializer._asProperties(tobj));
+      return tobj;
+    });
+    if (serializer.parseExtras) {
+      results.extras = serializer.parseExtras(results);
+    }
+    return results;
   }
 }

@@ -1,7 +1,7 @@
 <section>
   <div *ngIf="targets">
-    <mat-toolbar [color]="'primary'" class="target-table-toolbar" *ngIf="showToolbar">
-      <div class=pharos-display-1 *ngIf="showLabel">Targets <span *ngIf="pageData">({{pageData.total}})</span>
+    <mat-toolbar [color]="'primary'" class="target-table-toolbar">
+      <div class=modellist-header>Targets <span *ngIf="pageData">({{pageData.total}})</span>
       </div>
       <div fxFlex></div>
       <div fxFlex="10" fxLayoutAlign="end">
@@ -16,6 +16,10 @@
         <button mat-button class="tool-button" (click)="batchUpload()"
                 matTooltip="Upload Target List">
           <mat-icon>upload</mat-icon>
+        </button>
+        <button mat-button class="tool-button" (click)="downloadData()"
+                matTooltip="Download Target List Data">
+          <mat-icon>download</mat-icon>
         </button>
       </div>
     </mat-toolbar>

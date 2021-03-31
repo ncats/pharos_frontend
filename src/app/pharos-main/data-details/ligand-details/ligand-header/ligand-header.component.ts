@@ -2,9 +2,11 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy,
 import {Ligand} from '../../../../models/ligand';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
-import {UnfurlingMetaService} from "../../../../pharos-services/unfurling-meta.service";
-import {NavigationEnd, Router} from "@angular/router";
-import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-sections.service";
+import {UnfurlingMetaService} from '../../../../pharos-services/unfurling-meta.service';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {NavSectionsService} from '../../../../tools/sidenav-panel/services/nav-sections.service';
+import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 /**
  * displays ligand header component
@@ -25,6 +27,8 @@ export class LigandHeaderComponent extends DynamicPanelComponent implements OnIn
    * no args constructor
    */
   constructor(
+    private _route: ActivatedRoute,
+    public dialog: MatDialog,
     private changeRef: ChangeDetectorRef,
     private metaService: UnfurlingMetaService,
     private router: Router,
@@ -52,8 +56,8 @@ export class LigandHeaderComponent extends DynamicPanelComponent implements OnIn
         if (this.data && this.data.ligands) {
           this.ligand = this.data.ligands;
 
-          let newDescription = this.ligand.description;
-          let newTitle = "Pharos: " + this.ligand.name;
+          const newDescription = this.ligand.description;
+          const newTitle = 'Pharos: ' + this.ligand.name;
           this.metaService.setMetaData({description: newDescription, title: newTitle});
           this.metaService.createCanonicalURL(['ligands', (this.ligand.isdrug ? this.ligand.name : this.ligand.ligid)]);
           this.changeRef.markForCheck();
@@ -63,5 +67,12 @@ export class LigandHeaderComponent extends DynamicPanelComponent implements OnIn
 
   ngOnDestroy(): void {
     this.metaService.destroyCanonicalURL();
+  }
+
+  downloadData() {
+    const dialogRef = this.dialog.open(FieldSelectionDialogComponent, {
+      data: {count: 1, model: 'Ligand', route: this._route, batch: this.ligand.ligid},
+      height: '75vh', width: '66vw'
+    }).afterClosed();
   }
 }

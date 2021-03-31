@@ -56,31 +56,14 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
         }
       });
     this.facets = this.selectedFacetService.getFacetsAsObjects();
-    this.metaService.setMetaData({description: this.newDescription(), title: this.newTitle()});
+    this.metaService.setMetaData(
+      {
+        description: this.selectedFacetService.newDescription(this._route),
+        title: this.selectedFacetService.newTitle(this._route)
+      });
     this.changeRef.markForCheck();
   }
 
-  /**
-   * constructs the new title to show for the unfurled URL link
-   */
-  newTitle(): string{
-    let listType = this._route.snapshot.data.path;
-    let listName = listType.replace("/","").toLowerCase().slice(0,listType.length-1);
-    const listTitle = listName.charAt(0).toUpperCase() + listName.slice(1);
-    return `Pharos: ${listTitle} List`;
-  }
-
-  /**
-   * constructs the new description to show for the unfurled URL link
-   */
-  newDescription(): string{
-    let str = `Found ${this._route.snapshot.data.results.count} ${this._route.snapshot.data.path}. `;
-    if(this.facets.length){
-      str += 'The following filters were applied: ';
-      str += this.facets.map(f => f.facet + " = " + f.values.map(v => v.name).join(' OR ')).join((" AND "));
-    }
-    return str;
-  }
 
   /**
    * remove a specific facet and all selected fields

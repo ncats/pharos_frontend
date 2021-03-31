@@ -4,7 +4,9 @@ import {PageData} from '../../../../models/page-data';
 import {PharosConfig} from '../../../../../config/pharos-config';
 import {Ligand} from '../../../../models/ligand';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
-import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-sections.service";
+import {NavSectionsService} from '../../../../tools/sidenav-panel/services/nav-sections.service';
+import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -56,6 +58,7 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
    * @param {PharosConfig} pharosConfig
    */
   constructor(
+    public dialog: MatDialog,
     private _route: ActivatedRoute,
     private router: Router,
     private ref: ChangeDetectorRef,
@@ -201,6 +204,13 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
     } else {
       return null;
     }
+  }
+
+  downloadData() {
+    const dialogRef = this.dialog.open(FieldSelectionDialogComponent, {
+      data: {count: this.pageData.total, model: 'Ligand', route: this._route},
+      height: '75vh', width: '66vw'
+    }).afterClosed();
   }
 
   /**

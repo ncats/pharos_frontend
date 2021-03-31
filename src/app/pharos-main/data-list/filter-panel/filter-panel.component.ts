@@ -1,4 +1,13 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output
+} from '@angular/core';
 import {Facet, Field} from '../../../models/facet';
 import {forkJoin, Observable, Subject} from 'rxjs';
 import {PathResolverService} from './path-resolver.service';
@@ -22,6 +31,30 @@ import {AngularFirestore} from '@angular/fire/firestore';
 
 })
 export class FilterPanelComponent implements OnInit, OnDestroy {
+
+  /**
+   * set up services to get facets
+   * @param selectedFacetService
+   * @param changeRef
+   * @param router
+   * @param _route
+   * @param profileService
+   * @param pathResolverService
+   * @param pharosApiService
+   * @param firestore
+   * @param {PharosConfig} pharosConfig
+   */
+  constructor(
+    private selectedFacetService: SelectedFacetService,
+    private changeRef: ChangeDetectorRef,
+    private router: Router,
+    private _route: ActivatedRoute,
+    private profileService: PharosProfileService,
+    private pathResolverService: PathResolverService,
+    private pharosApiService: PharosApiService,
+    private firestore: AngularFirestore,
+    private pharosConfig: PharosConfig) { }
+
   panelOptions: PanelOptions = {
     mode: 'side',
     class: 'filters-panel',
@@ -37,27 +70,8 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    */
   @Output() menuToggle: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  /**
-   * list of facets shown in the filter panel
-   */
-  @Input() facets: Facet[];
-  nonEmptyFacets() {
-    return this.facets.filter(facet => {return facet.values.length > 0;});
-  }
-
   showInfo: Map<Facet, boolean> = new Map<Facet, boolean>();
 
-  toggleFacetInfo(facet: Facet){
-    const currentVal = this.showingInfo(facet);
-    this.showInfo.set(facet, !currentVal);
-  }
-
-  showingInfo(facet: Facet) : boolean{
-    if(this.showInfo.has(facet)){
-      return this.showInfo.get(facet);
-    }
-    return false;
-  }
   /**
    * list of initial facets to display
    */
@@ -98,29 +112,26 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
 
   /**
-   * set up services to get facets
-   * @param selectedFacetService
-   * @param changeRef
-   * @param router
-   * @param _route
-   * @param profileService
-   * @param pathResolverService
-   * @param pharosApiService
-   * @param firestore
-   * @param {PharosConfig} pharosConfig
+   * list of facets shown in the filter panel
    */
-  constructor(
-    private selectedFacetService: SelectedFacetService,
-    private changeRef: ChangeDetectorRef,
-    private router: Router,
-    private _route: ActivatedRoute,
-    private profileService: PharosProfileService,
-    private pathResolverService: PathResolverService,
-    private pharosApiService: PharosApiService,
-    private firestore: AngularFirestore,
-    private pharosConfig: PharosConfig) {
+  @Input() facets: Facet[];
+
+  nonEmptyFacets() {
+    return this.facets.filter(facet => facet.values.length > 0);
   }
 
+
+  toggleFacetInfo(facet: Facet){
+    const currentVal = this.showingInfo(facet);
+    this.showInfo.set(facet, !currentVal);
+  }
+
+  showingInfo(facet: Facet): boolean{
+    if (this.showInfo.has(facet)){
+      return this.showInfo.get(facet);
+    }
+    return false;
+  }
   /**
    * set up subscriptions to get facets
    */
@@ -130,6 +141,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
         // User is signed in.
         this.user = user;
         if (user.data().collection && this._route.snapshot.data.path === 'targets') {
+          this.clearCustomFacets();
           const customFacets = new Facet({
             facet: 'collection',
             label: 'Custom Collections',
@@ -155,8 +167,15 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
           });
 
           forkJoin([...collections]).subscribe(res => {
-            customFacets.values = res;
-            this.customFacets.push(customFacets);
+            const collectionFacet = new Facet({
+              facet: 'collection',
+              label: 'Custom Collections',
+              values: res
+            });
+            this.customFacets.push(collectionFacet);
+            if (this.customFacets.length > 1){
+              this.customFacets.shift();
+            }
             this.facets = this.customFacets.concat(this.filteredFacets);
             this.changeRef.markForCheck();
           });
@@ -164,11 +183,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
         }
       } else {
         // User is not signed in.
-        this.customFacets = [];
-        if (this.data && this.data.facets) {
-          this.facets = this.customFacets.concat(this.filteredFacets);
-        }
-        this.changeRef.markForCheck();
+        this.clearCustomFacets();
       }
     });
 
@@ -195,6 +210,13 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     this.changeRef.markForCheck();
   }
 
+  clearCustomFacets(){
+    this.customFacets = [];
+    if (this.data && this.data.facets) {
+      this.facets = this.customFacets.concat(this.filteredFacets);
+    }
+    this.changeRef.markForCheck();
+  }
   /**
    * toggle the show all facets view
    * load all facets as needed

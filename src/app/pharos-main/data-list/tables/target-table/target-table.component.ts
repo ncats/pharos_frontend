@@ -2,12 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
   InjectionToken,
   Input,
   OnDestroy,
   OnInit,
-  Output,
   ViewEncapsulation
 } from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
@@ -24,7 +22,8 @@ import {PharosProfileService} from '../../../../auth/pharos-profile.service';
 import {TopicSaveModalComponent} from './topic-save-modal/topic-save-modal.component';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-sections.service";
+import {NavSectionsService} from '../../../../tools/sidenav-panel/services/nav-sections.service';
+import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
 
 
 /**
@@ -63,8 +62,8 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   /**
    * holds the gene that is used as the binding partner for the current target list
    */
-  associatedTarget: String = "";
-  associatedDisease: String = "";
+  associatedTarget = '';
+  associatedDisease = '';
   /**
    * main list of paginated targets
    */
@@ -74,18 +73,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * page data object set by parent component
    */
   @Input() pageData: PageData;
-
-  /**
-   * boolean to show or hide the large "targets" label
-   * @type {boolean}
-   */
-  @Input() showLabel = true;
-
-  /**
-   * show the colored toolbar, which includes target list functionality
-   * @type {boolean}
-   */
-  @Input() showToolbar = true;
 
   /**
    * checks for mobile view to toggle small card view
@@ -101,6 +88,9 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
 
   similarityTarget: Target;
 
+  loggedIn = false;
+
+  user: any;
   /**
    * set up dependencies
    * @param _route
@@ -129,31 +119,31 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   sortMap: Map<string, any>;
 
   defaultSortMap: Map<string, any> = new Map([
-    ["Target Name", {sortKey: "name", order: "asc"}],
-    ["Gene", {sortKey: "sym", order: "asc"}],
-    ["UniProt", {sortKey: "uniprot", order: "asc"}],
-    ["Development Level", {sortKey: "tdl", order: "desc"}],
-    ["Family", {sortKey: "fam", order: "asc"}],
-    ["Novelty", {sortKey: "novelty", order: "desc"}],
-    ["PubMed Score", {sortKey: "tdl_info.JensenLab PubMed Score", order: "desc"}],
-    ["Antibody Count", {sortKey: "tdl_info.Ab Count", order: "desc"}]
+    ['Target Name', {sortKey: 'Name', order: 'asc'}],
+    ['Gene', {sortKey: 'Symbol', order: 'asc'}],
+    ['UniProt', {sortKey: 'UniProt', order: 'asc'}],
+    ['Development Level', {sortKey: 'Target Development Level', order: 'desc'}],
+    ['Family', {sortKey: 'Family', order: 'asc'}],
+    ['Novelty', {sortKey: 'Novelty', order: 'desc'}],
+    ['PubMed Score', {sortKey: 'PubMed Score', order: 'desc'}],
+    ['Antibody Count', {sortKey: 'Antibody Count', order: 'desc'}]
   ]);
 
   ppiSortMap: Map<string, any> = new Map([
-    ["score", {sortKey: "ncats_ppi.score", order: "desc"}],
-    ["p_int", {sortKey: "ncats_ppi.p_int", order: "desc"}],
-    ["p_ni", {sortKey: "ncats_ppi.p_ni", order: "desc"}],
-    ["p_wrong", {sortKey: "ncats_ppi.p_wrong", order: "desc"}],
+    ['score', {sortKey: 'StringDB Interaction Score', order: 'desc'}],
+    ['p_int', {sortKey: 'BioPlex Interaction Probability', order: 'desc'}],
+    ['p_ni', {sortKey: 'BioPlex p_ni', order: 'desc'}],
+    ['p_wrong', {sortKey: 'BioPlex p_wrong', order: 'desc'}],
     ...this.defaultSortMap
   ]);
 
   diseaseSortMap: Map<string, any> = new Map([
-    ["JensenLab Text Mining zscore", {sortKey: "disease.zscore", order: "desc"}],
-    ["JensenLab conf", {sortKey: "disease.conf", order: "desc"}],
-    ["Expression Atlas log2foldchange", {sortKey: "disease.log2foldchange", order: "desc"}],
-    ["Expression Atlas pvalue", {sortKey: "disease.pvalue", order: "asc"}],
-    ["DisGeNET score", {sortKey: "disease.score", order: "desc"}],
-    ["Monarch S2O", {sortKey: "disease.S2O", order: "desc"}],
+    ['JensenLab Text Mining zscore', {sortKey: 'JensenLab TextMining zscore', order: 'desc'}],
+    ['JensenLab conf', {sortKey: 'JensenLab Confidence', order: 'desc'}],
+    ['Expression Atlas log2foldchange', {sortKey: 'Expression Atlas Log2 Fold Change', order: 'desc'}],
+    ['Expression Atlas pvalue', {sortKey: 'Associated Disease P-value', order: 'asc'}],
+    ['DisGeNET score', {sortKey: 'DisGeNET Score', order: 'desc'}],
+    ['Monarch S2O', {sortKey: 'Monarch S2O', order: 'desc'}],
     ...this.defaultSortMap
   ]);
 
@@ -165,7 +155,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       delete this.previousSortObject;
       this.sortTargets();
     }
-    let key = sortObject.sortKey;
+    const key = sortObject.sortKey;
     let order = sortObject.order;
     if (key === this.previousSortObject?.sortKey) {
       order = this.swapOrder(this.previousSortObject.order);
@@ -173,14 +163,14 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     this.sortTargets(key, order);
   }
 
-  toggleSortOrder(){
+  toggleSortOrder() {
     this.sortTargets(this.previousSortObject.sortKey, this.swapOrder(this.previousSortObject.order));
   }
 
   sortTargets(sortKey?: string, direction?: string): void {
-    this.previousSortObject = {sortKey: sortKey, order: direction};
+    this.previousSortObject = {sortKey, order: direction};
     if (sortKey) {
-      const prefix = direction == 'asc' ? '^' : '!';
+      const prefix = direction === 'asc' ? '^' : '!';
       navigationExtras.queryParams = {
         sortColumn: prefix + sortKey,
         page: null
@@ -195,14 +185,12 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   swapOrder(order: string) {
-    if (order === "desc") {
-      return "asc";
+    if (order === 'desc') {
+      return 'asc';
     }
-    return "desc";
+    return 'desc';
   }
 
-  loggedIn = false;
-  user: any;
 
   /**
    * check for mobile view,
@@ -232,15 +220,13 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        this.associatedTarget = this._route.snapshot.queryParamMap.get("associatedTarget");
-        this.associatedDisease = this._route.snapshot.queryParamMap.get("associatedDisease");
-        if(this.associatedTarget){
+        this.associatedTarget = this._route.snapshot.queryParamMap.get('associatedTarget');
+        this.associatedDisease = this._route.snapshot.queryParamMap.get('associatedDisease');
+        if (this.associatedTarget) {
           this.sortMap = this.ppiSortMap;
-        }
-        else if(this.associatedDisease){
+        } else if (this.associatedDisease) {
           this.sortMap = this.diseaseSortMap;
-        }
-        else{
+        } else {
           this.sortMap = this.defaultSortMap;
         }
         if (this.data && this.data.targets) {
@@ -249,12 +235,11 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
             skip: (+this._route.snapshot.queryParamMap.get('page') - 1) * +this._route.snapshot.queryParamMap.get('rows'),
             total: this.data.count
           });
-          let navSortParam = this._route.snapshot.queryParamMap.get('sortColumn');
-          if(navSortParam){
-            this.selectedSortObject = {sortKey: navSortParam.substring(1), order: navSortParam.substring(0,1) === '^' ? 'asc' : 'desc'};
+          const navSortParam = this._route.snapshot.queryParamMap.get('sortColumn');
+          if (navSortParam) {
+            this.selectedSortObject = {sortKey: navSortParam.substring(1), order: navSortParam.substring(0, 1) === '^' ? 'asc' : 'desc'};
             this.previousSortObject = this.selectedSortObject;
-          }
-          else{
+          } else {
             this.selectedSortObject = null;
             this.previousSortObject = null;
           }
@@ -265,7 +250,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       });
   }
 
-  compareSortKeys(key1, key2){
+  compareSortKeys(key1, key2) {
     return key1 && key2 && key1.sortKey === key2.sortKey;
   }
 
@@ -416,7 +401,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
 
   getSelected(target: Target) {
     return this.rowSelection.selected.find(t => {
-      return t._tcrdid == target._tcrdid;
+      return t._tcrdid === target._tcrdid;
     });
   }
 
@@ -438,7 +423,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     if ($event.checked) {
       this.targets.forEach(t => {
         if (!this.isSelected(t)) {
-          this.rowSelection.select(t)
+          this.rowSelection.select(t);
         }
       });
     } else {
@@ -460,7 +445,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   someSelected(): boolean {
-    let pageCount = this.countPageSelections();
+    const pageCount = this.countPageSelections();
     return pageCount > 0 && pageCount < this.targets.length;
   }
 
@@ -480,6 +465,13 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
 
   selectAll() {
 
+  }
+
+  downloadData() {
+    const dialogRef = this.dialog.open(FieldSelectionDialogComponent, {
+      data: {count: this.pageData.total, model: 'Target', route: this._route},
+      height: '75vh', width: '66vw'
+    }).afterClosed();
   }
 
   /**
