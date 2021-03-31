@@ -2,8 +2,11 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} fr
 import {Disease} from '../../../../models/disease';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
-import {UnfurlingMetaService} from "../../../../pharos-services/unfurling-meta.service";
-import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-sections.service";
+import {UnfurlingMetaService} from '../../../../pharos-services/unfurling-meta.service';
+import {NavSectionsService} from '../../../../tools/sidenav-panel/services/nav-sections.service';
+import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
+import {ActivatedRoute} from '@angular/router';
+import {MatDialog} from '@angular/material/dialog';
 
 /**
  * header component for disease details page display
@@ -26,6 +29,8 @@ export class DiseaseHeaderComponent extends DynamicPanelComponent implements OnI
    * call super object constructor
    */
   constructor(
+    private _route: ActivatedRoute,
+    public dialog: MatDialog,
     private changeRef: ChangeDetectorRef,
     private metaService: UnfurlingMetaService,
     public navSectionsService: NavSectionsService
@@ -43,12 +48,18 @@ export class DiseaseHeaderComponent extends DynamicPanelComponent implements OnI
       .subscribe(x => {
         this.disease = this.data.diseases;
 
-        let newDescription = this.disease.doDescription || this.disease.uniprotDescription;
-        let newTitle = `Pharos: ${this.disease.name} (${this.disease.targetCountsTotal} associated targets)`;
+        const newDescription = this.disease.doDescription || this.disease.uniprotDescription;
+        const newTitle = `Pharos: ${this.disease.name} (${this.disease.targetCountsTotal} associated targets)`;
         this.metaService.setMetaData({description: newDescription, title: newTitle});
 
         this.changeRef.markForCheck();
       });
   }
 
+  downloadData() {
+    const dialogRef = this.dialog.open(FieldSelectionDialogComponent, {
+      data: {count: 1, model: 'Disease', route: this._route, batch: this.disease.name},
+      height: '75vh', width: '66vw'
+    }).afterClosed();
+  }
 }

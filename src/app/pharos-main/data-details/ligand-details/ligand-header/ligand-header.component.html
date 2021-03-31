@@ -1,7 +1,11 @@
 <article>
   <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center">
-    <div fxFlex="95" fxFlexAlign="">
+    <div fxFlex="95" fxFlexAlign="" >
       <span class = "pharos-title toolbar">{{ligand.isdrug ? ligand.name : ligand.chemblName}}</span>
+      <button mat-button class="tool-button " (click)="downloadData()"
+              [matTooltip]="'Download Data for ' + (ligand.isdrug ? ligand.name : ligand.chemblName)">
+        <mat-icon>download</mat-icon>
+      </button>
     </div>
   </div>
 <br>

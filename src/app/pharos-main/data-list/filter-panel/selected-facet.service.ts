@@ -86,7 +86,7 @@ export class SelectedFacetService {
     const retArr: string[] = [];
    // this._facetMap.delete('query');
     const facets: Facet[] = Array.from(this._facetMap.values()).filter(
-      fac => fac.facet !== 'query' && //TODO use pseudoFacet list instead
+      fac => fac.facet !== 'query' && // TODO use pseudoFacet list instead
         fac.facet !== 'collection' &&
         fac.facet !== 'associatedTarget' &&
         fac.facet !== 'associatedDisease' &&
@@ -181,25 +181,25 @@ export class SelectedFacetService {
       if (map.has('collection')) {
         this._facetMap.set('collection', new Facet({facet: 'collection', values: [{name: map.get('collection')}]}));
       }
-      if(map.has('associatedTarget')){
+      if (map.has('associatedTarget')){
         this._facetMap.set('associatedTarget', new Facet(
           {
             label: Facet.getReadableParameter('associatedTarget'),
-            facet:'associatedTarget', values: [{name: map.get('associatedTarget')}]
+            facet: 'associatedTarget', values: [{name: map.get('associatedTarget')}]
           }));
       }
-      if(map.has('associatedDisease')){
+      if (map.has('associatedDisease')){
         this._facetMap.set('associatedDisease', new Facet(
           {
             label: Facet.getReadableParameter('associatedDisease'),
-            facet:'associatedDisease', values: [{name: map.get('associatedDisease')}]
+            facet: 'associatedDisease', values: [{name: map.get('associatedDisease')}]
           }));
       }
-      if(map.has('similarity')){
+      if (map.has('similarity')){
         this._facetMap.set('similarity', new Facet(
           {
             label: Facet.getReadableParameter('similarity'),
-            facet:'similarity', values: [{name: map.get('similarity')}]
+            facet: 'similarity', values: [{name: map.get('similarity')}]
           }));
       }
       const fList = map.getAll('facet');
@@ -230,5 +230,26 @@ export class SelectedFacetService {
    */
   getAllFacets(): Observable<Map<string, Facet>> {
     return this.facets$;
+  }
+
+  newDescription(route): string{
+    const facets = this.getFacetsAsObjects();
+    let str = `Found ${route.snapshot.data?.results?.count} ${route.snapshot.data?.path}. `;
+    if (facets.length){
+      str += 'The following filters were applied: ';
+      str += facets.map(f => f.facet + ' = ' + f.values.map(v => v.name).join(' OR ')).join((' AND '));
+    }
+    return str;
+  }
+
+
+  /**
+   * constructs the new title to show for the unfurled URL link
+   */
+  newTitle(route): string{
+    const listType = route.snapshot.data.path;
+    const listName = listType.replace('/', '').toLowerCase().slice(0, listType.length - 1);
+    const listTitle = listName.charAt(0).toUpperCase() + listName.slice(1);
+    return `Pharos: ${listTitle} List`;
   }
 }

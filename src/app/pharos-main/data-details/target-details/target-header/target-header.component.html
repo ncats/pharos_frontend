@@ -10,6 +10,10 @@
       </div>
       <div fxFlex="60" fxFlex.lt-sm="100" class="title-holder">
         <span class="pharos-headline toolbar">{{target?.name}}</span>
+        <button mat-button class="tool-button" (click)="downloadData()"
+                [matTooltip]="'Download Data for ' + (target?.gene || target?.accession)">
+          <mat-icon>download</mat-icon>
+        </button>
       </div>
     </div>
     <br>
