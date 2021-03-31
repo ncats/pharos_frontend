@@ -361,9 +361,6 @@ TCRD Version: ${tcrd_version}
 Pharos Version: ${version}
 URL: https://pharos.nih.gov${this.router.url}
 
-${this.selectedFacetService.newTitle(this.data.route)}
-${this.selectedFacetService.newDescription(this.data.route)}
-
 Selected Fields for Download:
   ${this.getFieldsAndDescriptions()}
 ${resultsAreMaxed ? this.resultsMaxed() : ''}
