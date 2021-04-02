@@ -1,13 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
-import {Target, TargetSerializer} from "../../../../../models/target";
-import {takeUntil} from "rxjs/operators";
-import {PharosProperty} from "../../../../../models/pharos-property";
-import {PageData} from "../../../../../models/page-data";
-import {TargetComponents} from "../../../../../models/target-components";
-import {PharosApiService} from "../../../../../pharos-services/pharos-api.service";
-import {ActivatedRoute} from "@angular/router";
+import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
+import {Target, TargetSerializer} from '../../../../../models/target';
+import {takeUntil} from 'rxjs/operators';
+import {PharosProperty} from '../../../../../models/pharos-property';
+import {PageData} from '../../../../../models/page-data';
+import {TargetComponents} from '../../../../../models/target-components';
+import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'pharos-go-terms',

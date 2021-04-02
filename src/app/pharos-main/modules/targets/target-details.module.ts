@@ -5,21 +5,21 @@ import {TargetHeaderComponent} from '../../data-details/target-details/target-he
 import {SummaryPanelComponent} from '../../data-details/target-details/panels/summary-panel/summary-panel.component';
 import {RadarChartViewerComponent} from '../../../tools/radar-chart-viewer/radar-chart-viewer.component';
 import {DiseaseSourceComponent} from '../../data-details/target-details/panels/disease-source-panel/disease-source-panel.component';
-import {DiseaseCardComponent} from "../../data-details/target-details/panels/disease-source-panel/disease-card/disease-card.component";
-import {DiseaseAssociationComponent} from "../../data-details/target-details/panels/disease-source-panel/disease-association/disease-association.component";
+import {DiseaseCardComponent} from '../../data-details/target-details/panels/disease-source-panel/disease-card/disease-card.component';
+import {DiseaseAssociationComponent} from '../../data-details/target-details/panels/disease-source-panel/disease-association/disease-association.component';
 import {ExpressionPanelComponent} from '../../data-details/target-details/panels/expression-panel/expression-panel.component';
-import {ExpressionTissueCardComponent} from "../../data-details/target-details/panels/expression-panel/expression-tissue-card/expression-tissue-card.component";
+import {ExpressionTissueCardComponent} from '../../data-details/target-details/panels/expression-panel/expression-tissue-card/expression-tissue-card.component';
 import {AaSequencePanelComponent} from '../../data-details/target-details/panels/aa-sequence-panel/aa-sequence-panel.component';
 import {ProteinProteinPanelComponent} from '../../data-details/target-details/panels/protein-protein-panel/protein-protein-panel.component';
-import {ViralInteractionPanelComponent} from '../../data-details/target-details/panels/viral-interaction-panel/viral-interaction-panel.component'
-import {VirusDetailsComponent} from '../../data-details/target-details/panels/viral-interaction-panel/virus-details/virus-details.component'
+import {ViralInteractionPanelComponent} from '../../data-details/target-details/panels/viral-interaction-panel/viral-interaction-panel.component';
+import {VirusDetailsComponent} from '../../data-details/target-details/panels/viral-interaction-panel/virus-details/virus-details.component';
 import {OrthologPanelComponent} from '../../data-details/target-details/panels/expression-panel/ortholog-panel/ortholog-panel.component';
 import {GeneSummaryComponent} from '../../data-details/target-details/panels/gene-summary/gene-summary.component';
 import {TargetFacetPanelComponent} from '../../data-details/target-details/panels/target-facet-panel/target-facet-panel.component';
 import {IdgResourcesPanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/idg-resources-panel.component';
 import {ReagentPanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/reagent-panel/reagent-panel.component';
 import {DataResourcePanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/data-resource-panel/data-resource-panel.component';
-import {MouseExpressionComponent} from "../../data-details/target-details/panels/idg-resources-panel/mouse-expression/mouse-expression.component";
+import {MouseExpressionComponent} from '../../data-details/target-details/panels/idg-resources-panel/mouse-expression/mouse-expression.component';
 import {LigandsPanelComponent} from '../../data-details/target-details/panels/drugs-ligands-panel/ligands-panel/ligands-panel.component';
 import {DrugsPanelComponent} from '../../data-details/target-details/panels/drugs-ligands-panel/drugs-panel/drugs-panel.component';
 import {DifferentialPanelComponent} from '../../data-details/target-details/panels/expression-panel/differential-panel/differential-panel.component';
@@ -37,17 +37,18 @@ import {HelpPanelComponent} from '../../../tools/help-panel/help-panel.component
 import {SidenavPanelComponent} from '../../../tools/sidenav-panel/sidenav-panel.component';
 import {PublicationStatisticsComponent} from '../../data-details/target-details/panels/publication-statistics/publication-statistics.component';
 import {RelatedPublicationsComponent} from '../../data-details/target-details/panels/related-publications/related-publications.component';
-import {MatButtonToggleModule} from "@angular/material/button-toggle";
-import {PdbDetailsComponent} from "../../data-details/target-details/panels/pdb-panel/pdb-details/pdb-details.component";
-import {PdbPanelComponent} from "../../data-details/target-details/panels/pdb-panel/pdb-panel.component";
-import {DrugsLigandsPanelComponent} from "../../data-details/target-details/panels/drugs-ligands-panel/drugs-ligands-panel.component";
-import {PathwaysPanelComponent} from "../../data-details/target-details/panels/pathways-panel/pathways-panel.component";
-import {ReactomePathwayBrowserComponent} from "../../data-details/target-details/panels/pathways-panel/reactome-pathway-browser/reactome-pathway-browser.component";
-import {GoTermsComponent} from "../../data-details/target-details/panels/go-terms/go-terms.component";
-import {SequenceLogoComponent} from "../../data-details/target-details/panels/ortholog-variants/sequence-logo/sequence-logo.component";
-import {SequenceComponent} from "../../data-details/target-details/panels/aa-sequence-panel/sequence/sequence.component";
-import {ClipboardModule} from "@angular/cdk/clipboard";
-import {OrthologVariantsComponent} from "../../data-details/target-details/panels/ortholog-variants/ortholog-variants.component";
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {PdbDetailsComponent} from '../../data-details/target-details/panels/pdb-panel/pdb-details/pdb-details.component';
+import {PdbPanelComponent} from '../../data-details/target-details/panels/pdb-panel/pdb-panel.component';
+import {DrugsLigandsPanelComponent} from '../../data-details/target-details/panels/drugs-ligands-panel/drugs-ligands-panel.component';
+import {PathwaysPanelComponent} from '../../data-details/target-details/panels/pathways-panel/pathways-panel.component';
+import {ReactomePathwayBrowserComponent} from '../../data-details/target-details/panels/pathways-panel/reactome-pathway-browser/reactome-pathway-browser.component';
+import {GoTermsComponent} from '../../data-details/target-details/panels/go-terms/go-terms.component';
+import {SequenceLogoComponent} from '../../data-details/target-details/panels/ortholog-variants/sequence-logo/sequence-logo.component';
+import {SequenceComponent} from '../../data-details/target-details/panels/aa-sequence-panel/sequence/sequence.component';
+import {ClipboardModule} from '@angular/cdk/clipboard';
+import {OrthologVariantsComponent} from '../../data-details/target-details/panels/ortholog-variants/ortholog-variants.component';
+import {GwasAnalyticsComponent} from '../../data-details/target-details/panels/gwas-analytics/gwas-analytics.component';
 
 @NgModule({
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
@@ -74,6 +75,7 @@ import {OrthologVariantsComponent} from "../../data-details/target-details/panel
     PdbDetailsComponent,
     GeneSummaryComponent,
     GoTermsComponent,
+    GwasAnalyticsComponent,
     TargetFacetPanelComponent,
     IdgResourcesPanelComponent,
     ReagentPanelComponent,
@@ -131,7 +133,8 @@ import {OrthologVariantsComponent} from "../../data-details/target-details/panel
     {provide: TOKENS.GO_TERMS_PANEL, useValue: GoTermsComponent},
     {provide: TOKENS.PATHWAYS_PANEL, useValue: PathwaysPanelComponent},
     {provide: TOKENS.SEQUENCE_LOGO, useValue: SequenceLogoComponent},
-    {provide: TOKENS.ORTHOLOG_VARIANT_PANEL, useValue: OrthologVariantsComponent}
+    {provide: TOKENS.ORTHOLOG_VARIANT_PANEL, useValue: OrthologVariantsComponent},
+    {provide: TOKENS.GWAS_ANALYTICS_PANEL, useValue: GwasAnalyticsComponent}
   ]
 })
 export class TargetDetailsModule { }

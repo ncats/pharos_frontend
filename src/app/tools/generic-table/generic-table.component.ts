@@ -124,6 +124,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
   }
 
   @Input() pageData: PageData;
+  @Input() defaultPageSize = 10;
   /**
    * gets placeholder expanded row outlets
    */

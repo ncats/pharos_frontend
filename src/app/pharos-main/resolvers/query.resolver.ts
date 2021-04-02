@@ -35,21 +35,23 @@ export class QueryResolver implements Resolve<any> {
     return this.pharosApiService.adHocQuery(route.data.fragments.query)
       .pipe(
         map(res =>  {
-          let results = res.data[route.data.rootObject];
-          if(Array.isArray(results)) {
-            res.data[`${[route.data.rootObject]}Props`] = [];
-            res.data[route.data.rootObject] = res.data[route.data.rootObject].map(obj => {
+          const data = JSON.parse(JSON.stringify(res.data)); // copy readonly object
+          const results = data[route.data.rootObject];
+          // copy readonly object
+          if (Array.isArray(results)) {
+            data[`${[route.data.rootObject]}Props`] = [];
+            data[route.data.rootObject] = data[route.data.rootObject].map(obj => {
               const tobj = serializer.fromJson(obj);
-              res.data[`${[route.data.rootObject]}Props`].push(serializer._asProperties(tobj));
+              data[`${[route.data.rootObject]}Props`].push(serializer._asProperties(tobj));
               return tobj;
             });
           }
           else{
-            const tobj = serializer.fromJson(res.data[route.data.rootObject]);
-            res.data[route.data.rootObject] = tobj;
-            res.data[`${[route.data.rootObject]}Props`] = serializer._asProperties(tobj);
+            const tobj = serializer.fromJson(data[route.data.rootObject]);
+            data[route.data.rootObject] = tobj;
+            data[`${[route.data.rootObject]}Props`] = serializer._asProperties(tobj);
           }
-          return res.data;
+          return data;
         })
       );
   }

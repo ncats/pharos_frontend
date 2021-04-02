@@ -296,10 +296,10 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     if (this._chartOptions.xAxisScale === 'year') {
       this.x.domain(
         d3.extent(d3.merge(this.displayData).map(d => {
-          if (d.x.constructor.name === "Date") {
+          if (d.x.constructor.name === 'Date') {
             return d.x;
           }
-          return new Date(+d.x, 0)
+          return new Date(+d.x, 0);
         })));
     } else {
       this.x.domain(
@@ -310,15 +310,18 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     if (this._chartOptions.yAxisScale === 'year') {
       this.y.domain(
         d3.extent(d3.merge(this.displayData).map(d => {
-          if (d.y.constructor.name === "Date") {
+          if (d.y.constructor.name === 'Date') {
             return d.y;
           }
           return new Date(d.y, 0);
         })));
     } else {
-      this.y.domain(
-        (d3.extent(d3.merge(this.displayData).map(d => d.y)))
-      ).nice();
+      const yDomain = d3.extent(d3.merge(this.displayData).map(d => d.y));
+      if (this._chartOptions.yBuffer) {
+        yDomain[0] -= this._chartOptions.yBuffer;
+        yDomain[1] += this._chartOptions.yBuffer;
+      }
+      this.y.domain(yDomain).nice();
     }
 
     let xAxis = d3.axisBottom(this.x)

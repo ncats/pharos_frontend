@@ -85,7 +85,7 @@ export interface PharosPanel {
   api?: PharosApi[];
 }
 
-const ppi_interaction_fields: PharosApi[] = [
+const ppiInteractionFields: PharosApi[] = [
   {
     field: 'Score',
     label: 'score',
@@ -108,7 +108,7 @@ const ppi_interaction_fields: PharosApi[] = [
   }
 ];
 
-const disease_association_fields: PharosApi[] =
+const diseaseAssociationFields: PharosApi[] =
   [
     {
       field: 'evidence',
@@ -157,7 +157,7 @@ const disease_association_fields: PharosApi[] =
     }
   ];
 
-const similarity_fields: PharosApi[] =
+const similarityFields: PharosApi[] =
   [
     {
       field: 'jaccard',
@@ -236,9 +236,9 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
       label: 'Novelty',
       description: 'Tin-X metric for the relative scarcity of specific publications for this target.'
     },
-    ...ppi_interaction_fields,
-    ...disease_association_fields,
-    ...similarity_fields,
+    ...ppiInteractionFields,
+    ...diseaseAssociationFields,
+    ...similarityFields,
     {
       field: 'illuminationGraph',
       label: 'Illumination Graph',
@@ -525,7 +525,7 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
       label: 'Disease ID',
       description: 'Identifier the data source is using for this disease association.'
     },
-    ...disease_association_fields,
+    ...diseaseAssociationFields,
     {
       field: 'dataSources',
       label: 'Data Source Links',
@@ -711,6 +711,25 @@ const ORTHOLOG_VARIANT_PANEL: PharosPanel = {
   ]
 };
 
+const GWAS_ANALYTICS_PANEL: PharosPanel = {
+  token: TOKENS.GWAS_ANALYTICS_PANEL,
+  navHeader: {
+    label: 'GWAS Traits',
+    section: 'tiga',
+    mainDescription: 'Genome-wide association studies (GWAS) find associations between phenotypic traits and genes. Target Illumination ' +
+      'GWAS Analytics (TIGA) scores and ranks those traits according to... TODO: figure out what those are scored and ranked according to.',
+    mainSource: 'https://unmtid-shinyapps.net/shiny/tiga/'
+  }, api: [
+    { field: 'gwasTrait', label: 'GWAS Trait', description: 'The phenotypic trait found to be associated with the gene'},
+    { field: 'efoID', label: 'EFO ID', description: 'Experimental Factor Ontology (EFO) ID for the trait'},
+    { field: 'studyCount', label: 'Study Count', description: 'Number of studies that have found the association between the gene and the trait'},
+    { field: 'snpCount', label: 'SNP Count', description: 'Number of SNPs involved in the association'},
+    { field: 'betaCount', label: 'Beta Count', description: 'Count of beta values with 95% confidence intervals that support the association'},
+    { field: 'evidence', label: 'Evidence', description: 'Gene-trait pairs (GTs) are ranked based on selected variables, determined by benchmarking versus gold standard associations'},
+    { field: 'provenance', label: 'Provenance', description: 'Link to the TIGA page for study details and publications supporting the association'},
+  ]
+};
+
 const GO_TERMS_PANEL: PharosPanel = {
   token: TOKENS.GO_TERMS_PANEL,
   navHeader: {
@@ -817,7 +836,7 @@ const PROTEIN_PROTEIN_PANEL: PharosPanel = {
       label: 'Novelty',
       description: 'Tin-X metric for the relative scarcity of specific publications for this target.'
     },
-    ...ppi_interaction_fields,
+    ...ppiInteractionFields,
     {
       field: 'Data Source',
       label: 'Data Sources',
@@ -987,7 +1006,7 @@ const TARGET_FACET_PANEL: PharosPanel = {
     },
     {
       field: 'mgiPhenotype',
-      label: "MGI Phenotype",
+      label: 'MGI Phenotype',
       description: 'Occurrence of this target in up to 10 categories of JAX/MGI Phenotypes.'
     }
   ]
@@ -1277,6 +1296,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           DRUGS_PANEL,
           LIGANDS_PANEL,
           DISEASE_SOURCE_PANEL,
+          GWAS_ANALYTICS_PANEL,
           PDB_PANEL,
           PATHWAYS_PANEL,
           GO_TERMS_PANEL,
