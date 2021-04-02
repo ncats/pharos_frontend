@@ -4,7 +4,7 @@
     * On List pages, and Details pages, find the download button and export a CSV file for further analysis
     * Downloads are limited to 250,000 rows in most cases
     * There are many groups of fields to download together, such as "Interacting Targets", "Associated Diseases", "Phenotypes", "Expression", "Publications" etc.
-    * The download is packaged with a metadata file which describes the filters applied to the list, the fields downloaded, and date and time, and even the SQL query, for the all the enthusiasts out there.
+    * The download is packaged with a metadata file which describes the filters applied to the list, the fields downloaded, and date and time, and even the SQL query, for all the enthusiasts out there.
 
 ### Bug Fixes
 * Searching for terms with apostrophes, such as "Pick's Disease" would sometimes cause errors and blank result sets. The problem is fixed.
