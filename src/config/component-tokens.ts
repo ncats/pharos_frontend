@@ -192,4 +192,6 @@ export class TOKENS {
   public static SEQUENCE_LOGO = new InjectionToken<string>('SequenceLogoComponent');
 
   public static ORTHOLOG_VARIANT_PANEL = new InjectionToken<string>('OrthologVariantsComponent');
+
+  public static GWAS_ANALYTICS_PANEL = new InjectionToken<string>('GwasAnalyticsComponent');
 }

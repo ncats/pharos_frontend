@@ -590,6 +590,27 @@ export const TARGETDETAILSFIELDS = gql`
       explanation
       assigned_by
     }
+    gwasAnalytics{
+      ensgID
+      traitCount
+      studyCount
+      associations {
+        trait
+        efoID
+        studyCount
+        snpCount
+        wSnpCount
+        geneCountForTrait
+        studyCountForTrait
+        medianPvalue
+        medianOddsRatio
+        betaCount
+        meanStudyN
+        rcras
+        meanRank
+        meanRankScore
+      }
+    }
     gwasTrait: facetValues(facetName: "GWAS")
     mgiPhenotype: facetValues(facetName: "JAX/MGI Phenotype")
     hpaTissueSpecificityIndex: props(name: "HPA Tissue Specificity Index") {

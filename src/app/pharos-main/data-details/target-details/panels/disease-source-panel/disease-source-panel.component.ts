@@ -22,8 +22,8 @@ import {ActivatedRoute} from '@angular/router';
 import {DiseaseSerializer} from '../../../../../models/disease';
 import {takeUntil} from 'rxjs/operators';
 import {DataProperty} from '../../../../../tools/generic-table/components/property-display/data-property';
-import {TargetComponents} from "../../../../../models/target-components";
-import {isPlatformBrowser} from "@angular/common";
+import {TargetComponents} from '../../../../../models/target-components';
+import {isPlatformBrowser} from '@angular/common';
 
 /**
  * interface to track disease tree nodes
