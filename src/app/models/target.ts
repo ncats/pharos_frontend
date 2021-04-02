@@ -634,6 +634,7 @@ export class TargetSerializer implements PharosSerializer {
         if (obj.gwasAnalytics) {
           newObj.gwasAnalytics.associations = obj.gwasAnalytics.associations.map(assoc => {
             const assocProps = this._mapField(assoc);
+            assocProps.efoID.externalLink = `https://www.ebi.ac.uk/gwas/efotraits/${assoc.efoID}`;
             assocProps.provLink.externalLink = assocProps.provLink.term;
             assocProps.provLink.term = '';
             return assocProps;
