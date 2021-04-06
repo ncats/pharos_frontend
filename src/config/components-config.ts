@@ -717,7 +717,7 @@ const GWAS_ANALYTICS_PANEL: PharosPanel = {
     label: 'GWAS Traits',
     section: 'tiga',
     mainDescription: 'Genome-wide association studies (GWAS) find associations between phenotypic traits and genes. Target Illumination ' +
-      'GWAS Analytics (TIGA) scores and ranks those traits according to... TODO: figure out what those are scored and ranked according to.',
+      'GWAS Analytics (TIGA) scores and ranks those traits according to the a subset of the study parameters.',
     mainSource: 'https://unmtid-shinyapps.net/shiny/tiga/'
   }, api: [
     { field: 'gwasTrait', label: 'GWAS Trait', description: 'The phenotypic trait found to be associated with the gene'},
@@ -725,6 +725,7 @@ const GWAS_ANALYTICS_PANEL: PharosPanel = {
     { field: 'studyCount', label: 'Study Count', description: 'Number of studies that have found the association between the gene and the trait'},
     { field: 'snpCount', label: 'SNP Count', description: 'Number of SNPs involved in the association'},
     { field: 'betaCount', label: 'Beta Count', description: 'Count of beta values with 95% confidence intervals that support the association'},
+    { field: 'medianOddsRatio', label: 'Odds Ratio', description: 'Median Odds Ratio that supports the association'},
     { field: 'evidence', label: 'Evidence', description: 'Gene-trait pairs (GTs) are ranked based on selected variables, determined by benchmarking versus gold standard associations'},
     { field: 'provenance', label: 'Provenance', description: 'Link to the TIGA page for study details and publications supporting the association'},
   ]
