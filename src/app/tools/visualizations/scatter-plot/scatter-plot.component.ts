@@ -17,7 +17,7 @@ import {ScatterPoint} from './models/scatter-point';
 import {PharosPoint} from '../../../models/pharos-point';
 import {takeUntil} from 'rxjs/operators';
 import {BehaviorSubject, Subject} from 'rxjs';
-import {isPlatformBrowser} from "@angular/common";
+import {isPlatformBrowser} from '@angular/common';
 
 /**
  * flexible scatterplot/line chart viewer, has click events, hoverover, and voronoi plots for easier hoverover
@@ -105,6 +105,9 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
   @Input()
   filters: string[];
 
+  @Input()
+  dataSets: ScatterPlotData[] = [];
+
   /**
    * array of data sources, allows for multiple lines/data sets
    * @type {any[]}
@@ -165,7 +168,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   constructor(private changeRef: ChangeDetectorRef,
-              @Inject(PLATFORM_ID) private platformID: Object) {
+              @Inject(PLATFORM_ID) private platformID: any) {
   }
 
 
@@ -178,7 +181,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
-      .pipe(
+      .pipe (
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
@@ -186,7 +189,11 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
           this.filters.forEach(filter => {
             this.displayData.push(this.data.get(filter));
           });
-        } else {
+        } else if (this.dataSets.length > 0) {
+          const dataSet = this.dataSets.find(dS => dS.selected);
+          this.displayData = [dataSet.data];
+        }
+        else {
           this.displayData = [this.data];
         }
         if (isPlatformBrowser(this.platformID)) {
@@ -213,11 +220,30 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  changeDataSet(event){
+    this.dataSets.forEach(dataset => {
+      if (dataset.options.yLabel === event.value){
+        dataset.selected = true;
+      }
+      else {
+        dataset.selected = false;
+      }
+    });
+    const dS = this.dataSets.find(dataSet => dataSet.selected);
+    this.displayData = [dS.data];
+    this.drawChart();
+    this.setData();
+  }
+
   /**
    * retrieve passed in options or create a new standard configuration
    */
   getOptions() {
-    // get chart options
+    if (this.dataSets.length > 0) {
+      const dataSet = this.dataSets.find(dS => dS.selected);
+      this._chartOptions = dataSet.options;
+      return;
+    }
     this._chartOptions = this.options ? this.options : new ScatterOptions({});
   }
 
@@ -338,7 +364,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
 
     const yAxis = d3.axisLeft(this.y)
       .ticks(5)
-      .tickSize(-this.width + margin.left + margin.right)
+      .tickSize(-this.width + margin.right)
       .tickPadding(0);
 
 
@@ -642,4 +668,10 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
+}
+
+export class ScatterPlotData{
+  selected = false;
+  data: PharosPoint[] = [];
+  options: ScatterOptions;
 }

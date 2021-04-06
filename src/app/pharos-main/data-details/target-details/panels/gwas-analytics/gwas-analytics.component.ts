@@ -8,6 +8,7 @@ import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/m
 import {PharosPoint} from '../../../../../models/pharos-point';
 import {MatTabChangeEvent} from '@angular/material/tabs';
 import {Subject} from 'rxjs';
+import {ScatterPlotData} from '../../../../../tools/visualizations/scatter-plot/scatter-plot.component';
 
 @Component({
   selector: 'pharos-gwas-analytics',
@@ -49,6 +50,11 @@ export class GwasAnalyticsComponent extends DynamicPanelComponent implements OnI
       width: '100vw'
     }),
     new PharosProperty({
+      name: 'medianOddsRatio',
+      label: 'Odds Ratio',
+      width: '100vw'
+    }),
+    new PharosProperty({
       name: 'meanRankScore',
       label: 'Evidence (Mean Rank Score)',
       width: '100vw'
@@ -60,20 +66,7 @@ export class GwasAnalyticsComponent extends DynamicPanelComponent implements OnI
     })
   ];
 
-  /**
-   * display options for the tinx plot
-   */
-  chartOptions: ScatterOptions = new ScatterOptions({
-    // line: false,
-    // xAxisScale: 'log',
-    // yAxisScale: 'log',
-    xLabel: 'Mean Rank Score',
-    yLabel: 'Beta Count',
-    yBuffer: 1,
-    margin: {top: 20, right: 175, bottom: 25, left: 35}
-  });
-
-  tigaData: PharosPoint[];
+  scatterPlotData: ScatterPlotData[] = [];
 
   ngOnInit(): void {this._data
     // listen to data as long as term is undefined or null
@@ -84,10 +77,39 @@ export class GwasAnalyticsComponent extends DynamicPanelComponent implements OnI
     .subscribe(x => {
       this.target = this.data.targets;
       this.targetProps = this.data.targetsProps;
-      this.tigaData = [];
+
+      const betaCountPlot = new ScatterPlotData();
+      betaCountPlot.data = [];
+      betaCountPlot.selected = true;
+      betaCountPlot.options = new ScatterOptions({
+        xLabel: 'Mean Rank Score',
+        yLabel: 'Beta Count',
+        yBuffer: 1,
+        margin: {top: 20, right: 175, bottom: 25, left: 35}
+      });
+
+      const orPlot = new ScatterPlotData();
+      orPlot.data = [];
+      orPlot.options = new ScatterOptions({
+        xLabel: 'Mean Rank Score',
+        yLabel: 'Odds Ratio',
+        yBuffer: 1,
+        margin: {top: 20, right: 175, bottom: 25, left: 35}
+      });
+
+      this.scatterPlotData = [betaCountPlot, orPlot];
       if (this.target?.gwasAnalytics?.associations.length > 0) {
         this.navSectionsService.showSection(this.field);
-        this.target.gwasAnalytics.associations.map(assoc => {
+        this.target.gwasAnalytics.associations.forEach(assoc => {
+          if (assoc.medianOddsRatio) {
+            const p: PharosPoint = new PharosPoint({
+              label: assoc.efoID,
+              x: assoc.meanRankScore,
+              y: assoc.medianOddsRatio,
+              name: assoc.trait
+            });
+            orPlot.data.push(p);
+          }
           if (assoc.meanRankScore) {
             const p: PharosPoint = new PharosPoint({
               label: assoc.efoID,
@@ -95,7 +117,7 @@ export class GwasAnalyticsComponent extends DynamicPanelComponent implements OnI
               y: assoc.betaCount,
               name: assoc.trait
             });
-            this.tigaData.push(p);
+            betaCountPlot.data.push(p);
           }
         });
       } else {

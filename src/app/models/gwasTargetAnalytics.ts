@@ -28,7 +28,12 @@ export class GwasTargetAssociation {
   provLink: string;
   constructor(json: any, ensgID: string) {
     Object.entries((json)).forEach((prop) => this[prop[0]] = prop[1]);
-    this.meanRankScore = parseFloat(this.meanRankScore.toFixed(1));
+    if (this.meanRankScore) {
+      this.meanRankScore = parseFloat(this.meanRankScore.toFixed(1));
+    }
+    if (this.medianOddsRatio) {
+      this.medianOddsRatio = parseFloat(this.medianOddsRatio.toFixed(1));
+    }
     this.provLink = `https://unmtid-shinyapps.net/shiny/tiga/?trait=${this.efoID}&gene=${ensgID}`;
   }
 }
