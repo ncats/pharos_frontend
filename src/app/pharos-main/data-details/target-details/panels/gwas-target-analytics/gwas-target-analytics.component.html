@@ -20,8 +20,18 @@
                                      [label]="'GWAS Traits'"></pharos-help-panel-trigger>
         </div>
       </div>
-      <pharos-generic-table [useInternalPaginator]="true" [data]="targetProps.gwasAnalytics.associations" [fieldsConfig]="fields" [defaultPageSize]="5">
-        <ul>
+      <pharos-generic-table fxHide.lt-md
+                            [useInternalPaginator]="true" [data]="targetProps.gwasAnalytics.associations"
+                            [fieldsConfig]="fields" [defaultPageSize]="5">
+        <ng-container *ngTemplateOutlet="innerLinks"></ng-container>
+      </pharos-generic-table>
+      <pharos-generic-table fxHide.gt-sm
+                            [useInternalPaginator]="true" [data]="targetProps.gwasAnalytics.associations"
+                            [fieldsConfig]="shortFields" [defaultPageSize]="5">
+        <ng-container *ngTemplateOutlet="innerLinks"></ng-container>
+      </pharos-generic-table>
+      <ng-template #innerLinks>
+        <ul class="link-list">
           <li>
             <ncats-property-display class="mat-title" [showLabel]="false"
                                     matTooltip="Explore on TIGA"
@@ -31,7 +41,7 @@
             </ncats-property-display>
           </li>
         </ul>
-      </pharos-generic-table>
+      </ng-template>
       <div fxLayout="row" fxLayoutAlign="center center">
         <div fxFlex="95" class="scatter-plot-holder">
           <pharos-scatter-plot [dataSets]="scatterPlotData"></pharos-scatter-plot>

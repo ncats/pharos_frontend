@@ -1,12 +1,12 @@
 import {ChangeDetectorRef, Component, Inject, Input, OnInit, PLATFORM_ID} from '@angular/core';
-import {takeUntil} from "rxjs/operators";
-import {PharosPoint} from "../../../../models/pharos-point";
-import {ScatterOptions} from "../../../../tools/visualizations/scatter-plot/models/scatter-options";
-import {ActivatedRoute, NavigationStart, Router} from "@angular/router";
-import {DynamicPanelComponent} from "../../../../tools/dynamic-panel/dynamic-panel.component";
-import {isPlatformBrowser} from "@angular/common";
-import {PharosApiService} from "../../../../pharos-services/pharos-api.service";
-import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-sections.service";
+import {takeUntil} from 'rxjs/operators';
+import {PharosPoint} from '../../../../models/pharos-point';
+import {ScatterOptions} from '../../../../tools/visualizations/scatter-plot/models/scatter-options';
+import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
+import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
+import {isPlatformBrowser} from '@angular/common';
+import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
+import {NavSectionsService} from '../../../../tools/sidenav-panel/services/nav-sections.service';
 
 @Component({
   selector: 'pharos-tinx-disease',
@@ -15,20 +15,29 @@ import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-s
 })
 export class TinxDiseaseComponent extends DynamicPanelComponent implements OnInit {
 
-  @Input()
-  inTinx: PharosPoint[] = [];
-
-  tinx: PharosPoint[] = [];
-
   constructor(
     private apiService: PharosApiService,
     private changeRef: ChangeDetectorRef,
     private _route: ActivatedRoute,
     private router: Router,
-    @Inject(PLATFORM_ID) private platformID: Object,
+    @Inject(PLATFORM_ID) private platformID: any,
     public navSectionsService: NavSectionsService) {
     super(navSectionsService);
   }
+
+  @Input()
+  inTinx: PharosPoint[] = [];
+
+  tinx: PharosPoint[] = [];
+
+  chartOptions: ScatterOptions = new ScatterOptions({
+    line: false,
+    xAxisScale: 'log',
+    yAxisScale: 'log',
+    xLabel: 'Novelty',
+    yLabel: 'Importance',
+    margin: {top: 20, right: 35, bottom: 25, left: 35}
+  });
 
   hasTooMuchData() {
     return this.data.diseases.associationCount >= 5000;
@@ -57,20 +66,20 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
       )
       .subscribe(x => {
         if (isPlatformBrowser(this.platformID) && !this.hasTooMuchData() && this.tinx.length < 1 && this.hasDOID()) {
-          let diseaseName = this._route.snapshot.paramMap.get('id');
-          let variables = {name: diseaseName};
+          const diseaseName = this._route.snapshot.paramMap.get('id');
+          const variables = {name: diseaseName};
           this.apiService.adHocQuery(this.apiService.TinxQuery, variables).subscribe(res => {
             res.data.disease.tinx.map(point => {
               if (point.targetID) {
-                for(let i = 0 ; i < point.details.length ; i++) {
+                point.details.forEach(detail => {
                   const p: PharosPoint = new PharosPoint({
-                    label: point.details[i].diseaseName,
+                    label: detail.diseaseName,
                     x: point.novelty,
-                    y: point.details[i].importance,
+                    y: detail.importance,
                     name: `${point.targetName} (${point.tdl})`
                   });
                   this.inTinx.push(p);
-                }
+                });
               }
             });
             this.tinx = this.inTinx;
@@ -85,13 +94,4 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
         }
       });
   }
-
-  chartOptions: ScatterOptions = new ScatterOptions({
-    line: false,
-    xAxisScale: 'log',
-    yAxisScale: 'log',
-    xLabel: 'Novelty',
-    yLabel: 'Importance',
-    margin: {top: 20, right: 35, bottom: 25, left: 35}
-  });
 }

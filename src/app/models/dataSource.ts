@@ -1,8 +1,6 @@
-import {PharosBase, PharosSerializer, Serializer} from "./pharos-base";
-import {DiseaseAssociation} from "./disease-association";
-import {PharosProperty} from "./pharos-property";
-import {Publication} from "./publication";
-import {Facet} from "./facet";
+import {PharosBase, PharosSerializer} from './pharos-base';
+import {PharosProperty} from './pharos-property';
+import {Facet} from './facet';
 
 
 export class DataSource extends PharosBase {
@@ -24,27 +22,27 @@ export class DataSourceSerializer implements PharosSerializer {
     });
 
     if (object.targetCount > 0) {
-      newObj.targetCount.internalLink = "/targets";
+      newObj.targetCount.internalLink = '/targets';
       newObj.targetCount.queryParams = {facet: `Data Source${Facet.separator}${object.dataSource}`};
     } else {
-      newObj.targetCount = {}
+      newObj.targetCount = {};
     }
 
     if (object.ligandCount > 0) {
-      newObj.ligandCount.internalLink = "/ligands";
+      newObj.ligandCount.internalLink = '/ligands';
       newObj.ligandCount.queryParams = {facet: `Data Source${Facet.separator}${object.dataSource}`};
     } else {
-      newObj.ligandCount = {}
+      newObj.ligandCount = {};
     }
 
     if (object.diseaseCount > 0) {
-      const unFilterableSources = ["Monarch Ortholog Disease Associations", "TIN-X Data", "Disease Ontology"];
+      const unFilterableSources = ['Monarch Ortholog Disease Associations', 'TIN-X Data', 'Disease Ontology', 'Target Illumination GWAS Analytics'];
       if (!unFilterableSources.includes(object.dataSource.toString())) {
-        newObj.diseaseCount.internalLink = "/diseases";
+        newObj.diseaseCount.internalLink = '/diseases';
         newObj.diseaseCount.queryParams = {facet: `Data Source${Facet.separator}${object.dataSource}`};
       }
     } else {
-      newObj.diseaseCount = {}
+      newObj.diseaseCount = {};
     }
 
     if (newObj.url) {

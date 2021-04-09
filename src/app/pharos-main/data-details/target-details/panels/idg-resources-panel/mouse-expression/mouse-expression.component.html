@@ -1,4 +1,4 @@
-<div class="content-container">
+<div class="content-container" *ngIf="mouseExpressions && mouseExpressions.length > 0">
 <div class="content-panel">
   <pharos-anatamogram [species]="'mus_musculus'" [tissues]="this.tissues" [shadingMap]="this.shadingMap" [shadingKey]="this.shadingKey"
                       [redrawAnatamogram]="this.redrawAnatamogram" [clickHandler]="this.tissueClicked.bind(this)"></pharos-anatamogram>

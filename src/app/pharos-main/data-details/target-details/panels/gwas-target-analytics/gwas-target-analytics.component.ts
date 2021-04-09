@@ -11,11 +11,11 @@ import {Subject} from 'rxjs';
 import {ScatterPlotData} from '../../../../../tools/visualizations/scatter-plot/scatter-plot.component';
 
 @Component({
-  selector: 'pharos-gwas-analytics',
-  templateUrl: './gwas-analytics.component.html',
-  styleUrls: ['./gwas-analytics.component.scss']
+  selector: 'pharos-gwas-target-analytics',
+  templateUrl: './gwas-target-analytics.component.html',
+  styleUrls: ['./gwas-target-analytics.component.scss']
 })
-export class GwasAnalyticsComponent extends DynamicPanelComponent implements OnInit {
+export class GwasTargetAnalyticsComponent extends DynamicPanelComponent implements OnInit {
 
   constructor(public navSectionsService: NavSectionsService) {
     super(navSectionsService);
@@ -23,6 +23,38 @@ export class GwasAnalyticsComponent extends DynamicPanelComponent implements OnI
 
   @Input() target: Target;
   @Input() targetProps: any;
+  shortFields: PharosProperty[] = [new PharosProperty({
+    name: 'trait',
+    label: 'GWAS Trait',
+    width: '250vw'
+  }),
+    new PharosProperty({
+      name: 'efoID',
+      label: 'EFO ID',
+      width: '100vw'
+    }),
+    new PharosProperty({
+      name: 'betaCount',
+      label: 'Beta Count',
+      width: '100vw'
+    }),
+    new PharosProperty({
+      name: 'medianOddsRatio',
+      label: 'Odds Ratio',
+      width: '100vw'
+    }),
+    new PharosProperty({
+      name: 'meanRankScore',
+      label: 'Evidence (Mean Rank Score)',
+      width: '100vw'
+    }),
+    new PharosProperty({
+      name: 'provLink',
+      label: 'Provenance',
+      width: '10vw'
+    })];
+
+
   fields: PharosProperty[] = [
     new PharosProperty({
       name: 'trait',

@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -26,14 +27,13 @@ import {isPlatformBrowser} from '@angular/common';
   selector: 'pharos-scatter-plot',
   templateUrl: './scatter-plot.component.html',
   styleUrls: ['./scatter-plot.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  encapsulation: ViewEncapsulation.None
 })
-export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
+export class ScatterPlotComponent implements AfterViewInit, OnChanges, OnDestroy {
   /**
-   * container that holds the radar chart object
+   * container that holds the chart object
    */
-  @ViewChild('scatterPlotTarget', {static: true}) chartContainer: ElementRef;
+  @ViewChild('scatterPlotTarget', {read: ElementRef}) chartContainer: ElementRef;
 
   /**
    * Behaviour subject to allow extending class to unsubscribe on destroy
@@ -72,7 +72,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * options opbject passed from component
    */
-  @Input() options?: any;
+  @Input() options?: ScatterOptions;
   /**
    * options for size and layout for the chart
    */
@@ -177,7 +177,7 @@ export class ScatterPlotComponent implements OnInit, OnChanges, OnDestroy {
    * draw chart object,
    * and update with data
    */
-  ngOnInit() {
+  ngAfterViewInit() {
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
