@@ -19,9 +19,9 @@ import {PharosConfig} from '../../../../../../config/pharos-config';
 import {IDGResourceSerializer} from '../../../../../models/idg-resources/resource-serializer';
 import {DataResource, MouseImageData} from '../../../../../models/idg-resources/data-resource';
 import {Reagent} from '../../../../../models/idg-resources/reagent';
-import {PageData} from "../../../../../models/page-data";
-import {MatTabGroup} from "@angular/material/tabs";
-import {isPlatformBrowser} from "@angular/common";
+import {PageData} from '../../../../../models/page-data';
+import {MatTabGroup} from '@angular/material/tabs';
+import {isPlatformBrowser} from '@angular/common';
 
 /**
  * panel to show idg generated resources
@@ -106,7 +106,8 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
           this.reagents = [];
           this.mouseExpressions = [];
           if (isPlatformBrowser(this.platformID)) {
-            this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/search?term=${this.target.gene}&pharosReady=true`).subscribe(resourceList => {
+            this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/search?term=${this.target.gene}&pharosReady=true`)
+              .subscribe(resourceList => {
               if (resourceList && resourceList.data && resourceList.data.length) {
                 resourceList.data.forEach(resourceMetadata => {
                   if (resourceMetadata.id && resourceMetadata.name) {
@@ -138,7 +139,7 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
           const resc = this.resourceSerializer.fromJson(resource.data[0], resourceMetadata.name, resourceMetadata.resourceType);
           if (resc instanceof Reagent) {
             this.updateReagentLists(resc);
-          } else {
+          } else if (resc instanceof DataResource) {
             this.updateDataResourceLists(resc);
           }
         }

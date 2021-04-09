@@ -1,0 +1,61 @@
+<article>
+  <mat-card id={{field}}
+            class="section-card"
+            *ngIf="data && (disease?.gwasAnalytics?.associations.length > 0)"
+            (pharosScrollspy)="active(field)"
+            #tiga>
+    <mat-card-content>
+      <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+        <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+      </div>
+      <div fxLayout="row"
+           class="tkrow"
+           fxLayoutAlign="start stretch">
+        <div fxFlex="95">
+          <span class="mat-title" [matTooltip]=description
+                [matTooltipClass]="'pharos-tooltip'">GWAS Targets ({{disease?.gwasAnalytics?.associations.length}})</span>
+        </div>
+        <div fxFlex="5">
+          <pharos-help-panel-trigger [origin]="'tiga'"
+                                     [label]="'GWAS Targets'"></pharos-help-panel-trigger>
+        </div>
+      </div>
+
+      <pharos-generic-table fxHide.lt-md
+                            [useInternalPaginator]="true" [data]="diseaseProps.gwasAnalytics.associations"
+                            [fieldsConfig]="fields" [defaultPageSize]="5">
+        <ng-container *ngTemplateOutlet="innerLinks"></ng-container>
+      </pharos-generic-table>
+      <pharos-generic-table fxHide.gt-sm
+                            [useInternalPaginator]="true" [data]="diseaseProps.gwasAnalytics.associations"
+                            [fieldsConfig]="shortFields" [defaultPageSize]="5">
+        <ng-container *ngTemplateOutlet="innerLinks"></ng-container>
+      </pharos-generic-table>
+      <ng-template #innerLinks>
+        <ul class="link-list">
+          <li>
+            <ncats-property-display class="mat-title" [showLabel]="false"
+                                    matTooltip="Explore on TIGA"
+                                    matTooltipClass="pharos-tooltip"
+                                    matTooltipPosition="after"
+                                    [property]="{term:'Explore on TIGA', externalLink:'https://unmtid-shinyapps.net/shiny/tiga/?trait=' + disease.gwasAnalytics.efoID}">
+            </ncats-property-display>
+          </li>
+          <li>
+            <ncats-property-display class="mat-title"
+                                    matTooltip="Trait Definition"
+                                    matTooltipClass="pharos-tooltip"
+                                    matTooltipPosition="after"
+                                    [property]="diseaseProps.gwasAnalytics.trait">
+            </ncats-property-display>
+          </li>
+        </ul>
+      </ng-template>
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <div fxFlex="95" class="scatter-plot-holder">
+          <pharos-scatter-plot [dataSets]="scatterPlotData"></pharos-scatter-plot>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</article>

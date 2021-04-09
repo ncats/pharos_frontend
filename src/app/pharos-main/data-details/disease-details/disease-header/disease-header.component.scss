@@ -1,66 +1,36 @@
-:host {
-  flex: 1 1 calc(100%);
-  max-width: 100%;
-  margin: 0 !important;
+
+// Import your custom theme
+@import '../../../../../partials/ncats-theme';
+
+.sticky {
+  z-index: 666;
+  position: fixed;
+  top: 60px;
 }
 
-.content{
-  display: flex;
-  flex-direction: row;
+.disease-header {
+  background-color: #f7f7f7;
+  width: 100vw;
+  border-bottom: mat-color($pharos-app-primary) 6px solid;
 }
 
+.pharos-title {
+  margin-left: 5vw;
+
+}
 @media only screen and (max-width: 960px) {
-  .content{
-    flex-direction: column;
+  .pharos-title {
+    font-size: 2em;
+  }
+
+  .title-holder {
+    margin-left: 2vw;
+  }
+
+  .disease-header {
+    padding-top: 1vh;
+    margin-top: -1vh;
   }
 }
 
-@media only screen and (max-width: 768px) {
-  .assoc-count{
-    flex-wrap: wrap;
-  }
-}
 
-.definition{
-  margin-left: 1em;
-  margin-bottom: 1em;
-}
-
-.section{
-  padding: 0 2em 2em 2em;
-}
-
-.mat-card-subtitle{
-  padding-top: 2em;
-}
-
-.target-toolbar {
-  width: 100vw;
-}
-
-.toolbar {
-  width: 100vw;
-  margin-bottom: 0;
-}
-
-.mat-card{
-  width: 95vw;
-}
-
-.assoc-count {
-  display: flex;
-  align-items: center;
-}
-
-.assoc-count:first-child{
-  padding-left: 0;
-}
-
-pharos-explore-list-button
-{
-  margin-left: 1em;
-}
-
-.tool-button{
-  vertical-align: text-bottom;
-}

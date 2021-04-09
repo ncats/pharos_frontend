@@ -48,7 +48,7 @@ import {SequenceLogoComponent} from '../../data-details/target-details/panels/or
 import {SequenceComponent} from '../../data-details/target-details/panels/aa-sequence-panel/sequence/sequence.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {OrthologVariantsComponent} from '../../data-details/target-details/panels/ortholog-variants/ortholog-variants.component';
-import {GwasAnalyticsComponent} from '../../data-details/target-details/panels/gwas-analytics/gwas-analytics.component';
+import {GwasTargetAnalyticsComponent} from '../../data-details/target-details/panels/gwas-target-analytics/gwas-target-analytics.component';
 
 @NgModule({
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
@@ -75,7 +75,7 @@ import {GwasAnalyticsComponent} from '../../data-details/target-details/panels/g
     PdbDetailsComponent,
     GeneSummaryComponent,
     GoTermsComponent,
-    GwasAnalyticsComponent,
+    GwasTargetAnalyticsComponent,
     TargetFacetPanelComponent,
     IdgResourcesPanelComponent,
     ReagentPanelComponent,
@@ -134,7 +134,7 @@ import {GwasAnalyticsComponent} from '../../data-details/target-details/panels/g
     {provide: TOKENS.PATHWAYS_PANEL, useValue: PathwaysPanelComponent},
     {provide: TOKENS.SEQUENCE_LOGO, useValue: SequenceLogoComponent},
     {provide: TOKENS.ORTHOLOG_VARIANT_PANEL, useValue: OrthologVariantsComponent},
-    {provide: TOKENS.GWAS_ANALYTICS_PANEL, useValue: GwasAnalyticsComponent}
+    {provide: TOKENS.GWAS_TARGET_ANALYTICS_PANEL, useValue: GwasTargetAnalyticsComponent}
   ]
 })
 export class TargetDetailsModule { }

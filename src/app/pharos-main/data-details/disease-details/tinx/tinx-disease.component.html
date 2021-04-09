@@ -1,5 +1,9 @@
-<article *ngIf="hasDOID()">
-  <mat-card>
+<article>
+  <mat-card id={{field}}
+            class="section-card"
+            *ngIf="hasDOID()"
+            (pharosScrollspy)="active(field)"
+            #diseaseTINX>
     <mat-card-content>
       <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">

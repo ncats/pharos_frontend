@@ -1,6 +1,10 @@
 <article>
-  <div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" *ngIf="this.disease.parents.length > 0 || this.disease.children.length > 0">
-    <mat-card>
+  <div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="space-around start">
+    <mat-card id={{field}}
+              class="section-card"
+              *ngIf="this.disease.parents.length > 0 || this.disease.children.length > 0"
+              (pharosScrollspy)="active(field)"
+              #doBrowser>
       <mat-card-content>
         <div>
           <div fxFlex="97">

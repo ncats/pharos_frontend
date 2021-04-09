@@ -53,6 +53,7 @@ export class IDGResourceSerializer<T extends BaseResource> implements Serializer
         obj = new Peptide(json);
         break;
       }
+      case 'Mouse Image-based Expression':
       case 'GPCR Mouse Imaging': {
         obj = new MouseImageData(json);
         break;
@@ -68,7 +69,7 @@ export class IDGResourceSerializer<T extends BaseResource> implements Serializer
         break;
       }
     }
-    if(!!obj) {obj.resourceType = type;}
+    if (!!obj) {obj.resourceType = type; }
     return obj;
   }
 

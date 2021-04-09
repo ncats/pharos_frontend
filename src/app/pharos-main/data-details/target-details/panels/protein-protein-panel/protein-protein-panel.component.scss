@@ -57,3 +57,9 @@
   justify-content: space-between;
   align-items: baseline;
 }
+
+@-moz-document url-prefix() {
+  .link-list li{
+    list-style: none;
+  }
+}
