@@ -21,6 +21,7 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {MarkdownModule} from "ngx-markdown";
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from "@angular/material/snack-bar";
 import {ServiceWorkerModule} from "@angular/service-worker";
+import { ScullyLibModule } from '@scullyio/ng-lib';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {ServiceWorkerModule} from "@angular/service-worker";
     PharosLoadingSpinnerModule,
     GraphQLModule,
     HttpClientModule,
-    MarkdownModule.forRoot({loader: HttpClient})
+    MarkdownModule.forRoot({loader: HttpClient}),
+    ScullyLibModule
   ],
   providers: [
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}}
