@@ -119,7 +119,10 @@
             "outputPath": "dist/server",
             "main": "server.ts",
             "tsConfig": "tsconfig.server.json",
-            "externalDependencies": ["@firebase/firestore", "@firebase/app"]
+            "externalDependencies": [
+              "@firebase/firestore",
+              "@firebase/app"
+            ]
           },
           "configurations": {
             "production": {
@@ -168,8 +171,9 @@
             "serverTarget": "pharos:server:production",
             "routes": [
               "/",
-                "/targets/htt",
-                "/targets/ace2",
+              "/targets",
+              "/targets/htt",
+              "/targets/ace2",
               "/targets/TCEANC2",
               "/targets/ZNF773",
               "/targets/FAM153A",
@@ -182,7 +186,6 @@
               "/targets/CCDC84",
               "/targets/ARMCX4",
               "/targets/CLHC1"
-
             ]
           },
           "configurations": {
