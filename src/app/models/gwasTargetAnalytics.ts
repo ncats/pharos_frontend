@@ -26,7 +26,7 @@ export class GwasTargetAssociation {
   meanRank: number;
   meanRankScore: number;
   provLink: string;
-  linksToDisease: boolean;
+  diseaseName: string;
   constructor(json: any, ensgID: string) {
     Object.entries((json)).forEach((prop) => this[prop[0]] = prop[1]);
     if (this.meanRankScore) {

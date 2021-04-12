@@ -609,7 +609,7 @@ export const TARGETDETAILSFIELDS = gql`
         rcras
         meanRank
         meanRankScore
-        linksToDisease
+        diseaseName
       }
     }
     gwasTrait: facetValues(facetName: "GWAS")
