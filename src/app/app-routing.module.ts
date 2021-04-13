@@ -154,7 +154,7 @@ const ROUTES: Routes = [
     SharedModule,
     CommonToolsModule,
     RouterModule.forRoot(ROUTES, {
-      scrollPositionRestoration: 'enabled',
+      scrollPositionRestoration: 'top',
       anchorScrolling: 'enabled',
       onSameUrlNavigation: 'reload',
       scrollOffset: [0, 120],
