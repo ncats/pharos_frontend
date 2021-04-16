@@ -22,7 +22,7 @@
       <mat-card-title>
       </mat-card-title>
       <div class="scatter-plot-holder" *ngIf="!hasTooMuchData(); else tooMuchData">
-        <pharos-scatter-plot [data]="this.tinx" [options]="chartOptions"></pharos-scatter-plot>
+        <pharos-scatter-plot [svgID]="'target-tinx-svg'" [data]="this.tinx" [options]="chartOptions"></pharos-scatter-plot>
       </div>
       <ng-template #tooMuchData><div><mat-card-subtitle>Too many associated targets</mat-card-subtitle></div></ng-template>
     </mat-card-content>
