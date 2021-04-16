@@ -96,7 +96,7 @@ export class RadarChartViewerComponent implements OnInit {
     this.axis = event.name;
     this.fieldSources = [];
     const hData = this.target.hgdata.find(hAxis => hAxis.name === event.name);
-    if (hData){
+    if (hData && hData.sources){
       hData.sources.forEach(nameUrlPair => {
         const pieces = nameUrlPair.split('!');
         this.fieldSources.push({

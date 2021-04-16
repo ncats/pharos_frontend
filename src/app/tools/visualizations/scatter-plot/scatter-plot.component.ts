@@ -79,6 +79,9 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
   @Input()
   dataSets: ScatterPlotData[] = [];
 
+  @Input()
+  svgID = 'scatter-plot-svg';
+
   displayData: any[];
   transform: any;
   delaunay: any;
@@ -180,7 +183,7 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
   }
 
   drawChart() {
-    this.getOptions();
+    this.setOptions();
     const element = this.chartContainer.nativeElement;
     const margin = this._chartOptions.margin;
     if (!this.width) {
@@ -194,6 +197,7 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
 
     this.svg = d3.select(element)
       .append('svg:svg')
+      .attr('id', this.svgID)
       .attr('viewBox', [-margin.left, -margin.top, this.width + margin.left + margin.right, this.height + margin.top + margin.bottom])
       .style('cursor', 'crosshair');
     this.svg.selectAll('g').remove();
@@ -204,10 +208,21 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
 
     this.delaunay = d3.Delaunay.from(d3.merge(this.displayData), d => this.x(d.x), d => this.y(d.y));
 
-    const mainG = this.svg.append('g');
+    const mainG = this.svg.append('g').attr('clip-path', `url(#clip-${this.svgID})`);
+    const chartArea = mainG.append('g');
+
     this.addTooltip();
 
-    const points = mainG
+    const clipPath = this.svg
+      .append('clipPath')
+      .attr('id', `clip-${this.svgID}`)
+      .append('rect')
+      .attr('x', 0)
+      .attr('width', this.width)
+      .attr('y', 0)
+      .attr('height', this.height);
+
+    const points = chartArea
       .selectAll('circle')
       .data(d3.merge(this.displayData))
       .join('circle')
@@ -218,7 +233,7 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
 
     let line;
     if (this._chartOptions.line) {
-      line = mainG.append('path')
+      line = chartArea.append('path')
         .datum(d3.merge(this.displayData))
         .attr('stroke-linejoin', 'round')
         .attr('stroke-linecap', 'round')
@@ -235,16 +250,16 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
       .scaleExtent([0.75, 1000])
       .translateExtent([[-100000, -100000], [100000, 100000]])
       .on('zoom', e => {
-      mainG.attr('transform', (this.transform = e.transform));
-      points.attr('r', this.baseRadius / (this.transform.k));
-      if (this._chartOptions.line) {
-        line.style('stroke-width', 2 / (this.transform.k));
-      }
-      const xt = this.transform.rescaleX(this.x);
-      const yt = this.transform.rescaleY(this.y);
-      gX.call(xAxis.scale(xt));
-      gY.call(yAxis.scale(yt));
-      this.delaunay = d3.Delaunay.from(d3.merge(this.displayData), d => this.x(d.x), d => this.y(d.y));
+        chartArea.attr('transform', (this.transform = e.transform));
+        points.attr('r', this.baseRadius / (this.transform.k));
+        if (this._chartOptions.line) {
+          line.style('stroke-width', 2 / (this.transform.k));
+        }
+        const xt = this.transform.rescaleX(this.x);
+        const yt = this.transform.rescaleY(this.y);
+        gX.call(xAxis.scale(xt));
+        gY.call(yAxis.scale(yt));
+        this.delaunay = d3.Delaunay.from(d3.merge(this.displayData), d => this.x(d.x), d => this.y(d.y));
     });
 
     this.svg
@@ -373,7 +388,7 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
     this.drawChart();
   }
 
-  getOptions() {
+  setOptions() {
     if (this.dataSets.length > 0) {
       const dataSet = this.dataSets.find(dS => dS.selected);
       this._chartOptions = dataSet.options;
@@ -498,7 +513,6 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-
 }
 
 export class ScatterPlotData {
