@@ -1,40 +1,31 @@
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
-  HostListener, Inject,
+  Inject,
   Input,
-  OnChanges,
   OnDestroy,
-  OnInit, PLATFORM_ID,
+  OnInit,
+  PLATFORM_ID,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 import * as d3 from 'd3';
-import {SelectionModel} from '@angular/cdk/collections';
 import {ScatterOptions} from './models/scatter-options';
-import {ScatterPoint} from './models/scatter-point';
-import {PharosPoint} from '../../../models/pharos-point';
-import {takeUntil} from 'rxjs/operators';
 import {BehaviorSubject, Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 import {isPlatformBrowser} from '@angular/common';
+import {PharosPoint} from '../../../models/pharos-point';
 
-/**
- * flexible scatterplot/line chart viewer, has click events, hoverover, and voronoi plots for easier hoverover
- */
 @Component({
   selector: 'pharos-scatter-plot',
   templateUrl: './scatter-plot.component.html',
   styleUrls: ['./scatter-plot.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ScatterPlotComponent implements AfterViewInit, OnChanges, OnDestroy {
-  /**
-   * container that holds the chart object
-   */
-  @ViewChild('scatterPlotTarget', {read: ElementRef}) chartContainer: ElementRef;
+export class ScatterPlotComponent implements OnInit, OnDestroy {
 
+  @ViewChild('scatterPlotDiv', {static: true}) chartContainer: ElementRef;
   /**
    * Behaviour subject to allow extending class to unsubscribe on destroy
    * @type {Subject<any>}
@@ -79,26 +70,6 @@ export class ScatterPlotComponent implements AfterViewInit, OnChanges, OnDestroy
   private _chartOptions: ScatterOptions;
 
   /**
-   * svg object that is drawn, also used to clear the chart on redraw
-   */
-  private svg: any;
-
-  /**
-   * html element that will hold tooltip data
-   */
-  private tooltip: any;
-
-  /**
-   * width of the graph retrieved from the container size
-   */
-  private width: number;
-
-  /**
-   * height of the graph retrieved from the container size
-   */
-  private height: number;
-
-  /**
    * selection model to track selected filters
    * @type {SelectionModel<string>}
    */
@@ -108,11 +79,15 @@ export class ScatterPlotComponent implements AfterViewInit, OnChanges, OnDestroy
   @Input()
   dataSets: ScatterPlotData[] = [];
 
-  /**
-   * array of data sources, allows for multiple lines/data sets
-   * @type {any[]}
-   */
-  displayData: any = [];
+  displayData: any[];
+  transform: any;
+  delaunay: any;
+  svg: any;
+  zoom: any;
+  private tooltip: any;
+  private baseRadius = 2.5;
+  private hoverRadius = 6;
+  line: any;
 
   /**
    * x axis scale
@@ -125,63 +100,25 @@ export class ScatterPlotComponent implements AfterViewInit, OnChanges, OnDestroy
   private y;
 
   /**
-   * zoom scale
-   * @type {number}
+   * width of the graph retrieved from the container size
    */
-  private k = 1;
+  private width: number;
 
   /**
-   * svg line element if added
+   * height of the graph retrieved from the container size
    */
-  private line;
-
-  /**
-   * svg voronoi elements
-   */
-  private voronoi;
-
-  /**
-   * svg holder of voronoi group
-   */
-  private voronoiGroup;
-
-  /**
-   * svg chart object holder for data points and voronoi
-   */
-  private chartGroup;
-
-  /**
-   * zoom function
-   */
-  private zoom;
-
-  private baseRadius = 2.5;
-  private hoverRadius = 6;
-
-  /**
-   * function to redraw/scale the graph on window resize
-   */
-  @HostListener('window:resize', [])
-  onResize() {
-    this.drawChart();
-    this.setData();
-  }
+  private height: number;
 
   constructor(private changeRef: ChangeDetectorRef,
               @Inject(PLATFORM_ID) private platformID: any) {
   }
 
 
-  /**
-   * subscrible to data change, and parse data
-   * draw chart object,
-   * and update with data
-   */
-  ngAfterViewInit() {
+  ngOnInit(): void {
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
-      .pipe (
+      .pipe(
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
@@ -192,59 +129,13 @@ export class ScatterPlotComponent implements AfterViewInit, OnChanges, OnDestroy
         } else if (this.dataSets.length > 0) {
           const dataSet = this.dataSets.find(dS => dS.selected);
           this.displayData = [dataSet.data];
-        }
-        else {
+        } else {
           this.displayData = [this.data];
         }
         if (isPlatformBrowser(this.platformID)) {
           this.drawChart();
-          this.setData();
         }
       });
-  }
-
-  /**
-   * when data changes re-parse data and update the chart
-   * no need to redraw the main components
-   * @param change
-   */
-  ngOnChanges(change) {
-    if (this.filters && this.data && isPlatformBrowser(this.platformID)) {
-      if (change.filters) {
-        this.displayData = [];
-        change.filters.currentValue.forEach(filter => {
-          this.displayData.push(this.data.get(filter));
-        });
-        this.updateData();
-      }
-    }
-  }
-
-  changeDataSet(event){
-    this.dataSets.forEach(dataset => {
-      if (dataset.options.yLabel === event.value){
-        dataset.selected = true;
-      }
-      else {
-        dataset.selected = false;
-      }
-    });
-    const dS = this.dataSets.find(dataSet => dataSet.selected);
-    this.displayData = [dS.data];
-    this.drawChart();
-    this.setData();
-  }
-
-  /**
-   * retrieve passed in options or create a new standard configuration
-   */
-  getOptions() {
-    if (this.dataSets.length > 0) {
-      const dataSet = this.dataSets.find(dS => dS.selected);
-      this._chartOptions = dataSet.options;
-      return;
-    }
-    this._chartOptions = this.options ? this.options : new ScatterOptions({});
   }
 
   /**
@@ -258,11 +149,11 @@ export class ScatterPlotComponent implements AfterViewInit, OnChanges, OnDestroy
     const range: any[] = [];
     if (axis === 'x') {
       range[0] = 0;
-      range[1] = this.width * .85;
+      range[1] = this.width;
     }
     if (axis === 'y') {
       range[0] = this.height;
-      range[1] = this.height * .15;
+      range[1] = 0;
     }
 
     switch (type) {
@@ -288,41 +179,217 @@ export class ScatterPlotComponent implements AfterViewInit, OnChanges, OnDestroy
     }
   }
 
-  /**
-   * draw the main chart object
-   * draw axes based on type
-   * create voronoi group holders
-   * add zoom and pan functionality
-   */
-  drawChart(): void {
+  drawChart() {
     this.getOptions();
-    //////////// Create the container SVG and g /////////////
     const element = this.chartContainer.nativeElement;
     const margin = this._chartOptions.margin;
-    this.width = element.offsetWidth - margin.left - margin.right;
-    this.height = element.offsetHeight - margin.top - margin.bottom;
-    // Remove whatever chart with the same id/class was present before
-    d3.select(element).selectAll('svg').remove();
-
-    this.x = this.getScale(this._chartOptions.xAxisScale, 'x');
-    this.y = this.getScale(this._chartOptions.yAxisScale, 'y');
-
-    if (this._chartOptions.line) {
-      this.line = d3.line()
-        .x((d: PharosPoint) => this.x(+d.x))
-        .y((d: PharosPoint) => this.y(+d.y));
+    if (!this.width) {
+      this.width = element.offsetWidth - margin.left - margin.right;
+    }
+    if (!this.height) {
+      this.height = element.offsetHeight - margin.top - margin.bottom;
     }
 
-    this.voronoi = d3.voronoi()
-      .x((d: ScatterPoint) => this.x(d.x))
-      .y((d: ScatterPoint) => this.y(d.y))
-      .extent([[-this._chartOptions.margin.left, -this._chartOptions.margin.top],
-        [this.width, this.height + this._chartOptions.margin.bottom]]);
+    d3.select(element).selectAll('svg').remove();
+
+    this.svg = d3.select(element)
+      .append('svg:svg')
+      .attr('viewBox', [-margin.left, -margin.top, this.width + margin.left + margin.right, this.height + margin.top + margin.bottom])
+      .style('cursor', 'crosshair');
+    this.svg.selectAll('g').remove();
+
+    this.setXandY();
+    const {xAxis, gX} = this.addXaxis(margin);
+    const {yAxis, gY} = this.addYaxis(margin);
+
+    this.delaunay = d3.Delaunay.from(d3.merge(this.displayData), d => this.x(d.x), d => this.y(d.y));
+
+    const mainG = this.svg.append('g');
+    this.addTooltip();
+
+    const points = mainG
+      .selectAll('circle')
+      .data(d3.merge(this.displayData))
+      .join('circle')
+      .attr('class', d => d.id)
+      .attr('data', d => d)
+      .attr('cx', d => this.x(d.x))
+      .attr('cy', d => this.y(d.y));
+
+    let line;
+    if (this._chartOptions.line) {
+      line = mainG.append('path')
+        .datum(d3.merge(this.displayData))
+        .attr('stroke-linejoin', 'round')
+        .attr('stroke-linecap', 'round')
+        .attr('stroke', '#23364e')
+        .attr('stroke-width', 2)
+        .attr('fill', 'none')
+        .attr('d', d3.line()
+          .x((d) => this.x(d.x))
+          .y((d) => this.y(d.y))
+        );
+    }
+
+    this.zoom = d3.zoom()
+      .scaleExtent([0.75, 1000])
+      .translateExtent([[-100000, -100000], [100000, 100000]])
+      .on('zoom', e => {
+      mainG.attr('transform', (this.transform = e.transform));
+      points.attr('r', this.baseRadius / (this.transform.k));
+      if (this._chartOptions.line) {
+        line.style('stroke-width', 2 / (this.transform.k));
+      }
+      const xt = this.transform.rescaleX(this.x);
+      const yt = this.transform.rescaleY(this.y);
+      gX.call(xAxis.scale(xt));
+      gY.call(yAxis.scale(yt));
+      this.delaunay = d3.Delaunay.from(d3.merge(this.displayData), d => this.x(d.x), d => this.y(d.y));
+    });
+
+    this.svg
+      .call(this.zoom)
+      .call(this.zoom.transform, d3.zoomIdentity)
+      .on('pointermove', event => {
+        const p = this.transform.invert(d3.pointer(event));
+        const {datum, idx, show} = this.find(p);
+        if (show) {
+          this.highlightPoints(datum);
+          this.showTooltip(event, datum);
+        } else {
+          this.unHighlightPoints();
+          this.hideTooltip();
+        }
+      })
+      .node();
+  }
+
+
+  private addTooltip() {
+    if (this.tooltip) {
+      this.tooltip.remove();
+    }
+    this.tooltip = d3.select('body').append('div')
+      .attr('class', 'line-tooltip')
+      .style('opacity', 1);
+
+    if (this._chartOptions.xAxisScale === 'year') {
+      d3.merge(this.displayData).map(d => {
+        if (typeof d.x !== 'object') {
+          d.x = new Date(d.x, 0);
+        }
+        return d;
+      });
+    }
+  }
+
+  addYaxis(margin) {
+    const yAxis = d3.axisLeft(this.y)
+      .ticks(5)
+      .tickSize(-this.width)
+      .tickPadding(0);
+
+    // Add the Y Axis
+    const gY = this.svg.append('svg:g')
+      .attr('class', 'axis yaxis')
+      .call(yAxis);
+
+    this.svg.append('text')
+      .attr('transform',
+        `rotate(-90)`)
+      .attr('y', 0 - margin.left / 1.5)
+      .attr('x', 0 - (this.height / 2))
+      .attr('class', 'axis-label')
+      .text(this._chartOptions.yLabel);
+
+    gY.append('line')
+      .attr('class', 'axisLine')
+      .attr('x1', 0)
+      .attr('y1', 0)
+      .attr('x2', 0)
+      .attr('y2', this.height);
+
+    return {yAxis, gY};
+  }
+
+  addXaxis(margin) {
+    let xAxis;
+
+    if (this._chartOptions.xAxisScale === 'year') {
+      xAxis = d3.axisBottom(this.x)
+        .ticks(d3.timeYear.every(this.displayData.length < 3 ? 1 : 3))
+        .tickSize(-this.height)
+        .tickPadding(10).tickFormat(d3.timeFormat('%Y'));
+    } else {
+      xAxis = d3.axisBottom(this.x)
+        .ticks((this.width + 2) / (this.height + 2) * 2.5)
+        .tickSize(-this.height)
+        .tickPadding(10);
+    }
+
+    // Add the X Axis
+    const gX = this.svg.append('svg:g')
+      .attr('class', 'axis xaxis')
+      .attr('transform', 'translate(0,' + this.height + ')')
+      .call(xAxis);
+
+    gX.append('line')
+      .attr('class', 'axisLine')
+      .attr('x1', 0)
+      .attr('y1', 0)
+      .attr('x2', this.width)
+      .attr('y2', 0);
+
+    this.svg.append('text')
+      .attr('transform',
+        'translate(' + (this.width / 2) + ' ,' + (this.height + margin.bottom - 5) + ')')
+      .attr('class', 'axis-label')
+      .text(this._chartOptions.xLabel);
+
+    return {xAxis, gX};
+  }
+
+  /**
+   * reset zoom and pan
+   */
+  reset() {
+    this.svg.call(this.zoom)
+      .transition()
+      .duration(750)
+      .call(this.zoom.transform, d3.zoomIdentity);
+  }
+
+  changeDataSet(event){
+    this.dataSets.forEach(dataset => {
+      if (dataset.options.yLabel === event.value){
+        dataset.selected = true;
+      }
+      else {
+        dataset.selected = false;
+      }
+    });
+    const dS = this.dataSets.find(dataSet => dataSet.selected);
+    this.displayData = [dS.data];
+    this.drawChart();
+  }
+
+  getOptions() {
+    if (this.dataSets.length > 0) {
+      const dataSet = this.dataSets.find(dS => dS.selected);
+      this._chartOptions = dataSet.options;
+      return;
+    }
+    this._chartOptions = this.options ? this.options : new ScatterOptions({});
+  }
+
+  private setXandY() {
+    this.x = this.getScale(this._chartOptions.xAxisScale, 'x');
+    this.y = this.getScale(this._chartOptions.yAxisScale, 'y');
 
     if (this._chartOptions.xAxisScale === 'year') {
       this.x.domain(
         d3.extent(d3.merge(this.displayData).map(d => {
-          if (d.x.constructor.name === 'Date') {
+          if (d.x instanceof Date) {
             return d.x;
           }
           return new Date(+d.x, 0);
@@ -336,7 +403,7 @@ export class ScatterPlotComponent implements AfterViewInit, OnChanges, OnDestroy
     if (this._chartOptions.yAxisScale === 'year') {
       this.y.domain(
         d3.extent(d3.merge(this.displayData).map(d => {
-          if (d.y.constructor.name === 'Date') {
+          if (d.y instanceof Date) {
             return d.y;
           }
           return new Date(d.y, 0);
@@ -349,267 +416,13 @@ export class ScatterPlotComponent implements AfterViewInit, OnChanges, OnDestroy
       }
       this.y.domain(yDomain).nice();
     }
-
-    let xAxis = d3.axisBottom(this.x)
-      .ticks((this.width + 2) / (this.height + 2) * 5)
-      .tickSize(-this.height)
-      .tickPadding(10);
-
-    if (this._chartOptions.xAxisScale === 'year') {
-      xAxis = d3.axisBottom(this.x)
-        .ticks(d3.timeYear.every(this.displayData.length < 3 ? 1 : 3))
-        .tickSize(-this.height)
-        .tickPadding(10).tickFormat(d3.timeFormat('%Y'));
-    }
-
-    const yAxis = d3.axisLeft(this.y)
-      .ticks(5)
-      .tickSize(-this.width + margin.right)
-      .tickPadding(0);
-
-
-    this.svg = d3.select(element)
-      .append('svg:svg')
-      .attr('width', element.offsetWidth * .85)
-      .attr('height', element.offsetHeight)
-      .append('svg:g')
-      .attr('id', 'group')
-      .attr('transform', 'translate(' + (margin.left + 2) + ',' + (margin.top - margin.bottom) + ')');
-
-    this.svg.append('text')
-      .attr('transform',
-        'translate(' + ((element.offsetWidth * .85) / 2) + ' ,' + (this.height + margin.top + margin.bottom) + ')')
-      .attr('class', 'axis-label')
-      .text(this._chartOptions.xLabel);
-
-    this.svg.append('text')
-      .attr('transform', 'rotate(-90)')
-      .attr('y', 0 - margin.left / 1.6)
-      .attr('x', 0 - (this.height / 2))
-      .attr('class', 'axis-label')
-      .text(this._chartOptions.yLabel);
-
-    // Add the X Axis
-    const gX = this.svg.append('svg:g')
-      .attr('class', 'axis xaxis')
-      .attr('transform', 'translate(0,' + this.height + ')')
-      .call(xAxis);
-
-    // Add the Y Axis
-    const gY = this.svg.append('svg:g')
-      .attr('class', 'axis yaxis')
-      .call(yAxis);
-
-    this.svg.append('g')
-      .attr('transform', 'translate(0,' + this.height + ')')
-      .call(d3.axisBottom(this.x).ticks(0));
-
-    this.svg.append('g')
-      .call(d3.axisLeft(this.y).ticks(0));
-
-    // Add the valueline path.
-    this.svg.append('path')
-      .attr('clip-path', 'url(#clip)')
-      .attr('class', 'timeline');
-
-    this.chartGroup = this.svg
-      .append('svg:g')
-      .attr('class', 'chartbody')
-      .attr('clip-path', 'url(#clip)')
-      .append('svg:g')
-      .attr('class', 'points');
-
-    this.voronoiGroup = this.svg
-      .append('svg:g')
-      .attr('class', 'voronoiParent')
-      .attr('clip-path', 'url(#clip)')
-      .append('svg:g')
-      .attr('class', 'voronoi');
-
-    this.svg.append('defs').append('clipPath')
-      .attr('id', 'clip')
-      .append('rect')
-      .attr('width', this.width)
-      .attr('height', this.height);
-
-
-    this.tooltip = d3.select('body').append('div')
-      .attr('class', 'line-tooltip')
-      .style('opacity', 0);
-
-    const zoomed = () => {
-      const t = d3.event.transform;
-      this.k = t.k;
-
-      const xt = t.rescaleX(this.x);
-      const yt = t.rescaleY(this.y);
-      gX.call(xAxis.scale(xt));
-      gY.call(yAxis.scale(yt));
-
-
-      if (this._chartOptions.line) {
-        this.line = d3.line()
-          .x((d: PharosPoint) => xt(d.x))
-          .y((d: PharosPoint) => yt(d.y));
-      }
-
-      this.svg.select('.chartbody').selectAll('.linePoints')
-        .attr('r', (this.baseRadius / this.k))
-        .exit();
-
-      // Add the valueline path.
-      if (this._chartOptions.line) {
-        this.svg.select('.timeline')   // change the line
-          .datum(d3.merge(this.displayData), d => d)
-          .attr('stroke-linejoin', 'round')
-          .attr('stroke-linecap', 'round')
-          .attr('stroke', '#23364e')
-          .attr('stroke-width', 2)
-          .attr('fill', 'none')
-          .attr('d', this.line)
-          .exit();
-      }
-
-      this.voronoiGroup
-        .attr('transform', d3.event.transform);
-      this.chartGroup
-        .attr('transform', d3.event.transform);
-    };
-
-
-    this.zoom = d3.zoom()
-      .scaleExtent([0.75, 1000])
-      .translateExtent([[-100000, -100000], [100000, 100000]])
-      .on('zoom', zoomed);
-
-    this.voronoiGroup.call(this.zoom);
-    this.changeRef.markForCheck();
   }
 
-  /**
-   * set data in chart, and draw objects as needed
-   */
-  setData() {
-    if (this._chartOptions.xAxisScale === 'year') {
-      d3.merge(this.displayData).map(d => {
-        if (typeof d.x !== 'object') {
-          d.x = new Date(d.x, 0);
-        }
-        return d;
-      });
+
+  showTooltip(event: any, data: any): void {
+    if (!data) {
+      return;
     }
-
-    // JOIN new data with old elements.
-    const circles = this.svg.select('.points').selectAll('.linePoints')
-      .data(d3.merge(this.displayData), d => d);
-    circles.enter()
-      .append('circle')
-      .attr('class', d => {return 'linePoints ' + d.id})
-      .attr('r', this.baseRadius / this.k)
-      .attr('cy', d => this.y(d.y))
-      .attr('cx', d => this.x(d.x))
-      .style('fill', d => '#23364e')
-      .style('pointer-events', 'all')
-      .exit();
-
-
-    // Add the valueline path.
-    if (this._chartOptions.line) {
-      this.svg.select('.timeline')   // change the line
-        .datum(this.data)
-        .attr('stroke-linejoin', 'round')
-        .attr('stroke-linecap', 'round')
-        .attr('stroke', '#23364e')
-        .attr('stroke-width', 2)
-        .attr('fill', 'none')
-        .attr('d', this.line)
-        .exit();
-    }
-
-    this.setVoronoi();
-  }
-
-  /**
-   * update chart data and redraw elements as needed
-   */
-  updateData(): void {
-    const t = d3.transition()
-      .duration(100);
-
-    const circles = this.svg.select('.points').selectAll('.linePoints')
-      .data(d3.merge(this.displayData), d => d);
-
-    // EXIT old elements not present in new data.
-    circles
-      .exit()
-      .transition(t)
-      .style('fill-opacity', 1e-6)
-      .remove();
-
-    // don't update old elements because we want them to overlap
-    // ENTER new elements present in new data.
-    circles.enter()
-      .append('circle')
-      .attr('class', d => {return 'linePoints ' + d.id})
-      .attr('r', this.baseRadius / this.k)
-      .attr('cy', d => this.y(d.y))
-      .attr('cx', d => this.x(d.x))
-      .style('fill', d => '#23364e')
-      .style('pointer-events', 'all')
-      .transition(t)
-      .style('fill-opacity', 1);
-
-    if (this._chartOptions.line) {
-      this.svg.select('.timeline')   // change the line
-        .datum(this.data)
-        .attr('stroke-linejoin', 'round')
-        .attr('stroke-linecap', 'round')
-        .attr('stroke', '#23364e')
-        .attr('stroke-width', 2)
-        .attr('fill', 'none')
-        .attr('d', this.line)
-        .exit();
-    }
-
-    this.setVoronoi();
-  }
-
-  /**
-   * draw voronoi elements to ease point hightlighting on hover
-   */
-  setVoronoi(): void {
-    const voronoi = this.svg.select('.voronoi').selectAll('.voronoi-path')
-      .data(this.voronoi.polygons(d3.merge(this.displayData)), d => d);
-
-    // EXIT old elements not present in new data.
-    voronoi
-      .exit()
-      .remove();
-
-    // UPDATE old elements present in new data.
-    voronoi
-      .attr('d', (d) => d ? 'M' + d.join('L') + 'Z' : null);
-
-    // ENTER new elements present in new data.
-    voronoi
-      .enter()
-      .append('path')
-      .attr('class', 'voronoi-path')
-      // .style('pointer-events', 'all')
-      .attr('d', (d) => d ? 'M' + d.join('L') + 'Z' : null)
-      .on('mouseover', (d) => this.mouseOn(d.data))
-      .on('mouseout', (d) => this.mouseOut(d.data))
-      .exit();
-  }
-
-  /**
-   * mouseover function
-   * @param data
-   */
-  mouseOn(data: any): void {
-    this.svg.selectAll(`.${data.id}`)
-      .attr('r', this.hoverRadius / this.k)
-      .exit();
     this.tooltip
       .transition()
       .duration(100)
@@ -627,33 +440,49 @@ export class ScatterPlotComponent implements AfterViewInit, OnChanges, OnDestroy
       span = '<span>' + x + ': <br>' + y + '</span>';
     }
     this.tooltip.html(span)
-      .style('left', d3.event.pageX + 'px')
-      .style('top', d3.event.pageY + 'px')
+      .style('left', event.pageX + 'px')
+      .style('top', event.pageY + 'px')
       .style('width', 100);
   }
 
-  /**
-   * mouseout function
-   * @param data
-   */
-  mouseOut(data: any) {
+  hideTooltip(){
     this.tooltip
       .transition()
-      .duration(200)
+      .duration(100)
       .style('opacity', 0);
+  }
+
+  highlightPoints(data: any){
+    this.unHighlightPoints();
     this.svg.selectAll(`.${data.id}`)
-      .attr('r', this.baseRadius / this.k)
+      .attr('r', this.hoverRadius / this.transform.k)
       .exit();
   }
 
-  /**
-   * reset zoom and pan
-   */
-  reset() {
-    this.k = 1;
-    this.voronoiGroup.transition()
-      .duration(750)
-      .call(this.zoom.transform, d3.zoomIdentity);
+  unHighlightPoints() {
+    this.svg
+      .selectAll('circle')
+      .attr('r', this.baseRadius / this.transform.k)
+      .exit();
+  }
+
+  find(point) {
+    const distance = (pointX, pointY, mouseX, mouseY) => {
+      const a = pointX - mouseX;
+      const b = pointY - mouseY;
+      return Math.sqrt(a * a + b * b);
+    };
+
+    const idx = this.delaunay.find(...point);
+
+    if (idx !== null) {
+      const datum = this.displayData[0][idx];
+      const d = distance(this.x(datum.x), this.y(datum.y), point[0], point[1]);
+
+      return {datum, idx, show: (d < 30)};
+    }
+
+    return {datum: null, idx: null, show: false};
   }
 
   /**
@@ -663,14 +492,16 @@ export class ScatterPlotComponent implements AfterViewInit, OnChanges, OnDestroy
     const element = this.chartContainer.nativeElement;
     if (isPlatformBrowser(this.platformID)) {
       d3.select(element).selectAll('this.svg').remove();
+      this.tooltip.remove();
       d3.select('body').selectAll('.line-tooltip').remove();
     }
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
+
 }
 
-export class ScatterPlotData{
+export class ScatterPlotData {
   selected = false;
   data: PharosPoint[] = [];
   options: ScatterOptions;

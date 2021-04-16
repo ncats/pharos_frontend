@@ -91,7 +91,7 @@
             Illumination Graph
           </mat-card-subtitle>
           <pharos-radar-chart [data]="[target.hgdata]" [shape]="false" [size]="'medium'" (click)="openModal()"
-                              [origin]="'knowledge'"></pharos-radar-chart>
+                              [origin]="'knowledge'" [hideTooltips]="true"></pharos-radar-chart>
         </div>
         <div fxFlex="30" class="kchart full-height" *ngIf="target.hgdata; else noDataDiv">
           <mat-card-subtitle

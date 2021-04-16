@@ -50,6 +50,16 @@ interface DiseaseTreeNode {
 })
 export class DiseaseSourceComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
 
+  constructor(
+    private pharosApiService: PharosApiService,
+    private _route: ActivatedRoute,
+    private changeRef: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) private platformID: any,
+    public navSectionsService: NavSectionsService
+  ) {
+    super(navSectionsService);
+  }
+
   /**
    * target to display
    */
@@ -72,10 +82,6 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    */
   dataSource: MatTreeNestedDataSource<DiseaseTreeNode> = new MatTreeNestedDataSource<DiseaseTreeNode>();
 
-  hasData() {
-    return this.target && ((this.target.diseaseCount > 0) || (this.tinx && this.tinx.length > 0));
-  }
-
   /**
    * list of tree nodes to show
    */
@@ -90,17 +96,11 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
     yAxisScale: 'log',
     xLabel: 'Novelty',
     yLabel: 'Importance',
-    margin: {top: 20, right: 175, bottom: 25, left: 35}
+    margin: {top: 20, right: 35, bottom: 50, left: 50}
   });
 
-  constructor(
-    private pharosApiService: PharosApiService,
-    private _route: ActivatedRoute,
-    private changeRef: ChangeDetectorRef,
-    @Inject(PLATFORM_ID) private platformID: Object,
-    public navSectionsService: NavSectionsService
-  ) {
-    super(navSectionsService);
+  hasData() {
+    return this.target && ((this.target.diseaseCount > 0) || (this.tinx && this.tinx.length > 0));
   }
 
   /**

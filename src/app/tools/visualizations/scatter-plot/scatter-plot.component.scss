@@ -25,16 +25,34 @@
   z-index: 66666;
 }
 
-pharos-scatter-plot .axis path {
-  display: none;
-}
+pharos-scatter-plot {
+  .domain {
+    stroke: none;
+  }
 
-pharos-scatter-plot .axis line {
-  stroke-opacity: 0.05;
+  .axisLine {
+    stroke: black;
+    stroke-width: 2px;
+  }
+  .tick line {
+    stroke-opacity: 0.1;
+  }
+
+  .domain {
+    stroke-opacity: 1;
+  }
+
+  .tick > text {
+    font-size: 14px;
+  }
+
+  .xaxis > .tick > text {
+    transform: translate(-15px, 6px) rotate(-45deg)
+  }
 }
 
 .axis-label {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   text-anchor: middle;
 }
@@ -47,18 +65,10 @@ pharos-scatter-plot .axis line {
 
 .line {
   fill: none;
-  // stroke: red;
   stroke-width: .5px;
 }
 
-.voronoi-path {
-  fill: none;
-  pointer-events: all;
-}
 
-.xaxis > .tick > text {
-  transform: translate(-15px, 6px) rotate(-45deg)
-}
 
 .y-axis-selector {
   padding-left: 20px;

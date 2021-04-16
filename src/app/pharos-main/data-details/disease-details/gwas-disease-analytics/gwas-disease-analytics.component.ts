@@ -115,7 +115,7 @@ export class GwasDiseaseAnalyticsComponent extends DynamicPanelComponent impleme
         xLabel: 'Mean Rank Score',
         yLabel: 'Beta Count',
         yBuffer: 1,
-        margin: {top: 20, right: 175, bottom: 25, left: 35}
+        margin: {top: 20, right: 35, bottom: 50, left: 50}
       });
 
       const orPlot = new ScatterPlotData();
@@ -124,7 +124,7 @@ export class GwasDiseaseAnalyticsComponent extends DynamicPanelComponent impleme
         xLabel: 'Mean Rank Score',
         yLabel: 'Odds Ratio',
         yBuffer: 1,
-        margin: {top: 20, right: 175, bottom: 25, left: 35}
+        margin: {top: 20, right: 35, bottom: 50, left: 50}
       });
 
       this.scatterPlotData = [betaCountPlot, orPlot];

@@ -3,7 +3,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import * as d3 from 'd3';
-import {isPlatformBrowser} from "@angular/common";
+import {isPlatformBrowser} from '@angular/common';
 
 /**
  * component to display a donut chart visualization
@@ -65,7 +65,7 @@ export class DonutChartComponent implements OnInit, OnChanges {
   /**
    * no args constructor
    */
-  constructor(@Inject(PLATFORM_ID) private platformID: Object) {}
+  constructor(@Inject(PLATFORM_ID) private platformID: any) {}
 
   /**
    * measure and layou the chart component
@@ -76,7 +76,7 @@ export class DonutChartComponent implements OnInit, OnChanges {
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
     this.radius = Math.min(this.width, this.height) / 2;
 
-    if(isPlatformBrowser(this.platformID)) {
+    if (isPlatformBrowser(this.platformID)) {
       this.drawChart();
       this.updateChart();
     }
@@ -103,8 +103,8 @@ export class DonutChartComponent implements OnInit, OnChanges {
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
     this.radius = Math.min(this.width, this.height) / 2;
-    let width = this.width + this.margin.left + this.margin.right;
-    let height = this.height + this.margin.top + this.margin.bottom * 2;
+    const width = this.width + this.margin.left + this.margin.right;
+    const height = this.height + this.margin.top + this.margin.bottom * 2;
     if (width > 0 && height > 0) {
       const svg = d3.select(element).append('svg')
         .attr('width', width)
@@ -169,16 +169,16 @@ export class DonutChartComponent implements OnInit, OnChanges {
       .attr('class', 'slice')
       .attr('d', arc)
 
-    .on('mouseover', (d) => {
+    .on('mouseover', (event, d) => {
       d3.selectAll('.toolCircle').remove();
       this.addTooltip(div, d, color);
       })
-    .on('mouseout', (d) => {
+    .on('mouseout', (event, d) => {
       /*  div.transition()
           .duration(500)
           .style('opacity', 0);*/
       })
-    .on('click', (d) => {
+    .on('click', (event, d) => {
         this.clickSlice.emit(d.data);
       });
 
@@ -198,7 +198,7 @@ export class DonutChartComponent implements OnInit, OnChanges {
    * @param color
    */
   addTooltip(element: any, d: any, color: any): void {
-    if(!d){return;}
+    if (!d){return; }
     element.append('circle')
       .attr('class', 'toolCircle')
       .attr('r', this.radius * 0.65) // radius of tooltip circle
