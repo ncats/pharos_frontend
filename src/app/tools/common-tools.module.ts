@@ -27,7 +27,7 @@ import {AffiliateLinkComponent} from './affiliate-link/affiliate-link.component'
 import {DynamicPanelBaseComponent} from './dynamic-panel-base/dynamic-panel-base.component';
 import {GoTermsEvidenceArticleComponent} from './help-panel/articles/go-terms-evidence-article/go-terms-evidence-article.component';
 import {VennDiagramComponent} from './visualizations/venn-diagram/venn-diagram.component';
-import { FieldSelectionDialogComponent } from './field-selection-dialog/field-selection-dialog.component';
+import {FieldSelectionDialogComponent} from './field-selection-dialog/field-selection-dialog.component';
 
 @NgModule({
   declarations: [
@@ -86,4 +86,5 @@ import { FieldSelectionDialogComponent } from './field-selection-dialog/field-se
     FieldSelectionDialogComponent
   ]
 })
-export class CommonToolsModule { }
+export class CommonToolsModule {
+}

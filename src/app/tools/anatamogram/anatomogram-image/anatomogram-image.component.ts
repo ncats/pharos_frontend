@@ -10,8 +10,8 @@ import {
   ViewChild
 } from '@angular/core';
 import * as d3 from 'd3';
-import {Subject} from "rxjs";
-import {isPlatformBrowser} from "@angular/common";
+import {Subject} from 'rxjs';
+import {isPlatformBrowser} from '@angular/common';
 
 /**
  * holder for different types of anatamogram svgs
@@ -22,6 +22,12 @@ import {isPlatformBrowser} from "@angular/common";
   styleUrls: ['./anatomogram-image.component.scss']
 })
 export class AnatomogramImageComponent implements OnInit, OnChanges {
+
+  /**
+   * no args constructor
+   */
+  constructor(@Inject(PLATFORM_ID) private platformID: any) {
+  }
   /**
    * the html element to inject the svg content into
    */
@@ -66,16 +72,12 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
    * id of the tissues that is currently hovered on
    */
   hovered: string;
-  default_opacity: number = 0.4;
-  max_opacity: number = 0.6;
+  defaultOpacity = 0.4;
+  maxOpacity = 0.6;
 
   id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
-  /**
-   * no args constructor
-   */
-  constructor(@Inject(PLATFORM_ID) private platformID: Object) {
-  }
+  normalizedCount = 0;
 
   /**
    * set url and retrieve svg image
@@ -84,7 +86,7 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
    */
   ngOnInit() {
     const imageUrl = `./assets/images/svgs/${this.species}.${this.details}.svg`;
-    if(isPlatformBrowser(this.platformID)) {
+    if (isPlatformBrowser(this.platformID)) {
       d3.xml(imageUrl).then(data => {
         d3.select(this.anatamogram.nativeElement).node().append(data.documentElement);
         this.svg = d3.select('#anatamogram').attr('id', this.id);
@@ -93,13 +95,10 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
          * set the zoom function on the parent scope
          */
         this.zoom = d3.zoom()
-          .scaleExtent([1, 8])
-          .on('zoom', () => {
-            var holder = this.svg.select(`#anatamogram-holder`);
-            var zoomFn = this.zoom.on('zoom', function() {
-              holder.attr("transform", d3.event.transform);
-            });
-            this.svg.call(zoomFn);
+          .scaleExtent([1, 3])
+          .on('zoom', (event) => {
+            const holder = this.svg.select(`#anatamogram-holder`);
+            holder.attr('transform', event.transform);
           });
 
         /**
@@ -117,14 +116,12 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
       }
     });
   }
-
-  normalizedCount = 0;
   normalizeMaps(){
-    if(this.tissues.length > this.normalizedCount){
+    if (this.tissues.length > this.normalizedCount){
       this.shadingMap.forEach((oneMap) => {
-        let maxVal = Math.max(...Array.from(oneMap.values()));
+        const maxVal = Math.max(...Array.from(oneMap.values()));
         oneMap.forEach((value, key) => {
-            oneMap.set(key, this.max_opacity * value / maxVal)
+            oneMap.set(key, this.maxOpacity * value / maxVal);
           }
         );
       });
@@ -141,25 +138,38 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
       return;
     }
     this.normalizeMaps();
-    let shadingMap = this.shadingMap?.get(this.shadingKey);
+    const shadingMap = this.shadingMap?.get(this.shadingKey);
     this.tissues.forEach(tissue => {
         const opacity = this.getOpacity(tissue);
-        this.unhighlight_tissue(this.svg.select(`#${tissue}`).selectAll('path'), tissue)
-          .on('mouseover', (d, i, f) => this.highlight_tissue(d3.select(f[i].parentNode).selectAll('path'))
-          )
-          .on('mouseout', (d, i, f) => this.unhighlight_tissue(d3.select(f[i].parentNode).selectAll('path'), f[i].parentNode.id)
-          );
+        const selection = this.unhighlight_tissue(this.svg.select(`#${tissue}`).selectAll('path'), tissue);
+        selection.on('mouseover', (event, d) => {
+          const f = selection.nodes();
+          const i = f.indexOf(event.currentTarget);
+          this.highlight_tissue(d3.select(f[i].parentNode).selectAll('path'));
+        })
+        .on('mouseout', (event, d) => {
+          const f = selection.nodes();
+          const i = f.indexOf(event.currentTarget);
+          this.unhighlight_tissue(d3.select(f[i].parentNode).selectAll('path'), f[i].parentNode.id);
+          });
       }
     );
     this.tissues.forEach(tissue => {
         const opacity = this.getOpacity(tissue);
-        this.unhighlight_tissue(this.svg.select(`#${tissue}`), tissue)
-          .on('click', (d, i, f) => {
+        const selection = this.unhighlight_tissue(this.svg.select(`#${tissue}`), tissue);
+        selection.on('click', () => {
             this.tissueClick.emit(tissue);
           }, tissue, this.tissueClick)
-          .on('mouseover', (d, i, f) => this.highlight_tissue(d3.select(f[i]))
-          )
-          .on('mouseout', (d, i, f) => this.unhighlight_tissue(d3.select(f[i]), f[i].id));
+          .on('mouseover', (event, d) => {
+            const f = selection.nodes();
+            const i = f.indexOf(event.currentTarget);
+            this.highlight_tissue(d3.select(f[i]));
+          })
+          .on('mouseout', (event, d) => {
+            const f = selection.nodes();
+            const i = f.indexOf(event.currentTarget);
+            this.unhighlight_tissue(d3.select(f[i]), f[i].id);
+          });
       }
     );
   }
@@ -191,17 +201,17 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
    * reset zoom level (can also be called from external components)
    */
   resetZoom() {
-    var holder = this.svg.select(`#anatamogram-holder`);
-    holder.transition().duration(750).call(this.zoom.transform, d3.zoomIdentity);
+    const holder = this.svg.select(`#anatamogram-holder`);
+    holder.attr('transform', d3.zoomIdentity);
   }
 
   getOpacity(tissue?: string) {
-    let opacity = this.default_opacity;
+    let opacity = this.defaultOpacity;
     if (!tissue) {
       return 0;
     }
     if (this.shadingMap) {
-      let shadingMap = this.shadingMap?.get(this.shadingKey);
+      const shadingMap = this.shadingMap?.get(this.shadingKey);
       opacity = shadingMap?.get(tissue) || 0;
     }
     return opacity;

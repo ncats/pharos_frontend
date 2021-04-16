@@ -11,7 +11,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import * as d3 from 'd3';
-import {isPlatformBrowser} from "@angular/common";
+import {isPlatformBrowser} from '@angular/common';
 
 @Component({
   selector: 'pharos-venn-diagram',
@@ -20,6 +20,15 @@ import {isPlatformBrowser} from "@angular/common";
   encapsulation: ViewEncapsulation.None
 })
 export class VennDiagramComponent implements OnInit, OnChanges {
+
+  get fixedHeight(): number {
+    const baseHeight = 130 / 2;
+    const scaleHeight = baseHeight * this.width / 500;
+    return Math.min(baseHeight, scaleHeight);
+  }
+
+  constructor(@Inject(PLATFORM_ID) private platformID: any) {
+  }
 
   @ViewChild('vennTarget', {static: true}) chartContainer: ElementRef;
   private margin: any = {
@@ -30,24 +39,14 @@ export class VennDiagramComponent implements OnInit, OnChanges {
   };
   height: number;
   width: number;
+  tooltip: any;
 
-  get fixedHeight(): number {
-    const baseHeight = 130/2;
-    const scaleHeight = baseHeight * this.width / 500;
-    return Math.min(baseHeight, scaleHeight);
-  }
+  @Input() data: VennDiagramData;
 
   @HostListener('window:resize', [])
   onResize() {
     this.drawChart();
   }
-
-  @Input() data: VennDiagramData;
-
-  constructor(@Inject(PLATFORM_ID) private platformID: Object) {
-  }
-
-  tooltip: any;
 
   ngOnInit(): void {
     const element = this.chartContainer.nativeElement;
@@ -103,7 +102,7 @@ export class VennDiagramComponent implements OnInit, OnChanges {
       jumpSize = jumpSize / 2;
       attempts += 1;
     }
-    return {dist: dist, thetaA: overlapObj.thetaA, thetaB: overlapObj.thetaB};
+    return {dist, thetaA: overlapObj.thetaA, thetaB: overlapObj.thetaB};
   }
 
   calculateOverlap(radA: number, radB: number, distance: number): { area: number, thetaA: number, thetaB: number } {
@@ -123,11 +122,11 @@ export class VennDiagramComponent implements OnInit, OnChanges {
     const triangleB: number = distB * Math.sqrt(radB ** 2 - distB ** 2);
     const lensB: number = wedgeB - triangleB;
 
-    return {area: lensA + lensB, thetaA: thetaA, thetaB: thetaB};
+    return {area: lensA + lensB, thetaA, thetaB};
   }
 
   drawChart(): void {
-    if(!this.data){
+    if (!this.data){
       return;
     }
     const measurements = this.calcMeasurements(this.data.sizeA, this.data.sizeB, this.data.overlap);
@@ -136,8 +135,8 @@ export class VennDiagramComponent implements OnInit, OnChanges {
     d3.select(element).selectAll('svg').remove();
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
-    let width = this.width + this.margin.left + this.margin.right;
-    let height = this.height + this.margin.top + this.margin.bottom * 2;
+    const width = this.width + this.margin.left + this.margin.right;
+    const height = this.height + this.margin.top + this.margin.bottom * 2;
     if (width > 0 && height > 0) {
       const svg = d3.select(element).append('svg')
         .attr('width', width)
@@ -148,31 +147,55 @@ export class VennDiagramComponent implements OnInit, OnChanges {
         .attr('class', 'sets');
       svg.attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
-      svg.append('circle')
+      const circleB = svg.append('circle')
         .style('fill', this.data.colorB)
         .attr('cx', measurements.dist * this.fixedHeight / 2)
         .attr('cy', 0)
         .attr('r', measurements.radB * this.fixedHeight)
-        .style('pointer-events', 'all')
-        .on('mouseover', (d, i, circles) => this.showTooltip(d, i, circles, this.data.sizeB, this.data.nameB))
-        .on('mouseout', (d, i, circles) => this.hideTooltip(d, i, circles));
+        .style('pointer-events', 'all');
+      circleB.on('mouseover', (event, d) => {
+        const circles = circleB.nodes();
+        const i = circles.indexOf(event.currentTarget);
+        this.showTooltip(event, d, i, circles, this.data.sizeB, this.data.nameB);
+      })
+        .on('mouseout', (event, d) => {
+          const circles = circleB.nodes();
+          const i = circles.indexOf(event.currentTarget);
+          this.hideTooltip(d, i, circles);
+        });
 
-      svg.append('circle')
+      const circleA = svg.append('circle')
         .style('fill', this.data.colorA)
         .attr('cx', -measurements.dist * this.fixedHeight / 2)
         .attr('cy', 0)
-        .attr('r', measurements.radA * this.fixedHeight)
-        .on('mouseover', (d, i, circles) => this.showTooltip(d, i, circles, this.data.sizeA, this.data.nameA))
-        .on('mouseout', (d, i, circles) => this.hideTooltip(d, i, circles));
+        .attr('r', measurements.radA * this.fixedHeight);
+      circleA.on('mouseover', (event, d) => {
+        const circles = circleA.nodes();
+        const i = circles.indexOf(event.currentTarget);
+        this.showTooltip(event, d, i, circles, this.data.sizeA, this.data.nameA);
+      })
+        .on('mouseout', (event, d) => {
+          const circles = circleA.nodes();
+          const i = circles.indexOf(event.currentTarget);
+          this.hideTooltip(d, i, circles);
+        });
 
       const overlapSection = this.fetchOverlapShape(measurements);
 
-      svg.append('path')
+      const overlap = svg.append('path')
         .attr('d', overlapSection)
         .attr('fill', 'black')
-        .attr('opacity', 0.25)
-        .on('mouseover', (d, i, shape) => this.showTooltip(d, i, shape, this.data.overlap, 'Common'))
-        .on('mouseout', (d, i, shape) => this.hideTooltip(d, i, shape));
+        .attr('opacity', 0.25);
+      overlap.on('mouseover', (event, d) => {
+        const shape = overlap.nodes();
+        const i = shape.indexOf(event.currentTarget);
+        this.showTooltip(event, d, i, shape, this.data.overlap, 'Common');
+      })
+        .on('mouseout', (event, d) => {
+          const shape = overlap.nodes();
+          const i = shape.indexOf(event.currentTarget);
+          this.hideTooltip(d, i, shape);
+        });
 
       this.tooltip = d3.select('body').append('div')
         .attr('class', 'bar-tooltip')
@@ -187,10 +210,12 @@ export class VennDiagramComponent implements OnInit, OnChanges {
       myPath.arc(0, 0, measurements.radA * this.fixedHeight, -Math.PI, Math.PI);
     } else {
       if (this.data.sizeB !== this.data.overlap) {
-        myPath.arc(-measurements.dist * this.fixedHeight / 2, 0, measurements.radA * this.fixedHeight, -measurements.thetaA, measurements.thetaA);
+        myPath.arc(-measurements.dist * this.fixedHeight / 2, 0,
+          measurements.radA * this.fixedHeight, -measurements.thetaA, measurements.thetaA);
       }
       if (this.data.sizeA !== this.data.overlap) {
-        myPath.arc(measurements.dist * this.fixedHeight / 2, 0, measurements.radB * this.fixedHeight, Math.PI - measurements.thetaB, Math.PI + measurements.thetaB,);
+        myPath.arc(measurements.dist * this.fixedHeight / 2, 0,
+          measurements.radB * this.fixedHeight, Math.PI - measurements.thetaB, Math.PI + measurements.thetaB, );
       }
     }
 
@@ -198,15 +223,15 @@ export class VennDiagramComponent implements OnInit, OnChanges {
     return myPath;
   }
 
-  showTooltip(d, i, circles, size, name) {
+  showTooltip(event, d, i, circles, size, name) {
     d3.select(circles[i]).classed('hovered', true);
     this.tooltip
       .transition()
       .duration(200)
       .style('opacity', .9);
     this.tooltip.html(`${name}: ${size}`)
-      .style('left', d3.event.pageX + 'px')
-      .style('top', d3.event.pageY + 'px')
+      .style('left', event.pageX + 'px')
+      .style('top', event.pageY + 'px')
       .style('width', 100);
   }
 
@@ -220,12 +245,12 @@ export class VennDiagramComponent implements OnInit, OnChanges {
 }
 
 export class VennDiagramData {
-  facetName: string = '';
-  sizeA: number = 0;
-  sizeB: number = 0;
-  nameA: string = '';
-  nameB: string = '';
-  colorA: string = '';
-  colorB: string = '';
-  overlap: number = 0;
+  facetName = '';
+  sizeA = 0;
+  sizeB = 0;
+  nameA = '';
+  nameB = '';
+  colorA = '';
+  colorB = '';
+  overlap = 0;
 }

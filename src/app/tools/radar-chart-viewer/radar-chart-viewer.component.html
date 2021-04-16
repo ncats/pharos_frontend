@@ -1,5 +1,6 @@
-  <div>
-  <pharos-target-header *ngIf="target" [data]="{'targets': target}" [target]="target" class="popup-radar"></pharos-target-header>
+<div>
+  <pharos-target-header *ngIf="target" [data]="{'targets': target}" [target]="target"
+                        class="popup-radar"></pharos-target-header>
   <div fxLayout="row" class="content-row">
     <div fxFlex="25">
       <h3>{{axis}} data provided by the following sources: </h3>
@@ -10,7 +11,7 @@
               </span>
     </div>
     <div fxFlex="75" class="kchart full-height">
-      <pharos-radar-chart [data] = data [id]=id [size]= size (hoverEvent)="getSource($event)"></pharos-radar-chart>
+      <pharos-radar-chart [data]=data [id]=id [size]=size (hoverEvent)="getSource($event)"></pharos-radar-chart>
     </div>
   </div>
-  </div>
+</div>

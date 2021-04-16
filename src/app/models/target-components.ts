@@ -252,6 +252,7 @@ export const TARGETLISTFIELDS = gql`
       summary{
         name
         value
+        sources
       }
     }
     diseaseCounts {
