@@ -592,13 +592,13 @@ export const TARGETDETAILSFIELDS = gql`
       assigned_by
     }
     gwasAnalytics{
-      ensgID
-      traitCount
-      studyCount
       associations {
+        ensgID
+        traitCountForGene
+        studyCountForGene
         trait
         efoID
-        studyCount
+        studyCountForAssoc
         snpCount
         wSnpCount
         geneCountForTrait

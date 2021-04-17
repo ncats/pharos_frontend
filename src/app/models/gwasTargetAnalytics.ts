@@ -1,19 +1,18 @@
 export class GwasTargetAnalytics {
-  ensgID: string;
-  traitCount: number;
-  studyCount: number;
   associations: GwasTargetAssociation[];
 
   constructor(json: any) {
-    Object.entries((json)).forEach((prop) => this[prop[0]] = prop[1]);
-    this.associations = json.associations.map(assoc => new GwasTargetAssociation(assoc, this.ensgID));
+    this.associations = json.associations.map(assoc => new GwasTargetAssociation(assoc));
   }
 }
 
 export class GwasTargetAssociation {
+  ensgID: string;
+  traitCountForGene: number;
+  studyCountForGene: number;
   trait: string;
   efoID: string;
-  studyCount: number;
+  studyCountForAssoc: number;
   snpCount: number;
   wSnpCount: number;
   geneCountForTrait: number;
@@ -27,7 +26,7 @@ export class GwasTargetAssociation {
   meanRankScore: number;
   provLink: string;
   diseaseName: string;
-  constructor(json: any, ensgID: string) {
+  constructor(json: any) {
     Object.entries((json)).forEach((prop) => this[prop[0]] = prop[1]);
     if (this.meanRankScore) {
       this.meanRankScore = parseFloat(this.meanRankScore.toFixed(1));
@@ -35,7 +34,7 @@ export class GwasTargetAssociation {
     if (this.medianOddsRatio) {
       this.medianOddsRatio = parseFloat(this.medianOddsRatio.toFixed(1));
     }
-    this.provLink = `https://unmtid-shinyapps.net/shiny/tiga/?trait=${this.efoID}&gene=${ensgID}`;
+    this.provLink = `https://unmtid-shinyapps.net/shiny/tiga/?trait=${this.efoID}&gene=${this.ensgID}`;
   }
 }
 

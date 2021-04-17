@@ -67,7 +67,7 @@ export class GwasTargetAnalyticsComponent extends DynamicPanelComponent implemen
       width: '100vw'
     }),
     new PharosProperty({
-      name: 'studyCount',
+      name: 'studyCountForAssoc',
       label: 'Study Count',
       width: '100vw'
     }),
@@ -156,8 +156,25 @@ export class GwasTargetAnalyticsComponent extends DynamicPanelComponent implemen
         this.navSectionsService.hideSection(this.field);
       }
 
+      if (!this.allGenesEqual()) {
+        this.fields.splice(2, 0, new PharosProperty({
+          name: 'ensgID',
+          label: 'ENSG ID',
+          width: '100vw'
+        }));
+      }
       this.loadingComplete();
     });
   }
 
+  allGenesEqual(){
+    const firstEnsg = this.target.gwasAnalytics.associations[0].ensgID;
+    let foundMultiple = false;
+    this.target.gwasAnalytics.associations.forEach(assoc => {
+      if (!foundMultiple && assoc.ensgID !== firstEnsg) {
+        foundMultiple = true;
+      }
+    });
+    return !foundMultiple;
+  }
 }

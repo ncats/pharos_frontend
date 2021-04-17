@@ -637,6 +637,9 @@ export class TargetSerializer implements PharosSerializer {
             if (assoc.diseaseName) {
               assocProps.trait.internalLink = ['/diseases/' + assoc.diseaseName];
             }
+            if (assoc.ensgID) {
+              assocProps.ensgID.externalLink = `https://unmtid-shinyapps.net/shiny/tiga/?gene=${assoc.ensgID}`;
+            }
             assocProps.efoID.externalLink = `https://www.ebi.ac.uk/gwas/efotraits/${assoc.efoID}`;
             assocProps.provLink.externalLink = assocProps.provLink.term;
             assocProps.provLink.term = '';
