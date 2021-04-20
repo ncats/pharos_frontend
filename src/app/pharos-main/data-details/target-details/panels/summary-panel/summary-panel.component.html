@@ -123,7 +123,7 @@
       <div class="affiliate-link" *ngIf="this.affiliateLinks.length > 0">
         <div class="mat-title">IDG Partner Tools</div>
         <ng-container *ngFor="let link of this.affiliateLinks">
-          <pharos-affiliate-link [value]="target.gene" [dataSource]="link"></pharos-affiliate-link>
+          <pharos-affiliate-link [geneSymbol]="target.gene" [uniprotID]="target.accession" [dataSource]="link"></pharos-affiliate-link>
         </ng-container>
       </div>
     </mat-card-content>
