@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {FormControl} from "@angular/forms";
-import {PageData} from "../../models/page-data";
-import {PageEvent} from "@angular/material/paginator";
-import {Observable, Subscription} from "rxjs";
-import {BaseResource} from "../../models/idg-resources/base-resource";
+import {FormControl} from '@angular/forms';
+import {PageData} from '../../models/page-data';
+import {PageEvent} from '@angular/material/paginator';
+import {Observable, Subscription} from 'rxjs';
+import {BaseResource} from '../../models/idg-resources/base-resource';
 
 /**
  * Component to show a Filter / Paginator component for a card full of Resources
@@ -56,7 +56,7 @@ export class ListFilterComponent implements OnInit, OnDestroy {
   /**
    * The control for selecting different filters
    */
-  FilterCtrl: FormControl = new FormControl();
+  filterCtrl: FormControl = new FormControl();
 
   /**
    * initializes lists and subscriptions
@@ -64,7 +64,7 @@ export class ListFilterComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.updateSubscription = this.fullListUpdates.subscribe(() => this.initializeLists());
     this.initializeLists();
-    this.FilterCtrl.valueChanges.subscribe({next: change => this.filterValueChanged(change)});
+    this.filterCtrl.valueChanges.subscribe({next: change => this.filterValueChanged(change)});
   }
 
   /**
@@ -94,7 +94,7 @@ export class ListFilterComponent implements OnInit, OnDestroy {
    * @param change
    */
   filterValueChanged(change) {
-    if (change.length == 0) {
+    if (change.length === 0) {
       this.filteredList = this.fullList;
     } else {
       this.filteredList = [];

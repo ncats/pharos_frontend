@@ -4,7 +4,6 @@ import {AnatamogramModule} from './anatamogram/anatamogram.module';
 import {BatchUploadModalComponent} from './batch-upload-modal/batch-upload-modal.component';
 import {DynamicPanelComponent} from './dynamic-panel/dynamic-panel.component';
 import {DynamicTablePanelComponent} from './dynamic-table-panel/dynamic-table-panel.component';
-import {EquationRendererComponent} from './equation-renderer/equation-renderer.component';
 import {HelpPanelComponent} from './help-panel/help-panel.component';
 import {IdgLevelIndicatorComponent} from './idg-level-indicator/idg-level-indicator.component';
 import {KnowledgeTableComponent} from './knowledge-table/knowledge-table.component';
@@ -35,7 +34,6 @@ import {FieldSelectionDialogComponent} from './field-selection-dialog/field-sele
     DynamicPanelBaseComponent,
     DynamicPanelComponent,
     DynamicTablePanelComponent,
-    EquationRendererComponent,
     HelpPanelComponent,
     IdgLevelIndicatorComponent,
     KnowledgeTableComponent,
@@ -70,7 +68,6 @@ import {FieldSelectionDialogComponent} from './field-selection-dialog/field-sele
     BatchUploadModalComponent,
     DynamicPanelComponent,
     DynamicTablePanelComponent,
-    EquationRendererComponent,
     HelpPanelComponent,
     IdgLevelIndicatorComponent,
     KnowledgeTableComponent,
