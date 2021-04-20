@@ -261,6 +261,7 @@ export class Target extends PharosBase {
     pathwayCounts?: any[];
 
     dataSources?: string[] = [];
+    drgcResources?: {resourceType: string, apiResult: any}[];
 
     sequence_variants?: {startResidue: number, residue_info: {aa: string, bits: number}[]};
     sequence_annotations?: {startResidue: number, endResidue: number, type: string, name: string}[];

@@ -6,7 +6,7 @@
   <div fxFlex="25" *ngIf="types.length > 1">
     <mat-form-field class="full-width-field">
       <mat-select
-        [formControl]="FilterCtrl"
+        [formControl]="filterCtrl"
         [multiple]="true"
         placeholder="Filter By:">
         <mat-option *ngFor ="let option of types" [value]="option.value">

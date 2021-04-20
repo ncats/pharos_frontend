@@ -591,6 +591,10 @@ export const TARGETDETAILSFIELDS = gql`
       explanation
       assigned_by
     }
+    drgcResources:drgc_resources {
+      resourceType
+      apiResult:detailBlob
+    }
     gwasAnalytics{
       associations {
         ensgID

@@ -1,14 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Inject,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  PLATFORM_ID,
-  ViewChild
-} from '@angular/core';
+import {ChangeDetectorRef, Component, Inject, Input, OnDestroy, OnInit, Output, PLATFORM_ID, ViewChild} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
@@ -20,8 +10,6 @@ import {IDGResourceSerializer} from '../../../../../models/idg-resources/resourc
 import {DataResource, MouseImageData} from '../../../../../models/idg-resources/data-resource';
 import {Reagent} from '../../../../../models/idg-resources/reagent';
 import {PageData} from '../../../../../models/page-data';
-import {MatTabGroup} from '@angular/material/tabs';
-import {isPlatformBrowser} from '@angular/common';
 
 /**
  * panel to show idg generated resources
@@ -36,12 +24,13 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
   @Output() selfDestruct: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   @Input() target: Target;
 
-  @ViewChild('tabs') tabGroup: MatTabGroup;
   /**
    * Serializer to parse API results into Resource objects
    */
   resourceSerializer: IDGResourceSerializer<DataResource | Reagent> = new IDGResourceSerializer<DataResource | Reagent>();
 
+  mouseExpressions: DataResource[] = [];
+  mouseExpressionsUpdated: Subject<void> = new Subject<void>();
   /**
    * List of all reagents to show in the panel
    */
@@ -64,8 +53,6 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
    */
   dataResources: DataResource[] = [];
 
-  mouseExpressions: DataResource[] = [];
-  mouseExpressionsUpdated: Subject<void> = new Subject<void>();
   /**
    * List of dataResources currently shown in the panel, subject to filtering and paging
    */
@@ -83,7 +70,7 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
     private http: HttpClient,
     private pharosConfig: PharosConfig,
     private changeRef: ChangeDetectorRef,
-    @Inject(PLATFORM_ID) private platformID: Object,
+    @Inject(PLATFORM_ID) private platformID: any,
     public navSectionsService: NavSectionsService) {
     super(navSectionsService);
   }
@@ -100,49 +87,32 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-          this.target = this.data.targets;
-          this.loadingStart();
-          this.dataResources = [];
-          this.reagents = [];
-          this.mouseExpressions = [];
-          if (isPlatformBrowser(this.platformID)) {
-            this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/search?term=${this.target.gene}&pharosReady=true`)
-              .subscribe(resourceList => {
-              if (resourceList && resourceList.data && resourceList.data.length) {
-                resourceList.data.forEach(resourceMetadata => {
-                  if (resourceMetadata.id && resourceMetadata.name) {
-                    this.fetchResourceDetails(resourceMetadata);
-                  }
-                });
-                this.navSectionsService.showSection(this.field);
-              } else {
-                this.navSectionsService.hideSection(this.field);
+        this.target = this.data.targets;
+        this.loadingStart();
+        this.dataResources = [];
+        this.reagents = [];
+        this.mouseExpressions = [];
+
+        try {
+          if (this.target.drgcResources.length > 0) {
+            this.navSectionsService.showSection(this.field);
+            this.target.drgcResources.forEach(resource => {
+              const resc = this.resourceSerializer.fromJson(resource.apiResult, resource.resourceType);
+              if (resc instanceof Reagent) {
+                this.updateReagentLists(resc);
+              } else if (resc instanceof DataResource) {
+                this.updateDataResourceLists(resc);
               }
-              this.changeRef.markForCheck();
-              this.loadingComplete();
             });
-          }
-          else{
+            this.changeRef.detectChanges();
+          } else {
             this.navSectionsService.hideSection(this.field);
           }
         }
-      );
-  }
-
-  /**
-   * Helper function for fetching one resource's details from the server
-   */
-  private fetchResourceDetails(resourceMetadata) {
-    this.http.get<any>(`https://rss.ccs.miami.edu/rss-api/target/id?id=${resourceMetadata.id}&json=true&pharosReady=true`)
-      .subscribe({
-        next: resource => {
-          const resc = this.resourceSerializer.fromJson(resource.data[0], resourceMetadata.name, resourceMetadata.resourceType);
-          if (resc instanceof Reagent) {
-            this.updateReagentLists(resc);
-          } else if (resc instanceof DataResource) {
-            this.updateDataResourceLists(resc);
-          }
+        catch (e){
+          console.log(e);
         }
+        this.loadingComplete();
       });
   }
 
@@ -163,9 +133,6 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
     if (newElement instanceof MouseImageData) {
       this.mouseExpressions.push(newElement);
       this.mouseExpressionsUpdated.next();
-      if (this.tabGroup) {
-        this.tabGroup.selectedIndex = 2;
-      }
     } else {
       this.dataResources.push(newElement);
       this.dataResourcePageData = this.makePageData(this.dataResources.length);

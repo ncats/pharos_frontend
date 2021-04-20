@@ -22,11 +22,8 @@ export class IDGResourceSerializer<T extends BaseResource> implements Serializer
    * @param type
    */
 
-  fromJson(json: any, name?: string, type?: string): T {
+  fromJson(json: any, type?: string): T {
     let obj: any;
-    if (name) {
-      json.name = name;
-    }
     switch (type) {
       case 'Antibody': {
         obj = new Antibody(json);

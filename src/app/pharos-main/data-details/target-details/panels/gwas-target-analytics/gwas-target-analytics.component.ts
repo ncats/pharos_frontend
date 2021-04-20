@@ -168,9 +168,9 @@ export class GwasTargetAnalyticsComponent extends DynamicPanelComponent implemen
   }
 
   allGenesEqual(){
-    const firstEnsg = this.target.gwasAnalytics.associations[0].ensgID;
+    const firstEnsg = this.target?.gwasAnalytics.associations[0].ensgID;
     let foundMultiple = false;
-    this.target.gwasAnalytics.associations.forEach(assoc => {
+    this.target?.gwasAnalytics.associations.forEach(assoc => {
       if (!foundMultiple && assoc.ensgID !== firstEnsg) {
         foundMultiple = true;
       }
