@@ -23,6 +23,7 @@ export class Ligand extends PharosBase {
   smiles?: string;
   activityCount: number;
   isdrug: boolean;
+  preferredTerms: {unii: string, term: string}[] = [];
 
   /**
    * name of ligand
@@ -46,8 +47,15 @@ export class Ligand extends PharosBase {
    */
   public synonymLabels() {
     const labels = [];
+    this.preferredTerms.forEach(termObj => {
+      labels.push({
+        label: termObj.unii ? 'UNII' : 'Preferred Term',
+        term: termObj.unii ? `${termObj.unii} (${termObj.term})` : termObj.term,
+        externalLink: `https://drugs.ncats.io/drug/${termObj.unii || termObj.term}`
+      });
+    });
     const linkName = (this.isdrug ? this.name : null);
-    if (linkName) {
+    if (linkName && this.preferredTerms.length === 0) {
       labels.push({label: 'NCATS Inxight: Drugs', term: linkName, externalLink: `https://drugs.ncats.io/drug/${linkName}`});
     }
     if (!this.isdrug){
@@ -56,18 +64,20 @@ export class Ligand extends PharosBase {
 
     for (const syn of this.synonyms) {
       const source = syn.name;
-      const id = syn.value;
-      let link = '';
-      if (source === 'DrugCentral') {
-        link = 'http://drugcentral.org/drugcard/' + id;
-      } else if (source === 'ChEMBL') {
-        link = 'https://www.ebi.ac.uk/chembl/compound_report_card/' + id + '/';
-      } else if (source === 'PubChem') {
-        link = 'https://pubchem.ncbi.nlm.nih.gov/compound/' + id;
-      } else if (source === 'Guide to Pharmacology') {
-        link = 'http://www.guidetopharmacology.org/GRAC/LigandDisplayForward?ligandId=' + id;
-      }
-      labels.push({label: source, term: id, externalLink: link});
+      const ids = syn.value;
+      ids.split(',').forEach(id => {
+        let link = '';
+        if (source === 'DrugCentral') {
+          link = 'http://drugcentral.org/drugcard/' + id;
+        } else if (source === 'ChEMBL') {
+          link = 'https://www.ebi.ac.uk/chembl/compound_report_card/' + id + '/';
+        } else if (source === 'PubChem') {
+          link = 'https://pubchem.ncbi.nlm.nih.gov/compound/' + id;
+        } else if (source === 'Guide to Pharmacology') {
+          link = 'http://www.guidetopharmacology.org/GRAC/LigandDisplayForward?ligandId=' + id;
+        }
+        labels.push({label: source, term: id, externalLink: link});
+      })
     }
     return labels;
   }
