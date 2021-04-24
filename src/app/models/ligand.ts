@@ -23,7 +23,7 @@ export class Ligand extends PharosBase {
   smiles?: string;
   activityCount: number;
   isdrug: boolean;
-  preferredTerms: {unii: string, term: string}[] = [];
+  preferredTerm: string;
 
   /**
    * name of ligand
@@ -47,23 +47,13 @@ export class Ligand extends PharosBase {
    */
   public synonymLabels() {
     const labels = [];
-    this.preferredTerms.forEach(termObj => {
-      labels.push({
-        label: termObj.unii ? 'UNII' : 'Preferred Term',
-        term: termObj.unii ? `${termObj.unii} (${termObj.term})` : termObj.term,
-        externalLink: `https://drugs.ncats.io/drug/${termObj.unii || termObj.term}`
-      });
-    });
-    const linkName = (this.isdrug ? this.name : null);
-    if (linkName && this.preferredTerms.length === 0) {
-      labels.push({label: 'NCATS Inxight: Drugs', term: linkName, externalLink: `https://drugs.ncats.io/drug/${linkName}`});
-    }
     if (!this.isdrug){
       labels.push({label: 'Name', term: this.name});
     }
 
     for (const syn of this.synonyms) {
-      const source = syn.name;
+      let source = syn.name;
+      if (source === 'pt') { continue; }
       const ids = syn.value;
       ids.split(',').forEach(id => {
         let link = '';
@@ -75,9 +65,12 @@ export class Ligand extends PharosBase {
           link = 'https://pubchem.ncbi.nlm.nih.gov/compound/' + id;
         } else if (source === 'Guide to Pharmacology') {
           link = 'http://www.guidetopharmacology.org/GRAC/LigandDisplayForward?ligandId=' + id;
+        } else if (source === 'unii') {
+          source = 'UNII';
+          link = `https://drugs.ncats.io/drug/${id}`;
         }
         labels.push({label: source, term: id, externalLink: link});
-      })
+      });
     }
     return labels;
   }
@@ -116,6 +109,9 @@ export class LigandSerializer implements PharosSerializer {
         }
         if (syn.name === 'PubChem') {
           obj.pubChemID = syn.value;
+        }
+        if (syn.name === 'pt') {
+          obj.preferredTerm = syn.value.toLowerCase();
         }
       });
     }

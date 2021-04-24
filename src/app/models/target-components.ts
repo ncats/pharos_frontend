@@ -77,10 +77,6 @@ export const LIGANDLISTFIELDS = gql`
       name
       value
     }
-    preferredTerms:preferred_terms{
-      unii
-      term
-    }
     activityCount:actcnt
   }
 `;
