@@ -5,7 +5,7 @@
     * From target details pages, you'll see plots and tables of associated GWAS phenotypes, ranked according to the number and quality of GWAS studies involved. 
     * From disease details pages, you'll see plots and tables of associated targets, ranked accordingly as well.
 
-* **Ligand Details pages for Drugs include UNIIs and Preferred Terms**
+* **Ligand Details pages for Drugs include UNIIs**
 
 * **Link out to GlyGen from target details pages**
 
