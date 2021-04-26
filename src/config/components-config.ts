@@ -726,9 +726,13 @@ const GWAS_TARGET_ANALYTICS_PANEL: PharosPanel = {
     label: 'GWAS Traits',
     section: 'tiga',
     mainDescription: 'Genome-wide association studies (GWAS) find associations between phenotypic traits and genes. Target Illumination ' +
-      'GWAS Analytics (TIGA) scores and ranks those traits according to the a subset of the study parameters.',
+      'GWAS Analytics (TIGA) scores and ranks those traits according to a subset of study parameters.',
     mainSource: 'https://unmtid-shinyapps.net/shiny/tiga/'
   }, api: [
+    { field: 'reference', label: 'Citation', description: 'TIGA scores and ranks traits (or genes) by meanRank based on three variables: ' +
+        '(1) pVal_mlog which is max(-Log(pValue)), (2) N_snpw, SNP count weighted by genomic distance, and (3) RCRAS, Relative Citation ' +
+        'Ratio Aggregated Score, based on iCite RCR. These variables were selected by benchmark against the gold standard target-phenotype associations.',
+      source: 'https://www.biorxiv.org/content/10.1101/2020.11.11.378596v2'},
     { field: 'gwasTrait', label: 'GWAS Trait', description: 'The phenotypic trait found to be associated with the gene'},
     { field: 'efoID', label: 'EFO ID', description: 'Experimental Factor Ontology (EFO) ID for the trait'},
     ...commonGwasFields
@@ -1116,9 +1120,13 @@ const DISEASE_GWAS_ANALYTICS_COMPONENT: PharosPanel = {
   label: 'GWAS Targets',
     section: 'tiga',
     mainDescription: 'Genome-wide association studies (GWAS) find associations between phenotypic traits and genes. Target Illumination ' +
-  'GWAS Analytics (TIGA) scores and ranks those traits according to the a subset of the study parameters.',
+      'GWAS Analytics (TIGA) scores and ranks those traits according to a subset of study parameters.',
     mainSource: 'https://unmtid-shinyapps.net/shiny/tiga/'
 }, api: [
+    { field: 'reference', label: 'Citation', description: 'TIGA scores and ranks traits (or genes) by meanRank based on three variables: ' +
+        '(1) pVal_mlog which is max(-Log(pValue)), (2) N_snpw, SNP count weighted by genomic distance, and (3) RCRAS, Relative Citation ' +
+        'Ratio Aggregated Score, based on iCite RCR. These variables were selected by benchmark against the gold standard target-phenotype associations.',
+      source: 'https://www.biorxiv.org/content/10.1101/2020.11.11.378596v2'},
     { field: 'gwasTrait', label: 'trait', description: 'The phenotypic trait found to be associated with the genes in the list.'},
     { field: 'target', label: 'Target', description: 'The target found to be associated with the disease.'},
     { field: 'tdl', label: 'TDL', description: 'The target development level for the associated target'},
