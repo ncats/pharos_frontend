@@ -5,14 +5,15 @@ import {Disease, DiseaseSerializer} from './disease';
 import {Generif, GenerifSerializer} from './generif';
 import {Ortholog, OrthologSerializer} from './ortholog';
 import {Ligand, LigandSerializer} from './ligand';
-import {TARGETDETAILSFIELDS, TARGETDETAILSQUERY, TARGETLISTEXTRAS, TARGETLISTFIELDS} from "./target-components";
-import {Facet} from "./facet";
-import {InteractionDetails} from "./interaction-details";
-import {DiseaseAssocationSerializer, DiseaseAssociation} from "./disease-association";
-import {VirusDetails, VirusDetailsSerializer} from "./virus-interactions";
-import {Pathway, PathwaySerializer} from "./pathway";
-import {PantherClass} from "./pantherClass";
-import {SimilarityDetails} from "./similarityDetails";
+import {TARGETDETAILSFIELDS, TARGETDETAILSQUERY, TARGETLISTEXTRAS, TARGETLISTFIELDS} from './target-components';
+import {Facet} from './facet';
+import {InteractionDetails} from './interaction-details';
+import {DiseaseAssocationSerializer, DiseaseAssociation} from './disease-association';
+import {VirusDetails, VirusDetailsSerializer} from './virus-interactions';
+import {Pathway, PathwaySerializer} from './pathway';
+import {PantherClass} from './pantherClass';
+import {SimilarityDetails} from './similarityDetails';
+import {GwasTargetAnalytics} from './gwasTargetAnalytics';
 
 
 /**
@@ -237,6 +238,7 @@ export class Target extends PharosBase {
     goProcess: string[];
     uniprotKeyword: string[];
     gwasTrait: string[];
+    gwasAnalytics: GwasTargetAnalytics;
     mgiPhenotype: string[];
     hpaTissueSpecificityIndex: [{ name, value }];
     hpmProteinTissueSpecificityIndex: [{ name, value }];
@@ -259,6 +261,7 @@ export class Target extends PharosBase {
     pathwayCounts?: any[];
 
     dataSources?: string[] = [];
+    drgcResources?: {resourceType: string, apiResult: any}[];
 
     sequence_variants?: {startResidue: number, residue_info: {aa: string, bits: number}[]};
     sequence_annotations?: {startResidue: number, endResidue: number, type: string, name: string}[];
@@ -279,13 +282,13 @@ export class GoCounts {
 
     constructor(json: any) {
         this.processes = json.find(type => {
-            return type.name === "P";
+            return type.name === 'P';
         })?.value || 0;
         this.functions = json.find(type => {
-            return type.name === "F";
+            return type.name === 'F';
         })?.value || 0;
         this.components = json.find(type => {
-            return type.name === "C";
+            return type.name === 'C';
         })?.value || 0;
     }
 }
@@ -314,6 +317,10 @@ export class TargetSerializer implements PharosSerializer {
         obj.parsed = true;
         Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
 
+        if (json.gwasAnalytics) {
+          obj.gwasAnalytics = new GwasTargetAnalytics(json.gwasAnalytics);
+        }
+
         if (json.interactingViruses) {
             const virusDetailsSerializer = new VirusDetailsSerializer();
             obj.interactingViruses = json.interactingViruses.map(virus => virusDetailsSerializer.fromJson(virus));
@@ -326,7 +333,7 @@ export class TargetSerializer implements PharosSerializer {
             obj.pathwayCounts = obj.pathwayCounts.sort((a, b) => {
                 return a.name.localeCompare(b.name);
             });
-            let pathwaySerializer = new PathwaySerializer();
+            const pathwaySerializer = new PathwaySerializer();
             obj.pathwayMap = new Map<string, Pathway[]>();
             json.pathways.forEach(jpath => {
                 const pathObj = pathwaySerializer.fromJson(jpath);
@@ -343,7 +350,7 @@ export class TargetSerializer implements PharosSerializer {
         }
 
         if (json.expressions) { // deduplicate expresssions, and translate uberon ID
-            let map = new Map<string, any>();
+            const map = new Map<string, any>();
             for (let i = 0; i < json.expressions.length; i++) {
                 if (json.expressions[i].uberon && json.expressions[i].uberon.uid) {
                     json.expressions[i].uberon.uid = json.expressions[i].uberon.uid.replace(':', '_');
@@ -624,6 +631,21 @@ export class TargetSerializer implements PharosSerializer {
                 };
                 return prop;
             });
+        }
+        if (obj.gwasAnalytics) {
+          newObj.gwasAnalytics.associations = obj.gwasAnalytics.associations.map(assoc => {
+            const assocProps = this._mapField(assoc);
+            if (assoc.diseaseName) {
+              assocProps.trait.internalLink = ['/diseases/' + assoc.diseaseName];
+            }
+            if (assoc.ensgID) {
+              assocProps.ensgID.externalLink = `https://unmtid-shinyapps.net/shiny/tiga/?gene=${assoc.ensgID}`;
+            }
+            assocProps.efoID.externalLink = `https://www.ebi.ac.uk/gwas/efotraits/${assoc.efoID}`;
+            assocProps.provLink.externalLink = assocProps.provLink.term;
+            assocProps.provLink.term = '';
+            return assocProps;
+          });
         }
         if (obj.mgiPhenotype) {
             newObj.mgiPhenotype = obj.mgiPhenotype.map(phen => {

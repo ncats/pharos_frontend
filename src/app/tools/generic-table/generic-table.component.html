@@ -2,8 +2,8 @@
     <ng-content></ng-content>
     <mat-paginator
                    [pageSizeOptions]="[10, 20, 50]"
-                   [pageSize]="pageData.skip > 0 ? pageData.skip : 10"
-                   [length]="pageData.total ? pageData.total : 10"
+                   [pageSize]="pageData.skip > 0 ? pageData.skip : defaultPageSize"
+                   [length]="pageData.total ? pageData.total : defaultPageSize"
                    [showFirstLastButtons] = true
                    (page)="changePage($event)"
                    [hidePageSize]="hidePageSize">

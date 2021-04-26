@@ -24,8 +24,8 @@ import {ActivatedRoute} from '@angular/router';
 import {Generif} from '../../../../../models/generif';
 import {ScatterPlotComponent} from '../../../../../tools/visualizations/scatter-plot/scatter-plot.component';
 import {takeUntil} from 'rxjs/operators';
-import {TargetComponents} from "../../../../../models/target-components";
-import {isPlatformBrowser, Location, ViewportScroller} from "@angular/common";
+import {TargetComponents} from '../../../../../models/target-components';
+import {isPlatformBrowser, Location, ViewportScroller} from '@angular/common';
 
 @Component({
   selector: 'pharos-related-publications',
@@ -35,6 +35,25 @@ import {isPlatformBrowser, Location, ViewportScroller} from "@angular/common";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RelatedPublicationsComponent extends DynamicTablePanelComponent implements OnInit, OnDestroy {
+
+  /**
+   *
+   * @param navSectionsService
+   * @param _route
+   * @param changeRef
+   * @param pharosApiService
+   * @param pharosConfig
+   */
+  constructor(private _route: ActivatedRoute,
+              private changeRef: ChangeDetectorRef,
+              private pharosApiService: PharosApiService,
+              private pharosConfig: PharosConfig,
+              @Inject(PLATFORM_ID) private platformID: Object,
+              public navSectionsService: NavSectionsService,
+              private location: Location,
+              private viewportScroller: ViewportScroller) {
+    super(navSectionsService);
+  }
   /**
    * radar chart component for differential data
    */
@@ -45,14 +64,7 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
    */
   @Input() target: Target;
 
-  activeTab: number = 0;
-
-  tabChanged(event) {
-    if (this.activeTab != event.index) {
-      this.activeTab = event.index;
-      this.navSectionsService.setActiveTab('relatedPublications', event.tab.textLabel);
-    }
-  }
+  activeTab = 0;
 
   targetProps: any;
   /**
@@ -113,23 +125,11 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
     })
   ];
 
-  /**
-   *
-   * @param navSectionsService
-   * @param _route
-   * @param changeRef
-   * @param pharosApiService
-   * @param pharosConfig
-   */
-  constructor(private _route: ActivatedRoute,
-              private changeRef: ChangeDetectorRef,
-              private pharosApiService: PharosApiService,
-              private pharosConfig: PharosConfig,
-              @Inject(PLATFORM_ID) private platformID: Object,
-              public navSectionsService: NavSectionsService,
-              private location: Location,
-              private viewportScroller: ViewportScroller) {
-    super(navSectionsService);
+  tabChanged(event) {
+    if (this.activeTab != event.index) {
+      this.activeTab = event.index;
+      this.navSectionsService.setActiveTab('relatedPublications', event.tab.textLabel);
+    }
   }
 
   /**
@@ -146,12 +146,12 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
       )
       .subscribe(x => {
         this.loadingStart();
-        this.activeTab = this._route.snapshot.fragment === "geneRIFs" ? 1 : 0;
+        this.activeTab = this._route.snapshot.fragment === 'geneRIFs' ? 1 : 0;
         this.navSectionsService.activeTab$.subscribe(newTab => {
           if (!this.loading) {
             this.location.replaceState(`${this.location.path(false)}#${newTab}`);
             this.viewportScroller.scrollToAnchor(newTab);
-            this.activeTab = newTab === "geneRIFs" ? 1 : newTab === "relatedPublications" ? 0 : this.activeTab;
+            this.activeTab = newTab === 'geneRIFs' ? 1 : newTab === 'relatedPublications' ? 0 : this.activeTab;
             this.changeRef.markForCheck();
           }
         });
@@ -186,8 +186,8 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
       [`${origin}top`]: event.pageSize,
       [`${origin}skip`]: event.pageIndex * event.pageSize,
     };
-    var pageData = this.publicationsPageData;
-    var component = TargetComponents.Component.Publications;
+    let pageData = this.publicationsPageData;
+    let component = TargetComponents.Component.Publications;
     if (origin == 'generifs') {
       pageData = this.rifPageData;
       component = TargetComponents.Component.Generifs;

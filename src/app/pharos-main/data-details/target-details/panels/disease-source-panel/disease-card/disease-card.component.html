@@ -7,6 +7,11 @@
       </div>
     </div>
   </mat-expansion-panel-header>
+  <button class="detailsButton" type="button" mat-raised-button [color]="'primary'" style="height: 36px;"
+                                       [routerLink]="'/diseases/' + disease.name">
+  Explore Target: {{disease.name}}
+  <mat-icon>description</mat-icon>
+</button>
   <div class="association-grid">
     <div *ngIf="this.drugs.length > 0">
       <mat-card-subtitle>{{this.drugType}}</mat-card-subtitle>

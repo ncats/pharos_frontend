@@ -30,7 +30,7 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
 
   @Input() targetProps: any;
 
-  affiliates: string[] = ["Dark Kinase Knowledgebase"];
+  affiliates: string[] = ['Dark Kinase Knowledgebase', 'GlyGen'];
   affiliateLinks: any[] = [];
   /**
    * dialog for radar modal and navigation sections service
@@ -59,11 +59,11 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
       .subscribe(x => {
         this.target = this.data.targets;
         this.affiliateLinks = [];
-        for(let i = 0 ; i < this.affiliates.length ; i++){
-          if(this.target.dataSources.includes(this.affiliates[i])){
-            this.affiliateLinks.push(this.affiliates[i]);
+        this.affiliates.forEach(affiliate => {
+          if (this.target.dataSources.includes(affiliate)){
+            this.affiliateLinks.push(affiliate);
           }
-        }
+        });
         this.targetProps = this.data.targetsProps;
         this.loadingComplete();
         this.changeRef.markForCheck();

@@ -4,7 +4,6 @@ import {AnatamogramModule} from './anatamogram/anatamogram.module';
 import {BatchUploadModalComponent} from './batch-upload-modal/batch-upload-modal.component';
 import {DynamicPanelComponent} from './dynamic-panel/dynamic-panel.component';
 import {DynamicTablePanelComponent} from './dynamic-table-panel/dynamic-table-panel.component';
-import {EquationRendererComponent} from './equation-renderer/equation-renderer.component';
 import {HelpPanelComponent} from './help-panel/help-panel.component';
 import {IdgLevelIndicatorComponent} from './idg-level-indicator/idg-level-indicator.component';
 import {KnowledgeTableComponent} from './knowledge-table/knowledge-table.component';
@@ -27,7 +26,7 @@ import {AffiliateLinkComponent} from './affiliate-link/affiliate-link.component'
 import {DynamicPanelBaseComponent} from './dynamic-panel-base/dynamic-panel-base.component';
 import {GoTermsEvidenceArticleComponent} from './help-panel/articles/go-terms-evidence-article/go-terms-evidence-article.component';
 import {VennDiagramComponent} from './visualizations/venn-diagram/venn-diagram.component';
-import { FieldSelectionDialogComponent } from './field-selection-dialog/field-selection-dialog.component';
+import {FieldSelectionDialogComponent} from './field-selection-dialog/field-selection-dialog.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +34,6 @@ import { FieldSelectionDialogComponent } from './field-selection-dialog/field-se
     DynamicPanelBaseComponent,
     DynamicPanelComponent,
     DynamicTablePanelComponent,
-    EquationRendererComponent,
     HelpPanelComponent,
     IdgLevelIndicatorComponent,
     KnowledgeTableComponent,
@@ -70,7 +68,6 @@ import { FieldSelectionDialogComponent } from './field-selection-dialog/field-se
     BatchUploadModalComponent,
     DynamicPanelComponent,
     DynamicTablePanelComponent,
-    EquationRendererComponent,
     HelpPanelComponent,
     IdgLevelIndicatorComponent,
     KnowledgeTableComponent,
@@ -86,4 +83,5 @@ import { FieldSelectionDialogComponent } from './field-selection-dialog/field-se
     FieldSelectionDialogComponent
   ]
 })
-export class CommonToolsModule { }
+export class CommonToolsModule {
+}

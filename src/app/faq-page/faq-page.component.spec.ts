@@ -2,7 +2,6 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {FaqPageComponent} from './faq-page.component';
 import {SharedModule} from '../shared/shared.module';
-import {KatexRenderService} from '../tools/equation-renderer/services/katex-render.service';
 import {FIRESTORESTUB} from '../../../test/firestore-stub';
 import {AngularFirestore} from '@angular/fire/firestore';
 
@@ -19,7 +18,6 @@ describe('FaqPageComponent', () => {
         FaqPageComponent
       ],
       providers: [
-        KatexRenderService,
         { provide: AngularFirestore, useValue: FIRESTORESTUB }
       ]
     })

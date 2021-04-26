@@ -18,7 +18,18 @@
                                      [label]="'IDG Generated Resources'"></pharos-help-panel-trigger>
         </div>
       </div>
-      <mat-tab-group #tabs>
+      <mat-tab-group>
+        <mat-tab *ngIf="mouseExpressions?.length > 0">
+          <ng-template mat-tab-label>
+            <div
+              [matTooltip]="getTooltip('mouseImagingTab')"
+              [matTooltipClass]="'pharos-tooltip'">
+              Mouse Imaging ({{mouseExpressions?.length}})
+            </div>
+          </ng-template>
+          <pharos-mouse-expression [mouseExpressions]="this.mouseExpressions"
+                                   [mouseExpressionUpdates]="mouseExpressionsUpdated.asObservable()"></pharos-mouse-expression>
+        </mat-tab>
         <mat-tab *ngIf="reagents?.length > 0">
           <ng-template mat-tab-label>
             <div
@@ -58,17 +69,6 @@
               <pharos-data-resource-panel [dataResource]="dataResource"></pharos-data-resource-panel>
             </div>
           </div>
-        </mat-tab>
-        <mat-tab *ngIf="mouseExpressions?.length > 0">
-          <ng-template mat-tab-label>
-            <div
-              [matTooltip]="getTooltip('mouseImagingTab')"
-              [matTooltipClass]="'pharos-tooltip'">
-              Mouse Imaging ({{mouseExpressions?.length}})
-            </div>
-          </ng-template>
-          <pharos-mouse-expression [mouseExpressions]="this.mouseExpressions"
-          [mouseExpressionUpdates]="mouseExpressionsUpdated.asObservable()"></pharos-mouse-expression>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>

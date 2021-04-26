@@ -17,7 +17,7 @@ import * as d3 from 'd3';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {takeUntil} from 'rxjs/operators';
 import {BehaviorSubject, Subject} from 'rxjs';
-import {isPlatformBrowser} from "@angular/common";
+import {isPlatformBrowser} from '@angular/common';
 
 /**
  * map of size and visualization parameters for various radar chart sizes
@@ -216,6 +216,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
    * parameter that sets the data origin, used to track data for different charts with the same target id
    */
   @Input() origin: string;
+  @Input() hideTooltips = false;
 
   /**
    * options for size and layout for the chart
@@ -269,7 +270,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
    * @param modalData
    */
   constructor(
-    @Inject(PLATFORM_ID) private platformID: Object,
+    @Inject(PLATFORM_ID) private platformID: any,
     @Optional() @Inject(MAT_DIALOG_DATA) public modalData: any) {
   }
 
@@ -284,7 +285,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        if(isPlatformBrowser(this.platformID)){
+        if (isPlatformBrowser(this.platformID)){
           this.drawChart();
           this.updateChart();
         }
@@ -296,7 +297,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
    * remove tooltips on destroy
    */
   ngOnDestroy(): void {
-    if(isPlatformBrowser(this.platformID)) {
+    if (isPlatformBrowser(this.platformID)) {
       d3.select('body').selectAll('.radar-tooltip').remove();
     }
     this.ngUnsubscribe.next();
@@ -571,13 +572,14 @@ export class RadarChartComponent implements OnInit, OnDestroy {
       .attr('class', 'blobWrapper');
 
     // Append the backgrounds
-    blobWrapper
+    const path = blobWrapper
       .append('path')
       .attr('class', 'radarArea')
       .attr('d', d => radarLine(d))
       .style('fill', (d, i) => this._chartOptions.color(i))
-      .style('fill-opacity', this._chartOptions.opacityArea)
-      .on('mouseover', function(d, i) {
+      .style('fill-opacity', this._chartOptions.opacityArea);
+
+    path.on('mouseover', function(event) {
         // Dim all blobs
         d3.selectAll('.radarArea')
           .transition().duration(200)
@@ -587,7 +589,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
           .transition().duration(200)
           .style('fill-opacity', 0.7);
       })
-      .on('mouseout', () => {
+      .on('mouseout', (event) => {
         // Bring back all blobs
         d3.selectAll('.radarArea')
           .transition().duration(200)
@@ -625,7 +627,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
       .attr('class', 'radarCircleWrapper');
 
     // Append a set of invisible circles on top for the mouseover pop-up
-    blobCircleWrapper.selectAll('.radarInvisibleCircle')
+    const selection = blobCircleWrapper.selectAll('.radarInvisibleCircle')
       .data(d => d)
       .enter()
       .append('circle')
@@ -634,24 +636,33 @@ export class RadarChartComponent implements OnInit, OnDestroy {
       .attr('cx', (d, i) => rScale(d.value) * cos(angleSlice * i - HALF_PI))
       .attr('cy', (d, i) => rScale(d.value) * sin(angleSlice * i - HALF_PI))
       .style('fill', 'none')
-      .style('pointer-events', 'all')
-      .on('mouseover', (d, i, circles) => {
+      .style('pointer-events', 'all');
+
+    selection.on('mouseover', (event, d) => {
+        const circles = selection.nodes();
+        const i = circles.indexOf(event.currentTarget);
         d3.select(circles[i]).classed('hovered', true);
-        this.tooltip
-          .transition()
-          .duration(100)
-          .style('opacity', .9);
-        this.tooltip.html('<span>' + d.name + ': <br>' + d.value + '</span>')
-          .style('left', d3.event.layerX + 'px')
-          .style('top', d3.event.layerY + 'px')
-          .style('width', this._chartOptions.wrapWidth);
+        if (!this.hideTooltips) {
+          this.tooltip
+            .transition()
+            .duration(100)
+            .style('opacity', .9);
+          this.tooltip.html('<span>' + d.name + ': <br>' + d.value + '</span>')
+            .style('left', event.pageX + 'px')
+            .style('top', event.pageY + 'px')
+            .style('width', this._chartOptions.wrapWidth);
+        }
         this.hoverEvent.emit(d);
       })
-      .on('mouseout', (d, i, circles) => {
-        this.tooltip
-          .transition()
-          .duration(200)
-          .style('opacity', 0);
+      .on('mouseout', (event) => {
+        const circles = selection.nodes();
+        const i = circles.indexOf(event.currentTarget);
+        if (!this.hideTooltips) {
+          this.tooltip
+            .transition()
+            .duration(200)
+            .style('opacity', 0);
+        }
         d3.select(circles[i]).classed('hovered', false);
       });
   }

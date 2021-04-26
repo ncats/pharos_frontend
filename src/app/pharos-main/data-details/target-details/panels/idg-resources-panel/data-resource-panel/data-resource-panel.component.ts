@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DataResource} from "../../../../../../models/idg-resources/data-resource";
+import {DataResource} from '../../../../../../models/idg-resources/data-resource';
 
 /**
  * Component to show a single data resource's information

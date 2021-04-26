@@ -72,9 +72,12 @@ export class TOKENS {
   /**
    * injection token to link to the target summary component
    */
-  public static DISEASE_HEADER_COMPONENT = new InjectionToken<string>('DiseaseHeaderComponent');
+  public static DISEASE_HEADER_COMPONENT = new InjectionToken<string>('DISEASE_HEADER_COMPONENT');
+  public static DISEASE_SUMMARY_COMPONENT = new InjectionToken<string>('DiseaseSummaryComponent');
   public static DISEASE_DO_BROWSER_COMPONENT = new InjectionToken<string>('DiseaseDoBrowserComponent');
   public static DISEASE_TINX_COMPONENT = new InjectionToken<string>('TinxDiseaseComponent');
+  public static DISEASE_GWAS_ANALYTICS_COMPONENT = new InjectionToken<string>('GwasDiseaseAnalyticsComponent');
+
   /**
    * injection token to link to the disease source panel
    */
@@ -192,4 +195,6 @@ export class TOKENS {
   public static SEQUENCE_LOGO = new InjectionToken<string>('SequenceLogoComponent');
 
   public static ORTHOLOG_VARIANT_PANEL = new InjectionToken<string>('OrthologVariantsComponent');
+
+  public static GWAS_TARGET_ANALYTICS_PANEL = new InjectionToken<string>('GwasTargetAnalyticsComponent');
 }

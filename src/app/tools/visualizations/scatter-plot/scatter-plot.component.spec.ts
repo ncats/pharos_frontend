@@ -1,29 +1,22 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ScatterPlotComponent } from './scatter-plot.component';
-import {SharedModule} from '../../../shared/shared.module';
-import {MaterialModule} from '../../../../assets/material/material.module';
 
-describe('ScatterPlotComponent', () => {
+describe('ScatterPlotTwoComponent', () => {
   let component: ScatterPlotComponent;
   let fixture: ComponentFixture<ScatterPlotComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-       imports: [
-        MaterialModule
-      ],
-      declarations: [
-        ScatterPlotComponent
-      ]
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ ScatterPlotComponent ]
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ScatterPlotComponent);
     component = fixture.componentInstance;
-    component.data = [];
+    component.data = [{x: 1, y: 0}, {x: 2, y: 0}, {x: 3, y: 0}];
     fixture.detectChanges();
   });
 

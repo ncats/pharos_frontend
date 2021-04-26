@@ -1,58 +1,75 @@
-  .d3-scatter-chart {
-    margin: 0 auto;
-    height: 100%;
-    width:100%;
+.reset-holder {
+  white-space: nowrap;
+}
+
+.d3-scatter-chart {
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+}
+
+.d3-scatter-chart svg {
+  padding-top: 1vh;
+  padding-bottom: 5vh;
+  padding-left: 1vw;
+}
+
+.line-tooltip {
+  position: absolute;
+  text-align: start;
+  padding: 2px;
+  font: 16px sans-serif;
+  background-color: rgba(255, 255, 255, .9);
+  border: 1px solid #f1f1f1;
+  pointer-events: none;
+  z-index: 66666;
+}
+
+pharos-scatter-plot {
+  .domain {
+    stroke: none;
   }
 
-  .d3-scatter-chart svg {
-    padding-top: 1vh;
-    padding-bottom: 5vh;
-    padding-left: 1vw;
+  .axisLine {
+    stroke: black;
+    stroke-width: 2px;
+  }
+  .tick line {
+    stroke-opacity: 0.1;
   }
 
-  .line-tooltip {
-    position: absolute;
-    text-align: start;
-    padding: 2px;
-    font: 16px sans-serif;
-    background-color: rgba(255, 255, 255, .9);
-    border: 1px solid #f1f1f1;
-    pointer-events: none;
-    z-index: 66666;
+  .domain {
+    stroke-opacity: 1;
   }
 
-  pharos-scatter-plot .axis path {
-    display: none;
-  }
-
-  pharos-scatter-plot .axis line {
-    stroke-opacity: 0.05;
-  }
-
-  .axis-label {
-    font-size: 16px;
-    font-weight: bold;
-    text-anchor: middle;
-  }
-
-  .tooltip-label {
-    font-size: 16px;
-    font-weight: bold;
-    text-align: start;
-  }
-
-  .line {
-    fill: none;
-    // stroke: red;
-    stroke-width: .5px;
-  }
-
-  .voronoi-path {
-    fill: none;
-    pointer-events: all;
+  .tick > text {
+    font-size: 14px;
   }
 
   .xaxis > .tick > text {
     transform: translate(-15px, 6px) rotate(-45deg)
   }
+}
 
+.axis-label {
+  font-size: 20px;
+  font-weight: bold;
+  text-anchor: middle;
+}
+
+.tooltip-label {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: start;
+}
+
+.line {
+  fill: none;
+  stroke-width: .5px;
+}
+
+
+
+.y-axis-selector {
+  padding-left: 20px;
+}

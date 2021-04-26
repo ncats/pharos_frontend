@@ -1,69 +1,14 @@
 <article>
-  <div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="space-around start">
-    <div fxFlex="100" fxFlexAlign="stretch">
-      <span class="mat-display-3 toolbar">{{disease?.name}}</span>
-      <button mat-button class="tool-button" (click)="downloadData()"
-              [matTooltip]="'Download Data for ' + (disease?.name)">
-        <mat-icon>download</mat-icon>
-      </button>
+  <div class="sticky-container" #home>
+    <div fxLayout="row wrap" fxLayoutAlign="start center" class="sticky disease-header" *ngIf="disease">
+      <div>
+        <span class="pharos-title toolbar">{{disease?.name}}</span>
+        <button mat-button class="tool-button" (click)="downloadData()"
+                [matTooltip]="'Download Data for ' + (disease?.name)">
+          <mat-icon>download</mat-icon>
+        </button>
+      </div>
     </div>
-    <mat-card>
-      <mat-card-content>
-        <div>
-          <div fxFlex="97">
-            <mat-card-title>
-              Disease Summary
-            </mat-card-title>
-          </div>
-          <div>
-            <pharos-help-panel-trigger [origin]="'diseaseHeader'"
-                                       [label]="'Disease Summary'"></pharos-help-panel-trigger>
-          </div>
-        </div>
-        <div class="content">
-          <div class="section">
-            <mat-card-subtitle [matTooltip]="getTooltip('associatedTargets')">Associated Targets ({{this.disease.targetCountsTotal}})</mat-card-subtitle>
-            <div FxFlex class="assoc-count">
-              <div *ngFor='let assocCount of this.disease?.targetCounts'>
-                <div class="assoc-count">
-                  <pharos-idg-level-indicator [level]="assocCount.name"></pharos-idg-level-indicator>
-                  <h3>{{assocCount.value}}</h3>
-                </div>
-              </div>
-            </div>
-            <br/>
-            <pharos-explore-list-button [path]="'/targets'" [queryParams]="{associatedDisease:disease?.name}"
-                                        [buttonText]="'Explore Associated Targets'">
-            </pharos-explore-list-button>
-          </div>
-          <div class="section" fxFlex="35">
-            <div *ngIf="this.disease.uniprotDescription">
-              <mat-card-subtitle [matTooltip]="getTooltip('uniprotDescription')">
-                Uniprot Description
-              </mat-card-subtitle>
-              {{this.disease.uniprotDescription}}
-            </div>
-            <div *ngIf="this.disease.doDescription">
-              <mat-card-subtitle [matTooltip]="getTooltip('doDescription')">
-                Disease Ontology Description
-              </mat-card-subtitle>
-              {{this.disease.doDescription}}
-            </div>
-          </div>
-          <div class="section" *ngIf="this.disease.diseaseIDs.length">
-            <mat-card-subtitle [matTooltip]="getTooltip('datasourceRefs')">
-              DataSource References
-            </mat-card-subtitle>
-            <div *ngFor="let id of this.disease.diseaseIDs">
-              <div *ngFor="let source of id.dataSources">
-                <ncats-property-display
-                  [property]="{label:source, term: id.id}"></ncats-property-display>
-              </div>
-            </div>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+    <br>
   </div>
-  <br>
 </article>

@@ -9,7 +9,9 @@ export class AffiliateLinkComponent implements OnInit {
 
   constructor() { }
   @Input() dataSource: string;
-  @Input() value: string;
+  @Input() geneSymbol: string;
+  @Input() uniprotID: string;
+
   url: string;
 
   ngOnInit(): void {
@@ -18,26 +20,28 @@ export class AffiliateLinkComponent implements OnInit {
 
   mapURL(): string {
     switch (this.dataSource)  {
-      case "Dark Kinase Knowledgebase":
-        return `https://darkkinome.org/kinase/${this.value}`;
-      case "ProKinO":
+      case 'Dark Kinase Knowledgebase':
+        return `https://darkkinome.org/kinase/${this.geneSymbol}`;
+      case 'ProKinO':
         return `https://prokino.uga.edu/kinview/`;
+      case 'GlyGen':
+        return `https://glygen.org/protein/${this.uniprotID}`;
     }
-    return "";
+    return '';
   }
 
   getTooltip(): string{
     switch (this.dataSource) {
-      case "ProKinO":
+      case 'ProKinO':
         return '';
     }
-    return 'Explore ' + this.value + ' on ' + this.dataSource;
+    return 'Explore ' + this.geneSymbol + ' on ' + this.dataSource;
   }
 
   getLinkText(): string {
     switch (this.dataSource) {
-      case "ProKinO":
-        return "Compare across kinases on ProKinO";
+      case 'ProKinO':
+        return 'Compare across kinases on ProKinO';
     }
     return this.dataSource;
 

@@ -8,9 +8,7 @@ import {
   ViewChildren,
   ViewEncapsulation
 } from '@angular/core';
-import {KatexRenderService} from '../tools/equation-renderer/services/katex-render.service';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {isPlatformBrowser} from "@angular/common";
 
 /**
  * Question model for object retrieved from firebase
@@ -30,11 +28,6 @@ export interface Question {
    * answer to question
    */
   answer: string;
-
-  /**
-   * boolean flag to render katex expressions
-   */
-  equation?: boolean;
 }
 
 /**
@@ -44,8 +37,7 @@ export interface Question {
   selector: 'pharos-faq-page',
   templateUrl: './faq-page.component.html',
   styleUrls: ['./faq-page.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  providers: [KatexRenderService]
+  encapsulation: ViewEncapsulation.None
 })
 
 export class FaqPageComponent implements OnInit {
@@ -61,19 +53,15 @@ export class FaqPageComponent implements OnInit {
   questionsMap: Map<string, Question[]> = new Map<string, Question[]>();
 
   /**
-   * Query List of answer elements to render with katex
+   * Query List of answer elements to render
    */
   @ViewChildren('faqAnswer') answers: QueryList<ElementRef>;
 
   /**
    * firestore database to retrieve questions
-   * katex render service renders equation text as a math image
    * @param {AngularFirestore} db
-   * @param {KatexRenderService} katexRenderService
    */
-  constructor(private db: AngularFirestore,
-              private katexRenderService: KatexRenderService,
-              @Inject(PLATFORM_ID) private platformID: Object) {
+  constructor(private db: AngularFirestore) {
   }
 
   /**
@@ -87,8 +75,13 @@ export class FaqPageComponent implements OnInit {
           items.map(question => {
             const qArr: Question[] = this.questionsMap.get(question.subject);
             if (qArr) {
-              qArr.push(question);
-              this.questionsMap.set(question.subject, qArr);
+              const existingQuestion = qArr.find(q => q.question === question.question);
+              if (existingQuestion) {
+                existingQuestion.answer = question.answer;
+              }
+              else {
+                qArr.push(question);
+              }
             } else {
               this.questionsMap.set(question.subject, [question]);
             }
@@ -96,18 +89,6 @@ export class FaqPageComponent implements OnInit {
 
           // get list of subjects for accordion
           this.subjects = Array.from(this.questionsMap.keys());
-
-          // find and render equations with katex
-          if (isPlatformBrowser(this.platformID)) {
-            this.answers.changes.subscribe(answers => {
-              const equations: any[] = answers.filter(answer => {
-                return answer.nativeElement.classList.contains('equation');
-              });
-              equations.forEach(element => {
-                this.katexRenderService.renderMathInElement(element.nativeElement, {});
-              });
-            });
-          }
         }
       });
   }

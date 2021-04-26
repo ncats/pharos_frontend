@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Reagent} from "../../../../../../models/idg-resources/reagent";
+import {Reagent} from '../../../../../../models/idg-resources/reagent';
 
 /**
  * Component to show a single reagent's information
