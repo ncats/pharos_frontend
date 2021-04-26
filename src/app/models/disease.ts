@@ -2,6 +2,7 @@ import {PharosBase, Serializer} from './pharos-base';
 import gql from 'graphql-tag';
 import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
 import {DiseaseAssocationSerializer, DiseaseAssociation} from './disease-association';
+import {GwasDiseaseAnalytics} from './gwasDiseaseAnalytics';
 
 /**
  * apollo graphQL query fragment to retrieve common fields for a disease list view
@@ -20,9 +21,7 @@ export const DISEASELISTFIELDS = gql`
 const DISEASEDETAILSQUERY = gql`
   #import "./diseasesListFields.gql"
   query fetchDiseaseDetails(
-    $term: String,
-    $associationtop: Int,
-    $associationskip: Int,
+    $term: String
   ) {
     diseases: disease(
       name: $term,
@@ -40,17 +39,6 @@ const DISEASEDETAILSQUERY = gql`
         name
         value
       }
-      associations(top: $associationtop, skip: $associationskip) {
-        type
-        name
-        description
-        zscore
-        evidence
-        conf
-        log2foldchange
-        drug
-        source
-      }
       parents{
         name
         associationCount
@@ -65,6 +53,34 @@ const DISEASEDETAILSQUERY = gql`
         targetCounts {
           name
           value
+        }
+      }
+      gwasAnalytics {
+        efoID
+        trait
+        geneCount
+        studyCount
+        associations {
+          target {
+            name
+            gene: sym
+            idgTDL: tdl
+            idgFamily: fam
+            accession: uniprot
+          }
+          ensgID
+          studyCount
+          snpCount
+          wSnpCount
+          traitCountForGene
+          studyCountForGene
+          medianPvalue
+          medianOddsRatio
+          betaCount
+          meanStudyN
+          rcras
+          meanRank
+          meanRankScore
         }
       }
     }
@@ -98,9 +114,6 @@ export class Disease {
   uniprotDescription: string;
   doDescription: string;
 
-  hasDOID(){
-    return !!this.diseaseIDs?.find(id => {return id.id.toUpperCase().includes("DOID");});
-  }
 
   diseaseIDs: DiseaseID[];
 
@@ -117,6 +130,12 @@ export class Disease {
 
   parents?: Disease[];
   children?: Disease[];
+
+  gwasAnalytics: GwasDiseaseAnalytics;
+
+  hasDOID(){
+    return !!this.diseaseIDs?.find(id => id.id.toUpperCase().includes('DOID'));
+  }
 }
 
 export class DiseaseID{
@@ -154,14 +173,17 @@ export class DiseaseSerializer implements Serializer {
       obj.targetCountsTotal = json.targetCounts.reduce((prev, cur) => prev + cur.value, 0);
     }
 
-    if(json.parents){
+    if (json.parents){
       obj.parents = json.parents.map(parent => this.fromJson(parent)).sort((a,b) => {return b.targetCountsTotal - a.targetCountsTotal});
     }
 
-    if(json.children){
+    if (json.children){
       obj.children = json.children.map(child => this.fromJson(child)).sort((a,b) => {return b.targetCountsTotal - a.targetCountsTotal});
     }
 
+    if (json.gwasAnalytics) {
+      obj.gwasAnalytics = new GwasDiseaseAnalytics(json.gwasAnalytics);
+    }
     return obj;
   }
 
@@ -186,10 +208,23 @@ export class DiseaseSerializer implements Serializer {
 
     if (obj.associations) {
       const associationSerializer = new DiseaseAssocationSerializer();
-      newObj.associations = obj.associations.map(ass => associationSerializer._asProperties(ass));
+      newObj.associations = obj.associations.map(assoc => associationSerializer._asProperties(assoc));
     }
     newObj.name.internalLink = ['/diseases', obj.name];
-    //  newObj.id.internalLink = ['/diseases', obj.id];
+
+    if (obj.gwasAnalytics) {
+      newObj.gwasAnalytics = this._mapField(obj.gwasAnalytics);
+      newObj.gwasAnalytics.trait.externalLink = `https://www.ebi.ac.uk/gwas/efotraits/${obj.gwasAnalytics.efoID}`;
+      newObj.gwasAnalytics.associations = obj.gwasAnalytics.associations.map(assoc => {
+        const assocProps: any = this._mapField(assoc);
+        assocProps.provLink.externalLink = assocProps.provLink.term;
+        assocProps.provLink.term = '';
+        const targetProps: any = this._mapField(assoc.target);
+        targetProps.name.term = `${assoc.target.name} (${assoc.target.gene})`;
+        targetProps.name.internalLink = ['/targets', assoc.target.accession];
+        return {...assocProps, ...targetProps};
+      });
+    }
     return newObj;
   }
 

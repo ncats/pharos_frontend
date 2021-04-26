@@ -1,2 +1,12 @@
-<div class="reset-holder"><button mat-flat-button (click)="reset()" [color]="'primary'">Reset Zoom</button></div>
-<div class="d3-scatter-chart" #scatterPlotTarget></div>
+<div class="reset-holder">
+  <button mat-flat-button (click)="reset()" [color]="'primary'">Reset Zoom</button>
+  <mat-radio-button class="y-axis-selector"
+                    *ngFor="let dS of dataSets"
+                    [name]="dS.options.yLabel"
+                    [value]="dS.options.yLabel"
+                    (change)="changeDataSet($event)"
+                    [checked]="dS.selected">
+    {{dS.options.yLabel}}
+  </mat-radio-button>
+</div>
+<div class="d3-scatter-chart" #scatterPlotDiv></div>

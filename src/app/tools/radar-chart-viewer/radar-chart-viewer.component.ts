@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnInit, Optional, ViewEncapsulation} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/index';
-import {RadarService} from '../visualizations/radar-chart/radar.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {PharosProperty} from '../../models/pharos-property';
 import {Target} from '../../models/target';
@@ -73,11 +72,9 @@ export class RadarChartViewerComponent implements OnInit {
 
   /**
    * radar service and optional modal data
-   * @param {RadarService} radarDataService
    * @param modalData
    */
-  constructor(private radarDataService: RadarService,
-              private changeRef: ChangeDetectorRef,
+  constructor(private changeRef: ChangeDetectorRef,
               @Optional() @Inject(MAT_DIALOG_DATA) public modalData: any) {
   }
 
@@ -89,18 +86,6 @@ export class RadarChartViewerComponent implements OnInit {
       Object.keys(this.modalData).forEach(key => this[key] = this.modalData[key]);
       this.changeRef.detectChanges();
     }
-
-    // todo - refactor this to use sources from graphql, then remove radarService provider
-    if (this.data) {
-      this.radarDataService.getData(this.id, 'knowledge-sources').subscribe(res => {
-        if (res.sources) {
-          res.sources.forEach(source => this.sources.set(source.value, source.ds));
-        } else {
-          res.forEach(source => this.sources.set(source.value, source.ds));
-        }
-        this.radarDataService.setData(this.id, {className: this.id, sources: res}, 'knowledge-sources');
-      });
-    }
   }
 
   /**
@@ -108,13 +93,16 @@ export class RadarChartViewerComponent implements OnInit {
    * @param event
    */
   getSource(event: any) {
-    this.fieldSources = [];
     this.axis = event.name;
-    const src = this.sources.get(this.axis);
-    if (src) {
-      src.forEach(source => {
-        const ret = new PharosProperty({term: source.ds_name, externalLink: source.ds_url});
-        this.fieldSources.push(ret);
+    this.fieldSources = [];
+    const hData = this.target.hgdata.find(hAxis => hAxis.name === event.name);
+    if (hData && hData.sources){
+      hData.sources.forEach(nameUrlPair => {
+        const pieces = nameUrlPair.split('!');
+        this.fieldSources.push({
+          term: pieces[0],
+          externalLink: pieces[1]
+        });
       });
     }
   }

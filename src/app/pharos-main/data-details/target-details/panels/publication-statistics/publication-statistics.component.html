@@ -38,7 +38,7 @@
                   </div>
                   <div fxLayout="row" fxLayoutAlign="center center">
                     <div fxFlex="95" class="scatter-plot-holder">
-                      <pharos-scatter-plot [data]="pmscoreTimeline" [options]="chartOptions"></pharos-scatter-plot>
+                      <pharos-scatter-plot [svgID]="'pubmed-score-svg'" [data]="pmscoreTimeline" [options]="chartOptions"></pharos-scatter-plot>
                     </div>
                   </div>
                 </div>
@@ -58,7 +58,7 @@
                   </div>
                   <div fxLayout="row" fxLayoutAlign="center center">
                     <div fxFlex="95" class="scatter-plot-holder">
-                      <pharos-scatter-plot [data]="pubtatorTimeline" [options]="chartOptions"></pharos-scatter-plot>
+                      <pharos-scatter-plot [svgID]="'pubtator-score-svg'" [data]="pubtatorTimeline" [options]="chartOptions"></pharos-scatter-plot>
                     </div>
                   </div>
                 </div>
@@ -73,7 +73,7 @@
                 >Patents </span>
                   <div fxLayout="row" fxLayoutAlign="center center">
                     <div fxFlex="95" class="scatter-plot-holder">
-                      <pharos-scatter-plot [data]="patentTimeline" [options]="chartOptions"></pharos-scatter-plot>
+                      <pharos-scatter-plot [svgID]="'patent-svg'" [data]="patentTimeline" [options]="chartOptions"></pharos-scatter-plot>
                     </div>
                   </div>
                 </div>

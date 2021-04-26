@@ -49,7 +49,7 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
     xLabel: 'Year',
     yAxisScale: 'linear',
     yLabel: 'Score',
-    margin: {top: 20, right: 35, bottom: 25, left: 35}
+    margin: {top: 20, right: 35, bottom: 50, left: 50}
   });
 
   /**
@@ -86,9 +86,9 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
 
         if (this.target.pubmedScores) {
           const values: Map<string, {year: number, score: number}> = new Map<string, {year: number, score: number}>();
-            this.target.pubmedScores.forEach(val => {
-            if(values.has(val.year)) {
-                let vals = values.get(val.year);
+          this.target.pubmedScores.forEach(val => {
+            if (values.has(val.year)) {
+                const vals = values.get(val.year);
                 vals.score = vals.score + val.score;
                 values.set(val.year, vals);
             } else {
@@ -102,8 +102,8 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
         if (this.target.pubTatorScores) {
           const values: Map<string, {year: number, score: number}> = new Map<string, {year: number, score: number}>();
           this.target.pubmedScores.forEach(val => {
-            if(values.has(val.year)) {
-              let vals = values.get(val.year);
+            if (values.has(val.year)) {
+              const vals = values.get(val.year);
               vals.score = vals.score + val.score;
               values.set(val.year, vals);
             } else {
@@ -116,8 +116,8 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
         if (this.target.patentCounts) {
           const values: Map<string, {year: number, count: number}> = new Map<string, {year: number, count: number}>();
           this.target.patentCounts.forEach(val => {
-            if(values.has(val.year)) {
-              let vals = values.get(val.year);
+            if (values.has(val.year)) {
+              const vals = values.get(val.year);
               vals.count = vals.count + val.count;
               values.set(val.year, vals);
             } else {
@@ -136,12 +136,12 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
     const values: Map<string, {year: string, score?: number, count?: number}> =
       new Map<string, {year: string, score?: number, count?: number}>();
     arr.forEach(val => {
-      if(values.has(val.year)) {
-        let vals = values.get(val.year);
-        if(val.count) {
+      if (values.has(val.year)) {
+        const vals = values.get(val.year);
+        if (val.count) {
           vals.count = vals.count + val.count;
         }
-        if(val.score) {
+        if (val.score) {
           vals.score = vals.score + val.score;
         }
         values.set(val.year, vals);

@@ -1,7 +1,7 @@
 import {PharosBase, PharosSerializer} from './pharos-base';
 import {LigActSerializer, LigandActivity} from './ligand-activity';
 import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
-import {LIGANDDETAILSFIELDS, LIGANDDETAILSQUERY, LIGANDLISTFIELDS} from "./target-components";
+import {LIGANDDETAILSFIELDS, LIGANDDETAILSQUERY, LIGANDLISTFIELDS} from './target-components';
 
 /**
  * ligand object
@@ -23,37 +23,7 @@ export class Ligand extends PharosBase {
   smiles?: string;
   activityCount: number;
   isdrug: boolean;
-
-  /*
-  Retrieves an array of synonyms suitable for displaying as a property
-   */
-  public synonymLabels() {
-    let labels = [];
-    let linkName = (this.isdrug ? this.name : this.pubChemID || this.chemblName);
-    if (linkName) {
-      labels.push({label: "NCATS Inxight: Drugs", term: linkName, externalLink: `https://drugs.ncats.io/drug/${linkName}`});
-    }
-    if(!this.isdrug){
-      labels.push({label: "Name", term: this.name});
-    }
-
-    for (let syn of this.synonyms) {
-      let source = syn.name;
-      let id = syn.value;
-      let link = "";
-      if (source == "DrugCentral") {
-        link = "http://drugcentral.org/drugcard/" + id;
-      } else if (source == "ChEMBL") {
-        link = "https://www.ebi.ac.uk/chembl/compound_report_card/" + id + "/";
-      } else if (source == "PubChem") {
-        link = "https://pubchem.ncbi.nlm.nih.gov/compound/" + id;
-      } else if (source == "Guide to Pharmacology") {
-        link = "http://www.guidetopharmacology.org/GRAC/LigandDisplayForward?ligandId=" + id;
-      }
-      labels.push({label: source, term: id, externalLink: link});
-    }
-    return labels;
-  }
+  preferredTerm: string;
 
   /**
    * name of ligand
@@ -71,6 +41,39 @@ export class Ligand extends PharosBase {
    * url for structure image
    */
   imageUrl?: string;
+
+  /*
+  Retrieves an array of synonyms suitable for displaying as a property
+   */
+  public synonymLabels() {
+    const labels = [];
+    if (!this.isdrug){
+      labels.push({label: 'Name', term: this.name});
+    }
+
+    for (const syn of this.synonyms) {
+      let source = syn.name;
+      if (source === 'pt') { continue; }
+      const ids = syn.value;
+      ids.split(',').forEach(id => {
+        let link = '';
+        if (source === 'DrugCentral') {
+          link = 'http://drugcentral.org/drugcard/' + id;
+        } else if (source === 'ChEMBL') {
+          link = 'https://www.ebi.ac.uk/chembl/compound_report_card/' + id + '/';
+        } else if (source === 'PubChem') {
+          link = 'https://pubchem.ncbi.nlm.nih.gov/compound/' + id;
+        } else if (source === 'Guide to Pharmacology') {
+          link = 'http://www.guidetopharmacology.org/GRAC/LigandDisplayForward?ligandId=' + id;
+        } else if (source === 'unii') {
+          source = 'UNII';
+          link = `https://drugs.ncats.io/drug/${id}`;
+        }
+        labels.push({label: source, term: id, externalLink: link});
+      });
+    }
+    return labels;
+  }
 
 }
 
@@ -107,6 +110,9 @@ export class LigandSerializer implements PharosSerializer {
         if (syn.name === 'PubChem') {
           obj.pubChemID = syn.value;
         }
+        if (syn.name === 'pt') {
+          obj.preferredTerm = syn.value.toLowerCase();
+        }
       });
     }
 
@@ -115,7 +121,7 @@ export class LigandSerializer implements PharosSerializer {
         new Map<string, { target: any, activities: LigandActivity[] }>();
       const ligActSerializer: LigActSerializer = new LigActSerializer();
       json.activities.forEach(act => {
-        let currSymbol = act.target?.symbol || "default";
+        const currSymbol = act.target?.symbol || 'default';
         if (actMap.has(currSymbol)) {
           const acts = actMap.get(currSymbol);
           acts.activities.push(ligActSerializer.fromJson(act));
@@ -154,22 +160,22 @@ export class LigandSerializer implements PharosSerializer {
         if (activity.activities) {
           activity.activities.forEach(act => {
             if (act.pmids) {
-              let dpArray = [];
-              for (let pmid of act.pmids.term.split(",")) {
+              const dpArray = [];
+              for (const pmid of act.pmids.term.split(',')) {
                 const cleanPmid = pmid.trim();
                 dpArray.push(new DataProperty({
-                  term: cleanPmid, name: "pmids", label: "pmids",
+                  term: cleanPmid, name: 'pmids', label: 'pmids',
                   externalLink: `http://www.ncbi.nlm.nih.gov/pubmed/${cleanPmid}`
                 }));
               }
               act.pmids = dpArray;
             }
             if (act.reference && act.reference.term) {
-              if (act.reference.term.substring(0, 7) === "http://" || act.reference.term.substring(0, 8) === "https://") {
+              if (act.reference.term.substring(0, 7) === 'http://' || act.reference.term.substring(0, 8) === 'https://') {
                 act.reference.externalLink = act.reference.term;
               }
             }
-          })
+          });
         }
       });
     }

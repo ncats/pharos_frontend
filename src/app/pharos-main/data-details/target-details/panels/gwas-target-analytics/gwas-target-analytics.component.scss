@@ -1,0 +1,12 @@
+.scatter-plot-holder {
+  height: 30vh;
+  width: 65vw;
+  margin-top: 10px;
+  margin-bottom: 50px;
+}
+
+@-moz-document url-prefix() {
+  .link-list li{
+    list-style: none;
+  }
+}

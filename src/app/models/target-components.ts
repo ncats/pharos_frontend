@@ -252,6 +252,7 @@ export const TARGETLISTFIELDS = gql`
       summary{
         name
         value
+        sources
       }
     }
     diseaseCounts {
@@ -589,6 +590,32 @@ export const TARGETDETAILSFIELDS = gql`
       evidence
       explanation
       assigned_by
+    }
+    drgcResources:drgc_resources {
+      resourceType
+      apiResult:detailBlob
+    }
+    gwasAnalytics{
+      associations {
+        ensgID
+        traitCountForGene
+        studyCountForGene
+        trait
+        efoID
+        studyCountForAssoc
+        snpCount
+        wSnpCount
+        geneCountForTrait
+        studyCountForTrait
+        medianPvalue
+        medianOddsRatio
+        betaCount
+        meanStudyN
+        rcras
+        meanRank
+        meanRankScore
+        diseaseName
+      }
     }
     gwasTrait: facetValues(facetName: "GWAS")
     mgiPhenotype: facetValues(facetName: "JAX/MGI Phenotype")

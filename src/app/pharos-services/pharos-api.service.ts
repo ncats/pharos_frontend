@@ -41,7 +41,7 @@ export class PharosApiService {
     this._SEARCHURLS = this.pharosConfig.getSearchPaths();
   }
 
-  public static dataSourceQuery = gql`query batch{
+  public static dataSourceQuery = gql`query aboutPageQuery {
     dataSourceCounts{
       dataSource
       url

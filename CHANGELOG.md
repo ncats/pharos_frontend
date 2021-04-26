@@ -1,3 +1,28 @@
+# 3.6.0 (2020-05-01)
+### Added Features
+* **TIGA Data Visualizations**
+    * Genome-wide association studies (GWAS) find associations between phenotypic traits and genes. Target Illumination GWAS Analytics (TIGA) scores and ranks those traits according to the a subset of the study parameters.
+    * From target details pages, you'll see plots and tables of associated GWAS phenotypes, ranked according to the number and quality of GWAS studies involved. 
+    * From disease details pages, you'll see plots and tables of associated targets, ranked accordingly as well.
+
+* **Ligand Details pages for Drugs include UNIIs**
+
+* **Link out to GlyGen from target details pages**
+
+* **Updated Frequently Asked Questions**
+
+* **Updated database to TCRD 6.11.0**
+    * <a href="http://juniper.health.unm.edu/tcrd/download/old_versions/TCRDv6.10.0.README" target="_blank">TCRD_v6.10.0.README</a>
+    * <a href="http://juniper.health.unm.edu/tcrd/download/old_versions/TCRDv6.11.0.README" target="_blank">TCRD_v6.11.0.README</a>
+
+### Bug Fixes / Miscellaneous updates
+* major version upgrade for d3 (6.6.2)
+* DRGC data (IDG Resources) are fetched from TCRD now, rather than the API
+* Harmonizome data sources previously wouldn't show up, the problem is fixed.
+* DTO classes weren't showing up, now they do, the problem is fixed.
+
+_______________
+
 # 3.5.0 (2020-04-01)
 ### Added Features
 * **Download Data from Pharos**

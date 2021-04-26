@@ -5,7 +5,7 @@ import {
 import * as d3 from 'd3';
 import {takeUntil} from 'rxjs/operators';
 import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
-import {isPlatformBrowser} from "@angular/common";
+import {isPlatformBrowser} from '@angular/common';
 
 /**
  * component to create a d3 bar chart
@@ -45,12 +45,6 @@ export class BarChartComponent implements OnInit, OnDestroy {
   set data(value: any[]) {
     this._data.next(value);
   }
-
-  @Input()
-  set expectedData(value: any[]) {
-    this._expectedData.next(value);
-  }
-
   /**
    * returns value of {BehaviorSubject}
    * @returns {any}
@@ -59,22 +53,26 @@ export class BarChartComponent implements OnInit, OnDestroy {
     return this._data.getValue();
   }
 
+  @Input()
+  set expectedData(value: any[]) {
+    this._expectedData.next(value);
+  }
   get expectedData() {
     return this._expectedData.getValue();
   }
 
-  @Input() showAxes: boolean = true;
+  @Input() showAxes = true;
 
-  @Input() histogram: boolean = false;
-  @Input() binSize: number = 0;
-  decimals: number = 0;
+  @Input() histogram = false;
+  @Input() binSize = 0;
+  decimals = 0;
 
   @Input() selectedLow?: number;
   @Input() selectedHigh?: number;
   private eventsSubscription: Subscription;
 
   @Input() events: Observable<void>;
-  @Input() getLongNameFunction: (string) => string;
+  @Input() getLongNameFunction: (s) => string;
   /**
    * margin for padding
    * todo should probabl still use the chart options config object
@@ -123,14 +121,14 @@ export class BarChartComponent implements OnInit, OnDestroy {
   /**
    * no args constructor
    */
-  constructor(@Inject(PLATFORM_ID) private platformID: Object) {
+  constructor(@Inject(PLATFORM_ID) private platformID: any) {
   }
 
   /**
    * draw basic graph elements, and once data is available, update graph with data
    */
   ngOnInit() {
-    if(this.events) {
+    if (this.events) {
       this.eventsSubscription = this.events.subscribe(() => {
         this.drawGraph();
         this.updateGraph();
@@ -156,8 +154,8 @@ export class BarChartComponent implements OnInit, OnDestroy {
 
   redrawGraph() {
         this.margin = this.histogram ? this.histMargin : this.barMargin;
-        if(this.histogram && Math.floor(this.binSize) !== this.binSize){
-          this.decimals = this.binSize.toString().split(".")[1].length;
+        if (this.histogram && Math.floor(this.binSize) !== this.binSize){
+          this.decimals = this.binSize.toString().split('.')[1].length;
         }
         if (isPlatformBrowser(this.platformID)) {
           this.drawGraph();
@@ -229,7 +227,11 @@ export class BarChartComponent implements OnInit, OnDestroy {
       .range([this.height, 0]);
 
     x.domain(this.data.map(d => d[0]));
-    y.domain([0, Math.max(d3.max(this.data, d => +d[1]), d3.max(this.expectedData, d => d[1]) || 0)]);
+    const fullData = this.data.slice();
+    if (this.expectedData && this.expectedData.length > 0){
+      fullData.push(...this.expectedData);
+    }
+    y.domain([0, d3.max(fullData, d => +d[1])]);
 
     if (this.showAxes) {
       const xAxis = d3.axisBottom()
@@ -247,7 +249,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
 
     if (this.expectedData.length > 0) {
       const markerSize = 10;
-      this.svg.select('.expected-holder').selectAll('.exp')
+      const selection = this.svg.select('.expected-holder').selectAll('.exp')
         .data(this.expectedData)
         .enter().append('rect')
         .attr('class', 'exp')
@@ -256,18 +258,22 @@ export class BarChartComponent implements OnInit, OnDestroy {
         .attr('y', d => y(+d[1]))
         .attr('height', 3)
         .attr('transform', 'translate(20, 0)')
-        .style('pointer-events', 'all')
-        .on('mouseover', (d, i, bars) => {
+        .style('pointer-events', 'all');
+      selection.on('mouseover', (event, d) => {
+          const bars = selection.nodes();
+          const i = bars.indexOf(event.currentTarget);
           d3.select(bars[i]).classed('hovered', true);
           this.tooltip.transition().duration(200).style('opacity', 0.9);
           this.tooltip.html('<span>Expected ' +
               (this.getLongNameFunction ? this.getLongNameFunction(d[0]) : d[0]) +
               ': <br>' + d[1].toFixed(2) + '</span>')
-            .style('left', d3.event.pageX + 'px')
-            .style('top', d3.event.pageY + 'px')
+            .style('left', event.pageX + 'px')
+            .style('top', event.pageY + 'px')
             .style('width', 100);
         })
-        .on('mouseout', (d, i, bars) => {
+        .on('mouseout', (event, d) => {
+          const bars = selection.nodes();
+          const i = bars.indexOf(event.currentTarget);
           this.tooltip
             .transition()
             .duration(200)
@@ -276,7 +282,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
         });
     }
 
-    this.svg.select('.bar-holder').selectAll('.bar')
+    const selection2 = this.svg.select('.bar-holder').selectAll('.bar')
       .data(this.data)
       .enter().append('rect')
       .attr('class', 'bar')
@@ -285,8 +291,10 @@ export class BarChartComponent implements OnInit, OnDestroy {
       .attr('y', d => y(+d[1]))
       .attr('height', d => this.height - y(+d[1]))
       .attr('transform', 'translate(20, 0)')
-      .style('pointer-events', 'all')
-      .on('mouseover', (d, i, bars) => {
+      .style('pointer-events', 'all');
+    selection2.on('mouseover', (event, d) => {
+        const bars = selection2.nodes();
+        const i = bars.indexOf(event.currentTarget);
         d3.select(bars[i]).classed('hovered', true);
         this.tooltip
           .transition()
@@ -295,11 +303,13 @@ export class BarChartComponent implements OnInit, OnDestroy {
         this.tooltip.html(this.histogram ? this.histogramTooltip(d) : '<span>' +
             (this.getLongNameFunction ? this.getLongNameFunction(d[0]) : d[0]) +
             ': <br>' + d[1] + '</span>')
-          .style('left', d3.event.pageX + 'px')
-          .style('top', d3.event.pageY + 'px')
+          .style('left', event.pageX + 'px')
+          .style('top', event.pageY + 'px')
           .style('width', 100);
       })
-      .on('mouseout', (d, i, bars) => {
+      .on('mouseout', (event, d) => {
+        const bars = selection2.nodes();
+        const i = bars.indexOf(event.currentTarget);
         this.tooltip
           .transition()
           .duration(200)
@@ -316,8 +326,8 @@ export class BarChartComponent implements OnInit, OnDestroy {
   }
 
   histogramTooltip(d: any){
-    let min = (+d[0]).toFixed(this.decimals);
-    let max = (+d[0] + this.binSize).toFixed(this.decimals);
+    const min = (+d[0]).toFixed(this.decimals);
+    const max = (+d[0] + this.binSize).toFixed(this.decimals);
     return '<span>[' + min + ',' + max + ') : <br>' + d[1] + '</span>';
   }
   /**

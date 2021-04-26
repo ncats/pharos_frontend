@@ -40,12 +40,12 @@
           <span [matTooltip]="aaName('M')">M </span>
         </span></div>
     </div>
-    <pharos-affiliate-link [value]="target.gene" [dataSource]="'ProKinO'"></pharos-affiliate-link>
+    <pharos-affiliate-link [geneSymbol]="target.gene" [dataSource]="'ProKinO'"></pharos-affiliate-link>
   </div>
   <div class="legend" *ngIf="hasAnnotations()">
     <mat-card-subtitle [matTooltip]="getTooltip('annotations')">Structural Annotations</mat-card-subtitle>
     <ncats-protvista-legend></ncats-protvista-legend>
-    <pharos-affiliate-link [value]="target.gene" [dataSource]="'ProKinO'" *ngIf="!hasVariants()"></pharos-affiliate-link>
+    <pharos-affiliate-link [geneSymbol]="target.gene" [dataSource]="'ProKinO'" *ngIf="!hasVariants()"></pharos-affiliate-link>
   </div>
   </div>
 </div>

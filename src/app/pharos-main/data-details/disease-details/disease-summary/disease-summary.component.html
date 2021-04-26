@@ -1,0 +1,65 @@
+<article>
+  <div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="space-around start">
+      <mat-card id={{field}}
+                class="section-card"
+                *ngIf="data && disease"
+                (pharosScrollspy)="active(field)"
+                #diseaseSummary>
+      <mat-card-content>
+        <div>
+          <div fxFlex="95">
+            <mat-card-title>
+              Disease Summary
+            </mat-card-title>
+          </div>
+          <div>
+            <pharos-help-panel-trigger [origin]="'diseaseSummary'"
+                                       [label]="'Disease Summary'"></pharos-help-panel-trigger>
+          </div>
+        </div>
+        <div class="content">
+          <div class="section" fxFlex="40">
+            <mat-card-subtitle [matTooltip]="getTooltip('associatedTargets')">Associated Targets ({{this.disease.targetCountsTotal}})</mat-card-subtitle>
+            <div FxFlex class="assoc-count">
+              <div *ngFor='let assocCount of this.disease?.targetCounts'>
+                <div class="assoc-count">
+                  <pharos-idg-level-indicator [level]="assocCount.name"></pharos-idg-level-indicator>
+                  <h3>{{assocCount.value}}</h3>
+                </div>
+              </div>
+            </div>
+            <br/>
+            <pharos-explore-list-button [path]="'/targets'" [queryParams]="{associatedDisease:disease?.name}"
+                                        [buttonText]="'Explore Associated Targets'">
+            </pharos-explore-list-button>
+          </div>
+          <div class="section" fxFlex="40">
+            <div *ngIf="this.disease.uniprotDescription">
+              <mat-card-subtitle [matTooltip]="getTooltip('uniprotDescription')">
+                Uniprot Description
+              </mat-card-subtitle>
+              {{this.disease.uniprotDescription}}
+            </div>
+            <div *ngIf="this.disease.doDescription">
+              <mat-card-subtitle [matTooltip]="getTooltip('doDescription')">
+                Disease Ontology Description
+              </mat-card-subtitle>
+              {{this.disease.doDescription}}
+            </div>
+          </div>
+          <div class="section" fxFlex="30" *ngIf="this.disease.diseaseIDs.length">
+            <mat-card-subtitle [matTooltip]="getTooltip('datasourceRefs')">
+              DataSource References
+            </mat-card-subtitle>
+            <div *ngFor="let id of this.disease.diseaseIDs">
+              <div *ngFor="let source of id.dataSources">
+                <ncats-property-display
+                  [property]="{label:source, term: id.id}"></ncats-property-display>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</article>

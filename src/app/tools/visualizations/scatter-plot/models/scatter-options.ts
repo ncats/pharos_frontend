@@ -28,6 +28,7 @@ export class ScatterOptions {
   xLabel: string;
   yLabel: string;
 
+  yBuffer: number;
   /**
    * merge new option properties with a default option object retrieved from the chart service
    * @param obj

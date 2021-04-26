@@ -21,8 +21,8 @@ import {HelpDataService} from '../tools/help-panel/services/help-data.service';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import {isPlatformBrowser} from "@angular/common";
-import {SelectedFacetService} from "./data-list/filter-panel/selected-facet.service";
+import {isPlatformBrowser} from '@angular/common';
+import {SelectedFacetService} from './data-list/filter-panel/selected-facet.service';
 
 /**
  * class or interface to set properties for an injected sidenav panel
@@ -274,16 +274,16 @@ export class PharosMainComponent implements OnInit, OnDestroy {
    * also, the server won't know about this.isSmallScreen, because media queries don't work on the server
    */
   getClassForMarginsOnServer(){
-    if(isPlatformBrowser(this.platformID)){
-      return "";
+    if (isPlatformBrowser(this.platformID)){
+      return '';
     }
-    if(this._route.snapshot.data.subpath === 'list'){
-      return "wideNavPanel";
+    if (this._route.snapshot.data.subpath === 'list'){
+      return 'wideNavPanel';
     }
-    if(this._route.snapshot.data.subpath === 'details' && this._route.snapshot.data.path === 'targets'){
-      return "thinNavPanel";
+    if (this._route.snapshot.data.subpath === 'details' && ['targets', 'diseases'].includes(this._route.snapshot.data.path)) {
+      return 'thinNavPanel';
     }
-    return "";
+    return '';
   }
 
 

@@ -1,0 +1,63 @@
+:host {
+  flex: 1 1 calc(100%);
+  max-width: 100%;
+  margin: 0 !important;
+}
+
+.content{
+  display: flex;
+  flex-direction: row;
+}
+
+@media only screen and (max-width: 960px) {
+  .content{
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .assoc-count{
+    flex-wrap: wrap;
+  }
+}
+
+.definition{
+  margin-left: 1em;
+  margin-bottom: 1em;
+}
+
+.section{
+  padding: 0 2em 2em 2em;
+}
+
+.mat-card-subtitle{
+  padding-top: 2em;
+}
+
+.target-toolbar {
+  width: 100vw;
+}
+
+.toolbar {
+  width: 100vw;
+  margin-bottom: 0;
+}
+
+.assoc-count {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.assoc-count:first-child{
+  padding-left: 0;
+}
+
+pharos-explore-list-button
+{
+  margin-left: 1em;
+}
+
+.tool-button{
+  vertical-align: text-bottom;
+}

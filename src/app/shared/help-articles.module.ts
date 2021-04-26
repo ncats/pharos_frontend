@@ -8,12 +8,11 @@ import {TargetDevelopmentArticleComponent} from '../tools/help-panel/articles/ta
 import {LigandActivityArticleComponent} from '../tools/help-panel/articles/ligand-activity-article/ligand-activity-article.component';
 import {TinxArticleComponent} from '../tools/help-panel/articles/tinx-article/tinx-article.component';
 import {PubmedScoreArticleComponent} from '../tools/help-panel/articles/pubmed-score-article/pubmed-score-article.component';
-import {KatexRendererDirective} from '../tools/equation-renderer/katex-renderer.directive';
-import {AssociationDataSourcesArticleComponent} from "../tools/help-panel/articles/association-data-sources-article/association-data-sources-article.component";
-import {ExpressionDataSourcesArticleComponent} from "../tools/help-panel/articles/expression-data-sources-article/expression-data-sources-article.component";
-import {PPIDataSourcesArticleComponent} from "../tools/help-panel/articles/ppidata-sources-article/ppidata-sources-article.component";
-import {PathwayDataSourcesArticleComponent} from "../tools/help-panel/articles/pathway-data-sources-article/pathway-data-sources-article.component";
-import {GoTermsEvidenceArticleComponent} from "../tools/help-panel/articles/go-terms-evidence-article/go-terms-evidence-article.component";
+import {AssociationDataSourcesArticleComponent} from '../tools/help-panel/articles/association-data-sources-article/association-data-sources-article.component';
+import {ExpressionDataSourcesArticleComponent} from '../tools/help-panel/articles/expression-data-sources-article/expression-data-sources-article.component';
+import {PPIDataSourcesArticleComponent} from '../tools/help-panel/articles/ppidata-sources-article/ppidata-sources-article.component';
+import {PathwayDataSourcesArticleComponent} from '../tools/help-panel/articles/pathway-data-sources-article/pathway-data-sources-article.component';
+import {GoTermsEvidenceArticleComponent} from '../tools/help-panel/articles/go-terms-evidence-article/go-terms-evidence-article.component';
 
 @NgModule({
   declarations: [
@@ -21,8 +20,7 @@ import {GoTermsEvidenceArticleComponent} from "../tools/help-panel/articles/go-t
     TargetDevelopmentArticleComponent,
     LigandActivityArticleComponent,
     TinxArticleComponent,
-    PubmedScoreArticleComponent,
-    KatexRendererDirective
+    PubmedScoreArticleComponent
   ],
   imports: [
     CommonModule,
