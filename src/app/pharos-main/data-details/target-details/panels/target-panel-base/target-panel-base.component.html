@@ -1,0 +1,25 @@
+<article>
+  <mat-card [id]="child.field"
+            class="section-card"
+            *ngIf="data && child && child.hasData()"
+            (pharosScrollspy)="active(child.field)">
+    <mat-card-content>
+      <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+        <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+      </div>
+      <div fxLayout="row"
+           class="tkrow"
+           fxLayoutAlign="start stretch">
+        <div fxFlex="95">
+          <span class="mat-title" [matTooltip]=child.description
+                [matTooltipClass]="'pharos-tooltip'">{{child.label}}</span>
+        </div>
+        <div fxFlex="5">
+          <pharos-help-panel-trigger [origin]="child.field"
+                                     [label]="child.label"></pharos-help-panel-trigger>
+        </div>
+      </div>
+      <ng-content></ng-content>
+    </mat-card-content>
+  </mat-card>
+</article>
