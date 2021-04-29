@@ -1,0 +1,29 @@
+.toolImage{
+  width: 200px;
+  horiz-align: center;
+}
+.linkContainer{
+  display: inline-flex;
+  flex-direction: column;
+  width: 250px;
+  height: 100%;
+}
+.card-list{
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+}
+.toolLinkButton{
+  display: flex;
+  align-self: flex-end;
+}
+.toolDescription{
+  margin-top: fill;
+}
+
+mat-card{
+  margin: 0.5em;
+}
+.mat-title{
+  align-self: start;
+}

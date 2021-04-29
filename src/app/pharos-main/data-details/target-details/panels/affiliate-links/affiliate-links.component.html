@@ -1,0 +1,26 @@
+<pharos-target-panel-base [data]="data" [child]="this">
+  <div class="card-list">
+    <mat-card *ngFor="let link of target?.affiliateLinks">
+      <mat-card-content class="linkContainer" fxLayout="column" fxLayoutAlign="space-around center">
+        <span class="mat-title">
+          {{link.sourceName}}
+        </span>
+        <div fxFlex="1"></div>
+        <div class="toolImage">
+          <img [src]="'./assets/affiliates/' + link.image" width="100%"/>
+        </div>
+        <div fxFlex="1"></div>
+        <div class="toolDescription">
+          {{link.description}}
+        </div>
+        <div class="toolLinkButton">
+          <button type="button" mat-raised-button [color]="'primary'" (mouseenter)="setStatus(link.url)" [matTooltip]="link.url"
+                  (click)="navigate(link.url)">
+            Go To Tool
+            <mat-icon>outbound</mat-icon>
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</pharos-target-panel-base>

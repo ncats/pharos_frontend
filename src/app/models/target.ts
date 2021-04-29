@@ -263,8 +263,10 @@ export class Target extends PharosBase {
     dataSources?: string[] = [];
     drgcResources?: {resourceType: string, apiResult: any}[];
 
-    sequence_variants?: {startResidue: number, residue_info: {aa: string, bits: number}[]};
-    sequence_annotations?: {startResidue: number, endResidue: number, type: string, name: string}[];
+    sequenceVariants?: {startResidue: number, residue_info: {aa: string, bits: number}[]};
+    sequenceAnnotations?: {startResidue: number, endResidue: number, type: string, name: string}[];
+
+    affiliateLinks?: {sourceName: string, image: string, description: string, url: string}[];
 }
 
 export class GoCounts {

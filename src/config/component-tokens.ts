@@ -197,4 +197,6 @@ export class TOKENS {
   public static ORTHOLOG_VARIANT_PANEL = new InjectionToken<string>('OrthologVariantsComponent');
 
   public static GWAS_TARGET_ANALYTICS_PANEL = new InjectionToken<string>('GwasTargetAnalyticsComponent');
+
+  public static AFFILIATE_LINKS = new InjectionToken('AffiliateLinksComponent');
 }

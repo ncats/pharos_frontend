@@ -398,14 +398,20 @@ export const TARGETDETAILSFIELDS = gql`
   fragment targetsDetailsFields on Target {
     ...targetsListFields
     dataSources
-    sequence_variants {
+    affiliateLinks: affiliate_links {
+      sourceName
+      image
+      description
+      url
+    }
+    sequenceVariants: sequence_variants {
       startResidue
       residue_info{
         aa
         bits
       }
     }
-    sequence_annotations{
+    sequenceAnnotations: sequence_annotations{
       startResidue
       endResidue
       type
