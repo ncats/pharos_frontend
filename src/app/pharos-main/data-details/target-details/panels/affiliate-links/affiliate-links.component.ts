@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {Location} from '@angular/common';
 import {TargetPanelBaseComponent} from '../target-panel-base/target-panel-base.component';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
+import {AffiliateLink} from '../../../../../models/target';
 
 @Component({
   selector: 'pharos-affiliate-links',
@@ -11,19 +11,18 @@ import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/na
 export class AffiliateLinksComponent extends TargetPanelBaseComponent implements OnInit {
   constructor(
     public navSectionsService: NavSectionsService,
-    changeRef: ChangeDetectorRef,
-    public location: Location
-  ) {
+    changeRef: ChangeDetectorRef)
+  {
     super(navSectionsService, changeRef);
+  }
 
+  inpageNavigate(link) {
+    const anchor = this.pageAnchor(link);
+    this.navSectionsService.setActiveTab(anchor);
   }
 
   navigate(url) {
     window.open(url, '_blank');
-  }
-
-  setStatus(url) {
-    window.status = url;
   }
 
   ngOnInit(): void {
@@ -31,11 +30,17 @@ export class AffiliateLinksComponent extends TargetPanelBaseComponent implements
     this.initialize();
   }
 
-  initialize(): void {
-    console.log('initializing...');
-  }
-
   hasData(): boolean {
     return this.target && this.target.affiliateLinks && this.target.affiliateLinks.length > 0;
+  }
+
+  pageAnchor(link: AffiliateLink): string {
+    if (link.sourceName.toLowerCase().includes('tiga')) {
+      return 'tiga';
+    }
+    if (link.sourceName.toLowerCase().includes('prokino')) {
+      return 'variants';
+    }
+    return '';
   }
 }
