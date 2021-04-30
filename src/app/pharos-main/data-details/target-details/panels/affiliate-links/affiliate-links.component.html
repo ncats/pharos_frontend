@@ -14,10 +14,12 @@
           {{link.description}}
         </div>
         <div class="toolLinkButton">
-          <button type="button" mat-raised-button [color]="'primary'" (mouseenter)="setStatus(link.url)" [matTooltip]="link.url"
+          <div class="exploreLink" *ngIf="pageAnchor(link)"><a (click)="inpageNavigate(link)">View Data</a></div>
+          <div></div>
+          <button type="button" mat-raised-button [color]="'primary'" [matTooltip]="link.url"
                   (click)="navigate(link.url)">
             Go To Tool
-            <mat-icon>outbound</mat-icon>
+            <mat-icon>open_in_new</mat-icon>
           </button>
         </div>
       </mat-card-content>

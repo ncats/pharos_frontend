@@ -266,7 +266,11 @@ export class Target extends PharosBase {
     sequenceVariants?: {startResidue: number, residue_info: {aa: string, bits: number}[]};
     sequenceAnnotations?: {startResidue: number, endResidue: number, type: string, name: string}[];
 
-    affiliateLinks?: {sourceName: string, image: string, description: string, url: string}[];
+    affiliateLinks?: AffiliateLink[];
+}
+
+export class AffiliateLink {
+  sourceName: string; image: string; description: string; url: string;
 }
 
 export class GoCounts {

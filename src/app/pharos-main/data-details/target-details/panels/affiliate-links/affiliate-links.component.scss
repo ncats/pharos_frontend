@@ -15,7 +15,10 @@
 }
 .toolLinkButton{
   display: flex;
-  align-self: flex-end;
+  width: 100%;
+  place-content: space-between;
+  margin-top: 0.5em;
+  align-items: center;
 }
 .toolDescription{
   margin-top: fill;
