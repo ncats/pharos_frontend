@@ -345,12 +345,16 @@ export class PharosApiService {
     return fetchQuery;
   }
 
-  private parseVariables(route: ActivatedRouteSnapshot, state?: any) {
+  private parseVariables(route: ActivatedRouteSnapshot, state?: any, forDownload: boolean = false) {
     const path = route.data.path;
     const params = route.queryParamMap;
     const variables = this._mapVariables(path, params);
     if (state) {
       variables.batchIds = state.batchIds;
+    }
+    if (forDownload){
+      variables.top = null;
+      variables.skip = null;
     }
     return variables;
   }
@@ -434,6 +438,7 @@ export class PharosApiService {
         f.facet !== 'collection' &&
         f.facet !== 'associatedTarget' &&
         f.facet !== 'associatedDisease' &&
+        f.facet !== 'associatedLigand' &&
         f.facet !== 'similarity');
     }
     return map;
@@ -616,6 +621,12 @@ export class PharosApiService {
               ret.filter = filter;
               break;
             }
+            case 'associatedLigand': {
+              const filter: any = ret.filter ? ret.filter : {};
+              filter.associatedLigand = val;
+              ret.filter = filter;
+              break;
+            }
             case 'similarity': {
               const filter: any = ret.filter ? ret.filter : {};
               filter.similarity = val;
@@ -725,7 +736,7 @@ export class PharosApiService {
   }
 
   public downloadQuery(route: ActivatedRouteSnapshot, variables?: any){
-    variables = {...variables, ...this.parseVariables(route)};
+    variables = {...variables, ...this.parseVariables(route, null, true)};
     return this.fetchTargetList(route).then((res: string[]) => {
       if (res && res.length > 0) {
         variables.batch = res;

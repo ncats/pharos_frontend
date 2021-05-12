@@ -1,8 +1,10 @@
-import {ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {MolConverterService} from './services/mol-converter.service';
 import {StructureSetterService} from '../../tools/marvin-sketcher/services/structure-setter.service';
+import '../../../assets/vendor/marvin/js/marvinjslauncher';
+import '../../../assets/vendor/marvin/js/webservices';
 
 /**
  * component to initialize a marvin js sketcher instance
@@ -46,38 +48,43 @@ export class SketcherComponent implements OnInit {
     public loadingService: LoadingService,
     private ngZone: NgZone
   ) {
-    // todo : try to load sketcher without an iframe
-    /*    this.marvin = window['MarvinJSUtil'];
-        window.addEventListener("message", function(event) {
-          try {
-            var externalCall = JSON.parse(event.data);
-           this.marvin.onReady(function() {
-              this.marvin.sketcherInstance[externalCall.method].apply(this.marvin.sketcherInstance, externalCall.args);
-            });
-          } catch (e) {
-          }
-        }, false);*/
-    this.url = this.sanitizer.bypassSecurityTrustResourceUrl('./assets/vendor/marvin/editor.html');
+    this.url = this.sanitizer.bypassSecurityTrustResourceUrl('./assets/vendor/marvin/editorws.html');
   }
+
+  marvin: any;
 
   /**
    * initialize marvin js instance
    */
   ngOnInit() {
-   /* window.MarvinJSUtil.getPackage('#sketcher').then((marvin) => {
+    this.marvin = window['MarvinJSUtil'];
+    window.addEventListener('message', function(event) {
+      try {
+        const externalCall = JSON.parse(event.data);
+        this.marvin.onReady(function() {
+          this.marvin.sketcherInstance[externalCall.method].apply(this.marvin.sketcherInstance, externalCall.args);
+        });
+      } catch (e) {
+      }
+    }.bind(this), false);
+    window['MarvinJSUtil'].getPackage('#sketcher').then((marvin) => {
       this.marvinSketcherInstance = marvin.sketcherInstance;
       this.marvinSketcherInstance.on('molchange', () => {
-        this.marvinSketcherInstance.exportStructure('mol').then((mol: any) => {
-          // solution and explanation from here: https://stackoverflow.com/a/48528672
-          // basically, the marvin callbacks aren't run within angular, so they can't update the scope data
-          this.ngZone.run(() => {
-             this.molConverter.convertMol(mol);
+        try {
+          this.marvinSketcherInstance.exportStructure('mol').then((mol: any) => {
+            // solution and explanation from here: https://stackoverflow.com/a/48528672
+            // basically, the marvin callbacks aren't run within angular, so they can't update the scope data
+            this.ngZone.run(() => {
+              this.molConverter.convertMol(mol, this.marvinSketcherInstance);
+            });
           });
-        });
+        } catch (e) {
+          e;
+        }
       });
       this.marvinSketcherInstance.importStructure('mol', this.passedStructure);
-      }).catch(err => console.log(err));
-*/
+    }).catch(err => console.log(err));
+
     this.structureSetter.structure$.subscribe(res => {
       this.passedStructure = res;
     });

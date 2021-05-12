@@ -40,6 +40,8 @@
           <div *ngFor="let synonym of synonymList">
             <ncats-property-display [property]="getTooltipProp(synonym)"></ncats-property-display>
           </div>
+          <pharos-explore-list-button [path]="'/ligands'" [buttonText]="'Find Similar Compounds'"
+                                      [queryParams]="{associatedLigand: ligand.smiles}"></pharos-explore-list-button>
         </div>
         <br>
         <br>

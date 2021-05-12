@@ -64,6 +64,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    */
   associatedTarget = '';
   associatedDisease = '';
+  associatedLigand = '';
   /**
    * main list of paginated targets
    */
@@ -222,10 +223,13 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       .subscribe(x => {
         this.associatedTarget = this._route.snapshot.queryParamMap.get('associatedTarget');
         this.associatedDisease = this._route.snapshot.queryParamMap.get('associatedDisease');
+        this.associatedLigand = this._route.snapshot.queryParamMap.get('associatedLigand');
         if (this.associatedTarget) {
           this.sortMap = this.ppiSortMap;
         } else if (this.associatedDisease) {
           this.sortMap = this.diseaseSortMap;
+        } else if (this.associatedLigand) { // TODO make a sort map for ligand, b/c similarity will be a thing
+          this.sortMap = this.defaultSortMap;
         } else {
           this.sortMap = this.defaultSortMap;
         }

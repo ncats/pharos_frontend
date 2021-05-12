@@ -97,7 +97,7 @@ export class autocompleteOption{
   }
 
   static getQueryParam(obj: autocompleteOption){
-    let qParam = {facet: null, associatedDisease: null, associatedTarget: null, q: null};
+    let qParam = {facet: null, associatedDisease: null, associatedTarget: null, associatedLigand: null, q: null};
     if(autocompleteOption.isDetailsPage(obj)){
       return qParam;
     }
