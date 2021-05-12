@@ -5,8 +5,9 @@ import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {SelectedFacetService} from '../filter-panel/selected-facet.service';
 import {PathResolverService} from '../filter-panel/path-resolver.service';
-import {UnfurlingMetaService} from "../../../pharos-services/unfurling-meta.service";
-import {NavSectionsService} from "../../../tools/sidenav-panel/services/nav-sections.service";
+import {UnfurlingMetaService} from '../../../pharos-services/unfurling-meta.service';
+import {NavSectionsService} from '../../../tools/sidenav-panel/services/nav-sections.service';
+import {MolChangeService} from '../../../tools/marvin-sketcher/services/mol-change.service';
 
 /**
  * panel to show selected facets or queries, and remove them
@@ -25,6 +26,7 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
   @Input() facets: Facet[];
   associatedLigand: string;
   ligandSmiles: string;
+  structureSearchType: string;
   /**
    * set up route watching
    * @param {ActivatedRoute} _route
@@ -39,7 +41,8 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
               private selectedFacetService: SelectedFacetService,
               private pathResolverService: PathResolverService,
               private metaService: UnfurlingMetaService,
-              public navSectionsService: NavSectionsService) {
+              public navSectionsService: NavSectionsService,
+              private molChangeService: MolChangeService) {
     super(navSectionsService);
   }
 
@@ -63,19 +66,28 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
         title: this.selectedFacetService.newTitle(this._route)
       });
     this.associatedLigand = this._route.snapshot.queryParamMap.get('associatedLigand');
-    const pieces = this.associatedLigand.split('!');
-    if (pieces.length > 1) {
-      pieces.forEach(p => {
-        if (p.toLowerCase().substr(0, 3) !== 'sub' && p.toLowerCase().substr(0, 3) !== 'sim') {
-          this.ligandSmiles = p;
-        }
-      });
-    } else {
-      this.ligandSmiles = this.associatedLigand;
+    if (this.associatedLigand) {
+      const pieces = this.associatedLigand.split('!');
+      if (pieces.length > 1) {
+        pieces.forEach(p => {
+          if (p.toLowerCase().substr(0, 3) !== 'sub' && p.toLowerCase().substr(0, 3) !== 'sim') {
+            this.ligandSmiles = p;
+          } else {
+            this.structureSearchType = p.toLowerCase().substr(0, 3);
+          }
+        });
+      } else {
+        this.ligandSmiles = this.associatedLigand;
+      }
     }
     this.changeRef.markForCheck();
   }
 
+  editStructure(){
+    this.molChangeService.updateSmiles(this.ligandSmiles, 'edit');
+    this.molChangeService.updateSearchType(this.structureSearchType);
+    this.router.navigate(['/structure']);
+  }
 
   /**
    * remove a specific facet and all selected fields

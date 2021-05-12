@@ -2,8 +2,9 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy,
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {Ligand} from '../../../../../models/ligand';
 import {takeUntil} from 'rxjs/operators';
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
-import {DataProperty} from "../../../../../tools/generic-table/components/property-display/data-property";
+import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
+import {DataProperty} from '../../../../../tools/generic-table/components/property-display/data-property';
+import { Facet } from 'src/app/models/facet';
 
 @Component({
   selector: 'pharos-ligand-details',
@@ -13,6 +14,7 @@ import {DataProperty} from "../../../../../tools/generic-table/components/proper
 })
 export class LigandDetailsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
 
+  Facet = Facet;
   /**
    * ligand object
    */
