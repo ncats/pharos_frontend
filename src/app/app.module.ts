@@ -21,6 +21,7 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {MarkdownModule} from "ngx-markdown";
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from "@angular/material/snack-bar";
 import {ServiceWorkerModule} from "@angular/service-worker";
+import {MolChangeService} from './tools/marvin-sketcher/services/mol-change.service';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {ServiceWorkerModule} from "@angular/service-worker";
     MarkdownModule.forRoot({loader: HttpClient})
   ],
   providers: [
-    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}}
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}},
+    MolChangeService
   ],
   bootstrap: [AppComponent]
 })

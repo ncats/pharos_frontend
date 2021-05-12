@@ -1,10 +1,8 @@
-import {Component, NgZone, OnInit} from '@angular/core';
-import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import {Component, Inject, NgZone, OnInit, PLATFORM_ID} from '@angular/core';
+import {DomSanitizer} from '@angular/platform-browser';
 import {LoadingService} from '../../pharos-services/loading.service';
-import {MolConverterService} from './services/mol-converter.service';
-import {StructureSetterService} from '../../tools/marvin-sketcher/services/structure-setter.service';
-import '../../../assets/vendor/marvin/js/marvinjslauncher';
-import '../../../assets/vendor/marvin/js/webservices';
+import {MolChangeService} from './services/mol-change.service';
+import {isPlatformBrowser} from '@angular/common';
 
 /**
  * component to initialize a marvin js sketcher instance
@@ -18,21 +16,6 @@ import '../../../assets/vendor/marvin/js/webservices';
 export class SketcherComponent implements OnInit {
 
   /**
-   * marvin sketcher instance
-   */
-  marvinSketcherInstance;
-
-  /**
-   * url for marvin resources
-   */
-  url: SafeResourceUrl;
-
-  /**
-   * smiles string if a structure is passed in
-   */
-  passedStructure: string;
-
-  /**
    * initialize data helper functions as well as dom sanitizing and ngzone
    * set marvin source url using dom url sanitization
    * @param {MolConverterService} molConverter
@@ -42,51 +25,48 @@ export class SketcherComponent implements OnInit {
    * @param {NgZone} ngZone
    */
   constructor(
-    private molConverter: MolConverterService,
-    private structureSetter: StructureSetterService,
-    private sanitizer: DomSanitizer,
-    public loadingService: LoadingService,
-    private ngZone: NgZone
+    private molChangeService: MolChangeService,
+    @Inject(PLATFORM_ID) private platformID: any
   ) {
-    this.url = this.sanitizer.bypassSecurityTrustResourceUrl('./assets/vendor/marvin/editorws.html');
   }
 
   marvin: any;
+  marvinElement: any;
 
   /**
    * initialize marvin js instance
    */
   ngOnInit() {
-    this.marvin = window['MarvinJSUtil'];
-    window.addEventListener('message', function(event) {
-      try {
-        const externalCall = JSON.parse(event.data);
-        this.marvin.onReady(function() {
-          this.marvin.sketcherInstance[externalCall.method].apply(this.marvin.sketcherInstance, externalCall.args);
-        });
-      } catch (e) {
-      }
-    }.bind(this), false);
-    window['MarvinJSUtil'].getPackage('#sketcher').then((marvin) => {
-      this.marvinSketcherInstance = marvin.sketcherInstance;
-      this.marvinSketcherInstance.on('molchange', () => {
-        try {
-          this.marvinSketcherInstance.exportStructure('mol').then((mol: any) => {
-            // solution and explanation from here: https://stackoverflow.com/a/48528672
-            // basically, the marvin callbacks aren't run within angular, so they can't update the scope data
-            this.ngZone.run(() => {
-              this.molConverter.convertMol(mol, this.marvinSketcherInstance);
+    if (isPlatformBrowser(this.platformID)){
+      // @ts-ignore
+      this.marvin = window.ChemicalizeMarvinJs;
+      this.marvin.createEditor('#marvin-tool').then((marvin) => {
+        this.marvinElement = marvin;
+        const existingSmiles = this.molChangeService.getSmiles();
+        if (existingSmiles.length > 0) {
+          this.marvinElement.importStructure('smiles', existingSmiles);
+        }
+        function handleMolChange() {
+          this.marvinElement.exportStructure('smiles').then((smiles) => {
+            this.molChangeService.updateSmiles(smiles, 'sketcher');
+          });
+        }
+        this.marvinElement.on('molchange', handleMolChange.bind(this));
+      });
+
+      this.molChangeService.smilesChanged.subscribe(function(changeObj) {
+        if (changeObj.source !== 'sketcher')
+        {
+          this.marvinElement.importStructure('smiles', changeObj.newSmiles).then(res => {}, err => {
+            alert('Smiles Parsing Failed\n\n' + err);
+            this.marvinElement.exportStructure('smiles').then((smiles) => {
+              {
+                this.molChangeService.updateSmiles(smiles, 'sketcher');
+              }
             });
           });
-        } catch (e) {
-          e;
         }
-      });
-      this.marvinSketcherInstance.importStructure('mol', this.passedStructure);
-    }).catch(err => console.log(err));
-
-    this.structureSetter.structure$.subscribe(res => {
-      this.passedStructure = res;
-    });
+      }.bind(this));
+    }
   }
 }
