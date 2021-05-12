@@ -1,5 +1,5 @@
 (function (win) {
-
+	
 	function _getWrapperElement (id) {
 		var re = new RegExp(/^#.*/);
 		if (typeof id !== "string") {
@@ -15,13 +15,13 @@
 		}
 		return null;
 	}
-
+	
 	function _createPackage(elementId, resolve, reject) {
 		if(elementId == null){
 			reject("Element id can not be null.");
 			return;
 		}
-
+	
 		var	wrapperElement = _getWrapperElement(elementId);
 
 		if (wrapperElement == null) {
@@ -48,13 +48,13 @@
 			});
 		}
 	}
-
+	
 	function _createEditor(elementId, resolve, reject) {
 		if(elementId == null){
 			reject("Element id can not be null.");
 			return;
 		}
-
+	
 		var	wrapperElement = _getWrapperElement(elementId);
 
 		if (wrapperElement == null) {
@@ -79,7 +79,7 @@
 				if (marvin) {
 					marvin.onReady(function() {
 						if (typeof marvin.sketcherInstance != 'undefined') {
-              resolve(marvin.sketcherInstance);
+							resolve(marvin.sketcherInstance);
 						} else {
 							reject("Unable to find sketcherInstance in iframe with id: " + elementId);
 						}
@@ -95,25 +95,26 @@
 	if (!("Promise" in win) && ("ES6Promise" in win) && ("polyfill" in win.ES6Promise)) {
 		win.ES6Promise.polyfill();
 	}
-
+	
 	win.MarvinJSUtil = {
 		"getEditor": function getEditor (elementId) {
-
+			
 	 		function createEditor (resolve, reject) {
 	 			_createEditor(elementId, resolve, reject);
 	 		};
-
-			return new Promise(createEditor);
+			
+			return new Promise(createEditor);				
 		}
 		,"getPackage": function getPackage (elementId) {
 
 			function createPackage (resolve, reject) {
 				_createPackage(elementId, resolve, reject);
 			};
-
-			return new Promise(createPackage);
+		
+			return new Promise(createPackage);				
 		}
 	};;
-
-
+	
+	
 }(window));
+	 

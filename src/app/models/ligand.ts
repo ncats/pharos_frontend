@@ -23,6 +23,7 @@ export class Ligand extends PharosBase {
   smiles?: string;
   activityCount: number;
   isdrug: boolean;
+  similarity: number;
   preferredTerm: string;
 
   /**

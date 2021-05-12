@@ -17,6 +17,8 @@
     <pharos-idg-level-indicator [level]="target.idgTDL"></pharos-idg-level-indicator>
     {{target.idgFamily}}<br>
     </div>
+    <ncats-property-display *ngIf="ligand.similarity" [property]="{term: ligand.similarity, label: 'Structure Similarity'}"></ncats-property-display>
+    <br>
     <div *ngIf="primeActivity; else activityCount">
       <br>
       <span [matTooltip]="getTooltip('activity')">{{primeActivity.moa}} {{primeActivity.type}}: {{primeActivity.value}}</span>

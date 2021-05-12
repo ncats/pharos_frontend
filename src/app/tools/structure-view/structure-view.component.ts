@@ -26,6 +26,7 @@ export class StructureViewComponent implements OnInit {
 
   @Input() size = 150;
 
+  @Input() rounded = false;
 
   /**
    *   initialize a private variable _data, it's a BehaviorSubject

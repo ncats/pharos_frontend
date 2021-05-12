@@ -42,6 +42,7 @@ export class FieldSelectionDialogComponent implements OnInit {
 
   associatedTarget: string;
   associatedDisease: string;
+  associatedLigand: string;
 
   lists: FieldList[] = [];
   singles: FieldList;
@@ -66,9 +67,13 @@ export class FieldSelectionDialogComponent implements OnInit {
 
     this.associatedTarget = this.data.route.snapshot.queryParamMap.get('associatedTarget');
     this.associatedDisease = this.data.route.snapshot.queryParamMap.get('associatedDisease');
+    this.associatedLigand = this.data.route.snapshot.queryParamMap.get('associatedLigand');
     const variables = {
       model: this.data.model,
-      associatedModel: this.associatedTarget ? 'Target' : this.associatedDisease ? 'Disease' : ''
+      associatedModel:
+        this.associatedTarget ? 'Target' :
+          this.associatedDisease ? 'Disease' :
+            this.associatedLigand ? 'Ligand' : ''
     };
     this.pharosApiService.adHocQuery(this.pharosApiService.FieldQuery, variables).subscribe({
         next: res => {

@@ -45,7 +45,9 @@ export class StructureSearchPageComponent implements OnInit {
    * subscribe to changes to the mol file via molconverter service and set smiles form control
    */
   ngOnInit() {
-    this.molConverter.smiles$.subscribe(smiles => this.smilesCtrl.setValue(smiles));
+    this.molConverter.smiles$.subscribe(smiles => {
+      return this.smilesCtrl.setValue(smiles);
+    });
   }
 
   /**

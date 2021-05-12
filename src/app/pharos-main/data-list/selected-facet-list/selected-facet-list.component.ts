@@ -23,7 +23,8 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
    * list of selected facets
    */
   @Input() facets: Facet[];
-
+  associatedLigand: string;
+  ligandSmiles: string;
   /**
    * set up route watching
    * @param {ActivatedRoute} _route
@@ -61,6 +62,17 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
         description: this.selectedFacetService.newDescription(this._route),
         title: this.selectedFacetService.newTitle(this._route)
       });
+    this.associatedLigand = this._route.snapshot.queryParamMap.get('associatedLigand');
+    const pieces = this.associatedLigand.split('!');
+    if (pieces.length > 1) {
+      pieces.forEach(p => {
+        if (p.toLowerCase().substr(0, 3) !== 'sub' && p.toLowerCase().substr(0, 3) !== 'sim') {
+          this.ligandSmiles = p;
+        }
+      });
+    } else {
+      this.ligandSmiles = this.associatedLigand;
+    }
     this.changeRef.markForCheck();
   }
 

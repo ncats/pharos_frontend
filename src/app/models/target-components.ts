@@ -73,6 +73,7 @@ export const LIGANDLISTFIELDS = gql`
     description
     isdrug
     smiles
+    similarity
     synonyms {
       name
       value

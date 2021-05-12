@@ -48,6 +48,7 @@
     "graphql": "^15.0.0",
     "json2csv": "^5.0.6",
     "jszip": "^3.6.0",
+    "marvinjs": "^21.9.0",
     "ncats-protvista-viewer": "^1.1.4",
     "ngl": "2.0.0-dev.37",
     "ngx-json-viewer": "^2.4.0",

@@ -1,0 +1,11 @@
+{
+  "name": "marvinjs",
+  "version": "21.9.0",
+  "description": "Marvin JS",
+  "private": false,
+  "ignore": [],
+  "license": {
+    "type": "ChemAxon End-User License Agreement / End User Subscription Agreement - EUSA",
+    "url": "https://chemaxon.com/eula or https://chemaxon.com/eusa"
+  }
+}

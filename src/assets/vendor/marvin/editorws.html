@@ -8,7 +8,7 @@
 	<script src="gui/lib/promise-1.0.0.min.js"></script>
 	<script src="js/webservices.js"></script>
 	<script src="gui/gui.nocache.js"></script>
-
+	
 	<script>
 	window.addEventListener("message", function(event) {
 		try {
@@ -17,14 +17,15 @@
 				marvin.sketcherInstance[externalCall.method].apply(marvin.sketcherInstance, externalCall.args);
 			});
 		} catch (e) {
+			console.log(e);
 		}
 	}, false);
-
+	
 	// called when Marvin JS loaded
 	function sketchOnLoad() {
 		if(marvin.Sketch.isSupported()) {
-      marvin.sketcherInstance = new marvin.Sketch("sketch");
-      marvin.sketcherInstance.setServices(getDefaultServices());
+			marvin.sketcherInstance = new marvin.Sketch("sketch");
+			marvin.sketcherInstance.setServices(getDefaultServices());
 		} else {
 			alert("Cannot initiate sketcher. Current browser may not support HTML canvas or may run in Compatibility Mode.");
 		}

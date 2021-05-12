@@ -51,8 +51,30 @@ export class MolConverterService {
    * posts to api to convert molfile to a stmiles string
    * @param {string} mol
    */
-  convertMol(mol: string): void {
-    this.http.post(this.url, mol, httpOptions).subscribe(res => {
+  convertMol(mol: string, marvinSketcherInstance): void {
+
+    const s = marvinSketcherInstance.exportAsMrv();
+    const 	data = JSON.stringify({
+      structure : mol,
+      inputFormat : 'mrv',
+      parameters : 'smiles'
+    });
+
+    // $.ajax({
+    //   url: getMolConvertURL()
+    //   , type: 'POST'
+    //   , dataType: 'json'
+    //   , contentType: 'application/json'
+    //   , data: data
+    // }).done(function(data, textStatus, jqXHR) {
+    //   $('#smiles').val(data.structure);
+    // }).fail(handleRequestError);
+
+
+
+
+
+    this.http.post('/rest-v1/util/calculate/molExport', data, httpOptions).subscribe(res => {
       this._molSource.next(res);
     });
   }
