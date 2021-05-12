@@ -6,7 +6,7 @@ import {EventEmitter, Injectable, Output} from '@angular/core';
 export class MolChangeService {
 
   smiles = '';
-  searchType = '';
+  searchType = 'sub';
   @Output() smilesChanged = new EventEmitter<SmilesUpdateDetails>();
   @Output() searchTypeChanged = new EventEmitter<string>();
 
