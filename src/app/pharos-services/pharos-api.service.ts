@@ -345,16 +345,12 @@ export class PharosApiService {
     return fetchQuery;
   }
 
-  private parseVariables(route: ActivatedRouteSnapshot, state?: any, forDownload: boolean = false) {
+  private parseVariables(route: ActivatedRouteSnapshot, state?: any) {
     const path = route.data.path;
     const params = route.queryParamMap;
     const variables = this._mapVariables(path, params);
     if (state) {
       variables.batchIds = state.batchIds;
-    }
-    if (forDownload){
-      variables.top = null;
-      variables.skip = null;
     }
     return variables;
   }
@@ -736,7 +732,7 @@ export class PharosApiService {
   }
 
   public downloadQuery(route: ActivatedRouteSnapshot, variables?: any){
-    variables = {...variables, ...this.parseVariables(route, null, true)};
+    variables = {...variables, ...this.parseVariables(route, null)};
     return this.fetchTargetList(route).then((res: string[]) => {
       if (res && res.length > 0) {
         variables.batch = res;
