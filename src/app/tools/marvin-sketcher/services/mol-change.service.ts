@@ -11,7 +11,6 @@ export class MolChangeService {
   @Output() searchTypeChanged = new EventEmitter<string>();
 
   constructor() {
-    console.log('init');
   }
 
   getSmiles(): string {

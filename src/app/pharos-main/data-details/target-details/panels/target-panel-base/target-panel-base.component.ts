@@ -35,10 +35,10 @@ export class TargetPanelBaseComponent extends DynamicPanelComponent implements O
         if (this.target) {
           const hasData = this.child?.hasData ? this.child.hasData.bind(this.child) : this.hasData;
           if (hasData()) {
-            this.navSectionsService.showSection(this.child.field);
+            this.navSectionsService.showSection(this.child?.field);
             this.initialize();
           } else {
-            this.navSectionsService.hideSection(this.child.field);
+            this.navSectionsService.hideSection(this.child?.field);
           }
         }
         this.loadingComplete();

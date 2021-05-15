@@ -31,7 +31,7 @@ export class AffiliateLinksComponent extends TargetPanelBaseComponent implements
   }
 
   hasData(): boolean {
-    return this.target && this.target.affiliateLinks && this.target.affiliateLinks.length > 0;
+    return this && this.target && this.target.affiliateLinks && this.target.affiliateLinks.length > 0;
   }
 
   pageAnchor(link: AffiliateLink): string {
