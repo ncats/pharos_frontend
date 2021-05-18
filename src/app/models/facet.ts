@@ -57,26 +57,40 @@ export class Field {
  */
 export class Facet {
 
+  constructor(json: any) {
+    this.count = json.count;
+    this.facet = json.facet;
+    this.modifier = json.modifier;
+    this.sourceExplanation = json.sourceExplanation;
+    this.label = json.label;
+    this.description = json.description;
+    this.dataType = json.dataType;
+    this.binSize = json.binSize || 1;
+    if (this.dataType === 'Numeric') { // set a last point since these are bins, not single points
+      this.values = [];
+      const keyValues = json.values.map(obj => +obj.name);
+      this.min = Math.min(...keyValues);
+      this.max = Math.max(...keyValues) + this.binSize;
+
+      for (let num = this.min; num <= this.max; num += this.binSize) {
+        num = Math.round(num / this.binSize) * this.binSize;
+        const closest = json.values.find(val => Math.abs(+val.name - num) < this.binSize / 10);
+        if (closest) {
+          this.values.push({name: num.toString(), count: closest.count});
+        } else {
+          this.values.push({name: num.toString(), count: 0});
+        }
+      }
+    } else {
+      this.values = json.values.map(val => new Field(val));
+    }
+  }
+
   /**
-   * The character what separates the facet name from its options in the query string: note this used to be '/' which messed up the "JAX/MGI Phenotype" facet
+   * The character what separates the facet name from its options in the query string: note this used to be '/'
+   * which messed up the "JAX/MGI Phenotype" facet
    */
   static separator = '!';
-
-  static getReadableParameter(parameter: string){
-    if(parameter === 'associatedDisease'){
-      return "Disease Subtree";
-    }
-    if(parameter === "associatedTarget") {
-      return "Associated Target";
-    }
-    if(parameter === "similarity"){
-      return "Target Similarity";
-    }
-    if (parameter === 'associatedLigand') {
-      return 'Associated Structure';
-    }
-    return parameter;
-  }
   /**
    * fragment of common fields. fetched by the route resolver
    */
@@ -107,38 +121,28 @@ export class Facet {
    */
   values: Field[];
 
-  dataType?: string = "Category";
+  dataType = 'Category';
   binSize?: number;
   min?: number;
   max?: number;
 
-  constructor(json: any) {
-    this.count = json.count;
-    this.facet = json.facet;
-    this.modifier = json.modifier;
-    this.sourceExplanation = json.sourceExplanation;
-    this.label = json.label;
-    this.description = json.description;
-    this.dataType = json.dataType;
-    this.binSize = json.binSize || 1;
-    if (this.dataType === "Numeric") { // set a last point since these are bins, not single points
-      this.values = [];
-      const keyValues = json.values.map(obj => +obj.name);
-      this.min = Math.min(...keyValues);
-      this.max = Math.max(...keyValues) + this.binSize;
-
-      for (let num = this.min; num <= this.max; num += this.binSize) {
-        num = Math.round(num / this.binSize) * this.binSize;
-        let closest = json.values.find(val => Math.abs(+val.name - num) < this.binSize / 10);
-        if (closest) {
-          this.values.push({name: num.toString(), count: closest.count});
-        } else {
-          this.values.push({name: num.toString(), count: 0});
-        }
-      }
-    } else {
-      this.values = json.values.map(val => new Field(val));
+  static getReadableParameter(parameter: string){
+    if (parameter === 'associatedDisease'){
+      return 'Disease Subtree';
     }
+    if (parameter === 'associatedTarget') {
+      return 'Associated Target';
+    }
+    if (parameter === 'similarity'){
+      return 'Target Similarity';
+    }
+    if (parameter === 'associatedStructure') {
+      return 'Associated Structure';
+    }
+    if (parameter === 'associatedLigand') {
+      return 'Associated Ligand';
+    }
+    return parameter;
   }
 
   /**
@@ -146,7 +150,7 @@ export class Facet {
    * @param path
    */
   static getAllFacetOptionsQuery(path) {
-    if (path == "targets") {
+    if (path === 'targets') {
       return gql`
         #import "./facetFieldsTop.gql"
         query getAllFacetOptions($batchIDs:[String], $filter:IFilter, $facetTop:Int, $facet:String!){
@@ -173,7 +177,7 @@ export class Facet {
    * @param path
    */
   static getAllFacetsQuery(path) {
-    if (path == "targets") {
+    if (path === 'targets') {
       return gql`
         #import "./facetFields.gql"
         query getAllFacets($batchIDs:[String], $facets:[String!], $filter:IFilter) {

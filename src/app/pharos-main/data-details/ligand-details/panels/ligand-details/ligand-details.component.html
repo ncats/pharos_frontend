@@ -41,7 +41,7 @@
             <ncats-property-display [property]="getTooltipProp(synonym)"></ncats-property-display>
           </div>
           <pharos-explore-list-button [path]="'/ligands'" [buttonText]="'Find Similar Compounds'"
-                                      [queryParams]="{associatedLigand: 'sim' + Facet.separator + ligand.smiles}"></pharos-explore-list-button>
+                                      [queryParams]="{associatedStructure: 'sim' + Facet.separator + ligand.smiles}"></pharos-explore-list-button>
         </div>
         <br>
         <br>

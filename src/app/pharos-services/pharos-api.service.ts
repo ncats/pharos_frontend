@@ -434,6 +434,7 @@ export class PharosApiService {
         f.facet !== 'collection' &&
         f.facet !== 'associatedTarget' &&
         f.facet !== 'associatedDisease' &&
+        f.facet !== 'associatedStructure' &&
         f.facet !== 'associatedLigand' &&
         f.facet !== 'similarity');
     }
@@ -614,6 +615,12 @@ export class PharosApiService {
             case 'associatedDisease': {
               const filter: any = ret.filter ? ret.filter : {};
               filter.associatedDisease = val;
+              ret.filter = filter;
+              break;
+            }
+            case 'associatedStructure': {
+              const filter: any = ret.filter ? ret.filter : {};
+              filter.associatedStructure = val;
               ret.filter = filter;
               break;
             }

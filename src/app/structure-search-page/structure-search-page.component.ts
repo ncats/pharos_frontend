@@ -62,7 +62,7 @@ export class StructureSearchPageComponent implements OnInit {
   search() {
     const navigationExtras: NavigationExtras = {
       queryParams: {
-        associatedLigand: this.typeCtrl.value + Facet.separator + this.smilesCtrl.value,
+        associatedStructure: this.typeCtrl.value + Facet.separator + this.smilesCtrl.value,
       },
       queryParamsHandling: ''
     };

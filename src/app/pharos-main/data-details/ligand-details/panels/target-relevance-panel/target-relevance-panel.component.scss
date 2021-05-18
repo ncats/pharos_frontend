@@ -9,15 +9,24 @@
   height: 100%;
 }
 
-@media only screen and (max-width: 768px) {
-  :host {
-    grid-column: 1 / span 3;
-  }
-}
-
 .table-paginator-row{
   align-items: baseline;
   display: flex;
   flex-direction: row;
   justify-items: flex-start;
+}
+
+.headerSection{
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+@media only screen and (max-width: 768px) {
+  :host {
+    grid-column: 1 / span 3;
+  }
+  .headerSection {
+    flex-direction: column;
+  }
 }
