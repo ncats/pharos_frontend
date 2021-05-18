@@ -90,6 +90,7 @@ export class SelectedFacetService {
         fac.facet !== 'collection' &&
         fac.facet !== 'associatedTarget' &&
         fac.facet !== 'associatedDisease' &&
+        fac.facet !== 'associatedStructure' &&
         fac.facet !== 'associatedLigand' &&
         fac.facet !== 'similarity');
     facets.forEach(facet => facet.values.forEach(value => retArr.push(this._makeFacetString(facet.facet, value.name))));
@@ -120,6 +121,7 @@ export class SelectedFacetService {
       this.getFacetByName('query'),
       this.getFacetByName('associatedTarget'),
       this.getFacetByName('associatedDisease'),
+      this.getFacetByName('associatedStructure'),
       this.getFacetByName('associatedLigand'),
       this.getFacetByName('similarity')
     ];
@@ -195,6 +197,13 @@ export class SelectedFacetService {
           {
             label: Facet.getReadableParameter('associatedDisease'),
             facet: 'associatedDisease', values: [{name: map.get('associatedDisease')}]
+          }));
+      }
+      if (map.has('associatedStructure')){
+        this._facetMap.set('associatedStructure', new Facet(
+          {
+            label: Facet.getReadableParameter('associatedStructure'),
+            facet: 'associatedStructure', values: [{name: map.get('associatedStructure')}]
           }));
       }
       if (map.has('associatedLigand')){

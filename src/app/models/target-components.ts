@@ -224,6 +224,11 @@ export const TARGETLISTFIELDS = gql`
       O2S
       S2O
     }
+    ligandAssociationDetails{
+      actVals
+      maxActVal
+      modeOfAction
+    }
     similarityDetails: similarity {
       jaccard
       overlap

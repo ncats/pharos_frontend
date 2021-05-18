@@ -42,6 +42,7 @@ export class FieldSelectionDialogComponent implements OnInit {
 
   associatedTarget: string;
   associatedDisease: string;
+  associatedStructure: string;
   associatedLigand: string;
 
   lists: FieldList[] = [];
@@ -67,6 +68,7 @@ export class FieldSelectionDialogComponent implements OnInit {
 
     this.associatedTarget = this.data.route.snapshot.queryParamMap.get('associatedTarget');
     this.associatedDisease = this.data.route.snapshot.queryParamMap.get('associatedDisease');
+    this.associatedStructure = this.data.route.snapshot.queryParamMap.get('associatedStructure');
     this.associatedLigand = this.data.route.snapshot.queryParamMap.get('associatedLigand');
     const similarityQuery: boolean = this.selectedFacetService.getFacetByName('similarity')?.values.length > 0;
 
@@ -75,7 +77,8 @@ export class FieldSelectionDialogComponent implements OnInit {
       associatedModel:
         this.associatedTarget ? 'Target' :
           this.associatedDisease ? 'Disease' :
-            this.associatedLigand ? 'Ligand' : '',
+            this.associatedStructure ? 'Ligand' :
+              this.associatedLigand ? 'Ligand' : '',
       similarityQuery
     };
     this.pharosApiService.adHocQuery(this.pharosApiService.FieldQuery, variables).subscribe({
@@ -84,6 +87,7 @@ export class FieldSelectionDialogComponent implements OnInit {
           this.lists = res.data.configuration.downloadLists.filter(list => list.listName !== 'Single Value Fields').map(list => {
             return new FieldList(list);
           });
+          this.defaults = this.singles.field.filter(f => f.order > 0).map(f => f.name);
           this.selectedFields = this.defaults.slice();
         },
       error: err => {

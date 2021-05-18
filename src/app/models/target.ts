@@ -14,6 +14,7 @@ import {Pathway, PathwaySerializer} from './pathway';
 import {PantherClass} from './pantherClass';
 import {SimilarityDetails} from './similarityDetails';
 import {GwasTargetAnalytics} from './gwasTargetAnalytics';
+import {LigandAssociationDetails} from './ligandAssociationDetails';
 
 
 /**
@@ -252,6 +253,7 @@ export class Target extends PharosBase {
     properties: DataProperty[] = [];
     interactionDetails?: InteractionDetails;
     diseaseAssociationDetails?: DiseaseAssociation[] = [];
+    ligandAssociationDetails?: LigandAssociationDetails;
     similarityDetails?: SimilarityDetails;
     interactingViruses?: VirusDetails[];
 
