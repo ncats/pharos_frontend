@@ -126,7 +126,7 @@ export class Facet {
   min?: number;
   max?: number;
 
-  static getReadableParameter(parameter: string){
+  static getReadableParameter(parameter: string, paramValue?: string){
     if (parameter === 'associatedDisease'){
       return 'Disease Subtree';
     }
@@ -137,7 +137,11 @@ export class Facet {
       return 'Target Similarity';
     }
     if (parameter === 'associatedStructure') {
-      return 'Associated Structure';
+      if (paramValue.startsWith('sim')) {
+        return 'Associated Structure';
+      } else {
+        return 'Associated Substructure';
+      }
     }
     if (parameter === 'associatedLigand') {
       return 'Associated Ligand';

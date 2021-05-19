@@ -11,18 +11,12 @@ import {isPlatformBrowser} from '@angular/common';
 @Component({
   selector: 'app-sketcher',
   templateUrl: './sketcher.component.html',
-  styleUrls: ['./sketcher.component.css'],
+  styleUrls: ['./sketcher.component.scss'],
 })
 export class SketcherComponent implements OnInit {
 
   /**
    * initialize data helper functions as well as dom sanitizing and ngzone
-   * set marvin source url using dom url sanitization
-   * @param {MolConverterService} molConverter
-   * @param {StructureSetterService} structureSetter
-   * @param {DomSanitizer} sanitizer
-   * @param {LoadingService} loadingService
-   * @param {NgZone} ngZone
    */
   constructor(
     private molChangeService: MolChangeService,
@@ -37,34 +31,40 @@ export class SketcherComponent implements OnInit {
    * initialize marvin js instance
    */
   ngOnInit() {
-    if (isPlatformBrowser(this.platformID)){
-      // @ts-ignore
-      this.marvin = window.ChemicalizeMarvinJs;
+    // @ts-ignore
+    this.marvin = window.ChemicalizeMarvinJs;
+    if (isPlatformBrowser(this.platformID) && this.marvin) {
       this.marvin.createEditor('#marvin-tool').then((marvin) => {
         this.marvinElement = marvin;
         const existingSmiles = this.molChangeService.getSmiles();
         if (existingSmiles.length > 0) {
           this.marvinElement.importStructure('smiles', existingSmiles);
         }
+
         function handleMolChange() {
           this.marvinElement.exportStructure('smiles').then((smiles) => {
             this.molChangeService.updateSmiles(smiles, 'sketcher');
           });
         }
+
         this.marvinElement.on('molchange', handleMolChange.bind(this));
       });
 
       this.molChangeService.smilesChanged.subscribe(function(changeObj) {
-        if (changeObj.source !== 'sketcher')
-        {
-          this.marvinElement.importStructure('smiles', changeObj.newSmiles).then(res => {}, err => {
-            alert('Smiles Parsing Failed\n\n' + err);
-            this.marvinElement.exportStructure('smiles').then((smiles) => {
-              {
-                this.molChangeService.updateSmiles(smiles, 'sketcher');
-              }
+        if (changeObj.source !== 'sketcher') {
+          if (changeObj.newSmiles.length > 0) {
+            this.marvinElement.importStructure('smiles', changeObj.newSmiles).then(res => {
+            }, err => {
+              alert('Smiles Parsing Failed\n\n' + err);
+              this.marvinElement.exportStructure('smiles').then((smiles) => {
+                {
+                  this.molChangeService.updateSmiles(smiles, 'sketcher');
+                }
+              });
             });
-          });
+          } else {
+            this.marvinElement.clear();
+          }
         }
       }.bind(this));
     }

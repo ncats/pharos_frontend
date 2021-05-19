@@ -202,7 +202,7 @@ export class SelectedFacetService {
       if (map.has('associatedStructure')){
         this._facetMap.set('associatedStructure', new Facet(
           {
-            label: Facet.getReadableParameter('associatedStructure'),
+            label: Facet.getReadableParameter('associatedStructure', map.get('associatedStructure')),
             facet: 'associatedStructure', values: [{name: map.get('associatedStructure')}]
           }));
       }

@@ -5,6 +5,8 @@ import {takeUntil} from 'rxjs/operators';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {DataProperty} from '../../../../../tools/generic-table/components/property-display/data-property';
 import { Facet } from 'src/app/models/facet';
+import {MolChangeService} from '../../../../../tools/marvin-sketcher/services/mol-change.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'pharos-ligand-details',
@@ -21,7 +23,9 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
   @Input() ligand: Ligand;
 
   constructor(private changeRef: ChangeDetectorRef,
-              public navSectionsService: NavSectionsService) {
+              public navSectionsService: NavSectionsService,
+              private molChangeService: MolChangeService,
+              private router: Router) {
     super(navSectionsService);
   }
   synonymList: DataProperty[];
@@ -48,6 +52,12 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
   getTooltipProp(prop: DataProperty){
     prop.tooltip = this.getTooltip(prop.label);
     return prop;
+  }
+
+  goToStructureSearch(){
+    this.molChangeService.updateSmiles(this.ligand.smiles, 'edit');
+    this.molChangeService.updateSearchType('sim');
+    this.router.navigate(['/structure']);
   }
 
   /**

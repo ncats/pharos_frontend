@@ -18,7 +18,7 @@ export class StructureSearchPageComponent implements OnInit {
    * type of structure search to perform
    * @type {FormControl}
    */
-  typeCtrl: FormControl = new FormControl('sub');
+  typeCtrl: FormControl = new FormControl('sim');
 
   /**
    * input smiles value, retrieved by either the text input or structure drawer component
