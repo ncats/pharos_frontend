@@ -2,7 +2,8 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges,
 import {Ligand} from '../../../../models/ligand';
 import {Target} from '../../../../models/target';
 import {PharosConfig} from '../../../../../config/pharos-config';
-import {DynamicPanelBaseComponent} from "../../../../tools/dynamic-panel-base/dynamic-panel-base.component";
+import {DynamicPanelBaseComponent} from '../../../../tools/dynamic-panel-base/dynamic-panel-base.component';
+import {ActivatedRoute} from '@angular/router';
 
 /**
  * component to display a condensed ligand view
@@ -15,6 +16,7 @@ import {DynamicPanelBaseComponent} from "../../../../tools/dynamic-panel-base/dy
 })
 export class LigandCardComponent extends DynamicPanelBaseComponent implements OnInit {
 
+  structureSearchType: string;
   /**
    * ligand input to display
    */
@@ -35,7 +37,8 @@ export class LigandCardComponent extends DynamicPanelBaseComponent implements On
    */
   primeActivity: any;
 
-  constructor(private ref: ChangeDetectorRef) {
+  constructor(private _route: ActivatedRoute,
+              private ref: ChangeDetectorRef) {
     super();
   }
 
@@ -65,6 +68,30 @@ export class LigandCardComponent extends DynamicPanelBaseComponent implements On
           this.ligand.chemblName = syn.value;
         }
       });
+    }
+
+    const associatedStructure = this._route.snapshot.queryParamMap.get('associatedStructure');
+    if (associatedStructure) {
+      const pieces = associatedStructure.split('!');
+      if (pieces.length > 1) {
+        pieces.forEach(p => {
+          if (p.toLowerCase().substr(0, 3) !== 'sub' && p.toLowerCase().substr(0, 3) !== 'sim') {
+
+          } else {
+            this.structureSearchType = p.toLowerCase().substr(0, 3);
+          }
+        });
+
+      }
+    }
+  }
+
+  structureSearchLabel(){
+    if (this.structureSearchType === 'sub') {
+      return 'Substructure Similarity';
+    }
+    else {
+      return 'Structure Similarity';
     }
   }
 }
