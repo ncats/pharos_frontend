@@ -1,32 +1,36 @@
 <mat-card class="ligand-card" *ngIf="ligand">
-  <a *ngIf="!internalLink" routerLink = '/ligands/{{ligand.isdrug ? ligand.name : ligand.ligid}}' target="_blank">
+  <a *ngIf="!internalLink" routerLink='/ligands/{{ligand.isdrug ? ligand.name : ligand.ligid}}' target="_blank">
     <div class="ligand-content">
-      <div class="mat-title centered ligand-name">{{ligand.isdrug ? ligand.name : ligand.chemblName || ligand.name}}</div>
+      <div
+        class="mat-title centered ligand-name">{{ligand.isdrug ? ligand.name : ligand.chemblName || ligand.name}}</div>
       <pharos-structure-view [smiles]="ligand.smiles"></pharos-structure-view>
     </div>
   </a>
-  <a *ngIf="internalLink" routerLink = '/ligands/{{ligand.isdrug ? ligand.name : ligand.ligid}}' >
+  <a *ngIf="internalLink" routerLink='/ligands/{{ligand.isdrug ? ligand.name : ligand.ligid}}'>
     <div class="ligand-content">
-      <div class="mat-title centered ligand-name">{{ligand.isdrug ? ligand.name : ligand.chemblName || ligand.name}}</div>
+      <div
+        class="mat-title centered ligand-name">{{ligand.isdrug ? ligand.name : ligand.chemblName || ligand.name}}</div>
       <pharos-structure-view [smiles]="ligand.smiles"></pharos-structure-view>
     </div>
   </a>
   <div class="ligand-footer">
     <div *ngIf="target">
-    <a href="/targets/{{target.accession}}" target="_blank" rel="noreferrer">{{target.gene}}</a>
-    <pharos-idg-level-indicator [level]="target.idgTDL"></pharos-idg-level-indicator>
-    {{target.idgFamily}}<br>
+      <a href="/targets/{{target.accession}}" target="_blank" rel="noreferrer">{{target.gene}}</a>
+      <pharos-idg-level-indicator [level]="target.idgTDL"></pharos-idg-level-indicator>
+      {{target.idgFamily}}<br>
     </div>
-    <ncats-property-display *ngIf="ligand.similarity" [property]="{term: ligand.similarity, label: 'Structure Similarity'}"></ncats-property-display>
+    <ncats-property-display *ngIf="ligand.similarity"
+                            [property]="{term: ligand.similarity, label: structureSearchLabel()}"></ncats-property-display>
     <br>
     <div *ngIf="primeActivity; else activityCount">
       <br>
-      <span [matTooltip]="getTooltip('activity')">{{primeActivity.moa}} {{primeActivity.type}}: {{primeActivity.value}}</span>
+      <span [matTooltip]="getTooltip('activity')">{{primeActivity.moa}} {{primeActivity.type}}
+        : {{primeActivity.value}}</span>
       <br>
       <br>
-<!--      <div *ngIf="ligand.activities.length > 1">Also tested on <a routerLink="/ligands/{{ligand.chemblName || ligand.name}}" target="_blank" rel="noreferrer">{{ligand.activities.length}}</a>
-        other targets
-      </div>-->
+      <!--      <div *ngIf="ligand.activities.length > 1">Also tested on <a routerLink="/ligands/{{ligand.chemblName || ligand.name}}" target="_blank" rel="noreferrer">{{ligand.activities.length}}</a>
+              other targets
+            </div>-->
     </div>
     <ng-template #activityCount>
       <span>{{ligand.activityCount | number}} activity values</span>
