@@ -79,6 +79,7 @@ export const LIGANDLISTFIELDS = gql`
       value
     }
     activityCount:actcnt
+    targetCount
   }
 `;
 
@@ -93,6 +94,7 @@ export const LIGANDCARDFIELDS = gql`
       value
     }
     activityCount:actcnt
+    targetCount
     activities(all: false) {
       type
       moa
