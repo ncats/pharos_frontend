@@ -28,7 +28,7 @@
     </div>
     <div fxLayout="row">
       <div fxFlex="85">
-        <button mat-raised-button [color]="'primary'" (click)="search()">Search <mat-icon>search</mat-icon></button>
+        <button [disabled]="!smilesCtrl.value || (smilesCtrl.value.length === 0)" class="tool-button" mat-raised-button [color]="'primary'" (click)="search()">Search <mat-icon>search</mat-icon></button>
       </div>
     </div>
   </div>

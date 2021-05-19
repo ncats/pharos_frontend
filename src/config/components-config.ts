@@ -193,6 +193,20 @@ const similarityFields: PharosApi[] =
     }
   ];
 
+const ligandAssocFields: PharosApi[] =
+  [
+    {
+      field: 'actVals',
+      label: 'Activity Values (-log M)',
+      description: 'Activity values (-log M) for the ligand target interaction. There may be multiple values reported for each ligand target pair.'
+    },
+    {
+      field: 'modeOfAction',
+      label: 'Mode of Action',
+      description: 'Modes of action documented for targets in the list against the associated ligand.'
+    }
+  ];
+
 /**
  * main target list table component
  * @type {PharosPanel}
@@ -259,6 +273,7 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
     },
     ...ppiInteractionFields,
     ...diseaseAssociationFields,
+    ...ligandAssocFields,
     ...similarityFields,
     {
       field: 'illuminationGraph',
