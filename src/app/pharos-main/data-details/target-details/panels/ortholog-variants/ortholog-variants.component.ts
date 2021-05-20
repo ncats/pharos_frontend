@@ -40,6 +40,6 @@ export class OrthologVariantsComponent extends DynamicPanelComponent implements 
   }
 
   hasSequenceInfo() {
-    return this.target && (this.target.sequence_variants || (this.target.sequence_annotations && this.target.sequence_annotations.length > 0))
+    return this.target && (this.target.sequenceVariants || (this.target.sequenceAnnotations && this.target.sequenceAnnotations.length > 0))
   }
 }

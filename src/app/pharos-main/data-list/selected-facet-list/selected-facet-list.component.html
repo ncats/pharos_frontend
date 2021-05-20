@@ -24,7 +24,20 @@
             </button>
           </div>
         </div>
-        <mat-chip-list class="mat-chip-list-stacked" aria-label="Facet List">
+        <ng-template #structure>
+          <mat-chip
+            [selected]="'true'"
+            [color]="'primary'"
+            [removable]=true
+            (removed)="removeField(facet.facet, facet.values[0].name)"
+            class="img-facet-chip">
+            <pharos-structure-view [rounded]="true" [smiles]="ligandSmiles" [size] = 100></pharos-structure-view>
+            <button mat-icon-button (click)="editStructure()">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </mat-chip>
+        </ng-template>
+        <mat-chip-list *ngIf="facet.facet !== 'associatedStructure' else structure" class="mat-chip-list-stacked" aria-label="Facet List">
           <mat-chip *ngFor='let field of facet.values'
                     [selected]="'true'"
                     [color]="'primary'"

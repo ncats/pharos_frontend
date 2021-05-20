@@ -97,15 +97,21 @@ export class autocompleteOption{
   }
 
   static getQueryParam(obj: autocompleteOption){
-    let qParam = {facet: null, associatedDisease: null, associatedTarget: null, q: null};
-    if(autocompleteOption.isDetailsPage(obj)){
+    const qParam = {
+      facet: null,
+      associatedDisease: null,
+      associatedTarget: null,
+      associatedStructure: null,
+      associatedLigand: null,
+      q: null};
+    if (autocompleteOption.isDetailsPage(obj)){
       return qParam;
     }
-    if(obj.facet){
+    if (obj.facet){
       qParam.facet = obj.facet + Facet.separator + obj.value;
       return qParam;
     }
-    if(obj.parameter){
+    if (obj.parameter){
       qParam[obj.parameter] = obj.reference_id || obj.value;
       return qParam;
     }

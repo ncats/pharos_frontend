@@ -49,6 +49,8 @@ import {SequenceComponent} from '../../data-details/target-details/panels/aa-seq
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {OrthologVariantsComponent} from '../../data-details/target-details/panels/ortholog-variants/ortholog-variants.component';
 import {GwasTargetAnalyticsComponent} from '../../data-details/target-details/panels/gwas-target-analytics/gwas-target-analytics.component';
+import {AffiliateLinksComponent} from '../../data-details/target-details/panels/affiliate-links/affiliate-links.component';
+import {TargetPanelBaseComponent} from '../../data-details/target-details/panels/target-panel-base/target-panel-base.component';
 
 @NgModule({
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
@@ -87,7 +89,9 @@ import {GwasTargetAnalyticsComponent} from '../../data-details/target-details/pa
     DrugsLigandsPanelComponent,
     OrthologVariantsComponent,
     SequenceLogoComponent,
-    SequenceComponent
+    SequenceComponent,
+    AffiliateLinksComponent,
+    TargetPanelBaseComponent
   ],
   imports: [
     CommonModule,
@@ -134,7 +138,8 @@ import {GwasTargetAnalyticsComponent} from '../../data-details/target-details/pa
     {provide: TOKENS.PATHWAYS_PANEL, useValue: PathwaysPanelComponent},
     {provide: TOKENS.SEQUENCE_LOGO, useValue: SequenceLogoComponent},
     {provide: TOKENS.ORTHOLOG_VARIANT_PANEL, useValue: OrthologVariantsComponent},
-    {provide: TOKENS.GWAS_TARGET_ANALYTICS_PANEL, useValue: GwasTargetAnalyticsComponent}
+    {provide: TOKENS.GWAS_TARGET_ANALYTICS_PANEL, useValue: GwasTargetAnalyticsComponent},
+    {provide: TOKENS.AFFILIATE_LINKS, useValue: AffiliateLinksComponent}
   ]
 })
 export class TargetDetailsModule { }

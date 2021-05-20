@@ -85,13 +85,25 @@ export interface PharosPanel {
   api?: PharosApi[];
 }
 
-const commonGwasFields: PharosApi[] =  [
-  { field: 'studyCount', label: 'Study Count', description: 'Number of studies that have found the association between the gene and the trait'},
-  { field: 'snpCount', label: 'SNP Count', description: 'Number of SNPs involved in the association'},
-  { field: 'betaCount', label: 'Beta Count', description: 'Count of beta values with 95% confidence intervals that support the association'},
-  { field: 'medianOddsRatio', label: 'Odds Ratio', description: 'Median Odds Ratio that supports the association'},
-  { field: 'evidence', label: 'Evidence', description: 'Gene-trait pairs (GTs) are ranked based on selected variables, determined by benchmarking versus gold standard associations'},
-  { field: 'provenance', label: 'Provenance', description: 'Link to the TIGA page for study details and publications supporting the association'}
+const commonGwasFields: PharosApi[] = [
+  {
+    field: 'studyCount',
+    label: 'Study Count',
+    description: 'Number of studies that have found the association between the gene and the trait'
+  },
+  {field: 'snpCount', label: 'SNP Count', description: 'Number of SNPs involved in the association'},
+  {field: 'betaCount', label: 'Beta Count', description: 'Count of beta values with 95% confidence intervals that support the association'},
+  {field: 'medianOddsRatio', label: 'Odds Ratio', description: 'Median Odds Ratio that supports the association'},
+  {
+    field: 'evidence',
+    label: 'Evidence',
+    description: 'Gene-trait pairs (GTs) are ranked based on selected variables, determined by benchmarking versus gold standard associations'
+  },
+  {
+    field: 'provenance',
+    label: 'Provenance',
+    description: 'Link to the TIGA page for study details and publications supporting the association'
+  }
 ];
 
 const ppiInteractionFields: PharosApi[] = [
@@ -181,6 +193,20 @@ const similarityFields: PharosApi[] =
     }
   ];
 
+const ligandAssocFields: PharosApi[] =
+  [
+    {
+      field: 'actVals',
+      label: 'Activity Values (-log M)',
+      description: 'Activity values (-log M) for the ligand target interaction. There may be multiple values reported for each ligand target pair.'
+    },
+    {
+      field: 'modeOfAction',
+      label: 'Mode of Action',
+      description: 'Modes of action documented for targets in the list against the associated ligand.'
+    }
+  ];
+
 /**
  * main target list table component
  * @type {PharosPanel}
@@ -247,6 +273,7 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
     },
     ...ppiInteractionFields,
     ...diseaseAssociationFields,
+    ...ligandAssocFields,
     ...similarityFields,
     {
       field: 'illuminationGraph',
@@ -729,13 +756,30 @@ const GWAS_TARGET_ANALYTICS_PANEL: PharosPanel = {
       'GWAS Analytics (TIGA) scores and ranks those traits according to a subset of study parameters.',
     mainSource: 'https://unmtid-shinyapps.net/shiny/tiga/'
   }, api: [
-    { field: 'reference', label: 'Citation', description: 'TIGA scores and ranks traits (or genes) by meanRank based on three variables: ' +
+    {
+      field: 'reference', label: 'Citation', description: 'TIGA scores and ranks traits (or genes) by meanRank based on three variables: ' +
         '(1) pVal_mlog which is max(-Log(pValue)), (2) N_snpw, SNP count weighted by genomic distance, and (3) RCRAS, Relative Citation ' +
         'Ratio Aggregated Score, based on iCite RCR. These variables were selected by benchmark against the gold standard target-phenotype associations.',
-      source: 'https://www.biorxiv.org/content/10.1101/2020.11.11.378596v2'},
-    { field: 'gwasTrait', label: 'GWAS Trait', description: 'The phenotypic trait found to be associated with the gene'},
-    { field: 'efoID', label: 'EFO ID', description: 'Experimental Factor Ontology (EFO) ID for the trait'},
+      source: 'https://www.biorxiv.org/content/10.1101/2020.11.11.378596v2'
+    },
+    {field: 'gwasTrait', label: 'GWAS Trait', description: 'The phenotypic trait found to be associated with the gene'},
+    {field: 'efoID', label: 'EFO ID', description: 'Experimental Factor Ontology (EFO) ID for the trait'},
     ...commonGwasFields
+  ]
+};
+
+const AFFILIATE_LINKS_PANEL: PharosPanel = {
+  token: TOKENS.AFFILIATE_LINKS,
+  navHeader: {
+    label: 'Related Tools',
+    section: 'affiliates',
+    mainDescription: 'A list of related tools that have content for this sprotein. '
+  }, api: [
+    {
+      field: 'gototool',
+      label: 'Go to tool',
+      description: 'Navigate to the tool, in a new tab.'
+    }
   ]
 };
 
@@ -1117,21 +1161,23 @@ const DISEASE_DO_BROWSER_COMPONENT: PharosPanel = {
 const DISEASE_GWAS_ANALYTICS_COMPONENT: PharosPanel = {
   token: TOKENS.DISEASE_GWAS_ANALYTICS_COMPONENT,
   navHeader: {
-  label: 'GWAS Targets',
+    label: 'GWAS Targets',
     section: 'tiga',
     mainDescription: 'Genome-wide association studies (GWAS) find associations between phenotypic traits and genes. Target Illumination ' +
       'GWAS Analytics (TIGA) scores and ranks those traits according to a subset of study parameters.',
     mainSource: 'https://unmtid-shinyapps.net/shiny/tiga/'
-}, api: [
-    { field: 'reference', label: 'Citation', description: 'TIGA scores and ranks traits (or genes) by meanRank based on three variables: ' +
+  }, api: [
+    {
+      field: 'reference', label: 'Citation', description: 'TIGA scores and ranks traits (or genes) by meanRank based on three variables: ' +
         '(1) pVal_mlog which is max(-Log(pValue)), (2) N_snpw, SNP count weighted by genomic distance, and (3) RCRAS, Relative Citation ' +
         'Ratio Aggregated Score, based on iCite RCR. These variables were selected by benchmark against the gold standard target-phenotype associations.',
-      source: 'https://www.biorxiv.org/content/10.1101/2020.11.11.378596v2'},
-    { field: 'gwasTrait', label: 'trait', description: 'The phenotypic trait found to be associated with the genes in the list.'},
-    { field: 'target', label: 'Target', description: 'The target found to be associated with the disease.'},
-    { field: 'tdl', label: 'TDL', description: 'The target development level for the associated target'},
+      source: 'https://www.biorxiv.org/content/10.1101/2020.11.11.378596v2'
+    },
+    {field: 'gwasTrait', label: 'trait', description: 'The phenotypic trait found to be associated with the genes in the list.'},
+    {field: 'target', label: 'Target', description: 'The target found to be associated with the disease.'},
+    {field: 'tdl', label: 'TDL', description: 'The target development level for the associated target'},
     ...commonGwasFields
-]
+  ]
 };
 
 const DISEASE_TINX_COMPONENT: PharosPanel = {
@@ -1329,6 +1375,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           TARGET_HEADER_COMPONENT,
           PHAROS_BREADCRUMB_COMPONENT,
           SUMMARY_PANEL,
+          AFFILIATE_LINKS_PANEL,
           LEVEL_SUMMARY_PANEL,
           IDG_RESOURCES_PANEL,
           DRUGS_PANEL,

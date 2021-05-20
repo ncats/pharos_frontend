@@ -36,7 +36,9 @@
             ],
             "scripts": [
               "src/assets/vendor/modernizr-custom.js",
-              "node_modules/marked/lib/marked.js"
+              "node_modules/marked/lib/marked.js",
+              "src/assets/vendor/marvin/client-settings.js",
+              "src/assets/vendor/marvin/client.js"
             ]
           },
           "configurations": {

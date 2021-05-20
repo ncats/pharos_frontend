@@ -1,0 +1,7 @@
+<mat-card-subtitle>Ligand Association Details</mat-card-subtitle>
+<ncats-property-display *ngIf="target.ligandAssociationDetails.actVals"
+  [property]="{term: target.ligandAssociationDetails.actVals, label: 'Activity Values (-log M)', tooltip: getTooltip('actVals')}">
+</ncats-property-display>
+<ncats-property-display *ngIf="target.ligandAssociationDetails.modeOfAction"
+  [property]="{term: target.ligandAssociationDetails.modeOfAction, label: 'Mode of Action', tooltip: getTooltip('modeOfAction')}">
+</ncats-property-display>

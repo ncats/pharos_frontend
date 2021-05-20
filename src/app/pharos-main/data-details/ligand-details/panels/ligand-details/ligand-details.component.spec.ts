@@ -13,6 +13,11 @@ import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route';
 import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 import {TESTLIGAND, TESTLIGANDPROPS} from '../../../../../../../test/test-ligand';
+import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
+import {LoadingService} from '../../../../../pharos-services/loading.service';
+import {SelectedFacetService} from '../../../../data-list/filter-panel/selected-facet.service';
+import {SuggestApiService} from '../../../../../tools/search-component/suggest-api.service';
+import {APP_BASE_HREF} from '@angular/common';
 
 describe('LigandDetailsComponent', () => {
   let component: LigandDetailsComponent;
@@ -23,10 +28,15 @@ describe('LigandDetailsComponent', () => {
       declarations: [LigandDetailsComponent],
       imports: [
         ApolloTestingModule,
+        RouterTestingModule,
       ],
       schemas: [
         NO_ERRORS_SCHEMA,
         CUSTOM_ELEMENTS_SCHEMA
+      ],
+      providers: [
+        { provide: AngularFirestore, useValue: FIRESTORESTUB },
+        { provide: APP_BASE_HREF, useValue: '/targets' }
       ]
     })
       .compileComponents();
