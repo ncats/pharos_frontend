@@ -35,6 +35,12 @@
         </pharos-disease-association-details>
         <span *ngIf="!expanded && (diseaseField.scrollable || expandingDiseases)" class="expandLink">Click for more...</span>
       </div>
+      <div *ngIf="target.ligandAssociationDetails"
+           (click)="expanded=!expanded"
+           class="section ligand_details"
+           [ngClass]="{expanded: expanded, unexpanded: !expanded}">
+        <pharos-ligand-association-details [target]="target" [apiSources]="apiSources" [expanded]="expanded"></pharos-ligand-association-details>
+      </div>
       <div *ngIf="target.interactionDetails"
           (click)="expanded=!expanded"
           class="section interaction_details"

@@ -73,11 +73,13 @@ export const LIGANDLISTFIELDS = gql`
     description
     isdrug
     smiles
+    similarity
     synonyms {
       name
       value
     }
     activityCount:actcnt
+    targetCount
   }
 `;
 
@@ -92,6 +94,7 @@ export const LIGANDCARDFIELDS = gql`
       value
     }
     activityCount:actcnt
+    targetCount
     activities(all: false) {
       type
       moa
@@ -222,6 +225,11 @@ export const TARGETLISTFIELDS = gql`
       source
       O2S
       S2O
+    }
+    ligandAssociationDetails{
+      actVals
+      maxActVal
+      modeOfAction
     }
     similarityDetails: similarity {
       jaccard
@@ -398,14 +406,20 @@ export const TARGETDETAILSFIELDS = gql`
   fragment targetsDetailsFields on Target {
     ...targetsListFields
     dataSources
-    sequence_variants {
+    affiliateLinks: affiliate_links {
+      sourceName
+      image
+      description
+      url
+    }
+    sequenceVariants: sequence_variants {
       startResidue
       residue_info{
         aa
         bits
       }
     }
-    sequence_annotations{
+    sequenceAnnotations: sequence_annotations{
       startResidue
       endResidue
       type

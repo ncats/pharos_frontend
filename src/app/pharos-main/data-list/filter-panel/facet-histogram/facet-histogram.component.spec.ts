@@ -25,7 +25,7 @@ describe('FacetHistogramComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FacetHistogramComponent);
     component = fixture.componentInstance;
-    component.facet = {facet: 'tim', values: [{name: 'tim'}], count: 40, min: 0, max: 48, binSize:2};
+    component.facet = {facet: 'tim', values: [{name: 'tim'}], count: 40, min: 0, max: 48, binSize: 2, dataType: 'Category'};
     fixture.detectChanges();
   });
 

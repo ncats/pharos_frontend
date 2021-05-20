@@ -35,7 +35,7 @@
       </div>
       <div class="structure-grid">
         <div *ngFor="let drug of target[params.fieldName]">
-          <pharos-ligand-card [ligand]="drug" [target]="target" [apiSources]="apiSources"></pharos-ligand-card>
+          <pharos-ligand-card [ligand]="drug" [target]="target" [apiSources]="apiSources" [internalLink]="true"></pharos-ligand-card>
         </div>
       </div>
       <div *ngIf="isSmallScreen">

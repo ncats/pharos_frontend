@@ -2,8 +2,11 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy,
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {Ligand} from '../../../../../models/ligand';
 import {takeUntil} from 'rxjs/operators';
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
-import {DataProperty} from "../../../../../tools/generic-table/components/property-display/data-property";
+import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
+import {DataProperty} from '../../../../../tools/generic-table/components/property-display/data-property';
+import { Facet } from 'src/app/models/facet';
+import {MolChangeService} from '../../../../../tools/marvin-sketcher/services/mol-change.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'pharos-ligand-details',
@@ -13,13 +16,16 @@ import {DataProperty} from "../../../../../tools/generic-table/components/proper
 })
 export class LigandDetailsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
 
+  Facet = Facet;
   /**
    * ligand object
    */
   @Input() ligand: Ligand;
 
   constructor(private changeRef: ChangeDetectorRef,
-              public navSectionsService: NavSectionsService) {
+              public navSectionsService: NavSectionsService,
+              private molChangeService: MolChangeService,
+              private router: Router) {
     super(navSectionsService);
   }
   synonymList: DataProperty[];
@@ -46,6 +52,12 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
   getTooltipProp(prop: DataProperty){
     prop.tooltip = this.getTooltip(prop.label);
     return prop;
+  }
+
+  goToStructureSearch(){
+    this.molChangeService.updateSmiles(this.ligand.smiles, 'edit');
+    this.molChangeService.updateSearchType('sim');
+    this.router.navigate(['/structure']);
   }
 
   /**

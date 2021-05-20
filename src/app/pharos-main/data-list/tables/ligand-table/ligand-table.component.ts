@@ -28,6 +28,8 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
   path = 'ligands';
 
   ligands: Ligand[];
+
+  associatedStructure: string;
   /**
    * event emitter of sort event on table
    * @type {EventEmitter<string>}
@@ -75,6 +77,7 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
     this._STRUCTUREURLBASE = this.pharosConfig.getStructureImageUrl();
     this._data.subscribe(d => {
       if (this.data && this.data.ligands) {
+        this.associatedStructure = this._route.snapshot.queryParamMap.get('associatedStructure');
         this.pageData = new PageData({
           top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,
           skip: (+this._route.snapshot.queryParamMap.get('page') - 1) * +this._route.snapshot.queryParamMap.get('rows'),
@@ -211,6 +214,10 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
       data: {count: this.pageData.total, model: 'Ligand', route: this._route},
       height: '75vh', width: '66vw'
     }).afterClosed();
+  }
+
+  goToStructureSearch(){
+    this.router.navigate(['/structure']);
   }
 
   /**

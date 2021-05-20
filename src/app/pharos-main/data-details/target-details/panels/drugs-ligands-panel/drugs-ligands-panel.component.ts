@@ -114,10 +114,10 @@ export class DrugPanelParameters{
   skipParam = 'drugsskip'
   componentName = TargetComponents.Component.Drugs;
   buttonText = 'Explore Approved Drugs';
-  buttonFilter = "Drug";
+  buttonFilter = 'Drug';
 
   constructor(isDrug: boolean = true) {
-    if(!isDrug){
+    if (!isDrug){
       this.fieldName = 'ligands';
       this.countName = 'ligandCount';
       this.topParam = 'ligandstop';

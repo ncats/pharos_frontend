@@ -1,8 +1,8 @@
-import {ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
-import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import {Component, Inject, NgZone, OnInit, PLATFORM_ID} from '@angular/core';
+import {DomSanitizer} from '@angular/platform-browser';
 import {LoadingService} from '../../pharos-services/loading.service';
-import {MolConverterService} from './services/mol-converter.service';
-import {StructureSetterService} from '../../tools/marvin-sketcher/services/structure-setter.service';
+import {MolChangeService} from './services/mol-change.service';
+import {isPlatformBrowser} from '@angular/common';
 
 /**
  * component to initialize a marvin js sketcher instance
@@ -11,75 +11,62 @@ import {StructureSetterService} from '../../tools/marvin-sketcher/services/struc
 @Component({
   selector: 'app-sketcher',
   templateUrl: './sketcher.component.html',
-  styleUrls: ['./sketcher.component.css'],
+  styleUrls: ['./sketcher.component.scss'],
 })
 export class SketcherComponent implements OnInit {
 
   /**
-   * marvin sketcher instance
-   */
-  marvinSketcherInstance;
-
-  /**
-   * url for marvin resources
-   */
-  url: SafeResourceUrl;
-
-  /**
-   * smiles string if a structure is passed in
-   */
-  passedStructure: string;
-
-  /**
    * initialize data helper functions as well as dom sanitizing and ngzone
-   * set marvin source url using dom url sanitization
-   * @param {MolConverterService} molConverter
-   * @param {StructureSetterService} structureSetter
-   * @param {DomSanitizer} sanitizer
-   * @param {LoadingService} loadingService
-   * @param {NgZone} ngZone
    */
   constructor(
-    private molConverter: MolConverterService,
-    private structureSetter: StructureSetterService,
-    private sanitizer: DomSanitizer,
-    public loadingService: LoadingService,
-    private ngZone: NgZone
+    private molChangeService: MolChangeService,
+    @Inject(PLATFORM_ID) private platformID: any
   ) {
-    // todo : try to load sketcher without an iframe
-    /*    this.marvin = window['MarvinJSUtil'];
-        window.addEventListener("message", function(event) {
-          try {
-            var externalCall = JSON.parse(event.data);
-           this.marvin.onReady(function() {
-              this.marvin.sketcherInstance[externalCall.method].apply(this.marvin.sketcherInstance, externalCall.args);
-            });
-          } catch (e) {
-          }
-        }, false);*/
-    this.url = this.sanitizer.bypassSecurityTrustResourceUrl('./assets/vendor/marvin/editor.html');
   }
+
+  marvin: any;
+  marvinElement: any;
 
   /**
    * initialize marvin js instance
    */
   ngOnInit() {
-   /* window.MarvinJSUtil.getPackage('#sketcher').then((marvin) => {
-      this.marvinSketcherInstance = marvin.sketcherInstance;
-      this.marvinSketcherInstance.on('molchange', () => {
-        this.marvinSketcherInstance.exportStructure('mol').then((mol: any) => {
-          // solution and explanation from here: https://stackoverflow.com/a/48528672
-          // basically, the marvin callbacks aren't run within angular, so they can't update the scope data
-          this.ngZone.run(() => {
-             this.molConverter.convertMol(mol);
+    // @ts-ignore
+    this.marvin = window.ChemicalizeMarvinJs;
+    if (isPlatformBrowser(this.platformID) && this.marvin) {
+      this.marvin.createEditor('#marvin-tool').then((marvin) => {
+        this.marvinElement = marvin;
+        const existingSmiles = this.molChangeService.getSmiles();
+        if (existingSmiles.length > 0) {
+          this.marvinElement.importStructure('smiles', existingSmiles);
+        }
+
+        function handleMolChange() {
+          this.marvinElement.exportStructure('smiles').then((smiles) => {
+            this.molChangeService.updateSmiles(smiles, 'sketcher');
           });
-        });
+        }
+
+        this.marvinElement.on('molchange', handleMolChange.bind(this));
       });
-      this.marvinSketcherInstance.importStructure('mol', this.passedStructure);
-      }).catch(err => console.log(err));
-*/
-    this.structureSetter.structure$.subscribe(res => {
-      this.passedStructure = res;
-    });
+
+      this.molChangeService.smilesChanged.subscribe(function(changeObj) {
+        if (changeObj.source !== 'sketcher') {
+          if (changeObj.newSmiles.length > 0) {
+            this.marvinElement.importStructure('smiles', changeObj.newSmiles).then(res => {
+            }, err => {
+              alert('Smiles Parsing Failed\n\n' + err);
+              this.marvinElement.exportStructure('smiles').then((smiles) => {
+                {
+                  this.molChangeService.updateSmiles(smiles, 'sketcher');
+                }
+              });
+            });
+          } else {
+            this.marvinElement.clear();
+          }
+        }
+      }.bind(this));
+    }
   }
 }

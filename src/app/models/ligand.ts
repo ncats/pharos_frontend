@@ -22,7 +22,9 @@ export class Ligand extends PharosBase {
   pubChemID?: string;
   smiles?: string;
   activityCount: number;
+  targetCount: number;
   isdrug: boolean;
+  similarity: number;
   preferredTerm: string;
 
   /**

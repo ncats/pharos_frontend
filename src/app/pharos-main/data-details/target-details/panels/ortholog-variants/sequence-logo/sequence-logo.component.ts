@@ -40,12 +40,12 @@ export class SequenceLogoComponent extends DynamicPanelComponent implements OnIn
         this.target = this.data.targets || this.target;
 
         if (isPlatformBrowser(this.platformID)) {
-          import("ncats-protvista-viewer").then(() => {
+          import('ncats-protvista-viewer').then(() => {
             if (this.hasVariants()) {
-              this.weblogo.nativeElement.setAttribute('sequence', JSON.stringify(this.target.sequence_variants.residue_info));
+              this.weblogo.nativeElement.setAttribute('sequence', JSON.stringify(this.target.sequenceVariants.residue_info));
             }
             if (this.hasAnnotations()) {
-              this.weblogo.nativeElement.setAttribute('annotations', JSON.stringify(this.target.sequence_annotations));
+              this.weblogo.nativeElement.setAttribute('annotations', JSON.stringify(this.target.sequenceAnnotations));
             }
           });
         }
@@ -55,10 +55,10 @@ export class SequenceLogoComponent extends DynamicPanelComponent implements OnIn
   }
 
   hasVariants(){
-    return this.target.sequence_variants && this.target.sequence_variants.residue_info && this.target.sequence_variants.residue_info.length > 0;
+    return this.target.sequenceVariants && this.target.sequenceVariants.residue_info && this.target.sequenceVariants.residue_info.length > 0;
   }
   hasAnnotations(){
-    return this.target.sequence_annotations && this.target.sequence_annotations.length > 0;
+    return this.target.sequenceAnnotations && this.target.sequenceAnnotations.length > 0;
   }
 
   aaName(symbol: string){

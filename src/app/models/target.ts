@@ -14,6 +14,7 @@ import {Pathway, PathwaySerializer} from './pathway';
 import {PantherClass} from './pantherClass';
 import {SimilarityDetails} from './similarityDetails';
 import {GwasTargetAnalytics} from './gwasTargetAnalytics';
+import {LigandAssociationDetails} from './ligandAssociationDetails';
 
 
 /**
@@ -252,6 +253,7 @@ export class Target extends PharosBase {
     properties: DataProperty[] = [];
     interactionDetails?: InteractionDetails;
     diseaseAssociationDetails?: DiseaseAssociation[] = [];
+    ligandAssociationDetails?: LigandAssociationDetails;
     similarityDetails?: SimilarityDetails;
     interactingViruses?: VirusDetails[];
 
@@ -263,8 +265,14 @@ export class Target extends PharosBase {
     dataSources?: string[] = [];
     drgcResources?: {resourceType: string, apiResult: any}[];
 
-    sequence_variants?: {startResidue: number, residue_info: {aa: string, bits: number}[]};
-    sequence_annotations?: {startResidue: number, endResidue: number, type: string, name: string}[];
+    sequenceVariants?: {startResidue: number, residue_info: {aa: string, bits: number}[]};
+    sequenceAnnotations?: {startResidue: number, endResidue: number, type: string, name: string}[];
+
+    affiliateLinks?: AffiliateLink[];
+}
+
+export class AffiliateLink {
+  sourceName: string; image: string; description: string; url: string;
 }
 
 export class GoCounts {

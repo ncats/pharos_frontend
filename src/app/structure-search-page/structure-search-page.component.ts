@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {MolConverterService} from '../tools/marvin-sketcher/services/mol-converter.service';
 import {FormControl} from '@angular/forms';
 import {NavigationExtras, Router} from '@angular/router';
+import {MolChangeService} from '../tools/marvin-sketcher/services/mol-change.service';
+import {Facet} from '../models/facet';
 
 /**
  * page to search by structure
@@ -17,13 +18,7 @@ export class StructureSearchPageComponent implements OnInit {
    * type of structure search to perform
    * @type {FormControl}
    */
-  typeCtrl: FormControl = new FormControl('substructure');
-
-  /**
-   * percentage of structure overlap control
-   * @type {FormControl}
-   */
-  percentCtrl: FormControl = new FormControl(.8);
+  typeCtrl: FormControl = new FormControl('sim');
 
   /**
    * input smiles value, retrieved by either the text input or structure drawer component
@@ -32,20 +27,33 @@ export class StructureSearchPageComponent implements OnInit {
   smilesCtrl: FormControl = new FormControl();
 
   /**
-   * add router for navigation and molconverter to change marvinjs molfile to smiles for search
+   * add router for navigation
    * @param {Router} _router
-   * @param {MolConverterService} molConverter
    */
   constructor(
     private _router: Router,
-    private molConverter: MolConverterService
+    private molChangeService: MolChangeService
     ) {}
 
-  /**
-   * subscribe to changes to the mol file via molconverter service and set smiles form control
-   */
+
   ngOnInit() {
-    this.molConverter.smiles$.subscribe(smiles => this.smilesCtrl.setValue(smiles));
+    this.molChangeService.smilesChanged.subscribe(changeObj => {
+      if (changeObj.source !== 'smilesCtrl') {
+        this.smilesCtrl.setValue(changeObj.newSmiles);
+      }
+    });
+    this.typeCtrl.setValue(this.molChangeService.getSearchType());
+    this.molChangeService.searchTypeChanged.subscribe(newType => {
+      this.typeCtrl.setValue(newType);
+    });
+  }
+
+  smilesChanged(event){
+    this.molChangeService.updateSmiles(event.target.value, 'smilesCtrl');
+  }
+
+  typeChanged(event){
+    this.molChangeService.updateSearchType(event);
   }
 
   /**
@@ -54,15 +62,10 @@ export class StructureSearchPageComponent implements OnInit {
   search() {
     const navigationExtras: NavigationExtras = {
       queryParams: {
-        q: this.smilesCtrl.value,
-        type: this.typeCtrl.value,
-        top: 20
+        associatedStructure: this.typeCtrl.value + Facet.separator + this.smilesCtrl.value,
       },
       queryParamsHandling: ''
     };
-    if (this.typeCtrl.value === 'similarity') {
-      navigationExtras.queryParams.cutoff = this.percentCtrl.value;
-    }
     this._router.navigate(['/ligands'], navigationExtras);
   }
 }
