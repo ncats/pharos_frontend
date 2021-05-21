@@ -102,7 +102,7 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
     this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, TargetComponents.Component.ProteinProteinInteractions)
       .subscribe({next: res => {
         try {
-          const retTarget: any = res.data.targets.target ? res.data.targets.target : res.data.targets;
+          const retTarget: any = JSON.parse(JSON.stringify(res.data.targets.target ? res.data.targets.target : res.data.targets));
           if (retTarget.ppiCount.length > 0) {
             retTarget.ppiCount = retTarget.ppiCount.reduce((prev, cur) => Math.max(prev, cur.value), 0);
           }
