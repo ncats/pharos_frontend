@@ -61,7 +61,7 @@ interface PharosNavHeader {
   /**
    * link for the overall nav section
    */
-  mainSource?: string;
+  mainSource?: string | string[];
 }
 
 /**
@@ -767,12 +767,23 @@ const ORTHOLOGS_PANEL: PharosPanel = {
   navHeader: {
     label: 'Orthologs',
     section: 'orthologs',
-    mainDescription: 'to do it'
+    mainDescription: 'Orthologous proteins from other species, from OMA, EggNOG, and Inparanoid.',
+    mainSource: ['https://omabrowser.org/oma/home/', 'http://eggnog.embl.de', 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4383983/']
   }, api: [
     {
-      field: 'orthologs',
-      label: 'Orthologs Tab',
-      description: 'Ortholog species available for this target.'
+      field: 'sourceID',
+      label: 'Source ID',
+      description: 'The ID the orthologous gene is referenced by in the original data source.'
+    },
+    {
+      field: 'geneID',
+      label: 'Gene ID',
+      description: 'The ID the gene from the original data source.'
+    },
+    {
+      field: 'sources',
+      label: 'OMA, EggNOG, Inparanoid',
+      description: 'Data Sources which have documented the orthologous genes.'
     }
   ]
 };
