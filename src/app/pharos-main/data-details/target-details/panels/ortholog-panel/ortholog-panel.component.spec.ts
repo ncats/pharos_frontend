@@ -1,18 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OrthologPanelComponent } from './ortholog-panel.component';
-import {SharedModule} from '../../../../../../shared/shared.module';
+import {SharedModule} from '../../../../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {GenericTableModule} from '../../../../../../tools/generic-table/generic-table.module';
+import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
 import {ApolloTestingModule} from 'apollo-angular/testing';
-import {COMMON_CONFIG} from '../../../../../../../../test/test-config';
+import {COMMON_CONFIG} from '../../../../../../../test/test-config';
 import {AngularFireModule} from '@angular/fire';
 import {ActivatedRoute} from '@angular/router';
 import {AngularFireAuth} from '@angular/fire/auth';
-import {MOCKACTIVATEDROUTE} from '../../../../../../../../test/mock-activate-route';
-import {FIRESTORESTUB} from '../../../../../../../../test/firestore-stub';
+import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route';
+import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../../test/test-target';
+import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../test/test-target';
 
 describe('OrthologPanelComponent', () => {
   let component: OrthologPanelComponent;

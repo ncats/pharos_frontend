@@ -13,7 +13,7 @@ import {AaSequencePanelComponent} from '../../data-details/target-details/panels
 import {ProteinProteinPanelComponent} from '../../data-details/target-details/panels/protein-protein-panel/protein-protein-panel.component';
 import {ViralInteractionPanelComponent} from '../../data-details/target-details/panels/viral-interaction-panel/viral-interaction-panel.component';
 import {VirusDetailsComponent} from '../../data-details/target-details/panels/viral-interaction-panel/virus-details/virus-details.component';
-import {OrthologPanelComponent} from '../../data-details/target-details/panels/expression-panel/ortholog-panel/ortholog-panel.component';
+import {OrthologPanelComponent} from '../../data-details/target-details/panels/ortholog-panel/ortholog-panel.component';
 import {GeneSummaryComponent} from '../../data-details/target-details/panels/gene-summary/gene-summary.component';
 import {TargetFacetPanelComponent} from '../../data-details/target-details/panels/target-facet-panel/target-facet-panel.component';
 import {IdgResourcesPanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/idg-resources-panel.component';
@@ -139,7 +139,8 @@ import {TargetPanelBaseComponent} from '../../data-details/target-details/panels
     {provide: TOKENS.SEQUENCE_LOGO, useValue: SequenceLogoComponent},
     {provide: TOKENS.ORTHOLOG_VARIANT_PANEL, useValue: OrthologVariantsComponent},
     {provide: TOKENS.GWAS_TARGET_ANALYTICS_PANEL, useValue: GwasTargetAnalyticsComponent},
-    {provide: TOKENS.AFFILIATE_LINKS, useValue: AffiliateLinksComponent}
+    {provide: TOKENS.AFFILIATE_LINKS, useValue: AffiliateLinksComponent},
+    {provide: TOKENS.ORTHOLOGS_PANEL, useValue: OrthologPanelComponent}
   ]
 })
 export class TargetDetailsModule { }

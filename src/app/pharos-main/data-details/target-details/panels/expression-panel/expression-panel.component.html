@@ -105,18 +105,6 @@
                 </div>
               </div>
             </mat-tab>
-            <mat-tab *ngIf="target.orthologs && target.orthologCounts > 0">
-              <ng-template mat-tab-label>
-                <div
-                  [matTooltip]="getTooltip('orthologs')"
-                  [matTooltipClass]="'pharos-tooltip'">
-                  Orthologs ({{target.orthologCounts}})
-                </div>
-              </ng-template>
-              <div class="table-holder">
-                <pharos-ortholog-panel [data]=data></pharos-ortholog-panel>
-              </div>
-            </mat-tab>
           </mat-tab-group>
         </div>
       </div>

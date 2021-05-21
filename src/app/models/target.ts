@@ -460,7 +460,7 @@ export class TargetSerializer implements PharosSerializer {
         }
 
         if (json.orthologCounts) {
-            obj.orthologCounts = json.orthologCounts.length;
+            obj.orthologCounts = json.orthologCounts.reduce((prev, cur) => prev + cur.value, 0);
         }
 
         if (json.ppis) {

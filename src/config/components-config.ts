@@ -675,11 +675,6 @@ const EXPRESSION_PANEL: PharosPanel = {
       label: 'Cell Types Tab',
       description: 'Cell types and cell lines with expression data for this target.'
     },
-    {
-      field: 'orthologs',
-      label: 'Orthologs Tab',
-      description: 'Ortholog species available for this target.'
-    },
     {field: 'tissue', label: 'Tissue', description: 'Name of the tissue corresponding to the expression data.'},
     {
       field: 'qual',
@@ -765,6 +760,20 @@ const GWAS_TARGET_ANALYTICS_PANEL: PharosPanel = {
     {field: 'gwasTrait', label: 'GWAS Trait', description: 'The phenotypic trait found to be associated with the gene'},
     {field: 'efoID', label: 'EFO ID', description: 'Experimental Factor Ontology (EFO) ID for the trait'},
     ...commonGwasFields
+  ]
+};
+const ORTHOLOGS_PANEL: PharosPanel = {
+  token: TOKENS.ORTHOLOGS_PANEL,
+  navHeader: {
+    label: 'Orthologs',
+    section: 'orthologs',
+    mainDescription: 'to do it'
+  }, api: [
+    {
+      field: 'orthologs',
+      label: 'Orthologs Tab',
+      description: 'Ortholog species available for this target.'
+    }
   ]
 };
 
@@ -1382,6 +1391,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           LIGANDS_PANEL,
           DISEASE_SOURCE_PANEL,
           GWAS_TARGET_ANALYTICS_PANEL,
+          ORTHOLOGS_PANEL,
           PDB_PANEL,
           PATHWAYS_PANEL,
           GO_TERMS_PANEL,

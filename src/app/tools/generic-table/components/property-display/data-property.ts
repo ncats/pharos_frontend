@@ -33,6 +33,7 @@ export class DataProperty {
    */
   tooltip?: string;
 
+  checkbox?: boolean;
   /**
    * should column be sortable
    */
