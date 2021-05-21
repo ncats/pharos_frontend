@@ -43,4 +43,19 @@ export class AffiliateLinksComponent extends TargetPanelBaseComponent implements
     }
     return '';
   }
+
+  getImage(link: AffiliateLink): string {
+    switch (link.sourceName) {
+      case 'Dark Kinase Knowledgebase':
+        return 'CDK13.svg';
+      case 'ProKinO':
+        return 'bg.png';
+      case 'Target Illumination GWAS Analytics (TIGA)':
+        return 'idg-tiga.png';
+      case 'GlyGen':
+        return 'glycan-img.b09860ec.svg';
+      case 'GENEVA':
+        return '300x150xGENEVA.png.pagespeed.ic.KBExA_BGr-.webp';
+    }
+  }
 }

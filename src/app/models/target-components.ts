@@ -409,7 +409,6 @@ export const TARGETDETAILSFIELDS = gql`
     dataSources
     affiliateLinks: affiliate_links {
       sourceName
-      image
       description
       url
     }

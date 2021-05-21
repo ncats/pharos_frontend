@@ -272,7 +272,7 @@ export class Target extends PharosBase {
 }
 
 export class AffiliateLink {
-  sourceName: string; image: string; description: string; url: string;
+  sourceName: string; description: string; url: string;
 }
 
 export class GoCounts {
