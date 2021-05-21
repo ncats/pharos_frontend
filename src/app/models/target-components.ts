@@ -44,6 +44,7 @@ const ORTHOLOG_FIELDS = gql`
   fragment ortholog_fields on Ortholog {
     species
     sym
+    url:mod_url
     name
     dbid
     geneid

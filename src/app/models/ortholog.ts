@@ -16,6 +16,11 @@ export class Ortholog {
   sym: string;
 
   /**
+   * url for details for some species
+   */
+  url: string;
+
+  /**
    * ortholog name
    */
   name: string;
@@ -54,7 +59,11 @@ export class OrthologSerializer implements Serializer {
   fromJson(json: any): Ortholog {
     const obj = new Ortholog();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
-    obj.source = obj.source.map(source => source = {name: source});
+    if (json.source && json.source.length > 0){
+      json.source.forEach(s => {
+        obj[s] = true;
+      });
+    }
     return obj;
   }
 
@@ -76,6 +85,7 @@ export class OrthologSerializer implements Serializer {
   _asProperties(obj: Ortholog): any {
     const newObj: any = this._mapField(obj);
     newObj.source = newObj.source.map(source => source.name);
+    newObj.name.externalLink = obj.url;
     return newObj;
   }
 

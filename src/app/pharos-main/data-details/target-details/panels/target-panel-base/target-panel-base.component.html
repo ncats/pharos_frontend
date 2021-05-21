@@ -11,8 +11,8 @@
            class="tkrow"
            fxLayoutAlign="start stretch">
         <div fxFlex="95">
-          <span class="mat-title" [matTooltip]=child.description
-                [matTooltipClass]="'pharos-tooltip'">{{child.label}}</span>
+          <span class="mat-title" [matTooltip]=child?.description
+                [matTooltipClass]="'pharos-tooltip'">{{getLabel()}}</span>
         </div>
         <div fxFlex="5">
           <pharos-help-panel-trigger [origin]="child?.field"

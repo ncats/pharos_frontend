@@ -17,7 +17,7 @@ export class TargetPanelBaseComponent extends DynamicPanelComponent implements O
   @Input() child: TargetPanelBaseComponent;
 
   constructor(public navSectionsService: NavSectionsService,
-              private changeRef: ChangeDetectorRef) {
+              protected changeRef: ChangeDetectorRef) {
     super(navSectionsService);
   }
 
@@ -49,6 +49,19 @@ export class TargetPanelBaseComponent extends DynamicPanelComponent implements O
   hasData(): boolean {
     return true;
   }
+
+  count(): number {
+    return null;
+  }
+
+  getLabel(): string {
+    const count = this.child.count();
+    if (count > 0){
+      return this.child.label + ` (${count})`;
+    }
+    return this.child.label;
+  }
+
 
   /**
    * initialize panel data, call super.initialize(this) from child class
