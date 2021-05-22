@@ -53,7 +53,7 @@ export class AffiliateLinksComponent extends TargetPanelBaseComponent implements
       case 'Target Illumination GWAS Analytics (TIGA)':
         return 'idg-tiga.png';
       case 'GlyGen':
-        return 'glycan-img.b09860ec.svg';
+        return 'glygen.png';
       case 'GENEVA':
         return '300x150xGENEVA.png.pagespeed.ic.KBExA_BGr-.webp';
     }
