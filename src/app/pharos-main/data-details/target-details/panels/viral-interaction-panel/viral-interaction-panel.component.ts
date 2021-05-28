@@ -3,11 +3,9 @@ import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-
 import {Target} from "../../../../../models/target";
 import {takeUntil} from "rxjs/operators";
 import {PageEvent} from "@angular/material/paginator";
-import {TargetComponents} from "../../../../../models/target-components";
-import {DataProperty} from "../../../../../tools/generic-table/components/property-display/data-property";
 import {VirusDetails} from "../../../../../models/virus-interactions";
-import {isPlatformBrowser} from "@angular/common";
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
+import {isPlatformBrowser} from '@angular/common';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 @Component({
   selector: 'pharos-viral-interaction-panel',
@@ -20,9 +18,9 @@ export class ViralInteractionPanelComponent extends DynamicPanelComponent implem
    * parent target
    */
   @Input() target: Target;
-  constructor(@Inject(PLATFORM_ID) private platformID: Object,
-              public navSectionsService: NavSectionsService) {
-    super(navSectionsService);
+  constructor(@Inject(PLATFORM_ID) private platformID: any,
+              public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
 
   confirmed() {
@@ -59,9 +57,9 @@ export class ViralInteractionPanelComponent extends DynamicPanelComponent implem
           this.target = this.data.targets;
           if (this.target?.interactingViruses?.length > 0) {
             this.setterFunction();
-            this.navSectionsService.showSection(this.field);
+            this.showSection();
           } else {
-            this.navSectionsService.hideSection(this.field);
+            this.hideSection();
           }
           this.loadingComplete();
         }

@@ -3,9 +3,9 @@ import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-d
 import {ActivatedRoute} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
-import {NavSectionsService} from '../../../../tools/sidenav-panel/services/nav-sections.service';
 import {takeUntil} from 'rxjs/operators';
 import {Disease} from '../../../../models/disease';
+import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 
 @Component({
   selector: 'pharos-disease-header',
@@ -21,9 +21,9 @@ export class DiseaseHeaderComponent extends DynamicPanelComponent implements OnI
   constructor(
     private _route: ActivatedRoute,
     public dialog: MatDialog,
-    public navSectionsService: NavSectionsService
+    public dynamicServices: DynamicServicesService
   ) {
-    super(navSectionsService);
+    super(dynamicServices);
   }
 
   ngOnInit() {

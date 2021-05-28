@@ -9,6 +9,7 @@ import {PharosPoint} from '../../../../../models/pharos-point';
 import {MatTabChangeEvent} from '@angular/material/tabs';
 import {Subject} from 'rxjs';
 import {ScatterPlotData} from '../../../../../tools/visualizations/scatter-plot/scatter-plot.component';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 @Component({
   selector: 'pharos-gwas-target-analytics',
@@ -17,8 +18,9 @@ import {ScatterPlotData} from '../../../../../tools/visualizations/scatter-plot/
 })
 export class GwasTargetAnalyticsComponent extends DynamicPanelComponent implements OnInit {
 
-  constructor(public navSectionsService: NavSectionsService) {
-    super(navSectionsService);
+  constructor(
+    public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
 
   @Input() target: Target;
@@ -131,7 +133,7 @@ export class GwasTargetAnalyticsComponent extends DynamicPanelComponent implemen
 
       this.scatterPlotData = [betaCountPlot, orPlot];
       if (this.target?.gwasAnalytics?.associations.length > 0) {
-        this.navSectionsService.showSection(this.field);
+        this.showSection();
         this.target.gwasAnalytics.associations.forEach(assoc => {
           if (assoc.medianOddsRatio) {
             const p: PharosPoint = new PharosPoint({
@@ -153,7 +155,7 @@ export class GwasTargetAnalyticsComponent extends DynamicPanelComponent implemen
           }
         });
       } else {
-        this.navSectionsService.hideSection(this.field);
+        this.hideSection();
       }
 
       if (!this.allGenesEqual()) {

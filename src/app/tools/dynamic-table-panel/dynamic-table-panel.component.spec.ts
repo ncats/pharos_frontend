@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DynamicTablePanelComponent } from './dynamic-table-panel.component';
+import {ActivatedRoute} from '@angular/router';
+import {MOCKACTIVATEDROUTE} from '../../../../test/mock-activate-route';
 
 describe('DynamicTablePanelComponent', () => {
   let component: DynamicTablePanelComponent;
@@ -8,6 +10,9 @@ describe('DynamicTablePanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      providers: [
+        {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}
+      ],
       declarations: [ DynamicTablePanelComponent ]
     })
     .compileComponents();

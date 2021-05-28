@@ -24,6 +24,7 @@ import {takeUntil} from 'rxjs/operators';
 import {DataProperty} from '../../../../../tools/generic-table/components/property-display/data-property';
 import {TargetComponents} from '../../../../../models/target-components';
 import {isPlatformBrowser} from '@angular/common';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 /**
  * interface to track disease tree nodes
@@ -55,9 +56,9 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
     private _route: ActivatedRoute,
     private changeRef: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformID: any,
-    public navSectionsService: NavSectionsService
+    public dynamicServices: DynamicServicesService
   ) {
-    super(navSectionsService);
+    super(dynamicServices);
   }
 
   /**
@@ -119,9 +120,9 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
           this.targetProps = this.data.targetsProps;
 
           if (this.target.diseaseCount > 0 || (this.target.tinx && this.target.tinx.length > 0)) {
-            this.navSectionsService.showSection(this.field);
+            this.showSection();
           } else {
-            this.navSectionsService.hideSection(this.field);
+            this.hideSection();
           }
 
           if (this.target.tinx) {

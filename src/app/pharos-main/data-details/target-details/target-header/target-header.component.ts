@@ -2,10 +2,10 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} fr
 import {Target} from '../../../../models/target';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
-import {NavSectionsService} from '../../../../tools/sidenav-panel/services/nav-sections.service';
 import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {ActivatedRoute} from '@angular/router';
+import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 
 @Component({
   selector: 'pharos-target-header',
@@ -24,9 +24,9 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
     private _route: ActivatedRoute,
     public dialog: MatDialog,
     private changeRef: ChangeDetectorRef,
-    public navSectionsService: NavSectionsService
+    public dynamicServices: DynamicServicesService
   ) {
-    super(navSectionsService);
+    super(dynamicServices);
   }
 
   ngOnInit() {

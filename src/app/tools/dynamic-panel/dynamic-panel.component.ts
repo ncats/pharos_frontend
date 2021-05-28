@@ -1,7 +1,7 @@
-import {Component, Input} from '@angular/core';
+import {AfterViewInit, Component, Input} from '@angular/core';
 import {BehaviorSubject, Subject} from 'rxjs';
-import {NavSectionsService} from "../sidenav-panel/services/nav-sections.service";
-import {DynamicPanelBaseComponent} from "../dynamic-panel-base/dynamic-panel-base.component";
+import {DynamicPanelBaseComponent} from '../dynamic-panel-base/dynamic-panel-base.component';
+import {DynamicServicesService} from '../../pharos-services/dynamic-services.service';
 
 /**
  * Base component to be expanded by dynamically injected panels
@@ -11,7 +11,7 @@ import {DynamicPanelBaseComponent} from "../dynamic-panel-base/dynamic-panel-bas
 @Component({
   template: ''
 })
-export class DynamicPanelComponent extends DynamicPanelBaseComponent{
+export class DynamicPanelComponent extends DynamicPanelBaseComponent {
   /**
    * check to see if mobile or small screen
    * @type {boolean}
@@ -22,13 +22,7 @@ export class DynamicPanelComponent extends DynamicPanelBaseComponent{
    * @type {boolean}
    */
   @Input() loading = true;
-  navSectionsService: NavSectionsService;
-  loadingComplete(){
-    this.loading = false;
-  }
-  loadingStart() {
-    this.loading = true;
-  }
+
   /**
    * main field name
    */
@@ -83,13 +77,22 @@ export class DynamicPanelComponent extends DynamicPanelBaseComponent{
     return this._data.getValue();
   }
 
+  loadingComplete(){
+    this.loading = false;
+    setTimeout(() => {
+      this.dynamicServices.viewportScroller.scrollToAnchor(this.dynamicServices.route.snapshot.fragment);
+    }, 0);
+  }
+  loadingStart() {
+    this.loading = true;
+  }
+
   /**
    * No dependencies
    *
    */
-  constructor(navSectionsService: NavSectionsService) {
+  constructor(public dynamicServices: DynamicServicesService) {
     super();
-    this.navSectionsService = navSectionsService;
   }
 
   /**
@@ -97,6 +100,14 @@ export class DynamicPanelComponent extends DynamicPanelBaseComponent{
    * @param {string} fragment
    */
   active(fragment: string) {
-    this.navSectionsService.setActiveSection(fragment);
+    this.dynamicServices.navSectionsService.setActiveSection(fragment);
+  }
+
+  hideSection() {
+    this.dynamicServices.navSectionsService.hideSection(this.field);
+  }
+
+  showSection(){
+    this.dynamicServices.navSectionsService.showSection(this.field);
   }
 }

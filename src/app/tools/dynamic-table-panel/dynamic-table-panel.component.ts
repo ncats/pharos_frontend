@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {DynamicPanelComponent} from '../dynamic-panel/dynamic-panel.component';
 import {PageData} from '../../models/page-data';
 import {PharosProperty} from '../../models/pharos-property';
-import {NavSectionsService} from "../sidenav-panel/services/nav-sections.service";
+import {DynamicServicesService} from '../../pharos-services/dynamic-services.service';
 
 /**
  * extendable component that also adds table -related operations to a dynamic panel
@@ -44,8 +44,8 @@ export class DynamicTablePanelComponent extends DynamicPanelComponent {
    * calls super object constructor
    */
   constructor(
-    public navSectionsService: NavSectionsService ) {
-    super(navSectionsService);
+    public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
 
   /**

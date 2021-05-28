@@ -9,19 +9,16 @@ import {
 } from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {HttpClient} from '@angular/common/http';
-import {Target, TargetSerializer} from '../../../../../../app/models/target';
+import {Target} from '../../../../../../app/models/target';
 import {PageData} from '../../../../../../app/models/page-data';
-import {map, zipAll} from 'rxjs/operators';
-import {from} from 'rxjs/index';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
-import {DiseaseSerializer} from '../../../../../models/disease';
 import {PageEvent} from '@angular/material/paginator';
 import {ActivatedRoute} from '@angular/router';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
-import {TargetComponents} from "../../../../../models/target-components";
-import {DataProperty} from "../../../../../tools/generic-table/components/property-display/data-property";
-import {BreakpointObserver} from "@angular/cdk/layout";
+import {TargetComponents} from '../../../../../models/target-components';
+import {DataProperty} from '../../../../../tools/generic-table/components/property-display/data-property';
+import {BreakpointObserver} from '@angular/cdk/layout';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 /**
  * shows a list of protein to protein interactions for a target
@@ -34,6 +31,22 @@ import {BreakpointObserver} from "@angular/cdk/layout";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProteinProteinPanelComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
+
+  /**
+   * @param pharosApiService
+   * @param _route
+   * @param {NavSectionsService} navSectionsService
+   * @param changeRef
+   */
+  constructor(
+    private pharosApiService: PharosApiService,
+    private _route: ActivatedRoute,
+    private changeRef: ChangeDetectorRef,
+    public breakpointObserver: BreakpointObserver,
+    public dynamicServices: DynamicServicesService
+  ) {
+    super(dynamicServices);
+  }
   /**
    * parent target
    */
@@ -47,21 +60,7 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
 
   targetProps: any;
 
-  /**
-   * @param pharosApiService
-   * @param _route
-   * @param {NavSectionsService} navSectionsService
-   * @param changeRef
-   */
-  constructor(
-    private pharosApiService: PharosApiService,
-    private _route: ActivatedRoute,
-    private changeRef: ChangeDetectorRef,
-    public breakpointObserver: BreakpointObserver,
-    public navSectionsService: NavSectionsService
-  ) {
-    super(navSectionsService);
-  }
+  pageData: PageData = new PageData({});
 
   /**
    * this gets all ppi targets
@@ -86,8 +85,6 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
         });
       });
   }
-
-  pageData: PageData = new PageData({});
   /**
    * paginate the list of targets
    * @param event
@@ -107,7 +104,7 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
             retTarget.ppiCount = retTarget.ppiCount.reduce((prev, cur) => Math.max(prev, cur.value), 0);
           }
           retTarget.ppis = retTarget.ppis.map(ppi => {
-            if(!ppi.target) {return ppi;}
+            if (!ppi.target) {return ppi; }
             ppi.target.properties = [];
             for (let j = 0; j < ppi.props.length; j++) {
               ppi.target.properties.push(
@@ -123,7 +120,7 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
           this.loadingComplete();
           this.changeRef.markForCheck();
         }
-        catch(e){
+        catch (e){
           throw(e);
         }
       },
