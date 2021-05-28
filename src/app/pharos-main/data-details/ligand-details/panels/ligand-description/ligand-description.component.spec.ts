@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LigandDescriptionComponent } from './ligand-description.component';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {TESTLIGAND} from '../../../../../../../test/test-ligand';
+import {ActivatedRoute} from '@angular/router';
+import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route';
 
 describe('LigandDescriptionComponent', () => {
   let component: LigandDescriptionComponent;
@@ -10,6 +12,9 @@ describe('LigandDescriptionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      providers: [
+        {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}
+      ],
       declarations: [ LigandDescriptionComponent ],
       imports: [
         ApolloTestingModule

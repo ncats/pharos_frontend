@@ -9,7 +9,7 @@ export const MOCKACTIVATEDROUTE = {
     snapshot: {
       fragment: new BehaviorSubject({ foo: 'bar' }),
       queryParamMap: new Map([
-        ["associatedDisease","benign ependymoma"]
+        ['associatedDisease', 'benign ependymoma']
       ]),
       data: {
         path: 'targets',

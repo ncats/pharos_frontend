@@ -6,9 +6,9 @@ import {DynamicTablePanelComponent} from '../../../../tools/dynamic-table-panel/
 import {Disease, DiseaseSerializer} from '../../../../models/disease';
 import {PharosProperty} from '../../../../models/pharos-property';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
-import {NavSectionsService} from '../../../../tools/sidenav-panel/services/nav-sections.service';
 import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -97,9 +97,9 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
     private _route: ActivatedRoute,
     private router: Router,
     private changeRef: ChangeDetectorRef,
-    public navSectionsService: NavSectionsService
+    public dynamicServices: DynamicServicesService
   ) {
-    super(navSectionsService);
+    super(dynamicServices);
   }
 
   /**

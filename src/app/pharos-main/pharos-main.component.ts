@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -23,6 +24,7 @@ import {Subject} from 'rxjs';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {isPlatformBrowser} from '@angular/common';
 import {SelectedFacetService} from './data-list/filter-panel/selected-facet.service';
+import {DynamicServicesService} from '../pharos-services/dynamic-services.service';
 
 /**
  * class or interface to set properties for an injected sidenav panel
@@ -153,8 +155,9 @@ export class PharosMainComponent implements OnInit, OnDestroy {
     private changeRef: ChangeDetectorRef,
     private helpDataService: HelpDataService,
     public breakpointObserver: BreakpointObserver,
-    @Inject(PLATFORM_ID) private platformID: Object,
-    private selectedFacetService: SelectedFacetService
+    @Inject(PLATFORM_ID) private platformID: any,
+    private selectedFacetService: SelectedFacetService,
+    public dynamicServices: DynamicServicesService
   ) {
 
   }
@@ -285,8 +288,6 @@ export class PharosMainComponent implements OnInit, OnDestroy {
     }
     return '';
   }
-
-
 
   /**
    * clears data

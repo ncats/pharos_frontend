@@ -14,8 +14,9 @@ import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/na
 import {Target} from '../../../../../models/target';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
-import {Subject} from "rxjs";
-import {isPlatformBrowser} from "@angular/common";
+import {Subject} from 'rxjs';
+import {isPlatformBrowser, ViewportScroller} from '@angular/common';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 /**
@@ -95,10 +96,10 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     private pharosApiService: PharosApiService,
     private _route: ActivatedRoute,
     private changeRef: ChangeDetectorRef,
-    @Inject(PLATFORM_ID) private platformID: Object,
-    public navSectionsService: NavSectionsService
+    @Inject(PLATFORM_ID) private platformID: any,
+    public dynamicServices: DynamicServicesService
   ) {
-    super(navSectionsService);
+    super(dynamicServices);
   }
   /**
    * subscribe to data changes and generate tree

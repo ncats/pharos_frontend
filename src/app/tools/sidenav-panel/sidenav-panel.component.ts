@@ -97,7 +97,6 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit {
       }
     });
 
-
     // this covers url change when navigation/click to go to section
     this._route.fragment.subscribe(fragment => {
       this.activeElement = fragment;
@@ -117,6 +116,8 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit {
    * @param fragment
    */
   public scroll(fragment: any): void {
+    this.activeElement = fragment;
+    this.activeFragment = fragment;
     this.location.replaceState(`${this.location.path(false)}#${fragment}`);
     this.viewportScroller.scrollToAnchor(fragment);
   }

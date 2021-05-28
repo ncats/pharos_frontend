@@ -4,7 +4,7 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import { MatDialog } from '@angular/material/dialog';
 import {takeUntil} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 /**
  * displays illumination progress for a target
@@ -27,12 +27,11 @@ export class LevelSummaryPanelComponent extends DynamicPanelComponent implements
 
   /**
    * fetch services
-   * @param {NavSectionsService} navSectionsService
    * @param {ChangeDetectorRef} changeRef
    */
  constructor(private changeRef: ChangeDetectorRef,
-             public navSectionsService: NavSectionsService) {
-    super(navSectionsService);
+             public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
 
   /**

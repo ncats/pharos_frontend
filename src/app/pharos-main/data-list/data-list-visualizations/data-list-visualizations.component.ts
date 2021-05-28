@@ -6,7 +6,7 @@ import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.
 import {takeUntil} from 'rxjs/operators';
 import {PathResolverService} from '../filter-panel/path-resolver.service';
 import {ActivatedRoute} from '@angular/router';
-import {NavSectionsService} from "../../../tools/sidenav-panel/services/nav-sections.service";
+import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 
 /**
  * component to show various facets like a dashboard.
@@ -51,8 +51,8 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
               private _route: ActivatedRoute,
               private selectedFacetService: SelectedFacetService,
               private pharosConfig: PharosConfig,
-              public navSectionsService: NavSectionsService) {
-    super(navSectionsService);
+              public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
 
 

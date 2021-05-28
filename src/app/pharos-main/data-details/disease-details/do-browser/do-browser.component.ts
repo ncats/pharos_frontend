@@ -1,8 +1,8 @@
 import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
-import {Disease} from "../../../../models/disease";
-import {takeUntil} from "rxjs/operators";
-import {DynamicPanelComponent} from "../../../../tools/dynamic-panel/dynamic-panel.component";
-import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-sections.service";
+import {Disease} from '../../../../models/disease';
+import {takeUntil} from 'rxjs/operators';
+import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
+import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 
 @Component({
   selector: 'pharos-do-browser',
@@ -14,8 +14,8 @@ export class DoBrowserComponent extends DynamicPanelComponent implements OnInit 
   @Input() disease: Disease;
   constructor(
     private changeRef: ChangeDetectorRef,
-    public navSectionsService: NavSectionsService) {
-    super(navSectionsService);
+    public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
 
   ngOnInit() {

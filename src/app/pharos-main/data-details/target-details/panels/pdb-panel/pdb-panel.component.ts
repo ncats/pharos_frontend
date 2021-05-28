@@ -18,8 +18,9 @@ import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-pan
 import {PageData} from '../../../../../models/page-data';
 import {Target} from '../../../../../models/target';
 import {BehaviorSubject} from 'rxjs';
-import {isPlatformBrowser} from "@angular/common";
-import {PdbApiService} from "../../../../../pharos-services/pdb-api.service";
+import {isPlatformBrowser} from '@angular/common';
+import {PdbApiService} from '../../../../../pharos-services/pdb-api.service';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 /**
  * component to fetch data from the rcsb protein databank and display tested ligands nested in a protein structure
@@ -120,10 +121,10 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
   constructor(
     private changeRef: ChangeDetectorRef,
     private _http: HttpClient,
-    @Inject(PLATFORM_ID) private platformID: Object,
+    @Inject(PLATFORM_ID) private platformID: any,
     private pdbApollo: PdbApiService,
-    public navSectionsService: NavSectionsService) {
-    super(navSectionsService);
+    public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
 
   /**
@@ -140,9 +141,9 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
         this.target = this.data.targets;
         if (this.target.pdbs && this.target.pdbs.length > 0) {
           this.setterFunction();
-          this.navSectionsService.showSection(this.field);
+          this.showSection();
         } else {
-          this.navSectionsService.hideSection(this.field);
+          this.hideSection();
         }
         this.changeRef.markForCheck();
         this.loadingComplete();
@@ -179,6 +180,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
         this.pdbViewObjects = this.pdbResponses.map(r => new PDBViewObject(r));
         this.pdbid = this.pdbResponses[0];
         this.changeRef.detectChanges();
+        this.loadingComplete();
       });
   }
 

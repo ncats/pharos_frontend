@@ -7,7 +7,7 @@ import {PageEvent} from '@angular/material/paginator';
 import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
 import {DiseaseAssocationSerializer} from '../../../../models/disease-association';
 import {Disease} from '../../../../models/disease';
-import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-sections.service";
+import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 
 /**
  * token to inject structure viewer into generic table component
@@ -59,9 +59,9 @@ export class TargetListPanelComponent extends DynamicTablePanelComponent impleme
   constructor(
     private changeRef: ChangeDetectorRef,
     private pharosApiService: PharosApiService,
-    public navSectionsService: NavSectionsService
+    public dynamicServices: DynamicServicesService
   ) {
-    super(navSectionsService);
+    super(dynamicServices);
   }
 
   ngOnInit() {

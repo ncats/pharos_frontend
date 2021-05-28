@@ -6,8 +6,8 @@ import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.
 import {SelectedFacetService} from '../filter-panel/selected-facet.service';
 import {PathResolverService} from '../filter-panel/path-resolver.service';
 import {UnfurlingMetaService} from '../../../pharos-services/unfurling-meta.service';
-import {NavSectionsService} from '../../../tools/sidenav-panel/services/nav-sections.service';
 import {MolChangeService} from '../../../tools/marvin-sketcher/services/mol-change.service';
+import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 
 /**
  * panel to show selected facets or queries, and remove them
@@ -41,9 +41,9 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
               private selectedFacetService: SelectedFacetService,
               private pathResolverService: PathResolverService,
               private metaService: UnfurlingMetaService,
-              public navSectionsService: NavSectionsService,
-              private molChangeService: MolChangeService) {
-    super(navSectionsService);
+              private molChangeService: MolChangeService,
+              public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
 
   /**

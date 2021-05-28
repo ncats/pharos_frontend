@@ -2,11 +2,11 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy,
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {Ligand} from '../../../../../models/ligand';
 import {takeUntil} from 'rxjs/operators';
-import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {DataProperty} from '../../../../../tools/generic-table/components/property-display/data-property';
 import { Facet } from 'src/app/models/facet';
 import {MolChangeService} from '../../../../../tools/marvin-sketcher/services/mol-change.service';
 import {Router} from '@angular/router';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 @Component({
   selector: 'pharos-ligand-details',
@@ -23,10 +23,10 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
   @Input() ligand: Ligand;
 
   constructor(private changeRef: ChangeDetectorRef,
-              public navSectionsService: NavSectionsService,
               private molChangeService: MolChangeService,
-              private router: Router) {
-    super(navSectionsService);
+              private router: Router,
+              public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
   synonymList: DataProperty[];
   /**

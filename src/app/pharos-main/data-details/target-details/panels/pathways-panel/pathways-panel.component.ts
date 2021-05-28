@@ -11,6 +11,7 @@ import {Pathway, PathwaySerializer} from "../../../../../models/pathway";
 import {PharosApiService} from "../../../../../pharos-services/pharos-api.service";
 import {ActivatedRoute} from "@angular/router";
 import {TargetComponents} from "../../../../../models/target-components";
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 @Component({
   selector: 'pharos-pathways-panel',
@@ -81,9 +82,9 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
     private pharosApiService: PharosApiService,
     private changeRef: ChangeDetectorRef,
     private _route: ActivatedRoute,
-    public navSectionsService: NavSectionsService
+    public dynamicServices: DynamicServicesService
   ) {
-    super(navSectionsService);
+    super(dynamicServices);
   }
 
   ngOnInit(): void {
@@ -120,9 +121,9 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
         });
 
         if (this.target.pathways && this.target.pathways.length > 0) {
-          this.navSectionsService.showSection(this.field);
+          this.showSection();
         } else {
-          this.navSectionsService.hideSection(this.field);
+          this.hideSection();
         }
         this.loadingComplete();
       });

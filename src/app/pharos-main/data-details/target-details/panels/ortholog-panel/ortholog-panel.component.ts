@@ -6,8 +6,8 @@ import {ActivatedRoute} from '@angular/router';
 import {Target} from '../../../../../models/target';
 import {PageEvent} from '@angular/material/paginator';
 import {TargetComponents} from '../../../../../models/target-components';
-import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {TargetPanelBaseComponent} from '../target-panel-base/target-panel-base.component';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 /**
  * displays orthologs available for a target
@@ -106,10 +106,10 @@ export class OrthologPanelComponent extends TargetPanelBaseComponent implements 
   constructor(
     private pharosApiService: PharosApiService,
     private _route: ActivatedRoute,
-    public navSectionsService: NavSectionsService,
-    changeRef: ChangeDetectorRef)
+    changeRef: ChangeDetectorRef,
+    public dynamicServices: DynamicServicesService)
 {
-  super(navSectionsService, changeRef);
+  super(changeRef, dynamicServices);
   }
 
   /**

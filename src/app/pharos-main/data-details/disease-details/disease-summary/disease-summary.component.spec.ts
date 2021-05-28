@@ -3,6 +3,8 @@ import { DiseaseSummaryComponent } from './disease-summary.component';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {TESTTARGET} from '../../../../../../test/test-target';
 import {UnfurlingMetaService} from '../../../../pharos-services/unfurling-meta.service';
+import {ActivatedRoute} from '@angular/router';
+import {MOCKACTIVATEDROUTE} from '../../../../../../test/mock-activate-route';
 
 describe('DiseaseSummaryComponent', () => {
   let component: DiseaseSummaryComponent;
@@ -11,7 +13,8 @@ describe('DiseaseSummaryComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
-        UnfurlingMetaService
+        UnfurlingMetaService,
+        {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}
         ],
       declarations: [ DiseaseSummaryComponent ],
       imports: [

@@ -5,6 +5,8 @@ import {SharedModule} from '../../../../../../shared/shared.module';
 import {GenericTableModule} from '../../../../../../tools/generic-table/generic-table.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../../test/test-target';
+import {ActivatedRoute} from '@angular/router';
+import {MOCKACTIVATEDROUTE} from '../../../../../../../../test/mock-activate-route';
 
 describe('DifferentialPanelComponent', () => {
   let component: DifferentialPanelComponent;
@@ -12,6 +14,9 @@ describe('DifferentialPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      providers: [
+        {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}
+      ],
       declarations: [ DifferentialPanelComponent ],
       imports: [
         SharedModule,

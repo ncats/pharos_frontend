@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {TargetPanelBaseComponent} from '../target-panel-base/target-panel-base.component';
-import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {AffiliateLink} from '../../../../../models/target';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 @Component({
   selector: 'pharos-affiliate-links',
@@ -10,15 +10,15 @@ import {AffiliateLink} from '../../../../../models/target';
 })
 export class AffiliateLinksComponent extends TargetPanelBaseComponent implements OnInit {
   constructor(
-    public navSectionsService: NavSectionsService,
-    changeRef: ChangeDetectorRef)
+    changeRef: ChangeDetectorRef,
+    public dynamicServices: DynamicServicesService)
   {
-    super(navSectionsService, changeRef);
+    super(changeRef, dynamicServices);
   }
 
   inpageNavigate(link) {
     const anchor = this.pageAnchor(link);
-    this.navSectionsService.setActiveTab(anchor);
+    this.dynamicServices.navSectionsService.setActiveTab(anchor);
   }
 
   navigate(url) {

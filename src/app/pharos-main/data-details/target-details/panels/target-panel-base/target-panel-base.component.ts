@@ -1,8 +1,8 @@
 import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {Target} from '../../../../../models/target';
-import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {takeUntil} from 'rxjs/operators';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 @Component({
   selector: 'pharos-target-panel-base',
@@ -16,9 +16,10 @@ export class TargetPanelBaseComponent extends DynamicPanelComponent implements O
   @Input() target: Target;
   @Input() child: TargetPanelBaseComponent;
 
-  constructor(public navSectionsService: NavSectionsService,
-              protected changeRef: ChangeDetectorRef) {
-    super(navSectionsService);
+  constructor(
+              protected changeRef: ChangeDetectorRef,
+              public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
 
   ngOnInit(): void {
@@ -32,13 +33,13 @@ export class TargetPanelBaseComponent extends DynamicPanelComponent implements O
       )
       .subscribe(x => {
         this.target = this.data.targets;
-        if (this.target) {
+        if (this.target && this.child) {
           const hasData = this.child?.hasData ? this.child.hasData.bind(this.child) : this.hasData;
           if (hasData()) {
-            this.navSectionsService.showSection(this.child?.field);
+            this.child.showSection();
             this.initialize();
           } else {
-            this.navSectionsService.hideSection(this.child?.field);
+            this.child.hideSection();
           }
         }
         this.loadingComplete();

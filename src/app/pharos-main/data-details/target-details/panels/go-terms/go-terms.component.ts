@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {Target, TargetSerializer} from '../../../../../models/target';
 import {takeUntil} from 'rxjs/operators';
 import {PharosProperty} from '../../../../../models/pharos-property';
@@ -8,6 +7,7 @@ import {PageData} from '../../../../../models/page-data';
 import {TargetComponents} from '../../../../../models/target-components';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 @Component({
   selector: 'pharos-go-terms',
@@ -22,10 +22,11 @@ export class GoTermsComponent extends DynamicPanelComponent implements OnInit {
   functionPageData: PageData;
   processPageData: PageData;
 
-  constructor(public navSectionsService: NavSectionsService,
+  constructor(
               private pharosApiService: PharosApiService,
-              private _route: ActivatedRoute) {
-    super(navSectionsService);
+              private _route: ActivatedRoute,
+              public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
 
   fields: PharosProperty[] = [
@@ -57,9 +58,9 @@ export class GoTermsComponent extends DynamicPanelComponent implements OnInit {
         this.targetProps = this.data.targetsProps;
 
         if (this.target?.goCount?.total() > 0) {
-          this.navSectionsService.showSection(this.field);
+          this.showSection();
         } else {
-          this.navSectionsService.hideSection(this.field);
+          this.hideSection();
         }
 
         this.initialize();
@@ -87,7 +88,7 @@ export class GoTermsComponent extends DynamicPanelComponent implements OnInit {
 
   changePage(event: any, cType: string) {
     this.loadingStart();
-    let pageParams: any = {};
+    const pageParams: any = {};
 
     pageParams.gotop = event.pageSize;
     pageParams.goskip = event.pageIndex * event.pageSize;
