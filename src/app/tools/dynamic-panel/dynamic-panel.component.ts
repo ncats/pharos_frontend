@@ -80,7 +80,11 @@ export class DynamicPanelComponent extends DynamicPanelBaseComponent {
   loadingComplete(){
     this.loading = false;
     setTimeout(() => {
-      this.dynamicServices.viewportScroller.scrollToAnchor(this.dynamicServices.route.snapshot.fragment);
+      if (this.dynamicServices.route.snapshot.fragment){
+        this.dynamicServices.viewportScroller.scrollToAnchor(this.dynamicServices.route.snapshot.fragment);
+      } else {
+        this.dynamicServices.viewportScroller.scrollToPosition([0, 0]);
+      }
     }, 0);
   }
   loadingStart() {
