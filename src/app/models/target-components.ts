@@ -229,7 +229,7 @@ export const TARGETLISTFIELDS = gql`
     }
     ligandAssociationDetails{
       actVals
-      maxActVal
+      avgActVal
       modeOfAction
     }
     similarityDetails: similarity {

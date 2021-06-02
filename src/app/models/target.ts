@@ -329,6 +329,10 @@ export class TargetSerializer implements PharosSerializer {
           obj.gwasAnalytics = new GwasTargetAnalytics(json.gwasAnalytics);
         }
 
+        if (json.ligandAssociationDetails) {
+          obj.ligandAssociationDetails = LigandAssociationDetails.fromJSON(json.ligandAssociationDetails);
+        }
+
         if (json.interactingViruses) {
             const virusDetailsSerializer = new VirusDetailsSerializer();
             obj.interactingViruses = json.interactingViruses.map(virus => virusDetailsSerializer.fromJson(virus));

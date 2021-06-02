@@ -67,11 +67,11 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
       )
       .subscribe(x => {
         if (this.data && this.data.facets) {
-          this.facets = this.data.facets.filter(f => {return f.dataType !== "Numeric"});
+          this.facets = this.data.facets.filter(f => f.dataType !== 'Numeric' && f.values.length > 0);
           let selection;
           if (!!this.selectedDonut) { // remember which facet was selected, if there was one
-            selection = this.facets.find(x => {
-              return x.facet == this.selectedDonut
+            selection = this.facets.find(d => {
+              return d.facet === this.selectedDonut;
             });
           }
           if (!selection){
@@ -90,7 +90,7 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
   changeDonutChart(field: string): void {
     this.selectedDonut = field;
     this.donutData = this.facets.filter(facet => facet.facet === field)[0];
-    this.donutData.values = this.donutData.values.filter(v => {return true;}); // trigger changes on bound property
+    this.donutData.values = this.donutData.values.filter(v => true); // trigger changes on bound property
   }
 
   /**
