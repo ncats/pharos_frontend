@@ -1,35 +1,84 @@
+<pharos-structure-view></pharos-structure-view>
 <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-around start" class="search-content">
   <div fxFlex="75" fxFlex.lt-sm="90">
-    <div fxLayout="row" class ="header-row">
+    <div fxLayout="row" class="header-row">
       <div class="section-header active">Structure Search</div>
     </div>
-    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center" class ="sketcher-row">
+    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center" class="sketcher-row">
       <div fxFlex="100">
         <app-sketcher></app-sketcher>
       </div>
     </div>
-    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
-      <div fxFlex="30">
-        <mat-form-field class="full-width-field">
-          <mat-select [formControl]="typeCtrl" (valueChange)="typeChanged($event)">
-            <mat-option [value]="'sub'">Substructure</mat-option>
-            <mat-option [value]="'sim'">Similarity</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div fxFlex="5"></div>
-    </div>
-    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
-      <div fxFlex ="70">
+    <mat-card class="smiles-card">
+      <mat-card-title>Query Structure</mat-card-title>
+      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
         <mat-form-field class="full-width-field">
           <input matInput placeholder="structure" [formControl]="smilesCtrl" (change)="smilesChanged($event)">
         </mat-form-field>
       </div>
-    </div>
-    <div fxLayout="row">
-      <div fxFlex="85">
-        <button [disabled]="!smilesCtrl.value || (smilesCtrl.value.length === 0)" class="tool-button" mat-raised-button [color]="'primary'" (click)="search()">Search <mat-icon>search</mat-icon></button>
-      </div>
+    </mat-card>
+
+    <div class="card-list">
+      <ng-container>
+        <mat-card>
+          <mat-card-content class="linkContainer" fxLayout="column" fxLayoutAlign="space-around center">
+          <span class="mat-title">
+            Find Similar Structures
+          </span>
+            <div fxFlex="1"></div>
+            <div class="toolImage">
+              <img [src]="'./assets/affiliates/structure search.png'" width="100%"/>
+            </div>
+            <div fxFlex="1"></div>
+            <div class="toolDescription">
+              Find similar structures, based on a Lucene index of all the ligands in TCRD. Search for ligands that match the whole query structure using a 'Similarity' search, or ligands that contain the query structure as part of the whole, using a 'Substructure' search.
+            </div>
+            <div class="toolLinkButton">
+              <mat-form-field class="full-width-field">
+                <mat-select [formControl]="typeCtrl" (valueChange)="typeChanged($event)">
+                  <mat-option [value]="'sub'">Substructure</mat-option>
+                  <mat-option [value]="'sim'">Similarity</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div><div class="toolLinkButton">
+            <div></div>
+              <button [disabled]="!smilesCtrl.value || (smilesCtrl.value.length === 0)"
+                      class="tool-button" mat-raised-button [color]="'primary'"
+                      (click)="searchLigands()">Search
+                <mat-icon>search</mat-icon>
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </ng-container>
+      <ng-container>
+        <mat-card>
+          <mat-card-content class="linkContainer" fxLayout="column" fxLayoutAlign="space-around center">
+          <span class="mat-title">
+            Find Predicted Targets
+          </span>
+            <div fxFlex="1"></div>
+            <div class="toolImage">
+              <img [src]="'./assets/affiliates/ncats-predictor.png'" width="100%"/>
+            </div>
+            <div fxFlex="1"></div>
+            <div class="toolDescription">
+              Find targets predicted to have an activity against the query structure, based on set of
+              Quantitative structure-activity relationship (QSAR) models. See
+              <a href="https://predictor.ncats.io/predictor/" target="_blank">NCATS Predictor</a> for details, or to download datasets and models.
+            </div>
+            <div fxFlex="1"></div>
+            <div class="toolLinkButton">
+              <div></div>
+              <button [disabled]="!smilesCtrl.value || (smilesCtrl.value.length === 0)"
+                      class="tool-button" mat-raised-button [color]="'primary'"
+                      (click)="searchTargets()">Search
+                <mat-icon>search</mat-icon>
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </ng-container>
     </div>
   </div>
 </div>
