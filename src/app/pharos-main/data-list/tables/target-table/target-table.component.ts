@@ -131,6 +131,28 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     ['Antibody Count', {sortKey: 'Antibody Count', order: 'desc'}]
   ]);
 
+  ligandSortMap: Map<string, any> = new Map([
+    ['Activity Value', {sortKey: 'Average Activity Value', order: 'desc'}],
+    ['Action', {sortKey: 'Action', order: 'asc'}],
+    ...this.defaultSortMap
+  ]);
+
+  structureSortMap: Map<string, any> = new Map([
+    ['Predicted Activity', {sortKey: 'Predicted Activity', order: 'desc'}],
+    ['Prediction Applicability', {sortKey: 'Prediction Applicability', order: 'desc'}],
+    ['Prediction Training Activity', {sortKey: 'Prediction Training Activity', order: 'desc'}],
+    ...this.defaultSortMap
+  ]);
+
+  structureLigandSortMap: Map<string, any> = new Map([
+    ['Activity Value', {sortKey: 'Average Activity Value', order: 'desc'}],
+    ['Action', {sortKey: 'Action', order: 'asc'}],
+    ['Predicted Activity', {sortKey: 'Predicted Activity', order: 'desc'}],
+    ['Prediction Applicability', {sortKey: 'Prediction Applicability', order: 'desc'}],
+    ['Prediction Training Activity', {sortKey: 'Prediction Training Activity', order: 'desc'}],
+    ...this.defaultSortMap
+  ]);
+
   ppiSortMap: Map<string, any> = new Map([
     ['score', {sortKey: 'StringDB Interaction Score', order: 'desc'}],
     ['p_int', {sortKey: 'BioPlex Interaction Probability', order: 'desc'}],
@@ -230,10 +252,14 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
           this.sortMap = this.ppiSortMap;
         } else if (this.associatedDisease) {
           this.sortMap = this.diseaseSortMap;
-        } else if (this.associatedStructure) { // TODO make a sort map for ligand, b/c similarity will be a thing
-          this.sortMap = this.defaultSortMap;
-        } else if (this.associatedLigand) { // TODO make a sort map for ligand, b/c similarity will be a thing
-          this.sortMap = this.defaultSortMap;
+        } else if (this.associatedStructure) {
+          if (this.associatedLigand) {
+            this.sortMap = this.structureLigandSortMap;
+          } else {
+            this.sortMap = this.structureSortMap;
+          }
+        } else if (this.associatedLigand) {
+          this.sortMap = this.ligandSortMap;
         } else {
           this.sortMap = this.defaultSortMap;
         }

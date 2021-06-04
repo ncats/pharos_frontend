@@ -137,10 +137,10 @@ export class Facet {
       return 'Target Similarity';
     }
     if (parameter === 'associatedStructure') {
-      if (paramValue.startsWith('sim')) {
-        return 'Associated Structure';
-      } else {
+      if (paramValue.startsWith('sub')) {
         return 'Associated Substructure';
+      } else {
+        return 'Associated Structure';
       }
     }
     if (parameter === 'associatedLigand') {

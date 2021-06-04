@@ -15,6 +15,7 @@ import {PantherClass} from './pantherClass';
 import {SimilarityDetails} from './similarityDetails';
 import {GwasTargetAnalytics} from './gwasTargetAnalytics';
 import {LigandAssociationDetails} from './ligandAssociationDetails';
+import {TargetPredictionDetails} from './targetPredictionDetails';
 
 
 /**
@@ -254,6 +255,7 @@ export class Target extends PharosBase {
     interactionDetails?: InteractionDetails;
     diseaseAssociationDetails?: DiseaseAssociation[] = [];
     ligandAssociationDetails?: LigandAssociationDetails;
+    targetPredictionDetails?: TargetPredictionDetails;
     similarityDetails?: SimilarityDetails;
     interactingViruses?: VirusDetails[];
 
@@ -332,7 +334,6 @@ export class TargetSerializer implements PharosSerializer {
         if (json.ligandAssociationDetails) {
           obj.ligandAssociationDetails = LigandAssociationDetails.fromJSON(json.ligandAssociationDetails);
         }
-
         if (json.interactingViruses) {
             const virusDetailsSerializer = new VirusDetailsSerializer();
             obj.interactingViruses = json.interactingViruses.map(virus => virusDetailsSerializer.fromJson(virus));

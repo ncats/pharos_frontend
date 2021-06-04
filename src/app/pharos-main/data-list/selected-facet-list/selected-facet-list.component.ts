@@ -8,6 +8,7 @@ import {PathResolverService} from '../filter-panel/path-resolver.service';
 import {UnfurlingMetaService} from '../../../pharos-services/unfurling-meta.service';
 import {MolChangeService} from '../../../tools/marvin-sketcher/services/mol-change.service';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
+import {Helper} from '../../../models/utilities';
 
 /**
  * panel to show selected facets or queries, and remove them
@@ -67,18 +68,9 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
       });
     this.associatedStructure = this._route.snapshot.queryParamMap.get('associatedStructure');
     if (this.associatedStructure) {
-      const pieces = this.associatedStructure.split('!');
-      if (pieces.length > 1) {
-        pieces.forEach(p => {
-          if (p.toLowerCase().substr(0, 3) !== 'sub' && p.toLowerCase().substr(0, 3) !== 'sim') {
-            this.ligandSmiles = p;
-          } else {
-            this.structureSearchType = p.toLowerCase().substr(0, 3);
-          }
-        });
-      } else {
-        this.ligandSmiles = this.associatedStructure;
-      }
+      const parsedName = Helper.parseAssociatedStructure(this.associatedStructure);
+      this.ligandSmiles = parsedName.ligandSmiles;
+      this.structureSearchType = parsedName.structureSearchType;
     }
     this.changeRef.markForCheck();
   }

@@ -10,8 +10,8 @@ export class LigandAssociationDetails {
     obj.avgActVal = json.avgActVal;
     obj.modeOfAction = json.modeOfAction;
 
-    const activities = obj.actVals.split(',');
-    activities.forEach(act => {
+    const activities = obj.actVals?.split(',');
+    activities?.forEach(act => {
       const pieces = act.trim().split(' ');
       const type = pieces.length > 1 ? pieces[0] : '-';
       const val = pieces.length > 1 ? pieces[1] : pieces[0];

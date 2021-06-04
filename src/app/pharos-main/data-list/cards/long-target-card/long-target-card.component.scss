@@ -51,8 +51,8 @@
 }
 
 .section {
-  max-width: 33%;
-  min-width: 20%;
+  max-width: 21%;
+  min-width: 21%;
   padding: 20px;
 }
 
@@ -98,4 +98,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.prediction-structures{
+  display: flex;
+  flex-direction: row;
+}
+
+.prediction{
+  background-color: papayawhip;
 }

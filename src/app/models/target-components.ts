@@ -232,6 +232,13 @@ export const TARGETLISTFIELDS = gql`
       avgActVal
       modeOfAction
     }
+    targetPredictionDetails {
+      similarity
+      result
+      trainingSmiles: training_smiles
+      trainingActivity: training_activity
+      modelName: model_name
+    }
     similarityDetails: similarity {
       jaccard
       overlap
