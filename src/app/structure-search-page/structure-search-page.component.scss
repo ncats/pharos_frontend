@@ -28,20 +28,40 @@
   margin-bottom: 5vh;
 }
 
-.slider-label {
-  display: block;
-  font-size: inherit;
-  font-weight: 400;
-  line-height: 1.125;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  color: rgba(0,0,0, .6);
-}
-
-.cutoff-slider {
-  width: 100%;
-}
-
-
 .tool-button{
   margin-bottom: 6px;
+}
+
+.toolImage{
+  width: 200px;
+  horiz-align: center;
+}
+.linkContainer{
+  display: inline-flex;
+  flex-direction: column;
+  width: 250px;
+  height: 100%;
+  min-height: 375px;
+}
+.card-list{
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+}
+.toolLinkButton{
+  display: flex;
+  width: 100%;
+  place-content: space-between;
+  margin-top: 0.5em;
+  align-items: center;
+}
+.toolDescription{
+  margin-top: fill;
+}
+
+mat-card{
+  margin: 0.5em;
+}
+.mat-title{
+  align-self: start;
 }

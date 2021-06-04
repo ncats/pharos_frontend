@@ -4,6 +4,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {SharedModule} from '../shared/shared.module';
 import {StructureSearchPageComponent} from './structure-search-page.component';
 import {SketcherModule} from '../tools/marvin-sketcher/sketcher.module';
+import {CommonToolsModule} from '../tools/common-tools.module';
 
 const routes: Routes = [
   {
@@ -16,11 +17,12 @@ const routes: Routes = [
   declarations: [
     StructureSearchPageComponent
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    RouterModule.forChild(routes),
-    SketcherModule
-  ]
+    imports: [
+        CommonModule,
+        SharedModule,
+        RouterModule.forChild(routes),
+        SketcherModule,
+        CommonToolsModule
+    ]
 })
 export class StructureSearchPageModule { }

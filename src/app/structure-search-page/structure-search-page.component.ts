@@ -59,13 +59,25 @@ export class StructureSearchPageComponent implements OnInit {
   /**
    * search via url/api navigation
    */
-  search() {
+  searchLigands() {
     const navigationExtras: NavigationExtras = {
       queryParams: {
-        associatedStructure: this.typeCtrl.value + Facet.separator + this.smilesCtrl.value,
+        associatedStructure: (this.typeCtrl.value || 'sim') + Facet.separator + this.smilesCtrl.value,
       },
       queryParamsHandling: ''
     };
     this._router.navigate(['/ligands'], navigationExtras);
+  }
+  /**
+   * search via url/api navigation
+   */
+  searchTargets() {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        associatedStructure: this.smilesCtrl.value,
+      },
+      queryParamsHandling: ''
+    };
+    this._router.navigate(['/targets'], navigationExtras);
   }
 }
