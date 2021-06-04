@@ -227,9 +227,9 @@ export class PharosApiService {
     }
   }`;
 
-  public FieldQuery = gql`query fieldQuery($model: String, $associatedModel: String, $similarityQuery: Boolean) {
+  public FieldQuery = gql`query fieldQuery($model: String, $associatedModel: String, $similarityQuery: Boolean, $associatedLigand: String, $associatedSmiles: String) {
       configuration {
-        downloadLists(modelName: $model, associatedModelName: $associatedModel, similarityQuery: $similarityQuery) {
+        downloadLists(modelName: $model, associatedModelName: $associatedModel, similarityQuery: $similarityQuery, associatedLigand: $associatedLigand, associatedSmiles: $associatedSmiles) {
           listName
           field {
             order
