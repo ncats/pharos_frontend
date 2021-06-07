@@ -54,11 +54,8 @@
         <pharos-similarity-details [target]="target" [apiSources]="apiSources" [similarityTarget]="similarityTarget" [expanded]="expanded"></pharos-similarity-details>
         <span *ngIf="!expanded" class="expandLink">Click for details...</span>
       </div>
-      <div *ngIf="target.targetPredictionDetails"
-           (click)="expanded=!expanded"
-           class="section prediction"
-           [ngClass]="{expanded: expanded, unexpanded: !expanded}">
-        <pharos-target-prediction-details [target]="target" [apiSources]="apiSources" [expanded]="expanded"></pharos-target-prediction-details>
+      <div *ngIf="target.targetPredictionDetails" class="section prediction">
+        <pharos-target-prediction-details [target]="target" [apiSources]="apiSources"></pharos-target-prediction-details>
       </div>
       <div class="section radar-chart" *ngIf="(!target.targetPredictionDetails || !target.ligandAssociationDetails)">
         <mat-card-subtitle>Illumination Graph</mat-card-subtitle>
