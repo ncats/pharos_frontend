@@ -1,18 +1,38 @@
+<div>
 <mat-card-subtitle>Target Prediction Details</mat-card-subtitle>
+  <div class="prediction-structures">
+    <div class="structure-block">
+      <ncats-property-display *ngIf="target.targetPredictionDetails.result"
+                              [property]="{term: target.targetPredictionDetails.result, label: 'Predicted Activity', tooltip: getTooltip('activity')}">
+      </ncats-property-display>
+    </div>
+    <div class="structure-block">
+      <ncats-property-display *ngIf="target.targetPredictionDetails.trainingActivity"
+                              [property]="{term: target.targetPredictionDetails.trainingActivity, label: 'Nearest Activity', tooltip: getTooltip('trainingActivity')}">
+      </ncats-property-display>
+    </div>
+  </div>
+
+  <div class="prediction-structures">
+    <div class="structure-block">
+      <pharos-structure-view [smiles]="ligandSmiles" [size]="100"></pharos-structure-view>
+    </div>
+    <div class="equality-block">
+      <ng-container *ngIf="target.targetPredictionDetails.similarity < 1; else equalBlock">
+        <div>{{target.targetPredictionDetails.similarity.toFixed(2)}}</div>
+        <div class="equality-symbol">≈</div>
+      </ng-container>
+      <ng-template #equalBlock>
+        <div>{{(1).toFixed(1)}}</div>
+        <div class="equality-symbol">=</div>
+      </ng-template>
+    </div>
+    <div class="structure-block">
+      <pharos-structure-view [smiles]="structureToShow" [size]="100"></pharos-structure-view>
+    </div>
+  </div>
+
 <ncats-property-display *ngIf="target.targetPredictionDetails.modelName"
                         [property]="{term: target.targetPredictionDetails.modelName, label: 'Model', tooltip: getTooltip('model')}">
 </ncats-property-display>
-<ncats-property-display *ngIf="target.targetPredictionDetails.similarity"
-                        [property]="{term: target.targetPredictionDetails.similarity, label: 'Confidence', tooltip: getTooltip('similarity')}">
-</ncats-property-display>
-<ncats-property-display *ngIf="target.targetPredictionDetails.result"
-                        [property]="{term: target.targetPredictionDetails.result, label: 'Activity', tooltip: getTooltip('activity')}">
-</ncats-property-display>
-
-<div class="prediction-structures">
-<pharos-structure-view [smiles]="ligandSmiles" [size]="120"></pharos-structure-view>
-<pharos-structure-view [smiles]="structureToShow" [size]="120"></pharos-structure-view>
 </div>
-<ncats-property-display *ngIf="target.targetPredictionDetails.trainingActivity"
-                        [property]="{term: target.targetPredictionDetails.trainingActivity, label: 'Training Activity', tooltip: getTooltip('trainingActivity')}">
-</ncats-property-display>
