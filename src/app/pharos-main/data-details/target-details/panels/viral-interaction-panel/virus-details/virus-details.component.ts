@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {VirusDetails} from "../../../../../../models/virus-interactions";
+import {ViralInteractionDetails, VirusDetails} from '../../../../../../models/virus-interactions';
 
 @Component({
   selector: 'pharos-virus-details',
@@ -29,5 +29,9 @@ export class VirusDetailsComponent implements OnInit {
       return `(${pred} predicted interaction${pred === 1 ? '' : 's'}, ${conf} confirmed interaction${conf === 1 ? '' : 's'})`;
     }
     return `(${pred} predicted interaction${pred === 1 ? '' : 's'})`;
+  }
+
+  isPrediction(interaction: ViralInteractionDetails) {
+    return interaction.pdbIDs.length === 0;
   }
 }
