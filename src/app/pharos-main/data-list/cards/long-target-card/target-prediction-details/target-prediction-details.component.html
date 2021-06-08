@@ -34,10 +34,7 @@
     </div>
   </div>
 
-  <ncats-property-display *ngIf="target.targetPredictionDetails.modelName"
+  <ncats-property-display *ngIf="target.targetPredictionDetails.modelName" (click)="showModelDetails()" class="pointer"
                           [property]="{term: target.targetPredictionDetails.modelName, label: 'Model', tooltip: getTooltip('model')}">
-  </ncats-property-display>
-  <ncats-property-display *ngIf="target.targetPredictionDetails.targetChemblID" (click)="showModelDetails()"
-                          [property]="{term: target.targetPredictionDetails.targetChemblID, label: 'target Chebmle DI', tooltip: getTooltip('shtee')}">
   </ncats-property-display>
 </div>
