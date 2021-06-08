@@ -218,7 +218,7 @@ const predictorResultsFields: PharosApi[] =
     {
       field: 'applicability',
       label: 'Applicability (Similarity)',
-      description: 'A similarity measurement of the most similar compound from the training set to the query structure.'
+      description: 'The Tanimoto similarity of the most similar compound from the training set to the query structure.'
     },
     {
       field: 'model',
