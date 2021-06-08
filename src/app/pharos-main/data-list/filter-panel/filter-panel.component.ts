@@ -320,6 +320,10 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     this.menuToggle.emit();
   }
 
+  facetIsPrediction(facet: Facet){
+    return facet.facet.toLowerCase().startsWith('predict');
+  }
+
   /**
    * function to unsubscribe on destroy
    */

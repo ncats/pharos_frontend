@@ -4,4 +4,5 @@ export class TargetPredictionDetails{
   trainingSmiles?: string;
   trainingActivity?: string;
   modelName?: string;
+  targetChemblID?: string;
 }
