@@ -238,6 +238,7 @@ export const TARGETLISTFIELDS = gql`
       trainingSmiles: training_smiles
       trainingActivity: training_activity
       modelName: model_name
+      targetChemblID: target_chembl_id
     }
     similarityDetails: similarity {
       jaccard

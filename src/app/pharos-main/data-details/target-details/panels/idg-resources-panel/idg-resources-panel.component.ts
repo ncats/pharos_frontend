@@ -3,7 +3,6 @@ import {takeUntil} from 'rxjs/operators';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
-import {HttpClient} from '@angular/common/http';
 import {Target} from '../../../../../models/target';
 import {PharosConfig} from '../../../../../../config/pharos-config';
 import {IDGResourceSerializer} from '../../../../../models/idg-resources/resource-serializer';
@@ -63,12 +62,10 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
 
   /**
    * set up nav sections
-   * @param {HttpClient} http
    * @param {NavSectionsService} navSectionsService
    * @param pharosConfig
    */
   constructor(
-    private http: HttpClient,
     private pharosConfig: PharosConfig,
     private changeRef: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformID: any,

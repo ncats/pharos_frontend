@@ -3,21 +3,23 @@
   <div class="prediction-structures">
     <div class="structure-block">
       <ncats-property-display *ngIf="target.targetPredictionDetails.result"
-                              [property]="{term: target.targetPredictionDetails.result, label: 'Predicted Activity', tooltip: getTooltip('activity')}">
+                              [property]="{term: target.targetPredictionDetails.result, label: 'Predicted Activity',
+                              tooltip: getTooltip('predictedActivity')}">
       </ncats-property-display>
     </div>
     <div class="structure-block">
       <ncats-property-display *ngIf="target.targetPredictionDetails.trainingActivity"
-                              [property]="{term: target.targetPredictionDetails.trainingActivity, label: 'Nearest Activity', tooltip: getTooltip('trainingActivity')}">
+                              [property]="{term: target.targetPredictionDetails.trainingActivity, label: 'Nearest Activity',
+                              tooltip: getTooltip('trainingActivity')}">
       </ncats-property-display>
     </div>
   </div>
 
   <div class="prediction-structures">
-    <div class="structure-block">
+    <div class="structure-block" [matTooltip]="getTooltip('queryStructure')">
       <pharos-structure-view [smiles]="ligandSmiles" [size]="100"></pharos-structure-view>
     </div>
-    <div class="equality-block">
+    <div class="equality-block" [matTooltip]="getTooltip('applicability')">
       <ng-container *ngIf="target.targetPredictionDetails.similarity < 1; else equalBlock">
         <div>{{target.targetPredictionDetails.similarity.toFixed(2)}}</div>
         <div class="equality-symbol">≈</div>
@@ -27,12 +29,15 @@
         <div class="equality-symbol">=</div>
       </ng-template>
     </div>
-    <div class="structure-block">
+    <div class="structure-block" [matTooltip]="getTooltip('nearestStructure')">
       <pharos-structure-view [smiles]="structureToShow" [size]="100"></pharos-structure-view>
     </div>
   </div>
 
-<ncats-property-display *ngIf="target.targetPredictionDetails.modelName"
-                        [property]="{term: target.targetPredictionDetails.modelName, label: 'Model', tooltip: getTooltip('model')}">
-</ncats-property-display>
+  <ncats-property-display *ngIf="target.targetPredictionDetails.modelName"
+                          [property]="{term: target.targetPredictionDetails.modelName, label: 'Model', tooltip: getTooltip('model')}">
+  </ncats-property-display>
+  <ncats-property-display *ngIf="target.targetPredictionDetails.targetChemblID" (click)="showModelDetails()"
+                          [property]="{term: target.targetPredictionDetails.targetChemblID, label: 'target Chebmle DI', tooltip: getTooltip('shtee')}">
+  </ncats-property-display>
 </div>

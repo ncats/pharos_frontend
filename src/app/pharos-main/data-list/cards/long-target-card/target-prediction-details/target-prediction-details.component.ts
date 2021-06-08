@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {GeneDetailsComponent} from '../gene-details/gene-details.component';
-import {AssociationStats} from '../../../../../models/ligandAssociationDetails';
 import {Helper} from '../../../../../models/utilities';
 import {ActivatedRoute} from '@angular/router';
+import {MatDialog} from '@angular/material/dialog';
+import {ModelDetailsComponent} from '../../../../../tools/model-details/model-details.component';
 
 @Component({
   selector: 'pharos-target-prediction-details',
@@ -13,7 +14,8 @@ import {ActivatedRoute} from '@angular/router';
 export class TargetPredictionDetailsComponent extends GeneDetailsComponent implements OnInit {
   ligandSmiles = '';
   structureToShow = '';
-  constructor(private _route: ActivatedRoute) {
+  constructor(private _route: ActivatedRoute,
+              public dialog: MatDialog) {
     super();
   }
 
@@ -32,5 +34,12 @@ export class TargetPredictionDetailsComponent extends GeneDetailsComponent imple
     } else {
       this.structureToShow = this.target.targetPredictionDetails.trainingSmiles;
     }
+  }
+
+  showModelDetails(){
+    const dialogRef = this.dialog.open(ModelDetailsComponent, {
+      data: {modelChemblId: this.target.targetPredictionDetails.targetChemblID},
+      height: '75vh', width: '66vw'
+    });
   }
 }

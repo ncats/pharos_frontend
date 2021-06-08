@@ -193,6 +193,41 @@ const similarityFields: PharosApi[] =
     }
   ];
 
+const predictorResultsFields: PharosApi[] =
+  [
+    {
+      field: 'predictedActivity',
+      label: 'Predicted Activity',
+      description: 'Predicted Activity (-log M) of the query structure against the target, based on the QSAR model.'
+    },
+    {
+      field: 'trainingActivity',
+      label: 'Nearest Activity',
+      description: 'Activity (-log M) of the most similar compound from the training set against the target.'
+    },
+    {
+      field: 'queryStructure',
+      label: 'Query Structure',
+      description: 'Rendered image of the query structure.'
+    },
+    {
+      field: 'nearestStructure',
+      label: 'Nearest Structure',
+      description: 'Rendered image of the most similar compound from the training set.'
+    },
+    {
+      field: 'applicability',
+      label: 'Applicability (Similarity)',
+      description: 'A similarity measurement of the most similar compound from the training set to the query structure.'
+    },
+    {
+      field: 'model',
+      label: 'Model',
+      description: 'Name of the QSAR model that generated the prediction.',
+      source: 'https://predictor.ncats.io/predictor/models'
+    },
+  ];
+
 const ligandAssocFields: PharosApi[] =
   [
     {
@@ -275,6 +310,7 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
     ...diseaseAssociationFields,
     ...ligandAssocFields,
     ...similarityFields,
+    ...predictorResultsFields,
     {
       field: 'illuminationGraph',
       label: 'Illumination Graph',
