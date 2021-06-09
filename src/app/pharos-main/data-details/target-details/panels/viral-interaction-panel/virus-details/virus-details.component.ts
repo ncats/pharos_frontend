@@ -32,6 +32,6 @@ export class VirusDetailsComponent implements OnInit {
   }
 
   isPrediction(interaction: ViralInteractionDetails) {
-    return interaction.pdbIDs.length === 0;
+    return interaction.pdbIDs?.length === 0;
   }
 }
