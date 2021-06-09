@@ -1,10 +1,10 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {BreadcrumbComponent} from './breadcrumb.component';
-import {RouterTestingModule} from '@angular/router/testing';
-import {SharedModule} from '../../../../../shared/shared.module';
-import {ApolloTestingModule} from 'apollo-angular/testing';
 import {TESTTARGET} from '../../../../../../../test/test-target';
+import {ActivatedRoute} from '@angular/router';
+import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 describe('BreadcrumbComponent', () => {
   let component: BreadcrumbComponent;
@@ -13,12 +13,12 @@ describe('BreadcrumbComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
-        ApolloTestingModule,
-        RouterTestingModule
       ],
       declarations: [
         BreadcrumbComponent
+      ], providers: [
+        DynamicServicesService,
+        {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE},
       ]
     })
     .compileComponents();
