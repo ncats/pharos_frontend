@@ -1,16 +1,51 @@
-<div fxLayout="row" fxLayoutAlign="space-around center">
-  <div fxFlex="50" fxFlex.lt-md="80" *ngIf=donutData>
-    <pharos-donut-chart [data]="donutData.values" (clickSlice)="filterDonutChart($event)"></pharos-donut-chart>
-  </div>
-</div>
+<mat-tab-group (selectedTabChange)="redrawChildren($event)">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <div
+        [matTooltip]="getTooltip('donut')"
+        [matTooltipClass]="'pharos-tooltip'">
+        Donut Chart
+      </div>
+    </ng-template>
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <div fxFlex="50" fxFlex.lt-md="80" *ngIf=selectedFacet>
+        <pharos-donut-chart [data]="selectedFacet.values" (clickSlice)="filterDonutChart($event)" [events]="redrawCharts.asObservable()"></pharos-donut-chart>
+      </div>
+    </div>
     <div fxLayout="row" fxLayoutAlign="space-around start">
-      <div fxFlex="60" fxFlex.lt-md="80" *ngIf=donutData>
-      <p class="slice-help">  <mat-icon [color]="'primary'" class = "help-icon">info</mat-icon> Click on a slice to filter the list</p>
-  </div>
-</div>
+      <div fxFlex="60" fxFlex.lt-md="80" *ngIf=selectedFacet>
+        <p class="slice-help">  <mat-icon [color]="'primary'" class = "help-icon">info</mat-icon> Click on a slice to filter the list</p>
+      </div>
+    </div>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <div
+        [matTooltip]="getTooltip('upset')"
+        [matTooltipClass]="'pharos-tooltip'">
+        UpSet Chart
+      </div>
+    </ng-template>
+    <pharos-upset-plot [selectedFacet]="selectedFacet" [events]="redrawCharts.asObservable()"></pharos-upset-plot>
+  </mat-tab>
+
+<!--  <mat-tab>-->
+<!--    <ng-template mat-tab-label>-->
+<!--      <div-->
+<!--        [matTooltip]="getTooltip('2dplots')"-->
+<!--        [matTooltipClass]="'pharos-tooltip'">-->
+<!--        2D Plots-->
+<!--      </div>-->
+<!--    </ng-template>-->
+<!--    <pharos-multidimensional-facet-plot [events]="redrawCharts.asObservable()"></pharos-multidimensional-facet-plot>-->
+<!--  </mat-tab>-->
+
+
+</mat-tab-group>
 <div fxLayout="row" fxLayoutAlign="space-around start">
-      <div fxFlex="60" fxFlex.lt-md="80" *ngIf=donutData>
-    <pharos-visualization-options (fieldChange)="changeDonutChart($event)" [facets]="facets"></pharos-visualization-options>
+  <div fxFlex="60" fxFlex.lt-md="80" *ngIf=selectedFacet>
+    <pharos-visualization-options (fieldChange)="changeSelectedFacet($event)" [facets]="facets"></pharos-visualization-options>
   </div>
 </div>
 <mat-divider class="space-divider"></mat-divider>

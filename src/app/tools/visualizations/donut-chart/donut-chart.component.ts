@@ -1,9 +1,10 @@
 import {
-  Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnChanges, OnInit, Output, PLATFORM_ID, ViewChild,
+  Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnChanges, OnDestroy, OnInit, Output, PLATFORM_ID, ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 import * as d3 from 'd3';
 import {isPlatformBrowser} from '@angular/common';
+import {Observable, Subscription} from 'rxjs';
 
 /**
  * component to display a donut chart visualization
@@ -14,7 +15,10 @@ import {isPlatformBrowser} from '@angular/common';
   styleUrls: ['./donut-chart.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class DonutChartComponent implements OnInit, OnChanges {
+export class DonutChartComponent implements OnInit, OnChanges, OnDestroy {
+  private eventsSubscription: Subscription;
+
+  @Input() events: Observable<string>;
 
   /**
    * donut chart component holder
@@ -59,8 +63,7 @@ export class DonutChartComponent implements OnInit, OnChanges {
    */
   @HostListener('window:resize', [])
   onResize() {
-    this.drawChart();
-    this.updateChart();
+    this.redraw();
   }
   /**
    * no args constructor
@@ -71,14 +74,18 @@ export class DonutChartComponent implements OnInit, OnChanges {
    * measure and layou the chart component
    */
   ngOnInit() {
+    this.eventsSubscription = this.events.subscribe((chart) => {
+      if (chart === 'donut-chart') {
+        this.redraw();
+      }
+    });
     const element = this.chartContainer.nativeElement;
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
     this.radius = Math.min(this.width, this.height) / 2;
 
     if (isPlatformBrowser(this.platformID)) {
-      this.drawChart();
-      this.updateChart();
+      this.redraw();
     }
   }
 
@@ -88,10 +95,14 @@ export class DonutChartComponent implements OnInit, OnChanges {
    * @param changes
    */
   ngOnChanges(changes) {
-    if (!changes.data.firstChange && isPlatformBrowser(this.platformID)) {
-      this.drawChart();
-      this.updateChart();
+    if ((changes.data && !changes.data.firstChange) && isPlatformBrowser(this.platformID)) {
+      this.redraw();
     }
+  }
+
+  redraw(){
+    this.drawChart();
+    this.updateChart();
   }
 
   /**
@@ -215,7 +226,11 @@ export class DonutChartComponent implements OnInit, OnChanges {
     element.transition()
       .duration(200)
       .style('opacity', .9);
-
   }
+
+  ngOnDestroy() {
+    this.eventsSubscription.unsubscribe();
+  }
+
 }
 

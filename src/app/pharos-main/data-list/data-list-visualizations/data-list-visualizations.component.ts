@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PharosConfig} from '../../../../config/pharos-config';
 import {SelectedFacetService} from '../filter-panel/selected-facet.service';
 import {Facet} from '../../../models/facet';
@@ -7,6 +7,8 @@ import {takeUntil} from 'rxjs/operators';
 import {PathResolverService} from '../filter-panel/path-resolver.service';
 import {ActivatedRoute} from '@angular/router';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
+import {Subject} from 'rxjs';
+import {MatTabChangeEvent} from '@angular/material/tabs';
 
 /**
  * component to show various facets like a dashboard.
@@ -20,10 +22,13 @@ import {DynamicServicesService} from '../../../pharos-services/dynamic-services.
 })
 
 export class DataListVisualizationsComponent extends DynamicPanelComponent implements OnInit {
+
+  redrawCharts: Subject<string> = new Subject<string>();
+
   /**
    * data passed to visualization
    */
-  donutData: Facet;
+  selectedFacet: Facet;
 
   /**
    * list of all available chart facets
@@ -55,6 +60,15 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
     super(dynamicServices);
   }
 
+  redrawChildren(event: MatTabChangeEvent) {
+    if (event.index === 0) {
+      this.redrawCharts.next('donut-chart');
+    } else if (event.index === 2) {
+      this.redrawCharts.next('upset-plot');
+    } else {
+      this.redrawCharts.next('multidimensional-facet-plot');
+    }
+  }
 
   /**
    * get list of available facets, then retrieve the first facet (default) on the list
@@ -77,7 +91,7 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
           if (!selection){
             selection = this.facets[0];
           }
-          this.donutData = selection;
+          this.selectedFacet = selection;
         }
       });
   }
@@ -87,10 +101,10 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
    * change selected data for the visualization
    * @param {string} field
    */
-  changeDonutChart(field: string): void {
+  changeSelectedFacet(field: string): void {
     this.selectedDonut = field;
-    this.donutData = this.facets.filter(facet => facet.facet === field)[0];
-    this.donutData.values = this.donutData.values.filter(v => true); // trigger changes on bound property
+    this.selectedFacet = this.facets.filter(facet => facet.facet === field)[0];
+    this.selectedFacet.values = this.selectedFacet.values.filter(v => true); // trigger changes on bound property
   }
 
   /**
@@ -98,9 +112,8 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
    * @param data
    */
   filterDonutChart(data: any) {
-    this.selectedFacetService.setFacets({name: this.donutData.facet, change: {added: [data.name]}});
+    this.selectedFacetService.setFacets({name: this.selectedFacet.facet, change: {added: [data.name]}});
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
     this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
   }
-
 }
