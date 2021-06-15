@@ -27,7 +27,9 @@ import {DynamicPanelBaseComponent} from './dynamic-panel-base/dynamic-panel-base
 import {GoTermsEvidenceArticleComponent} from './help-panel/articles/go-terms-evidence-article/go-terms-evidence-article.component';
 import {VennDiagramComponent} from './visualizations/venn-diagram/venn-diagram.component';
 import {FieldSelectionDialogComponent} from './field-selection-dialog/field-selection-dialog.component';
-import { ModelDetailsComponent } from './model-details/model-details.component';
+import {ModelDetailsComponent} from './model-details/model-details.component';
+import { UpsetPlotComponent } from './visualizations/upset-plot/upset-plot.component';
+import {UpsetModule} from './visualizations/upset/upset.module';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { ModelDetailsComponent } from './model-details/model-details.component';
     GoTermsEvidenceArticleComponent,
     VennDiagramComponent,
     FieldSelectionDialogComponent,
-    ModelDetailsComponent
+    ModelDetailsComponent,
+    UpsetPlotComponent
   ],
   imports: [
     CommonModule,
@@ -60,7 +63,8 @@ import { ModelDetailsComponent } from './model-details/model-details.component';
     AnatamogramModule,
     NgxJsonViewerModule,
     GenericTableModule,
-    RadarChartModule
+    RadarChartModule,
+    UpsetModule
   ],
   exports: [
     NcatsHeaderModule,
@@ -79,7 +83,8 @@ import { ModelDetailsComponent } from './model-details/model-details.component';
     ListFilterComponent,
     ExploreListButtonComponent,
     AffiliateLinkComponent,
-    VennDiagramComponent
+    VennDiagramComponent,
+    UpsetPlotComponent
   ],
   entryComponents: [
     FieldSelectionDialogComponent

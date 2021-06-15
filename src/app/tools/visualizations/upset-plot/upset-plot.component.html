@@ -1,0 +1,10 @@
+<div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+  <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+</div>
+<div class="plot-container">
+<ramp-upset (upSetBarClicked)="upSetBarClicked($event)" [soloSets]="soloSets"
+            [allData]="allData"
+            [intersections]="interactions"
+            [title]="'Overlap of ' + selectedFacet.facet" #upsetComponent>
+</ramp-upset>
+</div>

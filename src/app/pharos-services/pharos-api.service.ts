@@ -227,6 +227,16 @@ export class PharosApiService {
     }
   }`;
 
+  UpsetQuery() {
+    return gql`query UpSet($model: String!, $facetName: String!, $filter: IFilter, $batch: [String], $values: [String!]) {
+      upset (model: $model, facetName: $facetName, filter: $filter, batch: $batch, values: $values) {
+        values
+        count
+      }
+    }`;
+  }
+
+
   public FieldQuery = gql`query fieldQuery($model: String, $associatedModel: String, $similarityQuery: Boolean, $associatedLigand: String, $associatedSmiles: String) {
       configuration {
         downloadLists(modelName: $model, associatedModelName: $associatedModel, similarityQuery: $similarityQuery, associatedLigand: $associatedLigand, associatedSmiles: $associatedSmiles) {
@@ -355,12 +365,12 @@ export class PharosApiService {
     return variables;
   }
 
-  extrasRef(fragments: any){
+  extrasRef(fragments: any) {
     return fragments.extras || '';
   }
 
-  insertExtras(fragments: any, path: string){
-    if (fragments.extras){
+  insertExtras(fragments: any, path: string) {
+    if (fragments.extras) {
       return `...${path}Extras`;
     }
     return '';
@@ -499,9 +509,10 @@ export class PharosApiService {
    * @param path
    * @param variables
    */
-  private executeAllFacetsQuery(path: string, variables)  {
+  private executeAllFacetsQuery(path: string, variables) {
     return this.apollo.query<any>({query: Facet.getAllFacetsQuery(path), variables});
   }
+
   /**
    * creates a fork join to return the results of api search calls to targeted object kinds
    * this reduces the number of irrelevant results return that need to be parsed,
@@ -755,6 +766,24 @@ export class PharosApiService {
     }
     return this.targetListService.getList(docid).toPromise().then((list: string[]) => {
       return list;
+    });
+  }
+
+
+  getUpsetQuery(route: ActivatedRouteSnapshot, variables?: any) {
+    const path: string = route.data.path;
+    variables = {
+      model: (path.charAt(0).toUpperCase() + path.slice(1)),
+      ...variables,
+      ...this.parseVariables(route, null)
+    };
+    return this.fetchTargetList(route).then((res: string[]) => {
+      if (res && res.length > 0) {
+        variables.batch = res;
+      }
+      return this.apollo.query<any>({query: this.UpsetQuery(), variables}).toPromise();
+    }).catch(err => {
+      err;
     });
   }
 
