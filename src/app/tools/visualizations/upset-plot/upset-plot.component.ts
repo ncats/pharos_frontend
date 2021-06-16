@@ -23,6 +23,7 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
   soloSets: any[];
   interactions: any[];
   allData: any[];
+  defaultValueCount = 5;
 
 
   constructor(private pharosApiService: PharosApiService,
@@ -59,7 +60,7 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
     this.loadingStart();
     const variables = {
       facetName: this.selectedFacet.facet,
-      values: this.selectedFacet.values.slice(0, 5).map(f => f.name)
+      values: this.selectedFacet.values.slice(0, this.defaultValueCount).map(f => f.name)
     };
     if (isPlatformBrowser(this.platformID)) {
       this.pharosApiService.getUpsetQuery(this._route.snapshot, variables).then(
@@ -108,7 +109,7 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
       }
       this.allData.push(compoundIntersection);
     });
-    const missingOnes = this.selectedFacet.values.slice(0, 5).filter(f => {
+    const missingOnes = this.selectedFacet.values.slice(0, this.defaultValueCount).filter(f => {
       return !this.soloSets.map(f => f.name).includes(f.name);
     });
     missingOnes.forEach(missing => {
@@ -138,7 +139,7 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
 
   mapOneVal(value: string) {
     const nameStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const index = this.selectedFacet.values.slice(0, 5).findIndex(f => f.name === value);
+    const index = this.selectedFacet.values.slice(0, this.defaultValueCount).findIndex(f => f.name === value);
     return nameStr[index];
   }
 
