@@ -12,7 +12,7 @@ import {Observable, Subscription} from 'rxjs';
 @Component({
   selector: 'pharos-donut-chart',
   templateUrl: './donut-chart.component.html',
-  styleUrls: ['./donut-chart.component.css'],
+  styleUrls: ['./donut-chart.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class DonutChartComponent implements OnInit, OnChanges, OnDestroy {

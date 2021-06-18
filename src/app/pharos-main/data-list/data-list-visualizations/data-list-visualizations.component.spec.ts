@@ -51,7 +51,7 @@ describe('DataListVisualizationsComponent', () => {
     fixture = TestBed.createComponent(DataListVisualizationsComponent);
     component = fixture.componentInstance;
     component.data = {facets: []};
-    component.selectedFacet = {facet: 'facet', values: []} as Facet;
+    component.displayFacet = {facet: 'facet', values: []} as Facet;
     fixture.detectChanges();
   });
 

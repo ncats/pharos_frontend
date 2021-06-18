@@ -4,7 +4,9 @@
 <div class="plot-container">
 <ramp-upset (upSetBarClicked)="upSetBarClicked($event)" [soloSets]="soloSets"
             [allData]="allData"
+            [plotName]="this.displayFacet.facet"
+            [highlitedSets]="filteringSets"
             [intersections]="interactions"
-            [title]="'Overlap of ' + selectedFacet?.facet" #upsetComponent>
+            [title]="'Overlap of ' + displayFacet?.facet" #upsetComponent>
 </ramp-upset>
 </div>

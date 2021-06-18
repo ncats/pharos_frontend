@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
-import {Facet} from '../../../models/facet';
+import {Facet, UpsetOptions} from '../../../models/facet';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {SelectedFacetService} from '../filter-panel/selected-facet.service';
@@ -81,6 +81,9 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
     this.router.navigate(['/structure']);
   }
 
+  formatUpset(upsetVal: string) {
+    return UpsetOptions.parseFromUrl(upsetVal);
+  }
   /**
    * remove a specific facet and all selected fields
    * @param facet
@@ -102,6 +105,11 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
     this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
   }
 
+  removeUpset(facet: string, upsetObj: UpsetOptions): void {
+    this.selectedFacetService.removeUpset(facet, upsetObj);
+    const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
+    this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
+  }
   /**
    * clear all queries/facets
    */
