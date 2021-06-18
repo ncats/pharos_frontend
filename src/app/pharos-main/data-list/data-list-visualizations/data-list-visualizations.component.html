@@ -8,12 +8,12 @@
       </div>
     </ng-template>
     <div fxLayout="row" fxLayoutAlign="space-around center">
-      <div fxFlex="50" fxFlex.lt-md="80" *ngIf=selectedFacet>
-        <pharos-donut-chart [data]="selectedFacet.values" (clickSlice)="filterDonutChart($event)" [events]="redrawCharts.asObservable()"></pharos-donut-chart>
+      <div fxFlex="50" fxFlex.lt-md="80" *ngIf=displayFacet>
+        <pharos-donut-chart [data]="displayFacet.values" (clickSlice)="filterDonutChart($event)" [events]="redrawCharts.asObservable()"></pharos-donut-chart>
       </div>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-around start">
-      <div fxFlex="60" fxFlex.lt-md="80" *ngIf=selectedFacet>
+      <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet>
         <p class="slice-help">  <mat-icon [color]="'primary'" class = "help-icon">info</mat-icon> Click on a slice to filter the list</p>
       </div>
     </div>
@@ -27,7 +27,12 @@
         UpSet Chart
       </div>
     </ng-template>
-    <pharos-upset-plot [selectedFacet]="selectedFacet" [events]="redrawCharts.asObservable()"></pharos-upset-plot>
+    <pharos-upset-plot [displayFacet]="displayFacet" [events]="redrawCharts.asObservable()"></pharos-upset-plot>
+    <div fxLayout="row" fxLayoutAlign="space-around start">
+      <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet>
+        <p class="slice-help">  <mat-icon [color]="'primary'" class = "help-icon">info</mat-icon> Click on a bar to filter the list</p>
+      </div>
+    </div>
   </mat-tab>
 
 <!--  <mat-tab>-->
@@ -44,7 +49,7 @@
 
 </mat-tab-group>
 <div fxLayout="row" fxLayoutAlign="space-around start">
-  <div fxFlex="60" fxFlex.lt-md="80" *ngIf=selectedFacet>
+  <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet>
     <pharos-visualization-options (fieldChange)="changeSelectedFacet($event)" [facets]="facets"></pharos-visualization-options>
   </div>
 </div>

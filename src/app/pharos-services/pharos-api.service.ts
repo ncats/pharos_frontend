@@ -7,7 +7,7 @@ import {map, mergeMap, tap} from 'rxjs/internal/operators';
 import {PharosConfig} from '../../config/pharos-config';
 import {PharosBase} from '../models/pharos-base';
 import {PageData} from '../models/page-data';
-import {Facet} from '../models/facet';
+import {Facet, UpsetOptions} from '../models/facet';
 import {Apollo, QueryRef} from 'apollo-angular';
 import gql from 'graphql-tag';
 import {SelectedFacetService} from '../pharos-main/data-list/filter-panel/selected-facet.service';
@@ -599,20 +599,36 @@ export class PharosApiService {
                   .replace('%2C', ',')
                   .replace('%3A', ':');
                 if (!filter.facets) {
-                  filter.facets = [{facet: facetName, values: [fieldName]}];
-                } else {
-                  const currentFacet = filter.facets.find(f => f.facet == facetName);
-                  if (!!currentFacet) {
-                    currentFacet.values.push(fieldName);
+                  if (fieldName.startsWith('InGroup:')){
+                    filter.facets = [{facet: facetName, upSets: [UpsetOptions.parseFromUrl(fieldName)], values: []}];
                   } else {
-                    filter.facets.push({facet: facetName, values: [fieldName]});
+                    filter.facets = [{facet: facetName, upSets: [], values: [fieldName]}];
+                  }
+                } else {
+                  const currentFacet = filter.facets.find(f => f.facet === facetName);
+                  if (!!currentFacet) {
+                    if (fieldName.startsWith('InGroup:')){
+                      currentFacet.upSets.push(UpsetOptions.parseFromUrl(fieldName));
+                    } else {
+                      currentFacet.values.push(fieldName);
+                    }
+                  } else {
+                    if (fieldName.startsWith('InGroup:')){
+                      filter.facets.push({facet: facetName, upSets: [UpsetOptions.parseFromUrl(fieldName)], values: []});
+                    } else {
+                      filter.facets.push({facet: facetName, upSets: [], values: [fieldName]});
+                    }
                   }
                 }
               } else {
                 // map facet object to be mapped
                 filter.facets = currentFacets
-                  .map(facet => facet = {facet: facet.facet, values: facet.values.map(value => value.name)})
-                  .filter(facets => facets.values.length !== 0);
+                  .map(facet => facet = {
+                    facet: facet.facet,
+                    values: facet.values.map(value => value.name),
+                    upSets: facet.upSets
+                  })
+                  .filter(facets => facets.values.length !== 0 || facets.upSets.length !== 0);
               }
               ret.filter = filter;
               break;

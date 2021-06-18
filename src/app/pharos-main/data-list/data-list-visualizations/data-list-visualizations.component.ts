@@ -28,7 +28,7 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
   /**
    * data passed to visualization
    */
-  selectedFacet: Facet;
+  displayFacet: Facet;
 
   /**
    * list of all available chart facets
@@ -91,7 +91,7 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
           if (!selection){
             selection = this.facets[0];
           }
-          this.selectedFacet = selection;
+          this.displayFacet = selection;
         }
       });
   }
@@ -103,8 +103,8 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
    */
   changeSelectedFacet(field: string): void {
     this.selectedDonut = field;
-    this.selectedFacet = this.facets.filter(facet => facet.facet === field)[0];
-    this.selectedFacet.values = this.selectedFacet.values.filter(v => true); // trigger changes on bound property
+    this.displayFacet = this.facets.filter(facet => facet.facet === field)[0];
+    this.displayFacet.values = this.displayFacet.values.filter(v => true); // trigger changes on bound property
   }
 
   /**
@@ -112,7 +112,7 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
    * @param data
    */
   filterDonutChart(data: any) {
-    this.selectedFacetService.setFacets({name: this.selectedFacet.facet, change: {added: [data.name]}});
+    this.selectedFacetService.setFacets({name: this.displayFacet.facet, change: {added: [data.name]}});
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
     this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
   }

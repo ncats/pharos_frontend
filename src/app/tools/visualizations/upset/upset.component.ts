@@ -19,6 +19,8 @@ export class UpsetComponent extends VisualizationBase implements OnInit, AfterVi
   isViewInit = false;
   @Input() scale: 'linear'|'log' = 'linear';
   @Input() showSetsSelection = false;
+  @Input() plotName = '';
+  @Input() highlitedSets: string[] = [];
   @Output() upSetBarClicked = new EventEmitter();
   private circRad = 11;
 
@@ -368,7 +370,13 @@ export class UpsetComponent extends VisualizationBase implements OnInit, AfterVi
         .data(this.allData)
         .enter()
         .append('rect')
-        .attr('class', 'bar clickable')
+        .attr('class', (d) => {
+          if (this.highlitedSets.includes(this.plotName + ' - ' + d.name)) {
+            return 'bar clickable hovered';
+          } else {
+            return 'bar clickable';
+          }
+        })
         .attr('width', 20)
         .attr('x', (d, i) => 12 + i * (rad * 2.7))
         .attr('y', (d) => yrange(d.num))

@@ -82,7 +82,8 @@ export class Facet {
         }
       }
     } else {
-      this.values = json.values.map(val => new Field(val));
+      this.values = json.values?.map(val => new Field(val)) || [];
+      this.upSets = json.upSets || [];
     }
   }
 
@@ -120,6 +121,7 @@ export class Facet {
    * list of facet values
    */
   values: Field[];
+  upSets: UpsetOptions[];
 
   dataType = 'Category';
   binSize?: number;
@@ -201,5 +203,24 @@ export class Facet {
       }
       }
       }${FACETFIELDS}`;
+  }
+}
+
+export class UpsetOptions {
+  inGroup: string[];
+  outGroup: string[];
+
+  constructor(inGroup: string[], fullList: string[]) {
+    this.inGroup = inGroup;
+    this.outGroup = fullList.filter(f => !inGroup.includes(f));
+  }
+
+  static parseFromUrl(url: string): UpsetOptions {
+    let chunks = url.split('InGroup:');
+    chunks = chunks[1].split('OutGroup:');
+    const inGroup = decodeURIComponent(chunks[0]).split('&');
+    const outGroup = decodeURIComponent(chunks[1]).split('&');
+
+    return new UpsetOptions(inGroup, [...inGroup, ...outGroup]);
   }
 }
