@@ -29,7 +29,9 @@
       <mat-card-subtitle>Interacting Viral Proteins ({{virus.interactionDetails.length}})</mat-card-subtitle>
       <div class="protein-grid">
         <ng-container *ngFor="let interaction of virus.interactionDetails">
-          <div class="protein-details" [ngClass]="{prediction: isPrediction(interaction)}">
+          <div class="protein-details"
+          >
+          <!--               [ngClass]="{prediction: isPrediction(interaction)}"-->
             <mat-card-subtitle>{{interaction.protein_name}}</mat-card-subtitle>
             <ncats-property-display
               [property]="{term: interaction.protein_ncbi, label:'NCBI'}"></ncats-property-display>

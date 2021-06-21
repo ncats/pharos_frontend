@@ -41,7 +41,7 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
   }
 
   ngOnInit(): void {
-    this.upsetValues = this.displayFacet.values.slice(0, 5).map(f => f.name);
+    this.upsetValues = this.displayFacet?.values.slice(0, 5).map(f => f.name);
     this.eventsSubscription = this.events.subscribe((chart) => {
       if (chart === 'upset-plot') {
         this.redraw();
@@ -75,7 +75,7 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
   fetchValues() {
     this.loadingStart();
     const variables = {
-      facetName: this.displayFacet.facet,
+      facetName: this.displayFacet?.facet,
       values: this.upsetValues
     };
     if (isPlatformBrowser(this.platformID)) {
