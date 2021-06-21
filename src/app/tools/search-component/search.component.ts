@@ -64,7 +64,7 @@ export class SearchComponent implements OnInit {
       .pipe(
         debounceTime(400),
         distinctUntilChanged(),
-        switchMap(term => this.suggestApiService.search(term),
+        switchMap(term => this.suggestApiService.search(term.trim()),
         ));
   }
 
@@ -85,7 +85,7 @@ export class SearchComponent implements OnInit {
     if (query.extra) {
       this.doSearch(query.extra);
     } else {
-      this.doSearch({path: "targets", parameter: "q", value: query} as autocompleteOption);
+      this.doSearch({path: 'targets', parameter: 'q', value: query.trim()} as autocompleteOption);
     }
   }
 
