@@ -2,8 +2,8 @@
   <input matInput (keyup)="filterFacet($event.target.value)" placeholder="Search {{facet.label}}">
 </mat-form-field>
 <div class="container">
-  <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
-    <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+  <div class="loadingIcon facetSpinner" [ngClass]="{loading: loading}" fxLayoutAlign="center center">
+    <img class="rotating spinner" alt="loading..." src="../../../../../assets/images/pharos_spinner.svg">
   </div>
   <mat-table [dataSource]="filteredDataSource" (scroll)="scrollDetected($event)">
     <ng-container matColumnDef="select">

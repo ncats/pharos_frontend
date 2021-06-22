@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {FilterPanelComponent} from '../pharos-main/data-list/filter-panel/filter-panel.component';
-import {FacetTableComponent} from '../pharos-main/data-list/filter-panel/facet-table/facet-table.component';
 import {SelectedFacetListComponent} from '../pharos-main/data-list/selected-facet-list/selected-facet-list.component';
 import {DataListVisualizationsComponent} from '../pharos-main/data-list/data-list-visualizations/data-list-visualizations.component';
 import {SharedModule} from './shared.module';
@@ -12,20 +11,21 @@ import {PharosLoadingSpinnerModule} from '../tools/pharos-loading-spinner/pharos
 import {DataListResolver} from '../pharos-main/resolvers/data-list.resolver';
 import {ComponentsResolver} from '../pharos-main/resolvers/components.resolver';
 import {TOKENS} from '../../config/component-tokens';
-import {FacetHistogramComponent} from "../pharos-main/data-list/filter-panel/facet-histogram/facet-histogram.component";
-import {RangeSliderComponent} from "../tools/range-slider/range-slider.component";
+import {FacetHistogramComponent} from '../pharos-main/data-list/filter-panel/facet-histogram/facet-histogram.component';
+import {RangeSliderComponent} from '../tools/range-slider/range-slider.component';
+import {FacetTableModule} from '../pharos-main/data-list/filter-panel/facet-table/facet-table.module';
 
 @NgModule({
   imports: [
     SharedModule,
     CommonToolsModule,
     RouterModule,
-    PharosLoadingSpinnerModule
+    PharosLoadingSpinnerModule,
+    FacetTableModule
   ],
   declarations: [
     DataListVisualizationsComponent,
     FilterPanelComponent,
-    FacetTableComponent,
     FacetHistogramComponent,
     SelectedFacetListComponent,
     DonutChartComponent,
@@ -43,7 +43,6 @@ import {RangeSliderComponent} from "../tools/range-slider/range-slider.component
     SharedModule,
     DataListVisualizationsComponent,
     FilterPanelComponent,
-    FacetTableComponent,
     FacetHistogramComponent,
     SelectedFacetListComponent,
     DonutChartComponent,

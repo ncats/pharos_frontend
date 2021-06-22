@@ -1,14 +1,24 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewEncapsulation
+} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Facet, Field} from '../../../../models/facet';
-import {map, takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {PathResolverService} from '../path-resolver.service';
 import {SelectedFacetService} from '../selected-facet.service';
-import {PharosApiService} from "../../../../pharos-services/pharos-api.service";
-import {HighlightPipe} from "../../../../tools/search-component/highlight.pipe";
+import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
+import {HighlightPipe} from '../../../../tools/search-component/highlight.pipe';
 
 /**
  * table to display selectable fields
@@ -27,6 +37,11 @@ export class FacetTableComponent implements OnInit, OnDestroy {
   @Input() facet: Facet;
 
   @Input() values: Field[];
+  @Input() path: string;
+
+  @Input() popup = false;
+  @Input() popupFields: string[];
+  @Output() popupFieldsChange = new EventEmitter<string[]>();
 
   /**
    * data source of filters to display in the table
@@ -75,7 +90,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
   /**
    * the text string what someone is using to find facet options
    */
-  searchText: string = "";
+  searchText = '';
 
   /**
    * helps highlight the search terms. included as object since I couldn't get the module to share to use the pipe directly :(
@@ -120,6 +135,9 @@ export class FacetTableComponent implements OnInit, OnDestroy {
     this.populateFilteredData();
     // update selected fields
     this.mapSelected();
+    if (this.popup){
+      this.fetchAllFilterOptions();
+    }
 
     /**
      * this changes the facets that are mapped to the url path in the service
@@ -127,24 +145,32 @@ export class FacetTableComponent implements OnInit, OnDestroy {
     this.filterSelection.changed
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(change => {
-        if (this.propogate === true) {
-          this.selectedFacetService.setFacets({name: this.facet.facet, change});
-          const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
-          this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
+        if (!this.popup){
+          if (this.propogate === true) {
+            this.selectedFacetService.setFacets({name: this.facet.facet, change});
+            const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
+            this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
+          }
+        } else {
+          this.popupFieldsChange.emit(change.source.selected);
         }
       });
   }
 
   mapSelected() {
-    const selected: Facet = this.selectedFacetService.getFacetByName(this.facet.facet);
-    if (selected) {
-      this.propogate = false;
-      this.filterSelection.select(...selected.values.map(val => val.name));
-      this.propogate = true;
+    if (this.popup) {
+      this.filterSelection.select(...this.popupFields);
     } else {
-      this.propogate = false;
-      this.filterSelection.clear();
-      this.propogate = true;
+      const selected: Facet = this.selectedFacetService.getFacetByName(this.facet.facet);
+      if (selected) {
+        this.propogate = false;
+        this.filterSelection.select(...selected.values.map(val => val.name));
+        this.propogate = true;
+      } else {
+        this.propogate = false;
+        this.filterSelection.clear();
+        this.propogate = true;
+      }
     }
   }
 
@@ -165,10 +191,10 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    * @param rowText
    */
   highlightText(rowText: string){
-    if(this.searchText.length == 0) {
+    if (this.searchText.length == 0) {
       return rowText;
     }
-    return this.highlight.transform(rowText,this.searchText);
+    return this.highlight.transform(rowText, this.searchText);
   }
 
   /**
@@ -177,13 +203,13 @@ export class FacetTableComponent implements OnInit, OnDestroy {
   fetchAllFilterOptions() {
     this.loading = true;
     this.pharosApiService.getAllFacetOptions(
-      this._route.snapshot.data.path,
+      this._route.snapshot.data.path || this.path,
       this._route.snapshot.queryParamMap,
       this.facet.facet,
       this.facet.count).subscribe({
       next:
         res => {
-          this.facet = res.data.results.facets.find(resfacet => resfacet.facet == this.facet.facet);
+          this.facet = res.data.results.facets.find(resfacet => resfacet.facet === this.facet.facet);
           this.dataSource.data = this.facet.values;
           this.populateFilteredData();
           this.mapSelected();
@@ -220,12 +246,12 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    * populates the filteredDataSource that is being shown
    */
   private populateFilteredData() {
-    if (this.searchText.length == 0) {
+    if (this.searchText.length === 0) {
       this.filteredDataSource.data = this.dataSource.data;
       return;
     }
     this.filteredDataSource.data = this.dataSource.data.filter(row => {
-      let rowname = (row.value || row.name).toLowerCase();
+      const rowname = (row.value || row.name).toLowerCase();
       return rowname.indexOf(this.searchText.toLowerCase()) > -1;
     });
   }

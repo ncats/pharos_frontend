@@ -44,7 +44,11 @@
                     [removable]=true
                     (removed)="removeUpset(facet.facet, upsetObj)"
                     class="facet-chip">
-            <span>{{upsetObj | json}}</span>
+            <div class="upsetChip">
+              <mat-icon>add</mat-icon><div *ngFor="let inVal of upsetObj.inGroup">{{inVal}}</div>
+              <hr>
+              <mat-icon>remove</mat-icon><div *ngFor="let outVal of upsetObj.outGroup">{{outVal}}</div>
+            </div>
             <mat-icon matChipRemove class="removeIcon">cancel</mat-icon>
           </mat-chip>
           <mat-chip *ngFor='let field of facet.values'

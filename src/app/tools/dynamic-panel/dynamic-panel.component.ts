@@ -82,8 +82,6 @@ export class DynamicPanelComponent extends DynamicPanelBaseComponent {
     setTimeout(() => {
       if (this.dynamicServices.route.snapshot.fragment){
         this.dynamicServices.viewportScroller.scrollToAnchor(this.dynamicServices.route.snapshot.fragment);
-      } else {
-        this.dynamicServices.viewportScroller.scrollToPosition([0, 0]);
       }
     }, 0);
   }

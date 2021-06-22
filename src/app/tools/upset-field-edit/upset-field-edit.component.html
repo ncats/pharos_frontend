@@ -1,0 +1,53 @@
+<div class="field-edit-container">
+    <div class="upload-form">
+        <div fxLayout="row" fxLayoutAlign="space-around center">
+            <div fxFlex="90">
+                <h1 mat-dialog-title>Edit Fields for the UpSet plot</h1>
+            </div>
+            <button mat-icon-button (click)="cancel()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </div>
+    <mat-toolbar [color]="'primary'" class="target-table-toolbar">
+        <div class=list-header>Edit Fields for the UpSet plot 2</div>
+    </mat-toolbar>
+    <div class="container">
+      <div class="section">
+        <mat-expansion-panel [expanded]=true *ngIf="facet.values.length > 0" class="full-height">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+            <span>
+              <span class="mat-title facet-title">{{facet.label ? facet.label : facet.facet}}</span>
+              <span class="facet-modifier" *ngIf="facet.modifier"> ({{facet.modifier}})</span>
+            </span>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <span class="info" [ngClass]="{infoCollapsed: collapsed}" *ngIf="facet.sourceExplanation">
+              <div *ngIf="!collapsed" class="explanation" [innerHTML]="facet.sourceExplanation"></div>
+              <div class="helpicon" (click)="collapsed = !collapsed">
+                <mat-icon [color]="'primary'">help</mat-icon>
+              </div>
+            </span>
+            <pharos-facet-table [facet]="facet" [popup]="true" [path]="this.data.path" [(popupFields)]="selectedValues"></pharos-facet-table>
+        </mat-expansion-panel>
+      </div>
+        <div class="section">
+          <ul>
+            <mat-card-subtitle>Selected Values</mat-card-subtitle>
+            <li *ngFor="let val of selectedValues">
+              {{val}}
+            </li>
+          </ul>
+          <div mat-dialog-actions class="action-container">
+            <button mat-flat-button (click)="cancel()">Cancel</button>
+            <button mat-flat-button
+                    (click)="saveFields()"
+                    [color]="'primary'"
+                    [matTooltip]="'Create an UpSet plot with the given fields'">
+              Run UpSet Query
+            </button>
+          </div>
+        </div>
+    </div>
+</div>

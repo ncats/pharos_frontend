@@ -145,7 +145,7 @@ export class UpsetComponent extends VisualizationBase implements OnInit, AfterVi
       const canvasElement = document.createElement('canvas');
       const context = canvasElement.getContext('2d');
       context.font = '400 14px/20px Roboto, "Helvetica Neue", sans-serif';
-      const marginLeft = Math.max(context.measureText(maxLabelText).width * 1.25, context.measureText(maxLabelText).width + 20);
+      const marginLeft = Math.max(context.measureText(maxLabelText).width * 1.25, context.measureText(maxLabelText).width + 30);
       const height = 300;
       const marginBottom = this.soloSets.length * 45;
       const width = 52 + ((this.allData.length - 1) * (this.circRad * 2.7));
