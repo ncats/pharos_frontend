@@ -9,6 +9,7 @@ import {ActivatedRoute} from '@angular/router';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {Subject} from 'rxjs';
 import {MatTabChangeEvent} from '@angular/material/tabs';
+import {MatDialog} from '@angular/material/dialog';
 
 /**
  * component to show various facets like a dashboard.
@@ -53,6 +54,7 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
    * @param {PharosConfig} pharosConfig
    */
   constructor(private pathResolverService: PathResolverService,
+              private dialog: MatDialog,
               private _route: ActivatedRoute,
               private selectedFacetService: SelectedFacetService,
               private pharosConfig: PharosConfig,

@@ -29,7 +29,9 @@ import {VennDiagramComponent} from './visualizations/venn-diagram/venn-diagram.c
 import {FieldSelectionDialogComponent} from './field-selection-dialog/field-selection-dialog.component';
 import {ModelDetailsComponent} from './model-details/model-details.component';
 import { UpsetPlotComponent } from './visualizations/upset-plot/upset-plot.component';
-import {UpsetModule} from './visualizations/upset/upset.module';
+import { UpsetModule } from './visualizations/upset/upset.module';
+import { UpsetFieldEditComponent } from './upset-field-edit/upset-field-edit.component';
+import {FacetTableModule} from '../pharos-main/data-list/filter-panel/facet-table/facet-table.module';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,8 @@ import {UpsetModule} from './visualizations/upset/upset.module';
     VennDiagramComponent,
     FieldSelectionDialogComponent,
     ModelDetailsComponent,
-    UpsetPlotComponent
+    UpsetPlotComponent,
+    UpsetFieldEditComponent
   ],
   imports: [
     CommonModule,
@@ -64,7 +67,8 @@ import {UpsetModule} from './visualizations/upset/upset.module';
     NgxJsonViewerModule,
     GenericTableModule,
     RadarChartModule,
-    UpsetModule
+    UpsetModule,
+    FacetTableModule
   ],
   exports: [
     NcatsHeaderModule,

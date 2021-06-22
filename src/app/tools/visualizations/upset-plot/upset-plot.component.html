@@ -9,4 +9,8 @@
             [intersections]="interactions"
             [title]="'Overlap of ' + displayFacet?.facet" #upsetComponent>
 </ramp-upset>
+  <button mat-raised-button class="tool-button" (click)="editUpSetFields()" [color]="'primary'"
+          [matTooltip]="'Edit Fields'">
+    Edit UpSet Values <mat-icon>edit</mat-icon>
+  </button>
 </div>
