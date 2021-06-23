@@ -128,14 +128,14 @@ export class Facet {
   min?: number;
   max?: number;
 
-  static getReadableParameter(parameter: string, paramValue?: string){
-    if (parameter === 'associatedDisease'){
+  static getReadableParameter(parameter: string, paramValue?: string) {
+    if (parameter === 'associatedDisease') {
       return 'Disease Subtree';
     }
     if (parameter === 'associatedTarget') {
       return 'Associated Target';
     }
-    if (parameter === 'similarity'){
+    if (parameter === 'similarity') {
       return 'Target Similarity';
     }
     if (parameter === 'associatedStructure') {
@@ -215,12 +215,15 @@ export class UpsetOptions {
     this.outGroup = fullList.filter(f => !inGroup.includes(f));
   }
 
+
   static parseFromUrl(url: string): UpsetOptions {
     let chunks = url.split('InGroup:');
     chunks = chunks[1].split('OutGroup:');
     const inGroup = decodeURIComponent(chunks[0]).split('&');
-    const outGroup = decodeURIComponent(chunks[1]).split('&');
-
+    let outGroup = decodeURIComponent(chunks[1]).split('&');
+    if (outGroup.length === 1 && outGroup[0].trim() === '') {
+      outGroup = [];
+    }
     return new UpsetOptions(inGroup, [...inGroup, ...outGroup]);
   }
 }

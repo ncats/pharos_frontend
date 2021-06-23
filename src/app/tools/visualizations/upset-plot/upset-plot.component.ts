@@ -1,14 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Inject,
-  Input,
-  OnChanges,
-  OnInit,
-  PLATFORM_ID,
-  ViewChild
-} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Inject, Input, OnChanges, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
 import {Observable, Subscription} from 'rxjs';
 import {isPlatformBrowser} from '@angular/common';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
@@ -77,7 +67,7 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
   }
 
   initValues() {
-    this.upsetValues = this.customValues.get(this.displayFacet.facet) ||  this.displayFacet.values.slice(0, 5).map(f => f.name);
+    this.upsetValues = this.customValues.get(this.displayFacet.facet) || this.displayFacet.values.slice(0, 5).map(f => f.name);
   }
 
   ngOnChanges(changes) {
@@ -119,11 +109,16 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
   }
 
   upSetBarClicked(barEvent: any): void {
+    const newUpSetFilter = new UpsetOptions(barEvent.values, this.upsetValues);
+    const existingFacet = this.selectedFacetService._facetMap.get(this.displayFacet.facet);
+    if (existingFacet && existingFacet.upSets.some(v => JSON.stringify(v) === JSON.stringify(newUpSetFilter))) {
+      return;
+    }
     this.selectedFacetService.setFacets(
       {
         name: this.displayFacet.facet,
         change: {
-          added: new UpsetOptions(barEvent.values, this.upsetValues)
+          added: newUpSetFilter
         }
       });
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
@@ -196,7 +191,7 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
   }
 
 
-  editUpSetFields(){
+  editUpSetFields() {
     const dialogRef = this.dialog.open(UpsetFieldEditComponent, {
         height: '75vh', width: '66vw',
         data: {
