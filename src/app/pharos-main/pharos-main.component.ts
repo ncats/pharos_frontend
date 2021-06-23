@@ -281,10 +281,10 @@ export class PharosMainComponent implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformID)){
       server = false;
     }
-    if (this._route.snapshot.data.subpath === 'list'){
+    if (this._route.snapshot.data.subpath === 'list' && !this.isSmallScreen){
       return 'wideNavPanel';
     }
-    if (this._route.snapshot.data.subpath === 'details' && ['targets', 'diseases'].includes(this._route.snapshot.data.path)) {
+    if (this._route.snapshot.data.subpath === 'details' && ['targets', 'diseases'].includes(this._route.snapshot.data.path) && !this.isSmallScreen) {
       return server ? 'thinNavPanel' : 'thinNavPanelBrowser';
     }
     return '';

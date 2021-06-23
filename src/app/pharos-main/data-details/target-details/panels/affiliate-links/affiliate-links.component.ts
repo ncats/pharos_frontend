@@ -56,6 +56,10 @@ export class AffiliateLinksComponent extends TargetPanelBaseComponent implements
         return 'glygen.png';
       case 'GENEVA':
         return '300x150xGENEVA.png.pagespeed.ic.KBExA_BGr-.webp';
+      case 'ARCHS4':
+        return 'archs4.png';
+      case 'RESOLUTE':
+        return 'resolute.png';
     }
   }
 }
