@@ -402,14 +402,21 @@ export class UpsetComponent extends VisualizationBase implements OnInit, AfterVi
             .attr('cx', i * (rad * 2.7) + 3)
             .attr('cy', j * (rad * 2.7))
             .attr('r', rad)
-            .attr('class', `set-${x.setName}`)
+            .attr('class', (d) => {
+              if (this.highlitedSets.includes(this.plotName + ' - ' + x.name) && x.setName.split('').includes(y)) {
+                return `circleUpset set-${x.setName} hovered`;
+              } else {
+                return `circleUpset set-${x.setName}`;
+              }
+            })
             .style('opacity', 1)
             .attr('fill', () => {
               if (x.setName.indexOf(y) !== -1) {
                 return '#23364e';
               }
               return 'silver';
-            });
+            })
+            .on('click', () => { this.upSetBarClicked.emit(x); });
         });
 
         upsetCircles.append('line')
@@ -418,7 +425,13 @@ export class UpsetComponent extends VisualizationBase implements OnInit, AfterVi
           .attr('y1', allSetNames.indexOf(x.setName[0]) * (rad * 2.7))
           .attr('x2', i * (rad * 2.7) + 3)
           .attr('y2', allSetNames.indexOf(x.setName[x.setName.length - 1]) * (rad * 2.7))
-          .style('stroke', '#23364e')
+          .style('stroke', (d) => {
+            if (this.highlitedSets.includes(this.plotName + ' - ' + x.name)) {
+              return '#ffb259';
+            } else {
+              return '#23364e';
+            }
+          })
           .attr('stroke-width', 4);
       });
     }
