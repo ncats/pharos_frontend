@@ -19,6 +19,7 @@ import {map, take, takeUntil} from 'rxjs/operators';
 import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {environment} from '../../../../environments/environment';
 
 /**
  * panel that hold a facet table for selection
@@ -31,7 +32,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
 
 })
 export class FilterPanelComponent implements OnInit, OnDestroy {
-
+  isProduction = environment.production;
   /**
    * set up services to get facets
    * @param selectedFacetService

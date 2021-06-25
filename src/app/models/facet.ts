@@ -15,6 +15,7 @@ const FACETFIELDS = gql`
       count:value
     }
     sourceExplanation
+    elapsedTime
   }`;
 
 const FACETFIELDSTOP = gql`
@@ -65,6 +66,7 @@ export class Facet {
     this.label = json.label;
     this.description = json.description;
     this.dataType = json.dataType;
+    this.elapsedTime = json.elapsedTime;
     this.binSize = json.binSize || 1;
     if (this.dataType === 'Numeric') { // set a last point since these are bins, not single points
       this.values = [];
@@ -101,6 +103,7 @@ export class Facet {
    * name of facet
    */
   facet: string;
+  elapsedTime?: number;
 
   modifier?: string;
 
@@ -197,8 +200,8 @@ export class Facet {
     return gql`
       #import "./facetFields.gql"
       query getAllFacets($facets:[String!], $filter:IFilter) {
-      results: ${path}(filter:$filter) {
-      facets(include:$facets) {
+      results: ${path}(facets:$facets, filter:$filter) {
+      facets {
       ...facetFields
       }
       }
