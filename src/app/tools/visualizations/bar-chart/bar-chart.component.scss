@@ -23,10 +23,6 @@
   z-index: 666;
 }
 
-.hovered {
-  fill: mat-color($pharos-app-accent) !important;
-}
-
 .bar {
   fill: mat-color($pharos-app-primary) !important;
 }
@@ -54,4 +50,8 @@
 
 pharos-bar-chart .x.axis path {
   display: none;
+}
+
+.hovered {
+  fill: mat-color($pharos-app-accent) !important;
 }

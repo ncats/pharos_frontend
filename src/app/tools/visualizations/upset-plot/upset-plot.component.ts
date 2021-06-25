@@ -51,7 +51,7 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
       });
     });
     this.initValues();
-    this.eventsSubscription = this.events.subscribe((chart) => {
+    this.eventsSubscription = this.events?.subscribe((chart) => {
       if (chart === 'upset-plot') {
         this.redraw();
       }
@@ -67,7 +67,7 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
   }
 
   initValues() {
-    this.upsetValues = this.customValues.get(this.displayFacet.facet) || this.displayFacet.values.slice(0, 5).map(f => f.name);
+    this.upsetValues = this.customValues.get(this.displayFacet?.facet) || this.displayFacet?.values.slice(0, 5).map(f => f.name);
   }
 
   ngOnChanges(changes) {

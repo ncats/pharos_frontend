@@ -51,7 +51,7 @@ describe('FacetTableComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FacetTableComponent);
     component = fixture.componentInstance;
-    component.facet = {facet: 'tim', values: [{name: 'tim'}], count: 40, dataType: 'Category'};
+    component.facet = {facet: 'tim', values: [{name: 'tim'}], count: 40, dataType: 'Category', upSets: []};
     fixture.detectChanges();
   });
 

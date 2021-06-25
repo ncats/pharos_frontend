@@ -286,7 +286,7 @@ export class UpsetComponent extends VisualizationBase implements OnInit, AfterVi
           .attr('text-anchor', 'end')
           .attr('fill', 'black')
           .style('font-size', 15)
-          .text(x.name);
+          .text(x.name).append('title').text(x.name);
       });
 
       // sort data decreasing

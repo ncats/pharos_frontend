@@ -18,11 +18,11 @@
           </div>
         </div>
         <div class="headerSection">
-<!--          <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Explore Associated Targets'"-->
-<!--                                      [queryParams]="{associatedLigand: ligand.ligid}"></pharos-explore-list-button>-->
-          <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Explore Associated and Predicted Targets'"
-                                      [queryParams]="{associatedLigand: ligand.ligid, associatedStructure: ligand.smiles}"></pharos-explore-list-button>
-          <mat-paginator [pageSize]="10"></mat-paginator>
+          <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Explore Associated Targets'"
+                                      [queryParams]="{associatedLigand: ligand.ligid}"></pharos-explore-list-button>
+<!--          <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Explore Associated and Predicted Targets'"-->
+<!--                                      [queryParams]="{associatedLigand: ligand.ligid, associatedStructure: ligand.smiles}"></pharos-explore-list-button>-->
+<!--          <mat-paginator [pageSize]="10"></mat-paginator>-->
         </div>
         <mat-accordion>
           <mat-expansion-panel *ngFor="let activity of activitiesTargetDataSource.connect() | async" [expanded]="false">
