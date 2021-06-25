@@ -15,6 +15,7 @@
     "build:appshell": "ng run pharos:app-shell:production",
     "compodoc": "npx compodoc -p tsconfig.app.json -s -w --theme material",
     "build:ssr": "npm --no-git-tag-version version patch && ng build --prod && ng run pharos:server:production",
+    "build:ssr:dev": "ng build && ng run pharos:server:development",
     "serve:ssr": "node dist/server/main.js",
     "rerun:ssr": "npm run build:ssr --prod && say pharos is ready && npm run serve:ssr",
     "dev:ssr": "ng run pharos:serve-ssr",
