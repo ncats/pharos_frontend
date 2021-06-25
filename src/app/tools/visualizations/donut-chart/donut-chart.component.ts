@@ -74,7 +74,7 @@ export class DonutChartComponent implements OnInit, OnChanges, OnDestroy {
    * measure and layou the chart component
    */
   ngOnInit() {
-    this.eventsSubscription = this.events.subscribe((chart) => {
+    this.eventsSubscription = this.events?.subscribe((chart) => {
       if (chart === 'donut-chart') {
         this.redraw();
       }

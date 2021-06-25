@@ -54,7 +54,7 @@
           <mat-panel-title>
             <span>
               <span class="mat-title facet-title">{{facet.label ? facet.label : facet.facet}}</span>
-              <span *ngIf="!isProduction"> ({{facet.elapsedTime.toFixed(2)}}s)</span>
+              <span *ngIf="!isProduction"> ({{facet.elapsedTime?.toFixed(2)}}s)</span>
               <span class="facet-modifier" *ngIf="facet.modifier"> ({{facet.modifier}})</span>
             </span>
           </mat-panel-title>
