@@ -3,8 +3,8 @@ import {ActivatedRoute} from '@angular/router';
 import {Target} from '../../../../../models/target';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {Facet} from '../../../../../models/facet';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 /**
  * Component to track the hierarchy of a target
@@ -37,8 +37,8 @@ export class BreadcrumbComponent extends DynamicPanelComponent implements OnInit
    * @param {ActivatedRoute} route
    */
   constructor(private route: ActivatedRoute,
-              public navSectionsService: NavSectionsService) {
-    super(navSectionsService);
+              public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
 
   /**
@@ -59,10 +59,10 @@ export class BreadcrumbComponent extends DynamicPanelComponent implements OnInit
         this.dtoLinks = [];
         if (this.target) {
           if ((this.target.pantherClasses.length > 0 || this.target.dto.length > 0)) {
-            this.navSectionsService.showSection(this.field);
+            this.showSection();
             this.initialize();
           } else {
-            this.navSectionsService.hideSection(this.field);
+            this.hideSection();
           }
         }
       });

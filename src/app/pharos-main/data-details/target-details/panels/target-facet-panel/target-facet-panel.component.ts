@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {PharosProperty} from '../../../../../models/pharos-property';
-import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {Target} from '../../../../../models/target';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 /**
  * this is a list of the facets shown - this could probably be set in the config files
@@ -47,8 +47,8 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
   ];
 
   constructor(
-    public navSectionsService: NavSectionsService) {
-    super(navSectionsService);
+    public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
 
   // todo support pagination for each facet table

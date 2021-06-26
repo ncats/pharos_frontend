@@ -15,6 +15,7 @@ import {PantherClass} from './pantherClass';
 import {SimilarityDetails} from './similarityDetails';
 import {GwasTargetAnalytics} from './gwasTargetAnalytics';
 import {LigandAssociationDetails} from './ligandAssociationDetails';
+import {TargetPredictionDetails} from './targetPredictionDetails';
 
 
 /**
@@ -254,6 +255,7 @@ export class Target extends PharosBase {
     interactionDetails?: InteractionDetails;
     diseaseAssociationDetails?: DiseaseAssociation[] = [];
     ligandAssociationDetails?: LigandAssociationDetails;
+    targetPredictionDetails?: TargetPredictionDetails;
     similarityDetails?: SimilarityDetails;
     interactingViruses?: VirusDetails[];
 
@@ -272,7 +274,7 @@ export class Target extends PharosBase {
 }
 
 export class AffiliateLink {
-  sourceName: string; image: string; description: string; url: string;
+  sourceName: string; description: string; url: string;
 }
 
 export class GoCounts {
@@ -329,6 +331,9 @@ export class TargetSerializer implements PharosSerializer {
           obj.gwasAnalytics = new GwasTargetAnalytics(json.gwasAnalytics);
         }
 
+        if (json.ligandAssociationDetails) {
+          obj.ligandAssociationDetails = LigandAssociationDetails.fromJSON(json.ligandAssociationDetails);
+        }
         if (json.interactingViruses) {
             const virusDetailsSerializer = new VirusDetailsSerializer();
             obj.interactingViruses = json.interactingViruses.map(virus => virusDetailsSerializer.fromJson(virus));
@@ -460,7 +465,7 @@ export class TargetSerializer implements PharosSerializer {
         }
 
         if (json.orthologCounts) {
-            obj.orthologCounts = json.orthologCounts.length;
+            obj.orthologCounts = json.orthologCounts.reduce((prev, cur) => prev + cur.value, 0);
         }
 
         if (json.ppis) {

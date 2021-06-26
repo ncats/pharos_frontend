@@ -44,6 +44,7 @@ const ORTHOLOG_FIELDS = gql`
   fragment ortholog_fields on Ortholog {
     species
     sym
+    url:mod_url
     name
     dbid
     geneid
@@ -228,8 +229,16 @@ export const TARGETLISTFIELDS = gql`
     }
     ligandAssociationDetails{
       actVals
-      maxActVal
+      avgActVal
       modeOfAction
+    }
+    targetPredictionDetails {
+      similarity
+      result
+      trainingSmiles: training_smiles
+      trainingActivity: training_activity
+      modelName: model_name
+      targetChemblID: target_chembl_id
     }
     similarityDetails: similarity {
       jaccard
@@ -408,7 +417,6 @@ export const TARGETDETAILSFIELDS = gql`
     dataSources
     affiliateLinks: affiliate_links {
       sourceName
-      image
       description
       url
     }

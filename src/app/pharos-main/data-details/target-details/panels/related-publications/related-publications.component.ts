@@ -25,7 +25,8 @@ import {Generif} from '../../../../../models/generif';
 import {ScatterPlotComponent} from '../../../../../tools/visualizations/scatter-plot/scatter-plot.component';
 import {takeUntil} from 'rxjs/operators';
 import {TargetComponents} from '../../../../../models/target-components';
-import {isPlatformBrowser, Location, ViewportScroller} from '@angular/common';
+import {isPlatformBrowser} from '@angular/common';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 @Component({
   selector: 'pharos-related-publications',
@@ -48,11 +49,9 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
               private changeRef: ChangeDetectorRef,
               private pharosApiService: PharosApiService,
               private pharosConfig: PharosConfig,
-              @Inject(PLATFORM_ID) private platformID: Object,
-              public navSectionsService: NavSectionsService,
-              private location: Location,
-              private viewportScroller: ViewportScroller) {
-    super(navSectionsService);
+              @Inject(PLATFORM_ID) private platformID: any,
+              public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
   /**
    * radar chart component for differential data
@@ -126,9 +125,9 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
   ];
 
   tabChanged(event) {
-    if (this.activeTab != event.index) {
+    if (this.activeTab !== event.index) {
       this.activeTab = event.index;
-      this.navSectionsService.setActiveTab('relatedPublications', event.tab.textLabel);
+      this.dynamicServices.navSectionsService.setActiveTab('relatedPublications', event.tab.textLabel);
     }
   }
 
@@ -147,10 +146,10 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
       .subscribe(x => {
         this.loadingStart();
         this.activeTab = this._route.snapshot.fragment === 'geneRIFs' ? 1 : 0;
-        this.navSectionsService.activeTab$.subscribe(newTab => {
+        this.dynamicServices.navSectionsService.activeTab$.subscribe(newTab => {
           if (!this.loading) {
-            this.location.replaceState(`${this.location.path(false)}#${newTab}`);
-            this.viewportScroller.scrollToAnchor(newTab);
+            this.dynamicServices.location.replaceState(`${this.dynamicServices.location.path(false)}#${newTab}`);
+            this.dynamicServices.viewportScroller.scrollToAnchor(newTab);
             this.activeTab = newTab === 'geneRIFs' ? 1 : newTab === 'relatedPublications' ? 0 : this.activeTab;
             this.changeRef.markForCheck();
           }
@@ -188,7 +187,7 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
     };
     let pageData = this.publicationsPageData;
     let component = TargetComponents.Component.Publications;
-    if (origin == 'generifs') {
+    if (origin === 'generifs') {
       pageData = this.rifPageData;
       component = TargetComponents.Component.Generifs;
     }

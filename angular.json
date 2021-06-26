@@ -133,6 +133,10 @@
               ],
               "sourceMap": false,
               "optimization": true
+            },
+            "development": {
+              "sourceMap": false,
+              "optimization": true
             }
           }
         },

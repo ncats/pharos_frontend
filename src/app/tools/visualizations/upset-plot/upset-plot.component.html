@@ -1,0 +1,16 @@
+<div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+  <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+</div>
+<div class="plot-container">
+<ramp-upset (upSetBarClicked)="upSetBarClicked($event)" [soloSets]="soloSets"
+            [allData]="allData"
+            [plotName]="this.displayFacet?.facet"
+            [highlitedSets]="filteringSets"
+            [intersections]="interactions"
+            [title]="'Overlap of ' + displayFacet?.facet" #upsetComponent>
+</ramp-upset>
+  <button mat-raised-button class="tool-button" (click)="editUpSetFields()" [color]="'primary'"
+          [matTooltip]="'Edit Fields'">
+    Edit UpSet Values <mat-icon>edit</mat-icon>
+  </button>
+</div>

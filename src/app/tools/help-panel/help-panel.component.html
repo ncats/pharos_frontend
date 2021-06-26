@@ -11,8 +11,8 @@
     <div fxLayout="row" fxLayoutAlign="space-around start" *ngIf="description">
       <div fxFlex="95">
         {{description}}
-        <div *ngIf="mainSource" class="source-link">
-          <a [href]="mainSource" target="_blank" rel="noreferrer">{{mainSource}}<mat-icon [inline]="true">open_in_new</mat-icon></a>
+        <div *ngFor="let source of mainSource" class="source-link">
+          <a [href]="source" target="_blank" rel="noreferrer">{{source}}<mat-icon [inline]="true">open_in_new</mat-icon></a>
         </div>
       </div>
     </div>

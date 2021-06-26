@@ -16,6 +16,7 @@ import {ApolloTestingModule} from 'apollo-angular/testing';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../test/mock-activate-route';
 import {Facet} from '../../../models/facet';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 describe('DataListVisualizationsComponent', () => {
@@ -28,7 +29,8 @@ describe('DataListVisualizationsComponent', () => {
         AngularFireModule.initializeApp(COMMON_CONFIG),
         SharedModule,
         RouterTestingModule,
-        ApolloTestingModule
+        ApolloTestingModule,
+        BrowserAnimationsModule
       ],
       declarations: [
         DonutChartComponent,
@@ -51,7 +53,7 @@ describe('DataListVisualizationsComponent', () => {
     fixture = TestBed.createComponent(DataListVisualizationsComponent);
     component = fixture.componentInstance;
     component.data = {facets: []};
-    component.donutData = {facet: 'facet', values: []} as Facet;
+    component.displayFacet = {facet: 'facet', values: []} as Facet;
     fixture.detectChanges();
   });
 

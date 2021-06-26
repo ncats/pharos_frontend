@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TargetPanelBaseComponent } from './target-panel-base.component';
 import {TESTTARGET} from '../../../../../../../test/test-target';
+import {ActivatedRoute} from '@angular/router';
+import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route';
 
 describe('TargetPanelBaseComponent', () => {
   let component: TargetPanelBaseComponent;
@@ -9,6 +11,9 @@ describe('TargetPanelBaseComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      providers: [
+        {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}
+      ],
       declarations: [ TargetPanelBaseComponent ]
     })
     .compileComponents();

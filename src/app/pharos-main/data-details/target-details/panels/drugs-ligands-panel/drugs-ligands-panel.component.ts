@@ -1,19 +1,20 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
-import {PageEvent} from "@angular/material/paginator";
-import {LigandSerializer} from "../../../../../models/ligand";
-import {TargetComponents} from "../../../../../models/target-components";
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
-import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
-import {PharosApiService} from "../../../../../pharos-services/pharos-api.service";
-import {PharosConfig} from "../../../../../../config/pharos-config";
-import {BehaviorSubject} from "rxjs";
-import {Target} from "../../../../../models/target";
-import {Facet} from "../../../../../models/facet";
-import {takeUntil} from "rxjs/operators";
-import {PageData} from "../../../../../models/page-data";
-import {BreakpointObserver} from "@angular/cdk/layout";
+import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {PageEvent} from '@angular/material/paginator';
+import {LigandSerializer} from '../../../../../models/ligand';
+import {TargetComponents} from '../../../../../models/target-components';
+import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
+import {HttpClient} from '@angular/common/http';
+import {ActivatedRoute} from '@angular/router';
+import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
+import {PharosConfig} from '../../../../../../config/pharos-config';
+import {BehaviorSubject} from 'rxjs';
+import {Target} from '../../../../../models/target';
+import {Facet} from '../../../../../models/facet';
+import {takeUntil} from 'rxjs/operators';
+import {PageData} from '../../../../../models/page-data';
+import {BreakpointObserver} from '@angular/cdk/layout';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 @Component({
   selector: 'pharos-drugs-ligands-panel',
@@ -22,6 +23,17 @@ import {BreakpointObserver} from "@angular/cdk/layout";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DrugsLigandsPanelComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
+
+  constructor(
+    private _http: HttpClient,
+    private _route: ActivatedRoute,
+    private pharosApiService: PharosApiService,
+    private changeRef: ChangeDetectorRef,
+    private pharosConfig: PharosConfig,
+    public breakpointObserver: BreakpointObserver,
+    public dynamicServices: DynamicServicesService) {
+  super(dynamicServices);
+  }
 
   @Output() selfDestruct: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
@@ -37,16 +49,7 @@ export class DrugsLigandsPanelComponent extends DynamicPanelComponent implements
    */
   Facet = Facet;
 
-  constructor(
-    private _http: HttpClient,
-    private _route: ActivatedRoute,
-    private pharosApiService: PharosApiService,
-    private changeRef: ChangeDetectorRef,
-    private pharosConfig: PharosConfig,
-    public breakpointObserver: BreakpointObserver,
-    public navSectionsService: NavSectionsService) {
-  super(navSectionsService);
-  }
+  pageData: PageData;
 
   /**
    * subscribe to data changes and set data when it arrives
@@ -63,10 +66,10 @@ export class DrugsLigandsPanelComponent extends DynamicPanelComponent implements
         this.target = this.data.targets;
         if (this.target[this.params.fieldName]) {
           if (this.target[this.params.fieldName].length === 0) {
-            this.navSectionsService.hideSection(this.field);
+            this.hideSection();
           }
           else{
-            this.navSectionsService.showSection(this.field);
+            this.showSection();
           }
         }
 
@@ -80,8 +83,6 @@ export class DrugsLigandsPanelComponent extends DynamicPanelComponent implements
       });
   }
 
-  pageData: PageData;
-
   /**
    * paginate ligand list datasource
    * @param event
@@ -89,7 +90,7 @@ export class DrugsLigandsPanelComponent extends DynamicPanelComponent implements
   paginate(event: PageEvent) {
     this.loadingStart();
     const ligandSerializer = new LigandSerializer();
-    let pageParams = {};
+    const pageParams = {};
     this.pageData.skip = event.pageIndex * event.pageSize;
     pageParams[this.params.topParam] = event.pageSize;
     pageParams[this.params.skipParam] = event.pageIndex * event.pageSize;
@@ -111,7 +112,7 @@ export class DrugPanelParameters{
   fieldName = 'drugs';
   countName = 'drugCount';
   topParam = 'drugstop';
-  skipParam = 'drugsskip'
+  skipParam = 'drugsskip';
   componentName = TargetComponents.Component.Drugs;
   buttonText = 'Explore Approved Drugs';
   buttonFilter = 'Drug';

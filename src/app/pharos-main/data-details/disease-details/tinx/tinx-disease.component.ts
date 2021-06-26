@@ -6,7 +6,7 @@ import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {isPlatformBrowser} from '@angular/common';
 import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
-import {NavSectionsService} from '../../../../tools/sidenav-panel/services/nav-sections.service';
+import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 
 @Component({
   selector: 'pharos-tinx-disease',
@@ -21,8 +21,8 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
     private _route: ActivatedRoute,
     private router: Router,
     @Inject(PLATFORM_ID) private platformID: any,
-    public navSectionsService: NavSectionsService) {
-    super(navSectionsService);
+    public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
 
   @Input()

@@ -4,9 +4,9 @@ import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {UnfurlingMetaService} from '../../../../pharos-services/unfurling-meta.service';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {NavSectionsService} from '../../../../tools/sidenav-panel/services/nav-sections.service';
 import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 
 /**
  * displays ligand header component
@@ -32,9 +32,9 @@ export class LigandHeaderComponent extends DynamicPanelComponent implements OnIn
     private changeRef: ChangeDetectorRef,
     private metaService: UnfurlingMetaService,
     private router: Router,
-    public navSectionsService: NavSectionsService
+    public dynamicServices: DynamicServicesService
   ) {
-    super(navSectionsService);
+    super(dynamicServices);
   }
 
   ngOnInit(): void {

@@ -5,6 +5,7 @@ import {RadarChartViewerComponent} from '../../../../../tools/radar-chart-viewer
 import {Target} from '../../../../../models/target';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {takeUntil} from 'rxjs/operators';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 
 /**
@@ -39,9 +40,9 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
   constructor(
     public dialog: MatDialog,
     private changeRef: ChangeDetectorRef,
-    public navSectionsService: NavSectionsService
+    public dynamicServices: DynamicServicesService
   ) {
-    super(navSectionsService);
+    super(dynamicServices);
   }
 
   /**

@@ -1,6 +1,6 @@
 {
   "name": "pharos",
-  "version": "3.6.0",
+  "version": "3.7.0",
   "tcrd_version": "6.11.0",
   "license": "MIT",
   "scripts": {
@@ -15,6 +15,7 @@
     "build:appshell": "ng run pharos:app-shell:production",
     "compodoc": "npx compodoc -p tsconfig.app.json -s -w --theme material",
     "build:ssr": "npm --no-git-tag-version version patch && ng build --prod && ng run pharos:server:production",
+    "build:ssr:dev": "ng build && ng run pharos:server:development",
     "serve:ssr": "node dist/server/main.js",
     "rerun:ssr": "npm run build:ssr --prod && say pharos is ready && npm run serve:ssr",
     "dev:ssr": "ng run pharos:serve-ssr",
@@ -72,7 +73,7 @@
     "fuzzy": "^0.1.3",
     "inquirer": "^6.2.2",
     "inquirer-autocomplete-prompt": "^1.0.1",
-    "jasmine-core": "~3.6.0",
+    "jasmine-core": "^3.7.1",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~6.1.0",
     "karma-chrome-launcher": "~3.1.0",

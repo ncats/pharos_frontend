@@ -1,6 +1,6 @@
 import {AfterContentInit, AfterViewInit, Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import {NavSectionsService} from './services/nav-sections.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {PanelOptions} from '../../pharos-main/pharos-main.component';
 import {PharosPanel} from '../../../config/components-config';
 import {BreakpointObserver} from '@angular/cdk/layout';
@@ -97,12 +97,21 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit {
       }
     });
 
-
     // this covers url change when navigation/click to go to section
     this._route.fragment.subscribe(fragment => {
       this.activeElement = fragment;
       this.viewportScroller.scrollToAnchor(fragment);
     });
+
+
+    this.router.events
+      .subscribe((e: any) => {
+        // If it is a NavigationEnd event re-initalise the component
+        if (e instanceof NavigationEnd) {
+          this.activeFragment = '';
+          this.activeElement = '';
+        }
+      });
   }
 
   /**
@@ -117,6 +126,8 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit {
    * @param fragment
    */
   public scroll(fragment: any): void {
+    this.activeElement = fragment;
+    this.activeFragment = fragment;
     this.location.replaceState(`${this.location.path(false)}#${fragment}`);
     this.viewportScroller.scrollToAnchor(fragment);
   }

@@ -53,3 +53,12 @@ mat-table{
   max-width: 1vw;
   min-width: 20px;
 }
+.facetSpinner{
+  display: none;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

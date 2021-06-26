@@ -1,0 +1,12 @@
+:host{
+  display: flex;
+  justify-content: center;
+}
+.plot-container {
+  display: flex;
+  flex-direction: column;
+}
+.tool-button{
+  max-width: 300px;
+  align-self: center;
+}

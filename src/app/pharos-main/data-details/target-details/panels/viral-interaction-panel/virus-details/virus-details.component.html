@@ -28,14 +28,21 @@
     <mat-card class="protein-panel">
       <mat-card-subtitle>Interacting Viral Proteins ({{virus.interactionDetails.length}})</mat-card-subtitle>
       <div class="protein-grid">
-        <div class="protein-details" *ngFor="let interaction of virus.interactionDetails">
-          <mat-card-subtitle>{{interaction.protein_name}}</mat-card-subtitle>
-          <ncats-property-display [property]="{term: interaction.protein_ncbi, label:'NCBI'}"></ncats-property-display>
-          <ncats-property-display [property]="{term: interaction.finalLR.toFixed(2), label:'finalLR'}"></ncats-property-display>
-          <div *ngFor="let pdb of interaction.pdbIDs">
-            <ncats-property-display [property]="{term: pdb, label: 'PDB', externalLink: 'https://www.rcsb.org/structure/' + pdb}"></ncats-property-display>
+        <ng-container *ngFor="let interaction of virus.interactionDetails">
+          <div class="protein-details"
+          >
+          <!--               [ngClass]="{prediction: isPrediction(interaction)}"-->
+            <mat-card-subtitle>{{interaction.protein_name}}</mat-card-subtitle>
+            <ncats-property-display
+              [property]="{term: interaction.protein_ncbi, label:'NCBI'}"></ncats-property-display>
+            <ncats-property-display
+              [property]="{term: interaction.finalLR.toFixed(2), label:'finalLR'}"></ncats-property-display>
+            <div *ngFor="let pdb of interaction.pdbIDs">
+              <ncats-property-display
+                [property]="{term: pdb, label: 'PDB', externalLink: 'https://www.rcsb.org/structure/' + pdb}"></ncats-property-display>
+            </div>
           </div>
-        </div>
+        </ng-container>
       </div>
     </mat-card>
   </div>

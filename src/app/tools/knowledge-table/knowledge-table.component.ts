@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit
 import {DynamicPanelComponent} from '../dynamic-panel/dynamic-panel.component';
 import {PharosProperty} from '../../models/pharos-property';
 import {takeUntil} from 'rxjs/operators';
-import {NavSectionsService} from "../sidenav-panel/services/nav-sections.service";
+import {DynamicServicesService} from '../../pharos-services/dynamic-services.service';
 
 /**
  * table of 5 properties to show harmonizome data
@@ -42,9 +42,9 @@ export class KnowledgeTableComponent extends DynamicPanelComponent implements On
    */
   constructor(
     private changeRef: ChangeDetectorRef,
-    public navSectionsService: NavSectionsService
+    public dynamicServices: DynamicServicesService
   ) {
-    super(navSectionsService);
+    super(dynamicServices);
   }
 
   /**

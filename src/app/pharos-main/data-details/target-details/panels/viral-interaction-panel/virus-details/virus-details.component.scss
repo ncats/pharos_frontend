@@ -1,3 +1,5 @@
+@import '../../../../../../../partials/ncats-theme';
+
 .panel-header {
   display: flex;
   flex-direction: row;
@@ -55,4 +57,8 @@
 .hidden{
   top: 2vh;
   opacity: 0;
+}
+
+.prediction {
+  background-color: mat-color($pharos-app-accent, A700);
 }

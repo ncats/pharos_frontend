@@ -54,7 +54,7 @@ export class HelpPanelComponent implements OnInit {
    * main help section description
    */
   description: string;
-  mainSource: string;
+  mainSource: string[];
 
   /**
    * title for help section
@@ -102,12 +102,12 @@ export class HelpPanelComponent implements OnInit {
     this._route.snapshot.data.components
       .filter(comp => comp.navHeader)
       .map(component => {
-      this.helpDataService.setSources(component.navHeader.section,
+        this.helpDataService.setSources(component.navHeader.section,
         {
           sources: component.api,
           title: component.navHeader.label,
           mainDescription: component.navHeader.mainDescription || null,
-          mainSource: component.navHeader.mainSource
+          mainSource: this.getMainSource(component.navHeader.mainSource)
         }
       );
     });
@@ -116,7 +116,7 @@ export class HelpPanelComponent implements OnInit {
       if (res) {
         this.sources = res.sources;
         this.description = res.mainDescription;
-        this.mainSource = res.mainSource;
+        this.mainSource = this.getMainSource(res.mainSource);
         this.title = res.title;
         if (this.sources && this.sources.length) {
           this.sources.forEach(source => {
@@ -128,6 +128,18 @@ export class HelpPanelComponent implements OnInit {
 
     this.helpPanelOpenerService.toggle$.subscribe(res => this.toggleMenu(!this.loading));
     this.loading = false;
+  }
+
+  getMainSource(inputSource): string[]{
+    let mainSource;
+    if (inputSource) {
+      if (Array.isArray(inputSource)){
+        mainSource = inputSource;
+      }else{
+        mainSource = [inputSource];
+      }
+    }
+    return mainSource;
   }
 
   /**

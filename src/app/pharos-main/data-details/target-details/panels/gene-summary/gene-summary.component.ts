@@ -11,9 +11,9 @@ import {takeUntil} from 'rxjs/operators';
 import {Target} from '../../../../../models/target';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import {UnfurlingMetaService} from "../../../../../pharos-services/unfurling-meta.service";
-import {NavigationEnd, Router} from "@angular/router";
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
+import {UnfurlingMetaService} from '../../../../../pharos-services/unfurling-meta.service';
+import {NavigationEnd, Router} from '@angular/router';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 /**
  * displays the description of a target
@@ -49,10 +49,10 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
   constructor(private breakpointObserver: BreakpointObserver,
               private metaService: UnfurlingMetaService,
               private changeRef: ChangeDetectorRef,
-              @Inject(PLATFORM_ID) private platformID: Object,
+              @Inject(PLATFORM_ID) private platformID: any,
               private router: Router,
-              public navSectionsService: NavSectionsService) {
-    super(navSectionsService);
+              public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
 
   /**
@@ -86,7 +86,7 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
       }
     }
 
-    let newTitle = `Pharos: ${this.target.name} (${this.target.idgTDL})`;
+    const newTitle = `Pharos: ${this.target.name} (${this.target.idgTDL})`;
     this.metaService.setMetaData({description: this.target.description || '', title: newTitle});
     this.metaService.createCanonicalURL(['targets', (this.target.accession)]);
     this.changeRef.markForCheck();
