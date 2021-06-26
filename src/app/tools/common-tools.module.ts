@@ -27,6 +27,11 @@ import {DynamicPanelBaseComponent} from './dynamic-panel-base/dynamic-panel-base
 import {GoTermsEvidenceArticleComponent} from './help-panel/articles/go-terms-evidence-article/go-terms-evidence-article.component';
 import {VennDiagramComponent} from './visualizations/venn-diagram/venn-diagram.component';
 import {FieldSelectionDialogComponent} from './field-selection-dialog/field-selection-dialog.component';
+import {ModelDetailsComponent} from './model-details/model-details.component';
+import { UpsetPlotComponent } from './visualizations/upset-plot/upset-plot.component';
+import { UpsetModule } from './visualizations/upset/upset.module';
+import { UpsetFieldEditComponent } from './upset-field-edit/upset-field-edit.component';
+import {FacetTableModule} from '../pharos-main/data-list/filter-panel/facet-table/facet-table.module';
 
 @NgModule({
   declarations: [
@@ -49,7 +54,10 @@ import {FieldSelectionDialogComponent} from './field-selection-dialog/field-sele
     AffiliateLinkComponent,
     GoTermsEvidenceArticleComponent,
     VennDiagramComponent,
-    FieldSelectionDialogComponent
+    FieldSelectionDialogComponent,
+    ModelDetailsComponent,
+    UpsetPlotComponent,
+    UpsetFieldEditComponent
   ],
   imports: [
     CommonModule,
@@ -58,7 +66,9 @@ import {FieldSelectionDialogComponent} from './field-selection-dialog/field-sele
     AnatamogramModule,
     NgxJsonViewerModule,
     GenericTableModule,
-    RadarChartModule
+    RadarChartModule,
+    UpsetModule,
+    FacetTableModule
   ],
   exports: [
     NcatsHeaderModule,
@@ -77,7 +87,8 @@ import {FieldSelectionDialogComponent} from './field-selection-dialog/field-sele
     ListFilterComponent,
     ExploreListButtonComponent,
     AffiliateLinkComponent,
-    VennDiagramComponent
+    VennDiagramComponent,
+    UpsetPlotComponent
   ],
   entryComponents: [
     FieldSelectionDialogComponent

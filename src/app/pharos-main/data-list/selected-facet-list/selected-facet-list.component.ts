@@ -1,13 +1,14 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
-import {Facet} from '../../../models/facet';
+import {Facet, UpsetOptions} from '../../../models/facet';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {SelectedFacetService} from '../filter-panel/selected-facet.service';
 import {PathResolverService} from '../filter-panel/path-resolver.service';
 import {UnfurlingMetaService} from '../../../pharos-services/unfurling-meta.service';
-import {NavSectionsService} from '../../../tools/sidenav-panel/services/nav-sections.service';
 import {MolChangeService} from '../../../tools/marvin-sketcher/services/mol-change.service';
+import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
+import {Helper} from '../../../models/utilities';
 
 /**
  * panel to show selected facets or queries, and remove them
@@ -41,9 +42,9 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
               private selectedFacetService: SelectedFacetService,
               private pathResolverService: PathResolverService,
               private metaService: UnfurlingMetaService,
-              public navSectionsService: NavSectionsService,
-              private molChangeService: MolChangeService) {
-    super(navSectionsService);
+              private molChangeService: MolChangeService,
+              public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
 
   /**
@@ -67,18 +68,9 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
       });
     this.associatedStructure = this._route.snapshot.queryParamMap.get('associatedStructure');
     if (this.associatedStructure) {
-      const pieces = this.associatedStructure.split('!');
-      if (pieces.length > 1) {
-        pieces.forEach(p => {
-          if (p.toLowerCase().substr(0, 3) !== 'sub' && p.toLowerCase().substr(0, 3) !== 'sim') {
-            this.ligandSmiles = p;
-          } else {
-            this.structureSearchType = p.toLowerCase().substr(0, 3);
-          }
-        });
-      } else {
-        this.ligandSmiles = this.associatedStructure;
-      }
+      const parsedName = Helper.parseAssociatedStructure(this.associatedStructure);
+      this.ligandSmiles = parsedName.ligandSmiles;
+      this.structureSearchType = parsedName.structureSearchType;
     }
     this.changeRef.markForCheck();
   }
@@ -89,6 +81,9 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
     this.router.navigate(['/structure']);
   }
 
+  formatUpset(upsetVal: string) {
+    return UpsetOptions.parseFromUrl(upsetVal);
+  }
   /**
    * remove a specific facet and all selected fields
    * @param facet
@@ -110,6 +105,11 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
     this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
   }
 
+  removeUpset(facet: string, upsetObj: UpsetOptions): void {
+    this.selectedFacetService.removeUpset(facet, upsetObj);
+    const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
+    this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
+  }
   /**
    * clear all queries/facets
    */

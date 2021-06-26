@@ -38,6 +38,19 @@
           </mat-chip>
         </ng-template>
         <mat-chip-list *ngIf="facet.facet !== 'associatedStructure' else structure" class="mat-chip-list-stacked" aria-label="Facet List">
+          <mat-chip *ngFor='let upsetObj of facet.upSets'
+                    [selected]="'true'"
+                    [color]="'accent'"
+                    [removable]=true
+                    (removed)="removeUpset(facet.facet, upsetObj)"
+                    class="facet-chip">
+            <div class="upsetChip">
+              <mat-icon>add</mat-icon><div *ngFor="let inVal of upsetObj.inGroup">{{inVal}}</div>
+              <mat-icon>remove</mat-icon><div *ngFor="let outVal of upsetObj.outGroup">{{outVal}}</div>
+            </div>
+            <div fxFlex=""></div>
+            <mat-icon matChipRemove class="removeIcon">cancel</mat-icon>
+          </mat-chip>
           <mat-chip *ngFor='let field of facet.values'
                     [selected]="'true'"
                     [color]="'primary'"

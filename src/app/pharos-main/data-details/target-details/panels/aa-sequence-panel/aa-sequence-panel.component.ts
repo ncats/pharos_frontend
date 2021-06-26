@@ -12,11 +12,11 @@ import {
 } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import * as Protvista from 'ProtVista';
-import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {Target} from '../../../../../models/target';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {takeUntil} from 'rxjs/operators';
-import {isPlatformBrowser} from "@angular/common";
+import {isPlatformBrowser} from '@angular/common';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 /**
  * displays amino acid sequence data
@@ -58,9 +58,9 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
   constructor(
     private breakpointObserver: BreakpointObserver,
     private changeRef: ChangeDetectorRef,
-    @Inject(PLATFORM_ID) private platformID: Object,
-    public navSectionsService: NavSectionsService) {
-    super(navSectionsService);
+    @Inject(PLATFORM_ID) private platformID: any,
+    public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
 
   /**

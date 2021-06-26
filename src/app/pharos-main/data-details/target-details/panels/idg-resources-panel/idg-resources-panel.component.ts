@@ -3,13 +3,13 @@ import {takeUntil} from 'rxjs/operators';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
-import {HttpClient} from '@angular/common/http';
 import {Target} from '../../../../../models/target';
 import {PharosConfig} from '../../../../../../config/pharos-config';
 import {IDGResourceSerializer} from '../../../../../models/idg-resources/resource-serializer';
 import {DataResource, MouseImageData} from '../../../../../models/idg-resources/data-resource';
 import {Reagent} from '../../../../../models/idg-resources/reagent';
 import {PageData} from '../../../../../models/page-data';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 /**
  * panel to show idg generated resources
@@ -62,17 +62,15 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
 
   /**
    * set up nav sections
-   * @param {HttpClient} http
    * @param {NavSectionsService} navSectionsService
    * @param pharosConfig
    */
   constructor(
-    private http: HttpClient,
     private pharosConfig: PharosConfig,
     private changeRef: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformID: any,
-    public navSectionsService: NavSectionsService) {
-    super(navSectionsService);
+    public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
 
   /**
@@ -95,7 +93,7 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
 
         try {
           if (this.target.drgcResources.length > 0) {
-            this.navSectionsService.showSection(this.field);
+            this.showSection();
             this.target.drgcResources.forEach(resource => {
               const resc = this.resourceSerializer.fromJson(resource.apiResult, resource.resourceType);
               if (resc instanceof Reagent) {
@@ -106,7 +104,7 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
             });
             this.changeRef.detectChanges();
           } else {
-            this.navSectionsService.hideSection(this.field);
+            this.hideSection();
           }
         }
         catch (e){

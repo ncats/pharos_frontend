@@ -4,9 +4,9 @@ import {PageData} from '../../../../models/page-data';
 import {PharosConfig} from '../../../../../config/pharos-config';
 import {Ligand} from '../../../../models/ligand';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
-import {NavSectionsService} from '../../../../tools/sidenav-panel/services/nav-sections.service';
 import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -65,9 +65,9 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
     private router: Router,
     private ref: ChangeDetectorRef,
     private pharosConfig: PharosConfig,
-    public navSectionsService: NavSectionsService
+    public dynamicServices: DynamicServicesService
   ) {
-    super(navSectionsService);
+    super(dynamicServices);
   }
 
   /**

@@ -199,4 +199,6 @@ export class TOKENS {
   public static GWAS_TARGET_ANALYTICS_PANEL = new InjectionToken<string>('GwasTargetAnalyticsComponent');
 
   public static AFFILIATE_LINKS = new InjectionToken('AffiliateLinksComponent');
+
+  public static ORTHOLOGS_PANEL = new InjectionToken('OrthologPanelComponent')
 }

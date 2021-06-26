@@ -6,7 +6,7 @@ import {Ligand} from '../../../../../models/ligand';
 import {takeUntil} from 'rxjs/operators';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 /**
  * shows what targets the ligand was tested on
@@ -80,9 +80,9 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
 
   constructor(
     private changeRef: ChangeDetectorRef,
-    public navSectionsService: NavSectionsService
+    public dynamicServices: DynamicServicesService
   ) {
-    super(navSectionsService);
+    super(dynamicServices);
   }
 
   /**

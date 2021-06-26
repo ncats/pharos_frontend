@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -23,6 +24,7 @@ import {Subject} from 'rxjs';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {isPlatformBrowser} from '@angular/common';
 import {SelectedFacetService} from './data-list/filter-panel/selected-facet.service';
+import {DynamicServicesService} from '../pharos-services/dynamic-services.service';
 
 /**
  * class or interface to set properties for an injected sidenav panel
@@ -153,8 +155,9 @@ export class PharosMainComponent implements OnInit, OnDestroy {
     private changeRef: ChangeDetectorRef,
     private helpDataService: HelpDataService,
     public breakpointObserver: BreakpointObserver,
-    @Inject(PLATFORM_ID) private platformID: Object,
-    private selectedFacetService: SelectedFacetService
+    @Inject(PLATFORM_ID) private platformID: any,
+    private selectedFacetService: SelectedFacetService,
+    public dynamicServices: DynamicServicesService
   ) {
 
   }
@@ -274,19 +277,18 @@ export class PharosMainComponent implements OnInit, OnDestroy {
    * also, the server won't know about this.isSmallScreen, because media queries don't work on the server
    */
   getClassForMarginsOnServer(){
+    let server = true;
     if (isPlatformBrowser(this.platformID)){
-      return '';
+      server = false;
     }
-    if (this._route.snapshot.data.subpath === 'list'){
+    if (this._route.snapshot.data.subpath === 'list' && !this.isSmallScreen){
       return 'wideNavPanel';
     }
-    if (this._route.snapshot.data.subpath === 'details' && ['targets', 'diseases'].includes(this._route.snapshot.data.path)) {
-      return 'thinNavPanel';
+    if (this._route.snapshot.data.subpath === 'details' && ['targets', 'diseases'].includes(this._route.snapshot.data.path) && !this.isSmallScreen) {
+      return server ? 'thinNavPanel' : 'thinNavPanelBrowser';
     }
     return '';
   }
-
-
 
   /**
    * clears data

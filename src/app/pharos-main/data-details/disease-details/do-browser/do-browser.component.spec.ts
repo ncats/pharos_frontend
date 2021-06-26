@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DoBrowserComponent } from './do-browser.component';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {TESTTARGET} from "../../../../../../test/test-target";
+import {ActivatedRoute} from '@angular/router';
+import {MOCKACTIVATEDROUTE} from '../../../../../../test/mock-activate-route';
 
 describe('DoBrowserComponent', () => {
   let component: DoBrowserComponent;
@@ -9,6 +11,9 @@ describe('DoBrowserComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      providers: [
+        {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}
+      ],
       declarations: [ DoBrowserComponent ],
       imports: [
         ApolloTestingModule

@@ -1,3 +1,5 @@
+@import '../../../../partials/ncats-theme';
+
 .info{
   display: flex;
   flex-direction: row;
@@ -10,6 +12,13 @@
 
 .infoCollapsed{
   height: 3vh;
+}
+
+.prediction {
+  background-color: mat-color($pharos-app-accent, A700);
+}
+.prediction.mat-expanded:hover {
+  background-color: mat-color($pharos-app-accent, A700);
 }
 
 .explanation{

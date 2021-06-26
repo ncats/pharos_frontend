@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} fr
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {Ligand} from '../../../../../models/ligand';
 import {takeUntil} from 'rxjs/operators';
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 /**
  * displays description of ligand
@@ -26,9 +26,9 @@ export class LigandDescriptionComponent extends DynamicPanelComponent implements
 
   constructor(
     private changeRef: ChangeDetectorRef,
-    public navSectionsService: NavSectionsService
+    public dynamicServices: DynamicServicesService
   ) {
-    super(navSectionsService);
+    super(dynamicServices);
   }
 
   /**

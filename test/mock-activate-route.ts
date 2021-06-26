@@ -8,9 +8,12 @@ export const MOCKACTIVATEDROUTE = {
   fragment: new BehaviorSubject({ foo: 'bar' }),
     snapshot: {
       fragment: new BehaviorSubject({ foo: 'bar' }),
-      queryParamMap: new Map([
-        ["associatedDisease","benign ependymoma"]
-      ]),
+      queryParamMap: {
+        keys: ['associatedDisease'],
+        getAll: (key) => ['benign ependymoma'],
+        get: (key) => 'benign ependymoma',
+        has: (key) => true
+      },
       data: {
         path: 'targets',
         results: {
@@ -22,8 +25,8 @@ export const MOCKACTIVATEDROUTE = {
         data: { data: 'myTitle ',
           components: [{}],
           results: {
-            dataSourceCounts:[
-              {dataSource: "CCLE", targetCount: 1881}
+            dataSourceCounts: [
+              {dataSource: 'CCLE', targetCount: 1881}
             ]
           }
         },

@@ -18,6 +18,7 @@ import {HelpPanelComponent} from '../../../tools/help-panel/help-panel.component
 import {DiseaseAssociationDetailsComponent} from '../../data-list/cards/long-target-card/disease-association-details/disease-association-details.component';
 import {SimilarityDetailsComponent} from '../../data-list/cards/long-target-card/similarity-details/similarity-details.component';
 import {LigandAssociationDetailsComponent} from '../../data-list/cards/long-target-card/ligand-association-details/ligand-association-details.component';
+import {TargetPredictionDetailsComponent} from '../../data-list/cards/long-target-card/target-prediction-details/target-prediction-details.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {LigandAssociationDetailsComponent} from '../../data-list/cards/long-targ
     SimilarityDetailsComponent,
     KnowledgeMetricsComponent,
     LigandAssociationDetailsComponent,
+    TargetPredictionDetailsComponent,
     InjectedRadarChartComponent,
     TopicSaveModalComponent
   ],
@@ -55,7 +57,8 @@ import {LigandAssociationDetailsComponent} from '../../data-list/cards/long-targ
     DiseaseAssociationDetailsComponent,
     SimilarityDetailsComponent,
     KnowledgeMetricsComponent,
-    LigandAssociationDetailsComponent
+    LigandAssociationDetailsComponent,
+    TargetPredictionDetailsComponent
   ]
 })
 export class TargetTableModule { }

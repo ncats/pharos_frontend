@@ -22,8 +22,8 @@ import {PharosProfileService} from '../../../../auth/pharos-profile.service';
 import {TopicSaveModalComponent} from './topic-save-modal/topic-save-modal.component';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {NavSectionsService} from '../../../../tools/sidenav-panel/services/nav-sections.service';
 import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
+import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 
 
 /**
@@ -114,8 +114,8 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
               private targetCollection: AngularFirestore,
               private snackBar: MatSnackBar,
               public breakpointObserver: BreakpointObserver,
-              public navSectionsService: NavSectionsService) {
-    super(navSectionsService);
+              public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
 
   sortMap: Map<string, any>;
@@ -129,6 +129,28 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     ['Novelty', {sortKey: 'Novelty', order: 'desc'}],
     ['PubMed Score', {sortKey: 'PubMed Score', order: 'desc'}],
     ['Antibody Count', {sortKey: 'Antibody Count', order: 'desc'}]
+  ]);
+
+  ligandSortMap: Map<string, any> = new Map([
+    ['Activity Value', {sortKey: 'Average Activity Value', order: 'desc'}],
+    ['Action', {sortKey: 'Action', order: 'asc'}],
+    ...this.defaultSortMap
+  ]);
+
+  structureSortMap: Map<string, any> = new Map([
+    ['Predicted Activity', {sortKey: 'Predicted Activity', order: 'desc'}],
+    ['Prediction Applicability', {sortKey: 'Prediction Applicability', order: 'desc'}],
+    ['Prediction Training Activity', {sortKey: 'Prediction Training Activity', order: 'desc'}],
+    ...this.defaultSortMap
+  ]);
+
+  structureLigandSortMap: Map<string, any> = new Map([
+    ['Activity Value', {sortKey: 'Average Activity Value', order: 'desc'}],
+    ['Action', {sortKey: 'Action', order: 'asc'}],
+    ['Predicted Activity', {sortKey: 'Predicted Activity', order: 'desc'}],
+    ['Prediction Applicability', {sortKey: 'Prediction Applicability', order: 'desc'}],
+    ['Prediction Training Activity', {sortKey: 'Prediction Training Activity', order: 'desc'}],
+    ...this.defaultSortMap
   ]);
 
   ppiSortMap: Map<string, any> = new Map([
@@ -230,10 +252,14 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
           this.sortMap = this.ppiSortMap;
         } else if (this.associatedDisease) {
           this.sortMap = this.diseaseSortMap;
-        } else if (this.associatedStructure) { // TODO make a sort map for ligand, b/c similarity will be a thing
-          this.sortMap = this.defaultSortMap;
-        } else if (this.associatedLigand) { // TODO make a sort map for ligand, b/c similarity will be a thing
-          this.sortMap = this.defaultSortMap;
+        } else if (this.associatedStructure) {
+          if (this.associatedLigand) {
+            this.sortMap = this.structureLigandSortMap;
+          } else {
+            this.sortMap = this.structureSortMap;
+          }
+        } else if (this.associatedLigand) {
+          this.sortMap = this.ligandSortMap;
         } else {
           this.sortMap = this.defaultSortMap;
         }

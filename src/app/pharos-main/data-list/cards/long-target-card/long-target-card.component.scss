@@ -1,3 +1,5 @@
+@import '../../../../../partials/ncats-theme';
+
 .container {
   display: flex;
   box-sizing: border-box;
@@ -51,8 +53,8 @@
 }
 
 .section {
-  max-width: 33%;
-  min-width: 20%;
+  max-width: 21%;
+  min-width: 21%;
   padding: 20px;
 }
 
@@ -85,7 +87,7 @@
   transition: all 0.5s ease-in-out;
 }
 
-.expanded{
+.expanded {
   max-height: 1000px;
 }
 
@@ -98,4 +100,30 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.prediction-structures {
+  display: flex;
+  flex-direction: row;
+}
+
+.prediction {
+  background-color: mat-color($pharos-app-accent, A700);
+}
+
+.structure-block {
+  width: 50%;
+}
+
+.equality-block {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.equality-symbol {
+  font-size: 30pt;
+  line-height: 10pt;
+}
+.pointer{
+  cursor: pointer;
 }

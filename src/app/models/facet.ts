@@ -15,6 +15,7 @@ const FACETFIELDS = gql`
       count:value
     }
     sourceExplanation
+    elapsedTime
   }`;
 
 const FACETFIELDSTOP = gql`
@@ -65,6 +66,7 @@ export class Facet {
     this.label = json.label;
     this.description = json.description;
     this.dataType = json.dataType;
+    this.elapsedTime = json.elapsedTime;
     this.binSize = json.binSize || 1;
     if (this.dataType === 'Numeric') { // set a last point since these are bins, not single points
       this.values = [];
@@ -82,7 +84,8 @@ export class Facet {
         }
       }
     } else {
-      this.values = json.values.map(val => new Field(val));
+      this.values = json.values?.map(val => new Field(val)) || [];
+      this.upSets = json.upSets || [];
     }
   }
 
@@ -100,6 +103,7 @@ export class Facet {
    * name of facet
    */
   facet: string;
+  elapsedTime?: number;
 
   modifier?: string;
 
@@ -120,27 +124,28 @@ export class Facet {
    * list of facet values
    */
   values: Field[];
+  upSets: UpsetOptions[];
 
   dataType = 'Category';
   binSize?: number;
   min?: number;
   max?: number;
 
-  static getReadableParameter(parameter: string, paramValue?: string){
-    if (parameter === 'associatedDisease'){
+  static getReadableParameter(parameter: string, paramValue?: string) {
+    if (parameter === 'associatedDisease') {
       return 'Disease Subtree';
     }
     if (parameter === 'associatedTarget') {
       return 'Associated Target';
     }
-    if (parameter === 'similarity'){
+    if (parameter === 'similarity') {
       return 'Target Similarity';
     }
     if (parameter === 'associatedStructure') {
-      if (paramValue.startsWith('sim')) {
-        return 'Associated Structure';
-      } else {
+      if (paramValue.startsWith('sub')) {
         return 'Associated Substructure';
+      } else {
+        return 'Associated Structure';
       }
     }
     if (parameter === 'associatedLigand') {
@@ -195,11 +200,33 @@ export class Facet {
     return gql`
       #import "./facetFields.gql"
       query getAllFacets($facets:[String!], $filter:IFilter) {
-      results: ${path}(filter:$filter) {
-      facets(include:$facets) {
+      results: ${path}(facets:$facets, filter:$filter) {
+      facets {
       ...facetFields
       }
       }
       }${FACETFIELDS}`;
+  }
+}
+
+export class UpsetOptions {
+  inGroup: string[];
+  outGroup: string[];
+
+  constructor(inGroup: string[], fullList: string[]) {
+    this.inGroup = inGroup;
+    this.outGroup = fullList.filter(f => !inGroup.includes(f));
+  }
+
+
+  static parseFromUrl(url: string): UpsetOptions {
+    let chunks = url.split('InGroup:');
+    chunks = chunks[1].split('OutGroup:');
+    const inGroup = decodeURIComponent(chunks[0]).split('&');
+    let outGroup = decodeURIComponent(chunks[1]).split('&');
+    if (outGroup.length === 1 && outGroup[0].trim() === '') {
+      outGroup = [];
+    }
+    return new UpsetOptions(inGroup, [...inGroup, ...outGroup]);
   }
 }

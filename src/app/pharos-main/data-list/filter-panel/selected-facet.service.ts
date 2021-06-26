@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Facet, Field} from '../../../models/facet';
+import {Facet, Field, UpsetOptions} from '../../../models/facet';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
 import {ParamMap} from '@angular/router';
@@ -55,19 +55,26 @@ export class SelectedFacetService {
     const facet: Facet = this._facetMap.get(facetObj.name);
     if (facet) {
       if (facetObj.change.added) {
-        if (facet.values.length > 0) {
-          facet.values =
-            [... new Set((facet.values.concat(facetObj.change.added.map(add => add = new Field({name: add})))).filter(name => name.name))];
+        if (facetObj.change.added instanceof UpsetOptions) {
+          if (facet.upSets.length > 0) {
+            facet.upSets = [...facet.upSets, facetObj.change.added];
+          } else {
+            facet.upSets = [facetObj.change.added];
+          }
         } else {
-          facet.values = facetObj.change.added.map(add => add = new Field({name: add}));
+          if (facet.values.length > 0) {
+            facet.values =
+              [...new Set((facet.values.concat(facetObj.change.added.map(add => add = new Field({name: add})))).filter(name => name.name))];
+          } else {
+            facet.values = facetObj.change.added.map(add => add = new Field({name: add}));
+          }
+          this._facetMap.set(facetObj.name, facet);
         }
-       // facet.values = [...new Set(facet.values.concat(facetObj.change.added.map(add => add = new Field({name: add}))))];
-        this._facetMap.set(facetObj.name, facet);
       }
       if (facetObj.change.removed && facetObj.change.removed.length > 0) {
         facet.values = facet.values.map(value => value.name)
-          .filter(val => ! facetObj.change.removed.includes(val))
-          .map(newVal =>  new Field({name: newVal}));
+          .filter(val => !facetObj.change.removed.includes(val))
+          .map(newVal => new Field({name: newVal}));
         if (facet.values.length > 0) {
           this._facetMap.set(facetObj.name, facet);
         } else {
@@ -75,16 +82,21 @@ export class SelectedFacetService {
         }
       }
     } else {
-      const values = facetObj.change.added.map(field => field = {name: field});
-      const newFacet: Facet = new Facet({facet: facetObj.name, values});
-
-      this._facetMap.set(facetObj.name, newFacet);
+      if (facetObj.change.added instanceof UpsetOptions) {
+        const newFacet: Facet = new Facet({facet: facetObj.name, upSets: [facetObj.change.added]});
+        this._facetMap.set(facetObj.name, newFacet);
+      } else {
+        const values = facetObj.change.added.map(field => field = {name: field});
+        const newFacet: Facet = new Facet({facet: facetObj.name, values});
+        this._facetMap.set(facetObj.name, newFacet);
+      }
     }
+    this._facets.next(this._facetMap);
   }
 
   getFacetsAsUrlStrings(): string[] {
     const retArr: string[] = [];
-   // this._facetMap.delete('query');
+    // this._facetMap.delete('query');
     const facets: Facet[] = Array.from(this._facetMap.values()).filter(
       fac => fac.facet !== 'query' && // TODO use pseudoFacet list instead
         fac.facet !== 'collection' &&
@@ -93,7 +105,14 @@ export class SelectedFacetService {
         fac.facet !== 'associatedStructure' &&
         fac.facet !== 'associatedLigand' &&
         fac.facet !== 'similarity');
-    facets.forEach(facet => facet.values.forEach(value => retArr.push(this._makeFacetString(facet.facet, value.name))));
+    facets.forEach(facet => {
+      facet.values.forEach(value => {
+        retArr.push(this._makeFacetString(facet.facet, value.name));
+      });
+      facet.upSets.forEach((upSet: UpsetOptions) => {
+        retArr.push(this._makeUpsetString(facet.facet, upSet));
+      });
+    });
     return retArr;
   }
 
@@ -101,11 +120,11 @@ export class SelectedFacetService {
 
   }
 
-/*  getFacetsFromParamMap(params: ParamMap) {
-    console.log(params);
-    console.log(this._facetMap);
+  /*  getFacetsFromParamMap(params: ParamMap) {
+      console.log(params);
+      console.log(this._facetMap);
 
-  }*/
+    }*/
 
   getFacetsAsObjects(): Facet[] {
     return Array.from(this._facetMap.values());
@@ -115,7 +134,7 @@ export class SelectedFacetService {
     return this._facetMap.get(name);
   }
 
-  getPseudoFacets(): Facet[]{
+  getPseudoFacets(): Facet[] {
     return [
       this.getFacetByName('collection'),
       this.getFacetByName('query'),
@@ -126,12 +145,14 @@ export class SelectedFacetService {
       this.getFacetByName('similarity')
     ];
   }
+
   /**
    * remove entire group of facet values from query string
    * @param facet
    */
   removefacetFamily(facet: Facet): void {
     this._facetMap.delete(facet.facet);
+    this._facets.next(this._facetMap);
   }
 
   /**
@@ -140,22 +161,37 @@ export class SelectedFacetService {
    * @param facetName
    * @param {string} field
    */
-  removeField(facetName: string, field: string ): void {
+  removeField(facetName: string, field: string): void {
     const facet = this._facetMap.get(facetName);
     if (facet) {
       facet.values = facet.values.filter(val => val.name !== field);
-      if (facet.values.length > 0) {
+      if (facet.values.length > 0 || facet.upSets.length > 0) {
         this._facetMap.set(facetName, facet);
       } else {
         this._facetMap.delete(facetName);
       }
     }
+    this._facets.next(this._facetMap);
   }
-
-
+  removeUpset(facetName: string, upsetObj: UpsetOptions) {
+    const facet = this._facetMap.get(facetName);
+    if (facet) {
+      facet.upSets = facet.upSets.filter(val => {
+        return !(upsetObj.inGroup.join(' + ') === val.inGroup.join(' + ') &&
+          upsetObj.outGroup.join(' + ') === val.outGroup.join(' + '));
+      });
+      if (facet.values.length > 0 || facet.upSets.length > 0) {
+        this._facetMap.set(facetName, facet);
+      } else {
+        this._facetMap.delete(facetName);
+      }
+    }
+    this._facets.next(this._facetMap);
+  }
 
   clearFacets() {
     this._facetMap.clear();
+    this._facets.next(this._facetMap);
   }
 
   /**
@@ -167,6 +203,14 @@ export class SelectedFacetService {
    */
   private _makeFacetString(facet: string, field: string): string {
     return facet.replace(/ /g, '+') + Facet.separator + encodeURIComponent(field.toString());
+  }
+
+  private _makeUpsetString(facet: string, upSet: UpsetOptions): string {
+    return facet.replace(/ /g, '+') + Facet.separator + this.encodeUpsetOptions(upSet);
+  }
+
+  private encodeUpsetOptions(upSet: UpsetOptions): string {
+    return `InGroup:${encodeURIComponent(upSet.inGroup.join('&'))}OutGroup:${encodeURIComponent(upSet.outGroup.join('&'))}`;
   }
 
   /**
@@ -185,35 +229,35 @@ export class SelectedFacetService {
       if (map.has('collection')) {
         this._facetMap.set('collection', new Facet({facet: 'collection', values: [{name: map.get('collection')}]}));
       }
-      if (map.has('associatedTarget')){
+      if (map.has('associatedTarget')) {
         this._facetMap.set('associatedTarget', new Facet(
           {
             label: Facet.getReadableParameter('associatedTarget'),
             facet: 'associatedTarget', values: [{name: map.get('associatedTarget')}]
           }));
       }
-      if (map.has('associatedDisease')){
+      if (map.has('associatedDisease')) {
         this._facetMap.set('associatedDisease', new Facet(
           {
             label: Facet.getReadableParameter('associatedDisease'),
             facet: 'associatedDisease', values: [{name: map.get('associatedDisease')}]
           }));
       }
-      if (map.has('associatedStructure')){
+      if (map.has('associatedStructure')) {
         this._facetMap.set('associatedStructure', new Facet(
           {
             label: Facet.getReadableParameter('associatedStructure', map.get('associatedStructure')),
             facet: 'associatedStructure', values: [{name: map.get('associatedStructure')}]
           }));
       }
-      if (map.has('associatedLigand')){
+      if (map.has('associatedLigand')) {
         this._facetMap.set('associatedLigand', new Facet(
           {
             label: Facet.getReadableParameter('associatedLigand'),
             facet: 'associatedLigand', values: [{name: map.get('associatedLigand')}]
           }));
       }
-      if (map.has('similarity')){
+      if (map.has('similarity')) {
         this._facetMap.set('similarity', new Facet(
           {
             label: Facet.getReadableParameter('similarity'),
@@ -230,16 +274,26 @@ export class SelectedFacetService {
           .replace('%3A', ':');
         const facet: Facet = this._facetMap.get(facetName);
         if (facet) {
-          facet.values.push(new Field({name: fieldName}));
-          const tempvalues: any[] = [... new Set(facet.values.map(val => val.name))];
-          facet.values = tempvalues.map(newVal => newVal = new Field({name: newVal}));
+          if (fieldName.startsWith('InGroup:')) {
+            facet.upSets.push(UpsetOptions.parseFromUrl(fieldName));
+          } else {
+            facet.values.push(new Field({name: fieldName}));
+            const tempvalues: any[] = [...new Set(facet.values.map(val => val.name))];
+            facet.values = tempvalues.map(newVal => newVal = new Field({name: newVal}));
+          }
           this._facetMap.set(facetName, facet);
         } else {
-          const fct = new Facet({facet: facetName, values: [{name: fieldName}]});
+          let fct;
+          if (fieldName.startsWith('InGroup:')) {
+            fct = new Facet({facet: facetName, upSets: [UpsetOptions.parseFromUrl(fieldName)]});
+          } else {
+            fct = new Facet({facet: facetName, values: [{name: fieldName}]});
+          }
           this._facetMap.set(facetName, fct);
         }
       });
     }
+    this._facets.next(this._facetMap);
   }
 
   /**
@@ -250,10 +304,10 @@ export class SelectedFacetService {
     return this.facets$;
   }
 
-  newDescription(route): string{
+  newDescription(route): string {
     const facets = this.getFacetsAsObjects();
     let str = `Found ${route.snapshot.data?.results?.count} ${route.snapshot.data?.path}. `;
-    if (facets.length){
+    if (facets.length) {
       str += 'The following filters were applied: ';
       str += facets.map(f => f.facet + ' = ' + f.values.map(v => v.name).join(' OR ')).join((' AND '));
     }
@@ -264,7 +318,7 @@ export class SelectedFacetService {
   /**
    * constructs the new title to show for the unfurled URL link
    */
-  newTitle(route): string{
+  newTitle(route): string {
     const listType = route.snapshot.data.path;
     const listName = listType.replace('/', '').toLowerCase().slice(0, listType.length - 1);
     const listTitle = listName.charAt(0).toUpperCase() + listName.slice(1);

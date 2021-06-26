@@ -1,4 +1,28 @@
-# 3.6.0 (2020-05-01)
+# 3.7.0 (2021-07-01)
+### Added Features
+* **Structure Search**
+    * Find ligands from TCRD that are most similar to a drawn or loaded structure, or ligands that have a certain substructure
+    * Click the link from a Ligand List page to do a structure search, or start with a specific ligand structure from a ligand details page
+* **UpSet Charts for Facets**
+    * On list pages, a tab for UpSet charts is available to see the combinations of facet values for targets / diseases / ligands in the list
+    * Filter the lists by clicking the bars or circles for a combination of values
+    * Edit the facet values to create charts for any facet values. This can also be used to perform complex boolean logic between facet values (i.e. show a list of targets that have value A and B, but not C - select those values to build the UpSet chart, and select the right group to filter the list)
+* **Related tools are shown as tiles for targets that have data in those tools**
+    * DarkKinome, Resolulte, ProKino, TIGA, GENEVA, GlyGen, ARCHS4 all have tiles for the targets they have data for
+* **Ligand List Improvements**
+    * A facet of the Associated Targets for the ligands in the list is shown by default for Structure Similarity searches, and for Target based ligand lists (for general lists of ligands, you can find it in the "All Categories" list of facets)
+    * A facet for Count of associated targets provides information about target specificity of ligands in the list
+    * Ligands are now sorted by count of distinct targets, rather than count of potency measurements.
+
+### Bug Fixes / Miscellaneous updates
+* Reactome Pathway Browser and links now point to the newly released IDG versions of those tools
+* Target list pages can be made for all targets with activity to a specific ligand, see links on the Ligand Details page
+* Revamp orthologs information, which is in its own panel instead of in a tab of the Expression panel
+* Compound structure rendering is now served by <a href="https://pharos-ligand.ncats.io/indexer" target="_blank">pharos.ligand.ncats.io/indexer</a>
+
+_______________
+
+# 3.6.0 (2021-05-01)
 ### Added Features
 * **TIGA Data Visualizations**
     * Genome-wide association studies (GWAS) find associations between phenotypic traits and genes. Target Illumination GWAS Analytics (TIGA) scores and ranks those traits according to the a subset of the study parameters.
@@ -23,7 +47,7 @@
 
 _______________
 
-# 3.5.0 (2020-04-01)
+# 3.5.0 (2021-04-01)
 ### Added Features
 * **Download Data from Pharos**
     * On List pages, and Details pages, find the download button and export a CSV file for further analysis
@@ -35,7 +59,7 @@ _______________
 * Searching for terms with apostrophes, such as "Pick's Disease" would sometimes cause errors and blank result sets. The problem is fixed.
 
 _______________
-# 3.4.0 (2020-02-26)
+# 3.4.0 (2021-02-26)
 ### Added Features
 * **Ortholog Variant Data from ProKinO**
     * Most kinases will display a variant plot based on the alignment of sequences of many orthologous species

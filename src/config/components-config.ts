@@ -61,7 +61,7 @@ interface PharosNavHeader {
   /**
    * link for the overall nav section
    */
-  mainSource?: string;
+  mainSource?: string | string[];
 }
 
 /**
@@ -193,6 +193,41 @@ const similarityFields: PharosApi[] =
     }
   ];
 
+const predictorResultsFields: PharosApi[] =
+  [
+    {
+      field: 'predictedActivity',
+      label: 'Predicted Activity',
+      description: 'Predicted Activity (-log M) of the query structure against the target, based on the QSAR model.'
+    },
+    {
+      field: 'trainingActivity',
+      label: 'Nearest Activity',
+      description: 'Activity (-log M) of the most similar compound from the training set against the target.'
+    },
+    {
+      field: 'queryStructure',
+      label: 'Query Structure',
+      description: 'Rendered image of the query structure.'
+    },
+    {
+      field: 'nearestStructure',
+      label: 'Nearest Structure',
+      description: 'Rendered image of the most similar compound from the training set.'
+    },
+    {
+      field: 'applicability',
+      label: 'Applicability (Similarity)',
+      description: 'The Tanimoto similarity of the most similar compound from the training set to the query structure.'
+    },
+    {
+      field: 'model',
+      label: 'Model',
+      description: 'Name of the QSAR model that generated the prediction.',
+      source: 'https://predictor.ncats.io/predictor/models'
+    },
+  ];
+
 const ligandAssocFields: PharosApi[] =
   [
     {
@@ -275,6 +310,7 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
     ...diseaseAssociationFields,
     ...ligandAssocFields,
     ...similarityFields,
+    ...predictorResultsFields,
     {
       field: 'illuminationGraph',
       label: 'Illumination Graph',
@@ -675,11 +711,6 @@ const EXPRESSION_PANEL: PharosPanel = {
       label: 'Cell Types Tab',
       description: 'Cell types and cell lines with expression data for this target.'
     },
-    {
-      field: 'orthologs',
-      label: 'Orthologs Tab',
-      description: 'Ortholog species available for this target.'
-    },
     {field: 'tissue', label: 'Tissue', description: 'Name of the tissue corresponding to the expression data.'},
     {
       field: 'qual',
@@ -765,6 +796,31 @@ const GWAS_TARGET_ANALYTICS_PANEL: PharosPanel = {
     {field: 'gwasTrait', label: 'GWAS Trait', description: 'The phenotypic trait found to be associated with the gene'},
     {field: 'efoID', label: 'EFO ID', description: 'Experimental Factor Ontology (EFO) ID for the trait'},
     ...commonGwasFields
+  ]
+};
+const ORTHOLOGS_PANEL: PharosPanel = {
+  token: TOKENS.ORTHOLOGS_PANEL,
+  navHeader: {
+    label: 'Orthologs',
+    section: 'orthologs',
+    mainDescription: 'Orthologous proteins from other species, from OMA, EggNOG, and Inparanoid.',
+    mainSource: ['https://omabrowser.org/oma/home/', 'http://eggnog.embl.de', 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4383983/']
+  }, api: [
+    {
+      field: 'sourceID',
+      label: 'Source ID',
+      description: 'The ID the orthologous gene is referenced by in the original data source.'
+    },
+    {
+      field: 'geneID',
+      label: 'Gene ID',
+      description: 'The ID the gene from the original data source.'
+    },
+    {
+      field: 'sources',
+      label: 'OMA, EggNOG, Inparanoid',
+      description: 'Data Sources which have documented the orthologous genes.'
+    }
   ]
 };
 
@@ -1382,6 +1438,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           LIGANDS_PANEL,
           DISEASE_SOURCE_PANEL,
           GWAS_TARGET_ANALYTICS_PANEL,
+          ORTHOLOGS_PANEL,
           PDB_PANEL,
           PATHWAYS_PANEL,
           GO_TERMS_PANEL,

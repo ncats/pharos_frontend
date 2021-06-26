@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {Target} from '../../../../../../../models/target';
 import {DynamicPanelBaseComponent} from "../../../../../../../tools/dynamic-panel-base/dynamic-panel-base.component";
-import {ViewportScroller, Location} from "@angular/common";
 import {NavSectionsService} from "../../../../../../../tools/sidenav-panel/services/nav-sections.service";
 
 /**
@@ -26,9 +25,7 @@ export class TdarkSummaryComponent extends DynamicPanelBaseComponent{
   /**
    * no args constructor
    */
-  constructor(private location: Location,
-              private viewportScroller: ViewportScroller,
-              private navSectionsService: NavSectionsService) {
+  constructor(private navSectionsService: NavSectionsService) {
     super();
   }
 }

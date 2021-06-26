@@ -1,10 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProteinProteinPanelComponent } from './protein-protein-panel.component';
-import {MaterialModule} from '../../../../../../assets/material/material.module';
 import {SharedModule} from '../../../../../shared/shared.module';
 import {TESTTARGET} from '../../../../../../../test/test-target';
-import {TargetTableModule} from '../../../../modules/targets/target-list.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
@@ -14,6 +12,7 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route';
+import {TargetTableModule} from '../../../../modules/targets/target-list.module';
 
 describe('ProteinProteinPanelComponent', () => {
   let component: ProteinProteinPanelComponent;
@@ -26,7 +25,6 @@ describe('ProteinProteinPanelComponent', () => {
       ],
       imports: [
         RouterTestingModule,
-        TargetTableModule,
         SharedModule,
         ApolloTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)

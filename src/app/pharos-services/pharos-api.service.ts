@@ -7,7 +7,7 @@ import {map, mergeMap, tap} from 'rxjs/internal/operators';
 import {PharosConfig} from '../../config/pharos-config';
 import {PharosBase} from '../models/pharos-base';
 import {PageData} from '../models/page-data';
-import {Facet} from '../models/facet';
+import {Facet, UpsetOptions} from '../models/facet';
 import {Apollo, QueryRef} from 'apollo-angular';
 import gql from 'graphql-tag';
 import {SelectedFacetService} from '../pharos-main/data-list/filter-panel/selected-facet.service';
@@ -227,9 +227,19 @@ export class PharosApiService {
     }
   }`;
 
-  public FieldQuery = gql`query fieldQuery($model: String, $associatedModel: String, $similarityQuery: Boolean) {
+  UpsetQuery() {
+    return gql`query UpSet($model: String!, $facetName: String!, $filter: IFilter, $batch: [String], $values: [String!]) {
+      upset (model: $model, facetName: $facetName, filter: $filter, batch: $batch, values: $values) {
+        values
+        count
+      }
+    }`;
+  }
+
+
+  public FieldQuery = gql`query fieldQuery($model: String, $associatedModel: String, $similarityQuery: Boolean, $associatedLigand: String, $associatedSmiles: String) {
       configuration {
-        downloadLists(modelName: $model, associatedModelName: $associatedModel, similarityQuery: $similarityQuery) {
+        downloadLists(modelName: $model, associatedModelName: $associatedModel, similarityQuery: $similarityQuery, associatedLigand: $associatedLigand, associatedSmiles: $associatedSmiles) {
           listName
           field {
             order
@@ -355,12 +365,12 @@ export class PharosApiService {
     return variables;
   }
 
-  extrasRef(fragments: any){
+  extrasRef(fragments: any) {
     return fragments.extras || '';
   }
 
-  insertExtras(fragments: any, path: string){
-    if (fragments.extras){
+  insertExtras(fragments: any, path: string) {
+    if (fragments.extras) {
       return `...${path}Extras`;
     }
     return '';
@@ -499,9 +509,10 @@ export class PharosApiService {
    * @param path
    * @param variables
    */
-  private executeAllFacetsQuery(path: string, variables)  {
+  private executeAllFacetsQuery(path: string, variables) {
     return this.apollo.query<any>({query: Facet.getAllFacetsQuery(path), variables});
   }
+
   /**
    * creates a fork join to return the results of api search calls to targeted object kinds
    * this reduces the number of irrelevant results return that need to be parsed,
@@ -588,20 +599,36 @@ export class PharosApiService {
                   .replace('%2C', ',')
                   .replace('%3A', ':');
                 if (!filter.facets) {
-                  filter.facets = [{facet: facetName, values: [fieldName]}];
-                } else {
-                  const currentFacet = filter.facets.find(f => f.facet == facetName);
-                  if (!!currentFacet) {
-                    currentFacet.values.push(fieldName);
+                  if (fieldName.startsWith('InGroup:')){
+                    filter.facets = [{facet: facetName, upSets: [UpsetOptions.parseFromUrl(fieldName)], values: []}];
                   } else {
-                    filter.facets.push({facet: facetName, values: [fieldName]});
+                    filter.facets = [{facet: facetName, upSets: [], values: [fieldName]}];
+                  }
+                } else {
+                  const currentFacet = filter.facets.find(f => f.facet === facetName);
+                  if (!!currentFacet) {
+                    if (fieldName.startsWith('InGroup:')){
+                      currentFacet.upSets.push(UpsetOptions.parseFromUrl(fieldName));
+                    } else {
+                      currentFacet.values.push(fieldName);
+                    }
+                  } else {
+                    if (fieldName.startsWith('InGroup:')){
+                      filter.facets.push({facet: facetName, upSets: [UpsetOptions.parseFromUrl(fieldName)], values: []});
+                    } else {
+                      filter.facets.push({facet: facetName, upSets: [], values: [fieldName]});
+                    }
                   }
                 }
               } else {
                 // map facet object to be mapped
                 filter.facets = currentFacets
-                  .map(facet => facet = {facet: facet.facet, values: facet.values.map(value => value.name)})
-                  .filter(facets => facets.values.length !== 0);
+                  .map(facet => facet = {
+                    facet: facet.facet,
+                    values: facet.values.map(value => value.name),
+                    upSets: facet.upSets
+                  })
+                  .filter(facets => facets.values.length !== 0 || facets.upSets.length !== 0);
               }
               ret.filter = filter;
               break;
@@ -755,6 +782,24 @@ export class PharosApiService {
     }
     return this.targetListService.getList(docid).toPromise().then((list: string[]) => {
       return list;
+    });
+  }
+
+
+  getUpsetQuery(route: ActivatedRouteSnapshot, variables?: any) {
+    const path: string = route.data.path;
+    variables = {
+      model: (path.charAt(0).toUpperCase() + path.slice(1)),
+      ...variables,
+      ...this.parseVariables(route, null)
+    };
+    return this.fetchTargetList(route).then((res: string[]) => {
+      if (res && res.length > 0) {
+        variables.batch = res;
+      }
+      return this.apollo.query<any>({query: this.UpsetQuery(), variables}).toPromise();
+    }).catch(err => {
+      err;
     });
   }
 

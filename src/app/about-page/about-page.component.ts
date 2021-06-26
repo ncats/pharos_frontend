@@ -10,12 +10,11 @@ import {
 } from '@angular/core';
 import {CdkScrollable, ScrollDispatcher} from '@angular/cdk/scrolling';
 import {PharosProperty} from '../models/pharos-property';
-import {DynamicPanelComponent} from "../tools/dynamic-panel/dynamic-panel.component";
-import {takeUntil} from "rxjs/operators";
-import {Ligand} from "../models/ligand";
-import {DataSource} from "../models/dataSource";
-import {ActivatedRoute} from "@angular/router";
-import {NavSectionsService} from "../tools/sidenav-panel/services/nav-sections.service";
+import {DynamicPanelComponent} from '../tools/dynamic-panel/dynamic-panel.component';
+import {takeUntil} from 'rxjs/operators';
+import {DataSource} from '../models/dataSource';
+import {ActivatedRoute} from '@angular/router';
+import {DynamicServicesService} from '../pharos-services/dynamic-services.service';
 
 /**
  * about page component
@@ -76,8 +75,8 @@ export class AboutPageComponent extends DynamicPanelComponent implements OnInit,
     private changeDetector: ChangeDetectorRef,
     private scrollDispatcher: ScrollDispatcher,
     private _route: ActivatedRoute,
-    public navSectionsService: NavSectionsService) {
-    super(navSectionsService);
+    public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
 
   /**

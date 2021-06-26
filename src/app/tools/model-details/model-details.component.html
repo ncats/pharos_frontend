@@ -1,0 +1,34 @@
+<div>
+  <div>
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <div fxFlex="90">
+        <h1 mat-dialog-title>Model Details</h1>
+      </div>
+      <button mat-icon-button (click)="cancel()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <mat-toolbar [color]="'primary'" class="target-table-toolbar">
+    <div class=list-header>Model: {{modelDetails.name}}</div>
+  </mat-toolbar>
+  <div class="prop-container">
+  <!--  <ncats-property-display [property]="{label: 'Name', term: modelDetails.name}"></ncats-property-display>-->
+    <ncats-property-display [property]="{label: 'Prediction Type', term: modelDetails.type}"></ncats-property-display>
+    <ncats-property-display [property]="{label: 'End Point', term: modelDetails.endPoint}"></ncats-property-display>
+  <!--  <ncats-property-display [property]="{label: 'Group', term: modelDetails.group}"></ncats-property-display>-->
+  <!--  <ncats-property-display [property]="{label: 'Title', term: modelDetails.title}"></ncats-property-display>-->
+    <ncats-property-display [property]="{label: 'Num Training Set', term: modelDetails.numTraining}"></ncats-property-display>
+    <ncats-property-display [property]="{label: 'Num Testing Set', term: modelDetails.numTesting}"></ncats-property-display>
+    <ncats-property-display [property]="{label: 'Validation Approach', term: modelDetails.validationApproach}"></ncats-property-display>
+    <ncats-property-display [property]="{label: 'R2', term: modelDetails.r2}"></ncats-property-display>
+    <ncats-property-display [property]="{label: 'RMSE', term: modelDetails.rmse}"></ncats-property-display>
+    <ncats-property-display [property]="{label: 'Balanced Accuracy', term: modelDetails.accuracy}"></ncats-property-display>
+    <ncats-property-display [property]="{label: 'AUC', term: modelDetails.auc}"></ncats-property-display>
+    <ncats-property-display [property]="{label: 'Descriptors', term: modelDetails.descriptors}"></ncats-property-display>
+    <ncats-property-display [property]="{label: 'Machine Learning Approach', term: modelDetails.macLearningApproach}"></ncats-property-display>
+    <ncats-property-display [property]="{label: 'Applicability domain', term: modelDetails.applicabilityDomain}"></ncats-property-display>
+    <ncats-property-display [property]="{label: 'Reference', term: modelDetails.references.replace('|','\n')}"></ncats-property-display>
+    <ncats-property-display [property]="{label: 'Source', term: modelDetails.source}"></ncats-property-display>
+  </div>
+</div>

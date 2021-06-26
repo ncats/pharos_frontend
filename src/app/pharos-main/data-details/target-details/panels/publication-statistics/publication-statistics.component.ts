@@ -8,6 +8,7 @@ import {PharosConfig} from '../../../../../../config/pharos-config';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
 @Component({
   selector: 'pharos-publication-statistics',
@@ -64,8 +65,8 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
               private changeRef: ChangeDetectorRef,
               private pharosApiService: PharosApiService,
               private pharosConfig: PharosConfig,
-              public navSectionsService: NavSectionsService) {
-    super(navSectionsService);
+              public dynamicServices: DynamicServicesService) {
+    super(dynamicServices);
   }
 
   /**

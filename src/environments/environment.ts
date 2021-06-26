@@ -5,7 +5,8 @@ const backend = 'https://ncatsidg-dev.appspot.com';
 
 export const environment = {
   rendererUrl: `${backend}/render`,
-  production: false,
+// @ts-ignore
+  production: (backend === 'https://pharos-api.ncats.io'),
   graphqlUrl: `${backend}/graphql`,
   maxDownload: 250000,
   firebase: {
