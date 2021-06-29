@@ -80,12 +80,12 @@ export class StructureViewComponent implements OnInit {
           if (this.data.term === '') {
             this.url = null;
           } else {
-            this.url = `${environment.rendererUrl}?standardize=true&size=${this.size * 2}&structure=${encodeURIComponent(this.smiles)}`;
+            this.url = `${environment.rendererUrl}?standardize=true&size=${this.size}&structure=${encodeURIComponent(this.smiles)}`;
           }
         }
       });
     if (this.smiles) {
-      this.url = `${environment.rendererUrl}?standardize=true&size=${this.size * 2}&structure=${encodeURIComponent(this.smiles)}`;
+      this.url = `${environment.rendererUrl}?standardize=true&size=${this.size}&structure=${encodeURIComponent(this.smiles)}`;
     }
   }
 
