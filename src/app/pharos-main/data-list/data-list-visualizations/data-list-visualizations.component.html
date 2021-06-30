@@ -1,4 +1,5 @@
-<mat-tab-group (selectedTabChange)="redrawChildren($event)">
+<div>
+  <mat-tab-group fxFlex="" (selectedTabChange)="redrawChildren($event)">
   <mat-tab>
     <ng-template mat-tab-label>
       <div
@@ -35,19 +36,24 @@
     </div>
   </mat-tab>
 
-<!--  <mat-tab>-->
-<!--    <ng-template mat-tab-label>-->
-<!--      <div-->
-<!--        [matTooltip]="getTooltip('2dplots')"-->
-<!--        [matTooltipClass]="'pharos-tooltip'">-->
-<!--        2D Plots-->
-<!--      </div>-->
-<!--    </ng-template>-->
-<!--    <pharos-multidimensional-facet-plot [events]="redrawCharts.asObservable()"></pharos-multidimensional-facet-plot>-->
-<!--  </mat-tab>-->
+    <!--  <mat-tab>-->
+    <!--    <ng-template mat-tab-label>-->
+    <!--      <div-->
+    <!--        [matTooltip]="getTooltip('2dplots')"-->
+    <!--        [matTooltipClass]="'pharos-tooltip'">-->
+    <!--        2D Plots-->
+    <!--      </div>-->
+    <!--    </ng-template>-->
+    <!--    <pharos-multidimensional-facet-plot [events]="redrawCharts.asObservable()"></pharos-multidimensional-facet-plot>-->
+    <!--  </mat-tab>-->
 
 
-</mat-tab-group>
+  </mat-tab-group>
+  <div fxFlex="5">
+    <pharos-help-panel-trigger [origin]="'visualizations'"
+                               [label]="'Visualizations'"></pharos-help-panel-trigger>
+  </div>
+</div>
 <div fxLayout="row" fxLayoutAlign="space-around start">
   <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet>
     <pharos-visualization-options (fieldChange)="changeSelectedFacet($event)" [facets]="facets"></pharos-visualization-options>

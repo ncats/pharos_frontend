@@ -10,6 +10,7 @@ import {SharedListModule} from '../../../shared/shared-list.module';
 import {DiseaseTableComponent} from '../../data-list/tables/disease-table/disease-table.component';
 import {ComponentsResolver} from '../../resolvers/components.resolver';
 import {FilterPanelComponent} from '../../data-list/filter-panel/filter-panel.component';
+import {HelpPanelComponent} from '../../../tools/help-panel/help-panel.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {FilterPanelComponent} from '../../data-list/filter-panel/filter-panel.co
     SharedListModule
   ],
   providers: [
-    {provide: TOKENS.DISEASE_TABLE_COMPONENT, useValue: DiseaseTableComponent}
+    {provide: TOKENS.DISEASE_TABLE_COMPONENT, useValue: DiseaseTableComponent},
+    {provide: TOKENS.PHAROS_HELPPANEL_COMPONENT, useValue: HelpPanelComponent},
   ],
   exports: [
     DiseaseTableComponent

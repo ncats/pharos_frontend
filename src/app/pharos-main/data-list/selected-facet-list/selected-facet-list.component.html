@@ -46,7 +46,7 @@
                     class="facet-chip">
             <div class="upsetChip">
               <mat-icon>add</mat-icon><div *ngFor="let inVal of upsetObj.inGroup">{{inVal}}</div>
-              <mat-icon>remove</mat-icon><div *ngFor="let outVal of upsetObj.outGroup">{{outVal}}</div>
+              <mat-icon *ngIf="upsetObj.outGroup.length > 0">remove</mat-icon><div *ngFor="let outVal of upsetObj.outGroup">{{outVal}}</div>
             </div>
             <div fxFlex=""></div>
             <mat-icon matChipRemove class="removeIcon">cancel</mat-icon>
