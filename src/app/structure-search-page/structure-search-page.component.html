@@ -50,34 +50,34 @@
           </mat-card-content>
         </mat-card>
       </ng-container>
-<!--      <ng-container>-->
-<!--        <mat-card>-->
-<!--          <mat-card-content class="linkContainer" fxLayout="column" fxLayoutAlign="space-around center">-->
-<!--          <span class="mat-title">-->
-<!--            Find Predicted Targets-->
-<!--          </span>-->
-<!--            <div fxFlex="1"></div>-->
-<!--            <div class="toolImage">-->
-<!--              <img [src]="'./assets/affiliates/ncats-predictor.png'" width="100%"/>-->
-<!--            </div>-->
-<!--            <div fxFlex="1"></div>-->
-<!--            <div class="toolDescription">-->
-<!--              Find targets predicted to have an activity against the query structure, based on a set of-->
-<!--              Quantitative structure-activity relationship (QSAR) models. See-->
-<!--              <a href="https://predictor.ncats.io/predictor/" target="_blank">NCATS Predictor</a> for details, or to download datasets and models.-->
-<!--            </div>-->
-<!--            <div fxFlex="1"></div>-->
-<!--            <div class="toolLinkButton">-->
-<!--              <div></div>-->
-<!--              <button [disabled]="!smilesCtrl.value || (smilesCtrl.value.length === 0)"-->
-<!--                      class="tool-button" mat-raised-button [color]="'primary'"-->
-<!--                      (click)="searchTargets()">Search-->
-<!--                <mat-icon>search</mat-icon>-->
-<!--              </button>-->
-<!--            </div>-->
-<!--          </mat-card-content>-->
-<!--        </mat-card>-->
-<!--      </ng-container>-->
+      <ng-container *ngIf="isDev">
+        <mat-card>
+          <mat-card-content class="linkContainer" fxLayout="column" fxLayoutAlign="space-around center">
+          <span class="mat-title">
+            Find Predicted Targets
+          </span>
+            <div fxFlex="1"></div>
+            <div class="toolImage">
+              <img [src]="'./assets/affiliates/ncats-predictor.png'" width="100%"/>
+            </div>
+            <div fxFlex="1"></div>
+            <div class="toolDescription">
+              Find targets predicted to have an activity against the query structure, based on a set of
+              Quantitative structure-activity relationship (QSAR) models. See
+              <a href="https://predictor.ncats.io/predictor/" target="_blank">NCATS Predictor</a> for details, or to download datasets and models.
+            </div>
+            <div fxFlex="1"></div>
+            <div class="toolLinkButton">
+              <div></div>
+              <button [disabled]="!smilesCtrl.value || (smilesCtrl.value.length === 0)"
+                      class="tool-button" mat-raised-button [color]="'primary'"
+                      (click)="searchTargets()">Search
+                <mat-icon>search</mat-icon>
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </ng-container>
     </div>
   </div>
 </div>
