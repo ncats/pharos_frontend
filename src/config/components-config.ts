@@ -342,7 +342,25 @@ const PHAROS_SELECTED_FACET_LIST_COMPONENT: PharosPanel = {
  */
 const PHAROS_FACET_VISUALIZATION_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_VISUALIZATION_COMPONENT,
-  section: Position.Content
+  section: Position.Content,
+  navHeader: {
+    mainDescription: 'Summary Visualizations.',
+    section: 'visualizations',
+    label: 'Facet Visualizations'
+  },
+  api: [
+    {
+      description: 'A donut chart showing the marginal counts for the top values for each facet.',
+      field: 'donut',
+      label: 'Donut Chart'
+    },
+    {
+      description: 'A bar chart showing counts for intersecting sets for each facet value. The top 5 facet values and their intersections are' +
+        ' shown by default. Edit the facet values for custom plots, and filter the list by clicking the bars or circles.',
+      field: 'upset',
+      label: 'UpSet Chart',
+      source: 'https://jku-vds-lab.at/tools/upset/'
+    }]
 };
 
 /**
@@ -1459,7 +1477,8 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_FACETS_COMPONENT,
           PHAROS_FACET_VISUALIZATION_COMPONENT,
           PHAROS_SELECTED_FACET_LIST_COMPONENT,
-          DISEASE_TABLE_COMPONENT
+          DISEASE_TABLE_COMPONENT,
+          PHAROS_HELPPANEL_COMPONENT
         ]
       },
       details: {
@@ -1480,7 +1499,8 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_FACETS_COMPONENT,
           PHAROS_FACET_VISUALIZATION_COMPONENT,
           PHAROS_SELECTED_FACET_LIST_COMPONENT,
-          LIGAND_TABLE_COMPONENT
+          LIGAND_TABLE_COMPONENT,
+          PHAROS_HELPPANEL_COMPONENT
         ]
       },
       details: {

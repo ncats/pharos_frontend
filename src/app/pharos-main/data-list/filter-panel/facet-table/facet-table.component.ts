@@ -135,9 +135,6 @@ export class FacetTableComponent implements OnInit, OnDestroy {
     this.populateFilteredData();
     // update selected fields
     this.mapSelected();
-    if (this.popup){
-      this.fetchAllFilterOptions();
-    }
 
     /**
      * this changes the facets that are mapped to the url path in the service

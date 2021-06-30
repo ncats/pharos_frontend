@@ -1,6 +1,6 @@
 <div class="image-holder">
   <div *ngIf= "url; else placeholder">
-<img [width]="size" [height]="size" [src]="url" alt="chemical structure image" class="ligand-image" [ngClass]="{roundCorners: rounded}">
+<img [src]="url" alt="chemical structure image" class="ligand-image" [ngClass]="{roundCorners: rounded}">
 </div>
 <ng-template #placeholder>
   <img [src] = "'assets/images/benzene.svg'"
