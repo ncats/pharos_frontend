@@ -277,17 +277,20 @@ export class PharosMainComponent implements OnInit, OnDestroy {
    * also, the server won't know about this.isSmallScreen, because media queries don't work on the server
    */
   getClassForMarginsOnServer(){
-    let server = true;
     if (isPlatformBrowser(this.platformID)){
-      server = false;
+      return '';
     }
-    if (this._route.snapshot.data.subpath === 'list' && !this.isSmallScreen){
+    if (this._route.snapshot.data.subpath === 'list'){
       return 'wideNavPanel';
     }
-    if (this._route.snapshot.data.subpath === 'details' && ['targets', 'diseases'].includes(this._route.snapshot.data.path) && !this.isSmallScreen) {
-      return server ? 'thinNavPanel' : 'thinNavPanelBrowser';
+    if (this._route.snapshot.data.subpath === 'details' && ['targets', 'diseases'].includes(this._route.snapshot.data.path)) {
+      return 'thinNavPanel';
     }
     return '';
+  }
+
+  isList() {
+    return this._route.snapshot.data.subpath !== 'list';
   }
 
   /**

@@ -1,5 +1,5 @@
 <ng-container id="headertemplate" #headertemplate cdkPortalOutlet></ng-container>
-<mat-sidenav-container class="main-content" [autosize]= autosize>
+<mat-sidenav-container class="main-content" [ngClass]="{topMargin: isList()}" [autosize]= autosize>
   <mat-sidenav #leftpanel
                [mode]="isSmallScreen!==true ? 'side' : 'over'"
                [opened]="isSmallScreen !== true">
