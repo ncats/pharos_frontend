@@ -62,6 +62,8 @@ export class SelectedFacetService {
             facet.upSets = [facetObj.change.added];
           }
         } else {
+          facet.upSets = facet.upSets.filter(set => !set.inGroup.some(inVal => facetObj.change.added.includes(inVal)));
+          // prune unnecessary upset filters
           if (facet.values.length > 0) {
             facet.values =
               [...new Set((facet.values.concat(facetObj.change.added.map(add => add = new Field({name: add})))).filter(name => name.name))];
@@ -75,7 +77,9 @@ export class SelectedFacetService {
         facet.values = facet.values.map(value => value.name)
           .filter(val => !facetObj.change.removed.includes(val))
           .map(newVal => new Field({name: newVal}));
-        if (facet.values.length > 0) {
+        const removals = facetObj.change.removed.map(f => JSON.stringify(f));
+        facet.upSets = facet.upSets.filter(val => !removals.includes(JSON.stringify(val)));
+        if (facet.values.length > 0 || facet.upSets.length > 0) {
           this._facetMap.set(facetObj.name, facet);
         } else {
           this._facetMap.delete(facetObj.name);
