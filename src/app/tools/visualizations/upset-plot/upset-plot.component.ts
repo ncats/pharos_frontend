@@ -57,20 +57,24 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
       }
     });
     this.selectedFacetService.facets$.subscribe(facetMap => {
-      this.filteringSets = [];
-      facetMap.forEach((facet, name) => {
-        facet.upSets.forEach(set => {
-          this.filteringSets.push(`${facet.facet} - ` + set.inGroup.join(' + '));
-        });
-        facet.values?.forEach(val => {
-          this.allData?.forEach((intersection: UpsetIntersection) => {
-            if (intersection.values?.includes(val.name)) {
-              this.filteringSets.push(`${facet.facet} - ` + intersection.values.join(' + '));
-            }
-          });
+      this.updateFilteringSets(facetMap);
+      this.redraw();
+    });
+  }
+
+  updateFilteringSets(facetMap) {
+    this.filteringSets = [];
+    facetMap.forEach((facet, name) => {
+      facet.upSets.forEach(set => {
+        this.filteringSets.push(`${facet.facet} - ` + set.inGroup.join(' + '));
+      });
+      facet.values?.forEach(val => {
+        this.allData?.forEach((intersection: UpsetIntersection) => {
+          if (intersection.values?.includes(val.name)) {
+            this.filteringSets.push(`${facet.facet} - ` + intersection.values.join(' + '));
+          }
         });
       });
-      this.redraw();
     });
   }
 
@@ -231,6 +235,7 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
       this.allData.push(compoundIntersection);
     });
     this.soloSets.sort((a, b) => a.setName.localeCompare(b.setName));
+    this.updateFilteringSets(this.selectedFacetService._facetMap);
     this.redraw();
   }
 
