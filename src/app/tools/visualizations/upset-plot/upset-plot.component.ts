@@ -26,7 +26,7 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
   cachedResults: any;
   soloSets: any[];
   interactions: any[];
-  allData: any[];
+  allData: UpsetIntersection[];
   defaultValueCount = 5;
   upsetValues: string[];
   filteringSets: string[] = [];
@@ -62,7 +62,15 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
         facet.upSets.forEach(set => {
           this.filteringSets.push(`${facet.facet} - ` + set.inGroup.join(' + '));
         });
+        facet.values?.forEach(val => {
+          this.allData?.forEach((intersection: UpsetIntersection) => {
+            if (intersection.values?.includes(val.name)) {
+              this.filteringSets.push(`${facet.facet} - ` + intersection.values.join(' + '));
+            }
+          });
+        });
       });
+      this.redraw();
     });
   }
 
@@ -109,20 +117,75 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
   }
 
   upSetBarClicked(barEvent: any): void {
+    if (!this.customValues.has(this.displayFacet.facet)) {
+      this.customValues.set(this.displayFacet.facet, this.upsetValues);
+    }
     const newUpSetFilter = new UpsetOptions(barEvent.values, this.upsetValues);
     const existingFacet = this.selectedFacetService._facetMap.get(this.displayFacet.facet);
-    if (existingFacet && existingFacet.upSets.some(v => JSON.stringify(v) === JSON.stringify(newUpSetFilter))) {
+    if (this.valueAlreadySelected(existingFacet, newUpSetFilter)) {
       return;
+    }
+    const completeFilters = this.getCompleteMarginalFilters(existingFacet, newUpSetFilter);
+    let changes = {};
+
+    if (completeFilters.length > 0) {
+      changes = {
+        added: completeFilters,
+        removed: existingFacet?.upSets?.filter(f => f.inGroup.some(v => completeFilters.includes(v)))
+      };
+    } else {
+      changes = {
+        added: newUpSetFilter
+      };
     }
     this.selectedFacetService.setFacets(
       {
         name: this.displayFacet.facet,
-        change: {
-          added: newUpSetFilter
-        }
+        change: changes
       });
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
     this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
+  }
+
+  getCompleteMarginalFilters(currentFacet: Facet, newSet: UpsetOptions) {
+    const existingUpSets = currentFacet?.upSets || [];
+    const completedFilters = [];
+    newSet.inGroup.forEach(val => {
+      let complete = true;
+      // is this set the last set that has this value ?
+      const participatingSets = this.allData.filter(s => {
+        return JSON.stringify(s.values).includes(val) && (s.num > 0) &&
+          !currentFacet?.values.map(f => f.name).some(c => s?.values.includes(c));
+      });
+
+      participatingSets.forEach(set => {
+        // is this the set that is being added ?
+        if (JSON.stringify(set.values) === JSON.stringify(newSet.inGroup)) {
+          return;
+        }
+        if (existingUpSets.map(f => JSON.stringify(f.inGroup)).includes(JSON.stringify(set.values))) {
+          return;
+        }
+        complete = false;
+      });
+      if (complete) {
+        completedFilters.push(val);
+      }
+    });
+    return completedFilters;
+  }
+
+  valueAlreadySelected(currentFacet: Facet, newFilter: UpsetOptions) {
+    if (!currentFacet) { // no facet selections
+      return false;
+    }
+    let found = false;
+    newFilter.inGroup.forEach((inVal: string) => { // values already included via marginal filter selection
+      if (currentFacet.values.map(v => v.name).includes(inVal)) {
+        found = true;
+      }
+    });
+    return found || currentFacet.upSets.some(v => JSON.stringify(v) === JSON.stringify(newFilter)); // intersection already selected
   }
 
   parseResults() {
@@ -130,7 +193,6 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
     this.interactions = [];
     this.soloSets = [];
 
-    const upsetMap: Map<string, string[]> = new Map<string, string[]>();
     this.cachedResults.data.upset.forEach(row => {
       let compoundIntersection: UpsetIntersection;
       if (row.values.length === 1) {
@@ -162,6 +224,7 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
       const compoundIntersection = {
         name: missing,
         num: 0,
+        values: [missing],
         setName: this.mapToSetName([missing])
       };
       this.soloSets.push(compoundIntersection);
@@ -187,7 +250,7 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
 
   redraw() {
     this.changeRef.detectChanges();
-    this.upsetComponent.redrawChart();
+    this.upsetComponent?.redrawChart();
   }
 
 
