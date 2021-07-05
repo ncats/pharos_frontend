@@ -255,7 +255,7 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
 
   redraw() {
     this.changeRef.detectChanges();
-    this.upsetComponent?.redrawChart();
+    this.upsetComponent.redrawChart();
   }
 
 
