@@ -1,14 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SelectionModel} from '@angular/cdk/collections';
@@ -135,9 +125,6 @@ export class FacetTableComponent implements OnInit, OnDestroy {
     this.populateFilteredData();
     // update selected fields
     this.mapSelected();
-    if (this.popup){
-      this.fetchAllFilterOptions();
-    }
 
     /**
      * this changes the facets that are mapped to the url path in the service
@@ -145,7 +132,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
     this.filterSelection.changed
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(change => {
-        if (!this.popup){
+        if (!this.popup) {
           if (this.propogate === true) {
             this.selectedFacetService.setFacets({name: this.facet.facet, change});
             const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
@@ -155,6 +142,10 @@ export class FacetTableComponent implements OnInit, OnDestroy {
           this.popupFieldsChange.emit(change.source.selected);
         }
       });
+
+    this.selectedFacetService.facets$.subscribe(facetMap => {
+      this.mapSelected();
+    });
   }
 
   mapSelected() {
@@ -190,7 +181,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    * show underline of the searchText
    * @param rowText
    */
-  highlightText(rowText: string){
+  highlightText(rowText: string) {
     if (this.searchText.length == 0) {
       return rowText;
     }
@@ -254,6 +245,23 @@ export class FacetTableComponent implements OnInit, OnDestroy {
       const rowname = (row.value || row.name).toLowerCase();
       return rowname.indexOf(this.searchText.toLowerCase()) > -1;
     });
+  }
+
+  isIndeterminate(row: any) {
+    const selected: Facet = this.selectedFacetService.getFacetByName(this.facet.facet);
+    if (selected) {
+      if (selected.values.map(f => f.name).includes(row.name)) {
+        return false;
+      }
+      let found = false;
+      selected.upSets.forEach(set => {
+        if (set.inGroup.includes(row.name)) {
+          found = true;
+        }
+      });
+      return found;
+    }
+    return false;
   }
 
   /**

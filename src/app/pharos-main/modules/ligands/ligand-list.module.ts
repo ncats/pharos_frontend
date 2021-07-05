@@ -9,6 +9,7 @@ import {DataListResolver} from '../../resolvers/data-list.resolver';
 import {SharedListModule} from '../../../shared/shared-list.module';
 import {CommonToolsModule} from '../../../tools/common-tools.module';
 import {LigandTableComponent} from '../../data-list/tables/ligand-table/ligand-table.component';
+import {HelpPanelComponent} from '../../../tools/help-panel/help-panel.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {LigandTableComponent} from '../../data-list/tables/ligand-table/ligand-t
   providers: [
     DataListResolver,
     {provide: TOKENS.LIGAND_TABLE_COMPONENT, useValue: LigandTableComponent},
+    {provide: TOKENS.PHAROS_HELPPANEL_COMPONENT, useValue: HelpPanelComponent}
   ],
   exports: [
     LigandCardComponent,
