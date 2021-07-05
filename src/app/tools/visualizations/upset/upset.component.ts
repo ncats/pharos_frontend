@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
-import { VisualizationBase } from './visualization-base';
-import { take } from 'rxjs/operators';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {VisualizationBase} from './visualization-base';
+import {take} from 'rxjs/operators';
 import * as d3 from 'd3';
-import { UpsetIntersection } from './intersection.model';
+import {UpsetIntersection} from './intersection.model';
 
 @Component({
   selector: 'ramp-upset',
@@ -17,14 +17,14 @@ export class UpsetComponent extends VisualizationBase implements OnInit, AfterVi
   dataNameKey: string;
   dataValuesKey: string;
   isViewInit = false;
-  @Input() scale: 'linear'|'log' = 'linear';
+  @Input() scale: 'linear' | 'log' = 'linear';
   @Input() showSetsSelection = false;
   @Input() plotName = '';
   @Input() highlitedSets: string[] = [];
   @Output() upSetBarClicked = new EventEmitter();
   private circRad = 11;
 
-  @ViewChild('upsetPlotBox', { read: ElementRef, static: false }) upsetPlotElement: ElementRef;
+  @ViewChild('upsetPlotBox', {read: ElementRef, static: false}) upsetPlotElement: ElementRef;
 
   constructor() {
     super();
@@ -66,26 +66,26 @@ export class UpsetComponent extends VisualizationBase implements OnInit, AfterVi
   }
 
   @Input('nameKey')
-    set dataXKeyInput(nameKey: string) {
-        if (nameKey != null) {
-            this.dataNameKey = nameKey;
-            this.processData();
-            this.svgReady.pipe(take(1)).subscribe(() => {
-                this.drawChart();
-            });
-        }
+  set dataXKeyInput(nameKey: string) {
+    if (nameKey != null) {
+      this.dataNameKey = nameKey;
+      this.processData();
+      this.svgReady.pipe(take(1)).subscribe(() => {
+        this.drawChart();
+      });
     }
+  }
 
-    @Input('valuesKey')
-    set dataYKeyInput(valuesKey: string) {
-        if (valuesKey != null) {
-            this.dataValuesKey = valuesKey;
-            this.processData();
-            this.svgReady.pipe(take(1)).subscribe(() => {
-                this.drawChart();
-            });
-        }
+  @Input('valuesKey')
+  set dataYKeyInput(valuesKey: string) {
+    if (valuesKey != null) {
+      this.dataValuesKey = valuesKey;
+      this.processData();
+      this.svgReady.pipe(take(1)).subscribe(() => {
+        this.drawChart();
+      });
     }
+  }
 
   processData(): void {
     super.processData();
@@ -127,7 +127,7 @@ export class UpsetComponent extends VisualizationBase implements OnInit, AfterVi
   }
 
   redrawChart(): void {
-    d3.select(this.upsetPlotElement.nativeElement).selectAll('*').remove();
+    d3.select(this.upsetPlotElement?.nativeElement).selectAll('*').remove();
     this.drawContainer();
     this.drawChart();
   }
@@ -149,7 +149,7 @@ export class UpsetComponent extends VisualizationBase implements OnInit, AfterVi
       const height = 300;
       const marginBottom = this.soloSets.length * 45;
       const width = 52 + ((this.allData.length - 1) * (this.circRad * 2.7));
-      this.createSvg(this.upsetPlotElement.nativeElement, width, height, marginLeft, marginBottom, 0, 20);
+      this.createSvg(this.upsetPlotElement?.nativeElement, width, height, marginLeft, marginBottom, 0, 20);
     }
   }
 
@@ -382,7 +382,9 @@ export class UpsetComponent extends VisualizationBase implements OnInit, AfterVi
         .attr('y', (d) => yrange(d.num))
         .style('fill', '#23364e')
         .attr('height', (d) => height - yrange(d.num))
-        .on('click', (d, i) => { this.upSetBarClicked.emit(i); });
+        .on('click', (d, i) => {
+          this.upSetBarClicked.emit(i);
+        });
 
       const labels = chart.selectAll('.text')
         .data(this.allData)
@@ -403,20 +405,22 @@ export class UpsetComponent extends VisualizationBase implements OnInit, AfterVi
             .attr('cy', j * (rad * 2.7))
             .attr('r', rad)
             .attr('class', (d) => {
-              if (this.highlitedSets.includes(this.plotName + ' - ' + x.name) && x.setName.split('').includes(y)) {
-                return `circleUpset set-${x.setName} hovered`;
+              if (x.setName.split('').includes(y)) {
+                if (this.highlitedSets.includes(this.plotName + ' - ' + x.name)) {
+                  return `circleUpset inGroup set-${x.setName} hovered`;
+                } else {
+                  return `circleUpset inGroup set-${x.setName}`;
+                }
               } else {
-                return `circleUpset set-${x.setName}`;
+                return `circleUpset outGroup set-${x.setName}`;
               }
             })
             .style('opacity', 1)
-            .attr('fill', () => {
-              if (x.setName.indexOf(y) !== -1) {
-                return '#23364e';
+            .on('click', () => {
+              if (x.setName.split('').includes(y)) {
+                this.upSetBarClicked.emit(x);
               }
-              return 'silver';
-            })
-            .on('click', () => { this.upSetBarClicked.emit(x); });
+            });
         });
 
         upsetCircles.append('line')

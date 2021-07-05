@@ -14,10 +14,13 @@ import {SuggestApiService} from '../../search-component/suggest-api.service';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../test/mock-activate-route';
+import {UpsetComponent} from '../upset/upset.component';
 
 describe('UpsetPlotComponent', () => {
   let component: UpsetPlotComponent;
+  let depComponent: UpsetComponent;
   let fixture: ComponentFixture<UpsetPlotComponent>;
+  let depFixture: ComponentFixture<UpsetComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -42,7 +45,11 @@ describe('UpsetPlotComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpsetPlotComponent);
+    depFixture = TestBed.createComponent(UpsetComponent);
     component = fixture.componentInstance;
+    depComponent = depFixture.componentInstance;
+    depFixture.detectChanges();
+    component.upsetComponent = depComponent;
     fixture.detectChanges();
   });
 

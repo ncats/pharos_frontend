@@ -5,6 +5,10 @@
   min-height: 100vh;
 }
 
+.topMargin {
+  padding-top: 4vh;
+}
+
 .pharos-sidenav-content {
   padding: 1vw;
 }
@@ -14,11 +18,6 @@
 }
 .thinNavPanel{
   margin-left: 300px;
-}
-
-.thinNavPanelBrowser{
-  margin-left: 300px;
-  padding-top: 5vh;
 }
 
 mat-sidenav-content.mat-drawer-content.mat-sidenav-content {
