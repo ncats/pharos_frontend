@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {autocompleteOption, SuggestApiService} from './suggest-api.service';
 import {Observable} from 'rxjs';
 import {FormControl} from '@angular/forms';
@@ -64,7 +64,7 @@ export class SearchComponent implements OnInit {
       .pipe(
         debounceTime(400),
         distinctUntilChanged(),
-        switchMap(term => this.suggestApiService.search(term.trim()),
+        switchMap(term => this.suggestApiService.search(term?.trim()),
         ));
   }
 
