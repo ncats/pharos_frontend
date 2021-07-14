@@ -167,7 +167,7 @@ a:hover {
   fill: mat-color($pharos-app-primary);
 }
 
-.circleUpset.inGroup:hover {
+.circleUpset.inGroup:hover,.circleUpset.inGroup.hovered {
   fill: mat-color($pharos-app-accent);
 }
 
