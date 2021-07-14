@@ -40,7 +40,8 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
   });
 
   hasTooMuchData() {
-    return this.data.diseases.associationCount >= 5000;
+    return this.data.diseases.associationCount >= 5000 ||
+      (this.data.diseases.associationCount >= 2000 && this.data.diseases.children.length > 5);
   }
 
   hasDOID() {

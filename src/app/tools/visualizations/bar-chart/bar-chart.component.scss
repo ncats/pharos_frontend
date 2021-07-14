@@ -41,17 +41,6 @@
   fill: mat-color($pharos-app-accent) !important;
 }
 
-.circleUpset.inGroup {
-  fill: mat-color($pharos-app-primary);
-}
-
-.circleUpset.inGroup:hover {
-  fill: mat-color($pharos-app-accent);
-}
-
-.circleUpset.outGroup {
-  fill: silver;
-}
 .axis {
   font: 10px sans-serif;
 }

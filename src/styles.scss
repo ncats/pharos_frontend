@@ -162,3 +162,15 @@ a:hover {
   font: 400 34px/40px Roboto, "Helvetica Neue", sans-serif;
   margin-bottom: 0;
 }
+
+.circleUpset.inGroup {
+  fill: mat-color($pharos-app-primary);
+}
+
+.circleUpset.inGroup:hover {
+  fill: mat-color($pharos-app-accent);
+}
+
+.circleUpset.outGroup {
+  fill: silver;
+}

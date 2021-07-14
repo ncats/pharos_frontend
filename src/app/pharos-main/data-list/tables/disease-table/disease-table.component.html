@@ -27,7 +27,7 @@
 <pharos-generic-table *ngIf = "diseaseObjs"
                       [pageData]="pageData"
                       [showPaginator]="false"
-                      [fieldsConfig]="fieldsData"
+                      [fieldsConfig]="this.associatedTarget ? fieldsDataWithTarget : fieldsData"
                       [data]="diseaseObjs"
                       (sortChange)="changeSort($event)"
                       (pageChange)="changePage($event)">
