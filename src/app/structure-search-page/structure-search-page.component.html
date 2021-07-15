@@ -3,13 +3,30 @@
     <div fxLayout="row" class="header-row">
       <div class="section-header active">Structure Search</div>
     </div>
+    <mat-card class="smiles-card" *ngIf="resolverIsUp">
+      <mat-card-title>Load Chemical Structure</mat-card-title>
+      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
+        <mat-form-field class="full-width-field">
+          <input matInput placeholder="Input a Compound Name, NCGC ID, SMILES, UNII, Chembl ID, etc."
+                 [formControl]="resolverCtrl" (change)="resolveCompound($event)">
+        </mat-form-field>
+      </div>
+      <div class="resolver-results" *ngIf="resolverService.responseDetails.hasOwnProperty('smiles')">
+        NCATSFind Results
+        <ul>
+          <li *ngFor="let item of this.resolverService.responseDetails | keyvalue" [ngClass]="{bold: item.key === 'smilesParent'}">
+            {{item.key}}: {{item.value}}
+          </li>
+        </ul>
+      </div>
+    </mat-card>
     <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center" class="sketcher-row">
       <div fxFlex="100">
         <app-sketcher></app-sketcher>
       </div>
     </div>
     <mat-card class="smiles-card">
-      <mat-card-title>Query Structure</mat-card-title>
+      <mat-card-title>Query SMILES</mat-card-title>
       <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
         <mat-form-field class="full-width-field">
           <input matInput placeholder="structure" [formControl]="smilesCtrl" (change)="smilesChanged($event)">

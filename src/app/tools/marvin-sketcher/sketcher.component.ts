@@ -1,4 +1,4 @@
-import {Component, Inject, NgZone, OnInit, PLATFORM_ID} from '@angular/core';
+import {AfterViewInit, Component, Inject, NgZone, OnInit, PLATFORM_ID} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {MolChangeService} from './services/mol-change.service';
@@ -13,7 +13,7 @@ import {isPlatformBrowser} from '@angular/common';
   templateUrl: './sketcher.component.html',
   styleUrls: ['./sketcher.component.scss'],
 })
-export class SketcherComponent implements OnInit {
+export class SketcherComponent implements AfterViewInit {
 
   /**
    * initialize data helper functions as well as dom sanitizing and ngzone
@@ -30,7 +30,7 @@ export class SketcherComponent implements OnInit {
   /**
    * initialize marvin js instance
    */
-  ngOnInit() {
+  ngAfterViewInit() {
     // @ts-ignore
     this.marvin = window.ChemicalizeMarvinJs;
     if (isPlatformBrowser(this.platformID) && this.marvin) {

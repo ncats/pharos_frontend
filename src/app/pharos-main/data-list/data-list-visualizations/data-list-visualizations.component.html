@@ -1,70 +1,31 @@
-<div>
-  <mat-tab-group fxFlex="" (selectedTabChange)="redrawChildren($event)">
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <div
-          [matTooltip]="getTooltip('upset')"
-          [matTooltipClass]="'pharos-tooltip'">
-          UpSet Chart
+<article>
+  <mat-card>
+    <mat-card-content>
+      <div fxLayout="column" fxLayoutAlign="space-around center">
+        <div>
+          <div>
+            <pharos-upset-plot [displayFacet]="displayFacet" [events]="redrawCharts.asObservable()"></pharos-upset-plot>
+            <div fxLayout="row" fxLayoutAlign="space-around start">
+              <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet>
+                <p class="slice-help">
+                  <mat-icon [color]="'primary'" class="help-icon">info</mat-icon>
+                  Click on a bar to filter the list
+                </p>
+              </div>
+            </div>
+          </div>
+          <div fxFlex="5">
+            <pharos-help-panel-trigger [origin]="'visualizations'"
+                                       [label]="'Visualizations'"></pharos-help-panel-trigger>
+          </div>
         </div>
-      </ng-template>
-      <pharos-upset-plot [displayFacet]="displayFacet" [events]="redrawCharts.asObservable()"></pharos-upset-plot>
-      <div fxLayout="row" fxLayoutAlign="space-around start">
-        <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet>
-          <p class="slice-help">
-            <mat-icon [color]="'primary'" class="help-icon">info</mat-icon>
-            Click on a bar to filter the list
-          </p>
-        </div>
-      </div>
-    </mat-tab>
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <div
-          [matTooltip]="getTooltip('donut')"
-          [matTooltipClass]="'pharos-tooltip'">
-          Donut Chart
-        </div>
-      </ng-template>
-      <div fxLayout="row" fxLayoutAlign="space-around center">
-        <div fxFlex="50" fxFlex.lt-md="80" *ngIf=displayFacet>
-          <pharos-donut-chart [data]="displayFacet.values" (clickSlice)="filterDonutChart($event)"
-                              [events]="redrawCharts.asObservable()"></pharos-donut-chart>
+        <div fxLayout="row" fxLayoutAlign="space-around start">
+          <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet>
+            <pharos-visualization-options (fieldChange)="changeSelectedFacet($event)"
+                                          [facets]="facets"></pharos-visualization-options>
+          </div>
         </div>
       </div>
-      <div fxLayout="row" fxLayoutAlign="space-around start">
-        <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet>
-          <p class="slice-help">
-            <mat-icon [color]="'primary'" class="help-icon">info</mat-icon>
-            Click on a slice to filter the list
-          </p>
-        </div>
-      </div>
-    </mat-tab>
-
-<!--    <mat-tab *ngIf="supportsMatrix()">-->
-<!--      <ng-template mat-tab-label>-->
-<!--        <div-->
-<!--          [matTooltip]="getTooltip('matrix')"-->
-<!--          [matTooltipClass]="'pharos-tooltip'">-->
-<!--          Matrix-->
-<!--        </div>-->
-<!--      </ng-template>-->
-<!--      <pharos-multidimensional-facet-plot [displayFacet]="displayFacet"-->
-<!--                                          [events]="redrawCharts.asObservable()"></pharos-multidimensional-facet-plot>-->
-<!--    </mat-tab>-->
-
-
-  </mat-tab-group>
-  <div fxFlex="5">
-    <pharos-help-panel-trigger [origin]="'visualizations'"
-                               [label]="'Visualizations'"></pharos-help-panel-trigger>
-  </div>
-</div>
-<div fxLayout="row" fxLayoutAlign="space-around start">
-  <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet>
-    <pharos-visualization-options (fieldChange)="changeSelectedFacet($event)"
-                                  [facets]="facets"></pharos-visualization-options>
-  </div>
-</div>
-<mat-divider class="space-divider"></mat-divider>
+    </mat-card-content>
+  </mat-card>
+</article>
