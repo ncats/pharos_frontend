@@ -3,6 +3,24 @@
     <mat-tab>
       <ng-template mat-tab-label>
         <div
+          [matTooltip]="getTooltip('upset')"
+          [matTooltipClass]="'pharos-tooltip'">
+          UpSet Chart
+        </div>
+      </ng-template>
+      <pharos-upset-plot [displayFacet]="displayFacet" [events]="redrawCharts.asObservable()"></pharos-upset-plot>
+      <div fxLayout="row" fxLayoutAlign="space-around start">
+        <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet>
+          <p class="slice-help">
+            <mat-icon [color]="'primary'" class="help-icon">info</mat-icon>
+            Click on a bar to filter the list
+          </p>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <div
           [matTooltip]="getTooltip('donut')"
           [matTooltipClass]="'pharos-tooltip'">
           Donut Chart
@@ -19,25 +37,6 @@
           <p class="slice-help">
             <mat-icon [color]="'primary'" class="help-icon">info</mat-icon>
             Click on a slice to filter the list
-          </p>
-        </div>
-      </div>
-    </mat-tab>
-
-    <mat-tab>
-      <ng-template mat-tab-label>
-        <div
-          [matTooltip]="getTooltip('upset')"
-          [matTooltipClass]="'pharos-tooltip'">
-          UpSet Chart
-        </div>
-      </ng-template>
-      <pharos-upset-plot [displayFacet]="displayFacet" [events]="redrawCharts.asObservable()"></pharos-upset-plot>
-      <div fxLayout="row" fxLayoutAlign="space-around start">
-        <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet>
-          <p class="slice-help">
-            <mat-icon [color]="'primary'" class="help-icon">info</mat-icon>
-            Click on a bar to filter the list
           </p>
         </div>
       </div>
