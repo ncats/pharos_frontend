@@ -1,5 +1,9 @@
 @import '../../partials/ncats-theme';
 
+.bold {
+  font-weight: bold;
+}
+
 .search-content {
   display: flex;
   min-height: 100vh;
@@ -64,4 +68,8 @@ mat-card{
 }
 .mat-title{
   align-self: start;
+}
+
+.resolver-results{
+  word-break: break-all;
 }

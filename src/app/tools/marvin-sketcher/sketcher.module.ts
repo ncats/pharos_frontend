@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {SketcherComponent} from './sketcher.component';
+import {MaterialModule} from '../../../assets/material/material.module';
 
 
 @NgModule({
@@ -12,9 +13,10 @@ import {SketcherComponent} from './sketcher.component';
   ],
   providers: [
   ],
-  imports: [
-    CommonModule
-  ]
+    imports: [
+        CommonModule,
+        MaterialModule
+    ]
 })
 
 export class SketcherModule { }

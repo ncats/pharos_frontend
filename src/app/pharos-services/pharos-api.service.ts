@@ -799,7 +799,7 @@ export class PharosApiService {
       }
       return this.apollo.query<any>({query: this.UpsetQuery(), variables}).toPromise();
     }).catch(err => {
-      err;
+      alert(err.message);
     });
   }
 

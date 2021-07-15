@@ -350,11 +350,6 @@ const PHAROS_FACET_VISUALIZATION_COMPONENT: PharosPanel = {
   },
   api: [
     {
-      description: 'A donut chart showing the marginal counts for the top values for each facet.',
-      field: 'donut',
-      label: 'Donut Chart'
-    },
-    {
       description: 'A bar chart showing counts for intersecting sets for each facet value. The top 5 facet values and their intersections are' +
         ' shown by default. Edit the facet values for custom plots, and filter the list by clicking the bars or circles.',
       field: 'upset',
