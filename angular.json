@@ -16,6 +16,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "showCircularDependencies": false,
+            "allowedCommonJsDependencies": [
+              "rxjs/index", "file-saver", "sql-formatter", "decimal.js", "rxjs/internal/operators", "zen-observable", "ProtVista"
+            ],
             "outputPath": "dist/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -118,6 +122,7 @@
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
+            "showCircularDependencies": false,
             "outputPath": "dist/server",
             "main": "server.ts",
             "tsConfig": "tsconfig.server.json",
