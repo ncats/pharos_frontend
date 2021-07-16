@@ -5,6 +5,7 @@ import {MolChangeService} from '../tools/marvin-sketcher/services/mol-change.ser
 import {Facet} from '../models/facet';
 import {environment} from '../../environments/environment';
 import {ResolverService} from '../pharos-services/resolver.service';
+import {TourService} from '../pharos-services/tour.service';
 /**
  * page to search by structure
  */
@@ -37,12 +38,13 @@ export class StructureSearchPageComponent implements OnInit {
   constructor(
     private _router: Router,
     private molChangeService: MolChangeService,
-    public resolverService: ResolverService
+    public resolverService: ResolverService,
+    private tourService: TourService
     ) {}
 
 
   ngOnInit() {
-    this.resolverIsUp = this.resolverService.checkStatus();
+    this.resolverIsUp = this.resolverService.resolverIsUp;
     this.isDev = !environment.production;
     this.molChangeService.smilesChanged.subscribe(changeObj => {
       if (changeObj.source !== 'smilesCtrl') {
@@ -56,8 +58,11 @@ export class StructureSearchPageComponent implements OnInit {
     this.molChangeService.searchTypeChanged.subscribe(newType => {
       this.typeCtrl.setValue(newType);
     });
+    this.tourService.structureSearchTour(false);
   }
-
+  beginTour(){
+    this.tourService.structureSearchTour(true);
+  }
   smilesChanged(event){
     this.resolverCtrl.setValue('');
     this.resolverService.responseDetails = {};

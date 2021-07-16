@@ -10,7 +10,9 @@ export class ResolverService {
   constructor(
     private http: HttpClient,
     private molChangeService: MolChangeService) {
+    this.checkStatus();
   }
+  resolverIsUp = false;
   responseDetails: any = {};
   fields = ['pt', 'lychi', 'smiles', 'inchikey', 'smilesParent', 'unii', 'cas'];
   resolve(input: string) {
@@ -56,6 +58,21 @@ export class ResolverService {
   }
 
   checkStatus() {
-    return true;
+    this.http.get<string>(`https://tripod.nih.gov/servlet/resolver/lychi/smiles/inchikey?structure=C1CCC1`,
+      // @ts-ignore
+      {responseType: 'text' as const})
+      .subscribe({
+        next: response => {
+          const responseObj: any = {};
+          if (this.tryParse(response.toString(), responseObj)) {
+            this.resolverIsUp = true;
+          } else {
+            this.resolverIsUp = false;
+          }
+        },
+        error: err => {
+          this.resolverIsUp = false;
+        }
+      });
   }
 }
