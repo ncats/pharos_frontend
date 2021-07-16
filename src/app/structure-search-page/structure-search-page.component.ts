@@ -6,7 +6,6 @@ import {Facet} from '../models/facet';
 import {environment} from '../../environments/environment';
 import {ResolverService} from '../pharos-services/resolver.service';
 import {TourService} from '../pharos-services/tour.service';
-import {LocalStorageService} from '../pharos-services/local-storage.service';
 /**
  * page to search by structure
  */
