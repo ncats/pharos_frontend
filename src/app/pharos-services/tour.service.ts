@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {ShepherdService} from 'angular-shepherd';
 import {LocalStorageService} from './local-storage.service';
+import {isPlatformBrowser} from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +54,8 @@ export class TourService {
 
   constructor(
     private shepherdService: ShepherdService,
-    private localStorageService: LocalStorageService)
+    private localStorageService: LocalStorageService,
+    @Inject(PLATFORM_ID) private platformID: any)
   {}
 
 
@@ -68,7 +70,7 @@ export class TourService {
   }
 
   structureSearchTour(manual: boolean) {
-    if (!manual && (this.localStorageService.store.getItem('structure-search-tour-complete') === 'true')) {
+    if (!isPlatformBrowser(this.platformID) || (!manual && (this.localStorageService.store.getItem('structure-search-tour-complete') === 'true'))) {
       return;
     }
     const defaultSteps = [
