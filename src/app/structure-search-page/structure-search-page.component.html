@@ -7,7 +7,7 @@
       <mat-card-title>Load Chemical Structure</mat-card-title>
       <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
         <mat-form-field class="full-width-field">
-          <input matInput placeholder="Input a Compound Name, NCGC ID, SMILES, UNII, Chembl ID, etc."
+          <input matInput placeholder="Input a Compound Name, SMILES, UNII, Chembl ID, etc."
                  [formControl]="resolverCtrl" (change)="resolveCompound($event)">
         </mat-form-field>
       </div>
