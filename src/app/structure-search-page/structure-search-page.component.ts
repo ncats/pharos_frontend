@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterContentInit, AfterViewInit, Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {NavigationExtras, Router} from '@angular/router';
 import {MolChangeService} from '../tools/marvin-sketcher/services/mol-change.service';
@@ -6,6 +6,7 @@ import {Facet} from '../models/facet';
 import {environment} from '../../environments/environment';
 import {ResolverService} from '../pharos-services/resolver.service';
 import {TourService} from '../pharos-services/tour.service';
+import {LocalStorageService} from '../pharos-services/local-storage.service';
 /**
  * page to search by structure
  */
