@@ -31,9 +31,9 @@ export class SketcherComponent implements AfterViewInit {
    * initialize marvin js instance
    */
   ngAfterViewInit() {
-    // @ts-ignore
-    this.marvin = window.ChemicalizeMarvinJs;
     if (isPlatformBrowser(this.platformID) && this.marvin) {
+      // @ts-ignore
+      this.marvin = window.ChemicalizeMarvinJs;
       this.marvin.createEditor('#marvin-tool').then((marvin) => {
         this.marvinElement = marvin;
         const existingSmiles = this.molChangeService.getSmiles();
