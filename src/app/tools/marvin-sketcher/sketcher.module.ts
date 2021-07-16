@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {SketcherComponent} from './sketcher.component';
-import {MaterialModule} from '../../../assets/material/material.module';
 
 
 @NgModule({
@@ -14,8 +13,7 @@ import {MaterialModule} from '../../../assets/material/material.module';
   providers: [
   ],
     imports: [
-        CommonModule,
-        MaterialModule
+        CommonModule
     ]
 })
 
