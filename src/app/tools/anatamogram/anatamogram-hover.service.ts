@@ -7,7 +7,9 @@ import {BehaviorSubject} from 'rxjs/index';
  * service to pass a hovered tissue string from any component to a anatamagram component
  * not injected in root
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AnatamogramHoverService {
 
   /**

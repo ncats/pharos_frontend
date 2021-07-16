@@ -10,7 +10,9 @@ import {isPlatformBrowser} from '@angular/common';
 /**
  * resolves the details for a specific object
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class DataDetailsResolver implements Resolve<any> {
 
   /**

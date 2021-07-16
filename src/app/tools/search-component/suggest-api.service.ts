@@ -8,7 +8,9 @@ import {Facet} from "../../models/facet";
 /**
  * api helper service to connect to search suggest fields
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class SuggestApiService {
 
   /**
