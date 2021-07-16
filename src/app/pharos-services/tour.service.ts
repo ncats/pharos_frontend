@@ -60,19 +60,22 @@ export class TourService {
 
 
   tourScroller(element) {
-    // @ts-ignore
-    const id = this.section;
-    const yOffset = -120;
-    const element1 = document.getElementById(id);
-    const y = element1.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    if (isPlatformBrowser(this.platformID)) {
+      // @ts-ignore
+      const id = this.section;
+      const yOffset = -120;
+      const element1 = document.getElementById(id);
+      const y = element1.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
-    window.scrollTo({top: y, behavior: 'smooth'});
+      window.scrollTo({top: y, behavior: 'smooth'});
+    }
   }
 
   structureSearchTour(manual: boolean) {
     if (!isPlatformBrowser(this.platformID) || (!manual && (this.localStorageService.store.getItem('structure-search-tour-complete') === 'true'))) {
       return;
     }
+    const platformID = this.platformID;
     const defaultSteps = [
       {
         id: 'structure_search_begin',
@@ -83,8 +86,11 @@ export class TourService {
         beforeShowPromise() {
           return new Promise<void>((resolve) => {
             setTimeout(() => {
-              window.scrollTo(0, 0);
-              resolve();
+              isPlatformBrowser(platformID)
+              {
+                window.scrollTo(0, 0);
+                resolve();
+              }
             }, 500);
           });
         },
