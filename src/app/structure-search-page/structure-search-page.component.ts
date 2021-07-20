@@ -1,6 +1,6 @@
-import {AfterContentInit, AfterViewInit, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {NavigationExtras, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, NavigationExtras, Router} from '@angular/router';
 import {MolChangeService} from '../tools/marvin-sketcher/services/mol-change.service';
 import {Facet} from '../models/facet';
 import {environment} from '../../environments/environment';
@@ -36,14 +36,25 @@ export class StructureSearchPageComponent implements OnInit {
    * @param {Router} _router
    */
   constructor(
+    private _route: ActivatedRoute,
     private _router: Router,
     private molChangeService: MolChangeService,
     public resolverService: ResolverService,
     private tourService: TourService
-    ) {}
+  ) {
+  }
 
 
   ngOnInit() {
+    this._router.events
+      .subscribe((e: any) => {
+        if (e instanceof NavigationEnd) {
+          if (this._route.snapshot.queryParamMap.get('tutorial') === 'structure-search-tour') {
+            this.tourService.structureSearchTour(true);
+          }
+        }
+      });
+
     this.resolverIsUp = this.resolverService.resolverIsUp;
     this.isDev = !environment.production;
     this.molChangeService.smilesChanged.subscribe(changeObj => {
@@ -58,18 +69,24 @@ export class StructureSearchPageComponent implements OnInit {
     this.molChangeService.searchTypeChanged.subscribe(newType => {
       this.typeCtrl.setValue(newType);
     });
-    this.tourService.structureSearchTour(false);
+    if (this._route.snapshot.queryParamMap.get('tutorial') === 'structure-search-tour') {
+      this.tourService.structureSearchTour(true);
+    } else {
+      this.tourService.structureSearchTour(false);
+    }
   }
-  beginTour(){
+
+  beginTour() {
     this.tourService.structureSearchTour(true);
   }
-  smilesChanged(event){
+
+  smilesChanged(event) {
     this.resolverCtrl.setValue('');
     this.resolverService.responseDetails = {};
     this.molChangeService.updateSmiles(event.target.value, 'smilesCtrl');
   }
 
-  typeChanged(event){
+  typeChanged(event) {
     this.molChangeService.updateSearchType(event);
   }
 

@@ -179,3 +179,7 @@ a:hover {
   background-color: mat-color($pharos-app-primary);
   color: white;
 }
+
+.mat-menu-panel.tutorialMenu {
+  max-width: 380px !important;
+}

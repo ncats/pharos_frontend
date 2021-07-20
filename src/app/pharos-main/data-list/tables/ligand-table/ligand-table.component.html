@@ -1,10 +1,10 @@
-<section>
+<section class="model-list">
   <mat-toolbar [color]="'primary'" class="target-table-toolbar">
   <div class=modellist-header>Ligands <span *ngIf="pageData">({{pageData.total}})</span>
   </div>
   <div fxFlex></div>
   <div fxFlex="10" fxLayoutAlign="end">
-    <button mat-button class="tool-button" (click)="downloadData()"
+    <button mat-button class="tool-button list-download" (click)="downloadData()"
             matTooltip="Download Ligand List Data">
       <mat-icon>download</mat-icon>
     </button>
@@ -19,7 +19,7 @@
     </button>
   </div>
   <div fxFlex="65" fxFlexAlign="end">
-    <mat-paginator
+    <mat-paginator class="model-list-paginator"
       [pageSize]= pageData.top
       [pageIndex]="pageData.skip / pageData.top"
       [length]= pageData.total
@@ -28,7 +28,7 @@
       (page)="changePage($event)"></mat-paginator>
   </div>
 </div>
-      <div class ="structure-grid">
+      <div class ="structure-grid model-list-table">
         <div *ngFor="let ligand of ligands">
           <pharos-ligand-card [ligand]="ligand" [internalLink]="true"></pharos-ligand-card>
       </div>

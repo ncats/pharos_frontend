@@ -325,6 +325,10 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     return facet.facet.toLowerCase().startsWith('predict');
   }
 
+  getFacetPanelID(facet: Facet) {
+    return facet.facet.replace(/\s/g, '');
+  }
+
   /**
    * function to unsubscribe on destroy
    */

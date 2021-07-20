@@ -39,6 +39,13 @@
     <button mat-button (click)="mobilesidenav.close()" routerLink="/faq" class="nav-menu-button"
             [ngClass]="{active: isActive('faq')}">FAQ
     </button>
+    <a mat-button [matMenuTriggerFor]="tutorialMenu">How Do I... <mat-icon>lightbulb</mat-icon></a>
+    <mat-menu #tutorialMenu="matMenu" [classList]="'mat-menu-panel tutorialMenu'">
+      <button mat-menu-item (click)="mobilesidenav.close(); gotoTutorial('list-pages-tour')" class="tutorial-link"><span>...use the list pages?</span>
+        <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('list-pages-tour')">check_circle</mat-icon></button>
+      <button mat-menu-item (click)="mobilesidenav.close(); gotoTutorial('structure-search-tour')" class="tutorial-link"><span>...do a search based on a chemical structure?</span>
+        <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('structure-search-tour')">check_circle</mat-icon></button>
+    </mat-menu>
     <pharos-search-component class="mobile-search"></pharos-search-component>
     <button mat-icon-button class="jira-button" aria-label="submit feedback" matTooltip="Submit Feedback" (click)="submitFeedback($event)">
       Submit Feedback <mat-icon>feedback</mat-icon>
@@ -52,15 +59,24 @@
     <img *ngIf="animationState === 'in'" src="./assets/images/Pharos_Logo_Rd8.svg" routerLink="/" alt="Pharos logo"
          class="pharos-logo">
     <div id="links" fxHide.lt-md>
-      <a mat-button routerLink="/targets" [ngClass]="{active: isActive('targets')}">Targets</a>
-      <a mat-button routerLink="/diseases" [ngClass]="{active: isActive('diseases')}">Diseases</a>
-      <a mat-button routerLink="/ligands" [ngClass]="{active: isActive('ligands')}">Ligands</a>
+      <span id="list-pages">
+        <a mat-button routerLink="/targets" [ngClass]="{active: isActive('targets')}">Targets</a>
+        <a mat-button routerLink="/diseases" [ngClass]="{active: isActive('diseases')}">Diseases</a>
+        <a mat-button routerLink="/ligands" [ngClass]="{active: isActive('ligands')}">Ligands</a>
+      </span>
 <!--
       <a mat-button routerLink="/topics" [ngClass]="{active: isActive('topics')}">Topics</a>
 -->
       <a mat-button routerLink="/api" [ngClass]="{active: isActive('api')}">API</a>
       <a mat-button routerLink="/about" [ngClass]="{active: isActive('about')}">About</a>
       <a mat-button routerLink="/faq" [ngClass]="{active: isActive('faq')}">FAQ</a>
+      <a mat-button [matMenuTriggerFor]="tutorialMenu" id="tutorialMenu">How Do I... <mat-icon>lightbulb</mat-icon></a>
+      <mat-menu #tutorialMenu="matMenu" [classList]="'mat-menu-panel tutorialMenu'">
+        <button mat-menu-item (click)="gotoTutorial('list-pages-tour')" class="tutorial-link"><span>...use the list pages?</span>
+          <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('list-pages-tour')">check_circle</mat-icon></button>
+        <button mat-menu-item (click)="gotoTutorial('structure-search-tour')" class="tutorial-link"><span>...do a search based on a chemical structure?</span>
+          <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('structure-search-tour')">check_circle</mat-icon></button>
+      </mat-menu>
     </div>
     <span class="fill-remaining-space"></span>
     <pharos-search-component [fxHide.lt-md]="true" [placeholderStr]="'search'"

@@ -1,11 +1,11 @@
-<section>
+<section class="model-list">
 <div *ngIf= "diseases && diseases.length > 0">
   <mat-toolbar [color]="'primary'" class="target-table-toolbar">
     <div class=modellist-header>Diseases <span *ngIf="pageData">({{pageData.total}})</span>
     </div>
     <div fxFlex></div>
     <div fxFlex="10" fxLayoutAlign="end">
-      <button mat-button class="tool-button" (click)="downloadData()"
+      <button mat-button class="tool-button list-download" (click)="downloadData()"
               matTooltip="Download Disease List Data">
         <mat-icon>download</mat-icon>
       </button>
@@ -15,7 +15,7 @@
   <div fxFlex="45">
   </div>
   <div fxFlex="45" fxFlexAlign="end">
-    <mat-paginator
+    <mat-paginator class="model-list-paginator"
       [pageSize]= pageData.top
       [pageIndex]="pageData.skip / pageData.top"
       [length]= pageData.total
@@ -24,7 +24,7 @@
       (page)="changePage($event)"></mat-paginator>
   </div>
 </div>
-<pharos-generic-table *ngIf = "diseaseObjs"
+<pharos-generic-table *ngIf = "diseaseObjs" class="model-list-table"
                       [pageData]="pageData"
                       [showPaginator]="false"
                       [fieldsConfig]="this.associatedTarget ? fieldsDataWithTarget : fieldsData"
