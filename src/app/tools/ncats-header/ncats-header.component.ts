@@ -1,11 +1,15 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {slideInOutAnimation} from './header-animations';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {LoginModalComponent} from '../../auth/login-modal/login-modal.component';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSidenav} from '@angular/material/sidenav';
 import {PharosProfileService} from '../../auth/pharos-profile.service';
 import {HeaderOptionsService} from '../../pharos-services/header-options.service';
+import {SelectedFacetService} from '../../pharos-main/data-list/filter-panel/selected-facet.service';
+import {PathResolverService} from '../../pharos-main/data-list/filter-panel/path-resolver.service';
+import {Facet} from '../../models/facet';
+import {LocalStorageService} from '../../pharos-services/local-storage.service';
 
 
 /**
@@ -51,7 +55,9 @@ export class NcatsHeaderComponent implements OnInit {
     public dialog: MatDialog,
     private route: ActivatedRoute,
     private headerOptionsService: HeaderOptionsService,
-    private profileService: PharosProfileService
+    private profileService: PharosProfileService,
+    private router: Router,
+    private localStorage: LocalStorageService
   ) {
   }
 
@@ -82,6 +88,34 @@ export class NcatsHeaderComponent implements OnInit {
     }
   }
 
+  gotoTutorial(tutorial: string) {
+    if (tutorial === 'structure-search-tour') {
+      const navigationExtras: NavigationExtras = {
+        queryParamsHandling: '',
+        queryParams: {
+          tutorial
+        },
+      };
+      this.router.navigate(['/structure'], navigationExtras);
+    } else {
+      let path = this.router.url.split('?')[0];
+      if (path.startsWith('/')) {
+        path = path.slice(1);
+      }
+      const onListPage = ['diseases', 'ligands', 'targets'].includes(path);
+      if (!onListPage) {
+        path = 'targets';
+      }
+      const navigationExtras: NavigationExtras = {
+        queryParamsHandling: (onListPage ? 'merge' : ''),
+        queryParams: {
+          tutorial
+        },
+      };
+      this.router.navigate([path], navigationExtras);
+    }
+  }
+
   /**
    * opens modal for user to sign in
    */
@@ -102,6 +136,10 @@ export class NcatsHeaderComponent implements OnInit {
     // w.ATL_JQ_PAGE_PROPS.fieldValues = w.ATL_JQ_PAGE_PROPS.fieldValues || {};
     // w.ATL_JQ_PAGE_PROPS.fieldValues.description = 'something by default';
     w.showCollectorDialog();
+  }
+
+  tutorialComplete(tutorial: string) {
+    return this.localStorage.store.getItem(tutorial) === 'complete';
   }
 
   /**

@@ -2,7 +2,7 @@
   <mat-card>
     <mat-card-content>
       <div fxLayout="column" fxLayoutAlign="space-around center">
-        <div>
+        <div class="upset-chart">
           <div>
             <pharos-upset-plot [displayFacet]="displayFacet" [events]="redrawCharts.asObservable()"></pharos-upset-plot>
             <div fxLayout="row" fxLayoutAlign="space-around start">
@@ -20,7 +20,7 @@
           </div>
         </div>
         <div fxLayout="row" fxLayoutAlign="space-around start">
-          <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet>
+          <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet class="facet-change">
             <pharos-visualization-options (fieldChange)="changeSelectedFacet($event)"
                                           [facets]="facets"></pharos-visualization-options>
           </div>
