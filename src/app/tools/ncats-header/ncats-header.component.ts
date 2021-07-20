@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, Input, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
 import {slideInOutAnimation} from './header-animations';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {LoginModalComponent} from '../../auth/login-modal/login-modal.component';
@@ -10,6 +10,7 @@ import {SelectedFacetService} from '../../pharos-main/data-list/filter-panel/sel
 import {PathResolverService} from '../../pharos-main/data-list/filter-panel/path-resolver.service';
 import {Facet} from '../../models/facet';
 import {LocalStorageService} from '../../pharos-services/local-storage.service';
+import {isPlatformBrowser} from '@angular/common';
 
 
 /**
@@ -57,7 +58,8 @@ export class NcatsHeaderComponent implements OnInit {
     private headerOptionsService: HeaderOptionsService,
     private profileService: PharosProfileService,
     private router: Router,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    @Inject(PLATFORM_ID) private platformID: any
   ) {
   }
 
@@ -139,7 +141,7 @@ export class NcatsHeaderComponent implements OnInit {
   }
 
   tutorialComplete(tutorial: string) {
-    return this.localStorage.store.getItem(tutorial) === 'complete';
+    return isPlatformBrowser(this.platformID) && this.localStorage.store.getItem(tutorial) === 'complete';
   }
 
   /**
