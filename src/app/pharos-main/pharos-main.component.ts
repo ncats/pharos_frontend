@@ -198,7 +198,9 @@ export class PharosMainComponent implements OnInit, OnDestroy {
         this.tourService.listPagesTour(false, this._route.snapshot.data.path, this.data);
       }
     } else {
-      alert ('This screen is too small for the List Page Tutorial. Sorry.');
+      if (isPlatformBrowser(this.platformID)) {
+        alert ('This screen is too small for the List Page Tutorial. Sorry.');
+      }
     }
   }
 
