@@ -161,7 +161,7 @@ export class TourService {
         },
         scrollToHandler: this.tourScroller.bind({section: 'list-pages', platformID: this.platformID}),
         buttons: this.firstButtons.slice(),
-        title: 'Pharos List Pages',
+        title: 'Pharos List Page Tutorial',
         text: [`There are three types of list pages in Pharos which show targets, diseases, or ligands. You are viewing a list of ${models}, but the others work similarly.`]
       },
       {
@@ -376,7 +376,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(manual, 'tutorialMenu', 'list-pages-tour', 'Pharos List Pages', event);
+        this.completeTour(manual, 'tutorialMenu', 'list-pages-tour', 'Pharos List Page Tutorial', event);
       });
     });
     this.shepherdService.start();
