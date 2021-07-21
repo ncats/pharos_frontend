@@ -118,6 +118,53 @@ export class TourService {
     }
   }
 
+  customTargetLists(uploadFunction: () => void) {
+    if (!isPlatformBrowser(this.platformID)) {
+      return;
+    }
+    this.loadPromise.then(() => {
+      this.runCustomTargetListTour(uploadFunction);
+    });
+  }
+
+  runCustomTargetListTour(uploadFunction: () => void) {
+    const defaultSteps = [
+      {
+        id: 'custom-target-list-begin',
+        attachTo: {
+          element: '.upload-target-list-button',
+          on: 'top'
+        },
+        scrollToHandler: this.tourScroller.bind({class: 'upload-target-list-button', platformID: this.platformID}),
+        buttons: this.firstButtons.slice(),
+        title: 'Upload a Custom List of Targets',
+        text: ['Click the upload button to view all of the available filters and charts for your own custom list of targets. Uploading a custom list of diseases or ligands is not' +
+        ' supported at this time.']
+      },
+      {
+        id: 'signin-for-benefits',
+        attachTo: {
+          element: '.signin-button',
+          on: 'top'
+        },
+        scrollToHandler: this.tourScroller.bind({class: 'signin-button', platformID: this.platformID}),
+        buttons: this.lastButtons.slice(),
+        title: 'Social Sign-in',
+        text: ['Sign in with one of the social logins to retrieve your custom list next time you visit.']
+      }
+    ];
+    this.shepherdService.defaultStepOptions = this.defaultStepOptions;
+    this.shepherdService.modal = true;
+    this.shepherdService.confirmCancel = false;
+    this.shepherdService.addSteps(defaultSteps);
+    ['cancel', 'complete'].forEach(event => {
+      this.shepherdService.tourObject.on(event, () => {
+        this.completeTour(true, 'tutorialMenu', 'custom-target-lists', 'Custom Target Lists', event);
+      });
+    });
+    this.shepherdService.start();
+  }
+
   listPagesTour(manual: boolean, path: string, data: any) {
     if (!isPlatformBrowser(this.platformID)) {
       return;
@@ -349,7 +396,7 @@ export class TourService {
             on: 'top'
           },
           scrollToHandler: this.tourScroller.bind({class: 'model-list-table', platformID: this.platformID}),
-          buttons: this.standardButtons.slice(),
+          buttons: this.lastButtons.slice(),
           title: 'Data Definitions',
           text: [`Hover over data for a brief description of what it means, or expand the help icon on the right for a
            list of data points and descriptions that may appeaer in this card.`]
@@ -364,7 +411,7 @@ export class TourService {
             on: 'right-start'
           },
           scrollToHandler: this.tourScroller.bind({class: 'model-list-table', platformID: this.platformID}),
-          buttons: this.standardButtons.slice(),
+          buttons: this.lastButtons.slice(),
           title: 'Link to Details',
           text: [`Links in the list will take you to details pages for that ${model}.`]
         }
@@ -459,7 +506,7 @@ export class TourService {
           on: 'top'
         },
         scrollToHandler: this.tourScroller.bind({section: 'predicted-targets-search', platformID: this.platformID}),
-        buttons: this.standardButtons.slice(),
+        buttons: this.lastButtons.slice(),
         title: 'Finding Predicted Targets',
         text: ['This tool will search for targets predicted to have activity against the query structure.']
       }
