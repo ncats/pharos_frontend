@@ -1,9 +1,8 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ComponentRef,
+  ComponentRef, HostListener,
   Inject,
   Injector,
   Input,
@@ -182,33 +181,34 @@ export class PharosMainComponent implements OnInit, OnDestroy {
       .subscribe((e: any) => {
         // If it is a NavigationEnd event re-initalise the component
         if (e instanceof NavigationEnd) {
-            this.data = this._route.snapshot.data;
-            this.makeComponents();
-            this.runTutorial();
+          this.data = this._route.snapshot.data;
+          this.makeComponents();
+          this.runTutorial();
         }
       });
     this.runTutorial();
   }
 
+  /**
+   * listener to resize the chart on page resize
+   */
+  @HostListener('window:resize', [])
+  onResize() {
+    this.tourService.setSizeCutoffs();
+  }
+
   runTutorial() {
-    if (this.breakpointObserver.isMatched('(min-width: 960px)')) {
-      switch (this._route.snapshot.queryParamMap.get('tutorial')) {
-        case 'list-pages-tour':
-          this.tourService.listPagesTour(true, this._route.snapshot.data.path, this.data);
-          break;
-        case 'custom-target-lists':
-          // this.tourService.customTargetLists();
-          break;
-        default:
-          this.tourService.listPagesTour(false, this._route.snapshot.data.path, this.data);
-          break;
-      }
-    } else {
-      if (isPlatformBrowser(this.platformID)) {
-        alert ('This screen is too small for this tutorial. Sorry.');
-      }
+    switch (this._route.snapshot.queryParamMap.get('tutorial')) {
+      case 'list-pages-tour':
+        this.tourService.listPagesTour(true, this._route.snapshot.data.path, this.data);
+        break;
+      case '':
+      case null:
+        this.tourService.listPagesTour(false, this._route.snapshot.data.path, this.data);
+        break;
     }
   }
+
 
   /**
    * iterate over each component, make a CDKPortalOutlet, inject it, and set required properties. Sets up listeners
@@ -300,11 +300,11 @@ export class PharosMainComponent implements OnInit, OnDestroy {
    * https://github.com/angular/components/issues/8969
    * also, the server won't know about this.isSmallScreen, because media queries don't work on the server
    */
-  getClassForMarginsOnServer(){
-    if (isPlatformBrowser(this.platformID)){
+  getClassForMarginsOnServer() {
+    if (isPlatformBrowser(this.platformID)) {
       return '';
     }
-    if (this._route.snapshot.data.subpath === 'list'){
+    if (this._route.snapshot.data.subpath === 'list') {
       return 'wideNavPanel';
     }
     if (this._route.snapshot.data.subpath === 'details' && ['targets', 'diseases'].includes(this._route.snapshot.data.path)) {
