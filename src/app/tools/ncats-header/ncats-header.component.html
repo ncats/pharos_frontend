@@ -39,7 +39,7 @@
     <button mat-button (click)="mobilesidenav.close()" routerLink="/faq" class="nav-menu-button"
             [ngClass]="{active: isActive('faq')}">FAQ
     </button>
-    <a mat-button [matMenuTriggerFor]="tutorialMenu">How Do I... <mat-icon>lightbulb</mat-icon></a>
+    <button mat-button [matMenuTriggerFor]="tutorialMenu" class="nav-menu-button">How Do I... <mat-icon>lightbulb</mat-icon></button>
     <mat-menu #tutorialMenu="matMenu" [classList]="'mat-menu-panel tutorialMenu'">
       <button mat-menu-item (click)="mobilesidenav.close(); gotoTutorial('list-pages-tour')" class="tutorial-link"><span>...use the list pages?</span>
         <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('list-pages-tour')">check_circle</mat-icon></button>
