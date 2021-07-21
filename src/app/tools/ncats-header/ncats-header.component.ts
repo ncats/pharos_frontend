@@ -90,7 +90,37 @@ export class NcatsHeaderComponent implements OnInit {
     }
   }
 
+  getRequiredPath(tutorial: string) {
+    switch (tutorial) {
+      case 'structure-search-tour':
+        return '/structure';
+      case 'custom-target-lists':
+        return '/targets';
+    }
+    return '/';
+  }
+
+  getPage() {
+    let path = this.router.url.split('?')[0];
+    if (path.startsWith('/')) {
+      path = path.slice(1);
+    }
+    return path;
+  }
+
   gotoTutorial(tutorial: string) {
+    const path = this.getPage();
+    const onListPage = ['diseases', 'ligands', 'targets'].includes(path);
+    if (tutorial === 'custom-target-lists') {
+      const navigationExtras: NavigationExtras = {
+        queryParamsHandling: (path === 'targets' ? 'merge' : ''),
+        queryParams: {
+          tutorial
+        },
+      };
+      this.router.navigate([this.getRequiredPath(tutorial)], navigationExtras);
+      return;
+    }
     if (tutorial === 'structure-search-tour') {
       const navigationExtras: NavigationExtras = {
         queryParamsHandling: '',
@@ -98,23 +128,17 @@ export class NcatsHeaderComponent implements OnInit {
           tutorial
         },
       };
-      this.router.navigate(['/structure'], navigationExtras);
-    } else {
-      let path = this.router.url.split('?')[0];
-      if (path.startsWith('/')) {
-        path = path.slice(1);
-      }
-      const onListPage = ['diseases', 'ligands', 'targets'].includes(path);
-      if (!onListPage) {
-        path = 'targets';
-      }
+      this.router.navigate( [this.getRequiredPath(tutorial)], navigationExtras);
+      return;
+    }
+    if (tutorial === 'list-pages-tour') {
       const navigationExtras: NavigationExtras = {
         queryParamsHandling: (onListPage ? 'merge' : ''),
         queryParams: {
           tutorial
         },
       };
-      this.router.navigate([path], navigationExtras);
+      this.router.navigate([onListPage ? path : '/targets'], navigationExtras);
     }
   }
 

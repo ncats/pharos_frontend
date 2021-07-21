@@ -43,6 +43,8 @@
     <mat-menu #tutorialMenu="matMenu" [classList]="'mat-menu-panel tutorialMenu'">
       <button mat-menu-item (click)="mobilesidenav.close(); gotoTutorial('list-pages-tour')" class="tutorial-link"><span>...use the list pages?</span>
         <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('list-pages-tour')">check_circle</mat-icon></button>
+      <button mat-menu-item (click)="mobilesidenav.close(); gotoTutorial('custom-target-lists')" class="tutorial-link"><span>...upload my own list of targets?</span>
+        <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('custom-target-lists')">check_circle</mat-icon></button>
       <button mat-menu-item (click)="mobilesidenav.close(); gotoTutorial('structure-search-tour')" class="tutorial-link"><span>...do a search based on a chemical structure?</span>
         <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('structure-search-tour')">check_circle</mat-icon></button>
     </mat-menu>
@@ -74,6 +76,8 @@
       <mat-menu #tutorialMenu="matMenu" [classList]="'mat-menu-panel tutorialMenu'">
         <button mat-menu-item (click)="gotoTutorial('list-pages-tour')" class="tutorial-link"><span>...use the list pages?</span>
           <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('list-pages-tour')">check_circle</mat-icon></button>
+        <button mat-menu-item (click)="gotoTutorial('custom-target-lists')" class="tutorial-link"><span>...upload my own list of targets?</span>
+          <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('custom-target-lists')">check_circle</mat-icon></button>
         <button mat-menu-item (click)="gotoTutorial('structure-search-tour')" class="tutorial-link"><span>...do a search based on a chemical structure?</span>
           <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('structure-search-tour')">check_circle</mat-icon></button>
       </mat-menu>
@@ -85,7 +89,7 @@
       <img [src]=profile.profilePic class="profile-pic" *ngIf="profile?.profilePic">
       <span class="user-name">{{profile.name}}</span>
     </div>
-    <button mat-button class="menu-button" aria-label = "signin button" (click)="openSignInModal()" *ngIf="!profile" fxHide.lt-md>
+    <button mat-button class="menu-button signin-button" aria-label = "signin button" (click)="openSignInModal()" *ngIf="!profile" fxHide.lt-md>
       Sign In
     </button>
     <mat-menu #profileMenu="matMenu">

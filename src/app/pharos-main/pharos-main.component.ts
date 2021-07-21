@@ -192,14 +192,20 @@ export class PharosMainComponent implements OnInit, OnDestroy {
 
   runTutorial() {
     if (this.breakpointObserver.isMatched('(min-width: 960px)')) {
-      if (this._route.snapshot.queryParamMap.get('tutorial') === 'list-pages-tour') {
-        this.tourService.listPagesTour(true, this._route.snapshot.data.path, this.data);
-      } else {
-        this.tourService.listPagesTour(false, this._route.snapshot.data.path, this.data);
+      switch (this._route.snapshot.queryParamMap.get('tutorial')) {
+        case 'list-pages-tour':
+          this.tourService.listPagesTour(true, this._route.snapshot.data.path, this.data);
+          break;
+        case 'custom-target-lists':
+          // this.tourService.customTargetLists();
+          break;
+        default:
+          this.tourService.listPagesTour(false, this._route.snapshot.data.path, this.data);
+          break;
       }
     } else {
       if (isPlatformBrowser(this.platformID)) {
-        alert ('This screen is too small for the List Page Tutorial. Sorry.');
+        alert ('This screen is too small for this tutorial. Sorry.');
       }
     }
   }
