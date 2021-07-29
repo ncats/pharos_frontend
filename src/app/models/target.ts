@@ -230,7 +230,7 @@ export class Target extends PharosBase {
      * list of expression data
      */
     expressions: any[];
-
+    gtex: any[];
     ligandCount = 0;
 
     drugCount = 0;
@@ -361,7 +361,13 @@ export class TargetSerializer implements PharosSerializer {
                 pathList.push(pathObj);
             });
         }
-
+        if (json.gtex) {
+            json.gtex.forEach(ex => {
+                if (ex.uberon && ex.uberon.uid) {
+                    ex.uberon.uid = ex.uberon.uid.replace(':', '_');
+                }
+            });
+        }
         if (json.expressions) { // deduplicate expresssions, and translate uberon ID
             const map = new Map<string, any>();
             for (let i = 0; i < json.expressions.length; i++) {

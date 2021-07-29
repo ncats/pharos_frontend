@@ -79,7 +79,8 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
   }
 
   initValues() {
-    this.upsetValues = this.customValues.get(this.displayFacet?.facet) || this.displayFacet?.values.slice(0, 5).map(f => f.name);
+    this.upsetValues = this.customValues.get(this.displayFacet?.facet) ||
+      this.displayFacet?.values.slice(0, this.defaultValueCount).map(f => f.name);
   }
 
   ngOnChanges(changes) {

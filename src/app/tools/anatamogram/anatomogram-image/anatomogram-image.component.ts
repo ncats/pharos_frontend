@@ -73,7 +73,7 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
    */
   hovered: string;
   defaultOpacity = 0.4;
-  maxOpacity = 0.6;
+  maxOpacity = 0.8;
 
   id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 

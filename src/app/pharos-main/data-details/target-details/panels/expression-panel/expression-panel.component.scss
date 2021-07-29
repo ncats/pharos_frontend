@@ -57,3 +57,22 @@ img.hg {
   margin-bottom: 2vh;
   margin-top: 2vh;
 }
+
+.heatmap-container {
+  overflow: scroll;
+}
+
+.anatamogram-container {
+  height: 100%;
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
+.matrix-anatamogram {
+  display: flex;
+  flex-direction: row;
+  div {
+    max-height: 650px;
+    width: 600px;
+  }
+}
