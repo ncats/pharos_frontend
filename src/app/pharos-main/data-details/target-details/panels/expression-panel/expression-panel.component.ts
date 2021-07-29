@@ -58,9 +58,21 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     super(dynamicServices);
   }
 
-  tissueClicked(uberon) {
-    console.log(uberon);
-    this.clickedTissue = this.uberon2Tissue.get(uberon);
+  tissueClicked(input) {
+    let tissue;
+    let uberon;
+    if (input.startsWith('UBERON')) {
+      uberon = input;
+      tissue = this.uberon2Tissue.get(uberon);
+    } else {
+      tissue = input;
+      uberon = this.uberon2Tissue.get(tissue);
+    }
+    if (tissue === this.clickedTissue) {
+      this.clickedTissue = '';
+    } else {
+      this.clickedTissue = tissue;
+    }
     this.changeRef.detectChanges();
   }
 

@@ -59,7 +59,12 @@ img.hg {
 }
 
 .heatmap-container {
-  overflow: scroll;
+  overflow-y: scroll;
+  height: 100%;
+}
+.minimal {
+  overflow-y: scroll;
+  height: 50%;
 }
 
 .anatamogram-container {
@@ -68,11 +73,11 @@ img.hg {
   padding-top: 20px;
 }
 
+.section {
+  max-height: 650px;
+  width: 600px;
+}
 .matrix-anatamogram {
   display: flex;
   flex-direction: row;
-  div {
-    max-height: 650px;
-    width: 600px;
-  }
 }
