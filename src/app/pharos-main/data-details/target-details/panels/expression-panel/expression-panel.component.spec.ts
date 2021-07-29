@@ -7,7 +7,6 @@ import {DiseaseSourceComponent} from '../disease-source-panel/disease-source-pan
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
 import {CommonToolsModule} from '../../../../../tools/common-tools.module';
-import {DifferentialPanelComponent} from './differential-panel/differential-panel.component';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ActivatedRoute} from '@angular/router';
@@ -41,7 +40,6 @@ describe('ExpressionPanelComponent', () => {
         { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
       ],
       declarations: [
-        DifferentialPanelComponent,
         ExpressionPanelComponent,
         DiseaseSourceComponent
       ]

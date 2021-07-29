@@ -42,6 +42,8 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
   @Input()
   highlightedValue = '';
 
+  @Input() heatmapClicked;
+
   /**
    * margin of space around the donut chart
    * @type {{top: number; bottom: number; left: number; right: number}}
@@ -61,7 +63,6 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
    */
   width: number;
   blockSize = 20;
-
 
   ngOnInit() {
     this.redraw();
@@ -109,8 +110,8 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
     this.chartArea.append('g')
       .attr('class', 'blocks');
     this.chartArea.attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
-
   }
+
   /**
    * update chart as data changes
    */
@@ -193,7 +194,9 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
           .duration(200)
           .style('opacity', 0);
         d3.select(blocks[i]).classed('hovered', false);
-      });
+      }).on('click', (event, d) => {
+        this.heatmapClickedInternal(event, d);
+    });
 
     this.chartArea.selectAll('.xAxis text')
       .attr('transform', d => `translate(${this.blockSize * .75}, 0) rotate(-45)`)
@@ -205,28 +208,43 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
 
     const yTicks = this.chartArea.select('.yAxis').selectAll('.tick');
     yTicks.on('mouseover', (event, d) => {
-        this.highlightedValue = this.heatmapData.yValues[d].val;
-        this.anatamogramHoverService.setTissue(this.heatmapData.yValues[d].data);
-        const blocks = selection.nodes().filter(b => {
-          return b.__data__.data === this.highlightedValue;
-        });
-        blocks.forEach(b => {
-          d3.select(b).classed('hovered', true);
-        });
-    }).on('mouseout', (event, d) => {
-        this.highlightedValue = '';
-        this.anatamogramHoverService.setTissue(null);
-        const blocks = selection.nodes().forEach(b => {
-          d3.select(b).classed('hovered', false);
-        });
+      this.highlightedValue = this.heatmapData.yValues[d].val;
+      this.anatamogramHoverService.setTissue(this.heatmapData.yValues[d].data);
+      const blocks = selection.nodes().filter(b => {
+        return b.__data__.data === this.highlightedValue;
       });
-
+      blocks.forEach(b => {
+        d3.select(b).classed('hovered', true);
+      });
+    }).on('mouseout', (event, d) => {
+      this.highlightedValue = '';
+      this.anatamogramHoverService.setTissue(null);
+      const blocks = selection.nodes().forEach(b => {
+        d3.select(b).classed('hovered', false);
+      });
+    }).on('click', (event, d) => {
+      this.heatmapClickedInternal(event, d);
+    });
 
     this.tooltip = d3.select('body').append('div')
       .attr('class', 'twodtooltip')
       .style('opacity', 0);
   }
+
+  tissueClicked(event, d) {
+    const tissue = event.target.textContent || d.data;
+    this.anatamogramHoverService.setTissue(tissue);
+  }
+
+  heatmapClickedInternal(event, d) {
+    if (this.heatmapClicked) {
+      const tissue = d.data || event.target.textContent;
+      this.heatmapClicked(tissue);
+    }
+  }
 }
+
+
 
 export class HeatMapData {
   static separator = '!';
@@ -272,8 +290,12 @@ export class HeatMapData {
   updateDataMap() {
     this.plot = [];
     this.xValues.sort((a, b) => {
-      if (b.val === this.sortColumn) { return 1; }
-      if (a.val === this.sortColumn) { return -1; }
+      if (b.val === this.sortColumn) {
+        return 1;
+      }
+      if (a.val === this.sortColumn) {
+        return -1;
+      }
       return b.score - a.score;
     });
     this.yValues.sort((a, b) => {

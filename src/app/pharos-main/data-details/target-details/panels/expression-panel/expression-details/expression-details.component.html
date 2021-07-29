@@ -1,0 +1,11 @@
+<div class="tissue-header">
+  <mat-card-title>{{selectedTissue}}</mat-card-title>
+  <span class="uberon-id" *ngIf="selectedUberon && selectedUberon.length > 0"> ({{selectedUberon}})</span>
+</div>
+<div class="source-text" *ngIf="filteredGTEX.length > 0">GTEx</div>
+<pharos-expression-details-block [expressions]="filteredGTEX"></pharos-expression-details-block>
+
+<ng-container *ngFor="let keyvalue of filteredExpressionMap | keyvalue">
+  <div class="source-text">{{keyvalue.key}}</div>
+  <pharos-expression-details-block [expressions]="keyvalue.value"></pharos-expression-details-block>
+</ng-container>
