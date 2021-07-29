@@ -554,6 +554,7 @@ export const TARGETDETAILSFIELDS = gql`
       ]
     }) {
       type
+      sourceRank: source_rank
       tissue
       qual
       url
@@ -564,6 +565,16 @@ export const TARGETDETAILSFIELDS = gql`
       pub {
         pmid
       }
+      uberon {
+        name
+        uid
+      }
+    }
+    gtex {
+      tissue
+      gender
+      tpm
+      tpm_rank
       uberon {
         name
         uid

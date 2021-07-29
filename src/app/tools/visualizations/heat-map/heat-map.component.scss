@@ -1,0 +1,27 @@
+.d3-chart-2d {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.twod-container {
+  display: flex;
+  max-width: 70vw;
+  overflow-x: scroll;
+}
+
+.twodtooltip {
+  position: absolute;
+  //text-align: center;
+  max-width: 400px;
+  padding: 2px;
+  font: 14px sans-serif;
+  background: white;
+  border: 1px solid black;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 666;
+}
+
+.bar-tooltip {
+  text-align: center;
+}
