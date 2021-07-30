@@ -25,10 +25,10 @@
         <div fxFlex="95">
           <div class="matrix-anatamogram">
             <div class="section">
-              <div class="heatmap-container" [ngClass]="{minimal: clickedTissue}">
+              <div class="heatmap-container" [ngClass]="{halfHeight: clickedTissue}">
                 <pharos-heat-map [heatmapData]="uberonExpressionMap" [highlightedValue]="clickedTissue" [heatmapClicked]="tissueClicked.bind(this)"></pharos-heat-map>
               </div>
-              <div class="minimal" *ngIf="clickedTissue">
+              <div class="details-container halfHeight" *ngIf="clickedTissue">
                 <pharos-expression-details [selectedTissue]="clickedTissue" [expressions]="target.expressions" [gtex]="target.gtex"></pharos-expression-details>
               </div>
             </div>
