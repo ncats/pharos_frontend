@@ -99,6 +99,10 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
       });
   }
 
+  closeDetails() {
+    this.clickedTissue = '';
+  }
+
   updateHeatmapData() {
     this.uberonExpressionMap = new HeatMapData('Data Source', 'Tissue');
     this.setMapData(this.uberonExpressionMap, this.target.expressions, this.target.gtex);

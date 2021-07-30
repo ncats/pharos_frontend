@@ -9,6 +9,8 @@ export class ExpressionDetailsComponent implements OnInit, OnChanges {
   @Input() expressions: any[];
   @Input() gtex: any[];
   @Input() selectedTissue = '';
+  @Input() closeFunction;
+
   selectedUberon = '';
 
   filteredExpressionMap: Map<string, any[]> = new Map<string, any[]>();
@@ -18,6 +20,12 @@ export class ExpressionDetailsComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.initialize();
+  }
+
+  closeDetails() {
+    if (this.closeFunction) {
+      this.closeFunction();
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {

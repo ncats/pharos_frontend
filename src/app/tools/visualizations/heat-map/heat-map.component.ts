@@ -57,6 +57,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
   svg: any;
   chartArea: any;
   tooltip: any;
+  filterValue = '';
 
   /**
    * width of component
@@ -90,7 +91,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
 
   setSize() {
     this.width = this.blockSize * this.heatmapData.xValues.length + this.margin.left + this.margin.right;
-    this.height = this.blockSize * this.heatmapData.yValues.length + this.margin.top + this.margin.bottom;
+    this.height = this.blockSize * this.heatmapData.yDisplayValues.length + this.margin.top + this.margin.bottom;
 
     this.svg
       .attr('width', this.width)
@@ -103,21 +104,31 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
   drawChart(): void {
     const element = this.chartContainer.nativeElement;
     d3.select(element).selectAll('svg').remove();
-
     this.svg = d3.select(element).append('svg');
-    this.chartArea = this.svg.append('g')
-      .attr('class', 'plot-container');
-    this.chartArea.append('g')
-      .attr('class', 'blocks');
-    this.chartArea.attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
+  }
+
+  filterChanged(event) {
+    this.filterValue = event.target.value;
+    this.updateChart();
+  }
+  clearFilter() {
+    this.filterValue = '';
+    this.updateChart();
   }
 
   /**
    * update chart as data changes
    */
   updateChart(): void {
-    this.heatmapData.updateDataMap();
+    this.heatmapData.updateDataMap(this.filterValue);
+
     this.setSize();
+    this.svg.selectAll('.plot-container').remove();
+    this.chartArea = this.svg.append('g')
+      .attr('class', 'plot-container');
+    this.chartArea.attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
+    this.chartArea.append('g')
+      .attr('class', 'blocks');
 
     // Create scales
     const xScale = d3.scaleLinear()
@@ -125,8 +136,8 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
       .range([0, this.heatmapData.xValues.length * (this.blockSize + 1)]);
 
     const yScale = d3.scaleLinear()
-      .domain([0, this.heatmapData.yValues.length])
-      .range([0, this.heatmapData.yValues.length * (this.blockSize + 1)]);
+      .domain([0, this.heatmapData.yDisplayValues.length])
+      .range([0, this.heatmapData.yDisplayValues.length * (this.blockSize + 1)]);
 
     const zScale = d3.scaleLinear()
       .domain([0, 1])
@@ -142,8 +153,8 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
 
     const yAxis = d3.axisLeft()
       .scale(yScale);
-    yAxis.ticks(this.heatmapData.yValues.length).tickFormat(d => {
-      return this.heatmapData.yValues.map(o => o.val)[d];
+    yAxis.ticks(this.heatmapData.yDisplayValues.length).tickFormat(d => {
+      return this.heatmapData.yDisplayValues.map(o => o.val)[d];
     });
 
     // Append group and insert axis
@@ -170,14 +181,14 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
     selection.on('mouseover', (event, d) => {
       const blocks = selection.nodes();
       const i = blocks.indexOf(event.currentTarget);
-      this.anatamogramHoverService.setTissue(this.heatmapData.yValues[blocks[i].__data__.y].data);
+      this.anatamogramHoverService.setTissue(this.heatmapData.yDisplayValues[blocks[i].__data__.y].data);
       d3.select(blocks[i]).classed('hovered', true);
       this.tooltip.transition()
         .duration(200)
         .style('opacity', 0.9);
       this.tooltip.html(`
         <span>
-            <b>${this.heatmapData.yLabel}: </b>${this.heatmapData.yValues[blocks[i].__data__.y].val}<br />
+            <b>${this.heatmapData.yLabel}: </b>${this.heatmapData.yDisplayValues[blocks[i].__data__.y].val}<br />
             <b>${this.heatmapData.xLabel}: </b>${this.heatmapData.xValues[blocks[i].__data__.x].val}<br />
             <b>Value:</b> ${d.z.rawVal.replace('\\n', ', ')}<br />
             <b>Source Rank:</b> ${d.z.val}<br />
@@ -208,8 +219,8 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
 
     const yTicks = this.chartArea.select('.yAxis').selectAll('.tick');
     yTicks.on('mouseover', (event, d) => {
-      this.highlightedValue = this.heatmapData.yValues[d].val;
-      this.anatamogramHoverService.setTissue(this.heatmapData.yValues[d].data);
+      this.highlightedValue = this.heatmapData.yDisplayValues[d].val;
+      this.anatamogramHoverService.setTissue(this.heatmapData.yDisplayValues[d].data);
       const blocks = selection.nodes().filter(b => {
         return b.__data__.data === this.highlightedValue;
       });
@@ -250,6 +261,7 @@ export class HeatMapData {
   static separator = '!';
   xValues: { val: string, score: number }[] = [];
   yValues: { val: string, score: number, data: string }[] = [];
+  yDisplayValues: {val: string, score: number, data: string}[] = [];
   sortColumn = 'Average';
   data: Map<string, { val: number, rawVal: string }> = new Map<string, { val: number, rawVal: string }>();
   plot: { x: number, y: number, z: { val: number, rawVal: string }, data: string }[] = [];
@@ -287,8 +299,15 @@ export class HeatMapData {
     }
   }
 
-  updateDataMap() {
+  updateDataMap(filterValue: string) {
     this.plot = [];
+    if (filterValue.length > 0) {
+      this.yDisplayValues = this.yValues.filter(f => {
+        return f.val.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0;
+      });
+    } else {
+      this.yDisplayValues = this.yValues.slice();
+    }
     this.xValues.sort((a, b) => {
       if (b.val === this.sortColumn) {
         return 1;
@@ -298,12 +317,12 @@ export class HeatMapData {
       }
       return b.score - a.score;
     });
-    this.yValues.sort((a, b) => {
+    this.yDisplayValues.sort((a, b) => {
       const bVal = this.data.get(this.sortColumn + HeatMapData.separator + b.val).val;
       const aVal = this.data.get(this.sortColumn + HeatMapData.separator + a.val).val;
       return bVal - aVal;
     });
-    this.yValues.forEach((y, yIndex) => {
+    this.yDisplayValues.forEach((y, yIndex) => {
       this.xValues.forEach((x, xIndex) => {
         const key = this.key(x.val, y.val);
         if (this.data.has(key)) {

@@ -2,5 +2,12 @@
   <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
 </div>
 <div class="twod-container">
+  <mat-form-field class="example-form-field" appearance="fill">
+    <mat-label>Filter Tissues</mat-label>
+    <input matInput type="text" class="filter-tissues" [(ngModel)]="filterValue" (change)="filterChanged($event)"/>
+    <button *ngIf="filterValue" matSuffix mat-icon-button aria-label="Clear" (click)="clearFilter()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
   <div class="d3-chart-2d" id="twoDChartTarget" #twoDChartTarget></div>
 </div>
