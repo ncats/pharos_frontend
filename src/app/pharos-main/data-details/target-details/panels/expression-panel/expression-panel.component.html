@@ -29,7 +29,7 @@
                 <pharos-heat-map [heatmapData]="uberonExpressionMap" [highlightedValue]="clickedTissue" [heatmapClicked]="tissueClicked.bind(this)"></pharos-heat-map>
               </div>
               <div class="details-container halfHeight" *ngIf="clickedTissue">
-                <pharos-expression-details [selectedTissue]="clickedTissue" [expressions]="target.expressions" [gtex]="target.gtex"></pharos-expression-details>
+                <pharos-expression-details [closeFunction]="closeDetails.bind(this)" [selectedTissue]="clickedTissue" [expressions]="target.expressions" [gtex]="target.gtex"></pharos-expression-details>
               </div>
             </div>
             <div class="section anatamogram-container">

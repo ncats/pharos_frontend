@@ -5,7 +5,8 @@
 
 .twod-container {
   display: flex;
-  max-width: 70vw;
+  flex-direction: column;
+  //max-width: 70vw;
   overflow-x: scroll;
 }
 
@@ -24,4 +25,8 @@
 
 .bar-tooltip {
   text-align: center;
+}
+
+.filter-tissues {
+  max-width: 80%;
 }
