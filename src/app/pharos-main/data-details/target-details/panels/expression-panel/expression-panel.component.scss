@@ -62,9 +62,17 @@ img.hg {
   overflow-y: scroll;
   height: 100%;
 }
-.minimal {
+
+.heatmap-container.halfHeight{
+  border-bottom: 1px solid;
+}
+
+.halfHeight {
   overflow-y: scroll;
-  height: 50%;
+  height: 48%;
+}
+.details-container {
+  padding: 10px;
 }
 
 .anatamogram-container {

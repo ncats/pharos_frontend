@@ -17,9 +17,9 @@ export class ExpressionDetailsBlockComponent implements OnInit {
         if (e.hasOwnProperty(prop)) {
           if ((e[prop] || e[prop] === 0) && e[prop].toString().length > 0 && !goodColumns.includes(prop)) {
             goodColumns.push(prop);
-            if (prop === 'pub') {
-              e.pub = e.pub.pmid;
-            }
+          }
+          if (e[prop] && prop === 'pub') {
+            e.pub = e.pub.pmid;
           }
         }
       }
