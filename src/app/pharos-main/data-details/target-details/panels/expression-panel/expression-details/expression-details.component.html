@@ -1,6 +1,6 @@
 <div class="tissue-header">
   <mat-card-title>{{selectedTissue}}</mat-card-title>
-  <span class="uberon-id" *ngIf="selectedUberon && selectedUberon.length > 0"> ({{selectedUberon}})</span>
+  <span class="uberon-id" *ngIf="selectedUberon && selectedUberon.uid && selectedUberon.uid.length > 0"> ({{selectedUberon.uid}})</span>
   <div fxFlex=""></div>
   <button mat-menu-item (click)="closeDetails()" class="closeButton">
     <mat-icon [color]="'primary'" matTooltip="Complete">close</mat-icon>

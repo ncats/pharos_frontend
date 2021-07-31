@@ -11,7 +11,7 @@ export class ExpressionDetailsComponent implements OnInit, OnChanges {
   @Input() selectedTissue = '';
   @Input() closeFunction;
 
-  selectedUberon = '';
+  selectedUberon: any = {};
 
   filteredExpressionMap: Map<string, any[]> = new Map<string, any[]>();
   filteredGTEX: any[];
@@ -36,14 +36,14 @@ export class ExpressionDetailsComponent implements OnInit, OnChanges {
 
   initialize() {
     if (this.selectedTissue && this.selectedTissue.length > 0) {
-      this.selectedUberon = '';
+      this.selectedUberon = {};
       this.filteredGTEX = this.gtex.filter(e => {
         const tissue = e.uberon?.name || e.tissue;
         return tissue === this.selectedTissue;
       });
       this.filteredGTEX.forEach(e => {
         if (e.uberon && e.uberon.uid) {
-          this.selectedUberon = e.uberon.uid;
+          this.selectedUberon = e.uberon;
         }
       });
       this.filteredExpressionMap.clear();
@@ -52,7 +52,7 @@ export class ExpressionDetailsComponent implements OnInit, OnChanges {
         return tissue === this.selectedTissue;
       }).forEach(e => {
         if (e.uberon && e.uberon.uid) {
-          this.selectedUberon = e.uberon.uid;
+          this.selectedUberon = e.uberon;
         }
         let map;
         if (this.filteredExpressionMap.has(e.type)) {

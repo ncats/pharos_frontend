@@ -38,9 +38,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
    * target id
    */
   id: string;
-  uberonMap: Map<string, any> = new Map<string, any>();
-  uberon2Tissue: Map<string, string> = new Map<string, string>();
-  cellLinesMap: Map<string, any> = new Map<string, any>();
+  string2UberonObj: Map<string, any> = new Map<string, any>();
 
   /**
    * attach required services
@@ -63,10 +61,10 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     let uberon;
     if (input.startsWith('UBERON')) {
       uberon = input;
-      tissue = this.uberon2Tissue.get(uberon);
+      tissue = this.string2UberonObj.get(uberon).name;
     } else {
       tissue = input;
-      uberon = this.uberon2Tissue.get(tissue);
+      uberon = this.string2UberonObj.get(tissue).uid;
     }
     if (tissue === this.clickedTissue) {
       this.clickedTissue = '';
@@ -89,8 +87,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
       .subscribe(x => {
         if (isPlatformBrowser(this.platformID)) {
           this.tissues = [];
-          this.uberonMap.clear();
-          this.cellLinesMap.clear();
           this.target = this.data.targets;
           this.targetProps = this.data.targetsProps;
           this.setterFunction();
@@ -109,18 +105,18 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   }
 
   setMapData(heatMapData: HeatMapData, expressionList: any[], gtexList: any[]) {
-    this.uberon2Tissue.clear();
+    this.string2UberonObj.clear();
     expressionList.forEach(expression => {
         const field = ExpressionPanelComponent.getPreferredField(expression.type);
         if (expression.uberon) {
           if (!this.tissues.includes(expression.uberon.uid)) {
             this.tissues.push(expression.uberon.uid);
           }
-          this.uberon2Tissue.set(expression.uberon.name, expression.uberon.uid);
-          this.uberon2Tissue.set(expression.uberon.uid, expression.uberon.name);
+          this.string2UberonObj.set(expression.uberon.name, expression.uberon);
+          this.string2UberonObj.set(expression.uberon.uid, expression.uberon);
         }
         heatMapData.addPoint(expression.type,
-          expression.uberon?.name || expression.tissue, expression[field], expression.sourceRank, expression.uberon?.uid);
+          expression.uberon?.name || expression.tissue, expression[field], expression.sourceRank, expression.uberon);
       });
     gtexList.forEach(expression => {
       if (expression.gender === 'M') {
@@ -128,22 +124,22 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
           if (!this.tissues.includes(expression.uberon.uid)) {
             this.tissues.push(expression.uberon.uid);
           }
-          this.uberon2Tissue.set(expression.uberon.name, expression.uberon.uid);
-          this.uberon2Tissue.set(expression.uberon.uid, expression.uberon.name);
+          this.string2UberonObj.set(expression.uberon.name, expression.uberon);
+          this.string2UberonObj.set(expression.uberon.uid, expression.uberon);
         }
         heatMapData.addPoint('GTEX - Male', expression.uberon?.name || expression.tissue,
-          expression.tpm + ' TPM', expression.tpm_rank, expression.uberon?.uid);
+          expression.tpm + ' TPM', expression.tpm_rank, expression.uberon);
       }
       else {
         if (expression.uberon) {
           if (!this.tissues.includes(expression.uberon.uid)) {
             this.tissues.push(expression.uberon.uid);
           }
-          this.uberon2Tissue.set(expression.uberon.name, expression.uberon.uid);
-          this.uberon2Tissue.set(expression.uberon.uid, expression.uberon.name);
+          this.string2UberonObj.set(expression.uberon.name, expression.uberon);
+          this.string2UberonObj.set(expression.uberon.uid, expression.uberon);
         }
         heatMapData.addPoint('GTEX - Female', expression.uberon?.name || expression.tissue,
-          expression.tpm + ' TPM', expression.tpm_rank, expression.uberon?.uid);
+          expression.tpm + ' TPM', expression.tpm_rank, expression.uberon);
       }
     });
     heatMapData.yValues.forEach(y => {
@@ -156,7 +152,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
         }
       });
       const avg = list.reduce((a, b) => a + b) / list.length;
-      const uberon = this.uberon2Tissue.get(y.val);
+      const uberon = this.string2UberonObj.get(y.val);
       heatMapData.addPoint('Average', y.val, avg.toString(), avg, uberon);
       let existingMap = this.shadingMap.get('Average');
 
@@ -165,7 +161,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
         this.shadingMap.set('Average', existingMap);
       }
 
-      existingMap.set(uberon, avg);
+      existingMap.set(uberon?.uid, avg);
     });
   }
 
