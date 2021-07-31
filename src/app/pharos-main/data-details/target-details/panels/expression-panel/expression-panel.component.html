@@ -32,7 +32,7 @@
                 <pharos-expression-details [closeFunction]="closeDetails.bind(this)" [selectedTissue]="clickedTissue" [expressions]="target.expressions" [gtex]="target.gtex"></pharos-expression-details>
               </div>
             </div>
-            <div class="section anatamogram-container">
+            <div class="section anatamogram-container" fxHide.lt-lg>
               <pharos-anatamogram [tissues]="tissues" [species]="'homo_sapiens'" [shadingKey]="'Average'"
                                   [shadingMap]="this.shadingMap"
                                   [redrawAnatamogram]="this.redrawAnatamogram"

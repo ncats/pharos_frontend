@@ -14,6 +14,9 @@ import * as d3 from 'd3';
 import {DynamicPanelComponent} from '../../dynamic-panel/dynamic-panel.component';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {AnatamogramHoverService} from '../../anatamogram/anatamogram-hover.service';
+import {FormControl} from '@angular/forms';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 @Component({
   selector: 'pharos-heat-map',
@@ -22,6 +25,8 @@ import {AnatamogramHoverService} from '../../anatamogram/anatamogram-hover.servi
   encapsulation: ViewEncapsulation.None
 })
 export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
+  filterControl = new FormControl();
+  filteredOptions: Observable<string[]>;
 
   constructor(
     private anatamogramHoverService: AnatamogramHoverService,
@@ -43,6 +48,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
   highlightedValue = '';
 
   @Input() heatmapClicked;
+  sortedYVals: string[] = [];
 
   /**
    * margin of space around the donut chart
@@ -57,7 +63,11 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
   svg: any;
   chartArea: any;
   tooltip: any;
-  filterValue = '';
+  filterTextValue = '';
+  filterTissue = '';
+  tissueAncestors: TissueCount[] = [];
+  selectedAncestor = '';
+  tissueSearchOn = true;
 
   /**
    * width of component
@@ -66,10 +76,58 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
   blockSize = 20;
 
   ngOnInit() {
+    this.filteredOptions = this.filterControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
+    this.sortedYVals = this.heatmapData.yValues.filter(o => !!o.data).map(o => o.val).sort((a, b) => {
+      return a.toLowerCase().localeCompare(b.toLowerCase());
+    });
     this.redraw();
     this.loadingComplete();
   }
 
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.sortedYVals.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  tissueSelected(event) {
+    if (event.isUserInput) {
+      // @ts-ignore
+      const selectedTissue = this.heatmapData.yValues.find(v => {
+        return v.val === event.source.value;
+      });
+      if (selectedTissue.data) {
+        const ancestorMap: Map<string, string[]> = new Map<string, string[]>();
+        this.heatmapData.yValues.filter(d => d.data).forEach(o => {
+          ancestorMap.set(o.data.name, o.data.ancestors.map(p => p.name));
+        });
+        this.tissueAncestors = [new TissueCount(selectedTissue.data.name, selectedTissue.data.uid, 1, [selectedTissue.data.name])];
+        selectedTissue.data.ancestors.forEach(a => {
+          const tissueList = [];
+          let count = 0;
+          ancestorMap.forEach((v, k) => {
+            if (v.includes(a.name)) {
+              count++;
+              tissueList.push(k);
+            }
+          });
+          this.tissueAncestors.push(new TissueCount(a.name, a.uid, count, tissueList));
+        });
+        this.tissueAncestors.sort((a, b) => a.count - b.count);
+        this.selectedAncestor = this.tissueAncestors[0].name;
+        this.filterTissue = selectedTissue.data;
+        this.filterTextValue = '';
+      } else {
+        this.tissueAncestors = [];
+        this.filterTissue = null;
+        this.filterTextValue = event.source.value;
+      }
+      this.updateChart();
+    }
+  }
   /**
    * listener to resize the chart on page resize
    */
@@ -107,12 +165,15 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
     this.svg = d3.select(element).append('svg');
   }
 
-  filterChanged(event) {
-    this.filterValue = event.target.value;
+  tissueTextSearch(event) {
+    this.filterTextValue = event.target.value;
     this.updateChart();
   }
   clearFilter() {
-    this.filterValue = '';
+    this.selectedAncestor = '';
+    this.tissueAncestors = [];
+    this.filterTextValue = '';
+    this.filterTissue = '';
     this.updateChart();
   }
 
@@ -120,7 +181,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
    * update chart as data changes
    */
   updateChart(): void {
-    this.heatmapData.updateDataMap(this.filterValue);
+    this.heatmapData.updateDataMap(this.tissueSearchOn, this.filterTextValue, this.tissueAncestors, this.selectedAncestor);
 
     this.setSize();
     this.svg.selectAll('.plot-container').remove();
@@ -181,7 +242,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
     selection.on('mouseover', (event, d) => {
       const blocks = selection.nodes();
       const i = blocks.indexOf(event.currentTarget);
-      this.anatamogramHoverService.setTissue(this.heatmapData.yDisplayValues[blocks[i].__data__.y].data);
+      this.anatamogramHoverService.setTissue(this.heatmapData.yDisplayValues[blocks[i].__data__.y].data.uid);
       d3.select(blocks[i]).classed('hovered', true);
       this.tooltip.transition()
         .duration(200)
@@ -220,7 +281,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
     const yTicks = this.chartArea.select('.yAxis').selectAll('.tick');
     yTicks.on('mouseover', (event, d) => {
       this.highlightedValue = this.heatmapData.yDisplayValues[d].val;
-      this.anatamogramHoverService.setTissue(this.heatmapData.yDisplayValues[d].data);
+      this.anatamogramHoverService.setTissue(this.heatmapData.yDisplayValues[d].data.uid);
       const blocks = selection.nodes().filter(b => {
         return b.__data__.data === this.highlightedValue;
       });
@@ -255,13 +316,27 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit {
   }
 }
 
-
+export class TissueCount {
+  name: string;
+  uid: string;
+  count: number;
+  list: string[];
+  constructor(name: string, uid: string, count: number, list: string[]) {
+    this.name = name;
+    this.uid = uid;
+    this.count = count;
+    this.list = list;
+  }
+  toString() {
+    return `${this.name} (${this.count} tissues)`;
+  }
+}
 
 export class HeatMapData {
   static separator = '!';
   xValues: { val: string, score: number }[] = [];
-  yValues: { val: string, score: number, data: string }[] = [];
-  yDisplayValues: {val: string, score: number, data: string}[] = [];
+  yValues: { val: string, score: number, data: any }[] = [];
+  yDisplayValues: {val: string, score: number, data: any}[] = [];
   sortColumn = 'Average';
   data: Map<string, { val: number, rawVal: string }> = new Map<string, { val: number, rawVal: string }>();
   plot: { x: number, y: number, z: { val: number, rawVal: string }, data: string }[] = [];
@@ -277,7 +352,7 @@ export class HeatMapData {
     return `${xVal}${HeatMapData.separator}${yVal}`;
   }
 
-  addPoint(xVal: string, yVal: string, val: string, numVal, data: string) {
+  addPoint(xVal: string, yVal: string, val: string, numVal, data: any) {
     const rawStringVal = (val && val.length > 0) ? val : '0';
     const key = this.key(xVal, yVal);
     if (this.data.has(key)) {
@@ -299,11 +374,16 @@ export class HeatMapData {
     }
   }
 
-  updateDataMap(filterValue: string) {
+  updateDataMap(tissueSearch: boolean, filterValue: string, tissuesToShow: TissueCount[], selectedAncestor: string) {
     this.plot = [];
-    if (filterValue.length > 0) {
+    if (!tissueSearch && filterValue.length > 0) {
       this.yDisplayValues = this.yValues.filter(f => {
         return f.val.toLowerCase().indexOf(filterValue.toLowerCase()) >= 0;
+      });
+    } else if (tissueSearch && selectedAncestor && selectedAncestor.length > 0) {
+      const whiteList = tissuesToShow.find(f => f.name === selectedAncestor).list;
+      this.yDisplayValues = this.yValues.filter( f => {
+        return whiteList.includes(f.val);
       });
     } else {
       this.yDisplayValues = this.yValues.slice();

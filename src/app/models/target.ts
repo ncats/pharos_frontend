@@ -365,6 +365,9 @@ export class TargetSerializer implements PharosSerializer {
             json.gtex.forEach(ex => {
                 if (ex.uberon && ex.uberon.uid) {
                     ex.uberon.uid = ex.uberon.uid.replace(':', '_');
+                    if (ex.uberon.ancestors && ex.uberon.ancestors.length > 0) {
+                      ex.uberon.ancestors.forEach(a => a.uid = a.uid.replace(':', '_'));
+                    }
                 }
             });
         }
@@ -373,6 +376,9 @@ export class TargetSerializer implements PharosSerializer {
             for (let i = 0; i < json.expressions.length; i++) {
                 if (json.expressions[i].uberon && json.expressions[i].uberon.uid) {
                     json.expressions[i].uberon.uid = json.expressions[i].uberon.uid.replace(':', '_');
+                    if (json.expressions[i].uberon.ancestors && json.expressions[i].uberon.ancestors.length > 0) {
+                      json.expressions[i].uberon.ancestors.forEach(a => a.uid = a.uid.replace(':', '_'));
+                    }
                 }
                 map.set(JSON.stringify(json.expressions[i]), json.expressions[i]);
             }

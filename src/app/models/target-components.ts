@@ -568,6 +568,10 @@ export const TARGETDETAILSFIELDS = gql`
       uberon {
         name
         uid
+        ancestors {
+          name
+          uid
+        }
       }
     }
     gtex {
@@ -578,6 +582,10 @@ export const TARGETDETAILSFIELDS = gql`
       uberon {
         name
         uid
+        ancestors {
+          name
+          uid
+        }
       }
     }
     uniprotKeyword:xrefs (source: "UniProt Keyword") {
