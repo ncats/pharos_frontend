@@ -72,6 +72,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
         this.clickedTissue = '';
       } else {
         this.clickedTissue = tissue;
+        this.detailsTissue = '';
       }
     }
     if (source === 'heatmap') {
