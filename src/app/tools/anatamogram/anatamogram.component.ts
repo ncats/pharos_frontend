@@ -37,8 +37,8 @@ export class AnatamogramComponent implements OnInit {
 
   @Input() clickHandler;
   handleClicks(event){
-    if(this.clickHandler){
-      this.clickHandler(event);
+    if (this.clickHandler){
+      this.clickHandler(event, 'anatamogram');
     }
   }
 

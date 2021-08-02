@@ -33,6 +33,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   redrawAnatamogram: Subject<boolean> = new Subject<boolean>();
   uberonExpressionMap: HeatMapData;
   clickedTissue: string;
+  detailsTissue: string;
 
   /**
    * target id
@@ -56,7 +57,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     super(dynamicServices);
   }
 
-  tissueClicked(input) {
+  tissueClicked(input, source) {
     let tissue;
     let uberon;
     if (input.startsWith('UBERON')) {
@@ -64,12 +65,21 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
       tissue = this.string2UberonObj.get(uberon).name;
     } else {
       tissue = input;
-      uberon = this.string2UberonObj.get(tissue).uid;
+      uberon = this.string2UberonObj.get(tissue)?.uid;
     }
-    if (tissue === this.clickedTissue) {
-      this.clickedTissue = '';
-    } else {
-      this.clickedTissue = tissue;
+    if (source === 'anatamogram') {
+      if (tissue === this.clickedTissue) {
+        this.clickedTissue = '';
+      } else {
+        this.clickedTissue = tissue;
+      }
+    }
+    if (source === 'heatmap') {
+      if (tissue === this.detailsTissue) {
+        this.detailsTissue = '';
+      } else {
+        this.detailsTissue = tissue;
+      }
     }
     this.changeRef.detectChanges();
   }
@@ -96,7 +106,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   }
 
   closeDetails() {
-    this.clickedTissue = '';
+    this.detailsTissue = '';
   }
 
   updateHeatmapData() {
