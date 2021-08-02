@@ -90,7 +90,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.clickedTissue) {
-      if (changes.clickedTissue.currentValue.length > 0) {
+      if (changes.clickedTissue.currentValue?.length > 0) {
         this.filterBySelectedTissue(changes.clickedTissue.currentValue);
       }
       else {
@@ -207,6 +207,9 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
    * update chart as data changes
    */
   updateChart(): void {
+    if (!this.svg) {
+      return;
+    }
     this.heatmapData.updateDataMap(this.tissueSearchOn, this.filterTextValue, this.tissueAncestors, this.selectedAncestor);
 
     this.setSize();
@@ -268,7 +271,9 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
     selection.on('mouseover', (event, d) => {
       const blocks = selection.nodes();
       const i = blocks.indexOf(event.currentTarget);
-      this.anatamogramHoverService.setTissue(this.heatmapData.yDisplayValues[blocks[i].__data__.y].data.uid);
+      if (this.heatmapData.yDisplayValues[blocks[i].__data__.y].data) {
+        this.anatamogramHoverService.setTissue(this.heatmapData.yDisplayValues[blocks[i].__data__.y].data.uid);
+      }
       d3.select(blocks[i]).classed('hovered', true);
       this.tooltip.transition()
         .duration(200)
@@ -307,7 +312,9 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
     const yTicks = this.chartArea.select('.yAxis').selectAll('.tick');
     yTicks.on('mouseover', (event, d) => {
       const hoveredTissue = this.heatmapData.yDisplayValues[d].val;
-      this.anatamogramHoverService.setTissue(this.heatmapData.yDisplayValues[d].data.uid);
+      if (this.heatmapData.yDisplayValues[d].data) {
+        this.anatamogramHoverService.setTissue(this.heatmapData.yDisplayValues[d].data.uid);
+      }
       const blocks = selection.nodes().filter(b => {
         return b.__data__.data === hoveredTissue;
       });
