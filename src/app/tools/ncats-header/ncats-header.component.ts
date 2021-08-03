@@ -105,15 +105,16 @@ export class NcatsHeaderComponent implements OnInit {
     if (path.startsWith('/')) {
       path = path.slice(1);
     }
-    return path;
+    path = path.split('#')[0];
+    return path.split('/');
   }
 
   gotoTutorial(tutorial: string) {
     const path = this.getPage();
-    const onListPage = ['diseases', 'ligands', 'targets'].includes(path);
+    const onListPage = ['diseases', 'ligands', 'targets'].includes(path[0]) && path.length === 1;
     if (tutorial === 'custom-target-lists') {
       const navigationExtras: NavigationExtras = {
-        queryParamsHandling: (path === 'targets' ? 'merge' : ''),
+        queryParamsHandling: (path[0] === 'targets' ? 'merge' : ''),
         queryParams: {
           tutorial
         },
@@ -138,7 +139,20 @@ export class NcatsHeaderComponent implements OnInit {
           tutorial
         },
       };
-      this.router.navigate([onListPage ? path : '/targets'], navigationExtras);
+      this.router.navigate([onListPage ? path[0] : '/targets'], navigationExtras);
+    }
+    if (tutorial === 'expression-tutorial') {
+      const navigationExtras: NavigationExtras = {
+        queryParamsHandling: '',
+        queryParams: {
+          tutorial
+        },
+      };
+      if (path[0] === 'targets' && path.length > 1) {
+        this.router.navigate([path.join('/')], navigationExtras);
+      } else {
+        this.router.navigate(['/targets/camk2a'], navigationExtras);
+      }
     }
   }
 

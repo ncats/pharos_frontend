@@ -10,6 +10,11 @@
   overflow-x: scroll;
 }
 
+.tissue-search {
+  display: flex;
+  flex-direction: column;
+}
+
 .twodtooltip {
   position: absolute;
   //text-align: center;

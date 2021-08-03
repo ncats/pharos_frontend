@@ -43,6 +43,7 @@ export class TourService {
   loadPromise: any;
   menuIsHidden = false;
   signinIsHidden = false;
+  anatamogramIsHidden = false;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -57,9 +58,23 @@ export class TourService {
     }
   }
 
+  runTutorial(tutorialName: string) {
+    if (!isPlatformBrowser(this.platformID)) {
+      return;
+    }
+    this.loadPromise.then(() => {
+      switch (tutorialName) {
+        case 'expression-tutorial':
+          this.runExpressionTour();
+          break;
+      }
+    });
+  }
+
   setSizeCutoffs() {
     this.menuIsHidden = this.breakpointObserver.isMatched('(max-width: 959px)');
     this.signinIsHidden = this.breakpointObserver.isMatched('(max-width: 1059px)');
+    this.anatamogramIsHidden = this.breakpointObserver.isMatched('(max-width: 1279px)');
   }
 
   tourScroller(element) {
@@ -548,6 +563,80 @@ export class TourService {
     this.shepherdService.modal = true;
     this.shepherdService.confirmCancel = false;
     this.shepherdService.addSteps(defaultSteps);
+    this.shepherdService.start();
+  }
+
+  runExpressionTour() {
+    const defaultSteps = [
+      {
+        id: 'expression-start',
+        attachTo: {
+          element: '#expression',
+          on: 'top'
+        },
+        scrollToHandler: this.tourScroller.bind({section: 'expression', platformID: this.platformID}),
+        buttons: this.firstButtons.slice(),
+        title: 'Target Expression',
+        text: ['Expression data is aggregated from several data sources and displayed on target details pages. Data is shown as a heatmap of tissues and data sources, as well ' +
+        'as on an anatamogram, shaded according to the average ranking of each tissue across data sources.']
+      },
+      {
+        id: 'tissue-search',
+        attachTo: {
+          element: '.tissue-search',
+          on: 'bottom'
+        },
+        scrollTo: false,
+        buttons: this.standardButtons.slice(),
+        title: 'Tissue Search',
+        text: ['You can filter the heatmap to a specific class of tissues by selecting a tissue to start with, and subsequently ' +
+        'selecting one of the parent terms from the UBERON ontology.']
+      },
+      {
+        id: 'tissue-details',
+        attachTo: {
+          element: '.yAxisLabel',
+          on: 'bottom'
+        },
+        scrollTo: false,
+        buttons: this.standardButtons.slice(),
+        title: 'Tissue Details',
+        text: ['Click the tissue label, or the heatmap cells to see the details of the expression data for each tissue.']
+      },
+      ...(this.anatamogramIsHidden ? [] : [
+      {
+        id: 'anatamogram-container',
+        attachTo: {
+          element: '.anatamogram-container',
+          on: 'bottom'
+        },
+        scrollTo: false,
+        buttons: this.standardButtons.slice(),
+        title: 'Interactive Anatamogram',
+        text: ['You can also filter the heatmap by clicking tissues on the anatamogram.']
+      }]),
+      {
+        id: 'download-expression-data',
+        attachTo: {
+          element: '.download-target-details',
+          on: 'bottom'
+        },
+        scrollTo: false,
+        buttons: this.lastButtons.slice(),
+        title: 'Expression Data Download',
+        text: ['You can download data for offline analysis by clicking the download link. Select the "Expression" group to include ' +
+        'expression data for all tissues and data sources for this target.']
+      },
+    ];
+    this.shepherdService.defaultStepOptions = this.defaultStepOptions;
+    this.shepherdService.modal = true;
+    this.shepherdService.confirmCancel = false;
+    this.shepherdService.addSteps(defaultSteps);
+    ['cancel', 'complete'].forEach(event => {
+      this.shepherdService.tourObject.on(event, () => {
+        this.completeTour(true, 'expression-tutorial', 'Target Expression', event);
+      });
+    });
     this.shepherdService.start();
   }
 
