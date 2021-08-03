@@ -140,7 +140,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
       this.tissueAncestors.sort((a, b) => a.count - b.count);
       this.selectedAncestor = this.tissueAncestors[0].name;
       this.filterTissue = selectedTissue.data.name;
-      this.filterTextValue = '';
+      this.filterTextValue = selectedTissue.data.name;
     } else {
       this.tissueAncestors = [];
       this.filterTissue = null;
@@ -309,7 +309,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
       .attr('transform', d => `translate(0, ${this.blockSize * .5})`)
       .attr('style', 'text-anchor: end');
 
-    const yTicks = this.chartArea.select('.yAxis').selectAll('.tick');
+    const yTicks = this.chartArea.select('.yAxis').selectAll('.tick').attr('class' , 'tick yAxisLabel');
     yTicks.on('mouseover', (event, d) => {
       const hoveredTissue = this.heatmapData.yDisplayValues[d].val;
       if (this.heatmapData.yDisplayValues[d].data) {

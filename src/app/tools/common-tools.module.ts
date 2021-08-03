@@ -33,6 +33,7 @@ import { UpsetPlotComponent } from './visualizations/upset-plot/upset-plot.compo
 import { UpsetModule } from './visualizations/upset/upset.module';
 import { UpsetFieldEditComponent } from './upset-field-edit/upset-field-edit.component';
 import {FacetTableModule} from '../pharos-main/data-list/filter-panel/facet-table/facet-table.module';
+import { TutorialLinkComponent } from './tutorial-link/tutorial-link.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import {FacetTableModule} from '../pharos-main/data-list/filter-panel/facet-tabl
     FieldSelectionDialogComponent,
     ModelDetailsComponent,
     UpsetPlotComponent,
-    UpsetFieldEditComponent
+    UpsetFieldEditComponent,
+    TutorialLinkComponent
   ],
   imports: [
     CommonModule,
@@ -72,27 +74,28 @@ import {FacetTableModule} from '../pharos-main/data-list/filter-panel/facet-tabl
     UpsetModule,
     FacetTableModule
   ],
-  exports: [
-    NcatsHeaderModule,
-    AnatamogramModule,
-    RadarChartModule,
-    GenericTableModule,
-    BatchUploadModalComponent,
-    DynamicPanelComponent,
-    DynamicTablePanelComponent,
-    HelpPanelComponent,
-    IdgLevelIndicatorComponent,
-    KnowledgeTableComponent,
-    LinkListComponent,
-    StructureViewComponent,
-    ProteinStructureViewerComponent,
-    ListFilterComponent,
-    HeatMapComponent,
-    ExploreListButtonComponent,
-    AffiliateLinkComponent,
-    VennDiagramComponent,
-    UpsetPlotComponent
-  ],
+    exports: [
+        NcatsHeaderModule,
+        AnatamogramModule,
+        RadarChartModule,
+        GenericTableModule,
+        BatchUploadModalComponent,
+        DynamicPanelComponent,
+        DynamicTablePanelComponent,
+        HelpPanelComponent,
+        IdgLevelIndicatorComponent,
+        KnowledgeTableComponent,
+        LinkListComponent,
+        StructureViewComponent,
+        ProteinStructureViewerComponent,
+        ListFilterComponent,
+        HeatMapComponent,
+        ExploreListButtonComponent,
+        AffiliateLinkComponent,
+        VennDiagramComponent,
+        UpsetPlotComponent,
+        TutorialLinkComponent
+    ],
   entryComponents: [
     FieldSelectionDialogComponent
   ]

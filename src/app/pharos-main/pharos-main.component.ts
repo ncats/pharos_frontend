@@ -198,9 +198,13 @@ export class PharosMainComponent implements OnInit, OnDestroy {
   }
 
   runTutorial() {
-    switch (this._route.snapshot.queryParamMap.get('tutorial')) {
+    const tutorial = this._route.snapshot.queryParamMap.get('tutorial');
+    switch (tutorial) {
       case 'list-pages-tour':
         this.tourService.listPagesTour(true, this._route.snapshot.data.path, this.data);
+        break;
+      case 'expression-tutorial':
+        this.tourService.runTutorial(tutorial);
         break;
       case '':
       case null:

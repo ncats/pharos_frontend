@@ -2,8 +2,9 @@
   <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
 </div>
 <div class="twod-container">
+  <div class="tissue-search" >
   <mat-slide-toggle [(ngModel)]="tissueSearchOn" (change)="updateChart()">{{tissueSearchOn ? 'Tissue Search' : 'Text Search'}}</mat-slide-toggle>
-  <mat-form-field class="example-form-field" appearance="fill" *ngIf="!tissueSearchOn">
+  <mat-form-field appearance="fill" *ngIf="!tissueSearchOn">
     <mat-label>Filter Tissues by Name</mat-label>
     <input matInput aria-label="Tissue Text Search" type="text" class="filter-tissues" [(ngModel)]="filterTextValue" (change)="tissueTextSearch($event)"/>
     <button *ngIf="filterTextValue" matSuffix mat-icon-button aria-label="Clear" (click)="clearFilter()">
@@ -33,5 +34,6 @@
       {{tissue}}
     </mat-radio-button>
   </mat-radio-group>
+  </div>
   <div class="d3-chart-2d" id="twoDChartTarget" #twoDChartTarget></div>
 </div>

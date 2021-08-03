@@ -33,12 +33,15 @@
   -->  <button mat-button (click)="mobilesidenav.close()" routerLink="/api" class="nav-menu-button"
             [ngClass]="{active: isActive('api')}">API
     </button>
-    <button mat-button (click)="mobilesidenav.close()" routerLink="/about" class="nav-menu-button"
-            [ngClass]="{active: isActive('about')}">About
-    </button>
-    <button mat-button (click)="mobilesidenav.close()" routerLink="/faq" class="nav-menu-button"
-            [ngClass]="{active: isActive('faq')}">FAQ
-    </button>
+    <button mat-button [matMenuTriggerFor]="aboutMenu" class="nav-menu-button">About</button>
+    <mat-menu #aboutMenu="matMenu" [classList]="'man-menu-panel'">
+      <button mat-button (click)="mobilesidenav.close()" routerLink="/about" class="nav-menu-button"
+              [ngClass]="{active: isActive('about')}">About Pharos
+      </button>
+      <button mat-button (click)="mobilesidenav.close()" routerLink="/faq" class="nav-menu-button"
+              [ngClass]="{active: isActive('faq')}">FAQ
+      </button>
+    </mat-menu>
     <button mat-button [matMenuTriggerFor]="tutorialMenu" class="nav-menu-button">How Do I... <mat-icon>lightbulb</mat-icon></button>
     <mat-menu #tutorialMenu="matMenu" [classList]="'mat-menu-panel tutorialMenu'">
       <button mat-menu-item (click)="mobilesidenav.close(); gotoTutorial('list-pages-tour')" class="tutorial-link"><span>...use the list pages?</span>
@@ -47,6 +50,8 @@
         <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('custom-target-lists')">check_circle</mat-icon></button>
       <button mat-menu-item (click)="mobilesidenav.close(); gotoTutorial('structure-search-tour')" class="tutorial-link"><span>...do a search based on a chemical structure?</span>
         <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('structure-search-tour')">check_circle</mat-icon></button>
+      <button mat-menu-item (click)="mobilesidenav.close(); gotoTutorial('expression-tutorial')" class="tutorial-link"><span>...see target expression data?</span>
+        <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('expression-tutorial')">check_circle</mat-icon></button>
     </mat-menu>
     <pharos-search-component class="mobile-search"></pharos-search-component>
     <button mat-icon-button class="jira-button" aria-label="submit feedback" matTooltip="Submit Feedback" (click)="submitFeedback($event)">
@@ -70,8 +75,12 @@
       <a mat-button routerLink="/topics" [ngClass]="{active: isActive('topics')}">Topics</a>
 -->
       <a mat-button routerLink="/api" [ngClass]="{active: isActive('api')}">API</a>
-      <a mat-button routerLink="/about" [ngClass]="{active: isActive('about')}">About</a>
-      <a mat-button routerLink="/faq" [ngClass]="{active: isActive('faq')}">FAQ</a>
+
+      <button mat-button [matMenuTriggerFor]="aboutMenu">About</button>
+      <mat-menu #aboutMenu="matMenu" [classList]="'mat-menu-panel'">
+        <a mat-button routerLink="/about" [ngClass]="{active: isActive('about')}">About Pharos</a>
+        <a mat-button routerLink="/faq" [ngClass]="{active: isActive('faq')}">FAQ</a>
+      </mat-menu>
       <a mat-button [matMenuTriggerFor]="tutorialMenu" id="tutorialMenu">How Do I... <mat-icon>lightbulb</mat-icon></a>
       <mat-menu #tutorialMenu="matMenu" [classList]="'mat-menu-panel tutorialMenu'">
         <button mat-menu-item (click)="gotoTutorial('list-pages-tour')" class="tutorial-link"><span>...use the list pages?</span>

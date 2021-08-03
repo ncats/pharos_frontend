@@ -707,58 +707,9 @@ const EXPRESSION_PANEL: PharosPanel = {
   navHeader: {
     label: 'Target Expression Data',
     section: 'expression',
-    mainDescription: 'Expression data from various sources. When possible, tissues on the anatomograms are shaded ' +
-      'according to the level of reported expression for the current data source. Data sources are sorted by the number of ' +
-      'tissues evaluated for expression, but can be resorted alphabetically. Expand the tissue sections to survey data from ' +
-      'all data sources providing evidence for that tissue. Data from the currently selected data source is shown with a ' +
-      'border.'
+    mainDescription: 'Expression data from several sources shown as a heatmap of tissues and data sources, and as a shaded anatamogram.'
   },
-  api: [
-    {
-      field: 'expression',
-      label: 'Human Tab',
-      description: 'Tissues with expression data for this target.'
-    },
-    {
-      field: 'cellTypes',
-      label: 'Cell Types Tab',
-      description: 'Cell types and cell lines with expression data for this target.'
-    },
-    {field: 'tissue', label: 'Tissue', description: 'Name of the tissue corresponding to the expression data.'},
-    {
-      field: 'qual',
-      label: 'Qualitative',
-      description: 'Qualitative description of the expression level (one of: High, Medium, Low, Not Detected). '
-    },
-    {
-      field: 'value',
-      label: 'Value',
-      description: 'Text from the data source about the level of expression in the given tissue.'
-    },
-    {
-      field: 'evidence',
-      label: 'Evidence',
-      description: 'Text from the data source about the evidence (one of: Curated, Approved, Enhanced, Supported).'
-    },
-    {
-      field: 'zscore',
-      label: 'zscore',
-      description: 'A normalized measure from JensenLab Text Mining quantifying the confidence in the expression for this target in this tissue.'
-    },
-    {
-      field: 'conf',
-      label: 'Confidence',
-      description: 'A measure from JensenLab Data Sources quantifying the confidence in the degree of expression for this target in this tissue.'
-    },
-    {field: 'pmid', label: 'Pubmed ID', description: 'Link to the publication for this expression data.'},
-    {field: 'url', label: 'url', description: 'Link to explore this data in the original data source.'},
-    {
-      field: 'dataSources',
-      label: 'Data Source Links',
-      description: 'Expression data comes from a number of data sources. Click the button for links to each of them.',
-      article: ARTICLES.EXPRESSION_DATA_SOURCES_ARTICLE
-    },
-  ]
+  api: []
 };
 
 const ORTHOLOG_VARIANT_PANEL: PharosPanel = {
