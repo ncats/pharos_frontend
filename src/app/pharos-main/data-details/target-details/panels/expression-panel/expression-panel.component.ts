@@ -30,7 +30,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
    */
   tissues: string[] = [];
   shadingMap: Map<string, Map<string, number>> = new Map<string, Map<string, number>>();
-  redrawAnatamogram: Subject<boolean> = new Subject<boolean>();
+  redrawAnatomogram: Subject<boolean> = new Subject<boolean>();
   uberonExpressionMap: HeatMapData;
   clickedTissue: string;
   detailsTissue: string;
@@ -67,7 +67,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
       tissue = input;
       uberon = this.string2UberonObj.get(tissue)?.uid;
     }
-    if (source === 'anatamogram') {
+    if (source === 'anatomogram') {
       if (tissue === this.clickedTissue) {
         this.clickedTissue = '';
       } else {

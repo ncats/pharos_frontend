@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {AnatamogramModule} from './anatamogram/anatamogram.module';
+import {AnatomogramModule} from './anatomogram/anatomogram.module';
 import {BatchUploadModalComponent} from './batch-upload-modal/batch-upload-modal.component';
 import {DynamicPanelComponent} from './dynamic-panel/dynamic-panel.component';
 import {DynamicTablePanelComponent} from './dynamic-table-panel/dynamic-table-panel.component';
@@ -67,7 +67,7 @@ import { TutorialLinkComponent } from './tutorial-link/tutorial-link.component';
     CommonModule,
     SharedModule,
     RouterModule,
-    AnatamogramModule,
+    AnatomogramModule,
     NgxJsonViewerModule,
     GenericTableModule,
     RadarChartModule,
@@ -76,7 +76,7 @@ import { TutorialLinkComponent } from './tutorial-link/tutorial-link.component';
   ],
     exports: [
         NcatsHeaderModule,
-        AnatamogramModule,
+        AnatomogramModule,
         RadarChartModule,
         GenericTableModule,
         BatchUploadModalComponent,

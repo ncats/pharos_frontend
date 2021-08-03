@@ -23,7 +23,7 @@
       </div>
       <div class="row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
         <div fxFlex="95">
-          <div class="matrix-anatamogram">
+          <div class="matrix-anatomogram">
             <div class="section">
               <div class="heatmap-container" [ngClass]="{halfHeight: detailsTissue}">
                 <pharos-heat-map [heatmapData]="uberonExpressionMap" [clickedTissue]="clickedTissue" [heatmapClicked]="tissueClicked.bind(this)"></pharos-heat-map>
@@ -32,11 +32,11 @@
                 <pharos-expression-details [closeFunction]="closeDetails.bind(this)" [selectedTissue]="detailsTissue" [expressions]="target.expressions" [gtex]="target.gtex"></pharos-expression-details>
               </div>
             </div>
-            <div class="section anatamogram-container" fxHide.lt-lg>
-              <pharos-anatamogram [tissues]="tissues" [species]="'homo_sapiens'" [shadingKey]="'Average'"
+            <div class="section anatomogram-container" fxHide.lt-lg>
+              <pharos-anatomogram [tissues]="tissues" [species]="'homo_sapiens'" [shadingKey]="'Average'"
                                   [shadingMap]="this.shadingMap"
-                                  [redrawAnatamogram]="this.redrawAnatamogram"
-                                  [clickHandler]="this.tissueClicked.bind(this)"></pharos-anatamogram>
+                                  [redrawAnatomogram]="this.redrawAnatomogram"
+                                  [clickHandler]="this.tissueClicked.bind(this)"></pharos-anatomogram>
             </div>
           </div>
         </div>

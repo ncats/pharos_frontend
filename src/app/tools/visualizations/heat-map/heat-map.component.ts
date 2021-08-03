@@ -13,7 +13,7 @@ import {
 import * as d3 from 'd3';
 import {DynamicPanelComponent} from '../../dynamic-panel/dynamic-panel.component';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
-import {AnatamogramHoverService} from '../../anatamogram/anatamogram-hover.service';
+import {AnatomogramHoverService} from '../../anatomogram/anatomogram-hover.service';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
@@ -29,7 +29,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
   filteredOptions: Observable<string[]>;
 
   constructor(
-    private anatamogramHoverService: AnatamogramHoverService,
+    private anatomogramHoverService: AnatomogramHoverService,
     public dynamicServices: DynamicServicesService,
     @Inject(PLATFORM_ID) private platformID: any,
     private changeRef: ChangeDetectorRef) {
@@ -272,7 +272,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
       const blocks = selection.nodes();
       const i = blocks.indexOf(event.currentTarget);
       if (this.heatmapData.yDisplayValues[blocks[i].__data__.y].data) {
-        this.anatamogramHoverService.setTissue(this.heatmapData.yDisplayValues[blocks[i].__data__.y].data.uid);
+        this.anatomogramHoverService.setTissue(this.heatmapData.yDisplayValues[blocks[i].__data__.y].data.uid);
       }
       d3.select(blocks[i]).classed('hovered', true);
       this.tooltip.transition()
@@ -289,7 +289,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
         .style('top', event.pageY + 'px');
     })
       .on('mouseout', (event, d) => {
-        this.anatamogramHoverService.setTissue(null);
+        this.anatomogramHoverService.setTissue(null);
         const blocks = selection.nodes();
         const i = blocks.indexOf(event.currentTarget);
         this.tooltip
@@ -313,7 +313,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
     yTicks.on('mouseover', (event, d) => {
       const hoveredTissue = this.heatmapData.yDisplayValues[d].val;
       if (this.heatmapData.yDisplayValues[d].data) {
-        this.anatamogramHoverService.setTissue(this.heatmapData.yDisplayValues[d].data.uid);
+        this.anatomogramHoverService.setTissue(this.heatmapData.yDisplayValues[d].data.uid);
       }
       const blocks = selection.nodes().filter(b => {
         return b.__data__.data === hoveredTissue;
@@ -322,7 +322,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
         d3.select(b).classed('hovered', true);
       });
     }).on('mouseout', (event, d) => {
-      this.anatamogramHoverService.setTissue(null);
+      this.anatomogramHoverService.setTissue(null);
       const blocks = selection.nodes().forEach(b => {
         d3.select(b).classed('hovered', false);
       });
@@ -337,7 +337,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
 
   tissueClicked(event, d) {
     const tissue = event.target.textContent || d.data;
-    this.anatamogramHoverService.setTissue(tissue);
+    this.anatomogramHoverService.setTissue(tissue);
   }
 
   heatmapClickedInternal(event, d) {

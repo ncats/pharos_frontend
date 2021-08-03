@@ -707,7 +707,7 @@ const EXPRESSION_PANEL: PharosPanel = {
   navHeader: {
     label: 'Target Expression Data',
     section: 'expression',
-    mainDescription: 'Expression data from several sources shown as a heatmap of tissues and data sources, and as a shaded anatamogram.'
+    mainDescription: 'Expression data from several sources shown as a heatmap of tissues and data sources, and as a shaded anatomogram.'
   },
   api: []
 };

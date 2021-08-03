@@ -43,7 +43,7 @@ export class TourService {
   loadPromise: any;
   menuIsHidden = false;
   signinIsHidden = false;
-  anatamogramIsHidden = false;
+  anatomogramIsHidden = false;
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -74,7 +74,7 @@ export class TourService {
   setSizeCutoffs() {
     this.menuIsHidden = this.breakpointObserver.isMatched('(max-width: 959px)');
     this.signinIsHidden = this.breakpointObserver.isMatched('(max-width: 1059px)');
-    this.anatamogramIsHidden = this.breakpointObserver.isMatched('(max-width: 1279px)');
+    this.anatomogramIsHidden = this.breakpointObserver.isMatched('(max-width: 1279px)');
   }
 
   tourScroller(element) {
@@ -578,7 +578,7 @@ export class TourService {
         buttons: this.firstButtons.slice(),
         title: 'Target Expression',
         text: ['Expression data is aggregated from several data sources and displayed on target details pages. Data is shown as a heatmap of tissues and data sources, as well ' +
-        'as on an anatamogram, shaded according to the average ranking of each tissue across data sources.']
+        'as on an anatomogram, shaded according to the average ranking of each tissue across data sources.']
       },
       {
         id: 'tissue-search',
@@ -603,17 +603,17 @@ export class TourService {
         title: 'Tissue Details',
         text: ['Click the tissue label, or the heatmap cells to see the details of the expression data for each tissue.']
       },
-      ...(this.anatamogramIsHidden ? [] : [
+      ...(this.anatomogramIsHidden ? [] : [
       {
-        id: 'anatamogram-container',
+        id: 'anatomogram-container',
         attachTo: {
-          element: '.anatamogram-container',
+          element: '.anatomogram-container',
           on: 'bottom'
         },
         scrollTo: false,
         buttons: this.standardButtons.slice(),
-        title: 'Interactive Anatamogram',
-        text: ['You can also filter the heatmap by clicking tissues on the anatamogram.']
+        title: 'Interactive Anatomogram',
+        text: ['You can also filter the heatmap by clicking tissues on the anatomogram.']
       }]),
       {
         id: 'download-expression-data',
