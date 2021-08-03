@@ -1,20 +1,20 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
 import {AnatomogramImageComponent} from './anatomogram-image/anatomogram-image.component';
-import {AnatamogramHoverService} from './anatamogram-hover.service';
-import {Subject} from "rxjs";
+import {AnatomogramHoverService} from './anatomogram-hover.service';
+import {Subject} from 'rxjs';
 
 /**
- * anatamabram viewer, passes paramaters to various images based on the svg urls
+ * anatomogram viewer, passes paramaters to various images based on the svg urls
  */
 @Component({
-  selector: 'pharos-anatamogram',
-  templateUrl: './anatamogram.component.html',
-  styleUrls: ['./anatamogram.component.scss'],
+  selector: 'pharos-anatomogram',
+  templateUrl: './anatomogram.component.html',
+  styleUrls: ['./anatomogram.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class AnatamogramComponent implements OnInit {
+export class AnatomogramComponent implements OnInit {
   /**
    * species selected to dispaly, defaults to human, mouse is the other option
    * @type {string}
@@ -33,29 +33,29 @@ export class AnatamogramComponent implements OnInit {
   @Input() tissues: string[];
   @Input() shadingKey: string;
   @Input() shadingMap: Map<string, Map<string, number>>;
-  @Input() redrawAnatamogram: Subject<boolean> = new Subject<boolean>();
+  @Input() redrawAnatomogram: Subject<boolean> = new Subject<boolean>();
 
   @Input() clickHandler;
   handleClicks(event){
     if (this.clickHandler){
-      this.clickHandler(event, 'anatamogram');
+      this.clickHandler(event, 'anatomogram');
     }
   }
 
   /**
-   * View Children gives each instance of the anatamogram image to allow changes in highlighting to happen
+   * View Children gives each instance of the anatomogram image to allow changes in highlighting to happen
    * in the parent component
    */
-  @ViewChildren(AnatomogramImageComponent) anatamograms: QueryList<AnatomogramImageComponent>;
+  @ViewChildren(AnatomogramImageComponent) anatomograms: QueryList<AnatomogramImageComponent>;
 
 
   /**
    * import hover service
-   * @param {AnatamogramHoverService} anatamogramHoverService
+   * @param {AnatomogramHoverService} anatomogramHoverService
    * @param changeRef
    */
   constructor(
-    private anatamogramHoverService: AnatamogramHoverService,
+    private anatomogramHoverService: AnatomogramHoverService,
     private changeRef: ChangeDetectorRef
   ) { }
 
@@ -63,8 +63,8 @@ export class AnatamogramComponent implements OnInit {
    * subscribe to changes in hovered tisse, iterate over all image instances, and apply changes
    */
   ngOnInit() {
-    this.anatamogramHoverService.tissues$.subscribe(change => {
-      this.anatamograms.forEach(instance => instance.highlightTissue(change));
+    this.anatomogramHoverService.tissues$.subscribe(change => {
+      this.anatomograms.forEach(instance => instance.highlightTissue(change));
     });
   }
 
@@ -78,9 +78,9 @@ export class AnatamogramComponent implements OnInit {
   }
 
   /**
-   * reset the zoom level in each anatamogram instance
+   * reset the zoom level in each anatomogram instance
    */
   reset() {
-    this.anatamograms.forEach(instance => instance.resetZoom());
+    this.anatomograms.forEach(instance => instance.resetZoom());
   }
 }

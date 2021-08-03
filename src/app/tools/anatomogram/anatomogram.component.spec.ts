@@ -1,32 +1,32 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AnatamogramComponent } from './anatamogram.component';
+import { AnatomogramComponent } from './anatomogram.component';
 import {SharedModule} from '../../shared/shared.module';
 import {AnatomogramImageComponent} from './anatomogram-image/anatomogram-image.component';
-import {AnatamogramHoverService} from './anatamogram-hover.service';
+import {AnatomogramHoverService} from './anatomogram-hover.service';
 
-describe('AnatamogramComponent', () => {
-  let component: AnatamogramComponent;
-  let fixture: ComponentFixture<AnatamogramComponent>;
+describe('AnatomogramComponent', () => {
+  let component: AnatomogramComponent;
+  let fixture: ComponentFixture<AnatomogramComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AnatamogramComponent,
+        AnatomogramComponent,
         AnatomogramImageComponent
       ],
       imports: [
         SharedModule
       ],
       providers: [
-        AnatamogramHoverService
+        AnatomogramHoverService
       ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AnatamogramComponent);
+    fixture = TestBed.createComponent(AnatomogramComponent);
     component = fixture.componentInstance;
     component.species = 'homo_sapiens';
     component.details = 'brain';

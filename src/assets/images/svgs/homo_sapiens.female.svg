@@ -13,8 +13,8 @@
    version="1.0"
    width="100%"
    height="100%"
-   id="anatamogram"
-   class="anatamogram"
+   id="anatomogram"
+   class="anatomogram"
    sodipodi:version="0.32"
    inkscape:version="0.91 r13725"
    sodipodi:docname="homo_sapiens_female.svg"
@@ -76,7 +76,7 @@
   </sodipodi:namedview>
   <defs
      id="defs3483" />
-  <g id="anatamogram-holder">
+  <g id="anatomogram-holder">
   <g
      inkscape:groupmode="layer"
      id="LAYER_EFO"

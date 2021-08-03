@@ -14,7 +14,7 @@ import {Subject} from 'rxjs';
 import {isPlatformBrowser} from '@angular/common';
 
 /**
- * holder for different types of anatamogram svgs
+ * holder for different types of anatomogram svgs
  */
 @Component({
   selector: 'ncats-anatomogram-image',
@@ -31,10 +31,10 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
   /**
    * the html element to inject the svg content into
    */
-  @ViewChild('anatamogram', {static: true}) anatamogram: ElementRef;
+  @ViewChild('anatomogram', {static: true}) anatomogram: ElementRef;
 
   /**
-   * which species of anatamogram to show
+   * which species of anatomogram to show
    */
   @Input() species: string;
 
@@ -51,7 +51,7 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
   @Input() shadingKey: string;
   @Input() shadingMap: Map<string, Map<string, number>>;
 
-  @Input() redrawAnatamogram: Subject<boolean> = new Subject<boolean>();
+  @Input() redrawAnatomogram: Subject<boolean> = new Subject<boolean>();
 
   /**
    * event emitter for click events
@@ -88,8 +88,8 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
     const imageUrl = `./assets/images/svgs/${this.species}.${this.details}.svg`;
     if (isPlatformBrowser(this.platformID)) {
       d3.xml(imageUrl).then(data => {
-        d3.select(this.anatamogram.nativeElement).node().append(data.documentElement);
-        this.svg = d3.select('#anatamogram').attr('id', this.id);
+        d3.select(this.anatomogram.nativeElement).node().append(data.documentElement);
+        this.svg = d3.select('#anatomogram').attr('id', this.id);
 
         /**
          * set the zoom function on the parent scope
@@ -97,20 +97,20 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
         this.zoom = d3.zoom()
           .scaleExtent([1, 3])
           .on('zoom', (event) => {
-            const holder = this.svg.select(`#anatamogram-holder`);
+            const holder = this.svg.select(`#anatomogram-holder`);
             holder.attr('transform', event.transform);
           });
 
         /**
          * set pointer events and zoom function
          */
-        d3.select(this.anatamogram.nativeElement)
+        d3.select(this.anatomogram.nativeElement)
           .style('pointer-events', 'all')
           .call(this.zoom);
         this.updateImage();
       });
     }
-    this.redrawAnatamogram.subscribe(response => {
+    this.redrawAnatomogram.subscribe(response => {
       if (response) {
         this.updateImage();
       }
@@ -201,7 +201,7 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
    * reset zoom level (can also be called from external components)
    */
   resetZoom() {
-    const holder = this.svg.select(`#anatamogram-holder`);
+    const holder = this.svg.select(`#anatomogram-holder`);
     holder.attr('transform', d3.zoomIdentity);
   }
 

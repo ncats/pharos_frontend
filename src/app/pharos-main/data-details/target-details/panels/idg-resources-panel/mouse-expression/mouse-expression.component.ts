@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {DataResource, MouseImageData} from "../../../../../../models/idg-resources/data-resource";
 import {Observable, Subject, Subscription} from "rxjs";
-import {AnatamogramHoverService} from "../../../../../../tools/anatamogram/anatamogram-hover.service";
+import {AnatomogramHoverService} from "../../../../../../tools/anatomogram/anatomogram-hover.service";
 
 @Component({
   selector: 'pharos-mouse-expression',
@@ -20,10 +20,10 @@ export class MouseExpressionComponent implements OnInit {
   expressionMap: Map<string, MouseImageData[]> = new Map<string, MouseImageData[]>();
   shadingKey: string = "expressed";
   shadingMap: Map<string, Map<string, number>> = new Map<string, Map<string, number>>();
-  redrawAnatamogram: Subject<boolean> = new Subject<boolean>();
+  redrawAnatomogram: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private anatamogramHoverService: AnatamogramHoverService,
+    private anatomogramHoverService: AnatomogramHoverService,
     private changeRef: ChangeDetectorRef) {
 
   }
@@ -55,7 +55,7 @@ export class MouseExpressionComponent implements OnInit {
     });
     this.shadingMap.set("expressed", map);
     this.sortTissues();
-    this.redrawAnatamogram.next(true);
+    this.redrawAnatomogram.next(true);
   }
 
   @ViewChild("expression_card_list") expressionList: ElementRef;
@@ -103,9 +103,9 @@ export class MouseExpressionComponent implements OnInit {
 
   setHover(uberon?: any) {
     if (uberon) {
-      this.anatamogramHoverService.setTissue(uberon);
+      this.anatomogramHoverService.setTissue(uberon);
     } else {
-      this.anatamogramHoverService.setTissue(null);
+      this.anatomogramHoverService.setTissue(null);
     }
   }
 }
