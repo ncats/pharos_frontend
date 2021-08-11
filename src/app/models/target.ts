@@ -78,7 +78,10 @@ export class Target extends PharosBase {
      * list of uniprot ids
      */
     uniprotIds: string[] | any[];
-
+    /**
+     * list of structure files from AlphaFold
+     */
+    alphaFoldStructures: string[] | any[];
     /**
      * list of gene symbols
      */
@@ -326,6 +329,16 @@ export class TargetSerializer implements PharosSerializer {
         const obj = new Target();
         obj.parsed = true;
         Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
+
+        if (obj.alphaFoldStructures) {
+            const parser = (name: string) => {
+                const modelNumber = name.split('-')[2];
+                return Number(modelNumber.slice(1));
+            };
+            obj.alphaFoldStructures = obj.alphaFoldStructures.sort((a, b) => {
+                return parser(a.structure) - parser(b.structure);
+            });
+        }
 
         if (json.gwasAnalytics) {
           obj.gwasAnalytics = new GwasTargetAnalytics(json.gwasAnalytics);

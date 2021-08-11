@@ -21,6 +21,7 @@ import {BehaviorSubject} from 'rxjs';
 import {isPlatformBrowser} from '@angular/common';
 import {PdbApiService} from '../../../../../pharos-services/pdb-api.service';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {ColorScheme, PdbOptionsService, Representation} from '../../../../../pharos-services/pdb-options.service';
 
 /**
  * component to fetch data from the rcsb protein databank and display tested ligands nested in a protein structure
@@ -35,6 +36,9 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
 
   @Output() selfDestruct: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
+  colors =  Object.keys(ColorScheme);
+  reps = Object.keys(Representation);
+  selectedModel = 0;
 
   /**
    * fields to be show in the pdb table
@@ -61,9 +65,14 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
       label: 'Resolution (Å)',
       width: '10vw'
     }),
-    new PharosProperty({
-      name: 'molecularWeight',
-      label: 'M.W. (kDa)',
+    new PharosProperty( {
+      name: 'residues',
+      label: 'Residues',
+      width: '10vw'
+    }),
+    new PharosProperty( {
+      name: 'fraction',
+      label: 'Fraction of Total Protein',
       width: '10vw'
     }),
     new PharosProperty({
@@ -83,9 +92,10 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
       name: 'structureId',
       label: 'PDB Structure Id',
     }),
-    new PharosProperty({
-      name: 'molecularWeight',
-      label: 'M.W.'
+    new PharosProperty( {
+      name: 'fraction',
+      label: 'Fraction of Total Protein',
+      width: '10vw'
     }),
     new PharosProperty({
       name: 'resolution',
@@ -119,6 +129,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
    * @param {HttpClient} _http
    */
   constructor(
+    public pdbOptionsService: PdbOptionsService,
     private changeRef: ChangeDetectorRef,
     private _http: HttpClient,
     @Inject(PLATFORM_ID) private platformID: any,
@@ -139,7 +150,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
       )
       .subscribe(x => {
         this.target = this.data.targets;
-        if (this.target.pdbs && this.target.pdbs.length > 0) {
+        if (this.hasData()) {
           this.setterFunction();
           this.showSection();
         } else {
@@ -151,6 +162,13 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
 
   }
 
+  hasData() {
+    return this.target.pdbs && this.target.pdbs.length > 0 ||
+      this.target.alphaFoldStructures && this.target.alphaFoldStructures.length > 0;
+  }
+  currentResidues() {
+    return this.pdbid.accessionRegions(this.target.accession);
+  }
   /**
    * fetch pdb data from rcsb, create pagedata object and parse first page of reports
    */
@@ -163,6 +181,13 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
     }
   }
 
+  changeColor(event) {
+    this.pdbOptionsService.setColorScheme(event.value);
+  }
+
+  changeRep(event) {
+    this.pdbOptionsService.setRepresentation(event.value);
+  }
   /**
    * paginate the pdb table. The raw data is converted into properties objects after slicing
    * @param event
@@ -176,8 +201,10 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
   fetchPDB() {
     this.pdbApollo.getEntries(this.pdbIDs.slice(this.pageData.skip, this.pageData.top))
       .then(response => {
-        this.pdbResponses = response.data.entries.map(obj => new PDBResultSerializer().fromJson(obj));
-        this.pdbViewObjects = this.pdbResponses.map(r => new PDBViewObject(r));
+        this.pdbResponses = response.data.entries.map(obj => new PDBResultSerializer().fromJson(obj)).sort((a, b) => {
+          return b.totalPeptideLength(this.target.accession) - a.totalPeptideLength(this.target.accession);
+        });
+        this.pdbViewObjects = this.pdbResponses.map(r => new PDBViewObject(r, this.target));
         this.pdbid = this.pdbResponses[0];
         this.changeRef.detectChanges();
         this.loadingComplete();
@@ -193,6 +220,14 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
       this.pdbid = this.pdbResponses.find(r => r.structureId === entry.structureId.term);
       this.changeRef.markForCheck();
     }
+  }
+
+  highlightRow(row) {
+    return this.pdbid && (row?.structureId.term === this.pdbid?.structureId);
+  }
+
+  nViewers() {
+    return (Number(this.target.alphaFoldStructures.length > 0) + Number(this.target.pdbs.length > 0));
   }
 
   /**
