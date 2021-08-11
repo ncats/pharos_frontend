@@ -43,7 +43,6 @@ describe('MultidimensionalFacetPlotComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeatMapComponent);
     component = fixture.componentInstance;
-    component.displayFacet = {facet: 'tim', values: [{name: 'tim'}], count: 40, dataType: 'Category', upSets: []};
     fixture.detectChanges();
   });
 

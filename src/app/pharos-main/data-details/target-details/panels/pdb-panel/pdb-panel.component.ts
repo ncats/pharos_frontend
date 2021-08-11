@@ -227,7 +227,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
   }
 
   nViewers() {
-    return (Number(this.target.alphaFoldStructures.length > 0) + Number(this.target.pdbs.length > 0));
+    return (Number(this.target.alphaFoldStructures?.length > 0) + Number(this.target.pdbs?.length > 0));
   }
 
   /**
