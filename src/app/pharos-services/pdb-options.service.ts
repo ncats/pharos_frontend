@@ -48,7 +48,7 @@ export enum Representation {
   rocket = 'rocket',
   rope = 'rope',
   spacefill = 'spacefill',
-  surface = 'surface',
+  // surface = 'surface', // surface throws an error when minified -- https://github.com/nglviewer/ngl/issues/594
   // trace = 'trace',
   // tube = 'tube',
   // unitcell = 'unitcell',
