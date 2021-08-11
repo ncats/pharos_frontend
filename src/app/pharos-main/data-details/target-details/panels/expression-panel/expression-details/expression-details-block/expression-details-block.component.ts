@@ -6,7 +6,7 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./expression-details-block.component.scss']
 })
 export class ExpressionDetailsBlockComponent implements OnInit {
-  @Input() expressions: any[];
+  @Input() expressions: any[] = [];
   constructor() { }
   allDisplayColumns = ['tissue', 'gender', 'tpm', 'tpm_rank', 'qual', 'url', 'value', 'evidence', 'zscore', 'conf', 'pub', 'sourceRank'];
   displayColumns = [];

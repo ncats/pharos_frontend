@@ -40,7 +40,7 @@
             </mat-radio-button>
           </mat-radio-group>
         </div>
-        <div [ngClass]="{halfWidth: nViewers()>1, fullWidth: nViewers()===1}" class="pdb-holder" *ngIf="target.pdbs.length > 0">
+        <div [ngClass]="{halfWidth: nViewers()>1, fullWidth: nViewers()===1}" class="pdb-holder" *ngIf="target.pdbs?.length > 0">
           <mat-card-title *ngIf="pdbid" class="pdbid-display">{{pdbid.structureId}}</mat-card-title>
           <pharos-protein-structure-viewer [pdbid]=pdbid.structureId [targetResidues]="currentResidues()"
                                            *ngIf="pdbResponses.length > 0 && pdbid.structureId"></pharos-protein-structure-viewer>
@@ -55,8 +55,8 @@
           </div>
         </div>
         </div>
-        <div [ngClass]="{halfWidth: nViewers()>1, fullWidth: nViewers()===1}" class="pdb-holder" *ngIf="target.alphaFoldStructures.length > 0">
-          <mat-card-title *ngIf="target.alphaFoldStructures.length === 1; else multipleModels"
+        <div [ngClass]="{halfWidth: nViewers()>1, fullWidth: nViewers()===1}" class="pdb-holder" *ngIf="target.alphaFoldStructures?.length > 0">
+          <mat-card-title *ngIf="target.alphaFoldStructures?.length === 1; else multipleModels"
                           class="pdbid-display">{{target.alphaFoldStructures[this.selectedModel].structure}}</mat-card-title>
           <ng-template #multipleModels>
             <mat-select [(value)]="this.selectedModel" placeholder="Select AlphaFold Model" class="modelOption">

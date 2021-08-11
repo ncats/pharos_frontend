@@ -115,7 +115,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     this.setMapData(this.uberonExpressionMap, this.target.expressions, this.target.gtex);
   }
 
-  setMapData(heatMapData: HeatMapData, expressionList: any[], gtexList: any[]) {
+  setMapData(heatMapData: HeatMapData, expressionList: any[] = [], gtexList: any[] = []) {
     this.string2UberonObj.clear();
     expressionList.forEach(expression => {
         const field = ExpressionPanelComponent.getPreferredField(expression.type);

@@ -42,7 +42,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
   @ViewChild('twoDChartTarget', {static: true}) chartContainer: ElementRef;
 
   @Input()
-  heatmapData: HeatMapData;
+  heatmapData: HeatMapData = new HeatMapData('xlabel', 'ylabel');
 
   @Input()
   clickedTissue = '';
@@ -430,8 +430,8 @@ export class HeatMapData {
       return b.score - a.score;
     });
     this.yDisplayValues.sort((a, b) => {
-      const bVal = this.data.get(this.sortColumn + HeatMapData.separator + b.val).val;
-      const aVal = this.data.get(this.sortColumn + HeatMapData.separator + a.val).val;
+      const bVal = this.data.get(this.sortColumn + HeatMapData.separator + b.val)?.val;
+      const aVal = this.data.get(this.sortColumn + HeatMapData.separator + a.val)?.val;
       return bVal - aVal;
     });
     this.yDisplayValues.forEach((y, yIndex) => {
