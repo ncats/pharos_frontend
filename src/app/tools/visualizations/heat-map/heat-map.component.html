@@ -17,7 +17,6 @@
            aria-label="Tissue Select"
            matInput (close)="tissueSelected($event)"
            [formControl]="filterControl"
-           [(ngModel)]="filterTissue"
            [matAutocomplete]="auto">
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
       <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (onSelectionChange)="tissueSelected($event)">

@@ -685,7 +685,7 @@ const DRUGS_PANEL: PharosPanel = {
 const PDB_PANEL: PharosPanel = {
   token: TOKENS.PDB_PANEL,
   navHeader: {
-    label: 'PDB Viewer',
+    label: 'Protein Structure',
     section: 'pdbview',
     mainDescription: 'List of proteins and ligands sourced from the RCSB PDB database'
   },
@@ -793,7 +793,7 @@ const AFFILIATE_LINKS_PANEL: PharosPanel = {
   navHeader: {
     label: 'Related Tools',
     section: 'affiliates',
-    mainDescription: 'A list of related tools that have content for this sprotein. '
+    mainDescription: 'A list of related tools that have content for this protein.'
   }, api: [
     {
       field: 'gototool',

@@ -52,7 +52,7 @@
               </span>
           </div>
           <ng-template #single>
-            <ncats-property-display [property]="row[field.name]" [showLabel]="false"></ncats-property-display>
+            <ncats-property-display [property]="getFieldValue(row, field.name)" [showLabel]="false"></ncats-property-display>
           </ng-template>
         </ng-template>
       </ng-template>
@@ -73,7 +73,7 @@
 
   <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayColumns; " (click)="rowClicked(row)"
-      class="element-row">
+      class="element-row" [ngClass]="{highlightRow: this.highlightFunction(row)}">
   </tr>
   <tr mat-row *matRowDef="let row;  columns: ['expandedDetail']" class="detail-row"></tr>
 </table>

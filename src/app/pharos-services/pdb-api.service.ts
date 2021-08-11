@@ -10,7 +10,7 @@ import {HttpLink} from "apollo-angular/http";
 export class PdbApiService {
 
   apollo: any;
-  uri: string = "https://data.rcsb.org/graphql";
+  uri = 'https://data.rcsb.org/graphql';
 
   constructor(private httpLink: HttpLink) {
     this.apollo = new ApolloClient({
@@ -20,7 +20,7 @@ export class PdbApiService {
   }
 
   getEntries(pdbIDs: string[]) {
-    const variables = {pdbIDs: pdbIDs};
+    const variables = {pdbIDs};
     return this.apollo.query({query: this.getEntriesQuery, variables});
   }
 
@@ -39,8 +39,22 @@ export class PdbApiService {
           year
         }
         entryInfo:rcsb_entry_info{
+          assembly_count
           molecular_weight
           resolution_combined
+        }
+        peptides:polymer_entities {
+          entity_poly {
+            pdbx_strand_id
+          }
+          alignments:rcsb_polymer_entity_align {
+            regions:aligned_regions{
+              refStart:ref_beg_seq_id
+              entityStart:entity_beg_seq_id
+              length
+            }
+            peptideAccession:reference_database_accession
+          }
         }
         ligands:nonpolymer_entities{
           nonpolymer_comp{
