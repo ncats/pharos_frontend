@@ -5,7 +5,7 @@
         <div *ngIf="displayFacet.singleResponse">
           <div fxLayout="row" fxLayoutAlign="space-around center">
             <div *ngIf=displayFacet>
-              <pharos-donut-chart [data]="displayFacet.values" (clickSlice)="filterDonutChart($event)" [events]="redrawCharts.asObservable()"></pharos-donut-chart>
+              <pharos-donut-chart [data]="displayFacet.values"  (clickSlice)="filterDonutChart($event)" [events]="redrawCharts.asObservable()"></pharos-donut-chart>
             </div>
           </div>
           <div fxLayout="row" fxLayoutAlign="space-around start">
