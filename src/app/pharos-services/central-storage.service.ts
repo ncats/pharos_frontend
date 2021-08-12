@@ -1,32 +1,38 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
-import {SmilesUpdateDetails} from '../tools/marvin-sketcher/services/mol-change.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PdbOptionsService {
-  currentColorScheme = ColorScheme.bfactor;
-  currentRepresentation = Representation.cartoon;
+export class CentralStorageService {
+  pdbColorScheme = ColorScheme.bfactor;
+  pdbRepresentation = Representation.cartoon;
+  facetMap: Map<string, string> = new Map<string, string>();
 
-  @Output() currentColorSchemeChanged = new EventEmitter<ColorScheme>();
-  @Output() currentRepresentationChanged = new EventEmitter<Representation>();
+  @Output() pdbColorSchemeChanged = new EventEmitter<ColorScheme>();
+  @Output() pdbRepresentationChanged = new EventEmitter<Representation>();
+  @Output() displayFacetChanged = new EventEmitter<{model: string, facet: string}>();
 
   constructor() { }
 
-  getColorScheme(): ColorScheme {
-    return this.currentColorScheme;
-  }
-  getRepresentation(): Representation {
-    return this.currentRepresentation;
+  getDisplayFacet(model: string): string {
+    return this.facetMap.get(model);
   }
 
-  setColorScheme(color: ColorScheme) {
-    this.currentColorScheme = color;
-    this.currentColorSchemeChanged.emit(this.currentColorScheme);
+  setDisplayFacet(model: string, facet: string) {
+    if (!facet || facet.length === 0) {
+      return;
+    }
+    this.facetMap.set(model, facet);
+    this.displayFacetChanged.emit({model, facet});
   }
-  setRepresentation(rep: Representation) {
-    this.currentRepresentation = rep;
-    this.currentRepresentationChanged.emit(this.currentRepresentation);
+
+  getField(field: string): any {
+    return this[field];
+  }
+
+  setField(field: string, value: any) {
+    this[field] = value;
+    this[field + 'Changed'].emit(value);
   }
 }
 

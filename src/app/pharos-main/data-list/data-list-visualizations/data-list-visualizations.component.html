@@ -1,8 +1,20 @@
 <article>
   <mat-card>
     <mat-card-content>
-      <div fxLayout="column" fxLayoutAlign="space-around center">
-        <div class="upset-chart">
+      <div fxLayout="column" fxLayoutAlign="space-around center" class="facet-visualizations">
+        <div *ngIf="displayFacet.singleResponse">
+          <div fxLayout="row" fxLayoutAlign="space-around center">
+            <div *ngIf=displayFacet>
+              <pharos-donut-chart [data]="displayFacet.values" (clickSlice)="filterDonutChart($event)" [events]="redrawCharts.asObservable()"></pharos-donut-chart>
+            </div>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="space-around start">
+            <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet>
+              <p class="slice-help">  <mat-icon [color]="'primary'" class = "help-icon">info</mat-icon> Click on a slice to filter the list</p>
+            </div>
+          </div>
+        </div>
+        <div class="upset-chart" *ngIf="!displayFacet.singleResponse">
           <div>
             <pharos-upset-plot [displayFacet]="displayFacet" [events]="redrawCharts.asObservable()"></pharos-upset-plot>
             <div fxLayout="row" fxLayoutAlign="space-around start">
@@ -21,8 +33,8 @@
         </div>
         <div fxLayout="row" fxLayoutAlign="space-around start">
           <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet class="facet-change">
-            <pharos-visualization-options (fieldChange)="changeSelectedFacet($event)"
-                                          [facets]="facets"></pharos-visualization-options>
+            <pharos-visualization-options [model]="model" [facets]="facets">
+            </pharos-visualization-options>
           </div>
         </div>
       </div>

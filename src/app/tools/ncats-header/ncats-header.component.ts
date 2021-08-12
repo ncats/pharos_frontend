@@ -132,7 +132,7 @@ export class NcatsHeaderComponent implements OnInit {
       this.router.navigate( [this.getRequiredPath(tutorial)], navigationExtras);
       return;
     }
-    if (tutorial === 'list-pages-tour') {
+    if (tutorial === 'list-pages-tour' || tutorial === 'upset-plot-tour') {
       const navigationExtras: NavigationExtras = {
         queryParamsHandling: (onListPage ? 'merge' : ''),
         queryParams: {

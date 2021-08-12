@@ -28,14 +28,14 @@
           <mat-radio-group class="pdb-options" (change)="changeRep($event)">
             <mat-card-subtitle>Representation</mat-card-subtitle>
             <mat-radio-button class="color-radio-button" *ngFor="let opt of reps" [value]="opt"
-                              [checked]="opt===pdbOptionsService.getRepresentation()">
+                              [checked]="opt===centralStorageService.getField('pdbRepresentation')">
               {{opt}}
             </mat-radio-button>
           </mat-radio-group>
           <mat-radio-group class="pdb-options" (change)="changeColor($event)">
             <mat-card-subtitle>Color Scheme</mat-card-subtitle>
             <mat-radio-button class="color-radio-button" *ngFor="let opt of colors" [value]="opt"
-                              [checked]="opt===pdbOptionsService.getColorScheme()">
+                              [checked]="opt===centralStorageService.getField('pdbColorScheme')">
               {{opt}}
             </mat-radio-button>
           </mat-radio-group>

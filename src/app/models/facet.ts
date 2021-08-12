@@ -9,6 +9,7 @@ const FACETFIELDS = gql`
     modifier
     dataType
     binSize
+    singleResponse:single_response
     count
     values {
       name
@@ -68,6 +69,7 @@ export class Facet {
     this.dataType = json.dataType;
     this.elapsedTime = json.elapsedTime;
     this.binSize = json.binSize || 1;
+    this.singleResponse = json.singleResponse || false;
     if (this.dataType === 'Numeric') { // set a last point since these are bins, not single points
       this.values = [];
       const keyValues = json.values.map(obj => +obj.name);
@@ -128,6 +130,7 @@ export class Facet {
 
   dataType = 'Category';
   binSize?: number;
+  singleResponse = false;
   min?: number;
   max?: number;
 

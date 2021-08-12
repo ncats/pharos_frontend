@@ -10,6 +10,7 @@ import {DynamicServicesService} from '../../../pharos-services/dynamic-services.
 import {Subject} from 'rxjs';
 import {MatTabChangeEvent} from '@angular/material/tabs';
 import {MatDialog} from '@angular/material/dialog';
+import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 
 /**
  * component to show various facets like a dashboard.
@@ -32,19 +33,10 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
   displayFacet: Facet;
 
   /**
-   * list of all available chart facets
-   */
-  chartFacets: any;
-
-  /**
-   * selected facet field
-   */
-  selectedDonut: string;
-
-  /**
    * list of initial facets to display
    */
   facets: Facet[];
+  model: string;
 
   /**
    * constructor to get config object and specified facets
@@ -53,7 +45,8 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
    * @param selectedFacetService
    * @param {PharosConfig} pharosConfig
    */
-  constructor(private pathResolverService: PathResolverService,
+  constructor(private centralStorageService: CentralStorageService,
+              private pathResolverService: PathResolverService,
               private dialog: MatDialog,
               private _route: ActivatedRoute,
               private selectedFacetService: SelectedFacetService,
@@ -83,17 +76,19 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
       )
       .subscribe(x => {
         if (this.data && this.data.facets) {
+          this.model = this._route.snapshot.data.path;
+          this.centralStorageService.displayFacetChanged.subscribe(obj => {
+            if (obj.model === this.model) {
+              this.changeSelectedFacet(obj.facet);
+            }
+          });
           this.facets = this.data.facets.filter(f => f.dataType !== 'Numeric' && f.values.length > 0);
-          let selection;
-          if (!!this.selectedDonut) { // remember which facet was selected, if there was one
-            selection = this.facets.find(d => {
-              return d.facet === this.selectedDonut;
-            });
+          const displayFacetString = this.centralStorageService.getDisplayFacet(this.model);
+          if (!displayFacetString) {
+            this.centralStorageService.setDisplayFacet(this.model, this.facets[0].facet);
+          } else {
+            this.changeSelectedFacet(displayFacetString);
           }
-          if (!selection){
-            selection = this.facets[0];
-          }
-          this.displayFacet = selection;
         }
       });
   }
@@ -104,8 +99,10 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
    * @param {string} field
    */
   changeSelectedFacet(field: string): void {
-    this.selectedDonut = field;
-    this.displayFacet = this.facets.filter(facet => facet.facet === field)[0];
+    this.displayFacet = this.facets.find(facet => facet.facet === field);
+    if (!this.displayFacet) {
+      this.displayFacet = this.facets[0];
+    }
     this.displayFacet.values = this.displayFacet.values.filter(v => true); // trigger changes on bound property
   }
 

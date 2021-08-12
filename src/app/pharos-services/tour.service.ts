@@ -1,8 +1,9 @@
-import {HostListener, Inject, Injectable, PLATFORM_ID} from '@angular/core';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {LocalStorageService} from './local-storage.service';
 import {isPlatformBrowser} from '@angular/common';
 import {NavigationExtras, Router} from '@angular/router';
 import {BreakpointObserver} from '@angular/cdk/layout';
+import {CentralStorageService} from './central-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,7 @@ export class TourService {
   anatomogramIsHidden = false;
 
   constructor(
+    private centralStorageService: CentralStorageService,
     private localStorageService: LocalStorageService,
     private router: Router,
     private breakpointObserver: BreakpointObserver,
@@ -96,6 +98,7 @@ export class TourService {
       window.scrollTo({top: y, behavior: 'smooth'});
     }
   }
+
   sidePanelScroller(element) {
     if (isPlatformBrowser(this.platformID)) {
       // @ts-ignore
@@ -122,15 +125,94 @@ export class TourService {
     }
   }
 
-  customTargetLists(uploadFunction: () => void) {
+  upsetPlotTour(models: string, data: any) {
     if (!isPlatformBrowser(this.platformID)) {
       return;
     }
     this.loadPromise.then(() => {
-      this.runCustomTargetListTour(uploadFunction);
+      this.runUpsetPlotTour(models, data);
     });
   }
-  runCustomTargetListTour(uploadFunction: () => void) {
+
+  runUpsetPlotTour(models: string, data: any) {
+    const currentFacet = this.centralStorageService.getDisplayFacet(models);
+    let catFacet = data.results.facets.find(f => f.facet === currentFacet);
+    if (!catFacet || catFacet.singleResponse) {
+      catFacet = data.results.facets.find(f => f.dataType === 'Category' && f.values.length > 0 && !f.singleResponse);
+      this.centralStorageService.setDisplayFacet(models, catFacet.facet);
+    }
+    const model = models.slice(0, models.length - 1);
+    const defaultSteps = [
+      {
+        id: 'upset-plot',
+        attachTo: {
+          element: '.facet-visualizations',
+          on: 'left'
+        },
+        scrollToHandler: this.tourScroller.bind({class: 'facet-visualizations', platformID: this.platformID}),
+        buttons: this.firstButtons.slice(),
+        title: 'UpSet Charts for Filters',
+        text: [`This UpSet Plot shows the counts of ${models} that are documented to have each combination of filter values. Clicking the circles or bars
+        will filter the list to ${models} that have the right combination of filter values.`]
+      },
+      {
+        id: 'upset-plot2',
+        attachTo: {
+          element: '.upset-chart',
+          on: 'left'
+        },
+        scrollToHandler: this.tourScroller.bind({class: 'upset-chart', platformID: this.platformID}),
+        buttons: this.standardButtons.slice(),
+        title: 'UpSet Charts for Filters',
+        text: [`UpSet plots are only shown for the categorical filters, that have multiple responses per ${model}. By default the top five filter values are used to generate the plot.`]
+      },
+      {
+        id: 'upset-plot-edit-values',
+        attachTo: {
+          element: '.edit-upset',
+          on: 'left'
+        },
+        scrollTo: false,
+        buttons: this.standardButtons.slice(),
+        title: 'Custom UpSet Charts',
+        text: [`You can edit which filter values are used to generate the plot. You can use this feature to filter the ${model} list with more
+        complex boolean logic. For example, selecting values A, B, and C, you can generate the plot of the joint distribution, and filter the
+        list to only ${models} with values A AND B, AND NOT C by selecting the right intersection on the plot.`]
+      },
+      {
+        id: 'upset-plot-edit-values',
+        attachTo: {
+          element: '.facet-change',
+          on: 'left'
+        },
+        scrollToHandler: this.tourScroller.bind({class: 'facet-change', platformID: this.platformID}),
+        buttons: this.standardButtons.slice(),
+        title: 'UpSet Charts for Filters',
+        text: [`Change which filter is used to generate the plot with these buttons.`]
+      }
+    ];
+    this.shepherdService.defaultStepOptions = this.defaultStepOptions;
+    this.shepherdService.modal = true;
+    this.shepherdService.confirmCancel = false;
+    this.shepherdService.addSteps(defaultSteps);
+    ['cancel', 'complete'].forEach(event => {
+      this.shepherdService.tourObject.on(event, () => {
+        this.completeTour(true, 'upset-plot-tour', 'Upset Plots', event);
+      });
+    });
+    this.shepherdService.start();
+  }
+
+  customTargetLists() {
+    if (!isPlatformBrowser(this.platformID)) {
+      return;
+    }
+    this.loadPromise.then(() => {
+      this.runCustomTargetListTour();
+    });
+  }
+
+  runCustomTargetListTour() {
     const defaultSteps = [
       {
         id: 'custom-target-list-begin',
@@ -173,13 +255,16 @@ export class TourService {
     this.shepherdService.start();
   }
 
-  listPagesTour(manual: boolean, path: string, data: any) {
+  listPagesTour(manual: boolean, path: any, data: any) {
+    if (path.subpath !== 'list') { // not a list page
+      return;
+    }
     if (!isPlatformBrowser(this.platformID)) {
       return;
     }
     if (this.menuIsHidden) {
       if (manual) {
-        alert ('This screen is too small for the List Pages Tutorial.');
+        alert('This screen is too small for the List Pages Tutorial.');
       }
       return;
     }
@@ -188,14 +273,17 @@ export class TourService {
     }
     this.loadPromise.then(() => {
       this.runListPagesTour(manual, path, data);
+    }).catch(e => {
+      alert(e);
     });
   }
-  runListPagesTour(manual: boolean, path: string, data: any) {
-    const models = path;
+
+  runListPagesTour(manual: boolean, path: any, data: any) {
+    const models = path.path;
     const model = models.slice(0, models.length - 1);
-    const catFacet = data.results.facets.find(f => f.dataType === 'Category');
+    const catFacet = data.results.facets.find(f => f.dataType === 'Category' && f.values.length > 0);
     const catFacetId = catFacet.facet.replace(/\s/g, '');
-    const numFacet = data.results.facets.find(f => f.dataType === 'Numeric');
+    const numFacet = data.results.facets.find(f => f.dataType === 'Numeric' && f.values.length > 0);
     let numFacetId;
     if (numFacet) {
       numFacetId = numFacet.facet.replace(/\s/g, '');
@@ -232,8 +320,7 @@ export class TourService {
         scrollToHandler: this.sidePanelScroller.bind({parent: 'left-panel', section: catFacetId, platformID: this.platformID}),
         buttons: this.standardButtons.slice(),
         title: 'An Example Filter',
-        text: [`For example, this table shows how many ${models} in this list have different values for ${catFacet.facet}.
-        ${catFacet.values[0].count} of the ${models} have a value of ${catFacet.values[0].name}, etc.`]
+        text: [`For example, this table shows how many ${models} in this list have different values for ${catFacet.facet}.`]
       },
       {
         id: 'facet-table-as-a-filter',
@@ -276,50 +363,14 @@ export class TourService {
       {
         id: 'upset-plot',
         attachTo: {
-          element: '.upset-chart',
+          element: '.facet-visualizations',
           on: 'left'
         },
-        scrollToHandler: this.tourScroller.bind({class: 'upset-chart', platformID: this.platformID}),
+        scrollToHandler: this.tourScroller.bind({class: 'facet-visualizations', platformID: this.platformID}),
         buttons: this.standardButtons.slice(),
-        title: 'UpSet Charts for Filters',
-        text: [`While the side panel shows the marginal counts of filter values, the UpSet plot shows the joint distribution of filter values.
-        The circles display whether or not ${models} in the list are documented to have each combination of filter values. Clicking the bars or circles
-        will filter the ${model} list to ${models} that have the right combination of filter values.`]
-      },
-      {
-        id: 'upset-plot2',
-        attachTo: {
-          element: '.upset-chart',
-          on: 'left'
-        },
-        scrollToHandler: this.tourScroller.bind({class: 'upset-chart', platformID: this.platformID}),
-        buttons: this.standardButtons.slice(),
-        title: 'UpSet Charts for Filters',
-        text: [`UpSet plots are only shown for the categorical filters. By default the top five filter values are used to generate the plot.`]
-      },
-      {
-        id: 'upset-plot-edit-values',
-        attachTo: {
-          element: '.edit-upset',
-          on: 'left'
-        },
-        scrollTo: false,
-        buttons: this.standardButtons.slice(),
-        title: 'Custom UpSet Charts',
-        text: [`You can edit which filter values are used to generate the upset plot. You can use this feature to filter the ${model} list with more
-        complex boolean logic. For example, selecting values A, B, and C, you can generate the plot of the joint distribution, and filter the
-        list to only ${models} with values A AND B, AND NOT C by selecting the right intersection on the plot.`]
-      },
-      {
-        id: 'upset-plot-edit-values',
-        attachTo: {
-          element: '.facet-change',
-          on: 'left'
-        },
-        scrollToHandler: this.tourScroller.bind({class: 'facet-change', platformID: this.platformID}),
-        buttons: this.standardButtons.slice(),
-        title: 'UpSet Charts for Filters',
-        text: [`Change which filter is used to generate the plot with these buttons.`]
+        title: 'Filter Visualizations',
+        text: [`This panel shows visualizations of selected filters. An UpSet plot will show for filters that can have multiple values per ${model}.
+         See "How do I use the UpSet Chart" tutorial for details.`]
       },
       {
         id: 'model-list',
@@ -400,7 +451,7 @@ export class TourService {
           buttons: this.lastButtons.slice(),
           title: 'Data Definitions',
           text: [`Hover over data for a brief description of what it means, or expand the help icon on the right for a
-           list of data points and descriptions that may appeaer in this card.`]
+           list of data points and descriptions that may appear in this card.`]
         }
       ]);
     } else {
@@ -441,6 +492,7 @@ export class TourService {
       this.runStructureSearchTour(manual);
     });
   }
+
   runStructureSearchTour(manual: boolean) {
     const defaultSteps = [
       {
@@ -553,7 +605,7 @@ export class TourService {
           this.menuIsHidden
             ? {class: 'top-level-menu-button', platformID: this.platformID}
             : {section: 'tutorialMenu', platformID: this.platformID}
-          ),
+        ),
         buttons: [TourService.completeButton],
         title,
         text: ['Revisit the tutorial at any time by clicking the "How do I..." menu.']
@@ -604,17 +656,17 @@ export class TourService {
         text: ['Click the tissue label, or the heatmap cells to see the details of the expression data for each tissue.']
       },
       ...(this.anatomogramIsHidden ? [] : [
-      {
-        id: 'anatomogram-container',
-        attachTo: {
-          element: '.anatomogram-container',
-          on: 'bottom'
-        },
-        scrollTo: false,
-        buttons: this.standardButtons.slice(),
-        title: 'Interactive Anatomogram',
-        text: ['You can also filter the heatmap by clicking tissues on the anatomogram.']
-      }]),
+        {
+          id: 'anatomogram-container',
+          attachTo: {
+            element: '.anatomogram-container',
+            on: 'bottom'
+          },
+          scrollTo: false,
+          buttons: this.standardButtons.slice(),
+          title: 'Interactive Anatomogram',
+          text: ['You can also filter the heatmap by clicking tissues on the anatomogram.']
+        }]),
       {
         id: 'download-expression-data',
         attachTo: {
@@ -659,3 +711,4 @@ export class TourDefinition {
   title: string;
   definition: string;
 }
+
