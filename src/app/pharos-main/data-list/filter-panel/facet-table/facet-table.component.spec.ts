@@ -16,6 +16,7 @@ import {COMMON_CONFIG} from '../../../../../../test/test-config';
 import {FIRESTORESTUB} from '../../../../../../test/firestore-stub';
 import {AngularFireModule} from '@angular/fire';
 import {Apollo} from "apollo-angular";
+import {TESTFACET} from '../../../../../../test/test-facet';
 
 
 
@@ -51,7 +52,7 @@ describe('FacetTableComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FacetTableComponent);
     component = fixture.componentInstance;
-    component.facet = {facet: 'tim', values: [{name: 'tim'}], count: 40, dataType: 'Category', upSets: []};
+    component.facet = TESTFACET;
     fixture.detectChanges();
   });
 

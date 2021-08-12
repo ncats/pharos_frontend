@@ -7,6 +7,7 @@ import {FIRESTORESTUB} from "../../../../../../test/firestore-stub";
 import {AngularFireAuth} from "@angular/fire/auth";
 import {AngularFireModule} from "@angular/fire";
 import {COMMON_CONFIG} from "../../../../../../test/test-config";
+import {TESTFACET} from '../../../../../../test/test-facet';
 
 describe('FacetHistogramComponent', () => {
   let component: FacetHistogramComponent;
@@ -25,7 +26,7 @@ describe('FacetHistogramComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FacetHistogramComponent);
     component = fixture.componentInstance;
-    component.facet = {facet: 'tim', values: [{name: 'tim'}], count: 40, min: 0, max: 48, binSize: 2, dataType: 'Category', upSets: []};
+    component.facet = TESTFACET;
     fixture.detectChanges();
   });
 
