@@ -266,6 +266,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
       // })
       .style('fill', d => zScale(d.z.val))
       .style('stroke', 'gray')
+      .style('cursor', 'pointer')
       .style('pointer-events', 'all');
 
     selection.on('mouseover', (event, d) => {
