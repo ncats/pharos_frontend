@@ -67,7 +67,7 @@ export class FacetHistogramComponent implements OnInit, OnDestroy {
     if (Math.floor(this.facet.binSize) !== this.facet.binSize) {
       decimals = this.facet.binSize.toString().split('.')[1].length;
     }
-    return `[ ${this.minSetting.toFixed(decimals)}, ${this.maxSetting.toFixed(decimals)} `
+    return `[ ${this.minSetting?.toFixed(decimals)}, ${this.maxSetting?.toFixed(decimals)} `
       + (this.includeUpperBound() ? ']' : ')');
   }
 
