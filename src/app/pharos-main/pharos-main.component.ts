@@ -201,14 +201,17 @@ export class PharosMainComponent implements OnInit, OnDestroy {
     const tutorial = this._route.snapshot.queryParamMap.get('tutorial');
     switch (tutorial) {
       case 'list-pages-tour':
-        this.tourService.listPagesTour(true, this._route.snapshot.data.path, this.data);
+        this.tourService.listPagesTour(true, this._route.snapshot.data, this.data);
         break;
       case 'expression-tutorial':
         this.tourService.runTutorial(tutorial);
         break;
+      case 'upset-plot-tour':
+        this.tourService.upsetPlotTour(this._route.snapshot.data.path, this.data);
+        break;
       case '':
       case null:
-        this.tourService.listPagesTour(false, this._route.snapshot.data.path, this.data);
+        this.tourService.listPagesTour(false, this._route.snapshot.data, this.data);
         break;
     }
   }

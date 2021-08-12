@@ -1,6 +1,6 @@
 import {Component, ElementRef, Inject, Input, OnChanges, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
-import {ColorScheme, PdbOptionsService} from '../../pharos-services/pdb-options.service';
+import {ColorScheme, CentralStorageService} from '../../pharos-services/central-storage.service';
 import {PDBRegion} from '../../models/pdb-report';
 
 /**
@@ -34,7 +34,7 @@ export class ProteinStructureViewerComponent implements OnInit, OnChanges {
    * no args
    */
   constructor(
-    private pdbOptionsService: PdbOptionsService,
+    private centralStorageService: CentralStorageService,
     @Inject(PLATFORM_ID) private platformID: any) {
   }
 
@@ -45,10 +45,10 @@ export class ProteinStructureViewerComponent implements OnInit, OnChanges {
     if ((this.pdbid || this.predictedStructures.length > 0) && isPlatformBrowser(this.platformID)) {
       const importedModule = import('ngl').then(NGL => {
         this.NGL = NGL;
-        this.pdbOptionsService.currentColorSchemeChanged.subscribe(newColor => {
+        this.centralStorageService.pdbColorSchemeChanged.subscribe(newColor => {
           this.reloadStructure();
         });
-        this.pdbOptionsService.currentRepresentationChanged.subscribe(newColor => {
+        this.centralStorageService.pdbRepresentationChanged.subscribe(newColor => {
           this.reloadStructure();
         });
 
@@ -65,8 +65,8 @@ export class ProteinStructureViewerComponent implements OnInit, OnChanges {
 
   reloadStructure() {
     this.stage.removeAllComponents();
-    const rep = this.pdbOptionsService.getRepresentation();
-    const color = this.pdbOptionsService.getColorScheme();
+    const rep = this.centralStorageService.getField('pdbRepresentation');
+    const color = this.centralStorageService.getField('pdbColorScheme');
     if (this.pdbid) {
     this.stage.loadFile(`rcsb://${this.pdbid}`).then(o => {
       const schemeId = this.NGL.ColormakerRegistry.addSelectionScheme([
@@ -85,7 +85,7 @@ export class ProteinStructureViewerComponent implements OnInit, OnChanges {
       const schemeId = this.NGL.ColormakerRegistry.addSelectionScheme([
         ['red', '*'], 'Target']);
       const scheme = color === ColorScheme.target ? schemeId : color;
-      const colorDomain = this.pdbOptionsService.getColorScheme() === ColorScheme.bfactor ? [25, 100] : null;
+      const colorDomain = this.centralStorageService.getField('pdbColorScheme') === ColorScheme.bfactor ? [25, 100] : null;
       this.stage.loadFile(`https://pharos-alphafold.ncats.io/models/${this.predictedStructures[this.structureIndex].structure}.pdb`)
         .then(o => {
         o.addRepresentation(rep, {colorScheme: scheme, colorDomain});

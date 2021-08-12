@@ -46,6 +46,8 @@
     <mat-menu #tutorialMenu="matMenu" [classList]="'mat-menu-panel tutorialMenu'">
       <button mat-menu-item (click)="mobilesidenav.close(); gotoTutorial('list-pages-tour')" class="tutorial-link"><span>...use the list pages?</span>
         <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('list-pages-tour')">check_circle</mat-icon></button>
+      <button mat-menu-item (click)="mobilesidenav.close(); gotoTutorial('upset-plot-tour')" class="tutorial-link"><span>...use the UpSet Plot?</span>
+        <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('upset-plot-tour')">check_circle</mat-icon></button>
       <button mat-menu-item (click)="mobilesidenav.close(); gotoTutorial('custom-target-lists')" class="tutorial-link"><span>...upload my own list of targets?</span>
         <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('custom-target-lists')">check_circle</mat-icon></button>
       <button mat-menu-item (click)="mobilesidenav.close(); gotoTutorial('structure-search-tour')" class="tutorial-link"><span>...do a search based on a chemical structure?</span>

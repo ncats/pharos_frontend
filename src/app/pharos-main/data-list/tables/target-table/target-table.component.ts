@@ -285,7 +285,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
         }
         switch (this._route.snapshot.queryParamMap.get('tutorial')) {
           case 'custom-target-lists':
-            this.tourService.customTargetLists(this.batchUpload.bind(this));
+            this.tourService.customTargetLists();
             break;
         }
       });

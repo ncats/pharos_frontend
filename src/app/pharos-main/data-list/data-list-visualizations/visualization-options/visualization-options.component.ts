@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Facet} from '../../../../models/facet';
+import {CentralStorageService} from '../../../../pharos-services/central-storage.service';
 
 /**
  * list of facets available under the donut chart
@@ -15,12 +16,7 @@ export class VisualizationOptionsComponent implements OnInit {
    * list of available facets
    */
   @Input() facets: Facet[];
-
-  /**
-   * event emitter for facet change that changes the donut slices listed
-   * @type {EventEmitter<string>}
-   */
-  @Output() readonly fieldChange: EventEmitter<string> = new EventEmitter<string>();
+  @Input() model: string;
 
   /**
    * selected facet to display donut slices for
@@ -30,13 +26,18 @@ export class VisualizationOptionsComponent implements OnInit {
   /**
    * no args constructor
    */
-  constructor() { }
+  constructor(private centralStorageService: CentralStorageService) { }
 
   /**
    * load the first facet by default
    */
   ngOnInit() {
-    this.changeData(this.facets[0].facet);
+    this.selected = this.centralStorageService.getDisplayFacet(this.model);
+    this.centralStorageService.displayFacetChanged.subscribe(obj => {
+      if (obj.model === this.model) {
+        this.selected = obj.facet;
+      }
+    });
   }
 
   /**
@@ -45,7 +46,7 @@ export class VisualizationOptionsComponent implements OnInit {
    */
   changeData(data: string) {
     this.selected = data;
-    this.fieldChange.emit(data);
+    this.centralStorageService.setDisplayFacet(this.model, data);
   }
 
   /**

@@ -21,7 +21,7 @@ import {BehaviorSubject} from 'rxjs';
 import {isPlatformBrowser} from '@angular/common';
 import {PdbApiService} from '../../../../../pharos-services/pdb-api.service';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
-import {ColorScheme, PdbOptionsService, Representation} from '../../../../../pharos-services/pdb-options.service';
+import {ColorScheme, CentralStorageService, Representation} from '../../../../../pharos-services/central-storage.service';
 
 /**
  * component to fetch data from the rcsb protein databank and display tested ligands nested in a protein structure
@@ -129,7 +129,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
    * @param {HttpClient} _http
    */
   constructor(
-    public pdbOptionsService: PdbOptionsService,
+    public centralStorageService: CentralStorageService,
     private changeRef: ChangeDetectorRef,
     private _http: HttpClient,
     @Inject(PLATFORM_ID) private platformID: any,
@@ -182,11 +182,11 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
   }
 
   changeColor(event) {
-    this.pdbOptionsService.setColorScheme(event.value);
+    this.centralStorageService.setField('pdbColorScheme', event.value);
   }
 
   changeRep(event) {
-    this.pdbOptionsService.setRepresentation(event.value);
+    this.centralStorageService.setField('pdbRepresentation', event.value);
   }
   /**
    * paginate the pdb table. The raw data is converted into properties objects after slicing
