@@ -42,18 +42,12 @@
               [ngClass]="{active: isActive('faq')}">FAQ
       </button>
     </mat-menu>
-    <button mat-button [matMenuTriggerFor]="tutorialMenu" class="nav-menu-button">How Do I... <mat-icon>lightbulb</mat-icon></button>
+    <button mat-button [matMenuTriggerFor]="tutorialMenu" class="nav-menu-button">Tutorials <mat-icon>lightbulb</mat-icon></button>
     <mat-menu #tutorialMenu="matMenu" [classList]="'mat-menu-panel tutorialMenu'">
-      <button mat-menu-item (click)="mobilesidenav.close(); gotoTutorial('list-pages-tour')" class="tutorial-link"><span>...use the list pages?</span>
-        <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('list-pages-tour')">check_circle</mat-icon></button>
-      <button mat-menu-item (click)="mobilesidenav.close(); gotoTutorial('upset-plot-tour')" class="tutorial-link"><span>...use the UpSet Plot?</span>
-        <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('upset-plot-tour')">check_circle</mat-icon></button>
-      <button mat-menu-item (click)="mobilesidenav.close(); gotoTutorial('custom-target-lists')" class="tutorial-link"><span>...upload my own list of targets?</span>
-        <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('custom-target-lists')">check_circle</mat-icon></button>
-      <button mat-menu-item (click)="mobilesidenav.close(); gotoTutorial('structure-search-tour')" class="tutorial-link"><span>...do a search based on a chemical structure?</span>
-        <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('structure-search-tour')">check_circle</mat-icon></button>
-      <button mat-menu-item (click)="mobilesidenav.close(); gotoTutorial('expression-tutorial')" class="tutorial-link"><span>...see target expression data?</span>
-        <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('expression-tutorial')">check_circle</mat-icon></button>
+      <button *ngFor="let tour of tourService.allTutorials" mat-menu-item (click)="mobilesidenav.close(); gotoTutorial(tour.storageKey)" class="tutorial-link">
+        <span>{{tour.title}}</span>
+        <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete(tour.storageKey)">check_circle</mat-icon>
+      </button>
     </mat-menu>
     <pharos-search-component class="mobile-search"></pharos-search-component>
     <button mat-icon-button class="jira-button" aria-label="submit feedback" matTooltip="Submit Feedback" (click)="submitFeedback($event)">
@@ -83,20 +77,16 @@
         <a mat-button routerLink="/about" [ngClass]="{active: isActive('about')}">About Pharos</a>
         <a mat-button routerLink="/faq" [ngClass]="{active: isActive('faq')}">FAQ</a>
       </mat-menu>
-      <a mat-button [matMenuTriggerFor]="tutorialMenu" id="tutorialMenu">How Do I... <mat-icon>lightbulb</mat-icon></a>
+      <a mat-button [matMenuTriggerFor]="tutorialMenu" id="tutorialMenu">Tutorials <mat-icon>lightbulb</mat-icon></a>
       <mat-menu #tutorialMenu="matMenu" [classList]="'mat-menu-panel tutorialMenu'">
-        <button mat-menu-item (click)="gotoTutorial('list-pages-tour')" class="tutorial-link"><span>...use the list pages?</span>
-          <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('list-pages-tour')">check_circle</mat-icon></button>
-        <button mat-menu-item (click)="gotoTutorial('custom-target-lists')" class="tutorial-link"><span>...upload my own list of targets?</span>
-          <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('custom-target-lists')">check_circle</mat-icon></button>
-        <button mat-menu-item (click)="gotoTutorial('structure-search-tour')" class="tutorial-link"><span>...do a search based on a chemical structure?</span>
-          <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete('structure-search-tour')">check_circle</mat-icon></button>
+        <button mat-menu-item *ngFor="let tour of tourService.allTutorials" (click)="gotoTutorial(tour.storageKey)" class="tutorial-link"><span>{{tour.title}}</span>
+          <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete(tour.storageKey)">check_circle</mat-icon></button>
       </mat-menu>
     </div>
     <span class="fill-remaining-space"></span>
     <pharos-search-component [fxHide.lt-md]="true" [placeholderStr]="'search'"
                              *ngIf=searchBar></pharos-search-component>
-    <div *ngIf=profile class="profile-section" [matMenuTriggerFor]="profileMenu" fxHide.lt-md>
+    <div *ngIf=profile class="profile-section signin-button" [matMenuTriggerFor]="profileMenu" fxHide.lt-md>
       <img [src]=profile.profilePic class="profile-pic" *ngIf="profile?.profilePic">
       <span class="user-name">{{profile.name}}</span>
     </div>

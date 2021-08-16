@@ -24,7 +24,6 @@ import {BreakpointObserver} from '@angular/cdk/layout';
 import {isPlatformBrowser} from '@angular/common';
 import {SelectedFacetService} from './data-list/filter-panel/selected-facet.service';
 import {DynamicServicesService} from '../pharos-services/dynamic-services.service';
-import {TourService} from '../pharos-services/tour.service';
 
 /**
  * class or interface to set properties for an injected sidenav panel
@@ -157,8 +156,7 @@ export class PharosMainComponent implements OnInit, OnDestroy {
     public breakpointObserver: BreakpointObserver,
     @Inject(PLATFORM_ID) private platformID: any,
     private selectedFacetService: SelectedFacetService,
-    public dynamicServices: DynamicServicesService,
-    private tourService: TourService
+    public dynamicServices: DynamicServicesService
   ) {
 
   }
@@ -189,30 +187,9 @@ export class PharosMainComponent implements OnInit, OnDestroy {
     this.runTutorial();
   }
 
-  /**
-   * listener to resize the chart on page resize
-   */
-  @HostListener('window:resize', [])
-  onResize() {
-    this.tourService.setSizeCutoffs();
-  }
-
   runTutorial() {
     const tutorial = this._route.snapshot.queryParamMap.get('tutorial');
     switch (tutorial) {
-      case 'list-pages-tour':
-        this.tourService.listPagesTour(true, this._route.snapshot.data, this.data);
-        break;
-      case 'expression-tutorial':
-        this.tourService.runTutorial(tutorial);
-        break;
-      case 'upset-plot-tour':
-        this.tourService.upsetPlotTour(this._route.snapshot.data.path, this.data);
-        break;
-      case '':
-      case null:
-        this.tourService.listPagesTour(false, this._route.snapshot.data, this.data);
-        break;
     }
   }
 

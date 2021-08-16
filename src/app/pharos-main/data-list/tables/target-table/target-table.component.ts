@@ -24,7 +24,6 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
-import {TourService} from '../../../../pharos-services/tour.service';
 
 
 /**
@@ -115,8 +114,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
               private targetCollection: AngularFirestore,
               private snackBar: MatSnackBar,
               public breakpointObserver: BreakpointObserver,
-              public dynamicServices: DynamicServicesService,
-              private tourService: TourService) {
+              public dynamicServices: DynamicServicesService) {
     super(dynamicServices);
   }
 
@@ -282,11 +280,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
           this.targets = this.data.targets;
           this.similarityTarget = this.data.similarityTarget;
           this.ref.detectChanges();
-        }
-        switch (this._route.snapshot.queryParamMap.get('tutorial')) {
-          case 'custom-target-lists':
-            this.tourService.customTargetLists();
-            break;
         }
       });
   }

@@ -7,12 +7,24 @@ export class CentralStorageService {
   pdbColorScheme = ColorScheme.bfactor;
   pdbRepresentation = Representation.cartoon;
   facetMap: Map<string, string> = new Map<string, string>();
+  tourData: Map<string, any> = new Map<string, any>();
 
   @Output() pdbColorSchemeChanged = new EventEmitter<ColorScheme>();
   @Output() pdbRepresentationChanged = new EventEmitter<Representation>();
   @Output() displayFacetChanged = new EventEmitter<{model: string, facet: string}>();
 
   constructor() { }
+
+  getTourData(tour: string): any {
+    return this.tourData.get(tour);
+  }
+
+  setTourData(tour: string, data: any) {
+    if (!data) {
+      return;
+    }
+    this.tourData.set(tour, data);
+  }
 
   getDisplayFacet(model: string): string {
     return this.facetMap.get(model);
