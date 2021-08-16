@@ -11,6 +11,7 @@ import {PathResolverService} from '../../pharos-main/data-list/filter-panel/path
 import {Facet} from '../../models/facet';
 import {LocalStorageService} from '../../pharos-services/local-storage.service';
 import {isPlatformBrowser} from '@angular/common';
+import {Tours, TourService} from '../../pharos-services/tour.service';
 
 
 /**
@@ -56,6 +57,7 @@ export class NcatsHeaderComponent implements OnInit {
     public dialog: MatDialog,
     private route: ActivatedRoute,
     private headerOptionsService: HeaderOptionsService,
+    public tourService: TourService,
     private profileService: PharosProfileService,
     private router: Router,
     private localStorage: LocalStorageService,
@@ -92,27 +94,18 @@ export class NcatsHeaderComponent implements OnInit {
 
   getRequiredPath(tutorial: string) {
     switch (tutorial) {
-      case 'structure-search-tour':
+      case Tours.StructureSearchTour:
         return '/structure';
-      case 'custom-target-lists':
+      case Tours.CustomTargetListTour:
         return '/targets';
     }
     return '/';
   }
 
-  getPage() {
-    let path = this.router.url.split('?')[0];
-    if (path.startsWith('/')) {
-      path = path.slice(1);
-    }
-    path = path.split('#')[0];
-    return path.split('/');
-  }
-
   gotoTutorial(tutorial: string) {
-    const path = this.getPage();
+    const path = this.tourService.getPage();
     const onListPage = ['diseases', 'ligands', 'targets'].includes(path[0]) && path.length === 1;
-    if (tutorial === 'custom-target-lists') {
+    if (tutorial === Tours.CustomTargetListTour) {
       const navigationExtras: NavigationExtras = {
         queryParamsHandling: (path[0] === 'targets' ? 'merge' : ''),
         queryParams: {
@@ -122,7 +115,7 @@ export class NcatsHeaderComponent implements OnInit {
       this.router.navigate([this.getRequiredPath(tutorial)], navigationExtras);
       return;
     }
-    if (tutorial === 'structure-search-tour') {
+    else if (tutorial === Tours.StructureSearchTour) {
       const navigationExtras: NavigationExtras = {
         queryParamsHandling: '',
         queryParams: {
@@ -132,7 +125,7 @@ export class NcatsHeaderComponent implements OnInit {
       this.router.navigate( [this.getRequiredPath(tutorial)], navigationExtras);
       return;
     }
-    if (tutorial === 'list-pages-tour' || tutorial === 'upset-plot-tour') {
+    else if (tutorial === Tours.ListPagesTour || tutorial === Tours.UpsetChartTour) {
       const navigationExtras: NavigationExtras = {
         queryParamsHandling: (onListPage ? 'merge' : ''),
         queryParams: {
@@ -141,7 +134,7 @@ export class NcatsHeaderComponent implements OnInit {
       };
       this.router.navigate([onListPage ? path[0] : '/targets'], navigationExtras);
     }
-    if (tutorial === 'expression-tutorial') {
+    else if (tutorial === Tours.TargetExpressionTour) {
       const navigationExtras: NavigationExtras = {
         queryParamsHandling: '',
         queryParams: {
@@ -153,6 +146,15 @@ export class NcatsHeaderComponent implements OnInit {
       } else {
         this.router.navigate(['/targets/camk2a'], navigationExtras);
       }
+    }
+    else {
+      const navigationExtras: NavigationExtras = {
+        queryParamsHandling: (onListPage ? 'merge' : ''),
+        queryParams: {
+          tutorial
+        },
+      };
+      this.router.navigate(path, navigationExtras);
     }
   }
 

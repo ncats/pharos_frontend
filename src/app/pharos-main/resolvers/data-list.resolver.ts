@@ -8,6 +8,8 @@ import {PharosBase, Serializer} from '../../models/pharos-base';
 import {Facet} from '../../models/facet';
 import {TargetListService} from '../../pharos-services/target-list.service';
 import {isPlatformBrowser} from '@angular/common';
+import {CentralStorageService} from '../../pharos-services/central-storage.service';
+import {Tours} from '../../pharos-services/tour.service';
 
 /**
  * resolver to retrieve list of data happens on every main level (/targets, /diseases, /ligands, etc) change
@@ -23,6 +25,7 @@ export class DataListResolver implements Resolve<Observable<any>> {
    * @param {PharosApiService} pharosApiService
    */
   constructor(
+    private centralStorageService: CentralStorageService,
     private loadingService: LoadingService,
     private router: Router,
     private targetListService: TargetListService,
@@ -83,6 +86,7 @@ export class DataListResolver implements Resolve<Observable<any>> {
   private parseResponse(route: ActivatedRouteSnapshot, res, serializer: Serializer) {
     const path = route.data.path;
     const results: any = JSON.parse(JSON.stringify(res.data.batch.results));
+    this.centralStorageService.setTourData(Tours.ListPagesTour, results);
     results.facets = results.facets.map(facet => new Facet(facet));
     results[`${[path]}Props`] = [];
     results[path] = results[path].map(obj => {

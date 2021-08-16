@@ -7,6 +7,7 @@ import {Subject} from 'rxjs';
 import {isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 import {HeatMapData} from '../../../../../tools/visualizations/heat-map/heat-map.component';
+import {Tours} from '../../../../../pharos-services/tour.service';
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 /**
@@ -40,6 +41,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
    */
   id: string;
   string2UberonObj: Map<string, any> = new Map<string, any>();
+  tourName: Tours.TargetExpressionTour;
 
   /**
    * attach required services

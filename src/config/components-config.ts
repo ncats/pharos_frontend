@@ -705,7 +705,7 @@ const PDB_PANEL: PharosPanel = {
 const EXPRESSION_PANEL: PharosPanel = {
   token: TOKENS.EXPRESSION_PANEL,
   navHeader: {
-    label: 'Target Expression Data',
+    label: 'Expression Data',
     section: 'expression',
     mainDescription: 'Expression data from several sources shown as a heatmap of tissues and data sources, and as a shaded anatomogram.'
   },

@@ -5,7 +5,6 @@ import {MolChangeService} from '../tools/marvin-sketcher/services/mol-change.ser
 import {Facet} from '../models/facet';
 import {environment} from '../../environments/environment';
 import {ResolverService} from '../pharos-services/resolver.service';
-import {TourService} from '../pharos-services/tour.service';
 /**
  * page to search by structure
  */
@@ -39,8 +38,7 @@ export class StructureSearchPageComponent implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router,
     private molChangeService: MolChangeService,
-    public resolverService: ResolverService,
-    private tourService: TourService
+    public resolverService: ResolverService
   ) {
   }
 
@@ -49,9 +47,6 @@ export class StructureSearchPageComponent implements OnInit {
     this._router.events
       .subscribe((e: any) => {
         if (e instanceof NavigationEnd) {
-          if (this._route.snapshot.queryParamMap.get('tutorial') === 'structure-search-tour') {
-            this.tourService.structureSearchTour(true);
-          }
         }
       });
 
@@ -69,15 +64,6 @@ export class StructureSearchPageComponent implements OnInit {
     this.molChangeService.searchTypeChanged.subscribe(newType => {
       this.typeCtrl.setValue(newType);
     });
-    if (this._route.snapshot.queryParamMap.get('tutorial') === 'structure-search-tour') {
-      this.tourService.structureSearchTour(true);
-    } else {
-      this.tourService.structureSearchTour(false);
-    }
-  }
-
-  beginTour() {
-    this.tourService.structureSearchTour(true);
   }
 
   smilesChanged(event) {

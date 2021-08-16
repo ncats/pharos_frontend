@@ -1,8 +1,9 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import {NcatsHeaderComponent} from './tools/ncats-header/ncats-header.component';
-import {NavigationEnd, NavigationStart, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {LoadingService} from './pharos-services/loading.service';
-import {Title} from "@angular/platform-browser";
+import {Title} from '@angular/platform-browser';
+import {Tours, TourService} from './pharos-services/tour.service';
 
 /**
  * main app component holder
@@ -22,7 +23,7 @@ export class AppComponent implements OnInit {
   /**
    * is component loading or not
    */
-  @Input()loading = true;
+  @Input() loading = true;
 
   /**
    * get navigation router
@@ -32,8 +33,11 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private loadingService: LoadingService,
-    private titleService: Title
-  ) {}
+    private titleService: Title,
+    private tourService: TourService,
+    private _route: ActivatedRoute,
+  ) {
+  }
 
   /**
    * toggle loading component based on navigation change
@@ -46,28 +50,63 @@ export class AppComponent implements OnInit {
           this.loading = true;
         }
         if (e instanceof NavigationEnd) {
-          var titles = this.getTitle(this.router.routerState, this.router.routerState.root);
-          const title = "Pharos : " + (titles.length > 0 ? titles[0] : 'Illuminating the Druggable Genome');
+          const titles = this.getTitle(this.router.routerState, this.router.routerState.root);
+          const title = 'Pharos : ' + (titles.length > 0 ? titles[0] : 'Illuminating the Druggable Genome');
           this.titleService.setTitle(title);
           this.loading = false;
+          this.runTutorial();
         }
       });
+    this.runTutorial();
+  }
+
+  /**
+   * listener to resize the chart on page resize
+   */
+  @HostListener('window:resize', [])
+  onResize() {
+    this.tourService.setSizeCutoffs();
+  }
+
+  runTutorial() {
+    const tutorial = this._route.snapshot.queryParamMap.get('tutorial');
+    const page = this.tourService.getPage();
+    switch (tutorial) {
+      case Tours.WhatsNew38:
+        this.tourService.whatsnew38();
+        break;
+      case Tours.CustomTargetListTour:
+        this.tourService.customTargetLists();
+        break;
+      case Tours.StructureSearchTour:
+        this.tourService.structureSearchTour();
+        break;
+      case Tours.ListPagesTour:
+        this.tourService.listPagesTour(page);
+        break;
+      case Tours.TargetExpressionTour:
+        this.tourService.runTutorial(tutorial);
+        break;
+      case Tours.UpsetChartTour:
+        this.tourService.upsetPlotTour(page[0]);
+        break;
+    }
   }
 
   getTitle(state, parent) {
     var data = [];
     const url = [];
-    if(parent && parent.snapshot.data && parent.snapshot.data.title) {
+    if (parent && parent.snapshot.data && parent.snapshot.data.title) {
       const subpath = parent.snapshot.url?.length > 1 ? parent.snapshot.url[1].path : '';
       let title = parent.snapshot.data.title;
-      if(subpath) {
+      if (subpath) {
         title = title + ' - ' + subpath;
       }
       data.push(title);
     }
 
-    if(state && parent) {
-      data.push(... this.getTitle(state, state.firstChild(parent)));
+    if (state && parent) {
+      data.push(...this.getTitle(state, state.firstChild(parent)));
     }
     return data.sort((a, b) => b.length - a.length);
   }

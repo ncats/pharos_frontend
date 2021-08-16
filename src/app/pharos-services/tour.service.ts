@@ -5,6 +5,16 @@ import {NavigationExtras, Router} from '@angular/router';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {CentralStorageService} from './central-storage.service';
 
+export enum Tours {
+  ListPagesTour = 'ListPagesTour',
+  UpsetChartTour = 'UpsetChartTour',
+  CustomTargetListTour = 'CustomTargetListTour',
+  StructureSearchTour = 'StructureSearchTour',
+  TargetExpressionTour = 'TargetExpressionTour',
+  WhatsNew38 = 'WhatsNew38'
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -29,9 +39,19 @@ export class TourService {
     text: 'Complete',
     type: 'next'
   };
+
+  allTutorials: TourDefinition[] = [
+    {title: 'Using the List Pages', storageKey: Tours.ListPagesTour},
+    {title: 'Using the UpSet Chart', storageKey: Tours.UpsetChartTour},
+    {title: 'Uploading a Custom List of Targets', storageKey: Tours.CustomTargetListTour},
+    {title: 'Searching by Chemical Structure', storageKey: Tours.StructureSearchTour},
+    {title: 'Viewing Target Expression Data', storageKey: Tours.TargetExpressionTour},
+    {title: 'What\'s New in Version 3.8', storageKey: Tours.WhatsNew38}
+  ];
+
   firstButtons = [TourService.cancelButton, TourService.nextButton];
+  middleButtons = [TourService.cancelButton, TourService.backButton, TourService.nextButton];
   lastButtons = [TourService.backButton, TourService.completeButton];
-  standardButtons = [TourService.cancelButton, TourService.backButton, TourService.nextButton];
   defaultStepOptions = {
     classes: '',
     cancelIcon: {
@@ -66,7 +86,7 @@ export class TourService {
     }
     this.loadPromise.then(() => {
       switch (tutorialName) {
-        case 'expression-tutorial':
+        case Tours.TargetExpressionTour:
           this.runExpressionTour();
           break;
       }
@@ -125,20 +145,48 @@ export class TourService {
     }
   }
 
-  upsetPlotTour(models: string, data: any) {
+  whatsnew38() {
+    const defaultSteps = [
+      {
+        id: 'whats_new_begin',
+        attachTo: {
+          element: '#jinkies',
+          on: 'center'
+        },
+        scrollTo: false,
+        // scrollToHandler: this.tourScroller.bind({section: 'structure-search-container', platformID: this.platformID}),
+        buttons: this.firstButtons.slice(),
+        title: 'What\'s new?',
+        text: ['We won\'t know until it\'s over.']
+      }
+    ];
+    this.shepherdService.defaultStepOptions = this.defaultStepOptions;
+    this.shepherdService.modal = true;
+    this.shepherdService.confirmCancel = false;
+    this.shepherdService.addSteps(defaultSteps);
+    ['cancel', 'complete'].forEach(event => {
+      this.shepherdService.tourObject.on(event, () => {
+        this.completeTour(Tours.WhatsNew38, 'What\'s new?', event);
+      });
+    });
+    this.shepherdService.start();
+  }
+
+  upsetPlotTour(models: string) {
     if (!isPlatformBrowser(this.platformID)) {
       return;
     }
     this.loadPromise.then(() => {
-      this.runUpsetPlotTour(models, data);
+      this.runUpsetPlotTour(models);
     });
   }
 
-  runUpsetPlotTour(models: string, data: any) {
+  runUpsetPlotTour(models: string) {
+    const data = this.centralStorageService.getTourData(Tours.ListPagesTour);
     const currentFacet = this.centralStorageService.getDisplayFacet(models);
-    let catFacet = data.results.facets.find(f => f.facet === currentFacet);
+    let catFacet = data.facets.find(f => f.facet === currentFacet);
     if (!catFacet || catFacet.singleResponse) {
-      catFacet = data.results.facets.find(f => f.dataType === 'Category' && f.values.length > 0 && !f.singleResponse);
+      catFacet = data.facets.find(f => f.dataType === 'Category' && f.values.length > 0 && !f.singleResponse);
       this.centralStorageService.setDisplayFacet(models, catFacet.facet);
     }
     const model = models.slice(0, models.length - 1);
@@ -162,7 +210,7 @@ export class TourService {
           on: 'left'
         },
         scrollToHandler: this.tourScroller.bind({class: 'upset-chart', platformID: this.platformID}),
-        buttons: this.standardButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'UpSet Charts for Filters',
         text: [`UpSet plots are only shown for the categorical filters, that have multiple responses per ${model}. By default the top five filter values are used to generate the plot.`]
       },
@@ -173,7 +221,7 @@ export class TourService {
           on: 'left'
         },
         scrollTo: false,
-        buttons: this.standardButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'Custom UpSet Charts',
         text: [`You can edit which filter values are used to generate the plot. You can use this feature to filter the ${model} list with more
         complex boolean logic. For example, selecting values A, B, and C, you can generate the plot of the joint distribution, and filter the
@@ -186,7 +234,7 @@ export class TourService {
           on: 'left'
         },
         scrollToHandler: this.tourScroller.bind({class: 'facet-change', platformID: this.platformID}),
-        buttons: this.standardButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'UpSet Charts for Filters',
         text: [`Change which filter is used to generate the plot with these buttons.`]
       }
@@ -197,7 +245,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(true, 'upset-plot-tour', 'Upset Plots', event);
+        this.completeTour(Tours.UpsetChartTour, 'Upset Plots', event);
       });
     });
     this.shepherdService.start();
@@ -249,41 +297,45 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(true, 'custom-target-lists', 'Custom Target Lists', event);
+        this.completeTour(Tours.CustomTargetListTour, 'Custom Target Lists', event);
       });
     });
     this.shepherdService.start();
   }
 
-  listPagesTour(manual: boolean, path: any, data: any) {
-    if (path.subpath !== 'list') { // not a list page
+  getPage() {
+    let path = this.router.url.split('?')[0];
+    if (path.startsWith('/')) {
+      path = path.slice(1);
+    }
+    path = path.split('#')[0];
+    return path.split('/');
+  }
+
+  listPagesTour(path: string[]) {
+    if (path.length !== 1) { // not a list page
       return;
     }
     if (!isPlatformBrowser(this.platformID)) {
       return;
     }
     if (this.menuIsHidden) {
-      if (manual) {
-        alert('This screen is too small for the List Pages Tutorial.');
-      }
-      return;
-    }
-    if (!manual && !!this.localStorageService.store.getItem('list-pages-tour')) {
+      alert('This screen is too small for the List Pages Tutorial.');
       return;
     }
     this.loadPromise.then(() => {
-      this.runListPagesTour(manual, path, data);
+      this.runListPagesTour(path[0]);
     }).catch(e => {
       alert(e);
     });
   }
 
-  runListPagesTour(manual: boolean, path: any, data: any) {
-    const models = path.path;
+  runListPagesTour(models: string) {
+    const data = this.centralStorageService.getTourData(Tours.ListPagesTour);
     const model = models.slice(0, models.length - 1);
-    const catFacet = data.results.facets.find(f => f.dataType === 'Category' && f.values.length > 0);
+    const catFacet = data.facets.find(f => f.dataType === 'Category' && f.values.length > 0);
     const catFacetId = catFacet.facet.replace(/\s/g, '');
-    const numFacet = data.results.facets.find(f => f.dataType === 'Numeric' && f.values.length > 0);
+    const numFacet = data.facets.find(f => f.dataType === 'Numeric' && f.values.length > 0);
     let numFacetId;
     if (numFacet) {
       numFacetId = numFacet.facet.replace(/\s/g, '');
@@ -307,7 +359,7 @@ export class TourService {
           on: 'right-start'
         },
         scrollTo: false,
-        buttons: this.standardButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'Filter Panel',
         text: [`The filter panel shows the total counts of ${models} in this list having different values for each filter.`]
       },
@@ -318,7 +370,7 @@ export class TourService {
           on: 'right-start'
         },
         scrollToHandler: this.sidePanelScroller.bind({parent: 'left-panel', section: catFacetId, platformID: this.platformID}),
-        buttons: this.standardButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'An Example Filter',
         text: [`For example, this table shows how many ${models} in this list have different values for ${catFacet.facet}.`]
       },
@@ -329,7 +381,7 @@ export class TourService {
           on: 'right-start'
         },
         scrollToHandler: this.sidePanelScroller.bind({parent: 'left-panel', section: catFacetId, platformID: this.platformID}),
-        buttons: this.standardButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'Filtering the List',
         text: [`Selecting values in the filter panel will filter the list to only ${models} that have that value. Selecting multiple values
         will filter the list to ${models} that have any of the selected values.`]
@@ -342,7 +394,7 @@ export class TourService {
           on: 'right-start'
         },
         scrollToHandler: this.sidePanelScroller.bind({parent: 'left-panel', section: numFacetId, platformID: this.platformID}),
-        buttons: this.standardButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'Numeric Filters',
         text: [`For numeric filters, we'll show a histogram of ${model} counts that fall within each range. The bounds can be changed using the
          slider to filter the list to only those ${models} that fall in the desired range.`]
@@ -356,7 +408,7 @@ export class TourService {
           on: 'right-start'
         },
         scrollToHandler: this.sidePanelScroller.bind({parent: 'left-panel', top: true, platformID: this.platformID}),
-        buttons: this.standardButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'Filter Description',
         text: [`Expand the info button for an explanation of the data behind each filter.`]
       },
@@ -367,10 +419,10 @@ export class TourService {
           on: 'left'
         },
         scrollToHandler: this.tourScroller.bind({class: 'facet-visualizations', platformID: this.platformID}),
-        buttons: this.standardButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'Filter Visualizations',
         text: [`This panel shows visualizations of selected filters. An UpSet plot will show for filters that can have multiple values per ${model}.
-         See "How do I use the UpSet Chart" tutorial for details.`]
+         See "Using the UpSet Chart" tutorial for details.`]
       },
       {
         id: 'model-list',
@@ -379,7 +431,7 @@ export class TourService {
           on: 'top'
         },
         scrollToHandler: this.tourScroller.bind({class: 'model-list', platformID: this.platformID}),
-        buttons: this.standardButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: `The Result Table`,
         text: [`Last but not least, here is the actual list of ${models}.`]
       },
@@ -390,7 +442,7 @@ export class TourService {
           on: 'top'
         },
         scrollToHandler: this.tourScroller.bind({class: 'modellist-header', platformID: this.platformID}),
-        buttons: this.standardButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'Total Count',
         text: [`This is the total count of ${models} in the list.`]
       },
@@ -401,7 +453,7 @@ export class TourService {
           on: 'top'
         },
         scrollToHandler: this.tourScroller.bind({class: 'list-download', platformID: this.platformID}),
-        buttons: this.standardButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'Data Download',
         text: [`Download a CSV file of the ${model} list and your choice of related data for offline analysis.`]
       },
@@ -412,7 +464,7 @@ export class TourService {
           on: 'top'
         },
         scrollToHandler: this.tourScroller.bind({class: 'model-list-paginator', platformID: this.platformID}),
-        buttons: this.standardButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'The Result Table',
         text: [`You can navigate through different pages of ${models} with this control.`]
       }
@@ -426,7 +478,7 @@ export class TourService {
             on: 'top'
           },
           scrollToHandler: this.tourScroller.bind({class: 'model-list-sort', platformID: this.platformID}),
-          buttons: this.standardButtons.slice(),
+          buttons: this.middleButtons.slice(),
           title: 'Sorting the List',
           text: [`Change the field used for sorting and the direction with this control.`]
         },
@@ -437,7 +489,7 @@ export class TourService {
             on: 'top'
           },
           scrollToHandler: this.tourScroller.bind({class: 'model-details-link', platformID: this.platformID}),
-          buttons: this.standardButtons.slice(),
+          buttons: this.middleButtons.slice(),
           title: 'Link to Details',
           text: [`Clicking the title bar will take you to the details page for this ${model}.`]
         },
@@ -475,25 +527,22 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(manual, 'list-pages-tour', 'Pharos List Page Tutorial', event);
+        this.completeTour(Tours.ListPagesTour, 'Pharos List Page Tutorial', event);
       });
     });
     this.shepherdService.start();
   }
 
-  structureSearchTour(manual: boolean) {
+  structureSearchTour() {
     if (!isPlatformBrowser(this.platformID)) {
       return;
     }
-    if (!manual && !!this.localStorageService.store.getItem('structure-search-tour')) {
-      return;
-    }
     this.loadPromise.then(() => {
-      this.runStructureSearchTour(manual);
+      this.runStructureSearchTour();
     });
   }
 
-  runStructureSearchTour(manual: boolean) {
+  runStructureSearchTour() {
     const defaultSteps = [
       {
         id: 'structure_search_begin',
@@ -513,7 +562,7 @@ export class TourService {
           on: 'top'
         },
         scrollToHandler: this.tourScroller.bind({section: 'load-card', platformID: this.platformID}),
-        buttons: this.standardButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'Loading a Structure',
         text: ['To begin, enter a compound name or ID to load a chemical structure.']
       },
@@ -524,7 +573,7 @@ export class TourService {
           on: 'top'
         },
         scrollToHandler: this.tourScroller.bind({section: 'sketcher-row', platformID: this.platformID}),
-        buttons: this.standardButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'Editing a Structure',
         text: ['Successfully resolved compounds can be edited in the MarvinJS Sketcher, or you can draw a structure from scratch.']
       },
@@ -535,7 +584,7 @@ export class TourService {
           on: 'top'
         },
         scrollToHandler: this.tourScroller.bind({section: 'smiles-card', platformID: this.platformID}),
-        buttons: this.standardButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'The Query SMILES',
         text: ['The SMILES used for the query will appear here. This field can also be used for editing, ' +
         'or copy/pasting a SMILES directly.']
@@ -547,7 +596,7 @@ export class TourService {
           on: 'top'
         },
         scrollToHandler: this.tourScroller.bind({section: 'similar-structure-search', platformID: this.platformID}),
-        buttons: this.standardButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'Finding Similar Structures',
         text: ['This tool will search for ligands in TCRD that have a similar structure to the query SMILES.']
       },
@@ -558,7 +607,7 @@ export class TourService {
           on: 'top'
         },
         scrollTo: false,
-        buttons: this.standardButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'Search Method',
         text: ['Choose your search method, either by whole structure similarity, or substructure similarity. Results are ranked ' +
         'according to the Tanimoto Similarity, and can be filtered after the search is complete.']
@@ -581,13 +630,13 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(manual, 'structure-search-tour', 'Structure Search', event);
+        this.completeTour(Tours.StructureSearchTour, 'Structure Search', event);
       });
     });
     this.shepherdService.start();
   }
 
-  completeTour(manual: boolean, localStorageKey: string, title: string, result: string) {
+  completeTour(localStorageKey: string, title: string, result: string) {
     this.removeTourParam();
     const prevResult = this.localStorageService.store.getItem(localStorageKey);
     if (prevResult === 'complete' || (prevResult === 'cancel' && result === 'cancel')) {
@@ -601,14 +650,10 @@ export class TourService {
           element: this.menuIsHidden ? '.top-level-menu-button' : '#tutorialMenu',
           on: 'top'
         },
-        scrollToHandler: this.tourScroller.bind(
-          this.menuIsHidden
-            ? {class: 'top-level-menu-button', platformID: this.platformID}
-            : {section: 'tutorialMenu', platformID: this.platformID}
-        ),
+        scrollTo: false,
         buttons: [TourService.completeButton],
         title,
-        text: ['Revisit the tutorial at any time by clicking the "How do I..." menu.']
+        text: ['Revisit the tutorial at any time by clicking the "Tutorials" menu.']
       }
     ];
     this.shepherdService.defaultStepOptions = this.defaultStepOptions;
@@ -628,7 +673,7 @@ export class TourService {
         },
         scrollToHandler: this.tourScroller.bind({section: 'expression', platformID: this.platformID}),
         buttons: this.firstButtons.slice(),
-        title: 'Target Expression',
+        title: 'Expression',
         text: ['Expression data is aggregated from several data sources and displayed on target details pages. Data is shown as a heatmap of tissues and data sources, as well ' +
         'as on an anatomogram, shaded according to the average ranking of each tissue across data sources.']
       },
@@ -639,7 +684,7 @@ export class TourService {
           on: 'bottom'
         },
         scrollTo: false,
-        buttons: this.standardButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'Tissue Search',
         text: ['You can filter the heatmap to a specific class of tissues by selecting a tissue to start with, and subsequently ' +
         'selecting one of the parent terms from the UBERON ontology.']
@@ -651,7 +696,7 @@ export class TourService {
           on: 'bottom'
         },
         scrollTo: false,
-        buttons: this.standardButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'Tissue Details',
         text: ['Click the tissue label, or the heatmap cells to see the details of the expression data for each tissue.']
       },
@@ -663,7 +708,7 @@ export class TourService {
             on: 'bottom'
           },
           scrollTo: false,
-          buttons: this.standardButtons.slice(),
+          buttons: this.middleButtons.slice(),
           title: 'Interactive Anatomogram',
           text: ['You can also filter the heatmap by clicking tissues on the anatomogram.']
         }]),
@@ -686,7 +731,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(true, 'expression-tutorial', 'Target Expression', event);
+        this.completeTour(Tours.TargetExpressionTour, 'Target Expression', event);
       });
     });
     this.shepherdService.start();
@@ -705,10 +750,12 @@ export class TourService {
       this.router.navigate([path], navigationExtras);
     }
   }
+
 }
 
 export class TourDefinition {
   title: string;
-  definition: string;
+  definition?: string;
+  storageKey: string;
 }
 
