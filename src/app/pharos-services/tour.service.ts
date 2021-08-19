@@ -174,7 +174,7 @@ export class TourService {
         buttons: this.firstButtons.slice(),
         title: 'What\'s new in Pharos 3.8?',
         text: ['Pharos has many new features in version 3.8, including UpSet Charts for filters on the list pages, heatmaps for ' +
-        'expression data, AlphaFold structures for targets, and several usability improvements. Click next for a tour of new features ' +
+        'expression data, AlphaFold structures for targets, and several usability improvements. Click "Next" for a tour of new features ' +
         'and where to find them.']
       },
       {
