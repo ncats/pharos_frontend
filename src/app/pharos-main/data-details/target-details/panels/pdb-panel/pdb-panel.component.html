@@ -19,20 +19,19 @@
           AlphaFold Model{{this.target?.alphaFoldStructures?.length === 1 ? '' : 's'}})</span>
         </div>
         <div fxFlex="5">
-          <pharos-help-panel-trigger [origin]="'pdbview'"
-                                     [label]="'Protein Data Bank Viewer'"></pharos-help-panel-trigger>
+          <pharos-tutorial-link [tourType]="tourType"></pharos-tutorial-link>
         </div>
       </div>
       <div fxLayout="row" class="image-container">
         <div class="pdb-options">
-          <mat-radio-group class="pdb-options" (change)="changeRep($event)">
+          <mat-radio-group class="pdb-options representation" (change)="changeRep($event)">
             <mat-card-subtitle>Representation</mat-card-subtitle>
             <mat-radio-button class="color-radio-button" *ngFor="let opt of reps" [value]="opt"
                               [checked]="opt===centralStorageService.getField('pdbRepresentation')">
               {{opt}}
             </mat-radio-button>
           </mat-radio-group>
-          <mat-radio-group class="pdb-options" (change)="changeColor($event)">
+          <mat-radio-group class="pdb-options colorscheme" (change)="changeColor($event)">
             <mat-card-subtitle>Color Scheme</mat-card-subtitle>
             <mat-radio-button class="color-radio-button" *ngFor="let opt of colors" [value]="opt"
                               [checked]="opt===centralStorageService.getField('pdbColorScheme')">
@@ -93,7 +92,7 @@
             (page)=pagePDB($event)
             #pdbpaginator></mat-paginator>
         </div>
-        <div fxHide.lt-md>
+        <div fxHide.lt-md class="structure-list">
           <pharos-generic-table
             [data]=this.pdbViewObjects
             [showPaginator]="false"
@@ -102,7 +101,7 @@
             (rowClick)="changePdbId($event)">
           </pharos-generic-table>
         </div>
-        <div fxHide.gt-sm>
+        <div fxHide.gt-sm class="structure-list">
           <pharos-generic-table
             [data]=this.pdbViewObjects
             [showPaginator]="false"

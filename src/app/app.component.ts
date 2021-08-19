@@ -3,7 +3,7 @@ import {NcatsHeaderComponent} from './tools/ncats-header/ncats-header.component'
 import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {LoadingService} from './pharos-services/loading.service';
 import {Title} from '@angular/platform-browser';
-import {Tours, TourService} from './pharos-services/tour.service';
+import {TourType, TourService} from './pharos-services/tour.service';
 
 /**
  * main app component holder
@@ -72,22 +72,25 @@ export class AppComponent implements OnInit {
     const tutorial = this._route.snapshot.queryParamMap.get('tutorial');
     const page = this.tourService.getPage();
     switch (tutorial) {
-      case Tours.WhatsNew38:
+      case TourType.WhatsNew38:
         this.tourService.whatsnew38();
         break;
-      case Tours.CustomTargetListTour:
+      case TourType.CustomTargetListTour:
         this.tourService.customTargetLists();
         break;
-      case Tours.StructureSearchTour:
+      case TourType.StructureSearchTour:
         this.tourService.structureSearchTour();
         break;
-      case Tours.ListPagesTour:
+      case TourType.ListPagesTour:
         this.tourService.listPagesTour(page);
         break;
-      case Tours.TargetExpressionTour:
+      case TourType.TargetExpressionTour:
         this.tourService.runTutorial(tutorial);
         break;
-      case Tours.UpsetChartTour:
+      case TourType.ProteinStructureTour:
+        this.tourService.proteinStructureTour();
+        break;
+      case TourType.UpsetChartTour:
         this.tourService.upsetPlotTour(page[0]);
         break;
     }

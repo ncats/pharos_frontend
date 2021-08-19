@@ -11,7 +11,7 @@ import {PathResolverService} from '../../pharos-main/data-list/filter-panel/path
 import {Facet} from '../../models/facet';
 import {LocalStorageService} from '../../pharos-services/local-storage.service';
 import {isPlatformBrowser} from '@angular/common';
-import {Tours, TourService} from '../../pharos-services/tour.service';
+import {TourType, TourService} from '../../pharos-services/tour.service';
 
 
 /**
@@ -94,9 +94,9 @@ export class NcatsHeaderComponent implements OnInit {
 
   getRequiredPath(tutorial: string) {
     switch (tutorial) {
-      case Tours.StructureSearchTour:
+      case TourType.StructureSearchTour:
         return '/structure';
-      case Tours.CustomTargetListTour:
+      case TourType.CustomTargetListTour:
         return '/targets';
     }
     return '/';
@@ -105,7 +105,7 @@ export class NcatsHeaderComponent implements OnInit {
   gotoTutorial(tutorial: string) {
     const path = this.tourService.getPage();
     const onListPage = ['diseases', 'ligands', 'targets'].includes(path[0]) && path.length === 1;
-    if (tutorial === Tours.CustomTargetListTour) {
+    if (tutorial === TourType.CustomTargetListTour) {
       const navigationExtras: NavigationExtras = {
         queryParamsHandling: (path[0] === 'targets' ? 'merge' : ''),
         queryParams: {
@@ -115,7 +115,7 @@ export class NcatsHeaderComponent implements OnInit {
       this.router.navigate([this.getRequiredPath(tutorial)], navigationExtras);
       return;
     }
-    else if (tutorial === Tours.StructureSearchTour) {
+    else if (tutorial === TourType.StructureSearchTour) {
       const navigationExtras: NavigationExtras = {
         queryParamsHandling: '',
         queryParams: {
@@ -125,7 +125,7 @@ export class NcatsHeaderComponent implements OnInit {
       this.router.navigate( [this.getRequiredPath(tutorial)], navigationExtras);
       return;
     }
-    else if (tutorial === Tours.ListPagesTour || tutorial === Tours.UpsetChartTour) {
+    else if (tutorial === TourType.ListPagesTour || tutorial === TourType.UpsetChartTour) {
       const navigationExtras: NavigationExtras = {
         queryParamsHandling: (onListPage ? 'merge' : ''),
         queryParams: {
@@ -134,7 +134,7 @@ export class NcatsHeaderComponent implements OnInit {
       };
       this.router.navigate([onListPage ? path[0] : '/targets'], navigationExtras);
     }
-    else if (tutorial === Tours.TargetExpressionTour) {
+    else if (tutorial === TourType.TargetExpressionTour || tutorial === TourType.ProteinStructureTour) {
       const navigationExtras: NavigationExtras = {
         queryParamsHandling: '',
         queryParams: {
@@ -144,7 +144,8 @@ export class NcatsHeaderComponent implements OnInit {
       if (path[0] === 'targets' && path.length > 1) {
         this.router.navigate([path.join('/')], navigationExtras);
       } else {
-        this.router.navigate(['/targets/camk2a'], navigationExtras);
+        const defaultPath = tutorial === TourType.TargetExpressionTour ? '/targets/camk2a' : '/targets/drd2';
+        this.router.navigate([defaultPath], navigationExtras);
       }
     }
     else {
