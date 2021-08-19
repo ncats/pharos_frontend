@@ -1,14 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component, Inject,
-  InjectionToken,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  PLATFORM_ID
-} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnDestroy, OnInit, Output, PLATFORM_ID} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {HttpClient} from '@angular/common/http';
@@ -21,7 +11,8 @@ import {BehaviorSubject} from 'rxjs';
 import {isPlatformBrowser} from '@angular/common';
 import {PdbApiService} from '../../../../../pharos-services/pdb-api.service';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
-import {ColorScheme, CentralStorageService, Representation} from '../../../../../pharos-services/central-storage.service';
+import {CentralStorageService, ColorScheme, Representation} from '../../../../../pharos-services/central-storage.service';
+import {TourType} from '../../../../../pharos-services/tour.service';
 
 /**
  * component to fetch data from the rcsb protein databank and display tested ligands nested in a protein structure
@@ -38,6 +29,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
 
   colors =  Object.keys(ColorScheme);
   reps = Object.keys(Representation);
+  tourType: TourType;
   selectedModel = 0;
 
   /**
@@ -142,6 +134,7 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
    * set up subscription to watch for data change
    */
   ngOnInit() {
+    this.tourType = TourType.ProteinStructureTour;
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
@@ -163,8 +156,8 @@ export class PdbPanelComponent extends DynamicTablePanelComponent implements OnI
   }
 
   hasData() {
-    return this.target.pdbs && this.target.pdbs.length > 0 ||
-      this.target.alphaFoldStructures && this.target.alphaFoldStructures.length > 0;
+    return this.target?.pdbs && this.target?.pdbs.length > 0 ||
+      this.target?.alphaFoldStructures && this.target?.alphaFoldStructures.length > 0;
   }
   currentResidues() {
     return this.pdbid.accessionRegions(this.target.accession);

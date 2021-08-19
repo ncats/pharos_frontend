@@ -24,7 +24,7 @@ export class ProteinStructureViewerComponent implements OnInit, OnChanges {
   @Input() pdbid: string;
   @Input() predictedStructures: any[] = [];
   @Input() structureIndex = 0;
-  @Input() targetResidues: PDBRegion[];
+  @Input() targetResidues: PDBRegion[] = [];
 
   stage: any;
   NGL: any;

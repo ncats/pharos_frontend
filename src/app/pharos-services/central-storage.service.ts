@@ -19,11 +19,11 @@ export class CentralStorageService {
     return this.tourData.get(tour);
   }
 
-  setTourData(tour: string, data: any) {
+  setTourData(pageType: string, data: any) {
     if (!data) {
       return;
     }
-    this.tourData.set(tour, data);
+    this.tourData.set(pageType, data);
   }
 
   getDisplayFacet(model: string): string {

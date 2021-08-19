@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TourService} from '../../pharos-services/tour.service';
+import {TourType, TourService} from '../../pharos-services/tour.service';
 
 @Component({
   selector: 'pharos-tutorial-link',
@@ -7,7 +7,7 @@ import {TourService} from '../../pharos-services/tour.service';
   styleUrls: ['./tutorial-link.component.scss']
 })
 export class TutorialLinkComponent implements OnInit {
-  @Input() tutorialName: string;
+  @Input() tourType: TourType;
 
   constructor(
     private tourService: TourService) { }
@@ -16,6 +16,6 @@ export class TutorialLinkComponent implements OnInit {
   }
 
   openTutorial() {
-    this.tourService.runTutorial(this.tutorialName);
+    this.tourService.runTutorial(this.tourType);
   }
 }

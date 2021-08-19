@@ -9,9 +9,6 @@ import {HttpLink} from "apollo-angular/http";
 })
 export class PdbApiService {
 
-  apollo: any;
-  uri = 'https://data.rcsb.org/graphql';
-
   constructor(private httpLink: HttpLink) {
     this.apollo = new ApolloClient({
       link: httpLink.create({uri: this.uri}),
@@ -19,10 +16,8 @@ export class PdbApiService {
     });
   }
 
-  getEntries(pdbIDs: string[]) {
-    const variables = {pdbIDs};
-    return this.apollo.query({query: this.getEntriesQuery, variables});
-  }
+  apollo: any;
+  uri = 'https://data.rcsb.org/graphql';
 
   getEntriesQuery = gql`
     query getEntries($pdbIDs:[String!]!)
@@ -77,4 +72,9 @@ export class PdbApiService {
         }
       }
     }`;
+
+  getEntries(pdbIDs: string[]) {
+    const variables = {pdbIDs};
+    return this.apollo.query({query: this.getEntriesQuery, variables});
+  }
 }

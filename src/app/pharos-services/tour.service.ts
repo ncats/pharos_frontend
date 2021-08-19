@@ -5,11 +5,12 @@ import {NavigationExtras, Router} from '@angular/router';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {CentralStorageService} from './central-storage.service';
 
-export enum Tours {
+export enum TourType {
   ListPagesTour = 'ListPagesTour',
   UpsetChartTour = 'UpsetChartTour',
   CustomTargetListTour = 'CustomTargetListTour',
   StructureSearchTour = 'StructureSearchTour',
+  ProteinStructureTour = 'ProteinStructureTour',
   TargetExpressionTour = 'TargetExpressionTour',
   WhatsNew38 = 'WhatsNew38'
 }
@@ -39,16 +40,22 @@ export class TourService {
     text: 'Complete',
     type: 'next'
   };
+  static okayButton = {
+    classes: 'shepherd-button shepherd-button-primary',
+    text: 'OK',
+    type: 'next'
+  };
 
   allTutorials: TourDefinition[] = [
-    {title: 'Using the List Pages', storageKey: Tours.ListPagesTour},
-    {title: 'Using the UpSet Chart', storageKey: Tours.UpsetChartTour},
-    {title: 'Uploading a Custom List of Targets', storageKey: Tours.CustomTargetListTour},
-    {title: 'Searching by Chemical Structure', storageKey: Tours.StructureSearchTour},
-    {title: 'Viewing Target Expression Data', storageKey: Tours.TargetExpressionTour},
-    {title: 'What\'s New in Version 3.8', storageKey: Tours.WhatsNew38}
+    {title: 'What\'s New in Version 3.8', storageKey: TourType.WhatsNew38},
+    {title: 'Using the List Pages', storageKey: TourType.ListPagesTour},
+    {title: 'Using the UpSet Chart', storageKey: TourType.UpsetChartTour},
+    {title: 'Uploading a Custom List of Targets', storageKey: TourType.CustomTargetListTour},
+    {title: 'Searching by Chemical Structure', storageKey: TourType.StructureSearchTour},
+    {title: 'Viewing Protein Structure Data', storageKey: TourType.ProteinStructureTour},
+    {title: 'Viewing Target Expression Data', storageKey: TourType.TargetExpressionTour},
   ];
-
+  onlyButton = [TourService.okayButton];
   firstButtons = [TourService.cancelButton, TourService.nextButton];
   middleButtons = [TourService.cancelButton, TourService.backButton, TourService.nextButton];
   lastButtons = [TourService.backButton, TourService.completeButton];
@@ -86,8 +93,11 @@ export class TourService {
     }
     this.loadPromise.then(() => {
       switch (tutorialName) {
-        case Tours.TargetExpressionTour:
+        case TourType.TargetExpressionTour:
           this.runExpressionTour();
+          break;
+        case TourType.ProteinStructureTour:
+          this.runProteinStructureTour();
           break;
       }
     });
@@ -166,8 +176,119 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(Tours.WhatsNew38, 'What\'s new?', event);
+        this.completeTour(TourType.WhatsNew38, 'What\'s new?', event);
       });
+    });
+    this.shepherdService.start();
+  }
+
+  proteinStructureTour() {
+    if (!isPlatformBrowser(this.platformID)) {
+      return;
+    }
+    this.loadPromise.then(() => {
+      this.runProteinStructureTour();
+    });
+  }
+
+  runProteinStructureTour() {
+    const data = this.centralStorageService.getTourData('details');
+    const afCount = data.targets.alphaFoldStructures.length;
+    const structureCount = data.targets.pdbs.length;
+    const abortTour = afCount === 0 && structureCount === 0;
+    const defaultSteps = [];
+    if (abortTour) {
+      defaultSteps.push({
+        id: 'noStructures',
+        attachTo: {
+          element: '#pdbview',
+          on: 'top'
+        },
+        scrollTo: false,
+        buttons: this.onlyButton.slice(),
+        title: 'No Structures Found',
+        text: [`There are no experimental or predicted structures found for this protein. Navigate to another target details page to take
+        the Protein Structure tour.`]
+      });
+    } else {
+      defaultSteps.push(...[
+        {
+          id: 'pdbView',
+          attachTo: {
+            element: '#pdbview',
+            on: 'top'
+          },
+          scrollToHandler: this.tourScroller.bind({section: 'pdbview', platformID: this.platformID}),
+          buttons: this.firstButtons.slice(),
+          title: 'Protein Structure',
+          text: [`This component shows experimentally determined structures for this protein, as well as the AlphaFold predicted
+          structure.`]
+        },
+        {
+          id: 'representation',
+          attachTo: {
+            element: '.representation',
+            on: 'left'
+          },
+          scrollTo: false,
+          buttons: this.middleButtons.slice(),
+          title: 'Changing the Structure Representation',
+          text: [`Select the type of representation to show for the structures.`]
+        },
+        {
+          id: 'colorscheme',
+          attachTo: {
+            element: '.colorscheme',
+            on: 'left'
+          },
+          scrollTo: false,
+          buttons: this.middleButtons.slice(),
+          title: 'Changing the Color Scheme',
+          text: [`Select the color scheme to use for the structure plots. 'Target' coloring will color the portion of the protein structure
+        that is from the selected target, since experimentally determined structures are often complexes with other structures or fusion proteins.
+        The 'bfactor' in experimental structures is typically a measure of flexibility at each residue, and similarly a measure of
+        prediction confidence in the AlphaFold structures.`]
+        }]);
+
+      if (structureCount > 0) {
+        defaultSteps.push({
+          id: 'hasStructures',
+          attachTo: {
+            element: '.structure-list',
+            on: 'top'
+          },
+          scrollToHandler: this.tourScroller.bind({class: 'structure-list', platformID: this.platformID}),
+          buttons: this.lastButtons.slice(),
+          title: 'Viewing different structures',
+          text: [`The different experimentally determined structures are listed here, along with some metadata about the structure, such as
+        the resolution, or range of residues in the structure. Click a row to change the structure in the plot.`]
+        });
+      } else {
+        defaultSteps.push({
+          id: 'noStructures',
+          attachTo: {
+            element: '#pdbview',
+            on: 'top'
+          },
+          scrollTo: false,
+          buttons: this.lastButtons.slice(),
+          title: 'Viewing different structures',
+          text: [`No experimentally determined structures were found.`]
+        });
+      }
+    }
+    this.shepherdService.defaultStepOptions = this.defaultStepOptions;
+    this.shepherdService.modal = true;
+    this.shepherdService.confirmCancel = false;
+    this.shepherdService.addSteps(defaultSteps);
+    ['cancel', 'complete'].forEach(event => {
+        this.shepherdService.tourObject.on(event, () => {
+          if (abortTour) {
+            this.removeTourParam();
+          } else {
+            this.completeTour(TourType.ProteinStructureTour, 'Protein Structure', event);
+          }
+        });
     });
     this.shepherdService.start();
   }
@@ -182,7 +303,7 @@ export class TourService {
   }
 
   runUpsetPlotTour(models: string) {
-    const data = this.centralStorageService.getTourData(Tours.ListPagesTour);
+    const data = this.centralStorageService.getTourData('list');
     const currentFacet = this.centralStorageService.getDisplayFacet(models);
     let catFacet = data.facets.find(f => f.facet === currentFacet);
     if (!catFacet || catFacet.singleResponse) {
@@ -245,7 +366,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(Tours.UpsetChartTour, 'Upset Plots', event);
+        this.completeTour(TourType.UpsetChartTour, 'Upset Plots', event);
       });
     });
     this.shepherdService.start();
@@ -297,7 +418,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(Tours.CustomTargetListTour, 'Custom Target Lists', event);
+        this.completeTour(TourType.CustomTargetListTour, 'Custom Target Lists', event);
       });
     });
     this.shepherdService.start();
@@ -331,7 +452,7 @@ export class TourService {
   }
 
   runListPagesTour(models: string) {
-    const data = this.centralStorageService.getTourData(Tours.ListPagesTour);
+    const data = this.centralStorageService.getTourData('list');
     const model = models.slice(0, models.length - 1);
     const catFacet = data.facets.find(f => f.dataType === 'Category' && f.values.length > 0);
     const catFacetId = catFacet.facet.replace(/\s/g, '');
@@ -527,7 +648,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(Tours.ListPagesTour, 'Pharos List Page Tutorial', event);
+        this.completeTour(TourType.ListPagesTour, 'Pharos List Page Tutorial', event);
       });
     });
     this.shepherdService.start();
@@ -630,7 +751,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(Tours.StructureSearchTour, 'Structure Search', event);
+        this.completeTour(TourType.StructureSearchTour, 'Structure Search', event);
       });
     });
     this.shepherdService.start();
@@ -731,7 +852,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(Tours.TargetExpressionTour, 'Target Expression', event);
+        this.completeTour(TourType.TargetExpressionTour, 'Target Expression', event);
       });
     });
     this.shepherdService.start();
