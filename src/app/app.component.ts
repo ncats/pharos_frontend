@@ -4,6 +4,8 @@ import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/r
 import {LoadingService} from './pharos-services/loading.service';
 import {Title} from '@angular/platform-browser';
 import {TourType, TourService} from './pharos-services/tour.service';
+import {SwUpdate} from '@angular/service-worker';
+import {interval} from 'rxjs';
 
 /**
  * main app component holder
@@ -31,6 +33,7 @@ export class AppComponent implements OnInit {
    * @param loadingService
    */
   constructor(
+    private swUpdate: SwUpdate,
     private router: Router,
     private loadingService: LoadingService,
     private titleService: Title,
@@ -44,6 +47,19 @@ export class AppComponent implements OnInit {
    */
   ngOnInit() {
     this.loadingService.loading$.subscribe(res => this.loading = res);
+
+    // check for platform update
+    if (this.swUpdate.isEnabled) {
+      interval(30000).subscribe(() => {
+        this.swUpdate.checkForUpdate();
+      });
+      this.swUpdate.available.subscribe(() => {
+        console.log('A newer version of Pharos is available!');
+        this.swUpdate.activateUpdate();
+        location.reload();
+      });
+    }
+
     this.router.events
       .subscribe((e: any) => {
         if (e instanceof NavigationStart) {
@@ -57,7 +73,6 @@ export class AppComponent implements OnInit {
           this.runTutorial();
         }
       });
-    this.runTutorial();
   }
 
   /**
@@ -73,7 +88,7 @@ export class AppComponent implements OnInit {
     const page = this.tourService.getPage();
     switch (tutorial) {
       case TourType.WhatsNew38:
-        this.tourService.whatsnew38();
+        this.tourService.whatsNew(true);
         break;
       case TourType.CustomTargetListTour:
         this.tourService.customTargetLists();
@@ -93,11 +108,14 @@ export class AppComponent implements OnInit {
       case TourType.UpsetChartTour:
         this.tourService.upsetPlotTour(page[0]);
         break;
+      default:
+        this.tourService.whatsNew(false);
+        break;
     }
   }
 
   getTitle(state, parent) {
-    var data = [];
+    const data = [];
     const url = [];
     if (parent && parent.snapshot.data && parent.snapshot.data.title) {
       const subpath = parent.snapshot.url?.length > 1 ? parent.snapshot.url[1].path : '';

@@ -20,6 +20,20 @@ export enum TourType {
   providedIn: 'root'
 })
 export class TourService {
+
+  constructor(
+    private centralStorageService: CentralStorageService,
+    private localStorageService: LocalStorageService,
+    private router: Router,
+    private breakpointObserver: BreakpointObserver,
+    @Inject(PLATFORM_ID) private platformID: any) {
+    if (isPlatformBrowser(this.platformID)) {
+      this.loadPromise = import('angular-shepherd').then((shepherdLib: any) => {
+        this.shepherdService = new shepherdLib.ShepherdService();
+      });
+      this.setSizeCutoffs();
+    }
+  }
   static nextButton = {
     classes: 'shepherd-button shepherd-button-primary',
     text: 'Next',
@@ -72,20 +86,6 @@ export class TourService {
   menuIsHidden = false;
   signinIsHidden = false;
   anatomogramIsHidden = false;
-
-  constructor(
-    private centralStorageService: CentralStorageService,
-    private localStorageService: LocalStorageService,
-    private router: Router,
-    private breakpointObserver: BreakpointObserver,
-    @Inject(PLATFORM_ID) private platformID: any) {
-    if (isPlatformBrowser(this.platformID)) {
-      this.loadPromise = import('angular-shepherd').then((shepherdLib: any) => {
-        this.shepherdService = new shepherdLib.ShepherdService();
-      });
-      this.setSizeCutoffs();
-    }
-  }
 
   runTutorial(tutorialName: string) {
     if (!isPlatformBrowser(this.platformID)) {
@@ -155,19 +155,34 @@ export class TourService {
     }
   }
 
-  whatsnew38() {
+  whatsNew(manual: boolean = false) {
+    if (!isPlatformBrowser(this.platformID)) {
+      return;
+    }
+    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew38)) { // only autorun once
+      return;
+    }
+    this.loadPromise.then(() => {
+      this.runWhatsNew();
+    });
+  }
+  runWhatsNew() {
     const defaultSteps = [
       {
         id: 'whats_new_begin',
-        attachTo: {
-          element: '#jinkies',
-          on: 'center'
-        },
         scrollTo: false,
-        // scrollToHandler: this.tourScroller.bind({section: 'structure-search-container', platformID: this.platformID}),
         buttons: this.firstButtons.slice(),
-        title: 'What\'s new?',
-        text: ['We won\'t know until it\'s over.']
+        title: 'What\'s new in Pharos 3.8?',
+        text: ['Pharos has many new features in version 3.8, including UpSet Charts for filters on the list pages, heatmaps for ' +
+        'expression data, AlphaFold structures for targets, and several usability improvements. Click next for a tour of new features ' +
+        'and where to find them.']
+      },
+      {
+        id: 'whats_elses_new',
+        scrollTo: false,
+        buttons: this.lastButtons.slice(),
+        title: 'What\'s else\'s new?',
+        text: ['More stuff that\'s new will be new, I\'ll tell you later?']
       }
     ];
     this.shepherdService.defaultStepOptions = this.defaultStepOptions;
@@ -213,6 +228,13 @@ export class TourService {
     } else {
       defaultSteps.push(...[
         {
+          beforeShowPromise: () => {
+            return new Promise((resolve: any) => {
+              setTimeout(() => {
+                resolve();
+              }, 300);
+            });
+          },
           id: 'pdbView',
           attachTo: {
             element: '#pdbview',
@@ -313,6 +335,13 @@ export class TourService {
     const model = models.slice(0, models.length - 1);
     const defaultSteps = [
       {
+        beforeShowPromise: () => {
+          return new Promise((resolve: any) => {
+            setTimeout(() => {
+              resolve();
+            }, 300);
+          });
+        },
         id: 'upset-plot',
         attachTo: {
           element: '.facet-visualizations',
@@ -384,6 +413,13 @@ export class TourService {
   runCustomTargetListTour() {
     const defaultSteps = [
       {
+        beforeShowPromise: () => {
+          return new Promise((resolve: any) => {
+            setTimeout(() => {
+              resolve();
+            }, 300);
+          });
+        },
         id: 'custom-target-list-begin',
         attachTo: {
           element: '.upload-target-list-button',
@@ -463,6 +499,13 @@ export class TourService {
     }
     const defaultSteps = [
       {
+        beforeShowPromise: () => {
+          return new Promise((resolve: any) => {
+            setTimeout(() => {
+              resolve();
+            }, 300);
+          });
+        },
         id: 'list_pages_begin',
         attachTo: {
           element: '#list-pages',
@@ -666,6 +709,13 @@ export class TourService {
   runStructureSearchTour() {
     const defaultSteps = [
       {
+        beforeShowPromise: () => {
+          return new Promise((resolve: any) => {
+            setTimeout(() => {
+              resolve();
+            }, 300);
+          });
+        },
         id: 'structure_search_begin',
         attachTo: {
           element: '#structure-search-container',
@@ -787,6 +837,13 @@ export class TourService {
   runExpressionTour() {
     const defaultSteps = [
       {
+        beforeShowPromise: () => {
+          return new Promise((resolve: any) => {
+            setTimeout(() => {
+              resolve();
+            }, 300);
+          });
+        },
         id: 'expression-start',
         attachTo: {
           element: '#expression',
