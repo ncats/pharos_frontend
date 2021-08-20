@@ -92,12 +92,16 @@ export class TourService {
       return;
     }
     this.loadPromise.then(() => {
+      const page = this.getPage();
       switch (tutorialName) {
         case TourType.TargetExpressionTour:
           this.runExpressionTour();
           break;
         case TourType.ProteinStructureTour:
           this.runProteinStructureTour();
+          break;
+        case TourType.UpsetChartTour:
+          this.runUpsetPlotTour(page[0]);
           break;
       }
     });
@@ -178,11 +182,64 @@ export class TourService {
         'features and where to find them.']
       },
       {
-        id: 'whats_elses_new',
+        id: 'upset_charts',
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'UpSet Charts',
+        text: ['On all list pages, UpSet Charts are available for all categorical filters that can have more than one value. ' +
+        'The UpSet Chart displays counts for the intersections between filter values. You can use the filtering capabilities of the ' +
+        'Upset Chart to filter the lists with more complex boolean logic.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/new38/upset.png"/>']
+      },
+      {
+        id: 'donut_charts',
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Donut Charts',
+        text: ['Filters that only have one value are shown with the old style Donut Chart, since UpSet charts don\'t make that much ' +
+        'sense if each item in the list only has one value.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/new38/donut.png"/>']
+      },
+      {
+        id: 'protein_structure',
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Protein Structures',
+        text: ['The Protein Structure Panel now shows predicted structure information from AlphaFold. There are also some added ' +
+        'capabilities to change the color and representation of the structure display, and some additional columns to help the user ' +
+        'know how much of the protein, and which regions, are included in the experimentally determined structures.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/new38/structure.png"/>']
+      },
+      {
+        id: 'protein_expression',
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Target Expression Data',
+        text: ['The Expression Panel has been simplified and revamped to show a better overview of all the expression data from TCRD. ' +
+        'A filterable heatmap view of expression level and the contributing data sources now accompanies the anatomogram.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/new38/expression.png"/>']
+      },
+      {
+        id: 'resolver_for_structure_search',
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Easier Structure Search',
+        text: ['Loading a chemical structure into the Structure Search tool is easier, now that Pharos will resolve your input using ' +
+        'NCATSFind. Enter a SMILES, UNII, drug name, PubChem ID, Chembl ID, etc. to load a structure to start with.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/new38/resolver.png"/>']
+      },
+      {
+        id: 'tutorials',
         scrollTo: false,
         buttons: this.lastButtons.slice(),
-        title: 'What\'s else\'s new?',
-        text: ['More stuff that\'s new will be new, I\'ll tell you later?']
+        title: 'Tutorials',
+        text: ['Learn how to use the new or advanced features with our tutorials.' +
+        '<br/><img class="tour-small-screenshot" src="./assets/images/new38/tutorials.png"/>']
       }
     ];
     this.shepherdService.defaultStepOptions = this.defaultStepOptions;

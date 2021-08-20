@@ -11,6 +11,7 @@ import {Subject} from 'rxjs';
 import {MatTabChangeEvent} from '@angular/material/tabs';
 import {MatDialog} from '@angular/material/dialog';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
+import {TourType} from '../../../pharos-services/tour.service';
 
 /**
  * component to show various facets like a dashboard.
@@ -31,6 +32,7 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
    * data passed to visualization
    */
   displayFacet: Facet;
+  tourType: TourType;
 
   /**
    * list of initial facets to display
@@ -69,6 +71,7 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
    * get list of available facets, then retrieve the first facet (default) on the list
    */
   ngOnInit() {
+    this.tourType = TourType.UpsetChartTour;
     this._data
       // listen to data as long as term is undefined or null
       .pipe(
