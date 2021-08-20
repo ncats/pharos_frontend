@@ -248,7 +248,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(TourType.WhatsNew38, 'What\'s new?', event);
+        this.completeTour(TourType.WhatsNew38, event);
       });
     });
     this.shepherdService.start();
@@ -365,7 +365,7 @@ export class TourService {
           if (abortTour) {
             this.removeTourParam();
           } else {
-            this.completeTour(TourType.ProteinStructureTour, 'Protein Structure', event);
+            this.completeTour(TourType.ProteinStructureTour, event);
           }
         });
     });
@@ -452,7 +452,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(TourType.UpsetChartTour, 'Upset Plots', event);
+        this.completeTour(TourType.UpsetChartTour, event);
       });
     });
     this.shepherdService.start();
@@ -511,7 +511,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(TourType.CustomTargetListTour, 'Custom Target Lists', event);
+        this.completeTour(TourType.CustomTargetListTour, event);
       });
     });
     this.shepherdService.start();
@@ -748,7 +748,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(TourType.ListPagesTour, 'Pharos List Page Tutorial', event);
+        this.completeTour(TourType.ListPagesTour, event);
       });
     });
     this.shepherdService.start();
@@ -858,19 +858,20 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(TourType.StructureSearchTour, 'Structure Search', event);
+        this.completeTour(TourType.StructureSearchTour, event);
       });
     });
     this.shepherdService.start();
   }
 
-  completeTour(localStorageKey: string, title: string, result: string) {
+  completeTour(tourType: TourType, result: string) {
     this.removeTourParam();
-    const prevResult = this.localStorageService.store.getItem(localStorageKey);
+    const prevResult = this.localStorageService.store.getItem(tourType);
     if (prevResult === 'complete' || (prevResult === 'cancel' && result === 'cancel')) {
       return;
     }
-    this.localStorageService.store.setItem(localStorageKey, result);
+    this.localStorageService.store.setItem(tourType, result);
+    const title = this.allTutorials.find(t => t.storageKey === tourType)?.title;
     const defaultSteps = [
       {
         id: 'complete',
@@ -966,7 +967,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(TourType.TargetExpressionTour, 'Target Expression', event);
+        this.completeTour(TourType.TargetExpressionTour, event);
       });
     });
     this.shepherdService.start();
