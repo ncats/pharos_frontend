@@ -6,6 +6,7 @@
     * The table also shows some relevant details of the experimental structures, like the residues included in the structure, and the fraction of the total protein in the structure.
 * **Expression Panel Improvements**
     * The Expression Panel has been simplified and improved to show a heatmap of tissues and data sources.
+    * GTEx data is now included along with the other data sources.
 * **Tutorials**
     * There are several tutorials to walk people through the new features of Pharos, or some of the lesser known features
     * Chemical structure search, the UpSet Charts, Uploading Custom Target Lists, etc. See the main menu item "Tutorials" to access them.
