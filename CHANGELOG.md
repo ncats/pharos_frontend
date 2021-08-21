@@ -1,3 +1,20 @@
+# 3.8.0 (2021-09-01)
+### Added Features
+* **AlphaFold Structures**
+    * Structures from DeepMind and EMBL-EBI are shown alongside experimentally determined structures
+    * The Protein Structure Panel has some other improvements, such as the capacity to change the representation and coloring of the structures.
+    * The table also shows some relevant measures of experimental structures like the residues included in the structure, and the fraction of the total protein in the structure.
+* **Expression Panel Improvments**
+    * The Expression Panel has been simplified and improved to show a heatmap of tissues and data sources.
+* **Tutorials**
+    * There are several tutorials to walk people through the new features of Pharos, or some of the lesser known features
+    * Chemical structure search, the UpSet Charts, Uploading Custom Target Lists, etc.
+
+### Bug Fixes / Miscellaneous updates
+* Structure Search now parses input from many different formats
+* Filter visualizations on the list pages show either a Donut Chart, or an UpSet Chart. Previously there were tabs to show both of them.
+_______________
+
 # 3.7.0 (2021-07-01)
 ### Added Features
 * **Structure Search**

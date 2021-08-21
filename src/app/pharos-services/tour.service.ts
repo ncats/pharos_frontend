@@ -4,6 +4,7 @@ import {isPlatformBrowser} from '@angular/common';
 import {NavigationExtras, Router} from '@angular/router';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {CentralStorageService} from './central-storage.service';
+import {environment} from '../../environments/environment';
 
 export enum TourType {
   ListPagesTour = 'ListPagesTour',
@@ -27,6 +28,7 @@ export class TourService {
     private router: Router,
     private breakpointObserver: BreakpointObserver,
     @Inject(PLATFORM_ID) private platformID: any) {
+    this.isDev = !environment.production;
     if (isPlatformBrowser(this.platformID)) {
       this.loadPromise = import('angular-shepherd').then((shepherdLib: any) => {
         this.shepherdService = new shepherdLib.ShepherdService();
@@ -34,6 +36,7 @@ export class TourService {
       this.setSizeCutoffs();
     }
   }
+
   static nextButton = {
     classes: 'shepherd-button shepherd-button-primary',
     text: 'Next',
@@ -69,6 +72,7 @@ export class TourService {
     {title: 'Viewing Protein Structure Data', storageKey: TourType.ProteinStructureTour},
     {title: 'Viewing Target Expression Data', storageKey: TourType.TargetExpressionTour},
   ];
+  isDev = false;
   onlyButton = [TourService.okayButton];
   firstButtons = [TourService.cancelButton, TourService.nextButton];
   middleButtons = [TourService.cancelButton, TourService.backButton, TourService.nextButton];
@@ -170,6 +174,7 @@ export class TourService {
       this.runWhatsNew();
     });
   }
+
   runWhatsNew() {
     const defaultSteps = [
       {
@@ -361,13 +366,13 @@ export class TourService {
     this.shepherdService.confirmCancel = false;
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
-        this.shepherdService.tourObject.on(event, () => {
-          if (abortTour) {
-            this.removeTourParam();
-          } else {
-            this.completeTour(TourType.ProteinStructureTour, event);
-          }
-        });
+      this.shepherdService.tourObject.on(event, () => {
+        if (abortTour) {
+          this.removeTourParam();
+        } else {
+          this.completeTour(TourType.ProteinStructureTour, event);
+        }
+      });
     });
     this.shepherdService.start();
   }
@@ -835,23 +840,26 @@ export class TourService {
           on: 'top'
         },
         scrollTo: false,
-        buttons: this.middleButtons.slice(),
+        buttons: this.isDev ? this.middleButtons.slice() : this.lastButtons.slice(),
         title: 'Search Method',
         text: ['Choose your search method, either by whole structure similarity, or substructure similarity. Results are ranked ' +
         'according to the Tanimoto Similarity, and can be filtered after the search is complete.']
-      },
-      {
-        id: 'predicted-targets-search',
-        attachTo: {
-          element: '#predicted-targets-search',
-          on: 'top'
-        },
-        scrollToHandler: this.tourScroller.bind({section: 'predicted-targets-search', platformID: this.platformID}),
-        buttons: this.lastButtons.slice(),
-        title: 'Finding Predicted Targets',
-        text: ['This tool will search for targets predicted to have activity against the query structure.']
-      }
-    ];
+      }];
+    if (this.isDev) {
+      defaultSteps.push(
+        {
+          id: 'predicted-targets-search',
+          attachTo:
+            {
+              element: '#predicted-targets-search',
+              on: 'top'
+            },
+          scrollToHandler: this.tourScroller.bind({section: 'predicted-targets-search', platformID: this.platformID}),
+          buttons: this.lastButtons.slice(),
+          title: 'Finding Predicted Targets',
+          text: ['This tool will search for targets predicted to have activity against the query structure.']
+        });
+    }
     this.shepherdService.defaultStepOptions = this.defaultStepOptions;
     this.shepherdService.modal = true;
     this.shepherdService.confirmCancel = false;
