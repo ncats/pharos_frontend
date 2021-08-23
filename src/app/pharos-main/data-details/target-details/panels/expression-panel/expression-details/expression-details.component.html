@@ -1,0 +1,15 @@
+<div class="tissue-header">
+  <mat-card-title>{{selectedTissue}}</mat-card-title>
+  <span class="uberon-id" *ngIf="selectedUberon && selectedUberon.uid && selectedUberon.uid.length > 0"> ({{selectedUberon.uid}})</span>
+  <div fxFlex=""></div>
+  <button mat-menu-item (click)="closeDetails()" class="closeButton">
+    <mat-icon [color]="'primary'" matTooltip="Complete">close</mat-icon>
+  </button>
+</div>
+<div class="source-text" *ngIf="filteredGTEX?.length > 0">GTEx</div>
+<pharos-expression-details-block [expressions]="filteredGTEX"></pharos-expression-details-block>
+
+<ng-container *ngFor="let keyvalue of filteredExpressionMap | keyvalue">
+  <div class="source-text">{{keyvalue.key}}</div>
+  <pharos-expression-details-block [expressions]="keyvalue.value"></pharos-expression-details-block>
+</ng-container>

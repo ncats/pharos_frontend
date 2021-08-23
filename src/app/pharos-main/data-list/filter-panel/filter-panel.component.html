@@ -1,4 +1,4 @@
-<div class="facet-list" [ngClass]="{ 'full-width': fullWidth}">
+<div class="facet-list" [ngClass]="{ 'full-width': fullWidth}" id="facets">
   <div class="close-button" [dir]="'rtl'">
     <button mat-icon-button (click)="toggleMenu()" class="close-button" aria-label="Close filter panel">
       <mat-icon>close</mat-icon>
@@ -49,7 +49,8 @@
       <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
     </div>
     <div *ngFor="let facet of nonEmptyFacets(); trackBy: trackByFn;">
-      <mat-expansion-panel [expanded]=true *ngIf="facet.values.length > 0" class="full-height">
+      <mat-expansion-panel [expanded]=true *ngIf="facet.values.length > 0" class="filter-panel full-height"
+                           [id]="getFacetPanelID(facet)">
         <mat-expansion-panel-header [ngClass]="{prediction: facetIsPrediction(facet)}">
           <mat-panel-title>
             <span>

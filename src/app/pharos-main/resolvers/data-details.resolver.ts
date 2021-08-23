@@ -6,11 +6,14 @@ import {LoadingService} from '../../pharos-services/loading.service';
 import {PharosBase, Serializer} from '../../models/pharos-base';
 import {catchError, map} from 'rxjs/internal/operators';
 import {isPlatformBrowser} from '@angular/common';
+import {CentralStorageService} from '../../pharos-services/central-storage.service';
 
 /**
  * resolves the details for a specific object
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class DataDetailsResolver implements Resolve<any> {
 
   /**
@@ -19,6 +22,7 @@ export class DataDetailsResolver implements Resolve<any> {
    * @param {PharosApiService} pharosApiService
    */
     constructor(
+                private centralStorageService: CentralStorageService,
                 public loadingService: LoadingService,
                 private pharosApiService: PharosApiService,
                 @Inject(PLATFORM_ID) private platformID: any) {  }
@@ -47,6 +51,7 @@ export class DataDetailsResolver implements Resolve<any> {
           const tobj = serializer.fromJson(response);
           retObj[path] = tobj;
           retObj[`${path}Props`] = serializer._asProperties(tobj);
+          this.centralStorageService.setTourData('details', retObj);
           return retObj;
         }),
         catchError(err => {

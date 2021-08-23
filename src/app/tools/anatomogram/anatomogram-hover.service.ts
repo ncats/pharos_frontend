@@ -4,11 +4,13 @@ import {DataProperty} from '../generic-table/components/property-display/data-pr
 import {BehaviorSubject} from 'rxjs/index';
 
 /**
- * service to pass a hovered tissue string from any component to a anatamagram component
+ * service to pass a hovered tissue string from any component to a anatomagram component
  * not injected in root
  */
-@Injectable()
-export class AnatamogramHoverService {
+@Injectable({
+  providedIn: 'root'
+})
+export class AnatomogramHoverService {
 
   /**
    * RXJS Subject to pass value changes

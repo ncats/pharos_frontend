@@ -1,4 +1,4 @@
-<section>
+<section class="model-list">
   <div *ngIf="targets">
     <mat-toolbar [color]="'primary'" class="target-table-toolbar">
       <div class=modellist-header>Targets <span *ngIf="pageData">({{pageData.total}})</span>
@@ -13,11 +13,11 @@
             <mat-icon>playlist_add</mat-icon>
           </button>
         </span>
-        <button mat-button class="tool-button" (click)="batchUpload()"
+        <button mat-button class="tool-button upload-target-list-button" (click)="batchUpload()"
                 matTooltip="Upload Target List">
           <mat-icon>upload</mat-icon>
         </button>
-        <button mat-button class="tool-button" (click)="downloadData()"
+        <button mat-button class="tool-button list-download" (click)="downloadData()"
                 matTooltip="Download Target List Data">
           <mat-icon>download</mat-icon>
         </button>
@@ -32,7 +32,7 @@
                       [indeterminate]="this.someSelected()">Selected {{this.rowSelection.selected.length}} targets
         </mat-checkbox>
       </div>
-      <div class="sort-select">
+      <div class="sort-select model-list-sort">
         <mat-form-field class="sort-dropdown">
           <mat-select [(value)]="this.selectedSortObject" placeholder="Sort" (valueChange)="sortChanged($event)"
                       matTooltip="Sort the target list" [compareWith]="compareSortKeys">
@@ -48,7 +48,7 @@
         </button>
       </div>
       <div fxFlex="75" fxFlexAlign="end">
-        <mat-paginator
+        <mat-paginator class="model-list-paginator"
           [pageSize]=pageData.top
           [pageIndex]="pageData.skip / pageData.top"
           [length]=pageData.total
@@ -72,7 +72,7 @@
     </div>
     <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row">
       <div fxFlex="100" fxFlexAlign="end">
-        <mat-paginator
+        <mat-paginator class="model-list-paginator"
           [pageSize]=pageData.top
           [pageIndex]="pageData.skip / pageData.top"
           [length]=pageData.total

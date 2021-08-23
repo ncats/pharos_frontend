@@ -5,7 +5,7 @@
 
 .pdb-holder {
   height: 40vh;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 @media only screen and (max-width: 768px) {
@@ -13,10 +13,22 @@
     flex-direction: column;
   }
 }
-
+.halfWidth{
+  width: 48%;
+}
+.fullWidth{
+  width: 95%;
+}
 .image-container{
+  min-height: 400px;
+}
+.pdb-options {
   display: flex;
-  place-content: center space-evenly;
-  align-items: flex-start;
-  min-height: 468px;
+  flex-direction: column;
+}
+.modelOption{
+  font-size: large;
+}
+mat-radio-group.pdb-options {
+  padding-top: 20px
 }

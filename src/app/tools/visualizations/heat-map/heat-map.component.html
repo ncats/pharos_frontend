@@ -1,0 +1,38 @@
+<div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+  <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+</div>
+<div class="twod-container">
+  <div class="tissue-search" >
+  <mat-slide-toggle [(ngModel)]="tissueSearchOn" (change)="updateChart()">{{tissueSearchOn ? 'Tissue Search' : 'Text Search'}}</mat-slide-toggle>
+  <mat-form-field appearance="fill" *ngIf="!tissueSearchOn">
+    <mat-label>Filter Tissues by Name</mat-label>
+    <input matInput aria-label="Tissue Text Search" type="text" class="filter-tissues" [(ngModel)]="filterTextValue" (change)="tissueTextSearch($event)"/>
+    <button *ngIf="filterTextValue" matSuffix mat-icon-button aria-label="Clear" (click)="clearFilter()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <mat-form-field appearance="fill" *ngIf="tissueSearchOn">
+    <mat-label>Search Uberon Hierarchy</mat-label>
+    <input type="text"
+           aria-label="Tissue Select"
+           matInput (close)="tissueSelected($event)"
+           [formControl]="filterControl"
+           [matAutocomplete]="auto">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (onSelectionChange)="tissueSelected($event)">
+        {{option}}
+      </mat-option>
+    </mat-autocomplete>
+    <button *ngIf="filterTissue" matSuffix mat-icon-button aria-label="Clear" (click)="clearFilter()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <mat-radio-group *ngIf="tissueSearchOn" class="ancestor-radio-group" [(ngModel)]="selectedAncestor" (change)="updateChart()">
+    <mat-radio-button class="ancestor-radio-button" *ngFor="let tissue of tissueAncestors" [value]="tissue.name">
+      {{tissue}}
+    </mat-radio-button>
+  </mat-radio-group>
+  </div>
+  <div class="d3-chart-2d" id="twoDChartTarget" #twoDChartTarget></div>
+</div>

@@ -4,6 +4,7 @@ import { VisualizationOptionsComponent } from './visualization-options.component
 import {RouterTestingModule} from '@angular/router/testing';
 import {APP_BASE_HREF} from '@angular/common';
 import {SharedModule} from '../../../../shared/shared.module';
+import {TESTFACET} from '../../../../../../test/test-facet';
 
 describe('VisualizationOptionsComponent', () => {
   let component: VisualizationOptionsComponent;
@@ -28,9 +29,7 @@ describe('VisualizationOptionsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(VisualizationOptionsComponent);
     component = fixture.componentInstance;
-    component.facets = [
-      {facet: 'tim', values: [{name: 'tim'}], count: 40, dataType: 'Category', upSets: []}
-    ];
+    component.facets = [TESTFACET];
     fixture.detectChanges();
   });
 

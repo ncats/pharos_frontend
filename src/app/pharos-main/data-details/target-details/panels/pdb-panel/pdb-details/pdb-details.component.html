@@ -4,7 +4,7 @@
     <div class="ligand-container">
       <div *ngFor="let lig of pdbResult.ligands">
         {{lig.names[0]}} ({{lig.id}})
-        <pharos-structure-view [smiles]="lig.smiles || lig.canonical_smiles"></pharos-structure-view>
+        <pharos-structure-view [smiles]="lig.smiles || lig.canonicalSmiles"></pharos-structure-view>
       </div>
     </div>
   </div>
