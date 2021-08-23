@@ -1,11 +1,17 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, Input, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
 import {slideInOutAnimation} from './header-animations';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {LoginModalComponent} from '../../auth/login-modal/login-modal.component';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSidenav} from '@angular/material/sidenav';
 import {PharosProfileService} from '../../auth/pharos-profile.service';
 import {HeaderOptionsService} from '../../pharos-services/header-options.service';
+import {SelectedFacetService} from '../../pharos-main/data-list/filter-panel/selected-facet.service';
+import {PathResolverService} from '../../pharos-main/data-list/filter-panel/path-resolver.service';
+import {Facet} from '../../models/facet';
+import {LocalStorageService} from '../../pharos-services/local-storage.service';
+import {isPlatformBrowser} from '@angular/common';
+import {TourType, TourService} from '../../pharos-services/tour.service';
 
 
 /**
@@ -51,7 +57,11 @@ export class NcatsHeaderComponent implements OnInit {
     public dialog: MatDialog,
     private route: ActivatedRoute,
     private headerOptionsService: HeaderOptionsService,
-    private profileService: PharosProfileService
+    public tourService: TourService,
+    private profileService: PharosProfileService,
+    private router: Router,
+    private localStorage: LocalStorageService,
+    @Inject(PLATFORM_ID) private platformID: any
   ) {
   }
 
@@ -82,6 +92,73 @@ export class NcatsHeaderComponent implements OnInit {
     }
   }
 
+  getRequiredPath(tutorial: string) {
+    switch (tutorial) {
+      case TourType.StructureSearchTour:
+        return '/structure';
+      case TourType.CustomTargetListTour:
+        return '/targets';
+    }
+    return '/';
+  }
+
+  gotoTutorial(tutorial: string) {
+    const path = this.tourService.getPage();
+    const onListPage = ['diseases', 'ligands', 'targets'].includes(path[0]) && path.length === 1;
+    if (tutorial === TourType.CustomTargetListTour) {
+      const navigationExtras: NavigationExtras = {
+        queryParamsHandling: (path[0] === 'targets' ? 'merge' : ''),
+        queryParams: {
+          tutorial
+        },
+      };
+      this.router.navigate([this.getRequiredPath(tutorial)], navigationExtras);
+      return;
+    }
+    else if (tutorial === TourType.StructureSearchTour) {
+      const navigationExtras: NavigationExtras = {
+        queryParamsHandling: '',
+        queryParams: {
+          tutorial
+        },
+      };
+      this.router.navigate( [this.getRequiredPath(tutorial)], navigationExtras);
+      return;
+    }
+    else if (tutorial === TourType.ListPagesTour || tutorial === TourType.UpsetChartTour) {
+      const navigationExtras: NavigationExtras = {
+        queryParamsHandling: (onListPage ? 'merge' : ''),
+        queryParams: {
+          tutorial
+        },
+      };
+      this.router.navigate([onListPage ? path[0] : '/targets'], navigationExtras);
+    }
+    else if (tutorial === TourType.TargetExpressionTour || tutorial === TourType.ProteinStructureTour) {
+      const navigationExtras: NavigationExtras = {
+        queryParamsHandling: '',
+        queryParams: {
+          tutorial
+        },
+      };
+      if (path[0] === 'targets' && path.length > 1) {
+        this.router.navigate([path.join('/')], navigationExtras);
+      } else {
+        const defaultPath = tutorial === TourType.TargetExpressionTour ? '/targets/camk2a' : '/targets/drd2';
+        this.router.navigate([defaultPath], navigationExtras);
+      }
+    }
+    else {
+      const navigationExtras: NavigationExtras = {
+        queryParamsHandling: (onListPage ? 'merge' : ''),
+        queryParams: {
+          tutorial
+        },
+      };
+      this.router.navigate(path, navigationExtras);
+    }
+  }
+
   /**
    * opens modal for user to sign in
    */
@@ -102,6 +179,10 @@ export class NcatsHeaderComponent implements OnInit {
     // w.ATL_JQ_PAGE_PROPS.fieldValues = w.ATL_JQ_PAGE_PROPS.fieldValues || {};
     // w.ATL_JQ_PAGE_PROPS.fieldValues.description = 'something by default';
     w.showCollectorDialog();
+  }
+
+  tutorialComplete(tutorial: string) {
+    return isPlatformBrowser(this.platformID) && this.localStorage.store.getItem(tutorial) === 'complete';
   }
 
   /**

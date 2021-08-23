@@ -81,7 +81,8 @@ export class FieldSelectionDialogComponent implements OnInit {
               this.associatedLigand ? 'Ligand' : '',
       similarityQuery,
       associatedLigand: this.associatedLigand,
-      associatedSmiles: this.associatedStructure
+      associatedSmiles: this.associatedStructure,
+      associatedTarget: this.associatedTarget
     };
     this.pharosApiService.adHocQuery(this.pharosApiService.FieldQuery, variables).subscribe({
         next: res => {

@@ -17,6 +17,7 @@ import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../test/mock-activate-route';
 import {Facet} from '../../../models/facet';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {TESTFACET} from '../../../../../test/test-facet';
 
 
 describe('DataListVisualizationsComponent', () => {
@@ -52,8 +53,8 @@ describe('DataListVisualizationsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DataListVisualizationsComponent);
     component = fixture.componentInstance;
-    component.data = {facets: []};
-    component.displayFacet = {facet: 'facet', values: []} as Facet;
+    component.data = {facets: [TESTFACET]};
+    component.displayFacet = TESTFACET;
     fixture.detectChanges();
   });
 

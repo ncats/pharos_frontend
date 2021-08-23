@@ -57,3 +57,35 @@ img.hg {
   margin-bottom: 2vh;
   margin-top: 2vh;
 }
+
+.heatmap-container {
+  overflow-y: scroll;
+  height: 100%;
+}
+
+.heatmap-container.halfHeight{
+  border-bottom: 1px solid;
+}
+
+.halfHeight {
+  overflow-y: scroll;
+  height: 48%;
+}
+.details-container {
+  padding: 10px;
+}
+
+.anatomogram-container {
+  height: 100%;
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
+.section {
+  max-height: 650px;
+  width: 600px;
+}
+.matrix-anatomogram {
+  display: flex;
+  flex-direction: row;
+}

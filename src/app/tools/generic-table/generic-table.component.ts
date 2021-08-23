@@ -71,6 +71,10 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
     this._data.next(value);
   }
 
+  @Input() highlightFunction = (row) => {
+    return false;
+  }
+
   /**
    * returns value of {BehaviorSubject}
    */
@@ -468,6 +472,10 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
       this.dataSource.data.forEach(row => this.selection.select(row));
     this.ref.detectChanges();
 
+  }
+
+  getFieldValue(row, field) {
+    return row[field];
   }
 
   /**

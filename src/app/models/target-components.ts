@@ -441,6 +441,10 @@ export const TARGETDETAILSFIELDS = gql`
       name
       value
     }
+    alphaFoldStructures: xrefs(source:"AlphaFold Structure") {
+      structure:name
+      uniprot:value
+    }
     ensemblIDs: xrefs(source:"Ensembl") {
       name
     }
@@ -554,6 +558,7 @@ export const TARGETDETAILSFIELDS = gql`
       ]
     }) {
       type
+      sourceRank: source_rank
       tissue
       qual
       url
@@ -567,6 +572,24 @@ export const TARGETDETAILSFIELDS = gql`
       uberon {
         name
         uid
+        ancestors {
+          name
+          uid
+        }
+      }
+    }
+    gtex {
+      tissue
+      gender
+      tpm
+      tpm_rank
+      uberon {
+        name
+        uid
+        ancestors {
+          name
+          uid
+        }
       }
     }
     uniprotKeyword:xrefs (source: "UniProt Keyword") {

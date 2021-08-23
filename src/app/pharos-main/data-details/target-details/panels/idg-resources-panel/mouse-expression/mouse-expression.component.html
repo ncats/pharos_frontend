@@ -1,7 +1,7 @@
 <div class="content-container" *ngIf="mouseExpressions && mouseExpressions.length > 0">
 <div class="content-panel">
-  <pharos-anatamogram [species]="'mus_musculus'" [tissues]="this.tissues" [shadingMap]="this.shadingMap" [shadingKey]="this.shadingKey"
-                      [redrawAnatamogram]="this.redrawAnatamogram" [clickHandler]="this.tissueClicked.bind(this)"></pharos-anatamogram>
+  <pharos-anatomogram [species]="'mus_musculus'" [tissues]="this.tissues" [shadingMap]="this.shadingMap" [shadingKey]="this.shadingKey"
+                      [redrawAnatomogram]="this.redrawAnatomogram" [clickHandler]="this.tissueClicked.bind(this)"></pharos-anatomogram>
 </div>
 <div class="content-panel">
   <div class="expression-card-list" #expression_card_list>

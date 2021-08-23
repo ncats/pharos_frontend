@@ -16,6 +16,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "showCircularDependencies": false,
+            "allowedCommonJsDependencies": [
+              "rxjs/index", "file-saver", "sql-formatter", "decimal.js", "rxjs/internal/operators", "zen-observable", "ProtVista"
+            ],
             "outputPath": "dist/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -32,7 +36,8 @@
             "styles": [
               "node_modules/ProtVista/build/css/main.css",
               "src/styles.scss",
-              "src/ncats-theme.scss"
+              "src/ncats-theme.scss",
+              "node_modules/shepherd.js/dist/css/shepherd.css"
             ],
             "scripts": [
               "src/assets/vendor/modernizr-custom.js",
@@ -118,6 +123,7 @@
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
+            "showCircularDependencies": false,
             "outputPath": "dist/server",
             "main": "server.ts",
             "tsConfig": "tsconfig.server.json",
