@@ -350,11 +350,6 @@ const PHAROS_FACET_VISUALIZATION_COMPONENT: PharosPanel = {
   },
   api: [
     {
-      description: 'A donut chart showing the marginal counts for the top values for each facet.',
-      field: 'donut',
-      label: 'Donut Chart'
-    },
-    {
       description: 'A bar chart showing counts for intersecting sets for each facet value. The top 5 facet values and their intersections are' +
         ' shown by default. Edit the facet values for custom plots, and filter the list by clicking the bars or circles.',
       field: 'upset',
@@ -690,7 +685,7 @@ const DRUGS_PANEL: PharosPanel = {
 const PDB_PANEL: PharosPanel = {
   token: TOKENS.PDB_PANEL,
   navHeader: {
-    label: 'PDB Viewer',
+    label: 'Protein Structure',
     section: 'pdbview',
     mainDescription: 'List of proteins and ligands sourced from the RCSB PDB database'
   },
@@ -710,60 +705,11 @@ const PDB_PANEL: PharosPanel = {
 const EXPRESSION_PANEL: PharosPanel = {
   token: TOKENS.EXPRESSION_PANEL,
   navHeader: {
-    label: 'Target Expression Data',
+    label: 'Expression Data',
     section: 'expression',
-    mainDescription: 'Expression data from various sources. When possible, tissues on the anatomograms are shaded ' +
-      'according to the level of reported expression for the current data source. Data sources are sorted by the number of ' +
-      'tissues evaluated for expression, but can be resorted alphabetically. Expand the tissue sections to survey data from ' +
-      'all data sources providing evidence for that tissue. Data from the currently selected data source is shown with a ' +
-      'border.'
+    mainDescription: 'Expression data from several sources shown as a heatmap of tissues and data sources, and as a shaded anatomogram.'
   },
-  api: [
-    {
-      field: 'expression',
-      label: 'Human Tab',
-      description: 'Tissues with expression data for this target.'
-    },
-    {
-      field: 'cellTypes',
-      label: 'Cell Types Tab',
-      description: 'Cell types and cell lines with expression data for this target.'
-    },
-    {field: 'tissue', label: 'Tissue', description: 'Name of the tissue corresponding to the expression data.'},
-    {
-      field: 'qual',
-      label: 'Qualitative',
-      description: 'Qualitative description of the expression level (one of: High, Medium, Low, Not Detected). '
-    },
-    {
-      field: 'value',
-      label: 'Value',
-      description: 'Text from the data source about the level of expression in the given tissue.'
-    },
-    {
-      field: 'evidence',
-      label: 'Evidence',
-      description: 'Text from the data source about the evidence (one of: Curated, Approved, Enhanced, Supported).'
-    },
-    {
-      field: 'zscore',
-      label: 'zscore',
-      description: 'A normalized measure from JensenLab Text Mining quantifying the confidence in the expression for this target in this tissue.'
-    },
-    {
-      field: 'conf',
-      label: 'Confidence',
-      description: 'A measure from JensenLab Data Sources quantifying the confidence in the degree of expression for this target in this tissue.'
-    },
-    {field: 'pmid', label: 'Pubmed ID', description: 'Link to the publication for this expression data.'},
-    {field: 'url', label: 'url', description: 'Link to explore this data in the original data source.'},
-    {
-      field: 'dataSources',
-      label: 'Data Source Links',
-      description: 'Expression data comes from a number of data sources. Click the button for links to each of them.',
-      article: ARTICLES.EXPRESSION_DATA_SOURCES_ARTICLE
-    },
-  ]
+  api: []
 };
 
 const ORTHOLOG_VARIANT_PANEL: PharosPanel = {
@@ -847,7 +793,7 @@ const AFFILIATE_LINKS_PANEL: PharosPanel = {
   navHeader: {
     label: 'Related Tools',
     section: 'affiliates',
-    mainDescription: 'A list of related tools that have content for this sprotein. '
+    mainDescription: 'A list of related tools that have content for this protein.'
   }, api: [
     {
       field: 'gototool',

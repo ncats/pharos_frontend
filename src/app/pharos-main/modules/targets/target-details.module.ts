@@ -8,7 +8,6 @@ import {DiseaseSourceComponent} from '../../data-details/target-details/panels/d
 import {DiseaseCardComponent} from '../../data-details/target-details/panels/disease-source-panel/disease-card/disease-card.component';
 import {DiseaseAssociationComponent} from '../../data-details/target-details/panels/disease-source-panel/disease-association/disease-association.component';
 import {ExpressionPanelComponent} from '../../data-details/target-details/panels/expression-panel/expression-panel.component';
-import {ExpressionTissueCardComponent} from '../../data-details/target-details/panels/expression-panel/expression-tissue-card/expression-tissue-card.component';
 import {AaSequencePanelComponent} from '../../data-details/target-details/panels/aa-sequence-panel/aa-sequence-panel.component';
 import {ProteinProteinPanelComponent} from '../../data-details/target-details/panels/protein-protein-panel/protein-protein-panel.component';
 import {ViralInteractionPanelComponent} from '../../data-details/target-details/panels/viral-interaction-panel/viral-interaction-panel.component';
@@ -22,7 +21,6 @@ import {DataResourcePanelComponent} from '../../data-details/target-details/pane
 import {MouseExpressionComponent} from '../../data-details/target-details/panels/idg-resources-panel/mouse-expression/mouse-expression.component';
 import {LigandsPanelComponent} from '../../data-details/target-details/panels/drugs-ligands-panel/ligands-panel/ligands-panel.component';
 import {DrugsPanelComponent} from '../../data-details/target-details/panels/drugs-ligands-panel/drugs-panel/drugs-panel.component';
-import {DifferentialPanelComponent} from '../../data-details/target-details/panels/expression-panel/differential-panel/differential-panel.component';
 import {SharedModule} from '../../../shared/shared.module';
 import {CommonToolsModule} from '../../../tools/common-tools.module';
 import {SharedDetailsModule} from '../../../shared/shared-details.module';
@@ -51,6 +49,8 @@ import {OrthologVariantsComponent} from '../../data-details/target-details/panel
 import {GwasTargetAnalyticsComponent} from '../../data-details/target-details/panels/gwas-target-analytics/gwas-target-analytics.component';
 import {AffiliateLinksComponent} from '../../data-details/target-details/panels/affiliate-links/affiliate-links.component';
 import {TargetPanelBaseComponent} from '../../data-details/target-details/panels/target-panel-base/target-panel-base.component';
+import {ExpressionDetailsComponent} from '../../data-details/target-details/panels/expression-panel/expression-details/expression-details.component';
+import {ExpressionDetailsBlockComponent} from '../../data-details/target-details/panels/expression-panel/expression-details/expression-details-block/expression-details-block.component';
 
 @NgModule({
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
@@ -65,7 +65,6 @@ import {TargetPanelBaseComponent} from '../../data-details/target-details/panels
     PublicationStatisticsComponent,
     RelatedPublicationsComponent,
     ExpressionPanelComponent,
-    ExpressionTissueCardComponent,
     AaSequencePanelComponent,
     ProteinProteinPanelComponent,
     PathwaysPanelComponent,
@@ -85,13 +84,14 @@ import {TargetPanelBaseComponent} from '../../data-details/target-details/panels
     MouseExpressionComponent,
     LigandsPanelComponent,
     DrugsPanelComponent,
-    DifferentialPanelComponent,
     DrugsLigandsPanelComponent,
     OrthologVariantsComponent,
     SequenceLogoComponent,
     SequenceComponent,
     AffiliateLinksComponent,
-    TargetPanelBaseComponent
+    TargetPanelBaseComponent,
+    ExpressionDetailsComponent,
+    ExpressionDetailsBlockComponent
   ],
   imports: [
     CommonModule,
@@ -109,7 +109,6 @@ import {TargetPanelBaseComponent} from '../../data-details/target-details/panels
   exports: [
     DiseaseCardComponent,
     DiseaseAssociationComponent,
-    ExpressionTissueCardComponent,
     VirusDetailsComponent
   ],
   providers: [

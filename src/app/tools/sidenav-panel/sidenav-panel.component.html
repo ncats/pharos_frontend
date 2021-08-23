@@ -12,7 +12,7 @@
          mat-list-item
          class="list-button"
          (click)="scroll(section.section)"
-         [ngClass]="{'active': isActive(section.section)}">
+         [ngClass]="{'active': isActive(section.section)}" [id]="'menu_'+section.section">
         {{section.label}}
       </a>
     </mat-nav-list>

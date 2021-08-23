@@ -28,7 +28,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
    * @type {Subject<any>}
    */
   protected ngUnsubscribe: Subject<any> = new Subject();
-
+  log = true;
   /**
    * initialize a private variable _data, it's a BehaviorSubject
    * @type {BehaviorSubject<any>}
@@ -183,17 +183,15 @@ export class BarChartComponent implements OnInit, OnDestroy {
       .attr('class', 'bar-container')
       .attr('transform', `translate(${this.margin.right}, 0)`);
 
-    if (this.showAxes) {
-      // Add the X Axis
-      this.svg.append('g')
-        .attr('class', 'xaxis')
-        .attr('transform', 'translate(20,' + this.height + ')');
+    // Add the X Axis
+    this.svg.append('g')
+      .attr('class', 'xaxis')
+      .attr('transform', 'translate(20,' + this.height + ')');
 
-      // Add the Y Axis
-      this.svg.append('g')
-        .attr('class', 'yaxis')
-        .attr('transform', `translate(${this.margin.left}, 0)`);
-    }
+    // Add the Y Axis
+    this.svg.append('g')
+      .attr('class', 'yaxis')
+      .attr('transform', `translate(${this.margin.left}, 0)`);
 
     this.svg.append('g')
       .attr('class', 'bar-holder');
@@ -223,25 +221,37 @@ export class BarChartComponent implements OnInit, OnDestroy {
         .paddingInner(0.1);
     }
 
-    const y = d3.scaleLinear()
-      .range([this.height, 0]);
-
     x.domain(this.data.map(d => d[0]));
     const fullData = this.data.slice();
     if (this.expectedData && this.expectedData.length > 0){
       fullData.push(...this.expectedData);
     }
-    y.domain([0, d3.max(fullData, d => +d[1])]);
+
+    const yMin = d3.min(fullData.filter(p => (p[1] > 0)), d => +d[1]);
+    const yMax = d3.max(fullData, d => +d[1]);
+    let y;
+    const logY = (yMax / yMin) > 1000;
+    // const logY = false;
+    if (logY) {
+      y = d3.scaleLog()
+          .range([this.height, 0]);
+      y.domain([yMin, yMax]);
+    } else {
+      y = d3.scaleLinear()
+          .range([this.height, 0]);
+      y.domain([0, yMax]);
+    }
 
     if (this.showAxes) {
       const xAxis = d3.axisBottom()
-        .scale(x);
-
-      const yAxis = d3.axisLeft()
-        .scale(y);
+          .scale(x);
 
       const xaxis = this.svg.select('.xaxis')
-        .call(xAxis);
+          .call(xAxis);
+    }
+    if (this.showAxes || logY) {
+      const yAxis = d3.axisLeft()
+          .scale(y);
 
       this.svg.select('.yaxis')
         .call(yAxis);

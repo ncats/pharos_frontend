@@ -19,6 +19,7 @@ import {COMMON_CONFIG} from '../../test/test-config';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {PharosProfileService} from './auth/pharos-profile.service';
 import {Apollo} from "apollo-angular";
+import {ServiceWorkerModule} from '@angular/service-worker';
 
 describe('AppComponent', () => {
 
@@ -30,6 +31,7 @@ describe('AppComponent', () => {
         SharedModule,
         NcatsHeaderModule,
         PharosLoadingSpinnerModule,
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: false }),
         AngularFireModule.initializeApp(COMMON_CONFIG),
  /*       firebase.initializeTestApp({
           projectId: 'pharos',

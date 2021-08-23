@@ -12,9 +12,9 @@ import {SketcherComponent} from './sketcher.component';
   ],
   providers: [
   ],
-  imports: [
-    CommonModule
-  ]
+    imports: [
+        CommonModule
+    ]
 })
 
 export class SketcherModule { }

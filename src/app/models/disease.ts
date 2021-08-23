@@ -11,6 +11,7 @@ export const DISEASELISTFIELDS = gql`
   fragment diseasesListFields on Disease {
     name
     associationCount
+    datasource_count
     targetCounts {
       name
       value

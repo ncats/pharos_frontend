@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {NavigationExtras, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, NavigationExtras, Router} from '@angular/router';
 import {MolChangeService} from '../tools/marvin-sketcher/services/mol-change.service';
 import {Facet} from '../models/facet';
 import {environment} from '../../environments/environment';
-
+import {ResolverService} from '../pharos-services/resolver.service';
 /**
  * page to search by structure
  */
@@ -27,22 +27,37 @@ export class StructureSearchPageComponent implements OnInit {
    * @type {FormControl}
    */
   smilesCtrl: FormControl = new FormControl();
+  resolverCtrl: FormControl = new FormControl();
+  resolverIsUp = false;
 
   /**
    * add router for navigation
    * @param {Router} _router
    */
   constructor(
+    private _route: ActivatedRoute,
     private _router: Router,
-    private molChangeService: MolChangeService
-    ) {}
+    private molChangeService: MolChangeService,
+    public resolverService: ResolverService
+  ) {
+  }
 
 
   ngOnInit() {
+    this._router.events
+      .subscribe((e: any) => {
+        if (e instanceof NavigationEnd) {
+        }
+      });
+
+    this.resolverIsUp = this.resolverService.resolverIsUp;
     this.isDev = !environment.production;
     this.molChangeService.smilesChanged.subscribe(changeObj => {
       if (changeObj.source !== 'smilesCtrl') {
         this.smilesCtrl.setValue(changeObj.newSmiles);
+      }
+      if (changeObj.source !== 'resolver') {
+        // this.resolverCtrl.setValue('');
       }
     });
     this.typeCtrl.setValue(this.molChangeService.getSearchType());
@@ -51,11 +66,13 @@ export class StructureSearchPageComponent implements OnInit {
     });
   }
 
-  smilesChanged(event){
+  smilesChanged(event) {
+    this.resolverCtrl.setValue('');
+    this.resolverService.responseDetails = {};
     this.molChangeService.updateSmiles(event.target.value, 'smilesCtrl');
   }
 
-  typeChanged(event){
+  typeChanged(event) {
     this.molChangeService.updateSearchType(event);
   }
 
@@ -63,6 +80,7 @@ export class StructureSearchPageComponent implements OnInit {
    * search via url/api navigation
    */
   searchLigands() {
+    this.clearData();
     const navigationExtras: NavigationExtras = {
       queryParams: {
         associatedStructure: (this.typeCtrl.value || 'sim') + Facet.separator + this.smilesCtrl.value,
@@ -75,6 +93,7 @@ export class StructureSearchPageComponent implements OnInit {
    * search via url/api navigation
    */
   searchTargets() {
+    this.clearData();
     const navigationExtras: NavigationExtras = {
       queryParams: {
         associatedStructure: this.smilesCtrl.value,
@@ -82,5 +101,14 @@ export class StructureSearchPageComponent implements OnInit {
       queryParamsHandling: ''
     };
     this._router.navigate(['/targets'], navigationExtras);
+  }
+
+  clearData() {
+    this.resolverService.responseDetails = {};
+    this.resolverCtrl.setValue('');
+  }
+
+  resolveCompound(event) {
+    this.resolverService.resolve(event.target.value);
   }
 }

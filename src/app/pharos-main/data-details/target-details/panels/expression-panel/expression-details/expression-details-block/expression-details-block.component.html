@@ -1,0 +1,12 @@
+<table *ngIf="expressions.length > 0" mat-table [dataSource]="expressions" width="100%">
+  <ng-container *ngFor="let col of displayColumns" [matColumnDef]="col">
+    <th mat-header-cell *matHeaderCellDef> {{col}} </th>
+    <td mat-cell *matCellDef="let row">
+      <ng-template #noLink>{{row[col]}}</ng-template>
+      <a *ngIf="getLink(col, row[col]);else noLink" [href]="getLink(col, row[col])" target="_blank">{{getLinkText(col, row[col])}}</a>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+  <tr mat-row *matRowDef="let rowData; columns: displayColumns"></tr>
+</table>

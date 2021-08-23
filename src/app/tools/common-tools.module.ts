@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {AnatamogramModule} from './anatamogram/anatamogram.module';
+import {AnatomogramModule} from './anatomogram/anatomogram.module';
 import {BatchUploadModalComponent} from './batch-upload-modal/batch-upload-modal.component';
 import {DynamicPanelComponent} from './dynamic-panel/dynamic-panel.component';
 import {DynamicTablePanelComponent} from './dynamic-table-panel/dynamic-table-panel.component';
@@ -24,6 +24,7 @@ import {PPIDataSourcesArticleComponent} from './help-panel/articles/ppidata-sour
 import {PathwayDataSourcesArticleComponent} from './help-panel/articles/pathway-data-sources-article/pathway-data-sources-article.component';
 import {AffiliateLinkComponent} from './affiliate-link/affiliate-link.component';
 import {DynamicPanelBaseComponent} from './dynamic-panel-base/dynamic-panel-base.component';
+import {HeatMapComponent} from './visualizations/heat-map/heat-map.component';
 import {GoTermsEvidenceArticleComponent} from './help-panel/articles/go-terms-evidence-article/go-terms-evidence-article.component';
 import {VennDiagramComponent} from './visualizations/venn-diagram/venn-diagram.component';
 import {FieldSelectionDialogComponent} from './field-selection-dialog/field-selection-dialog.component';
@@ -32,6 +33,7 @@ import { UpsetPlotComponent } from './visualizations/upset-plot/upset-plot.compo
 import { UpsetModule } from './visualizations/upset/upset.module';
 import { UpsetFieldEditComponent } from './upset-field-edit/upset-field-edit.component';
 import {FacetTableModule} from '../pharos-main/data-list/filter-panel/facet-table/facet-table.module';
+import { TutorialLinkComponent } from './tutorial-link/tutorial-link.component';
 
 @NgModule({
   declarations: [
@@ -53,43 +55,47 @@ import {FacetTableModule} from '../pharos-main/data-list/filter-panel/facet-tabl
     PathwayDataSourcesArticleComponent,
     AffiliateLinkComponent,
     GoTermsEvidenceArticleComponent,
+    HeatMapComponent,
     VennDiagramComponent,
     FieldSelectionDialogComponent,
     ModelDetailsComponent,
     UpsetPlotComponent,
-    UpsetFieldEditComponent
+    UpsetFieldEditComponent,
+    TutorialLinkComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
     RouterModule,
-    AnatamogramModule,
+    AnatomogramModule,
     NgxJsonViewerModule,
     GenericTableModule,
     RadarChartModule,
     UpsetModule,
     FacetTableModule
   ],
-  exports: [
-    NcatsHeaderModule,
-    AnatamogramModule,
-    RadarChartModule,
-    GenericTableModule,
-    BatchUploadModalComponent,
-    DynamicPanelComponent,
-    DynamicTablePanelComponent,
-    HelpPanelComponent,
-    IdgLevelIndicatorComponent,
-    KnowledgeTableComponent,
-    LinkListComponent,
-    StructureViewComponent,
-    ProteinStructureViewerComponent,
-    ListFilterComponent,
-    ExploreListButtonComponent,
-    AffiliateLinkComponent,
-    VennDiagramComponent,
-    UpsetPlotComponent
-  ],
+    exports: [
+        NcatsHeaderModule,
+        AnatomogramModule,
+        RadarChartModule,
+        GenericTableModule,
+        BatchUploadModalComponent,
+        DynamicPanelComponent,
+        DynamicTablePanelComponent,
+        HelpPanelComponent,
+        IdgLevelIndicatorComponent,
+        KnowledgeTableComponent,
+        LinkListComponent,
+        StructureViewComponent,
+        ProteinStructureViewerComponent,
+        ListFilterComponent,
+        HeatMapComponent,
+        ExploreListButtonComponent,
+        AffiliateLinkComponent,
+        VennDiagramComponent,
+        UpsetPlotComponent,
+        TutorialLinkComponent
+    ],
   entryComponents: [
     FieldSelectionDialogComponent
   ]

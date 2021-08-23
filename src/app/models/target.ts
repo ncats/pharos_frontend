@@ -78,7 +78,10 @@ export class Target extends PharosBase {
      * list of uniprot ids
      */
     uniprotIds: string[] | any[];
-
+    /**
+     * list of structure files from AlphaFold
+     */
+    alphaFoldStructures: string[] | any[];
     /**
      * list of gene symbols
      */
@@ -230,7 +233,7 @@ export class Target extends PharosBase {
      * list of expression data
      */
     expressions: any[];
-
+    gtex: any[];
     ligandCount = 0;
 
     drugCount = 0;
@@ -327,6 +330,16 @@ export class TargetSerializer implements PharosSerializer {
         obj.parsed = true;
         Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
 
+        if (obj.alphaFoldStructures) {
+            const parser = (name: string) => {
+                const modelNumber = name.split('-')[2];
+                return Number(modelNumber.slice(1));
+            };
+            obj.alphaFoldStructures = obj.alphaFoldStructures.sort((a, b) => {
+                return parser(a.structure) - parser(b.structure);
+            });
+        }
+
         if (json.gwasAnalytics) {
           obj.gwasAnalytics = new GwasTargetAnalytics(json.gwasAnalytics);
         }
@@ -361,12 +374,24 @@ export class TargetSerializer implements PharosSerializer {
                 pathList.push(pathObj);
             });
         }
-
+        if (json.gtex) {
+            json.gtex.forEach(ex => {
+                if (ex.uberon && ex.uberon.uid) {
+                    ex.uberon.uid = ex.uberon.uid.replace(':', '_');
+                    if (ex.uberon.ancestors && ex.uberon.ancestors.length > 0) {
+                      ex.uberon.ancestors.forEach(a => a.uid = a.uid.replace(':', '_'));
+                    }
+                }
+            });
+        }
         if (json.expressions) { // deduplicate expresssions, and translate uberon ID
             const map = new Map<string, any>();
             for (let i = 0; i < json.expressions.length; i++) {
                 if (json.expressions[i].uberon && json.expressions[i].uberon.uid) {
                     json.expressions[i].uberon.uid = json.expressions[i].uberon.uid.replace(':', '_');
+                    if (json.expressions[i].uberon.ancestors && json.expressions[i].uberon.ancestors.length > 0) {
+                      json.expressions[i].uberon.ancestors.forEach(a => a.uid = a.uid.replace(':', '_'));
+                    }
                 }
                 map.set(JSON.stringify(json.expressions[i]), json.expressions[i]);
             }

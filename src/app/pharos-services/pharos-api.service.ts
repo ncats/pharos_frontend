@@ -237,9 +237,9 @@ export class PharosApiService {
   }
 
 
-  public FieldQuery = gql`query fieldQuery($model: String, $associatedModel: String, $similarityQuery: Boolean, $associatedLigand: String, $associatedSmiles: String) {
+  public FieldQuery = gql`query fieldQuery($model: String, $associatedModel: String, $similarityQuery: Boolean, $associatedLigand: String, $associatedSmiles: String, $associatedTarget: String) {
       configuration {
-        downloadLists(modelName: $model, associatedModelName: $associatedModel, similarityQuery: $similarityQuery, associatedLigand: $associatedLigand, associatedSmiles: $associatedSmiles) {
+        downloadLists(modelName: $model, associatedModelName: $associatedModel, similarityQuery: $similarityQuery, associatedLigand: $associatedLigand, associatedSmiles: $associatedSmiles, associatedTarget: $associatedTarget) {
           listName
           field {
             order
@@ -799,7 +799,7 @@ export class PharosApiService {
       }
       return this.apollo.query<any>({query: this.UpsetQuery(), variables}).toPromise();
     }).catch(err => {
-      err;
+      alert(err.message);
     });
   }
 

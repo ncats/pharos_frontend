@@ -1,26 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {AnatomogramImageComponent} from '../anatamogram/anatomogram-image/anatomogram-image.component';
+import {AnatomogramImageComponent} from './/anatomogram-image/anatomogram-image.component';
 import {SharedModule} from '../../shared/shared.module';
-import {AnatamogramComponent} from '../anatamogram/anatamogram.component';
-import {AnatamogramHoverService} from './anatamogram-hover.service';
+import {AnatomogramComponent} from './anatomogram.component';
+import {AnatomogramHoverService} from './anatomogram-hover.service';
 import {MaterialModule} from '../../../assets/material/material.module';
 
 @NgModule({
   declarations: [
     AnatomogramImageComponent,
-    AnatamogramComponent
+    AnatomogramComponent
   ],
   exports: [
     AnatomogramImageComponent,
-    AnatamogramComponent
+    AnatomogramComponent
   ],
   providers: [
-    AnatamogramHoverService
+    AnatomogramHoverService
   ],
   imports: [
     CommonModule,
     SharedModule
   ]
 })
-export class AnatamogramModule { }
+export class AnatomogramModule { }

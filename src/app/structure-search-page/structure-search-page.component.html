@@ -1,15 +1,37 @@
 <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-around start" class="search-content">
-  <div fxFlex="75" fxFlex.lt-sm="90">
+  <div fxFlex="75" fxFlex.lt-sm="90" id="structure-search-container">
     <div fxLayout="row" class="header-row">
       <div class="section-header active">Structure Search</div>
     </div>
-    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center" class="sketcher-row">
+    <mat-card id="load-card" >
+      <mat-card-title>Load Chemical Structure</mat-card-title>
+      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
+        <mat-form-field class="full-width-field" *ngIf="resolverService.resolverIsUp else resolverIsDown">
+          <input matInput placeholder="Input a Compound Name, SMILES, UNII, Chembl ID, etc."
+                 [formControl]="resolverCtrl" (change)="resolveCompound($event)">
+        </mat-form-field>
+        <ng-template #resolverIsDown>
+          Error connecting to NCATSFind service
+        </ng-template>
+      </div>
+      <div class="resolver-results" *ngIf="resolverService.responseDetails.hasOwnProperty('smiles')">
+        NCATSFind Results
+        <ul>
+          <li *ngFor="let item of this.resolverService.responseDetails | keyvalue" [ngClass]="{bold: item.key === 'smilesParent'}">
+            {{item.key}}: {{item.value}}
+          </li>
+        </ul>
+      </div>
+    </mat-card>
+    <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center" class="sketcher-row" id="sketcher-row">
       <div fxFlex="100">
-        <app-sketcher></app-sketcher>
+        <mat-card>
+          <app-sketcher></app-sketcher>
+        </mat-card>
       </div>
     </div>
-    <mat-card class="smiles-card">
-      <mat-card-title>Query Structure</mat-card-title>
+    <mat-card id="smiles-card">
+      <mat-card-title>Query SMILES</mat-card-title>
       <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
         <mat-form-field class="full-width-field">
           <input matInput placeholder="structure" [formControl]="smilesCtrl" (change)="smilesChanged($event)">
@@ -19,7 +41,7 @@
 
     <div class="card-list">
       <ng-container>
-        <mat-card>
+        <mat-card id="similar-structure-search">
           <mat-card-content class="linkContainer" fxLayout="column" fxLayoutAlign="space-around center">
           <span class="mat-title">
             Find Similar Structures
@@ -32,7 +54,7 @@
             <div class="toolDescription">
               Find similar structures, based on a Lucene index of all the ligands in TCRD. Search for ligands that match the whole query structure using a 'Similarity' search, or ligands that contain the query structure as part of the whole, using a 'Substructure' search.
             </div>
-            <div class="toolLinkButton">
+            <div class="toolLinkButton" id="search-method">
               <mat-form-field class="full-width-field">
                 <mat-select [formControl]="typeCtrl" (valueChange)="typeChanged($event)">
                   <mat-option [value]="'sub'">Substructure</mat-option>
@@ -51,7 +73,7 @@
         </mat-card>
       </ng-container>
       <ng-container *ngIf="isDev">
-        <mat-card>
+        <mat-card id="predicted-targets-search">
           <mat-card-content class="linkContainer" fxLayout="column" fxLayoutAlign="space-around center">
           <span class="mat-title">
             Find Predicted Targets

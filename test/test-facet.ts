@@ -17,10 +17,7 @@ export const TESTFACET: Facet = new Facet(
         name: 'Tclin',
         count: 666
       }
-    ]
-
-  });
-
-
-
+    ],
+    count: 40, min: 0, max: 48, binSize: 2, dataType: 'Category', upSets: []
+});
 
