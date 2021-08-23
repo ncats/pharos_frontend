@@ -28,6 +28,10 @@ td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
   width: 45vw;
 }
 
+.highlightRow {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
 tr.detail-row {
   height: 0;
 }

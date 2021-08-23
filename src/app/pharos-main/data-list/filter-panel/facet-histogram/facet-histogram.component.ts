@@ -10,27 +10,19 @@ import {
   PLATFORM_ID,
   ViewChild
 } from '@angular/core';
-import {Facet} from "../../../../models/facet";
-import {takeUntil} from "rxjs/operators";
-import {Subject} from "rxjs";
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-import {SelectedFacetService} from "../selected-facet.service";
-import {PathResolverService} from "../path-resolver.service";
+import {Facet} from '../../../../models/facet';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {SelectedFacetService} from '../selected-facet.service';
+import {PathResolverService} from '../path-resolver.service';
 
 @Component({
   selector: 'pharos-facet-histogram',
   templateUrl: './facet-histogram.component.html',
   styleUrls: ['./facet-histogram.component.scss']
 })
-export class FacetHistogramComponent implements OnInit {
-
-  /**
-   * unsubscribe subject
-   * @type {Subject<any>}
-   */
-  private ngUnsubscribe: Subject<any> = new Subject();
-
-  chartData: any[] = [];
+export class FacetHistogramComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
@@ -39,6 +31,14 @@ export class FacetHistogramComponent implements OnInit {
     private pathResolverService: PathResolverService,
     private _route: ActivatedRoute) {
   }
+
+  /**
+   * unsubscribe subject
+   * @type {Subject<any>}
+   */
+  private ngUnsubscribe: Subject<any> = new Subject();
+
+  chartData: any[] = [];
 
   @Input() facet: Facet;
 
@@ -50,6 +50,8 @@ export class FacetHistogramComponent implements OnInit {
   maxSetting: number;
   maxUsedByList?: number;
 
+  boundsChangedSubject: Subject<void> = new Subject<void>();
+
   boundsChanged(event){
     this.minSetting = event.value[0];
     this.maxSetting = event.value[1];
@@ -60,22 +62,20 @@ export class FacetHistogramComponent implements OnInit {
   sliderRange(){
     return [this.minSetting, this.maxSetting];
   }
-
-  boundsChangedSubject: Subject<void> = new Subject<void>();
   currentRangeDisplay(){
     let decimals = 0;
-    if(Math.floor(this.facet.binSize) !== this.facet.binSize) {
-      decimals = this.facet.binSize.toString().split(".")[1].length;
+    if (Math.floor(this.facet.binSize) !== this.facet.binSize) {
+      decimals = this.facet.binSize.toString().split('.')[1].length;
     }
-    return `[ ${this.minSetting.toFixed(decimals)}, ${this.maxSetting.toFixed(decimals)} `
-      + (this.includeUpperBound() ? "]" : ")");
+    return `[ ${this.minSetting?.toFixed(decimals)}, ${this.maxSetting?.toFixed(decimals)} `
+      + (this.includeUpperBound() ? ']' : ')');
   }
 
   includeUpperBound(){
-    if(this.maxSetting === this.max){
+    if (this.maxSetting === this.max){
       return true;
     }
-    if(this.maxSetting === this.minSetting){
+    if (this.maxSetting === this.minSetting){
       return true;
     }
     return false;
@@ -86,8 +86,8 @@ export class FacetHistogramComponent implements OnInit {
   }
 
   currentRangeTooltip(){
-    const rangeText = `to values that are >= ${this.minSetting} and ${this.includeUpperBound() ? "<=" : "<"} ${this.maxSetting}`;
-    if(this.currentSettingsAreApplied()){
+    const rangeText = `to values that are >= ${this.minSetting} and ${this.includeUpperBound() ? '<=' : '<'} ${this.maxSetting}`;
+    if (this.currentSettingsAreApplied()){
       return `The list has been filtered ${rangeText}`;
     }
     else{
@@ -126,7 +126,9 @@ export class FacetHistogramComponent implements OnInit {
     this.min = this.facet.min;
     this.max = this.facet.max;
 
-    this.facet.values.forEach(d => {valMap.set(d.name, d.count);});
+    this.facet.values.forEach(d => {
+      valMap.set(d.name, d.count);
+    });
     this.chartData = Array.from(valMap.entries());
 
     this.mapSelected();
@@ -135,7 +137,7 @@ export class FacetHistogramComponent implements OnInit {
   mapSelected() {
     const selected: Facet = this.selectedFacetService.getFacetByName(this.facet.facet);
     if (selected) {
-      let pieces = selected.values[0].name.split(",").map(s => s.replace(/[^0-9|\-|\.]/g, ''));
+      const pieces = selected.values[0].name.split(',').map(s => s.replace(/[^0-9|\-|\.]/g, ''));
       this.minUsedByList = pieces[0] == null || pieces[0].length === 0 ? null : +pieces[0];
       this.maxUsedByList = pieces[1] == null || pieces[1].length === 0 ? this.max : +pieces[1];
       this.minSetting = this.minUsedByList;

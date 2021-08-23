@@ -92,3 +92,13 @@ button.nav-menu-button.mat-button {
     padding-left: 4vw;
   }
 }
+
+.tutorial-link {
+  display: flex;
+  justify-content: space-between;
+  place-items: center;
+}
+
+.tutorial-link mat-icon {
+  margin-left: 10px;
+}

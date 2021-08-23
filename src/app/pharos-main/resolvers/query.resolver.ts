@@ -9,7 +9,9 @@ import {map} from 'rxjs/internal/operators';
 /**
  * resolves the details for a specific object
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class QueryResolver implements Resolve<any> {
 
   /**

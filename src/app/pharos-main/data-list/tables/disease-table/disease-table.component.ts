@@ -32,11 +32,6 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
    * @type {PharosProperty[]}
    */
   fieldsData: PharosProperty[] = [
-/*    new PharosProperty({
-      name: 'id',
-      label: 'Disease ID',
-      width: '10vw'
-    }),*/
     new PharosProperty({
       name: 'name',
       label: 'Disease Name',
@@ -47,6 +42,14 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
       label: 'Associated Targets'
     })
   ];
+
+  fieldsDataWithTarget: PharosProperty[] = [
+    ...this.fieldsData,
+    new PharosProperty({
+      name: 'datasource_count',
+      label: 'Data Source Count'
+    })
+  ]
 
   /**
    * total count of results
@@ -71,11 +74,7 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
    */
   @Input() pageData: PageData;
 
-/*  /!**
-   * material design datasource subject
-   * @type {MatTableDataSource<any>}
-   *!/
-  dataSource = new MatTableDataSource<any>(this.data);*/
+  associatedTarget: string;
 
   /**
    * material design selection model for when the table becomes selectable
@@ -113,6 +112,7 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
       )
       .subscribe(x => {
         if (this.data) {
+          this.associatedTarget = this._route.snapshot.queryParamMap.get('associatedTarget');
           this.pageData = new PageData({
             top: this._route.snapshot.queryParamMap.has('rows') ? +this._route.snapshot.queryParamMap.get('rows') : 10,
             skip: (+this._route.snapshot.queryParamMap.get('page') - 1) * +this._route.snapshot.queryParamMap.get('rows'),
