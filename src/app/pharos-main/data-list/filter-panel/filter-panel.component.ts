@@ -16,7 +16,7 @@ import {PharosConfig} from '../../../../config/pharos-config';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
 import {PanelOptions} from '../../pharos-main.component';
 import {map, take, takeUntil} from 'rxjs/operators';
-import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, NavigationExtras, NavigationStart, Router} from '@angular/router';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {environment} from '../../../../environments/environment';
@@ -73,6 +73,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
 
   showInfo: Map<Facet, boolean> = new Map<Facet, boolean>();
 
+  facetEnrichment = false;
   /**
    * list of initial facets to display
    */
@@ -201,6 +202,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
             this.filteredFacets = this.data.facets;
             this.facets = this.customFacets.concat(this.filteredFacets);
             this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
+            this.facetEnrichment = this._route.snapshot.queryParamMap.get('enrichFacets') === 'true';
             this.changeRef.detectChanges();
           }
         }
@@ -208,6 +210,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     this.filteredFacets = this.data.facets;
     this.facets = this.customFacets.concat(this.filteredFacets);
     this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
+    this.facetEnrichment = this._route.snapshot.queryParamMap.get('enrichFacets') === 'true';
     this.changeRef.markForCheck();
   }
 
@@ -327,6 +330,26 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
 
   getFacetPanelID(facet: Facet) {
     return facet.facet.replace(/\s/g, '');
+  }
+
+  changeEnrichment(event) {
+    const navigationExtras: NavigationExtras = {
+      queryParamsHandling: 'merge'
+    };
+    if (this.facetEnrichment) {
+      navigationExtras.queryParams = {
+        enrichFacets: true
+      };
+    } else {
+      navigationExtras.queryParams = {
+        enrichFacets: null
+      };
+    }
+    this.router.navigate([], navigationExtras);
+  }
+
+  showEnrichment() {
+    return this.selectedFacetService._facetMap?.size > 0;
   }
 
   /**

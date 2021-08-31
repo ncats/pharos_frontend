@@ -330,7 +330,7 @@ export class PharosApiService {
           batch (${path}: $batchIds, filter: $filter) {
         results:${path.slice(0, path.length - 1)}Result {
         count
-        facets {
+        facets${variables.enrichFacets ? '(enrichFacets: true)' : ''} {
         ...facetFields
         }
         ${path}(skip: $skip, top: $top) {
@@ -481,7 +481,7 @@ export class PharosApiService {
    * @param variables
    */
   private executeAllFacetOptionsQuery(path: string, variables) {
-    return this.apollo.query({query: Facet.getAllFacetOptionsQuery(path), variables});
+    return this.apollo.query({query: Facet.getAllFacetOptionsQuery(path, variables.enrichFacets), variables});
   }
 
 // todo: this is probably not ideal , although it returns a more useful query than the initial list query
@@ -510,7 +510,7 @@ export class PharosApiService {
    * @param variables
    */
   private executeAllFacetsQuery(path: string, variables) {
-    return this.apollo.query<any>({query: Facet.getAllFacetsQuery(path), variables});
+    return this.apollo.query<any>({query: Facet.getAllFacetsQuery(path, variables.enrichFacets), variables});
   }
 
   /**
@@ -671,11 +671,18 @@ export class PharosApiService {
               this.queryString = val;
               break;
             }
-            case 'sortColumn':
+            case 'sortColumn': {
               const filter: any = ret.filter ? ret.filter : {};
               filter.order = val;
               ret.filter = filter;
               break;
+            }
+            case '`enrichFacets`': {
+              const filter: any = ret.filter ? ret.filter : {};
+              filter.enrichFacets = val;
+              ret.filter = filter;
+              break;
+            }
             case 'collection': {
               break;
             }

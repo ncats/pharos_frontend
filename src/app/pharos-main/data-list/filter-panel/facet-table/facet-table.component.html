@@ -21,7 +21,9 @@
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="count">
-      <mat-cell *matCellDef="let row" class="filter-cell count"><span class="field-text">{{row["count"]}}</span>
+      <mat-cell *matCellDef="let row" class="filter-cell count"><span class="field-text" [matTooltip]="getTooltip(row)">
+        {{row.count}} <span class="filter-stats">{{formatStats(row)}}</span><mat-icon class="stats-icon">{{icon(row)}}</mat-icon>
+        </span>
       </mat-cell>
     </ng-container>
     <mat-row *matRowDef="let row; columns: displayColumns;"

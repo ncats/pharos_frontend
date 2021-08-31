@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Inp
 import {MatTableDataSource} from '@angular/material/table';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SelectionModel} from '@angular/cdk/collections';
-import {Facet, Field} from '../../../../models/facet';
+import {BinomialStats, Facet, Field} from '../../../../models/facet';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {PathResolverService} from '../path-resolver.service';
@@ -49,17 +49,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    */
   filterSelection = new SelectionModel<string>(true, []);
 
-  /**
-   * facet selection fields to display
-   * @type {string[]}
-   */
-  displayColumns: string [] = ['select', 'name', 'count'];
-
-  /**
-   * object fields headings to track and show
-   * @type {string[]}
-   */
-  fieldColumns: string [] = ['name', 'count'];
+  displayColumns = ['select', 'name', 'count'];
 
   /**
    * unsubscribe subject
@@ -147,7 +137,6 @@ export class FacetTableComponent implements OnInit, OnDestroy {
       this.mapSelected();
     });
   }
-
   mapSelected() {
     if (this.popup) {
       this.filterSelection.select(...this.popupFields);
@@ -205,7 +194,8 @@ export class FacetTableComponent implements OnInit, OnDestroy {
           this.populateFilteredData();
           this.mapSelected();
           this.loading = false;
-        }, error: e => {
+        },
+      error: e => {
         throw(e);
       }
     });
@@ -245,6 +235,62 @@ export class FacetTableComponent implements OnInit, OnDestroy {
       const rowname = (row.value || row.name).toLowerCase();
       return rowname.indexOf(this.searchText.toLowerCase()) > -1;
     });
+  }
+
+  formatStats(row: any) {
+    if (!row.stats || (!row.stats.pValue && row.stats.pValue !== 0)) {
+      return '';
+    }
+    let displayVal = '';
+    if (row.stats.pValue >= 0) {
+      if (row.stats.pValue >= .01) {
+        displayVal = '(p=' + row.stats.pValue?.toFixed(2) + ')';
+      } else if (row.stats.pValue === 0) {
+        displayVal = '(p→0)';
+      } else {
+        displayVal = '(p=' + row.stats.pValue?.toExponential(0) + ')';
+      }
+    }
+    return displayVal;
+  }
+
+  icon(row) {
+    if (row.stats) {
+      if (row.stats.representation > 0) {
+        if (row.stats.rejected) {
+          return 'north_east';
+        }
+      } else {
+        if (row.stats.rejected) {
+          return 'south_east';
+        }
+      }
+    }
+  }
+
+  getTooltip(row) {
+    if (row.stats) {
+      let representation = '';
+      let modifier = '';
+      if (row.stats.pValue > 0.75) {
+        representation = 'represented as expected';
+      } else {
+        if (row.stats.representation > 0) {
+          representation = 'overrepresented';
+        } else {
+          representation = 'underrepresented';
+        }
+        if (row.stats.rejected) {
+          modifier = 'significantly ';
+        } else {
+          modifier = 'slightly ';
+        }
+      }
+      const actual = (100 * row.stats.statistic).toFixed(2) + '%';
+      const expected = (100 * row.stats.nullValue).toFixed(2) + '%';
+      return `"${row.name}" has been documented in ${actual} of the entries in this list. Based on the expected probability of ` +
+        `${expected}, this filter value is ${modifier}${representation}.`;
+    }
   }
 
   isIndeterminate(row: any) {
