@@ -284,11 +284,11 @@ query filteringByFacets {
   }
 }`;
 static fetchingUncommonFacets = `
-query fetchingUncommonFacets{
-  targets(facets:["Ortholog"]){
-    facets{
+query fetchingUncommonFacets {
+  targets(facets:["Ortholog"]) {
+    facets {
       facet
-      values{
+      values {
         name
         value
       }
@@ -297,7 +297,7 @@ query fetchingUncommonFacets{
 }`;
 
 static getAllTargetFacets = `
-query getAllTargetFacets{
+query getAllTargetFacets {
   targetFacets
 }`;
 }

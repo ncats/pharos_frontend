@@ -14,6 +14,17 @@ const FACETFIELDS = gql`
     values {
       name
       count:value
+      stats {
+        rejected
+        alpha
+        pValue
+        statistic
+        ci
+        nullValue
+        alternative
+        representation
+        method
+      }
     }
     sourceExplanation
     elapsedTime
@@ -28,6 +39,17 @@ const FACETFIELDSTOP = gql`
     values(top:$facetTop){
       name
       count:value
+      stats {
+        rejected
+        alpha
+        pValue
+        statistic
+        ci
+        nullValue
+        alternative
+        representation
+        method
+      }
     }
   }`;
 
@@ -48,7 +70,26 @@ export class Field {
 
   count?: number;
 
+  stats?: BinomialStats;
 
+  constructor(json: any) {
+    Object.entries((json)).forEach((prop) => this[prop[0]] = prop[1]);
+    if (json.stats) {
+      this.stats = new BinomialStats(json.stats);
+    }
+  }
+}
+
+export class BinomialStats {
+  rejected: boolean;
+  alpha: number;
+  pValue: number;
+  representation: number;
+  statistic: number;
+  ci: number[];
+  nullValue: number;
+  alternative: string;
+  method: string;
   constructor(json: any) {
     Object.entries((json)).forEach((prop) => this[prop[0]] = prop[1]);
   }
@@ -161,26 +202,15 @@ export class Facet {
    * retrieves a query object for getting all the facet options for a single facet for a list of targets / diseases / ligands
    * @param path
    */
-  static getAllFacetOptionsQuery(path) {
-    if (path === 'targets') {
-      return gql`
-        #import "./facetFieldsTop.gql"
-        query getAllFacetOptions($batchIDs:[String], $filter:IFilter, $facetTop:Int, $facet:String!){
-          results: targets(facets:[$facet], filter:$filter, targets:$batchIDs){
-            facets{
-              ...facetFieldsTop
-            }
-          }
-        }${FACETFIELDSTOP}`;
-    }
+  static getAllFacetOptionsQuery(path, enrichFacets) {
     return gql`
       #import "./facetFieldsTop.gql"
-      query getAllFacetOptions($filter:IFilter, $facetTop:Int, $facet:String!){
-      results: ${path}(filter:$filter){
-      facets(include:[$facet]){
-      ...facetFieldsTop
-      }
-      }
+      query getAllFacetOptions($batchIDs:[String], $filter:IFilter, $facetTop:Int, $facet:String!){
+        results: ${path}(facets:[$facet], filter:$filter, ${path}:$batchIDs){
+          facets${enrichFacets ? '(enrichFacets: true)' : ''} {
+            ...facetFieldsTop
+          }
+        }
       }${FACETFIELDSTOP}`;
   }
 
@@ -188,13 +218,13 @@ export class Facet {
    * retrieves a query object for getting all the facets for a list of targets / diseases / ligands
    * @param path
    */
-  static getAllFacetsQuery(path) {
+  static getAllFacetsQuery(path, enrichFacets) {
     if (path === 'targets') {
       return gql`
         #import "./facetFields.gql"
         query getAllFacets($batchIDs:[String], $facets:[String!], $filter:IFilter) {
           results: targets(facets:$facets, filter:$filter, targets:$batchIDs) {
-            facets {
+            facets${enrichFacets ? '(enrichFacets: true)' : ''} {
               ...facetFields
             }
           }
@@ -204,7 +234,7 @@ export class Facet {
       #import "./facetFields.gql"
       query getAllFacets($facets:[String!], $filter:IFilter) {
       results: ${path}(facets:$facets, filter:$filter) {
-      facets {
+      facets${enrichFacets ? '(enrichFacets: true)' : ''} {
       ...facetFields
       }
       }
