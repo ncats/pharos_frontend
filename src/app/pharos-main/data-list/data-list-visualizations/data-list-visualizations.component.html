@@ -2,7 +2,7 @@
   <mat-card>
     <mat-card-content>
       <div fxLayout="column" fxLayoutAlign="space-around center" class="facet-visualizations">
-        <div *ngIf="displayFacet.singleResponse">
+        <div *ngIf="displayFacet?.singleResponse">
           <div fxLayout="row" fxLayoutAlign="space-around center">
             <div *ngIf=displayFacet>
               <pharos-donut-chart [data]="displayFacet.values"  (clickSlice)="filterDonutChart($event)" [events]="redrawCharts.asObservable()"></pharos-donut-chart>
@@ -14,7 +14,7 @@
             </div>
           </div>
         </div>
-        <div class="upset-chart" *ngIf="!displayFacet.singleResponse">
+        <div class="upset-chart" *ngIf="!displayFacet?.singleResponse">
           <div>
             <pharos-upset-plot [displayFacet]="displayFacet" [events]="redrawCharts.asObservable()"></pharos-upset-plot>
             <div fxLayout="row" fxLayoutAlign="space-around start">
