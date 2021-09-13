@@ -9,6 +9,7 @@ import {PathResolverService} from '../path-resolver.service';
 import {SelectedFacetService} from '../selected-facet.service';
 import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
 import {HighlightPipe} from '../../../../tools/search-component/highlight.pipe';
+import {CentralStorageService} from '../../../../pharos-services/central-storage.service';
 
 /**
  * table to display selectable fields
@@ -90,7 +91,8 @@ export class FacetTableComponent implements OnInit, OnDestroy {
               private router: Router,
               private changeRef: ChangeDetectorRef,
               private selectedFacetService: SelectedFacetService,
-              private pathResolverService: PathResolverService) {
+              private pathResolverService: PathResolverService,
+              private centralStorageService: CentralStorageService) {
   }
 
   /**
@@ -122,14 +124,19 @@ export class FacetTableComponent implements OnInit, OnDestroy {
     this.filterSelection.changed
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(change => {
-        if (!this.popup) {
+        if (!this.popup && !this.facet.noNavigate) {
           if (this.propogate === true) {
             this.selectedFacetService.setFacets({name: this.facet.facet, change});
             const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
             this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
           }
         } else {
-          this.popupFieldsChange.emit(change.source.selected);
+          if (this.popup) {
+            this.popupFieldsChange.emit(change.source.selected);
+          }
+          if (this.facet.noNavigate) {
+            this.centralStorageService.setBrowseTypes(change.source.selected);
+          }
         }
       });
 

@@ -37,6 +37,7 @@ export class TOKENS {
    * injection token to link to the target table component
    */
   public static TARGET_TABLE_COMPONENT = new InjectionToken<string>('TargetTableComponent');
+  public static BROWSE_TABLE_COMPONENT = new InjectionToken<string>('BrowseComponent');
 
   /**
    * injection token to link to the target details component

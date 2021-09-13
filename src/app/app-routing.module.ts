@@ -74,6 +74,16 @@ const ROUTES: Routes = [
     data: {title: 'Frequently Asked Questions'}
   },
   {
+    path: 'browse',
+    loadChildren: () => import('./pharos-main/modules/browse/browse.module').then(m => m.BrowseModule),
+    data: {
+      path: 'browse',
+      subpath: 'list',
+      preload: true,
+      title: 'Browse Targets, Ligands, and Diseases'
+    }
+  },
+  {
     path: 'targets',
     loadChildren: () => import('./pharos-main/modules/targets/target-list.module').then(m => m.TargetTableModule),
     data: {
