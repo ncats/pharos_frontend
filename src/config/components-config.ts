@@ -242,6 +242,11 @@ const ligandAssocFields: PharosApi[] =
     }
   ];
 
+const BROWSE_TABLE_COMPONENT: PharosPanel = {
+  token: TOKENS.BROWSE_TABLE_COMPONENT,
+  section: Position.Content
+};
+
 /**
  * main target list table component
  * @type {PharosPanel}
@@ -1378,6 +1383,15 @@ const TOPIC_DETAILS_COMPONENT: PharosPanel = {
  */
 export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
   [
+    ['browse', {
+      list: {
+        components: [
+          PHAROS_FACETS_COMPONENT,
+          PHAROS_SELECTED_FACET_LIST_COMPONENT,
+          BROWSE_TABLE_COMPONENT
+        ]
+      }
+    }],
     ['targets', {
       list: {
         components: [

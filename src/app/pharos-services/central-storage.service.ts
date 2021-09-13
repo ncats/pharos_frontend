@@ -8,12 +8,23 @@ export class CentralStorageService {
   pdbRepresentation = Representation.cartoon;
   facetMap: Map<string, string> = new Map<string, string>();
   tourData: Map<string, any> = new Map<string, any>();
+  browseTypes: string[] = [];
 
   @Output() pdbColorSchemeChanged = new EventEmitter<ColorScheme>();
   @Output() pdbRepresentationChanged = new EventEmitter<Representation>();
   @Output() displayFacetChanged = new EventEmitter<{model: string, facet: string}>();
+  @Output() browseTypesChanged = new EventEmitter<string[]>();
 
   constructor() { }
+
+  getBrowseTypes(): string[] {
+    return this.browseTypes;
+  }
+
+  setBrowseTypes(types: string[]) {
+    this.browseTypes = types;
+    this.browseTypesChanged.emit(this.browseTypes);
+  }
 
   getTourData(tour: string): any {
     return this.tourData.get(tour);

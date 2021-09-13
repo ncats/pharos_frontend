@@ -38,7 +38,7 @@ export class PathResolverService {
         queryParamsHandling: ''
       };
 
-      if(queries) {
+      if (queries) {
         for (let i = 0; i < queries.length; i++) {
           if (queries[i]) {
             navigationExtras.queryParams[queries[i].facet] = queries[i].values.map(val => val.name);

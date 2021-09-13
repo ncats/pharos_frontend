@@ -11,7 +11,7 @@
     <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
       <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
     </div>
-    <div >
+    <div *ngIf="!isBrowsePage()">
       <button type="button" mat-raised-button [color]="'primary'" (click)="toggleFacets()"
               *ngIf="!fullWidth; else close">
         See All Categories
@@ -24,15 +24,15 @@
         </button>
       </ng-template>
     </div>
-    <div class="enrich-toggle" *ngIf="showEnrichment()">
-      <mat-slide-toggle [(ngModel)]="facetEnrichment" (change)="changeEnrichment($event)" [matTooltip]="
-      facetEnrichment
-        ? 'Filter values are sorted according to the p-value under the binomial test'
-        : 'Filter values are sorted according to the count of entries with each value'">
-        <mat-icon *ngIf="!facetEnrichment">sort</mat-icon>
-        <mat-icon *ngIf="facetEnrichment">auto_fix_high</mat-icon>
-      </mat-slide-toggle>
-    </div>
+<!--    <div class="enrich-toggle" *ngIf="showEnrichment()">-->
+<!--      <mat-slide-toggle [(ngModel)]="facetEnrichment" (change)="changeEnrichment($event)" [matTooltip]="-->
+<!--      facetEnrichment-->
+<!--        ? 'Filter values are sorted according to the p-value under the binomial test'-->
+<!--        : 'Filter values are sorted according to the count of entries with each value'">-->
+<!--        <mat-icon *ngIf="!facetEnrichment">sort</mat-icon>-->
+<!--        <mat-icon *ngIf="facetEnrichment">auto_fix_high</mat-icon>-->
+<!--      </mat-slide-toggle>-->
+<!--    </div>-->
     <div fxFlex></div>
     <div class=" clear-all" fxLayoutAlign="end">
       <mat-chip-list class="mat-chip-list" aria-label="Clear All">

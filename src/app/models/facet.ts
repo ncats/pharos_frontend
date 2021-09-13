@@ -102,6 +102,7 @@ export class Facet {
 
   constructor(json: any) {
     this.count = json.count;
+    this.noNavigate = json.noNavigate;
     this.facet = json.facet;
     this.modifier = json.modifier;
     this.sourceExplanation = json.sourceExplanation;
@@ -147,7 +148,7 @@ export class Facet {
    */
   facet: string;
   elapsedTime?: number;
-
+  noNavigate = false;
   modifier?: string;
 
   sourceExplanation?: string;

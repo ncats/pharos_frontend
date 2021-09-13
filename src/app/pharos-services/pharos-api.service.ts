@@ -810,7 +810,35 @@ export class PharosApiService {
     });
   }
 
-  public adHocQuery(query: any, variables?: any) {
+  browseQuery(route: ActivatedRouteSnapshot, state?: any): Observable<any> {
+    const variables = this.parseVariables(route, state);
+    let query;
+    query = gql`query browseQuery($filter: IFilter) {
+      targets(facets: ["Target Development Level"], filter: $filter) {
+        count
+        facets{
+          ...facetFields
+        }
+      }
+      diseases(facets: ["Highest TDL"], filter: $filter) {
+        count
+        facets{
+          ...facetFields
+        }
+      }
+      ligands(facets: ["Type"], filter: $filter) {
+        count
+        facets{
+          ...facetFields
+        }
+      }
+      browse(filter: $filter)
+    }
+    ${Facet.facetFieldsFragments}`;
+    return this.apollo.query<any>({query, variables});
+  }
+
+  public adHocQuery(query: any, variables?: any): Observable<any> {
     return this.apollo.query<any>({query, variables});
   }
 }
