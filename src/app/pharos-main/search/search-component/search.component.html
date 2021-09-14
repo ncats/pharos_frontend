@@ -3,7 +3,7 @@
   <mat-card *ngIf="data.targets.count > 0" class="list-entry">
     <mat-card-title>Targets ({{data.targets.count}})</mat-card-title>
     <div>{{data.targets.facets[0].facet}}</div>
-    <pharos-donut-chart [data]="data.targets.facets[0].values" [svgID]="'browse-targets'"></pharos-donut-chart>
+    <pharos-donut-chart [data]="data.targets.facets[0].values" [svgID]="'search-targets'"></pharos-donut-chart>
     <div class="drilldown-buttons">
     <pharos-explore-list-button class="exploreButton" [path]="'/targets'" [buttonText]="'Show Matching Targets'"
                                 [queryParams]="{q: term}"></pharos-explore-list-button>
@@ -12,7 +12,7 @@
   <mat-card *ngIf="data.diseases.count > 0" class="list-entry">
     <mat-card-title>Diseases ({{data.diseases.count}})</mat-card-title>
     <div>{{data.diseases.facets[0].facet}}</div>
-    <pharos-donut-chart [data]="data.diseases.facets[0].values" [svgID]="'browse-diseases'"></pharos-donut-chart>
+    <pharos-donut-chart [data]="data.diseases.facets[0].values" [svgID]="'search-diseases'"></pharos-donut-chart>
     <div class="drilldown-buttons">
     <pharos-explore-list-button class="exploreButton" [path]="'/diseases'" [buttonText]="'Show Matching Diseases'"
                                 [queryParams]="{q: term}"></pharos-explore-list-button>
@@ -21,7 +21,7 @@
   <mat-card *ngIf="data.ligands.count > 0" class="list-entry">
     <mat-card-title>Ligands ({{data.ligands.count}})</mat-card-title>
     <div>{{data.ligands.facets[0].facet}}</div>
-    <pharos-donut-chart [data]="data.ligands.facets[0].values" [svgID]="'browse-ligands'"></pharos-donut-chart>
+    <pharos-donut-chart [data]="data.ligands.facets[0].values" [svgID]="'search-ligands'"></pharos-donut-chart>
     <div class="drilldown-buttons">
     <pharos-explore-list-button class="exploreButton" [path]="'/ligands'" [buttonText]="'Show Matching Ligands'"
                                 [queryParams]="{q: term}"></pharos-explore-list-button>

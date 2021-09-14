@@ -11,7 +11,7 @@
     <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
       <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
     </div>
-    <div *ngIf="!isBrowsePage()">
+    <div *ngIf="!isSearchPage()">
       <button type="button" mat-raised-button [color]="'primary'" (click)="toggleFacets()"
               *ngIf="!fullWidth; else close">
         See All Categories

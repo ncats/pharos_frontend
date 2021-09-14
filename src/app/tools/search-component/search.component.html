@@ -9,7 +9,7 @@
     <mat-label class="search-label">{{placeholderStr}}</mat-label>
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="search($event)">
       <ng-container *ngIf="typeaheadCtrl.value && typeaheadCtrl.value.length > 2">
-        <mat-option [value]="{text: typeaheadCtrl.value, extra: {path: 'browse', parameter: 'q', value: typeaheadCtrl.value}}">
+        <mat-option [value]="{text: typeaheadCtrl.value, extra: {path: 'search', parameter: 'q', value: typeaheadCtrl.value}}">
           <mat-icon>search</mat-icon>
           Search database for '{{typeaheadCtrl.value}}'
         </mat-option>

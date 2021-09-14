@@ -26,7 +26,6 @@ const ROUTES: Routes = [
   {path: 'idg/diseases/:id', redirectTo: 'diseases/:id'},
   {path: 'idg/ligands',      redirectTo: 'ligands'},
   {path: 'idg/ligands/:id',  redirectTo: 'ligands/:id'},
-  {path: 'search', redirectTo: 'targets'},
   {
     path: 'index',
     redirectTo: '/',
@@ -74,13 +73,13 @@ const ROUTES: Routes = [
     data: {title: 'Frequently Asked Questions'}
   },
   {
-    path: 'browse',
-    loadChildren: () => import('./pharos-main/modules/browse/browse.module').then(m => m.BrowseModule),
+    path: 'search',
+    loadChildren: () => import('./pharos-main/modules/search/search.module').then(m => m.SearchModule),
     data: {
-      path: 'browse',
+      path: 'search',
       subpath: 'list',
       preload: true,
-      title: 'Browse Targets, Ligands, and Diseases'
+      title: 'Search Results for Targets, Ligands, and Diseases'
     }
   },
   {

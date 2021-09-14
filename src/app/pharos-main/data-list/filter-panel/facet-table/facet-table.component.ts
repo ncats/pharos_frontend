@@ -135,7 +135,13 @@ export class FacetTableComponent implements OnInit, OnDestroy {
             this.popupFieldsChange.emit(change.source.selected);
           }
           if (this.facet.noNavigate) {
-            this.centralStorageService.setBrowseTypes(change.source.selected);
+            const list = this.facet.values.filter(v => {
+              if (v.noLink) {
+                return false;
+              }
+              return change.source.selected.includes(v.name);
+            }).map(v => v.name);
+            this.centralStorageService.setBrowseTypes(list);
           }
         }
       });

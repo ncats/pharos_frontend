@@ -832,7 +832,7 @@ export class PharosApiService {
           ...facetFields
         }
       }
-      browse(filter: $filter)
+      search:searchDB(filter: $filter)
     }
     ${Facet.facetFieldsFragments}`;
     return this.apollo.query<any>({query, variables});

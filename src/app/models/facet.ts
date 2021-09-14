@@ -72,6 +72,8 @@ export class Field {
 
   stats?: BinomialStats;
 
+  noLink?: boolean;
+
   constructor(json: any) {
     Object.entries((json)).forEach((prop) => this[prop[0]] = prop[1]);
     if (json.stats) {
