@@ -122,8 +122,8 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     return this.facets.filter(facet => facet.values.length > 0);
   }
 
-  isBrowsePage() {
-    return this._route.snapshot.data.path === 'browse';
+  isSearchPage() {
+    return this._route.snapshot.data.path === 'search';
   }
 
   toggleFacetInfo(facet: Facet){

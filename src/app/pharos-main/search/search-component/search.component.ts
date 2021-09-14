@@ -7,11 +7,11 @@ import {takeUntil} from 'rxjs/operators';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 
 @Component({
-  selector: 'pharos-browse-component',
-  templateUrl: './browse.component.html',
-  styleUrls: ['./browse.component.scss']
+  selector: 'pharos-search-component',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.scss']
 })
-export class BrowseComponent extends DynamicPanelComponent implements OnInit {
+export class SearchComponent extends DynamicPanelComponent implements OnInit {
 
   term = '';
   Facet = Facet;
@@ -38,12 +38,12 @@ export class BrowseComponent extends DynamicPanelComponent implements OnInit {
 
   initialize() {
     this.term = this._route.snapshot.queryParamMap.get('q');
-    this.visibleEntries = this.data.browse.entries;
+    this.visibleEntries = this.data.search.entries;
     this.centralStorageService.browseTypesChanged.subscribe(types => {
       if (types.length === 0) {
-        this.visibleEntries = this.data.browse.entries;
+        this.visibleEntries = this.data.search.entries;
       } else {
-        this.visibleEntries = this.data.browse.entries?.filter(e => types.includes(e.entityType));
+        this.visibleEntries = this.data.search.entries?.filter(e => types.includes(e.entityType));
       }
     });
   }

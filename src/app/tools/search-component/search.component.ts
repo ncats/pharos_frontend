@@ -86,7 +86,7 @@ export class SearchComponent implements OnInit {
       this.doSearch(query.extra);
     } else {
       if (query.trim().length > 2) {
-        this.doSearch({path: 'browse', parameter: 'q', value: query.trim()} as autocompleteOption);
+        this.doSearch({path: 'search', parameter: 'q', value: query.trim()} as autocompleteOption);
       }
     }
   }

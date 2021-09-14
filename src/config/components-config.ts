@@ -1383,7 +1383,7 @@ const TOPIC_DETAILS_COMPONENT: PharosPanel = {
  */
 export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
   [
-    ['browse', {
+    ['search', {
       list: {
         components: [
           PHAROS_FACETS_COMPONENT,

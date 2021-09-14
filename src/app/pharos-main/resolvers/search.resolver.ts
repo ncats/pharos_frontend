@@ -13,7 +13,7 @@ import {Facet, Field} from '../../models/facet';
 @Injectable({
   providedIn: 'root'
 })
-export class BrowseResolver implements Resolve<any> {
+export class SearchResolver implements Resolve<any> {
 
   /**
    * create services
@@ -44,16 +44,19 @@ export class BrowseResolver implements Resolve<any> {
 
         output.targets.facets = output.targets.facets.map(f => new Facet(f));
 
-        entityFacet.values = [
-          // {name: 'Ligands', count: output.ligands.count},
-          // {name: 'Targets', count: output.targets.count},
-          // {name: 'Diseases', count: output.diseases.count},
-        ];
-
-        output.browse?.entries?.forEach(entry => {
+        output.search?.entries?.forEach(entry => {
           pushValue(entityFacet, entry.entityType);
         });
+
         entityFacet.values.sort((a, b) => b.count - a.count);
+
+        entityFacet.values = [
+          {name: 'Targets', count: output.targets.count, noLink: true},
+          {name: 'Diseases', count: output.diseases.count, noLink: true},
+          {name: 'Ligands', count: output.ligands.count, noLink: true},
+          ...entityFacet.values
+        ];
+
         output.facets = [entityFacet];
         return output;
       }));
