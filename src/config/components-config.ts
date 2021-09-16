@@ -1386,7 +1386,6 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
     ['search', {
       list: {
         components: [
-          PHAROS_FACETS_COMPONENT,
           PHAROS_SELECTED_FACET_LIST_COMPONENT,
           BROWSE_TABLE_COMPONENT
         ]

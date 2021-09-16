@@ -28,36 +28,29 @@ export class SearchResolver implements Resolve<any> {
   resolve(route: ActivatedRouteSnapshot): Observable<PharosBase[]> {
     const navigation = this.router.getCurrentNavigation();
     this.pharosApiService.flushData();
-    return this.pharosApiService.browseQuery(route, navigation.extras.state)
+    return this.pharosApiService.searchQuery(route, navigation.extras.state)
       .pipe(
       map(res => {
         const output = JSON.parse(JSON.stringify(res.data));
-        function pushValue(facet, val) {
-          const existingField = facet.values.find(v => v.name === val);
-          if (existingField) {
-            existingField.count++;
-          } else {
-            facet.values.push(new Field({name: val, count: 1}));
+        const targetFacets = [];
+        const diseaseFacets = [];
+        const ligandFacets = [];
+        res.data.search.forEach(f => {
+          switch (f.model) {
+            case 'Target':
+              targetFacets.push(new Facet(f));
+              break;
+            case 'Disease':
+              diseaseFacets.push(new Facet(f));
+              break;
+            case 'Ligand':
+              ligandFacets.push(new Facet(f));
+              break;
           }
-        }
-        const entityFacet = new Facet({facet: 'Type', elapsedTime: 0, noNavigate: true, singleResponse: true});
-
-        output.targets.facets = output.targets.facets.map(f => new Facet(f));
-
-        output.search?.entries?.forEach(entry => {
-          pushValue(entityFacet, entry.entityType);
         });
-
-        entityFacet.values.sort((a, b) => b.count - a.count);
-
-        entityFacet.values = [
-          {name: 'Targets', count: output.targets.count, noLink: true},
-          {name: 'Diseases', count: output.diseases.count, noLink: true},
-          {name: 'Ligands', count: output.ligands.count, noLink: true},
-          ...entityFacet.values
-        ];
-
-        output.facets = [entityFacet];
+        output.targetFacets = targetFacets;
+        output.diseaseFacets = diseaseFacets;
+        output.ligandFacets = ligandFacets;
         return output;
       }));
   }

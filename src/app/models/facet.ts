@@ -104,6 +104,7 @@ export class Facet {
 
   constructor(json: any) {
     this.count = json.count;
+    this.model = json.model;
     this.noNavigate = json.noNavigate;
     this.facet = json.facet;
     this.modifier = json.modifier;
@@ -177,6 +178,7 @@ export class Facet {
   singleResponse = false;
   min?: number;
   max?: number;
+  model?: string;
 
   static getReadableParameter(parameter: string, paramValue?: string) {
     if (parameter === 'associatedDisease') {
