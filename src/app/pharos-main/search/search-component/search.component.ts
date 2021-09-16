@@ -2,9 +2,10 @@ import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import { Facet } from 'src/app/models/facet';
+import {Facet} from 'src/app/models/facet';
 import {takeUntil} from 'rxjs/operators';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'pharos-search-component',
@@ -12,16 +13,18 @@ import {CentralStorageService} from '../../../pharos-services/central-storage.se
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent extends DynamicPanelComponent implements OnInit {
-
+  isProduction = environment.production;
   term = '';
+  tabParams: TabParams[] = [];
   Facet = Facet;
-  visibleEntries: any[] = [];
+
   constructor(public dynamicServices: DynamicServicesService,
               private _route: ActivatedRoute, private router: Router,
               public centralStorageService: CentralStorageService,
               private changeRef: ChangeDetectorRef) {
     super(dynamicServices);
   }
+
 
   ngOnInit(): void {
 
@@ -36,16 +39,45 @@ export class SearchComponent extends DynamicPanelComponent implements OnInit {
     this.initialize();
   }
 
+  hasData() {
+    return this.hasDBresults() || this.hasFacetResults();
+  }
+
+  hasDBresults() {
+    return this.data.targets.count > 0 ||
+      this.data.diseases.count > 0 ||
+      this.data.ligands.count > 0;
+  }
+
+  hasFacetResults() {
+    return this.data.targetFacets.length > 0 ||
+      this.data.diseaseFacets.length > 0 ||
+      this.data.ligandFacets.length > 0;
+  }
+
   initialize() {
-    this.term = this._route.snapshot.queryParamMap.get('q');
-    this.visibleEntries = this.data.search.entries;
-    this.centralStorageService.browseTypesChanged.subscribe(types => {
-      if (types.length === 0) {
-        this.visibleEntries = this.data.search.entries;
-      } else {
-        this.visibleEntries = this.data.search.entries?.filter(e => types.includes(e.entityType));
-      }
-    });
+    this.term = this._route.snapshot.queryParamMap.get('q') || this._route.snapshot.queryParamMap.get('query');
+
+    this.tabParams = [
+      new TabParams({
+        title: `Target Filter Matches (${this.data.targetFacets.length})`,
+        tooltip: 'Tab of target filters that have matching values',
+        overridePath: 'targets',
+        facets: this.data.targetFacets
+      }),
+      new TabParams({
+        title: `Disease Filter Matches (${this.data.diseaseFacets.length})`,
+        tooltip: 'Tab of disease filters that have matching values',
+        overridePath: 'diseases',
+        facets: this.data.diseaseFacets
+      }),
+        new TabParams({
+        title: `Ligand Filter Matches (${this.data.ligandFacets.length})`,
+        tooltip: 'Tab of ligand filters that have matching values',
+        overridePath: 'ligands',
+        facets: this.data.ligandFacets
+      })
+    ];
   }
 
   getIcon(entry: any) {
@@ -58,6 +90,10 @@ export class SearchComponent extends DynamicPanelComponent implements OnInit {
         return 'coronavirus';
     }
     return 'help';
+  }
+
+  facetIsPrediction(facet: Facet) {
+    return facet.facet.toLowerCase().startsWith('predict');
   }
 
   getFilterName(entityType: string) {
@@ -73,7 +109,7 @@ export class SearchComponent extends DynamicPanelComponent implements OnInit {
     let blurb = text.substr(start, length).trim();
     const regex = new RegExp(this.term, 'gi');
     blurb = blurb.replace(regex, (match) => {
-        return '<b>' + match + '</b>'  ;
+        return '<b>' + match + '</b>';
       }
     );
     let ret = '';
@@ -86,5 +122,20 @@ export class SearchComponent extends DynamicPanelComponent implements OnInit {
     }
     return ret;
   }
+}
 
+export class TabParams {
+  title: string;
+  tooltip: string;
+  overridePath: string;
+  facets: Facet[];
+  constructor(obj) {
+    this.title = obj.title;
+    this.tooltip = obj.tooltip;
+    this.overridePath = obj.overridePath;
+    this.facets = obj.facets;
+  }
+  hasData() {
+    return this.facets.length > 0;
+  }
 }

@@ -8,6 +8,7 @@ import {TargetTableComponent} from '../../data-list/tables/target-table/target-t
 import {SharedListModule} from '../../../shared/shared-list.module';
 import {TargetTableModule} from '../targets/target-list.module';
 import {CommonToolsModule} from '../../../tools/common-tools.module';
+import {FacetTableModule} from '../../data-list/filter-panel/facet-table/facet-table.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {CommonToolsModule} from '../../../tools/common-tools.module';
         SharedModule,
         SharedListModule,
         TargetTableModule,
-        CommonToolsModule
+        CommonToolsModule,
+        FacetTableModule
     ],
   providers: [
     {provide: TOKENS.BROWSE_TABLE_COMPONENT, useValue: SearchComponent}

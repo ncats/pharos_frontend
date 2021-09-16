@@ -7,7 +7,7 @@
   grid-gap: 2px;
 }
 
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 768px) {
   .list-grid {
     grid-template-columns: repeat(auto-fill, minmax(95%, 1fr));
   }
@@ -17,9 +17,10 @@
   margin: 2px;
 }
 
-.drilldown-buttons {
-  padding-top: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
+.clickable-card {
+  cursor: pointer;
+}
+
+.clickable-card:hover {
+  background-color: #f6f6f6;
 }

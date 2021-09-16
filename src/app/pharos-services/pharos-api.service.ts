@@ -810,29 +810,33 @@ export class PharosApiService {
     });
   }
 
-  browseQuery(route: ActivatedRouteSnapshot, state?: any): Observable<any> {
-    const variables = this.parseVariables(route, state);
+  searchQuery(route: ActivatedRouteSnapshot, state?: any): Observable<any> {
+    const variables = this.parseVariables(route, state) || {};
+    variables.term = variables.filter?.term;
     let query;
-    query = gql`query browseQuery($filter: IFilter) {
-      targets(facets: ["Target Development Level"], filter: $filter) {
+    query = gql`query browseQuery($term: String) {
+      targets(facets: ["Target Development Level"], filter: {term: $term}) {
         count
         facets{
           ...facetFields
         }
       }
-      diseases(facets: ["Highest TDL"], filter: $filter) {
+      diseases(facets: ["Highest TDL"], filter: {term: $term}) {
         count
         facets{
           ...facetFields
         }
       }
-      ligands(facets: ["Type"], filter: $filter) {
+      ligands(facets: ["Type"], filter: {term: $term}) {
         count
         facets{
           ...facetFields
         }
       }
-      search:searchDB(filter: $filter)
+      search:filterSearch(term: $term) {
+        model
+        ...facetFields
+      }
     }
     ${Facet.facetFieldsFragments}`;
     return this.apollo.query<any>({query, variables});

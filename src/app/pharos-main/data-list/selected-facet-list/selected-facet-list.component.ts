@@ -56,10 +56,12 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
       .subscribe((e: any) => {
         // If it is a NavigationEnd event re-initalize the component
         if (e instanceof NavigationEnd) {
+          this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
           this.facets = this.selectedFacetService.getFacetsAsObjects();
           this.changeRef.markForCheck();
         }
       });
+    this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
     this.facets = this.selectedFacetService.getFacetsAsObjects();
     this.metaService.setMetaData(
       {
