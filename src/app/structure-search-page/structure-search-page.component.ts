@@ -5,6 +5,7 @@ import {MolChangeService} from '../tools/marvin-sketcher/services/mol-change.ser
 import {Facet} from '../models/facet';
 import {environment} from '../../environments/environment';
 import {ResolverService} from '../pharos-services/resolver.service';
+import {UnfurlingMetaService} from '../pharos-services/unfurling-meta.service';
 /**
  * page to search by structure
  */
@@ -38,7 +39,8 @@ export class StructureSearchPageComponent implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router,
     private molChangeService: MolChangeService,
-    public resolverService: ResolverService
+    public resolverService: ResolverService,
+    private metaService: UnfurlingMetaService
   ) {
   }
 
@@ -63,6 +65,11 @@ export class StructureSearchPageComponent implements OnInit {
     this.typeCtrl.setValue(this.molChangeService.getSearchType());
     this.molChangeService.searchTypeChanged.subscribe(newType => {
       this.typeCtrl.setValue(newType);
+    });
+
+    this.metaService.setMetaData({
+      description: `Use the structure search tool to initiate a search based on a chemical structure.`,
+      title: `Pharos: Structure Search`
     });
   }
 
