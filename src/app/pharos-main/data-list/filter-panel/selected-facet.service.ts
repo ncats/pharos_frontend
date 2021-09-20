@@ -310,9 +310,50 @@ export class SelectedFacetService {
 
   newDescription(route): string {
     const facets = this.getFacetsAsObjects();
-    let str = `Found ${route.snapshot.data?.results?.count} ${route.snapshot.data?.path}. `;
+    const path = route.snapshot.data.path;
+
+    let str = '';
+    if (path === 'search') {
+      const diseaseCount = route.snapshot.data.results.diseases.count;
+      const targetCount = route.snapshot.data.results.targets.count;
+      const ligandCount = route.snapshot.data.results.ligands.count;
+      const entityCount = (diseaseCount > 0 ? 1 : 0) + (targetCount > 0 ? 1 : 0) + (ligandCount > 0 ? 1 : 0);
+      if (entityCount === 3) {
+        str = `Found ${targetCount} targets, ${diseaseCount} diseases, and ${ligandCount} ligands.`;
+      } else if (entityCount === 2) {
+        if (targetCount === 0) {
+          str = `Found ${diseaseCount} diseases and ${ligandCount} ligands.`;
+        }
+        else if (diseaseCount === 0) {
+          str = `Found ${targetCount} targets and ${ligandCount} ligands.`;
+        }
+        else {
+          str = `Found ${targetCount} targets and ${diseaseCount} diseases.`;
+        }
+      } else if (entityCount === 1) {
+        if (targetCount > 0) {
+          str = `Found ${targetCount} targets.`;
+        }
+        else if (diseaseCount > 0) {
+          str = `Found ${diseaseCount} diseases.`;
+        }
+        else {
+          str = `Found ${ligandCount} ligands.`;
+        }
+      } else {
+        str = `Found 0 targets, ligands, and diseases.`;
+      }
+      if (route.snapshot.data.results.targetFacets.length > 0 ||
+        route.snapshot.data.results.diseaseFacets.length > 0 ||
+        route.snapshot.data.results.ligandFacets.length > 0) {
+        str += ' The database also has matching filter values.';
+      }
+    } else {
+      str = `Found ${route.snapshot.data?.results?.count} ${route.snapshot.data?.path}.`;
+    }
+
     if (facets.length) {
-      str += 'The following filters were applied: ';
+      str += ' The following filters were applied: ';
       str += facets.map(f => f.facet + ' = ' + f.values.map(v => v.name).join(' OR ')).join((' AND '));
     }
     return str;
@@ -324,7 +365,10 @@ export class SelectedFacetService {
    */
   newTitle(route): string {
     const listType = route.snapshot.data.path;
-    const listName = listType.replace('/', '').toLowerCase().slice(0, listType.length - 1);
+    let listName = listType.replace('/', '').toLowerCase();
+    if (listType.endsWith('s')) {
+      listName = listName.slice(0, listType.length - 1);
+    }
     const listTitle = listName.charAt(0).toUpperCase() + listName.slice(1);
     return `Pharos: ${listTitle} List`;
   }
