@@ -77,6 +77,19 @@ export class Ligand extends PharosBase {
     return labels;
   }
 
+
+  getDisplayName() {
+    if (this.isdrug) {
+      return this.name;
+    }
+    const shortName = this.name.replace(/[,-123456789\[\]\(\)']/g, '');
+    const diff = this.name.length - shortName.length;
+    if (diff > 15) {
+      return this.chemblName || this.name;
+    }
+    return this.name;
+  }
+
 }
 
 /**
