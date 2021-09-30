@@ -218,8 +218,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
     this.pharosApiService.getAllFacetOptions(
       this.linkPath(),
       this._route.snapshot.queryParamMap,
-      this.facet.facet,
-      this.facet.count).subscribe({
+      this.facet.facet).subscribe({
       next:
         res => {
           this.facet = res.data.results.facets.find(resfacet => resfacet.facet === this.facet.facet);

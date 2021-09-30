@@ -1,0 +1,24 @@
+<article class="container">
+  <mat-card
+            id="target-disease-cross"
+            #targetDiseaseCross>
+    <mat-card-content>
+      <div fxLayout="row"
+           class="tkrow"
+           fxLayoutAlign="start stretch">
+        <div fxFlex="95">
+        <span class="mat-title"
+              [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">
+          {{title}}</span>
+        </div>
+        <div fxFlex="5">
+          <pharos-help-panel-trigger [origin]="'classes'"></pharos-help-panel-trigger>
+        </div>
+      </div>
+      <div class="heatmap-container">
+      <pharos-heat-map [heatmapData]="activityMap" #heatMap></pharos-heat-map>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</article>

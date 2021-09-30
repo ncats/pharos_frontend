@@ -1,4 +1,5 @@
 import {InjectionToken} from '@angular/core';
+import {strict} from 'assert';
 
 /**
  * main class of injection tokens
@@ -20,10 +21,14 @@ export class TOKENS {
    * injection token to add the selected facets list component
    */
   public static PHAROS_SELECTED_FACET_LIST_COMPONENT = new InjectionToken<string>('PharosFacetComponent');
+  public static PHAROS_TARGET_LIGAND_HEATMAP_COMPONENT = new InjectionToken<string>('TargetLigandHeatmapComponent');
+  public static PHAROS_TARGET_DISEASE_HEATMAP_COMPONENT = new InjectionToken<string>('TargetDiseaseHeatmapComponent');
+  public static PHAROS_ANALYZE_HEADER_COMPONENT = new InjectionToken<string>('AnalyzeHeaderComponent');
   /**
    * injection token to add the facet donut chart
    */
   public static PHAROS_VISUALIZATION_COMPONENT = new InjectionToken<string>('PharosFacetVisualizationComponent');
+  public static PHAROS_FACET_REPRESENTATION_COMPONENT = new InjectionToken<string>('FilterRepresentationComponent');
   /**
    * injection token to add the target details subnavigation component
    */

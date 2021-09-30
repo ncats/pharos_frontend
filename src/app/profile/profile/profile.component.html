@@ -1,30 +1,38 @@
 <div class="profile-container">
   <div *ngIf="collections; else nocollections">
-  <div *ngFor="let collection of collections">
-    <mat-toolbar [color]="'primary'" class="target-table-toolbar">
-      <div class=list-header>{{collection.collectionName}} <span>({{collection.targetList.length}})</span>
+    <div class="collectionGroup" *ngFor="let cObj of collectionObjects">
+      <mat-toolbar [color]="'primary'" class="target-table-toolbar">
+        <div class=list-header>{{cObj.collectionHeader}}
+        </div>
+        <div fxFlex></div>
+      </mat-toolbar>
+      <div *ngFor="let collection of cObj.collection">
+
+        <mat-expansion-panel expanded="true">
+          <mat-expansion-panel-header>
+            <div class="collection-details">
+              <div class="mat-title"
+                    [ngClass]="{italic: !collection.collectionName}">{{collection.collectionName || '-- no name --'}}</div>
+              <div class="mat-title countSpan">({{collection.targetList.length}})</div>
+              <div class="countSpan">{{collection.description}}</div>
+            </div>
+          </mat-expansion-panel-header>
+          <div fxLayout="row" fxLayoutAlign="space-around start">
+            <div fxFlex="90">
+              <p>{{cObj.models}}: {{collection.targetList.join(', ')}}</p>
+            </div>
+            <button mat-icon-button
+                    (click)="deleteCollection(collection)" aria-label="delete collection">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-expansion-panel>
+
       </div>
-      <div fxFlex></div>
-      <div fxFlex="5">
-        <button mat-icon-button
-                (click)="deleteCollection(collection)" aria-label="delete collection">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
-    </mat-toolbar>
-    <div fxLayout="row" fxLayoutAlign="space-around start" *ngIf="collection.description">
-    <div fxFlex="90">
-    <p>{{collection.description}}</p>
     </div>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="space-around start">
-      <div fxFlex="90">
-        <p>{{collection.targetList.join(', ')}}</p>
-    </div>
-    </div>
+
   </div>
-</div>
-<ng-template #nocollections>
-  <h3>You have no target collections saved.</h3>
-</ng-template>
+  <ng-template #nocollections>
+    <h3>You have no target collections saved.</h3>
+  </ng-template>
 </div>

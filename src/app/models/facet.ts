@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
 
 /**
  * apollo graphQL query fragment to retrieve common fields for a target list view
@@ -36,7 +37,7 @@ const FACETFIELDSTOP = gql`
     dataType
     binSize
     count
-    values(top:$facetTop){
+    values(all:true){
       name
       count:value
       stats {
@@ -92,6 +93,7 @@ export class BinomialStats {
   nullValue: number;
   alternative: string;
   method: string;
+
   constructor(json: any) {
     Object.entries((json)).forEach((prop) => this[prop[0]] = prop[1]);
   }
@@ -134,6 +136,35 @@ export class Facet {
       this.values = json.values?.map(val => new Field(val)) || [];
       this.upSets = json.upSets || [];
     }
+  }
+
+  toProps() {
+    const formatPvalue = (num) => {
+      if (num >= .01) {
+        return num.toFixed(2);
+      } else if (num === 0) {
+        return 0;
+      } else {
+        return num.toExponential(0);
+      }
+    };
+    const retObj: any[] = [];
+    this.values.forEach(v => {
+      const obj: any = {};
+      obj.count = new DataProperty({name: 'count', label: 'count', term: v.count});
+      obj.name = new DataProperty({name: 'name', label: 'name', term: v.name});
+      if (v.stats) {
+        obj.pValue = new DataProperty({name: 'pValue', label: 'p-value',
+          term: formatPvalue(v.stats.pValue) + (v.stats.rejected ? (v.stats.representation == 1 ? '* ↗' : '* ↘') : '')});
+        obj.rejected = new DataProperty( {name: 'rejected', label: 'rejected', term: v.stats.rejected});
+        obj.statistic = new DataProperty({name: 'statistic', label: 'Frequency',
+        term: (v.stats.statistic.toPrecision(2))});
+        obj.nullValue = new DataProperty({name: 'nullValue', label: 'Expected Frequency',
+        term: (v.stats.nullValue.toPrecision(2))});
+      }
+      retObj.push(obj);
+    });
+    return retObj;
   }
 
   /**
@@ -207,10 +238,16 @@ export class Facet {
    * retrieves a query object for getting all the facet options for a single facet for a list of targets / diseases / ligands
    * @param path
    */
-  static getAllFacetOptionsQuery(path, enrichFacets) {
+  static getAllFacetOptionsQuery(path, enrichFacets, getFacetNames) {
     return gql`
       #import "./facetFieldsTop.gql"
-      query getAllFacetOptions($batchIDs:[String], $filter:IFilter, $facetTop:Int, $facet:String!){
+      query getAllFacetOptions($batchIDs:[String], $filter:IFilter, $facet:String!){
+        ${getFacetNames ?
+      `normalizableFilters {
+         diseaseFacets
+          targetFacets
+          ligandFacets
+        }` : ''}
         results: ${path}(facets:[$facet], filter:$filter, ${path}:$batchIDs){
           facets${enrichFacets ? '(enrichFacets: true)' : ''} {
             ...facetFieldsTop
@@ -224,25 +261,14 @@ export class Facet {
    * @param path
    */
   static getAllFacetsQuery(path, enrichFacets) {
-    if (path === 'targets') {
-      return gql`
-        #import "./facetFields.gql"
-        query getAllFacets($batchIDs:[String], $facets:[String!], $filter:IFilter) {
-          results: targets(facets:$facets, filter:$filter, targets:$batchIDs) {
-            facets${enrichFacets ? '(enrichFacets: true)' : ''} {
-              ...facetFields
-            }
-          }
-        }${FACETFIELDS}`;
-    }
     return gql`
       #import "./facetFields.gql"
-      query getAllFacets($facets:[String!], $filter:IFilter) {
-      results: ${path}(facets:$facets, filter:$filter) {
-      facets${enrichFacets ? '(enrichFacets: true)' : ''} {
-      ...facetFields
-      }
-      }
+      query getAllFacets($batchIDs:[String], $facets:[String!], $filter:IFilter) {
+        results: ${path}(facets:$facets, filter:$filter, ${path}:$batchIDs) {
+          facets${enrichFacets ? '(enrichFacets: true)' : ''} {
+          ...facetFields
+          }
+        }
       }${FACETFIELDS}`;
   }
 }

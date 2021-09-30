@@ -1,0 +1,61 @@
+<article class="container">
+  <mat-card
+            id="filter-representation"
+            #filterRepresentation>
+    <mat-card-content>
+      <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+        <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+      </div>
+      <div fxLayout="row"
+           class="tkrow"
+           fxLayoutAlign="start stretch">
+        <div fxFlex="95">
+        <span class="mat-title"
+              [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">
+          {{label}}</span>
+        </div>
+        <div fxFlex="5">
+          <pharos-help-panel-trigger [origin]="'classes'"></pharos-help-panel-trigger>
+        </div>
+      </div>
+
+      <mat-card-subtitle>Instructions</mat-card-subtitle>
+      <p>
+        Filter value counts as reported on the left panel show which filter values are the most common for targets in the list.
+        These raw counts are sometimes dominated by filter values that are much more likely to be found than others.
+        This tool calculates which filter values are over-represented in the current list, based on the frequency of
+        {{models}} in the list having each filter value, compared to the expected frequency for that filter value, as
+        calculated from the full unfiltered list. The odds ratio of seeing such a frequency, and p-value are calculated
+        using Fisher's Exact test (or at least it will be when I change it, this Proof of Concept is currently using the Binomial Test).</p>
+
+      <mat-card-subtitle>Potential Use Cases</mat-card-subtitle>
+
+      <ul>
+        <li>
+          For a list of interacting proteins to a target of interest (click 'Explore Interacting Targets' from a target
+          details page), what values for 'Associated Disease' are overrepresented in the list?
+        </li>
+        <li>
+          For a list of targets generated from your RNA-SEQ experiment, and uploaded to your profile as a custom target
+          list (see the tutorial 'Uploading a Custom Target List' for a walk through), what 'Reactome Pathways' are overrepresented?
+        </li>
+       </ul>
+
+      <mat-card-subtitle>Note</mat-card-subtitle>
+      <p>These calculations don't make sense if the list is not filtered. Nor does it make sense for the filters that
+        are being used to filter the list.</p>
+
+      <mat-form-field [floatLabel]="">
+      <mat-select [(value)]="this.selectedFacetName" (valueChange)="facetChanged($event)" placeholder="Select a filter" class="filterOption">
+        <mat-option *ngFor="let filterName of fullFacetList" [value]="filterName">
+          {{filterName}}
+        </mat-option>
+      </mat-select>
+      </mat-form-field>
+      <div class="content">
+        <pharos-generic-table [data]="this.selectedFacetProps" [fieldsConfig]="facetFields"></pharos-generic-table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</article>

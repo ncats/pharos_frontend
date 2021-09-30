@@ -1,36 +1,16 @@
 <section class="model-list">
   <div *ngIf="targets">
-    <mat-toolbar [color]="'primary'" class="target-table-toolbar">
-      <div class=modellist-header>Targets <span *ngIf="pageData">({{pageData.total}})</span>
-      </div>
-      <div fxFlex></div>
-      <div fxFlex="10" fxLayoutAlign="end">
-        <span *ngIf="loggedIn === true" [matTooltip]="rowSelection.isEmpty()? 'Select targets to save as a custom collection' : null">
-          <button mat-button class="tool-button"
-                  (click)="saveTargets()"
-                  [disabled]="rowSelection.isEmpty()"
-                  matTooltip="Save Collection">
-            <mat-icon>playlist_add</mat-icon>
-          </button>
-        </span>
-        <button mat-button class="tool-button upload-target-list-button" (click)="batchUpload()"
-                matTooltip="Upload Target List">
-          <mat-icon>upload</mat-icon>
-        </button>
-        <button mat-button class="tool-button list-download" (click)="downloadData()"
-                matTooltip="Download Target List Data">
-          <mat-icon>download</mat-icon>
-        </button>
-      </div>
-    </mat-toolbar>
     <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="space-between center"
          class="paginator-row">
-      <div fxFlex="20" *ngIf="loggedIn">
-        <mat-checkbox (click)="$event.stopPropagation()" [matTooltip]="this.selectionTooltip() || 'Select all targets'"
+      <div fxFlex="25" class="select-group" *ngIf="loggedIn">
+        <mat-checkbox (click)="$event.stopPropagation()" [matTooltip]="this.selectionTooltip() || 'Select all targets on this page'"
                       (change)="$event ? this.toggleAll($event) : null"
                       [checked]="this.allSelected()"
                       [indeterminate]="this.someSelected()">Selected {{this.rowSelection.selected.length}} targets
         </mat-checkbox>
+        <button mat-icon-button (click)="clearAll()" *ngIf="!rowSelection.isEmpty()" class="close-button" matTooltip="Clear all selected targets from all pages" aria-label="Clear all selected targets from all pages">
+          <mat-icon>close</mat-icon>
+        </button>
       </div>
       <div class="sort-select model-list-sort">
         <mat-form-field class="sort-dropdown">

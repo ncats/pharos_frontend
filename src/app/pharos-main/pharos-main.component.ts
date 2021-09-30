@@ -298,7 +298,8 @@ export class PharosMainComponent implements OnInit, OnDestroy {
   }
 
   isList() {
-    return this._route.snapshot.data.subpath !== 'list';
+    return this._route.snapshot.data.subpath !== 'list'
+      && this._route.snapshot.data.subpath !== 'analyze';
   }
 
   /**

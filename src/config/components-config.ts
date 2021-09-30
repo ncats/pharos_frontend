@@ -332,6 +332,20 @@ const PHAROS_FACETS_COMPONENT: PharosPanel = {
   section: Position.Left
 };
 
+const PHAROS_ANALYZE_HEADER_COMPONENT: PharosPanel = {
+  token: TOKENS.PHAROS_ANALYZE_HEADER_COMPONENT,
+  section: Position.Content
+};
+const PHAROS_TARGET_DISEASE_HEATMAP_COMPONENT: PharosPanel = {
+  token: TOKENS.PHAROS_TARGET_DISEASE_HEATMAP_COMPONENT,
+  section: Position.Content
+}
+const PHAROS_TARGET_LIGAND_HEATMAP_COMPONENT: PharosPanel = {
+  token: TOKENS.PHAROS_TARGET_LIGAND_HEATMAP_COMPONENT,
+  section: Position.Content
+}
+
+
 /**
  * main target facet component
  * @type {PharosPanel}
@@ -339,6 +353,20 @@ const PHAROS_FACETS_COMPONENT: PharosPanel = {
 const PHAROS_SELECTED_FACET_LIST_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_SELECTED_FACET_LIST_COMPONENT,
   section: Position.Content
+};
+
+const PHAROS_FACET_REPRESENTATION_COMPONENT: PharosPanel = {
+  token: TOKENS.PHAROS_FACET_REPRESENTATION_COMPONENT,
+  section: Position.Content,
+  navHeader: {
+    mainDescription: 'Advanced analysis capabilities for lists.',
+    section: 'analyze',
+    label: 'Filter Value Representation'
+  }, api: [
+    {description: 'description',
+    field: 'field',
+    label: 'label'}
+  ]
 };
 
 /**
@@ -351,7 +379,7 @@ const PHAROS_FACET_VISUALIZATION_COMPONENT: PharosPanel = {
   navHeader: {
     mainDescription: 'Summary Visualizations.',
     section: 'visualizations',
-    label: 'Facet Visualizations'
+    label: 'Filter Visualizations'
   },
   api: [
     {
@@ -1376,6 +1404,13 @@ const TOPIC_DETAILS_COMPONENT: PharosPanel = {
 };
 */
 
+const commonAnalyzeComponents = [
+  PHAROS_FACETS_COMPONENT,
+  PHAROS_SELECTED_FACET_LIST_COMPONENT,
+  PHAROS_ANALYZE_HEADER_COMPONENT,
+  PHAROS_FACET_VISUALIZATION_COMPONENT,
+  PHAROS_FACET_REPRESENTATION_COMPONENT,
+];
 
 /**
  * map of components to build section of pharos
@@ -1392,11 +1427,18 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       }
     }],
     ['targets', {
+      analyze: {
+        components: [
+          ...commonAnalyzeComponents,
+          // PHAROS_TARGET_DISEASE_HEATMAP_COMPONENT,
+          // PHAROS_TARGET_LIGAND_HEATMAP_COMPONENT
+        ]
+      },
       list: {
         components: [
           PHAROS_FACETS_COMPONENT,
-          PHAROS_FACET_VISUALIZATION_COMPONENT,
           PHAROS_SELECTED_FACET_LIST_COMPONENT,
+          PHAROS_ANALYZE_HEADER_COMPONENT,
           TARGET_TABLE_COMPONENT,
           PHAROS_HELPPANEL_COMPONENT
         ]
@@ -1431,11 +1473,16 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       }
     }],
     ['diseases', {
+      analyze: {
+        components: [
+          ...commonAnalyzeComponents
+        ]
+      },
       list: {
         components: [
           PHAROS_FACETS_COMPONENT,
-          PHAROS_FACET_VISUALIZATION_COMPONENT,
           PHAROS_SELECTED_FACET_LIST_COMPONENT,
+          PHAROS_ANALYZE_HEADER_COMPONENT,
           DISEASE_TABLE_COMPONENT,
           PHAROS_HELPPANEL_COMPONENT
         ]
@@ -1453,11 +1500,16 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       }
     }],
     ['ligands', {
+      analyze: {
+        components: [
+          ...commonAnalyzeComponents
+        ]
+      },
       list: {
         components: [
           PHAROS_FACETS_COMPONENT,
-          PHAROS_FACET_VISUALIZATION_COMPONENT,
           PHAROS_SELECTED_FACET_LIST_COMPONENT,
+          PHAROS_ANALYZE_HEADER_COMPONENT,
           LIGAND_TABLE_COMPONENT,
           PHAROS_HELPPANEL_COMPONENT
         ]

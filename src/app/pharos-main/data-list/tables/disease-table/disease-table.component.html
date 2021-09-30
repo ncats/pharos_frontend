@@ -1,16 +1,5 @@
 <section class="model-list">
 <div *ngIf= "diseases && diseases.length > 0">
-  <mat-toolbar [color]="'primary'" class="target-table-toolbar">
-    <div class=modellist-header>Diseases <span *ngIf="pageData">({{pageData.total}})</span>
-    </div>
-    <div fxFlex></div>
-    <div fxFlex="10" fxLayoutAlign="end">
-      <button mat-button class="tool-button list-download" (click)="downloadData()"
-              matTooltip="Download Disease List Data">
-        <mat-icon>download</mat-icon>
-      </button>
-    </div>
-  </mat-toolbar>
 <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row disease-table">
   <div fxFlex="45">
   </div>

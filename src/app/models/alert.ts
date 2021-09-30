@@ -24,6 +24,7 @@ export class Alert {
     if (obj.endTime) {
       retObj.expireTime = new Timestamp(obj.endTime.seconds, obj.endTime.nanoseconds).toDate();
     }
+    retObj.affectsProd = obj.affectsProd;
     retObj.message = obj.message;
     return new Alert(retObj);
   }

@@ -1,0 +1,34 @@
+<mat-toolbar [color]="'primary'" class="target-table-toolbar">
+  <div class=modellist-header>{{models}} <span *ngIf="true">({{modelCount}})</span>
+  </div>
+  <button mat-button class="leftSide tool-button" [ngClass]="{'activeView': !isAnalyzePage(), inactiveView: isAnalyzePage()}"
+          [routerLink]="'/' + this.models.toLowerCase()"
+          [queryParams]="currentQueryParams()">
+    Table View
+  </button>
+  <button mat-button class="rightSide tool-button" [ngClass]="{'activeView': isAnalyzePage(), inactiveView: !isAnalyzePage()}"
+          [routerLink]="'/analyze/' + this.models.toLowerCase()"
+          [queryParams]="currentQueryParams()">
+    List Analysis
+  </button>
+  <div fxFlex></div>
+  <div fxFlex="10" fxLayoutAlign="end">
+  <span *ngIf="loggedIn === true && !this.isAnalyzePage()"
+        [matTooltip]="rowSelection.isEmpty()? 'Select ' + models.toLowerCase() + ' to save as a custom collection' : null">
+  <button mat-button class="tool-button"
+          (click)="saveTargets()"
+          [disabled]="rowSelection.isEmpty()"
+          matTooltip="Save Collection">
+    <mat-icon>playlist_add</mat-icon>
+  </button>
+  </span>
+    <button mat-button class="tool-button upload-target-list-button" (click)="batchUpload()"
+            matTooltip="Upload {{model}} List">
+      <mat-icon>upload</mat-icon>
+    </button>
+    <button mat-button class="tool-button list-download" (click)="downloadData()"
+            matTooltip="Download {{model}} List Data">
+      <mat-icon>download</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
