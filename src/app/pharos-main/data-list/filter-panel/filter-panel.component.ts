@@ -20,6 +20,7 @@ import {ActivatedRoute, NavigationEnd, NavigationExtras, NavigationStart, Router
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {environment} from '../../../../environments/environment';
+import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 
 /**
  * panel that hold a facet table for selection
@@ -54,7 +55,8 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     private pathResolverService: PathResolverService,
     private pharosApiService: PharosApiService,
     private firestore: AngularFirestore,
-    private pharosConfig: PharosConfig) { }
+    private pharosConfig: PharosConfig,
+    private centralStorageService: CentralStorageService) { }
 
   panelOptions: PanelOptions = {
     mode: 'side',
@@ -101,6 +103,8 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    */
   loading = false;
 
+  models: string;
+
   @Input() data: any = {};
 
   user: any;
@@ -141,15 +145,16 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * set up subscriptions to get facets
    */
   ngOnInit() {
+    this.models = this._route.snapshot.data.path;
     this.profileService.profile$.subscribe(user => {
       if (user) {
         // User is signed in.
         this.user = user;
-        if (user.data().collection && this._route.snapshot.data.path === 'targets') {
+        if (user.data().collection) {
           this.clearCustomFacets();
           const customFacets = new Facet({
             facet: 'collection',
-            label: 'Custom Collections',
+            label: `Custom ${this.modelLabel()} Collections`,
             values: []
           });
 
@@ -161,21 +166,25 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
               .pipe(
                 take(1),
                 map(res => {
-                  const ret = new Field({
-                    name: res.collectionName,
-                    value: batch,
-                    count: res.targetList.length
-                  });
-                  return ret;
+                  this.centralStorageService.collections.set(batch, res.collectionName);
+                  if (res && (res.models === this.models || (this.models === 'targets' && !res.models))) {
+                    const ret = new Field({
+                      name: res.collectionName,
+                      value: batch,
+                      count: res.targetList.length
+                    });
+                    return ret;
+                  }
                 })
               );
           });
 
           forkJoin([...collections]).subscribe(res => {
+            const filteredCollections = res.filter(r => !!r);
             const collectionFacet = new Facet({
               facet: 'collection',
-              label: 'Custom Collections',
-              values: res
+              label: `Custom ${this.modelLabel()} Collections`,
+              values: filteredCollections
             });
             this.customFacets.push(collectionFacet);
             if (this.customFacets.length > 1){
@@ -196,11 +205,12 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((e: any) => {
         // If it is a NavigationEnd event re-initalise the component
-        if (e instanceof NavigationStart && e.navigationTrigger === "popstate"){
+        if (e instanceof NavigationStart && e.navigationTrigger === 'popstate'){
           this.selectedFacetService.clearFacets();
         }
         if (e instanceof NavigationEnd) {
           if (this.data) {
+            this.models = this._route.snapshot.data.path;
             this.allFacets = [];
             this.filteredFacets = this.data.facets;
             this.facets = this.customFacets.concat(this.filteredFacets);
@@ -215,6 +225,10 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
     this.facetEnrichment = this._route.snapshot.queryParamMap.get('enrichFacets') === 'true';
     this.changeRef.markForCheck();
+  }
+
+  modelLabel() {
+    return this.models.charAt(0).toUpperCase() + this.models.slice(1, this.models.length - 1);
   }
 
   clearCustomFacets(){

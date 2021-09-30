@@ -6,8 +6,8 @@ import {ActivatedRoute} from '@angular/router';
 import {Subject} from 'rxjs';
 import {isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
-import {HeatMapData} from '../../../../../tools/visualizations/heat-map/heat-map.component';
 import {TourType} from '../../../../../pharos-services/tour.service';
+import {HeatMapData} from '../../../../../tools/visualizations/heat-map/heat-map.component';
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 /**
@@ -114,7 +114,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   }
 
   updateHeatmapData() {
-    this.uberonExpressionMap = new HeatMapData('Data Source', 'Tissue');
+    this.uberonExpressionMap = new HeatMapData('Data Source', 'Tissue', 'Average');
     this.setMapData(this.uberonExpressionMap, this.target.expressions, this.target.gtex);
   }
 

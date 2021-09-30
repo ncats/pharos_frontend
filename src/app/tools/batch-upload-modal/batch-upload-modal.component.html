@@ -1,7 +1,7 @@
 <div class = "upload-form">
 <div fxLayout="row" fxLayoutAlign="space-around center">
   <div fxFlex="90">
-    <h1 mat-dialog-title>{{data.title}}</h1>
+    <h1 mat-dialog-title>Upload {{models}}</h1>
   </div>
   <button mat-icon-button (click)="cancel()">
     <mat-icon>close</mat-icon>
@@ -30,7 +30,7 @@
           [required]="true"
           [formControl]=targetListCtrl
           [rows]="10"
-          placeholder="Enter up to 100 newline or comma separated targets"></textarea>
+          [placeholder]="'Enter your list of ' + this.models.toLowerCase() + 'separated by commas or newlines'"></textarea>
         <mat-error *ngIf="targetListCtrl.touched && targetListCtrl.hasError('required')">
           required*
         </mat-error>
@@ -48,17 +48,11 @@
       </mat-form-field>
     </div>
   </div>
-  <div fxLayout="row" fxLayoutAlign="space-around center" *ngIf= "nameable && data.saveToProfile">
-    <div fxFlex="90">
-      <mat-checkbox class="example-margin" [(ngModel)]="saveToProfile">Save To Profile?</mat-checkbox>
-    </div>
-  </div>
-
 </div>
 <div mat-dialog-actions [dir]="'rtl'">
   <button mat-flat-button
           [color]="'primary'"
-          [disabled]="(nameable && collectionNameCtrl.hasError('required')) && targetListCtrl.hasError('required')"
+          [disabled]="(nameable && collectionNameCtrl.hasError('required')) || targetListCtrl.hasError('required')"
           (click)="submitList()">Submit</button>
   <button mat-flat-button (click)="cancel()">Cancel</button>
 </div>

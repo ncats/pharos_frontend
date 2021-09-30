@@ -18,7 +18,7 @@
           </div>
         </div>
         <div class="headerSection">
-          <pharos-explore-list-button *ngIf="!isDev else predictions" [path]="'/targets'" [buttonText]="'Explore Associated Targets'"
+          <pharos-explore-list-button *ngIf="true else predictions" [path]="'/targets'" [buttonText]="'Explore Associated Targets'"
                                       [queryParams]="{associatedLigand: ligand.ligid}"></pharos-explore-list-button>
           <ng-template #predictions>
             <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Explore Associated and Predicted Targets'"

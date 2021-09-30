@@ -26,6 +26,7 @@ export class BatchUploadModalComponent implements OnInit {
   targetListCtrl: FormControl = new FormControl();
   collectionNameCtrl: FormControl = new FormControl();
   descriptionCtrl: FormControl = new FormControl();
+  models: string;
 
   /**
    * add dialog controller
@@ -43,6 +44,8 @@ export class BatchUploadModalComponent implements OnInit {
   ngOnInit() {
     this.nameable = this.data.nameable;
     this.targetListCtrl.setValue(this.data.selection);
+    this.saveToProfile = this.data.saveToProfile;
+    this.models = this.data.models;
     this.changeRef.detectChanges();
   }
 
@@ -69,7 +72,8 @@ export class BatchUploadModalComponent implements OnInit {
         targetList: retArr,
         collectionName: this.collectionNameCtrl.value,
         description: this.descriptionCtrl.value,
-        saveList: this.saveToProfile
+        saveList: this.nameable && this.collectionNameCtrl.value && (this.collectionNameCtrl.value.length > 0),
+        models: this.models.toLowerCase()
   });
   }
 

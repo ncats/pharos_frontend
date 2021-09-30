@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
-import {Facet, UpsetOptions} from '../../../models/facet';
+import {Facet, Field, UpsetOptions} from '../../../models/facet';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {SelectedFacetService} from '../filter-panel/selected-facet.service';
@@ -9,6 +9,8 @@ import {UnfurlingMetaService} from '../../../pharos-services/unfurling-meta.serv
 import {MolChangeService} from '../../../tools/marvin-sketcher/services/mol-change.service';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {Helper} from '../../../models/utilities';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 
 /**
  * panel to show selected facets or queries, and remove them
@@ -28,6 +30,7 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
   associatedStructure: string;
   ligandSmiles: string;
   structureSearchType: string;
+
   /**
    * set up route watching
    * @param {ActivatedRoute} _route
@@ -43,7 +46,8 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
               private pathResolverService: PathResolverService,
               private metaService: UnfurlingMetaService,
               private molChangeService: MolChangeService,
-              public dynamicServices: DynamicServicesService) {
+              public dynamicServices: DynamicServicesService,
+              private centralStorageService: CentralStorageService) {
     super(dynamicServices);
   }
 
@@ -77,7 +81,7 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
     this.changeRef.markForCheck();
   }
 
-  editStructure(){
+  editStructure() {
     this.molChangeService.updateSmiles(this.ligandSmiles, 'edit');
     this.molChangeService.updateSearchType(this.structureSearchType);
     this.router.navigate(['/structure']);
@@ -86,6 +90,7 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
   formatUpset(upsetVal: string) {
     return UpsetOptions.parseFromUrl(upsetVal);
   }
+
   /**
    * remove a specific facet and all selected fields
    * @param facet
@@ -94,7 +99,7 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
     this.selectedFacetService.removefacetFamily(facet);
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
     this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
-     }
+  }
 
   /**
    * remove single field from a facet
@@ -112,6 +117,7 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
     this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
   }
+
   /**
    * clear all queries/facets
    */
@@ -119,6 +125,13 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
     this.selectedFacetService.clearFacets();
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
     this.pathResolverService.navigate(queryParams, this._route);
+  }
+
+  getName(field: Field, facet: Facet) {
+    if (facet.facet === 'collection') {
+      return this.centralStorageService.collections.get(field.name) || field.name;
+    }
+    return field.name;
   }
 
   ngOnDestroy(): void {

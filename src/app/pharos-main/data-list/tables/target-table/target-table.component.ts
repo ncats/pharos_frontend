@@ -22,8 +22,8 @@ import {PharosProfileService} from '../../../../auth/pharos-profile.service';
 import {TopicSaveModalComponent} from './topic-save-modal/topic-save-modal.component';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
+import {CentralStorageService} from '../../../../pharos-services/central-storage.service';
 
 
 /**
@@ -86,7 +86,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * selection model for when rows are selectable in table, used for compare and storing targets
    * @type {SelectionModel<any>}
    */
-  rowSelection = new SelectionModel<any>(true);
+  rowSelection: SelectionModel<any>;
 
   similarityTarget: Target;
 
@@ -114,7 +114,8 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
               private targetCollection: AngularFirestore,
               private snackBar: MatSnackBar,
               public breakpointObserver: BreakpointObserver,
-              public dynamicServices: DynamicServicesService) {
+              public dynamicServices: DynamicServicesService,
+              private centralStorageService: CentralStorageService) {
     super(dynamicServices);
   }
 
@@ -222,7 +223,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    */
   ngOnInit() {
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
-
+    this.rowSelection = this.centralStorageService.rowSelection;
     this.profileService.profile$.subscribe(user => {
       if (user) {
         this.user = user;
@@ -318,42 +319,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   }
 
   /**
-   * create and open batch upload dialog,
-   * fetch results on close and redirect to search by etag
-   */
-  batchUpload() {
-    const dialogRef = this.dialog.open(BatchUploadModalComponent, {
-        height: '75vh',
-        width: '66vw',
-        data: {
-          title: 'Upload Targets',
-          nameable: this.loggedIn,
-          saveToProfile: true
-        }
-      }
-    );
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.targetCollection.collection('target-collection').add(
-          result
-        ).then(doc => {
-          if (this.loggedIn && result.saveList) {
-            this.profileService.updateSavedCollection(doc.id);
-          }
-          this.snackBar.open('Targets uploaded!');
-          navigationExtras.state = {batchIds: result.targetList};
-          navigationExtras.queryParams = {
-            collection: doc.id,
-          };
-          this.snackBar.dismiss();
-          this._navigate(navigationExtras);
-        });
-      }
-    });
-  }
-
-  /**
    * stub for topic creation
    * todo: implement
    */
@@ -380,36 +345,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
           this.profileService.updateSavedCollection(doc.id);
         }
       });
-    });
-  }
-
-  /**
-   * stub for target list saving
-   * todo: implement
-   */
-  saveTargets() {
-    const targetList = this.rowSelection.selected.map(target => target = target.accession);
-    const dialogRef = this.dialog.open(BatchUploadModalComponent, {
-        height: '50vh',
-        width: '50vw',
-        data: {
-          title: `Saving ${targetList.length} Targets`,
-          selection: targetList,
-          user: this.user,
-          nameable: this.loggedIn,
-        }
-      }
-    );
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.targetCollection.collection('target-collection').add(
-          result
-        ).then(doc => {
-          this.profileService.updateSavedCollection(doc.id);
-          this.snackBar.open('Targets saved!');
-        });
-      }
     });
   }
 
@@ -461,11 +396,15 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
         }
       });
     } else {
-      this.rowSelection.clear();
-      // this.targets.forEach(t => {
-      //   this.rowSelection.deselect(this.getSelected(t));
-      // });
+      // this.rowSelection.clear();
+      this.targets.forEach(t => {
+        this.rowSelection.deselect(this.getSelected(t));
+      });
     }
+  }
+
+  clearAll() {
+    this.rowSelection.clear();
   }
 
   selectionTooltip(): string {
@@ -493,19 +432,8 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     return count;
   }
 
-  setSelectedTargets(selection) {
-    this.rowSelection = selection;
-  }
-
   selectAll() {
 
-  }
-
-  downloadData() {
-    const dialogRef = this.dialog.open(FieldSelectionDialogComponent, {
-      data: {count: this.pageData.total, model: 'Target', route: this._route},
-      height: '75vh', width: '66vw'
-    }).afterClosed();
   }
 
   /**

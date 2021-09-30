@@ -1,42 +1,53 @@
 <article>
-  <mat-card>
-    <mat-card-content>
-      <div fxLayout="column" fxLayoutAlign="space-around center" class="facet-visualizations">
-        <div *ngIf="displayFacet?.singleResponse">
-          <div fxLayout="row" fxLayoutAlign="space-around center">
-            <div *ngIf=displayFacet>
-              <pharos-donut-chart [data]="displayFacet.values"  (clickSlice)="filterDonutChart($event)" [events]="redrawCharts.asObservable()"></pharos-donut-chart>
-            </div>
-          </div>
-          <div fxLayout="row" fxLayoutAlign="space-around start">
-            <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet>
-              <p class="slice-help">  <mat-icon [color]="'primary'" class = "help-icon">info</mat-icon> Click on a slice to filter the list</p>
-            </div>
-          </div>
+  <mat-expansion-panel [expanded]=true>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+            <span>
+              <span class="mat-title facet-title">{{label}}</span>
+            </span>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div fxLayout="column" fxLayoutAlign="space-around center" class="facet-visualizations">
+      <div fxLayout="row" fxLayoutAlign="space-around start">
+        <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet class="facet-change">
+          <pharos-visualization-options [model]="model" [facets]="facets">
+          </pharos-visualization-options>
+          <b>{{displayFacet.facet}}</b>: <span [innerHTML]="displayFacet.sourceExplanation"></span>
         </div>
-        <div class="upset-chart" *ngIf="!displayFacet?.singleResponse">
-          <div>
-            <pharos-upset-plot [displayFacet]="displayFacet" [events]="redrawCharts.asObservable()"></pharos-upset-plot>
-            <div fxLayout="row" fxLayoutAlign="space-around start">
-              <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet>
-                <p class="slice-help">
-                  <mat-icon [color]="'primary'" class="help-icon">info</mat-icon>
-                  Click on a bar to filter the list
-                </p>
-              </div>
-            </div>
-          </div>
-          <div fxFlex="5">
-            <pharos-tutorial-link [tourType]="tourType"></pharos-tutorial-link>
+      </div>
+      <div *ngIf="displayFacet?.singleResponse">
+        <div fxLayout="row" fxLayoutAlign="space-around center">
+          <div *ngIf=displayFacet>
+            <pharos-donut-chart [data]="displayFacet.values" (clickSlice)="filterDonutChart($event)"
+                                [events]="redrawCharts.asObservable()"></pharos-donut-chart>
           </div>
         </div>
         <div fxLayout="row" fxLayoutAlign="space-around start">
-          <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet class="facet-change">
-            <pharos-visualization-options [model]="model" [facets]="facets">
-            </pharos-visualization-options>
+          <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet>
+            <p class="slice-help">
+              <mat-icon [color]="'primary'" class="help-icon">info</mat-icon>
+              Click on a slice to filter the list
+            </p>
           </div>
         </div>
       </div>
-    </mat-card-content>
-  </mat-card>
+      <div class="upset-chart" *ngIf="!displayFacet?.singleResponse">
+        <div>
+          <pharos-upset-plot [displayFacet]="displayFacet" [events]="redrawCharts.asObservable()"></pharos-upset-plot>
+          <div fxLayout="row" fxLayoutAlign="space-around start">
+            <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet>
+              <p class="slice-help">
+                <mat-icon [color]="'primary'" class="help-icon">info</mat-icon>
+                Click on a bar to filter the list
+              </p>
+            </div>
+          </div>
+        </div>
+        <div fxFlex="5">
+          <pharos-tutorial-link [tourType]="tourType"></pharos-tutorial-link>
+        </div>
+      </div>
+
+    </div>
+  </mat-expansion-panel>
 </article>

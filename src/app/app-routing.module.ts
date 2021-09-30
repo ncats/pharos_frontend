@@ -3,11 +3,11 @@ import {PreloadingStrategy, Route, RouterModule, Routes} from '@angular/router';
 import {CommonModule, isPlatformServer} from '@angular/common';
 import {CommonToolsModule} from './tools/common-tools.module';
 import {SharedModule} from './shared/shared.module';
-import {Observable, of} from "rxjs";
+import {Observable, of} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 class PharosPreloader implements PreloadingStrategy {
-  constructor(@Inject(PLATFORM_ID) private platformID: Object) {
+  constructor(@Inject(PLATFORM_ID) private platformID: any) {
   }
 
   preload(route: Route, fn: () => Observable<any>): Observable<any> {
@@ -80,6 +80,33 @@ const ROUTES: Routes = [
       subpath: 'list',
       preload: true,
       title: 'Search Results for Targets, Ligands, and Diseases'
+    }
+  },
+  {
+    path: 'analyze/targets',
+    loadChildren: () => import('./pharos-main/modules/analyze/analyze-list.module').then(m => m.AnalyzeListModule),
+    data: {
+      path: 'targets',
+      subpath: 'analyze',
+      preload: true
+    }
+  },
+  {
+    path: 'analyze/diseases',
+    loadChildren: () => import('./pharos-main/modules/analyze/analyze-list.module').then(m => m.AnalyzeListModule),
+    data: {
+      path: 'diseases',
+      subpath: 'analyze',
+      preload: true
+    }
+  },
+  {
+    path: 'analyze/ligands',
+    loadChildren: () => import('./pharos-main/modules/analyze/analyze-list.module').then(m => m.AnalyzeListModule),
+    data: {
+      path: 'ligands',
+      subpath: 'analyze',
+      preload: true
     }
   },
   {

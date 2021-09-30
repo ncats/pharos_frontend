@@ -6,3 +6,21 @@
   font: 400 34px/40px Roboto, "Helvetica Neue", sans-serif;
   margin-bottom: 0;
 }
+
+.italic {
+  font-style: italic;
+}
+
+.countSpan {
+  margin-left: 20px;
+}
+
+.collectionGroup:not(:first-of-type) {
+  padding-top: 25px;
+}
+
+.collection-details  {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
