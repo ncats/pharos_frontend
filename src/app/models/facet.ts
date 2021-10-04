@@ -93,6 +93,8 @@ export class BinomialStats {
   nullValue: number;
   alternative: string;
   method: string;
+  chiSq: number;
+  chiSqPValue: number;
 
   constructor(json: any) {
     Object.entries((json)).forEach((prop) => this[prop[0]] = prop[1]);
