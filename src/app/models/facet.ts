@@ -138,7 +138,7 @@ export class Facet {
     }
   }
 
-  toProps() {
+  toProps(linkCallback) {
     const formatPvalue = (num) => {
       if (num >= .01) {
         return num.toFixed(2);
@@ -152,15 +152,22 @@ export class Facet {
     this.values.forEach(v => {
       const obj: any = {};
       obj.count = new DataProperty({name: 'count', label: 'count', term: v.count});
-      obj.name = new DataProperty({name: 'name', label: 'name', term: v.name});
+      obj.name = new DataProperty({
+        name: 'name',
+        label: 'name',
+        term: v.name,
+        linkCallback
+      });
       if (v.stats) {
         obj.pValue = new DataProperty({name: 'pValue', label: 'p-value',
           term: formatPvalue(v.stats.pValue) + (v.stats.rejected ? (v.stats.representation == 1 ? '* ↗' : '* ↘') : '')});
         obj.rejected = new DataProperty( {name: 'rejected', label: 'rejected', term: v.stats.rejected});
         obj.statistic = new DataProperty({name: 'statistic', label: 'Frequency',
-        term: (v.stats.statistic.toPrecision(2))});
+          term: (v.stats.statistic.toPrecision(2))});
         obj.nullValue = new DataProperty({name: 'nullValue', label: 'Expected Frequency',
-        term: (v.stats.nullValue.toPrecision(2))});
+          term: (v.stats.nullValue.toPrecision(2))});
+        obj.chiSq = new DataProperty({name: 'chiSq', label: 'χ2', term: v.stats.chiSq});
+        obj.chiSqPValue = new DataProperty({name: 'chiSqPValue', label: 'p-value', term: v.stats.chiSqPValue});
       }
       retObj.push(obj);
     });

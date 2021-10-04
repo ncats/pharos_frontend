@@ -361,7 +361,7 @@ const PHAROS_FACET_REPRESENTATION_COMPONENT: PharosPanel = {
   navHeader: {
     mainDescription: 'Advanced analysis capabilities for lists.',
     section: 'analyze',
-    label: 'Filter Value Representation'
+    label: 'Filter Value Enrichment'
   }, api: [
     {description: 'description',
     field: 'field',
