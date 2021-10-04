@@ -24,7 +24,7 @@
       <p>
         Filter value counts as reported on the left panel show which filter values are the most common for targets in the list.
         These raw counts are sometimes dominated by filter values that are much more likely to be found than others.
-        This tool calculates which filter values are over-represented in the current list, based on the frequency of
+        This tool calculates which filter values are enriched, or over-represented, in the current list. The calculation is based on the frequency of
         {{models}} in the list having each filter value, compared to the expected frequency for that filter value, as
         calculated from the full unfiltered list. The odds ratio of seeing such a frequency, and p-value are calculated
         using Fisher's Exact test (or at least it will be when I change it, this Proof of Concept is currently using the Binomial Test).</p>
@@ -42,20 +42,31 @@
         </li>
        </ul>
 
-      <mat-card-subtitle>Note</mat-card-subtitle>
-      <p>These calculations don't make sense if the list is not filtered. Nor does it make sense for the filters that
-        are being used to filter the list.</p>
-
-      <mat-form-field [floatLabel]="">
+      <div *ngIf="listIsFiltered; else noFiltering">
+      <mat-form-field>
       <mat-select [(value)]="this.selectedFacetName" (valueChange)="facetChanged($event)" placeholder="Select a filter" class="filterOption">
         <mat-option *ngFor="let filterName of fullFacetList" [value]="filterName">
           {{filterName}}
         </mat-option>
       </mat-select>
       </mat-form-field>
-      <div class="content">
-        <pharos-generic-table [data]="this.selectedFacetProps" [fieldsConfig]="facetFields"></pharos-generic-table>
+        <div *ngIf="filterIsInUse(this.selectedFacetName); else filterTable">
+          <mat-card-subtitle>Note</mat-card-subtitle>
+          <p>The current list is being filtered by {{this.selectedFacetName}}. Select another filter to calculate filter value enrichment.
+          </p>
+        </div>
+        <ng-template #filterTable>
+          <div class="content">
+            <pharos-generic-table [data]="this.selectedFacetProps"
+                                  [fieldsConfig]="filterIsInUse(this.selectedFacetName) ? baseFacetFields : facetFields"></pharos-generic-table>
+          </div>
+        </ng-template>
       </div>
+      <ng-template #noFiltering>
+        <mat-card-subtitle>Note</mat-card-subtitle>
+        <p>You are viewing the full list. Select some filter options, or generate a list based on an associated target,
+          disease, or ligand, etc. in order to calculate which filter values are over-represented in the list.</p>
+      </ng-template>
     </mat-card-content>
   </mat-card>
 </article>

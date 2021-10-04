@@ -368,7 +368,7 @@ export class PharosApiService {
     if (path !== 'targets') {
       return '';
     }
-    return fragments.extras || '';
+    return fragments.targets.extras || '';
   }
 
   listRef(fragments: any, path: string) {
@@ -379,7 +379,7 @@ export class PharosApiService {
     if (path !== 'targets') {
       return '';
     }
-    if (fragments.extras) {
+    if (fragments.targets.extras) {
       return `...${path}Extras`;
     }
     return '';

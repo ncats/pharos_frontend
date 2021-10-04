@@ -7,6 +7,8 @@ import {CentralStorageService} from '../../../pharos-services/central-storage.se
 import {PharosProperty} from '../../../models/pharos-property';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {takeUntil} from 'rxjs/operators';
+import {SelectedFacetService} from '../../data-list/filter-panel/selected-facet.service';
+import {PathResolverService} from '../../data-list/filter-panel/path-resolver.service';
 
 @Component({
   selector: 'pharos-analyze-list',
@@ -20,20 +22,36 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
     private _route: ActivatedRoute,
     private centralStorageService: CentralStorageService,
     private pharosApiService: PharosApiService,
-    private changeRef: ChangeDetectorRef
+    private changeRef: ChangeDetectorRef,
+    private selectedFacetService: SelectedFacetService,
+    private pathResolverService: PathResolverService
   ) {
     super(dynamicServices);
   }
 
-  model: string;
   get models() {
     return this.model + 's';
   }
 
+  model: string;
+
+  baseFacetFields: PharosProperty[] = [
+    new PharosProperty({
+      name: 'name',
+      label: 'Value',
+      width: '50%'
+    }),
+    new PharosProperty({
+      name: 'count',
+      label: 'Count'
+    })
+  ];
+
   facetFields: PharosProperty[] = [
     new PharosProperty({
       name: 'name',
-      label: 'Value'
+      label: 'Value',
+      width: '50%'
     }),
     new PharosProperty({
       name: 'count',
@@ -66,6 +84,7 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
   selectedFacetName: string;
 
   fullFacetList: string[] = [];
+  listIsFiltered = true;
 
   ngOnInit(): void {
     // const catFacets = this.data.facets.filter(f => f.dataType === 'Category' && f.values.length > 0).map(f => new Facet(f));
@@ -76,12 +95,42 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        this.model = this._route.snapshot.data.path.slice(0, -1);
+        this.initialize();
         this.fetchAllFilterOptions();
       });
-    this.model = this._route.snapshot.data.path.slice(0, -1);
-    this.selectedFacetName = this.defaultFacetName();
+    this.initialize();
     this.fetchAllFilterOptions();
+  }
+
+  initialize() {
+    this.selectedFacetName = this.selectedFacetName || this.defaultFacetName();
+    this.listIsFiltered = this.calcListIsFiltered();
+    this.model = this._route.snapshot.data.path.slice(0, -1);
+  }
+
+  filterIsInUse(filterName: string) {
+    return !!this.selectedFacetService.getFacetByName(filterName);
+  }
+
+  calcListIsFiltered() {
+    let isFiltered = false;
+    this._route.snapshot.queryParamMap.keys.forEach(key => {
+      if ([
+        'collection',
+        'query',
+        'associatedTarget',
+        'associatedDisease',
+        'associatedStructure',
+        'associatedLigand',
+        'similarity'
+      ].includes(key) && this._route.snapshot.queryParamMap.get(key).length > 0) {
+        isFiltered = true;
+      }
+    });
+    if (isFiltered) {
+      return true;
+    }
+    return this.selectedFacetService.getFacetsAsObjects().length > 0;
   }
 
   linkPath() {
@@ -114,6 +163,19 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
     this.fetchAllFilterOptions();
   }
 
+  linkClicked(filterValue: string) {
+    this.selectedFacetService.setFacets(
+      {
+        name: this.selectedFacet.facet,
+        change:
+          {
+            added: [filterValue]
+          }
+      });
+    const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
+    this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
+  }
+
   fetchAllFilterOptions() {
     this.loading = true;
     this.pharosApiService.getAllFacetOptions(
@@ -125,7 +187,7 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
           this.fullFacetList = res.data.normalizableFilters[this.listFieldName()];
           this.selectedFacet = new Facet(res.data.results.facets.find(f => f.facet === this.selectedFacetName));
           this.selectedFacetName = this.selectedFacet.facet;
-          this.selectedFacetProps = this.selectedFacet.toProps();
+          this.selectedFacetProps = this.selectedFacet.toProps(this.linkClicked.bind(this));
           this.loading = false;
           this.changeRef.detectChanges();
         },
