@@ -16,15 +16,13 @@ const FACETFIELDS = gql`
       name
       count:value
       stats {
-        rejected
-        alpha
-        pValue
-        statistic
-        ci
-        nullValue
-        alternative
         representation
-        method
+        pValue
+        oddsRatio
+        alpha
+        rejected
+        statistic
+        nullValue
       }
     }
     sourceExplanation
@@ -41,15 +39,13 @@ const FACETFIELDSTOP = gql`
       name
       count:value
       stats {
-        rejected
-        alpha
-        pValue
-        statistic
-        ci
-        nullValue
-        alternative
         representation
-        method
+        pValue
+        oddsRatio
+        alpha
+        rejected
+        statistic
+        nullValue
       }
     }
   }`;
@@ -71,30 +67,26 @@ export class Field {
 
   count?: number;
 
-  stats?: BinomialStats;
+  stats?: FisherStats;
 
   noLink?: boolean;
 
   constructor(json: any) {
     Object.entries((json)).forEach((prop) => this[prop[0]] = prop[1]);
     if (json.stats) {
-      this.stats = new BinomialStats(json.stats);
+      this.stats = new FisherStats(json.stats);
     }
   }
 }
 
-export class BinomialStats {
+export class FisherStats {
+  oddsRatio: number;
   rejected: boolean;
   alpha: number;
   pValue: number;
   representation: number;
   statistic: number;
-  ci: number[];
   nullValue: number;
-  alternative: string;
-  method: string;
-  chiSq: number;
-  chiSqPValue: number;
 
   constructor(json: any) {
     Object.entries((json)).forEach((prop) => this[prop[0]] = prop[1]);
@@ -168,8 +160,8 @@ export class Facet {
           term: (v.stats.statistic.toPrecision(2))});
         obj.nullValue = new DataProperty({name: 'nullValue', label: 'Expected Frequency',
           term: (v.stats.nullValue.toPrecision(2))});
-        obj.chiSq = new DataProperty({name: 'chiSq', label: 'χ2', term: v.stats.chiSq});
-        obj.chiSqPValue = new DataProperty({name: 'chiSqPValue', label: 'p-value', term: v.stats.chiSqPValue});
+        obj.oddsRatio = new DataProperty({name: 'oddsRatio', label: 'Odds Ratio',
+          term: (v.stats.oddsRatio.toPrecision(2))});
       }
       retObj.push(obj);
     });

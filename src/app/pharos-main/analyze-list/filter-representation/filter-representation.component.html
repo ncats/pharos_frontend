@@ -22,12 +22,10 @@
 
       <mat-card-subtitle>Instructions</mat-card-subtitle>
       <p>
-        Filter value counts as reported on the left panel show which filter values are the most common for targets in the list.
+        Filter value counts, as reported on the left panel, show which filter values are the most common for targets in the list.
         These raw counts are sometimes dominated by filter values that are much more likely to be found than others.
-        This tool calculates which filter values are enriched, or over-represented, in the current list. The calculation is based on the frequency of
-        {{models}} in the list having each filter value, compared to the expected frequency for that filter value, as
-        calculated from the full unfiltered list. The odds ratio of seeing such a frequency, and p-value are calculated
-        using Fisher's Exact test (or at least it will be when I change it, this Proof of Concept is currently using the Binomial Test).</p>
+        This tool calculates which filter values are enriched, or over-represented, in the current list. The odds ratio of
+        observing a given count of values is presented, as is as the p-value using Fisher's Exact test</p>
 
       <mat-card-subtitle>Potential Use Cases</mat-card-subtitle>
 
@@ -57,7 +55,7 @@
         </div>
         <ng-template #filterTable>
           <div class="content">
-            <pharos-generic-table [data]="this.selectedFacetProps"
+            <pharos-generic-table [data]="this.selectedFacetProps" (sortChange)="changeSort($event)"
                                   [fieldsConfig]="filterIsInUse(this.selectedFacetName) ? baseFacetFields : facetFields"></pharos-generic-table>
           </div>
         </ng-template>
