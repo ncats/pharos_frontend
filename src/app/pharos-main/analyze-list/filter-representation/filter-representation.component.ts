@@ -200,7 +200,8 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
           this.changeRef.detectChanges();
         },
       error: e => {
-        throw(e);
+        alert(e.message);
+        this.loading = false;
       }
     });
   }
