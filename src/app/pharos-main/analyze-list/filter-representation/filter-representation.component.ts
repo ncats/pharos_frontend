@@ -39,11 +39,13 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
     new PharosProperty({
       name: 'name',
       label: 'Value',
-      width: '50%'
+      width: '50%',
+      sortable: true
     }),
     new PharosProperty({
       name: 'count',
-      label: 'Count'
+      label: 'Count',
+      sortable: true
     })
   ];
 
@@ -51,11 +53,13 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
     new PharosProperty({
       name: 'name',
       label: 'Value',
-      width: '50%'
+      width: '50%',
+      sortable: true
     }),
     new PharosProperty({
       name: 'count',
-      label: 'Count'
+      label: 'Count',
+      sortable: true
     }),
     // new PharosProperty({
     //   name: 'oddsRatio',
@@ -63,23 +67,27 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
     // }),
     new PharosProperty({
       name: 'statistic',
-      label: 'Frequency'
+      label: 'Observed Frequency',
+      sortable: true
     }),
     new PharosProperty({
       name: 'nullValue',
-      label: 'Expected Frequency'
+      label: 'Expected Frequency',
+      sortable: true
+    }),
+    new PharosProperty({
+      name: 'oddsRatio',
+      label: 'Odds Ratio',
+      sortable: true
     }),
     new PharosProperty({
       name: 'pValue',
-      label: 'p-value'
-    }),
-    // new PharosProperty({
-    //   name: 'rejected',
-    //   label: 'Rejected'
-    // })
+      label: 'p-value',
+      sortable: true
+    })
   ];
 
-  selectedFacetProps: any;
+  selectedFacetProps: any[];
   selectedFacet: Facet;
   selectedFacetName: string;
 
@@ -194,6 +202,36 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
       error: e => {
         throw(e);
       }
+    });
+  }
+
+  changeSort(event){
+    const column = event.active;
+    const direction = event.direction === 'asc' ? 1 : -1;
+    this.selectedFacetProps.sort((a, b) => {
+      const valA = a[column].term;
+      const valB = b[column].term;
+      if (column === 'name') {
+        return direction * valA.localeCompare(valB);
+      }
+      else if (column === 'pValue') {
+        const rawA = this.selectedFacet.values.find(f => f.name === a['name'].term);
+        const rawB = this.selectedFacet.values.find(f => f.name === b['name'].term);
+        if (rawA.stats && !rawB.stats) {
+          return 1;
+        }
+        if (!rawA.stats && rawB.stats) {
+          return -1;
+        }
+        if (rawA.stats.representation === rawB.stats.representation) {
+          if (rawA.stats.pValue == rawB.stats.pValue) {
+            return direction * (rawB.count - rawA.count);
+          }
+          return direction * (rawA.stats.representation * (rawA.stats.pValue - rawB.stats.pValue));
+        }
+        return direction * (rawB.stats.representation - rawA.stats.representation);
+      }
+      return direction * (Number.parseFloat(valA) - Number.parseFloat(valB));
     });
   }
 

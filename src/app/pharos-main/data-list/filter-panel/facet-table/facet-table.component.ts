@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Inp
 import {MatTableDataSource} from '@angular/material/table';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SelectionModel} from '@angular/cdk/collections';
-import {BinomialStats, Facet, Field} from '../../../../models/facet';
+import {Facet, Field} from '../../../../models/facet';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {PathResolverService} from '../path-resolver.service';
