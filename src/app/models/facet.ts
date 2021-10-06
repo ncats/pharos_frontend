@@ -157,11 +157,11 @@ export class Facet {
           term: formatPvalue(v.stats.pValue) + (v.stats.rejected ? (v.stats.representation == 1 ? '* ↗' : '* ↘') : '')});
         obj.rejected = new DataProperty( {name: 'rejected', label: 'rejected', term: v.stats.rejected});
         obj.statistic = new DataProperty({name: 'statistic', label: 'Frequency',
-          term: (v.stats.statistic.toPrecision(2))});
+          term: (v.stats.statistic?.toPrecision(2))});
         obj.nullValue = new DataProperty({name: 'nullValue', label: 'Expected Frequency',
-          term: (v.stats.nullValue.toPrecision(2))});
+          term: (v.stats.nullValue?.toPrecision(2))});
         obj.oddsRatio = new DataProperty({name: 'oddsRatio', label: 'Odds Ratio',
-          term: (v.stats.oddsRatio.toPrecision(2))});
+          term: (v.stats.oddsRatio?.toPrecision(2))});
       }
       retObj.push(obj);
     });
