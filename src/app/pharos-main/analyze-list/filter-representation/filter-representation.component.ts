@@ -185,6 +185,12 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
   }
 
   fetchAllFilterOptions() {
+    if (!this.listIsFiltered) {
+      return;
+    }
+    if (this.filterIsInUse(this.selectedFacetName)) {
+      return;
+    }
     this.loading = true;
     this.pharosApiService.getAllFacetOptions(
       this.linkPath(),
