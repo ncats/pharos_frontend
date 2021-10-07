@@ -3,7 +3,6 @@ import {FormControl} from '@angular/forms';
 import {ActivatedRoute, NavigationEnd, NavigationExtras, Router} from '@angular/router';
 import {MolChangeService} from '../tools/marvin-sketcher/services/mol-change.service';
 import {Facet} from '../models/facet';
-import {environment} from '../../environments/environment';
 import {ResolverService} from '../pharos-services/resolver.service';
 import {UnfurlingMetaService} from '../pharos-services/unfurling-meta.service';
 /**
@@ -21,7 +20,6 @@ export class StructureSearchPageComponent implements OnInit {
    * @type {FormControl}
    */
   typeCtrl: FormControl = new FormControl('sim');
-  isDev = false;
 
   /**
    * input smiles value, retrieved by either the text input or structure drawer component
@@ -53,7 +51,6 @@ export class StructureSearchPageComponent implements OnInit {
       });
 
     this.resolverIsUp = this.resolverService.resolverIsUp;
-    this.isDev = !environment.production;
     this.molChangeService.smilesChanged.subscribe(changeObj => {
       if (changeObj.source !== 'smilesCtrl') {
         this.smilesCtrl.setValue(changeObj.newSmiles);
