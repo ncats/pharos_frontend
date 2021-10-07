@@ -95,8 +95,6 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
   listIsFiltered = true;
 
   ngOnInit(): void {
-    // const catFacets = this.data.facets.filter(f => f.dataType === 'Category' && f.values.length > 0).map(f => new Facet(f));
-    // const startingFacet = catFacets[0].facet;
     this._data
       // listen to data as long as term is undefined or null
       .pipe(

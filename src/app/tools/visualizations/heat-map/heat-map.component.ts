@@ -141,7 +141,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
     const yAxis = d3.axisLeft()
       .scale(yScale);
     yAxis.ticks(this.heatmapData.yDisplayValues.length).tickFormat(d => {
-      return this.heatmapData.yDisplayValues.map(o => o.val)[d];
+      return this.heatmapData.yDisplayValues[d]?.val;
     });
 
     // Append group and insert axis
@@ -205,7 +205,10 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
       .attr('transform', d => `translate(0, ${this.blockSize * .5})`)
       .attr('style', 'text-anchor: end');
 
-    const yTicks = this.chartArea.select('.yAxis').selectAll('.tick').attr('class', 'tick yAxisLabel');
+    const yTicks = this.chartArea.select('.yAxis')
+      .selectAll('.tick').attr('class', 'tick yAxisLabel');
+    yTicks.append('svg:title')
+      .text(d => this.heatmapData.yDisplayValues[d]?.val);
     yTicks.on('mouseover', (event, d) => {
       const hoveredTissue = this.heatmapData.yDisplayValues[d].val;
       if (this.heatmapData.yDisplayValues[d].data) {
@@ -309,8 +312,12 @@ export class HeatMapData {
         return bVal - aVal;
       });
     } else {
-      this.xValues.sort((a, b) => b.score - a.score);
-      this.yValues.sort((a, b) => b.score - a.score);
+      this.xValues.sort((a, b) => {
+        return b.score - a.score;
+      });
+      this.yDisplayValues.sort((a, b) => {
+        return b.score - a.score;
+      });
     }
     this.yDisplayValues.forEach((y, yIndex) => {
       this.xValues.forEach((x, xIndex) => {
