@@ -829,7 +829,7 @@ export class PharosApiService {
     };
     variables.model = model;
     variables.crossModel = crossModel;
-    const query = gql`query($filter: IFilter, $batch: [String], $model: String!, $crossModel: String!) {
+    const query = gql`query ${model}x${crossModel}($filter: IFilter, $batch: [String], $model: String!, $crossModel: String!) {
   listCross(model:$model, crossModel:$crossModel, filter:$filter, batch:$batch)
 }`;
     return this.fetchTargetList(route).then((res: string[]) => {
