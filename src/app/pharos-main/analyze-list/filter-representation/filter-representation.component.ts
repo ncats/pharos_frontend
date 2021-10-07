@@ -186,9 +186,11 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
 
   fetchAllFilterOptions() {
     if (!this.listIsFiltered) {
+      this.loading = false;
       return;
     }
     if (this.filterIsInUse(this.selectedFacetName)) {
+      this.loading = false;
       return;
     }
     this.loading = true;

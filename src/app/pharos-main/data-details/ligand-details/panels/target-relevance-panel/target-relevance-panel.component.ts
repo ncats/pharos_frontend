@@ -7,7 +7,6 @@ import {takeUntil} from 'rxjs/operators';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
-import {environment} from '../../../../../../environments/environment';
 
 /**
  * shows what targets the ligand was tested on
@@ -24,7 +23,6 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
    * ligand object
    */
   @Input() ligand: Ligand;
-  isDev = false;
   ligandProps: any;
 
   /**
@@ -90,7 +88,6 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
    * subscribe to data changes and map data to PharosProperty objects for table display
    */
   ngOnInit() {
-    this.isDev = !environment.production;
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
