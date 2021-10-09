@@ -242,7 +242,7 @@ export class Facet {
   static getAllFacetOptionsQuery(path, enrichFacets, getFacetNames) {
     return gql`
       #import "./facetFieldsTop.gql"
-      query getAllFacetOptions($batchIDs:[String], $filter:IFilter, $facet:String!){
+      query getAll${enrichFacets ? 'Enriched' : ''}FacetOptions($batchIDs:[String], $filter:IFilter, $facet:String!){
         ${getFacetNames ?
       `normalizableFilters {
          diseaseFacets

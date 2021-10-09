@@ -13,16 +13,28 @@ export class TargetLigandHeatmapComponent extends DynamicPanelComponent implemen
     super(dynamicServices);
   }
 
+  selectedDetails: any[] = [];
+
   ngOnInit(): void {
+
+  }
+  updateSelectedDetails(newDetails) {
+    this.selectedDetails = newDetails;
   }
 
   rowParseFunction(row: any) {
     return {
-      xVal: row.sym,
+      xVal: row.sym || row.uniprot,
       yVal: row.name,
       stringVal: row.mean.toString(),
       numVal: row.mean,
-      data: {}
+      metadata: {
+        y: row.identifier,
+        x: row.uniprot,
+        displayY: row.name,
+        displayX: row.sym || row.uniprot
+      }
     };
   }
+
 }

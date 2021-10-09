@@ -5,7 +5,6 @@ import {BatchUploadModalComponent} from './batch-upload-modal/batch-upload-modal
 import {DynamicPanelComponent} from './dynamic-panel/dynamic-panel.component';
 import {DynamicTablePanelComponent} from './dynamic-table-panel/dynamic-table-panel.component';
 import {HelpPanelComponent} from './help-panel/help-panel.component';
-import {IdgLevelIndicatorComponent} from './idg-level-indicator/idg-level-indicator.component';
 import {KnowledgeTableComponent} from './knowledge-table/knowledge-table.component';
 import {LinkListComponent} from './link-list/link-list.component';
 import {ProteinStructureViewerComponent} from './protein-structure-viewer/protein-structure-viewer.component';
@@ -43,7 +42,6 @@ import { HeatMapComponent } from './visualizations/heat-map/heat-map.component';
     DynamicPanelComponent,
     DynamicTablePanelComponent,
     HelpPanelComponent,
-    IdgLevelIndicatorComponent,
     KnowledgeTableComponent,
     LinkListComponent,
     ProteinStructureViewerComponent,
@@ -85,7 +83,6 @@ import { HeatMapComponent } from './visualizations/heat-map/heat-map.component';
     DynamicPanelComponent,
     DynamicTablePanelComponent,
     HelpPanelComponent,
-    IdgLevelIndicatorComponent,
     KnowledgeTableComponent,
     LinkListComponent,
     StructureViewComponent,

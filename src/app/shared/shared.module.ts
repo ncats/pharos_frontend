@@ -13,6 +13,12 @@ import {HelpArticlesModule} from './help-articles.module';
 import {ScatterPlotComponent} from '../tools/visualizations/scatter-plot/scatter-plot.component';
 import {PharosMainComponent} from '../pharos-main/pharos-main.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
+import {TargetRelevanceTableComponent} from '../pharos-main/data-details/ligand-details/panels/target-relevance-panel/target-relevance-table/target-relevance-table.component';
+import {GenericTableModule} from '../tools/generic-table/generic-table.module';
+import {IdgLevelIndicatorComponent} from '../tools/idg-level-indicator/idg-level-indicator.component';
+import {RouterModule} from '@angular/router';
+import {DiseaseAssociationGridComponent} from '../pharos-main/data-details/target-details/panels/disease-source-panel/disease-association-grid/disease-association-grid.component';
+import {DiseaseAssociationComponent} from '../pharos-main/data-details/target-details/panels/disease-source-panel/disease-association/disease-association.component';
 
 
 @NgModule({
@@ -24,14 +30,20 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
     MaterialModule,
     FlexLayoutModule,
     HelpArticlesModule,
-    ClipboardModule
+    ClipboardModule,
+    GenericTableModule,
+    RouterModule
   ],
   declarations: [
     BarChartComponent,
     HelpPanelTriggerComponent,
     ScrollspyDirective,
     ScatterPlotComponent,
-    PharosMainComponent
+    PharosMainComponent,
+    TargetRelevanceTableComponent,
+    IdgLevelIndicatorComponent,
+    DiseaseAssociationGridComponent,
+    DiseaseAssociationComponent
   ],
   providers: [
     HelpDataService,
@@ -49,7 +61,11 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
     HelpPanelTriggerComponent,
     ScrollspyDirective,
     ScatterPlotComponent,
-    PharosMainComponent
+    PharosMainComponent,
+    TargetRelevanceTableComponent,
+    IdgLevelIndicatorComponent,
+    DiseaseAssociationGridComponent,
+    DiseaseAssociationComponent
   ]
 })
 export class SharedModule {}

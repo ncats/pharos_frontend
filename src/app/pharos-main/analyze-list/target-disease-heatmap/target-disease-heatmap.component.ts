@@ -13,16 +13,27 @@ export class TargetDiseaseHeatmapComponent extends DynamicPanelComponent impleme
     super(dynamicServices);
   }
 
+  selectedDetails: any[] = [];
+
   ngOnInit(): void {
+
+  }
+  updateSelectedDetails(newDetails) {
+    this.selectedDetails = newDetails;
   }
 
   rowParseFunction(row: any) {
     return {
-      xVal: row.sym,
+      xVal: row.sym || row.uniprot,
       yVal: row.name,
-      stringVal: row.mean.toString(),
-      numVal: row.mean,
-      data: {}
+      stringVal: row.count.toString(),
+      numVal: row.count,
+      metadata: {
+        y: row.name,
+        x: row.uniprot,
+        displayY: row.name,
+        displayX: row.sym || row.uniprot
+      }
     };
   }
 }

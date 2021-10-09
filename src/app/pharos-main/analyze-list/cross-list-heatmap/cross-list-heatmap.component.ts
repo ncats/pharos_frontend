@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {ActivatedRoute, ActivatedRouteSnapshot} from '@angular/router';
 import {HeatMapComponent, HeatMapData} from '../../../tools/visualizations/heat-map/heat-map.component';
@@ -13,24 +13,29 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class CrossListHeatmapComponent extends DynamicPanelComponent implements OnInit {
 
-  @Input() model: string;
-  @Input() crossModel: string;
-  @Input() rowParseFunction: any;
-  @Input() domain: number[] = [0, 5];
-  @Input() measure = 'Confidence';
-  @Input() title: string;
-
-  @ViewChild('heatMap', {static: true}) heatMapContainer: HeatMapComponent;
-
   constructor(private pharosApiService: PharosApiService,
               private _route: ActivatedRoute,
               private changeDetectorRef: ChangeDetectorRef,
               public dynamicServices: DynamicServicesService) {
     super(dynamicServices);
   }
+
+  @Input() model: string;
+  @Input() crossModel: string;
+  @Input() rowParseFunction: any;
+  @Input() domain: number[] = [0, 5];
+  @Input() measure = 'Confidence';
+  @Input() title: string;
+  showDetails = false;
+
+  @ViewChild('heatMap', {static: true}) heatMapContainer: HeatMapComponent;
   results: any;
 
+  @Output() detailsChanged = new EventEmitter<boolean>();
+
   activityMap: HeatMapData;
+
+  selectedData;
 
   ngOnInit(): void {
     this._data
@@ -65,9 +70,22 @@ export class CrossListHeatmapComponent extends DynamicPanelComponent implements 
   setMapData(heatMapData: HeatMapData, results: any[]) {
     results.forEach(row => {
       const parsedObj = this.rowParseFunction(row);
-      heatMapData.addPoint(parsedObj.xVal, parsedObj.yVal, parsedObj.stringVal, parsedObj.numVal, parsedObj.data);
+      heatMapData.addPoint(parsedObj.xVal, parsedObj.yVal, parsedObj.stringVal, parsedObj.numVal, parsedObj.data, parsedObj.metadata);
     });
   }
 
+  heatmapClicked(data) {
+    if (this.selectedData == data && this.showDetails) {
+      this.showDetails = false;
+      return;
+    }
+    this.showDetails = true;
+    this.selectedData = data;
+    this.pharosApiService.crossListDetailsQuery(this._route.snapshot, this.model, this.crossModel,
+      data.metadata.x, data.metadata.y).then((res: any) => {
+      this.detailsChanged.emit(res.data.listCrossDetails);
+      this.changeDetectorRef.detectChanges();
+    });
+  }
 
 }

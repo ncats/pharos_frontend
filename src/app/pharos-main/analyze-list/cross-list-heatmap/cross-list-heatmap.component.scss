@@ -7,3 +7,24 @@
   height: 600px;
   overflow: scroll;
 }
+
+p {
+  margin-left: 20px;
+}
+
+.halfHeight {
+  height: 300px;
+}
+
+.details-container {
+  min-height: 300px;
+}
+
+.hidden {
+  display: none;
+}
+
+.details-card {
+  display: flex;
+  justify-content: space-between;
+}
