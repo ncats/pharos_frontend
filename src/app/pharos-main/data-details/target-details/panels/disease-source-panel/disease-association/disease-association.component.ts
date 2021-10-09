@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DiseaseAssociation} from "../../../../../../models/disease-association";
-import {DynamicPanelBaseComponent} from "../../../../../../tools/dynamic-panel-base/dynamic-panel-base.component";
+import {DiseaseAssociation} from '../../../../../../models/disease-association';
+import {DynamicPanelBaseComponent} from '../../../../../../tools/dynamic-panel-base/dynamic-panel-base.component';
 
 @Component({
   selector: 'pharos-disease-association',

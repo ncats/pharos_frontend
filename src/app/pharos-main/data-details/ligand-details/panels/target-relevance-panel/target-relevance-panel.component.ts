@@ -26,49 +26,6 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
   ligandProps: any;
 
   /**
-   * table config fields
-   * @type {PharosProperty[]}
-   */
-  fields: PharosProperty[] = [
-    /*    new PharosProperty( {
-          name: 'target.symbol',
-          label: 'IDG Target',
-          sortable: true
-        }),
-        new PharosProperty( {
-          name: 'target.idgTdl',
-          label: 'IDG Development Level',
-          sortable: true,
-          customComponent: IDG_LEVEL_TOKEN
-        }),
-        new PharosProperty({
-          name: 'targetFamily',
-          label: 'Target Family',
-          sortable: true
-        }),*/
-    new PharosProperty({
-      name: 'type',
-      label: 'Activity Type'
-    }),
-    new PharosProperty({
-      name: 'value',
-      label: 'Activity Value -log(M)'
-    }),
-    new PharosProperty({
-      name: 'moa',
-      label: 'Mechanism of Action'
-    }),
-    new PharosProperty({
-      name: 'reference',
-      label: 'Activity Reference'
-    }),
-    new PharosProperty({
-      name: 'pmids',
-      label: 'Publications (PubMed IDs)'
-    })
-  ];
-
-  /**
    * page data object to track pagination
    */
   pageData: PageData;

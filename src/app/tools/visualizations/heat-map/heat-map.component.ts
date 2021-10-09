@@ -133,9 +133,8 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
     // Add scales to axes
     const xAxis = d3.axisTop()
       .scale(xScale);
-
     xAxis.ticks(this.heatmapData.xValues.length).tickFormat(d => {
-      return this.heatmapData.xValues.map(o => o.val)[d];
+      return this.heatmapData.xValues[d]?.val;
     });
 
     const yAxis = d3.axisLeft()
@@ -207,15 +206,16 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
 
     const yTicks = this.chartArea.select('.yAxis')
       .selectAll('.tick').attr('class', 'tick yAxisLabel');
-    yTicks.append('svg:title')
-      .text(d => this.heatmapData.yDisplayValues[d]?.val);
-    yTicks.on('mouseover', (event, d) => {
-      const hoveredTissue = this.heatmapData.yDisplayValues[d].val;
-      if (this.heatmapData.yDisplayValues[d].data) {
+    const xTicks = this.chartArea.select('.xAxis')
+      .selectAll('.tick').attr('class', 'tick xAxisLabel');
 
-      }
+    yTicks.append('svg:title').text(d => this.heatmapData.yDisplayValues[d]?.val);
+    xTicks.append('svg:title').text(d => this.heatmapData.xValues[d]?.val);
+
+    yTicks.on('mouseover', (event, d) => {
+      const hoveredY = this.heatmapData.yDisplayValues[d].metadata;
       const blocks = selection.nodes().filter(b => {
-        return b.__data__.data === hoveredTissue;
+        return b.__data__.metadata.y === hoveredY;
       });
       blocks.forEach(b => {
         d3.select(b).classed('hovered', true);
@@ -226,7 +226,24 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
         d3.select(b).classed('hovered', false);
       });
     }).on('click', (event, d) => {
-      this.heatmapClickedInternal(event, d);
+      // this.heatmapClickedInternal(event, {y: this.heatmapData.yDisplayValues[d]?.metadata});
+    });
+
+    xTicks.on('mouseover', (event, d) => {
+      const hoveredX = this.heatmapData.xValues[d].metadata;
+      const blocks = selection.nodes().filter(b => {
+        return b.__data__.metadata.x === hoveredX;
+      });
+      blocks.forEach(b => {
+        d3.select(b).classed('hovered', true);
+      });
+    }).on('mouseout', (event, d) => {
+
+      const blocks = selection.nodes().forEach(b => {
+        d3.select(b).classed('hovered', false);
+      });
+    }).on('click', (event, d) => {
+      // this.heatmapClickedInternal(event, {x: this.heatmapData.xValues[d]?.metadata});
     });
 
     this.tooltip = d3.select('body').append('div')
@@ -236,20 +253,19 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
 
   heatmapClickedInternal(event, d) {
     if (this.heatmapClicked) {
-      const value = d.data || event.target.textContent;
-      this.heatmapClicked(value, 'heatmap');
+      this.heatmapClicked(d, 'heatmap');
     }
   }
 }
 
 export class HeatMapData {
   static separator = '!';
-  xValues: { val: string, score: number }[] = [];
-  yValues: { val: string, score: number, data: any }[] = [];
-  yDisplayValues: { val: string, score: number, data: any }[] = [];
+  xValues: { val: string, score: number, metadata: string }[] = [];
+  yValues: { val: string, score: number, data: any, metadata: string }[] = [];
+  yDisplayValues: { val: string, score: number, data: any, metadata: string }[] = [];
   sortColumn = '';
-  data: Map<string, { val: number, rawVal: string }> = new Map<string, { val: number, rawVal: string }>();
-  plot: { x: number, y: number, z: { val: number, rawVal: string }, data: string }[] = [];
+  data: Map<string, { val: number, rawVal: string, metadata: any }> = new Map<string, { val: number, rawVal: string, metadata: any }>();
+  plot: { x: number, y: number, z: { val: number, rawVal: string }, data: string, metadata: any}[] = [];
   xLabel = '';
   yLabel = '';
   measure = '';
@@ -267,25 +283,25 @@ export class HeatMapData {
     return `${xVal}${HeatMapData.separator}${yVal}`;
   }
 
-  addPoint(xVal: string, yVal: string, val: string, numVal, data?: any) {
+  addPoint(xVal: string, yVal: string, val: string, numVal, data?: any, metadata: any = {}) {
     const rawStringVal = (val && val.length > 0) ? val : '0';
     const key = this.key(xVal, yVal);
     if (this.data.has(key)) {
       return;
     }
-    this.data.set(key, {val: numVal, rawVal: rawStringVal});
+    this.data.set(key, {val: numVal, rawVal: rawStringVal, metadata});
 
     const xItem = this.xValues.find(p => p.val === xVal);
     const yItem = this.yValues.find(p => p.val === yVal);
     if (xItem) {
       xItem.score++;
     } else {
-      this.xValues.push({val: xVal, score: 1});
+      this.xValues.push({val: xVal, score: 1, metadata: metadata.x});
     }
     if (yItem) {
       yItem.score++;
     } else {
-      this.yValues.push({val: yVal, score: 1, data});
+      this.yValues.push({val: yVal, score: 1, data, metadata: metadata.y});
     }
   }
 
@@ -327,8 +343,9 @@ export class HeatMapData {
           this.plot.push({
             x: xIndex,
             y: yIndex,
-            z: val,
-            data: y.val
+            z: {val: val.val, rawVal: val.rawVal},
+            data: y.val,
+            metadata: val.metadata
           });
         }
       });

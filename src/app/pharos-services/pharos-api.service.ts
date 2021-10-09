@@ -822,6 +822,19 @@ export class PharosApiService {
     });
   }
 
+  crossListDetailsQuery(route: ActivatedRouteSnapshot, model: string, crossModel: string, modelID: string, crossModelID: string) {
+    const path = route.data.path;
+    const variables = {...this.parseVariables(route, null)};
+    variables.model = model;
+    variables.crossModel = crossModel;
+    variables.modelID = modelID;
+    variables.crossModelID = crossModelID;
+    const query = gql`query ${model}x${crossModel}detail($filter: IFilter, $batch: [String], $model: String!, $crossModel: String!, $modelID: String, $crossModelID: String) {
+      listCrossDetails(model:$model, crossModel:$crossModel, filter:$filter, batch:$batch, modelID:$modelID, crossModelID:$crossModelID)
+    }`;
+    return this.fetchBatchAndRunQuery(route, variables, query);
+  }
+
   crossListquery(route: ActivatedRouteSnapshot, model: string, crossModel: string) {
     const path: string = route.data.path;
     const variables = {
@@ -832,6 +845,10 @@ export class PharosApiService {
     const query = gql`query ${model}x${crossModel}($filter: IFilter, $batch: [String], $model: String!, $crossModel: String!) {
   listCross(model:$model, crossModel:$crossModel, filter:$filter, batch:$batch)
 }`;
+    return this.fetchBatchAndRunQuery(route, variables, query);
+  }
+
+  fetchBatchAndRunQuery(route: ActivatedRouteSnapshot, variables: any, query: any) {
     return this.fetchTargetList(route).then((res: string[]) => {
       if (res && res.length > 0) {
         variables.batch = res;

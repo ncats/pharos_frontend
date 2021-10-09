@@ -63,7 +63,7 @@ export class LigActSerializer implements Serializer {
   fromJson(json: any): LigandActivity {
     const obj = new LigandActivity();
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
-    if(json.pubs && json.pubs.length){
+    if (json.pubs && json.pubs.length){
       const publicationSerializer = new PublicationSerializer();
       obj.pubs = json.pubs.map(p => publicationSerializer.fromJson(p));
       obj.pmids = json.pubs.map(p => p.pmid).join(", ");

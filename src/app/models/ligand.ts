@@ -135,7 +135,8 @@ export class LigandSerializer implements PharosSerializer {
       const actMap: Map<string, { target: any, activities: LigandActivity[] }> =
         new Map<string, { target: any, activities: LigandActivity[] }>();
       const ligActSerializer: LigActSerializer = new LigActSerializer();
-      json.activities.forEach(act => {
+      json.activities.forEach(inputAct => {
+        const act = JSON.parse(JSON.stringify(inputAct));
         const currSymbol = act.target?.symbol || 'default';
         if (actMap.has(currSymbol)) {
           const acts = actMap.get(currSymbol);
@@ -174,9 +175,9 @@ export class LigandSerializer implements PharosSerializer {
       newObj.activities.forEach(activity => {
         if (activity.activities) {
           activity.activities.forEach(act => {
-            if (act.pmids) {
+            if (act.pmids && act.pmids.term) {
               const dpArray = [];
-              for (const pmid of act.pmids.term.split(',')) {
+              for (const pmid of act.pmids.term.split(/[,|]+/)) {
                 const cleanPmid = pmid.trim();
                 dpArray.push(new DataProperty({
                   term: cleanPmid, name: 'pmids', label: 'pmids',

@@ -18,20 +18,11 @@ export class DiseaseCardComponent extends DynamicPanelBaseComponent implements O
   @Input() disease: Disease;
   collapsed: boolean = true;
 
-  nonDrugs: DiseaseAssociation[];
-  drugs: DiseaseAssociation[];
-
   drugType = 'DrugCentral Indication';
   isSmallScreen = false;
 
   ngOnInit(): void {
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
-    this.nonDrugs = this.disease.associations.filter(assoc => {
-      return assoc.type != this.drugType;
-    });
-    this.drugs = this.disease.associations.filter(assoc => {
-      return assoc.type == this.drugType;
-    });
   }
 
   diseaseSourceString() {

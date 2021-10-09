@@ -6,7 +6,6 @@ import {SummaryPanelComponent} from '../../data-details/target-details/panels/su
 import {RadarChartViewerComponent} from '../../../tools/radar-chart-viewer/radar-chart-viewer.component';
 import {DiseaseSourceComponent} from '../../data-details/target-details/panels/disease-source-panel/disease-source-panel.component';
 import {DiseaseCardComponent} from '../../data-details/target-details/panels/disease-source-panel/disease-card/disease-card.component';
-import {DiseaseAssociationComponent} from '../../data-details/target-details/panels/disease-source-panel/disease-association/disease-association.component';
 import {ExpressionPanelComponent} from '../../data-details/target-details/panels/expression-panel/expression-panel.component';
 import {AaSequencePanelComponent} from '../../data-details/target-details/panels/aa-sequence-panel/aa-sequence-panel.component';
 import {ProteinProteinPanelComponent} from '../../data-details/target-details/panels/protein-protein-panel/protein-protein-panel.component';
@@ -61,7 +60,6 @@ import {ExpressionDetailsBlockComponent} from '../../data-details/target-details
     RadarChartViewerComponent,
     DiseaseSourceComponent,
     DiseaseCardComponent,
-    DiseaseAssociationComponent,
     PublicationStatisticsComponent,
     RelatedPublicationsComponent,
     ExpressionPanelComponent,
@@ -108,7 +106,6 @@ import {ExpressionDetailsBlockComponent} from '../../data-details/target-details
   ],
   exports: [
     DiseaseCardComponent,
-    DiseaseAssociationComponent,
     VirusDetailsComponent
   ],
   providers: [

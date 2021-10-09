@@ -187,10 +187,10 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
       this.loading = false;
       return;
     }
-    if (this.filterIsInUse(this.selectedFacetName)) {
-      this.loading = false;
-      return;
-    }
+    // if (this.filterIsInUse(this.selectedFacetName)) {
+    //   this.loading = false;
+    //   return;
+    // }
     this.loading = true;
     this.pharosApiService.getAllFacetOptions(
       this.linkPath(),
