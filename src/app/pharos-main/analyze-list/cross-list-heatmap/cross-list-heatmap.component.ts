@@ -5,6 +5,8 @@ import {HeatMapComponent, HeatMapData} from '../../../tools/visualizations/heat-
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {takeUntil} from 'rxjs/operators';
+import {FieldSelectionDialogComponent} from '../../../tools/field-selection-dialog/field-selection-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'pharos-cross-list-heatmap',
@@ -16,7 +18,8 @@ export class CrossListHeatmapComponent extends DynamicPanelComponent implements 
   constructor(private pharosApiService: PharosApiService,
               private _route: ActivatedRoute,
               private changeDetectorRef: ChangeDetectorRef,
-              public dynamicServices: DynamicServicesService) {
+              public dynamicServices: DynamicServicesService,
+              private dialog: MatDialog) {
     super(dynamicServices);
   }
 
@@ -25,11 +28,13 @@ export class CrossListHeatmapComponent extends DynamicPanelComponent implements 
   @Input() rowParseFunction: any;
   @Input() domain: number[] = [0, 5];
   @Input() measure = 'Confidence';
+  @Input() defaultSubset;
   @Input() title: string;
   showDetails = false;
 
   @ViewChild('heatMap', {static: true}) heatMapContainer: HeatMapComponent;
   results: any;
+  heatmapWasRun = false;
 
   @Output() detailsChanged = new EventEmitter<boolean>();
 
@@ -44,27 +49,35 @@ export class CrossListHeatmapComponent extends DynamicPanelComponent implements 
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
-        this.initialize();
+        this.results = [];
+        this.heatmapWasRun = false;
+        this.activityMap = null;
+        this.showDetails = false;
+        this.changeDetectorRef.markForCheck();
+        // this.initialize();
       });
-    this.initialize();
+    // this.initialize();
+    this.loadingComplete();
   }
 
   initialize() {
-    this.loading = true;
+    this.loadingStart();
     this.pharosApiService.crossListquery(this._route.snapshot, this.model, this.crossModel).then((res: any) => {
       this.results = res.data.listCross;
+      this.heatmapWasRun = true;
+      this.changeDetectorRef.detectChanges();
       if (this.results && this.results.length > 0) {
         this.updateHeatmapData();
       }
+      this.loadingComplete();
+      this.changeDetectorRef.detectChanges();
+      this.heatMapContainer.redraw();
     });
   }
 
   updateHeatmapData() {
     this.activityMap = new HeatMapData(this.model, this.crossModel, '', this.domain, this.measure);
     this.setMapData(this.activityMap, this.results);
-    this.loading = false;
-    this.changeDetectorRef.detectChanges();
-    this.heatMapContainer.redraw();
   }
 
   setMapData(heatMapData: HeatMapData, results: any[]) {
@@ -87,5 +100,13 @@ export class CrossListHeatmapComponent extends DynamicPanelComponent implements 
       this.changeDetectorRef.detectChanges();
     });
   }
+
+  downloadData() {
+    const dialogRef = this.dialog.open(FieldSelectionDialogComponent, {
+      data: {count: this.data.count, model: this.model, route: this._route, defaultSubset: this.defaultSubset},
+      height: '75vh', width: '66vw'
+    }).afterClosed();
+  }
+
 
 }

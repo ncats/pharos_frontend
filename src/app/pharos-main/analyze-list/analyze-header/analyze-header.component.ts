@@ -126,7 +126,7 @@ export class AnalyzeHeaderComponent extends DynamicPanelComponent implements OnI
 
   downloadData() {
     const dialogRef = this.dialog.open(FieldSelectionDialogComponent, {
-      data: {count: this.modelCount, model: this.model, route: this._route}, // TODO figure out how to do this for different models
+      data: {count: this.modelCount, model: this.model, route: this._route},
       height: '75vh', width: '66vw'
     }).afterClosed();
   }
