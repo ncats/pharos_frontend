@@ -339,11 +339,19 @@ const PHAROS_ANALYZE_HEADER_COMPONENT: PharosPanel = {
 const PHAROS_TARGET_DISEASE_HEATMAP_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_TARGET_DISEASE_HEATMAP_COMPONENT,
   section: Position.Content
-}
+};
 const PHAROS_TARGET_LIGAND_HEATMAP_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_TARGET_LIGAND_HEATMAP_COMPONENT,
   section: Position.Content
-}
+};
+const PHAROS_DISEASE_TARGET_HEATMAP_COMPONENT: PharosPanel = {
+  token: TOKENS.PHAROS_DISEASE_TARGET_HEATMAP_COMPONENT,
+  section: Position.Content
+};
+const PHAROS_LIGAND_TARGET_HEATMAP_COMPONENT: PharosPanel = {
+  token: TOKENS.PHAROS_LIGAND_TARGET_HEATMAP_COMPONENT,
+  section: Position.Content
+};
 
 
 /**
@@ -1475,7 +1483,8 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
     ['diseases', {
       analyze: {
         components: [
-          ...commonAnalyzeComponents
+          ...commonAnalyzeComponents,
+          PHAROS_DISEASE_TARGET_HEATMAP_COMPONENT
         ]
       },
       list: {
@@ -1502,7 +1511,8 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
     ['ligands', {
       analyze: {
         components: [
-          ...commonAnalyzeComponents
+          ...commonAnalyzeComponents,
+          PHAROS_LIGAND_TARGET_HEATMAP_COMPONENT
         ]
       },
       list: {

@@ -3,11 +3,11 @@ import {DynamicServicesService} from '../../../pharos-services/dynamic-services.
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 
 @Component({
-  selector: 'pharos-target-ligand-heatmap',
-  templateUrl: './target-ligand-heatmap.component.html',
-  styleUrls: ['./target-ligand-heatmap.component.scss']
+  selector: 'pharos-ligand-target-heatmap',
+  templateUrl: './ligand-target-heatmap.component.html',
+  styleUrls: ['./ligand-target-heatmap.component.scss']
 })
-export class TargetLigandHeatmapComponent extends DynamicPanelComponent implements OnInit {
+export class LigandTargetHeatmapComponent extends DynamicPanelComponent implements OnInit {
 
   constructor(public dynamicServices: DynamicServicesService) {
     super(dynamicServices);
@@ -24,15 +24,15 @@ export class TargetLigandHeatmapComponent extends DynamicPanelComponent implemen
 
   rowParseFunction(row: any) {
     return {
-      xVal: row.sym || row.uniprot,
-      yVal: row.name,
+      yVal: row.sym || row.uniprot,
+      xVal: row.name,
       stringVal: Number.parseFloat(row.mean) ? row.mean.toPrecision(3) : null,
       numVal:  row.mean || 0,
       metadata: {
-        y: row.identifier,
-        x: row.uniprot,
-        displayY: row.name,
-        displayX: row.sym || row.uniprot
+        x: row.identifier,
+        y: row.uniprot,
+        displayX: row.name,
+        displayY: row.sym || row.uniprot
       }
     };
   }

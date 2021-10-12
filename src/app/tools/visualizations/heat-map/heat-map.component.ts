@@ -23,7 +23,8 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
   constructor(
     public dynamicServices: DynamicServicesService,
     @Inject(PLATFORM_ID) private platformID: any,
-    private changeRef: ChangeDetectorRef) {
+    private changeRef: ChangeDetectorRef
+  ) {
     super(dynamicServices);
   }
 
@@ -179,7 +180,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
         <span>
             <b>${this.heatmapData.yLabel}: </b>${this.heatmapData.yDisplayValues[blocks[i].__data__.y].val}<br />
             <b>${this.heatmapData.xLabel}: </b>${this.heatmapData.xValues[blocks[i].__data__.x].val}<br />
-            <b>${this.heatmapData.measure}:</b> ${d.z.rawVal.replace('\\n', ', ')}<br />
+            <b>${this.heatmapData.measure}:</b> ${d.z.rawVal?.replace('\\n', ', ')}<br />
         </span>`)
         .style('left', event.pageX + 'px')
         .style('top', event.pageY + 'px');
@@ -284,12 +285,11 @@ export class HeatMapData {
   }
 
   addPoint(xVal: string, yVal: string, val: string, numVal, data?: any, metadata: any = {}) {
-    const rawStringVal = (val && val.length > 0) ? val : '0';
     const key = this.key(xVal, yVal);
     if (this.data.has(key)) {
       return;
     }
-    this.data.set(key, {val: numVal, rawVal: rawStringVal, metadata});
+    this.data.set(key, {val: numVal, rawVal: val, metadata});
 
     const xItem = this.xValues.find(p => p.val === xVal);
     const yItem = this.yValues.find(p => p.val === yVal);

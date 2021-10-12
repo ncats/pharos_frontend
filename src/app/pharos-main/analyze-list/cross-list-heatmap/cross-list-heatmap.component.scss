@@ -28,3 +28,21 @@ p {
   display: flex;
   justify-content: space-between;
 }
+
+.linkContainer {
+  display: inline-flex;
+  flex-direction: column;
+  width: 250px;
+  height: 100%;
+  min-height: 375px;
+}
+.toolImage{
+  width: 200px;
+  horiz-align: center;
+}
+
+.card-list{
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+}
