@@ -26,6 +26,7 @@ export class TOKENS {
   public static PHAROS_TARGET_DISEASE_HEATMAP_COMPONENT = new InjectionToken<string>('TargetDiseaseHeatmapComponent');
   public static PHAROS_ANALYZE_HEADER_COMPONENT = new InjectionToken<string>('AnalyzeHeaderComponent');
   public static PHAROS_DISEASE_TARGET_HEATMAP_COMPONENT = new InjectionToken<string>('DiseaseTargetHeatmapComponent');
+  public static PHAROS_TARGET_TARGET_HEATMAP_COMPONENT = new InjectionToken<string>('TargetTargetHeatmapComponent');
   /**
    * injection token to add the facet donut chart
    */

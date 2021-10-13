@@ -78,13 +78,13 @@
           </p>
         </ng-container>
         <ng-template #downloadButton>
-          <p>Hover over cells for a summary, click cells to see all details.</p>
         <button
           class="tool-button" mat-raised-button [color]="'primary'" matTooltip="Download {{model}} List Data"
           (click)="downloadData()">Download
           <mat-icon>download</mat-icon>
         </button>
         </ng-template>
+        <p *ngIf="results && results.length > 0">Hover over cells for a summary, click cells to see all details.</p>
         <pharos-heat-map [heatmapClicked]="heatmapClicked.bind(this)" [heatmapData]="activityMap"
                          #heatMap></pharos-heat-map>
       </div>
@@ -97,6 +97,9 @@
             <button matSuffix mat-icon-button aria-label="Clear" (click)="showDetails = false">
               <mat-icon>close</mat-icon>
             </button>
+          </div>
+          <div *ngIf="loadingDetails" class="loadingIcon" fxLayoutAlign="center center">
+            <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
           </div>
           <ng-content></ng-content>
         </mat-card>

@@ -11,6 +11,7 @@ import {TargetLigandHeatmapComponent} from '../../analyze-list/target-ligand-hea
 import {TargetDiseaseHeatmapComponent} from '../../analyze-list/target-disease-heatmap/target-disease-heatmap.component';
 import {DiseaseTargetHeatmapComponent} from '../../analyze-list/disease-target-heatmap/disease-target-heatmap.component';
 import {LigandTargetHeatmapComponent} from '../../analyze-list/ligand-target-heatmap/ligand-target-heatmap.component';
+import {TargetTargetHeatmapComponent} from '../../analyze-list/target-target-heatmap/target-target-heatmap.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {LigandTargetHeatmapComponent} from '../../analyze-list/ligand-target-hea
     TargetDiseaseHeatmapComponent,
     TargetLigandHeatmapComponent,
     DiseaseTargetHeatmapComponent,
-    LigandTargetHeatmapComponent
+    LigandTargetHeatmapComponent,
+    TargetTargetHeatmapComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +34,8 @@ import {LigandTargetHeatmapComponent} from '../../analyze-list/ligand-target-hea
     {provide: TOKENS.PHAROS_TARGET_DISEASE_HEATMAP_COMPONENT, useValue: TargetDiseaseHeatmapComponent},
     {provide: TOKENS.PHAROS_TARGET_LIGAND_HEATMAP_COMPONENT, useValue: TargetLigandHeatmapComponent},
     {provide: TOKENS.PHAROS_DISEASE_TARGET_HEATMAP_COMPONENT, useValue: DiseaseTargetHeatmapComponent},
-    {provide: TOKENS.PHAROS_LIGAND_TARGET_HEATMAP_COMPONENT, useValue: LigandTargetHeatmapComponent}
+    {provide: TOKENS.PHAROS_LIGAND_TARGET_HEATMAP_COMPONENT, useValue: LigandTargetHeatmapComponent},
+    {provide: TOKENS.PHAROS_TARGET_TARGET_HEATMAP_COMPONENT, useValue: TargetTargetHeatmapComponent}
   ]
 })
 export class AnalyzeListModule { }

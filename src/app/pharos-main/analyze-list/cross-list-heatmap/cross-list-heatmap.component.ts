@@ -31,6 +31,7 @@ export class CrossListHeatmapComponent extends DynamicPanelComponent implements 
   @Input() defaultSubset;
   @Input() title: string;
   showDetails = false;
+  loadingDetails = false;
 
   @ViewChild('heatMap', {static: true}) heatMapContainer: HeatMapComponent;
   results: any;
@@ -93,10 +94,12 @@ export class CrossListHeatmapComponent extends DynamicPanelComponent implements 
       return;
     }
     this.showDetails = true;
+    this.loadingDetails = true;
     this.selectedData = data;
     this.pharosApiService.crossListDetailsQuery(this._route.snapshot, this.model, this.crossModel,
       data.metadata.x, data.metadata.y).then((res: any) => {
       this.detailsChanged.emit(res.data.listCrossDetails);
+      this.loadingDetails = false;
       this.changeDetectorRef.detectChanges();
     });
   }

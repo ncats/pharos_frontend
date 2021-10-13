@@ -30,7 +30,7 @@
           [required]="true"
           [formControl]=targetListCtrl
           [rows]="10"
-          [placeholder]="'Enter your list of ' + this.models.toLowerCase() + 'separated by commas or newlines'"></textarea>
+          [placeholder]="'Enter your list of ' + this.models.toLowerCase() + ' separated by commas or newlines'"></textarea>
         <mat-error *ngIf="targetListCtrl.touched && targetListCtrl.hasError('required')">
           required*
         </mat-error>

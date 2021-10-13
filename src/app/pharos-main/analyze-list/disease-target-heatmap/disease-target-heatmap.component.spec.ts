@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TargetDiseaseHeatmapComponent } from './disease-target-heatmap.component';
+import { DiseaseTargetHeatmapComponent } from './disease-target-heatmap.component';
 
 describe('TargetDiseaseHeatmapComponent', () => {
-  let component: TargetDiseaseHeatmapComponent;
-  let fixture: ComponentFixture<TargetDiseaseHeatmapComponent>;
+  let component: DiseaseTargetHeatmapComponent;
+  let fixture: ComponentFixture<DiseaseTargetHeatmapComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TargetDiseaseHeatmapComponent ]
+      declarations: [ DiseaseTargetHeatmapComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TargetDiseaseHeatmapComponent);
+    fixture = TestBed.createComponent(DiseaseTargetHeatmapComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
