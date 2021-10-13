@@ -117,6 +117,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
     this.chartArea.attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
     this.chartArea.append('g')
       .attr('class', 'blocks');
+    this.chartArea.append('g').attr('class', 'nullLines');
 
     // Create scales
     const xScale = d3.scaleLinear()
@@ -165,6 +166,18 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
       .style('stroke', 'gray')
       .style('cursor', 'pointer')
       .style('pointer-events', 'all');
+
+    const lines = this.chartArea.select('.nullLines').selectAll('.nullLine')
+      .data(this.heatmapData.plot).enter().filter(d => {
+        return d.z.rawVal === null;
+      })
+      .append('line')
+      .attr('class', 'nullLine')
+      .attr('x1', d => xScale(d.x) + 0.5)
+      .attr('y1', d => yScale(d.y) + 0.5 + this.blockSize)
+      .attr('x2', d => xScale(d.x) + 0.5 + this.blockSize)
+      .attr('y2', d => yScale(d.y) + 0.5)
+      .style('stroke', 'gray');
 
     selection.on('mouseover', (event, d) => {
       const blocks = selection.nodes();
