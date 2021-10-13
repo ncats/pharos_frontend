@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LigandTargetHeatmapComponent } from './ligand-target-heatmap.component';
+import { TargetTargetHeatmapComponent } from './target-target-heatmap.component';
 
 describe('TargetDiseaseHeatmapComponent', () => {
-  let component: LigandTargetHeatmapComponent;
-  let fixture: ComponentFixture<LigandTargetHeatmapComponent>;
+  let component: TargetTargetHeatmapComponent;
+  let fixture: ComponentFixture<TargetTargetHeatmapComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LigandTargetHeatmapComponent ]
+      declarations: [ TargetTargetHeatmapComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LigandTargetHeatmapComponent);
+    fixture = TestBed.createComponent(TargetTargetHeatmapComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

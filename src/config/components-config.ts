@@ -352,7 +352,10 @@ const PHAROS_LIGAND_TARGET_HEATMAP_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_LIGAND_TARGET_HEATMAP_COMPONENT,
   section: Position.Content
 };
-
+const PHAROS_TARGET_TARGET_HEATMAP_COMPONENT: PharosPanel = {
+  token: TOKENS.PHAROS_TARGET_TARGET_HEATMAP_COMPONENT,
+  section: Position.Content
+};
 
 /**
  * main target facet component
@@ -1439,7 +1442,8 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
         components: [
           ...commonAnalyzeComponents,
           PHAROS_TARGET_DISEASE_HEATMAP_COMPONENT,
-          PHAROS_TARGET_LIGAND_HEATMAP_COMPONENT
+          PHAROS_TARGET_LIGAND_HEATMAP_COMPONENT,
+          PHAROS_TARGET_TARGET_HEATMAP_COMPONENT
         ]
       },
       list: {

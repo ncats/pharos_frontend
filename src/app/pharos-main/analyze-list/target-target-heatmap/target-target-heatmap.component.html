@@ -1,0 +1,82 @@
+<pharos-cross-list-heatmap [title]="'Target-Target Interactions'" [data]="data"
+                           (detailsChanged)="updateSelectedDetails($event)"
+                           [model]="'Target'" [crossModel]="'Target'" [rowParseFunction]="rowParseFunction"
+                           [domain]="[0.3, 1]"
+                           [measure]="'StringDB Interaction Score'" [defaultSubset]="'Interacting Targets'">
+
+
+  <div class="details-view">
+    <div class="section">
+      <mat-card-subtitle>Target 1</mat-card-subtitle>
+      <div class="list-header">
+        <div class="list-item">
+          <ncats-property-display
+            [property]="{term: this.selectedDetails.name, label: 'Name'}"></ncats-property-display>
+        </div>
+        <div class="list-item">
+          <ncats-property-display
+            [property]="{term: this.selectedDetails.sym, label: 'sym'}"></ncats-property-display>
+        </div>
+        <div class="list-item">
+          <ncats-property-display
+            [property]="{term: this.selectedDetails.uniprot, label: 'uniprot'}"></ncats-property-display>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <mat-card-subtitle>Target 2</mat-card-subtitle>
+      <div class="list-header">
+        <div class="list-item">
+          <ncats-property-display
+            [property]="{term: this.selectedDetails.otherName, label: 'Name'}"></ncats-property-display>
+        </div>
+        <div class="list-item">
+          <ncats-property-display
+            [property]="{term: this.selectedDetails.otherSym, label: 'sym'}"></ncats-property-display>
+        </div>
+        <div class="list-item">
+          <ncats-property-display
+            [property]="{term: this.selectedDetails.otherUniprot, label: 'uniprot'}"></ncats-property-display>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <mat-card-subtitle>Interaction Details</mat-card-subtitle>
+      <div class="subsection" *ngIf="this.selectedDetails.score; else noStringDB">
+        <div class="list-header">StringDB stats
+          <div class="list-item">
+            <ncats-property-display
+              [property]="{term: this.selectedDetails.score, label: 'score'}"></ncats-property-display>
+          </div>
+        </div>
+      </div>
+      <ng-template #noStringDB>
+        <div class="note">
+          No StringDB data
+        </div>
+      </ng-template>
+      <div class="subsection" *ngIf="this.selectedDetails.p_int; else noBioplex">
+        <div class="list-header">BioPlex stats
+          <div class="list-item">
+            <ncats-property-display
+              [property]="{term: this.selectedDetails.p_int, label: 'p_int'}"></ncats-property-display>
+          </div>
+          <div class="list-item">
+            <ncats-property-display
+              [property]="{term: this.selectedDetails.p_ni, label: 'p_ni'}"></ncats-property-display>
+          </div>
+          <div class="list-item">
+            <ncats-property-display
+              [property]="{term: this.selectedDetails.p_wrong, label: 'p_wrong'}"></ncats-property-display>
+          </div>
+        </div>
+      </div>
+      <ng-template #noBioplex>
+        <div class="note">
+          No BioPlex data
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</pharos-cross-list-heatmap>
