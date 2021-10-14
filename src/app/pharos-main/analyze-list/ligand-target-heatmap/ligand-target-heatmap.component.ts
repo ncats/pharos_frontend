@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
+import {LigandSerializer} from '../../../models/ligand';
 
 @Component({
   selector: 'pharos-ligand-target-heatmap',
@@ -23,15 +24,17 @@ export class LigandTargetHeatmapComponent extends DynamicPanelComponent implemen
   }
 
   rowParseFunction(row: any) {
+    const serializer = new LigandSerializer();
+    const ligand = serializer.fromJson(row);
     return {
       yVal: row.sym || row.uniprot,
-      xVal: row.name,
+      xVal: ligand.getDisplayName(),
       stringVal: Number.parseFloat(row.mean) ? row.mean.toPrecision(3) : null,
       numVal:  row.mean || 0,
       metadata: {
         x: row.identifier,
         y: row.uniprot,
-        displayX: row.name,
+        displayX: ligand.getDisplayName(),
         displayY: row.sym || row.uniprot
       }
     };

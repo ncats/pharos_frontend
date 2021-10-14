@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
-import {PharosProperty} from '../../../models/pharos-property';
 
 @Component({
   selector: 'pharos-target-target-heatmap',

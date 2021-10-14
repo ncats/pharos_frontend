@@ -32,6 +32,8 @@ export class CrossListHeatmapComponent extends DynamicPanelComponent implements 
   @Input() title: string;
   showDetails = false;
   loadingDetails = false;
+  modelLink: string;
+  crossModelLink: string;
 
   @ViewChild('heatMap', {static: true}) heatMapContainer: HeatMapComponent;
   results: any;
@@ -54,10 +56,10 @@ export class CrossListHeatmapComponent extends DynamicPanelComponent implements 
         this.heatmapWasRun = false;
         this.activityMap = null;
         this.showDetails = false;
+        this.modelLink = this.model.toLowerCase() + 's';
+        this.crossModelLink = this.crossModel.toLowerCase() + 's';
         this.changeDetectorRef.markForCheck();
-        // this.initialize();
       });
-    // this.initialize();
     this.loadingComplete();
   }
 
