@@ -32,7 +32,7 @@
             </div>
             <div fxFlex="1"></div>
             <div class="toolDescription">
-              Display an interactive heatmap of {{title | lowercase}}.
+              Create an interactive heatmap of {{title | lowercase}}.
             </div>
             <div class="toolLinkButton" id="search-method">
             </div>
@@ -64,36 +64,40 @@
           </mat-card-content>
         </mat-card>
       </div>
-      <div *ngIf="results?.length === 10000">
-        <mat-card-subtitle>Note</mat-card-subtitle>
-        <p>The current results are limited to the first 10,000 pairs of {{model}}s and {{crossModel}}s. Either filter
-          your list further, or download the full result set for offline analysis.
-        </p>
-      </div>
-      <div class="heatmap-container"
-           [ngClass]="{halfHeight: showDetails, hidden: !heatmapWasRun }">
-        <ng-container *ngIf="results.length === 0; else downloadButton">
+
+      <ng-container *ngIf="heatmapWasRun">
+        <div *ngIf="results?.length === 10000">
+          <mat-card-subtitle>Note</mat-card-subtitle>
+          <p>The current results are limited to the first 10,000 pairs of {{model}}s and {{crossModel}}s. Either filter
+            your list further, or download the full result set for offline analysis.
+          </p>
+        </div>
+        <div *ngIf="results.length === 0; else downloadButton">
           <mat-card-subtitle>Note</mat-card-subtitle>
           <p>No {{title}} were found.
           </p>
-        </ng-container>
-        <ng-template #downloadButton>
-        <button
-          class="tool-button" mat-raised-button [color]="'primary'" matTooltip="Download {{model}} List Data"
-          (click)="downloadData()">Download
-          <mat-icon>download</mat-icon>
-        </button>
-        </ng-template>
-        <p *ngIf="results && results.length > 0">Hover over cells for a summary, click cells to see all details.</p>
+        </div>
+      </ng-container>
+
+      <div class="heatmap-container"
+           [ngClass]="{halfHeight: showDetails, hidden: (!heatmapWasRun || results.lengt === 0) }">
         <pharos-heat-map [heatmapClicked]="heatmapClicked.bind(this)" [heatmapData]="activityMap"
                          #heatMap></pharos-heat-map>
       </div>
+
       <div class="details-container" [ngClass]="{hidden: !showDetails}">
         <mat-card>
           <div class="details-card">
             <mat-card-title>
-              Details: {{selectedData?.metadata.displayY}} - {{selectedData?.metadata.displayX}}
+              Details:
+              <a [matTooltip]="'Open the ' + crossModel + ' details page for ' + selectedData?.metadata.displayY" [href]="'/' + this.crossModelLink + '/' + selectedData?.metadata.y" target="_blank" rel="noreferrer">
+                {{selectedData?.metadata.displayY}}<mat-icon [inline]="true">open_in_new</mat-icon>
+              </a> -
+              <a [matTooltip]="'Open the ' + model + ' details page for ' + selectedData?.metadata.displayX" [href]="'/' + this.modelLink + '/' + selectedData?.metadata.x" target="_blank" rel="noreferrer">
+                {{selectedData?.metadata.displayX}}<mat-icon [inline]="true">open_in_new</mat-icon>
+              </a>
             </mat-card-title>
+
             <button matSuffix mat-icon-button aria-label="Clear" (click)="showDetails = false">
               <mat-icon>close</mat-icon>
             </button>
@@ -104,6 +108,16 @@
           <ng-content></ng-content>
         </mat-card>
       </div>
+
     </mat-card-content>
   </mat-card>
 </article>
+
+
+<ng-template #downloadButton>
+  <button class="tool-button" mat-raised-button [color]="'primary'" matTooltip="Download {{model}} List Data"
+          (click)="downloadData()">Download
+    <mat-icon>download</mat-icon>
+  </button>
+  <p *ngIf="results && results.length > 0">Hover over cells for a summary, click cells to see all details.</p>
+</ng-template>

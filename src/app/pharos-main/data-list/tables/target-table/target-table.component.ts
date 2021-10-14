@@ -13,7 +13,6 @@ import {MatDialog} from '@angular/material/dialog';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../../models/page-data';
-import {BatchUploadModalComponent} from '../../../../tools/batch-upload-modal/batch-upload-modal.component';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {PharosConfig} from '../../../../../config/pharos-config';
@@ -345,26 +344,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
           this.profileService.updateSavedCollection(doc.id);
         }
       });
-    });
-  }
-
-  saveQuery() {
-    const targetList = this.rowSelection.selected.map(target => target = target.accession);
-    const dialogRef = this.dialog.open(BatchUploadModalComponent, {
-        height: '50vh',
-        width: '50vw',
-        data: {
-          title: `Saving Query`,
-          etag: this.etag,
-          sideway: this.sideway,
-          user: this.user,
-          count: this.pageData.total
-        }
-      }
-    );
-
-    dialogRef.afterClosed().subscribe(result => {
-
     });
   }
 
