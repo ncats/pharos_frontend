@@ -7,7 +7,6 @@ import {PathResolverService} from '../../pharos-main/data-list/filter-panel/path
 import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
-import {BatchUploadModalComponent} from '../../tools/batch-upload-modal/batch-upload-modal.component';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -72,17 +71,17 @@ export class ProfileComponent implements OnInit {
               });
             this.collectionObjects = [
               {
-                collectionHeader: 'Custom Target Collections',
+                collectionHeader: 'Target Collections',
                 models: 'Targets',
                 collection: this.targetCollections
               },
               {
-                collectionHeader: 'Custom Disease Collections',
+                collectionHeader: 'Disease Collections',
                 models: 'Diseases',
                 collection: this.diseaseCollections
               },
               {
-                collectionHeader: 'Custom Ligand Collections',
+                collectionHeader: 'Ligand Collections',
                 models: 'Ligands',
                 collection: this.ligandCollections
               },

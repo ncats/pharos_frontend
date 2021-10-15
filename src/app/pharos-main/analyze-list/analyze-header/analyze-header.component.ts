@@ -8,10 +8,10 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {FieldSelectionDialogComponent} from '../../../tools/field-selection-dialog/field-selection-dialog.component';
 import {SelectionModel} from '@angular/cdk/collections';
 import {takeUntil} from 'rxjs/operators';
-import {PageData} from '../../../models/page-data';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
+import {BatchResolveModalComponent} from '../../../tools/batch-resolve-modal/batch-resolve-modal.component';
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -54,6 +54,14 @@ export class AnalyzeHeaderComponent extends DynamicPanelComponent implements OnI
 
   currentQueryParams() {
     return this._route.snapshot.queryParams;
+  }
+
+  isLigandPage() {
+    return this._route.snapshot.data.path === 'ligands';
+  }
+
+  isTargetPage() {
+    return this._route.snapshot.data.path === 'targets';
   }
 
   isAnalyzePage() {
@@ -106,21 +114,42 @@ export class AnalyzeHeaderComponent extends DynamicPanelComponent implements OnI
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.targetCollection.collection('target-collection').add(
-          result
-        ).then(doc => {
-          if (this.loggedIn && result.saveList) {
-            this.profileService.updateSavedCollection(doc.id);
-          }
-          this.snackBar.open(this.models + ' uploaded!');
-          navigationExtras.state = {batchIds: result.targetList};
-          navigationExtras.queryParams = {
-            collection: doc.id,
-          };
-          this.snackBar.dismiss();
-          this._navigate(navigationExtras);
-        });
+        if (this.isLigandPage()) {
+          const resolveDialog = this.dialog.open(BatchResolveModalComponent, {
+            height: '75vh',
+            width: '66vw',
+            data: {
+              targetList: result.targetList
+            }
+          });
+          resolveDialog.afterClosed().subscribe(resolveResult => {
+            if (resolveResult) {
+              console.log(resolveResult);
+              result.targetList = resolveResult.targetList;
+              this.saveCollection(result);
+            }
+          });
+        } else {
+          this.saveCollection(result);
+        }
       }
+    });
+  }
+
+  private saveCollection(result) {
+    this.targetCollection.collection('target-collection').add(
+      result
+    ).then(doc => {
+      if (this.loggedIn && result.saveList) {
+        this.profileService.updateSavedCollection(doc.id);
+      }
+      this.snackBar.open(this.models + ' uploaded!');
+      navigationExtras.state = {batchIds: result.targetList};
+      navigationExtras.queryParams = {
+        collection: doc.id,
+      };
+      this.snackBar.dismiss();
+      this._navigate(navigationExtras);
     });
   }
 

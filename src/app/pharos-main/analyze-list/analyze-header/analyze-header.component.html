@@ -13,7 +13,7 @@
   </button>
   <div fxFlex></div>
   <div fxFlex="10" fxLayoutAlign="end">
-  <span *ngIf="loggedIn === true && !this.isAnalyzePage()"
+  <span *ngIf="loggedIn === true && !this.isAnalyzePage() && this.isTargetPage()"
         [matTooltip]="rowSelection.isEmpty()? 'Select ' + models.toLowerCase() + ' to save as a custom collection' : null">
   <button mat-button class="tool-button"
           (click)="saveTargets()"

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialogRef} from '@angular/material/dialog';
-import {BatchUploadModalComponent} from '../../tools/batch-upload-modal/batch-upload-modal.component';
 
 @Component({
   selector: 'pharos-confirm-modal',
@@ -10,7 +9,7 @@ import {BatchUploadModalComponent} from '../../tools/batch-upload-modal/batch-up
 export class ConfirmModalComponent implements OnInit {
 
   constructor(
-    public dialogRef: MatDialogRef<BatchUploadModalComponent>,
+    public dialogRef: MatDialogRef<ConfirmModalComponent>,
   ) { }
 
   ngOnInit() {
