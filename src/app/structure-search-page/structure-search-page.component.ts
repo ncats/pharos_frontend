@@ -93,17 +93,30 @@ export class StructureSearchPageComponent implements OnInit {
     };
     this._router.navigate(['/ligands'], navigationExtras);
   }
+
+  findLychi() {
+    // const lychi = this.resolverService.responseDetails?.lychi;
+    // if (lychi) {
+    //   const pieces = lychi.split('-');
+    //   if (pieces.length > 3) {
+    //     return pieces[3];
+    //   }
+    // }
+    return null;
+  }
+
   /**
    * search via url/api navigation
    */
   searchTargets() {
-    this.clearData();
     const navigationExtras: NavigationExtras = {
       queryParams: {
+        associatedLigand: this.findLychi(),
         associatedStructure: this.smilesCtrl.value,
       },
       queryParamsHandling: ''
     };
+    this.clearData();
     this._router.navigate(['/targets'], navigationExtras);
   }
 

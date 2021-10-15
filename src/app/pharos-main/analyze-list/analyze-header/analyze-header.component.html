@@ -11,7 +11,13 @@
           [queryParams]="currentQueryParams()">
     List Analysis
   </button>
+
   <div fxFlex></div>
+  <button *ngIf="isLigandPage()" mat-button class="tool-button " mat-raised-button (click)="goToStructureSearch()" [color]="'primary'"
+          [matTooltip]="'Find ligands based on chemical structure'">Structure Search
+    <mat-icon>search</mat-icon>
+  </button>
+
   <div fxFlex="10" fxLayoutAlign="end">
   <span *ngIf="loggedIn === true && !this.isAnalyzePage() && this.isTargetPage()"
         [matTooltip]="rowSelection.isEmpty()? 'Select ' + models.toLowerCase() + ' to save as a custom collection' : null">

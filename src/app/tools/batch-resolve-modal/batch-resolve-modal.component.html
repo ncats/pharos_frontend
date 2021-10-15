@@ -10,8 +10,9 @@
       <mat-icon>close</mat-icon>
     </button>
   </div>
-  <div>Ligands are resolved through NCATSFind, which can resolve inputs in many formats,
-    including SMILES, common name, CAS Number, ChEMBL etc.
+  <div class="note">
+    <mat-icon [color]="'primary'" class="help-icon">info</mat-icon>
+    The list will be updated with Pharos' internal IDs (LyChI layer 4) when possible.
   </div>
   <div mat-dialog-content class ="upload-form-content">
     <div fxLayout="row" fxLayoutAlign="space-around center">

@@ -891,6 +891,22 @@ export class PharosApiService {
     return this.apollo.query<any>({query, variables});
   }
 
+  public batchConfirmation() {
+    return gql`
+query batchConfirmation($batch: [String], $top: Int) {
+  ligands(ligands:$batch) {
+    count
+    ligands(top:$top){
+      ligid
+      synonyms {
+        name
+        value
+      }
+    }
+  }
+}`;
+  }
+
   public adHocQuery(query: any, variables?: any): Observable<any> {
     return this.apollo.query<any>({query, variables});
   }
