@@ -34,6 +34,7 @@ import { UpsetFieldEditComponent } from './upset-field-edit/upset-field-edit.com
 import {FacetTableModule} from '../pharos-main/data-list/filter-panel/facet-table/facet-table.module';
 import { TutorialLinkComponent } from './tutorial-link/tutorial-link.component';
 import { HeatMapComponent } from './visualizations/heat-map/heat-map.component';
+import { BatchResolveModalComponent } from './batch-resolve-modal/batch-resolve-modal.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { HeatMapComponent } from './visualizations/heat-map/heat-map.component';
     UpsetPlotComponent,
     UpsetFieldEditComponent,
     TutorialLinkComponent,
-    HeatMapComponent
+    HeatMapComponent,
+    BatchResolveModalComponent
   ],
   imports: [
     CommonModule,
