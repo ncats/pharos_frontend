@@ -82,8 +82,8 @@ export class ResolverService {
               // @ts-ignore
               {responseType: 'text' as const}).toPromise()
           );
-          list = [];
-          len = 0;
+          list = [input];
+          len = oneLen;
           return;
         } else {
           list.push(input);
@@ -115,10 +115,9 @@ export class ResolverService {
               const lychis = responseObj.lychi.split('-');
               if (lychis.length > 3) {
                 responseObj.save = lychis[3];
-                responseObj.success = true;
+                responseObj.lychi_h4 = lychis[3];
               } else {
                 responseObj.save = response[0];
-                responseObj.success = false;
               }
               returnObjects.push(responseObj);
             }

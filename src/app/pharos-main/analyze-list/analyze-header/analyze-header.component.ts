@@ -195,6 +195,10 @@ export class AnalyzeHeaderComponent extends DynamicPanelComponent implements OnI
     });
   }
 
+  goToStructureSearch(){
+    this.router.navigate(['/structure']);
+  }
+
   /**
    * navigate on changes, mainly just changes url, shouldn't reload entire page, just data
    * @param {NavigationExtras} navExtras

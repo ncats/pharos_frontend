@@ -1,10 +1,6 @@
 <section class="model-list">
 <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row ligand-table">
   <div fxFlex="25">
-    <button *ngIf="!associatedStructure" mat-button class="tool-button " mat-raised-button (click)="goToStructureSearch()" [color]="'primary'"
-            [matTooltip]="'Find ligands based on chemical structure'">Structure Search
-      <mat-icon>search</mat-icon>
-    </button>
   </div>
   <div fxFlex="65" fxFlexAlign="end">
     <mat-paginator class="model-list-paginator"

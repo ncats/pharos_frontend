@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ResolverService} from '../../pharos-services/resolver.service';
 import {PharosProperty} from '../../models/pharos-property';
 import {DataProperty} from '../generic-table/components/property-display/data-property';
+import {PharosApiService} from '../../pharos-services/pharos-api.service';
 
 @Component({
   selector: 'pharos-batch-resolve-modal',
@@ -21,23 +22,24 @@ export class BatchResolveModalComponent implements OnInit {
       label: 'Input'
     }),
     new PharosProperty({
-      name: 'match',
-      label: 'Matching Term'
+      name: 'lychi_h4',
+      label: 'Resolved LyChI ID'
     }),
-    new PharosProperty( {
-      name: 'success',
-      label: 'Success',
+    new PharosProperty({
+      name: 'found',
+      label: 'Pharos Data Found',
       checkbox: true
     }),
     new PharosProperty({
       name: 'save',
-      label: 'Output'
+      label: 'List to save'
     })];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<BatchResolveModalComponent>,
-    private resolverService: ResolverService
+    private resolverService: ResolverService,
+    private pharosApiService: PharosApiService
   ) {
   }
 
@@ -45,8 +47,30 @@ export class BatchResolveModalComponent implements OnInit {
     this.loading = true;
     this.resolverService.resolveLychis(this.data.targetList).then(res => {
       this.resolvedInputs = res;
-      this.resolvedInputProps = this.resolvedInputs.map(i => this._mapField(i));
-      this.loading = false;
+      this.pharosApiService.adHocQuery(this.pharosApiService.batchConfirmation(),
+        {
+          batch: res.map(r => r.save),
+          top: res.length * 2
+        }).toPromise()
+        .then((gqlRes: any) => {
+          gqlRes.data.ligands.ligands.forEach(l => {
+            l.synonyms.forEach(s => {
+              const matches = this.resolvedInputs.filter(r => r.save === s.value);
+              matches.forEach(f => {
+                f.found = true;
+              });
+            });
+          });
+          this.resolvedInputs.forEach(r => {
+            if (!r.found) {
+              if (r.input.startsWith('CHEMBL') || Number.parseInt(r.input, 10)) {
+                r.save = r.input;
+              }
+            }
+          });
+          this.resolvedInputProps = this.resolvedInputs.map(i => this._mapField(i));
+          this.loading = false;
+        });
     });
   }
 

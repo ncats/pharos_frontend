@@ -7,7 +7,10 @@
       <mat-icon>close</mat-icon>
     </button>
   </div>
-
+  <div *ngIf="models === 'Ligands'" class="note">
+    <mat-icon [color]="'primary'" class="help-icon">info</mat-icon>Ligands are resolved through NCATSFind, which can resolve inputs in many formats,
+    including SMILES, common name, CAS Number, ChEMBL etc.
+  </div>
   <div fxLayout="row" fxLayoutAlign="space-around center" *ngIf="nameable === true">
     <div fxFlex="90">
       <mat-form-field class="full-width">
