@@ -14,10 +14,10 @@
           Error connecting to NCATSFind service
         </ng-template>
       </div>
-      <div class="resolver-results" *ngIf="resolverService.responseDetails.hasOwnProperty('smiles')">
+      <div class="resolver-results" *ngIf="resolverResults.hasOwnProperty('smiles')">
         NCATSFind Results
         <ul>
-          <li *ngFor="let item of this.resolverService.responseDetails | keyvalue" [ngClass]="{bold: item.key === 'smilesParent'}">
+          <li *ngFor="let item of this.resolverResults | keyvalue" [ngClass]="{bold: item.key === 'smilesParent'}">
             {{item.key}}: {{item.value}}
           </li>
         </ul>

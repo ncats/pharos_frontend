@@ -224,13 +224,13 @@ export class Facet {
     }
     if (parameter === 'associatedStructure') {
       if (paramValue.startsWith('sub')) {
-        return 'Associated Substructure';
+        return 'Query Substructure';
       } else {
-        return 'Associated Structure';
+        return 'Query Structure';
       }
     }
     if (parameter === 'associatedLigand') {
-      return 'Associated Ligand';
+      return 'Active Ligand';
     }
     return parameter;
   }
@@ -286,9 +286,14 @@ export class UpsetOptions {
 
   static parseFromUrl(url: string): UpsetOptions {
     let chunks = url.split('InGroup:');
-    chunks = chunks[1].split('OutGroup:');
-    const inGroup = decodeURIComponent(chunks[0]).split('&');
-    let outGroup = decodeURIComponent(chunks[1]).split('&');
+    chunks = chunks[1].split('OutGroup');
+    const inList = chunks[0];
+    let outList = '';
+    if (chunks.length > 1) {
+      outList = chunks[1].startsWith(':') ? chunks[1].slice(1) : chunks[1];
+    }
+    const inGroup = decodeURIComponent(inList).split('&');
+    let outGroup = decodeURIComponent(outList).split('&');
     if (outGroup.length === 1 && outGroup[0].trim() === '') {
       outGroup = [];
     }

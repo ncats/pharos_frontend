@@ -14,31 +14,29 @@ export class ResolverService {
   }
 
   resolverIsUp = false;
-  responseDetails: any = {};
   fields = ['pt', 'lychi', 'smiles', 'inchikey', 'smilesParent', 'unii', 'cas'];
   batchFields = ['pt', 'inchikey', 'lychi'];
 
-  resolve(input: string) {
+  resolve(input: string): Promise<any> {
     if (input && input.trim().length > 0) {
-      this.http.get<string>(`https://tripod.nih.gov/servlet/resolver/${this.fields.join('/')}?structure=${encodeURIComponent(input)}`,
+      return this.http.get<string>(
+        `https://tripod.nih.gov/servlet/resolver/${this.fields.join('/')}?structure=${encodeURIComponent(input)}`,
         // @ts-ignore
-        {responseType: 'text' as const})
-        .subscribe({
-          next: response => {
+        {responseType: 'text' as const}).toPromise()
+        .then(
+          response => {
             const responseObj: any = {};
             if (this.tryParse(response.toString(), responseObj)) {
               this.molChangeService.updateSmiles(responseObj.smilesParent, 'resolver');
-              this.responseDetails = responseObj;
+              return responseObj;
             } else {
-              this.responseDetails = {};
+              return {};
             }
-          },
-          error: err => {
-            alert(err.message);
-          }
+          }).catch(err => {
+          alert(err.message);
         });
     } else {
-      this.responseDetails = {};
+      return Promise.resolve({});
     }
   }
 
