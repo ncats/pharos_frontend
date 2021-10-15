@@ -28,6 +28,7 @@ export class StructureSearchPageComponent implements OnInit {
   smilesCtrl: FormControl = new FormControl();
   resolverCtrl: FormControl = new FormControl();
   resolverIsUp = false;
+  resolverResults: any = {};
 
   /**
    * add router for navigation
@@ -56,7 +57,8 @@ export class StructureSearchPageComponent implements OnInit {
         this.smilesCtrl.setValue(changeObj.newSmiles);
       }
       if (changeObj.source !== 'resolver') {
-        // this.resolverCtrl.setValue('');
+        this.resolverResults = {};
+        this.resolverCtrl.setValue('');
       }
     });
     this.typeCtrl.setValue(this.molChangeService.getSearchType());
@@ -72,7 +74,6 @@ export class StructureSearchPageComponent implements OnInit {
 
   smilesChanged(event) {
     this.resolverCtrl.setValue('');
-    this.resolverService.responseDetails = {};
     this.molChangeService.updateSmiles(event.target.value, 'smilesCtrl');
   }
 
@@ -84,7 +85,6 @@ export class StructureSearchPageComponent implements OnInit {
    * search via url/api navigation
    */
   searchLigands() {
-    this.clearData();
     const navigationExtras: NavigationExtras = {
       queryParams: {
         associatedStructure: (this.typeCtrl.value || 'sim') + Facet.separator + this.smilesCtrl.value,
@@ -94,38 +94,46 @@ export class StructureSearchPageComponent implements OnInit {
     this._router.navigate(['/ligands'], navigationExtras);
   }
 
-  findLychi() {
-    // const lychi = this.resolverService.responseDetails?.lychi;
-    // if (lychi) {
-    //   const pieces = lychi.split('-');
-    //   if (pieces.length > 3) {
-    //     return pieces[3];
-    //   }
-    // }
+  async findLychi() {
+    if (this.resolverResults?.lychi) {
+      return this.parseLychi(this.resolverResults.lychi);
+    }
+    await this.resolveCompound(
+      {
+        target:
+          {
+            value: this.smilesCtrl.value
+          }
+      });
+    return this.parseLychi(this.resolverResults.lychi);
+  }
+
+  parseLychi(fullLychi) {
+    const pieces = fullLychi?.split('-');
+    if (pieces.length > 3) {
+      return pieces[3];
+    }
     return null;
   }
 
   /**
    * search via url/api navigation
    */
-  searchTargets() {
+  async searchTargets() {
+    const lychi = await this.findLychi();
     const navigationExtras: NavigationExtras = {
       queryParams: {
-        associatedLigand: this.findLychi(),
+        associatedLigand: lychi,
         associatedStructure: this.smilesCtrl.value,
       },
       queryParamsHandling: ''
     };
-    this.clearData();
     this._router.navigate(['/targets'], navigationExtras);
   }
 
-  clearData() {
-    this.resolverService.responseDetails = {};
-    this.resolverCtrl.setValue('');
-  }
-
   resolveCompound(event) {
-    this.resolverService.resolve(event.target.value);
+    return this.resolverService.resolve(event.target.value).then(res => {
+      this.resolverResults = res;
+    });
   }
 }
