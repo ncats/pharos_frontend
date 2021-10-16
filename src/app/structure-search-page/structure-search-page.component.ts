@@ -95,13 +95,9 @@ export class StructureSearchPageComponent implements OnInit {
   }
 
   async findLychi() {
-    if (this.resolverResults?.lychi) {
-      return this.parseLychi(this.resolverResults.lychi);
-    }
     await this.resolveCompound(
       {
-        target:
-          {
+        target: {
             value: this.smilesCtrl.value
           }
       });
