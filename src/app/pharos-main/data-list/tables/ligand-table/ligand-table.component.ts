@@ -216,10 +216,6 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
     }).afterClosed();
   }
 
-  goToStructureSearch(){
-    this.router.navigate(['/structure']);
-  }
-
   /**
    * clean up on destroy
    */

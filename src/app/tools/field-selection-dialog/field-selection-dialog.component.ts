@@ -26,7 +26,7 @@ export class FieldSelectionDialogComponent implements OnInit {
   profile: any;
 
   constructor(public dialogRef: MatDialogRef<FieldSelectionDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: { model: string, count: number , route: any, batch: string},
+              @Inject(MAT_DIALOG_DATA) public data: { model: string, count: number , route: any, batch: string, defaultSubset: string},
               private pharosApiService: PharosApiService,
               private changeDetectorRef: ChangeDetectorRef,
               private targetListService: TargetListService,
@@ -92,6 +92,9 @@ export class FieldSelectionDialogComponent implements OnInit {
           });
           this.defaults = this.singles.field.filter(f => f.order > 0).map(f => f.name);
           this.selectedFields = this.defaults.slice();
+          if (this.data.defaultSubset) {
+            this.groupChanged({checked: true, source: null}, this.lists.find(list => list.listName === this.data.defaultSubset));
+          }
         },
       error: err => {
           alert(err);

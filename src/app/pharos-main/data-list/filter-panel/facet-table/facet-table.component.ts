@@ -9,6 +9,7 @@ import {PathResolverService} from '../path-resolver.service';
 import {SelectedFacetService} from '../selected-facet.service';
 import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
 import {HighlightPipe} from '../../../../tools/search-component/highlight.pipe';
+import {CentralStorageService} from '../../../../pharos-services/central-storage.service';
 
 /**
  * table to display selectable fields
@@ -32,7 +33,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
   @Input() popup = false;
   @Input() popupFields: string[];
   @Output() popupFieldsChange = new EventEmitter<string[]>();
-
+  @Input() overridePath: string;
   /**
    * data source of filters to display in the table
    * @type {MatTableDataSource<any>}
@@ -49,17 +50,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    */
   filterSelection = new SelectionModel<string>(true, []);
 
-  /**
-   * facet selection fields to display
-   * @type {string[]}
-   */
-  displayColumns: string [] = ['select', 'name', 'count'];
-
-  /**
-   * object fields headings to track and show
-   * @type {string[]}
-   */
-  fieldColumns: string [] = ['name', 'count'];
+  displayColumns = ['select', 'name', 'count'];
 
   /**
    * unsubscribe subject
@@ -81,7 +72,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    * the text string what someone is using to find facet options
    */
   searchText = '';
-
+  term = '';
   /**
    * helps highlight the search terms. included as object since I couldn't get the module to share to use the pipe directly :(
    */
@@ -100,9 +91,13 @@ export class FacetTableComponent implements OnInit, OnDestroy {
               private router: Router,
               private changeRef: ChangeDetectorRef,
               private selectedFacetService: SelectedFacetService,
-              private pathResolverService: PathResolverService) {
+              private pathResolverService: PathResolverService,
+              private centralStorageService: CentralStorageService) {
   }
 
+  linkPath() {
+    return this._route.snapshot.data.path || this.path;
+  }
   /**
    * retrieve and set facet values, subscribe to changes
    */
@@ -113,6 +108,11 @@ export class FacetTableComponent implements OnInit, OnDestroy {
         // If it is a NavigationEnd event re-initalize the component
         if (e instanceof NavigationEnd) {
           // update field values
+          if (this.linkPath() === 'search') {
+            this.term = this._route.snapshot.queryParamMap.get('q') || this._route.snapshot.queryParamMap.get('query') || '';
+          } else {
+            this.term = '';
+          }
           this.dataSource.data = this.facet.values;
           this.populateFilteredData();
           // update selected fields
@@ -121,6 +121,11 @@ export class FacetTableComponent implements OnInit, OnDestroy {
         }
       });
     // update field values
+    if (this.linkPath() === 'search') {
+      this.term = this._route.snapshot.queryParamMap.get('q') || this._route.snapshot.queryParamMap.get('query') || '';
+    } else {
+      this.term = '';
+    }
     this.dataSource.data = this.facet.values;
     this.populateFilteredData();
     // update selected fields
@@ -132,14 +137,31 @@ export class FacetTableComponent implements OnInit, OnDestroy {
     this.filterSelection.changed
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(change => {
-        if (!this.popup) {
+        if (!this.popup && !this.facet.noNavigate) {
           if (this.propogate === true) {
             this.selectedFacetService.setFacets({name: this.facet.facet, change});
             const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
-            this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
+            if (this.linkPath() === 'search') {
+              this.selectedFacetService.removeField('q', this.term);
+              this.selectedFacetService.removeField('query', this.term);
+              this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets(), this.overridePath);
+            } else {
+              this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
+            }
           }
         } else {
-          this.popupFieldsChange.emit(change.source.selected);
+          if (this.popup) {
+            this.popupFieldsChange.emit(change.source.selected);
+          }
+          if (this.facet.noNavigate) {
+            const list = this.facet.values.filter(v => {
+              if (v.noLink) {
+                return false;
+              }
+              return change.source.selected.includes(v.name);
+            }).map(v => v.name);
+            this.centralStorageService.setBrowseTypes(list);
+          }
         }
       });
 
@@ -147,7 +169,6 @@ export class FacetTableComponent implements OnInit, OnDestroy {
       this.mapSelected();
     });
   }
-
   mapSelected() {
     if (this.popup) {
       this.filterSelection.select(...this.popupFields);
@@ -182,10 +203,11 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    * @param rowText
    */
   highlightText(rowText: string) {
-    if (this.searchText.length == 0) {
+    if (this.searchText.length === 0 &&
+      this.term.length === 0) {
       return rowText;
     }
-    return this.highlight.transform(rowText, this.searchText);
+    return this.highlight.transform(rowText, this.searchText || this.term);
   }
 
   /**
@@ -194,10 +216,9 @@ export class FacetTableComponent implements OnInit, OnDestroy {
   fetchAllFilterOptions() {
     this.loading = true;
     this.pharosApiService.getAllFacetOptions(
-      this._route.snapshot.data.path || this.path,
+      this.linkPath(),
       this._route.snapshot.queryParamMap,
-      this.facet.facet,
-      this.facet.count).subscribe({
+      this.facet.facet).subscribe({
       next:
         res => {
           this.facet = res.data.results.facets.find(resfacet => resfacet.facet === this.facet.facet);
@@ -205,7 +226,8 @@ export class FacetTableComponent implements OnInit, OnDestroy {
           this.populateFilteredData();
           this.mapSelected();
           this.loading = false;
-        }, error: e => {
+        },
+      error: e => {
         throw(e);
       }
     });
@@ -245,6 +267,62 @@ export class FacetTableComponent implements OnInit, OnDestroy {
       const rowname = (row.value || row.name).toLowerCase();
       return rowname.indexOf(this.searchText.toLowerCase()) > -1;
     });
+  }
+
+  formatStats(row: any) {
+    if (!row.stats || (!row.stats.pValue && row.stats.pValue !== 0)) {
+      return '';
+    }
+    let displayVal = '';
+    if (row.stats.pValue >= 0) {
+      if (row.stats.pValue >= .01) {
+        displayVal = '(p=' + row.stats.pValue?.toFixed(2) + ')';
+      } else if (row.stats.pValue === 0) {
+        displayVal = '(p→0)';
+      } else {
+        displayVal = '(p=' + row.stats.pValue?.toExponential(0) + ')';
+      }
+    }
+    return displayVal;
+  }
+
+  icon(row) {
+    if (row.stats) {
+      if (row.stats.representation > 0) {
+        if (row.stats.rejected) {
+          return 'north_east';
+        }
+      } else {
+        if (row.stats.rejected) {
+          return 'south_east';
+        }
+      }
+    }
+  }
+
+  getTooltip(row) {
+    if (row.stats) {
+      let representation = '';
+      let modifier = '';
+      if (row.stats.pValue > 0.75) {
+        representation = 'represented as expected';
+      } else {
+        if (row.stats.representation > 0) {
+          representation = 'overrepresented';
+        } else {
+          representation = 'underrepresented';
+        }
+        if (row.stats.rejected) {
+          modifier = 'significantly ';
+        } else {
+          modifier = 'slightly ';
+        }
+      }
+      const actual = (100 * row.stats.statistic).toFixed(2) + '%';
+      const expected = (100 * row.stats.nullValue).toFixed(2) + '%';
+      return `"${row.name}" has been documented in ${actual} of the entries in this list. Based on the expected probability of ` +
+        `${expected}, this filter value is ${modifier}${representation}.`;
+    }
   }
 
   isIndeterminate(row: any) {

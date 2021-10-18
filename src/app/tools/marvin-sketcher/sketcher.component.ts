@@ -27,6 +27,8 @@ export class SketcherComponent implements AfterViewInit {
   marvin: any;
   marvinElement: any;
 
+  updateTime: any;
+
   /**
    * initialize marvin js instance
    */
@@ -43,24 +45,26 @@ export class SketcherComponent implements AfterViewInit {
           this.marvinElement.importStructure('smiles', existingSmiles);
         }
 
-        function handleMolChange() {
+        function handleMolChange(event) {
           this.marvinElement.exportStructure('smiles').then((smiles) => {
-            this.molChangeService.updateSmiles(smiles, 'sketcher');
+            if (!this.updateTime || (Date.now() - this.updateTime > 2000)) {
+              this.molChangeService.updateSmiles(smiles, 'sketcher');
+            }
           });
         }
-
         this.marvinElement.on('molchange', handleMolChange.bind(this));
       });
 
       this.molChangeService.smilesChanged.subscribe(function(changeObj) {
         if (changeObj.source !== 'sketcher') {
           if (changeObj.newSmiles.length > 0) {
+            this.updateTime = Date.now();
             this.marvinElement.importStructure('smiles', changeObj.newSmiles).then(res => {
             }, err => {
               alert('Smiles Parsing Failed\n\n' + err);
               this.marvinElement.exportStructure('smiles').then((smiles) => {
                 {
-                  this.molChangeService.updateSmiles(smiles, 'sketcher');
+                  this.molChangeService.updateSmiles(smiles, changeObj.source);
                 }
               });
             });

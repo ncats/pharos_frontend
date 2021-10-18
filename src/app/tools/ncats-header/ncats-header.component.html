@@ -19,13 +19,13 @@
     <button mat-button class="nav-menu-button" (click)="signOut()" *ngIf="profile">
       Sign Out
     </button>
-    <button mat-button (click)="mobilesidenav.close()" routerLink="/targets" class="nav-menu-button"
+    <button mat-button (click)="mobilesidenav.close()" [routerLink]="getRouterLink('targets')" class="nav-menu-button"
             [ngClass]="{active: isActive('targets')}">Targets
     </button>
-    <button mat-button (click)="mobilesidenav.close()" routerLink="/diseases" class="nav-menu-button"
+    <button mat-button (click)="mobilesidenav.close()" [routerLink]="getRouterLink('diseases')" class="nav-menu-button"
             [ngClass]="{active: isActive('diseases')}">Diseases
     </button>
-    <button mat-button (click)="mobilesidenav.close()" routerLink="/ligands" class="nav-menu-button"
+    <button mat-button (click)="mobilesidenav.close()" [routerLink]="getRouterLink('ligands')" class="nav-menu-button"
             [ngClass]="{active: isActive('ligands')}">Ligands
     </button>
     <!--<button mat-button (click)="mobilesidenav.close()" routerLink="/topics" class="nav-menu-button"
@@ -63,9 +63,9 @@
          class="pharos-logo">
     <div id="links" fxHide.lt-md>
       <span id="list-pages">
-        <a mat-button routerLink="/targets" [ngClass]="{active: isActive('targets')}">Targets</a>
-        <a mat-button routerLink="/diseases" [ngClass]="{active: isActive('diseases')}">Diseases</a>
-        <a mat-button routerLink="/ligands" [ngClass]="{active: isActive('ligands')}">Ligands</a>
+        <a mat-button [routerLink]="getRouterLink('targets')" [ngClass]="{active: isActive('targets')}">Targets</a>
+        <a mat-button [routerLink]="getRouterLink('diseases')" [ngClass]="{active: isActive('diseases')}">Diseases</a>
+        <a mat-button [routerLink]="getRouterLink('ligands')" [ngClass]="{active: isActive('ligands')}">Ligands</a>
       </span>
 <!--
       <a mat-button routerLink="/topics" [ngClass]="{active: isActive('topics')}">Topics</a>
@@ -86,6 +86,9 @@
     <span class="fill-remaining-space"></span>
     <pharos-search-component [fxHide.lt-md]="true" [placeholderStr]="'search'"
                              *ngIf=searchBar></pharos-search-component>
+    <button mat-button class="jira-button" aria-label="submit feedback" matTooltip="Submit Feedback" (click)="submitFeedback($event)" fxHide.lt-md>
+      Feedback <mat-icon>feedback</mat-icon>
+    </button>
     <div *ngIf=profile class="profile-section signin-button" [matMenuTriggerFor]="profileMenu" fxHide.lt-md>
       <img [src]=profile.profilePic class="profile-pic" *ngIf="profile?.profilePic">
       <span class="user-name">{{profile.name}}</span>
@@ -104,9 +107,6 @@
    <!-- <button mat-icon-button class="share-button" [color]="'primary'" aria-label = "share link button" fxHide fxShow.lt-md>
       <mat-icon>share</mat-icon>
     </button>-->
-    <button mat-button class="jira-button" aria-label="submit feedback" matTooltip="Submit Feedback" (click)="submitFeedback($event)" fxHide.lt-md>
-      Feedback <mat-icon>feedback</mat-icon>
-    </button>
     <button mat-icon-button class="menu-button top-level-menu-button" aria-label = "menu button" (click)="mobilesidenav.toggle()" fxHide fxShow.lt-md>
       <mat-icon>menu</mat-icon>
     </button>

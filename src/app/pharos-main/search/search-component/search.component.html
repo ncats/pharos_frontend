@@ -1,0 +1,62 @@
+<mat-card class="entry" *ngIf="!hasData()">
+  No results for search term "<b>{{this.term}}</b>"
+</mat-card>
+<mat-card class="entry" *ngIf="hasDBresults()">
+  <span class="mat-headline">Database Matches</span>
+  <div class="list-grid">
+    <mat-card *ngIf="data.targets.count > 0" class="entry clickable-card" routerLink="/targets"
+              [queryParams]="{q:term}">
+      <mat-card-title>Targets ({{data.targets.count}})</mat-card-title>
+      <div>{{data.targets.facets[0].facet}}</div>
+      <pharos-donut-chart [data]="data.targets.facets[0].values" [svgID]="'search-targets'"></pharos-donut-chart>
+    </mat-card>
+    <mat-card *ngIf="data.diseases.count > 0" class="entry clickable-card" routerLink="/diseases"
+              [queryParams]="{q:term}">
+      <mat-card-title>Diseases ({{data.diseases.count}})</mat-card-title>
+      <div>{{data.diseases.facets[0].facet}}</div>
+      <pharos-donut-chart [data]="data.diseases.facets[0].values" [svgID]="'search-diseases'"></pharos-donut-chart>
+    </mat-card>
+    <mat-card *ngIf="data.ligands.count > 0" class="entry clickable-card" routerLink="/ligands"
+              [queryParams]="{q:term}">
+      <mat-card-title>Ligands ({{data.ligands.count}})</mat-card-title>
+      <div>{{data.ligands.facets[0].facet}}</div>
+      <pharos-donut-chart [data]="data.ligands.facets[0].values" [svgID]="'search-ligands'"></pharos-donut-chart>
+    </mat-card>
+  </div>
+</mat-card>
+<mat-card class="entry" *ngIf="hasFacetResults()">
+  <mat-tab-group>
+    <ng-container *ngFor="let params of tabParams">
+      <mat-tab *ngIf="params.hasData()">
+        <ng-template mat-tab-label>
+          <div [matTooltip]="params.tooltip">
+            {{params.title}}
+          </div>
+        </ng-template>
+        <div class="list-grid">
+          <ng-container *ngFor="let facet of params.facets">
+            <mat-expansion-panel [expanded]=true *ngIf="facet.values.length > 0" class="filter-panel full-height entry">
+              <mat-expansion-panel-header [ngClass]="{prediction: facetIsPrediction(facet)}">
+                <mat-panel-title>
+                <span>
+                  <span class="mat-title facet-title">{{facet.label ? facet.label : facet.facet}}</span>
+                  <span *ngIf="!isProduction && facet.elapsedTime"> ({{facet.elapsedTime?.toFixed(2)}}s)</span>
+                  <span class="facet-modifier" *ngIf="facet.modifier"> ({{facet.modifier}})</span>
+                </span>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              {{facet.model}}
+              <div *ngIf="facet.dataType === 'Numeric'; then numericBlock else categoryBlock"></div>
+              <ng-template #categoryBlock>
+                <pharos-facet-table [facet]="facet" [overridePath]="params.overridePath"></pharos-facet-table>
+              </ng-template>
+              <ng-template #numericBlock>
+                <pharos-facet-histogram [facet]="facet"></pharos-facet-histogram>
+              </ng-template>
+            </mat-expansion-panel>
+          </ng-container>
+        </div>
+      </mat-tab>
+    </ng-container>
+  </mat-tab-group>
+</mat-card>

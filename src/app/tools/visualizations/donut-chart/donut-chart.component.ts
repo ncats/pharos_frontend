@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnChanges, OnDestroy, OnInit, Output, PLATFORM_ID, ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -15,15 +16,15 @@ import {Observable, Subscription} from 'rxjs';
   styleUrls: ['./donut-chart.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class DonutChartComponent implements OnInit, OnChanges, OnDestroy {
+export class DonutChartComponent implements AfterViewInit, OnChanges, OnDestroy {
   private eventsSubscription: Subscription;
 
   @Input() events: Observable<string>;
-
+  @Input() svgID = 'top-level-donut';
   /**
    * donut chart component holder
    */
-  @ViewChild('donutChartTarget', {static: true}) chartContainer: ElementRef;
+  @ViewChild('donutChartTarget', {static: false}) chartContainer: ElementRef;
 
   /**
    * data to display
@@ -41,6 +42,8 @@ export class DonutChartComponent implements OnInit, OnChanges, OnDestroy {
    * height of component
    */
   height: number;
+
+  chartArea: any;
 
   /**
    * width of component
@@ -73,17 +76,12 @@ export class DonutChartComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * measure and layou the chart component
    */
-  ngOnInit() {
+  ngAfterViewInit() {
     this.eventsSubscription = this.events?.subscribe((chart) => {
       if (chart === 'donut-chart') {
         this.redraw();
       }
     });
-    const element = this.chartContainer.nativeElement;
-    this.width = element.offsetWidth - this.margin.left - this.margin.right;
-    this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
-    this.radius = Math.min(this.width, this.height) / 2;
-
     if (isPlatformBrowser(this.platformID)) {
       this.redraw();
     }
@@ -110,14 +108,18 @@ export class DonutChartComponent implements OnInit, OnChanges, OnDestroy {
    */
   drawChart(): void {
     const element = this.chartContainer.nativeElement;
-    d3.select(element).selectAll('svg').remove();
-    this.width = element.offsetWidth - this.margin.left - this.margin.right;
-    this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
+    this.chartArea = d3.select(element);
+    this.chartArea.selectAll('svg').remove();
+    const edge = Math.min(element.offsetHeight, element.offsetWidth);
+    this.width = edge - this.margin.left - this.margin.right;
+    this.height = edge - this.margin.top - this.margin.bottom;
     this.radius = Math.min(this.width, this.height) / 2;
+
     const width = this.width + this.margin.left + this.margin.right;
     const height = this.height + this.margin.top + this.margin.bottom * 2;
     if (width > 0 && height > 0) {
-      const svg = d3.select(element).append('svg')
+      const svg = this.chartArea.append('svg')
+        .attr('id', this.svgID)
         .attr('width', width)
         .attr('height', height)
         .append('g')
@@ -132,7 +134,7 @@ export class DonutChartComponent implements OnInit, OnChanges, OnDestroy {
    * update chart as data changes
    */
   updateChart(): void {
-    d3.selectAll('.toolCircle').remove();
+    this.chartArea.selectAll('.toolCircle').remove();
     const pie = d3.pie()
       .sort((a, b) => {
         return a.count - b.count;
@@ -165,13 +167,13 @@ export class DonutChartComponent implements OnInit, OnChanges, OnDestroy {
 
 
 // Define the div for the tooltip
-    const div = d3.select('.donut-container').append('g')
+    const div = this.chartArea.select('.donut-container').append('g')
       .attr('class', 'tooltip')
       .style('opacity', 0);
 
     /* ------- PIE SLICES -------*/
 
-    const slice = d3.select('.slices').selectAll('path.slice')
+    const slice = this.chartArea.select('.slices').selectAll('path.slice')
       .data(pie(this.data), key);
 
     slice.enter()
@@ -181,7 +183,7 @@ export class DonutChartComponent implements OnInit, OnChanges, OnDestroy {
       .attr('d', arc)
 
     .on('mouseover', (event, d) => {
-      d3.selectAll('.toolCircle').remove();
+      this.chartArea.selectAll('.toolCircle').remove();
       this.addTooltip(div, d, color);
       })
     .on('mouseout', (event, d) => {
@@ -196,7 +198,7 @@ export class DonutChartComponent implements OnInit, OnChanges, OnDestroy {
     slice.exit()
       .remove();
 
-    const firstSlice = d3.select('.slices').selectAll('path.slice').data()[0];
+    const firstSlice = this.chartArea.select('.slices').selectAll('path.slice').data()[0];
     // .data(pie(this.data), 0);
 
     this.addTooltip(div, firstSlice, color);
@@ -229,7 +231,9 @@ export class DonutChartComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.eventsSubscription.unsubscribe();
+    if (this.eventsSubscription) {
+      this.eventsSubscription.unsubscribe();
+    }
   }
 
 }

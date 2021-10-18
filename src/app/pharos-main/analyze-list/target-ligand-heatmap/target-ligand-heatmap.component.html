@@ -1,0 +1,5 @@
+<pharos-cross-list-heatmap [title]="'Target-Ligand Activities'" [data]="data" (detailsChanged)="updateSelectedDetails($event)"
+                           [model]="'Target'" [crossModel]="'Ligand'" [rowParseFunction]="rowParseFunction" [domain]="[5, 12]"
+                           [measure]="'Activity'" [defaultSubset]="'Drugs and Ligands'">
+  <pharos-target-relevance-table [rawData]="this.selectedDetails" [singlePair]="true"></pharos-target-relevance-table>
+</pharos-cross-list-heatmap>

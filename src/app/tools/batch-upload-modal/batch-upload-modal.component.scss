@@ -6,9 +6,18 @@
 }
 
 .upload-form-content {
-    flex: 1 0 auto;
-  }
+  flex: 1 0 auto;
+  max-height: 40vh;
+}
 
 .full-width {
   width: 100%;
+}
+
+.note {
+  display: flex;
+  align-items: center;
+}
+.help-icon {
+  margin-right: 20px;
 }

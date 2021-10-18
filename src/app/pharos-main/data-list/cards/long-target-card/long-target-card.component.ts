@@ -1,8 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Target} from "../../../../models/target";
-import {DynamicPanelComponent} from "../../../../tools/dynamic-panel/dynamic-panel.component";
-import {NavSectionsService} from "../../../../tools/sidenav-panel/services/nav-sections.service";
-import {DynamicPanelBaseComponent} from "../../../../tools/dynamic-panel-base/dynamic-panel-base.component";
+import {Target} from '../../../../models/target';
+import {DynamicPanelBaseComponent} from '../../../../tools/dynamic-panel-base/dynamic-panel-base.component';
 
 @Component({
   selector: 'pharos-long-target-card',

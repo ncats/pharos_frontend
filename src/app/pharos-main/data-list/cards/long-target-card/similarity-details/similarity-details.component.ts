@@ -18,7 +18,7 @@ export class SimilarityDetailsComponent extends GeneDetailsComponent implements 
   vennData: VennDiagramData = new VennDiagramData();
   ngOnInit(): void {
     const facetValue = this.selectedFacetService.getFacetByName('similarity')?.values[0]?.name?.split(',');
-    if(facetValue && facetValue.length > 1) {
+    if (facetValue && facetValue.length > 1) {
       const similarityFacet = facetValue[1].trim();
       if (similarityFacet[similarityFacet.length - 1] === ')') {
         this.similarityFacet = similarityFacet.slice(0, similarityFacet.length - 1).trim();

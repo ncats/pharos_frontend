@@ -8,23 +8,10 @@
     </div>
   </mat-expansion-panel-header>
   <button class="detailsButton" type="button" mat-raised-button [color]="'primary'" style="height: 36px;"
-                                       [routerLink]="'/diseases/' + disease.name">
-  Explore Disease: {{disease.name}}
-  <mat-icon>description</mat-icon>
-</button>
-  <div class="association-grid">
-    <div *ngIf="this.drugs.length > 0">
-      <mat-card-subtitle>{{this.drugType}}</mat-card-subtitle>
-      <ul>
-        <li *ngFor="let assoc of this.drugs">
-          <ncats-property-display
-            [property]="{label:'Drug' ,term:assoc.drug, internalLink:'/ligands/' + assoc.drug, tooltip:'Navigate to drug details'}"
-            [showLabel]="false"></ncats-property-display>
-        </li>
-      </ul>
-    </div>
-    <div *ngFor="let assoc of this.nonDrugs">
-      <pharos-disease-association [apiSources]="apiSources" [association]="assoc"></pharos-disease-association>
-    </div>
-  </div>
+          [routerLink]="'/diseases/' + disease.name">
+    Explore Disease: {{disease.name}}
+    <mat-icon>description</mat-icon>
+  </button>
+  <pharos-disease-association-grid [apiSources]="apiSources" [associations]="disease.associations">
+  </pharos-disease-association-grid>
 </mat-expansion-panel>

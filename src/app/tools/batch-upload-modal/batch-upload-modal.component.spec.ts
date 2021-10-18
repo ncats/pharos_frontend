@@ -30,7 +30,7 @@ describe('BatchUploadModalComponent', () => {
         AngularFireAuth,
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE},
         {provide: AngularFirestore, useValue: FIRESTORESTUB},
-        {provide: MAT_DIALOG_DATA, useValue: {}},
+        {provide: MAT_DIALOG_DATA, useValue: {models: 'Targets'}},
         {provide: MatDialogRef, useValue: matDialogRefStub},
       ]
     })

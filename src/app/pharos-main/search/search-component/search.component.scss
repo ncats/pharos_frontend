@@ -1,0 +1,26 @@
+
+.list-grid {
+  margin: 2px;
+  display: grid;
+  grid-auto-rows: max-content;
+  grid-template-columns: repeat(auto-fill, minmax(32%, 1fr));
+  grid-gap: 2px;
+}
+
+@media only screen and (max-width: 768px) {
+  .list-grid {
+    grid-template-columns: repeat(auto-fill, minmax(95%, 1fr));
+  }
+}
+
+.entry {
+  margin: 2px;
+}
+
+.clickable-card {
+  cursor: pointer;
+}
+
+.clickable-card:hover {
+  background-color: #f6f6f6;
+}

@@ -3,8 +3,8 @@ import {FormControl} from '@angular/forms';
 import {ActivatedRoute, NavigationEnd, NavigationExtras, Router} from '@angular/router';
 import {MolChangeService} from '../tools/marvin-sketcher/services/mol-change.service';
 import {Facet} from '../models/facet';
-import {environment} from '../../environments/environment';
 import {ResolverService} from '../pharos-services/resolver.service';
+import {UnfurlingMetaService} from '../pharos-services/unfurling-meta.service';
 /**
  * page to search by structure
  */
@@ -20,7 +20,6 @@ export class StructureSearchPageComponent implements OnInit {
    * @type {FormControl}
    */
   typeCtrl: FormControl = new FormControl('sim');
-  isDev = false;
 
   /**
    * input smiles value, retrieved by either the text input or structure drawer component
@@ -29,6 +28,7 @@ export class StructureSearchPageComponent implements OnInit {
   smilesCtrl: FormControl = new FormControl();
   resolverCtrl: FormControl = new FormControl();
   resolverIsUp = false;
+  resolverResults: any = {};
 
   /**
    * add router for navigation
@@ -38,7 +38,8 @@ export class StructureSearchPageComponent implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router,
     private molChangeService: MolChangeService,
-    public resolverService: ResolverService
+    public resolverService: ResolverService,
+    private metaService: UnfurlingMetaService
   ) {
   }
 
@@ -51,24 +52,28 @@ export class StructureSearchPageComponent implements OnInit {
       });
 
     this.resolverIsUp = this.resolverService.resolverIsUp;
-    this.isDev = !environment.production;
     this.molChangeService.smilesChanged.subscribe(changeObj => {
       if (changeObj.source !== 'smilesCtrl') {
         this.smilesCtrl.setValue(changeObj.newSmiles);
       }
       if (changeObj.source !== 'resolver') {
-        // this.resolverCtrl.setValue('');
+        this.resolverResults = {};
+        this.resolverCtrl.setValue('');
       }
     });
     this.typeCtrl.setValue(this.molChangeService.getSearchType());
     this.molChangeService.searchTypeChanged.subscribe(newType => {
       this.typeCtrl.setValue(newType);
     });
+
+    this.metaService.setMetaData({
+      description: `Use the structure search tool to initiate a search based on a chemical structure.`,
+      title: `Pharos: Structure Search`
+    });
   }
 
   smilesChanged(event) {
     this.resolverCtrl.setValue('');
-    this.resolverService.responseDetails = {};
     this.molChangeService.updateSmiles(event.target.value, 'smilesCtrl');
   }
 
@@ -80,7 +85,6 @@ export class StructureSearchPageComponent implements OnInit {
    * search via url/api navigation
    */
   searchLigands() {
-    this.clearData();
     const navigationExtras: NavigationExtras = {
       queryParams: {
         associatedStructure: (this.typeCtrl.value || 'sim') + Facet.separator + this.smilesCtrl.value,
@@ -89,13 +93,33 @@ export class StructureSearchPageComponent implements OnInit {
     };
     this._router.navigate(['/ligands'], navigationExtras);
   }
+
+  async findLychi() {
+    await this.resolveCompound(
+      {
+        target: {
+            value: this.smilesCtrl.value
+          }
+      });
+    return this.parseLychi(this.resolverResults.lychi);
+  }
+
+  parseLychi(fullLychi) {
+    const pieces = fullLychi?.split('-');
+    if (pieces.length > 3) {
+      return pieces[3];
+    }
+    return null;
+  }
+
   /**
    * search via url/api navigation
    */
-  searchTargets() {
-    this.clearData();
+  async searchTargets() {
+    const lychi = await this.findLychi();
     const navigationExtras: NavigationExtras = {
       queryParams: {
+        associatedLigand: lychi,
         associatedStructure: this.smilesCtrl.value,
       },
       queryParamsHandling: ''
@@ -103,12 +127,9 @@ export class StructureSearchPageComponent implements OnInit {
     this._router.navigate(['/targets'], navigationExtras);
   }
 
-  clearData() {
-    this.resolverService.responseDetails = {};
-    this.resolverCtrl.setValue('');
-  }
-
   resolveCompound(event) {
-    this.resolverService.resolve(event.target.value);
+    return this.resolverService.resolve(event.target.value).then(res => {
+      this.resolverResults = res;
+    });
   }
 }

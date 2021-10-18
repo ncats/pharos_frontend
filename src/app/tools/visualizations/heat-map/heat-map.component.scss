@@ -10,11 +10,6 @@
   overflow-x: scroll;
 }
 
-.tissue-search {
-  display: flex;
-  flex-direction: column;
-}
-
 .twodtooltip {
   position: absolute;
   //text-align: center;
@@ -30,17 +25,4 @@
 
 .bar-tooltip {
   text-align: center;
-}
-
-.filter-tissues {
-  max-width: 80%;
-}
-
-.ancestor-radio-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.yAxisLabel {
-  cursor: pointer;
 }
