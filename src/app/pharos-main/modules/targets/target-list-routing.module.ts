@@ -12,9 +12,11 @@ const routes: Routes = [
     component: PharosMainComponent,
     data: {
       fragments: {
-        list: Target.targetListFragments,
-        facets: Facet.facetFieldsFragments,
-        extras: Target.targetListExtras
+        targets: {
+          list: Target.targetListFragments,
+          extras: Target.targetListExtras
+        },
+        facets: Facet.facetFieldsFragments
       },
       serializer: new TargetSerializer()
     },

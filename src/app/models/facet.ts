@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
 
 /**
  * apollo graphQL query fragment to retrieve common fields for a target list view
@@ -14,6 +15,15 @@ const FACETFIELDS = gql`
     values {
       name
       count:value
+      stats {
+        representation
+        pValue
+        oddsRatio
+        alpha
+        rejected
+        statistic
+        nullValue
+      }
     }
     sourceExplanation
     elapsedTime
@@ -25,9 +35,18 @@ const FACETFIELDSTOP = gql`
     dataType
     binSize
     count
-    values(top:$facetTop){
+    values(all:true){
       name
       count:value
+      stats {
+        representation
+        pValue
+        oddsRatio
+        alpha
+        rejected
+        statistic
+        nullValue
+      }
     }
   }`;
 
@@ -48,6 +67,26 @@ export class Field {
 
   count?: number;
 
+  stats?: FisherStats;
+
+  noLink?: boolean;
+
+  constructor(json: any) {
+    Object.entries((json)).forEach((prop) => this[prop[0]] = prop[1]);
+    if (json.stats) {
+      this.stats = new FisherStats(json.stats);
+    }
+  }
+}
+
+export class FisherStats {
+  oddsRatio: number;
+  rejected: boolean;
+  alpha: number;
+  pValue: number;
+  representation: number;
+  statistic: number;
+  nullValue: number;
 
   constructor(json: any) {
     Object.entries((json)).forEach((prop) => this[prop[0]] = prop[1]);
@@ -61,6 +100,8 @@ export class Facet {
 
   constructor(json: any) {
     this.count = json.count;
+    this.model = json.model;
+    this.noNavigate = json.noNavigate;
     this.facet = json.facet;
     this.modifier = json.modifier;
     this.sourceExplanation = json.sourceExplanation;
@@ -91,6 +132,42 @@ export class Facet {
     }
   }
 
+  toProps(linkCallback) {
+    const formatPvalue = (num) => {
+      if (num >= .01) {
+        return num.toFixed(2);
+      } else if (num === 0) {
+        return 0;
+      } else {
+        return num.toExponential(0);
+      }
+    };
+    const retObj: any[] = [];
+    this.values.forEach(v => {
+      const obj: any = {};
+      obj.count = new DataProperty({name: 'count', label: 'count', term: v.count});
+      obj.name = new DataProperty({
+        name: 'name',
+        label: 'name',
+        term: v.name,
+        linkCallback
+      });
+      if (v.stats) {
+        obj.pValue = new DataProperty({name: 'pValue', label: 'p-value',
+          term: formatPvalue(v.stats.pValue) + (v.stats.rejected ? (v.stats.representation == 1 ? '* ↗' : '* ↘') : '')});
+        obj.rejected = new DataProperty( {name: 'rejected', label: 'rejected', term: v.stats.rejected});
+        obj.statistic = new DataProperty({name: 'statistic', label: 'Frequency',
+          term: (v.stats.statistic?.toPrecision(2))});
+        obj.nullValue = new DataProperty({name: 'nullValue', label: 'Expected Frequency',
+          term: (v.stats.nullValue?.toPrecision(2))});
+        obj.oddsRatio = new DataProperty({name: 'oddsRatio', label: 'Odds Ratio',
+          term: (v.stats.oddsRatio?.toPrecision(2))});
+      }
+      retObj.push(obj);
+    });
+    return retObj;
+  }
+
   /**
    * The character what separates the facet name from its options in the query string: note this used to be '/'
    * which messed up the "JAX/MGI Phenotype" facet
@@ -106,7 +183,7 @@ export class Facet {
    */
   facet: string;
   elapsedTime?: number;
-
+  noNavigate = false;
   modifier?: string;
 
   sourceExplanation?: string;
@@ -133,6 +210,7 @@ export class Facet {
   singleResponse = false;
   min?: number;
   max?: number;
+  model?: string;
 
   static getReadableParameter(parameter: string, paramValue?: string) {
     if (parameter === 'associatedDisease') {
@@ -146,13 +224,13 @@ export class Facet {
     }
     if (parameter === 'associatedStructure') {
       if (paramValue.startsWith('sub')) {
-        return 'Associated Substructure';
+        return 'Query Substructure';
       } else {
-        return 'Associated Structure';
+        return 'Query Structure';
       }
     }
     if (parameter === 'associatedLigand') {
-      return 'Associated Ligand';
+      return 'Active Ligand';
     }
     return parameter;
   }
@@ -161,26 +239,21 @@ export class Facet {
    * retrieves a query object for getting all the facet options for a single facet for a list of targets / diseases / ligands
    * @param path
    */
-  static getAllFacetOptionsQuery(path) {
-    if (path === 'targets') {
-      return gql`
-        #import "./facetFieldsTop.gql"
-        query getAllFacetOptions($batchIDs:[String], $filter:IFilter, $facetTop:Int, $facet:String!){
-          results: targets(facets:[$facet], filter:$filter, targets:$batchIDs){
-            facets{
-              ...facetFieldsTop
-            }
-          }
-        }${FACETFIELDSTOP}`;
-    }
+  static getAllFacetOptionsQuery(path, enrichFacets, getFacetNames) {
     return gql`
       #import "./facetFieldsTop.gql"
-      query getAllFacetOptions($filter:IFilter, $facetTop:Int, $facet:String!){
-      results: ${path}(filter:$filter){
-      facets(include:[$facet]){
-      ...facetFieldsTop
-      }
-      }
+      query getAll${enrichFacets ? 'Enriched' : ''}FacetOptions($batchIDs:[String], $filter:IFilter, $facet:String!){
+        ${getFacetNames ?
+      `normalizableFilters {
+         diseaseFacets
+          targetFacets
+          ligandFacets
+        }` : ''}
+        results: ${path}(facets:[$facet], filter:$filter, ${path}:$batchIDs){
+          facets${enrichFacets ? '(enrichFacets: true)' : ''} {
+            ...facetFieldsTop
+          }
+        }
       }${FACETFIELDSTOP}`;
   }
 
@@ -188,26 +261,15 @@ export class Facet {
    * retrieves a query object for getting all the facets for a list of targets / diseases / ligands
    * @param path
    */
-  static getAllFacetsQuery(path) {
-    if (path === 'targets') {
-      return gql`
-        #import "./facetFields.gql"
-        query getAllFacets($batchIDs:[String], $facets:[String!], $filter:IFilter) {
-          results: targets(facets:$facets, filter:$filter, targets:$batchIDs) {
-            facets {
-              ...facetFields
-            }
-          }
-        }${FACETFIELDS}`;
-    }
+  static getAllFacetsQuery(path, enrichFacets) {
     return gql`
       #import "./facetFields.gql"
-      query getAllFacets($facets:[String!], $filter:IFilter) {
-      results: ${path}(facets:$facets, filter:$filter) {
-      facets {
-      ...facetFields
-      }
-      }
+      query getAllFacets($batchIDs:[String], $facets:[String!], $filter:IFilter) {
+        results: ${path}(facets:$facets, filter:$filter, ${path}:$batchIDs) {
+          facets${enrichFacets ? '(enrichFacets: true)' : ''} {
+          ...facetFields
+          }
+        }
       }${FACETFIELDS}`;
   }
 }
@@ -224,9 +286,14 @@ export class UpsetOptions {
 
   static parseFromUrl(url: string): UpsetOptions {
     let chunks = url.split('InGroup:');
-    chunks = chunks[1].split('OutGroup:');
-    const inGroup = decodeURIComponent(chunks[0]).split('&');
-    let outGroup = decodeURIComponent(chunks[1]).split('&');
+    chunks = chunks[1].split('OutGroup');
+    const inList = chunks[0];
+    let outList = '';
+    if (chunks.length > 1) {
+      outList = chunks[1].startsWith(':') ? chunks[1].slice(1) : chunks[1];
+    }
+    const inGroup = decodeURIComponent(inList).split('&');
+    let outGroup = decodeURIComponent(outList).split('&');
     if (outGroup.length === 1 && outGroup[0].trim() === '') {
       outGroup = [];
     }

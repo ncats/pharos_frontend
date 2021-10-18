@@ -1,0 +1,123 @@
+<article class="container">
+  <mat-card
+    id="target-disease-cross"
+    #targetDiseaseCross>
+    <mat-card-content>
+      <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+        <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+      </div>
+      <div fxLayout="row"
+           class="tkrow"
+           fxLayoutAlign="start stretch">
+        <div fxFlex="95">
+        <span class="mat-title"
+              [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">
+          {{title}}</span>
+        </div>
+        <div fxFlex="5">
+          <pharos-help-panel-trigger [origin]="'classes'"></pharos-help-panel-trigger>
+        </div>
+      </div>
+
+      <div class="card-list" *ngIf="!heatmapWasRun">
+        <mat-card>
+          <mat-card-content class="linkContainer" fxLayout="column" fxLayoutAlign="space-around center">
+          <span class="mat-title">
+            Interactive Heatmap
+          </span>
+            <div fxFlex="1"></div>
+            <div class="toolImage">
+              <img [src]="'./assets/images/heatmap.png'" width="100%"/>
+            </div>
+            <div fxFlex="1"></div>
+            <div class="toolDescription">
+              Create an interactive heatmap of {{title | lowercase}}.
+            </div>
+            <div class="toolLinkButton" id="search-method">
+            </div>
+            <div class="toolLinkButton">
+              <div></div>
+              <button
+                class="tool-button" mat-raised-button [color]="'primary'"
+                (click)="initialize()">Create Heatmap
+                <mat-icon>developer_board</mat-icon>
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-content class="linkContainer" fxLayout="column" fxLayoutAlign="space-around center">
+          <span class="mat-title">
+            Download
+          </span>
+            <div fxFlex="1"></div>
+            <div fxFlex="1"></div>
+            <div class="toolDescription">
+              Download all {{title | lowercase}} for this list.
+            </div>
+            <div fxFlex="1"></div>
+            <div class="toolLinkButton">
+              <div></div>
+              <ng-container *ngIf="false; else downloadButton"></ng-container>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <ng-container *ngIf="heatmapWasRun">
+        <div *ngIf="results?.length === 10000">
+          <mat-card-subtitle>Note</mat-card-subtitle>
+          <p>The current results are limited to the first 10,000 pairs of {{model}}s and {{crossModel}}s. Either filter
+            your list further, or download the full result set for offline analysis.
+          </p>
+        </div>
+        <div *ngIf="results.length === 0; else downloadButton">
+          <mat-card-subtitle>Note</mat-card-subtitle>
+          <p>No {{title}} were found.
+          </p>
+        </div>
+      </ng-container>
+
+      <div class="heatmap-container"
+           [ngClass]="{halfHeight: showDetails, hidden: (!heatmapWasRun || results.lengt === 0) }">
+        <pharos-heat-map [heatmapClicked]="heatmapClicked.bind(this)" [heatmapData]="activityMap"
+                         #heatMap></pharos-heat-map>
+      </div>
+
+      <div class="details-container" [ngClass]="{hidden: !showDetails}">
+        <mat-card>
+          <div class="details-card">
+            <mat-card-title>
+              Details:
+              <a [matTooltip]="'Open the ' + crossModel + ' details page for ' + selectedData?.metadata.displayY" [href]="'/' + this.crossModelLink + '/' + selectedData?.metadata.y" target="_blank" rel="noreferrer">
+                {{selectedData?.metadata.displayY}}<mat-icon [inline]="true">open_in_new</mat-icon>
+              </a> -
+              <a [matTooltip]="'Open the ' + model + ' details page for ' + selectedData?.metadata.displayX" [href]="'/' + this.modelLink + '/' + selectedData?.metadata.x" target="_blank" rel="noreferrer">
+                {{selectedData?.metadata.displayX}}<mat-icon [inline]="true">open_in_new</mat-icon>
+              </a>
+            </mat-card-title>
+
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="showDetails = false">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          <div *ngIf="loadingDetails" class="loadingIcon" fxLayoutAlign="center center">
+            <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+          </div>
+          <ng-content></ng-content>
+        </mat-card>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+</article>
+
+
+<ng-template #downloadButton>
+  <button class="tool-button" mat-raised-button [color]="'primary'" matTooltip="Download {{model}} List Data"
+          (click)="downloadData()">Download
+    <mat-icon>download</mat-icon>
+  </button>
+  <p *ngIf="results && results.length > 0">Hover over cells for a summary, click cells to see all details.</p>
+</ng-template>

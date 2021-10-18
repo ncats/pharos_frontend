@@ -5,7 +5,6 @@ import {BatchUploadModalComponent} from './batch-upload-modal/batch-upload-modal
 import {DynamicPanelComponent} from './dynamic-panel/dynamic-panel.component';
 import {DynamicTablePanelComponent} from './dynamic-table-panel/dynamic-table-panel.component';
 import {HelpPanelComponent} from './help-panel/help-panel.component';
-import {IdgLevelIndicatorComponent} from './idg-level-indicator/idg-level-indicator.component';
 import {KnowledgeTableComponent} from './knowledge-table/knowledge-table.component';
 import {LinkListComponent} from './link-list/link-list.component';
 import {ProteinStructureViewerComponent} from './protein-structure-viewer/protein-structure-viewer.component';
@@ -24,7 +23,7 @@ import {PPIDataSourcesArticleComponent} from './help-panel/articles/ppidata-sour
 import {PathwayDataSourcesArticleComponent} from './help-panel/articles/pathway-data-sources-article/pathway-data-sources-article.component';
 import {AffiliateLinkComponent} from './affiliate-link/affiliate-link.component';
 import {DynamicPanelBaseComponent} from './dynamic-panel-base/dynamic-panel-base.component';
-import {HeatMapComponent} from './visualizations/heat-map/heat-map.component';
+import {ExpressionHeatMapComponent} from './visualizations/expression-heat-map/expression-heat-map.component';
 import {GoTermsEvidenceArticleComponent} from './help-panel/articles/go-terms-evidence-article/go-terms-evidence-article.component';
 import {VennDiagramComponent} from './visualizations/venn-diagram/venn-diagram.component';
 import {FieldSelectionDialogComponent} from './field-selection-dialog/field-selection-dialog.component';
@@ -34,6 +33,8 @@ import { UpsetModule } from './visualizations/upset/upset.module';
 import { UpsetFieldEditComponent } from './upset-field-edit/upset-field-edit.component';
 import {FacetTableModule} from '../pharos-main/data-list/filter-panel/facet-table/facet-table.module';
 import { TutorialLinkComponent } from './tutorial-link/tutorial-link.component';
+import { HeatMapComponent } from './visualizations/heat-map/heat-map.component';
+import { BatchResolveModalComponent } from './batch-resolve-modal/batch-resolve-modal.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,6 @@ import { TutorialLinkComponent } from './tutorial-link/tutorial-link.component';
     DynamicPanelComponent,
     DynamicTablePanelComponent,
     HelpPanelComponent,
-    IdgLevelIndicatorComponent,
     KnowledgeTableComponent,
     LinkListComponent,
     ProteinStructureViewerComponent,
@@ -55,13 +55,15 @@ import { TutorialLinkComponent } from './tutorial-link/tutorial-link.component';
     PathwayDataSourcesArticleComponent,
     AffiliateLinkComponent,
     GoTermsEvidenceArticleComponent,
-    HeatMapComponent,
+    ExpressionHeatMapComponent,
     VennDiagramComponent,
     FieldSelectionDialogComponent,
     ModelDetailsComponent,
     UpsetPlotComponent,
     UpsetFieldEditComponent,
-    TutorialLinkComponent
+    TutorialLinkComponent,
+    HeatMapComponent,
+    BatchResolveModalComponent
   ],
   imports: [
     CommonModule,
@@ -74,28 +76,28 @@ import { TutorialLinkComponent } from './tutorial-link/tutorial-link.component';
     UpsetModule,
     FacetTableModule
   ],
-    exports: [
-        NcatsHeaderModule,
-        AnatomogramModule,
-        RadarChartModule,
-        GenericTableModule,
-        BatchUploadModalComponent,
-        DynamicPanelComponent,
-        DynamicTablePanelComponent,
-        HelpPanelComponent,
-        IdgLevelIndicatorComponent,
-        KnowledgeTableComponent,
-        LinkListComponent,
-        StructureViewComponent,
-        ProteinStructureViewerComponent,
-        ListFilterComponent,
-        HeatMapComponent,
-        ExploreListButtonComponent,
-        AffiliateLinkComponent,
-        VennDiagramComponent,
-        UpsetPlotComponent,
-        TutorialLinkComponent
-    ],
+  exports: [
+    NcatsHeaderModule,
+    AnatomogramModule,
+    RadarChartModule,
+    GenericTableModule,
+    BatchUploadModalComponent,
+    DynamicPanelComponent,
+    DynamicTablePanelComponent,
+    HelpPanelComponent,
+    KnowledgeTableComponent,
+    LinkListComponent,
+    StructureViewComponent,
+    ProteinStructureViewerComponent,
+    ListFilterComponent,
+    ExpressionHeatMapComponent,
+    ExploreListButtonComponent,
+    AffiliateLinkComponent,
+    VennDiagramComponent,
+    UpsetPlotComponent,
+    TutorialLinkComponent,
+    HeatMapComponent
+  ],
   entryComponents: [
     FieldSelectionDialogComponent
   ]

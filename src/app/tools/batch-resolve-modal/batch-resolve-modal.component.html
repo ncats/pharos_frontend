@@ -1,0 +1,30 @@
+<div class = "upload-form">
+  <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+    <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-around center">
+    <div fxFlex="90">
+      <h1 mat-dialog-title>Resolving Ligands</h1>
+    </div>
+    <button mat-icon-button (click)="cancel()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="note">
+    <mat-icon [color]="'primary'" class="help-icon">info</mat-icon>
+    The list will be updated with Pharos' internal IDs (LyChI layer 4) when possible.
+  </div>
+  <div mat-dialog-content class ="upload-form-content">
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <div fxFlex="90">
+        <pharos-generic-table [data]="resolvedInputProps" [fieldsConfig]="fields"></pharos-generic-table>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions [dir]="'rtl'">
+    <button mat-flat-button
+            [color]="'primary'"
+            (click)="submitList()">Submit</button>
+    <button mat-flat-button (click)="cancel()">Cancel</button>
+  </div>
+</div>

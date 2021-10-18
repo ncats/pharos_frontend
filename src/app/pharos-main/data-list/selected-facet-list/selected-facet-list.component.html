@@ -57,7 +57,7 @@
                     [removable]=true
                     (removed)="removeField(facet.facet, field.name)"
                     class="facet-chip">
-            <span>{{field.name}}</span>
+            <span>{{getName(field, facet)}}</span>
             <mat-icon matChipRemove class="removeIcon">cancel</mat-icon>
           </mat-chip>
         </mat-chip-list>

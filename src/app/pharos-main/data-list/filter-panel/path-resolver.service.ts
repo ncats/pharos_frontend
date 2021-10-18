@@ -25,7 +25,7 @@ export class PathResolverService {
    * @param params
    * @param route
    */
-  navigate(params: any, route: ActivatedRoute, queries?: any): void {
+  navigate(params: any, route: ActivatedRoute, queries?: any, overridePath?: string): void {
       /**
        * forces to first page on facet changes
        * @type {NavigationExtras}
@@ -38,7 +38,7 @@ export class PathResolverService {
         queryParamsHandling: ''
       };
 
-      if(queries) {
+      if (queries) {
         for (let i = 0; i < queries.length; i++) {
           if (queries[i]) {
             navigationExtras.queryParams[queries[i].facet] = queries[i].values.map(val => val.name);
@@ -47,6 +47,6 @@ export class PathResolverService {
       }
       navigationExtras.queryParams.facet = params.length > 0 ? params : null;
       this._router.onSameUrlNavigation = 'reload'; // forces reload since this is the same navigation url
-      this._router.navigate([], navigationExtras);
+      this._router.navigate(overridePath ? ['/' + overridePath] : [], navigationExtras);
     }
 }

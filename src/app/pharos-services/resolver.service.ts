@@ -12,30 +12,31 @@ export class ResolverService {
     private molChangeService: MolChangeService) {
     this.checkStatus();
   }
+
   resolverIsUp = false;
-  responseDetails: any = {};
   fields = ['pt', 'lychi', 'smiles', 'inchikey', 'smilesParent', 'unii', 'cas'];
-  resolve(input: string) {
+  batchFields = ['pt', 'inchikey', 'lychi'];
+
+  resolve(input: string): Promise<any> {
     if (input && input.trim().length > 0) {
-      this.http.get<string>(`https://tripod.nih.gov/servlet/resolver/${this.fields.join('/')}?structure=${encodeURIComponent(input)}`,
+      return this.http.get<string>(
+        `https://tripod.nih.gov/servlet/resolver/${this.fields.join('/')}?structure=${encodeURIComponent(input)}`,
         // @ts-ignore
-        {responseType: 'text' as const})
-        .subscribe({
-          next: response => {
+        {responseType: 'text' as const}).toPromise()
+        .then(
+          response => {
             const responseObj: any = {};
             if (this.tryParse(response.toString(), responseObj)) {
               this.molChangeService.updateSmiles(responseObj.smilesParent, 'resolver');
-              this.responseDetails = responseObj;
+              return responseObj;
             } else {
-              this.responseDetails = {};
+              return {};
             }
-          },
-          error: err => {
-            alert(err.message);
-          }
+          }).catch(err => {
+          alert(err.message);
         });
     } else {
-      this.responseDetails = {};
+      return Promise.resolve({});
     }
   }
 
@@ -49,13 +50,82 @@ export class ResolverService {
       if (!responseObj.smiles || responseObj.smiles.length === 0) {
         throw new Error('unable to find SMILES for this compound: ' + responseFields[0]);
       }
-    }
-    catch (error) {
+    } catch (error) {
       alert(error);
       return false;
     }
     return true;
   }
+
+  resolveLychis(inputs: string[]) {
+    if (inputs.length > 0) {
+      const encodedInputs = inputs.map(i => encodeURIComponent(i));
+      const maxLen = 2000 - 59;
+      const queries = [];
+      let list = [];
+      let len = 0;
+      encodedInputs.forEach(input => {
+        const oneLen = input.length;
+        if ((oneLen + 3) > maxLen) {
+          queries.push(
+            this.http.get<string>(`https://tripod.nih.gov/servlet/resolver/${this.batchFields.join('/')}?structure=${input}`,
+              // @ts-ignore
+              {responseType: 'text' as const}).toPromise()
+          );
+          return;
+        }
+        if ((len + oneLen + 3) > maxLen) {
+          queries.push(
+            this.http.get<string>(`https://tripod.nih.gov/servlet/resolver/${this.batchFields.join('/')}?structure=${list.join('%0A')}`,
+              // @ts-ignore
+              {responseType: 'text' as const}).toPromise()
+          );
+          list = [input];
+          len = oneLen;
+          return;
+        } else {
+          list.push(input);
+          len += oneLen + 3;
+        }
+      });
+      if (list.length > 0) {
+        queries.push(
+          this.http.get<string>(`https://tripod.nih.gov/servlet/resolver/${this.batchFields.join('/')}?structure=${list.join('%0A')}`,
+            // @ts-ignore
+            {responseType: 'text' as const}).toPromise()
+        );
+      }
+
+      return Promise.all(queries).then(resultArray => {
+        const returnObjects = [];
+
+        resultArray.forEach(results => {
+          const responses = results.toString().split('\n').map(r => r.split('\t'));
+          responses.forEach(response => {
+            if (response.length > this.batchFields.length) {
+              const responseObj: any = {};
+              let index = 1;
+              this.batchFields.forEach(field => {
+                responseObj[field] = response[index++];
+              });
+              responseObj.input = response[0];
+              responseObj.match = responseObj.pt || responseObj.inchikey;
+              const lychis = responseObj.lychi.split('-');
+              if (lychis.length > 3) {
+                responseObj.save = lychis[3];
+                responseObj.lychi_h4 = lychis[3];
+              } else {
+                responseObj.save = response[0];
+              }
+              returnObjects.push(responseObj);
+            }
+          });
+        });
+        return returnObjects;
+      });
+    }
+  }
+
 
   checkStatus() {
     this.http.get<string>(`https://tripod.nih.gov/servlet/resolver/lychi/smiles/inchikey?structure=C1CCC1`,

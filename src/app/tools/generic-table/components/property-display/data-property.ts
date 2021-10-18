@@ -82,6 +82,8 @@ export class DataProperty {
    */
   description?: string;
 
+  linkCallback?: any;
+
   /**
    * deconstruct json as dataproperty object
    * @param obj

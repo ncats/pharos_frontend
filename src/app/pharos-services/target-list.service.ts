@@ -12,10 +12,10 @@ import {map, mergeAll, mergeMap, take} from "rxjs/operators";
  */
 export class TargetListService {
 
-  targetListMap : Map<string,string[]>;
+  targetListMap: Map<string, string[]>;
 
-  getList(collection:string): Observable<any>{
-    if(this.targetListMap.has(collection)){
+  getList(collection: string): Observable<any>{
+    if (this.targetListMap.has(collection)){
       return of(this.targetListMap.get(collection));
     }
     else{

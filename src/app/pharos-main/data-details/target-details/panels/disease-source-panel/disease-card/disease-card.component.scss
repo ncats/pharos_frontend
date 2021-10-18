@@ -8,13 +8,6 @@
     flex-direction: column;
   }
 }
-.association-grid {
-  display: grid;
-  grid-auto-rows: max-content;
-  grid-template-columns: repeat(auto-fill, minmax(32%, 1fr));
-  grid-gap: 1em;
-  padding-left: 1vw;
-}
 
 .header-helptext{
   padding-left: 1vw;
@@ -28,12 +21,6 @@
 .hidden{
   top: 2vh;
   opacity: 0;
-}
-
-@-moz-document url-prefix() {
-  .association-grid li{
-    list-style: none;
-  }
 }
 
 .detailsButton{

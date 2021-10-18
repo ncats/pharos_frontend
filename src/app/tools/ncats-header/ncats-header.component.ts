@@ -78,6 +78,13 @@ export class NcatsHeaderComponent implements OnInit {
     });
   }
 
+  getRouterLink(path: string) {
+    if (this.isOnAnalyzePage()) {
+      return '/analyze/' + path;
+    }
+    return '/' + path;
+  }
+
   /**
    * sets active section in nav
    * @param path
@@ -90,6 +97,11 @@ export class NcatsHeaderComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  isOnAnalyzePage() {
+    const path = this.tourService.getPage();
+    return path[0] === 'analyze';
   }
 
   getRequiredPath(tutorial: string) {

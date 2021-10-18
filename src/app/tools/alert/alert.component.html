@@ -1,0 +1,11 @@
+<div *ngFor="let alert of alerts" class="{{cssClass(alert)}}">
+  <span><b>{{alert.type}}:</b> {{alert.message}}
+    <div class="devmessage" *ngIf="!isProd">
+      <div *ngIf="alert.expireTime">message expires: {{alert.expireTime}}</div>
+      <div>message shows in PROD: {{alert.affectsProd}}</div>
+    </div>
+  </span>
+  <button mat-icon-button (click)="removeAlert(alert)" class="dismissButton" aria-label="Dismiss alert">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>

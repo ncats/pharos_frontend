@@ -7,7 +7,6 @@ import {PathResolverService} from '../../pharos-main/data-list/filter-panel/path
 import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
-import {BatchUploadModalComponent} from '../../tools/batch-upload-modal/batch-upload-modal.component';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -22,6 +21,10 @@ export class ProfileComponent implements OnInit {
   @Input() user: any;
 
   collections: any[];
+  targetCollections: any[];
+  diseaseCollections: any[];
+  ligandCollections: any[];
+  collectionObjects: any[];
 
   constructor(
     private changeRef: ChangeDetectorRef,
@@ -57,6 +60,33 @@ export class ProfileComponent implements OnInit {
           });
           forkJoin([...collections]).subscribe(res => {
             this.collections = res.filter(response => response);
+            this.targetCollections = this.collections?.filter(c => {
+                return !c.models || c.models === 'targets';
+              });
+            this.diseaseCollections = this.collections?.filter(c => {
+                return c.models === 'diseases';
+              });
+            this.ligandCollections = this.collections?.filter(c => {
+                return c.models === 'ligands';
+              });
+            this.collectionObjects = [
+              {
+                collectionHeader: 'Target Collections',
+                models: 'Targets',
+                collection: this.targetCollections
+              },
+              {
+                collectionHeader: 'Disease Collections',
+                models: 'Diseases',
+                collection: this.diseaseCollections
+              },
+              {
+                collectionHeader: 'Ligand Collections',
+                models: 'Ligands',
+                collection: this.ligandCollections
+              },
+            ];
+
             this.changeRef.markForCheck();
           });
         }
@@ -66,7 +96,7 @@ export class ProfileComponent implements OnInit {
 
   deleteCollection(collection) {
     const dialogRef = this.dialog.open(ConfirmModalComponent, {
-        height: '20vh',
+        height: '25vh',
         width: '25vw'
       }
     );

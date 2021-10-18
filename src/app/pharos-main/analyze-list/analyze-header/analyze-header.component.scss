@@ -1,0 +1,33 @@
+@import '../../../../partials/ncats-theme';
+
+.tool-button.mat-button-disabled mat-icon{
+  color: rgba(255,255,255,0.5);
+}
+
+.activeView {
+  background-color: mat-color($pharos-app-accent);
+  color: black;
+}
+
+.inactiveView {
+  background-color:  mat-color($pharos-primary, 50);
+  color: black;
+}
+
+.leftSide {
+  margin-left: 20px;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  border-bottom-right-radius: 0px;
+  border-top-right-radius: 0px;
+}
+.rightSide {
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.tool-button {
+  font-size: large;
+}
