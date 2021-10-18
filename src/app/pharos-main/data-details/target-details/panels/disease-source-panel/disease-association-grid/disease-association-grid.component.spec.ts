@@ -16,6 +16,7 @@ describe('DiseaseAssociationGridComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DiseaseAssociationGridComponent);
     component = fixture.componentInstance;
+    component.associations = [];
     fixture.detectChanges();
   });
 

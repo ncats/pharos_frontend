@@ -1,13 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LigandTargetHeatmapComponent } from './ligand-target-heatmap.component';
+import {ActivatedRoute} from '@angular/router';
+import {MOCKACTIVATEDROUTE} from '../../../../../test/mock-activate-route';
 
-describe('TargetDiseaseHeatmapComponent', () => {
+describe('LigandTargetHeatmapComponent', () => {
   let component: LigandTargetHeatmapComponent;
   let fixture: ComponentFixture<LigandTargetHeatmapComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      providers: [
+        { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
+      ],
       declarations: [ LigandTargetHeatmapComponent ]
     })
     .compileComponents();
