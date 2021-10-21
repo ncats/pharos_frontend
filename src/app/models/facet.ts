@@ -15,15 +15,6 @@ const FACETFIELDS = gql`
     values {
       name
       count:value
-      stats {
-        representation
-        pValue
-        oddsRatio
-        alpha
-        rejected
-        statistic
-        nullValue
-      }
     }
     sourceExplanation
     elapsedTime
@@ -38,6 +29,12 @@ const FACETFIELDSTOP = gql`
     values(all:true){
       name
       count:value
+      table {
+        inListHasValue
+        outListHasValue
+        inListNoValue
+        outListNoValue
+      }
       stats {
         representation
         pValue
@@ -68,6 +65,7 @@ export class Field {
   count?: number;
 
   stats?: FisherStats;
+  table?: ContingencyTable;
 
   noLink?: boolean;
 
@@ -76,7 +74,21 @@ export class Field {
     if (json.stats) {
       this.stats = new FisherStats(json.stats);
     }
+    if (json.table) {
+      this.table = new ContingencyTable(json.table);
+    }
   }
+}
+
+export class ContingencyTable {
+  inListHasValue: number;
+  inListNoValue: number;
+  outListHasValue: number;
+  outListNoValue: number;
+  constructor(json: any) {
+    Object.entries((json)).forEach((prop) => this[prop[0]] = prop[1]);
+  }
+
 }
 
 export class FisherStats {
@@ -162,6 +174,10 @@ export class Facet {
           term: (v.stats.nullValue?.toPrecision(2))});
         obj.oddsRatio = new DataProperty({name: 'oddsRatio', label: 'Odds Ratio',
           term: (v.stats.oddsRatio?.toPrecision(2))});
+      }
+      if (v.table) {
+        obj.table = new DataProperty({name: 'table', label: 'Contingency Table',
+        term: v.table});
       }
       retObj.push(obj);
     });

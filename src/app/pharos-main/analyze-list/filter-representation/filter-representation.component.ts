@@ -61,10 +61,10 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
       label: 'Count',
       sortable: true
     }),
-    // new PharosProperty({
-    //   name: 'oddsRatio',
-    //   label: 'Odds Ratio'
-    // }),
+    new PharosProperty({
+      name: 'table',
+      label: 'Contingency Table'
+    }),
     new PharosProperty({
       name: 'statistic',
       label: 'Observed Frequency',

@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {DataProperty} from './data-property';
+import {ContingencyTable} from '../../../../models/facet';
 
 /**
  * component to display a property, primarily in a table
@@ -23,4 +24,7 @@ export class PropertyDisplayComponent {
    */
   @Input() property: DataProperty;
 
+  termIsTable() {
+    return this.property.term instanceof ContingencyTable;
+  }
 }
