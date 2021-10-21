@@ -21,5 +21,23 @@
     <a (click)="property.linkCallback(property.term)">{{property.term}}</a>
   </ng-container>
 </ng-template>
-<ng-template #nolink>{{property.term}}</ng-template>
+<ng-template #nolink>
+  <ng-container *ngIf="termIsTable(); else text">
+    <div class="contingencyTable">
+      <div class="leftBracket"></div>
+      <div class="tableColumn">
+        <span matTooltip="Count of elements IN the list that DO have the filter value">{{property.term['inListHasValue']}}</span>
+        <span matTooltip="Count of elements IN the list that DO NOT have the filter value">{{property.term['inListNoValue']}}</span>
+      </div>
+      <div class="tableColumn">
+        <span matTooltip="Count of elements NOT IN the list that DO have the filter value">{{property.term['outListHasValue']}}</span>
+        <span matTooltip="Count of elements NOT IN the list that DO NOT have the filter value">{{property.term['outListNoValue']}}</span>
+      </div>
+      <div class="rightBracket"></div>
+    </div>
+  </ng-container>
+  <ng-template #text>
+    {{property.term}}
+  </ng-template>
+</ng-template>
 </div>
