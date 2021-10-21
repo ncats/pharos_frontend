@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {Facet} from '../../../models/facet';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 import {PharosProperty} from '../../../models/pharos-property';
@@ -18,6 +18,7 @@ import {PathResolverService} from '../../data-list/filter-panel/path-resolver.se
 export class FilterRepresentationComponent extends DynamicPanelComponent implements OnInit {
 
   constructor(
+    private router: Router,
     public dynamicServices: DynamicServicesService,
     private _route: ActivatedRoute,
     private centralStorageService: CentralStorageService,
@@ -109,7 +110,7 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
   }
 
   initialize() {
-    this.selectedFacetName = this.selectedFacetName || this.defaultFacetName();
+    this.selectedFacetName = this._route.snapshot.queryParamMap.get('enrichmentFacet') || this.selectedFacetName || this.defaultFacetName();
     this.listIsFiltered = this.calcListIsFiltered();
     this.model = this._route.snapshot.data.path.slice(0, -1);
   }
@@ -166,7 +167,16 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
   }
 
   facetChanged(event) {
-    this.fetchAllFilterOptions();
+    const path = this.router.url.split('?')[0];
+    const navigationExtras: NavigationExtras = {
+      queryParamsHandling: 'merge',
+      fragment: 'filter-representation'
+    };
+    navigationExtras.queryParams = {
+      enrichmentFacet: this.selectedFacetName
+    };
+    this.router.navigate([path], navigationExtras);
+    // this.fetchAllFilterOptions();
   }
 
   linkClicked(filterValue: string) {
