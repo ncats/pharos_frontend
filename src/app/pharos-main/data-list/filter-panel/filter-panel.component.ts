@@ -76,7 +76,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
   @Output() menuToggle: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   showInfo: Map<Facet, boolean> = new Map<Facet, boolean>();
-
+  listIsFiltered = false;
   /**
    * list of initial facets to display
    */
@@ -236,6 +236,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
             this.filteredFacets = this.data.facets;
             this.facets = this.customFacets.concat(this.filteredFacets);
             this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
+            this.listIsFiltered = this.calcListIsFiltered();
             this.changeRef.detectChanges();
           }
         }
@@ -243,6 +244,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     this.filteredFacets = this.data.facets;
     this.facets = this.customFacets.concat(this.filteredFacets);
     this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
+    this.listIsFiltered = this.calcListIsFiltered();
     this.changeRef.markForCheck();
   }
 
@@ -366,6 +368,32 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
 
   getFacetPanelID(facet: Facet) {
     return facet.facet.replace(/\s/g, '');
+  }
+
+
+  filterIsInUse(filterName: string) {
+    return !!this.selectedFacetService.getFacetByName(filterName);
+  }
+
+  calcListIsFiltered() {
+    let isFiltered = false;
+    this._route.snapshot.queryParamMap.keys.forEach(key => {
+      if ([
+        'collection',
+        'query',
+        'associatedTarget',
+        'associatedDisease',
+        'associatedStructure',
+        'associatedLigand',
+        'similarity'
+      ].includes(key) && this._route.snapshot.queryParamMap.get(key).length > 0) {
+        isFiltered = true;
+      }
+    });
+    if (isFiltered) {
+      return true;
+    }
+    return this.selectedFacetService.getFacetsAsObjects().length > 0;
   }
 
   /**
