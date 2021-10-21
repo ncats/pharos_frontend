@@ -66,7 +66,7 @@
           <div class="helpicon" (click)="toggleFacetInfo(facet)" matTooltip="Expand for a description of this filter">
             <mat-icon [color]="'primary'">help</mat-icon>
           </div>
-          <div class="helpicon" (click)="showFacetEnrichment(facet)" *ngIf="facet.dataType === 'Category'" matTooltip="Click to calculate filter value enrichment">
+          <div class="helpicon" (click)="showFacetEnrichment(facet)" *ngIf="facet.dataType === 'Category' && listIsFiltered && !filterIsInUse(facet.facet)" matTooltip="Click to calculate filter value enrichment">
             <mat-icon [color]="'primary'">developer_board</mat-icon>
           </div>
         </span>

@@ -77,13 +77,15 @@ export class DynamicPanelComponent extends DynamicPanelBaseComponent {
     return this._data.getValue();
   }
 
-  loadingComplete(){
+  loadingComplete(scroll = true){
     this.loading = false;
-    setTimeout(() => {
-      if (this.dynamicServices.route.snapshot.fragment){
-        this.dynamicServices.viewportScroller.scrollToAnchor(this.dynamicServices.route.snapshot.fragment);
-      }
-    }, 0);
+    if (scroll) {
+      setTimeout(() => {
+        if (this.dynamicServices.route.snapshot.fragment) {
+          this.dynamicServices.viewportScroller.scrollToAnchor(this.dynamicServices.route.snapshot.fragment);
+        }
+      }, 0);
+    }
   }
   loadingStart() {
     this.loading = true;
