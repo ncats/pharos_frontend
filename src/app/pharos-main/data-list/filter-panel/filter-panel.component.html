@@ -24,15 +24,6 @@
         </button>
       </ng-template>
     </div>
-<!--    <div class="enrich-toggle" *ngIf="showEnrichment()">-->
-<!--      <mat-slide-toggle [(ngModel)]="facetEnrichment" (change)="changeEnrichment($event)" [matTooltip]="-->
-<!--      facetEnrichment-->
-<!--        ? 'Filter values are sorted according to the p-value under the binomial test'-->
-<!--        : 'Filter values are sorted according to the count of entries with each value'">-->
-<!--        <mat-icon *ngIf="!facetEnrichment">sort</mat-icon>-->
-<!--        <mat-icon *ngIf="facetEnrichment">auto_fix_high</mat-icon>-->
-<!--      </mat-slide-toggle>-->
-<!--    </div>-->
     <div fxFlex></div>
     <div class=" clear-all" fxLayoutAlign="end">
       <mat-chip-list class="mat-chip-list" aria-label="Clear All">
@@ -72,8 +63,11 @@
         </mat-expansion-panel-header>
         <span class="info" [ngClass]="{infoCollapsed: !showingInfo(facet)}" *ngIf="facet.sourceExplanation" >
           <div *ngIf="showingInfo(facet)" class="explanation" [innerHTML]="facet.sourceExplanation"></div>
-          <div class="helpicon" (click)="toggleFacetInfo(facet)">
+          <div class="helpicon" (click)="toggleFacetInfo(facet)" matTooltip="Expand for a description of this filter">
             <mat-icon [color]="'primary'">help</mat-icon>
+          </div>
+          <div class="helpicon" (click)="showFacetEnrichment(facet)" *ngIf="facet.dataType === 'Category'" matTooltip="Click to calculate filter value enrichment">
+            <mat-icon [color]="'primary'">developer_board</mat-icon>
           </div>
         </span>
         <div *ngIf="facet.dataType === 'Numeric'; then numericBlock else categoryBlock"></div>
