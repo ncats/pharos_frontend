@@ -1,4 +1,5 @@
 import {InjectionToken} from '@angular/core';
+import {ContingencyTable} from '../../../../models/facet';
 
 /**
  * main config object for a table cell, contains column/field data nad value info
@@ -22,7 +23,7 @@ export class DataProperty {
   /**
    * object data property
    */
-  term?: string | number | Date;
+  term?: string | number | Date | ContingencyTable;
   /**
    * optional url
    */

@@ -349,7 +349,12 @@ export class SelectedFacetService {
         str += ' The database also has matching filter values.';
       }
     } else {
-      str = `Found ${route.snapshot.data?.results?.count} ${route.snapshot.data?.path}.`;
+      if (this.getFacetByName('collection')?.values?.length > 0) {
+        str = `Custom ${this.toSingleTitleCase(path)} List.`;
+      }
+      else {
+        str = `Found ${route.snapshot.data?.results?.count} ${route.snapshot.data?.path}.`;
+      }
     }
 
     if (facets.length) {
@@ -359,17 +364,19 @@ export class SelectedFacetService {
     return str;
   }
 
+  toSingleTitleCase(type: string) {
+    let listName = type.replace('/', '').toLowerCase();
+    if (type.endsWith('s')) {
+      listName = listName.slice(0, type.length - 1);
+    }
+    return listName.charAt(0).toUpperCase() + listName.slice(1);
+  }
 
   /**
    * constructs the new title to show for the unfurled URL link
    */
   newTitle(route): string {
     const listType = route.snapshot.data.path;
-    let listName = listType.replace('/', '').toLowerCase();
-    if (listType.endsWith('s')) {
-      listName = listName.slice(0, listType.length - 1);
-    }
-    const listTitle = listName.charAt(0).toUpperCase() + listName.slice(1);
-    return `Pharos: ${listTitle} List`;
+    return `Pharos: ${this.toSingleTitleCase(listType)} List`;
   }
 }
