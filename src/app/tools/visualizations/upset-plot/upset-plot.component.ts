@@ -111,7 +111,7 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
             this.cachedResults = res;
             this.parseResults();
           }
-          this.loadingComplete();
+          this.loadingComplete(false);
           this.changeRef.markForCheck();
         }).catch(
         err => {
