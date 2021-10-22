@@ -12,6 +12,7 @@ import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 import {BatchResolveModalComponent} from '../../../tools/batch-resolve-modal/batch-resolve-modal.component';
+import {ResolverService} from '../../../pharos-services/resolver.service';
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -35,7 +36,8 @@ export class AnalyzeHeaderComponent extends DynamicPanelComponent implements OnI
               private router: Router,
               private _route: ActivatedRoute,
               public dynamicServices: DynamicServicesService,
-              private centralStorageService: CentralStorageService)
+              private centralStorageService: CentralStorageService,
+              private resolverService: ResolverService)
   {
     super(dynamicServices);
   }
@@ -114,7 +116,7 @@ export class AnalyzeHeaderComponent extends DynamicPanelComponent implements OnI
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        if (this.isLigandPage()) {
+        if (this.isLigandPage() && this.resolverService.resolverIsUp) {
           const resolveDialog = this.dialog.open(BatchResolveModalComponent, {
             height: '75vh',
             width: '66vw',

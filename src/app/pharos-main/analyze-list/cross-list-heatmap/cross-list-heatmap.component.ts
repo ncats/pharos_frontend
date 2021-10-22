@@ -60,7 +60,7 @@ export class CrossListHeatmapComponent extends DynamicPanelComponent implements 
         this.crossModelLink = this.crossModel.toLowerCase() + 's';
         this.changeDetectorRef.markForCheck();
       });
-    this.loadingComplete();
+    this.loadingComplete(false);
   }
 
   initialize() {
@@ -72,7 +72,7 @@ export class CrossListHeatmapComponent extends DynamicPanelComponent implements 
       if (this.results && this.results.length > 0) {
         this.updateHeatmapData();
       }
-      this.loadingComplete();
+      this.loadingComplete(false);
       this.changeDetectorRef.detectChanges();
       this.heatMapContainer.redraw();
     });

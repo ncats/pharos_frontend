@@ -11,7 +11,8 @@
                  [formControl]="resolverCtrl" (change)="resolveCompound($event)">
         </mat-form-field>
         <ng-template #resolverIsDown>
-          Error connecting to NCATSFind service
+          <mat-icon [color]="'accent'" class="help-icon">info</mat-icon>
+          Error connecting to NCATSFind service. You can still input structures via the Sketcher, or the Query SMILES field.
         </ng-template>
       </div>
       <div class="resolver-results" *ngIf="resolverResults.hasOwnProperty('smiles')">

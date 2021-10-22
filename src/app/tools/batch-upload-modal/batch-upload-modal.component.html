@@ -7,9 +7,19 @@
       <mat-icon>close</mat-icon>
     </button>
   </div>
-  <div *ngIf="models === 'Ligands'" class="note">
-    <mat-icon [color]="'primary'" class="help-icon">info</mat-icon>Ligands are resolved through NCATSFind, which can resolve inputs in many formats,
-    including SMILES, common name, CAS Number, ChEMBL etc.
+  <div *ngIf="models === 'Ligands'">
+    <div class="note" *ngIf="resolverService.resolverIsUp; else resolverIsDown">
+      <mat-icon [color]="'primary'" class="help-icon">info</mat-icon>
+      Ligands are resolved through NCATSFind, which can resolve inputs in many formats,
+      including SMILES, common name, CAS Number, ChEMBL etc.
+    </div>
+    <ng-template #resolverIsDown>
+      <div class="note">
+        <mat-icon [color]="'accent'" class="help-icon">info</mat-icon>
+        Error connecting to NCATSFind service. If you need your list to be resolved, please try again later. Without
+        resolving your input, the lists can still work with drug name, ChEMBL ID, PubChem ID, or UNII.
+      </div>
+    </ng-template>
   </div>
   <div fxLayout="row" fxLayoutAlign="space-around center" *ngIf="nameable === true">
     <div fxFlex="90">
