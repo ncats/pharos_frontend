@@ -1,6 +1,7 @@
 import {ChangeDetectorRef, Component, Inject, Input, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {ResolverService} from '../../pharos-services/resolver.service';
 
 /**
  * modal component for batch search/upload
@@ -36,7 +37,8 @@ export class BatchUploadModalComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<BatchUploadModalComponent>,
-    private changeRef: ChangeDetectorRef
+    private changeRef: ChangeDetectorRef,
+    public resolverService: ResolverService
   ) {
 
   }
