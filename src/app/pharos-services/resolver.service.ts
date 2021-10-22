@@ -1,6 +1,8 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {MolChangeService} from '../tools/marvin-sketcher/services/mol-change.service';
+import {PharosApiService} from './pharos-api.service';
+import {isPlatformBrowser} from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +11,11 @@ export class ResolverService {
 
   constructor(
     private http: HttpClient,
-    private molChangeService: MolChangeService) {
-    this.checkStatus();
+    private molChangeService: MolChangeService,
+    @Inject(PLATFORM_ID) private platformID: any) {
+    if (isPlatformBrowser(this.platformID)) {
+      this.checkStatus();
+    }
   }
 
   resolverIsUp = false;

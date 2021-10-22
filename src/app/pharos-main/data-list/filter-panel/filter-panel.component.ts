@@ -21,6 +21,7 @@ import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {environment} from '../../../../environments/environment';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
+import {TourService} from '../../../pharos-services/tour.service';
 
 /**
  * panel that hold a facet table for selection
@@ -47,6 +48,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * @param {PharosConfig} pharosConfig
    */
   constructor(
+    private tourService: TourService,
     private selectedFacetService: SelectedFacetService,
     private changeRef: ChangeDetectorRef,
     private router: Router,
@@ -74,8 +76,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
   @Output() menuToggle: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   showInfo: Map<Facet, boolean> = new Map<Facet, boolean>();
-
-  facetEnrichment = false;
+  listIsFiltered = false;
   /**
    * list of initial facets to display
    */
@@ -133,6 +134,26 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
   toggleFacetInfo(facet: Facet){
     const currentVal = this.showingInfo(facet);
     this.showInfo.set(facet, !currentVal);
+  }
+
+  isOnAnalyzePage() {
+    const path = this.tourService.getPage();
+    return path[0] === 'analyze';
+  }
+
+  showFacetEnrichment(facet: Facet) {
+    let path = this.router.url.split('?')[0];
+    if (!this.isOnAnalyzePage()) {
+      path = '/analyze' + path;
+    }
+    const navigationExtras: NavigationExtras = {
+      queryParamsHandling: 'merge',
+      fragment: 'filter-representation'
+    };
+    navigationExtras.queryParams = {
+      enrichmentFacet: facet.facet
+    };
+    this.router.navigate([path], navigationExtras);
   }
 
   showingInfo(facet: Facet): boolean{
@@ -215,7 +236,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
             this.filteredFacets = this.data.facets;
             this.facets = this.customFacets.concat(this.filteredFacets);
             this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
-            this.facetEnrichment = this._route.snapshot.queryParamMap.get('enrichFacets') === 'true';
+            this.listIsFiltered = this.calcListIsFiltered();
             this.changeRef.detectChanges();
           }
         }
@@ -223,7 +244,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     this.filteredFacets = this.data.facets;
     this.facets = this.customFacets.concat(this.filteredFacets);
     this.selectedFacetService.getFacetsFromParamMap(this._route.snapshot.queryParamMap);
-    this.facetEnrichment = this._route.snapshot.queryParamMap.get('enrichFacets') === 'true';
+    this.listIsFiltered = this.calcListIsFiltered();
     this.changeRef.markForCheck();
   }
 
@@ -349,24 +370,30 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     return facet.facet.replace(/\s/g, '');
   }
 
-  changeEnrichment(event) {
-    const navigationExtras: NavigationExtras = {
-      queryParamsHandling: 'merge'
-    };
-    if (this.facetEnrichment) {
-      navigationExtras.queryParams = {
-        enrichFacets: true
-      };
-    } else {
-      navigationExtras.queryParams = {
-        enrichFacets: null
-      };
-    }
-    this.router.navigate([], navigationExtras);
+
+  filterIsInUse(filterName: string) {
+    return !!this.selectedFacetService.getFacetByName(filterName);
   }
 
-  showEnrichment() {
-    return this.selectedFacetService._facetMap?.size > 0;
+  calcListIsFiltered() {
+    let isFiltered = false;
+    this._route.snapshot.queryParamMap.keys.forEach(key => {
+      if ([
+        'collection',
+        'query',
+        'associatedTarget',
+        'associatedDisease',
+        'associatedStructure',
+        'associatedLigand',
+        'similarity'
+      ].includes(key) && this._route.snapshot.queryParamMap.get(key).length > 0) {
+        isFiltered = true;
+      }
+    });
+    if (isFiltered) {
+      return true;
+    }
+    return this.selectedFacetService.getFacetsAsObjects().length > 0;
   }
 
   /**
