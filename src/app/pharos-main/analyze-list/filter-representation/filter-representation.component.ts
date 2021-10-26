@@ -36,20 +36,6 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
 
   model: string;
 
-  baseFacetFields: PharosProperty[] = [
-    new PharosProperty({
-      name: 'name',
-      label: 'Value',
-      width: '50%',
-      sortable: true
-    }),
-    new PharosProperty({
-      name: 'count',
-      label: 'Count',
-      sortable: true
-    })
-  ];
-
   facetFields: PharosProperty[] = [
     new PharosProperty({
       name: 'name',

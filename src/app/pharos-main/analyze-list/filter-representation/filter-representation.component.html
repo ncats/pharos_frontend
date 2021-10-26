@@ -61,7 +61,7 @@
         <ng-template #filterTable>
           <div class="content">
             <pharos-generic-table [data]="this.selectedFacetProps" (sortChange)="changeSort($event)"
-                                  [fieldsConfig]="filterIsInUse(this.selectedFacetName) ? baseFacetFields : facetFields"></pharos-generic-table>
+                                  [fieldsConfig]="facetFields"></pharos-generic-table>
           </div>
         </ng-template>
       </div>
