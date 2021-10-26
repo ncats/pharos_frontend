@@ -13,6 +13,7 @@ import {DynamicServicesService} from '../../../pharos-services/dynamic-services.
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 import {BatchResolveModalComponent} from '../../../tools/batch-resolve-modal/batch-resolve-modal.component';
 import {ResolverService} from '../../../pharos-services/resolver.service';
+import {BreakpointObserver} from '@angular/cdk/layout';
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -28,7 +29,9 @@ const navigationExtras: NavigationExtras = {
 })
 export class AnalyzeHeaderComponent extends DynamicPanelComponent implements OnInit {
 
-  constructor(private profileService: PharosProfileService,
+  constructor(
+              private breakpointObserver: BreakpointObserver,
+              private profileService: PharosProfileService,
               private changeRef: ChangeDetectorRef,
               public dialog: MatDialog,
               private targetCollection: AngularFirestore,
@@ -71,6 +74,7 @@ export class AnalyzeHeaderComponent extends DynamicPanelComponent implements OnI
   }
 
   ngOnInit(): void {
+    this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 960px)');
     this.rowSelection = this.centralStorageService.rowSelection;
     this._data
       // listen to data as long as term is undefined or null
