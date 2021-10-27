@@ -12,7 +12,7 @@
                       (change)="$event ? filterSelection.toggle(row.value ? row.value : row.name) : null"
                       [indeterminate]="isIndeterminate(row)"
                       [checked]="filterSelection.isSelected(row.value ? row.value : row.name)"
-        >
+        ><label class="hidden">Select filter option</label>
         </mat-checkbox>
       </mat-cell>
     </ng-container>

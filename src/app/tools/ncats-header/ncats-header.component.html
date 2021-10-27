@@ -7,7 +7,7 @@
                [disableClose]="false"
                [fixedInViewport]=true [fixedTopGap]="60">
     <div *ngIf=profile class="profile-section" [matMenuTriggerFor]="profileMenu">
-      <img [src]=profile.profilePic class="profile-pic" *ngIf="profile?.profilePic">
+      <img [src]=profile.profilePic class="profile-pic" *ngIf="profile?.profilePic" alt="Profile picture of the signed in user">
       <span class="user-name">{{profile.name}}</span>
     </div>
     <button mat-button class="nav-menu-button" (click)="openSignInModal(); mobilesidenav.close()" *ngIf="!profile">
@@ -90,7 +90,7 @@
       Feedback <mat-icon>feedback</mat-icon>
     </button>
     <div *ngIf=profile class="profile-section signin-button" [matMenuTriggerFor]="profileMenu" fxHide.lt-md>
-      <img [src]=profile.profilePic class="profile-pic" *ngIf="profile?.profilePic">
+      <img [src]=profile.profilePic class="profile-pic" *ngIf="profile?.profilePic" alt="Profile picture of the signed in user">
       <span class="user-name">{{profile.name}}</span>
     </div>
     <button mat-button class="menu-button signin-button" aria-label = "signin button" (click)="openSignInModal()" *ngIf="!profile" fxHide.lt-md>

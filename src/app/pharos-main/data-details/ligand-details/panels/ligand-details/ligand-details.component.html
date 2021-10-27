@@ -31,7 +31,7 @@
               <mat-icon>search</mat-icon>
             </button>
             <div class="ligand-image">
-              <pharos-structure-view [smiles]="ligand.smiles" [size]=400></pharos-structure-view>
+              <pharos-structure-view [smiles]="ligand.smiles" [ligandName]="ligand.getDisplayName()" [size]=400 [ligandName]="'the query structure'"></pharos-structure-view>
             </div>
           </ng-container>
         </div>
