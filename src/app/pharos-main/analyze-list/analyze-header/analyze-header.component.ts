@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, HostListener, OnInit} from '@angular/core';
 import {BatchUploadModalComponent} from '../../../tools/batch-upload-modal/batch-upload-modal.component';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
 import {MatDialog} from '@angular/material/dialog';
@@ -50,12 +50,17 @@ export class AnalyzeHeaderComponent extends DynamicPanelComponent implements OnI
   models: string;
   model: string;
 
-
   /**
    * selection model for when rows are selectable in table, used for compare and storing targets
    * @type {SelectionModel<any>}
    */
   rowSelection: SelectionModel<any>;
+
+
+  @HostListener('window:resize', [])
+  onResize() {
+    this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 960px)');
+  }
 
   currentQueryParams() {
     return this._route.snapshot.queryParams;

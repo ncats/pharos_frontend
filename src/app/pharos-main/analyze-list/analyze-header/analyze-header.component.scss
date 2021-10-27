@@ -31,6 +31,9 @@
 .tool-button {
   font-size: large;
 }
+.tool-button.mat-button-disabled {
+  color: rgba(255,255,255,0.5);
+}
 
 .target-table-toolbar, {
   display: flex;
@@ -50,9 +53,6 @@
 }
 
 @media only screen and (max-width: 960px) {
-  .verbose {
-    display: none;
-  }
   .target-table-toolbar {
     flex-direction: column;
   }

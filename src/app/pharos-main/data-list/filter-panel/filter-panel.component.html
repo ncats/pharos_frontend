@@ -62,12 +62,14 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <span class="info" [ngClass]="{infoCollapsed: !showingInfo(facet)}" *ngIf="facet.sourceExplanation" >
-          <div *ngIf="showingInfo(facet)" class="explanation" [innerHTML]="facet.sourceExplanation"></div>
-          <div class="helpicon" (click)="toggleFacetInfo(facet)" matTooltip="Expand for a description of this filter">
-            <mat-icon [color]="'primary'">help</mat-icon>
+          <div fxLayout="row">
+            <div *ngIf="showingInfo(facet)" class="explanation" [innerHTML]="facet.sourceExplanation"></div>
+            <div class="helpicon" (click)="toggleFacetInfo(facet)" matTooltip="Expand for a description of this filter">
+              <span class="helptext" [ngClass]="{hidden: showingInfo(facet)}">description </span> <mat-icon [color]="'primary'">help</mat-icon>
+            </div>
           </div>
           <div class="helpicon" (click)="showFacetEnrichment(facet)" *ngIf="facet.dataType === 'Category' && listIsFiltered && !filterIsInUse(facet.facet)" matTooltip="Click to calculate filter value enrichment">
-            <mat-icon [color]="'primary'">developer_board</mat-icon>
+            <span class="helptext">calculate enrichment </span> <mat-icon [color]="'primary'">developer_board</mat-icon>
           </div>
         </span>
         <div *ngIf="facet.dataType === 'Numeric'; then numericBlock else categoryBlock"></div>

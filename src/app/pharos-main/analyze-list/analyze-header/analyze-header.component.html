@@ -7,13 +7,13 @@
             [ngClass]="{'activeView': !isAnalyzePage(), inactiveView: isAnalyzePage()}"
             [routerLink]="'/' + this.models.toLowerCase()"
             [queryParams]="currentQueryParams()">
-      Table<span class="verbose"> View</span>
+      Table<span fxHide.lt-lg class="verbose"> View</span>
     </button>
     <button mat-button class="rightSide tool-button"
             [ngClass]="{'activeView': isAnalyzePage(), inactiveView: !isAnalyzePage()}"
             [routerLink]="'/analyze/' + this.models.toLowerCase()"
             [queryParams]="currentQueryParams()">
-      List<span class="verbose"> Analysis</span>
+      List<span fxHide.lt-lg class="verbose"> Analysis</span>
     </button>
   </div>
   <div fxFlex=""></div>
@@ -36,16 +36,16 @@
             (click)="saveTargets()"
             [disabled]="rowSelection.isEmpty()"
             matTooltip="Save Collection">
-      <mat-icon>playlist_add</mat-icon>
+      <span fxHide.lt-lg>Save List </span><mat-icon>playlist_add</mat-icon>
     </button>
     </span>
       <button mat-button class="tool-button upload-target-list-button" (click)="batchUpload()"
               matTooltip="Upload {{model}} List">
-        <mat-icon>upload</mat-icon>
+        <span fxHide.lt-lg>Upload </span><mat-icon>upload</mat-icon>
       </button>
       <button mat-button class="tool-button list-download" (click)="downloadData()"
               matTooltip="Download {{model}} List Data">
-        <mat-icon>download</mat-icon>
+        <span fxHide.lt-lg>Download </span><mat-icon>download</mat-icon>
       </button>
     </div>
 </ng-template>
