@@ -68,6 +68,6 @@ $pharos-secondary: (
 );
 $pharos-app-accent:  mat-palette($pharos-secondary);
 
-$ncats-app-warn:    mat-palette($mat-red);
+$ncats-app-warn:    mat-palette($mat-red, 700);
 
 $ncats-app-theme: mat-light-theme($pharos-app-primary, $pharos-app-accent, $ncats-app-warn);

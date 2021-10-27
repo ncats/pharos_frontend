@@ -5,6 +5,7 @@
         <mat-checkbox *ngIf="loggedIn" (click)="$event.stopPropagation()"
                       (change)="$event ? this.toggleSelection($event) : null"
                       [checked]="this.selected">
+          <label class="hidden">Select target to add to a custom list</label>
         </mat-checkbox>
         <pharos-idg-level-indicator [level]="target.idgTDL"
                                     [matTooltip]="getTooltip('tdl')"></pharos-idg-level-indicator>

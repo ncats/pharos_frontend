@@ -17,7 +17,7 @@
 
   <div class="prediction-structures">
     <div class="structure-block" [matTooltip]="getTooltip('queryStructure')">
-      <pharos-structure-view [smiles]="ligandSmiles" [size]="100"></pharos-structure-view>
+      <pharos-structure-view [smiles]="ligandSmiles" [size]="100" [ligandName]="'the query structure'"></pharos-structure-view>
     </div>
     <div class="equality-block" [matTooltip]="getTooltip('applicability')">
       <ng-container *ngIf="target.targetPredictionDetails.similarity < 1; else equalBlock">
@@ -30,7 +30,7 @@
       </ng-template>
     </div>
     <div class="structure-block" [matTooltip]="getTooltip('nearestStructure')">
-      <pharos-structure-view [smiles]="structureToShow" [size]="100"></pharos-structure-view>
+      <pharos-structure-view [smiles]="structureToShow" [size]="100" [ligandName]="'the nearest structure'"></pharos-structure-view>
     </div>
   </div>
 

@@ -3,14 +3,14 @@
     <div class="ligand-content">
       <div
         class="mat-title centered ligand-name">{{ligand.getDisplayName()}}</div>
-      <pharos-structure-view [smiles]="ligand.smiles"></pharos-structure-view>
+      <pharos-structure-view [smiles]="ligand.smiles" [ligandName]="ligand.getDisplayName()"></pharos-structure-view>
     </div>
   </a>
   <a *ngIf="internalLink" routerLink='/ligands/{{ligand.isdrug ? ligand.name : ligand.ligid}}'>
     <div class="ligand-content">
       <div
         class="mat-title centered ligand-name">{{ligand.getDisplayName()}}</div>
-      <pharos-structure-view [smiles]="ligand.smiles"></pharos-structure-view>
+      <pharos-structure-view [smiles]="ligand.smiles" [ligandName]="ligand.getDisplayName()"></pharos-structure-view>
     </div>
   </a>
   <div class="ligand-footer">
