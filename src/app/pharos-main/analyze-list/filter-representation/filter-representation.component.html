@@ -1,7 +1,7 @@
 <article class="container">
   <mat-card
-            id="filter-representation"
-            #filterRepresentation>
+    id="filter-representation"
+    #filterRepresentation>
     <mat-card-content>
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
@@ -22,11 +22,15 @@
 
       <mat-card-subtitle>Instructions</mat-card-subtitle>
       <p>
-        Filter value counts, as reported on the left panel, show which filter values are the most common for targets in the list.
+        Filter value counts, as reported on the left panel, show which filter values are the most common for targets in
+        the list.
         These raw counts are sometimes dominated by filter values that are much more likely to be found than others.
-        This tool calculates which filter values are enriched, or over-represented, in the current list. The odds ratio of
-        observing a given count of values is presented, as is as the p-value using Fisher's Exact test. Significance is determined
-        according to an alpha = 0.05, adjusted using the Benjamini-Hochberg procedure to control the False Discovery Rate.</p>
+        This tool calculates which filter values are enriched, or over-represented, in the current list. The odds ratio
+        of
+        observing a given count of values is presented, as is as the p-value using Fisher's Exact test. Significance is
+        determined
+        according to an alpha = 0.05, adjusted using the Benjamini-Hochberg procedure to control the False Discovery
+        Rate.</p>
 
       <mat-card-subtitle>Potential Use Cases</mat-card-subtitle>
 
@@ -37,25 +41,39 @@
         </li>
         <li>
           For a list of targets generated from your RNA-SEQ experiment, and uploaded to your profile as a custom target
-          list (see the tutorial 'Uploading a Custom Target List' for a walkthrough), what 'Reactome Pathways' are overrepresented?
+          list (see the tutorial 'Uploading a Custom Target List' for a walkthrough), what 'Reactome Pathways' are
+          overrepresented?
         </li>
         <li>
-          For a list of ligands that are structurally similar to a compound of interest (see the tutorial 'Searching by Chemical Structure' for a walkthrough),
+          For a list of ligands that are structurally similar to a compound of interest (see the tutorial 'Searching by
+          Chemical Structure' for a walkthrough),
           what Targets have activity against those ligands?
         </li>
-       </ul>
+      </ul>
 
       <div *ngIf="listIsFiltered; else noFiltering">
-      <mat-form-field>
-      <mat-select [(value)]="this.selectedFacetName" (valueChange)="facetChanged($event)" placeholder="Select a filter" class="filterOption">
-        <mat-option *ngFor="let filterName of fullFacetList" [value]="filterName">
-          {{filterName}}
-        </mat-option>
-      </mat-select>
-      </mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="space-between start">
+          <mat-form-field>
+            <mat-select [(value)]="this.selectedFacetName" (valueChange)="facetChanged($event)"
+                        placeholder="Select a filter" class="filterOption">
+              <mat-option *ngFor="let filterName of fullFacetList" [value]="filterName">
+                {{filterName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="alphatext mat-title" *ngIf="
+          selectedFacet &&
+          selectedFacet.values &&
+          selectedFacet.values.length > 0 &&
+          selectedFacet.values[0].stats &&
+          selectedFacet.formatPvalue(selectedFacet.values[0].stats.alpha) > 0">
+            &alpha; = 0.05 FDR Corrected &alpha; = {{this.selectedFacet.formatPvalue(selectedFacet.values[0].stats.alpha)}}
+          </div>
+        </div>
         <div *ngIf="filterIsInUse(this.selectedFacetName); else filterTable">
           <mat-card-subtitle>Note</mat-card-subtitle>
-          <p>The current list is being filtered by {{this.selectedFacetName}}. Select another filter to calculate filter value enrichment.
+          <p>The current list is being filtered by {{this.selectedFacetName}}. Select another filter to calculate filter
+            value enrichment.
           </p>
         </div>
         <ng-template #filterTable>
@@ -67,8 +85,10 @@
       </div>
       <ng-template #noFiltering>
         <mat-card-subtitle>Note</mat-card-subtitle>
-        <p>You are viewing the full list. Filter value representation is done by comparing a filtered list to the full list.
-          Select some filter options, or generate a list based on an associated target, disease, or ligand, etc. to see which
+        <p>You are viewing the full list. Filter value representation is done by comparing a filtered list to the full
+          list.
+          Select some filter options, or generate a list based on an associated target, disease, or ligand, etc. to see
+          which
           filter values are over-represented in the list.</p>
       </ng-template>
     </mat-card-content>

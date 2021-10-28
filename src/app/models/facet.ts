@@ -144,16 +144,18 @@ export class Facet {
     }
   }
 
+
+  public formatPvalue(num: number) {
+    if (num >= .01) {
+      return num.toFixed(2);
+    } else if (num === 0) {
+      return 0;
+    } else {
+      return num.toExponential(0);
+    }
+  }
+
   toProps(linkCallback) {
-    const formatPvalue = (num) => {
-      if (num >= .01) {
-        return num.toFixed(2);
-      } else if (num === 0) {
-        return 0;
-      } else {
-        return num.toExponential(0);
-      }
-    };
     const retObj: any[] = [];
     this.values.forEach(v => {
       const obj: any = {};
@@ -166,7 +168,7 @@ export class Facet {
       });
       if (v.stats) {
         obj.pValue = new DataProperty({name: 'pValue', label: 'p-value',
-          term: formatPvalue(v.stats.pValue) + (v.stats.rejected ? (v.stats.representation == 1 ? '* ↗' : '* ↘') : '')});
+          term: this.formatPvalue(v.stats.pValue) + (v.stats.rejected ? (v.stats.representation == 1 ? '* ↗' : '* ↘') : '')});
         obj.rejected = new DataProperty( {name: 'rejected', label: 'rejected', term: v.stats.rejected});
         obj.statistic = new DataProperty({name: 'statistic', label: 'Frequency',
           term: (v.stats.statistic?.toPrecision(2))});

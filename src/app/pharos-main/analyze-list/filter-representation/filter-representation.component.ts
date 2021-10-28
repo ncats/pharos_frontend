@@ -16,7 +16,6 @@ import {PathResolverService} from '../../data-list/filter-panel/path-resolver.se
   styleUrls: ['./filter-representation.component.scss']
 })
 export class FilterRepresentationComponent extends DynamicPanelComponent implements OnInit {
-
   constructor(
     private router: Router,
     public dynamicServices: DynamicServicesService,
@@ -70,7 +69,8 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
     new PharosProperty({
       name: 'pValue',
       label: 'p-value',
-      sortable: true
+      sortable: true,
+      width: '75px'
     })
   ];
 
