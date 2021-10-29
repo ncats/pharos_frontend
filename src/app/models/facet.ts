@@ -36,10 +36,9 @@ const FACETFIELDSTOP = gql`
         outListNoValue
       }
       stats {
-        representation
+        qValue
         pValue
         oddsRatio
-        alpha
         rejected
         statistic
         nullValue
@@ -94,9 +93,8 @@ export class ContingencyTable {
 export class FisherStats {
   oddsRatio: number;
   rejected: boolean;
-  alpha: number;
   pValue: number;
-  representation: number;
+  qValue: number;
   statistic: number;
   nullValue: number;
 
@@ -168,7 +166,9 @@ export class Facet {
       });
       if (v.stats) {
         obj.pValue = new DataProperty({name: 'pValue', label: 'p-value',
-          term: this.formatPvalue(v.stats.pValue) + (v.stats.rejected ? (v.stats.representation == 1 ? '* ↗' : '* ↘') : '')});
+          term: this.formatPvalue(v.stats.pValue)});
+        obj.qValue = new DataProperty({name: 'qValue', label: 'q-value',
+          term: this.formatPvalue(v.stats.qValue) + (v.stats.rejected ? '* ↗' : '')});
         obj.rejected = new DataProperty( {name: 'rejected', label: 'rejected', term: v.stats.rejected});
         obj.statistic = new DataProperty({name: 'statistic', label: 'Frequency',
           term: (v.stats.statistic?.toPrecision(2))});

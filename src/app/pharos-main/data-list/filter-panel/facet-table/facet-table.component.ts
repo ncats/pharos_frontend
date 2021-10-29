@@ -288,14 +288,8 @@ export class FacetTableComponent implements OnInit, OnDestroy {
 
   icon(row) {
     if (row.stats) {
-      if (row.stats.representation > 0) {
-        if (row.stats.rejected) {
-          return 'north_east';
-        }
-      } else {
-        if (row.stats.rejected) {
-          return 'south_east';
-        }
+      if (row.stats.rejected) {
+        return 'north_east';
       }
     }
   }
@@ -307,11 +301,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
       if (row.stats.pValue > 0.75) {
         representation = 'represented as expected';
       } else {
-        if (row.stats.representation > 0) {
-          representation = 'overrepresented';
-        } else {
-          representation = 'underrepresented';
-        }
+        representation = 'overrepresented';
         if (row.stats.rejected) {
           modifier = 'significantly ';
         } else {

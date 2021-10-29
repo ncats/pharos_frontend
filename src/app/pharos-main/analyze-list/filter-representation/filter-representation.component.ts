@@ -47,10 +47,10 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
       label: 'Count',
       sortable: true
     }),
-    new PharosProperty({
-      name: 'table',
-      label: 'Contingency Table'
-    }),
+    // new PharosProperty({
+    //   name: 'table',
+    //   label: 'Contingency Table'
+    // }),
     new PharosProperty({
       name: 'statistic',
       label: 'Observed Frequency',
@@ -69,6 +69,12 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
     new PharosProperty({
       name: 'pValue',
       label: 'p-value',
+      sortable: true,
+      width: '75px'
+    }),
+    new PharosProperty({
+      name: 'qValue',
+      label: 'p-adjust',
       sortable: true,
       width: '75px'
     })
@@ -226,13 +232,10 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
         if (!rawA.stats && rawB.stats) {
           return -1;
         }
-        if (rawA.stats.representation === rawB.stats.representation) {
-          if (rawA.stats.pValue == rawB.stats.pValue) {
-            return direction * (rawB.count - rawA.count);
-          }
-          return direction * (rawA.stats.representation * (rawA.stats.pValue - rawB.stats.pValue));
+        if (rawA.stats.pValue == rawB.stats.pValue) {
+          return direction * (rawB.count - rawA.count);
         }
-        return direction * (rawB.stats.representation - rawA.stats.representation);
+        return direction * (rawA.stats.pValue - rawB.stats.pValue);
       }
       return direction * (Number.parseFloat(valA) - Number.parseFloat(valB));
     });
