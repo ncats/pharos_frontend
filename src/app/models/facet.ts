@@ -38,7 +38,11 @@ const FACETFIELDSTOP = gql`
       stats {
         qValue
         pValue
-        oddsRatio
+        oddsRatio {
+          value
+          lower95
+          upper95
+        }
         rejected
         statistic
         nullValue
@@ -91,7 +95,7 @@ export class ContingencyTable {
 }
 
 export class FisherStats {
-  oddsRatio: number;
+  oddsRatio: OddsRatio;
   rejected: boolean;
   pValue: number;
   qValue: number;
@@ -100,6 +104,20 @@ export class FisherStats {
 
   constructor(json: any) {
     Object.entries((json)).forEach((prop) => this[prop[0]] = prop[1]);
+    if (json.oddsRatio) {
+      this.oddsRatio = new OddsRatio(json.oddsRatio);
+    }
+  }
+}
+
+export class OddsRatio {
+  value: number;
+  lower95: number;
+  upper95: number;
+  constructor(json: any) {
+    this.value = parseFloat(json.value);
+    this.lower95 = parseFloat(json.lower95);
+    this.upper95 = parseFloat(json.upper95);
   }
 }
 
@@ -153,6 +171,13 @@ export class Facet {
     }
   }
 
+  public formatOddsRatio(num: number) {
+    if (num < 10) {
+      return num.toPrecision(2);
+    }
+    return num.toFixed(0);
+  }
+
   toProps(linkCallback) {
     const retObj: any[] = [];
     this.values.forEach(v => {
@@ -175,7 +200,9 @@ export class Facet {
         obj.nullValue = new DataProperty({name: 'nullValue', label: 'Expected Frequency',
           term: (v.stats.nullValue?.toPrecision(2))});
         obj.oddsRatio = new DataProperty({name: 'oddsRatio', label: 'Odds Ratio',
-          term: (v.stats.oddsRatio?.toPrecision(2))});
+          term: this.formatOddsRatio(v.stats.oddsRatio?.value)});
+        obj.oddsRatioCI = new DataProperty({name: 'oddsRatioCI', label: 'OR 95% Conf',
+        term: `(${this.formatOddsRatio(v.stats.oddsRatio?.lower95)}, ${this.formatOddsRatio(v.stats.oddsRatio?.upper95)})`});
       }
       if (v.table) {
         obj.table = new DataProperty({name: 'table', label: 'Contingency Table',
