@@ -23,3 +23,10 @@
     </div>
   </div>
 </div>
+<div class="subsection" *ngIf="!target.interactionDetails.score && !target.interactionDetails.p_int">
+  <div class="list-header">Reactome</div>
+  <div class="list-item">
+    <ncats-property-display
+      [property]="{label: 'Details', term: 'none'}"></ncats-property-display>
+  </div>
+</div>

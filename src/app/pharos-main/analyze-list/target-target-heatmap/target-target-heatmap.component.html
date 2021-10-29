@@ -77,6 +77,14 @@
           No BioPlex data
         </div>
       </ng-template>
+      <div class="subsection" *ngIf="!this.selectedDetails.score && !this.selectedDetails.p_int">
+        <div class="list-header">Reactome
+          <div class="list-item">
+            <ncats-property-display
+              [property]="{label: 'Details', term: 'none'}"></ncats-property-display>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </pharos-cross-list-heatmap>
