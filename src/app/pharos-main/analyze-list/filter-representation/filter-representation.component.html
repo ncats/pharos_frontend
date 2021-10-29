@@ -28,9 +28,9 @@
         This tool calculates which filter values are enriched, or over-represented, in the current list. The odds ratio
         of
         observing a given count of values is presented, as is as the p-value using Fisher's Exact test. Significance is
-        determined
-        according to an alpha = 0.05, adjusted using the Benjamini-Hochberg procedure to control the False Discovery
-        Rate.</p>
+        determined according to the adjusted p-value, using the
+        <a href="https://www.sciencedirect.com/science/article/abs/pii/S0378375899000415" target="_blank">
+          Benjamini-Hochberg procedure</a> to limit the False Discovery Rate to &alpha; = 0.05.</p>
 
       <mat-card-subtitle>Potential Use Cases</mat-card-subtitle>
 
@@ -61,14 +61,6 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <div class="alphatext mat-title" *ngIf="
-          selectedFacet &&
-          selectedFacet.values &&
-          selectedFacet.values.length > 0 &&
-          selectedFacet.values[0].stats &&
-          selectedFacet.formatPvalue(selectedFacet.values[0].stats.alpha) > 0">
-            &alpha; = 0.05 FDR Corrected &alpha; = {{this.selectedFacet.formatPvalue(selectedFacet.values[0].stats.alpha)}}
-          </div>
         </div>
         <div *ngIf="filterIsInUse(this.selectedFacetName); else filterTable">
           <mat-card-subtitle>Note</mat-card-subtitle>
