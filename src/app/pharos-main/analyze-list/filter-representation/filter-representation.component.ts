@@ -39,7 +39,7 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
     new PharosProperty({
       name: 'name',
       label: 'Value',
-      width: '50%',
+      width: '30%',
       sortable: true
     }),
     new PharosProperty({
@@ -65,6 +65,10 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
       name: 'oddsRatio',
       label: 'Odds Ratio',
       sortable: true
+    }),
+    new PharosProperty({
+      name: 'oddsRatioCI',
+      label: 'OR 95% Conf'
     }),
     new PharosProperty({
       name: 'pValue',
