@@ -332,6 +332,12 @@ export class FacetTableComponent implements OnInit, OnDestroy {
     return false;
   }
 
+  getRowTooltip(row: any) {
+    if (row.count > 25000) {
+      return 'Filtering the list to very high counts becomes prohibitively slow';
+    }
+  }
+
   /**
    * function to unubscribe on destroy
    */
