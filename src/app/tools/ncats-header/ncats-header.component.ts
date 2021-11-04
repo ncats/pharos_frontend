@@ -104,27 +104,20 @@ export class NcatsHeaderComponent implements OnInit {
     return path[0] === 'analyze';
   }
 
-  getRequiredPath(tutorial: string) {
-    switch (tutorial) {
-      case TourType.StructureSearchTour:
-        return '/structure';
-      case TourType.CustomTargetListTour:
-        return '/targets';
-    }
-    return '/';
-  }
-
   gotoTutorial(tutorial: string) {
     const path = this.tourService.getPage();
-    const onListPage = ['diseases', 'ligands', 'targets'].includes(path[0]) && path.length === 1;
-    if (tutorial === TourType.CustomTargetListTour) {
+    const onAnalyzePage = path[0] === 'analyze';
+    const modelType = path[path.length - 1];
+    const onListPage = ['diseases', 'ligands', 'targets'].includes(modelType);
+
+    if (tutorial === TourType.CustomListTour) {
       const navigationExtras: NavigationExtras = {
-        queryParamsHandling: (path[0] === 'targets' ? 'merge' : ''),
+        queryParamsHandling: (onListPage ? 'merge' : ''),
         queryParams: {
           tutorial
         },
       };
-      this.router.navigate([this.getRequiredPath(tutorial)], navigationExtras);
+      this.router.navigate([onListPage ? path.join('/') : '/targets'], navigationExtras);
       return;
     }
     else if (tutorial === TourType.StructureSearchTour) {
@@ -134,17 +127,26 @@ export class NcatsHeaderComponent implements OnInit {
           tutorial
         },
       };
-      this.router.navigate( [this.getRequiredPath(tutorial)], navigationExtras);
+      this.router.navigate( ['/structure'], navigationExtras);
       return;
     }
-    else if (tutorial === TourType.ListPagesTour || tutorial === TourType.UpsetChartTour) {
+    else if (tutorial === TourType.ListPagesTour) {
       const navigationExtras: NavigationExtras = {
         queryParamsHandling: (onListPage ? 'merge' : ''),
         queryParams: {
           tutorial
         },
       };
-      this.router.navigate([onListPage ? path[0] : '/targets'], navigationExtras);
+      this.router.navigate([onListPage ? '/' + modelType : '/targets'], navigationExtras);
+    }
+    else if (tutorial === TourType.UpsetChartTour) {
+      const navigationExtras: NavigationExtras = {
+        queryParamsHandling: (onListPage ? 'merge' : ''),
+        queryParams: {
+          tutorial
+        },
+      };
+      this.router.navigate([onAnalyzePage ? path.join('/') : onListPage ? '/analyze/' + modelType : '/analyze/targets'], navigationExtras);
     }
     else if (tutorial === TourType.TargetExpressionTour || tutorial === TourType.ProteinStructureTour) {
       const navigationExtras: NavigationExtras = {

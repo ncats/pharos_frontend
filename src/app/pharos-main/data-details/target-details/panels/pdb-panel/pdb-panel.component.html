@@ -92,23 +92,25 @@
             (page)=pagePDB($event)
             #pdbpaginator></mat-paginator>
         </div>
-        <div fxHide.lt-md class="structure-list">
-          <pharos-generic-table
-            [data]=this.pdbViewObjects
-            [showPaginator]="false"
-            [fieldsConfig]=fieldsData
-            [highlightFunction]="highlightRow.bind(this)"
-            (rowClick)="changePdbId($event)">
-          </pharos-generic-table>
-        </div>
-        <div fxHide.gt-sm class="structure-list">
-          <pharos-generic-table
-            [data]=this.pdbViewObjects
-            [showPaginator]="false"
-            [fieldsConfig]=shortFieldsData
-            [highlightFunction]="highlightRow.bind(this)"
-            (rowClick)="changePdbId($event)">
-          </pharos-generic-table>
+        <div  class="structure-list">
+          <div fxHide.lt-md>
+            <pharos-generic-table
+              [data]=this.pdbViewObjects
+              [showPaginator]="false"
+              [fieldsConfig]=fieldsData
+              [highlightFunction]="highlightRow.bind(this)"
+              (rowClick)="changePdbId($event)">
+            </pharos-generic-table>
+          </div>
+          <div fxHide.gt-sm>
+            <pharos-generic-table
+              [data]=this.pdbViewObjects
+              [showPaginator]="false"
+              [fieldsConfig]=shortFieldsData
+              [highlightFunction]="highlightRow.bind(this)"
+              (rowClick)="changePdbId($event)">
+            </pharos-generic-table>
+          </div>
         </div>
       </ng-container>
     </mat-card-content>
