@@ -90,8 +90,8 @@ export class AppComponent implements OnInit {
       case TourType.WhatsNew38:
         this.tourService.whatsNew(true);
         break;
-      case TourType.CustomTargetListTour:
-        this.tourService.customTargetLists();
+      case TourType.CustomListTour:
+        this.tourService.customLists();
         break;
       case TourType.StructureSearchTour:
         this.tourService.structureSearchTour();
@@ -106,7 +106,7 @@ export class AppComponent implements OnInit {
         this.tourService.proteinStructureTour();
         break;
       case TourType.UpsetChartTour:
-        this.tourService.upsetPlotTour(page[0]);
+        this.tourService.upsetPlotTour(page[1]);
         break;
       default:
         this.tourService.whatsNew(false);

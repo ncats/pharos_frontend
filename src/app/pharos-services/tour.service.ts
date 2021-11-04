@@ -8,7 +8,7 @@ import {CentralStorageService} from './central-storage.service';
 export enum TourType {
   ListPagesTour = 'ListPagesTour',
   UpsetChartTour = 'UpsetChartTour',
-  CustomTargetListTour = 'CustomTargetListTour',
+  CustomListTour = 'CustomListTour',
   StructureSearchTour = 'StructureSearchTour',
   ProteinStructureTour = 'ProteinStructureTour',
   TargetExpressionTour = 'TargetExpressionTour',
@@ -65,7 +65,7 @@ export class TourService {
     {title: 'What\'s New in Version 3.8', storageKey: TourType.WhatsNew38},
     {title: 'Using the List Pages', storageKey: TourType.ListPagesTour},
     {title: 'Using the UpSet Chart', storageKey: TourType.UpsetChartTour},
-    {title: 'Uploading a Custom List of Targets', storageKey: TourType.CustomTargetListTour},
+    {title: 'Uploading a Custom List', storageKey: TourType.CustomListTour},
     {title: 'Searching by Chemical Structure', storageKey: TourType.StructureSearchTour},
     {title: 'Viewing Protein Structure Data', storageKey: TourType.ProteinStructureTour},
     {title: 'Viewing Target Expression Data', storageKey: TourType.TargetExpressionTour},
@@ -421,7 +421,7 @@ export class TourService {
         scrollToHandler: this.tourScroller.bind({class: 'upset-chart', platformID: this.platformID}),
         buttons: this.middleButtons.slice(),
         title: 'UpSet Charts for Filters',
-        text: [`UpSet plots are only shown for the categorical filters, that have multiple responses per ${model}. By default the top five filter values are used to generate the plot.`]
+        text: [`UpSet plots are only shown for the categorical filters that have multiple responses per ${model}. By default the top five filter values are used to generate the plot.`]
       },
       {
         id: 'upset-plot-edit-values',
@@ -460,16 +460,16 @@ export class TourService {
     this.shepherdService.start();
   }
 
-  customTargetLists() {
+  customLists() {
     if (!isPlatformBrowser(this.platformID)) {
       return;
     }
     this.loadPromise.then(() => {
-      this.runCustomTargetListTour();
+      this.runCustomListTour();
     });
   }
 
-  runCustomTargetListTour() {
+  runCustomListTour() {
     const defaultSteps = [
       {
         beforeShowPromise: () => {
@@ -486,9 +486,8 @@ export class TourService {
         },
         scrollToHandler: this.tourScroller.bind({class: 'upload-target-list-button', platformID: this.platformID}),
         buttons: this.firstButtons.slice(),
-        title: 'Upload a Custom List of Targets',
-        text: ['Click the upload button to view all of the available filters and charts for your own custom list of targets. Uploading a custom list of diseases or ligands is not' +
-        ' supported at this time.']
+        title: 'Upload a Custom List',
+        text: ['Click the upload button to view all of the available filters and charts for your own custom list of targets, diseases, or ligands.']
       },
       {
         id: 'signin-for-benefits',
@@ -513,7 +512,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(TourType.CustomTargetListTour, event);
+        this.completeTour(TourType.CustomListTour, event);
       });
     });
     this.shepherdService.start();
@@ -638,14 +637,13 @@ export class TourService {
       {
         id: 'upset-plot',
         attachTo: {
-          element: '.facet-visualizations',
+          element: '.rightSide',
           on: 'left'
         },
         scrollToHandler: this.tourScroller.bind({class: 'facet-visualizations', platformID: this.platformID}),
         buttons: this.middleButtons.slice(),
         title: 'Filter Visualizations',
-        text: [`This panel shows visualizations of selected filters. An UpSet plot will show for filters that can have multiple values per ${model}.
-         See "Using the UpSet Chart" tutorial for details.`]
+        text: [`Toggle to "List Analysis" view to see some higher level visualizations of the ${models} in the list, such as UpSet plots, and Heatmaps. See other tutorials for more details on "List Analysis" functionality.`]
       },
       {
         id: 'model-list',
