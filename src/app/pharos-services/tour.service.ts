@@ -15,7 +15,7 @@ export enum TourType {
   StructureSearchTour = 'StructureSearchTour',
   ProteinStructureTour = 'ProteinStructureTour',
   TargetExpressionTour = 'TargetExpressionTour',
-  WhatsNew38 = 'WhatsNew38'
+  WhatsNew39 = 'WhatsNew39'
 }
 
 
@@ -65,7 +65,7 @@ export class TourService {
   };
 
   allTutorials: TourDefinition[] = [
-    {title: 'What\'s New in Version 3.8', storageKey: TourType.WhatsNew38},
+    {title: 'What\'s New in Version 3.9', storageKey: TourType.WhatsNew39},
     {title: 'Using the List Pages', storageKey: TourType.ListPagesTour},
     {title: 'Using the UpSet Chart', storageKey: TourType.UpsetChartTour},
     {title: 'Filter Value Enrichment', storageKey: TourType.FilterValueEnrichment},
@@ -100,7 +100,7 @@ export class TourService {
     this.loadPromise.then(() => {
 
       switch (tutorialName) {
-        case TourType.WhatsNew38:
+        case TourType.WhatsNew39:
           this.whatsNew(true);
           break;
         case TourType.CustomListTour:
@@ -190,7 +190,7 @@ export class TourService {
     if (!isPlatformBrowser(this.platformID)) {
       return;
     }
-    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew38)) { // only autorun once
+    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew39)) { // only autorun once
       return;
     }
     this.loadPromise.then(() => {
@@ -201,73 +201,77 @@ export class TourService {
   runWhatsNew() {
     const defaultSteps = [
       {
-        id: 'whats_new_begin',
         scrollTo: false,
         buttons: this.firstButtons.slice(),
-        title: 'What\'s new in Pharos 3.8?',
-        text: ['Pharos has many new features in version 3.8, including UpSet Charts for filters on the list pages, heatmaps for ' +
-        'expression data, AlphaFold structures for targets, and several usability improvements. Click \'Next\' for a tour of new ' +
-        'features and where to find them.']
+        title: 'What\'s new in Pharos 3.9?',
+        text: ['Pharos has many new features in version 3.9, including Heatmaps and Filter Value Enrichment calculations on the list pages, ' +
+        'predicted Target-Ligand activities, and an improved text search functionality. The TCRD 6.12.4 update has also brought us a lot of fresh data from ChEMBL and DrugCentral.' +
+        ' Click \'Next\' for a tour of the new features and where to find them.']
       },
       {
-        id: 'upset_charts',
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'UpSet Charts',
-        text: ['On all list pages, UpSet Charts are available for all categorical filters that can have more than one value. ' +
-        'The UpSet Chart displays counts for the intersections between filter values. You can use the filtering capabilities of the ' +
-        'Upset Chart to filter the lists with more complex boolean logic.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new38/upset.png"/>']
+        title: 'Table View',
+        text: ['There are now two views to toggle between on all list pages. The Table View shows the list of results (targets, diseases, or ligands) to page through to find the one you\'re interested in.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/tableview.png"/>']
       },
       {
-        id: 'donut_charts',
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Donut Charts',
-        text: ['Filters that only have one value are shown with the old style Donut Chart, since UpSet charts don\'t make that much ' +
-        'sense if each item in the list only has one value.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new38/donut.png"/>']
+        title: 'List Analysis View',
+        text: ['List Analysis View shows the visualizations that summarize the list, and more advanced analysis tools to provide an ' +
+        'overview of the population, which can help highlight common features of elements in the list, or provide a high level view of ' +
+        'the structure of the data in the list.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/listanalysisview.png"/>']
       },
       {
-        id: 'protein_structure',
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Protein Structures',
-        text: ['The Protein Structure Panel now shows predicted structure information from AlphaFold. There are also some added ' +
-        'capabilities to change the color and representation of the structure display, and some additional columns to help the user ' +
-        'know how much of the protein, and which regions, are included in the experimentally determined structures.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new38/structure.png"/>']
+        title: 'Heatmaps',
+        text: ['Heatmaps show an overview of data for the list, as it relates to a corresponding list, such as Target-Ligand activities. ' +
+        'Take the \'Creating a Heatmap\' tutorial for more details.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/heatmap.png"/>']
       },
       {
-        id: 'protein_expression',
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Target Expression Data',
-        text: ['The Expression Panel has been simplified and revamped to show a better overview of all the expression data from TCRD. ' +
-        'A filterable heatmap view of expression level and the contributing data sources now accompanies the anatomogram.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new38/expression.png"/>']
+        title: 'Filter Value Enrichment',
+        text: ['Calculating enrichment scores for the different filter values will help you understand which values are ' +
+        'overrepresented in the list. Take the \'Filter Value Enrichment\' tutorial for more details.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/enrichment.png"/>']
       },
       {
-        id: 'resolver_for_structure_search',
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Easier Structure Search',
-        text: ['Loading a chemical structure into the Structure Search tool is easier, now that Pharos will resolve your input using ' +
-        'NCATSFind. Enter a SMILES, UNII, drug name, PubChem ID, Chembl ID, etc. to load a structure to start with.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new38/resolver.png"/>']
+        title: 'Custom Lists for Ligands or Diseases',
+        text: ['It was already possible to upload your own list of targets to use with Pharos. Now that functionality is extended to ' +
+        'custom lists of ligands and diseases. Furthermore, ligands can be resolved by a number of different inputs, such as SMILES, ' +
+        'ligand names, CAS Numbers, ChEMBL IDs, etc, to facilitate your upload of data from screens or other sources of ligand lists. ' +
+        'There are also a few new ligand filters to help find commonalities in the active targets for those ligands.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/customligandlist.png"/>']
       },
       {
-        id: 'tutorials',
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Predicted Target-Ligand Activity',
+        text: ['Now, in addition to viewing active targets for a ligand, you can also see predicted targets for those ligands, based on ' +
+        'QSAR model results from NCATS Predictor.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/predictedtargets.png"/>']
+      },
+      {
         scrollTo: false,
         buttons: this.lastButtons.slice(),
-        title: 'Tutorials',
-        text: ['Learn how to use the new or advanced features with our tutorials.' +
-        '<br/><img class="tour-small-screenshot" src="./assets/images/tutorials/new38/tutorials.png"/>']
+        classes: 'step-with-screenshot',
+        title: 'Improved Search Functionality',
+        text: ['Previously, you had to select whether you wanted to search for targets, ligands, or diseases, when you were doing a text' +
+        ' search. Now, one search will return combined results from Targets, Diseases, and Ligands, as well as many filter values.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/omnisearch.png"/>']
       }
     ];
     this.shepherdService.defaultStepOptions = this.defaultStepOptions;
@@ -276,7 +280,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(TourType.WhatsNew38, event);
+        this.completeTour(TourType.WhatsNew39, event);
       });
     });
     this.shepherdService.start();
@@ -500,9 +504,9 @@ export class TourService {
         scrollToHandler: this.tourScroller.bind({class: 'heatmap', platformID: this.platformID}),
         buttons: this.middleButtons.slice(),
         title: 'Heatmaps',
-        text: [(models === 'targets' ? `For targets, you can construct heatmaps of target-disease associations, target-ligand activities, and target-target interactions.` :
-              models === 'diseases' ? `For diseases, you can construct heatmsps of disease-target associations.` :
-                                      `For ligands, you can construct heatmaps of ligand-target activities.`) + ' You can also download the data for offline analysis.']
+        text: ['For targets, you can construct heatmaps of target-disease associations, target-ligand activities, and ' +
+        'target-target interactions. For diseases, the heatmaps are for disease-target associations, and for ligands, ' +
+        'the heatmaps are for ligand-target activities. You can also download the data for offline analysis.']
       },
       {
         id: 'heatmap-example',
