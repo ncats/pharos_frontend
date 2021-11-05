@@ -86,9 +86,6 @@ export class AppComponent implements OnInit {
   runTutorial() {
     const tutorial = this._route.snapshot.queryParamMap.get('tutorial');
     const page = this.tourService.getPage();
-    if (!tutorial) {
-      this.tourService.whatsNew(false);
-    }
     this.tourService.runTutorial(tutorial);
   }
 
