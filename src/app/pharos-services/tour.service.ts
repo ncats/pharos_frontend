@@ -582,6 +582,17 @@ export class TourService {
         will filter the list to ${models} that have the right combination of filter values.`]
       },
       {
+        id: 'upset-plot-edit-values',
+        attachTo: {
+          element: '.facet-change',
+          on: 'left'
+        },
+        scrollToHandler: this.tourScroller.bind({class: 'facet-change', platformID: this.platformID}),
+        buttons: this.middleButtons.slice(),
+        title: 'UpSet Charts for Filters',
+        text: [`Change which filter is used to generate the plot with these buttons.`]
+      },
+      {
         id: 'upset-plot2',
         attachTo: {
           element: '.upset-chart',
@@ -599,22 +610,11 @@ export class TourService {
           on: 'left'
         },
         scrollTo: false,
-        buttons: this.middleButtons.slice(),
+        buttons: this.lastButtons.slice(),
         title: 'Custom UpSet Charts',
         text: [`You can edit which filter values are used to generate the plot. You can use this feature to filter the ${model} list with more
         complex boolean logic. For example, selecting values A, B, and C, you can generate the plot of the joint distribution, and filter the
         list to only ${models} with values A AND B, AND NOT C by selecting the right intersection on the plot.`]
-      },
-      {
-        id: 'upset-plot-edit-values',
-        attachTo: {
-          element: '.facet-change',
-          on: 'left'
-        },
-        scrollToHandler: this.tourScroller.bind({class: 'facet-change', platformID: this.platformID}),
-        buttons: this.lastButtons.slice(),
-        title: 'UpSet Charts for Filters',
-        text: [`Change which filter is used to generate the plot with these buttons.`]
       }
     ];
     this.shepherdService.defaultStepOptions = this.defaultStepOptions;

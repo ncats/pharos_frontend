@@ -1,12 +1,21 @@
-<article>
-  <mat-expansion-panel [expanded]=true>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-            <span>
-              <span class="mat-title facet-title">{{label}}</span>
-            </span>
-      </mat-panel-title>
-    </mat-expansion-panel-header>
+<article class="container">
+  <mat-card
+    id="filter-representation"
+    #filterRepresentation>
+    <mat-card-content>
+      <div fxLayout="row"
+           class="tkrow"
+           fxLayoutAlign="start stretch">
+        <div fxFlex="95">
+        <span class="mat-title"
+              [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">
+          {{label}}</span>
+        </div>
+        <div fxFlex="5" *ngIf="!displayFacet?.singleResponse">
+          <pharos-tutorial-link [tourType]="tourType"></pharos-tutorial-link>
+        </div>
+      </div>
     <div fxLayout="column" fxLayoutAlign="space-around center" class="facet-visualizations">
       <div fxLayout="row" fxLayoutAlign="space-around start">
         <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet class="facet-change">
@@ -43,11 +52,9 @@
             </div>
           </div>
         </div>
-        <div fxFlex="5">
-          <pharos-tutorial-link [tourType]="tourType"></pharos-tutorial-link>
-        </div>
       </div>
 
     </div>
-  </mat-expansion-panel>
+    </mat-card-content>
+  </mat-card>
 </article>
