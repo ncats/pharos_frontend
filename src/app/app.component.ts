@@ -86,32 +86,10 @@ export class AppComponent implements OnInit {
   runTutorial() {
     const tutorial = this._route.snapshot.queryParamMap.get('tutorial');
     const page = this.tourService.getPage();
-    switch (tutorial) {
-      case TourType.WhatsNew38:
-        this.tourService.whatsNew(true);
-        break;
-      case TourType.CustomListTour:
-        this.tourService.customLists();
-        break;
-      case TourType.StructureSearchTour:
-        this.tourService.structureSearchTour();
-        break;
-      case TourType.ListPagesTour:
-        this.tourService.listPagesTour(page);
-        break;
-      case TourType.TargetExpressionTour:
-        this.tourService.runTutorial(tutorial);
-        break;
-      case TourType.ProteinStructureTour:
-        this.tourService.proteinStructureTour();
-        break;
-      case TourType.UpsetChartTour:
-        this.tourService.upsetPlotTour(page[1]);
-        break;
-      default:
-        this.tourService.whatsNew(false);
-        break;
+    if (!tutorial) {
+      this.tourService.whatsNew(false);
     }
+    this.tourService.runTutorial(tutorial);
   }
 
   getTitle(state, parent) {

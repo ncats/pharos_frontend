@@ -4,11 +4,14 @@ import {isPlatformBrowser} from '@angular/common';
 import {NavigationExtras, Router} from '@angular/router';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {CentralStorageService} from './central-storage.service';
+import {toTitleCase} from 'codelyzer/util/utils';
 
 export enum TourType {
   ListPagesTour = 'ListPagesTour',
   UpsetChartTour = 'UpsetChartTour',
   CustomListTour = 'CustomListTour',
+  FilterValueEnrichment = 'FilterValueEnrichment',
+  Heatmaps = 'Heatmaps',
   StructureSearchTour = 'StructureSearchTour',
   ProteinStructureTour = 'ProteinStructureTour',
   TargetExpressionTour = 'TargetExpressionTour',
@@ -65,6 +68,8 @@ export class TourService {
     {title: 'What\'s New in Version 3.8', storageKey: TourType.WhatsNew38},
     {title: 'Using the List Pages', storageKey: TourType.ListPagesTour},
     {title: 'Using the UpSet Chart', storageKey: TourType.UpsetChartTour},
+    {title: 'Filter Value Enrichment', storageKey: TourType.FilterValueEnrichment},
+    {title: 'Creating a Heatmap', storageKey: TourType.Heatmaps},
     {title: 'Uploading a Custom List', storageKey: TourType.CustomListTour},
     {title: 'Searching by Chemical Structure', storageKey: TourType.StructureSearchTour},
     {title: 'Viewing Protein Structure Data', storageKey: TourType.ProteinStructureTour},
@@ -93,16 +98,37 @@ export class TourService {
       return;
     }
     this.loadPromise.then(() => {
-      const page = this.getPage();
+
       switch (tutorialName) {
+        case TourType.WhatsNew38:
+          this.whatsNew(true);
+          break;
+        case TourType.CustomListTour:
+          this.runCustomListTour();
+          break;
+        case TourType.StructureSearchTour:
+          this.runStructureSearchTour();
+          break;
+        case TourType.ListPagesTour:
+          this.listPagesTour();
+          break;
         case TourType.TargetExpressionTour:
           this.runExpressionTour();
           break;
         case TourType.ProteinStructureTour:
           this.runProteinStructureTour();
           break;
+        case TourType.Heatmaps:
+          this.runHeatmapTour();
+          break;
+        case TourType.FilterValueEnrichment:
+          this.runFilterValueTour();
+          break;
         case TourType.UpsetChartTour:
-          this.runUpsetPlotTour(page[0]);
+          this.runUpsetPlotTour();
+          break;
+        default:
+          this.whatsNew(false);
           break;
       }
     });
@@ -192,7 +218,7 @@ export class TourService {
         text: ['On all list pages, UpSet Charts are available for all categorical filters that can have more than one value. ' +
         'The UpSet Chart displays counts for the intersections between filter values. You can use the filtering capabilities of the ' +
         'Upset Chart to filter the lists with more complex boolean logic.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/new38/upset.png"/>']
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new38/upset.png"/>']
       },
       {
         id: 'donut_charts',
@@ -202,7 +228,7 @@ export class TourService {
         title: 'Donut Charts',
         text: ['Filters that only have one value are shown with the old style Donut Chart, since UpSet charts don\'t make that much ' +
         'sense if each item in the list only has one value.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/new38/donut.png"/>']
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new38/donut.png"/>']
       },
       {
         id: 'protein_structure',
@@ -213,7 +239,7 @@ export class TourService {
         text: ['The Protein Structure Panel now shows predicted structure information from AlphaFold. There are also some added ' +
         'capabilities to change the color and representation of the structure display, and some additional columns to help the user ' +
         'know how much of the protein, and which regions, are included in the experimentally determined structures.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/new38/structure.png"/>']
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new38/structure.png"/>']
       },
       {
         id: 'protein_expression',
@@ -223,7 +249,7 @@ export class TourService {
         title: 'Target Expression Data',
         text: ['The Expression Panel has been simplified and revamped to show a better overview of all the expression data from TCRD. ' +
         'A filterable heatmap view of expression level and the contributing data sources now accompanies the anatomogram.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/new38/expression.png"/>']
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new38/expression.png"/>']
       },
       {
         id: 'resolver_for_structure_search',
@@ -233,7 +259,7 @@ export class TourService {
         title: 'Easier Structure Search',
         text: ['Loading a chemical structure into the Structure Search tool is easier, now that Pharos will resolve your input using ' +
         'NCATSFind. Enter a SMILES, UNII, drug name, PubChem ID, Chembl ID, etc. to load a structure to start with.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/new38/resolver.png"/>']
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new38/resolver.png"/>']
       },
       {
         id: 'tutorials',
@@ -241,7 +267,7 @@ export class TourService {
         buttons: this.lastButtons.slice(),
         title: 'Tutorials',
         text: ['Learn how to use the new or advanced features with our tutorials.' +
-        '<br/><img class="tour-small-screenshot" src="./assets/images/new38/tutorials.png"/>']
+        '<br/><img class="tour-small-screenshot" src="./assets/images/tutorials/new38/tutorials.png"/>']
       }
     ];
     this.shepherdService.defaultStepOptions = this.defaultStepOptions;
@@ -254,15 +280,6 @@ export class TourService {
       });
     });
     this.shepherdService.start();
-  }
-
-  proteinStructureTour() {
-    if (!isPlatformBrowser(this.platformID)) {
-      return;
-    }
-    this.loadPromise.then(() => {
-      this.runProteinStructureTour();
-    });
   }
 
   runProteinStructureTour() {
@@ -373,17 +390,154 @@ export class TourService {
     });
     this.shepherdService.start();
   }
-
-  upsetPlotTour(models: string) {
-    if (!isPlatformBrowser(this.platformID)) {
-      return;
-    }
-    this.loadPromise.then(() => {
-      this.runUpsetPlotTour(models);
+  runFilterValueTour() {
+    const models = this.getModels();
+    const model = models.slice(0, models.length - 1);
+    const defaultSteps = [
+      {
+        beforeShowPromise: () => {
+          return new Promise((resolve: any) => {
+            setTimeout(() => {
+              resolve();
+            }, 300);
+          });
+        },
+        id: 'enrichment-setup',
+        scrollTo: false,
+        buttons: this.firstButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Filter Value Enrichment',
+        text: [`The sorted lists of filter values are often dominated by values that are very common in the full population. In this example, the filtered list ` +
+        `consists of targets that are associated with D2 Dopamine Receptor, and the top filter values for "Associated Diseases" shares many of the same values as the unfiltered list.` +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/enrichment-setup.png"/>']
+      },
+      {
+        id: 'enrichment-payoff',
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Heatmap Details',
+        text: [`After calculating enrichment scores using Fisher's Exact Test, the lists are sorted by the resulting p-value. The top values in this ranking illustrate ` +
+          `which filter values are over-represented by targets in the list. In this example, we see a different set of "Associated Diseases" than before, and ` +
+          `we see many examples that are more commonly known to be associated with the D2 Dopamine Receptor.` +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/enrichment.png"/>']
+      },
+      {
+        id: 'toggle-view',
+        attachTo: {
+          element: '.toggle-list-view',
+          on: 'left'
+        },
+        scrollToHandler: this.tourScroller.bind({class: 'toggle-list-view', platformID: this.platformID}),
+        buttons: this.middleButtons.slice(),
+        title: 'Toggle to List Analysis View',
+        text: [`Filter Value Enrichment and other population analysis features are on the List Analysis View of the List Pages. `]
+      },
+      {
+        id: 'enrichment',
+        attachTo: {
+          element: '#filter-representation',
+          on: 'left'
+        },
+        scrollToHandler: this.tourScroller.bind({section: 'filter-representation', platformID: this.platformID}),
+        buttons: this.middleButtons.slice(),
+        title: 'Filter Value Enrichment',
+        text: ['The table of results includes the calculated odds ratio, as well as the p-value, and the p-value adjusted for multiple comparisons' +
+        ' to limit the False Discovery Rate (FDR) to &alpha; = 0.05.']
+      },
+      {
+        id: 'enrichment',
+        attachTo: {
+          element: '.enrichment-filter-select',
+          on: 'left'
+        },
+        scrollToHandler: this.tourScroller.bind({class: 'enrichment-filter-select', platformID: this.platformID}),
+        buttons: this.lastButtons.slice(),
+        title: 'Filter Value Enrichment',
+        text: ['Filter Value Enrichment can be calculated for any categorical filter, unless that filter is currently being used to filter the list. Select the filter here.']
+      }
+    ];
+    this.shepherdService.defaultStepOptions = this.defaultStepOptions;
+    this.shepherdService.modal = true;
+    this.shepherdService.confirmCancel = false;
+    this.shepherdService.addSteps(defaultSteps);
+    ['cancel', 'complete'].forEach(event => {
+      this.shepherdService.tourObject.on(event, () => {
+        this.completeTour(TourType.FilterValueEnrichment, event);
+      });
     });
+    this.shepherdService.start();
   }
 
-  runUpsetPlotTour(models: string) {
+  runHeatmapTour() {
+    const models = this.getModels();
+    const model = models.slice(0, models.length - 1);
+    const defaultSteps = [
+      {
+        beforeShowPromise: () => {
+          return new Promise((resolve: any) => {
+            setTimeout(() => {
+              resolve();
+            }, 300);
+          });
+        },
+        id: 'toggle-view',
+        attachTo: {
+          element: '.toggle-list-view',
+          on: 'left'
+        },
+        scrollToHandler: this.tourScroller.bind({class: 'toggle-list-view', platformID: this.platformID}),
+        buttons: this.firstButtons.slice(),
+        title: 'Toggle to List Analysis View',
+        text: [`Heatmaps and other population analysis features are on the List Analysis View of the List Pages. `]
+      },
+      {
+        id: 'heatmap',
+        attachTo: {
+          element: '.heatmap',
+          on: 'left'
+        },
+        scrollToHandler: this.tourScroller.bind({class: 'heatmap', platformID: this.platformID}),
+        buttons: this.middleButtons.slice(),
+        title: 'Heatmaps',
+        text: [(models === 'targets' ? `For targets, you can construct heatmaps of target-disease associations, target-ligand activities, and target-target interactions.` :
+              models === 'diseases' ? `For diseases, you can construct heatmsps of disease-target associations.` :
+                                      `For ligands, you can construct heatmaps of ligand-target activities.`) + ' You can also download the data for offline analysis.']
+      },
+      {
+        id: 'heatmap-example',
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Heatmaps',
+        text: ['Elements from your list are the columns of the interactive heatmaps. Hover over cells for a summary, click cells to view all details.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/heatmap.png"/>']
+      },
+      {
+        id: 'heatmap-details',
+        scrollTo: false,
+        buttons: this.lastButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Heatmap Details',
+        text: ['The details view shows all of the information about the selected cell of the heatmap. The header contains shortcuts to jump to the details pages for the ' +
+        'corresponding row and column.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/heatmap-details.png"/>']
+      },
+    ];
+    this.shepherdService.defaultStepOptions = this.defaultStepOptions;
+    this.shepherdService.modal = true;
+    this.shepherdService.confirmCancel = false;
+    this.shepherdService.addSteps(defaultSteps);
+    ['cancel', 'complete'].forEach(event => {
+      this.shepherdService.tourObject.on(event, () => {
+        this.completeTour(TourType.Heatmaps, event);
+      });
+    });
+    this.shepherdService.start();
+  }
+
+  runUpsetPlotTour() {
+    const models = this.getModels();
     const data = this.centralStorageService.getTourData('list');
     const currentFacet = this.centralStorageService.getDisplayFacet(models);
     let catFacet = data.facets.find(f => f.facet === currentFacet);
@@ -401,13 +555,24 @@ export class TourService {
             }, 300);
           });
         },
+        id: 'toggle-view',
+        attachTo: {
+          element: '.toggle-list-view',
+          on: 'left'
+        },
+        scrollToHandler: this.tourScroller.bind({class: 'toggle-list-view', platformID: this.platformID}),
+        buttons: this.firstButtons.slice(),
+        title: 'Toggle to List Analysis View',
+        text: [`UpSet Plots and other population analysis features are on the List Analysis View of the List Pages.`]
+      },
+      {
         id: 'upset-plot',
         attachTo: {
           element: '.facet-visualizations',
           on: 'left'
         },
         scrollToHandler: this.tourScroller.bind({class: 'facet-visualizations', platformID: this.platformID}),
-        buttons: this.firstButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'UpSet Charts for Filters',
         text: [`This UpSet Plot shows the counts of ${models} that are documented to have each combination of filter values. Clicking the circles or bars
         will filter the list to ${models} that have the right combination of filter values.`]
@@ -443,7 +608,7 @@ export class TourService {
           on: 'left'
         },
         scrollToHandler: this.tourScroller.bind({class: 'facet-change', platformID: this.platformID}),
-        buttons: this.middleButtons.slice(),
+        buttons: this.lastButtons.slice(),
         title: 'UpSet Charts for Filters',
         text: [`Change which filter is used to generate the plot with these buttons.`]
       }
@@ -458,15 +623,6 @@ export class TourService {
       });
     });
     this.shepherdService.start();
-  }
-
-  customLists() {
-    if (!isPlatformBrowser(this.platformID)) {
-      return;
-    }
-    this.loadPromise.then(() => {
-      this.runCustomListTour();
-    });
   }
 
   runCustomListTour() {
@@ -518,6 +674,20 @@ export class TourService {
     this.shepherdService.start();
   }
 
+  getModels() {
+    if (this.onListPage()) {
+      const page = this.getPage();
+      return page[page.length - 1];
+    }
+    return '';
+  }
+
+  onListPage() {
+    const page = this.getPage();
+    const models = page[page.length - 1];
+    return ['diseases', 'ligands', 'targets'].includes(models);
+  }
+
   getPage() {
     let path = this.router.url.split('?')[0];
     if (path.startsWith('/')) {
@@ -527,8 +697,8 @@ export class TourService {
     return path.split('/');
   }
 
-  listPagesTour(path: string[]) {
-    if (path.length !== 1) { // not a list page
+  listPagesTour() {
+    if (!this.onListPage()) { // not a list page
       return;
     }
     if (!isPlatformBrowser(this.platformID)) {
@@ -538,11 +708,7 @@ export class TourService {
       alert('This screen is too small for the List Pages Tutorial.');
       return;
     }
-    this.loadPromise.then(() => {
-      this.runListPagesTour(path[0]);
-    }).catch(e => {
-      alert(e);
-    });
+    this.runListPagesTour(this.getModels());
   }
 
   runListPagesTour(models: string) {
@@ -637,7 +803,7 @@ export class TourService {
       {
         id: 'upset-plot',
         attachTo: {
-          element: '.rightSide',
+          element: '.toggle-list-view',
           on: 'left'
         },
         scrollToHandler: this.tourScroller.bind({class: 'facet-visualizations', platformID: this.platformID}),
@@ -752,15 +918,6 @@ export class TourService {
       });
     });
     this.shepherdService.start();
-  }
-
-  structureSearchTour() {
-    if (!isPlatformBrowser(this.platformID)) {
-      return;
-    }
-    this.loadPromise.then(() => {
-      this.runStructureSearchTour();
-    });
   }
 
   runStructureSearchTour() {

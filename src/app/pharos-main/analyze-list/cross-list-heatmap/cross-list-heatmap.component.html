@@ -1,4 +1,4 @@
-<article class="container">
+<article class="container heatmap">
   <mat-card
     id="target-disease-cross"
     #targetDiseaseCross>
@@ -16,7 +16,7 @@
           {{title}}</span>
         </div>
         <div fxFlex="5">
-          <pharos-help-panel-trigger [origin]="'classes'"></pharos-help-panel-trigger>
+          <pharos-tutorial-link [tourType]="tourType"></pharos-tutorial-link>
         </div>
       </div>
 
