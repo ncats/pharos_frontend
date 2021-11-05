@@ -1,9 +1,9 @@
 <section class="model-list">
 <div *ngIf= "diseases && diseases.length > 0">
 <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px" fxLayoutAlign="space-around start" class="body-row disease-table">
-  <div fxFlex="45">
+  <div fxFlex="25">
   </div>
-  <div fxFlex="45" fxFlexAlign="end">
+  <div fxFlex="65" fxFlexAlign="end">
     <mat-paginator class="model-list-paginator"
       [pageSize]= pageData.top
       [pageIndex]="pageData.skip / pageData.top"
