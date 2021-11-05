@@ -120,6 +120,15 @@ export class NcatsHeaderComponent implements OnInit {
       this.router.navigate([onListPage ? path.join('/') : '/targets'], navigationExtras);
       return;
     }
+    else if (tutorial === TourType.Heatmaps || tutorial === TourType.FilterValueEnrichment) {
+      const navigationExtras: NavigationExtras = {
+        queryParamsHandling: (onListPage ? 'merge' : ''),
+        queryParams: {
+          tutorial
+        },
+      };
+      this.router.navigate([onAnalyzePage ? path.join('/') : onListPage ? '/analyze/' + modelType : '/analyze/targets'], navigationExtras);
+    }
     else if (tutorial === TourType.StructureSearchTour) {
       const navigationExtras: NavigationExtras = {
         queryParamsHandling: '',

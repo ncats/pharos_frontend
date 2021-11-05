@@ -2,19 +2,20 @@
   <div class="target-table-subbar">
     <div class=modellist-header>{{models}} <span *ngIf="true">({{modelCount}})</span>
     </div>
-
-    <button mat-button class="leftSide tool-button"
-            [ngClass]="{'activeView': !isAnalyzePage(), inactiveView: isAnalyzePage()}"
-            [routerLink]="'/' + this.models.toLowerCase()"
-            [queryParams]="currentQueryParams()">
-      Table<span fxHide.lt-lg class="verbose"> View</span>
-    </button>
-    <button mat-button class="rightSide tool-button"
-            [ngClass]="{'activeView': isAnalyzePage(), inactiveView: !isAnalyzePage()}"
-            [routerLink]="'/analyze/' + this.models.toLowerCase()"
-            [queryParams]="currentQueryParams()">
-      List<span fxHide.lt-lg class="verbose"> Analysis</span>
-    </button>
+    <div class="toggle-list-view">
+      <button mat-button class="leftSide tool-button"
+              [ngClass]="{'activeView': !isAnalyzePage(), inactiveView: isAnalyzePage()}"
+              [routerLink]="'/' + this.models.toLowerCase()"
+              [queryParams]="currentQueryParams()">
+        Table<span fxHide.lt-lg class="verbose"> View</span>
+      </button>
+      <button mat-button class="rightSide tool-button"
+              [ngClass]="{'activeView': isAnalyzePage(), inactiveView: !isAnalyzePage()}"
+              [routerLink]="'/analyze/' + this.models.toLowerCase()"
+              [queryParams]="currentQueryParams()">
+        List<span fxHide.lt-lg class="verbose"> Analysis</span>
+      </button>
+    </div>
   </div>
   <div fxFlex=""></div>
   <ng-container *ngIf="isSmallScreen; else secondSet"></ng-container>

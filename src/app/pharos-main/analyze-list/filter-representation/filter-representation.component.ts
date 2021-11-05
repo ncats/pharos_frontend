@@ -9,6 +9,7 @@ import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {takeUntil} from 'rxjs/operators';
 import {SelectedFacetService} from '../../data-list/filter-panel/selected-facet.service';
 import {PathResolverService} from '../../data-list/filter-panel/path-resolver.service';
+import {TourType} from '../../../pharos-services/tour.service';
 
 @Component({
   selector: 'pharos-analyze-list',
@@ -28,7 +29,7 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
   ) {
     super(dynamicServices);
   }
-
+  tourType: TourType;
   get models() {
     return this.model + 's';
   }
@@ -92,6 +93,7 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
   listIsFiltered = true;
 
   ngOnInit(): void {
+    this.tourType = TourType.FilterValueEnrichment;
     this._data
       // listen to data as long as term is undefined or null
       .pipe(

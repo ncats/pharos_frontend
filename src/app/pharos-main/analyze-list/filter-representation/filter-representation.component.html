@@ -16,7 +16,7 @@
           {{label}}</span>
         </div>
         <div fxFlex="5">
-          <pharos-help-panel-trigger [origin]="'classes'"></pharos-help-panel-trigger>
+          <pharos-tutorial-link [tourType]="tourType"></pharos-tutorial-link>
         </div>
       </div>
 
@@ -52,7 +52,7 @@
       </ul>
 
       <div *ngIf="listIsFiltered; else noFiltering">
-        <div fxLayout="row" fxLayoutAlign="space-between start">
+        <div fxLayout="row" fxLayoutAlign="space-between start" class="enrichment-filter-select">
           <mat-form-field>
             <mat-select [(value)]="this.selectedFacetName" (valueChange)="facetChanged($event)"
                         placeholder="Select a filter" class="filterOption">
