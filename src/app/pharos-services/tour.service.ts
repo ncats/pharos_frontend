@@ -212,6 +212,14 @@ export class TourService {
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
+        title: 'Predictions in Pharos',
+        text: ['Criteria to include your predictions in Pharos are now posted on the <a href="/faq" target="_blank">FAQ page</a>.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/predictioncriteria.png"/>']
+      },
+      {
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
         title: 'Table View',
         text: ['There are now two views to toggle between on all list pages. The Table View shows the list of results (targets, diseases, or ligands) to page through to find the one you\'re interested in.' +
         '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/tableview.png"/>']
@@ -451,14 +459,12 @@ export class TourService {
       },
       {
         id: 'enrichment',
-        attachTo: {
-          element: '.enrichment-filter-select',
-          on: 'left'
-        },
-        scrollToHandler: this.tourScroller.bind({class: 'enrichment-filter-select', platformID: this.platformID}),
+        scrollTo: false,
         buttons: this.lastButtons.slice(),
+        classes: 'step-with-screenshot',
         title: 'Filter Value Enrichment',
-        text: ['Filter Value Enrichment can be calculated for any categorical filter, unless that filter is currently being used to filter the list. Select the filter here.']
+        text: ['Filter Value Enrichment can be calculated for any categorical filter, unless that filter is currently being used to filter the list. Select the filter here.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/filterselection.png"/>']
       }
     ];
     this.shepherdService.defaultStepOptions = this.defaultStepOptions;
