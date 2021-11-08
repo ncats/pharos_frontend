@@ -1,3 +1,41 @@
+# 3.9.0 (2021-11-05)
+### Added Features
+* **List Pages have been restructured**
+    * There are now two views to toggle between on all list pages.
+        * Table View - Shows the list of results (targets, diseases, or ligands) to page through to find the one you're interested in.
+        * List Analysis - Shows the visualizations that summarize the list, and more advanced analysis tools to provide an overview of the population, which can help highlight common features of elements in the list, or provide a high level view of the structure of the data in the list.
+* **Custom Lists for Ligands and Diseases**
+    * Similarly to how custom lists of targets can be uploaded, now you can create your own custom lists of ligands and diseases. All the same functionality and visualizations are available for your custom lists as with all other lists in Pharos.
+    * Ligands are resolved using NCATSFind which enables you to upload your lists as SMILES, ligand names, CAS Numbers, ChEMBL IDs, etc.
+* **Predicted Ligand Activities**
+    * Now, in addition to viewing active targets for a ligand, you can also see predicted targets for those ligands, based on QSAR model results from <a href="https://predictor.ncats.io/" target="_blank">NCATS Predictor</a>.
+* **Create Heatmaps**
+    * On List Analysis pages, heatmaps can be constructed to show an overview of data for items in the list. 
+    * For Target lists, you can construct a heatmap for:
+        * All Active ligands, shaded according to the potency of the interaction
+        * All Disease Associations, shaded according to the number of sources reporting the association
+        * All Protein-Protein Interactions, shaded according to the String-DB Score
+    * For Disease Lists, you can construct a heatmap for:
+        * All Target Associations, shaded according to the number of sources reporting the association
+    * For Ligand Lists, you can construct a heatmap for:
+        * All Target Activities, shaded according to the potency of the interaction
+* **Calculate Filter Value Enrichment**
+    * On List Analysis pages, enrichment scores can be calculated to highlight the common features of the elements in the list
+        * The side panel has always shown the counts of elements in the list that have each filter value, but the list is often dominated by very common values.
+        * By calculating and sorting values by the enrichment scores, you can know which filter values in the list are represented more than expected by random chance. 
+* **Improved Search Functionality**
+    * One text search will return combined results from Targets, Diseases, and Ligands, as well as many filter values.
+* **Updated database to TCRD 6.12.4**
+    * <a href="http://juniper.health.unm.edu/tcrd/download/old_versions/TCRDv6.12.4.README" target="_blank">TCRD_v6.12.4.README</a>
+
+
+### Bug Fixes / Miscellaneous updates
+* There are now some interesting new filters for ligand lists, which determine the target classes of ligands in the list.
+* Text labels for all buttons, to help the more casual users know how to do what they want to do
+* Accessibility fixes
+
+_______________
+
 # 3.8.0 (2021-09-01)
 ### Added Features
 * **AlphaFold Structures**

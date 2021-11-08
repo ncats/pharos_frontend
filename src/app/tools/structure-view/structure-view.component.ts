@@ -28,6 +28,8 @@ export class StructureViewComponent implements OnInit {
 
   @Input() rounded = false;
 
+  @Input() ligandName;
+
   /**
    *   initialize a private variable _data, it's a BehaviorSubject
    */

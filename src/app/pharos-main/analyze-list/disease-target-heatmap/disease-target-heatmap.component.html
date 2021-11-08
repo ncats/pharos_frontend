@@ -1,4 +1,4 @@
-<pharos-cross-list-heatmap [title]="'Disease-Target Associations'" [data]="data" [measure]="'nSources'" (detailsChanged)="updateSelectedDetails($event)"
+<pharos-cross-list-heatmap [title]="'Disease-Target Associations'" [data]="data" [measure]="'Number of Sources'" (detailsChanged)="updateSelectedDetails($event)"
   [model]="'Disease'" [crossModel]="'Target'" [rowParseFunction]="rowParseFunction" [domain]="[0, 5]" [defaultSubset]="'Associated Targets'">
   <pharos-disease-association-grid [associations]="selectedDetails"></pharos-disease-association-grid>
 </pharos-cross-list-heatmap>

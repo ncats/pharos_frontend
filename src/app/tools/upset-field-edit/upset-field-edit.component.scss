@@ -33,3 +33,14 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.helpicon{
+  cursor: pointer;
+  display: flex;
+}
+.helptext {
+  font-size: smaller;
+  opacity: 0.5;
+  margin-right: 4px;
+  margin-top: 1px;
+}

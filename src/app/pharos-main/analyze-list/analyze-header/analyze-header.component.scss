@@ -31,3 +31,33 @@
 .tool-button {
   font-size: large;
 }
+.tool-button.mat-button-disabled {
+  color: rgba(255,255,255,0.5);
+}
+
+.target-table-toolbar, {
+  display: flex;
+  flex-direction: row;
+}
+
+.target-table-subbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  place-self: self-end;
+  align-self: center;
+}
+
+.verbose {
+  vertical-align: baseline;
+}
+
+@media only screen and (max-width: 960px) {
+  .target-table-toolbar {
+    flex-direction: column;
+  }
+  .target-table-subbar {
+    margin-top: 10px;
+    align-self: end;
+  }
+}

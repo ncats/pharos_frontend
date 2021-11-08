@@ -7,6 +7,7 @@ import {DynamicServicesService} from '../../../pharos-services/dynamic-services.
 import {takeUntil} from 'rxjs/operators';
 import {FieldSelectionDialogComponent} from '../../../tools/field-selection-dialog/field-selection-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import {TourType} from '../../../pharos-services/tour.service';
 
 @Component({
   selector: 'pharos-cross-list-heatmap',
@@ -30,6 +31,7 @@ export class CrossListHeatmapComponent extends DynamicPanelComponent implements 
   @Input() measure = 'Confidence';
   @Input() defaultSubset;
   @Input() title: string;
+  tourType: TourType;
   showDetails = false;
   loadingDetails = false;
   modelLink: string;
@@ -46,6 +48,7 @@ export class CrossListHeatmapComponent extends DynamicPanelComponent implements 
   selectedData;
 
   ngOnInit(): void {
+    this.tourType = TourType.Heatmaps;
     this._data
       // listen to data as long as term is undefined or null
       .pipe(

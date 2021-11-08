@@ -26,7 +26,7 @@
             <span class="info" [ngClass]="{infoCollapsed: collapsed}" *ngIf="facet.sourceExplanation">
               <div *ngIf="!collapsed" class="explanation" [innerHTML]="facet.sourceExplanation"></div>
               <div class="helpicon" (click)="collapsed = !collapsed">
-                <mat-icon [color]="'primary'">help</mat-icon>
+                <span class="helptext" [ngClass]="{hidden: !collapsed}">description </span> <mat-icon [color]="'primary'">help</mat-icon>
               </div>
             </span>
             <pharos-facet-table [facet]="facet" [popup]="true" [path]="this.data.path" [(popupFields)]="selectedValues"></pharos-facet-table>

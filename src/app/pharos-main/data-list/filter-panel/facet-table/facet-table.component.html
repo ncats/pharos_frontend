@@ -12,7 +12,8 @@
                       (change)="$event ? filterSelection.toggle(row.value ? row.value : row.name) : null"
                       [indeterminate]="isIndeterminate(row)"
                       [checked]="filterSelection.isSelected(row.value ? row.value : row.name)"
-        >
+                      [disabled]="row.count > 25000"
+        ><label class="hidden">Select filter option</label>
         </mat-checkbox>
       </mat-cell>
     </ng-container>
@@ -27,9 +28,9 @@
         </span>
       </mat-cell>
     </ng-container>
-    <mat-row *matRowDef="let row; columns: displayColumns;"
-             (click)="filterSelection.toggle(row.value ? row.value : row.name)"
-             class="facet-row">
+    <mat-row *matRowDef="let row; columns: displayColumns;" [matTooltip]="getRowTooltip(row)"
+             (click)="row.count <= 25000 ? filterSelection.toggle(row.value ? row.value : row.name) : null"
+             class="facet-row" [ngClass]="{disabled: row.count > 25000}">
     </mat-row>
   </mat-table>
 </div>

@@ -9,6 +9,7 @@ import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {takeUntil} from 'rxjs/operators';
 import {SelectedFacetService} from '../../data-list/filter-panel/selected-facet.service';
 import {PathResolverService} from '../../data-list/filter-panel/path-resolver.service';
+import {TourType} from '../../../pharos-services/tour.service';
 
 @Component({
   selector: 'pharos-analyze-list',
@@ -16,7 +17,6 @@ import {PathResolverService} from '../../data-list/filter-panel/path-resolver.se
   styleUrls: ['./filter-representation.component.scss']
 })
 export class FilterRepresentationComponent extends DynamicPanelComponent implements OnInit {
-
   constructor(
     private router: Router,
     public dynamicServices: DynamicServicesService,
@@ -29,32 +29,18 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
   ) {
     super(dynamicServices);
   }
-
+  tourType: TourType;
   get models() {
     return this.model + 's';
   }
 
   model: string;
 
-  baseFacetFields: PharosProperty[] = [
-    new PharosProperty({
-      name: 'name',
-      label: 'Value',
-      width: '50%',
-      sortable: true
-    }),
-    new PharosProperty({
-      name: 'count',
-      label: 'Count',
-      sortable: true
-    })
-  ];
-
   facetFields: PharosProperty[] = [
     new PharosProperty({
       name: 'name',
       label: 'Value',
-      width: '50%',
+      width: '30%',
       sortable: true
     }),
     new PharosProperty({
@@ -62,10 +48,10 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
       label: 'Count',
       sortable: true
     }),
-    new PharosProperty({
-      name: 'table',
-      label: 'Contingency Table'
-    }),
+    // new PharosProperty({
+    //   name: 'table',
+    //   label: 'Contingency Table'
+    // }),
     new PharosProperty({
       name: 'statistic',
       label: 'Observed Frequency',
@@ -82,9 +68,20 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
       sortable: true
     }),
     new PharosProperty({
+      name: 'oddsRatioCI',
+      label: 'OR 95% Conf'
+    }),
+    new PharosProperty({
       name: 'pValue',
       label: 'p-value',
-      sortable: true
+      sortable: true,
+      width: '75px'
+    }),
+    new PharosProperty({
+      name: 'qValue',
+      label: 'p-adjust',
+      sortable: true,
+      width: '75px'
     })
   ];
 
@@ -96,6 +93,7 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
   listIsFiltered = true;
 
   ngOnInit(): void {
+    this.tourType = TourType.FilterValueEnrichment;
     this._data
       // listen to data as long as term is undefined or null
       .pipe(
@@ -240,13 +238,10 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
         if (!rawA.stats && rawB.stats) {
           return -1;
         }
-        if (rawA.stats.representation === rawB.stats.representation) {
-          if (rawA.stats.pValue == rawB.stats.pValue) {
-            return direction * (rawB.count - rawA.count);
-          }
-          return direction * (rawA.stats.representation * (rawA.stats.pValue - rawB.stats.pValue));
+        if (rawA.stats.pValue == rawB.stats.pValue) {
+          return direction * (rawB.count - rawA.count);
         }
-        return direction * (rawB.stats.representation - rawA.stats.representation);
+        return direction * (rawA.stats.pValue - rawB.stats.pValue);
       }
       return direction * (Number.parseFloat(valA) - Number.parseFloat(valB));
     });
