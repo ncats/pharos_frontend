@@ -119,6 +119,10 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
       .attr('class', 'blocks');
     this.chartArea.append('g').attr('class', 'nullLines');
 
+    this.chartArea.append('g').attr('class', 'legend');
+    this.chartArea.append('g').attr('class', 'legendTicks');
+    this.chartArea.append('g').attr('class', 'zLabel');
+
     // Create scales
     const xScale = d3.scaleLinear()
       .domain([0, this.heatmapData.xValues.length])
@@ -166,6 +170,37 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
       .style('stroke', 'gray')
       .style('cursor', 'pointer')
       .style('pointer-events', 'all');
+
+    const legend = this.chartArea.select('.legend').selectAll('.block')
+      .data(this.getLegendRange())
+      .enter().append('rect')
+      .attr('class', 'block')
+      .attr('x', d => 0)
+      .attr('width', this.blockSize)
+      .attr('y', d => yScale(d.index) + 0.5)
+      .attr('height', this.blockSize)
+      .style('fill', d => zScale(d.val))
+      .style('stroke', 'gray')
+      .attr('transform', 'translate(-' + (this.margin.left * 3 / 4) + ',-' + (this.margin.top * 9 / 10) + ')');
+
+    const legendTicks = this.chartArea.select('.legendTicks').selectAll('.tick')
+      .data(this.getLegendRange())
+      .enter().append('text')
+      .attr('class', 'tick')
+      .attr('text-anchor', 'start')
+      .attr('dominant-baseline', 'text-before-edge')
+      .attr('x', d => xScale(1.2))
+      .attr('y', d => yScale(d.index) + 2)
+      .attr('transform', 'translate(-' + (this.margin.left * 3 / 4) + ',-' + (this.margin.top * 9 / 10) + ')')
+      .text(d => d.val);
+
+    const zLabel = this.chartArea.select('.zLabel')
+      .append('text')
+      .attr('x', d => xScale(-3))
+      .attr('y', d => yScale(-0.5))
+      .attr('text-anchor', 'middle')
+      .attr('transform', d => 'translate(-' + (this.margin.left * 3 / 4) + ',-' + (this.margin.top * 9 / 10) + ') rotate(-90)')
+      .text(this.heatmapData.measure);
 
     const lines = this.chartArea.select('.nullLines').selectAll('.nullLine')
       .data(this.heatmapData.plot).enter().filter(d => {
@@ -269,6 +304,17 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
     if (this.heatmapClicked) {
       this.heatmapClicked(d, 'heatmap');
     }
+  }
+
+  getLegendRange() {
+    const stepSize = (this.heatmapData.domain[1] - this.heatmapData.domain[0]) / 5;
+    const rounding = stepSize % 1 === 0 ? 0 : (stepSize * 10) % 1 === 0 ? 1 : 2;
+    const firstStep = this.heatmapData.domain[0];
+    const range = [];
+    for (let i = 0 ; i <= 5 ; i++ ) {
+      range.push({index: i, val: (firstStep + i * stepSize).toFixed(rounding)});
+    }
+    return range;
   }
 }
 

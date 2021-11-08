@@ -11,7 +11,7 @@
     <a [routerLink] = property.internalLink [queryParams]="property?.queryParams" [matTooltipClass]="'pharos-tooltip'"
        [matTooltip]="property.tooltip">{{property.term}}</a>
   </ng-container>
-  <ng-container *ngIf="property.externalLink || property.href" #externalLink>
+  <ng-container *ngIf="!property.internalLink && property.externalLink || property.href" #externalLink>
     <a href="{{property.externalLink || property.href}}"
        target="_blank" rel="noreferrer"
        aria-label= 'View more information. This link opens in a new tab.'

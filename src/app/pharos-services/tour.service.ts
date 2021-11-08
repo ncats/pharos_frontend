@@ -4,15 +4,18 @@ import {isPlatformBrowser} from '@angular/common';
 import {NavigationExtras, Router} from '@angular/router';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {CentralStorageService} from './central-storage.service';
+import {toTitleCase} from 'codelyzer/util/utils';
 
 export enum TourType {
   ListPagesTour = 'ListPagesTour',
   UpsetChartTour = 'UpsetChartTour',
-  CustomTargetListTour = 'CustomTargetListTour',
+  CustomListTour = 'CustomListTour',
+  FilterValueEnrichment = 'FilterValueEnrichment',
+  Heatmaps = 'Heatmaps',
   StructureSearchTour = 'StructureSearchTour',
   ProteinStructureTour = 'ProteinStructureTour',
   TargetExpressionTour = 'TargetExpressionTour',
-  WhatsNew38 = 'WhatsNew38'
+  WhatsNew39 = 'WhatsNew39'
 }
 
 
@@ -62,10 +65,12 @@ export class TourService {
   };
 
   allTutorials: TourDefinition[] = [
-    {title: 'What\'s New in Version 3.8', storageKey: TourType.WhatsNew38},
+    {title: 'What\'s New in Version 3.9', storageKey: TourType.WhatsNew39},
     {title: 'Using the List Pages', storageKey: TourType.ListPagesTour},
     {title: 'Using the UpSet Chart', storageKey: TourType.UpsetChartTour},
-    {title: 'Uploading a Custom List of Targets', storageKey: TourType.CustomTargetListTour},
+    {title: 'Filter Value Enrichment', storageKey: TourType.FilterValueEnrichment},
+    {title: 'Creating a Heatmap', storageKey: TourType.Heatmaps},
+    {title: 'Uploading a Custom List', storageKey: TourType.CustomListTour},
     {title: 'Searching by Chemical Structure', storageKey: TourType.StructureSearchTour},
     {title: 'Viewing Protein Structure Data', storageKey: TourType.ProteinStructureTour},
     {title: 'Viewing Target Expression Data', storageKey: TourType.TargetExpressionTour},
@@ -93,16 +98,37 @@ export class TourService {
       return;
     }
     this.loadPromise.then(() => {
-      const page = this.getPage();
+
       switch (tutorialName) {
+        case TourType.WhatsNew39:
+          this.whatsNew(true);
+          break;
+        case TourType.CustomListTour:
+          this.runCustomListTour();
+          break;
+        case TourType.StructureSearchTour:
+          this.runStructureSearchTour();
+          break;
+        case TourType.ListPagesTour:
+          this.listPagesTour();
+          break;
         case TourType.TargetExpressionTour:
           this.runExpressionTour();
           break;
         case TourType.ProteinStructureTour:
           this.runProteinStructureTour();
           break;
+        case TourType.Heatmaps:
+          this.runHeatmapTour();
+          break;
+        case TourType.FilterValueEnrichment:
+          this.runFilterValueTour();
+          break;
         case TourType.UpsetChartTour:
-          this.runUpsetPlotTour(page[0]);
+          this.runUpsetPlotTour();
+          break;
+        default:
+          this.whatsNew(false);
           break;
       }
     });
@@ -164,7 +190,7 @@ export class TourService {
     if (!isPlatformBrowser(this.platformID)) {
       return;
     }
-    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew38)) { // only autorun once
+    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew39)) { // only autorun once
       return;
     }
     this.loadPromise.then(() => {
@@ -175,73 +201,77 @@ export class TourService {
   runWhatsNew() {
     const defaultSteps = [
       {
-        id: 'whats_new_begin',
         scrollTo: false,
         buttons: this.firstButtons.slice(),
-        title: 'What\'s new in Pharos 3.8?',
-        text: ['Pharos has many new features in version 3.8, including UpSet Charts for filters on the list pages, heatmaps for ' +
-        'expression data, AlphaFold structures for targets, and several usability improvements. Click \'Next\' for a tour of new ' +
-        'features and where to find them.']
+        title: 'What\'s new in Pharos 3.9?',
+        text: ['Pharos has many new features in version 3.9, including Heatmaps and Filter Value Enrichment calculations on the list pages, ' +
+        'predicted Target-Ligand activities, and an improved text search functionality. The TCRD 6.12.4 update has also brought us a lot of fresh data from ChEMBL and DrugCentral.' +
+        ' Click \'Next\' for a tour of the new features and where to find them.']
       },
       {
-        id: 'upset_charts',
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'UpSet Charts',
-        text: ['On all list pages, UpSet Charts are available for all categorical filters that can have more than one value. ' +
-        'The UpSet Chart displays counts for the intersections between filter values. You can use the filtering capabilities of the ' +
-        'Upset Chart to filter the lists with more complex boolean logic.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/new38/upset.png"/>']
+        title: 'Table View',
+        text: ['There are now two views to toggle between on all list pages. The Table View shows the list of results (targets, diseases, or ligands) to page through to find the one you\'re interested in.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/tableview.png"/>']
       },
       {
-        id: 'donut_charts',
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Donut Charts',
-        text: ['Filters that only have one value are shown with the old style Donut Chart, since UpSet charts don\'t make that much ' +
-        'sense if each item in the list only has one value.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/new38/donut.png"/>']
+        title: 'List Analysis View',
+        text: ['List Analysis View shows the visualizations that summarize the list, and more advanced analysis tools to provide an ' +
+        'overview of the population, which can help highlight common features of elements in the list, or provide a high level view of ' +
+        'the structure of the data in the list.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/listanalysisview.png"/>']
       },
       {
-        id: 'protein_structure',
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Protein Structures',
-        text: ['The Protein Structure Panel now shows predicted structure information from AlphaFold. There are also some added ' +
-        'capabilities to change the color and representation of the structure display, and some additional columns to help the user ' +
-        'know how much of the protein, and which regions, are included in the experimentally determined structures.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/new38/structure.png"/>']
+        title: 'Heatmaps',
+        text: ['Heatmaps show an overview of data for the list, as it relates to a corresponding list, such as Target-Ligand activities. ' +
+        'Take the \'Creating a Heatmap\' tutorial for more details.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/heatmap.png"/>']
       },
       {
-        id: 'protein_expression',
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Target Expression Data',
-        text: ['The Expression Panel has been simplified and revamped to show a better overview of all the expression data from TCRD. ' +
-        'A filterable heatmap view of expression level and the contributing data sources now accompanies the anatomogram.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/new38/expression.png"/>']
+        title: 'Filter Value Enrichment',
+        text: ['Calculating enrichment scores for the different filter values will help you understand which values are ' +
+        'overrepresented in the list. Take the \'Filter Value Enrichment\' tutorial for more details.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/enrichment.png"/>']
       },
       {
-        id: 'resolver_for_structure_search',
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Easier Structure Search',
-        text: ['Loading a chemical structure into the Structure Search tool is easier, now that Pharos will resolve your input using ' +
-        'NCATSFind. Enter a SMILES, UNII, drug name, PubChem ID, Chembl ID, etc. to load a structure to start with.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/new38/resolver.png"/>']
+        title: 'Custom Lists for Ligands or Diseases',
+        text: ['It was already possible to upload your own list of targets to use with Pharos. Now that functionality is extended to ' +
+        'custom lists of ligands and diseases. Furthermore, ligands can be resolved by a number of different inputs, such as SMILES, ' +
+        'ligand names, CAS Numbers, ChEMBL IDs, etc, to facilitate your upload of data from screens or other sources of ligand lists. ' +
+        'There are also a few new ligand filters to help find commonalities in the active targets for those ligands.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/customligandlist.png"/>']
       },
       {
-        id: 'tutorials',
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Predicted Target-Ligand Activity',
+        text: ['Now, in addition to viewing active targets for a ligand, you can also see predicted targets for those ligands, based on ' +
+        'QSAR model results from NCATS Predictor.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/predictedtargets.png"/>']
+      },
+      {
         scrollTo: false,
         buttons: this.lastButtons.slice(),
-        title: 'Tutorials',
-        text: ['Learn how to use the new or advanced features with our tutorials.' +
-        '<br/><img class="tour-small-screenshot" src="./assets/images/new38/tutorials.png"/>']
+        classes: 'step-with-screenshot',
+        title: 'Improved Search Functionality',
+        text: ['Previously, you had to select whether you wanted to search for targets, ligands, or diseases, when you were doing a text' +
+        ' search. Now, one search will return combined results from Targets, Diseases, and Ligands, as well as many filter values.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/omnisearch.png"/>']
       }
     ];
     this.shepherdService.defaultStepOptions = this.defaultStepOptions;
@@ -250,19 +280,10 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(TourType.WhatsNew38, event);
+        this.completeTour(TourType.WhatsNew39, event);
       });
     });
     this.shepherdService.start();
-  }
-
-  proteinStructureTour() {
-    if (!isPlatformBrowser(this.platformID)) {
-      return;
-    }
-    this.loadPromise.then(() => {
-      this.runProteinStructureTour();
-    });
   }
 
   runProteinStructureTour() {
@@ -373,17 +394,154 @@ export class TourService {
     });
     this.shepherdService.start();
   }
-
-  upsetPlotTour(models: string) {
-    if (!isPlatformBrowser(this.platformID)) {
-      return;
-    }
-    this.loadPromise.then(() => {
-      this.runUpsetPlotTour(models);
+  runFilterValueTour() {
+    const models = this.getModels();
+    const model = models.slice(0, models.length - 1);
+    const defaultSteps = [
+      {
+        beforeShowPromise: () => {
+          return new Promise((resolve: any) => {
+            setTimeout(() => {
+              resolve();
+            }, 300);
+          });
+        },
+        id: 'enrichment-setup',
+        scrollTo: false,
+        buttons: this.firstButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Filter Value Enrichment',
+        text: [`The sorted lists of filter values are often dominated by values that are very common in the full population. In this example, the filtered list ` +
+        `consists of targets that are associated with D2 Dopamine Receptor, and the top filter values for "Associated Diseases" shares many of the same values as the unfiltered list.` +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/enrichment-setup.png"/>']
+      },
+      {
+        id: 'enrichment-payoff',
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Heatmap Details',
+        text: [`After calculating enrichment scores using Fisher's Exact Test, the lists are sorted by the resulting p-value. The top values in this ranking illustrate ` +
+          `which filter values are over-represented by targets in the list. In this example, we see a different set of "Associated Diseases" than before, and ` +
+          `we see many examples that are more commonly known to be associated with the D2 Dopamine Receptor.` +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/enrichment.png"/>']
+      },
+      {
+        id: 'toggle-view',
+        attachTo: {
+          element: '.toggle-list-view',
+          on: 'left'
+        },
+        scrollToHandler: this.tourScroller.bind({class: 'toggle-list-view', platformID: this.platformID}),
+        buttons: this.middleButtons.slice(),
+        title: 'Toggle to List Analysis View',
+        text: [`Filter Value Enrichment and other population analysis features are on the List Analysis View of the List Pages. `]
+      },
+      {
+        id: 'enrichment',
+        attachTo: {
+          element: '#filter-representation',
+          on: 'left'
+        },
+        scrollToHandler: this.tourScroller.bind({section: 'filter-representation', platformID: this.platformID}),
+        buttons: this.middleButtons.slice(),
+        title: 'Filter Value Enrichment',
+        text: ['The table of results includes the calculated odds ratio, as well as the p-value, and the p-value adjusted for multiple comparisons' +
+        ' to limit the False Discovery Rate (FDR) to &alpha; = 0.05.']
+      },
+      {
+        id: 'enrichment',
+        attachTo: {
+          element: '.enrichment-filter-select',
+          on: 'left'
+        },
+        scrollToHandler: this.tourScroller.bind({class: 'enrichment-filter-select', platformID: this.platformID}),
+        buttons: this.lastButtons.slice(),
+        title: 'Filter Value Enrichment',
+        text: ['Filter Value Enrichment can be calculated for any categorical filter, unless that filter is currently being used to filter the list. Select the filter here.']
+      }
+    ];
+    this.shepherdService.defaultStepOptions = this.defaultStepOptions;
+    this.shepherdService.modal = true;
+    this.shepherdService.confirmCancel = false;
+    this.shepherdService.addSteps(defaultSteps);
+    ['cancel', 'complete'].forEach(event => {
+      this.shepherdService.tourObject.on(event, () => {
+        this.completeTour(TourType.FilterValueEnrichment, event);
+      });
     });
+    this.shepherdService.start();
   }
 
-  runUpsetPlotTour(models: string) {
+  runHeatmapTour() {
+    const models = this.getModels();
+    const model = models.slice(0, models.length - 1);
+    const defaultSteps = [
+      {
+        beforeShowPromise: () => {
+          return new Promise((resolve: any) => {
+            setTimeout(() => {
+              resolve();
+            }, 300);
+          });
+        },
+        id: 'toggle-view',
+        attachTo: {
+          element: '.toggle-list-view',
+          on: 'left'
+        },
+        scrollToHandler: this.tourScroller.bind({class: 'toggle-list-view', platformID: this.platformID}),
+        buttons: this.firstButtons.slice(),
+        title: 'Toggle to List Analysis View',
+        text: [`Heatmaps and other population analysis features are on the List Analysis View of the List Pages. `]
+      },
+      {
+        id: 'heatmap',
+        attachTo: {
+          element: '.heatmap',
+          on: 'left'
+        },
+        scrollToHandler: this.tourScroller.bind({class: 'heatmap', platformID: this.platformID}),
+        buttons: this.middleButtons.slice(),
+        title: 'Heatmaps',
+        text: ['For targets, you can construct heatmaps of target-disease associations, target-ligand activities, and ' +
+        'target-target interactions. For diseases, the heatmaps are for disease-target associations, and for ligands, ' +
+        'the heatmaps are for ligand-target activities. You can also download the data for offline analysis.']
+      },
+      {
+        id: 'heatmap-example',
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Heatmaps',
+        text: ['Elements from your list are the columns of the interactive heatmaps. Hover over cells for a summary, click cells to view all details.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/heatmap.png"/>']
+      },
+      {
+        id: 'heatmap-details',
+        scrollTo: false,
+        buttons: this.lastButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Heatmap Details',
+        text: ['The details view shows all of the information about the selected cell of the heatmap. The header contains shortcuts to jump to the details pages for the ' +
+        'corresponding row and column.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/heatmap-details.png"/>']
+      },
+    ];
+    this.shepherdService.defaultStepOptions = this.defaultStepOptions;
+    this.shepherdService.modal = true;
+    this.shepherdService.confirmCancel = false;
+    this.shepherdService.addSteps(defaultSteps);
+    ['cancel', 'complete'].forEach(event => {
+      this.shepherdService.tourObject.on(event, () => {
+        this.completeTour(TourType.Heatmaps, event);
+      });
+    });
+    this.shepherdService.start();
+  }
+
+  runUpsetPlotTour() {
+    const models = this.getModels();
     const data = this.centralStorageService.getTourData('list');
     const currentFacet = this.centralStorageService.getDisplayFacet(models);
     let catFacet = data.facets.find(f => f.facet === currentFacet);
@@ -401,40 +559,27 @@ export class TourService {
             }, 300);
           });
         },
+        id: 'toggle-view',
+        attachTo: {
+          element: '.toggle-list-view',
+          on: 'left'
+        },
+        scrollToHandler: this.tourScroller.bind({class: 'toggle-list-view', platformID: this.platformID}),
+        buttons: this.firstButtons.slice(),
+        title: 'Toggle to List Analysis View',
+        text: [`UpSet Plots and other population analysis features are on the List Analysis View of the List Pages.`]
+      },
+      {
         id: 'upset-plot',
         attachTo: {
           element: '.facet-visualizations',
           on: 'left'
         },
         scrollToHandler: this.tourScroller.bind({class: 'facet-visualizations', platformID: this.platformID}),
-        buttons: this.firstButtons.slice(),
+        buttons: this.middleButtons.slice(),
         title: 'UpSet Charts for Filters',
         text: [`This UpSet Plot shows the counts of ${models} that are documented to have each combination of filter values. Clicking the circles or bars
         will filter the list to ${models} that have the right combination of filter values.`]
-      },
-      {
-        id: 'upset-plot2',
-        attachTo: {
-          element: '.upset-chart',
-          on: 'left'
-        },
-        scrollToHandler: this.tourScroller.bind({class: 'upset-chart', platformID: this.platformID}),
-        buttons: this.middleButtons.slice(),
-        title: 'UpSet Charts for Filters',
-        text: [`UpSet plots are only shown for the categorical filters, that have multiple responses per ${model}. By default the top five filter values are used to generate the plot.`]
-      },
-      {
-        id: 'upset-plot-edit-values',
-        attachTo: {
-          element: '.edit-upset',
-          on: 'left'
-        },
-        scrollTo: false,
-        buttons: this.middleButtons.slice(),
-        title: 'Custom UpSet Charts',
-        text: [`You can edit which filter values are used to generate the plot. You can use this feature to filter the ${model} list with more
-        complex boolean logic. For example, selecting values A, B, and C, you can generate the plot of the joint distribution, and filter the
-        list to only ${models} with values A AND B, AND NOT C by selecting the right intersection on the plot.`]
       },
       {
         id: 'upset-plot-edit-values',
@@ -446,6 +591,30 @@ export class TourService {
         buttons: this.middleButtons.slice(),
         title: 'UpSet Charts for Filters',
         text: [`Change which filter is used to generate the plot with these buttons.`]
+      },
+      {
+        id: 'upset-plot2',
+        attachTo: {
+          element: '.upset-chart',
+          on: 'left'
+        },
+        scrollToHandler: this.tourScroller.bind({class: 'upset-chart', platformID: this.platformID}),
+        buttons: this.middleButtons.slice(),
+        title: 'UpSet Charts for Filters',
+        text: [`UpSet plots are only shown for the categorical filters that have multiple responses per ${model}. By default the top five filter values are used to generate the plot.`]
+      },
+      {
+        id: 'upset-plot-edit-values',
+        attachTo: {
+          element: '.edit-upset',
+          on: 'left'
+        },
+        scrollTo: false,
+        buttons: this.lastButtons.slice(),
+        title: 'Custom UpSet Charts',
+        text: [`You can edit which filter values are used to generate the plot. You can use this feature to filter the ${model} list with more
+        complex boolean logic. For example, selecting values A, B, and C, you can generate the plot of the joint distribution, and filter the
+        list to only ${models} with values A AND B, AND NOT C by selecting the right intersection on the plot.`]
       }
     ];
     this.shepherdService.defaultStepOptions = this.defaultStepOptions;
@@ -460,16 +629,7 @@ export class TourService {
     this.shepherdService.start();
   }
 
-  customTargetLists() {
-    if (!isPlatformBrowser(this.platformID)) {
-      return;
-    }
-    this.loadPromise.then(() => {
-      this.runCustomTargetListTour();
-    });
-  }
-
-  runCustomTargetListTour() {
+  runCustomListTour() {
     const defaultSteps = [
       {
         beforeShowPromise: () => {
@@ -486,9 +646,8 @@ export class TourService {
         },
         scrollToHandler: this.tourScroller.bind({class: 'upload-target-list-button', platformID: this.platformID}),
         buttons: this.firstButtons.slice(),
-        title: 'Upload a Custom List of Targets',
-        text: ['Click the upload button to view all of the available filters and charts for your own custom list of targets. Uploading a custom list of diseases or ligands is not' +
-        ' supported at this time.']
+        title: 'Upload a Custom List',
+        text: ['Click the upload button to view all of the available filters and charts for your own custom list of targets, diseases, or ligands.']
       },
       {
         id: 'signin-for-benefits',
@@ -513,10 +672,24 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(TourType.CustomTargetListTour, event);
+        this.completeTour(TourType.CustomListTour, event);
       });
     });
     this.shepherdService.start();
+  }
+
+  getModels() {
+    if (this.onListPage()) {
+      const page = this.getPage();
+      return page[page.length - 1];
+    }
+    return '';
+  }
+
+  onListPage() {
+    const page = this.getPage();
+    const models = page[page.length - 1];
+    return ['diseases', 'ligands', 'targets'].includes(models);
   }
 
   getPage() {
@@ -528,8 +701,8 @@ export class TourService {
     return path.split('/');
   }
 
-  listPagesTour(path: string[]) {
-    if (path.length !== 1) { // not a list page
+  listPagesTour() {
+    if (!this.onListPage()) { // not a list page
       return;
     }
     if (!isPlatformBrowser(this.platformID)) {
@@ -539,11 +712,7 @@ export class TourService {
       alert('This screen is too small for the List Pages Tutorial.');
       return;
     }
-    this.loadPromise.then(() => {
-      this.runListPagesTour(path[0]);
-    }).catch(e => {
-      alert(e);
-    });
+    this.runListPagesTour(this.getModels());
   }
 
   runListPagesTour(models: string) {
@@ -638,14 +807,13 @@ export class TourService {
       {
         id: 'upset-plot',
         attachTo: {
-          element: '.facet-visualizations',
+          element: '.toggle-list-view',
           on: 'left'
         },
         scrollToHandler: this.tourScroller.bind({class: 'facet-visualizations', platformID: this.platformID}),
         buttons: this.middleButtons.slice(),
         title: 'Filter Visualizations',
-        text: [`This panel shows visualizations of selected filters. An UpSet plot will show for filters that can have multiple values per ${model}.
-         See "Using the UpSet Chart" tutorial for details.`]
+        text: [`Toggle to "List Analysis" view to see some higher level visualizations of the ${models} in the list, such as UpSet plots, and Heatmaps. See other tutorials for more details on "List Analysis" functionality.`]
       },
       {
         id: 'model-list',
@@ -754,15 +922,6 @@ export class TourService {
       });
     });
     this.shepherdService.start();
-  }
-
-  structureSearchTour() {
-    if (!isPlatformBrowser(this.platformID)) {
-      return;
-    }
-    this.loadPromise.then(() => {
-      this.runStructureSearchTour();
-    });
   }
 
   runStructureSearchTour() {

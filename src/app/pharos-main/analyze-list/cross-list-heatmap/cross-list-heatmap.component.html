@@ -1,4 +1,4 @@
-<article class="container">
+<article class="container heatmap">
   <mat-card
     id="target-disease-cross"
     #targetDiseaseCross>
@@ -16,7 +16,7 @@
           {{title}}</span>
         </div>
         <div fxFlex="5">
-          <pharos-help-panel-trigger [origin]="'classes'"></pharos-help-panel-trigger>
+          <pharos-tutorial-link [tourType]="tourType"></pharos-tutorial-link>
         </div>
       </div>
 
@@ -28,7 +28,7 @@
           </span>
             <div fxFlex="1"></div>
             <div class="toolImage">
-              <img [src]="'./assets/images/heatmap.png'" width="100%"/>
+              <img [src]="'./assets/images/heatmap.png'" width="100%" alt="Thumbnail image of a heatmap"/>
             </div>
             <div fxFlex="1"></div>
             <div class="toolDescription">
