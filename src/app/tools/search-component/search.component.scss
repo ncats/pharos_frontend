@@ -1,5 +1,5 @@
 // Import theming functions
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 // Import your custom theme
 @import '../../../partials/ncats-theme';
 
@@ -9,7 +9,7 @@
 
 span.search-highlight {
   font-weight: 900;
-  color: mat-color($pharos-app-primary);
+  color: mat.get-color-from-palette($pharos-app-primary);
   text-decoration: underline;
 }
 

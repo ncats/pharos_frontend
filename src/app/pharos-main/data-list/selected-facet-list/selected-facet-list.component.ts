@@ -9,7 +9,7 @@ import {UnfurlingMetaService} from '../../../pharos-services/unfurling-meta.serv
 import {MolChangeService} from '../../../tools/marvin-sketcher/services/mol-change.service';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {Helper} from '../../../models/utilities';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 
 /**

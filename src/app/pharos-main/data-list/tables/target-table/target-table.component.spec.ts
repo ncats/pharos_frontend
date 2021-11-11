@@ -11,11 +11,11 @@ import {ActivatedRoute} from '@angular/router';
 import {TargetCardComponent} from '../../cards/target-card/target-card.component';
 import {IdgLevelIndicatorComponent} from '../../../../tools/idg-level-indicator/idg-level-indicator.component';
 import {KnowledgeTableComponent} from '../../../../tools/knowledge-table/knowledge-table.component';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FIRESTORESTUB} from '../../../../../../test/firestore-stub';
-import {AngularFireModule} from '@angular/fire';
+import {AngularFireModule} from '@angular/fire/compat';
 import {COMMON_CONFIG} from '../../../../../../test/test-config';
-import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {MOCKACTIVATEDROUTE} from '../../../../../../test/mock-activate-route';
 
 describe('TargetTableComponent', () => {

@@ -1,9 +1,10 @@
+@use '@angular/material' as mat;
 @import '../../../partials/ncats-theme';
 
 .about-block {
   padding:3vh 0 6vh 0;
   color: white;
-  background-color: mat-color($pharos-app-primary);
+  background-color: mat.get-color-from-palette($pharos-app-primary);
 }
 
 .about-banner {

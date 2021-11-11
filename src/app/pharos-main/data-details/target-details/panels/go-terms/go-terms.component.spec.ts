@@ -6,11 +6,11 @@ import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route';
 import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../test/test-target';
 import {SharedModule} from '../../../../../shared/shared.module';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
 import {COMMON_CONFIG} from '../../../../../../../test/test-config';
-import {AngularFireModule} from '@angular/fire';
-import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireModule} from '@angular/fire/compat';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
 
 describe('GoTermsComponent', () => {
   let component: GoTermsComponent;

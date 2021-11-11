@@ -8,13 +8,13 @@ import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../../../pharos-services/loading.service';
 import {SelectedFacetService} from '../selected-facet.service';
 import {SuggestApiService} from '../../../../tools/search-component/suggest-api.service';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {MOCKACTIVATEDROUTE} from '../../../../../../test/mock-activate-route';
-import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {ActivatedRoute} from '@angular/router';
 import {COMMON_CONFIG} from '../../../../../../test/test-config';
 import {FIRESTORESTUB} from '../../../../../../test/firestore-stub';
-import {AngularFireModule} from '@angular/fire';
+import {AngularFireModule} from '@angular/fire/compat';
 import {Apollo} from "apollo-angular";
 import {TESTFACET} from '../../../../../../test/test-facet';
 

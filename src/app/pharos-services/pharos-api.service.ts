@@ -11,7 +11,7 @@ import {Facet, UpsetOptions} from '../models/facet';
 import {Apollo, QueryRef} from 'apollo-angular';
 import gql from 'graphql-tag';
 import {SelectedFacetService} from '../pharos-main/data-list/filter-panel/selected-facet.service';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {TargetComponents} from '../models/target-components';
 import {TargetListService} from './target-list.service';
 

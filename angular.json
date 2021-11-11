@@ -16,7 +16,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "showCircularDependencies": false,
             "allowedCommonJsDependencies": [
               "rxjs/index", "file-saver", "sql-formatter", "decimal.js", "rxjs/internal/operators", "zen-observable", "ProtVista"
             ],
@@ -25,7 +24,6 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets",
@@ -44,7 +42,13 @@
               "node_modules/marked/lib/marked.js",
               "src/assets/vendor/marvin/client-settings.js",
               "src/assets/vendor/marvin/client.js"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -70,7 +74,8 @@
               "serviceWorker": true,
               "ngswConfigPath": "ngsw-config.json"
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -107,27 +112,15 @@
             "scripts": []
           }
         },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        },
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "showCircularDependencies": false,
             "outputPath": "dist/server",
             "main": "server.ts",
             "tsConfig": "tsconfig.server.json",
-            "externalDependencies": ["@firebase/firestore", "@firebase/app"]
+            "externalDependencies": ["@firebase/firestore", "@firebase/app"],
+            "sourceMap": true,
+            "optimization": false
           },
           "configurations": {
             "production": {
@@ -144,7 +137,8 @@
               "sourceMap": false,
               "optimization": true
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "app-shell": {
           "builder": "@angular-devkit/build-angular:app-shell",
@@ -213,17 +207,6 @@
           "options": {
             "protractorConfig": "./protractor.conf.js",
             "devServerTarget": "pharos:serve"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
           }
         }
       }

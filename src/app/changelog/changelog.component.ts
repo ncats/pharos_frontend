@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 // @ts-ignore
-import changelog from "raw-loader!./../../../CHANGELOG.md";
+import changelog from 'raw-loader!./../../../CHANGELOG.md';
 
 
 @Component({

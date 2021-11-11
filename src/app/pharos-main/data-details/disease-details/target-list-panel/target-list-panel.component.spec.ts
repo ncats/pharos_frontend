@@ -9,10 +9,10 @@ import {ApolloTestingModule} from 'apollo-angular/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 import {FIRESTORESTUB} from '../../../../../../test/firestore-stub';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {COMMON_CONFIG} from '../../../../../../test/test-config';
-import {AngularFireModule} from '@angular/fire';
+import {AngularFireModule} from '@angular/fire/compat';
 
 describe('TargetListPanelComponent', () => {
   let component: TargetListPanelComponent;

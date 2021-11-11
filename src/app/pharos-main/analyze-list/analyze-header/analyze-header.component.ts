@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, HostListener, OnInit} from '@angular/core'
 import {BatchUploadModalComponent} from '../../../tools/batch-upload-modal/batch-upload-modal.component';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
 import {MatDialog} from '@angular/material/dialog';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {ActivatedRoute, NavigationEnd, NavigationExtras, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {FieldSelectionDialogComponent} from '../../../tools/field-selection-dialog/field-selection-dialog.component';

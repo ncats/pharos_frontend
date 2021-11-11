@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @import '../../../../../../../partials/ncats-theme';
 
 .panel-header {
@@ -60,5 +61,5 @@
 }
 
 .prediction {
-  background-color: mat-color($pharos-app-accent, A700);
+  background-color: mat.get-color-from-palette($pharos-app-accent, A700);
 }

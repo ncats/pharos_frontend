@@ -8,7 +8,7 @@ import {
   ViewChildren,
   ViewEncapsulation
 } from '@angular/core';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 
 /**
  * Question model for object retrieved from firebase

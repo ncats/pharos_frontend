@@ -6,7 +6,7 @@ import {ActivatedRoute, RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {CommonToolsModule} from '../common-tools.module';
 import {MOCKACTIVATEDROUTE} from '../../../../test/mock-activate-route';
-import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
 
 describe('SidenavPanelComponent', () => {
   let component: SidenavPanelComponent;

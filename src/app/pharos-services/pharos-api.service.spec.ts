@@ -6,10 +6,10 @@ import {SharedModule} from '../shared/shared.module';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {Apollo} from 'apollo-angular';
 import {COMMON_CONFIG} from '../../../test/test-config';
-import {AngularFireModule} from '@angular/fire';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFireModule} from '@angular/fire/compat';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FIRESTORESTUB} from '../../../test/firestore-stub';
-import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
 
 describe('PharosApiService', () => {
   beforeEach(() => {

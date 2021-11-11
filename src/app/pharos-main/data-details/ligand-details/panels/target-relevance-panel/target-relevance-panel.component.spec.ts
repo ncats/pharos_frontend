@@ -8,10 +8,10 @@ import {ApolloTestingModule} from 'apollo-angular/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {COMMON_CONFIG} from '../../../../../../../test/test-config';
 import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {AngularFireModule} from '@angular/fire';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {AngularFireModule} from '@angular/fire/compat';
 import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {TESTLIGAND, TESTLIGANDPROPS} from '../../../../../../../test/test-ligand';
 
 describe('TargetRelevancePanelComponent', () => {

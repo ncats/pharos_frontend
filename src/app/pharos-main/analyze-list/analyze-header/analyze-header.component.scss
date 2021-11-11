@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @import '../../../../partials/ncats-theme';
 
 .tool-button.mat-button-disabled mat-icon{
@@ -5,12 +6,12 @@
 }
 
 .activeView {
-  background-color: mat-color($pharos-app-accent);
+  background-color: mat.get-color-from-palette($pharos-app-accent);
   color: black;
 }
 
 .inactiveView {
-  background-color:  mat-color($pharos-primary, 50);
+  background-color:  mat.get-color-from-palette($pharos-primary, 50);
   color: black;
 }
 

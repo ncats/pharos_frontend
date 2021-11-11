@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @import '../../../../../partials/ncats-theme';
 
 .container {
@@ -108,7 +109,7 @@
 }
 
 .prediction {
-  background-color: mat-color($pharos-app-accent, A700);
+  background-color: mat.get-color-from-palette($pharos-app-accent, A700);
 }
 
 .structure-block {
