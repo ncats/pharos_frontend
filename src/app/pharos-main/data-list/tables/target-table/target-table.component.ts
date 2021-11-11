@@ -19,7 +19,7 @@ import {PharosConfig} from '../../../../../config/pharos-config';
 import {Target} from '../../../../models/target';
 import {PharosProfileService} from '../../../../auth/pharos-profile.service';
 import {TopicSaveModalComponent} from './topic-save-modal/topic-save-modal.component';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 import {CentralStorageService} from '../../../../pharos-services/central-storage.service';

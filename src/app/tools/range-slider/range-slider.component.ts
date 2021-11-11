@@ -31,14 +31,11 @@ import {
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {
   CanColor,
-  CanColorCtor,
   CanDisable,
-  CanDisableCtor,
   HasTabIndex,
-  HasTabIndexCtor,
   mixinColor,
   mixinDisabled,
-  mixinTabIndex,
+  mixinTabIndex, ThemePalette,
 } from '@angular/material/core';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 import {Subscription} from 'rxjs';
@@ -86,9 +83,6 @@ export class RangeSliderComponentBase {
 }
 
 export const _RangeSliderComponentMixinBase:
-  HasTabIndexCtor &
-  CanColorCtor &
-  CanDisableCtor &
   typeof RangeSliderComponentBase =
   mixinTabIndex(mixinColor(mixinDisabled(RangeSliderComponentBase), 'accent'));
 
@@ -140,6 +134,13 @@ export const _RangeSliderComponentMixinBase:
 
 export class RangeSliderComponent extends _RangeSliderComponentMixinBase
   implements ControlValueAccessor, OnDestroy, CanDisable, CanColor, OnInit, HasTabIndex {
+
+  color: ThemePalette;
+  defaultColor: ThemePalette;
+  disabled = false;
+  tabIndex: number;
+  defaultTabIndex: number;
+
   /** Whether the slider is inverted. */
   @Input()
   get invert(): boolean {

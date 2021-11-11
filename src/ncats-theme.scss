@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @import './partials/ncats-theme';
-@include mat-core();
-@include angular-material-theme($ncats-app-theme);
+@include mat.core();
+@include mat.all-component-themes($ncats-app-theme);

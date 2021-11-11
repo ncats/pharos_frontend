@@ -3,7 +3,7 @@ import {NcatsHeaderComponent} from './tools/ncats-header/ncats-header.component'
 import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {LoadingService} from './pharos-services/loading.service';
 import {Title} from '@angular/platform-browser';
-import {TourType, TourService} from './pharos-services/tour.service';
+import {TourService} from './pharos-services/tour.service';
 import {SwUpdate} from '@angular/service-worker';
 import {interval} from 'rxjs';
 
@@ -53,10 +53,12 @@ export class AppComponent implements OnInit {
       interval(30000).subscribe(() => {
         this.swUpdate.checkForUpdate();
       });
-      this.swUpdate.available.subscribe(() => {
-        console.log('A newer version of Pharos is available!');
-        this.swUpdate.activateUpdate();
-        location.reload();
+      this.swUpdate.versionUpdates.subscribe( event => {
+        if (event.type === 'VERSION_READY') {
+          console.log('A newer version of Pharos is available!');
+          this.swUpdate.activateUpdate();
+          location.reload();
+        }
       });
     }
 

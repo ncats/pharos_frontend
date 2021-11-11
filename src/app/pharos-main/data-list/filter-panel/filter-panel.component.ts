@@ -18,7 +18,7 @@ import {PanelOptions} from '../../pharos-main.component';
 import {map, take, takeUntil} from 'rxjs/operators';
 import {ActivatedRoute, NavigationEnd, NavigationExtras, NavigationStart, Router} from '@angular/router';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {environment} from '../../../../environments/environment';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 import {TourService} from '../../../pharos-services/tour.service';
@@ -185,8 +185,9 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
               .doc<any>(batch)
               .valueChanges()
               .pipe(
+                // @ts-ignore
                 take(1),
-                map(res => {
+                map((res: any) => {
                   this.centralStorageService.collections.set(batch, res.collectionName);
                   if (res && (res.models === this.models || (this.models === 'targets' && !res.models))) {
                     const ret = new Field({

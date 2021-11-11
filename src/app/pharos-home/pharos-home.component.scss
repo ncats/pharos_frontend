@@ -1,8 +1,9 @@
+@use '@angular/material' as mat;
 @import '../../partials/ncats-theme';
 
 .dashboard-main-div {
   height:100vh;
-  background-color: mat-color($pharos-app-primary);
+  background-color: mat.get-color-from-palette($pharos-app-primary);
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -30,7 +31,7 @@
 }
 
 button.more-topics.mat-fab.mat-primary:hover {
-  background-color: mat-color($pharos-app-accent);
+  background-color: mat.get-color-from-palette($pharos-app-accent);
   color:black;
 }
 
@@ -43,7 +44,7 @@ button.more-topics.mat-fab.mat-primary:hover {
   padding-left: 3vw;
   padding-right: 3vw;
   border-radius: 50px;
-  border: 2px solid mat-color($pharos-app-primary);
+  border: 2px solid mat.get-color-from-palette($pharos-app-primary);
 }
 
 .toi-grid-list {
@@ -87,7 +88,7 @@ button.more-topics.mat-fab.mat-primary:hover {
 
 .scrolled-banner {
 background-color: whitesmoke;
-  color: mat-color($pharos-app-primary);
+  color: mat.get-color-from-palette($pharos-app-primary);
 
 }
 
@@ -112,7 +113,7 @@ background-color: whitesmoke;
   }
 
   button.more-topics.mat-fab.mat-primary {
-    background-color: mat-color($pharos-app-accent);
+    background-color: mat.get-color-from-palette($pharos-app-accent);
     color:black;
   }
 

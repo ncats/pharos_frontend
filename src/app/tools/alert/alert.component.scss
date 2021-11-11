@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @import './../../../partials/ncats-theme';
 
 :host{
@@ -35,7 +36,7 @@
 
 .alert-warning {
   color: black;
-  background-color: mat-color($pharos-app-accent);
+  background-color: mat.get-color-from-palette($pharos-app-accent);
 }
 
 .alert-danger {

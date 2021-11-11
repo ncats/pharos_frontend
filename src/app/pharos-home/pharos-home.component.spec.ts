@@ -12,12 +12,12 @@ import {AboutPanelComponent} from './about-panel/about-panel.component';
 import {SearchComponentModule} from '../tools/search-component/search-component.module';
 import {Router, RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FIRESTORESTUB} from '../../../test/firestore-stub';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {COMMON_CONFIG} from '../../../test/test-config';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {AngularFireModule} from '@angular/fire';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {AngularFireModule} from '@angular/fire/compat';
 import {PharosProfileService} from '../auth/pharos-profile.service';
 import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 

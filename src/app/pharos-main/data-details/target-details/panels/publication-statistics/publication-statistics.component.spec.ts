@@ -8,11 +8,11 @@ import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {SharedModule} from '../../../../../shared/shared.module';
 import {RouterTestingModule} from '@angular/router/testing';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {COMMON_CONFIG} from '../../../../../../../test/test-config';
 import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
-import {AngularFireModule} from '@angular/fire';
+import {AngularFireModule} from '@angular/fire/compat';
 import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../test/test-target';
 
 describe('PublicationStatisticsComponent', () => {

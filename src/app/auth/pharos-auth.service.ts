@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
-import firebase from 'firebase/app';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import firebase from 'firebase/compat/app';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {MatDialogRef} from '@angular/material/dialog';
 import {PharosProfileService} from './pharos-profile.service';
 

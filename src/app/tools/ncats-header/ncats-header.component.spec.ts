@@ -6,11 +6,11 @@ import {SharedModule} from '../../shared/shared.module';
 import {SuggestApiService} from '../search-component/suggest-api.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SearchComponentModule} from '../search-component/search-component.module';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FIRESTORESTUB} from '../../../../test/firestore-stub';
-import {AngularFireModule} from '@angular/fire';
+import {AngularFireModule} from '@angular/fire/compat';
 import {COMMON_CONFIG} from '../../../../test/test-config';
-import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {Apollo} from "apollo-angular";
 
 describe('NcatsHeaderComponent', () => {

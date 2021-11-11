@@ -81,7 +81,7 @@ export class Target extends PharosBase {
     /**
      * list of structure files from AlphaFold
      */
-    alphaFoldStructures: string[] | any[];
+    alphaFoldStructures: any[];
     /**
      * list of gene symbols
      */

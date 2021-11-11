@@ -6,7 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {FormControl} from '@angular/forms';
 import {take} from 'rxjs/internal/operators';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'pharos-topic-save-modal',

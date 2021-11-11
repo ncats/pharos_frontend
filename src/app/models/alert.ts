@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import firebase from 'firebase/compat/app';
 import Timestamp = firebase.firestore.Timestamp;
 
 export class Alert {

@@ -5,7 +5,7 @@ import {map, take} from 'rxjs/operators';
 import {PharosProfileService} from '../../auth/pharos-profile.service';
 import {PathResolverService} from '../../pharos-main/data-list/filter-panel/path-resolver.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
@@ -49,8 +49,9 @@ export class ProfileComponent implements OnInit {
               .doc<any>(batch)
               .valueChanges()
               .pipe(
+                // @ts-ignore
                 take(1),
-                map(collection => {
+                map((collection: any) => {
                   if (collection) {
                     collection.id = batch;
                     return collection;

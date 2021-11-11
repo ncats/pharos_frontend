@@ -1,11 +1,11 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {SimilarityDetailsComponent} from './similarity-details.component';
-import {AngularFirestore} from "@angular/fire/firestore";
+import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {FIRESTORESTUB} from "../../../../../../../test/firestore-stub";
-import {AngularFireModule} from "@angular/fire";
+import {AngularFireModule} from "@angular/fire/compat";
 import {COMMON_CONFIG} from "../../../../../../../test/test-config";
-import {AngularFireAuth} from "@angular/fire/auth";
+import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {TESTTARGET} from "../../../../../../../test/test-target";
 
 describe('SimilarityDetailsComponent', () => {

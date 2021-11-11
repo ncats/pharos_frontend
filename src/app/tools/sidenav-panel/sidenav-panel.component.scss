@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @import '../../../partials/ncats-theme';
 
 .sidenav-panel {
@@ -19,7 +20,7 @@ padding: 1vw;
 }
 
 .active {
-  border-left: 8px solid mat-color($pharos-app-primary);
+  border-left: 8px solid mat.get-color-from-palette($pharos-app-primary);
 }
 
 .mat-list-item {

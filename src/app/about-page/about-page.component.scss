@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @import '../../partials/ncats-theme';
 
 .about-content {
@@ -43,7 +44,7 @@
 }
 
 .active {
-  border-left: 8px solid mat-color($pharos-app-primary);
+  border-left: 8px solid mat.get-color-from-palette($pharos-app-primary);
 }
 
 .blockquote {

@@ -12,10 +12,10 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {Apollo} from "apollo-angular";
 import {SelectedFacetService} from "../../pharos-main/data-list/filter-panel/selected-facet.service";
-import {AngularFirestore} from "@angular/fire/firestore";
+import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {FIRESTORESTUB} from "../../../../test/firestore-stub";
-import {AngularFireAuth} from "@angular/fire/auth";
-import {AngularFireModule} from "@angular/fire";
+import {AngularFireAuth} from "@angular/fire/compat/auth";
+import {AngularFireModule} from "@angular/fire/compat";
 import {COMMON_CONFIG} from "../../../../test/test-config";
 
 describe('SearchComponent', () => {
