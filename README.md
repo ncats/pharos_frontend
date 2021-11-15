@@ -44,3 +44,4 @@ Leave base href as '/' when deploying to AWS
 * npm install
 * npm run build:ssr
 * gcloud app deploy --version {name it}
+# protvista-angular
