@@ -1,5 +1,5 @@
 <div *ngFor="let alert of alerts" class="{{cssClass(alert)}}">
-  <span><b>{{alert.type}}:</b> {{alert.message}}
+  <span><b>{{alert.type}}: </b> <span [innerHTML]="alert.message"></span>
     <div class="devmessage" *ngIf="!isProd">
       <div *ngIf="alert.expireTime">message expires: {{alert.expireTime}}</div>
       <div>message shows in PROD: {{alert.affectsProd}}</div>
