@@ -31,8 +31,6 @@
 
 # misc
 /.angular/cache
-/.angular/cache/babel-webpack
-/.angular/cache/angular-webpack
 /.sass-cache
 /connect.lock
 /coverage
