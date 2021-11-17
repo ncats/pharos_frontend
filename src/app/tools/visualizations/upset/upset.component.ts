@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {VisualizationBase} from './visualization-base';
 import {take} from 'rxjs/operators';
-import * as d3 from 'd3';
+import * as d3 from 'd3v7';
 import {UpsetIntersection} from './intersection.model';
 
 @Component({

@@ -17,7 +17,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              "rxjs/index", "file-saver", "sql-formatter", "decimal.js", "rxjs/internal/operators", "zen-observable", "ProtVista"
+              "rxjs/index", "file-saver", "sql-formatter", "decimal.js", "rxjs/internal/operators", "zen-observable"
             ],
             "outputPath": "dist/browser",
             "index": "src/index.html",
@@ -32,7 +32,6 @@
               "src/sitemap.xml"
             ],
             "styles": [
-              "node_modules/ProtVista/build/css/main.css",
               "src/styles.scss",
               "src/ncats-theme.scss",
               "node_modules/shepherd.js/dist/css/shepherd.css"
