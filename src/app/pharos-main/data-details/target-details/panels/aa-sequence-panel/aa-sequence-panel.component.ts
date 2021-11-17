@@ -6,12 +6,11 @@ import {
   Inject,
   Input,
   OnInit,
-  PLATFORM_ID,
+  PLATFORM_ID, Renderer2,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import * as Protvista from 'ProtVista';
 import {Target} from '../../../../../models/target';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {takeUntil} from 'rxjs/operators';
@@ -56,6 +55,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
    * @param changeRef
    */
   constructor(
+    private renderer: Renderer2,
     private breakpointObserver: BreakpointObserver,
     private changeRef: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformID: any,
@@ -82,10 +82,14 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
           this.getCounts();
         }
         if (!this.isSmallScreen && isPlatformBrowser(this.platformID)) {
-          const r = new Protvista({
-            el: this.viewerContainer.nativeElement,
-            uniprotacc: this.target.accession
-          });
+          const childElements = this.viewerContainer.nativeElement.childNodes;
+          for (const child of childElements) {
+            this.renderer.removeChild(this.viewerContainer.nativeElement, child);
+          }
+          const viewer = this.renderer.createElement('protvista-uniprot');
+          viewer.setAttribute('accession', this.target.accession);
+          this.viewerContainer.nativeElement.insertAdjacentElement('beforeend',
+            viewer);
         }
         this.loadingComplete();
         this.changeRef.markForCheck();

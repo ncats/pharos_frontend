@@ -9,7 +9,7 @@ import {
   PLATFORM_ID,
   ViewChild
 } from '@angular/core';
-import * as d3 from 'd3';
+import * as d3 from 'd3v7';
 import {Subject} from 'rxjs';
 import {isPlatformBrowser} from '@angular/common';
 
