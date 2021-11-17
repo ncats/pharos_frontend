@@ -17,4 +17,5 @@
 node_modules/
 
 # misc
-/.angular/cache
+.angular/cache/angular-webpack/
+.angular/cache/babel-webpack/
