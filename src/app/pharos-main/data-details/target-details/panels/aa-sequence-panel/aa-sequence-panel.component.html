@@ -47,15 +47,15 @@
         </div>
       </div>
 
-      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
+      <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center" fxHide.lt-md>
         <span class="pharos-subtitle"
               [matTooltip]="getTooltip('protvistaViewer')"
               [matTooltipClass]="'pharos-tooltip'">
         ProtVista Viewer</span>
       </div>
-      <div fxLayout="row">
+      <div fxLayout="row" fxHide.lt-md>
         <div fxFlex="95">
-          <div #protVistaViewer id="protVistaViewer" fxHide.lt-md></div>
+          <div #protVistaViewer id="protVistaViewer"></div>
         </div>
       </div>
     </mat-card-content>
