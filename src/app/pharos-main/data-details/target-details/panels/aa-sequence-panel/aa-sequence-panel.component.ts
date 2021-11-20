@@ -86,10 +86,14 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
           for (const child of childElements) {
             this.renderer.removeChild(this.viewerContainer.nativeElement, child);
           }
-          const viewer = this.renderer.createElement('protvista-uniprot');
-          viewer.setAttribute('accession', this.target.accession);
-          this.viewerContainer.nativeElement.insertAdjacentElement('beforeend',
-            viewer);
+          import('ncats-protvista-uniprot').then(res => {
+            // tslint:disable-next-line:no-unused-expression
+            window.customElements.get('protvista-uniprot') || window.customElements.define('protvista-uniprot', res.default);
+            const viewer = this.renderer.createElement('protvista-uniprot');
+            viewer.setAttribute('accession', this.target.accession);
+            this.viewerContainer.nativeElement.insertAdjacentElement('beforeend',
+              viewer);
+          });
         }
         this.loadingComplete();
         this.changeRef.markForCheck();
