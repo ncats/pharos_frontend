@@ -41,14 +41,14 @@ export class SequenceLogoComponent extends DynamicPanelComponent implements OnIn
         this.target = this.data.targets || this.target;
 
         if (isPlatformBrowser(this.platformID)) {
-          import('ncats-protvista-viewer').then(() => {
-            if (this.hasVariants()) {
-              this.weblogo.nativeElement.setAttribute('sequence', JSON.stringify(this.target.sequenceVariants.residue_info));
-            }
-            if (this.hasAnnotations()) {
-              this.weblogo.nativeElement.setAttribute('annotations', JSON.stringify(this.target.sequenceAnnotations));
-            }
-          });
+          // import('ncats-protvista-viewer').then(() => {
+          //   if (this.hasVariants()) {
+          //     this.weblogo.nativeElement.setAttribute('sequence', JSON.stringify(this.target.sequenceVariants.residue_info));
+          //   }
+          //   if (this.hasAnnotations()) {
+          //     this.weblogo.nativeElement.setAttribute('annotations', JSON.stringify(this.target.sequenceAnnotations));
+          //   }
+          // });
           this.loadingComplete();
         }
         this.changeDetectorRef.detectChanges();
