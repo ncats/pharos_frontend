@@ -37,8 +37,7 @@
             "styles": [
               "src/styles.scss",
               "src/ncats-theme.scss",
-              "node_modules/shepherd.js/dist/css/shepherd.css",
-              "src/styles/molstar.css"
+              "node_modules/shepherd.js/dist/css/shepherd.css"
             ],
             "scripts": [
               "src/assets/vendor/modernizr-custom.js",
