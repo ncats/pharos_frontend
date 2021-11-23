@@ -6,11 +6,7 @@ module.exports = {
       {
         test: /\.svg$/i,
         loader: 'svg-inline-loader',
-      },
-      {
-        test: /\.css$/i,
-        use: ["css-loader"],
-      },
+      }
     ]
   }
 };
