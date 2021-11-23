@@ -26,7 +26,7 @@ import {DynamicServicesService} from '../../../../../pharos-services/dynamic-ser
 @Component({
   selector: 'pharos-aa-sequence-panel',
   templateUrl: './aa-sequence-panel.component.html',
-  styleUrls: ['./aa-sequence-panel.component.scss'],
+  styleUrls: ['./aa-sequence-panel.component.scss', '../../../../../../styles/molstar.css'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
