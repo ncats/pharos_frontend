@@ -51,7 +51,7 @@
     "graphql": "^15.7.2",
     "json2csv": "^5.0.6",
     "jszip": "^3.6.0",
-    "ncats-protvista-uniprot": "^2.8.30",
+    "ncats-protvista-uniprot": "^2.8.32",
     "ngl": "2.0.0-dev.37",
     "ngx-json-viewer": "^2.4.0",
     "ngx-markdown": "^11.1.1",
