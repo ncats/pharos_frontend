@@ -68,7 +68,7 @@ export class LigActSerializer implements Serializer {
       obj.pubs = json.pubs.map(p => publicationSerializer.fromJson(p));
       obj.pmids = json.pubs.map(p => p.pmid).join(', ');
     }
-    obj.value = Math.round(obj.value * 100) / 100;
+    obj.value = obj.value ? Math.round(obj.value * 100) / 100 : obj.value;
     return obj;
   }
 
