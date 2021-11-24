@@ -13,7 +13,6 @@ export enum TourType {
   FilterValueEnrichment = 'FilterValueEnrichment',
   Heatmaps = 'Heatmaps',
   StructureSearchTour = 'StructureSearchTour',
-  ProteinStructureTour = 'ProteinStructureTour',
   TargetExpressionTour = 'TargetExpressionTour',
   WhatsNew39 = 'WhatsNew39'
 }
@@ -72,7 +71,6 @@ export class TourService {
     {title: 'Creating a Heatmap', storageKey: TourType.Heatmaps},
     {title: 'Uploading a Custom List', storageKey: TourType.CustomListTour},
     {title: 'Searching by Chemical Structure', storageKey: TourType.StructureSearchTour},
-    {title: 'Viewing Protein Structure Data', storageKey: TourType.ProteinStructureTour},
     {title: 'Viewing Target Expression Data', storageKey: TourType.TargetExpressionTour},
   ];
   onlyButton = [TourService.okayButton];
@@ -114,9 +112,6 @@ export class TourService {
           break;
         case TourType.TargetExpressionTour:
           this.runExpressionTour();
-          break;
-        case TourType.ProteinStructureTour:
-          this.runProteinStructureTour();
           break;
         case TourType.Heatmaps:
           this.runHeatmapTour();
@@ -294,114 +289,6 @@ export class TourService {
     this.shepherdService.start();
   }
 
-  runProteinStructureTour() {
-    const data = this.centralStorageService.getTourData('details');
-    const afCount = data.targets.alphaFoldStructures.length;
-    const structureCount = data.targets.pdbs.length;
-    const abortTour = afCount === 0 && structureCount === 0;
-    const defaultSteps = [];
-    if (abortTour) {
-      defaultSteps.push({
-        id: 'noStructures',
-        attachTo: {
-          element: '#pdbview',
-          on: 'top'
-        },
-        scrollTo: false,
-        buttons: this.onlyButton.slice(),
-        title: 'No Structures Found',
-        text: [`There are no experimental or predicted structures found for this protein. Navigate to another target details page to take
-        the Protein Structure tour.`]
-      });
-    } else {
-      defaultSteps.push(...[
-        {
-          beforeShowPromise: () => {
-            return new Promise((resolve: any) => {
-              setTimeout(() => {
-                resolve();
-              }, 300);
-            });
-          },
-          id: 'pdbView',
-          attachTo: {
-            element: '#pdbview',
-            on: 'top'
-          },
-          scrollToHandler: this.tourScroller.bind({section: 'pdbview', platformID: this.platformID}),
-          buttons: this.firstButtons.slice(),
-          title: 'Protein Structure',
-          text: [`This component shows experimentally determined structures for this protein, as well as the AlphaFold predicted
-          structure.`]
-        },
-        {
-          id: 'representation',
-          attachTo: {
-            element: '.representation',
-            on: 'left'
-          },
-          scrollTo: false,
-          buttons: this.middleButtons.slice(),
-          title: 'Changing the Structure Representation',
-          text: [`Select the type of representation to show for the structures.`]
-        },
-        {
-          id: 'colorscheme',
-          attachTo: {
-            element: '.colorscheme',
-            on: 'left'
-          },
-          scrollTo: false,
-          buttons: this.middleButtons.slice(),
-          title: 'Changing the Color Scheme',
-          text: [`Select the color scheme to use for the structure plots. 'Target' coloring will color the portion of the protein structure
-        that is from the selected target, since experimentally determined structures are often complexes with other structures or fusion proteins.
-        The 'bfactor' in experimental structures is typically a measure of flexibility at each residue, and similarly a measure of
-        prediction confidence in the AlphaFold structures.`]
-        }]);
-
-      if (structureCount > 0) {
-        defaultSteps.push({
-          id: 'hasStructures',
-          attachTo: {
-            element: '.structure-list',
-            on: 'top'
-          },
-          scrollToHandler: this.tourScroller.bind({class: 'structure-list', platformID: this.platformID}),
-          buttons: this.lastButtons.slice(),
-          title: 'Viewing different structures',
-          text: [`The different experimentally determined structures are listed here, along with some metadata about the structure, such as
-        the resolution, or range of residues in the structure. Click a row to change the structure in the plot.`]
-        });
-      } else {
-        defaultSteps.push({
-          id: 'noStructures',
-          attachTo: {
-            element: '#pdbview',
-            on: 'top'
-          },
-          scrollTo: false,
-          buttons: this.lastButtons.slice(),
-          title: 'Viewing different structures',
-          text: [`No experimentally determined structures were found.`]
-        });
-      }
-    }
-    this.shepherdService.defaultStepOptions = this.defaultStepOptions;
-    this.shepherdService.modal = true;
-    this.shepherdService.confirmCancel = false;
-    this.shepherdService.addSteps(defaultSteps);
-    ['cancel', 'complete'].forEach(event => {
-      this.shepherdService.tourObject.on(event, () => {
-        if (abortTour) {
-          this.removeTourParam();
-        } else {
-          this.completeTour(TourType.ProteinStructureTour, event);
-        }
-      });
-    });
-    this.shepherdService.start();
-  }
   runFilterValueTour() {
     const models = this.getModels();
     const model = models.slice(0, models.length - 1);
