@@ -107,7 +107,10 @@ export class LigandCardComponent extends DynamicPanelBaseComponent implements On
       case 'IC90':
         return 'p' + activityType;
     }
-    return `-log${activityType}`;
+    if (activityType && activityType.length > 0) {
+      return `-log(${activityType})`;
+    }
+    return '';
   }
 }
 
