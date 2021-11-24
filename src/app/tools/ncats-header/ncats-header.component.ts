@@ -157,7 +157,7 @@ export class NcatsHeaderComponent implements OnInit {
       };
       this.router.navigate([onAnalyzePage ? path.join('/') : onListPage ? '/analyze/' + modelType : '/analyze/targets'], navigationExtras);
     }
-    else if (tutorial === TourType.TargetExpressionTour || tutorial === TourType.ProteinStructureTour) {
+    else if (tutorial === TourType.TargetExpressionTour) {
       const navigationExtras: NavigationExtras = {
         queryParamsHandling: '',
         queryParams: {
