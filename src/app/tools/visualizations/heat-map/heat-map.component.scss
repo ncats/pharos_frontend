@@ -3,6 +3,14 @@
   width: 100%;
 }
 
+.yAxisLabel {
+  cursor: ew-resize;
+}
+
+.xAxisLabel {
+  cursor: ns-resize;
+}
+
 .twod-container {
   display: flex;
   flex-direction: column;
