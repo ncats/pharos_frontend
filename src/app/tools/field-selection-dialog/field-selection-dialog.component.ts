@@ -15,6 +15,7 @@ import package_info from '../../../../package.json';
 import {PharosProfileService} from '../../auth/pharos-profile.service';
 import JSZip from 'jszip';
 import {environment} from '../../../environments/environment';
+import {FeatureTrackingService} from '../../pharos-services/feature-tracking.service';
 
 @Component({
   selector: 'pharos-field-selection-dialog',
@@ -33,6 +34,7 @@ export class FieldSelectionDialogComponent implements OnInit {
               private snackBar: MatSnackBar,
               private profileService: PharosProfileService,
               private selectedFacetService: SelectedFacetService,
+              private featureTrackingService: FeatureTrackingService,
               private router: Router) {
   }
 
@@ -253,6 +255,7 @@ export class FieldSelectionDialogComponent implements OnInit {
       top: this.maxDownload
     };
     this.runDownloadQuery(params, true);
+    this.featureTrackingService.trackFeature('Download Data', this.data.model, this.selectedGroup?.listName, this.data.count.toString());
     this.dialogRef.close();
   }
 

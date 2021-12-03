@@ -8,6 +8,7 @@ import {takeUntil} from 'rxjs/operators';
 import {FieldSelectionDialogComponent} from '../../../tools/field-selection-dialog/field-selection-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {TourType} from '../../../pharos-services/tour.service';
+import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
 
 @Component({
   selector: 'pharos-cross-list-heatmap',
@@ -20,7 +21,8 @@ export class CrossListHeatmapComponent extends DynamicPanelComponent implements 
               private _route: ActivatedRoute,
               private changeDetectorRef: ChangeDetectorRef,
               public dynamicServices: DynamicServicesService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private featureTrackingService: FeatureTrackingService) {
     super(dynamicServices);
   }
 
@@ -78,6 +80,9 @@ export class CrossListHeatmapComponent extends DynamicPanelComponent implements 
       this.loadingComplete(false);
       this.changeDetectorRef.detectChanges();
       this.heatMapContainer.redraw();
+      this.featureTrackingService.trackFeature('Create Heatmap',
+        this.model, this.crossModel, `${this.activityMap.xValues.length} x ${this.activityMap.yValues.length}`
+        + (this.results?.length === 10000 ? ' truncated' : '') );
     });
   }
 

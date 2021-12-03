@@ -5,6 +5,7 @@ import {MolChangeService} from '../tools/marvin-sketcher/services/mol-change.ser
 import {Facet} from '../models/facet';
 import {ResolverService} from '../pharos-services/resolver.service';
 import {UnfurlingMetaService} from '../pharos-services/unfurling-meta.service';
+import {FeatureTrackingService} from '../pharos-services/feature-tracking.service';
 /**
  * page to search by structure
  */
@@ -39,7 +40,8 @@ export class StructureSearchPageComponent implements OnInit {
     private _router: Router,
     private molChangeService: MolChangeService,
     public resolverService: ResolverService,
-    private metaService: UnfurlingMetaService
+    private metaService: UnfurlingMetaService,
+    private featureTrackingService: FeatureTrackingService
   ) {
   }
 
@@ -91,6 +93,7 @@ export class StructureSearchPageComponent implements OnInit {
       },
       queryParamsHandling: ''
     };
+    this.featureTrackingService.trackFeature('Structure Search', this.typeCtrl.value || 'sim');
     this._router.navigate(['/ligands'], navigationExtras);
   }
 
@@ -124,6 +127,7 @@ export class StructureSearchPageComponent implements OnInit {
       },
       queryParamsHandling: ''
     };
+    this.featureTrackingService.trackFeature('Find Predicted Targets');
     this._router.navigate(['/targets'], navigationExtras);
   }
 

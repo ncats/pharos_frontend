@@ -907,6 +907,18 @@ query batchConfirmation($batch: [String], $top: Int) {
 }`;
   }
 
+  public featureTrackingMutation() {
+    return gql`mutation m($user: String!, $feature: String!, $detail1: String, $detail2: String, $detail3: String) {
+  trackFeature(user: $user, feature: $feature, detail1: $detail1, detail2: $detail2, detail3: $detail3){
+    success
+  }
+}`;
+  }
+
+  public adHocMutation(mutation: any, variables?: any): Observable<any> {
+    return this.apollo.mutate({mutation, variables});
+  }
+
   public adHocQuery(query: any, variables?: any): Observable<any> {
     return this.apollo.query<any>({query, variables});
   }

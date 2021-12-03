@@ -5,6 +5,7 @@ import {NavigationExtras, Router} from '@angular/router';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {CentralStorageService} from './central-storage.service';
 import {toTitleCase} from 'codelyzer/util/utils';
+import {FeatureTrackingService} from './feature-tracking.service';
 
 export enum TourType {
   ListPagesTour = 'ListPagesTour',
@@ -25,6 +26,7 @@ export class TourService {
 
   constructor(
     private centralStorageService: CentralStorageService,
+    private featureTrackingService: FeatureTrackingService,
     private localStorageService: LocalStorageService,
     private router: Router,
     private breakpointObserver: BreakpointObserver,
@@ -96,7 +98,9 @@ export class TourService {
       return;
     }
     this.loadPromise.then(() => {
-
+      if (tutorialName) {
+        this.featureTrackingService.trackFeature('Begin Tutorial', tutorialName);
+      }
       switch (tutorialName) {
         case TourType.WhatsNew39:
           this.whatsNew(true);
@@ -920,6 +924,9 @@ export class TourService {
   }
 
   completeTour(tourType: TourType, result: string) {
+    if (result === 'complete') {
+      this.featureTrackingService.trackFeature('Complete Tour', tourType);
+    }
     this.removeTourParam();
     const prevResult = this.localStorageService.store.getItem(tourType);
     if (prevResult === 'complete' || (prevResult === 'cancel' && result === 'cancel')) {
