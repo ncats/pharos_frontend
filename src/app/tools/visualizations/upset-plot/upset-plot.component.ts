@@ -12,6 +12,8 @@ import {SelectedFacetService} from '../../../pharos-main/data-list/filter-panel/
 import {PathResolverService} from '../../../pharos-main/data-list/filter-panel/path-resolver.service';
 import {UpsetFieldEditComponent} from '../../upset-field-edit/upset-field-edit.component';
 import {MatDialog} from '@angular/material/dialog';
+import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
+import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 
 @Component({
   selector: 'pharos-upset-plot',
@@ -34,7 +36,9 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
 
 
   constructor(private pharosApiService: PharosApiService,
+              private featureTrackingService: FeatureTrackingService,
               public dialog: MatDialog,
+              private centralStorageService: CentralStorageService,
               private _route: ActivatedRoute,
               @Inject(PLATFORM_ID) private platformID: any,
               private changeRef: ChangeDetectorRef,
@@ -149,6 +153,8 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
         change: changes
       });
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
+    this.featureTrackingService.trackFeature('Using an UpSet Filter',
+      this.centralStorageService.getModel(this._route), this.displayFacet.facet);
     this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
   }
 
@@ -273,6 +279,8 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        this.featureTrackingService.trackFeature('Custom Filter Values for an UpSet Plot',
+          this.centralStorageService.getModel(this._route), this.displayFacet.facet);
         this.upsetValues = result;
         this.customValues.set(this.displayFacet.facet, result);
         this.fetchValues();

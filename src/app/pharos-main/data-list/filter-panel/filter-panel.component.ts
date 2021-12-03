@@ -22,6 +22,7 @@ import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {environment} from '../../../../environments/environment';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 import {TourService} from '../../../pharos-services/tour.service';
+import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
 
 /**
  * panel that hold a facet table for selection
@@ -49,6 +50,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    */
   constructor(
     private tourService: TourService,
+    private featureTrackingService: FeatureTrackingService,
     private selectedFacetService: SelectedFacetService,
     private changeRef: ChangeDetectorRef,
     private router: Router,
@@ -153,6 +155,8 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     navigationExtras.queryParams = {
       enrichmentFacet: facet.facet
     };
+    this.featureTrackingService.trackFeature('Calculate Filter Value Enrichment',
+      this.centralStorageService.getModel(this._route), facet.facet);
     this.router.navigate([path], navigationExtras);
   }
 
