@@ -1,0 +1,32 @@
+<div class="container">
+
+  <mat-accordion [multi]="true" *ngFor="let schema of this.dataTree | keyvalue">
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <span class="mat-headline">{{schema.key}}</span>
+      </mat-expansion-panel-header>
+      <mat-accordion [multi]="true" *ngFor="let field of schema.value | keyvalue">
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <span class="mat-headline">{{field.key}}</span>
+          </mat-expansion-panel-header>
+          <mat-accordion [multi]="true" *ngFor="let feature of field.value | keyvalue">
+            <mat-expansion-panel [expanded]="true">
+              <mat-expansion-panel-header>
+                <span class="mat-headline">{{feature.key}}</span>
+              </mat-expansion-panel-header>
+              <table mat-table [dataSource]="feature.value" width="100%">
+                <ng-container *ngFor="let col of displayColumns" [matColumnDef]="col">
+                  <th mat-header-cell *matHeaderCellDef> {{col}} </th>
+                  <td mat-cell *matCellDef="let row"> {{row[col]}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+                <tr mat-row *matRowDef="let rowData; columns: displayColumns"></tr>
+              </table>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

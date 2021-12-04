@@ -925,7 +925,7 @@ export class TourService {
 
   completeTour(tourType: TourType, result: string) {
     if (result === 'complete') {
-      this.featureTrackingService.trackFeature('Complete Tour', tourType);
+      this.featureTrackingService.trackFeature('Complete Tutorial', tourType);
     }
     this.removeTourParam();
     const prevResult = this.localStorageService.store.getItem(tourType);

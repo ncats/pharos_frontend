@@ -50,6 +50,13 @@ export class PharosApiService {
       diseaseCount
     }
   }`;
+
+  public static statsQuery = gql`query statsQuery {
+    dayStats: usageData(interval:day)
+    weekStats: usageData(interval:week)
+    monthStats: usageData(interval:month)
+    yearStats: usageData(interval:year)
+  }`;
   /**
    * RxJs subject for facet data
    * @type {Subject<Facet[]>}
