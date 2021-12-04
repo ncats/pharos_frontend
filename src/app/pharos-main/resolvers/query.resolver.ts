@@ -37,9 +37,8 @@ export class QueryResolver implements Resolve<any> {
     return this.pharosApiService.adHocQuery(route.data.fragments.query)
       .pipe(
         map(res =>  {
-          const data = JSON.parse(JSON.stringify(res.data)); // copy readonly object
+          let data = JSON.parse(JSON.stringify(res.data)); // copy readonly object
           const results = data[route.data.rootObject];
-          // copy readonly object
           if (Array.isArray(results)) {
             data[`${[route.data.rootObject]}Props`] = [];
             data[route.data.rootObject] = data[route.data.rootObject].map(obj => {
@@ -49,8 +48,8 @@ export class QueryResolver implements Resolve<any> {
             });
           }
           else{
-            const tobj = serializer.fromJson(data[route.data.rootObject]);
-            data[route.data.rootObject] = tobj;
+            const tobj = serializer.fromJson(route.data.rootObject ? data[route.data.rootObject] : data);
+            route.data.rootObject ? data[route.data.rootObject] = tobj : data = tobj;
             data[`${[route.data.rootObject]}Props`] = serializer._asProperties(tobj);
           }
           return data;

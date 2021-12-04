@@ -1,12 +1,12 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {RouterModule, Routes} from "@angular/router";
-import {AboutPageComponent} from "./about-page.component";
-import {SharedModule} from "../shared/shared.module";
-import {CommonToolsModule} from "../tools/common-tools.module";
-import {PharosApiService} from "../pharos-services/pharos-api.service";
-import {DataSourceSerializer} from "../models/dataSource";
-import {QueryResolver} from "../pharos-main/resolvers/query.resolver";
+import {RouterModule, Routes} from '@angular/router';
+import {AboutPageComponent} from './about-page.component';
+import {SharedModule} from '../shared/shared.module';
+import {CommonToolsModule} from '../tools/common-tools.module';
+import {PharosApiService} from '../pharos-services/pharos-api.service';
+import {DataSourceSerializer} from '../models/dataSource';
+import {QueryResolver} from '../pharos-main/resolvers/query.resolver';
 
 const routes: Routes = [
   {
@@ -20,7 +20,7 @@ const routes: Routes = [
         query: PharosApiService.dataSourceQuery
       },
       serializer: new DataSourceSerializer(),
-      rootObject: "dataSourceCounts"
+      rootObject: 'dataSourceCounts'
     },
     runGuardsAndResolvers: 'paramsOrQueryParamsChange'
   }
