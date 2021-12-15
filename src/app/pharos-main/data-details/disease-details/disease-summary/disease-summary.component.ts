@@ -43,8 +43,8 @@ export class DiseaseSummaryComponent extends DynamicPanelComponent implements On
       .subscribe(x => {
         this.disease = this.data.diseases;
 
-        const newDescription = this.disease.doDescription || this.disease.uniprotDescription;
-        const newTitle = `Pharos: ${this.disease.name} (${this.disease.targetCountsTotal} associated targets)`;
+        const newDescription = this.disease.mondoDescription || this.disease.doDescription || this.disease.uniprotDescription;
+        const newTitle = `Pharos: ${this.disease.name} (${this.disease.targetCountsTotal || this.disease.associationCount} associated targets)`;
         this.metaService.setMetaData({description: newDescription, title: newTitle});
 
         this.changeRef.markForCheck();

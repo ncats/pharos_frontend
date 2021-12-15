@@ -1145,6 +1145,12 @@ const DISEASE_SUMMARY_COMPONENT: PharosPanel = {
       source: 'https://www.uniprot.org/'
     },
     {
+      field: 'mondoDescription',
+      label: 'Mondo Description',
+      description: 'Description from Mondo Disease Ontology.',
+      source: 'https://mondo.monarchinitiative.org/'
+    },
+    {
       field: 'doDescription',
       label: 'Disease Ontology Description',
       description: 'Description from Disease Ontology',

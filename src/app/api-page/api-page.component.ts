@@ -166,15 +166,16 @@ query targetDetails{
 query diseaseDetails{
   disease(name:"asthma"){
     name
+    mondoDescription
     uniprotDescription
     doDescription
-    targetCounts{
+    targetCounts {
       name
       value
     }
-    children{
+    children {
       name
-      doDescription
+      mondoDescription
     }
   }
 }`;

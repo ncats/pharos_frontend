@@ -57,7 +57,7 @@
               <span *ngIf="association.pvalue">Pvalue: {{association.pvalue}}</span><br>
             </div>
             <div fxFlex="10">
-              <span>{{disease.targetCountsTotal}} Targets</span>
+              <span>{{disease.targetCountsTotal || disease.associationCount}} Targets</span>
             </div>
           </div>
           <hr>
