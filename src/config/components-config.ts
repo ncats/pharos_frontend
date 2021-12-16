@@ -68,6 +68,11 @@ interface PharosNavHeader {
  * main panel object that is injected into the page
  */
 export interface PharosPanel {
+  // for panel groups
+  panels?: PharosPanel[];
+  category?: string;
+
+  // for traditional panels
   /**
    * token for the panel component
    */
@@ -374,9 +379,11 @@ const PHAROS_FACET_REPRESENTATION_COMPONENT: PharosPanel = {
     section: 'analyze',
     label: 'Filter Value Enrichment'
   }, api: [
-    {description: 'description',
-    field: 'field',
-    label: 'label'}
+    {
+      description: 'description',
+      field: 'field',
+      label: 'label'
+    }
   ]
 };
 
@@ -1022,7 +1029,7 @@ const RELATED_PUBLICATIONS_PANEL: PharosPanel = {
 const AA_SEQUENCE_PANEL: PharosPanel = {
   token: TOKENS.AA_SEQUENCE_PANEL,
   navHeader: {
-    label: 'Protein Sequence',
+    label: 'Protein Sequence and Structure',
     section: 'sequence',
     mainDescription: 'Amino acid sequence, and a detailed sequence structure viewer via the Uniprot Protvista viewer.'
   },
@@ -1425,25 +1432,50 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_SUBNAV_COMPONENT,
           PHAROS_HELPPANEL_COMPONENT,
           TARGET_HEADER_COMPONENT,
-          PHAROS_BREADCRUMB_COMPONENT,
-          SUMMARY_PANEL,
-          AFFILIATE_LINKS_PANEL,
-          LEVEL_SUMMARY_PANEL,
-          IDG_RESOURCES_PANEL,
-          DRUGS_PANEL,
-          LIGANDS_PANEL,
-          DISEASE_SOURCE_PANEL,
-          GWAS_TARGET_ANALYTICS_PANEL,
-          ORTHOLOGS_PANEL,
-          PATHWAYS_PANEL,
-          GO_TERMS_PANEL,
-          VIRAL_INTERACTIONS_PANEL,
-          EXPRESSION_PANEL,
-          PROTEIN_PROTEIN_PANEL,
-          PUBLICATION_STATISTICS_PANEL,
-          RELATED_PUBLICATIONS_PANEL,
-          AA_SEQUENCE_PANEL,
-          TARGET_FACET_PANEL
+          {
+            category: 'Descriptive Data',
+            panels: [
+              PHAROS_BREADCRUMB_COMPONENT,
+              SUMMARY_PANEL,
+              AA_SEQUENCE_PANEL,
+              EXPRESSION_PANEL,
+              AFFILIATE_LINKS_PANEL,
+            ]
+          },
+          {
+            category: 'Behavioral Data',
+            panels: [
+              DRUGS_PANEL,
+              LIGANDS_PANEL,
+              VIRAL_INTERACTIONS_PANEL,
+              PROTEIN_PROTEIN_PANEL,
+              PATHWAYS_PANEL
+            ]
+          },
+          {
+            category: 'Phenotypic Data',
+            panels: [
+              GO_TERMS_PANEL,
+              DISEASE_SOURCE_PANEL,
+              GWAS_TARGET_ANALYTICS_PANEL,
+              TARGET_FACET_PANEL
+            ]
+          },
+          {
+            category: 'Resources',
+            panels: [
+              IDG_RESOURCES_PANEL,
+              ORTHOLOGS_PANEL
+            ]
+          },
+          {
+            category: 'Publications',
+            panels: [
+              LEVEL_SUMMARY_PANEL,
+              PUBLICATION_STATISTICS_PANEL,
+              RELATED_PUBLICATIONS_PANEL
+            ]
+          }
         ]
       }
     }],
