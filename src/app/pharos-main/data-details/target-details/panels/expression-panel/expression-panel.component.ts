@@ -38,8 +38,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   @Input() target: Target;
   @Input() targetProps: any;
 
-  @ViewChild('heatMap', {read: ElementRef, static: false}) heatMapContainer: ExpressionHeatMapComponent;
-
   /**
    * tissues to display, currently contains dummy data
    */
@@ -120,7 +118,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
           this.setterFunction();
           this.loadingComplete();
           this.changeRef.detectChanges();
-          this.heatMapContainer.redraw();
         }
       });
   }
