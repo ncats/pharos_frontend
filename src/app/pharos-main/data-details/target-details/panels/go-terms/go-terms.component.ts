@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {Target, TargetSerializer} from '../../../../../models/target';
 import {takeUntil} from 'rxjs/operators';
@@ -14,7 +14,7 @@ import {DynamicServicesService} from '../../../../../pharos-services/dynamic-ser
   templateUrl: './go-terms.component.html',
   styleUrls: ['./go-terms.component.scss']
 })
-export class GoTermsComponent extends DynamicPanelComponent implements OnInit {
+export class GoTermsComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   @Input() target: Target;
   @Input() targetProps: any;
 
@@ -151,5 +151,12 @@ export class GoTermsComponent extends DynamicPanelComponent implements OnInit {
         break;
     }
     return returnObj;
+  }
+  /**
+   * cleanp on destroy
+   */
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }
