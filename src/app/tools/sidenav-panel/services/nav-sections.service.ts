@@ -69,14 +69,30 @@ export class NavSectionsService {
   }
 
   hideSection(remSection: string) {
-    this._visibleSections = this._visibleSections.filter(section => section.section !== remSection);
+    this._visibleSections.forEach(section => {
+      if (section.panels && section.panels.length > 0) {
+        section.panels = section.panels.filter(sec => sec.navHeader?.section !== remSection);
+      }
+    });
+    this._visibleSections = this._visibleSections.filter(sec => sec.navHeader?.section !== remSection);
     this._navSectionsSource.next(this._visibleSections);
   }
 
-  showSection(addSection: string){
-    this._visibleSections = this._allSections.filter(section => {
-      return section.section === addSection || this._visibleSections.includes(section);
+  showSection(addSection: string) {
+    const currentSections = [addSection];
+    this._visibleSections.forEach(section => {
+      section.panels?.forEach(subsection => {
+        currentSections.push(subsection.navHeader.section);
+      });
     });
+    this._visibleSections = JSON.parse(JSON.stringify(this._allSections));
+
+    this._visibleSections.forEach(section => {
+      if (section.panels && section.panels.length > 0) {
+        section.panels = section.panels.filter(sec => currentSections.includes(sec.navHeader.section));
+      }
+    });
+    this._visibleSections = this._visibleSections.filter(sec => sec.panels || currentSections.includes(sec.navHeader.section));
     this._navSectionsSource.next(this._visibleSections);
   }
 }

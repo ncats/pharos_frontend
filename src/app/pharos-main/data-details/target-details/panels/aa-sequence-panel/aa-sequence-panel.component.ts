@@ -91,8 +91,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
             window.customElements.get('protvista-uniprot') || window.customElements.define('protvista-uniprot', res.default);
             const viewer = this.renderer.createElement('protvista-uniprot');
             viewer.setAttribute('accession', this.target.accession);
-            this.viewerContainer.nativeElement.insertAdjacentElement('beforeend',
-              viewer);
+            this.viewerContainer.nativeElement.appendChild(viewer);
           });
         }
         this.loadingComplete();

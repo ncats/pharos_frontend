@@ -19,7 +19,7 @@
             {{section.navHeader.label}}
           </a>
           <ng-template #array>
-            <div class="subsection">
+            <div class="subsection" *ngIf="section.panels.length > 0">
               <div>{{section.category}}</div>
               <a *ngFor="let subsection of section.panels"
                  mat-list-item

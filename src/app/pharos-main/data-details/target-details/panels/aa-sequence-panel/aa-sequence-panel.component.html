@@ -1,9 +1,7 @@
 <article>
   <mat-card
-    id="sequence"
-    (pharosScrollspy)="active('sequence')"
-    #sequence
-    class="section-card">
+    id="sequence" class="section-card"
+    #sequence>
     <mat-card-content>
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
@@ -28,6 +26,7 @@
           Residue Counts
         </span>
       </div>
+      <div (pharosScrollspy)="active('sequence')"></div>
       <div fxLayout="row" fxLayoutAlign="center start">
         <div fxFlex="95" fxFlex.lt-md="100" class="residue-count-holder">
           <pharos-bar-chart [data]="residueCounts" [expectedData]="expectedResidueCounts" [getLongNameFunction]="getLongFormName" *ngIf="residueCounts"></pharos-bar-chart>
@@ -55,6 +54,7 @@
       <div fxLayout="row" fxHide.lt-md>
         <div fxFlex="95">
           <div #protVistaViewer id="protVistaViewer"></div>
+          <div (pharosScrollspy)="active('sequence')"></div>
         </div>
       </div>
     </mat-card-content>
