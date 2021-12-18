@@ -1,5 +1,8 @@
   .all-timelines {
-    padding-bottom: 7vh;
+    //padding-bottom: 7vh;
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
   }
 
   .timeline-holder {
@@ -10,4 +13,18 @@
   .scatter-plot-holder {
     height: 25vh;
     width: 70vw;
+  }
+
+  .timeline-div {
+    margin-bottom: 10vh;
+  }
+
+  .threepanel {
+    width: 33%;
+  }
+  .twopanel {
+    width: 50%;
+  }
+  .onepanel {
+    width: 100%;
   }

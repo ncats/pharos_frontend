@@ -84,6 +84,9 @@ export class NavSectionsService {
       section.panels?.forEach(subsection => {
         currentSections.push(subsection.navHeader.section);
       });
+      if (!section.panels){
+        currentSections.push(section.navHeader.section);
+      }
     });
     this._visibleSections = JSON.parse(JSON.stringify(this._allSections));
 
@@ -92,7 +95,9 @@ export class NavSectionsService {
         section.panels = section.panels.filter(sec => currentSections.includes(sec.navHeader.section));
       }
     });
-    this._visibleSections = this._visibleSections.filter(sec => sec.panels || currentSections.includes(sec.navHeader.section));
+    this._visibleSections = this._visibleSections.filter(sec => {
+      return sec.panels || currentSections.includes(sec.navHeader.section);
+    });
     this._navSectionsSource.next(this._visibleSections);
   }
 }
