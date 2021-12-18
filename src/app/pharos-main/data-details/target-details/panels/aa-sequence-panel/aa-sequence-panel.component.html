@@ -26,10 +26,11 @@
           Residue Counts
         </span>
       </div>
-      <div (pharosScrollspy)="active('sequence')"></div>
-      <div fxLayout="row" fxLayoutAlign="center start">
-        <div fxFlex="95" fxFlex.lt-md="100" class="residue-count-holder">
-          <pharos-bar-chart [data]="residueCounts" [expectedData]="expectedResidueCounts" [getLongNameFunction]="getLongFormName" *ngIf="residueCounts"></pharos-bar-chart>
+      <div (pharosScrollspy)="active('sequence')">
+        <div fxLayout="row" fxLayoutAlign="center start">
+          <div fxFlex="95" fxFlex.lt-md="100" class="residue-count-holder">
+            <pharos-bar-chart [data]="residueCounts" [expectedData]="expectedResidueCounts" [getLongNameFunction]="getLongFormName" *ngIf="residueCounts"></pharos-bar-chart>
+          </div>
         </div>
       </div>
 
@@ -53,8 +54,9 @@
       </div>
       <div fxLayout="row" fxHide.lt-md>
         <div fxFlex="95">
-          <div #protVistaViewer id="protVistaViewer"></div>
-          <div (pharosScrollspy)="active('sequence')"></div>
+          <div (pharosScrollspy)="active('sequence')">
+            <div #protVistaViewer id="protVistaViewer"></div>
+          </div>
         </div>
       </div>
     </mat-card-content>

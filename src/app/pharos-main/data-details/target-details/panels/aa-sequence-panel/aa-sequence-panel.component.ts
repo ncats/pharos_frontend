@@ -36,7 +36,6 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
    * target to display
    */
   @Input() target: Target;
-
   /**
    * div element that holds the protvista viewer
    */
@@ -92,12 +91,26 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
             const viewer = this.renderer.createElement('protvista-uniprot');
             viewer.setAttribute('accession', this.target.accession);
             this.viewerContainer.nativeElement.appendChild(viewer);
+            this.scrollWhenComplete(viewer);
           });
         }
         this.loadingComplete();
         this.changeRef.markForCheck();
       });
 
+  }
+
+  private scrollWhenComplete(viewer) {
+    const interval = window.setInterval(checkProtVistaIsLoading.bind(this), 100);
+
+    function checkProtVistaIsLoading() {
+      if (!viewer.loading) {
+        clearInterval(interval);
+        setTimeout(() => {
+          this.loadingComplete();
+        }, 300);
+      }
+    }
   }
 
   /**

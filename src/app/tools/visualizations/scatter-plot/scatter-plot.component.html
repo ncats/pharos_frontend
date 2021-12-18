@@ -1,5 +1,5 @@
 <div class="reset-holder">
-  <button mat-flat-button (click)="reset()" [color]="'primary'">Reset Zoom</button>
+  <button mat-flat-button (click)="reset()" [color]="'primary'">Reset{{width < 500 ? '' : ' Zoom'}}</button>
   <mat-radio-button class="y-axis-selector"
                     *ngFor="let dS of dataSets"
                     [name]="dS.options.yLabel"

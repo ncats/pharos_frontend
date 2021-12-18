@@ -105,7 +105,7 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
   /**
    * width of the graph retrieved from the container size
    */
-  private width: number;
+  width: number;
 
   /**
    * height of the graph retrieved from the container size
@@ -332,7 +332,7 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
 
     if (this._chartOptions.xAxisScale === 'year') {
       xAxis = d3.axisBottom(this.x)
-        .ticks(d3.timeYear.every(this.displayData.length < 3 ? 1 : 3))
+        .ticks(d3.timeYear.every(this.displayData[0].length < 10 ? 1 : 5))
         .tickSize(-this.height)
         .tickPadding(10).tickFormat(d3.timeFormat('%Y'));
     } else {
