@@ -1,26 +1,62 @@
-
 <div fxLayout="row">
   <span class="mat-headline">How are these levels assigned?</span>
 </div>
 <div fxLayout="row" fxLayoutAlign="space-around center">
-  <div fxFlex = "90">
-    <p class = "mat-body">
+  <div fxFlex="90">
       We currently categorize targets into four development/druggability levels (TDLs) defined as follows:
-Tclin: These targets have activities in DrugCentral (ie. approved drugs) with known mechanism of action.<br>
-      Tchem: These targets have activities in ChEMBL or DrugCentral that satisfy the activity thresholds detailed below.
-      In some cases, targets have been manually migrated to Tchem by human curation based on small molecule activities
-      from other sources. <br>
-Tbio: These targets do not have known drug or small molecule activities that satisfy the activity thresholds detailed
-      below AND satisfy one or more of the following criteria: <br>
-      target is above the cutoff criteria for Tdark    <br>
-      target is annotated with a Gene Ontology Molecular Function or Biological Process leaf term(s)
-      with an Experimental Evidence code     <br>
-      Tdark: These are targets about which virtually nothing is known. They do not have known drug or small
-      molecule activities that satisfy the activity thresholds detailed below AND satisfy two or more of the
-      following criteria:     <br>
-      A PubMed text-mining score from Jensen Lab < 5    <br>
-      <= 3 Gene RIFs    <br>
-      <= 50 Antibodies available according to http://antibodypedia.com
-    </p>
+    <uL>
+      <li>Tclin
+        <ul>
+          <li>These targets have activities in DrugCentral (ie. approved drugs) with known mechanism of action.</li>
+        </ul>
+      </li>
+    </uL>
+    <uL>
+      <li>Tchem
+        <ul>
+          <li>These targets have activities in ChEMBL or DrugCentral that satisfy the activity thresholds detailed below.
+            In some cases, targets have been manually migrated to Tchem by human curation based on small molecule activities
+            from other sources.</li>
+        </ul>
+      </li>
+    </uL>
+    <uL>
+      <li>Tbio
+        <ul>
+          <li>These targets do not have known drug or small molecule activities that satisfy the activity thresholds
+            detailed
+            below AND satisfy one or more of the following criteria:
+            <ul>
+              <li>target is above the cutoff criteria for Tdark</li>
+              <li>target is annotated with a Gene Ontology Molecular Function or Biological Process leaf term(s)
+                with an Experimental Evidence code</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </uL>
+    <uL>
+      <li>Tdark
+        <ul>
+          <li>These are targets about which virtually nothing is known. They do not have known drug or small
+            molecule activities that satisfy the activity thresholds detailed below AND satisfy two or more of the
+            following criteria:
+          <ul>
+            <li>A PubMed text-mining score from Jensen Lab < 5</li>
+            <li><= 3 Gene RIFs</li>
+            <li><= 50 Antibodies available according to http://antibodypedia.com</li>
+          </ul></li>
+        </ul>
+      </li>
+    </uL>
+    <b>Activity Thresholds</b>
+    Activity values from DrugCentral and ChEMBL must be standardizable to -Log Molar units AND meet the the following
+    target-family-specific cutoffs:
+    <ul>
+      <li>GPCRs: <= 100nM</li>
+      <li>Kinases: <= 30nM</li>
+      <li>Ion Channels: <= 10μM</li>
+      <li>Non-IDG Family Targets: <= 1μM</li>
+    </ul>
   </div>
 </div>

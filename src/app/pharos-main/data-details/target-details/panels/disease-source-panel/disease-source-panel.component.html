@@ -61,6 +61,16 @@
             <pharos-help-panel-trigger [origin]="'diseaseSources'" [label]="'Tin-X'"></pharos-help-panel-trigger>
           </div>
         </div>
+        <ul class="link-list" *ngIf="target.dtoid?.length > 0">
+          <li>
+            <ncats-property-display class="mat-title" [showLabel]="false"
+                                    matTooltip="Explore on TIN-X"
+                                    matTooltipClass="pharos-tooltip"
+                                    matTooltipPosition="after"
+                                    [property]="{term:'Explore on TIN-X', externalLink:'https://www.newdrugtargets.org/?target=' + getDTOforLink()}">
+            </ncats-property-display>
+          </li>
+        </ul>
         <div fxLayout="row" fxLayoutAlign="center center">
           <div fxFlex="95" class="scatter-plot-holder">
             <pharos-scatter-plot [svgID]="'disease-tinx-svg'" [data]="tinx" [options]="chartOptions"></pharos-scatter-plot>
