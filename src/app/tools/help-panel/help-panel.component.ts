@@ -94,23 +94,20 @@ export class HelpPanelComponent implements OnInit {
    */
   opened: boolean[] = [];
 
-  loading: boolean = true;
+  loading = true;
   /**
    * subscribe to dat asource changes and parse data object
    */
   ngOnInit() {
     this._route.snapshot.data.components
-      .filter(comp => comp.navHeader)
-      .map(component => {
-        this.helpDataService.setSources(component.navHeader.section,
-        {
-          sources: component.api,
-          title: component.navHeader.label,
-          mainDescription: component.navHeader.mainDescription || null,
-          mainSource: this.getMainSource(component.navHeader.mainSource)
+      .forEach((component: any) => {
+        this.addSource(component);
+        if (component.panels && component.panels.length > 0) {
+          component.panels.forEach(subComponent => {
+            this.addSource(subComponent);
+          });
         }
-      );
-    });
+      });
 
     this.helpDataService.sources$.subscribe(res => {
       if (res) {
@@ -128,6 +125,18 @@ export class HelpPanelComponent implements OnInit {
 
     this.helpPanelOpenerService.toggle$.subscribe(res => this.toggleMenu(!this.loading));
     this.loading = false;
+  }
+
+  private addSource(component) {
+    if (component.navHeader) {
+      this.helpDataService.setSources(component.navHeader.section,
+        {
+          sources: component.api,
+          title: component.navHeader.label,
+          mainDescription: component.navHeader.mainDescription || null,
+          mainSource: this.getMainSource(component.navHeader.mainSource)
+        });
+    }
   }
 
   getMainSource(inputSource): string[]{

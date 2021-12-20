@@ -799,7 +799,7 @@ const AFFILIATE_LINKS_PANEL: PharosPanel = {
     {
       field: 'gototool',
       label: 'Go to tool',
-      description: 'Navigate to the tool, in a new tab.'
+      description: 'Navigate to the tool page for the current target. Link opens in a new tab.'
     }
   ]
 };
@@ -1435,8 +1435,9 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           {
             category: 'Descriptive Data',
             panels: [
-              PHAROS_BREADCRUMB_COMPONENT,
               SUMMARY_PANEL,
+              PHAROS_BREADCRUMB_COMPONENT,
+              LEVEL_SUMMARY_PANEL,
               AA_SEQUENCE_PANEL,
               EXPRESSION_PANEL,
               AFFILIATE_LINKS_PANEL,
@@ -1471,7 +1472,6 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           {
             category: 'Publications',
             panels: [
-              LEVEL_SUMMARY_PANEL,
               PUBLICATION_STATISTICS_PANEL,
               RELATED_PUBLICATIONS_PANEL
             ]

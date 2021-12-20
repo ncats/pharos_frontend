@@ -253,6 +253,7 @@ export class Target extends PharosBase {
     hpmGeneTissueSpecificityIndex: [{ name, value }];
     pantherClasses: PantherClass[] = [];
     dto: string[];
+    dtoid: string[];
 
     properties: DataProperty[] = [];
     interactionDetails?: InteractionDetails;
@@ -459,7 +460,8 @@ export class TargetSerializer implements PharosSerializer {
         }
 
         if (json.dto) {
-            obj.dto = json.dto.map(id => id = id.name).reverse();
+            obj.dto = json.dto.map(id => id.name).reverse();
+            obj.dtoid = json.dto.map(id => id.dtoid).reverse();
         }
 
         if (json.pantherClasses) {
