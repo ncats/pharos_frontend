@@ -451,7 +451,6 @@ export const TARGETDETAILSFIELDS = gql`
       name
     }
     dto {
-      dtoid
       name
     }
     pathwayCounts{

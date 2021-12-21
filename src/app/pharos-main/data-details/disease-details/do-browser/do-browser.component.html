@@ -23,7 +23,7 @@
             <div *ngFor="let parent of this.disease.parents" class="ancestorListItem">
               <ncats-property-display [showLabel]="false"
                                       [property]="{term:parent.name + ' (' + (parent.targetCountsTotal || parent.associationCount) + ')',
-                                       internalLink:'/diseases/' + parent.name}">{{parent.targetCountsTotal || parent.associationCount}}</ncats-property-display>
+                                       internalLink:['/diseases', parent.name]}">{{parent.targetCountsTotal || parent.associationCount}}</ncats-property-display>
               <div FxFlex class="assoc-count">
                 <div *ngFor='let assocCount of parent.targetCounts'>
                   <div class="assoc-count">
@@ -39,7 +39,7 @@
             <div *ngFor="let child of this.disease.children" class="ancestorListItem">
               <ncats-property-display [showLabel]="false"
                                       [property]="{term:child.name + ' (' + (child.targetCountsTotal || child.associationCount) + ')',
-                                      internalLink:'/diseases/' + child.name}">{{child.targetCountsTotal || child.associationCount}}</ncats-property-display>
+                                      internalLink:['/diseases', child.name]}">{{child.targetCountsTotal || child.associationCount}}</ncats-property-display>
               <div FxFlex class="assoc-count">
                 <div *ngFor='let assocCount of child.targetCounts'>
                   <div class="assoc-count">

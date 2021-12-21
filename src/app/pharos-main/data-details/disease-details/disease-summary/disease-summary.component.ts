@@ -51,4 +51,32 @@ export class DiseaseSummaryComponent extends DynamicPanelComponent implements On
       });
   }
 
+  getExternalLink(id: {name: string, id: string}) {
+    const pieces = id.id.split(':');
+    const format = pieces[0];
+    const term = pieces[1];
+
+    switch (format) {
+      case 'UMLS':
+        return `http://linkedlifedata.com/resource/umls/id/${term}`;
+      case 'DOID':
+      case 'NCIT':
+        return `http://purl.obolibrary.org/obo/${format}_${term}`;
+      case 'SCTID':
+        return `https://snomedbrowser.com/Codes/Details/${term}`;
+      case 'OMIM':
+      case 'OMIMPS':
+        return `https://omim.org/entry/${term}`;
+      case 'MESH':
+        return `https://meshb-prev.nlm.nih.gov/record/ui?ui=${term}`;
+      case 'GARD':
+        return `https://rarediseases.info.nih.gov/diseases/${term}/index`;
+      case 'EFO':
+        return `http://www.ebi.ac.uk/efo/${format}_${term}`;
+      case 'Wikidata':
+        return `https://www.wikidata.org/wiki/${term}`;
+    }
+    return null;
+  }
+
 }

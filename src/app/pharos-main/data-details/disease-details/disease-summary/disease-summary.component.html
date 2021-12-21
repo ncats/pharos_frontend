@@ -62,7 +62,7 @@
               [property]="{label:this.disease.mondoID, term: this.disease.name}"></ncats-property-display>
             <div *ngFor="let id of this.disease.mondoEquivalents">
                 <ncats-property-display
-                  [property]="{label:id.id, term: id.name}"></ncats-property-display>
+                  [property]="{label:id.id, term: id.name, externalLink: getExternalLink(id)}"></ncats-property-display>
             </div>
           </div>
           <div class="section" fxFlex="30" *ngIf="!this.disease.mondoID">
