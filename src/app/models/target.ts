@@ -429,15 +429,20 @@ export class TargetSerializer implements PharosSerializer {
         }
 
         if (json.interactionDetails) {
+          if (json.interactionDetails.ppitypes === 'mock') {
+            obj.interactionDetails = null;
+          }
+          else {
             obj.interactionDetails = {
-                dataSources: json.interactionDetails.ppitypes ? json.interactionDetails.ppitypes.split(",") : [],
-                evidence: json.interactionDetails.evidence,
-                interaction_type: json.interactionDetails.interaction_type,
-                score: json.interactionDetails.score,
-                p_int: json.interactionDetails.p_int,
-                p_ni: json.interactionDetails.p_ni,
-                p_wrong: json.interactionDetails.p_wrong
+              dataSources: json.interactionDetails.ppitypes ? json.interactionDetails.ppitypes.split(",") : [],
+              evidence: json.interactionDetails.evidence,
+              interaction_type: json.interactionDetails.interaction_type,
+              score: json.interactionDetails.score,
+              p_int: json.interactionDetails.p_int,
+              p_ni: json.interactionDetails.p_ni,
+              p_wrong: json.interactionDetails.p_wrong
             };
+          }
         }
 
         if (json.diseaseAssociationDetails) {
