@@ -195,13 +195,6 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    */
   hasChild = (_: number, node: DiseaseTreeNode) => !!node.children && node.children.length > 0;
 
-  getDTOforLink() {
-    if (this.target.dtoid && this.target.dtoid.length > 0) {
-      const lastDTO = this.target.dtoid[this.target.dtoid.length - 1];
-      return lastDTO.replace(':', '_');
-    }
-  }
-
   /**
    * clean up on leaving component
    */

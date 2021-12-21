@@ -89,13 +89,13 @@ export class autocompleteOption{
   parameter?: string;
 
   static getPath(obj: autocompleteOption){
-    if(autocompleteOption.hasQueryParam(obj)){
-      return obj.path;
+    if (autocompleteOption.hasQueryParam(obj)){
+      return ['/' + obj.path];
     }
-    if(obj.reference_id){
-      return obj.path + "/" + obj.reference_id;
+    if (obj.reference_id){
+      return ['/' + obj.path, obj.reference_id];
     }
-    return obj.path;
+    return ['/' + obj.path];
   }
 
   static getQueryParam(obj: autocompleteOption){
