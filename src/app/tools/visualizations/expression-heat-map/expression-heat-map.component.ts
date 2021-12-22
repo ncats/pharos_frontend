@@ -71,6 +71,8 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
     tissueAncestors: TissueCount[] = [];
     selectedAncestor = '';
     tissueSearchOn = true;
+    showCells = true;
+    showTissues = true;
 
     /**
      * width of component
@@ -214,9 +216,19 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
         }
 
         this.heatmapData.updateDataMap(
-            (f: any, args: { tissueSearch: boolean, filterValue: string, tissuesToShow: TissueCount[], selectedAncestor: string }) => {
-            if (!args.tissueSearch && args.filterValue.length > 0) {
+            (f: any, args: { tissueSearch: boolean, filterValue: string, tissuesToShow: TissueCount[],
+              selectedAncestor: string, showCells: boolean, showTissues: boolean }) => {
+            if (!args.tissueSearch) {
+              if (!args.showCells && !f.data?.uid) {
+                return false;
+              }
+              if (!args.showTissues && f.data?.uid) {
+                return false;
+              }
+              if (args.filterValue.length > 0) {
                 return f.val.toLowerCase().indexOf(args.filterValue.toLowerCase()) >= 0;
+              }
+              return true;
             } else if (args.tissueSearch && args.selectedAncestor && args.selectedAncestor.length > 0) {
                 const whiteList = args.tissuesToShow.find(t => t.name === args.selectedAncestor).list;
                 return whiteList.includes(f.val);
@@ -227,7 +239,9 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
             tissueSearch: this.tissueSearchOn,
             filterValue: this.filterTextValue,
             tissuesToShow: this.tissueAncestors,
-            selectedAncestor: this.selectedAncestor
+            selectedAncestor: this.selectedAncestor,
+            showCells: this.showCells,
+            showTissues: this.showTissues
         });
 
         this.setSize();
@@ -301,7 +315,7 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
         <span>
             <b>${this.heatmapData.yLabel}: </b>${this.heatmapData.yDisplayValues[blocks[i].__data__.y].val}<br />
             <b>${this.heatmapData.xLabel}: </b>${this.heatmapData.xValues[blocks[i].__data__.x].val}<br />
-            <b>Value:</b> ${d.z.rawVal.replace('\\n', ', ')}<br />
+            <b>Value:</b> ${d.z.rawVal?.replace('\\n', ', ')}<br />
             <b>Source Rank:</b> ${d.z.val}<br />
         </span>`)
                 .style('left', event.pageX + 'px')
