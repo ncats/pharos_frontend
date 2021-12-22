@@ -9,7 +9,7 @@ const DISEASE_FIELDS = gql`
     associationCount
     directAssociationCount
     mondoID
-    associations {
+    associations(top: 100) {
       did
       drug
       type
