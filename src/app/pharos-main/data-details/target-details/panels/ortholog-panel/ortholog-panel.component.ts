@@ -147,7 +147,7 @@ export class OrthologPanelComponent extends TargetPanelBaseComponent implements 
         .map(ortholog => orthologSerializer.fromJson(ortholog))
         .map(ortho => orthologSerializer._asProperties(ortho));
       this.targetProps.orthologs = tempArr;
-      this.loadingComplete();
+      this.loadingComplete(false);
       this.changeRef.markForCheck();
     });
   }
