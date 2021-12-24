@@ -106,7 +106,7 @@ export class GoTermsComponent extends DynamicPanelComponent implements OnInit, O
             this.target[pagingParams.propName] = tempTarget[pagingParams.propName];
             const tempProps = targetSerializer._asProperties(this.target);
             this.updateProps(cType, tempProps[pagingParams.propName]);
-            this.loadingComplete();
+            this.loadingComplete(false);
           } catch (err) {
             console.log(err);
           }

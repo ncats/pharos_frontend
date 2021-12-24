@@ -15,13 +15,13 @@ import {Target} from '../../../../../models/target';
 import {PageData} from '../../../../../models/page-data';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {PharosProperty} from '../../../../../models/pharos-property';
-import {Publication} from '../../../../../models/publication';
+import {Publication, PublicationSerializer} from '../../../../../models/publication';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {PharosConfig} from '../../../../../../config/pharos-config';
 import {PageEvent} from '@angular/material/paginator';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
-import {Generif} from '../../../../../models/generif';
+import {Generif, GenerifSerializer} from '../../../../../models/generif';
 import {ScatterPlotComponent} from '../../../../../tools/visualizations/scatter-plot/scatter-plot.component';
 import {takeUntil} from 'rxjs/operators';
 import {TargetComponents} from '../../../../../models/target-components';
@@ -86,6 +86,9 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
    */
   rifPageData: PageData;
 
+  publicationsSerializer: PublicationSerializer;
+  generifsSerializer: GenerifSerializer;
+
   /**
    * publication table fields to display
    */
@@ -137,6 +140,8 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
    * create timelines if data is available
    */
   ngOnInit() {
+    this.publicationsSerializer = new PublicationSerializer();
+    this.generifsSerializer = new GenerifSerializer();
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
@@ -198,7 +203,7 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
       this[origin] = res.data.targets[origin]
         .map(pub => this[`${origin}Serializer`].fromJson(pub))
         .map(pubObj => this[`${origin}Serializer`]._asProperties(pubObj));
-      this.loadingComplete();
+      this.loadingComplete(false);
       this.changeRef.markForCheck();
     });
   }
