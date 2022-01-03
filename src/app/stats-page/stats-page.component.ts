@@ -52,7 +52,7 @@ export class StatsPageComponent extends DynamicPanelComponent implements OnInit,
             });
           });
           this.summaryFields.forEach(field => {
-            this.data.results[field].forEach(point => {
+            this.data.results[field]?.forEach(point => {
               const schemaData = this.dataTree.get(point.schema);
               const fieldData = schemaData.get(field);
 
