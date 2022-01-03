@@ -8,6 +8,7 @@ import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {AngularFireModule} from "@angular/fire/compat";
 import {COMMON_CONFIG} from "../../../../../../test/test-config";
 import {TESTFACET} from '../../../../../../test/test-facet';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('FacetHistogramComponent', () => {
   let component: FacetHistogramComponent;
@@ -15,8 +16,11 @@ describe('FacetHistogramComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule,
-        AngularFireModule.initializeApp(COMMON_CONFIG)],
+      imports: [
+        RouterTestingModule,
+        AngularFireModule.initializeApp(COMMON_CONFIG),
+        HttpClientTestingModule
+      ],
       declarations: [FacetHistogramComponent],
       providers: [{provide: AngularFirestore, useValue: FIRESTORESTUB}, AngularFireAuth]
     })
