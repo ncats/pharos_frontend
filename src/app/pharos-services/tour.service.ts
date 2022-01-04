@@ -15,7 +15,8 @@ export enum TourType {
   Heatmaps = 'Heatmaps',
   StructureSearchTour = 'StructureSearchTour',
   TargetExpressionTour = 'TargetExpressionTour',
-  WhatsNew39 = 'WhatsNew39'
+  WhatsNew39 = 'WhatsNew39',
+  WhatsNew310 = 'WhatsNew310'
 }
 
 
@@ -66,6 +67,7 @@ export class TourService {
   };
 
   allTutorials: TourDefinition[] = [
+    {title: 'What\'s New in Version 3.10', storageKey: TourType.WhatsNew310},
     {title: 'What\'s New in Version 3.9', storageKey: TourType.WhatsNew39},
     {title: 'Using the List Pages', storageKey: TourType.ListPagesTour},
     {title: 'Using the UpSet Chart', storageKey: TourType.UpsetChartTour},
@@ -102,7 +104,7 @@ export class TourService {
         this.featureTrackingService.trackFeature('Begin Tutorial', tutorialName);
       }
       switch (tutorialName) {
-        case TourType.WhatsNew39:
+        case TourType.WhatsNew310:
           this.whatsNew(true);
           break;
         case TourType.CustomListTour:
@@ -189,7 +191,7 @@ export class TourService {
     if (!isPlatformBrowser(this.platformID)) {
       return;
     }
-    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew39)) { // only autorun once
+    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew310)) { // only autorun once
       return;
     }
     this.loadPromise.then(() => {
@@ -197,7 +199,7 @@ export class TourService {
     });
   }
 
-  runWhatsNew() {
+  runWhatsNew39() {
     const defaultSteps = [
       {
         scrollTo: false,
@@ -288,6 +290,67 @@ export class TourService {
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
         this.completeTour(TourType.WhatsNew39, event);
+      });
+    });
+    this.shepherdService.start();
+  }
+
+  runWhatsNew() {
+    const defaultSteps = [
+      {
+        scrollTo: false,
+        buttons: this.firstButtons.slice(),
+        title: 'What\'s new in Pharos 3.10?',
+        text: ['There are a few new features in Pharos version 3.10. The most significant of which is the backend infrastructure to align' +
+        ' disease data according to the <a href="https://mondo.monarchinitiative.org/" target="_blank">MONDO Disease Ontology</a>. ' +
+        'Additionally, there are a few UI updates to the target details pages.']
+      },
+      {
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Predictions in Pharos',
+        text: ['First off, in case you haven\'t heard already, criteria to include your predictions in Pharos are now posted on the <a href="/faq" target="_blank">FAQ page</a>.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/predictioncriteria.png"/>']
+      },
+      {
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'MONDO Integration',
+        text: ['By aligning disease data according to the <a href="https://mondo.monarchinitiative.org/" target="_blank">MONDO Disease ' +
+        'Ontology</a>, more than 4200 diseases have been de-orphanized towards a common terminology. Furthermore, navigating the disease ' +
+        'heirarchy to parent or child terms is done via MONDO.' +
+        '<br/><br/><span>Pharos 3.9</span><img class="tour-screenshot" src="./assets/images/tutorials/new310/do.png"/>' +
+        '<br/><br/><span>Pharos 3.10</span><img class="tour-screenshot" src="./assets/images/tutorials/new310/mondo.png"/>']
+      },
+      {
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Integrated Structure and Sequence Data',
+        text: ['With an update to EBI\'s Nightingale based ProtVista Viewer, Structure and Sequence data are integrated into one component. Additionally, on target ' +
+        'details pages for Kinases, annotations and ortholog variant data from ProKinO are also shown in one view.' +
+        '<br/><img class="tour-small-screenshot" src="./assets/images/tutorials/new310/seqviewer.png"/>' +
+        '<img class="tour-small-screenshot" src="./assets/images/tutorials/new310/structviewer.png"/>']
+      },
+      {
+        scrollTo: false,
+        buttons: this.lastButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Target Details Restructuring',
+        text: ['The long scrolling pages for Target Details have been reordered to be more intuitive, and components are grouped ' +
+        'according to the type of data they display.' +
+        '<br/><img class="tour-thin-screenshot" src="./assets/images/tutorials/new310/detailspage.png"/>']
+      },
+    ];
+    this.shepherdService.defaultStepOptions = this.defaultStepOptions;
+    this.shepherdService.modal = true;
+    this.shepherdService.confirmCancel = false;
+    this.shepherdService.addSteps(defaultSteps);
+    ['cancel', 'complete'].forEach(event => {
+      this.shepherdService.tourObject.on(event, () => {
+        this.completeTour(TourType.WhatsNew310, event);
       });
     });
     this.shepherdService.start();
@@ -411,7 +474,8 @@ export class TourService {
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
         title: 'Heatmaps',
-        text: ['Elements from your list are the columns of the interactive heatmaps. Hover over cells for a summary, click cells to view all details.' +
+        text: ['Elements from your list are the columns of the interactive heatmaps. Click the row labels or column headers to sort by ' +
+        'that row or column. Hover over cells for a summary, click cells to view all details.' +
         '<br/><img class="tour-screenshot" src="./assets/images/tutorials/heatmap.png"/>']
       },
       {
