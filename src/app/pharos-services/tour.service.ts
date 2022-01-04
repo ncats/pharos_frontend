@@ -107,6 +107,9 @@ export class TourService {
         case TourType.WhatsNew310:
           this.whatsNew(true);
           break;
+        case TourType.WhatsNew39:
+          this.runWhatsNew39();
+          break;
         case TourType.CustomListTour:
           this.runCustomListTour();
           break;
@@ -208,14 +211,6 @@ export class TourService {
         text: ['Pharos has many new features in version 3.9, including Heatmaps and Filter Value Enrichment calculations on the list pages, ' +
         'predicted Target-Ligand activities, and an improved text search functionality. The TCRD 6.12.4 update has also brought us a lot of fresh data from ChEMBL and DrugCentral.' +
         ' Click \'Next\' for a tour of the new features and where to find them.']
-      },
-      {
-        scrollTo: false,
-        buttons: this.middleButtons.slice(),
-        classes: 'step-with-screenshot',
-        title: 'Predictions in Pharos',
-        text: ['Criteria to include your predictions in Pharos are now posted on the <a href="/faq" target="_blank">FAQ page</a>.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/predictioncriteria.png"/>']
       },
       {
         scrollTo: false,
