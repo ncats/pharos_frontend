@@ -330,7 +330,7 @@ export class TourService {
         classes: 'step-with-screenshot',
         title: 'Integrated Structure and Sequence Data',
         text: ['With an update to EBI\'s Nightingale based ProtVista Viewer, Structure and Sequence data are integrated into one component. Additionally, on target ' +
-        'details pages for Kinases, annotations and ortholog variant data from ProKinO are also shown in one view.' +
+        'details pages for Kinases, annotations and ortholog variant data from ProKinO are also shown in the same view.' +
         '<br/><img class="tour-small-screenshot" src="./assets/images/tutorials/new310/seqviewer.png"/>' +
         '<img class="tour-small-screenshot" src="./assets/images/tutorials/new310/structviewer.png"/>']
       },
