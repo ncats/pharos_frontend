@@ -4,7 +4,6 @@ import {isPlatformBrowser} from '@angular/common';
 import {NavigationExtras, Router} from '@angular/router';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {CentralStorageService} from './central-storage.service';
-import {toTitleCase} from 'codelyzer/util/utils';
 import {FeatureTrackingService} from './feature-tracking.service';
 
 export enum TourType {
