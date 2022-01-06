@@ -17,7 +17,7 @@
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "customWebpackConfig": {
-              "path": "./custom-webpack.config.js"
+              "path": "./custom-webpack-browser.config.js"
             },
             "allowedCommonJsDependencies": [
               "rxjs/index", "file-saver", "sql-formatter", "decimal.js", "rxjs/internal/operators", "zen-observable"
@@ -100,7 +100,7 @@
           "builder": "@angular-builders/custom-webpack:karma",
           "options": {
             "customWebpackConfig": {
-              "path": "./custom-webpack-karma.config.js"
+              "path": "./custom-webpack-browser.config.js"
             },
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
@@ -121,7 +121,7 @@
           "builder": "@angular-builders/custom-webpack:server",
           "options": {
             "customWebpackConfig": {
-              "path": "./custom-webpack.config.js"
+              "path": "./custom-webpack-server.config.js"
             },
             "outputPath": "dist/server",
             "main": "server.ts",
