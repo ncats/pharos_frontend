@@ -1,6 +1,6 @@
 import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {Observable,of} from "rxjs";
-import {AngularFirestore} from "@angular/fire/firestore";
+import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {map, mergeAll, mergeMap, take} from "rxjs/operators";
 import {isPlatformBrowser} from '@angular/common';
 
@@ -21,11 +21,13 @@ export class TargetListService {
     }
     else{
       if (isPlatformBrowser(this.platformID)) {
+        // @ts-ignore
         return this.firebaseService.collection<any>('target-collection')
           .doc(collection)
           .valueChanges()
           .pipe(
-            map(response => {
+            // @ts-ignore
+            map((response: any) => {
               const typedResponse: any = response as any;
               this.targetListMap.set(collection, typedResponse.targetList);
               return typedResponse.targetList;

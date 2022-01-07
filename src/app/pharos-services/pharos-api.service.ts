@@ -11,7 +11,7 @@ import {Facet, UpsetOptions} from '../models/facet';
 import {Apollo, QueryRef} from 'apollo-angular';
 import gql from 'graphql-tag';
 import {SelectedFacetService} from '../pharos-main/data-list/filter-panel/selected-facet.service';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {TargetComponents} from '../models/target-components';
 import {TargetListService} from './target-list.service';
 
@@ -49,6 +49,13 @@ export class PharosApiService {
       ligandCount
       diseaseCount
     }
+  }`;
+
+  public static statsQuery = gql`query statsQuery {
+    dayStats: usageData(interval:day)
+    weekStats: usageData(interval:week)
+    monthStats: usageData(interval:month)
+    yearStats: usageData(interval:year)
   }`;
   /**
    * RxJs subject for facet data
@@ -905,6 +912,18 @@ query batchConfirmation($batch: [String], $top: Int) {
     }
   }
 }`;
+  }
+
+  public featureTrackingMutation() {
+    return gql`mutation m($user: String!, $feature: String!, $detail1: String, $detail2: String, $detail3: String) {
+  trackFeature(user: $user, feature: $feature, detail1: $detail1, detail2: $detail2, detail3: $detail3){
+    success
+  }
+}`;
+  }
+
+  public adHocMutation(mutation: any, variables?: any): Observable<any> {
+    return this.apollo.mutate({mutation, variables});
   }
 
   public adHocQuery(query: any, variables?: any): Observable<any> {

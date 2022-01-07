@@ -94,4 +94,23 @@ export class LigandCardComponent extends DynamicPanelBaseComponent implements On
       return 'Structure Similarity';
     }
   }
+
+  translateType(activityType: string) {
+    switch (activityType) {
+      case 'IC50':
+      case 'Ki':
+      case 'EC50':
+      case 'Kd':
+      case 'AC50':
+      case 'ID50':
+      case 'ED50':
+      case 'IC90':
+        return 'p' + activityType;
+    }
+    if (activityType && activityType.length > 0) {
+      return `-log(${activityType})`;
+    }
+    return '';
+  }
 }
+

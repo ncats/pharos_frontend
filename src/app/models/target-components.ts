@@ -7,7 +7,9 @@ const DISEASE_FIELDS = gql`
   fragment disease_fields on Disease {
     name
     associationCount
-    associations {
+    directAssociationCount
+    mondoID
+    associations(top: 100) {
       did
       drug
       type

@@ -2,7 +2,7 @@ import {
   Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnDestroy, OnInit, Output, PLATFORM_ID, ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import * as d3 from 'd3';
+import * as d3 from 'd3v7';
 import {takeUntil} from 'rxjs/operators';
 import {BehaviorSubject, Observable, Subject, Subscription} from 'rxjs';
 import {isPlatformBrowser} from '@angular/common';

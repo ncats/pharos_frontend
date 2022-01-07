@@ -39,7 +39,7 @@ export class AffiliateLinksComponent extends TargetPanelBaseComponent implements
       return 'tiga';
     }
     if (link.sourceName.toLowerCase().includes('prokino')) {
-      return 'variants';
+      return 'protVistaViewer';
     }
     return '';
   }

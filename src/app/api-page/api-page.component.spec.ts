@@ -5,6 +5,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from '../app-routing.module';
 import {APP_BASE_HREF} from '@angular/common';
 import {UnfurlingMetaService} from "../pharos-services/unfurling-meta.service";
+import {AngularFireModule} from '@angular/fire/compat';
+import {COMMON_CONFIG} from '../../../test/test-config';
 
 describe('ApiPageComponent', () => {
   let component: ApiPageComponent;
@@ -15,7 +17,8 @@ describe('ApiPageComponent', () => {
       imports: [
         BrowserAnimationsModule,
         SharedModule,
-        AppRoutingModule
+        AppRoutingModule,
+        AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
       declarations: [
         ApiPageComponent,

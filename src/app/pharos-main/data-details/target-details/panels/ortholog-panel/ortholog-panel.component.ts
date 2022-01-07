@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {OrthologSerializer} from '../../../../../models/ortholog';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
@@ -8,6 +8,7 @@ import {PageEvent} from '@angular/material/paginator';
 import {TargetComponents} from '../../../../../models/target-components';
 import {TargetPanelBaseComponent} from '../target-panel-base/target-panel-base.component';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {takeUntil} from 'rxjs/operators';
 
 /**
  * displays orthologs available for a target
@@ -19,7 +20,7 @@ import {DynamicServicesService} from '../../../../../pharos-services/dynamic-ser
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class OrthologPanelComponent extends TargetPanelBaseComponent implements OnInit {
+export class OrthologPanelComponent extends TargetPanelBaseComponent implements OnInit, OnDestroy {
   /**
    * target to display
    */
@@ -116,9 +117,18 @@ export class OrthologPanelComponent extends TargetPanelBaseComponent implements 
    * subscribe to data changes and create orthologs
    */
   ngOnInit() {
-    this.target = this.data.targets;
-    this.targetProps = this.data.targetsProps;
-    this.loadingComplete();
+    this._data
+    // listen to data as long as term is undefined or null
+    // Unsubscribe once term has value
+    .pipe(
+      takeUntil(this.ngUnsubscribe)
+    )
+    .subscribe(x => {
+      this.target = this.data.targets;
+      this.targetProps = this.data.targetsProps;
+      this.loadingComplete();
+      this.changeRef.markForCheck();
+    });
   }
 
   /**
@@ -137,7 +147,7 @@ export class OrthologPanelComponent extends TargetPanelBaseComponent implements 
         .map(ortholog => orthologSerializer.fromJson(ortholog))
         .map(ortho => orthologSerializer._asProperties(ortho));
       this.targetProps.orthologs = tempArr;
-      this.loadingComplete();
+      this.loadingComplete(false);
       this.changeRef.markForCheck();
     });
   }
@@ -150,4 +160,11 @@ export class OrthologPanelComponent extends TargetPanelBaseComponent implements 
     return this.target.orthologCounts;
   }
 
+  /**
+   * cleanp on destroy
+   */
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
 }

@@ -4,6 +4,7 @@ import {isPlatformBrowser} from "@angular/common";
 import {DomSanitizer} from '@angular/platform-browser';
 import {UnfurlingMetaService} from "../pharos-services/unfurling-meta.service";
 import {environment} from "../../environments/environment";
+import {FeatureTrackingService} from '../pharos-services/feature-tracking.service';
 
 /**
  * ui page holder for a graphQL UI API documentation viewer
@@ -19,7 +20,8 @@ export class ApiPageComponent implements OnInit {
    * no args constructor
    */
   constructor(private sanitizer: DomSanitizer,
-              private metaService: UnfurlingMetaService) {
+              private metaService: UnfurlingMetaService,
+              private featureTrackingService: FeatureTrackingService) {
   }
 
   query: QueryDetails;
@@ -132,6 +134,7 @@ export class ApiPageComponent implements OnInit {
     this.query = query;
     this.queryInFrame = this.query.key;
     this.dirty = true;
+    this.featureTrackingService.trackFeature('API Example Query', query.name);
   }
 
   ngOnInit() {
@@ -163,15 +166,16 @@ query targetDetails{
 query diseaseDetails{
   disease(name:"asthma"){
     name
+    mondoDescription
     uniprotDescription
     doDescription
-    targetCounts{
+    targetCounts {
       name
       value
     }
-    children{
+    children {
       name
-      doDescription
+      mondoDescription
     }
   }
 }`;

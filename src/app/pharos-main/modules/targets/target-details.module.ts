@@ -35,16 +35,12 @@ import {SidenavPanelComponent} from '../../../tools/sidenav-panel/sidenav-panel.
 import {PublicationStatisticsComponent} from '../../data-details/target-details/panels/publication-statistics/publication-statistics.component';
 import {RelatedPublicationsComponent} from '../../data-details/target-details/panels/related-publications/related-publications.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import {PdbDetailsComponent} from '../../data-details/target-details/panels/pdb-panel/pdb-details/pdb-details.component';
-import {PdbPanelComponent} from '../../data-details/target-details/panels/pdb-panel/pdb-panel.component';
 import {DrugsLigandsPanelComponent} from '../../data-details/target-details/panels/drugs-ligands-panel/drugs-ligands-panel.component';
 import {PathwaysPanelComponent} from '../../data-details/target-details/panels/pathways-panel/pathways-panel.component';
 import {ReactomePathwayBrowserComponent} from '../../data-details/target-details/panels/pathways-panel/reactome-pathway-browser/reactome-pathway-browser.component';
 import {GoTermsComponent} from '../../data-details/target-details/panels/go-terms/go-terms.component';
-import {SequenceLogoComponent} from '../../data-details/target-details/panels/ortholog-variants/sequence-logo/sequence-logo.component';
 import {SequenceComponent} from '../../data-details/target-details/panels/aa-sequence-panel/sequence/sequence.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
-import {OrthologVariantsComponent} from '../../data-details/target-details/panels/ortholog-variants/ortholog-variants.component';
 import {GwasTargetAnalyticsComponent} from '../../data-details/target-details/panels/gwas-target-analytics/gwas-target-analytics.component';
 import {AffiliateLinksComponent} from '../../data-details/target-details/panels/affiliate-links/affiliate-links.component';
 import {TargetPanelBaseComponent} from '../../data-details/target-details/panels/target-panel-base/target-panel-base.component';
@@ -70,8 +66,6 @@ import {ExpressionDetailsBlockComponent} from '../../data-details/target-details
     ViralInteractionPanelComponent,
     VirusDetailsComponent,
     OrthologPanelComponent,
-    PdbPanelComponent,
-    PdbDetailsComponent,
     GeneSummaryComponent,
     GoTermsComponent,
     GwasTargetAnalyticsComponent,
@@ -83,8 +77,6 @@ import {ExpressionDetailsBlockComponent} from '../../data-details/target-details
     LigandsPanelComponent,
     DrugsPanelComponent,
     DrugsLigandsPanelComponent,
-    OrthologVariantsComponent,
-    SequenceLogoComponent,
     SequenceComponent,
     AffiliateLinksComponent,
     TargetPanelBaseComponent,
@@ -128,12 +120,9 @@ import {ExpressionDetailsBlockComponent} from '../../data-details/target-details
     {provide: TOKENS.AA_SEQUENCE_PANEL, useValue: AaSequencePanelComponent},
     {provide: TOKENS.LIGANDS_PANEL, useValue: LigandsPanelComponent},
     {provide: TOKENS.DRUGS_PANEL, useValue: DrugsPanelComponent},
-    {provide: TOKENS.PDB_PANEL, useValue: PdbPanelComponent},
     {provide: TOKENS.PATHWAYS_PANEL, useValue: PathwaysPanelComponent},
     {provide: TOKENS.GO_TERMS_PANEL, useValue: GoTermsComponent},
     {provide: TOKENS.PATHWAYS_PANEL, useValue: PathwaysPanelComponent},
-    {provide: TOKENS.SEQUENCE_LOGO, useValue: SequenceLogoComponent},
-    {provide: TOKENS.ORTHOLOG_VARIANT_PANEL, useValue: OrthologVariantsComponent},
     {provide: TOKENS.GWAS_TARGET_ANALYTICS_PANEL, useValue: GwasTargetAnalyticsComponent},
     {provide: TOKENS.AFFILIATE_LINKS, useValue: AffiliateLinksComponent},
     {provide: TOKENS.ORTHOLOGS_PANEL, useValue: OrthologPanelComponent}

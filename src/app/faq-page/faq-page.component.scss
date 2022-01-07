@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @import '../../partials/ncats-theme';
 
 .faq-holder {
@@ -15,7 +16,7 @@
   font-size: 3em;
   padding-left: 1vw;
   margin-bottom: 1vh;
-  border-left: 8px solid mat-color($pharos-app-primary);
+  border-left: 8px solid mat.get-color-from-palette($pharos-app-primary);
 }
 
 .field-label {

@@ -1,4 +1,15 @@
-import {ChangeDetectorRef, Component, ElementRef, Inject, Input, OnDestroy, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+  ViewChild
+} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {Target} from '../../../../../models/target';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
@@ -8,6 +19,8 @@ import {isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 import {TourType} from '../../../../../pharos-services/tour.service';
 import {HeatMapData} from '../../../../../tools/visualizations/heat-map/heat-map.component';
+import {takeUntil} from 'rxjs/operators';
+import {ExpressionHeatMapComponent} from '../../../../../tools/visualizations/expression-heat-map/expression-heat-map.component';
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 /**
@@ -24,7 +37,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
    */
   @Input() target: Target;
   @Input() targetProps: any;
-
 
   /**
    * tissues to display, currently contains dummy data
@@ -96,7 +108,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
       .pipe(
-        // takeUntil(this.ngUnsubscribe)
+        takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
         if (isPlatformBrowser(this.platformID)) {
@@ -105,6 +117,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
           this.targetProps = this.data.targetsProps;
           this.setterFunction();
           this.loadingComplete();
+          this.changeRef.detectChanges();
         }
       });
   }
@@ -184,8 +197,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
    */
   setterFunction() {
     this.updateHeatmapData();
-    this.changeRef.markForCheck();
-    this.loadingComplete();
   }
 
   static getPreferredField(dataSource: string): string {

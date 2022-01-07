@@ -6,12 +6,11 @@ import {
   Inject,
   Input,
   OnInit,
-  PLATFORM_ID,
+  PLATFORM_ID, Renderer2,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import * as Protvista from 'ProtVista';
 import {Target} from '../../../../../models/target';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {takeUntil} from 'rxjs/operators';
@@ -27,7 +26,7 @@ import {DynamicServicesService} from '../../../../../pharos-services/dynamic-ser
 @Component({
   selector: 'pharos-aa-sequence-panel',
   templateUrl: './aa-sequence-panel.component.html',
-  styleUrls: ['./aa-sequence-panel.component.scss'],
+  styleUrls: ['./aa-sequence-panel.component.scss', './molstar.css'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -37,7 +36,6 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
    * target to display
    */
   @Input() target: Target;
-
   /**
    * div element that holds the protvista viewer
    */
@@ -56,6 +54,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
    * @param changeRef
    */
   constructor(
+    private renderer: Renderer2,
     private breakpointObserver: BreakpointObserver,
     private changeRef: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformID: any,
@@ -82,15 +81,36 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
           this.getCounts();
         }
         if (!this.isSmallScreen && isPlatformBrowser(this.platformID)) {
-          const r = new Protvista({
-            el: this.viewerContainer.nativeElement,
-            uniprotacc: this.target.accession
+          const childElements = this.viewerContainer.nativeElement.childNodes;
+          for (const child of childElements) {
+            this.renderer.removeChild(this.viewerContainer.nativeElement, child);
+          }
+          import('ncats-protvista-uniprot').then(res => {
+            // tslint:disable-next-line:no-unused-expression
+            window.customElements.get('protvista-uniprot') || window.customElements.define('protvista-uniprot', res.default);
+            const viewer = this.renderer.createElement('protvista-uniprot');
+            viewer.setAttribute('accession', this.target.accession);
+            this.viewerContainer.nativeElement.appendChild(viewer);
+            this.scrollWhenComplete(viewer);
           });
         }
         this.loadingComplete();
         this.changeRef.markForCheck();
       });
 
+  }
+
+  private scrollWhenComplete(viewer) {
+    const interval = window.setInterval(checkProtVistaIsLoading.bind(this), 100);
+
+    function checkProtVistaIsLoading() {
+      if (!viewer.loading) {
+        clearInterval(interval);
+        setTimeout(() => {
+          this.loadingComplete();
+        }, 300);
+      }
+    }
   }
 
   /**

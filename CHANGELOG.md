@@ -1,3 +1,33 @@
+# 3.10.0 (2022-01-06) 
+### Added Features
+* **MONDO integration**
+    * Different sources for target-disease associations use different disease ontologies. 
+    Now Pharos uses the <a href="https://mondo.monarchinitiative.org/" target="_blank">
+    MONDO Disease Ontology</a> to harmonize analogous terms.  
+        * Accordingly, navigating to parent or child disease terms from the Disease Details pages is done using the
+         MONDO Ontology, rather than Disease Ontology (DO).
+    * Now there is the added ability to resolve diseases based on any of the equivalent terms mapped to MONDO can 
+    be used to resolve to a Disease Details page (e.g. <a href="/diseases/UMLS:C0004096" target="_blank">https://pharos.ncats.nih.gov/diseases/UMLS:C0004096</a>)
+    
+* **Combined ProtVista Structure and Sequence Viewer**
+    * Pharos has upgraded to EBI's Nightingale based web components, which has an integrated structure
+     viewer along with the sequence viewer. This enables us to combine those two components of the Target
+      Details pages.
+    * Furthermore, the data from ProKino regarding Kinase annotations and ortholog sequence variants is also integrated
+    into a single component. 
+* **Angular Upgrade:**
+    * Upgrade to Angular 13
+* **UI Updates to Target Details pages**
+    * Long scrolling target details pages are now easier to navigate with subheadings that group descriptive data, behavioral data, phenotypic data, etc.
+    
+### Bug Fixes / Miscellaneous updates
+* **Prefixes to resolve Ligands by specific IDs**
+    * Add a prefix to resolve to a specific ligand, in cases of ID collision between data sources. Available 
+    prefixes are: "CID:" for PubChem IDs, "DC:" for DrugCentral IDs, "G2P:" for Guide to Pharmacology IDs, 
+    "UNII:" for UNIIs, "name" for the compound name, and "LYCHI:" for LyCHI layer 4. Prefixes are case insensitive.
+* **Heatmaps can now be sorted by any row or column by clicking the labels**
+* **Expression data can be filtered for cell types or tissues.**
+
 # 3.9.0 (2021-11-05)
 ### Added Features
 * **List Pages have been restructured**

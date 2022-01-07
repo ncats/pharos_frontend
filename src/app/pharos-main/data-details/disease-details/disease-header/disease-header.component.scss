@@ -1,5 +1,6 @@
 
 // Import your custom theme
+@use '@angular/material' as mat;
 @import '../../../../../partials/ncats-theme';
 
 .sticky {
@@ -11,7 +12,7 @@
 .disease-header {
   background-color: #f7f7f7;
   width: 100vw;
-  border-bottom: mat-color($pharos-app-primary) 6px solid;
+  border-bottom: mat.get-color-from-palette($pharos-app-primary) 6px solid;
 }
 
 .pharos-title {

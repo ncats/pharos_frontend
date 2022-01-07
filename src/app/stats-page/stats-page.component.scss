@@ -1,0 +1,16 @@
+
+.container{
+  width:100%;
+  margin-top: 84px;
+  display: flex;
+  flex-direction: column;
+}
+
+.scatter-plot-holder {
+  height: 25vh;
+  width: 70vw;
+}
+
+mat-card{
+  margin: 20px;
+}

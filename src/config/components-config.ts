@@ -68,6 +68,11 @@ interface PharosNavHeader {
  * main panel object that is injected into the page
  */
 export interface PharosPanel {
+  // for panel groups
+  panels?: PharosPanel[];
+  category?: string;
+
+  // for traditional panels
   /**
    * token for the panel component
    */
@@ -374,9 +379,11 @@ const PHAROS_FACET_REPRESENTATION_COMPONENT: PharosPanel = {
     section: 'analyze',
     label: 'Filter Value Enrichment'
   }, api: [
-    {description: 'description',
-    field: 'field',
-    label: 'label'}
+    {
+      description: 'description',
+      field: 'field',
+      label: 'label'
+    }
   ]
 };
 
@@ -723,26 +730,6 @@ const DRUGS_PANEL: PharosPanel = {
 };
 
 /**
- * Protein data bank viewer component
- * @type {PharosPanel}
- */
-const PDB_PANEL: PharosPanel = {
-  token: TOKENS.PDB_PANEL,
-  navHeader: {
-    label: 'Protein Structure',
-    section: 'pdbview',
-    mainDescription: 'List of proteins and ligands sourced from the RCSB PDB database'
-  },
-  api: [
-    {
-      field: 'pdb',
-      label: 'Data Source',
-      description: 'Proteins and ligands sourced from the RCSB PDB database'
-    }
-  ]
-};
-
-/**
  * tissue expression component
  * @type {PharosPanel}
  */
@@ -754,36 +741,6 @@ const EXPRESSION_PANEL: PharosPanel = {
     mainDescription: 'Expression data from several sources shown as a heatmap of tissues and data sources, and as a shaded anatomogram.'
   },
   api: []
-};
-
-const ORTHOLOG_VARIANT_PANEL: PharosPanel = {
-  token: TOKENS.ORTHOLOG_VARIANT_PANEL,
-  navHeader: {
-    label: 'Ortholog Sequence Conservation',
-    section: 'variants',
-    mainDescription: 'A plot of the degree of conservation of each residue for homologous kinases, across many different species. ' +
-      'Zooming in on the variant plot reveals the specific amino acids at each residue. ' +
-      'Annotations are shown for different domains, motifs, and key amino acids aligned with the sequence variants. Data is from ProKinO.',
-    mainSource: 'https://prokino.uga.edu/kinview/'
-  }, api: [
-    {
-      field: 'none',
-      label: 'Variant Data',
-      description: 'Amino acid propensities for each residue are calculated based on the alignment of many ' +
-        'kinases from orthologous species.'
-    },
-    {
-      field: 'weblogoColors',
-      label: 'WebLogo Color Code',
-      description: 'Color coding for the zoomed in sequence variant plot. Amino acids are color coded according to chemical' +
-        ' properties including: polar, neutral, basic, acidic, and hydrophobic.'
-    },
-    {
-      field: 'annotations',
-      label: 'Kinase Annotations',
-      description: 'Annotations are shown for different domains, motifs, and key amino acids aligned with the sequence variants.'
-    },
-  ]
 };
 
 const GWAS_TARGET_ANALYTICS_PANEL: PharosPanel = {
@@ -842,7 +799,7 @@ const AFFILIATE_LINKS_PANEL: PharosPanel = {
     {
       field: 'gototool',
       label: 'Go to tool',
-      description: 'Navigate to the tool, in a new tab.'
+      description: 'Navigate to the tool page for the current target. Link opens in a new tab.'
     }
   ]
 };
@@ -1072,7 +1029,7 @@ const RELATED_PUBLICATIONS_PANEL: PharosPanel = {
 const AA_SEQUENCE_PANEL: PharosPanel = {
   token: TOKENS.AA_SEQUENCE_PANEL,
   navHeader: {
-    label: 'Protein Sequence',
+    label: 'Protein Sequence and Structure',
     section: 'sequence',
     mainDescription: 'Amino acid sequence, and a detailed sequence structure viewer via the Uniprot Protvista viewer.'
   },
@@ -1095,6 +1052,15 @@ const AA_SEQUENCE_PANEL: PharosPanel = {
       label: 'ProtVista Viewer',
       description: 'The protein sequence aligned with structural and functional annotations, as well as disease variants.',
       source: 'https://www.uniprot.org/'
+    },
+    {
+      field: 'kinaseFeatures',
+      label: 'Kinase Specific Annotations',
+      description: 'For kinases, a plot of the degree of conservation of each residue across different species is included ' +
+        'in the ProtVista Viewer. Find the heading for "Ortholog Variants" for that data. Zooming in on the variant plot reveals the ' +
+        'specific amino acids at each residue. Additionally, the "ProKinO Annotations" header shows more detailed annotations for the ' +
+        'kinase domain.',
+      source: 'https://prokino.uga.edu/kinview/'
     }
   ]
 };
@@ -1184,6 +1150,12 @@ const DISEASE_SUMMARY_COMPONENT: PharosPanel = {
       label: 'UniProt Description',
       description: 'Description from UniProt.',
       source: 'https://www.uniprot.org/'
+    },
+    {
+      field: 'mondoDescription',
+      label: 'Mondo Description',
+      description: 'Description from Mondo Disease Ontology.',
+      source: 'https://mondo.monarchinitiative.org/'
     },
     {
       field: 'doDescription',
@@ -1460,27 +1432,50 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_SUBNAV_COMPONENT,
           PHAROS_HELPPANEL_COMPONENT,
           TARGET_HEADER_COMPONENT,
-          PHAROS_BREADCRUMB_COMPONENT,
-          SUMMARY_PANEL,
-          AFFILIATE_LINKS_PANEL,
-          LEVEL_SUMMARY_PANEL,
-          IDG_RESOURCES_PANEL,
-          DRUGS_PANEL,
-          LIGANDS_PANEL,
-          DISEASE_SOURCE_PANEL,
-          GWAS_TARGET_ANALYTICS_PANEL,
-          ORTHOLOGS_PANEL,
-          PDB_PANEL,
-          PATHWAYS_PANEL,
-          GO_TERMS_PANEL,
-          VIRAL_INTERACTIONS_PANEL,
-          EXPRESSION_PANEL,
-          PROTEIN_PROTEIN_PANEL,
-          PUBLICATION_STATISTICS_PANEL,
-          RELATED_PUBLICATIONS_PANEL,
-          AA_SEQUENCE_PANEL,
-          ORTHOLOG_VARIANT_PANEL,
-          TARGET_FACET_PANEL
+          {
+            category: 'Descriptive Data',
+            panels: [
+              SUMMARY_PANEL,
+              PHAROS_BREADCRUMB_COMPONENT,
+              LEVEL_SUMMARY_PANEL,
+              AA_SEQUENCE_PANEL,
+              EXPRESSION_PANEL,
+              AFFILIATE_LINKS_PANEL,
+            ]
+          },
+          {
+            category: 'Behavioral Data',
+            panels: [
+              DRUGS_PANEL,
+              LIGANDS_PANEL,
+              VIRAL_INTERACTIONS_PANEL,
+              PROTEIN_PROTEIN_PANEL,
+              PATHWAYS_PANEL
+            ]
+          },
+          {
+            category: 'Phenotypic Data',
+            panels: [
+              GO_TERMS_PANEL,
+              DISEASE_SOURCE_PANEL,
+              GWAS_TARGET_ANALYTICS_PANEL,
+              TARGET_FACET_PANEL
+            ]
+          },
+          {
+            category: 'Resources',
+            panels: [
+              IDG_RESOURCES_PANEL,
+              ORTHOLOGS_PANEL
+            ]
+          },
+          {
+            category: 'Publications',
+            panels: [
+              PUBLICATION_STATISTICS_PANEL,
+              RELATED_PUBLICATIONS_PANEL
+            ]
+          }
         ]
       }
     }],

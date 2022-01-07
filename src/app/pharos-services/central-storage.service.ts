@@ -1,6 +1,7 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Facet} from '../models/facet';
+import {ActivatedRoute, ActivatedRouteSnapshot} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,15 @@ export class CentralStorageService {
   @Output() displayFacetChanged = new EventEmitter<{model: string, facet: string}>();
   @Output() browseTypesChanged = new EventEmitter<string[]>();
 
-  constructor() { }
+  constructor(private _route: ActivatedRoute) { }
+
+  getModel(route: ActivatedRoute): string {
+    let model = route.snapshot.data.path;
+    if (model.endsWith('s')) {
+      model = model.slice(0, model.length - 1);
+    }
+    return model.charAt(0).toUpperCase() + model.slice(1);
+  }
 
   getBrowseTypes(): string[] {
     return this.browseTypes;

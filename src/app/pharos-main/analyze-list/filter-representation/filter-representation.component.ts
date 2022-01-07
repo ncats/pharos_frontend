@@ -10,6 +10,7 @@ import {takeUntil} from 'rxjs/operators';
 import {SelectedFacetService} from '../../data-list/filter-panel/selected-facet.service';
 import {PathResolverService} from '../../data-list/filter-panel/path-resolver.service';
 import {TourType} from '../../../pharos-services/tour.service';
+import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
 
 @Component({
   selector: 'pharos-analyze-list',
@@ -25,16 +26,13 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
     private pharosApiService: PharosApiService,
     private changeRef: ChangeDetectorRef,
     private selectedFacetService: SelectedFacetService,
-    private pathResolverService: PathResolverService
+    private pathResolverService: PathResolverService,
+    private featureTrackingService: FeatureTrackingService
   ) {
     super(dynamicServices);
   }
   tourType: TourType;
-  get models() {
-    return this.model + 's';
-  }
-
-  model: string;
+  count: number;
 
   facetFields: PharosProperty[] = [
     new PharosProperty({
@@ -103,14 +101,12 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
         this.initialize();
         this.fetchAllFilterOptions();
       });
-    this.initialize();
-    this.fetchAllFilterOptions();
   }
 
   initialize() {
     this.selectedFacetName = this._route.snapshot.queryParamMap.get('enrichmentFacet') || this.selectedFacetName || this.defaultFacetName();
     this.listIsFiltered = this.calcListIsFiltered();
-    this.model = this._route.snapshot.data.path.slice(0, -1);
+    this.count = this.data.count;
   }
 
   filterIsInUse(filterName: string) {
@@ -173,8 +169,9 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
     navigationExtras.queryParams = {
       enrichmentFacet: this.selectedFacetName
     };
+    this.featureTrackingService.trackFeature('Calculate Filter Value Enrichment',
+      this.centralStorageService.getModel(this._route), this.selectedFacetName);
     this.router.navigate([path], navigationExtras);
-    // this.fetchAllFilterOptions();
   }
 
   linkClicked(filterValue: string) {

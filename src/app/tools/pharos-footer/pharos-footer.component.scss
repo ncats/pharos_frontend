@@ -1,8 +1,9 @@
+@use '@angular/material' as mat;
 @import '../../../partials/ncats-theme';
 
 .pharos-footer {
   color: white;
-  background-color: mat-color($pharos-app-primary);
+  background-color: mat.get-color-from-palette($pharos-app-primary);
   padding: 5vh 1vw 5vh 1vw;
   margin: 0!important;
   position: relative;

@@ -78,8 +78,7 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit {
       this.panelOptions.mode = 'over';
     }
     this.navSectionsService.setSections(this._route.snapshot.data.components
-      .filter(component => component.navHeader)
-      .map(comp => comp.navHeader));
+      .filter(component => component.navHeader || (component.panels && component.panels.length > 0)));
 
     this.navSectionsService.sections$.subscribe(res => {
       if (res && res.length) {

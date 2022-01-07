@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {BehaviorSubject, ReplaySubject} from 'rxjs/index';
-import * as firebase from 'firebase/app';
-import {AngularFireAuth} from '@angular/fire/auth';
+import * as firebase from 'firebase/compat/app';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
 
 /**
  * service to retrieve profile info from firebase, based on user id token

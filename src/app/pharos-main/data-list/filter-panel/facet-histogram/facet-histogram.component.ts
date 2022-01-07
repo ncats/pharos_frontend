@@ -16,6 +16,8 @@ import {Subject} from 'rxjs';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SelectedFacetService} from '../selected-facet.service';
 import {PathResolverService} from '../path-resolver.service';
+import {FeatureTrackingService} from '../../../../pharos-services/feature-tracking.service';
+import {CentralStorageService} from '../../../../pharos-services/central-storage.service';
 
 @Component({
   selector: 'pharos-facet-histogram',
@@ -26,10 +28,12 @@ export class FacetHistogramComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
+    private centralStorageService: CentralStorageService,
     private changeRef: ChangeDetectorRef,
     private selectedFacetService: SelectedFacetService,
     private pathResolverService: PathResolverService,
-    private _route: ActivatedRoute) {
+    private _route: ActivatedRoute,
+    private featureTrackingService: FeatureTrackingService) {
   }
 
   /**
@@ -103,6 +107,9 @@ export class FacetHistogramComponent implements OnInit, OnDestroy {
     this.selectedFacetService.removefacetFamily(this.facet);
     this.selectedFacetService.setFacets({name: this.facet.facet, change: {added: [this.currentRangeDisplay()]}});
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
+    this.featureTrackingService.trackFeature('Using a Numerical Filter', this.centralStorageService.getModel(this._route),
+      this.facet.facet);
+
     this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
   }
 

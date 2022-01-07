@@ -116,7 +116,7 @@ export class SearchComponent implements OnInit {
 
   getTooltip(option: autocompleteOption): string {
     if (autocompleteOption.isDetailsPage(option)) {
-      return `See details for ${option.path.slice(0, -1)}: ${option.reference_id}`
+      return `See details for ${option.path.slice(0, -1)}: ${option.reference_id}`;
     }
     if (option.reference_id) {
       return `See ${option.path} associated with ${Facet.getReadableParameter(option.parameter)}: ${option.reference_id}`;
@@ -132,8 +132,8 @@ export class SearchComponent implements OnInit {
    * @param {NavigationExtras} navExtras
    * @private
    */
-  private _navigate(navExtras: NavigationExtras, path: string): void {
+  private _navigate(navExtras: NavigationExtras, path: string[]): void {
     this.selectedFacetService.clearFacets();
-    this._router.navigate(['/' + path], navExtras);
+    this._router.navigate(path, navExtras);
   }
 }
