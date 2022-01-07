@@ -38,8 +38,16 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
       width: '35vw'
     }),
     new PharosProperty({
-      name: 'targetCountsTotal',
+      name: 'mondoID',
+      label: 'Mondo ID'
+    }),
+    new PharosProperty({
+      name: 'associationCount',
       label: 'Associated Targets'
+    }),
+    new PharosProperty({
+      name: 'directAssociationCount',
+      label: 'Direct Associated Targets'
     })
   ];
 
@@ -49,7 +57,7 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
       name: 'datasource_count',
       label: 'Data Source Count'
     })
-  ]
+  ];
 
   /**
    * total count of results

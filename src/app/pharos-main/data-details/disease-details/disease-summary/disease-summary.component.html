@@ -19,7 +19,8 @@
         </div>
         <div class="content">
           <div class="section" fxFlex="40">
-            <mat-card-subtitle [matTooltip]="getTooltip('associatedTargets')">Associated Targets ({{this.disease.targetCountsTotal}})</mat-card-subtitle>
+            <mat-card-subtitle [matTooltip]="getTooltip('associatedTargets')">
+              Associated Targets ({{this.disease.targetCountsTotal || this.disease.associationCount}})</mat-card-subtitle>
             <div FxFlex class="assoc-count">
               <div *ngFor='let assocCount of this.disease?.targetCounts'>
                 <div class="assoc-count">
@@ -34,6 +35,12 @@
             </pharos-explore-list-button>
           </div>
           <div class="section" fxFlex="40">
+            <div *ngIf="this.disease.mondoDescription">
+              <mat-card-subtitle [matTooltip]="getTooltip('mondoDescription')">
+                Mondo Description
+              </mat-card-subtitle>
+              {{this.disease.mondoDescription}}
+            </div>
             <div *ngIf="this.disease.uniprotDescription">
               <mat-card-subtitle [matTooltip]="getTooltip('uniprotDescription')">
                 Uniprot Description
@@ -47,7 +54,18 @@
               {{this.disease.doDescription}}
             </div>
           </div>
-          <div class="section" fxFlex="30" *ngIf="this.disease.diseaseIDs.length">
+          <div class="section" fxFlex="30" *ngIf="this.disease.mondoID">
+            <mat-card-subtitle [matTooltip]="getTooltip('datasourceRefs')">
+              Mondo Term and Equivalent IDs
+            </mat-card-subtitle>
+            <ncats-property-display
+              [property]="{label:this.disease.mondoID, term: this.disease.name}"></ncats-property-display>
+            <div *ngFor="let id of this.disease.mondoEquivalents">
+                <ncats-property-display
+                  [property]="{label:id.id, term: id.name, externalLink: getExternalLink(id)}"></ncats-property-display>
+            </div>
+          </div>
+          <div class="section" fxFlex="30" *ngIf="!this.disease.mondoID">
             <mat-card-subtitle [matTooltip]="getTooltip('datasourceRefs')">
               DataSource References
             </mat-card-subtitle>

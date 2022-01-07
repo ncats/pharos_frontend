@@ -1,5 +1,6 @@
 
 // Import your custom theme
+@use '@angular/material' as mat;
 @import '../../../../../partials/ncats-theme';
 
 .sticky {
@@ -14,11 +15,11 @@
 }
 
 .tbio-header{
-  border-bottom: mat-color($pharos-app-accent) 6px solid;
+  border-bottom: mat.get-color-from-palette($pharos-app-accent) 6px solid;
 }
 
 .tdark-header {
-  border-bottom: mat-color($ncats-app-warn) 6px solid;
+  border-bottom: mat.get-color-from-palette($ncats-app-warn) 6px solid;
 }
 
 .tchem-header {
@@ -26,7 +27,7 @@
 }
 
 .tclin-header {
-  border-bottom: mat-color($pharos-app-primary) 6px solid;
+  border-bottom: mat.get-color-from-palette($pharos-app-primary) 6px solid;
 }
 
 @media only screen and (max-width: 960px) {

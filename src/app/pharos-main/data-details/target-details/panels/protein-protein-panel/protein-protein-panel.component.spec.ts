@@ -4,11 +4,11 @@ import { ProteinProteinPanelComponent } from './protein-protein-panel.component'
 import {SharedModule} from '../../../../../shared/shared.module';
 import {TESTTARGET} from '../../../../../../../test/test-target';
 import {RouterTestingModule} from '@angular/router/testing';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
-import {AngularFireModule} from '@angular/fire';
+import {AngularFireModule} from '@angular/fire/compat';
 import {COMMON_CONFIG} from '../../../../../../../test/test-config';
-import {AngularFireAuth} from '@angular/fire/auth';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route';

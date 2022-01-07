@@ -4,7 +4,7 @@ import {isPlatformBrowser} from '@angular/common';
 import {NavigationExtras, Router} from '@angular/router';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {CentralStorageService} from './central-storage.service';
-import {toTitleCase} from 'codelyzer/util/utils';
+import {FeatureTrackingService} from './feature-tracking.service';
 
 export enum TourType {
   ListPagesTour = 'ListPagesTour',
@@ -13,9 +13,9 @@ export enum TourType {
   FilterValueEnrichment = 'FilterValueEnrichment',
   Heatmaps = 'Heatmaps',
   StructureSearchTour = 'StructureSearchTour',
-  ProteinStructureTour = 'ProteinStructureTour',
   TargetExpressionTour = 'TargetExpressionTour',
-  WhatsNew39 = 'WhatsNew39'
+  WhatsNew39 = 'WhatsNew39',
+  WhatsNew310 = 'WhatsNew310'
 }
 
 
@@ -26,6 +26,7 @@ export class TourService {
 
   constructor(
     private centralStorageService: CentralStorageService,
+    private featureTrackingService: FeatureTrackingService,
     private localStorageService: LocalStorageService,
     private router: Router,
     private breakpointObserver: BreakpointObserver,
@@ -65,6 +66,7 @@ export class TourService {
   };
 
   allTutorials: TourDefinition[] = [
+    {title: 'What\'s New in Version 3.10', storageKey: TourType.WhatsNew310},
     {title: 'What\'s New in Version 3.9', storageKey: TourType.WhatsNew39},
     {title: 'Using the List Pages', storageKey: TourType.ListPagesTour},
     {title: 'Using the UpSet Chart', storageKey: TourType.UpsetChartTour},
@@ -72,7 +74,6 @@ export class TourService {
     {title: 'Creating a Heatmap', storageKey: TourType.Heatmaps},
     {title: 'Uploading a Custom List', storageKey: TourType.CustomListTour},
     {title: 'Searching by Chemical Structure', storageKey: TourType.StructureSearchTour},
-    {title: 'Viewing Protein Structure Data', storageKey: TourType.ProteinStructureTour},
     {title: 'Viewing Target Expression Data', storageKey: TourType.TargetExpressionTour},
   ];
   onlyButton = [TourService.okayButton];
@@ -98,10 +99,15 @@ export class TourService {
       return;
     }
     this.loadPromise.then(() => {
-
+      if (tutorialName) {
+        this.featureTrackingService.trackFeature('Begin Tutorial', tutorialName);
+      }
       switch (tutorialName) {
-        case TourType.WhatsNew39:
+        case TourType.WhatsNew310:
           this.whatsNew(true);
+          break;
+        case TourType.WhatsNew39:
+          this.runWhatsNew39();
           break;
         case TourType.CustomListTour:
           this.runCustomListTour();
@@ -114,9 +120,6 @@ export class TourService {
           break;
         case TourType.TargetExpressionTour:
           this.runExpressionTour();
-          break;
-        case TourType.ProteinStructureTour:
-          this.runProteinStructureTour();
           break;
         case TourType.Heatmaps:
           this.runHeatmapTour();
@@ -190,7 +193,7 @@ export class TourService {
     if (!isPlatformBrowser(this.platformID)) {
       return;
     }
-    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew39)) { // only autorun once
+    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew310)) { // only autorun once
       return;
     }
     this.loadPromise.then(() => {
@@ -198,7 +201,7 @@ export class TourService {
     });
   }
 
-  runWhatsNew() {
+  runWhatsNew39() {
     const defaultSteps = [
       {
         scrollTo: false,
@@ -207,14 +210,6 @@ export class TourService {
         text: ['Pharos has many new features in version 3.9, including Heatmaps and Filter Value Enrichment calculations on the list pages, ' +
         'predicted Target-Ligand activities, and an improved text search functionality. The TCRD 6.12.4 update has also brought us a lot of fresh data from ChEMBL and DrugCentral.' +
         ' Click \'Next\' for a tour of the new features and where to find them.']
-      },
-      {
-        scrollTo: false,
-        buttons: this.middleButtons.slice(),
-        classes: 'step-with-screenshot',
-        title: 'Predictions in Pharos',
-        text: ['Criteria to include your predictions in Pharos are now posted on the <a href="/faq" target="_blank">FAQ page</a>.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/predictioncriteria.png"/>']
       },
       {
         scrollTo: false,
@@ -294,114 +289,67 @@ export class TourService {
     this.shepherdService.start();
   }
 
-  runProteinStructureTour() {
-    const data = this.centralStorageService.getTourData('details');
-    const afCount = data.targets.alphaFoldStructures.length;
-    const structureCount = data.targets.pdbs.length;
-    const abortTour = afCount === 0 && structureCount === 0;
-    const defaultSteps = [];
-    if (abortTour) {
-      defaultSteps.push({
-        id: 'noStructures',
-        attachTo: {
-          element: '#pdbview',
-          on: 'top'
-        },
+  runWhatsNew() {
+    const defaultSteps = [
+      {
         scrollTo: false,
-        buttons: this.onlyButton.slice(),
-        title: 'No Structures Found',
-        text: [`There are no experimental or predicted structures found for this protein. Navigate to another target details page to take
-        the Protein Structure tour.`]
-      });
-    } else {
-      defaultSteps.push(...[
-        {
-          beforeShowPromise: () => {
-            return new Promise((resolve: any) => {
-              setTimeout(() => {
-                resolve();
-              }, 300);
-            });
-          },
-          id: 'pdbView',
-          attachTo: {
-            element: '#pdbview',
-            on: 'top'
-          },
-          scrollToHandler: this.tourScroller.bind({section: 'pdbview', platformID: this.platformID}),
-          buttons: this.firstButtons.slice(),
-          title: 'Protein Structure',
-          text: [`This component shows experimentally determined structures for this protein, as well as the AlphaFold predicted
-          structure.`]
-        },
-        {
-          id: 'representation',
-          attachTo: {
-            element: '.representation',
-            on: 'left'
-          },
-          scrollTo: false,
-          buttons: this.middleButtons.slice(),
-          title: 'Changing the Structure Representation',
-          text: [`Select the type of representation to show for the structures.`]
-        },
-        {
-          id: 'colorscheme',
-          attachTo: {
-            element: '.colorscheme',
-            on: 'left'
-          },
-          scrollTo: false,
-          buttons: this.middleButtons.slice(),
-          title: 'Changing the Color Scheme',
-          text: [`Select the color scheme to use for the structure plots. 'Target' coloring will color the portion of the protein structure
-        that is from the selected target, since experimentally determined structures are often complexes with other structures or fusion proteins.
-        The 'bfactor' in experimental structures is typically a measure of flexibility at each residue, and similarly a measure of
-        prediction confidence in the AlphaFold structures.`]
-        }]);
-
-      if (structureCount > 0) {
-        defaultSteps.push({
-          id: 'hasStructures',
-          attachTo: {
-            element: '.structure-list',
-            on: 'top'
-          },
-          scrollToHandler: this.tourScroller.bind({class: 'structure-list', platformID: this.platformID}),
-          buttons: this.lastButtons.slice(),
-          title: 'Viewing different structures',
-          text: [`The different experimentally determined structures are listed here, along with some metadata about the structure, such as
-        the resolution, or range of residues in the structure. Click a row to change the structure in the plot.`]
-        });
-      } else {
-        defaultSteps.push({
-          id: 'noStructures',
-          attachTo: {
-            element: '#pdbview',
-            on: 'top'
-          },
-          scrollTo: false,
-          buttons: this.lastButtons.slice(),
-          title: 'Viewing different structures',
-          text: [`No experimentally determined structures were found.`]
-        });
-      }
-    }
+        buttons: this.firstButtons.slice(),
+        title: 'What\'s new in Pharos 3.10?',
+        text: ['There are a few new features in Pharos version 3.10. The most significant of which is the backend infrastructure to align' +
+        ' disease data according to the <a href="https://mondo.monarchinitiative.org/" target="_blank">MONDO Disease Ontology</a>. ' +
+        'Additionally, there are a few UI updates to the target details pages.']
+      },
+      {
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Predictions in Pharos',
+        text: ['First off, in case you haven\'t heard already, criteria to include your predictions in Pharos are now posted on the <a href="/faq" target="_blank">FAQ page</a>.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/predictioncriteria.png"/>']
+      },
+      {
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'MONDO Integration',
+        text: ['By aligning disease data according to the <a href="https://mondo.monarchinitiative.org/" target="_blank">MONDO Disease ' +
+        'Ontology</a>, more than 4200 diseases have been de-orphanized towards a common terminology. Furthermore, navigating the disease ' +
+        'heirarchy to parent or child terms is done via MONDO.' +
+        '<br/><br/><span>Pharos 3.9</span><img class="tour-screenshot" src="./assets/images/tutorials/new310/do.png"/>' +
+        '<br/><br/><span>Pharos 3.10</span><img class="tour-screenshot" src="./assets/images/tutorials/new310/mondo.png"/>']
+      },
+      {
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Integrated Structure and Sequence Data',
+        text: ['With an update to EBI\'s Nightingale based ProtVista Viewer, Structure and Sequence data are integrated into one component. Additionally, on target ' +
+        'details pages for Kinases, annotations and ortholog variant data from ProKinO are also shown in the same view.' +
+        '<br/><img class="tour-small-screenshot" src="./assets/images/tutorials/new310/seqviewer.png"/>' +
+        '<img class="tour-small-screenshot" src="./assets/images/tutorials/new310/structviewer.png"/>']
+      },
+      {
+        scrollTo: false,
+        buttons: this.lastButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Target Details Restructuring',
+        text: ['The long scrolling pages for Target Details have been reordered to be more intuitive, and components are grouped ' +
+        'according to the type of data they display.' +
+        '<br/><img class="tour-thin-screenshot" src="./assets/images/tutorials/new310/detailspage.png"/>']
+      },
+    ];
     this.shepherdService.defaultStepOptions = this.defaultStepOptions;
     this.shepherdService.modal = true;
     this.shepherdService.confirmCancel = false;
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        if (abortTour) {
-          this.removeTourParam();
-        } else {
-          this.completeTour(TourType.ProteinStructureTour, event);
-        }
+        this.completeTour(TourType.WhatsNew310, event);
       });
     });
     this.shepherdService.start();
   }
+
   runFilterValueTour() {
     const models = this.getModels();
     const model = models.slice(0, models.length - 1);
@@ -520,7 +468,8 @@ export class TourService {
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
         title: 'Heatmaps',
-        text: ['Elements from your list are the columns of the interactive heatmaps. Hover over cells for a summary, click cells to view all details.' +
+        text: ['Elements from your list are the columns of the interactive heatmaps. Click the row labels or column headers to sort by ' +
+        'that row or column. Hover over cells for a summary, click cells to view all details.' +
         '<br/><img class="tour-screenshot" src="./assets/images/tutorials/heatmap.png"/>']
       },
       {
@@ -1033,6 +982,9 @@ export class TourService {
   }
 
   completeTour(tourType: TourType, result: string) {
+    if (result === 'complete') {
+      this.featureTrackingService.trackFeature('Complete Tutorial', tourType);
+    }
     this.removeTourParam();
     const prevResult = this.localStorageService.store.getItem(tourType);
     if (prevResult === 'complete' || (prevResult === 'cancel' && result === 'cancel')) {

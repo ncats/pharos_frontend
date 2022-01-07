@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {DynamicPanelBaseComponent} from "../../../../../../tools/dynamic-panel-base/dynamic-panel-base.component";
 import {Target} from "../../../../../../models/target";
 import {Clipboard} from "@angular/cdk/clipboard";
@@ -9,7 +9,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   templateUrl: './sequence.component.html',
   styleUrls: ['./sequence.component.scss']
 })
-export class SequenceComponent extends DynamicPanelBaseComponent implements OnInit {
+export class SequenceComponent extends DynamicPanelBaseComponent implements OnInit, OnChanges {
   /**
    * target to display
    */
@@ -32,6 +32,11 @@ export class SequenceComponent extends DynamicPanelBaseComponent implements OnIn
     }
   }
 
+  ngOnChanges(change: any) {
+    if (change.target && !change.target.firstChange) {
+      this.parseSequence();
+    }
+  }
   /**
    * parse the amino acid sequence into smaller chunks for display
    */

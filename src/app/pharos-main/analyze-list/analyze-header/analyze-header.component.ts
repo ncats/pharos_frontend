@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, HostListener, OnInit} from '@angular/core'
 import {BatchUploadModalComponent} from '../../../tools/batch-upload-modal/batch-upload-modal.component';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
 import {MatDialog} from '@angular/material/dialog';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {ActivatedRoute, NavigationEnd, NavigationExtras, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {FieldSelectionDialogComponent} from '../../../tools/field-selection-dialog/field-selection-dialog.component';
@@ -14,6 +14,7 @@ import {CentralStorageService} from '../../../pharos-services/central-storage.se
 import {BatchResolveModalComponent} from '../../../tools/batch-resolve-modal/batch-resolve-modal.component';
 import {ResolverService} from '../../../pharos-services/resolver.service';
 import {BreakpointObserver} from '@angular/cdk/layout';
+import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -40,7 +41,8 @@ export class AnalyzeHeaderComponent extends DynamicPanelComponent implements OnI
               private _route: ActivatedRoute,
               public dynamicServices: DynamicServicesService,
               private centralStorageService: CentralStorageService,
-              private resolverService: ResolverService)
+              private resolverService: ResolverService,
+              private featureTrackingService: FeatureTrackingService)
   {
     super(dynamicServices);
   }
@@ -148,6 +150,7 @@ export class AnalyzeHeaderComponent extends DynamicPanelComponent implements OnI
   }
 
   private saveCollection(result) {
+    this.featureTrackingService.trackFeature('Save Custom List', this.centralStorageService.getModel(this._route));
     this.targetCollection.collection('target-collection').add(
       result
     ).then(doc => {

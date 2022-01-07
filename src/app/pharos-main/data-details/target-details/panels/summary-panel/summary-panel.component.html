@@ -1,5 +1,5 @@
 <article>
-  <mat-card *ngIf=data class="section-card" id="summary" (pharosScrollspy)="active('summary')" #summary>
+  <mat-card *ngIf=data class="section-card" (pharosScrollspy)="active('summary')" id="summary" #summary>
     <mat-card-content>
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
@@ -9,10 +9,11 @@
            fxLayoutAlign="start stretch"
            #summary>
         <div fxFlex="95">
-      <span class="mat-title"
-            [matTooltip]=description
-            [matTooltipClass]="'pharos-tooltip'"
-      >Protein Summary</span>
+        <span class="mat-title"
+              [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">
+          Protein Summary
+        </span>
         </div>
         <div fxFlex="5">
           <pharos-help-panel-trigger [origin]="'summary'" [label]="'Protein Summary'"></pharos-help-panel-trigger>

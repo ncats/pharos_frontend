@@ -11,10 +11,11 @@ import {Parser} from 'json2csv';
 import {FieldList} from '../../models/fieldList';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {SelectedFacetService} from '../../pharos-main/data-list/filter-panel/selected-facet.service';
-import { version, tcrd_version } from '../../../../package.json';
+import package_info from '../../../../package.json';
 import {PharosProfileService} from '../../auth/pharos-profile.service';
 import JSZip from 'jszip';
 import {environment} from '../../../environments/environment';
+import {FeatureTrackingService} from '../../pharos-services/feature-tracking.service';
 
 @Component({
   selector: 'pharos-field-selection-dialog',
@@ -33,6 +34,7 @@ export class FieldSelectionDialogComponent implements OnInit {
               private snackBar: MatSnackBar,
               private profileService: PharosProfileService,
               private selectedFacetService: SelectedFacetService,
+              private featureTrackingService: FeatureTrackingService,
               private router: Router) {
   }
 
@@ -253,6 +255,7 @@ export class FieldSelectionDialogComponent implements OnInit {
       top: this.maxDownload
     };
     this.runDownloadQuery(params, true);
+    this.featureTrackingService.trackFeature('Download Data', this.data.model, this.selectedGroup?.listName, this.data.count.toString());
     this.dialogRef.close();
   }
 
@@ -375,8 +378,8 @@ WARNING: Your results have been truncated to ${this.maxDownload} rows. You shoul
   getMetadata(resultsAreMaxed: boolean){
     const metadata = `User: ${this.profile ? this.profile.name : 'not logged in'}
 ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}
-TCRD Version: ${tcrd_version}
-Pharos Version: ${version}
+TCRD Version: ${package_info.tcrd_version}
+Pharos Version: ${package_info.version}
 URL: https://pharos.nih.gov${this.router.url}
 
 Selected Fields for Download:

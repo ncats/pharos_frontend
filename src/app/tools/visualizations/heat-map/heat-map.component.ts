@@ -9,7 +9,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import * as d3 from 'd3';
+import * as d3 from 'd3v7';
 import {DynamicPanelComponent} from '../../dynamic-panel/dynamic-panel.component';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 
@@ -275,7 +275,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
         d3.select(b).classed('hovered', false);
       });
     }).on('click', (event, d) => {
-      // this.heatmapClickedInternal(event, {y: this.heatmapData.yDisplayValues[d]?.metadata});
+      this.rowClicked(event, this.heatmapData.yDisplayValues[d]);
     });
 
     xTicks.on('mouseover', (event, d) => {
@@ -292,12 +292,23 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
         d3.select(b).classed('hovered', false);
       });
     }).on('click', (event, d) => {
-      // this.heatmapClickedInternal(event, {x: this.heatmapData.xValues[d]?.metadata});
+      this.columnClicked(event, this.heatmapData.xValues[d]);
     });
 
     this.tooltip = d3.select('body').append('div')
       .attr('class', 'twodtooltip')
       .style('opacity', 0);
+  }
+
+  rowClicked(event, d) {
+    this.heatmapData.xSort === d?.val ? this.heatmapData.xSort = '' : this.heatmapData.xSort = d?.val;
+    this.updateChart();
+  }
+
+
+  columnClicked(event, d) {
+    this.heatmapData.ySort === d?.val ? this.heatmapData.ySort = '' : this.heatmapData.ySort = d?.val;
+    this.updateChart();
   }
 
   heatmapClickedInternal(event, d) {
@@ -323,7 +334,8 @@ export class HeatMapData {
   xValues: { val: string, score: number, metadata: string }[] = [];
   yValues: { val: string, score: number, data: any, metadata: string }[] = [];
   yDisplayValues: { val: string, score: number, data: any, metadata: string }[] = [];
-  sortColumn = '';
+  ySort = '';
+  xSort = '';
   data: Map<string, { val: number, rawVal: string, metadata: any }> = new Map<string, { val: number, rawVal: string, metadata: any }>();
   plot: { x: number, y: number, z: { val: number, rawVal: string }, data: string, metadata: any}[] = [];
   xLabel = '';
@@ -334,7 +346,7 @@ export class HeatMapData {
   constructor(xLabel: string, yLabel: string, sortColumn?: string, domain: number[] = [0, 5], measure = 'Confidence') {
     this.xLabel = xLabel;
     this.yLabel = yLabel;
-    this.sortColumn = sortColumn;
+    this.ySort = sortColumn;
     this.domain = domain;
     this.measure = measure;
   }
@@ -371,29 +383,59 @@ export class HeatMapData {
     } else {
       this.yDisplayValues = this.yValues.slice();
     }
-    if (this.sortColumn) {
+
+    if (this.xSort) {
       this.xValues.sort((a, b) => {
-        if (b.val === this.sortColumn) {
+        const bVal = this.data.get(b.val + HeatMapData.separator + this.xSort)?.val;
+        const aVal = this.data.get(a.val + HeatMapData.separator + this.xSort)?.val;
+        const aNum = typeof aVal === 'number';
+        const bNum = typeof bVal === 'number';
+        if (!aNum && !bNum) {
+          return 0;
+        }
+        if (aNum && bNum) {
+          return bVal - aVal;
+        }
+        if (aNum) {
+          return -1;
+        }
+        return 1;
+      });
+    } else {
+      this.xValues.sort((a, b) => {
+        if (b.val === 'Average') {
           return 1;
         }
-        if (a.val === this.sortColumn) {
+        if (a.val === 'Average') {
           return -1;
         }
         return b.score - a.score;
       });
+    }
+
+    if (this.ySort) {
       this.yDisplayValues.sort((a, b) => {
-        const bVal = this.data.get(this.sortColumn + HeatMapData.separator + b.val)?.val;
-        const aVal = this.data.get(this.sortColumn + HeatMapData.separator + a.val)?.val;
-        return bVal - aVal;
+        const bVal = this.data.get(this.ySort + HeatMapData.separator + b.val)?.val;
+        const aVal = this.data.get(this.ySort + HeatMapData.separator + a.val)?.val;
+        const aNum = typeof aVal === 'number';
+        const bNum = typeof bVal === 'number';
+        if (!aNum && !bNum) {
+          return 0;
+        }
+        if (aNum && bNum) {
+          return bVal - aVal;
+        }
+        if (aNum) {
+          return -1;
+        }
+        return 1;
       });
     } else {
-      this.xValues.sort((a, b) => {
-        return b.score - a.score;
-      });
       this.yDisplayValues.sort((a, b) => {
         return b.score - a.score;
       });
     }
+
     this.yDisplayValues.forEach((y, yIndex) => {
       this.xValues.forEach((x, xIndex) => {
         const key = this.key(x.val, y.val);

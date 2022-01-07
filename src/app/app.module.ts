@@ -2,9 +2,9 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {environment} from '../environments/environment';
-import {AngularFireModule} from '@angular/fire';
-import {AngularFirestoreModule} from '@angular/fire/firestore';
-import {AngularFireAuthModule} from '@angular/fire/auth';
+import {AngularFireModule} from '@angular/fire/compat';
+import {AngularFirestoreModule} from '@angular/fire/compat/firestore';
+import {AngularFireAuthModule} from '@angular/fire/compat/auth';
 import {AuthModule} from './auth/auth.module';
 import {RouterModule} from '@angular/router';
 import {BrowserModule} from '@angular/platform-browser';
@@ -18,9 +18,9 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {TransferHttpCacheModule} from '@nguniversal/common';
 import {GraphQLModule} from './graphql.module';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
-import {MarkdownModule} from "ngx-markdown";
-import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from "@angular/material/snack-bar";
-import {ServiceWorkerModule} from "@angular/service-worker";
+import {MarkdownModule} from 'ngx-markdown';
+import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
+import {ServiceWorkerModule} from '@angular/service-worker';
 
 @NgModule({
   declarations: [

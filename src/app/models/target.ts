@@ -81,7 +81,7 @@ export class Target extends PharosBase {
     /**
      * list of structure files from AlphaFold
      */
-    alphaFoldStructures: string[] | any[];
+    alphaFoldStructures: any[];
     /**
      * list of gene symbols
      */
@@ -428,15 +428,20 @@ export class TargetSerializer implements PharosSerializer {
         }
 
         if (json.interactionDetails) {
+          if (json.interactionDetails.ppitypes === 'mock') {
+            obj.interactionDetails = null;
+          }
+          else {
             obj.interactionDetails = {
-                dataSources: json.interactionDetails.ppitypes ? json.interactionDetails.ppitypes.split(",") : [],
-                evidence: json.interactionDetails.evidence,
-                interaction_type: json.interactionDetails.interaction_type,
-                score: json.interactionDetails.score,
-                p_int: json.interactionDetails.p_int,
-                p_ni: json.interactionDetails.p_ni,
-                p_wrong: json.interactionDetails.p_wrong
+              dataSources: json.interactionDetails.ppitypes ? json.interactionDetails.ppitypes.split(",") : [],
+              evidence: json.interactionDetails.evidence,
+              interaction_type: json.interactionDetails.interaction_type,
+              score: json.interactionDetails.score,
+              p_int: json.interactionDetails.p_int,
+              p_ni: json.interactionDetails.p_ni,
+              p_wrong: json.interactionDetails.p_wrong
             };
+          }
         }
 
         if (json.diseaseAssociationDetails) {
@@ -459,7 +464,7 @@ export class TargetSerializer implements PharosSerializer {
         }
 
         if (json.dto) {
-            obj.dto = json.dto.map(id => id = id.name).reverse();
+            obj.dto = json.dto.map(id => id.name).reverse();
         }
 
         if (json.pantherClasses) {

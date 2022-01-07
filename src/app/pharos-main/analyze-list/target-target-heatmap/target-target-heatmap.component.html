@@ -43,48 +43,54 @@
 
     <div class="section">
       <mat-card-subtitle>Interaction Details</mat-card-subtitle>
-      <div class="subsection" *ngIf="this.selectedDetails.score; else noStringDB">
-        <div class="list-header">StringDB stats
-          <div class="list-item">
-            <ncats-property-display
-              [property]="{term: this.selectedDetails.score, label: 'score'}"></ncats-property-display>
+      <div class="subsection" *ngIf="this.selectedDetails.ppitypes === 'mock'; else normalInteraction">
+        This is a mock interaction to allow for the list of interacting targets to include the target of interest.
+        This allows easier comparisons to the target of interest.
+      </div>
+      <ng-template #normalInteraction>
+        <div class="subsection" *ngIf="this.selectedDetails.score; else noStringDB">
+          <div class="list-header">StringDB stats
+            <div class="list-item">
+              <ncats-property-display
+                [property]="{term: this.selectedDetails.score, label: 'score'}"></ncats-property-display>
+            </div>
           </div>
         </div>
-      </div>
-      <ng-template #noStringDB>
-        <div class="note">
-          No StringDB data
+        <ng-template #noStringDB>
+          <div class="note">
+            No StringDB data
+          </div>
+        </ng-template>
+        <div class="subsection" *ngIf="this.selectedDetails.p_int; else noBioplex">
+          <div class="list-header">BioPlex stats
+            <div class="list-item">
+              <ncats-property-display
+                [property]="{term: this.selectedDetails.p_int, label: 'p_int'}"></ncats-property-display>
+            </div>
+            <div class="list-item">
+              <ncats-property-display
+                [property]="{term: this.selectedDetails.p_ni, label: 'p_ni'}"></ncats-property-display>
+            </div>
+            <div class="list-item">
+              <ncats-property-display
+                [property]="{term: this.selectedDetails.p_wrong, label: 'p_wrong'}"></ncats-property-display>
+            </div>
+          </div>
+        </div>
+        <ng-template #noBioplex>
+          <div class="note">
+            No BioPlex data
+          </div>
+        </ng-template>
+        <div class="subsection" *ngIf="!this.selectedDetails.score && !this.selectedDetails.p_int">
+          <div class="list-header">Reactome
+            <div class="list-item">
+              <ncats-property-display
+                [property]="{label: 'Details', term: 'none'}"></ncats-property-display>
+            </div>
+          </div>
         </div>
       </ng-template>
-      <div class="subsection" *ngIf="this.selectedDetails.p_int; else noBioplex">
-        <div class="list-header">BioPlex stats
-          <div class="list-item">
-            <ncats-property-display
-              [property]="{term: this.selectedDetails.p_int, label: 'p_int'}"></ncats-property-display>
-          </div>
-          <div class="list-item">
-            <ncats-property-display
-              [property]="{term: this.selectedDetails.p_ni, label: 'p_ni'}"></ncats-property-display>
-          </div>
-          <div class="list-item">
-            <ncats-property-display
-              [property]="{term: this.selectedDetails.p_wrong, label: 'p_wrong'}"></ncats-property-display>
-          </div>
-        </div>
-      </div>
-      <ng-template #noBioplex>
-        <div class="note">
-          No BioPlex data
-        </div>
-      </ng-template>
-      <div class="subsection" *ngIf="!this.selectedDetails.score && !this.selectedDetails.p_int">
-        <div class="list-header">Reactome
-          <div class="list-item">
-            <ncats-property-display
-              [property]="{label: 'Details', term: 'none'}"></ncats-property-display>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </pharos-cross-list-heatmap>

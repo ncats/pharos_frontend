@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { version, tcrd_version } from '../../../../package.json';
+import package_info from '../../../../package.json';
 
 /**
  * component to show pharos footer
@@ -11,6 +11,6 @@ import { version, tcrd_version } from '../../../../package.json';
 })
 
 export class PharosFooterComponent {
-  version: string = version;
-  tcrd_version: string = tcrd_version;
+  version: string = package_info.version;
+  tcrd_version: string = package_info.tcrd_version;
 }

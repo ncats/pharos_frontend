@@ -3,7 +3,7 @@ import {Router, NavigationStart} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {Alert, AlertType} from '../../models/alert';
 import {AlertService} from '../../pharos-services/alert.service';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {environment} from '../../../environments/environment';
 
 @Component({

@@ -1,5 +1,6 @@
 
 // Import your custom theme
+@use '@angular/material' as mat;
 @import '../../../../../../partials/ncats-theme';
 
 .breadcrumb {
@@ -8,7 +9,7 @@
 
 .breadcrumb-link {
   text-decoration: none;
-  color: mat-color($pharos-app-primary)
+  color: mat.get-color-from-palette($pharos-app-primary)
 }
 
 .link-list{
@@ -18,7 +19,7 @@
 a.disabled {
   pointer-events: none;
   cursor: default;
-  color: mat-color($pharos-app-primary, 300)
+  color: mat.get-color-from-palette($pharos-app-primary, 300)
 }
 
 .slash {

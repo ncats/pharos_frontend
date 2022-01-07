@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @import '../../../partials/ncats-theme';
 
 .types-grid-list {
@@ -17,8 +18,8 @@
 
 .type-card {
   max-width: 60%;
-  border: 4px solid mat-color($pharos-app-primary);
-  color: mat-color($pharos-app-primary);
+  border: 4px solid mat.get-color-from-palette($pharos-app-primary);
+  color: mat.get-color-from-palette($pharos-app-primary);
   border-radius: 10px;
   font: 300 3em Roboto, "Helvetica Neue", sans-serif;
   margin: 0 auto;
@@ -27,7 +28,7 @@
 .type-card:hover {
   cursor: pointer;
   box-shadow: 8px 8px 1px -3px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
-  border: 4px solid mat-color($pharos-app-accent);
+  border: 4px solid mat.get-color-from-palette($pharos-app-accent);
 }
 
 .type-card > div {

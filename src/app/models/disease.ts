@@ -12,6 +12,8 @@ export const DISEASELISTFIELDS = gql`
     name
     associationCount
     datasource_count
+    mondoID
+    directAssociationCount
     targetCounts {
       name
       value
@@ -30,6 +32,12 @@ const DISEASEDETAILSQUERY = gql`
       ...diseasesListFields
       uniprotDescription
       doDescription
+      mondoDescription
+      mondoEquivalents {
+        id
+        name
+      }
+      mondoID
       diseaseIDs:dids{
         id
         dataSources
@@ -111,10 +119,12 @@ export class Disease {
    * number of disease associations
    */
   associationCount: number;
-
+  directAssociationCount: number;
   uniprotDescription: string;
   doDescription: string;
-
+  mondoDescription: string;
+  mondoEquivalents: {id: string, name: string}[];
+  mondoID: string;
 
   diseaseIDs: DiseaseID[];
 
@@ -144,6 +154,15 @@ export class DiseaseID{
   dataSources: string[];
   doName: string;
   doDefinition: string;
+  constructor(obj: DiseaseID) {
+    this.id = obj.id;
+    this.dataSources = obj.dataSources;
+    this.doName = obj.doName;
+    this.doDefinition = obj.doDefinition;
+    if (this.id.startsWith('MIM:')) {
+      this.id = 'O' + this.id;
+    }
+  }
 }
 /**
  * serializer for a disease object
@@ -172,6 +191,10 @@ export class DiseaseSerializer implements Serializer {
 
     if (json.targetCounts) {
       obj.targetCountsTotal = json.targetCounts.reduce((prev, cur) => prev + cur.value, 0);
+    }
+
+    if (json.diseaseIDs) {
+      obj.diseaseIDs = json.diseaseIDs.map(id => new DiseaseID(id));
     }
 
     if (json.parents){

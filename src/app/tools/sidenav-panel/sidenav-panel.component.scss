@@ -1,11 +1,15 @@
+@use '@angular/material' as mat;
 @import '../../../partials/ncats-theme';
 
 .sidenav-panel {
-padding: 1vw;
+  padding: 1vw;
 }
 
-.close-button {
-  margin-top: 1vh;
+.sidenav-header {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  place-content: space-between;
 }
 
 .toc-wrapper {
@@ -19,10 +23,24 @@ padding: 1vw;
 }
 
 .active {
-  border-left: 8px solid mat-color($pharos-app-primary);
+  border-left: 8px solid mat.get-color-from-palette($pharos-app-primary);
 }
 
 .mat-list-item {
   margin-bottom: 1vh;
 }
 
+.subsection {
+  div {
+    padding: 10px 0;
+  }
+  border-top: 1px solid rgba(0, 0, 0, .54);
+
+  .mat-list-item {
+    height: 24px;
+    padding: 0 16px;
+  }
+  .mat-list-item.active {
+    padding: 0 16px;
+  }
+}

@@ -179,6 +179,11 @@ const ROUTES: Routes = [
     data: {title: 'GraphQL API'}
   },
   {
+    path: 'stats',
+    loadChildren: () => import('./stats-page/stats-page.module').then(m => m.StatsPageModule),
+    data: {title: 'Feature Usage Statistics'}
+  },
+  {
     path: '**',
     redirectTo: '/'
   }

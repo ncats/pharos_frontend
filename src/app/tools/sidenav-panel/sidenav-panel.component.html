@@ -1,21 +1,38 @@
-<div class = "sidenav-panel">
-<div class ="close-button" [dir]="'rtl'">
-  <button mat-icon-button (click)="toggleMenu()" class="close-button" aria-label="Close side panel">
-    <mat-icon>close</mat-icon>
-  </button>
-</div>
-<div class="mat-title">Jump to section:</div><br>
-<div class="toc-wrapper" *ngIf="sections" #pharosSidenav>
-  <div class="toc">
-    <mat-nav-list >
-      <a *ngFor="let section of sections"
-         mat-list-item
-         class="list-button"
-         (click)="scroll(section.section)"
-         [ngClass]="{'active': isActive(section.section)}" [id]="'menu_'+section.section">
-        {{section.label}}
-      </a>
-    </mat-nav-list>
+<div class="sidenav-panel">
+  <div class="sidenav-header">
+    <div class="mat-title">Jump to section:</div>
+    <div class="close-button">
+      <button mat-icon-button (click)="toggleMenu()" class="close-button" aria-label="Close side panel">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
   </div>
-</div>
+  <div class="toc-wrapper" *ngIf="sections" #pharosSidenav>
+    <div class="toc">
+      <mat-nav-list>
+        <ng-container *ngFor="let section of sections">
+          <a *ngIf="!section.panels; else array"
+             mat-list-item
+             class="list-button"
+             (click)="scroll(section.navHeader.section)"
+             [ngClass]="{'active': isActive(section.navHeader.section)}" [id]="'menu_'+section.navHeader.section">
+            {{section.navHeader.label}}
+          </a>
+          <ng-template #array>
+            <div class="subsection" *ngIf="section.panels.length > 0">
+              <div>{{section.category}}</div>
+              <a *ngFor="let subsection of section.panels"
+                 mat-list-item
+                 class="list-button"
+                 (click)="scroll(subsection.navHeader.section)"
+                 [ngClass]="{'active': isActive(subsection.navHeader.section)}"
+                 [id]="'menu_'+subsection.navHeader.section">
+                {{subsection.navHeader.label}}
+              </a>
+            </div>
+          </ng-template>
+        </ng-container>
+      </mat-nav-list>
+    </div>
+  </div>
 </div>

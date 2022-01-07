@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @import '../../../../partials/ncats-theme';
 
 .info{
@@ -24,10 +25,10 @@
 }
 
 .prediction {
-  background-color: mat-color($pharos-app-accent, A700);
+  background-color: mat.get-color-from-palette($pharos-app-accent, A700);
 }
 .prediction.mat-expanded:hover {
-  background-color: mat-color($pharos-app-accent, A700);
+  background-color: mat.get-color-from-palette($pharos-app-accent, A700);
 }
 
 .explanation{

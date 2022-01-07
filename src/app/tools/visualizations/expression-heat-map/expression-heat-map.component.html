@@ -3,7 +3,11 @@
 </div>
 <div class="twod-container">
   <div class="tissue-search" >
-  <mat-slide-toggle [(ngModel)]="tissueSearchOn" (change)="updateChart()">{{tissueSearchOn ? 'Tissue Search' : 'Text Search'}}</mat-slide-toggle>
+  <mat-slide-toggle [(ngModel)]="tissueSearchOn" (change)="updateChart()">{{tissueSearchOn ? 'Tissue Search On' : 'Tissue Search Off'}}</mat-slide-toggle>
+    <ng-container *ngIf="!tissueSearchOn">
+      <mat-slide-toggle [(ngModel)]="showCells" (change)="updateChart()">Show Cell Types and Cell Lines</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="showTissues" (change)="updateChart()">Show Tissues</mat-slide-toggle>
+    </ng-container>
   <mat-form-field appearance="fill" *ngIf="!tissueSearchOn">
     <mat-label>Filter Tissues by Name</mat-label>
     <input matInput aria-label="Tissue Text Search" type="text" class="filter-tissues" [(ngModel)]="filterTextValue" (change)="tissueTextSearch($event)"/>

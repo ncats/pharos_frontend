@@ -1,8 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TitleCasePipe} from '@angular/common';
 import {PathResolverService} from '../../pharos-main/data-list/filter-panel/path-resolver.service';
-import {NavigationExtras, Router} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {SelectedFacetService} from '../../pharos-main/data-list/filter-panel/selected-facet.service';
+import {FeatureTrackingService} from '../../pharos-services/feature-tracking.service';
+import {CentralStorageService} from '../../pharos-services/central-storage.service';
 
 @Component({
   selector: 'pharos-explore-list-button',
@@ -11,7 +13,12 @@ import {SelectedFacetService} from '../../pharos-main/data-list/filter-panel/sel
 })
 export class ExploreListButtonComponent implements OnInit {
 
-  constructor(private _router: Router, private selectedFacetService: SelectedFacetService) {
+  constructor(
+    private _router: Router,
+    private selectedFacetService: SelectedFacetService,
+    private featureTrackingService: FeatureTrackingService,
+    private centralStorageService: CentralStorageService,
+    private _route: ActivatedRoute) {
   }
 
   @Input() path: string;
@@ -22,9 +29,17 @@ export class ExploreListButtonComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  getListName() {
+    return this.path.replace('/', '').toLowerCase().slice(0, this.path.length - 2);
+  }
+
+  getListTitle() {
+    return new TitleCasePipe().transform(this.getListName());
+  }
+
   getTooltip() {
-    const listName = this.path.replace('/', '').toLowerCase().slice(0, this.path.length - 2);
-    const listTitle = new TitleCasePipe().transform(listName);
+    const listName = this.getListName();
+    const listTitle = this.getListTitle();
     if (this.facetName) {
       return `Find ${listTitle}s with an overlapping set of ${this.facetName}`;
     }
@@ -33,6 +48,13 @@ export class ExploreListButtonComponent implements OnInit {
 
 
   nav() {
+    if (this.facetName) {
+      this.featureTrackingService.trackFeature(`Similar ${this.getListTitle()}s List`,
+        this.centralStorageService.getModel(this._route), this.facetName);
+    } else {
+      this.featureTrackingService.trackFeature('Associated Model List',
+        this.centralStorageService.getModel(this._route), this.buttonText);
+    }
     this.selectedFacetService.clearFacets();
     const navigationExtras: NavigationExtras = {
       queryParams: this.queryParams

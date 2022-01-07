@@ -9,10 +9,10 @@ import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route';
 import {RouterTestingModule} from '@angular/router/testing';
 import {COMMON_CONFIG} from '../../../../../../../test/test-config';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {AngularFireModule} from '@angular/fire';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {AngularFireModule} from '@angular/fire/compat';
 import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
-import {AngularFirestore} from '@angular/fire/firestore';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
 
 describe('AaSequencePanelComponent', () => {
   let component: AaSequencePanelComponent;

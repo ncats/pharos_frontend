@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 
 $pharos-primary: (
   50 : #e5e7ea,
@@ -32,7 +32,7 @@ $pharos-primary: (
     A700 : #ffffff,
   )
 );
-$pharos-app-primary:  mat-palette($pharos-primary);
+$pharos-app-primary:  mat.define-palette($pharos-primary);
 
 $pharos-secondary: (
   50 : #fff6eb,
@@ -66,8 +66,8 @@ $pharos-secondary: (
     A700 : #000000,
   )
 );
-$pharos-app-accent:  mat-palette($pharos-secondary);
+$pharos-app-accent:  mat.define-palette($pharos-secondary);
 
-$ncats-app-warn:    mat-palette($mat-red, 700);
+$ncats-app-warn:    mat.define-palette(mat.$red-palette, 700);
 
-$ncats-app-theme: mat-light-theme($pharos-app-primary, $pharos-app-accent, $ncats-app-warn);
+$ncats-app-theme: mat.define-light-theme($pharos-app-primary, $pharos-app-accent, $ncats-app-warn);

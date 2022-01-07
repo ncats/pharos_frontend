@@ -191,10 +191,6 @@ export class TOKENS {
    */
   public static TARGET_RELEVANCE_PANEL = new InjectionToken<string>('TargetRelevancePanelComponent');
   /**
-   * injection token to link to protein database data
-   */
-  public static PDB_PANEL = new InjectionToken<string>('PdbPanelComponent');
-  /**
    * injection token to link to the pathways data
    */
   public static PATHWAYS_PANEL = new InjectionToken<string>('PathwaysPanelComponent');
@@ -202,8 +198,6 @@ export class TOKENS {
   public static GO_TERMS_PANEL = new InjectionToken<string>('GoTermsComponent');
 
   public static SEQUENCE_LOGO = new InjectionToken<string>('SequenceLogoComponent');
-
-  public static ORTHOLOG_VARIANT_PANEL = new InjectionToken<string>('OrthologVariantsComponent');
 
   public static GWAS_TARGET_ANALYTICS_PANEL = new InjectionToken<string>('GwasTargetAnalyticsComponent');
 

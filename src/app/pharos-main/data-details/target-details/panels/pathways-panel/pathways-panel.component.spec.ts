@@ -3,12 +3,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PathwaysPanelComponent } from './pathways-panel.component';
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {ApolloTestingModule} from "apollo-angular/testing";
-import {AngularFireAuth} from "@angular/fire/auth";
-import {AngularFirestore} from "@angular/fire/firestore";
+import {AngularFireAuth} from "@angular/fire/compat/auth";
+import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {FIRESTORESTUB} from "../../../../../../../test/firestore-stub";
 import {ActivatedRoute} from "@angular/router";
 import {MOCKACTIVATEDROUTE} from "../../../../../../../test/mock-activate-route";
-import {AngularFireModule} from "@angular/fire";
+import {AngularFireModule} from "@angular/fire/compat";
 import {COMMON_CONFIG} from "../../../../../../../test/test-config";
 import {TESTTARGET, TESTTARGETPROPS} from "../../../../../../../test/test-target";
 

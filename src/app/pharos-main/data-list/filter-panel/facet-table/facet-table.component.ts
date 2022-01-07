@@ -10,6 +10,7 @@ import {SelectedFacetService} from '../selected-facet.service';
 import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
 import {HighlightPipe} from '../../../../tools/search-component/highlight.pipe';
 import {CentralStorageService} from '../../../../pharos-services/central-storage.service';
+import {FeatureTrackingService} from '../../../../pharos-services/feature-tracking.service';
 
 /**
  * table to display selectable fields
@@ -87,6 +88,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    * @param {PathResolverService} pathResolverService
    */
   constructor(private _route: ActivatedRoute,
+              private featureTrackingService: FeatureTrackingService,
               private pharosApiService: PharosApiService,
               private router: Router,
               private changeRef: ChangeDetectorRef,
@@ -141,6 +143,10 @@ export class FacetTableComponent implements OnInit, OnDestroy {
           if (this.propogate === true) {
             this.selectedFacetService.setFacets({name: this.facet.facet, change});
             const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
+
+            this.featureTrackingService.trackFeature('Using a Categorical Filter', this.centralStorageService.getModel(this._route),
+              this.facet.facet);
+
             if (this.linkPath() === 'search') {
               this.selectedFacetService.removeField('q', this.term);
               this.selectedFacetService.removeField('query', this.term);

@@ -10,7 +10,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import * as d3 from 'd3';
+import * as d3 from 'd3v7';
 import {isPlatformBrowser} from '@angular/common';
 
 @Component({
