@@ -105,6 +105,7 @@ export class autocompleteOption{
       associatedTarget: null,
       associatedStructure: null,
       associatedLigand: null,
+      sequence: null,
       q: null};
     if (autocompleteOption.isDetailsPage(obj)){
       return qParam;

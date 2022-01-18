@@ -244,9 +244,9 @@ export class PharosApiService {
   }
 
 
-  public FieldQuery = gql`query fieldQuery($model: String, $associatedModel: String, $similarityQuery: Boolean, $associatedLigand: String, $associatedSmiles: String, $associatedTarget: String) {
+  public FieldQuery = gql`query fieldQuery($model: String, $associatedModel: String, $similarityQuery: Boolean, $associatedLigand: String, $associatedSmiles: String, $associatedTarget: String, $sequence: String) {
       configuration {
-        downloadLists(modelName: $model, associatedModelName: $associatedModel, similarityQuery: $similarityQuery, associatedLigand: $associatedLigand, associatedSmiles: $associatedSmiles, associatedTarget: $associatedTarget) {
+        downloadLists(modelName: $model, associatedModelName: $associatedModel, similarityQuery: $similarityQuery, associatedLigand: $associatedLigand, associatedSmiles: $associatedSmiles, associatedTarget: $associatedTarget, sequence: $sequence) {
           listName
           field {
             order
@@ -462,7 +462,8 @@ export class PharosApiService {
         f.facet !== 'associatedDisease' &&
         f.facet !== 'associatedStructure' &&
         f.facet !== 'associatedLigand' &&
-        f.facet !== 'similarity');
+        f.facet !== 'similarity' &&
+        f.facet !== 'sequence');
     }
     return map;
   }
@@ -655,6 +656,12 @@ export class PharosApiService {
             case 'associatedTarget': {
               const filter: any = ret.filter ? ret.filter : {};
               filter.associatedTarget = val;
+              ret.filter = filter;
+              break;
+            }
+            case 'sequence': {
+              const filter: any = ret.filter ? ret.filter : {};
+              filter.sequence = val;
               ret.filter = filter;
               break;
             }

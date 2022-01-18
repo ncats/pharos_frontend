@@ -111,6 +111,13 @@ const commonGwasFields: PharosApi[] = [
   }
 ];
 
+const sequenceSimilarityFields: PharosApi[] = [
+  {description: 'Percentage of identical matches between the query sequence and the best alignment to the subjecxt sequence', label: 'Sequence Similarity: Percent Identical', field: 'pident'},
+  {description: 'Expected number of chance matches in a random model', label: 'Sequence Similarity: E value', field: 'evalue'},
+  {description: 'Maximum bit score for alignments between the query seqeunce and the subject sequence', label: 'Sequence Similarity: Bit Score', field: 'bitscore'},
+  {description: 'Query coverage for all alignments between the query sequence and the subject sequence', label: 'Sequence Similarity: Coverage', field: 'qcovs'},
+];
+
 const ppiInteractionFields: PharosApi[] = [
   {
     field: 'Score',
@@ -321,6 +328,7 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
     ...ligandAssocFields,
     ...similarityFields,
     ...predictorResultsFields,
+    ...sequenceSimilarityFields,
     {
       field: 'illuminationGraph',
       label: 'Illumination Graph',

@@ -267,6 +267,9 @@ export class Facet {
     if (parameter === 'similarity') {
       return 'Target Similarity';
     }
+    if (parameter === 'sequence') {
+      return 'Query Sequence';
+    }
     if (parameter === 'associatedStructure') {
       if (paramValue.startsWith('sub')) {
         return 'Query Substructure';
