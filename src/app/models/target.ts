@@ -16,6 +16,7 @@ import {SimilarityDetails} from './similarityDetails';
 import {GwasTargetAnalytics} from './gwasTargetAnalytics';
 import {LigandAssociationDetails} from './ligandAssociationDetails';
 import {TargetPredictionDetails} from './targetPredictionDetails';
+import {SequenceSimilarityDetails} from './sequenceSimilarityDetails';
 
 
 /**
@@ -259,6 +260,7 @@ export class Target extends PharosBase {
     diseaseAssociationDetails?: DiseaseAssociation[] = [];
     ligandAssociationDetails?: LigandAssociationDetails;
     targetPredictionDetails?: TargetPredictionDetails;
+    sequenceSimilarityDetails?: SequenceSimilarityDetails;
     similarityDetails?: SimilarityDetails;
     interactingViruses?: VirusDetails[];
 

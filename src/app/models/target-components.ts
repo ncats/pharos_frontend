@@ -249,6 +249,12 @@ export const TARGETLISTFIELDS = gql`
       testSize
       commonOptions
     }
+    sequenceSimilarityDetails {
+      pident
+      evalue
+      bitscore
+      qcovs
+    }
     uniProtFunction: props (name: "UniProt Function"){
       value
     }

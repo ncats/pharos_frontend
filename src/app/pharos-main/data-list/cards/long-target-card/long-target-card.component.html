@@ -25,6 +25,9 @@
       <div class="section">
         <pharos-knowledge-metrics [target]="target" [apiSources]="apiSources"></pharos-knowledge-metrics>
       </div>
+      <div class="section" *ngIf="target.sequenceSimilarityDetails && target.sequenceSimilarityDetails.bitscore">
+        <pharos-sequence-similarity-details [target]="target" [apiSources]="apiSources"></pharos-sequence-similarity-details>
+      </div>
       <div *ngIf="target.diseaseAssociationDetails?.length > 0"
           (click)="diseaseField.scrollable || expandingDiseases ? toggleDiseases(): null"
           class="section disease_details">

@@ -128,6 +128,12 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
   }
 
   getName(field: Field, facet: Facet) {
+    if (facet.facet === 'sequence') {
+      if (field.name.length > 15) {
+        return field.name.substr(0, 15) + '...';
+      }
+      return field.name;
+    }
     if (facet.facet === 'collection') {
       return this.centralStorageService.collections.get(field.name) || field.name;
     }

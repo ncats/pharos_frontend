@@ -390,7 +390,8 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
         'associatedDisease',
         'associatedStructure',
         'associatedLigand',
-        'similarity'
+        'similarity',
+        'sequence'
       ].includes(key) && this._route.snapshot.queryParamMap.get(key).length > 0) {
         isFiltered = true;
       }
