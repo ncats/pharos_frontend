@@ -213,6 +213,9 @@ export class AnalyzeHeaderComponent extends DynamicPanelComponent implements OnI
     this.router.navigate(['/structure']);
   }
 
+  goToSequenceSearch() {
+    this.router.navigate(['/sequence']);
+  }
   /**
    * navigate on changes, mainly just changes url, shouldn't reload entire page, just data
    * @param {NavigationExtras} navExtras
