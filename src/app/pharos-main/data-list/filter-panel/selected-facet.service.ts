@@ -368,7 +368,12 @@ export class SelectedFacetService {
 
     if (facets.length) {
       str += ' The following filters were applied: ';
-      str += facets.map(f => f.facet + ' = ' + f.values.map(v => v.name).join(' OR ')).join((' AND '));
+      str += facets.map(f => f.facet + ' = ' + f.values.map(v => {
+        if (f.facet === 'sequence' && v.name.length > 50) {
+          return v.name.substr(0, 50) + '...';
+        }
+        return v.name;
+      }).join(' OR ')).join((' AND '));
     }
     return str;
   }

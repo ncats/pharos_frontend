@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {NavigationExtras, Router} from '@angular/router';
+import {CentralStorageService} from '../pharos-services/central-storage.service';
 
 /**
  * sequence search page
@@ -11,7 +12,7 @@ import {NavigationExtras, Router} from '@angular/router';
   styleUrls: ['./sequence-search-page.component.scss']
 })
 
-export class SequenceSearchPageComponent {
+export class SequenceSearchPageComponent implements OnInit {
   /**
    * form control to adjust overlap percentage
    * @type {FormControl}
@@ -29,24 +30,32 @@ export class SequenceSearchPageComponent {
    * @param {Router} _router
    */
   constructor(
-    private _router: Router
-  ) {}
+    private _router: Router,
+    private centralStorageService: CentralStorageService
+  ) {
+  }
 
+  ngOnInit(): void {
+    this.centralStorageService.sequenceChanged.subscribe(seq => {
+      this.initialize(seq);
+    });
+    this.initialize(this.centralStorageService.getField('sequence'));
+  }
 
+  initialize(sequence: string) {
+    this.sequenceCtrl.setValue(sequence);
+  }
 
   /**
    * grab form values and submit via url/api navigation
    */
   search() {
-   /* const navigationExtras: NavigationExtras = {
+    const navigationExtras: NavigationExtras = {
       queryParams: {
-        q: this.sequenceCtrl.value,
-        type: 'sequence',
-        identity: this.percentCtrl.value,
-        top: 20
+        sequence: this.sequenceCtrl.value,
       },
       queryParamsHandling: ''
     };
-    this._router.navigate(['/targets'], navigationExtras);*/
+    this._router.navigate(['/targets'], navigationExtras);
   }
 }

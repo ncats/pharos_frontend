@@ -16,6 +16,8 @@ import {BreakpointObserver} from '@angular/cdk/layout';
 import {takeUntil} from 'rxjs/operators';
 import {isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {Router} from '@angular/router';
+import {CentralStorageService} from '../../../../../pharos-services/central-storage.service';
 
 /**
  * displays amino acid sequence data
@@ -55,10 +57,12 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
    */
   constructor(
     private renderer: Renderer2,
+    private router: Router,
     private breakpointObserver: BreakpointObserver,
     private changeRef: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformID: any,
-    public dynamicServices: DynamicServicesService) {
+    public dynamicServices: DynamicServicesService,
+    private centralStorageService: CentralStorageService) {
     super(dynamicServices);
   }
 
@@ -150,6 +154,11 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
       ['M', 0.021316185 * len],
       ['W', 0.012186227 * len]
     ];
+  }
+
+  goToSequenceSearch(){
+    this.centralStorageService.setField('sequence', this.target.sequence);
+    this.router.navigate(['/sequence']);
   }
 
   getLongFormName(shortFormName: string): string{
