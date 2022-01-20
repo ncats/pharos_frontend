@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {NavigationExtras, Router} from '@angular/router';
 import {CentralStorageService} from '../pharos-services/central-storage.service';
+import {PharosApiService} from '../pharos-services/pharos-api.service';
 
 /**
  * sequence search page
@@ -31,7 +32,8 @@ export class SequenceSearchPageComponent implements OnInit {
    */
   constructor(
     private _router: Router,
-    private centralStorageService: CentralStorageService
+    private centralStorageService: CentralStorageService,
+    private pharosApiService: PharosApiService
   ) {
   }
 
@@ -57,5 +59,12 @@ export class SequenceSearchPageComponent implements OnInit {
       queryParamsHandling: ''
     };
     this._router.navigate(['/targets'], navigationExtras);
+  }
+  results: any;
+  runBlast() {
+    const variables = {sequence: this.sequenceCtrl.value.trim()};
+    this.pharosApiService.adHocQuery(this.pharosApiService.blastpSearch(), variables).toPromise().then((results: any) => {
+        this.results = results;
+    });
   }
 }

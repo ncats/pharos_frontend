@@ -11,10 +11,15 @@
         </mat-form-field>
       </div>
     </div>
-    <div fxLayout="row" class="sketcher-row">
-      <div fxFlex="85">
-        <button mat-raised-button [color]="'primary'" (click)="search()">Search <mat-icon>search</mat-icon></button>
+    <div fxLayout="row">
+      <div fxFlex="85" class="buttons-row">
+        <button mat-raised-button [color]="'primary'" [disabled]="sequenceCtrl.value.length === 0" (click)="search()">
+          Explore Matching Targets <mat-icon>search</mat-icon></button>
+        <button mat-raised-button [color]="'primary'" [disabled]="sequenceCtrl.value.length === 0" (click)="runBlast()">
+          Run Blastp Search <mat-icon>search</mat-icon></button>
       </div>
     </div>
   </div>
 </div>
+{{this.results | json}}
+

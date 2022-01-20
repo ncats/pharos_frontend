@@ -921,6 +921,37 @@ query batchConfirmation($batch: [String], $top: Int) {
 }`;
   }
 
+  public blastpSearch() {
+    return gql`
+ query blastpSearch($sequence: String!) {
+   getSequenceAlignments(
+     sequence: $sequence
+ ) {
+     uniprot
+     evalue
+     pident
+     bitscore
+     qcovs
+     alignments {
+       sseqid
+       pident
+       length
+       mismatch
+       gapopen
+       qstart
+       qend
+       sstart
+       send
+       evalue
+       bitscore
+       qseq
+       sseq
+     }
+   }
+ }
+`;
+  }
+
   public featureTrackingMutation() {
     return gql`mutation m($user: String!, $feature: String!, $detail1: String, $detail2: String, $detail3: String) {
   trackFeature(user: $user, feature: $feature, detail1: $detail1, detail2: $detail2, detail3: $detail3){
