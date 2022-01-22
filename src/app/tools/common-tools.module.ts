@@ -35,6 +35,7 @@ import {FacetTableModule} from '../pharos-main/data-list/filter-panel/facet-tabl
 import { TutorialLinkComponent } from './tutorial-link/tutorial-link.component';
 import { HeatMapComponent } from './visualizations/heat-map/heat-map.component';
 import { BatchResolveModalComponent } from './batch-resolve-modal/batch-resolve-modal.component';
+import { SequenceAlignmentsComponent } from './visualizations/sequence-alignments/sequence-alignments.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { BatchResolveModalComponent } from './batch-resolve-modal/batch-resolve-
     UpsetFieldEditComponent,
     TutorialLinkComponent,
     HeatMapComponent,
-    BatchResolveModalComponent
+    BatchResolveModalComponent,
+    SequenceAlignmentsComponent
   ],
   imports: [
     CommonModule,
@@ -96,7 +98,8 @@ import { BatchResolveModalComponent } from './batch-resolve-modal/batch-resolve-
     VennDiagramComponent,
     UpsetPlotComponent,
     TutorialLinkComponent,
-    HeatMapComponent
+    HeatMapComponent,
+    SequenceAlignmentsComponent
   ],
   entryComponents: [
     FieldSelectionDialogComponent

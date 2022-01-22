@@ -1,0 +1,27 @@
+<article class="container">
+  <mat-card
+    id="alignments"
+    #alignments>
+    <mat-card-content>
+      <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+        <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+      </div>
+      <div fxLayout="row"
+           class="tkrow"
+           fxLayoutAlign="start stretch">
+        <div fxFlex="95">
+        <span class="mat-title"
+              [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">
+          {{label}}</span>
+        </div>
+<!--        <div fxFlex="5">-->
+<!--          <pharos-tutorial-link [tourType]="tourType"></pharos-tutorial-link>-->
+<!--        </div>-->
+      </div>
+      <div class="content">
+        <pharos-sequence-alignments [alignmentData]="results" #sequenceViewer></pharos-sequence-alignments>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</article>

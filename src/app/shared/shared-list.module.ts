@@ -16,6 +16,7 @@ import {RangeSliderComponent} from '../tools/range-slider/range-slider.component
 import {FacetTableModule} from '../pharos-main/data-list/filter-panel/facet-table/facet-table.module';
 import {FilterRepresentationComponent} from '../pharos-main/analyze-list/filter-representation/filter-representation.component';
 import {AnalyzeHeaderComponent} from '../pharos-main/analyze-list/analyze-header/analyze-header.component';
+import {SequenceSearchComponent} from '../pharos-main/analyze-list/sequence-search/sequence-search.component';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import {AnalyzeHeaderComponent} from '../pharos-main/analyze-list/analyze-header
   declarations: [
     DataListVisualizationsComponent,
     FilterRepresentationComponent,
+    SequenceSearchComponent,
     FilterPanelComponent,
     FacetHistogramComponent,
     SelectedFacetListComponent,
@@ -42,7 +44,8 @@ import {AnalyzeHeaderComponent} from '../pharos-main/analyze-list/analyze-header
     {provide: TOKENS.PHAROS_VISUALIZATION_COMPONENT, useValue: DataListVisualizationsComponent},
     {provide: TOKENS.PHAROS_SELECTED_FACET_LIST_COMPONENT, useValue: SelectedFacetListComponent},
     {provide: TOKENS.PHAROS_FACETS_COMPONENT, useValue: FilterPanelComponent},
-    {provide: TOKENS.PHAROS_ANALYZE_HEADER_COMPONENT, useValue: AnalyzeHeaderComponent}
+    {provide: TOKENS.PHAROS_ANALYZE_HEADER_COMPONENT, useValue: AnalyzeHeaderComponent},
+    {provide: TOKENS.PHAROS_SEQUENCE_LIST_COMPONENT, useValue: SequenceSearchComponent}
   ],
   exports: [
     SharedModule,

@@ -924,7 +924,7 @@ query batchConfirmation($batch: [String], $top: Int) {
   public blastpSearch() {
     return gql`
  query blastpSearch($sequence: String!) {
-   getSequenceAlignments(
+   alignments: getSequenceAlignments(
      sequence: $sequence
  ) {
      uniprot
