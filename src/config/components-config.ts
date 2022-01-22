@@ -345,6 +345,16 @@ const PHAROS_FACETS_COMPONENT: PharosPanel = {
   section: Position.Left
 };
 
+const PHAROS_SEQUENCE_LIST_COMPONENT: PharosPanel = {
+  token: TOKENS.PHAROS_SEQUENCE_LIST_COMPONENT,
+  section: Position.Content,
+  navHeader: {
+    mainDescription: 'Sequence alignments to the query sequence',
+    section: 'alignments',
+    label: 'Sequence Alignments'
+  }
+};
+
 const PHAROS_ANALYZE_HEADER_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_ANALYZE_HEADER_COMPONENT,
   section: Position.Content
@@ -1399,6 +1409,7 @@ const commonAnalyzeComponents = [
   PHAROS_FACETS_COMPONENT,
   PHAROS_SELECTED_FACET_LIST_COMPONENT,
   PHAROS_ANALYZE_HEADER_COMPONENT,
+  PHAROS_SEQUENCE_LIST_COMPONENT,
   PHAROS_FACET_VISUALIZATION_COMPONENT,
   PHAROS_FACET_REPRESENTATION_COMPONENT,
 ];

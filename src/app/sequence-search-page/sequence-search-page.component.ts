@@ -58,13 +58,6 @@ export class SequenceSearchPageComponent implements OnInit {
       },
       queryParamsHandling: ''
     };
-    this._router.navigate(['/targets'], navigationExtras);
-  }
-  results: any;
-  runBlast() {
-    const variables = {sequence: this.sequenceCtrl.value.trim()};
-    this.pharosApiService.adHocQuery(this.pharosApiService.blastpSearch(), variables).toPromise().then((results: any) => {
-        this.results = results;
-    });
+    this._router.navigate(['/analyze/targets'], navigationExtras);
   }
 }

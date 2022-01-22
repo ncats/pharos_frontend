@@ -22,8 +22,7 @@ import {DynamicServicesService} from '../../../pharos-services/dynamic-services.
 export class HeatMapComponent extends DynamicPanelComponent implements OnInit, OnChanges {
   constructor(
     public dynamicServices: DynamicServicesService,
-    @Inject(PLATFORM_ID) private platformID: any,
-    private changeRef: ChangeDetectorRef
+    @Inject(PLATFORM_ID) private platformID: any
   ) {
     super(dynamicServices);
   }
