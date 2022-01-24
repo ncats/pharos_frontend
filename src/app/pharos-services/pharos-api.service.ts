@@ -920,7 +920,7 @@ query batchConfirmation($batch: [String], $top: Int) {
   }
 }`;
   }
-  
+
   runBlastpSearch(route: ActivatedRouteSnapshot, sequence: string) {
     const variables = {
       ...this.parseVariables(route, null)
@@ -936,6 +936,7 @@ query batchConfirmation($batch: [String], $top: Int) {
      sequence: $sequence, filter: $filter, batch: $batch
  ) {
      uniprot
+     sym
      evalue
      pident
      bitscore
