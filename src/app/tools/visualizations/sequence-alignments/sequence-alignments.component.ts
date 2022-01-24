@@ -180,7 +180,7 @@ export class SequenceAlignmentsComponent implements OnInit {
           return this.cumulativePlotHeight + count * this.rowSize + (idx + 1) * this.subjectGap;
         })
         // .attr('transform', 'translate(-' + (this.margin.left * 3 / 4) + ',-' + (this.margin.top * 9 / 10) + ')')
-        .text(d => d.uniprot)
+        .text(d => d.sym || d.uniprot)
         .style('cursor', 'pointer')
         .style('pointer-events', 'all')
         .on('click', (event, d) => {
