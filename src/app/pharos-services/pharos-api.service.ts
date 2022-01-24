@@ -920,12 +920,20 @@ query batchConfirmation($batch: [String], $top: Int) {
   }
 }`;
   }
+  
+  runBlastpSearch(route: ActivatedRouteSnapshot, sequence: string) {
+    const variables = {
+      ...this.parseVariables(route, null)
+    };
+    variables.sequence = sequence;
+    return this.fetchBatchAndRunQuery(route, variables, this.blastpSearch());
+  }
 
   public blastpSearch() {
     return gql`
- query blastpSearch($sequence: String!) {
+ query blastpSearch($sequence: String!, $filter: IFilter, $batch: [String]) {
    alignments: getSequenceAlignments(
-     sequence: $sequence
+     sequence: $sequence, filter: $filter, batch: $batch
  ) {
      uniprot
      evalue

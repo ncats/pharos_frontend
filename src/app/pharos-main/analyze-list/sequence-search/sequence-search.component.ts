@@ -3,8 +3,11 @@ import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
-import {ActivatedRoute} from '@angular/router';
-import {SequenceAlignmentsComponent} from '../../../tools/visualizations/sequence-alignments/sequence-alignments.component';
+import {ActivatedRoute, Router} from '@angular/router';
+import {
+  AlignmentDataOptions,
+  SequenceAlignmentsComponent
+} from '../../../tools/visualizations/sequence-alignments/sequence-alignments.component';
 
 @Component({
   selector: 'pharos-sequence-search',
@@ -19,12 +22,23 @@ export class SequenceSearchComponent extends DynamicPanelComponent implements On
     public dynamicServices: DynamicServicesService,
     private pharosApiService: PharosApiService,
     private _route: ActivatedRoute,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private _router: Router
   ) {
     super(dynamicServices);
   }
   sequence: string;
-  results: any;
+  results: any[];
+  alignmentPlotOptions: AlignmentDataOptions = {
+    labelClick: this.labelClick.bind(this)
+  };
+
+  labelClick(event) {
+    const url = this._router.serializeUrl(
+      this._router.createUrlTree([`/targets/${event.uniprot}`], {fragment: 'sequence'})
+    );
+    window.open(url, '_blank');
+  }
 
   ngOnInit(): void {
     this._data
@@ -33,6 +47,7 @@ export class SequenceSearchComponent extends DynamicPanelComponent implements On
         takeUntil(this.ngUnsubscribe)
       )
       .subscribe(x => {
+        this.results = [];
         this.sequence = this._route.snapshot.queryParamMap.get('sequence');
         this.runBlast();
       });
@@ -40,15 +55,17 @@ export class SequenceSearchComponent extends DynamicPanelComponent implements On
 
   runBlast() {
     if(this.sequence && this.sequence.length > 0) {
-      const variables = {sequence: this.sequence};
-      this.pharosApiService.adHocQuery(this.pharosApiService.blastpSearch(), variables).toPromise().then((results: any) => {
-        this.results = results.data.alignments;
-        this.loadingComplete();
-        this.changeDetectorRef.detectChanges();
-        this.sequenceAlignmentsComponent.redraw();
-      }).catch(err => {
-        err;
-      });
+      this.pharosApiService.runBlastpSearch(this._route.snapshot, this.sequence)
+        .then((results: any) => {
+          this.results = results.data.alignments;
+          this.loadingComplete();
+          this.changeDetectorRef.detectChanges();
+          this.sequenceAlignmentsComponent.redraw();
+        }).catch(err => {
+          err;
+        });
+    } else {
+      this.loadingComplete();
     }
   }
 }
