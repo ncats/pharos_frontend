@@ -23,6 +23,7 @@ import {nodeDebugInfo} from '@angular/compiler-cli/src/ngtsc/util/src/typescript
 export class SequenceAlignmentsComponent implements OnInit {
 
   @Input() alignmentData: any[];
+  @Input() options: AlignmentDataOptions = {};
 
   constructor(@Inject(PLATFORM_ID) private platformID: any) {}
 
@@ -41,7 +42,6 @@ export class SequenceAlignmentsComponent implements OnInit {
   subjectGap = 15;
   labelGap = 100;
   cumulativePlotHeight = 100;
-
 
   @HostListener('window:resize', [])
   onResize() {
@@ -94,10 +94,11 @@ export class SequenceAlignmentsComponent implements OnInit {
     var mapAsc = new Map([...jumpMap.entries()].sort((a, b) => Number.parseInt(a.toString()) - Number.parseInt(b.toString())));
 
     let lastPoint = {x: mapAsc.keys().next().value, y: 0};
-    const summaryPlot = [lastPoint];
+    const summaryPlot = [];
     mapAsc.forEach((val, key) => {
-      summaryPlot.push({x: lastPoint.x, y: lastPoint.y + val.step});
-      const newPoint = {x: Number.parseInt(key.toString()), y: lastPoint.y + val.step};
+      const newX = Number.parseInt(key.toString());
+      summaryPlot.push({x: newX, y: lastPoint.y});
+      const newPoint = {x: newX, y: lastPoint.y + val.step};
       summaryPlot.push(newPoint);
       lastPoint = newPoint;
     });
@@ -179,7 +180,14 @@ export class SequenceAlignmentsComponent implements OnInit {
           return this.cumulativePlotHeight + count * this.rowSize + (idx + 1) * this.subjectGap;
         })
         // .attr('transform', 'translate(-' + (this.margin.left * 3 / 4) + ',-' + (this.margin.top * 9 / 10) + ')')
-        .text(d => d.uniprot);
+        .text(d => d.uniprot)
+        .style('cursor', 'pointer')
+        .style('pointer-events', 'all')
+        .on('click', (event, d) => {
+          if (this.options?.labelClick) {
+            this.options.labelClick(d);
+          }
+        });
 
       const subjects = svg.select('.subjects')
         .selectAll('.subject')
@@ -197,11 +205,9 @@ export class SequenceAlignmentsComponent implements OnInit {
         //   return this.clickedTissue && this.clickedTissue === a.data;
         // })
         .style('fill', 'transparent')
-        .style('stroke', 'gray')
-        .style('cursor', 'pointer')
-        .style('pointer-events', 'all');
+        .style('stroke', 'gray');
 
-      svg.select('.subjects').selectAll('.alignment')
+      const alignments = svg.select('.subjects').selectAll('.alignment')
         .data(allAlignments)
         .enter().append('rect')
         .attr('class', 'alignment')
@@ -219,33 +225,47 @@ export class SequenceAlignmentsComponent implements OnInit {
         .style('cursor', 'pointer')
         .style('pointer-events', 'all');
 
-
-      // console.log(selection);
-
+      alignments.on('mouseover', (event, d) => {
+        const blocks = alignments.nodes();
+        const i = blocks.indexOf(event.currentTarget);
+        d3.select(blocks[i]).classed('hovered', true);
+        this.tooltip.transition()
+          .duration(200)
+          .style('opacity', 0.9);
+        this.tooltip.html(`
+        <span>
+            <b>Bitscore: </b>${d.alignment.bitscore}<br />
+            <b>Expect Value: </b>${d.alignment.evalue}<br />
+            <b>Gaps: </b>${d.alignment.gapopen}<br />
+            <b>Mismatches: </b>${d.alignment.mismatch}<br />
+            <b>Percent Identical: </b>${d.alignment.pident}<br />
+            <b>Length: </b>${d.alignment.length}<br />
+            <b>Expect Value: </b>${d.alignment.evalue}<br />
+            <b>Query Start: </b>${d.alignment.qstart}<br />
+            <b>Query End: </b>${d.alignment.qend}<br />
+            <b>Subject Start: </b>${d.alignment.sstart}<br />
+            <b>Subject End: </b>${d.alignment.send}<br />
+        </span>`)
+          .style('left', event.pageX + 'px')
+          .style('top', event.pageY + 'px');
+      })
+        .on('mouseout', (event, d) => {
+          const blocks = alignments.nodes();
+          const i = blocks.indexOf(event.currentTarget);
+          this.tooltip
+            .transition()
+            .duration(200)
+            .style('opacity', 0);
+          d3.select(blocks[i]).classed('hovered', false);
+        });
 
       this.tooltip = d3.select('body').append('div')
-        .attr('class', 'alignment-tooltip')
+        .attr('class', 'twodtooltip')
         .style('opacity', 0);
     }
   }
+}
 
-  // showTooltip(event, d, i, circles, size, name) {
-  //   d3.select(circles[i]).classed('hovered', true);
-  //   this.tooltip
-  //     .transition()
-  //     .duration(200)
-  //     .style('opacity', .9);
-  //   this.tooltip.html(`${name}: ${size}`)
-  //     .style('left', event.pageX + 'px')
-  //     .style('top', event.pageY + 'px')
-  //     .style('width', 100);
-  // }
-  //
-  // hideTooltip(d, i, circles) {
-  //   d3.select(circles[i]).classed('hovered', false);
-  //   this.tooltip
-  //     .transition()
-  //     .duration(200)
-  //     .style('opacity', 0);
-  // }
+export class AlignmentDataOptions {
+  labelClick?: Function;
 }

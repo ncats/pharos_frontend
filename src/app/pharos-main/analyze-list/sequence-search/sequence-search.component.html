@@ -1,4 +1,4 @@
-<article class="container">
+<article class="container" *ngIf="sequence && sequence.length > 0">
   <mat-card
     id="alignments"
     #alignments>
@@ -19,8 +19,8 @@
 <!--          <pharos-tutorial-link [tourType]="tourType"></pharos-tutorial-link>-->
 <!--        </div>-->
       </div>
-      <div class="content">
-        <pharos-sequence-alignments [alignmentData]="results" #sequenceViewer></pharos-sequence-alignments>
+      <div class="content" *ngIf="results && results.length > 0">
+        <pharos-sequence-alignments [alignmentData]="results" [options]="alignmentPlotOptions" #sequenceViewer></pharos-sequence-alignments>
       </div>
     </mat-card-content>
   </mat-card>
