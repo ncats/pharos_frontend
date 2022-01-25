@@ -84,20 +84,21 @@ export class SequenceAlignmentsComponent implements OnInit {
       let start = 0;
       let end = 0;
       all.forEach(alignment => {
-        if (count === 0) {
+        if (start === 0) {
           start = alignment.qstart;
           end = alignment.qend;
           count = 1;
         }
         else if (alignment.qstart < end) {
           end = Math.max(end, alignment.qend);
-          count ++;
+          count = 1;
         } else {
           count --;
           if (count === 0) {
             subjectAlignments.push({qstart: start, qend: end});
             start = alignment.qstart;
             end = alignment.qend;
+            count = 1;
           }
         }
       });
