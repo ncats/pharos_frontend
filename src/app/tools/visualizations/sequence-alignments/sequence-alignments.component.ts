@@ -40,8 +40,9 @@ export class SequenceAlignmentsComponent implements OnInit {
   tooltip: any;
   rowSize = 10;
   subjectGap = 15;
-  labelGap = 100;
+  labelGap = 150;
   cumulativePlotHeight = 100;
+  plotBuffer = 40;
 
   @HostListener('window:resize', [])
   onResize() {
@@ -105,10 +106,11 @@ export class SequenceAlignmentsComponent implements OnInit {
 
     const element = this.chartContainer.nativeElement;
     d3.select(element).selectAll('svg').remove();
+
     this.width = element.offsetWidth - this.margin.left - this.margin.right;
     this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
     const plotWidth = this.width - this.labelGap;
-    const height = this.cumulativePlotHeight + (allAlignments.length * this.rowSize) + (this.alignmentData.length * this.subjectGap) + this.margin.bottom;
+    const height = this.plotBuffer + this.cumulativePlotHeight + (allAlignments.length * this.rowSize) + (this.alignmentData.length * this.subjectGap) + this.margin.bottom;
     if (plotWidth > 0 && height > 0) {
 
       // Create scales
@@ -120,14 +122,10 @@ export class SequenceAlignmentsComponent implements OnInit {
         .domain([0, this.alignmentData.length])
         .range([0, this.alignmentData.length * (this.rowSize + this.subjectGap)]);
 
-      const summaryYScale = d3.scaleLinear()
-        .domain([0, Math.max(...summaryPlot.map(x => x.y))])
-        .range([this.cumulativePlotHeight, 0]);
 
       const zScale = d3.scaleLinear()
         .domain([0, 100])
         .range(['#ffffff', '#000000']);
-
 
       const svg = d3.select(element).append('svg')
         .attr('width', this.width)
@@ -135,31 +133,8 @@ export class SequenceAlignmentsComponent implements OnInit {
         .append('g')
         .attr('class', 'plot-container');
 
-      svg.append('g')
-        .attr('class', 'summaryplot').append('rect')
-        .attr('x', d => this.labelGap)
-        .attr('width', plotWidth)
-        .attr('y', 0)
-        .attr('height', this.cumulativePlotHeight)
-        // .classed('hovered', (a, b, c) => {
-        //   return this.clickedTissue && this.clickedTissue === a.data;
-        // })
-        .style('fill', 'transparent')
-        .style('stroke', 'gray')
-        .style('cursor', 'pointer')
-        .style('pointer-events', 'all');
-
-      svg.append('g')
-        .append('path')
-        .datum(summaryPlot)
-        .attr("fill", "none")
-        .attr("stroke", "steelblue")
-        .attr("stroke-width", 1.5)
-        .attr("d", d3.line()
-          .x(d => xScale(d.x) + this.labelGap)
-          .y(d => summaryYScale(d.y))
-        );
-
+      this.drawLegend(svg, zScale);
+      this.drawSummaryPlot(summaryPlot, svg, xScale, plotWidth);
 
       svg.append('g')
         .attr('class', 'subjects');
@@ -177,7 +152,7 @@ export class SequenceAlignmentsComponent implements OnInit {
         .attr('x', 0)
         .attr('y', (d, idx) => {
           const count = allAlignments.filter(f => f.parentIndex < idx).length;
-          return this.cumulativePlotHeight + count * this.rowSize + (idx + 1) * this.subjectGap;
+          return this.plotBuffer + this.cumulativePlotHeight + count * this.rowSize + (idx + 1) * this.subjectGap;
         })
         // .attr('transform', 'translate(-' + (this.margin.left * 3 / 4) + ',-' + (this.margin.top * 9 / 10) + ')')
         .text(d => d.sym || d.uniprot)
@@ -198,7 +173,7 @@ export class SequenceAlignmentsComponent implements OnInit {
         .attr('width', plotWidth)
         .attr('y', (d, idx) => {
           const count = allAlignments.filter(f => f.parentIndex < idx).length;
-          return this.cumulativePlotHeight + count * this.rowSize + (idx + 1) * this.subjectGap;
+          return this.plotBuffer + this.cumulativePlotHeight + count * this.rowSize + (idx + 1) * this.subjectGap;
         })
         .attr('height', d => d.alignments.length * this.rowSize)
         // .classed('hovered', (a, b, c) => {
@@ -214,7 +189,7 @@ export class SequenceAlignmentsComponent implements OnInit {
         .attr('x', d => xScale(d.alignment.qstart) + this.labelGap)
         .attr('width', d => xScale(d.alignment.qend - d.alignment.qstart))
         .attr('y', (d, idx) => {
-          return this.cumulativePlotHeight + idx * this.rowSize + (d.parentIndex + 1) * this.subjectGap;
+          return this.plotBuffer + this.cumulativePlotHeight + idx * this.rowSize + (d.parentIndex + 1) * this.subjectGap;
         })
         .attr('height', this.rowSize)
         // .classed('hovered', (a, b, c) => {
@@ -263,6 +238,112 @@ export class SequenceAlignmentsComponent implements OnInit {
         .attr('class', 'twodtooltip')
         .style('opacity', 0);
     }
+  }
+
+  private drawLegend(svg, zScale: any) {
+    svg.append('g').attr('class', 'legend');
+    svg.append('g').attr('class', 'legendTicks');
+    svg.append('g').attr('class', 'zLabel');
+
+    const legend = svg.select('.legend').selectAll('.block')
+      .data(this.getLegendRange())
+      .enter().append('rect')
+      .attr('class', 'block')
+      .attr('x', 30)
+      .attr('width', 20)
+      .attr('y', (d, i) => 10 + i * 20)
+      .attr('height', 20)
+      .style('fill', d => zScale(d.val))
+      .style('stroke', 'gray');
+    // .attr('transform', 'translate(-' + (this.margin.left * 3 / 4) + ',-' + (this.margin.top * 9 / 10) + ')');
+
+    const legendTicks = svg.select('.legendTicks').selectAll('.tick')
+      .data(this.getLegendRange())
+      .enter().append('text')
+      .attr('class', 'tick')
+      .attr('text-anchor', 'start')
+      .attr('dominant-baseline', 'text-before-edge')
+      .attr('x', 55)
+      .attr('y', (d, i) => 12 + i * 20)
+      // .attr('transform', 'translate(-' + (this.margin.left * 3 / 4) + ',-' + (this.margin.top * 9 / 10) + ')')
+      .text(d => d.val);
+
+    const zLabel = svg.select('.zLabel')
+      .append('text')
+      .attr('x', d => -60)
+      .attr('y', d => 20)
+      .attr('text-anchor', 'middle')
+      // .attr('transform', d => 'translate(-' + (this.margin.left * 3 / 4) + ',-' + (this.margin.top * 9 / 10) + ') rotate(-90)')
+      .attr('transform', d => 'rotate(-90)')
+      .text('% Identity');
+  }
+
+  private drawSummaryPlot(summaryPlot: any[], svg, xScale: any, plotWidth: number) {
+    svg.append('g').attr('class', 'yLabel');
+    svg.append('g').attr('class', 'xLabel');
+
+    const summaryYScale = d3.scaleLinear()
+      .domain([0, 1.05 * Math.max(...summaryPlot.map(x => x.y))])
+      .range([this.cumulativePlotHeight, 0]);
+
+    svg.append('g')
+      .append('path')
+      .datum(summaryPlot)
+      .attr('fill', 'none')
+      .attr('stroke', 'steelblue')
+      .attr('stroke-width', 1.5)
+      .attr('d', d3.line()
+        .x(d => xScale(d.x))
+        .y(d => summaryYScale(d.y))
+      )
+      .attr('transform', d => 'translate(' + (this.labelGap) + ',0)');
+
+    const yAxis = d3.axisLeft(summaryYScale)
+      .ticks(5)
+      .tickSize(-this.width)
+      .tickPadding(5);
+
+    // Add the Y Axis
+    const gY = svg.append('svg:g')
+      .attr('class', 'axis yaxis')
+      .call(yAxis)
+      .attr('transform', d => 'translate(' + (this.labelGap) + ',0)');
+
+    const xAxis = d3.axisBottom(xScale);
+      // .ticks(5)
+      // .tickSize(-this.width)
+      // .tickPadding(5);
+
+    const gX = svg.append('svg:g')
+      .attr('class', 'axis xaxis')
+      .call(xAxis)
+      .attr('transform', d => 'translate(' + (this.labelGap) + ', ' + (this.cumulativePlotHeight) + ')');
+
+    const yLabel = svg.select('.yLabel')
+      .append('text')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('text-anchor', 'middle')
+      .attr('transform', d => 'translate(' + (this.labelGap - 30) + ',' + 50 + ') rotate(-90)')
+      .text('Subject Count');
+
+    const xLabel = svg.select('.xLabel')
+      .append('text')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('text-anchor', 'middle')
+      .attr('transform', d => 'translate(' +(plotWidth / 2 + this.labelGap) + ',' + (this.cumulativePlotHeight + 35) + ')')
+      .text('Query Sequence Residue');
+  }
+
+  getLegendRange() {
+    const stepSize = 25;
+    const firstStep = 0;
+    const range = [];
+    for (let i = 0 ; i <= 4 ; i++ ) {
+      range.push({index: i, val: (firstStep + i * stepSize)});
+    }
+    return range;
   }
 }
 
