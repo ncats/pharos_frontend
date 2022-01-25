@@ -19,6 +19,10 @@
 <!--          <pharos-tutorial-link [tourType]="tourType"></pharos-tutorial-link>-->
 <!--        </div>-->
       </div>
+      <button class="tool-button" mat-raised-button [color]="'primary'" matTooltip="Download Sequence Alignment List Data"
+              (click)="downloadData()">Download
+        <mat-icon>download</mat-icon>
+      </button>
       <div class="content" *ngIf="results && results.length > 0">
         <pharos-sequence-alignments [alignmentData]="results" [options]="alignmentPlotOptions" #sequenceViewer></pharos-sequence-alignments>
       </div>
