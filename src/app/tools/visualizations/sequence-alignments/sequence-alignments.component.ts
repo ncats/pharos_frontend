@@ -73,8 +73,36 @@ export class SequenceAlignmentsComponent implements OnInit {
       return;
     }
     const allAlignments = [];
+    const subjectAlignments = [];
+
     let idx = 0;
     this.alignmentData.forEach(subject => {
+      const all = subject.alignments.slice().sort((a,b) => {
+        return a.qstart - b.qstart;
+      });
+      let count = 0;
+      let start = 0;
+      let end = 0;
+      all.forEach(alignment => {
+        if (count === 0) {
+          start = alignment.qstart;
+          end = alignment.qend;
+          count = 1;
+        }
+        else if (alignment.qstart < end) {
+          end = Math.max(end, alignment.qend);
+          count ++;
+        } else {
+          count --;
+          if (count === 0) {
+            subjectAlignments.push({qstart: start, qend: end});
+            start = alignment.qstart;
+            end = alignment.qend;
+          }
+        }
+      });
+      subjectAlignments.push({qstart: start, qend: end});
+
       allAlignments.push(...subject.alignments.map(a => {
         return {alignment: a, parentIndex: idx}
       }));
@@ -82,13 +110,13 @@ export class SequenceAlignmentsComponent implements OnInit {
     });
 
     const jumpMap: Map<number, any> = new Map<number, any>();
-    allAlignments.forEach(a => {
-      let jump = jumpMap.get(a.alignment.qstart) || {step: 0};
-      jumpMap.set(a.alignment.qstart, jump);
+    subjectAlignments.forEach(a => {
+      let jump = jumpMap.get(a.qstart) || {step: 0};
+      jumpMap.set(a.qstart, jump);
       jump.step++;
 
-      jump = jumpMap.get(a.alignment.qend) || {step: 0};
-      jumpMap.set(a.alignment.qend, jump);
+      jump = jumpMap.get(a.qend) || {step: 0};
+      jumpMap.set(a.qend, jump);
       jump.step--;
     });
 
