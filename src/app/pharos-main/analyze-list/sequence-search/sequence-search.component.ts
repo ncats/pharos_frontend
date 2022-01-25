@@ -8,6 +8,8 @@ import {
   AlignmentDataOptions,
   SequenceAlignmentsComponent
 } from '../../../tools/visualizations/sequence-alignments/sequence-alignments.component';
+import {FieldSelectionDialogComponent} from '../../../tools/field-selection-dialog/field-selection-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'pharos-sequence-search',
@@ -23,7 +25,8 @@ export class SequenceSearchComponent extends DynamicPanelComponent implements On
     private pharosApiService: PharosApiService,
     private _route: ActivatedRoute,
     private changeDetectorRef: ChangeDetectorRef,
-    private _router: Router
+    private _router: Router,
+    private dialog: MatDialog,
   ) {
     super(dynamicServices);
   }
@@ -67,5 +70,12 @@ export class SequenceSearchComponent extends DynamicPanelComponent implements On
     } else {
       this.loadingComplete();
     }
+  }
+
+  downloadData() {
+    const dialogRef = this.dialog.open(FieldSelectionDialogComponent, {
+      data: {count: this.data.count, model: 'Target', route: this._route, defaultSubset: 'Sequence Search Results'},
+      height: '75vh', width: '66vw'
+    }).afterClosed();
   }
 }
