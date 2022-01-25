@@ -286,6 +286,36 @@ export class SequenceAlignmentsComponent implements OnInit {
       .domain([0, 1.05 * Math.max(...summaryPlot.map(x => x.y))])
       .range([this.cumulativePlotHeight, 0]);
 
+    const delaunay = d3.Delaunay.from(summaryPlot, d => xScale(d.x), d => summaryYScale(d.y));
+    const voronoi = delaunay.voronoi([0, 0, plotWidth, this.cumulativePlotHeight]);
+    svg
+      .selectAll('path.cell')
+      .data(summaryPlot)
+      .enter()
+      .append('path')
+      .attr('class', 'cell')
+      .attr('opacity', 0)
+      .attr('d', (d, i) => voronoi.renderCell(i))
+      .attr('transform', d => 'translate(' + (this.labelGap) + ',0)')
+      .on('mouseenter', (event, d) => {
+        const count = Math.max(...summaryPlot.filter(x => x.x === d.x).map(x => x.y));
+        this.tooltip.transition()
+          .duration(200)
+          .style('opacity', 0.9);
+        this.tooltip.html(`
+        <span>
+            <b>Residue: </b>${d.x}<br />
+            <b>Count: </b>${count}<br />
+        </span>`)
+          .style('left', event.pageX + 'px')
+          .style('top', event.pageY + 'px');
+      }).on('mouseout', (event, d) => {
+      this.tooltip
+        .transition()
+        .duration(200)
+        .style('opacity', 0);
+    });
+
     svg.append('g')
       .append('path')
       .datum(summaryPlot)
