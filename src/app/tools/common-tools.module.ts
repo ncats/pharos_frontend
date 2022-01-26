@@ -7,7 +7,6 @@ import {DynamicTablePanelComponent} from './dynamic-table-panel/dynamic-table-pa
 import {HelpPanelComponent} from './help-panel/help-panel.component';
 import {KnowledgeTableComponent} from './knowledge-table/knowledge-table.component';
 import {LinkListComponent} from './link-list/link-list.component';
-import {ProteinStructureViewerComponent} from './protein-structure-viewer/protein-structure-viewer.component';
 import {GenericTableModule} from './generic-table/generic-table.module';
 import {SharedModule} from '../shared/shared.module';
 import {RouterModule} from '@angular/router';
@@ -46,7 +45,6 @@ import { SequenceAlignmentsComponent } from './visualizations/sequence-alignment
     HelpPanelComponent,
     KnowledgeTableComponent,
     LinkListComponent,
-    ProteinStructureViewerComponent,
     StructureViewComponent,
     ListFilterComponent,
     ExploreListButtonComponent,
@@ -90,7 +88,6 @@ import { SequenceAlignmentsComponent } from './visualizations/sequence-alignment
     KnowledgeTableComponent,
     LinkListComponent,
     StructureViewComponent,
-    ProteinStructureViewerComponent,
     ListFilterComponent,
     ExpressionHeatMapComponent,
     ExploreListButtonComponent,
