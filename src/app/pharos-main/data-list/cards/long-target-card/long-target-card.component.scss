@@ -5,11 +5,6 @@
   display: flex;
   box-sizing: border-box;
   margin: 2px 0;
-  padding-bottom: 30px;
-}
-
-.mat-card-title, .mat-card-subtitle {
-  cursor: pointer;
 }
 
 .title-bar{
@@ -79,7 +74,7 @@
 }
 
 .unexpanded{
-  max-height:200px;
+  max-height:225px;
   overflow:hidden;
   -webkit-transition: all 0.5s ease-in-out;
   -moz-transition: all 0.5s ease-in-out;
