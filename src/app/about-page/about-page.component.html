@@ -102,15 +102,21 @@
         <div class="section-header" [ngClass]="{'active': isActive('linkToPharos')}">How to Link to Pharos</div>
         <div class="section-content">
           <p>Link to target details pages with uniprot_id or gene symbol</p>
-            <blockquote class="active blockquote">
-              <div><span class="link-example">https://pharos.nih.gov/targets/<span class="dynamic">uniprot_id</span></span></div>
-              <div><span class="link-example">https://pharos.nih.gov/targets/<span class="dynamic">gene_symbol</span></span></div>
-            </blockquote>
-          <p>Link to disease details pages with disease name</p>
+          <blockquote class="active blockquote">
+            <div><span class="link-example">https://pharos.nih.gov/targets/<span class="dynamic">uniprot_id</span></span></div>
+            <div><span class="link-example">https://pharos.nih.gov/targets/<span class="dynamic">gene_symbol</span></span></div>
+          </blockquote>
+          <p>Link to a list of targets with a comma separated list of UniProt IDs or gene symbols</p>
+          <blockquote class="active blockquote">
+            <div><span class="link-example">https://pharos.nih.gov/targets?collection=<span class="dynamic">gene_symbol1</span>,<span class="dynamic">uniprot_id</span>,<span class="dynamic">gene_symbol2</span></span></div>
+            <div><span class="link-example">https://pharos.nih.gov/analyze/targets?collection=<span class="dynamic">gene_symbol1</span>,<span class="dynamic">uniprot_id</span>,<span class="dynamic">gene_symbol2</span></span></div>
+          </blockquote>
+          <p>Link to disease details pages with disease name or MONDO ID</p>
             <blockquote class="active blockquote">
               <div><span class="link-example">https://pharos.nih.gov/diseases/<span class="dynamic">disease_name</span></span></div>
+              <div><span class="link-example">https://pharos.nih.gov/diseases/<span class="dynamic">mondo_id</span></span></div>
             </blockquote>
-          <p>Link to ligand details pages with drug name, or chembl ID</p>
+          <p>Link to ligand details pages with drug name or chembl ID</p>
           <blockquote class="active blockquote">
               <div><span class="link-example">https://pharos.nih.gov/ligands/<span class="dynamic">drug_name</span></span></div>
               <div><span class="link-example">https://pharos.nih.gov/ligands/<span class="dynamic">chembl_ID</span></span></div>
