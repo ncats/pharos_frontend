@@ -135,7 +135,11 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
       return field.name;
     }
     if (facet.facet === 'collection') {
-      return this.centralStorageService.collections.get(field.name) || field.name;
+      const name = this.centralStorageService.collections.get(field.name) || field.name;
+      if (name.length > 25) {
+        return name.substr(0, 25) + '...';
+      }
+      return name;
     }
     return field.name;
   }
