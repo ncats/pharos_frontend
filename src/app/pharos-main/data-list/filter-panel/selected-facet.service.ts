@@ -3,6 +3,7 @@ import {Facet, Field, UpsetOptions} from '../../../models/facet';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
 import {ParamMap} from '@angular/router';
+import {TargetListService} from '../../../pharos-services/target-list.service';
 
 /**
  * Service to parse and filter facets from api responses
@@ -37,7 +38,8 @@ export class SelectedFacetService {
    * @param profileService
    */
   constructor(
-    private profileService: PharosProfileService
+    private profileService: PharosProfileService,
+    private targetListService: TargetListService
   ) {
     this.profileService.profile$.subscribe(user => {
       if (user && user.data().savedTargets) {
@@ -358,8 +360,12 @@ export class SelectedFacetService {
         str += ' The database also has matching filter values.';
       }
     } else {
-      if (this.getFacetByName('collection')?.values?.length > 0) {
+      const collection = this.getFacetByName('collection');
+      if (collection?.values?.length > 0) {
         str = `Custom ${this.toSingleTitleCase(path)} List.`;
+        if (!this.targetListService.listIsInFirebase(collection.values[0].name)) {
+          str += ` Found ${route.snapshot.data?.results?.count} ${route.snapshot.data?.path}.`;
+        }
       }
       else {
         str = `Found ${route.snapshot.data?.results?.count} ${route.snapshot.data?.path}.`;
