@@ -45,6 +45,14 @@
                 </span>
                 </mat-panel-title>
               </mat-expansion-panel-header>
+              <span class="info" [ngClass]="{infoCollapsed: !showingInfo(facet)}" *ngIf="facet.sourceExplanation" >
+                <div fxLayout="row">
+                  <div *ngIf="showingInfo(facet)" class="explanation" [innerHTML]="facet.sourceExplanation"></div>
+                  <div class="helpicon" (click)="toggleFacetInfo(facet)" matTooltip="Expand for a description of this filter">
+                    <span class="helptext" [ngClass]="{hidden: showingInfo(facet)}">description </span> <mat-icon [color]="'primary'">help</mat-icon>
+                  </div>
+                </div>
+              </span>
               {{facet.model}}
               <div *ngIf="facet.dataType === 'Numeric'; then numericBlock else categoryBlock"></div>
               <ng-template #categoryBlock>
