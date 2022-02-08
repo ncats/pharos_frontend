@@ -1,10 +1,11 @@
 import {Component, OnInit, OnDestroy, Input} from '@angular/core';
 import {Router, NavigationStart} from '@angular/router';
-import {Subscription} from 'rxjs';
+import {Subject, Subscription} from 'rxjs';
 import {Alert, AlertType} from '../../models/alert';
 import {AlertService} from '../../pharos-services/alert.service';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {environment} from '../../../environments/environment';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'pharos-alert',
@@ -12,12 +13,12 @@ import {environment} from '../../../environments/environment';
   styleUrls: ['./alert.component.scss']
 })
 export class AlertComponent implements OnInit, OnDestroy {
+  protected ngUnsubscribe: Subject<any> = new Subject();
   @Input() id = 'default-alert';
   @Input() fade = true;
+  dbSubscription: Subscription;
 
   alerts: Alert[] = [];
-  alertSubscription: Subscription;
-  routeSubscription: Subscription;
   isProd = false;
 
   constructor(
@@ -30,7 +31,8 @@ export class AlertComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isProd = environment.production;
     // subscribe to new alert notifications
-    this.alertSubscription = this.alertService.onAlert(this.id)
+    this.alertService.onAlert(this.id)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(alert => {
         // clear alerts when an empty alert is received
         if (!alert.message) {
@@ -56,13 +58,16 @@ export class AlertComponent implements OnInit, OnDestroy {
       });
 
     // clear alerts on location change
-    this.routeSubscription = this.router.events.subscribe(event => {
+    this.router.events
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(event => {
       if (event instanceof NavigationStart) {
         this.alertService.clear(this.id);
       }
     });
 
-    this.db.collection<any>('alerts').valueChanges()
+    // @ts-ignore
+    this.dbSubscription = this.db.collection<any>('alerts').valueChanges()
       .subscribe(alerts => {
         this.alertService.clear(this.id);
         // create and map questions by subject
@@ -75,12 +80,7 @@ export class AlertComponent implements OnInit, OnDestroy {
           });
         }
       });
-  }
 
-  ngOnDestroy() {
-    // unsubscribe to avoid memory leaks
-    this.alertSubscription.unsubscribe();
-    this.routeSubscription.unsubscribe();
   }
 
   removeAlert(alert: Alert) {
@@ -124,5 +124,13 @@ export class AlertComponent implements OnInit, OnDestroy {
     }
 
     return classes.join(' ');
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+    if (this.dbSubscription) {
+      this.dbSubscription.unsubscribe();
+    }
   }
 }

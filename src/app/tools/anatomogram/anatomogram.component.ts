@@ -1,8 +1,9 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
 import {AnatomogramImageComponent} from './anatomogram-image/anatomogram-image.component';
 import {AnatomogramHoverService} from './anatomogram-hover.service';
 import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 /**
  * anatomogram viewer, passes paramaters to various images based on the svg urls
@@ -14,7 +15,8 @@ import {Subject} from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class AnatomogramComponent implements OnInit {
+export class AnatomogramComponent implements OnInit, OnDestroy {
+  protected ngUnsubscribe: Subject<any> = new Subject();
   /**
    * species selected to dispaly, defaults to human, mouse is the other option
    * @type {string}
@@ -63,7 +65,9 @@ export class AnatomogramComponent implements OnInit {
    * subscribe to changes in hovered tisse, iterate over all image instances, and apply changes
    */
   ngOnInit() {
-    this.anatomogramHoverService.tissues$.subscribe(change => {
+    this.anatomogramHoverService.tissues$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(change => {
       this.anatomograms.forEach(instance => instance.highlightTissue(change));
     });
   }
@@ -82,5 +86,10 @@ export class AnatomogramComponent implements OnInit {
    */
   reset() {
     this.anatomograms.forEach(instance => instance.resetZoom());
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

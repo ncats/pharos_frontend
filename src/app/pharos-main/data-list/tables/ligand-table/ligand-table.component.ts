@@ -7,6 +7,7 @@ import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
+import {takeUntil} from 'rxjs/operators';
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -75,7 +76,9 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
    */
   ngOnInit() {
     this._STRUCTUREURLBASE = this.pharosConfig.getStructureImageUrl();
-    this._data.subscribe(d => {
+    this._data
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(d => {
       if (this.data && this.data.ligands) {
         this.associatedStructure = this._route.snapshot.queryParamMap.get('associatedStructure');
         this.pageData = new PageData({
@@ -214,13 +217,5 @@ export class LigandTableComponent extends DynamicPanelComponent implements OnIni
       data: {count: this.pageData.total, model: 'Ligand', route: this._route},
       height: '75vh', width: '66vw'
     }).afterClosed();
-  }
-
-  /**
-   * clean up on destroy
-   */
-  ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 }

@@ -81,9 +81,7 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.target = this.data.targets;
         this.loadingStart();
@@ -112,15 +110,6 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
         }
         this.loadingComplete();
       });
-  }
-
-  /**
-   * cleanp on destroy
-   */
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-    this._data.unsubscribe();
   }
 
   /**

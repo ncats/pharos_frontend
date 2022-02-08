@@ -3,7 +3,7 @@ import {BatchUploadModalComponent} from '../../../tools/batch-upload-modal/batch
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
 import {MatDialog} from '@angular/material/dialog';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
-import {ActivatedRoute, NavigationEnd, NavigationExtras, Router} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {FieldSelectionDialogComponent} from '../../../tools/field-selection-dialog/field-selection-dialog.component';
 import {SelectionModel} from '@angular/cdk/collections';
@@ -85,16 +85,16 @@ export class AnalyzeHeaderComponent extends DynamicPanelComponent implements OnI
     this.rowSelection = this.centralStorageService.rowSelection;
     this._data
       // listen to data as long as term is undefined or null
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.modelCount = this.data.count;
         this.models = this.data.targets ? 'Targets' : this.data.diseases ? 'Diseases' : 'Ligands';
         this.model = this.models.slice(0, this.models.length - 1);
       });
 
-    this.profileService.profile$.subscribe(user => {
+    this.profileService.profile$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(user => {
       if (user) {
         this.user = user;
         this.loggedIn = true;
@@ -125,7 +125,9 @@ export class AnalyzeHeaderComponent extends DynamicPanelComponent implements OnI
       }
     );
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(result => {
       if (result) {
         if (this.isLigandPage() && this.resolverService.resolverIsUp) {
           const resolveDialog = this.dialog.open(BatchResolveModalComponent, {
@@ -135,7 +137,9 @@ export class AnalyzeHeaderComponent extends DynamicPanelComponent implements OnI
               targetList: result.targetList
             }
           });
-          resolveDialog.afterClosed().subscribe(resolveResult => {
+          resolveDialog.afterClosed()
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(resolveResult => {
             if (resolveResult) {
               console.log(resolveResult);
               result.targetList = resolveResult.targetList;
@@ -194,7 +198,9 @@ export class AnalyzeHeaderComponent extends DynamicPanelComponent implements OnI
       }
     );
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(result => {
       if (result) {
         this.targetCollection.collection('target-collection').add(
           result

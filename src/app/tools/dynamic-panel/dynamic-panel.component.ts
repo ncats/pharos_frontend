@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy} from '@angular/core';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {DynamicPanelBaseComponent} from '../dynamic-panel-base/dynamic-panel-base.component';
 import {DynamicServicesService} from '../../pharos-services/dynamic-services.service';
@@ -41,13 +41,6 @@ export class DynamicPanelComponent extends DynamicPanelBaseComponent {
   mainSource: string;
   etag?: string;
   sideway?: string[];
-
-  // todo: check to make sure all extending components are using this subject
-  /**
-   * Behaviour subject to allow extending class to unsubscribe on destroy
-   * @type {Subject<any>}
-   */
-  protected ngUnsubscribe: Subject<any> = new Subject();
 
   /**
    * initialize a private variable _data, it's a BehaviorSubject

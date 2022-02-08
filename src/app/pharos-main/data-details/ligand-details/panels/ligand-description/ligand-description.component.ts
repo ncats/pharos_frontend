@@ -38,9 +38,7 @@ export class LigandDescriptionComponent extends DynamicPanelComponent implements
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         if (this.data && this.data.ligands) {
           this.ligand = this.data.ligands;

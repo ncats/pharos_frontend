@@ -68,9 +68,7 @@ export class TargetListPanelComponent extends DynamicTablePanelComponent impleme
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.disease = this.data.diseases;
         this.loadingComplete();
@@ -88,18 +86,12 @@ export class TargetListPanelComponent extends DynamicTablePanelComponent impleme
       associationtop: event.pageSize,
       associationskip: event.pageIndex * event.pageSize,
     };
-    this.pharosApiService.fetchMore('diseases', pageParams).valueChanges.subscribe(res => {
+    this.pharosApiService.fetchMore('diseases', pageParams).valueChanges
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
       this.disease.associations = res.data.diseases.associations.map(association => associationSerializer.fromJson(association));
       this.loadingComplete(false);
       this.changeRef.markForCheck();
     });
-  }
-
-  /**
-   * cleanp on destroy
-   */
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 }

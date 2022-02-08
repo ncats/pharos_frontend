@@ -129,7 +129,9 @@ export class BarChartComponent implements OnInit, OnDestroy {
    */
   ngOnInit() {
     if (this.events) {
-      this.eventsSubscription = this.events.subscribe(() => {
+      this.eventsSubscription = this.events
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(() => {
         this.drawGraph();
         this.updateGraph();
       });
@@ -137,16 +139,12 @@ export class BarChartComponent implements OnInit, OnDestroy {
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.redrawGraph();
       });
     this._expectedData
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.redrawGraph();
       });
@@ -344,10 +342,8 @@ export class BarChartComponent implements OnInit, OnDestroy {
    * clean up on leaving component
    */
   ngOnDestroy() {
-    if (this.ngUnsubscribe) {
-      this.ngUnsubscribe.next();
-      this.ngUnsubscribe.complete();
-    }
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
     if (this.eventsSubscription) {
       this.eventsSubscription.unsubscribe();
     }

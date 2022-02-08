@@ -93,8 +93,7 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
     this.metaService.destroyCanonicalURL();
+    super.ngOnDestroy();
   }
 }

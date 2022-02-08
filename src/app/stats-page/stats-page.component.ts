@@ -3,8 +3,6 @@ import {DynamicPanelComponent} from '../tools/dynamic-panel/dynamic-panel.compon
 import {DynamicServicesService} from '../pharos-services/dynamic-services.service';
 import {takeUntil} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
-import {PharosPoint} from '../models/pharos-point';
-import {ScatterOptions} from '../tools/visualizations/scatter-plot/models/scatter-options';
 
 @Component({
   selector: 'pharos-stats-page',
@@ -38,9 +36,7 @@ export class StatsPageComponent extends DynamicPanelComponent implements OnInit,
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         if (this.data && this.data.results) {
           this.dataTree = new Map<string, any>();
@@ -66,13 +62,5 @@ export class StatsPageComponent extends DynamicPanelComponent implements OnInit,
           });
         }
       });
-  }
-
-  /**
-   * cleanp on destroy
-   */
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 }

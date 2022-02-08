@@ -171,7 +171,9 @@ export class FacetTableComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.selectedFacetService.facets$.subscribe(facetMap => {
+    this.selectedFacetService.facets$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(facetMap => {
       this.mapSelected();
     });
   }
@@ -224,7 +226,9 @@ export class FacetTableComponent implements OnInit, OnDestroy {
     this.pharosApiService.getAllFacetOptions(
       this.linkPath(),
       this._route.snapshot.queryParamMap,
-      this.facet.facet).subscribe({
+      this.facet.facet)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
       next:
         res => {
           this.facet = res.data.results.facets.find(resfacet => resfacet.facet === this.facet.facet);

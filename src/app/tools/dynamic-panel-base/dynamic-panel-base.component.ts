@@ -1,9 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Subject} from 'rxjs';
 
 @Component({
   template: ''
 })
-export class DynamicPanelBaseComponent implements OnInit {
+export class DynamicPanelBaseComponent implements OnInit, OnDestroy {
+  protected ngUnsubscribe: Subject<any> = new Subject();
 
   constructor() { }
 
@@ -24,5 +26,10 @@ export class DynamicPanelBaseComponent implements OnInit {
         return null;
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

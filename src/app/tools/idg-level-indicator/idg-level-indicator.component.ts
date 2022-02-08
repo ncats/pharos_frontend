@@ -1,6 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/index';
 import {PharosProperty} from '../../models/pharos-property';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 /**
  * UI component to display the idg level of a target using Material Design chip
@@ -10,7 +12,8 @@ import {PharosProperty} from '../../models/pharos-property';
   templateUrl: './idg-level-indicator.component.html',
   styleUrls: ['./idg-level-indicator.component.scss'],
 })
-export class IdgLevelIndicatorComponent implements OnInit {
+export class IdgLevelIndicatorComponent implements OnInit, OnDestroy {
+  protected ngUnsubscribe: Subject<any> = new Subject();
   /**
    * String to be displayed background level correlates to level and is set in parent scss file
    */
@@ -55,10 +58,17 @@ export class IdgLevelIndicatorComponent implements OnInit {
    * subscribe to data changes
    */
   ngOnInit() {
-    this._data.subscribe(res => {
+    this._data
+      .pipe(takeUntil(this.ngUnsubscribe))  // FUCK
+      .subscribe(res => {
       if (res) {
         this.level = res.term as string;
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

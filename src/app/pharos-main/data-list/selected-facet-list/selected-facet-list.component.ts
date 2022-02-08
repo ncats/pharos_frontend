@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
-import {ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {Facet, Field, UpsetOptions} from '../../../models/facet';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
@@ -9,7 +9,6 @@ import {UnfurlingMetaService} from '../../../pharos-services/unfurling-meta.serv
 import {MolChangeService} from '../../../tools/marvin-sketcher/services/mol-change.service';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {Helper} from '../../../models/utilities';
-import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 
 /**
@@ -146,7 +145,6 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
 
   ngOnDestroy(): void {
     this.facets = [];
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    super.ngOnDestroy();
   }
 }

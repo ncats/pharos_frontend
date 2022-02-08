@@ -1,9 +1,10 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {Facet, Field, UpsetOptions} from '../../../models/facet';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
 import {ParamMap} from '@angular/router';
 import {TargetListService} from '../../../pharos-services/target-list.service';
+import {takeUntil} from 'rxjs/operators';
 
 /**
  * Service to parse and filter facets from api responses
@@ -11,7 +12,8 @@ import {TargetListService} from '../../../pharos-services/target-list.service';
 @Injectable({
   providedIn: 'root'
 })
-export class SelectedFacetService {
+export class SelectedFacetService implements OnDestroy {
+  protected ngUnsubscribe: Subject<any> = new Subject();
 
   /**
    * map of facet names to facet
@@ -41,7 +43,9 @@ export class SelectedFacetService {
     private profileService: PharosProfileService,
     private targetListService: TargetListService
   ) {
-    this.profileService.profile$.subscribe(user => {
+    this.profileService.profile$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(user => {
       if (user && user.data().savedTargets) {
         this._facetMap.set(user.data().savedTargets.name, user.data().savedTargets);
         this._facets.next(this._facetMap);
@@ -398,5 +402,10 @@ export class SelectedFacetService {
   newTitle(route): string {
     const listType = route.snapshot.data.path;
     return `Pharos: ${this.toSingleTitleCase(listType)} List`;
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

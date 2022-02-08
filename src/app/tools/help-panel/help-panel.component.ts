@@ -1,10 +1,12 @@
-import {Component, EventEmitter, Injector, OnInit, Output, QueryList, Type, ViewChildren} from '@angular/core';
+import {Component, EventEmitter, Injector, OnDestroy, OnInit, Output, QueryList, Type, ViewChildren} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {HelpDataService} from './services/help-data.service';
 import {CdkPortalOutlet, ComponentPortal} from '@angular/cdk/portal';
 import {PanelOptions} from '../../pharos-main/pharos-main.component';
 import {ActivatedRoute} from '@angular/router';
 import {HelpPanelOpenerService} from './services/help-panel-opener.service';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 /**
  * component to hold help information
@@ -14,7 +16,8 @@ import {HelpPanelOpenerService} from './services/help-panel-opener.service';
   templateUrl: './help-panel.component.html',
   styleUrls: ['./help-panel.component.scss']
 })
-export class HelpPanelComponent implements OnInit {
+export class HelpPanelComponent implements OnInit, OnDestroy {
+  protected ngUnsubscribe: Subject<any> = new Subject();
   panelOptions: PanelOptions = {
     mode : 'over',
     class : 'filters-panel',
@@ -109,7 +112,9 @@ export class HelpPanelComponent implements OnInit {
         }
       });
 
-    this.helpDataService.sources$.subscribe(res => {
+    this.helpDataService.sources$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
       if (res) {
         this.sources = res.sources;
         this.description = res.mainDescription;
@@ -123,7 +128,9 @@ export class HelpPanelComponent implements OnInit {
       }
     });
 
-    this.helpPanelOpenerService.toggle$.subscribe(res => this.toggleMenu(!this.loading));
+    this.helpPanelOpenerService.toggle$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => this.toggleMenu(!this.loading));
     this.loading = false;
   }
 
@@ -198,5 +205,10 @@ export class HelpPanelComponent implements OnInit {
    */
   toggleMenu(force?: boolean) {
     this.menuToggle.emit(force);
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

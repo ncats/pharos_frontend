@@ -1,11 +1,12 @@
-import {Component, HostListener, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NcatsHeaderComponent} from './tools/ncats-header/ncats-header.component';
 import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/router';
 import {LoadingService} from './pharos-services/loading.service';
 import {Title} from '@angular/platform-browser';
 import {TourService} from './pharos-services/tour.service';
 import {SwUpdate} from '@angular/service-worker';
-import {interval} from 'rxjs';
+import {interval, Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 /**
  * main app component holder
@@ -15,8 +16,8 @@ import {interval} from 'rxjs';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-
+export class AppComponent implements OnInit, OnDestroy {
+  protected ngUnsubscribe: Subject<any> = new Subject();
   /**
    * reference to header oject. used to change display options
    */
@@ -46,14 +47,20 @@ export class AppComponent implements OnInit {
    * toggle loading component based on navigation change
    */
   ngOnInit() {
-    this.loadingService.loading$.subscribe(res => this.loading = res);
+    this.loadingService.loading$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => this.loading = res);
 
-    // check for platform update
+  // check for platform update
     if (this.swUpdate.isEnabled) {
-      interval(30000).subscribe(() => {
+        interval(30000)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(() => {
         this.swUpdate.checkForUpdate();
       });
-      this.swUpdate.versionUpdates.subscribe( event => {
+      this.swUpdate.versionUpdates
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe( event => {
         if (event.type === 'VERSION_READY') {
           console.log('A newer version of Pharos is available!');
           this.swUpdate.activateUpdate();
@@ -63,6 +70,7 @@ export class AppComponent implements OnInit {
     }
 
     this.router.events
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((e: any) => {
         if (e instanceof NavigationStart) {
           this.loading = true;
@@ -114,5 +122,10 @@ export class AppComponent implements OnInit {
    */
   closeSidenav() {
     this.header.sidenav.close();
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

@@ -46,9 +46,7 @@ export class SequenceSearchComponent extends DynamicPanelComponent implements On
   ngOnInit(): void {
     this._data
       // listen to data as long as term is undefined or null
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.results = [];
         this.sequence = this._route.snapshot.queryParamMap.get('sequence');

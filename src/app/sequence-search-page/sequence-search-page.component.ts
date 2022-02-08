@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {NavigationExtras, Router} from '@angular/router';
 import {CentralStorageService} from '../pharos-services/central-storage.service';
-import {PharosApiService} from '../pharos-services/pharos-api.service';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 /**
  * sequence search page
@@ -13,7 +14,8 @@ import {PharosApiService} from '../pharos-services/pharos-api.service';
   styleUrls: ['./sequence-search-page.component.scss']
 })
 
-export class SequenceSearchPageComponent implements OnInit {
+export class SequenceSearchPageComponent implements OnInit, OnDestroy {
+  protected ngUnsubscribe: Subject<any> = new Subject();
   /**
    * form control to adjust overlap percentage
    * @type {FormControl}
@@ -32,13 +34,14 @@ export class SequenceSearchPageComponent implements OnInit {
    */
   constructor(
     private _router: Router,
-    private centralStorageService: CentralStorageService,
-    private pharosApiService: PharosApiService
+    private centralStorageService: CentralStorageService
   ) {
   }
 
   ngOnInit(): void {
-    this.centralStorageService.sequenceChanged.subscribe(seq => {
+    this.centralStorageService.sequenceChanged
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(seq => {
       this.initialize(seq);
     });
     this.initialize(this.centralStorageService.getField('sequence'));
@@ -59,5 +62,10 @@ export class SequenceSearchPageComponent implements OnInit {
       queryParamsHandling: ''
     };
     this._router.navigate(['/analyze/targets'], navigationExtras);
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }
