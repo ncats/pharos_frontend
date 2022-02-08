@@ -120,9 +120,7 @@ export class OrthologPanelComponent extends TargetPanelBaseComponent implements 
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
-    .pipe(
-      takeUntil(this.ngUnsubscribe)
-    )
+    .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe(x => {
       this.target = this.data.targets;
       this.targetProps = this.data.targetsProps;
@@ -142,7 +140,9 @@ export class OrthologPanelComponent extends TargetPanelBaseComponent implements 
       orthologstop: event.pageSize,
       orthologsskip: event.pageIndex * event.pageSize,
     };
-    this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, TargetComponents.Component.Orthologs).subscribe(res => {
+    this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, TargetComponents.Component.Orthologs)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
       const tempArr = res.data.targets.orthologs
         .map(ortholog => orthologSerializer.fromJson(ortholog))
         .map(ortho => orthologSerializer._asProperties(ortho));
@@ -158,13 +158,5 @@ export class OrthologPanelComponent extends TargetPanelBaseComponent implements 
 
   count(): number {
     return this.target.orthologCounts;
-  }
-
-  /**
-   * cleanp on destroy
-   */
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 }

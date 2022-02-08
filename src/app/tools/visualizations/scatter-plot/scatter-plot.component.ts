@@ -121,9 +121,7 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         if (this.filters) {
           this.filters.forEach(filter => {

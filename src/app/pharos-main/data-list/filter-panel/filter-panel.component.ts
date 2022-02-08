@@ -35,6 +35,7 @@ import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.
 
 })
 export class FilterPanelComponent implements OnInit, OnDestroy {
+  private ngUnsubscribe: Subject<any> = new Subject();
   isProduction = environment.production;
   /**
    * set up services to get facets
@@ -115,12 +116,6 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
   @Input() customFacets: Facet[] = [];
 
   /**
-   * subject to unsubscribe on destroy
-   * @type {Subject<any>}
-   */
-  private ngUnsubscribe: Subject<any> = new Subject();
-
-  /**
    * list of facets shown in the filter panel
    */
   @Input() facets: Facet[];
@@ -171,7 +166,9 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    */
   ngOnInit() {
     this.models = this._route.snapshot.data.path;
-    this.profileService.profile$.subscribe(user => {
+    this.profileService.profile$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(user => {
       if (user) {
         // User is signed in.
         this.user = user;
@@ -205,7 +202,9 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
               );
           });
 
-          forkJoin([...collections]).subscribe(res => {
+          forkJoin([...collections])
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(res => {
             const filteredCollections = res.filter(r => !!r);
             const collectionFacet = new Facet({
               facet: 'collection',
@@ -288,7 +287,9 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
   GetDataAndShowFullPanel(){
     this.pharosApiService.getAllFacets(
       this._route.snapshot.data.path,
-      this._route.snapshot.queryParamMap).subscribe({
+      this._route.snapshot.queryParamMap)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
       next: res => {
         this.allFacets = this.customFacets.concat(res.data.results.facets.map(facet => new Facet(facet)));
         this.openFullPanel();

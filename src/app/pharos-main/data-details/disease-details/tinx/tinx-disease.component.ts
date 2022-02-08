@@ -51,6 +51,7 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
   ngOnInit(): void {
 
     this.router.events
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((e: any) => {
         if (e instanceof NavigationStart) {
           this.loadingStart();
@@ -62,14 +63,14 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         if (isPlatformBrowser(this.platformID) && !this.hasTooMuchData() && this.tinx.length < 1 && this.hasDOID()) {
           const diseaseName = this._route.snapshot.paramMap.get('id');
           const variables = {name: diseaseName};
-          this.apiService.adHocQuery(this.apiService.TinxQuery, variables).subscribe(res => {
+          this.apiService.adHocQuery(this.apiService.TinxQuery, variables)
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(res => {
             res.data.disease.tinx.map(point => {
               if (point.targetID) {
                 point.details.forEach(detail => {

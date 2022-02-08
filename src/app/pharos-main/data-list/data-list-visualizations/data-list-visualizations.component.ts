@@ -74,13 +74,13 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
     this.tourType = TourType.UpsetChartTour;
     this._data
       // listen to data as long as term is undefined or null
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         if (this.data && this.data.facets) {
           this.model = this._route.snapshot.data.path;
-          this.centralStorageService.displayFacetChanged.subscribe(obj => {
+          this.centralStorageService.displayFacetChanged
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(obj => {
             if (obj.model === this.model) {
               this.changeSelectedFacet(obj.facet);
             }

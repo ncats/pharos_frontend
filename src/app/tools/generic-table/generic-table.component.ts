@@ -5,7 +5,7 @@ import {
   Component, DoCheck,
   EventEmitter,
   Injector,
-  Input, IterableDiffer, IterableDiffers,
+  Input, IterableDiffers,
   OnChanges,
   OnDestroy,
   OnInit,
@@ -26,7 +26,6 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {DataProperty} from './components/property-display/data-property';
 import {SelectionModel} from '@angular/cdk/collections';
 import {takeUntil} from 'rxjs/operators';
-import {Data} from "@angular/router";
 
 /**
  * component to show flexible data consisting of multiple data types, custom components
@@ -254,9 +253,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         if (this.useInternalPaginator) {
           this.dataSource = new MatTableDataSource<any>(res);
@@ -267,14 +264,12 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
         this.ref.detectChanges();
       });
 
-    this._fieldsConfig.pipe(
-      takeUntil(this.ngUnsubscribe)
-    )
+    this._fieldsConfig
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => this.fetchTableFields());
+
     this.selection.changed
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(change => {
         this.ref.detectChanges();
         this.rowSelectionChange.emit(this.selection);
@@ -431,7 +426,9 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
 
     }
     if (component.instance.clickEvent) {
-      component.instance.clickEvent.subscribe(res => {
+      component.instance.clickEvent
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(res => {
         this.cellClicked(res);
       });
     }

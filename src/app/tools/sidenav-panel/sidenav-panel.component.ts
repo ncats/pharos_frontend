@@ -1,10 +1,12 @@
-import {AfterContentInit, AfterViewInit, Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
+import {AfterContentInit, Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {NavSectionsService} from './services/nav-sections.service';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {PanelOptions} from '../../pharos-main/pharos-main.component';
 import {PharosPanel} from '../../../config/components-config';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {DOCUMENT, Location, ViewportScroller} from '@angular/common';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 /**
  * panel that lists available sections of the details page, with jump to section navigation
@@ -14,7 +16,8 @@ import {DOCUMENT, Location, ViewportScroller} from '@angular/common';
   templateUrl: './sidenav-panel.component.html',
   styleUrls: ['./sidenav-panel.component.scss']
 })
-export class SidenavPanelComponent implements OnInit, AfterContentInit {
+export class SidenavPanelComponent implements OnInit, AfterContentInit, OnDestroy {
+  protected ngUnsubscribe: Subject<any> = new Subject();
   /**
    * close the filter panel
    * @type {EventEmitter<boolean>}
@@ -80,7 +83,9 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit {
     this.navSectionsService.setSections(this._route.snapshot.data.components
       .filter(component => component.navHeader || (component.panels && component.panels.length > 0)));
 
-    this.navSectionsService.sections$.subscribe(res => {
+    this.navSectionsService.sections$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
       if (res && res.length) {
         this.sections = res;
         this.activeElement = this.activeFragment;
@@ -90,20 +95,25 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit {
       }
     });
 
-    this.navSectionsService.activeSection$.subscribe(res => {
+    this.navSectionsService.activeSection$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
       if (res) {
         this.activeElement = res;
       }
     });
 
     // this covers url change when navigation/click to go to section
-    this._route.fragment.subscribe(fragment => {
+    this._route.fragment
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(fragment => {
       this.activeElement = fragment;
       this.viewportScroller.scrollToAnchor(fragment);
     });
 
 
     this.router.events
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((e: any) => {
         // If it is a NavigationEnd event re-initalise the component
         if (e instanceof NavigationEnd) {
@@ -145,5 +155,10 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit {
       this.activeFragment = this._route.snapshot.fragment;
       this.viewportScroller.scrollToAnchor(this.activeElement);
     }
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

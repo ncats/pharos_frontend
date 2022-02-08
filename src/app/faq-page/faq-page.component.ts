@@ -1,7 +1,7 @@
 import {
   Component,
   ElementRef,
-  Inject,
+  Inject, OnDestroy,
   OnInit,
   PLATFORM_ID,
   QueryList,
@@ -9,6 +9,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
+import {Subscription} from 'rxjs';
 
 /**
  * Question model for object retrieved from firebase
@@ -40,7 +41,8 @@ export interface Question {
   encapsulation: ViewEncapsulation.None
 })
 
-export class FaqPageComponent implements OnInit {
+export class FaqPageComponent implements OnInit, OnDestroy {
+  dbSubscription: Subscription;
   /**
    * extracted list of field labels to be used as accordion panel headers
    */
@@ -68,7 +70,8 @@ export class FaqPageComponent implements OnInit {
    * retrieve questions from database, and watch for changes
    */
   ngOnInit() {
-    this.db.collection<Question>('faqs').valueChanges()
+    // @ts-ignore
+    this.dbSubscription = this.db.collection<Question>('faqs').valueChanges()
       .subscribe(items => {
         // create and map questions by subject
         if (items && items.length) {
@@ -91,5 +94,11 @@ export class FaqPageComponent implements OnInit {
           this.subjects = Array.from(this.questionsMap.keys());
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.dbSubscription) {
+      this.dbSubscription.unsubscribe();
+    }
   }
 }

@@ -5,7 +5,8 @@ import {
 } from '@angular/core';
 import * as d3 from 'd3v7';
 import {isPlatformBrowser} from '@angular/common';
-import {Observable, Subscription} from 'rxjs';
+import {Observable, pipe, Subject, Subscription} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 /**
  * component to display a donut chart visualization
@@ -17,6 +18,7 @@ import {Observable, Subscription} from 'rxjs';
   encapsulation: ViewEncapsulation.None
 })
 export class DonutChartComponent implements AfterViewInit, OnChanges, OnDestroy {
+  protected ngUnsubscribe: Subject<any> = new Subject();
   private eventsSubscription: Subscription;
 
   @Input() events: Observable<string>;
@@ -77,7 +79,9 @@ export class DonutChartComponent implements AfterViewInit, OnChanges, OnDestroy 
    * measure and layou the chart component
    */
   ngAfterViewInit() {
-    this.eventsSubscription = this.events?.subscribe((chart) => {
+    this.eventsSubscription = this.events
+      ?.pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((chart) => {
       if (chart === 'donut-chart') {
         this.redraw();
       }
@@ -234,6 +238,8 @@ export class DonutChartComponent implements AfterViewInit, OnChanges, OnDestroy 
     if (this.eventsSubscription) {
       this.eventsSubscription.unsubscribe();
     }
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
 }

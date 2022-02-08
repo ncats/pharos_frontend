@@ -33,9 +33,7 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
        this.target = this.data.targets;
        this.changeRef.markForCheck();

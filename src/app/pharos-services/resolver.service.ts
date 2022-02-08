@@ -1,13 +1,15 @@
-import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
+import {Inject, Injectable, OnDestroy, PLATFORM_ID} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {MolChangeService} from '../tools/marvin-sketcher/services/mol-change.service';
-import {PharosApiService} from './pharos-api.service';
 import {isPlatformBrowser} from '@angular/common';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ResolverService {
+export class ResolverService implements OnDestroy {
+  protected ngUnsubscribe: Subject<any> = new Subject();
 
   constructor(
     private http: HttpClient,
@@ -136,6 +138,7 @@ export class ResolverService {
     this.http.get<string>(`https://tripod.nih.gov/servlet/resolver/lychi/smiles/inchikey?structure=C1CCC1`,
       // @ts-ignore
       {responseType: 'text' as const})
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: response => {
           const responseObj: any = {};
@@ -149,5 +152,10 @@ export class ResolverService {
           this.resolverIsUp = false;
         }
       });
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

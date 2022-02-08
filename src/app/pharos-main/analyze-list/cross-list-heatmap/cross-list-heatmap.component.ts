@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
-import {ActivatedRoute, ActivatedRouteSnapshot} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {HeatMapComponent, HeatMapData} from '../../../tools/visualizations/heat-map/heat-map.component';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
@@ -53,9 +53,7 @@ export class CrossListHeatmapComponent extends DynamicPanelComponent implements 
     this.tourType = TourType.Heatmaps;
     this._data
       // listen to data as long as term is undefined or null
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.results = [];
         this.heatmapWasRun = false;
