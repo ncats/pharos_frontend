@@ -13,7 +13,7 @@ FROM node:14-alpine
 WORKDIR /app
 COPY --from=buildContainer /app/package.json /app
 
-ENV NODE_OPTIONS --max-old-space-size=65536
+ENV NODE_OPTIONS --max-old-space-size=16384
 RUN npm i firebase
 
 # Get all the code needed to run the app
