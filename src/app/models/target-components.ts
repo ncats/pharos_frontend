@@ -453,10 +453,6 @@ export const TARGETDETAILSFIELDS = gql`
       name
       value
     }
-    alphaFoldStructures: xrefs(source:"AlphaFold Structure") {
-      structure:name
-      uniprot:value
-    }
     ensemblIDs: xrefs(source:"Ensembl") {
       name
     }
