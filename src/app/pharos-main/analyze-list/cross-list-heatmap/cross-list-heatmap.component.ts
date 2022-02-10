@@ -79,7 +79,7 @@ export class CrossListHeatmapComponent extends DynamicPanelComponent implements 
       this.changeDetectorRef.detectChanges();
       this.heatMapContainer.redraw();
       this.featureTrackingService.trackFeature('Create Heatmap',
-        this.model, this.crossModel, `${this.activityMap.xValues.length} x ${this.activityMap.yValues.length}`
+        this.model, this.crossModel, `${this.activityMap?.xValues?.length} x ${this.activityMap?.yValues?.length}`
         + (this.results?.length === 10000 ? ' truncated' : '') );
     });
   }

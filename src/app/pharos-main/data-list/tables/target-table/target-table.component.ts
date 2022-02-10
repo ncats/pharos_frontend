@@ -390,7 +390,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
 
   selectionTooltip(): string {
     return this.rowSelection.selected.map(t => {
-      return t.gene || t.accession;
+      return t.preferredSymbol;
     }).join(', ');
   }
 

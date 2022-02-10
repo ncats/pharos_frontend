@@ -23,7 +23,7 @@
       <div class="headerRow">
         <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Find Similar Targets'"
                                     [facetName]="'Interacting Viruses'"
-                                    [queryParams]="{similarity: '(' + target.accession + ', Interacting Virus)'}"></pharos-explore-list-button>
+                                    [queryParams]="{similarity: '(' + target.preferredSymbol + ', Interacting Virus)'}"></pharos-explore-list-button>
         <mat-paginator
           [pageSize]="10"
           [length]="target.interactingViruses.length"

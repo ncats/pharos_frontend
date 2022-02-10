@@ -15,7 +15,7 @@
   </a>
   <div class="ligand-footer">
     <div *ngIf="target">
-      <a href="/targets/{{target.accession}}" target="_blank" rel="noreferrer">{{target.gene}}</a>
+      <a href="/targets/{{target.preferredSymbol}}" target="_blank" rel="noreferrer">{{target.gene}}</a>
       <pharos-idg-level-indicator [level]="target.idgTDL"></pharos-idg-level-indicator>
       {{target.idgFamily}}<br>
     </div>

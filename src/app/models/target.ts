@@ -50,6 +50,11 @@ export class Target extends PharosBase {
     accession: string;
 
     /**
+     * best abbreviation for this target
+     */
+    preferredSymbol: string;
+
+    /**
      * target description
      */
     description: string;
@@ -579,8 +584,8 @@ export class TargetSerializer implements PharosSerializer {
      */
     _asProperties(obj: Target): any {
         const newObj: any = this._mapField(obj);
-        if (newObj.accession && newObj.accession.term) {
-            newObj.name.internalLink = ['/targets', newObj.accession.term];
+        if (newObj.preferredSymbol && newObj.preferredSymbol.term) {
+            newObj.name.internalLink = ['/targets', newObj.preferredSymbol.term];
         }
 
         if (newObj.gene && newObj.gene.term) {

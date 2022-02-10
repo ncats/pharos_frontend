@@ -111,28 +111,28 @@ export class GwasDiseaseAnalyticsComponent extends DynamicPanelComponent impleme
         this.diseaseProps = this.data.diseasesProps;
 
         if (isPlatformBrowser(this.platformID)) {
-          const betaCountPlot = new ScatterPlotData();
-          betaCountPlot.data = [];
-          betaCountPlot.selected = true;
-          betaCountPlot.options = new ScatterOptions({
-            xLabel: 'Mean Rank Score',
-            yLabel: 'Beta Count',
-            yBuffer: 1,
-            margin: {top: 20, right: 35, bottom: 50, left: 50}
-          });
-
-          const orPlot = new ScatterPlotData();
-          orPlot.data = [];
-          orPlot.options = new ScatterOptions({
-            xLabel: 'Mean Rank Score',
-            yLabel: 'Odds Ratio',
-            yBuffer: 1,
-            margin: {top: 20, right: 35, bottom: 50, left: 50}
-          });
-
-          this.scatterPlotData = [betaCountPlot, orPlot];
           if (this.disease?.gwasAnalytics?.associations.length > 0) {
             this.showSection();
+            const betaCountPlot = new ScatterPlotData();
+            betaCountPlot.data = [];
+            betaCountPlot.selected = true;
+            betaCountPlot.options = new ScatterOptions({
+              xLabel: 'Mean Rank Score',
+              yLabel: 'Beta Count',
+              yBuffer: 1,
+              margin: {top: 20, right: 35, bottom: 50, left: 50}
+            });
+
+            const orPlot = new ScatterPlotData();
+            orPlot.data = [];
+            orPlot.options = new ScatterOptions({
+              xLabel: 'Mean Rank Score',
+              yLabel: 'Odds Ratio',
+              yBuffer: 1,
+              margin: {top: 20, right: 35, bottom: 50, left: 50}
+            });
+
+            this.scatterPlotData = [betaCountPlot, orPlot];
             this.disease.gwasAnalytics.associations.forEach(assoc => {
               if (assoc.medianOddsRatio) {
                 const p: PharosPoint = new PharosPoint({
@@ -153,9 +153,9 @@ export class GwasDiseaseAnalyticsComponent extends DynamicPanelComponent impleme
                 betaCountPlot.data.push(p);
               }
             });
+          } else {
+            this.hideSection();
           }
-        } else {
-          this.hideSection();
         }
 
         this.loadingComplete();

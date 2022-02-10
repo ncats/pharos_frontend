@@ -26,7 +26,7 @@
               [matTooltipClass]="'pharos-tooltip'">{{getLabel(facet.name)}}</span>
         <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Find Similar Targets'"
                                     [facetName]="getLabel(facet.name) + 's'"
-                                    [queryParams]="{similarity: '(' + target.accession + ', ' + getFacet(facet.name) + ')'}"></pharos-explore-list-button>
+                                    [queryParams]="{similarity: '(' + target.preferredSymbol + ', ' + getFacet(facet.name) + ')'}"></pharos-explore-list-button>
         <pharos-generic-table
           [data]="facet.fields.slice(0,10)"
           [fieldsConfig]="fields"

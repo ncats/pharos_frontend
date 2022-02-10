@@ -937,6 +937,7 @@ query batchConfirmation($batch: [String], $top: Int) {
  ) {
      uniprot
      sym
+     preferredSymbol
      evalue
      pident
      bitscore
