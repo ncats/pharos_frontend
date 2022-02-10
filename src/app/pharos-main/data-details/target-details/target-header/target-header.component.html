@@ -6,12 +6,12 @@
         <pharos-idg-level-indicator [level]="target?.idgTDL"></pharos-idg-level-indicator>
       </div>
       <div fxFlex="20" fxFlex.lt-sm="50">
-        <span class="pharos-title toolbar">{{target?.gene || target?.accession}}</span>
+        <span class="pharos-title toolbar">{{target?.preferredSymbol}}</span>
       </div>
       <div fxFlex="60" fxFlex.lt-sm="100" class="title-holder">
         <span class="pharos-headline toolbar">{{target?.name}}</span>
         <button mat-button class="tool-button download-target-details" (click)="downloadData()"
-                [matTooltip]="'Download Data for ' + (target?.gene || target?.accession)">
+                [matTooltip]="'Download Data for ' + (target?.preferredSymbol)">
           Download <mat-icon>download</mat-icon>
         </button>
       </div>

@@ -23,15 +23,17 @@ export class TargetTargetHeatmapComponent extends DynamicPanelComponent implemen
 
   rowParseFunction(row: any) {
     return {
-      xVal: row.sym || row.uniprot,
-      yVal: row.otherSym || row.otherUniprot,
+      xVal: row.preferredSymbol,
+      yVal: row.otherPreferredSymbol,
       stringVal: Number.parseFloat(row.score) ? row.score.toString() : null,
       numVal:  row.score || 0,
       metadata: {
         y: row.otherUniprot,
+        linkY: row.otherPreferredSymbol,
         x: row.uniprot,
-        displayY: row.otherSym || row.otherUniprot,
-        displayX: row.sym || row.uniprot
+        linkX: row.preferredSymbol,
+        displayY: row.otherPreferredSymbol,
+        displayX: row.preferredSymbol
       }
     };
   }

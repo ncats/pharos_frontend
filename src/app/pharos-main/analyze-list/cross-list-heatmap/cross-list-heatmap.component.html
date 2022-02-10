@@ -90,10 +90,12 @@
           <div class="details-card">
             <mat-card-title>
               Details:
-              <a [matTooltip]="'Open the ' + crossModel + ' details page for ' + selectedData?.metadata.displayY" [href]="'/' + this.crossModelLink + '/' + selectedData?.metadata.y" target="_blank" rel="noreferrer">
+              <a [matTooltip]="'Open the ' + crossModel + ' details page for ' + selectedData?.metadata.displayY"
+                 [href]="'/' + this.crossModelLink + '/' + (selectedData?.metadata.linkY || selectedData?.metadata.y)" target="_blank" rel="noreferrer">
                 {{selectedData?.metadata.displayY}}<mat-icon [inline]="true">open_in_new</mat-icon>
               </a> -
-              <a [matTooltip]="'Open the ' + model + ' details page for ' + selectedData?.metadata.displayX" [href]="'/' + this.modelLink + '/' + selectedData?.metadata.x" target="_blank" rel="noreferrer">
+              <a [matTooltip]="'Open the ' + model + ' details page for ' + selectedData?.metadata.displayX"
+                 [href]="'/' + this.modelLink + '/' + (selectedData?.metadata.linkX || selectedData?.metadata.x)" target="_blank" rel="noreferrer">
                 {{selectedData?.metadata.displayX}}<mat-icon [inline]="true">open_in_new</mat-icon>
               </a>
             </mat-card-title>

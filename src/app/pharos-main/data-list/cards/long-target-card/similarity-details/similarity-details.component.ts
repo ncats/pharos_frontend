@@ -25,11 +25,11 @@ export class SimilarityDetailsComponent extends GeneDetailsComponent implements 
       }
     }
     this.vennData.sizeA = this.target.similarityDetails.testSize;
-    this.vennData.nameA = this.target.gene || this.target.accession;
+    this.vennData.nameA = this.target.preferredSymbol;
     this.vennData.colorA = this.tdl2color(this.target.idgTDL);
 
     this.vennData.sizeB = this.target.similarityDetails.baseSize;
-    this.vennData.nameB = this.similarityTarget.gene || this.similarityTarget.accession;
+    this.vennData.nameB = this.similarityTarget.preferredSymbol;
     this.vennData.colorB = this.tdl2color(this.similarityTarget.idgTDL);
 
     this.vennData.overlap = this.target.similarityDetails.overlap;

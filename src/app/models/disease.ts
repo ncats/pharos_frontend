@@ -76,6 +76,7 @@ const DISEASEDETAILSQUERY = gql`
             idgTDL: tdl
             idgFamily: fam
             accession: uniprot
+            preferredSymbol
           }
           ensgID
           studyCount
@@ -245,7 +246,7 @@ export class DiseaseSerializer implements Serializer {
         assocProps.provLink.term = '';
         const targetProps: any = this._mapField(assoc.target);
         targetProps.name.term = `${assoc.target.name} (${assoc.target.gene})`;
-        targetProps.name.internalLink = ['/targets', assoc.target.accession];
+        targetProps.name.internalLink = ['/targets', assoc.target.preferredSymbol];
         return {...assocProps, ...targetProps};
       });
     }

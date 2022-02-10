@@ -48,7 +48,7 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
 
   downloadData() {
     const dialogRef = this.dialog.open(FieldSelectionDialogComponent, {
-      data: {count: 1, model: 'Target', route: this._route, batch: this.target.accession},
+      data: {count: 1, model: 'Target', route: this._route, batch: this.target.preferredSymbol},
       height: '75vh', width: '66vw'
     }).afterClosed();
   }

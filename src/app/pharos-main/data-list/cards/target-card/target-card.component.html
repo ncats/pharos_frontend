@@ -1,8 +1,8 @@
-<mat-card *ngIf="target" routerLink='/targets/{{target.accession}}' target="_blank" class="target-card">
+<mat-card *ngIf="target" routerLink='/targets/{{target.preferredSymbol}}' target="_blank" class="target-card">
   <div class="target-content">
     <div class="name-row">
       <div >
-        <span class="mat-title target-link" [matTooltip]="target?.name">{{target?.gene || target?.accession}}</span>
+        <span class="mat-title target-link" [matTooltip]="target?.name">{{target?.preferredSymbol}}</span>
       </div>
       <div class="tkrow">
         <pharos-idg-level-indicator [level]="target?.idgTDL"></pharos-idg-level-indicator>

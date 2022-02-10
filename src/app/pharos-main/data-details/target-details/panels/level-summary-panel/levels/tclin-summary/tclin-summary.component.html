@@ -19,7 +19,7 @@
       </span>
     </div>
     <div class="exploreLink" *ngIf="target.drugCount > 0">
-      <a [routerLink]="'/ligands'" [queryParams]="{associatedTarget:target.accession,facet:'Type' + this.Facet.separator + 'Drug'}">Explore Approved Drugs</a>
+      <a [routerLink]="'/ligands'" [queryParams]="{associatedTarget:target.preferredSymbol,facet:'Type' + this.Facet.separator + 'Drug'}">Explore Approved Drugs</a>
     </div>
   </div>
 </div>

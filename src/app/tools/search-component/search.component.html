@@ -23,14 +23,18 @@
         </ng-container>
         <ng-template #dynamic>
           <mat-icon>list</mat-icon>
-          <ng-container *ngIf="g.reference_id; else traditionalFacet">
-          <span [innerHTML]="g.value  | highlight : typeaheadCtrl.value"></span>
-          <span> (Associated {{g.path | titlecase}})</span>
+          <ng-container *ngIf="g.parameter === 'collection'">
+            <span [innerHTML]="g.value  | highlight : typeaheadCtrl.value"></span>
+            <span> ({{g.path.slice(0,-1) | titlecase}} Collection)</span>
           </ng-container>
-          <ng-template #traditionalFacet>
+          <ng-container *ngIf="g.reference_id && g.parameter !== 'collection'">
+            <span [innerHTML]="g.value  | highlight : typeaheadCtrl.value"></span>
+            <span> (Associated {{g.path | titlecase}})</span>
+          </ng-container>
+          <ng-container *ngIf="!g.reference_id && g.parameter !== 'collection'">
             <span [innerHTML]="g.value  | highlight : typeaheadCtrl.value"></span>
             <span> ({{g.facet}})</span>
-          </ng-template>
+          </ng-container>
         </ng-template>
       </mat-option>
     </mat-autocomplete>

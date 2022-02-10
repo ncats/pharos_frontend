@@ -24,15 +24,16 @@ export class DiseaseTargetHeatmapComponent extends DynamicPanelComponent impleme
 
   rowParseFunction(row: any) {
     return {
-      yVal: row.sym || row.uniprot,
+      yVal: row.preferredSymbol,
       xVal: row.name,
       stringVal: row.count.toString(),
       numVal: row.count,
       metadata: {
         x: row.name,
         y: row.uniprot,
+        linkY: row.preferredSymbol,
         displayX: row.name,
-        displayY: row.sym || row.uniprot
+        displayY: row.preferredSymbol
       }
     };
   }

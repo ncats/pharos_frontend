@@ -26,11 +26,11 @@
         <div class="headerRow">
           <div>
             <pharos-explore-list-button [buttonText]="'Explore Associated Diseases'" [path]="'/diseases'"
-                                        [queryParams]="{associatedTarget:target.accession}">
+                                        [queryParams]="{associatedTarget:target.preferredSymbol}">
             </pharos-explore-list-button>
             <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Find Similar Targets'"
                                         [facetName]="'Associated Disease'"
-                                        [queryParams]="{similarity: '(' + target.accession + ', Associated Disease)'}"></pharos-explore-list-button>
+                                        [queryParams]="{similarity: '(' + target.preferredSymbol + ', Associated Disease)'}"></pharos-explore-list-button>
           </div>
           <mat-paginator
             [pageSize]="10"

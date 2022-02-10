@@ -38,7 +38,7 @@ export class SequenceSearchComponent extends DynamicPanelComponent implements On
 
   labelClick(event) {
     const url = this._router.serializeUrl(
-      this._router.createUrlTree([`/targets/${event.uniprot}`], {fragment: 'sequence'})
+      this._router.createUrlTree([`/targets/${event.preferredSymbol}`], {fragment: 'sequence'})
     );
     window.open(url, '_blank');
   }
