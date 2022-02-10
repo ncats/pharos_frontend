@@ -69,7 +69,12 @@ export class DataDetailsResolver implements Resolve<any> {
         alert(message);
       }
       else{
-        console.log(this.errorProperties(route));
+        console.log(this.errorProperties({
+          params: route.params,
+          fragment: route.fragment,
+          data: route.data,
+          queryParams: route.queryParams
+        }));
         console.log(message);
       }
       return null;
@@ -85,11 +90,6 @@ export class DataDetailsResolver implements Resolve<any> {
             if (err[property][subprop] instanceof Object) {
               for (const subsubprop in err[property][subprop]) {
                 ret = ret + `        ${subsubprop}: ${err[property][subprop][subsubprop]}\n`;
-                if (err[property][subprop][subsubprop] instanceof Object) {
-                  for (const subsubsubprop in err[property][subprop][subsubprop]) {
-                    ret = ret + `            ${subsubsubprop}: ${err[property][subprop][subsubprop][subsubsubprop]}\n`;
-                  }
-                }
               }
             }
           }
