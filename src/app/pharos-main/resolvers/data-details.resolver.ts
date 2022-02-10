@@ -69,6 +69,7 @@ export class DataDetailsResolver implements Resolve<any> {
         alert(message);
       }
       else{
+        console.log(this.errorProperties(route));
         console.log(message);
       }
       return null;
