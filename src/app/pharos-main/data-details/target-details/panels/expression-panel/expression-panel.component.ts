@@ -1,14 +1,11 @@
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   Inject,
   Input,
   OnDestroy,
   OnInit,
-  PLATFORM_ID,
-  ViewChild
+  PLATFORM_ID
 } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {Target} from '../../../../../models/target';
@@ -20,7 +17,6 @@ import {DynamicServicesService} from '../../../../../pharos-services/dynamic-ser
 import {TourType} from '../../../../../pharos-services/tour.service';
 import {HeatMapData} from '../../../../../tools/visualizations/heat-map/heat-map.component';
 import {takeUntil} from 'rxjs/operators';
-import {ExpressionHeatMapComponent} from '../../../../../tools/visualizations/expression-heat-map/expression-heat-map.component';
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 /**
@@ -107,9 +103,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         if (isPlatformBrowser(this.platformID)) {
           this.tissues = [];
@@ -213,13 +207,5 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
       default:
         return 'value';
     }
-  }
-
-  /**
-   * clean up on leaving component
-   */
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 }

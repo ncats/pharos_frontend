@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, Inject, NgZone, OnInit, PLATFORM_ID} from '@angular/core';
-import {DomSanitizer} from '@angular/platform-browser';
-import {LoadingService} from '../../pharos-services/loading.service';
+import {AfterViewInit, Component, Inject, NgZone, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
 import {MolChangeService} from './services/mol-change.service';
 import {isPlatformBrowser} from '@angular/common';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 /**
  * component to initialize a marvin js sketcher instance
@@ -13,7 +13,8 @@ import {isPlatformBrowser} from '@angular/common';
   templateUrl: './sketcher.component.html',
   styleUrls: ['./sketcher.component.scss'],
 })
-export class SketcherComponent implements AfterViewInit {
+export class SketcherComponent implements AfterViewInit, OnDestroy {
+  protected ngUnsubscribe: Subject<any> = new Subject();
 
   /**
    * initialize data helper functions as well as dom sanitizing and ngzone
@@ -55,7 +56,9 @@ export class SketcherComponent implements AfterViewInit {
         this.marvinElement.on('molchange', handleMolChange.bind(this));
       });
 
-      this.molChangeService.smilesChanged.subscribe(function(changeObj) {
+      this.molChangeService.smilesChanged
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(function(changeObj) {
         if (changeObj.source !== 'sketcher') {
           if (changeObj.newSmiles.length > 0) {
             this.updateTime = Date.now();
@@ -74,5 +77,10 @@ export class SketcherComponent implements AfterViewInit {
         }
       }.bind(this));
     }
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

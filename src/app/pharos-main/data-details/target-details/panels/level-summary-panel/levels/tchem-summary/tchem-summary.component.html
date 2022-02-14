@@ -25,7 +25,7 @@
       </span>
     </div>
     <div class="exploreLink" *ngIf="target.ligandCount > 0">
-      <a [routerLink]="'/ligands'" [queryParams]="{associatedTarget:target.accession,facet:'Type' + this.Facet.separator + 'Ligand'}">Explore Active Ligands</a>
+      <a [routerLink]="'/ligands'" [queryParams]="{associatedTarget:target.preferredSymbol,facet:'Type' + this.Facet.separator + 'Ligand'}">Explore Active Ligands</a>
     </div>
   </div>
 </div>

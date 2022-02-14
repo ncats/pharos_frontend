@@ -1,8 +1,10 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {Facet, Field, UpsetOptions} from '../../../models/facet';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
 import {ParamMap} from '@angular/router';
+import {TargetListService} from '../../../pharos-services/target-list.service';
+import {takeUntil} from 'rxjs/operators';
 
 /**
  * Service to parse and filter facets from api responses
@@ -10,7 +12,8 @@ import {ParamMap} from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class SelectedFacetService {
+export class SelectedFacetService implements OnDestroy {
+  protected ngUnsubscribe: Subject<any> = new Subject();
 
   /**
    * map of facet names to facet
@@ -37,9 +40,12 @@ export class SelectedFacetService {
    * @param profileService
    */
   constructor(
-    private profileService: PharosProfileService
+    private profileService: PharosProfileService,
+    private targetListService: TargetListService
   ) {
-    this.profileService.profile$.subscribe(user => {
+    this.profileService.profile$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(user => {
       if (user && user.data().savedTargets) {
         this._facetMap.set(user.data().savedTargets.name, user.data().savedTargets);
         this._facets.next(this._facetMap);
@@ -108,7 +114,8 @@ export class SelectedFacetService {
         fac.facet !== 'associatedDisease' &&
         fac.facet !== 'associatedStructure' &&
         fac.facet !== 'associatedLigand' &&
-        fac.facet !== 'similarity');
+        fac.facet !== 'similarity' &&
+        fac.facet !== 'sequence');
     facets.forEach(facet => {
       facet.values.forEach(value => {
         retArr.push(this._makeFacetString(facet.facet, value.name));
@@ -146,7 +153,8 @@ export class SelectedFacetService {
       this.getFacetByName('associatedDisease'),
       this.getFacetByName('associatedStructure'),
       this.getFacetByName('associatedLigand'),
-      this.getFacetByName('similarity')
+      this.getFacetByName('similarity'),
+      this.getFacetByName('sequence')
     ];
   }
 
@@ -238,6 +246,13 @@ export class SelectedFacetService {
           {
             label: Facet.getReadableParameter('associatedTarget'),
             facet: 'associatedTarget', values: [{name: map.get('associatedTarget')}]
+          }));
+      }
+      if (map.has('sequence')) {
+        this._facetMap.set('sequence', new Facet(
+          {
+            label: Facet.getReadableParameter('sequence'),
+            facet: 'sequence', values: [{name: map.get('sequence')}]
           }));
       }
       if (map.has('associatedDisease')) {
@@ -349,8 +364,12 @@ export class SelectedFacetService {
         str += ' The database also has matching filter values.';
       }
     } else {
-      if (this.getFacetByName('collection')?.values?.length > 0) {
+      const collection = this.getFacetByName('collection');
+      if (collection?.values?.length > 0) {
         str = `Custom ${this.toSingleTitleCase(path)} List.`;
+        if (!this.targetListService.listIsInFirebase(collection.values[0].name)) {
+          str += ` Found ${route.snapshot.data?.results?.count} ${route.snapshot.data?.path}.`;
+        }
       }
       else {
         str = `Found ${route.snapshot.data?.results?.count} ${route.snapshot.data?.path}.`;
@@ -359,7 +378,12 @@ export class SelectedFacetService {
 
     if (facets.length) {
       str += ' The following filters were applied: ';
-      str += facets.map(f => f.facet + ' = ' + f.values.map(v => v.name).join(' OR ')).join((' AND '));
+      str += facets.map(f => f.facet + ' = ' + f.values.map(v => {
+        if (f.facet === 'sequence' && v.name.length > 50) {
+          return v.name.substr(0, 50) + '...';
+        }
+        return v.name;
+      }).join(' OR ')).join((' AND '));
     }
     return str;
   }
@@ -378,5 +402,10 @@ export class SelectedFacetService {
   newTitle(route): string {
     const listType = route.snapshot.data.path;
     return `Pharos: ${this.toSingleTitleCase(listType)} List`;
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

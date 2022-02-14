@@ -19,6 +19,7 @@ import {DiseaseAssociationDetailsComponent} from '../../data-list/cards/long-tar
 import {SimilarityDetailsComponent} from '../../data-list/cards/long-target-card/similarity-details/similarity-details.component';
 import {LigandAssociationDetailsComponent} from '../../data-list/cards/long-target-card/ligand-association-details/ligand-association-details.component';
 import {TargetPredictionDetailsComponent} from '../../data-list/cards/long-target-card/target-prediction-details/target-prediction-details.component';
+import {SequenceSimilarityDetailsComponent} from '../../data-list/cards/long-target-card/sequence-similarity-details/sequence-similarity-details.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import {TargetPredictionDetailsComponent} from '../../data-list/cards/long-targe
     LongTargetCardComponent,
     GeneDetailsComponent,
     InteractionDetailsComponent,
+    SequenceSimilarityDetailsComponent,
     DiseaseAssociationDetailsComponent,
     SimilarityDetailsComponent,
     KnowledgeMetricsComponent,

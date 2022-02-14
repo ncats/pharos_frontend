@@ -118,6 +118,9 @@ export class SearchComponent implements OnInit {
     if (autocompleteOption.isDetailsPage(option)) {
       return `See details for ${option.path.slice(0, -1)}: ${option.reference_id}`;
     }
+    if (option.parameter === 'collection') {
+      return `See the collection of ${option.path} `
+    }
     if (option.reference_id) {
       return `See ${option.path} associated with ${Facet.getReadableParameter(option.parameter)}: ${option.reference_id}`;
     }

@@ -21,7 +21,7 @@
       </div>
       <div class="headerRow" *ngIf="target.ppiCount > 0">
         <div>
-          <pharos-explore-list-button [path]="'/targets'" [queryParams]="{associatedTarget:target.accession}"
+          <pharos-explore-list-button [path]="'/targets'" [queryParams]="{associatedTarget:target.preferredSymbol}"
                                       [buttonText]="'Explore Interacting Targets'"></pharos-explore-list-button>
         </div>
         <mat-paginator

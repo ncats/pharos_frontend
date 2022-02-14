@@ -16,6 +16,7 @@ import {SimilarityDetails} from './similarityDetails';
 import {GwasTargetAnalytics} from './gwasTargetAnalytics';
 import {LigandAssociationDetails} from './ligandAssociationDetails';
 import {TargetPredictionDetails} from './targetPredictionDetails';
+import {SequenceSimilarityDetails} from './sequenceSimilarityDetails';
 
 
 /**
@@ -49,6 +50,11 @@ export class Target extends PharosBase {
     accession: string;
 
     /**
+     * best abbreviation for this target
+     */
+    preferredSymbol: string;
+
+    /**
      * target description
      */
     description: string;
@@ -78,10 +84,7 @@ export class Target extends PharosBase {
      * list of uniprot ids
      */
     uniprotIds: string[] | any[];
-    /**
-     * list of structure files from AlphaFold
-     */
-    alphaFoldStructures: any[];
+
     /**
      * list of gene symbols
      */
@@ -259,6 +262,7 @@ export class Target extends PharosBase {
     diseaseAssociationDetails?: DiseaseAssociation[] = [];
     ligandAssociationDetails?: LigandAssociationDetails;
     targetPredictionDetails?: TargetPredictionDetails;
+    sequenceSimilarityDetails?: SequenceSimilarityDetails;
     similarityDetails?: SimilarityDetails;
     interactingViruses?: VirusDetails[];
 
@@ -329,16 +333,6 @@ export class TargetSerializer implements PharosSerializer {
         const obj = new Target();
         obj.parsed = true;
         Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
-
-        if (obj.alphaFoldStructures) {
-            const parser = (name: string) => {
-                const modelNumber = name.split('-')[2];
-                return Number(modelNumber.slice(1));
-            };
-            obj.alphaFoldStructures = obj.alphaFoldStructures.sort((a, b) => {
-                return parser(a.structure) - parser(b.structure);
-            });
-        }
 
         if (json.gwasAnalytics) {
           obj.gwasAnalytics = new GwasTargetAnalytics(json.gwasAnalytics);
@@ -577,8 +571,8 @@ export class TargetSerializer implements PharosSerializer {
      */
     _asProperties(obj: Target): any {
         const newObj: any = this._mapField(obj);
-        if (newObj.accession && newObj.accession.term) {
-            newObj.name.internalLink = ['/targets', newObj.accession.term];
+        if (newObj.preferredSymbol && newObj.preferredSymbol.term) {
+            newObj.name.internalLink = ['/targets', newObj.preferredSymbol.term];
         }
 
         if (newObj.gene && newObj.gene.term) {

@@ -24,3 +24,36 @@
 .clickable-card:hover {
   background-color: #f6f6f6;
 }
+
+.info{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-bottom: 25px;
+}
+
+.helpicon{
+  cursor: pointer;
+  display: flex;
+}
+
+.helptext {
+  font-size: smaller;
+  opacity: 0.5;
+  margin-right: 4px;
+  margin-top: 1px;
+}
+
+.infoCollapsed{
+  height: 0vh;
+}
+
+.explanation{
+  padding: 0 1vw;
+  margin-bottom: 1vh;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.explanation a{
+  color: rgba(0, 0, 0, 1);
+}

@@ -122,6 +122,7 @@ export const LIGANDDETAILSFIELDS = gql`
         idgTDL:tdl
         name:name
         accession:uniprot
+        preferredSymbol
       }
       pubs {
         pmid
@@ -176,6 +177,7 @@ export const TARGETCARDFIELDS = gql`
     idgTDL: tdl
     idgFamily: fam
     accession: uniprot
+    preferredSymbol
     hgdata:harmonizome {
       summary {
         name
@@ -190,6 +192,7 @@ export const TARGETLISTEXTRAS = gql`
         gene: sym
         idgTDL: tdl
         accession: uniprot
+        preferredSymbol
       }
     }`;
 /**
@@ -200,6 +203,7 @@ export const TARGETLISTFIELDS = gql`
     _tcrdid:tcrdid
     name
     gene: sym
+    preferredSymbol
     accession: uniprot
     idgFamily: fam
     idgTDL: tdl
@@ -248,6 +252,12 @@ export const TARGETLISTFIELDS = gql`
       baseSize
       testSize
       commonOptions
+    }
+    sequenceSimilarityDetails {
+      pident
+      evalue
+      bitscore
+      qcovs
     }
     uniProtFunction: props (name: "UniProt Function"){
       value
@@ -442,10 +452,6 @@ export const TARGETDETAILSFIELDS = gql`
     uniprotIds: synonyms(name: "uniprot") {
       name
       value
-    }
-    alphaFoldStructures: xrefs(source:"AlphaFold Structure") {
-      structure:name
-      uniprot:value
     }
     ensemblIDs: xrefs(source:"Ensembl") {
       name

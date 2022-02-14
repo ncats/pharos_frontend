@@ -30,6 +30,11 @@
             [matTooltip]="'Find ligands based on chemical structure'">Structure Search
       <mat-icon>search</mat-icon>
     </button>
+    <button *ngIf="isTargetPage()" mat-button class="tool-button " mat-raised-button (click)="goToSequenceSearch()"
+            [color]="'primary'"
+            [matTooltip]="'Find targets based on amino acid sequence'">Sequence Search
+      <mat-icon>search</mat-icon>
+    </button>
 
     <span *ngIf="loggedIn === true && !this.isAnalyzePage() && this.isTargetPage()"
           [matTooltip]="rowSelection.isEmpty()? 'Select ' + models.toLowerCase() + ' to save as a custom collection' : null">

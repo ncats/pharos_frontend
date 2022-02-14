@@ -3,6 +3,7 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {Target} from '../../../../../models/target';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {takeUntil} from 'rxjs/operators';
 
 /**
  * this is a list of the facets shown - this could probably be set in the config files
@@ -56,10 +57,7 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
-      .pipe(
-        // todo: this unsubscribe doesn't seem to work
-        //    takeWhile(() => !this.data['references'])
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.facets = [];
         this.target = this.data.targets;

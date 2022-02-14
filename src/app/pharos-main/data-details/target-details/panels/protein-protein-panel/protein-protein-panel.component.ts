@@ -70,9 +70,7 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.target = this.data.targets;
         this.loadingComplete();
@@ -97,6 +95,7 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
       ppisskip: event.pageIndex * event.pageSize,
     };
     this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, TargetComponents.Component.ProteinProteinInteractions)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({next: res => {
         try {
           const retTarget: any = JSON.parse(JSON.stringify(res.data.targets.target ? res.data.targets.target : res.data.targets));
@@ -127,13 +126,5 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
       error: (err) => {
         throw err;
       }});
-  }
-
-  /**
-   * cleanp on destroy
-   */
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 }

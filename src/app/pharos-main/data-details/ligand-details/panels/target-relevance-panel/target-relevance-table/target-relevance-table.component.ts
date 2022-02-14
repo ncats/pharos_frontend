@@ -1,7 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {PharosProperty} from '../../../../../../models/pharos-property';
 import {MatTableDataSource} from '@angular/material/table';
-import {LigActSerializer} from '../../../../../../models/ligand-activity';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {LigandSerializer} from '../../../../../../models/ligand';
@@ -95,9 +94,7 @@ export class TargetRelevanceTableComponent implements OnInit, OnDestroy {
     this._rawData
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         if (this.rawData.length > 0) {
           this.activitiesTargetDataSource = new MatTableDataSource<any>();

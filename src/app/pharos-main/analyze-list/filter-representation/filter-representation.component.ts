@@ -94,9 +94,7 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
     this.tourType = TourType.FilterValueEnrichment;
     this._data
       // listen to data as long as term is undefined or null
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.initialize();
         this.fetchAllFilterOptions();
@@ -123,7 +121,8 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
         'associatedDisease',
         'associatedStructure',
         'associatedLigand',
-        'similarity'
+        'similarity',
+        'sequence'
       ].includes(key) && this._route.snapshot.queryParamMap.get(key).length > 0) {
         isFiltered = true;
       }
@@ -200,7 +199,9 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
     this.pharosApiService.getAllFacetOptions(
       this.linkPath(),
       this._route.snapshot.queryParamMap,
-      this.selectedFacetName, true, true).subscribe({
+      this.selectedFacetName, true, true)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
       next:
         res => {
           this.fullFacetList = res.data.normalizableFilters[this.listFieldName()];

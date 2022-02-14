@@ -88,13 +88,12 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
 
     const newTitle = `Pharos: ${this.target.name} (${this.target.idgTDL})`;
     this.metaService.setMetaData({description: this.target.description || '', title: newTitle});
-    this.metaService.createCanonicalURL(['targets', (this.target.accession)]);
+    this.metaService.createCanonicalURL(['targets', (this.target.preferredSymbol)]);
     this.changeRef.markForCheck();
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
     this.metaService.destroyCanonicalURL();
+    super.ngOnDestroy();
   }
 }

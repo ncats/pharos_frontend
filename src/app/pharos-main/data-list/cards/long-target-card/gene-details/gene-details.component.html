@@ -1,5 +1,6 @@
 <mat-card-subtitle>Gene Details</mat-card-subtitle>
 <div class="subsection">
+  <ncats-property-display [property]="{term: target.gene, label: 'Gene Symbol', tooltip: getTooltip('symbol')}"></ncats-property-display>
   <ncats-property-display [property]="{term: target.accession, label: 'UniProt ID', tooltip: getTooltip('uniprot')}"></ncats-property-display>
   <ncats-property-display [property]="{term: target.idgFamily, label: 'Family', tooltip: getTooltip('family')}"></ncats-property-display>
 </div>

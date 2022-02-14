@@ -60,14 +60,7 @@
                   "maximumWarning": "6kb"
                 }
               ],
-              "optimization": {
-                "scripts": true,
-                "fonts": true,
-                "styles": {
-                  "inlineCritical": false,
-                  "minify": true
-                }
-              },
+              "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
@@ -187,24 +180,7 @@
           "options": {
             "browserTarget": "pharos:build:production",
             "serverTarget": "pharos:server:production",
-            "routes": [
-              "/",
-                "/targets/htt",
-                "/targets/ace2",
-              "/targets/TCEANC2",
-              "/targets/ZNF773",
-              "/targets/FAM153A",
-              "/targets/FAM117B",
-              "/targets/C2orf66",
-              "/targets/LINC01006",
-              "/targets/ZNF559",
-              "/targets/C16orf90",
-              "/targets/FAM171A1",
-              "/targets/CCDC84",
-              "/targets/ARMCX4",
-              "/targets/CLHC1"
-
-            ]
+            "routesFile": "./routes.txt"
           },
           "configurations": {
             "production": {}

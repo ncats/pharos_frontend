@@ -1,14 +1,16 @@
-import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
-import {DataResource, MouseImageData} from "../../../../../../models/idg-resources/data-resource";
+import {ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {MouseImageData} from "../../../../../../models/idg-resources/data-resource";
 import {Observable, Subject, Subscription} from "rxjs";
 import {AnatomogramHoverService} from "../../../../../../tools/anatomogram/anatomogram-hover.service";
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'pharos-mouse-expression',
   templateUrl: './mouse-expression.component.html',
   styleUrls: ['./mouse-expression.component.scss']
 })
-export class MouseExpressionComponent implements OnInit {
+export class MouseExpressionComponent implements OnInit, OnDestroy {
+  protected ngUnsubscribe: Subject<any> = new Subject();
 
   @Input() mouseExpressions: MouseImageData[] = [];
   /**
@@ -31,7 +33,9 @@ export class MouseExpressionComponent implements OnInit {
   tissues: string[] = [];
 
   ngOnInit(): void {
-    this.updateSubscription = this.mouseExpressionUpdates.subscribe(() => this.initializeLists());
+    this.updateSubscription = this.mouseExpressionUpdates
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(() => this.initializeLists());
     this.initializeLists();
 
   }
@@ -107,5 +111,10 @@ export class MouseExpressionComponent implements OnInit {
     } else {
       this.anatomogramHoverService.setTissue(null);
     }
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

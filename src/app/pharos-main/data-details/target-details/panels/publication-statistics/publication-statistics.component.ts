@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {Target} from '../../../../../models/target';
-import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
@@ -55,7 +54,6 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
 
   /**
    *
-   * @param navSectionsService
    * @param _route
    * @param changeRef
    * @param pharosApiService
@@ -151,13 +149,5 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
       }
     });
     return Array.from(values.values());
-  }
-
-  /**
-   * clean up on leaving component
-   */
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "pharos",
-  "version": "3.10.3",
+  "version": "3.11.1",
   "tcrd_version": "6.12.4",
   "license": "MIT",
   "scripts": {
@@ -14,13 +14,12 @@
     "e2e": "ng e2e",
     "build:appshell": "ng run pharos:app-shell:production",
     "compodoc": "npx compodoc -p tsconfig.app.json -s -w --theme material",
-    "build:ssr": "npm --no-git-tag-version version patch && ng build --configuration production && ng run pharos:server:production",
+    "build:ssr": "npm --no-git-tag-version version patch && ng build --configuration production && npm run prerender",
     "build:ssr:dev": "ng build && ng run pharos:server:development",
     "serve:ssr": "node dist/server/main.js",
-    "rerun:ssr": "npm run build:ssr --configuration production && say pharos is ready && npm run serve:ssr",
+    "rerun:ssr": "npm run build:ssr && say pharos is ready && npm run serve:ssr",
     "dev:ssr": "ng run pharos:serve-ssr",
-    "prerender": "ng run pharos:prerender:fix-exit && ng run pharos:prerender",
-    "prerender:fix-exit": "sed -i -e \"s/}))().then().catch();/}))().then(()=>process.exit(0)).catch(()=>process.exit(1));/g\" ./node_modules/@nguniversal/builders/src/prerender/render.js"
+    "prerender": "ng run pharos:prerender"
   },
   "private": true,
   "dependencies": {
@@ -52,7 +51,6 @@
     "json2csv": "^5.0.6",
     "jszip": "^3.6.0",
     "ncats-protvista-uniprot": "^2.8.38",
-    "ngl": "2.0.0-dev.37",
     "ngx-json-viewer": "^2.4.0",
     "ngx-markdown": "^11.1.1",
     "raw-loader": "^4.0.2",

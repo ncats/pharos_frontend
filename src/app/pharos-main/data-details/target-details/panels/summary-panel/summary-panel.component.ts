@@ -52,9 +52,7 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.target = this.data.targets;
         this.targetProps = this.data.targetsProps;
@@ -76,12 +74,4 @@ export class SummaryPanelComponent extends DynamicPanelComponent implements OnIn
       size: 'large'}
   });
 }
-
-  /**
-   * clean up on leaving component
-   */
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
 }

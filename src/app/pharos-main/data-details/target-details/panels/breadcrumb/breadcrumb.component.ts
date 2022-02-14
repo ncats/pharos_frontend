@@ -48,9 +48,7 @@ export class BreadcrumbComponent extends DynamicPanelComponent implements OnInit
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.path = this.route.snapshot.data.path;
         this.target = this.data.targets;

@@ -9,8 +9,8 @@
         </mat-checkbox>
         <pharos-idg-level-indicator [level]="target.idgTDL"
                                     [matTooltip]="getTooltip('tdl')"></pharos-idg-level-indicator>
-        <span class="title-bar model-details-link" [matTooltip]="'See details for ' + target.gene" routerLink='/targets/{{target.accession}}'>
-          <span class="mat-card-title">{{target?.gene || target?.accession}}</span>
+        <span class="title-bar model-details-link" [matTooltip]="'See details for ' + target.preferredSymbol" routerLink='/targets/{{target.preferredSymbol}}'>
+          <span class="mat-card-title">{{target?.preferredSymbol}}</span>
           <span class="mat-card-subtitle">{{target?.name}}</span>
         </span>
       </div>
@@ -25,39 +25,50 @@
       <div class="section">
         <pharos-knowledge-metrics [target]="target" [apiSources]="apiSources"></pharos-knowledge-metrics>
       </div>
+      <div class="section" *ngIf="target.sequenceSimilarityDetails && target.sequenceSimilarityDetails.bitscore">
+        <pharos-sequence-similarity-details [target]="target" [apiSources]="apiSources"></pharos-sequence-similarity-details>
+      </div>
+
       <div *ngIf="target.diseaseAssociationDetails?.length > 0"
           (click)="diseaseField.scrollable || expandingDiseases ? toggleDiseases(): null"
-          class="section disease_details">
+          class="section disease_details" [ngClass]="{pointer: (diseaseField.scrollable || expandingDiseases)}">
         <pharos-disease-association-details
           [target]="target"
           [apiSources]="apiSources"
           [expanded]="expanded"
           #diseaseField>
         </pharos-disease-association-details>
-        <span *ngIf="!expanded && (diseaseField.scrollable || expandingDiseases)" class="expandLink">Click for more...</span>
+        <button mat-button *ngIf="!expanded && (diseaseField.scrollable || expandingDiseases)">
+          Expand for more... <mat-icon>expand_more</mat-icon></button>
       </div>
+
       <div *ngIf="target.ligandAssociationDetails"
            (click)="expanded=!expanded"
            class="section ligand_details"
            [ngClass]="{expanded: expanded, unexpanded: !expanded}">
         <pharos-ligand-association-details [target]="target" [apiSources]="apiSources" [expanded]="expanded"></pharos-ligand-association-details>
       </div>
+
       <div *ngIf="target.interactionDetails"
           (click)="expanded=!expanded"
           class="section interaction_details"
           [ngClass]="{expanded: expanded, unexpanded: !expanded}">
         <pharos-interaction-details [target]="target" [apiSources]="apiSources" [expanded]="expanded"></pharos-interaction-details>
       </div>
+
       <div *ngIf="target.similarityDetails?.commonOptions?.length > 0"
            (click)="expanded=!expanded"
-           class="section similarity_details"
+           class="section similarity_details pointer"
            [ngClass]="{expanded: expanded, unexpanded: !expanded}">
         <pharos-similarity-details [target]="target" [apiSources]="apiSources" [similarityTarget]="similarityTarget" [expanded]="expanded"></pharos-similarity-details>
-        <span *ngIf="!expanded" class="expandLink">Click for details...</span>
+        <button mat-button *ngIf="!expanded">
+          See Common Values... <mat-icon>expand_more</mat-icon></button>
       </div>
+
       <div *ngIf="target.targetPredictionDetails" class="section prediction">
         <pharos-target-prediction-details [target]="target" [apiSources]="apiSources"></pharos-target-prediction-details>
       </div>
+
       <div class="section radar-chart" *ngIf="(!target.targetPredictionDetails || !target.ligandAssociationDetails)">
         <mat-card-subtitle>Illumination Graph</mat-card-subtitle>
         <pharos-radar-chart [size]="'small'"

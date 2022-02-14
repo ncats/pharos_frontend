@@ -11,7 +11,6 @@ import {
 import {PageEvent} from '@angular/material/paginator';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
@@ -111,9 +110,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         if (isPlatformBrowser(this.platformID)) {
           this.target = this.data.targets;
@@ -177,6 +174,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       diseaseskip: event.pageIndex * event.pageSize,
     };
     this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, TargetComponents.Component.DiseaseSources)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
         res => {
           this.target.diseases = res.data.targets.diseases;
@@ -194,13 +192,5 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    * @param node
    */
   hasChild = (_: number, node: DiseaseTreeNode) => !!node.children && node.children.length > 0;
-
-  /**
-   * clean up on leaving component
-   */
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
 }
 

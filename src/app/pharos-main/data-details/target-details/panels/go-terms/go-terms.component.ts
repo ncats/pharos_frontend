@@ -50,9 +50,7 @@ export class GoTermsComponent extends DynamicPanelComponent implements OnInit, O
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.target = this.data.targets;
         this.targetProps = this.data.targetsProps;
@@ -98,6 +96,7 @@ export class GoTermsComponent extends DynamicPanelComponent implements OnInit, O
     pagingParams.pageData.skip = event.pageIndex * event.pageSize;
 
     this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, pagingParams.component)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: res => {
           try {
@@ -151,12 +150,5 @@ export class GoTermsComponent extends DynamicPanelComponent implements OnInit, O
         break;
     }
     return returnObj;
-  }
-  /**
-   * cleanp on destroy
-   */
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 }
