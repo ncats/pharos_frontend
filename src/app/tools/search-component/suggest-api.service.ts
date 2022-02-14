@@ -105,6 +105,7 @@ export class autocompleteOption{
       associatedTarget: null,
       associatedStructure: null,
       associatedLigand: null,
+      sequence: null,
       q: null};
     if (autocompleteOption.isDetailsPage(obj)){
       return qParam;
@@ -140,23 +141,32 @@ export class autocompleteOption{
         } as autocompleteOption);
       }
       else if(cat.category === "Genes"){
-        retArray.push({
-          value: queryRow.value,
-          reference_id: cat.reference_id,
-          path: "targets"
-        } as autocompleteOption);
-        retArray.push({
-          value: queryRow.value,
-          reference_id: cat.reference_id,
-          path: "diseases",
-          parameter: "associatedTarget"
-        } as autocompleteOption);
-        retArray.push({
-          value: queryRow.value,
-          reference_id: cat.reference_id,
-          path: "ligands",
-          parameter: "associatedTarget"
-        } as autocompleteOption);
+        if (cat.reference_id) {
+          retArray.push({
+            value: queryRow.value,
+            reference_id: cat.reference_id,
+            path: "targets"
+          } as autocompleteOption);
+          retArray.push({
+            value: queryRow.value,
+            reference_id: cat.reference_id,
+            path: "diseases",
+            parameter: "associatedTarget"
+          } as autocompleteOption);
+          retArray.push({
+            value: queryRow.value,
+            reference_id: cat.reference_id,
+            path: "ligands",
+            parameter: "associatedTarget"
+          } as autocompleteOption);
+        } else {
+          retArray.push({
+            value: queryRow.value,
+            path: "targets",
+            parameter: "collection",
+            reference_id: queryRow.value
+          })
+        }
       }
       else if(cat.category === "Targets"){
         retArray.push({

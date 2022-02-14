@@ -36,9 +36,7 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
     this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         if (this.data && this.data.ligands) {
           this.ligand = this.data.ligands;
@@ -58,13 +56,5 @@ export class LigandDetailsComponent extends DynamicPanelComponent implements OnI
     this.molChangeService.updateSmiles(this.ligand.smiles, 'edit');
     this.molChangeService.updateSearchType('sim');
     this.router.navigate(['/structure']);
-  }
-
-  /**
-   * clean up on leaving component
-   */
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 }

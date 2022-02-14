@@ -7,7 +7,6 @@ import {DynamicTablePanelComponent} from './dynamic-table-panel/dynamic-table-pa
 import {HelpPanelComponent} from './help-panel/help-panel.component';
 import {KnowledgeTableComponent} from './knowledge-table/knowledge-table.component';
 import {LinkListComponent} from './link-list/link-list.component';
-import {ProteinStructureViewerComponent} from './protein-structure-viewer/protein-structure-viewer.component';
 import {GenericTableModule} from './generic-table/generic-table.module';
 import {SharedModule} from '../shared/shared.module';
 import {RouterModule} from '@angular/router';
@@ -35,6 +34,7 @@ import {FacetTableModule} from '../pharos-main/data-list/filter-panel/facet-tabl
 import { TutorialLinkComponent } from './tutorial-link/tutorial-link.component';
 import { HeatMapComponent } from './visualizations/heat-map/heat-map.component';
 import { BatchResolveModalComponent } from './batch-resolve-modal/batch-resolve-modal.component';
+import { SequenceAlignmentsComponent } from './visualizations/sequence-alignments/sequence-alignments.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +45,6 @@ import { BatchResolveModalComponent } from './batch-resolve-modal/batch-resolve-
     HelpPanelComponent,
     KnowledgeTableComponent,
     LinkListComponent,
-    ProteinStructureViewerComponent,
     StructureViewComponent,
     ListFilterComponent,
     ExploreListButtonComponent,
@@ -63,7 +62,8 @@ import { BatchResolveModalComponent } from './batch-resolve-modal/batch-resolve-
     UpsetFieldEditComponent,
     TutorialLinkComponent,
     HeatMapComponent,
-    BatchResolveModalComponent
+    BatchResolveModalComponent,
+    SequenceAlignmentsComponent
   ],
   imports: [
     CommonModule,
@@ -88,7 +88,6 @@ import { BatchResolveModalComponent } from './batch-resolve-modal/batch-resolve-
     KnowledgeTableComponent,
     LinkListComponent,
     StructureViewComponent,
-    ProteinStructureViewerComponent,
     ListFilterComponent,
     ExpressionHeatMapComponent,
     ExploreListButtonComponent,
@@ -96,7 +95,8 @@ import { BatchResolveModalComponent } from './batch-resolve-modal/batch-resolve-
     VennDiagramComponent,
     UpsetPlotComponent,
     TutorialLinkComponent,
-    HeatMapComponent
+    HeatMapComponent,
+    SequenceAlignmentsComponent
   ],
   entryComponents: [
     FieldSelectionDialogComponent

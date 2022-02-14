@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
-import {ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {Facet, Field, UpsetOptions} from '../../../models/facet';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
@@ -9,7 +9,6 @@ import {UnfurlingMetaService} from '../../../pharos-services/unfurling-meta.serv
 import {MolChangeService} from '../../../tools/marvin-sketcher/services/mol-change.service';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {Helper} from '../../../models/utilities';
-import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 
 /**
@@ -128,15 +127,24 @@ export class SelectedFacetListComponent extends DynamicPanelComponent implements
   }
 
   getName(field: Field, facet: Facet) {
+    if (facet.facet === 'sequence') {
+      if (field.name.length > 15) {
+        return field.name.substr(0, 15) + '...';
+      }
+      return field.name;
+    }
     if (facet.facet === 'collection') {
-      return this.centralStorageService.collections.get(field.name) || field.name;
+      const name = this.centralStorageService.collections.get(field.name) || field.name;
+      if (name.length > 25) {
+        return name.substr(0, 25) + '...';
+      }
+      return name;
     }
     return field.name;
   }
 
   ngOnDestroy(): void {
     this.facets = [];
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    super.ngOnDestroy();
   }
 }

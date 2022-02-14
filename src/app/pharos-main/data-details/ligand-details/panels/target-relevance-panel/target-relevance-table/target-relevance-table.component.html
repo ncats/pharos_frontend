@@ -2,7 +2,7 @@
   <mat-expansion-panel *ngFor="let activity of activitiesTargetDataSource.connect() | async" [expanded]="singlePair">
     <mat-expansion-panel-header>
       <div fxLayout="row" fxLayoutAlign="start center" class="relevance-header">
-        <h2>{{activity.target?.term?.symbol}}</h2>
+        <h2>{{activity.target?.term?.preferredSymbol}}</h2>
         <pharos-idg-level-indicator [level]="activity.target?.term?.idgTDL"></pharos-idg-level-indicator>
         <h2>{{activity.target?.term?.name}}</h2>&nbsp;&nbsp;
         <h3>{{activity.activities.length}} Activities</h3>
@@ -14,8 +14,8 @@
       [useInternalPaginator]="true"
       [fieldsConfig]="fields">
       <button *ngIf="!singlePair" class="detailsButton" type="button" mat-raised-button [color]="'primary'" style="height: 36px;"
-              [routerLink]="'/targets/' + activity.target?.term?.accession">
-        Explore Target: {{activity.target?.term?.symbol}}
+              [routerLink]="'/targets/' + activity.target?.term?.preferredSymbol">
+        Explore Target: {{activity.target?.term?.preferredSymbol}}
         <mat-icon>description</mat-icon>
       </button>
       <div *ngIf="singlePair"></div>

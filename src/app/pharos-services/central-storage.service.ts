@@ -14,11 +14,13 @@ export class CentralStorageService {
   browseTypes: string[] = [];
   rowSelection = new SelectionModel<any>(true);
   collections: Map<string, string> = new Map<string, string>();
+  sequence: string = '';
 
   @Output() pdbColorSchemeChanged = new EventEmitter<ColorScheme>();
   @Output() pdbRepresentationChanged = new EventEmitter<Representation>();
   @Output() displayFacetChanged = new EventEmitter<{model: string, facet: string}>();
   @Output() browseTypesChanged = new EventEmitter<string[]>();
+  @Output() sequenceChanged = new EventEmitter<string>();
 
   constructor(private _route: ActivatedRoute) { }
 

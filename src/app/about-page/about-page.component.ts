@@ -89,15 +89,15 @@ export class AboutPageComponent extends DynamicPanelComponent implements OnInit,
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         if (this.data && this.data.results) {
           this.initialize();
         }
       });
-    this.scrollDispatcher.scrolled().subscribe((data: CdkScrollable) => {
+    this.scrollDispatcher.scrolled()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((data: CdkScrollable) => {
       if (data) {
         let scrollTop: number = data.getElementRef().nativeElement.scrollTop + 100;
         if (scrollTop === 100) {
@@ -167,14 +167,5 @@ export class AboutPageComponent extends DynamicPanelComponent implements OnInit,
    */
   isActive(check: string): boolean {
     return this.activeElement === check;
-  }
-
-
-  /**
-   * cleanp on destroy
-   */
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 }

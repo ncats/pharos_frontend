@@ -1,7 +1,7 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Facet, Field} from '../../models/facet';
-import {forkJoin, Observable} from 'rxjs';
-import {map, take} from 'rxjs/operators';
+import {forkJoin, Observable, Subject} from 'rxjs';
+import {map, take, takeUntil} from 'rxjs/operators';
 import {PharosProfileService} from '../../auth/pharos-profile.service';
 import {PathResolverService} from '../../pharos-main/data-list/filter-panel/path-resolver.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -16,7 +16,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
+  protected ngUnsubscribe: Subject<any> = new Subject();
 
   @Input() user: any;
 
@@ -39,7 +40,9 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.profileService.profile$.subscribe(user => {
+    this.profileService.profile$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(user => {
       if (user) {
         this.user = user;
         if (user.data().collection) {
@@ -59,7 +62,9 @@ export class ProfileComponent implements OnInit {
                 })
               );
           });
-          forkJoin([...collections]).subscribe(res => {
+          forkJoin([...collections])
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(res => {
             this.collections = res.filter(response => response);
             this.targetCollections = this.collections?.filter(c => {
                 return !c.models || c.models === 'targets';
@@ -102,7 +107,9 @@ export class ProfileComponent implements OnInit {
       }
     );
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(result => {
       if (result) {
         this.firestore.collection<any[]>('target-collection')
           .doc<any[]>(collection.id)
@@ -113,5 +120,10 @@ export class ProfileComponent implements OnInit {
           });
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

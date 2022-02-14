@@ -73,6 +73,7 @@ export class FieldSelectionDialogComponent implements OnInit {
     this.associatedStructure = this.data.route.snapshot.queryParamMap.get('associatedStructure');
     this.associatedLigand = this.data.route.snapshot.queryParamMap.get('associatedLigand');
     const similarityQuery: boolean = this.selectedFacetService.getFacetByName('similarity')?.values.length > 0;
+    const sequence: string = this.data.route.snapshot.queryParamMap.get('sequence');
 
     const variables = {
       model: this.data.model,
@@ -82,6 +83,7 @@ export class FieldSelectionDialogComponent implements OnInit {
             this.associatedStructure ? 'Ligand' :
               this.associatedLigand ? 'Ligand' : '',
       similarityQuery,
+      sequence,
       associatedLigand: this.associatedLigand,
       associatedSmiles: this.associatedStructure,
       associatedTarget: this.associatedTarget

@@ -13,7 +13,6 @@ import {
 } from '@angular/core';
 import {Target} from '../../../../../models/target';
 import {PageData} from '../../../../../models/page-data';
-import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {Publication, PublicationSerializer} from '../../../../../models/publication';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
@@ -38,8 +37,6 @@ import {DynamicServicesService} from '../../../../../pharos-services/dynamic-ser
 export class RelatedPublicationsComponent extends DynamicTablePanelComponent implements OnInit, OnDestroy {
 
   /**
-   *
-   * @param navSectionsService
    * @param _route
    * @param changeRef
    * @param pharosApiService
@@ -145,13 +142,13 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.loadingStart();
         this.activeTab = this._route.snapshot.fragment === 'geneRIFs' ? 1 : 0;
-        this.dynamicServices.navSectionsService.activeTab$.subscribe(newTab => {
+        this.dynamicServices.navSectionsService.activeTab$
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(newTab => {
           if (!this.loading) {
             this.dynamicServices.location.replaceState(`${this.dynamicServices.location.path(false)}#${newTab}`);
             this.dynamicServices.viewportScroller.scrollToAnchor(newTab);
@@ -199,20 +196,14 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
     pageData.top = event.pageSize;
     pageData.skip = event.pageIndex * event.pageSize;
 
-    this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, component).subscribe(res => {
+    this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, component)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
       this[origin] = res.data.targets[origin]
         .map(pub => this[`${origin}Serializer`].fromJson(pub))
         .map(pubObj => this[`${origin}Serializer`]._asProperties(pubObj));
       this.loadingComplete(false);
       this.changeRef.markForCheck();
     });
-  }
-
-  /**
-   * cleanp on destroy
-   */
-  ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 }

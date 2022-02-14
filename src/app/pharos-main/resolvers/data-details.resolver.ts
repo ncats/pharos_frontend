@@ -61,7 +61,7 @@ export class DataDetailsResolver implements Resolve<any> {
     }
 
     logError(route: ActivatedRouteSnapshot, err: any){
-      let message = JSON.stringify(err);
+      let message = this.errorProperties(err);
       if (err.message === 'Cannot convert undefined or null to object' || err.message === 'can\'t resolve'){
         message = `Can\'t resolve ${route.data.path.slice(0, -1)} "${route.params?.id}"`;
       }
@@ -69,8 +69,33 @@ export class DataDetailsResolver implements Resolve<any> {
         alert(message);
       }
       else{
+        console.log(this.errorProperties({
+          params: route.params,
+          fragment: route.fragment,
+          data: route.data,
+          queryParams: route.queryParams
+        }));
         console.log(message);
       }
       return null;
     }
+
+    errorProperties(err: any): string {
+      let ret = '';
+      for (const property in err) {
+        ret = ret + `${property}: ${err[property]}\n`;
+        if (err[property] instanceof Object) {
+          for (const subprop in err[property]) {
+            ret = ret + `    ${subprop}: ${err[property][subprop]}\n`;
+            if (err[property][subprop] instanceof Object) {
+              for (const subsubprop in err[property][subprop]) {
+                ret = ret + `        ${subsubprop}: ${err[property][subprop][subsubprop]}\n`;
+              }
+            }
+          }
+        }
+      }
+      return ret;
+    }
+
 }

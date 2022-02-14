@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
+import {Component, Inject, Input, OnDestroy, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
 import {slideInOutAnimation} from './header-animations';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {LoginModalComponent} from '../../auth/login-modal/login-modal.component';
@@ -6,12 +6,11 @@ import {MatDialog} from '@angular/material/dialog';
 import {MatSidenav} from '@angular/material/sidenav';
 import {PharosProfileService} from '../../auth/pharos-profile.service';
 import {HeaderOptionsService} from '../../pharos-services/header-options.service';
-import {SelectedFacetService} from '../../pharos-main/data-list/filter-panel/selected-facet.service';
-import {PathResolverService} from '../../pharos-main/data-list/filter-panel/path-resolver.service';
-import {Facet} from '../../models/facet';
 import {LocalStorageService} from '../../pharos-services/local-storage.service';
 import {isPlatformBrowser} from '@angular/common';
 import {TourType, TourService} from '../../pharos-services/tour.service';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 
 /**
@@ -23,7 +22,8 @@ import {TourType, TourService} from '../../pharos-services/tour.service';
   styleUrls: ['./ncats-header.component.scss'],
   animations: [slideInOutAnimation]
 })
-export class NcatsHeaderComponent implements OnInit {
+export class NcatsHeaderComponent implements OnInit, OnDestroy {
+  protected ngUnsubscribe: Subject<any> = new Subject();
 
   /**
    * sidenav instance for mobile navigation menu
@@ -69,11 +69,15 @@ export class NcatsHeaderComponent implements OnInit {
    * subscribe to profile and header options services
    */
   ngOnInit() {
-    this.profileService.profile$.subscribe(profile => {
+    this.profileService.profile$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(profile => {
       this.profile = profile && profile.data() ? profile.data() : profile;
     });
 
-    this.headerOptionsService.headerOptions$.subscribe(res => {
+    this.headerOptionsService.headerOptions$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(res => {
       Object.entries(res).forEach((prop) => this[prop[0]] = prop[1]);
     });
   }
@@ -213,5 +217,10 @@ export class NcatsHeaderComponent implements OnInit {
    */
   signOut(): void {
     this.profileService.logout();
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

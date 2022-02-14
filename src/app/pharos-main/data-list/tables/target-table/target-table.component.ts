@@ -223,7 +223,9 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
   ngOnInit() {
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 599px)');
     this.rowSelection = this.centralStorageService.rowSelection;
-    this.profileService.profile$.subscribe(user => {
+    this.profileService.profile$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(user => {
       if (user) {
         this.user = user;
         this.loggedIn = true;
@@ -240,9 +242,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
 
     this._data
       // listen to data as long as term is undefined or null
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.associatedTarget = this._route.snapshot.queryParamMap.get('associatedTarget');
         this.associatedDisease = this._route.snapshot.queryParamMap.get('associatedDisease');
@@ -336,7 +336,9 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
       }
     );
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(result => {
       this.targetCollection.collection('target-collection').add(
         result
       ).then(doc => {
@@ -388,7 +390,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
 
   selectionTooltip(): string {
     return this.rowSelection.selected.map(t => {
-      return t.gene || t.accession;
+      return t.preferredSymbol;
     }).join(', ');
   }
 
@@ -413,13 +415,5 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
 
   selectAll() {
 
-  }
-
-  /**
-   * clean up
-   */
-  ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 }

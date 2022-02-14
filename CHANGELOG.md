@@ -15,6 +15,7 @@
       Details pages.
     * Furthermore, the data from ProKino regarding Kinase annotations and ortholog sequence variants is also integrated
     into a single component. 
+    * AlphaFold structures are included along with the other structures.
 * **Angular Upgrade:**
     * Upgrade to Angular 13
 * **UI Updates to Target Details pages**

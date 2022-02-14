@@ -1,0 +1,8 @@
+<mat-card-subtitle>Sequence Similarity</mat-card-subtitle>
+
+<div class="subsection">
+  <ncats-property-display [property]="{term: target.sequenceSimilarityDetails.bitscore, label: 'Bit Score', tooltip: getTooltip('bitscore')}"></ncats-property-display>
+  <ncats-property-display [property]="{term: target.sequenceSimilarityDetails.evalue, label: 'Expect value', tooltip: getTooltip('evalue')}"></ncats-property-display>
+  <ncats-property-display [property]="{term: target.sequenceSimilarityDetails.pident, label: 'Percent Identical', tooltip: getTooltip('pident')}"></ncats-property-display>
+  <ncats-property-display [property]="{term: target.sequenceSimilarityDetails.qcovs, label: 'Coverage', tooltip: getTooltip('qcovs')}"></ncats-property-display>
+</div>

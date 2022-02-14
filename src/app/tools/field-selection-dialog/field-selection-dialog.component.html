@@ -39,7 +39,7 @@
         </div>
 
         <div *ngFor="let list of lists">
-          <mat-checkbox class="list-checkbox"
+          <mat-checkbox class="list-checkbox" *ngIf="list.onlyMultiFields(singles).length > 0"
                         [disabled]="fieldDisabled(list)"
                         (change)="groupChanged($event, list)"
                         [checked]="groupComplete(list)"

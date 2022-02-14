@@ -115,9 +115,7 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
   ngOnInit() {
     this._data
     // listen to data as long as term is undefined or null
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         if (this.data) {
           this.associatedTarget = this._route.snapshot.queryParamMap.get('associatedTarget');
@@ -169,14 +167,6 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
    */
   private _navigate(navExtras: NavigationExtras): void {
     this.router.navigate([], navExtras);
-  }
-
-  /**
-   * unsubscribe from all subscriptions
-   */
-  ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
   }
 
   downloadData() {

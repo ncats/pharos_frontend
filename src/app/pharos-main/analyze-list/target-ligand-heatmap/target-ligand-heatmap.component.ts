@@ -27,15 +27,16 @@ export class TargetLigandHeatmapComponent extends DynamicPanelComponent implemen
     const serializer = new LigandSerializer();
     const ligand = serializer.fromJson(row);
     return {
-      xVal: row.sym || row.uniprot,
+      xVal: row.preferredSymbol,
       yVal: ligand.getDisplayName(),
       stringVal: Number.parseFloat(row.mean) ? row.mean.toPrecision(3) : null,
       numVal:  row.mean || 0,
       metadata: {
         y: row.identifier,
         x: row.uniprot,
+        linkX: row.preferredSymbol,
         displayY: ligand.getDisplayName(),
-        displayX: row.sym || row.uniprot
+        displayX: row.preferredSymbol
       }
     };
   }

@@ -3,7 +3,6 @@ import {
   Output
 } from '@angular/core';
 import {InjectedComponent} from '../../../../../tools/injected-component';
-import {PharosProperty} from '../../../../../models/pharos-property';
 import {BehaviorSubject, Subject} from 'rxjs/index';
 import {takeUntil} from 'rxjs/operators';
 
@@ -17,7 +16,7 @@ import {takeUntil} from 'rxjs/operators';
   styleUrls: ['./injected-radar-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InjectedRadarChartComponent implements InjectedComponent, OnInit {
+export class InjectedRadarChartComponent implements InjectedComponent, OnInit, OnDestroy {
 
   /**
    * emits click event, whis is broadcast up
@@ -82,8 +81,14 @@ export class InjectedRadarChartComponent implements InjectedComponent, OnInit {
    */
   ngOnInit() {
     this._data
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
         this.hgData = res.map(point => point = {name: point.name.term, value: point.value.term});
     });
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

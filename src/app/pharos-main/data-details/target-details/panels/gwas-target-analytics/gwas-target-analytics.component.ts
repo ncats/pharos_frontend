@@ -1,13 +1,10 @@
-import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {Target} from '../../../../../models/target';
 import {takeUntil} from 'rxjs/operators';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
 import {PharosPoint} from '../../../../../models/pharos-point';
-import {MatTabChangeEvent} from '@angular/material/tabs';
-import {Subject} from 'rxjs';
 import {ScatterPlotData} from '../../../../../tools/visualizations/scatter-plot/scatter-plot.component';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 
@@ -105,9 +102,7 @@ export class GwasTargetAnalyticsComponent extends DynamicPanelComponent implemen
   ngOnInit(): void {this._data
     // listen to data as long as term is undefined or null
     // Unsubscribe once term has value
-    .pipe(
-      takeUntil(this.ngUnsubscribe)
-    )
+    .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe(x => {
       this.target = this.data.targets;
       this.targetProps = this.data.targetsProps;

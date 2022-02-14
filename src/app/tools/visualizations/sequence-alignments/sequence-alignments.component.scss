@@ -1,0 +1,9 @@
+.alignment-chart {
+  width: 100%;
+  max-height:60vh;
+  overflow-y: scroll;
+}
+
+.tick line {
+  stroke-opacity: 0.1;
+}

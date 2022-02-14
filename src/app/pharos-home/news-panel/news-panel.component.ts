@@ -1,5 +1,6 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
+import {Subscription} from 'rxjs';
 
 
 /**
@@ -49,7 +50,8 @@ export interface Comment extends Message {
   encapsulation: ViewEncapsulation.None
 })
 
-export class NewsPanelComponent implements OnInit {
+export class NewsPanelComponent implements OnInit, OnDestroy {
+  dbSubscription: Subscription;
 
   /**
    * list of messages from firebase
@@ -67,7 +69,8 @@ export class NewsPanelComponent implements OnInit {
    * sort by index and only take 5
    */
   ngOnInit() {
-    this.db.collection<Message>('public').valueChanges()
+    // @ts-ignore
+    this.dbSubscription = this.db.collection<Message>('public').valueChanges()
       .subscribe(items => {
         if (items && items.length) {
           this.items = items.sort((a, b) => b.index - a.index).slice(0, 4);
@@ -75,4 +78,9 @@ export class NewsPanelComponent implements OnInit {
       });
   }
 
+  ngOnDestroy(): void {
+    if (this.dbSubscription) {
+      this.dbSubscription.unsubscribe();
+    }
+  }
 }

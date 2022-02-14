@@ -1,10 +1,8 @@
 import {ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {Target} from '../../../../../models/target';
-import {skip, takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../../../models/page-data';
-import {BreakpointObserver} from '@angular/cdk/layout';
 import {Facet} from '../../../../../models/facet';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {Pathway, PathwaySerializer} from '../../../../../models/pathway';
@@ -91,9 +89,7 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.target = this.data.targets;
         this.targetsProps = this.data.targetsProps;
@@ -152,6 +148,7 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
     pageData.skip = event.pageIndex * event.pageSize;
 
     this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, TargetComponents.Component.PathwayPage)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
       next: res => {
         const pathwaySerializer = new PathwaySerializer();

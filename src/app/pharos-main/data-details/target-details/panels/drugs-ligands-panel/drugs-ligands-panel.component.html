@@ -23,7 +23,7 @@
       </div>
       <div class="headerSection">
         <pharos-explore-list-button [path]="'/ligands'" [buttonText]="params.buttonText"
-                                    [queryParams]="{associatedTarget:target.accession,facet:'Type' + this.Facet.separator + params.buttonFilter}"></pharos-explore-list-button>
+                                    [queryParams]="{associatedTarget:target.preferredSymbol,facet:'Type' + this.Facet.separator + params.buttonFilter}"></pharos-explore-list-button>
         <mat-paginator
           [pageSize]= pageData.top
           [pageIndex]="pageData.skip / pageData.top"

@@ -1,10 +1,10 @@
 <article>
   <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center">
     <div fxFlex="95" fxFlexAlign="" >
-      <span class = "pharos-title toolbar">{{ligand.getDisplayName()}}</span>
+      <span class = "pharos-title toolbar">{{ligand?.getDisplayName()}}</span>
       <button mat-button class="tool-button " (click)="downloadData()"
-              [matTooltip]="'Download Data for ' + (ligand.getDisplayName())">
-        <mat-icon>download</mat-icon>
+              [matTooltip]="'Download Data for ' + (ligand?.getDisplayName())">
+        Download <mat-icon>download</mat-icon>
       </button>
     </div>
   </div>

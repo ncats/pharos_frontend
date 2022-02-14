@@ -1,6 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Facet} from '../../../../models/facet';
 import {CentralStorageService} from '../../../../pharos-services/central-storage.service';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 /**
  * list of facets available under the donut chart
@@ -10,7 +12,8 @@ import {CentralStorageService} from '../../../../pharos-services/central-storage
   templateUrl: './visualization-options.component.html',
   styleUrls: ['./visualization-options.component.scss']
 })
-export class VisualizationOptionsComponent implements OnInit {
+export class VisualizationOptionsComponent implements OnInit, OnDestroy {
+  protected ngUnsubscribe: Subject<any> = new Subject();
 
   /**
    * list of available facets
@@ -33,7 +36,9 @@ export class VisualizationOptionsComponent implements OnInit {
    */
   ngOnInit() {
     this.selected = this.centralStorageService.getDisplayFacet(this.model);
-    this.centralStorageService.displayFacetChanged.subscribe(obj => {
+    this.centralStorageService.displayFacetChanged
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(obj => {
       if (obj.model === this.model) {
         this.selected = obj.facet;
       }
@@ -56,5 +61,10 @@ export class VisualizationOptionsComponent implements OnInit {
    */
   isSelected(field: string): boolean {
     return field === this.selected;
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 }

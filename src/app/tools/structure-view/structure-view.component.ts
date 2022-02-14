@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, ViewEncapsulation} from '@angular/core';
 import {PharosConfig} from '../../../config/pharos-config';
 import {BehaviorSubject} from 'rxjs/index';
 import {takeWhile} from 'rxjs/internal/operators';
@@ -15,7 +15,7 @@ import {environment} from "../../../environments/environment";
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StructureViewComponent implements OnInit {
+export class StructureViewComponent implements OnInit, OnChanges {
 
   /**
    * image url
@@ -87,6 +87,12 @@ export class StructureViewComponent implements OnInit {
         }
       });
     if (this.smiles) {
+      this.url = `${environment.rendererUrl}?standardize=true&size=${this.size}&structure=${encodeURIComponent(this.smiles)}`;
+    }
+  }
+
+  ngOnChanges(change: any) {
+    if (change.smiles && !change.smiles.firstChange || change.size && !change.size.firstChange) {
       this.url = `${environment.rendererUrl}?standardize=true&size=${this.size}&structure=${encodeURIComponent(this.smiles)}`;
     }
   }

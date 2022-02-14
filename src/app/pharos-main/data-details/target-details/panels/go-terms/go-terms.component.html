@@ -33,7 +33,7 @@
           <div class="headerRow">
             <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Find Similar Targets'"
                                         [facetName]="'GO Functions'"
-                                        [queryParams]="{similarity: '(' + target.accession + ', GO Function)'}"></pharos-explore-list-button>
+                                        [queryParams]="{similarity: '(' + target.preferredSymbol + ', GO Function)'}"></pharos-explore-list-button>
             <mat-paginator
               [pageSize]=functionPageData.top
               [pageIndex]="functionPageData.skip / functionPageData.top"
@@ -55,7 +55,7 @@
           <div class="headerRow">
             <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Find Similar Targets'"
                                         [facetName]="'GO Components'"
-                                        [queryParams]="{similarity: '(' + target.accession + ', GO Component)'}"></pharos-explore-list-button>
+                                        [queryParams]="{similarity: '(' + target.preferredSymbol + ', GO Component)'}"></pharos-explore-list-button>
 
             <mat-paginator
               [pageSize]=componentPageData.top
@@ -78,7 +78,7 @@
           <div class="headerRow">
             <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Find Similar Targets'"
                                         [facetName]="'GO Processes'"
-                                        [queryParams]="{similarity: '(' + target.accession + ', GO Process)'}"></pharos-explore-list-button>
+                                        [queryParams]="{similarity: '(' + target.preferredSymbol + ', GO Process)'}"></pharos-explore-list-button>
             <mat-paginator
               [pageSize]=processPageData.top
               [pageIndex]="processPageData.skip / processPageData.top"

@@ -25,6 +25,7 @@ export class TOKENS {
   public static PHAROS_LIGAND_TARGET_HEATMAP_COMPONENT = new InjectionToken<string>('LigandTargetHeatmapComponent');
   public static PHAROS_TARGET_DISEASE_HEATMAP_COMPONENT = new InjectionToken<string>('TargetDiseaseHeatmapComponent');
   public static PHAROS_ANALYZE_HEADER_COMPONENT = new InjectionToken<string>('AnalyzeHeaderComponent');
+  public static PHAROS_SEQUENCE_LIST_COMPONENT = new InjectionToken<string>('SequenceAlignmentsComponent')
   public static PHAROS_DISEASE_TARGET_HEATMAP_COMPONENT = new InjectionToken<string>('DiseaseTargetHeatmapComponent');
   public static PHAROS_TARGET_TARGET_HEATMAP_COMPONENT = new InjectionToken<string>('TargetTargetHeatmapComponent');
   /**

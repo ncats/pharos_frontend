@@ -122,6 +122,19 @@ export class SearchComponent extends DynamicPanelComponent implements OnInit {
     }
     return ret;
   }
+
+  showInfo: Map<Facet, boolean> = new Map<Facet, boolean>();
+  showingInfo(facet: Facet): boolean{
+    if (this.showInfo.has(facet)){
+      return this.showInfo.get(facet);
+    }
+    return false;
+  }
+  toggleFacetInfo(facet: Facet){
+    const currentVal = this.showingInfo(facet);
+    this.showInfo.set(facet, !currentVal);
+  }
+
 }
 
 export class TabParams {

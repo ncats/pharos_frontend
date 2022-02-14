@@ -14,6 +14,7 @@ import {UpsetFieldEditComponent} from '../../upset-field-edit/upset-field-edit.c
 import {MatDialog} from '@angular/material/dialog';
 import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'pharos-upset-plot',
@@ -55,12 +56,16 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
       });
     });
     this.initValues();
-    this.eventsSubscription = this.events?.subscribe((chart) => {
+    this.eventsSubscription = this.events
+      ?.pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((chart) => {
       if (chart === 'upset-plot') {
         this.redraw();
       }
     });
-    this.selectedFacetService.facets$.subscribe(facetMap => {
+    this.selectedFacetService.facets$
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(facetMap => {
       this.updateFilteringSets(facetMap);
       this.redraw();
     });
@@ -277,7 +282,9 @@ export class UpsetPlotComponent extends DynamicPanelComponent implements OnInit,
       }
     );
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(result => {
       if (result) {
         this.featureTrackingService.trackFeature('Custom Filter Values for an UpSet Plot',
           this.centralStorageService.getModel(this._route), this.displayFacet.facet);

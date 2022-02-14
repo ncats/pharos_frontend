@@ -111,6 +111,13 @@ const commonGwasFields: PharosApi[] = [
   }
 ];
 
+const sequenceSimilarityFields: PharosApi[] = [
+  {description: 'Percentage of identical matches between the query sequence and the best alignment to the subject sequence', label: 'Sequence Similarity: Percent Identical', field: 'pident'},
+  {description: 'Expected number of chance matches in a random model', label: 'Sequence Similarity: E value', field: 'evalue'},
+  {description: 'Maximum bit score for alignments between the query seqeunce and the subject sequence', label: 'Sequence Similarity: Bit Score', field: 'bitscore'},
+  {description: 'Query coverage for all alignments between the query sequence and the subject sequence', label: 'Sequence Similarity: Coverage', field: 'qcovs'},
+];
+
 const ppiInteractionFields: PharosApi[] = [
   {
     field: 'Score',
@@ -321,6 +328,7 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
     ...ligandAssocFields,
     ...similarityFields,
     ...predictorResultsFields,
+    ...sequenceSimilarityFields,
     {
       field: 'illuminationGraph',
       label: 'Illumination Graph',
@@ -335,6 +343,16 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
 const PHAROS_FACETS_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_FACETS_COMPONENT,
   section: Position.Left
+};
+
+const PHAROS_SEQUENCE_LIST_COMPONENT: PharosPanel = {
+  token: TOKENS.PHAROS_SEQUENCE_LIST_COMPONENT,
+  section: Position.Content,
+  navHeader: {
+    mainDescription: 'Sequence alignments to the query sequence',
+    section: 'alignments',
+    label: 'Sequence Alignments'
+  }
 };
 
 const PHAROS_ANALYZE_HEADER_COMPONENT: PharosPanel = {
@@ -1391,6 +1409,7 @@ const commonAnalyzeComponents = [
   PHAROS_FACETS_COMPONENT,
   PHAROS_SELECTED_FACET_LIST_COMPONENT,
   PHAROS_ANALYZE_HEADER_COMPONENT,
+  PHAROS_SEQUENCE_LIST_COMPONENT,
   PHAROS_FACET_VISUALIZATION_COMPONENT,
   PHAROS_FACET_REPRESENTATION_COMPONENT,
 ];
