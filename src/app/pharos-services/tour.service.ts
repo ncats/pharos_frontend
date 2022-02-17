@@ -203,7 +203,7 @@ export class TourService {
         buttons: this.firstButtons.slice(),
         title: 'What\'s new in Pharos 3.11?',
         text: ['There are a few new features in Pharos version 3.11. The most significant of which is the added capability to generate a ' +
-        'Target List based on a BlastP search. Additionally, you can now link to a custom Target List using a comma delimited list of gene ' +
+        '<em>Target List</em> based on a BlastP search. Additionally, users can now link to a <em>Custom Target List</em> using a comma delimited list of gene ' +
         'symbols, or UniProt IDs. ']
       },
       {
@@ -211,24 +211,25 @@ export class TourService {
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
         title: 'Predictions in Pharos',
-        text: ['First off, in case you haven\'t heard already, criteria to include your predictions in Pharos are now posted on the <a href="/faq" target="_blank">FAQ page</a>.' +
+        text: ['First off, in case you haven\'t heard already, criteria to include your predictions in Pharos are now posted on the ' +
+        '<a href="/faq" target="_blank">FAQ page</a>.' +
         '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/predictioncriteria.png"/>']
       },
       {
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Finding Similar Targets based on Amino Acid Sequence',
-        text: ['Each Target Details page allows you to initiate a sequence search using that target\'s sequence as a starting point. ' +
-        'You can run your search using whatever sequence you have though.' +
+        title: 'Finding similar targets based on an amino acid sequence',
+        text: ['Each <em>Target Details</em> page allows users to initiate a sequence search using that target\'s sequence as a starting point. ' +
+        'A search can be made based on any sequence though.' +
         '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new311/sequenceSearchBegin.png"/>']
       },
       {
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Finding Similar Targets based on Amino Acid Sequence',
-        text: ['The matching human proteins are displayed on a Target List page, with a histogram of aligned regions of the query sequence. The list can then ' +
+        title: 'Finding similar targets based on an amino acid sequence',
+        text: ['The matching human proteins are displayed on a <em>Target List</em> page, with a histogram of aligned regions of the query sequence. The list can then ' +
         'be filtered as desired according to BlastP\'s measures for quality and coverage of the alignments, as well as all the normal filtering ' +
         'options that Pharos has to offer.' +
         '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new311/alignmentResults.png"/>']
@@ -237,19 +238,20 @@ export class TourService {
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Analyzing your list of similar targets',
-        text: ['After generating your list of targets with similar sequences, the full array of list analysis features Pharos has to offer ' +
-        'are available. This example shows a calculation for the Associated Diseases that are enriched in a particular Target List. Depending on ' +
-        'your use cases, heatmaps and UpSet plots are also worth looking into.' +
+        title: 'Analyzing a list of similar targets',
+        text: ['After generating a list of targets with similar sequences, users have access to the full array of list analysis features that ' +
+        'Pharos has to offer. This example shows a calculation for the <em>Associated Diseases</em> that are enriched in a particular <em>Target List</em>.' +
+        ' Depending on the use cases, <em>Heatmaps</em> and <em>UpSet Plots</em> are also worth looking into.' +
         '<br/><img class="tour-screenshot" src="./assets/images/tutorials/enrichment.png"/>']
       },
       {
         scrollTo: false,
         buttons: this.lastButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Easy Custom Target Lists',
-        text: ['You can upload a list of targets, diseases, or ligands and save them to your profile. See the tutorial named "Upload a Custom List" for details. ' +
-        'For a quick and easy alternative, or to link to a Pharos List from another site, you can include a comma delimited list of gene symbols ' +
+        title: 'Easy custom Target Lists',
+        text: ['Prior to this release, users could already upload a list of targets, diseases, or ligands and save them to their profile. ' +
+        'See the tutorial named "Upload a Custom List" for details. ' +
+        'For a quick and easy alternative, or to link to a <em>Target List</em> from another site, users can include a comma delimited list of gene symbols ' +
         'or UniProt IDs in the collection parameter.' +
         '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new311/easycustomlist.png"/>']
       }
