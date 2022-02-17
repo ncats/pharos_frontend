@@ -1,3 +1,15 @@
+# 3.11.0 (2022-03-01)
+### Added Features
+* **Sequence Search**
+    * Find similar targets based on a blastp sequence search.
+    * Results are shown in a target list, from which you can filter based on alignment quality or coverage scores.
+    * As always, you can use that list to calculate enrichment scores, generate UpSet plots, or heatmaps.
+    * You can also download details of the alignment from blastp through the Data Download workflow.
+* **Updates on How to Link to Pharos**
+    * You can now link to a custom target list, just by passing the list of gene symbols or UniProt IDs into the URL. See the <a href="/about#linkToPharos" target="_blank">About Page</a> for details.
+
+_______________
+
 # 3.10.0 (2022-01-06) 
 ### Added Features
 * **MONDO integration**
@@ -28,6 +40,8 @@
     "UNII:" for UNIIs, "name" for the compound name, and "LYCHI:" for LyCHI layer 4. Prefixes are case insensitive.
 * **Heatmaps can now be sorted by any row or column by clicking the labels**
 * **Expression data can be filtered for cell types or tissues.**
+
+_______________
 
 # 3.9.0 (2021-11-05)
 ### Added Features
