@@ -7,6 +7,15 @@
     * You can also download details of the alignment from blastp through the Data Download workflow.
 * **Updates on How to Link to Pharos**
     * You can now link to a custom target list, just by passing the list of gene symbols or UniProt IDs into the URL. See the <a href="/about#linkToPharos" target="_blank">About Page</a> for details.
+    
+### Bug Fixes / Miscellaneous updates
+* **Memory Leak Fixed**
+  * The web server was occasionally restarting, and returning some 50x - Gateway Errors. 
+* **Ligand structures on the Ligand Details pages would occasionally not update when moving from one page to another**
+* Better handling of missing, or non-unique, gene symbols
+  * Target display cards, and links will now use a preferred term, which is either the gene symbol, or the UniProt ID
+    * The Gene Symbol is used when it is available, and unique for targets in TCRD, otherwise the UniProt ID is used
+  * Now when you search for a degenerate gene symbol (like HLA-A), the typeahead form will give you an option to compile a list of all targets with that gene symbol 
 
 _______________
 
