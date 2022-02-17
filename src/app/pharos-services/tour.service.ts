@@ -14,8 +14,7 @@ export enum TourType {
   Heatmaps = 'Heatmaps',
   StructureSearchTour = 'StructureSearchTour',
   TargetExpressionTour = 'TargetExpressionTour',
-  WhatsNew39 = 'WhatsNew39',
-  WhatsNew310 = 'WhatsNew310'
+  WhatsNew311 = 'WhatsNew311'
 }
 
 
@@ -66,8 +65,7 @@ export class TourService {
   };
 
   allTutorials: TourDefinition[] = [
-    {title: 'What\'s New in Version 3.10', storageKey: TourType.WhatsNew310},
-    {title: 'What\'s New in Version 3.9', storageKey: TourType.WhatsNew39},
+    {title: 'What\'s New in Version 3.11', storageKey: TourType.WhatsNew311},
     {title: 'Using the List Pages', storageKey: TourType.ListPagesTour},
     {title: 'Using the UpSet Chart', storageKey: TourType.UpsetChartTour},
     {title: 'Filter Value Enrichment', storageKey: TourType.FilterValueEnrichment},
@@ -103,11 +101,8 @@ export class TourService {
         this.featureTrackingService.trackFeature('Begin Tutorial', tutorialName);
       }
       switch (tutorialName) {
-        case TourType.WhatsNew310:
+        case TourType.WhatsNew311:
           this.whatsNew(true);
-          break;
-        case TourType.WhatsNew39:
-          this.runWhatsNew39();
           break;
         case TourType.CustomListTour:
           this.runCustomListTour();
@@ -193,7 +188,7 @@ export class TourService {
     if (!isPlatformBrowser(this.platformID)) {
       return;
     }
-    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew310)) { // only autorun once
+    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew311)) { // only autorun once
       return;
     }
     this.loadPromise.then(() => {
@@ -201,103 +196,15 @@ export class TourService {
     });
   }
 
-  runWhatsNew39() {
-    const defaultSteps = [
-      {
-        scrollTo: false,
-        buttons: this.firstButtons.slice(),
-        title: 'What\'s new in Pharos 3.9?',
-        text: ['Pharos has many new features in version 3.9, including Heatmaps and Filter Value Enrichment calculations on the list pages, ' +
-        'predicted Target-Ligand activities, and an improved text search functionality. The TCRD 6.12.4 update has also brought us a lot of fresh data from ChEMBL and DrugCentral.' +
-        ' Click \'Next\' for a tour of the new features and where to find them.']
-      },
-      {
-        scrollTo: false,
-        buttons: this.middleButtons.slice(),
-        classes: 'step-with-screenshot',
-        title: 'Table View',
-        text: ['There are now two views to toggle between on all list pages. The Table View shows the list of results (targets, diseases, or ligands) to page through to find the one you\'re interested in.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/tableview.png"/>']
-      },
-      {
-        scrollTo: false,
-        buttons: this.middleButtons.slice(),
-        classes: 'step-with-screenshot',
-        title: 'List Analysis View',
-        text: ['List Analysis View shows the visualizations that summarize the list, and more advanced analysis tools to provide an ' +
-        'overview of the population, which can help highlight common features of elements in the list, or provide a high level view of ' +
-        'the structure of the data in the list.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/listanalysisview.png"/>']
-      },
-      {
-        scrollTo: false,
-        buttons: this.middleButtons.slice(),
-        classes: 'step-with-screenshot',
-        title: 'Heatmaps',
-        text: ['Heatmaps show an overview of data for the list, as it relates to a corresponding list, such as Target-Ligand activities. ' +
-        'Take the \'Creating a Heatmap\' tutorial for more details.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/heatmap.png"/>']
-      },
-      {
-        scrollTo: false,
-        buttons: this.middleButtons.slice(),
-        classes: 'step-with-screenshot',
-        title: 'Filter Value Enrichment',
-        text: ['Calculating enrichment scores for the different filter values will help you understand which values are ' +
-        'overrepresented in the list. Take the \'Filter Value Enrichment\' tutorial for more details.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/enrichment.png"/>']
-      },
-      {
-        scrollTo: false,
-        buttons: this.middleButtons.slice(),
-        classes: 'step-with-screenshot',
-        title: 'Custom Lists for Ligands or Diseases',
-        text: ['It was already possible to upload your own list of targets to use with Pharos. Now that functionality is extended to ' +
-        'custom lists of ligands and diseases. Furthermore, ligands can be resolved by a number of different inputs, such as SMILES, ' +
-        'ligand names, CAS Numbers, ChEMBL IDs, etc, to facilitate your upload of data from screens or other sources of ligand lists. ' +
-        'There are also a few new ligand filters to help find commonalities in the active targets for those ligands.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/customligandlist.png"/>']
-      },
-      {
-        scrollTo: false,
-        buttons: this.middleButtons.slice(),
-        classes: 'step-with-screenshot',
-        title: 'Predicted Target-Ligand Activity',
-        text: ['Now, in addition to viewing active targets for a ligand, you can also see predicted targets for those ligands, based on ' +
-        'QSAR model results from NCATS Predictor.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/predictedtargets.png"/>']
-      },
-      {
-        scrollTo: false,
-        buttons: this.lastButtons.slice(),
-        classes: 'step-with-screenshot',
-        title: 'Improved Search Functionality',
-        text: ['Previously, you had to select whether you wanted to search for targets, ligands, or diseases, when you were doing a text' +
-        ' search. Now, one search will return combined results from Targets, Diseases, and Ligands, as well as many filter values.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/omnisearch.png"/>']
-      }
-    ];
-    this.shepherdService.defaultStepOptions = this.defaultStepOptions;
-    this.shepherdService.modal = true;
-    this.shepherdService.confirmCancel = false;
-    this.shepherdService.addSteps(defaultSteps);
-    ['cancel', 'complete'].forEach(event => {
-      this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(TourType.WhatsNew39, event);
-      });
-    });
-    this.shepherdService.start();
-  }
-
   runWhatsNew() {
     const defaultSteps = [
       {
         scrollTo: false,
         buttons: this.firstButtons.slice(),
-        title: 'What\'s new in Pharos 3.10?',
-        text: ['There are a few new features in Pharos version 3.10. The most significant of which is the backend infrastructure to align' +
-        ' disease data according to the <a href="https://mondo.monarchinitiative.org/" target="_blank">MONDO Disease Ontology</a>. ' +
-        'Additionally, there are a few UI updates to the target details pages.']
+        title: 'What\'s new in Pharos 3.11?',
+        text: ['There are a few new features in Pharos version 3.11. The most significant of which is the added capability to generate a ' +
+        'Target List based on a BlastP search. Additionally, you can now link to a custom Target List using a comma delimited list of gene ' +
+        'symbols, or UniProt IDs. ']
       },
       {
         scrollTo: false,
@@ -311,32 +218,41 @@ export class TourService {
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'MONDO Integration',
-        text: ['By aligning disease data according to the <a href="https://mondo.monarchinitiative.org/" target="_blank">MONDO Disease ' +
-        'Ontology</a>, more than 4200 diseases have been de-orphanized towards a common terminology. Furthermore, navigating the disease ' +
-        'heirarchy to parent or child terms is done via MONDO.' +
-        '<br/><br/><span>Pharos 3.9</span><img class="tour-screenshot" src="./assets/images/tutorials/new310/do.png"/>' +
-        '<br/><br/><span>Pharos 3.10</span><img class="tour-screenshot" src="./assets/images/tutorials/new310/mondo.png"/>']
+        title: 'Finding Similar Targets based on Amino Acid Sequence',
+        text: ['Each Target Details page allows you to initiate a sequence search using that target\'s sequence as a starting point. ' +
+        'You can run your search using whatever sequence you have though.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new311/sequenceSearchBegin.png"/>']
       },
       {
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Integrated Structure and Sequence Data',
-        text: ['With an update to EBI\'s Nightingale based ProtVista Viewer, Structure and Sequence data are integrated into one component. Additionally, on target ' +
-        'details pages for Kinases, annotations and ortholog variant data from ProKinO are also shown in the same view.' +
-        '<br/><img class="tour-small-screenshot" src="./assets/images/tutorials/new310/seqviewer.png"/>' +
-        '<img class="tour-small-screenshot" src="./assets/images/tutorials/new310/structviewer.png"/>']
+        title: 'Finding Similar Targets based on Amino Acid Sequence',
+        text: ['The matching human proteins are displayed on a Target List page, with a histogram of aligned regions of the query sequence. The list can then ' +
+        'be filtered as desired according to BlastP\'s measures for quality and coverage of the alignments, as well as all the normal filtering ' +
+        'options that Pharos has to offer.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new311/alignmentResults.png"/>']
+      },
+      {
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Analyzing your list of similar targets',
+        text: ['After generating your list of targets with similar sequences, the full array of list analysis features Pharos has to offer ' +
+        'are available. This example shows a calculation for the Associated Diseases that are enriched in a particular Target List. Depending on ' +
+        'your use cases, heatmaps and UpSet plots are also worth looking into.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/enrichment.png"/>']
       },
       {
         scrollTo: false,
         buttons: this.lastButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Target Details Restructuring',
-        text: ['The long scrolling pages for Target Details have been reordered to be more intuitive, and components are grouped ' +
-        'according to the type of data they display.' +
-        '<br/><img class="tour-thin-screenshot" src="./assets/images/tutorials/new310/detailspage.png"/>']
-      },
+        title: 'Easy Custom Target Lists',
+        text: ['You can upload a list of targets, diseases, or ligands and save them to your profile. See the tutorial named "Upload a Custom List" for details. ' +
+        'For a quick and easy alternative, or to link to a Pharos List from another site, you can include a comma delimited list of gene symbols ' +
+        'or UniProt IDs in the collection parameter.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new311/easycustomlist.png"/>']
+      }
     ];
     this.shepherdService.defaultStepOptions = this.defaultStepOptions;
     this.shepherdService.modal = true;
@@ -344,7 +260,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(TourType.WhatsNew310, event);
+        this.completeTour(TourType.WhatsNew311, event);
       });
     });
     this.shepherdService.start();

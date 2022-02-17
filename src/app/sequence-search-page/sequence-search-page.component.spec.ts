@@ -5,6 +5,8 @@ import {SharedModule} from '../shared/shared.module';
 import {NcatsHeaderModule} from '../tools/ncats-header/ncats-header.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AngularFireModule} from '@angular/fire/compat';
+import {COMMON_CONFIG} from '../../../test/test-config';
 
 describe('SequenceSearchPageComponent', () => {
   let component: SequenceSearchPageComponent;
@@ -18,7 +20,8 @@ describe('SequenceSearchPageComponent', () => {
       imports: [
         SharedModule,
         RouterTestingModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        AngularFireModule.initializeApp(COMMON_CONFIG)
       ]
     })
     .compileComponents();
