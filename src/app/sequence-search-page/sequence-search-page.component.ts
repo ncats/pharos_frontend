@@ -4,6 +4,7 @@ import {NavigationExtras, Router} from '@angular/router';
 import {CentralStorageService} from '../pharos-services/central-storage.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {FeatureTrackingService} from '../pharos-services/feature-tracking.service';
 
 /**
  * sequence search page
@@ -34,7 +35,8 @@ export class SequenceSearchPageComponent implements OnInit, OnDestroy {
    */
   constructor(
     private _router: Router,
-    private centralStorageService: CentralStorageService
+    private centralStorageService: CentralStorageService,
+    private featureTrackingService: FeatureTrackingService
   ) {
   }
 
@@ -61,6 +63,7 @@ export class SequenceSearchPageComponent implements OnInit, OnDestroy {
       },
       queryParamsHandling: ''
     };
+    this.featureTrackingService.trackFeature('Sequence Search');
     this._router.navigate(['/analyze/targets'], navigationExtras);
   }
 
