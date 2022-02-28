@@ -799,7 +799,9 @@ export class PharosApiService {
   }
 
   public downloadQuery(route: ActivatedRouteSnapshot, variables?: any) {
+    const inTop = variables.top;
     variables = {...variables, ...this.parseVariables(route, null)};
+    variables.top = inTop;
     return this.fetchTargetList(route).then((res: string[]) => {
       if (res && res.length > 0) {
         variables.batch = res;
