@@ -1,0 +1,42 @@
+<article class="container" fxLayout="row" fxLayoutAlign="space-around start">
+  <div class="usecase-content" fxLayout="row">
+    <div class="toc-wrapper">
+      <div class="toc">
+        <mat-nav-list>
+          <div *ngFor="let usecase of useCases" class="list-button" (click)="scroll(usecase.anchor)"
+             [ngClass]="{'active': isActive(usecase.anchor)}" >
+            {{usecase.title}}
+          </div>
+        </mat-nav-list>
+      </div>
+    </div>
+    <div class="content usecase-wrapper" cdkScrollable #usecasediv>
+      <div class="header">Use Cases</div>
+      <div class="description-row">{{UseCaseData.getDescription()}}</div>
+      <div class="grid">
+        <mat-card *ngFor="let usecase of useCases" class="grid-card">
+          <div [id]="usecase.anchor" #scrollSection>
+            <mat-card-header>
+              <mat-card-title class="mat-card-title">{{usecase.title}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p [innerHTML]="usecase.blurb"></p>
+              <mat-card>
+                <mat-card-content>
+                  <ng-container *ngFor="let step of usecase.steps">
+                    <ng-container *ngIf="isParagraph(step)">
+                      <p [innerHTML]="step.text"></p>
+                    </ng-container>
+                    <ng-container *ngIf="isTask(step)">
+                      <pharos-task-item [text]="step.title" [tourName]="step.tourType"></pharos-task-item>
+                    </ng-container>
+                  </ng-container>
+                </mat-card-content>
+              </mat-card>
+            </mat-card-content>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</article>

@@ -463,7 +463,7 @@ const PHAROS_BREADCRUMB_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_BREADCRUMB_COMPONENT,
   section: Position.Content,
   navHeader: {
-    mainDescription: 'Heirarchical classifications for this protein from different ontologies.',
+    mainDescription: 'Hierarchical classifications for this protein from different ontologies.',
     section: 'classes',
     label: 'Protein Classes'
   },
@@ -1193,7 +1193,7 @@ const DISEASE_DO_BROWSER_COMPONENT: PharosPanel = {
   navHeader: {
     label: 'Disease Hierarchy',
     section: 'doBrowser',
-    mainDescription: 'Related diseases are represented as parents or children following the disease heirarchy defined by Disease Ontology.',
+    mainDescription: 'Related diseases are represented as parents or children following the disease hierarchy defined by Disease Ontology.',
     mainSource: 'https://disease-ontology.org/'
   },
   api: [

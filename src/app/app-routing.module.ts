@@ -73,6 +73,16 @@ const ROUTES: Routes = [
     data: {title: 'Frequently Asked Questions'}
   },
   {
+    path: 'usecases',
+    loadChildren: () => import('./use-cases/use-cases.module').then(m => m.UseCasesModule),
+    data: {title: 'Use Cases'}
+  },
+  {
+    path: 'usecases/:id',
+    loadChildren: () => import('./use-cases/use-cases.module').then(m => m.UseCasesModule),
+    data: {title: 'Use Cases'}
+  },
+  {
     path: 'search',
     loadChildren: () => import('./pharos-main/modules/search/search.module').then(m => m.SearchModule),
     data: {

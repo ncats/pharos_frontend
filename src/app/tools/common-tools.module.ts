@@ -35,6 +35,7 @@ import { TutorialLinkComponent } from './tutorial-link/tutorial-link.component';
 import { HeatMapComponent } from './visualizations/heat-map/heat-map.component';
 import { BatchResolveModalComponent } from './batch-resolve-modal/batch-resolve-modal.component';
 import { SequenceAlignmentsComponent } from './visualizations/sequence-alignments/sequence-alignments.component';
+import { TaskItemComponent } from './task-item/task-item.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { SequenceAlignmentsComponent } from './visualizations/sequence-alignment
     TutorialLinkComponent,
     HeatMapComponent,
     BatchResolveModalComponent,
-    SequenceAlignmentsComponent
+    SequenceAlignmentsComponent,
+    TaskItemComponent
   ],
   imports: [
     CommonModule,
@@ -96,7 +98,8 @@ import { SequenceAlignmentsComponent } from './visualizations/sequence-alignment
     UpsetPlotComponent,
     TutorialLinkComponent,
     HeatMapComponent,
-    SequenceAlignmentsComponent
+    SequenceAlignmentsComponent,
+    TaskItemComponent
   ],
   entryComponents: [
     FieldSelectionDialogComponent

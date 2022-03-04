@@ -11,7 +11,7 @@ import {Subject} from 'rxjs';
 import {MatTabChangeEvent} from '@angular/material/tabs';
 import {MatDialog} from '@angular/material/dialog';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
-import {TourType} from '../../../pharos-services/tour.service';
+import {TourType} from '../../../models/tour-type';
 
 /**
  * component to show various facets like a dashboard.

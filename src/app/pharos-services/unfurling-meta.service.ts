@@ -21,7 +21,7 @@ export class UnfurlingMetaService {
    * Update page tags with metadata
    * @param data
    */
-  setMetaData(data: any): void {
+  setMetaData(data: {title: string, description: string}): void {
     if (data.description) {
       this.metaService.updateTag({content: data.description}, `name='Description'`);
       this.metaService.updateTag({content: data.description}, `property='og:description'`);
