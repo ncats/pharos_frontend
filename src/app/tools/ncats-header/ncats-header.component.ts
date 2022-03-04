@@ -8,9 +8,10 @@ import {PharosProfileService} from '../../auth/pharos-profile.service';
 import {HeaderOptionsService} from '../../pharos-services/header-options.service';
 import {LocalStorageService} from '../../pharos-services/local-storage.service';
 import {isPlatformBrowser} from '@angular/common';
-import {TourType, TourService} from '../../pharos-services/tour.service';
+import {TourService} from '../../pharos-services/tour.service';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
+import {TourType} from '../../models/tour-type';
 
 
 /**
@@ -106,6 +107,10 @@ export class NcatsHeaderComponent implements OnInit, OnDestroy {
   isOnAnalyzePage() {
     const path = this.tourService.getPage();
     return path[0] === 'analyze';
+  }
+
+  gotoUseCases() {
+    return this.router.navigate(['/usecases']);
   }
 
   gotoTutorial(tutorial: string) {

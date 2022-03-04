@@ -5,18 +5,8 @@ import {NavigationExtras, Router} from '@angular/router';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {CentralStorageService} from './central-storage.service';
 import {FeatureTrackingService} from './feature-tracking.service';
-
-export enum TourType {
-  ListPagesTour = 'ListPagesTour',
-  UpsetChartTour = 'UpsetChartTour',
-  CustomListTour = 'CustomListTour',
-  FilterValueEnrichment = 'FilterValueEnrichment',
-  Heatmaps = 'Heatmaps',
-  StructureSearchTour = 'StructureSearchTour',
-  TargetExpressionTour = 'TargetExpressionTour',
-  WhatsNew311 = 'WhatsNew311'
-}
-
+import {StepFactory} from '../../assets/tourData/step.factory';
+import {TourType} from '../models/tour-type';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +19,7 @@ export class TourService {
     private localStorageService: LocalStorageService,
     private router: Router,
     private breakpointObserver: BreakpointObserver,
-    @Inject(PLATFORM_ID) private platformID: any) {
+    @Inject(PLATFORM_ID) public platformID: any) {
     if (isPlatformBrowser(this.platformID)) {
       this.loadPromise = import('angular-shepherd').then((shepherdLib: any) => {
         this.shepherdService = new shepherdLib.ShepherdService();
@@ -45,7 +35,7 @@ export class TourService {
   };
   static cancelButton = {
     classes: 'shepherd-button shepherd-button-secondary',
-    text: 'Exit',
+    text: 'Cancel',
     type: 'cancel'
   };
   static backButton = {
@@ -64,7 +54,7 @@ export class TourService {
     type: 'next'
   };
 
-  allTutorials: TourDefinition[] = [
+  menuTutorials: TourDefinition[] = [
     {title: 'What\'s New in Version 3.11', storageKey: TourType.WhatsNew311},
     {title: 'Using the List Pages', storageKey: TourType.ListPagesTour},
     {title: 'Using the UpSet Chart', storageKey: TourType.UpsetChartTour},
@@ -78,6 +68,7 @@ export class TourService {
   firstButtons = [TourService.cancelButton, TourService.nextButton];
   middleButtons = [TourService.cancelButton, TourService.backButton, TourService.nextButton];
   lastButtons = [TourService.backButton, TourService.completeButton];
+  onlyExitButton = [TourService.cancelButton, TourService.completeButton];
   defaultStepOptions = {
     classes: '',
     cancelIcon: {
@@ -124,6 +115,21 @@ export class TourService {
           break;
         case TourType.UpsetChartTour:
           this.runUpsetPlotTour();
+          break;
+
+        case TourType.ShortSearch:
+        case TourType.ShortTargetDetails:
+        case TourType.ShortValueCounts:
+        case TourType.ShortHeatmap:
+        case TourType.ShortSequenceSearch:
+        case TourType.ShortCommonDoc:
+        case TourType.ShortPPIList:
+        case TourType.ShortDiseaseDetails:
+        case TourType.ShortExpressionAtlas:
+        case TourType.ShortDownload:
+        case TourType.ShortLigandList:
+        case TourType.ShortCustomList:
+          this.runDynamicTour(tutorialName);
           break;
         default:
           this.whatsNew(false);
@@ -899,7 +905,7 @@ export class TourService {
     this.shepherdService.start();
   }
 
-  completeTour(tourType: TourType, result: string) {
+  completeTour(tourType: TourType, result: string, reminder = true) {
     if (result === 'complete') {
       this.featureTrackingService.trackFeature('Complete Tutorial', tourType);
     }
@@ -909,25 +915,27 @@ export class TourService {
       return;
     }
     this.localStorageService.store.setItem(tourType, result);
-    const title = this.allTutorials.find(t => t.storageKey === tourType)?.title;
-    const defaultSteps = [
-      {
-        id: 'complete',
-        attachTo: {
-          element: this.menuIsHidden ? '.top-level-menu-button' : '#tutorialMenu',
-          on: 'top'
-        },
-        scrollTo: false,
-        buttons: [TourService.completeButton],
-        title,
-        text: ['Revisit the tutorial at any time by clicking the "Tutorials" menu.']
-      }
-    ];
-    this.shepherdService.defaultStepOptions = this.defaultStepOptions;
-    this.shepherdService.modal = true;
-    this.shepherdService.confirmCancel = false;
-    this.shepherdService.addSteps(defaultSteps);
-    this.shepherdService.start();
+    if (reminder) {
+      const title = this.menuTutorials.find(t => t.storageKey === tourType)?.title;
+      const defaultSteps = [
+        {
+          id: 'complete',
+          attachTo: {
+            element: this.menuIsHidden ? '.top-level-menu-button' : '#tutorialMenu',
+            on: 'top'
+          },
+          scrollTo: false,
+          buttons: [TourService.completeButton],
+          title,
+          text: ['Revisit the tutorial at any time by clicking the "Tutorials" menu.']
+        }
+      ];
+      this.shepherdService.defaultStepOptions = this.defaultStepOptions;
+      this.shepherdService.modal = true;
+      this.shepherdService.confirmCancel = false;
+      this.shepherdService.addSteps(defaultSteps);
+      this.shepherdService.start();
+    }
   }
 
   runExpressionTour() {
@@ -1023,6 +1031,31 @@ export class TourService {
       };
       this.router.navigate([path], navigationExtras);
     }
+  }
+
+  runDynamicTour(tutorialName: TourType) {
+    const defaultSteps: any[] = StepFactory.getData(tutorialName, this);
+    for (let i = 0 ; i < defaultSteps.length ; i++) {
+      if (defaultSteps.length === 1) {
+        defaultSteps[i].buttons = this.onlyExitButton.slice();
+      } else if (i === defaultSteps.length - 1) {
+        defaultSteps[i].buttons = this.lastButtons.slice();
+      } else if (i === 0) {
+        defaultSteps[i].buttons = this.firstButtons.slice();
+      } else {
+        defaultSteps[i].buttons = this.middleButtons.slice();
+      }
+    }
+    this.shepherdService.defaultStepOptions = this.defaultStepOptions;
+    this.shepherdService.modal = true;
+    this.shepherdService.confirmCancel = false;
+    this.shepherdService.addSteps(defaultSteps);
+    ['cancel', 'complete'].forEach(event => {
+      this.shepherdService.tourObject.on(event, () => {
+        this.completeTour(tutorialName, event, false);
+      });
+    });
+    this.shepherdService.start();
   }
 
 }

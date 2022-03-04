@@ -1,13 +1,13 @@
-<div class="search-row">
+<div class="searchrow">
   <mat-form-field class="typeahead-field search" [floatLabel]="'never'">
     <input matInput
            (keyup.enter)="search($event)"
            aria-label="Search"
            [matAutocomplete]="auto"
            [formControl]="typeaheadCtrl"
-           class="input-field">
+           class="input-field" #typeaheadTarget>
     <mat-label class="search-label">{{placeholderStr}}</mat-label>
-    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="search($event)">
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="search($event)" [panelWidth]="fixedwidthDropdown ? '500px' : ''">
       <ng-container *ngIf="typeaheadCtrl.value && typeaheadCtrl.value.length > 2">
         <mat-option [value]="{text: typeaheadCtrl.value, extra: {path: 'search', parameter: 'q', value: typeaheadCtrl.value}}">
           <mat-icon>search</mat-icon>

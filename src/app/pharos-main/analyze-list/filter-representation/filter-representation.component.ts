@@ -9,8 +9,8 @@ import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {takeUntil} from 'rxjs/operators';
 import {SelectedFacetService} from '../../data-list/filter-panel/selected-facet.service';
 import {PathResolverService} from '../../data-list/filter-panel/path-resolver.service';
-import {TourType} from '../../../pharos-services/tour.service';
 import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
+import {TourType} from '../../../models/tour-type';
 
 @Component({
   selector: 'pharos-analyze-list',

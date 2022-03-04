@@ -195,7 +195,7 @@ _______________
 * **New GO Terms component:**
     * GO Terms used to be in the Related Targets section, now there's a dedicated component that allows you to browse all the target's GO terms, and explore lists of other targets with the same term.
 * **DTO and PANTHER class Facets:**
-    * The heirarchy of classes defining targets are now clickable into displaying a target list of all targets in that class
+    * The hierarchy of classes defining targets are now clickable into displaying a target list of all targets in that class
 * **Angular Upgrade:**
     * Upgrade to Angular 11
     * And to Firebase 8

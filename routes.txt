@@ -5,6 +5,7 @@
 /analyze/targets
 /analyze/diseases
 /analyze/ligands
+/usecases
 /targets/PDE6H
 /targets/PDE6G
 /targets/CYP2D6
