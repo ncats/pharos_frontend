@@ -1,8 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit, PLATFORM_ID} from '@angular/core';
 import {LocalStorageService} from '../../pharos-services/local-storage.service';
 import {TourService} from '../../pharos-services/tour.service';
 import {NavigationExtras, Router} from '@angular/router';
 import {TourType} from '../../models/tour-type';
+import {isPlatformBrowser} from '@angular/common';
 
 @Component({
   selector: 'pharos-task-item',
@@ -16,14 +17,17 @@ export class TaskItemComponent implements OnInit {
 
   constructor(private localStorage: LocalStorageService,
               private tourService: TourService,
-              private router: Router) {
+              private router: Router,
+              @Inject(PLATFORM_ID) private platformID: any) {
   }
 
   ngOnInit(): void {
   }
 
   tutorialIsComplete() {
-    return this.localStorage.store.getItem(this.tourName) === 'complete';
+    if (isPlatformBrowser(this.platformID)) {
+      return this.localStorage.store.getItem(this.tourName) === 'complete';
+    }
   }
 
   click(event) {
