@@ -19,5 +19,6 @@ export enum TourType {
   ShortExpressionAtlas = 'ShortExpressionAtlas',
   ShortDownload = 'ShortDownload',
   ShortLigandList = 'ShortLigandList',
-  ShortCustomList = 'ShortCustomList'
+  ShortCustomList = 'ShortCustomList',
+  ShortPredictionResults = 'ShortPredictionResults'
 }

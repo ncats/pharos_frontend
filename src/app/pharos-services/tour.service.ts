@@ -129,6 +129,7 @@ export class TourService {
         case TourType.ShortDownload:
         case TourType.ShortLigandList:
         case TourType.ShortCustomList:
+        case TourType.ShortPredictionResults:
           this.runDynamicTour(tutorialName);
           break;
         default:
