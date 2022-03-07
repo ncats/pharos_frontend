@@ -378,6 +378,46 @@ export class StepFactory {
             '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/signinforbenefits.png"/>']
           },
         ];
+      case TourType.ShortPredictionResults:
+        return [
+          {
+            scrollTo: false,
+            classes: 'step-with-small-screenshot',
+            title: 'Predicted Target Results',
+            text: ['From the <b>Structure Search</b> page, you can find predicted targets for any chemical structure.' +
+            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/findpredictions.png"/>']
+          },
+          {
+            scrollTo: false,
+            classes: 'step-with-small-screenshot',
+            title: 'Predicted Target Results',
+            text: ['The search will actually search for predicted targets, and known targets for the query structure. The <b>Associated ' +
+            'Structure</b> filter is set to the query structure, and is the one that returns data for predicted targets. The <b>Active ' +
+            'Ligand</b> filter is set to the internal ID the query structure would have in Pharos, and is the one that returns data for ' +
+            'known targets. You can clear out one or the other to remove predicted or known targets from your <b>Target List</b>.' +
+            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/selectedfilters.png"/>']
+          },
+          {
+            scrollTo: false,
+            classes: 'step-with-screenshot',
+            title: 'Predicted Target Results',
+            text: ['The <b>Target List</b> contains merged data for predicted activity data and experimentally determined activity data from ' +
+            'the database. Note the top result contains a section for <b>' +
+            'Ligand Association Details</b> which is the experimental activity data, and a section for <b>Target Prediction Details</b> which is ' +
+            'the predicted activity from <b>NCATS Predictor</b>.' +
+            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/predictedtargets.png"/>']
+          },
+          {
+            scrollTo: false,
+            classes: 'step-with-screenshot',
+            title: 'Predicted Target Filters',
+            text: ['Predicted data is set apart with a gray background.<br/>You can filter predictions based on <b>Prediction Applicability</b> or <b>' +
+            'Predicted Activity</b>. You can filter the experimental activities based on <b>IC50</b>, <b>Action</b>, or other measures of the ' +
+            'experimental data.<br/>' +
+            '<img class="tour-thin-screenshot" src="./assets/images/tutorials/usecases/predictionfilters.png"/>' +
+            '<img class="tour-thin-screenshot" src="./assets/images/tutorials/usecases/experimentalfilters.png"/>']
+          }
+        ]
     }
   }
 }

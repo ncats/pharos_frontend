@@ -81,9 +81,13 @@ export class UseCaseData {
           "and which targets, target classes, or target pathways can be affected by the compounds in the list. Highlighting these patterns " +
           "in a list of similar compounds can help understand the potential effects of the novel compound.",
         steps: [
-          new Paragraph("Dr. Baggins has a novel chemical compound that could potentially be useful as a therapeutic agent. To begin investigating potential effects and off-target effects, she searches Pharos for predicted targets. After finding a few interesting targets to follow up on, she also decides to characterize potential effects by studying the activity profile of similar compounds."),
-          new Task("Search by Chemical Structure",TourType.StructureSearchTour),
-          new Paragraph("Dr. Baggins notices that the list of similar compounds has some interesting patterns of active targets, and target classes. Additionally, the target count histogram tells her which ligands are known to be promiscuous in the targets they affect, and which may be selective."),
+          new Paragraph("Dr. Baggins has a novel chemical compound that could potentially be useful as a therapeutic agent. To begin " +
+            "investigating potential effects and off-target effects, she performs a series of structure searches on Pharos."),
+          new Task("Search by Chemical Structure for Predicted Targets or Similar Ligands",TourType.StructureSearchTour),
+          new Paragraph("First, she searches for predicted targets for the structure."),
+          new Task("Interpreting the list of predicted targets", TourType.ShortPredictionResults),
+          new Paragraph(" After finding a few interesting targets to follow up on, she also decides to characterize potential effects " +
+            "by studying the activity profile of similar compounds. Dr. Baggins notices that the list of similar compounds has some interesting patterns of active targets, and target classes. Additionally, the target count histogram tells her which ligands are known to be promiscuous in the targets they affect, and which may be selective."),
           new Task("Analyzing a list of ligands",TourType.ShortLigandList)
         ]
       },
