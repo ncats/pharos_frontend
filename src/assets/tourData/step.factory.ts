@@ -119,8 +119,8 @@ export class StepFactory {
             'target.<br/>Clicking on the ' +
             `<span style="white-space: nowrap; font-weight: bold">calculate enrichment ${enrichment}</span>` +
             ' button will rank the filter values by the degree of overrepresentation in the filtered list. ' +
-            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/rawcounts.png"/>' +
-            '<img class="tour-screenshot" src="./assets/images/tutorials/usecases/filteredcounts.png"/>']
+            '<br/><img class="tour-thin-screenshot" src="./assets/images/tutorials/usecases/rawcounts.png"/>' +
+            '<img class="tour-thin-screenshot" src="./assets/images/tutorials/usecases/filteredcounts.png"/>']
           },
           {
             scrollTo: false,
@@ -321,9 +321,9 @@ export class StepFactory {
             'filters count up the number of ligands in the list with activity against targets that are in each Reactome Pathway, or PANTHER ' +
             'Class.<br/>As usual, the degree to which those filter values are overrepresented in the list can be calculated with the ' +
             `<span style="white-space: nowrap; font-weight: bold">calculate enrichment ${enrichment}</span> button.` +
-            '<br/><img class="tour-thin-screenshot" src="./assets/images/tutorials/usecases/targetfilter.png"/>' +
-            '<img class="tour-thin-screenshot" src="./assets/images/tutorials/usecases/pathwayfilter.png"/>' +
-            '<img class="tour-thin-screenshot" src="./assets/images/tutorials/usecases/pantherfilter.png"/>']
+            '<br/><img class="tour-verythin-screenshot" src="./assets/images/tutorials/usecases/targetfilter.png"/>' +
+            '<img class="tour-verythin-screenshot" src="./assets/images/tutorials/usecases/pathwayfilter.png"/>' +
+            '<img class="tour-verythin-screenshot" src="./assets/images/tutorials/usecases/pantherfilter.png"/>']
           },
           {
             scrollTo: false,

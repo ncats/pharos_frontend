@@ -1,6 +1,6 @@
 <article class="container" fxLayout="row" fxLayoutAlign="space-around start">
   <div class="usecase-content" fxLayout="row">
-    <div class="toc-wrapper">
+    <div class="toc-wrapper" fxHide.lt-md>
       <div class="toc">
         <mat-nav-list>
           <div *ngFor="let usecase of useCases" class="list-button" (click)="scroll(usecase.anchor)"

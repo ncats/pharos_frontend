@@ -198,7 +198,13 @@ a:hover {
 
 .tour-thin-screenshot {
   padding-top: 3vh;
-  max-width: 100%;
+  max-width: 50%;
+  max-height: 50vh;
+}
+
+.tour-verythin-screenshot {
+  padding-top: 3vh;
+  max-width: 33%;
   max-height: 50vh;
 }
 
