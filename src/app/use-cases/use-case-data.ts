@@ -38,9 +38,9 @@ export class UseCaseData {
       {
         anchor: "highlightingDarkTargets",
         title: "Finding an appropriate dark target to study",
-        blurb: "This use case highlights the features of Pharos that would help a researcher find a <em>dark target</em> to study based on " +
+        blurb: "This use case highlights the features of Pharos that would help a researcher find a dark target to study based on " +
           "another target they know well. The tool shows how to find a set of similar targets based on protein sequence, " +
-          "or common documentation. The resulting set can be filtered based on the <b>Target Development Level</b> to highlight dark " +
+          "or common documentation. The resulting set can be filtered based on the Target Development Level to highlight dark " +
           "proteins. Other relevant filters can help highlight targets that have available IDG mouse models or genetic constructs, or have " +
           "an ortholog in the researcher's preferred model system.",
         steps: [
@@ -77,8 +77,8 @@ export class UseCaseData {
         anchor: "novelCompound",
         title: "Exploring potential effects of a novel chemical compound",
         blurb: "This use case highlights the tools within Pharos to study the potential effects of a novel chemical compound. Pharos has the " +
-          "ability to generate a <b>Target List</b> of targets that the compound is predicted to have activity for. Alternatively, generating " +
-          "a <b>Ligand List</b> of compounds with a similar structure can help the researcher understand which compounds may be selective, " +
+          "ability to generate a Target List of targets that the compound is predicted to have activity for. Alternatively, generating " +
+          "a Ligand List of compounds with a similar structure can help the researcher understand which compounds may be selective, " +
           "and which targets, target classes, or target pathways can be affected by the compounds in the list. Highlighting these patterns " +
           "in a list of similar compounds can help understand the potential effects of the novel compound.",
         steps: [
@@ -97,7 +97,7 @@ export class UseCaseData {
         title: "Exploring commonalities amongst a set of ligands identified by a screen",
         blurb: "This use case highlights the tools within Pharos to analyze a list of chemical compounds identified by a screen. Loading a list " +
           "of compounds into Pharos can be done with a number of identifiers including SMILES, ChEMBL IDs, etc. The features and visualizations " +
-          "available on the resulting <b>Ligand List</b> can help the researcher understand which compounds may be selective, and which " +
+          "available on the resulting Ligand List can help the researcher understand which compounds may be selective, and which " +
           "targets, target classes, or target pathways can be affected by the compounds in the list.",
         steps: [
           new Paragraph("A chemist has screened a hundred thousand compounds from their library against a cell culture screening assay designed to identify compounds that affect a particular cellular process. The screen has identified about 500 compounds that have a reliable affect on the measured behavior."),
