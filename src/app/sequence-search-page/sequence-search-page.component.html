@@ -4,10 +4,14 @@
     <div fxLayout="row" class ="header-row">
     <div class="section-header active">Protein Sequence Search</div>
     </div>
-    <div fxLayout="row" >
+    <div fxLayout="column" >
+      <div fxFlex="100" *ngIf="truncated" class="warning">
+        Sequence Search is limited to {{maxLength}} amino acids. Your sequence has been truncated.
+      </div>
       <div fxFlex="100">
         <mat-form-field class="full-width-field">
-          <textarea matInput placeholder="Query Sequence" [formControl]="sequenceCtrl" [rows]="5"></textarea>
+          <textarea matInput placeholder="Query Sequence" [formControl]="sequenceCtrl" [rows]="5" [maxlength]="maxLength"
+                    (change)="change($event)" #sequenceField></textarea>
         </mat-form-field>
       </div>
     </div>
