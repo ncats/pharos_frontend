@@ -193,6 +193,10 @@ const ROUTES: Routes = [
     loadChildren: () => import('./stats-page/stats-page.module').then(m => m.StatsPageModule),
     data: {title: 'Feature Usage Statistics'}
   },
+  { path: 'sitemap',
+    loadChildren: () => import('./sitemap-page/sitemap-page.module').then(m => m.SitemapPageModule),
+    data: {title: 'Sitemap'}
+  },
   {
     path: '**',
     redirectTo: '/'
