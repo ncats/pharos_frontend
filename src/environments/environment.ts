@@ -1,7 +1,7 @@
 /**
  * environment object to set basic urls and firebase configuration
  */
-const backend = 'https://ncatsidg-dev.appspot.com';
+export const backend = 'https://ncatsidg-dev.appspot.com';
 
 export const environment = {
   rendererUrl: `${backend}/render`,
