@@ -6,6 +6,7 @@ import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-d
 import {MatDialog} from '@angular/material/dialog';
 import {ActivatedRoute} from '@angular/router';
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
+import {JsonldService} from '../../../../pharos-services/jsonld.service';
 
 @Component({
   selector: 'pharos-target-header',
@@ -24,7 +25,8 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
     private _route: ActivatedRoute,
     public dialog: MatDialog,
     private changeRef: ChangeDetectorRef,
-    public dynamicServices: DynamicServicesService
+    public dynamicServices: DynamicServicesService,
+    private jsonldService: JsonldService
   ) {
     super(dynamicServices);
   }
@@ -36,6 +38,7 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
        this.target = this.data.targets;
+       this.jsonldService.insertSchema(this.jsonldService.targetSchema(this.target));
        this.changeRef.markForCheck();
       });
   }

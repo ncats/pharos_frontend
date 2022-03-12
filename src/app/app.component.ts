@@ -7,6 +7,7 @@ import {TourService} from './pharos-services/tour.service';
 import {SwUpdate} from '@angular/service-worker';
 import {interval, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {JsonldService} from './pharos-services/jsonld.service';
 
 /**
  * main app component holder
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private tourService: TourService,
     private _route: ActivatedRoute,
+    private jsonldService: JsonldService
   ) {
   }
 
@@ -47,6 +49,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * toggle loading component based on navigation change
    */
   ngOnInit() {
+    this.jsonldService.insertSchema(this.jsonldService.orgSchema(), 'structured-data-website');
     this.loadingService.loading$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => this.loading = res);
@@ -74,6 +77,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe((e: any) => {
         if (e instanceof NavigationStart) {
           this.loading = true;
+          this.jsonldService.removeStructuredData();
         }
         if (e instanceof NavigationEnd) {
           const titles = this.getTitle(this.router.routerState, this.router.routerState.root);
