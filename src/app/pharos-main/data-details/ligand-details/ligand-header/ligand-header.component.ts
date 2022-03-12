@@ -7,6 +7,7 @@ import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
+import {JsonldService} from '../../../../pharos-services/jsonld.service';
 
 /**
  * displays ligand header component
@@ -32,7 +33,8 @@ export class LigandHeaderComponent extends DynamicPanelComponent implements OnIn
     private changeRef: ChangeDetectorRef,
     private metaService: UnfurlingMetaService,
     private router: Router,
-    public dynamicServices: DynamicServicesService
+    public dynamicServices: DynamicServicesService,
+    private jsonldService: JsonldService
   ) {
     super(dynamicServices);
   }
@@ -53,7 +55,7 @@ export class LigandHeaderComponent extends DynamicPanelComponent implements OnIn
       .subscribe(x => {
         if (this.data && this.data.ligands) {
           this.ligand = this.data.ligands;
-
+          this.jsonldService.insertSchema(this.jsonldService.ligandSchema(this.ligand));
           const newDescription = this.ligand.description;
           const newTitle = 'Pharos: ' + this.ligand.name;
           this.metaService.setMetaData({description: newDescription, title: newTitle});
