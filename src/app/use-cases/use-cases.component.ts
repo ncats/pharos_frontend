@@ -19,6 +19,7 @@ import {Subscription} from 'rxjs';
 import {Location} from '@angular/common';
 import {UnfurlingMetaService} from '../pharos-services/unfurling-meta.service';
 import {takeUntil} from 'rxjs/operators';
+import {JsonldService} from '../pharos-services/jsonld.service';
 
 @Component({
   selector: 'pharos-use-cases',
@@ -42,7 +43,8 @@ export class UseCasesComponent implements OnInit, OnDestroy, AfterViewInit {
     private location: Location,
     private scrollDispatcher: ScrollDispatcher,
     private changeDetector: ChangeDetectorRef,
-    private metaService: UnfurlingMetaService
+    private metaService: UnfurlingMetaService,
+    private jsonlsService: JsonldService
   ) { }
 
   isParagraph(obj) {
@@ -58,6 +60,7 @@ export class UseCasesComponent implements OnInit, OnDestroy, AfterViewInit {
     const linkedUseCase = this.useCases.find(c => c.anchor === this._route.snapshot.paramMap.get('id'));
     this.activeElement = linkedUseCase?.anchor;
     if (linkedUseCase) {
+      this.jsonlsService.insertSchema(this.jsonlsService.usecaseSchema(linkedUseCase.anchor), 'structured-data-usecase');
       this.metaService.setMetaData(
         {
           title: "Pharos Use Case: " + linkedUseCase.title,

@@ -5,6 +5,7 @@ export class UseCaseData {
   anchor: string;
   title: string;
   blurb: string;
+  keywords: string[] = [];
   steps: UseCaseStep[] = [];
 
   static getDescription(): string {
@@ -24,17 +25,20 @@ export class UseCaseData {
         steps: [
           new Paragraph("A biologist is studying rare diseases. Based on some results of a recent GWAS study, she would like to investigate potential roles of a target in a rare disease, and potential medical interventions to affect the course of the disease."),
           new Paragraph("She begins by finding her dark target, and reviewing primary documentation for it."),
-          new Task("Finding a specific target", TourType.ShortSearch),
-          new Task("Reviewing primary documentation", TourType.ShortTargetDetails),
+          new Task("Find a specific target", TourType.ShortSearch),
+          new Task("Review primary documentation", TourType.ShortTargetDetails),
           new Paragraph("As you might expect, there is not a lot of primary documentation for her target. She finds no other associations to the disease, no significant GO Terms, and no documented involvement in relevant Pathways. She did find several protein-protein interactions pulled from the STRING-DB database, however. Perhaps the interacting proteins have relevant documentation."),
-          new Task("Generating a target list from protein-protein interactions", TourType.ShortPPIList),
+          new Task("Generate a target list from protein-protein interactions", TourType.ShortPPIList),
           new Paragraph("The resulting target list has 50 targets, which are documented to be associated with several diseases, pathways, and GO Terms. She notices the list of associated diseases includes many types of cancers, which was not expected. She knows that cancer is very well studied, and wonders if the number of targets in the list that are associated with cancer is greater than would be expected by random chance."),
-          new Task("Calculating filter value enrichment", TourType.ShortValueCounts),
+          new Task("Calculate filter value enrichment", TourType.ShortValueCounts),
           new Paragraph("The filter value enrichment shows that cancer is not actually over-represented in the list, meaning the high number for targets associated with cancer may just be an artifact. Calculating enrichment for some other filters yields a few interesting GO Terms and Pathways that could look into. She also creates a heatmap of target-ligand activity for the interacting targets."),
-          new Task("Creating a heatmap", TourType.ShortHeatmap),
+          new Task("Create a heatmap", TourType.ShortHeatmap),
           new Paragraph("There are a few compounds that could be used to perturb the system, and potentially affect the course of the disease. She downloads the target-ligand activity data for further investigation and to see which compounds she might be able to get ahold of."),
           new Task("Download data for offline analysis",TourType.ShortDownload)
-        ]},
+        ],
+      keywords: [
+        "Protein", "Research", "Understudied", "Dark Proteins", "Dark Genes", "Enrichment", "Heatmap", "Biological Data", "Download", "List Analysis"
+      ]},
       {
         anchor: "highlightingDarkTargets",
         title: "Finding an appropriate dark target to study",
@@ -46,14 +50,17 @@ export class UseCaseData {
         steps: [
           new Paragraph("A grad student in a Neuroscience Department wants to design a research project for his thesis."),
           new Paragraph("The lab he works in has a lot of experience and equipment devoted to the study of calcium channels in mouse models. A recent publication from the lab added to what is known about CACNG1, a regulatory subunit of a calcium channel. He begins, as usual, by reviewing primary documentation for CACNG1."),
-          new Task("Finding a specific target",TourType.ShortSearch),
-          new Task("Reviewing primary documentation",TourType.ShortTargetDetails),
+          new Task("Find a specific target",TourType.ShortSearch),
+          new Task("Review primary documentation",TourType.ShortTargetDetails),
           new Paragraph("In Pharos, the student generates a set of similar targets based on a sequence search for targets related to CACNG1. He also could have generated a list of targets from the same DTO class, or PANTHER class, to find related proteins."),
-          new Task("Generating a target list based on a sequence search",TourType.ShortSequenceSearch),
-          new Task("Generating a target list based on common documentation",TourType.ShortCommonDoc),
+          new Task("Generate a target list based on a sequence search",TourType.ShortSequenceSearch),
+          new Task("Generate a target list based on common documentation",TourType.ShortCommonDoc),
           new Paragraph("He finds 7-8 related targets. After highlighting the 'Tdark' proteins by filtering the list, he notices some have IDG resources, specifically 3 cell and 1 mouse resource he could potentially use for his project."),
-          new Task("Interpreting filter value counts",TourType.ShortValueCounts),
+          new Task("Interpret filter value counts",TourType.ShortValueCounts),
           new Paragraph("He also looks into the associated diseases of his dark target, and similar targets, and proposes some future studies into the role of his target in disease. See Use Case 'Illuminating a dark target\" for more.")
+        ],
+        keywords: [
+          "Protein", "Research", "Understudied", "Dark Proteins", "Dark Genes", "Sequence Search" , "Biological Data", "List Analysis"
         ]
       },
       {
@@ -71,6 +78,9 @@ export class UseCaseData {
           new Paragraph("They browse all Pharos' ligand activity data for the targets in the list in a heatmap. They sort by different columns to find highly potent compounds for some of the targets. They download the ligand activity data for more follow up."),
           new Task("Create a heatmap of target-ligand activities",TourType.ShortHeatmap),
           new Task("Download data for offline analysis",TourType.ShortDownload),
+        ],
+        keywords: [
+          "Rare Disease", "Expression Data", "Heatmap", "Research", "Understudied", "Biological Data", "Download"
         ]
       },
       {
@@ -86,10 +96,13 @@ export class UseCaseData {
             "investigating potential effects and off-target effects, she performs a series of structure searches on Pharos."),
           new Task("Search by Chemical Structure for Predicted Targets or Similar Ligands",TourType.StructureSearchTour),
           new Paragraph("First, she searches for predicted targets for the structure."),
-          new Task("Interpreting the list of predicted targets", TourType.ShortPredictionResults),
+          new Task("Interpret the list of predicted targets", TourType.ShortPredictionResults),
           new Paragraph(" After finding a few interesting targets to follow up on, she also decides to characterize potential effects " +
             "by studying the activity profile of similar compounds. The chemist notices that the list of similar compounds has some interesting patterns of active targets, and target classes. Additionally, the target count histogram tells her which ligands are known to be promiscuous in the targets they affect, and which may be selective."),
-          new Task("Analyzing a list of ligands",TourType.ShortLigandList)
+          new Task("Analyze the list of ligands",TourType.ShortLigandList)
+        ],
+        keywords: [
+          "New Drugs", "Novel Chemical Compounds", "Chemical Structure", "SMILES", "Structure Search", "Predicted Activity", "Drug Target Analysis", "Enrichment"
         ]
       },
       {
@@ -102,9 +115,12 @@ export class UseCaseData {
         steps: [
           new Paragraph("A chemist has screened a hundred thousand compounds from their library against a cell culture screening assay designed to identify compounds that affect a particular cellular process. The screen has identified about 500 compounds that have a reliable affect on the measured behavior."),
           new Paragraph("He uploads the list of compounds into Pharos for analysis, using the SMILES for the identified compounds."),
-          new Task("Uploading a custom list",TourType.ShortCustomList),
+          new Task("Upload a custom list",TourType.ShortCustomList),
           new Paragraph("Analyzing the list provided some useful insights. The chemist was able to identify some common active targets for compounds in the list. The list was also enriched in compounds with activity towards targets in a specific <b>Reactome Pathway</b>. It also proved useful to identify some relatively selective compounds using the <b>Target Count</b> filter."),
-          new Task("Analyzing a list of ligands",TourType.ShortLigandList),
+          new Task("Analyze the list of ligands",TourType.ShortLigandList),
+        ],
+        keywords: [
+          "Drug Screen", "Drug Target Analysis", "Enrichment", "Compound Screen", "List Analysis"
         ]
       }
     ]
