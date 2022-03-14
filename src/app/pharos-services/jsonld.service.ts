@@ -211,6 +211,37 @@ export class JsonldService {
     return dataObj;
   };
 
+  ratingSchema(tdl: string) {
+    const getExplanation = () => {
+      switch (tdl) {
+        case 'Tdark':
+          return 'These are targets about which virtually nothing is known. They do not have known drug or small molecule activities.';
+        case 'Tbio':
+          return 'These are targets that do not have known drug or small molecule activities, but some details are known about their biological role. ' +
+            'There may be literature references into their function, or other resources for experimentation.';
+        case 'Tchem':
+          return 'These are targets that have at least one ChEMBL compound with an activity cutoff of < 30 nM, and satisfy the criteria for ' +
+            'lower categories.';
+        case 'Tclin':
+          return 'These are targets that have at least one approved drug, and satisfy the criteria for lower categories.';
+      }
+    };
+    const dataObj = {
+      '@context': 'http://schema.org',
+      '@type': 'Rating',
+      ratingValue: tdl,
+      ratingExplanation: getExplanation(),
+      reviewAspect: 'The degree of understanding of the biological role of this protein.',
+      author: {
+        '@type': 'Organization',
+        name: 'Illuminating the Druggable Genome (IDG)',
+        logo: 'https://commonfund.nih.gov/sites/default/files/IDG_LOGO_UPRIGHT_3.png',
+        url: 'https://commonfund.nih.gov/idg'
+      }
+    }
+    return dataObj;
+  }
+
   usecaseSchema(usecase: string) {
     const usecaseData = UseCaseData.getUseCases().find(c => c.anchor === usecase);
     if (usecaseData) {
@@ -241,7 +272,7 @@ export class JsonldService {
     return;
   }
 
-  dynamicClasses = ['structured-data-dynamic', 'structured-data-usecase']
+  dynamicClasses = ['structured-data-dynamic', 'structured-data-usecase', 'structured-data-tdl']
 
   constructor(@Inject(DOCUMENT) private _document: Document) {}
 
