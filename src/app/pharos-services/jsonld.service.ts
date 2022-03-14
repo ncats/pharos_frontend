@@ -6,6 +6,8 @@ import {Disease} from '../models/disease';
 import {Pathway} from '../models/pathway';
 import {Ligand} from '../models/ligand';
 import {LigandActivity} from '../models/ligand-activity';
+import {UseCaseData} from '../use-cases/use-case-data';
+import {Task} from '../models/use-case-step';
 
 @Injectable({
   providedIn: 'root'
@@ -206,7 +208,36 @@ export class JsonldService {
     return dataObj;
   };
 
-  dynamicClasses = ['structured-data-dynamic']
+  usecaseSchema(usecase: string) {
+    const usecaseData = UseCaseData.getUseCases().find(c => c.anchor === usecase);
+    if (usecaseData) {
+      const dataObj = {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": usecaseData.title,
+        step: [],
+        keywords: usecaseData.keywords.join(', ')
+      }
+      let position = 0;
+      usecaseData.steps.forEach(step => {
+        if (step instanceof Task) {
+          dataObj.step.push({
+            '@type': 'HowToStep',
+            position: ++position,
+            itemListElement: {
+              '@type': 'HowToDirection',
+              position: 1,
+              text: step.title
+            }
+          })
+        }
+      })
+      return dataObj;
+    }
+    return;
+  }
+
+  dynamicClasses = ['structured-data-dynamic', 'structured-data-usecase']
 
   constructor(@Inject(DOCUMENT) private _document: Document) {}
 
