@@ -93,6 +93,7 @@ export class JsonldService {
       '@type': 'ChemicalSubstance',
       name: ligand.name,
       mainEntityOfPage: this.baseUrl + '/ligands/' + encodeURIComponent(ligand.isdrug ? ligand.name : ligand.ligid),
+      url: this.baseUrl + '/ligands/' + encodeURIComponent(ligand.isdrug ? ligand.name : ligand.ligid),
       chemicalComposition: ligand.smiles,
       identifier: getIdentifiers()
     }
@@ -121,6 +122,7 @@ export class JsonldService {
       '@type': 'MedicalCondition',
       name: disease.name,
       mainEntityOfPage: this.baseUrl + '/diseases/' + encodeURIComponent(disease.name),
+      url: this.baseUrl + '/diseases/' + encodeURIComponent(disease.name),
       description: disease.mondoDescription || disease.doDescription || disease.uniprotDescription,
       identifier: getIdentifiers()
     }
@@ -144,6 +146,7 @@ export class JsonldService {
       name: target.name,
       identifier: getIdentifiers(),
       mainEntityOfPage: this.baseUrl + '/targets/' + target.preferredSymbol,
+      url: this.baseUrl + '/targets/' + target.preferredSymbol,
       description: target.description,
       hasBioPolymerSequence: target.sequence
     };
@@ -216,7 +219,8 @@ export class JsonldService {
         "@type": "HowTo",
         "name": usecaseData.title,
         step: [],
-        keywords: usecaseData.keywords.join(', ')
+        keywords: usecaseData.keywords.join(', '),
+        url: this.baseUrl + '/usecases/' + usecaseData.anchor
       }
       let position = 0;
       usecaseData.steps.forEach(step => {
