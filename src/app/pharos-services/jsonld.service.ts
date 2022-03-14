@@ -217,7 +217,7 @@ export class JsonldService {
       const dataObj = {
         "@context": "https://schema.org",
         "@type": "HowTo",
-        "name": usecaseData.title,
+        name: usecaseData.title,
         step: [],
         keywords: usecaseData.keywords.join(', '),
         url: this.baseUrl + '/usecases/' + usecaseData.anchor

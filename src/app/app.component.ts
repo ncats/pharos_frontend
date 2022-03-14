@@ -8,6 +8,7 @@ import {SwUpdate} from '@angular/service-worker';
 import {interval, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {JsonldService} from './pharos-services/jsonld.service';
+import {UseCaseData} from './use-cases/use-case-data';
 
 /**
  * main app component holder
@@ -107,10 +108,16 @@ export class AppComponent implements OnInit, OnDestroy {
     const data = [];
     const url = [];
     if (parent && parent.snapshot.data && parent.snapshot.data.title) {
+      const path = parent.snapshot.url?.length > 1 ? parent.snapshot.url[0].path : '';
       const subpath = parent.snapshot.url?.length > 1 ? parent.snapshot.url[1].path : '';
       let title = parent.snapshot.data.title;
       if (subpath) {
-        title = title + ' - ' + subpath;
+        if (path === 'usecases') {
+          const selectedCase = UseCaseData.getUseCases().find(c => c.anchor === subpath);
+          title = title + ' - ' + selectedCase.title;
+        } else {
+          title = title + ' - ' + subpath;
+        }
       }
       data.push(title);
     }
