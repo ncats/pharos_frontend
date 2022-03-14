@@ -228,7 +228,11 @@ export class JsonldService {
           dataObj.step.push({
             '@type': 'HowToStep',
             position: ++position,
-            name: step.title
+            itemListElement: {
+              '@type': 'HowToDirection',
+              position: 1,
+              text: step.title
+            }
           })
         }
       })
