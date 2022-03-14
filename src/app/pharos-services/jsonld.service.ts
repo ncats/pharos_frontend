@@ -231,7 +231,8 @@ export class JsonldService {
       '@type': 'Rating',
       ratingValue: tdl,
       ratingExplanation: getExplanation(),
-      reviewAspect: 'The degree of understanding of the biological role of this protein.',
+      image: this.baseUrl + '/assets/images/' + tdl + '.png',
+      reviewAspect: 'The degree to which proteins are studied or not studied, as evidenced by publications, tool compounds and other features.',
       author: {
         '@type': 'Organization',
         name: 'Illuminating the Druggable Genome (IDG)',
