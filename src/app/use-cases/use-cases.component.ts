@@ -18,8 +18,8 @@ import {CdkScrollable, CdkVirtualScrollViewport, ScrollDispatcher} from '@angula
 import {Subscription} from 'rxjs';
 import {Location} from '@angular/common';
 import {UnfurlingMetaService} from '../pharos-services/unfurling-meta.service';
-import {takeUntil} from 'rxjs/operators';
 import {JsonldService} from '../pharos-services/jsonld.service';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'pharos-use-cases',
@@ -44,7 +44,8 @@ export class UseCasesComponent implements OnInit, OnDestroy, AfterViewInit {
     private scrollDispatcher: ScrollDispatcher,
     private changeDetector: ChangeDetectorRef,
     private metaService: UnfurlingMetaService,
-    private jsonlsService: JsonldService
+    private jsonlsService: JsonldService,
+    private titleService: Title,
   ) { }
 
   isParagraph(obj) {
@@ -143,6 +144,12 @@ export class UseCasesComponent implements OnInit, OnDestroy, AfterViewInit {
     this.activeElement = anchor;
     const url = this.router.createUrlTree(['usecases', anchor]).toString();
     this.location.go(url);
+    if (anchor) {
+      const selectedCase = UseCaseData.getUseCases().find(c => c.anchor === anchor);
+      this.titleService.setTitle('Pharos : Use Cases - ' + selectedCase.title);
+    } else {
+      this.titleService.setTitle('Pharos : Use Cases');
+    }
     this.clicking = false;
   }
 
