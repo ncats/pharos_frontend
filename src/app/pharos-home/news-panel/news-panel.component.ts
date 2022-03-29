@@ -1,44 +1,5 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {AngularFirestore} from '@angular/fire/compat/firestore';
-import {Subscription} from 'rxjs';
-
-
-/**
- * baseline object from firebase
- */
-export interface Message {
-  /**
-   * date of message
-   */
-  date: string;
-  /**
-   * index of message - firebase doesn't automatically order anything
-   */
-  index: number;
-  /**
-   * message text
-   */
-  message: string;
-}
-
-/**
- * comment - has author and title, with image
- *  todo: deprecate?
- */
-export interface Comment extends Message {
-  /**
-   * who wrote the comment
-   */
-  author: string;
-  /**
-   * profile comment image
-   */
-  imgurl: string;
-  /**
-   * title of comment
-   */
-  title: string;
-}
+import {AfterViewInit, Component, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewEncapsulation} from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
 
 /**
  * panel that reads a list of comments/messages from firebase
@@ -50,37 +11,16 @@ export interface Comment extends Message {
   encapsulation: ViewEncapsulation.None
 })
 
-export class NewsPanelComponent implements OnInit, OnDestroy {
-  dbSubscription: Subscription;
-
-  /**
-   * list of messages from firebase
-   */
-  items: Message[];
-
+export class NewsPanelComponent implements AfterViewInit {
   /**
    * constructor with database depencency
-   * @param {AngularFirestore} db
    */
-  constructor(private db: AngularFirestore) {  }
+  constructor(
+    @Inject(PLATFORM_ID) private platformID: any) {  }
 
-  /**
-   * fetch messages, and subscribe to changes
-   * sort by index and only take 5
-   */
-  ngOnInit() {
-    // @ts-ignore
-    this.dbSubscription = this.db.collection<Message>('public').valueChanges()
-      .subscribe(items => {
-        if (items && items.length) {
-          this.items = items.sort((a, b) => b.index - a.index).slice(0, 4);
-        }
-      });
-  }
-
-  ngOnDestroy(): void {
-    if (this.dbSubscription) {
-      this.dbSubscription.unsubscribe();
+  ngAfterViewInit(): void {
+    if (isPlatformBrowser(this.platformID)) {
+      (<any>window).twttr.widgets.load();
     }
   }
 }
