@@ -46,6 +46,9 @@ export class ExploreListButtonComponent implements OnInit {
     return `Opens the ${listTitle} List with this set of ${listName}s`;
   }
 
+  getPath() {
+    return this.path ;
+  }
 
   nav() {
     if (this.facetName) {
@@ -55,13 +58,5 @@ export class ExploreListButtonComponent implements OnInit {
       this.featureTrackingService.trackFeature('Associated Model List',
         this.centralStorageService.getModel(this._route), this.buttonText);
     }
-    this.selectedFacetService.clearFacets();
-    const navigationExtras: NavigationExtras = {
-      queryParams: this.queryParams
-    };
-
-    this._router.onSameUrlNavigation = 'reload'; // forces reload since this is the same navigation url
-    this._router.navigate([this.path], navigationExtras);
-
   }
 }

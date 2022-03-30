@@ -7,18 +7,18 @@ html, body {
   margin: 0;
   background-color: #f7f7f7;
   font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
- // height: 100%;
+  // height: 100%;
 }
 
 body {
-  margin: 0;  /*removes default style*/
-  display: flex;  /*enables flex content for its children*/
+  margin: 0; /*removes default style*/
+  display: flex; /*enables flex content for its children*/
   flex-direction: column;
   box-sizing: border-box;
 }
 
 header, nav, main, footer, article, section, aside {
-  display:block;
+  display: block;
 }
 
 a {
@@ -30,7 +30,14 @@ a {
 
 a:hover {
   text-decoration: underline;
- // font-weight: 500;
+}
+
+.buttonAnchor {
+  font-weight: 500;
+}
+
+.buttonAnchor:hover {
+  text-decoration: none;
 }
 
 .fill-remaining-space {
@@ -49,7 +56,7 @@ a:hover {
   letter-spacing: -0.02em;
 }
 
-.tbio{
+.tbio {
   background-color: mat.get-color-from-palette($pharos-app-accent);
   color: black;
 }
@@ -107,16 +114,17 @@ a:hover {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.3); /* Black background with opacity */
-  color:#642F6C;
+  background-color: rgba(0, 0, 0, 0.3); /* Black background with opacity */
+  color: #642F6C;
   z-index: 666;
 }
 
 .mat-tooltip.pharos-tooltip {
-    font-size: .8rem;
+  font-size: .8rem;
 }
 
-@-webkit-keyframes rotating /* Safari and Chrome */ {
+@-webkit-keyframes rotating /* Safari and Chrome */
+{
   from {
     -webkit-transform: rotate(0deg);
     -o-transform: rotate(0deg);
@@ -128,6 +136,7 @@ a:hover {
     transform: rotate(360deg);
   }
 }
+
 @keyframes rotating {
   from {
     -ms-transform: rotate(0deg);
@@ -144,6 +153,7 @@ a:hover {
     transform: rotate(360deg);
   }
 }
+
 .rotating {
   -webkit-animation: rotating 2s linear infinite;
   -moz-animation: rotating 2s linear infinite;
@@ -152,7 +162,7 @@ a:hover {
   animation: rotating 2s linear infinite;
 }
 
-.spinner{
+.spinner {
   width: 120px;
   height: 120px;
   margin-left: auto;
@@ -168,7 +178,7 @@ a:hover {
   fill: mat.get-color-from-palette($pharos-app-primary);
 }
 
-.circleUpset.inGroup:hover,.circleUpset.inGroup.hovered {
+.circleUpset.inGroup:hover, .circleUpset.inGroup.hovered {
   fill: mat.get-color-from-palette($pharos-app-accent);
 }
 
@@ -176,7 +186,7 @@ a:hover {
   fill: silver;
 }
 
-.shepherd-button.shepherd-button-primary,.shepherd-button.shepherd-button-primary:not(:disabled):hover {
+.shepherd-button.shepherd-button-primary, .shepherd-button.shepherd-button-primary:not(:disabled):hover {
   background-color: mat.get-color-from-palette($pharos-app-primary);
   color: white;
 }
@@ -211,6 +221,7 @@ a:hover {
 .shepherd-element.step-with-screenshot {
   max-width: 1000px;
 }
+
 .shepherd-element.step-with-small-screenshot {
   max-width: 500px;
 }

@@ -1,5 +1,5 @@
-<button type="button" mat-raised-button [color]="'primary'"
-        (click)="nav()" [matTooltip]="getTooltip()">
+<a class="buttonAnchor" (click)="nav()" [color]="'primary'" [matTooltip]="getTooltip()" [queryParams]="queryParams" [routerLink]="[this.path]"
+   mat-raised-button type="button">
   {{this.buttonText}}
   <mat-icon>list</mat-icon>
-</button>
+</a>
