@@ -761,6 +761,31 @@ const EXPRESSION_PANEL: PharosPanel = {
   api: []
 };
 
+const NEAREST_TCLIN_PANEL: PharosPanel = {
+  token: TOKENS.NEAREST_TCLIN_PANEL,
+  navHeader: {
+    label: 'Nearest Tclin Targets',
+    section: 'nearestTclin',
+    mainDescription: 'A listing of the nearest upstream and downstream targets from KEGG pathways that have reached the Tclin designation.'
+  },
+  api: [
+    {
+      field: 'family',
+      label: 'Family',
+      description: 'A broad classification of protein families'
+    },
+    {
+      field: 'KEGG Distance',
+      label: 'KEGG Distance',
+      description: 'A measure of the number of steps between two targets in the context of a KEGG Pathway'
+    },
+    {
+      field: 'Common Pathways',
+      label: 'Common Pathways',
+      description: 'The KEGG Pathways a target has in common with the main target for this Details Page'
+    }]
+}
+
 const GWAS_TARGET_ANALYTICS_PANEL: PharosPanel = {
   token: TOKENS.GWAS_TARGET_ANALYTICS_PANEL,
   navHeader: {
@@ -1467,9 +1492,10 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
             panels: [
               DRUGS_PANEL,
               LIGANDS_PANEL,
-              VIRAL_INTERACTIONS_PANEL,
               PROTEIN_PROTEIN_PANEL,
-              PATHWAYS_PANEL
+              NEAREST_TCLIN_PANEL,
+              PATHWAYS_PANEL,
+              VIRAL_INTERACTIONS_PANEL
             ]
           },
           {
