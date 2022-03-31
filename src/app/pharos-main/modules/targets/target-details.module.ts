@@ -46,43 +46,49 @@ import {AffiliateLinksComponent} from '../../data-details/target-details/panels/
 import {TargetPanelBaseComponent} from '../../data-details/target-details/panels/target-panel-base/target-panel-base.component';
 import {ExpressionDetailsComponent} from '../../data-details/target-details/panels/expression-panel/expression-details/expression-details.component';
 import {ExpressionDetailsBlockComponent} from '../../data-details/target-details/panels/expression-panel/expression-details/expression-details-block/expression-details-block.component';
+import {NearestTclinPanelComponent} from '../../data-details/target-details/panels/nearest-tclin-panel/nearest-tclin-panel.component';
+import {
+    NearbyTargetListComponent
+} from '../../data-details/target-details/panels/nearest-tclin-panel/nearby-target-list/nearby-target-list.component';
 
 @NgModule({
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  declarations: [
-    TargetHeaderComponent,
-    BreadcrumbComponent,
-    SummaryPanelComponent,
-    RadarChartViewerComponent,
-    DiseaseSourceComponent,
-    DiseaseCardComponent,
-    PublicationStatisticsComponent,
-    RelatedPublicationsComponent,
-    ExpressionPanelComponent,
-    AaSequencePanelComponent,
-    ProteinProteinPanelComponent,
-    PathwaysPanelComponent,
-    ReactomePathwayBrowserComponent,
-    ViralInteractionPanelComponent,
-    VirusDetailsComponent,
-    OrthologPanelComponent,
-    GeneSummaryComponent,
-    GoTermsComponent,
-    GwasTargetAnalyticsComponent,
-    TargetFacetPanelComponent,
-    IdgResourcesPanelComponent,
-    ReagentPanelComponent,
-    DataResourcePanelComponent,
-    MouseExpressionComponent,
-    LigandsPanelComponent,
-    DrugsPanelComponent,
-    DrugsLigandsPanelComponent,
-    SequenceComponent,
-    AffiliateLinksComponent,
-    TargetPanelBaseComponent,
-    ExpressionDetailsComponent,
-    ExpressionDetailsBlockComponent
-  ],
+    declarations: [
+        TargetHeaderComponent,
+        BreadcrumbComponent,
+        SummaryPanelComponent,
+        RadarChartViewerComponent,
+        DiseaseSourceComponent,
+        DiseaseCardComponent,
+        PublicationStatisticsComponent,
+        RelatedPublicationsComponent,
+        ExpressionPanelComponent,
+        AaSequencePanelComponent,
+        ProteinProteinPanelComponent,
+        PathwaysPanelComponent,
+        ReactomePathwayBrowserComponent,
+        NearestTclinPanelComponent,
+        ViralInteractionPanelComponent,
+        VirusDetailsComponent,
+        OrthologPanelComponent,
+        GeneSummaryComponent,
+        GoTermsComponent,
+        GwasTargetAnalyticsComponent,
+        TargetFacetPanelComponent,
+        IdgResourcesPanelComponent,
+        ReagentPanelComponent,
+        DataResourcePanelComponent,
+        MouseExpressionComponent,
+        LigandsPanelComponent,
+        DrugsPanelComponent,
+        DrugsLigandsPanelComponent,
+        SequenceComponent,
+        AffiliateLinksComponent,
+        TargetPanelBaseComponent,
+        ExpressionDetailsComponent,
+        ExpressionDetailsBlockComponent,
+        NearbyTargetListComponent
+    ],
   imports: [
     CommonModule,
     SharedModule,
@@ -124,6 +130,7 @@ import {ExpressionDetailsBlockComponent} from '../../data-details/target-details
     {provide: TOKENS.GO_TERMS_PANEL, useValue: GoTermsComponent},
     {provide: TOKENS.PATHWAYS_PANEL, useValue: PathwaysPanelComponent},
     {provide: TOKENS.GWAS_TARGET_ANALYTICS_PANEL, useValue: GwasTargetAnalyticsComponent},
+    {provide: TOKENS.NEAREST_TCLIN_PANEL, useValue: NearestTclinPanelComponent},
     {provide: TOKENS.AFFILIATE_LINKS, useValue: AffiliateLinksComponent},
     {provide: TOKENS.ORTHOLOGS_PANEL, useValue: OrthologPanelComponent}
   ]
