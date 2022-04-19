@@ -141,14 +141,16 @@ export class UseCasesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   updateUrl(anchor) {
-    this.activeElement = anchor;
-    const url = this.router.createUrlTree(['usecases', anchor]).toString();
-    this.location.go(url);
-    if (anchor) {
-      const selectedCase = UseCaseData.getUseCases().find(c => c.anchor === anchor);
-      this.titleService.setTitle('Pharos : Use Cases - ' + selectedCase.title);
-    } else {
-      this.titleService.setTitle('Pharos : Use Cases');
+    if (anchor !== this.activeElement) {
+      this.activeElement = anchor;
+      const url = this.router.createUrlTree(['usecases', anchor]).toString();
+      this.location.go(url);
+      if (anchor) {
+        const selectedCase = UseCaseData.getUseCases().find(c => c.anchor === anchor);
+        this.titleService.setTitle('Pharos : Use Cases - ' + selectedCase.title);
+      } else {
+        this.titleService.setTitle('Pharos : Use Cases');
+      }
     }
     this.clicking = false;
   }

@@ -36,6 +36,7 @@ import { HeatMapComponent } from './visualizations/heat-map/heat-map.component';
 import { BatchResolveModalComponent } from './batch-resolve-modal/batch-resolve-modal.component';
 import { SequenceAlignmentsComponent } from './visualizations/sequence-alignments/sequence-alignments.component';
 import { TaskItemComponent } from './task-item/task-item.component';
+import { PredictionsPanelComponent } from './predictions-panel/predictions-panel.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { TaskItemComponent } from './task-item/task-item.component';
     HeatMapComponent,
     BatchResolveModalComponent,
     SequenceAlignmentsComponent,
-    TaskItemComponent
+    TaskItemComponent,
+    PredictionsPanelComponent
   ],
   imports: [
     CommonModule,

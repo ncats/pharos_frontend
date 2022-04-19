@@ -495,6 +495,14 @@ const TARGET_DETAILS_COMPONENT: PharosPanel = {
   api: []
 };
 
+const PREDICTIONS_PANEL: PharosPanel = {
+  token: TOKENS.PREDICTIONS_PANEL,
+  section: Position.Content,
+  navHeader: {
+    section: 'predictions'
+  }
+}
+
 /**
  * target summary component
  * @type {PharosPanel}
@@ -938,9 +946,9 @@ const PATHWAYS_PANEL: PharosPanel = {
 const PROTEIN_PROTEIN_PANEL: PharosPanel = {
   token: TOKENS.PROTEIN_PROTEIN_PANEL,
   navHeader: {
-    label: 'Protein to Protein Interactions',
+    label: 'Protein-Protein Interactions',
     section: 'ppi',
-    mainDescription: 'List of protein to protein interactions associated with this gene. Interactions are reported from Reactome, BioPlex, and StringDB. StringDB score must be above 0.400 to be shown here. Explore on the String-DB website to see lower likelihood targets.'
+    mainDescription: 'List of protein-protein interactions associated with this gene. Interactions are reported from Reactome, BioPlex, and StringDB. StringDB score must be above 0.400 to be shown here. Explore on the String-DB website to see lower likelihood targets.'
   },
   api: [
     {
@@ -1479,6 +1487,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           {
             category: 'Descriptive Data',
             panels: [
+              PREDICTIONS_PANEL,
               SUMMARY_PANEL,
               PHAROS_BREADCRUMB_COMPONENT,
               LEVEL_SUMMARY_PANEL,
@@ -1545,6 +1554,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_SUBNAV_COMPONENT,
           PHAROS_HELPPANEL_COMPONENT,
           DISEASE_HEADER_COMPONENT,
+          PREDICTIONS_PANEL,
           DISEASE_SUMMARY_COMPONENT,
           DISEASE_GWAS_ANALYTICS_COMPONENT,
           DISEASE_DO_BROWSER_COMPONENT,
@@ -1573,6 +1583,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           //   PHAROS_BREADCRUMB_COMPONENT,
           PHAROS_HELPPANEL_COMPONENT,
           LIGAND_HEADER_COMPONENT,
+          PREDICTIONS_PANEL,
           LIGAND_DESCRIPTION_COMPONENT,
           LIGAND_DETAILS_COMPONENT,
           TARGET_RELEVANCE_PANEL,
