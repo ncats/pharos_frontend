@@ -160,6 +160,7 @@ export const LIGANDDETAILSFIELDS = gql`
         pmid
       }
     }
+    predictions
   }
   ${LIGANDLISTFIELDS}
 `;
@@ -736,6 +737,7 @@ export const TARGETDETAILSFIELDS = gql`
         ...pathDetails
       }
     }
+    predictions
   }
   ${SHAREDPATHWAYFIELDS}
   ${TARGETLISTFIELDS}
