@@ -232,6 +232,7 @@ export class JsonldService {
       ratingValue: tdl,
       ratingExplanation: getExplanation(),
       image: this.baseUrl + '/assets/images/' + tdl + '.png',
+      name: 'Target Development Level',
       reviewAspect: 'The degree to which proteins are studied or not studied, as evidenced by publications, tool compounds and other features.',
       author: {
         '@type': 'Organization',
