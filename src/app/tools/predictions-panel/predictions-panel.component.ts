@@ -6,11 +6,11 @@ import {Ligand} from '../../models/ligand';
 import {Disease} from '../../models/disease';
 import {Target} from '../../models/target';
 
-@Component({
-  selector: 'pharos-predictions-panel',
-  templateUrl: './predictions-panel.component.html',
-  styleUrls: ['./predictions-panel.component.scss']
-})
+// @Component({
+//   selector: 'pharos-predictions-panel',
+//   templateUrl: './predictions-panel.component.html',
+//   styleUrls: ['./predictions-panel.component.scss']
+// })
 export class PredictionsPanelComponent extends DynamicPanelComponent implements OnInit {
 
   thing: Target | Disease | Ligand;
@@ -26,7 +26,7 @@ export class PredictionsPanelComponent extends DynamicPanelComponent implements 
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.thing = this.data.targets || this.data.diseases || this.data.ligands;
-        this.predictionResult = this.thing.predictions;
+        // this.predictionResult = this.thing.predictions;
       });
   }
 
