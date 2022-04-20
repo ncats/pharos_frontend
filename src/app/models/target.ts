@@ -278,7 +278,7 @@ export class Target extends PharosBase {
   sequenceAnnotations?: { startResidue: number, endResidue: number, type: string, name: string }[];
 
   affiliateLinks?: AffiliateLink[];
-  predictions: {predictions: any[], citation: any};
+  // predictions: {predictions: any[], citation: any};
   nearestTclin?: NearestTclinDetails;
 }
 
@@ -379,9 +379,9 @@ export class TargetSerializer implements PharosSerializer {
       });
     }
 
-    if (json.predictions && json.predictions.length > 0 && json.predictions[0].length > 0) {
-      obj.predictions = json.predictions[0][0];
-    }
+    // if (json.predictions && json.predictions.length > 0 && json.predictions[0].length > 0) {
+    //   obj.predictions = json.predictions[0][0];
+    // }
 
     if (json.gwasAnalytics) {
       obj.gwasAnalytics = new GwasTargetAnalytics(json.gwasAnalytics);

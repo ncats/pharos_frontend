@@ -50,7 +50,7 @@ import {NearestTclinPanelComponent} from '../../data-details/target-details/pane
 import {
   NearbyTargetListComponent
 } from '../../data-details/target-details/panels/nearest-tclin-panel/nearby-target-list/nearby-target-list.component';
-import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predictions-panel.component';
+// import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predictions-panel.component';
 
 @NgModule({
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
@@ -115,7 +115,7 @@ import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predic
     // targets
     {provide: TOKENS.TARGET_HEADER_COMPONENT, useValue: TargetHeaderComponent},
     {provide: TOKENS.SUMMARY_PANEL, useValue: SummaryPanelComponent},
-    {provide: TOKENS.PREDICTIONS_PANEL, useValue: PredictionsPanelComponent},
+    // {provide: TOKENS.PREDICTIONS_PANEL, useValue: PredictionsPanelComponent},
     {provide: TOKENS.IDG_RESOURCES_PANEL, useValue: IdgResourcesPanelComponent},
 
     {provide: TOKENS.PUBLICATION_STATISTICS_PANEL, useValue: PublicationStatisticsComponent},
