@@ -24,10 +24,10 @@ export class ViralInteractionPanelComponent extends DynamicPanelComponent implem
   }
 
   confirmed() {
-    return this.target.interactingViruses.filter(virus => virus.confirmed()).length;
+    return this.target?.interactingViruses.filter(virus => virus.confirmed()).length;
   }
   predicted() {
-    return this.target.interactingViruses.filter(virus => !virus.confirmed()).length;
+    return this.target?.interactingViruses.filter(virus => !virus.confirmed()).length;
   }
 
   countString(){
