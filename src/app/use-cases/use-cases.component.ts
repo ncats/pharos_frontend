@@ -2,9 +2,9 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ElementRef,
+  ElementRef, Inject,
   OnDestroy,
-  OnInit,
+  OnInit, PLATFORM_ID,
   QueryList,
   ViewChild,
   ViewChildren
@@ -16,7 +16,7 @@ import {UseCaseData} from './use-case-data';
 import {Paragraph, Task} from '../models/use-case-step';
 import {CdkScrollable, CdkVirtualScrollViewport, ScrollDispatcher} from '@angular/cdk/scrolling';
 import {Subscription} from 'rxjs';
-import {Location} from '@angular/common';
+import {isPlatformBrowser, Location} from '@angular/common';
 import {UnfurlingMetaService} from '../pharos-services/unfurling-meta.service';
 import {JsonldService} from '../pharos-services/jsonld.service';
 import {Title} from '@angular/platform-browser';
@@ -46,6 +46,7 @@ export class UseCasesComponent implements OnInit, OnDestroy, AfterViewInit {
     private metaService: UnfurlingMetaService,
     private jsonlsService: JsonldService,
     private titleService: Title,
+    @Inject(PLATFORM_ID) private platformID: any
   ) { }
 
   isParagraph(obj) {
@@ -156,11 +157,13 @@ export class UseCasesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   scroll(anchor) {
-    const section = this.scrollSections.find(section => section.nativeElement.id === anchor);
-    const y = this.useCaseDiv.nativeElement.scrollTop + section.nativeElement.getBoundingClientRect().y - 100;
-    this.useCaseDiv.nativeElement.scrollTo({top: y});
-    this.clicking = true;
-    this.updateUrl(anchor);
+    if(isPlatformBrowser(this.platformID)) {
+      const section = this.scrollSections.find(section => section.nativeElement.id === anchor);
+      const y = this.useCaseDiv.nativeElement.scrollTop + section.nativeElement.getBoundingClientRect().y - 100;
+      this.useCaseDiv.nativeElement.scrollTo({top: y});
+      this.clicking = true;
+      this.updateUrl(anchor);
+    }
   }
 
   isActive(check: string): boolean {
