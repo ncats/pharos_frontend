@@ -1,4 +1,7 @@
 /
+/api
+/faq
+/about
 /targets
 /diseases
 /ligands
@@ -6,6 +9,11 @@
 /analyze/diseases
 /analyze/ligands
 /usecases
+/usecases/illuminatingDarkTargets
+/usecases/highlightingDarkTargets
+/usecases/diseaseExploration
+/usecases/novelCompound
+/usecases/compoundScreen
 /targets/PDE6H
 /targets/PDE6G
 /targets/CYP2D6
