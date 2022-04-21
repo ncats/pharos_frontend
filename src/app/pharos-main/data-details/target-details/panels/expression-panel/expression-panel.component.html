@@ -18,7 +18,7 @@
         <span [matTooltipClass]="'pharos-tooltip'"
               [matTooltip]=description
               class="mat-title">
-          Expression Data ({{this.uberonExpressionMap.yValues.length}} Tissues)</span>
+          Expression Data ({{this.uberonExpressionMap?.yValues?.length || 0}} Tissues)</span>
     </div>
     <div fxFlex="5">
       <pharos-tutorial-link [tourType]="tourType"></pharos-tutorial-link>
