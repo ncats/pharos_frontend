@@ -55,8 +55,8 @@
               <ng-template matTabContent>
                 <div class="pub-table" fxFlex="95">
                   <mat-paginator
-                    [pageSize]="publicationsPageData.top"
-                    [pageIndex]="publicationsPageData.skip / publicationsPageData.top"
+                    [pageSize]="publicationsPageData?.top"
+                    [pageIndex]="publicationsPageData?.skip / publicationsPageData?.top"
                     [length]="publicationsPageData.total"
                     [hidePageSize]="false"
                     [pageSizeOptions]="[10, 20, 50]"
@@ -85,8 +85,8 @@
               <ng-template matTabContent>
                 <div class="pub-table" fxFlex="95">
                   <mat-paginator
-                    [pageSize]="rifPageData.top"
-                    [pageIndex]="rifPageData.skip / rifPageData.top"
+                    [pageSize]="rifPageData?.top"
+                    [pageIndex]="rifPageData?.skip / rifPageData?.top"
                     [length]="rifPageData.total"
                     [hidePageSize]="false"
                     [pageSizeOptions]="[10, 20, 50]"
