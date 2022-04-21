@@ -15,6 +15,7 @@ export class TargetPanelBaseComponent extends DynamicPanelComponent implements O
    */
   @Input() target: Target;
   @Input() child: TargetPanelBaseComponent;
+  @Input() nodataMessage: string;
 
   constructor(
               protected changeRef: ChangeDetectorRef,

@@ -1,6 +1,35 @@
+<ng-template #nodata>
+  <mat-card class="section-card"
+            id="diseaseSources"
+            (pharosScrollspy)="active('diseaseSources')"
+            #diseaseSources>
+    <mat-card-content>
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
+      No disease associations found
+    </mat-card-content>
+  </mat-card>
+</ng-template>
+
+<ng-template #headerrow>
+  <div fxLayout="row"
+       class="tkrow"
+       fxLayoutAlign="start stretch">
+    <div fxFlex="95">
+        <span class="mat-title"
+              [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">
+          Disease Associations ({{target.diseaseCount}})</span>
+    </div>
+    <div fxFlex="5">
+      <pharos-help-panel-trigger [origin]="'diseaseSources'"
+                                 [label]="'Disease Sources'"></pharos-help-panel-trigger>
+    </div>
+  </div>
+</ng-template>
+
 <article>
-  <mat-card *ngIf="hasData()"
-            class="section-card"
+  <mat-card *ngIf="hasData(); else nodata"
+            class="section-card diseaseSources"
             id="diseaseSources"
             (pharosScrollspy)="active('diseaseSources')"
             #diseaseSources>
@@ -9,20 +38,7 @@
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
       </div>
       <ng-container *ngIf="this.target.diseaseCount > 0">
-        <div fxLayout="row"
-             class="tkrow"
-             fxLayoutAlign="start stretch">
-          <div fxFlex="95">
-        <span class="mat-title"
-              [matTooltip]=description
-              [matTooltipClass]="'pharos-tooltip'">
-          Disease Associations ({{target.diseaseCount}})</span>
-          </div>
-          <div fxFlex="5">
-            <pharos-help-panel-trigger [origin]="'diseaseSources'"
-                                       [label]="'Disease Sources'"></pharos-help-panel-trigger>
-          </div>
-        </div>
+        <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
         <div class="headerRow">
           <div>
             <pharos-explore-list-button [buttonText]="'Explore Associated Diseases'" [path]="'/diseases'"

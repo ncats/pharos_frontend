@@ -110,6 +110,11 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
           this.target = this.data.targets;
           this.targetProps = this.data.targetsProps;
           this.setterFunction();
+          if (this.uberonExpressionMap.yValues.length > 0) {
+            this.showSection();
+          } else {
+            this.hideSection();
+          }
           this.loadingComplete();
           this.changeRef.detectChanges();
         }

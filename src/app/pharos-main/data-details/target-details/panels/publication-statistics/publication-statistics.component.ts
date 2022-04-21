@@ -126,6 +126,12 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
           this.patentTimeline = this.target.patentCounts.map(point => new PharosPoint({x: +point.year, y: point.count}));
         }
 
+        if (this.hasData()) {
+          this.showSection();
+        } else {
+          this.hideSection();
+        }
+
         this.loadingComplete();
         this.changeRef.markForCheck();
       });
@@ -149,5 +155,9 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
       }
     });
     return Array.from(values.values());
+  }
+
+  hasData() {
+    return this.pmscoreTimeline.length > 0 || this.pubtatorTimeline.length > 0 || this.patentTimeline.length > 0;
   }
 }

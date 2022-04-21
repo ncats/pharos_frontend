@@ -1,28 +1,45 @@
+<ng-template #nodata>
+  <mat-card id="relatedPublications" class="section-card"
+            (pharosScrollspy)="active('relatedPublications')"
+            #relatedPublications>
+    <mat-card-content>
+      <div class="row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
+        <div fxFlex>
+          <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
+        </div>
+      </div>
+      No publications found
+    </mat-card-content>
+  </mat-card>
+</ng-template>
+<ng-template #headerrow>
+  <div fxLayout="row"
+       class="tkrow"
+       fxLayoutAlign="start stretch"
+       #development>
+    <div fxFlex="95">
+        <span class="mat-title"
+              [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">
+         {{label}}</span>
+    </div>
+    <div fxFlex="5">
+      <pharos-help-panel-trigger [origin]="'relatedPublications'" [label]="'Publication Information'"></pharos-help-panel-trigger>
+    </div>
+  </div>
+</ng-template>
+
 <article id="geneRIFs" #geneRIFs>
-  <mat-card id="relatedPublications" class="section-card" *ngIf="this.target"
+  <mat-card id="relatedPublications" class="section-card" *ngIf="this.target && hasData(); else nodata"
             (pharosScrollspy)="active('relatedPublications')"
             #relatedPublications>
     <mat-card-content>
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
       </div>
-      <div fxLayout="row"
-           class="tkrow"
-           fxLayoutAlign="start stretch"
-           #development>
-        <div fxFlex="95">
-        <span class="mat-title"
-              [matTooltip]=description
-              [matTooltipClass]="'pharos-tooltip'">
-         {{label}}</span>
-        </div>
-        <div fxFlex="5">
-          <pharos-help-panel-trigger [origin]="'relatedPublications'" [label]="'Publication Information'"></pharos-help-panel-trigger>
-        </div>
-      </div>
       <div class="row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
         <div fxFlex>
-
+          <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
           <mat-tab-group [selectedIndex]="activeTab" (selectedTabChange)="tabChanged($event)">
             <mat-tab *ngIf="target.publicationCount > 0" label="relatedPublications">
               <ng-template mat-tab-label>
