@@ -1,26 +1,41 @@
-<article>
+<ng-template #nodata>
   <mat-card id="publicationStatistics" class="section-card"
+            (pharosScrollspy)="active('publicationStatistics')"
+            #publicationStatistics>
+    <mat-card-content>
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
+      No publication or patent stats found
+    </mat-card-content>
+  </mat-card>
+</ng-template>
+
+<ng-template #headerrow>
+  <div fxLayout="row"
+       class="tkrow"
+       fxLayoutAlign="start stretch"
+       #development>
+    <div fxFlex="95">
+        <span class="mat-title"
+              [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">
+          Publication Statistics</span>
+    </div>
+    <div fxFlex="5">
+      <pharos-help-panel-trigger [origin]="'publicationStatistics'"
+                                 [label]="'Publication Statistics'"></pharos-help-panel-trigger>
+    </div>
+  </div>
+</ng-template>
+
+<article>
+  <mat-card id="publicationStatistics" class="section-card" *ngIf="hasData(); else nodata"
             (pharosScrollspy)="active('publicationStatistics')"
             #publicationStatistics>
     <mat-card-content>
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
       </div>
-      <div fxLayout="row"
-           class="tkrow"
-           fxLayoutAlign="start stretch"
-           #development>
-        <div fxFlex="95">
-        <span class="mat-title"
-              [matTooltip]=description
-              [matTooltipClass]="'pharos-tooltip'">
-          Publication Statistics</span>
-        </div>
-        <div fxFlex="5">
-          <pharos-help-panel-trigger [origin]="'publicationStatistics'"
-                                     [label]="'Publication Statistics'"></pharos-help-panel-trigger>
-        </div>
-      </div>
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
       <div class="row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
         <div fxFlex>
           <div class="all-timelines">

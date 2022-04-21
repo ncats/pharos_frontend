@@ -73,6 +73,11 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.target = this.data.targets;
+        if (this.target.ppiCount > 0) {
+          this.showSection();
+        } else {
+          this.hideSection();
+        }
         this.loadingComplete();
         this.changeRef.markForCheck();
 

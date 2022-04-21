@@ -1,4 +1,4 @@
-<pharos-target-panel-base [data]="data" [child]="this">
+<pharos-target-panel-base [data]="data" [child]="this" nodataMessage="No links available">
   <div class="card-list">
     <ng-container *ngFor="let link of target?.affiliateLinks">
       <mat-card *ngIf="getImage(link)">

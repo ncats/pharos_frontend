@@ -156,9 +156,15 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
             this.changeRef.markForCheck();
           }
         });
+        this.target = this.data.targets;
+        this.targetProps = this.data.targetsProps;
+
+        if (this.hasData()) {
+          this.showSection();
+        } else {
+          this.hideSection();
+        }
         if (isPlatformBrowser(this.platformID)) {
-          this.target = this.data.targets;
-          this.targetProps = this.data.targetsProps;
 
           if (this.target.publications) {
             this.publications = this.targetProps.publications;
@@ -205,5 +211,9 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
       this.loadingComplete(false);
       this.changeRef.markForCheck();
     });
+  }
+
+  hasData() {
+    return this.target.publicationCount > 0 || this.target.generifCount > 0;
   }
 }
