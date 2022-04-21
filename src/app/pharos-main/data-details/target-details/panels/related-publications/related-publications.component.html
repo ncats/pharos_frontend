@@ -57,7 +57,7 @@
                   <mat-paginator
                     [pageSize]="publicationsPageData?.top"
                     [pageIndex]="publicationsPageData?.skip / publicationsPageData?.top"
-                    [length]="publicationsPageData.total"
+                    [length]="publicationsPageData?.total"
                     [hidePageSize]="false"
                     [pageSizeOptions]="[10, 20, 50]"
                     [showFirstLastButtons] = true
@@ -87,7 +87,7 @@
                   <mat-paginator
                     [pageSize]="rifPageData?.top"
                     [pageIndex]="rifPageData?.skip / rifPageData?.top"
-                    [length]="rifPageData.total"
+                    [length]="rifPageData?.total"
                     [hidePageSize]="false"
                     [pageSizeOptions]="[10, 20, 50]"
                     [showFirstLastButtons] = true
