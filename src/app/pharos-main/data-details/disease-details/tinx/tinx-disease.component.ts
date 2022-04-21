@@ -94,6 +94,11 @@ export class TinxDiseaseComponent extends DynamicPanelComponent implements OnIni
           this.loadingComplete();
           this.changeRef.detectChanges();
         }
+        if (this.hasDOID()) {
+          this.showSection();
+        } else {
+          this.hideSection();
+        }
       });
   }
 }

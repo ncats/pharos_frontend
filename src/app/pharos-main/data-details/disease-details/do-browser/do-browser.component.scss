@@ -4,6 +4,7 @@
 }
 
 .section{
+  width: 50%;
   padding: 0 2em 2em 2em;
   margin: 3px;
   max-height: 400px;
@@ -19,10 +20,6 @@
 .mat-card-subtitle{
   font-size: 175%;
   padding-top: 0.75em;
-}
-
-.mat-card{
-  width: 95vw;
 }
 
 .assoc-count {
@@ -41,6 +38,9 @@
 @media only screen and (max-width: 960px) {
   .content{
     flex-direction: column;
+  }
+  .section {
+    width: unset;
   }
 }
 @media only screen and (max-width: 768px) {
