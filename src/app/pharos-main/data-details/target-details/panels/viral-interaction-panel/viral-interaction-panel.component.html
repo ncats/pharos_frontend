@@ -42,7 +42,7 @@
                                     [queryParams]="{similarity: '(' + target.preferredSymbol + ', Interacting Virus)'}"></pharos-explore-list-button>
         <mat-paginator
           [pageSize]="10"
-          [length]="target.interactingViruses.length"
+          [length]="target?.interactingViruses?.length"
           [hidePageSize]="true"
           [showFirstLastButtons]=true
           (page)="paginate($event)"
