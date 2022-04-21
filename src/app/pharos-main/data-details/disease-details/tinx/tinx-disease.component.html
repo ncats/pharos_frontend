@@ -1,24 +1,39 @@
-<article>
+<ng-template #nodata>
   <mat-card id={{field}}
             class="section-card"
-            *ngIf="hasDOID()"
+            (pharosScrollspy)="active(field)"
+            #diseaseTINX>
+    <mat-card-content>
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
+      No novelty measurements found
+    </mat-card-content>
+  </mat-card>
+</ng-template>
+<ng-template #headerrow>
+  <div fxLayout="row"
+       class="tkrow"
+       fxLayoutAlign="start stretch">
+    <div fxFlex="95">
+          <span class="mat-title" [matTooltip]=description
+                [matTooltipClass]="'pharos-tooltip'">Target Novelty (Tin-x)</span>
+    </div>
+    <div fxFlex="5">
+      <pharos-help-panel-trigger [origin]="'diseaseTINX'"
+                                 [label]="'tinx disease'"></pharos-help-panel-trigger>
+    </div>
+  </div>
+</ng-template>
+<article>
+  <mat-card id={{field}}
+            class="section-card card-with-plot"
+            *ngIf="hasDOID(); else nodata"
             (pharosScrollspy)="active(field)"
             #diseaseTINX>
     <mat-card-content>
       <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
       </div>
-      <div>
-        <div fxFlex="95">
-          <mat-card-title>
-            Target Novelty (Tin-x)
-          </mat-card-title>
-        </div>
-        <div>
-          <pharos-help-panel-trigger [origin]="'diseaseTINX'"
-                                     [label]="'tinx disease'"></pharos-help-panel-trigger>
-        </div>
-      </div>
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
       <mat-card-title>
       </mat-card-title>
       <div class="scatter-plot-holder" *ngIf="!hasTooMuchData(); else tooMuchData">
