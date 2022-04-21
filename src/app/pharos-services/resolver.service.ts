@@ -27,7 +27,7 @@ export class ResolverService implements OnDestroy {
   resolve(input: string): Promise<any> {
     if (input && input.trim().length > 0) {
       return this.http.get<string>(
-        `https://tripod.nih.gov/servlet/resolver/${this.fields.join('/')}?structure=${encodeURIComponent(input)}`,
+        `https://opendata.ncats.nih.gov/resolver/${this.fields.join('/')}?structure=${encodeURIComponent(input)}`,
         // @ts-ignore
         {responseType: 'text' as const}).toPromise()
         .then(
@@ -75,7 +75,7 @@ export class ResolverService implements OnDestroy {
         const oneLen = input.length;
         if ((oneLen + 3) > maxLen) {
           queries.push(
-            this.http.get<string>(`https://tripod.nih.gov/servlet/resolver/${this.batchFields.join('/')}?structure=${input}`,
+            this.http.get<string>(`https://opendata.ncats.nih.gov/resolver/${this.batchFields.join('/')}?structure=${input}`,
               // @ts-ignore
               {responseType: 'text' as const}).toPromise()
           );
@@ -83,7 +83,7 @@ export class ResolverService implements OnDestroy {
         }
         if ((len + oneLen + 3) > maxLen) {
           queries.push(
-            this.http.get<string>(`https://tripod.nih.gov/servlet/resolver/${this.batchFields.join('/')}?structure=${list.join('%0A')}`,
+            this.http.get<string>(`https://opendata.ncats.nih.gov/resolver/${this.batchFields.join('/')}?structure=${list.join('%0A')}`,
               // @ts-ignore
               {responseType: 'text' as const}).toPromise()
           );
@@ -97,7 +97,7 @@ export class ResolverService implements OnDestroy {
       });
       if (list.length > 0) {
         queries.push(
-          this.http.get<string>(`https://tripod.nih.gov/servlet/resolver/${this.batchFields.join('/')}?structure=${list.join('%0A')}`,
+          this.http.get<string>(`https://opendata.ncats.nih.gov/resolver/${this.batchFields.join('/')}?structure=${list.join('%0A')}`,
             // @ts-ignore
             {responseType: 'text' as const}).toPromise()
         );
@@ -133,9 +133,8 @@ export class ResolverService implements OnDestroy {
     }
   }
 
-
   checkStatus() {
-    this.http.get<string>(`https://tripod.nih.gov/servlet/resolver/lychi/smiles/inchikey?structure=C1CCC1`,
+    this.http.get<string>(`https://opendata.ncats.nih.gov/resolver/lychi/smiles/inchikey?structure=C1CCC1`,
       // @ts-ignore
       {responseType: 'text' as const})
       .pipe(takeUntil(this.ngUnsubscribe))
