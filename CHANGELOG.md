@@ -1,3 +1,28 @@
+# 3.12.0 (2022-05-01)
+### Added Features
+* **Use Cases**
+  * Pharos has many features to aid in knowledge discovery and hypothesis generation. The new Use Cases page highlights how Pharos' individual features can be used together to reveal patterns in the data.
+* **Nearest Tclin Targets**
+  * For non-Tclin targets, the nearest upstream and downstream Tclin targets, based on KEGG pathways, are now shown on the Target Details pages.
+* **Performance improvements**
+  * Slow loading Target pages, and unfiltered list pages are now prerendered, and will load faster.
+* **SEO & FAIR optimizations**
+  * Structured data elements (JSON-LD) are now being set for all details pages, and use case pages, to help webcrawlers, and improve search engine results
+    * schema.org entities are being used for Targets, which includes basic target descriptions, linked PPIs, pathways, GO Terms, drugs and ligands, and more
+    * Disease and ligand descriptions and identifiers are set for Disease and Ligand Details pages
+    * A schema.org Rating element is set for Targets for the TDL
+    * Use cases are annotated with How-To steps
+  * The Sitemap is now dynamically generated, so every page will be crawlable
+* **UI Improvements**
+  * Details pages will now show all components, with a note when there's no data, so that the components don't just mysteriously disappear
+
+### Bug Fixes / Miscellaneous updates
+* Updated the backedn to Nodejs to version 16 and typescript version 4.6
+* Converted config tables to a sqlite database - for ease of deployment
+* Fix bugs that happen when there is a dash in a gene symbol
+* Updated to a new Public endpoint for NCATSFind
+* Buttons should now allow users to right-click to open a new tab, to allow for other workflows that need the original pages to stay open
+
 # 3.11.0 (2022-03-01)
 ### Added Features
 * **Sequence Search**
