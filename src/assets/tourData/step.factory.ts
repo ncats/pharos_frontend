@@ -45,6 +45,7 @@ export class StepFactory {
             'You\'ll find basic descriptive data, such as gene summaries from UniProt or NCBI, protein sequence information, and expression ' +
             'data. Behavioral and phenotypic data, such as ligand activities or disease assocations, is readily available followed by biblio' +
             'metric statistics for the target, and more.<br/><br/>' +
+            'Sections with data are highlighted in bold.<br/><br/>' +
             '</div>' +
             '<div style="width: 50%; text-align: center;"><img class="tour-screenshot" src="./assets/images/tutorials/usecases/targetmenu.png"/></div></div>']
           },

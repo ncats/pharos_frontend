@@ -27,9 +27,10 @@
                     <ng-container *ngIf="isParagraph(step)">
                       <p [innerHTML]="step.text"></p>
                     </ng-container>
-                    <ng-container *ngIf="isTask(step)">
+                    <div *ngIf="isTask(step)" fxLayout="row" fxLayoutAlign="space-between center">
                       <pharos-task-item [text]="step.title" [tourName]="step.tourType"></pharos-task-item>
-                    </ng-container>
+                      <a [href]="step.link" target="_blank">{{step.exampleText}}</a>
+                    </div>
                   </ng-container>
                 </mat-card-content>
               </mat-card>
