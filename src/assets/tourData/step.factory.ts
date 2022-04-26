@@ -11,7 +11,7 @@ export class StepFactory {
     const tutorial = `<mat-icon role="img" class="mat-icon notranslate material-icons mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">lightbulb</mat-icon>`;
     const enrichment = `<mat-icon role="img" class="mat-icon notranslate material-icons mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">developer_board</mat-icon>`;
     switch (tourName) {
-      case tourName = TourType.ShortSearch:
+      case TourType.ShortSearch:
         return [
           {
             scrollTo: true,
@@ -33,7 +33,7 @@ export class StepFactory {
             '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/typeahead.png"/>']
           }
         ];
-      case tourName = TourType.ShortTargetDetails:
+      case TourType.ShortTargetDetails:
         return [
           {
             scrollTo: false,
@@ -85,7 +85,7 @@ export class StepFactory {
             '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/resources.png"/>']
           },
         ];
-      case tourName = TourType.ShortPPIList:
+      case TourType.ShortPPIList:
         return [
           {
             scrollTo: false,
@@ -107,7 +107,7 @@ export class StepFactory {
             '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/ppilist.png"/>']
           }
         ];
-      case tourName = TourType.ShortValueCounts:
+      case TourType.ShortValueCounts:
         return [
           {
             scrollTo: false,
@@ -134,7 +134,7 @@ export class StepFactory {
             '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/enrichment.png"/>']
           }
         ];
-      case tourName = TourType.ShortHeatmap:
+      case TourType.ShortHeatmap:
         return [
           {
             scrollTo: false,
@@ -164,7 +164,7 @@ export class StepFactory {
             '<br/><img class="tour-screenshot" src="./assets/images/tutorials/heatmap-details.png"/>']
           }
         ];
-      case tourName = TourType.ShortSequenceSearch:
+      case TourType.ShortSequenceSearch:
         return [
           {
             scrollTo: false,
@@ -184,7 +184,7 @@ export class StepFactory {
             '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new311/alignmentResults.png"/>']
           }
         ];
-      case tourName = TourType.ShortCommonDoc:
+      case TourType.ShortCommonDoc:
         return [
           {
             scrollTo: false,
@@ -217,7 +217,7 @@ export class StepFactory {
             '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/similartargets.png"/>']
           }
         ];
-      case tourName = TourType.ShortDiseaseDetails:
+      case TourType.ShortDiseaseDetails:
         return [
           {
             scrollTo: false,
@@ -248,7 +248,7 @@ export class StepFactory {
             '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/associatedDiseaseList.png"/>']
           }
         ];
-      case tourName = TourType.ShortExpressionAtlas:
+      case TourType.ShortExpressionAtlas:
         return [{
           scrollTo: false,
           classes: 'step-with-screenshot',
@@ -261,7 +261,7 @@ export class StepFactory {
           '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/expressionatlas.png"/>']
         }
         ];
-      case tourName = TourType.ShortDownload:
+      case TourType.ShortDownload:
         return [
           {
             scrollTo: false,
@@ -287,7 +287,7 @@ export class StepFactory {
           'they really just preselect the appropriate fields in the download builder.' +
           '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/heatmapdownload.png"/>']
         }];
-      case tourName = TourType.ShortLigandList:
+      case TourType.ShortLigandList:
         return [
           {
             scrollTo: false,
