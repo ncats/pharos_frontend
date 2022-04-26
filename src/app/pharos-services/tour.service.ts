@@ -253,8 +253,8 @@ export class TourService {
         text: ['Previously, components on the details pages without data were hidden. Now all components are shown all the time, and highlighted ' +
         'when data exists.<br/><br/>This keeps the User Experience consistent, and helps users more quicky understand when annotations for a particular feature ' +
         'do not exist.<br/>' +
-        '<img class="tour-screenshot" height="500" src="./assets/images/tutorials/new312/datacomponents.png"/>' +
-        '<img class="tour-screenshot" height="500" src="./assets/images/tutorials/new312/allcomponents.png"/>']
+        '<div style="display: flex; flex-direction: row;"><img class="tour-screenshot" max-width="50%" src="./assets/images/tutorials/new312/datacomponents.png"/>' +
+        '<img class="tour-screenshot" max-width="50%" src="./assets/images/tutorials/new312/allcomponents.png"/></div>']
       }
     ];
     this.shepherdService.defaultStepOptions = this.defaultStepOptions;
