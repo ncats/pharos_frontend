@@ -3,6 +3,7 @@ import 'zone.js/node';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
 import { join } from 'path';
+const {performance} = require('perf_hooks');
 
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
@@ -41,6 +42,16 @@ export function app() {
   });
 
   return server;
+}
+
+const args = process.argv.slice(2);
+
+if (args && args.length > 0 && args[0] === 'perf') {
+  console.log('time, heapTotal, heapUsed, external');
+  setInterval(() => {
+    const mem = process.memoryUsage();
+    console.log(`${performance.now()}, ${mem.heapTotal / (1024 * 1024)}, ${mem.heapUsed / (1024 * 1024)}, ${mem.external / (1024 * 1024)}`);
+  }, 5000);
 }
 
 function run() {
