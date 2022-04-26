@@ -242,7 +242,7 @@ export class TourService {
         text: ['While not visible to end users, Details Pages and Use Case Pages, now include structured data as defined by ' +
         '<a href="https://schema.org/" target="_blank">https://schema.org/</a> and ' +
         '<a href="https://bioschemas.org/" target="_blank">https://bioschemas.org/</a>.<br/><br/>This will help search engines, and other web ' +
-        'crawlers, find and contextualize our data, and ensures that information presented in Pharos follows FAIR data principles." ' +
+        'crawlers, find and contextualize our data, and ensures that information presented in Pharos follows FAIR data principles.' +
         '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new312/structureddata.png"/>']
       },
       {
