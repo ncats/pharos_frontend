@@ -18,6 +18,7 @@
     "build:ssr": "npm --no-git-tag-version version patch && npm run prerender",
     "build:ssr:dev": "ng build && ng run pharos:server:development",
     "serve:ssr": "node dist/server/main.js",
+    "perfmon": "node dist/server/main.js perf",
     "rerun:ssr": "npm run build:ssr && say pharos is ready && npm run serve:ssr",
     "dev:ssr": "ng run pharos:serve-ssr",
     "prerender": "ng run pharos:prerender"
