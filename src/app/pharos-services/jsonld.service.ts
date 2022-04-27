@@ -80,6 +80,7 @@ export class JsonldService {
   }
 
   ligandSchema(ligand: Ligand, root = true) {
+    if (!ligand) {return null;}
     const getIdentifiers = () => {
       const list = ligand.synonymLabels().filter(synonym => synonym.label !== 'LyCHI');
       const ids = [];
@@ -110,6 +111,7 @@ export class JsonldService {
   }
 
   diseaseSchema(disease: Disease, root = true) {
+    if (!disease) {return null;}
     const getIdentifiers = () => {
       const ids = [];
       ids.push(this.property('MONDO ID', disease.mondoID));
@@ -133,6 +135,7 @@ export class JsonldService {
   }
 
   targetSchema(target: Target, root = true) {
+    if (!target) {return null;}
     const getIdentifiers = () => {
       const ids = [];
       if (target.gene) {
@@ -212,6 +215,7 @@ export class JsonldService {
   };
 
   ratingSchema(tdl: string) {
+    if (!tdl) {return null;}
     const getExplanation = () => {
       switch (tdl) {
         case 'Tdark':
@@ -245,6 +249,7 @@ export class JsonldService {
   }
 
   usecaseSchema(usecase: string) {
+    if (!usecase) {return null;}
     const usecaseData = UseCaseData.getUseCases().find(c => c.anchor === usecase);
     if (usecaseData) {
       const dataObj = {
@@ -287,6 +292,7 @@ export class JsonldService {
   }
 
   insertSchema(schema: Record<string, any>, className = 'structured-data-dynamic'): void {
+    if (!schema) {return;}
     let script;
     let shouldAppend = false;
     if (this._document.head.getElementsByClassName(className).length) {

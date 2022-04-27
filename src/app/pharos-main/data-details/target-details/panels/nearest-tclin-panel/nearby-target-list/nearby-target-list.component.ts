@@ -7,7 +7,7 @@ import {SharedPathwayDetails} from '../../../../../../models/target';
   templateUrl: './nearby-target-list.component.html',
   styleUrls: ['./nearby-target-list.component.scss']
 })
-export class NearbyTargetListComponent implements AfterViewInit {
+export class NearbyTargetListComponent implements OnInit, AfterViewInit {
   @Input() apiSources: any[];
   @Input() sharedPathwayDetails: SharedPathwayDetails[];
 
@@ -16,12 +16,15 @@ export class NearbyTargetListComponent implements AfterViewInit {
 
   constructor() { }
 
-  ngAfterViewInit(): void {
+  ngOnInit() {
     this.pageData = new PageData({
       total: this.sharedPathwayDetails.length,
       skip: 0,
       top: 5
     });
+  }
+
+  ngAfterViewInit(): void {
     this.updateList({pageIndex: 0, pageSize: 5});
   }
 
@@ -33,5 +36,4 @@ export class NearbyTargetListComponent implements AfterViewInit {
   paginate(event: any) {
       this.updateList(event);
   }
-
 }

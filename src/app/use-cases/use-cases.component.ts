@@ -59,7 +59,7 @@ export class UseCasesComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.useCases = UseCaseData.getUseCases();
-    const linkedUseCase = this.useCases.find(c => c.anchor === this._route.snapshot.paramMap.get('id'));
+    const linkedUseCase = this.useCases.find(c => c.anchor === this._route.snapshot.paramMap?.get('id'));
     this.activeElement = linkedUseCase?.anchor;
     if (linkedUseCase) {
       this.jsonlsService.insertSchema(this.jsonlsService.usecaseSchema(linkedUseCase.anchor), 'structured-data-usecase');
@@ -105,7 +105,7 @@ export class UseCasesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    const usecase = this._route.snapshot.paramMap.get('id');
+    const usecase = this._route.snapshot.paramMap?.get('id');
     if (usecase) {
       this.scroll(usecase);
     }

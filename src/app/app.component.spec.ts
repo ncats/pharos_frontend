@@ -1,24 +1,9 @@
 import {async, TestBed} from '@angular/core/testing';
 import {AppComponent} from './app.component';
-import {SharedModule} from './shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
-import {APP_BASE_HREF} from '@angular/common';
-import {LoadingService} from './pharos-services/loading.service';
-import {SelectedFacetService} from './pharos-main/data-list/filter-panel/selected-facet.service';
-import {PharosApiService} from './pharos-services/pharos-api.service';
-import {SuggestApiService} from './tools/search-component/suggest-api.service';
-import {NcatsHeaderModule} from './tools/ncats-header/ncats-header.module';
-import {PharosLoadingSpinnerModule} from './tools/pharos-loading-spinner/pharos-loading-spinner.module';
-import {ScrollToTopComponent} from './tools/scroll-to-top/scroll-to-top.component';
-import {PharosFooterComponent} from './tools/pharos-footer/pharos-footer.component';
-import {AngularFirestore} from '@angular/fire/compat/firestore';
-import {FIRESTORESTUB} from '../../test/firestore-stub';
 import {AngularFireModule} from '@angular/fire/compat';
 import {COMMON_CONFIG} from '../../test/test-config';
-import {AngularFireAuth} from '@angular/fire/compat/auth';
-import {PharosProfileService} from './auth/pharos-profile.service';
-import {Apollo} from "apollo-angular";
 import {ServiceWorkerModule} from '@angular/service-worker';
 
 describe('AppComponent', () => {
@@ -28,42 +13,16 @@ describe('AppComponent', () => {
       imports: [
         BrowserAnimationsModule,
         AppRoutingModule,
-        SharedModule,
-        NcatsHeaderModule,
-        PharosLoadingSpinnerModule,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: false }),
-        AngularFireModule.initializeApp(COMMON_CONFIG),
- /*       firebase.initializeTestApp({
-          projectId: 'pharos',
-          auth: {uid: 'alice', email: 'alice@example.com'}
-        })*/
-      ],
-      declarations: [
-        ScrollToTopComponent,
-        PharosFooterComponent,
-        AppComponent
-      ],
-      providers: [
-        PharosProfileService,
-        PharosApiService,
-        LoadingService,
-        SelectedFacetService,
-        SuggestApiService,
-        AngularFireAuth,
-        Apollo,
-        { provide: AngularFirestore, useValue: FIRESTORESTUB },
-        {provide: APP_BASE_HREF, useValue: '/' }
-      ],
+        AngularFireModule.initializeApp(COMMON_CONFIG)
+      ]
     }).compileComponents();
   }));
+
   it('should create the app', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   }));
-  /*it(`should have as title 'Pharos'`, async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('Pharos');
-  }));*/
+
 });

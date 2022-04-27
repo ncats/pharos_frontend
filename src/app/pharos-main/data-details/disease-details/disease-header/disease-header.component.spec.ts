@@ -4,6 +4,7 @@ import {DiseaseHeaderComponent} from './disease-header.component';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../../test/mock-activate-route';
 import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {TESTDISEASE} from '../../../../../../test/test-disease';
 
 describe('DiseaseHeaderComponent', () => {
   let component: DiseaseHeaderComponent;
@@ -25,6 +26,7 @@ describe('DiseaseHeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DiseaseHeaderComponent);
     component = fixture.componentInstance;
+    component.disease = TESTDISEASE;
     fixture.detectChanges();
   });
 

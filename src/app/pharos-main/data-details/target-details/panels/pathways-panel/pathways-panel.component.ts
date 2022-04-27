@@ -126,13 +126,13 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
   }
 
   getTotalPathwayCount() {
-    return this.target.pathwayCounts.reduce((prev, cur) => prev + cur.value, 0);
+    return this.target.pathwayCounts?.reduce((prev, cur) => prev + cur.value, 0);
   }
 
   getPathwayCount(pwType: string) {
-    return this.target.pathwayCounts.filter(countObj => {
+    return this.target.pathwayCounts?.filter(countObj => {
       return countObj.name.includes(pwType);
-    }).reduce((prev, cur) => prev + cur.value, 0);
+    })?.reduce((prev, cur) => prev + cur.value, 0);
   }
 
   changePage(event: any, pwType: string) {
