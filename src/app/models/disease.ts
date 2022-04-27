@@ -30,6 +30,7 @@ const DISEASEDETAILSQUERY = gql`
       name: $term,
     ) {
       ...diseasesListFields
+      # predictions
       uniprotDescription
       doDescription
       mondoDescription
@@ -144,6 +145,7 @@ export class Disease {
   children?: Disease[];
 
   gwasAnalytics: GwasDiseaseAnalytics;
+  // predictions: {predictions: any[], citation: any};
 
   hasDOID(){
     return !!this.diseaseIDs?.find(id => id.id.toUpperCase().includes('DOID'));

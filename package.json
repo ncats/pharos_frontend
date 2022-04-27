@@ -1,9 +1,10 @@
 {
   "name": "pharos",
-  "version": "3.11.1",
+  "version": "3.12.0",
   "tcrd_version": "6.12.4",
   "license": "MIT",
   "scripts": {
+    "deploy": "GAE_VERSION=$(echo ${npm_package_version} | sed 's/\\./-/g') && gcloud app deploy --version $GAE_VERSION",
     "ng": "ng",
     "start": "node dist/server/main.js",
     "prebuild": "npm --no-git-tag-version version patch",
@@ -14,9 +15,10 @@
     "e2e": "ng e2e",
     "build:appshell": "ng run pharos:app-shell:production",
     "compodoc": "npx compodoc -p tsconfig.app.json -s -w --theme material",
-    "build:ssr": "npm --no-git-tag-version version patch && ng build --configuration production && ng run pharos:server:production",
+    "build:ssr": "npm --no-git-tag-version version patch && npm run prerender",
     "build:ssr:dev": "ng build && ng run pharos:server:development",
     "serve:ssr": "node dist/server/main.js",
+    "perfmon": "node dist/server/main.js perf",
     "rerun:ssr": "npm run build:ssr && say pharos is ready && npm run serve:ssr",
     "dev:ssr": "ng run pharos:serve-ssr",
     "prerender": "ng run pharos:prerender"
@@ -50,7 +52,7 @@
     "graphql": "^15.7.2",
     "json2csv": "^5.0.6",
     "jszip": "^3.6.0",
-    "ncats-protvista-uniprot": "^2.8.38",
+    "ncats-protvista-uniprot": "^2.8.39",
     "ngx-json-viewer": "^2.4.0",
     "ngx-markdown": "^11.1.1",
     "raw-loader": "^4.0.2",

@@ -7,6 +7,8 @@ import {TourService} from './pharos-services/tour.service';
 import {SwUpdate} from '@angular/service-worker';
 import {interval, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {JsonldService} from './pharos-services/jsonld.service';
+import {UseCaseData} from './use-cases/use-case-data';
 
 /**
  * main app component holder
@@ -40,6 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private tourService: TourService,
     private _route: ActivatedRoute,
+    private jsonldService: JsonldService
   ) {
   }
 
@@ -47,6 +50,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * toggle loading component based on navigation change
    */
   ngOnInit() {
+    this.jsonldService.insertSchema(this.jsonldService.orgSchema(), 'structured-data-website');
     this.loadingService.loading$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => this.loading = res);
@@ -74,6 +78,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe((e: any) => {
         if (e instanceof NavigationStart) {
           this.loading = true;
+          this.jsonldService.removeStructuredData();
         }
         if (e instanceof NavigationEnd) {
           const titles = this.getTitle(this.router.routerState, this.router.routerState.root);
@@ -103,10 +108,16 @@ export class AppComponent implements OnInit, OnDestroy {
     const data = [];
     const url = [];
     if (parent && parent.snapshot.data && parent.snapshot.data.title) {
+      const path = parent.snapshot.url?.length > 1 ? parent.snapshot.url[0].path : '';
       const subpath = parent.snapshot.url?.length > 1 ? parent.snapshot.url[1].path : '';
       let title = parent.snapshot.data.title;
       if (subpath) {
-        title = title + ' - ' + subpath;
+        if (path === 'usecases') {
+          const selectedCase = UseCaseData.getUseCases().find(c => c.anchor === subpath);
+          title = title + ' - ' + selectedCase.title;
+        } else {
+          title = title + ' - ' + subpath;
+        }
       }
       data.push(title);
     }

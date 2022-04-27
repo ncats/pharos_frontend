@@ -5,19 +5,10 @@
         <div class="news-banner">Latest News and Events</div>
       </div>
     </div>
-    <div class="news-grid-list">
-      <div *ngFor="let item of items">
-        <mat-card class="full-height-card">
-          <mat-card-header>
-            <img mat-card-avatar src="{{item?.imgurl}}" *ngIf="item?.imgurl" class="avatar">
-            <mat-card-title *ngIf="item?.author" class="mat-card-title">{{item?.author}}</mat-card-title>
-            <mat-card-subtitle *ngIf="item.date" class="mat-card-subtitle">{{item.date}}</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <div [innerHTML]="item.message"></div>
-          </mat-card-content>
-        </mat-card>
-      </div>
+    <div fxLayout="column" fxLayoutAlign="center center">
+    <a href="https://twitter.com/idg_pharos?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-dnt="true" data-show-count="false">Follow @idg_pharos</a>
+    <a class="twitter-timeline" data-width="750" data-height="600" data-theme="light" href="https://twitter.com/idg_pharos?ref_src=twsrc%5Etfw">
+      Tweets by IGD Pharos</a>
     </div>
   </div>
 </article>

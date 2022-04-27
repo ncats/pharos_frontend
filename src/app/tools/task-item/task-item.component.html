@@ -1,0 +1,4 @@
+<button (click)="click($event)" [color]="'primary'" class="tool-button" mat-button mat-raised-button>
+  {{text}}
+  <mat-icon (click)="click($event)">{{tutorialIsComplete() ? "check_box" : "check_box_outline_blank"}}</mat-icon>
+</button>

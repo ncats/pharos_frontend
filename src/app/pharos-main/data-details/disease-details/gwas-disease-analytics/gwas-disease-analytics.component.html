@@ -1,26 +1,39 @@
+<ng-template #nodata>
+  <mat-card id={{field}}
+            class="section-card"
+            (pharosScrollspy)="active(field)"
+            #tiga>
+    <mat-card-content>
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
+      No GWAS traits found
+    </mat-card-content>
+  </mat-card>
+</ng-template>
+<ng-template #headerrow>
+  <div fxLayout="row"
+       class="tkrow"
+       fxLayoutAlign="start stretch">
+    <div fxFlex="95">
+          <span class="mat-title" [matTooltip]=description
+                [matTooltipClass]="'pharos-tooltip'">GWAS Targets ({{disease?.gwasAnalytics?.associations.length || 0}})</span>
+    </div>
+    <div fxFlex="5">
+      <pharos-help-panel-trigger [origin]="'tiga'"
+                                 [label]="'GWAS Targets'"></pharos-help-panel-trigger>
+    </div>
+  </div>
+</ng-template>
 <article>
   <mat-card id={{field}}
             class="section-card"
-            *ngIf="data && (disease?.gwasAnalytics?.associations.length > 0)"
+            *ngIf="data && (disease?.gwasAnalytics?.associations.length > 0); else nodata"
             (pharosScrollspy)="active(field)"
             #tiga>
     <mat-card-content>
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
       </div>
-      <div fxLayout="row"
-           class="tkrow"
-           fxLayoutAlign="start stretch">
-        <div fxFlex="95">
-          <span class="mat-title" [matTooltip]=description
-                [matTooltipClass]="'pharos-tooltip'">GWAS Targets ({{disease?.gwasAnalytics?.associations.length}})</span>
-        </div>
-        <div fxFlex="5">
-          <pharos-help-panel-trigger [origin]="'tiga'"
-                                     [label]="'GWAS Targets'"></pharos-help-panel-trigger>
-        </div>
-      </div>
-
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
       <pharos-generic-table fxHide.lt-md
                             [useInternalPaginator]="true" [data]="diseaseProps.gwasAnalytics.associations"
                             [fieldsConfig]="fields" [defaultPageSize]="5">

@@ -1,26 +1,42 @@
+<ng-template #nodata>
+  <article>
+    <mat-card id={{field}}
+              class="section-card"
+              (pharosScrollspy)="active(field)">
+      <mat-card-content>
+        <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
+        No GO Terms found
+      </mat-card-content>
+    </mat-card>
+  </article>
+</ng-template>
+
+<ng-template #headerrow>
+  <div fxLayout="row"
+       class="tkrow"
+       fxLayoutAlign="start stretch">
+    <div fxFlex="95">
+          <span class="mat-title" [matTooltip]=description
+                [matTooltipClass]="'pharos-tooltip'">Gene Ontology Terms ({{target?.goCount?.total()}})</span>
+    </div>
+    <div fxFlex="5">
+      <pharos-help-panel-trigger [origin]="'goTerms'"
+                                 [label]="'Gene Ontology Terms'"></pharos-help-panel-trigger>
+    </div>
+  </div>
+</ng-template>
+
 <article
-  *ngIf="(target && target.goCount && target.goCount.total() > 0)">
+  *ngIf="(target && target.goCount && target.goCount.total() > 0); else nodata">
   <mat-card id={{field}}
             class="section-card"
             *ngIf="data"
-            (pharosScrollspy)="active(field)"
-            #drugs>
+            (pharosScrollspy)="active(field)">
     <mat-card-content>
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
       </div>
-      <div fxLayout="row"
-           class="tkrow"
-           fxLayoutAlign="start stretch">
-        <div fxFlex="95">
-          <span class="mat-title" [matTooltip]=description
-                [matTooltipClass]="'pharos-tooltip'">Gene Ontology Terms ({{target?.goCount?.total()}})</span>
-        </div>
-        <div fxFlex="5">
-          <pharos-help-panel-trigger [origin]="'goTerms'"
-                                     [label]="'Gene Ontology Terms'"></pharos-help-panel-trigger>
-        </div>
-      </div>
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
       <mat-tab-group>
         <mat-tab *ngIf="target.goFunction.length > 0">
           <ng-template mat-tab-label>

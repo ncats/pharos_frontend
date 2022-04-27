@@ -1,0 +1,89 @@
+<div class="holder">
+  <div class="content" fxLayout="row" fxLayoutAlign="space-around start">
+    <div class="wrapper" fxFlex="65" fxFlex.lt-md="90">
+      <div class="header">Sitemap</div>
+      <div class="grid">
+        <mat-card class="grid-card">
+          <div>
+            <mat-card-header>
+              <mat-card-title class="mat-card-title">Use Cases</mat-card-title>
+            </mat-card-header>
+            <ul>
+              <li *ngFor="let usecase of usecases">{{usecase.title}}
+                <ul>
+                  <a [href]="'https://pharos.nih.gov/usecases/' + usecase.anchor">{{'https://pharos.nih.gov/usecases/' + usecase.anchor}}</a>
+                </ul>
+              </li>
+            </ul>
+
+            <mat-card-header>
+              <mat-card-title class="mat-card-title">List Pages</mat-card-title>
+            </mat-card-header>
+            <ul>
+              <li>Targets
+                <ul>
+                  <a href="https://pharos.nih.gov/targets">https://pharos.nih.gov/targets</a>
+                </ul>
+              </li>
+              <li>Diseases
+                <ul>
+                  <a href="https://pharos.nih.gov/diseases">https://pharos.nih.gov/diseases</a>
+                </ul>
+              </li>
+              <li>Ligands
+                <ul>
+                  <a href="https://pharos.nih.gov/ligands">https://pharos.nih.gov/ligands</a>
+                </ul>
+              </li>
+            </ul>
+
+            <mat-card-header>
+              <mat-card-title class="mat-card-title">Details Pages</mat-card-title>
+            </mat-card-header>
+            <ul>
+              <li>Too many to list here, robots will find them at:
+                <ul>
+                  <a href="https://pharos.nih.gov/sitemap.xml">https://pharos.nih.gov/sitemap.xml</a>
+                </ul>
+              </li>
+            </ul>
+
+            <mat-card-header>
+              <mat-card-title class="mat-card-title">Miscellaneous Pages</mat-card-title>
+            </mat-card-header>
+            <ul>
+              <li>Search with a chemical structure
+                <ul>
+                  <a href="https://pharos.nih.gov/structure">https://pharos.nih.gov/structure</a>
+                </ul>
+              </li>
+              <li>Search with a protein sequence
+                <ul>
+                  <a href="https://pharos.nih.gov/sequence">https://pharos.nih.gov/sequence</a>
+                </ul>
+              </li>
+              <li>About Pharos
+                <ul>
+                  <a href="https://pharos.nih.gov/about">https://pharos.nih.gov/about</a>
+                </ul>
+              </li>
+              <li>Frequently Asked Questions
+                <ul>
+                  <a href="https://pharos.nih.gov/faq">https://pharos.nih.gov/faq</a>
+                </ul>
+              </li>
+              <li>API Details
+                <ul>
+                  <a href="https://pharos.nih.gov/api">https://pharos.nih.gov/api</a>
+                </ul>
+              </li>
+            </ul>
+
+
+
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

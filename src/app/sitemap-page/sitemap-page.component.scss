@@ -1,0 +1,36 @@
+@use '@angular/material' as mat;
+@import '../../partials/ncats-theme';
+
+.holder {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  padding-top: 75px;
+  flex: 1;
+}
+
+.header {
+  font-size: 3em;
+  padding-left: 1vw;
+  margin-bottom: 1vh;
+  border-left: 8px solid mat.get-color-from-palette($pharos-app-primary);
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+}
+
+.grid-card {
+  margin: 10px;
+  ul {
+    ul {
+      margin: 7px 0 20px 0;
+    }
+  }
+}
+

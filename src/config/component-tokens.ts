@@ -1,5 +1,4 @@
 import {InjectionToken} from '@angular/core';
-import {strict} from 'assert';
 
 /**
  * main class of injection tokens
@@ -64,7 +63,7 @@ export class TOKENS {
    * injection token to link to the target summary component
    */
   public static SUMMARY_PANEL = new InjectionToken<string>('SummaryPanelComponent');
-
+  // public static PREDICTIONS_PANEL = new InjectionToken<string>('PredictionsPanelComponent');
   /**
    * injection token to link to the target development summary component
    */
@@ -201,6 +200,8 @@ export class TOKENS {
   public static SEQUENCE_LOGO = new InjectionToken<string>('SequenceLogoComponent');
 
   public static GWAS_TARGET_ANALYTICS_PANEL = new InjectionToken<string>('GwasTargetAnalyticsComponent');
+
+  public static NEAREST_TCLIN_PANEL = new InjectionToken<string>('NearestTclinPanelComponent')
 
   public static AFFILIATE_LINKS = new InjectionToken('AffiliateLinksComponent');
 

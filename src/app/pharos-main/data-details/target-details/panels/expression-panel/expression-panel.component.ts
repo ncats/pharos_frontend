@@ -14,9 +14,9 @@ import {ActivatedRoute} from '@angular/router';
 import {Subject} from 'rxjs';
 import {isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
-import {TourType} from '../../../../../pharos-services/tour.service';
 import {HeatMapData} from '../../../../../tools/visualizations/heat-map/heat-map.component';
 import {takeUntil} from 'rxjs/operators';
+import {TourType} from '../../../../../models/tour-type';
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 /**
@@ -110,6 +110,11 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
           this.target = this.data.targets;
           this.targetProps = this.data.targetsProps;
           this.setterFunction();
+          if (this.uberonExpressionMap.yValues.length > 0) {
+            this.showSection();
+          } else {
+            this.hideSection();
+          }
           this.loadingComplete();
           this.changeRef.detectChanges();
         }

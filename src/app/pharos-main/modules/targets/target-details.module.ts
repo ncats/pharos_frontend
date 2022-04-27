@@ -46,6 +46,11 @@ import {AffiliateLinksComponent} from '../../data-details/target-details/panels/
 import {TargetPanelBaseComponent} from '../../data-details/target-details/panels/target-panel-base/target-panel-base.component';
 import {ExpressionDetailsComponent} from '../../data-details/target-details/panels/expression-panel/expression-details/expression-details.component';
 import {ExpressionDetailsBlockComponent} from '../../data-details/target-details/panels/expression-panel/expression-details/expression-details-block/expression-details-block.component';
+import {NearestTclinPanelComponent} from '../../data-details/target-details/panels/nearest-tclin-panel/nearest-tclin-panel.component';
+import {
+  NearbyTargetListComponent
+} from '../../data-details/target-details/panels/nearest-tclin-panel/nearby-target-list/nearby-target-list.component';
+// import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predictions-panel.component';
 
 @NgModule({
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
@@ -63,6 +68,7 @@ import {ExpressionDetailsBlockComponent} from '../../data-details/target-details
     ProteinProteinPanelComponent,
     PathwaysPanelComponent,
     ReactomePathwayBrowserComponent,
+    NearestTclinPanelComponent,
     ViralInteractionPanelComponent,
     VirusDetailsComponent,
     OrthologPanelComponent,
@@ -81,7 +87,8 @@ import {ExpressionDetailsBlockComponent} from '../../data-details/target-details
     AffiliateLinksComponent,
     TargetPanelBaseComponent,
     ExpressionDetailsComponent,
-    ExpressionDetailsBlockComponent
+    ExpressionDetailsBlockComponent,
+    NearbyTargetListComponent
   ],
   imports: [
     CommonModule,
@@ -108,6 +115,7 @@ import {ExpressionDetailsBlockComponent} from '../../data-details/target-details
     // targets
     {provide: TOKENS.TARGET_HEADER_COMPONENT, useValue: TargetHeaderComponent},
     {provide: TOKENS.SUMMARY_PANEL, useValue: SummaryPanelComponent},
+    // {provide: TOKENS.PREDICTIONS_PANEL, useValue: PredictionsPanelComponent},
     {provide: TOKENS.IDG_RESOURCES_PANEL, useValue: IdgResourcesPanelComponent},
 
     {provide: TOKENS.PUBLICATION_STATISTICS_PANEL, useValue: PublicationStatisticsComponent},
@@ -124,6 +132,7 @@ import {ExpressionDetailsBlockComponent} from '../../data-details/target-details
     {provide: TOKENS.GO_TERMS_PANEL, useValue: GoTermsComponent},
     {provide: TOKENS.PATHWAYS_PANEL, useValue: PathwaysPanelComponent},
     {provide: TOKENS.GWAS_TARGET_ANALYTICS_PANEL, useValue: GwasTargetAnalyticsComponent},
+    {provide: TOKENS.NEAREST_TCLIN_PANEL, useValue: NearestTclinPanelComponent},
     {provide: TOKENS.AFFILIATE_LINKS, useValue: AffiliateLinksComponent},
     {provide: TOKENS.ORTHOLOGS_PANEL, useValue: OrthologPanelComponent}
   ]

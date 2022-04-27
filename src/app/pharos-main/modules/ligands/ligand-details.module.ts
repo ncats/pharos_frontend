@@ -14,6 +14,7 @@ import {IDG_LEVEL_TOKEN} from '../../data-details/disease-details/target-list-pa
 import {IdgLevelIndicatorComponent} from '../../../tools/idg-level-indicator/idg-level-indicator.component';
 import {LigandDetailsComponent} from '../../data-details/ligand-details/panels/ligand-details/ligand-details.component';
 import {HelpPanelComponent} from "../../../tools/help-panel/help-panel.component";
+// import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predictions-panel.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import {HelpPanelComponent} from "../../../tools/help-panel/help-panel.component
   ],
   providers: [
     // ligands
+    // {provide: TOKENS.PREDICTIONS_PANEL, useValue: PredictionsPanelComponent},
     {provide: TOKENS.PHAROS_HELPPANEL_COMPONENT, useValue: HelpPanelComponent},
     {provide: TOKENS.LIGAND_HEADER_COMPONENT, useValue: LigandHeaderComponent},
     {provide: TOKENS.LIGAND_DESCRIPTION_COMPONENT, useValue: LigandDescriptionComponent},

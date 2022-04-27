@@ -1,0 +1,17 @@
+<pharos-target-panel-base [data]="data" [child]="this" nodataMessage="Nearest Tclin calculations are only available for targets with KEGG Pathway annotations.">
+  <pharos-explore-list-button [path]="'/targets'" [queryParams]="{collection: getList()}"
+                              [buttonText]="'Explore Nearest Tclin Targets'">
+  </pharos-explore-list-button>
+  <mat-tab-group>
+    <mat-tab *ngIf="target?.nearestTclin.upstream.length > 0" [label]="'Upstream (' + target.nearestTclin.upstream.length + ')'">
+      <ng-template matTabContent>
+        <pharos-nearby-target-list [apiSources]="apiSources" [sharedPathwayDetails]="target.nearestTclin.upstream"></pharos-nearby-target-list>
+      </ng-template>
+    </mat-tab>
+    <mat-tab *ngIf="target?.nearestTclin.downstream.length > 0" [label]="'Downstream (' + target.nearestTclin.downstream.length + ')'">
+      <ng-template matTabContent>
+        <pharos-nearby-target-list [apiSources]="apiSources" [sharedPathwayDetails]="target.nearestTclin.downstream"></pharos-nearby-target-list>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</pharos-target-panel-base>

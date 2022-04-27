@@ -1,4 +1,4 @@
-<pharos-target-panel-base [data]="data" [child]="this">
+<pharos-target-panel-base [data]="data" [child]="this" nodataMessage="No links available">
   <div class="card-list">
     <ng-container *ngFor="let link of target?.affiliateLinks">
       <mat-card *ngIf="getImage(link)">
@@ -17,11 +17,7 @@
           <div class="toolLinkButton">
             <div class="exploreLink" *ngIf="pageAnchor(link)"><a (click)="inpageNavigate(link)">View Data</a></div>
             <div></div>
-            <button type="button" mat-raised-button [color]="'primary'" [matTooltip]="link.url"
-                    (click)="navigate(link.url)">
-              Go To Tool
-              <mat-icon>open_in_new</mat-icon>
-            </button>
+            <a class="buttonAnchor" mat-raised-button [matTooltip]="link.url" [color]="'primary'" [href]="link.url" target="_blank">Go To Tool <mat-icon>open_in_new</mat-icon></a>
           </div>
         </mat-card-content>
       </mat-card>

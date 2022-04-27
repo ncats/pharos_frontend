@@ -1,6 +1,6 @@
 <article class="container heatmap">
   <mat-card
-    id="target-disease-cross"
+    [id]="model + '-' + crossModel + '-cross'"
     #targetDiseaseCross>
     <mat-card-content>
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
