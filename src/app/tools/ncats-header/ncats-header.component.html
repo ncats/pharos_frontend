@@ -44,12 +44,16 @@
     </mat-menu>
     <button mat-button [matMenuTriggerFor]="tutorialMenu" class="nav-menu-button">Tutorials <mat-icon>lightbulb</mat-icon></button>
     <mat-menu #tutorialMenu="matMenu" [classList]="'mat-menu-panel tutorialMenu'">
-      <button *ngFor="let tour of tourService.allTutorials" mat-menu-item (click)="mobilesidenav.close(); gotoTutorial(tour.storageKey)" class="tutorial-link">
+      <button mat-menu-item (click)="mobilesidenav.close(); gotoUseCases()" class="tutorial-link">
+        <span>Use Cases</span>
+        <mat-icon [color]="'primary'" matTooltip="Use Cases">list</mat-icon>
+      </button>
+      <button *ngFor="let tour of tourService.menuTutorials" mat-menu-item (click)="mobilesidenav.close(); gotoTutorial(tour.storageKey)" class="tutorial-link">
         <span>{{tour.title}}</span>
         <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete(tour.storageKey)">check_circle</mat-icon>
       </button>
     </mat-menu>
-    <pharos-search-component class="mobile-search"></pharos-search-component>
+    <pharos-search-component class="mobile-search" [fixedwidthDropdown]="true"></pharos-search-component>
     <button mat-icon-button class="jira-button" aria-label="submit feedback" matTooltip="Submit Feedback" (click)="submitFeedback($event)">
       Submit Feedback <mat-icon>feedback</mat-icon>
     </button>
@@ -79,12 +83,13 @@
       </mat-menu>
       <a mat-button [matMenuTriggerFor]="tutorialMenu" id="tutorialMenu">Tutorials <mat-icon>lightbulb</mat-icon></a>
       <mat-menu #tutorialMenu="matMenu" [classList]="'mat-menu-panel tutorialMenu'">
-        <button mat-menu-item *ngFor="let tour of tourService.allTutorials" (click)="gotoTutorial(tour.storageKey)" class="tutorial-link"><span>{{tour.title}}</span>
+        <button mat-menu-item *ngFor="let tour of tourService.menuTutorials" (click)="gotoTutorial(tour.storageKey)" class="tutorial-link"><span>{{tour.title}}</span>
           <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete(tour.storageKey)">check_circle</mat-icon></button>
       </mat-menu>
     </div>
     <span class="fill-remaining-space"></span>
-    <pharos-search-component [fxHide.lt-md]="true" [placeholderStr]="'search'"
+    <pharos-search-component [fxHide.lt-md]="true" [placeholderStr]="'search'" class="searchcomponent"
+                             [fixedwidthDropdown]="true"
                              *ngIf=searchBar></pharos-search-component>
     <button mat-button class="jira-button" aria-label="submit feedback" matTooltip="Submit Feedback" (click)="submitFeedback($event)" fxHide.lt-md>
       Feedback <mat-icon>feedback</mat-icon>

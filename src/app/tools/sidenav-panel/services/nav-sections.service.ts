@@ -12,10 +12,6 @@ export class NavSectionsService {
    */
   constructor() { }
 
-  /**
-   *   initialize a private variable _data, it's a BehaviorSubject
-   */
-  private _visibleSections: any[] = [];
   private _allSections: any[] = [];
 
   /**
@@ -53,9 +49,18 @@ export class NavSectionsService {
   activeSection$ = this._activeSectionSource.asObservable();
 
   setSections(sections: any[]): void {
-    this._visibleSections = sections;
     this._allSections = sections;
-    this._navSectionsSource.next(this._visibleSections);
+    this._allSections.forEach(sec => {
+      if (sec.navHeader) {
+        sec.visible = true;
+      }
+      sec.panels?.forEach(subsec => {
+        if (subsec.navHeader) {
+          subsec.visible = true;
+        }
+      });
+    })
+    this._navSectionsSource.next(this._allSections);
   }
 
   setActiveTab(section: string, tab?: string): void {
@@ -69,35 +74,26 @@ export class NavSectionsService {
   }
 
   hideSection(remSection: string) {
-    this._visibleSections.forEach(section => {
-      if (section.panels && section.panels.length > 0) {
-        section.panels = section.panels.filter(sec => sec.navHeader?.section !== remSection);
-      }
-    });
-    this._visibleSections = this._visibleSections.filter(sec => sec.navHeader?.section !== remSection);
-    this._navSectionsSource.next(this._visibleSections);
+    this.updateVisibility(remSection, false);
+    this._navSectionsSource.next(this._allSections);
   }
 
   showSection(addSection: string) {
-    const currentSections = [addSection];
-    this._visibleSections.forEach(section => {
-      section.panels?.forEach(subsection => {
-        currentSections.push(subsection.navHeader.section);
-      });
-      if (!section.panels){
-        currentSections.push(section.navHeader.section);
-      }
-    });
-    this._visibleSections = JSON.parse(JSON.stringify(this._allSections));
+    this.updateVisibility(addSection, true);
+    this._navSectionsSource.next(this._allSections);
+  }
 
-    this._visibleSections.forEach(section => {
-      if (section.panels && section.panels.length > 0) {
-        section.panels = section.panels.filter(sec => currentSections.includes(sec.navHeader.section));
+  updateVisibility(section: string, show: boolean) {
+    this._allSections.forEach(sec => {
+      if (sec.navHeader?.section === section) {
+        sec.visible = show;
+      } else {
+        sec.panels?.forEach(subsec => {
+          if (subsec.navHeader?.section === section) {
+            subsec.visible = show;
+          }
+        })
       }
     });
-    this._visibleSections = this._visibleSections.filter(sec => {
-      return sec.panels || currentSections.includes(sec.navHeader.section);
-    });
-    this._navSectionsSource.next(this._visibleSections);
   }
 }

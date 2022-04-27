@@ -5,18 +5,9 @@ import {NavigationExtras, Router} from '@angular/router';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {CentralStorageService} from './central-storage.service';
 import {FeatureTrackingService} from './feature-tracking.service';
-
-export enum TourType {
-  ListPagesTour = 'ListPagesTour',
-  UpsetChartTour = 'UpsetChartTour',
-  CustomListTour = 'CustomListTour',
-  FilterValueEnrichment = 'FilterValueEnrichment',
-  Heatmaps = 'Heatmaps',
-  StructureSearchTour = 'StructureSearchTour',
-  TargetExpressionTour = 'TargetExpressionTour',
-  WhatsNew311 = 'WhatsNew311'
-}
-
+import {StepFactory} from '../../assets/tourData/step.factory';
+import {TourType} from '../models/tour-type';
+import {UseCaseData} from '../use-cases/use-case-data';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +20,7 @@ export class TourService {
     private localStorageService: LocalStorageService,
     private router: Router,
     private breakpointObserver: BreakpointObserver,
-    @Inject(PLATFORM_ID) private platformID: any) {
+    @Inject(PLATFORM_ID) public platformID: any) {
     if (isPlatformBrowser(this.platformID)) {
       this.loadPromise = import('angular-shepherd').then((shepherdLib: any) => {
         this.shepherdService = new shepherdLib.ShepherdService();
@@ -45,7 +36,7 @@ export class TourService {
   };
   static cancelButton = {
     classes: 'shepherd-button shepherd-button-secondary',
-    text: 'Exit',
+    text: 'Cancel',
     type: 'cancel'
   };
   static backButton = {
@@ -64,8 +55,8 @@ export class TourService {
     type: 'next'
   };
 
-  allTutorials: TourDefinition[] = [
-    {title: 'What\'s New in Version 3.11', storageKey: TourType.WhatsNew311},
+  menuTutorials: TourDefinition[] = [
+    {title: 'What\'s New in Version 3.12', storageKey: TourType.WhatsNew312},
     {title: 'Using the List Pages', storageKey: TourType.ListPagesTour},
     {title: 'Using the UpSet Chart', storageKey: TourType.UpsetChartTour},
     {title: 'Filter Value Enrichment', storageKey: TourType.FilterValueEnrichment},
@@ -78,6 +69,7 @@ export class TourService {
   firstButtons = [TourService.cancelButton, TourService.nextButton];
   middleButtons = [TourService.cancelButton, TourService.backButton, TourService.nextButton];
   lastButtons = [TourService.backButton, TourService.completeButton];
+  onlyExitButton = [TourService.cancelButton, TourService.completeButton];
   defaultStepOptions = {
     classes: '',
     cancelIcon: {
@@ -101,7 +93,7 @@ export class TourService {
         this.featureTrackingService.trackFeature('Begin Tutorial', tutorialName);
       }
       switch (tutorialName) {
-        case TourType.WhatsNew311:
+        case TourType.WhatsNew312:
           this.whatsNew(true);
           break;
         case TourType.CustomListTour:
@@ -124,6 +116,22 @@ export class TourService {
           break;
         case TourType.UpsetChartTour:
           this.runUpsetPlotTour();
+          break;
+
+        case TourType.ShortSearch:
+        case TourType.ShortTargetDetails:
+        case TourType.ShortValueCounts:
+        case TourType.ShortHeatmap:
+        case TourType.ShortSequenceSearch:
+        case TourType.ShortCommonDoc:
+        case TourType.ShortPPIList:
+        case TourType.ShortDiseaseDetails:
+        case TourType.ShortExpressionAtlas:
+        case TourType.ShortDownload:
+        case TourType.ShortLigandList:
+        case TourType.ShortCustomList:
+        case TourType.ShortPredictionResults:
+          this.runDynamicTour(tutorialName);
           break;
         default:
           this.whatsNew(false);
@@ -188,7 +196,7 @@ export class TourService {
     if (!isPlatformBrowser(this.platformID)) {
       return;
     }
-    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew311)) { // only autorun once
+    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew312)) { // only autorun once
       return;
     }
     this.loadPromise.then(() => {
@@ -201,59 +209,52 @@ export class TourService {
       {
         scrollTo: false,
         buttons: this.firstButtons.slice(),
-        title: 'What\'s new in Pharos 3.11?',
-        text: ['There are a few new features in Pharos version 3.11. The most significant of which is the added capability to generate a ' +
-        '<em>Target List</em> based on a BlastP search. Additionally, users can now link to a <em>Custom Target List</em> using a comma delimited list of gene ' +
-        'symbols, or UniProt IDs. ']
+        title: 'What\'s new in Pharos 3.12?',
+        text: ['There are several new features in Pharos version 3.12, including a new pages for Use Cases and some UI changes, including a ' +
+        'new component for showing nearby druggable targets.']
       },
       {
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Predictions in Pharos',
-        text: ['First off, in case you haven\'t heard already, criteria to include your predictions in Pharos are now posted on the ' +
-        '<a href="/faq" target="_blank">FAQ page</a>.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/predictioncriteria.png"/>']
+        title: 'Use Cases',
+        text: ['The Tutorials menu now includes a link ' +
+        'to the Use Cases page, which includes walkthroughs of different functionality such as <b>chemical structure search</b>, <b>enrichment ' +
+        'calculation</b>, and <b>generating heatmaps</b> and shows how the tools can be used together to achieve a higher level task.' +
+        '<br/><br/>Currently, the Use Cases include:' +
+         '<ul><li>' + UseCaseData.getUseCases().map(c => c.title).join('</li><li>') + '</li></ul>' +
+        '<img class="tour-screenshot" src="./assets/images/tutorials/new312/usecasemenu.png"/>']
       },
       {
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Finding similar targets based on an amino acid sequence',
-        text: ['Each <em>Target Details</em> page allows users to initiate a sequence search using that target\'s sequence as a starting point. ' +
-        'A search can be made based on any sequence though.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new311/sequenceSearchBegin.png"/>']
+        title: 'Nearest Tclin Targets',
+        text: ['Target Details Pages will now include a component to show the nearest upstream and downstream Tclin targets. This calculation ' +
+        'is based the number of steps between targets in common KEGG pathways.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new312/nearesttclin.png"/>']
       },
       {
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Finding similar targets based on an amino acid sequence',
-        text: ['The matching human proteins are displayed on a <em>Target List</em> page, with a histogram of aligned regions of the query sequence. The list can then ' +
-        'be filtered as desired according to BlastP\'s measures for quality and coverage of the alignments, as well as all the normal filtering ' +
-        'options that Pharos has to offer.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new311/alignmentResults.png"/>']
-      },
-      {
-        scrollTo: false,
-        buttons: this.middleButtons.slice(),
-        classes: 'step-with-screenshot',
-        title: 'Analyzing a list of similar targets',
-        text: ['After generating a list of targets with similar sequences, users have access to the full array of list analysis features that ' +
-        'Pharos has to offer. This example shows a calculation for the <em>Associated Diseases</em> that are enriched in a particular <em>Target List</em>.' +
-        ' Depending on the use cases, <em>Heatmaps</em> and <em>UpSet Plots</em> are also worth looking into.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/enrichment.png"/>']
+        title: 'Structured Data',
+        text: ['While not visible to end users, Details Pages and Use Case Pages, now include structured data as defined by ' +
+        '<a href="https://schema.org/" target="_blank">https://schema.org/</a> and ' +
+        '<a href="https://bioschemas.org/" target="_blank">https://bioschemas.org/</a>.<br/><br/>This will help search engines, and other web ' +
+        'crawlers, find and contextualize our data, and ensures that information presented in Pharos follows FAIR data principles.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new312/structureddata.png"/>']
       },
       {
         scrollTo: false,
         buttons: this.lastButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Easy custom Target Lists',
-        text: ['Prior to this release, users could already upload a list of targets, diseases, or ligands and save them to their profile. ' +
-        'See the tutorial named "Upload a Custom List" for details. ' +
-        'For a quick and easy alternative, or to link to a <em>Target List</em> from another site, users can include a comma delimited list of gene symbols ' +
-        'or UniProt IDs in the collection parameter.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new311/easycustomlist.png"/>']
+        title: 'UI Changes on Details Pages',
+        text: ['Previously, components on the details pages without data were hidden. Now all components are shown all the time, and highlighted ' +
+        'when data exists.<br/><br/>This keeps the User Experience consistent, and helps users more quicky understand when annotations for a particular feature ' +
+        'do not exist.<br/>' +
+        '<div style="display: flex; flex-direction: row;"><img class="tour-screenshot" max-width="50%" src="./assets/images/tutorials/new312/datacomponents.png"/>' +
+        '<img class="tour-screenshot" max-width="50%" src="./assets/images/tutorials/new312/allcomponents.png"/></div>']
       }
     ];
     this.shepherdService.defaultStepOptions = this.defaultStepOptions;
@@ -262,7 +263,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(TourType.WhatsNew311, event);
+        this.completeTour(TourType.WhatsNew312, event);
       });
     });
     this.shepherdService.start();
@@ -899,7 +900,7 @@ export class TourService {
     this.shepherdService.start();
   }
 
-  completeTour(tourType: TourType, result: string) {
+  completeTour(tourType: TourType, result: string, reminder = true) {
     if (result === 'complete') {
       this.featureTrackingService.trackFeature('Complete Tutorial', tourType);
     }
@@ -909,25 +910,27 @@ export class TourService {
       return;
     }
     this.localStorageService.store.setItem(tourType, result);
-    const title = this.allTutorials.find(t => t.storageKey === tourType)?.title;
-    const defaultSteps = [
-      {
-        id: 'complete',
-        attachTo: {
-          element: this.menuIsHidden ? '.top-level-menu-button' : '#tutorialMenu',
-          on: 'top'
-        },
-        scrollTo: false,
-        buttons: [TourService.completeButton],
-        title,
-        text: ['Revisit the tutorial at any time by clicking the "Tutorials" menu.']
-      }
-    ];
-    this.shepherdService.defaultStepOptions = this.defaultStepOptions;
-    this.shepherdService.modal = true;
-    this.shepherdService.confirmCancel = false;
-    this.shepherdService.addSteps(defaultSteps);
-    this.shepherdService.start();
+    if (reminder) {
+      const title = this.menuTutorials.find(t => t.storageKey === tourType)?.title;
+      const defaultSteps = [
+        {
+          id: 'complete',
+          attachTo: {
+            element: this.menuIsHidden ? '.top-level-menu-button' : '#tutorialMenu',
+            on: 'top'
+          },
+          scrollTo: false,
+          buttons: [TourService.completeButton],
+          title,
+          text: ['Revisit the tutorial at any time by clicking the "Tutorials" menu.']
+        }
+      ];
+      this.shepherdService.defaultStepOptions = this.defaultStepOptions;
+      this.shepherdService.modal = true;
+      this.shepherdService.confirmCancel = false;
+      this.shepherdService.addSteps(defaultSteps);
+      this.shepherdService.start();
+    }
   }
 
   runExpressionTour() {
@@ -1023,6 +1026,31 @@ export class TourService {
       };
       this.router.navigate([path], navigationExtras);
     }
+  }
+
+  runDynamicTour(tutorialName: TourType) {
+    const defaultSteps: any[] = StepFactory.getData(tutorialName, this);
+    for (let i = 0 ; i < defaultSteps.length ; i++) {
+      if (defaultSteps.length === 1) {
+        defaultSteps[i].buttons = this.onlyExitButton.slice();
+      } else if (i === defaultSteps.length - 1) {
+        defaultSteps[i].buttons = this.lastButtons.slice();
+      } else if (i === 0) {
+        defaultSteps[i].buttons = this.firstButtons.slice();
+      } else {
+        defaultSteps[i].buttons = this.middleButtons.slice();
+      }
+    }
+    this.shepherdService.defaultStepOptions = this.defaultStepOptions;
+    this.shepherdService.modal = true;
+    this.shepherdService.confirmCancel = false;
+    this.shepherdService.addSteps(defaultSteps);
+    ['cancel', 'complete'].forEach(event => {
+      this.shepherdService.tourObject.on(event, () => {
+        this.completeTour(tutorialName, event, false);
+      });
+    });
+    this.shepherdService.start();
   }
 
 }

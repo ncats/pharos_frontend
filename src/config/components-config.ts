@@ -463,7 +463,7 @@ const PHAROS_BREADCRUMB_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_BREADCRUMB_COMPONENT,
   section: Position.Content,
   navHeader: {
-    mainDescription: 'Heirarchical classifications for this protein from different ontologies.',
+    mainDescription: 'Hierarchical classifications for this protein from different ontologies.',
     section: 'classes',
     label: 'Protein Classes'
   },
@@ -494,6 +494,14 @@ const TARGET_DETAILS_COMPONENT: PharosPanel = {
   section: Position.Content,
   api: []
 };
+
+// const PREDICTIONS_PANEL: PharosPanel = {
+//   token: TOKENS.PREDICTIONS_PANEL,
+//   section: Position.Content,
+//   navHeader: {
+//     section: 'predictions'
+//   }
+// }
 
 /**
  * target summary component
@@ -761,6 +769,31 @@ const EXPRESSION_PANEL: PharosPanel = {
   api: []
 };
 
+const NEAREST_TCLIN_PANEL: PharosPanel = {
+  token: TOKENS.NEAREST_TCLIN_PANEL,
+  navHeader: {
+    label: 'Nearest Tclin Targets',
+    section: 'nearestTclin',
+    mainDescription: 'A listing of the nearest upstream and downstream targets from KEGG pathways that have reached the Tclin designation.'
+  },
+  api: [
+    {
+      field: 'family',
+      label: 'Family',
+      description: 'A broad classification of protein families'
+    },
+    {
+      field: 'KEGG Distance',
+      label: 'KEGG Distance',
+      description: 'A measure of the number of steps between two targets in the context of a KEGG Pathway'
+    },
+    {
+      field: 'Common Pathways',
+      label: 'Common Pathways',
+      description: 'The KEGG Pathways a target has in common with the main target for this Details Page'
+    }]
+}
+
 const GWAS_TARGET_ANALYTICS_PANEL: PharosPanel = {
   token: TOKENS.GWAS_TARGET_ANALYTICS_PANEL,
   navHeader: {
@@ -913,9 +946,9 @@ const PATHWAYS_PANEL: PharosPanel = {
 const PROTEIN_PROTEIN_PANEL: PharosPanel = {
   token: TOKENS.PROTEIN_PROTEIN_PANEL,
   navHeader: {
-    label: 'Protein to Protein Interactions',
+    label: 'Protein-Protein Interactions',
     section: 'ppi',
-    mainDescription: 'List of protein to protein interactions associated with this gene. Interactions are reported from Reactome, BioPlex, and StringDB. StringDB score must be above 0.400 to be shown here. Explore on the String-DB website to see lower likelihood targets.'
+    mainDescription: 'List of protein-protein interactions associated with this gene. Interactions are reported from Reactome, BioPlex, and StringDB. StringDB score must be above 0.400 to be shown here. Explore on the String-DB website to see lower likelihood targets.'
   },
   api: [
     {
@@ -1193,7 +1226,7 @@ const DISEASE_DO_BROWSER_COMPONENT: PharosPanel = {
   navHeader: {
     label: 'Disease Hierarchy',
     section: 'doBrowser',
-    mainDescription: 'Related diseases are represented as parents or children following the disease heirarchy defined by Disease Ontology.',
+    mainDescription: 'Related diseases are represented as parents or children following the disease hierarchy defined by Disease Ontology.',
     mainSource: 'https://disease-ontology.org/'
   },
   api: [
@@ -1454,6 +1487,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           {
             category: 'Descriptive Data',
             panels: [
+              // PREDICTIONS_PANEL,
               SUMMARY_PANEL,
               PHAROS_BREADCRUMB_COMPONENT,
               LEVEL_SUMMARY_PANEL,
@@ -1467,9 +1501,10 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
             panels: [
               DRUGS_PANEL,
               LIGANDS_PANEL,
-              VIRAL_INTERACTIONS_PANEL,
               PROTEIN_PROTEIN_PANEL,
-              PATHWAYS_PANEL
+              NEAREST_TCLIN_PANEL,
+              PATHWAYS_PANEL,
+              VIRAL_INTERACTIONS_PANEL
             ]
           },
           {
@@ -1519,6 +1554,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_SUBNAV_COMPONENT,
           PHAROS_HELPPANEL_COMPONENT,
           DISEASE_HEADER_COMPONENT,
+          // PREDICTIONS_PANEL,
           DISEASE_SUMMARY_COMPONENT,
           DISEASE_GWAS_ANALYTICS_COMPONENT,
           DISEASE_DO_BROWSER_COMPONENT,
@@ -1547,6 +1583,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           //   PHAROS_BREADCRUMB_COMPONENT,
           PHAROS_HELPPANEL_COMPONENT,
           LIGAND_HEADER_COMPONENT,
+          // PREDICTIONS_PANEL,
           LIGAND_DESCRIPTION_COMPONENT,
           LIGAND_DETAILS_COMPONENT,
           TARGET_RELEVANCE_PANEL,

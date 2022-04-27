@@ -154,11 +154,13 @@ export class GwasTargetAnalyticsComponent extends DynamicPanelComponent implemen
       }
 
       if (!this.allGenesEqual()) {
-        this.fields.splice(2, 0, new PharosProperty({
-          name: 'ensgID',
-          label: 'ENSG ID',
-          width: '100vw'
-        }));
+        if (!this.fields.find(f => f.name === 'ensgID')) {
+          this.fields.splice(2, 0, new PharosProperty({
+            name: 'ensgID',
+            label: 'ENSG ID',
+            width: '100vw'
+          }));
+        }
       }
       this.loadingComplete();
     });

@@ -106,6 +106,38 @@ export const LIGANDCARDFIELDS = gql`
   }
 `;
 
+export const TARGETCARDFIELDS = gql`
+  fragment targetCardFields on Target {
+    _tcrdid: tcrdid
+    name
+    gene: sym
+    idgTDL: tdl
+    idgFamily: fam
+    accession: uniprot
+    preferredSymbol
+    hgdata:harmonizome {
+      summary {
+        name
+        value
+      }
+    }
+  }
+`;
+
+export const SHAREDPATHWAYFIELDS = gql`
+fragment pathDetails on SharedPathwayDetails {
+  distance
+  tClinTarget {
+    ...targetCardFields
+  }
+  sharedPathways {
+    name
+    sourceID
+    url
+    type
+  }
+}${TARGETCARDFIELDS}`;
+
 /**
  * apollo graphQL query fragment to retrieve ligand fields for a target details view
  */
@@ -128,6 +160,7 @@ export const LIGANDDETAILSFIELDS = gql`
         pmid
       }
     }
+    # predictions
   }
   ${LIGANDLISTFIELDS}
 `;
@@ -169,23 +202,6 @@ const TARGET_DRUG_QUERY = gql`
   }
 ${LIGANDCARDFIELDS}`;
 
-export const TARGETCARDFIELDS = gql`
-  fragment targetCardFields on Target {
-    _tcrdid: tcrdid
-    name
-    gene: sym
-    idgTDL: tdl
-    idgFamily: fam
-    accession: uniprot
-    preferredSymbol
-    hgdata:harmonizome {
-      summary {
-        name
-        value
-      }
-    }
-  }
-`;
 export const TARGETLISTEXTRAS = gql`
     fragment targetsExtras on TargetResult {
       similarityTarget {
@@ -713,8 +729,17 @@ export const TARGETDETAILSFIELDS = gql`
         pdbIDs
       }
     }
+    nearestTclin {
+      upstream {
+        ...pathDetails
+      }
+      downstream {
+        ...pathDetails
+      }
+    }
+    # predictions
   }
-
+  ${SHAREDPATHWAYFIELDS}
   ${TARGETLISTFIELDS}
   ${TARGETCARDFIELDS}
   ${LIGANDCARDFIELDS}

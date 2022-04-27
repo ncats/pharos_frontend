@@ -1,21 +1,34 @@
 <article>
-  <mat-card class="section-card" *ngIf="dtoLinks.length > 0 || pcLinks.length > 0"
-            id="classes" (pharosScrollspy)="active('classes')"
-            #classes>
-    <mat-card-content>
-      <div fxLayout="row"
-           class="tkrow"
-           fxLayoutAlign="start stretch">
-        <div fxFlex="95">
+  <ng-template #headerrow>
+    <div fxLayout="row"
+         class="tkrow"
+         fxLayoutAlign="start stretch">
+      <div fxFlex="95">
         <span class="mat-title"
               [matTooltip]=description
               [matTooltipClass]="'pharos-tooltip'">
           Protein Classes</span>
-        </div>
-        <div fxFlex="5">
-          <pharos-help-panel-trigger [origin]="'classes'"></pharos-help-panel-trigger>
-        </div>
       </div>
+      <div fxFlex="5">
+        <pharos-help-panel-trigger [origin]="'classes'"></pharos-help-panel-trigger>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #nodata>
+    <mat-card class="section-card" id="classes" (pharosScrollspy)="active('classes')">
+      <mat-card-content>
+        <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
+        No PANTHER Classes or DTO Classes found
+      </mat-card-content>
+    </mat-card>
+  </ng-template>
+
+  <mat-card class="section-card" *ngIf="dtoLinks.length > 0 || pcLinks.length > 0; else nodata"
+            id="classes" (pharosScrollspy)="active('classes')"
+            #classes>
+    <mat-card-content>
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
       <div class="breadcrumb">
   <div class="source-group" *ngIf="pcLinks.length > 0">
     <mat-card-subtitle class="class-title" [matTooltip]="getTooltip('panther')">PANTHER Classes</mat-card-subtitle>

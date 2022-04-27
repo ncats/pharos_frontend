@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {NavigationExtras, Router} from '@angular/router';
 import {CentralStorageService} from '../pharos-services/central-storage.service';
@@ -16,6 +16,8 @@ import {FeatureTrackingService} from '../pharos-services/feature-tracking.servic
 })
 
 export class SequenceSearchPageComponent implements OnInit, OnDestroy {
+  @ViewChild('sequenceField', {static: true}) sequenceField: ElementRef;
+
   protected ngUnsubscribe: Subject<any> = new Subject();
   /**
    * form control to adjust overlap percentage
@@ -28,6 +30,8 @@ export class SequenceSearchPageComponent implements OnInit, OnDestroy {
    * @type {FormControl}
    */
   sequenceCtrl: FormControl = new FormControl();
+  maxLength = 2000;
+  truncated = false;
 
   /**
    * add router to navigate on form submit
@@ -46,11 +50,31 @@ export class SequenceSearchPageComponent implements OnInit, OnDestroy {
       .subscribe(seq => {
       this.initialize(seq);
     });
+    this.sequenceField.nativeElement.addEventListener('paste', (event) => {
+      const paste = event.clipboardData?.getData('text');
+      console.log(paste);
+      console.log(paste.length);
+      if (paste.length > this.maxLength) {
+        this.truncated = true;
+      } else {
+        this.truncated = false;
+      }
+    })
     this.initialize(this.centralStorageService.getField('sequence'));
   }
 
   initialize(sequence: string) {
-    this.sequenceCtrl.setValue(sequence);
+    if (sequence.length > this.maxLength) {
+      this.sequenceCtrl.setValue(sequence.slice(0, this.maxLength));
+      this.truncated = true;
+    } else {
+      this.sequenceCtrl.setValue(sequence);
+      this.truncated = false;
+    }
+  }
+
+  change(event: any) {
+    this.truncated = false;
   }
 
   /**

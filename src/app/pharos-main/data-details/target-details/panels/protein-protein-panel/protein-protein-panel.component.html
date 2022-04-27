@@ -1,5 +1,32 @@
-<article>
+<ng-template #nodata>
   <mat-card id="ppi"
+            class="section-card"
+            (pharosScrollspy)="active('ppi')"
+            #ppi>
+    <mat-card-content>
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
+      No protein-protein interactions found
+    </mat-card-content>
+  </mat-card>
+</ng-template>
+
+<ng-template #headerrow>
+  <div fxLayout="row"
+       class="tkrow"
+       fxLayoutAlign="start stretch">
+    <div fxFlex="95" class="headerContainer">
+        <span class="mat-title" [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">Protein-Protein Interactions ({{target.ppiCount}})</span>
+    </div>
+    <div fxFlex="5">
+      <pharos-help-panel-trigger [origin]="'ppi'"
+                                 [label]="'Protein-Protein Interactions'"></pharos-help-panel-trigger>
+    </div>
+  </div>
+</ng-template>
+
+<article>
+  <mat-card id="ppi" *ngIf="target.ppiCount > 0; else nodata"
             class="section-card"
             (pharosScrollspy)="active('ppi')"
             #ppi>
@@ -7,19 +34,8 @@
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
       </div>
-      <div fxLayout="row"
-           class="tkrow"
-           fxLayoutAlign="start stretch">
-        <div fxFlex="95" class="headerContainer">
-        <span class="mat-title" [matTooltip]=description
-              [matTooltipClass]="'pharos-tooltip'">Protein-Protein Interactions ({{target.ppiCount}})</span>
-        </div>
-        <div fxFlex="5">
-          <pharos-help-panel-trigger [origin]="'ppi'"
-                                     [label]="'Protein-Protein Interactions'"></pharos-help-panel-trigger>
-        </div>
-      </div>
-      <div class="headerRow" *ngIf="target.ppiCount > 0">
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
+      <div class="headerRow" >
         <div>
           <pharos-explore-list-button [path]="'/targets'" [queryParams]="{associatedTarget:target.preferredSymbol}"
                                       [buttonText]="'Explore Interacting Targets'"></pharos-explore-list-button>

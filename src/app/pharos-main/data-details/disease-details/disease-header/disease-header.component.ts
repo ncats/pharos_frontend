@@ -6,6 +6,7 @@ import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-pan
 import {takeUntil} from 'rxjs/operators';
 import {Disease} from '../../../../models/disease';
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
+import {JsonldService} from '../../../../pharos-services/jsonld.service';
 
 @Component({
   selector: 'pharos-disease-header',
@@ -21,7 +22,8 @@ export class DiseaseHeaderComponent extends DynamicPanelComponent implements OnI
   constructor(
     private _route: ActivatedRoute,
     public dialog: MatDialog,
-    public dynamicServices: DynamicServicesService
+    public dynamicServices: DynamicServicesService,
+    private jsonldService: JsonldService
   ) {
     super(dynamicServices);
   }
@@ -33,6 +35,7 @@ export class DiseaseHeaderComponent extends DynamicPanelComponent implements OnI
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.disease = this.data.diseases;
+        this.jsonldService.insertSchema(this.jsonldService.diseaseSchema(this.disease));
       });
   }
 

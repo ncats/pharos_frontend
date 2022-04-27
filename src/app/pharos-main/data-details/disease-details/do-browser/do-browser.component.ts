@@ -25,8 +25,16 @@ export class DoBrowserComponent extends DynamicPanelComponent implements OnInit 
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.disease = this.data.diseases;
+        if (this.hasData()) {
+          this.showSection();
+        } else {
+          this.hideSection();
+        }
         this.changeRef.markForCheck();
       });
   }
 
+  hasData(){
+    return this.disease.parents?.length > 0 || this.disease.children?.length > 0;
+  }
 }

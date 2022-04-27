@@ -1,4 +1,30 @@
-<article *ngIf="this.mouseExpressions.length > 0 || this.dataResources.length > 0 || this.reagents.length > 0">
+<ng-template #nodata>
+  <article>
+    <mat-card
+      class="section-card"
+      id="resources"
+      (pharosScrollspy)="active('resources')" #resources>
+      <mat-card-content>
+        <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
+        No IDG generated resources found
+      </mat-card-content>
+    </mat-card>
+  </article>
+</ng-template>
+<ng-template #headerrow>
+  <div fxLayout="row"
+       class="tkrow"
+       fxLayoutAlign="start stretch">
+    <div fxFlex="95">
+      <span class="mat-title" [matTooltip]=description [matTooltipClass]="'pharos-tooltip'">IDG Resources</span>
+    </div>
+    <div fxFlex="5">
+      <pharos-help-panel-trigger [origin]="'resources'"
+                                 [label]="'IDG Generated Resources'"></pharos-help-panel-trigger>
+    </div>
+  </div>
+</ng-template>
+<article *ngIf="this.mouseExpressions.length > 0 || this.dataResources.length > 0 || this.reagents.length > 0; else nodata">
   <mat-card
     class="section-card"
     id="resources"
@@ -7,17 +33,7 @@
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
       </div>
-      <div fxLayout="row"
-           class="tkrow"
-           fxLayoutAlign="start stretch">
-        <div fxFlex="95">
-          <span class="mat-title" [matTooltip]=description [matTooltipClass]="'pharos-tooltip'">IDG Resources</span>
-        </div>
-        <div fxFlex="5">
-          <pharos-help-panel-trigger [origin]="'resources'"
-                                     [label]="'IDG Generated Resources'"></pharos-help-panel-trigger>
-        </div>
-      </div>
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
       <mat-tab-group>
         <mat-tab *ngIf="mouseExpressions?.length > 0">
           <ng-template mat-tab-label>

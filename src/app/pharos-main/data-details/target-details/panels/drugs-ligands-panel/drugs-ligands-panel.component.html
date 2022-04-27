@@ -1,4 +1,34 @@
-<article *ngIf="(this.target[this.params.fieldName].length > 0)">
+<ng-template #headerrow>
+  <div fxLayout="row"
+       class="tkrow"
+       fxLayoutAlign="start stretch">
+    <div fxFlex="95">
+        <span class="mat-title"
+              [matTooltip]=description
+              [matTooltipClass]="'pharos-tooltip'">
+          {{label}} ({{target[params.countName]}})</span>
+    </div>
+    <div fxFlex="5">
+      <pharos-help-panel-trigger [origin]="this.params.fieldName"></pharos-help-panel-trigger>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #nodata>
+  <article>
+  <mat-card [id]="field"
+            class="section-card"
+            (pharosScrollspy)="active(field)"
+            #drugs>
+    <mat-card-content>
+  <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
+      No {{label | lowercase}} found
+    </mat-card-content>
+  </mat-card>
+  </article>
+</ng-template>
+
+<article *ngIf="(this.target[this.params.fieldName].length > 0); else nodata">
   <mat-card id={{field}}
             class="section-card"
             *ngIf="data"
@@ -8,19 +38,7 @@
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
       </div>
-      <div fxLayout="row"
-           class="tkrow"
-           fxLayoutAlign="start stretch">
-        <div fxFlex="95">
-        <span class="mat-title"
-              [matTooltip]=description
-              [matTooltipClass]="'pharos-tooltip'">
-          {{label}} ({{target[params.countName]}})</span>
-        </div>
-        <div fxFlex="5">
-          <pharos-help-panel-trigger [origin]="this.params.fieldName"></pharos-help-panel-trigger>
-        </div>
-      </div>
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
       <div class="headerSection">
         <pharos-explore-list-button [path]="'/ligands'" [buttonText]="params.buttonText"
                                     [queryParams]="{associatedTarget:target.preferredSymbol,facet:'Type' + this.Facet.separator + params.buttonFilter}"></pharos-explore-list-button>

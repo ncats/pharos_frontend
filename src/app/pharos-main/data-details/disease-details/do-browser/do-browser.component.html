@@ -1,22 +1,36 @@
+<ng-template #nodata>
+  <mat-card id={{field}}
+            class="section-card"
+            (pharosScrollspy)="active(field)"
+            #doBrowser>
+    <mat-card-content>
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
+      No matching MONDO term found
+    </mat-card-content>
+  </mat-card>
+</ng-template>
+<ng-template #headerrow>
+  <div fxLayout="row"
+       class="tkrow"
+       fxLayoutAlign="start stretch">
+    <div fxFlex="95">
+          <span class="mat-title" [matTooltip]=description
+                [matTooltipClass]="'pharos-tooltip'">Disease Hierarchy</span>
+    </div>
+    <div fxFlex="5">
+      <pharos-help-panel-trigger [origin]="'doBrowser'"
+                                 [label]="'hierarchy'"></pharos-help-panel-trigger>
+    </div>
+  </div>
+</ng-template>
 <article>
-  <div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="space-around start">
     <mat-card id={{field}}
               class="section-card"
-              *ngIf="this.disease.parents?.length > 0 || this.disease.children?.length > 0"
+              *ngIf="hasData(); else nodata"
               (pharosScrollspy)="active(field)"
               #doBrowser>
       <mat-card-content>
-        <div>
-          <div fxFlex="95">
-            <mat-card-title>
-              Disease Hierarchy
-            </mat-card-title>
-          </div>
-          <div>
-            <pharos-help-panel-trigger [origin]="'doBrowser'"
-                                       [label]="'heirarchy'"></pharos-help-panel-trigger>
-          </div>
-        </div>
+        <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
         <div class="content">
           <mat-card class="section">
             <mat-card-subtitle [matTooltip]="getTooltip('parents')">Parents</mat-card-subtitle>
@@ -53,5 +67,4 @@
         </div>
       </mat-card-content>
     </mat-card>
-  </div>
 </article>

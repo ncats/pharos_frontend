@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {autocompleteOption, SuggestApiService} from './suggest-api.service';
 import {Observable} from 'rxjs';
 import {FormControl} from '@angular/forms';
@@ -19,12 +19,14 @@ import {Facet} from "../../models/facet";
   encapsulation: ViewEncapsulation.None
 })
 export class SearchComponent implements OnInit {
+  @ViewChild('typeaheadTarget', {static: true}) typeaheadTarget: ElementRef;
 
   @ViewChild(MatAutocompleteTrigger, {static: true}) autocomplete: MatAutocompleteTrigger;
   /**
    * optional placeholder search string
    */
   @Input() placeholderStr?: string;
+  @Input() fixedwidthDropdown = false;
 
   /**
    * form control for text input

@@ -1,24 +1,39 @@
+<ng-template #headerrow>
+  <div class="tkrow"
+       fxLayout="row"
+       fxLayoutAlign="start stretch">
+    <div fxFlex="95">
+          <span [matTooltipClass]="'pharos-tooltip'" [matTooltip]=child?.description
+                class="mat-title">{{getLabel()}}</span>
+    </div>
+    <div fxFlex="5">
+      <pharos-help-panel-trigger [label]="child?.label"
+                                 [origin]="child?.field"></pharos-help-panel-trigger>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #nodata>
+  <mat-card (pharosScrollspy)="active(child?.field)"
+            [id]="child?.field"
+            class="section-card">
+    <mat-card-content>
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
+      {{nodataMessage}}
+    </mat-card-content>
+  </mat-card>
+</ng-template>
+
 <article>
-  <mat-card [id]="child?.field"
-            class="section-card"
-            *ngIf="data && child && child.hasData()"
-            (pharosScrollspy)="active(child?.field)">
+  <mat-card (pharosScrollspy)="active(child?.field)"
+            *ngIf="data && child && child.hasData(); else nodata"
+            [id]="child?.field"
+            class="section-card">
     <mat-card-content>
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
-        <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+        <img alt="loading..." class="spinner rotating" src="./assets/images/pharos_spinner.svg">
       </div>
-      <div fxLayout="row"
-           class="tkrow"
-           fxLayoutAlign="start stretch">
-        <div fxFlex="95">
-          <span class="mat-title" [matTooltip]=child?.description
-                [matTooltipClass]="'pharos-tooltip'">{{getLabel()}}</span>
-        </div>
-        <div fxFlex="5">
-          <pharos-help-panel-trigger [origin]="child?.field"
-                                     [label]="child?.label"></pharos-help-panel-trigger>
-        </div>
-      </div>
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
       <ng-content></ng-content>
     </mat-card-content>
   </mat-card>

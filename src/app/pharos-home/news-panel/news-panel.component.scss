@@ -3,40 +3,13 @@
   background-color: #ffffff;
 }
 
-.full-height-card.mat-card {
-  min-height: 100%;
-}
-
-
-.avatar {
-  object-fit: cover;
-}
-
-.news-grid-list {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(20%, 1fr));
-  grid-gap: 1em;
-  padding: 1vw;
-}
-
-.news-grid-list > div {
-  /*margin-bottom: 4em;*/
-  min-height:100%;
-}
-
-.news-grid-list > mat-card {
-  height: 100%;
-}
-
 .news-banner {
   text-align: center;
   font: 300 36px/36px Roboto, "Helvetica Neue", sans-serif;
   padding-top: 5vh;
 }
 
-img.firestore-image {
-  width: 14vw;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+.twitter-follow-button {
+  padding-top: 20px;
+  padding-bottom: 20px;
 }

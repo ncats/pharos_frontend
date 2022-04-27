@@ -7,8 +7,8 @@ import {DynamicServicesService} from '../../../pharos-services/dynamic-services.
 import {takeUntil} from 'rxjs/operators';
 import {FieldSelectionDialogComponent} from '../../../tools/field-selection-dialog/field-selection-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
-import {TourType} from '../../../pharos-services/tour.service';
 import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
+import {TourType} from '../../../models/tour-type';
 
 @Component({
   selector: 'pharos-cross-list-heatmap',

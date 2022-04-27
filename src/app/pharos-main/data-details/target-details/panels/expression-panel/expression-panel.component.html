@@ -1,42 +1,61 @@
-<article>
-  <mat-card *ngIf="this.target"
-            class="section-card"
+<ng-template #nodata>
+  <mat-card #expression
             (pharosScrollspy)="active('expression')"
-            id="expression"
-            #expression>
+            class="section-card"
+            id="expression">
+    <mat-card-content>
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
+      No expression data found
+    </mat-card-content>
+  </mat-card>
+</ng-template>
+
+<ng-template #headerrow>
+  <div class="tkrow"
+       fxLayout="row"
+       fxLayoutAlign="start stretch">
+    <div fxFlex="95">
+        <span [matTooltipClass]="'pharos-tooltip'"
+              [matTooltip]=description
+              class="mat-title">
+          Expression Data ({{this.uberonExpressionMap?.yValues?.length || 0}} Tissues)</span>
+    </div>
+    <div fxFlex="5">
+      <pharos-tutorial-link [tourType]="tourType"></pharos-tutorial-link>
+    </div>
+  </div>
+</ng-template>
+
+<article>
+  <mat-card #expression
+            (pharosScrollspy)="active('expression')"
+            *ngIf="this.target && this.uberonExpressionMap.yValues.length; else nodata"
+            class="section-card"
+            id="expression">
     <mat-card-content>
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
-        <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+        <img alt="loading..." class="spinner rotating" src="./assets/images/pharos_spinner.svg">
       </div>
-      <div fxLayout="row"
-           class="tkrow"
-           fxLayoutAlign="start stretch">
-        <div fxFlex="95">
-        <span class="mat-title"
-              [matTooltip]=description
-              [matTooltipClass]="'pharos-tooltip'">
-          Expression Data ({{this.uberonExpressionMap.yValues.length}} Tissues)</span>
-        </div>
-        <div fxFlex="5">
-          <pharos-tutorial-link [tourType]="tourType"></pharos-tutorial-link>
-        </div>
-      </div>
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
       <div class="row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
         <div fxFlex="95">
           <div class="matrix-anatomogram">
             <div class="section">
-              <div class="heatmap-container" [ngClass]="{halfHeight: detailsTissue}">
-                <pharos-expression-heat-map [heatmapData]="uberonExpressionMap" [clickedTissue]="clickedTissue" [heatmapClicked]="tissueClicked.bind(this)"></pharos-expression-heat-map>
+              <div [ngClass]="{halfHeight: detailsTissue}" class="heatmap-container">
+                <pharos-expression-heat-map [clickedTissue]="clickedTissue" [heatmapClicked]="tissueClicked.bind(this)"
+                                            [heatmapData]="uberonExpressionMap"></pharos-expression-heat-map>
               </div>
-              <div class="details-container halfHeight" *ngIf="detailsTissue">
-                <pharos-expression-details [closeFunction]="closeDetails.bind(this)" [selectedTissue]="detailsTissue" [expressions]="target.expressions" [gtex]="target.gtex"></pharos-expression-details>
+              <div *ngIf="detailsTissue" class="details-container halfHeight">
+                <pharos-expression-details [closeFunction]="closeDetails.bind(this)" [expressions]="target.expressions"
+                                           [gtex]="target.gtex"
+                                           [selectedTissue]="detailsTissue"></pharos-expression-details>
               </div>
             </div>
             <div class="section anatomogram-container" fxHide.lt-lg>
-              <pharos-anatomogram [tissues]="tissues" [species]="'homo_sapiens'" [shadingKey]="'Average'"
+              <pharos-anatomogram [clickHandler]="this.tissueClicked.bind(this)" [redrawAnatomogram]="this.redrawAnatomogram" [shadingKey]="'Average'"
                                   [shadingMap]="this.shadingMap"
-                                  [redrawAnatomogram]="this.redrawAnatomogram"
-                                  [clickHandler]="this.tissueClicked.bind(this)"></pharos-anatomogram>
+                                  [species]="'homo_sapiens'"
+                                  [tissues]="tissues"></pharos-anatomogram>
             </div>
           </div>
         </div>

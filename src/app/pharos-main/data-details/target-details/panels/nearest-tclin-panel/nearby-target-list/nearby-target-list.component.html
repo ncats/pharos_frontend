@@ -1,0 +1,14 @@
+<mat-paginator
+  [pageSize]=pageData.top
+  [pageIndex]="pageData.skip / pageData.top"
+  [length]=pageData.total
+  [hidePageSize]="true"
+  [showFirstLastButtons]=true
+  (page)="paginate($event)"
+  #ppipaginator></mat-paginator>
+
+<div class="target-ppi-grid">
+  <div *ngFor="let each of filteredList">
+    <pharos-target-card [target]="each.tClinTarget" [apiSources]="apiSources"></pharos-target-card>
+  </div>
+</div>

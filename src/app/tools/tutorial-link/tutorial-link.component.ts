@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TourType, TourService} from '../../pharos-services/tour.service';
+import {TourService} from '../../pharos-services/tour.service';
+import {TourType} from '../../models/tour-type';
 
 @Component({
   selector: 'pharos-tutorial-link',

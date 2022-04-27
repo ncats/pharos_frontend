@@ -3,10 +3,12 @@ import 'zone.js/node';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
 import { join } from 'path';
+const {performance} = require('perf_hooks');
 
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
+import { backend } from './src/environments/environment';
 
 
 // The Express app is exported so that it can be used by serverless Functions.
@@ -23,6 +25,10 @@ export function app() {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
+  server.get('/sitemap.xml', (req, res) => {
+    res.redirect(`${backend}/sitemap.xml`);
+  });
+
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser
@@ -36,6 +42,16 @@ export function app() {
   });
 
   return server;
+}
+
+const args = process.argv.slice(2);
+
+if (args && args.length > 0 && args[0] === 'perf') {
+  console.log('time, heapTotal, heapUsed, external');
+  setInterval(() => {
+    const mem = process.memoryUsage();
+    console.log(`${performance.now()}, ${mem.heapTotal / (1024 * 1024)}, ${mem.heapUsed / (1024 * 1024)}, ${mem.external / (1024 * 1024)}`);
+  }, 5000);
 }
 
 function run() {
