@@ -34,8 +34,11 @@ export class NearestTclinPanelComponent extends TargetPanelBaseComponent impleme
   }
 
   getList() {
-    return [this.target.preferredSymbol, ...this.target.nearestTclin.upstream.map(t => t.tClinTarget.preferredSymbol),
-      ...this.target.nearestTclin.downstream.map(t => t.tClinTarget.preferredSymbol)
-    ].join(',');
+    if (this.target) {
+      return [this.target.preferredSymbol, ...this.target.nearestTclin.upstream.map(t => t.tClinTarget.preferredSymbol),
+        ...this.target.nearestTclin.downstream.map(t => t.tClinTarget.preferredSymbol)
+      ].join(',');
+    }
+    return [];
   }
 }

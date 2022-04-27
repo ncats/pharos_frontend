@@ -16,6 +16,7 @@ describe('NearbyTargetListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NearbyTargetListComponent);
     component = fixture.componentInstance;
+    component.sharedPathwayDetails = [];
     fixture.detectChanges();
   });
 

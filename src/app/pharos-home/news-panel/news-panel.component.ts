@@ -20,7 +20,7 @@ export class NewsPanelComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformID)) {
-      (<any>window).twttr.widgets.load();
+      (<any>window).twttr?.widgets.load();
     }
   }
 }

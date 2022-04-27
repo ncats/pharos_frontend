@@ -6,6 +6,7 @@ export const TESTTARGET: Target = new TargetSerializer().fromJson(
   name: 'Huntingtin',
   gene: 'HTT',
   accession: 'P42858',
+  preferredSymbol: 'HTT',
   idgFamily: null,
   idgTDL: 'Tchem',
   novelty: 0.00040613,
