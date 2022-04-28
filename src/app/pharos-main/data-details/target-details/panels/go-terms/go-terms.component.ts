@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {Target, TargetSerializer} from '../../../../../models/target';
 import {takeUntil} from 'rxjs/operators';
@@ -25,7 +25,8 @@ export class GoTermsComponent extends DynamicPanelComponent implements OnInit, O
   constructor(
               private pharosApiService: PharosApiService,
               private _route: ActivatedRoute,
-              public dynamicServices: DynamicServicesService) {
+              public dynamicServices: DynamicServicesService,
+              private changeRef: ChangeDetectorRef) {
     super(dynamicServices);
   }
 
@@ -106,6 +107,7 @@ export class GoTermsComponent extends DynamicPanelComponent implements OnInit, O
             const tempProps = targetSerializer._asProperties(this.target);
             this.updateProps(cType, tempProps[pagingParams.propName]);
             this.loadingComplete(false);
+            this.changeRef.markForCheck();
           } catch (err) {
             console.log(err);
           }
