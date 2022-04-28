@@ -39,28 +39,35 @@ export class DataDetailsResolver implements Resolve<any> {
       this.loadingService.toggleVisible(true);
       this.pharosApiService.flushData();
       const serializer: Serializer = route.data.serializer;
-      return this.pharosApiService.getDetailsData(route.data.path, route.paramMap, route.data.fragments)
-      .pipe(
-        map(res =>  {
-          const path = route.data.path;
-          const response = JSON.parse(JSON.stringify(res.data[path])); // copy readonly object
-          if (!response){
-            return this.logError(route, {message: 'can\'t resolve'});
-          }
-          const retObj = {};
-          const tobj = serializer.fromJson(response);
-          retObj[path] = tobj;
-          retObj[`${path}Props`] = serializer._asProperties(tobj);
-          this.centralStorageService.setTourData('details', retObj);
-          return retObj;
-        }),
-        catchError(err => {
-          return this.logError(route, err);
-        })
-      );
+      let ret: Observable<PharosBase> = of({} as PharosBase);
+      try {
+        // @ts-ignore
+        ret = this.pharosApiService.getDetailsData(route.data.path, route.paramMap, route.data.fragments)
+          .pipe(
+            map(res => {
+              const path = route.data.path;
+              const response = JSON.parse(JSON.stringify(res.data[path])); // copy readonly object
+              if (!response) {
+                return this.logError(route, {message: 'can\'t resolve'});
+              }
+              const retObj = {};
+              const tobj = serializer.fromJson(response);
+              retObj[path] = tobj;
+              retObj[`${path}Props`] = serializer._asProperties(tobj);
+              this.centralStorageService.setTourData('details', retObj);
+              return retObj;
+            }),
+            catchError(err => {
+              return this.logError(route, err);
+            })
+          );
+      } catch (ex) {
+        return this.logError(route, ex);
+      }
+      return ret;
     }
 
-    logError(route: ActivatedRouteSnapshot, err: any){
+    logError(route: ActivatedRouteSnapshot, err: any): Observable<PharosBase> {
       let message = this.errorProperties(err);
       if (err.message === 'Cannot convert undefined or null to object' || err.message === 'can\'t resolve'){
         message = `Can\'t resolve ${route.data.path.slice(0, -1)} "${route.params?.id}"`;
@@ -75,9 +82,9 @@ export class DataDetailsResolver implements Resolve<any> {
           data: route.data,
           queryParams: route.queryParams
         }));
-        console.log(message);
+        console.log(err);
       }
-      return null;
+      return of({} as PharosBase);
     }
 
     errorProperties(err: any): string {
@@ -97,5 +104,4 @@ export class DataDetailsResolver implements Resolve<any> {
       }
       return ret;
     }
-
 }
