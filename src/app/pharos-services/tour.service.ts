@@ -229,6 +229,15 @@ export class TourService {
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
+        title: 'Twitter Feed on the Home Page',
+        text: ['The Latest News and Events section of the home page now features the @idg_pharos Twitter feed. Follow us for updates and ' +
+        'news about Pharos and other IDG teams.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new312/twitterfeed.png"/>']
+      },
+      {
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
         title: 'Nearest Tclin Targets',
         text: ['Target Details Pages will now include a component to show the nearest upstream and downstream Tclin targets. This calculation ' +
         'is based the number of steps between targets in common KEGG pathways.' +

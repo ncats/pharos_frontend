@@ -2,6 +2,8 @@
 ### Added Features
 * **Use Cases**
   * Pharos has many features to aid in knowledge discovery and hypothesis generation. The new Use Cases page highlights how Pharos' individual features can be used together to reveal patterns in the data.
+* **Twitter feed on the home page**
+  * This replaces the old firebase based listing of news and events, which was very rarely updated
 * **Nearest Tclin Targets**
   * For non-Tclin targets, the nearest upstream and downstream Tclin targets, based on KEGG pathways, are now shown on the Target Details pages.
 * **Performance improvements**
