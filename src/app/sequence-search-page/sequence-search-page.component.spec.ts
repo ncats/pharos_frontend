@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {ApolloModule} from "apollo-angular";
 
 import { SequenceSearchPageComponent } from './sequence-search-page.component';
 import {SharedModule} from '../shared/shared.module';
@@ -21,7 +22,8 @@ describe('SequenceSearchPageComponent', () => {
         SharedModule,
         RouterTestingModule,
         BrowserAnimationsModule,
-        AngularFireModule.initializeApp(COMMON_CONFIG)
+        AngularFireModule.initializeApp(COMMON_CONFIG),
+        ApolloModule
       ]
     })
     .compileComponents();

@@ -3,6 +3,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {ApolloModule} from "apollo-angular";
 import {MaterialModule} from '../../assets/material/material.module';
 import {BarChartComponent} from '../tools/visualizations/bar-chart/bar-chart.component';
 import {HelpPanelTriggerComponent} from '../tools/help-panel/components/help-panel-trigger/help-panel-trigger.component';
@@ -32,7 +33,8 @@ import {DiseaseAssociationComponent} from '../pharos-main/data-details/target-de
     HelpArticlesModule,
     ClipboardModule,
     GenericTableModule,
-    RouterModule
+    RouterModule,
+    ApolloModule
   ],
   declarations: [
     BarChartComponent,

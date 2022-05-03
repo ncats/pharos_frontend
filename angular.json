@@ -40,7 +40,7 @@
             ],
             "scripts": [
               "src/assets/vendor/modernizr-custom.js",
-              "node_modules/marked/lib/marked.min.js",
+              "node_modules/marked/marked.min.js",
               "src/assets/vendor/marvin/client-settings.js",
               "src/assets/vendor/marvin/client.js"
             ],

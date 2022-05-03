@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {ApolloModule} from "apollo-angular";
 
 import { StructureSearchPageComponent } from './structure-search-page.component';
 import {CommonToolsModule} from '../tools/common-tools.module';
@@ -24,7 +25,8 @@ describe('StructureSearchPageComponent', () => {
         CommonToolsModule,
         SketcherModule,
         SharedModule,
-        AngularFireModule.initializeApp(COMMON_CONFIG)
+        AngularFireModule.initializeApp(COMMON_CONFIG),
+        ApolloModule
       ]
     })
     .compileComponents();

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ApolloModule} from "apollo-angular";
 
 import { TaskItemComponent } from './task-item.component';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
@@ -18,6 +19,7 @@ describe('TaskItemComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        ApolloModule,
         AngularFireModule.initializeApp(COMMON_CONFIG),
         HttpClientTestingModule,
         RouterTestingModule
