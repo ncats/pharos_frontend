@@ -1,4 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ApolloModule} from "apollo-angular";
 
 import {FieldSelectionDialogComponent} from './field-selection-dialog.component';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
@@ -21,6 +22,7 @@ describe('FieldSelectionDialogComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [FieldSelectionDialogComponent],
       imports: [
+        ApolloModule,
         BrowserAnimationsModule,
         SharedModule,
         RouterTestingModule,

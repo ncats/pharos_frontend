@@ -1,5 +1,6 @@
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {ApolloModule} from "apollo-angular";
 import {TargetDetailsRoutingModule} from './target-details-routing.module';
 import {TargetHeaderComponent} from '../../data-details/target-details/target-header/target-header.component';
 import {SummaryPanelComponent} from '../../data-details/target-details/panels/summary-panel/summary-panel.component';
@@ -101,7 +102,8 @@ import {
     LigandListModule,
     PharosLoadingSpinnerModule,
     MatButtonToggleModule,
-    ClipboardModule
+    ClipboardModule,
+    ApolloModule
   ],
   exports: [
     DiseaseCardComponent,

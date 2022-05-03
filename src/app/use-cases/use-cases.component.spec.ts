@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ApolloModule} from "apollo-angular";
 
 import { UseCasesComponent } from './use-cases.component';
 import {ActivatedRoute} from '@angular/router';
@@ -18,6 +19,7 @@ describe('UseCasesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        ApolloModule,
         AngularFireModule.initializeApp(COMMON_CONFIG),
         HttpClientTestingModule,
         RouterTestingModule

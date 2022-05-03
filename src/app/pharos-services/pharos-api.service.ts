@@ -30,6 +30,7 @@ export class PharosApiService {
    * @param firebaseService
    * @param selectedFacetService
    * @param {PharosConfig} pharosConfig
+   * @param targetListService
    */
   constructor(private http: HttpClient,
               private apollo: Apollo,

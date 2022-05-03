@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ApolloModule} from "apollo-angular";
 
 import { BatchResolveModalComponent } from './batch-resolve-modal.component';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
@@ -19,6 +20,7 @@ describe('BatchResolveModalComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ BatchResolveModalComponent ],
       imports: [
+        ApolloModule,
         BrowserAnimationsModule,
         SharedModule,
         RouterTestingModule,
