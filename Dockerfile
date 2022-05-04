@@ -23,4 +23,4 @@ COPY --from=buildContainer /app/dist /app/dist
 EXPOSE 4000
 
 ENV NODE_ENV production
-CMD ["pm2", "start", "dist/server/main.js", "-i", "max"]
+CMD ["pm2", "start", "dist/server/main.js", "-i", "max", "--no-autorestart"]
