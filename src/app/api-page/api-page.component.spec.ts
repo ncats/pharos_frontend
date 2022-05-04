@@ -1,5 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {ApolloModule} from "apollo-angular";
+import {ApolloTestingModule} from "apollo-angular/testing";
 import {ApiPageComponent} from './api-page.component';
 import {SharedModule} from '../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -16,7 +16,7 @@ describe('ApiPageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        ApolloModule,
+        ApolloTestingModule,
         BrowserAnimationsModule,
         SharedModule,
         AppRoutingModule,

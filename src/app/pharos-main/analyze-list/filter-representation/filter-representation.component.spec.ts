@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {ApolloModule} from "apollo-angular";
-
+import {ApolloTestingModule} from "apollo-angular/testing";
 import { FilterRepresentationComponent } from './filter-representation.component';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../test/mock-activate-route';
@@ -24,7 +23,7 @@ describe('FilterRepresentationComponent', () => {
     await TestBed.configureTestingModule({
 
       imports: [
-        ApolloModule,
+        ApolloTestingModule,
         RouterTestingModule,
         BrowserAnimationsModule,
         SharedModule,
