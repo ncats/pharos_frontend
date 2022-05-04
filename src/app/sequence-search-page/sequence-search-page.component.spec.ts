@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import {ApolloModule} from "apollo-angular";
-
+import {ApolloTestingModule} from "apollo-angular/testing";
 import { SequenceSearchPageComponent } from './sequence-search-page.component';
 import {SharedModule} from '../shared/shared.module';
 import {NcatsHeaderModule} from '../tools/ncats-header/ncats-header.module';
@@ -23,7 +22,7 @@ describe('SequenceSearchPageComponent', () => {
         RouterTestingModule,
         BrowserAnimationsModule,
         AngularFireModule.initializeApp(COMMON_CONFIG),
-        ApolloModule
+        ApolloTestingModule
       ]
     })
     .compileComponents();

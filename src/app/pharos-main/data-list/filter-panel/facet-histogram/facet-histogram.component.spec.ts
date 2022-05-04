@@ -1,6 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {ApolloModule} from "apollo-angular";
-
+import {ApolloTestingModule} from "apollo-angular/testing";
 import {FacetHistogramComponent} from './facet-histogram.component';
 import {RouterTestingModule} from "@angular/router/testing";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
@@ -18,7 +17,7 @@ describe('FacetHistogramComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        ApolloModule,
+        ApolloTestingModule,
         RouterTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG),
         HttpClientTestingModule

@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {ApolloModule} from "apollo-angular";
-
+import {ApolloTestingModule} from "apollo-angular/testing";
 import { AnalyzeHeaderComponent } from './analyze-header.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from '../../../shared/shared.module';
@@ -27,7 +26,7 @@ describe('AnalyzeHeaderComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        ApolloModule,
+        ApolloTestingModule,
         BrowserAnimationsModule,
         SharedModule,
         GenericTableModule,

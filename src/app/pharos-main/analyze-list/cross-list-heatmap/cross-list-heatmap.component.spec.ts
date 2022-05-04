@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {ApolloModule} from "apollo-angular";
-
+import {ApolloTestingModule} from "apollo-angular/testing";
 import { CrossListHeatmapComponent } from './cross-list-heatmap.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from '../../../shared/shared.module';
@@ -23,7 +22,7 @@ describe('CrossListHeatmapComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        ApolloModule,
+        ApolloTestingModule,
         BrowserAnimationsModule,
         SharedModule,
         GenericTableModule,

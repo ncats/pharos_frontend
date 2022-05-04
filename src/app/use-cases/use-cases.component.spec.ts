@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {ApolloModule} from "apollo-angular";
-
+import {ApolloTestingModule} from "apollo-angular/testing";
 import { UseCasesComponent } from './use-cases.component';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../test/mock-activate-route';
@@ -19,7 +18,7 @@ describe('UseCasesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        ApolloModule,
+        ApolloTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG),
         HttpClientTestingModule,
         RouterTestingModule
