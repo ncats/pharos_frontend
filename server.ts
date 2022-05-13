@@ -23,7 +23,11 @@ export function app() {
   }));
 
   server.use((req, res, next) => {
-    console.log(`${req.ip} ${req.url} - ${performance.now()}`);
+    var start = Date.now();
+    res.on('finish', () => {
+      var duration = Date.now() - start;
+      console.log(`${req.ip} ${req.url} - ${duration}ms`);
+    });
     next();
   });
 
