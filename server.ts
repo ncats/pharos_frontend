@@ -22,6 +22,11 @@ export function app() {
     bootstrap: AppServerModule
   }));
 
+  server.use((req, res, next) => {
+    console.log(`${req.ip} ${req.url} - ${performance.now()}`);
+    next();
+  });
+
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
