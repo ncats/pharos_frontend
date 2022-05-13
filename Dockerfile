@@ -23,5 +23,4 @@ COPY --from=buildContainer /app/dist /app/dist
 EXPOSE 4000
 
 ENV NODE_ENV=production
-ENV DEBUG=express:*
 CMD ["pm2-runtime", "dist/server/main.js"]

@@ -55,22 +55,23 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => this.loading = res);
 
-  // check for platform update
+    // check for platform update
     if (this.swUpdate.isEnabled) {
-        interval(30000)
-          .pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe(() => {
-        this.swUpdate.checkForUpdate();
-      });
+      this.swUpdate.checkForUpdate();
+      interval(300000)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(() => {
+          this.swUpdate.checkForUpdate();
+        });
       this.swUpdate.versionUpdates
         .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe( event => {
-        if (event.type === 'VERSION_READY') {
-          console.log('A newer version of Pharos is available!');
-          this.swUpdate.activateUpdate();
-          location.reload();
-        }
-      });
+        .subscribe(event => {
+          if (event.type === 'VERSION_READY') {
+            console.log('A newer version of Pharos is available!');
+            this.swUpdate.activateUpdate();
+            location.reload();
+          }
+        });
     }
 
     this.router.events
