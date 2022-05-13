@@ -26,7 +26,7 @@ export function app() {
     var start = Date.now();
     res.on('finish', () => {
       var duration = Date.now() - start;
-      console.log(`${req.ip} ${req.url} - ${duration}ms`);
+      console.log(`${req.headers['X-Real-IP']} ${req.url} - ${duration}ms`);
     });
     next();
   });
