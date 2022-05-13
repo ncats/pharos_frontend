@@ -2,3 +2,4 @@ Sitemap: https://pharos-api.ncats.io/sitemap.xml
 # Group 1
 User-agent: *
 Allow: /
+Disallow: /*?
