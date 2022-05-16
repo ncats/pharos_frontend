@@ -10,11 +10,13 @@ export const environment = {
   graphqlUrl: `${backend}/graphql`,
   maxDownload: 250000,
   firebase: {
-    apiKey: '',
-    authDomain: '',
-    databaseURL: '',
-    projectId: '',
-    storageBucket: '',
-    messagingSenderId: ''
+    apiKey: "",
+    authDomain: "ncatsidg.firebaseapp.com",
+    databaseURL: "https://ncatsidg.firebaseio.com",
+    projectId: "ncatsidg",
+    storageBucket: "ncatsidg.appspot.com",
+    messagingSenderId: "511313064782",
+    appId: "1:511313064782:web:ad3da8eb3b6474d7bea41f",
+    measurementId: "G-8YP4D52PC6"
   }
 };

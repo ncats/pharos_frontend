@@ -1,14 +1,15 @@
 import 'zone.js/node';
 
-import { ngExpressEngine } from '@nguniversal/express-engine';
+import {ngExpressEngine} from '@nguniversal/express-engine';
 import * as express from 'express';
-import { join } from 'path';
+import {join} from 'path';
+
 const {performance} = require('perf_hooks');
 
-import { AppServerModule } from './src/main.server';
-import { APP_BASE_HREF } from '@angular/common';
-import { existsSync } from 'fs';
-import { backend } from './src/environments/environment';
+import {AppServerModule} from './src/main.server';
+import {APP_BASE_HREF} from '@angular/common';
+import {existsSync} from 'fs';
+import {backend} from './src/environments/environment';
 
 
 // The Express app is exported so that it can be used by serverless Functions.
@@ -23,11 +24,17 @@ export function app() {
   }));
 
   server.use((req, res, next) => {
-    var start = Date.now();
-    res.on('finish', () => {
-      var duration = Date.now() - start;
-      console.log(`${req.headers['X-Real-IP']} ${req.url} - ${duration}ms`);
-    });
+    if (!req.url.startsWith("/ngsw")) {
+      var start = Date.now();
+      res.on('finish', () => {
+        var duration = Date.now() - start;
+        console.log(`${(
+          req.header('x-forwarded-for') ||
+          req.connection.remoteAddress ||
+          req.headers['X-Real-IP']
+        )} ${req.url} - ${duration}ms`);
+      });
+    }
     next();
   });
 
@@ -47,7 +54,7 @@ export function app() {
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
-    res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
+    res.render(indexHtml, {req, providers: [{provide: APP_BASE_HREF, useValue: req.baseUrl}]});
   });
 
   return server;
