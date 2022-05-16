@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
@@ -11,6 +11,7 @@ import {SelectedFacetService} from '../../data-list/filter-panel/selected-facet.
 import {PathResolverService} from '../../data-list/filter-panel/path-resolver.service';
 import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
 import {TourType} from '../../../models/tour-type';
+import {isPlatformServer} from "@angular/common";
 
 @Component({
   selector: 'pharos-analyze-list',
@@ -27,7 +28,8 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
     private changeRef: ChangeDetectorRef,
     private selectedFacetService: SelectedFacetService,
     private pathResolverService: PathResolverService,
-    private featureTrackingService: FeatureTrackingService
+    private featureTrackingService: FeatureTrackingService,
+    @Inject(PLATFORM_ID) private platformID: any
   ) {
     super(dynamicServices);
   }
@@ -187,7 +189,7 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
   }
 
   fetchAllFilterOptions() {
-    if (!this.listIsFiltered) {
+    if (!this.listIsFiltered || isPlatformServer(this.platformID)) {
       this.loading = false;
       return;
     }
