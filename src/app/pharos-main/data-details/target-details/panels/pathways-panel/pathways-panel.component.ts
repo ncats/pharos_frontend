@@ -173,6 +173,10 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
       this.changeRef.markForCheck();
     }
   }
+
+  highlightRow(row) {
+    return row.sourceID.term === this.selectedStructure?.sourceID;
+  }
 }
 
 export class PathwayListParams {

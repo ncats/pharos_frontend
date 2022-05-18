@@ -72,6 +72,7 @@
               </div>
               <pharos-generic-table fxHide.lt-md
                                     [showPaginator]="false"
+                                    [highlightFunction]="highlightRow.bind(this)"
                                     [pageData]="pageDataMap.get(pathType)"
                                     [data]="targetsProps.pathwayMap.get(pathType)"
                                     [fieldsConfig]="pathwayFields"
@@ -79,6 +80,7 @@
               </pharos-generic-table>
               <pharos-generic-table fxHide.gt-sm
                                     [showPaginator]="false"
+                                    [highlightFunction]="highlightRow.bind(this)"
                                     [pageData]="pageDataMap.get(pathType)"
                                     [data]="targetsProps.pathwayMap.get(pathType)"
                                     [fieldsConfig]="shortPathwayFields"
