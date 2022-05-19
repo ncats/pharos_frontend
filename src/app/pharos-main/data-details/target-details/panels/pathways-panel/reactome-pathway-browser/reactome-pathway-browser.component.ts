@@ -1,5 +1,6 @@
 import {Component, Inject, Input, OnChanges, OnInit, PLATFORM_ID, SimpleChanges} from '@angular/core';
 import {DOCUMENT, isPlatformBrowser} from '@angular/common';
+import {ScriptLoadService} from "../../../../../../pharos-services/script-load.service";
 
 @Component({
   selector: 'pharos-reactome-pathway-browser',
@@ -12,7 +13,7 @@ export class ReactomePathwayBrowserComponent implements OnInit, OnChanges {
   @Input() symbol: string;
 
   constructor(@Inject(PLATFORM_ID) private platformID: any,
-              @Inject(DOCUMENT) private _document: Document) {
+              private scriptLoader: ScriptLoadService) {
   }
 
   fieldChanged(changes: SimpleChanges, fieldName: string) {
@@ -24,7 +25,7 @@ export class ReactomePathwayBrowserComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.reactomeID && isPlatformBrowser(this.platformID)) {
-      this.loadScript().then(() => {
+      this.scriptLoader.loadReactomeScript().then(() => {
         // @ts-ignore
         if (this.fieldChanged(changes, 'reactomeID') || this.fieldChanged(changes, 'symbol')) {
           const that = this;
@@ -45,36 +46,6 @@ export class ReactomePathwayBrowserComponent implements OnInit, OnChanges {
         }
       });
     }
-  }
-
-  loadScript() {
-    return new Promise((resolve, reject) => {
-      const className = 'reactome-script';
-      const existingScripts = this._document.head.getElementsByClassName(className)
-      if (existingScripts.length) {
-        resolve(true);
-      } else {
-        const script = this._document.createElement('script');
-        script.setAttribute('class', className);
-        script.type = 'text/javascript';
-        script.src = 'https://idg.reactome.org/DiagramJs/diagram/diagram.nocache.js';
-        script.onerror = (err) => {
-          console.log('Error loading Reactome widget');
-          console.log(err);
-          reject('Error loading Reactome widget');
-        }
-        script.onload = () => {
-          const intervalID = setInterval(() => {
-            // @ts-ignore
-            if (window.Reactome) {
-              resolve(true);
-              clearInterval(intervalID);
-            }
-          }, 150);
-        };
-        this._document.head.appendChild(script);
-      }
-    });
   }
 
   ngOnInit(): void {
