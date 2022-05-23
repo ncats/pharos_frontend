@@ -55,7 +55,7 @@ _______________
         * Accordingly, navigating to parent or child disease terms from the Disease Details pages is done using the
          MONDO Ontology, rather than Disease Ontology (DO).
     * Now there is the added ability to resolve diseases based on any of the equivalent terms mapped to MONDO can 
-    be used to resolve to a Disease Details page (e.g. <a href="/diseases/UMLS:C0004096" target="_blank">https://pharos.ncats.nih.gov/diseases/UMLS:C0004096</a>)
+    be used to resolve to a Disease Details page (e.g. <a href="/diseases/UMLS:C0004096" target="_blank">https://pharos.nih.gov/diseases/UMLS:C0004096</a>)
     
 * **Combined ProtVista Structure and Sequence Viewer**
     * Pharos has upgraded to EBI's Nightingale based web components, which has an integrated structure

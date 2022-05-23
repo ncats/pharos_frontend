@@ -18,7 +18,7 @@ describe('StructureViewComponent', () => {
     fixture = TestBed.createComponent(StructureViewComponent);
     component = fixture.componentInstance;
     component.data = new PharosProperty({term: 'c1ccc2CCCc2c1'});
-    component.url = 'https://pharos.ncats.nih.gov/idg/api/v1/render/c1ccc2CCCc2c1?size=150';
+    component.url = 'https://pharos.nih.gov/idg/api/v1/render/c1ccc2CCCc2c1?size=150';
     fixture.detectChanges();
   });
 
