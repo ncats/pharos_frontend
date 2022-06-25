@@ -42,8 +42,9 @@
           <div class="matrix-anatomogram">
             <div class="section">
               <div [ngClass]="{halfHeight: detailsTissue}" class="heatmap-container">
-                <pharos-expression-heat-map [clickedTissue]="clickedTissue" [heatmapClicked]="tissueClicked.bind(this)"
-                                            [heatmapData]="uberonExpressionMap"></pharos-expression-heat-map>
+                <ng-container *ngFor="let root of target.expressionTree.uberonDict">
+                  <pharos-pack-circle [hierarchyData]="root"></pharos-pack-circle>
+                </ng-container>
               </div>
               <div *ngIf="detailsTissue" class="details-container halfHeight">
                 <pharos-expression-details [closeFunction]="closeDetails.bind(this)" [expressions]="target.expressions"
