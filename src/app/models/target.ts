@@ -235,6 +235,7 @@ export class Target extends PharosBase {
   /**
    * list of expression data
    */
+  expressionTree: any;
   expressions: any[];
   gtex: any[];
   ligandCount = 0;

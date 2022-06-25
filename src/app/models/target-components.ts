@@ -556,31 +556,8 @@ export const TARGETDETAILSFIELDS = gql`
       term
       mimid
     }
-    expressions (top: 10000, filter: {
-      facets: [
-        {
-          facet: "type"
-          values: [
-            "HPA",
-            # "HCA RNA",
-            "JensenLab Experiment HPA",
-            "JensenLab Experiment GNF",
-            "HPM Gene",
-            "HPM Protein",
-            "JensenLab Experiment HPA-RNA",
-            "JensenLab Experiment HPM",
-            "JensenLab Experiment Exon array",
-            "Uniprot Tissue",
-            # "Consensus",
-            "JensenLab Experiment RNA-seq",
-            "JensenLab Knowledge UniProtKB-RC",
-            "JensenLab Text Mining",
-            "JensenLab Experiment UniGene",
-            "JensenLab Experiment Cardiac proteome"
-          ]
-        }
-      ]
-    }) {
+    expressionTree
+    expressions (top: 10000) {
       type
       sourceRank: source_rank
       tissue
@@ -604,9 +581,12 @@ export const TARGETDETAILSFIELDS = gql`
     }
     gtex {
       tissue
-      gender
       tpm
       tpm_rank
+      tpm_male
+      tpm_male_rank
+      tpm_female
+      tpm_female_rank
       uberon {
         name
         uid

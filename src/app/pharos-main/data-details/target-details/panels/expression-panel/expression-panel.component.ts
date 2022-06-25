@@ -191,11 +191,13 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     });
   }
 
+  sortedData: any[];
   /**
    * parse and generate data
    */
   setterFunction() {
     this.updateHeatmapData();
+    this.sortedData = this.target.expressionTree.uberonDict.sort((a,b) => a.name.localeCompare(b.name));
   }
 
   static getPreferredField(dataSource: string): string {

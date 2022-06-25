@@ -59,7 +59,7 @@ export class IdgLevelIndicatorComponent implements OnInit, OnDestroy {
    */
   ngOnInit() {
     this._data
-      .pipe(takeUntil(this.ngUnsubscribe))  // FUCK
+      .pipe(takeUntil(this.ngUnsubscribe))  // FUDGE
       .subscribe(res => {
       if (res) {
         this.level = res.term as string;
