@@ -24,20 +24,25 @@ export class PackCircleComponent implements OnInit {
 
   ngOnInit(): void {
 
+    const zScale = d3.scaleLinear()
+      .domain([0, 1])
+      .range(['#ffffff', '#23364e']);
+
     // @ts-ignore
     const chart = this.Pack(this.hierarchyData, {
       value: d => d.value, // size of each node (file); null for internal nodes (folders)
-      label: (d, n) => [...d.name.split(/(?=[A-Z][a-z])/g), n.value.toLocaleString("en")].join("\n"),
-      title: (d, n) => `${n.ancestors().reverse().map(({data: d}) => d.name).join(".")}\n${n.value.toLocaleString("en")}`,
+      label: d => '',//(d, n) => [...d.name.split(/(?=[A-Z][a-z])/g), n.value.toLocaleString("en")].join("\n"),
+      title: (d, n) => [...d.name.split(/(?=[A-Z][a-z])/g), n.data.value.toLocaleString("en")].join("\n"),//`${n.ancestors().reverse().map(({data: d}) => d.name).join(".")}\n${n.value.toLocaleString("en")}`,
       // link: (d, n) => n.children
       //   ? `https://github.com/prefuse/Flare/tree/master/flare/src/${n.ancestors().reverse().map(d => d.data.name).join("/")}`
       //   : `https://github.com/prefuse/Flare/blob/master/flare/src/${n.ancestors().reverse().map(d => d.data.name).join("/")}.as`,
       width: this.width,
       height: this.height,
-      fillOpacity: d => {
-        return d.value;
+      fill: (d) => {
+        return zScale(d.value);
       },
-      fill: 'black'
+      stroke: '#23364e',
+      strokeOpacity: 0.5,
     });
   }
 
@@ -64,8 +69,8 @@ export class PackCircleComponent implements OnInit {
     marginBottom = margin, // bottom margin, in pixels
     marginLeft = margin, // left margin, in pixels
     padding = 3, // separation between circles
-    fill = "#ddd", // fill for leaf circles
-    fillOpacity, // fill opacity for leaf circles
+    fill, // fill for leaf circles
+    fillOpacity = d => 1, // fill opacity for leaf circles
     stroke = "#bbb", // stroke for internal circles
     strokeWidth, // stroke width for internal circles
     strokeOpacity, // stroke opacity for internal circles
@@ -128,8 +133,8 @@ export class PackCircleComponent implements OnInit {
 
 
     node.append("circle")
-      .attr("fill", d => d.children ? "#fff" : fill)
-      .attr("fill-opacity", d => d.children ? null : fillOpacity(d))
+      .attr("fill", d => !(d.children) ? fill(d) : '#fff')
+      .attr("fill-opacity", d => fillOpacity(d))
       .attr("stroke", d => d.children ? stroke : null)
       .attr("stroke-width", d => d.children ? strokeWidth : null)
       .attr("stroke-opacity", d => d.children ? strokeOpacity : null)
@@ -157,28 +162,28 @@ export class PackCircleComponent implements OnInit {
 
     if (T) node.append("title").text((d, i) => T[i]);
 
-    if (L) {
-      // A unique identifier for clip paths (to avoid conflicts).
-      const uid = `O-${Math.random().toString(16).slice(2)}`;
-
-      const leaf = node
-        .filter(d => !d.children && d.r > 10 && L[d.index] != null);
-
-      leaf.append("clipPath")
-        .attr("id", d => `${uid}-clip-${d.index}`)
-        .append("circle")
-        .attr("r", d => d.r);
-
-      leaf.append("text")
-        .attr("clip-path", d => `url(#clip-path)`)
-        .selectAll("tspan")
-        .data(d => `${L[d.index]}`.split(/\n/g))
-        .join("tspan")
-        .attr("x", 0)
-        .attr("y", (d, i, D) => `${(i - D.length / 2) + 0.85}em`)
-        .attr("fill-opacity", (d, i, D) => i === D.length - 1 ? 0.7 : null)
-        .text(d => d);
-    }
+    // if (L) {
+    //   // A unique identifier for clip paths (to avoid conflicts).
+    //   const uid = `O-${Math.random().toString(16).slice(2)}`;
+    //
+    //   const leaf = node
+    //     .filter(d => !d.children && d.r > 10 && L[d.index] != null);
+    //
+    //   leaf.append("clipPath")
+    //     .attr("id", d => `${uid}-clip-${d.index}`)
+    //     .append("circle")
+    //     .attr("r", d => d.r);
+    //
+    //   leaf.append("text")
+    //     .attr("clip-path", d => `url(#clip-path)`)
+    //     .selectAll("tspan")
+    //     .data(d => `${L[d.index]}`.split(/\n/g))
+    //     .join("tspan")
+    //     .attr("x", 0)
+    //     .attr("y", (d, i, D) => `${(i - D.length / 2) + 0.85}em`)
+    //     .attr("fill-opacity", (d, i, D) => i === D.length - 1 ? 0.7 : null)
+    //     .text(d => d);
+    // }
 
     let lastMouse = false;
     let lastPosition = [0,0];
