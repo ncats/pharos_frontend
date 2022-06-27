@@ -19,7 +19,7 @@
           <pharos-help-panel-trigger [origin]="'summary'" [label]="'Protein Summary'"></pharos-help-panel-trigger>
         </div>
       </div>
-      <div *ngIf="target.description">
+      <div *ngIf="target?.description">
         <mat-card-subtitle>
       <span
         [matTooltip]="getTooltip('description')"
