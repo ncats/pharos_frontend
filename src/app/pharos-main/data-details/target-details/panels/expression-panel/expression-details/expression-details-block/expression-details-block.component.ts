@@ -8,8 +8,26 @@ import {Component, Input, OnInit} from '@angular/core';
 export class ExpressionDetailsBlockComponent implements OnInit {
   @Input() expressions: any[] = [];
   constructor() { }
-  allDisplayColumns = ['tissue', 'gender', 'tpm', 'tpm_rank', 'qual', 'url', 'value', 'evidence', 'zscore', 'conf', 'pub', 'sourceRank'];
+  allDisplayColumns = ['tissue', 'gender', 'tpm_rank', 'tpm', 'tpm_male', 'tpm_female',
+                      'qual', 'url', 'value', 'evidence', 'zscore', 'conf', 'pub', 'sourceRank'];
   displayColumns = [];
+  labelMap: Map<string, string> = new Map<string, string>([
+      ['tissue', 'Tissue'],
+      ['gender', 'Gender'],
+      ['tpm', 'TPM'],
+      ['tpm_rank', 'TPM Rank'],
+      ['tpm_male', 'TPM (male)'],
+      ['tpm_female', 'TPM (female)'],
+      ['qual', 'Level'],
+      ['url', 'URL'],
+      ['value', 'Value'],
+      ['evidence', 'Evidence'],
+      [ 'zscore', 'Zscore'],
+      ['conf', 'Confidence'],
+      ['pub', 'Publication'],
+      ['sourceRank', 'Source Rank']
+  ]);
+
   ngOnInit(): void {
     const goodColumns = [];
     this.expressions.forEach(e => {
