@@ -47,9 +47,8 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
     @Input()
     heatmapData: HeatMapData = new HeatMapData('xlabel', 'ylabel');
 
-    @Input()
-    clickedTissue = '';
-
+    @Input() clickedTissue = '';
+    @Input() dataSourceClicked;
     @Input() heatmapClicked;
     sortedYVals: string[] = [];
 
@@ -116,7 +115,6 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
             });
         }
     }
-
 
     filterBySelectedTissue(tissue: string) {
         const selectedTissue = this.heatmapData.yValues.find(v => {
@@ -315,13 +313,12 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
         <span>
             <b>${this.heatmapData.yLabel}: </b>${this.heatmapData.yDisplayValues[blocks[i].__data__.y].val}<br />
             <b>${this.heatmapData.xLabel}: </b>${this.heatmapData.xValues[blocks[i].__data__.x].val}<br />
-            <b>Value:</b> ${d.z.rawVal?.replace('\\n', ', ')}<br />
-            <b>Source Rank:</b> ${d.z.val}<br />
+            <b>${d.metadata.valueLabel || 'Value'}:</b> ${d.z.rawVal?.replace('\n', ', ')}<br />
+            ${d.metadata.hideRank ? '' : '<b>Source Rank:</b> ' + d.z.val + '<br />'}
         </span>`)
                 .style('left', event.pageX + 'px')
                 .style('top', event.pageY + 'px');
-        })
-            .on('mouseout', (event, d) => {
+        }).on('mouseout', (event, d) => {
                 this.anatomogramHoverService.setTissue(null);
                 const blocks = selection.nodes();
                 const i = blocks.indexOf(event.currentTarget);
@@ -331,7 +328,7 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
                     .style('opacity', 0);
                 d3.select(blocks[i]).classed('hovered', false);
             }).on('click', (event, d) => {
-            this.heatmapClickedInternal(event, d);
+            this.tissueClickedInternal(event, d);
         });
 
         this.chartArea.selectAll('.xAxis text')
@@ -342,38 +339,59 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
             .attr('transform', d => `translate(0, ${this.blockSize * .5})`)
             .attr('style', 'text-anchor: end');
 
-        const yTicks = this.chartArea.select('.yAxis').selectAll('.tick').attr('class', 'tick yAxisLabel');
-        yTicks.on('mouseover', (event, d) => {
-            const hoveredTissue = this.heatmapData.yDisplayValues[d].val;
-            if (this.heatmapData.yDisplayValues[d].data) {
-                this.anatomogramHoverService.setTissue(this.heatmapData.yDisplayValues[d].data.uid);
-            }
-            const blocks = selection.nodes().filter(b => {
-                return b.__data__.data === hoveredTissue;
-            });
-            blocks.forEach(b => {
-                d3.select(b).classed('hovered', true);
-            });
-        }).on('mouseout', (event, d) => {
-            this.anatomogramHoverService.setTissue(null);
-            const blocks = selection.nodes().forEach(b => {
-                d3.select(b).classed('hovered', false);
-            });
-        }).on('click', (event, d) => {
-            this.heatmapClickedInternal(event, d);
+      const yTicks = this.chartArea.select('.yAxis').selectAll('.tick').attr('class', 'tick yAxisLabel');
+      yTicks.on('mouseover', (event, d) => {
+        const hoveredTissue = this.heatmapData.yDisplayValues[d].val;
+        if (this.heatmapData.yDisplayValues[d].data) {
+          this.anatomogramHoverService.setTissue(this.heatmapData.yDisplayValues[d].data.uid);
+        }
+        const blocks = selection.nodes().filter(b => {
+          return b.__data__.data === hoveredTissue;
         });
+        blocks.forEach(b => {
+          d3.select(b).classed('hovered', true);
+        });
+      }).on('mouseout', (event, d) => {
+        this.anatomogramHoverService.setTissue(null);
+        const blocks = selection.nodes().forEach(b => {
+          d3.select(b).classed('hovered', false);
+        });
+      }).on('click', (event, d) => {
+        this.tissueClickedInternal(event, d);
+      });
+
+      const xTicks = this.chartArea.select('.xAxis').selectAll('.tick').attr('class', 'tick xAxisLabel');
+      xTicks.on('mouseover', (event, d) => {
+        const hoveredDataSource = this.heatmapData.xValues[d].val;
+        const blocks = selection.nodes().filter(b => {
+          return b.__data__.x === d;
+        });
+        blocks.forEach(b => {
+          d3.select(b).classed('hovered', true);
+        });
+      }).on('mouseout', (event, d) => {
+        const blocks = selection.nodes().forEach(b => {
+          d3.select(b).classed('hovered', false);
+        });
+      }).on('click', (event, d) => {
+        this.dataSourceClickedInternal(event, d);
+      });
 
         this.tooltip = d3.select('body').append('div')
             .attr('class', 'twodtooltip')
             .style('opacity', 0);
     }
 
-    tissueClicked(event, d) {
-        const tissue = event.target.textContent || d.data;
-        this.anatomogramHoverService.setTissue(tissue);
+    dataSourceClickedInternal(event, d) {
+      const dataSource = this.heatmapData.xValues[d].val;
+      this.heatmapData.ySort = dataSource;
+      if (this.dataSourceClicked) {
+        this.dataSourceClicked(dataSource, 'heatmap');
+      }
+      this.updateChart();
     }
 
-    heatmapClickedInternal(event, d) {
+    tissueClickedInternal(event, d) {
         if (this.heatmapClicked) {
             const tissue = d.data || event.target.textContent;
             this.heatmapClicked(tissue, 'heatmap');
