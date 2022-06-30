@@ -69,7 +69,7 @@ export class TargetFacetPanelComponent extends DynamicPanelComponent implements 
 
   setterFunction(): void {
     [...LABELS.keys()].map(key => {
-      if (this.targetProps[key] && this.targetProps[key].length > 0) {
+      if (this.targetProps && this.targetProps[key] && this.targetProps[key].length > 0) {
         this.facets.push(
           {
             name: key,

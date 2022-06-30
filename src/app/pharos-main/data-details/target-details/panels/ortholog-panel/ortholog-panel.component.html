@@ -2,7 +2,7 @@
   <div>
     <mat-paginator
       [pageSize]="5"
-      [length]="target.orthologCounts"
+      [length]="target?.orthologCounts"
       [hidePageSize]="true"
       [showFirstLastButtons]=true
       (page)=paginate($event)
@@ -14,14 +14,14 @@
     <div fxHide.lt-md>
       <pharos-generic-table
         [showPaginator]=false
-        [data]="targetProps.orthologs"
+        [data]="targetProps?.orthologs"
         [fieldsConfig]="fields">
       </pharos-generic-table>
     </div>
     <div fxHide.gt-sm>
       <pharos-generic-table
         [showPaginator]=false
-        [data]="targetProps.orthologs"
+        [data]="targetProps?.orthologs"
         [fieldsConfig]="shortFields">
       </pharos-generic-table>
     </div>

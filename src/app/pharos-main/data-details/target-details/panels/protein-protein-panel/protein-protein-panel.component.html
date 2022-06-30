@@ -11,7 +11,7 @@
 </ng-template>
 
 <ng-template #headerrow>
-  <div fxLayout="row"
+  <div fxLayout="row" *ngIf="ppiCount"
        class="tkrow"
        fxLayoutAlign="start stretch">
     <div fxFlex="95" class="headerContainer">
@@ -26,7 +26,7 @@
 </ng-template>
 
 <article>
-  <mat-card id="ppi" *ngIf="target.ppiCount > 0; else nodata"
+  <mat-card id="ppi" *ngIf="target && target.ppiCount > 0; else nodata"
             class="section-card"
             (pharosScrollspy)="active('ppi')"
             #ppi>

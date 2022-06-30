@@ -157,6 +157,6 @@ export class OrthologPanelComponent extends TargetPanelBaseComponent implements 
   }
 
   count(): number {
-    return this.target.orthologCounts;
+    return this.target?.orthologCounts;
   }
 }

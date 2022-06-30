@@ -27,7 +27,7 @@ export class SequenceComponent extends DynamicPanelBaseComponent implements OnIn
   }
 
   ngOnInit(): void {
-    if (this.target.sequence) {
+    if (this.target?.sequence) {
       this.parseSequence();
     }
   }

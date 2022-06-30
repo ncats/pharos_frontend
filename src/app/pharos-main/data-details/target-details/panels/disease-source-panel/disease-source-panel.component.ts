@@ -116,13 +116,13 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
           this.target = this.data.targets;
           this.targetProps = this.data.targetsProps;
 
-          if (this.target.diseaseCount > 0 || (this.target.tinx && this.target.tinx.length > 0)) {
+          if (this.target && (this.target.diseaseCount > 0 || (this.target.tinx && this.target.tinx.length > 0))) {
             this.showSection();
           } else {
             this.hideSection();
           }
 
-          if (this.target.tinx) {
+          if (this.target && this.target.tinx) {
             this.tinx = [];
             this.target.tinx.map(point => {
               if (point.disease) {
@@ -148,7 +148,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    * creates map to reduce duplicate disease names, and adds sources to disease name
    */
   setterFunction(): void {
-    this.dataSource.data = this.targetProps.diseases.map(disease => {
+    this.dataSource.data = this.targetProps?.diseases.map(disease => {
       const diseaseSource: DiseaseTreeNode = {
         name: disease.name,
         children: [

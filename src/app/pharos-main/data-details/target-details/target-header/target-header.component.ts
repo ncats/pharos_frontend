@@ -38,8 +38,10 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
        this.target = this.data.targets;
-       this.jsonldService.insertSchema(this.jsonldService.targetSchema(this.target));
-       this.jsonldService.insertSchema(this.jsonldService.ratingSchema(this.target.idgTDL), 'structured-data-tdl');
+       if (this.target) {
+         this.jsonldService.insertSchema(this.jsonldService.targetSchema(this.target));
+         this.jsonldService.insertSchema(this.jsonldService.ratingSchema(this.target.idgTDL), 'structured-data-tdl');
+       }
        this.changeRef.markForCheck();
       });
   }
