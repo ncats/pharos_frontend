@@ -11,18 +11,8 @@
 </ng-template>
 
 <ng-template #headerrow>
-  <div fxLayout="row" *ngIf="ppiCount"
-       class="tkrow"
-       fxLayoutAlign="start stretch">
-    <div fxFlex="95" class="headerContainer">
-        <span class="mat-title" [matTooltip]=description
-              [matTooltipClass]="'pharos-tooltip'">Protein-Protein Interactions ({{target.ppiCount}})</span>
-    </div>
-    <div fxFlex="5">
-      <pharos-help-panel-trigger [origin]="'ppi'"
-                                 [label]="'Protein-Protein Interactions'"></pharos-help-panel-trigger>
-    </div>
-  </div>
+  <pharos-component-header [description]="description" [field]="field" [headerText]="'Protein-Protein Interactions (' + target?.ppiCount + ')'">
+  </pharos-component-header>
 </ng-template>
 
 <article>

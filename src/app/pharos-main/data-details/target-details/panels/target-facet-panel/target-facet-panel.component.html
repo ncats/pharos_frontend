@@ -6,19 +6,7 @@
     <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
       <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
     </div>
-    <div fxLayout="row"
-         class="tkrow"
-         fxLayoutAlign="start stretch">
-      <div fxFlex="95">
-        <span class="mat-title"
-              [matTooltip]=description
-              [matTooltipClass]="'pharos-tooltip'">
-          Find similar targets by:</span>
-      </div>
-      <div fxFlex="5">
-        <pharos-help-panel-trigger [origin]="'relatedTargets'" [label]="'Related Targets'"></pharos-help-panel-trigger>
-      </div>
-    </div>
+    <pharos-component-header [description]="description" [field]="field" [headerText]="'Find similar targets by:'"></pharos-component-header>
     <div id="facets-grid">
       <div *ngFor = "let facet of facets">
         <span class="mat-title"

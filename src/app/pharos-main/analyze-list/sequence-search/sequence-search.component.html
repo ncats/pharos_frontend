@@ -6,19 +6,7 @@
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
       </div>
-      <div fxLayout="row"
-           class="tkrow"
-           fxLayoutAlign="start stretch">
-        <div fxFlex="95">
-        <span class="mat-title"
-              [matTooltip]=description
-              [matTooltipClass]="'pharos-tooltip'">
-          {{label}}</span>
-        </div>
-<!--        <div fxFlex="5">-->
-<!--          <pharos-tutorial-link [tourType]="tourType"></pharos-tutorial-link>-->
-<!--        </div>-->
-      </div>
+      <pharos-component-header [description]="description" [headerText]="label"></pharos-component-header>
       <button class="tool-button" mat-raised-button [color]="'primary'" matTooltip="Download Sequence Alignment List Data"
               (click)="downloadData()">Download
         <mat-icon>download</mat-icon>

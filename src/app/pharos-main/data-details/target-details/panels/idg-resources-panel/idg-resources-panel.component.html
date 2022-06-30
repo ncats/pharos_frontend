@@ -12,17 +12,7 @@
   </article>
 </ng-template>
 <ng-template #headerrow>
-  <div fxLayout="row"
-       class="tkrow"
-       fxLayoutAlign="start stretch">
-    <div fxFlex="95">
-      <span class="mat-title" [matTooltip]=description [matTooltipClass]="'pharos-tooltip'">IDG Resources</span>
-    </div>
-    <div fxFlex="5">
-      <pharos-help-panel-trigger [origin]="'resources'"
-                                 [label]="'IDG Generated Resources'"></pharos-help-panel-trigger>
-    </div>
-  </div>
+  <pharos-component-header [description]="description" [field]="field" [headerText]="'IDG Resources'"></pharos-component-header>
 </ng-template>
 <article *ngIf="this.mouseExpressions.length > 0 || this.dataResources.length > 0 || this.reagents.length > 0; else nodata">
   <mat-card

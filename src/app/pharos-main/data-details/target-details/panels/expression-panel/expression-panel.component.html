@@ -11,20 +11,8 @@
 </ng-template>
 
 <ng-template #headerrow>
-  <div class="tkrow"
-       fxLayout="row"
-       fxLayoutAlign="space-between stretch">
-    <div fxFlex="95">
-        <span [matTooltipClass]="'pharos-tooltip'"
-              [matTooltip]=description
-              class="mat-title">
-          Expression Data ({{this.uberonExpressionMap?.yValues?.length || 0}} Tissues)</span>
-    </div>
-    <div fxFlex="5">
-      <pharos-help-panel-trigger [origin]="this.field" [dataVersions]="target?.dataVersions"></pharos-help-panel-trigger>
-      <pharos-tutorial-link [tourType]="tourType"></pharos-tutorial-link>
-    </div>
-  </div>
+  <pharos-component-header [description]="description" [field]="field" [dataVersions]="target?.dataVersions" [tourType]="tourType"
+                           [headerText]="'Expression Data (' + (this.uberonExpressionMap?.yValues?.length || 0) + ' Tissues)'"></pharos-component-header>
 </ng-template>
 
 <article>
