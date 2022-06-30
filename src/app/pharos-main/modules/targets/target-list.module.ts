@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TargetListRoutingModule} from './target-list-routing.module';
-import {IDG_LEVEL_TOKEN, RADAR_CHART_TOKEN, TargetTableComponent} from '../../data-list/tables/target-table/target-table.component';
+import {RADAR_CHART_TOKEN, TargetTableComponent} from '../../data-list/tables/target-table/target-table.component';
 import {TargetCardComponent} from '../../data-list/cards/target-card/target-card.component';
 import {LongTargetCardComponent} from '../../data-list/cards/long-target-card/long-target-card.component';
 import {InjectedRadarChartComponent} from '../../data-list/tables/target-table/injected-radar-chart/injected-radar-chart.component';
@@ -46,7 +46,7 @@ import {SequenceSimilarityDetailsComponent} from '../../data-list/cards/long-tar
   ],
   providers: [
     {provide: TOKENS.TARGET_TABLE_COMPONENT, useValue: TargetTableComponent},
-    {provide: IDG_LEVEL_TOKEN, useValue: IdgLevelIndicatorComponent},
+    {provide: TOKENS.IDG_LEVEL_TOKEN, useValue: IdgLevelIndicatorComponent},
     {provide: RADAR_CHART_TOKEN, useValue: InjectedRadarChartComponent},
     {provide: TOKENS.PHAROS_HELPPANEL_COMPONENT, useValue: HelpPanelComponent}
   ],

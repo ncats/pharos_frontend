@@ -4,21 +4,7 @@
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
       </div>
-      <div fxLayout="row"
-           class="tkrow"
-           fxLayoutAlign="start stretch"
-           #summary>
-        <div fxFlex="95">
-        <span class="mat-title"
-              [matTooltip]=description
-              [matTooltipClass]="'pharos-tooltip'">
-          Protein Summary
-        </span>
-        </div>
-        <div fxFlex="5">
-          <pharos-help-panel-trigger [origin]="'summary'" [label]="'Protein Summary'"></pharos-help-panel-trigger>
-        </div>
-      </div>
+      <pharos-component-header [description]="description" [field]="field" [headerText]="'Protein Summary'"></pharos-component-header>
       <div *ngIf="target?.description">
         <mat-card-subtitle>
       <span

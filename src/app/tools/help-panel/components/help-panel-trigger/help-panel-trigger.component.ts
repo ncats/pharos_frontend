@@ -9,7 +9,7 @@ import {DataVersionInfo} from "../../../../models/dataVersion";
 @Component({
   selector: 'pharos-help-panel-trigger',
   templateUrl: './help-panel-trigger.component.html',
-  styleUrls: ['./help-panel-trigger.component.css']
+  styleUrls: ['./help-panel-trigger.component.scss']
 })
 export class HelpPanelTriggerComponent {
   /**

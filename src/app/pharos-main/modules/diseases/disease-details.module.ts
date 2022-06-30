@@ -3,9 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { DiseaseDetailsRoutingModule } from './disease-details-routing.module';
 import {SharedModule} from '../../../shared/shared.module';
-import {
-  IDG_LEVEL_TOKEN, TargetListPanelComponent
-} from '../../data-details/disease-details/target-list-panel/target-list-panel.component';
 import {TOKENS} from '../../../../config/component-tokens';
 import {CommonToolsModule} from '../../../tools/common-tools.module';
 import {SharedDetailsModule} from '../../../shared/shared-details.module';
@@ -23,7 +20,6 @@ import {DiseaseHeaderComponent} from '../../data-details/disease-details/disease
   declarations: [
     DiseaseHeaderComponent,
     DiseaseSummaryComponent,
-    TargetListPanelComponent,
     DoBrowserComponent,
     TinxDiseaseComponent,
     GwasDiseaseAnalyticsComponent
@@ -43,8 +39,7 @@ import {DiseaseHeaderComponent} from '../../data-details/disease-details/disease
     {provide: TOKENS.PHAROS_HELPPANEL_COMPONENT, useValue: HelpPanelComponent},
     {provide: TOKENS.DISEASE_SUMMARY_COMPONENT, useValue: DiseaseSummaryComponent},
     {provide: TOKENS.DISEASE_DO_BROWSER_COMPONENT, useValue: DoBrowserComponent},
-    {provide: TOKENS.TARGET_LIST_PANEL, useValue: TargetListPanelComponent},
-    {provide: IDG_LEVEL_TOKEN, useValue: IdgLevelIndicatorComponent},
+    {provide: TOKENS.IDG_LEVEL_TOKEN, useValue: IdgLevelIndicatorComponent},
     {provide: TOKENS.DISEASE_TINX_COMPONENT, useValue: TinxDiseaseComponent},
     {provide: TOKENS.DISEASE_GWAS_ANALYTICS_COMPONENT, useValue: GwasDiseaseAnalyticsComponent}
   ]

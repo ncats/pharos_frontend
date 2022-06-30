@@ -2,21 +2,7 @@
   <div class="full-height">
     <mat-card>
       <mat-card-content>
-        <div fxLayout="row"
-             fxLayout.lt-md="column"
-             class="tkrow"
-             fxLayoutAlign="start stretch">
-          <div fxFlex="95">
-        <span class="mat-title"
-              [matTooltip]=description
-              [matTooltipClass]="'pharos-tooltip'">
-         Target Activities</span>
-          </div>
-          <div fxFlex="5">
-            <pharos-help-panel-trigger [origin]="'relatedTargets'"
-                                       [label]="'Target Relevance'"></pharos-help-panel-trigger>
-          </div>
-        </div>
+        <pharos-component-header [description]="description" [field]="field" [headerText]="'Target Activities'"></pharos-component-header>
         <div class="headerSection">
           <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Explore Associated and Predicted Targets'"
                                       [queryParams]="{associatedLigand: ligand.ligid, associatedStructure: ligand.smiles}"></pharos-explore-list-button>

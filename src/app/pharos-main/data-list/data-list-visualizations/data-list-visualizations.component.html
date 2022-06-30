@@ -1,19 +1,7 @@
 <article class="container">
   <mat-card>
     <mat-card-content>
-      <div fxLayout="row"
-           class="tkrow"
-           fxLayoutAlign="start stretch">
-        <div fxFlex="95">
-        <span class="mat-title"
-              [matTooltip]=description
-              [matTooltipClass]="'pharos-tooltip'">
-          {{label}}</span>
-        </div>
-        <div fxFlex="5" *ngIf="!displayFacet?.singleResponse">
-          <pharos-tutorial-link [tourType]="tourType"></pharos-tutorial-link>
-        </div>
-      </div>
+      <pharos-component-header [description]="description" [tourType]="tourType" [headerText]="label" [tourTypeVisible]="showTour.bind(this)"></pharos-component-header>
     <div fxLayout="column" fxLayoutAlign="space-around center" class="facet-visualizations">
       <div fxLayout="row" fxLayoutAlign="space-around start">
         <div fxFlex="60" fxFlex.lt-md="80" *ngIf=displayFacet class="facet-change">

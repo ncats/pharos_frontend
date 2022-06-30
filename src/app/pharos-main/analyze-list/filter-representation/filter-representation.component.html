@@ -6,20 +6,7 @@
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
       </div>
-      <div fxLayout="row"
-           class="tkrow"
-           fxLayoutAlign="start stretch">
-        <div fxFlex="95">
-        <span class="mat-title"
-              [matTooltip]=description
-              [matTooltipClass]="'pharos-tooltip'">
-          {{label}}</span>
-        </div>
-        <div fxFlex="5">
-          <pharos-tutorial-link [tourType]="tourType"></pharos-tutorial-link>
-        </div>
-      </div>
-
+      <pharos-component-header [description]="description" [tourType]="tourType" [headerText]="label"></pharos-component-header>
       <mat-card-subtitle>Instructions</mat-card-subtitle>
       <p>
         Filter value counts, as reported on the left panel, show which filter values are the most common for targets in

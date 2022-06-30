@@ -6,17 +6,7 @@
                 (pharosScrollspy)="active(field)"
                 #diseaseSummary>
       <mat-card-content>
-        <div>
-          <div fxFlex="95">
-            <mat-card-title>
-              Disease Summary
-            </mat-card-title>
-          </div>
-          <div>
-            <pharos-help-panel-trigger [origin]="'diseaseSummary'"
-                                       [label]="'Disease Summary'"></pharos-help-panel-trigger>
-          </div>
-        </div>
+        <pharos-component-header [description]="description" [field]="field" [headerText]="'Disease Summary'"></pharos-component-header>
         <div class="content">
           <div class="section" fxFlex="40">
             <mat-card-subtitle [matTooltip]="getTooltip('associatedTargets')">

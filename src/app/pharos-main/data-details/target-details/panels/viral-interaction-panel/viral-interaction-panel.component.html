@@ -12,18 +12,7 @@
   </article>
 </ng-template>
 <ng-template #headerrow>
-  <div fxLayout="row"
-       class="tkrow"
-       fxLayoutAlign="start stretch">
-    <div fxFlex="95" class="headerContainer">
-        <span class="mat-title" [matTooltip]=description
-              [matTooltipClass]="'pharos-tooltip'">Viral Interactions ({{countString()}})</span>
-    </div>
-    <div fxFlex="5">
-      <pharos-help-panel-trigger [origin]="'viral'"
-                                 [label]="'Predicted Viral Interactions'"></pharos-help-panel-trigger>
-    </div>
-  </div>
+  <pharos-component-header [description]="description" [field]="field" [headerText]="'Viral Interactions (' + countString() + ')'"></pharos-component-header>
 </ng-template>
 
 <article *ngIf="this.target?.interactingViruses?.length > 0; else nodata">
