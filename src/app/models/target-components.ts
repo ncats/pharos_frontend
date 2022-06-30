@@ -442,6 +442,24 @@ const TARGET_GO_FUNCTION_QUERY = gql`
 export const TARGETDETAILSFIELDS = gql`
   fragment targetsDetailsFields on Target {
     ...targetsListFields
+    dataVersions(keys:["Expression", "GTEx"]) {
+      key
+      dataSources {
+        name
+        description
+        url
+        license
+        licenseURL
+        citation
+        files {
+          key
+          file
+          version
+          releaseDate
+          downloadDate
+        }
+      }
+    }
     dataSources
     affiliateLinks: affiliate_links {
       sourceName

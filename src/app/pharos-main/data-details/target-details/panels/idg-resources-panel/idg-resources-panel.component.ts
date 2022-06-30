@@ -90,7 +90,7 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
         this.mouseExpressions = [];
 
         try {
-          if (this.target.drgcResources.length > 0) {
+          if (this.target?.drgcResources.length > 0) {
             this.showSection();
             this.target.drgcResources.forEach(resource => {
               const resc = this.resourceSerializer.fromJson(resource.apiResult, resource.resourceType);

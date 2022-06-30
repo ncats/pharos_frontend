@@ -1,0 +1,22 @@
+<ng-container *ngFor="let ds of dvInfo.dataSources">
+  <mat-card class="dsCard">
+    <mat-card-content>
+      <span class="mat-title">
+        {{ds.name}}
+      </span>
+
+      <div class="content">
+        <ng-container *ngFor="let prop of ds.asProperties()">
+          <ncats-property-display [property]="prop" class="dsProperty"></ncats-property-display>
+        </ng-container>
+      </div>
+
+      <span class="mat-title">Files</span>
+      <pharos-generic-table
+        [data]="ds.filesAsProperties()"
+        [fieldsConfig]="this.getFields(ds)"
+        [showPaginator]="false">
+      </pharos-generic-table>
+    </mat-card-content>
+  </mat-card>
+</ng-container>

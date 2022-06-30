@@ -1,5 +1,5 @@
 <ng-template #headerrow>
-  <div fxLayout="row"
+  <div fxLayout="row" *ngIf="target"
        class="tkrow"
        fxLayoutAlign="start stretch">
     <div fxFlex="95">
@@ -28,7 +28,7 @@
   </article>
 </ng-template>
 
-<article *ngIf="(this.target[this.params.fieldName].length > 0); else nodata">
+<article *ngIf="(this.target && this.target[this.params.fieldName].length > 0); else nodata">
   <mat-card id={{field}}
             class="section-card"
             *ngIf="data"

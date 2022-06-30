@@ -79,7 +79,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.target = this.data.targets;
-        if (this.target.sequence) {
+        if (this.target?.sequence) {
           this.getCounts();
         }
         if (!this.isSmallScreen && isPlatformBrowser(this.platformID)) {
@@ -91,7 +91,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
             // tslint:disable-next-line:no-unused-expression
             window.customElements.get('protvista-uniprot') || window.customElements.define('protvista-uniprot', res.default);
             const viewer = this.renderer.createElement('protvista-uniprot');
-            viewer.setAttribute('accession', this.target.accession);
+            viewer.setAttribute('accession', this.target?.accession);
             this.viewerContainer.nativeElement.appendChild(viewer);
             this.scrollWhenComplete(viewer);
           });

@@ -37,7 +37,7 @@
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
       </div>
-      <ng-container *ngIf="this.target.diseaseCount > 0">
+      <ng-container *ngIf="this.target?.diseaseCount > 0">
         <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
         <div class="headerRow">
           <div>
@@ -50,7 +50,7 @@
           </div>
           <mat-paginator
             [pageSize]="10"
-            [length]="target.diseaseCount"
+            [length]="target?.diseaseCount"
             [hidePageSize]="true"
             [showFirstLastButtons]=true
             (page)=paginate($event)

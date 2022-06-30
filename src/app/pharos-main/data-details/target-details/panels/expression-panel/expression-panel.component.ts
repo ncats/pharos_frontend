@@ -132,7 +132,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   updateHeatmapData() {
     this.uberonExpressionMap = new HeatMapData('Data Source', 'Tissue', 'JensenLab TISSUES');
     this.uberonExpressionMap.xSortFunction = this.sortDataSources.bind(this);
-    this.setMapData(this.uberonExpressionMap, this.target.expressions, this.target.gtex);
+    this.setMapData(this.uberonExpressionMap, this.target?.expressions, this.target?.gtex);
   }
   source2number(source: string){
     if (source.includes('JensenLab')) {

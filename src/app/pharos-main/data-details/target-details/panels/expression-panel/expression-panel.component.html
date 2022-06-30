@@ -13,7 +13,7 @@
 <ng-template #headerrow>
   <div class="tkrow"
        fxLayout="row"
-       fxLayoutAlign="start stretch">
+       fxLayoutAlign="space-between stretch">
     <div fxFlex="95">
         <span [matTooltipClass]="'pharos-tooltip'"
               [matTooltip]=description
@@ -21,6 +21,7 @@
           Expression Data ({{this.uberonExpressionMap?.yValues?.length || 0}} Tissues)</span>
     </div>
     <div fxFlex="5">
+      <pharos-help-panel-trigger [origin]="this.field" [dataVersions]="target?.dataVersions"></pharos-help-panel-trigger>
       <pharos-tutorial-link [tourType]="tourType"></pharos-tutorial-link>
     </div>
   </div>

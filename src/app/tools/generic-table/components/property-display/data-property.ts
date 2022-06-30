@@ -24,6 +24,7 @@ export class DataProperty {
    * object data property
    */
   term?: string | number | Date | ContingencyTable;
+  innerHTML?: string;
   /**
    * optional url
    */

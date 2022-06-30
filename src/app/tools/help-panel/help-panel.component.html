@@ -3,7 +3,7 @@
     <mat-icon>close</mat-icon>
   </button>
 </div>
-<div class="help-panel-content" *ngIf="sources && sources.length > 0">
+<div class="help-panel-content" *ngIf="sources && sources.length > 0 || helpDataService.versions && helpDataService.versions.length > 0">
   <div class="description-row">
     <div fxLayout="row" fxLayoutAlign="start center">
       <span class="mat-headline"> <strong>{{title}}</strong></span>
@@ -19,7 +19,7 @@
   </div>
 
   <mat-accordion [multi]="true">
-    <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel [expanded]="true" *ngIf="sources && sources.length > 0">
       <mat-expansion-panel-header>
         <span class="mat-headline">Descriptions and Definitions</span>
       </mat-expansion-panel-header>
@@ -52,6 +52,14 @@
           </div>
         </div>
       </ng-template>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="true" *ngIf="this.helpDataService.versions.length > 0">
+      <mat-expansion-panel-header>
+        <span class="mat-headline">Data Sources</span>
+      </mat-expansion-panel-header>
+      <ng-container *ngFor="let key of this.helpDataService.versions">
+        <pharos-data-version-card [dvInfo]="key"></pharos-data-version-card>
+      </ng-container>
     </mat-expansion-panel>
   </mat-accordion>
 </div>
