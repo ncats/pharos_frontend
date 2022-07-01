@@ -27,23 +27,21 @@ export class PackCircleComponent implements OnInit {
     const zScale = d3.scaleLinear()
       .domain([0, 1])
       .range(['#ffffff', '#23364e']);
-
-    // @ts-ignore
-    const chart = this.Pack(this.hierarchyData, {
-      value: d => d.value, // size of each node (file); null for internal nodes (folders)
-      label: d => '',//(d, n) => [...d.name.split(/(?=[A-Z][a-z])/g), n.value.toLocaleString("en")].join("\n"),
-      title: (d, n) => [...d.name.split(/(?=[A-Z][a-z])/g), n.data.value.toLocaleString("en")].join("\n"),//`${n.ancestors().reverse().map(({data: d}) => d.name).join(".")}\n${n.value.toLocaleString("en")}`,
-      // link: (d, n) => n.children
-      //   ? `https://github.com/prefuse/Flare/tree/master/flare/src/${n.ancestors().reverse().map(d => d.data.name).join("/")}`
-      //   : `https://github.com/prefuse/Flare/blob/master/flare/src/${n.ancestors().reverse().map(d => d.data.name).join("/")}.as`,
-      width: this.width,
-      height: this.height,
-      fill: (d) => {
-        return zScale(d.value);
-      },
-      stroke: '#23364e',
-      strokeOpacity: 0.5,
-    });
+    if (this.hierarchyData) {
+      // @ts-ignore
+      const chart = this.Pack(this.hierarchyData, {
+        value: d => d.value, // size of each node (file); null for internal nodes (folders)
+        label: d => '',//(d, n) => [...d.name.split(/(?=[A-Z][a-z])/g), n.value.toLocaleString("en")].join("\n"),
+        title: (d, n) => [...d.name.split(/(?=[A-Z][a-z])/g), n.data.value.toLocaleString("en")].join("\n"),//`${n.ancestors().reverse().map(({data: d}) => d.name).join(".")}\n${n.value.toLocaleString("en")}`,
+        width: this.width,
+        height: this.height,
+        fill: (d) => {
+          return zScale(d.value);
+        },
+        stroke: '#23364e',
+        strokeOpacity: 0.5,
+      });
+    }
   }
 
   id() {
