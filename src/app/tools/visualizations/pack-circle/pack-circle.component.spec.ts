@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PackCircleComponent } from './pack-circle.component';
+import {TestCirclePlot} from "../../../../../test/test-circle-plot";
 
 describe('PackCircleComponent', () => {
   let component: PackCircleComponent;
@@ -16,6 +17,7 @@ describe('PackCircleComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PackCircleComponent);
     component = fixture.componentInstance;
+    component.hierarchyData = TestCirclePlot;
     fixture.detectChanges();
   });
 

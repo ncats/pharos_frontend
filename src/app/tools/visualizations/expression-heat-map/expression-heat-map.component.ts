@@ -288,13 +288,13 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
             .data(this.heatmapData.plot)
             .enter().append('rect')
             .attr('x', d => xScale(d.x) + 0.5)
+            .attr('fill', d => d.metadata.color || zScale(d.z.val))
             .attr('width', this.blockSize)
             .attr('y', d => yScale(d.y) + 0.5)
             .attr('height', this.blockSize)
             // .classed('hovered', (a, b, c) => {
             //   return this.clickedTissue && this.clickedTissue === a.data;
             // })
-            .style('fill', d => zScale(d.z.val))
             .style('stroke', 'gray')
             .style('cursor', 'pointer')
             .style('pointer-events', 'all');
@@ -302,22 +302,36 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
         selection.on('mouseover', (event, d) => {
             const blocks = selection.nodes();
             const i = blocks.indexOf(event.currentTarget);
+            const tissue = this.heatmapData.yDisplayValues[blocks[i].__data__.y].val;
+            const dataSource = this.heatmapData.xValues[blocks[i].__data__.x].val;
             if (this.heatmapData.yDisplayValues[blocks[i].__data__.y].data) {
                 this.anatomogramHoverService.setTissue(this.heatmapData.yDisplayValues[blocks[i].__data__.y].data.uid);
             }
-            d3.select(blocks[i]).classed('hovered', true);
+
             this.tooltip.transition()
                 .duration(200)
                 .style('opacity', 0.9);
-            this.tooltip.html(`
+            if (tissue === 'Expression Type') {
+              this.tooltip.html(`
         <span>
-            <b>${this.heatmapData.yLabel}: </b>${this.heatmapData.yDisplayValues[blocks[i].__data__.y].val}<br />
-            <b>${this.heatmapData.xLabel}: </b>${this.heatmapData.xValues[blocks[i].__data__.x].val}<br />
+            <b>${this.heatmapData.xLabel}: </b>${dataSource}<br />
+            <b>Type: </b> ${d.z.rawVal?.replace('\n', ', ')}<br />
+        </span>`)
+                .style('left', event.pageX + 'px')
+                .style('top', event.pageY + 'px');
+            } else {
+              d3.select(blocks[i]).classed('hovered', true);
+              this.tooltip.html(`
+        <span>
+            <b>${this.heatmapData.yLabel}: </b>${tissue}<br />
+            <b>${this.heatmapData.xLabel}: </b>${dataSource}<br />
             <b>${d.metadata.valueLabel || 'Value'}:</b> ${d.z.rawVal?.replace('\n', ', ')}<br />
             ${d.metadata.hideRank ? '' : '<b>Source Rank:</b> ' + d.z.val + '<br />'}
         </span>`)
                 .style('left', event.pageX + 'px')
                 .style('top', event.pageY + 'px');
+
+            }
         }).on('mouseout', (event, d) => {
                 this.anatomogramHoverService.setTissue(null);
                 const blocks = selection.nodes();
@@ -342,15 +356,17 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
       const yTicks = this.chartArea.select('.yAxis').selectAll('.tick').attr('class', 'tick yAxisLabel');
       yTicks.on('mouseover', (event, d) => {
         const hoveredTissue = this.heatmapData.yDisplayValues[d].val;
-        if (this.heatmapData.yDisplayValues[d].data) {
-          this.anatomogramHoverService.setTissue(this.heatmapData.yDisplayValues[d].data.uid);
+        if (hoveredTissue !== 'Expression Type') {
+          if (this.heatmapData.yDisplayValues[d].data) {
+            this.anatomogramHoverService.setTissue(this.heatmapData.yDisplayValues[d].data.uid);
+          }
+          const blocks = selection.nodes().filter(b => {
+            return b.__data__.data === hoveredTissue;
+          });
+          blocks.forEach(b => {
+            d3.select(b).classed('hovered', true);
+          });
         }
-        const blocks = selection.nodes().filter(b => {
-          return b.__data__.data === hoveredTissue;
-        });
-        blocks.forEach(b => {
-          d3.select(b).classed('hovered', true);
-        });
       }).on('mouseout', (event, d) => {
         this.anatomogramHoverService.setTissue(null);
         const blocks = selection.nodes().forEach(b => {

@@ -1,3 +1,18 @@
+# 3.13.0 (2022-07-01)
+### Added Features
+* **Updated Expression Data and UI**
+  * The expression component on Target Details pages has been updated to show the newest versions of data from:
+    GTEx, HPA Protein, HPA RNA, HPM Protein, and JensenLab TISSUES
+  * The info panel will show details about the versions, release dates, and download files that were used in compiling the data
+  * Data sources are sorted according to whether data corresponds to protein expression or RNA expression
+  * There are some UI improvements as well, like sortable columns, and changing the shading map for each data source
+
+### Bug Fixes / Miscellaneous updates
+* Previously, linking to targets with dashes in the name might resolve to the wrong page. The problem is fixed.
+* Previously, filtering a ligand list based on an UpSet chart for the Target Filter would find zero ligands. The problem is fixed.
+
+_______________
+
 # 3.12.0 (2022-05-01)
 ### Added Features
 * **Use Cases**
@@ -24,6 +39,8 @@
 * Fix bugs that happen when there is a dash in a gene symbol
 * Updated to a new Public endpoint for NCATSFind
 * Buttons should now allow users to right-click to open a new tab, to allow for other workflows that need the original pages to stay open
+
+_______________
 
 # 3.11.0 (2022-03-01)
 ### Added Features

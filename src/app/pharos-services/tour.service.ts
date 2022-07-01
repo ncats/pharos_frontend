@@ -960,8 +960,10 @@ export class TourService {
         scrollToHandler: this.tourScroller.bind({section: 'expression', platformID: this.platformID}),
         buttons: this.firstButtons.slice(),
         title: 'Expression',
-        text: ['Expression data is aggregated from several data sources and displayed on target details pages. Data is shown as a heatmap of tissues and data sources, as well ' +
-        'as on an anatomogram, shaded according to the average ranking of each tissue across data sources.']
+        text: ['Expression data is aggregated from several data sources and displayed on target details pages. ' +
+        'Data is shown as a heatmap of tissues and data sources, as well ' +
+        'as on an anatomogram, shaded according to the average ranking of each tissue across data sources. The top row of ' +
+        'the heatmap is color coded as to the type of expresion data represented, i.e. RNA expression, protein expression, or a consensus score.']
       },
       {
         id: 'tissue-search',
@@ -986,6 +988,18 @@ export class TourService {
         title: 'Tissue Details',
         text: ['Click the tissue label, or the heatmap cells to see the details of the expression data for each tissue.']
       },
+      {
+        id: 'columns',
+        attachTo: {
+          element: '.xAxisLabel',
+          on: 'bottom'
+        },
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        title: 'Data Sources',
+        text: ['Click the data source label, to sort the heatmap based on data from that data source. This also updates' +
+        ' the tissue shading on the anatomogram.']
+      },
       ...(this.anatomogramIsHidden ? [] : [
         {
           id: 'anatomogram-container',
@@ -998,6 +1012,14 @@ export class TourService {
           title: 'Interactive Anatomogram',
           text: ['You can also filter the heatmap by clicking tissues on the anatomogram.']
         }]),
+      {
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Data Versions',
+        text: ['sheeeeeeee-it<br/>' +
+        '<img class="tour-screenshot" src="./assets/images/tutorials/data versions.png"/>']
+      },
       {
         id: 'download-expression-data',
         attachTo: {
