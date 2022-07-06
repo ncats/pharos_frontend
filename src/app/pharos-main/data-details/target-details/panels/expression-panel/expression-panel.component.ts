@@ -138,11 +138,11 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     const num = this.source2number(source);
     switch (num){
       case 1:
-        return '#ffb259';
+        return '#ff743a';
       case 2:
-        return '#5bc0de';
+        return '#337bb7';
       case 3:
-        return '#337ab7';
+        return '#ffcf3a';
     }
   }
   source2type(source: string): string {
@@ -224,7 +224,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
         this.addToShadingMap(expression.type, expression.uberon?.uid, expression.sourceRank || expression.value / 5);
       });
     const gtexmale = 'GTEx - Male';
-    const gtexfemale = 'GTEx = Female';
+    const gtexfemale = 'GTEx - Female';
     gtexList.forEach(expression => {
       if (!dsList.includes('GTEx')){
         heatMapData.addPoint(gtexmale, 'Expression Type', this.source2type('GTEx - Male'), 2,
