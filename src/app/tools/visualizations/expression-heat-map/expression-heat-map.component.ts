@@ -295,7 +295,7 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
             // .classed('hovered', (a, b, c) => {
             //   return this.clickedTissue && this.clickedTissue === a.data;
             // })
-            .style('stroke', 'gray')
+            .style('stroke', d => d.metadata.color || 'gray')
             .style('cursor', 'pointer')
             .style('pointer-events', 'all');
 
@@ -382,8 +382,10 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
         const blocks = selection.nodes().filter(b => {
           return b.__data__.x === d;
         });
-        blocks.forEach(b => {
-          d3.select(b).classed('hovered', true);
+        blocks.forEach((b) => {
+          if (!b.__data__.metadata.color) {
+            d3.select(b).classed('hovered', true);
+          }
         });
       }).on('mouseout', (event, d) => {
         const blocks = selection.nodes().forEach(b => {
