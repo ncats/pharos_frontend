@@ -93,13 +93,16 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.clickedTissue) {
-            if (changes.clickedTissue.currentValue?.length > 0) {
-                this.filterBySelectedTissue(changes.clickedTissue.currentValue);
-            } else {
-                this.clearFilter();
-            }
+      if (changes.heatmapData) {
+        this.redraw();
+      }
+      if (changes.clickedTissue) {
+        if (changes.clickedTissue.currentValue?.length > 0) {
+          this.filterBySelectedTissue(changes.clickedTissue.currentValue);
+        } else {
+          this.clearFilter();
         }
+      }
     }
 
     private _filter(value: string): string[] {
