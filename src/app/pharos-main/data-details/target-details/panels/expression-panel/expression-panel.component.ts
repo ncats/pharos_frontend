@@ -221,7 +221,8 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
             valueLabel: expression.type === 'JensenLab TISSUES' ? 'Confidence' : null,
             hideRank: expression.type === 'JensenLab TISSUES' ? true : false
           });
-        this.addToShadingMap(expression.type, expression.uberon?.uid, expression.sourceRank || expression.value / 5);
+        this.addToShadingMap(expression.type, expression.uberon?.uid,
+          expression.type === 'JensenLab TISSUES' ? expression.value / 5 : expression.sourceRank);
       });
     const gtexmale = 'GTEx - Male';
     const gtexfemale = 'GTEx - Female';
