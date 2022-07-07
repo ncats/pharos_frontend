@@ -1460,8 +1460,8 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
               SUMMARY_PANEL,
               PHAROS_BREADCRUMB_COMPONENT,
               LEVEL_SUMMARY_PANEL,
-              AA_SEQUENCE_PANEL,
               EXPRESSION_PANEL,
+              AA_SEQUENCE_PANEL,
               AFFILIATE_LINKS_PANEL,
             ]
           },
