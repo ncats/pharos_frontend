@@ -1,5 +1,5 @@
 <article>
-  <mat-card *ngIf=data class="section-card" id="details" (pharosScrollspy)="active('details')" #summary>
+  <mat-card *ngIf="(data && ligand)" class="section-card" id="details" (pharosScrollspy)="active('details')" #summary>
     <mat-card-content #details>
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
