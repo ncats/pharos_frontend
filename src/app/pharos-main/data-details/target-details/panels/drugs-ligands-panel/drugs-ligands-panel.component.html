@@ -1,5 +1,5 @@
 <ng-template #headerrow>
-  <pharos-component-header [description]="description" [field]="this.params.fieldName" [headerText]="label + ' (' + target[params.countName] + ')'">
+  <pharos-component-header [description]="description" [field]="this.params.fieldName" [headerText]="label + ' (' + (target ? target[params.countName] : null) + ')'">
   </pharos-component-header>
 </ng-template>
 
