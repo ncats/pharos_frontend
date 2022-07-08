@@ -318,7 +318,7 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
               this.tooltip.html(`
         <span>
             <b>${this.heatmapData.xLabel}: </b>${dataSource}<br />
-            <b>Type: </b> ${d.z.rawVal?.replace('\n', ', ')}<br />
+            <b>Type:</b> ${d.z.rawVal}<br />
         </span>`)
                 .style('left', event.pageX + 'px')
                 .style('top', event.pageY + 'px');
@@ -328,7 +328,7 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
         <span>
             <b>${this.heatmapData.yLabel}: </b>${tissue}<br />
             <b>${this.heatmapData.xLabel}: </b>${dataSource}<br />
-            <b>${d.metadata.valueLabel || 'Value'}:</b> ${d.z.rawVal?.replace('\n', ', ')}<br />
+            <b>${d.metadata.valueLabel || 'Value'}:</b> ${d.z.rawVal}<br />
             ${d.metadata.hideRank ? '' : '<b>Source Rank:</b> ' + d.z.val + '<br />'}
         </span>`)
                 .style('left', event.pageX + 'px')
