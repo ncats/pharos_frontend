@@ -1,4 +1,5 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {DataSourceInfo, DataVersionInfo} from "../../../../../../models/dataVersion";
 
 @Component({
   selector: 'pharos-expression-details',
@@ -10,6 +11,7 @@ export class ExpressionDetailsComponent implements OnInit, OnChanges {
   @Input() gtex: any[];
   @Input() selectedTissue = '';
   @Input() closeFunction;
+  @Input() dataVersions: DataVersionInfo[];
 
   selectedUberon: any = {};
 

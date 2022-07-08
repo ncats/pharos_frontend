@@ -83,7 +83,7 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
         this.target = this.data.targets;
         this.targetProps = this.data.targetsProps;
 
-        if (this.target.pubmedScores) {
+        if (this.target?.pubmedScores) {
           const values: Map<string, {year: number, score: number}> = new Map<string, {year: number, score: number}>();
           this.target.pubmedScores.forEach(val => {
             if (values.has(val.year)) {
@@ -98,7 +98,7 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
             .map(point => new PharosPoint({x: +point.year, y: point.score}));
         }
 
-        if (this.target.pubTatorScores) {
+        if (this.target?.pubTatorScores) {
           const values: Map<string, {year: number, score: number}> = new Map<string, {year: number, score: number}>();
           this.target.pubmedScores.forEach(val => {
             if (values.has(val.year)) {
@@ -112,7 +112,7 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
           this.pubtatorTimeline = this.target.pubTatorScores.map(point => new PharosPoint({x: +point.year, y: +point.score}));
         }
 
-        if (this.target.patentCounts) {
+        if (this.target?.patentCounts) {
           const values: Map<string, {year: number, count: number}> = new Map<string, {year: number, count: number}>();
           this.target.patentCounts.forEach(val => {
             if (values.has(val.year)) {
@@ -158,6 +158,6 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
   }
 
   hasData() {
-    return this.pmscoreTimeline.length > 0 || this.pubtatorTimeline.length > 0 || this.patentTimeline.length > 0;
+    return this.pmscoreTimeline?.length > 0 || this.pubtatorTimeline?.length > 0 || this.patentTimeline?.length > 0;
   }
 }

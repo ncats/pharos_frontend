@@ -13,3 +13,12 @@
   <div class="source-text">{{keyvalue.key}}</div>
   <pharos-expression-details-block [expressions]="keyvalue.value"></pharos-expression-details-block>
 </ng-container>
+
+<div *ngIf="selectedTissue==='Expression Type'">
+  <ng-container *ngFor="let dv of dataVersions">
+    <ng-container *ngFor="let ds of dv.dataSources">
+      <div class="source-text">{{ds.name}}</div>
+      <div class="source-explanation" [innerHTML]="ds.description"></div>
+    </ng-container>
+  </ng-container>
+</div>

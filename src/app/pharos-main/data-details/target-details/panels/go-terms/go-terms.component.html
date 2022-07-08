@@ -12,18 +12,7 @@
 </ng-template>
 
 <ng-template #headerrow>
-  <div fxLayout="row"
-       class="tkrow"
-       fxLayoutAlign="start stretch">
-    <div fxFlex="95">
-          <span class="mat-title" [matTooltip]=description
-                [matTooltipClass]="'pharos-tooltip'">Gene Ontology Terms ({{target?.goCount?.total()}})</span>
-    </div>
-    <div fxFlex="5">
-      <pharos-help-panel-trigger [origin]="'goTerms'"
-                                 [label]="'Gene Ontology Terms'"></pharos-help-panel-trigger>
-    </div>
-  </div>
+  <pharos-component-header [description]="description" [field]="field" [headerText]="'Gene Ontology Terms (' + target?.goCount?.total() + ')'"></pharos-component-header>
 </ng-template>
 
 <article

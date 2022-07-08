@@ -95,7 +95,7 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
         this.targetsProps = this.data.targetsProps;
         this.pathOrder = [];
 
-        this.target.pathwayCounts?.forEach(countObj => {
+        this.target?.pathwayCounts?.forEach(countObj => {
           const pwType = countObj.name.split(':')[0];
           if (!this.pathOrder.includes(pwType)){
             this.pathOrder.push(pwType);
@@ -116,7 +116,7 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
           return a.localeCompare(b);
         });
 
-        if (this.target.pathways && this.target.pathways.length > 0) {
+        if (this.target && this.target.pathways && this.target.pathways.length > 0) {
           this.showSection();
         } else {
           this.hideSection();
@@ -126,7 +126,7 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
   }
 
   getTotalPathwayCount() {
-    return this.target.pathwayCounts?.reduce((prev, cur) => prev + cur.value, 0);
+    return this.target?.pathwayCounts?.reduce((prev, cur) => prev + cur.value, 0);
   }
 
   getPathwayCount(pwType: string) {
@@ -172,6 +172,10 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
       });
       this.changeRef.markForCheck();
     }
+  }
+
+  highlightRow(row) {
+    return row.sourceID.term === this.selectedStructure?.sourceID;
   }
 }
 

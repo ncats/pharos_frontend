@@ -20,6 +20,8 @@ import {IdgLevelIndicatorComponent} from '../tools/idg-level-indicator/idg-level
 import {RouterModule} from '@angular/router';
 import {DiseaseAssociationGridComponent} from '../pharos-main/data-details/target-details/panels/disease-source-panel/disease-association-grid/disease-association-grid.component';
 import {DiseaseAssociationComponent} from '../pharos-main/data-details/target-details/panels/disease-source-panel/disease-association/disease-association.component';
+import {PackCircleComponent} from "../tools/visualizations/pack-circle/pack-circle.component";
+import {ComponentHeaderComponent} from "../tools/component-header/component-header.component";
 
 
 @NgModule({
@@ -36,38 +38,42 @@ import {DiseaseAssociationComponent} from '../pharos-main/data-details/target-de
     RouterModule,
     ApolloModule
   ],
-  declarations: [
-    BarChartComponent,
-    HelpPanelTriggerComponent,
-    ScrollspyDirective,
-    ScatterPlotComponent,
-    PharosMainComponent,
-    TargetRelevanceTableComponent,
-    IdgLevelIndicatorComponent,
-    DiseaseAssociationGridComponent,
-    DiseaseAssociationComponent
-  ],
+    declarations: [
+        BarChartComponent,
+        HelpPanelTriggerComponent,
+        ScrollspyDirective,
+        ScatterPlotComponent,
+        PharosMainComponent,
+        TargetRelevanceTableComponent,
+        IdgLevelIndicatorComponent,
+        DiseaseAssociationGridComponent,
+        DiseaseAssociationComponent,
+        PackCircleComponent,
+      ComponentHeaderComponent
+    ],
   providers: [
     HelpDataService,
     HelpPanelOpenerService
   ],
-  exports: [
-    CommonModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    FlexLayoutModule,
-    HelpArticlesModule,
-    BarChartComponent,
-    HelpPanelTriggerComponent,
-    ScrollspyDirective,
-    ScatterPlotComponent,
-    PharosMainComponent,
-    TargetRelevanceTableComponent,
-    IdgLevelIndicatorComponent,
-    DiseaseAssociationGridComponent,
-    DiseaseAssociationComponent
-  ]
+    exports: [
+        CommonModule,
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MaterialModule,
+        FlexLayoutModule,
+        HelpArticlesModule,
+        BarChartComponent,
+        HelpPanelTriggerComponent,
+        ScrollspyDirective,
+        ScatterPlotComponent,
+        PharosMainComponent,
+        TargetRelevanceTableComponent,
+        IdgLevelIndicatorComponent,
+        DiseaseAssociationGridComponent,
+        DiseaseAssociationComponent,
+        PackCircleComponent,
+      ComponentHeaderComponent
+    ]
 })
 export class SharedModule {}

@@ -1,25 +1,13 @@
 <ng-template #headerrow>
-  <div fxLayout="row"
-       class="tkrow"
-       fxLayoutAlign="start stretch">
-    <div fxFlex="95">
-        <span class="mat-title"
-              [matTooltip]=description
-              [matTooltipClass]="'pharos-tooltip'">
-          {{label}} ({{target[params.countName]}})</span>
-    </div>
-    <div fxFlex="5">
-      <pharos-help-panel-trigger [origin]="this.params.fieldName"></pharos-help-panel-trigger>
-    </div>
-  </div>
+  <pharos-component-header [description]="description" [field]="this.params.fieldName" [headerText]="label + ' (' + (target ? target[params.countName] : null) + ')'">
+  </pharos-component-header>
 </ng-template>
 
 <ng-template #nodata>
   <article>
   <mat-card [id]="field"
             class="section-card"
-            (pharosScrollspy)="active(field)"
-            #drugs>
+            (pharosScrollspy)="active(field)">
     <mat-card-content>
   <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
       No {{label | lowercase}} found
@@ -28,7 +16,7 @@
   </article>
 </ng-template>
 
-<article *ngIf="(this.target[this.params.fieldName].length > 0); else nodata">
+<article *ngIf="(this.target && this.target[this.params.fieldName].length > 0); else nodata">
   <mat-card id={{field}}
             class="section-card"
             *ngIf="data"

@@ -10,18 +10,7 @@
   </mat-card>
 </ng-template>
 <ng-template #headerrow>
-  <div fxLayout="row"
-       class="tkrow"
-       fxLayoutAlign="start stretch">
-    <div fxFlex="95">
-          <span class="mat-title" [matTooltip]=description
-                [matTooltipClass]="'pharos-tooltip'">Target Novelty (Tin-x)</span>
-    </div>
-    <div fxFlex="5">
-      <pharos-help-panel-trigger [origin]="'diseaseTINX'"
-                                 [label]="'tinx disease'"></pharos-help-panel-trigger>
-    </div>
-  </div>
+  <pharos-component-header [description]="description" [field]="field" [headerText]="'Target Novelty (Tin-x)'"></pharos-component-header>
 </ng-template>
 <article>
   <mat-card id={{field}}

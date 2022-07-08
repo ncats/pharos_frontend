@@ -1,0 +1,14 @@
+<mat-card>
+  <mat-card-content>
+    <div class="tkrow"
+         fxLayout="row"
+         fxLayoutAlign="start stretch">
+      <div fxFlex="95">
+        <span class="mat-title">
+          {{hierarchyData?.name}} ({{hierarchyData?.uid}})
+        </span>
+      </div>
+    </div>
+    <div class="d3-pack-chart" #packCircleTarget></div>
+  </mat-card-content>
+</mat-card>

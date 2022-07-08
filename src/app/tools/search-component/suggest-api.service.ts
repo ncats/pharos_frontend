@@ -141,7 +141,7 @@ export class autocompleteOption{
         } as autocompleteOption);
       }
       else if(cat.category === "Genes"){
-        if (cat.reference_id) {
+        if (cat.reference_id && cat.reference_id === queryRow.value) {
           retArray.push({
             value: queryRow.value,
             reference_id: cat.reference_id,

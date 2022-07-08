@@ -15,6 +15,9 @@ export class AffiliateLinksComponent extends TargetPanelBaseComponent implements
   {
     super(changeRef, dynamicServices);
   }
+  count(): number {
+    return this.target?.affiliateLinks.length;
+  }
 
   inpageNavigate(link) {
     const anchor = this.pageAnchor(link);

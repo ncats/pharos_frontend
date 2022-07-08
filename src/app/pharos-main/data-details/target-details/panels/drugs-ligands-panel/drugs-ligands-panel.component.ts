@@ -62,7 +62,7 @@ export class DrugsLigandsPanelComponent extends DynamicPanelComponent implements
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.target = this.data.targets;
-        if (this.target[this.params.fieldName]) {
+        if (this.target && this.target[this.params.fieldName]) {
           if (this.target[this.params.fieldName].length === 0) {
             this.hideSection();
           }
@@ -71,11 +71,13 @@ export class DrugsLigandsPanelComponent extends DynamicPanelComponent implements
           }
         }
 
-        this.pageData = new PageData({
-          total: this.target[this.params.countName],
-          skip: 0,
-          top: 10
-        });
+        if (this.target) {
+          this.pageData = new PageData({
+            total: this.target[this.params.countName],
+            skip: 0,
+            top: 10
+          });
+        }
         this.changeRef.markForCheck();
         this.loadingComplete();
       });

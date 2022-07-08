@@ -35,6 +35,6 @@ export class DoBrowserComponent extends DynamicPanelComponent implements OnInit 
   }
 
   hasData(){
-    return this.disease.parents?.length > 0 || this.disease.children?.length > 0;
+    return this.disease?.parents?.length > 0 || this.disease?.children?.length > 0;
   }
 }

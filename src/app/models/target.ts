@@ -17,6 +17,7 @@ import {GwasTargetAnalytics} from './gwasTargetAnalytics';
 import {LigandAssociationDetails} from './ligandAssociationDetails';
 import {TargetPredictionDetails} from './targetPredictionDetails';
 import {SequenceSimilarityDetails} from './sequenceSimilarityDetails';
+import {DataVersionInfo} from "./dataVersion";
 
 
 /**
@@ -235,7 +236,9 @@ export class Target extends PharosBase {
   /**
    * list of expression data
    */
+  expressionTree: any;
   expressions: any[];
+  dataVersions: DataVersionInfo[];
   gtex: any[];
   ligandCount = 0;
 
@@ -348,6 +351,10 @@ export class TargetSerializer implements PharosSerializer {
     const obj = new Target();
     obj.parsed = true;
     Object.entries((json)).forEach((prop) => obj[prop[0]] = prop[1]);
+
+    if (json.dataVersions) {
+      obj.dataVersions = DataVersionInfo.parseJson(json.dataVersions);
+    }
 
     const pathwaySerializer = new PathwaySerializer();
     if (json.nearestTclin) {

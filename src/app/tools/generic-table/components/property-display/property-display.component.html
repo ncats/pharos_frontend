@@ -37,7 +37,10 @@
     </div>
   </ng-container>
   <ng-template #text>
-    {{property.term}}
+    <span *ngIf="property.innerHTML; else normal" [innerHTML]="property.innerHTML"></span>
+    <ng-template #normal>
+      {{property.term}}
+    </ng-template>
   </ng-template>
 </ng-template>
 </div>

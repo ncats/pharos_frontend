@@ -24,13 +24,6 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 import {CentralStorageService} from '../../../../pharos-services/central-storage.service';
 
-
-/**
- * token to inject structure viewer into generic table component
- * @type {InjectionToken<any>}
- */
-export const IDG_LEVEL_TOKEN = new InjectionToken('IDGLevelComponent');
-
 /**
  * token to inject structure viewer into generic table component
  * @type {InjectionToken<any>}
