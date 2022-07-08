@@ -1,16 +1,5 @@
 <ng-template #headerrow>
-  <div class="tkrow"
-       fxLayout="row"
-       fxLayoutAlign="start stretch">
-    <div fxFlex="95">
-          <span [matTooltipClass]="'pharos-tooltip'" [matTooltip]=child?.description
-                class="mat-title">{{getLabel()}}</span>
-    </div>
-    <div fxFlex="5">
-      <pharos-help-panel-trigger [label]="child?.label"
-                                 [origin]="child?.field"></pharos-help-panel-trigger>
-    </div>
-  </div>
+  <pharos-component-header [description]="child?.description" [field]="child?.field" [headerText]="getLabel()"></pharos-component-header>
 </ng-template>
 
 <ng-template #nodata>

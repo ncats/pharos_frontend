@@ -73,7 +73,7 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.target = this.data.targets;
-        if (this.target.ppiCount > 0) {
+        if (this.target?.ppiCount > 0) {
           this.showSection();
         } else {
           this.hideSection();
@@ -82,7 +82,7 @@ export class ProteinProteinPanelComponent extends DynamicPanelComponent implemen
         this.changeRef.markForCheck();
 
         this.pageData = new PageData({
-          total: this.target.ppiCount,
+          total: this.target?.ppiCount,
           skip: 0,
           top: 10
         });

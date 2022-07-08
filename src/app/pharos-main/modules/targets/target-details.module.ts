@@ -1,5 +1,5 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CUSTOM_ELEMENTS_SCHEMA, Inject, NgModule, PLATFORM_ID} from '@angular/core';
+import {CommonModule, DOCUMENT, isPlatformBrowser} from '@angular/common';
 import {ApolloModule} from "apollo-angular";
 import {TargetDetailsRoutingModule} from './target-details-routing.module';
 import {TargetHeaderComponent} from '../../data-details/target-details/target-header/target-header.component';
@@ -51,6 +51,7 @@ import {NearestTclinPanelComponent} from '../../data-details/target-details/pane
 import {
   NearbyTargetListComponent
 } from '../../data-details/target-details/panels/nearest-tclin-panel/nearby-target-list/nearby-target-list.component';
+import {ScriptLoadService} from "../../../pharos-services/script-load.service";
 // import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predictions-panel.component';
 
 @NgModule({
@@ -139,4 +140,8 @@ import {
     {provide: TOKENS.ORTHOLOGS_PANEL, useValue: OrthologPanelComponent}
   ]
 })
-export class TargetDetailsModule { }
+export class TargetDetailsModule {
+  constructor(private scriptLoader: ScriptLoadService) {
+    scriptLoader.loadReactomeScript();
+  }
+}

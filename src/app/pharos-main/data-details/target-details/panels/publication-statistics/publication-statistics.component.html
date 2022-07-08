@@ -10,21 +10,7 @@
 </ng-template>
 
 <ng-template #headerrow>
-  <div fxLayout="row"
-       class="tkrow"
-       fxLayoutAlign="start stretch"
-       #development>
-    <div fxFlex="95">
-        <span class="mat-title"
-              [matTooltip]=description
-              [matTooltipClass]="'pharos-tooltip'">
-          Publication Statistics</span>
-    </div>
-    <div fxFlex="5">
-      <pharos-help-panel-trigger [origin]="'publicationStatistics'"
-                                 [label]="'Publication Statistics'"></pharos-help-panel-trigger>
-    </div>
-  </div>
+  <pharos-component-header [description]="description" [field]="field" [headerText]="'Publication Statistics'"></pharos-component-header>
 </ng-template>
 
 <article>

@@ -39,6 +39,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
    */
   tissues: string[] = [];
   shadingMap: Map<string, Map<string, number>> = new Map<string, Map<string, number>>();
+  shadingKey = 'JensenLab TISSUES';
   redrawAnatomogram: Subject<boolean> = new Subject<boolean>();
   uberonExpressionMap: HeatMapData;
   clickedTissue: string;
@@ -66,11 +67,14 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   ) {
     super(dynamicServices);
   }
+  dataSourceClicked(input, source) {
+    this.shadingKey = input;
+  }
 
   tissueClicked(input, source) {
     let tissue;
     let uberon;
-    if (input.startsWith('UBERON')) {
+    if (input.startsWith('UBERON') || input.startsWith('CL')) {
       uberon = input;
       tissue = this.string2UberonObj.get(uberon).name;
     } else {
@@ -126,13 +130,80 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   }
 
   updateHeatmapData() {
-    this.uberonExpressionMap = new HeatMapData('Data Source', 'Tissue', 'Average');
-    this.setMapData(this.uberonExpressionMap, this.target.expressions, this.target.gtex);
+    this.uberonExpressionMap = new HeatMapData('Data Source', 'Tissue', 'JensenLab TISSUES');
+    this.uberonExpressionMap.xSortFunction = this.sortDataSources.bind(this);
+    this.setMapData(this.uberonExpressionMap, this.target?.expressions, this.target?.gtex);
+  }
+  source2color(source: string): string {
+    const num = this.source2number(source);
+    switch (num){
+      case 1:
+        return '#ff743a';
+      case 2:
+        return '#337bb7';
+      case 3:
+        return '#ffcf3a';
+    }
+  }
+  source2type(source: string): string {
+    const num = this.source2number(source);
+    switch (num){
+      case 1:
+        return 'Consensus';
+      case 2:
+        return 'RNA Expression';
+      case 3:
+        return 'Protein Expression';
+    }
+  }
+  source2number(source: string): number{
+    if (source.includes('JensenLab')) {
+      return 1;
+    }
+    if (source.includes('Protein')) {
+      return 3;
+    }
+    return 2;
+  }
+  sortDataSources(x1, x2) {
+    const n1 = this.source2number(x1.val);
+    const n2 = this.source2number(x2.val);
+    if (n1 === n2) {
+      return x1.val.localeCompare(x2.val);
+    }
+    return n1 - n2;
+  }
+
+  addToShadingMap(type, uid, value) {
+    let existingMap;
+    if (uid && uid.startsWith('UBERON')) {
+      if (this.shadingMap.has(type)) {
+        existingMap = this.shadingMap.get(type);
+      } else {
+        existingMap = new Map<string, number>();
+        this.shadingMap.set(type, existingMap);
+      }
+      if (existingMap.has(uid)) {
+        const existingVal = existingMap.get(uid);
+        if (value > existingVal) {
+          existingMap.set(uid, value);
+        }
+      } else {
+        existingMap.set(uid, value);
+      }
+    }
   }
 
   setMapData(heatMapData: HeatMapData, expressionList: any[] = [], gtexList: any[] = []) {
     this.string2UberonObj.clear();
+    const dsList: string[] = [];
     expressionList.forEach(expression => {
+      if (!dsList.includes(expression.type)){
+        heatMapData.addPoint(
+          expression.type, 'Expression Type', this.source2type(expression.type), 2,
+          null, {color: this.source2color(expression.type), hideRank: true});
+        dsList.push(expression.type);
+      }
         const field = ExpressionPanelComponent.getPreferredField(expression.type);
         if (expression.uberon) {
           if (!this.tissues.includes(expression.uberon.uid)) {
@@ -141,53 +212,45 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
           this.string2UberonObj.set(expression.uberon.name, expression.uberon);
           this.string2UberonObj.set(expression.uberon.uid, expression.uberon);
         }
-        heatMapData.addPoint(expression.type,
-          expression.uberon?.name || expression.tissue, expression[field], expression.sourceRank, expression.uberon);
+        heatMapData.addPoint(
+          expression.type,
+          expression.uberon?.name || expression.tissue,
+          (expression[field] || '') + (ExpressionPanelComponent.getLabel(expression.type) ? ' ' + ExpressionPanelComponent.getLabel(expression.type) : ''),
+          expression.type === 'JensenLab TISSUES' ? expression.value / 5 : expression.sourceRank,
+          expression.uberon, {
+            valueLabel: expression.type === 'JensenLab TISSUES' ? 'Confidence' : null,
+            hideRank: expression.type === 'JensenLab TISSUES' ? true : false
+          });
+        this.addToShadingMap(expression.type, expression.uberon?.uid,
+          expression.type === 'JensenLab TISSUES' ? expression.value / 5 : expression.sourceRank);
       });
+    const gtexmale = 'GTEx - Male';
+    const gtexfemale = 'GTEx - Female';
     gtexList.forEach(expression => {
-      if (expression.gender === 'M') {
-        if (expression.uberon) {
-          if (!this.tissues.includes(expression.uberon.uid)) {
-            this.tissues.push(expression.uberon.uid);
-          }
-          this.string2UberonObj.set(expression.uberon.name, expression.uberon);
-          this.string2UberonObj.set(expression.uberon.uid, expression.uberon);
-        }
-        heatMapData.addPoint('GTEX - Male', expression.uberon?.name || expression.tissue,
-          expression.tpm + ' TPM', expression.tpm_rank, expression.uberon);
+      if (!dsList.includes('GTEx')){
+        heatMapData.addPoint(gtexmale, 'Expression Type', this.source2type('GTEx - Male'), 2,
+          null, {color: this.source2color(gtexmale), hideRank: true});
+        heatMapData.addPoint(gtexfemale, 'Expression Type', this.source2type('GTEx - Female'), 2,
+          null, {color: this.source2color(gtexfemale), hideRank: true});
+        dsList.push('GTEx');
       }
-      else {
-        if (expression.uberon) {
-          if (!this.tissues.includes(expression.uberon.uid)) {
-            this.tissues.push(expression.uberon.uid);
-          }
-          this.string2UberonObj.set(expression.uberon.name, expression.uberon);
-          this.string2UberonObj.set(expression.uberon.uid, expression.uberon);
+      if (expression.uberon) {
+        if (!this.tissues.includes(expression.uberon.uid)) {
+          this.tissues.push(expression.uberon.uid);
         }
-        heatMapData.addPoint('GTEX - Female', expression.uberon?.name || expression.tissue,
-          expression.tpm + ' TPM', expression.tpm_rank, expression.uberon);
+        this.string2UberonObj.set(expression.uberon.name, expression.uberon);
+        this.string2UberonObj.set(expression.uberon.uid, expression.uberon);
       }
-    });
-    heatMapData.yValues.forEach(y => {
-      const list = [];
-      heatMapData.xValues.forEach(x => {
-        const key = heatMapData.key(x.val, y.val);
-        if (heatMapData.data.has(key)) {
-          const val = heatMapData.data.get(key);
-          list.push(val.val);
-        }
-      });
-      const avg = list.reduce((a, b) => a + b) / list.length;
-      const uberon = this.string2UberonObj.get(y.val);
-      heatMapData.addPoint('Average', y.val, avg.toString(), avg, uberon);
-      let existingMap = this.shadingMap.get('Average');
-
-      if (!existingMap) {
-        existingMap = new Map<string, number>();
-        this.shadingMap.set('Average', existingMap);
+      this.addToShadingMap(gtexmale, expression.uberon?.uid, expression.tpm_rank);
+      this.addToShadingMap(gtexfemale, expression.uberon?.uid, expression.tpm_rank);
+      if (expression.tpm_male) {
+        heatMapData.addPoint(gtexmale, expression.uberon?.name || expression.tissue,
+          expression.tpm_male + ' TPM', expression.tpm_male_rank, expression.uberon, {});
       }
-
-      existingMap.set(uberon?.uid, avg);
+      if (expression.tpm_female) {
+        heatMapData.addPoint(gtexfemale, expression.uberon?.name || expression.tissue,
+          expression.tpm_female + ' TPM', expression.tpm_female_rank, expression.uberon, {});
+      }
     });
   }
 
@@ -200,17 +263,17 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
 
   static getPreferredField(dataSource: string): string {
     switch (dataSource) {
-      case 'CCLE':
-      case 'HCA RNA':
-      case 'HPM Gene':
-      case 'HPM Protein':
-      case 'JensenLab Text Mining':
-        return 'value';
-      case 'Consensus':
-      case 'HPA':
+      case 'HPA Protein':
         return 'qual';
       default:
         return 'value';
     }
   }
+  static getLabel(dataSource: string): string {
+    if (dataSource.includes('RNA')) {
+      return 'TPM';
+    }
+    return '';
+  }
+
 }

@@ -393,7 +393,7 @@ const PHAROS_FACET_REPRESENTATION_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_FACET_REPRESENTATION_COMPONENT,
   section: Position.Content,
   navHeader: {
-    mainDescription: 'Advanced analysis capabilities for lists.',
+    mainDescription: 'Calculate filter value enrichment for lists.',
     section: 'analyze',
     label: 'Filter Value Enrichment'
   }, api: [
@@ -571,7 +571,7 @@ const LEVEL_SUMMARY_PANEL: PharosPanel = {
   navHeader: {
     label: 'IDG Development Level Summary',
     section: 'development',
-    mainDescription: 'Descriptions of the IDG illumination level highlighting the milestones attained in the research of ' +
+    mainDescription: 'Descriptions of the IDG illumination levels, highlighting the milestones attained in research for ' +
       'this target.'
   },
   api: [
@@ -676,7 +676,7 @@ const IDG_RESOURCES_PANEL: PharosPanel = {
 const DISEASE_SOURCE_PANEL: PharosPanel = {
   token: TOKENS.DISEASE_SOURCE_PANEL,
   navHeader: {
-    label: 'Disease Associations by Source',
+    label: 'Disease Associations',
     section: 'diseaseSources',
     mainDescription: `This is a list of diseases associated with this target, compiled by several resources. Each
     resource provides different confidence measurements and association values, which are described below.`
@@ -1337,21 +1337,6 @@ const LIGAND_HEADER_COMPONENT: PharosPanel = {
 };
 
 /**
- * ligand description component
- * @type {PharosPanel}
- */
-const LIGAND_DESCRIPTION_COMPONENT: PharosPanel = {
-  token: TOKENS.LIGAND_DESCRIPTION_COMPONENT,
-
-  api: [
-    {
-      field: 'description',
-      description: 'Description of the ligand.'
-    }
-  ]
-};
-
-/**
  * ligand details component
  * @type {PharosPanel}
  */
@@ -1367,6 +1352,10 @@ const LIGAND_DETAILS_COMPONENT: PharosPanel = {
       field: 'structure',
       label: 'Structure',
       description: 'Structural formula for this ligand.'
+    },
+    {
+      field: 'description',
+      description: 'Description of the ligand.'
     },
     {
       field: 'synonyms',
@@ -1394,26 +1383,6 @@ const TARGET_RELEVANCE_PANEL: PharosPanel = {
       description: 'List of targets this ligand has been tested on, passing the activity cutoff levels described.',
       article: ARTICLES.LIGAND_ACTIVITY_ARTICLE
 
-    }
-  ]
-};
-
-/**
- * ligand molecular definition component
- * @type {PharosPanel}
- */
-const MOLECULAR_DEFINITION_PANEL: PharosPanel = {
-  token: TOKENS.MOLECULAR_DEFINITION_PANEL,
-  navHeader: {
-    label: 'Molecular Definition',
-    section: 'molecularDefinition',
-    mainDescription: 'List of this ligand\'s molecular properties.'
-  },
-  api: [
-    {
-      field: 'properties',
-      label: 'Molecular Properties',
-      description: 'List of associated molecular properties.'
     }
   ]
 };
@@ -1491,8 +1460,8 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
               SUMMARY_PANEL,
               PHAROS_BREADCRUMB_COMPONENT,
               LEVEL_SUMMARY_PANEL,
-              AA_SEQUENCE_PANEL,
               EXPRESSION_PANEL,
+              AA_SEQUENCE_PANEL,
               AFFILIATE_LINKS_PANEL,
             ]
           },
@@ -1584,7 +1553,6 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_HELPPANEL_COMPONENT,
           LIGAND_HEADER_COMPONENT,
           // PREDICTIONS_PANEL,
-          LIGAND_DESCRIPTION_COMPONENT,
           LIGAND_DETAILS_COMPONENT,
           TARGET_RELEVANCE_PANEL,
           //  MOLECULAR_DEFINITION_PANEL

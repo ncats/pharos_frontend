@@ -11,19 +11,8 @@
 </ng-template>
 
 <ng-template #headerrow>
-  <div class="tkrow"
-       fxLayout="row"
-       fxLayoutAlign="start stretch">
-    <div fxFlex="95">
-        <span [matTooltipClass]="'pharos-tooltip'"
-              [matTooltip]=description
-              class="mat-title">
-          Expression Data ({{this.uberonExpressionMap?.yValues?.length || 0}} Tissues)</span>
-    </div>
-    <div fxFlex="5">
-      <pharos-tutorial-link [tourType]="tourType"></pharos-tutorial-link>
-    </div>
-  </div>
+  <pharos-component-header [description]="description" [field]="field" [dataVersions]="target?.dataVersions" [tourType]="tourType"
+                           [headerText]="'Expression Data (' + (this.uberonExpressionMap?.yValues?.length || 0) + ' Tissues)'"></pharos-component-header>
 </ng-template>
 
 <article>
@@ -43,16 +32,20 @@
             <div class="section">
               <div [ngClass]="{halfHeight: detailsTissue}" class="heatmap-container">
                 <pharos-expression-heat-map [clickedTissue]="clickedTissue" [heatmapClicked]="tissueClicked.bind(this)"
-                                            [heatmapData]="uberonExpressionMap"></pharos-expression-heat-map>
+                    [dataSourceClicked]="dataSourceClicked.bind(this)" [heatmapData]="uberonExpressionMap"></pharos-expression-heat-map>
+<!--                <ng-container *ngFor="let root of target.expressionTree.uberonDict">-->
+<!--                  <pharos-pack-circle [hierarchyData]="root"></pharos-pack-circle>-->
+<!--                </ng-container>-->
               </div>
               <div *ngIf="detailsTissue" class="details-container halfHeight">
                 <pharos-expression-details [closeFunction]="closeDetails.bind(this)" [expressions]="target.expressions"
-                                           [gtex]="target.gtex"
+                                           [gtex]="target.gtex" [dataVersions]="target.dataVersions"
                                            [selectedTissue]="detailsTissue"></pharos-expression-details>
               </div>
             </div>
             <div class="section anatomogram-container" fxHide.lt-lg>
-              <pharos-anatomogram [clickHandler]="this.tissueClicked.bind(this)" [redrawAnatomogram]="this.redrawAnatomogram" [shadingKey]="'Average'"
+              <pharos-anatomogram [clickHandler]="this.tissueClicked.bind(this)" [redrawAnatomogram]="this.redrawAnatomogram"
+                                  [shadingKey]="this.shadingKey"
                                   [shadingMap]="this.shadingMap"
                                   [species]="'homo_sapiens'"
                                   [tissues]="tissues"></pharos-anatomogram>

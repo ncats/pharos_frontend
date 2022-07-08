@@ -80,7 +80,7 @@ export class HelpPanelComponent implements OnInit, OnDestroy {
    * @param {Injector} _injector
    */
   constructor(
-    private helpDataService: HelpDataService,
+    public helpDataService: HelpDataService,
     private helpPanelOpenerService: HelpPanelOpenerService,
     private _route: ActivatedRoute,
     private _injector: Injector) {

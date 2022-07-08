@@ -56,7 +56,7 @@ export class TourService {
   };
 
   menuTutorials: TourDefinition[] = [
-    {title: 'What\'s New in Version 3.12', storageKey: TourType.WhatsNew312},
+    {title: 'What\'s New in Version 3.13', storageKey: TourType.WhatsNew313},
     {title: 'Using the List Pages', storageKey: TourType.ListPagesTour},
     {title: 'Using the UpSet Chart', storageKey: TourType.UpsetChartTour},
     {title: 'Filter Value Enrichment', storageKey: TourType.FilterValueEnrichment},
@@ -93,7 +93,7 @@ export class TourService {
         this.featureTrackingService.trackFeature('Begin Tutorial', tutorialName);
       }
       switch (tutorialName) {
-        case TourType.WhatsNew312:
+        case TourType.WhatsNew313:
           this.whatsNew(true);
           break;
         case TourType.CustomListTour:
@@ -196,7 +196,7 @@ export class TourService {
     if (!isPlatformBrowser(this.platformID)) {
       return;
     }
-    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew312)) { // only autorun once
+    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew313)) { // only autorun once
       return;
     }
     this.loadPromise.then(() => {
@@ -209,61 +209,37 @@ export class TourService {
       {
         scrollTo: false,
         buttons: this.firstButtons.slice(),
-        title: 'What\'s new in Pharos 3.12?',
-        text: ['There are several new features in Pharos version 3.12, including a new pages for Use Cases and some UI changes, including a ' +
-        'new component for showing nearby druggable targets.']
+        title: 'What\'s new in Pharos 3.13?',
+        text: ['Expression data has been updated in Pharos 3.13, along with some updates to the User Interface.']
       },
       {
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Use Cases',
-        text: ['The Tutorials menu now includes a link ' +
-        'to the Use Cases page, which includes walkthroughs of different functionality such as <b>chemical structure search</b>, <b>enrichment ' +
-        'calculation</b>, and <b>generating heatmaps</b> and shows how the tools can be used together to achieve a higher level task.' +
-        '<br/><br/>Currently, the Use Cases include:' +
-         '<ul><li>' + UseCaseData.getUseCases().map(c => c.title).join('</li><li>') + '</li></ul>' +
-        '<img class="tour-screenshot" src="./assets/images/tutorials/new312/usecasemenu.png"/>']
+        title: 'Expression Data',
+        text: ['The data sources have been streamlined, now consisting of two RNA expression sources, two protein expression ' +
+        'sources, and one consensus measurement. The heatmap is color coded accordingly, and can be sorted based on the ' +
+        'data source by clicking the column header.' +
+        '<img class="tour-screenshot" src="./assets/images/tutorials/new313/expression-component.png"/>']
       },
       {
-        scrollTo: false,
+        id: 'versionInfo',
+        scrollToHandler: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Twitter Feed on the Home Page',
-        text: ['The Latest News and Events section of the home page now features the @idg_pharos Twitter feed. Follow us for updates and ' +
-        'news about Pharos and other IDG teams.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new312/twitterfeed.png"/>']
-      },
-      {
-        scrollTo: false,
-        buttons: this.middleButtons.slice(),
-        classes: 'step-with-screenshot',
-        title: 'Nearest Tclin Targets',
-        text: ['Target Details Pages will now include a component to show the nearest upstream and downstream Tclin targets. This calculation ' +
-        'is based the number of steps between targets in common KEGG pathways.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new312/nearesttclin.png"/>']
-      },
-      {
-        scrollTo: false,
-        buttons: this.middleButtons.slice(),
-        classes: 'step-with-screenshot',
-        title: 'Structured Data',
-        text: ['While not visible to end users, Details Pages and Use Case Pages, now include structured data as defined by ' +
-        '<a href="https://schema.org/" target="_blank">https://schema.org/</a> and ' +
-        '<a href="https://bioschemas.org/" target="_blank">https://bioschemas.org/</a>.<br/><br/>This will help search engines, and other web ' +
-        'crawlers, find and contextualize our data, and ensures that information presented in Pharos follows FAIR data principles.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new312/structureddata.png"/>']
+        title: 'Data Versions',
+        text: ['The info panel displays all the data files that are loaded into the database, as well as a' +
+        ' summary of data processing steps for each data source. As other data sources get their next update, these info ' +
+        'panels will show these details as well.<br/>' +
+        '<img class="tour-screenshot" src="./assets/images/tutorials/data versions.png"/>']
       },
       {
         scrollTo: false,
         buttons: this.lastButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'UI Changes on Details Pages',
-        text: ['Previously, components on the details pages without data were hidden. Now all components are shown all the time, and highlighted ' +
-        'when data exists.<br/><br/>This keeps the User Experience consistent, and helps users more quicky understand when annotations for a particular feature ' +
-        'do not exist.<br/>' +
-        '<div style="display: flex; flex-direction: row;"><img class="tour-screenshot" max-width="50%" src="./assets/images/tutorials/new312/datacomponents.png"/>' +
-        '<img class="tour-screenshot" max-width="50%" src="./assets/images/tutorials/new312/allcomponents.png"/></div>']
+        title: 'Tutorial',
+        text: ['Check out the Tutorial named "Viewing Target Expression Data" for a more detailed walkthrough.' +
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new313/tutorials.png"/>']
       }
     ];
     this.shepherdService.defaultStepOptions = this.defaultStepOptions;
@@ -272,7 +248,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(TourType.WhatsNew312, event);
+        this.completeTour(TourType.WhatsNew313, event);
       });
     });
     this.shepherdService.start();
@@ -960,8 +936,10 @@ export class TourService {
         scrollToHandler: this.tourScroller.bind({section: 'expression', platformID: this.platformID}),
         buttons: this.firstButtons.slice(),
         title: 'Expression',
-        text: ['Expression data is aggregated from several data sources and displayed on target details pages. Data is shown as a heatmap of tissues and data sources, as well ' +
-        'as on an anatomogram, shaded according to the average ranking of each tissue across data sources.']
+        text: ['Expression data is aggregated from several data sources and displayed on target details pages. ' +
+        'Data is shown as a heatmap of tissues and data sources, as well ' +
+        'as on an anatomogram, shaded according to the average ranking of each tissue across data sources. The top row of ' +
+        'the heatmap is color coded as to the type of expresion data represented, i.e. RNA expression, protein expression, or a consensus score.']
       },
       {
         id: 'tissue-search',
@@ -969,7 +947,7 @@ export class TourService {
           element: '.tissue-search',
           on: 'bottom'
         },
-        scrollTo: false,
+        scrollToHandler: this.tourScroller.bind({section: 'expression', platformID: this.platformID}),
         buttons: this.middleButtons.slice(),
         title: 'Tissue Search',
         text: ['You can filter the heatmap to a specific class of tissues by selecting a tissue to start with, and subsequently ' +
@@ -986,6 +964,18 @@ export class TourService {
         title: 'Tissue Details',
         text: ['Click the tissue label, or the heatmap cells to see the details of the expression data for each tissue.']
       },
+      {
+        id: 'columns',
+        attachTo: {
+          element: '.xAxisLabel',
+          on: 'bottom'
+        },
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        title: 'Data Sources',
+        text: ['Click the data source label, to sort the heatmap based on data from that data source. This also updates' +
+        ' the tissue shading on the anatomogram.']
+      },
       ...(this.anatomogramIsHidden ? [] : [
         {
           id: 'anatomogram-container',
@@ -998,6 +988,20 @@ export class TourService {
           title: 'Interactive Anatomogram',
           text: ['You can also filter the heatmap by clicking tissues on the anatomogram.']
         }]),
+      {
+        id: 'versionInfo',
+        attachTo: {
+          element: '#expression-help',
+          on: 'left'
+        },
+        scrollToHandler: this.tourScroller.bind({section: 'expression', platformID: this.platformID}),
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Data Versions',
+        text: ['The info panel displays all the data files that are loaded into the database, as well as a' +
+        ' summary of data processing steps for each data source. <br/>' +
+        '<img class="tour-screenshot" src="./assets/images/tutorials/data versions.png"/>']
+      },
       {
         id: 'download-expression-data',
         attachTo: {

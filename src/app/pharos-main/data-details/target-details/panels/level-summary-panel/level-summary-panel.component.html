@@ -1,24 +1,10 @@
 <article>
-  <mat-card *ngIf=data class="section-card" id="development" (pharosScrollspy)="active('development')">
+  <mat-card *ngIf=target class="section-card" id="development" (pharosScrollspy)="active('development')" #development>
   <mat-card-content>
     <div *ngIf="loading" class = "loadingIcon" fxLayoutAlign="center center">
       <img class="spinner rotating" alt="loading..."  src="./assets/images/pharos_spinner.svg">
     </div>
-    <div fxLayout="row"
-         class="tkrow"
-         fxLayoutAlign="start stretch"
-         #development>
-      <div fxFlex="95">
-        <span class="mat-title"
-              [matTooltip] = description
-              [matTooltipClass] = "'pharos-tooltip'">
-          {{label}}</span>
-      </div>
-      <div fxFlex="5">
-        <pharos-help-panel-trigger [origin]="'development'"
-                                   [label]="'IDG Development Level Summary'"></pharos-help-panel-trigger>
-      </div>
-    </div>
+    <pharos-component-header [description]="description" [field]="field" [headerText]="label"></pharos-component-header>
     <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="space-around stretch">
       <div fxFlex="23" class="tdl-section">
         <pharos-idg-level-indicator [level]="'Tdark'"

@@ -28,6 +28,10 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
 
   redrawCharts: Subject<string> = new Subject<string>();
 
+  showTour() {
+    return !this.displayFacet?.singleResponse;
+  }
+
   /**
    * data passed to visualization
    */

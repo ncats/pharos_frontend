@@ -166,12 +166,12 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
         }
         if (isPlatformBrowser(this.platformID)) {
 
-          if (this.target.publications) {
+          if (this.target?.publications) {
             this.publications = this.targetProps.publications;
             this.publicationsPageData = this.makePageData(this.target.publicationCount);
           }
 
-          if (this.target.generifs) {
+          if (this.target?.generifs) {
             this.generifs = this.targetProps.generifs;
             this.rifPageData = this.makePageData(this.target.generifCount);
           }
@@ -214,6 +214,6 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
   }
 
   hasData() {
-    return this.target.publicationCount > 0 || this.target.generifCount > 0;
+    return this.target?.publicationCount > 0 || this.target?.generifCount > 0;
   }
 }

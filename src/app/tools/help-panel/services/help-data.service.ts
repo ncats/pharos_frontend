@@ -93,6 +93,11 @@ export class HelpDataService {
  //   this._helpDataSource.next(this.data[this.field]);
   }
 
+  versions: any[] = [];
+  setVersions(versions: any[]) {
+    this.versions = versions;
+  }
+
   /**
    * save sources in the sources map
    * @param {string} field

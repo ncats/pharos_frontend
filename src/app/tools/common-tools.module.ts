@@ -36,6 +36,7 @@ import { HeatMapComponent } from './visualizations/heat-map/heat-map.component';
 import { BatchResolveModalComponent } from './batch-resolve-modal/batch-resolve-modal.component';
 import { SequenceAlignmentsComponent } from './visualizations/sequence-alignments/sequence-alignments.component';
 import { TaskItemComponent } from './task-item/task-item.component';
+import { DataVersionCardComponent } from './data-version-card/data-version-card.component';
 // import { PredictionsPanelComponent } from './predictions-panel/predictions-panel.component';
 
 @NgModule({
@@ -67,6 +68,7 @@ import { TaskItemComponent } from './task-item/task-item.component';
     BatchResolveModalComponent,
     SequenceAlignmentsComponent,
     TaskItemComponent,
+    DataVersionCardComponent
     // PredictionsPanelComponent
   ],
   imports: [
@@ -80,29 +82,29 @@ import { TaskItemComponent } from './task-item/task-item.component';
     UpsetModule,
     FacetTableModule
   ],
-  exports: [
-    NcatsHeaderModule,
-    AnatomogramModule,
-    RadarChartModule,
-    GenericTableModule,
-    BatchUploadModalComponent,
-    DynamicPanelComponent,
-    DynamicTablePanelComponent,
-    HelpPanelComponent,
-    KnowledgeTableComponent,
-    LinkListComponent,
-    StructureViewComponent,
-    ListFilterComponent,
-    ExpressionHeatMapComponent,
-    ExploreListButtonComponent,
-    AffiliateLinkComponent,
-    VennDiagramComponent,
-    UpsetPlotComponent,
-    TutorialLinkComponent,
-    HeatMapComponent,
-    SequenceAlignmentsComponent,
-    TaskItemComponent
-  ],
+    exports: [
+        NcatsHeaderModule,
+        AnatomogramModule,
+        RadarChartModule,
+        GenericTableModule,
+        BatchUploadModalComponent,
+        DynamicPanelComponent,
+        DynamicTablePanelComponent,
+        HelpPanelComponent,
+        KnowledgeTableComponent,
+        LinkListComponent,
+        StructureViewComponent,
+        ListFilterComponent,
+        ExpressionHeatMapComponent,
+        ExploreListButtonComponent,
+        AffiliateLinkComponent,
+        VennDiagramComponent,
+        UpsetPlotComponent,
+        TutorialLinkComponent,
+        HeatMapComponent,
+        SequenceAlignmentsComponent,
+        TaskItemComponent
+    ],
   entryComponents: [
     FieldSelectionDialogComponent
   ]

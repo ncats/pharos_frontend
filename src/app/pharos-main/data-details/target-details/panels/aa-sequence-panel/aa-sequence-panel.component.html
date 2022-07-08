@@ -6,19 +6,7 @@
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
       </div>
-      <div fxLayout="row"
-           class="tkrow"
-           fxLayoutAlign="start stretch">
-        <div fxFlex="95">
-        <span class="mat-title"
-              [matTooltip]=description
-              [matTooltipClass]="'pharos-tooltip'">
-          {{label}}</span>
-        </div>
-        <div fxFlex="5">
-          <pharos-help-panel-trigger [origin]="'sequence'" [label]="'Protein Sequence'"></pharos-help-panel-trigger>
-        </div>
-      </div>
+      <pharos-component-header [description]="description" [field]="field" [headerText]="label"></pharos-component-header>
       <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center">
         <span class="pharos-subtitle"
               [matTooltip]="getTooltip('residues')"

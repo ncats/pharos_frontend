@@ -335,6 +335,7 @@ export class HeatMapData {
   yDisplayValues: { val: string, score: number, data: any, metadata: string }[] = [];
   ySort = '';
   xSort = '';
+  xSortFunction;
   data: Map<string, { val: number, rawVal: string, metadata: any }> = new Map<string, { val: number, rawVal: string, metadata: any }>();
   plot: { x: number, y: number, z: { val: number, rawVal: string }, data: string, metadata: any}[] = [];
   xLabel = '';
@@ -357,7 +358,10 @@ export class HeatMapData {
   addPoint(xVal: string, yVal: string, val: string, numVal, data?: any, metadata: any = {}) {
     const key = this.key(xVal, yVal);
     if (this.data.has(key)) {
-      return;
+      const dp = this.data.get(key);
+      if (dp.val > numVal) { // keep highest expression value
+        return;
+      }
     }
     this.data.set(key, {val: numVal, rawVal: val, metadata});
 
@@ -383,7 +387,10 @@ export class HeatMapData {
       this.yDisplayValues = this.yValues.slice();
     }
 
-    if (this.xSort) {
+    if (this.xSortFunction) {
+      this.xValues.sort((a, b) => this.xSortFunction(a,b));
+    }
+    else if (this.xSort) {
       this.xValues.sort((a, b) => {
         const bVal = this.data.get(b.val + HeatMapData.separator + this.xSort)?.val;
         const aVal = this.data.get(a.val + HeatMapData.separator + this.xSort)?.val;
@@ -402,12 +409,6 @@ export class HeatMapData {
       });
     } else {
       this.xValues.sort((a, b) => {
-        if (b.val === 'Average') {
-          return 1;
-        }
-        if (a.val === 'Average') {
-          return -1;
-        }
         return b.score - a.score;
       });
     }

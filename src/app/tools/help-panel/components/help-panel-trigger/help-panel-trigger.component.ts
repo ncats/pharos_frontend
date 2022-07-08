@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HelpPanelOpenerService} from '../../services/help-panel-opener.service';
 import {HelpDataService} from '../../services/help-data.service';
+import {DataVersionInfo} from "../../../../models/dataVersion";
 
 /**
  * button to pass help panel toggle info
@@ -8,7 +9,7 @@ import {HelpDataService} from '../../services/help-data.service';
 @Component({
   selector: 'pharos-help-panel-trigger',
   templateUrl: './help-panel-trigger.component.html',
-  styleUrls: ['./help-panel-trigger.component.css']
+  styleUrls: ['./help-panel-trigger.component.scss']
 })
 export class HelpPanelTriggerComponent {
   /**
@@ -20,6 +21,7 @@ export class HelpPanelTriggerComponent {
    * readable label for the data source
    */
   @Input() label?: string;
+  @Input() dataVersions?: DataVersionInfo[];
 
   /**
    * set up toggle with required services
@@ -37,6 +39,11 @@ export class HelpPanelTriggerComponent {
   toggle() {
     if (this.origin) {
       this.helpDataService.setOrigin(this.origin);
+    }
+    if (this.dataVersions && this.dataVersions.length > 0) {
+      this.helpDataService.setVersions(this.dataVersions);
+    } else {
+      this.helpDataService.setVersions([]);
     }
     this.helpPanelOpenerService.toggleVisible();
   }

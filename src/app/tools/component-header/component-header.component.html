@@ -1,0 +1,14 @@
+<div class="tkrow"
+     fxLayout="row"
+     fxLayoutAlign="space-between stretch">
+  <div>
+        <span [matTooltipClass]="'pharos-tooltip'"
+              [matTooltip]="this.description"
+              class="mat-title">
+          {{headerText}}</span>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="end end">
+    <pharos-help-panel-trigger *ngIf="field" [origin]="this.field" [dataVersions]="dataVersions"></pharos-help-panel-trigger>
+    <pharos-tutorial-link *ngIf="tourType && tourTypeVisible()" [tourType]="tourType"></pharos-tutorial-link>
+  </div>
+</div>

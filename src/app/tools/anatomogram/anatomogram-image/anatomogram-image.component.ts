@@ -192,8 +192,10 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(change: any) {
-    if (change.tissues && !change.tissues.firstChange && isPlatformBrowser(this.platformID)) {
-      this.updateImage();
+    if (isPlatformBrowser(this.platformID)) {
+      if ((change.tissues && !change.tissues.firstChange) || (change.shadingKey && !change.shadingKey.firstChange)) {
+        this.updateImage();
+      }
     }
   }
 

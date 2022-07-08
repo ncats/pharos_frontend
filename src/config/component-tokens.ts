@@ -171,10 +171,6 @@ export class TOKENS {
   public static LIGAND_HEADER_COMPONENT = new InjectionToken<string>('LigandHeaderComponent');
 
   /**
-   * Injection token for ligands description component
-   */
-  public static LIGAND_DESCRIPTION_COMPONENT = new InjectionToken<string>('LigandDescriptionComponent');
-  /**
    * injection token to link to synonyms data
    */
   public static SYNONYMS_PANEL = new InjectionToken<string>('SynonymsComponent');
@@ -182,10 +178,8 @@ export class TOKENS {
    * injection token to link to structure view data
    */
   public static STRUCTURE_VIEW_PANEL = new InjectionToken<string>('StructureViewComponent');
-  /**
-   * injection token to link to molecular definition data
-   */
-  public static MOLECULAR_DEFINITION_PANEL = new InjectionToken<string>('MolecularDefinitionComponent');
+
+  public static IDG_LEVEL_TOKEN = new InjectionToken('IDGLevelComponent');
   /**
    * injection token to link to target relevance data
    */
