@@ -21,6 +21,7 @@ import {RouterModule} from '@angular/router';
 import {DiseaseAssociationGridComponent} from '../pharos-main/data-details/target-details/panels/disease-source-panel/disease-association-grid/disease-association-grid.component';
 import {DiseaseAssociationComponent} from '../pharos-main/data-details/target-details/panels/disease-source-panel/disease-association/disease-association.component';
 import {PackCircleComponent} from "../tools/visualizations/pack-circle/pack-circle.component";
+import {ComponentHeaderComponent} from "../tools/component-header/component-header.component";
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import {PackCircleComponent} from "../tools/visualizations/pack-circle/pack-circ
         IdgLevelIndicatorComponent,
         DiseaseAssociationGridComponent,
         DiseaseAssociationComponent,
-        PackCircleComponent
+        PackCircleComponent,
+      ComponentHeaderComponent
     ],
   providers: [
     HelpDataService,
@@ -70,7 +72,8 @@ import {PackCircleComponent} from "../tools/visualizations/pack-circle/pack-circ
         IdgLevelIndicatorComponent,
         DiseaseAssociationGridComponent,
         DiseaseAssociationComponent,
-        PackCircleComponent
+        PackCircleComponent,
+      ComponentHeaderComponent
     ]
 })
 export class SharedModule {}

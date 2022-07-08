@@ -37,7 +37,6 @@ import { BatchResolveModalComponent } from './batch-resolve-modal/batch-resolve-
 import { SequenceAlignmentsComponent } from './visualizations/sequence-alignments/sequence-alignments.component';
 import { TaskItemComponent } from './task-item/task-item.component';
 import { DataVersionCardComponent } from './data-version-card/data-version-card.component';
-import { ComponentHeaderComponent } from './component-header/component-header.component';
 // import { PredictionsPanelComponent } from './predictions-panel/predictions-panel.component';
 
 @NgModule({
@@ -69,8 +68,7 @@ import { ComponentHeaderComponent } from './component-header/component-header.co
     BatchResolveModalComponent,
     SequenceAlignmentsComponent,
     TaskItemComponent,
-    DataVersionCardComponent,
-    ComponentHeaderComponent,
+    DataVersionCardComponent
     // PredictionsPanelComponent
   ],
   imports: [
@@ -105,8 +103,7 @@ import { ComponentHeaderComponent } from './component-header/component-header.co
         TutorialLinkComponent,
         HeatMapComponent,
         SequenceAlignmentsComponent,
-        TaskItemComponent,
-        ComponentHeaderComponent
+        TaskItemComponent
     ],
   entryComponents: [
     FieldSelectionDialogComponent
