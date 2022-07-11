@@ -31,7 +31,6 @@ import { UpsetPlotComponent } from './visualizations/upset-plot/upset-plot.compo
 import { UpsetModule } from './visualizations/upset/upset.module';
 import { UpsetFieldEditComponent } from './upset-field-edit/upset-field-edit.component';
 import {FacetTableModule} from '../pharos-main/data-list/filter-panel/facet-table/facet-table.module';
-import { TutorialLinkComponent } from './tutorial-link/tutorial-link.component';
 import { HeatMapComponent } from './visualizations/heat-map/heat-map.component';
 import { BatchResolveModalComponent } from './batch-resolve-modal/batch-resolve-modal.component';
 import { SequenceAlignmentsComponent } from './visualizations/sequence-alignments/sequence-alignments.component';
@@ -63,7 +62,6 @@ import { DataVersionCardComponent } from './data-version-card/data-version-card.
     ModelDetailsComponent,
     UpsetPlotComponent,
     UpsetFieldEditComponent,
-    TutorialLinkComponent,
     HeatMapComponent,
     BatchResolveModalComponent,
     SequenceAlignmentsComponent,
@@ -100,7 +98,6 @@ import { DataVersionCardComponent } from './data-version-card/data-version-card.
         AffiliateLinkComponent,
         VennDiagramComponent,
         UpsetPlotComponent,
-        TutorialLinkComponent,
         HeatMapComponent,
         SequenceAlignmentsComponent,
         TaskItemComponent
