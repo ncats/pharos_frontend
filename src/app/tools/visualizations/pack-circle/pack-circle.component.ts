@@ -1,10 +1,13 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import * as d3 from 'd3v7';
+import {ExpressionInfoService} from "../../../pharos-services/expression-info.service";
+import {partition} from "lodash";
 
 @Component({
   selector: 'pharos-pack-circle',
   templateUrl: './pack-circle.component.html',
-  styleUrls: ['./pack-circle.component.scss']
+  styleUrls: ['./pack-circle.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PackCircleComponent implements OnInit {
 
@@ -13,8 +16,15 @@ export class PackCircleComponent implements OnInit {
    */
   @ViewChild('packCircleTarget', {static: true}) chartContainer: ElementRef;
   @Input() hierarchyData: any;
+  selectedUberon: any;
+  circles: any;
 
-  constructor() {
+  handleCircleClick(uid) {
+    this.expressionInfoService.setFocusedUberon(uid, 'circleplot');
+  }
+
+
+  constructor(private expressionInfoService: ExpressionInfoService) {
   }
 
   width = 1152;
@@ -22,8 +32,23 @@ export class PackCircleComponent implements OnInit {
   zoom;
   scale = 1;
 
-  ngOnInit(): void {
+  highlightCircles(cssClass: string, uid: string) {
+    const partitions = partition(this.circles.nodes(), c => {
+      return c.__data__?.data?.uid?.replace(':','_') === uid;
+    });
+    partitions[0].forEach(c => {
+      d3.select(c).classed(cssClass, true);
+    });
+    partitions[1].forEach(c => {
+      d3.select(c).classed(cssClass, false);
+    });
+  }
 
+  ngOnInit(): void {
+    this.expressionInfoService.focusedUberonChanged.subscribe(focusedUberon => {
+      this.selectedUberon = focusedUberon;
+      this.highlightCircles('focusedTissue',  focusedUberon?.uid);
+    });
     const zScale = d3.scaleLinear()
       .domain([0, 1])
       .range(['#ffffff', '#23364e']);
@@ -32,10 +57,10 @@ export class PackCircleComponent implements OnInit {
       const chart = this.Pack(this.hierarchyData, {
         value: d => d.value, // size of each node (file); null for internal nodes (folders)
         label: d => '',//(d, n) => [...d.name.split(/(?=[A-Z][a-z])/g), n.value.toLocaleString("en")].join("\n"),
-        title: (d, n) => [...d.name.split(/(?=[A-Z][a-z])/g), n.data.value.toLocaleString("en")].join("\n"),//`${n.ancestors().reverse().map(({data: d}) => d.name).join(".")}\n${n.value.toLocaleString("en")}`,
+        title: (d, n) => [...d.name.split(/(?=[A-Z][a-z])/g), n.data.value?.toLocaleString("en")].join("\n"),//`${n.ancestors().reverse().map(({data: d}) => d.name).join(".")}\n${n.value.toLocaleString("en")}`,
         width: this.width,
         height: this.height,
-        fill: (d) => {
+        fill: (d, n) => {
           return zScale(d.value);
         },
         stroke: '#23364e',
@@ -121,7 +146,7 @@ export class PackCircleComponent implements OnInit {
     //   .attr('y', 0)
     //   .attr('height', this.height);
 
-    let lastClick = false;
+    let selectedSection = false;
     const node = svg.selectAll("a")
       .data(descendants)
       .join("a")
@@ -130,32 +155,44 @@ export class PackCircleComponent implements OnInit {
       .attr("transform", d => `translate(${d.x},${d.y})`);
 
 
-    node.append("circle")
+    this.circles = node.append("circle")
       .attr("fill", d => !(d.children) ? fill(d) : '#fff')
       .attr("fill-opacity", d => fillOpacity(d))
       .attr("stroke", d => d.children ? stroke : null)
       .attr("stroke-width", d => d.children ? strokeWidth : null)
       .attr("stroke-opacity", d => d.children ? strokeOpacity : null)
       .attr("r", d => d.r)
-      .on('click', (event, d) => {
-        const uid = d.data.uid;
-        if (uid === lastClick) {
-          svg.transition().ease(d3.easeCubicInOut).duration(1000).attr("transform", `translate(0,0)scale(1)`);
-          lastClick = false;
-          lastPosition = [0,0];
-          this.scale = 1;
-        } else {
-          const twidth = this.chartContainer.nativeElement.offsetWidth;
-          const theight = this.chartContainer.nativeElement.offsetHeight;
-          this.scale = Math.min(Math.pow(twidth / d.r, .75), 6);
-          const x = (twidth - d.x) * this.scale / 2;
-          const y = (theight - d.y) * this.scale / 2;
-          lastPosition = [x,y];
-          lastMouse = false;
-          svg.transition().ease(d3.easeCubicInOut)
-            .duration(1000).attr("transform", `translate(${x},${y})scale(${this.scale})`);
-          lastClick = uid;
+      .on('mouseover', (event, d, n) => {
+        const uObj = this.expressionInfoService.get(d.data?.uid);
+        if (uObj && uObj.uid) {
+          this.highlightCircles('highlightTissue', uObj.uid);
         }
+      })
+      .on('mouseout', (event, d, n) => {
+        this.circles.nodes().forEach(c => {
+          d3.select(c).classed('highlightTissue', false);
+        });
+      })
+      .on('click', (event, d, n) => {
+        const uid = d.data.uid;
+        this.handleCircleClick(uid);
+        // if (uid === selectedSection) {
+        //   svg.transition().ease(d3.easeCubicInOut).duration(1000).attr("transform", `translate(0,0)scale(1)`);
+        //   selectedSection = false;
+        //   lastPosition = [0,0];
+        //   this.scale = 1;
+        // } else {
+        //   const twidth = this.chartContainer.nativeElement.offsetWidth;
+        //   const theight = this.chartContainer.nativeElement.offsetHeight;
+        //   this.scale = Math.min(Math.pow(twidth / d.r, .75), 6);
+        //   const x = (twidth - d.x) * this.scale / 2;
+        //   const y = (theight - d.y) * this.scale / 2;
+        //   lastPosition = [x,y];
+        //   lastMouse = false;
+        //   svg.transition().ease(d3.easeCubicInOut)
+        //     .duration(1000).attr("transform", `translate(${x},${y})scale(${this.scale})`);
+        //   selectedSection = uid;
+        // }
       });
 
     if (T) node.append("title").text((d, i) => T[i]);
@@ -186,25 +223,25 @@ export class PackCircleComponent implements OnInit {
     let lastMouse = false;
     let lastPosition = [0,0];
     this.zoom = d3.zoom().on('zoom', (e) => {
-      if (e.sourceEvent.type === 'wheel'){
-        return;
-      }
-      const mouse = d3.pointer(e);
-      if (!lastMouse) {
-        lastMouse = mouse;
-      }
-      if (!lastPosition) {
-        lastPosition = [0,0];
-      }
-      const x = lastPosition[0] + (mouse[0] - lastMouse[0]);
-      const y = lastPosition[1] + (mouse[1] - lastMouse[1]);
-      svg.attr("transform", `translate(${x},${y})scale(${this.scale})`);
-    }).on("end", (e) => {
-      const mouse = d3.pointer(e);
-      const x = lastPosition[0] + (mouse[0] - lastMouse[0]);
-      const y = lastPosition[1] + (mouse[1] - lastMouse[1]);
-      lastPosition = [x,y];
-      lastMouse = false;
+    //   if (e.sourceEvent.type === 'wheel'){
+    //     return;
+    //   }
+    //   const mouse = d3.pointer(e);
+    //   if (!lastMouse) {
+    //     lastMouse = mouse;
+    //   }
+    //   if (!lastPosition) {
+    //     lastPosition = [0,0];
+    //   }
+    //   const x = lastPosition[0] + (mouse[0] - lastMouse[0]);
+    //   const y = lastPosition[1] + (mouse[1] - lastMouse[1]);
+    //   svg.attr("transform", `translate(${x},${y})scale(${this.scale})`);
+    // }).on("end", (e) => {
+    //   const mouse = d3.pointer(e);
+    //   const x = lastPosition[0] + (mouse[0] - lastMouse[0]);
+    //   const y = lastPosition[1] + (mouse[1] - lastMouse[1]);
+    //   lastPosition = [x,y];
+    //   lastMouse = false;
     });
 
     svg.call(this.zoom);

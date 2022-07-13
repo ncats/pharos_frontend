@@ -574,6 +574,7 @@ export const TARGETDETAILSFIELDS = gql`
       term
       mimid
     }
+    expressionTree
     expressions (top: 10000) {
       type
       sourceRank: source_rank

@@ -1,3 +1,13 @@
 .d3-pack-chart{
   overflow: clip;
 }
+
+.highlightTissue {
+  stroke: red;
+  stroke-width: 5px;
+}
+
+.focusedTissue {
+  stroke: blue;
+  stroke-width: 5px;
+}

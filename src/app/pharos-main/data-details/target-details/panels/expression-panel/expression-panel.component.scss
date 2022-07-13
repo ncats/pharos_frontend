@@ -63,6 +63,11 @@ img.hg {
   height: 100%;
 }
 
+.circle-plot-container {
+  overflow-y: scroll;
+  height: 100%;
+}
+
 .heatmap-container.halfHeight{
   border-bottom: 1px solid;
 }

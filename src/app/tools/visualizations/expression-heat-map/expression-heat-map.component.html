@@ -3,6 +3,7 @@
 </div>
 <div class="twod-container">
   <div class="tissue-search" >
+    {{selectedUberon | json}}
   <mat-slide-toggle [(ngModel)]="tissueSearchOn" (change)="updateChart()">{{tissueSearchOn ? 'Tissue Search On' : 'Tissue Search Off'}}</mat-slide-toggle>
     <ng-container *ngIf="!tissueSearchOn">
       <mat-slide-toggle [(ngModel)]="showCells" (change)="updateChart()">Show Cell Types and Cell Lines</mat-slide-toggle>
@@ -21,7 +22,7 @@
            aria-label="Tissue Select"
            matInput (close)="tissueSelected($event)"
            [formControl]="filterControl"
-           [matAutocomplete]="auto">
+           [matAutocomplete]="auto" #tissueInput>
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
       <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (onSelectionChange)="tissueSelected($event)">
         {{option}}
@@ -32,7 +33,7 @@
     </button>
   </mat-form-field>
 
-  <mat-radio-group *ngIf="tissueSearchOn" class="ancestor-radio-group" [(ngModel)]="selectedAncestor" (change)="updateChart()">
+  <mat-radio-group *ngIf="tissueSearchOn" class="ancestor-radio-group" [(ngModel)]="selectedAncestor" (change)="changeAncestor()">
     <mat-radio-button class="ancestor-radio-button" *ngFor="let tissue of tissueAncestors" [value]="tissue.name">
       {{tissue}}
     </mat-radio-button>

@@ -33,9 +33,6 @@
               <div [ngClass]="{halfHeight: detailsTissue}" class="heatmap-container">
                 <pharos-expression-heat-map [clickedTissue]="clickedTissue" [heatmapClicked]="tissueClicked.bind(this)"
                     [dataSourceClicked]="dataSourceClicked.bind(this)" [heatmapData]="uberonExpressionMap"></pharos-expression-heat-map>
-<!--                <ng-container *ngFor="let root of target.expressionTree.uberonDict">-->
-<!--                  <pharos-pack-circle [hierarchyData]="root"></pharos-pack-circle>-->
-<!--                </ng-container>-->
               </div>
               <div *ngIf="detailsTissue" class="details-container halfHeight">
                 <pharos-expression-details [closeFunction]="closeDetails.bind(this)" [expressions]="target.expressions"
@@ -44,11 +41,30 @@
               </div>
             </div>
             <div class="section anatomogram-container" fxHide.lt-lg>
-              <pharos-anatomogram [clickHandler]="this.tissueClicked.bind(this)" [redrawAnatomogram]="this.redrawAnatomogram"
-                                  [shadingKey]="this.shadingKey"
-                                  [shadingMap]="this.shadingMap"
-                                  [species]="'homo_sapiens'"
-                                  [tissues]="tissues"></pharos-anatomogram>
+              <mat-tab-group class="section">
+                <mat-tab
+                  [label]="'Anatamogram'"
+                  [matTooltip]="getTooltip('anatamogram')">
+                  <ng-template matTabContent>
+                    <pharos-anatomogram [clickHandler]="this.tissueClicked.bind(this)" [redrawAnatomogram]="this.redrawAnatomogram"
+                                        [shadingKey]="this.shadingKey"
+                                        [shadingMap]="this.shadingMap"
+                                        [species]="'homo_sapiens'"
+                                        [tissues]="tissues"></pharos-anatomogram>
+                  </ng-template>
+                </mat-tab>
+                <mat-tab style="height: 100%"
+                  [label]="'Circle Plot'"
+                  [matTooltip]="getTooltip('circleplot')">
+                  <ng-template matTabContent>
+                    <div class="circle-plot-container">
+                      <ng-container *ngFor="let root of sortedTrees">
+                        <pharos-pack-circle [hierarchyData]="root"></pharos-pack-circle>
+                      </ng-container>
+                    </div>
+                  </ng-template>
+                </mat-tab>
+              </mat-tab-group>
             </div>
           </div>
         </div>
