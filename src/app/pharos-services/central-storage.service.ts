@@ -1,7 +1,6 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
-import {Facet} from '../models/facet';
-import {ActivatedRoute, ActivatedRouteSnapshot} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
