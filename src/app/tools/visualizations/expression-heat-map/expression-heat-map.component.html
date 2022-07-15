@@ -3,7 +3,6 @@
 </div>
 <div class="twod-container">
   <div class="tissue-search" >
-    {{selectedUberon | json}}
   <mat-slide-toggle [(ngModel)]="tissueSearchOn" (change)="updateChart()">{{tissueSearchOn ? 'Tissue Search On' : 'Tissue Search Off'}}</mat-slide-toggle>
     <ng-container *ngIf="!tissueSearchOn">
       <mat-slide-toggle [(ngModel)]="showCells" (change)="updateChart()">Show Cell Types and Cell Lines</mat-slide-toggle>
@@ -38,6 +37,15 @@
       {{tissue}}
     </mat-radio-button>
   </mat-radio-group>
+  </div>
+  <div class="help-row" [matTooltip]="'Select a tissue in the dropdown above, or on the Circle Plot, or on the Anatomagram to filter the heatmap.'">
+    <mat-icon>filter_alt</mat-icon>
+    <span *ngIf="selectedUberon && selectedUberon.name"><label>Filter:</label> {{selectedUberon.name}} ({{selectedUberon.uid}})</span>
+    <span *ngIf="!selectedUberon || !selectedUberon.name"><label>Filter:</label> none</span>
+  </div>
+  <div class="help-row" [matTooltip]="'Click the header labels to sort by a different data source.'">
+    <mat-icon>sort</mat-icon>
+    <span><label>Sort Column:</label> {{this.heatmapData.ySort}}</span>
   </div>
   <div class="d3-chart-2d" id="twoDChartTarget" #twoDChartTarget></div>
 </div>
