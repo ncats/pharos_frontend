@@ -43,6 +43,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   shadingKey = 'JensenLab TISSUES';
   redrawAnatomogram: Subject<boolean> = new Subject<boolean>();
   uberonExpressionMap: HeatMapData;
+  selectedUberon: any;
   clickedTissue: string;
   detailsTissue: string;
   sortedTrees: any[];
@@ -76,8 +77,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     let uberonObj = this.expressionInfoService.get(input);
     const tissue = uberonObj?.name;
     const uberon = uberonObj?.uid;
-    console.log(tissue);
-    console.log(uberon);
     if (source === 'anatomogram') {
       if (tissue === this.clickedTissue) {
         this.clickedTissue = '';
@@ -100,6 +99,10 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
    * subscribe to data changes and generate tree
    */
   ngOnInit() {
+    this.selectedUberon = this.expressionInfoService.focusedUberon;
+    this.expressionInfoService.focusedUberonChanged.subscribe(selectedUberon => {
+      this.selectedUberon = selectedUberon;
+    });
     this.tourType = TourType.TargetExpressionTour;
     this._data
       // listen to data as long as term is undefined or null

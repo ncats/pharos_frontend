@@ -1,12 +1,11 @@
 <mat-card>
   <mat-card-content>
-    {{selectedUberon | json}}
     <div class="tkrow"
          fxLayout="row"
          fxLayoutAlign="start stretch">
       <div fxFlex="95">
         <span class="mat-title">
-          {{hierarchyData?.name}} ({{hierarchyData?.uid}})
+          root: {{hierarchyData?.name}} ({{hierarchyData?.uid}})
         </span>
       </div>
     </div>

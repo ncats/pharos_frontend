@@ -86,7 +86,7 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
   ngOnInit() {
     this.expressionInfoService.focusedUberonChanged.subscribe(focusedUberon => {
       this.selectedUberon = focusedUberon;
-      if (focusedUberon.source !== 'heatmap') {
+      if (focusedUberon?.source !== 'heatmap') {
         this.clearData();
         this.selectedAncestor = this.selectedUberon?.uid;
         this.updateChart();
@@ -110,6 +110,7 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
     }
     if (changes.clickedTissue) {
       if (changes.clickedTissue.currentValue?.length > 0) {
+        this.expressionInfoService.setFocusedTissue(changes.clickedTissue.currentValue, 'heatmap');
         this.filterBySelectedTissue(changes.clickedTissue.currentValue);
       } else {
         this.clearFilter();
@@ -217,7 +218,9 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
 
   clearData() {
     this.selectedAncestor = '';
-    this.tissueInput.nativeElement.value = '';
+    if (this.tissueInput) {
+      this.tissueInput.nativeElement.value = '';
+    }
     this.filterTextValue = '';
     this.filterTissue = null;
     this.tissueAncestors = [];

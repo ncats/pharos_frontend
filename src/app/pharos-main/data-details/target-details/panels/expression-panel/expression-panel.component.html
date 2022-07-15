@@ -42,19 +42,8 @@
             </div>
             <div class="section anatomogram-container" fxHide.lt-lg>
               <mat-tab-group class="section">
-                <mat-tab
-                  [label]="'Anatamogram'"
-                  [matTooltip]="getTooltip('anatamogram')">
-                  <ng-template matTabContent>
-                    <pharos-anatomogram [clickHandler]="this.tissueClicked.bind(this)" [redrawAnatomogram]="this.redrawAnatomogram"
-                                        [shadingKey]="this.shadingKey"
-                                        [shadingMap]="this.shadingMap"
-                                        [species]="'homo_sapiens'"
-                                        [tissues]="tissues"></pharos-anatomogram>
-                  </ng-template>
-                </mat-tab>
                 <mat-tab style="height: 100%"
-                  [label]="'Circle Plot'"
+                  [label]="'Circle Plot (' + sortedTrees.length + ')'"
                   [matTooltip]="getTooltip('circleplot')">
                   <ng-template matTabContent>
                     <div class="circle-plot-container">
@@ -64,6 +53,17 @@
                     </div>
                   </ng-template>
                 </mat-tab>
+                <mat-tab
+                [label]="'Anatomogram'"
+                [matTooltip]="getTooltip('anatomogram')">
+                <ng-template matTabContent>
+                  <pharos-anatomogram [clickHandler]="this.tissueClicked.bind(this)" [redrawAnatomogram]="this.redrawAnatomogram"
+                                      [shadingKey]="this.shadingKey"
+                                      [shadingMap]="this.shadingMap"
+                                      [species]="'homo_sapiens'"
+                                      [tissues]="tissues"></pharos-anatomogram>
+                </ng-template>
+              </mat-tab>
               </mat-tab-group>
             </div>
           </div>

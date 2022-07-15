@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import * as d3 from 'd3v7';
 import {ExpressionInfoService} from "../../../pharos-services/expression-info.service";
 import {partition} from "lodash";
@@ -9,7 +9,7 @@ import {partition} from "lodash";
   styleUrls: ['./pack-circle.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class PackCircleComponent implements OnInit {
+export class PackCircleComponent implements OnInit, OnDestroy {
 
   /**
    * element container
@@ -18,6 +18,8 @@ export class PackCircleComponent implements OnInit {
   @Input() hierarchyData: any;
   selectedUberon: any;
   circles: any;
+  tooltip: any;
+  currentScale = 1;
 
   handleCircleClick(uid) {
     this.expressionInfoService.setFocusedUberon(uid, 'circleplot');
@@ -29,12 +31,10 @@ export class PackCircleComponent implements OnInit {
 
   width = 1152;
   height = 1152;
-  zoom;
-  scale = 1;
 
   highlightCircles(cssClass: string, uid: string) {
     const partitions = partition(this.circles.nodes(), c => {
-      return c.__data__?.data?.uid?.replace(':','_') === uid;
+      return c.__data__?.data?.uid?.replace(':', '_') === uid;
     });
     partitions[0].forEach(c => {
       d3.select(c).classed(cssClass, true);
@@ -45,9 +45,10 @@ export class PackCircleComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.selectedUberon = this.expressionInfoService.focusedUberon;
     this.expressionInfoService.focusedUberonChanged.subscribe(focusedUberon => {
       this.selectedUberon = focusedUberon;
-      this.highlightCircles('focusedTissue',  focusedUberon?.uid);
+      this.highlightCircles('focusedTissue', focusedUberon?.uid);
     });
     const zScale = d3.scaleLinear()
       .domain([0, 1])
@@ -57,7 +58,7 @@ export class PackCircleComponent implements OnInit {
       const chart = this.Pack(this.hierarchyData, {
         value: d => d.value, // size of each node (file); null for internal nodes (folders)
         label: d => '',//(d, n) => [...d.name.split(/(?=[A-Z][a-z])/g), n.value.toLocaleString("en")].join("\n"),
-        title: (d, n) => [...d.name.split(/(?=[A-Z][a-z])/g), n.data.value?.toLocaleString("en")].join("\n"),//`${n.ancestors().reverse().map(({data: d}) => d.name).join(".")}\n${n.value.toLocaleString("en")}`,
+        // title: (d, n) => [...d.name.split(/(?=[A-Z][a-z])/g), n.data.value?.toLocaleString("en")].join("\n"),//`${n.ancestors().reverse().map(({data: d}) => d.name).join(".")}\n${n.value.toLocaleString("en")}`,
         width: this.width,
         height: this.height,
         fill: (d, n) => {
@@ -67,6 +68,10 @@ export class PackCircleComponent implements OnInit {
         strokeOpacity: 0.5,
       });
     }
+  }
+
+  ngOnDestroy() {
+    this.removeTooltip();
   }
 
   id() {
@@ -126,6 +131,7 @@ export class PackCircleComponent implements OnInit {
       .size([width - marginLeft - marginRight, height - marginTop - marginBottom])
       .padding(padding)
       (root);
+
     const svg = d3.select(element)
       .append('svg:svg')
       .attr('id', this.id())
@@ -137,17 +143,13 @@ export class PackCircleComponent implements OnInit {
       .attr("font-size", 10)
       .attr("text-anchor", "middle");
 
-    // const clipPath = svg
-    //   .append('clipPath')
-    //   .attr('id', `clip-${this.id()}`)
-    //   .append('rect')
-    //   .attr('x', 0)
-    //   .attr('width', this.width)
-    //   .attr('y', 0)
-    //   .attr('height', this.height);
+    const chartArea = svg.append('g');
+    const buttons = svg.append('g');
+
+    this.addTooltip();
 
     let selectedSection = false;
-    const node = svg.selectAll("a")
+    const node = chartArea.selectAll("a")
       .data(descendants)
       .join("a")
       .attr("xlink:href", link == null ? null : (d, i) => link(d.data, d))
@@ -173,79 +175,106 @@ export class PackCircleComponent implements OnInit {
           d3.select(c).classed('highlightTissue', false);
         });
       })
+      .on('pointermove', (event, d, n) => {
+        this.showTooltip(event, d, n);
+        event.stopPropagation();
+      })
       .on('click', (event, d, n) => {
         const uid = d.data.uid;
         this.handleCircleClick(uid);
-        // if (uid === selectedSection) {
-        //   svg.transition().ease(d3.easeCubicInOut).duration(1000).attr("transform", `translate(0,0)scale(1)`);
-        //   selectedSection = false;
-        //   lastPosition = [0,0];
-        //   this.scale = 1;
-        // } else {
-        //   const twidth = this.chartContainer.nativeElement.offsetWidth;
-        //   const theight = this.chartContainer.nativeElement.offsetHeight;
-        //   this.scale = Math.min(Math.pow(twidth / d.r, .75), 6);
-        //   const x = (twidth - d.x) * this.scale / 2;
-        //   const y = (theight - d.y) * this.scale / 2;
-        //   lastPosition = [x,y];
-        //   lastMouse = false;
-        //   svg.transition().ease(d3.easeCubicInOut)
-        //     .duration(1000).attr("transform", `translate(${x},${y})scale(${this.scale})`);
-        //   selectedSection = uid;
-        // }
       });
 
     if (T) node.append("title").text((d, i) => T[i]);
 
-    // if (L) {
-    //   // A unique identifier for clip paths (to avoid conflicts).
-    //   const uid = `O-${Math.random().toString(16).slice(2)}`;
-    //
-    //   const leaf = node
-    //     .filter(d => !d.children && d.r > 10 && L[d.index] != null);
-    //
-    //   leaf.append("clipPath")
-    //     .attr("id", d => `${uid}-clip-${d.index}`)
-    //     .append("circle")
-    //     .attr("r", d => d.r);
-    //
-    //   leaf.append("text")
-    //     .attr("clip-path", d => `url(#clip-path)`)
-    //     .selectAll("tspan")
-    //     .data(d => `${L[d.index]}`.split(/\n/g))
-    //     .join("tspan")
-    //     .attr("x", 0)
-    //     .attr("y", (d, i, D) => `${(i - D.length / 2) + 0.85}em`)
-    //     .attr("fill-opacity", (d, i, D) => i === D.length - 1 ? 0.7 : null)
-    //     .text(d => d);
-    // }
-
-    let lastMouse = false;
-    let lastPosition = [0,0];
-    this.zoom = d3.zoom().on('zoom', (e) => {
-    //   if (e.sourceEvent.type === 'wheel'){
-    //     return;
-    //   }
-    //   const mouse = d3.pointer(e);
-    //   if (!lastMouse) {
-    //     lastMouse = mouse;
-    //   }
-    //   if (!lastPosition) {
-    //     lastPosition = [0,0];
-    //   }
-    //   const x = lastPosition[0] + (mouse[0] - lastMouse[0]);
-    //   const y = lastPosition[1] + (mouse[1] - lastMouse[1]);
-    //   svg.attr("transform", `translate(${x},${y})scale(${this.scale})`);
-    // }).on("end", (e) => {
-    //   const mouse = d3.pointer(e);
-    //   const x = lastPosition[0] + (mouse[0] - lastMouse[0]);
-    //   const y = lastPosition[1] + (mouse[1] - lastMouse[1]);
-    //   lastPosition = [x,y];
-    //   lastMouse = false;
+    svg.on('mouseout', () => {
+      this.hideTooltip();
     });
 
-    svg.call(this.zoom);
+    if (this.selectedUberon && this.selectedUberon.uid) {
+      this.highlightCircles('focusedTissue', this.selectedUberon.uid);
+    }
+
+    let zoom = d3.zoom()
+      .scaleExtent([1, 20])
+      .translateExtent([[0, 0], [width, height]])
+      .on('zoom', (event) => {
+        this.currentScale = event.transform.k;
+        console.log(event);
+
+        chartArea.attr("transform", `translate(${event.transform.x},${event.transform.y})scale(${event.transform.k})`);
+      });
+    chartArea.call(zoom);
+    this.addButtons(buttons, zoom, chartArea);
 
     return svg.node();
+  }
+
+  private addButtons(buttons, zoom, chartArea) {
+
+    const buttonSize = 20;
+    const reset = buttons.append('g').
+      on('click', (event, d, n) => {
+        zoom.scaleTo(chartArea.transition().duration(500), 1);
+    });
+
+    // <g><rect class="zoombutton zoomin" rx="6" ry="6" x="0" y="0"
+    // width="200" height="55" transform="scale(1)" fill="#23364e">
+    //   </rect><text class="zoomtext" x="100" y="30" style="font-size:
+    // 30px">Reset Zoom</text></g>
+    reset.append('rect')
+      .attr('class', 'zoombutton zoomin')
+      .attr("rx", 6)
+      .attr("ry", 6)
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("width", 200)
+      .attr("height", 55)
+      .attr("transform", "scale(1)")
+      .attr('fill', '#23364e');
+
+    reset.append('text')
+      .attr('class', 'zoomtext')
+      .attr("x", 100)
+      .attr("y", 30)
+      .attr('style', `font-size: 30px`)
+      .html('Reset Zoom');
+  }
+
+  removeTooltip() {
+    if (this.tooltip) {
+      this.tooltip.remove();
+    }
+  }
+
+  addTooltip() {
+    this.removeTooltip();
+    this.tooltip = d3.select('body').append('div')
+      .attr('class', 'circlepack-tooltip')
+      .style('opacity', 1);
+  }
+
+  showTooltip(event: any, data: any, i: any): void {
+    if (!data) {
+      return;
+    }
+    this.tooltip
+      .transition()
+      .duration(100)
+      .style('opacity', .9);
+    let span = '';
+    const x = data.x + 10;
+    const y = data.y;
+    span = '<span>' + data?.data?.name + '</span>';
+    this.tooltip.html(span)
+      .style('left', event.pageX + 20 + 'px')
+      .style('top', event.pageY + 'px')
+      .style('width', 100);
+  }
+
+  hideTooltip() {
+    this.tooltip
+      .transition()
+      .duration(100)
+      .style('opacity', 0);
   }
 }
