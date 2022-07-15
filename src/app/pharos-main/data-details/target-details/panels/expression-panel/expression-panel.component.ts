@@ -102,6 +102,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     this.selectedUberon = this.expressionInfoService.focusedUberon;
     this.expressionInfoService.focusedUberonChanged.subscribe(selectedUberon => {
       this.selectedUberon = selectedUberon;
+      this.detailsTissue = '';
     });
     this.tourType = TourType.TargetExpressionTour;
     this._data
