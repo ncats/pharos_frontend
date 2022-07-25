@@ -1,3 +1,6 @@
+@use '@angular/material' as mat;
+@import '../../../../partials/ncats-theme';
+
 .reset-holder {
   white-space: nowrap;
 }
@@ -68,7 +71,10 @@ pharos-scatter-plot {
   stroke-width: .5px;
 }
 
-
+.highlight {
+  fill: mat.get-color-from-palette($pharos-app-accent);
+  r: 5px;
+}
 
 .y-axis-selector {
   padding-left: 20px;

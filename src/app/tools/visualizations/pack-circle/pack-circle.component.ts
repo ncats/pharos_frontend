@@ -2,6 +2,7 @@ import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, ViewEncapsul
 import * as d3 from 'd3v7';
 import {ExpressionInfoService} from "../../../pharos-services/expression-info.service";
 import {partition} from "lodash";
+import {CentralStorageService} from "../../../pharos-services/central-storage.service";
 
 @Component({
   selector: 'pharos-pack-circle',
@@ -22,7 +23,8 @@ export class PackCircleComponent implements OnInit, OnDestroy {
   tooltip: any;
   currentScale = 1;
 
-  constructor(private expressionInfoService: ExpressionInfoService) {
+  constructor(private expressionInfoService: ExpressionInfoService,
+              private centralStorageService: CentralStorageService) {
   }
 
   width = 1152;
@@ -39,10 +41,16 @@ export class PackCircleComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.expressionInfoService.focusedUberonChanged.subscribe(focusedUberon => {
+    function checkFocus() {
       if (this.config.focusedCheck) {
         this.highlightCircles('focusedCircle', (d, node) => this.config.focusedCheck(d, node));
       }
+    }
+    this.centralStorageService.focusedTinxDiseaseChanged.subscribe(focusedTinx => {
+      checkFocus.call(this);
+    })
+    this.expressionInfoService.focusedUberonChanged.subscribe(focusedUberon => {
+      checkFocus.call(this);
     });
     const zScale = d3.scaleLinear()
       .domain(this.colorDomain)

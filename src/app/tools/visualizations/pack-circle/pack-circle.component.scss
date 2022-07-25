@@ -1,3 +1,6 @@
+@use '@angular/material' as mat;
+@import '../../../../partials/ncats-theme';
+
 mat-card {
   margin: 0.5em;
 }
@@ -12,8 +15,9 @@ mat-card {
 }
 
 .focusedCircle {
-  stroke: blue;
+  stroke: mat.get-color-from-palette($pharos-app-accent);
   stroke-width: 5px;
+  stroke-opacity: 1;
 }
 
 .circlepack-tooltip {

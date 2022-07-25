@@ -12,12 +12,11 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
 import {Target} from '../../../../../models/target';
-import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
-import {ActivatedRoute} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
 import {isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 import {PackCircleConfig} from "../../../../../tools/visualizations/pack-circle/pack-circle.component";
+import {CentralStorageService} from "../../../../../pharos-services/central-storage.service";
 
 @Component({
   selector: 'pharos-disease-novelty',
@@ -27,11 +26,10 @@ import {PackCircleConfig} from "../../../../../tools/visualizations/pack-circle/
 export class DiseaseNoveltyComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
 
   constructor(
-    private pharosApiService: PharosApiService,
-    private _route: ActivatedRoute,
     private changeRef: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformID: any,
-    public dynamicServices: DynamicServicesService
+    public dynamicServices: DynamicServicesService,
+    private centralStorageService: CentralStorageService
   ) {
     super(dynamicServices);
   }
@@ -42,6 +40,8 @@ export class DiseaseNoveltyComponent extends DynamicPanelComponent implements On
   @Input() target: Target;
 
   @Input() targetProps: any;
+
+  focusedTinxDisease: any = {};
   /**
    * tnx data
    */
@@ -62,16 +62,33 @@ export class DiseaseNoveltyComponent extends DynamicPanelComponent implements On
   circlePackConfig: PackCircleConfig = {
     highlightCheck: (d, node) => node.__data__?.data?.oid === d.data?.oid,
     focusedCheck: (d, node) => {
-      // if (this.expressionInfoService.focusedUberon && this.expressionInfoService.focusedUberon.uid) {
-      //   return node.__data__?.data?.uid?.replace(':', '_') === this.expressionInfoService.focusedUberon?.uid;
-      // }
+      if (this.focusedTinxDisease) {
+        return node.__data__?.data.oid === this.focusedTinxDisease.oid;
+      }
       return false;
     },
     circleClick: (event, d, n) => {
-      // const uid = d.data.uid;
-      // this.expressionInfoService.setFocusedUberon(uid, 'circleplot');
+      const addDOID = (node: any, map: Map<string, boolean>) => {
+        const doid = node?.oid;
+        if (doid && doid.length && !map.has(doid)) {
+          map.set(doid, true);
+          node.children.forEach(child => {
+            addDOID(child, map);
+          });
+        }
+      }
+      if (this.focusedTinxDisease.oid === d.data.oid) {
+        this.centralStorageService.setField('focusedTinxDisease', {});
+        this.centralStorageService.setField('selectedTinxDiseases', []);
+      } else {
+        const doidMap = new Map<string, boolean>();
+        addDOID(d.data, doidMap);
+        this.centralStorageService.setField('focusedTinxDisease', {oid: d.data.oid, name: d.data.name});
+        this.centralStorageService.setField('selectedTinxDiseases', Array.from(doidMap.keys()));
+      }
     }
   }
+
 
   hasData() {
     return this.target && (this.tinx && this.tinx.length > 0);
@@ -117,12 +134,14 @@ export class DiseaseNoveltyComponent extends DynamicPanelComponent implements On
         }
       });
   }
-
   /**
    * parse data
    * creates map to reduce duplicate disease names, and adds sources to disease name
    */
   setterFunction(): void {
+    this.centralStorageService.focusedTinxDiseaseChanged.subscribe(focusedTinxDisease => {
+      this.focusedTinxDisease = focusedTinxDisease;
+    })
   }
 }
 
