@@ -29,13 +29,13 @@
       <div class="disease-panels">
         <div fxLayout="row" fxLayoutAlign="center center">
           <div class="scatter-plot-holder" fxFlex="95">
-            <pharos-scatter-plot [data]="tinx" [options]="chartOptions"
+            <pharos-scatter-plot [data]="tinx" [options]="chartOptions" [highlightField]="'selectedTinxDiseases'" [focusField]="'focusedTinxDisease'"
                                  [svgID]="'disease-tinx-svg'"></pharos-scatter-plot>
           </div>
         </div>
         <div>
           <ng-container *ngFor="let root of target.tinxTree">
-            <pharos-pack-circle [config]="circlePackConfig" [padding]="1"
+            <pharos-pack-circle [config]="circlePackConfig"
                                 [hierarchyData]="root"></pharos-pack-circle>
           </ng-container>
         </div>

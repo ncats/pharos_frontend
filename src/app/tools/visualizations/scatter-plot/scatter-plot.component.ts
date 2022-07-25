@@ -16,6 +16,8 @@ import {BehaviorSubject, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {isPlatformBrowser} from '@angular/common';
 import {PharosPoint} from '../../../models/pharos-point';
+import {CentralStorageService} from "../../../pharos-services/central-storage.service";
+import {partition} from "lodash";
 
 @Component({
   selector: 'pharos-scatter-plot',
@@ -38,6 +40,9 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
    * @private
    */
   protected _data = new BehaviorSubject<any>({});
+  @Input() highlightField: string;
+  @Input() focusField: string;
+  focusedElement: any;
 
   /**
    * pushes changed data to {BehaviorSubject}
@@ -86,6 +91,7 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
   transform: any;
   delaunay: any;
   svg: any;
+  points: any;
   zoom: any;
   private tooltip: any;
   private baseRadius = 2.5;
@@ -113,6 +119,7 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
   private height: number;
 
   constructor(private changeRef: ChangeDetectorRef,
+              private centralStorageService: CentralStorageService,
               @Inject(PLATFORM_ID) private platformID: any) {
   }
 
@@ -132,6 +139,22 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
           this.displayData = [dataSet.data];
         } else {
           this.displayData = [this.data];
+        }
+        if (this.highlightField && this.highlightField.length > 0) {
+          this.centralStorageService[this.highlightField + 'Changed'].subscribe(highlightedIDs => {
+            const partitions = partition(this.points.nodes(), node => highlightedIDs.includes(node.__data__.label));
+            partitions[0].forEach(c => {
+              d3.select(c).classed('highlight', true);
+            });
+            partitions[1].forEach(c => {
+              d3.select(c).classed('highlight', false)
+            });
+          });
+        }
+        if (this.focusField && this.focusField.length > 0) {
+          this.centralStorageService[this.focusField + 'Changed'].subscribe(focusField => {
+            this.focusedElement = focusField;
+          });
         }
         if (isPlatformBrowser(this.platformID)) {
           this.drawChart();
@@ -220,7 +243,7 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
       .attr('y', 0)
       .attr('height', this.height);
 
-    const points = chartArea
+    this.points = chartArea
       .selectAll('circle')
       .data(d3.merge(this.displayData))
       .join('circle')
@@ -249,7 +272,7 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
       .translateExtent([[-100000, -100000], [100000, 100000]])
       .on('zoom', e => {
         chartArea.attr('transform', (this.transform = e.transform));
-        points.attr('r', this.baseRadius / (this.transform.k));
+        this.points.attr('r', this.baseRadius / (this.transform.k));
         if (this._chartOptions.line) {
           line.style('stroke-width', 2 / (this.transform.k));
         }
@@ -272,6 +295,16 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
         } else {
           this.unHighlightPoints();
           this.hideTooltip();
+        }
+      })
+      .on('click', event => {
+        if (this.focusField) {
+          const p = this.transform.invert(d3.pointer(event));
+          const {datum, idx, show} = this.find(p);
+          if (show) {
+            this.centralStorageService.setField(this.focusField, {oid: datum.label, name: datum.name});
+            this.centralStorageService.setField(this.highlightField, [datum.label]);
+          }
         }
       })
       .node();
