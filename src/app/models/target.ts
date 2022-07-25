@@ -237,6 +237,8 @@ export class Target extends PharosBase {
    * list of expression data
    */
   expressionTree: any;
+  diseaseTree: any;
+  tinxTree: any;
   expressions: any[];
   dataVersions: DataVersionInfo[];
   gtex: any[];

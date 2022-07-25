@@ -18,7 +18,7 @@
 <article>
   <mat-card #expression
             (pharosScrollspy)="active('expression')"
-            *ngIf="this.target && this.uberonExpressionMap.yValues.length; else nodata"
+            *ngIf="this.target && this.uberonExpressionMap?.yValues.length; else nodata"
             class="section-card"
             id="expression">
     <mat-card-content>
@@ -48,7 +48,7 @@
                   <ng-template matTabContent>
                     <div class="circle-plot-container">
                       <ng-container *ngFor="let root of sortedTrees">
-                        <pharos-pack-circle [hierarchyData]="root"></pharos-pack-circle>
+                        <pharos-pack-circle [hierarchyData]="root" [config]="circlePackConfig"></pharos-pack-circle>
                       </ng-container>
                     </div>
                   </ng-template>

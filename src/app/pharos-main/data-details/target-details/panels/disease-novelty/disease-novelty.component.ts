@@ -8,28 +8,23 @@ import {
   OnInit,
   PLATFORM_ID
 } from '@angular/core';
-import {PageEvent} from '@angular/material/paginator';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {PharosPoint} from '../../../../../models/pharos-point';
+import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
 import {Target} from '../../../../../models/target';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
-import {DiseaseSerializer} from '../../../../../models/disease';
 import {takeUntil} from 'rxjs/operators';
-import {TargetComponents} from '../../../../../models/target-components';
 import {isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 import {PackCircleConfig} from "../../../../../tools/visualizations/pack-circle/pack-circle.component";
 
-/**
- * component to display disease source data
- */
 @Component({
-  selector: 'pharos-disease-source',
-  templateUrl: './disease-source-panel.component.html',
-  styleUrls: ['./disease-source-panel.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'pharos-disease-novelty',
+  templateUrl: './disease-novelty.component.html',
+  styleUrls: ['./disease-novelty.component.scss']
 })
-export class DiseaseSourceComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
+export class DiseaseNoveltyComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
 
   constructor(
     private pharosApiService: PharosApiService,
@@ -47,6 +42,22 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
   @Input() target: Target;
 
   @Input() targetProps: any;
+  /**
+   * tnx data
+   */
+  tinx: PharosPoint[];
+
+  /**
+   * display options for the tinx plot
+   */
+  chartOptions: ScatterOptions = new ScatterOptions({
+    line: false,
+    xAxisScale: 'log',
+    yAxisScale: 'log',
+    xLabel: 'Novelty',
+    yLabel: 'Importance',
+    margin: {top: 20, right: 35, bottom: 50, left: 50}
+  });
 
   circlePackConfig: PackCircleConfig = {
     highlightCheck: (d, node) => node.__data__?.data?.oid === d.data?.oid,
@@ -63,7 +74,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
   }
 
   hasData() {
-    return this.target && (this.target.diseaseCount > 0);
+    return this.target && (this.tinx && this.tinx.length > 0);
   }
 
   /**
@@ -78,6 +89,21 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
         if (isPlatformBrowser(this.platformID)) {
           this.target = this.data.targets;
           this.targetProps = this.data.targetsProps;
+
+          if (this.target && this.target.tinx) {
+            this.tinx = [];
+            this.target.tinx.map(point => {
+              if (point.disease) {
+                const p: PharosPoint = new PharosPoint({
+                  label: point.disease.doid,
+                  x: point.novelty,
+                  y: point.score,
+                  name: point.disease.name
+                });
+                this.tinx.push(p);
+              }
+            });
+          }
 
           if (this.hasData()) {
             this.showSection();
@@ -98,29 +124,6 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    */
   setterFunction(): void {
   }
-
-  /**
-   * paginate disease list datasource
-   * @param event
-   */
-  paginate(event: PageEvent) {
-    this.loadingStart();
-    const diseaseSerializer = new DiseaseSerializer();
-    const pageParams = {
-      diseasetop: event.pageSize,
-      diseaseskip: event.pageIndex * event.pageSize,
-    };
-    this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, TargetComponents.Component.DiseaseSources)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(
-        res => {
-          this.target.diseases = res.data.targets.diseases;
-          this.targetProps.diseases = res.data.targets.diseases.map(disease => diseaseSerializer._asProperties(disease));
-          this.setterFunction();
-          this.loadingComplete(false);
-          this.changeRef.markForCheck();
-        }
-      );
-  }
 }
+
 
