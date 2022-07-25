@@ -1,0 +1,13 @@
+<article class="container">
+  <mat-card
+    id="hierarchy"
+    #hierarchy>
+    <mat-card-content>
+      <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+        <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+      </div>
+      <pharos-component-header [description]="description" [headerText]="label" [tourType]="tourType"></pharos-component-header>
+
+    </mat-card-content>
+  </mat-card>
+</article>

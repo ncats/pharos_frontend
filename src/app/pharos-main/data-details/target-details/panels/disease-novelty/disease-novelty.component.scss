@@ -1,0 +1,24 @@
+
+.scatter-plot-holder {
+  height: 30vh;
+  width: 65vw;
+}
+.tinx {
+}
+
+.tinx-row {
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.disease-panels {
+  display: flex;
+  flex-direction: row;
+  > div {
+    width: 50%;
+  }
+}

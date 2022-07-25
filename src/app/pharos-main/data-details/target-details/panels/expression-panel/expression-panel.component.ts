@@ -18,6 +18,8 @@ import {HeatMapData} from '../../../../../tools/visualizations/heat-map/heat-map
 import {takeUntil} from 'rxjs/operators';
 import {TourType} from '../../../../../models/tour-type';
 import {ExpressionInfoService} from "../../../../../pharos-services/expression-info.service";
+import {PackCircleConfig} from "../../../../../tools/visualizations/pack-circle/pack-circle.component";
+import * as d3 from 'd3v7';
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 /**
@@ -52,6 +54,20 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
    */
   id: string;
   tourType: TourType;
+
+  circlePackConfig: PackCircleConfig = {
+    highlightCheck: (d, node) => node.__data__?.data?.uid?.replace(':', '_') === d.data?.uid?.replace(':', '_'),
+    focusedCheck: (d, node) => {
+      if (this.expressionInfoService.focusedUberon && this.expressionInfoService.focusedUberon.uid) {
+        return node.__data__?.data?.uid?.replace(':', '_') === this.expressionInfoService.focusedUberon?.uid;
+      }
+      return false;
+    },
+    circleClick: (event, d, n) => {
+      const uid = d.data.uid;
+      this.expressionInfoService.setFocusedUberon(uid, 'circleplot');
+    }
+  }
 
   /**
    * attach required services

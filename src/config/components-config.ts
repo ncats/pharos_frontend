@@ -389,6 +389,22 @@ const PHAROS_SELECTED_FACET_LIST_COMPONENT: PharosPanel = {
   section: Position.Content
 };
 
+const PHAROS_HIERARCHY_VIEWER_COMPONENT: PharosPanel = {
+  token: TOKENS.PHAROS_HIERARCHY_VIEWER_COMPONENT,
+  section: Position.Content,
+  navHeader: {
+    mainDescription: 'TODO',
+    section: 'hierarchy',
+    label: 'Hierarchy Viewer'
+  }, api: [
+    {
+      description: 'description',
+      field: 'field',
+      label: 'label'
+    }
+    ]
+}
+
 const PHAROS_FACET_REPRESENTATION_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_FACET_REPRESENTATION_COMPONENT,
   section: Position.Content,
@@ -669,6 +685,20 @@ const IDG_RESOURCES_PANEL: PharosPanel = {
   ]
 };
 
+const DISEASE_NOVELTY_PANEL: PharosPanel = {
+  token: TOKENS.DISEASE_NOVELTY_PANEL,
+  navHeader: {
+    label: 'Disease Novelty',
+    section: 'diseaseNovelty',
+    mainDescription: `TODO.`
+  },
+  api: [
+    {
+      field: 'yup',
+      label: 'yuppers',
+      description: 'description.'
+    }]
+}
 /**
  * target disease relevance component
  * @type {PharosPanel}
@@ -1434,6 +1464,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       analyze: {
         components: [
           ...commonAnalyzeComponents,
+          PHAROS_HIERARCHY_VIEWER_COMPONENT,
           PHAROS_TARGET_DISEASE_HEATMAP_COMPONENT,
           PHAROS_TARGET_LIGAND_HEATMAP_COMPONENT,
           PHAROS_TARGET_TARGET_HEATMAP_COMPONENT
@@ -1480,7 +1511,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
             category: 'Phenotypic Data',
             panels: [
               GO_TERMS_PANEL,
-              DISEASE_SOURCE_PANEL,
+              DISEASE_SOURCE_PANEL,DISEASE_NOVELTY_PANEL,
               GWAS_TARGET_ANALYTICS_PANEL,
               TARGET_FACET_PANEL
             ]

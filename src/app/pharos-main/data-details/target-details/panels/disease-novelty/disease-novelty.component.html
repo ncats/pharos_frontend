@@ -1,0 +1,45 @@
+<ng-template #nodata>
+  <mat-card #diseaseNovelty
+            (pharosScrollspy)="active('diseaseNovelty')"
+            class="section-card"
+            id="diseaseNovelty">
+    <mat-card-content>
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
+      No Tin-X data found
+    </mat-card-content>
+  </mat-card>
+</ng-template>
+
+<ng-template #headerrow>
+  <pharos-component-header [description]="getTooltip('tinx')" [field]="field"
+                           [headerText]="'Disease Novelty (Tin-x)'"></pharos-component-header>
+</ng-template>
+
+<article>
+  <mat-card #diseaseNovelty
+            (pharosScrollspy)="active('diseaseNovelty')"
+            *ngIf="hasData(); else nodata"
+            class="section-card diseaseNovelty"
+            id="diseaseNovelty">
+    <mat-card-content>
+      <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+        <img alt="loading..." class="spinner rotating" src="./assets/images/pharos_spinner.svg">
+      </div>
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
+      <div class="disease-panels">
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <div class="scatter-plot-holder" fxFlex="95">
+            <pharos-scatter-plot [data]="tinx" [options]="chartOptions"
+                                 [svgID]="'disease-tinx-svg'"></pharos-scatter-plot>
+          </div>
+        </div>
+        <div>
+          <ng-container *ngFor="let root of target.tinxTree">
+            <pharos-pack-circle [config]="circlePackConfig" [padding]="1"
+                                [hierarchyData]="root"></pharos-pack-circle>
+          </ng-container>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</article>

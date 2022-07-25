@@ -52,6 +52,9 @@ import {
   NearbyTargetListComponent
 } from '../../data-details/target-details/panels/nearest-tclin-panel/nearby-target-list/nearby-target-list.component';
 import {ScriptLoadService} from "../../../pharos-services/script-load.service";
+import {
+  DiseaseNoveltyComponent
+} from "../../data-details/target-details/panels/disease-novelty/disease-novelty.component";
 // import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predictions-panel.component';
 
 @NgModule({
@@ -61,7 +64,7 @@ import {ScriptLoadService} from "../../../pharos-services/script-load.service";
     BreadcrumbComponent,
     SummaryPanelComponent,
     RadarChartViewerComponent,
-    DiseaseSourceComponent,
+    DiseaseSourceComponent,DiseaseNoveltyComponent,
     DiseaseCardComponent,
     PublicationStatisticsComponent,
     RelatedPublicationsComponent,
@@ -124,6 +127,7 @@ import {ScriptLoadService} from "../../../pharos-services/script-load.service";
     {provide: TOKENS.PUBLICATION_STATISTICS_PANEL, useValue: PublicationStatisticsComponent},
     {provide: TOKENS.RELATED_PUBLICATIONS_PANEL, useValue: RelatedPublicationsComponent},
     {provide: TOKENS.DISEASE_SOURCE_PANEL, useValue: DiseaseSourceComponent},
+    {provide: TOKENS.DISEASE_NOVELTY_PANEL, useValue: DiseaseNoveltyComponent},
     {provide: TOKENS.EXPRESSION_PANEL, useValue: ExpressionPanelComponent},
     {provide: TOKENS.PROTEIN_PROTEIN_PANEL, useValue: ProteinProteinPanelComponent},
     {provide: TOKENS.VIRAL_INTERACTIONS_PANEL, useValue: ViralInteractionPanelComponent},

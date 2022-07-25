@@ -16,15 +16,11 @@ export class PackCircleComponent implements OnInit, OnDestroy {
    */
   @ViewChild('packCircleTarget', {static: true}) chartContainer: ElementRef;
   @Input() hierarchyData: any;
-  selectedUberon: any;
+  @Input() config: PackCircleConfig;
+  @Input() colorDomain = [0, 1];
   circles: any;
   tooltip: any;
   currentScale = 1;
-
-  handleCircleClick(uid) {
-    this.expressionInfoService.setFocusedUberon(uid, 'circleplot');
-  }
-
 
   constructor(private expressionInfoService: ExpressionInfoService) {
   }
@@ -32,10 +28,8 @@ export class PackCircleComponent implements OnInit, OnDestroy {
   width = 1152;
   height = 1152;
 
-  highlightCircles(cssClass: string, uid: string) {
-    const partitions = partition(this.circles.nodes(), c => {
-      return c.__data__?.data?.uid?.replace(':', '_') === uid;
-    });
+  highlightCircles(cssClass: string, circleCheck: (d: any, node: any) => boolean, d ?) {
+    const partitions = partition(this.circles.nodes(), node => circleCheck(d, node));
     partitions[0].forEach(c => {
       d3.select(c).classed(cssClass, true);
     });
@@ -45,13 +39,13 @@ export class PackCircleComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.selectedUberon = this.expressionInfoService.focusedUberon;
     this.expressionInfoService.focusedUberonChanged.subscribe(focusedUberon => {
-      this.selectedUberon = focusedUberon;
-      this.highlightCircles('focusedTissue', focusedUberon?.uid);
+      if (this.config.focusedCheck) {
+        this.highlightCircles('focusedCircle', (d, node) => this.config.focusedCheck(d, node));
+      }
     });
     const zScale = d3.scaleLinear()
-      .domain([0, 1])
+      .domain(this.colorDomain)
       .range(['#ffffff', '#23364e']);
     if (this.hierarchyData) {
       // @ts-ignore
@@ -96,7 +90,7 @@ export class PackCircleComponent implements OnInit, OnDestroy {
     marginRight = margin, // right margin, in pixels
     marginBottom = margin, // bottom margin, in pixels
     marginLeft = margin, // left margin, in pixels
-    padding = 3, // separation between circles
+    padding = 2, // separation between circles
     fill, // fill for leaf circles
     fillOpacity = d => 1, // fill opacity for leaf circles
     stroke = "#bbb", // stroke for internal circles
@@ -129,7 +123,9 @@ export class PackCircleComponent implements OnInit, OnDestroy {
     // Compute the layout.
     d3.pack()
       .size([width - marginLeft - marginRight, height - marginTop - marginBottom])
-      .padding(padding)
+      .padding((d) => {
+        return 6 / (d.depth + 1);
+      })
       (root);
 
     const svg = d3.select(element)
@@ -162,26 +158,25 @@ export class PackCircleComponent implements OnInit, OnDestroy {
       .attr("fill-opacity", d => fillOpacity(d))
       .attr("stroke", d => d.children ? stroke : null)
       .attr("stroke-width", d => d.children ? strokeWidth : null)
+      .style('vector-effect', 'non-scaling-stroke')
       .attr("stroke-opacity", d => d.children ? strokeOpacity : null)
       .attr("r", d => d.r)
       .on('mouseover', (event, d, n) => {
-        const uObj = this.expressionInfoService.get(d.data?.uid);
-        if (uObj && uObj.uid) {
-          this.highlightCircles('highlightTissue', uObj.uid);
-        }
+          this.highlightCircles('highlightCircle', this.config.highlightCheck, d);
       })
       .on('mouseout', (event, d, n) => {
         this.circles.nodes().forEach(c => {
-          d3.select(c).classed('highlightTissue', false);
+          d3.select(c).classed('highlightCircle', false);
         });
+      })
+      .on('click', (event, d, n) => {
+        if (this.config?.circleClick) {
+          this.config.circleClick(event, d, n);
+        }
       })
       .on('pointermove', (event, d, n) => {
         this.showTooltip(event, d, n);
         event.stopPropagation();
-      })
-      .on('click', (event, d, n) => {
-        const uid = d.data.uid;
-        this.handleCircleClick(uid);
       });
 
     if (T) node.append("title").text((d, i) => T[i]);
@@ -190,8 +185,8 @@ export class PackCircleComponent implements OnInit, OnDestroy {
       this.hideTooltip();
     });
 
-    if (this.selectedUberon && this.selectedUberon.uid) {
-      this.highlightCircles('focusedTissue', this.selectedUberon.uid);
+    if (this.config.focusedCheck) {
+      this.highlightCircles('focusedCircle', (d, node) => this.config.focusedCheck(d, node));
     }
 
     let zoom = d3.zoom()
@@ -199,8 +194,6 @@ export class PackCircleComponent implements OnInit, OnDestroy {
       .translateExtent([[0, 0], [width, height]])
       .on('zoom', (event) => {
         this.currentScale = event.transform.k;
-        console.log(event);
-
         chartArea.attr("transform", `translate(${event.transform.x},${event.transform.y})scale(${event.transform.k})`);
       });
     chartArea.call(zoom);
@@ -277,4 +270,9 @@ export class PackCircleComponent implements OnInit, OnDestroy {
       .duration(100)
       .style('opacity', 0);
   }
+}
+export class PackCircleConfig {
+  highlightCheck: (d, node: any) => boolean;
+  focusedCheck: (d, node: any) => boolean;
+  circleClick: (event, d, n) => void;
 }

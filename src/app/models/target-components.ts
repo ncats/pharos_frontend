@@ -575,6 +575,8 @@ export const TARGETDETAILSFIELDS = gql`
       mimid
     }
     expressionTree
+    diseaseTree
+    tinxTree
     expressions (top: 10000) {
       type
       sourceRank: source_rank
