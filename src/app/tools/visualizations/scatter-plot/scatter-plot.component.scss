@@ -73,6 +73,8 @@ pharos-scatter-plot {
 
 .highlight {
   fill: mat.get-color-from-palette($pharos-app-accent);
+  stroke: red;
+  stroke-opacity: 1;
   r: 5px;
 }
 
