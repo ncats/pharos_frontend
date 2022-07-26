@@ -91,6 +91,7 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
   transform: any;
   delaunay: any;
   svg: any;
+  highlightArea: any;
   points: any;
   zoom: any;
   private tooltip: any;
@@ -142,13 +143,24 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
         }
         if (this.highlightField && this.highlightField.length > 0) {
           this.centralStorageService[this.highlightField + 'Changed'].subscribe(highlightedIDs => {
-            const partitions = partition(this.points.nodes(), node => highlightedIDs.includes(node.__data__.label));
-            partitions[0].forEach(c => {
-              d3.select(c).classed('highlight', true);
+            const highlightedPoints = this.displayData.map(subarray => {
+              return subarray.filter(el => highlightedIDs.includes(el.label));
             });
-            partitions[1].forEach(c => {
-              d3.select(c).classed('highlight', false)
-            });
+            const highlightPoints = this.highlightArea
+              .selectAll('circle')
+              .data(d3.merge(highlightedPoints))
+              .join('circle')
+              .attr('class', d => d.id + ' highlight')
+              .attr('data', d => d)
+              .attr('cx', d => this.x(d.x))
+              .attr('cy', d => this.y(d.y));
+            // const partitions = partition(this.points.nodes(), node => highlightedIDs.includes(node.__data__.label));
+            // partitions[0].forEach(c => {
+            //   d3.select(c).classed('highlight', true);
+            // });
+            // partitions[1].forEach(c => {
+            //   d3.select(c).classed('highlight', false)
+            // });
           });
         }
         if (this.focusField && this.focusField.length > 0) {
@@ -231,6 +243,7 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
 
     const mainG = this.svg.append('g').attr('clip-path', `url(#clip-${this.svgID})`);
     const chartArea = mainG.append('g');
+    this.highlightArea = mainG.append('g');
 
     this.addTooltip();
 
@@ -272,6 +285,7 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
       .translateExtent([[-100000, -100000], [100000, 100000]])
       .on('zoom', e => {
         chartArea.attr('transform', (this.transform = e.transform));
+        this.highlightArea.attr('transform', (this.transform = e.transform));
         this.points.attr('r', this.baseRadius / (this.transform.k));
         if (this._chartOptions.line) {
           line.style('stroke-width', 2 / (this.transform.k));
@@ -503,12 +517,15 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
     this.svg.selectAll(`.${data.id}`)
       .attr('r', this.hoverRadius / this.transform.k)
       .exit();
+    this.highlightArea.selectAll(`.${data.id}`)
+      .classed('highlight-hover', true);
   }
 
   unHighlightPoints() {
     this.svg
       .selectAll('circle')
       .attr('r', this.baseRadius / this.transform.k)
+      .classed('highlight-hover', false)
       .exit();
   }
 

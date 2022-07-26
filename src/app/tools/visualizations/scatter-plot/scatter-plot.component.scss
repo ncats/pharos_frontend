@@ -3,6 +3,8 @@
 
 .reset-holder {
   white-space: nowrap;
+  display: flex;
+  flex-direction: row;
 }
 
 .d3-scatter-chart {
@@ -76,6 +78,10 @@ pharos-scatter-plot {
   stroke: red;
   stroke-opacity: 1;
   r: 5px;
+}
+
+.highlight-hover {
+  r: 7px;
 }
 
 .y-axis-selector {

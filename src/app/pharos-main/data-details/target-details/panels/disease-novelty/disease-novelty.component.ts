@@ -47,17 +47,6 @@ export class DiseaseNoveltyComponent extends DynamicPanelComponent implements On
    */
   tinx: PharosPoint[];
 
-  /**
-   * display options for the tinx plot
-   */
-  chartOptions: ScatterOptions = new ScatterOptions({
-    line: false,
-    xAxisScale: 'log',
-    yAxisScale: 'log',
-    xLabel: 'Novelty',
-    yLabel: 'Importance',
-    margin: {top: 20, right: 35, bottom: 50, left: 50}
-  });
 
   circlePackConfig: PackCircleConfig = {
     highlightCheck: (d, node) => node.__data__?.data?.oid === d.data?.oid,

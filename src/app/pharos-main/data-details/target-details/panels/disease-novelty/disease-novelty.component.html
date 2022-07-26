@@ -26,19 +26,11 @@
         <img alt="loading..." class="spinner rotating" src="./assets/images/pharos_spinner.svg">
       </div>
       <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
-      <div class="disease-panels">
-        <div fxLayout="row" fxLayoutAlign="center center">
-          <div class="scatter-plot-holder" fxFlex="95">
-            <pharos-scatter-plot [data]="tinx" [options]="chartOptions" [highlightField]="'selectedTinxDiseases'" [focusField]="'focusedTinxDisease'"
-                                 [svgID]="'disease-tinx-svg'"></pharos-scatter-plot>
-          </div>
-        </div>
-        <div>
-          <ng-container *ngFor="let root of target.tinxTree">
-            <pharos-pack-circle [config]="circlePackConfig"
-                                [hierarchyData]="root"></pharos-pack-circle>
-          </ng-container>
-        </div>
+      <div class="disease-panels" [ngClass.lt-md]="'singlecolumn'">
+        <pharos-tinx-scatterplot-card [tinx]="tinx" fxHide.lt-md></pharos-tinx-scatterplot-card>
+        <ng-container *ngFor="let root of target.tinxTree">
+          <pharos-pack-circle [config]="circlePackConfig" [hierarchyData]="root"></pharos-pack-circle>
+        </ng-container>
       </div>
     </mat-card-content>
   </mat-card>
