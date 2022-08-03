@@ -16,7 +16,8 @@ const routes: Routes = [
     data: {
       fragments: {
         details: Disease.diseaseListFragments,
-        query: Disease.diseaseDetailsQuery
+        query: Disease.diseaseDetailsQuery,
+        serverQuery: Disease.serverDetailsQuery
       },
       serializer: new DiseaseSerializer()
     },

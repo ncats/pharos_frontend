@@ -212,71 +212,73 @@ export class PharosMainComponent implements OnInit, OnDestroy {
         this.processOneComponent(subcomponent);
       });
     } else {
-      let portalOutlet: CdkPortalOutlet;
-      // make component
-      const instance: ComponentRef<any> = this.loadedComponents.get(component.token);
-      if (this.data.results) {
-        if (!instance) {
-          const dynamicChildToken: Type<any> = this._injector.get<Type<any>>(component.token);
-          if (component.section) {
-            portalOutlet = this[component.section];
-          } else {
-            portalOutlet = this.contentPortalOutlet;
-          }
-          const componentPortal = new ComponentPortal<any>(
-            dynamicChildToken
-          );
-          const componentInstance: ComponentRef<any> = portalOutlet.attachComponentPortal(componentPortal);
-          componentInstance.instance.data = this.data.results;
-          // left side panel functionality
-          if (component.section === 'leftPortalOutlet' && componentInstance.instance.panelOptions) {
-            Object.entries(componentInstance.instance.panelOptions).forEach(ent => this.leftPanelInstance[ent[0]] = ent[1]);
-            // handle emitted close events
-            if (componentInstance.instance.menuToggle) {
-              componentInstance.instance.menuToggle
-                .pipe(takeUntil(this.ngUnsubscribe))
-                .subscribe(res => this.leftPanelInstance.toggle(res));
+      if (!component.browserOnly || isPlatformBrowser(this.platformID)) {
+        let portalOutlet: CdkPortalOutlet;
+        // make component
+        const instance: ComponentRef<any> = this.loadedComponents.get(component.token);
+        if (this.data.results) {
+          if (!instance) {
+            const dynamicChildToken: Type<any> = this._injector.get<Type<any>>(component.token);
+            if (component.section) {
+              portalOutlet = this[component.section];
+            } else {
+              portalOutlet = this.contentPortalOutlet;
             }
-          }
-
-          // right side panel functionality
-          if (component.section === 'rightPortalOutlet' && componentInstance.instance.panelOptions) {
-            Object.entries(componentInstance.instance.panelOptions).forEach(ent => this.rightPanelInstance[ent[0]] = ent[1]);
-            // handle emitted close events
-            if (componentInstance.instance.menuToggle) {
-              componentInstance.instance.menuToggle
-                .pipe(takeUntil(this.ngUnsubscribe))
-                .subscribe(res => this.rightPanelInstance.toggle(res));
-            }
-          }
-
-          if (component.navHeader) {
-            componentInstance.instance.description = component.navHeader.mainDescription;
-            componentInstance.instance.mainSource = component.navHeader.mainSource;
-            componentInstance.instance.apiSources = component.api;
-            componentInstance.instance.field = component.navHeader.section;
-            componentInstance.instance.label = component.navHeader.label;
-            this.changeRef.markForCheck();
-          }
-
-          // put this last or errors are thrown because the instance keeps getting used.
-          if (componentInstance.instance.selfDestruct) {
-            componentInstance.instance.selfDestruct
-              .pipe(takeUntil(this.ngUnsubscribe))
-              .subscribe(res => {
-              if (res) {
-                this.loadedComponents.delete(component.token);
-                componentInstance.destroy();
+            const componentPortal = new ComponentPortal<any>(
+              dynamicChildToken
+            );
+            const componentInstance: ComponentRef<any> = portalOutlet.attachComponentPortal(componentPortal);
+            componentInstance.instance.data = this.data.results;
+            // left side panel functionality
+            if (component.section === 'leftPortalOutlet' && componentInstance.instance.panelOptions) {
+              Object.entries(componentInstance.instance.panelOptions).forEach(ent => this.leftPanelInstance[ent[0]] = ent[1]);
+              // handle emitted close events
+              if (componentInstance.instance.menuToggle) {
+                componentInstance.instance.menuToggle
+                  .pipe(takeUntil(this.ngUnsubscribe))
+                  .subscribe(res => this.leftPanelInstance.toggle(res));
               }
-            });
+            }
+
+            // right side panel functionality
+            if (component.section === 'rightPortalOutlet' && componentInstance.instance.panelOptions) {
+              Object.entries(componentInstance.instance.panelOptions).forEach(ent => this.rightPanelInstance[ent[0]] = ent[1]);
+              // handle emitted close events
+              if (componentInstance.instance.menuToggle) {
+                componentInstance.instance.menuToggle
+                  .pipe(takeUntil(this.ngUnsubscribe))
+                  .subscribe(res => this.rightPanelInstance.toggle(res));
+              }
+            }
+
+            if (component.navHeader) {
+              componentInstance.instance.description = component.navHeader.mainDescription;
+              componentInstance.instance.mainSource = component.navHeader.mainSource;
+              componentInstance.instance.apiSources = component.api;
+              componentInstance.instance.field = component.navHeader.section;
+              componentInstance.instance.label = component.navHeader.label;
+              this.changeRef.markForCheck();
+            }
+
+            // put this last or errors are thrown because the instance keeps getting used.
+            if (componentInstance.instance.selfDestruct) {
+              componentInstance.instance.selfDestruct
+                .pipe(takeUntil(this.ngUnsubscribe))
+                .subscribe(res => {
+                  if (res) {
+                    this.loadedComponents.delete(component.token);
+                    componentInstance.destroy();
+                  }
+                });
+            }
+            this.autosize = false;
+            this.loadedComponents.set(component.token, componentInstance);
+            this.changeRef.markForCheck();
+          } else {
+            instance.instance.data = this.data.results;
+            this.loadedComponents.set(component.token, instance);
+            this.changeRef.detectChanges();
           }
-          this.autosize = false;
-          this.loadedComponents.set(component.token, componentInstance);
-          this.changeRef.markForCheck();
-        } else {
-          instance.instance.data = this.data.results;
-          this.loadedComponents.set(component.token, instance);
-          this.changeRef.detectChanges();
         }
       }
     }
@@ -307,8 +309,13 @@ export class PharosMainComponent implements OnInit, OnDestroy {
     if (this._route.snapshot.data.subpath === 'list' || this._route.snapshot.data.subpath === 'analyze') {
       return 'wideNavPanel';
     }
-    if (this._route.snapshot.data.subpath === 'details' && ['targets', 'diseases'].includes(this._route.snapshot.data.path)) {
-      return 'thinNavPanel';
+    if (this._route.snapshot.data.subpath === 'details') {
+      if (this._route.snapshot.data.path === 'targets') {
+        return 'thinNavPanel';
+      }
+      if (this._route.snapshot.data.path === 'diseases') {
+        return 'vthinNavPanel';
+      }
     }
     return '';
   }

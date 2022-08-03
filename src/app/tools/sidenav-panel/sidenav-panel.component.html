@@ -16,7 +16,7 @@
              class="list-button"
              (click)="scroll(section.navHeader.section)"
              [ngClass]="{'active': isActive(section.navHeader.section)}" [id]="'menu_'+section.navHeader.section">
-            <span [ngClass]="{hasData: section.visible}">{{section.navHeader.label}}</span>
+            <mat-icon *ngIf="pending(section)" class="material-icons-outlined pending-icon" matTooltip="data still loading...">pending</mat-icon> <span [ngClass]="{hasData: (section.visible)}">{{section.navHeader.label}}</span>
           </a>
           <ng-template #array>
             <div class="subsection" *ngIf="section.panels.length > 0">
@@ -27,7 +27,7 @@
                  (click)="scroll(subsection.navHeader.section)"
                  [ngClass]="{'active': isActive(subsection.navHeader.section)}"
                  [id]="'menu_'+subsection.navHeader.section">
-                <span [ngClass]="{hasData: subsection.visible}">{{subsection.navHeader.label}}</span>
+                <mat-icon *ngIf="pending(subsection)" class="material-icons-outlined pending-icon" matTooltip="data still loading...">pending</mat-icon> <span [ngClass]="{hasData: subsection.visible}">{{subsection.navHeader.label}}</span>
               </a>
             </div>
           </ng-template>

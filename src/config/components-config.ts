@@ -71,6 +71,7 @@ export interface PharosPanel {
   // for panel groups
   panels?: PharosPanel[];
   category?: string;
+  browserOnly?: boolean;
 
   // for traditional panels
   /**
@@ -660,6 +661,7 @@ const LEVEL_SUMMARY_PANEL: PharosPanel = {
  */
 const IDG_RESOURCES_PANEL: PharosPanel = {
   token: TOKENS.IDG_RESOURCES_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'IDG Generated Resources',
     section: 'resources',
@@ -687,6 +689,7 @@ const IDG_RESOURCES_PANEL: PharosPanel = {
 
 const DISEASE_NOVELTY_PANEL: PharosPanel = {
   token: TOKENS.DISEASE_NOVELTY_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Disease Novelty',
     section: 'diseaseNovelty',
@@ -705,6 +708,7 @@ const DISEASE_NOVELTY_PANEL: PharosPanel = {
  */
 const DISEASE_SOURCE_PANEL: PharosPanel = {
   token: TOKENS.DISEASE_SOURCE_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Disease Associations',
     section: 'diseaseSources',
@@ -740,6 +744,7 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
  */
 const LIGANDS_PANEL: PharosPanel = {
   token: TOKENS.LIGANDS_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Active Ligands',
     section: 'ligands',
@@ -766,6 +771,7 @@ const LIGANDS_PANEL: PharosPanel = {
  */
 const DRUGS_PANEL: PharosPanel = {
   token: TOKENS.DRUGS_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Approved Drugs',
     section: 'drugs',
@@ -791,6 +797,7 @@ const DRUGS_PANEL: PharosPanel = {
  */
 const EXPRESSION_PANEL: PharosPanel = {
   token: TOKENS.EXPRESSION_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Expression Data',
     section: 'expression',
@@ -801,6 +808,7 @@ const EXPRESSION_PANEL: PharosPanel = {
 
 const NEAREST_TCLIN_PANEL: PharosPanel = {
   token: TOKENS.NEAREST_TCLIN_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Nearest Tclin Targets',
     section: 'nearestTclin',
@@ -826,6 +834,7 @@ const NEAREST_TCLIN_PANEL: PharosPanel = {
 
 const GWAS_TARGET_ANALYTICS_PANEL: PharosPanel = {
   token: TOKENS.GWAS_TARGET_ANALYTICS_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'GWAS Traits',
     section: 'tiga',
@@ -846,6 +855,7 @@ const GWAS_TARGET_ANALYTICS_PANEL: PharosPanel = {
 };
 const ORTHOLOGS_PANEL: PharosPanel = {
   token: TOKENS.ORTHOLOGS_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Orthologs',
     section: 'orthologs',
@@ -872,6 +882,7 @@ const ORTHOLOGS_PANEL: PharosPanel = {
 
 const AFFILIATE_LINKS_PANEL: PharosPanel = {
   token: TOKENS.AFFILIATE_LINKS,
+  browserOnly: true,
   navHeader: {
     label: 'Related Tools',
     section: 'affiliates',
@@ -887,6 +898,7 @@ const AFFILIATE_LINKS_PANEL: PharosPanel = {
 
 const GO_TERMS_PANEL: PharosPanel = {
   token: TOKENS.GO_TERMS_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Gene Ontology Terms',
     section: 'goTerms',
@@ -922,7 +934,9 @@ const GO_TERMS_PANEL: PharosPanel = {
 };
 
 const PATHWAYS_PANEL: PharosPanel = {
-  token: TOKENS.PATHWAYS_PANEL, navHeader: {
+  token: TOKENS.PATHWAYS_PANEL,
+  browserOnly: true,
+  navHeader: {
     label: 'Pathways',
     section: 'pathways',
     mainDescription: 'Biochemical pathways containing the current target.'
@@ -975,6 +989,7 @@ const PATHWAYS_PANEL: PharosPanel = {
  */
 const PROTEIN_PROTEIN_PANEL: PharosPanel = {
   token: TOKENS.PROTEIN_PROTEIN_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Protein-Protein Interactions',
     section: 'ppi',
@@ -1011,6 +1026,7 @@ const PROTEIN_PROTEIN_PANEL: PharosPanel = {
  */
 const VIRAL_INTERACTIONS_PANEL: PharosPanel = {
   token: TOKENS.VIRAL_INTERACTIONS_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Predicted Viral Interactions',
     section: 'viral',
@@ -1034,6 +1050,7 @@ const VIRAL_INTERACTIONS_PANEL: PharosPanel = {
  */
 const PUBLICATION_STATISTICS_PANEL: PharosPanel = {
   token: TOKENS.PUBLICATION_STATISTICS_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Publication Statistics',
     section: 'publicationStatistics',
@@ -1072,6 +1089,7 @@ const PUBLICATION_STATISTICS_PANEL: PharosPanel = {
  */
 const RELATED_PUBLICATIONS_PANEL: PharosPanel = {
   token: TOKENS.RELATED_PUBLICATIONS_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Related Publications',
     section: 'relatedPublications',
@@ -1109,6 +1127,7 @@ const RELATED_PUBLICATIONS_PANEL: PharosPanel = {
  */
 const AA_SEQUENCE_PANEL: PharosPanel = {
   token: TOKENS.AA_SEQUENCE_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Protein Sequence and Structure',
     section: 'sequence',
@@ -1152,6 +1171,7 @@ const AA_SEQUENCE_PANEL: PharosPanel = {
  */
 const TARGET_FACET_PANEL: PharosPanel = {
   token: TOKENS.TARGET_FACET_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Related Targets',
     section: 'relatedTargets',
@@ -1253,6 +1273,7 @@ const DISEASE_SUMMARY_COMPONENT: PharosPanel = {
 
 const DISEASE_DO_BROWSER_COMPONENT: PharosPanel = {
   token: TOKENS.DISEASE_DO_BROWSER_COMPONENT,
+  browserOnly: true,
   navHeader: {
     label: 'Disease Hierarchy',
     section: 'doBrowser',
@@ -1277,6 +1298,7 @@ const DISEASE_DO_BROWSER_COMPONENT: PharosPanel = {
 
 const DISEASE_GWAS_ANALYTICS_COMPONENT: PharosPanel = {
   token: TOKENS.DISEASE_GWAS_ANALYTICS_COMPONENT,
+  browserOnly: true,
   navHeader: {
     label: 'GWAS Targets',
     section: 'tiga',
@@ -1299,6 +1321,7 @@ const DISEASE_GWAS_ANALYTICS_COMPONENT: PharosPanel = {
 
 const DISEASE_TINX_COMPONENT: PharosPanel = {
   token: TOKENS.DISEASE_TINX_COMPONENT,
+  browserOnly: true,
   navHeader: {
     label: 'Target Novelty',
     section: 'diseaseTINX',
@@ -1354,6 +1377,7 @@ const TARGET_LIST_PANEL: PharosPanel = {
  */
 const LIGAND_TABLE_COMPONENT: PharosPanel = {
   token: TOKENS.LIGAND_TABLE_COMPONENT,
+  browserOnly: true,
   api: []
 };
 
@@ -1511,7 +1535,8 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
             category: 'Phenotypic Data',
             panels: [
               GO_TERMS_PANEL,
-              DISEASE_SOURCE_PANEL,DISEASE_NOVELTY_PANEL,
+              DISEASE_SOURCE_PANEL,
+              DISEASE_NOVELTY_PANEL,
               GWAS_TARGET_ANALYTICS_PANEL,
               TARGET_FACET_PANEL
             ]
