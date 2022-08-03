@@ -165,7 +165,7 @@ export const LIGANDDETAILSFIELDS = gql`
   ${LIGANDLISTFIELDS}
 `;
 export const SERVERDETAILSQUERY = gql`
-  query fetchLigandDetails(
+  query fetchLigandDetailsForSSR(
     $term: String
   ) {
     ligands: ligand(ligid: $term){
