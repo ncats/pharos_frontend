@@ -48,3 +48,13 @@
 .hasData {
   font-weight: bold;
 }
+@keyframes flickerAnimation { /* flame pulses */
+  0%   { opacity:.5; }
+  50%  { opacity:0; }
+  100% { opacity:.5; }
+}
+ .pending-icon {
+   opacity: 0.5;
+   margin-right: 10px;
+   animation: flickerAnimation 1s infinite;
+ }

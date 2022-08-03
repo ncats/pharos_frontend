@@ -49,17 +49,17 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="start center">
       <mat-icon
-        [ngClass]="{'disabled-icon': target.goCount.TBioCount() < 1  || target?.idgTDL !== 'Tbio'}"
+        [ngClass]="{'disabled-icon': target.goCount?.TBioCount() < 1  || target?.idgTDL !== 'Tbio'}"
         [color]="'accent'">check_circle
       </mat-icon>
       <span
         [matTooltip]="getTooltip('goMolecularFunctions')"
         [matTooltipClass]="'pharos-tooltip'"
-        [ngClass]="{'mat-body-2': target.goCount.TBioCount() > 0}">
+        [ngClass]="{'mat-body-2': target.goCount?.TBioCount() > 0}">
         Gene Ontology Term<span
-        *ngIf = "target.goCount.TBioCount() > 1">s</span>:
-        {{target.goCount.TBioCount()}}</span>
+        *ngIf = "target.goCount?.TBioCount() > 1">s</span>:
+        {{target.goCount?.TBioCount()}}</span>
     </div>
-    <div class="exploreLink" *ngIf="target.goCount.TBioCount() > 0"><a (click)="scroll('goTerms')">View GO Terms</a></div>
+    <div class="exploreLink" *ngIf="target.goCount?.TBioCount() > 0"><a (click)="scroll('goTerms')">View GO Terms</a></div>
   </div>
 </div>

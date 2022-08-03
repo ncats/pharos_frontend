@@ -1,10 +1,20 @@
-import {AfterContentInit, Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {
+  AfterContentInit,
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  PLATFORM_ID
+} from '@angular/core';
 import {NavSectionsService} from './services/nav-sections.service';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {PanelOptions} from '../../pharos-main/pharos-main.component';
 import {PharosPanel} from '../../../config/components-config';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import {DOCUMENT, Location, ViewportScroller} from '@angular/common';
+import {DOCUMENT, isPlatformServer, Location, ViewportScroller} from '@angular/common';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 
@@ -62,6 +72,7 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit, OnDestro
    */
   constructor(
     private router: Router,
+    @Inject(PLATFORM_ID) private platformID: any,
     private _route: ActivatedRoute,
     public breakpointObserver: BreakpointObserver,
     private location: Location,
@@ -155,6 +166,10 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit, OnDestro
       this.activeFragment = this._route.snapshot.fragment;
       this.viewportScroller.scrollToAnchor(this.activeElement);
     }
+  }
+
+  pending(section: any){
+    return isPlatformServer(this.platformID) && section.browserOnly;
   }
 
   ngOnDestroy() {

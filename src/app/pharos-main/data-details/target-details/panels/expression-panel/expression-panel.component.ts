@@ -131,7 +131,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
           this.target = this.data.targets;
           this.targetProps = this.data.targetsProps;
           this.setterFunction();
-          if (this.uberonExpressionMap.yValues.length > 0) {
+          if (this.uberonExpressionMap?.yValues.length > 0) {
             this.showSection();
           } else {
             this.hideSection();
@@ -274,13 +274,15 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
    * parse and generate data
    */
   setterFunction() {
-    this.sortedTrees = this.target.expressionTree.uberonDict.sort((a,b) => {
-      return a.name.localeCompare(b.name);
-    });
-    for(let root of this.sortedTrees) {
-      this.setUberonInfo(root);
+    if (this.target.expressionTree && this.target.expressionTree.uberonDict) {
+      this.sortedTrees = this.target.expressionTree.uberonDict.sort((a,b) => {
+        return a.name.localeCompare(b.name);
+      });
+      for(let root of this.sortedTrees) {
+        this.setUberonInfo(root);
+      }
+      this.updateHeatmapData();
     }
-    this.updateHeatmapData();
   }
   setUberonInfo(node){
     const uberonObj = {uid: node.uid, name: node.name};

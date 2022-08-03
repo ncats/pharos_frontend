@@ -164,7 +164,28 @@ export const LIGANDDETAILSFIELDS = gql`
   }
   ${LIGANDLISTFIELDS}
 `;
-
+export const SERVERDETAILSQUERY = gql`
+  query fetchLigandDetails(
+    $term: String
+  ) {
+    ligands: ligand(ligid: $term){
+      ligid
+      name
+      description
+      isdrug
+      smiles
+      similarity
+      synonyms {
+        name
+        value
+      }
+      activities (all: false) {
+        type
+        moa
+      }
+    }
+  }
+`
 export const LIGANDDETAILSQUERY = gql`
   query fetchLigandDetails(
     $term: String
@@ -300,9 +321,6 @@ export const TARGETLISTFIELDS = gql`
         sources
       }
     }
-    diseaseCounts {
-      value
-    }
   }
 `;
 
@@ -436,6 +454,66 @@ const TARGET_GO_FUNCTION_QUERY = gql`
     }
   }`;
 
+export const TARGETSERVERDETAILSFIELDS = gql`
+  fragment targetServerDetailsFields on Target {
+    _tcrdid:tcrdid
+    name
+    gene: sym
+    preferredSymbol
+    accession: uniprot
+    idgFamily: fam
+    idgTDL: tdl
+    novelty
+    description
+    uniProtFunction: props (name: "UniProt Function"){
+      value
+    }
+    hgdata:harmonizome {
+      summary{
+        name
+        value
+        sources
+      }
+    }
+    symbols: synonyms(name: "symbol") {
+      name
+      value
+    }
+    uniprotIds: synonyms(name: "uniprot") {
+      name
+      value
+    }
+    ensemblIDs: xrefs(source:"Ensembl") {
+      name
+    }
+    dto {
+      name
+    }
+    pantherClasses {
+      name
+      pcid
+      parents
+    }
+    jensenScore: props(name: "JensenLab PubMed Score") {
+      value
+    }
+    generifCount
+    publicationCount: pubCount
+    antibodyCount: props(name: "Ab Count") {
+      value
+    }
+    antibodyURL: props(name: "Antibodypedia.com URL"){
+      value
+    }
+    goCounts {
+      value
+      name
+    }
+    ligandCounts{
+      name
+      value
+    }
+  }`;
 /**
  * apollo graphQL query fragment to retrieve target fields for a target details view
  */
@@ -751,6 +829,20 @@ export const TARGETDETAILSFIELDS = gql`
 /**
  * apollo graphQL query to retrieve the data for a target details view
  */
+export const TARGETSERVERDETAILSQUERY = gql`
+  query fetchTargetDetailsForSSR(
+    $term: String
+  ){
+    targets: target(q: {
+      sym: $term,
+      uniprot: $term,
+      stringid:$term
+    }) {
+        ...targetServerDetailsFields
+    }
+  }
+${TARGETSERVERDETAILSFIELDS}`;
+
 export const TARGETDETAILSQUERY = gql`
   query fetchTargetDetails(
     $term: String,

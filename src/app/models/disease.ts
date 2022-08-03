@@ -20,7 +20,39 @@ export const DISEASELISTFIELDS = gql`
     }
   }
 `;
-
+const SERVERDETAILSQUERY = gql`  #import "./diseasesListFields.gql"
+query fetchDiseaseDetailsForSSR (
+  $term: String
+) {
+  diseases: disease(
+    name: $term,
+  ) {
+    name
+#    associationCount
+#    datasource_count
+    mondoID
+#    directAssociationCount
+    targetCounts {
+      name
+      value
+    }
+    uniprotDescription
+    doDescription
+    mondoDescription
+    mondoEquivalents {
+      id
+      name
+    }
+    mondoID
+    diseaseIDs:dids{
+      id
+      dataSources
+      doName
+      doDefinition
+    }
+  }
+}
+`;
 const DISEASEDETAILSQUERY = gql`
   #import "./diseasesListFields.gql"
   query fetchDiseaseDetails(
@@ -111,7 +143,7 @@ export class Disease {
   static diseaseListFragments = DISEASELISTFIELDS;
 
   static diseaseDetailsQuery = DISEASEDETAILSQUERY;
-
+  static serverDetailsQuery = SERVERDETAILSQUERY;
   /**
    * name of disease
    */
