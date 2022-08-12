@@ -64,6 +64,7 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
       .subscribe((e: any) => {
         if (e instanceof NavigationEnd) {
           this.metaService.destroyCanonicalURL();
+          this.setterFunction();
         }
       });
     this.setterFunction();
