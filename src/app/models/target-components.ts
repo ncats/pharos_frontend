@@ -321,6 +321,9 @@ export const TARGETLISTFIELDS = gql`
         sources
       }
     }
+    diseaseCounts {
+      value
+    }
   }
 `;
 

@@ -1488,7 +1488,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       analyze: {
         components: [
           ...commonAnalyzeComponents,
-          PHAROS_HIERARCHY_VIEWER_COMPONENT,
+          // PHAROS_HIERARCHY_VIEWER_COMPONENT,
           PHAROS_TARGET_DISEASE_HEATMAP_COMPONENT,
           PHAROS_TARGET_LIGAND_HEATMAP_COMPONENT,
           PHAROS_TARGET_TARGET_HEATMAP_COMPONENT

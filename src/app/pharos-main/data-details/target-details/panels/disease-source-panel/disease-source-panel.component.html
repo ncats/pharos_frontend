@@ -25,9 +25,9 @@
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
       </div>
       <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
-      <div class="disease-panels">
-        <div>
-        <ng-container *ngIf="this.target?.diseaseCount > 0">
+<!--      <div class="disease-panels">-->
+<!--        <div>-->
+<!--        <ng-container *ngIf="this.target?.diseaseCount > 0">-->
           <div class="headerRow">
             <div>
               <pharos-explore-list-button [buttonText]="'Explore Associated Diseases'" [path]="'/diseases'"
@@ -52,14 +52,15 @@
               </div>
             </div>
           </div>
-        </ng-container>
-      </div>
-      <div>
-        <ng-container *ngFor="let root of target.diseaseTree">
-          <pharos-pack-circle [hierarchyData]="root" [config]="circlePackConfig" [colorDomain]="[0, 3]"></pharos-pack-circle>
-        </ng-container>
-      </div>
-      </div>
+<!--        </ng-container>-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        <ng-container *ngFor="let root of target.diseaseTree">-->
+<!--          <pharos-pack-circle [hierarchyData]="root" [config]="circlePackConfig" [colorDomain]="[0, 3]"></pharos-pack-circle>-->
+<!--        </ng-container>-->
+<!--      </div>-->
+<!--      </div>-->
+<!--      </div>-->
     </mat-card-content>
   </mat-card>
 </article>

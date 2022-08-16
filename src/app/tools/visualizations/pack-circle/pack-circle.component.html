@@ -1,11 +1,11 @@
-<mat-card>
+<mat-card class="pack-circle-card">
   <mat-card-content>
     <div class="tkrow"
          fxLayout="row"
          fxLayoutAlign="start stretch">
       <div fxFlex="95">
         <span class="mat-title">
-          root: {{hierarchyData?.name}} ({{hierarchyData?.uid || hierarchyData?.oid}})
+          root: {{hierarchyData?.name}}<ng-container *ngIf="hierarchyData?.uid || hierarchyData?.oid"> ({{hierarchyData?.uid || hierarchyData?.oid}})</ng-container>
         </span>
       </div>
     </div>
