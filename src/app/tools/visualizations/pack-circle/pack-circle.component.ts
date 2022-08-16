@@ -1,4 +1,14 @@
-import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import * as d3 from 'd3v7';
 import {ExpressionInfoService} from "../../../pharos-services/expression-info.service";
 import {partition} from "lodash";
@@ -10,7 +20,7 @@ import {CentralStorageService} from "../../../pharos-services/central-storage.se
   styleUrls: ['./pack-circle.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class PackCircleComponent implements OnInit, OnDestroy {
+export class PackCircleComponent implements OnInit, OnDestroy, OnChanges {
 
   /**
    * element container
@@ -38,6 +48,12 @@ export class PackCircleComponent implements OnInit, OnDestroy {
     partitions[1].forEach(c => {
       d3.select(c).classed(cssClass, false);
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.hasOwnProperty('hierarchyData') && !changes.hierarchyData.firstChange) {
+      this.ngOnInit();
+    }
   }
 
   ngOnInit(): void {
@@ -69,6 +85,9 @@ export class PackCircleComponent implements OnInit, OnDestroy {
         stroke: '#23364e',
         strokeOpacity: 0.5,
       });
+    } else {
+      const element = this.chartContainer.nativeElement;
+      d3.select(element).select('svg').remove();
     }
   }
 
@@ -135,7 +154,7 @@ export class PackCircleComponent implements OnInit, OnDestroy {
         return 6 / (d.depth + 1);
       })
       (root);
-
+    d3.select(element).select('svg').remove();
     const svg = d3.select(element)
       .append('svg:svg')
       .attr('id', this.id())
