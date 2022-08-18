@@ -62,7 +62,7 @@ const DISEASEDETAILSQUERY = gql`
       name: $term,
     ) {
       ...diseasesListFields
-      # predictions
+      predictions
       uniprotDescription
       doDescription
       mondoDescription
@@ -177,7 +177,7 @@ export class Disease {
   children?: Disease[];
 
   gwasAnalytics: GwasDiseaseAnalytics;
-  // predictions: {predictions: any[], citation: any};
+  predictions: {predictions: any[], citation: any}[];
 
   hasDOID(){
     return !!this.diseaseIDs?.find(id => id.id.toUpperCase().includes('DOID'));
@@ -242,6 +242,10 @@ export class DiseaseSerializer implements Serializer {
 
     if (json.gwasAnalytics) {
       obj.gwasAnalytics = new GwasDiseaseAnalytics(json.gwasAnalytics);
+    }
+
+    if (json.predictions && json.predictions.length > 0) {
+      obj.predictions = json.predictions[0];
     }
     return obj;
   }

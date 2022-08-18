@@ -14,7 +14,7 @@ import {HelpPanelComponent} from '../../../tools/help-panel/help-panel.component
 import {GwasDiseaseAnalyticsComponent} from '../../data-details/disease-details/gwas-disease-analytics/gwas-disease-analytics.component';
 import {SidenavPanelComponent} from '../../../tools/sidenav-panel/sidenav-panel.component';
 import {DiseaseHeaderComponent} from '../../data-details/disease-details/disease-header/disease-header.component';
-// import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predictions-panel.component';
+import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predictions-panel.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,7 @@ import {DiseaseHeaderComponent} from '../../data-details/disease-details/disease
   ],
   providers: [
     // diseases
-    // {provide: TOKENS.PREDICTIONS_PANEL, useValue: PredictionsPanelComponent},
+    {provide: TOKENS.PREDICTIONS_PANEL, useValue: PredictionsPanelComponent},
     {provide: TOKENS.DISEASE_HEADER_COMPONENT, useValue: DiseaseHeaderComponent},
     {provide: TOKENS.PHAROS_SUBNAV_COMPONENT, useValue: SidenavPanelComponent},
     {provide: TOKENS.PHAROS_HELPPANEL_COMPONENT, useValue: HelpPanelComponent},

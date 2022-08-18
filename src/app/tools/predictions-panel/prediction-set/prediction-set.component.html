@@ -1,0 +1,32 @@
+<mat-card>
+  <mat-card-content>
+    <a aria-label='View article in PubMed.'
+       class="external-link prediction-link" href="{{predictionSet.citation.url}}"
+       rel="noreferrer"
+       target="_blank">{{predictionSet.citation.name}}
+      <mat-icon [inline]="true">open_in_new</mat-icon>
+    </a>
+    <div class="prediction-citation">
+      {{predictionSet.citation.creditText}}, <em>{{predictionSet.citation.publisher.name}}</em>, <b>{{predictionSet.citation.datePublished}}</b>
+    </div>
+    <mat-paginator
+      [pageSize]="pageSize"
+      [length]="predictionSet.predictions.length"
+      [hidePageSize]="false"
+      [showFirstLastButtons]=true
+      (page)=paginate($event)
+      #predictionPaginator>
+    </mat-paginator>
+    <div *ngIf="showCardStyle(predictionSet); else tableStyle" class="prediction-card-container">
+      <div *ngFor="let pred of filteredPredictions" class="prediction">
+        <pharos-prediction-details-card [prediction]="pred"></pharos-prediction-details-card>
+      </div>
+    </div>
+    <ng-template #tableStyle>
+      <div class="prediction-table-container">
+        <pharos-generic-table [data]="filteredPredictionProps" (sortChange)="changeSort($event)"
+                              [fieldsConfig]="fields"></pharos-generic-table>
+      </div>
+    </ng-template>
+  </mat-card-content>
+</mat-card>

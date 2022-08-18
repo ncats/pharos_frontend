@@ -58,7 +58,7 @@ import {
 import {
     TinxScatterplotCardComponent
 } from "../../data-details/target-details/panels/disease-novelty/tinx-scatterplot-card/tinx-scatterplot-card.component";
-// import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predictions-panel.component';
+import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predictions-panel.component';
 
 @NgModule({
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
@@ -124,7 +124,7 @@ import {
     // targets
     {provide: TOKENS.TARGET_HEADER_COMPONENT, useValue: TargetHeaderComponent},
     {provide: TOKENS.SUMMARY_PANEL, useValue: SummaryPanelComponent},
-    // {provide: TOKENS.PREDICTIONS_PANEL, useValue: PredictionsPanelComponent},
+    {provide: TOKENS.PREDICTIONS_PANEL, useValue: PredictionsPanelComponent},
     {provide: TOKENS.IDG_RESOURCES_PANEL, useValue: IdgResourcesPanelComponent},
 
     {provide: TOKENS.PUBLICATION_STATISTICS_PANEL, useValue: PublicationStatisticsComponent},

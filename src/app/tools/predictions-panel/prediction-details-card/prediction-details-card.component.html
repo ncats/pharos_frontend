@@ -1,0 +1,31 @@
+<mat-card class="prediction-card">
+  <mat-card-content fxLayout="column">
+    <mat-card-subtitle>
+      {{prediction.name}}
+    </mat-card-subtitle>
+    <ncats-property-display [property]="{term: prediction.value.name, label: 'Name', internalLink: prediction.value.url}"></ncats-property-display>
+    <ncats-property-display [property]="{term: prediction.value.alternateName, label: 'Alternate ID'}"></ncats-property-display>
+    <ncats-property-display [property]="{term: formatConfidence(prediction.confidence.value), label: prediction.confidence.alternateName}"></ncats-property-display>
+  </mat-card-content>
+</mat-card>
+<!--<hr/>-->
+<!--<ng-container *ngIf="prediction.name === typeFilter">-->
+<!--  <div *ngFor="let item of prediction | keyvalue" class="prop">-->
+<!--    <b>{{item.key}}: </b>-->
+<!--    <ng-container *ngIf="isObject(item.value); else string">-->
+<!--      <div *ngFor="let subitem of item.value | keyvalue" class="subprop">-->
+<!--        <b>{{subitem.key}}: </b>-->
+
+<!--        <ng-container *ngIf="subitem.key == 'url'; else regular">-->
+<!--          <a [href]="subitem.value" target="_blank">{{subitem.value}}</a>-->
+<!--        </ng-container>-->
+<!--        <ng-template #regular>-->
+<!--          <span [ngClass]="{highlight: subitem.key=='@type' || subitem.key=='@context'}">{{subitem.value | json}}</span>-->
+<!--        </ng-template>-->
+<!--      </div>-->
+<!--    </ng-container>-->
+<!--    <ng-template #string>-->
+<!--      <span [ngClass]="{highlight: item.key=='@type' || item.key=='@context'}">{{item.value}}</span>-->
+<!--    </ng-template>-->
+<!--  </div>-->
+<!--</ng-container>-->
