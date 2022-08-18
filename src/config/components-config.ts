@@ -512,13 +512,22 @@ const TARGET_DETAILS_COMPONENT: PharosPanel = {
   api: []
 };
 
-// const PREDICTIONS_PANEL: PharosPanel = {
-//   token: TOKENS.PREDICTIONS_PANEL,
-//   section: Position.Content,
-//   navHeader: {
-//     section: 'predictions'
-//   }
-// }
+const PREDICTIONS_PANEL: PharosPanel = {
+  token: TOKENS.PREDICTIONS_PANEL,
+  section: Position.Content,
+  navHeader: {
+    label: 'External Predictions',
+    section: 'predictions',
+    mainDescription: 'TODO'
+  },
+  api: [
+    {
+      field: 'description',
+      label: 'Description',
+      description: 'TODO'
+    }
+  ]
+}
 
 /**
  * target summary component
@@ -1511,13 +1520,19 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           {
             category: 'Descriptive Data',
             panels: [
-              // PREDICTIONS_PANEL,
               SUMMARY_PANEL,
               PHAROS_BREADCRUMB_COMPONENT,
               LEVEL_SUMMARY_PANEL,
               EXPRESSION_PANEL,
               AA_SEQUENCE_PANEL,
-              AFFILIATE_LINKS_PANEL,
+              AFFILIATE_LINKS_PANEL
+            ]
+          },
+          {
+            category: 'Predictions',
+            panels: [
+              PREDICTIONS_PANEL,
+              VIRAL_INTERACTIONS_PANEL
             ]
           },
           {
@@ -1527,8 +1542,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
               LIGANDS_PANEL,
               PROTEIN_PROTEIN_PANEL,
               NEAREST_TCLIN_PANEL,
-              PATHWAYS_PANEL,
-              VIRAL_INTERACTIONS_PANEL
+              PATHWAYS_PANEL
             ]
           },
           {
@@ -1579,8 +1593,8 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_SUBNAV_COMPONENT,
           PHAROS_HELPPANEL_COMPONENT,
           DISEASE_HEADER_COMPONENT,
-          // PREDICTIONS_PANEL,
           DISEASE_SUMMARY_COMPONENT,
+          PREDICTIONS_PANEL,
           DISEASE_GWAS_ANALYTICS_COMPONENT,
           DISEASE_DO_BROWSER_COMPONENT,
           DISEASE_TINX_COMPONENT
@@ -1608,8 +1622,8 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           //   PHAROS_BREADCRUMB_COMPONENT,
           PHAROS_HELPPANEL_COMPONENT,
           LIGAND_HEADER_COMPONENT,
-          // PREDICTIONS_PANEL,
           LIGAND_DETAILS_COMPONENT,
+          // PREDICTIONS_PANEL,
           TARGET_RELEVANCE_PANEL,
           //  MOLECULAR_DEFINITION_PANEL
         ]

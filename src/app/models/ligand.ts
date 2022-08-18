@@ -26,7 +26,7 @@ export class Ligand extends PharosBase {
   isdrug: boolean;
   similarity: number;
   preferredTerm: string;
-  // predictions: {predictions: any[], citation: any};
+  predictions: {predictions: any[], citation: any}[];
 
   /**
    * name of ligand

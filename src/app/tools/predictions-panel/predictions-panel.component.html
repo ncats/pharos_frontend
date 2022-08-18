@@ -1,60 +1,38 @@
-<mat-tab-group *ngIf="predictionResult">
-  <mat-tab>
-    <ng-template mat-tab-label>
-    <div
-      [matTooltip]="getTooltip('goFunction')"
-      [matTooltipClass]="'pharos-tooltip'">
-      Data
-    </div>
-  </ng-template>
-  </mat-tab>
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <div
-        [matTooltip]="getTooltip('goFunction')"
-        [matTooltipClass]="'pharos-tooltip'">
-        Predictions
-      </div>
-    </ng-template>
-    <div class="fullwidth">
-      <div class="panel">
-        <mat-card-title>predictions</mat-card-title>
-        <div *ngFor="let pred of predictionResult.predictions" class="prediction">
-          <hr/>
-          <div *ngFor="let item of pred | keyvalue" class="prop">
-            <b>{{item.key}}: </b>
-            <ng-container *ngIf="isObject(item.value); else string">
-              <div *ngFor="let subitem of item.value | keyvalue" class="subprop">
-                <b>{{subitem.key}}: </b>
+<ng-template #nodata>
+  <article>
+    <mat-card #viral
+              (pharosScrollspy)="active(field)"
+              [id]="field"
+              class="section-card">
+      <mat-card-content>
+        <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
+        No external predictions found
+      </mat-card-content>
+    </mat-card>
+  </article>
+</ng-template>
 
-                <ng-container *ngIf="subitem.key == 'url'; else regular">
-                  <a [href]="subitem.value" target="_blank">{{subitem.value}}</a>
-                </ng-container>
-                <ng-template #regular>
-                  <span [ngClass]="{highlight: subitem.key=='@type' || subitem.key=='@context'}">{{subitem.value | json}}</span>
-                </ng-template>
-              </div>
-            </ng-container>
-            <ng-template #string>
-              <span [ngClass]="{highlight: item.key=='@type' || item.key=='@context'}">{{item.value}}</span>
-            </ng-template>
-          </div>
-        </div></div>
-      <div class="panel">
-        <mat-card-title>citation</mat-card-title>
-        <div *ngFor="let item of predictionResult.citation | keyvalue" class="prop">
-          <b>{{item.key}}: </b>
-          <ng-container *ngIf="isObject(item.value); else string">
-            <div *ngFor="let subitem of item.value | keyvalue : valueAscOrder" class="subprop">
-              <b>{{subitem.key}}</b>:
-              <span [ngClass]="{highlight: subitem.key=='@type' || subitem.key=='@context'}">{{subitem.value | json}}</span>
-            </div>
-          </ng-container>
-          <ng-template #string>
-            <span [ngClass]="{highlight: item.key=='@type' || item.key=='@context'}">{{item.value}}</span>
-          </ng-template>
+<ng-template #headerrow>
+  <pharos-component-header [description]="description" [field]="field" [headerText]="label"
+                           [id]="field"></pharos-component-header>
+</ng-template>
+
+<article *ngIf="predictionResult && predictionResult.length > 0; else nodata">
+  <mat-card #predictions
+            (pharosScrollspy)="active(field)"
+            [id]="field"
+            class="section-card">
+    <mat-card-content>
+      <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+        <img alt="loading..." class="spinner rotating" src="./assets/images/pharos_spinner.svg">
+      </div>
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
+      <div class="fullwidth">
+        <div *ngFor="let predictionSet of predictionResult" class="panel">
+          <pharos-prediction-set [predictionSet]="predictionSet"></pharos-prediction-set>
         </div>
       </div>
-    </div>
-  </mat-tab>
-</mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+</article>
+
