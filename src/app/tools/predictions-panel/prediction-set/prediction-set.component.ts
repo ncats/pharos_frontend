@@ -8,8 +8,9 @@ import {PharosProperty} from "../../../models/pharos-property";
 })
 export class PredictionSetComponent implements OnInit {
   @Input() predictionSet: {predictions: any[], citation: any};
+  @Input() style = 'table';
+  @Input() pageSize = 5;
   page = 0;
-  pageSize = 5;
 
   constructor() { }
 
@@ -27,7 +28,7 @@ export class PredictionSetComponent implements OnInit {
   }
 
   getStyle(predictionSet) {
-    return predictionSet.style || 'table'; // default to table view
+    return predictionSet.style || this.style; // default to table view
   }
 
   showCardStyle(predictionSet) {

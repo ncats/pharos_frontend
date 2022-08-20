@@ -15,7 +15,7 @@ export class PredictionsPanelComponent extends DynamicPanelComponent implements 
 
   thing: Target | Disease | Ligand;
   predictionResult: {predictions: any[], citation: any}[] = [];
-
+  count = 0;
   constructor(public dynamicServices: DynamicServicesService) {
     super(dynamicServices);
   }
@@ -27,6 +27,10 @@ export class PredictionsPanelComponent extends DynamicPanelComponent implements 
       .subscribe(x => {
         this.thing = this.data.targets || this.data.diseases || this.data.ligands;
         this.predictionResult = this.thing.predictions;
+        this.count = 0;
+        this.predictionResult.forEach(set => {
+          this.count += set.predictions.length;
+        });
         if (this.hasData()) {
           this.showSection();
         } else {
@@ -43,6 +47,7 @@ export class PredictionsPanelComponent extends DynamicPanelComponent implements 
   hasData() {
     return this.predictionResult && this.predictionResult.length > 0;
   }
+
   valueAscOrder(anything) {
     return 1;
   }

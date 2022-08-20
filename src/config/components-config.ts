@@ -517,7 +517,7 @@ const PREDICTIONS_PANEL: PharosPanel = {
   section: Position.Content,
   browserOnly: true,
   navHeader: {
-    label: 'External Predictions',
+    label: 'Predictions',
     section: 'predictions',
     mainDescription: 'TODO'
   },
