@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {PharosProperty} from "../../../models/pharos-property";
+import {isNumeric} from "rxjs/internal-compatibility";
 
 @Component({
   selector: 'pharos-prediction-set',
@@ -10,15 +11,21 @@ export class PredictionSetComponent implements OnInit {
   @Input() predictionSet: {predictions: any[], citation: any};
   @Input() style = 'table';
   @Input() pageSize = 5;
+
   page = 0;
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   get filteredPredictions() {
-    return this.predictionSet.predictions.slice(this.page * this.pageSize, (this.page + 1) * this.pageSize);
+    return this.sliceForPage(this.predictionSet.predictions);
+  }
+  get filteredPredictionProps() {
+    return this.sliceForPage(this.predictionProps);
+  }
+  sliceForPage(array: any[]) {
+    return array.slice(this.page * this.pageSize, (this.page + 1) * this.pageSize);
   }
 
   predictionTypes(predictionSet) {
@@ -69,20 +76,42 @@ export class PredictionSetComponent implements OnInit {
       })];
   }
 // { "@type": "Prediction", "name": "Predicted Cancer", "value": { "@context": "https://schema.org", "@type": "MedicalCondition", "name": "Carcinoma, Non-Small-Cell Lung", "alternateName": "MESH:D002289", "mondoid": [ "MONDO:0005233" ], "url": "/diseases/MONDO:0005233" }, "confidence": { "@context": "https://schema.org", "@type": "QuantitativeValue", "value": "0.85", "alternateName": "probability", "description": "Measure of the relevance of inhibiting a particular protein kinase for a specific cancer", "maxValue": 1, "minValue": 0 } }
-  get filteredPredictionProps() {
-    return this.filteredPredictions.map(f => {
+  get predictionProps() {
+    return this.predictionSet.predictions
+      .map(f => {
       return {
         name: {term:f.value.name, internalLink: f.value.url},
         alternateName: {term:f.value.alternateName},
         value: {term: this.formatConfidence(f.confidence.value)}
       };
-    });
+    })
+      .sort((a: any, b: any) => {
+        const field = this.sortField.active;
+        const dir = this.sortField.direction;
+        if (isNumeric(a[field].term)) {
+          if (dir === 'asc') {
+            return a[field].term - b[field].term;
+          }
+          return b[field].term - a[field].term;
+        } else {
+          if (dir === 'asc') {
+            return a[field].term.localeCompare(b[field].term)
+          }
+          return b[field].term.localeCompare(a[field].term)
+        }
+      });
   }
+  sortField = {active: 'value', direction: 'desc'};
+
   formatConfidence(val) {
     return parseFloat(val).toPrecision(2);
   }
+// {active: 'value', direction: 'asc'}
+// prediction-set.component.ts:90 {active: 'value', direction: 'desc'}
+// prediction-set.component.ts:90 {active: 'alternateName', direction: 'asc'}
+
   changeSort(event) {
-    console.log(event);
+    this.sortField = event;
   }
 
   getFilteredPredictions(type: string): any[] {

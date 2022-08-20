@@ -6,7 +6,7 @@
        target="_blank">{{predictionSet.citation.name}}
       <mat-icon [inline]="true">open_in_new</mat-icon>
     </a>
-    <div class="prediction-citation">
+    <div class="prediction-citation" *ngIf="predictionSet.citation">
       {{predictionSet.citation.creditText}}, <em>{{predictionSet.citation.publisher.name}}</em>, <b>{{predictionSet.citation.datePublished}}</b>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between start">
