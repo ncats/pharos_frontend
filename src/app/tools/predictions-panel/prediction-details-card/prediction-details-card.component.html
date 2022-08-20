@@ -4,7 +4,7 @@
       {{prediction.name}}
     </mat-card-subtitle>
     <ncats-property-display [property]="{term: prediction.value.name, label: 'Name', internalLink: prediction.value.url}"></ncats-property-display>
-    <ncats-property-display [property]="{term: prediction.value.alternateName, label: 'Alternate ID'}"></ncats-property-display>
+    <ncats-property-display *ngIf="prediction.value.alternateName" [property]="{term: prediction.value.alternateName, label: 'Alternate ID'}"></ncats-property-display>
     <ncats-property-display [property]="{term: formatConfidence(prediction.confidence.value), label: prediction.confidence.alternateName}"></ncats-property-display>
   </mat-card-content>
 </mat-card>
