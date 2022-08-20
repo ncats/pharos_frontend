@@ -83,4 +83,29 @@ export class PredictionSetComponent implements OnInit {
   changeSort(event) {
     console.log(event);
   }
+
+  getFilteredPredictions(type: string): any[] {
+    switch (type) {
+      case 'targets':
+        return this.predictionSet.predictions.filter(p => p.value['@type'] === 'Protein');
+      case 'diseases':
+        return this.predictionSet.predictions.filter(p => p.value['@type'] === 'MedicalCondition');
+    }
+  }
+
+  listHasTargets() {
+    return this.getFilteredPredictions('targets').length > 0;
+  }
+  listHasDiseases() {
+    return this.getFilteredPredictions('diseases').length > 0;
+  }
+  getList(type: string) {
+    const predictions = this.getFilteredPredictions(type);
+    const links = predictions.filter(p => p.value.url).map(p => {
+      const url = p.value.url;
+      const pieces = url.split('/');
+      return pieces[pieces.length - 1];
+    });
+    return links.join('|');
+  }
 }

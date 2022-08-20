@@ -17,6 +17,12 @@
       (page)=paginate($event)
       #predictionPaginator>
     </mat-paginator>
+    <pharos-explore-list-button *ngIf="listHasTargets()" [path]="'/targets'" [queryParams]="{collection: getList('targets')}"
+                                [buttonText]="'Explore Targets'">
+    </pharos-explore-list-button>
+    <pharos-explore-list-button *ngIf="listHasDiseases()" [path]="'/diseases'" [queryParams]="{collection: getList('diseases')}"
+                                [buttonText]="'Explore Diseases'">
+    </pharos-explore-list-button>
     <div *ngIf="showCardStyle(predictionSet); else tableStyle" class="prediction-card-container">
       <div *ngFor="let pred of filteredPredictions" class="prediction">
         <pharos-prediction-details-card [prediction]="pred"></pharos-prediction-details-card>

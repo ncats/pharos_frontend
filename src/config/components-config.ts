@@ -515,6 +515,7 @@ const TARGET_DETAILS_COMPONENT: PharosPanel = {
 const PREDICTIONS_PANEL: PharosPanel = {
   token: TOKENS.PREDICTIONS_PANEL,
   section: Position.Content,
+  browserOnly: true,
   navHeader: {
     label: 'External Predictions',
     section: 'predictions',
