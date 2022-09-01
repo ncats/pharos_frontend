@@ -81,8 +81,10 @@ pipeline {
                     configFile(fileId: 'pharos-frontend-compose', targetLocation: 'docker-compose.yml')
                 ]) {
                    script {
-                        def docker = new org.labshare.Docker()
-                        docker.deployDockerUI()
+                        docker.withRegistry('https://registry.ncats.nih.gov:5000', '564b9230-c7e3-482d-b004-8e79e5e9720a') {    
+                            def docker = new org.labshare.Docker()
+                            docker.deployDockerAPI()
+                        }
                     }
                 }
             }
