@@ -10,7 +10,7 @@ import {isNumeric} from "rxjs/internal-compatibility";
 export class PredictionSetComponent implements OnInit {
   @Input() predictionSet: {predictions: any[], citation: any};
   @Input() style = 'table';
-  @Input() pageSize = 5;
+  @Input() pageSizeInput;
 
   page = 0;
 
@@ -23,6 +23,9 @@ export class PredictionSetComponent implements OnInit {
   }
   get filteredPredictionProps() {
     return this.sliceForPage(this.predictionProps);
+  }
+  get pageSize() {
+    return this.pageSizeInput || this.getStyle(this.predictionSet) === 'table' ? 5 : 10;
   }
   sliceForPage(array: any[]) {
     return array.slice(this.page * this.pageSize, (this.page + 1) * this.pageSize);

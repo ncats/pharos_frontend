@@ -119,6 +119,7 @@ export const TARGETCARDFIELDS = gql`
       summary {
         name
         value
+        sources
       }
     }
   }
@@ -232,20 +233,40 @@ export const TARGETLISTEXTRAS = gql`
         preferredSymbol
       }
     }`;
+
+export const COMMONTARGETFIELDS = gql`
+    fragment  commonTargetFields on Target {
+      ...targetCardFields
+      novelty
+      description
+      uniProtFunction: props (name: "UniProt Function"){
+        value
+      }
+      jensenScore: props(name: "JensenLab PubMed Score") {
+        value
+      }
+      antibodyURL: props(name: "Antibodypedia.com URL"){
+        value
+      }
+      antibodyCount: props(name: "Ab Count") {
+        value
+      }
+      diseaseCounts {
+        value
+      }
+      ppiCount: ppiCounts {
+        value
+      }
+    }
+    ${TARGETCARDFIELDS}
+`;
+
 /**
  * apollo graphQL query fragment to retrieve common fields for a target list view
  */
 export const TARGETLISTFIELDS = gql`
   fragment targetsListFields on Target {
-    _tcrdid:tcrdid
-    name
-    gene: sym
-    preferredSymbol
-    accession: uniprot
-    idgFamily: fam
-    idgTDL: tdl
-    novelty
-    description
+    ...commonTargetFields
     interactionDetails: ppiTargetInteractionDetails{
       ppitypes
       interaction_type
@@ -296,35 +317,11 @@ export const TARGETLISTFIELDS = gql`
       bitscore
       qcovs
     }
-    uniProtFunction: props (name: "UniProt Function"){
-      value
-    }
-    jensenScore: props(name: "JensenLab PubMed Score") {
-      value
-    }
     pubTatorScore: props(name: "PubTator Score") {
       value
     }
-    antibodyURL: props(name: "Antibodypedia.com URL"){
-      value
-    }
-    antibodyCount: props(name: "Ab Count") {
-      value
-    }
-    ppiCount: ppiCounts {
-      value
-    }
-    hgdata:harmonizome {
-      summary{
-        name
-        value
-        sources
-      }
-    }
-    diseaseCounts {
-      value
-    }
   }
+  ${COMMONTARGETFIELDS}
 `;
 
 /*
@@ -459,25 +456,7 @@ const TARGET_GO_FUNCTION_QUERY = gql`
 
 export const TARGETSERVERDETAILSFIELDS = gql`
   fragment targetServerDetailsFields on Target {
-    _tcrdid:tcrdid
-    name
-    gene: sym
-    preferredSymbol
-    accession: uniprot
-    idgFamily: fam
-    idgTDL: tdl
-    novelty
-    description
-    uniProtFunction: props (name: "UniProt Function"){
-      value
-    }
-    hgdata:harmonizome {
-      summary{
-        name
-        value
-        sources
-      }
-    }
+    ...commonTargetFields
     symbols: synonyms(name: "symbol") {
       name
       value
@@ -497,17 +476,8 @@ export const TARGETSERVERDETAILSFIELDS = gql`
       pcid
       parents
     }
-    jensenScore: props(name: "JensenLab PubMed Score") {
-      value
-    }
     generifCount
     publicationCount: pubCount
-    antibodyCount: props(name: "Ab Count") {
-      value
-    }
-    antibodyURL: props(name: "Antibodypedia.com URL"){
-      value
-    }
     goCounts {
       value
       name
@@ -516,13 +486,89 @@ export const TARGETSERVERDETAILSFIELDS = gql`
       name
       value
     }
-  }`;
+
+    sequence: seq
+
+    ppis (top: $ppistop, skip: $ppisskip){
+      props{
+        name
+        value
+      }
+      target{
+        ...targetCardFields
+      }
+    }
+
+    diseases(top: $diseasetop, skip: $diseaseskip) {
+      ...disease_fields
+    }
+    pathwayCounts{
+      name
+      value
+    }
+    pathways(top: 5, getTopForEachType: true){
+      ...pathway_fields
+    }
+    goComponent:go (top: 10, filter: {facets: [ {
+      facet: "type"
+      values: ["C"]
+    }
+    ]
+    }
+    ) {
+      term
+      evidence
+      explanation
+      assigned_by
+    }
+    goFunction:go (top: 10, filter: {
+      facets: [
+        {
+          facet: "type"
+          values: ["F"]
+        }
+      ]
+    }
+    ) {
+      term
+      evidence
+      explanation
+      assigned_by
+    }
+    goProcess:go (top: 10, filter: {
+      facets: [
+        {
+          facet: "type"
+          values: ["P"]
+        }
+      ]
+    }
+    ) {
+      term
+      evidence
+      explanation
+      assigned_by
+    }
+
+    drugs:ligands(top: $drugstop, skip: $drugsskip, isdrug: true) {
+      ...ligandCardFields
+    }
+    ligands(top: $ligandstop, skip: $ligandsskip, isdrug: false) {
+      ...ligandCardFields
+    }
+  }
+    ${COMMONTARGETFIELDS}
+    ${TARGETCARDFIELDS}
+    ${DISEASE_FIELDS}
+    ${PATHWAY_FIELDS}
+    ${LIGANDCARDFIELDS}`;
 /**
  * apollo graphQL query fragment to retrieve target fields for a target details view
  */
 export const TARGETDETAILSFIELDS = gql`
   fragment targetsDetailsFields on Target {
     ...targetsListFields
+    ...targetServerDetailsFields
     dataVersions(keys:["Expression", "GTEx"]) {
       key
       dataSources {
@@ -560,48 +606,7 @@ export const TARGETDETAILSFIELDS = gql`
       type
       name
     }
-    symbols: synonyms(name: "symbol") {
-      name
-      value
-    }
-    uniprotIds: synonyms(name: "uniprot") {
-      name
-      value
-    }
-    ensemblIDs: xrefs(source:"Ensembl") {
-      name
-    }
-    dto {
-      name
-    }
-    pathwayCounts{
-      name
-      value
-    }
-    pathways(top: 5, getTopForEachType: true){
-      ...pathway_fields
-    }
-    pantherClasses {
-      name
-      pcid
-      parents
-    }
     pdbs: xrefs(source: "PDB") {
-      name
-    }
-    ppis (top: $ppistop, skip: $ppisskip){
-      props{
-        name
-        value
-      }
-      target{
-        ...targetCardFields
-      }
-    }
-    generifCount
-    sequence: seq
-    goCounts {
-      value
       name
     }
     orthologCounts {value}
@@ -620,22 +625,10 @@ export const TARGETDETAILSFIELDS = gql`
       year
       count
     }
-    ligandCounts{
-      name
-      value
-    }
-    drugs:ligands(top: $drugstop, skip: $drugsskip, isdrug: true) {
-      ...ligandCardFields
-    }
-    ligands(top: $ligandstop, skip: $ligandsskip, isdrug: false) {
-      ...ligandCardFields
-    }
 
-    publicationCount: pubCount
     publications: pubs(top: $publicationstop, skip: $publicationsskip, term: $publicationsterm) {
       ...publication_fields
     }
-    generifCount
     generifs (top: $generifstop, skip: $generifsskip term: $generifsterm){
       text
       pubs {
@@ -701,46 +694,7 @@ export const TARGETDETAILSFIELDS = gql`
       value
       name
     }
-    goComponent:go (top: 10, filter: {facets: [ {
-      facet: "type"
-      values: ["C"]
-    }
-    ]
-    }
-    ) {
-      term
-      evidence
-      explanation
-      assigned_by
-    }
-    goFunction:go (top: 10, filter: {
-      facets: [
-        {
-          facet: "type"
-          values: ["F"]
-        }
-      ]
-    }
-    ) {
-      term
-      evidence
-      explanation
-      assigned_by
-    }
-    goProcess:go (top: 10, filter: {
-      facets: [
-        {
-          facet: "type"
-          values: ["P"]
-        }
-      ]
-    }
-    ) {
-      term
-      evidence
-      explanation
-      assigned_by
-    }
+
     drgcResources:drgc_resources {
       resourceType
       apiResult:detailBlob
@@ -827,6 +781,7 @@ export const TARGETDETAILSFIELDS = gql`
   ${ORTHOLOG_FIELDS}
   ${PUBLICATION_FIELDS}
   ${PATHWAY_FIELDS}
+  ${TARGETSERVERDETAILSFIELDS}
 `;
 
 /**
@@ -834,6 +789,14 @@ export const TARGETDETAILSFIELDS = gql`
  */
 export const TARGETSERVERDETAILSQUERY = gql`
   query fetchTargetDetailsForSSR(
+    $ppistop: Int,
+    $ppisskip: Int,
+    $diseasetop: Int,
+    $diseaseskip: Int,
+    $drugstop: Int,
+    $drugsskip: Int,
+    $ligandstop: Int,
+    $ligandsskip: Int,
     $term: String
   ){
     targets: target(q: {
@@ -868,14 +831,10 @@ export const TARGETDETAILSQUERY = gql`
   ) {
     targets: target(q: {
       sym: $term,
-      #tcrdid: $term,
       uniprot: $term,
       stringid:$term
     }) {
       ...targetsDetailsFields
-      diseases(top: $diseasetop, skip: $diseaseskip) {
-        ...disease_fields
-      }
     }
   }
   ${TARGETDETAILSFIELDS}
