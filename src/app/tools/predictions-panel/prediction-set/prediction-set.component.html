@@ -1,14 +1,6 @@
 <mat-card>
   <mat-card-content>
-    <a aria-label='View article in PubMed.'
-       class="external-link prediction-link" href="{{predictionSet.citation.url}}"
-       rel="noreferrer"
-       target="_blank">{{predictionSet.citation.name}}
-      <mat-icon [inline]="true">open_in_new</mat-icon>
-    </a>
-    <div class="prediction-citation" *ngIf="predictionSet.citation">
-      {{predictionSet.citation.creditText}}, <em>{{predictionSet.citation.publisher.name}}</em>, <b>{{predictionSet.citation.datePublished}}</b>
-    </div>
+    <pharos-citation [citation]="predictionSet.citation"></pharos-citation>
     <div fxLayout="row" fxLayoutAlign="space-between start">
       <pharos-explore-list-button *ngIf="listHasTargets()" [path]="'/targets'" [queryParams]="{collection: getList('targets')}"
                                   [buttonText]="'Explore Targets'">

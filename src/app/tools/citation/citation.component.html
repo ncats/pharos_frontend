@@ -1,0 +1,17 @@
+<a aria-label='View article in PubMed.'
+   class="external-link prediction-link" href="{{citation.url}}"
+   rel="noreferrer"
+   target="_blank">{{citation.name}}
+  <mat-icon [inline]="true">open_in_new</mat-icon>
+</a>
+<div class="citation" *ngIf="!full; else showfull">
+  {{citation.creditText}}, <em>{{citation.publisher.name}}</em>, <b>{{citation.datePublished}}</b>
+</div>
+<ng-template #showfull>
+  <div class="citation">
+    <mat-card-subtitle>{{authors}}</mat-card-subtitle>
+    <ncats-property-display *ngIf="citation?.identifier" [property]="{label: citation.identifier.name, term: citation.identifier.value}"></ncats-property-display>
+    <ncats-property-display [property]="{label: 'Abstract'}"></ncats-property-display>
+    {{citation.abstract}}
+  </div>
+</ng-template>

@@ -37,7 +37,13 @@ export class HelpDataService {
   get data() {
     return this._data.getValue();
   }
-
+  _predictionDetails: any[] = [];
+  set predictionDetails(predictionDetails) {
+    this._predictionDetails = predictionDetails || [];
+  }
+  get predictionDetails() {
+    return this._predictionDetails;
+  }
   /**
    * RxJs subject to broadcast help panel data changes
    * @type {Subject<boolean>}

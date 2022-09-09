@@ -39,6 +39,7 @@ import { DataVersionCardComponent } from './data-version-card/data-version-card.
 import { PredictionsPanelComponent } from './predictions-panel/predictions-panel.component';
 import { PredictionDetailsCardComponent } from './predictions-panel/prediction-details-card/prediction-details-card.component';
 import { PredictionSetComponent } from './predictions-panel/prediction-set/prediction-set.component';
+import { CitationComponent } from './citation/citation.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { PredictionSetComponent } from './predictions-panel/prediction-set/predi
     DataVersionCardComponent,
     PredictionsPanelComponent,
     PredictionDetailsCardComponent,
-    PredictionSetComponent
+    PredictionSetComponent,
+    CitationComponent
   ],
   imports: [
     CommonModule,

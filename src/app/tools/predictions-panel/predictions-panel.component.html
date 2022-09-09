@@ -14,7 +14,7 @@
 
 <ng-template #headerrow>
   <pharos-component-header [description]="description" [field]="field" [headerText]="label + ' (' + count + ')'"
-                           [id]="field"></pharos-component-header>
+                           [id]="field" [predictionDetails]="citations()"></pharos-component-header>
 </ng-template>
 
 <article *ngIf="predictionResult && predictionResult.length > 0; else nodata">

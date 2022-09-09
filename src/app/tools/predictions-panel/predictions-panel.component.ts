@@ -20,6 +20,10 @@ export class PredictionsPanelComponent extends DynamicPanelComponent implements 
     super(dynamicServices);
   }
 
+  citations() {
+    return this.predictionResult.map(p => p.citation);
+  }
+
   ngOnInit(): void {
     this._data
       // listen to data as long as term is undefined or null
