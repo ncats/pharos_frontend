@@ -28,7 +28,9 @@ export class HelpPanelComponent implements OnInit, OnDestroy {
     /* [mode]="isSmallScreen!==true ? 'side' : 'over'"
      [opened]="isSmallScreen !== true"*/
   };
-
+  get predictionDetails(): any[] {
+    return this.helpDataService.predictionDetails;
+  }
   /**
    * close the help panel
    * @type {EventEmitter<boolean>}
