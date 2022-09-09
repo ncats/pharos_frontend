@@ -30,8 +30,6 @@
       <div class="fullwidth">
         <div *ngFor="let predictionSet of predictionResult" class="panel">
           <pharos-prediction-set [predictionSet]="predictionSet"></pharos-prediction-set>
-          <br/>
-          <pharos-prediction-set [predictionSet]="predictionSet" [style]="'card'" [pageSize]="10"></pharos-prediction-set>
         </div>
       </div>
     </mat-card-content>
