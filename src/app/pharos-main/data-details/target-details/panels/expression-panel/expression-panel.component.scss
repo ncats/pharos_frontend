@@ -63,6 +63,12 @@ img.hg {
   height: 100%;
 }
 
+.circle-plot-container {
+  overflow-y: scroll;
+  max-height: 100%;
+  max-width: 80%;
+}
+
 .heatmap-container.halfHeight{
   border-bottom: 1px solid;
 }
@@ -82,10 +88,19 @@ img.hg {
 }
 
 .section {
-  max-height: 650px;
-  width: 600px;
+  max-height: 800px;
 }
 .matrix-anatomogram {
   display: flex;
   flex-direction: row;
+}
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }

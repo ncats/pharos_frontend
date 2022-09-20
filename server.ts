@@ -32,7 +32,7 @@ export function app() {
           req.header('x-forwarded-for') ||
           req.connection.remoteAddress ||
           req.headers['X-Real-IP']
-        )} ${req.url} - ${duration}ms`);
+        )} ${new Date(start).toISOString()} ${req.url} - ${duration}ms`);
       });
     }
     next();

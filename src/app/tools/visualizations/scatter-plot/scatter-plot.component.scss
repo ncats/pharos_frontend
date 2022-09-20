@@ -1,5 +1,10 @@
+@use '@angular/material' as mat;
+@import '../../../../partials/ncats-theme';
+
 .reset-holder {
   white-space: nowrap;
+  display: flex;
+  flex-direction: row;
 }
 
 .d3-scatter-chart {
@@ -68,7 +73,16 @@ pharos-scatter-plot {
   stroke-width: .5px;
 }
 
+.highlight-point {
+  fill: mat.get-color-from-palette($pharos-app-accent);
+  stroke: red;
+  stroke-opacity: 1;
+  r: 5px;
+}
 
+.highlight-point-hover {
+  r: 7px;
+}
 
 .y-axis-selector {
   padding-left: 20px;

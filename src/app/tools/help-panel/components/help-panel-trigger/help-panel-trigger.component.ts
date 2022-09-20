@@ -16,6 +16,7 @@ export class HelpPanelTriggerComponent {
    * original panel/data source that called the help panel
    */
   @Input() origin?: string;
+  @Input() predictionDetails: any[] = [];
 
   /**
    * readable label for the data source
@@ -37,6 +38,7 @@ export class HelpPanelTriggerComponent {
    * sets data origin and opens help panel
    */
   toggle() {
+    this.helpDataService.predictionDetails = this.predictionDetails;
     if (this.origin) {
       this.helpDataService.setOrigin(this.origin);
     }

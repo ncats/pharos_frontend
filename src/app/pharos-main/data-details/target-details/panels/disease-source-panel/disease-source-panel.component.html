@@ -24,41 +24,43 @@
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
       </div>
-      <ng-container *ngIf="this.target?.diseaseCount > 0">
-        <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
-        <div class="headerRow">
-          <div>
-            <pharos-explore-list-button [buttonText]="'Explore Associated Diseases'" [path]="'/diseases'"
-                                        [queryParams]="{associatedTarget:target.preferredSymbol}">
-            </pharos-explore-list-button>
-            <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Find Similar Targets'"
-                                        [facetName]="'Associated Disease'"
-                                        [queryParams]="{similarity: '(' + target.preferredSymbol + ', Associated Disease)'}"></pharos-explore-list-button>
+      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
+<!--      <div class="disease-panels">-->
+<!--        <div>-->
+<!--        <ng-container *ngIf="this.target?.diseaseCount > 0">-->
+          <div class="headerRow">
+            <div>
+              <pharos-explore-list-button [buttonText]="'Explore Associated Diseases'" [path]="'/diseases'"
+                                          [queryParams]="{associatedTarget:target.preferredSymbol}">
+              </pharos-explore-list-button>
+              <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Find Similar Targets'"
+                                          [facetName]="'Associated Disease'"
+                                          [queryParams]="{similarity: '(' + target.preferredSymbol + ', Associated Disease)'}"></pharos-explore-list-button>
+            </div>
+            <mat-paginator
+              [pageSize]="10"
+              [length]="target?.diseaseCount"
+              [hidePageSize]="true"
+              [showFirstLastButtons]=true
+              (page)=paginate($event)
+              #treepaginator></mat-paginator>
           </div>
-          <mat-paginator
-            [pageSize]="10"
-            [length]="target?.diseaseCount"
-            [hidePageSize]="true"
-            [showFirstLastButtons]=true
-            (page)=paginate($event)
-            #treepaginator></mat-paginator>
-        </div>
-        <div fxLayout="row" fxLayout.lt-md="column" class="tkrow" fxLayoutAlign="space-around stretch">
-          <div fxFlex="95" class="disease-card-container">
-            <div *ngFor="let disease of target.diseases">
-              <pharos-disease-card [apiSources]="apiSources" [disease]="disease"></pharos-disease-card>
+          <div >
+            <div class="disease-card-container">
+              <div *ngFor="let disease of target.diseases">
+                <pharos-disease-card [apiSources]="apiSources" [disease]="disease"></pharos-disease-card>
+              </div>
             </div>
           </div>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="tinx && tinx.length > 0">
-        <pharos-component-header [description]="getTooltip('tinx')" [field]="field" [headerText]="'Disease Novelty (Tin-x)'"></pharos-component-header>
-        <div fxLayout="row" fxLayoutAlign="center center">
-          <div fxFlex="95" class="scatter-plot-holder">
-            <pharos-scatter-plot [svgID]="'disease-tinx-svg'" [data]="tinx" [options]="chartOptions"></pharos-scatter-plot>
-          </div>
-        </div>
-      </ng-container>
+<!--        </ng-container>-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        <ng-container *ngFor="let root of target.diseaseTree">-->
+<!--          <pharos-pack-circle [hierarchyData]="root" [config]="circlePackConfig" [colorDomain]="[0, 3]"></pharos-pack-circle>-->
+<!--        </ng-container>-->
+<!--      </div>-->
+<!--      </div>-->
+<!--      </div>-->
     </mat-card-content>
   </mat-card>
 </article>

@@ -71,6 +71,7 @@ export interface PharosPanel {
   // for panel groups
   panels?: PharosPanel[];
   category?: string;
+  browserOnly?: boolean;
 
   // for traditional panels
   /**
@@ -321,7 +322,7 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
     {
       field: 'novelty',
       label: 'Novelty',
-      description: 'Tin-X metric for the relative scarcity of specific publications for this target.'
+      description: 'TIN-X metric for the relative scarcity of specific publications for this target.'
     },
     ...ppiInteractionFields,
     ...diseaseAssociationFields,
@@ -388,6 +389,22 @@ const PHAROS_SELECTED_FACET_LIST_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_SELECTED_FACET_LIST_COMPONENT,
   section: Position.Content
 };
+
+const PHAROS_HIERARCHY_VIEWER_COMPONENT: PharosPanel = {
+  token: TOKENS.PHAROS_HIERARCHY_VIEWER_COMPONENT,
+  section: Position.Content,
+  navHeader: {
+    mainDescription: 'TODO',
+    section: 'hierarchy',
+    label: 'Hierarchy Viewer'
+  }, api: [
+    {
+      description: 'description',
+      field: 'field',
+      label: 'label'
+    }
+    ]
+}
 
 const PHAROS_FACET_REPRESENTATION_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_FACET_REPRESENTATION_COMPONENT,
@@ -495,13 +512,38 @@ const TARGET_DETAILS_COMPONENT: PharosPanel = {
   api: []
 };
 
-// const PREDICTIONS_PANEL: PharosPanel = {
-//   token: TOKENS.PREDICTIONS_PANEL,
-//   section: Position.Content,
-//   navHeader: {
-//     section: 'predictions'
-//   }
-// }
+const PREDICTED_DISEASES: PharosPanel = {
+  token: TOKENS.PREDICTIONS_PANEL,
+  section: Position.Content,
+  browserOnly: true,
+  navHeader: {
+    label: 'Predicted Diseases',
+    section: 'predictions'
+  },
+  api: [
+    {
+      field: 'data',
+      label: 'Disease Associations',
+      description: 'Predicted disease associations retrieved from external APIs.'
+    }
+  ]
+}
+const PREDICTED_TARGETS: PharosPanel = {
+  token: TOKENS.PREDICTIONS_PANEL,
+  section: Position.Content,
+  browserOnly: true,
+  navHeader: {
+    label: 'Predicted Targets',
+    section: 'predictions'
+  },
+  api: [
+    {
+      field: 'data',
+      label: 'Target Associations',
+      description: 'Predicted target associations retrieved from external APIs.'
+    }
+  ]
+}
 
 /**
  * target summary component
@@ -644,6 +686,7 @@ const LEVEL_SUMMARY_PANEL: PharosPanel = {
  */
 const IDG_RESOURCES_PANEL: PharosPanel = {
   token: TOKENS.IDG_RESOURCES_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'IDG Generated Resources',
     section: 'resources',
@@ -669,12 +712,36 @@ const IDG_RESOURCES_PANEL: PharosPanel = {
   ]
 };
 
+const DISEASE_NOVELTY_PANEL: PharosPanel = {
+  token: TOKENS.DISEASE_NOVELTY_PANEL,
+  browserOnly: true,
+  navHeader: {
+    label: 'Disease Novelty',
+    section: 'diseaseNovelty',
+    mainDescription: `TIN-X discovers target-disease relationships through natural language processing of PubMed
+      abstracts. Target-disease associations that have high Importance, and high Novelty, are promising areas
+      for following up.`,
+    mainSource: 'https://www.newdrugtargets.org/'
+  },
+  api: [
+    {
+      field: 'importance',
+      label: 'Importance',
+      description: 'A bibliometric statistic that estimates the strength of the association between a target and a disease.'
+    },
+    {
+      field: 'novelty',
+      label: 'Novelty',
+      description: 'A bibliometric statistic that estimates the scarcity of publications about a disease.'
+    }]
+}
 /**
  * target disease relevance component
  * @type {PharosPanel}
  */
 const DISEASE_SOURCE_PANEL: PharosPanel = {
   token: TOKENS.DISEASE_SOURCE_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Disease Associations',
     section: 'diseaseSources',
@@ -696,7 +763,7 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
     },
     {
       field: 'tinx',
-      label: 'Disease Novelty (Tin-x)',
+      label: 'Disease Novelty (TIN-X)',
       description: 'TIN-X is an interactive visualization tool for discovering interesting associations between diseases ' +
         'and potential drug targets. Click the \'?\' button for more information.',
       article: ARTICLES.TINX_ARTICLE
@@ -710,6 +777,7 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
  */
 const LIGANDS_PANEL: PharosPanel = {
   token: TOKENS.LIGANDS_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Active Ligands',
     section: 'ligands',
@@ -736,6 +804,7 @@ const LIGANDS_PANEL: PharosPanel = {
  */
 const DRUGS_PANEL: PharosPanel = {
   token: TOKENS.DRUGS_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Approved Drugs',
     section: 'drugs',
@@ -761,6 +830,7 @@ const DRUGS_PANEL: PharosPanel = {
  */
 const EXPRESSION_PANEL: PharosPanel = {
   token: TOKENS.EXPRESSION_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Expression Data',
     section: 'expression',
@@ -771,6 +841,7 @@ const EXPRESSION_PANEL: PharosPanel = {
 
 const NEAREST_TCLIN_PANEL: PharosPanel = {
   token: TOKENS.NEAREST_TCLIN_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Nearest Tclin Targets',
     section: 'nearestTclin',
@@ -796,6 +867,7 @@ const NEAREST_TCLIN_PANEL: PharosPanel = {
 
 const GWAS_TARGET_ANALYTICS_PANEL: PharosPanel = {
   token: TOKENS.GWAS_TARGET_ANALYTICS_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'GWAS Traits',
     section: 'tiga',
@@ -816,6 +888,7 @@ const GWAS_TARGET_ANALYTICS_PANEL: PharosPanel = {
 };
 const ORTHOLOGS_PANEL: PharosPanel = {
   token: TOKENS.ORTHOLOGS_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Orthologs',
     section: 'orthologs',
@@ -842,6 +915,7 @@ const ORTHOLOGS_PANEL: PharosPanel = {
 
 const AFFILIATE_LINKS_PANEL: PharosPanel = {
   token: TOKENS.AFFILIATE_LINKS,
+  browserOnly: true,
   navHeader: {
     label: 'Related Tools',
     section: 'affiliates',
@@ -857,6 +931,7 @@ const AFFILIATE_LINKS_PANEL: PharosPanel = {
 
 const GO_TERMS_PANEL: PharosPanel = {
   token: TOKENS.GO_TERMS_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Gene Ontology Terms',
     section: 'goTerms',
@@ -892,7 +967,9 @@ const GO_TERMS_PANEL: PharosPanel = {
 };
 
 const PATHWAYS_PANEL: PharosPanel = {
-  token: TOKENS.PATHWAYS_PANEL, navHeader: {
+  token: TOKENS.PATHWAYS_PANEL,
+  browserOnly: true,
+  navHeader: {
     label: 'Pathways',
     section: 'pathways',
     mainDescription: 'Biochemical pathways containing the current target.'
@@ -945,6 +1022,7 @@ const PATHWAYS_PANEL: PharosPanel = {
  */
 const PROTEIN_PROTEIN_PANEL: PharosPanel = {
   token: TOKENS.PROTEIN_PROTEIN_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Protein-Protein Interactions',
     section: 'ppi',
@@ -959,7 +1037,7 @@ const PROTEIN_PROTEIN_PANEL: PharosPanel = {
     {
       field: 'Novelty',
       label: 'Novelty',
-      description: 'Tin-X metric for the relative scarcity of specific publications for this target.'
+      description: 'TIN-X metric for the relative scarcity of specific publications for this target.'
     },
     ...ppiInteractionFields,
     {
@@ -981,10 +1059,12 @@ const PROTEIN_PROTEIN_PANEL: PharosPanel = {
  */
 const VIRAL_INTERACTIONS_PANEL: PharosPanel = {
   token: TOKENS.VIRAL_INTERACTIONS_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Predicted Viral Interactions',
     section: 'viral',
-    mainDescription: 'Details about predicted viral interactions with this protein, from P-HIPSTer.'
+    mainDescription: 'Details about predicted viral interactions with this protein, from P-HIPSTer.',
+    mainSource: 'http://phipster.org/'
   },
   api: [
     {
@@ -1004,6 +1084,7 @@ const VIRAL_INTERACTIONS_PANEL: PharosPanel = {
  */
 const PUBLICATION_STATISTICS_PANEL: PharosPanel = {
   token: TOKENS.PUBLICATION_STATISTICS_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Publication Statistics',
     section: 'publicationStatistics',
@@ -1042,6 +1123,7 @@ const PUBLICATION_STATISTICS_PANEL: PharosPanel = {
  */
 const RELATED_PUBLICATIONS_PANEL: PharosPanel = {
   token: TOKENS.RELATED_PUBLICATIONS_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Related Publications',
     section: 'relatedPublications',
@@ -1079,6 +1161,7 @@ const RELATED_PUBLICATIONS_PANEL: PharosPanel = {
  */
 const AA_SEQUENCE_PANEL: PharosPanel = {
   token: TOKENS.AA_SEQUENCE_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Protein Sequence and Structure',
     section: 'sequence',
@@ -1122,6 +1205,7 @@ const AA_SEQUENCE_PANEL: PharosPanel = {
  */
 const TARGET_FACET_PANEL: PharosPanel = {
   token: TOKENS.TARGET_FACET_PANEL,
+  browserOnly: true,
   navHeader: {
     label: 'Related Targets',
     section: 'relatedTargets',
@@ -1223,6 +1307,7 @@ const DISEASE_SUMMARY_COMPONENT: PharosPanel = {
 
 const DISEASE_DO_BROWSER_COMPONENT: PharosPanel = {
   token: TOKENS.DISEASE_DO_BROWSER_COMPONENT,
+  browserOnly: true,
   navHeader: {
     label: 'Disease Hierarchy',
     section: 'doBrowser',
@@ -1247,6 +1332,7 @@ const DISEASE_DO_BROWSER_COMPONENT: PharosPanel = {
 
 const DISEASE_GWAS_ANALYTICS_COMPONENT: PharosPanel = {
   token: TOKENS.DISEASE_GWAS_ANALYTICS_COMPONENT,
+  browserOnly: true,
   navHeader: {
     label: 'GWAS Targets',
     section: 'tiga',
@@ -1269,11 +1355,12 @@ const DISEASE_GWAS_ANALYTICS_COMPONENT: PharosPanel = {
 
 const DISEASE_TINX_COMPONENT: PharosPanel = {
   token: TOKENS.DISEASE_TINX_COMPONENT,
+  browserOnly: true,
   navHeader: {
     label: 'Target Novelty',
     section: 'diseaseTINX',
     mainDescription: 'The calculated importance and novelty for targets associated with this disease or it\'s children.',
-    mainSource: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5870731/'
+    mainSource: 'https://www.newdrugtargets.org/'
   },
   api: [
     {
@@ -1324,6 +1411,7 @@ const TARGET_LIST_PANEL: PharosPanel = {
  */
 const LIGAND_TABLE_COMPONENT: PharosPanel = {
   token: TOKENS.LIGAND_TABLE_COMPONENT,
+  browserOnly: true,
   api: []
 };
 
@@ -1434,6 +1522,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
       analyze: {
         components: [
           ...commonAnalyzeComponents,
+          // PHAROS_HIERARCHY_VIEWER_COMPONENT,
           PHAROS_TARGET_DISEASE_HEATMAP_COMPONENT,
           PHAROS_TARGET_LIGAND_HEATMAP_COMPONENT,
           PHAROS_TARGET_TARGET_HEATMAP_COMPONENT
@@ -1456,13 +1545,12 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           {
             category: 'Descriptive Data',
             panels: [
-              // PREDICTIONS_PANEL,
               SUMMARY_PANEL,
               PHAROS_BREADCRUMB_COMPONENT,
               LEVEL_SUMMARY_PANEL,
               EXPRESSION_PANEL,
               AA_SEQUENCE_PANEL,
-              AFFILIATE_LINKS_PANEL,
+              AFFILIATE_LINKS_PANEL
             ]
           },
           {
@@ -1481,6 +1569,8 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
             panels: [
               GO_TERMS_PANEL,
               DISEASE_SOURCE_PANEL,
+              DISEASE_NOVELTY_PANEL,
+              PREDICTED_DISEASES,
               GWAS_TARGET_ANALYTICS_PANEL,
               TARGET_FACET_PANEL
             ]
@@ -1523,8 +1613,8 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_SUBNAV_COMPONENT,
           PHAROS_HELPPANEL_COMPONENT,
           DISEASE_HEADER_COMPONENT,
-          // PREDICTIONS_PANEL,
           DISEASE_SUMMARY_COMPONENT,
+          PREDICTED_TARGETS,
           DISEASE_GWAS_ANALYTICS_COMPONENT,
           DISEASE_DO_BROWSER_COMPONENT,
           DISEASE_TINX_COMPONENT
@@ -1552,8 +1642,8 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           //   PHAROS_BREADCRUMB_COMPONENT,
           PHAROS_HELPPANEL_COMPONENT,
           LIGAND_HEADER_COMPONENT,
-          // PREDICTIONS_PANEL,
           LIGAND_DETAILS_COMPONENT,
+          // PREDICTED_DISEASES,
           TARGET_RELEVANCE_PANEL,
           //  MOLECULAR_DEFINITION_PANEL
         ]

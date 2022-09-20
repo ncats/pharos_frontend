@@ -1,3 +1,47 @@
+@use '@angular/material' as mat;
+@import '../../../../partials/ncats-theme';
+
+.pack-circle-card {
+  margin: 0.5em;
+}
+
 .d3-pack-chart{
   overflow: clip;
+}
+
+.highlightCircle {
+  stroke: red;
+  stroke-width: 5px;
+}
+
+.focusedCircle {
+  stroke: mat.get-color-from-palette($pharos-app-accent);
+  stroke-width: 5px;
+  stroke-opacity: 1;
+}
+
+.circlepack-tooltip {
+  position: absolute;
+  text-align: start;
+  padding: 2px;
+  font: 16px sans-serif;
+  background-color: rgba(255, 255, 255, .9);
+  border: 1px solid #f1f1f1;
+  pointer-events: none;
+}
+
+.zoombutton {
+  cursor: pointer;
+  z-index: 66666;
+
+}
+
+.zoomtext {
+  font-style: normal;
+  fill: white;
+  font-weight: 700;
+  font-size: 70px;
+  text-anchor: middle;
+  alignment-baseline: middle;
+  cursor: pointer;
 }

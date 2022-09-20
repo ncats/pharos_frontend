@@ -6,7 +6,7 @@ export enum TourType {
   Heatmaps = 'Heatmaps',
   StructureSearchTour = 'StructureSearchTour',
   TargetExpressionTour = 'TargetExpressionTour',
-  WhatsNew313 = 'WhatsNew313',
+  WhatsNew314 = 'WhatsNew314',
 
   ShortSearch = 'ShortSearch',
   ShortTargetDetails = 'ShortTargetDetails',

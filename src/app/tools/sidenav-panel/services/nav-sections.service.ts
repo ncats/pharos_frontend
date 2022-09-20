@@ -1,5 +1,6 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/index';
+import {isPlatformBrowser} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class NavSectionsService {
   /**
    * no args constructor
    */
-  constructor() { }
+  constructor(@Inject(PLATFORM_ID) private platformID: any) { }
 
   private _allSections: any[] = [];
 
@@ -52,11 +53,11 @@ export class NavSectionsService {
     this._allSections = sections;
     this._allSections.forEach(sec => {
       if (sec.navHeader) {
-        sec.visible = true;
+        sec.visible = isPlatformBrowser(this.platformID) || !sec.browserOnly;
       }
       sec.panels?.forEach(subsec => {
         if (subsec.navHeader) {
-          subsec.visible = true;
+          subsec.visible = isPlatformBrowser(this.platformID) || !subsec.browserOnly;
         }
       });
     })

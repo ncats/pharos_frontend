@@ -36,7 +36,10 @@ import { BatchResolveModalComponent } from './batch-resolve-modal/batch-resolve-
 import { SequenceAlignmentsComponent } from './visualizations/sequence-alignments/sequence-alignments.component';
 import { TaskItemComponent } from './task-item/task-item.component';
 import { DataVersionCardComponent } from './data-version-card/data-version-card.component';
-// import { PredictionsPanelComponent } from './predictions-panel/predictions-panel.component';
+import { PredictionsPanelComponent } from './predictions-panel/predictions-panel.component';
+import { PredictionDetailsCardComponent } from './predictions-panel/prediction-details-card/prediction-details-card.component';
+import { PredictionSetComponent } from './predictions-panel/prediction-set/prediction-set.component';
+import { CitationComponent } from './citation/citation.component';
 
 @NgModule({
   declarations: [
@@ -66,8 +69,11 @@ import { DataVersionCardComponent } from './data-version-card/data-version-card.
     BatchResolveModalComponent,
     SequenceAlignmentsComponent,
     TaskItemComponent,
-    DataVersionCardComponent
-    // PredictionsPanelComponent
+    DataVersionCardComponent,
+    PredictionsPanelComponent,
+    PredictionDetailsCardComponent,
+    PredictionSetComponent,
+    CitationComponent
   ],
   imports: [
     CommonModule,

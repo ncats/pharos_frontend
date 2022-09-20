@@ -5,7 +5,12 @@ import {Disease, DiseaseSerializer} from './disease';
 import {Generif, GenerifSerializer} from './generif';
 import {Ortholog, OrthologSerializer} from './ortholog';
 import {Ligand, LigandSerializer} from './ligand';
-import {TARGETDETAILSFIELDS, TARGETDETAILSQUERY, TARGETLISTEXTRAS, TARGETLISTFIELDS} from './target-components';
+import {
+  TARGETDETAILSFIELDS,
+  TARGETDETAILSQUERY,
+  TARGETLISTEXTRAS,
+  TARGETLISTFIELDS, TARGETSERVERDETAILSQUERY
+} from './target-components';
 import {Facet} from './facet';
 import {InteractionDetails} from './interaction-details';
 import {DiseaseAssocationSerializer, DiseaseAssociation} from './disease-association';
@@ -33,7 +38,7 @@ export class Target extends PharosBase {
    * fragment of common fields. fetched by the route resolver
    */
   static targetDetailsFragments = TARGETDETAILSFIELDS;
-
+  static serverDetailsQuery = TARGETSERVERDETAILSQUERY;
   static targetDetailsQuery = TARGETDETAILSQUERY;
   /**
    * target name
@@ -119,12 +124,12 @@ export class Target extends PharosBase {
   /**
    * list of approved drugs
    */
-  drugs: Ligand[];
+  drugs: Ligand[] = [];
 
   /**
    * list of active ligands
    */
-  ligands: Ligand[];
+  ligands: Ligand[] = [];
 
   /**
    * array of pubtator scores for timeline
@@ -237,6 +242,8 @@ export class Target extends PharosBase {
    * list of expression data
    */
   expressionTree: any;
+  diseaseTree: any;
+  tinxTree: any;
   expressions: any[];
   dataVersions: DataVersionInfo[];
   gtex: any[];
@@ -244,9 +251,9 @@ export class Target extends PharosBase {
 
   drugCount = 0;
 
-  goComponent: string[];
-  goFunction: string[];
-  goProcess: string[];
+  goComponent: string[] = [];
+  goFunction: string[] = [];
+  goProcess: string[] = [];
   uniprotKeyword: string[];
   gwasTrait: string[];
   gwasAnalytics: GwasTargetAnalytics;
@@ -258,7 +265,7 @@ export class Target extends PharosBase {
   hpaProteinTissueSpecificity: [{ name, value }];
   hpmGeneTissueSpecificityIndex: [{ name, value }];
   pantherClasses: PantherClass[] = [];
-  dto: string[];
+  dto: string[] = [];
 
   properties: DataProperty[] = [];
   interactionDetails?: InteractionDetails;
@@ -267,7 +274,7 @@ export class Target extends PharosBase {
   targetPredictionDetails?: TargetPredictionDetails;
   sequenceSimilarityDetails?: SequenceSimilarityDetails;
   similarityDetails?: SimilarityDetails;
-  interactingViruses?: VirusDetails[];
+  interactingViruses?: VirusDetails[] = [];
 
   pathways?: Pathway[] = [];
   pathwayMap?: Map<string, Pathway[]>;
@@ -280,14 +287,14 @@ export class Target extends PharosBase {
   sequenceVariants?: { startResidue: number, residue_info: { aa: string, bits: number }[] };
   sequenceAnnotations?: { startResidue: number, endResidue: number, type: string, name: string }[];
 
-  affiliateLinks?: AffiliateLink[];
-  // predictions: {predictions: any[], citation: any};
-  nearestTclin?: NearestTclinDetails;
+  affiliateLinks?: AffiliateLink[] = [];
+  predictions: {predictions: any[], citation: any}[];
+  nearestTclin?: NearestTclinDetails = new NearestTclinDetails();
 }
 
 export class NearestTclinDetails {
-  upstream: SharedPathwayDetails[];
-  downstream: SharedPathwayDetails[];
+  upstream: SharedPathwayDetails[] = [];
+  downstream: SharedPathwayDetails[] = [];
 }
 
 export class SharedPathwayDetails {
@@ -386,9 +393,9 @@ export class TargetSerializer implements PharosSerializer {
       });
     }
 
-    // if (json.predictions && json.predictions.length > 0 && json.predictions[0].length > 0) {
-    //   obj.predictions = json.predictions[0][0];
-    // }
+    if (json.predictions && json.predictions.length > 0) {
+      obj.predictions = json.predictions[0];
+    }
 
     if (json.gwasAnalytics) {
       obj.gwasAnalytics = new GwasTargetAnalytics(json.gwasAnalytics);

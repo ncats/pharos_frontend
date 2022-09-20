@@ -1,3 +1,22 @@
+# 3.14.0 (2022-09-22)
+### Added Features
+* **Circlular Treemaps**
+  * The Expression component now has a circular treemap plot alongside the heatmap. Data in the treemap is grouped 
+based on the UBERON ontology to help understand expression patterns. The plots are interactive in that they 
+filter the heatmaps to those expression data from the selected branches of the UBERON tree.
+  * TIN-X data now has a circular treemap plot alongside the scatter plot, based on the hierarchy defined by 
+  Disease Ontology (DO). The plots are interactive in that they highlight points on the scatterplot that correspond to 
+ the selected branch of the DO tree.
+* **Predicted Effects of Inhibiting Kinases on Cancers**
+  * We're now showing predictions from Ravenmehr *et al.* 2021. Navigate to the 'Predicted Diseases' component of the 
+    target details pages for kinases, or the 'Predicted Targets' component of the disease details pages for cancers to find that data.  
+
+### Bug Fixes / Miscellaneous updates
+* There have been a number of performance improvements, meant to streamline data queries to improve the initial navigation to Pharos.
+* The numeric filters for Potency have been combined into one. Previously there were separate filters for each measure of potency (i.e. IC50, Kd, etc).
+  (Ex: <a href="/ligands?associatedTarget=DRD2">ligands associated with DRD2</a>). 
+_______________
+
 # 3.13.0 (2022-07-01)
 ### Added Features
 * **Updated Expression Data and UI**
