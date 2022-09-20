@@ -37,8 +37,8 @@ export class PackCircleComponent implements OnInit, OnDestroy, OnChanges {
               private centralStorageService: CentralStorageService) {
   }
 
-  width = 1152;
-  height = 1152;
+  @Input() width = 1152;
+  @Input() height = 1152;
 
   highlightCircles(cssClass: string, circleCheck: (d: any, node: any) => boolean, d ?) {
     const partitions = partition(this.circles.nodes(), node => circleCheck(d, node));
