@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card *ngIf="predictionSet">
   <mat-card-content>
     <pharos-citation [citation]="predictionSet.citation"></pharos-citation>
     <div fxLayout="row" fxLayoutAlign="space-between start">
