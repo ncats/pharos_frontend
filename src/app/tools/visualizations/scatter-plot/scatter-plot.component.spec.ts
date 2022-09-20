@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ScatterPlotComponent } from './scatter-plot.component';
+import {ActivatedRoute} from "@angular/router";
+import {MOCKACTIVATEDROUTE} from "../../../../../test/mock-activate-route";
 
 describe('ScatterPlotTwoComponent', () => {
   let component: ScatterPlotComponent;
@@ -8,7 +10,10 @@ describe('ScatterPlotTwoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ScatterPlotComponent ]
+      declarations: [ ScatterPlotComponent ],
+      providers: [
+        {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}
+      ]
     })
     .compileComponents();
   });

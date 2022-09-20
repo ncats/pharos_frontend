@@ -8,7 +8,7 @@
           {{headerText}}</span>
   </div>
   <div fxLayout="column" fxLayoutAlign="end end">
-    <pharos-help-panel-trigger *ngIf="field" [origin]="this.field" [dataVersions]="dataVersions"></pharos-help-panel-trigger>
+    <pharos-help-panel-trigger *ngIf="field" [origin]="this.field" [dataVersions]="dataVersions" [predictionDetails]="predictionDetails"></pharos-help-panel-trigger>
     <pharos-tutorial-link *ngIf="tourType && tourTypeVisible()" [tourType]="tourType"></pharos-tutorial-link>
   </div>
 </div>

@@ -172,7 +172,7 @@ export class StepFactory {
             title: 'Finding similar targets based on an amino acid sequence',
             text: ['The Protein Sequence and Structure component of every <b>Target Details</b> page allows users to initiate a <b>blastp' +
             '</b> search using that target\'s sequence as a starting point. A search can be made based on any sequence though.' +
-            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new311/sequenceSearchBegin.png"/>']
+            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/sequenceSearchBegin.png"/>']
           },
           {
             scrollTo: false,
@@ -181,7 +181,7 @@ export class StepFactory {
             text: ['The matching targets are displayed on a <b>Target List</b> page, with a histogram of aligned regions of the query ' +
             'sequence. The list can then be filtered as desired according to BlastP\'s measures for quality and coverage of the alignments, ' +
             'as well as all the normal filtering options that Pharos has to offer.' +
-            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new311/alignmentResults.png"/>']
+            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/alignmentResults.png"/>']
           }
         ];
       case TourType.ShortCommonDoc:

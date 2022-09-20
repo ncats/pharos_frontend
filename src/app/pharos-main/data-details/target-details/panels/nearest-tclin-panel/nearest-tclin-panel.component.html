@@ -1,4 +1,4 @@
-<pharos-target-panel-base [data]="data" [child]="this" nodataMessage="Nearest Tclin calculations are only available for targets with KEGG Pathway annotations.">
+<pharos-target-panel-base [data]="data" [child]="this" nodataMessage="Nearest Tclin calculations are only available for non-Tclin targets that have KEGG Pathway annotations.">
   <pharos-explore-list-button [path]="'/targets'" [queryParams]="{collection: getList()}"
                               [buttonText]="'Explore Nearest Tclin Targets'">
   </pharos-explore-list-button>

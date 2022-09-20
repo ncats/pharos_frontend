@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PackCircleComponent } from './pack-circle.component';
 import {TestCirclePlot} from "../../../../../test/test-circle-plot";
+import {ActivatedRoute} from "@angular/router";
+import {MOCKACTIVATEDROUTE} from "../../../../../test/mock-activate-route";
 
 describe('PackCircleComponent', () => {
   let component: PackCircleComponent;
@@ -9,7 +11,10 @@ describe('PackCircleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PackCircleComponent ]
+      declarations: [ PackCircleComponent ],
+      providers: [
+        {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}
+      ]
     })
     .compileComponents();
   });
@@ -17,6 +22,11 @@ describe('PackCircleComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PackCircleComponent);
     component = fixture.componentInstance;
+    component.config = {
+      highlightCheck: null,
+      focusedCheck: null,
+      circleClick: null
+    };
     component.hierarchyData = TestCirclePlot;
     fixture.detectChanges();
   });

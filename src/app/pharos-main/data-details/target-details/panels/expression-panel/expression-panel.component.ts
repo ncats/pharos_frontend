@@ -17,6 +17,9 @@ import {DynamicServicesService} from '../../../../../pharos-services/dynamic-ser
 import {HeatMapData} from '../../../../../tools/visualizations/heat-map/heat-map.component';
 import {takeUntil} from 'rxjs/operators';
 import {TourType} from '../../../../../models/tour-type';
+import {ExpressionInfoService} from "../../../../../pharos-services/expression-info.service";
+import {PackCircleConfig} from "../../../../../tools/visualizations/pack-circle/pack-circle.component";
+import * as d3 from 'd3v7';
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 /**
@@ -42,15 +45,29 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   shadingKey = 'JensenLab TISSUES';
   redrawAnatomogram: Subject<boolean> = new Subject<boolean>();
   uberonExpressionMap: HeatMapData;
+  selectedUberon: any;
   clickedTissue: string;
   detailsTissue: string;
-
+  sortedTrees: any[];
   /**
    * target id
    */
   id: string;
-  string2UberonObj: Map<string, any> = new Map<string, any>();
   tourType: TourType;
+
+  circlePackConfig: PackCircleConfig = {
+    highlightCheck: (d, node) => node.__data__?.data?.uid?.replace(':', '_') === d.data?.uid?.replace(':', '_'),
+    focusedCheck: (d, node) => {
+      if (this.expressionInfoService.focusedUberon && this.expressionInfoService.focusedUberon.uid) {
+        return node.__data__?.data?.uid?.replace(':', '_') === this.expressionInfoService.focusedUberon?.uid;
+      }
+      return false;
+    },
+    circleClick: (event, d, n) => {
+      const uid = d.data.uid;
+      this.expressionInfoService.setFocusedUberon(uid, 'circleplot');
+    }
+  }
 
   /**
    * attach required services
@@ -63,7 +80,8 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     private _route: ActivatedRoute,
     private changeRef: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformID: any,
-    public dynamicServices: DynamicServicesService
+    public dynamicServices: DynamicServicesService,
+    private expressionInfoService: ExpressionInfoService
   ) {
     super(dynamicServices);
   }
@@ -72,15 +90,9 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   }
 
   tissueClicked(input, source) {
-    let tissue;
-    let uberon;
-    if (input.startsWith('UBERON') || input.startsWith('CL')) {
-      uberon = input;
-      tissue = this.string2UberonObj.get(uberon).name;
-    } else {
-      tissue = input;
-      uberon = this.string2UberonObj.get(tissue)?.uid;
-    }
+    let uberonObj = this.expressionInfoService.get(input);
+    const tissue = uberonObj?.name;
+    const uberon = uberonObj?.uid;
     if (source === 'anatomogram') {
       if (tissue === this.clickedTissue) {
         this.clickedTissue = '';
@@ -103,6 +115,11 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
    * subscribe to data changes and generate tree
    */
   ngOnInit() {
+    this.selectedUberon = this.expressionInfoService.focusedUberon;
+    this.expressionInfoService.focusedUberonChanged.subscribe(selectedUberon => {
+      this.selectedUberon = selectedUberon;
+      this.detailsTissue = '';
+    });
     this.tourType = TourType.TargetExpressionTour;
     this._data
       // listen to data as long as term is undefined or null
@@ -114,7 +131,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
           this.target = this.data.targets;
           this.targetProps = this.data.targetsProps;
           this.setterFunction();
-          if (this.uberonExpressionMap.yValues.length > 0) {
+          if (this.uberonExpressionMap?.yValues.length > 0) {
             this.showSection();
           } else {
             this.hideSection();
@@ -195,7 +212,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   }
 
   setMapData(heatMapData: HeatMapData, expressionList: any[] = [], gtexList: any[] = []) {
-    this.string2UberonObj.clear();
     const dsList: string[] = [];
     expressionList.forEach(expression => {
       if (!dsList.includes(expression.type)){
@@ -209,8 +225,8 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
           if (!this.tissues.includes(expression.uberon.uid)) {
             this.tissues.push(expression.uberon.uid);
           }
-          this.string2UberonObj.set(expression.uberon.name, expression.uberon);
-          this.string2UberonObj.set(expression.uberon.uid, expression.uberon);
+          const obj = {name: expression.uberon.name, uid: expression.uberon.uid};
+          this.expressionInfoService.trySet(obj);
         }
         heatMapData.addPoint(
           expression.type,
@@ -238,8 +254,8 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
         if (!this.tissues.includes(expression.uberon.uid)) {
           this.tissues.push(expression.uberon.uid);
         }
-        this.string2UberonObj.set(expression.uberon.name, expression.uberon);
-        this.string2UberonObj.set(expression.uberon.uid, expression.uberon);
+        const obj = {name: expression.uberon.name, uid: expression.uberon.uid};
+        this.expressionInfoService.trySet(obj);
       }
       this.addToShadingMap(gtexmale, expression.uberon?.uid, expression.tpm_rank);
       this.addToShadingMap(gtexfemale, expression.uberon?.uid, expression.tpm_rank);
@@ -258,7 +274,23 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
    * parse and generate data
    */
   setterFunction() {
-    this.updateHeatmapData();
+    if (this.target.expressionTree && this.target.expressionTree.uberonDict) {
+      this.sortedTrees = this.target.expressionTree.uberonDict.sort((a,b) => {
+        return a.name.localeCompare(b.name);
+      });
+      for(let root of this.sortedTrees) {
+        this.setUberonInfo(root);
+      }
+      this.updateHeatmapData();
+    }
+  }
+  setUberonInfo(node){
+    const uberonObj = {uid: node.uid, name: node.name};
+    if (this.expressionInfoService.trySet(uberonObj)) {
+      node.children.forEach(child => {
+        this.setUberonInfo(child);
+      });
+    }
   }
 
   static getPreferredField(dataSource: string): string {

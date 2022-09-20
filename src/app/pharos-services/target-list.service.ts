@@ -38,12 +38,15 @@ export class TargetListService {
         }
       }
     } else {
+      if (collection.indexOf('|') !== -1) {
+        return of(collection.split('|'));
+      }
       return of(collection.split(','));
     }
   }
 
   listIsInFirebase(collection: string) {
-    return collection.length === 20 && collection.indexOf(',') < 0;
+    return collection.length === 20 && collection.indexOf('|') < 0 && collection.indexOf(',') < 0;
   }
 
   /**

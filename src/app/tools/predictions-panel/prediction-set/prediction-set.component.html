@@ -1,0 +1,32 @@
+<mat-card *ngIf="predictionSet">
+  <mat-card-content>
+    <pharos-citation [citation]="predictionSet.citation"></pharos-citation>
+    <div fxLayout="row" fxLayoutAlign="space-between start">
+      <pharos-explore-list-button *ngIf="listHasTargets()" [path]="'/targets'" [queryParams]="{collection: getList('targets')}"
+                                  [buttonText]="'Explore Targets'">
+      </pharos-explore-list-button>
+      <pharos-explore-list-button *ngIf="listHasDiseases()" [path]="'/diseases'" [queryParams]="{collection: getList('diseases')}"
+                                  [buttonText]="'Explore Diseases'">
+      </pharos-explore-list-button>
+      <mat-paginator
+        [pageSize]="pageSize"
+        [length]="predictionSet.predictions.length"
+        [hidePageSize]="false"
+        [showFirstLastButtons]=true
+        (page)=paginate($event)
+        #predictionPaginator>
+      </mat-paginator>
+    </div>
+    <div *ngIf="showCardStyle(predictionSet); else tableStyle" class="prediction-card-container">
+      <div *ngFor="let pred of filteredPredictions" class="prediction">
+        <pharos-prediction-details-card [prediction]="pred"></pharos-prediction-details-card>
+      </div>
+    </div>
+    <ng-template #tableStyle>
+      <div class="prediction-table-container">
+        <pharos-generic-table [data]="filteredPredictionProps" (sortChange)="changeSort($event)"
+                              [fieldsConfig]="fields">hi mom</pharos-generic-table>
+      </div>
+    </ng-template>
+  </mat-card-content>
+</mat-card>

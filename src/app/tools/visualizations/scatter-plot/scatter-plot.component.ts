@@ -16,6 +16,8 @@ import {BehaviorSubject, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {isPlatformBrowser} from '@angular/common';
 import {PharosPoint} from '../../../models/pharos-point';
+import {CentralStorageService} from "../../../pharos-services/central-storage.service";
+import {partition} from "lodash";
 
 @Component({
   selector: 'pharos-scatter-plot',
@@ -38,6 +40,9 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
    * @private
    */
   protected _data = new BehaviorSubject<any>({});
+  @Input() highlightField: string;
+  @Input() focusField: string;
+  focusedElement: any;
 
   /**
    * pushes changed data to {BehaviorSubject}
@@ -86,6 +91,8 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
   transform: any;
   delaunay: any;
   svg: any;
+  highlightArea: any;
+  points: any;
   zoom: any;
   private tooltip: any;
   private baseRadius = 2.5;
@@ -113,6 +120,7 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
   private height: number;
 
   constructor(private changeRef: ChangeDetectorRef,
+              private centralStorageService: CentralStorageService,
               @Inject(PLATFORM_ID) private platformID: any) {
   }
 
@@ -132,6 +140,26 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
           this.displayData = [dataSet.data];
         } else {
           this.displayData = [this.data];
+        }
+        if (this.highlightField && this.highlightField.length > 0) {
+          this.centralStorageService[this.highlightField + 'Changed'].subscribe(highlightedIDs => {
+            const highlightedPoints = this.displayData.map(subarray => {
+              return subarray.filter(el => highlightedIDs.includes(el.label));
+            });
+            const highlightPoints = this.highlightArea
+              .selectAll('circle')
+              .data(d3.merge(highlightedPoints))
+              .join('circle')
+              .attr('class', d => d.id + ' highlight-point')
+              .attr('data', d => d)
+              .attr('cx', d => this.x(d.x))
+              .attr('cy', d => this.y(d.y));
+          });
+        }
+        if (this.focusField && this.focusField.length > 0) {
+          this.centralStorageService[this.focusField + 'Changed'].subscribe(focusField => {
+            this.focusedElement = focusField;
+          });
         }
         if (isPlatformBrowser(this.platformID)) {
           this.drawChart();
@@ -208,6 +236,7 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
 
     const mainG = this.svg.append('g').attr('clip-path', `url(#clip-${this.svgID})`);
     const chartArea = mainG.append('g');
+    this.highlightArea = mainG.append('g');
 
     this.addTooltip();
 
@@ -220,7 +249,7 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
       .attr('y', 0)
       .attr('height', this.height);
 
-    const points = chartArea
+    this.points = chartArea
       .selectAll('circle')
       .data(d3.merge(this.displayData))
       .join('circle')
@@ -249,7 +278,8 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
       .translateExtent([[-100000, -100000], [100000, 100000]])
       .on('zoom', e => {
         chartArea.attr('transform', (this.transform = e.transform));
-        points.attr('r', this.baseRadius / (this.transform.k));
+        this.highlightArea.attr('transform', (this.transform = e.transform));
+        this.points.attr('r', this.baseRadius / (this.transform.k));
         if (this._chartOptions.line) {
           line.style('stroke-width', 2 / (this.transform.k));
         }
@@ -272,6 +302,16 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
         } else {
           this.unHighlightPoints();
           this.hideTooltip();
+        }
+      })
+      .on('click', event => {
+        if (this.focusField) {
+          const p = this.transform.invert(d3.pointer(event));
+          const {datum, idx, show} = this.find(p);
+          if (show) {
+            this.centralStorageService.setField(this.focusField, {oid: datum.label, name: datum.name});
+            this.centralStorageService.setField(this.highlightField, [datum.label]);
+          }
         }
       })
       .node();
@@ -470,12 +510,15 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
     this.svg.selectAll(`.${data.id}`)
       .attr('r', this.hoverRadius / this.transform.k)
       .exit();
+    this.highlightArea.selectAll(`.${data.id}`)
+      .classed('highlight-point-hover', true);
   }
 
   unHighlightPoints() {
     this.svg
       .selectAll('circle')
       .attr('r', this.baseRadius / this.transform.k)
+      .classed('highlight-point-hover', false)
       .exit();
   }
 

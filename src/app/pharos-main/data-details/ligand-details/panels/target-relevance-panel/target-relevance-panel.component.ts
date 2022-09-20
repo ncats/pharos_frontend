@@ -1,4 +1,13 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  Input,
+  OnInit,
+  PLATFORM_ID,
+  ViewChild
+} from '@angular/core';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {PageData} from '../../../../../models/page-data';
 import {Ligand} from '../../../../../models/ligand';
@@ -6,6 +15,7 @@ import {takeUntil} from 'rxjs/operators';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {isPlatformBrowser} from "@angular/common";
 
 /**
  * shows what targets the ligand was tested on
@@ -34,6 +44,7 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(
+    @Inject(PLATFORM_ID) private platformID: any,
     private changeRef: ChangeDetectorRef,
     public dynamicServices: DynamicServicesService
   ) {
@@ -52,7 +63,9 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
         if (this.data && this.data.ligands) {
           this.ligand = this.data.ligands;
           this.ligandProps = this.data.ligandsProps;
-          this.loadingComplete();
+          if (isPlatformBrowser(this.platformID)) {
+            this.loadingComplete();
+          }
           this.activitiesTargetDataSource.data = this.ligandProps.activities;
           this.activitiesTargetDataSource.paginator = this.paginator;
           this.changeRef.markForCheck();

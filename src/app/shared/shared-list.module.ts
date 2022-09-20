@@ -17,6 +17,7 @@ import {FacetTableModule} from '../pharos-main/data-list/filter-panel/facet-tabl
 import {FilterRepresentationComponent} from '../pharos-main/analyze-list/filter-representation/filter-representation.component';
 import {AnalyzeHeaderComponent} from '../pharos-main/analyze-list/analyze-header/analyze-header.component';
 import {SequenceSearchComponent} from '../pharos-main/analyze-list/sequence-search/sequence-search.component';
+import {HierarchyViewerComponent} from "../pharos-main/analyze-list/hierarchy-viewer/hierarchy-viewer.component";
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import {SequenceSearchComponent} from '../pharos-main/analyze-list/sequence-sear
   declarations: [
     DataListVisualizationsComponent,
     FilterRepresentationComponent,
+    HierarchyViewerComponent,
     SequenceSearchComponent,
     FilterPanelComponent,
     FacetHistogramComponent,
@@ -41,6 +43,7 @@ import {SequenceSearchComponent} from '../pharos-main/analyze-list/sequence-sear
     DataListResolver,
     ComponentsResolver,
     {provide: TOKENS.PHAROS_FACET_REPRESENTATION_COMPONENT, useValue: FilterRepresentationComponent},
+    {provide: TOKENS.PHAROS_HIERARCHY_VIEWER_COMPONENT, useValue: HierarchyViewerComponent},
     {provide: TOKENS.PHAROS_VISUALIZATION_COMPONENT, useValue: DataListVisualizationsComponent},
     {provide: TOKENS.PHAROS_SELECTED_FACET_LIST_COMPONENT, useValue: SelectedFacetListComponent},
     {provide: TOKENS.PHAROS_FACETS_COMPONENT, useValue: FilterPanelComponent},

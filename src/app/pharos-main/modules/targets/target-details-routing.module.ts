@@ -16,6 +16,7 @@ const routes: Routes = [
     data: {
       fragments: {
         details: Target.targetDetailsFragments,
+        serverQuery: Target.serverDetailsQuery,
         query: Target.targetDetailsQuery
       },
       serializer: new TargetSerializer()

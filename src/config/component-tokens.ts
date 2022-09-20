@@ -32,6 +32,7 @@ export class TOKENS {
    */
   public static PHAROS_VISUALIZATION_COMPONENT = new InjectionToken<string>('PharosFacetVisualizationComponent');
   public static PHAROS_FACET_REPRESENTATION_COMPONENT = new InjectionToken<string>('FilterRepresentationComponent');
+  public static PHAROS_HIERARCHY_VIEWER_COMPONENT = new InjectionToken<string>('HierarchyViewerComponent');
   /**
    * injection token to add the target details subnavigation component
    */
@@ -63,7 +64,7 @@ export class TOKENS {
    * injection token to link to the target summary component
    */
   public static SUMMARY_PANEL = new InjectionToken<string>('SummaryPanelComponent');
-  // public static PREDICTIONS_PANEL = new InjectionToken<string>('PredictionsPanelComponent');
+  public static PREDICTIONS_PANEL = new InjectionToken<string>('PredictionsPanelComponent');
   /**
    * injection token to link to the target development summary component
    */
@@ -77,7 +78,7 @@ export class TOKENS {
    * injection token to link to the disease source panel
    */
   public static DISEASE_SOURCE_PANEL = new InjectionToken<string>('DiseaseSourcePanelComponent');
-
+  public static DISEASE_NOVELTY_PANEL = new InjectionToken<string>('DiseaseNoveltyComponent');
   /**
    * injection token to link to the target summary component
    */

@@ -17,7 +17,8 @@ const routes: Routes = [
     data: {
       fragments: {
         details: Ligand.ligandDetailsFragments,
-        query: Ligand.ligandDetailsQuery
+        query: Ligand.ligandDetailsQuery,
+        serverQuery: Ligand.serverDetailsQuery
       },
       serializer: new LigandSerializer()
     },

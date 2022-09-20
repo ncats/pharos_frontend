@@ -61,5 +61,13 @@
         <pharos-data-version-card [dvInfo]="key"></pharos-data-version-card>
       </ng-container>
     </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="true" *ngIf="predictionDetails?.length > 0">
+      <mat-expansion-panel-header>
+        <span class="mat-headline">Citation for Predicted Data</span>
+      </mat-expansion-panel-header>
+      <div *ngFor="let citation of predictionDetails">
+        <pharos-citation [citation]="citation" [full]="true"></pharos-citation>
+      </div>
+    </mat-expansion-panel>
   </mat-accordion>
 </div>

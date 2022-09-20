@@ -39,6 +39,7 @@
 .ancestor-radio-group {
   display: flex;
   flex-direction: column;
+  margin-bottom: 15px;
 }
 
 .yAxisLabel {
@@ -47,4 +48,16 @@
 
 .xAxisLabel {
   cursor: ns-resize;
+}
+
+.help-row {
+  mat-icon {
+    vertical-align: middle;
+    margin-right: 10px;
+    margin-left: 20px;
+  }
+  .light {
+    font-weight: 300;
+    font-size: small;
+  }
 }

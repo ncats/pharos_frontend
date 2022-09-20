@@ -8,5 +8,14 @@
                     [checked]="dS.selected">
     {{dS.options.yLabel}}
   </mat-radio-button>
+  <div class="help-row" [matTooltip]="'Select a point on the scatter plot, or a circle on the circle plot to change the highlighting.'">
+    <mat-icon>highlight</mat-icon>
+    <span *ngIf="focusedElement && focusedElement.name">
+      <label>Highlight:</label><b> {{this.focusedElement?.name}} ({{this.focusedElement?.oid}})</b>
+    </span>
+    <span *ngIf="!focusedElement || !focusedElement.name">
+      <label>Highlight:</label><b> none</b>
+    </span>
+  </div>
 </div>
 <div class="d3-scatter-chart" #scatterPlotDiv></div>

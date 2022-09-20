@@ -56,7 +56,7 @@ export class TourService {
   };
 
   menuTutorials: TourDefinition[] = [
-    {title: 'What\'s New in Version 3.13', storageKey: TourType.WhatsNew313},
+    {title: 'What\'s New in Version 3.14', storageKey: TourType.WhatsNew314},
     {title: 'Using the List Pages', storageKey: TourType.ListPagesTour},
     {title: 'Using the UpSet Chart', storageKey: TourType.UpsetChartTour},
     {title: 'Filter Value Enrichment', storageKey: TourType.FilterValueEnrichment},
@@ -93,7 +93,7 @@ export class TourService {
         this.featureTrackingService.trackFeature('Begin Tutorial', tutorialName);
       }
       switch (tutorialName) {
-        case TourType.WhatsNew313:
+        case TourType.WhatsNew314:
           this.whatsNew(true);
           break;
         case TourType.CustomListTour:
@@ -196,7 +196,7 @@ export class TourService {
     if (!isPlatformBrowser(this.platformID)) {
       return;
     }
-    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew313)) { // only autorun once
+    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew314)) { // only autorun once
       return;
     }
     this.loadPromise.then(() => {
@@ -209,37 +209,44 @@ export class TourService {
       {
         scrollTo: false,
         buttons: this.firstButtons.slice(),
-        title: 'What\'s new in Pharos 3.13?',
-        text: ['Expression data has been updated in Pharos 3.13, along with some updates to the User Interface.']
+        title: 'What\'s new in Pharos 3.14?',
+        text: ['There are several new features in Pharos version 3.14, including a circular treemaps for expression ' +
+        'data and TIN-X data, and new predicted relationships between kinases and cancers.'
+        ]
       },
       {
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Expression Data',
-        text: ['The data sources have been streamlined, now consisting of two RNA expression sources, two protein expression ' +
-        'sources, and one consensus measurement. The heatmap is color coded accordingly, and can be sorted based on the ' +
-        'data source by clicking the column header.' +
-        '<img class="tour-screenshot" src="./assets/images/tutorials/new313/expression-component.png"/>']
+        title: 'Circular Treemaps for Expression Data',
+        text: ['Pharos now helps you understand patterns of expression data by grouping tissues based on the UBERON ' +
+        'hierarchy into a circular treemap. The plots are interactive in that they filter the heat map to expression ' +
+        'data for the selected brach of the treemap.' +
+        '<img class="tour-screenshot" src="./assets/images/tutorials/new314/expression-circle.png"/>']
       },
       {
-        id: 'versionInfo',
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Circular Treemaps for Disease Novelty',
+        text: ['The circular treemaps in the Disease Novelty components will help to interpret the scatterplot of TIN-X data. ' +
+        'Disease associations that are high on both the <em>importance</em> metric as well as the <em>disease novelty</em> metric ' +
+        'are promising areas of investigation. Using the circular treemap together with the scatterplot can help find ' +
+        'related diseases that are high on both metrics.' +
+        '<br /><video width="100%" controls>' +
+        '  <source src="./assets/images/tutorials/new314/tinx.mp4" type="video/mp4">' +
+        '  Your browser does not support HTML5 video.' +
+        '</video>']
+      },
+      {
         scrollToHandler: false,
-        buttons: this.middleButtons.slice(),
-        classes: 'step-with-screenshot',
-        title: 'Data Versions',
-        text: ['The info panel displays all the data files that are loaded into the database, as well as a' +
-        ' summary of data processing steps for each data source. As other data sources get their next update, these info ' +
-        'panels will show these details as well.<br/>' +
-        '<img class="tour-screenshot" src="./assets/images/tutorials/data versions.png"/>']
-      },
-      {
-        scrollTo: false,
         buttons: this.lastButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Tutorial',
-        text: ['Check out the Tutorial named "Viewing Target Expression Data" for a more detailed walkthrough.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new313/tutorials.png"/>']
+        title: 'New Predictions',
+        text: ['Predicted associations between kinases and cancers from Ravenmehr <em>et al.</em> are shown on the target ' +
+        'details pages for the kinases, and the disease details pages for the cancers.<br/><br/>Criteria to include your own predictions ' +
+        'in Pharos are posted on the FAQ page.<br/>' +
+        '<img class="tour-screenshot" src="./assets/images/tutorials/new314/cancer predictions.png"/>']
       }
     ];
     this.shepherdService.defaultStepOptions = this.defaultStepOptions;
@@ -248,7 +255,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(TourType.WhatsNew313, event);
+        this.completeTour(TourType.WhatsNew314, event);
       });
     });
     this.shepherdService.start();
@@ -316,7 +323,7 @@ export class TourService {
         classes: 'step-with-screenshot',
         title: 'Filter Value Enrichment',
         text: ['Filter Value Enrichment can be calculated for any categorical filter, unless that filter is currently being used to filter the list. Select the filter here.' +
-        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/new39/filterselection.png"/>']
+        '<br/><img class="tour-screenshot" src="./assets/images/tutorials/filterselection.png"/>']
       }
     ];
     this.shepherdService.defaultStepOptions = this.defaultStepOptions;
@@ -936,10 +943,9 @@ export class TourService {
         scrollToHandler: this.tourScroller.bind({section: 'expression', platformID: this.platformID}),
         buttons: this.firstButtons.slice(),
         title: 'Expression',
-        text: ['Expression data is aggregated from several data sources and displayed on target details pages. ' +
-        'Data is shown as a heatmap of tissues and data sources, as well ' +
-        'as on an anatomogram, shaded according to the average ranking of each tissue across data sources. The top row of ' +
-        'the heatmap is color coded as to the type of expresion data represented, i.e. RNA expression, protein expression, or a consensus score.']
+        text: ['Expression data is aggregated from five data sources, two for RNA expression, two for protein expression, and one aggregating source. The ' +
+        'top row of the heatmap is color coded accordingly. Data is shown as a heatmap of tissues and data sources on the left panel, and ' +
+        'on a circular treemap based on the UBERON hierarchy, and an anatomogram, in two separate tabs on the right panel.']
       },
       {
         id: 'tissue-search',
@@ -986,7 +992,8 @@ export class TourService {
           scrollTo: false,
           buttons: this.middleButtons.slice(),
           title: 'Interactive Anatomogram',
-          text: ['You can also filter the heatmap by clicking tissues on the anatomogram.']
+          text: ['You can also filter the heatmap by clicking tissues on the anatomogram, or circles on the circular treemap. The ' +
+          'mouse wheel will zoom and pan either plot in this panel.']
         }]),
       {
         id: 'versionInfo',

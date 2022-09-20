@@ -1,0 +1,8 @@
+.prediction-card-container {
+  width: 98%;
+  display: grid;
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(19%, 1fr));
+  grid-gap: 1em;
+  padding-left: 1vw;
+}

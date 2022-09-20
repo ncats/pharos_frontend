@@ -1,7 +1,6 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
-import {Facet} from '../models/facet';
-import {ActivatedRoute, ActivatedRouteSnapshot} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +12,14 @@ export class CentralStorageService {
   rowSelection = new SelectionModel<any>(true);
   collections: Map<string, string> = new Map<string, string>();
   sequence: string = '';
+  selectedTinxDiseases: string[] = [];
+  focusedTinxDisease: any = {};
 
   @Output() displayFacetChanged = new EventEmitter<{model: string, facet: string}>();
   @Output() browseTypesChanged = new EventEmitter<string[]>();
   @Output() sequenceChanged = new EventEmitter<string>();
+  @Output() selectedTinxDiseasesChanged = new EventEmitter<string[]>();
+  @Output() focusedTinxDiseaseChanged = new EventEmitter<any>();
 
   constructor(private _route: ActivatedRoute) { }
 

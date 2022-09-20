@@ -1,7 +1,7 @@
 import {PharosBase, PharosSerializer} from './pharos-base';
 import {LigActSerializer, LigandActivity} from './ligand-activity';
 import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
-import {LIGANDDETAILSFIELDS, LIGANDDETAILSQUERY, LIGANDLISTFIELDS} from './target-components';
+import {LIGANDDETAILSFIELDS, LIGANDDETAILSQUERY, LIGANDLISTFIELDS, SERVERDETAILSQUERY} from './target-components';
 
 /**
  * ligand object
@@ -14,7 +14,7 @@ export class Ligand extends PharosBase {
   static ligandListFragments = LIGANDLISTFIELDS;
   static ligandDetailsFragments = LIGANDDETAILSFIELDS;
   static ligandDetailsQuery = LIGANDDETAILSQUERY;
-
+  static serverDetailsQuery = SERVERDETAILSQUERY;
   ligid: string;
   description?: string;
   synonyms?: any[];
@@ -26,7 +26,7 @@ export class Ligand extends PharosBase {
   isdrug: boolean;
   similarity: number;
   preferredTerm: string;
-  // predictions: {predictions: any[], citation: any};
+  predictions: {predictions: any[], citation: any}[];
 
   /**
    * name of ligand

@@ -1,4 +1,4 @@
-import {Inject, Injectable} from '@angular/core';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, forkJoin, Observable, of, Subject} from 'rxjs';
 import {catchError} from 'rxjs/operators';
@@ -14,6 +14,7 @@ import {SelectedFacetService} from '../pharos-main/data-list/filter-panel/select
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {TargetComponents} from '../models/target-components';
 import {TargetListService} from './target-list.service';
+import {isPlatformServer} from "@angular/common";
 
 /**
  * main service to fetch and parse data from the pharos api
@@ -37,7 +38,8 @@ export class PharosApiService {
               private firebaseService: AngularFirestore,
               @Inject(SelectedFacetService) private selectedFacetService,
               private pharosConfig: PharosConfig,
-              private targetListService: TargetListService) {
+              private targetListService: TargetListService,
+              @Inject(PLATFORM_ID) private platformID: any) {
     this._URL = this.pharosConfig.getApiPath();
     this._SEARCHURLS = this.pharosConfig.getSearchPaths();
   }
@@ -410,9 +412,11 @@ export class PharosApiService {
   getDetailsData(path: string, params: ParamMap, fragments?: any): Observable<any> {
     const variables: any = {term: params.get('id')};
 
-    this.detailsQuery = gql`
-      ${fragments.query}
-    `;
+    if (isPlatformServer(this.platformID) && fragments.serverQuery) {
+      this.detailsQuery = gql`${fragments.serverQuery}`;
+    } else {
+      this.detailsQuery = gql`${fragments.query}`;
+    }
 
     const fetchQuery = this.apollo.query({
       query: this.detailsQuery,

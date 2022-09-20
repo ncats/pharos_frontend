@@ -6,18 +6,22 @@ import {Ligand} from '../../models/ligand';
 import {Disease} from '../../models/disease';
 import {Target} from '../../models/target';
 
-// @Component({
-//   selector: 'pharos-predictions-panel',
-//   templateUrl: './predictions-panel.component.html',
-//   styleUrls: ['./predictions-panel.component.scss']
-// })
+@Component({
+  selector: 'pharos-predictions-panel',
+  templateUrl: './predictions-panel.component.html',
+  styleUrls: ['./predictions-panel.component.scss']
+})
 export class PredictionsPanelComponent extends DynamicPanelComponent implements OnInit {
 
   thing: Target | Disease | Ligand;
-  predictionResult: {predictions: any[], citation: any};
-
+  predictionResult: {predictions: any[], citation: any}[] = [];
+  count = 0;
   constructor(public dynamicServices: DynamicServicesService) {
     super(dynamicServices);
+  }
+
+  citations() {
+    return this.predictionResult.map(p => p.citation);
   }
 
   ngOnInit(): void {
@@ -26,16 +30,26 @@ export class PredictionsPanelComponent extends DynamicPanelComponent implements 
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         this.thing = this.data.targets || this.data.diseases || this.data.ligands;
-        // this.predictionResult = this.thing.predictions;
+        this.predictionResult = this.thing.predictions;
+        this.count = 0;
+        this.predictionResult.forEach(set => {
+          this.count += set.predictions.length;
+        });
+        if (this.hasData()) {
+          this.showSection();
+        } else {
+          this.hideSection();
+        }
+        this.loadingComplete();
       });
   }
 
-  isObject(obj) {
-    return typeof obj == 'object';
+  authorString(predictionSet) {
+    return predictionSet.citation.author.map(p => p.name).join(', ');
   }
 
-  typeof(obj) {
-    return typeof obj;
+  hasData() {
+    return this.predictionResult && this.predictionResult.length > 0;
   }
 
   valueAscOrder(anything) {

@@ -52,46 +52,52 @@ import {
   NearbyTargetListComponent
 } from '../../data-details/target-details/panels/nearest-tclin-panel/nearby-target-list/nearby-target-list.component';
 import {ScriptLoadService} from "../../../pharos-services/script-load.service";
-// import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predictions-panel.component';
+import {
+  DiseaseNoveltyComponent
+} from "../../data-details/target-details/panels/disease-novelty/disease-novelty.component";
+import {
+    TinxScatterplotCardComponent
+} from "../../data-details/target-details/panels/disease-novelty/tinx-scatterplot-card/tinx-scatterplot-card.component";
+import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predictions-panel.component';
 
 @NgModule({
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  declarations: [
-    TargetHeaderComponent,
-    BreadcrumbComponent,
-    SummaryPanelComponent,
-    RadarChartViewerComponent,
-    DiseaseSourceComponent,
-    DiseaseCardComponent,
-    PublicationStatisticsComponent,
-    RelatedPublicationsComponent,
-    ExpressionPanelComponent,
-    AaSequencePanelComponent,
-    ProteinProteinPanelComponent,
-    PathwaysPanelComponent,
-    ReactomePathwayBrowserComponent,
-    NearestTclinPanelComponent,
-    ViralInteractionPanelComponent,
-    VirusDetailsComponent,
-    OrthologPanelComponent,
-    GeneSummaryComponent,
-    GoTermsComponent,
-    GwasTargetAnalyticsComponent,
-    TargetFacetPanelComponent,
-    IdgResourcesPanelComponent,
-    ReagentPanelComponent,
-    DataResourcePanelComponent,
-    MouseExpressionComponent,
-    LigandsPanelComponent,
-    DrugsPanelComponent,
-    DrugsLigandsPanelComponent,
-    SequenceComponent,
-    AffiliateLinksComponent,
-    TargetPanelBaseComponent,
-    ExpressionDetailsComponent,
-    ExpressionDetailsBlockComponent,
-    NearbyTargetListComponent
-  ],
+    declarations: [
+        TargetHeaderComponent,
+        BreadcrumbComponent,
+        SummaryPanelComponent,
+        RadarChartViewerComponent,
+        DiseaseSourceComponent, DiseaseNoveltyComponent,
+        DiseaseCardComponent,
+        PublicationStatisticsComponent,
+        RelatedPublicationsComponent,
+        ExpressionPanelComponent,
+        AaSequencePanelComponent,
+        ProteinProteinPanelComponent,
+        PathwaysPanelComponent,
+        ReactomePathwayBrowserComponent,
+        NearestTclinPanelComponent,
+        ViralInteractionPanelComponent,
+        VirusDetailsComponent,
+        OrthologPanelComponent,
+        GeneSummaryComponent,
+        GoTermsComponent,
+        GwasTargetAnalyticsComponent,
+        TargetFacetPanelComponent,
+        IdgResourcesPanelComponent,
+        ReagentPanelComponent,
+        DataResourcePanelComponent,
+        MouseExpressionComponent,
+        LigandsPanelComponent,
+        DrugsPanelComponent,
+        DrugsLigandsPanelComponent,
+        SequenceComponent,
+        AffiliateLinksComponent,
+        TargetPanelBaseComponent,
+        ExpressionDetailsComponent,
+        ExpressionDetailsBlockComponent,
+        NearbyTargetListComponent, TinxScatterplotCardComponent
+    ],
   imports: [
     CommonModule,
     SharedModule,
@@ -118,12 +124,13 @@ import {ScriptLoadService} from "../../../pharos-services/script-load.service";
     // targets
     {provide: TOKENS.TARGET_HEADER_COMPONENT, useValue: TargetHeaderComponent},
     {provide: TOKENS.SUMMARY_PANEL, useValue: SummaryPanelComponent},
-    // {provide: TOKENS.PREDICTIONS_PANEL, useValue: PredictionsPanelComponent},
+    {provide: TOKENS.PREDICTIONS_PANEL, useValue: PredictionsPanelComponent},
     {provide: TOKENS.IDG_RESOURCES_PANEL, useValue: IdgResourcesPanelComponent},
 
     {provide: TOKENS.PUBLICATION_STATISTICS_PANEL, useValue: PublicationStatisticsComponent},
     {provide: TOKENS.RELATED_PUBLICATIONS_PANEL, useValue: RelatedPublicationsComponent},
     {provide: TOKENS.DISEASE_SOURCE_PANEL, useValue: DiseaseSourceComponent},
+    {provide: TOKENS.DISEASE_NOVELTY_PANEL, useValue: DiseaseNoveltyComponent},
     {provide: TOKENS.EXPRESSION_PANEL, useValue: ExpressionPanelComponent},
     {provide: TOKENS.PROTEIN_PROTEIN_PANEL, useValue: ProteinProteinPanelComponent},
     {provide: TOKENS.VIRAL_INTERACTIONS_PANEL, useValue: ViralInteractionPanelComponent},

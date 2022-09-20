@@ -9,35 +9,16 @@ import {
   PLATFORM_ID
 } from '@angular/core';
 import {PageEvent} from '@angular/material/paginator';
-import {MatTreeNestedDataSource} from '@angular/material/tree';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {PharosProperty} from '../../../../../models/pharos-property';
-import {PharosPoint} from '../../../../../models/pharos-point';
-import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
-import {NestedTreeControl} from '@angular/cdk/tree';
 import {Target} from '../../../../../models/target';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {DiseaseSerializer} from '../../../../../models/disease';
 import {takeUntil} from 'rxjs/operators';
-import {DataProperty} from '../../../../../tools/generic-table/components/property-display/data-property';
 import {TargetComponents} from '../../../../../models/target-components';
 import {isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
-
-/**
- * interface to track disease tree nodes
- */
-interface DiseaseTreeNode {
-  /**
-   * disease name
-   */
-  name: PharosProperty;
-  /**
-   * list of children nodes
-   */
-  children?: DiseaseTreeNode[];
-}
+import {PackCircleConfig} from "../../../../../tools/visualizations/pack-circle/pack-circle.component";
 
 /**
  * component to display disease source data
@@ -67,40 +48,22 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
 
   @Input() targetProps: any;
 
-  /**
-   * tnx data
-   */
-  tinx: PharosPoint[];
-
-  /**
-   * controls open and closed tree nodes
-   */
-  treeControl: NestedTreeControl<DiseaseTreeNode> = new NestedTreeControl<DiseaseTreeNode>(node => node.children);
-
-  /**
-   * main data source for disease tree
-   */
-  dataSource: MatTreeNestedDataSource<DiseaseTreeNode> = new MatTreeNestedDataSource<DiseaseTreeNode>();
-
-  /**
-   * list of tree nodes to show
-   */
-  treeData: DiseaseTreeNode[] = [];
-
-  /**
-   * display options for the tinx plot
-   */
-  chartOptions: ScatterOptions = new ScatterOptions({
-    line: false,
-    xAxisScale: 'log',
-    yAxisScale: 'log',
-    xLabel: 'Novelty',
-    yLabel: 'Importance',
-    margin: {top: 20, right: 35, bottom: 50, left: 50}
-  });
+  circlePackConfig: PackCircleConfig = {
+    highlightCheck: (d, node) => node.__data__?.data?.oid === d.data?.oid,
+    focusedCheck: (d, node) => {
+      // if (this.expressionInfoService.focusedUberon && this.expressionInfoService.focusedUberon.uid) {
+      //   return node.__data__?.data?.uid?.replace(':', '_') === this.expressionInfoService.focusedUberon?.uid;
+      // }
+      return false;
+    },
+    circleClick: (event, d, n) => {
+      // const uid = d.data.uid;
+      // this.expressionInfoService.setFocusedUberon(uid, 'circleplot');
+    }
+  }
 
   hasData() {
-    return this.target && ((this.target.diseaseCount > 0) || (this.tinx && this.tinx.length > 0));
+    return this.target && (this.target.diseaseCount > 0);
   }
 
   /**
@@ -116,26 +79,12 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
           this.target = this.data.targets;
           this.targetProps = this.data.targetsProps;
 
-          if (this.target && (this.target.diseaseCount > 0 || (this.target.tinx && this.target.tinx.length > 0))) {
+          if (this.hasData()) {
             this.showSection();
           } else {
             this.hideSection();
           }
 
-          if (this.target && this.target.tinx) {
-            this.tinx = [];
-            this.target.tinx.map(point => {
-              if (point.disease) {
-                const p: PharosPoint = new PharosPoint({
-                  label: point.disease.doid,
-                  x: point.novelty,
-                  y: point.score,
-                  name: point.disease.name
-                });
-                this.tinx.push(p);
-              }
-            });
-          }
           this.setterFunction();
           this.loadingComplete();
           this.changeRef.markForCheck();
@@ -148,18 +97,6 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
    * creates map to reduce duplicate disease names, and adds sources to disease name
    */
   setterFunction(): void {
-    this.dataSource.data = this.targetProps?.diseases.map(disease => {
-      const diseaseSource: DiseaseTreeNode = {
-        name: disease.name,
-        children: [
-          ...disease.associations.map(da => da = {
-            name: da.type,
-            children: Object.values(da as DataProperty[]).filter(prop => prop.name !== 'type')
-          })
-        ]
-      };
-      return diseaseSource;
-    });
   }
 
   /**
@@ -185,12 +122,5 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
         }
       );
   }
-
-  /**
-   * check to see if a disease tree node has a child node list
-   * @param _
-   * @param node
-   */
-  hasChild = (_: number, node: DiseaseTreeNode) => !!node.children && node.children.length > 0;
 }
 

@@ -1,7 +1,10 @@
-<article>
+<article *ngIf="ligand?.activities?.length > 0">
   <div class="full-height" *ngIf="ligand">
     <mat-card>
       <mat-card-content>
+        <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+          <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+        </div>
         <pharos-component-header [description]="description" [field]="field" [headerText]="'Target Activities'"></pharos-component-header>
         <div class="headerSection">
           <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Explore Associated and Predicted Targets'"

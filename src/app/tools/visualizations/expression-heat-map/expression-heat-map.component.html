@@ -21,7 +21,7 @@
            aria-label="Tissue Select"
            matInput (close)="tissueSelected($event)"
            [formControl]="filterControl"
-           [matAutocomplete]="auto">
+           [matAutocomplete]="auto" #tissueInput>
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
       <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (onSelectionChange)="tissueSelected($event)">
         {{option}}
@@ -32,11 +32,20 @@
     </button>
   </mat-form-field>
 
-  <mat-radio-group *ngIf="tissueSearchOn" class="ancestor-radio-group" [(ngModel)]="selectedAncestor" (change)="updateChart()">
+  <mat-radio-group *ngIf="tissueSearchOn" class="ancestor-radio-group" [(ngModel)]="selectedAncestor" (change)="changeAncestor()">
     <mat-radio-button class="ancestor-radio-button" *ngFor="let tissue of tissueAncestors" [value]="tissue.name">
       {{tissue}}
     </mat-radio-button>
   </mat-radio-group>
+  </div>
+  <div class="help-row" [matTooltip]="'Select a tissue in the dropdown above, or on the Circle Plot, or on the Anatomagram to filter the heatmap.'">
+    <mat-icon>filter_alt</mat-icon>
+    <span *ngIf="selectedUberon && selectedUberon.name"><label>Filter:</label><b> {{selectedUberon.name}}</b> <span class="light"> ({{selectedUberon.uid}})</span></span>
+    <span *ngIf="!selectedUberon || !selectedUberon.name"><label>Filter:</label><b> none</b></span>
+  </div>
+  <div class="help-row" [matTooltip]="'Click the header labels to sort by a different data source.'">
+    <mat-icon>sort</mat-icon>
+    <span><label>Sort Column:</label><b> {{this.heatmapData.ySort}}</b></span>
   </div>
   <div class="d3-chart-2d" id="twoDChartTarget" #twoDChartTarget></div>
 </div>

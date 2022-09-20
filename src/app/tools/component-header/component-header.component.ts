@@ -14,6 +14,7 @@ export class ComponentHeaderComponent implements OnInit {
   @Input() dataVersions: DataVersionInfo[];
   @Input() tourType: TourType;
   @Input() tourTypeVisible = () => true;
+  @Input() predictionDetails: any[] = [];
 
   constructor() { }
 

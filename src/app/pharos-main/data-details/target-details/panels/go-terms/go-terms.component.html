@@ -16,7 +16,7 @@
 </ng-template>
 
 <article
-  *ngIf="(target && target.goCount && target.goCount.total() > 0); else nodata">
+  *ngIf="(target && target.goCount && target.goCount?.total() > 0); else nodata">
   <mat-card id={{field}}
             class="section-card"
             *ngIf="data"
