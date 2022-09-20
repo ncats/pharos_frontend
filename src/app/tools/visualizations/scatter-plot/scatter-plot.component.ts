@@ -150,17 +150,10 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
               .selectAll('circle')
               .data(d3.merge(highlightedPoints))
               .join('circle')
-              .attr('class', d => d.id + ' highlight')
+              .attr('class', d => d.id + ' highlight-point')
               .attr('data', d => d)
               .attr('cx', d => this.x(d.x))
               .attr('cy', d => this.y(d.y));
-            // const partitions = partition(this.points.nodes(), node => highlightedIDs.includes(node.__data__.label));
-            // partitions[0].forEach(c => {
-            //   d3.select(c).classed('highlight', true);
-            // });
-            // partitions[1].forEach(c => {
-            //   d3.select(c).classed('highlight', false)
-            // });
           });
         }
         if (this.focusField && this.focusField.length > 0) {
@@ -518,14 +511,14 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
       .attr('r', this.hoverRadius / this.transform.k)
       .exit();
     this.highlightArea.selectAll(`.${data.id}`)
-      .classed('highlight-hover', true);
+      .classed('highlight-point-hover', true);
   }
 
   unHighlightPoints() {
     this.svg
       .selectAll('circle')
       .attr('r', this.baseRadius / this.transform.k)
-      .classed('highlight-hover', false)
+      .classed('highlight-point-hover', false)
       .exit();
   }
 

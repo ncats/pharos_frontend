@@ -73,14 +73,14 @@ pharos-scatter-plot {
   stroke-width: .5px;
 }
 
-.highlight {
+.highlight-point {
   fill: mat.get-color-from-palette($pharos-app-accent);
   stroke: red;
   stroke-opacity: 1;
   r: 5px;
 }
 
-.highlight-hover {
+.highlight-point-hover {
   r: 7px;
 }
 

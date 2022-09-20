@@ -5,14 +5,14 @@
             id="diseaseNovelty">
     <mat-card-content>
       <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
-      No Tin-X data found
+      No TIN-X data found
     </mat-card-content>
   </mat-card>
 </ng-template>
 
 <ng-template #headerrow>
   <pharos-component-header [description]="getTooltip('tinx')" [field]="field"
-                           [headerText]="'Disease Novelty (Tin-x)'"></pharos-component-header>
+                           [headerText]="'Disease Novelty (TIN-X)'"></pharos-component-header>
 </ng-template>
 
 <article>
@@ -29,7 +29,7 @@
       <div class="disease-panels" [ngClass.lt-md]="'singlecolumn'">
         <pharos-tinx-scatterplot-card [tinx]="tinx" fxHide.lt-md></pharos-tinx-scatterplot-card>
         <ng-container *ngFor="let root of target.tinxTree">
-          <pharos-pack-circle [config]="circlePackConfig" [hierarchyData]="root"></pharos-pack-circle>
+          <pharos-pack-circle [config]="circlePackConfig" [hierarchyData]="root" [height]="950"></pharos-pack-circle>
         </ng-container>
       </div>
     </mat-card-content>

@@ -322,7 +322,7 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
     {
       field: 'novelty',
       label: 'Novelty',
-      description: 'Tin-X metric for the relative scarcity of specific publications for this target.'
+      description: 'TIN-X metric for the relative scarcity of specific publications for this target.'
     },
     ...ppiInteractionFields,
     ...diseaseAssociationFields,
@@ -512,20 +512,35 @@ const TARGET_DETAILS_COMPONENT: PharosPanel = {
   api: []
 };
 
-const PREDICTIONS_PANEL: PharosPanel = {
+const PREDICTED_DISEASES: PharosPanel = {
   token: TOKENS.PREDICTIONS_PANEL,
   section: Position.Content,
   browserOnly: true,
   navHeader: {
-    label: 'Predictions',
-    section: 'predictions',
-    mainDescription: 'TODO'
+    label: 'Predicted Diseases',
+    section: 'predictions'
   },
   api: [
     {
-      field: 'description',
-      label: 'Description',
-      description: 'TODO'
+      field: 'data',
+      label: 'Disease Associations',
+      description: 'Predicted disease associations retrieved from external APIs.'
+    }
+  ]
+}
+const PREDICTED_TARGETS: PharosPanel = {
+  token: TOKENS.PREDICTIONS_PANEL,
+  section: Position.Content,
+  browserOnly: true,
+  navHeader: {
+    label: 'Predicted Targets',
+    section: 'predictions'
+  },
+  api: [
+    {
+      field: 'data',
+      label: 'Target Associations',
+      description: 'Predicted target associations retrieved from external APIs.'
     }
   ]
 }
@@ -703,13 +718,21 @@ const DISEASE_NOVELTY_PANEL: PharosPanel = {
   navHeader: {
     label: 'Disease Novelty',
     section: 'diseaseNovelty',
-    mainDescription: `TODO.`
+    mainDescription: `TIN-X discovers target-disease relationships through natural language processing of PubMed
+      abstracts. Target-disease associations that have high Importance, and high Novelty, are promising areas
+      for following up.`,
+    mainSource: 'https://www.newdrugtargets.org/'
   },
   api: [
     {
-      field: 'yup',
-      label: 'yuppers',
-      description: 'description.'
+      field: 'importance',
+      label: 'Importance',
+      description: 'A bibliometric statistic that estimates the strength of the association between a target and a disease.'
+    },
+    {
+      field: 'novelty',
+      label: 'Novelty',
+      description: 'A bibliometric statistic that estimates the scarcity of publications about a disease.'
     }]
 }
 /**
@@ -740,7 +763,7 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
     },
     {
       field: 'tinx',
-      label: 'Disease Novelty (Tin-x)',
+      label: 'Disease Novelty (TIN-X)',
       description: 'TIN-X is an interactive visualization tool for discovering interesting associations between diseases ' +
         'and potential drug targets. Click the \'?\' button for more information.',
       article: ARTICLES.TINX_ARTICLE
@@ -1014,7 +1037,7 @@ const PROTEIN_PROTEIN_PANEL: PharosPanel = {
     {
       field: 'Novelty',
       label: 'Novelty',
-      description: 'Tin-X metric for the relative scarcity of specific publications for this target.'
+      description: 'TIN-X metric for the relative scarcity of specific publications for this target.'
     },
     ...ppiInteractionFields,
     {
@@ -1040,7 +1063,8 @@ const VIRAL_INTERACTIONS_PANEL: PharosPanel = {
   navHeader: {
     label: 'Predicted Viral Interactions',
     section: 'viral',
-    mainDescription: 'Details about predicted viral interactions with this protein, from P-HIPSTer.'
+    mainDescription: 'Details about predicted viral interactions with this protein, from P-HIPSTer.',
+    mainSource: 'http://phipster.org/'
   },
   api: [
     {
@@ -1336,7 +1360,7 @@ const DISEASE_TINX_COMPONENT: PharosPanel = {
     label: 'Target Novelty',
     section: 'diseaseTINX',
     mainDescription: 'The calculated importance and novelty for targets associated with this disease or it\'s children.',
-    mainSource: 'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5870731/'
+    mainSource: 'https://www.newdrugtargets.org/'
   },
   api: [
     {
@@ -1530,20 +1554,14 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
             ]
           },
           {
-            category: 'Predictions',
-            panels: [
-              PREDICTIONS_PANEL,
-              VIRAL_INTERACTIONS_PANEL
-            ]
-          },
-          {
             category: 'Behavioral Data',
             panels: [
               DRUGS_PANEL,
               LIGANDS_PANEL,
               PROTEIN_PROTEIN_PANEL,
               NEAREST_TCLIN_PANEL,
-              PATHWAYS_PANEL
+              PATHWAYS_PANEL,
+              VIRAL_INTERACTIONS_PANEL
             ]
           },
           {
@@ -1552,6 +1570,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
               GO_TERMS_PANEL,
               DISEASE_SOURCE_PANEL,
               DISEASE_NOVELTY_PANEL,
+              PREDICTED_DISEASES,
               GWAS_TARGET_ANALYTICS_PANEL,
               TARGET_FACET_PANEL
             ]
@@ -1595,7 +1614,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_HELPPANEL_COMPONENT,
           DISEASE_HEADER_COMPONENT,
           DISEASE_SUMMARY_COMPONENT,
-          PREDICTIONS_PANEL,
+          PREDICTED_TARGETS,
           DISEASE_GWAS_ANALYTICS_COMPONENT,
           DISEASE_DO_BROWSER_COMPONENT,
           DISEASE_TINX_COMPONENT
@@ -1624,7 +1643,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_HELPPANEL_COMPONENT,
           LIGAND_HEADER_COMPONENT,
           LIGAND_DETAILS_COMPONENT,
-          // PREDICTIONS_PANEL,
+          // PREDICTED_DISEASES,
           TARGET_RELEVANCE_PANEL,
           //  MOLECULAR_DEFINITION_PANEL
         ]
