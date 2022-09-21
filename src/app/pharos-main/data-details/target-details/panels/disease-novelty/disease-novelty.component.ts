@@ -10,13 +10,13 @@ import {
 } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {PharosPoint} from '../../../../../models/pharos-point';
-import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
 import {Target} from '../../../../../models/target';
 import {takeUntil} from 'rxjs/operators';
 import {isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 import {PackCircleConfig} from "../../../../../tools/visualizations/pack-circle/pack-circle.component";
 import {CentralStorageService} from "../../../../../pharos-services/central-storage.service";
+import {TourType} from "../../../../../models/tour-type";
 
 @Component({
   selector: 'pharos-disease-novelty',
@@ -40,6 +40,7 @@ export class DiseaseNoveltyComponent extends DynamicPanelComponent implements On
   @Input() target: Target;
 
   @Input() targetProps: any;
+  tourType = TourType.TINXNovelty;
 
   focusedTinxDisease: any = {};
   /**

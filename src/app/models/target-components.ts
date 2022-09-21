@@ -509,7 +509,7 @@ export const TARGETSERVERDETAILSFIELDS = gql`
     pathways(top: 5, getTopForEachType: true){
       ...pathway_fields
     }
-    goComponent:go (top: 10, filter: {facets: [ {
+    goComponent:go (top: 5, filter: {facets: [ {
       facet: "type"
       values: ["C"]
     }
@@ -521,7 +521,7 @@ export const TARGETSERVERDETAILSFIELDS = gql`
       explanation
       assigned_by
     }
-    goFunction:go (top: 10, filter: {
+    goFunction:go (top: 5, filter: {
       facets: [
         {
           facet: "type"
@@ -535,7 +535,7 @@ export const TARGETSERVERDETAILSFIELDS = gql`
       explanation
       assigned_by
     }
-    goProcess:go (top: 10, filter: {
+    goProcess:go (top: 5, filter: {
       facets: [
         {
           facet: "type"

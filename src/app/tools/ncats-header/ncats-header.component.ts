@@ -166,7 +166,7 @@ export class NcatsHeaderComponent implements OnInit, OnDestroy {
       };
       this.router.navigate([onAnalyzePage ? path.join('/') : onListPage ? '/analyze/' + modelType : '/analyze/targets'], navigationExtras);
     }
-    else if (tutorial === TourType.TargetExpressionTour) {
+    else if (tutorial === TourType.TargetExpressionTour || tutorial === TourType.TINXNovelty) {
       const navigationExtras: NavigationExtras = {
         queryParamsHandling: '',
         queryParams: {

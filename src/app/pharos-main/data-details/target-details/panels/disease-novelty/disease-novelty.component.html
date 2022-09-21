@@ -11,7 +11,7 @@
 </ng-template>
 
 <ng-template #headerrow>
-  <pharos-component-header [description]="getTooltip('tinx')" [field]="field"
+  <pharos-component-header [description]="getTooltip('tinx')" [field]="field" [tourType]="tourType"
                            [headerText]="'Disease Novelty (TIN-X)'"></pharos-component-header>
 </ng-template>
 
@@ -29,7 +29,7 @@
       <div class="disease-panels" [ngClass.lt-md]="'singlecolumn'">
         <pharos-tinx-scatterplot-card [tinx]="tinx" fxHide.lt-md></pharos-tinx-scatterplot-card>
         <ng-container *ngFor="let root of target.tinxTree">
-          <pharos-pack-circle [config]="circlePackConfig" [hierarchyData]="root" [height]="950"></pharos-pack-circle>
+          <pharos-pack-circle [config]="circlePackConfig" [hierarchyData]="root" [height]="950" id="tinxCirclePlot"></pharos-pack-circle>
         </ng-container>
       </div>
     </mat-card-content>
