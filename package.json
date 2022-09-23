@@ -1,7 +1,7 @@
 {
   "name": "pharos",
   "version": "3.14.0",
-  "tcrd_version": "6.12.4",
+  "tcrd_version": "6.13.4",
   "license": "MIT",
   "scripts": {
     "deploy": "GAE_VERSION=$(echo ${npm_package_version} | sed 's/\\./-/g') && gcloud app deploy --version $GAE_VERSION",
