@@ -13,6 +13,7 @@ export const DISEASELISTFIELDS = gql`
     associationCount
     datasource_count
     mondoID
+    gard_rare
     directAssociationCount
     targetCounts {
       name
@@ -153,6 +154,7 @@ export class Disease {
    * number of disease associations
    */
   associationCount: number;
+  gard_rare: boolean;
   directAssociationCount: number;
   uniprotDescription: string;
   doDescription: string;
