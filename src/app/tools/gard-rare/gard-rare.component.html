@@ -1,1 +1,2 @@
-<div class="badge" matTooltip="This disease has been annotated by GARD as being a rare disease.">GARD Rare</div>
+<div class="badge" matTooltip="This disease has been annotated by GARD as a rare disease.">
+  GARD Rare <a [href]=gardLink() *ngIf="gardID()" target="_blank"><mat-icon>open_in_new</mat-icon></a></div>
