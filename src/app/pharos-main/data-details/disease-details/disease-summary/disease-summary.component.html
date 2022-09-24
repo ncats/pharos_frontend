@@ -23,7 +23,7 @@
             <pharos-explore-list-button [path]="'/targets'" [queryParams]="{associatedDisease:disease?.name}"
                                         [buttonText]="'Explore Associated Targets'">
             </pharos-explore-list-button>
-            <pharos-gard-rare *ngIf="disease.gard_rare"></pharos-gard-rare>
+            <pharos-gard-rare *ngIf="disease.gard_rare" [disease]="disease"></pharos-gard-rare>
           </div>
           <div class="section" fxFlex="40">
             <div *ngIf="this.disease.mondoDescription">
