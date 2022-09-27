@@ -424,7 +424,7 @@ export class TourService {
         scrollToHandler: this.tourScroller.bind({section: 'diseaseNovelty', platformID: this.platformID}),
         buttons: this.firstButtons.slice(),
         title: 'TIN-X Novelty',
-        text: ['TIN-X discovers target-disease relationships through natural language processing of PubMed abstracts. ' +
+        text: ['TIN-X illuminates target-disease relationships through natural language processing of PubMed abstracts. ' +
         'This interactive pair of charts can help prioritize areas of research for this target.']
       },
       {
@@ -435,10 +435,10 @@ export class TourService {
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         title: 'Scatterplot',
-        text: ['The scatterplot poses the <em>Importance</em> of the target-disease association, versus the <em>Novelty</em> of each ' +
-        'disease in the corpus of biomedical literature. Points in the upper-right of this plot represent target-disease ' +
-        'associations that are important, and the diseases are relatively understudied, indicating a promising ' +
-        'area for further investigation.']
+        text: ['The scatterplot poses the <em>Importance</em> of target-disease associations, versus the <em>Novelty</em> of each ' +
+        'disease in the corpus of biomedical literature. Points in the upper-right of this plot are often the most ' +
+        'interesting because they are poorly understood, yet they are still known to be relevant to the disease of ' +
+        'interest and are therefore a promising area for further investigation.']
       },
       {
         attachTo: {
@@ -448,17 +448,19 @@ export class TourService {
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         title: 'Circular Treemap',
-        text: ['The circular treemap presents the <em>Importance</em> of disease associations for this target as a set of shaded circles, where similar diseases ' +
+        text: ['The circular treemap presents the <em>Importance</em> of disease associations for this target as a set ' +
+        'of shaded circles, where similar diseases ' +
         'are grouped based on the hierarchy defined by Disease Ontology. Highlighting circles in this plot will highlight the ' +
-        'corresponding disease associations in the scatterplot.']
+        'corresponding disease associations in the adjacent scatterplot.']
       },
       {
         scrollTo: false,
         buttons: this.lastButtons.slice(),
         classes: 'step-with-screenshot',
         title: 'Using the Plots Together',
-        text: ['Using the plots together helps us understand patterns in the data. When related diseases are ' +
-        'also found towards the upper-right of the scatterplot, the data further supports a role of this target in that family of diseases.' +
+        text: ['Using the plots together helps us understand patterns in the data. When related diseases correspond to targets ' +
+        'located towards the upper-right of the scatterplot, the data supports a role of this target in that family of diseases. ' +
+        'Other regions of the scatterplot may also be of interest for various reasons.' +
         '<br /><video width="100%" controls>' +
         '  <source src="./assets/images/tutorials/new314/tinx.mp4" type="video/mp4">' +
         '  Your browser does not support HTML5 video.' +
