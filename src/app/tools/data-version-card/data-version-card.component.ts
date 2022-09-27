@@ -13,33 +13,28 @@ export class DataVersionCardComponent implements OnInit {
   commonFields: PharosProperty[] = [
     new PharosProperty({
       name: 'key',
-      label: 'Value',
-      sortable: true
+      label: 'Value'
     }),
     new PharosProperty({
       name: 'file',
-      label: 'File',
-      sortable: true
+      label: 'File'
     }),
     new PharosProperty({
       name: 'version',
-      label: 'Version',
-      sortable: true
+      label: 'Version'
     })
   ]
   releaseFields: PharosProperty[] = [
     ...this.commonFields,
     new PharosProperty({
       name: 'releaseDate',
-      label: 'Release Date',
-      sortable: true
+      label: 'Release Date'
     })];
   downloadFields: PharosProperty[] = [
     ...this.commonFields,
     new PharosProperty({
       name: 'downloadDate',
-      label: 'Download Date',
-      sortable: true
+      label: 'Download Date'
     })];
 
   getFields(ds: DataSourceInfo): PharosProperty[] {

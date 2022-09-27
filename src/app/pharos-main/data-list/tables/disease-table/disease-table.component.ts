@@ -27,11 +27,7 @@ const navigationExtras: NavigationExtras = {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DiseaseTableComponent extends DynamicTablePanelComponent implements OnInit, OnDestroy {
-  /**
-   * fields to be show in the pdb table
-   * @type {PharosProperty[]}
-   */
-  fieldsData: PharosProperty[] = [
+  firstFields: PharosProperty[] = [
     new PharosProperty({
       name: 'name',
       label: 'Disease Name',
@@ -50,13 +46,28 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
       label: 'Direct Associated Targets'
     })
   ];
+  lastFields: PharosProperty[] = [
+    new PharosProperty({
+      name: 'gard_rare',
+      label: 'Rare',
+      checkbox: true
+    })
+  ]
+  /**
+   * fields to be show in the pdb table
+   * @type {PharosProperty[]}
+   */
+  fieldsData: PharosProperty[] = [
+    ...this.firstFields, ...this.lastFields
+  ];
 
   fieldsDataWithTarget: PharosProperty[] = [
-    ...this.fieldsData,
+    ...this.firstFields,
     new PharosProperty({
       name: 'datasource_count',
       label: 'Data Source Count'
-    })
+    }),
+    ...this.lastFields
   ];
 
   /**

@@ -1,4 +1,4 @@
-# 3.14.0 (2022-09-22)
+# 3.14.0 (2022-10-03)
 ### Added Features
 * **Circlular Treemaps**
   * The Expression component now has a circular treemap plot alongside the heatmap. Data in the treemap is grouped 
@@ -10,7 +10,15 @@ filter the heatmaps to those expression data from the selected branches of the U
 * **Predicted Effects of Inhibiting Kinases on Cancers**
   * We're now showing predictions from Ravenmehr *et al.* 2021. Navigate to the 'Predicted Diseases' component of the 
     target details pages for kinases, or the 'Predicted Targets' component of the disease details pages for cancers to find that data.  
-
+* **GARD Annotation**
+  * The categorization of what is a 'Rare' disease has been incorporated from the Genetic and Rare Diseases (GARD) Information Center.
+  * This shows up as a filter on disease list pages, a column on the disease list itself, and as a column in the CSV files for downloading disease data.
+* **Updated TCRD**
+  * Pharos is now based on TCRD version 6.13.4, which includes these updates:
+    * Ligand activity data is based on ChEMBL version 31, and DrugCentral version 20220705
+    * Data from DISEASES has been updated, TIGA, and the DRGC Resources
+    * PubMed Scores and TDLs have been recalculated
+  
 ### Bug Fixes / Miscellaneous updates
 * There have been a number of performance improvements, meant to streamline data queries to improve the initial navigation to Pharos.
 * The numeric filters for Potency have been combined into one. Previously there were separate filters for each measure of potency (i.e. IC50, Kd, etc).

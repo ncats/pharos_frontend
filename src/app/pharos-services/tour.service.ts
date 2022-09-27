@@ -212,7 +212,7 @@ export class TourService {
         scrollTo: false,
         buttons: this.firstButtons.slice(),
         title: 'What\'s new in Pharos 3.14?',
-        text: ['There are several new features in Pharos version 3.14, including a circular treemaps for expression ' +
+        text: ['There are several new features in Pharos version 3.14, including circular treemaps for expression ' +
         'data and TIN-X data, and new predicted relationships between kinases and cancers.'
         ]
       },
@@ -223,7 +223,7 @@ export class TourService {
         title: 'Circular Treemaps for Expression Data',
         text: ['Pharos now helps you understand patterns of expression data by grouping tissues based on the UBERON ' +
         'hierarchy into a circular treemap. The plots are interactive in that they filter the heat map to expression ' +
-        'data for the selected brach of the treemap.' +
+        'data for the selected branch of the UBERON hierarchy.' +
         '<img class="tour-screenshot" src="./assets/images/tutorials/new314/expression-circle.png"/>']
       },
       {

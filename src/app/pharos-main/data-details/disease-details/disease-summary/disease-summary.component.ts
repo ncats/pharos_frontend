@@ -48,7 +48,9 @@ export class DiseaseSummaryComponent extends DynamicPanelComponent implements On
         this.changeRef.markForCheck();
       });
   }
-
+  trimZeros(term) {
+    return term.replace(/^0+/, '');
+  }
   getExternalLink(id: {name: string, id: string}) {
     const pieces = id.id.split(':');
     const format = pieces[0];
@@ -68,7 +70,7 @@ export class DiseaseSummaryComponent extends DynamicPanelComponent implements On
       case 'MESH':
         return `https://meshb-prev.nlm.nih.gov/record/ui?ui=${term}`;
       case 'GARD':
-        return `https://rarediseases.info.nih.gov/diseases/${term}/index`;
+        return `https://rarediseases.info.nih.gov/diseases/${this.trimZeros(term)}/origin_pharos`;
       case 'EFO':
         return `http://www.ebi.ac.uk/efo/${format}_${term}`;
       case 'Wikidata':
