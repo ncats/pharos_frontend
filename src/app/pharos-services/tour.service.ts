@@ -7,7 +7,6 @@ import {CentralStorageService} from './central-storage.service';
 import {FeatureTrackingService} from './feature-tracking.service';
 import {StepFactory} from '../../assets/tourData/step.factory';
 import {TourType} from '../models/tour-type';
-import {UseCaseData} from '../use-cases/use-case-data';
 
 @Injectable({
   providedIn: 'root'
@@ -63,7 +62,7 @@ export class TourService {
     {title: 'Creating a Heatmap', storageKey: TourType.Heatmaps},
     {title: 'Uploading a Custom List', storageKey: TourType.CustomListTour},
     {title: 'Searching by Chemical Structure', storageKey: TourType.StructureSearchTour},
-    {title: 'Viewing Target Expression Data', storageKey: TourType.TargetExpressionTour},
+    {title: 'Viewing Target Expression Data', storageKey: TourType.TargetExpressionTour}
   ];
   onlyButton = [TourService.okayButton];
   firstButtons = [TourService.cancelButton, TourService.nextButton];
@@ -116,6 +115,9 @@ export class TourService {
           break;
         case TourType.UpsetChartTour:
           this.runUpsetPlotTour();
+          break;
+        case TourType.TINXNovelty:
+          this.runTINXTour();
           break;
 
         case TourType.ShortSearch:
@@ -405,7 +407,77 @@ export class TourService {
     });
     this.shepherdService.start();
   }
-
+  runTINXTour() {
+    const defaultSteps = [
+      {
+        beforeShowPromise: () => {
+          return new Promise((resolve: any) => {
+            setTimeout(() => {
+              resolve();
+            }, 300);
+          });
+        },
+        attachTo: {
+          element: '#diseaseNovelty',
+          on: 'top'
+        },
+        scrollToHandler: this.tourScroller.bind({section: 'diseaseNovelty', platformID: this.platformID}),
+        buttons: this.firstButtons.slice(),
+        title: 'TIN-X Novelty',
+        text: ['TIN-X illuminates target-disease relationships through natural language processing of PubMed abstracts. ' +
+        'This interactive pair of charts can help prioritize areas of research for this target.']
+      },
+      {
+        attachTo: {
+          element: '#tinxScatterplot',
+          on: 'top'
+        },
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        title: 'Scatterplot',
+        text: ['The scatterplot poses the <em>Importance</em> of target-disease associations, versus the <em>Novelty</em> of each ' +
+        'disease in the corpus of biomedical literature. Points in the upper-right of this plot are often the most ' +
+        'interesting because they are poorly understood, yet they are still known to be relevant to the disease of ' +
+        'interest and are therefore a promising area for further investigation.']
+      },
+      {
+        attachTo: {
+          element: '#tinxCirclePlot',
+          on: 'top'
+        },
+        scrollTo: false,
+        buttons: this.middleButtons.slice(),
+        title: 'Circular Treemap',
+        text: ['The circular treemap presents the <em>Importance</em> of disease associations for this target as a set ' +
+        'of shaded circles, where similar diseases ' +
+        'are grouped based on the hierarchy defined by Disease Ontology. Highlighting circles in this plot will highlight the ' +
+        'corresponding disease associations in the adjacent scatterplot.']
+      },
+      {
+        scrollTo: false,
+        buttons: this.lastButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Using the Plots Together',
+        text: ['Using the plots together helps us understand patterns in the data. When related diseases correspond to targets ' +
+        'located towards the upper-right of the scatterplot, the data supports a role of this target in that family of diseases. ' +
+        'Other regions of the scatterplot may also be of interest for various reasons.' +
+        '<br /><video width="100%" controls>' +
+        '  <source src="./assets/images/tutorials/new314/tinx.mp4" type="video/mp4">' +
+        '  Your browser does not support HTML5 video.' +
+        '</video>']
+      },
+    ];
+    this.shepherdService.defaultStepOptions = this.defaultStepOptions;
+    this.shepherdService.modal = true;
+    this.shepherdService.confirmCancel = false;
+    this.shepherdService.addSteps(defaultSteps);
+    ['cancel', 'complete'].forEach(event => {
+      this.shepherdService.tourObject.on(event, () => {
+        this.completeTour(TourType.TINXNovelty, event);
+      });
+    });
+    this.shepherdService.start();
+  }
   runUpsetPlotTour() {
     const models = this.getModels();
     const data = this.centralStorageService.getTourData('list');

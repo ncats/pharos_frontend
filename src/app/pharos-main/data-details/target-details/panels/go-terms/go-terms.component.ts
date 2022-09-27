@@ -70,17 +70,17 @@ export class GoTermsComponent extends DynamicPanelComponent implements OnInit, O
     this.componentPageData = new PageData({
       total: this.target?.goCount?.components,
       skip: 0,
-      top: 10
+      top: 5
     });
     this.processPageData = new PageData({
       total: this.target?.goCount?.processes,
       skip: 0,
-      top: 10
+      top: 5
     });
     this.functionPageData = new PageData({
       total: this.target?.goCount?.functions,
       skip: 0,
-      top: 10
+      top: 5
     });
     this.loadingComplete();
   }
