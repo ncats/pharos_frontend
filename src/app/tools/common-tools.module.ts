@@ -40,6 +40,7 @@ import { PredictionsPanelComponent } from './predictions-panel/predictions-panel
 import { PredictionDetailsCardComponent } from './predictions-panel/prediction-details-card/prediction-details-card.component';
 import { PredictionSetComponent } from './predictions-panel/prediction-set/prediction-set.component';
 import { CitationComponent } from './citation/citation.component';
+import { GardRareComponent } from './gard-rare/gard-rare.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { CitationComponent } from './citation/citation.component';
     PredictionsPanelComponent,
     PredictionDetailsCardComponent,
     PredictionSetComponent,
-    CitationComponent
+    CitationComponent,
+    GardRareComponent
   ],
   imports: [
     CommonModule,
@@ -106,7 +108,8 @@ import { CitationComponent } from './citation/citation.component';
         UpsetPlotComponent,
         HeatMapComponent,
         SequenceAlignmentsComponent,
-        TaskItemComponent
+        TaskItemComponent,
+        GardRareComponent
     ],
   entryComponents: [
     FieldSelectionDialogComponent
