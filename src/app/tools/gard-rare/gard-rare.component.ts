@@ -23,7 +23,7 @@ export class GardRareComponent implements OnInit {
     return null;
   }
   gardLink(){
-    return `https://rarediseases.info.nih.gov/diseases/${this.gardID()}/index`;
+    return `https://rarediseases.info.nih.gov/diseases/${this.gardID()}/origin_pharos`;
   }
   trimZeros(term) {
     return term.replace(/^0+/, '');
