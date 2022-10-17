@@ -37,6 +37,7 @@ query fetchDiseaseDetailsForSSR (
       name
       value
     }
+    gard_rare
     uniprotDescription
     doDescription
     mondoDescription
