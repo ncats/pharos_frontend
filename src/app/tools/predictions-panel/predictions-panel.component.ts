@@ -49,7 +49,10 @@ export class PredictionsPanelComponent extends DynamicPanelComponent implements 
   }
 
   hasData() {
-    return this.predictionResult && this.predictionResult.length > 0;
+    return this.predictionResult &&
+      this.predictionResult.length > 0 &&
+      this.predictionResult[0].predictions &&
+      this.predictionResult[0].predictions.length > 0;
   }
 
   valueAscOrder(anything) {
