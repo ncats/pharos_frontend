@@ -17,7 +17,7 @@
                            [id]="field" [predictionDetails]="citations()"></pharos-component-header>
 </ng-template>
 
-<article *ngIf="predictionResult && predictionResult.length > 0; else nodata">
+<article *ngIf="hasData(); else nodata">
   <mat-card #predictions
             (pharosScrollspy)="active(field)"
             [id]="field"
