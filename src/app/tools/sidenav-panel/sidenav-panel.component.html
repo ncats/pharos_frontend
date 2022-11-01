@@ -15,8 +15,11 @@
              mat-list-item
              class="list-button"
              (click)="scroll(section.navHeader.section)"
-             [ngClass]="{'active': isActive(section.navHeader.section)}" [id]="'menu_'+section.navHeader.section">
-            <mat-icon *ngIf="pending(section)" class="material-icons-outlined pending-icon" matTooltip="data still loading...">pending</mat-icon> <span [ngClass]="{hasData: (section.visible)}">{{section.navHeader.label}}</span>
+             [ngClass]="{'active': isActive(section.navHeader.section), 'prediction-list-button': section.navHeader.prediction}"
+             [id]="'menu_'+section.navHeader.section">
+            <mat-icon *ngIf="pending(section)" class="material-icons-outlined pending-icon"
+                      matTooltip="data still loading...">pending</mat-icon>
+            <span [ngClass]="{hasData: (section.visible)}">{{section.navHeader.label}}</span>
           </a>
           <ng-template #array>
             <div class="subsection" *ngIf="section.panels.length > 0">
@@ -25,9 +28,11 @@
                  mat-list-item
                  class="list-button"
                  (click)="scroll(subsection.navHeader.section)"
-                 [ngClass]="{'active': isActive(subsection.navHeader.section)}"
+                 [ngClass]="{'active': isActive(subsection.navHeader.section), 'prediction-list-button': subsection.navHeader.prediction}"
                  [id]="'menu_'+subsection.navHeader.section">
-                <mat-icon *ngIf="pending(subsection)" class="material-icons-outlined pending-icon" matTooltip="data still loading...">pending</mat-icon> <span [ngClass]="{hasData: subsection.visible}">{{subsection.navHeader.label}}</span>
+                <mat-icon *ngIf="pending(subsection)" class="material-icons-outlined pending-icon"
+                          matTooltip="data still loading...">pending</mat-icon>
+                <span [ngClass]="{hasData: subsection.visible}">{{subsection.navHeader.label}}</span>
               </a>
             </div>
           </ng-template>

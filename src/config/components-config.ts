@@ -48,6 +48,7 @@ interface PharosNavHeader {
    */
   label?: string;
 
+  prediction?: boolean;
   /**
    * variable for section
    */
@@ -518,7 +519,8 @@ const PREDICTED_DISEASES: PharosPanel = {
   browserOnly: true,
   navHeader: {
     label: 'Predicted Diseases',
-    section: 'predictions'
+    section: 'predictions',
+    prediction: true,
   },
   api: [
     {
@@ -534,7 +536,8 @@ const PREDICTED_TARGETS: PharosPanel = {
   browserOnly: true,
   navHeader: {
     label: 'Predicted Targets',
-    section: 'predictions'
+    section: 'predictions',
+    prediction: true
   },
   api: [
     {
@@ -1062,6 +1065,7 @@ const VIRAL_INTERACTIONS_PANEL: PharosPanel = {
   browserOnly: true,
   navHeader: {
     label: 'Predicted Viral Interactions',
+    prediction: true,
     section: 'viral',
     mainDescription: 'Details about predicted viral interactions with this protein, from P-HIPSTer.',
     mainSource: 'http://phipster.org/'
