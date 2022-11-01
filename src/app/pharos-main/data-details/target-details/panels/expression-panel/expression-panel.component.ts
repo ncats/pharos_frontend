@@ -56,15 +56,15 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   tourType: TourType;
 
   circlePackConfig: PackCircleConfig = {
-    highlightCheck: (d, node) => node.__data__?.data?.uid?.replace(':', '_') === d.data?.uid?.replace(':', '_'),
+    highlightCheck: (d, node) => node.__data__?.data?.oid?.replace(':', '_') === d.data?.oid?.replace(':', '_'),
     focusedCheck: (d, node) => {
       if (this.expressionInfoService.focusedUberon && this.expressionInfoService.focusedUberon.uid) {
-        return node.__data__?.data?.uid?.replace(':', '_') === this.expressionInfoService.focusedUberon?.uid;
+        return node.__data__?.data?.oid?.replace(':', '_') === this.expressionInfoService.focusedUberon?.uid;
       }
       return false;
     },
     circleClick: (event, d, n) => {
-      const uid = d.data.uid;
+      const uid = d.data.oid;
       this.expressionInfoService.setFocusedUberon(uid, 'circleplot');
     }
   }
@@ -274,8 +274,8 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
    * parse and generate data
    */
   setterFunction() {
-    if (this.target.expressionTree && this.target.expressionTree.uberonDict) {
-      this.sortedTrees = this.target.expressionTree.uberonDict.sort((a,b) => {
+    if (this.target.expressionTree) {
+      this.sortedTrees = this.target.expressionTree.sort((a,b) => {
         return a.name.localeCompare(b.name);
       });
       for(let root of this.sortedTrees) {
@@ -285,7 +285,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     }
   }
   setUberonInfo(node){
-    const uberonObj = {uid: node.uid, name: node.name};
+    const uberonObj = {uid: node.oid, name: node.name};
     if (this.expressionInfoService.trySet(uberonObj)) {
       node.children.forEach(child => {
         this.setUberonInfo(child);
