@@ -1,12 +1,12 @@
 <ng-template #nodata>
   <article>
-    <mat-card #viral
+    <mat-card #predictions
               (pharosScrollspy)="active(field)"
               [id]="field"
-              class="section-card">
+              class="section-card prediction-panel">
       <mat-card-content>
         <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
-        No predictions found
+          No predictions found
       </mat-card-content>
     </mat-card>
   </article>
@@ -21,7 +21,7 @@
   <mat-card #predictions
             (pharosScrollspy)="active(field)"
             [id]="field"
-            class="section-card">
+            class="section-card prediction-panel">
     <mat-card-content>
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img alt="loading..." class="spinner rotating" src="./assets/images/pharos_spinner.svg">

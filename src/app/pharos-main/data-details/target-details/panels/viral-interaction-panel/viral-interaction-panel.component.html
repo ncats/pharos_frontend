@@ -1,7 +1,7 @@
 <ng-template #nodata>
   <article>
     <mat-card id="viral"
-              class="section-card"
+              class="section-card prediction-panel"
               (pharosScrollspy)="active('viral')"
               #viral>
       <mat-card-content>
@@ -17,7 +17,7 @@
 
 <article *ngIf="this.target?.interactingViruses?.length > 0; else nodata">
   <mat-card id="viral"
-            class="section-card"
+            class="section-card prediction-panel"
             (pharosScrollspy)="active('viral')"
             #viral>
     <mat-card-content>

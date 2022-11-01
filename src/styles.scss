@@ -90,6 +90,10 @@ a:hover {
   margin-bottom: 2vh;
 }
 
+.prediction-panel {
+  background-color: $prediction-color !important;
+}
+
 .full-height-card {
   display: flex;
   flex-direction: column;
