@@ -293,6 +293,10 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     }
   }
 
+  get dataVersions() {
+    return this.target?.dataVersions?.filter(f => ["Expression", "GTEx", "Uberon"].includes(f.key));
+  }
+
   static getPreferredField(dataSource: string): string {
     switch (dataSource) {
       case 'HPA Protein':
@@ -307,5 +311,4 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
     }
     return '';
   }
-
 }

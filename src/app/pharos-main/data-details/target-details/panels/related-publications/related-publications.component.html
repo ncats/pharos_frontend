@@ -1,7 +1,7 @@
 <ng-template #nodata>
-  <mat-card id="relatedPublications" class="section-card"
-            (pharosScrollspy)="active('relatedPublications')"
-            #relatedPublications>
+  <mat-card #relatedPublications (pharosScrollspy)="active('relatedPublications')"
+            class="section-card"
+            id="relatedPublications">
     <mat-card-content>
       <div class="row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
         <div fxFlex>
@@ -13,82 +13,52 @@
   </mat-card>
 </ng-template>
 <ng-template #headerrow>
-  <pharos-component-header [description]="description" [field]="field" [headerText]="label"></pharos-component-header>
+  <pharos-component-header [description]="description" [field]="field" [dataVersions]="dataVersions"
+                           [headerText]="label + ' (' + target.publicationCount + ')'">
+  </pharos-component-header>
 </ng-template>
 
-<article id="geneRIFs" #geneRIFs>
-  <mat-card id="relatedPublications" class="section-card" *ngIf="this.target && hasData(); else nodata"
-            (pharosScrollspy)="active('relatedPublications')"
-            #relatedPublications>
+<article #geneRIFs id="geneRIFs">
+  <mat-card #relatedPublications (pharosScrollspy)="active('relatedPublications')" *ngIf="this.target && hasData(); else nodata"
+            class="section-card" id="relatedPublications">
     <mat-card-content>
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
-        <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+        <img alt="loading..." class="spinner rotating" src="./assets/images/pharos_spinner.svg">
       </div>
-      <div class="row" fxLayout.xs="column" fxLayoutAlign="space-around stretch">
+      <div fxLayoutAlign="space-around stretch">
         <div fxFlex>
+
           <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
-          <mat-tab-group [selectedIndex]="activeTab" (selectedTabChange)="tabChanged($event)">
-            <mat-tab *ngIf="target.publicationCount > 0" label="relatedPublications">
-              <ng-template mat-tab-label>
-                <div
-                  [matTooltip]="getTooltip('publications')"
-                  [matTooltipClass]="'pharos-tooltip'">
-                  Text Mined References ({{target.publicationCount}})
+          <div>
+            <div class="pub-table" fxFlex="95">
+              <div class="pub-header">
+                <div class="button-container">
+                  <button class="tool-button" mat-raised-button [color]="'primary'" matTooltip="Download Publications"
+                          (click)="downloadData('Publications')">
+                    <span >Publications</span>
+                    <mat-icon>download</mat-icon>
+                  </button>
+                  <button class="tool-button" mat-raised-button [color]="'primary'" matTooltip="Download GeneRIFs"
+                          (click)="downloadData('Gene RIFs')">
+                    <span>GeneRIFs</span>
+                    <mat-icon>download</mat-icon>
+                  </button>
                 </div>
-              </ng-template>
-              <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
-                <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+                <div fxFlex></div>
+                <mat-paginator
+                  #pubpaginator
+                  (page)="paginate($event,'publications')"
+                  [hidePageSize]="false"
+                  [length]="publicationsPageData?.total"
+                  [pageIndex]="publicationsPageData?.skip / publicationsPageData?.top"
+                  [pageSizeOptions]="[5, 10, 25, 50]"
+                  [pageSize]="publicationsPageData?.top"
+                  [showFirstLastButtons]=true>
+                </mat-paginator>
               </div>
-              <ng-template matTabContent>
-                <div class="pub-table" fxFlex="95">
-                  <mat-paginator
-                    [pageSize]="publicationsPageData?.top"
-                    [pageIndex]="publicationsPageData?.skip / publicationsPageData?.top"
-                    [length]="publicationsPageData?.total"
-                    [hidePageSize]="false"
-                    [pageSizeOptions]="[10, 20, 50]"
-                    [showFirstLastButtons] = true
-                    (page) = "paginate($event,'publications')"
-                    #pubpaginator></mat-paginator>
-                  <pharos-generic-table
-                    [data]="publications"
-                    [showPaginator]="false"
-                    [fieldsConfig]="publicationTableFields">
-                  </pharos-generic-table>
-                </div>
-              </ng-template>
-            </mat-tab>
-            <mat-tab *ngIf="target.generifCount > 0" label="geneRIFs">
-              <ng-template mat-tab-label>
-                <div
-                  [matTooltip]="getTooltip('generifs')"
-                  [matTooltipClass]="'pharos-tooltip'">
-                  GeneRif Annotations ({{target.generifCount}})
-                </div>
-              </ng-template>
-              <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
-                <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
-              </div>
-              <ng-template matTabContent>
-                <div class="pub-table" fxFlex="95">
-                  <mat-paginator
-                    [pageSize]="rifPageData?.top"
-                    [pageIndex]="rifPageData?.skip / rifPageData?.top"
-                    [length]="rifPageData?.total"
-                    [hidePageSize]="false"
-                    [pageSizeOptions]="[10, 20, 50]"
-                    [showFirstLastButtons] = true
-                    (page) = "paginate($event,'generifs')"
-                    #generifpaginator></mat-paginator>
-                  <pharos-generic-table
-                    [data]=generifs
-                    [showPaginator]="false"
-                    [fieldsConfig]=rifTableFields>
-                  </pharos-generic-table>
-                </div>
-              </ng-template>
-            </mat-tab>
-          </mat-tab-group>
+              <pharos-publication-card *ngFor="let pub of publications" [publication]="pub"></pharos-publication-card>
+            </div>
+          </div>
         </div>
       </div>
     </mat-card-content>

@@ -2,7 +2,6 @@ import {PharosBase, PharosSerializer} from './pharos-base';
 import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
 import {Publication, PublicationSerializer} from './publication';
 import {Disease, DiseaseSerializer} from './disease';
-import {Generif, GenerifSerializer} from './generif';
 import {Ortholog, OrthologSerializer} from './ortholog';
 import {Ligand, LigandSerializer} from './ligand';
 import {
@@ -212,11 +211,6 @@ export class Target extends PharosBase {
    * pageable list of associated publications
    */
   publications: Publication[];
-
-  /**
-   * pageable list of generifs
-   */
-  generifs: Generif[];
 
   /**
    * pageable list of orthologs
@@ -597,11 +591,6 @@ export class TargetSerializer implements PharosSerializer {
       obj.publications = json.publications.map(pub => pubSerializer.fromJson(pub));
     }
 
-    if (json.generifs) {
-      const generifSerializer = new GenerifSerializer();
-      obj.generifs = json.generifs.map(rif => generifSerializer.fromJson(rif));
-    }
-
     if (json.diseases) {
       const diseaseSerializer = new DiseaseSerializer();
       obj.diseases = json.diseases.map(disease => diseaseSerializer.fromJson(disease));
@@ -652,11 +641,6 @@ export class TargetSerializer implements PharosSerializer {
     if (newObj.ppis) {
       const targetSerializer = new TargetSerializer();
       newObj.ppis = obj.ppis.map(ppi => targetSerializer._asProperties(ppi));
-    }
-
-    if (newObj.generifs) {
-      const generifSerializer = new GenerifSerializer();
-      newObj.generifs = obj.generifs.map(generif => generifSerializer._asProperties(generif));
     }
 
     if (newObj.diseases) {

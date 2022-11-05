@@ -1,0 +1,43 @@
+.citation{
+  margin-left: 20px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.container {
+  margin: 2px;
+}
+
+.panel {
+  width: 50%;
+  padding: 2px 5px;
+}
+
+.panel-container {
+  display: flex;
+  flex-direction: row;
+}
+
+@media only screen and (max-width: 960px) {
+  .panel {
+    width: 100%;
+  }
+
+  .panel-container {
+    flex-direction: column;
+  }
+
+}
+
+.hidden-detail {
+  display: none;
+}
+
+.pubdetail-label {
+  margin-top: 10px;
+  margin-bottom: 5px !important;
+}
+
+.pub-detail {
+  margin-left: 10px;
+}
