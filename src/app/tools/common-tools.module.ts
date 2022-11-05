@@ -109,7 +109,8 @@ import { GardRareComponent } from './gard-rare/gard-rare.component';
         HeatMapComponent,
         SequenceAlignmentsComponent,
         TaskItemComponent,
-        GardRareComponent
+        GardRareComponent,
+        CitationComponent
     ],
   entryComponents: [
     FieldSelectionDialogComponent

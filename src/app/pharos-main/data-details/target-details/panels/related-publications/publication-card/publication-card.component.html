@@ -1,0 +1,45 @@
+<mat-card *ngIf="publication" class="container">
+  <mat-card-content>
+    <div class="panel-container">
+      <div class="panel">
+        <a [href]="'http://www.ncbi.nlm.nih.gov/pubmed/' + publication.pmid"
+              aria-label='View article in PubMed.' class="external-link"
+              rel="noreferrer"
+              target="_blank">{{publication.title}}
+        <mat-icon [inline]="true">open_in_new</mat-icon>
+      </a>
+        <div *ngIf="!full; else showfull" class="citation">
+          {{shortAuthorString()}}, <em>{{publication.journal}}</em>, <b>{{publication.date}}</b>
+        </div>
+        <ng-template #showfull>
+          <div class="citation">
+            <mat-card-subtitle>{{shortAuthorString()}}</mat-card-subtitle>
+            <ncats-property-display *ngIf="publication.pmid"
+                                    [property]="{label: 'PMID', term: publication.pmid}"></ncats-property-display>
+            <ncats-property-display [property]="{label: 'Abstract'}"></ncats-property-display>
+            {{publication.abstract}}
+          </div>
+        </ng-template>
+      </div>
+      <div class="panel">
+        <div>
+          <div *ngFor="let rif of generifs">
+            <span>
+              <span class="pubdetail-label mat-card-subtitle">GeneRIF:</span>
+            </span>
+            <div class="pub-detail">{{rif.text}}</div>
+          </div>
+          <div>
+            <span (click)="showAbstract = !showAbstract">
+              <span class="pubdetail-label mat-card-subtitle">Abstract:
+                <span *ngIf="showAbstract">(hide)</span>
+                <span *ngIf="!showAbstract">(show)</span>
+              </span>
+            </span>
+            <div class="pub-detail" [ngClass]="{'hidden-detail': !showAbstract}">{{publication.abstract}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

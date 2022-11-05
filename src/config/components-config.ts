@@ -1093,7 +1093,7 @@ const PUBLICATION_STATISTICS_PANEL: PharosPanel = {
     label: 'Publication Statistics',
     section: 'publicationStatistics',
     mainDescription: 'Statistics about the occurence of this target in literature, extracted via text mining. GeneRIFs,' +
-      'and text-mined publications are also displayed. For more details, click the \'?\' button.'
+      'and text-mined publications are also displayed.'
   },
   api: [
     {
@@ -1129,32 +1129,26 @@ const RELATED_PUBLICATIONS_PANEL: PharosPanel = {
   token: TOKENS.RELATED_PUBLICATIONS_PANEL,
   browserOnly: true,
   navHeader: {
-    label: 'Related Publications',
+    label: 'Publications',
     section: 'relatedPublications',
-    mainDescription: 'Text-mining extracted GeneRIFs, and publications. For more details, click the \'?\' button.'
+    mainDescription: 'This component shows publications, as determined by manual curation and entity matching to text ' +
+      'in the title or abstract. Displayed data is from NCBI. Additional references based on entity matching to the abstracts ' +
+      'and full text (when available) from JensenLab is available in the download.'
   },
   api: [
     {
-      field: 'publicationCount',
-      label: 'Publication Count',
-      description: 'Total count of text-mined publication hits for target listed in parenthesis'
-    },
-    {
-      field: 'publications',
-      label: 'Text Mined References',
-      description: 'Publications associated with this target, as identified using the JensenLab text mining protocol'
-    },
-    {
-      field: 'generifCount',
-      label: 'GeneRIF Count',
-      description: 'Total count of NCBI Gene Reference Into Function hits for target listed in parenthesis'
-    },
-    {
       field: 'generifs',
       label: 'GeneRIFs',
-      description: 'Total count of NCBI Gene Reference Into Function hits for target listed in parenthesis, ' +
-        'and summary table with links to publications per PMID with the specific text in article that includes ' +
-        'the reported target.'
+      description: 'Manually annotated references into the function (RIF) of a target, as provided by NCBI. GeneRIFs are a concise description of the ' +
+        'knowledge gained for a target from a particular publication. Note, Pharos doesn\'t display GeneRIFs that are ' +
+        'the same as the title of the article, to avoid that redundancy.'
+    }, {
+      field: 'download',
+      label: 'Download Publications',
+      description: 'Download data for the relevant publications here. The download will include publications reported by NCBI, ' +
+        'as well as those reported by JensenLab. JensenLab reports all publications that mention the target in the ' +
+        'abstract or full text. Those mentions underly many of the other resources from JensenLab, (e.g. DISEASES, TISSUES, ' +
+        'STRING), as they quantify co-mentions of targets with diseases, tissues, or other targets.'
     }
   ]
 };

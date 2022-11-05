@@ -20,12 +20,15 @@ import {PharosConfig} from '../../../../../../config/pharos-config';
 import {PageEvent} from '@angular/material/paginator';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
-import {Generif, GenerifSerializer} from '../../../../../models/generif';
 import {ScatterPlotComponent} from '../../../../../tools/visualizations/scatter-plot/scatter-plot.component';
 import {takeUntil} from 'rxjs/operators';
 import {TargetComponents} from '../../../../../models/target-components';
 import {isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {
+  FieldSelectionDialogComponent
+} from "../../../../../tools/field-selection-dialog/field-selection-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'pharos-related-publications',
@@ -42,7 +45,9 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
    * @param pharosApiService
    * @param pharosConfig
    */
-  constructor(private _route: ActivatedRoute,
+  constructor(
+              private dialog: MatDialog,
+              private _route: ActivatedRoute,
               private changeRef: ChangeDetectorRef,
               private pharosApiService: PharosApiService,
               private pharosConfig: PharosConfig,
@@ -69,22 +74,11 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
   publications: Publication[];
 
   /**
-   * data array
-   */
-  generifs: Generif[];
-
-  /**
    * pagination data
    */
   publicationsPageData: PageData;
 
-  /**
-   * pagination data
-   */
-  rifPageData: PageData;
-
   publicationsSerializer: PublicationSerializer;
-  generifsSerializer: GenerifSerializer;
 
   /**
    * publication table fields to display
@@ -93,43 +87,31 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
     new PharosProperty({
       name: 'pmid',
       label: 'PMID',
-      width: 15
-    }),
-    new PharosProperty({
-      name: 'year',
-      label: 'Year',
-      sortable: true,
-      width: 8
+      width: '10vw'
     }),
     new PharosProperty({
       name: 'title',
-      label: 'Title',
-      width: 70
-    })
-  ];
-
-  /**
-   * generif table fields to display
-   */
-  rifTableFields: PharosProperty[] = [
-    new PharosProperty({
-      name: 'pubPmids',
-      label: 'PMID',
-      width: 15
+      label: 'Title'
     }),
     new PharosProperty({
-      name: 'text',
-      label: 'Text',
-      width: 80
+      name: 'journal',
+      label: 'Journal'
+    }),
+    new PharosProperty({
+      name: 'date',
+      label: 'Date',
+      sortable: true,
+      width: '10vw'
+    }),
+    new PharosProperty({
+      name: 'authors',
+      label: 'Authors'
+    }),
+    new PharosProperty({
+      name: 'fetch_date',
+      label: 'Fetch Date'
     })
   ];
-
-  tabChanged(event) {
-    if (this.activeTab !== event.index) {
-      this.activeTab = event.index;
-      this.dynamicServices.navSectionsService.setActiveTab('relatedPublications', event.tab.textLabel);
-    }
-  }
 
   /**
    * parse data as publication objects
@@ -138,7 +120,6 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
    */
   ngOnInit() {
     this.publicationsSerializer = new PublicationSerializer();
-    this.generifsSerializer = new GenerifSerializer();
     this._data
       // listen to data as long as term is undefined or null
       // Unsubscribe once term has value
@@ -167,13 +148,9 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
         if (isPlatformBrowser(this.platformID)) {
 
           if (this.target?.publications) {
-            this.publications = this.targetProps.publications;
+            this.publications = this.target.publications;
             this.publicationsPageData = this.makePageData(this.target.publicationCount);
-          }
-
-          if (this.target?.generifs) {
-            this.generifs = this.targetProps.generifs;
-            this.rifPageData = this.makePageData(this.target.generifCount);
+            this.publicationsPageData.top = 5;
           }
 
           this.loadingComplete();
@@ -195,25 +172,31 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
     };
     let pageData = this.publicationsPageData;
     let component = TargetComponents.Component.Publications;
-    if (origin === 'generifs') {
-      pageData = this.rifPageData;
-      component = TargetComponents.Component.Generifs;
-    }
     pageData.top = event.pageSize;
     pageData.skip = event.pageIndex * event.pageSize;
 
     this.pharosApiService.getComponentPage(this._route.snapshot, pageParams, component)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-      this[origin] = res.data.targets[origin]
-        .map(pub => this[`${origin}Serializer`].fromJson(pub))
-        .map(pubObj => this[`${origin}Serializer`]._asProperties(pubObj));
-      this.loadingComplete(false);
-      this.changeRef.markForCheck();
+        const results = JSON.parse(JSON.stringify(res));
+        this[origin] = results.data.targets[origin].map(pub => this[`${origin}Serializer`].fromJson(pub));
+        this.loadingComplete(false);
+        this.changeRef.markForCheck();
     });
   }
 
   hasData() {
     return this.target?.publicationCount > 0 || this.target?.generifCount > 0;
+  }
+
+  get dataVersions() {
+    return this.target?.dataVersions?.filter(f => ["JensenLab textmining mentions", "NCBI"].includes(f.key));
+  }
+
+  downloadData(subset) {
+    const dialogRef = this.dialog.open(FieldSelectionDialogComponent, {
+      data: {count: 1, model: 'Target', route: this._route, batch: this.target.preferredSymbol, defaultSubset: subset},
+      height: '75vh', width: '66vw'
+    }).afterClosed();
   }
 }
