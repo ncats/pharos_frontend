@@ -16,6 +16,7 @@ export class Publication {
    * pubmed id
    */
   pmid?: number;
+
   authors?: string;
   /**
    * article title
