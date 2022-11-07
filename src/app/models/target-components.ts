@@ -358,7 +358,6 @@ export const PUBLICATION_FIELDS = gql`
     abstract
     fetch_date
     generifs {
-      gene_id
       text
       date
     }
@@ -468,7 +467,7 @@ export const TARGETSERVERDETAILSFIELDS = gql`
       parents
     }
     generifCount
-    publicationCount: pubCount
+    publicationCount
     goCounts {
       value
       name

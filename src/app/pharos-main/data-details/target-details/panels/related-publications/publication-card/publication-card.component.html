@@ -24,17 +24,13 @@
       <div class="panel">
         <div>
           <div *ngFor="let rif of generifs">
-            <span>
-              <span class="pubdetail-label mat-card-subtitle">GeneRIF:</span>
-            </span>
+            <span class="pubdetail-label mat-card-subtitle">GeneRIF:</span>
             <div class="pub-detail">{{rif.text}}</div>
           </div>
           <div>
-            <span (click)="showAbstract = !showAbstract">
-              <span class="pubdetail-label mat-card-subtitle">Abstract:
-                <span *ngIf="showAbstract">(hide)</span>
-                <span *ngIf="!showAbstract">(show)</span>
-              </span>
+            <span (click)="showAbstract = !showAbstract" class="pubdetail-label mat-card-subtitle">Abstract:
+              <span *ngIf="showAbstract">(hide)</span>
+              <span *ngIf="!showAbstract">(show)</span>
             </span>
             <div class="pub-detail" [ngClass]="{'hidden-detail': !showAbstract}">{{publication.abstract}}</div>
           </div>
