@@ -25,13 +25,13 @@
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img alt="loading..." class="spinner rotating" src="./assets/images/pharos_spinner.svg">
       </div>
-
       <div fxLayoutAlign="space-around stretch">
         <div fxFlex>
 
           <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
           <div>
             <div class="pub-table" fxFlex="95">
+              <pharos-target-word-cloud [target]="target"></pharos-target-word-cloud>
               <div class="pub-header">
                 <div class="button-container">
                   <button class="tool-button" mat-raised-button [color]="'primary'" matTooltip="Download Publications"
