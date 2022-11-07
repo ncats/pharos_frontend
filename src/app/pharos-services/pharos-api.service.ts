@@ -263,6 +263,15 @@ export class PharosApiService {
       }
     }`;
 
+  public PubmedCloudQuery = gql`query pubmedCloudQuery($name: String) {
+    target(q: { sym: $name, uniprot: $name, stringid: $name }) {
+      abstractWordCounts {
+        name
+        value
+      }
+    }
+  }`
+
   public TinxQuery = gql`query tinxDisease($name: String) {
     disease(name: $name) {
       name

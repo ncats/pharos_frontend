@@ -41,6 +41,8 @@ import { PredictionDetailsCardComponent } from './predictions-panel/prediction-d
 import { PredictionSetComponent } from './predictions-panel/prediction-set/prediction-set.component';
 import { CitationComponent } from './citation/citation.component';
 import { GardRareComponent } from './gard-rare/gard-rare.component';
+import { WordCloudComponent } from './visualizations/word-cloud/word-cloud.component';
+import {AngularD3CloudModule} from "angular-d3-cloud";
 
 @NgModule({
   declarations: [
@@ -75,7 +77,8 @@ import { GardRareComponent } from './gard-rare/gard-rare.component';
     PredictionDetailsCardComponent,
     PredictionSetComponent,
     CitationComponent,
-    GardRareComponent
+    GardRareComponent,
+    WordCloudComponent
   ],
   imports: [
     CommonModule,
@@ -86,32 +89,34 @@ import { GardRareComponent } from './gard-rare/gard-rare.component';
     GenericTableModule,
     RadarChartModule,
     UpsetModule,
-    FacetTableModule
+    FacetTableModule,
+    AngularD3CloudModule
   ],
-    exports: [
-        NcatsHeaderModule,
-        AnatomogramModule,
-        RadarChartModule,
-        GenericTableModule,
-        BatchUploadModalComponent,
-        DynamicPanelComponent,
-        DynamicTablePanelComponent,
-        HelpPanelComponent,
-        KnowledgeTableComponent,
-        LinkListComponent,
-        StructureViewComponent,
-        ListFilterComponent,
-        ExpressionHeatMapComponent,
-        ExploreListButtonComponent,
-        AffiliateLinkComponent,
-        VennDiagramComponent,
-        UpsetPlotComponent,
-        HeatMapComponent,
-        SequenceAlignmentsComponent,
-        TaskItemComponent,
-        GardRareComponent,
-        CitationComponent
-    ],
+  exports: [
+    NcatsHeaderModule,
+    AnatomogramModule,
+    RadarChartModule,
+    GenericTableModule,
+    BatchUploadModalComponent,
+    DynamicPanelComponent,
+    DynamicTablePanelComponent,
+    HelpPanelComponent,
+    KnowledgeTableComponent,
+    LinkListComponent,
+    StructureViewComponent,
+    ListFilterComponent,
+    ExpressionHeatMapComponent,
+    ExploreListButtonComponent,
+    AffiliateLinkComponent,
+    VennDiagramComponent,
+    UpsetPlotComponent,
+    HeatMapComponent,
+    SequenceAlignmentsComponent,
+    TaskItemComponent,
+    GardRareComponent,
+    CitationComponent,
+    WordCloudComponent
+  ],
   entryComponents: [
     FieldSelectionDialogComponent
   ]
