@@ -7,9 +7,14 @@
     </div>
     <span class="mat-title"
           [matTooltip]="getTooltip('wordcloud')"
-          [matTooltipClass]="'pharos-tooltip'">Common Terms from Abstracts
+          [matTooltipClass]="'pharos-tooltip'">Overrepresented Terms from Abstracts
     </span>
-    <mat-card-subtitle>{{cloudData.length}} terms from up to 100 abstracts, scaled by the log of how many times they are mentioned.</mat-card-subtitle>
-    <pharos-word-cloud [data]="cloudData"></pharos-word-cloud>
+    <ng-container *ngIf="target.publicationCount >= 2; else notenoughpubs">
+      <mat-card-subtitle>{{cloudData.length}} terms from up to 100 abstracts, scaled based on the degree of overrepresentation (Fisher's Exact Test p-Value).</mat-card-subtitle>
+      <pharos-word-cloud [data]="cloudData"></pharos-word-cloud>
+    </ng-container>
+    <ng-template #notenoughpubs>
+      <mat-card-subtitle>Not enough abstracts for a word cloud.</mat-card-subtitle>
+    </ng-template>
   </mat-card-content>
 </mat-card>

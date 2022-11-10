@@ -267,7 +267,9 @@ export class PharosApiService {
     target(q: { sym: $name, uniprot: $name, stringid: $name }) {
       abstractWordCounts {
         name
-        value
+        count
+        oddsRatio
+        pValue
       }
     }
   }`
