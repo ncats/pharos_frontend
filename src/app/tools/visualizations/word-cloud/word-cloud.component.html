@@ -6,6 +6,10 @@
   [padding]="1"
   font="serif"
   [rotate]="rotateFunction"
-  [autoFill]="true"></angular-d3-cloud>
+  [autoFill]="true"
+  (wordMouseOver)="mouseOver($event)"
+  (wordMouseOut)="mouseOut($event)"
+></angular-d3-cloud>
 </div>
 
+<div class="wordcloud-tooltip" #wordcloudTooltip></div>
