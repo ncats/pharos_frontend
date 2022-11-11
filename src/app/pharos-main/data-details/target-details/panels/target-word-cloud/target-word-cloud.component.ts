@@ -50,7 +50,7 @@ export class TargetWordCloudComponent extends DynamicPanelComponent implements O
     if (isPlatformBrowser(this.platformID) && this.target.publicationCount >= 2) {
       const target = this._route.snapshot.paramMap.get('id');
       const variables = {name: target};
-      const minFont = this.isVerySmallScreen ? 8 : 10;
+      const minFont = this.isVerySmallScreen ? 10 : 15;
       const maxFont = this.isVerySmallScreen ? 25 : this.isSmallScreen ? 40 : 60;
       this.pharosApiService.adHocQuery(this.pharosApiService.PubmedCloudQuery, variables).toPromise()
         .then(
@@ -67,7 +67,12 @@ export class TargetWordCloudComponent extends DynamicPanelComponent implements O
             const minLog = Math.log(minVal);
             this.cloudData = words.map((wordObj) => {
               const logVal = Math.log(wordObj.pValue);
-              return { text: wordObj.name, value: ((maxFont - minFont) * (logVal - minLog) / (maxLog - minLog)) + minFont};
+              return {
+                text: wordObj.name,
+                value: ((maxFont - minFont) * (logVal - minLog) / (maxLog - minLog)) + minFont,
+                count: wordObj.count + ' abstracts',
+                pValue: Math.exp(-wordObj.pValue).toExponential(0)
+              };
             });
             this.loadingComplete();
             this.changeRef.markForCheck();
