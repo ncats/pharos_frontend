@@ -1,0 +1,94 @@
+<article class="toolbox-container">
+  <div>
+    <div class="toolbox-header">Dev Tools</div>
+    <mat-card #toolbox class="tool">
+      <div class="header-panel">
+        <div [matTooltipClass]="'pharos-tooltip'"
+              [matTooltip]="'Preview how data from an external API would show up in Pharos'"
+              class="mat-title">
+            Preview your data in Pharos
+        </div>
+      </div>
+      <mat-card-content>
+
+        <mat-card class="row">
+          <div class="label">What details page would your data fit on:</div>
+          <div class="value">
+            <pharos-search-component [detailsOnly]="true" [customCallback]="detailsPageSelected.bind(this)"></pharos-search-component>
+          </div>
+        </mat-card>
+        <mat-card class="row" *ngIf="aliases && aliases.length > 0">
+          <div class="label">These are the wildcards available for your API:</div>
+          <div class="value">
+            <ul>
+              <li *ngFor="let alias of aliases">
+                {{alias}}
+              </li>
+            </ul>
+          </div>
+        </mat-card>
+        <mat-card class="row">
+          <div class="label">Your API</div>
+          <div class="value">
+            <div class="button-list">
+              <button mat-button class="tool-button" mat-raised-button *ngIf="workingAPI?.length > 0"
+                      [color]="getColor(workingAPI)"
+                      (click)="setApi(workingAPI)"
+                      [matTooltip]="'Use the API you have been working with'">Custom API
+                <mat-icon>search</mat-icon>
+              </button>
+              <button mat-button class="tool-button" mat-raised-button
+                      [color]="getColor(testAPI)"
+                      (click)="setApi(testAPI)"
+                      [matTooltip]="'Test with a public API'">Pharos Test API
+                <mat-icon>search</mat-icon>
+              </button>
+              <button mat-button class="tool-button" mat-raised-button
+                      [color]="getColor(kinaseCancerAPI)"
+                      (click)="setApi(kinaseCancerAPI)"
+                      [matTooltip]="'Test with a public API'">Kinase-Cancer Predictions
+                <mat-icon>search</mat-icon>
+              </button>
+            </div>
+            <mat-form-field class="input-full-width">
+              <mat-label>API Url:</mat-label>
+              <input matInput placeholder="Ex. http://localhost:4455" (change)="apiChanged($event)" [(ngModel)]="api">
+            </mat-form-field>
+          </div>
+        </mat-card>
+        <mat-card class="row" *ngIf="callApi">
+          <div class="label">This is how Pharos will call the API:</div>
+          <div class="value">
+            <div class="button-list">
+              <button mat-button class="tool-button" mat-raised-button
+                      [color]="'primary'"
+                      (click)="getAPI()"
+                      [matTooltip]="'Run the query again'">Re-fetch from API
+                <mat-icon>search</mat-icon>
+              </button>
+          </div>
+            {{callApi}}
+          </div>
+        </mat-card>
+        <mat-card class="row" *ngIf="rawAPIdata">
+          <div class="label">API data (raw):</div>
+          <div class="value">
+            {{rawAPIdata | json}}
+          </div>
+        </mat-card>
+        <mat-card class="row" *ngIf="pharosAPIdata">
+          <div class="label">API data through Pharos:</div>
+          <div class="value">
+            {{pharosAPIdata | json}}
+          </div>
+        </mat-card>
+        <mat-card class="row tallrow" *ngIf="pharosAPIdata">
+          <div class="label">Preview:</div>
+          <div class="value">
+            <pharos-predictions-panel [data]="pharosAPIdataForPanel" #predictionsPanel></pharos-predictions-panel>
+          </div>
+        </mat-card>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</article>

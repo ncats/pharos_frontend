@@ -22,11 +22,13 @@ export class SearchComponent implements OnInit {
   @ViewChild('typeaheadTarget', {static: true}) typeaheadTarget: ElementRef;
 
   @ViewChild(MatAutocompleteTrigger, {static: true}) autocomplete: MatAutocompleteTrigger;
+  @Input() customCallback = null;
   /**
    * optional placeholder search string
    */
   @Input() placeholderStr?: string;
   @Input() fixedwidthDropdown = false;
+  @Input() detailsOnly = false;
 
   /**
    * form control for text input
@@ -66,7 +68,9 @@ export class SearchComponent implements OnInit {
       .pipe(
         debounceTime(400),
         distinctUntilChanged(),
-        switchMap(term => this.suggestApiService.search(term?.trim()),
+        switchMap(term => {
+          return this.suggestApiService.search(term?.trim(), this.detailsOnly);
+          },
         ));
   }
 
@@ -76,6 +80,14 @@ export class SearchComponent implements OnInit {
    */
   search(event?: any): void {
     if (this.isDoubleEvent(event)) {
+      return;
+    }
+    if (this.detailsOnly) {
+      if (this.customCallback) {
+        this.customCallback(this.typeaheadCtrl.value);
+      }
+      this.typeaheadCtrl.setValue(this.typeaheadCtrl.value.extra.value + ` (${this.toSingleTitleCase(this.typeaheadCtrl.value.extra.path)})`);
+      this.autocomplete.closePanel();
       return;
     }
     let query = this.typeaheadCtrl.value;
@@ -91,6 +103,14 @@ export class SearchComponent implements OnInit {
         this.doSearch({path: 'search', parameter: 'q', value: query.trim()} as autocompleteOption);
       }
     }
+  }
+
+  toSingleTitleCase(type: string) {
+    let listName = type.replace('/', '').toLowerCase();
+    if (type.endsWith('s')) {
+      listName = listName.slice(0, type.length - 1);
+    }
+    return listName.charAt(0).toUpperCase() + listName.slice(1);
   }
 
   doSearch(option: autocompleteOption) {
