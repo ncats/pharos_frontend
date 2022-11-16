@@ -1,0 +1,53 @@
+@use '@angular/material' as mat;
+@import '../../../partials/ncats-theme';
+
+.toolbox-container {
+  margin-top: 70px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.tool{
+  width: 80vw;
+}
+
+.toolbox-header {
+  font-size: 3em;
+  padding-left: 1vw;
+  margin-bottom: 1vh;
+  border-left: 8px solid mat.get-color-from-palette($pharos-app-primary);
+}
+.header-panel {
+  width:80%;
+}
+.input-full-width {
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  margin: 2px;
+  .label {
+    width: 300px;
+    margin-right: 50px;
+  }
+  .value {
+    clear: left;
+    max-height: 300px;
+    overflow-y: scroll;
+    width: 100%;
+    .button-list {
+      margin-bottom: 10px;
+      button {
+        margin-right: 20px;
+      }
+    }
+  }
+}
+.tallrow{
+  .value {
+    max-height: unset;
+  }
+}

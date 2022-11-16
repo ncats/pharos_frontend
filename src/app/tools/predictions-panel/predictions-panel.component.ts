@@ -21,7 +21,9 @@ export class PredictionsPanelComponent extends DynamicPanelComponent implements 
   }
 
   citations() {
-    return this.predictionResult.map(p => p.citation);
+    if (this.predictionResult?.length > 0) {
+      return this.predictionResult.map(p => p.citation);
+    }
   }
 
   ngOnInit(): void {
@@ -31,6 +33,10 @@ export class PredictionsPanelComponent extends DynamicPanelComponent implements 
       .subscribe(x => {
         this.thing = this.data.targets || this.data.diseases || this.data.ligands;
         this.predictionResult = this.thing.predictions;
+        if (!this.predictionResult) {
+          this.loadingComplete();
+          return;
+        }
         this.count = 0;
         this.predictionResult.forEach(set => {
           this.count += set.predictions.length;

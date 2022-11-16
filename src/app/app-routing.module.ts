@@ -38,6 +38,14 @@ const ROUTES: Routes = [
     data: {path: 'home'}
   },
   {
+    path: 'toolbox',
+    loadChildren: () => import('./api-tools/api-tools.module').then(m => m.ApiToolsModule),
+    data: {
+      title: 'Tools for integrating data into Pharos',
+      path: 'toolbox'
+    }
+  },
+  {
     path: 'about',
     loadChildren: () => import('./about-page/about-page.module').then(m => m.AboutPageModule),
     data: {title: 'About'}

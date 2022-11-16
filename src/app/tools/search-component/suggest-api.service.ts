@@ -31,7 +31,7 @@ export class SuggestApiService {
    * @param {string} query
    * @returns {Observable<any[]>}
    */
-  search(query: string): Observable<any[]> | []{
+  search(query: string, detailsOnly = false): Observable<any[]> | []{
     if(!query) {
       return [];
     }
@@ -53,7 +53,7 @@ export class SuggestApiService {
           response => {
             const results = [];
             for(let row of response.data.autocomplete){
-              results.push(...autocompleteOption.parse(row));
+              results.push(...autocompleteOption.parse(row, detailsOnly));
             }
             return results;
           }),
@@ -130,7 +130,7 @@ export class autocompleteOption{
     return !autocompleteOption.hasQueryParam(obj) && !!obj.reference_id;
   }
 
-  static parse(queryRow: any): autocompleteOption[]{
+  static parse(queryRow: any, detailsOnly = false): autocompleteOption[]{
     const retArray = [];
     for(let cat of queryRow.categories) {
       if(cat.category === "Drugs"){
@@ -147,6 +147,38 @@ export class autocompleteOption{
             reference_id: cat.reference_id,
             path: "targets"
           } as autocompleteOption);
+          if (!detailsOnly) {
+            retArray.push({
+              value: queryRow.value,
+              reference_id: cat.reference_id,
+              path: "diseases",
+              parameter: "associatedTarget"
+            } as autocompleteOption);
+            retArray.push({
+              value: queryRow.value,
+              reference_id: cat.reference_id,
+              path: "ligands",
+              parameter: "associatedTarget"
+            } as autocompleteOption);
+          }
+        } else {
+          if (!detailsOnly) {
+            retArray.push({
+              value: queryRow.value,
+              path: "targets",
+              parameter: "collection",
+              reference_id: queryRow.value
+            })
+          }
+        }
+      }
+      else if(cat.category === "Targets"){
+        retArray.push({
+          value: queryRow.value,
+          reference_id: cat.reference_id,
+          path: "targets"
+        } as autocompleteOption);
+        if (!detailsOnly) {
           retArray.push({
             value: queryRow.value,
             reference_id: cat.reference_id,
@@ -159,33 +191,7 @@ export class autocompleteOption{
             path: "ligands",
             parameter: "associatedTarget"
           } as autocompleteOption);
-        } else {
-          retArray.push({
-            value: queryRow.value,
-            path: "targets",
-            parameter: "collection",
-            reference_id: queryRow.value
-          })
         }
-      }
-      else if(cat.category === "Targets"){
-        retArray.push({
-          value: queryRow.value,
-          reference_id: cat.reference_id,
-          path: "targets"
-        } as autocompleteOption);
-        retArray.push({
-          value: queryRow.value,
-          reference_id: cat.reference_id,
-          path: "diseases",
-          parameter: "associatedTarget"
-        } as autocompleteOption);
-        retArray.push({
-          value: queryRow.value,
-          reference_id: cat.reference_id,
-          path: "ligands",
-          parameter: "associatedTarget"
-        } as autocompleteOption);
       }
       else if(cat.category === "Diseases"){
         retArray.push({
@@ -193,19 +199,23 @@ export class autocompleteOption{
           reference_id: cat.reference_id,
           path: "diseases"
         } as autocompleteOption);
-        retArray.push({
-          value: queryRow.value,
-          reference_id: cat.reference_id,
-          path: "targets",
-          parameter: "associatedDisease"
-        } as autocompleteOption);
+        if (!detailsOnly) {
+          retArray.push({
+            value: queryRow.value,
+            reference_id: cat.reference_id,
+            path: "targets",
+            parameter: "associatedDisease"
+          } as autocompleteOption);
+        }
       }
-      else{
-        retArray.push({
-          value: queryRow.value,
-          path: "targets",
-          facet: cat.category
-        })
+      else {
+        if (!detailsOnly) {
+          retArray.push({
+            value: queryRow.value,
+            path: "targets",
+            facet: cat.category
+          });
+        }
       }
     }
     return retArray;

@@ -291,6 +291,20 @@ export class PharosApiService {
     }
   }`;
 
+  public GetAPIMetadataQuery = gql`query getAPIMetadataQuery($url: String!, $pageInfo: JSON!){
+    getAPIMetadata(
+      url: $url
+      pageInfo: $pageInfo
+    )
+  }`;
+
+  public GetAPIResultsQuery = gql`query GetAPIResultsQuery($url: String!, $pageInfo: JSON!) {
+    getAPIResults(
+      url: $url
+      pageInfo: $pageInfo
+    )
+  }`;
+
   /**
    * Api call to get main level paged data
    * @param {string} path The url sub path 'targets', diseases', 'ligands' etc.
