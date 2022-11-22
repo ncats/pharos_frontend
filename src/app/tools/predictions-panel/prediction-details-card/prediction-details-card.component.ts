@@ -23,4 +23,11 @@ export class PredictionDetailsCardComponent implements OnInit {
   formatConfidence(val) {
     return parseFloat(val).toPrecision(2);
   }
+
+  hasStructure(prediction) {
+    if (prediction.value.hasRepresentation && prediction.value.hasRepresentation.name === 'smiles') {
+      return true;
+    }
+    return false;
+  }
 }

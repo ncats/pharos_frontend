@@ -86,6 +86,13 @@ export class ToolboxComponent implements OnInit {
             return Promise.allSettled([clientQuery, serverQuery]).then((results: any[]) => {
               this.rawAPIdata = this.parseSettledResults(results[0]);
               this.pharosAPIdata = this.parseSettledResults(results[1]).data?.getAPIResults;
+              if (this.rawAPIdata && !this.pharosAPIdata) { // hosting API on localhost for testing won't work when the backend is remote, so we do this call to parse the data
+                return this.pharosApiService.adHocQuery(
+                  this.pharosApiService.ParseLocalResultsQuery, { localResults: this.rawAPIdata }).toPromise()
+                  .then(res => {
+                    this.pharosAPIdata = res.data.parseAPIResults;
+                  });
+              }
             });
           }
         }
