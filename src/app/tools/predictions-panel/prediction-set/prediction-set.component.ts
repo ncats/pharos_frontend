@@ -123,6 +123,8 @@ export class PredictionSetComponent implements OnInit {
         return this.predictionSet.predictions.filter(p => p.value['@type'] === 'Protein');
       case 'diseases':
         return this.predictionSet.predictions.filter(p => p.value['@type'] === 'MedicalCondition');
+      case 'ligands':
+        return this.predictionSet.predictions.filter(p => p.value['@type'] === 'ChemicalSubstance');
     }
   }
 
@@ -132,6 +134,9 @@ export class PredictionSetComponent implements OnInit {
   listHasDiseases() {
     return this.getFilteredPredictions('diseases').length > 0;
   }
+  listHasLigands() {
+    return this.getFilteredPredictions('ligands').length > 0;
+  }
   getList(type: string) {
     const predictions = this.getFilteredPredictions(type);
     const links = predictions.filter(p => p.value.url).map(p => {
@@ -139,6 +144,9 @@ export class PredictionSetComponent implements OnInit {
       const pieces = url.split('/');
       return pieces[pieces.length - 1];
     });
-    return links.join('|');
+    if (links.length > 0) {
+      return links.join('|');
+    }
+    return null;
   }
 }

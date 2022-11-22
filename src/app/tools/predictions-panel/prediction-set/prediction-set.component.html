@@ -8,6 +8,9 @@
       <pharos-explore-list-button *ngIf="listHasDiseases()" [path]="'/diseases'" [queryParams]="{collection: getList('diseases')}"
                                   [buttonText]="'Explore Diseases'">
       </pharos-explore-list-button>
+      <pharos-explore-list-button *ngIf="listHasLigands()" [path]="'/ligands'" [queryParams]="{collection: getList('ligands')}"
+                                  [buttonText]="'Explore Ligands'">
+      </pharos-explore-list-button>
       <mat-paginator
         [pageSize]="pageSize"
         [length]="predictionSet.predictions.length"

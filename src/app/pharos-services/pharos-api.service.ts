@@ -305,6 +305,12 @@ export class PharosApiService {
     )
   }`;
 
+  public ParseLocalResultsQuery = gql`query ParseLocalResultsQuery($localResults: JSON!) {
+    parseAPIResults(
+      results: $localResults
+    )
+  }`
+
   /**
    * Api call to get main level paged data
    * @param {string} path The url sub path 'targets', diseases', 'ligands' etc.
