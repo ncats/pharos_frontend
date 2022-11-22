@@ -51,3 +51,11 @@
     max-height: unset;
   }
 }
+
+mat-expansion-panel-header {
+  height: 20px;
+  opacity: .4;
+}
+mat-expansion-panel {
+  margin: 2px;
+}

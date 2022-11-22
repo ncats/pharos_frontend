@@ -14,14 +14,13 @@ export class ToolboxComponent implements OnInit {
   @ViewChild('predictionsPanel', {static: true}) predictionsPanel: PredictionsPanelComponent;
   workingAPI = "";
   kinaseCancerAPI = "https://16z877ei3f.execute-api.us-east-1.amazonaws.com/default/pharos-kinase-cancer-prediction?target={sym}"
-  testAPI = "http://localhost:4444/annotations?uniprot={uniprot}"
+  testAPI = "https://us-east4-ncatsidg-dev.cloudfunctions.net/pharos-test-api?target={sym}"
   api = "";
   callApi = "";
   aliases: any[] = [];
   rawAPIdata: any;
   pharosAPIdata: any;
 
-  // api = "https://16z877ei3f.execute-api.us-east-1.amazonaws.com/default/pharos-kinase-cancer-prediction?disease={mesh_id}"
   constructor(private pharosApiService: PharosApiService,
               private localStorageService: LocalStorageService,
               private http: HttpClient) { }
@@ -29,7 +28,7 @@ export class ToolboxComponent implements OnInit {
   ngOnInit(): void {
     this.workingAPI = this.localStorageService.store.getItem('workingAPI');
     // this.predictionsPanel.field = 'Toolbox Predictions';
-    this.predictionsPanel.label = 'Toolbox Predictions';
+    // this.predictionsPanel.label = 'Toolbox Predictions';
   }
 
   currentDetailsPage = null;
