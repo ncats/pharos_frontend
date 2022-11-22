@@ -17,16 +17,22 @@
             <pharos-search-component [detailsOnly]="true" [customCallback]="detailsPageSelected.bind(this)"></pharos-search-component>
           </div>
         </mat-card>
-        <mat-card class="row" *ngIf="aliases && aliases.length > 0">
-          <div class="label">These are the wildcards available for your API:</div>
-          <div class="value">
-            <ul>
-              <li *ngFor="let alias of aliases">
-                {{alias}}
-              </li>
-            </ul>
-          </div>
-        </mat-card>
+
+        <mat-accordion *ngIf="aliases && aliases.length > 0">
+          <mat-expansion-panel [expanded]="false">
+            <mat-expansion-panel-header>
+              These are the wildcards available for your API:
+            </mat-expansion-panel-header>
+            <div class="value">
+              <ul>
+                <li *ngFor="let alias of aliases">
+                  {{alias}}
+                </li>
+              </ul>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
         <mat-card class="row">
           <div class="label">Your API</div>
           <div class="value">
@@ -56,8 +62,42 @@
             </mat-form-field>
           </div>
         </mat-card>
-        <mat-card class="row" *ngIf="callApi">
-          <div class="label">This is how Pharos will call the API:</div>
+
+        <mat-accordion *ngIf="callApi">
+          <mat-expansion-panel [expanded]="false">
+            <mat-expansion-panel-header>
+              This is how Pharos will call the API:
+            </mat-expansion-panel-header>
+            <div class="value">
+              {{callApi}}
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <mat-accordion *ngIf="rawAPIdata">
+          <mat-expansion-panel [expanded]="false">
+            <mat-expansion-panel-header>
+              API results (raw):
+            </mat-expansion-panel-header>
+            <div class="value">
+              {{rawAPIdata | json}}
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <mat-accordion *ngIf="pharosAPIdata">
+          <mat-expansion-panel [expanded]="false">
+            <mat-expansion-panel-header>
+              API results through Pharos:
+            </mat-expansion-panel-header>
+            <div class="value">
+              {{pharosAPIdata | json}}
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <mat-card class="row tallrow" *ngIf="pharosAPIdata">
+          <div class="label">Pharos Preview:</div>
           <div class="value">
             <div class="button-list">
               <button mat-button class="tool-button" mat-raised-button
@@ -66,25 +106,7 @@
                       [matTooltip]="'Run the query again'">Re-fetch from API
                 <mat-icon>search</mat-icon>
               </button>
-          </div>
-            {{callApi}}
-          </div>
-        </mat-card>
-        <mat-card class="row" *ngIf="rawAPIdata">
-          <div class="label">API data (raw):</div>
-          <div class="value">
-            {{rawAPIdata | json}}
-          </div>
-        </mat-card>
-        <mat-card class="row" *ngIf="pharosAPIdata">
-          <div class="label">API data through Pharos:</div>
-          <div class="value">
-            {{pharosAPIdata | json}}
-          </div>
-        </mat-card>
-        <mat-card class="row tallrow" *ngIf="pharosAPIdata">
-          <div class="label">Preview:</div>
-          <div class="value">
+            </div>
             <pharos-predictions-panel [data]="pharosAPIdataForPanel" #predictionsPanel></pharos-predictions-panel>
           </div>
         </mat-card>
