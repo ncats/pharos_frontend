@@ -3,6 +3,7 @@ import {DynamicPanelComponent} from "../dynamic-panel/dynamic-panel.component";
 import {DynamicServicesService} from "../../pharos-services/dynamic-services.service";
 import {ActivatedRoute} from "@angular/router";
 import {PharosApiService} from "../../pharos-services/pharos-api.service";
+import {isPlatformServer} from "@angular/common";
 
 @Component({
   selector: 'pharos-community-data-panel',
@@ -26,6 +27,9 @@ export class CommunityDataPanelComponent extends DynamicPanelComponent implement
   }
 
   ngOnInit(): void {
+    if(isPlatformServer(this.platformID)) {
+      return;
+    }
     const manualAPIs = this._route.snapshot.queryParamMap.get("apis")?.split("|") || [];
     this.communityAPIs = this.apis.filter(a => {
       if (!a.default && !manualAPIs.includes(a.code)) return false;
