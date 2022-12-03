@@ -274,6 +274,30 @@ export class PharosApiService {
     }
   }`
 
+  public GetPredictions(model: string) {
+    const targetEndpoint = "target(q: { sym: $name, uniprot: $name, stringid: $name })";
+    const diseaseEndpoint = "disease(name: $name)";
+    const ligandEndpoint = "ligand(ligid: $name)";
+    let endpoint;
+    switch (model) {
+      case 'targets':
+        endpoint = targetEndpoint;
+        break;
+      case 'diseases':
+        endpoint = diseaseEndpoint;
+        break;
+      case 'ligands':
+        endpoint = ligandEndpoint;
+        break;
+    }
+    return gql(`query get${model.toUpperCase()}Predictions($name: String, $apiCode: [String]) {
+      model:${endpoint} {
+        name
+        communityData(apiCode: $apiCode)
+      }
+    }`);
+  }
+
   public TinxQuery = gql`query tinxDisease($name: String) {
     disease(name: $name) {
       name

@@ -1,4 +1,4 @@
-<mat-card *ngIf="predictionSet">
+<mat-card *ngIf="predictionSet" class="prediction-set-container">
   <mat-card-content>
     <pharos-citation [citation]="predictionSet.citation"></pharos-citation>
     <div fxLayout="row" fxLayoutAlign="space-between start">
@@ -8,12 +8,14 @@
       <pharos-explore-list-button *ngIf="listHasDiseases()" [path]="'/diseases'" [queryParams]="{collection: getList('diseases')}"
                                   [buttonText]="'Explore Diseases'">
       </pharos-explore-list-button>
-      <pharos-explore-list-button *ngIf="listHasLigands()" [path]="'/ligands'" [queryParams]="{collection: getList('ligands')}"
-                                  [buttonText]="'Explore Ligands'">
-      </pharos-explore-list-button>
+      <button type="button" mat-raised-button [color]="'primary'"
+              *ngIf="listHasLigands()" (click)="resolveLigandList()">
+        Explore Ligands
+        <mat-icon>list</mat-icon>
+      </button>
       <mat-paginator
         [pageSize]="pageSize"
-        [length]="predictionSet.predictions.length"
+        [length]="predictionSet.predictions?.length"
         [hidePageSize]="false"
         [showFirstLastButtons]=true
         (page)=paginate($event)

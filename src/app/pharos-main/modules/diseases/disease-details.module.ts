@@ -33,7 +33,6 @@ import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predic
   ],
   providers: [
     // diseases
-    {provide: TOKENS.PREDICTIONS_PANEL, useValue: PredictionsPanelComponent},
     {provide: TOKENS.DISEASE_HEADER_COMPONENT, useValue: DiseaseHeaderComponent},
     {provide: TOKENS.PHAROS_SUBNAV_COMPONENT, useValue: SidenavPanelComponent},
     {provide: TOKENS.PHAROS_HELPPANEL_COMPONENT, useValue: HelpPanelComponent},

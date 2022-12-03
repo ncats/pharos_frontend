@@ -284,6 +284,7 @@ export class Target extends PharosBase {
   affiliateLinks?: AffiliateLink[] = [];
   predictions: {predictions: any[], citation: any}[];
   nearestTclin?: NearestTclinDetails = new NearestTclinDetails();
+  communityAPIs?: {code: string, default: boolean, section: string, related_section: string}[] = [];
 }
 
 export class NearestTclinDetails {

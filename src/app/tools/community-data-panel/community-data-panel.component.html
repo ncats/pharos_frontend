@@ -1,0 +1,9 @@
+<mat-card *ngFor="let api of communityAPIs; let i = index" class="section-card" (pharosScrollspy)="active('summary')" id="summary" #summary>
+  <mat-card-content>
+    <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
+      <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
+    </div>
+    <pharos-component-header [description]="description" [field]="field" [headerText]="api.section"></pharos-component-header>
+    <pharos-predictions-panel [predictionResult]="results[i]"></pharos-predictions-panel>
+  </mat-card-content>
+</mat-card>
