@@ -513,40 +513,6 @@ const TARGET_DETAILS_COMPONENT: PharosPanel = {
   api: []
 };
 
-const PREDICTED_DISEASES: PharosPanel = {
-  token: TOKENS.PREDICTIONS_PANEL,
-  section: Position.Content,
-  browserOnly: true,
-  navHeader: {
-    label: 'Predicted Diseases',
-    section: 'predictions',
-    prediction: true,
-  },
-  api: [
-    {
-      field: 'data',
-      label: 'Disease Associations',
-      description: 'Predicted disease associations retrieved from external APIs.'
-    }
-  ]
-}
-const PREDICTED_TARGETS: PharosPanel = {
-  token: TOKENS.PREDICTIONS_PANEL,
-  section: Position.Content,
-  browserOnly: true,
-  navHeader: {
-    label: 'Predicted Targets',
-    section: 'predictions',
-    prediction: true
-  },
-  api: [
-    {
-      field: 'data',
-      label: 'Target Associations',
-      description: 'Predicted target associations retrieved from external APIs.'
-    }
-  ]
-}
 
 /**
  * target summary component
@@ -1568,7 +1534,6 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
               GO_TERMS_PANEL,
               DISEASE_SOURCE_PANEL,
               DISEASE_NOVELTY_PANEL,
-              PREDICTED_DISEASES,
               GWAS_TARGET_ANALYTICS_PANEL,
               TARGET_FACET_PANEL
             ]
@@ -1612,7 +1577,6 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_HELPPANEL_COMPONENT,
           DISEASE_HEADER_COMPONENT,
           DISEASE_SUMMARY_COMPONENT,
-          PREDICTED_TARGETS,
           DISEASE_GWAS_ANALYTICS_COMPONENT,
           DISEASE_DO_BROWSER_COMPONENT,
           DISEASE_TINX_COMPONENT
@@ -1641,7 +1605,6 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
           PHAROS_HELPPANEL_COMPONENT,
           LIGAND_HEADER_COMPONENT,
           LIGAND_DETAILS_COMPONENT,
-          // PREDICTED_DISEASES,
           TARGET_RELEVANCE_PANEL,
           //  MOLECULAR_DEFINITION_PANEL
         ]

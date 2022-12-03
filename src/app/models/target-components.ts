@@ -161,7 +161,6 @@ export const LIGANDDETAILSFIELDS = gql`
         pmid
       }
     }
-     predictions
   }
   ${LIGANDLISTFIELDS}
 `;
@@ -756,7 +755,13 @@ export const TARGETDETAILSFIELDS = gql`
         ...pathDetails
       }
     }
-     predictions
+    communityAPIs{
+      code
+      default
+      section
+      related_section
+      url
+    }
   }
   ${SHAREDPATHWAYFIELDS}
   ${TARGETLISTFIELDS}

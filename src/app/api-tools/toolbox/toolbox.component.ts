@@ -4,6 +4,7 @@ import {PharosApiService} from "../../pharos-services/pharos-api.service";
 import {LocalStorageService} from "../../pharos-services/local-storage.service";
 import {HttpClient} from "@angular/common/http";
 import {PredictionsPanelComponent} from "../../tools/predictions-panel/predictions-panel.component";
+import {CentralStorageService} from "../../pharos-services/central-storage.service";
 
 @Component({
   selector: 'pharos-toolbox',
@@ -11,7 +12,7 @@ import {PredictionsPanelComponent} from "../../tools/predictions-panel/predictio
   styleUrls: ['./toolbox.component.scss']
 })
 export class ToolboxComponent implements OnInit {
-  @ViewChild('predictionsPanel', {static: true}) predictionsPanel: PredictionsPanelComponent;
+  @ViewChild('predictionsPanel', {static: false}) predictionsPanel: PredictionsPanelComponent;
   workingAPI = "";
   kinaseCancerAPI = "https://16z877ei3f.execute-api.us-east-1.amazonaws.com/default/pharos-kinase-cancer-prediction?target={sym}"
   testAPI = "https://us-east4-ncatsidg-dev.cloudfunctions.net/pharos-test-api?target={sym}"
@@ -22,11 +23,13 @@ export class ToolboxComponent implements OnInit {
   pharosAPIdata: any;
 
   constructor(private pharosApiService: PharosApiService,
+              private centralStorageService: CentralStorageService,
               private localStorageService: LocalStorageService,
               private http: HttpClient) { }
 
   ngOnInit(): void {
     this.workingAPI = this.localStorageService.store.getItem('workingAPI');
+    this.centralStorageService.toolboxDetailsPage = '';
     // this.predictionsPanel.field = 'Toolbox Predictions';
     // this.predictionsPanel.label = 'Toolbox Predictions';
   }
@@ -50,6 +53,7 @@ export class ToolboxComponent implements OnInit {
   detailsPageSelected(details) {
     if (details && details.extra) {
       this.currentDetailsPage = {path: details.extra.path, id: details.extra.reference_id};
+      this.centralStorageService.toolboxDetailsPage = this.currentDetailsPage.id;
       this.getAPI();
     }
   }

@@ -9,6 +9,9 @@
                            [smiles]="prediction.value.hasRepresentation.value"
                            [ligandName]="prediction.value.name">
     </pharos-structure-view>
+    <ng-container *ngFor="let prop of identifiers(prediction)">
+      <ncats-property-display [property]="{term: prop.value, label: prop.name}"></ncats-property-display>
+    </ng-container>
     <ncats-property-display [property]="{term: formatConfidence(prediction.confidence.value), label: prediction.confidence.alternateName}"></ncats-property-display>
   </mat-card-content>
 </mat-card>

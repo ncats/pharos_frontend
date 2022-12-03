@@ -30,4 +30,14 @@ export class PredictionDetailsCardComponent implements OnInit {
     }
     return false;
   }
+
+  identifiers(prediction): any[] {
+    if (prediction.value.identifier) {
+      if (Array.isArray(prediction.value.identifier)) {
+        return prediction.value.identifier;
+      }
+      return [prediction.value.identifier];
+    }
+    return [];
+  }
 }

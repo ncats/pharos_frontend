@@ -14,6 +14,7 @@ export class CentralStorageService {
   sequence: string = '';
   selectedTinxDiseases: string[] = [];
   focusedTinxDisease: any = {};
+  toolboxDetailsPage: string = '';
 
   @Output() displayFacetChanged = new EventEmitter<{model: string, facet: string}>();
   @Output() browseTypesChanged = new EventEmitter<string[]>();

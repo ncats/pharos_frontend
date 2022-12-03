@@ -1,28 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {DynamicPanelComponent} from '../dynamic-panel/dynamic-panel.component';
 import {DynamicServicesService} from '../../pharos-services/dynamic-services.service';
 import {takeUntil} from 'rxjs/operators';
-import {Ligand} from '../../models/ligand';
-import {Disease} from '../../models/disease';
-import {Target} from '../../models/target';
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'pharos-predictions-panel',
   templateUrl: './predictions-panel.component.html',
   styleUrls: ['./predictions-panel.component.scss']
 })
-export class PredictionsPanelComponent extends DynamicPanelComponent implements OnInit {
+export class PredictionsPanelComponent extends DynamicPanelComponent implements OnInit, OnChanges
+{
+  @Input() predictionResult: {predictions: any[], citation: any}[];
+  isDev: boolean = !environment.production;
 
-  thing: Target | Disease | Ligand;
-  predictionResult: {predictions: any[], citation: any}[] = [];
-  count = 0;
   constructor(public dynamicServices: DynamicServicesService) {
     super(dynamicServices);
   }
 
   citations() {
-    if (this.predictionResult?.length > 0) {
-      return this.predictionResult.map(p => p.citation);
+    if (Array.isArray(this.predictionResult)) {
+      return this.predictionResult?.filter(f => f.citation)?.map(f => f.citation);
     }
   }
 
@@ -31,23 +29,37 @@ export class PredictionsPanelComponent extends DynamicPanelComponent implements 
       // listen to data as long as term is undefined or null
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
-        this.thing = this.data.targets || this.data.diseases || this.data.ligands;
-        this.predictionResult = this.thing.predictions;
-        if (!this.predictionResult) {
-          this.loadingComplete();
-          return;
-        }
-        this.count = 0;
-        this.predictionResult.forEach(set => {
-          this.count += set.predictions.length;
-        });
-        if (this.hasData()) {
-          this.showSection();
-        } else {
-          this.hideSection();
-        }
-        this.loadingComplete();
+        this.initialize();
       });
+  }
+
+  get resultsSummary() {
+    const counts = [];
+    this.predictionResult?.forEach(set => {
+      if (set.predictions?.length > 0) {
+        counts.push(`${set.predictions[0].name} (${set.predictions.length})`);
+      }
+    });
+    return counts.join(', ');
+  }
+
+  initialize(){
+    if (!this.predictionResult) {
+      this.loadingComplete();
+      return;
+    }
+    if (this.hasData()) {
+      this.showSection();
+    } else {
+      this.hideSection();
+    }
+    this.loadingComplete();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.predictionResult && !changes.predictionResult.firstChange) {
+      this.initialize();
+    }
   }
 
   authorString(predictionSet) {
@@ -56,7 +68,6 @@ export class PredictionsPanelComponent extends DynamicPanelComponent implements 
 
   hasData() {
     return this.predictionResult &&
-      this.predictionResult.length > 0 &&
       this.predictionResult[0].predictions &&
       this.predictionResult[0].predictions.length > 0;
   }

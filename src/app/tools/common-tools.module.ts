@@ -43,6 +43,7 @@ import { CitationComponent } from './citation/citation.component';
 import { GardRareComponent } from './gard-rare/gard-rare.component';
 import { WordCloudComponent } from './visualizations/word-cloud/word-cloud.component';
 import {AngularD3CloudModule} from "angular-d3-cloud";
+import { CommunityDataPanelComponent } from './community-data-panel/community-data-panel.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import {AngularD3CloudModule} from "angular-d3-cloud";
     PredictionSetComponent,
     CitationComponent,
     GardRareComponent,
-    WordCloudComponent
+    WordCloudComponent,
+    CommunityDataPanelComponent
   ],
   imports: [
     CommonModule,
@@ -116,7 +118,8 @@ import {AngularD3CloudModule} from "angular-d3-cloud";
         GardRareComponent,
         CitationComponent,
         WordCloudComponent,
-        PredictionsPanelComponent
+        PredictionsPanelComponent,
+        CommunityDataPanelComponent
     ],
   entryComponents: [
     FieldSelectionDialogComponent

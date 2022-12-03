@@ -129,7 +129,6 @@ import {
     // targets
     {provide: TOKENS.TARGET_HEADER_COMPONENT, useValue: TargetHeaderComponent},
     {provide: TOKENS.SUMMARY_PANEL, useValue: SummaryPanelComponent},
-    {provide: TOKENS.PREDICTIONS_PANEL, useValue: PredictionsPanelComponent},
     {provide: TOKENS.IDG_RESOURCES_PANEL, useValue: IdgResourcesPanelComponent},
 
     {provide: TOKENS.PUBLICATION_STATISTICS_PANEL, useValue: PublicationStatisticsComponent},
