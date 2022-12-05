@@ -106,7 +106,7 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
       const ids = Array.isArray(example.value.identifier) ? example.value.identifier : [example.value.identifier];
       const idFields = ids.map(id => {
         return new PharosProperty({
-          name: id.name,
+          name: '_' + id.name,
           label: id.name,
           sortable: true
         });
@@ -142,7 +142,7 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
       if (f.value.identifier) {
         if (Array.isArray(f.value.identifier)) {
           f.value.identifier.forEach(id => {
-            propObj[id.name] = {term: id.value};
+            propObj['_' + id.name] = {term: id.value};
           })
         } else {
           propObj[f.value.identifier.name] = {term: f.value.identifier.value};
