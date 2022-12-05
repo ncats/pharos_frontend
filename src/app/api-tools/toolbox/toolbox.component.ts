@@ -105,12 +105,7 @@ export class ToolboxComponent implements OnInit {
   }
 
   get pharosAPIdataForPanel() {
-    return {
-      targets:
-        {
-          predictions: this.pharosAPIdata[0]
-        }
-      };
+    return this.pharosAPIdata[0];
   }
   parseSettledResults(result) {
     if (result.status === 'fulfilled') {
