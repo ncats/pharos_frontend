@@ -14,13 +14,22 @@ import {CentralStorageService} from "../../pharos-services/central-storage.servi
 export class ToolboxComponent implements OnInit {
   @ViewChild('predictionsPanel', {static: false}) predictionsPanel: PredictionsPanelComponent;
   workingAPI = "";
-  kinaseCancerAPI = "https://16z877ei3f.execute-api.us-east-1.amazonaws.com/default/pharos-kinase-cancer-prediction?target={sym}"
-  testAPI = "https://us-east4-ncatsidg-dev.cloudfunctions.net/pharos-test-api?target={sym}"
+
+  kinaseCancerAPId = "https://us-east4-ncatsidg-dev.cloudfunctions.net/kinase-cancer-predictions?disease={mesh}";
+  kinaseCancerAPIt = "https://us-east4-ncatsidg-dev.cloudfunctions.net/kinase-cancer-predictions?target={sym}";
+
+  sampleAPI = "https://us-east4-ncatsidg-dev.cloudfunctions.net/pharos-test-api";
+
+  pingAPIt = "https://us-east4-ncatsidg-dev.cloudfunctions.net/pharos-test-ping?target={sym}&name={name}&uniprot={uniprot}&geneid={NCBI Gene ID}&message=you are cool";
+  pingAPId = "https://us-east4-ncatsidg-dev.cloudfunctions.net/pharos-test-ping?disease={name}&mondo={mondo}&message=you are cool";
+  pingAPIl = "https://us-east4-ncatsidg-dev.cloudfunctions.net/pharos-test-ping?ligand={name}&message=you are cool&unii={unii}&smiles={smiles}";
+
   api = "";
   callApi = "";
   aliases: any[] = [];
   rawAPIdata: any;
   pharosAPIdata: any;
+  builtins = [];
 
   constructor(private pharosApiService: PharosApiService,
               private centralStorageService: CentralStorageService,
@@ -30,25 +39,36 @@ export class ToolboxComponent implements OnInit {
   ngOnInit(): void {
     this.workingAPI = this.localStorageService.store.getItem('workingAPI');
     this.centralStorageService.toolboxDetailsPage = '';
-    // this.predictionsPanel.field = 'Toolbox Predictions';
-    // this.predictionsPanel.label = 'Toolbox Predictions';
+    this.pharosApiService.adHocQuery(this.pharosApiService.getAPIs).toPromise().then((res: any) => {
+      this.builtins = res.data.communityAPIs;
+    });
+  }
+
+  get builtinURLs() {
+    return [];
   }
 
   currentDetailsPage = null;
+  selectedAPI: any = null;
 
+  selectAPI(event) {
+    this.api = event.url;
+    this.getAPI();
+  }
   apiChanged(event) {
-    if (this.api !== this.testAPI && this.api !== this.kinaseCancerAPI) {
+    if (!this.builtinURLs.includes(this.api)) {
       this.localStorageService.store.setItem('workingAPI', this.api);
       this.workingAPI = this.api;
     }
+    this.selectedAPI = null;
     this.getAPI();
   }
 
   setApi(api) {
     this.api = api;
+    this.selectedAPI = null;
     this.getAPI();
   }
-
 
   detailsPageSelected(details) {
     if (details && details.extra) {

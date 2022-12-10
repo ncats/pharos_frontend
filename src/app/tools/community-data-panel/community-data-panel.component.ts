@@ -1,9 +1,12 @@
 import {ChangeDetectorRef, Component, Inject, Input, OnInit, PLATFORM_ID} from '@angular/core';
 import {DynamicPanelComponent} from "../dynamic-panel/dynamic-panel.component";
 import {DynamicServicesService} from "../../pharos-services/dynamic-services.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {PharosApiService} from "../../pharos-services/pharos-api.service";
 import {isPlatformServer} from "@angular/common";
+import {PharosConfig} from "../../../config/pharos-config";
+import {takeUntil} from "rxjs/operators";
+import {CentralStorageService} from "../../pharos-services/central-storage.service";
 
 @Component({
   selector: 'pharos-community-data-panel',
@@ -17,19 +20,34 @@ export class CommunityDataPanelComponent extends DynamicPanelComponent implement
   results = [];
   communityAPIs = [];
 
+  citations(index) {
+    if (this.results && this.results?.length > 0) {
+      const refs = []
+      const res = this.results[index];
+      if (res && res.length > 0) {
+        res.forEach(set => {
+          if (set.citation) {
+            refs.push(set.citation);
+          }
+        });
+      }
+      return refs;
+    }
+  }
+
   constructor(
     @Inject(PLATFORM_ID) private platformID: any,
     private _route: ActivatedRoute,
     private pharosApiService: PharosApiService,
     private changeRef: ChangeDetectorRef,
-    public dynamicServices: DynamicServicesService) {
+    private pharosConfig: PharosConfig,
+    private router: Router,
+    public dynamicServices: DynamicServicesService,
+    private centralStorageService: CentralStorageService) {
     super(dynamicServices);
   }
 
-  ngOnInit(): void {
-    if(isPlatformServer(this.platformID)) {
-      return;
-    }
+  initialize() {
     const manualAPIs = this._route.snapshot.queryParamMap.get("apis")?.split("|") || [];
     this.communityAPIs = this.apis.filter(a => {
       if (!a.default && !manualAPIs.includes(a.code)) return false;
@@ -49,14 +67,66 @@ export class CommunityDataPanelComponent extends DynamicPanelComponent implement
       apiCode: this.communityAPIs.map(c => c.code),
       name: this._route.snapshot.paramMap.get('id'),
     }
+    this.communityAPIs.forEach(api => {
+      this.addComponent(api);
+    })
     this.pharosApiService.adHocQuery(this.pharosApiService.GetPredictions(this._route.snapshot.data.path), variables)
       .toPromise().then(res => {
       this.results = res.data.model.communityData;
+      this.results.forEach((result, index) => {
+        if (result) {
+          this.centralStorageService.showVisible(this.communityAPIs[index].code);
+        } else {
+          this.centralStorageService.hideVisible(this.communityAPIs[index].code);
+        }
+      });
       this.loadingComplete();
-      this.changeRef.markForCheck();
+      this.changeRef.detectChanges();
     }, (error) => {
       alert(error);
     });
   }
 
+  ngOnInit(): void {
+    if(isPlatformServer(this.platformID)) {
+      return;
+    }
+    this.router.events
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((e: any) => {
+        if (e instanceof NavigationEnd) {
+          this.initialize();
+        }
+      });
+    this.initialize();
+  }
+
+  addComponent(communityAPI: any) {
+    const newone = {
+      token: communityAPI.code,
+      section: 'contentPortalOutlet',
+      browserOnly: true,
+      externalComponent: true,
+      navHeader: {
+        mainDescription: communityAPI.description,
+        prediction: true,
+        section: communityAPI.code,
+        label: communityAPI.section
+      },
+      api: [
+        {
+          description: communityAPI.url,
+          field: 'url',
+          label: 'API format'
+        }]
+    };
+    this.centralStorageService.addVisibleCommunityAPI(communityAPI);
+
+    this.centralStorageService.sourcesMap.set(newone.navHeader.section, {
+      sources: newone.api,
+      title: newone.navHeader.label,
+      mainDescription: newone.navHeader.mainDescription || null,
+      mainSource: communityAPI.link ? [communityAPI.link] : null
+    });
+  }
 }

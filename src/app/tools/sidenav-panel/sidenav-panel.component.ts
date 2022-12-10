@@ -17,6 +17,7 @@ import {BreakpointObserver} from '@angular/cdk/layout';
 import {DOCUMENT, isPlatformServer, Location, ViewportScroller} from '@angular/common';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
+import {CentralStorageService} from "../../pharos-services/central-storage.service";
 
 /**
  * panel that lists available sections of the details page, with jump to section navigation
@@ -52,6 +53,12 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit, OnDestro
    */
   isSmallScreen = false;
 
+  visibleCommunityAPIs: any[] = [];
+
+  getAPIs(section: string) {
+    return this.visibleCommunityAPIs.filter(api => api.related_section === section);
+  }
+
   panelOptions: PanelOptions = {
     mode: 'side',
     class: 'filters-panel',
@@ -78,7 +85,8 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit, OnDestro
     private location: Location,
     private viewportScroller: ViewportScroller,
     @Inject(DOCUMENT) private document: Document,
-    public navSectionsService: NavSectionsService) {
+    public navSectionsService: NavSectionsService,
+    private centralStorageService: CentralStorageService) {
   }
 
   /**
@@ -91,28 +99,31 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit, OnDestro
       this.panelOptions.opened = false;
       this.panelOptions.mode = 'over';
     }
-    this.navSectionsService.setSections(this._route.snapshot.data.components
-      .filter(component => component.navHeader || (component.panels && component.panels.length > 0)));
-
+    this.centralStorageService.visibleCommunityAPIsChanged.subscribe(visibleAPIs => {
+      this.visibleCommunityAPIs = visibleAPIs;
+    })
     this.navSectionsService.sections$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-      if (res && res.length) {
-        this.sections = res;
-        this.activeElement = this.activeFragment;
-        if (this.activeElement) {
-          this.viewportScroller.scrollToAnchor(this.activeElement);
+        if (res && res.length) {
+          this.sections = res;
+          this.activeElement = this.activeFragment;
+          if (this.activeElement) {
+            this.viewportScroller.scrollToAnchor(this.activeElement);
+          }
         }
-      }
-    });
+      });
 
     this.navSectionsService.activeSection$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(res => {
-      if (res) {
-        this.activeElement = res;
-      }
-    });
+        if (res) {
+          this.activeElement = res;
+        }
+      });
+
+    this.navSectionsService.setSections(this._route.snapshot.data.components
+      .filter(component => !component.externalComponent && (component.navHeader || (component.panels && component.panels.length > 0))));
 
     // this covers url change when navigation/click to go to section
     this._route.fragment
@@ -168,8 +179,8 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit, OnDestro
     }
   }
 
-  pending(section: any){
-    return isPlatformServer(this.platformID) && section.browserOnly;
+  pending(section: any, isAPI = false){
+    return isPlatformServer(this.platformID) && (section.browserOnly || isAPI);
   }
 
   ngOnDestroy() {

@@ -15,12 +15,37 @@ export class CentralStorageService {
   selectedTinxDiseases: string[] = [];
   focusedTinxDisease: any = {};
   toolboxDetailsPage: string = '';
+  sourcesMap: Map<string, any> = new Map<string, any>();
+  visibleCommunityAPIs: any[] = [];
 
   @Output() displayFacetChanged = new EventEmitter<{model: string, facet: string}>();
   @Output() browseTypesChanged = new EventEmitter<string[]>();
   @Output() sequenceChanged = new EventEmitter<string>();
   @Output() selectedTinxDiseasesChanged = new EventEmitter<string[]>();
   @Output() focusedTinxDiseaseChanged = new EventEmitter<any>();
+  @Output() visibleCommunityAPIsChanged = new EventEmitter<any[]>();
+
+  showVisible(code) {
+    this.setVisible(code, true);
+  }
+  hideVisible(code) {
+    this.setVisible(code, false);
+  }
+  setVisible(code: string, show: boolean) {
+    const api = this.visibleCommunityAPIs.find(f => f.code === code);
+    if (api) {
+      api.visible = show;
+    }
+  }
+
+  addVisibleCommunityAPI(api: any) {
+    this.visibleCommunityAPIs.push(api);
+    this.visibleCommunityAPIsChanged.next(this.visibleCommunityAPIs);
+  }
+  clearVisibleCommunityAPIs() {
+    this.visibleCommunityAPIs = [];
+    this.visibleCommunityAPIsChanged.next(this.visibleCommunityAPIs);
+  }
 
   constructor(private _route: ActivatedRoute) { }
 
