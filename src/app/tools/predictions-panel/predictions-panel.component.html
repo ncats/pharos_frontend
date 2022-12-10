@@ -17,8 +17,7 @@
 </ng-template>
 
 <ng-template #headerrow>
-  <pharos-component-header [description]="description" [field]="field" [headerText]="resultsSummary"
-                           [id]="field" [predictionDetails]="citations()"></pharos-component-header>
+  <pharos-component-header [headerText]="resultsSummary"></pharos-component-header>
 </ng-template>
 
 <article *ngIf="hasData(); else nodata">

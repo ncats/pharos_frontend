@@ -322,6 +322,21 @@ export class PharosApiService {
     )
   }`;
 
+  public getAPIs = gql`
+    query getAPIs {
+      communityAPIs {
+        code
+        model
+        url
+        default
+        data
+        related_section
+        section
+        description
+        link
+      }
+    }`;
+
   public GetAPIResultsQuery = gql`query GetAPIResultsQuery($url: String!, $pageInfo: JSON!) {
     getAPIResults(
       url: $url

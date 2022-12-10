@@ -15,10 +15,8 @@ export class ComponentHeaderComponent implements OnInit {
   @Input() tourType: TourType;
   @Input() tourTypeVisible = () => true;
   @Input() predictionDetails: any[] = [];
-
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
 }

@@ -43,18 +43,13 @@
                       [matTooltip]="'Use the API you have been working with'">Custom API
                 <mat-icon>search</mat-icon>
               </button>
-              <button mat-button class="tool-button" mat-raised-button
-                      [color]="getColor(testAPI)"
-                      (click)="setApi(testAPI)"
-                      [matTooltip]="'Test with a public API'">Pharos Test API
-                <mat-icon>search</mat-icon>
-              </button>
-              <button mat-button class="tool-button" mat-raised-button
-                      [color]="getColor(kinaseCancerAPI)"
-                      (click)="setApi(kinaseCancerAPI)"
-                      [matTooltip]="'Test with a public API'">Kinase-Cancer Predictions
-                <mat-icon>search</mat-icon>
-              </button>
+<!--              <div class="toolLinkButton" id="search-method">-->
+                <mat-select [(value)]="this.selectedAPI" placeholder="Test with existing API" (valueChange)="selectAPI($event)">
+                  <mat-option *ngFor="let item of this.builtins" [value]="item">
+                    {{item.section}} ({{item.model}})
+                  </mat-option>
+                </mat-select>
+<!--              </div>-->
             </div>
             <mat-form-field class="input-full-width">
               <mat-label>API Url:</mat-label>
@@ -105,6 +100,11 @@
                       (click)="getAPI()"
                       [matTooltip]="'Run the query again'">Re-fetch from API
                 <mat-icon>search</mat-icon>
+              </button>
+              <button class="detailsButton" type="button" mat-raised-button [color]="'primary'" style="height: 36px;"
+                      [routerLink]="'/' + currentDetailsPage.path + '/' + currentDetailsPage.id" [queryParams]="{apis: api}">
+                Preview on Page
+                <mat-icon>description</mat-icon>
               </button>
             </div>
             <pharos-predictions-panel [predictionResult]="pharosAPIdataForPanel" #predictionsPanel></pharos-predictions-panel>

@@ -39,9 +39,7 @@ export class HelpPanelTriggerComponent {
    */
   toggle() {
     this.helpDataService.predictionDetails = this.predictionDetails;
-    if (this.origin) {
-      this.helpDataService.setOrigin(this.origin);
-    }
+    this.helpDataService.setOrigin(this.origin);
     if (this.dataVersions && this.dataVersions.length > 0) {
       this.helpDataService.setVersions(this.dataVersions);
     } else {

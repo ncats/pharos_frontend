@@ -161,6 +161,16 @@ export const LIGANDDETAILSFIELDS = gql`
         pmid
       }
     }
+    communityAPIs{
+      code
+      default
+      section
+      related_section
+      model
+      url
+      description
+      link
+    }
   }
   ${LIGANDLISTFIELDS}
 `;
@@ -760,7 +770,10 @@ export const TARGETDETAILSFIELDS = gql`
       default
       section
       related_section
+      model
       url
+      description
+      link
     }
   }
   ${SHAREDPATHWAYFIELDS}

@@ -18,12 +18,6 @@ export class PredictionsPanelComponent extends DynamicPanelComponent implements 
     super(dynamicServices);
   }
 
-  citations() {
-    if (Array.isArray(this.predictionResult)) {
-      return this.predictionResult?.filter(f => f.citation)?.map(f => f.citation);
-    }
-  }
-
   ngOnInit(): void {
     this._data
       // listen to data as long as term is undefined or null
@@ -68,8 +62,8 @@ export class PredictionsPanelComponent extends DynamicPanelComponent implements 
 
   hasData() {
     return this.predictionResult &&
-      this.predictionResult[0].predictions &&
-      this.predictionResult[0].predictions.length > 0;
+      this.predictionResult[0]?.predictions &&
+      this.predictionResult[0]?.predictions.length > 0;
   }
 
   valueAscOrder(anything) {

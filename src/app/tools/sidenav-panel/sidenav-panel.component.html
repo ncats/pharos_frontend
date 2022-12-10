@@ -11,29 +11,53 @@
     <div class="toc">
       <mat-nav-list>
         <ng-container *ngFor="let section of sections">
-          <a *ngIf="!section.panels; else array"
-             mat-list-item
-             class="list-button"
-             (click)="scroll(section.navHeader.section)"
-             [ngClass]="{'active': isActive(section.navHeader.section), 'prediction-list-button': section.navHeader.prediction}"
-             [id]="'menu_'+section.navHeader.section">
-            <mat-icon *ngIf="pending(section)" class="material-icons-outlined pending-icon"
-                      matTooltip="data still loading...">pending</mat-icon>
-            <span [ngClass]="{hasData: (section.visible)}">{{section.navHeader.label}}</span>
-          </a>
+          <ng-container *ngIf="!section.panels; else array">
+            <a
+              mat-list-item
+              class="list-button"
+              (click)="scroll(section.navHeader.section)"
+              [ngClass]="{'active': isActive(section.navHeader.section), 'prediction-list-button': section.navHeader.prediction}"
+              [id]="'menu_'+section.navHeader.section">
+              <mat-icon *ngIf="pending(section)" class="material-icons-outlined pending-icon"
+                        matTooltip="data still loading...">pending</mat-icon>
+              <span [ngClass]="{hasData: (section.visible)}">{{section.navHeader.label}}</span>
+            </a>
+            <a *ngFor="let api of getAPIs(section.navHeader.section)"
+               mat-list-item
+               class="list-button"
+               (click)="scroll(api.code)"
+               [ngClass]="{'active': isActive(api.code), 'prediction-list-button': true}"
+               [id]="'menu_'+api.code">
+              <mat-icon *ngIf="pending(section, true)" class="material-icons-outlined pending-icon"
+                        matTooltip="data still loading...">pending</mat-icon>
+              <span [ngClass]="{hasData: (api.visible)}">{{api.section}}</span>
+            </a>
+          </ng-container>
           <ng-template #array>
             <div class="subsection" *ngIf="section.panels.length > 0">
               <div class="hasData">{{section.category}}</div>
-              <a *ngFor="let subsection of section.panels"
-                 mat-list-item
-                 class="list-button"
-                 (click)="scroll(subsection.navHeader.section)"
-                 [ngClass]="{'active': isActive(subsection.navHeader.section), 'prediction-list-button': subsection.navHeader.prediction}"
-                 [id]="'menu_'+subsection.navHeader.section">
-                <mat-icon *ngIf="pending(subsection)" class="material-icons-outlined pending-icon"
-                          matTooltip="data still loading...">pending</mat-icon>
-                <span [ngClass]="{hasData: subsection.visible}">{{subsection.navHeader.label}}</span>
-              </a>
+              <ng-container *ngFor="let subsection of section.panels">
+                <a
+                   mat-list-item
+                   class="list-button"
+                   (click)="scroll(subsection.navHeader.section)"
+                   [ngClass]="{'active': isActive(subsection.navHeader.section), 'prediction-list-button': subsection.navHeader.prediction}"
+                   [id]="'menu_'+subsection.navHeader.section">
+                  <mat-icon *ngIf="pending(subsection)" class="material-icons-outlined pending-icon"
+                            matTooltip="data still loading...">pending</mat-icon>
+                  <span [ngClass]="{hasData: subsection.visible}">{{subsection.navHeader.label}}</span>
+                </a>
+                <a *ngFor="let api of getAPIs(subsection.navHeader.section)"
+                   mat-list-item
+                   class="list-button"
+                   (click)="scroll(api.code)"
+                   [ngClass]="{'active': isActive(api.code), 'prediction-list-button': true}"
+                   [id]="'menu_'+api.code">
+                  <mat-icon *ngIf="pending(subsection, true)" class="material-icons-outlined pending-icon"
+                            matTooltip="data still loading...">pending</mat-icon>
+                  <span [ngClass]="{hasData: (api.visible)}">{{api.section}}</span>
+                </a>
+              </ng-container>
             </div>
           </ng-template>
         </ng-container>

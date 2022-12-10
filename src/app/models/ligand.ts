@@ -27,6 +27,7 @@ export class Ligand extends PharosBase {
   similarity: number;
   preferredTerm: string;
   predictions: {predictions: any[], citation: any}[];
+  communityAPIs?: {code: string, default: boolean, section: string, related_section: string}[] = [];
 
   /**
    * name of ligand

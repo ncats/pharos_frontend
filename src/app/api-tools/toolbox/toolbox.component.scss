@@ -12,6 +12,10 @@
   width: 80vw;
 }
 
+.tool-button {
+  width: 200px;
+}
+
 .toolbox-header {
   font-size: 3em;
   padding-left: 1vw;
@@ -39,6 +43,8 @@
     overflow-y: scroll;
     width: 100%;
     .button-list {
+      display: flex;
+      flex-direction: row;
       margin-bottom: 10px;
       button {
         margin-right: 20px;

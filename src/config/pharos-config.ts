@@ -22,24 +22,8 @@ export class PharosConfig {
    * return main api url
    * @returns {string}
    */
-   getApiPath(): string {
+  getApiPath(): string {
     return PHAROSCONFIG.apiUrl;
-  }
-
-  /**
-   * get url to retrieve radar graph data
-   * @return {string}
-   */
-   getRadarPath(): string {
-    return PHAROSCONFIG.radarUrl;
-  }
-
-  /**
-   * get url to retrieve radar graph data sources
-   * @return {string}
-   */
-   getRadarSourcesPath(): string {
-    return PHAROSCONFIG.radarSourcesUrl;
   }
 
   /**
@@ -47,39 +31,15 @@ export class PharosConfig {
    * the component finishes the url with the uuid and '.svg':
    * @return {string}
    */
-   getStructureImageUrl(): string {
+  getStructureImageUrl(): string {
     return PHAROSCONFIG.structureImageUrl;
   }
-
-  /**
-   * get url for mol conversion api
-   * @returns {string}
-   */
-   getMolConvertUrl(): string {
-    return PHAROSCONFIG.molConvertUrl;
-  }
-
-  getTopicResolveUrl(): string {
-     return PHAROSCONFIG.topicResolveUrl;
-  }
-
-
-// todo: deprecate
-  /**
-   * url for homunculus api
-   * @param {string} id
-   * @returns {string}
-   */
-   getHomunculusUrl(id: string): string {
-    return PHAROSCONFIG.homunculusUrl.replace('_id_', id);
-  }
-
 
   /**
    * returns the list of apis that a search query hits
    * @return {any[]}
    */
-   getSearchPaths(): any[] {
+  getSearchPaths(): any[] {
     return PHAROSCONFIG.components.has('search') ? PHAROSCONFIG.components.get('search').api : null;
   }
 
@@ -88,7 +48,7 @@ export class PharosConfig {
    * @param {string} path
    * @returns {string}
    */
-   getDefaultUrl(path: string): string {
+  getDefaultUrl(path: string): string {
     return PHAROSCONFIG.components.has(path) ? PHAROSCONFIG.components.get(path).default : null;
   }
 
@@ -100,7 +60,7 @@ export class PharosConfig {
    * @returns {any[]} array of component tokens/api calls or null
    *
    */
-   getComponents(path: string, subpath?: string): PharosPanel[] {
+  getComponents(path: string, subpath?: string): PharosPanel[] {
     if (PHAROSCONFIG.components.has(path)) {
       if (subpath) {
         const value = subpath

@@ -132,7 +132,10 @@ const DISEASEDETAILSQUERY = gql`
         default
         section
         related_section
+        model
         url
+        description
+        link
       }
     }
   }
