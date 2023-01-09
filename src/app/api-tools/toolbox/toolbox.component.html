@@ -34,22 +34,37 @@
         </mat-accordion>
 
         <mat-card class="row">
-          <div class="label">Your API</div>
+          <div class="label">API</div>
           <div class="value">
             <div class="button-list">
-              <button mat-button class="tool-button" mat-raised-button *ngIf="workingAPI?.length > 0"
-                      [color]="getColor(workingAPI)"
-                      (click)="setApi(workingAPI)"
-                      [matTooltip]="'Use the API you have been working with'">Custom API
-                <mat-icon>search</mat-icon>
-              </button>
-<!--              <div class="toolLinkButton" id="search-method">-->
-                <mat-select [(value)]="this.selectedAPI" placeholder="Test with existing API" (valueChange)="selectAPI($event)">
-                  <mat-option *ngFor="let item of this.builtins" [value]="item">
-                    {{item.section}} ({{item.model}})
-                  </mat-option>
-                </mat-select>
-<!--              </div>-->
+              <mat-card *ngIf="workingAPI?.length > 0">
+                <mat-card-content>
+                  <mat-card-header>
+                    <mat-card-title class="mat-card-title">Custom API</mat-card-title>
+                  </mat-card-header>
+                  <button mat-button class="tool-button" mat-raised-button
+                          [color]="getColor(workingAPI)"
+                          (click)="setApi(workingAPI)"
+                          [matTooltip]="'Use the API you have been working with'">Custom API
+                    <mat-icon>search</mat-icon>
+                  </button>
+                </mat-card-content>
+              </mat-card>
+              <mat-card *ngFor="let key of sortedKeys" [ngClass]="{highlightmodel: currentDetailsPage?.path.startsWith(key)}">
+                <mat-card-content>
+                  <mat-card-header>
+                    <mat-card-title class="mat-card-title">{{ key | titlecase}} APIs</mat-card-title>
+                  </mat-card-header>
+                  <div *ngFor="let api of builtinMap.get(key)">
+                    <button mat-button class="tool-button" mat-raised-button
+                            [color]="getColor(api.url)"
+                            (click)="setApi(api.url)"
+                            [matTooltip]="'Use the API you have been working with'">{{api.section}}
+                      <mat-icon>search</mat-icon>
+                    </button>
+                  </div>
+                </mat-card-content>
+              </mat-card>
             </div>
             <mat-form-field class="input-full-width">
               <mat-label>API Url:</mat-label>
@@ -101,7 +116,7 @@
                       [matTooltip]="'Run the query again'">Re-fetch from API
                 <mat-icon>search</mat-icon>
               </button>
-              <button class="detailsButton" type="button" mat-raised-button [color]="'primary'" style="height: 36px;"
+              <button class="tool-button" type="button" mat-raised-button [color]="'primary'" style="height: 36px;" *ngIf="!isProduction"
                       [routerLink]="'/' + currentDetailsPage.path + '/' + currentDetailsPage.id" [queryParams]="{apis: api}">
                 Preview on Page
                 <mat-icon>description</mat-icon>

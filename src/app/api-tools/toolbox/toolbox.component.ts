@@ -5,6 +5,7 @@ import {LocalStorageService} from "../../pharos-services/local-storage.service";
 import {HttpClient} from "@angular/common/http";
 import {PredictionsPanelComponent} from "../../tools/predictions-panel/predictions-panel.component";
 import {CentralStorageService} from "../../pharos-services/central-storage.service";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'pharos-toolbox',
@@ -14,22 +15,14 @@ import {CentralStorageService} from "../../pharos-services/central-storage.servi
 export class ToolboxComponent implements OnInit {
   @ViewChild('predictionsPanel', {static: false}) predictionsPanel: PredictionsPanelComponent;
   workingAPI = "";
-
-  kinaseCancerAPId = "https://us-east4-ncatsidg-dev.cloudfunctions.net/kinase-cancer-predictions?disease={mesh}";
-  kinaseCancerAPIt = "https://us-east4-ncatsidg-dev.cloudfunctions.net/kinase-cancer-predictions?target={sym}";
-
-  sampleAPI = "https://us-east4-ncatsidg-dev.cloudfunctions.net/pharos-test-api";
-
-  pingAPIt = "https://us-east4-ncatsidg-dev.cloudfunctions.net/pharos-test-ping?target={sym}&name={name}&uniprot={uniprot}&geneid={NCBI Gene ID}&message=you are cool";
-  pingAPId = "https://us-east4-ncatsidg-dev.cloudfunctions.net/pharos-test-ping?disease={name}&mondo={mondo}&message=you are cool";
-  pingAPIl = "https://us-east4-ncatsidg-dev.cloudfunctions.net/pharos-test-ping?ligand={name}&message=you are cool&unii={unii}&smiles={smiles}";
-
+  isProduction = environment.production;
   api = "";
   callApi = "";
   aliases: any[] = [];
   rawAPIdata: any;
   pharosAPIdata: any;
-  builtins = [];
+  builtinMap: Map<string, any[]> = new Map<string, any[]>();
+  sortedKeys: string[] = ['target','disease','ligand'];
 
   constructor(private pharosApiService: PharosApiService,
               private centralStorageService: CentralStorageService,
@@ -38,14 +31,19 @@ export class ToolboxComponent implements OnInit {
 
   ngOnInit(): void {
     this.workingAPI = this.localStorageService.store.getItem('workingAPI');
+    if (this.workingAPI && this.workingAPI.length > 0) {
+      this.api = this.workingAPI;
+    }
     this.centralStorageService.toolboxDetailsPage = '';
     this.pharosApiService.adHocQuery(this.pharosApiService.getAPIs).toPromise().then((res: any) => {
-      this.builtins = res.data.communityAPIs;
+      this.sortedKeys.forEach(model => {
+        this.builtinMap.set(model, []);
+      })
+      res.data.communityAPIs.forEach(api => {
+        const list = this.builtinMap.get(api.model);
+        list.push(api);
+      });
     });
-  }
-
-  get builtinURLs() {
-    return [];
   }
 
   currentDetailsPage = null;
@@ -56,10 +54,8 @@ export class ToolboxComponent implements OnInit {
     this.getAPI();
   }
   apiChanged(event) {
-    if (!this.builtinURLs.includes(this.api)) {
-      this.localStorageService.store.setItem('workingAPI', this.api);
-      this.workingAPI = this.api;
-    }
+    this.localStorageService.store.setItem('workingAPI', this.api);
+    this.workingAPI = this.api;
     this.selectedAPI = null;
     this.getAPI();
   }
