@@ -7,6 +7,7 @@ import {isPlatformServer} from "@angular/common";
 import {PharosConfig} from "../../../config/pharos-config";
 import {takeUntil} from "rxjs/operators";
 import {CentralStorageService} from "../../pharos-services/central-storage.service";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'pharos-community-data-panel',
@@ -19,6 +20,7 @@ export class CommunityDataPanelComponent extends DynamicPanelComponent implement
   @Input() showManual = false;
   results = [];
   communityAPIs = [];
+  isProduction = environment.production;
 
   citations(index) {
     if (this.results && this.results?.length > 0) {
@@ -56,10 +58,14 @@ export class CommunityDataPanelComponent extends DynamicPanelComponent implement
     if (this.showManual) {
       manualAPIs.forEach(code => {
         if (code.length > 4) {
-          this.communityAPIs.push({
-            section: "API from URL",
-            code: code
-          });
+          if (this.isProduction) {
+            this.communityAPIs.push({
+              section: "API from URL",
+              code: code
+            });
+          } else {
+            alert (`You tried to request data from an external API (${code}).\n\nEncorporating data via a URL is disabled in the Production environment.\n\nYou must register your API with the Pharos team, and use the four character code that they give you to share your data through Pharos.`)
+          }
         }
       });
     }
@@ -69,7 +75,7 @@ export class CommunityDataPanelComponent extends DynamicPanelComponent implement
     }
     this.communityAPIs.forEach(api => {
       this.addComponent(api);
-    })
+    });
     this.pharosApiService.adHocQuery(this.pharosApiService.GetPredictions(this._route.snapshot.data.path), variables)
       .toPromise().then(res => {
       this.results = res.data.model.communityData;
