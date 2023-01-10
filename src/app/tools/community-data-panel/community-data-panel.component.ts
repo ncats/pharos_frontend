@@ -58,7 +58,7 @@ export class CommunityDataPanelComponent extends DynamicPanelComponent implement
     if (this.showManual) {
       manualAPIs.forEach(code => {
         if (code.length > 4) {
-          if (this.isProduction) {
+          if (!this.isProduction) {
             this.communityAPIs.push({
               section: "API from URL",
               code: code
