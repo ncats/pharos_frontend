@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {isNumeric} from "rxjs/internal-compatibility";
 
 @Component({
   selector: 'pharos-prediction-details-card',
@@ -21,7 +22,11 @@ export class PredictionDetailsCardComponent implements OnInit {
     return typeof obj;
   }
   formatConfidence(val) {
-    return parseFloat(val).toPrecision(2);
+    const num = parseFloat(val);
+    if (isNumeric(num)) {
+      return num.toPrecision(2);
+    }
+    return val;
   }
 
   hasStructure(prediction) {

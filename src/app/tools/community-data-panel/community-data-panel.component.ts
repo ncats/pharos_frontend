@@ -69,27 +69,30 @@ export class CommunityDataPanelComponent extends DynamicPanelComponent implement
         }
       });
     }
-    const variables = {
-      apiCode: this.communityAPIs.map(c => c.code),
-      name: this._route.snapshot.paramMap.get('id'),
-    }
+
     this.communityAPIs.forEach(api => {
+      const variables = {
+        apiCode: [api.code],
+        name: this._route.snapshot.paramMap.get('id'),
+      }
       this.addComponent(api);
-    });
-    this.pharosApiService.adHocQuery(this.pharosApiService.GetPredictions(this._route.snapshot.data.path), variables)
-      .toPromise().then(res => {
-      this.results = res.data.model.communityData;
-      this.results.forEach((result, index) => {
-        if (result) {
-          this.centralStorageService.showVisible(this.communityAPIs[index].code);
-        } else {
-          this.centralStorageService.hideVisible(this.communityAPIs[index].code);
-        }
+      this.pharosApiService.adHocQuery(this.pharosApiService.GetPredictions(this._route.snapshot.data.path), variables)
+        .toPromise().then(res => {
+        const results = res.data.model.communityData;
+        this.results.push(results[0]);
+        results.forEach((result) => {
+          if (result) {
+            this.centralStorageService.showVisible(api.code);
+          } else {
+            this.centralStorageService.hideVisible(api.code);
+          }
+        });
+        this.loadingComplete();
+        this.changeRef.detectChanges();
+      }, (error) => {
+        alert(error);
       });
-      this.loadingComplete();
-      this.changeRef.detectChanges();
-    }, (error) => {
-      alert(error);
+
     });
   }
 
@@ -102,6 +105,7 @@ export class CommunityDataPanelComponent extends DynamicPanelComponent implement
       .subscribe((e: any) => {
         if (e instanceof NavigationEnd) {
           this.initialize();
+          this.results = [];
         }
       });
     this.initialize();

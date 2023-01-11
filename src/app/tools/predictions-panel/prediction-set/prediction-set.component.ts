@@ -63,7 +63,7 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
     return this.sliceForPage(this.predictionProps);
   }
   get pageSize() {
-    return this.pageSizeInput || this.getStyle(this.predictionSet) === 'table' ? 5 : 10;
+    return this.pageSizeInput || this.getStyle(this.predictionSet) === 'table' ? 5 : 8;
   }
   sliceForPage(array: any[]) {
     return array.slice(this.page * this.pageSize, (this.page + 1) * this.pageSize);
@@ -123,13 +123,13 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
         sortable: true
       }),
       ...this.getAlternateName(),
+      ...this.getIdentifiers(),
       new PharosProperty({
         name: 'value',
         label: this.predictionSet.predictions[0].confidence.alternateName,
         sortable: true,
         sorted: 'desc'
-      }),
-      ...this.getIdentifiers()];
+      })];
   }
 // { "@type": "Prediction", "name": "Predicted Cancer", "value": { "@context": "https://schema.org", "@type": "MedicalCondition", "name": "Carcinoma, Non-Small-Cell Lung", "alternateName": "MESH:D002289", "mondoid": [ "MONDO:0005233" ], "url": "/diseases/MONDO:0005233" }, "confidence": { "@context": "https://schema.org", "@type": "QuantitativeValue", "value": "0.85", "alternateName": "probability", "description": "Measure of the relevance of inhibiting a particular protein kinase for a specific cancer", "maxValue": 1, "minValue": 0 } }
   get predictionProps() {
@@ -169,7 +169,11 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
   sortField = {active: 'value', direction: 'desc'};
 
   formatConfidence(val) {
-    return parseFloat(val).toPrecision(2);
+    const num = parseFloat(val);
+    if (isNumeric(num)) {
+      return num.toPrecision(2);
+    }
+    return val;
   }
 // {active: 'value', direction: 'asc'}
 // prediction-set.component.ts:90 {active: 'value', direction: 'desc'}
