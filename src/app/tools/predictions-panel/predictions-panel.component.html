@@ -6,7 +6,7 @@
               class="section-card prediction-panel">
       <mat-card-content>
         <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
-          No predictions found
+          No data found
         <div *ngIf="isDev && predictionResult">
           <div>API Results:</div>
           <div>{{predictionResult | json}}</div>

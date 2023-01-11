@@ -41,6 +41,10 @@
   .label {
     width: 300px;
     margin-right: 50px;
+    font-weight: bold;
+    .description {
+      font-weight: normal;
+    }
   }
   .value {
     clear: left;

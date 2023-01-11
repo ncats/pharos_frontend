@@ -34,7 +34,10 @@
         </mat-accordion>
 
         <mat-card class="row">
-          <div class="label">API</div>
+          <div class="label">API
+            <div class="description">Enter your own API, or test with the built-in APIs, to see how things will look in Pharos.</div>
+          </div>
+
           <div class="value">
             <div class="button-list">
               <mat-card *ngIf="workingAPI?.length > 0">
@@ -59,7 +62,7 @@
                     <button mat-button class="tool-button" mat-raised-button
                             [color]="getColor(api.url)"
                             (click)="setApi(api.url)"
-                            [matTooltip]="'Use the API you have been working with'">{{api.section}}
+                            [matTooltip]="'Test an existing API'">{{api.section}}
                       <mat-icon>search</mat-icon>
                     </button>
                   </div>
@@ -90,7 +93,7 @@
               API results (raw):
             </mat-expansion-panel-header>
             <div class="value">
-              {{rawAPIdata | json}}
+              <pre>{{rawAPIdata | json:4}}</pre>
             </div>
           </mat-expansion-panel>
         </mat-accordion>
@@ -101,7 +104,7 @@
               API results through Pharos:
             </mat-expansion-panel-header>
             <div class="value">
-              {{pharosAPIdata | json}}
+              <pre>{{pharosAPIdata | json:4}}</pre>
             </div>
           </mat-expansion-panel>
         </mat-accordion>
