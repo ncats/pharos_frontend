@@ -90,6 +90,7 @@ export class CommunityDataPanelComponent extends DynamicPanelComponent implement
         this.loadingComplete();
         this.changeRef.detectChanges();
       }, (error) => {
+        alert('dammit');
         alert(error);
       });
 
