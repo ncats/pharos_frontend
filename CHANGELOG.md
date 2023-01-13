@@ -1,3 +1,17 @@
+# 3.15.0 (2023-01-15)
+### Added Features
+* **Publications Data Update**
+  * Publications, and GeneRifs have been updated with fresh data
+  * A word cloud will show on target details pages will help users get an overview of the state of research for a target. Perfect for Slide 1 of your presentations.
+* **Pharos Toolbox**
+  * API developers now have a tool to help develop an API that will enable you to encorporate your data into Pharos
+  * See the Community Data API repo for details, and a walkthrough to creating your first API 
+    * https://github.com/ncats/pharos-community-data-api
+### Bug Fixes / Miscellaneous updates
+* Predictions are highlighted in greenish
+* The backend was refactored to better maintain the unfiltered counts for each facet
+
+_______________
 # 3.14.0 (2022-10-03)
 ### Added Features
 * **Circlular Treemaps**
