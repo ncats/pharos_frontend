@@ -161,7 +161,16 @@ export const LIGANDDETAILSFIELDS = gql`
         pmid
       }
     }
-     predictions
+    communityAPIs{
+      code
+      default
+      section
+      related_section
+      model
+      url
+      description
+      link
+    }
   }
   ${LIGANDLISTFIELDS}
 `;
@@ -349,12 +358,18 @@ ${TARGETLISTFIELDS}`;
  * apollo graphQL query fragment to retrieve fields for publications for a target details view
  */
 export const PUBLICATION_FIELDS = gql`
-  fragment publication_fields on PubMed {
-    year
+  fragment publication_fields on PublicationObject {
     pmid
     title
     journal
+    date
+    authors
     abstract
+    fetch_date
+    generifs {
+      text
+      date
+    }
   }`;
 
 export const PATHWAY_FIELDS = gql`
@@ -373,26 +388,10 @@ export const PATHWAY_FIELDS = gql`
 * apollo graphQL query to fetch the next page of publications data
 * */
 const TARGET_PUBS_QUERY = gql`
-  query fetchPublicationPage($term: String, $publicationstop: Int, $publicationsskip: Int, $publicationsterm: String) {
+  query fetchPublicationPage($term: String, $publicationstop: Int, $publicationsskip: Int) {
     targets: target(q: { sym: $term, uniprot: $term, stringid: $term }) {
-      publications: pubs(top: $publicationstop, skip: $publicationsskip, term: $publicationsterm) {
+      publications: publications(top: $publicationstop, skip: $publicationsskip) {
         ...publication_fields
-      }
-    }
-  }
-${PUBLICATION_FIELDS}`;
-
-/*
-* apollo graphQL query to fetch the next page of generifs data
-* */
-const TARGET_GENERIFS_QUERY = gql`
-  query fetchGenerifPage($term: String, $generifstop: Int, $generifsskip: Int, $generifsterm: String) {
-    targets: target(q: { sym: $term, uniprot: $term, stringid: $term }) {
-      generifs (top: $generifstop, skip: $generifsskip term: $generifsterm){
-        text
-        pubs{
-          ...publication_fields
-        }
       }
     }
   }
@@ -477,7 +476,7 @@ export const TARGETSERVERDETAILSFIELDS = gql`
       parents
     }
     generifCount
-    publicationCount: pubCount
+    publicationCount
     goCounts {
       value
       name
@@ -569,7 +568,7 @@ export const TARGETDETAILSFIELDS = gql`
   fragment targetsDetailsFields on Target {
     ...targetsListFields
     ...targetServerDetailsFields
-    dataVersions(keys:["Expression", "GTEx"]) {
+    dataVersions {
       key
       dataSources {
         name
@@ -626,14 +625,8 @@ export const TARGETDETAILSFIELDS = gql`
       count
     }
 
-    publications: pubs(top: $publicationstop, skip: $publicationsskip, term: $publicationsterm) {
+    publications: publications(top: $publicationstop, skip: $publicationsskip) {
       ...publication_fields
-    }
-    generifs (top: $generifstop, skip: $generifsskip term: $generifsterm){
-      text
-      pubs {
-        ...publication_fields
-      }
     }
     tinx {
       score
@@ -772,7 +765,16 @@ export const TARGETDETAILSFIELDS = gql`
         ...pathDetails
       }
     }
-     predictions
+    communityAPIs{
+      code
+      default
+      section
+      related_section
+      model
+      url
+      description
+      link
+    }
   }
   ${SHAREDPATHWAYFIELDS}
   ${TARGETLISTFIELDS}
@@ -816,10 +818,6 @@ export const TARGETDETAILSQUERY = gql`
     $diseaseskip: Int,
     $publicationstop: Int,
     $publicationsskip: Int,
-    $publicationsterm: String,
-    $generifstop: Int,
-    $generifsskip: Int,
-    $generifsterm: String,
     $orthologstop: Int,
     $orthologsskip: Int,
     $ppistop: Int,
@@ -859,8 +857,6 @@ export class TargetComponents {
         return TARGET_PPI_QUERY;
       case(TargetComponents.Component.Publications):
         return TARGET_PUBS_QUERY;
-      case(TargetComponents.Component.Generifs):
-        return TARGET_GENERIFS_QUERY;
       case(TargetComponents.Component.PathwayPage):
         return TARGET_PATHWAYS_QUERY;
       case(TargetComponents.Component.GoComponent):
@@ -883,7 +879,6 @@ export namespace TargetComponents {
     Drugs,
     ProteinProteinInteractions,
     Publications,
-    Generifs,
     PathwayPage,
     GoComponent,
     GoProcess,

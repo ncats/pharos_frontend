@@ -9,6 +9,7 @@ import {interval, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {JsonldService} from './pharos-services/jsonld.service';
 import {UseCaseData} from './use-cases/use-case-data';
+import {CentralStorageService} from "./pharos-services/central-storage.service";
 
 /**
  * main app component holder
@@ -42,7 +43,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private titleService: Title,
     private tourService: TourService,
     private _route: ActivatedRoute,
-    private jsonldService: JsonldService
+    private jsonldService: JsonldService,
+    private centralStorageService: CentralStorageService
   ) {
   }
 
@@ -85,6 +87,7 @@ export class AppComponent implements OnInit, OnDestroy {
           const titles = this.getTitle(this.router.routerState, this.router.routerState.root);
           const title = 'Pharos : ' + (titles.length > 0 ? titles[0] : 'Illuminating the Druggable Genome');
           this.titleService.setTitle(title);
+          this.centralStorageService.clearVisibleCommunityAPIs();
           this.loading = false;
           this.runTutorial();
         }

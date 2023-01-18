@@ -64,12 +64,10 @@ export class TOKENS {
    * injection token to link to the target summary component
    */
   public static SUMMARY_PANEL = new InjectionToken<string>('SummaryPanelComponent');
-  public static PREDICTIONS_PANEL = new InjectionToken<string>('PredictionsPanelComponent');
   /**
    * injection token to link to the target development summary component
    */
   public static LEVEL_SUMMARY_PANEL = new InjectionToken<string>('LevelSummaryPanelComponent');
-
   /**
    * injection token to link to the target development summary component
    */

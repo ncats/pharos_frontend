@@ -1,6 +1,7 @@
 import {Injectable, Input} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/index';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
+import {CentralStorageService} from "../../../pharos-services/central-storage.service";
 
 /**
  * retrieves and passes data from config to the help panel
@@ -9,12 +10,6 @@ import {PharosApiService} from '../../../pharos-services/pharos-api.service';
   providedIn: 'root'
 })
 export class HelpDataService {
-
-  /**
-   * map of all sources currently retrieved
-   * @type {Map<string, any>}
-   */
-  sourcesMap: Map<string, any> = new Map<string, any>();
 
   /**
    *   initialize a private variable _data, it's a BehaviorSubject
@@ -44,6 +39,7 @@ export class HelpDataService {
   get predictionDetails() {
     return this._predictionDetails;
   }
+
   /**
    * RxJs subject to broadcast help panel data changes
    * @type {Subject<boolean>}
@@ -85,7 +81,8 @@ export class HelpDataService {
    * @param {PharosApiService} pharosApiService
    */
   constructor(
-    private pharosApiService: PharosApiService
+    private pharosApiService: PharosApiService,
+    private centralStorageService: CentralStorageService
   ) {}
 
   /**
@@ -95,7 +92,7 @@ export class HelpDataService {
    */
   setOrigin(field: string): void {
     this.field = field;
-    this._helpDescriptionSource.next(this.sourcesMap.get(field));
+    this._helpDescriptionSource.next(this.centralStorageService.sourcesMap.get(field));
  //   this._helpDataSource.next(this.data[this.field]);
   }
 
@@ -110,6 +107,6 @@ export class HelpDataService {
    * @param sources
    */
   setSources(field: string, sources: any): void {
-    this.sourcesMap.set(field, sources);
+    this.centralStorageService.sourcesMap.set(field, sources);
   }
 }

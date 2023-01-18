@@ -55,7 +55,7 @@ export class TourService {
   };
 
   menuTutorials: TourDefinition[] = [
-    {title: 'What\'s New in Version 3.14', storageKey: TourType.WhatsNew314},
+    {title: 'What\'s New in Version 3.15', storageKey: TourType.WhatsNew315},
     {title: 'Using the List Pages', storageKey: TourType.ListPagesTour},
     {title: 'Using the UpSet Chart', storageKey: TourType.UpsetChartTour},
     {title: 'Filter Value Enrichment', storageKey: TourType.FilterValueEnrichment},
@@ -92,7 +92,7 @@ export class TourService {
         this.featureTrackingService.trackFeature('Begin Tutorial', tutorialName);
       }
       switch (tutorialName) {
-        case TourType.WhatsNew314:
+        case TourType.WhatsNew315:
           this.whatsNew(true);
           break;
         case TourType.CustomListTour:
@@ -198,7 +198,7 @@ export class TourService {
     if (!isPlatformBrowser(this.platformID)) {
       return;
     }
-    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew314)) { // only autorun once
+    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew315)) { // only autorun once
       return;
     }
     this.loadPromise.then(() => {
@@ -211,44 +211,61 @@ export class TourService {
       {
         scrollTo: false,
         buttons: this.firstButtons.slice(),
-        title: 'What\'s new in Pharos 3.14?',
-        text: ['There are several new features in Pharos version 3.14, including circular treemaps for expression ' +
-        'data and TIN-X data, and new predicted relationships between kinases and cancers.'
+        title: 'What\'s new in Pharos 3.15?',
+        text: ['There are several new features in Pharos version 3.15, including <b>updated data for Publications and ' +
+        'GeneRIFs</b>, and a <b>word cloud</b> to display the 100 most overrepresented terms in PubMed abstracts for each target.<br/><br/>' +
+        'Also, there is a Toolbox page to help you build an API that can be used to <b>include your own data in Pharos</b>. This ' +
+        'provides a path to easily share your data within all the context that Pharos provides.'
         ]
       },
       {
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Circular Treemaps for Expression Data',
-        text: ['Pharos now helps you understand patterns of expression data by grouping tissues based on the UBERON ' +
-        'hierarchy into a circular treemap. The plots are interactive in that they filter the heat map to expression ' +
-        'data for the selected branch of the UBERON hierarchy.' +
-        '<img class="tour-screenshot" src="./assets/images/tutorials/new314/expression-circle.png"/>']
+        title: 'Updated Publications and GeneRIFs',
+        text: ['The list of publications for each target has been updated with fresh data from NCBI ' +
+        'and JensenLab. The updated UI component lists all publications and generifs from NCBI. You can view the publications ' +
+        'and abstracts here, or download this data, along with the publications that JensenLab finds in their more ' +
+        'comprehensive full text search for mentions of the targets.<br/><br/>' +
+        'GeneRIFs are curated snippets of text that provide a <b>R</b>eference <b>I</b>nto <b>F</b>unction for the target.' +
+        ' These are shown alongside the relevant publication for the GeneRIF.' +
+        '<br/>' +
+        '<img class="tour-screenshot" src="./assets/images/tutorials/new315/pubs.png"/>']
       },
       {
         scrollTo: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Circular Treemaps for Disease Novelty',
-        text: ['The circular treemaps in the Disease Novelty components will help to interpret the scatterplot of TIN-X data. ' +
-        'Disease associations that are high on both the <em>importance</em> metric as well as the <em>disease novelty</em> metric ' +
-        'are promising areas of investigation. Using the circular treemap together with the scatterplot can help find ' +
-        'related diseases that are high on both metrics.' +
-        '<br /><video width="100%" controls>' +
-        '  <source src="./assets/images/tutorials/new314/tinx.mp4" type="video/mp4">' +
-        '  Your browser does not support HTML5 video.' +
-        '</video>']
+        title: 'Word Clouds for all targets',
+        text: ['Here\'s a little something for slide deck. In the Publications section of the target details pages, ' +
+        'Pharos shows a word cloud based on the words from the abstracts of the 100 most recent publications associated ' +
+        'with that target.' +
+        '<br/>' +
+        '<img class="tour-screenshot" src="./assets/images/tutorials/new315/wordcloud.png"/>']
+      },
+      {
+        scrollToHandler: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Get data back into Pharos',
+        text: ['There are many ways to get data OUT of Pharos, such as CSV download, and the GraphQL API.<br/>' +
+        'Now, researchers can display their own data right in context with the many other data sources that Pharos has to offer. Share ' +
+        'your results with colleagues, or just use it to provide an easy way to tap into the analysis features that Pharos has, like ' +
+        'enrichment calculations, and interactive visualizations, for the lists your research generates.' +
+        '<br/>' +
+        '<img class="tour-screenshot" src="./assets/images/tutorials/new315/devtools.png"/>']
       },
       {
         scrollToHandler: false,
         buttons: this.lastButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'New Predictions',
-        text: ['Predicted associations between kinases and cancers from Ravenmehr <em>et al.</em> are shown on the target ' +
-        'details pages for the kinases, and the disease details pages for the cancers.<br/><br/>Criteria to include your own predictions ' +
-        'in Pharos are posted on the FAQ page.<br/>' +
-        '<img class="tour-screenshot" src="./assets/images/tutorials/new314/cancer predictions.png"/>']
+        title: 'API Tutorial',
+        text: ['Get your feet wet creating an API from scratch with the walkthrough on the GitHub repo for the ' +
+        '<a href="https://github.com/ncats/pharos-community-data-api" target="_blank">Pharos Community Data API</a><br/><br/>' +
+        'During the tutorial, you\'ll download disease association data from Alliance Genome, and build an API that ' +
+        'transforms that data into structured data that Pharos can display.' +
+        '<br/>' +
+        '<img class="tour-screenshot" src="./assets/images/tutorials/new315/tutorial.png"/>']
       }
     ];
     this.shepherdService.defaultStepOptions = this.defaultStepOptions;
@@ -257,7 +274,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(TourType.WhatsNew314, event);
+        this.completeTour(TourType.WhatsNew315, event);
       });
     });
     this.shepherdService.start();
@@ -462,7 +479,7 @@ export class TourService {
         'located towards the upper-right of the scatterplot, the data supports a role of this target in that family of diseases. ' +
         'Other regions of the scatterplot may also be of interest for various reasons.' +
         '<br /><video width="100%" controls>' +
-        '  <source src="./assets/images/tutorials/new314/tinx.mp4" type="video/mp4">' +
+        '  <source src="./assets/images/tutorials/tinx.mp4" type="video/mp4">' +
         '  Your browser does not support HTML5 video.' +
         '</video>']
       },

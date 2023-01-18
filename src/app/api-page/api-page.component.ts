@@ -1,10 +1,12 @@
-import {Component, Inject, OnInit, PLATFORM_ID, SecurityContext} from '@angular/core';
-import {MatDialog} from "@angular/material/dialog";
-import {isPlatformBrowser} from "@angular/common";
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {UnfurlingMetaService} from "../pharos-services/unfurling-meta.service";
 import {environment} from "../../environments/environment";
 import {FeatureTrackingService} from '../pharos-services/feature-tracking.service';
+import { ApolloSandbox } from '@apollo/sandbox';
+import {Clipboard} from "@angular/cdk/clipboard";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {isPlatformBrowser} from "@angular/common";
 
 /**
  * ui page holder for a graphQL UI API documentation viewer
@@ -19,34 +21,16 @@ export class ApiPageComponent implements OnInit {
   /**
    * no args constructor
    */
-  constructor(private sanitizer: DomSanitizer,
+  constructor(private clipboard: Clipboard,
+              private snackBar: MatSnackBar,
+              private sanitizer: DomSanitizer,
               private metaService: UnfurlingMetaService,
-              private featureTrackingService: FeatureTrackingService) {
+              private featureTrackingService: FeatureTrackingService,
+              @Inject(PLATFORM_ID) private platformID: any) {
   }
 
   query: QueryDetails;
-  queryInFrame: number;
-  dirty: boolean = true;
-  _url: any;
-
-
-  url() {
-    if(!this.dirty) {
-      return this._url;
-    }
-    if(!this.query) { // first
-      this._url = this.sanitizer.bypassSecurityTrustResourceUrl(environment.graphqlUrl);
-    }
-    else { // user selected
-      this._url = this.sanitizer.bypassSecurityTrustResourceUrl(environment.graphqlUrl + `?query=${encodeURIComponent(this.query.query)}`);
-    }
-    this.dirty = false;
-    return this._url;
-  }
-
-  isActive(key: number) {
-    return key === this.queryInFrame;
-  }
+  sandbox: any;
 
   queryMap: Map<number, QueryDetails> = new Map<number, QueryDetails>([
     [0,
@@ -130,17 +114,23 @@ export class ApiPageComponent implements OnInit {
       }]
   ]);
 
-  changeQuery(query: QueryDetails) {
-    this.query = query;
-    this.queryInFrame = this.query.key;
-    this.dirty = true;
-    this.featureTrackingService.trackFeature('API Example Query', query.name);
+  copyQuery(details: QueryDetails) {
+    this.clipboard.copy(details.query);
+    this.snackBar.open(`${details.name} query copied to clipboard`, '', {duration: 3000});
+    this.featureTrackingService.trackFeature('API Example Query', details.name);
   }
 
   ngOnInit() {
     let newDescription = 'Build and run queries on the Pharos GraphQL server.';
     let newTitle = `Pharos: GraphQL API`;
     this.metaService.setMetaData({description: newDescription, title: newTitle});
+    if (isPlatformBrowser(this.platformID)) {
+      this.sandbox = new ApolloSandbox({
+        target: '#embedded-sandbox',
+        initialEndpoint: environment.graphqlUrl,
+        includeCookies: false
+      });
+    }
   }
 }
 

@@ -15,3 +15,25 @@
       padding-left: 1vw;
     padding-right: 1vw;
 }
+
+.pub-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.tool-button {
+  margin-right: 10px;
+  height: fit-content;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+}
+
+@media only screen and (max-width: 960px) {
+  .button-container {
+    display: flex;
+    flex-direction: column;
+  }
+}

@@ -64,7 +64,6 @@ const DISEASEDETAILSQUERY = gql`
       name: $term,
     ) {
       ...diseasesListFields
-      predictions
       uniprotDescription
       doDescription
       mondoDescription
@@ -128,6 +127,16 @@ const DISEASEDETAILSQUERY = gql`
           meanRankScore
         }
       }
+      communityAPIs{
+        code
+        default
+        section
+        related_section
+        model
+        url
+        description
+        link
+      }
     }
   }
   ${DISEASELISTFIELDS}
@@ -164,7 +173,7 @@ export class Disease {
   mondoID: string;
 
   diseaseIDs: DiseaseID[];
-
+  communityAPIs?: {code: string, default: boolean, section: string, related_section: string}[] = [];
   /**
    * List of disease association objects
    */

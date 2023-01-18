@@ -3,7 +3,9 @@
     <mat-icon>close</mat-icon>
   </button>
 </div>
-<div class="help-panel-content" *ngIf="sources && sources.length > 0 || helpDataService.versions && helpDataService.versions.length > 0">
+<div class="help-panel-content" *ngIf="sources && sources.length > 0 ||
+                                        helpDataService.versions && helpDataService.versions.length > 0 ||
+                                        predictionDetails?.length > 0">
   <div class="description-row">
     <div fxLayout="row" fxLayoutAlign="start center">
       <span class="mat-headline"> <strong>{{title}}</strong></span>
@@ -63,10 +65,11 @@
     </mat-expansion-panel>
     <mat-expansion-panel [expanded]="true" *ngIf="predictionDetails?.length > 0">
       <mat-expansion-panel-header>
-        <span class="mat-headline">Citation for Predicted Data</span>
+        <span class="mat-headline">Citations</span>
       </mat-expansion-panel-header>
       <div *ngFor="let citation of predictionDetails">
         <pharos-citation [citation]="citation" [full]="true"></pharos-citation>
+        <hr/>
       </div>
     </mat-expansion-panel>
   </mat-accordion>

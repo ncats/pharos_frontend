@@ -41,11 +41,12 @@ export class PathwaysPanelComponent extends DynamicPanelComponent implements OnI
     new PharosProperty({
       name: 'type',
       label: 'Data Source',
-      width: '15vw'
+      width: '10vw'
     }),
     new PharosProperty({
       name: 'name',
-      label: 'Name'
+      label: 'Name',
+      width: '40vw'
     }),
     new PharosProperty({
       name: 'facetLink',

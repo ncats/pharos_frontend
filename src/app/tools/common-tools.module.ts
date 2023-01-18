@@ -41,6 +41,9 @@ import { PredictionDetailsCardComponent } from './predictions-panel/prediction-d
 import { PredictionSetComponent } from './predictions-panel/prediction-set/prediction-set.component';
 import { CitationComponent } from './citation/citation.component';
 import { GardRareComponent } from './gard-rare/gard-rare.component';
+import { WordCloudComponent } from './visualizations/word-cloud/word-cloud.component';
+import {AngularD3CloudModule} from "angular-d3-cloud";
+import { CommunityDataPanelComponent } from './community-data-panel/community-data-panel.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +78,9 @@ import { GardRareComponent } from './gard-rare/gard-rare.component';
     PredictionDetailsCardComponent,
     PredictionSetComponent,
     CitationComponent,
-    GardRareComponent
+    GardRareComponent,
+    WordCloudComponent,
+    CommunityDataPanelComponent
   ],
   imports: [
     CommonModule,
@@ -86,7 +91,8 @@ import { GardRareComponent } from './gard-rare/gard-rare.component';
     GenericTableModule,
     RadarChartModule,
     UpsetModule,
-    FacetTableModule
+    FacetTableModule,
+    AngularD3CloudModule
   ],
     exports: [
         NcatsHeaderModule,
@@ -109,7 +115,11 @@ import { GardRareComponent } from './gard-rare/gard-rare.component';
         HeatMapComponent,
         SequenceAlignmentsComponent,
         TaskItemComponent,
-        GardRareComponent
+        GardRareComponent,
+        CitationComponent,
+        WordCloudComponent,
+        PredictionsPanelComponent,
+        CommunityDataPanelComponent
     ],
   entryComponents: [
     FieldSelectionDialogComponent
