@@ -141,7 +141,6 @@ export class AnalyzeHeaderComponent extends DynamicPanelComponent implements OnI
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(resolveResult => {
             if (resolveResult) {
-              console.log(resolveResult);
               result.targetList = resolveResult.targetList;
               this.saveCollection(result);
             }

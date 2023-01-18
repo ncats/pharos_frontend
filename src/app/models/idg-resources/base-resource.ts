@@ -115,17 +115,11 @@ export class BaseResource {
   }
 
   /**
-   * needed for parseSmiles
-   */
-  pharosConfig : PharosConfig;
-
-  /**
    * creates a BaseResource object. sets this.name and this.resourceType
    * @param data
    */
   constructor(data: any) {
     this.displayProperties = new Array<DataProperty>();
-    this.pharosConfig = new PharosConfig();
     if (data.Name || data.name) {
       this.name = data.Name ? data.Name : data.name;
     }

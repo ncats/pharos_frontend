@@ -28,7 +28,6 @@ import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predic
   ],
   providers: [
     // ligands
-    {provide: TOKENS.PREDICTIONS_PANEL, useValue: PredictionsPanelComponent},
     {provide: TOKENS.PHAROS_HELPPANEL_COMPONENT, useValue: HelpPanelComponent},
     {provide: TOKENS.LIGAND_HEADER_COMPONENT, useValue: LigandHeaderComponent},
     {provide: TOKENS.LIGAND_DETAILS_COMPONENT, useValue: LigandDetailsComponent},

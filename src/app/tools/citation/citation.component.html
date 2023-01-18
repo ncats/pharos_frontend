@@ -6,7 +6,7 @@
     <mat-icon [inline]="true">open_in_new</mat-icon>
   </a>
   <div class="citation" *ngIf="!full; else showfull">
-    {{citation.creditText}}, <em>{{citation.publisher.name}}</em>, <b>{{citation.datePublished}}</b>
+    {{citation.creditText}}, <em>{{citation.publisher?.name}}</em>, <b>{{citation.datePublished}}</b>
   </div>
   <ng-template #showfull>
     <div class="citation">

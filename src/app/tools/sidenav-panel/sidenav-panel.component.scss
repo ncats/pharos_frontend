@@ -22,6 +22,10 @@
   font-weight: 300;
 }
 
+.prediction-list-button {
+  background-color: $prediction-color !important;
+}
+
 .active {
   border-left: 8px solid mat.get-color-from-palette($pharos-app-primary);
 }

@@ -59,6 +59,9 @@ import {
     TinxScatterplotCardComponent
 } from "../../data-details/target-details/panels/disease-novelty/tinx-scatterplot-card/tinx-scatterplot-card.component";
 import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predictions-panel.component';
+import {
+  TargetWordCloudComponent
+} from "../../data-details/target-details/panels/target-word-cloud/target-word-cloud.component";
 
 @NgModule({
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
@@ -96,7 +99,8 @@ import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predic
         TargetPanelBaseComponent,
         ExpressionDetailsComponent,
         ExpressionDetailsBlockComponent,
-        NearbyTargetListComponent, TinxScatterplotCardComponent
+        NearbyTargetListComponent, TinxScatterplotCardComponent,
+      TargetWordCloudComponent
     ],
   imports: [
     CommonModule,
@@ -114,7 +118,8 @@ import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predic
   ],
   exports: [
     DiseaseCardComponent,
-    VirusDetailsComponent
+    VirusDetailsComponent,
+    TargetWordCloudComponent
   ],
   providers: [
     // breadcrumb
@@ -124,7 +129,6 @@ import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predic
     // targets
     {provide: TOKENS.TARGET_HEADER_COMPONENT, useValue: TargetHeaderComponent},
     {provide: TOKENS.SUMMARY_PANEL, useValue: SummaryPanelComponent},
-    {provide: TOKENS.PREDICTIONS_PANEL, useValue: PredictionsPanelComponent},
     {provide: TOKENS.IDG_RESOURCES_PANEL, useValue: IdgResourcesPanelComponent},
 
     {provide: TOKENS.PUBLICATION_STATISTICS_PANEL, useValue: PublicationStatisticsComponent},

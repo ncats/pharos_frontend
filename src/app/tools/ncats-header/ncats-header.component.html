@@ -30,9 +30,16 @@
     </button>
     <!--<button mat-button (click)="mobilesidenav.close()" routerLink="/topics" class="nav-menu-button"
             [ngClass]="{active: isActive('topics')}">Topics</button>
-  -->  <button mat-button (click)="mobilesidenav.close()" routerLink="/api" class="nav-menu-button"
-            [ngClass]="{active: isActive('api')}">API
-    </button>
+  -->
+    <button mat-button [matMenuTriggerFor]="devMenu" class="nav-menu-button">Tools</button>
+    <mat-menu #devMenu="matMenu" [classList]="'man-menu-panel'">
+      <button mat-button (click)="mobilesidenav.close()" routerLink="/api" class="nav-menu-button"
+              [ngClass]="{active: isActive('api')}">API
+      </button>
+      <button mat-button (click)="mobilesidenav.close()" routerLink="/toolbox" class="nav-menu-button"
+              [ngClass]="{active: isActive('toolbox')}">Dev Tools
+      </button>
+    </mat-menu>
     <button mat-button [matMenuTriggerFor]="aboutMenu" class="nav-menu-button">About</button>
     <mat-menu #aboutMenu="matMenu" [classList]="'man-menu-panel'">
       <button mat-button (click)="mobilesidenav.close()" routerLink="/about" class="nav-menu-button"
@@ -74,8 +81,11 @@
 <!--
       <a mat-button routerLink="/topics" [ngClass]="{active: isActive('topics')}">Topics</a>
 -->
-      <a mat-button routerLink="/api" [ngClass]="{active: isActive('api')}">API</a>
-
+      <button mat-button [matMenuTriggerFor]="devMenu">Tools</button>
+      <mat-menu #devMenu="matMenu" [classList]="'mat-menu-panel'">
+        <a mat-button routerLink="/api" [ngClass]="{active: isActive('api')}">API</a>
+        <a mat-button routerLink="/toolbox" [ngClass]="{active: isActive('toolbox')}">Dev Tools</a>
+      </mat-menu>
       <button mat-button [matMenuTriggerFor]="aboutMenu">About</button>
       <mat-menu #aboutMenu="matMenu" [classList]="'mat-menu-panel'">
         <a mat-button routerLink="/about" [ngClass]="{active: isActive('about')}">About Pharos</a>

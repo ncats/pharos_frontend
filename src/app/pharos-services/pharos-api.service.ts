@@ -263,6 +263,41 @@ export class PharosApiService {
       }
     }`;
 
+  public PubmedCloudQuery = gql`query pubmedCloudQuery($name: String) {
+    target(q: { sym: $name, uniprot: $name, stringid: $name }) {
+      abstractWordCounts {
+        name
+        count
+        oddsRatio
+        pValue
+      }
+    }
+  }`
+
+  public GetPredictions(model: string) {
+    const targetEndpoint = "target(q: { sym: $name, uniprot: $name, stringid: $name })";
+    const diseaseEndpoint = "disease(name: $name)";
+    const ligandEndpoint = "ligand(ligid: $name)";
+    let endpoint;
+    switch (model) {
+      case 'targets':
+        endpoint = targetEndpoint;
+        break;
+      case 'diseases':
+        endpoint = diseaseEndpoint;
+        break;
+      case 'ligands':
+        endpoint = ligandEndpoint;
+        break;
+    }
+    return gql(`query get${model.toUpperCase()}Predictions($name: String, $apiCode: [String]) {
+      model:${endpoint} {
+        name
+        communityData(apiCode: $apiCode)
+      }
+    }`);
+  }
+
   public TinxQuery = gql`query tinxDisease($name: String) {
     disease(name: $name) {
       name
@@ -279,6 +314,41 @@ export class PharosApiService {
       }
     }
   }`;
+
+  public GetAPIMetadataQuery = gql`query getAPIMetadataQuery($url: String!, $pageInfo: JSON!){
+    getAPIMetadata(
+      url: $url
+      pageInfo: $pageInfo
+    )
+  }`;
+
+  public getAPIs = gql`
+    query getAPIs {
+      communityAPIs {
+        code
+        model
+        url
+        default
+        data
+        related_section
+        section
+        description
+        link
+      }
+    }`;
+
+  public GetAPIResultsQuery = gql`query GetAPIResultsQuery($url: String!, $pageInfo: JSON!) {
+    getAPIResults(
+      url: $url
+      pageInfo: $pageInfo
+    )
+  }`;
+
+  public ParseLocalResultsQuery = gql`query ParseLocalResultsQuery($localResults: JSON!) {
+    parseAPIResults(
+      results: $localResults
+    )
+  }`
 
   /**
    * Api call to get main level paged data

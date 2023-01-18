@@ -8,7 +8,7 @@
            class="input-field" #typeaheadTarget>
     <mat-label class="search-label">{{placeholderStr}}</mat-label>
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="search($event)" [panelWidth]="fixedwidthDropdown ? '500px' : ''">
-      <ng-container *ngIf="typeaheadCtrl.value && typeaheadCtrl.value.length > 2">
+      <ng-container *ngIf="typeaheadCtrl.value && typeaheadCtrl.value.length > 2 && !detailsOnly">
         <mat-option [value]="{text: typeaheadCtrl.value, extra: {path: 'search', parameter: 'q', value: typeaheadCtrl.value}}">
           <mat-icon>search</mat-icon>
           Search Pharos for '{{typeaheadCtrl.value}}'
@@ -18,7 +18,7 @@
         [value]="{text: typeaheadCtrl.value, extra: g}">
         <ng-container *ngIf="autocompleteOption.isDetailsPage(g); else dynamic">
           <mat-icon>description</mat-icon>
-          <span [innerHTML]="g.value  | highlight : typeaheadCtrl.value"></span>
+          <span [innerHTML]="g.value | highlight : typeaheadCtrl.value"></span>
           <span> ({{g.path.slice(0,-1) | titlecase}})</span>
         </ng-container>
         <ng-template #dynamic>

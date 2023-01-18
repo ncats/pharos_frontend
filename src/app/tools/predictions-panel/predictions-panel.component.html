@@ -1,36 +1,37 @@
 <ng-template #nodata>
   <article>
-    <mat-card #viral
+    <mat-card #predictions
               (pharosScrollspy)="active(field)"
               [id]="field"
-              class="section-card">
+              class="section-card prediction-panel">
       <mat-card-content>
         <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
-        No predictions found
+          No data found
+        <div *ngIf="isDev && predictionResult">
+          <div>API Results:</div>
+          <div>{{predictionResult | json}}</div>
+        </div>
       </mat-card-content>
     </mat-card>
   </article>
 </ng-template>
 
 <ng-template #headerrow>
-  <pharos-component-header [description]="description" [field]="field" [headerText]="label + ' (' + count + ')'"
-                           [id]="field" [predictionDetails]="citations()"></pharos-component-header>
+  <pharos-component-header [headerText]="resultsSummary"></pharos-component-header>
 </ng-template>
 
 <article *ngIf="hasData(); else nodata">
   <mat-card #predictions
             (pharosScrollspy)="active(field)"
             [id]="field"
-            class="section-card">
+            class="section-card prediction-panel">
     <mat-card-content>
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img alt="loading..." class="spinner rotating" src="./assets/images/pharos_spinner.svg">
       </div>
       <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
-      <div class="fullwidth">
-        <div *ngFor="let predictionSet of predictionResult" class="panel">
-          <pharos-prediction-set [predictionSet]="predictionSet"></pharos-prediction-set>
-        </div>
+      <div>
+        <pharos-prediction-set *ngFor="let set of predictionResult" [predictionSet]="set"></pharos-prediction-set>
       </div>
     </mat-card-content>
   </mat-card>
