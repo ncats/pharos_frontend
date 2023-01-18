@@ -47,7 +47,7 @@ export class TargetWordCloudComponent extends DynamicPanelComponent implements O
 
   getWordsFromDatabase() {
     this.loadingStart();
-    if (isPlatformBrowser(this.platformID) && this.target.publicationCount >= 2) {
+    if (isPlatformBrowser(this.platformID) && this.target?.publicationCount >= 2) {
       const target = this._route.snapshot.paramMap.get('id');
       const variables = {name: target};
       const minFont = this.isVerySmallScreen ? 10 : 15;

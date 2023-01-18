@@ -8,13 +8,13 @@ import {Publication} from "../../../../../../models/publication";
 })
 export class PublicationCardComponent implements OnInit {
   @Input() publication: Publication;
-  generifs: any[];
+  generifs: any[] = [];
 
   showAbstract = false;
   constructor() { }
 
   ngOnInit(): void {
-    this.generifs = this.publication.generifs.filter(f => {
+    this.generifs = this.publication?.generifs.filter(f => {
       return !this.rifisdumb(f.text);
     })
   }

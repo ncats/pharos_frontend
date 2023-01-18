@@ -35,6 +35,7 @@ export class WordCloudComponent implements OnInit, OnChanges, AfterViewInit {
     } else {
       this.width = boundingWidth * .70;
     }
+    this.changeDetectorRef.detectChanges();
   }
 
   ngOnChanges() {
