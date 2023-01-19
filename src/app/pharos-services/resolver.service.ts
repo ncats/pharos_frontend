@@ -10,8 +10,8 @@ import {Subject} from 'rxjs';
 })
 export class ResolverService implements OnDestroy {
   protected ngUnsubscribe: Subject<any> = new Subject();
-  resolverURL = `https://resolver-public-test.ncats.nih.gov/resolver/`; // for localhost - also, you have to be on VPN
-  // resolverURL = `https://opendata.ncats.nih.gov/resolver/`;
+  // resolverURL = `https://resolver-public-test.ncats.nih.gov/resolver/`; // for localhost - also, you have to be on VPN
+  resolverURL = `https://opendata.ncats.nih.gov/resolver/`;
   constructor(
     private http: HttpClient,
     private molChangeService: MolChangeService,

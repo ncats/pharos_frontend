@@ -1,8 +1,7 @@
-<article>
+<article *ngIf="data && disease">
   <div>
       <mat-card id={{field}}
                 class="section-card"
-                *ngIf="data && disease"
                 (pharosScrollspy)="active(field)"
                 #diseaseSummary>
       <mat-card-content>
