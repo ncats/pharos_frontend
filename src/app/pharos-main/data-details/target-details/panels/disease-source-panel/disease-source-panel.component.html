@@ -52,16 +52,7 @@
               </div>
             </div>
           </div>
-<!--        </ng-container>-->
-<!--      </div>-->
-<!--      <div>-->
-<!--        <ng-container *ngFor="let root of target.diseaseTree">-->
-<!--          <pharos-pack-circle [hierarchyData]="root" [config]="circlePackConfig" [colorDomain]="[0, 3]"></pharos-pack-circle>-->
-<!--        </ng-container>-->
-<!--      </div>-->
-<!--      </div>-->
-<!--      </div>-->
     </mat-card-content>
   </mat-card>
-  <pharos-community-data-panel [apis]="target.communityAPIs" [section]="'diseaseSources'"></pharos-community-data-panel>
+  <pharos-community-data-panel *ngIf="hasData()" [apis]="target.communityAPIs" [section]="'diseaseSources'"></pharos-community-data-panel>
 </article>
