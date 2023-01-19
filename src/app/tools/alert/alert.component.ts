@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, Input} from '@angular/core';
+import {Component, OnInit, OnDestroy, Input, Inject, PLATFORM_ID} from '@angular/core';
 import {Router, NavigationStart} from '@angular/router';
 import {Subject, Subscription} from 'rxjs';
 import {Alert, AlertType} from '../../models/alert';
@@ -6,6 +6,7 @@ import {AlertService} from '../../pharos-services/alert.service';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {environment} from '../../../environments/environment';
 import {takeUntil} from 'rxjs/operators';
+import {isPlatformBrowser} from "@angular/common";
 
 @Component({
   selector: 'pharos-alert',
@@ -24,63 +25,65 @@ export class AlertComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private alertService: AlertService,
-    private db: AngularFirestore
+    private db: AngularFirestore,
+    @Inject(PLATFORM_ID) private platformID: any
   ) {
   }
 
   ngOnInit() {
-    this.isProd = environment.production;
-    // subscribe to new alert notifications
-    this.alertService.onAlert(this.id)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(alert => {
-        // clear alerts when an empty alert is received
-        if (!alert.message) {
-          // filter out alerts without 'keepAfterRouteChange' flag
-          this.alerts = this.alerts.filter(x => x.keepAfterRouteChange);
+    if (isPlatformBrowser(this.platformID)) {
+      this.isProd = environment.production;
+      // subscribe to new alert notifications
+      this.alertService.onAlert(this.id)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(alert => {
+          // clear alerts when an empty alert is received
+          if (!alert.message) {
+            // filter out alerts without 'keepAfterRouteChange' flag
+            this.alerts = this.alerts.filter(x => x.keepAfterRouteChange);
 
-          // remove 'keepAfterRouteChange' flag on the rest
-          this.alerts.forEach(x => delete x.keepAfterRouteChange);
-          return;
-        }
-
-        if (!this.isProd || alert.affectsProd) {
-          if (!alert.expireTime || (alert.expireTime > new Date())) {
-            // add alert to array
-            this.alerts.push(alert);
+            // remove 'keepAfterRouteChange' flag on the rest
+            this.alerts.forEach(x => delete x.keepAfterRouteChange);
+            return;
           }
-        }
 
-        // auto close alert if required
-        if (alert.autoClose) {
-          setTimeout(() => this.removeAlert(alert), 3000);
-        }
-      });
-
-    // clear alerts on location change
-    this.router.events
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(event => {
-      if (event instanceof NavigationStart) {
-        this.alertService.clear(this.id);
-      }
-    });
-
-    // @ts-ignore
-    this.dbSubscription = this.db.collection<any>('alerts').valueChanges()
-      .subscribe(alerts => {
-        this.alertService.clear(this.id);
-        // create and map questions by subject
-        if (alerts) {
-          alerts.forEach(alert => {
-            const A = Alert.parse(alert);
-            if (A) {
-              this.alertService.alert(A);
+          if (!this.isProd || alert.affectsProd) {
+            if (!alert.expireTime || (alert.expireTime > new Date())) {
+              // add alert to array
+              this.alerts.push(alert);
             }
-          });
-        }
-      });
+          }
 
+          // auto close alert if required
+          if (alert.autoClose) {
+            setTimeout(() => this.removeAlert(alert), 3000);
+          }
+        });
+
+      // clear alerts on location change
+      this.router.events
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(event => {
+          if (event instanceof NavigationStart) {
+            this.alertService.clear(this.id);
+          }
+        });
+
+      // @ts-ignore
+      this.dbSubscription = this.db.collection<any>('alerts').valueChanges()
+        .subscribe(alerts => {
+          this.alertService.clear(this.id);
+          // create and map questions by subject
+          if (alerts) {
+            alerts.forEach(alert => {
+              const A = Alert.parse(alert);
+              if (A) {
+                this.alertService.alert(A);
+              }
+            });
+          }
+        });
+    }
   }
 
   removeAlert(alert: Alert) {
