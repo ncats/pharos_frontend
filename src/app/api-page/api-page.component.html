@@ -15,14 +15,16 @@
 
     <mat-card>
       <mat-card-title class="header-text">Example queries</mat-card-title>
-      <mat-expansion-panel class="query-panel" *ngFor="let q of this.queryMap | keyvalue">
+      <mat-expansion-panel class="query-panel" *ngFor="let q of this.queryMap | keyvalue"
+                           [ngClass]="{'active': isActive(q.value.key)}"
+                           [expanded]="isActive(q.value.key)">
         <mat-expansion-panel-header>{{q.value.name}}</mat-expansion-panel-header>
         <div>
           {{q.value.description}}
         </div>
-        <button class="editButton" type="button" mat-raised-button [color]="'primary'" (click)="copyQuery(q.value)">
-          Copy Query
-          <mat-icon>content_copy</mat-icon>
+        <button class="editButton" type="button" mat-raised-button [color]="'primary'" (click)="changeQuery(q.value)">
+          Edit & Run
+          <mat-icon>arrow_right_alt</mat-icon>
         </button>
         <pre class="snippet">
         {{q.value.query}}
