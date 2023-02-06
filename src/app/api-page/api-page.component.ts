@@ -5,8 +5,8 @@ import {environment} from "../../environments/environment";
 import {FeatureTrackingService} from '../pharos-services/feature-tracking.service';
 import { ApolloSandbox } from '@apollo/sandbox';
 import {Clipboard} from "@angular/cdk/clipboard";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {isPlatformBrowser} from "@angular/common";
+import {NavigationExtras, Router} from "@angular/router";
 
 /**
  * ui page holder for a graphQL UI API documentation viewer
@@ -22,7 +22,7 @@ export class ApiPageComponent implements OnInit {
    * no args constructor
    */
   constructor(private clipboard: Clipboard,
-              private snackBar: MatSnackBar,
+              private router: Router,
               private sanitizer: DomSanitizer,
               private metaService: UnfurlingMetaService,
               private featureTrackingService: FeatureTrackingService,
@@ -30,6 +30,7 @@ export class ApiPageComponent implements OnInit {
   }
 
   query: QueryDetails;
+  queryInFrame: number;
   sandbox: any;
 
   queryMap: Map<number, QueryDetails> = new Map<number, QueryDetails>([
@@ -114,10 +115,25 @@ export class ApiPageComponent implements OnInit {
       }]
   ]);
 
-  copyQuery(details: QueryDetails) {
-    this.clipboard.copy(details.query);
-    this.snackBar.open(`${details.name} query copied to clipboard`, '', {duration: 3000});
+  changeQuery(details: QueryDetails) {
+    this.queryInFrame = details.key;
+    const navigationExtras: NavigationExtras = {
+      queryParamsHandling: 'merge',
+      fragment: 'filter-representation',
+      queryParams: {document: details.query}
+    };
+    this.router.navigate([], navigationExtras);
+    document.getElementById('embedded-sandbox').innerHTML = '';
+    this.sandbox = new ApolloSandbox({
+      target: '#embedded-sandbox',
+      initialEndpoint: environment.graphqlUrl,
+      includeCookies: false
+    });
     this.featureTrackingService.trackFeature('API Example Query', details.name);
+  }
+
+  isActive(key: number) {
+    return key === this.queryInFrame;
   }
 
   ngOnInit() {
