@@ -18,6 +18,7 @@ import {isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 import {Router} from '@angular/router';
 import {CentralStorageService} from '../../../../../pharos-services/central-storage.service';
+import {backend, environment} from "../../../../../../environments/environment";
 
 /**
  * displays amino acid sequence data
@@ -48,6 +49,14 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
    */
   residueCounts: any[];
   expectedResidueCounts: any[];
+  isProduction = environment.production;
+
+  get getDynamicSource() {
+    if (backend.startsWith("http://localhost")) {
+      return 'local';
+    }
+    return this.isProduction ? 'prod' : 'dev';
+  }
 
   /**
    * set up active sidenav component
@@ -92,6 +101,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
             window.customElements.get('protvista-uniprot') || window.customElements.define('protvista-uniprot', res.default);
             const viewer = this.renderer.createElement('protvista-uniprot');
             viewer.setAttribute('accession', this.target?.accession);
+            viewer.setAttribute('dynamicSource', this.getDynamicSource);
             this.viewerContainer.nativeElement.appendChild(viewer);
             this.scrollWhenComplete(viewer);
           });

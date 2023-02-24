@@ -55,7 +55,7 @@
     "graphql": "~16.4.0",
     "json2csv": "~5.0.7",
     "jszip": "~3.9.1",
-    "ncats-protvista-uniprot": "~2.8.39",
+    "ncats-protvista-uniprot": "~2.8.45",
     "ngx-json-viewer": "~3.0.2",
     "ngx-markdown": "~13.1.0",
     "patch-package": "^6.4.7",
