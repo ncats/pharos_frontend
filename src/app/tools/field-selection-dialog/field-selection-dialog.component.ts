@@ -390,8 +390,8 @@ ${resultsAreMaxed ? this.resultsMaxed() : ''}
 ${this.warnings}
 
 How to cite Pharos:
-  Sheils, T., Mathias, S. et al, "TCRD and Pharos 2021: mining the human proteome for disease biology", Nucl. Acids Res., 2021.
-  DOI: https://doi.org/10.1093/nar/gkaa993">10.1093/nar/gkaa993
+  Kelleher, K., Sheils, T. et al, "Pharos 2023: an integrated resource for the understudied human proteome", Nucl. Acids Res., 2023.
+  DOI: https://doi.org/10.1093/nar/gkac1033
 
 Data accessed from Pharos and TCRD is publicly available from the primary data sources listed on https://pharos.nih.gov/about. Please respect their individual licenses regarding proper use, redistribution, and citations.
 
