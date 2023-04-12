@@ -55,7 +55,7 @@ export class TourService {
   };
 
   menuTutorials: TourDefinition[] = [
-    {title: 'What\'s New in Version 3.15', storageKey: TourType.WhatsNew315},
+    {title: 'What\'s New in Version 3.16', storageKey: TourType.WhatsNew316},
     {title: 'Using the List Pages', storageKey: TourType.ListPagesTour},
     {title: 'Using the UpSet Chart', storageKey: TourType.UpsetChartTour},
     {title: 'Filter Value Enrichment', storageKey: TourType.FilterValueEnrichment},
@@ -92,7 +92,7 @@ export class TourService {
         this.featureTrackingService.trackFeature('Begin Tutorial', tutorialName);
       }
       switch (tutorialName) {
-        case TourType.WhatsNew315:
+        case TourType.WhatsNew316:
           this.whatsNew(true);
           break;
         case TourType.CustomListTour:
@@ -198,7 +198,7 @@ export class TourService {
     if (!isPlatformBrowser(this.platformID)) {
       return;
     }
-    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew315)) { // only autorun once
+    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew316)) { // only autorun once
       return;
     }
     this.loadPromise.then(() => {
@@ -211,61 +211,43 @@ export class TourService {
       {
         scrollTo: false,
         buttons: this.firstButtons.slice(),
-        title: 'What\'s new in Pharos 3.15?',
-        text: ['There are several new features in Pharos version 3.15, including <b>updated data for Publications and ' +
-        'GeneRIFs</b>, and a <b>word cloud</b> to display the 100 most overrepresented terms in PubMed abstracts for each target.<br/><br/>' +
-        'Also, there is a Toolbox page to help you build an API that can be used to <b>include your own data in Pharos</b>. This ' +
-        'provides a path to easily share your data within all the context that Pharos provides.'
+        title: 'What\'s new in Pharos 3.16?',
+        text: ['There are several new features in Pharos version 3.16, including new tracks in the ProtVista Viewer, ' +
+        'and links to PubChem protein pages.'
         ]
-      },
-      {
-        scrollTo: false,
-        buttons: this.middleButtons.slice(),
-        classes: 'step-with-screenshot',
-        title: 'Updated Publications and GeneRIFs',
-        text: ['The list of publications for each target has been updated with fresh data from NCBI ' +
-        'and JensenLab. The updated UI component lists all publications and generifs from NCBI. You can view the publications ' +
-        'and abstracts here, or download this data, along with the publications that JensenLab finds in their more ' +
-        'comprehensive full text search for mentions of the targets.<br/><br/>' +
-        'GeneRIFs are curated snippets of text that provide a <b>R</b>eference <b>I</b>nto <b>F</b>unction for the target.' +
-        ' These are shown alongside the relevant publication for the GeneRIF.' +
-        '<br/>' +
-        '<img class="tour-screenshot" src="./assets/images/tutorials/new315/pubs.png"/>']
-      },
-      {
-        scrollTo: false,
-        buttons: this.middleButtons.slice(),
-        classes: 'step-with-screenshot',
-        title: 'Word Clouds for all targets',
-        text: ['Here\'s a little something for slide deck. In the Publications section of the target details pages, ' +
-        'Pharos shows a word cloud based on the words from the abstracts of the 100 most recent publications associated ' +
-        'with that target.' +
-        '<br/>' +
-        '<img class="tour-screenshot" src="./assets/images/tutorials/new315/wordcloud.png"/>']
       },
       {
         scrollToHandler: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
         title: 'Get data back into Pharos',
-        text: ['There are many ways to get data OUT of Pharos, such as CSV download, and the GraphQL API.<br/>' +
-        'Now, researchers can display their own data right in context with the many other data sources that Pharos has to offer. Share ' +
-        'your results with colleagues, or just use it to provide an easy way to tap into the analysis features that Pharos has, like ' +
-        'enrichment calculations, and interactive visualizations, for the lists your research generates.' +
+        text: ['You are likely aware of the many ways to get data OUT of Pharos, such as CSV download, and the GraphQL API.<br/>' +
+        'And a new way for researchers to get their own data back INTO Pharos, to show it right in context with the many ' +
+        'other data sources that Pharos has to offer.' +
         '<br/>' +
-        '<img class="tour-screenshot" src="./assets/images/tutorials/new315/devtools.png"/>']
+        '<img class="tour-screenshot" src="./assets/images/tutorials/new316/devtools.png"/>']
+      },
+      {
+        scrollToHandler: false,
+        buttons: this.middleButtons.slice(),
+        classes: 'step-with-screenshot',
+        title: 'Get sequence data into Pharos',
+        text: ['Now there is an easy way to get your <b>sequence annotations</b> into Pharos, as exemplified by our two new tracks in our ' +
+        'ProtVista Viewer. Now you can see conservation estimates for each residue, as well as predicted kinases for each ' +
+        'putative Serine / Threonine phosphorylation site. Contact us at pharos@mail.nih.gov get started with getting your sequence ' +
+        'related data into Pharos.' +
+        '<br/>' +
+        '<img class="tour-screenshot" src="./assets/images/tutorials/new316/newtracks.png"/>']
       },
       {
         scrollToHandler: false,
         buttons: this.lastButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'API Tutorial',
-        text: ['Get your feet wet creating an API from scratch with the walkthrough on the GitHub repo for the ' +
-        '<a href="https://github.com/ncats/pharos-community-data-api" target="_blank">Pharos Community Data API</a><br/><br/>' +
-        'During the tutorial, you\'ll download disease association data from Alliance Genome, and build an API that ' +
-        'transforms that data into structured data that Pharos can display.' +
+        title: 'Links to PubChem',
+        text: ['We\'ve previously linked to PubChem for ligands when we had an appropriate ID. Now we\'ve added links to ' +
+        'PubChem\'s protein pages, so users can further explore known information about a given target.' +
         '<br/>' +
-        '<img class="tour-screenshot" src="./assets/images/tutorials/new315/tutorial.png"/>']
+        '<img class="tour-screenshot" src="./assets/images/tutorials/new316/pubchemlinks.png"/>']
       }
     ];
     this.shepherdService.defaultStepOptions = this.defaultStepOptions;
@@ -274,7 +256,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(TourType.WhatsNew315, event);
+        this.completeTour(TourType.WhatsNew316, event);
       });
     });
     this.shepherdService.start();

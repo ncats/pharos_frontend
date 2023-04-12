@@ -1,3 +1,17 @@
+# 3.16.0 (2023-04-15)
+### Added Features
+* **Added tracks to the ProtVista component**
+  * Conservation Estimation for any sequence based on protein language models from 
+<a href="https://pubmed.ncbi.nlm.nih.gov/36631405/" target="_blank" rel="noopener noreferrer">Yeung et al, 2023</a>.
+  * Predicted Kinases for phosphorylation sites based on 
+<a href="https://pubmed.ncbi.nlm.nih.gov/36631611/" target="_blank" rel="noopener noreferrer">Johnson et al, 2023</a>.
+* **Added links to PubChem**
+  * Target pages now link to the appropriate protein page on PubChem, from within the "Related Tools" component.
+  
+### Bug Fixes / Miscellaneous updates
+* Added components in the protvista viewer are now added dynamically based on settings in the server, making it easier to add new components
+_______________
+
 # 3.15.0 (2023-01-15)
 ### Added Features
 * **Publications Data Update**
