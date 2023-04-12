@@ -63,6 +63,8 @@ export class AffiliateLinksComponent extends TargetPanelBaseComponent implements
         return 'archs4.png';
       case 'RESOLUTE':
         return 'resolute.png';
+      case 'PubChem':
+        return 'pubchem.png';
     }
   }
 }

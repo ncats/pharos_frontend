@@ -1,10 +1,10 @@
 {
   "name": "pharos",
-  "version": "3.15.0",
+  "version": "3.16.0",
   "tcrd_version": "6.13.4",
   "license": "MIT",
   "scripts": {
-    "deploy": "GAE_VERSION=$(echo ${npm_package_version} | sed 's/\\./-/g') && gcloud app deploy --version $GAE_VERSION",
+    "deploy": "GAE_VERSION=$(echo ${npm_package_version} | sed 's/\\./-/g') && gcloud app deploy --version $GAE_VERSION --project=pharos-frontend-dev",
     "ng": "ng",
     "start": "node dist/server/main.js",
     "prebuild": "npm --no-git-tag-version version patch",

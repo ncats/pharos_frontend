@@ -108,7 +108,7 @@ _______________
 ### Added Features
 * **MONDO integration**
     * Different sources for target-disease associations use different disease ontologies. 
-    Now Pharos uses the <a href="https://mondo.monarchinitiative.org/" target="_blank">
+    Now Pharos uses the <a href="https://mondo.monarchinitiative.org/" target="_blank" rel="noopener noreferrer">
     MONDO Disease Ontology</a> to harmonize analogous terms.  
         * Accordingly, navigating to parent or child disease terms from the Disease Details pages is done using the
          MONDO Ontology, rather than Disease Ontology (DO).
@@ -147,7 +147,7 @@ _______________
     * Similarly to how custom lists of targets can be uploaded, now you can create your own custom lists of ligands and diseases. All the same functionality and visualizations are available for your custom lists as with all other lists in Pharos.
     * Ligands are resolved using NCATSFind which enables you to upload your lists as SMILES, ligand names, CAS Numbers, ChEMBL IDs, etc.
 * **Predicted Ligand Activities**
-    * Now, in addition to viewing active targets for a ligand, you can also see predicted targets for those ligands, based on QSAR model results from <a href="https://predictor.ncats.io/" target="_blank">NCATS Predictor</a>.
+    * Now, in addition to viewing active targets for a ligand, you can also see predicted targets for those ligands, based on QSAR model results from <a href="https://predictor.ncats.io/" target="_blank" rel="noopener noreferrer">NCATS Predictor</a>.
 * **Create Heatmaps**
     * On List Analysis pages, heatmaps can be constructed to show an overview of data for items in the list. 
     * For Target lists, you can construct a heatmap for:
@@ -165,7 +165,7 @@ _______________
 * **Improved Search Functionality**
     * One text search will return combined results from Targets, Diseases, and Ligands, as well as many filter values.
 * **Updated database to TCRD 6.12.4**
-    * <a href="http://juniper.health.unm.edu/tcrd/download/old_versions/TCRDv6.12.4.README" target="_blank">TCRD_v6.12.4.README</a>
+    * <a href="http://juniper.health.unm.edu/tcrd/download/old_versions/TCRDv6.12.4.README" target="_blank" rel="noopener noreferrer">TCRD_v6.12.4.README</a>
 
 
 ### Bug Fixes / Miscellaneous updates
@@ -213,7 +213,7 @@ _______________
 * Reactome Pathway Browser and links now point to the newly released IDG versions of those tools
 * Target list pages can be made for all targets with activity to a specific ligand, see links on the Ligand Details page
 * Revamp orthologs information, which is in its own panel instead of in a tab of the Expression panel
-* Compound structure rendering is now served by <a href="https://pharos-ligand.ncats.io/indexer" target="_blank">pharos.ligand.ncats.io/indexer</a>
+* Compound structure rendering is now served by <a href="https://pharos-ligand.ncats.io/indexer" target="_blank" rel="noopener noreferrer">pharos.ligand.ncats.io/indexer</a>
 
 _______________
 
@@ -231,8 +231,8 @@ _______________
 * **Updated Frequently Asked Questions**
 
 * **Updated database to TCRD 6.11.0**
-    * <a href="http://juniper.health.unm.edu/tcrd/download/old_versions/TCRDv6.10.0.README" target="_blank">TCRD_v6.10.0.README</a>
-    * <a href="http://juniper.health.unm.edu/tcrd/download/old_versions/TCRDv6.11.0.README" target="_blank">TCRD_v6.11.0.README</a>
+    * <a href="http://juniper.health.unm.edu/tcrd/download/old_versions/TCRDv6.10.0.README" target="_blank" rel="noopener noreferrer">TCRD_v6.10.0.README</a>
+    * <a href="http://juniper.health.unm.edu/tcrd/download/old_versions/TCRDv6.11.0.README" target="_blank" rel="noopener noreferrer">TCRD_v6.11.0.README</a>
 
 ### Bug Fixes / Miscellaneous updates
 * major version upgrade for d3 (6.6.2)
@@ -268,7 +268,7 @@ _______________
     * Links are available on target details pages for: GO Terms, Associated Diseases, Pathways, Interacting Viruses, and a few more.
 
 * **Updated database to TCRD 6.8.4**
-    * <a href="http://juniper.health.unm.edu/tcrd/download/old_versions/TCRD_v6.8.4.README" target="_blank">TCRD_v6.8.4.README</a>
+    * <a href="http://juniper.health.unm.edu/tcrd/download/old_versions/TCRD_v6.8.4.README" target="_blank" rel="noopener noreferrer">TCRD_v6.8.4.README</a>
 
 ### Bug Fixes & minor updates
 * Page titles are different for each page
@@ -343,7 +343,7 @@ _______________
     * Pharos will display histograms of values for some numeric measures. Users can select a range of values to use to filter the list. 
     
 * **Updated database to TCRD 6.7.0**
-    * <a href="http://juniper.health.unm.edu/tcrd/download/old_versions/TCRD_v6.7.0.README" target="_blank">TCRD_v6.7.0.README</a>
+    * <a href="http://juniper.health.unm.edu/tcrd/download/old_versions/TCRD_v6.7.0.README" target="_blank" rel="noopener noreferrer">TCRD_v6.7.0.README</a>
     
 
 ### Bug Fixes
@@ -355,11 +355,11 @@ _______________
 
 ### Added Features
 * **IDG Resources:**
-    * Fetching and Displaying IDG resources for Cell Lines, Constructs, Mouse Lines, Datasets, etc. from <a href="https://rss.ccs.miami.edu/rss-apis/" target="_blank">https://rss.ccs.miami.edu/rss-apis/</a>
+    * Fetching and Displaying IDG resources for Cell Lines, Constructs, Mouse Lines, Datasets, etc. from <a href="https://rss.ccs.miami.edu/rss-apis/" target="_blank" rel="noopener noreferrer">https://rss.ccs.miami.edu/rss-apis/</a>
     * Display expression with a mouse anatomogram
 
 * **Predicted Viral Interactions:**
-    * Showing Target List Facets, and Target Details Panel for Predicted Viral Interactions from <a href="http://phipster.org/" target="_blank">P-HIPSTer</a>.
+    * Showing Target List Facets, and Target Details Panel for Predicted Viral Interactions from <a href="http://phipster.org/" target="_blank" rel="noopener noreferrer">P-HIPSTer</a>.
       
 * **Revamp PDB Component:**
     * Update table to show better information for each structure shown
