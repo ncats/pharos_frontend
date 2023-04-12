@@ -1,10 +1,10 @@
 {
   "name": "pharos",
-  "version": "3.15.0",
+  "version": "3.16.0",
   "tcrd_version": "6.13.4",
   "license": "MIT",
   "scripts": {
-    "deploy": "GAE_VERSION=$(echo ${npm_package_version} | sed 's/\\./-/g') && gcloud app deploy --version $GAE_VERSION",
+    "deploy": "GAE_VERSION=$(echo ${npm_package_version} | sed 's/\\./-/g') && gcloud app deploy --version $GAE_VERSION --project=pharos-frontend-dev",
     "ng": "ng",
     "start": "node dist/server/main.js",
     "prebuild": "npm --no-git-tag-version version patch",
@@ -55,7 +55,7 @@
     "graphql": "~16.4.0",
     "json2csv": "~5.0.7",
     "jszip": "~3.9.1",
-    "ncats-protvista-uniprot": "~2.8.39",
+    "ncats-protvista-uniprot": "^2.8.50",
     "ngx-json-viewer": "~3.0.2",
     "ngx-markdown": "~13.1.0",
     "patch-package": "^6.4.7",
