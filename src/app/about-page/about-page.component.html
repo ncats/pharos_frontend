@@ -35,10 +35,6 @@
            [ngClass]="{'active': isActive('attribution')}">
           Attribution
         </a>
-        <a mat-list-item class="list-button" (click)="scroll(publications)"
-           [ngClass]="{'active': isActive('publications')}">
-          Other References
-        </a>
         <a mat-list-item class="list-button" (click)="scroll(help)" [ngClass]="{'active': isActive('help')}">
           Help
         </a>
@@ -51,9 +47,9 @@
         <div class="section-header" [ngClass]="{'active': isActive('introduction')}">Introduction</div>
         <div class="section-content">
           <p>Pharos is the user interface to the Knowledge Management Center
-            (KMC) for the <a href="https://commonfund.nih.gov/idg/index">Illuminating the Druggable Genome</a>
+            (KMC) for the <a href="https://commonfund.nih.gov/idg/index" target="_blank">Illuminating the Druggable Genome</a>
             (IDG) program funded by the National Institutes of Health (NIH) Common Fund.
-            (Grant No. <a href="https://projectreporter.nih.gov/project_info_description.cfm?aid=9461406&icde=38627613">
+            (Grant No. <a href="https://projectreporter.nih.gov/project_info_description.cfm?aid=9461406&icde=38627613" target="_blank">
               1U24CA224370-01</a>). The goal of KMC is to develop a comprehensive, integrated knowledge-base
             for the Druggable Genome (DG) to illuminate the uncharacterized and/or poorly annotated portion of
             the DG, focusing on three of the most commonly drug-targeted protein families:</p>
@@ -76,12 +72,12 @@
       <div fxFlex="75">
         <div class="section-header" [ngClass]="{'active': isActive('collaborators')}">Our Collaborators</div>
         <div class="section-content">
-          <p>Pharos is developed at <a href="http://ncats.nih.gov">NCATS</a>, together with collaborators from
-            the <a href="http://datascience.unm.edu/">University of New Mexico</a>, <a href="http://icahn.mssm.edu/">
-              Icahn School of Medicine, Mount Sinai</a>, <a href="https://www.ebi.ac.uk/about">EMBL-EBI</a>,
-            the <a href="https://diseases.jensenlab.org/">
+          <p>Pharos is developed at <a href="http://ncats.nih.gov" target="_blank">NCATS</a>, together with collaborators from
+            the <a href="http://datascience.unm.edu/" target="_blank">University of New Mexico</a>, <a href="http://icahn.mssm.edu/" target="_blank">
+              Icahn School of Medicine, Mount Sinai</a>, <a href="https://www.ebi.ac.uk/about" target="_blank">EMBL-EBI</a>,
+            the <a href="https://diseases.jensenlab.org/" target="_blank">
               Novo Nordisk Foundation Center for Protein Research (U. Copenhagen)</a>
-            and the <a href="http://ccs.miami.edu/?p=1103">University of Miami</a>.
+            and the <a href="http://ccs.miami.edu/?p=1103" target="_blank">University of Miami</a>.
           </p>
           <p>
             The DRGC network is the experimental side of IDG. DRGC research focuses on illuminating the druggable
@@ -91,7 +87,7 @@
             gaps and druggability likelihood analyses.
           </p>
           <p>
-            To find more details on our collaborators visit the <a href="https://druggablegenome.net">
+            To find more details on our collaborators visit the <a href="https://druggablegenome.net" target="_blank">
             IDG Consortium website</a>
           </p>
         </div>
@@ -160,9 +156,9 @@
               <div><span class="data-type">Protein data</span> including protein-protein interaction data</div>
             </mat-list-item>
             <mat-list-item>
-              <div><span class="data-type">Disease data</span> from <a href="http://www.ncbi.nlm.nih.gov/omim">OMIM</a>
+              <div><span class="data-type">Disease data</span> from <a href="http://www.ncbi.nlm.nih.gov/omim" target="_blank">OMIM</a>
                 and
-                <a href="http://disease-ontology.org/">Disease Ontology</a></div>
+                <a href="http://disease-ontology.org/" target="_blank">Disease Ontology</a></div>
             </mat-list-item>
             <mat-list-item>
               <div><span class="data-type">Genomic data</span> including expression (protein, RNA), transcription
@@ -176,16 +172,16 @@
             </mat-list-item>
             <mat-list-item>
               <div><span class="data-type">Text data</span> including <a
-                href="http://www.ncbi.nlm.nih.gov/gene/about-generif">GeneRIF</a>'s
+                href="http://www.ncbi.nlm.nih.gov/gene/about-generif" target="_blank">GeneRIF</a>'s
                 and text-mined publications
               </div>
             </mat-list-item>
             <mat-list-item>
               <div><span class="data-type">Ontologies</span> including the Drug Target Ontology,
-                <a href="https://mondo.monarchinitiative.org/">Mondo Disease Ontology</a>,
-                <a href="http://disease-ontology.org/">Disease Ontology</a>,
-                <a href="http://www.pantherdb.org/panther/ontologies.jsp">PANTHER</a>, and
-                <a href="http://geneontology.org/">GO</a></div>
+                <a href="https://mondo.monarchinitiative.org/" target="_blank">Mondo Disease Ontology</a>,
+                <a href="http://disease-ontology.org/" target="_blank">Disease Ontology</a>,
+                <a href="http://www.pantherdb.org/panther/ontologies.jsp" target="_blank">PANTHER</a>, and
+                <a href="http://geneontology.org/" target="_blank">GO</a></div>
             </mat-list-item>
           </mat-list>
         </div>
@@ -211,7 +207,7 @@
         <div class="section-header" [ngClass]="{'active': isActive('datadownload')}">Data Download</div>
         <div class="section-content">
           <p>In addition to the CSV download links available on all the List and Details pages, the current and past versions of TCRD are available from <a
-            href="http://juniper.health.unm.edu/tcrd/download/">
+            href="http://juniper.health.unm.edu/tcrd/download/" target="_blank">
             here</a>
           </p>
         </div>
@@ -231,8 +227,8 @@
         <div class="section-header" [ngClass]="{'active': isActive('code')}">Pharos Code</div>
         <div class="section-content">
           <p>The sources for the Pharos web interface are available from
-            <a href="https://github.com/ncats/pharos_frontend">https://github.com/ncats/pharos_frontend</a> and
-            <a href="https://github.com/ncats/pharos-graphql-server">https://github.com/ncats/pharos-graphql-server</a>.
+            <a href="https://github.com/ncats/pharos_frontend" target="_blank">https://github.com/ncats/pharos_frontend</a> and
+            <a href="https://github.com/ncats/pharos-graphql-server" target="_blank">https://github.com/ncats/pharos-graphql-server</a>.
             The repositories provide README instructions on building and installation.</p>
         </div>
       </div>
@@ -241,29 +237,34 @@
       <div fxFlex="75">
         <div class="section-header" [ngClass]="{'active': isActive('attribution')}">Attribution</div>
         <div class="section-content">
-          <p>If you use Pharos, please consider citing it as
+          <p>If you use Pharos, please consider citing it as:
           <blockquote class="active blockquote">
-            Sheils, T., Mathias, S. et al, "TCRD and Pharos 2021: mining the human proteome for disease biology",
-            <i>Nucl. Acids Res.</i>, <b>2021</b>.
-            DOI: <a href="https://doi.org/10.1093/nar/gkaa993">10.1093/nar/gkaa993</a>
+          Kelleher, K., Sheils, T. et al, "Pharos 2023: an integrated resource for the understudied human proteome",
+            <i>Nucl. Acids Res.</i>, <b>2023</b>.
+            DOI: <a href="https://doi.org/10.1093/nar/gkac1033" target="_blank">10.1093/nar/gkac1033</a>
           </blockquote>
         </div>
       </div>
     </div>
     <div fxLayout="row" id="publications" #publications #scrollSection>
       <div fxFlex="75">
-        <div class="section-header" [ngClass]="{'active': isActive('publications')}">Other References</div>
+        <div class="mat-card-title">Other References</div>
         <div class="section-content">
+          <blockquote class="active blockquote">
+            Sheils, T., Mathias, S. et al, "TCRD and Pharos 2021: mining the human proteome for disease biology",
+            <i>Nucl. Acids Res.</i>, <b>2021</b>.
+            DOI: <a href="https://doi.org/10.1093/nar/gkaa993" target="_blank">10.1093/nar/gkaa993</a>
+          </blockquote>
           <blockquote class="active blockquote">
             Sheils, T., Mathias, S. et al, "How to Illuminate the Druggable Genome Using Pharos",
             <i>Curr Protoc Bioinformatics</i>, <b>2020</b>, <i>69</i>(1).
-            DOI: <a href="https://doi.org/10.1002/cpbi.92">10.1002/cpbi.92</a>
+            DOI: <a href="https://doi.org/10.1002/cpbi.92" target="_blank">10.1002/cpbi.92</a>
           </blockquote>
           <blockquote class="active blockquote">
             Nguyen, D.-T., Mathias, S. et al, "Pharos: Collating Protein Information to Shed Light on the Druggable
             Genome",
             <i>Nucl. Acids Res.</i>, <b>2017</b>, <i>45</i>(D1), D995-D1002.
-            DOI: <a href="http://dx.doi.org/10.1093/nar/gkw1072">10.1093/nar/gkw1072</a>
+            DOI: <a href="http://dx.doi.org/10.1093/nar/gkw1072" target="_blank">10.1093/nar/gkw1072</a>
           </blockquote>
         </div>
       </div>
