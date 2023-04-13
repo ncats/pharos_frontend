@@ -61,5 +61,5 @@
 }
 
 .prediction {
-  background-color: mat.get-color-from-palette($pharos-app-accent, A700);
+  background-color: $prediction-color;
 }
