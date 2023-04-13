@@ -25,10 +25,10 @@
 }
 
 .prediction {
-  background-color: mat.get-color-from-palette($pharos-app-accent, A700);
+  background-color: $prediction-color;
 }
 .prediction.mat-expanded:hover {
-  background-color: mat.get-color-from-palette($pharos-app-accent, A700);
+  background-color: $prediction-color;
 }
 
 .explanation{
