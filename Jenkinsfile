@@ -86,7 +86,8 @@ pipeline {
         stage('deploy docker') {
             steps {
                 configFileProvider([
-                   configFile(fileId: 'deploy.sh', targetLocation: 'deploy.sh')
+                   configFile(fileId: 'deploy.sh', targetLocation: 'deploy.sh'),
+                   configFile(filedId: 'docker-compose.yaml', targetLocation: 'docker-compose.yaml')
                 ]) {
                     sh  """  
                         /bin/bash deploy.sh
