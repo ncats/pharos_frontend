@@ -4,18 +4,38 @@ pipeline {
     }
     parameters {
         string(name: 'BUILD_VERSION', defaultValue: '', description: 'The build version to deploy (optional)')
+        string(name: 'ENVIRONMENT', defaultValue: 'ci', description: 'Role Name (mandatory)')
     }
     agent {
-        label 'ncatsldvifx01'
+        label 'ncats && dpi && ci && pharos'
     }
     triggers {
         pollSCM('H/5 * * * *')
-    }
-  environment {
-        PROJECT_NAME = "pharos-frontend"
+    }  
+    environment {
+        PROJECT_NAME     = "pharos"
         DOCKER_REPO_NAME = "registry.ncats.nih.gov:5000/pharos-frontend"
+        INIT_TOKEN       = credentials('Vault-Access')                                   // OIDC provider this token is Auto Generated //
+        SPHINX_TOKEN     = credentials('ncatssvcdvops-sphinx')                           // PatToken Read Only Access for the DevOps Artifacts Repo https://github.com/Sphinx-Automation/devops-pipeline-artifacts.git //
+        ROLE_NAME        = "$ENVIRONMENT-$PROJECT_NAME"                                  // Role Name is Mandatory Variable for Vault //
+        APP_TYPE         = "frontend"                                                         // Application Type is required to get Secret from Vault //
     }
     stages {
+        stage('Docker/Apps getSecrets By Role') {
+            steps {
+                script {
+                sh '''
+                    ### Cloning the repo from DevOps Artifacts Repository Repo ###
+                    git clone https://$SPHINX_TOKEN@github.com/Sphinx-Automation/devops-pipeline-artifacts.git
+                    
+                    ###  Running the script with Env specific to Authenticate Vault & Get Application Secrets for Docker Token###
+                    cd devops-pipeline-artifacts/application
+                    /bin/bash getNcatsDockerSecretsByRole.sh
+                    /bin/bash getAppSecretsByRole.sh
+                    '''
+                }
+            }
+        }
         stage('Build Version') {
             when {
                 expression {
@@ -37,55 +57,53 @@ pipeline {
         stage('Build') {
             when {
                 expression {
-                    // Skip build when a specific version is provided
                     return !params.BUILD_VERSION
                 }
             }
             steps {
-                sshagent (credentials: ['labsharesvc']) {
-                    nodejs(configId: 'kw-npmrc', nodeJSInstallationName: 'LTS Node.js 10.16.0') {
-                        withEnv([
-                            "IMAGE_NAME=pharos-frontend",
+                configFileProvider([
+                    configFile(fileId: 'environment.prod.ts', targetLocation: 'src/environments/environment.prod.ts'),
+                    configFile(fileId: 'prepare.sh', targetLocation: 'prepare.sh')
+                ]) {
+                    withEnv([
                             "BUILD_VERSION=" + (params.BUILD_VERSION ?: env.BUILD_VERSION)
                         ]) {
-                            checkout scm
-                            configFileProvider([
-                                configFile(fileId: 'environment.prod.ts', targetLocation: 'src/environments/environment.prod.ts')
-                            ]) {
-                            script {
-                                sh 'chmod 774 src/environments/environment.prod.ts'
-                                // See: https://jenkins.io/doc/book/pipeline/docker/#building-containers
-                                docker.withRegistry("https://registry.ncats.nih.gov:5000", "564b9230-c7e3-482d-b004-8e79e5e9720a") {
-                                    def image = docker.build(
-                                        "${env.IMAGE_NAME}:${env.BUILD_VERSION}",
-                                        "--no-cache ."
-                                    )
-                                    // Push the image to the registry
-                                    image.push("${env.BUILD_VERSION}")
-                                    }
-                                }
-                            }
+                        script {
+                        sh '''#!/bin/bash
+                            chmod 774 src/environments/environment.prod.ts
+                            source prepare.sh
+                            docker login https://registry.ncats.nih.gov:5000 -u "${DOCKERLOGIN}" -p "${DOCKERPASSWORD}"
+                            docker build --no-cache -f ./Dockerfile --build-arg BUILD_VERSION=${BUILD_VERSION} -t ${DOCKER_REPO_NAME} .
+                            docker tag ${DOCKER_REPO_NAME}:latest ${DOCKER_REPO_NAME}:${BUILD_VERSION}
+                            docker push ${DOCKER_REPO_NAME}:${BUILD_VERSION}
+                            '''
                         }
                     }
                 }
             }
         }
         stage('deploy docker') {
-            agent {
-                node { label 'ncatsldvifx01'}
-            }
             steps {
-                cleanWs()
-                checkout scm
                 configFileProvider([
-                    configFile(fileId: 'pharos-frontend-compose', targetLocation: 'docker-compose.yml')
+                   configFile(fileId: 'deploy.sh', targetLocation: 'deploy.sh'),
+                   configFile(fileId: 'docker-compose.yaml', targetLocation: 'docker-compose.yaml')
                 ]) {
-                   script {
-                        docker.withRegistry('https://registry.ncats.nih.gov:5000', '564b9230-c7e3-482d-b004-8e79e5e9720a') {    
-                            def docker = new org.labshare.Docker()
-                            docker.deployDockerAPI()
-                        }
-                    }
+                    sh  """  
+                        /bin/bash deploy.sh
+                        docker-compose -p $PROJECT_NAME-$APP_TYPE down -v --rmi all | xargs echo
+                        docker pull $DOCKER_REPO_NAME:$BUILD_VERSION
+                        docker rmi $DOCKER_REPO_NAME:current | xargs echo
+                        docker tag $DOCKER_REPO_NAME:$BUILD_VERSION $DOCKER_REPO_NAME:current
+                        docker-compose -p $PROJECT_NAME-$APP_TYPE up -d
+                        docker start nginx-gen | xargs echo
+                        docker rmi \$(docker images -aq) | xargs echo
+                    """
+                }
+            }
+            post {
+               always {
+                    echo " Clean up the workspace in deploy node!"
+                    cleanWs()
                 }
             }
         }
