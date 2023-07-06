@@ -66,7 +66,6 @@ pipeline {
                     configFile(fileId: 'prepare.sh', targetLocation: 'prepare.sh')
                 ]) {
                     withEnv([
-                            "IMAGE_NAME=pharos-frontend",
                             "BUILD_VERSION=" + (params.BUILD_VERSION ?: env.BUILD_VERSION)
                         ]) {
                         script {
