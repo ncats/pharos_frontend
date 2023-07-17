@@ -288,9 +288,9 @@ export class SelectedFacetService implements OnDestroy {
         const fArr = facetString.split(Facet.separator);
         const facetName: string = fArr[0].replace(/\+/g, ' ');
         const fieldName: string = decodeURI(fArr[1])
-          .replace('%2F', '/')
-          .replace('%2C', ',')
-          .replace('%3A', ':');
+          .replace(/%2F/g, '/')
+          .replace(/%2C/g, ',')
+          .replace(/%3A/g, ':');
         const facet: Facet = this._facetMap.get(facetName);
         if (facet) {
           if (fieldName.startsWith('InGroup:')) {
