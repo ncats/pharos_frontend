@@ -690,9 +690,9 @@ export class PharosApiService {
                 const fArr = val.split(Facet.separator);
                 const facetName: string = fArr[0].replace(/\+/g, ' ');
                 const fieldName: string = decodeURI(fArr[1])
-                  .replace('%2F', '/')
-                  .replace('%2C', ',')
-                  .replace('%3A', ':');
+                  .replace(/%2F/g, '/')
+                  .replace(/%2C/g, ',')
+                  .replace(/%3A/g, ':');
                 if (!filter.facets) {
                   if (fieldName.startsWith('InGroup:')) {
                     filter.facets = [{facet: facetName, upSets: [UpsetOptions.parseFromUrl(fieldName)], values: []}];
