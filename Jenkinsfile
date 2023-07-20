@@ -21,6 +21,12 @@ pipeline {
         APP_TYPE         = "frontend"                                                         // Application Type is required to get Secret from Vault //
     }
     stages {
+        stage('Checkout source code') {
+            steps {
+                cleanWs()
+                checkout scm
+            }
+        }
         stage('Docker/Apps getSecrets By Role') {
             steps {
                 script {
@@ -98,12 +104,6 @@ pipeline {
                         docker start nginx-gen | xargs echo
                         docker rmi \$(docker images -aq) | xargs echo
                     """
-                }
-            }
-            post {
-               always {
-                    echo " Clean up the workspace in deploy node!"
-                    cleanWs()
                 }
             }
         }
