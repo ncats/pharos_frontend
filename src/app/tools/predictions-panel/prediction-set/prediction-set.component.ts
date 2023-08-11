@@ -119,7 +119,7 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
     return [
       new PharosProperty({
         name: 'name',
-        label: this.predictionSet.predictions[0].name,
+        label: this.predictionSet.predictions[0].alternateName || this.predictionSet.predictions[0].name,
         sortable: true
       }),
       ...this.getAlternateName(),
