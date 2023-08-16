@@ -90,11 +90,14 @@ export class JsonldService {
       return ids;
     }
     const primeActivity: LigandActivity = ligand.activities[0].activities.find(a => a.moa);
+    const persistentPage = this.baseUrl + '/ligands/' + encodeURIComponent(ligand.isdrug ? ligand.name : ligand.ligid)
     const dataObj: any = {
       '@type': 'ChemicalSubstance',
+      '@id': persistentPage,
+      'http://purl.org/dc/terms/conformsTo': { '@id': 'https://bioschemas.org/profiles/ChemicalSubstance/0.4-RELEASE', '@type': 'CreativeWork' },
       name: ligand.name,
-      mainEntityOfPage: this.baseUrl + '/ligands/' + encodeURIComponent(ligand.isdrug ? ligand.name : ligand.ligid),
-      url: this.baseUrl + '/ligands/' + encodeURIComponent(ligand.isdrug ? ligand.name : ligand.ligid),
+      mainEntityOfPage: persistentPage,
+      url: persistentPage,
       chemicalComposition: ligand.smiles,
       identifier: getIdentifiers()
     }
@@ -120,11 +123,13 @@ export class JsonldService {
       })
       return ids;
     }
+    const persistentPage = this.baseUrl + '/diseases/' + encodeURIComponent(disease.name);
     const dataObj: any = {
       '@type': 'MedicalCondition',
+      '@id': persistentPage,
       name: disease.name,
-      mainEntityOfPage: this.baseUrl + '/diseases/' + encodeURIComponent(disease.name),
-      url: this.baseUrl + '/diseases/' + encodeURIComponent(disease.name),
+      mainEntityOfPage: persistentPage,
+      url: persistentPage,
       description: disease.mondoDescription || disease.doDescription || disease.uniprotDescription,
       identifier: getIdentifiers()
     }
@@ -144,12 +149,15 @@ export class JsonldService {
       ids.push(this.property("UniProt ID", target.accession));
       return ids;
     }
+    const persistentPage = this.baseUrl + '/targets/' + target.preferredSymbol;
     const dataObj: any = {
       '@type': 'Protein',
+      '@id': persistentPage,
+      'http://purl.org/dc/terms/conformsTo': { '@id': 'https://bioschemas.org/profiles/Protein/0.11-RELEASE', '@type': 'CreativeWork' },
       name: target.name,
       identifier: getIdentifiers(),
-      mainEntityOfPage: this.baseUrl + '/targets/' + target.preferredSymbol,
-      url: this.baseUrl + '/targets/' + target.preferredSymbol,
+      mainEntityOfPage: persistentPage,
+      url: persistentPage,
       description: target.description,
       hasBioPolymerSequence: target.sequence
     };
