@@ -62,6 +62,9 @@ import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predic
 import {
   TargetWordCloudComponent
 } from "../../data-details/target-details/panels/target-word-cloud/target-word-cloud.component";
+import {
+  InteractingPathwaysComponent
+} from "../../data-details/target-details/panels/interacting-pathways-component/interacting-pathways.component";
 
 @NgModule({
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
@@ -78,6 +81,7 @@ import {
         AaSequencePanelComponent,
         ProteinProteinPanelComponent,
         PathwaysPanelComponent,
+        InteractingPathwaysComponent,
         ReactomePathwayBrowserComponent,
         NearestTclinPanelComponent,
         ViralInteractionPanelComponent,
@@ -144,7 +148,7 @@ import {
     {provide: TOKENS.DRUGS_PANEL, useValue: DrugsPanelComponent},
     {provide: TOKENS.PATHWAYS_PANEL, useValue: PathwaysPanelComponent},
     {provide: TOKENS.GO_TERMS_PANEL, useValue: GoTermsComponent},
-    {provide: TOKENS.PATHWAYS_PANEL, useValue: PathwaysPanelComponent},
+    {provide: TOKENS.INTERACTING_PATHWAYS_PANEL, useValue: InteractingPathwaysComponent},
     {provide: TOKENS.GWAS_TARGET_ANALYTICS_PANEL, useValue: GwasTargetAnalyticsComponent},
     {provide: TOKENS.NEAREST_TCLIN_PANEL, useValue: NearestTclinPanelComponent},
     {provide: TOKENS.AFFILIATE_LINKS, useValue: AffiliateLinksComponent},

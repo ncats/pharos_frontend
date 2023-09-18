@@ -10,11 +10,34 @@ export class ScriptLoadService {
               @Inject(DOCUMENT) private _document: Document) {
   }
 
+  loadReactomeInteractingPathwaysScript() {
+    if (isPlatformServer(this.platformID)) {
+      return Promise.resolve();
+    }
+    const className = 'reactome-interacting-pathway-script';
+    const existingScripts = this._document.head.getElementsByClassName(className);
+    if (existingScripts.length) {
+      return Promise.resolve();
+    }
+    const script = this._document.createElement('script');
+    script.setAttribute('class', className);
+    script.type = 'text/javascript';
+    script.src = 'https://idg.reactome.org/wc/reactome-interactor-search.min.js';
+    script.onerror = (err) => {
+      console.log('Error loading Reactome Interactor widget');
+      console.log(err);
+    }
+    this._document.head.appendChild(script);
+    return new Promise((resolve) => {
+      script.onload = resolve;
+    });
+  }
+
   loadReactomeScript() {
     if (isPlatformServer(this.platformID)) {
       return Promise.resolve();
     }
-    const className = 'reactome-script';
+    const className = 'reactome-diagram-script';
     const existingScripts = this._document.head.getElementsByClassName(className)
     if (existingScripts.length) {
       return new Promise((resolve) => {
