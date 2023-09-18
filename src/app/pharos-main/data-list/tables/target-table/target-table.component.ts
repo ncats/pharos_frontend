@@ -118,7 +118,7 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
     ['Gene', {sortKey: 'Symbol', order: 'asc'}],
     ['UniProt', {sortKey: 'UniProt', order: 'asc'}],
     ['Development Level', {sortKey: 'Target Development Level', order: 'desc'}],
-    ['Family', {sortKey: 'Family', order: 'asc'}],
+    ['IDG Family', {sortKey: 'IDG Family', order: 'asc'}],
     ['Novelty', {sortKey: 'Novelty', order: 'desc'}],
     ['PubMed Score', {sortKey: 'PubMed Score', order: 'desc'}],
     ['Antibody Count', {sortKey: 'Antibody Count', order: 'desc'}]
