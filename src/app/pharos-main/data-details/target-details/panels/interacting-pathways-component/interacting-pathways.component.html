@@ -1,11 +1,11 @@
 <pharos-target-panel-base [data]="data" [child]="this" [prediction]="true" nodataMessage="No pathways found">
   <mat-card>
     <mat-card-content>
-      The <a href="https://reactome.org/">Reactome Knowledgebase</a> of Human Biological Pathways
-      and Processes is a curated and peer-reviewed knowledgebase available online as an open access
-      resource that can be freely used and distributed by all members of the biological research
-      community. This view of the reactome database is focused on {{target?.preferredSymbol}} and displays the
-      pathways associated with {{target?.preferredSymbol}}.
+      <a href="https://reactome.org/" target="_blank">Reactome</a> is a manually curated, peer reviewed
+      knowledgebase of human biological pathways and processes, available online as an open access resource
+      that can be freely used and distributed by all members of the biological research community. This
+      view of the Reactome database displays the pathways functionally interacting with <strong>
+      {{target?.preferredSymbol}}</strong>.
     </mat-card-content>
     <reactome-interactor-search darkmode="false" #interactorElement></reactome-interactor-search>
   </mat-card>

@@ -941,10 +941,10 @@ const INTERACTING_PATHWAYS_PANEL: PharosPanel = {
   navHeader: {
     label: "Interacting Pathways",
     section: 'interactingPathways',
-    mainDescription: 'Explore pathways enriched with functional interactions related ' +
-      'to your target of interest. Pathway enrichment is calculated based on the provided ' +
-      'cutoff and method for assessing pairwise relationships between your target and a ' +
-      'list of functionally interacting or correlated targets.',
+    mainDescription: 'Explore pathways that functionally interact with your target of interest. ' +
+      'These interacting pathways are inferred based on functional interactions selected according to the ' +
+      'provided cutoff. The functional interactions are predicted using a trained machine learning ' +
+      'model, employing a list of protein/gene pairwise relationships.',
     prediction: true,
     mainSource: ["https://www.biorxiv.org/content/10.1101/2023.06.05.543335v1",
     "https://pubmed.ncbi.nlm.nih.gov/37467006/"]
@@ -952,13 +952,16 @@ const INTERACTING_PATHWAYS_PANEL: PharosPanel = {
     {
       field: 'fiScore',
       label: 'Functional Interaction Score',
-      description: 'Use this field to filter the list based on the strength of pairwise ' +
-        'relationships between your target and other interacting genes or proteins.\n'
+      description: 'Use this field to select the predicted functional interactions between your target ' +
+        'and other genes or proteins according to the score calculated from the trained machine learning ' +
+        'model. The score measures the likelihood of the interaction between two proteins or genes. A ' +
+        'higher score indicates a higher chance that two proteins may be functionally related to each other.'
     },
     {
       field: 'include',
       label: 'Include annotated pathways',
-      description: 'Check this box to include pathways directly annotated on the target protein in the results.'
+      description: 'Check this box to include pathways manually annotated on the target ' +
+        'protein in the results.'
     },
     {
       field: 'choose',
@@ -969,13 +972,13 @@ const INTERACTING_PATHWAYS_PANEL: PharosPanel = {
     {
       field: 'geneNumber',
       label: 'Gene Number',
-      description: 'The count of interacting genes for each pathway.'
+      description: 'The count of genes annotated for each pathway.'
     },
     {
       field: 'pValue',
       label: 'pValue',
-      description: 'The p-values associated with enrichment scores for each pathway. Lower p-values indicate ' +
-        'stronger statistical significance for the enrichment of pathway annotations among the interacting genes.'
+      description: 'The p-values for each interacting pathway. Lower p-values indicate stronger statistical ' +
+        'significance for the interacting pathways.'
     },
     {
       field: 'fdr',
@@ -984,7 +987,6 @@ const INTERACTING_PATHWAYS_PANEL: PharosPanel = {
         'identify pathways with robust statistical support.'
     }
   ]
-
 }
 
 const PATHWAYS_PANEL: PharosPanel = {
