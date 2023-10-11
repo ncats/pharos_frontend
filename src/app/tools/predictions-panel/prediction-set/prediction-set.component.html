@@ -1,37 +1,71 @@
 <mat-card *ngIf="predictionSet" class="prediction-set-container">
-  <mat-card-content>
+  <div fxLayout="row">
     <pharos-citation [citation]="predictionSet.citation"></pharos-citation>
-    <div fxLayout="row" fxLayoutAlign="space-between start">
-      <pharos-explore-list-button *ngIf="listHasTargets()" [path]="'/targets'" [queryParams]="{collection: getList('targets')}"
-                                  [buttonText]="'Explore Targets'">
-      </pharos-explore-list-button>
-      <pharos-explore-list-button *ngIf="listHasDiseases()" [path]="'/diseases'" [queryParams]="{collection: getList('diseases')}"
-                                  [buttonText]="'Explore Diseases'">
-      </pharos-explore-list-button>
-      <button type="button" mat-raised-button [color]="'primary'"
-              *ngIf="listHasLigands()" (click)="resolveLigandList()">
-        Explore Ligands
-        <mat-icon>list</mat-icon>
-      </button>
-      <mat-paginator
-        [pageSize]="pageSize"
-        [length]="predictionSet.predictions?.length"
-        [hidePageSize]="false"
-        [showFirstLastButtons]=true
-        (page)=paginate($event)
-        #predictionPaginator>
-      </mat-paginator>
+    <div fxFlex=""></div>
+    <pharos-explore-list-button *ngIf="listHasTargets()"
+                                [buttonText]="'Explore ' + (listIsFiltered ? 'Filtered' : '') + ' Targets'"
+                                [path]="'/targets'"
+                                [queryParams]="{collection: getList('targets')}">
+    </pharos-explore-list-button>
+    <pharos-explore-list-button *ngIf="listHasDiseases()"
+                                [buttonText]="'Explore ' + (listIsFiltered ? 'Filtered' : '') + ' Diseases'"
+                                [path]="'/diseases'"
+                                [queryParams]="{collection: getList('diseases')}">
+    </pharos-explore-list-button>
+    <button (click)="resolveLigandList()" *ngIf="listHasLigands()" [color]="'primary'"
+            mat-raised-button type="button">
+      Explore (listIsFiltered ? 'Filtered' : '') Ligands
+      <mat-icon>list</mat-icon>
+    </button>
+    <pharos-download-community-data-button
+      [fileName]="this.detailsPage + '-' + this.predictionSet.predictions[0].name"
+      [listIsFiltered]="listIsFiltered"
+      [predictionProps]="predictionProps">
+    </pharos-download-community-data-button>
+  </div>
+  <mat-card-content fxLayout="row">
+    <div class="facet-panel" fxLayout="column" fxFlex="20vw">
+      <pharos-facet-card class="panel-card" [applyFilterOverride]="applyConfidenceFilter.bind(this)" [facet]="confidenceFacet(predictionSet.predictions)"
+                         [filterIsInUse]="returnFalse"
+                         [listIsFiltered]="listIsFiltered"
+                         [showFacetEnrichment]="returnFalse"></pharos-facet-card>
+      <ng-container *ngFor="let facet of dynamicFacets">
+        <pharos-facet-card class="panel-card" [facet]="facet" [startExpanded]="listIsUsingThisFacet(facet)"
+                           [filterSelection]="filterSelectionmap.get(facet.facet)"
+                           [applyFilterOverride]="applyDynamicFilter.bind(this)"
+                           [filterIsInUse]="returnFalse"
+                           [listIsFiltered]="listIsFiltered"
+                           [showFacetEnrichment]="returnFalse">
+        </pharos-facet-card>
+      </ng-container>
     </div>
-    <div *ngIf="showCardStyle(predictionSet); else tableStyle" class="prediction-card-container">
-      <div *ngFor="let pred of filteredPredictions" class="prediction">
-        <pharos-prediction-details-card [prediction]="pred"></pharos-prediction-details-card>
-      </div>
-    </div>
-    <ng-template #tableStyle>
-      <div class="prediction-table-container">
-        <pharos-generic-table [data]="filteredPredictionProps" (sortChange)="changeSort($event)"
-                              [fieldsConfig]="fields"></pharos-generic-table>
-      </div>
-    </ng-template>
+    <mat-card fxFlex="">
+      <mat-card-content>
+
+        <div fxLayout="row" fxLayoutAlign="space-between start">
+
+          <mat-paginator
+            #predictionPaginator
+            (page)=paginate($event)
+            [hidePageSize]="false"
+            [length]="filteredPredictions()?.length"
+            [pageSize]="pageSize"
+            [showFirstLastButtons]=true>
+          </mat-paginator>
+        </div>
+        <div *ngIf="showCardStyle(predictionSet); else tableStyle" class="prediction-card-container">
+          <div *ngFor="let pred of pagedPredictions" class="prediction">
+            <pharos-prediction-details-card [prediction]="pred"></pharos-prediction-details-card>
+          </div>
+        </div>
+        <ng-template #tableStyle>
+          <div class="prediction-table-container">
+            <pharos-generic-table (sortChange)="changeSort($event)" [data]="pagedPredictionProps"
+                                  [fieldsConfig]="fields"></pharos-generic-table>
+          </div>
+        </ng-template>
+      </mat-card-content>
+    </mat-card>
+
   </mat-card-content>
 </mat-card>

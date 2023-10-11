@@ -10,8 +10,10 @@ import {ReplaySubject} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {BatchResolveModalComponent} from "../../batch-resolve-modal/batch-resolve-modal.component";
-import {NavigationExtras, Router} from "@angular/router";
+import {ActivatedRoute, ActivatedRouteSnapshot, NavigationExtras, Router} from "@angular/router";
 import {CentralStorageService} from "../../../pharos-services/central-storage.service";
+import {Facet} from "../../../models/facet";
+import {SelectionModel} from "@angular/cdk/collections";
 
 @Component({
   selector: 'pharos-prediction-set',
@@ -28,6 +30,49 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
 
   page = 0;
 
+  minConfidence = 0;
+  maxConfidence = 1;
+
+  filterSelectionmap: Map<string, SelectionModel<string>> = new Map<string, SelectionModel<string>>();
+  dynamicFacets: Facet[] = [];
+
+  get detailsPage(): string {
+    return this._route.snapshot.paramMap.get('id');
+  }
+
+  get listIsFiltered(): boolean {
+    return this.predictionSet.predictions.length !== this.filteredPredictions().length;
+  }
+
+  filteredPredictions(ignoreFacet = null) {
+    const filteredList = this.predictionSet.predictions.filter(pred => {
+      if (pred.confidence.value < this.minConfidence) {
+        return false;
+      }
+      if (pred.confidence.value > this.maxConfidence) {
+        return false;
+      }
+      const props = this.predictionToPredictionProps(pred);
+      const filteringFacets = this.filteringFacets()
+      for(let i = 0 ; i < filteringFacets.length ; i++) {
+        const key = filteringFacets[i];
+          const selectionModel = this.filterSelectionmap.get(key);
+          const vals = selectionModel.selected;
+
+          let predVal = props['_' + key]?.term;
+          if (key === pred.alternateName) {
+            predVal = props.name.term;
+          }
+
+          if (vals.length > 0 && !vals.includes(predVal)) {
+            return false;
+          }
+      }
+      return true;
+    });
+    return filteredList;
+  }
+
   constructor(
     public dialog: MatDialog,
     private profileService: PharosProfileService,
@@ -35,14 +80,27 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
     private snackBar: MatSnackBar,
     private centralStorageService: CentralStorageService,
     private targetCollection: AngularFirestore,
-    private router: Router) {
+    private router: Router,
+    private _route: ActivatedRoute) {
     super();
   }
 
+  filteringFacets(): string[] {
+    return this.predictionSet.predictions[0].facetFields || [];
+  }
+
   ngOnInit(): void {
+    const facetFields = this.filteringFacets();
+    facetFields.forEach(facetField => {
+      this.filterSelectionmap.set(facetField, new SelectionModel<string>(true, []));
+    })
     this.profileService.profile$
     .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe(user => {
+      this.minConfidence = Math.min(...this.predictionSet.predictions.map(p => p.confidence.value));
+      this.maxConfidence = Math.max(...this.predictionSet.predictions.map(p => p.confidence.value));
+
+      this.dynamicFacets = this.calculateDynamicFacets();
       if (user) {
         this.user = user;
         this.loggedIn = true;
@@ -56,10 +114,10 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
     });
   }
 
-  get filteredPredictions() {
-    return this.sliceForPage(this.predictionSet.predictions);
+  get pagedPredictions() {
+    return this.sliceForPage(this.filteredPredictions());
   }
-  get filteredPredictionProps() {
+  get pagedPredictionProps() {
     return this.sliceForPage(this.predictionProps);
   }
   get pageSize() {
@@ -71,7 +129,7 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
 
   predictionTypes(predictionSet) {
     const uniqueKeys = new Map<string, boolean>();
-    predictionSet.predictions.forEach(p => uniqueKeys.set(p.name, true));
+    this.filteredPredictions().forEach(p => uniqueKeys.set(p.name, true));
     return Array.from(uniqueKeys.keys());
   }
 
@@ -132,22 +190,8 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
   }
 // { "@type": "Prediction", "name": "Predicted Cancer", "value": { "@context": "https://schema.org", "@type": "MedicalCondition", "name": "Carcinoma, Non-Small-Cell Lung", "alternateName": "MESH:D002289", "mondoid": [ "MONDO:0005233" ], "url": "/diseases/MONDO:0005233" }, "confidence": { "@context": "https://schema.org", "@type": "QuantitativeValue", "value": "0.85", "alternateName": "probability", "description": "Measure of the relevance of inhibiting a particular protein kinase for a specific cancer", "maxValue": 1, "minValue": 0 } }
   get predictionProps() {
-    return this.predictionSet.predictions?.map(f => {
-      const propObj = {
-        name: {term:f.value.name, internalLink: f.value.url},
-        alternateName: {term:f.value.alternateName},
-        value: {term: this.formatConfidence(f.confidence.value)}
-      };
-      if (f.value.identifier) {
-        if (Array.isArray(f.value.identifier)) {
-          f.value.identifier.forEach(id => {
-            propObj['_' + id.name] = {term: id.value};
-          })
-        } else {
-          propObj[f.value.identifier.name] = {term: f.value.identifier.value};
-        }
-      }
-      return propObj;
+    return this.filteredPredictions()?.map(f => {
+      return this.predictionToPredictionProps(f);
     })
       .sort((a: any, b: any) => {
         const field = this.sortField.active;
@@ -159,12 +203,31 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
           return b[field].term - a[field].term;
         } else {
           if (dir === 'asc') {
-            return a[field].term.localeCompare(b[field].term)
+            return a[field]?.term?.localeCompare(b[field].term)
           }
-          return b[field].term.localeCompare(a[field].term)
+          return b[field]?.term?.localeCompare(a[field].term)
         }
       });
   }
+
+  private predictionToPredictionProps(f) {
+    const propObj = {
+      name: {term: f.value.name, internalLink: f.value.url},
+      alternateName: {term: f.value.alternateName},
+      value: {term: this.formatConfidence(f.confidence.value)}
+    };
+    if (f.value.identifier) {
+      if (Array.isArray(f.value.identifier)) {
+        f.value.identifier.forEach(id => {
+          propObj['_' + id.name] = {term: id.value};
+        })
+      } else {
+        propObj[f.value.identifier.name] = {term: f.value.identifier.value};
+      }
+    }
+    return propObj;
+  }
+
   sortField = {active: 'value', direction: 'desc'};
 
   formatConfidence(val) {
@@ -174,38 +237,36 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
     }
     return val;
   }
-// {active: 'value', direction: 'asc'}
-// prediction-set.component.ts:90 {active: 'value', direction: 'desc'}
-// prediction-set.component.ts:90 {active: 'alternateName', direction: 'asc'}
 
   changeSort(event) {
     this.sortField = event;
   }
 
-  getFilteredPredictions(type: string): any[] {
-    if (this.predictionSet && this.predictionSet.predictions && this.predictionSet.predictions.length > 0) {
+  getPredictionsBasedOnType(type: string): any[] {
+    if (this.predictionSet && this.predictionSet.predictions && this.filteredPredictions().length > 0) {
       switch (type) {
         case 'targets':
-          return this.predictionSet.predictions.filter(p => p.value['@type'] === 'Protein');
+          return this.filteredPredictions().filter(p => p.value['@type'] === 'Protein');
         case 'diseases':
-          return this.predictionSet.predictions.filter(p => p.value['@type'] === 'MedicalCondition');
+          return this.filteredPredictions().filter(p => p.value['@type'] === 'MedicalCondition');
         case 'ligands':
-          return this.predictionSet.predictions.filter(p => p.value['@type'] === 'ChemicalSubstance');
+          return this.filteredPredictions().filter(p => p.value['@type'] === 'ChemicalSubstance');
       }
     }
   }
 
   listHasTargets() {
-    return this.getFilteredPredictions('targets')?.length > 0;
+    return this.getPredictionsBasedOnType('targets')?.length > 0;
   }
   listHasDiseases() {
-    return this.getFilteredPredictions('diseases')?.length > 0;
+    return this.getPredictionsBasedOnType('diseases')?.length > 0;
   }
   listHasLigands() {
-    return this.getFilteredPredictions('ligands')?.length > 0;
+    return this.getPredictionsBasedOnType('ligands')?.length > 0;
   }
+
   getList(type: string) {
-    const predictions = this.getFilteredPredictions(type);
+    const predictions = this.getPredictionsBasedOnType(type);
     const links = predictions.filter(p => p.value.url).map(p => {
       const url = p.value.url;
       const pieces = url.split('/');
@@ -218,7 +279,7 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
   }
 
   resolveLigandList() {
-    const ligandList = this.getFilteredPredictions('ligands')?.map(r => {
+    const ligandList = this.getPredictionsBasedOnType('ligands')?.map(r => {
       if (r.value.hasRepresentation && r.value.hasRepresentation.name === 'smiles') {
         return r.value.hasRepresentation.value;
       }
@@ -260,4 +321,112 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
   private _navigate(navExtras: NavigationExtras): void {
     this.router.navigate(['/ligands'], navExtras);
   }
+
+  confidenceFacet(predictions: any[]): Facet {
+    if (!predictions || predictions.length === 0) {
+      return;
+    }
+    const facetFields = this.filteringFacets();
+    if (!facetFields || facetFields.length === 0 || facetFields.includes('confidence')) {
+      const max = Math.max(...predictions.map(p => p.confidence.value));
+      const min = Math.min(...predictions.map(p => p.confidence.value));
+      const binSize = Math.ceil(((max - min) / 25) / 0.01) * 0.01 || 1;
+      const histogram = this.getConfidenceHistogram(predictions, binSize);
+      const firstVal = predictions[0];
+      const facet = new Facet({
+        binSize: binSize,
+        count: 36,
+        dataType: "Numeric",
+        description: undefined,
+        facet: firstVal.confidence.alternateName,
+        label: undefined,
+        max: max, min: min,
+        singleResponse: true,
+        sourceExplanation: firstVal.confidence.description,
+        values: histogram
+      })
+      return facet;
+    }
+  }
+
+  listIsUsingThisFacet(facet: Facet) : boolean {
+    const selectionModel = this.filterSelectionmap.get(facet.facet);
+    return !!selectionModel.selected && selectionModel.selected.length > 0;
+  }
+
+  calculateDynamicFacets(): Facet[] {
+    if (!this.predictionSet.predictions || this.predictionSet.predictions.length === 0) {
+      return;
+    }
+    const facetFields = this.filteringFacets();
+    const facets: Facet[] = [];
+    this.fields.filter(f => facetFields?.includes(f.label)).forEach(field => {
+      const facet = field.label;
+      const fieldName = field.name;
+      const map = new Map<string, number>();
+      const values: {name: string, count: number}[] = [];
+      const predictionProps = this.filteredPredictions(facet)?.map(f => {
+        return this.predictionToPredictionProps(f);
+      });
+
+      this.predictionProps.forEach(prediction => {
+        const val = prediction[fieldName].term;
+        const count = (map.get(val) || 0) + 1;
+        map.set(val, count);
+      });
+
+      map.forEach((v,k) => {
+        values.push({name: k, count: v});
+      });
+
+      values.sort((a,b) => b.count - a.count);
+
+      facets.push(new Facet({
+        count: map.size,
+        description: undefined,
+        facet: facet,
+        label: undefined,
+        singleResponse: true,
+        values: values
+      }));
+    });
+    return facets;
+  }
+
+  getConfidenceHistogram(predictions: any[], binSize) {
+    const map: Map<number, number> = new Map<number, number>();
+    predictions.forEach(p => {
+      const binVal = (Math.floor(p.confidence.value / binSize)) * binSize;
+      const currentCount = map.get(binVal) || 0;
+      map.set(binVal, currentCount + 1);
+    });
+    const histogram = [];
+    map.forEach((count, bin) => {
+      histogram.push({
+        name: bin,
+        count: count
+      })
+    });
+    return histogram;
+  }
+
+
+  returnFalse() {
+    return false;
+  }
+  returnTrue() {
+    return true;
+  }
+
+  applyConfidenceFilter(histogramComponent) {
+    this.minConfidence = histogramComponent.minSetting;
+    this.maxConfidence = histogramComponent.maxSetting;
+    this.changeRef.markForCheck();
+  }
+
+  applyDynamicFilter(facet, values) {
+    this.dynamicFacets = this.calculateDynamicFacets();
+    this.changeRef.markForCheck();
+  }
+
 }
