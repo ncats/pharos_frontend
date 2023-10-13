@@ -222,7 +222,7 @@ export class TourService {
         classes: 'step-with-screenshot',
         title: 'New data from Reactome',
         text: ['This release, Pharos integrates a new visualization from Reactome, which is available on all Target ' +
-        'details pages.  This tool helps you explore potential pathways for each target, based on pathways documented ' +
+        'details pages.  This tool helps you explore potential pathways for each target, based on pathways manually curated ' +
         'for interacting targets.' +
         '<br/>' +
         '<img class="tour-screenshot" src="./assets/images/tutorials/new318/interactingPathways.png"/>']
