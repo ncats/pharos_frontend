@@ -206,9 +206,12 @@
       <div fxFlex="75">
         <div class="section-header" [ngClass]="{'active': isActive('datadownload')}">Data Download</div>
         <div class="section-content">
-          <p>In addition to the CSV download links available on all the List and Details pages, the current and past versions of TCRD are available from <a
-            href="http://juniper.health.unm.edu/tcrd/download/" target="_blank">
-            here</a>
+          <p>In addition to the CSV download links available on all the List and Details pages, users can also download
+            the entire SQL database underlying Pharos. Versions of Target Central Resource Database (TCRD) are available
+            <a href="http://juniper.health.unm.edu/tcrd/download/" target="_blank">here</a>, and Pharos' version is
+            available from the <a href="https://opendata.ncats.nih.gov/public/pharos/" target="_blank">NCATS OpenData
+              Portal</a>. Pharos' version has some updated data sources, such as publications, expression data, etc.,
+            while TCRD includes some data that doesn't get displayed in Pharos, such as ClinVar and RDO.
           </p>
         </div>
       </div>
