@@ -90,10 +90,12 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
   }
 
   ngOnInit(): void {
-    const facetFields = this.filteringFacets();
-    facetFields.forEach(facetField => {
-      this.filterSelectionmap.set(facetField, new SelectionModel<string>(true, []));
-    })
+    if(this.predictionSet) {
+      const facetFields = this.filteringFacets();
+      facetFields.forEach(facetField => {
+        this.filterSelectionmap.set(facetField, new SelectionModel<string>(true, []));
+      })
+    }
     this.profileService.profile$
     .pipe(takeUntil(this.ngUnsubscribe))
     .subscribe(user => {
