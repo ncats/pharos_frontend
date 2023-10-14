@@ -17,7 +17,7 @@
   <mat-card (pharosScrollspy)="active(child?.field)"
             *ngIf="data && child && child.hasData(); else nodata"
             [id]="child?.field"
-            class="section-card">
+            [ngClass]="{'section-card': true, 'prediction-panel': prediction}">
     <mat-card-content>
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img alt="loading..." class="spinner rotating" src="./assets/images/pharos_spinner.svg">

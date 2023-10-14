@@ -1,3 +1,17 @@
+# 3.18.0 (2023-10-12)
+### Added Features
+* **Expanded functionality for Community Data**
+  * Now facets and histograms can be shown for data that comes into Pharos through the Community Data Framework.
+  * See the repo for details about incorporating your own data into Pharos https://github.com/ncats/pharos-community-data-api
+* **New data from Reactome**
+  * Functional Interactions, Coexpression Data, and Interacting Pathway data from 
+<a href="https://pubmed.ncbi.nlm.nih.gov/37333417/" target="_blank" rel="noopener noreferrer">Brunson et al.</a> are on each target details page.
+* **Data Update**
+  * Publications, GeneRIFs, Expression Data have all been updated
+
+### Bug Fixes / Miscellaneous updates
+* A fix to the Benjamini-Hockberg p-value adjustments was made for enrichment calculations
+
 # 3.16.0 (2023-04-15)
 ### Added Features
 * **Added tracks to the ProtVista component**

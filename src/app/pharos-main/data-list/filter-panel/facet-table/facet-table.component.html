@@ -2,7 +2,7 @@
   <input matInput (keyup)="filterFacet($event.target.value)" placeholder="Search {{facet.label}}">
 </mat-form-field>
 <div class="container">
-  <div class="loadingIcon facetSpinner" [ngClass]="{loading: loading}" fxLayoutAlign="center center">
+  <div class="loadingIcon facetSpinner" [ngClass]="{loading: loading}">
     <img class="rotating spinner" alt="loading..." src="../../../../../assets/images/pharos_spinner.svg">
   </div>
   <mat-table [dataSource]="filteredDataSource" (scroll)="scrollDetected($event)">

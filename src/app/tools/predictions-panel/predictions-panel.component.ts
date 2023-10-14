@@ -27,14 +27,9 @@ export class PredictionsPanelComponent extends DynamicPanelComponent implements 
       });
   }
 
-  get resultsSummary() {
-    const counts = [];
-    this.predictionResult?.forEach(set => {
-      if (set.predictions?.length > 0) {
-        counts.push(`${set.predictions[0].name} (${set.predictions.length})`);
-      }
-    });
-    return counts.join(', ');
+
+  resultsSummary(set) {
+    return `${set.predictions[0].name} (${set.predictions.length})`;
   }
 
   initialize(){
@@ -69,4 +64,6 @@ export class PredictionsPanelComponent extends DynamicPanelComponent implements 
   valueAscOrder(anything) {
     return 1;
   }
+
+
 }

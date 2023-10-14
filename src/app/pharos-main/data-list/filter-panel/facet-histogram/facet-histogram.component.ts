@@ -26,6 +26,9 @@ import {CentralStorageService} from '../../../../pharos-services/central-storage
 })
 export class FacetHistogramComponent implements OnInit, OnDestroy {
 
+  @Input()
+  applyFilterOverride: (histogramComponent: any) => void;
+
   constructor(
     private router: Router,
     private centralStorageService: CentralStorageService,
@@ -104,6 +107,10 @@ export class FacetHistogramComponent implements OnInit, OnDestroy {
   }
 
   applyFilter(){
+    if (this.applyFilterOverride) {
+      this.applyFilterOverride(this);
+      return;
+    }
     this.selectedFacetService.removefacetFamily(this.facet);
     this.selectedFacetService.setFacets({name: this.facet.facet, change: {added: [this.currentRangeDisplay()]}});
     const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();

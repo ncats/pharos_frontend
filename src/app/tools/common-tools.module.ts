@@ -30,7 +30,6 @@ import {ModelDetailsComponent} from './model-details/model-details.component';
 import { UpsetPlotComponent } from './visualizations/upset-plot/upset-plot.component';
 import { UpsetModule } from './visualizations/upset/upset.module';
 import { UpsetFieldEditComponent } from './upset-field-edit/upset-field-edit.component';
-import {FacetTableModule} from '../pharos-main/data-list/filter-panel/facet-table/facet-table.module';
 import { HeatMapComponent } from './visualizations/heat-map/heat-map.component';
 import { BatchResolveModalComponent } from './batch-resolve-modal/batch-resolve-modal.component';
 import { SequenceAlignmentsComponent } from './visualizations/sequence-alignments/sequence-alignments.component';
@@ -44,6 +43,8 @@ import { GardRareComponent } from './gard-rare/gard-rare.component';
 import { WordCloudComponent } from './visualizations/word-cloud/word-cloud.component';
 import {AngularD3CloudModule} from "angular-d3-cloud";
 import { CommunityDataPanelComponent } from './community-data-panel/community-data-panel.component';
+import {FilterPanelModule} from "../pharos-main/data-list/filter-panel/filter-panel.module";
+import { DownloadCommunityDataButtonComponent } from './predictions-panel/download-community-data-button/download-community-data-button.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { CommunityDataPanelComponent } from './community-data-panel/community-da
     CitationComponent,
     GardRareComponent,
     WordCloudComponent,
-    CommunityDataPanelComponent
+    CommunityDataPanelComponent,
+    DownloadCommunityDataButtonComponent
   ],
   imports: [
     CommonModule,
@@ -91,7 +93,7 @@ import { CommunityDataPanelComponent } from './community-data-panel/community-da
     GenericTableModule,
     RadarChartModule,
     UpsetModule,
-    FacetTableModule,
+    FilterPanelModule,
     AngularD3CloudModule
   ],
     exports: [
