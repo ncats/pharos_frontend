@@ -36,7 +36,6 @@ import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.
 })
 export class FilterPanelComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
-  isProduction = environment.production;
   /**
    * set up services to get facets
    * @param selectedFacetService
@@ -78,7 +77,6 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    */
   @Output() menuToggle: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  showInfo: Map<Facet, boolean> = new Map<Facet, boolean>();
   listIsFiltered = false;
   /**
    * list of initial facets to display
@@ -128,11 +126,6 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     return this._route.snapshot.data.path === 'search';
   }
 
-  toggleFacetInfo(facet: Facet){
-    const currentVal = this.showingInfo(facet);
-    this.showInfo.set(facet, !currentVal);
-  }
-
   isOnAnalyzePage() {
     const path = this.tourService.getPage();
     return path[0] === 'analyze';
@@ -155,12 +148,6 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     this.router.navigate([path], navigationExtras);
   }
 
-  showingInfo(facet: Facet): boolean{
-    if (this.showInfo.has(facet)){
-      return this.showInfo.get(facet);
-    }
-    return false;
-  }
   /**
    * set up subscriptions to get facets
    */
@@ -367,15 +354,6 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     this.loading = false;
     this.menuToggle.emit();
   }
-
-  facetIsPrediction(facet: Facet){
-    return facet.facet.toLowerCase().startsWith('predict');
-  }
-
-  getFacetPanelID(facet: Facet) {
-    return facet.facet.replace(/\s/g, '');
-  }
-
 
   filterIsInUse(filterName: string) {
     return !!this.selectedFacetService.getFacetByName(filterName);

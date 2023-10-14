@@ -27,6 +27,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    * facet to display fields of
    */
   @Input() facet: Facet;
+  @Input() applyFilterOverride: (facet: string, values: string[]) => void;
 
   @Input() values: Field[];
   @Input() path: string;
@@ -49,7 +50,7 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    * selection model to track selected filters
    * @type {SelectionModel<string>}
    */
-  filterSelection = new SelectionModel<string>(true, []);
+  @Input() filterSelection: SelectionModel<string>;
 
   displayColumns = ['select', 'name', 'count'];
 
@@ -104,6 +105,9 @@ export class FacetTableComponent implements OnInit, OnDestroy {
    * retrieve and set facet values, subscribe to changes
    */
   ngOnInit() {
+    if (!this.filterSelection) {
+      this.filterSelection = new SelectionModel<string>(true, []);
+    }
     this.router.events
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((e: any) => {
@@ -139,34 +143,38 @@ export class FacetTableComponent implements OnInit, OnDestroy {
     this.filterSelection.changed
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(change => {
-        if (!this.popup && !this.facet.noNavigate) {
-          if (this.propogate === true) {
-            this.selectedFacetService.setFacets({name: this.facet.facet, change});
-            const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
-
-            this.featureTrackingService.trackFeature('Using a Categorical Filter', this.centralStorageService.getModel(this._route),
-              this.facet.facet);
-
-            if (this.linkPath() === 'search') {
-              this.selectedFacetService.removeField('q', this.term);
-              this.selectedFacetService.removeField('query', this.term);
-              this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets(), this.overridePath);
-            } else {
-              this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
-            }
-          }
+        if (this.applyFilterOverride) {
+          this.applyFilterOverride(this.facet.facet, this.filterSelection.selected);
         } else {
-          if (this.popup) {
-            this.popupFieldsChange.emit(change.source.selected);
-          }
-          if (this.facet.noNavigate) {
-            const list = this.facet.values.filter(v => {
-              if (v.noLink) {
-                return false;
+          if (!this.popup && !this.facet.noNavigate) {
+            if (this.propogate === true) {
+              this.selectedFacetService.setFacets({name: this.facet.facet, change});
+              const queryParams = this.selectedFacetService.getFacetsAsUrlStrings();
+
+              this.featureTrackingService.trackFeature('Using a Categorical Filter', this.centralStorageService.getModel(this._route),
+                this.facet.facet);
+
+              if (this.linkPath() === 'search') {
+                this.selectedFacetService.removeField('q', this.term);
+                this.selectedFacetService.removeField('query', this.term);
+                this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets(), this.overridePath);
+              } else {
+                this.pathResolverService.navigate(queryParams, this._route, this.selectedFacetService.getPseudoFacets());
               }
-              return change.source.selected.includes(v.name);
-            }).map(v => v.name);
-            this.centralStorageService.setBrowseTypes(list);
+            }
+          } else {
+            if (this.popup) {
+              this.popupFieldsChange.emit(change.source.selected);
+            }
+            if (this.facet.noNavigate) {
+              const list = this.facet.values.filter(v => {
+                if (v.noLink) {
+                  return false;
+                }
+                return change.source.selected.includes(v.name);
+              }).map(v => v.name);
+              this.centralStorageService.setBrowseTypes(list);
+            }
           }
         }
       });
@@ -178,7 +186,10 @@ export class FacetTableComponent implements OnInit, OnDestroy {
     });
   }
   mapSelected() {
-    if (this.popup) {
+    if (this.applyFilterOverride) {
+      return;
+    }
+    else if (this.popup) {
       this.filterSelection.select(...this.popupFields);
     } else {
       const selected: Facet = this.selectedFacetService.getFacetByName(this.facet.facet);

@@ -225,10 +225,10 @@ export class BarChartComponent implements OnInit, OnDestroy {
       fullData.push(...this.expectedData);
     }
 
-    const yMin = d3.min(fullData.filter(p => (p[1] > 0)), d => +d[1]);
+    const yMin = d3.min(fullData.filter(p => (p[1] > 0)), d => +d[1]) - 0.5;
     const yMax = d3.max(fullData, d => +d[1]);
     let y;
-    const logY = (yMax / yMin) > 1000;
+    const logY = (yMax / yMin) > 500;
     // const logY = false;
     if (logY) {
       y = d3.scaleLog()

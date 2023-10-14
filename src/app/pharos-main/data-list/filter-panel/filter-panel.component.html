@@ -50,36 +50,9 @@
       <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
     </div>
     <div *ngFor="let facet of nonEmptyFacets(); trackBy: trackByFn;">
-      <mat-expansion-panel [expanded]=true *ngIf="facet.values.length > 0" class="filter-panel full-height"
-                           [id]="getFacetPanelID(facet)">
-        <mat-expansion-panel-header [ngClass]="{prediction: facetIsPrediction(facet)}">
-          <mat-panel-title>
-            <span>
-              <span class="mat-title facet-title">{{facet.label ? facet.label : facet.facet}}</span>
-              <span *ngIf="!isProduction && facet.elapsedTime"> ({{facet.elapsedTime?.toFixed(2)}}s)</span>
-              <span class="facet-modifier" *ngIf="facet.modifier"> ({{facet.modifier}})</span>
-            </span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <span class="info" [ngClass]="{infoCollapsed: !showingInfo(facet)}" *ngIf="facet.sourceExplanation" >
-          <div fxLayout="row">
-            <div *ngIf="showingInfo(facet)" class="explanation" [innerHTML]="facet.sourceExplanation"></div>
-            <div class="helpicon" (click)="toggleFacetInfo(facet)" matTooltip="Expand for a description of this filter">
-              <span class="helptext" [ngClass]="{hidden: showingInfo(facet)}">description </span> <mat-icon [color]="'primary'">help</mat-icon>
-            </div>
-          </div>
-          <div class="helpicon" (click)="showFacetEnrichment(facet)" *ngIf="facet.dataType === 'Category' && listIsFiltered && !filterIsInUse(facet.facet)" matTooltip="Click to calculate filter value enrichment">
-            <span class="helptext">calculate enrichment </span> <mat-icon [color]="'primary'">developer_board</mat-icon>
-          </div>
-        </span>
-        <div *ngIf="facet.dataType === 'Numeric'; then numericBlock else categoryBlock"></div>
-        <ng-template #categoryBlock>
-          <pharos-facet-table [facet]="facet"></pharos-facet-table>
-        </ng-template>
-        <ng-template #numericBlock>
-          <pharos-facet-histogram [facet]="facet"></pharos-facet-histogram>
-        </ng-template>
-      </mat-expansion-panel>
+      <pharos-facet-card [facet]="facet"
+                         [showFacetEnrichment]="showFacetEnrichment.bind(this)" [listIsFiltered]="listIsFiltered"
+                         [filterIsInUse]="filterIsInUse.bind(this)"></pharos-facet-card>
       <mat-divider></mat-divider>
     </div>
     <div *ngIf="facets && facets.length === 0">

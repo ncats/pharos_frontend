@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {OrthologSerializer} from '../../../../../models/ortholog';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
@@ -20,7 +20,7 @@ import {takeUntil} from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class OrthologPanelComponent extends TargetPanelBaseComponent implements OnInit, OnDestroy {
+export class OrthologPanelComponent extends TargetPanelBaseComponent implements OnInit {
   /**
    * target to display
    */

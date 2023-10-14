@@ -17,7 +17,6 @@
 </ng-template>
 
 <ng-template #headerrow>
-  <pharos-component-header [headerText]="resultsSummary"></pharos-component-header>
 </ng-template>
 
 <article *ngIf="hasData(); else nodata">
@@ -29,9 +28,11 @@
       <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
         <img alt="loading..." class="spinner rotating" src="./assets/images/pharos_spinner.svg">
       </div>
-      <ng-template [ngTemplateOutlet]="headerrow"></ng-template>
-      <div>
-        <pharos-prediction-set *ngFor="let set of predictionResult" [predictionSet]="set"></pharos-prediction-set>
+      <div fxLayout="column">
+        <ng-container *ngFor="let set of predictionResult">
+            <pharos-component-header [headerText]="resultsSummary(set)"></pharos-component-header>
+            <pharos-prediction-set [predictionSet]="set"></pharos-prediction-set>
+        </ng-container>
       </div>
     </mat-card-content>
   </mat-card>

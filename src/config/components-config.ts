@@ -297,7 +297,7 @@ const TARGET_TABLE_COMPONENT: PharosPanel = {
     },
     {
       field: 'family',
-      label: 'Family',
+      label: 'IDG Family',
       description: 'A broad classification of protein families'
     },
     {
@@ -819,7 +819,7 @@ const NEAREST_TCLIN_PANEL: PharosPanel = {
   api: [
     {
       field: 'family',
-      label: 'Family',
+      label: 'IDG Family',
       description: 'A broad classification of protein families'
     },
     {
@@ -935,6 +935,60 @@ const GO_TERMS_PANEL: PharosPanel = {
   ]
 };
 
+const INTERACTING_PATHWAYS_PANEL: PharosPanel = {
+  token: TOKENS.INTERACTING_PATHWAYS_PANEL,
+  browserOnly: true,
+  navHeader: {
+    label: "Interacting Pathways",
+    section: 'interactingPathways',
+    mainDescription: 'Explore pathways that functionally interact with your target of interest. ' +
+      'These interacting pathways are inferred based on functional interactions selected according to the ' +
+      'provided cutoff. The functional interactions are predicted using a trained machine learning ' +
+      'model, employing a list of protein/gene pairwise relationships.',
+    prediction: true,
+    mainSource: ["https://www.biorxiv.org/content/10.1101/2023.06.05.543335v1",
+    "https://pubmed.ncbi.nlm.nih.gov/37467006/"]
+  }, api: [
+    {
+      field: 'fiScore',
+      label: 'Functional Interaction Score',
+      description: 'Use this field to select the predicted functional interactions between your target ' +
+        'and other genes or proteins according to the score calculated from the trained machine learning ' +
+        'model. The score measures the likelihood of the interaction between two proteins or genes. A ' +
+        'higher score indicates a higher chance that two proteins may be functionally related to each other.'
+    },
+    {
+      field: 'include',
+      label: 'Include annotated pathways',
+      description: 'Check this box to include pathways manually annotated on the target ' +
+        'protein in the results.'
+    },
+    {
+      field: 'choose',
+      label: 'Choose Sources',
+      description: 'Customize the relationship types, data resources, and biosources used to retrieve the ' +
+        'individual pairwise relationships, tailoring the analysis to your specific needs.'
+    },
+    {
+      field: 'geneNumber',
+      label: 'Gene Number',
+      description: 'The count of genes annotated for each pathway.'
+    },
+    {
+      field: 'pValue',
+      label: 'pValue',
+      description: 'The p-values for each interacting pathway. Lower p-values indicate stronger statistical ' +
+        'significance for the interacting pathways.'
+    },
+    {
+      field: 'fdr',
+      label: 'FDR',
+      description: 'FDR adjusted p-values for each pathway, helping to account for multiple comparisons and ' +
+        'identify pathways with robust statistical support.'
+    }
+  ]
+}
+
 const PATHWAYS_PANEL: PharosPanel = {
   token: TOKENS.PATHWAYS_PANEL,
   browserOnly: true,
@@ -1000,7 +1054,7 @@ const PROTEIN_PROTEIN_PANEL: PharosPanel = {
   api: [
     {
       field: 'family',
-      label: 'Family',
+      label: 'IDG Family',
       description: 'A broad classification of protein families'
     },
     {
@@ -1525,6 +1579,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
               PROTEIN_PROTEIN_PANEL,
               NEAREST_TCLIN_PANEL,
               PATHWAYS_PANEL,
+              INTERACTING_PATHWAYS_PANEL,
               VIRAL_INTERACTIONS_PANEL
             ]
           },

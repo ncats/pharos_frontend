@@ -55,7 +55,7 @@ export class TourService {
   };
 
   menuTutorials: TourDefinition[] = [
-    {title: 'What\'s New in Version 3.16', storageKey: TourType.WhatsNew316},
+    {title: 'What\'s New in Version 3.18', storageKey: TourType.WhatsNew318},
     {title: 'Using the List Pages', storageKey: TourType.ListPagesTour},
     {title: 'Using the UpSet Chart', storageKey: TourType.UpsetChartTour},
     {title: 'Filter Value Enrichment', storageKey: TourType.FilterValueEnrichment},
@@ -92,7 +92,7 @@ export class TourService {
         this.featureTrackingService.trackFeature('Begin Tutorial', tutorialName);
       }
       switch (tutorialName) {
-        case TourType.WhatsNew316:
+        case TourType.WhatsNew318:
           this.whatsNew(true);
           break;
         case TourType.CustomListTour:
@@ -198,7 +198,7 @@ export class TourService {
     if (!isPlatformBrowser(this.platformID)) {
       return;
     }
-    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew316)) { // only autorun once
+    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew318)) { // only autorun once
       return;
     }
     this.loadPromise.then(() => {
@@ -211,43 +211,44 @@ export class TourService {
       {
         scrollTo: false,
         buttons: this.firstButtons.slice(),
-        title: 'What\'s new in Pharos 3.16?',
-        text: ['There are several new features in Pharos version 3.16, including new tracks in the ProtVista Viewer, ' +
-        'and links to PubChem protein pages.'
+        title: 'What\'s new in Pharos 3.18?',
+        text: ['There are several new features in Pharos version 3.18, including updated data for Publications and Expression, and ' +
+        'added features for displaying data from the Pharos community.'
         ]
       },
       {
         scrollToHandler: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Get data back into Pharos',
-        text: ['You are likely aware of the many ways to get data OUT of Pharos, such as CSV download, and the GraphQL API.<br/>' +
-        'And a new way for researchers to get their own data back INTO Pharos, to show it right in context with the many ' +
-        'other data sources that Pharos has to offer.' +
+        title: 'New data from Reactome',
+        text: ['This release, Pharos integrates a new visualization from Reactome, which is available on all Target ' +
+        'details pages.  This tool helps you explore potential pathways for each target, based on pathways manually curated ' +
+        'for interacting targets.' +
         '<br/>' +
-        '<img class="tour-screenshot" src="./assets/images/tutorials/new316/devtools.png"/>']
+        '<img class="tour-screenshot" src="./assets/images/tutorials/new318/interactingPathways.png"/>']
       },
       {
         scrollToHandler: false,
         buttons: this.middleButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Get sequence data into Pharos',
-        text: ['Now there is an easy way to get your <b>sequence annotations</b> into Pharos, as exemplified by our two new tracks in our ' +
-        'ProtVista Viewer. Now you can see conservation estimates for each residue, as well as predicted kinases for each ' +
-        'putative Serine / Threonine phosphorylation site. Contact us at pharos@mail.nih.gov get started with getting your sequence ' +
-        'related data into Pharos.' +
+        title: 'New capabilities for data from the Pharos community',
+        text: ['Integrating your own data into Pharos comes with added functionality now, as interactive histograms and ' +
+        'facet components will appear alongside your dataset. Your data is filterable by any of your data fields, and ' +
+        'downloadable from the component.' +
         '<br/>' +
-        '<img class="tour-screenshot" src="./assets/images/tutorials/new316/newtracks.png"/>']
+        '<img class="tour-screenshot" src="./assets/images/tutorials/new318/communityDataComponent.png"/>']
       },
       {
         scrollToHandler: false,
         buttons: this.lastButtons.slice(),
         classes: 'step-with-screenshot',
-        title: 'Links to PubChem',
-        text: ['We\'ve previously linked to PubChem for ligands when we had an appropriate ID. Now we\'ve added links to ' +
-        'PubChem\'s protein pages, so users can further explore known information about a given target.' +
+        title: 'Incorporating your data into Pharos',
+        text: ['See details for incorporating your data into Pharos, and a tutorial, on the repo for the <a href="https://github.com/ncats/pharos-community-data-api" ' +
+        'target="_blank">community data API</a>.' +
         '<br/>' +
-        '<img class="tour-screenshot" src="./assets/images/tutorials/new316/pubchemlinks.png"/>']
+          'Criteria for inclusion are defined on the <a href="/faq" target="_blank">FAQ page</a>. ' +
+        '<br/>' +
+        '<img class="tour-screenshot" src="./assets/images/tutorials/new318/criteria.png"/>']
       }
     ];
     this.shepherdService.defaultStepOptions = this.defaultStepOptions;
@@ -256,7 +257,7 @@ export class TourService {
     this.shepherdService.addSteps(defaultSteps);
     ['cancel', 'complete'].forEach(event => {
       this.shepherdService.tourObject.on(event, () => {
-        this.completeTour(TourType.WhatsNew316, event);
+        this.completeTour(TourType.WhatsNew318, event);
       });
     });
     this.shepherdService.start();

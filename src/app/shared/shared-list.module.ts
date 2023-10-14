@@ -11,13 +11,11 @@ import {PharosLoadingSpinnerModule} from '../tools/pharos-loading-spinner/pharos
 import {DataListResolver} from '../pharos-main/resolvers/data-list.resolver';
 import {ComponentsResolver} from '../pharos-main/resolvers/components.resolver';
 import {TOKENS} from '../../config/component-tokens';
-import {FacetHistogramComponent} from '../pharos-main/data-list/filter-panel/facet-histogram/facet-histogram.component';
-import {RangeSliderComponent} from '../tools/range-slider/range-slider.component';
-import {FacetTableModule} from '../pharos-main/data-list/filter-panel/facet-table/facet-table.module';
 import {FilterRepresentationComponent} from '../pharos-main/analyze-list/filter-representation/filter-representation.component';
 import {AnalyzeHeaderComponent} from '../pharos-main/analyze-list/analyze-header/analyze-header.component';
 import {SequenceSearchComponent} from '../pharos-main/analyze-list/sequence-search/sequence-search.component';
 import {HierarchyViewerComponent} from "../pharos-main/analyze-list/hierarchy-viewer/hierarchy-viewer.component";
+import {FilterPanelModule} from "../pharos-main/data-list/filter-panel/filter-panel.module";
 
 @NgModule({
   imports: [
@@ -25,7 +23,7 @@ import {HierarchyViewerComponent} from "../pharos-main/analyze-list/hierarchy-vi
     CommonToolsModule,
     RouterModule,
     PharosLoadingSpinnerModule,
-    FacetTableModule
+    FilterPanelModule
   ],
   declarations: [
     DataListVisualizationsComponent,
@@ -33,11 +31,9 @@ import {HierarchyViewerComponent} from "../pharos-main/analyze-list/hierarchy-vi
     HierarchyViewerComponent,
     SequenceSearchComponent,
     FilterPanelComponent,
-    FacetHistogramComponent,
     SelectedFacetListComponent,
     DonutChartComponent,
-    VisualizationOptionsComponent,
-    RangeSliderComponent
+    VisualizationOptionsComponent
   ],
   providers: [
     DataListResolver,
@@ -54,11 +50,9 @@ import {HierarchyViewerComponent} from "../pharos-main/analyze-list/hierarchy-vi
     SharedModule,
     DataListVisualizationsComponent,
     FilterPanelComponent,
-    FacetHistogramComponent,
     SelectedFacetListComponent,
     DonutChartComponent,
-    VisualizationOptionsComponent,
-    RangeSliderComponent
+    VisualizationOptionsComponent
   ]
 })
 export class SharedListModule { }
