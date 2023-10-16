@@ -79,8 +79,7 @@ pipeline {
                             chmod 774 src/environments/environment.prod.ts
                             source prepare.sh
                             docker login https://registry.ncats.nih.gov:5000 -u "${DOCKERLOGIN}" -p "${DOCKERPASSWORD}"
-                            docker build --no-cache -f ./Dockerfile --build-arg BUILD_VERSION=${BUILD_VERSION} -t ${DOCKER_REPO_NAME} .
-                            docker tag ${DOCKER_REPO_NAME}:latest ${DOCKER_REPO_NAME}:${BUILD_VERSION}
+                            docker build --no-cache -f ./Dockerfile --build-arg BUILD_VERSION=${BUILD_VERSION} -t ${DOCKER_REPO_NAME}:${BUILD_VERSION} .
                             docker push ${DOCKER_REPO_NAME}:${BUILD_VERSION}
                             '''
                         }
