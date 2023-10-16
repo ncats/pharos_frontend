@@ -1,4 +1,4 @@
-FROM node:16.17 as buildContainer
+FROM node:18.17 as buildContainer
 WORKDIR /app
 COPY . /app
 RUN npm install -g npm@latest
