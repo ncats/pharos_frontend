@@ -38,8 +38,9 @@ export class DataSourceSerializer implements PharosSerializer {
     if (object.diseaseCount > 0) {
       const unFilterableSources = ['Monarch Ortholog Disease Associations', 'TIN-X Data', 'Disease Ontology', 'Target Illumination GWAS Analytics'];
       if (!unFilterableSources.includes(object.dataSource.toString())) {
+        const facetValue = object.dataSource === 'Drug Central Indication'? 'DrugCentral Indication': object.dataSource;
         newObj.diseaseCount.internalLink = '/diseases';
-        newObj.diseaseCount.queryParams = {facet: `Data Source${Facet.separator}${object.dataSource}`};
+        newObj.diseaseCount.queryParams = {facet: `Data Source${Facet.separator}${facetValue}`};
       }
     } else {
       newObj.diseaseCount = {};
