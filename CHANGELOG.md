@@ -11,6 +11,7 @@
 
 ### Bug Fixes / Miscellaneous updates
 * A fix to the Benjamini-Hockberg p-value adjustments was made for enrichment calculations
+* Predicted targets for a ligand, or arbitrary structure, are coming from a more reliable server now, and will return results when available. Previously you could have seen some false negatives as the server failed to return the results.
 
 # 3.16.0 (2023-04-15)
 ### Added Features
