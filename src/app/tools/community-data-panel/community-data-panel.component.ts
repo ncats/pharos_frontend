@@ -81,7 +81,7 @@ export class CommunityDataPanelComponent extends DynamicPanelComponent implement
         const results = res.data.model.communityData;
         this.results.push(results[0]);
         results.forEach((result) => {
-          if (result) {
+          if (result && result.length > 0 && result[0].predictions && result[0].predictions.length > 0) {
             this.centralStorageService.showVisible(api.code);
           } else {
             this.centralStorageService.hideVisible(api.code);
