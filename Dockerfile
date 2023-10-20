@@ -1,6 +1,8 @@
 FROM node:18.17 as buildContainer
 WORKDIR /app
 COPY . /app
+
+RUN ls 
 RUN npm install -g npm@latest
 RUN npm install
 
