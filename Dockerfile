@@ -2,7 +2,7 @@ FROM node:18.17 as buildContainer
 WORKDIR /app
 COPY . /app
 
-RUN ls 
+RUN cat src/environments/environments.prod.ts
 RUN npm install -g npm@latest
 RUN npm install
 
