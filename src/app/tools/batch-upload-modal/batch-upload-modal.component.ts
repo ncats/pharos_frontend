@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, Inject, Input, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {ResolverService} from '../../pharos-services/resolver.service';
 
@@ -24,9 +24,9 @@ export class BatchUploadModalComponent implements OnInit {
   /**
    * target input form
    */
-  targetListCtrl: FormControl = new FormControl();
-  collectionNameCtrl: FormControl = new FormControl();
-  descriptionCtrl: FormControl = new FormControl();
+  targetListCtrl: UntypedFormControl = new UntypedFormControl();
+  collectionNameCtrl: UntypedFormControl = new UntypedFormControl();
+  descriptionCtrl: UntypedFormControl = new UntypedFormControl();
   models: string;
 
   /**
