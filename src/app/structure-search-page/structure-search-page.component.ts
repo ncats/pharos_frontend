@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {ActivatedRoute, NavigationEnd, NavigationExtras, Router} from '@angular/router';
 import {MolChangeService} from '../tools/marvin-sketcher/services/mol-change.service';
 import {Facet} from '../models/facet';
@@ -23,14 +23,14 @@ export class StructureSearchPageComponent implements OnInit, OnDestroy {
    * type of structure search to perform
    * @type {FormControl}
    */
-  typeCtrl: FormControl = new FormControl('sim');
+  typeCtrl: UntypedFormControl = new UntypedFormControl('sim');
 
   /**
    * input smiles value, retrieved by either the text input or structure drawer component
    * @type {FormControl}
    */
-  smilesCtrl: FormControl = new FormControl();
-  resolverCtrl: FormControl = new FormControl();
+  smilesCtrl: UntypedFormControl = new UntypedFormControl();
+  resolverCtrl: UntypedFormControl = new UntypedFormControl();
   resolverIsUp = false;
   resolverResults: any = {};
 

@@ -4,7 +4,7 @@ import {Facet, Field} from '../../../../../models/facet';
 import {PharosConfig} from '../../../../../../config/pharos-config';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {take} from 'rxjs/internal/operators';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 
@@ -22,7 +22,7 @@ export class TopicSaveModalComponent {
   /**
    * target input form
    */
-  targetCtrl: FormControl = new FormControl();
+  targetCtrl: UntypedFormControl = new UntypedFormControl();
 
   /**
    *

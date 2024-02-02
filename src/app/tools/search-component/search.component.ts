@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {autocompleteOption, SuggestApiService} from './suggest-api.service';
 import {Observable} from 'rxjs';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from '@angular/material/autocomplete';
@@ -34,7 +34,7 @@ export class SearchComponent implements OnInit {
    * form control for text input
    * @type {FormControl}
    */
-  typeaheadCtrl: FormControl = new FormControl();
+  typeaheadCtrl: UntypedFormControl = new UntypedFormControl();
 
   /**
    * observable list of returned responses

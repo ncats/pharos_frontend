@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {NavigationExtras, Router} from '@angular/router';
 import {CentralStorageService} from '../pharos-services/central-storage.service';
 import {Subject} from 'rxjs';
@@ -23,13 +23,13 @@ export class SequenceSearchPageComponent implements OnInit, OnDestroy {
    * form control to adjust overlap percentage
    * @type {FormControl}
    */
-  percentCtrl: FormControl = new FormControl(.5);
+  percentCtrl: UntypedFormControl = new UntypedFormControl(.5);
 
   /**
    * form control to retrieve the searched sequence value
    * @type {FormControl}
    */
-  sequenceCtrl: FormControl = new FormControl();
+  sequenceCtrl: UntypedFormControl = new UntypedFormControl();
   maxLength = 2000;
   truncated = false;
 

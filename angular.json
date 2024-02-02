@@ -20,7 +20,12 @@
               "path": "./custom-webpack-browser.config.js"
             },
             "allowedCommonJsDependencies": [
-              "rxjs/index", "file-saver", "sql-formatter", "decimal.js", "rxjs/internal/operators", "zen-observable"
+              "rxjs/index",
+              "file-saver",
+              "sql-formatter",
+              "decimal.js",
+              "rxjs/internal/operators",
+              "zen-observable"
             ],
             "outputPath": "dist/browser",
             "index": "src/index.html",
@@ -125,7 +130,10 @@
             "outputPath": "dist/server",
             "main": "server.ts",
             "tsConfig": "tsconfig.server.json",
-            "externalDependencies": ["@firebase/firestore", "@firebase/app"],
+            "externalDependencies": [
+              "@firebase/firestore",
+              "@firebase/app"
+            ],
             "sourceMap": true,
             "optimization": false
           },
@@ -202,7 +210,6 @@
       }
     }
   },
-  "defaultProject": "pharos",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "pharos",

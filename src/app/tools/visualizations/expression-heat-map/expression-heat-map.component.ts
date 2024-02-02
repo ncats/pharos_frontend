@@ -16,7 +16,7 @@ import * as d3 from 'd3v7';
 import {DynamicPanelComponent} from '../../dynamic-panel/dynamic-panel.component';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {AnatomogramHoverService} from '../../anatomogram/anatomogram-hover.service';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {HeatMapData} from '../heat-map/heat-map.component';
@@ -29,7 +29,7 @@ import {ExpressionInfoService} from "../../../pharos-services/expression-info.se
   encapsulation: ViewEncapsulation.None
 })
 export class ExpressionHeatMapComponent extends DynamicPanelComponent implements OnInit, OnChanges {
-  filterControl = new FormControl();
+  filterControl = new UntypedFormControl();
   filteredOptions: Observable<string[]>;
 
   constructor(

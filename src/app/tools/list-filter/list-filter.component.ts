@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {PageData} from '../../models/page-data';
 import {PageEvent} from '@angular/material/paginator';
 import {Observable, Subscription} from 'rxjs';
@@ -56,7 +56,7 @@ export class ListFilterComponent implements OnInit, OnDestroy {
   /**
    * The control for selecting different filters
    */
-  filterCtrl: FormControl = new FormControl();
+  filterCtrl: UntypedFormControl = new UntypedFormControl();
 
   /**
    * initializes lists and subscriptions

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Injector, OnDestroy, OnInit, Output, QueryList, Type, ViewChildren} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 import {HelpDataService} from './services/help-data.service';
 import {CdkPortalOutlet, ComponentPortal} from '@angular/cdk/portal';
 import {PanelOptions} from '../../pharos-main/pharos-main.component';
@@ -47,7 +47,7 @@ export class HelpPanelComponent implements OnInit, OnDestroy {
    * todo: currently not too useful, as the help articles and definitions are loaded on demand.
    * @type {FormControl}
    */
-  searchCtrl: FormControl = new FormControl();
+  searchCtrl: UntypedFormControl = new UntypedFormControl();
 
   /**
    * helper object to hold the raw data for the view panel
