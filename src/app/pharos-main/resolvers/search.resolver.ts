@@ -1,5 +1,5 @@
 import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
-import {ActivatedRouteSnapshot, Resolve, Router} from '@angular/router';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
@@ -13,7 +13,7 @@ import {Facet, Field} from '../../models/facet';
 @Injectable({
   providedIn: 'root'
 })
-export class SearchResolver implements Resolve<any> {
+export class SearchResolver  {
 
   /**
    * create services

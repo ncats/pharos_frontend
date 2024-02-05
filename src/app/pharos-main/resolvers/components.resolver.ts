@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import {Observable, of} from 'rxjs';
 import {PharosConfig} from '../../../config/pharos-config';
 import {PharosPanel} from '../../../config/components-config';
@@ -10,7 +10,7 @@ import {PharosPanel} from '../../../config/components-config';
 @Injectable({
   providedIn: 'root'
 })
-export class ComponentsResolver implements Resolve<any> {
+export class ComponentsResolver  {
 
   /**
    * create services
