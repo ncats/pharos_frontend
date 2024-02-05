@@ -221,7 +221,7 @@ const ROUTES: Routes = [
       anchorScrolling: 'enabled',
       onSameUrlNavigation: 'reload',
       scrollOffset: [0, 120],
-      initialNavigation: 'enabled',
+      initialNavigation: "enabledBlocking",
       preloadingStrategy: PharosPreloader
     })
   ],

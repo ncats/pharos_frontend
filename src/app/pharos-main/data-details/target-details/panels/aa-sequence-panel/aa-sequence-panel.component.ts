@@ -29,7 +29,8 @@ import {backend, environment} from "../../../../../../environments/environment";
 @Component({
   selector: 'pharos-aa-sequence-panel',
   templateUrl: './aa-sequence-panel.component.html',
-  styleUrls: ['./aa-sequence-panel.component.scss', './molstar.css'],
+  styleUrls: ['./aa-sequence-panel.component.scss'],
+  // styleUrls: ['./aa-sequence-panel.component.scss', './molstar.css'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -96,15 +97,15 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
           for (const child of childElements) {
             this.renderer.removeChild(this.viewerContainer.nativeElement, child);
           }
-          import('ncats-protvista-uniprot').then(res => {
-            // tslint:disable-next-line:no-unused-expression
-            window.customElements.get('protvista-uniprot') || window.customElements.define('protvista-uniprot', res.default);
-            const viewer = this.renderer.createElement('protvista-uniprot');
-            viewer.setAttribute('accession', this.target?.accession);
-            viewer.setAttribute('dynamicSource', this.getDynamicSource);
-            this.viewerContainer.nativeElement.appendChild(viewer);
-            this.scrollWhenComplete(viewer);
-          });
+          // import('ncats-protvista-uniprot').then(res => {
+          //   // tslint:disable-next-line:no-unused-expression
+          //   window.customElements.get('protvista-uniprot') || window.customElements.define('protvista-uniprot', res.default);
+          //   const viewer = this.renderer.createElement('protvista-uniprot');
+          //   viewer.setAttribute('accession', this.target?.accession);
+          //   viewer.setAttribute('dynamicSource', this.getDynamicSource);
+          //   this.viewerContainer.nativeElement.appendChild(viewer);
+          //   this.scrollWhenComplete(viewer);
+          // });
         }
         this.loadingComplete();
         this.changeRef.markForCheck();
