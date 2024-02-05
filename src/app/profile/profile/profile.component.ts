@@ -7,9 +7,9 @@ import {PathResolverService} from '../../pharos-main/data-list/filter-panel/path
 import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
-import {MatDialog} from '@angular/material/dialog';
+import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatLegacySnackBar as MatSnackBar} from '@angular/material/legacy-snack-bar';
 
 @Component({
   selector: 'pharos-profile',

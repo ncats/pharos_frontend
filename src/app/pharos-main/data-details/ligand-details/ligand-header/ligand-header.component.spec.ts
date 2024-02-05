@@ -16,7 +16,7 @@ import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../../test/mock-activate-route';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FIRESTORESTUB} from '../../../../../../test/firestore-stub';
-import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {MatLegacyDialogModule as MatDialogModule, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 
 describe('LigandHeaderComponent', () => {
   let component: LigandHeaderComponent;

@@ -5,7 +5,7 @@ import {PharosConfig} from '../../../../../config/pharos-config';
 import {Ligand} from '../../../../models/ligand';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
-import {MatDialog} from '@angular/material/dialog';
+import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 import {takeUntil} from 'rxjs/operators';
 

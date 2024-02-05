@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {PharosProfileService} from './pharos-profile.service';
 import {map, take} from 'rxjs/internal/operators';
 import {LoginModalComponent} from './login-modal/login-modal.component';
-import {MatDialog} from '@angular/material/dialog';
+import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {LoadingService} from '../pharos-services/loading.service';
 
 @Injectable({

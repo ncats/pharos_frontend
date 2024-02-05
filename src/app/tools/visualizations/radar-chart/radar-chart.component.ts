@@ -14,7 +14,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import * as d3 from 'd3v7';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA} from '@angular/material/legacy-dialog';
 import {takeUntil} from 'rxjs/operators';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {isPlatformBrowser} from '@angular/common';

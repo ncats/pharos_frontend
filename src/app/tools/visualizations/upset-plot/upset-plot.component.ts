@@ -11,7 +11,7 @@ import {DynamicServicesService} from '../../../pharos-services/dynamic-services.
 import {SelectedFacetService} from '../../../pharos-main/data-list/filter-panel/selected-facet.service';
 import {PathResolverService} from '../../../pharos-main/data-list/filter-panel/path-resolver.service';
 import {UpsetFieldEditComponent} from '../../upset-field-edit/upset-field-edit.component';
-import {MatDialog} from '@angular/material/dialog';
+import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 import {takeUntil} from 'rxjs/operators';

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {UntypedFormControl} from '@angular/forms';
 import {PageData} from '../../models/page-data';
-import {PageEvent} from '@angular/material/paginator';
+import {LegacyPageEvent as PageEvent} from '@angular/material/legacy-paginator';
 import {Observable, Subscription} from 'rxjs';
 import {BaseResource} from '../../models/idg-resources/base-resource';
 

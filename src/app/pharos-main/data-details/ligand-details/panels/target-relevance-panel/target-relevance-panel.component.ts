@@ -12,8 +12,8 @@ import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-pan
 import {PageData} from '../../../../../models/page-data';
 import {Ligand} from '../../../../../models/ligand';
 import {takeUntil} from 'rxjs/operators';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import {MatLegacyPaginator as MatPaginator} from '@angular/material/legacy-paginator';
+import {MatLegacyTableDataSource as MatTableDataSource} from '@angular/material/legacy-table';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 import {isPlatformBrowser} from "@angular/common";
 

@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {PharosProfileService} from '../../../../../auth/pharos-profile.service';
 import {Facet, Field} from '../../../../../models/facet';
 import {PharosConfig} from '../../../../../../config/pharos-config';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {UntypedFormControl} from '@angular/forms';
 import {take} from 'rxjs/internal/operators';

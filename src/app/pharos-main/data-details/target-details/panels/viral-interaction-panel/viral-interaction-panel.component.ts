@@ -2,7 +2,7 @@ import {Component, Inject, Input, OnInit, PLATFORM_ID, ViewEncapsulation} from '
 import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
 import {Target} from "../../../../../models/target";
 import {takeUntil} from "rxjs/operators";
-import {PageEvent} from "@angular/material/paginator";
+import {LegacyPageEvent as PageEvent} from "@angular/material/legacy-paginator";
 import {VirusDetails} from "../../../../../models/virus-interactions";
 import {isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';

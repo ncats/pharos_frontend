@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {PageEvent} from '@angular/material/paginator';
+import {LegacyPageEvent as PageEvent} from '@angular/material/legacy-paginator';
 import {LigandSerializer} from '../../../../../models/ligand';
 import {TargetComponents} from '../../../../../models/target-components';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';

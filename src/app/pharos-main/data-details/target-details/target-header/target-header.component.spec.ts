@@ -10,7 +10,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 import {UnfurlingMetaService} from '../../../../pharos-services/unfurling-meta.service';
-import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {MatLegacyDialogModule as MatDialogModule, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 
 describe('TargetHeaderComponent', () => {
   let component: TargetHeaderComponent;

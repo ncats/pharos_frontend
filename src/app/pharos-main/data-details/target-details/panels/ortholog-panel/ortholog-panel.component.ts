@@ -4,7 +4,7 @@ import {PharosProperty} from '../../../../../models/pharos-property';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {Target} from '../../../../../models/target';
-import {PageEvent} from '@angular/material/paginator';
+import {LegacyPageEvent as PageEvent} from '@angular/material/legacy-paginator';
 import {TargetComponents} from '../../../../../models/target-components';
 import {TargetPanelBaseComponent} from '../target-panel-base/target-panel-base.component';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
