@@ -385,7 +385,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * function to unsubscribe on destroy
    */
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }

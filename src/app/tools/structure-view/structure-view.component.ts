@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, ViewEncapsulation} from '@angular/core';
 import {PharosConfig} from '../../../config/pharos-config';
-import {BehaviorSubject} from 'rxjs/index';
-import {takeWhile} from 'rxjs/internal/operators';
+import {BehaviorSubject, takeWhile} from 'rxjs';
 import {PharosProperty} from '../../models/pharos-property';
 import {environment} from "../../../environments/environment";
 

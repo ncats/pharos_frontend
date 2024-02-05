@@ -17,8 +17,8 @@ import {DynamicServicesService} from '../../../../../pharos-services/dynamic-ser
 import {HeatMapData} from '../../../../../tools/visualizations/heat-map/heat-map.component';
 import {takeUntil} from 'rxjs/operators';
 import {TourType} from '../../../../../models/tour-type';
-import {ExpressionInfoService} from "../../../../../pharos-services/expression-info.service";
-import {PackCircleConfig} from "../../../../../tools/visualizations/pack-circle/pack-circle.component";
+import {ExpressionInfoService} from '../../../../../pharos-services/expression-info.service';
+import {PackCircleConfig} from '../../../../../tools/visualizations/pack-circle/pack-circle.component';
 import * as d3 from 'd3v7';
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
@@ -31,6 +31,27 @@ import * as d3 from 'd3v7';
   styleUrls: ['./expression-panel.component.scss']
 })
 export class ExpressionPanelComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
+
+  /**
+   * attach required services
+   * @param pharosApiService
+   * @param _route
+   * @param navSectionsService
+   */
+  constructor(
+    private pharosApiService: PharosApiService,
+    private _route: ActivatedRoute,
+    private changeRef: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) private platformID: any,
+    public dynamicServices: DynamicServicesService,
+    private expressionInfoService: ExpressionInfoService
+  ) {
+    super(dynamicServices);
+  }
+
+  get dataVersions() {
+    return this.target?.dataVersions?.filter(f => ['Expression', 'GTEx', 'Uberon'].includes(f.key));
+  }
   /**
    * target to display
    */
@@ -67,30 +88,28 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
       const uid = d.data.oid;
       this.expressionInfoService.setFocusedUberon(uid, 'circleplot');
     }
-  }
+  };
 
-  /**
-   * attach required services
-   * @param pharosApiService
-   * @param _route
-   * @param navSectionsService
-   */
-  constructor(
-    private pharosApiService: PharosApiService,
-    private _route: ActivatedRoute,
-    private changeRef: ChangeDetectorRef,
-    @Inject(PLATFORM_ID) private platformID: any,
-    public dynamicServices: DynamicServicesService,
-    private expressionInfoService: ExpressionInfoService
-  ) {
-    super(dynamicServices);
+  static getPreferredField(dataSource: string): string {
+    switch (dataSource) {
+      case 'HPA Protein':
+        return 'qual';
+      default:
+        return 'value';
+    }
+  }
+  static getLabel(dataSource: string): string {
+    if (dataSource.includes('RNA')) {
+      return 'TPM';
+    }
+    return '';
   }
   dataSourceClicked(input, source) {
     this.shadingKey = input;
   }
 
   tissueClicked(input, source) {
-    let uberonObj = this.expressionInfoService.get(input);
+    const uberonObj = this.expressionInfoService.get(input);
     const tissue = uberonObj?.name;
     const uberon = uberonObj?.uid;
     if (source === 'anatomogram') {
@@ -220,15 +239,15 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
           null, {color: this.source2color(expression.type), hideRank: true});
         dsList.push(expression.type);
       }
-        const field = ExpressionPanelComponent.getPreferredField(expression.type);
-        if (expression.uberon) {
+      const field = ExpressionPanelComponent.getPreferredField(expression.type);
+      if (expression.uberon) {
           if (!this.tissues.includes(expression.uberon.uid)) {
             this.tissues.push(expression.uberon.uid);
           }
           const obj = {name: expression.uberon.name, uid: expression.uberon.uid};
           this.expressionInfoService.trySet(obj);
         }
-        heatMapData.addPoint(
+      heatMapData.addPoint(
           expression.type,
           expression.uberon?.name || expression.tissue,
           (expression[field] || '') + (ExpressionPanelComponent.getLabel(expression.type) ? ' ' + ExpressionPanelComponent.getLabel(expression.type) : ''),
@@ -237,7 +256,7 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
             valueLabel: expression.type === 'JensenLab TISSUES' ? 'Confidence' : null,
             hideRank: expression.type === 'JensenLab TISSUES' ? true : false
           });
-        this.addToShadingMap(expression.type, expression.uberon?.uid,
+      this.addToShadingMap(expression.type, expression.uberon?.uid,
           expression.type === 'JensenLab TISSUES' ? expression.value / 5 : expression.sourceRank);
       });
     const gtexmale = 'GTEx - Male';
@@ -275,10 +294,10 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
    */
   setterFunction() {
     if (this.target.expressionTree) {
-      this.sortedTrees = this.target.expressionTree.sort((a,b) => {
+      this.sortedTrees = this.target.expressionTree.sort((a, b) => {
         return a.name.localeCompare(b.name);
       });
-      for(let root of this.sortedTrees) {
+      for (const root of this.sortedTrees) {
         this.setUberonInfo(root);
       }
       this.updateHeatmapData();
@@ -291,24 +310,5 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
         this.setUberonInfo(child);
       });
     }
-  }
-
-  get dataVersions() {
-    return this.target?.dataVersions?.filter(f => ["Expression", "GTEx", "Uberon"].includes(f.key));
-  }
-
-  static getPreferredField(dataSource: string): string {
-    switch (dataSource) {
-      case 'HPA Protein':
-        return 'qual';
-      default:
-        return 'value';
-    }
-  }
-  static getLabel(dataSource: string): string {
-    if (dataSource.includes('RNA')) {
-      return 'TPM';
-    }
-    return '';
   }
 }

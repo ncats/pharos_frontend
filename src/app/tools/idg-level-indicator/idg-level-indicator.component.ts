@@ -1,5 +1,5 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/index';
+import {BehaviorSubject} from 'rxjs';
 import {PharosProperty} from '../../models/pharos-property';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
@@ -68,7 +68,7 @@ export class IdgLevelIndicatorComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }

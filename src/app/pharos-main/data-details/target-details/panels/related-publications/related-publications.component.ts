@@ -27,8 +27,8 @@ import {isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 import {
   FieldSelectionDialogComponent
-} from "../../../../../tools/field-selection-dialog/field-selection-dialog.component";
-import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
+} from '../../../../../tools/field-selection-dialog/field-selection-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'pharos-related-publications',
@@ -170,8 +170,8 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
       [`${origin}top`]: event.pageSize,
       [`${origin}skip`]: event.pageIndex * event.pageSize,
     };
-    let pageData = this.publicationsPageData;
-    let component = TargetComponents.Component.Publications;
+    const pageData = this.publicationsPageData;
+    const component = TargetComponents.Component.Publications;
     pageData.top = event.pageSize;
     pageData.skip = event.pageIndex * event.pageSize;
 
@@ -190,7 +190,7 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
   }
 
   get dataVersions() {
-    return this.target?.dataVersions?.filter(f => ["JensenLab textmining mentions", "NCBI"].includes(f.key));
+    return this.target?.dataVersions?.filter(f => ['JensenLab textmining mentions', 'NCBI'].includes(f.key));
   }
 
   downloadData(subset) {

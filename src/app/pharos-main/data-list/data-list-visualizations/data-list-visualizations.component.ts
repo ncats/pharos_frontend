@@ -9,9 +9,9 @@ import {ActivatedRoute} from '@angular/router';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {Subject} from 'rxjs';
 import {MatLegacyTabChangeEvent as MatTabChangeEvent} from '@angular/material/legacy-tabs';
-import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 import {TourType} from '../../../models/tour-type';
+import {MatDialog} from '@angular/material/dialog';
 
 /**
  * component to show various facets like a dashboard.
@@ -27,10 +27,6 @@ import {TourType} from '../../../models/tour-type';
 export class DataListVisualizationsComponent extends DynamicPanelComponent implements OnInit {
 
   redrawCharts: Subject<string> = new Subject<string>();
-
-  showTour() {
-    return !this.displayFacet?.singleResponse;
-  }
 
   /**
    * data passed to visualization
@@ -59,6 +55,10 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
               private pharosConfig: PharosConfig,
               public dynamicServices: DynamicServicesService) {
     super(dynamicServices);
+  }
+
+  showTour() {
+    return !this.displayFacet?.singleResponse;
   }
 
   redrawChildren(event: MatTabChangeEvent) {

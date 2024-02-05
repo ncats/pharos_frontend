@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {GeneDetailsComponent} from '../gene-details/gene-details.component';
 import {Helper} from '../../../../../models/utilities';
 import {ActivatedRoute} from '@angular/router';
-import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {ModelDetailsComponent} from '../../../../../tools/model-details/model-details.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'pharos-target-prediction-details',

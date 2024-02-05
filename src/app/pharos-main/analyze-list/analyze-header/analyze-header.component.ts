@@ -1,7 +1,6 @@
 import {ChangeDetectorRef, Component, HostListener, OnInit} from '@angular/core';
 import {BatchUploadModalComponent} from '../../../tools/batch-upload-modal/batch-upload-modal.component';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
-import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {MatLegacySnackBar as MatSnackBar} from '@angular/material/legacy-snack-bar';
@@ -15,6 +14,7 @@ import {BatchResolveModalComponent} from '../../../tools/batch-resolve-modal/bat
 import {ResolverService} from '../../../pharos-services/resolver.service';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
+import {MatDialog} from "@angular/material/dialog";
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination

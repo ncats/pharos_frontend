@@ -1,9 +1,8 @@
 import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
-import {Observable} from 'rxjs';
+import {Observable, catchError, map, mergeMap, take} from 'rxjs';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
-import {catchError, map, mergeMap, take} from 'rxjs/internal/operators';
 import {PharosBase, Serializer} from '../../models/pharos-base';
 import {Facet} from '../../models/facet';
 import {TargetListService} from '../../pharos-services/target-list.service';

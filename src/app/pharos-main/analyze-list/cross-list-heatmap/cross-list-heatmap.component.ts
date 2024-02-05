@@ -6,9 +6,9 @@ import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {takeUntil} from 'rxjs/operators';
 import {FieldSelectionDialogComponent} from '../../../tools/field-selection-dialog/field-selection-dialog.component';
-import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
 import {TourType} from '../../../models/tour-type';
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'pharos-cross-list-heatmap',

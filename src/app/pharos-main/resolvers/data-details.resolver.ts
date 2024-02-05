@@ -1,10 +1,9 @@
 import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
-import { Observable , of} from 'rxjs';
+import { Observable , catchError, map, of} from 'rxjs';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {PharosBase, Serializer} from '../../models/pharos-base';
-import {catchError, map} from 'rxjs/internal/operators';
 import {isPlatformBrowser} from '@angular/common';
 import {CentralStorageService} from '../../pharos-services/central-storage.service';
 

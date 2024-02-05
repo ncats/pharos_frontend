@@ -1,5 +1,5 @@
 import {Injectable, Input} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/index';
+import {BehaviorSubject} from 'rxjs';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {CentralStorageService} from "../../../pharos-services/central-storage.service";
 

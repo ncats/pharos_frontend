@@ -1,9 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import {ResolverService} from '../../pharos-services/resolver.service';
 import {PharosProperty} from '../../models/pharos-property';
 import {DataProperty} from '../generic-table/components/property-display/data-property';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'pharos-batch-resolve-modal',

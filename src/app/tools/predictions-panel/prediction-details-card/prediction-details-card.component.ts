@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {isNumeric} from "rxjs/internal-compatibility";
+import {isNumeric} from '../../../../util';
 
 @Component({
   selector: 'pharos-prediction-details-card',

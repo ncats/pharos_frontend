@@ -479,7 +479,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
    * clean up on leaving component
    */
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }

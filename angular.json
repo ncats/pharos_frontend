@@ -86,11 +86,11 @@
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "browserTarget": "pharos:build"
+            "buildTarget": "pharos:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "pharos:build:production"
+              "buildTarget": "pharos:build:production"
             }
           }
         },
@@ -158,13 +158,13 @@
         "app-shell": {
           "builder": "@angular-devkit/build-angular:app-shell",
           "options": {
-            "browserTarget": "pharos:build",
+            "buildTarget": "pharos:build",
             "serverTarget": "pharos:server",
             "route": "/"
           },
           "configurations": {
             "production": {
-              "browserTarget": "pharos:build:production",
+              "buildTarget": "pharos:build:production",
               "serverTarget": "pharos:server:production"
             }
           }
@@ -172,12 +172,12 @@
         "serve-ssr": {
           "builder": "@angular-devkit/build-angular:ssr-dev-server",
           "options": {
-            "browserTarget": "pharos:build",
+            "buildTarget": "pharos:build",
             "serverTarget": "pharos:server"
           },
           "configurations": {
             "production": {
-              "browserTarget": "pharos:build:production",
+              "buildTarget": "pharos:build:production",
               "serverTarget": "pharos:server:production"
             }
           }
@@ -185,7 +185,7 @@
         "prerender": {
           "builder": "@angular-devkit/build-angular:prerender",
           "options": {
-            "browserTarget": "pharos:build:production",
+            "buildTarget": "pharos:build:production",
             "serverTarget": "pharos:server:production",
             "routesFile": "./routes.txt"
           },

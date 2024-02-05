@@ -238,7 +238,7 @@ export class DonutChartComponent implements AfterViewInit, OnChanges, OnDestroy 
     if (this.eventsSubscription) {
       this.eventsSubscription.unsubscribe();
     }
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 

@@ -9,7 +9,6 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import {SelectionModel} from '@angular/cdk/collections';
-import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../../models/page-data';
@@ -23,6 +22,7 @@ import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {MatLegacySnackBar as MatSnackBar} from '@angular/material/legacy-snack-bar';
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 import {CentralStorageService} from '../../../../pharos-services/central-storage.service';
+import {MatDialog} from "@angular/material/dialog";
 
 /**
  * token to inject structure viewer into generic table component

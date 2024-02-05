@@ -9,7 +9,7 @@ import {
   SequenceAlignmentsComponent
 } from '../../../tools/visualizations/sequence-alignments/sequence-alignments.component';
 import {FieldSelectionDialogComponent} from '../../../tools/field-selection-dialog/field-selection-dialog.component';
-import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'pharos-sequence-search',
@@ -55,7 +55,7 @@ export class SequenceSearchComponent extends DynamicPanelComponent implements On
   }
 
   runBlast() {
-    if(this.sequence && this.sequence.length > 0) {
+    if (this.sequence && this.sequence.length > 0) {
       this.pharosApiService.runBlastpSearch(this._route.snapshot, this.sequence)
         .then((results: any) => {
           this.results = results.data.alignments;
