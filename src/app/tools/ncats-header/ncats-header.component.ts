@@ -2,7 +2,7 @@ import {Component, Inject, Input, OnDestroy, OnInit, PLATFORM_ID, ViewChild} fro
 import {slideInOutAnimation} from './header-animations';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {LoginModalComponent} from '../../auth/login-modal/login-modal.component';
-import {MatDialog} from '@angular/material/dialog';
+import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {MatSidenav} from '@angular/material/sidenav';
 import {PharosProfileService} from '../../auth/pharos-profile.service';
 import {HeaderOptionsService} from '../../pharos-services/header-options.service';

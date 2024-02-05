@@ -12,7 +12,7 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import {Target} from '../../../../../../app/models/target';
 import {PageData} from '../../../../../../app/models/page-data';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
-import {PageEvent} from '@angular/material/paginator';
+import {LegacyPageEvent as PageEvent} from '@angular/material/legacy-paginator';
 import {ActivatedRoute} from '@angular/router';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {TargetComponents} from '../../../../../models/target-components';

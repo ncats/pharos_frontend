@@ -17,7 +17,7 @@ import {PharosProperty} from '../../../../../models/pharos-property';
 import {Publication, PublicationSerializer} from '../../../../../models/publication';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {PharosConfig} from '../../../../../../config/pharos-config';
-import {PageEvent} from '@angular/material/paginator';
+import {LegacyPageEvent as PageEvent} from '@angular/material/legacy-paginator';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {ScatterPlotComponent} from '../../../../../tools/visualizations/scatter-plot/scatter-plot.component';
@@ -28,7 +28,7 @@ import {DynamicServicesService} from '../../../../../pharos-services/dynamic-ser
 import {
   FieldSelectionDialogComponent
 } from "../../../../../tools/field-selection-dialog/field-selection-dialog.component";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 
 @Component({
   selector: 'pharos-related-publications',

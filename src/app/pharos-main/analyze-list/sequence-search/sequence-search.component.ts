@@ -9,7 +9,7 @@ import {
   SequenceAlignmentsComponent
 } from '../../../tools/visualizations/sequence-alignments/sequence-alignments.component';
 import {FieldSelectionDialogComponent} from '../../../tools/field-selection-dialog/field-selection-dialog.component';
-import {MatDialog} from '@angular/material/dialog';
+import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 
 @Component({
   selector: 'pharos-sequence-search',

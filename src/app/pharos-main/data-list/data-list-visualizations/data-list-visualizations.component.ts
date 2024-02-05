@@ -8,8 +8,8 @@ import {PathResolverService} from '../filter-panel/path-resolver.service';
 import {ActivatedRoute} from '@angular/router';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {Subject} from 'rxjs';
-import {MatTabChangeEvent} from '@angular/material/tabs';
-import {MatDialog} from '@angular/material/dialog';
+import {MatLegacyTabChangeEvent as MatTabChangeEvent} from '@angular/material/legacy-tabs';
+import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 import {TourType} from '../../../models/tour-type';
 

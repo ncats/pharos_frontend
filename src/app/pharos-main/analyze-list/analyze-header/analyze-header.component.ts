@@ -1,10 +1,10 @@
 import {ChangeDetectorRef, Component, HostListener, OnInit} from '@angular/core';
 import {BatchUploadModalComponent} from '../../../tools/batch-upload-modal/batch-upload-modal.component';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
-import {MatDialog} from '@angular/material/dialog';
+import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatLegacySnackBar as MatSnackBar} from '@angular/material/legacy-snack-bar';
 import {FieldSelectionDialogComponent} from '../../../tools/field-selection-dialog/field-selection-dialog.component';
 import {SelectionModel} from '@angular/cdk/collections';
 import {takeUntil} from 'rxjs/operators';

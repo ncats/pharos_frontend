@@ -19,9 +19,9 @@ import {
 import {BehaviorSubject, Subject} from 'rxjs';
 import {ComponentPortal} from '@angular/cdk/portal';
 import {PageData} from './models/page-data';
-import {MatPaginator} from '@angular/material/paginator';
+import {MatLegacyPaginator as MatPaginator} from '@angular/material/legacy-paginator';
 import {MatSort, Sort} from '@angular/material/sort';
-import {MatRow, MatTableDataSource} from '@angular/material/table';
+import {MatLegacyRow as MatRow, MatLegacyTableDataSource as MatTableDataSource} from '@angular/material/legacy-table';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {DataProperty} from './components/property-display/data-property';
 import {SelectionModel} from '@angular/cdk/collections';

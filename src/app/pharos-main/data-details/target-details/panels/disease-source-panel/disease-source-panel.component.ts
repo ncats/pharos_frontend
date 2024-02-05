@@ -8,7 +8,7 @@ import {
   OnInit,
   PLATFORM_ID
 } from '@angular/core';
-import {PageEvent} from '@angular/material/paginator';
+import {LegacyPageEvent as PageEvent} from '@angular/material/legacy-paginator';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {Target} from '../../../../../models/target';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SequenceComponent } from './sequence.component';
-import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatLegacySnackBarModule as MatSnackBarModule} from "@angular/material/legacy-snack-bar";
 import {TESTTARGET} from "../../../../../../../../test/test-target";
 
 describe('SequenceComponent', () => {

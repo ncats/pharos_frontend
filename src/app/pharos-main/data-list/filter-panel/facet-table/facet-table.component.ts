@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {MatTableDataSource} from '@angular/material/table';
+import {MatLegacyTableDataSource as MatTableDataSource} from '@angular/material/legacy-table';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Facet, Field} from '../../../../models/facet';

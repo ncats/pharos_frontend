@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {DynamicPanelBaseComponent} from "../../../../../../tools/dynamic-panel-base/dynamic-panel-base.component";
 import {Target} from "../../../../../../models/target";
 import {Clipboard} from "@angular/cdk/clipboard";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatLegacySnackBar as MatSnackBar} from "@angular/material/legacy-snack-bar";
 
 @Component({
   selector: 'pharos-sequence',
