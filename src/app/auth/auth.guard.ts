@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import {Observable} from 'rxjs';
+import {Observable, map} from 'rxjs';
 import {PharosProfileService} from './pharos-profile.service';
-import {map, take} from 'rxjs/internal/operators';
 import {LoginModalComponent} from './login-modal/login-modal.component';
-import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {LoadingService} from '../pharos-services/loading.service';
+import {MatDialog} from "@angular/material/dialog";
 
 @Injectable({
   providedIn: 'root'

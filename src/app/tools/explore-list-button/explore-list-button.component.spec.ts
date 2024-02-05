@@ -11,7 +11,6 @@ import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../test/mock-activate-route';
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import {AngularFireModule} from '@angular/fire/compat';
 import {COMMON_CONFIG} from '../../../../test/test-config';
 

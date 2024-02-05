@@ -342,7 +342,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
    * clean up on leaving component
    */
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
     if (this.eventsSubscription) {
       this.eventsSubscription.unsubscribe();

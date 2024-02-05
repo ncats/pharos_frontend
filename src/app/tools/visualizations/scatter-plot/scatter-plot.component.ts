@@ -551,7 +551,7 @@ export class ScatterPlotComponent implements OnInit, OnDestroy {
       this.tooltip.remove();
       d3.select('body').selectAll('.line-tooltip').remove();
     }
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }

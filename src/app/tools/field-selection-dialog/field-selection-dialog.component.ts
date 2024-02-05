@@ -1,5 +1,4 @@
 import {ChangeDetectorRef, Component, Inject, OnInit} from '@angular/core';
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from '@angular/material/legacy-dialog';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {MatLegacyTabChangeEvent as MatTabChangeEvent} from '@angular/material/legacy-tabs';
 import {MatLegacyCheckboxChange as MatCheckboxChange} from '@angular/material/legacy-checkbox';
@@ -16,6 +15,7 @@ import {PharosProfileService} from '../../auth/pharos-profile.service';
 import JSZip from 'jszip';
 import {environment} from '../../../environments/environment';
 import {FeatureTrackingService} from '../../pharos-services/feature-tracking.service';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'pharos-field-selection-dialog',

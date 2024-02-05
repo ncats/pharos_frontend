@@ -7,9 +7,9 @@ import {PathResolverService} from '../../pharos-main/data-list/filter-panel/path
 import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
-import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
 import {MatLegacySnackBar as MatSnackBar} from '@angular/material/legacy-snack-bar';
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'pharos-profile',
@@ -123,7 +123,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }

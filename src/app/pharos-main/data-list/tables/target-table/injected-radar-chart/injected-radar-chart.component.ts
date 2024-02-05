@@ -3,7 +3,7 @@ import {
   Output
 } from '@angular/core';
 import {InjectedComponent} from '../../../../../tools/injected-component';
-import {BehaviorSubject, Subject} from 'rxjs/index';
+import {BehaviorSubject, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
 /**
@@ -88,7 +88,7 @@ export class InjectedRadarChartComponent implements InjectedComponent, OnInit, O
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }

@@ -130,7 +130,7 @@ export class AlertComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
     if (this.dbSubscription) {
       this.dbSubscription.unsubscribe();

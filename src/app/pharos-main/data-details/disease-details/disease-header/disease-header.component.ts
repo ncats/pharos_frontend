@@ -1,12 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
 import {ActivatedRoute} from '@angular/router';
-import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import {Disease} from '../../../../models/disease';
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 import {JsonldService} from '../../../../pharos-services/jsonld.service';
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'pharos-disease-header',

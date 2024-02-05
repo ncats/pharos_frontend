@@ -184,7 +184,7 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit, OnDestro
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }

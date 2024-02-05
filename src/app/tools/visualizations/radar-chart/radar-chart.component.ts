@@ -14,10 +14,10 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import * as d3 from 'd3v7';
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA} from '@angular/material/legacy-dialog';
 import {takeUntil} from 'rxjs/operators';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {isPlatformBrowser} from '@angular/common';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 /**
  * map of size and visualization parameters for various radar chart sizes
@@ -300,7 +300,7 @@ export class RadarChartComponent implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformID)) {
       d3.select('body').selectAll('.radar-tooltip').remove();
     }
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 

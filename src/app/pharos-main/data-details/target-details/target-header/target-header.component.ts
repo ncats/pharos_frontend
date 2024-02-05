@@ -3,10 +3,10 @@ import {Target} from '../../../../models/target';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
-import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
 import {ActivatedRoute} from '@angular/router';
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 import {JsonldService} from '../../../../pharos-services/jsonld.service';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'pharos-target-header',

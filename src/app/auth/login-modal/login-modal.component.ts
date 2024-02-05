@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import {PharosAuthService} from '../pharos-auth.service';
+import {MatDialogRef} from '@angular/material/dialog';
 
 /**
  * modal to allow users to login using firebase social login

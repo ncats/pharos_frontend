@@ -169,7 +169,7 @@ export class FacetHistogramComponent implements OnInit, OnDestroy {
    * function to unubscribe on destroy
    */
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }
