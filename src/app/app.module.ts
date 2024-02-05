@@ -15,7 +15,7 @@ import {ScrollToTopComponent} from './tools/scroll-to-top/scroll-to-top.componen
 import {MaterialModule} from '../assets/material/material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {TransferHttpCacheModule} from '@nguniversal/common';
+import {TransferHttpCacheModule} from '@angular/ssr';
 import {GraphQLModule} from './graphql.module';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {MarkdownModule} from 'ngx-markdown';

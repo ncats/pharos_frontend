@@ -1,6 +1,6 @@
 import 'zone.js/node';
 
-import {ngExpressEngine} from '@nguniversal/express-engine';
+import {ngExpressEngine} from '@angular/ssr';
 import * as express from 'express';
 import {join} from 'path';
 
