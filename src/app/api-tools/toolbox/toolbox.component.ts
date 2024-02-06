@@ -30,7 +30,7 @@ export class ToolboxComponent implements OnInit {
               private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.workingAPI = this.localStorageService.store.getItem('workingAPI');
+    this.workingAPI = this.localStorageService.getItem('workingAPI');
     if (this.workingAPI && this.workingAPI.length > 0) {
       this.api = this.workingAPI;
     }
@@ -54,7 +54,7 @@ export class ToolboxComponent implements OnInit {
     this.getAPI();
   }
   apiChanged(event) {
-    this.localStorageService.store.setItem('workingAPI', this.api);
+    this.localStorageService.setItem('workingAPI', this.api);
     this.workingAPI = this.api;
     this.selectedAPI = null;
     this.getAPI();

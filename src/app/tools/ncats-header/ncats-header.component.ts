@@ -214,7 +214,7 @@ export class NcatsHeaderComponent implements OnInit, OnDestroy {
   }
 
   tutorialComplete(tutorial: string) {
-    return isPlatformBrowser(this.platformID) && this.localStorage.store.getItem(tutorial) === 'complete';
+    return isPlatformBrowser(this.platformID) && this.localStorage.getItem(tutorial) === 'complete';
   }
 
   /**

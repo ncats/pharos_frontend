@@ -26,7 +26,7 @@ export class TaskItemComponent implements OnInit {
 
   tutorialIsComplete() {
     if (isPlatformBrowser(this.platformID)) {
-      return this.localStorage.store.getItem(this.tourName) === 'complete';
+      return this.localStorage.getItem(this.tourName) === 'complete';
     }
   }
 
