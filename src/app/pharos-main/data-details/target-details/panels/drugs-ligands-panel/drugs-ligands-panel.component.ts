@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
-import {LegacyPageEvent as PageEvent} from '@angular/material/legacy-paginator';
 import {LigandSerializer} from '../../../../../models/ligand';
 import {TargetComponents} from '../../../../../models/target-components';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
@@ -15,6 +14,7 @@ import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../../../models/page-data';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {PageEvent} from '@angular/material/paginator';
 
 @Component({
   selector: 'pharos-drugs-ligands-panel',

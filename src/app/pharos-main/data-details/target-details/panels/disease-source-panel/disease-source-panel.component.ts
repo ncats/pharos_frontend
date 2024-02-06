@@ -8,7 +8,6 @@ import {
   OnInit,
   PLATFORM_ID
 } from '@angular/core';
-import {LegacyPageEvent as PageEvent} from '@angular/material/legacy-paginator';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {Target} from '../../../../../models/target';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
@@ -18,7 +17,8 @@ import {takeUntil} from 'rxjs/operators';
 import {TargetComponents} from '../../../../../models/target-components';
 import {isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
-import {PackCircleConfig} from "../../../../../tools/visualizations/pack-circle/pack-circle.component";
+import {PackCircleConfig} from '../../../../../tools/visualizations/pack-circle/pack-circle.component';
+import {PageEvent} from '@angular/material/paginator';
 
 /**
  * component to display disease source data
@@ -60,7 +60,7 @@ export class DiseaseSourceComponent extends DynamicPanelComponent implements OnI
       // const uid = d.data.uid;
       // this.expressionInfoService.setFocusedUberon(uid, 'circleplot');
     }
-  }
+  };
 
   hasData() {
     return this.target && (this.target.diseaseCount > 0);

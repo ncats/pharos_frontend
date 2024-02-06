@@ -8,8 +8,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
-import {MatLegacySnackBar as MatSnackBar} from '@angular/material/legacy-snack-bar';
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'pharos-profile',

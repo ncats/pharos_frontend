@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {UntypedFormControl} from '@angular/forms';
 import {PageData} from '../../models/page-data';
-import {LegacyPageEvent as PageEvent} from '@angular/material/legacy-paginator';
 import {Observable, Subscription} from 'rxjs';
 import {BaseResource} from '../../models/idg-resources/base-resource';
+import {PageEvent} from '@angular/material/paginator';
 
 /**
  * Component to show a Filter / Paginator component for a card full of Resources

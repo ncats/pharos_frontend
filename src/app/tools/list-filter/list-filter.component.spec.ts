@@ -4,7 +4,7 @@ import { ListFilterComponent } from './list-filter.component';
 import {Observable} from 'rxjs';
 import {PageData} from '../../models/page-data';
 import {BaseResource} from '../../models/idg-resources/base-resource';
-import {LegacyPageEvent as PageEvent} from '@angular/material/legacy-paginator';
+import { PageEvent } from '@angular/material/paginator';
 
 describe('ListFilterComponent', () => {
   let component: ListFilterComponent;
