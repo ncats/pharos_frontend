@@ -11,14 +11,13 @@ import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {Target} from '../../../../../../app/models/target';
 import {PageData} from '../../../../../../app/models/page-data';
-import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
-import {LegacyPageEvent as PageEvent} from '@angular/material/legacy-paginator';
 import {ActivatedRoute} from '@angular/router';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {TargetComponents} from '../../../../../models/target-components';
 import {DataProperty} from '../../../../../tools/generic-table/components/property-display/data-property';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {PageEvent} from '@angular/material/paginator';
 
 /**
  * shows a list of protein to protein interactions for a target

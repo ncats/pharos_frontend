@@ -1,11 +1,11 @@
 import {Component, Inject, Input, OnInit, PLATFORM_ID, ViewEncapsulation} from '@angular/core';
-import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
-import {Target} from "../../../../../models/target";
-import {takeUntil} from "rxjs/operators";
-import {LegacyPageEvent as PageEvent} from "@angular/material/legacy-paginator";
-import {VirusDetails} from "../../../../../models/virus-interactions";
+import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {Target} from '../../../../../models/target';
+import {takeUntil} from 'rxjs/operators';
+import {VirusDetails} from '../../../../../models/virus-interactions';
 import {isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {PageEvent} from '@angular/material/paginator';
 
 @Component({
   selector: 'pharos-viral-interaction-panel',
@@ -18,6 +18,7 @@ export class ViralInteractionPanelComponent extends DynamicPanelComponent implem
    * parent target
    */
   @Input() target: Target;
+  visibleList: VirusDetails[];
   constructor(@Inject(PLATFORM_ID) private platformID: any,
               public dynamicServices: DynamicServicesService) {
     super(dynamicServices);
@@ -33,13 +34,13 @@ export class ViralInteractionPanelComponent extends DynamicPanelComponent implem
   countString(){
     const conf = this.confirmed();
     const pred = this.predicted();
-    if(conf && pred){
+    if (conf && pred){
       return `${pred} Predicted, ${conf} Confirmed`;
     }
-    if(conf){
+    if (conf){
       return `${conf} Confirmed`;
     }
-    if(pred){
+    if (pred){
       return `${pred} Predicted`;
     }
     return '0';
@@ -51,7 +52,7 @@ export class ViralInteractionPanelComponent extends DynamicPanelComponent implem
       // Unsubscribe once term has value
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
-        if(isPlatformBrowser(this.platformID)) {
+        if (isPlatformBrowser(this.platformID)) {
           this.target = this.data.targets;
           if (this.target?.interactingViruses?.length > 0) {
             this.setterFunction();
@@ -64,10 +65,7 @@ export class ViralInteractionPanelComponent extends DynamicPanelComponent implem
       });
   }
 
-
-  visibleList: VirusDetails[];
-
-  setterFunction() : void {
+  setterFunction(): void {
     this.visibleList = this.target.interactingViruses.slice(0, 10);
   }
 
@@ -76,7 +74,7 @@ export class ViralInteractionPanelComponent extends DynamicPanelComponent implem
    * @param event
    */
   paginate(event: PageEvent) {
-    let startNum = event.pageIndex * event.pageSize;
+    const startNum = event.pageIndex * event.pageSize;
     this.visibleList = this.target.interactingViruses.slice(startNum, startNum + event.pageSize);
   }
 }

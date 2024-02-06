@@ -3,7 +3,6 @@ import {PharosProperty} from '../../../models/pharos-property';
 import {DynamicPanelBaseComponent} from '../../dynamic-panel-base/dynamic-panel-base.component';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
 import {takeUntil} from 'rxjs';
-import {MatLegacySnackBar as MatSnackBar} from '@angular/material/legacy-snack-bar';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {BatchResolveModalComponent} from '../../batch-resolve-modal/batch-resolve-modal.component';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
@@ -12,6 +11,7 @@ import {Facet} from '../../../models/facet';
 import {SelectionModel} from '@angular/cdk/collections';
 import {isNumeric} from '../../../../util';
 import { MatDialog } from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'pharos-prediction-set',

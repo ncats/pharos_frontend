@@ -3,7 +3,6 @@ import {BatchUploadModalComponent} from '../../../tools/batch-upload-modal/batch
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
-import {MatLegacySnackBar as MatSnackBar} from '@angular/material/legacy-snack-bar';
 import {FieldSelectionDialogComponent} from '../../../tools/field-selection-dialog/field-selection-dialog.component';
 import {SelectionModel} from '@angular/cdk/collections';
 import {takeUntil} from 'rxjs/operators';
@@ -14,7 +13,8 @@ import {BatchResolveModalComponent} from '../../../tools/batch-resolve-modal/bat
 import {ResolverService} from '../../../pharos-services/resolver.service';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination

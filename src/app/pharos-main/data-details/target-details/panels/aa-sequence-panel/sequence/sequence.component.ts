@@ -1,8 +1,8 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {DynamicPanelBaseComponent} from "../../../../../../tools/dynamic-panel-base/dynamic-panel-base.component";
-import {Target} from "../../../../../../models/target";
-import {Clipboard} from "@angular/cdk/clipboard";
-import {MatLegacySnackBar as MatSnackBar} from "@angular/material/legacy-snack-bar";
+import {DynamicPanelBaseComponent} from '../../../../../../tools/dynamic-panel-base/dynamic-panel-base.component';
+import {Target} from '../../../../../../models/target';
+import {Clipboard} from '@angular/cdk/clipboard';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'pharos-sequence',
@@ -19,7 +19,7 @@ export class SequenceComponent extends DynamicPanelBaseComponent implements OnIn
    * chunked amino acid sequence
    */
   aasequence: any[];
-  panelOpenState: boolean = false;
+  panelOpenState = false;
 
   constructor(private clipboard: Clipboard,
               private snackBar: MatSnackBar) {
@@ -63,9 +63,9 @@ export class SequenceComponent extends DynamicPanelBaseComponent implements OnIn
 
   copySequence() {
     if (this.clipboard.copy(this.target.sequence)) {
-      this.snackBar.open("Sequence copied to clipboard!");
+      this.snackBar.open('Sequence copied to clipboard!');
     } else {
-      this.snackBar.open("Copy failed");
+      this.snackBar.open('Copy failed');
     }
   }
 }

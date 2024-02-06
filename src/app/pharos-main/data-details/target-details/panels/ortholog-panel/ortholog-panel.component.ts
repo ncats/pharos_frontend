@@ -4,11 +4,11 @@ import {PharosProperty} from '../../../../../models/pharos-property';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {Target} from '../../../../../models/target';
-import {LegacyPageEvent as PageEvent} from '@angular/material/legacy-paginator';
 import {TargetComponents} from '../../../../../models/target-components';
 import {TargetPanelBaseComponent} from '../target-panel-base/target-panel-base.component';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 import {takeUntil} from 'rxjs/operators';
+import {PageEvent} from '@angular/material/paginator';
 
 /**
  * displays orthologs available for a target

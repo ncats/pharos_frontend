@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
-import { MatLegacyRadioChange as MatRadioChange } from '@angular/material/legacy-radio';
 import {AnatomogramImageComponent} from './anatomogram-image/anatomogram-image.component';
 import {AnatomogramHoverService} from './anatomogram-hover.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {MatRadioChange} from '@angular/material/radio';
 
 /**
  * anatomogram viewer, passes paramaters to various images based on the svg urls
@@ -16,6 +16,17 @@ import {takeUntil} from 'rxjs/operators';
 })
 
 export class AnatomogramComponent implements OnInit, OnDestroy {
+
+
+  /**
+   * import hover service
+   * @param {AnatomogramHoverService} anatomogramHoverService
+   * @param changeRef
+   */
+  constructor(
+    private anatomogramHoverService: AnatomogramHoverService,
+    private changeRef: ChangeDetectorRef
+  ) { }
   protected ngUnsubscribe: Subject<any> = new Subject();
   /**
    * species selected to dispaly, defaults to human, mouse is the other option
@@ -38,28 +49,17 @@ export class AnatomogramComponent implements OnInit, OnDestroy {
   @Input() redrawAnatomogram: Subject<boolean> = new Subject<boolean>();
 
   @Input() clickHandler;
-  handleClicks(event){
-    if (this.clickHandler){
-      this.clickHandler(event, 'anatomogram');
-    }
-  }
 
   /**
    * View Children gives each instance of the anatomogram image to allow changes in highlighting to happen
    * in the parent component
    */
   @ViewChildren(AnatomogramImageComponent) anatomograms: QueryList<AnatomogramImageComponent>;
-
-
-  /**
-   * import hover service
-   * @param {AnatomogramHoverService} anatomogramHoverService
-   * @param changeRef
-   */
-  constructor(
-    private anatomogramHoverService: AnatomogramHoverService,
-    private changeRef: ChangeDetectorRef
-  ) { }
+  handleClicks(event){
+    if (this.clickHandler){
+      this.clickHandler(event, 'anatomogram');
+    }
+  }
 
   /**
    * subscribe to changes in hovered tisse, iterate over all image instances, and apply changes

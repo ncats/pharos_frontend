@@ -19,13 +19,13 @@ import {
 import {BehaviorSubject, Subject} from 'rxjs';
 import {ComponentPortal} from '@angular/cdk/portal';
 import {PageData} from './models/page-data';
-import {MatLegacyPaginator as MatPaginator} from '@angular/material/legacy-paginator';
 import {MatSort, Sort} from '@angular/material/sort';
-import {MatLegacyRow as MatRow, MatLegacyTableDataSource as MatTableDataSource} from '@angular/material/legacy-table';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {DataProperty} from './components/property-display/data-property';
 import {SelectionModel} from '@angular/cdk/collections';
 import {takeUntil} from 'rxjs/operators';
+import {MatRow, MatTableDataSource } from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
 
 /**
  * component to show flexible data consisting of multiple data types, custom components
@@ -68,10 +68,6 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
   @Input()
   set data(value: any) {
     this._data.next(value);
-  }
-
-  @Input() highlightFunction = (row) => {
-    return false;
   }
 
   /**
@@ -220,6 +216,8 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
 
   selection = new SelectionModel<any>(true, []);
 
+  iterableDiffer: any;
+
   /**
    * Paginator object from Angular Material
    *
@@ -228,7 +226,9 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
     this.dataSource.paginator = paginator;
   }
 
-  iterableDiffer:any;
+  @Input() highlightFunction = (row) => {
+    return false;
+  }
 
   ngDoCheck() {
     if (this.iterableDiffer.diff(this.data)) {

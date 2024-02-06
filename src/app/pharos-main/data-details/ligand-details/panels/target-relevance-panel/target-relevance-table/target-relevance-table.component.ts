@@ -1,9 +1,9 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {PharosProperty} from '../../../../../../models/pharos-property';
-import {MatLegacyTableDataSource as MatTableDataSource} from '@angular/material/legacy-table';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {LigandSerializer} from '../../../../../../models/ligand';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'pharos-target-relevance-table',

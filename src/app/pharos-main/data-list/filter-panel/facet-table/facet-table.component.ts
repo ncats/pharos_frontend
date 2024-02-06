@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {MatLegacyTableDataSource as MatTableDataSource} from '@angular/material/legacy-table';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Facet, Field} from '../../../../models/facet';
@@ -11,6 +10,7 @@ import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
 import {HighlightPipe} from '../../../../tools/search-component/highlight.pipe';
 import {CentralStorageService} from '../../../../pharos-services/central-storage.service';
 import {FeatureTrackingService} from '../../../../pharos-services/feature-tracking.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 /**
  * table to display selectable fields

@@ -8,10 +8,10 @@ import {PathResolverService} from '../filter-panel/path-resolver.service';
 import {ActivatedRoute} from '@angular/router';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {Subject} from 'rxjs';
-import {MatLegacyTabChangeEvent as MatTabChangeEvent} from '@angular/material/legacy-tabs';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 import {TourType} from '../../../models/tour-type';
 import {MatDialog} from '@angular/material/dialog';
+import {MatTabChangeEvent} from '@angular/material/tabs';
 
 /**
  * component to show various facets like a dashboard.

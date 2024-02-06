@@ -19,10 +19,10 @@ import {Target} from '../../../../models/target';
 import {PharosProfileService} from '../../../../auth/pharos-profile.service';
 import {TopicSaveModalComponent} from './topic-save-modal/topic-save-modal.component';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
-import {MatLegacySnackBar as MatSnackBar} from '@angular/material/legacy-snack-bar';
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 import {CentralStorageService} from '../../../../pharos-services/central-storage.service';
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 /**
  * token to inject structure viewer into generic table component
