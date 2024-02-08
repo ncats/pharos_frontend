@@ -19,7 +19,6 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
 import {
   TargetRelevanceTableComponent
 } from '../pharos-main/data-details/ligand-details/panels/target-relevance-panel/target-relevance-table/target-relevance-table.component';
-import {GenericTableModule} from '../tools/generic-table/generic-table.module';
 import {IdgLevelIndicatorComponent} from '../tools/idg-level-indicator/idg-level-indicator.component';
 import {RouterModule} from '@angular/router';
 import {
@@ -29,8 +28,8 @@ import {
   DiseaseAssociationComponent
 } from '../pharos-main/data-details/target-details/panels/disease-source-panel/disease-association/disease-association.component';
 import {PackCircleComponent} from "../tools/visualizations/pack-circle/pack-circle.component";
-import {ComponentHeaderComponent} from "../tools/component-header/component-header.component";
 import {TutorialLinkComponent} from "../tools/tutorial-link/tutorial-link.component";
+import {ComponentHeaderComponent} from '../tools/component-header/component-header.component';
 
 
 @NgModule({
@@ -43,14 +42,15 @@ import {TutorialLinkComponent} from "../tools/tutorial-link/tutorial-link.compon
     FlexLayoutModule,
     HelpArticlesModule,
     ClipboardModule,
-    GenericTableModule,
     RouterModule,
-    ApolloModule
+    ApolloModule,
+    ComponentHeaderComponent,
+    HelpPanelTriggerComponent,
+    TutorialLinkComponent,
+    BarChartComponent,
+    ScrollspyDirective
   ],
   declarations: [
-    BarChartComponent,
-    HelpPanelTriggerComponent,
-    ScrollspyDirective,
     ScatterPlotComponent,
     PharosMainComponent,
     TargetRelevanceTableComponent,
@@ -58,8 +58,6 @@ import {TutorialLinkComponent} from "../tools/tutorial-link/tutorial-link.compon
     DiseaseAssociationGridComponent,
     DiseaseAssociationComponent,
     PackCircleComponent,
-    ComponentHeaderComponent,
-    TutorialLinkComponent
   ],
   providers: [
     HelpDataService,
@@ -73,9 +71,6 @@ import {TutorialLinkComponent} from "../tools/tutorial-link/tutorial-link.compon
     MaterialModule,
     FlexLayoutModule,
     HelpArticlesModule,
-    BarChartComponent,
-    HelpPanelTriggerComponent,
-    ScrollspyDirective,
     ScatterPlotComponent,
     PharosMainComponent,
     TargetRelevanceTableComponent,
@@ -83,8 +78,7 @@ import {TutorialLinkComponent} from "../tools/tutorial-link/tutorial-link.compon
     DiseaseAssociationGridComponent,
     DiseaseAssociationComponent,
     PackCircleComponent,
-    ComponentHeaderComponent,
-    TutorialLinkComponent
+    ComponentHeaderComponent
   ]
 })
 export class SharedModule {

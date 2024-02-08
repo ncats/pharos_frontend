@@ -20,6 +20,7 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {MarkdownModule} from 'ngx-markdown';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import {GenericTableComponent} from './tools/generic-table/generic-table.component';
 
 @NgModule({
   declarations: [

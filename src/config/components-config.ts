@@ -524,7 +524,7 @@ const SUMMARY_PANEL: PharosPanel = {
     label: 'Protein Summary',
     section: 'summary',
     mainDescription: 'Gene symbols, accession ids and various other target identifiers. Also contains the illumination ' +
-      'graph which highlights the amount of knowledge available. Click the \'?\' button for more information'
+      'graph which highlights the amount of knowledge available.'
   },
   api: [
     {

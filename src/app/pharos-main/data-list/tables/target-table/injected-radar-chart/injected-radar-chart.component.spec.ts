@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InjectedRadarChartComponent } from './injected-radar-chart.component';
-import {RadarChartModule} from '../../../../../tools/visualizations/radar-chart/radar-chart.module';
+import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
 
 describe('InjectedRadarChartComponent', () => {
   let component: InjectedRadarChartComponent;
@@ -11,7 +11,7 @@ describe('InjectedRadarChartComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ InjectedRadarChartComponent ],
       imports: [
-        RadarChartModule
+        RadarChartComponent
       ]
     })
     .compileComponents();

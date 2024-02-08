@@ -10,12 +10,20 @@ import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
 import {HighlightPipe} from '../../../../tools/search-component/highlight.pipe';
 import {CentralStorageService} from '../../../../pharos-services/central-storage.service';
 import {FeatureTrackingService} from '../../../../pharos-services/feature-tracking.service';
-import { MatTableDataSource } from '@angular/material/table';
+import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {CommonModule} from '@angular/common';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatIcon} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
 
 /**
  * table to display selectable fields
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatTableModule, MatCheckboxModule, MatTooltip, MatIcon, MatFormFieldModule, MatInputModule],
   selector: 'pharos-facet-table',
   templateUrl: './facet-table.component.html',
   styleUrls: ['./facet-table.component.scss'],

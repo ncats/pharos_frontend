@@ -1,11 +1,10 @@
 import {Component, ElementRef, OnChanges, OnInit, ViewChild} from '@angular/core';
-import {FormControl} from "@angular/forms";
-import {PharosApiService} from "../../pharos-services/pharos-api.service";
-import {LocalStorageService} from "../../pharos-services/local-storage.service";
-import {HttpClient} from "@angular/common/http";
-import {PredictionsPanelComponent} from "../../tools/predictions-panel/predictions-panel.component";
-import {CentralStorageService} from "../../pharos-services/central-storage.service";
-import {environment} from "../../../environments/environment";
+import {PharosApiService} from '../../pharos-services/pharos-api.service';
+import {LocalStorageService} from '../../pharos-services/local-storage.service';
+import {HttpClient} from '@angular/common/http';
+import {PredictionsPanelComponent} from '../../tools/predictions-panel/predictions-panel.component';
+import {CentralStorageService} from '../../pharos-services/central-storage.service';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'pharos-toolbox',
@@ -13,21 +12,30 @@ import {environment} from "../../../environments/environment";
   styleUrls: ['./toolbox.component.scss']
 })
 export class ToolboxComponent implements OnInit {
-  @ViewChild('predictionsPanel', {static: false}) predictionsPanel: PredictionsPanelComponent;
-  workingAPI = "";
-  isProduction = environment.production;
-  api = "";
-  callApi = "";
-  aliases: any[] = [];
-  rawAPIdata: any;
-  pharosAPIdata: any;
-  builtinMap: Map<string, any[]> = new Map<string, any[]>();
-  sortedKeys: string[] = ['target','disease','ligand'];
 
   constructor(private pharosApiService: PharosApiService,
               private centralStorageService: CentralStorageService,
               private localStorageService: LocalStorageService,
               private http: HttpClient) { }
+
+  get pharosAPIdataForPanel() {
+    return this.pharosAPIdata[0];
+  }
+  @ViewChild('predictionsPanel', {static: false}) predictionsPanel: PredictionsPanelComponent;
+  workingAPI = '';
+  isProduction = environment.production;
+  api = '';
+  callApi = '';
+  aliases: any[] = [];
+  rawAPIdata: any;
+  pharosAPIdata: any;
+  builtinMap: Map<string, any[]> = new Map<string, any[]>();
+  sortedKeys: string[] = ['target', 'disease', 'ligand'];
+
+  currentDetailsPage = null;
+  selectedAPI: any = null;
+
+  apiResults = null;
 
   ngOnInit(): void {
     this.workingAPI = this.localStorageService.getItem('workingAPI');
@@ -38,16 +46,13 @@ export class ToolboxComponent implements OnInit {
     this.pharosApiService.adHocQuery(this.pharosApiService.getAPIs).toPromise().then((res: any) => {
       this.sortedKeys.forEach(model => {
         this.builtinMap.set(model, []);
-      })
+      });
       res.data.communityAPIs.forEach(api => {
         const list = this.builtinMap.get(api.model);
         list.push(api);
       });
     });
   }
-
-  currentDetailsPage = null;
-  selectedAPI: any = null;
 
   selectAPI(event) {
     this.api = event.url;
@@ -74,8 +79,6 @@ export class ToolboxComponent implements OnInit {
     }
   }
 
-  apiResults = null;
-
   getColor(api) {
     if (this.api === api) {
       return 'accent';
@@ -90,13 +93,13 @@ export class ToolboxComponent implements OnInit {
         pageInfo: this.currentDetailsPage
       };
       this.aliases = [];
-      this.callApi = "";
-      this.rawAPIdata = "";
-      this.pharosAPIdata = "";
+      this.callApi = '';
+      this.rawAPIdata = '';
+      this.pharosAPIdata = '';
       return this.pharosApiService.adHocQuery(this.pharosApiService.GetAPIMetadataQuery, variables).toPromise().then((res: any) => {
         if (res.data.getAPIMetadata) {
           const details = res.data.getAPIMetadata.details;
-          for(let field in details) {
+          for (const field in details) {
             this.aliases.push(`{${field}} => ${details[field]}`);
           }
           this.callApi = res.data.getAPIMetadata.url;
@@ -106,7 +109,7 @@ export class ToolboxComponent implements OnInit {
             return Promise.allSettled([clientQuery, serverQuery]).then((results: any[]) => {
               this.rawAPIdata = this.parseSettledResults(results[0]);
               this.pharosAPIdata = this.parseSettledResults(results[1]).data?.getAPIResults;
-              if (this.rawAPIdata && !this.pharosAPIdata) { // hosting API on localhost for testing won't work when the backend is remote, so we do this call to parse the data
+              if (this.rawAPIdata && !this.pharosAPIdata) {
                 return this.pharosApiService.adHocQuery(
                   this.pharosApiService.ParseLocalResultsQuery, { localResults: this.rawAPIdata }).toPromise()
                   .then(res => {
@@ -118,10 +121,6 @@ export class ToolboxComponent implements OnInit {
         }
       });
     }
-  }
-
-  get pharosAPIdataForPanel() {
-    return this.pharosAPIdata[0];
   }
   parseSettledResults(result) {
     if (result.status === 'fulfilled') {

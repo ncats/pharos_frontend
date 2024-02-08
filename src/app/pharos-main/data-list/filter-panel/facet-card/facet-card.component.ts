@@ -1,9 +1,16 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Facet} from "../../../../models/facet";
-import {environment} from "../../../../../environments/environment";
-import {SelectionModel} from "@angular/cdk/collections";
+import {environment} from '../../../../../environments/environment';
+import {SelectionModel} from '@angular/cdk/collections';
+import {CommonModule} from '@angular/common';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatIcon} from '@angular/material/icon';
+import {FacetTableComponent} from '../facet-table/facet-table.component';
+import {FacetHistogramComponent} from '../facet-histogram/facet-histogram.component';
 
 @Component({
+    standalone: true,
+    imports: [CommonModule, MatExpansionModule, MatIcon, FacetTableComponent, FacetHistogramComponent],
     selector: 'pharos-facet-card',
     templateUrl: './facet-card.component.html',
     styleUrls: ['./facet-card.component.scss', '../filter-panel.component.scss']

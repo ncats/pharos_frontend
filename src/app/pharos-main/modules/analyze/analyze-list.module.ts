@@ -12,6 +12,9 @@ import {TargetDiseaseHeatmapComponent} from '../../analyze-list/target-disease-h
 import {DiseaseTargetHeatmapComponent} from '../../analyze-list/disease-target-heatmap/disease-target-heatmap.component';
 import {LigandTargetHeatmapComponent} from '../../analyze-list/ligand-target-heatmap/ligand-target-heatmap.component';
 import {TargetTargetHeatmapComponent} from '../../analyze-list/target-target-heatmap/target-target-heatmap.component';
+import {
+  PropertyDisplayComponent
+} from '../../../tools/generic-table/components/property-display/property-display.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,8 @@ import {TargetTargetHeatmapComponent} from '../../analyze-list/target-target-hea
     CommonModule,
     AnalyzeListRoutingModule,
     SharedListModule,
-    CommonToolsModule
+    CommonToolsModule,
+      PropertyDisplayComponent
   ],
   providers: [
     ComponentsResolver,

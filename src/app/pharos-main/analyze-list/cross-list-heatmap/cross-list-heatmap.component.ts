@@ -8,7 +8,7 @@ import {takeUntil} from 'rxjs/operators';
 import {FieldSelectionDialogComponent} from '../../../tools/field-selection-dialog/field-selection-dialog.component';
 import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
 import {TourType} from '../../../models/tour-type';
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'pharos-cross-list-heatmap',

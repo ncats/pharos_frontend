@@ -4,7 +4,6 @@ import {ApolloTestingModule} from 'apollo-angular/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from '../../shared/shared.module';
-import {GenericTableModule} from '../generic-table/generic-table.module';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FIRESTORESTUB} from '../../../../test/firestore-stub';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
@@ -25,7 +24,6 @@ describe('ExploreListButtonComponent', () => {
         RouterTestingModule,
         BrowserAnimationsModule,
         SharedModule,
-        GenericTableModule,
         ApolloTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],

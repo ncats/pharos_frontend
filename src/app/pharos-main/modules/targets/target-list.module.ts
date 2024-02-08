@@ -20,6 +20,11 @@ import {SimilarityDetailsComponent} from '../../data-list/cards/long-target-card
 import {LigandAssociationDetailsComponent} from '../../data-list/cards/long-target-card/ligand-association-details/ligand-association-details.component';
 import {TargetPredictionDetailsComponent} from '../../data-list/cards/long-target-card/target-prediction-details/target-prediction-details.component';
 import {SequenceSimilarityDetailsComponent} from '../../data-list/cards/long-target-card/sequence-similarity-details/sequence-similarity-details.component';
+import {
+  PropertyDisplayComponent
+} from '../../../tools/generic-table/components/property-display/property-display.component';
+import {RadarChartComponent} from '../../../tools/visualizations/radar-chart/radar-chart.component';
+import {StructureViewComponent} from '../../../tools/structure-view/structure-view.component';
 
 @NgModule({
   declarations: [
@@ -37,13 +42,16 @@ import {SequenceSimilarityDetailsComponent} from '../../data-list/cards/long-tar
     InjectedRadarChartComponent,
     TopicSaveModalComponent
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    TargetListRoutingModule,
-    CommonToolsModule,
-    SharedListModule
-  ],
+    imports: [
+        CommonModule,
+        SharedModule,
+        TargetListRoutingModule,
+        CommonToolsModule,
+        SharedListModule,
+        PropertyDisplayComponent,
+        RadarChartComponent,
+        StructureViewComponent
+    ],
   providers: [
     {provide: TOKENS.TARGET_TABLE_COMPONENT, useValue: TargetTableComponent},
     {provide: TOKENS.IDG_LEVEL_TOKEN, useValue: IdgLevelIndicatorComponent},

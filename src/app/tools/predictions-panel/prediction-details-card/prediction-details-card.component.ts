@@ -1,7 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {isNumeric} from '../../../../util';
+import {CommonModule} from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
+import {PropertyDisplayComponent} from '../../generic-table/components/property-display/property-display.component';
+import {CommonToolsModule} from '../../common-tools.module';
+import {StructureViewComponent} from '../../structure-view/structure-view.component';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatCardModule, PropertyDisplayComponent, StructureViewComponent],
   selector: 'pharos-prediction-details-card',
   templateUrl: './prediction-details-card.component.html',
   styleUrls: ['./prediction-details-card.component.scss']

@@ -4,8 +4,6 @@ import { SummaryPanelComponent } from './summary-panel.component';
 import {SharedModule} from '../../../../../shared/shared.module';
 import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
 import {RouterTestingModule} from '@angular/router/testing';
-import {KnowledgeTableComponent} from '../../../../../tools/knowledge-table/knowledge-table.component';
-import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route';
@@ -26,7 +24,6 @@ describe('SummaryPanelComponent', () => {
       imports: [
         RouterTestingModule,
         SharedModule,
-        GenericTableModule,
         ApolloTestingModule,
         BrowserAnimationsModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
@@ -38,7 +35,6 @@ describe('SummaryPanelComponent', () => {
       ],
       declarations: [
         SummaryPanelComponent,
-        KnowledgeTableComponent,
         RadarChartComponent
       ]
     })

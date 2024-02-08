@@ -39,6 +39,7 @@ import {
 } from '@angular/material/core';
 import {ANIMATION_MODULE_TYPE} from '@angular/platform-browser/animations';
 import {Subscription} from 'rxjs';
+import {CommonModule} from '@angular/common';
 
 /**
  * Visually, a 30px separation between tick marks looks best. This is very subjective but it is
@@ -91,6 +92,8 @@ export const _RangeSliderComponentMixinBase:
  * behavior to the native `<input type="range">` element.
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule],
   selector: 'range-slider',
   exportAs: 'rangeSlider',
   providers: [MAT_SLIDER_VALUE_ACCESSOR],

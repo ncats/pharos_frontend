@@ -10,7 +10,6 @@ import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from '../../../shared/shared.module';
-import {GenericTableModule} from '../../../tools/generic-table/generic-table.module';
 
 describe('SearchComponentComponent', () => {
   let component: SearchComponent;
@@ -21,8 +20,7 @@ describe('SearchComponentComponent', () => {
       imports: [
         RouterTestingModule,
         BrowserAnimationsModule,
-        SharedModule,
-        GenericTableModule
+        SharedModule
       ],
       providers: [
         PharosApiService,

@@ -4,7 +4,21 @@ import {RadarChartViewerComponent} from '../../../../../tools/radar-chart-viewer
 import {Target} from '../../../../../models/target';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog} from '@angular/material/dialog';
+import {CommonModule} from '@angular/common';
+import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
+import {MatCardModule} from '@angular/material/card';
+import {
+  PropertyDisplayComponent
+} from '../../../../../tools/generic-table/components/property-display/property-display.component';
+import {MatTooltip} from '@angular/material/tooltip';
+import {GeneSummaryComponent} from '../gene-summary/gene-summary.component';
+import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
+import {KnowledgeTableComponent} from '../../../../../tools/knowledge-table/knowledge-table.component';
+import {MatIcon} from '@angular/material/icon';
+import {CommonToolsModule} from '../../../../../tools/common-tools.module';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 
 /**
@@ -12,6 +26,9 @@ import {MatDialog} from "@angular/material/dialog";
  * also contains radar chart knowledge graph and knowledge table if available
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, ScrollspyDirective, ComponentHeaderComponent, MatCardModule, FlexLayoutModule, MatIcon,
+    PropertyDisplayComponent, MatTooltip, GeneSummaryComponent, RadarChartComponent, KnowledgeTableComponent, CommonToolsModule],
   selector: 'pharos-summary-panel',
   templateUrl: './summary-panel.component.html',
   styleUrls: ['./summary-panel.component.scss'],

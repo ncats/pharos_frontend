@@ -1,6 +1,6 @@
 import {CUSTOM_ELEMENTS_SCHEMA, Inject, NgModule, PLATFORM_ID} from '@angular/core';
 import {CommonModule, DOCUMENT, isPlatformBrowser} from '@angular/common';
-import {ApolloModule} from "apollo-angular";
+import {ApolloModule} from 'apollo-angular';
 import {TargetDetailsRoutingModule} from './target-details-routing.module';
 import {TargetHeaderComponent} from '../../data-details/target-details/target-header/target-header.component';
 import {SummaryPanelComponent} from '../../data-details/target-details/panels/summary-panel/summary-panel.component';
@@ -65,13 +65,18 @@ import {
 import {
   InteractingPathwaysComponent
 } from "../../data-details/target-details/panels/interacting-pathways-component/interacting-pathways.component";
+import {
+    PropertyDisplayComponent
+} from '../../../tools/generic-table/components/property-display/property-display.component';
+import {RadarChartComponent} from '../../../tools/visualizations/radar-chart/radar-chart.component';
+import {GenericTableComponent} from '../../../tools/generic-table/generic-table.component';
+import {KnowledgeTableComponent} from '../../../tools/knowledge-table/knowledge-table.component';
 
 @NgModule({
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     declarations: [
         TargetHeaderComponent,
         BreadcrumbComponent,
-        SummaryPanelComponent,
         RadarChartViewerComponent,
         DiseaseSourceComponent, DiseaseNoveltyComponent,
         DiseaseCardComponent,
@@ -87,7 +92,6 @@ import {
         ViralInteractionPanelComponent,
         VirusDetailsComponent,
         OrthologPanelComponent,
-        GeneSummaryComponent,
         GoTermsComponent,
         GwasTargetAnalyticsComponent,
         TargetFacetPanelComponent,
@@ -106,20 +110,26 @@ import {
         NearbyTargetListComponent, TinxScatterplotCardComponent,
       TargetWordCloudComponent
     ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    TargetDetailsRoutingModule,
-    CommonToolsModule,
-    SharedDetailsModule,
-    IdgLevelSummaryModule,
-    TargetTableModule,
-    LigandListModule,
-    PharosLoadingSpinnerModule,
-    MatButtonToggleModule,
-    ClipboardModule,
-    ApolloModule
-  ],
+    imports: [
+        CommonModule,
+        SharedModule,
+        TargetDetailsRoutingModule,
+        CommonToolsModule,
+        SharedDetailsModule,
+        IdgLevelSummaryModule,
+        TargetTableModule,
+        LigandListModule,
+        PharosLoadingSpinnerModule,
+        MatButtonToggleModule,
+        ClipboardModule,
+        ApolloModule,
+        GeneSummaryComponent,
+        PropertyDisplayComponent,
+        RadarChartComponent,
+        GenericTableComponent,
+        KnowledgeTableComponent,
+        SummaryPanelComponent
+    ],
   exports: [
     DiseaseCardComponent,
     VirusDetailsComponent,

@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TargetCardComponent } from './target-card.component';
 import {SharedModule} from '../../../../shared/shared.module';
-import {RadarChartModule} from '../../../../tools/visualizations/radar-chart/radar-chart.module';
 import {CommonToolsModule} from '../../../../tools/common-tools.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {RouterModule} from '@angular/router';

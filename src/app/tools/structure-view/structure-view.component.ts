@@ -3,11 +3,14 @@ import {PharosConfig} from '../../../config/pharos-config';
 import {BehaviorSubject, takeWhile} from 'rxjs';
 import {PharosProperty} from '../../models/pharos-property';
 import {environment} from "../../../environments/environment";
+import {CommonModule} from '@angular/common';
 
 /**
  * displays a structure only from either a url or a smiles string
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule],
   selector: 'pharos-structure-view',
   templateUrl: './structure-view.component.html',
   styleUrls: ['./structure-view.component.scss'],

@@ -11,6 +11,7 @@ import {isPlatformBrowser} from '@angular/common';
  * component to create a d3 bar chart
  */
 @Component({
+  standalone: true,
   selector: 'pharos-bar-chart',
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.scss'],

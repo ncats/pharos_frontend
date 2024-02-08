@@ -5,13 +5,10 @@ import {BatchUploadModalComponent} from './batch-upload-modal/batch-upload-modal
 import {DynamicPanelComponent} from './dynamic-panel/dynamic-panel.component';
 import {DynamicTablePanelComponent} from './dynamic-table-panel/dynamic-table-panel.component';
 import {HelpPanelComponent} from './help-panel/help-panel.component';
-import {KnowledgeTableComponent} from './knowledge-table/knowledge-table.component';
 import {LinkListComponent} from './link-list/link-list.component';
-import {GenericTableModule} from './generic-table/generic-table.module';
 import {SharedModule} from '../shared/shared.module';
 import {RouterModule} from '@angular/router';
 import {NgxJsonViewerModule} from 'ngx-json-viewer';
-import {RadarChartModule} from './visualizations/radar-chart/radar-chart.module';
 import {StructureViewComponent} from './structure-view/structure-view.component';
 import {NcatsHeaderModule} from './ncats-header/ncats-header.module';
 import {ListFilterComponent} from './list-filter/list-filter.component';
@@ -38,13 +35,14 @@ import { DataVersionCardComponent } from './data-version-card/data-version-card.
 import { PredictionsPanelComponent } from './predictions-panel/predictions-panel.component';
 import { PredictionDetailsCardComponent } from './predictions-panel/prediction-details-card/prediction-details-card.component';
 import { PredictionSetComponent } from './predictions-panel/prediction-set/prediction-set.component';
-import { CitationComponent } from './citation/citation.component';
 import { GardRareComponent } from './gard-rare/gard-rare.component';
 import { WordCloudComponent } from './visualizations/word-cloud/word-cloud.component';
-import {AngularD3CloudModule} from "angular-d3-cloud";
+import {AngularD3CloudModule} from 'angular-d3-cloud';
 import { CommunityDataPanelComponent } from './community-data-panel/community-data-panel.component';
-import {FilterPanelModule} from "../pharos-main/data-list/filter-panel/filter-panel.module";
+import {FilterPanelModule} from '../pharos-main/data-list/filter-panel/filter-panel.module';
 import { DownloadCommunityDataButtonComponent } from './predictions-panel/download-community-data-button/download-community-data-button.component';
+import {RadarChartComponent} from './visualizations/radar-chart/radar-chart.component';
+import {GenericTableComponent} from './generic-table/generic-table.component';
 
 @NgModule({
     declarations: [
@@ -53,11 +51,8 @@ import { DownloadCommunityDataButtonComponent } from './predictions-panel/downlo
         DynamicPanelComponent,
         DynamicTablePanelComponent,
         HelpPanelComponent,
-        KnowledgeTableComponent,
         LinkListComponent,
-        StructureViewComponent,
         ListFilterComponent,
-        ExploreListButtonComponent,
         AssociationDataSourcesArticleComponent,
         ExpressionDataSourcesArticleComponent,
         PPIDataSourcesArticleComponent,
@@ -75,14 +70,9 @@ import { DownloadCommunityDataButtonComponent } from './predictions-panel/downlo
         SequenceAlignmentsComponent,
         TaskItemComponent,
         DataVersionCardComponent,
-        PredictionsPanelComponent,
-        PredictionDetailsCardComponent,
-        PredictionSetComponent,
-        CitationComponent,
         GardRareComponent,
         WordCloudComponent,
-        CommunityDataPanelComponent,
-        DownloadCommunityDataButtonComponent
+        CommunityDataPanelComponent
     ],
     imports: [
         CommonModule,
@@ -90,27 +80,28 @@ import { DownloadCommunityDataButtonComponent } from './predictions-panel/downlo
         RouterModule,
         AnatomogramModule,
         NgxJsonViewerModule,
-        GenericTableModule,
-        RadarChartModule,
         UpsetModule,
         FilterPanelModule,
-        AngularD3CloudModule
+        AngularD3CloudModule,
+        RadarChartComponent,
+        ExploreListButtonComponent,
+        GenericTableComponent,
+        DownloadCommunityDataButtonComponent,
+        PredictionDetailsCardComponent,
+        StructureViewComponent,
+        PredictionSetComponent,
+        PredictionsPanelComponent
     ],
     exports: [
         NcatsHeaderModule,
         AnatomogramModule,
-        RadarChartModule,
-        GenericTableModule,
         BatchUploadModalComponent,
         DynamicPanelComponent,
         DynamicTablePanelComponent,
         HelpPanelComponent,
-        KnowledgeTableComponent,
         LinkListComponent,
-        StructureViewComponent,
         ListFilterComponent,
         ExpressionHeatMapComponent,
-        ExploreListButtonComponent,
         AffiliateLinkComponent,
         VennDiagramComponent,
         UpsetPlotComponent,
@@ -118,9 +109,7 @@ import { DownloadCommunityDataButtonComponent } from './predictions-panel/downlo
         SequenceAlignmentsComponent,
         TaskItemComponent,
         GardRareComponent,
-        CitationComponent,
         WordCloudComponent,
-        PredictionsPanelComponent,
         CommunityDataPanelComponent
     ]
 })

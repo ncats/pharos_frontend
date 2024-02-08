@@ -4,7 +4,6 @@ import { GenericTableComponent } from './generic-table.component';
 import {MaterialModule} from '../../../assets/material/material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from '../../shared/shared.module';
-import {GenericTableModule} from './generic-table.module';
 import {PropertyDisplayComponent} from './components/property-display/property-display.component';
 import {RouterTestingModule} from '@angular/router/testing';
 

@@ -12,8 +12,25 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {isNumeric} from '../../../../util';
 import { MatDialog } from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {CommonModule} from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
+import {CitationComponent} from '../../citation/citation.component';
+import {ExploreListButtonComponent} from '../../explore-list-button/explore-list-button.component';
+import {MatIcon, MatIconModule} from '@angular/material/icon';
+import {
+  DownloadCommunityDataButtonComponent
+} from '../download-community-data-button/download-community-data-button.component';
+import {FacetCardComponent} from '../../../pharos-main/data-list/filter-panel/facet-card/facet-card.component';
+import {MatPaginator} from '@angular/material/paginator';
+import {PredictionDetailsCardComponent} from '../prediction-details-card/prediction-details-card.component';
+import {GenericTableComponent} from '../../generic-table/generic-table.component';
+import {MatButton, MatButtonModule} from '@angular/material/button';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @Component({
+  standalone: true,
+  imports: [FlexLayoutModule, CommonModule, MatCardModule, CitationComponent, ExploreListButtonComponent, MatIconModule, MatButtonModule,
+    DownloadCommunityDataButtonComponent, FacetCardComponent, MatPaginator, PredictionDetailsCardComponent, GenericTableComponent],
   selector: 'pharos-prediction-set',
   templateUrl: './prediction-set.component.html',
   styleUrls: ['./prediction-set.component.scss']
