@@ -3,8 +3,14 @@ import {DynamicPanelBaseComponent} from '../../../../../../tools/dynamic-panel-b
 import {Target} from '../../../../../../models/target';
 import {Clipboard} from '@angular/cdk/clipboard';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
+import {CommonModule} from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [MatExpansionModule, MatButtonModule, MatIcon, CommonModule],
   selector: 'pharos-sequence',
   templateUrl: './sequence.component.html',
   styleUrls: ['./sequence.component.scss']

@@ -40,7 +40,6 @@ import {DrugsLigandsPanelComponent} from '../../data-details/target-details/pane
 import {PathwaysPanelComponent} from '../../data-details/target-details/panels/pathways-panel/pathways-panel.component';
 import {ReactomePathwayBrowserComponent} from '../../data-details/target-details/panels/pathways-panel/reactome-pathway-browser/reactome-pathway-browser.component';
 import {GoTermsComponent} from '../../data-details/target-details/panels/go-terms/go-terms.component';
-import {SequenceComponent} from '../../data-details/target-details/panels/aa-sequence-panel/sequence/sequence.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {GwasTargetAnalyticsComponent} from '../../data-details/target-details/panels/gwas-target-analytics/gwas-target-analytics.component';
 import {AffiliateLinksComponent} from '../../data-details/target-details/panels/affiliate-links/affiliate-links.component';
@@ -83,7 +82,6 @@ import {KnowledgeTableComponent} from '../../../tools/knowledge-table/knowledge-
         PublicationStatisticsComponent,
         RelatedPublicationsComponent,
         ExpressionPanelComponent,
-        AaSequencePanelComponent,
         ProteinProteinPanelComponent,
         PathwaysPanelComponent,
         InteractingPathwaysComponent,
@@ -102,7 +100,6 @@ import {KnowledgeTableComponent} from '../../../tools/knowledge-table/knowledge-
         LigandsPanelComponent,
         DrugsPanelComponent,
         DrugsLigandsPanelComponent,
-        SequenceComponent,
         AffiliateLinksComponent,
         TargetPanelBaseComponent,
         ExpressionDetailsComponent,
@@ -128,7 +125,8 @@ import {KnowledgeTableComponent} from '../../../tools/knowledge-table/knowledge-
         RadarChartComponent,
         GenericTableComponent,
         KnowledgeTableComponent,
-        SummaryPanelComponent
+        SummaryPanelComponent,
+        AaSequencePanelComponent
     ],
   exports: [
     DiseaseCardComponent,

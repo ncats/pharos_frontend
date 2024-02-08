@@ -14,11 +14,20 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import {Target} from '../../../../../models/target';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {takeUntil} from 'rxjs/operators';
-import {isPlatformBrowser} from '@angular/common';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 import {Router} from '@angular/router';
 import {CentralStorageService} from '../../../../../pharos-services/central-storage.service';
-import {backend, environment} from "../../../../../../environments/environment";
+import {backend, environment} from '../../../../../../environments/environment';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
+import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {BarChartComponent} from '../../../../../tools/visualizations/bar-chart/bar-chart.component';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatIcon} from '@angular/material/icon';
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
+import {SequenceComponent} from './sequence/sequence.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 /**
  * displays amino acid sequence data
@@ -27,10 +36,14 @@ import {backend, environment} from "../../../../../../environments/environment";
  * protvista viewer - browser only
  */
 @Component({
+  standalone: true,
+  imports: [
+      CommonModule, MatCardModule, MatButtonModule, SequenceComponent, FlexLayoutModule,
+    ComponentHeaderComponent, ScrollspyDirective, BarChartComponent, MatTooltip, MatIcon
+  ],
   selector: 'pharos-aa-sequence-panel',
   templateUrl: './aa-sequence-panel.component.html',
-  styleUrls: ['./aa-sequence-panel.component.scss'],
-  // styleUrls: ['./aa-sequence-panel.component.scss', './molstar.css'],
+  styleUrls: ['./aa-sequence-panel.component.scss', './molstar.css'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -53,7 +66,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
   isProduction = environment.production;
 
   get getDynamicSource() {
-    if (backend.startsWith("http://localhost")) {
+    if (backend.startsWith('http://localhost')) {
       return 'local';
     }
     return this.isProduction ? 'prod' : 'dev';
