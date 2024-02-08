@@ -8,22 +8,14 @@ import {RangeSliderComponent} from "../../../tools/range-slider/range-slider.com
 import { FacetCardComponent } from './facet-card/facet-card.component';
 
 @NgModule({
-  declarations: [
-    FacetHistogramComponent,
-    FacetTableComponent,
-    RangeSliderComponent,
-    FacetCardComponent
-  ],
   imports: [
     CommonModule,
     MaterialModule,
-    SharedModule
-  ],
-  exports: [
-    FacetHistogramComponent,
+    SharedModule,
+    FacetCardComponent,
     FacetTableComponent,
-    RangeSliderComponent,
-    FacetCardComponent
+    FacetHistogramComponent,
+    RangeSliderComponent
   ]
 })
 export class FilterPanelModule { }

@@ -254,7 +254,7 @@ export class PharosMainComponent implements OnInit, OnDestroy {
             }
 
             if (component.navHeader) {
-              componentInstance.instance.description = component.navHeader.mainDescription;
+              componentInstance.instance.description = component.navHeader.mainDescription + ' Click the "?" for more details.';
               componentInstance.instance.mainSource = component.navHeader.mainSource;
               componentInstance.instance.apiSources = component.api;
               componentInstance.instance.field = component.navHeader.section;

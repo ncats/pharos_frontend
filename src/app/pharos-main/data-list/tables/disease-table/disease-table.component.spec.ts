@@ -5,7 +5,6 @@ import {SharedModule} from '../../../../shared/shared.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
-import {GenericTableModule} from '../../../../tools/generic-table/generic-table.module';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../../test/mock-activate-route';
 
@@ -19,7 +18,6 @@ describe('DiseaseTableComponent', () => {
         SharedModule,
         RouterTestingModule,
         BrowserAnimationsModule,
-        GenericTableModule
       ],
       providers: [
         PharosApiService,

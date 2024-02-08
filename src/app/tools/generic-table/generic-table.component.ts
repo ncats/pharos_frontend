@@ -17,21 +17,30 @@ import {
   ViewContainerRef
 } from '@angular/core';
 import {BehaviorSubject, Subject} from 'rxjs';
-import {ComponentPortal} from '@angular/cdk/portal';
+import {ComponentPortal, PortalModule} from '@angular/cdk/portal';
 import {PageData} from './models/page-data';
-import {MatSort, Sort} from '@angular/material/sort';
+import {MatSort, MatSortModule, Sort} from '@angular/material/sort';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {DataProperty} from './components/property-display/data-property';
 import {SelectionModel} from '@angular/cdk/collections';
 import {takeUntil} from 'rxjs/operators';
-import {MatRow, MatTableDataSource } from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
+import {MatRow, MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import {CommonModule} from '@angular/common';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {PropertyDisplayComponent} from './components/property-display/property-display.component';
+import {MatIconModule} from '@angular/material/icon';
 
 /**
  * component to show flexible data consisting of multiple data types, custom components
  * also handles standard table operations, primarily with event emitters for the end user to react to
  */
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule, MatTableModule, MatPaginatorModule, MatSortModule,
+    MatCheckboxModule, PortalModule, PropertyDisplayComponent, MatIconModule
+  ],
   selector: 'pharos-generic-table',
   templateUrl: './generic-table.component.html',
   styleUrls: ['./generic-table.component.scss'],

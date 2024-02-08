@@ -5,7 +5,6 @@ import {SharedModule} from '../../../../../shared/shared.module';
 import {SharedDetailsModule} from '../../../../../shared/shared-details.module';
 import {DiseaseSourceComponent} from '../disease-source-panel/disease-source-panel.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
 import {CommonToolsModule} from '../../../../../tools/common-tools.module';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -28,7 +27,6 @@ describe('ExpressionPanelComponent', () => {
         BrowserAnimationsModule,
         SharedModule,
         SharedDetailsModule,
-        GenericTableModule,
         CommonToolsModule,
         ApolloTestingModule,
         RouterTestingModule,

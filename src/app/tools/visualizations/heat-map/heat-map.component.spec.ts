@@ -15,7 +15,6 @@ import {SelectedFacetService} from '../../../pharos-main/data-list/filter-panel/
 import {SuggestApiService} from '../../search-component/suggest-api.service';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {GenericTableModule} from '../../generic-table/generic-table.module';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 
 describe('HeatMapComponent', () => {
@@ -30,7 +29,6 @@ describe('HeatMapComponent', () => {
         ApolloTestingModule,
         BrowserAnimationsModule,
         SharedModule,
-        GenericTableModule,
         RouterTestingModule,
         HttpClientModule],
       providers: [

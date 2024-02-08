@@ -11,7 +11,9 @@
   <ng-template #showfull>
     <div class="citation">
       <mat-card-subtitle>{{authors}}</mat-card-subtitle>
-      <ncats-property-display *ngIf="citation?.identifier" [property]="{label: citation.identifier.name, term: citation.identifier.value}"></ncats-property-display>
+      <ncats-property-display *ngIf="citation?.identifier"
+                              [property]="{label: citation.identifier.name, term: citation.identifier.value}">
+      </ncats-property-display>
       <ncats-property-display [property]="{label: 'Abstract'}"></ncats-property-display>
       {{citation.abstract}}
     </div>

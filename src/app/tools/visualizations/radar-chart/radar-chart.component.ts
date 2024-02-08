@@ -144,6 +144,7 @@ export class RadarChartOptions {
  * extendable radar chart component
  */
 @Component({
+  standalone: true,
   selector: 'pharos-radar-chart',
   templateUrl: './radar-chart.component.html',
   styleUrls: ['./radar-chart.component.scss'],

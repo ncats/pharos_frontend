@@ -1,3 +1,5 @@
-<button mat-button (click)="openTutorial()" class="closeButton tutorialLink">
-  <span>tutorial </span><mat-icon [color]="'primary'" matTooltip="Open Tutorial">lightbulb</mat-icon>
+<button mat-button
+        [matTooltip]= "'Open Tutorial'"
+        (click)="openTutorial()" class="closeButton tutorialLink">
+  <span>tutorial </span><mat-icon [color]="'primary'" iconPositionEnd>lightbulb</mat-icon>
 </button>

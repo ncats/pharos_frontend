@@ -86,7 +86,7 @@
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "browserTarget": "pharos:build"
+            "buildTarget": "pharos:build"
           },
           "configurations": {
             "production": {
