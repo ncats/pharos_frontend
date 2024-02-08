@@ -17,6 +17,7 @@ import {isPlatformBrowser} from '@angular/common';
  * holder for different types of anatomogram svgs
  */
 @Component({
+  standalone: true,
   selector: 'ncats-anatomogram-image',
   templateUrl: './anatomogram-image.component.html',
   styleUrls: ['./anatomogram-image.component.scss']

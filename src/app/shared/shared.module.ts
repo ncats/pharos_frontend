@@ -19,7 +19,6 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
 import {
   TargetRelevanceTableComponent
 } from '../pharos-main/data-details/ligand-details/panels/target-relevance-panel/target-relevance-table/target-relevance-table.component';
-import {IdgLevelIndicatorComponent} from '../tools/idg-level-indicator/idg-level-indicator.component';
 import {RouterModule} from '@angular/router';
 import {PackCircleComponent} from '../tools/visualizations/pack-circle/pack-circle.component';
 import {TutorialLinkComponent} from '../tools/tutorial-link/tutorial-link.component';
@@ -48,8 +47,7 @@ import {ComponentHeaderComponent} from '../tools/component-header/component-head
   ],
   declarations: [
     PharosMainComponent,
-    TargetRelevanceTableComponent,
-    IdgLevelIndicatorComponent
+    TargetRelevanceTableComponent
   ],
   providers: [
     HelpDataService,
@@ -65,7 +63,6 @@ import {ComponentHeaderComponent} from '../tools/component-header/component-head
     HelpArticlesModule,
     PharosMainComponent,
     TargetRelevanceTableComponent,
-    IdgLevelIndicatorComponent,
     ComponentHeaderComponent
   ]
 })

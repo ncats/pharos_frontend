@@ -3,7 +3,7 @@ import {DynamicPanelComponent} from "../dynamic-panel/dynamic-panel.component";
 import {DynamicServicesService} from "../../pharos-services/dynamic-services.service";
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {PharosApiService} from "../../pharos-services/pharos-api.service";
-import {isPlatformServer} from "@angular/common";
+import {CommonModule, isPlatformServer} from "@angular/common";
 import {PharosConfig} from "../../../config/pharos-config";
 import {takeUntil} from "rxjs/operators";
 import {CentralStorageService} from "../../pharos-services/central-storage.service";
@@ -15,6 +15,7 @@ import {PredictionsPanelComponent} from '../predictions-panel/predictions-panel.
 @Component({
   standalone: true,
   imports: [
+      CommonModule,
     MatCardModule,
     ComponentHeaderComponent,
     PredictionsPanelComponent

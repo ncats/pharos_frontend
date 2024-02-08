@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {AnatomogramModule} from './anatomogram/anatomogram.module';
 import {BatchUploadModalComponent} from './batch-upload-modal/batch-upload-modal.component';
 import {DynamicPanelComponent} from './dynamic-panel/dynamic-panel.component';
 import {DynamicTablePanelComponent} from './dynamic-table-panel/dynamic-table-panel.component';
@@ -19,7 +18,6 @@ import {PPIDataSourcesArticleComponent} from './help-panel/articles/ppidata-sour
 import {PathwayDataSourcesArticleComponent} from './help-panel/articles/pathway-data-sources-article/pathway-data-sources-article.component';
 import {AffiliateLinkComponent} from './affiliate-link/affiliate-link.component';
 import {DynamicPanelBaseComponent} from './dynamic-panel-base/dynamic-panel-base.component';
-import {ExpressionHeatMapComponent} from './visualizations/expression-heat-map/expression-heat-map.component';
 import {GoTermsEvidenceArticleComponent} from './help-panel/articles/go-terms-evidence-article/go-terms-evidence-article.component';
 import {VennDiagramComponent} from './visualizations/venn-diagram/venn-diagram.component';
 import {FieldSelectionDialogComponent} from './field-selection-dialog/field-selection-dialog.component';
@@ -57,7 +55,6 @@ import {GenericTableComponent} from './generic-table/generic-table.component';
         PathwayDataSourcesArticleComponent,
         AffiliateLinkComponent,
         GoTermsEvidenceArticleComponent,
-        ExpressionHeatMapComponent,
         VennDiagramComponent,
         FieldSelectionDialogComponent,
         ModelDetailsComponent,
@@ -74,7 +71,6 @@ import {GenericTableComponent} from './generic-table/generic-table.component';
         CommonModule,
         SharedModule,
         RouterModule,
-        AnatomogramModule,
         NgxJsonViewerModule,
         UpsetModule,
         FilterPanelModule,
@@ -92,13 +88,11 @@ import {GenericTableComponent} from './generic-table/generic-table.component';
     ],
     exports: [
         NcatsHeaderModule,
-        AnatomogramModule,
         BatchUploadModalComponent,
         DynamicPanelComponent,
         DynamicTablePanelComponent,
         LinkListComponent,
         ListFilterComponent,
-        ExpressionHeatMapComponent,
         AffiliateLinkComponent,
         VennDiagramComponent,
         UpsetPlotComponent,

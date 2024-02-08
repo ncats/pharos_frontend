@@ -4,6 +4,7 @@
 </ng-template>
 
 <ng-template #nodata>
+  <div>Here?</div>
   <article>
   <mat-card [id]="field"
             class="section-card"
@@ -16,7 +17,7 @@
   </article>
 </ng-template>
 
-<article *ngIf="(this.target && this.target[this.params.fieldName].length > 0); else nodata">
+<article *ngIf="(this.target && this.target[this.params.fieldName].length > 0)">
   <mat-card id={{field}}
             class="section-card"
             *ngIf="data"
