@@ -1,7 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ScatterOptions} from "../../../../../../tools/visualizations/scatter-plot/models/scatter-options";
+import {ScatterOptions} from '../../../../../../tools/visualizations/scatter-plot/models/scatter-options';
+import {MatCardModule} from '@angular/material/card';
+import {ScatterPlotComponent} from '../../../../../../tools/visualizations/scatter-plot/scatter-plot.component';
 
 @Component({
+  standalone: true,
+  imports: [
+    MatCardModule,
+    ScatterPlotComponent,
+  ],
   selector: 'pharos-tinx-scatterplot-card',
   templateUrl: './tinx-scatterplot-card.component.html',
   styleUrls: ['./tinx-scatterplot-card.component.scss']

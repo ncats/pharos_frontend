@@ -15,6 +15,9 @@ import {TargetTargetHeatmapComponent} from '../../analyze-list/target-target-hea
 import {
   PropertyDisplayComponent
 } from '../../../tools/generic-table/components/property-display/property-display.component';
+import {
+  DiseaseAssociationGridComponent
+} from '../../data-details/target-details/panels/disease-source-panel/disease-association-grid/disease-association-grid.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,8 @@ import {
     AnalyzeListRoutingModule,
     SharedListModule,
     CommonToolsModule,
-      PropertyDisplayComponent
+      PropertyDisplayComponent,
+      DiseaseAssociationGridComponent
   ],
   providers: [
     ComponentsResolver,

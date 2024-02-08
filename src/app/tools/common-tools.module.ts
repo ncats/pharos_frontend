@@ -38,7 +38,6 @@ import { PredictionSetComponent } from './predictions-panel/prediction-set/predi
 import { GardRareComponent } from './gard-rare/gard-rare.component';
 import { WordCloudComponent } from './visualizations/word-cloud/word-cloud.component';
 import {AngularD3CloudModule} from 'angular-d3-cloud';
-import { CommunityDataPanelComponent } from './community-data-panel/community-data-panel.component';
 import {FilterPanelModule} from '../pharos-main/data-list/filter-panel/filter-panel.module';
 import { DownloadCommunityDataButtonComponent } from './predictions-panel/download-community-data-button/download-community-data-button.component';
 import {RadarChartComponent} from './visualizations/radar-chart/radar-chart.component';
@@ -50,7 +49,6 @@ import {GenericTableComponent} from './generic-table/generic-table.component';
         DynamicPanelBaseComponent,
         DynamicPanelComponent,
         DynamicTablePanelComponent,
-        HelpPanelComponent,
         LinkListComponent,
         ListFilterComponent,
         AssociationDataSourcesArticleComponent,
@@ -69,10 +67,8 @@ import {GenericTableComponent} from './generic-table/generic-table.component';
         BatchResolveModalComponent,
         SequenceAlignmentsComponent,
         TaskItemComponent,
-        DataVersionCardComponent,
         GardRareComponent,
-        WordCloudComponent,
-        CommunityDataPanelComponent
+        WordCloudComponent
     ],
     imports: [
         CommonModule,
@@ -90,7 +86,9 @@ import {GenericTableComponent} from './generic-table/generic-table.component';
         PredictionDetailsCardComponent,
         StructureViewComponent,
         PredictionSetComponent,
-        PredictionsPanelComponent
+        PredictionsPanelComponent,
+        HelpPanelComponent,
+        DataVersionCardComponent
     ],
     exports: [
         NcatsHeaderModule,
@@ -98,7 +96,6 @@ import {GenericTableComponent} from './generic-table/generic-table.component';
         BatchUploadModalComponent,
         DynamicPanelComponent,
         DynamicTablePanelComponent,
-        HelpPanelComponent,
         LinkListComponent,
         ListFilterComponent,
         ExpressionHeatMapComponent,
@@ -109,8 +106,7 @@ import {GenericTableComponent} from './generic-table/generic-table.component';
         SequenceAlignmentsComponent,
         TaskItemComponent,
         GardRareComponent,
-        WordCloudComponent,
-        CommunityDataPanelComponent
+        WordCloudComponent
     ]
 })
 export class CommonToolsModule {

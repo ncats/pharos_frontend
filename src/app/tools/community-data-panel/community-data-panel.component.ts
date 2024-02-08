@@ -8,8 +8,17 @@ import {PharosConfig} from "../../../config/pharos-config";
 import {takeUntil} from "rxjs/operators";
 import {CentralStorageService} from "../../pharos-services/central-storage.service";
 import {environment} from "../../../environments/environment";
+import {MatCard, MatCardModule} from '@angular/material/card';
+import {ComponentHeaderComponent} from '../component-header/component-header.component';
+import {PredictionsPanelComponent} from '../predictions-panel/predictions-panel.component';
 
 @Component({
+  standalone: true,
+  imports: [
+    MatCardModule,
+    ComponentHeaderComponent,
+    PredictionsPanelComponent
+  ],
   selector: 'pharos-community-data-panel',
   templateUrl: './community-data-panel.component.html',
   styleUrls: ['./community-data-panel.component.scss']

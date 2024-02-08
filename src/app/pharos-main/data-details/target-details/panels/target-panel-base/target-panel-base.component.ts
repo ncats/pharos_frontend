@@ -3,8 +3,17 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import {Target} from '../../../../../models/target';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
+import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {MatCardModule} from '@angular/material/card';
+import {CommonModule} from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [
+    ComponentHeaderComponent, CommonModule,
+    ScrollspyDirective, MatCardModule,
+  ],
   selector: 'pharos-target-panel-base',
   templateUrl: './target-panel-base.component.html',
   styleUrls: ['./target-panel-base.component.scss']

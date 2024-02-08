@@ -1,19 +1,17 @@
-import {CUSTOM_ELEMENTS_SCHEMA, Inject, NgModule, PLATFORM_ID} from '@angular/core';
-import {CommonModule, DOCUMENT, isPlatformBrowser} from '@angular/common';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {ApolloModule} from 'apollo-angular';
 import {TargetDetailsRoutingModule} from './target-details-routing.module';
 import {TargetHeaderComponent} from '../../data-details/target-details/target-header/target-header.component';
 import {SummaryPanelComponent} from '../../data-details/target-details/panels/summary-panel/summary-panel.component';
 import {RadarChartViewerComponent} from '../../../tools/radar-chart-viewer/radar-chart-viewer.component';
 import {DiseaseSourceComponent} from '../../data-details/target-details/panels/disease-source-panel/disease-source-panel.component';
-import {DiseaseCardComponent} from '../../data-details/target-details/panels/disease-source-panel/disease-card/disease-card.component';
 import {ExpressionPanelComponent} from '../../data-details/target-details/panels/expression-panel/expression-panel.component';
 import {AaSequencePanelComponent} from '../../data-details/target-details/panels/aa-sequence-panel/aa-sequence-panel.component';
 import {ProteinProteinPanelComponent} from '../../data-details/target-details/panels/protein-protein-panel/protein-protein-panel.component';
 import {ViralInteractionPanelComponent} from '../../data-details/target-details/panels/viral-interaction-panel/viral-interaction-panel.component';
 import {VirusDetailsComponent} from '../../data-details/target-details/panels/viral-interaction-panel/virus-details/virus-details.component';
 import {OrthologPanelComponent} from '../../data-details/target-details/panels/ortholog-panel/ortholog-panel.component';
-import {GeneSummaryComponent} from '../../data-details/target-details/panels/gene-summary/gene-summary.component';
 import {TargetFacetPanelComponent} from '../../data-details/target-details/panels/target-facet-panel/target-facet-panel.component';
 import {IdgResourcesPanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/idg-resources-panel.component';
 import {ReagentPanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/reagent-panel/reagent-panel.component';
@@ -25,7 +23,6 @@ import {SharedModule} from '../../../shared/shared.module';
 import {CommonToolsModule} from '../../../tools/common-tools.module';
 import {SharedDetailsModule} from '../../../shared/shared-details.module';
 import {IdgLevelSummaryModule} from '../../data-details/target-details/panels/level-summary-panel/idg-level-summary.module';
-import {StructureViewComponent} from '../../../tools/structure-view/structure-view.component';
 import {TOKENS} from '../../../../config/component-tokens';
 import {BreadcrumbComponent} from '../../data-details/target-details/panels/breadcrumb/breadcrumb.component';
 import {TargetTableModule} from './target-list.module';
@@ -43,7 +40,6 @@ import {GoTermsComponent} from '../../data-details/target-details/panels/go-term
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {GwasTargetAnalyticsComponent} from '../../data-details/target-details/panels/gwas-target-analytics/gwas-target-analytics.component';
 import {AffiliateLinksComponent} from '../../data-details/target-details/panels/affiliate-links/affiliate-links.component';
-import {TargetPanelBaseComponent} from '../../data-details/target-details/panels/target-panel-base/target-panel-base.component';
 import {ExpressionDetailsComponent} from '../../data-details/target-details/panels/expression-panel/expression-details/expression-details.component';
 import {ExpressionDetailsBlockComponent} from '../../data-details/target-details/panels/expression-panel/expression-details/expression-details-block/expression-details-block.component';
 import {NearestTclinPanelComponent} from '../../data-details/target-details/panels/nearest-tclin-panel/nearest-tclin-panel.component';
@@ -55,30 +51,17 @@ import {
   DiseaseNoveltyComponent
 } from "../../data-details/target-details/panels/disease-novelty/disease-novelty.component";
 import {
-    TinxScatterplotCardComponent
-} from "../../data-details/target-details/panels/disease-novelty/tinx-scatterplot-card/tinx-scatterplot-card.component";
-import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predictions-panel.component';
-import {
   TargetWordCloudComponent
 } from "../../data-details/target-details/panels/target-word-cloud/target-word-cloud.component";
 import {
   InteractingPathwaysComponent
 } from "../../data-details/target-details/panels/interacting-pathways-component/interacting-pathways.component";
-import {
-    PropertyDisplayComponent
-} from '../../../tools/generic-table/components/property-display/property-display.component';
-import {RadarChartComponent} from '../../../tools/visualizations/radar-chart/radar-chart.component';
-import {GenericTableComponent} from '../../../tools/generic-table/generic-table.component';
-import {KnowledgeTableComponent} from '../../../tools/knowledge-table/knowledge-table.component';
 
 @NgModule({
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
     declarations: [
         TargetHeaderComponent,
-        BreadcrumbComponent,
         RadarChartViewerComponent,
-        DiseaseSourceComponent, DiseaseNoveltyComponent,
-        DiseaseCardComponent,
         PublicationStatisticsComponent,
         RelatedPublicationsComponent,
         ExpressionPanelComponent,
@@ -100,11 +83,9 @@ import {KnowledgeTableComponent} from '../../../tools/knowledge-table/knowledge-
         LigandsPanelComponent,
         DrugsPanelComponent,
         DrugsLigandsPanelComponent,
-        AffiliateLinksComponent,
-        TargetPanelBaseComponent,
         ExpressionDetailsComponent,
         ExpressionDetailsBlockComponent,
-        NearbyTargetListComponent, TinxScatterplotCardComponent,
+        NearbyTargetListComponent,
       TargetWordCloudComponent
     ],
     imports: [
@@ -120,19 +101,21 @@ import {KnowledgeTableComponent} from '../../../tools/knowledge-table/knowledge-
         MatButtonToggleModule,
         ClipboardModule,
         ApolloModule,
-        GeneSummaryComponent,
-        PropertyDisplayComponent,
-        RadarChartComponent,
-        GenericTableComponent,
-        KnowledgeTableComponent,
-        SummaryPanelComponent,
-        AaSequencePanelComponent
+        // GeneSummaryComponent,
+        // PropertyDisplayComponent,
+        // RadarChartComponent,
+        // GenericTableComponent,
+        // KnowledgeTableComponent,
+        // SummaryPanelComponent,
+        // AffiliateLinksComponent,
+        // TargetPanelBaseComponent,
+        // BreadcrumbComponent,
+        // AaSequencePanelComponent
     ],
-  exports: [
-    DiseaseCardComponent,
-    VirusDetailsComponent,
-    TargetWordCloudComponent
-  ],
+    exports: [
+        VirusDetailsComponent,
+        TargetWordCloudComponent
+    ],
   providers: [
     // breadcrumb
     {provide: TOKENS.PHAROS_SUBNAV_COMPONENT, useValue: SidenavPanelComponent},

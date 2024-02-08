@@ -1,10 +1,19 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Disease} from "../../../../../../models/disease";
-import {DiseaseAssociation} from "../../../../../../models/disease-association";
-import {BreakpointObserver} from "@angular/cdk/layout";
-import {DynamicPanelBaseComponent} from "../../../../../../tools/dynamic-panel-base/dynamic-panel-base.component";
+import {Disease} from '../../../../../../models/disease';
+import {BreakpointObserver} from '@angular/cdk/layout';
+import {DynamicPanelBaseComponent} from '../../../../../../tools/dynamic-panel-base/dynamic-panel-base.component';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatTooltip} from '@angular/material/tooltip';
+import {RouterModule} from '@angular/router';
+import {MatButtonModule} from '@angular/material/button';
+import {CommonModule} from '@angular/common';
+import {DiseaseAssociationGridComponent} from '../disease-association-grid/disease-association-grid.component';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatExpansionModule, MatTooltip, RouterModule, MatButtonModule,
+    DiseaseAssociationGridComponent, MatIcon],
   selector: 'pharos-disease-card',
   templateUrl: './disease-card.component.html',
   styleUrls: ['./disease-card.component.scss']
@@ -16,7 +25,7 @@ export class DiseaseCardComponent extends DynamicPanelBaseComponent implements O
   }
 
   @Input() disease: Disease;
-  collapsed: boolean = true;
+  collapsed = true;
 
   drugType = 'DrugCentral Indication';
   isSmallScreen = false;
@@ -27,9 +36,9 @@ export class DiseaseCardComponent extends DynamicPanelBaseComponent implements O
 
   diseaseSourceString() {
     const max = this.isSmallScreen ? 1 : 3;
-    let types = this.disease.associations.map(j => j.type);
+    const types = this.disease.associations.map(j => j.type);
     const uniqueTypes = [];
-    for (let t of types) {
+    for (const t of types) {
       if (!uniqueTypes.includes(t)) {
         uniqueTypes.push(t);
       }

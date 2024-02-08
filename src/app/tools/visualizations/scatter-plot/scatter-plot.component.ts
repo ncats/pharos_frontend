@@ -14,12 +14,23 @@ import * as d3 from 'd3v7';
 import {ScatterOptions} from './models/scatter-options';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {isPlatformBrowser} from '@angular/common';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
 import {PharosPoint} from '../../../models/pharos-point';
 import {CentralStorageService} from "../../../pharos-services/central-storage.service";
 import {partition} from "lodash";
+import {MatRadioButton} from '@angular/material/radio';
+import {MatButton} from '@angular/material/button';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
+  standalone: true,
+  imports: [ CommonModule,
+    MatRadioButton,
+    MatButton,
+    MatTooltip,
+    MatIcon
+  ],
   selector: 'pharos-scatter-plot',
   templateUrl: './scatter-plot.component.html',
   styleUrls: ['./scatter-plot.component.scss'],

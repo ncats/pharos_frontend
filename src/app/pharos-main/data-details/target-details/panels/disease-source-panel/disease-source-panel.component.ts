@@ -15,15 +15,24 @@ import {ActivatedRoute} from '@angular/router';
 import {DiseaseSerializer} from '../../../../../models/disease';
 import {takeUntil} from 'rxjs/operators';
 import {TargetComponents} from '../../../../../models/target-components';
-import {isPlatformBrowser} from '@angular/common';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 import {PackCircleConfig} from '../../../../../tools/visualizations/pack-circle/pack-circle.component';
-import {PageEvent} from '@angular/material/paginator';
+import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
+import {MatCardModule} from '@angular/material/card';
+import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
+import {ExploreListButtonComponent} from '../../../../../tools/explore-list-button/explore-list-button.component';
+import {CommunityDataPanelComponent} from '../../../../../tools/community-data-panel/community-data-panel.component';
+import {DiseaseCardComponent} from './disease-card/disease-card.component';
 
 /**
  * component to display disease source data
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatCardModule, ScrollspyDirective, ComponentHeaderComponent, ExploreListButtonComponent,
+    MatPaginatorModule, CommunityDataPanelComponent, DiseaseCardComponent],
   selector: 'pharos-disease-source',
   templateUrl: './disease-source-panel.component.html',
   styleUrls: ['./disease-source-panel.component.scss'],
