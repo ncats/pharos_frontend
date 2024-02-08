@@ -18,7 +18,6 @@ import {GoTermsEvidenceArticleComponent} from '../tools/help-panel/articles/go-t
   declarations: [
     IlluminationGraphArticleComponent,
     TargetDevelopmentArticleComponent,
-    LigandActivityArticleComponent,
     TinxArticleComponent,
     PubmedScoreArticleComponent
   ],

@@ -3,20 +3,23 @@ import {AnatomogramImageComponent} from './anatomogram-image/anatomogram-image.c
 import {AnatomogramHoverService} from './anatomogram-hover.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {MatRadioChange} from '@angular/material/radio';
+import {MatRadioButton, MatRadioChange, MatRadioGroup, MatRadioModule} from '@angular/material/radio';
+import {MatButtonModule} from '@angular/material/button';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 /**
  * anatomogram viewer, passes paramaters to various images based on the svg urls
  */
 @Component({
+  standalone: true,
+  imports: [AnatomogramImageComponent, MatRadioGroup, MatRadioModule, MatButtonModule, CommonModule, FlexLayoutModule],
   selector: 'pharos-anatomogram',
   templateUrl: './anatomogram.component.html',
   styleUrls: ['./anatomogram.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class AnatomogramComponent implements OnInit, OnDestroy {
-
 
   /**
    * import hover service

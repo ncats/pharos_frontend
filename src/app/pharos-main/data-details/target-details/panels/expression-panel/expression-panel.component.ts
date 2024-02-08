@@ -12,20 +12,37 @@ import {Target} from '../../../../../models/target';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {Subject} from 'rxjs';
-import {isPlatformBrowser} from '@angular/common';
+import {CommonModule, isPlatformBrowser, NgTemplateOutlet} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 import {HeatMapData} from '../../../../../tools/visualizations/heat-map/heat-map.component';
 import {takeUntil} from 'rxjs/operators';
 import {TourType} from '../../../../../models/tour-type';
 import {ExpressionInfoService} from '../../../../../pharos-services/expression-info.service';
-import {PackCircleConfig} from '../../../../../tools/visualizations/pack-circle/pack-circle.component';
+import {
+  PackCircleComponent,
+  PackCircleConfig
+} from '../../../../../tools/visualizations/pack-circle/pack-circle.component';
 import * as d3 from 'd3v7';
+import {MatCardModule} from '@angular/material/card';
+import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
+import {
+  ExpressionHeatMapComponent
+} from '../../../../../tools/visualizations/expression-heat-map/expression-heat-map.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatTooltip} from '@angular/material/tooltip';
+import {CommunityDataPanelComponent} from '../../../../../tools/community-data-panel/community-data-panel.component';
+import {ExpressionDetailsComponent} from './expression-details/expression-details.component';
+import {AnatomogramComponent} from '../../../../../tools/anatomogram/anatomogram.component';
 
 // todo: clean up tabs css when this is merges/released: https://github.com/angular/material2/pull/11520
 /**
  * expression panel component
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatCardModule, ScrollspyDirective, ComponentHeaderComponent, ExpressionHeatMapComponent, AnatomogramComponent,
+    MatTabsModule, NgTemplateOutlet, PackCircleComponent, MatTooltip, CommunityDataPanelComponent, ExpressionDetailsComponent],
   selector: 'pharos-expression-panel',
   templateUrl: './expression-panel.component.html',
   styleUrls: ['./expression-panel.component.scss']

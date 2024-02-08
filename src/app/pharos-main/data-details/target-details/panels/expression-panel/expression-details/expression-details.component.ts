@@ -1,7 +1,17 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {DataSourceInfo, DataVersionInfo} from "../../../../../../models/dataVersion";
+import {MatCardTitle} from '@angular/material/card';
+import {MatIcon} from '@angular/material/icon';
+import {CommonModule} from '@angular/common';
+import {ExpressionDetailsBlockComponent} from './expression-details-block/expression-details-block.component';
 
 @Component({
+  standalone: true,
+  imports: [
+      CommonModule,
+    MatCardTitle, ExpressionDetailsBlockComponent,
+    MatIcon
+  ],
   selector: 'pharos-expression-details',
   templateUrl: './expression-details.component.html',
   styleUrls: ['./expression-details.component.scss']

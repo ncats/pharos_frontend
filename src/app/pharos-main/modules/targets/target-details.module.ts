@@ -17,8 +17,8 @@ import {IdgResourcesPanelComponent} from '../../data-details/target-details/pane
 import {ReagentPanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/reagent-panel/reagent-panel.component';
 import {DataResourcePanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/data-resource-panel/data-resource-panel.component';
 import {MouseExpressionComponent} from '../../data-details/target-details/panels/idg-resources-panel/mouse-expression/mouse-expression.component';
-import {LigandsPanelComponent} from '../../data-details/target-details/panels/drugs-ligands-panel/ligands-panel/ligands-panel.component';
-import {DrugsPanelComponent} from '../../data-details/target-details/panels/drugs-ligands-panel/drugs-panel/drugs-panel.component';
+import {LigandsPanelComponent} from '../../data-details/target-details/panels/drugs-ligands-panel/ligands-panel.component';
+import {DrugsPanelComponent} from '../../data-details/target-details/panels/drugs-ligands-panel/drugs-panel.component';
 import {SharedModule} from '../../../shared/shared.module';
 import {CommonToolsModule} from '../../../tools/common-tools.module';
 import {SharedDetailsModule} from '../../../shared/shared-details.module';
@@ -33,15 +33,12 @@ import {SidenavPanelComponent} from '../../../tools/sidenav-panel/sidenav-panel.
 import {PublicationStatisticsComponent} from '../../data-details/target-details/panels/publication-statistics/publication-statistics.component';
 import {RelatedPublicationsComponent} from '../../data-details/target-details/panels/related-publications/related-publications.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import {DrugsLigandsPanelComponent} from '../../data-details/target-details/panels/drugs-ligands-panel/drugs-ligands-panel.component';
 import {PathwaysPanelComponent} from '../../data-details/target-details/panels/pathways-panel/pathways-panel.component';
 import {ReactomePathwayBrowserComponent} from '../../data-details/target-details/panels/pathways-panel/reactome-pathway-browser/reactome-pathway-browser.component';
 import {GoTermsComponent} from '../../data-details/target-details/panels/go-terms/go-terms.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {GwasTargetAnalyticsComponent} from '../../data-details/target-details/panels/gwas-target-analytics/gwas-target-analytics.component';
 import {AffiliateLinksComponent} from '../../data-details/target-details/panels/affiliate-links/affiliate-links.component';
-import {ExpressionDetailsComponent} from '../../data-details/target-details/panels/expression-panel/expression-details/expression-details.component';
-import {ExpressionDetailsBlockComponent} from '../../data-details/target-details/panels/expression-panel/expression-details/expression-details-block/expression-details-block.component';
 import {NearestTclinPanelComponent} from '../../data-details/target-details/panels/nearest-tclin-panel/nearest-tclin-panel.component';
 import {
   NearbyTargetListComponent
@@ -64,7 +61,6 @@ import {
         RadarChartViewerComponent,
         PublicationStatisticsComponent,
         RelatedPublicationsComponent,
-        ExpressionPanelComponent,
         ProteinProteinPanelComponent,
         PathwaysPanelComponent,
         InteractingPathwaysComponent,
@@ -80,11 +76,6 @@ import {
         ReagentPanelComponent,
         DataResourcePanelComponent,
         MouseExpressionComponent,
-        LigandsPanelComponent,
-        DrugsPanelComponent,
-        DrugsLigandsPanelComponent,
-        ExpressionDetailsComponent,
-        ExpressionDetailsBlockComponent,
         NearbyTargetListComponent,
       TargetWordCloudComponent
     ],

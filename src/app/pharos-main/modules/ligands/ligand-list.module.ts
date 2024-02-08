@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 
 import {LigandListRoutingModule} from './ligand-list-routing.module';
 import {SharedModule} from '../../../shared/shared.module';
-import {LigandCardComponent} from '../../data-list/cards/ligand-card/ligand-card.component';
 import {TOKENS} from '../../../../config/component-tokens';
 import {DataListResolver} from '../../resolvers/data-list.resolver';
 import {SharedListModule} from '../../../shared/shared-list.module';
@@ -13,7 +12,6 @@ import {HelpPanelComponent} from '../../../tools/help-panel/help-panel.component
 
 @NgModule({
   declarations: [
-    LigandCardComponent,
     LigandTableComponent
   ],
   imports: [
@@ -29,7 +27,6 @@ import {HelpPanelComponent} from '../../../tools/help-panel/help-panel.component
     {provide: TOKENS.PHAROS_HELPPANEL_COMPONENT, useValue: HelpPanelComponent}
   ],
   exports: [
-    LigandCardComponent,
     LigandTableComponent
   ]
 })

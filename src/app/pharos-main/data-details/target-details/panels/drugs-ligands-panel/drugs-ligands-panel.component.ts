@@ -2,11 +2,9 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy,
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {LigandSerializer} from '../../../../../models/ligand';
 import {TargetComponents} from '../../../../../models/target-components';
-import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
-import {PharosConfig} from '../../../../../../config/pharos-config';
 import {BehaviorSubject} from 'rxjs';
 import {Target} from '../../../../../models/target';
 import {Facet} from '../../../../../models/facet';
@@ -14,22 +12,36 @@ import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../../../models/page-data';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
-import {PageEvent} from '@angular/material/paginator';
+import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
+import {MatCardModule} from '@angular/material/card';
+import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {CommonModule, NgIf} from '@angular/common';
+import {ExploreListButtonComponent} from '../../../../../tools/explore-list-button/explore-list-button.component';
+import {LigandCardComponent} from '../../../../data-list/cards/ligand-card/ligand-card.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {
+  LigandActivityArticleComponent
+} from '../../../../../tools/help-panel/articles/ligand-activity-article/ligand-activity-article.component';
 
 @Component({
+  standalone: true,
+  imports: DrugsLigandsPanelComponent.imports,
   selector: 'pharos-drugs-ligands-panel',
   templateUrl: './drugs-ligands-panel.component.html',
   styleUrls: ['./drugs-ligands-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DrugsLigandsPanelComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
-
+  static imports = [
+    ComponentHeaderComponent, MatCardModule, ScrollspyDirective, ExploreListButtonComponent,
+    MatPaginatorModule, LigandCardComponent, CommonModule, FlexLayoutModule, LigandActivityArticleComponent
+  ];
   constructor(
     private _http: HttpClient,
     private _route: ActivatedRoute,
     private pharosApiService: PharosApiService,
     private changeRef: ChangeDetectorRef,
-    private pharosConfig: PharosConfig,
     public breakpointObserver: BreakpointObserver,
     public dynamicServices: DynamicServicesService) {
   super(dynamicServices);
