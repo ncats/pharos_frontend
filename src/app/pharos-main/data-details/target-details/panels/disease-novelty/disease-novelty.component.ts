@@ -12,13 +12,20 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import {PharosPoint} from '../../../../../models/pharos-point';
 import {Target} from '../../../../../models/target';
 import {takeUntil} from 'rxjs/operators';
-import {isPlatformBrowser} from '@angular/common';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
-import {PackCircleConfig} from '../../../../../tools/visualizations/pack-circle/pack-circle.component';
+import {PackCircleComponent, PackCircleConfig} from '../../../../../tools/visualizations/pack-circle/pack-circle.component';
 import {CentralStorageService} from '../../../../../pharos-services/central-storage.service';
 import {TourType} from '../../../../../models/tour-type';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
+import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {MatCardModule} from '@angular/material/card';
+import {TinxScatterplotCardComponent} from './tinx-scatterplot-card/tinx-scatterplot-card.component';
 
 @Component({
+  standalone: true,
+  imports: [ CommonModule, PackCircleComponent, MatCardModule, ComponentHeaderComponent, ScrollspyDirective, TinxScatterplotCardComponent
+  ],
   selector: 'pharos-disease-novelty',
   templateUrl: './disease-novelty.component.html',
   styleUrls: ['./disease-novelty.component.scss']

@@ -13,8 +13,13 @@ import * as d3 from 'd3v7';
 import {ExpressionInfoService} from "../../../pharos-services/expression-info.service";
 import {partition} from "lodash";
 import {CentralStorageService} from "../../../pharos-services/central-storage.service";
+import {MatCardModule} from '@angular/material/card';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {CommonModule} from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatCardModule, FlexLayoutModule],
   selector: 'pharos-pack-circle',
   templateUrl: './pack-circle.component.html',
   styleUrls: ['./pack-circle.component.scss'],

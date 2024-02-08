@@ -6,13 +6,14 @@ import {MatTooltip} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MaterialModule} from '../../../../../assets/material/material.module';
+import {HelpPanelComponent} from '../../help-panel.component';
 
 /**
  * button to pass help panel toggle info
  */
 @Component({
   standalone: true,
-  imports: [MatTooltip, MatButtonModule, MatIconModule],
+  imports: [MatTooltip, MatButtonModule, MatIconModule, HelpPanelComponent],
   selector: 'pharos-help-panel-trigger',
   templateUrl: './help-panel-trigger.component.html',
   styleUrls: ['./help-panel-trigger.component.scss']

@@ -12,6 +12,7 @@ import {IdgLevelIndicatorComponent} from '../../../tools/idg-level-indicator/idg
 import {LigandDetailsComponent} from '../../data-details/ligand-details/panels/ligand-details/ligand-details.component';
 import {HelpPanelComponent} from "../../../tools/help-panel/help-panel.component";
 import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predictions-panel.component';
+import {CommunityDataPanelComponent} from '../../../tools/community-data-panel/community-data-panel.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {PredictionsPanelComponent} from '../../../tools/predictions-panel/predic
     SharedModule,
     LigandDetailsRoutingModule,
     SharedDetailsModule,
-    CommonToolsModule
+    CommonToolsModule,
+      CommunityDataPanelComponent
   ],
   providers: [
     // ligands

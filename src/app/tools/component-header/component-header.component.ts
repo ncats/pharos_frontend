@@ -7,12 +7,14 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MaterialModule} from '../../../assets/material/material.module';
+import {HelpPanelComponent} from '../help-panel/help-panel.component';
 
 @Component({
   standalone: true,
   encapsulation: ViewEncapsulation.None,
   imports: [
     HelpPanelTriggerComponent,
+    HelpPanelComponent,
     TutorialLinkComponent,
     MaterialModule,
     MatTooltipModule,

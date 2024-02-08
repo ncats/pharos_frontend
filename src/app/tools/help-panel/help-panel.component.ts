@@ -1,4 +1,14 @@
-import {Component, EventEmitter, Injector, OnDestroy, OnInit, Output, QueryList, Type, ViewChildren} from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Injector,
+    OnDestroy,
+    OnInit,
+    Output,
+    QueryList,
+    Type,
+    ViewChildren
+} from '@angular/core';
 import {UntypedFormControl} from '@angular/forms';
 import {HelpDataService} from './services/help-data.service';
 import {CdkPortalOutlet, ComponentPortal} from '@angular/cdk/portal';
@@ -7,210 +17,229 @@ import {ActivatedRoute} from '@angular/router';
 import {HelpPanelOpenerService} from './services/help-panel-opener.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {CommonModule} from '@angular/common';
+import {MatButtonModule, MatIconButton} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {CdkAccordionModule} from '@angular/cdk/accordion';
+import {MatAccordion, MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion';
+import {CitationComponent} from '../citation/citation.component';
+import {MaterialModule} from '../../../assets/material/material.module';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {DataVersionCardComponent} from '../data-version-card/data-version-card.component';
 
 /**
  * component to hold help information
  */
 @Component({
-  selector: 'pharos-help-panel',
-  templateUrl: './help-panel.component.html',
-  styleUrls: ['./help-panel.component.scss']
+    standalone: true,
+    imports: [CommonModule, MatIconButton, MatIconModule, MatAccordion, MatButtonModule, FlexLayoutModule,
+        MatExpansionModule, CitationComponent, MaterialModule, DataVersionCardComponent],
+    selector: 'pharos-help-panel',
+    templateUrl: './help-panel.component.html',
+    styleUrls: ['./help-panel.component.scss']
 })
 export class HelpPanelComponent implements OnInit, OnDestroy {
-  protected ngUnsubscribe: Subject<any> = new Subject();
-  panelOptions: PanelOptions = {
-    mode : 'over',
-    class : 'filters-panel',
-    opened: false,
-    fixedInViewport: true,
-    fixedTopGap: 118,
-    role: 'directory'
-    /* [mode]="isSmallScreen!==true ? 'side' : 'over'"
-     [opened]="isSmallScreen !== true"*/
-  };
-  get predictionDetails(): any[] {
-    return this.helpDataService.predictionDetails;
-  }
-  /**
-   * close the help panel
-   * @type {EventEmitter<boolean>}
-   */
-  @Output() menuToggle: EventEmitter<boolean> = new EventEmitter<boolean>();
+    protected ngUnsubscribe: Subject<any> = new Subject();
+    panelOptions: PanelOptions = {
+        mode: 'over',
+        class: 'filters-panel',
+        opened: false,
+        fixedInViewport: true,
+        fixedTopGap: 118,
+        role: 'directory'
+        /* [mode]="isSmallScreen!==true ? 'side' : 'over'"
+         [opened]="isSmallScreen !== true"*/
+    };
 
-  /**
-   * list of possible help article injection sites
-   */
-  @ViewChildren(CdkPortalOutlet) articlePortalOutlets: QueryList<CdkPortalOutlet>;
+    get predictionDetails(): any[] {
+        return this.helpDataService.predictionDetails;
+    }
 
-  /**
-   * controller to search the help panel
-   * todo: currently not too useful, as the help articles and definitions are loaded on demand.
-   * @type {FormControl}
-   */
-  searchCtrl: UntypedFormControl = new UntypedFormControl();
+    /**
+     * close the help panel
+     * @type {EventEmitter<boolean>}
+     */
+    @Output() menuToggle: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  /**
-   * helper object to hold the raw data for the view panel
-   * @type {{}}
-   */
-  rawData: any = {};
+    /**
+     * list of possible help article injection sites
+     */
+    @ViewChildren(CdkPortalOutlet) articlePortalOutlets: QueryList<CdkPortalOutlet>;
 
-  /**
-   * main help section description
-   */
-  description: string;
-  mainSource: string[];
+    /**
+     * controller to search the help panel
+     * todo: currently not too useful, as the help articles and definitions are loaded on demand.
+     * @type {FormControl}
+     */
+    searchCtrl: UntypedFormControl = new UntypedFormControl();
 
-  /**
-   * title for help section
-   */
-  title: string;
+    /**
+     * helper object to hold the raw data for the view panel
+     * @type {{}}
+     */
+    rawData: any = {};
 
-  /**
-   * sprovenance sources.
-   * todo: currently not used
-   * @type {any[]}
-   */
-  sources: any[] = [];
+    /**
+     * main help section description
+     */
+    description: string;
+    mainSource: string[];
 
-  /**
-   * initialize data retrieval and component injection services
-   * @param {HelpDataService} helpDataService
-   * @param helpPanelOpenerService
-   * @param _route
-   * @param {ComponentInjectorService} componentInjectorService
-   * @param {Injector} _injector
-   */
-  constructor(
-    public helpDataService: HelpDataService,
-    private helpPanelOpenerService: HelpPanelOpenerService,
-    private _route: ActivatedRoute,
-    private _injector: Injector) {
-  }
+    /**
+     * title for help section
+     */
+    title: string;
 
-  /**
-   * specific injected article that has been selected
-   */
-  selectedArticle: string;
+    /**
+     * sprovenance sources.
+     * todo: currently not used
+     * @type {any[]}
+     */
+    sources: any[] = [];
 
-  /**
-   * array to track the status of each possible injected article from the cdkportals query list
-   * @type {any[]}
-   */
-  opened: boolean[] = [];
+    /**
+     * initialize data retrieval and component injection services
+     * @param {HelpDataService} helpDataService
+     * @param helpPanelOpenerService
+     * @param _route
+     * @param {ComponentInjectorService} componentInjectorService
+     * @param {Injector} _injector
+     */
+    constructor(
+        public helpDataService: HelpDataService,
+        private helpPanelOpenerService: HelpPanelOpenerService,
+        private _route: ActivatedRoute,
+        private _injector: Injector) {
+    }
 
-  loading = true;
-  /**
-   * subscribe to dat asource changes and parse data object
-   */
-  ngOnInit() {
-    this._route.snapshot.data.components
-      .forEach((component: any) => {
-        this.addSource(component);
-        if (component.panels && component.panels.length > 0) {
-          component.panels.forEach(subComponent => {
-            this.addSource(subComponent);
-          });
+    /**
+     * specific injected article that has been selected
+     */
+    selectedArticle: string;
+
+    /**
+     * array to track the status of each possible injected article from the cdkportals query list
+     * @type {any[]}
+     */
+    opened: boolean[] = [];
+
+    loading = true;
+
+    /**
+     * subscribe to dat asource changes and parse data object
+     */
+    ngOnInit() {
+        this._route.snapshot.data.components
+            .forEach((component: any) => {
+                this.addSource(component);
+                if (component.panels && component.panels.length > 0) {
+                    component.panels.forEach(subComponent => {
+                        this.addSource(subComponent);
+                    });
+                }
+            });
+
+        this.helpDataService.sources$
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(res => {
+                console.log('listening');
+                console.log(res);
+                if (res) {
+                    this.sources = res.sources;
+                    this.description = res.mainDescription;
+                    this.mainSource = this.getMainSource(res.mainSource);
+                    this.title = res.title;
+                    if (this.sources && this.sources.length) {
+                        this.sources.forEach(source => {
+                            //  this.rawData[source.field] = this.helpDataService.data[source.field];
+                        });
+                    }
+                }
+            }, (error: any) => {
+                console.log(error);
+            });
+
+        this.helpPanelOpenerService.toggle$
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(res => this.toggleMenu(!this.loading));
+        this.loading = false;
+    }
+
+    private addSource(component) {
+        if (component.navHeader) {
+            this.helpDataService.setSources(component.navHeader.section,
+                {
+                    sources: component.api,
+                    title: component.navHeader.label,
+                    mainDescription: component.navHeader.mainDescription || null,
+                    mainSource: this.getMainSource(component.navHeader.mainSource)
+                });
         }
-      });
+    }
 
-    this.helpDataService.sources$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => {
-      if (res) {
-        this.sources = res.sources;
-        this.description = res.mainDescription;
-        this.mainSource = this.getMainSource(res.mainSource);
-        this.title = res.title;
-        if (this.sources && this.sources.length) {
-          this.sources.forEach(source => {
-          //  this.rawData[source.field] = this.helpDataService.data[source.field];
-          });
+    getMainSource(inputSource): string[] {
+        let mainSource;
+        if (inputSource) {
+            if (Array.isArray(inputSource)) {
+                mainSource = inputSource;
+            } else {
+                mainSource = [inputSource];
+            }
         }
-      }
-    });
-
-    this.helpPanelOpenerService.toggle$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(res => this.toggleMenu(!this.loading));
-    this.loading = false;
-  }
-
-  private addSource(component) {
-    if (component.navHeader) {
-      this.helpDataService.setSources(component.navHeader.section,
-        {
-          sources: component.api,
-          title: component.navHeader.label,
-          mainDescription: component.navHeader.mainDescription || null,
-          mainSource: this.getMainSource(component.navHeader.mainSource)
-        });
+        return mainSource;
     }
-  }
 
-  getMainSource(inputSource): string[]{
-    let mainSource;
-    if (inputSource) {
-      if (Array.isArray(inputSource)){
-        mainSource = inputSource;
-      }else{
-        mainSource = [inputSource];
-      }
+    /**
+     * stub to handle help section search
+     */
+    search() {
     }
-    return mainSource;
-  }
 
-  /**
-   * stub to handle help section search
-   */
-  search() {
-  }
-
-  /**
-   * get readable lable for section
-   * @returns {string}
-   */
-  getLabel() {
-    return this.helpDataService.label;
-  }
-
-  /**
-   * fetch and inject help articles in cdkportal
-   * @param source
-   * @param {number} index
-   */
-  showArticle(source: any, index: number) {
-    if (source.article) {
-      this.opened[index] = true;
-      this.selectedArticle = source.label;
-      if (this.articlePortalOutlets) {
-          const comp = this._injector.get<Type<any>>(source.article);
-          const outlet = this.articlePortalOutlets.toArray()[index];
-          const compPortal = new ComponentPortal(comp);
-          outlet.attach(compPortal);
-      }
+    /**
+     * get readable lable for section
+     * @returns {string}
+     */
+    getLabel() {
+        return this.helpDataService.label;
     }
-  }
 
-  /**
-   * close and detach article
-   * @param {number} index
-   */
-  closeArticle(index: number) {
-    this.opened[index] = false;
-    const outlet = this.articlePortalOutlets.toArray()[index];
-    outlet.detach();
-  }
+    /**
+     * fetch and inject help articles in cdkportal
+     * @param source
+     * @param {number} index
+     */
+    showArticle(source: any, index: number) {
+        if (source.article) {
+            this.opened[index] = true;
+            this.selectedArticle = source.label;
+            if (this.articlePortalOutlets) {
+                const comp = this._injector.get<Type<any>>(source.article);
+                const outlet = this.articlePortalOutlets.toArray()[index];
+                const compPortal = new ComponentPortal(comp);
+                outlet.attach(compPortal);
+            }
+        }
+    }
 
-  /**
-   * close the help panel
-   */
-  toggleMenu(force?: boolean) {
-    this.menuToggle.emit(force);
-  }
+    /**
+     * close and detach article
+     * @param {number} index
+     */
+    closeArticle(index: number) {
+        this.opened[index] = false;
+        const outlet = this.articlePortalOutlets.toArray()[index];
+        outlet.detach();
+    }
 
-  ngOnDestroy() {
-    this.ngUnsubscribe.next(true);
-    this.ngUnsubscribe.complete();
-  }
+    /**
+     * close the help panel
+     */
+    toggleMenu(force?: boolean) {
+        this.menuToggle.emit(force);
+    }
+
+    ngOnDestroy() {
+        this.ngUnsubscribe.next(true);
+        this.ngUnsubscribe.complete();
+    }
 }

@@ -3,7 +3,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {ApolloModule} from "apollo-angular";
+import {ApolloModule} from 'apollo-angular';
 import {MaterialModule} from '../../assets/material/material.module';
 import {BarChartComponent} from '../tools/visualizations/bar-chart/bar-chart.component';
 import {
@@ -21,14 +21,8 @@ import {
 } from '../pharos-main/data-details/ligand-details/panels/target-relevance-panel/target-relevance-table/target-relevance-table.component';
 import {IdgLevelIndicatorComponent} from '../tools/idg-level-indicator/idg-level-indicator.component';
 import {RouterModule} from '@angular/router';
-import {
-  DiseaseAssociationGridComponent
-} from '../pharos-main/data-details/target-details/panels/disease-source-panel/disease-association-grid/disease-association-grid.component';
-import {
-  DiseaseAssociationComponent
-} from '../pharos-main/data-details/target-details/panels/disease-source-panel/disease-association/disease-association.component';
-import {PackCircleComponent} from "../tools/visualizations/pack-circle/pack-circle.component";
-import {TutorialLinkComponent} from "../tools/tutorial-link/tutorial-link.component";
+import {PackCircleComponent} from '../tools/visualizations/pack-circle/pack-circle.component';
+import {TutorialLinkComponent} from '../tools/tutorial-link/tutorial-link.component';
 import {ComponentHeaderComponent} from '../tools/component-header/component-header.component';
 
 
@@ -48,16 +42,14 @@ import {ComponentHeaderComponent} from '../tools/component-header/component-head
     HelpPanelTriggerComponent,
     TutorialLinkComponent,
     BarChartComponent,
-    ScrollspyDirective
+    ScrollspyDirective,
+    ScatterPlotComponent,
+    PackCircleComponent
   ],
   declarations: [
-    ScatterPlotComponent,
     PharosMainComponent,
     TargetRelevanceTableComponent,
-    IdgLevelIndicatorComponent,
-    DiseaseAssociationGridComponent,
-    DiseaseAssociationComponent,
-    PackCircleComponent,
+    IdgLevelIndicatorComponent
   ],
   providers: [
     HelpDataService,
@@ -71,13 +63,9 @@ import {ComponentHeaderComponent} from '../tools/component-header/component-head
     MaterialModule,
     FlexLayoutModule,
     HelpArticlesModule,
-    ScatterPlotComponent,
     PharosMainComponent,
     TargetRelevanceTableComponent,
     IdgLevelIndicatorComponent,
-    DiseaseAssociationGridComponent,
-    DiseaseAssociationComponent,
-    PackCircleComponent,
     ComponentHeaderComponent
   ]
 })

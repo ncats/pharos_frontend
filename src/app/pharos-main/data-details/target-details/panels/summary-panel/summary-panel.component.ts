@@ -19,6 +19,9 @@ import {KnowledgeTableComponent} from '../../../../../tools/knowledge-table/know
 import {MatIcon} from '@angular/material/icon';
 import {CommonToolsModule} from '../../../../../tools/common-tools.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {
+  HelpPanelTriggerComponent
+} from '../../../../../tools/help-panel/components/help-panel-trigger/help-panel-trigger.component';
 
 
 /**
