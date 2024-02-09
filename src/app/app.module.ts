@@ -20,13 +20,14 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {MarkdownModule} from 'ngx-markdown';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
-import {GenericTableComponent} from './tools/generic-table/generic-table.component';
+import {SidenavPanelComponent} from './tools/sidenav-panel/sidenav-panel.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PharosFooterComponent,
-    ScrollToTopComponent
+    ScrollToTopComponent,
+    SidenavPanelComponent
   ],
   imports: [
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: true}),
