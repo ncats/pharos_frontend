@@ -32,8 +32,6 @@ import { DataVersionCardComponent } from './data-version-card/data-version-card.
 import { PredictionsPanelComponent } from './predictions-panel/predictions-panel.component';
 import { PredictionDetailsCardComponent } from './predictions-panel/prediction-details-card/prediction-details-card.component';
 import { PredictionSetComponent } from './predictions-panel/prediction-set/prediction-set.component';
-import { GardRareComponent } from './gard-rare/gard-rare.component';
-import { WordCloudComponent } from './visualizations/word-cloud/word-cloud.component';
 import {AngularD3CloudModule} from 'angular-d3-cloud';
 import {FilterPanelModule} from '../pharos-main/data-list/filter-panel/filter-panel.module';
 import { DownloadCommunityDataButtonComponent } from './predictions-panel/download-community-data-button/download-community-data-button.component';
@@ -61,9 +59,7 @@ import {GenericTableComponent} from './generic-table/generic-table.component';
         HeatMapComponent,
         BatchResolveModalComponent,
         SequenceAlignmentsComponent,
-        TaskItemComponent,
-        GardRareComponent,
-        WordCloudComponent
+        TaskItemComponent
     ],
     imports: [
         CommonModule,
@@ -95,9 +91,7 @@ import {GenericTableComponent} from './generic-table/generic-table.component';
         UpsetPlotComponent,
         HeatMapComponent,
         SequenceAlignmentsComponent,
-        TaskItemComponent,
-        GardRareComponent,
-        WordCloudComponent
+        TaskItemComponent
     ]
 })
 export class CommonToolsModule {

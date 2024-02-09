@@ -5,10 +5,11 @@ import {MatCardModule} from '@angular/material/card';
 import {PropertyDisplayComponent} from '../../generic-table/components/property-display/property-display.component';
 import {CommonToolsModule} from '../../common-tools.module';
 import {StructureViewComponent} from '../../structure-view/structure-view.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, MatCardModule, PropertyDisplayComponent, StructureViewComponent],
+  imports: [CommonModule, MatCardModule, PropertyDisplayComponent, StructureViewComponent, FlexLayoutModule],
   selector: 'pharos-prediction-details-card',
   templateUrl: './prediction-details-card.component.html',
   styleUrls: ['./prediction-details-card.component.scss']

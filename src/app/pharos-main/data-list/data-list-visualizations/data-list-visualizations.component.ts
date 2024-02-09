@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {PharosConfig} from '../../../../config/pharos-config';
 import {SelectedFacetService} from '../filter-panel/selected-facet.service';
 import {Facet} from '../../../models/facet';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
@@ -45,14 +44,12 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
    * @param pathResolverService
    * @param _route
    * @param selectedFacetService
-   * @param {PharosConfig} pharosConfig
    */
   constructor(private centralStorageService: CentralStorageService,
               private pathResolverService: PathResolverService,
               private dialog: MatDialog,
               private _route: ActivatedRoute,
               private selectedFacetService: SelectedFacetService,
-              private pharosConfig: PharosConfig,
               public dynamicServices: DynamicServicesService) {
     super(dynamicServices);
   }

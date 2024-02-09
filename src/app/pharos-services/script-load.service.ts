@@ -1,5 +1,5 @@
 import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
-import {DOCUMENT, isPlatformBrowser, isPlatformServer} from "@angular/common";
+import {DOCUMENT, isPlatformBrowser, isPlatformServer} from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +38,7 @@ export class ScriptLoadService {
       return Promise.resolve();
     }
     const className = 'reactome-diagram-script';
-    const existingScripts = this._document.head.getElementsByClassName(className)
+    const existingScripts = this._document.head.getElementsByClassName(className);
     if (existingScripts.length) {
       return new Promise((resolve) => {
         this.resolveWhenReactomeIsReadyInternal(resolve);
@@ -51,7 +51,7 @@ export class ScriptLoadService {
       script.onerror = (err) => {
         console.log('Error loading Reactome widget');
         console.log(err);
-      }
+      };
       this._document.head.appendChild(script);
       return new Promise((resolve) => {
         script.onload = this.resolveWhenReactomeIsReady.bind({resolve, that: this});

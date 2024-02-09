@@ -18,6 +18,9 @@ import {
 import {
   DiseaseAssociationGridComponent
 } from '../../data-details/target-details/panels/disease-source-panel/disease-association-grid/disease-association-grid.component';
+import {
+  TargetRelevanceTableComponent
+} from '../../data-details/ligand-details/panels/target-relevance-panel/target-relevance-table/target-relevance-table.component';
 
 @NgModule({
   declarations: [
@@ -34,8 +37,9 @@ import {
     AnalyzeListRoutingModule,
     SharedListModule,
     CommonToolsModule,
-      PropertyDisplayComponent,
-      DiseaseAssociationGridComponent
+    PropertyDisplayComponent,
+    DiseaseAssociationGridComponent,
+    TargetRelevanceTableComponent
   ],
   providers: [
     ComponentsResolver,

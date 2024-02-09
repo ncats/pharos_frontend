@@ -4,11 +4,28 @@ import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {UnfurlingMetaService} from '../../../../pharos-services/unfurling-meta.service';
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
+import {CommonModule} from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {ScrollspyDirective} from '../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {ComponentHeaderComponent} from '../../../../tools/component-header/component-header.component';
+import {IdgLevelIndicatorComponent} from '../../../../tools/idg-level-indicator/idg-level-indicator.component';
+import {ExploreListButtonComponent} from '../../../../tools/explore-list-button/explore-list-button.component';
+import {MatTooltip} from '@angular/material/tooltip';
+import {
+  PropertyDisplayComponent
+} from '../../../../tools/generic-table/components/property-display/property-display.component';
+import {CommunityDataPanelComponent} from '../../../../tools/community-data-panel/community-data-panel.component';
+import {GardRareComponent} from '../../../../tools/gard-rare/gard-rare.component';
 
 /**
  * header component for disease details page display
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatCardModule, FlexLayoutModule, ScrollspyDirective, ComponentHeaderComponent,
+    IdgLevelIndicatorComponent, ExploreListButtonComponent, MatTooltip, PropertyDisplayComponent,
+    CommunityDataPanelComponent, GardRareComponent],
   selector: 'pharos-disease-summary',
   templateUrl: './disease-summary.component.html',
   styleUrls: ['./disease-summary.component.scss'],

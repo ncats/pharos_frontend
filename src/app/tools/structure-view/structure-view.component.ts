@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, ViewEncapsulation} from '@angular/core';
-import {PharosConfig} from '../../../config/pharos-config';
 import {BehaviorSubject, takeWhile} from 'rxjs';
 import {PharosProperty} from '../../models/pharos-property';
 import {environment} from "../../../environments/environment";
@@ -58,13 +57,9 @@ export class StructureViewComponent implements OnInit, OnChanges {
 
   /**
    * grab config to fetch the image urls
-   * @param {PharosConfig} pharosConfig
    * @param {ChangeDetectorRef} ref
    */
-  constructor(
-    private pharosConfig: PharosConfig,
-  //  private ref: ChangeDetectorRef
-  ) {
+  constructor( ) {
   }
 
   /**

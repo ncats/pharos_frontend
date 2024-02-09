@@ -3,9 +3,6 @@ import {SharedModule} from './shared.module';
 import {DataDetailsResolver} from '../pharos-main/resolvers/data-details.resolver';
 import {SidenavPanelComponent} from '../tools/sidenav-panel/sidenav-panel.component';
 import {CommonToolsModule} from '../tools/common-tools.module';
-import {
-    PublicationCardComponent
-} from "../pharos-main/data-details/target-details/panels/related-publications/publication-card/publication-card.component";
 
 
 @NgModule({
@@ -14,16 +11,14 @@ import {
     CommonToolsModule
   ],
     declarations: [
-        SidenavPanelComponent,
-        PublicationCardComponent
+        SidenavPanelComponent
     ],
   providers: [
     DataDetailsResolver
   ],
     exports: [
         SharedModule,
-        SidenavPanelComponent,
-        PublicationCardComponent
+        SidenavPanelComponent
     ]
 })
 export class SharedDetailsModule { }

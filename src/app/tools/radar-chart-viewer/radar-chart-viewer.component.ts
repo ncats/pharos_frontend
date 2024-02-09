@@ -2,11 +2,22 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, On
 import {BehaviorSubject} from 'rxjs';
 import {Target} from '../../models/target';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {
+  TargetHeaderComponent
+} from '../../pharos-main/data-details/target-details/target-header/target-header.component';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {PropertyDisplayComponent} from '../generic-table/components/property-display/property-display.component';
+import {RadarChartComponent} from '../visualizations/radar-chart/radar-chart.component';
 
 /**
  * radar chart modal viewer has the radar chart and sources list
  */
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule, FlexLayoutModule, TargetHeaderComponent, PropertyDisplayComponent, RadarChartComponent
+  ],
   selector: 'pharos-radar-chart-viewer',
   templateUrl: './radar-chart-viewer.component.html',
   styleUrls: ['./radar-chart-viewer.component.scss'],

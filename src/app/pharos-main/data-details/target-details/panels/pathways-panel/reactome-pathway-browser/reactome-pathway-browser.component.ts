@@ -3,6 +3,8 @@ import {DOCUMENT, isPlatformBrowser} from '@angular/common';
 import {ScriptLoadService} from "../../../../../../pharos-services/script-load.service";
 
 @Component({
+  standalone: true,
+  imports: [],
   selector: 'pharos-reactome-pathway-browser',
   templateUrl: './reactome-pathway-browser.component.html',
   styleUrls: ['./reactome-pathway-browser.component.scss']

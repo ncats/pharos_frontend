@@ -1,15 +1,29 @@
 import {Component, Inject, Input, OnInit, PLATFORM_ID} from '@angular/core';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {PharosProperty} from '../../../../models/pharos-property';
-import {ScatterPlotData} from '../../../../tools/visualizations/scatter-plot/scatter-plot.component';
+import {
+  ScatterPlotComponent,
+  ScatterPlotData
+} from '../../../../tools/visualizations/scatter-plot/scatter-plot.component';
 import {takeUntil} from 'rxjs/operators';
 import {ScatterOptions} from '../../../../tools/visualizations/scatter-plot/models/scatter-options';
 import {PharosPoint} from '../../../../models/pharos-point';
 import {Disease} from '../../../../models/disease';
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
-import {isPlatformBrowser} from '@angular/common';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatCardModule} from '@angular/material/card';
+import {ScrollspyDirective} from '../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {ComponentHeaderComponent} from '../../../../tools/component-header/component-header.component';
+import {GenericTableComponent} from '../../../../tools/generic-table/generic-table.component';
+import {
+  PropertyDisplayComponent
+} from '../../../../tools/generic-table/components/property-display/property-display.component';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatCardModule, ScrollspyDirective, ComponentHeaderComponent,
+    GenericTableComponent, PropertyDisplayComponent, ScatterPlotComponent],
   selector: 'pharos-gwas-disease-analytics',
   templateUrl: './gwas-disease-analytics.component.html',
   styleUrls: ['./gwas-disease-analytics.component.scss']

@@ -3,8 +3,20 @@ import {TargetPanelBaseComponent} from '../target-panel-base/target-panel-base.c
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 import {PageData} from '../../../../../models/page-data';
 import {SharedPathwayDetails} from '../../../../../models/target';
+import {ExploreListButtonComponent} from '../../../../../tools/explore-list-button/explore-list-button.component';
+import {NearbyTargetListComponent} from './nearby-target-list/nearby-target-list.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import {CommonModule} from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [
+      CommonModule,
+      MatTabsModule,
+    TargetPanelBaseComponent,
+    ExploreListButtonComponent,
+    NearbyTargetListComponent
+  ],
   selector: 'pharos-nearest-tclin-panel',
   templateUrl: './nearest-tclin-panel.component.html',
   styleUrls: ['./nearest-tclin-panel.component.scss']
