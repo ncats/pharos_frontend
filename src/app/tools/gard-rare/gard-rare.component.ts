@@ -1,7 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Disease} from "../../models/disease";
+import {Disease} from '../../models/disease';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
+  standalone: true,
+  imports: [
+    MatTooltip,
+    MatIcon
+  ],
   selector: 'pharos-gard-rare',
   templateUrl: './gard-rare.component.html',
   styleUrls: ['./gard-rare.component.scss']

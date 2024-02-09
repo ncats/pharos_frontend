@@ -17,11 +17,7 @@ import {GeneSummaryComponent} from '../gene-summary/gene-summary.component';
 import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
 import {KnowledgeTableComponent} from '../../../../../tools/knowledge-table/knowledge-table.component';
 import {MatIcon} from '@angular/material/icon';
-import {CommonToolsModule} from '../../../../../tools/common-tools.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {
-  HelpPanelTriggerComponent
-} from '../../../../../tools/help-panel/components/help-panel-trigger/help-panel-trigger.component';
 
 
 /**
@@ -31,7 +27,7 @@ import {
 @Component({
   standalone: true,
   imports: [CommonModule, ScrollspyDirective, ComponentHeaderComponent, MatCardModule, FlexLayoutModule, MatIcon,
-    PropertyDisplayComponent, MatTooltip, GeneSummaryComponent, RadarChartComponent, KnowledgeTableComponent, CommonToolsModule],
+    PropertyDisplayComponent, MatTooltip, GeneSummaryComponent, RadarChartComponent, KnowledgeTableComponent],
   selector: 'pharos-summary-panel',
   templateUrl: './summary-panel.component.html',
   styleUrls: ['./summary-panel.component.scss'],

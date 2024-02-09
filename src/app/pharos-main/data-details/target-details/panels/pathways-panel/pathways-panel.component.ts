@@ -10,8 +10,23 @@ import {PharosApiService} from '../../../../../pharos-services/pharos-api.servic
 import {ActivatedRoute} from '@angular/router';
 import {TargetComponents} from '../../../../../models/target-components';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {CommonModule} from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatIcon} from '@angular/material/icon';
+import {ExploreListButtonComponent} from '../../../../../tools/explore-list-button/explore-list-button.component';
+import {MatPaginator} from '@angular/material/paginator';
+import {GenericTableComponent} from '../../../../../tools/generic-table/generic-table.component';
+import {MatTooltip} from '@angular/material/tooltip';
+import {ReactomePathwayBrowserComponent} from './reactome-pathway-browser/reactome-pathway-browser.component';
+import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatCardModule, FlexLayoutModule, MatTabsModule, MatIcon, ExploreListButtonComponent,
+    MatPaginator, GenericTableComponent, MatTooltip, ReactomePathwayBrowserComponent, ScrollspyDirective, ComponentHeaderComponent],
   selector: 'pharos-pathways-panel',
   templateUrl: './pathways-panel.component.html',
   styleUrls: ['./pathways-panel.component.scss'],

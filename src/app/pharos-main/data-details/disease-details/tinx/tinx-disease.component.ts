@@ -4,11 +4,19 @@ import {PharosPoint} from '../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../tools/visualizations/scatter-plot/models/scatter-options';
 import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
-import {isPlatformBrowser} from '@angular/common';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
 import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
+import {MatCardModule} from '@angular/material/card';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {ScrollspyDirective} from '../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {ComponentHeaderComponent} from '../../../../tools/component-header/component-header.component';
+import {ScatterPlotComponent} from '../../../../tools/visualizations/scatter-plot/scatter-plot.component';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatCardModule, FlexLayoutModule, ScrollspyDirective, ComponentHeaderComponent,
+    ScatterPlotComponent],
   selector: 'pharos-tinx-disease',
   templateUrl: './tinx-disease.component.html',
   styleUrls: ['./tinx-disease.component.scss']

@@ -12,7 +12,6 @@ import {Facet, Field} from '../../../models/facet';
 import {forkJoin, Observable, Subject} from 'rxjs';
 import {PathResolverService} from './path-resolver.service';
 import {SelectedFacetService} from './selected-facet.service';
-import {PharosConfig} from '../../../../config/pharos-config';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
 import {PanelOptions} from '../../pharos-main.component';
 import {map, take, takeUntil} from 'rxjs/operators';
@@ -46,7 +45,6 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * @param pathResolverService
    * @param pharosApiService
    * @param firestore
-   * @param {PharosConfig} pharosConfig
    */
   constructor(
     private tourService: TourService,
@@ -59,7 +57,6 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     private pathResolverService: PathResolverService,
     private pharosApiService: PharosApiService,
     private firestore: AngularFirestore,
-    private pharosConfig: PharosConfig,
     private centralStorageService: CentralStorageService) { }
 
   panelOptions: PanelOptions = {

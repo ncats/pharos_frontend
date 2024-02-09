@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TargetListRoutingModule} from './target-list-routing.module';
 import {RADAR_CHART_TOKEN, TargetTableComponent} from '../../data-list/tables/target-table/target-table.component';
-import {TargetCardComponent} from '../../data-list/cards/target-card/target-card.component';
 import {LongTargetCardComponent} from '../../data-list/cards/long-target-card/long-target-card.component';
 import {InjectedRadarChartComponent} from '../../data-list/tables/target-table/injected-radar-chart/injected-radar-chart.component';
 import {SharedModule} from '../../../shared/shared.module';
@@ -29,7 +28,6 @@ import {StructureViewComponent} from '../../../tools/structure-view/structure-vi
 @NgModule({
   declarations: [
     TargetTableComponent,
-    TargetCardComponent,
     LongTargetCardComponent,
     GeneDetailsComponent,
     InteractionDetailsComponent,
@@ -60,7 +58,6 @@ import {StructureViewComponent} from '../../../tools/structure-view/structure-vi
   ],
   exports: [
     TargetTableComponent,
-    TargetCardComponent,
     LongTargetCardComponent,
     GeneDetailsComponent,
     InteractionDetailsComponent,

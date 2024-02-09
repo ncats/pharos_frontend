@@ -16,21 +16,31 @@ import {PageData} from '../../../../../models/page-data';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {Publication, PublicationSerializer} from '../../../../../models/publication';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
-import {PharosConfig} from '../../../../../../config/pharos-config';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {ScatterPlotComponent} from '../../../../../tools/visualizations/scatter-plot/scatter-plot.component';
 import {takeUntil} from 'rxjs/operators';
 import {TargetComponents} from '../../../../../models/target-components';
-import {isPlatformBrowser} from '@angular/common';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 import {
   FieldSelectionDialogComponent
 } from '../../../../../tools/field-selection-dialog/field-selection-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import {PageEvent} from '@angular/material/paginator';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {MatCardModule} from '@angular/material/card';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
+import {MatIcon} from '@angular/material/icon';
+import {PublicationCardComponent} from './publication-card/publication-card.component';
+import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {TargetWordCloudComponent} from '../target-word-cloud/target-word-cloud.component';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatCardModule, FlexLayoutModule, MatCardModule, ComponentHeaderComponent, MatIcon,
+    MatPaginator, PublicationCardComponent, ScrollspyDirective, TargetWordCloudComponent, MatButtonModule],
   selector: 'pharos-related-publications',
   templateUrl: './related-publications.component.html',
   styleUrls: ['./related-publications.component.scss'],
@@ -43,14 +53,12 @@ export class RelatedPublicationsComponent extends DynamicTablePanelComponent imp
    * @param _route
    * @param changeRef
    * @param pharosApiService
-   * @param pharosConfig
    */
   constructor(
               private dialog: MatDialog,
               private _route: ActivatedRoute,
               private changeRef: ChangeDetectorRef,
               private pharosApiService: PharosApiService,
-              private pharosConfig: PharosConfig,
               @Inject(PLATFORM_ID) private platformID: any,
               public dynamicServices: DynamicServicesService) {
     super(dynamicServices);

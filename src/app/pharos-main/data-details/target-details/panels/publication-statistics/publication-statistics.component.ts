@@ -12,14 +12,21 @@ import {Target} from '../../../../../models/target';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
-import {PharosConfig} from '../../../../../../config/pharos-config';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
-import {isPlatformBrowser} from '@angular/common';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatCardModule} from '@angular/material/card';
+import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
+import {MatTooltip} from '@angular/material/tooltip';
+import {ScatterPlotComponent} from '../../../../../tools/visualizations/scatter-plot/scatter-plot.component';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatCardModule, ScrollspyDirective, ComponentHeaderComponent, MatTooltip, ScatterPlotComponent],
   selector: 'pharos-publication-statistics',
   templateUrl: './publication-statistics.component.html',
   styleUrls: ['./publication-statistics.component.scss'],
@@ -33,12 +40,10 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
    * @param _route
    * @param changeRef
    * @param pharosApiService
-   * @param pharosConfig
    */
   constructor(private _route: ActivatedRoute,
               private changeRef: ChangeDetectorRef,
               private pharosApiService: PharosApiService,
-              private pharosConfig: PharosConfig,
               public dynamicServices: DynamicServicesService,
               @Inject(PLATFORM_ID) public platformID: any) {
     super(dynamicServices);

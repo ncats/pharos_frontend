@@ -24,7 +24,7 @@ import {FacetCardComponent} from '../../../pharos-main/data-list/filter-panel/fa
 import {MatPaginator} from '@angular/material/paginator';
 import {PredictionDetailsCardComponent} from '../prediction-details-card/prediction-details-card.component';
 import {GenericTableComponent} from '../../generic-table/generic-table.component';
-import {MatButton, MatButtonModule} from '@angular/material/button';
+import {MatButtonModule} from '@angular/material/button';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 @Component({

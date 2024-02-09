@@ -14,7 +14,6 @@ import {takeUntil} from 'rxjs/operators';
 import {PageData} from '../../../../models/page-data';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
-import {PharosConfig} from '../../../../../config/pharos-config';
 import {Target} from '../../../../models/target';
 import {PharosProfileService} from '../../../../auth/pharos-profile.service';
 import {TopicSaveModalComponent} from './topic-save-modal/topic-save-modal.component';
@@ -91,7 +90,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
    * @param {MatDialog} dialog
    * @param {Router} router
    * @param profileService
-   * @param {PharosConfig} pharosConfig
    * @param {ChangeDetectorRef} ref
    * @param targetCollection
    * @param snackBar
@@ -101,7 +99,6 @@ export class TargetTableComponent extends DynamicPanelComponent implements OnIni
               public dialog: MatDialog,
               private router: Router,
               private profileService: PharosProfileService,
-              private pharosConfig: PharosConfig,
               private ref: ChangeDetectorRef,
               private targetCollection: AngularFirestore,
               private snackBar: MatSnackBar,

@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit} from '@angular/core';
 import {Ligand} from '../../../../models/ligand';
 import {Target} from '../../../../models/target';
-import {PharosConfig} from '../../../../../config/pharos-config';
 import {DynamicPanelBaseComponent} from '../../../../tools/dynamic-panel-base/dynamic-panel-base.component';
 import {ActivatedRoute} from '@angular/router';
 import {StructureViewComponent} from '../../../../tools/structure-view/structure-view.component';

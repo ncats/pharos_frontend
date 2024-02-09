@@ -3,11 +3,20 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import {Target} from '../../../../../models/target';
 import {takeUntil} from 'rxjs/operators';
 import {VirusDetails} from '../../../../../models/virus-interactions';
-import {isPlatformBrowser} from '@angular/common';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
-import {PageEvent} from '@angular/material/paginator';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatCardModule} from '@angular/material/card';
+import {ExploreListButtonComponent} from '../../../../../tools/explore-list-button/explore-list-button.component';
+import {VirusDetailsComponent} from './virus-details/virus-details.component';
+import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatCardModule, ExploreListButtonComponent, MatPaginator,
+    VirusDetailsComponent, ScrollspyDirective, ComponentHeaderComponent],
   selector: 'pharos-viral-interaction-panel',
   templateUrl: './viral-interaction-panel.component.html',
   styleUrls: ['./viral-interaction-panel.component.scss'],

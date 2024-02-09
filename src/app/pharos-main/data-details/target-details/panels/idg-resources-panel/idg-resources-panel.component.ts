@@ -4,7 +4,6 @@ import {BehaviorSubject, Subject} from 'rxjs';
 import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {Target} from '../../../../../models/target';
-import {PharosConfig} from '../../../../../../config/pharos-config';
 import {IDGResourceSerializer} from '../../../../../models/idg-resources/resource-serializer';
 import {DataResource, MouseImageData} from '../../../../../models/idg-resources/data-resource';
 import {Reagent} from '../../../../../models/idg-resources/reagent';
@@ -79,10 +78,8 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
   /**
    * set up nav sections
    * @param {NavSectionsService} navSectionsService
-   * @param pharosConfig
    */
   constructor(
-    private pharosConfig: PharosConfig,
     private changeRef: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformID: any,
     public dynamicServices: DynamicServicesService) {

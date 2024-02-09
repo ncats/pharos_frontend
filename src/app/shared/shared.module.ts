@@ -16,9 +16,6 @@ import {HelpArticlesModule} from './help-articles.module';
 import {ScatterPlotComponent} from '../tools/visualizations/scatter-plot/scatter-plot.component';
 import {PharosMainComponent} from '../pharos-main/pharos-main.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
-import {
-  TargetRelevanceTableComponent
-} from '../pharos-main/data-details/ligand-details/panels/target-relevance-panel/target-relevance-table/target-relevance-table.component';
 import {RouterModule} from '@angular/router';
 import {PackCircleComponent} from '../tools/visualizations/pack-circle/pack-circle.component';
 import {TutorialLinkComponent} from '../tools/tutorial-link/tutorial-link.component';
@@ -46,8 +43,7 @@ import {ComponentHeaderComponent} from '../tools/component-header/component-head
     PackCircleComponent
   ],
   declarations: [
-    PharosMainComponent,
-    TargetRelevanceTableComponent
+    PharosMainComponent
   ],
   providers: [
     HelpDataService,
@@ -62,7 +58,6 @@ import {ComponentHeaderComponent} from '../tools/component-header/component-head
     FlexLayoutModule,
     HelpArticlesModule,
     PharosMainComponent,
-    TargetRelevanceTableComponent,
     ComponentHeaderComponent
   ]
 })
