@@ -1,10 +1,24 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {TargetPanelBaseComponent} from "../target-panel-base/target-panel-base.component";
-import {DynamicServicesService} from "../../../../../pharos-services/dynamic-services.service";
-import {takeUntil} from "rxjs/operators";
-import {ScriptLoadService} from "../../../../../pharos-services/script-load.service";
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  ElementRef,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import {TargetPanelBaseComponent} from '../target-panel-base/target-panel-base.component';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {takeUntil} from 'rxjs/operators';
+import {ScriptLoadService} from '../../../../../pharos-services/script-load.service';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  standalone: true,
+  imports: [
+    TargetPanelBaseComponent, MatCardModule
+  ],
   selector: 'pharos-interacting-pathways-component',
   templateUrl: './interacting-pathways.component.html',
   styleUrls: ['./interacting-pathways.component.scss']

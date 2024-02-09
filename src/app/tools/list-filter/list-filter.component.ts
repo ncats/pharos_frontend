@@ -1,14 +1,20 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {UntypedFormControl} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
 import {PageData} from '../../models/page-data';
 import {Observable, Subscription} from 'rxjs';
 import {BaseResource} from '../../models/idg-resources/base-resource';
-import {PageEvent} from '@angular/material/paginator';
+import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/paginator';
+import {CommonModule} from '@angular/common';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelect, MatSelectModule} from '@angular/material/select';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 /**
  * Component to show a Filter / Paginator component for a card full of Resources
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, FormsModule, MatInputModule, ReactiveFormsModule, MatPaginatorModule, MatSelectModule, FlexLayoutModule],
   selector: 'pharos-list-filter',
   templateUrl: './list-filter.component.html',
   styleUrls: ['./list-filter.component.scss']

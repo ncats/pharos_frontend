@@ -3,8 +3,17 @@ import {MouseImageData} from "../../../../../../models/idg-resources/data-resour
 import {Observable, Subject, Subscription} from "rxjs";
 import {AnatomogramHoverService} from "../../../../../../tools/anatomogram/anatomogram-hover.service";
 import {takeUntil} from 'rxjs/operators';
+import {AnatomogramComponent} from '../../../../../../tools/anatomogram/anatomogram.component';
+import {CommonModule} from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {DataResourcePanelComponent} from '../data-resource-panel/data-resource-panel.component';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule, AnatomogramComponent, MatCardModule, MatExpansionModule, DataResourcePanelComponent
+  ],
   selector: 'pharos-mouse-expression',
   templateUrl: './mouse-expression.component.html',
   styleUrls: ['./mouse-expression.component.scss']

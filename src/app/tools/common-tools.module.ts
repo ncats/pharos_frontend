@@ -10,7 +10,6 @@ import {RouterModule} from '@angular/router';
 import {NgxJsonViewerModule} from 'ngx-json-viewer';
 import {StructureViewComponent} from './structure-view/structure-view.component';
 import {NcatsHeaderModule} from './ncats-header/ncats-header.module';
-import {ListFilterComponent} from './list-filter/list-filter.component';
 import {ExploreListButtonComponent} from './explore-list-button/explore-list-button.component';
 import {AssociationDataSourcesArticleComponent} from './help-panel/articles/association-data-sources-article/association-data-sources-article.component';
 import {ExpressionDataSourcesArticleComponent} from './help-panel/articles/expression-data-sources-article/expression-data-sources-article.component';
@@ -48,7 +47,6 @@ import {GenericTableComponent} from './generic-table/generic-table.component';
         DynamicPanelComponent,
         DynamicTablePanelComponent,
         LinkListComponent,
-        ListFilterComponent,
         AssociationDataSourcesArticleComponent,
         ExpressionDataSourcesArticleComponent,
         PPIDataSourcesArticleComponent,
@@ -92,7 +90,6 @@ import {GenericTableComponent} from './generic-table/generic-table.component';
         DynamicPanelComponent,
         DynamicTablePanelComponent,
         LinkListComponent,
-        ListFilterComponent,
         AffiliateLinkComponent,
         VennDiagramComponent,
         UpsetPlotComponent,

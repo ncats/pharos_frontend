@@ -14,9 +14,6 @@ import {VirusDetailsComponent} from '../../data-details/target-details/panels/vi
 import {OrthologPanelComponent} from '../../data-details/target-details/panels/ortholog-panel/ortholog-panel.component';
 import {TargetFacetPanelComponent} from '../../data-details/target-details/panels/target-facet-panel/target-facet-panel.component';
 import {IdgResourcesPanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/idg-resources-panel.component';
-import {ReagentPanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/reagent-panel/reagent-panel.component';
-import {DataResourcePanelComponent} from '../../data-details/target-details/panels/idg-resources-panel/data-resource-panel/data-resource-panel.component';
-import {MouseExpressionComponent} from '../../data-details/target-details/panels/idg-resources-panel/mouse-expression/mouse-expression.component';
 import {LigandsPanelComponent} from '../../data-details/target-details/panels/drugs-ligands-panel/ligands-panel.component';
 import {DrugsPanelComponent} from '../../data-details/target-details/panels/drugs-ligands-panel/drugs-panel.component';
 import {SharedModule} from '../../../shared/shared.module';
@@ -63,19 +60,12 @@ import {
         RelatedPublicationsComponent,
         ProteinProteinPanelComponent,
         PathwaysPanelComponent,
-        InteractingPathwaysComponent,
         ReactomePathwayBrowserComponent,
         NearestTclinPanelComponent,
         ViralInteractionPanelComponent,
         VirusDetailsComponent,
         OrthologPanelComponent,
-        GoTermsComponent,
-        GwasTargetAnalyticsComponent,
         TargetFacetPanelComponent,
-        IdgResourcesPanelComponent,
-        ReagentPanelComponent,
-        DataResourcePanelComponent,
-        MouseExpressionComponent,
         NearbyTargetListComponent,
       TargetWordCloudComponent
     ],
