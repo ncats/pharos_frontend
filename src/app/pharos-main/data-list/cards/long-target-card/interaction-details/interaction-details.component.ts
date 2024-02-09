@@ -1,8 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {GeneDetailsComponent} from "../gene-details/gene-details.component";
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
+import {GeneDetailsComponent} from '../gene-details/gene-details.component';
+import {
+  PropertyDisplayComponent
+} from '../../../../../tools/generic-table/components/property-display/property-display.component';
+import {MatCardSubtitle} from '@angular/material/card';
 
 @Component({
+  standalone: true,
+  imports: [
+    PropertyDisplayComponent,
+    MatCardSubtitle
+  ],
   selector: 'pharos-interaction-details',
   templateUrl: './interaction-details.component.html',
   styleUrls: ['../long-target-card.component.scss']

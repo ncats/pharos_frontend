@@ -1,10 +1,25 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {GeneDetailsComponent} from "../gene-details/gene-details.component";
 import {SelectedFacetService} from "../../../filter-panel/selected-facet.service";
-import {VennDiagramData} from "../../../../../tools/visualizations/venn-diagram/venn-diagram.component";
+import {
+  VennDiagramComponent,
+  VennDiagramData
+} from "../../../../../tools/visualizations/venn-diagram/venn-diagram.component";
 import {Target} from "../../../../../models/target";
+import {MatCardSubtitle} from '@angular/material/card';
+import {
+  PropertyDisplayComponent
+} from '../../../../../tools/generic-table/components/property-display/property-display.component';
+import {MatTooltip} from '@angular/material/tooltip';
 
 @Component({
+  standalone: true,
+  imports: [
+    MatCardSubtitle,
+    PropertyDisplayComponent,
+    MatTooltip,
+    VennDiagramComponent
+  ],
   selector: 'pharos-similarity-details',
   templateUrl: './similarity-details.component.html',
   styleUrls: ['../long-target-card.component.scss']

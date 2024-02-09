@@ -17,7 +17,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
  * component to display a condensed ligand view
  */
 @Component({
-  standalone: true, imports: [ CommonModule,
+  standalone: true,
+  imports: [ CommonModule,
     IdgLevelIndicatorComponent, StructureViewComponent, PropertyDisplayComponent, MatTooltip, MatCardModule
   ],
   selector: 'pharos-ligand-card',

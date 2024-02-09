@@ -18,7 +18,6 @@ import {PathwayDataSourcesArticleComponent} from './help-panel/articles/pathway-
 import {AffiliateLinkComponent} from './affiliate-link/affiliate-link.component';
 import {DynamicPanelBaseComponent} from './dynamic-panel-base/dynamic-panel-base.component';
 import {GoTermsEvidenceArticleComponent} from './help-panel/articles/go-terms-evidence-article/go-terms-evidence-article.component';
-import {VennDiagramComponent} from './visualizations/venn-diagram/venn-diagram.component';
 import {FieldSelectionDialogComponent} from './field-selection-dialog/field-selection-dialog.component';
 import {ModelDetailsComponent} from './model-details/model-details.component';
 import { UpsetPlotComponent } from './visualizations/upset-plot/upset-plot.component';
@@ -51,7 +50,6 @@ import {GenericTableComponent} from './generic-table/generic-table.component';
         PathwayDataSourcesArticleComponent,
         AffiliateLinkComponent,
         GoTermsEvidenceArticleComponent,
-        VennDiagramComponent,
         FieldSelectionDialogComponent,
         ModelDetailsComponent,
         UpsetPlotComponent,
@@ -87,7 +85,6 @@ import {GenericTableComponent} from './generic-table/generic-table.component';
         DynamicTablePanelComponent,
         LinkListComponent,
         AffiliateLinkComponent,
-        VennDiagramComponent,
         UpsetPlotComponent,
         HeatMapComponent,
         SequenceAlignmentsComponent,
