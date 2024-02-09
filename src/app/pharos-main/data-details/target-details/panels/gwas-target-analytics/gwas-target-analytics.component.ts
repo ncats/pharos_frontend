@@ -5,10 +5,27 @@ import {takeUntil} from 'rxjs/operators';
 import {PharosProperty} from '../../../../../models/pharos-property';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
 import {PharosPoint} from '../../../../../models/pharos-point';
-import {ScatterPlotData} from '../../../../../tools/visualizations/scatter-plot/scatter-plot.component';
+import {
+  ScatterPlotComponent,
+  ScatterPlotData
+} from '../../../../../tools/visualizations/scatter-plot/scatter-plot.component';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
+import {CommonModule} from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
+import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {
+  PropertyDisplayComponent
+} from '../../../../../tools/generic-table/components/property-display/property-display.component';
+import {GenericTableComponent} from '../../../../../tools/generic-table/generic-table.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule, MatCardModule, FlexLayoutModule,
+    ComponentHeaderComponent, ScrollspyDirective, PropertyDisplayComponent, ScatterPlotComponent, GenericTableComponent
+  ],
   selector: 'pharos-gwas-target-analytics',
   templateUrl: './gwas-target-analytics.component.html',
   styleUrls: ['./gwas-target-analytics.component.scss']

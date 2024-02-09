@@ -107,7 +107,6 @@ export class ProbeData extends DataResource implements HasStructureInfo{
     if(BaseResource.fieldNotNull(data.Canonical_SMILES)){
       this.canonicalSmiles = data.Canonical_SMILES;
     }
-
     this.addDisplayProperty(data.External_ID, data.External_ID_registration_system);
     this.addDisplayProperty(data.Activity,"Activity");
     this.addDisplayProperty(data.Selectivity,"Selectivity");

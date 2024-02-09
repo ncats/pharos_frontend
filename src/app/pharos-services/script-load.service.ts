@@ -26,7 +26,7 @@ export class ScriptLoadService {
     script.onerror = (err) => {
       console.log('Error loading Reactome Interactor widget');
       console.log(err);
-    }
+    };
     this._document.head.appendChild(script);
     return new Promise((resolve) => {
       script.onload = resolve;

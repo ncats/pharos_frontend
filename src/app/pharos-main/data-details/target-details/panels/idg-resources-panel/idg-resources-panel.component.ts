@@ -10,11 +10,27 @@ import {DataResource, MouseImageData} from '../../../../../models/idg-resources/
 import {Reagent} from '../../../../../models/idg-resources/reagent';
 import {PageData} from '../../../../../models/page-data';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {MatCardModule} from '@angular/material/card';
+import {CommonModule} from '@angular/common';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MouseExpressionComponent} from './mouse-expression/mouse-expression.component';
+import {ReagentPanelComponent} from './reagent-panel/reagent-panel.component';
+import {ListFilterComponent} from '../../../../../tools/list-filter/list-filter.component';
+import {DataResourcePanelComponent} from './data-resource-panel/data-resource-panel.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 /**
  * panel to show idg generated resources
  */
 @Component({
+  standalone: true,
+  imports: [
+    ScrollspyDirective, MatCardModule, MouseExpressionComponent, ReagentPanelComponent, FlexLayoutModule,
+    CommonModule, ComponentHeaderComponent, MatTabsModule, MatTooltip, ListFilterComponent, DataResourcePanelComponent
+  ],
   selector: 'pharos-idg-resources-panel',
   templateUrl: './idg-resources-panel.component.html',
   styleUrls: ['./idg-resources-panel.component.scss', './reagent-panel/reagent-panel.component.scss']
