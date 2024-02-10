@@ -3,8 +3,6 @@ import {FilterPanelComponent} from '../pharos-main/data-list/filter-panel/filter
 import {SelectedFacetListComponent} from '../pharos-main/data-list/selected-facet-list/selected-facet-list.component';
 import {DataListVisualizationsComponent} from '../pharos-main/data-list/data-list-visualizations/data-list-visualizations.component';
 import {SharedModule} from './shared.module';
-import {DonutChartComponent} from '../tools/visualizations/donut-chart/donut-chart.component';
-import {VisualizationOptionsComponent} from '../pharos-main/data-list/data-list-visualizations/visualization-options/visualization-options.component';
 import {CommonToolsModule} from '../tools/common-tools.module';
 import {RouterModule} from '@angular/router';
 import {PharosLoadingSpinnerModule} from '../tools/pharos-loading-spinner/pharos-loading-spinner.module';
@@ -15,7 +13,6 @@ import {FilterRepresentationComponent} from '../pharos-main/analyze-list/filter-
 import {AnalyzeHeaderComponent} from '../pharos-main/analyze-list/analyze-header/analyze-header.component';
 import {SequenceSearchComponent} from '../pharos-main/analyze-list/sequence-search/sequence-search.component';
 import {HierarchyViewerComponent} from "../pharos-main/analyze-list/hierarchy-viewer/hierarchy-viewer.component";
-import {FilterPanelModule} from "../pharos-main/data-list/filter-panel/filter-panel.module";
 
 @NgModule({
   imports: [
@@ -23,17 +20,11 @@ import {FilterPanelModule} from "../pharos-main/data-list/filter-panel/filter-pa
     CommonToolsModule,
     RouterModule,
     PharosLoadingSpinnerModule,
-    FilterPanelModule
   ],
   declarations: [
-    DataListVisualizationsComponent,
     FilterRepresentationComponent,
     HierarchyViewerComponent,
-    SequenceSearchComponent,
-    FilterPanelComponent,
-    SelectedFacetListComponent,
-    DonutChartComponent,
-    VisualizationOptionsComponent
+    SequenceSearchComponent
   ],
   providers: [
     DataListResolver,
@@ -47,12 +38,7 @@ import {FilterPanelModule} from "../pharos-main/data-list/filter-panel/filter-pa
     {provide: TOKENS.PHAROS_SEQUENCE_LIST_COMPONENT, useValue: SequenceSearchComponent}
   ],
   exports: [
-    SharedModule,
-    DataListVisualizationsComponent,
-    FilterPanelComponent,
-    SelectedFacetListComponent,
-    DonutChartComponent,
-    VisualizationOptionsComponent
+    SharedModule
   ]
 })
 export class SharedListModule { }

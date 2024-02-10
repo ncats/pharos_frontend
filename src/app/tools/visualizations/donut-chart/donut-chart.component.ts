@@ -12,6 +12,8 @@ import {takeUntil} from 'rxjs/operators';
  * component to display a donut chart visualization
  */
 @Component({
+  standalone: true,
+  imports: [],
   selector: 'pharos-donut-chart',
   templateUrl: './donut-chart.component.html',
   styleUrls: ['./donut-chart.component.scss'],

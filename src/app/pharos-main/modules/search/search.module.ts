@@ -6,8 +6,7 @@ import {SearchRoutingModule} from './search-routing.module';
 import {TOKENS} from '../../../../config/component-tokens';
 import {SharedListModule} from '../../../shared/shared-list.module';
 import {TargetTableModule} from '../targets/target-list.module';
-import {CommonToolsModule} from '../../../tools/common-tools.module'
-import {FilterPanelModule} from "../../data-list/filter-panel/filter-panel.module";
+import {CommonToolsModule} from '../../../tools/common-tools.module';
 
 @NgModule({
   declarations: [
@@ -19,8 +18,7 @@ import {FilterPanelModule} from "../../data-list/filter-panel/filter-panel.modul
       SharedModule,
       SharedListModule,
       TargetTableModule,
-      CommonToolsModule,
-      FilterPanelModule
+      CommonToolsModule
     ],
   providers: [
     {provide: TOKENS.BROWSE_TABLE_COMPONENT, useValue: SearchComponent}

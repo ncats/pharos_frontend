@@ -5,7 +5,7 @@
         <span class=" mat-title">Selected Filters:</span>
       </div>
       <div fxFlex="30" fxLayoutAlign="end" (click)="removeAll()">
-        <mat-chip [selected]="'true'" [color]="'warn'" (click)="removeAll()">
+        <mat-chip [highlighted]="'true'" [color]="'warn'" (click)="removeAll()">
           <span>Clear All</span>
           <mat-icon matChipRemove class="removeIcon"  (click)="removeAll()">cancel</mat-icon>
         </mat-chip>
@@ -26,7 +26,7 @@
         </div>
         <ng-template #structure>
           <mat-chip
-            [selected]="'true'"
+            [highlighted]="'true'"
             [color]="'primary'"
             [removable]=true
             (removed)="removeField(facet.facet, facet.values[0].name)"
@@ -39,7 +39,7 @@
         </ng-template>
         <mat-chip-list *ngIf="facet.facet !== 'associatedStructure' else structure" class="mat-chip-list-stacked" aria-label="Facet List">
           <mat-chip *ngFor='let upsetObj of facet.upSets'
-                    [selected]="'true'"
+                    [highlighted]="'true'"
                     [color]="'accent'"
                     [removable]=true
                     (removed)="removeUpset(facet.facet, upsetObj)"
@@ -52,7 +52,7 @@
             <mat-icon matChipRemove class="removeIcon">cancel</mat-icon>
           </mat-chip>
           <mat-chip *ngFor='let field of facet.values'
-                    [selected]="'true'"
+                    [highlighted]="'true'"
                     [color]="'primary'"
                     [removable]=true
                     (removed)="removeField(facet.facet, field.name)"

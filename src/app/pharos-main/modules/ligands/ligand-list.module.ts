@@ -11,9 +11,6 @@ import {LigandTableComponent} from '../../data-list/tables/ligand-table/ligand-t
 import {HelpPanelComponent} from '../../../tools/help-panel/help-panel.component';
 
 @NgModule({
-  declarations: [
-    LigandTableComponent
-  ],
   imports: [
     CommonModule,
     SharedModule,
@@ -25,9 +22,6 @@ import {HelpPanelComponent} from '../../../tools/help-panel/help-panel.component
     DataListResolver,
     {provide: TOKENS.LIGAND_TABLE_COMPONENT, useValue: LigandTableComponent},
     {provide: TOKENS.PHAROS_HELPPANEL_COMPONENT, useValue: HelpPanelComponent}
-  ],
-  exports: [
-    LigandTableComponent
   ]
 })
 export class LigandListModule {

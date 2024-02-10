@@ -22,6 +22,18 @@ import {DynamicServicesService} from '../../../../pharos-services/dynamic-servic
 import {CentralStorageService} from '../../../../pharos-services/central-storage.service';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatCheckbox} from '@angular/material/checkbox';
+import {MatIcon, MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {FormsModule} from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import {MatPaginator} from '@angular/material/paginator';
+import {LongTargetCardComponent} from '../../cards/long-target-card/long-target-card.component';
+import {TargetCardComponent} from '../../cards/target-card/target-card.component';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatSelect, MatSelectModule} from '@angular/material/select';
 
 /**
  * token to inject structure viewer into generic table component
@@ -40,6 +52,9 @@ const navigationExtras: NavigationExtras = {
  * display targets in a filterable list view
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatCheckbox, MatIconModule, MatButtonModule, FormsModule, MatInputModule,
+    MatPaginator, LongTargetCardComponent, TargetCardComponent, MatTooltip, MatSelectModule],
   selector: 'pharos-target-table',
   templateUrl: './target-table.component.html',
   styleUrls: ['./target-table.component.scss'],

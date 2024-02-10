@@ -22,11 +22,22 @@ import {environment} from '../../../../environments/environment';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 import {TourService} from '../../../pharos-services/tour.service';
 import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
+import {CommonModule} from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {FormsModule} from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import {FacetCardComponent} from './facet-card/facet-card.component';
+import {MatDivider} from '@angular/material/divider';
+import {MatCardModule} from '@angular/material/card';
 
 /**
  * panel that hold a facet table for selection
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatButtonModule, MatIconModule, FormsModule, MatInputModule, FacetCardComponent, MatDivider,
+    MatCardModule],
   selector: 'pharos-filter-panel',
   templateUrl: './filter-panel.component.html',
   styleUrls: ['./filter-panel.component.scss'],

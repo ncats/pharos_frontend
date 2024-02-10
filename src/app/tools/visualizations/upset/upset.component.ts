@@ -3,8 +3,15 @@ import {VisualizationBase} from './visualization-base';
 import {take} from 'rxjs/operators';
 import * as d3 from 'd3v7';
 import {UpsetIntersection} from './intersection.model';
+import {CommonModule} from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCheckbox} from '@angular/material/checkbox';
+import {FormsModule} from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatButtonModule, MatCheckbox, FormsModule, MatInputModule],
   selector: 'ramp-upset',
   templateUrl: './upset.component.html',
   styleUrls: ['./upset.component.scss']

@@ -9,6 +9,10 @@ import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 import {MatDialog} from '@angular/material/dialog';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatPaginator} from '@angular/material/paginator';
+import {GenericTableComponent} from '../../../../tools/generic-table/generic-table.component';
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -21,6 +25,8 @@ const navigationExtras: NavigationExtras = {
  * extends dynamic panel to utilize data getters and setters
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatPaginator, GenericTableComponent],
   selector: 'pharos-disease-table',
   templateUrl: './disease-table.component.html',
   styleUrls: ['./disease-table.component.scss'],
