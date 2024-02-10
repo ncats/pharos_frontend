@@ -20,9 +20,6 @@ import {DynamicPanelBaseComponent} from './dynamic-panel-base/dynamic-panel-base
 import {GoTermsEvidenceArticleComponent} from './help-panel/articles/go-terms-evidence-article/go-terms-evidence-article.component';
 import {FieldSelectionDialogComponent} from './field-selection-dialog/field-selection-dialog.component';
 import {ModelDetailsComponent} from './model-details/model-details.component';
-import { UpsetPlotComponent } from './visualizations/upset-plot/upset-plot.component';
-import { UpsetModule } from './visualizations/upset/upset.module';
-import { UpsetFieldEditComponent } from './upset-field-edit/upset-field-edit.component';
 import { HeatMapComponent } from './visualizations/heat-map/heat-map.component';
 import { BatchResolveModalComponent } from './batch-resolve-modal/batch-resolve-modal.component';
 import { SequenceAlignmentsComponent } from './visualizations/sequence-alignments/sequence-alignments.component';
@@ -32,7 +29,6 @@ import { PredictionsPanelComponent } from './predictions-panel/predictions-panel
 import { PredictionDetailsCardComponent } from './predictions-panel/prediction-details-card/prediction-details-card.component';
 import { PredictionSetComponent } from './predictions-panel/prediction-set/prediction-set.component';
 import {AngularD3CloudModule} from 'angular-d3-cloud';
-import {FilterPanelModule} from '../pharos-main/data-list/filter-panel/filter-panel.module';
 import { DownloadCommunityDataButtonComponent } from './predictions-panel/download-community-data-button/download-community-data-button.component';
 import {RadarChartComponent} from './visualizations/radar-chart/radar-chart.component';
 import {GenericTableComponent} from './generic-table/generic-table.component';
@@ -52,8 +48,6 @@ import {GenericTableComponent} from './generic-table/generic-table.component';
         GoTermsEvidenceArticleComponent,
         FieldSelectionDialogComponent,
         ModelDetailsComponent,
-        UpsetPlotComponent,
-        UpsetFieldEditComponent,
         HeatMapComponent,
         BatchResolveModalComponent,
         SequenceAlignmentsComponent,
@@ -64,8 +58,6 @@ import {GenericTableComponent} from './generic-table/generic-table.component';
         SharedModule,
         RouterModule,
         NgxJsonViewerModule,
-        UpsetModule,
-        FilterPanelModule,
         AngularD3CloudModule,
         RadarChartComponent,
         ExploreListButtonComponent,
@@ -85,7 +77,6 @@ import {GenericTableComponent} from './generic-table/generic-table.component';
         DynamicTablePanelComponent,
         LinkListComponent,
         AffiliateLinkComponent,
-        UpsetPlotComponent,
         HeatMapComponent,
         SequenceAlignmentsComponent,
         TaskItemComponent

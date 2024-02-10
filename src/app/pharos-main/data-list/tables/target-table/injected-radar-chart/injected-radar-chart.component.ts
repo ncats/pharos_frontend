@@ -5,12 +5,17 @@ import {
 import {InjectedComponent} from '../../../../../tools/injected-component';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
 
 /**
  * component that is injected into a generic table
  * implements interface to standardize input and output
  */
 @Component({
+  standalone: true,
+  imports: [
+    RadarChartComponent
+  ],
   selector: 'pharos-injected-radar-chart',
   templateUrl: './injected-radar-chart.component.html',
   styleUrls: ['./injected-radar-chart.component.scss'],

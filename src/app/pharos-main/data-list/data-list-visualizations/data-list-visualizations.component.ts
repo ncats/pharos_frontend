@@ -11,12 +11,23 @@ import {CentralStorageService} from '../../../pharos-services/central-storage.se
 import {TourType} from '../../../models/tour-type';
 import {MatDialog} from '@angular/material/dialog';
 import {MatTabChangeEvent} from '@angular/material/tabs';
+import {CommonModule} from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {ComponentHeaderComponent} from '../../../tools/component-header/component-header.component';
+import {VisualizationOptionsComponent} from './visualization-options/visualization-options.component';
+import {MatIcon} from '@angular/material/icon';
+import {DonutChartComponent} from '../../../tools/visualizations/donut-chart/donut-chart.component';
+import {UpsetPlotComponent} from '../../../tools/visualizations/upset-plot/upset-plot.component';
 
 /**
  * component to show various facets like a dashboard.
  * todo: may be extended to include starburst charts or other visualizations
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatCardModule, FlexLayoutModule, ComponentHeaderComponent, VisualizationOptionsComponent,
+    MatIcon, DonutChartComponent, UpsetPlotComponent],
   selector: 'pharos-data-list-visualizations',
   templateUrl: './data-list-visualizations.component.html',
   styleUrls: ['./data-list-visualizations.component.scss'],

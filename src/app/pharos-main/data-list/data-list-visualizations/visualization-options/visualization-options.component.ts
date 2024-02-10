@@ -3,11 +3,18 @@ import {Facet} from '../../../../models/facet';
 import {CentralStorageService} from '../../../../pharos-services/central-storage.service';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
+import {MatChip, MatChipListbox, MatChipSet} from '@angular/material/chips';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 /**
  * list of facets available under the donut chart
  */
 @Component({
+  standalone: true,
+  imports: [
+    MatChip, CommonModule, FlexLayoutModule, MatChipListbox
+  ],
   selector: 'pharos-visualization-options',
   templateUrl: './visualization-options.component.html',
   styleUrls: ['./visualization-options.component.scss']

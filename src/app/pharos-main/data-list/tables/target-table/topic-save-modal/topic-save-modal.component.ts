@@ -2,10 +2,17 @@ import {Component, Inject} from '@angular/core';
 import {PharosProfileService} from '../../../../../auth/pharos-profile.service';
 import {Field} from '../../../../../models/facet';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {UntypedFormControl} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatFormField, MatInputModule} from '@angular/material/input';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatButtonModule, MatIconModule, ReactiveFormsModule, MatFormField],
   selector: 'pharos-topic-save-modal',
   templateUrl: './topic-save-modal.component.html',
   styleUrls: ['./topic-save-modal.component.scss']

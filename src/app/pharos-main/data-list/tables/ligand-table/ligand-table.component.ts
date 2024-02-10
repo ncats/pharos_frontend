@@ -8,6 +8,10 @@ import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-d
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 import {takeUntil} from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {LigandCardComponent} from '../../cards/ligand-card/ligand-card.component';
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -20,6 +24,8 @@ const navigationExtras: NavigationExtras = {
  * table/list view of ligand overviews
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatPaginatorModule, LigandCardComponent],
   selector: 'pharos-ligand-table',
   templateUrl: './ligand-table.component.html',
   styleUrls: ['./ligand-table.component.scss']
