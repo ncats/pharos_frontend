@@ -1,8 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
+import {CrossListHeatmapComponent} from '../cross-list-heatmap/cross-list-heatmap.component';
+import {
+  DiseaseAssociationGridComponent
+} from '../../data-details/target-details/panels/disease-source-panel/disease-association-grid/disease-association-grid.component';
 
 @Component({
+  standalone: true,
+  imports: [
+    CrossListHeatmapComponent,
+    DiseaseAssociationGridComponent
+  ],
   selector: 'pharos-target-disease-heatmap',
   templateUrl: './target-disease-heatmap.component.html',
   styleUrls: ['./target-disease-heatmap.component.scss']

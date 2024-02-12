@@ -21,11 +21,6 @@ import {HierarchyViewerComponent} from "../pharos-main/analyze-list/hierarchy-vi
     RouterModule,
     PharosLoadingSpinnerModule,
   ],
-  declarations: [
-    FilterRepresentationComponent,
-    HierarchyViewerComponent,
-    SequenceSearchComponent
-  ],
   providers: [
     DataListResolver,
     ComponentsResolver,

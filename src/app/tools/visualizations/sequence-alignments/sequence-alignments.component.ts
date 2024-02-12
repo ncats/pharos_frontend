@@ -15,6 +15,7 @@ import {isPlatformBrowser} from '@angular/common';
 import {nodeDebugInfo} from '@angular/compiler-cli/src/ngtsc/util/src/typescript';
 
 @Component({
+  standalone: true,
   selector: 'pharos-sequence-alignments',
   templateUrl: './sequence-alignments.component.html',
   styleUrls: ['./sequence-alignments.component.scss'],
