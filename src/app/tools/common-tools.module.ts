@@ -20,9 +20,7 @@ import {DynamicPanelBaseComponent} from './dynamic-panel-base/dynamic-panel-base
 import {GoTermsEvidenceArticleComponent} from './help-panel/articles/go-terms-evidence-article/go-terms-evidence-article.component';
 import {FieldSelectionDialogComponent} from './field-selection-dialog/field-selection-dialog.component';
 import {ModelDetailsComponent} from './model-details/model-details.component';
-import { HeatMapComponent } from './visualizations/heat-map/heat-map.component';
 import { BatchResolveModalComponent } from './batch-resolve-modal/batch-resolve-modal.component';
-import { SequenceAlignmentsComponent } from './visualizations/sequence-alignments/sequence-alignments.component';
 import { TaskItemComponent } from './task-item/task-item.component';
 import { DataVersionCardComponent } from './data-version-card/data-version-card.component';
 import { PredictionsPanelComponent } from './predictions-panel/predictions-panel.component';
@@ -48,9 +46,7 @@ import {GenericTableComponent} from './generic-table/generic-table.component';
         GoTermsEvidenceArticleComponent,
         FieldSelectionDialogComponent,
         ModelDetailsComponent,
-        HeatMapComponent,
         BatchResolveModalComponent,
-        SequenceAlignmentsComponent,
         TaskItemComponent
     ],
     imports: [
@@ -77,8 +73,6 @@ import {GenericTableComponent} from './generic-table/generic-table.component';
         DynamicTablePanelComponent,
         LinkListComponent,
         AffiliateLinkComponent,
-        HeatMapComponent,
-        SequenceAlignmentsComponent,
         TaskItemComponent
     ]
 })

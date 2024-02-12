@@ -9,8 +9,17 @@ import {FieldSelectionDialogComponent} from '../../../tools/field-selection-dial
 import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
 import {TourType} from '../../../models/tour-type';
 import {MatDialog} from '@angular/material/dialog';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatCardModule} from '@angular/material/card';
+import {ComponentHeaderComponent} from '../../../tools/component-header/component-header.component';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatTooltip} from '@angular/material/tooltip';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatCardModule, ComponentHeaderComponent, MatButtonModule, MatIconModule, MatTooltip, HeatMapComponent],
   selector: 'pharos-cross-list-heatmap',
   templateUrl: './cross-list-heatmap.component.html',
   styleUrls: ['./cross-list-heatmap.component.scss']

@@ -2,8 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {LigandSerializer} from '../../../models/ligand';
+import {CrossListHeatmapComponent} from '../cross-list-heatmap/cross-list-heatmap.component';
+import {
+  TargetRelevanceTableComponent
+} from '../../data-details/ligand-details/panels/target-relevance-panel/target-relevance-table/target-relevance-table.component';
 
 @Component({
+  standalone: true,
+  imports: [
+    CrossListHeatmapComponent,
+    TargetRelevanceTableComponent
+  ],
   selector: 'pharos-ligand-target-heatmap',
   templateUrl: './ligand-target-heatmap.component.html',
   styleUrls: ['./ligand-target-heatmap.component.scss']
