@@ -1,18 +1,31 @@
 import {Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {autocompleteOption, SuggestApiService} from './suggest-api.service';
 import {Observable} from 'rxjs';
-import {UntypedFormControl} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {SelectedFacetService} from '../../pharos-main/data-list/filter-panel/selected-facet.service';
 import {Facet} from '../../models/facet';
-import {MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from '@angular/material/autocomplete';
+import {
+  MatAutocomplete,
+  MatAutocompleteSelectedEvent,
+  MatAutocompleteTrigger,
+  MatOption
+} from '@angular/material/autocomplete';
+import {CommonModule} from '@angular/common';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {HighlightPipe} from './highlight.pipe';
 
 /**
  * search component functionality. needs to be hooked up to a suggest api service
  * actual "search" is performed through url navigation options
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, FormsModule, MatInputModule, ReactiveFormsModule, MatAutocomplete, MatButtonModule,
+    MatIconModule, MatAutocompleteTrigger, MatOption, SearchComponent, HighlightPipe],
   selector: 'pharos-search-component',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],

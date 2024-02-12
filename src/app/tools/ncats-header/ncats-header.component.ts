@@ -1,23 +1,33 @@
 import {Component, Inject, Input, OnDestroy, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
 import {slideInOutAnimation} from './header-animations';
-import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router, RouterModule} from '@angular/router';
 import {LoginModalComponent} from '../../auth/login-modal/login-modal.component';
-import {MatSidenav} from '@angular/material/sidenav';
+import {MatSidenav, MatSidenavModule} from '@angular/material/sidenav';
 import {PharosProfileService} from '../../auth/pharos-profile.service';
 import {HeaderOptionsService} from '../../pharos-services/header-options.service';
 import {LocalStorageService} from '../../pharos-services/local-storage.service';
-import {isPlatformBrowser} from '@angular/common';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
 import {TourService} from '../../pharos-services/tour.service';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {TourType} from '../../models/tour-type';
 import {MatDialog} from '@angular/material/dialog';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
+import {SearchComponent} from '../search-component/search.component';
+import {MatToolbar, MatToolbarModule} from '@angular/material/toolbar';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatTooltip} from '@angular/material/tooltip';
 
 
 /**
  * Component that contains basic NCATS branded menu, also contains pharos options
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, RouterModule, MatButtonModule, MatIconModule, MatMenuModule, MatSidenavModule,
+    SearchComponent, MatToolbarModule, FlexLayoutModule, MatTooltip],
   selector: 'app-ncats-header',
   templateUrl: './ncats-header.component.html',
   styleUrls: ['./ncats-header.component.scss'],

@@ -9,20 +9,17 @@ import {TargetTableModule} from '../targets/target-list.module';
 import {CommonToolsModule} from '../../../tools/common-tools.module';
 
 @NgModule({
-  declarations: [
-    SearchComponent
-  ],
     imports: [
-      SearchRoutingModule,
-      CommonModule,
-      SharedModule,
-      SharedListModule,
-      TargetTableModule,
-      CommonToolsModule
+        SearchRoutingModule,
+        CommonModule,
+        SharedModule,
+        SharedListModule,
+        TargetTableModule,
+        CommonToolsModule
     ],
-  providers: [
-    {provide: TOKENS.BROWSE_TABLE_COMPONENT, useValue: SearchComponent}
-  ]
+    providers: [
+        {provide: TOKENS.BROWSE_TABLE_COMPONENT, useValue: SearchComponent}
+    ]
 })
 export class SearchModule {
 }

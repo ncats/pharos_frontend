@@ -5,8 +5,22 @@ import {HttpClient} from '@angular/common/http';
 import {PredictionsPanelComponent} from '../../tools/predictions-panel/predictions-panel.component';
 import {CentralStorageService} from '../../pharos-services/central-storage.service';
 import {environment} from '../../../environments/environment';
+import {CommonModule} from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
+import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
+import {SearchComponent} from '../../tools/search-component/search.component';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
+import {MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatCardModule, MatAccordion, SearchComponent, MatExpansionModule, MatTooltip, MatButtonModule,
+    MatIconModule, ReactiveFormsModule, RouterModule, PredictionsPanelComponent, MatFormField, MatLabel, FormsModule, MatInputModule],
   selector: 'pharos-toolbox',
   templateUrl: './toolbox.component.html',
   styleUrls: ['./toolbox.component.scss']

@@ -1,10 +1,13 @@
 import {AfterViewInit, Component, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewEncapsulation} from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 /**
  * panel that reads a list of comments/messages from firebase
  */
 @Component({
+  standalone: true,
+  imports: [FlexLayoutModule],
   selector: 'pharos-news-panel',
   templateUrl: './news-panel.component.html',
   styleUrls: ['./news-panel.component.scss'],
