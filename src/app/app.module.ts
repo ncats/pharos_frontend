@@ -21,6 +21,7 @@ import {MarkdownModule} from 'ngx-markdown';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import {SidenavPanelComponent} from './tools/sidenav-panel/sidenav-panel.component';
+import {NcatsHeaderComponent} from './tools/ncats-header/ncats-header.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {SidenavPanelComponent} from './tools/sidenav-panel/sidenav-panel.compone
     SidenavPanelComponent
   ],
   imports: [
+      NcatsHeaderComponent,
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: true}),
     BrowserAnimationsModule,
     MaterialModule,

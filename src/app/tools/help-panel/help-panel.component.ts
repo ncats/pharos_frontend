@@ -20,8 +20,7 @@ import {takeUntil} from 'rxjs/operators';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule, MatIconButton} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import {CdkAccordionModule} from '@angular/cdk/accordion';
-import {MatAccordion, MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion';
+import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
 import {CitationComponent} from '../citation/citation.component';
 import {MaterialModule} from '../../../assets/material/material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -142,8 +141,6 @@ export class HelpPanelComponent implements OnInit, OnDestroy {
         this.helpDataService.sources$
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(res => {
-                console.log('listening');
-                console.log(res);
                 if (res) {
                     this.sources = res.sources;
                     this.description = res.mainDescription;

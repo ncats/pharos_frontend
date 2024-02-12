@@ -11,10 +11,18 @@ import {
 } from '@angular/core';
 import {PharosApiService} from '../pharos-services/pharos-api.service';
 import {HeaderOptionsService} from '../pharos-services/header-options.service';
-import {DOCUMENT} from '@angular/common';
+import {CommonModule, DOCUMENT} from '@angular/common';
 import {LoadingService} from '../pharos-services/loading.service';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {SearchComponent} from '../tools/search-component/search.component';
+import {MatIcon} from '@angular/material/icon';
+import {AboutPanelComponent} from './about-panel/about-panel.component';
+import {DataTypesPanelComponent} from './data-types-panel/data-types-panel.component';
+import {NewsPanelComponent} from './news-panel/news-panel.component';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, SearchComponent, MatIcon, AboutPanelComponent, DataTypesPanelComponent, NewsPanelComponent],
   selector: 'pharos-home',
   templateUrl: './pharos-home.component.html',
   styleUrls: ['./pharos-home.component.scss'],

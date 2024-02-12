@@ -28,7 +28,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AboutPageComponent],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
