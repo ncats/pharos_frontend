@@ -14,8 +14,8 @@ import {ScriptLoadService} from '../../../../../pharos-services/script-load.serv
 import {MatCardModule} from '@angular/material/card';
 
 @Component({
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   standalone: true,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     TargetPanelBaseComponent, MatCardModule
   ],

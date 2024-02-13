@@ -14,15 +14,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [
-    StructureSearchPageComponent
-  ],
     imports: [
-        CommonModule,
-        SharedModule,
         RouterModule.forChild(routes),
-        SketcherModule,
-        CommonToolsModule
     ]
 })
 export class StructureSearchPageModule { }

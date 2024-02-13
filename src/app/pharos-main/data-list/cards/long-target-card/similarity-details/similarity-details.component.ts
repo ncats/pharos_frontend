@@ -11,10 +11,12 @@ import {
   PropertyDisplayComponent
 } from '../../../../../tools/generic-table/components/property-display/property-display.component';
 import {MatTooltip} from '@angular/material/tooltip';
+import {CommonModule} from '@angular/common';
 
 @Component({
   standalone: true,
   imports: [
+      CommonModule,
     MatCardSubtitle,
     PropertyDisplayComponent,
     MatTooltip,

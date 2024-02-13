@@ -5,7 +5,6 @@ import {environment} from '../environments/environment';
 import {AngularFireModule} from '@angular/fire/compat';
 import {AngularFirestoreModule} from '@angular/fire/compat/firestore';
 import {AngularFireAuthModule} from '@angular/fire/compat/auth';
-import {AuthModule} from './auth/auth.module';
 import {RouterModule} from '@angular/router';
 import {BrowserModule} from '@angular/platform-browser';
 import {NcatsHeaderModule} from './tools/ncats-header/ncats-header.module';
@@ -22,6 +21,9 @@ import {ServiceWorkerModule} from '@angular/service-worker';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import {SidenavPanelComponent} from './tools/sidenav-panel/sidenav-panel.component';
 import {NcatsHeaderComponent} from './tools/ncats-header/ncats-header.component';
+import {TOKENS} from '../config/component-tokens';
+import {SelectedFacetListComponent} from './pharos-main/data-list/selected-facet-list/selected-facet-list.component';
+import {FilterPanelComponent} from './pharos-main/data-list/filter-panel/filter-panel.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,6 @@ import {NcatsHeaderComponent} from './tools/ncats-header/ncats-header.component'
     AngularFireModule.initializeApp(environment.firebase), // imports firebase/app needed for everything
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
-    AuthModule,
     NcatsHeaderModule,
     PharosLoadingSpinnerModule,
     GraphQLModule,
@@ -50,6 +51,8 @@ import {NcatsHeaderComponent} from './tools/ncats-header/ncats-header.component'
     MarkdownModule.forRoot({loader: HttpClient})
   ],
   providers: [
+    {provide: TOKENS.PHAROS_FACETS_COMPONENT, useValue: FilterPanelComponent},
+    {provide: TOKENS.PHAROS_SELECTED_FACET_LIST_COMPONENT, useValue: SelectedFacetListComponent},
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}}
   ],
   bootstrap: [AppComponent]

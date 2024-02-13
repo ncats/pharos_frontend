@@ -1,15 +1,22 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {UntypedFormControl} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
 import {NavigationExtras, Router} from '@angular/router';
 import {CentralStorageService} from '../pharos-services/central-storage.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {FeatureTrackingService} from '../pharos-services/feature-tracking.service';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 /**
  * sequence search page
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, FormsModule, MatInputModule, ReactiveFormsModule, MatButtonModule, MatIconModule],
   selector: 'pharos-sequence-search-page',
   templateUrl: './sequence-search-page.component.html',
   styleUrls: ['./sequence-search-page.component.scss']
@@ -52,14 +59,12 @@ export class SequenceSearchPageComponent implements OnInit, OnDestroy {
     });
     this.sequenceField.nativeElement.addEventListener('paste', (event) => {
       const paste = event.clipboardData?.getData('text');
-      console.log(paste);
-      console.log(paste.length);
       if (paste.length > this.maxLength) {
         this.truncated = true;
       } else {
         this.truncated = false;
       }
-    })
+    });
     this.initialize(this.centralStorageService.getField('sequence'));
   }
 

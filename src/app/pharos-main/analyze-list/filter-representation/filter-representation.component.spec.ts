@@ -10,7 +10,6 @@ import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
-import {SearchComponent} from '../../search/search-component/search.component';
 import {AngularFireModule} from '@angular/fire/compat';
 import {COMMON_CONFIG} from '../../../../../test/test-config';
 

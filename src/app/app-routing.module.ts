@@ -92,7 +92,7 @@ const ROUTES: Routes = [
   },
   {
     path: 'search',
-    loadChildren: () => import('./pharos-main/modules/search/search.module').then(m => m.SearchModule),
+    loadChildren: () => import('./pharos-main/modules/search/search-routing.module').then(m => m.SearchRoutingModule),
     data: {
       path: 'search',
       subpath: 'list',

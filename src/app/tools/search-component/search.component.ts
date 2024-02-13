@@ -17,6 +17,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {HighlightPipe} from './highlight.pipe';
+import {MatTooltip} from '@angular/material/tooltip';
 
 /**
  * search component functionality. needs to be hooked up to a suggest api service
@@ -25,7 +26,7 @@ import {HighlightPipe} from './highlight.pipe';
 @Component({
   standalone: true,
   imports: [CommonModule, FormsModule, MatInputModule, ReactiveFormsModule, MatAutocomplete, MatButtonModule,
-    MatIconModule, MatAutocompleteTrigger, MatOption, SearchComponent, HighlightPipe],
+    MatIconModule, MatAutocompleteTrigger, MatOption, SearchComponent, HighlightPipe, MatTooltip],
   selector: 'pharos-search-component',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],

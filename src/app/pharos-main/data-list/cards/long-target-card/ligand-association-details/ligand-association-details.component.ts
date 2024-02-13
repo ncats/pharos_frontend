@@ -5,10 +5,12 @@ import {MatCardSubtitle} from '@angular/material/card';
 import {
   PropertyDisplayComponent
 } from '../../../../../tools/generic-table/components/property-display/property-display.component';
+import {CommonModule} from '@angular/common';
 
 @Component({
   standalone: true,
   imports: [
+      CommonModule,
     MatCardSubtitle,
     PropertyDisplayComponent
   ],

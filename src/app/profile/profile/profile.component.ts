@@ -10,8 +10,16 @@ import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatToolbar} from '@angular/material/toolbar';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatExpansionModule, MatToolbar, MatButtonModule, MatIconModule],
   selector: 'pharos-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
