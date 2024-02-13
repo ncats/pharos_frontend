@@ -8,6 +8,7 @@ import {DynamicServicesService} from '../../pharos-services/dynamic-services.ser
  * extendable component that also adds table -related operations to a dynamic panel
  */
 @Component({
+  standalone: true,
   template: ''
 })
 export class DynamicTablePanelComponent extends DynamicPanelComponent {

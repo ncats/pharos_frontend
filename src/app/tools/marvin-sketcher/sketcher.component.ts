@@ -9,6 +9,7 @@ import {Subject} from 'rxjs';
  * currently uses an iframe, which is gross
  */
 @Component({
+  standalone: true,
   selector: 'app-sketcher',
   templateUrl: './sketcher.component.html',
   styleUrls: ['./sketcher.component.scss'],

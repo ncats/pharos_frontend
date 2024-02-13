@@ -24,6 +24,7 @@ import {NcatsHeaderComponent} from './tools/ncats-header/ncats-header.component'
 import {TOKENS} from '../config/component-tokens';
 import {SelectedFacetListComponent} from './pharos-main/data-list/selected-facet-list/selected-facet-list.component';
 import {FilterPanelComponent} from './pharos-main/data-list/filter-panel/filter-panel.component';
+import {AlertComponent} from './tools/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,7 @@ import {FilterPanelComponent} from './pharos-main/data-list/filter-panel/filter-
     SidenavPanelComponent
   ],
   imports: [
-      NcatsHeaderComponent,
+      NcatsHeaderComponent, AlertComponent,
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: true}),
     BrowserAnimationsModule,
     MaterialModule,

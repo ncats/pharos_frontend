@@ -9,6 +9,7 @@ import {DynamicServicesService} from '../../pharos-services/dynamic-services.ser
  * subscription needs to be set in the extending component, where other logic can take place
  */
 @Component({
+  standalone: true,
   template: ''
 })
 export class DynamicPanelComponent extends DynamicPanelBaseComponent {
