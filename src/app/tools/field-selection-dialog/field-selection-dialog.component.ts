@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, Inject, OnInit} from '@angular/core';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {format} from 'sql-formatter';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {TargetListService} from '../../pharos-services/target-list.service';
 import {saveAs} from 'file-saver';
 import {Parser} from 'json2csv';
@@ -12,12 +12,23 @@ import {PharosProfileService} from '../../auth/pharos-profile.service';
 import JSZip from 'jszip';
 import {environment} from '../../../environments/environment';
 import {FeatureTrackingService} from '../../pharos-services/feature-tracking.service';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {MatCheckboxChange} from '@angular/material/checkbox';
-import {MatTabChangeEvent} from '@angular/material/tabs';
+import {MatCheckbox, MatCheckboxChange} from '@angular/material/checkbox';
+import {MatTabChangeEvent, MatTabsModule} from '@angular/material/tabs';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {CommonModule} from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatToolbar} from '@angular/material/toolbar';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatTableModule} from '@angular/material/table';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
+  standalone: true,
+  imports: [FlexLayoutModule, CommonModule, MatButtonModule, MatIconModule, MatDialogModule, MatTabsModule,
+    MatToolbar, MatTooltip, MatCheckbox, MatTableModule, MatCardModule],
   selector: 'pharos-field-selection-dialog',
   templateUrl: './field-selection-dialog.component.html',
   styleUrls: ['./field-selection-dialog.component.scss']

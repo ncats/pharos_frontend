@@ -23,9 +23,7 @@ import {takeUntil} from 'rxjs/operators';
 import {TargetComponents} from '../../../../../models/target-components';
 import {CommonModule, isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
-import {
-  FieldSelectionDialogComponent
-} from '../../../../../tools/field-selection-dialog/field-selection-dialog.component';
+import {FieldSelectionDialogComponent} from '../../../../../tools/field-selection-dialog/field-selection-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatCardModule} from '@angular/material/card';

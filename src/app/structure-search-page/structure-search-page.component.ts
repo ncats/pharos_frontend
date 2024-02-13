@@ -13,15 +13,15 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import {SketcherModule} from '../tools/marvin-sketcher/sketcher.module';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelect, MatSelectModule} from '@angular/material/select';
+import {SketcherComponent} from '../tools/marvin-sketcher/sketcher.component';
 /**
  * page to search by structure
  */
 @Component({
   standalone: true,
-  imports: [CommonModule, FlexLayoutModule, MatCardModule, MatButtonModule, MatIconModule, SketcherModule, FormsModule,
+  imports: [CommonModule, FlexLayoutModule, MatCardModule, MatButtonModule, MatIconModule, SketcherComponent, FormsModule,
     ReactiveFormsModule, MatInputModule, MatSelectModule],
   selector: 'pharos-structure-search-page',
   templateUrl: './structure-search-page.component.html',

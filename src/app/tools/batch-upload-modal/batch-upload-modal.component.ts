@@ -1,12 +1,21 @@
 import {ChangeDetectorRef, Component, Inject, Input, OnInit} from '@angular/core';
-import {UntypedFormControl} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
 import {ResolverService} from '../../pharos-services/resolver.service';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogContent, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
 
 /**
  * modal component for batch search/upload
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatCardModule, MatButtonModule, MatIconModule, FormsModule, MatInputModule,
+    ReactiveFormsModule, MatDialogModule],
   selector: 'pharos-batch-upload-modal',
   templateUrl: './batch-upload-modal.component.html',
   styleUrls: ['./batch-upload-modal.component.scss']

@@ -6,9 +6,13 @@ import {AlertService} from '../../pharos-services/alert.service';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {environment} from '../../../environments/environment';
 import {takeUntil} from 'rxjs/operators';
-import {isPlatformBrowser} from "@angular/common";
+import {CommonModule, isPlatformBrowser} from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatButtonModule, MatIconModule],
   selector: 'pharos-alert',
   templateUrl: './alert.component.html',
   styleUrls: ['./alert.component.scss']
