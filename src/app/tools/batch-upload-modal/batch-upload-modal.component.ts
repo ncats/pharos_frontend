@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, Inject, Input, OnInit} from '@angular/core';
 import {FormsModule, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
 import {ResolverService} from '../../pharos-services/resolver.service';
-import {MAT_DIALOG_DATA, MatDialogContent, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatCardModule} from '@angular/material/card';

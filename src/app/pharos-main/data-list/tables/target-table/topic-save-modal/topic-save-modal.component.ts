@@ -2,13 +2,13 @@ import {Component, Inject} from '@angular/core';
 import {PharosProfileService} from '../../../../../auth/pharos-profile.service';
 import {Field} from '../../../../../models/facet';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {FormsModule, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
+import {ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import {MatFormField, MatInputModule} from '@angular/material/input';
+import {MatFormField} from '@angular/material/input';
 
 @Component({
   standalone: true,

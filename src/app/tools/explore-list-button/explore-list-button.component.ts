@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {CommonModule, TitleCasePipe} from '@angular/common';
-import {PathResolverService} from '../../pharos-main/data-list/filter-panel/path-resolver.service';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {SelectedFacetService} from '../../pharos-main/data-list/filter-panel/selected-facet.service';
 import {FeatureTrackingService} from '../../pharos-services/feature-tracking.service';

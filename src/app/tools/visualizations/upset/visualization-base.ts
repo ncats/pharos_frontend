@@ -4,6 +4,7 @@ import { ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Decimal } from 'decimal.js';
 @Component({
+  standalone: true,
   template: ''
 })
 // tslint:disable-next-line:component-class-suffix

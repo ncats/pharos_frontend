@@ -22,7 +22,7 @@ import {map, startWith} from 'rxjs/operators';
 import {HeatMapData} from '../heat-map/heat-map.component';
 import {ExpressionInfoService} from '../../../pharos-services/expression-info.service';
 import {CommonModule} from '@angular/common';
-import {MatSlideToggle, MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatSlideToggle} from '@angular/material/slide-toggle';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';

@@ -4,7 +4,7 @@ import {ContingencyTable} from '../../../../models/facet';
 import {CommonModule} from '@angular/common';
 import {RouterLink} from '@angular/router';
 import {MatTooltip} from '@angular/material/tooltip';
-import {MatIcon, MatIconModule} from '@angular/material/icon';
+import {MatIconModule} from '@angular/material/icon';
 
 /**
  * component to display a property, primarily in a table

@@ -3,7 +3,7 @@ import {AnatomogramImageComponent} from './anatomogram-image/anatomogram-image.c
 import {AnatomogramHoverService} from './anatomogram-hover.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {MatRadioButton, MatRadioChange, MatRadioGroup, MatRadioModule} from '@angular/material/radio';
+import {MatRadioChange, MatRadioGroup, MatRadioModule} from '@angular/material/radio';
 import {MatButtonModule} from '@angular/material/button';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';

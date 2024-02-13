@@ -3,10 +3,10 @@ import {FormsModule, ReactiveFormsModule, UntypedFormControl} from '@angular/for
 import {PageData} from '../../models/page-data';
 import {Observable, Subscription} from 'rxjs';
 import {BaseResource} from '../../models/idg-resources/base-resource';
-import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/paginator';
+import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import {CommonModule} from '@angular/common';
 import {MatInputModule} from '@angular/material/input';
-import {MatSelect, MatSelectModule} from '@angular/material/select';
+import {MatSelectModule} from '@angular/material/select';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 /**

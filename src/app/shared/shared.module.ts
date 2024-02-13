@@ -14,7 +14,6 @@ import {HelpPanelOpenerService} from '../tools/help-panel/services/help-panel-op
 import {ScrollspyDirective} from '../tools/sidenav-panel/directives/scrollspy.directive';
 import {HelpArticlesModule} from './help-articles.module';
 import {ScatterPlotComponent} from '../tools/visualizations/scatter-plot/scatter-plot.component';
-import {PharosMainComponent} from '../pharos-main/pharos-main.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {RouterModule} from '@angular/router';
 import {PackCircleComponent} from '../tools/visualizations/pack-circle/pack-circle.component';
@@ -42,9 +41,6 @@ import {ComponentHeaderComponent} from '../tools/component-header/component-head
     ScatterPlotComponent,
     PackCircleComponent
   ],
-  declarations: [
-    PharosMainComponent
-  ],
   providers: [
     HelpDataService,
     HelpPanelOpenerService
@@ -57,7 +53,6 @@ import {ComponentHeaderComponent} from '../tools/component-header/component-head
     MaterialModule,
     FlexLayoutModule,
     HelpArticlesModule,
-    PharosMainComponent,
     ComponentHeaderComponent
   ]
 })

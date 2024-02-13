@@ -8,9 +8,6 @@ import {AngularFireAuthModule} from '@angular/fire/compat/auth';
 import {RouterModule} from '@angular/router';
 import {BrowserModule} from '@angular/platform-browser';
 import {NcatsHeaderModule} from './tools/ncats-header/ncats-header.module';
-import {PharosLoadingSpinnerModule} from './tools/pharos-loading-spinner/pharos-loading-spinner.module';
-import {PharosFooterComponent} from './tools/pharos-footer/pharos-footer.component';
-import {ScrollToTopComponent} from './tools/scroll-to-top/scroll-to-top.component';
 import {MaterialModule} from '../assets/material/material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -19,22 +16,12 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {MarkdownModule} from 'ngx-markdown';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
-import {SidenavPanelComponent} from './tools/sidenav-panel/sidenav-panel.component';
-import {NcatsHeaderComponent} from './tools/ncats-header/ncats-header.component';
 import {TOKENS} from '../config/component-tokens';
 import {SelectedFacetListComponent} from './pharos-main/data-list/selected-facet-list/selected-facet-list.component';
 import {FilterPanelComponent} from './pharos-main/data-list/filter-panel/filter-panel.component';
-import {AlertComponent} from './tools/alert/alert.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    PharosFooterComponent,
-    ScrollToTopComponent,
-    SidenavPanelComponent
-  ],
   imports: [
-      NcatsHeaderComponent, AlertComponent,
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: true}),
     BrowserAnimationsModule,
     MaterialModule,
@@ -46,7 +33,6 @@ import {AlertComponent} from './tools/alert/alert.component';
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     NcatsHeaderModule,
-    PharosLoadingSpinnerModule,
     GraphQLModule,
     HttpClientModule,
     MarkdownModule.forRoot({loader: HttpClient})

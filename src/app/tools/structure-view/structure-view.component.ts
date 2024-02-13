@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, ViewEncapsulation} from '@angular/core';
 import {BehaviorSubject, takeWhile} from 'rxjs';
 import {PharosProperty} from '../../models/pharos-property';
-import {environment} from "../../../environments/environment";
+import {environment} from '../../../environments/environment';
 import {CommonModule} from '@angular/common';
 
 /**

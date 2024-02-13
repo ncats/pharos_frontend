@@ -2,8 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ComponentRef, HostListener,
-  Inject,
+  ComponentRef, Inject,
   Injector,
   Input,
   OnDestroy,
@@ -14,17 +13,20 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import {CdkPortalOutlet, ComponentPortal} from '@angular/cdk/portal';
-import {MatSidenav} from '@angular/material/sidenav';
+import {MatSidenav, MatSidenavModule} from '@angular/material/sidenav';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {PharosPanel} from '../../config/components-config';
 import {HelpDataService} from '../tools/help-panel/services/help-data.service';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import {isPlatformBrowser} from '@angular/common';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
 import {SelectedFacetService} from './data-list/filter-panel/selected-facet.service';
 import {DynamicServicesService} from '../pharos-services/dynamic-services.service';
-import {CentralStorageService} from "../pharos-services/central-storage.service";
+import {CentralStorageService} from '../pharos-services/central-storage.service';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 /**
  * class or interface to set properties for an injected sidenav panel
@@ -65,6 +67,8 @@ export class PanelOptions {
  * main component that hold all injected panels
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatSidenavModule, MatButtonModule, MatIconModule, CdkPortalOutlet],
   selector: 'pharos-main',
   templateUrl: './pharos-main.component.html',
   styleUrls: ['./pharos-main.component.scss'],

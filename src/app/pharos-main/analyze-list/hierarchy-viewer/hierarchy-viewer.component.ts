@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {DynamicPanelComponent} from "../../../tools/dynamic-panel/dynamic-panel.component";
-import {DynamicServicesService} from "../../../pharos-services/dynamic-services.service";
-import {TourType} from "../../../models/tour-type";
+import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
+import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
+import {TourType} from '../../../models/tour-type';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatCardModule} from '@angular/material/card';

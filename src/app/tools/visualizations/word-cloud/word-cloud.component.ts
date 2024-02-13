@@ -2,13 +2,12 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ElementRef, HostListener,
+  ElementRef,
   Input,
   OnChanges,
   OnInit,
   ViewChild
 } from '@angular/core';
-import {NcatsHeaderComponent} from "../../ncats-header/ncats-header.component";
 import {AngularD3CloudModule} from 'angular-d3-cloud';
 
 @Component({

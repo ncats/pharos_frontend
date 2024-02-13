@@ -5,7 +5,6 @@ import {DataVersionInfo} from '../../../../models/dataVersion';
 import {MatTooltip} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import {MaterialModule} from '../../../../../assets/material/material.module';
 import {HelpPanelComponent} from '../../help-panel.component';
 
 /**

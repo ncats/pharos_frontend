@@ -1,9 +1,8 @@
 import {
   Component,
   ElementRef,
-  Inject, OnDestroy,
+  OnDestroy,
   OnInit,
-  PLATFORM_ID,
   QueryList,
   ViewChildren,
   ViewEncapsulation

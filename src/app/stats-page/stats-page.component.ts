@@ -5,7 +5,7 @@ import {takeUntil} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
-import {MatTable, MatTableModule} from '@angular/material/table';
+import {MatTableModule} from '@angular/material/table';
 
 @Component({
   standalone: true,
