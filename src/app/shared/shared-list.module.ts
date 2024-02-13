@@ -27,8 +27,6 @@ import {HierarchyViewerComponent} from "../pharos-main/analyze-list/hierarchy-vi
     {provide: TOKENS.PHAROS_FACET_REPRESENTATION_COMPONENT, useValue: FilterRepresentationComponent},
     {provide: TOKENS.PHAROS_HIERARCHY_VIEWER_COMPONENT, useValue: HierarchyViewerComponent},
     {provide: TOKENS.PHAROS_VISUALIZATION_COMPONENT, useValue: DataListVisualizationsComponent},
-    {provide: TOKENS.PHAROS_SELECTED_FACET_LIST_COMPONENT, useValue: SelectedFacetListComponent},
-    {provide: TOKENS.PHAROS_FACETS_COMPONENT, useValue: FilterPanelComponent},
     {provide: TOKENS.PHAROS_ANALYZE_HEADER_COMPONENT, useValue: AnalyzeHeaderComponent},
     {provide: TOKENS.PHAROS_SEQUENCE_LIST_COMPONENT, useValue: SequenceSearchComponent}
   ],

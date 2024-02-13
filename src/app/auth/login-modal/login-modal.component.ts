@@ -1,11 +1,14 @@
 import {Component} from '@angular/core';
 import {PharosAuthService} from '../pharos-auth.service';
 import {MatDialogRef} from '@angular/material/dialog';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 /**
  * modal to allow users to login using firebase social login
  */
 @Component({
+  standalone: true,
+  imports: [FlexLayoutModule],
   selector: 'pharos-login-modal',
   templateUrl: './login-modal.component.html',
   styleUrls: ['./login-modal.component.scss']

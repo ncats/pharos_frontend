@@ -20,9 +20,6 @@ import {CommonModule, NgIf} from '@angular/common';
 import {ExploreListButtonComponent} from '../../../../../tools/explore-list-button/explore-list-button.component';
 import {LigandCardComponent} from '../../../../data-list/cards/ligand-card/ligand-card.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {
-  LigandActivityArticleComponent
-} from '../../../../../tools/help-panel/articles/ligand-activity-article/ligand-activity-article.component';
 
 @Component({
   standalone: true,
@@ -35,7 +32,7 @@ import {
 export class DrugsLigandsPanelComponent extends DynamicPanelComponent implements OnInit, OnDestroy {
   static imports = [
     ComponentHeaderComponent, MatCardModule, ScrollspyDirective, ExploreListButtonComponent,
-    MatPaginatorModule, LigandCardComponent, CommonModule, FlexLayoutModule, LigandActivityArticleComponent
+    MatPaginatorModule, LigandCardComponent, CommonModule, FlexLayoutModule
   ];
   constructor(
     private _http: HttpClient,

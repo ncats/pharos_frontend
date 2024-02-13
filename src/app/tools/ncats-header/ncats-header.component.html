@@ -101,7 +101,10 @@
     </mat-menu>
 
     <mat-menu #tutorialMenu="matMenu" class='tutorialMenu'>
-
+      <button mat-button (click)="mobilesidenav.close(); gotoUseCases()" class="tutorial-link">
+        <span>Use Cases</span>
+        <mat-icon [color]="'primary'" matTooltip="Use Cases" iconPositionEnd>list</mat-icon>
+      </button>
       <button mat-button (click)="mobilesidenav.close()" *ngFor="let tour of tourService.menuTutorials" (click)="gotoTutorial(tour.storageKey)" class="tutorial-link">
         <span>{{tour.title}}</span>
         <div fxFlex=""></div>

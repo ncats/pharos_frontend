@@ -12,10 +12,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [SitemapPageComponent],
   imports: [
-    RouterModule.forChild(routes),
-    CommonModule, SharedModule
+    RouterModule.forChild(routes)
   ]
 })
 export class SitemapPageModule { }

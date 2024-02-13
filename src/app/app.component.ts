@@ -9,7 +9,7 @@ import {interval, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {JsonldService} from './pharos-services/jsonld.service';
 import {UseCaseData} from './use-cases/use-case-data';
-import {CentralStorageService} from "./pharos-services/central-storage.service";
+import {CentralStorageService} from './pharos-services/central-storage.service';
 
 /**
  * main app component holder

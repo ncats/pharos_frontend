@@ -12,6 +12,7 @@ import {MatTooltip} from '@angular/material/tooltip';
 import {MatDivider} from '@angular/material/divider';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {RouterModule} from '@angular/router';
 
 /**
  * component to display a consolidated target view
@@ -19,7 +20,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 @Component({
   standalone: true,
   imports: [
-      CommonModule,
+      CommonModule, RouterModule,
     MatCardModule,
       FlexLayoutModule,
     IdgLevelIndicatorComponent,

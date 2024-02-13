@@ -4,8 +4,12 @@ import {TourService} from '../../pharos-services/tour.service';
 import {NavigationExtras, Router} from '@angular/router';
 import {TourType} from '../../models/tour-type';
 import {isPlatformBrowser} from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
+  standalone: true,
+  imports: [MatButtonModule, MatIconModule],
   selector: 'pharos-task-item',
   templateUrl: './task-item.component.html',
   styleUrls: ['./task-item.component.scss']

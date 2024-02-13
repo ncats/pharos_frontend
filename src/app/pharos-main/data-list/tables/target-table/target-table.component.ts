@@ -22,7 +22,7 @@ import {DynamicServicesService} from '../../../../pharos-services/dynamic-servic
 import {CentralStorageService} from '../../../../pharos-services/central-storage.service';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {CommonModule} from '@angular/common';
+import {CommonModule, KeyValuePipe} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {MatIcon, MatIconModule} from '@angular/material/icon';

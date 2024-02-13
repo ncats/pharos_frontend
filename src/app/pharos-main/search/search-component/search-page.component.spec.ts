@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SearchComponent } from './search.component';
+import { SearchPageComponent } from './search-page.component';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../test/mock-activate-route';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
@@ -12,8 +12,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from '../../../shared/shared.module';
 
 describe('SearchComponentComponent', () => {
-  let component: SearchComponent;
-  let fixture: ComponentFixture<SearchComponent>;
+  let component: SearchPageComponent;
+  let fixture: ComponentFixture<SearchPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -28,13 +28,13 @@ describe('SearchComponentComponent', () => {
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE},
         { provide: AngularFirestore, useValue: FIRESTORESTUB }
       ],
-      declarations: [ SearchComponent ]
+      declarations: [ SearchPageComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SearchComponent);
+    fixture = TestBed.createComponent(SearchPageComponent);
     component = fixture.componentInstance;
     component.data = {
       targetFacets: [],

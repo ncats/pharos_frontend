@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges,
 import {Ligand} from '../../../../models/ligand';
 import {Target} from '../../../../models/target';
 import {DynamicPanelBaseComponent} from '../../../../tools/dynamic-panel-base/dynamic-panel-base.component';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterModule} from '@angular/router';
 import {StructureViewComponent} from '../../../../tools/structure-view/structure-view.component';
 import {CommonModule} from '@angular/common';
 import {
@@ -18,7 +18,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
  */
 @Component({
   standalone: true,
-  imports: [ CommonModule,
+  imports: [ CommonModule, RouterModule,
     IdgLevelIndicatorComponent, StructureViewComponent, PropertyDisplayComponent, MatTooltip, MatCardModule
   ],
   selector: 'pharos-ligand-card',
