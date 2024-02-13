@@ -7,7 +7,6 @@ import {NgxJsonViewerModule} from 'ngx-json-viewer';
 import {StructureViewComponent} from './structure-view/structure-view.component';
 import {NcatsHeaderModule} from './ncats-header/ncats-header.module';
 import {ExploreListButtonComponent} from './explore-list-button/explore-list-button.component';
-import {ModelDetailsComponent} from './model-details/model-details.component';
 import { DataVersionCardComponent } from './data-version-card/data-version-card.component';
 import { PredictionsPanelComponent } from './predictions-panel/predictions-panel.component';
 import { PredictionDetailsCardComponent } from './predictions-panel/prediction-details-card/prediction-details-card.component';
@@ -18,9 +17,6 @@ import {RadarChartComponent} from './visualizations/radar-chart/radar-chart.comp
 import {GenericTableComponent} from './generic-table/generic-table.component';
 
 @NgModule({
-    declarations: [
-        ModelDetailsComponent
-    ],
     imports: [
         CommonModule,
         SharedModule,

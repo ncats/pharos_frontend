@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Inject, NgZone, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
+import {AfterViewInit, Component, Inject, OnDestroy, PLATFORM_ID} from '@angular/core';
 import {MolChangeService} from './services/mol-change.service';
 import {isPlatformBrowser} from '@angular/common';
 import {takeUntil} from 'rxjs/operators';

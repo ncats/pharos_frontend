@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {ActivatedRoute, NavigationEnd, Router, RouterModule} from '@angular/router';

@@ -16,7 +16,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {SearchComponent} from '../search-component/search.component';
-import {MatToolbar, MatToolbarModule} from '@angular/material/toolbar';
+import {MatToolbarModule} from '@angular/material/toolbar';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatTooltip} from '@angular/material/tooltip';
 

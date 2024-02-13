@@ -33,7 +33,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {LongTargetCardComponent} from '../../cards/long-target-card/long-target-card.component';
 import {TargetCardComponent} from '../../cards/target-card/target-card.component';
 import {MatTooltip} from '@angular/material/tooltip';
-import {MatSelect, MatSelectModule} from '@angular/material/select';
+import {MatSelectModule} from '@angular/material/select';
 
 /**
  * token to inject structure viewer into generic table component

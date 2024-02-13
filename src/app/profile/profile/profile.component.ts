@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {Facet, Field} from '../../models/facet';
+import {Field} from '../../models/facet';
 import {forkJoin, Observable, Subject} from 'rxjs';
 import {map, take, takeUntil} from 'rxjs/operators';
 import {PharosProfileService} from '../../auth/pharos-profile.service';

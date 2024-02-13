@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LocalStorageService} from '../../pharos-services/local-storage.service';
 import {HttpClient} from '@angular/common/http';

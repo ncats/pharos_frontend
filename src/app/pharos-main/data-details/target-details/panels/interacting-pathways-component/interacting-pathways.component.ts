@@ -4,7 +4,6 @@ import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   ElementRef,
-  OnInit,
   ViewChild
 } from '@angular/core';
 import {TargetPanelBaseComponent} from '../target-panel-base/target-panel-base.component';

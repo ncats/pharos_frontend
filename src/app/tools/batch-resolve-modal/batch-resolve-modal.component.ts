@@ -3,7 +3,7 @@ import {ResolverService} from '../../pharos-services/resolver.service';
 import {PharosProperty} from '../../models/pharos-property';
 import {DataProperty} from '../generic-table/components/property-display/data-property';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
-import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatCardModule} from '@angular/material/card';

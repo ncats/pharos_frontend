@@ -11,8 +11,6 @@ import {
 import {MatTooltip} from '@angular/material/tooltip';
 import {MatCardModule} from '@angular/material/card';
 import {IdgLevelIndicatorComponent} from '../../../../tools/idg-level-indicator/idg-level-indicator.component';
-import {FlexLayoutModule} from '@angular/flex-layout';
-
 /**
  * component to display a condensed ligand view
  */

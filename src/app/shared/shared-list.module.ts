@@ -5,7 +5,6 @@ import {DataListVisualizationsComponent} from '../pharos-main/data-list/data-lis
 import {SharedModule} from './shared.module';
 import {CommonToolsModule} from '../tools/common-tools.module';
 import {RouterModule} from '@angular/router';
-import {PharosLoadingSpinnerModule} from '../tools/pharos-loading-spinner/pharos-loading-spinner.module';
 import {DataListResolver} from '../pharos-main/resolvers/data-list.resolver';
 import {ComponentsResolver} from '../pharos-main/resolvers/components.resolver';
 import {TOKENS} from '../../config/component-tokens';
@@ -18,8 +17,7 @@ import {HierarchyViewerComponent} from "../pharos-main/analyze-list/hierarchy-vi
   imports: [
     SharedModule,
     CommonToolsModule,
-    RouterModule,
-    PharosLoadingSpinnerModule,
+    RouterModule
   ],
   providers: [
     DataListResolver,

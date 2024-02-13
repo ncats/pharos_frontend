@@ -4,7 +4,7 @@ import {DynamicPanelBaseComponent} from '../../../../tools/dynamic-panel-base/dy
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatCardModule} from '@angular/material/card';
-import {MatCheckbox, MatCheckboxModule} from '@angular/material/checkbox';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import {IdgLevelIndicatorComponent} from '../../../../tools/idg-level-indicator/idg-level-indicator.component';
 import {
   HelpPanelTriggerComponent

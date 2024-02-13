@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {GeneDetailsComponent} from "../gene-details/gene-details.component";
-import {SelectedFacetService} from "../../../filter-panel/selected-facet.service";
+import {GeneDetailsComponent} from '../gene-details/gene-details.component';
+import {SelectedFacetService} from '../../../filter-panel/selected-facet.service';
 import {
   VennDiagramComponent,
   VennDiagramData
-} from "../../../../../tools/visualizations/venn-diagram/venn-diagram.component";
-import {Target} from "../../../../../models/target";
+} from '../../../../../tools/visualizations/venn-diagram/venn-diagram.component';
+import {Target} from '../../../../../models/target';
 import {MatCardSubtitle} from '@angular/material/card';
 import {
   PropertyDisplayComponent
@@ -28,7 +28,7 @@ import {CommonModule} from '@angular/common';
 })
 export class SimilarityDetailsComponent extends GeneDetailsComponent implements OnInit {
   @Input() similarityTarget: Target;
-  similarityFacet: string = "";
+  similarityFacet = '';
   constructor(private selectedFacetService: SelectedFacetService) {
     super();
   }

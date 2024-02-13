@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, Inject, PLATFORM_ID, ViewEncapsulation} from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
