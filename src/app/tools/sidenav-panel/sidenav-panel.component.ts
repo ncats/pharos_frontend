@@ -93,6 +93,7 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit, OnDestro
     @Inject(DOCUMENT) private document: Document,
     public navSectionsService: NavSectionsService,
     private centralStorageService: CentralStorageService) {
+    this.viewportScroller.setOffset([0, 120]);
   }
 
   /**

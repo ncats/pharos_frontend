@@ -36,12 +36,6 @@ import {MatTooltip} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
 
 /**
- * token to inject structure viewer into generic table component
- * @type {InjectionToken<any>}
- */
-export const RADAR_CHART_TOKEN = new InjectionToken('RadarChartComponent');
-
-/**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
  */
 const navigationExtras: NavigationExtras = {

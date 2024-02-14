@@ -22,11 +22,7 @@ import {HierarchyViewerComponent} from "../pharos-main/analyze-list/hierarchy-vi
   providers: [
     DataListResolver,
     ComponentsResolver,
-    {provide: TOKENS.PHAROS_FACET_REPRESENTATION_COMPONENT, useValue: FilterRepresentationComponent},
     {provide: TOKENS.PHAROS_HIERARCHY_VIEWER_COMPONENT, useValue: HierarchyViewerComponent},
-    {provide: TOKENS.PHAROS_VISUALIZATION_COMPONENT, useValue: DataListVisualizationsComponent},
-    {provide: TOKENS.PHAROS_ANALYZE_HEADER_COMPONENT, useValue: AnalyzeHeaderComponent},
-    {provide: TOKENS.PHAROS_SEQUENCE_LIST_COMPONENT, useValue: SequenceSearchComponent}
   ],
   exports: [
     SharedModule
