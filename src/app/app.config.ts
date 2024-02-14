@@ -1,7 +1,11 @@
 import {APP_ID, ApplicationConfig, importProvidersFrom} from '@angular/core';
 import {ServiceWorkerModule} from '@angular/service-worker';
-import {AppRoutingModule} from './app-routing.module';
-import {RouterModule} from '@angular/router';
+import {
+    provideRouter,
+    RouterModule,
+    withEnabledBlockingInitialNavigation,
+    withInMemoryScrolling, withPreloading, withRouterConfig
+} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {AngularFireModule} from '@angular/fire/compat';
 import {environment} from '../environments/environment';
@@ -16,12 +20,19 @@ import {FilterPanelComponent} from './pharos-main/data-list/filter-panel/filter-
 import {SelectedFacetListComponent} from './pharos-main/data-list/selected-facet-list/selected-facet-list.component';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
 import {provideAnimations} from '@angular/platform-browser/animations';
+import {APP_ROUTES} from './routing/app.routes';
+import {PharosPreloader} from './routing/pharos-preloader';
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        provideRouter(APP_ROUTES,
+            withInMemoryScrolling({scrollPositionRestoration: 'top', anchorScrolling: 'enabled'}),
+            withEnabledBlockingInitialNavigation(),
+            withRouterConfig({onSameUrlNavigation: 'reload'}),
+            withPreloading(PharosPreloader)
+        ),
         importProvidersFrom(
             ServiceWorkerModule.register('ngsw-worker.js', {enabled: true}),
-            AppRoutingModule,
             RouterModule,
             FlexLayoutModule,
             AngularFireModule.initializeApp(environment.firebase), // imports firebase/app needed for everything
@@ -36,4 +47,4 @@ export const appConfig: ApplicationConfig = {
         provideAnimations(),
         provideHttpClient(withInterceptorsFromDi())
     ]
-}
+};

@@ -7,8 +7,7 @@ import {DOCUMENT, isPlatformBrowser, isPlatformServer} from '@angular/common';
 export class ScriptLoadService {
 
   constructor(@Inject(PLATFORM_ID) private platformID: any,
-              @Inject(DOCUMENT) private _document: Document) {
-  }
+              @Inject(DOCUMENT) private _document: Document) { }
 
   loadReactomeInteractingPathwaysScript() {
     if (isPlatformServer(this.platformID)) {

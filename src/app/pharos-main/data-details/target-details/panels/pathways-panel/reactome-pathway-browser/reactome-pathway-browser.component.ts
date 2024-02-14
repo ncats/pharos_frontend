@@ -1,5 +1,5 @@
 import {Component, Inject, Input, OnChanges, OnInit, PLATFORM_ID, SimpleChanges} from '@angular/core';
-import {DOCUMENT, isPlatformBrowser} from '@angular/common';
+import {isPlatformBrowser} from '@angular/common';
 import {ScriptLoadService} from "../../../../../../pharos-services/script-load.service";
 
 @Component({
