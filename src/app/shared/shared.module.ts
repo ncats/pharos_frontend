@@ -4,7 +4,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {ApolloModule} from 'apollo-angular';
-import {MaterialModule} from '../../assets/material/material.module';
+
 import {BarChartComponent} from '../tools/visualizations/bar-chart/bar-chart.component';
 import {
   HelpPanelTriggerComponent
@@ -27,7 +27,6 @@ import {ComponentHeaderComponent} from '../tools/component-header/component-head
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule,
     FlexLayoutModule,
     HelpArticlesModule,
     ClipboardModule,
@@ -40,7 +39,7 @@ import {ComponentHeaderComponent} from '../tools/component-header/component-head
     ScrollspyDirective,
     ScatterPlotComponent,
     PackCircleComponent
-  ],
+],
   providers: [
     HelpDataService,
     HelpPanelOpenerService
@@ -50,11 +49,10 @@ import {ComponentHeaderComponent} from '../tools/component-header/component-head
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule,
     FlexLayoutModule,
     HelpArticlesModule,
     ComponentHeaderComponent
-  ]
+]
 })
 export class SharedModule {
 }

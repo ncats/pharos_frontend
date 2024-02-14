@@ -21,7 +21,8 @@ import {PharosFooterComponent} from './tools/pharos-footer/pharos-footer.compone
  */
 @Component({
   standalone: true,
-  imports: [CommonModule, NcatsHeaderComponent, AlertComponent, PharosLoadingSpinnerComponent, RouterOutlet, ScrollToTopComponent, PharosFooterComponent],
+  imports: [CommonModule, NcatsHeaderComponent, AlertComponent, PharosLoadingSpinnerComponent, RouterOutlet,
+    ScrollToTopComponent, PharosFooterComponent],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']

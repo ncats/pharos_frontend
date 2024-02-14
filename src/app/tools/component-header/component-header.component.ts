@@ -6,7 +6,7 @@ import {TutorialLinkComponent} from '../tutorial-link/tutorial-link.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {MaterialModule} from '../../../assets/material/material.module';
+
 import {HelpPanelComponent} from '../help-panel/help-panel.component';
 
 @Component({
@@ -16,11 +16,10 @@ import {HelpPanelComponent} from '../help-panel/help-panel.component';
     HelpPanelTriggerComponent,
     HelpPanelComponent,
     TutorialLinkComponent,
-    MaterialModule,
     MatTooltipModule,
     CommonModule,
     FlexLayoutModule
-  ],
+],
   selector: 'pharos-component-header',
   templateUrl: './component-header.component.html',
   styleUrls: ['./component-header.component.scss']

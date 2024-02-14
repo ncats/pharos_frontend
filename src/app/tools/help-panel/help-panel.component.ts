@@ -22,7 +22,7 @@ import {MatButtonModule, MatIconButton} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
 import {CitationComponent} from '../citation/citation.component';
-import {MaterialModule} from '../../../assets/material/material.module';
+
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {DataVersionCardComponent} from '../data-version-card/data-version-card.component';
 
@@ -32,7 +32,7 @@ import {DataVersionCardComponent} from '../data-version-card/data-version-card.c
 @Component({
     standalone: true,
     imports: [CommonModule, MatIconButton, MatIconModule, MatAccordion, MatButtonModule, FlexLayoutModule,
-        MatExpansionModule, CitationComponent, MaterialModule, DataVersionCardComponent],
+    MatExpansionModule, CitationComponent, DataVersionCardComponent],
     selector: 'pharos-help-panel',
     templateUrl: './help-panel.component.html',
     styleUrls: ['./help-panel.component.scss']

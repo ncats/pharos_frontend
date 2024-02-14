@@ -6,7 +6,7 @@ import {join} from 'path';
 
 const {performance} = require('perf_hooks');
 
-import {AppServerModule} from './src/main.server';
+import bootstrap from './src/main.server';
 import {APP_BASE_HREF} from '@angular/common';
 import {existsSync} from 'fs';
 import {backend} from './src/environments/environment';
@@ -19,9 +19,7 @@ export function app() {
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
-  server.engine('html', ngExpressEngine({
-    bootstrap: AppServerModule
-  }));
+  server.engine('html', ngExpressEngine({ bootstrap }));
 
   server.use((req, res, next) => {
     if (!req.url.startsWith('/ngsw')) {
@@ -89,5 +87,7 @@ const moduleFilename = mainModule && mainModule.filename || '';
 if (moduleFilename === __filename || moduleFilename.includes('iisnode')) {
   run();
 }
+
+export default bootstrap;
 
 export * from './src/main.server';
