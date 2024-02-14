@@ -14,9 +14,6 @@ describe('SequenceSearchPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SequenceSearchPageComponent
-      ],
       imports: [
         SharedModule,
         RouterTestingModule,

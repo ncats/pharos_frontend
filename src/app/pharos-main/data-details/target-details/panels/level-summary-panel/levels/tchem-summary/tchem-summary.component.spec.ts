@@ -12,7 +12,6 @@ describe('TchemSummaryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TchemSummaryComponent ],
       imports: [
         MaterialModule,
         FlexLayoutModule

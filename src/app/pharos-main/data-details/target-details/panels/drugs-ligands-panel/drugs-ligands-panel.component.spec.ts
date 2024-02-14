@@ -29,11 +29,6 @@ describe('DrugsLigandsPanelComponent', () => {
         ApolloTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
-      declarations: [
-        LigandCardComponent,
-        DrugsLigandsPanelComponent,
-        IdgLevelIndicatorComponent
-      ],
       providers: [
         AngularFireAuth,
         { provide: AngularFirestore, useValue: FIRESTORESTUB },

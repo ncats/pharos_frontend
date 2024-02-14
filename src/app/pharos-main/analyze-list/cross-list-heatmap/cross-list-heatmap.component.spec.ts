@@ -32,9 +32,6 @@ describe('CrossListHeatmapComponent', () => {
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE},
         { provide: AngularFirestore, useValue: FIRESTORESTUB }
       ],
-      declarations: [
-        CrossListHeatmapComponent
-      ]
     })
     .compileComponents();
   });

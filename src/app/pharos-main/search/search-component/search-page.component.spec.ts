@@ -27,8 +27,7 @@ describe('SearchComponentComponent', () => {
         AngularFireAuth,
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE},
         { provide: AngularFirestore, useValue: FIRESTORESTUB }
-      ],
-      declarations: [ SearchPageComponent ]
+      ]
     })
     .compileComponents();
   });

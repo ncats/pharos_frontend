@@ -10,11 +10,6 @@ describe('SketcherComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SketcherComponent
-      ],
-      providers: [
-      ],
       imports: [
         HttpClientTestingModule
       ]

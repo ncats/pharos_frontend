@@ -9,7 +9,6 @@ describe('InjectedRadarChartComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InjectedRadarChartComponent ],
       imports: [
         RadarChartComponent
       ]

@@ -6,6 +6,7 @@ import {InjectedComponent} from '../../../../../tools/injected-component';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
+import {CommonModule} from '@angular/common';
 
 /**
  * component that is injected into a generic table
@@ -14,7 +15,7 @@ import {RadarChartComponent} from '../../../../../tools/visualizations/radar-cha
 @Component({
   standalone: true,
   imports: [
-    RadarChartComponent
+    RadarChartComponent, CommonModule
   ],
   selector: 'pharos-injected-radar-chart',
   templateUrl: './injected-radar-chart.component.html',

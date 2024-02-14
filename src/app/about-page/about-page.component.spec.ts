@@ -21,9 +21,6 @@ describe('AboutPageComponent', () => {
       ],
       providers: [
         { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
-      ],
-      declarations: [
-        AboutPageComponent
       ]
     })
     .compileComponents();

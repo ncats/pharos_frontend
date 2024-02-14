@@ -17,7 +17,6 @@ describe('BatchResolveModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BatchResolveModalComponent ],
       imports: [
         ApolloTestingModule,
         BrowserAnimationsModule,

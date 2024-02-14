@@ -13,8 +13,7 @@ describe('AffiliateLinksComponent', () => {
     await TestBed.configureTestingModule({
       providers: [
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}
-      ],
-      declarations: [ AffiliateLinksComponent ]
+      ]
     })
     .compileComponents();
   });

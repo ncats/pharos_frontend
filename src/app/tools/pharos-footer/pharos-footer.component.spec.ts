@@ -7,9 +7,7 @@ describe('PharosFooterComponent', () => {
   let fixture: ComponentFixture<PharosFooterComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PharosFooterComponent ]
-    })
+    TestBed.configureTestingModule({ })
     .compileComponents();
   }));
 

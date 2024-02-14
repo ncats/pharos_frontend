@@ -7,9 +7,7 @@ describe('AssociationDataSourcesArticleComponent', () => {
   let fixture: ComponentFixture<AssociationDataSourcesArticleComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ AssociationDataSourcesArticleComponent ]
-    })
+    TestBed.configureTestingModule({ })
     .compileComponents();
   }));
 

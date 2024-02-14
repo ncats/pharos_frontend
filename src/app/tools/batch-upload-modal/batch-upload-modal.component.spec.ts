@@ -19,7 +19,6 @@ describe('BatchUploadModalComponent', () => {
   const matDialogRefStub = {};
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [BatchUploadModalComponent],
       imports: [
         BrowserAnimationsModule,
         SharedModule,

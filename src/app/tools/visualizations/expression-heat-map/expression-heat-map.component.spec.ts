@@ -34,8 +34,7 @@ describe('MultidimensionalFacetPlotComponent', () => {
         SelectedFacetService,
         SuggestApiService,
         AngularFireAuth
-      ],
-      declarations: [ ExpressionHeatMapComponent ]
+      ]
     })
     .compileComponents();
   });

@@ -32,8 +32,7 @@ describe('FilterRepresentationComponent', () => {
         AngularFireAuth,
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE},
         { provide: AngularFirestore, useValue: FIRESTORESTUB }
-      ],
-      declarations: [ FilterRepresentationComponent ]
+      ]
     })
     .compileComponents();
   });

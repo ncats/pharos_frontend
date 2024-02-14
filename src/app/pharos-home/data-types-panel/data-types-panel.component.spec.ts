@@ -13,8 +13,7 @@ describe('DataTypesPanelComponent', () => {
       imports: [
       BrowserAnimationsModule,
       SharedModule
-  ],
-      declarations: [ DataTypesPanelComponent ]
+  ]
     })
     .compileComponents();
   }));

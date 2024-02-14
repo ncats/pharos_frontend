@@ -14,9 +14,6 @@ describe('KnowledgeTableComponent', () => {
       providers: [
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}
       ],
-      declarations: [
-        KnowledgeTableComponent
-      ],
       imports: [
         SharedModule
       ]

@@ -28,7 +28,8 @@ import {RouterModule} from '@angular/router';
   imports: [CommonModule, FlexLayoutModule, MatCardModule, MatCheckboxModule, IdgLevelIndicatorComponent, RouterModule,
     HelpPanelTriggerComponent, GeneDetailsComponent, KnowledgeMetricsComponent, SequenceSimilarityDetailsComponent,
     DiseaseAssociationDetailsComponent, MatButtonModule, MatIconModule, LigandAssociationDetailsComponent,
-    InteractionDetailsComponent, SimilarityDetailsComponent, TargetPredictionDetailsComponent, RadarChartComponent, MatTooltip],
+    InteractionDetailsComponent, SimilarityDetailsComponent, TargetPredictionDetailsComponent, RadarChartComponent, MatTooltip
+  ],
   selector: 'pharos-long-target-card',
   templateUrl: './long-target-card.component.html',
   styleUrls: ['./long-target-card.component.scss']
@@ -36,26 +37,27 @@ import {RouterModule} from '@angular/router';
 
 export class LongTargetCardComponent extends DynamicPanelBaseComponent implements OnInit {
 
+  constructor() {
+    super();
+  }
+
   @Input() target?: Target;
   @Input() similarityTarget?: Target;
   @Input() selected: boolean;
   @Input() loggedIn: boolean;
 
-  expanded: boolean = false;
-  expandingDiseases: boolean = false;
+  expanded = false;
+  expandingDiseases = false;
+  @Output() selectionChanged = new EventEmitter<boolean>();
 
   toggleDiseases(){
     this.expandingDiseases = true;
     this.expanded = !this.expanded;
   }
-  @Output() selectionChanged = new EventEmitter<boolean>();
-
-  constructor() {
-    super();
-  }
 
   ngOnInit(): void {
   }
+
   toggleSelection($event: any){
     this.selected = !this.selected;
     this.selectionChanged.emit(this.selected);

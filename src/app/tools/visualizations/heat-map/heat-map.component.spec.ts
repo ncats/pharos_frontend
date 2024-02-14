@@ -23,7 +23,6 @@ describe('HeatMapComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HeatMapComponent ],
       imports: [
         AngularFireModule.initializeApp(COMMON_CONFIG),
         ApolloTestingModule,

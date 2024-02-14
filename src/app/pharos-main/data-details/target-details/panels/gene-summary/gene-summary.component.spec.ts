@@ -14,7 +14,6 @@ describe('GeneSummaryComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [UnfurlingMetaService],
-      declarations: [ GeneSummaryComponent ],
       imports: [
         ApolloTestingModule,
         RouterTestingModule

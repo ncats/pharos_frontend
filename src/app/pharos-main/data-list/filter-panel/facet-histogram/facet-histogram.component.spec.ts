@@ -22,7 +22,6 @@ describe('FacetHistogramComponent', () => {
         AngularFireModule.initializeApp(COMMON_CONFIG),
         HttpClientTestingModule
       ],
-      declarations: [FacetHistogramComponent],
       providers: [{provide: AngularFirestore, useValue: FIRESTORESTUB}, AngularFireAuth]
     })
       .compileComponents();

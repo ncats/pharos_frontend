@@ -18,9 +18,6 @@ describe('HelpPanelTriggerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        HelpPanelTriggerComponent
-      ],
       imports: [
         HttpClientTestingModule,
         MaterialModule,

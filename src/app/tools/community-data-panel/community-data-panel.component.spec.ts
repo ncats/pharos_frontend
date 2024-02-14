@@ -23,8 +23,7 @@ describe('CommunityDataPanelComponent', () => {
       ],
       providers: [
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}
-      ],
-      declarations: [ CommunityDataPanelComponent ]
+      ]
     })
     .compileComponents();
   });

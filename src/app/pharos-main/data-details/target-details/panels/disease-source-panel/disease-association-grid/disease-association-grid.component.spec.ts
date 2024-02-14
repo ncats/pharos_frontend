@@ -7,9 +7,7 @@ describe('DiseaseAssociationGridComponent', () => {
   let fixture: ComponentFixture<DiseaseAssociationGridComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ DiseaseAssociationGridComponent ]
-    })
+    await TestBed.configureTestingModule({ })
     .compileComponents();
   });
 

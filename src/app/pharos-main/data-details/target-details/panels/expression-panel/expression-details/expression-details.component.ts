@@ -1,16 +1,20 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {DataSourceInfo, DataVersionInfo} from "../../../../../../models/dataVersion";
 import {MatCardTitle} from '@angular/material/card';
-import {MatIcon} from '@angular/material/icon';
+import {MatIcon, MatIconModule} from '@angular/material/icon';
 import {CommonModule} from '@angular/common';
 import {ExpressionDetailsBlockComponent} from './expression-details-block/expression-details-block.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatMenuItem} from '@angular/material/menu';
 
 @Component({
   standalone: true,
   imports: [
-      CommonModule,
+    CommonModule, FlexLayoutModule, MatButtonModule, MatIconModule,
     MatCardTitle, ExpressionDetailsBlockComponent,
-    MatIcon
+    MatTooltip, MatMenuItem
   ],
   selector: 'pharos-expression-details',
   templateUrl: './expression-details.component.html',

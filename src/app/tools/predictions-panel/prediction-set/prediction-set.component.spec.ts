@@ -20,7 +20,6 @@ describe('PredictionSetComponent', () => {
         RouterTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
-      declarations: [ PredictionSetComponent ],
       providers: [
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE},
         {provide: MAT_DIALOG_DATA, useValue: {}},
@@ -33,6 +32,7 @@ describe('PredictionSetComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PredictionSetComponent);
     component = fixture.componentInstance;
+    component.predictionSet = {predictions: [], citation: {}};
     fixture.detectChanges();
   });
 

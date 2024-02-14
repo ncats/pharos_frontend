@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DiseaseCardComponent } from './disease-card.component';
-import {TESTTARGET, TESTTARGETPROPS} from "../../../../../../../../test/test-target";
+import {TESTTARGET} from '../../../../../../../../test/test-target';
+import {ActivatedRoute} from '@angular/router';
+import {MOCKACTIVATEDROUTE} from '../../../../../../../../test/mock-activate-route';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('DiseaseCardComponent', () => {
   let component: DiseaseCardComponent;
@@ -8,7 +11,9 @@ describe('DiseaseCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DiseaseCardComponent ]
+      providers: [
+        { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
+      ], imports: [BrowserAnimationsModule]
     })
     .compileComponents();
   }));

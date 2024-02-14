@@ -22,9 +22,6 @@ describe('DiseaseTableComponent', () => {
       providers: [
         PharosApiService,
         { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
-      ],
-      declarations: [
-        DiseaseTableComponent
       ]
     })
     .compileComponents();

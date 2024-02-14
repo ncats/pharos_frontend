@@ -7,9 +7,7 @@ describe('DataVersionCardComponent', () => {
   let fixture: ComponentFixture<DataVersionCardComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ DataVersionCardComponent ]
-    })
+    await TestBed.configureTestingModule({ })
     .compileComponents();
   });
 

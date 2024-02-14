@@ -30,9 +30,6 @@ describe('SelectedFacetListComponent', () => {
         BrowserAnimationsModule ,
         AngularFireModule.initializeApp(COMMON_CONFIG),
       ],
-      declarations: [
-        SelectedFacetListComponent
-      ],
       providers: [
         PharosApiService,
         LoadingService,

@@ -25,7 +25,6 @@ describe('TinxDiseaseComponent', () => {
         RouterTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
-      declarations: [TinxDiseaseComponent],
       providers: [
         AngularFireAuth,
         { provide: AngularFirestore, useValue: FIRESTORESTUB },

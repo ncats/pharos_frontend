@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {PharosApiService} from './pharos-api.service';
 import {LocalStorageService} from './local-storage.service';
 import {v4} from 'uuid';
-import {environment} from "../../environments/environment";
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

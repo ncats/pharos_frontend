@@ -19,7 +19,6 @@ describe('TargetRelevancePanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TargetRelevancePanelComponent],
       imports: [
         SharedModule,
         BrowserAnimationsModule,

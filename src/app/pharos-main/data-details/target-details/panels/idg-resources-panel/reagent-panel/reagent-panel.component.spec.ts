@@ -8,9 +8,7 @@ describe('ReagentPanelComponent', () => {
   let fixture: ComponentFixture<ReagentPanelComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ReagentPanelComponent ]
-    })
+    TestBed.configureTestingModule({ })
     .compileComponents();
   }));
 

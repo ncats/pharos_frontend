@@ -16,9 +16,6 @@ describe('VisualizationOptionsComponent', () => {
         SharedModule,
         RouterTestingModule
       ],
-      declarations: [
-        VisualizationOptionsComponent
-      ],
       providers: [
         {provide: APP_BASE_HREF, useValue: '/targets' }
       ]

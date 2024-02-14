@@ -23,7 +23,6 @@ describe('TaskItemComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule
       ],
-      declarations: [ TaskItemComponent ],
       providers: [
         { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
       ]

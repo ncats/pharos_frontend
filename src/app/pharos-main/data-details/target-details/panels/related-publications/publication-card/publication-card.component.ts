@@ -22,14 +22,14 @@ export class PublicationCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.generifs = this.publication?.generifs.filter(f => {
+    this.generifs = this.publication?.generifs?.filter(f => {
       return !this.rifisdumb(f.text);
     })
   }
 
   shortAuthorString() {
-    const authors = this.publication.authors.split(',');
-    if(authors.length > 2) {
+    const authors = this.publication?.authors?.split(',') || [];
+    if (authors.length > 2) {
       const namePieces = authors[0].split(' ');
       return namePieces[namePieces.length - 1] + ' et al.';
     }

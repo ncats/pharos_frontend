@@ -15,7 +15,6 @@ describe('TargetHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TargetHeaderComponent ],
       imports: [
         MatDialogModule,
         ApolloTestingModule

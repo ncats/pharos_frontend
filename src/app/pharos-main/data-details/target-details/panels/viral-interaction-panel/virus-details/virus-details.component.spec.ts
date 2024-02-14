@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { VirusDetailsComponent } from './virus-details.component';
-import {ViralInteractionDetails, VirusDetails} from "../../../../../../models/virus-interactions";
-import {InteractionDetails} from "../../../../../../models/interaction-details";
+import {ViralInteractionDetails, VirusDetails} from '../../../../../../models/virus-interactions';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('VirusDetailsComponent', () => {
   let component: VirusDetailsComponent;
@@ -10,7 +10,9 @@ describe('VirusDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VirusDetailsComponent ]
+      imports: [
+          BrowserAnimationsModule
+      ]
     })
     .compileComponents();
   }));

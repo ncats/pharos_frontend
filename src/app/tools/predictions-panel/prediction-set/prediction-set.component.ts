@@ -70,16 +70,19 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
     return [
       new PharosProperty({
         name: 'name',
-        label: this.predictionSet.predictions[0].alternateName || this.predictionSet.predictions[0].name,
+        label: (this.predictionSet.predictions && this.predictionSet.predictions.length) > 0 ?
+            this.predictionSet.predictions[0].alternateName || this.predictionSet.predictions[0].name : '',
         sortable: true
       }),
       ...this.getAlternateName(),
       ...this.getIdentifiers(),
       new PharosProperty({
         name: 'value',
-        label: this.predictionSet.predictions[0].confidence.alternateName,
+        label: (this.predictionSet.predictions && this.predictionSet.predictions.length) > 0 ?
+            this.predictionSet.predictions[0].confidence.alternateName : '',
         sortable: true
-      })];
+      })
+    ];
   }
 
 // tslint:disable-next-line:max-line-length
@@ -152,7 +155,10 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
   }
 
   filteringFacets(): string[] {
-    return this.predictionSet.predictions[0].facetFields || [];
+    if (this.predictionSet && this.predictionSet.predictions && this.predictionSet.predictions.length > 0) {
+      return this.predictionSet?.predictions[0].facetFields;
+    }
+    return [];
   }
 
   ngOnInit(): void {
@@ -320,7 +326,10 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
         if (resolveResult) {
           resolveResult.models = 'ligands';
           resolveResult.saveList = this.loggedIn;
-          resolveResult.collectionName = this.predictionSet.predictions[0].name + ' : ' + this.centralStorageService.toolboxDetailsPage;
+          resolveResult.collectionName =
+              (this.predictionSet.predictions && this.predictionSet.predictions.length) > 0 ?
+                  this.predictionSet.predictions[0].name + ' : ' + this.centralStorageService.toolboxDetailsPage :
+                  'Collection';
           return this.targetCollection.collection('target-collection').add(
             resolveResult
           ).then(doc => {

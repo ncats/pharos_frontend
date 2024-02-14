@@ -13,7 +13,6 @@ describe('TargetCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TargetCardComponent ],
       imports: [
         SharedModule,
         CommonToolsModule,

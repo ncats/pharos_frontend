@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {PageData} from '../../models/page-data';
 import {BaseResource} from '../../models/idg-resources/base-resource';
 import { PageEvent } from '@angular/material/paginator';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('ListFilterComponent', () => {
   let component: ListFilterComponent;
@@ -12,7 +13,7 @@ describe('ListFilterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListFilterComponent ]
+      imports: [BrowserAnimationsModule]
     })
     .compileComponents();
   }));

@@ -12,8 +12,7 @@ describe('GwasDiseaseAnalyticsComponent', () => {
     await TestBed.configureTestingModule({
       providers: [
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}
-      ],
-      declarations: [ GwasDiseaseAnalyticsComponent ]
+      ]
     })
     .compileComponents();
   });

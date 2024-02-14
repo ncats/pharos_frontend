@@ -17,9 +17,9 @@ export class DataResource extends BaseResource {
   constructor(data: any) {
     super(data);
 
-    this.addDisplayProperty(data.Provider_institution, "Institute");
-    this.addDisplayProperty(data.Authors,"Authors");
-    this.addDisplayProperty(data.PI,"PI");
+    this.addDisplayProperty(data.Provider_institution, 'Institute');
+    this.addDisplayProperty(data.Authors, 'Authors');
+    this.addDisplayProperty(data.PI, 'PI');
 
     if (BaseResource.fieldNotNull(data.Title)) {
       this.title = data.Title;
@@ -36,10 +36,10 @@ export class MouseImageData extends DataResource {
    * name of the image to show on the resource cards for each implementing class
    * ./assets/images/resource-types/{{reagent.resourceImageName}}.png
    */
-  resourceImageName? = 'mouseImageData';
+  resourceImageName ? = 'mouseImageData';
 
-  uberon : string = "";
-  tissue: string = "";
+  uberon = '';
+  tissue = '';
   expressed: boolean;
   /**
    * creates object, adds Data and Strain Info to the list of displayed properties
@@ -47,19 +47,19 @@ export class MouseImageData extends DataResource {
    */
   constructor(data: any) {
     super(data);
-    if(data.Tissue_ID) {
+    if (data.Tissue_ID) {
       this.uberon = data.Tissue_ID.replace(':', '_');
     }
     this.tissue = data.Tissue;
-    if(data.Expression_data){
+    if (data.Expression_data){
       this.expressed = (data.Expression_data.toLowerCase() == 'yes');
     }
     else {
       this.expressed = false;
     }
-    this.addDisplayProperty(this.expressed ? "Yes" : "No", "Expressed");
-    this.addDisplayProperty(this.dataRepository.repositoryName,"Data",this.dataRepository.repositoryUrl);
-    this.addDisplayProperty(this.hostRepository.repositoryName,"Strain Info", this.hostRepository.repositoryUrl);
+    this.addDisplayProperty(this.expressed ? 'Yes' : 'No', 'Expressed');
+    this.addDisplayProperty(this.dataRepository.repositoryName, 'Data', this.dataRepository.repositoryUrl);
+    this.addDisplayProperty(this.hostRepository.repositoryName, 'Strain Info', this.hostRepository.repositoryUrl);
   }
 }
 
@@ -76,12 +76,12 @@ export class Dataset extends DataResource{
 
   constructor(data: any) {
     super(data);
-    this.addDisplayProperty(data.Assay_ID, "Assay ID");
-    this.addDisplayProperty(data.Data_format, "Data Format");
-    this.addDisplayProperty(data.Endpoint, "Endpoint");
-    this.addDisplayProperty(data.Endpoint_detection, "Endpoint Detection");
-    this.addDisplayProperty(data.Description, "Data", this.dataRepository.repositoryUrl);
-    this.addDisplayProperty(this.hostRepository.repositoryName,"Repository", this.hostRepository.repositoryUrl);
+    this.addDisplayProperty(data.Assay_ID, 'Assay ID');
+    this.addDisplayProperty(data.Data_format, 'Data Format');
+    this.addDisplayProperty(data.Endpoint, 'Endpoint');
+    this.addDisplayProperty(data.Endpoint_detection, 'Endpoint Detection');
+    this.addDisplayProperty(data.Description, 'Data', this.dataRepository.repositoryUrl);
+    this.addDisplayProperty(this.hostRepository.repositoryName, 'Repository', this.hostRepository.repositoryUrl);
   }
 }
 
@@ -104,15 +104,15 @@ export class ProbeData extends DataResource implements HasStructureInfo{
   constructor(data: any) {
     super(data);
 
-    if(BaseResource.fieldNotNull(data.Canonical_SMILES)){
+    if (BaseResource.fieldNotNull(data.Canonical_SMILES)){
       this.canonicalSmiles = data.Canonical_SMILES;
     }
     this.addDisplayProperty(data.External_ID, data.External_ID_registration_system);
-    this.addDisplayProperty(data.Activity,"Activity");
-    this.addDisplayProperty(data.Selectivity,"Selectivity");
-    this.addDisplayProperty(data.Negative_control,"Negative Control");
-    this.addDisplayProperty(this.dataRepository.repositoryName,"Data",this.dataRepository.repositoryUrl);
-    this.addDisplayProperty(this.hostRepository.repositoryName,"Probe Details", this.hostRepository.repositoryUrl);
+    this.addDisplayProperty(data.Activity, 'Activity');
+    this.addDisplayProperty(data.Selectivity, 'Selectivity');
+    this.addDisplayProperty(data.Negative_control, 'Negative Control');
+    this.addDisplayProperty(this.dataRepository.repositoryName, 'Data', this.dataRepository.repositoryUrl);
+    this.addDisplayProperty(this.hostRepository.repositoryName, 'Probe Details', this.hostRepository.repositoryUrl);
   }
 }
 

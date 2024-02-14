@@ -10,7 +10,6 @@ describe('ScatterPlotTwoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ScatterPlotComponent ],
       providers: [
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}
       ]

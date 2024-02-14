@@ -11,7 +11,6 @@ describe('LigandActivityArticleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LigandActivityArticleComponent ],
       imports: [
         MaterialModule,
         FlexLayoutModule

@@ -11,9 +11,6 @@ describe('IlluminationGraphArticleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        IlluminationGraphArticleComponent
-      ],
       imports: [
         MaterialModule,
         FlexLayoutModule

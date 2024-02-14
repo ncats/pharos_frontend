@@ -29,8 +29,7 @@ describe('TargetFacetPanelComponent', () => {
         AngularFireAuth,
         { provide: AngularFirestore, useValue: FIRESTORESTUB },
         { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
-      ],
-      declarations: [ TargetFacetPanelComponent ]
+      ]
     })
     .compileComponents();
   }));

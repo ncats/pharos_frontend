@@ -14,7 +14,6 @@ describe('SidenavPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SidenavPanelComponent ],
       imports: [
         SharedModule,
         CommonToolsModule,

@@ -13,8 +13,7 @@ describe('TargetPanelBaseComponent', () => {
     await TestBed.configureTestingModule({
       providers: [
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}
-      ],
-      declarations: [ TargetPanelBaseComponent ]
+      ]
     })
     .compileComponents();
   });

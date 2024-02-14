@@ -8,9 +8,7 @@ describe('DataResourcePanelComponent', () => {
   let fixture: ComponentFixture<DataResourcePanelComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ DataResourcePanelComponent ]
-    })
+    TestBed.configureTestingModule({ })
     .compileComponents();
   }));
 

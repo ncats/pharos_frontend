@@ -18,10 +18,6 @@ describe('GenericTableComponent', () => {
         RouterTestingModule,
         SharedModule
       ],
-      declarations: [
-        GenericTableComponent,
-        PropertyDisplayComponent
-      ],
       providers: [
       ]
     })

@@ -17,7 +17,6 @@ describe('LoginModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoginModalComponent ],
       imports: [
         SharedModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)

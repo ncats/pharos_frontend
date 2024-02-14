@@ -30,7 +30,6 @@ describe('UpsetPlotComponent', () => {
         SharedModule,
         RouterTestingModule,
         HttpClientModule],
-      declarations: [ UpsetPlotComponent ],
       providers: [
         PharosApiService,
         LoadingService,

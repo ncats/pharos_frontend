@@ -12,7 +12,6 @@ describe('TdarkSummaryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TdarkSummaryComponent ],
       imports: [
         MaterialModule,
         FlexLayoutModule
