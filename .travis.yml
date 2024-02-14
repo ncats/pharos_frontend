@@ -11,7 +11,7 @@ cache:
     - ./node_modules
 
 install:
-  - npm install
+  - npm install --legacy-peer-deps
 
 script:
   - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
