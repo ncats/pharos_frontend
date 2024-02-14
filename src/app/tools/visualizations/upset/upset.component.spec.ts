@@ -7,9 +7,7 @@ describe('UpsetComponent', () => {
   let fixture: ComponentFixture<UpsetComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ UpsetComponent ]
-    })
+    TestBed.configureTestingModule({ })
     .compileComponents();
   }));
 

@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MouseExpressionComponent } from './mouse-expression.component';
-import {AnatomogramHoverService} from "../../../../../../tools/anatomogram/anatomogram-hover.service";
-import * as test_data from "../../../../../../../../test/test-data-sources";
-import {MouseImageData} from "../../../../../../models/idg-resources/data-resource";
-import {Observable} from "rxjs";
+import {AnatomogramHoverService} from '../../../../../../tools/anatomogram/anatomogram-hover.service';
+import * as test_data from '../../../../../../../../test/test-data-sources';
+import {Observable} from 'rxjs';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('MouseExpressionComponent', () => {
   let component: MouseExpressionComponent;
@@ -12,7 +12,9 @@ describe('MouseExpressionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MouseExpressionComponent ],
+      imports: [
+          BrowserAnimationsModule
+      ],
       providers: [
         AnatomogramHoverService
       ]
@@ -23,7 +25,8 @@ describe('MouseExpressionComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MouseExpressionComponent);
     component = fixture.componentInstance;
-    component.mouseExpressions = [(test_data.TEST_RESOURCE_MOUSE_IMAGING1 as MouseImageData), (test_data.TEST_RESOURCE_MOUSE_IMAGING2 as MouseImageData)];
+    // @ts-ignore
+    component.mouseExpressions = [test_data.TEST_RESOURCE_MOUSE_IMAGING1, test_data.TEST_RESOURCE_MOUSE_IMAGING2];
     component.mouseExpressionUpdates = new Observable<void>();
     fixture.detectChanges();
   });

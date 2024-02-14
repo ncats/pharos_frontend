@@ -26,9 +26,6 @@ describe('NcatsHeaderComponent', () => {
         SharedModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
-      declarations: [
-        NcatsHeaderComponent
-      ],
       providers: [
         SuggestApiService,
         AngularFireAuth,

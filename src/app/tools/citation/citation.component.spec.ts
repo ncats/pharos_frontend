@@ -7,9 +7,7 @@ describe('CitationComponent', () => {
   let fixture: ComponentFixture<CitationComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ CitationComponent ]
-    })
+    await TestBed.configureTestingModule({ })
     .compileComponents();
   });
 

@@ -1,15 +1,30 @@
 import {ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {MouseImageData} from "../../../../../../models/idg-resources/data-resource";
-import {Observable, Subject, Subscription} from "rxjs";
-import {AnatomogramHoverService} from "../../../../../../tools/anatomogram/anatomogram-hover.service";
+import {MouseImageData} from '../../../../../../models/idg-resources/data-resource';
+import {Observable, Subject, Subscription} from 'rxjs';
+import {AnatomogramHoverService} from '../../../../../../tools/anatomogram/anatomogram-hover.service';
 import {takeUntil} from 'rxjs/operators';
+import {AnatomogramComponent} from '../../../../../../tools/anatomogram/anatomogram.component';
+import {CommonModule} from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {DataResourcePanelComponent} from '../data-resource-panel/data-resource-panel.component';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule, AnatomogramComponent, MatCardModule, MatExpansionModule, DataResourcePanelComponent
+  ],
   selector: 'pharos-mouse-expression',
   templateUrl: './mouse-expression.component.html',
   styleUrls: ['./mouse-expression.component.scss']
 })
 export class MouseExpressionComponent implements OnInit, OnDestroy {
+
+  constructor(
+    private anatomogramHoverService: AnatomogramHoverService,
+    private changeRef: ChangeDetectorRef) {
+
+  }
   protected ngUnsubscribe: Subject<any> = new Subject();
 
   @Input() mouseExpressions: MouseImageData[] = [];
@@ -18,19 +33,17 @@ export class MouseExpressionComponent implements OnInit, OnDestroy {
    */
   @Input() mouseExpressionUpdates: Observable<void>;
   updateSubscription: Subscription;
-  collapsed: boolean = true;
+  collapsed = true;
   expressionMap: Map<string, MouseImageData[]> = new Map<string, MouseImageData[]>();
-  shadingKey: string = "expressed";
+  shadingKey = 'expressed';
   shadingMap: Map<string, Map<string, number>> = new Map<string, Map<string, number>>();
   redrawAnatomogram: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    private anatomogramHoverService: AnatomogramHoverService,
-    private changeRef: ChangeDetectorRef) {
-
-  }
-
   tissues: string[] = [];
+
+  @ViewChild('expression_card_list') expressionList: ElementRef;
+
+  clickedTissue = '';
 
   ngOnInit(): void {
     this.updateSubscription = this.mouseExpressionUpdates
@@ -52,28 +65,26 @@ export class MouseExpressionComponent implements OnInit, OnDestroy {
       }
     });
     this.tissues = Array.from(this.expressionMap.keys());
-    let map = new Map<string, number>();
+    const map = new Map<string, number>();
     this.expressionMap.forEach((value, key) => {
-      let pctExpressed = value.filter(a => a.expressed).length / value.length;
+      const pctExpressed = value.filter(a => a.expressed).length / value.length;
       map.set(key, pctExpressed);
     });
-    this.shadingMap.set("expressed", map);
+    this.shadingMap.set('expressed', map);
     this.sortTissues();
     this.redrawAnatomogram.next(true);
   }
 
-  @ViewChild("expression_card_list") expressionList: ElementRef;
-
   sortTissues(){
-    if(this.expressionList) {
-      var scrollWindow = this.expressionList.nativeElement;
+    if (this.expressionList) {
+      const scrollWindow = this.expressionList.nativeElement;
       scrollWindow.scrollTop = 0;
     }
-    this.tissues = this.tissues.sort((a,b) => {
-      if(a === this.clickedTissue) return -1;
-      if(b === this.clickedTissue) return 1;
-      let expr_a = this.getExpressionValue(a);
-      let expr_b = this.getExpressionValue(b);
+    this.tissues = this.tissues.sort((a, b) => {
+      if (a === this.clickedTissue) { return -1; }
+      if (b === this.clickedTissue) { return 1; }
+      const expr_a = this.getExpressionValue(a);
+      const expr_b = this.getExpressionValue(b);
       if (expr_a == expr_b){
         return  this.getNameFromUberon(a).localeCompare(this.getNameFromUberon(b));
       }
@@ -86,18 +97,16 @@ export class MouseExpressionComponent implements OnInit, OnDestroy {
   }
 
   getExpressionValue(tissue): number{
-    return this.shadingMap.get("expressed").get(tissue);
+    return this.shadingMap.get('expressed').get(tissue);
   }
-
-  clickedTissue: string = "";
   tissueClicked(tissue) {
     this.clickedTissue = tissue;
     this.sortTissues();
   }
 
   expressionDataString(tissue){
-    let count = this.getExpressions(tissue).length;
-    let positive = this.getExpressions(tissue).filter(expr => {return expr.expressed}).length;
+    const count = this.getExpressions(tissue).length;
+    const positive = this.getExpressions(tissue).filter(expr => expr.expressed).length;
     return positive + ' of ' + count + ' conditions show expression';
   }
 
@@ -114,7 +123,7 @@ export class MouseExpressionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }

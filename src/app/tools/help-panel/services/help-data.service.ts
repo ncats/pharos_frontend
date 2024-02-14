@@ -1,5 +1,5 @@
 import {Injectable, Input} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/index';
+import {BehaviorSubject} from 'rxjs';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {CentralStorageService} from "../../../pharos-services/central-storage.service";
 
@@ -10,11 +10,6 @@ import {CentralStorageService} from "../../../pharos-services/central-storage.se
   providedIn: 'root'
 })
 export class HelpDataService {
-
-  /**
-   *   initialize a private variable _data, it's a BehaviorSubject
-   */
-  private _data = new BehaviorSubject<any>(null);
 
   /**
    * use setter to keep data updated
@@ -32,13 +27,27 @@ export class HelpDataService {
   get data() {
     return this._data.getValue();
   }
-  _predictionDetails: any[] = [];
   set predictionDetails(predictionDetails) {
     this._predictionDetails = predictionDetails || [];
   }
   get predictionDetails() {
     return this._predictionDetails;
   }
+
+  /**
+   * subscribe to api data changes
+   * @param {PharosApiService} pharosApiService
+   */
+  constructor(
+    private pharosApiService: PharosApiService,
+    private centralStorageService: CentralStorageService
+  ) {}
+
+  /**
+   *   initialize a private variable _data, it's a BehaviorSubject
+   */
+  private _data = new BehaviorSubject<any>(null);
+  _predictionDetails: any[] = [];
 
   /**
    * RxJs subject to broadcast help panel data changes
@@ -76,14 +85,7 @@ export class HelpDataService {
    */
   label: string;
 
-  /**
-   * subscribe to api data changes
-   * @param {PharosApiService} pharosApiService
-   */
-  constructor(
-    private pharosApiService: PharosApiService,
-    private centralStorageService: CentralStorageService
-  ) {}
+  versions: any[] = [];
 
   /**
    * set data origin
@@ -92,11 +94,10 @@ export class HelpDataService {
    */
   setOrigin(field: string): void {
     this.field = field;
-    this._helpDescriptionSource.next(this.centralStorageService.sourcesMap.get(field));
+    const payload = this.centralStorageService.sourcesMap.get(field);
+    this._helpDescriptionSource.next(payload);
  //   this._helpDataSource.next(this.data[this.field]);
   }
-
-  versions: any[] = [];
   setVersions(versions: any[]) {
     this.versions = versions;
   }

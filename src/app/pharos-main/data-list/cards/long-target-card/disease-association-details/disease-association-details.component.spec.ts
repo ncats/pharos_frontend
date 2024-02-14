@@ -10,7 +10,6 @@ describe('DiseaseAssociationDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DiseaseAssociationDetailsComponent ],
       providers: [
         { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
       ]

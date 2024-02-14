@@ -4,6 +4,14 @@ import {PharosProperty} from '../../../../../models/pharos-property';
 import {Target} from '../../../../../models/target';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 import {takeUntil} from 'rxjs/operators';
+import {CommonModule} from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
+import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
+import {ExploreListButtonComponent} from '../../../../../tools/explore-list-button/explore-list-button.component';
+import {GenericTableComponent} from '../../../../../tools/generic-table/generic-table.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatTooltip} from '@angular/material/tooltip';
 
 /**
  * this is a list of the facets shown - this could probably be set in the config files
@@ -20,6 +28,9 @@ const LABELS: Map<string, {label: string, facet: string}> = new Map<string, {lab
  * show various related facets
  */
 @Component({
+    standalone: true,
+    imports: [CommonModule, MatCardModule, ScrollspyDirective, ComponentHeaderComponent, ExploreListButtonComponent,
+        GenericTableComponent, FlexLayoutModule, MatTooltip],
   selector: 'pharos-target-facet-panel',
   templateUrl: './target-facet-panel.component.html',
   styleUrls: ['./target-facet-panel.component.scss']

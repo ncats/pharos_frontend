@@ -1,11 +1,22 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {PharosProperty} from '../../../../../../models/pharos-property';
-import {MatTableDataSource} from '@angular/material/table';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {LigandSerializer} from '../../../../../../models/ligand';
+import { MatTableDataSource } from '@angular/material/table';
+import {CommonModule} from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
+import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
+import {IdgLevelIndicatorComponent} from '../../../../../../tools/idg-level-indicator/idg-level-indicator.component';
+import {GenericTableComponent} from '../../../../../../tools/generic-table/generic-table.component';
+import {RouterModule} from '@angular/router';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatButtonModule, MatExpansionModule, MatAccordion, IdgLevelIndicatorComponent,
+    GenericTableComponent, RouterModule, FlexLayoutModule, MatIcon],
   selector: 'pharos-target-relevance-table',
   templateUrl: './target-relevance-table.component.html',
   styleUrls: ['./target-relevance-table.component.scss']
@@ -109,7 +120,7 @@ export class TargetRelevanceTableComponent implements OnInit, OnDestroy {
    * clean up on leaving component
    */
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }

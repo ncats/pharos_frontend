@@ -11,19 +11,31 @@ import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {Target} from '../../../../../../app/models/target';
 import {PageData} from '../../../../../../app/models/page-data';
-import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
-import {PageEvent} from '@angular/material/paginator';
 import {ActivatedRoute} from '@angular/router';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {TargetComponents} from '../../../../../models/target-components';
 import {DataProperty} from '../../../../../tools/generic-table/components/property-display/data-property';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {CommonModule} from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
+import {ExploreListButtonComponent} from '../../../../../tools/explore-list-button/explore-list-button.component';
+import {
+  PropertyDisplayComponent
+} from '../../../../../tools/generic-table/components/property-display/property-display.component';
+import {TargetCardComponent} from '../../../../data-list/cards/target-card/target-card.component';
+import {CommunityDataPanelComponent} from '../../../../../tools/community-data-panel/community-data-panel.component';
 
 /**
  * shows a list of protein to protein interactions for a target
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatCardModule, FlexLayoutModule, ScrollspyDirective, ComponentHeaderComponent, ExploreListButtonComponent, MatPaginator, PropertyDisplayComponent, TargetCardComponent, CommunityDataPanelComponent],
   selector: 'pharos-protein-protein-panel',
   templateUrl: './protein-protein-panel.component.html',
   styleUrls: ['./protein-protein-panel.component.scss'],

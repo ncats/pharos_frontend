@@ -7,9 +7,7 @@ describe('PharosLoadingSpinnerComponent', () => {
   let fixture: ComponentFixture<PharosLoadingSpinnerComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PharosLoadingSpinnerComponent ]
-    })
+    TestBed.configureTestingModule({ })
     .compileComponents();
   }));
 

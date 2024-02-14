@@ -1,11 +1,19 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ResolverService} from '../../pharos-services/resolver.service';
 import {PharosProperty} from '../../models/pharos-property';
 import {DataProperty} from '../generic-table/components/property-display/data-property';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {GenericTableComponent} from '../generic-table/generic-table.component';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatCardModule, MatButtonModule, MatIconModule, MatDialogModule, GenericTableComponent],
   selector: 'pharos-batch-resolve-modal',
   templateUrl: './batch-resolve-modal.component.html',
   styleUrls: ['./batch-resolve-modal.component.scss']

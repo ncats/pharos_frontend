@@ -3,11 +3,24 @@ import {Target} from '../../../../../models/target';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {CommonModule} from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
+import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {IdgLevelIndicatorComponent} from '../../../../../tools/idg-level-indicator/idg-level-indicator.component';
+import {TdarkSummaryComponent} from './levels/tdark-summary/tdark-summary.component';
+import {TbioSummaryComponent} from './levels/tbio-summary/tbio-summary.component';
+import {TchemSummaryComponent} from './levels/tchem-summary/tchem-summary.component';
+import {TclinSummaryComponent} from './levels/tclin-summary/tclin-summary.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 /**
  * displays illumination progress for a target
  */
 @Component({
+    standalone: true,
+    imports: [CommonModule, MatCardModule, ComponentHeaderComponent, ScrollspyDirective, IdgLevelIndicatorComponent,
+    TdarkSummaryComponent, TbioSummaryComponent, TchemSummaryComponent, TclinSummaryComponent, FlexLayoutModule],
   selector: 'pharos-level-summary',
   templateUrl: './level-summary-panel.component.html',
   styleUrls: ['./level-summary-panel.component.scss']

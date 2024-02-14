@@ -7,9 +7,7 @@ describe('VennDiagramComponent', () => {
   let fixture: ComponentFixture<VennDiagramComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ VennDiagramComponent ]
-    })
+    await TestBed.configureTestingModule({ })
     .compileComponents();
   });
 

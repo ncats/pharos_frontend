@@ -1,10 +1,8 @@
 import {ChangeDetectorRef, Component, HostListener, OnInit} from '@angular/core';
 import {BatchUploadModalComponent} from '../../../tools/batch-upload-modal/batch-upload-modal.component';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
-import {MatDialog} from '@angular/material/dialog';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
-import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import {ActivatedRoute, NavigationExtras, Router, RouterModule} from '@angular/router';
 import {FieldSelectionDialogComponent} from '../../../tools/field-selection-dialog/field-selection-dialog.component';
 import {SelectionModel} from '@angular/cdk/collections';
 import {takeUntil} from 'rxjs/operators';
@@ -15,6 +13,14 @@ import {BatchResolveModalComponent} from '../../../tools/batch-resolve-modal/bat
 import {ResolverService} from '../../../pharos-services/resolver.service';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
+import {MatDialog} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatToolbar} from '@angular/material/toolbar';
+import {MatButtonModule} from '@angular/material/button';
+import {CommonModule} from '@angular/common';
+import {MatTooltip} from '@angular/material/tooltip';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatIcon} from '@angular/material/icon';
 
 /**
  * navigation options to merge query parameters that are added on in navigation/query/facets/pagination
@@ -24,6 +30,10 @@ const navigationExtras: NavigationExtras = {
 };
 
 @Component({
+  standalone: true,
+  imports: [
+    MatToolbar, MatButtonModule, CommonModule, MatTooltip, FlexLayoutModule, RouterModule, MatIcon
+  ],
   selector: 'pharos-analyze-header',
   templateUrl: './analyze-header.component.html',
   styleUrls: ['./analyze-header.component.scss']

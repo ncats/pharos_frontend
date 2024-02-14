@@ -15,16 +15,16 @@ export class TOKENS {
   /**
    * injection token to add the facets sidenav
    */
-  public static PHAROS_FACETS_COMPONENT = new InjectionToken<string>('PharosFacetComponent');
+  public static PHAROS_FACETS_COMPONENT = new InjectionToken<string>('FilterPanelComponent');
   /**
    * injection token to add the selected facets list component
    */
-  public static PHAROS_SELECTED_FACET_LIST_COMPONENT = new InjectionToken<string>('PharosFacetComponent');
+  public static PHAROS_SELECTED_FACET_LIST_COMPONENT = new InjectionToken<string>('SelectedFacetListComponent');
   public static PHAROS_TARGET_LIGAND_HEATMAP_COMPONENT = new InjectionToken<string>('TargetLigandHeatmapComponent');
   public static PHAROS_LIGAND_TARGET_HEATMAP_COMPONENT = new InjectionToken<string>('LigandTargetHeatmapComponent');
   public static PHAROS_TARGET_DISEASE_HEATMAP_COMPONENT = new InjectionToken<string>('TargetDiseaseHeatmapComponent');
   public static PHAROS_ANALYZE_HEADER_COMPONENT = new InjectionToken<string>('AnalyzeHeaderComponent');
-  public static PHAROS_SEQUENCE_LIST_COMPONENT = new InjectionToken<string>('SequenceAlignmentsComponent')
+  public static PHAROS_SEQUENCE_LIST_COMPONENT = new InjectionToken<string>('SequenceAlignmentsComponent');
   public static PHAROS_DISEASE_TARGET_HEATMAP_COMPONENT = new InjectionToken<string>('DiseaseTargetHeatmapComponent');
   public static PHAROS_TARGET_TARGET_HEATMAP_COMPONENT = new InjectionToken<string>('TargetTargetHeatmapComponent');
   /**
@@ -196,9 +196,9 @@ export class TOKENS {
 
   public static GWAS_TARGET_ANALYTICS_PANEL = new InjectionToken<string>('GwasTargetAnalyticsComponent');
 
-  public static NEAREST_TCLIN_PANEL = new InjectionToken<string>('NearestTclinPanelComponent')
+  public static NEAREST_TCLIN_PANEL = new InjectionToken<string>('NearestTclinPanelComponent');
 
   public static AFFILIATE_LINKS = new InjectionToken('AffiliateLinksComponent');
 
-  public static ORTHOLOGS_PANEL = new InjectionToken('OrthologPanelComponent')
+  public static ORTHOLOGS_PANEL = new InjectionToken('OrthologPanelComponent');
 }

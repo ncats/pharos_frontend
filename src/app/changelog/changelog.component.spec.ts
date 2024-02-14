@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChangelogComponent } from './changelog.component';
+import {MarkdownModule} from 'ngx-markdown';
 
 describe('ChangelogComponent', () => {
   let component: ChangelogComponent;
@@ -8,7 +9,9 @@ describe('ChangelogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChangelogComponent ]
+      imports: [
+          MarkdownModule.forRoot()
+      ]
     })
     .compileComponents();
   }));

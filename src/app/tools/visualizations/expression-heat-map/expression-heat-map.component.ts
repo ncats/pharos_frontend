@@ -16,20 +16,32 @@ import * as d3 from 'd3v7';
 import {DynamicPanelComponent} from '../../dynamic-panel/dynamic-panel.component';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {AnatomogramHoverService} from '../../anatomogram/anatomogram-hover.service';
-import {FormControl} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {HeatMapData} from '../heat-map/heat-map.component';
-import {ExpressionInfoService} from "../../../pharos-services/expression-info.service";
+import {ExpressionInfoService} from '../../../pharos-services/expression-info.service';
+import {CommonModule} from '@angular/common';
+import {MatSlideToggle} from '@angular/material/slide-toggle';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
+import {MatIcon} from '@angular/material/icon';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatSlideToggle, MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule,
+    MatAutocomplete, MatOption, MatIcon, MatRadioModule, MatTooltip, MatAutocompleteTrigger, ReactiveFormsModule],
   selector: 'pharos-expression-heat-map',
   templateUrl: './expression-heat-map.component.html',
   styleUrls: ['./expression-heat-map.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class ExpressionHeatMapComponent extends DynamicPanelComponent implements OnInit, OnChanges {
-  filterControl = new FormControl();
+  filterControl = new UntypedFormControl();
   filteredOptions: Observable<string[]>;
 
   constructor(

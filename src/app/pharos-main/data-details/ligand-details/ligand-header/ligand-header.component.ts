@@ -5,14 +5,21 @@ import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-pan
 import {UnfurlingMetaService} from '../../../../pharos-services/unfurling-meta.service';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
-import {MatDialog} from '@angular/material/dialog';
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 import {JsonldService} from '../../../../pharos-services/jsonld.service';
+import {MatDialog} from '@angular/material/dialog';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatIconModule} from '@angular/material/icon';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatButtonModule} from '@angular/material/button';
 
 /**
  * displays ligand header component
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatIconModule, MatTooltip, MatButtonModule],
   selector: 'pharos-ligand-header',
   templateUrl: './ligand-header.component.html',
   styleUrls: ['./ligand-header.component.scss'],

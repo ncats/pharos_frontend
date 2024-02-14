@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
 import {ActivatedRoute, NavigationEnd, NavigationExtras, Router} from '@angular/router';
 import {MolChangeService} from '../tools/marvin-sketcher/services/mol-change.service';
 import {Facet} from '../models/facet';
@@ -8,10 +8,21 @@ import {UnfurlingMetaService} from '../pharos-services/unfurling-meta.service';
 import {FeatureTrackingService} from '../pharos-services/feature-tracking.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelect, MatSelectModule} from '@angular/material/select';
+import {SketcherComponent} from '../tools/marvin-sketcher/sketcher.component';
 /**
  * page to search by structure
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatCardModule, MatButtonModule, MatIconModule, SketcherComponent, FormsModule,
+    ReactiveFormsModule, MatInputModule, MatSelectModule],
   selector: 'pharos-structure-search-page',
   templateUrl: './structure-search-page.component.html',
   styleUrls: ['./structure-search-page.component.scss']
@@ -23,14 +34,14 @@ export class StructureSearchPageComponent implements OnInit, OnDestroy {
    * type of structure search to perform
    * @type {FormControl}
    */
-  typeCtrl: FormControl = new FormControl('sim');
+  typeCtrl: UntypedFormControl = new UntypedFormControl('sim');
 
   /**
    * input smiles value, retrieved by either the text input or structure drawer component
    * @type {FormControl}
    */
-  smilesCtrl: FormControl = new FormControl();
-  resolverCtrl: FormControl = new FormControl();
+  smilesCtrl: UntypedFormControl = new UntypedFormControl();
+  resolverCtrl: UntypedFormControl = new UntypedFormControl();
   resolverIsUp = false;
   resolverResults: any = {};
 
@@ -146,7 +157,7 @@ export class StructureSearchPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }

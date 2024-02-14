@@ -1,9 +1,7 @@
 import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, forkJoin, Observable, of, Subject} from 'rxjs';
-import {catchError} from 'rxjs/operators';
+import {BehaviorSubject, forkJoin, Observable, of, Subject, map, mergeMap, tap, catchError} from 'rxjs';
 import {ActivatedRouteSnapshot, ParamMap} from '@angular/router';
-import {map, mergeMap, tap} from 'rxjs/internal/operators';
 import {PharosConfig} from '../../config/pharos-config';
 import {PharosBase} from '../models/pharos-base';
 import {PageData} from '../models/page-data';
@@ -502,25 +500,26 @@ export class PharosApiService {
     return fetchQuery;
   }
 
-  fetchMore(path, addtParams) {
-    const watchQuery = this.openQueries.get(`${path}-details`);
-    watchQuery.fetchMore({
-      variables: addtParams,
-      // We are able to figure out which offset to use because it matches
-      // the feed length, but we could also use state, or the previous
-      // variables to calculate this (see the cursor example below)
-      updateQuery: (prev, {fetchMoreResult}) => {
-        // return fetchMoreResult;
-        if (!fetchMoreResult) {
-          return prev;
-        }
-        return fetchMoreResult;
-      },
-    }).then(res => {
-      return res;
-    });
-    return watchQuery;
-  }
+  // TODO : okay to delete?
+  // fetchMore(path, addtParams) {
+  //   const watchQuery = this.openQueries.get(`${path}-details`);
+  //   watchQuery.fetchMore({
+  //     variables: addtParams,
+  //     // We are able to figure out which offset to use because it matches
+  //     // the feed length, but we could also use state, or the previous
+  //     // variables to calculate this (see the cursor example below)
+  //     updateQuery: (prev, {fetchMoreResult}) => {
+  //       // return fetchMoreResult;
+  //       if (!fetchMoreResult) {
+  //         return prev;
+  //       }
+  //       return fetchMoreResult;
+  //     },
+  //   }).then(res => {
+  //     return res;
+  //   });
+  //   return watchQuery;
+  // }
 
   /**
    * retrieves and cleans up the params to be used as variables in a facet search

@@ -7,9 +7,7 @@ describe('ReactomePathwayBrowserComponent', () => {
   let fixture: ComponentFixture<ReactomePathwayBrowserComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ReactomePathwayBrowserComponent ]
-    })
+    TestBed.configureTestingModule({ })
     .compileComponents();
   }));
 

@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectorRef, Component, Inject, Input, OnChanges, OnInit, PLATFORM_ID, ViewChild} from '@angular/core';
 import {Observable, Subscription} from 'rxjs';
-import {isPlatformBrowser} from '@angular/common';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {UpsetIntersection} from '../upset/intersection.model';
@@ -11,12 +11,21 @@ import {DynamicServicesService} from '../../../pharos-services/dynamic-services.
 import {SelectedFacetService} from '../../../pharos-main/data-list/filter-panel/selected-facet.service';
 import {PathResolverService} from '../../../pharos-main/data-list/filter-panel/path-resolver.service';
 import {UpsetFieldEditComponent} from '../../upset-field-edit/upset-field-edit.component';
-import {MatDialog} from '@angular/material/dialog';
 import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 import {takeUntil} from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatIcon} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule, FlexLayoutModule, MatButtonModule,
+    UpsetComponent, MatTooltip, MatIcon, UpsetFieldEditComponent
+  ],
   selector: 'pharos-upset-plot',
   templateUrl: './upset-plot.component.html',
   styleUrls: ['./upset-plot.component.scss']

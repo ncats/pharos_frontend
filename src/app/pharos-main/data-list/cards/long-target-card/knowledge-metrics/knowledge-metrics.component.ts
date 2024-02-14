@@ -1,8 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {GeneDetailsComponent} from "../gene-details/gene-details.component";
-import {NavSectionsService} from "../../../../../tools/sidenav-panel/services/nav-sections.service";
+import {GeneDetailsComponent} from '../gene-details/gene-details.component';
+import {MatCardSubtitle} from '@angular/material/card';
+import {
+  PropertyDisplayComponent
+} from '../../../../../tools/generic-table/components/property-display/property-display.component';
 
 @Component({
+  standalone: true,
+  imports: [
+    MatCardSubtitle,
+    PropertyDisplayComponent
+  ],
   selector: 'pharos-knowledge-metrics',
   templateUrl: './knowledge-metrics.component.html',
   styleUrls: ['../long-target-card.component.scss']

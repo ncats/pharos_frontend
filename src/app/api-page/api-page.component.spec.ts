@@ -22,9 +22,6 @@ describe('ApiPageComponent', () => {
         AppRoutingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
-      declarations: [
-        ApiPageComponent,
-      ],
       providers: [
         {provide: APP_BASE_HREF, useValue: '/index' },
         UnfurlingMetaService

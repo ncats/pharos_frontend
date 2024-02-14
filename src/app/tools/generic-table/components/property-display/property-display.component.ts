@@ -1,11 +1,17 @@
 import {Component, Input} from '@angular/core';
 import {DataProperty} from './data-property';
 import {ContingencyTable} from '../../../../models/facet';
+import {CommonModule} from '@angular/common';
+import {RouterLink} from '@angular/router';
+import {MatTooltip, MatTooltipModule} from '@angular/material/tooltip';
+import {MatIconModule} from '@angular/material/icon';
 
 /**
  * component to display a property, primarily in a table
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, RouterLink, MatTooltipModule, MatIconModule],
   selector: 'ncats-property-display',
   templateUrl: './property-display.component.html',
   styleUrls: ['./property-display.component.scss']

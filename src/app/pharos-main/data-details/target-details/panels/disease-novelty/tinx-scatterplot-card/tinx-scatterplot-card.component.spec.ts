@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TinxScatterplotCardComponent } from './tinx-scatterplot-card.component';
+import {ActivatedRoute} from '@angular/router';
+import {MOCKACTIVATEDROUTE} from '../../../../../../../../test/mock-activate-route';
 
 describe('TinxScatterplotCardComponent', () => {
   let component: TinxScatterplotCardComponent;
@@ -8,7 +10,9 @@ describe('TinxScatterplotCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TinxScatterplotCardComponent ]
+      providers: [
+        { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
+      ]
     })
     .compileComponents();
   });

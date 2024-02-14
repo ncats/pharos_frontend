@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/index';
+import {BehaviorSubject} from 'rxjs';
 
 /**
  * injectable service to track header options, This allows components to change the header features, while the header is only created once

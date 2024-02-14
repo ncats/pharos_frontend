@@ -1,14 +1,20 @@
 import {ChangeDetectorRef, Component, Inject, Input, OnInit, PLATFORM_ID} from '@angular/core';
-import {Target} from "../../../../../models/target";
-import {PharosApiService} from "../../../../../pharos-services/pharos-api.service";
-import {isPlatformBrowser} from "@angular/common";
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-import {DynamicPanelComponent} from "../../../../../tools/dynamic-panel/dynamic-panel.component";
-import {DynamicServicesService} from "../../../../../pharos-services/dynamic-services.service";
-import {takeUntil} from "rxjs/operators";
-import {BreakpointObserver} from "@angular/cdk/layout";
+import {Target} from '../../../../../models/target';
+import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
+import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {takeUntil} from 'rxjs/operators';
+import {BreakpointObserver} from '@angular/cdk/layout';
+import {MatCardModule} from '@angular/material/card';
+import {WordCloudComponent} from '../../../../../tools/visualizations/word-cloud/word-cloud.component';
+import {MatTooltip} from '@angular/material/tooltip';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @Component({
+    standalone: true,
+    imports: [CommonModule, MatCardModule, WordCloudComponent, MatTooltip, FlexLayoutModule],
   selector: 'pharos-target-word-cloud',
   templateUrl: './target-word-cloud.component.html',
   styleUrls: ['./target-word-cloud.component.scss']
@@ -32,7 +38,7 @@ export class TargetWordCloudComponent extends DynamicPanelComponent implements O
 
 
   ngOnInit(): void {
-    this.isVerySmallScreen = this.breakpointObserver.isMatched('(max-width: 768px)')
+    this.isVerySmallScreen = this.breakpointObserver.isMatched('(max-width: 768px)');
     this.isSmallScreen = this.breakpointObserver.isMatched('(max-width: 1059px)');
     this.router.events
     .pipe(takeUntil(this.ngUnsubscribe))

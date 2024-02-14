@@ -26,9 +26,8 @@
         <div fxFlex>
           <div class="all-timelines">
             <div class="timeline-div" *ngIf="pmscoreTimeline.length"
-                 [ngClass.gt-md]="{threepanel: true, twopanel: false, onepanel: false}"
-                 [ngClass.lt-lg]="{threepanel: false, twopanel: true, onepanel: false}"
-                 [ngClass.lt-md]="{threepanel: false, twopanel: false, onepanel: true}">
+                 [ngClass]="{threepanel:isScreenLarge(),twopanel:isScreenMedium(),onepanel:isScreenSmall()}"
+            >
               <span class="mat-title"
                     [matTooltip]="getTooltip('pubmed')"
                     [matTooltipClass]="'pharos-tooltip'">
@@ -46,9 +45,8 @@
             </div>
 
             <div class="timeline-div" *ngIf="pubtatorTimeline && pubtatorTimeline.length > 0"
-                 [ngClass.gt-md]="{threepanel: true, twopanel: false, onepanel: false}"
-                 [ngClass.lt-lg]="{threepanel: false, twopanel: true, onepanel: false}"
-                 [ngClass.lt-md]="{threepanel: false, twopanel: false, onepanel: true}">
+                 [ngClass]="{threepanel:isScreenLarge(),twopanel:isScreenMedium(),onepanel:isScreenSmall()}"
+            >
               <span class="mat-title"
                     [matTooltip]="getTooltip('pubtator')"
                     [matTooltipClass]="'pharos-tooltip'">
@@ -66,9 +64,8 @@
             </div>
 
             <div class="timeline-div" *ngIf="patentTimeline && patentTimeline.length > 0"
-                 [ngClass.gt-md]="{threepanel: true, twopanel: false, onepanel: false}"
-                 [ngClass.lt-lg]="{threepanel: false, twopanel: true, onepanel: false}"
-                 [ngClass.lt-md]="{threepanel: false, twopanel: false, onepanel: true}">
+                 [ngClass]="{threepanel:isScreenLarge(),twopanel:isScreenMedium(),onepanel:isScreenSmall()}"
+            >
               <span class="mat-title"
                     [matTooltip]="getTooltip('patents')"
                     [matTooltipClass]="'pharos-tooltip'">

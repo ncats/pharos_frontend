@@ -1,7 +1,7 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, HostListener,
   Inject,
   Input,
   OnDestroy,
@@ -12,13 +12,20 @@ import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-
 import {PharosPoint} from '../../../../../models/pharos-point';
 import {Target} from '../../../../../models/target';
 import {takeUntil} from 'rxjs/operators';
-import {isPlatformBrowser} from '@angular/common';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
-import {PackCircleConfig} from "../../../../../tools/visualizations/pack-circle/pack-circle.component";
-import {CentralStorageService} from "../../../../../pharos-services/central-storage.service";
-import {TourType} from "../../../../../models/tour-type";
+import {PackCircleComponent, PackCircleConfig} from '../../../../../tools/visualizations/pack-circle/pack-circle.component';
+import {CentralStorageService} from '../../../../../pharos-services/central-storage.service';
+import {TourType} from '../../../../../models/tour-type';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
+import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {MatCardModule} from '@angular/material/card';
+import {TinxScatterplotCardComponent} from './tinx-scatterplot-card/tinx-scatterplot-card.component';
 
 @Component({
+  standalone: true,
+  imports: [ CommonModule, PackCircleComponent, MatCardModule, ComponentHeaderComponent, ScrollspyDirective, TinxScatterplotCardComponent
+  ],
   selector: 'pharos-disease-novelty',
   templateUrl: './disease-novelty.component.html',
   styleUrls: ['./disease-novelty.component.scss']
@@ -41,6 +48,7 @@ export class DiseaseNoveltyComponent extends DynamicPanelComponent implements On
 
   @Input() targetProps: any;
   tourType = TourType.TINXNovelty;
+  isMediumScreen = false;
 
   focusedTinxDisease: any = {};
   /**
@@ -66,7 +74,7 @@ export class DiseaseNoveltyComponent extends DynamicPanelComponent implements On
             addDOID(child, map);
           });
         }
-      }
+      };
       if (this.focusedTinxDisease.oid === d.data.oid) {
         this.centralStorageService.setField('focusedTinxDisease', {});
         this.centralStorageService.setField('selectedTinxDiseases', []);
@@ -77,7 +85,7 @@ export class DiseaseNoveltyComponent extends DynamicPanelComponent implements On
         this.centralStorageService.setField('selectedTinxDiseases', Array.from(doidMap.keys()));
       }
     }
-  }
+  };
 
 
   hasData() {
@@ -94,6 +102,7 @@ export class DiseaseNoveltyComponent extends DynamicPanelComponent implements On
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(x => {
         if (isPlatformBrowser(this.platformID)) {
+          this.isMediumScreen = window.innerWidth < 768;
           this.target = this.data.targets;
           this.targetProps = this.data.targetsProps;
 
@@ -131,7 +140,16 @@ export class DiseaseNoveltyComponent extends DynamicPanelComponent implements On
   setterFunction(): void {
     this.centralStorageService.focusedTinxDiseaseChanged.subscribe(focusedTinxDisease => {
       this.focusedTinxDisease = focusedTinxDisease;
-    })
+    });
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.isMediumScreen = window.innerWidth < 768; // Adjust the threshold as needed
+  }
+
+  isScreenSizeLessThanMedium(): boolean {
+    return this.isMediumScreen;
   }
 }
 

@@ -9,9 +9,6 @@ import {DiseaseTableComponent} from '../../data-list/tables/disease-table/diseas
 import {HelpPanelComponent} from '../../../tools/help-panel/help-panel.component';
 
 @NgModule({
-  declarations: [
-    DiseaseTableComponent
-  ],
   imports: [
     CommonModule,
     SharedModule,
@@ -22,9 +19,6 @@ import {HelpPanelComponent} from '../../../tools/help-panel/help-panel.component
   providers: [
     {provide: TOKENS.DISEASE_TABLE_COMPONENT, useValue: DiseaseTableComponent},
     {provide: TOKENS.PHAROS_HELPPANEL_COMPONENT, useValue: HelpPanelComponent},
-  ],
-  exports: [
-    DiseaseTableComponent
   ]
 })
 export class DiseaseListModule { }

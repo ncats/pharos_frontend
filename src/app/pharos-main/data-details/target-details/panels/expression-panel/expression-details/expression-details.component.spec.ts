@@ -7,15 +7,15 @@ describe('ExpressionDetailsComponent', () => {
   let fixture: ComponentFixture<ExpressionDetailsComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ ExpressionDetailsComponent ]
-    })
+    await TestBed.configureTestingModule({ })
     .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ExpressionDetailsComponent);
     component = fixture.componentInstance;
+    component.expressions = [];
+    component.gtex = [];
     fixture.detectChanges();
   });
 

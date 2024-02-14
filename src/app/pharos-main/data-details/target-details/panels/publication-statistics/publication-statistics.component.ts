@@ -1,15 +1,32 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostListener, Inject,
+  Input,
+  OnDestroy,
+  OnInit, PLATFORM_ID,
+  ViewEncapsulation
+} from '@angular/core';
 import {Target} from '../../../../../models/target';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {PharosPoint} from '../../../../../models/pharos-point';
 import {ScatterOptions} from '../../../../../tools/visualizations/scatter-plot/models/scatter-options';
-import {PharosConfig} from '../../../../../../config/pharos-config';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatCardModule} from '@angular/material/card';
+import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
+import {MatTooltip} from '@angular/material/tooltip';
+import {ScatterPlotComponent} from '../../../../../tools/visualizations/scatter-plot/scatter-plot.component';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatCardModule, ScrollspyDirective, ComponentHeaderComponent, MatTooltip, ScatterPlotComponent],
   selector: 'pharos-publication-statistics',
   templateUrl: './publication-statistics.component.html',
   styleUrls: ['./publication-statistics.component.scss'],
@@ -17,6 +34,20 @@ import {DynamicServicesService} from '../../../../../pharos-services/dynamic-ser
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PublicationStatisticsComponent extends DynamicTablePanelComponent implements OnInit, OnDestroy {
+
+  /**
+   *
+   * @param _route
+   * @param changeRef
+   * @param pharosApiService
+   */
+  constructor(private _route: ActivatedRoute,
+              private changeRef: ChangeDetectorRef,
+              private pharosApiService: PharosApiService,
+              public dynamicServices: DynamicServicesService,
+              @Inject(PLATFORM_ID) public platformID: any) {
+    super(dynamicServices);
+  }
 
   /**
    * parent target
@@ -52,20 +83,8 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
     margin: {top: 20, right: 35, bottom: 50, left: 50}
   });
 
-  /**
-   *
-   * @param _route
-   * @param changeRef
-   * @param pharosApiService
-   * @param pharosConfig
-   */
-  constructor(private _route: ActivatedRoute,
-              private changeRef: ChangeDetectorRef,
-              private pharosApiService: PharosApiService,
-              private pharosConfig: PharosConfig,
-              public dynamicServices: DynamicServicesService) {
-    super(dynamicServices);
-  }
+
+  screenSize = 1260;
 
   /**
    * parse data as publication objects
@@ -82,7 +101,9 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
       .subscribe(x => {
         this.target = this.data.targets;
         this.targetProps = this.data.targetsProps;
-
+        if ( isPlatformBrowser(this.platformID)) {
+          this.screenSize = window.innerWidth;
+        }
         if (this.target?.pubmedScores) {
           const values: Map<string, {year: number, score: number}> = new Map<string, {year: number, score: number}>();
           this.target.pubmedScores.forEach(val => {
@@ -159,5 +180,22 @@ export class PublicationStatisticsComponent extends DynamicTablePanelComponent i
 
   hasData() {
     return this.pmscoreTimeline?.length > 0 || this.pubtatorTimeline?.length > 0 || this.patentTimeline?.length > 0;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event): void {
+    this.screenSize = window.innerWidth;
+  }
+
+  isScreenSmall(): boolean {
+    return this.screenSize < 768;
+  }
+
+  isScreenMedium(): boolean {
+    return this.screenSize >= 768 && this.screenSize < 1260;
+  }
+
+  isScreenLarge(): boolean {
+    return this.screenSize >= 1260;
   }
 }

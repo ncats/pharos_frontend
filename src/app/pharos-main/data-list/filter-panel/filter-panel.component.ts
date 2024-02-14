@@ -12,7 +12,6 @@ import {Facet, Field} from '../../../models/facet';
 import {forkJoin, Observable, Subject} from 'rxjs';
 import {PathResolverService} from './path-resolver.service';
 import {SelectedFacetService} from './selected-facet.service';
-import {PharosConfig} from '../../../../config/pharos-config';
 import {PharosProfileService} from '../../../auth/pharos-profile.service';
 import {PanelOptions} from '../../pharos-main.component';
 import {map, take, takeUntil} from 'rxjs/operators';
@@ -23,11 +22,22 @@ import {environment} from '../../../../environments/environment';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 import {TourService} from '../../../pharos-services/tour.service';
 import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
+import {CommonModule} from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {FormsModule} from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import {FacetCardComponent} from './facet-card/facet-card.component';
+import {MatDivider} from '@angular/material/divider';
+import {MatCardModule} from '@angular/material/card';
 
 /**
  * panel that hold a facet table for selection
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatButtonModule, MatIconModule, FormsModule, MatInputModule, FacetCardComponent, MatDivider,
+    MatCardModule],
   selector: 'pharos-filter-panel',
   templateUrl: './filter-panel.component.html',
   styleUrls: ['./filter-panel.component.scss'],
@@ -46,7 +56,6 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * @param pathResolverService
    * @param pharosApiService
    * @param firestore
-   * @param {PharosConfig} pharosConfig
    */
   constructor(
     private tourService: TourService,
@@ -59,7 +68,6 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
     private pathResolverService: PathResolverService,
     private pharosApiService: PharosApiService,
     private firestore: AngularFirestore,
-    private pharosConfig: PharosConfig,
     private centralStorageService: CentralStorageService) { }
 
   panelOptions: PanelOptions = {
@@ -385,7 +393,7 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
    * function to unsubscribe on destroy
    */
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }

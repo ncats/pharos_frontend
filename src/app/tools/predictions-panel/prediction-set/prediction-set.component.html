@@ -1,4 +1,4 @@
-<mat-card *ngIf="predictionSet" class="prediction-set-container">
+<mat-card *ngIf="predictionSet && predictionSet.predictions && predictionSet.predictions.length > 0" class="prediction-set-container">
   <div fxLayout="row">
     <pharos-citation [citation]="predictionSet.citation"></pharos-citation>
     <div fxFlex=""></div>

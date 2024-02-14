@@ -20,8 +20,6 @@ describe('PharosMainComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-      ],
       providers: [
         NavSectionsService,
         AngularFireAuth,

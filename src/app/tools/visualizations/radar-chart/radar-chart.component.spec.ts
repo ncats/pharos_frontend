@@ -9,10 +9,7 @@ describe('RadarChartComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
-      providers: [
-      ],
-      declarations: [ RadarChartComponent ]
+      imports: [HttpClientModule]
     })
     .compileComponents();
   }));

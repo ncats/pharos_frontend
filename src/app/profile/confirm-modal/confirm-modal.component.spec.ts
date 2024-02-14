@@ -11,7 +11,6 @@ describe('ConfirmModalComponent', () => {
   const matDialogRefStub = {};
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ConfirmModalComponent],
       imports: [
         BrowserAnimationsModule,
         SharedModule

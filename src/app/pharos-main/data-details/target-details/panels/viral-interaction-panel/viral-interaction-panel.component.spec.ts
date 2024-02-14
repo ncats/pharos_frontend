@@ -12,8 +12,7 @@ describe('ViralInteractionPanelComponent', () => {
     TestBed.configureTestingModule({
       providers: [
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}
-      ],
-      declarations: [ ViralInteractionPanelComponent ]
+      ]
     })
     .compileComponents();
   }));

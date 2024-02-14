@@ -8,6 +8,9 @@ export const MOCKACTIVATEDROUTE = {
   fragment: new BehaviorSubject({ foo: 'bar' }),
     snapshot: {
       fragment: new BehaviorSubject({ foo: 'bar' }),
+      paramMap: {
+        get: (key) => 'id'
+      },
       queryParamMap: {
         keys: ['associatedDisease'],
         getAll: (key) => ['benign ependymoma'],

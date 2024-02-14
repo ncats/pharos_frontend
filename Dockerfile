@@ -2,7 +2,7 @@ FROM node:18.17 as buildContainer
 WORKDIR /app
 COPY . /app
 RUN npm install -g npm@latest
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 # max-old-space is needed to avoid any compilation issues because of missing memory
 ENV NODE_OPTIONS --max-old-space-size=4096

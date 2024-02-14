@@ -14,15 +14,21 @@ import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {PanelOptions} from '../../pharos-main/pharos-main.component';
 import {PharosPanel} from '../../../config/components-config';
 import {BreakpointObserver} from '@angular/cdk/layout';
-import {DOCUMENT, isPlatformServer, Location, ViewportScroller} from '@angular/common';
+import {CommonModule, DOCUMENT, isPlatformServer, Location, ViewportScroller} from '@angular/common';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
-import {CentralStorageService} from "../../pharos-services/central-storage.service";
+import {CentralStorageService} from '../../pharos-services/central-storage.service';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatListItem, MatNavList} from '@angular/material/list';
+import {MatTooltip} from '@angular/material/tooltip';
 
 /**
  * panel that lists available sections of the details page, with jump to section navigation
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatNavList, MatTooltip, MatListItem],
   selector: 'pharos-sidenav-panel',
   templateUrl: './sidenav-panel.component.html',
   styleUrls: ['./sidenav-panel.component.scss']
@@ -184,7 +190,7 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit, OnDestro
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }

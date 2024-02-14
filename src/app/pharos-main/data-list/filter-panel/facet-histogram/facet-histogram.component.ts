@@ -18,8 +18,15 @@ import {SelectedFacetService} from '../selected-facet.service';
 import {PathResolverService} from '../path-resolver.service';
 import {FeatureTrackingService} from '../../../../pharos-services/feature-tracking.service';
 import {CentralStorageService} from '../../../../pharos-services/central-storage.service';
+import {BarChartComponent} from '../../../../tools/visualizations/bar-chart/bar-chart.component';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatIcon} from '@angular/material/icon';
+import {RangeSliderComponent} from '../../../../tools/range-slider/range-slider.component';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
+  standalone: true,
+  imports: [BarChartComponent, MatTooltip, MatButtonModule, MatIcon, RangeSliderComponent],
   selector: 'pharos-facet-histogram',
   templateUrl: './facet-histogram.component.html',
   styleUrls: ['./facet-histogram.component.scss']
@@ -169,7 +176,7 @@ export class FacetHistogramComponent implements OnInit, OnDestroy {
    * function to unubscribe on destroy
    */
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }

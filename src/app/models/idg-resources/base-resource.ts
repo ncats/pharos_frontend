@@ -2,7 +2,6 @@
  * helper repository class
  */
 import {DataProperty} from "../../tools/generic-table/components/property-display/data-property";
-import {PharosConfig} from "../../../config/pharos-config";
 import {environment} from "../../../environments/environment";
 
 /**

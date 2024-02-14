@@ -7,6 +7,7 @@ import {CommonToolsModule} from '../tools/common-tools.module';
 import {PharosApiService} from '../pharos-services/pharos-api.service';
 import {DataSourceSerializer} from '../models/dataSource';
 import {QueryResolver} from '../pharos-main/resolvers/query.resolver';
+import {GenericTableComponent} from '../tools/generic-table/generic-table.component';
 
 const routes: Routes = [
   {
@@ -27,10 +28,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AboutPageComponent],
   imports: [
     RouterModule.forChild(routes),
-    CommonModule, SharedModule, CommonToolsModule
+    CommonModule,
+    SharedModule,
+    CommonToolsModule,
+    GenericTableComponent
   ], providers: [QueryResolver]
 })
 export class AboutPageModule {

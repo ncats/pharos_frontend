@@ -8,8 +8,20 @@ import {TargetComponents} from '../../../../../models/target-components';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {MatCardModule} from '@angular/material/card';
+import {CommonModule} from '@angular/common';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
+import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {MatPaginator} from '@angular/material/paginator';
+import {ExploreListButtonComponent} from '../../../../../tools/explore-list-button/explore-list-button.component';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatTabsModule} from '@angular/material/tabs';
+import {GenericTableComponent} from '../../../../../tools/generic-table/generic-table.component';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatCardModule, ComponentHeaderComponent, ScrollspyDirective, MatPaginator,
+    ExploreListButtonComponent, MatTooltip, MatTabsModule, GenericTableComponent],
   selector: 'pharos-go-terms',
   templateUrl: './go-terms.component.html',
   styleUrls: ['./go-terms.component.scss']

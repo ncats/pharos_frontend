@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Subject} from 'rxjs/index';
+import {BehaviorSubject, Subject} from 'rxjs';
 
 /**
  * service to open the help panel, called by the trigger panel button

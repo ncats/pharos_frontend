@@ -17,21 +17,30 @@ import {
   ViewContainerRef
 } from '@angular/core';
 import {BehaviorSubject, Subject} from 'rxjs';
-import {ComponentPortal} from '@angular/cdk/portal';
+import {ComponentPortal, PortalModule} from '@angular/cdk/portal';
 import {PageData} from './models/page-data';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort, Sort} from '@angular/material/sort';
-import {MatRow, MatTableDataSource} from '@angular/material/table';
+import {MatSort, MatSortModule, Sort} from '@angular/material/sort';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {DataProperty} from './components/property-display/data-property';
 import {SelectionModel} from '@angular/cdk/collections';
 import {takeUntil} from 'rxjs/operators';
+import {MatRow, MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import {CommonModule} from '@angular/common';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {PropertyDisplayComponent} from './components/property-display/property-display.component';
+import {MatIconModule} from '@angular/material/icon';
 
 /**
  * component to show flexible data consisting of multiple data types, custom components
  * also handles standard table operations, primarily with event emitters for the end user to react to
  */
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule, MatTableModule, MatPaginatorModule, MatSortModule,
+    MatCheckboxModule, PortalModule, PropertyDisplayComponent, MatIconModule
+  ],
   selector: 'pharos-generic-table',
   templateUrl: './generic-table.component.html',
   styleUrls: ['./generic-table.component.scss'],
@@ -68,10 +77,6 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
   @Input()
   set data(value: any) {
     this._data.next(value);
-  }
-
-  @Input() highlightFunction = (row) => {
-    return false;
   }
 
   /**
@@ -220,6 +225,8 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
 
   selection = new SelectionModel<any>(true, []);
 
+  iterableDiffer: any;
+
   /**
    * Paginator object from Angular Material
    *
@@ -228,7 +235,9 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
     this.dataSource.paginator = paginator;
   }
 
-  iterableDiffer:any;
+  @Input() highlightFunction = (row) => {
+    return false;
+  }
 
   ngDoCheck() {
     if (this.iterableDiffer.diff(this.data)) {
@@ -479,7 +488,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
    * clean up on leaving component
    */
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }

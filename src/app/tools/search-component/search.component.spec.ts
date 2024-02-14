@@ -31,10 +31,6 @@ describe('SearchComponent', () => {
         SharedModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
-      declarations: [
-        SearchComponent,
-        HighlightPipe
-      ],
       providers: [
         SuggestApiService,
         Apollo,

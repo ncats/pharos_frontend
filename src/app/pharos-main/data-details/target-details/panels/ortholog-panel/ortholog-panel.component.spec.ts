@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrthologPanelComponent } from './ortholog-panel.component';
 import {SharedModule} from '../../../../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {COMMON_CONFIG} from '../../../../../../../test/test-config';
 import {AngularFireModule} from '@angular/fire/compat';
@@ -22,7 +21,6 @@ describe('OrthologPanelComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
-        GenericTableModule,
         BrowserAnimationsModule,
         ApolloTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
@@ -31,8 +29,7 @@ describe('OrthologPanelComponent', () => {
         AngularFireAuth,
         { provide: AngularFirestore, useValue: FIRESTORESTUB },
         { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
-      ],
-      declarations: [ OrthologPanelComponent ]
+      ]
     })
     .compileComponents();
   }));

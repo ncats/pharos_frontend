@@ -1,17 +1,19 @@
 import {
   AfterViewInit,
-  Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnChanges, OnDestroy, OnInit, Output, PLATFORM_ID, ViewChild,
-  ViewEncapsulation
+  Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnChanges, OnDestroy, Output,
+  PLATFORM_ID, ViewChild, ViewEncapsulation
 } from '@angular/core';
 import * as d3 from 'd3v7';
 import {isPlatformBrowser} from '@angular/common';
-import {Observable, pipe, Subject, Subscription} from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
 /**
  * component to display a donut chart visualization
  */
 @Component({
+  standalone: true,
+  imports: [],
   selector: 'pharos-donut-chart',
   templateUrl: './donut-chart.component.html',
   styleUrls: ['./donut-chart.component.scss'],
@@ -238,7 +240,7 @@ export class DonutChartComponent implements AfterViewInit, OnChanges, OnDestroy 
     if (this.eventsSubscription) {
       this.eventsSubscription.unsubscribe();
     }
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 

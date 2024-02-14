@@ -3,14 +3,18 @@ import {DynamicPanelComponent} from '../dynamic-panel/dynamic-panel.component';
 import {PharosProperty} from '../../models/pharos-property';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicServicesService} from '../../pharos-services/dynamic-services.service';
+import {GenericTableComponent} from '../generic-table/generic-table.component';
+import {CommonModule} from '@angular/common';
 
 /**
  * table of 5 properties to show harmonizome data
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, GenericTableComponent],
   selector: 'pharos-knowledge-table',
   templateUrl: './knowledge-table.component.html',
-  styleUrls: ['./knowledge-table.component.css'],
+  styleUrls: ['./knowledge-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class KnowledgeTableComponent extends DynamicPanelComponent implements OnInit, OnDestroy {

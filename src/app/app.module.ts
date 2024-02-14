@@ -5,49 +5,41 @@ import {environment} from '../environments/environment';
 import {AngularFireModule} from '@angular/fire/compat';
 import {AngularFirestoreModule} from '@angular/fire/compat/firestore';
 import {AngularFireAuthModule} from '@angular/fire/compat/auth';
-import {AuthModule} from './auth/auth.module';
 import {RouterModule} from '@angular/router';
 import {BrowserModule} from '@angular/platform-browser';
 import {NcatsHeaderModule} from './tools/ncats-header/ncats-header.module';
-import {PharosLoadingSpinnerModule} from './tools/pharos-loading-spinner/pharos-loading-spinner.module';
-import {PharosFooterComponent} from './tools/pharos-footer/pharos-footer.component';
-import {ScrollToTopComponent} from './tools/scroll-to-top/scroll-to-top.component';
 import {MaterialModule} from '../assets/material/material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {TransferHttpCacheModule} from '@nguniversal/common';
 import {GraphQLModule} from './graphql.module';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {MarkdownModule} from 'ngx-markdown';
-import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
 import {ServiceWorkerModule} from '@angular/service-worker';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import {TOKENS} from '../config/component-tokens';
+import {SelectedFacetListComponent} from './pharos-main/data-list/selected-facet-list/selected-facet-list.component';
+import {FilterPanelComponent} from './pharos-main/data-list/filter-panel/filter-panel.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    PharosFooterComponent,
-    ScrollToTopComponent
-  ],
   imports: [
     ServiceWorkerModule.register('ngsw-worker.js', {enabled: true}),
     BrowserAnimationsModule,
     MaterialModule,
     BrowserModule.withServerTransition({appId: 'pharos'}),
-    TransferHttpCacheModule,
     AppRoutingModule,
     RouterModule,
     FlexLayoutModule,
     AngularFireModule.initializeApp(environment.firebase), // imports firebase/app needed for everything
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
-    AuthModule,
     NcatsHeaderModule,
-    PharosLoadingSpinnerModule,
     GraphQLModule,
     HttpClientModule,
     MarkdownModule.forRoot({loader: HttpClient})
   ],
   providers: [
+    {provide: TOKENS.PHAROS_FACETS_COMPONENT, useValue: FilterPanelComponent},
+    {provide: TOKENS.PHAROS_SELECTED_FACET_LIST_COMPONENT, useValue: SelectedFacetListComponent},
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}}
   ],
   bootstrap: [AppComponent]

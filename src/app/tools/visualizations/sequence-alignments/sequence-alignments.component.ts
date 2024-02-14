@@ -4,7 +4,6 @@ import {
   HostListener,
   Inject,
   Input,
-  OnChanges,
   OnInit,
   PLATFORM_ID,
   ViewChild,
@@ -12,9 +11,9 @@ import {
 } from '@angular/core';
 import * as d3 from 'd3v7';
 import {isPlatformBrowser} from '@angular/common';
-import {nodeDebugInfo} from '@angular/compiler-cli/src/ngtsc/util/src/typescript';
 
 @Component({
+  standalone: true,
   selector: 'pharos-sequence-alignments',
   templateUrl: './sequence-alignments.component.html',
   styleUrls: ['./sequence-alignments.component.scss'],

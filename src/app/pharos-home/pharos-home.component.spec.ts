@@ -35,12 +35,6 @@ describe('PharosHomeComponent', () => {
         RouterModule.forRoot([]),
         AngularFireModule.initializeApp(COMMON_CONFIG),
       ],
-      declarations: [
-        PharosHomeComponent,
-        DataTypesPanelComponent,
-        NewsPanelComponent,
-        AboutPanelComponent
-      ],
       providers: [
         PharosProfileService,
         AngularFireAuth,

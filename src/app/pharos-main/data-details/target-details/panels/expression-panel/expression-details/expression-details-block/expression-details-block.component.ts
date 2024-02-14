@@ -1,6 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {MatTable, MatTableModule} from '@angular/material/table';
 
 @Component({
+    standalone: true,
+    imports: [CommonModule, MatTableModule],
   selector: 'pharos-expression-details-block',
   templateUrl: './expression-details-block.component.html',
   styleUrls: ['./expression-details-block.component.scss']

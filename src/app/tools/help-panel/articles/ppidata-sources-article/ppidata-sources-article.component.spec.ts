@@ -7,9 +7,7 @@ describe('PPIDataSourcesArticleComponent', () => {
   let fixture: ComponentFixture<PPIDataSourcesArticleComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PPIDataSourcesArticleComponent ]
-    })
+    TestBed.configureTestingModule({ })
     .compileComponents();
   }));
 

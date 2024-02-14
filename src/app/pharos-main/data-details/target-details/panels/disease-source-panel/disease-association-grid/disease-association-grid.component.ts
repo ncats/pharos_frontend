@@ -2,8 +2,19 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {DiseaseAssociation} from '../../../../../../models/disease-association';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {
+  PropertyDisplayComponent
+} from '../../../../../../tools/generic-table/components/property-display/property-display.component';
+import {MatCardSubtitle} from '@angular/material/card';
+import {CommonModule} from '@angular/common';
+import {DiseaseAssociationComponent} from '../disease-association/disease-association.component';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule,
+    PropertyDisplayComponent,
+    MatCardSubtitle, DiseaseAssociationComponent
+  ],
   selector: 'pharos-disease-association-grid',
   templateUrl: './disease-association-grid.component.html',
   styleUrls: ['./disease-association-grid.component.scss']
@@ -50,7 +61,7 @@ export class DiseaseAssociationGridComponent implements OnInit, OnDestroy {
   }
 
     ngOnDestroy() {
-      this.ngUnsubscribe.next();
+      this.ngUnsubscribe.next(true);
       this.ngUnsubscribe.complete();
     }
 }

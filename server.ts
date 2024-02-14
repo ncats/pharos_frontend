@@ -1,4 +1,4 @@
-import 'zone.js/node';
+import 'zone.js';
 
 import {ngExpressEngine} from '@nguniversal/express-engine';
 import * as express from 'express';
@@ -24,10 +24,10 @@ export function app() {
   }));
 
   server.use((req, res, next) => {
-    if (!req.url.startsWith("/ngsw")) {
-      var start = Date.now();
+    if (!req.url.startsWith('/ngsw')) {
+      const start = Date.now();
       res.on('finish', () => {
-        var duration = Date.now() - start;
+        const duration = Date.now() - start;
         console.log(`${(
           req.header('x-forwarded-for') ||
           req.connection.remoteAddress ||

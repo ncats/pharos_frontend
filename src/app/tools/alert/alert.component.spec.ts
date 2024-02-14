@@ -18,8 +18,7 @@ describe('AlertComponent', () => {
         RouterTestingModule,
         BrowserAnimationsModule ,
         AngularFireModule.initializeApp(COMMON_CONFIG)
-      ],
-      declarations: [ AlertComponent ]
+      ]
     })
     .compileComponents();
   });

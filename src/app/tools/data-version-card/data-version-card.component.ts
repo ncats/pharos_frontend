@@ -1,8 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {DataSourceInfo, DataVersionInfo} from "../../models/dataVersion";
-import {PharosProperty} from "../../models/pharos-property";
+import {DataSourceInfo, DataVersionInfo} from '../../models/dataVersion';
+import {PharosProperty} from '../../models/pharos-property';
+import {MatCardModule} from '@angular/material/card';
+import {PropertyDisplayComponent} from '../generic-table/components/property-display/property-display.component';
+import {GenericTableComponent} from '../generic-table/generic-table.component';
+import {CommonModule} from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatCardModule, PropertyDisplayComponent, GenericTableComponent],
   selector: 'pharos-data-version-card',
   templateUrl: './data-version-card.component.html',
   styleUrls: ['./data-version-card.component.scss']
@@ -23,7 +29,7 @@ export class DataVersionCardComponent implements OnInit {
       name: 'version',
       label: 'Version'
     })
-  ]
+  ];
   releaseFields: PharosProperty[] = [
     ...this.commonFields,
     new PharosProperty({

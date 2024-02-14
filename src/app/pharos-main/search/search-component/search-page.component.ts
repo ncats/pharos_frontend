@@ -1,18 +1,31 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router, RouterModule} from '@angular/router';
 import {Facet} from 'src/app/models/facet';
 import {takeUntil} from 'rxjs/operators';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 import {environment} from '../../../../environments/environment';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatCardModule} from '@angular/material/card';
+import {DonutChartComponent} from '../../../tools/visualizations/donut-chart/donut-chart.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {FacetTableComponent} from '../../data-list/filter-panel/facet-table/facet-table.component';
+import {FacetHistogramComponent} from '../../data-list/filter-panel/facet-histogram/facet-histogram.component';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatCardModule, DonutChartComponent, RouterModule, MatTabsModule,
+    MatExpansionModule, FacetTableComponent, FacetHistogramComponent, MatTooltip, MatIcon],
   selector: 'pharos-search-component',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  templateUrl: './search-page.component.html',
+  styleUrls: ['./search-page.component.scss']
 })
-export class SearchComponent extends DynamicPanelComponent implements OnInit {
+export class SearchPageComponent extends DynamicPanelComponent implements OnInit {
   isProduction = environment.production;
   term = '';
   tabParams: TabParams[] = [];

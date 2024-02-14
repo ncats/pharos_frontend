@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, Input, OnDestroy} from '@angular/core';
-import {BehaviorSubject, Subject} from 'rxjs';
+import {Component, Input} from '@angular/core';
+import {BehaviorSubject} from 'rxjs';
 import {DynamicPanelBaseComponent} from '../dynamic-panel-base/dynamic-panel-base.component';
 import {DynamicServicesService} from '../../pharos-services/dynamic-services.service';
 
@@ -9,6 +9,7 @@ import {DynamicServicesService} from '../../pharos-services/dynamic-services.ser
  * subscription needs to be set in the extending component, where other logic can take place
  */
 @Component({
+  standalone: true,
   template: ''
 })
 export class DynamicPanelComponent extends DynamicPanelBaseComponent {

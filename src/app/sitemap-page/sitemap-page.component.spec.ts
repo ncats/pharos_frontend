@@ -7,9 +7,7 @@ describe('SitemapPageComponent', () => {
   let fixture: ComponentFixture<SitemapPageComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ SitemapPageComponent ]
-    })
+    await TestBed.configureTestingModule({ })
     .compileComponents();
   });
 

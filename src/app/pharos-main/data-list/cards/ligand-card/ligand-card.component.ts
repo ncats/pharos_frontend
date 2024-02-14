@@ -1,14 +1,24 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit} from '@angular/core';
 import {Ligand} from '../../../../models/ligand';
 import {Target} from '../../../../models/target';
-import {PharosConfig} from '../../../../../config/pharos-config';
 import {DynamicPanelBaseComponent} from '../../../../tools/dynamic-panel-base/dynamic-panel-base.component';
-import {ActivatedRoute} from '@angular/router';
-
+import {ActivatedRoute, RouterModule} from '@angular/router';
+import {StructureViewComponent} from '../../../../tools/structure-view/structure-view.component';
+import {CommonModule} from '@angular/common';
+import {
+  PropertyDisplayComponent
+} from '../../../../tools/generic-table/components/property-display/property-display.component';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatCardModule} from '@angular/material/card';
+import {IdgLevelIndicatorComponent} from '../../../../tools/idg-level-indicator/idg-level-indicator.component';
 /**
  * component to display a condensed ligand view
  */
 @Component({
+  standalone: true,
+  imports: [ CommonModule, RouterModule,
+    IdgLevelIndicatorComponent, StructureViewComponent, PropertyDisplayComponent, MatTooltip, MatCardModule
+  ],
   selector: 'pharos-ligand-card',
   templateUrl: './ligand-card.component.html',
   styleUrls: ['./ligand-card.component.scss'],

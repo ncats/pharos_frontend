@@ -524,7 +524,7 @@ const SUMMARY_PANEL: PharosPanel = {
     label: 'Protein Summary',
     section: 'summary',
     mainDescription: 'Gene symbols, accession ids and various other target identifiers. Also contains the illumination ' +
-      'graph which highlights the amount of knowledge available. Click the \'?\' button for more information'
+      'graph which highlights the amount of knowledge available.'
   },
   api: [
     {
@@ -694,6 +694,13 @@ const DISEASE_NOVELTY_PANEL: PharosPanel = {
   },
   api: [
     {
+      field: 'tinx',
+      label: 'Disease Novelty (TIN-X)',
+      description: 'TIN-X is an interactive visualization tool for discovering interesting associations between diseases ' +
+          'and potential drug targets.',
+      article: ARTICLES.TINX_ARTICLE
+    },
+    {
       field: 'importance',
       label: 'Importance',
       description: 'A bibliometric statistic that estimates the strength of the association between a target and a disease.'
@@ -729,14 +736,7 @@ const DISEASE_SOURCE_PANEL: PharosPanel = {
       label: 'Data Source Links',
       description: 'Associations between targets and diseases are based on data from several data sources. Click the button for links to each of them.',
       article: ARTICLES.ASSOCIATION_DATA_SOURCES_ARTICLE
-    },
-    {
-      field: 'tinx',
-      label: 'Disease Novelty (TIN-X)',
-      description: 'TIN-X is an interactive visualization tool for discovering interesting associations between diseases ' +
-        'and potential drug targets. Click the \'?\' button for more information.',
-      article: ARTICLES.TINX_ARTICLE
-    },
+    }
   ]
 };
 

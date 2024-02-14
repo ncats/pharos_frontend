@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {PharosConfig} from '../../../../config/pharos-config';
 import {SelectedFacetService} from '../filter-panel/selected-facet.service';
 import {Facet} from '../../../models/facet';
 import {DynamicPanelComponent} from '../../../tools/dynamic-panel/dynamic-panel.component';
@@ -8,16 +7,27 @@ import {PathResolverService} from '../filter-panel/path-resolver.service';
 import {ActivatedRoute} from '@angular/router';
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {Subject} from 'rxjs';
-import {MatTabChangeEvent} from '@angular/material/tabs';
-import {MatDialog} from '@angular/material/dialog';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 import {TourType} from '../../../models/tour-type';
+import {MatDialog} from '@angular/material/dialog';
+import {MatTabChangeEvent} from '@angular/material/tabs';
+import {CommonModule} from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {ComponentHeaderComponent} from '../../../tools/component-header/component-header.component';
+import {VisualizationOptionsComponent} from './visualization-options/visualization-options.component';
+import {MatIcon} from '@angular/material/icon';
+import {DonutChartComponent} from '../../../tools/visualizations/donut-chart/donut-chart.component';
+import {UpsetPlotComponent} from '../../../tools/visualizations/upset-plot/upset-plot.component';
 
 /**
  * component to show various facets like a dashboard.
  * todo: may be extended to include starburst charts or other visualizations
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatCardModule, FlexLayoutModule, ComponentHeaderComponent, VisualizationOptionsComponent,
+    MatIcon, DonutChartComponent, UpsetPlotComponent],
   selector: 'pharos-data-list-visualizations',
   templateUrl: './data-list-visualizations.component.html',
   styleUrls: ['./data-list-visualizations.component.scss'],
@@ -27,10 +37,6 @@ import {TourType} from '../../../models/tour-type';
 export class DataListVisualizationsComponent extends DynamicPanelComponent implements OnInit {
 
   redrawCharts: Subject<string> = new Subject<string>();
-
-  showTour() {
-    return !this.displayFacet?.singleResponse;
-  }
 
   /**
    * data passed to visualization
@@ -49,16 +55,18 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
    * @param pathResolverService
    * @param _route
    * @param selectedFacetService
-   * @param {PharosConfig} pharosConfig
    */
   constructor(private centralStorageService: CentralStorageService,
               private pathResolverService: PathResolverService,
               private dialog: MatDialog,
               private _route: ActivatedRoute,
               private selectedFacetService: SelectedFacetService,
-              private pharosConfig: PharosConfig,
               public dynamicServices: DynamicServicesService) {
     super(dynamicServices);
+  }
+
+  showTour() {
+    return !this.displayFacet?.singleResponse;
   }
 
   redrawChildren(event: MatTabChangeEvent) {

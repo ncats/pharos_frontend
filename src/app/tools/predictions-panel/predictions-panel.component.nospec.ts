@@ -7,9 +7,7 @@ describe('PredictionsPanelComponent', () => {
   let fixture: ComponentFixture<PredictionsPanelComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ PredictionsPanelComponent ]
-    })
+    await TestBed.configureTestingModule({ })
     .compileComponents();
   });
 

@@ -22,7 +22,6 @@ describe('RelatedPublicationsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RelatedPublicationsComponent ],
       imports: [
         SharedModule,
         ApolloTestingModule,

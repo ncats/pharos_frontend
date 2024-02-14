@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Inject, NgZone, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
+import {AfterViewInit, Component, Inject, OnDestroy, PLATFORM_ID} from '@angular/core';
 import {MolChangeService} from './services/mol-change.service';
 import {isPlatformBrowser} from '@angular/common';
 import {takeUntil} from 'rxjs/operators';
@@ -9,6 +9,7 @@ import {Subject} from 'rxjs';
  * currently uses an iframe, which is gross
  */
 @Component({
+  standalone: true,
   selector: 'app-sketcher',
   templateUrl: './sketcher.component.html',
   styleUrls: ['./sketcher.component.scss'],
@@ -80,7 +81,7 @@ export class SketcherComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }

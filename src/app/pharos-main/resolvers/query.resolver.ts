@@ -1,10 +1,9 @@
 import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
-import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
-import {Observable, of} from 'rxjs';
+import { ActivatedRouteSnapshot } from '@angular/router';
+import {Observable, of, map} from 'rxjs';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../pharos-services/loading.service';
 import {PharosBase, Serializer} from '../../models/pharos-base';
-import {map} from 'rxjs/internal/operators';
 
 /**
  * resolves the details for a specific object
@@ -12,7 +11,7 @@ import {map} from 'rxjs/internal/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class QueryResolver implements Resolve<any> {
+export class QueryResolver  {
 
   /**
    * create services

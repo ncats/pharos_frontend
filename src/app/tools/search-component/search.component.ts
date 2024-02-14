@@ -1,18 +1,32 @@
 import {Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {autocompleteOption, SuggestApiService} from './suggest-api.service';
 import {Observable} from 'rxjs';
-import {FormControl} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
-import {MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from '@angular/material/autocomplete';
-import {SelectedFacetService} from "../../pharos-main/data-list/filter-panel/selected-facet.service";
-import {Facet} from "../../models/facet";
+import {SelectedFacetService} from '../../pharos-main/data-list/filter-panel/selected-facet.service';
+import {Facet} from '../../models/facet';
+import {
+  MatAutocomplete,
+  MatAutocompleteSelectedEvent,
+  MatAutocompleteTrigger,
+  MatOption
+} from '@angular/material/autocomplete';
+import {CommonModule} from '@angular/common';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {HighlightPipe} from './highlight.pipe';
+import {MatTooltip} from '@angular/material/tooltip';
 
 /**
  * search component functionality. needs to be hooked up to a suggest api service
  * actual "search" is performed through url navigation options
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, FormsModule, MatInputModule, ReactiveFormsModule, MatAutocomplete, MatButtonModule,
+    MatIconModule, MatAutocompleteTrigger, MatOption, SearchComponent, HighlightPipe, MatTooltip],
   selector: 'pharos-search-component',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
@@ -34,13 +48,15 @@ export class SearchComponent implements OnInit {
    * form control for text input
    * @type {FormControl}
    */
-  typeaheadCtrl: FormControl = new FormControl();
+  typeaheadCtrl: UntypedFormControl = new UntypedFormControl();
 
   /**
    * observable list of returned responses
    */
   filteredGroups: Observable<any>;
 
+  lastSelectionTime: number = undefined;
+  autocompleteOption: any = autocompleteOption;
   /**
    * sets up router and suggest service
    * @param {Router} _router
@@ -86,11 +102,12 @@ export class SearchComponent implements OnInit {
       if (this.customCallback) {
         this.customCallback(this.typeaheadCtrl.value);
       }
-      this.typeaheadCtrl.setValue(this.typeaheadCtrl.value.extra.value + ` (${this.toSingleTitleCase(this.typeaheadCtrl.value.extra.path)})`);
+      this.typeaheadCtrl.setValue(this.typeaheadCtrl.value.extra.value +
+          ` (${this.toSingleTitleCase(this.typeaheadCtrl.value.extra.path)})`);
       this.autocomplete.closePanel();
       return;
     }
-    let query = this.typeaheadCtrl.value;
+    const query = this.typeaheadCtrl.value;
     if (!query) {
       return;
     }
@@ -119,8 +136,6 @@ export class SearchComponent implements OnInit {
     this._navigate(navigationExtras, autocompleteOption.getPath(option));
   }
 
-  lastSelectionTime: number = undefined;
-  autocompleteOption: any = autocompleteOption;
 
   isDoubleEvent(event: any) {
     if (event instanceof MatAutocompleteSelectedEvent) {
@@ -141,7 +156,7 @@ export class SearchComponent implements OnInit {
       return `See details for ${option.path.slice(0, -1)}: ${option.reference_id}`;
     }
     if (option.parameter === 'collection') {
-      return `See the collection of ${option.path} `
+      return `See the collection of ${option.path} `;
     }
     if (option.reference_id) {
       return `See ${option.path} associated with ${Facet.getReadableParameter(option.parameter)}: ${option.reference_id}`;

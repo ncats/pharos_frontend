@@ -8,7 +8,6 @@ describe('NearbyTargetListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NearbyTargetListComponent ]
     })
     .compileComponents();
   });

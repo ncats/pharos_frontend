@@ -13,10 +13,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [SequenceSearchPageComponent],
   imports: [
-    RouterModule.forChild(routes),
-    CommonModule, SharedModule
+    RouterModule.forChild(routes)
   ]
 })
 export class SequenceSearchModule { }
