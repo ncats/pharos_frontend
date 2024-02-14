@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {ARTICLES} from '../../config/help-article-tokens';
 import {IlluminationGraphArticleComponent} from '../tools/help-panel/articles/illumination-graph-article/illumination-graph-article.component';
-import {MaterialModule} from '../../assets/material/material.module';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {TargetDevelopmentArticleComponent} from '../tools/help-panel/articles/target-development-article/target-development-article.component';
 import {LigandActivityArticleComponent} from '../tools/help-panel/articles/ligand-activity-article/ligand-activity-article.component';
 import {TinxArticleComponent} from '../tools/help-panel/articles/tinx-article/tinx-article.component';
