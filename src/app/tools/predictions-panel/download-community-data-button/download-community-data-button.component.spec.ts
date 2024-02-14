@@ -7,9 +7,7 @@ describe('DownloadCommunityDataButtonComponent', () => {
   let fixture: ComponentFixture<DownloadCommunityDataButtonComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ DownloadCommunityDataButtonComponent ]
-    })
+    await TestBed.configureTestingModule({ })
     .compileComponents();
   });
 

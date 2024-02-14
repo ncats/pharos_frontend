@@ -18,7 +18,6 @@ describe('GoTermsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GoTermsComponent ],
       imports: [
         SharedModule,
         ApolloTestingModule,

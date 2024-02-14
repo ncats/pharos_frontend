@@ -1,7 +1,16 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ViralInteractionDetails, VirusDetails} from '../../../../../../models/virus-interactions';
+import {CommonModule} from '@angular/common';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {
+  PropertyDisplayComponent
+} from '../../../../../../tools/generic-table/components/property-display/property-display.component';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatExpansionModule, FlexLayoutModule, PropertyDisplayComponent, MatCardModule],
   selector: 'pharos-virus-details',
   templateUrl: './virus-details.component.html',
   styleUrls: ['./virus-details.component.scss']

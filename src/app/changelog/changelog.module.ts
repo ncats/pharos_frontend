@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RouterModule, Routes} from "@angular/router";
-import {ChangelogComponent} from "./changelog.component";
-import {MarkdownModule} from "ngx-markdown";
+import {RouterModule, Routes} from '@angular/router';
+import {ChangelogComponent} from './changelog.component';
+import {MarkdownModule} from 'ngx-markdown';
 
 
 const routes: Routes = [
@@ -13,7 +13,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ChangelogComponent],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,

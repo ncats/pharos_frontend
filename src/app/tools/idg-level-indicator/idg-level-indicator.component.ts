@@ -1,13 +1,16 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {BehaviorSubject} from 'rxjs/index';
+import {BehaviorSubject} from 'rxjs';
 import {PharosProperty} from '../../models/pharos-property';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
+import {CommonModule} from '@angular/common';
 
 /**
  * UI component to display the idg level of a target using Material Design chip
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule],
   selector: 'pharos-idg-level-indicator',
   templateUrl: './idg-level-indicator.component.html',
   styleUrls: ['./idg-level-indicator.component.scss'],
@@ -68,7 +71,7 @@ export class IdgLevelIndicatorComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }

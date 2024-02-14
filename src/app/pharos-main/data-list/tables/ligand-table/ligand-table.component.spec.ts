@@ -18,10 +18,6 @@ describe('LigandTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        LigandTableComponent,
-        LigandCardComponent
-      ],
       imports: [
         RouterTestingModule,
         CommonToolsModule,

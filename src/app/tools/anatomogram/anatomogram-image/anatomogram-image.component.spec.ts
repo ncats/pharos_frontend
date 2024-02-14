@@ -10,7 +10,6 @@ describe('AnatomogramImageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AnatomogramImageComponent ],
       imports: [
         SharedModule,
         BrowserAnimationsModule

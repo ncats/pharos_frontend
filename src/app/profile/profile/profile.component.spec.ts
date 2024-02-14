@@ -5,7 +5,6 @@ import {ApolloTestingModule} from 'apollo-angular/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from '../../shared/shared.module';
-import {GenericTableModule} from '../../tools/generic-table/generic-table.module';
 import {AngularFireModule} from '@angular/fire/compat';
 import {COMMON_CONFIG} from '../../../../test/test-config';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
@@ -19,13 +18,11 @@ describe('ProfileComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProfileComponent ],
       imports: [
         ApolloTestingModule,
         RouterTestingModule,
         BrowserAnimationsModule,
         SharedModule,
-        GenericTableModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
       providers: [

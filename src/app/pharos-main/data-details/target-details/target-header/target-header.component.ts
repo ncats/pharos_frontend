@@ -3,17 +3,29 @@ import {Target} from '../../../../models/target';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
-import {MatDialog} from '@angular/material/dialog';
 import {ActivatedRoute} from '@angular/router';
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 import {JsonldService} from '../../../../pharos-services/jsonld.service';
+import {MatDialog} from '@angular/material/dialog';
+import {IdgLevelIndicatorComponent} from '../../../../tools/idg-level-indicator/idg-level-indicator.component';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatIcon} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule, FlexLayoutModule, MatButtonModule,
+    IdgLevelIndicatorComponent, MatTooltip, MatIcon
+  ],
   selector: 'pharos-target-header',
   templateUrl: './target-header.component.html',
   styleUrls: ['./target-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
+
 export class TargetHeaderComponent extends DynamicPanelComponent implements OnInit {
   @Input() target: Target;
 

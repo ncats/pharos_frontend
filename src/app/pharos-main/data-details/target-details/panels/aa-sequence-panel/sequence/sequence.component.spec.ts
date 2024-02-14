@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SequenceComponent } from './sequence.component';
-import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {TESTTARGET} from "../../../../../../../../test/test-target";
+import {TESTTARGET} from '../../../../../../../../test/test-target';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('SequenceComponent', () => {
   let component: SequenceComponent;
@@ -10,8 +10,7 @@ describe('SequenceComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatSnackBarModule],
-      declarations: [ SequenceComponent ]
+      imports: [MatSnackBarModule, BrowserAnimationsModule]
     })
     .compileComponents();
   });

@@ -13,7 +13,6 @@ describe('SequenceAlignmentsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SequenceAlignmentsComponent ],
       imports: [
         ApolloTestingModule,
         SharedModule,

@@ -11,7 +11,6 @@ describe('PubmedScoreArticleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PubmedScoreArticleComponent ],
       imports: [
         MaterialModule,
         FlexLayoutModule

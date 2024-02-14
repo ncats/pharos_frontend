@@ -1,16 +1,15 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
-import {Observable} from 'rxjs';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {Observable, map} from 'rxjs';
 import {PharosProfileService} from './pharos-profile.service';
-import {map, take} from 'rxjs/internal/operators';
 import {LoginModalComponent} from './login-modal/login-modal.component';
-import {MatDialog} from '@angular/material/dialog';
 import {LoadingService} from '../pharos-services/loading.service';
+import {MatDialog} from "@angular/material/dialog";
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuard  {
 
   constructor(
     private dialog: MatDialog,

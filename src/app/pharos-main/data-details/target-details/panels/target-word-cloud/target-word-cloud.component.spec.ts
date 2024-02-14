@@ -24,9 +24,8 @@ describe('TargetWordCloudComponent', () => {
       ],
       providers: [
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}
-      ],
-      declarations: [ TargetWordCloudComponent ]
-    })
+      ]
+    });
     await TestBed.configureTestingModule({
     })
     .compileComponents();

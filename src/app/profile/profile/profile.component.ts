@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {Facet, Field} from '../../models/facet';
+import {Field} from '../../models/facet';
 import {forkJoin, Observable, Subject} from 'rxjs';
 import {map, take, takeUntil} from 'rxjs/operators';
 import {PharosProfileService} from '../../auth/pharos-profile.service';
@@ -7,11 +7,19 @@ import {PathResolverService} from '../../pharos-main/data-list/filter-panel/path
 import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
-import {MatDialog} from '@angular/material/dialog';
 import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
+import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatToolbar} from '@angular/material/toolbar';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatExpansionModule, MatToolbar, MatButtonModule, MatIconModule],
   selector: 'pharos-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
@@ -123,7 +131,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }

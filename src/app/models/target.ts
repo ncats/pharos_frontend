@@ -230,7 +230,7 @@ export class Target extends PharosBase {
   /**
    * number of protein-protein interactions
    */
-  ppiCount: number | any[];
+  ppiCount: number;
 
   /**
    * list of expression data

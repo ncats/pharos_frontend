@@ -1,26 +1,113 @@
 import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
-import {PharosProperty} from "../../../models/pharos-property";
-import {isNumeric} from "rxjs/internal-compatibility";
-import {BatchUploadModalComponent} from "../../batch-upload-modal/batch-upload-modal.component";
-import {takeUntil} from "rxjs/operators";
-import {MatDialog} from "@angular/material/dialog";
-import {DynamicPanelBaseComponent} from "../../dynamic-panel-base/dynamic-panel-base.component";
-import {PharosProfileService} from "../../../auth/pharos-profile.service";
-import {ReplaySubject} from "rxjs";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {AngularFirestore} from "@angular/fire/compat/firestore";
-import {BatchResolveModalComponent} from "../../batch-resolve-modal/batch-resolve-modal.component";
-import {ActivatedRoute, ActivatedRouteSnapshot, NavigationExtras, Router} from "@angular/router";
-import {CentralStorageService} from "../../../pharos-services/central-storage.service";
-import {Facet} from "../../../models/facet";
-import {SelectionModel} from "@angular/cdk/collections";
+import {PharosProperty} from '../../../models/pharos-property';
+import {DynamicPanelBaseComponent} from '../../dynamic-panel-base/dynamic-panel-base.component';
+import {PharosProfileService} from '../../../auth/pharos-profile.service';
+import {takeUntil} from 'rxjs';
+import {AngularFirestore} from '@angular/fire/compat/firestore';
+import {BatchResolveModalComponent} from '../../batch-resolve-modal/batch-resolve-modal.component';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
+import {CentralStorageService} from '../../../pharos-services/central-storage.service';
+import {Facet} from '../../../models/facet';
+import {SelectionModel} from '@angular/cdk/collections';
+import {isNumeric} from '../../../../util';
+import { MatDialog } from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {CommonModule} from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
+import {CitationComponent} from '../../citation/citation.component';
+import {ExploreListButtonComponent} from '../../explore-list-button/explore-list-button.component';
+import {MatIcon, MatIconModule} from '@angular/material/icon';
+import {
+  DownloadCommunityDataButtonComponent
+} from '../download-community-data-button/download-community-data-button.component';
+import {FacetCardComponent} from '../../../pharos-main/data-list/filter-panel/facet-card/facet-card.component';
+import {MatPaginator} from '@angular/material/paginator';
+import {PredictionDetailsCardComponent} from '../prediction-details-card/prediction-details-card.component';
+import {GenericTableComponent} from '../../generic-table/generic-table.component';
+import {MatButtonModule} from '@angular/material/button';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @Component({
+  standalone: true,
+  imports: [FlexLayoutModule, CommonModule, MatCardModule, CitationComponent, ExploreListButtonComponent, MatIconModule, MatButtonModule,
+    DownloadCommunityDataButtonComponent, FacetCardComponent, MatPaginator, PredictionDetailsCardComponent, GenericTableComponent],
   selector: 'pharos-prediction-set',
   templateUrl: './prediction-set.component.html',
   styleUrls: ['./prediction-set.component.scss']
 })
 export class PredictionSetComponent extends DynamicPanelBaseComponent implements OnInit {
+
+  get detailsPage(): string {
+    return this._route.snapshot.paramMap.get('id');
+  }
+
+  get listIsFiltered(): boolean {
+    return this.predictionSet.predictions.length !== this.filteredPredictions().length;
+  }
+
+  constructor(
+    public dialog: MatDialog,
+    private profileService: PharosProfileService,
+    private changeRef: ChangeDetectorRef,
+    private snackBar: MatSnackBar,
+    private centralStorageService: CentralStorageService,
+    private targetCollection: AngularFirestore,
+    private router: Router,
+    private _route: ActivatedRoute) {
+    super();
+  }
+
+  get pagedPredictions() {
+    return this.sliceForPage(this.filteredPredictions());
+  }
+  get pagedPredictionProps() {
+    return this.sliceForPage(this.predictionProps);
+  }
+  get pageSize() {
+    return this.pageSizeInput || this.getStyle(this.predictionSet) === 'table' ? 5 : 8;
+  }
+  get fields() {
+    return [
+      new PharosProperty({
+        name: 'name',
+        label: (this.predictionSet.predictions && this.predictionSet.predictions.length) > 0 ?
+            this.predictionSet.predictions[0].alternateName || this.predictionSet.predictions[0].name : '',
+        sortable: true
+      }),
+      ...this.getAlternateName(),
+      ...this.getIdentifiers(),
+      new PharosProperty({
+        name: 'value',
+        label: (this.predictionSet.predictions && this.predictionSet.predictions.length) > 0 ?
+            this.predictionSet.predictions[0].confidence.alternateName : '',
+        sortable: true
+      })
+    ];
+  }
+
+// tslint:disable-next-line:max-line-length
+// { "@type": "Prediction", "name": "Predicted Cancer", "value": { "@context": "https://schema.org", "@type": "MedicalCondition", "name": "Carcinoma, Non-Small-Cell Lung", "alternateName": "MESH:D002289", "mondoid": [ "MONDO:0005233" ], "url": "/diseases/MONDO:0005233" }, "confidence": { "@context": "https://schema.org", "@type": "QuantitativeValue", "value": "0.85", "alternateName": "probability", "description": "Measure of the relevance of inhibiting a particular protein kinase for a specific cancer", "maxValue": 1, "minValue": 0 } }
+
+  get predictionProps() {
+    return this.filteredPredictions()?.map(f => {
+      return this.predictionToPredictionProps(f);
+    })
+      .sort((a: any, b: any) => {
+        const field = this.sortField.active;
+        const dir = this.sortField.direction;
+        if (isNumeric(a[field].term)) {
+          if (dir === 'asc') {
+            return a[field].term - b[field].term;
+          }
+          return b[field].term - a[field].term;
+        } else {
+          if (dir === 'asc') {
+            return a[field]?.term?.localeCompare(b[field].term);
+          }
+          return b[field]?.term?.localeCompare(a[field].term);
+        }
+      });
+  }
   @Input() predictionSet: {predictions: any[], citation: any};
   @Input() style = 'table';
   @Input() pageSizeInput;
@@ -36,13 +123,7 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
   filterSelectionmap: Map<string, SelectionModel<string>> = new Map<string, SelectionModel<string>>();
   dynamicFacets: Facet[] = [];
 
-  get detailsPage(): string {
-    return this._route.snapshot.paramMap.get('id');
-  }
-
-  get listIsFiltered(): boolean {
-    return this.predictionSet.predictions.length !== this.filteredPredictions().length;
-  }
+  sortField = {active: 'value', direction: 'desc'};
 
   filteredPredictions(ignoreFacet = null) {
     const filteredList = this.predictionSet.predictions.filter(pred => {
@@ -53,18 +134,18 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
         return false;
       }
       const props = this.predictionToPredictionProps(pred);
-      const filteringFacets = this.filteringFacets()
-      for(let i = 0 ; i < filteringFacets.length ; i++) {
+      const filteringFacets = this.filteringFacets();
+      for (let i = 0 ; i < filteringFacets.length ; i++) {
         const key = filteringFacets[i];
-          const selectionModel = this.filterSelectionmap.get(key);
-          const vals = selectionModel.selected;
+        const selectionModel = this.filterSelectionmap.get(key);
+        const vals = selectionModel.selected;
 
-          let predVal = props['_' + key]?.term;
-          if (key === pred.alternateName) {
+        let predVal = props['_' + key]?.term;
+        if (key === pred.alternateName) {
             predVal = props.name.term;
           }
 
-          if (vals.length > 0 && !vals.includes(predVal)) {
+        if (vals.length > 0 && !vals.includes(predVal)) {
             return false;
           }
       }
@@ -73,28 +154,19 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
     return filteredList;
   }
 
-  constructor(
-    public dialog: MatDialog,
-    private profileService: PharosProfileService,
-    private changeRef: ChangeDetectorRef,
-    private snackBar: MatSnackBar,
-    private centralStorageService: CentralStorageService,
-    private targetCollection: AngularFirestore,
-    private router: Router,
-    private _route: ActivatedRoute) {
-    super();
-  }
-
   filteringFacets(): string[] {
-    return this.predictionSet.predictions[0].facetFields || [];
+    if (this.predictionSet && this.predictionSet.predictions && this.predictionSet.predictions.length > 0) {
+      return this.predictionSet?.predictions[0].facetFields;
+    }
+    return [];
   }
 
   ngOnInit(): void {
-    if(this.predictionSet) {
+    if (this.predictionSet) {
       const facetFields = this.filteringFacets();
       facetFields.forEach(facetField => {
         this.filterSelectionmap.set(facetField, new SelectionModel<string>(true, []));
-      })
+      });
     }
     this.profileService.profile$
     .pipe(takeUntil(this.ngUnsubscribe))
@@ -114,16 +186,6 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
         // No user is signed in.
       }
     });
-  }
-
-  get pagedPredictions() {
-    return this.sliceForPage(this.filteredPredictions());
-  }
-  get pagedPredictionProps() {
-    return this.sliceForPage(this.predictionProps);
-  }
-  get pageSize() {
-    return this.pageSizeInput || this.getStyle(this.predictionSet) === 'table' ? 5 : 8;
   }
   sliceForPage(array: any[]) {
     return array.slice(this.page * this.pageSize, (this.page + 1) * this.pageSize);
@@ -175,42 +237,6 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
     }
     return [];
   }
-  get fields() {
-    return [
-      new PharosProperty({
-        name: 'name',
-        label: this.predictionSet.predictions[0].alternateName || this.predictionSet.predictions[0].name,
-        sortable: true
-      }),
-      ...this.getAlternateName(),
-      ...this.getIdentifiers(),
-      new PharosProperty({
-        name: 'value',
-        label: this.predictionSet.predictions[0].confidence.alternateName,
-        sortable: true
-      })];
-  }
-// { "@type": "Prediction", "name": "Predicted Cancer", "value": { "@context": "https://schema.org", "@type": "MedicalCondition", "name": "Carcinoma, Non-Small-Cell Lung", "alternateName": "MESH:D002289", "mondoid": [ "MONDO:0005233" ], "url": "/diseases/MONDO:0005233" }, "confidence": { "@context": "https://schema.org", "@type": "QuantitativeValue", "value": "0.85", "alternateName": "probability", "description": "Measure of the relevance of inhibiting a particular protein kinase for a specific cancer", "maxValue": 1, "minValue": 0 } }
-  get predictionProps() {
-    return this.filteredPredictions()?.map(f => {
-      return this.predictionToPredictionProps(f);
-    })
-      .sort((a: any, b: any) => {
-        const field = this.sortField.active;
-        const dir = this.sortField.direction;
-        if (isNumeric(a[field].term)) {
-          if (dir === 'asc') {
-            return a[field].term - b[field].term;
-          }
-          return b[field].term - a[field].term;
-        } else {
-          if (dir === 'asc') {
-            return a[field]?.term?.localeCompare(b[field].term)
-          }
-          return b[field]?.term?.localeCompare(a[field].term)
-        }
-      });
-  }
 
   private predictionToPredictionProps(f) {
     const propObj = {
@@ -222,15 +248,13 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
       if (Array.isArray(f.value.identifier)) {
         f.value.identifier.forEach(id => {
           propObj['_' + id.name] = {term: id.value};
-        })
+        });
       } else {
         propObj[f.value.identifier.name] = {term: f.value.identifier.value};
       }
     }
     return propObj;
   }
-
-  sortField = {active: 'value', direction: 'desc'};
 
   formatConfidence(val) {
     const num = parseFloat(val);
@@ -302,7 +326,10 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
         if (resolveResult) {
           resolveResult.models = 'ligands';
           resolveResult.saveList = this.loggedIn;
-          resolveResult.collectionName = this.predictionSet.predictions[0].name + ' : ' + this.centralStorageService.toolboxDetailsPage;
+          resolveResult.collectionName =
+              (this.predictionSet.predictions && this.predictionSet.predictions.length) > 0 ?
+                  this.predictionSet.predictions[0].name + ' : ' + this.centralStorageService.toolboxDetailsPage :
+                  'Collection';
           return this.targetCollection.collection('target-collection').add(
             resolveResult
           ).then(doc => {
@@ -336,22 +363,22 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
       const histogram = this.getConfidenceHistogram(predictions, binSize);
       const firstVal = predictions[0];
       const facet = new Facet({
-        binSize: binSize,
+        binSize,
         count: 36,
-        dataType: "Numeric",
+        dataType: 'Numeric',
         description: undefined,
         facet: firstVal.confidence.alternateName,
         label: undefined,
-        max: max, min: min,
+        max, min,
         singleResponse: true,
         sourceExplanation: firstVal.confidence.description,
         values: histogram
-      })
+      });
       return facet;
     }
   }
 
-  listIsUsingThisFacet(facet: Facet) : boolean {
+  listIsUsingThisFacet(facet: Facet): boolean {
     const selectionModel = this.filterSelectionmap.get(facet.facet);
     return !!selectionModel.selected && selectionModel.selected.length > 0;
   }
@@ -377,19 +404,19 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
         map.set(val, count);
       });
 
-      map.forEach((v,k) => {
+      map.forEach((v, k) => {
         values.push({name: k, count: v});
       });
 
-      values.sort((a,b) => b.count - a.count);
+      values.sort((a, b) => b.count - a.count);
 
       facets.push(new Facet({
         count: map.size,
         description: undefined,
-        facet: facet,
+        facet,
         label: undefined,
         singleResponse: true,
-        values: values
+        values
       }));
     });
     return facets;
@@ -406,8 +433,8 @@ export class PredictionSetComponent extends DynamicPanelBaseComponent implements
     map.forEach((count, bin) => {
       histogram.push({
         name: bin,
-        count: count
-      })
+        count
+      });
     });
     return histogram;
   }

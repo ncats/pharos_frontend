@@ -1,15 +1,18 @@
 import {
   Component,
   ElementRef,
-  Inject, OnDestroy,
+  OnDestroy,
   OnInit,
-  PLATFORM_ID,
   QueryList,
   ViewChildren,
   ViewEncapsulation
 } from '@angular/core';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {Subscription} from 'rxjs';
+import {CommonModule} from '@angular/common';
+import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatDivider} from '@angular/material/divider';
 
 /**
  * Question model for object retrieved from firebase
@@ -35,6 +38,8 @@ export interface Question {
  * page to display faqs section of pharos
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatAccordion, MatExpansionModule, FlexLayoutModule, MatDivider],
   selector: 'pharos-faq-page',
   templateUrl: './faq-page.component.html',
   styleUrls: ['./faq-page.component.scss'],

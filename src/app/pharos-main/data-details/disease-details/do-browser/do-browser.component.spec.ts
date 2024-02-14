@@ -14,7 +14,6 @@ describe('DoBrowserComponent', () => {
       providers: [
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}
       ],
-      declarations: [ DoBrowserComponent ],
       imports: [
         ApolloTestingModule
       ]

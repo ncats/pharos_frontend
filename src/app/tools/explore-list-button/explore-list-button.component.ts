@@ -1,12 +1,16 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TitleCasePipe} from '@angular/common';
-import {PathResolverService} from '../../pharos-main/data-list/filter-panel/path-resolver.service';
+import {CommonModule, TitleCasePipe} from '@angular/common';
 import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {SelectedFacetService} from '../../pharos-main/data-list/filter-panel/selected-facet.service';
 import {FeatureTrackingService} from '../../pharos-services/feature-tracking.service';
 import {CentralStorageService} from '../../pharos-services/central-storage.service';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatTooltip, MatButton, MatIcon],
   selector: 'pharos-explore-list-button',
   templateUrl: './explore-list-button.component.html',
   styleUrls: ['./explore-list-button.component.scss']

@@ -1,9 +1,9 @@
-<mat-chip-list fxLayoutAlign="center" #chipList aria-label="Facet List">
+<mat-chip-listbox fxLayoutAlign="center" #chipList aria-label="Facet List">
   <mat-chip *ngFor="let facet of facets"
-            [selected]="isSelected(facet.facet)"
+            [highlighted]="isSelected(facet.facet)"
             [color]="'accent'"
             (click)="changeData(facet.facet)">
     {{facet.facet}}
   </mat-chip>
   <br>
-</mat-chip-list>
+</mat-chip-listbox>

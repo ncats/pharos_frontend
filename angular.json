@@ -20,7 +20,12 @@
               "path": "./custom-webpack-browser.config.js"
             },
             "allowedCommonJsDependencies": [
-              "rxjs/index", "file-saver", "sql-formatter", "decimal.js", "rxjs/internal/operators", "zen-observable"
+              "rxjs/index",
+              "file-saver",
+              "sql-formatter",
+              "decimal.js",
+              "rxjs/internal/operators",
+              "zen-observable"
             ],
             "outputPath": "dist/browser",
             "index": "src/index.html",
@@ -81,7 +86,7 @@
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "browserTarget": "pharos:build"
+            "buildTarget": "pharos:build"
           },
           "configurations": {
             "production": {
@@ -92,7 +97,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "pharos:build"
+            "buildTarget": "pharos:build"
           }
         },
         "test": {
@@ -125,7 +130,10 @@
             "outputPath": "dist/server",
             "main": "server.ts",
             "tsConfig": "tsconfig.server.json",
-            "externalDependencies": ["@firebase/firestore", "@firebase/app"],
+            "externalDependencies": [
+              "@firebase/firestore",
+              "@firebase/app"
+            ],
             "sourceMap": true,
             "optimization": false
           },
@@ -162,7 +170,7 @@
           }
         },
         "serve-ssr": {
-          "builder": "@nguniversal/builders:ssr-dev-server",
+          "builder": "@angular-devkit/build-angular:ssr-dev-server",
           "options": {
             "browserTarget": "pharos:build",
             "serverTarget": "pharos:server"
@@ -175,7 +183,7 @@
           }
         },
         "prerender": {
-          "builder": "@nguniversal/builders:prerender",
+          "builder": "@angular-devkit/build-angular:prerender",
           "options": {
             "browserTarget": "pharos:build:production",
             "serverTarget": "pharos:server:production",
@@ -202,7 +210,6 @@
       }
     }
   },
-  "defaultProject": "pharos",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "pharos",
@@ -210,6 +217,12 @@
     },
     "@schematics/angular:directive": {
       "prefix": "pharos"
+    },
+    "@angular-eslint/schematics:application": {
+      "setParserOptionsProject": true
+    },
+    "@angular-eslint/schematics:library": {
+      "setParserOptionsProject": true
     }
   }
 }

@@ -6,11 +6,8 @@ import {SidenavPanelComponent} from '../sidenav-panel.component';
 describe('ScrollspyDirective', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SidenavPanelComponent ],
       imports: [
         SharedModule
-      ],
-      providers: [
       ]
     })
       .compileComponents();

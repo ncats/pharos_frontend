@@ -1,5 +1,6 @@
 import {async, TestBed} from '@angular/core/testing';
-import {ApolloTestingModule} from "apollo-angular/testing";import {AppComponent} from './app.component';
+import {ApolloTestingModule} from 'apollo-angular/testing';
+import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing.module';
 import {AngularFireModule} from '@angular/fire/compat';

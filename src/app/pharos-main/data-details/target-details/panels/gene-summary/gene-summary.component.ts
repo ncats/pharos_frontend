@@ -14,11 +14,14 @@ import {BreakpointObserver} from '@angular/cdk/layout';
 import {UnfurlingMetaService} from '../../../../../pharos-services/unfurling-meta.service';
 import {NavigationEnd, Router} from '@angular/router';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {CommonModule} from '@angular/common';
 
 /**
  * displays the description of a target
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule],
   selector: 'pharos-gene-summary',
   templateUrl: './gene-summary.component.html',
   styleUrls: ['./gene-summary.component.scss'],

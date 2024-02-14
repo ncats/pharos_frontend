@@ -21,7 +21,7 @@ export class Vendor {
 
   constructor(data: any) {
     this.vendor = data.Vendor;
-    if(BaseResource.fieldNotNull(data.Vendor_cat)){
+    if (BaseResource.fieldNotNull(data.Vendor_cat)){
       this.vendorUrl = data.Vendor_cat;
     }
     if (BaseResource.fieldNotNull(data.resource_ID)) {
@@ -61,9 +61,13 @@ export class Antibody extends Reagent {
 
   constructor(data: any) {
     super(data);
-    this.addDisplayProperty(data.usage,"Usage");
-    this.addDisplayProperty(data.Species_origin, "Origin");
-    this.addDisplayProperty(data.Target_species, "Target");
+    this.addDisplayProperty(data.usage, 'Usage');
+    this.addDisplayProperty(data.Species_origin, 'Origin');
+    this.addDisplayProperty(data.Target_species, 'Species');
+    this.addDisplayProperty(data.Target_protein, 'Target');
+    this.addDisplayProperty(data.Function, 'Function');
+    this.addDisplayProperty(data.Clonality, 'Clonality');
+    this.addDisplayProperty(data.Status_Milestone_Antibody, 'Milestone');
   }
 }
 
@@ -80,13 +84,13 @@ export class Cell extends Reagent {
   constructor(data: any) {
     super(data);
 
-    this.addDisplayProperty(data.Vector_ID,"Vector");
-    this.addDisplayProperty(data.Mod_type,"Modification");
-    this.addDisplayProperty(data.Knockout,"Knockout");
-    this.addDisplayProperty(data.RRID,"RRID");
-    this.addDisplayProperty(data.Cellosaurus_ID, "Cellosaurus ID");
+    this.addDisplayProperty(data.Vector_ID, 'Vector');
+    this.addDisplayProperty(data.Mod_type, 'Modification');
+    this.addDisplayProperty(data.Knockout, 'Knockout');
+    this.addDisplayProperty(data.RRID, 'RRID');
+    this.addDisplayProperty(data.Cellosaurus_ID, 'Cellosaurus ID');
     // this.addDisplayProperty(data.Tissue,"Tissue");  // Some HEK cells were giving me spleen, so i took this out
-    this.addDisplayProperty(data.Species,"Species");
+    this.addDisplayProperty(data.Species, 'Species');
   }
 }
 
@@ -104,12 +108,12 @@ export class GeneticConstruct extends Reagent {
   constructor(data: any) {
     super(data);
 
-    this.addDisplayProperty(data.RRID,"RRID");
-    this.addDisplayProperty(data.Vector_ID,"Vector",data.Vector_page_link);
-    this.addDisplayProperty(data.Vector_type,"Vector type");
-    this.addDisplayProperty(data.Vector_backbone_id,"Vector backbone");
-    this.addDisplayProperty(data.Promoter,"Promoter");
-    this.addDisplayProperty(data.Tag,"Tag");
+    this.addDisplayProperty(data.RRID, 'RRID');
+    this.addDisplayProperty(data.Vector_ID, 'Vector', data.Vector_page_link);
+    this.addDisplayProperty(data.Vector_type, 'Vector type');
+    this.addDisplayProperty(data.Vector_backbone_id, 'Vector backbone');
+    this.addDisplayProperty(data.Promoter, 'Promoter');
+    this.addDisplayProperty(data.Tag, 'Tag');
   }
 }
 
@@ -126,9 +130,9 @@ export class Mouse extends Reagent {
 
   constructor(data: any) {
     super(data);
-    this.addDisplayProperty(data.MMRRC_ID, "MMRRC ID");
-    this.addDisplayProperty(data.Allele,"Allele");
-    this.addDisplayProperty(data.Corresponding_construct,"Construct",data.Corresponding_construct);
+    this.addDisplayProperty(data.MMRRC_ID, 'MMRRC ID');
+    this.addDisplayProperty(data.Allele, 'Allele');
+    this.addDisplayProperty(data.Corresponding_construct, 'Construct', data.Corresponding_construct);
   }
 }
 
@@ -154,10 +158,10 @@ export class SmallMolecule extends Reagent implements HasStructureInfo{
     if (data.Canonical_SMILES) {
       this.canonicalSmiles = data.Canonical_SMILES;
     }
-    this.addDisplayProperty(data.External_ID,data.External_ID_registration_system);
-    this.addDisplayProperty(data.Provider_institution,"Provider");
-    this.addDisplayProperty(data.Activity,"Activity");
-    this.addDisplayProperty(data.Selectivity, "Selectivity");
+    this.addDisplayProperty(data.External_ID, data.External_ID_registration_system);
+    this.addDisplayProperty(data.Provider_institution, 'Provider');
+    this.addDisplayProperty(data.Activity, 'Activity');
+    this.addDisplayProperty(data.Selectivity, 'Selectivity');
   }
 }
 
@@ -174,7 +178,7 @@ export class Peptide extends Reagent {
 
   constructor(data: any) {
     super(data);
-    this.addDisplayProperty(data.PRM_type,"PRM Type");
+    this.addDisplayProperty(data.PRM_type, 'PRM Type');
   }
 }
 

@@ -1,8 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {saveAs} from 'file-saver';
 import {Parser} from 'json2csv';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
+  standalone: true,
+  imports: [MatButtonModule, MatIcon],
   selector: 'pharos-download-community-data-button',
   templateUrl: './download-community-data-button.component.html',
   styleUrls: ['./download-community-data-button.component.scss']

@@ -7,9 +7,7 @@ describe('DonutChartComponent', () => {
   let fixture: ComponentFixture<DonutChartComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ DonutChartComponent ]
-    })
+    TestBed.configureTestingModule({ })
     .compileComponents();
   }));
 

@@ -1,7 +1,15 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Publication} from "../../../../../../models/publication";
+import {Publication} from '../../../../../../models/publication';
+import {CommonModule} from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
+import {MatIcon} from '@angular/material/icon';
+import {
+  PropertyDisplayComponent
+} from '../../../../../../tools/generic-table/components/property-display/property-display.component';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatCardModule, MatIcon, PropertyDisplayComponent],
   selector: 'pharos-publication-card',
   templateUrl: './publication-card.component.html',
   styleUrls: ['./publication-card.component.scss']
@@ -14,14 +22,14 @@ export class PublicationCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.generifs = this.publication?.generifs.filter(f => {
+    this.generifs = this.publication?.generifs?.filter(f => {
       return !this.rifisdumb(f.text);
     })
   }
 
   shortAuthorString() {
-    const authors = this.publication.authors.split(',');
-    if(authors.length > 2) {
+    const authors = this.publication?.authors?.split(',') || [];
+    if (authors.length > 2) {
       const namePieces = authors[0].split(' ');
       return namePieces[namePieces.length - 1] + ' et al.';
     }

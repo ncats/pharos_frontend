@@ -1,14 +1,20 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
 import {PageData} from '../../models/page-data';
-import {PageEvent} from '@angular/material/paginator';
 import {Observable, Subscription} from 'rxjs';
 import {BaseResource} from '../../models/idg-resources/base-resource';
+import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
+import {CommonModule} from '@angular/common';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 /**
  * Component to show a Filter / Paginator component for a card full of Resources
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, FormsModule, MatInputModule, ReactiveFormsModule, MatPaginatorModule, MatSelectModule, FlexLayoutModule],
   selector: 'pharos-list-filter',
   templateUrl: './list-filter.component.html',
   styleUrls: ['./list-filter.component.scss']
@@ -56,7 +62,7 @@ export class ListFilterComponent implements OnInit, OnDestroy {
   /**
    * The control for selecting different filters
    */
-  filterCtrl: FormControl = new FormControl();
+  filterCtrl: UntypedFormControl = new UntypedFormControl();
 
   /**
    * initializes lists and subscriptions

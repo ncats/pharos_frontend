@@ -30,8 +30,7 @@ describe('TutorialLinkComponent', () => {
         PharosApiService,
         Apollo,
         { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
-      ],
-      declarations: [ TutorialLinkComponent ]
+      ]
     })
     .compileComponents();
   });

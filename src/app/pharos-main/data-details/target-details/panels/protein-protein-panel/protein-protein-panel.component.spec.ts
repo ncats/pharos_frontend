@@ -20,9 +20,6 @@ describe('ProteinProteinPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ProteinProteinPanelComponent
-      ],
       imports: [
         RouterTestingModule,
         SharedModule,

@@ -12,7 +12,6 @@ describe('TclinSummaryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TclinSummaryComponent ],
       imports: [
         MaterialModule,
         FlexLayoutModule

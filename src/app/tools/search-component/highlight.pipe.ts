@@ -4,6 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
  * Pipe to highlight searcch text in results
  */
 @Pipe({
+  standalone: true,
   name: 'highlight'
 })
 export class HighlightPipe implements PipeTransform {

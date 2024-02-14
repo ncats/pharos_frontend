@@ -10,12 +10,15 @@
   z-index: 666;
 }
 
-header{
+.ncats-toolbar.animationOut button {
+  color: white;
+}
+
+header {
   position: fixed;
   z-index: 555;
   width: 100%;
 }
-
 
 .profile-pic {
   height: 45px;
@@ -53,7 +56,7 @@ img.pharos-logo {
 }
 
 .header-search {
-  width:45%;
+  width: 45%;
 }
 
 pharos-search-component {
@@ -64,9 +67,9 @@ pharos-search-component {
   text-decoration: underline;
 }
 
-.mobile-menu-panel{
+.mobile-menu-panel {
   color: black;
-  width:65vw;
+  width: 65vw;
 }
 
 button.nav-menu-button.mat-button {
@@ -102,3 +105,11 @@ button.nav-menu-button.mat-button {
 .tutorial-link mat-icon {
   margin-left: 10px;
 }
+
+/* Your component's CSS file or inline styles */
+.vertical-button {
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+

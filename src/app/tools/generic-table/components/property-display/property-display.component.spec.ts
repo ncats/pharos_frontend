@@ -11,15 +11,9 @@ describe('PropertyDisplayComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        PropertyDisplayComponent
-      ],
       imports: [
         RouterTestingModule,
         SharedModule
-      ],
-      providers: [
-
       ]
     })
     .compileComponents();

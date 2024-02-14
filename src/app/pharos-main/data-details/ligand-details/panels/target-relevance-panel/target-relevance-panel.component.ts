@@ -12,15 +12,23 @@ import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-pan
 import {PageData} from '../../../../../models/page-data';
 import {Ligand} from '../../../../../models/ligand';
 import {takeUntil} from 'rxjs/operators';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
-import {isPlatformBrowser} from "@angular/common";
+import {CommonModule, isPlatformBrowser} from '@angular/common';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatCardModule} from '@angular/material/card';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
+import {ExploreListButtonComponent} from '../../../../../tools/explore-list-button/explore-list-button.component';
+import {TargetRelevanceTableComponent} from './target-relevance-table/target-relevance-table.component';
 
 /**
  * shows what targets the ligand was tested on
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatCardModule, ComponentHeaderComponent, ExploreListButtonComponent,
+    TargetRelevanceTableComponent],
   selector: 'pharos-target-relevance-panel',
   templateUrl: './target-relevance-panel.component.html',
   styleUrls: ['./target-relevance-panel.component.scss'],

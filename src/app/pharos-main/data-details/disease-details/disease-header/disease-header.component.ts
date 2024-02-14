@@ -1,14 +1,21 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FieldSelectionDialogComponent} from '../../../../tools/field-selection-dialog/field-selection-dialog.component';
 import {ActivatedRoute} from '@angular/router';
-import {MatDialog} from '@angular/material/dialog';
 import {DynamicPanelComponent} from '../../../../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import {Disease} from '../../../../models/disease';
 import {DynamicServicesService} from '../../../../pharos-services/dynamic-services.service';
 import {JsonldService} from '../../../../pharos-services/jsonld.service';
+import {MatDialog} from '@angular/material/dialog';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatTooltip} from '@angular/material/tooltip';
+import {MatIcon} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatTooltip, MatIcon, MatButtonModule],
   selector: 'pharos-disease-header',
   templateUrl: './disease-header.component.html',
   styleUrls: ['./disease-header.component.scss']

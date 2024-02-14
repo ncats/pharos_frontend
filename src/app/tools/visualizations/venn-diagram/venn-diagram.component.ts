@@ -14,6 +14,7 @@ import * as d3 from 'd3v7';
 import {isPlatformBrowser} from '@angular/common';
 
 @Component({
+  standalone: true,
   selector: 'pharos-venn-diagram',
   templateUrl: './venn-diagram.component.html',
   styleUrls: ['./venn-diagram.component.scss'],

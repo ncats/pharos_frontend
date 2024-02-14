@@ -11,6 +11,7 @@ import {isPlatformBrowser} from '@angular/common';
  * component to create a d3 bar chart
  */
 @Component({
+  standalone: true,
   selector: 'pharos-bar-chart',
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.scss'],
@@ -342,7 +343,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
    * clean up on leaving component
    */
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
     if (this.eventsSubscription) {
       this.eventsSubscription.unsubscribe();

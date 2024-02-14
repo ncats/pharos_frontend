@@ -11,9 +11,6 @@ describe('TinxArticleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TinxArticleComponent
-      ],
       imports: [
         MaterialModule,
         FlexLayoutModule

@@ -14,8 +14,7 @@ describe('LinkListComponent', () => {
       imports: [
         RouterTestingModule,
         BrowserAnimationsModule,
-        MaterialModule],
-      declarations: [ LinkListComponent ]
+        MaterialModule]
     })
     .compileComponents();
   }));

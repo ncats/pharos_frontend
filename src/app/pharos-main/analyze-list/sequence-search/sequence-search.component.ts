@@ -9,9 +9,17 @@ import {
   SequenceAlignmentsComponent
 } from '../../../tools/visualizations/sequence-alignments/sequence-alignments.component';
 import {FieldSelectionDialogComponent} from '../../../tools/field-selection-dialog/field-selection-dialog.component';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog} from "@angular/material/dialog";
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatCardModule} from '@angular/material/card';
+import {ComponentHeaderComponent} from '../../../tools/component-header/component-header.component';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatCardModule, ComponentHeaderComponent, MatButtonModule, MatIconModule, SequenceAlignmentsComponent],
   selector: 'pharos-sequence-search',
   templateUrl: './sequence-search.component.html',
   styleUrls: ['./sequence-search.component.scss']
@@ -55,7 +63,7 @@ export class SequenceSearchComponent extends DynamicPanelComponent implements On
   }
 
   runBlast() {
-    if(this.sequence && this.sequence.length > 0) {
+    if (this.sequence && this.sequence.length > 0) {
       this.pharosApiService.runBlastpSearch(this._route.snapshot, this.sequence)
         .then((results: any) => {
           this.results = results.data.alignments;

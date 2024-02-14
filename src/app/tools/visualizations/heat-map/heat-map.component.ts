@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef, HostListener,
   Inject, Input,
@@ -14,6 +13,8 @@ import {DynamicPanelComponent} from '../../dynamic-panel/dynamic-panel.component
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 
 @Component({
+  standalone: true,
+  imports: [],
   selector: 'pharos-heat-map',
   templateUrl: './heat-map.component.html',
   styleUrls: ['./heat-map.component.scss'],

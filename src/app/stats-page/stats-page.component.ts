@@ -3,8 +3,13 @@ import {DynamicPanelComponent} from '../tools/dynamic-panel/dynamic-panel.compon
 import {DynamicServicesService} from '../pharos-services/dynamic-services.service';
 import {takeUntil} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
+import {CommonModule} from '@angular/common';
+import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
+import {MatTableModule} from '@angular/material/table';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatAccordion, MatExpansionModule, MatTableModule],
   selector: 'pharos-stats-page',
   templateUrl: './stats-page.component.html',
   styleUrls: ['./stats-page.component.scss']

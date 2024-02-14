@@ -13,7 +13,6 @@ describe('LigandCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LigandCardComponent ],
       imports: [
         SharedModule,
         CommonToolsModule,

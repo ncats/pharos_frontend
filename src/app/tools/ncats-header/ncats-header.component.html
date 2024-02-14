@@ -10,121 +10,110 @@
       <img [src]=profile.profilePic class="profile-pic" *ngIf="profile?.profilePic" alt="Profile picture of the signed in user">
       <span class="user-name">{{profile.name}}</span>
     </div>
-    <button mat-button class="nav-menu-button" (click)="openSignInModal(); mobilesidenav.close()" *ngIf="!profile">
+    <button mat-button class="vertical-button" (click)="openSignInModal(); mobilesidenav.close()" *ngIf="!profile">
       Sign In
     </button>
-    <button mat-button class="nav-menu-button" routerLink="/profile" *ngIf="profile">
+    <button mat-button class="vertical-button" routerLink="/profile" *ngIf="profile">
       My Profile
     </button>
-    <button mat-button class="nav-menu-button" (click)="signOut()" *ngIf="profile">
+    <button mat-button class="vertical-button" (click)="signOut()" *ngIf="profile">
       Sign Out
     </button>
-    <button mat-button (click)="mobilesidenav.close()" [routerLink]="getRouterLink('targets')" class="nav-menu-button"
+    <button mat-button (click)="mobilesidenav.close()" [routerLink]="getRouterLink('targets')" class="vertical-button"
             [ngClass]="{active: isActive('targets')}">Targets
     </button>
-    <button mat-button (click)="mobilesidenav.close()" [routerLink]="getRouterLink('diseases')" class="nav-menu-button"
+    <button mat-button (click)="mobilesidenav.close()" [routerLink]="getRouterLink('diseases')" class="vertical-button"
             [ngClass]="{active: isActive('diseases')}">Diseases
     </button>
-    <button mat-button (click)="mobilesidenav.close()" [routerLink]="getRouterLink('ligands')" class="nav-menu-button"
+    <button mat-button (click)="mobilesidenav.close()" [routerLink]="getRouterLink('ligands')" class="vertical-button"
             [ngClass]="{active: isActive('ligands')}">Ligands
     </button>
     <!--<button mat-button (click)="mobilesidenav.close()" routerLink="/topics" class="nav-menu-button"
             [ngClass]="{active: isActive('topics')}">Topics</button>
   -->
-    <button mat-button [matMenuTriggerFor]="devMenu" class="nav-menu-button">Tools</button>
-    <mat-menu #devMenu="matMenu" [classList]="'man-menu-panel'">
-      <button mat-button (click)="mobilesidenav.close()" routerLink="/api" class="nav-menu-button"
-              [ngClass]="{active: isActive('api')}">API
-      </button>
-      <button mat-button (click)="mobilesidenav.close()" routerLink="/toolbox" class="nav-menu-button"
-              [ngClass]="{active: isActive('toolbox')}">Dev Tools
-      </button>
-    </mat-menu>
-    <button mat-button [matMenuTriggerFor]="aboutMenu" class="nav-menu-button">About</button>
-    <mat-menu #aboutMenu="matMenu" [classList]="'man-menu-panel'">
-      <button mat-button (click)="mobilesidenav.close()" routerLink="/about" class="nav-menu-button"
-              [ngClass]="{active: isActive('about')}">About Pharos
-      </button>
-      <button mat-button (click)="mobilesidenav.close()" routerLink="/faq" class="nav-menu-button"
-              [ngClass]="{active: isActive('faq')}">FAQ
-      </button>
-    </mat-menu>
-    <button mat-button [matMenuTriggerFor]="tutorialMenu" class="nav-menu-button">Tutorials <mat-icon>lightbulb</mat-icon></button>
-    <mat-menu #tutorialMenu="matMenu" [classList]="'mat-menu-panel tutorialMenu'">
-      <button mat-menu-item (click)="mobilesidenav.close(); gotoUseCases()" class="tutorial-link">
-        <span>Use Cases</span>
-        <mat-icon [color]="'primary'" matTooltip="Use Cases">list</mat-icon>
-      </button>
-      <button *ngFor="let tour of tourService.menuTutorials" mat-menu-item (click)="mobilesidenav.close(); gotoTutorial(tour.storageKey)" class="tutorial-link">
-        <span>{{tour.title}}</span>
-        <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete(tour.storageKey)">check_circle</mat-icon>
-      </button>
-    </mat-menu>
+    <button mat-button [matMenuTriggerFor]="devMenu" class="vertical-button">Tools</button>
+
+    <button mat-button [matMenuTriggerFor]="aboutMenu" class="vertical-button">About</button>
+
+    <button mat-button [matMenuTriggerFor]="tutorialMenu" class="vertical-button">Tutorials <mat-icon iconPositionEnd>lightbulb</mat-icon></button>
+
     <pharos-search-component class="mobile-search" [fixedwidthDropdown]="true"></pharos-search-component>
-    <button mat-icon-button class="jira-button" aria-label="submit feedback" matTooltip="Submit Feedback" (click)="submitFeedback($event)">
+    <button mat-button class="jira-button vertical-button" aria-label="submit feedback" matTooltip="Submit Feedback" (click)="submitFeedback($event)" iconPositionEnd>
       Submit Feedback <mat-icon>feedback</mat-icon>
     </button>
   </mat-sidenav>
 
     <!--full width menu-->
-  <mat-toolbar class="ncats-toolbar" [@slideInOut]="animationState">
+  <mat-toolbar class="ncats-toolbar" [@slideInOut]="animationState" [ngClass]="{animationOut: animationState==='out'}">
     <img *ngIf="animationState === 'out'" src="./assets/images/Pharos_Logo_Rd8-white.svg" routerLink="/"
          alt="Pharos logo" class="pharos-logo">
     <img *ngIf="animationState === 'in'" src="./assets/images/Pharos_Logo_Rd8.svg" routerLink="/" alt="Pharos logo"
          class="pharos-logo">
     <div id="links" fxHide.lt-md>
       <span id="list-pages">
-        <a mat-button [routerLink]="getRouterLink('targets')" [ngClass]="{active: isActive('targets')}">Targets</a>
-        <a mat-button [routerLink]="getRouterLink('diseases')" [ngClass]="{active: isActive('diseases')}">Diseases</a>
-        <a mat-button [routerLink]="getRouterLink('ligands')" [ngClass]="{active: isActive('ligands')}">Ligands</a>
+        <button mat-button [routerLink]="getRouterLink('targets')" [ngClass]="{active: isActive('targets')}">Targets</button>
+        <button mat-button [routerLink]="getRouterLink('diseases')" [ngClass]="{active: isActive('diseases')}">Diseases</button>
+        <button mat-button [routerLink]="getRouterLink('ligands')" [ngClass]="{active: isActive('ligands')}">Ligands</button>
       </span>
-<!--
-      <a mat-button routerLink="/topics" [ngClass]="{active: isActive('topics')}">Topics</a>
--->
       <button mat-button [matMenuTriggerFor]="devMenu">Tools</button>
-      <mat-menu #devMenu="matMenu" [classList]="'mat-menu-panel'">
-        <a mat-button routerLink="/api" [ngClass]="{active: isActive('api')}">API</a>
-        <a mat-button routerLink="/toolbox" [ngClass]="{active: isActive('toolbox')}">Dev Tools</a>
-      </mat-menu>
+
       <button mat-button [matMenuTriggerFor]="aboutMenu">About</button>
-      <mat-menu #aboutMenu="matMenu" [classList]="'mat-menu-panel'">
-        <a mat-button routerLink="/about" [ngClass]="{active: isActive('about')}">About Pharos</a>
-        <a mat-button routerLink="/faq" [ngClass]="{active: isActive('faq')}">FAQ</a>
-      </mat-menu>
-      <a mat-button [matMenuTriggerFor]="tutorialMenu" id="tutorialMenu">Tutorials <mat-icon>lightbulb</mat-icon></a>
-      <mat-menu #tutorialMenu="matMenu" [classList]="'mat-menu-panel tutorialMenu'">
-        <button mat-menu-item *ngFor="let tour of tourService.menuTutorials" (click)="gotoTutorial(tour.storageKey)" class="tutorial-link"><span>{{tour.title}}</span>
-          <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete(tour.storageKey)">check_circle</mat-icon></button>
-      </mat-menu>
+
+      <button mat-button [matMenuTriggerFor]="tutorialMenu" id="tutorialMenu">Tutorials <mat-icon iconPositionEnd>lightbulb</mat-icon></button>
+
     </div>
     <span class="fill-remaining-space"></span>
     <pharos-search-component [fxHide.lt-md]="true" [placeholderStr]="'search'" class="searchcomponent"
                              [fixedwidthDropdown]="true"
                              *ngIf=searchBar></pharos-search-component>
     <button mat-button class="jira-button" aria-label="submit feedback" matTooltip="Submit Feedback" (click)="submitFeedback($event)" fxHide.lt-md>
-      Feedback <mat-icon>feedback</mat-icon>
+      Feedback <mat-icon iconPositionEnd>feedback</mat-icon>
     </button>
     <div *ngIf=profile class="profile-section signin-button" [matMenuTriggerFor]="profileMenu" fxHide.lt-md>
       <img [src]=profile.profilePic class="profile-pic" *ngIf="profile?.profilePic" alt="Profile picture of the signed in user">
       <span class="user-name">{{profile.name}}</span>
     </div>
+
     <button mat-button class="menu-button signin-button" aria-label = "signin button" (click)="openSignInModal()" *ngIf="!profile" fxHide.lt-md>
       Sign In
     </button>
+
+    <button mat-button (click)="mobilesidenav.close()" class="menu-button top-level-menu-button" aria-label = "menu button" (click)="mobilesidenav.toggle()" fxHide fxShow.lt-md>
+      <mat-icon iconPositionEnd>menu</mat-icon>
+    </button>
     <mat-menu #profileMenu="matMenu">
-      <button mat-menu-item routerLink="/profile">
+      <button class="vertical-button" mat-button routerLink="/profile">
         My Profile
       </button>
-      <button mat-menu-item (click)="signOut()">
+      <button class="vertical-button" mat-button (click)="signOut()">
         Sign Out
       </button>
     </mat-menu>
-   <!-- <button mat-icon-button class="share-button" [color]="'primary'" aria-label = "share link button" fxHide fxShow.lt-md>
-      <mat-icon>share</mat-icon>
-    </button>-->
-    <button mat-icon-button class="menu-button top-level-menu-button" aria-label = "menu button" (click)="mobilesidenav.toggle()" fxHide fxShow.lt-md>
-      <mat-icon>menu</mat-icon>
-    </button>
+
+    <mat-menu #devMenu="matMenu">
+      <button mat-button class="vertical-button" (click)="mobilesidenav.close()" routerLink="/api" [ngClass]="{active: isActive('api')}">API</button>
+      <button mat-button class="vertical-button" (click)="mobilesidenav.close()" routerLink="/toolbox" [ngClass]="{active: isActive('toolbox')}">Dev Tools</button>
+    </mat-menu>
+
+    <mat-menu #aboutMenu="matMenu">
+      <button mat-button class="vertical-button" (click)="mobilesidenav.close()" routerLink="/about" [ngClass]="{active: isActive('about')}">About Pharos</button>
+      <button mat-button class="vertical-button" (click)="mobilesidenav.close()" routerLink="/faq" [ngClass]="{active: isActive('faq')}">FAQ</button>
+    </mat-menu>
+
+    <mat-menu #tutorialMenu="matMenu" class='tutorialMenu'>
+      <button mat-button (click)="mobilesidenav.close(); gotoUseCases()" class="tutorial-link">
+        <span>Use Cases</span>
+        <mat-icon [color]="'primary'" matTooltip="Use Cases" iconPositionEnd>list</mat-icon>
+      </button>
+      <button mat-button (click)="mobilesidenav.close()" *ngFor="let tour of tourService.menuTutorials" (click)="gotoTutorial(tour.storageKey)" class="tutorial-link">
+        <span>{{tour.title}}</span>
+        <div fxFlex=""></div>
+        <mat-icon [color]="'primary'" iconPositionEnd>lightbulb</mat-icon>
+        <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete(tour.storageKey)" iconPositionEnd>check_circle</mat-icon>
+      </button>
+
+    </mat-menu>
+
   </mat-toolbar>
   </nav>
 </mat-sidenav-container>

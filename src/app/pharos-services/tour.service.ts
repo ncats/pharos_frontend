@@ -198,7 +198,7 @@ export class TourService {
     if (!isPlatformBrowser(this.platformID)) {
       return;
     }
-    if (!manual && this.localStorageService.store.getItem(TourType.WhatsNew318)) { // only autorun once
+    if (!manual && this.localStorageService.getItem(TourType.WhatsNew318)) { // only autorun once
       return;
     }
     this.loadPromise.then(() => {
@@ -969,11 +969,11 @@ export class TourService {
       this.featureTrackingService.trackFeature('Complete Tutorial', tourType);
     }
     this.removeTourParam();
-    const prevResult = this.localStorageService.store.getItem(tourType);
+    const prevResult = this.localStorageService.getItem(tourType);
     if (prevResult === 'complete' || (prevResult === 'cancel' && result === 'cancel')) {
       return;
     }
-    this.localStorageService.store.setItem(tourType, result);
+    this.localStorageService.setItem(tourType, result);
     if (reminder) {
       const title = this.menuTutorials.find(t => t.storageKey === tourType)?.title;
       const defaultSteps = [

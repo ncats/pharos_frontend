@@ -8,9 +8,7 @@ describe('StructureViewComponent', () => {
   let fixture: ComponentFixture<StructureViewComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ StructureViewComponent ]
-    })
+    TestBed.configureTestingModule({ })
     .compileComponents();
   }));
 

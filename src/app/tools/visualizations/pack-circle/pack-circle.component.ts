@@ -10,11 +10,16 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import * as d3 from 'd3v7';
-import {ExpressionInfoService} from "../../../pharos-services/expression-info.service";
-import {partition} from "lodash";
-import {CentralStorageService} from "../../../pharos-services/central-storage.service";
+import {ExpressionInfoService} from '../../../pharos-services/expression-info.service';
+import {CentralStorageService} from '../../../pharos-services/central-storage.service';
+import {MatCardModule} from '@angular/material/card';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {CommonModule} from '@angular/common';
+import {partition} from 'lodash';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatCardModule, FlexLayoutModule],
   selector: 'pharos-pack-circle',
   templateUrl: './pack-circle.component.html',
   styleUrls: ['./pack-circle.component.scss'],
@@ -64,7 +69,7 @@ export class PackCircleComponent implements OnInit, OnDestroy, OnChanges {
     }
     this.centralStorageService.focusedTinxDiseaseChanged.subscribe(focusedTinx => {
       checkFocus.call(this);
-    })
+    });
     this.expressionInfoService.focusedUberonChanged.subscribe(focusedUberon => {
       checkFocus.call(this);
     });
@@ -75,7 +80,7 @@ export class PackCircleComponent implements OnInit, OnDestroy, OnChanges {
       // @ts-ignore
       const chart = this.Pack(this.hierarchyData, {
         value: d => d.value, // size of each node (file); null for internal nodes (folders)
-        label: d => '',//(d, n) => [...d.name.split(/(?=[A-Z][a-z])/g), n.value.toLocaleString("en")].join("\n"),
+        label: d => '', // (d, n) => [...d.name.split(/(?=[A-Z][a-z])/g), n.value.toLocaleString("en")].join("\n"),
         // title: (d, n) => [...d.name.split(/(?=[A-Z][a-z])/g), n.data.value?.toLocaleString("en")].join("\n"),//`${n.ancestors().reverse().map(({data: d}) => d.name).join(".")}\n${n.value.toLocaleString("en")}`,
         width: this.width,
         height: this.height,
@@ -109,7 +114,7 @@ export class PackCircleComponent implements OnInit, OnDestroy, OnChanges {
     label, // given a leaf node d, returns the display name
     title, // given a node d, returns its hover text
     link, // given a node d, its link (if any)
-    linkTarget = "_blank", // the target attribute for links, if any
+    linkTarget = '_blank', // the target attribute for links, if any
     width = 640, // outer width, in pixels
     height = 400, // outer height, in pixels
     margin = 1, // shorthand for margins
@@ -120,7 +125,7 @@ export class PackCircleComponent implements OnInit, OnDestroy, OnChanges {
     padding = 2, // separation between circles
     fill, // fill for leaf circles
     fillOpacity = d => 1, // fill opacity for leaf circles
-    stroke = "#bbb", // stroke for internal circles
+    stroke = '#bbb', // stroke for internal circles
     strokeWidth, // stroke width for internal circles
     strokeOpacity, // stroke opacity for internal circles
   }) {
@@ -145,7 +150,7 @@ export class PackCircleComponent implements OnInit, OnDestroy, OnChanges {
     const T = title == null ? null : descendants.map(d => title(d.data, d));
 
     // Sort the leaves (typically by descending value for a pleasing layout).
-    if (sort != null) root.sort(sort);
+    if (sort != null) { root.sort(sort); }
 
     // Compute the layout.
     d3.pack()
@@ -158,36 +163,36 @@ export class PackCircleComponent implements OnInit, OnDestroy, OnChanges {
     const svg = d3.select(element)
       .append('svg:svg')
       .attr('id', this.id())
-      .attr("viewBox", [-marginLeft, -marginTop, width, height])
-      .attr("width", width)
-      .attr("height", height)
-      .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
-      .attr("font-family", "sans-serif")
-      .attr("font-size", 10)
-      .attr("text-anchor", "middle");
+      .attr('viewBox', [-marginLeft, -marginTop, width, height])
+      .attr('width', width)
+      .attr('height', height)
+      .attr('style', 'max-width: 100%; height: auto; height: intrinsic;')
+      .attr('font-family', 'sans-serif')
+      .attr('font-size', 10)
+      .attr('text-anchor', 'middle');
 
     const chartArea = svg.append('g');
     const buttons = svg.append('g');
 
     this.addTooltip();
 
-    let selectedSection = false;
-    const node = chartArea.selectAll("a")
+    const selectedSection = false;
+    const node = chartArea.selectAll('a')
       .data(descendants)
-      .join("a")
-      .attr("xlink:href", link == null ? null : (d, i) => link(d.data, d))
-      .attr("target", link == null ? null : linkTarget)
-      .attr("transform", d => `translate(${d.x},${d.y})`);
+      .join('a')
+      .attr('xlink:href', link == null ? null : (d, i) => link(d.data, d))
+      .attr('target', link == null ? null : linkTarget)
+      .attr('transform', d => `translate(${d.x},${d.y})`);
 
 
-    this.circles = node.append("circle")
-      .attr("fill", d => !(d.children) ? fill(d) : '#fff')
-      .attr("fill-opacity", d => fillOpacity(d))
-      .attr("stroke", d => d.children ? stroke : null)
-      .attr("stroke-width", d => d.children ? strokeWidth : null)
+    this.circles = node.append('circle')
+      .attr('fill', d => !(d.children) ? fill(d) : '#fff')
+      .attr('fill-opacity', d => fillOpacity(d))
+      .attr('stroke', d => d.children ? stroke : null)
+      .attr('stroke-width', d => d.children ? strokeWidth : null)
       .style('vector-effect', 'non-scaling-stroke')
-      .attr("stroke-opacity", d => d.children ? strokeOpacity : null)
-      .attr("r", d => d.r)
+      .attr('stroke-opacity', d => d.children ? strokeOpacity : null)
+      .attr('r', d => d.r)
       .on('mouseover', (event, d, n) => {
           this.highlightCircles('highlightCircle', this.config.highlightCheck, d);
       })
@@ -206,7 +211,7 @@ export class PackCircleComponent implements OnInit, OnDestroy, OnChanges {
         event.stopPropagation();
       });
 
-    if (T) node.append("title").text((d, i) => T[i]);
+    if (T) { node.append('title').text((d, i) => T[i]); }
 
     svg.on('mouseout', () => {
       this.hideTooltip();
@@ -216,12 +221,12 @@ export class PackCircleComponent implements OnInit, OnDestroy, OnChanges {
       this.highlightCircles('focusedCircle', (d, node) => this.config.focusedCheck(d, node));
     }
 
-    let zoom = d3.zoom()
+    const zoom = d3.zoom()
       .scaleExtent([1, 20])
       .translateExtent([[0, 0], [width, height]])
       .on('zoom', (event) => {
         this.currentScale = event.transform.k;
-        chartArea.attr("transform", `translate(${event.transform.x},${event.transform.y})scale(${event.transform.k})`);
+        chartArea.attr('transform', `translate(${event.transform.x},${event.transform.y})scale(${event.transform.k})`);
       });
     chartArea.call(zoom);
     this.addButtons(buttons, zoom, chartArea);
@@ -243,19 +248,19 @@ export class PackCircleComponent implements OnInit, OnDestroy, OnChanges {
     // 30px">Reset Zoom</text></g>
     reset.append('rect')
       .attr('class', 'zoombutton zoomin')
-      .attr("rx", 6)
-      .attr("ry", 6)
-      .attr("x", 0)
-      .attr("y", 0)
-      .attr("width", 200)
-      .attr("height", 55)
-      .attr("transform", "scale(1)")
+      .attr('rx', 6)
+      .attr('ry', 6)
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('width', 200)
+      .attr('height', 55)
+      .attr('transform', 'scale(1)')
       .attr('fill', '#23364e');
 
     reset.append('text')
       .attr('class', 'zoomtext')
-      .attr("x", 100)
-      .attr("y", 30)
+      .attr('x', 100)
+      .attr('y', 30)
       .attr('style', `font-size: 30px`)
       .html('Reset Zoom');
   }

@@ -70,4 +70,12 @@ $pharos-app-accent:  mat.define-palette($pharos-secondary);
 
 $ncats-app-warn:    mat.define-palette(mat.$red-palette, 700);
 
-$ncats-app-theme: mat.define-light-theme($pharos-app-primary, $pharos-app-accent, $ncats-app-warn);
+$ncats-app-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $pharos-app-primary,
+      accent: $pharos-app-accent,
+      warn: $ncats-app-warn
+    )
+  )
+)

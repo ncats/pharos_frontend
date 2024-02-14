@@ -11,6 +11,7 @@ import {debounceTime} from 'rxjs/operators';
  * directive to watch scroll location and track menu/jump to top button
  */
 @Directive({
+  standalone: true,
   selector: '[pharosScrollspy]'
 })
 

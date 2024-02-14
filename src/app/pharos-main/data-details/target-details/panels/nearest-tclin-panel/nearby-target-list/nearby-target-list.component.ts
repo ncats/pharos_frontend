@@ -1,8 +1,17 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {PageData} from '../../../../../../models/page-data';
 import {SharedPathwayDetails} from '../../../../../../models/target';
+import {MatPaginator} from '@angular/material/paginator';
+import {TargetCardComponent} from '../../../../../data-list/cards/target-card/target-card.component';
+import {CommonModule} from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [
+      CommonModule,
+    MatPaginator,
+    TargetCardComponent
+  ],
   selector: 'pharos-nearby-target-list',
   templateUrl: './nearby-target-list.component.html',
   styleUrls: ['./nearby-target-list.component.scss']

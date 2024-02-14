@@ -1,14 +1,15 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, ViewEncapsulation} from '@angular/core';
-import {PharosConfig} from '../../../config/pharos-config';
-import {BehaviorSubject} from 'rxjs/index';
-import {takeWhile} from 'rxjs/internal/operators';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, ViewEncapsulation} from '@angular/core';
+import {BehaviorSubject, takeWhile} from 'rxjs';
 import {PharosProperty} from '../../models/pharos-property';
-import {environment} from "../../../environments/environment";
+import {environment} from '../../../environments/environment';
+import {CommonModule} from '@angular/common';
 
 /**
  * displays a structure only from either a url or a smiles string
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule],
   selector: 'pharos-structure-view',
   templateUrl: './structure-view.component.html',
   styleUrls: ['./structure-view.component.scss'],
@@ -56,13 +57,9 @@ export class StructureViewComponent implements OnInit, OnChanges {
 
   /**
    * grab config to fetch the image urls
-   * @param {PharosConfig} pharosConfig
    * @param {ChangeDetectorRef} ref
    */
-  constructor(
-    private pharosConfig: PharosConfig,
-  //  private ref: ChangeDetectorRef
-  ) {
+  constructor( ) {
   }
 
   /**

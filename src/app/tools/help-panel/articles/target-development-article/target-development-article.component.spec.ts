@@ -11,9 +11,6 @@ describe('TargetDevelopmentArticleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TargetDevelopmentArticleComponent
-      ],
       imports: [
         MaterialModule,
         FlexLayoutModule

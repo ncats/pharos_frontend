@@ -2,6 +2,7 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 
 @Component({
+  standalone: true,
   template: ''
 })
 export class DynamicPanelBaseComponent implements OnInit, OnDestroy {
@@ -29,7 +30,7 @@ export class DynamicPanelBaseComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }

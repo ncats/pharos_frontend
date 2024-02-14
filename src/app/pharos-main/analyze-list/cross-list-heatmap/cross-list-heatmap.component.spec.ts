@@ -3,8 +3,6 @@ import {ApolloTestingModule} from "apollo-angular/testing";
 import { CrossListHeatmapComponent } from './cross-list-heatmap.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from '../../../shared/shared.module';
-import {GenericTableModule} from '../../../tools/generic-table/generic-table.module';
-import {RadarChartModule} from '../../../tools/visualizations/radar-chart/radar-chart.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AngularFireModule} from '@angular/fire/compat';
 import {COMMON_CONFIG} from '../../../../../test/test-config';
@@ -25,8 +23,6 @@ describe('CrossListHeatmapComponent', () => {
         ApolloTestingModule,
         BrowserAnimationsModule,
         SharedModule,
-        GenericTableModule,
-        RadarChartModule,
         RouterTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
@@ -36,9 +32,6 @@ describe('CrossListHeatmapComponent', () => {
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE},
         { provide: AngularFirestore, useValue: FIRESTORESTUB }
       ],
-      declarations: [
-        CrossListHeatmapComponent
-      ]
     })
     .compileComponents();
   });

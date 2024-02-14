@@ -26,14 +26,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [
-    StatsPageComponent
-  ],
   imports: [
-    RouterModule.forChild(routes),
-    CommonModule,
-    SharedModule,
-    CommonToolsModule
+    RouterModule.forChild(routes)
   ],
   providers: [QueryResolver]
 })

@@ -1,15 +1,25 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterModule} from '@angular/router';
 import {Target} from '../../../../../models/target';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {Facet} from '../../../../../models/facet';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
+import {CommonModule} from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 /**
  * Component to track the hierarchy of a target
  */
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule, MatCardModule, MatTooltipModule, RouterModule, ComponentHeaderComponent, ScrollspyDirective
+  ],
   selector: 'pharos-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   styleUrls: ['./breadcrumb.component.scss']

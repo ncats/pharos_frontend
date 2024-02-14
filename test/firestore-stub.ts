@@ -1,4 +1,4 @@
-import {BehaviorSubject, from, Observable} from 'rxjs/index';
+import {BehaviorSubject, from, Observable} from 'rxjs';
 
 
 export const FIRESTORESTUB = {

@@ -3,7 +3,6 @@ import {ApolloTestingModule} from "apollo-angular/testing";
 import { StructureSearchPageComponent } from './structure-search-page.component';
 import {CommonToolsModule} from '../tools/common-tools.module';
 import {SharedModule} from '../shared/shared.module';
-import {SketcherModule} from '../tools/marvin-sketcher/sketcher.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AngularFireModule} from '@angular/fire/compat';
@@ -15,14 +14,10 @@ describe('StructureSearchPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        StructureSearchPageComponent
-      ],
       imports: [
         BrowserAnimationsModule,
         RouterTestingModule,
         CommonToolsModule,
-        SketcherModule,
         SharedModule,
         AngularFireModule.initializeApp(COMMON_CONFIG),
         ApolloTestingModule

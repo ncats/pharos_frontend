@@ -15,6 +15,18 @@ export class LocalStorageService {
     }
   }
 
+  getItem(key: string){
+    if (this.isAvailable()) {
+      return this.store.getItem(key);
+    }
+  }
+
+  setItem(key: string, val: any) {
+    if (this.isAvailable()) {
+      return this.store.setItem(key, val);
+    }
+  }
+
   isAvailable(): boolean {
     if (isPlatformBrowser(this.platformID)) {
       return typeof localStorage !== 'undefined';

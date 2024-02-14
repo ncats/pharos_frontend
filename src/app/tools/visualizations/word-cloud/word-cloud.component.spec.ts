@@ -7,15 +7,14 @@ describe('WordCloudComponent', () => {
   let fixture: ComponentFixture<WordCloudComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ WordCloudComponent ]
-    })
+    await TestBed.configureTestingModule({ })
     .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(WordCloudComponent);
     component = fixture.componentInstance;
+    component.data = [];
     fixture.detectChanges();
   });
 

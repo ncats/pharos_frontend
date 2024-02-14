@@ -12,8 +12,7 @@ describe('DynamicTablePanelComponent', () => {
     TestBed.configureTestingModule({
       providers: [
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}
-      ],
-      declarations: [ DynamicTablePanelComponent ]
+      ]
     })
     .compileComponents();
   }));

@@ -25,13 +25,6 @@ describe('LevelSummaryPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TdarkSummaryComponent,
-        TbioSummaryComponent,
-        TchemSummaryComponent,
-        TclinSummaryComponent,
-        LevelSummaryPanelComponent
-      ],
       imports: [
         SharedModule,
         CommonToolsModule,

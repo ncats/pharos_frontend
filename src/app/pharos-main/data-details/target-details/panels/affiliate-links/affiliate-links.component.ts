@@ -2,8 +2,18 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {TargetPanelBaseComponent} from '../target-panel-base/target-panel-base.component';
 import {AffiliateLink} from '../../../../../models/target';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
+import {CommonModule} from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatTooltip} from '@angular/material/tooltip';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule, MatButtonModule, MatIconModule, FlexLayoutModule, MatCardModule, TargetPanelBaseComponent, MatTooltip
+  ],
   selector: 'pharos-affiliate-links',
   templateUrl: './affiliate-links.component.html',
   styleUrls: ['./affiliate-links.component.scss']

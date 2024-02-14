@@ -1,6 +1,6 @@
 import {Component, HostListener, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NcatsHeaderComponent} from './tools/ncats-header/ncats-header.component';
-import {ActivatedRoute, NavigationEnd, NavigationStart, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, NavigationStart, Router, RouterOutlet} from '@angular/router';
 import {LoadingService} from './pharos-services/loading.service';
 import {Title} from '@angular/platform-browser';
 import {TourService} from './pharos-services/tour.service';
@@ -9,12 +9,19 @@ import {interval, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {JsonldService} from './pharos-services/jsonld.service';
 import {UseCaseData} from './use-cases/use-case-data';
-import {CentralStorageService} from "./pharos-services/central-storage.service";
+import {CentralStorageService} from './pharos-services/central-storage.service';
+import {CommonModule} from '@angular/common';
+import {AlertComponent} from './tools/alert/alert.component';
+import {PharosLoadingSpinnerComponent} from './tools/pharos-loading-spinner/pharos-loading-spinner.component';
+import {ScrollToTopComponent} from './tools/scroll-to-top/scroll-to-top.component';
+import {PharosFooterComponent} from './tools/pharos-footer/pharos-footer.component';
 
 /**
  * main app component holder
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, NcatsHeaderComponent, AlertComponent, PharosLoadingSpinnerComponent, RouterOutlet, ScrollToTopComponent, PharosFooterComponent],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
@@ -140,7 +147,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }

@@ -11,9 +11,19 @@ import {SelectedFacetService} from '../../data-list/filter-panel/selected-facet.
 import {PathResolverService} from '../../data-list/filter-panel/path-resolver.service';
 import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
 import {TourType} from '../../../models/tour-type';
-import {isPlatformServer} from "@angular/common";
+import {CommonModule, isPlatformServer} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatCardModule} from '@angular/material/card';
+import {FormsModule} from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import {ComponentHeaderComponent} from '../../../tools/component-header/component-header.component';
+import {MatSelectModule} from '@angular/material/select';
+import {GenericTableComponent} from '../../../tools/generic-table/generic-table.component';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatCardModule, FormsModule, MatInputModule, ComponentHeaderComponent,
+    MatSelectModule, GenericTableComponent],
   selector: 'pharos-analyze-list',
   templateUrl: './filter-representation.component.html',
   styleUrls: ['./filter-representation.component.scss']

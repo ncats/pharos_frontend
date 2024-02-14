@@ -3,13 +3,24 @@ import {DynamicPanelComponent} from "../dynamic-panel/dynamic-panel.component";
 import {DynamicServicesService} from "../../pharos-services/dynamic-services.service";
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {PharosApiService} from "../../pharos-services/pharos-api.service";
-import {isPlatformServer} from "@angular/common";
-import {PharosConfig} from "../../../config/pharos-config";
+import {CommonModule, isPlatformServer} from "@angular/common";
 import {takeUntil} from "rxjs/operators";
 import {CentralStorageService} from "../../pharos-services/central-storage.service";
 import {environment} from "../../../environments/environment";
+import {MatCard, MatCardModule} from '@angular/material/card';
+import {ComponentHeaderComponent} from '../component-header/component-header.component';
+import {PredictionsPanelComponent} from '../predictions-panel/predictions-panel.component';
+import {ScrollspyDirective} from '../sidenav-panel/directives/scrollspy.directive';
 
 @Component({
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatCardModule,
+    ComponentHeaderComponent,
+    PredictionsPanelComponent,
+    ScrollspyDirective
+  ],
   selector: 'pharos-community-data-panel',
   templateUrl: './community-data-panel.component.html',
   styleUrls: ['./community-data-panel.component.scss']
@@ -42,7 +53,6 @@ export class CommunityDataPanelComponent extends DynamicPanelComponent implement
     private _route: ActivatedRoute,
     private pharosApiService: PharosApiService,
     private changeRef: ChangeDetectorRef,
-    private pharosConfig: PharosConfig,
     private router: Router,
     public dynamicServices: DynamicServicesService,
     private centralStorageService: CentralStorageService) {

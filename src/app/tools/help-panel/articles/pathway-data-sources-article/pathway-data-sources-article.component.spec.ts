@@ -7,9 +7,7 @@ describe('PathwayDataSourcesArticleComponent', () => {
   let fixture: ComponentFixture<PathwayDataSourcesArticleComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PathwayDataSourcesArticleComponent ]
-    })
+    TestBed.configureTestingModule({ })
     .compileComponents();
   }));
 

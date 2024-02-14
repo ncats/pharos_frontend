@@ -10,11 +10,19 @@ import {MolChangeService} from '../../../tools/marvin-sketcher/services/mol-chan
 import {DynamicServicesService} from '../../../pharos-services/dynamic-services.service';
 import {Helper} from '../../../models/utilities';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
+import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatChip, MatChipListbox, MatChipsModule} from '@angular/material/chips';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {StructureViewComponent} from '../../../tools/structure-view/structure-view.component';
 
 /**
  * panel to show selected facets or queries, and remove them
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatChipsModule, MatIconModule, MatButtonModule, StructureViewComponent],
   selector: 'pharos-facet-list',
   templateUrl: './selected-facet-list.component.html',
   styleUrls: ['./selected-facet-list.component.scss'],

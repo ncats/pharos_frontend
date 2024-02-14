@@ -5,8 +5,6 @@ import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../test/mock-activate-route';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from '../../../shared/shared.module';
-import {GenericTableModule} from '../../../tools/generic-table/generic-table.module';
-import {RadarChartModule} from '../../../tools/visualizations/radar-chart/radar-chart.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AngularFireModule} from '@angular/fire/compat';
 import {COMMON_CONFIG} from '../../../../../test/test-config';
@@ -21,12 +19,9 @@ describe('SequenceAlignmentsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SequenceSearchComponent ],
       imports: [
         BrowserAnimationsModule,
         SharedModule,
-        GenericTableModule,
-        RadarChartModule,
         RouterTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],

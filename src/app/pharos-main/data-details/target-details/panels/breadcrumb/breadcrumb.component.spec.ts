@@ -12,11 +12,7 @@ describe('BreadcrumbComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-      ],
-      declarations: [
-        BreadcrumbComponent
-      ], providers: [
+      providers: [
         DynamicServicesService,
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE},
       ]

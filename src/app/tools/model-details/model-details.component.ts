@@ -1,9 +1,17 @@
 import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {HttpClient} from '@angular/common/http';
-import {isPlatformBrowser} from '@angular/common';
+import {CommonModule, isPlatformBrowser} from '@angular/common';
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {PropertyDisplayComponent} from '../generic-table/components/property-display/property-display.component';
+import {MatToolbar} from '@angular/material/toolbar';
 
 @Component({
+  standalone: true,
+  imports: [CommonModule, FlexLayoutModule, MatButtonModule, MatIconModule, PropertyDisplayComponent, MatToolbar,
+    MatDialogModule],
   selector: 'pharos-model-details',
   templateUrl: './model-details.component.html',
   styleUrls: ['./model-details.component.scss']

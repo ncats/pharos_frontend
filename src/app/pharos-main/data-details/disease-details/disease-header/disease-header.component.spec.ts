@@ -3,8 +3,8 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {DiseaseHeaderComponent} from './disease-header.component';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../../test/mock-activate-route';
-import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {TESTDISEASE} from '../../../../../../test/test-disease';
+import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 
 describe('DiseaseHeaderComponent', () => {
   let component: DiseaseHeaderComponent;
@@ -15,7 +15,6 @@ describe('DiseaseHeaderComponent', () => {
       providers: [
         {provide: MatDialogRef, useValue: {}},
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}],
-      declarations: [DiseaseHeaderComponent],
       imports: [
         MatDialogModule
       ]

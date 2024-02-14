@@ -1,12 +1,16 @@
 import {Component, HostListener, Inject} from '@angular/core';
-import {DOCUMENT} from '@angular/common';
+import {CommonModule, DOCUMENT} from '@angular/common';
 import {Router} from '@angular/router';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
 
 /**
  * Component that contains a ui button that appears after scrolling past the top menu, on click, it scrolls the user back
  * to the top of the page
  */
 @Component({
+  standalone: true,
+  imports: [CommonModule, MatButtonModule, MatIconModule],
   selector: 'pharos-scroll-to-top',
   templateUrl: './scroll-to-top.component.html',
   styleUrls: ['./scroll-to-top.component.css']

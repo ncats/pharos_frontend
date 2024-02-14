@@ -1,11 +1,10 @@
-<div class="tkrow"
+<div class="tkrow mat-h1"
      fxLayout="row"
      fxLayoutAlign="space-between stretch">
   <div>
         <span [matTooltipClass]="'pharos-tooltip'"
               [matTooltip]="this.description"
-              class="mat-title">
-          {{headerText}}</span>
+        >{{headerText}}</span>
   </div>
   <div fxLayout="column" fxLayoutAlign="end end">
     <pharos-help-panel-trigger *ngIf="field"

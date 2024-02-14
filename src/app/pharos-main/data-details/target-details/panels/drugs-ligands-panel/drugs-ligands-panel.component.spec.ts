@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {SharedModule} from '../../../../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {GenericTableModule} from '../../../../../tools/generic-table/generic-table.module';
 import {LigandCardComponent} from '../../../../data-list/cards/ligand-card/ligand-card.component';
 import {ActivatedRoute} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -27,14 +26,8 @@ describe('DrugsLigandsPanelComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule,
         SharedModule,
-        GenericTableModule,
         ApolloTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
-      ],
-      declarations: [
-        LigandCardComponent,
-        DrugsLigandsPanelComponent,
-        IdgLevelIndicatorComponent
       ],
       providers: [
         AngularFireAuth,

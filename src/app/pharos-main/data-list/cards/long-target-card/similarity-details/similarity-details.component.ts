@@ -1,17 +1,34 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {GeneDetailsComponent} from "../gene-details/gene-details.component";
-import {SelectedFacetService} from "../../../filter-panel/selected-facet.service";
-import {VennDiagramData} from "../../../../../tools/visualizations/venn-diagram/venn-diagram.component";
-import {Target} from "../../../../../models/target";
+import {GeneDetailsComponent} from '../gene-details/gene-details.component';
+import {SelectedFacetService} from '../../../filter-panel/selected-facet.service';
+import {
+  VennDiagramComponent,
+  VennDiagramData
+} from '../../../../../tools/visualizations/venn-diagram/venn-diagram.component';
+import {Target} from '../../../../../models/target';
+import {MatCardSubtitle} from '@angular/material/card';
+import {
+  PropertyDisplayComponent
+} from '../../../../../tools/generic-table/components/property-display/property-display.component';
+import {MatTooltip} from '@angular/material/tooltip';
+import {CommonModule} from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [
+      CommonModule,
+    MatCardSubtitle,
+    PropertyDisplayComponent,
+    MatTooltip,
+    VennDiagramComponent
+  ],
   selector: 'pharos-similarity-details',
   templateUrl: './similarity-details.component.html',
   styleUrls: ['../long-target-card.component.scss']
 })
 export class SimilarityDetailsComponent extends GeneDetailsComponent implements OnInit {
   @Input() similarityTarget: Target;
-  similarityFacet: string = "";
+  similarityFacet = '';
   constructor(private selectedFacetService: SelectedFacetService) {
     super();
   }

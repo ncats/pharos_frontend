@@ -92,7 +92,7 @@ const ROUTES: Routes = [
   },
   {
     path: 'search',
-    loadChildren: () => import('./pharos-main/modules/search/search.module').then(m => m.SearchModule),
+    loadChildren: () => import('./pharos-main/modules/search/search-routing.module').then(m => m.SearchRoutingModule),
     data: {
       path: 'search',
       subpath: 'list',
@@ -139,7 +139,7 @@ const ROUTES: Routes = [
   },
   {
     path: 'targets/:id',
-    loadChildren: () => import('./pharos-main/modules/targets/target-details.module').then(m => m.TargetDetailsModule),
+    loadChildren: () => import('./pharos-main/modules/targets/target-details-routing.module').then(m => m.TargetDetailsRoutingModule),
     data: {
       path: 'targets',
       subpath: 'details',
@@ -159,7 +159,7 @@ const ROUTES: Routes = [
   },
   {
     path: 'diseases/:id',
-    loadChildren: () => import('./pharos-main/modules/diseases/disease-details.module').then(m => m.DiseaseDetailsModule),
+    loadChildren: () => import('./pharos-main/modules/diseases/disease-details-routing.module').then(m => m.DiseaseDetailsRoutingModule),
     data: {
       path: 'diseases',
       subpath: 'details',
@@ -179,7 +179,7 @@ const ROUTES: Routes = [
   },
   {
     path: 'ligands/:id',
-    loadChildren: () => import('./pharos-main/modules/ligands/ligand-details.module').then(m => m.LigandDetailsModule),
+    loadChildren: () => import('./pharos-main/modules/ligands/ligand-details-routing.module').then(m => m.LigandDetailsRoutingModule),
     data: {
       path: 'ligands',
       subpath: 'details',
@@ -221,7 +221,7 @@ const ROUTES: Routes = [
       anchorScrolling: 'enabled',
       onSameUrlNavigation: 'reload',
       scrollOffset: [0, 120],
-      initialNavigation: 'enabled',
+      initialNavigation: 'enabledBlocking',
       preloadingStrategy: PharosPreloader
     })
   ],

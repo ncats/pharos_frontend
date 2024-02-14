@@ -1,7 +1,6 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {ApolloTestingModule} from "apollo-angular/testing";
+import {ApolloTestingModule} from 'apollo-angular/testing';
 import {FieldSelectionDialogComponent} from './field-selection-dialog.component';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FIRESTORESTUB} from '../../../../test/firestore-stub';
@@ -12,6 +11,7 @@ import {SharedModule} from '../../shared/shared.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../test/mock-activate-route';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 describe('FieldSelectionDialogComponent', () => {
   let component: FieldSelectionDialogComponent;
@@ -19,7 +19,6 @@ describe('FieldSelectionDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FieldSelectionDialogComponent],
       imports: [
         ApolloTestingModule,
         BrowserAnimationsModule,

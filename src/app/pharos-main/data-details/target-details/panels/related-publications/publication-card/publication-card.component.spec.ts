@@ -7,9 +7,7 @@ describe('PublicationCardComponent', () => {
   let fixture: ComponentFixture<PublicationCardComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ PublicationCardComponent ]
-    })
+    await TestBed.configureTestingModule({ })
     .compileComponents();
   });
 

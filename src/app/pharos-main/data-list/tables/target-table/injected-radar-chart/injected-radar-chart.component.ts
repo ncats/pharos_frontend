@@ -3,14 +3,20 @@ import {
   Output
 } from '@angular/core';
 import {InjectedComponent} from '../../../../../tools/injected-component';
-import {BehaviorSubject, Subject} from 'rxjs/index';
+import {BehaviorSubject, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
+import {CommonModule} from '@angular/common';
 
 /**
  * component that is injected into a generic table
  * implements interface to standardize input and output
  */
 @Component({
+  standalone: true,
+  imports: [
+    RadarChartComponent, CommonModule
+  ],
   selector: 'pharos-injected-radar-chart',
   templateUrl: './injected-radar-chart.component.html',
   styleUrls: ['./injected-radar-chart.component.scss'],
@@ -88,7 +94,7 @@ export class InjectedRadarChartComponent implements InjectedComponent, OnInit, O
   }
 
   ngOnDestroy() {
-    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.next(true);
     this.ngUnsubscribe.complete();
   }
 }
