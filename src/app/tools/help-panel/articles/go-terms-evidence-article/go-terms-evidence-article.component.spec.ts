@@ -7,9 +7,7 @@ describe('GoTermsEvidenceArticleComponent', () => {
   let fixture: ComponentFixture<GoTermsEvidenceArticleComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ GoTermsEvidenceArticleComponent ]
-    })
+    await TestBed.configureTestingModule({ })
     .compileComponents();
   });
 

@@ -30,10 +30,6 @@ describe('FilterPanelComponent', () => {
         RouterTestingModule,
         BrowserAnimationsModule
       ],
-      declarations: [
-        FilterPanelComponent,
-        FacetTableComponent
-      ],
       providers: [
         PharosApiService,
         LoadingService,

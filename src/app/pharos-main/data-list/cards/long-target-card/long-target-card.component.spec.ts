@@ -7,10 +7,8 @@ describe('LongTargetCardComponent', () => {
   let fixture: ComponentFixture<LongTargetCardComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ LongTargetCardComponent ]
-    })
-    .compileComponents();
+    TestBed.configureTestingModule({ })
+        .compileComponents();
   }));
 
   beforeEach(() => {

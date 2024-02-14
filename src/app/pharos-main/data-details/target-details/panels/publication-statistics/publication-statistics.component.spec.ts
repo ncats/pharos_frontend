@@ -21,7 +21,6 @@ describe('PublicationStatisticsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PublicationStatisticsComponent ],
       imports: [
         SharedModule,
         ApolloTestingModule,

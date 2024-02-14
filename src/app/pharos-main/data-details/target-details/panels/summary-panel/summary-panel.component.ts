@@ -18,6 +18,7 @@ import {RadarChartComponent} from '../../../../../tools/visualizations/radar-cha
 import {KnowledgeTableComponent} from '../../../../../tools/knowledge-table/knowledge-table.component';
 import {MatIcon} from '@angular/material/icon';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {CommunityDataPanelComponent} from '../../../../../tools/community-data-panel/community-data-panel.component';
 
 
 /**
@@ -27,7 +28,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 @Component({
   standalone: true,
   imports: [CommonModule, ScrollspyDirective, ComponentHeaderComponent, MatCardModule, FlexLayoutModule, MatIcon,
-    PropertyDisplayComponent, MatTooltip, GeneSummaryComponent, RadarChartComponent, KnowledgeTableComponent],
+    PropertyDisplayComponent, MatTooltip, GeneSummaryComponent, RadarChartComponent, KnowledgeTableComponent,
+    CommunityDataPanelComponent],
   selector: 'pharos-summary-panel',
   templateUrl: './summary-panel.component.html',
   styleUrls: ['./summary-panel.component.scss'],

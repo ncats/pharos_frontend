@@ -17,9 +17,6 @@ describe('TopicSaveModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TopicSaveModalComponent
-      ],
       imports: [
         BrowserAnimationsModule,
         SharedModule,

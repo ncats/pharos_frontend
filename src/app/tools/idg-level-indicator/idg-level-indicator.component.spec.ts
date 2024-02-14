@@ -7,9 +7,7 @@ describe('IdgLevelIndicatorComponent', () => {
   let fixture: ComponentFixture<IdgLevelIndicatorComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ IdgLevelIndicatorComponent ]
-    })
+    TestBed.configureTestingModule({ })
     .compileComponents();
   }));
 

@@ -1,8 +1,6 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {TargetPanelBaseComponent} from '../target-panel-base/target-panel-base.component';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
-import {PageData} from '../../../../../models/page-data';
-import {SharedPathwayDetails} from '../../../../../models/target';
 import {ExploreListButtonComponent} from '../../../../../tools/explore-list-button/explore-list-button.component';
 import {NearbyTargetListComponent} from './nearby-target-list/nearby-target-list.component';
 import {MatTabsModule} from '@angular/material/tabs';

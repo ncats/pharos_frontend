@@ -134,8 +134,7 @@ export class ApiPageComponent implements OnInit {
     document.getElementById('embedded-sandbox').innerHTML = '';
     this.sandbox = new ApolloSandbox({
       target: '#embedded-sandbox',
-      initialEndpoint: environment.graphqlUrl,
-      includeCookies: false
+      initialEndpoint: environment.graphqlUrl
     });
     this.featureTrackingService.trackFeature('API Example Query', details.name);
   }
@@ -151,8 +150,7 @@ export class ApiPageComponent implements OnInit {
     if (isPlatformBrowser(this.platformID)) {
       this.sandbox = new ApolloSandbox({
         target: '#embedded-sandbox',
-        initialEndpoint: environment.graphqlUrl,
-        includeCookies: false
+        initialEndpoint: environment.graphqlUrl
       });
     }
   }

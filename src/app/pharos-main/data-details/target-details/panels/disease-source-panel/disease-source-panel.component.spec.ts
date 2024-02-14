@@ -13,6 +13,8 @@ import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route'
 import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../test/test-target';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('DiseaseSourceComponent', () => {
   let component: DiseaseSourceComponent;
@@ -21,18 +23,16 @@ describe('DiseaseSourceComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
-        CommonToolsModule,
+          BrowserAnimationsModule,
         ApolloTestingModule,
-        RouterTestingModule,
+        RouterTestingModule, HttpClientTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
       providers: [
         AngularFireAuth,
         { provide: AngularFirestore, useValue: FIRESTORESTUB },
         { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
-      ],
-      declarations: [ DiseaseSourceComponent ]
+      ]
     })
     .compileComponents();
   }));

@@ -11,14 +11,10 @@ describe('RadarChartViewerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TargetHeaderComponent,
-        RadarChartViewerComponent ],
       imports: [
         SharedModule,
         CommonToolsModule
       ]
-
     })
     .compileComponents();
   }));

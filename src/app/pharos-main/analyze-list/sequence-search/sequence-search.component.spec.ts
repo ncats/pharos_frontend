@@ -19,7 +19,6 @@ describe('SequenceAlignmentsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SequenceSearchComponent ],
       imports: [
         BrowserAnimationsModule,
         SharedModule,

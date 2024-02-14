@@ -12,8 +12,8 @@ describe('ScrollToTopComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        MaterialModule],
-      declarations: [ ScrollToTopComponent ]
+        MaterialModule
+      ]
     })
     .compileComponents();
   }));

@@ -23,7 +23,6 @@ describe('PathwaysPanelComponent', () => {
         HttpClientTestingModule,
         ApolloTestingModule
       ],
-      declarations: [ PathwaysPanelComponent ],
       providers: [
         AngularFireAuth,
         { provide: AngularFirestore, useValue: FIRESTORESTUB },

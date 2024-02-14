@@ -20,9 +20,6 @@ describe('NewsPanelComponent', () => {
         SharedModule,
         AngularFireModule.initializeApp(COMMON_CONFIG),
       ],
-      declarations: [
-        NewsPanelComponent
-      ],
       providers: [
         { provide: AngularFirestore, useValue: FIRESTORESTUB }
       ],

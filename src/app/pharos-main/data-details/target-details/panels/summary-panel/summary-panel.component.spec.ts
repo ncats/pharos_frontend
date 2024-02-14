@@ -32,10 +32,6 @@ describe('SummaryPanelComponent', () => {
         AngularFireAuth,
         { provide: AngularFirestore, useValue: FIRESTORESTUB },
         { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
-      ],
-      declarations: [
-        SummaryPanelComponent,
-        RadarChartComponent
       ]
     })
     .compileComponents();

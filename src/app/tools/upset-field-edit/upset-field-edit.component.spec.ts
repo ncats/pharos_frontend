@@ -12,7 +12,6 @@ describe('UpsetFieldEditComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [UpsetFieldEditComponent],
       providers: [
         {provide: MatDialogRef, useValue: {}},
         {

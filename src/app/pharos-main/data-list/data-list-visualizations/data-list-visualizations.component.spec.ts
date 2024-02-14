@@ -33,11 +33,6 @@ describe('DataListVisualizationsComponent', () => {
         ApolloTestingModule,
         BrowserAnimationsModule
       ],
-      declarations: [
-        DonutChartComponent,
-        VisualizationOptionsComponent,
-        DataListVisualizationsComponent
-      ],
       providers: [
         PharosApiService,
         LoadingService,

@@ -35,12 +35,6 @@ describe('AnalyzeHeaderComponent', () => {
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE},
         { provide: AngularFirestore, useValue: FIRESTORESTUB }
       ],
-      declarations: [
-        AnalyzeHeaderComponent,
-        IdgLevelIndicatorComponent,
-        TargetTableComponent,
-        TargetCardComponent
-      ]
     })
     .compileComponents();
   });

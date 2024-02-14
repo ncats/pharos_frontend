@@ -19,7 +19,6 @@ describe('FieldSelectionDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FieldSelectionDialogComponent],
       imports: [
         ApolloTestingModule,
         BrowserAnimationsModule,

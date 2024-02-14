@@ -12,7 +12,6 @@ describe('TbioSummaryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TbioSummaryComponent ],
       imports: [
         MaterialModule,
         FlexLayoutModule

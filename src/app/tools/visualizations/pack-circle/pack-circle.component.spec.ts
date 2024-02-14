@@ -11,7 +11,6 @@ describe('PackCircleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PackCircleComponent ],
       providers: [
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}
       ]

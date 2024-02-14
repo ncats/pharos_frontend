@@ -19,7 +19,6 @@ describe('ExploreListButtonComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ExploreListButtonComponent],
       imports: [
         RouterTestingModule,
         BrowserAnimationsModule,

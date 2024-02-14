@@ -29,8 +29,7 @@ describe('OrthologPanelComponent', () => {
         AngularFireAuth,
         { provide: AngularFirestore, useValue: FIRESTORESTUB },
         { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
-      ],
-      declarations: [ OrthologPanelComponent ]
+      ]
     })
     .compileComponents();
   }));

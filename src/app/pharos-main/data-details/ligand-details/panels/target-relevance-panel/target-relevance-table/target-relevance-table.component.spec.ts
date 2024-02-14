@@ -7,9 +7,7 @@ describe('TargetRelevanceTableComponent', () => {
   let fixture: ComponentFixture<TargetRelevanceTableComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ TargetRelevanceTableComponent ]
-    })
+    await TestBed.configureTestingModule({ })
     .compileComponents();
   });
 

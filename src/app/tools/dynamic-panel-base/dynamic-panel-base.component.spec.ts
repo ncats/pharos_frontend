@@ -7,9 +7,7 @@ describe('DynamicPanelBaseComponent', () => {
   let fixture: ComponentFixture<DynamicPanelBaseComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ DynamicPanelBaseComponent ]
-    })
+    TestBed.configureTestingModule({ })
     .compileComponents();
   }));
 

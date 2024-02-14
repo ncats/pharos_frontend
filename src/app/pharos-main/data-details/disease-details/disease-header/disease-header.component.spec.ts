@@ -15,7 +15,6 @@ describe('DiseaseHeaderComponent', () => {
       providers: [
         {provide: MatDialogRef, useValue: {}},
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}],
-      declarations: [DiseaseHeaderComponent],
       imports: [
         MatDialogModule
       ]

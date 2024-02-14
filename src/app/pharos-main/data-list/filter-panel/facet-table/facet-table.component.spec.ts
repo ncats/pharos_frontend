@@ -32,9 +32,6 @@ describe('FacetTableComponent', () => {
         BrowserAnimationsModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
-      declarations: [
-        FacetTableComponent
-      ],
       providers: [
         PharosApiService,
         LoadingService,

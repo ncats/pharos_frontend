@@ -22,9 +22,6 @@ describe('HelpPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        HelpPanelComponent
-      ],
       imports: [
         HttpClientTestingModule,
         SharedModule,

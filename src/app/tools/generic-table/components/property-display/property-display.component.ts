@@ -3,7 +3,7 @@ import {DataProperty} from './data-property';
 import {ContingencyTable} from '../../../../models/facet';
 import {CommonModule} from '@angular/common';
 import {RouterLink} from '@angular/router';
-import {MatTooltip} from '@angular/material/tooltip';
+import {MatTooltip, MatTooltipModule} from '@angular/material/tooltip';
 import {MatIconModule} from '@angular/material/icon';
 
 /**
@@ -11,7 +11,7 @@ import {MatIconModule} from '@angular/material/icon';
  */
 @Component({
   standalone: true,
-  imports: [CommonModule, RouterLink, MatTooltip, MatIconModule],
+  imports: [CommonModule, RouterLink, MatTooltipModule, MatIconModule],
   selector: 'ncats-property-display',
   templateUrl: './property-display.component.html',
   styleUrls: ['./property-display.component.scss']

@@ -12,8 +12,8 @@ import {Helper} from '../../../models/utilities';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {MatChip} from '@angular/material/chips';
-import {MatIcon, MatIconModule} from '@angular/material/icon';
+import {MatChip, MatChipListbox, MatChipsModule} from '@angular/material/chips';
+import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {StructureViewComponent} from '../../../tools/structure-view/structure-view.component';
 
@@ -22,7 +22,7 @@ import {StructureViewComponent} from '../../../tools/structure-view/structure-vi
  */
 @Component({
   standalone: true,
-  imports: [CommonModule, FlexLayoutModule, MatChip, MatIconModule, MatButtonModule, StructureViewComponent],
+  imports: [CommonModule, FlexLayoutModule, MatChipsModule, MatIconModule, MatButtonModule, StructureViewComponent],
   selector: 'pharos-facet-list',
   templateUrl: './selected-facet-list.component.html',
   styleUrls: ['./selected-facet-list.component.scss'],

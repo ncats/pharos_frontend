@@ -36,10 +36,6 @@ describe('ExpressionPanelComponent', () => {
         AngularFireAuth,
         { provide: AngularFirestore, useValue: FIRESTORESTUB },
         { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
-      ],
-      declarations: [
-        ExpressionPanelComponent,
-        DiseaseSourceComponent
       ]
     })
     .compileComponents();

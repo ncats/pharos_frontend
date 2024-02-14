@@ -17,7 +17,6 @@ describe('SimilarityDetailsComponent', () => {
       imports: [
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
-      declarations: [SimilarityDetailsComponent],
       providers: [
         {provide: AngularFirestore, useValue: FIRESTORESTUB},
         AngularFireAuth,

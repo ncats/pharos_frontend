@@ -9,7 +9,6 @@ describe('ModelDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ModelDetailsComponent ],
       imports: [
         SharedModule,
       ],

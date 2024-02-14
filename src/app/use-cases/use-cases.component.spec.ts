@@ -23,9 +23,6 @@ describe('UseCasesComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule
       ],
-      declarations: [
-        UseCasesComponent
-      ],
       providers: [
         AngularFireAuth,
         { provide: AngularFirestore, useValue: FIRESTORESTUB },

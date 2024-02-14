@@ -14,9 +14,6 @@ describe('StructureSearchPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        StructureSearchPageComponent
-      ],
       imports: [
         BrowserAnimationsModule,
         RouterTestingModule,

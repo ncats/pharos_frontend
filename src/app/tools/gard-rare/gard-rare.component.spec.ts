@@ -7,9 +7,7 @@ describe('GardRareComponent', () => {
   let fixture: ComponentFixture<GardRareComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ GardRareComponent ]
-    })
+    await TestBed.configureTestingModule({ })
     .compileComponents();
   });
 

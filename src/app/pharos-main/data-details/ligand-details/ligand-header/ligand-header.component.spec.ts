@@ -23,7 +23,6 @@ describe('LigandHeaderComponent', () => {
         UnfurlingMetaService,
         { provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE }
         ],
-      declarations: [ LigandHeaderComponent ],
       schemas: [
         NO_ERRORS_SCHEMA
       ]

@@ -20,7 +20,6 @@ describe('IdgResourcesPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IdgResourcesPanelComponent ],
       imports: [
         BrowserAnimationsModule,
         SharedModule,

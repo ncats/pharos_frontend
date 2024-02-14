@@ -13,8 +13,7 @@ describe('AboutPanelComponent', () => {
       imports: [
         BrowserAnimationsModule,
         SharedModule
-      ],
-      declarations: [ AboutPanelComponent ]
+      ]
     })
     .compileComponents();
   }));

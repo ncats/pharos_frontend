@@ -154,7 +154,7 @@ export class UseCasesComponent implements OnInit, OnDestroy, AfterViewInit {
       this.location.go(url);
       if (anchor) {
         const selectedCase = UseCaseData.getUseCases().find(c => c.anchor === anchor);
-        this.titleService.setTitle('Pharos : Use Cases - ' + selectedCase.title);
+        this.titleService.setTitle('Pharos : Use Cases - ' + selectedCase?.title);
       } else {
         this.titleService.setTitle('Pharos : Use Cases');
       }
@@ -165,8 +165,10 @@ export class UseCasesComponent implements OnInit, OnDestroy, AfterViewInit {
   scroll(anchor) {
     if (isPlatformBrowser(this.platformID)) {
       const section = this.scrollSections.find(section => section.nativeElement.id === anchor);
-      const y = this.useCaseDiv.nativeElement.scrollTop + section.nativeElement.getBoundingClientRect().y - 100;
-      this.useCaseDiv.nativeElement.scrollTo({top: y});
+      if (section) {
+        const y = this.useCaseDiv.nativeElement.scrollTop + section.nativeElement.getBoundingClientRect().y - 100;
+        this.useCaseDiv.nativeElement.scrollTo({top: y});
+      }
       this.clicking = true;
       this.updateUrl(anchor);
     }
