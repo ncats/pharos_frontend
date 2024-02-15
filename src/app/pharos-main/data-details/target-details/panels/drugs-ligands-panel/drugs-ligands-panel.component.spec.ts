@@ -9,7 +9,7 @@ import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {COMMON_CONFIG} from '../../../../../../../test/test-config';
 import {AngularFireModule} from '@angular/fire/compat';
-import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../test/test-target';
+import {TESTTARGET} from '../../../../../../../test/test-target';
 import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from "@angular/core";
 import {DrugPanelParameters, DrugsLigandsPanelComponent} from "./drugs-ligands-panel.component";
 import {HttpClientTestingModule} from '@angular/common/http/testing';

@@ -1,6 +1,5 @@
 import {Inject, Injectable} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
-import {NavigationEnd, Router} from '@angular/router';
 import {Target} from '../models/target';
 import {Disease} from '../models/disease';
 import {Pathway} from '../models/pathway';
@@ -13,8 +12,12 @@ import {Task} from '../models/use-case-step';
   providedIn: 'root'
 })
 export class JsonldService {
+
+  constructor(@Inject(DOCUMENT) private _document: Document) {}
   baseUrl = 'https://pharos.nih.gov';
   scriptType = 'application/ld+json';
+
+  dynamicClasses = ['structured-data-dynamic', 'structured-data-usecase', 'structured-data-tdl'];
 
   orgSchema() {
     const dataObj = {
@@ -25,23 +28,23 @@ export class JsonldService {
       name: 'Pharos : Illuminating the Druggable Genome',
       sameAs: [
         'https://twitter.com/idg_pharos',
-        "https://www.youtube.com/c/DruggableGenomeIDG"
+        'https://www.youtube.com/c/DruggableGenomeIDG'
       ],
       description: 'Pharos is the web interface for data collected by the Illuminating the Druggable Genome initiative. Target, disease and ligand information are collected and displayed.',
       potentialAction: {
-        "@type": "SearchAction",
-        "target": this.baseUrl + "/search?q={query}",
-        "query": "required"
+        '@type': 'SearchAction',
+        target: this.baseUrl + '/search?q={query}',
+        query: 'required'
       }
-    }
+    };
     return dataObj;
-  };
+  }
 
   property(name: string, value: string | number, externalLink?: string) {
     const dataObj: any = {
       '@type': 'PropertyValue',
-      name: name,
-      value: value
+      name,
+      value
     };
     if (externalLink) {
       dataObj.url = externalLink;
@@ -62,7 +65,7 @@ export class JsonldService {
         },
         name: 'GO ' + termType
       }
-    }
+    };
     return dataObj;
   }
 
@@ -71,26 +74,26 @@ export class JsonldService {
       '@type': 'BioChemEntity',
       name: pathway.name,
       mainEntityOfPage: pathway.url
-    }
-    dataObj.identifier = [this.property("Pathway Source", pathway.type)];
+    };
+    dataObj.identifier = [this.property('Pathway Source', pathway.type)];
     if (pathway.sourceID) {
-      dataObj.identifier.push(this.property("Pathway ID", pathway.sourceID));
+      dataObj.identifier.push(this.property('Pathway ID', pathway.sourceID));
     }
     return dataObj;
   }
 
   ligandSchema(ligand: Ligand, root = true) {
-    if (!ligand) {return null;}
+    if (!ligand) {return null; }
     const getIdentifiers = () => {
       const list = ligand.synonymLabels().filter(synonym => synonym.label !== 'LyCHI');
       const ids = [];
       list.forEach(syn => {
         ids.push(this.property(syn.label, syn.term, syn.externalLink));
-      })
+      });
       return ids;
-    }
+    };
     const primeActivity: LigandActivity = ligand.activities[0].activities.find(a => a.moa);
-    const persistentPage = this.baseUrl + '/ligands/' + encodeURIComponent(ligand.isdrug ? ligand.name : ligand.ligid)
+    const persistentPage = this.baseUrl + '/ligands/' + encodeURIComponent(ligand.isdrug ? ligand.name : ligand.ligid);
     const dataObj: any = {
       '@type': 'ChemicalSubstance',
       '@id': persistentPage,
@@ -100,7 +103,7 @@ export class JsonldService {
       url: persistentPage,
       chemicalComposition: ligand.smiles,
       identifier: getIdentifiers()
-    }
+    };
     if (ligand.isdrug) {
       dataObj.potentialUse = 'FDA Approved Drug';
     }
@@ -114,15 +117,15 @@ export class JsonldService {
   }
 
   diseaseSchema(disease: Disease, root = true) {
-    if (!disease) {return null;}
+    if (!disease) {return null; }
     const getIdentifiers = () => {
       const ids = [];
       ids.push(this.property('MONDO ID', disease.mondoID));
       disease.mondoEquivalents?.forEach(did => {
         ids.push(this.property(did.name, did.id));
-      })
+      });
       return ids;
-    }
+    };
     const persistentPage = this.baseUrl + '/diseases/' + encodeURIComponent(disease.name);
     const dataObj: any = {
       '@type': 'MedicalCondition',
@@ -132,7 +135,7 @@ export class JsonldService {
       url: persistentPage,
       description: disease.mondoDescription || disease.doDescription || disease.uniprotDescription,
       identifier: getIdentifiers()
-    }
+    };
     if (root) {
       dataObj['@context'] = 'https://schema.org';
     }
@@ -140,15 +143,15 @@ export class JsonldService {
   }
 
   targetSchema(target: Target, root = true) {
-    if (!target) {return null;}
+    if (!target) {return null; }
     const getIdentifiers = () => {
       const ids = [];
       if (target.gene) {
-        ids.push(this.property("Gene Symbol", target.gene));
+        ids.push(this.property('Gene Symbol', target.gene));
       }
-      ids.push(this.property("UniProt ID", target.accession));
+      ids.push(this.property('UniProt ID', target.accession));
       return ids;
-    }
+    };
     const persistentPage = this.baseUrl + '/targets/' + target.preferredSymbol;
     const dataObj: any = {
       '@type': 'Protein',
@@ -167,63 +170,63 @@ export class JsonldService {
         dataObj.bioChemInteraction = [];
         target.ppis.forEach(ppi => {
           dataObj.bioChemInteraction.push(this.targetSchema(ppi, false));
-        })
+        });
       }
 
       if (target.diseaseCount > 0) {
         dataObj.associatedDisease = [];
         target.diseases.forEach(disease => {
           dataObj.associatedDisease.push(this.diseaseSchema(disease, false));
-        })
+        });
       }
 
       if (target.pathways?.length > 0) {
         dataObj.hasBioChemEntityPart = [];
         target.pathways.forEach(pathway => {
           dataObj.hasBioChemEntityPart.push(this.pathwaySchema(pathway));
-        })
+        });
       }
 
       if (target.goFunction?.length > 0) {
         dataObj.hasMolecularFunction = [];
         target.goFunction.forEach(goFunction => {
           dataObj.hasMolecularFunction.push(this.goSchema(goFunction, 'Function'));
-        })
+        });
       }
 
       if (target.goProcess?.length > 0) {
         dataObj.isInvolvedInBiologicalProcess = [];
         target.goProcess.forEach(goProcess => {
           dataObj.isInvolvedInBiologicalProcess.push(this.goSchema(goProcess, 'Process'));
-        })
+        });
       }
 
       if (target.goComponent?.length > 0) {
         dataObj.isLocatedInSubcellularLocation = [];
         target.goComponent.forEach(goComponent => {
           dataObj.isLocatedInSubcellularLocation.push(this.goSchema(goComponent, 'Component'));
-        })
+        });
       }
 
       if (target.drugs?.length > 0) {
         dataObj.bioChemInteraction = dataObj.bioChemInteraction || [];
         target.drugs.forEach(drug => {
           dataObj.bioChemInteraction.push(this.ligandSchema(drug, false));
-        })
+        });
       }
       if (target.ligands?.length > 0) {
         dataObj.bioChemInteraction = dataObj.bioChemInteraction || [];
         target.ligands.forEach(drug => {
           dataObj.bioChemInteraction.push(this.ligandSchema(drug, false));
-        })
+        });
       }
     }
 
     return dataObj;
-  };
+  }
 
   ratingSchema(tdl: string) {
-    if (!tdl) {return null;}
+    if (!tdl) {return null; }
     const getExplanation = () => {
       switch (tdl) {
         case 'Tdark':
@@ -252,22 +255,22 @@ export class JsonldService {
         logo: 'https://commonfund.nih.gov/sites/default/files/IDG_LOGO_UPRIGHT_3.png',
         url: 'https://commonfund.nih.gov/idg'
       }
-    }
+    };
     return dataObj;
   }
 
   usecaseSchema(usecase: string) {
-    if (!usecase) {return null;}
+    if (!usecase) {return null; }
     const usecaseData = UseCaseData.getUseCases().find(c => c.anchor === usecase);
     if (usecaseData) {
       const dataObj = {
-        "@context": "https://schema.org",
-        "@type": "HowTo",
+        '@context': 'https://schema.org',
+        '@type': 'HowTo',
         name: usecaseData.title,
         step: [],
         keywords: usecaseData.keywords.join(', '),
         url: this.baseUrl + '/usecases/' + usecaseData.anchor
-      }
+      };
       let position = 0;
       usecaseData.steps.forEach(step => {
         if (step instanceof Task) {
@@ -279,17 +282,13 @@ export class JsonldService {
               position: 1,
               text: step.title
             }
-          })
+          });
         }
-      })
+      });
       return dataObj;
     }
     return;
   }
-
-  dynamicClasses = ['structured-data-dynamic', 'structured-data-usecase', 'structured-data-tdl']
-
-  constructor(@Inject(DOCUMENT) private _document: Document) {}
 
   removeStructuredData(): void {
     const els = [];
@@ -300,7 +299,7 @@ export class JsonldService {
   }
 
   insertSchema(schema: Record<string, any>, className = 'structured-data-dynamic'): void {
-    if (!schema) {return;}
+    if (!schema) {return; }
     let script;
     let shouldAppend = false;
     if (this._document.head.getElementsByClassName(className).length) {

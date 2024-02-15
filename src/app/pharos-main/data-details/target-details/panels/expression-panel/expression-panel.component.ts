@@ -9,8 +9,6 @@ import {
 } from '@angular/core';
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {Target} from '../../../../../models/target';
-import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
-import {ActivatedRoute} from '@angular/router';
 import {Subject} from 'rxjs';
 import {CommonModule, isPlatformBrowser, NgTemplateOutlet} from '@angular/common';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
@@ -22,7 +20,6 @@ import {
   PackCircleComponent,
   PackCircleConfig
 } from '../../../../../tools/visualizations/pack-circle/pack-circle.component';
-import * as d3 from 'd3v7';
 import {MatCardModule} from '@angular/material/card';
 import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
 import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
@@ -56,8 +53,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
    * @param navSectionsService
    */
   constructor(
-    private pharosApiService: PharosApiService,
-    private _route: ActivatedRoute,
     private changeRef: ChangeDetectorRef,
     @Inject(PLATFORM_ID) private platformID: any,
     public dynamicServices: DynamicServicesService,
@@ -128,7 +123,6 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
   tissueClicked(input, source) {
     const uberonObj = this.expressionInfoService.get(input);
     const tissue = uberonObj?.name;
-    const uberon = uberonObj?.uid;
     if (source === 'anatomogram') {
       if (tissue === this.clickedTissue) {
         this.clickedTissue = '';
@@ -267,7 +261,8 @@ export class ExpressionPanelComponent extends DynamicPanelComponent implements O
       heatMapData.addPoint(
           expression.type,
           expression.uberon?.name || expression.tissue,
-          (expression[field] || '') + (ExpressionPanelComponent.getLabel(expression.type) ? ' ' + ExpressionPanelComponent.getLabel(expression.type) : ''),
+          (expression[field] || '') + (ExpressionPanelComponent.getLabel(expression.type) ? ' ' +
+              ExpressionPanelComponent.getLabel(expression.type) : ''),
           expression.type === 'JensenLab TISSUES' ? expression.value / 5 : expression.sourceRank,
           expression.uberon, {
             valueLabel: expression.type === 'JensenLab TISSUES' ? 'Confidence' : null,

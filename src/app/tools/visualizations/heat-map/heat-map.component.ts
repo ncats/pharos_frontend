@@ -1,10 +1,10 @@
 import {
   Component,
   ElementRef, HostListener,
-  Inject, Input,
+  Input,
   OnChanges,
   OnInit,
-  PLATFORM_ID, SimpleChanges,
+  SimpleChanges,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -22,8 +22,7 @@ import {DynamicServicesService} from '../../../pharos-services/dynamic-services.
 })
 export class HeatMapComponent extends DynamicPanelComponent implements OnInit, OnChanges {
   constructor(
-    public dynamicServices: DynamicServicesService,
-    @Inject(PLATFORM_ID) private platformID: any
+    public dynamicServices: DynamicServicesService
   ) {
     super(dynamicServices);
   }
@@ -171,7 +170,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
       .style('cursor', 'pointer')
       .style('pointer-events', 'all');
 
-    const legend = this.chartArea.select('.legend').selectAll('.block')
+    this.chartArea.select('.legend').selectAll('.block')
       .data(this.getLegendRange())
       .enter().append('rect')
       .attr('class', 'block')
@@ -183,7 +182,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
       .style('stroke', 'gray')
       .attr('transform', 'translate(-' + (this.margin.left * 3 / 4) + ',-' + (this.margin.top * 9 / 10) + ')');
 
-    const legendTicks = this.chartArea.select('.legendTicks').selectAll('.tick')
+    this.chartArea.select('.legendTicks').selectAll('.tick')
       .data(this.getLegendRange())
       .enter().append('text')
       .attr('class', 'tick')
@@ -194,7 +193,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
       .attr('transform', 'translate(-' + (this.margin.left * 3 / 4) + ',-' + (this.margin.top * 9 / 10) + ')')
       .text(d => d.val);
 
-    const zLabel = this.chartArea.select('.zLabel')
+    this.chartArea.select('.zLabel')
       .append('text')
       .attr('x', d => xScale(-3))
       .attr('y', d => yScale(-0.5))
@@ -202,7 +201,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
       .attr('transform', d => 'translate(-' + (this.margin.left * 3 / 4) + ',-' + (this.margin.top * 9 / 10) + ') rotate(-90)')
       .text(this.heatmapData.measure);
 
-    const lines = this.chartArea.select('.nullLines').selectAll('.nullLine')
+    this.chartArea.select('.nullLines').selectAll('.nullLine')
       .data(this.heatmapData.plot).enter().filter(d => {
         return d.z.rawVal === null;
       })
@@ -271,7 +270,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
       });
     }).on('mouseout', (event, d) => {
 
-      const blocks = selection.nodes().forEach(b => {
+      selection.nodes().forEach(b => {
         d3.select(b).classed('hovered', false);
       });
     }).on('click', (event, d) => {
@@ -288,7 +287,7 @@ export class HeatMapComponent extends DynamicPanelComponent implements OnInit, O
       });
     }).on('mouseout', (event, d) => {
 
-      const blocks = selection.nodes().forEach(b => {
+      selection.nodes().forEach(b => {
         d3.select(b).classed('hovered', false);
       });
     }).on('click', (event, d) => {
@@ -389,7 +388,7 @@ export class HeatMapData {
     }
 
     if (this.xSortFunction) {
-      this.xValues.sort((a, b) => this.xSortFunction(a,b));
+      this.xValues.sort((a, b) => this.xSortFunction(a, b));
     }
     else if (this.xSort) {
       this.xValues.sort((a, b) => {

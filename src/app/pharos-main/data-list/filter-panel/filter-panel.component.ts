@@ -18,7 +18,6 @@ import {map, take, takeUntil} from 'rxjs/operators';
 import {ActivatedRoute, NavigationEnd, NavigationExtras, NavigationStart, Router} from '@angular/router';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
-import {environment} from '../../../../environments/environment';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 import {TourService} from '../../../pharos-services/tour.service';
 import {FeatureTrackingService} from '../../../pharos-services/feature-tracking.service';
@@ -169,11 +168,6 @@ export class FilterPanelComponent implements OnInit, OnDestroy {
         this.user = user;
         if (user.data().collection) {
           this.clearCustomFacets();
-          const customFacets = new Facet({
-            facet: 'collection',
-            label: `Custom ${this.modelLabel()} Collections`,
-            values: []
-          });
 
           // todo this isn't pageable
           const collections: [Observable<Field>] = user.data().collection.map(batch => {

@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit,
+  ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit,
   Output
 } from '@angular/core';
 import {InjectedComponent} from '../../../../../tools/injected-component';
@@ -77,10 +77,7 @@ export class InjectedRadarChartComponent implements InjectedComponent, OnInit, O
    * inject change detector ref
    * @param ref
    */
-  constructor(
-    // todo: this prevents excessive re-injection of the radar chart, but breaks the tooltip
-    private ref: ChangeDetectorRef
-  ) { }
+  constructor( ) { }
 
   /**
    * subscribe to data changes

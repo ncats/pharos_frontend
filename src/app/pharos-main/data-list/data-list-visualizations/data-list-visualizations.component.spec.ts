@@ -12,7 +12,6 @@ import {COMMON_CONFIG} from '../../../../../test/test-config';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../test/mock-activate-route';
-import {Facet} from '../../../models/facet';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TESTFACET} from '../../../../../test/test-facet';
 import {HttpClientTestingModule} from '@angular/common/http/testing';

@@ -34,6 +34,28 @@ import {MatTooltip} from '@angular/material/tooltip';
   styleUrls: ['./sidenav-panel.component.scss']
 })
 export class SidenavPanelComponent implements OnInit, AfterContentInit, OnDestroy {
+
+  /**
+   * get router to navigate
+   * @param {Router} router
+   * @param _route
+   * @param breakpointObserver
+   * @param location
+   * @param viewportScroller
+   * @param {NavSectionsService} navSectionsService
+   */
+  constructor(
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformID: any,
+    private _route: ActivatedRoute,
+    public breakpointObserver: BreakpointObserver,
+    private location: Location,
+    private viewportScroller: ViewportScroller,
+    @Inject(DOCUMENT) private document: Document,
+    public navSectionsService: NavSectionsService,
+    private centralStorageService: CentralStorageService) {
+    this.viewportScroller.setOffset([0, 120]);
+  }
   protected ngUnsubscribe: Subject<any> = new Subject();
   /**
    * close the filter panel
@@ -61,10 +83,6 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit, OnDestro
 
   visibleCommunityAPIs: any[] = [];
 
-  getAPIs(section: string) {
-    return this.visibleCommunityAPIs.filter(api => api.related_section === section);
-  }
-
   panelOptions: PanelOptions = {
     mode: 'side',
     class: 'filters-panel',
@@ -74,26 +92,8 @@ export class SidenavPanelComponent implements OnInit, AfterContentInit, OnDestro
     role: 'directory'
   };
 
-  /**
-   * get router to navigate
-   * @param {Router} router
-   * @param _route
-   * @param breakpointObserver
-   * @param location
-   * @param viewportScroller
-   * @param {NavSectionsService} navSectionsService
-   */
-  constructor(
-    private router: Router,
-    @Inject(PLATFORM_ID) private platformID: any,
-    private _route: ActivatedRoute,
-    public breakpointObserver: BreakpointObserver,
-    private location: Location,
-    private viewportScroller: ViewportScroller,
-    @Inject(DOCUMENT) private document: Document,
-    public navSectionsService: NavSectionsService,
-    private centralStorageService: CentralStorageService) {
-    this.viewportScroller.setOffset([0, 120]);
+  getAPIs(section: string) {
+    return this.visibleCommunityAPIs.filter(api => api.related_section === section);
   }
 
   /**

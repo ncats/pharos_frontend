@@ -49,21 +49,6 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 })
 
 export class AaSequencePanelComponent extends DynamicPanelComponent implements OnInit {
-  /**
-   * target to display
-   */
-  @Input() target: Target;
-  /**
-   * div element that holds the protvista viewer
-   */
-  @ViewChild('protVistaViewer', {static: true}) viewerContainer: ElementRef;
-
-  /**
-   * amino acid residue counts
-   */
-  residueCounts: any[];
-  expectedResidueCounts: any[];
-  isProduction = environment.production;
 
   get getDynamicSource() {
     if (backend.startsWith('http://localhost')) {
@@ -88,6 +73,69 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
     private centralStorageService: CentralStorageService) {
     super(dynamicServices);
   }
+  /**
+   * target to display
+   */
+  @Input() target: Target;
+  /**
+   * div element that holds the protvista viewer
+   */
+  @ViewChild('protVistaViewer', {static: true}) viewerContainer: ElementRef;
+
+  /**
+   * amino acid residue counts
+   */
+  residueCounts: any[];
+  expectedResidueCounts: any[];
+  isProduction = environment.production;
+
+  static getLongFormName(shortFormName: string): string {
+    switch (shortFormName) {
+      case 'A':
+        return 'Alanine';
+      case 'R':
+        return 'Arginine';
+      case 'N':
+        return 'Asparagine';
+      case 'D':
+        return 'Aspartate';
+      case 'C':
+        return 'Cysteine';
+
+      case 'E':
+        return 'Glutamate';
+      case 'Q':
+        return 'Glutamine';
+      case 'G':
+        return 'Glycine';
+      case 'H':
+        return 'Histidine';
+      case 'I':
+        return 'Isoleucine';
+
+      case 'L':
+        return 'Leucine';
+      case 'K':
+        return 'Lysine';
+      case 'M':
+        return 'Methionine';
+      case 'F':
+        return 'Phenylalanine';
+      case 'P':
+        return 'Proline';
+
+      case 'S':
+        return 'Serine';
+      case 'T':
+        return 'Threonine';
+      case 'W':
+        return 'Tryptophan';
+      case 'Y':
+        return 'Tyrosine';
+      case 'V':
+        return 'Valine';
+    }
+  }
 
   /**
    *    * count and parse sequence
@@ -105,7 +153,7 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
         if (this.target?.sequence) {
           this.getCounts();
         }
-        if (!this.isSmallScreen && isPlatformBrowser(this.platformID)) {
+        if (!isSmallScreen && isPlatformBrowser(this.platformID)) {
           const childElements = this.viewerContainer.nativeElement.childNodes;
           for (const child of childElements) {
             this.renderer.removeChild(this.viewerContainer.nativeElement, child);
@@ -185,54 +233,6 @@ export class AaSequencePanelComponent extends DynamicPanelComponent implements O
 
   getLongFormName(shortFormName: string): string{
     return AaSequencePanelComponent.getLongFormName(shortFormName);
-  }
-
-  static getLongFormName(shortFormName: string): string {
-    switch (shortFormName) {
-      case 'A':
-        return 'Alanine';
-      case 'R':
-        return 'Arginine';
-      case 'N':
-        return 'Asparagine';
-      case 'D':
-        return 'Aspartate';
-      case 'C':
-        return 'Cysteine';
-
-      case 'E':
-        return 'Glutamate';
-      case 'Q':
-        return 'Glutamine';
-      case 'G':
-        return 'Glycine';
-      case 'H':
-        return 'Histidine';
-      case 'I':
-        return 'Isoleucine';
-
-      case 'L':
-        return 'Leucine';
-      case 'K':
-        return 'Lysine';
-      case 'M':
-        return 'Methionine';
-      case 'F':
-        return 'Phenylalanine';
-      case 'P':
-        return 'Proline';
-
-      case 'S':
-        return 'Serine';
-      case 'T':
-        return 'Threonine';
-      case 'W':
-        return 'Tryptophan';
-      case 'Y':
-        return 'Tyrosine';
-      case 'V':
-        return 'Valine';
-    }
   }
 
 }

@@ -1,11 +1,10 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component, Inject,
+  Component,
   Input,
   OnDestroy,
-  OnInit,
-  PLATFORM_ID
+  OnInit
 } from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {Target} from '../../../../../models/target';
@@ -52,7 +51,6 @@ export class GeneSummaryComponent extends DynamicPanelComponent implements OnIni
   constructor(private breakpointObserver: BreakpointObserver,
               private metaService: UnfurlingMetaService,
               private changeRef: ChangeDetectorRef,
-              @Inject(PLATFORM_ID) private platformID: any,
               private router: Router,
               public dynamicServices: DynamicServicesService) {
     super(dynamicServices);

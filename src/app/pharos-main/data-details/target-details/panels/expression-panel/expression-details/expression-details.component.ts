@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {DataSourceInfo, DataVersionInfo} from "../../../../../../models/dataVersion";
+import {DataVersionInfo} from '../../../../../../models/dataVersion';
 import {MatCardTitle} from '@angular/material/card';
-import {MatIcon, MatIconModule} from '@angular/material/icon';
+import {MatIconModule} from '@angular/material/icon';
 import {CommonModule} from '@angular/common';
 import {ExpressionDetailsBlockComponent} from './expression-details-block/expression-details-block.component';
 import {FlexLayoutModule} from '@angular/flex-layout';

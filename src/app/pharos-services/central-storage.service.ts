@@ -47,7 +47,7 @@ export class CentralStorageService {
     this.visibleCommunityAPIsChanged.next(this.visibleCommunityAPIs);
   }
 
-  constructor(private _route: ActivatedRoute) { }
+  constructor() { }
 
   getModel(route: ActivatedRoute): string {
     let model = route.snapshot.data.path;

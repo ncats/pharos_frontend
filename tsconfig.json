@@ -27,6 +27,6 @@
     "noImplicitAny": false,
     "strictPropertyInitialization": false,
     "enableI18nLegacyMessageIdFormat": false,
-    "strictInjectionParameters": true,
+    "strictInjectionParameters": true
   }
 }

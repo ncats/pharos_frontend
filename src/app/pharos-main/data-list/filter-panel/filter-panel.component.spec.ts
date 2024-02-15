@@ -7,7 +7,6 @@ import {LoadingService} from '../../../pharos-services/loading.service';
 import {SelectedFacetService} from './selected-facet.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {RouterTestingModule} from '@angular/router/testing';
-import {FacetTableComponent} from './facet-table/facet-table.component';
 import {AngularFireModule} from '@angular/fire/compat';
 import {COMMON_CONFIG} from '../../../../../test/test-config';
 import {AngularFireAuth} from '@angular/fire/compat/auth';

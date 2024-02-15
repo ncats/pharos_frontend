@@ -6,7 +6,6 @@ import {AngularFireModule} from '@angular/fire/compat';
 import {COMMON_CONFIG} from '../../../../../test/test-config';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {RouterTestingModule} from '@angular/router/testing';
-import {UpsetPlotComponent} from '../upset-plot/upset-plot.component';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../../pharos-services/loading.service';
 import {SelectedFacetService} from '../../../pharos-main/data-list/filter-panel/selected-facet.service';

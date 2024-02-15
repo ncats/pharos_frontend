@@ -4,7 +4,6 @@ import {DataDetailsResolver} from '../pharos-main/resolvers/data-details.resolve
 import {ComponentsResolver} from '../pharos-main/resolvers/components.resolver';
 import {Ligand, LigandSerializer} from '../models/ligand';
 import {TOKENS} from '../../config/component-tokens';
-import {HelpPanelComponent} from '../tools/help-panel/help-panel.component';
 import {LigandHeaderComponent} from '../pharos-main/data-details/ligand-details/ligand-header/ligand-header.component';
 import {
     LigandDetailsComponent
@@ -12,7 +11,6 @@ import {
 import {
     TargetRelevancePanelComponent
 } from '../pharos-main/data-details/ligand-details/panels/target-relevance-panel/target-relevance-panel.component';
-import {IdgLevelIndicatorComponent} from '../tools/idg-level-indicator/idg-level-indicator.component';
 import {commonDetailsProviders} from './common-details.providers';
 
 export const routes: Routes = [
