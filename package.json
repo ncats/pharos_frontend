@@ -1,6 +1,6 @@
 {
   "name": "pharos",
-  "version": "3.18.21",
+  "version": "3.19.0",
   "tcrd_version": "6.13.4",
   "license": "MIT",
   "scripts": {
