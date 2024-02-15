@@ -78,7 +78,7 @@ export class LigandHeaderComponent extends DynamicPanelComponent implements OnIn
   }
 
   downloadData() {
-    const dialogRef = this.dialog.open(FieldSelectionDialogComponent, {
+    this.dialog.open(FieldSelectionDialogComponent, {
       data: {count: 1, model: 'Ligand', route: this._route, batch: this.ligand.ligid},
       height: '75vh', width: '66vw'
     }).afterClosed();

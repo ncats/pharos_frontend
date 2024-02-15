@@ -11,9 +11,6 @@ import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../test/mock-activate-route';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
-import {IdgLevelIndicatorComponent} from '../../../tools/idg-level-indicator/idg-level-indicator.component';
-import {TargetTableComponent} from '../../data-list/tables/target-table/target-table.component';
-import {TargetCardComponent} from '../../data-list/cards/target-card/target-card.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('AnalyzeHeaderComponent', () => {

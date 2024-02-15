@@ -1,14 +1,9 @@
 import {
   ChangeDetectorRef,
   Component,
-  ElementRef,
-  HostListener,
-  Inject,
   Input,
   OnDestroy,
   OnInit,
-  PLATFORM_ID,
-  ViewChild
 } from '@angular/core';
 import {Facet} from '../../../../models/facet';
 import {takeUntil} from 'rxjs/operators';

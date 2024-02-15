@@ -6,7 +6,6 @@ import {ComponentsResolver} from '../pharos-main/resolvers/components.resolver';
 import {DataListResolver} from '../pharos-main/resolvers/data-list.resolver';
 import {TOKENS} from '../../config/component-tokens';
 import {DiseaseTableComponent} from '../pharos-main/data-list/tables/disease-table/disease-table.component';
-import {HelpPanelComponent} from '../tools/help-panel/help-panel.component';
 import {commonListProviders} from './common-list.providers';
 
 export const routes: Routes = [

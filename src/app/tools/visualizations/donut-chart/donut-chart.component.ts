@@ -154,7 +154,7 @@ export class DonutChartComponent implements AfterViewInit, OnChanges, OnDestroy 
       .padAngle(.015);
 
     // this arc is used for aligning the text labels
-    const outerArc = d3.arc()
+    d3.arc()
       .outerRadius(this.radius * 0.9)
       .innerRadius(this.radius * 0.9);
 

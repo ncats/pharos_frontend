@@ -1,13 +1,13 @@
 import {ChangeDetectorRef, Component, Inject, Input, OnInit, PLATFORM_ID} from '@angular/core';
-import {DynamicPanelComponent} from "../dynamic-panel/dynamic-panel.component";
-import {DynamicServicesService} from "../../pharos-services/dynamic-services.service";
-import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-import {PharosApiService} from "../../pharos-services/pharos-api.service";
-import {CommonModule, isPlatformServer} from "@angular/common";
-import {takeUntil} from "rxjs/operators";
-import {CentralStorageService} from "../../pharos-services/central-storage.service";
-import {environment} from "../../../environments/environment";
-import {MatCard, MatCardModule} from '@angular/material/card';
+import {DynamicPanelComponent} from '../dynamic-panel/dynamic-panel.component';
+import {DynamicServicesService} from '../../pharos-services/dynamic-services.service';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {PharosApiService} from '../../pharos-services/pharos-api.service';
+import {CommonModule, isPlatformServer} from '@angular/common';
+import {takeUntil} from 'rxjs/operators';
+import {CentralStorageService} from '../../pharos-services/central-storage.service';
+import {environment} from '../../../environments/environment';
+import {MatCardModule} from '@angular/material/card';
 import {ComponentHeaderComponent} from '../component-header/component-header.component';
 import {PredictionsPanelComponent} from '../predictions-panel/predictions-panel.component';
 import {ScrollspyDirective} from '../sidenav-panel/directives/scrollspy.directive';
@@ -27,7 +27,7 @@ import {ScrollspyDirective} from '../sidenav-panel/directives/scrollspy.directiv
 })
 export class CommunityDataPanelComponent extends DynamicPanelComponent implements OnInit {
   @Input() apis: any[] = [];
-  @Input() section: string = '';
+  @Input() section = '';
   @Input() showManual = false;
   results = [];
   communityAPIs = [];
@@ -35,7 +35,7 @@ export class CommunityDataPanelComponent extends DynamicPanelComponent implement
 
   citations(index) {
     if (this.results && this.results?.length > 0) {
-      const refs = []
+      const refs = [];
       const res = this.results[index];
       if (res && res.length > 0) {
         res.forEach(set => {
@@ -60,9 +60,9 @@ export class CommunityDataPanelComponent extends DynamicPanelComponent implement
   }
 
   initialize() {
-    const manualAPIs = this._route.snapshot.queryParamMap.get("apis")?.split("|") || [];
+    const manualAPIs = this._route.snapshot.queryParamMap.get('apis')?.split('|') || [];
     this.communityAPIs = this.apis.filter(a => {
-      if (!a.default && !manualAPIs.includes(a.code)) return false;
+      if (!a.default && !manualAPIs.includes(a.code)) { return false; }
       return a.related_section === this.section;
     });
     if (this.showManual) {
@@ -70,11 +70,11 @@ export class CommunityDataPanelComponent extends DynamicPanelComponent implement
         if (code.length > 4) {
           if (!this.isProduction) {
             this.communityAPIs.push({
-              section: "API from URL",
-              code: code
+              section: 'API from URL',
+              code
             });
           } else {
-            alert (`You tried to request data from an external API (${code}).\n\nEncorporating data via a URL is disabled in the Production environment.\n\nYou must register your API with the Pharos team, and use the four character code that they give you to share your data through Pharos.`)
+            alert (`You tried to request data from an external API (${code}).\n\nEncorporating data via a URL is disabled in the Production environment.\n\nYou must register your API with the Pharos team, and use the four character code that they give you to share your data through Pharos.`);
           }
         }
       });
@@ -84,7 +84,7 @@ export class CommunityDataPanelComponent extends DynamicPanelComponent implement
       const variables = {
         apiCode: [api.code],
         name: this._route.snapshot.paramMap.get('id'),
-      }
+      };
       this.addComponent(api);
       this.pharosApiService.adHocQuery(this.pharosApiService.GetPredictions(this._route.snapshot.data.path), variables)
         .toPromise().then(res => {
@@ -107,7 +107,7 @@ export class CommunityDataPanelComponent extends DynamicPanelComponent implement
   }
 
   ngOnInit(): void {
-    if(isPlatformServer(this.platformID)) {
+    if (isPlatformServer(this.platformID)) {
       return;
     }
     this.router.events

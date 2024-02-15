@@ -50,7 +50,6 @@ export class VennDiagramComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    const element = this.chartContainer.nativeElement;
     if (isPlatformBrowser(this.platformID)) {
       this.drawChart();
     }

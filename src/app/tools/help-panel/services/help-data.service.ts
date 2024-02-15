@@ -1,7 +1,6 @@
 import {Injectable, Input} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {PharosApiService} from '../../../pharos-services/pharos-api.service';
-import {CentralStorageService} from "../../../pharos-services/central-storage.service";
+import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 
 /**
  * retrieves and passes data from config to the help panel
@@ -39,7 +38,6 @@ export class HelpDataService {
    * @param {PharosApiService} pharosApiService
    */
   constructor(
-    private pharosApiService: PharosApiService,
     private centralStorageService: CentralStorageService
   ) {}
 

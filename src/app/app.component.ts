@@ -112,13 +112,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   runTutorial() {
     const tutorial = this._route.snapshot.queryParamMap.get('tutorial');
-    const page = this.tourService.getPage();
     this.tourService.runTutorial(tutorial);
   }
 
   getTitle(state, parent) {
     const data = [];
-    const url = [];
     if (parent && parent.snapshot.data && parent.snapshot.data.title) {
       const path = parent.snapshot.url?.length > 1 ? parent.snapshot.url[0].path : '';
       const subpath = parent.snapshot.url?.length > 1 ? parent.snapshot.url[1].path : '';

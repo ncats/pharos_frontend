@@ -1,8 +1,7 @@
-import {ChangeDetectorRef, Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {PharosApiService} from '../../pharos-services/pharos-api.service';
 import {format} from 'sql-formatter';
 import {Router} from '@angular/router';
-import {TargetListService} from '../../pharos-services/target-list.service';
 import {saveAs} from 'file-saver';
 import {Parser} from 'json2csv';
 import {FieldList} from '../../models/fieldList';
@@ -12,7 +11,7 @@ import {PharosProfileService} from '../../auth/pharos-profile.service';
 import JSZip from 'jszip';
 import {environment} from '../../../environments/environment';
 import {FeatureTrackingService} from '../../pharos-services/feature-tracking.service';
-import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef, MatDialogTitle} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {MatCheckbox, MatCheckboxChange} from '@angular/material/checkbox';
 import {MatTabChangeEvent, MatTabsModule} from '@angular/material/tabs';
@@ -40,8 +39,6 @@ export class FieldSelectionDialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<FieldSelectionDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: { model: string, count: number , route: any, batch: string, defaultSubset: string},
               private pharosApiService: PharosApiService,
-              private changeDetectorRef: ChangeDetectorRef,
-              private targetListService: TargetListService,
               private snackBar: MatSnackBar,
               private profileService: PharosProfileService,
               private selectedFacetService: SelectedFacetService,

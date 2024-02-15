@@ -1,5 +1,4 @@
 import {Routes} from '@angular/router';
-import {ScriptLoadService} from '../pharos-services/script-load.service';
 
 export const APP_ROUTES: Routes = [{path: 'idg/api',          redirectTo: 'api'},
     {path: 'idg/targets',      redirectTo: 'targets'},

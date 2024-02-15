@@ -1,7 +1,6 @@
 import {Ligand} from './ligand';
 import {Publication, PublicationSerializer} from './publication';
 import {Serializer} from './pharos-base';
-import {Target} from './target';
 import {DataProperty} from '../tools/generic-table/components/property-display/data-property';
 
 /**

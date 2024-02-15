@@ -1,10 +1,8 @@
 import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
-import {DomSanitizer} from '@angular/platform-browser';
 import {UnfurlingMetaService} from '../pharos-services/unfurling-meta.service';
 import {environment} from '../../environments/environment';
 import {FeatureTrackingService} from '../pharos-services/feature-tracking.service';
 import { ApolloSandbox } from '@apollo/sandbox';
-import {Clipboard} from '@angular/cdk/clipboard';
 import {CommonModule, isPlatformBrowser} from '@angular/common';
 import {NavigationExtras, Router} from '@angular/router';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -29,9 +27,8 @@ export class ApiPageComponent implements OnInit {
   /**
    * no args constructor
    */
-  constructor(private clipboard: Clipboard,
+  constructor(
               private router: Router,
-              private sanitizer: DomSanitizer,
               private metaService: UnfurlingMetaService,
               private featureTrackingService: FeatureTrackingService,
               @Inject(PLATFORM_ID) private platformID: any) {
