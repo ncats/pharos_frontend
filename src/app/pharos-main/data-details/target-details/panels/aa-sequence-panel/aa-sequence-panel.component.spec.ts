@@ -1,7 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AaSequencePanelComponent} from './aa-sequence-panel.component';
-import {SharedModule} from '../../../../../shared/shared.module';
 import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../test/test-target';
 import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -15,7 +14,6 @@ describe('AaSequencePanelComponent', () => {
     TestBed.configureTestingModule({
       imports: [
           BrowserAnimationsModule,
-        SharedModule,
         RouterTestingModule
       ],
       schemas: [

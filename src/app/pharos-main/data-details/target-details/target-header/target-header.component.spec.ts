@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TargetHeaderComponent } from './target-header.component';
-import {SharedModule} from '../../../../shared/shared.module';
 import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../test/test-target';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../../test/mock-activate-route';

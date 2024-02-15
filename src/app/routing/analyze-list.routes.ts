@@ -31,6 +31,7 @@ import {
     FilterRepresentationComponent
 } from '../pharos-main/analyze-list/filter-representation/filter-representation.component';
 import {commonListProviders} from './common-list.providers';
+import {HierarchyViewerComponent} from '../pharos-main/analyze-list/hierarchy-viewer/hierarchy-viewer.component';
 
 export const routes: Routes = [
     {
@@ -66,7 +67,10 @@ export const routes: Routes = [
             {provide: TOKENS.PHAROS_TARGET_LIGAND_HEATMAP_COMPONENT, useValue: TargetLigandHeatmapComponent},
             {provide: TOKENS.PHAROS_DISEASE_TARGET_HEATMAP_COMPONENT, useValue: DiseaseTargetHeatmapComponent},
             {provide: TOKENS.PHAROS_LIGAND_TARGET_HEATMAP_COMPONENT, useValue: LigandTargetHeatmapComponent},
-            {provide: TOKENS.PHAROS_TARGET_TARGET_HEATMAP_COMPONENT, useValue: TargetTargetHeatmapComponent}
+            {provide: TOKENS.PHAROS_TARGET_TARGET_HEATMAP_COMPONENT, useValue: TargetTargetHeatmapComponent},
+
+            // unused ?
+            {provide: TOKENS.PHAROS_HIERARCHY_VIEWER_COMPONENT, useValue: HierarchyViewerComponent},
         ]
     }
 ];

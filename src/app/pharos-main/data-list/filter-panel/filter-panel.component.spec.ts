@@ -4,7 +4,6 @@ import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {SuggestApiService} from '../../../tools/search-component/suggest-api.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LoadingService} from '../../../pharos-services/loading.service';
-import {SharedModule} from '../../../shared/shared.module';
 import {SelectedFacetService} from './selected-facet.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -16,6 +15,7 @@ import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {TESTFACET} from '../../../../../test/test-facet';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('FilterPanelComponent', () => {
   let component: FilterPanelComponent;
@@ -26,8 +26,8 @@ describe('FilterPanelComponent', () => {
       imports: [
         AngularFireModule.initializeApp(COMMON_CONFIG),
         ApolloTestingModule,
-        SharedModule,
         RouterTestingModule,
+        HttpClientTestingModule,
         BrowserAnimationsModule
       ],
       providers: [

@@ -1,9 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TchemSummaryComponent } from './tchem-summary.component';
-import {SharedModule} from '../../../../../../../shared/shared.module';
 import {TESTTARGET} from '../../../../../../../../../test/test-target';
-import {MaterialModule} from '../../../../../../../../assets/material/material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 describe('TchemSummaryComponent', () => {
@@ -13,7 +11,6 @@ describe('TchemSummaryComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
         FlexLayoutModule
       ]
     })

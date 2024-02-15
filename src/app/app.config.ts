@@ -2,17 +2,13 @@ import {APP_ID, ApplicationConfig, importProvidersFrom} from '@angular/core';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {
     provideRouter,
-    RouterModule,
     withEnabledBlockingInitialNavigation,
     withInMemoryScrolling, withPreloading, withRouterConfig
 } from '@angular/router';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {AngularFireModule} from '@angular/fire/compat';
 import {environment} from '../environments/environment';
 import {AngularFirestoreModule} from '@angular/fire/compat/firestore';
 import {AngularFireAuthModule} from '@angular/fire/compat/auth';
-import {NcatsHeaderModule} from './tools/ncats-header/ncats-header.module';
-import {GraphQLModule} from './graphql.module';
 import {MarkdownModule} from 'ngx-markdown';
 import {HttpClient, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {TOKENS} from '../config/component-tokens';
@@ -22,6 +18,9 @@ import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {APP_ROUTES} from './routing/app.routes';
 import {PharosPreloader} from './routing/pharos-preloader';
+import {APOLLO_OPTIONS, ApolloModule} from 'apollo-angular';
+import {HttpLink} from 'apollo-angular/http';
+import {createApollo} from './graphql.config';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -33,17 +32,15 @@ export const appConfig: ApplicationConfig = {
         ),
         importProvidersFrom(
             ServiceWorkerModule.register('ngsw-worker.js', {enabled: true}),
-            RouterModule,
-            FlexLayoutModule,
             AngularFireModule.initializeApp(environment.firebase), // imports firebase/app needed for everything
             AngularFirestoreModule, // imports firebase/firestore, only needed for database features
             AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
-            NcatsHeaderModule, GraphQLModule, MarkdownModule.forRoot({loader: HttpClient})
+            MarkdownModule.forRoot({loader: HttpClient}),
+            ApolloModule
         ),
         {provide: APP_ID, useValue: 'pharos'},
-        {provide: TOKENS.PHAROS_FACETS_COMPONENT, useValue: FilterPanelComponent},
-        {provide: TOKENS.PHAROS_SELECTED_FACET_LIST_COMPONENT, useValue: SelectedFacetListComponent},
         {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}},
+        {provide: APOLLO_OPTIONS, useFactory: createApollo, deps: [HttpLink]},
         provideAnimations(),
         provideHttpClient(withInterceptorsFromDi())
     ]

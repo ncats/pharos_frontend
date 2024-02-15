@@ -5,7 +5,6 @@ import {HttpClientModule} from '@angular/common/http';
 import {AngularFireModule} from '@angular/fire/compat';
 import {COMMON_CONFIG} from '../../../../../test/test-config';
 import {ApolloTestingModule} from 'apollo-angular/testing';
-import {SharedModule} from '../../../shared/shared.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {UpsetPlotComponent} from '../upset-plot/upset-plot.component';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
@@ -25,7 +24,6 @@ describe('MultidimensionalFacetPlotComponent', () => {
         BrowserAnimationsModule,
         AngularFireModule.initializeApp(COMMON_CONFIG),
         ApolloTestingModule,
-        SharedModule,
         RouterTestingModule,
         HttpClientModule],
       providers: [

@@ -1,7 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {FaqPageComponent} from './faq-page.component';
-import {SharedModule} from '../shared/shared.module';
 import {FIRESTORESTUB} from '../../../test/firestore-stub';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {ApolloTestingModule} from 'apollo-angular/testing';

@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AnatomogramImageComponent } from './anatomogram-image.component';
-import {SharedModule} from '../../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('AnatomogramImageComponent', () => {
@@ -11,7 +10,6 @@ describe('AnatomogramImageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
         BrowserAnimationsModule
       ],
       providers: [

@@ -1,8 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DiseaseSourceComponent } from './disease-source-panel.component';
-import {SharedModule} from '../../../../../shared/shared.module';
-import {CommonToolsModule} from '../../../../../tools/common-tools.module';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {COMMON_CONFIG} from '../../../../../../../test/test-config';

@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OrthologPanelComponent } from './ortholog-panel.component';
-import {SharedModule} from '../../../../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {COMMON_CONFIG} from '../../../../../../../test/test-config';
@@ -12,6 +11,7 @@ import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route'
 import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../test/test-target';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('OrthologPanelComponent', () => {
   let component: OrthologPanelComponent;
@@ -20,9 +20,9 @@ describe('OrthologPanelComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
         BrowserAnimationsModule,
         ApolloTestingModule,
+        HttpClientTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
       providers: [
