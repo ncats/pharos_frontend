@@ -1,10 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TdarkSummaryComponent } from './tdark-summary.component';
-import {SharedModule} from '../../../../../../../shared/shared.module';
 import {TESTTARGET} from '../../../../../../../../../test/test-target';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {MaterialModule} from '../../../../../../../../assets/material/material.module';
 
 describe('TdarkSummaryComponent', () => {
   let component: TdarkSummaryComponent;
@@ -13,7 +11,6 @@ describe('TdarkSummaryComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule,
         FlexLayoutModule
       ]
     })

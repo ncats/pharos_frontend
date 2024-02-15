@@ -6,7 +6,6 @@ import {MOCKACTIVATEDROUTE} from '../../../../../test/mock-activate-route';
 import {AngularFireModule} from '@angular/fire/compat';
 import {COMMON_CONFIG} from '../../../../../test/test-config';
 import {ApolloTestingModule} from 'apollo-angular/testing';
-import {SharedModule} from '../../../shared/shared.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientModule} from '@angular/common/http';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
@@ -27,7 +26,6 @@ describe('HeatMapComponent', () => {
         AngularFireModule.initializeApp(COMMON_CONFIG),
         ApolloTestingModule,
         BrowserAnimationsModule,
-        SharedModule,
         RouterTestingModule,
         HttpClientModule],
       providers: [

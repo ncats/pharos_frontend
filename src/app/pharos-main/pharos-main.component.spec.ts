@@ -4,7 +4,6 @@ import { PharosMainComponent } from './pharos-main.component';
 import {ActivatedRoute, RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {MOCKACTIVATEDROUTE} from '../../../test/mock-activate-route';
-import {SharedModule} from '../shared/shared.module';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
@@ -13,6 +12,7 @@ import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {COMMON_CONFIG} from '../../../test/test-config';
 import {AngularFireModule} from '@angular/fire/compat';
 import {NavSectionsService} from '../tools/sidenav-panel/services/nav-sections.service';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('PharosMainComponent', () => {
   let component: PharosMainComponent;
@@ -29,7 +29,7 @@ describe('PharosMainComponent', () => {
       imports: [
         BrowserAnimationsModule,
         RouterTestingModule,
-        SharedModule,
+        HttpClientTestingModule,
         ApolloTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ]

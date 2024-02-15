@@ -13,6 +13,6 @@ declare const require: any;
 getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting(), {
-    teardown: { destroyAfterEach: false }
+    teardown: { destroyAfterEach: true }
 }
 );

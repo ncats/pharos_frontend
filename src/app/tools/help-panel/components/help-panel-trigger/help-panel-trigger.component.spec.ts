@@ -1,8 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {HelpPanelTriggerComponent} from './help-panel-trigger.component';
-import {MaterialModule} from '../../../../../assets/material/material.module';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -20,8 +18,6 @@ describe('HelpPanelTriggerComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        MaterialModule,
-        FlexLayoutModule,
         ApolloTestingModule,
         RouterTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)

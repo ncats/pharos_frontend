@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ResolverService } from './resolver.service';
-import {SharedModule} from '../shared/shared.module';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('ResolverService', () => {
   let service: ResolverService;
@@ -9,8 +9,9 @@ describe('ResolverService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
-      ]});
+        HttpClientTestingModule
+      ]
+    });
     service = TestBed.inject(ResolverService);
   });
 

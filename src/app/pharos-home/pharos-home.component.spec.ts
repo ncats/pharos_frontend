@@ -1,6 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {PharosHomeComponent} from './pharos-home.component';
-import {SharedModule} from '../shared/shared.module';
 import {LoadingService} from '../pharos-services/loading.service';
 import {SuggestApiService} from '../tools/search-component/suggest-api.service';
 
@@ -8,8 +7,7 @@ import {APP_BASE_HREF} from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DataTypesPanelComponent} from './data-types-panel/data-types-panel.component';
 import {NewsPanelComponent} from './news-panel/news-panel.component';
-import {AboutPanelComponent} from './about-panel/about-panel.component';
-import {SearchComponentModule} from '../tools/search-component/search-component.module';
+import {AboutPanelComponent} from './about-panel/about-panel.component'
 import {Router, RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
@@ -20,6 +18,7 @@ import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {AngularFireModule} from '@angular/fire/compat';
 import {PharosProfileService} from '../auth/pharos-profile.service';
 import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('PharosHomeComponent', () => {
   let component: PharosHomeComponent;
@@ -29,9 +28,8 @@ describe('PharosHomeComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
-        SharedModule,
-        SearchComponentModule,
         ApolloTestingModule,
+        HttpClientTestingModule,
         RouterModule.forRoot([]),
         AngularFireModule.initializeApp(COMMON_CONFIG),
       ],

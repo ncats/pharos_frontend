@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {ApolloTestingModule} from "apollo-angular/testing";
+import {ApolloTestingModule} from 'apollo-angular/testing';
 import { CrossListHeatmapComponent } from './cross-list-heatmap.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {SharedModule} from '../../../shared/shared.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AngularFireModule} from '@angular/fire/compat';
 import {COMMON_CONFIG} from '../../../../../test/test-config';
@@ -12,6 +11,7 @@ import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../test/mock-activate-route';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('CrossListHeatmapComponent', () => {
   let component: CrossListHeatmapComponent;
@@ -22,7 +22,7 @@ describe('CrossListHeatmapComponent', () => {
       imports: [
         ApolloTestingModule,
         BrowserAnimationsModule,
-        SharedModule,
+        HttpClientTestingModule,
         RouterTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],

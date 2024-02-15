@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { KnowledgeTableComponent } from './knowledge-table.component';
-import {SharedModule} from '../../shared/shared.module';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../test/mock-activate-route';
 
@@ -13,9 +12,6 @@ describe('KnowledgeTableComponent', () => {
     TestBed.configureTestingModule({
       providers: [
         {provide: ActivatedRoute, useValue: MOCKACTIVATEDROUTE}
-      ],
-      imports: [
-        SharedModule
       ]
     })
     .compileComponents();

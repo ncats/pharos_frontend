@@ -6,7 +6,6 @@ import {MOCKACTIVATEDROUTE} from '../../../../../../../test/mock-activate-route'
 import {ActivatedRoute} from '@angular/router';
 import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
 import {ApolloTestingModule} from 'apollo-angular/testing';
-import {SharedModule} from '../../../../../shared/shared.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {TESTTARGET, TESTTARGETPROPS} from '../../../../../../../test/test-target';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
@@ -15,6 +14,7 @@ import {COMMON_CONFIG} from '../../../../../../../test/test-config';
 import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
 import {AngularFireModule} from '@angular/fire/compat';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('RelatedPublicationsComponent', () => {
   let component: RelatedPublicationsComponent;
@@ -23,8 +23,8 @@ describe('RelatedPublicationsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
         ApolloTestingModule,
+          HttpClientTestingModule,
         RouterTestingModule,
         BrowserAnimationsModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)

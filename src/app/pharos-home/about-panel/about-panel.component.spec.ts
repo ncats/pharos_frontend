@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {AboutPanelComponent} from './about-panel.component';
-import {SharedModule} from '../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
@@ -11,8 +10,7 @@ describe('AboutPanelComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        BrowserAnimationsModule,
-        SharedModule
+        BrowserAnimationsModule
       ]
     })
     .compileComponents();

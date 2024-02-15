@@ -1,9 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HelpPanelComponent } from './help-panel.component';
-import {SharedModule} from '../../shared/shared.module';
-import {CommonToolsModule} from '../common-tools.module';
-import {HelpArticlesModule} from '../../shared/help-articles.module';
 import {NgxJsonViewerModule} from 'ngx-json-viewer';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {ApolloTestingModule} from 'apollo-angular/testing';
@@ -24,9 +21,7 @@ describe('HelpPanelComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        SharedModule,
         NgxJsonViewerModule,
-        HelpArticlesModule,
         ApolloTestingModule,
         RouterTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)

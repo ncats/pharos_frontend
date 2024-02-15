@@ -2,7 +2,6 @@ import {inject, TestBed} from '@angular/core/testing';
 
 import {SelectedFacetService} from './selected-facet.service';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
-import {SharedModule} from '../../../shared/shared.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
@@ -17,8 +16,7 @@ describe('SelectedFacetService', () => {
       imports: [
         AngularFireModule.initializeApp(COMMON_CONFIG),
         RouterTestingModule,
-        ApolloTestingModule,
-        SharedModule
+        ApolloTestingModule
       ],
       providers: [
         PharosApiService,

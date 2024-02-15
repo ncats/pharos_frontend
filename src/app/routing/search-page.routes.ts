@@ -4,7 +4,7 @@ import {SearchResolver} from '../pharos-main/resolvers/search.resolver';
 import {ComponentsResolver} from '../pharos-main/resolvers/components.resolver';
 import {TOKENS} from '../../config/component-tokens';
 import {SearchPageComponent} from '../pharos-main/search/search-component/search-page.component';
-import {commonProviders} from './common.providers';
+import {commonListProviders} from './common-list.providers';
 
 export const routes: Routes = [
     {
@@ -16,7 +16,7 @@ export const routes: Routes = [
         },
         runGuardsAndResolvers: 'paramsOrQueryParamsChange',
         providers: [
-            ...commonProviders,
+            ...commonListProviders,
             {provide: TOKENS.BROWSE_TABLE_COMPONENT, useValue: SearchPageComponent}
         ]
     }

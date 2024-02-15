@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {ApolloTestingModule} from "apollo-angular/testing";
 import { AnalyzeHeaderComponent } from './analyze-header.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {SharedModule} from '../../../shared/shared.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AngularFireModule} from '@angular/fire/compat';
 import {COMMON_CONFIG} from '../../../../../test/test-config';
@@ -15,6 +14,7 @@ import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
 import {IdgLevelIndicatorComponent} from '../../../tools/idg-level-indicator/idg-level-indicator.component';
 import {TargetTableComponent} from '../../data-list/tables/target-table/target-table.component';
 import {TargetCardComponent} from '../../data-list/cards/target-card/target-card.component';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('AnalyzeHeaderComponent', () => {
   let component: AnalyzeHeaderComponent;
@@ -25,7 +25,7 @@ describe('AnalyzeHeaderComponent', () => {
       imports: [
         ApolloTestingModule,
         BrowserAnimationsModule,
-        SharedModule,
+        HttpClientTestingModule,
         RouterTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],

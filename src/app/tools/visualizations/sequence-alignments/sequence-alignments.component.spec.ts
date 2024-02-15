@@ -1,22 +1,18 @@
-import {HttpClientTestingModule} from "@angular/common/http/testing";
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {AngularFireModule} from "@angular/fire/compat";
-import {RouterTestingModule} from "@angular/router/testing";
-import {ApolloTestingModule} from "apollo-angular/testing";import {COMMON_CONFIG} from "../../../../../test/test-config";
-import {SharedModule} from "../../../shared/shared.module";
+import {RouterTestingModule} from '@angular/router/testing';
+import {ApolloTestingModule} from 'apollo-angular/testing'; import {COMMON_CONFIG} from '../../../../../test/test-config';
 
 import { SequenceAlignmentsComponent } from './sequence-alignments.component';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('SequenceAlignmentsComponent', () => {
   let component: SequenceAlignmentsComponent;
   let fixture: ComponentFixture<SequenceAlignmentsComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       imports: [
         ApolloTestingModule,
-        SharedModule,
-        AngularFireModule.initializeApp(COMMON_CONFIG),
         HttpClientTestingModule,
         RouterTestingModule
       ]
