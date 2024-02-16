@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TargetFacetPanelComponent } from './target-facet-panel.component';
-import {SharedModule} from '../../../../../shared/shared.module';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
@@ -20,7 +19,6 @@ describe('TargetFacetPanelComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
         ApolloTestingModule,
         RouterTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)

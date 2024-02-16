@@ -1,4 +1,4 @@
-import {Component, Input, ViewEncapsulation} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {HelpPanelOpenerService} from '../../services/help-panel-opener.service';
 import {HelpDataService} from '../../services/help-data.service';
 import {DataVersionInfo} from '../../../../models/dataVersion';

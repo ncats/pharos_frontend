@@ -1,13 +1,12 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {ApolloTestingModule} from "apollo-angular/testing";
 import {ApiPageComponent} from './api-page.component';
-import {SharedModule} from '../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {AppRoutingModule} from '../app-routing.module';
 import {APP_BASE_HREF} from '@angular/common';
 import {UnfurlingMetaService} from "../pharos-services/unfurling-meta.service";
 import {AngularFireModule} from '@angular/fire/compat';
 import {COMMON_CONFIG} from '../../../test/test-config';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('ApiPageComponent', () => {
   let component: ApiPageComponent;
@@ -18,8 +17,7 @@ describe('ApiPageComponent', () => {
       imports: [
         ApolloTestingModule,
         BrowserAnimationsModule,
-        SharedModule,
-        AppRoutingModule,
+        HttpClientTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
       providers: [

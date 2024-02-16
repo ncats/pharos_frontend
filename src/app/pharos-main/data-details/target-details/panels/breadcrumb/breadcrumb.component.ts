@@ -8,7 +8,6 @@ import {DynamicServicesService} from '../../../../../pharos-services/dynamic-ser
 import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
 import {CommonModule} from '@angular/common';
 import {MatCardModule} from '@angular/material/card';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
 import {MatTooltipModule} from '@angular/material/tooltip';
 

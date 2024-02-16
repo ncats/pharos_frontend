@@ -245,7 +245,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
       const xAxis = d3.axisBottom()
           .scale(x);
 
-      const xaxis = this.svg.select('.xaxis')
+      this.svg.select('.xaxis')
           .call(xAxis);
     }
     if (this.showAxes || logY) {
@@ -257,7 +257,6 @@ export class BarChartComponent implements OnInit, OnDestroy {
     }
 
     if (this.expectedData.length > 0) {
-      const markerSize = 10;
       const selection = this.svg.select('.expected-holder').selectAll('.exp')
         .data(this.expectedData)
         .enter().append('rect')

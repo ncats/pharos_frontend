@@ -250,7 +250,7 @@ export class GenericTableComponent implements OnInit, AfterViewInit, OnChanges, 
   constructor(
     private ref: ChangeDetectorRef,
     private _injector: Injector,
-    private iterableDiffers: IterableDiffers) {
+    iterableDiffers: IterableDiffers) {
     this.iterableDiffer = iterableDiffers.find([]).create(null);
   }
 

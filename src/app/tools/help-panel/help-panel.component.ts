@@ -22,9 +22,29 @@ import {MatButtonModule, MatIconButton} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
 import {CitationComponent} from '../citation/citation.component';
-import {MaterialModule} from '../../../assets/material/material.module';
+
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {DataVersionCardComponent} from '../data-version-card/data-version-card.component';
+import {ARTICLES} from '../../../config/help-article-tokens';
+import {
+    IlluminationGraphArticleComponent
+} from './articles/illumination-graph-article/illumination-graph-article.component';
+import {
+    TargetDevelopmentArticleComponent
+} from './articles/target-development-article/target-development-article.component';
+import {LigandActivityArticleComponent} from './articles/ligand-activity-article/ligand-activity-article.component';
+import {TinxArticleComponent} from './articles/tinx-article/tinx-article.component';
+import {PubmedScoreArticleComponent} from './articles/pubmed-score-article/pubmed-score-article.component';
+import {
+    AssociationDataSourcesArticleComponent
+} from './articles/association-data-sources-article/association-data-sources-article.component';
+import {PPIDataSourcesArticleComponent} from './articles/ppidata-sources-article/ppidata-sources-article.component';
+import {
+    PathwayDataSourcesArticleComponent
+} from './articles/pathway-data-sources-article/pathway-data-sources-article.component';
+import {
+    GoTermsEvidenceArticleComponent
+} from './articles/go-terms-evidence-article/go-terms-evidence-article.component';
 
 /**
  * component to hold help information
@@ -32,10 +52,21 @@ import {DataVersionCardComponent} from '../data-version-card/data-version-card.c
 @Component({
     standalone: true,
     imports: [CommonModule, MatIconButton, MatIconModule, MatAccordion, MatButtonModule, FlexLayoutModule,
-        MatExpansionModule, CitationComponent, MaterialModule, DataVersionCardComponent],
+        MatExpansionModule, CitationComponent, DataVersionCardComponent, CdkPortalOutlet],
     selector: 'pharos-help-panel',
     templateUrl: './help-panel.component.html',
-    styleUrls: ['./help-panel.component.scss']
+    styleUrls: ['./help-panel.component.scss'],
+    providers: [
+        {provide: ARTICLES.ILLUMINATION_GRAPH_ARTICLE, useValue: IlluminationGraphArticleComponent },
+        {provide: ARTICLES.TARGET_DEVELOPMENT_ARTICLE, useValue: TargetDevelopmentArticleComponent },
+        {provide: ARTICLES.LIGAND_ACTIVITY_ARTICLE, useValue: LigandActivityArticleComponent },
+        {provide: ARTICLES.TINX_ARTICLE, useValue: TinxArticleComponent },
+        {provide: ARTICLES.PUBMED_SCORE_ARTICLE, useValue: PubmedScoreArticleComponent },
+        {provide: ARTICLES.ASSOCIATION_DATA_SOURCES_ARTICLE, useValue: AssociationDataSourcesArticleComponent},
+        {provide: ARTICLES.PPI_DATA_SOURCES_ARTICLE, useValue: PPIDataSourcesArticleComponent},
+        {provide: ARTICLES.PATHWAY_DATA_SOURCES_ARTICLE, useValue: PathwayDataSourcesArticleComponent},
+        {provide: ARTICLES.GO_TERMS_EVIDENCE_ARTICLE, useValue: GoTermsEvidenceArticleComponent}
+    ]
 })
 export class HelpPanelComponent implements OnInit, OnDestroy {
     protected ngUnsubscribe: Subject<any> = new Subject();
@@ -210,6 +241,7 @@ export class HelpPanelComponent implements OnInit, OnDestroy {
             this.opened[index] = true;
             this.selectedArticle = source.label;
             if (this.articlePortalOutlets) {
+                console.log(this.articlePortalOutlets);
                 const comp = this._injector.get<Type<any>>(source.article);
                 const outlet = this.articlePortalOutlets.toArray()[index];
                 const compPortal = new ComponentPortal(comp);

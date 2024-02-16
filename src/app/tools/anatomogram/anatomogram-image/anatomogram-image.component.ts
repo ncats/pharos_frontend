@@ -139,9 +139,7 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
       return;
     }
     this.normalizeMaps();
-    const shadingMap = this.shadingMap?.get(this.shadingKey);
     this.tissues.forEach(tissue => {
-        const opacity = this.getOpacity(tissue);
         const selection = this.unhighlight_tissue(this.svg.select(`#${tissue}`).selectAll('path'), tissue);
         selection.on('mouseover', (event, d) => {
           const f = selection.nodes();
@@ -156,7 +154,6 @@ export class AnatomogramImageComponent implements OnInit, OnChanges {
       }
     );
     this.tissues.forEach(tissue => {
-        const opacity = this.getOpacity(tissue);
         const selection = this.unhighlight_tissue(this.svg.select(`#${tissue}`), tissue);
         selection.on('click', () => {
             this.tissueClick.emit(tissue);

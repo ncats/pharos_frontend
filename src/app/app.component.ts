@@ -21,7 +21,8 @@ import {PharosFooterComponent} from './tools/pharos-footer/pharos-footer.compone
  */
 @Component({
   standalone: true,
-  imports: [CommonModule, NcatsHeaderComponent, AlertComponent, PharosLoadingSpinnerComponent, RouterOutlet, ScrollToTopComponent, PharosFooterComponent],
+  imports: [CommonModule, NcatsHeaderComponent, AlertComponent, PharosLoadingSpinnerComponent, RouterOutlet,
+    ScrollToTopComponent, PharosFooterComponent],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
@@ -111,13 +112,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   runTutorial() {
     const tutorial = this._route.snapshot.queryParamMap.get('tutorial');
-    const page = this.tourService.getPage();
     this.tourService.runTutorial(tutorial);
   }
 
   getTitle(state, parent) {
     const data = [];
-    const url = [];
     if (parent && parent.snapshot.data && parent.snapshot.data.title) {
       const path = parent.snapshot.url?.length > 1 ? parent.snapshot.url[0].path : '';
       const subpath = parent.snapshot.url?.length > 1 ? parent.snapshot.url[1].path : '';

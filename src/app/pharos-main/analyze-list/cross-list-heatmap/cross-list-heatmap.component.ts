@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
 import {HeatMapComponent, HeatMapData} from '../../../tools/visualizations/heat-map/heat-map.component';
@@ -19,7 +19,8 @@ import {MatTooltip} from '@angular/material/tooltip';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, FlexLayoutModule, MatCardModule, ComponentHeaderComponent, MatButtonModule, MatIconModule, MatTooltip, HeatMapComponent],
+  imports: [CommonModule, FlexLayoutModule, MatCardModule, ComponentHeaderComponent, MatButtonModule,
+    MatIconModule, MatTooltip, HeatMapComponent],
   selector: 'pharos-cross-list-heatmap',
   templateUrl: './cross-list-heatmap.component.html',
   styleUrls: ['./cross-list-heatmap.component.scss']
@@ -106,7 +107,7 @@ export class CrossListHeatmapComponent extends DynamicPanelComponent implements 
   }
 
   heatmapClicked(data) {
-    if (this.selectedData == data && this.showDetails) {
+    if (this.selectedData === data && this.showDetails) {
       this.showDetails = false;
       return;
     }
@@ -122,7 +123,7 @@ export class CrossListHeatmapComponent extends DynamicPanelComponent implements 
   }
 
   downloadData() {
-    const dialogRef = this.dialog.open(FieldSelectionDialogComponent, {
+    this.dialog.open(FieldSelectionDialogComponent, {
       data: {count: this.data.count, model: this.model, route: this._route, defaultSubset: this.defaultSubset},
       height: '75vh', width: '66vw'
     }).afterClosed();

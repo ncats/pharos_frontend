@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LinkListComponent } from './link-list.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MaterialModule} from '../../../assets/material/material.module';
 import {RouterTestingModule} from '@angular/router/testing';
 
 describe('LinkListComponent', () => {
@@ -14,7 +13,7 @@ describe('LinkListComponent', () => {
       imports: [
         RouterTestingModule,
         BrowserAnimationsModule,
-        MaterialModule]
+      ]
     })
     .compileComponents();
   }));

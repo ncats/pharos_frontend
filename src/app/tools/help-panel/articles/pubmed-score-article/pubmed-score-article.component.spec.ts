@@ -1,21 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PubmedScoreArticleComponent } from './pubmed-score-article.component';
-import {SharedModule} from '../../../../shared/shared.module';
-import {MaterialModule} from '../../../../../assets/material/material.module';
-import {FlexLayoutModule} from '@angular/flex-layout';
 
 describe('PubmedScoreArticleComponent', () => {
   let component: PubmedScoreArticleComponent;
   let fixture: ComponentFixture<PubmedScoreArticleComponent>;
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        MaterialModule,
-        FlexLayoutModule
-      ]
-    })
+    TestBed.configureTestingModule({ })
     .compileComponents();
   }));
 

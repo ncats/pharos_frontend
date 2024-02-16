@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy,
 import {DynamicPanelComponent} from '../../../../../tools/dynamic-panel/dynamic-panel.component';
 import {LigandSerializer} from '../../../../../models/ligand';
 import {TargetComponents} from '../../../../../models/target-components';
-import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
 import {BehaviorSubject} from 'rxjs';
@@ -16,7 +15,7 @@ import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
 import {MatCardModule} from '@angular/material/card';
 import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
-import {CommonModule, NgIf} from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {ExploreListButtonComponent} from '../../../../../tools/explore-list-button/explore-list-button.component';
 import {LigandCardComponent} from '../../../../data-list/cards/ligand-card/ligand-card.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -35,7 +34,6 @@ export class DrugsLigandsPanelComponent extends DynamicPanelComponent implements
     MatPaginatorModule, LigandCardComponent, CommonModule, FlexLayoutModule
   ];
   constructor(
-    private _http: HttpClient,
     private _route: ActivatedRoute,
     private pharosApiService: PharosApiService,
     private changeRef: ChangeDetectorRef,

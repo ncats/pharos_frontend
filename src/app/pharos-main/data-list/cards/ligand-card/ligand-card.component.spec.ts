@@ -1,10 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LigandCardComponent } from './ligand-card.component';
-import {SharedModule} from '../../../../shared/shared.module';
 import {RouterTestingModule} from '@angular/router/testing';
-import {RouterModule} from '@angular/router';
-import {CommonToolsModule} from '../../../../tools/common-tools.module';
 import {TESTLIGAND} from '../../../../../../test/test-ligand';
 
 describe('LigandCardComponent', () => {
@@ -14,8 +11,6 @@ describe('LigandCardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
-        CommonToolsModule,
         RouterTestingModule
       ],
       providers: [

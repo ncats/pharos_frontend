@@ -1,8 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SummaryPanelComponent } from './summary-panel.component';
-import {SharedModule} from '../../../../../shared/shared.module';
-import {RadarChartComponent} from '../../../../../tools/visualizations/radar-chart/radar-chart.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {ActivatedRoute} from '@angular/router';
@@ -14,6 +12,7 @@ import {COMMON_CONFIG} from '../../../../../../../test/test-config';
 import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
 import {AngularFireModule} from '@angular/fire/compat';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('SummaryPanelComponent', () => {
   let component: SummaryPanelComponent;
@@ -23,7 +22,7 @@ describe('SummaryPanelComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        SharedModule,
+        HttpClientTestingModule,
         ApolloTestingModule,
         BrowserAnimationsModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)

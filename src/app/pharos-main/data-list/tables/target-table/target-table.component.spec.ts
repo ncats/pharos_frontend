@@ -1,7 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {TargetTableComponent} from './target-table.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {SharedModule} from '../../../../shared/shared.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {PharosApiService} from '../../../../pharos-services/pharos-api.service';
 import {ActivatedRoute} from '@angular/router';
@@ -20,7 +19,6 @@ describe('TargetTableComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
-        SharedModule,
         RouterTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],

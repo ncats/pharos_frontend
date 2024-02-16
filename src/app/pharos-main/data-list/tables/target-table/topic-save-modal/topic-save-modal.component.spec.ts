@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TopicSaveModalComponent } from './topic-save-modal.component';
-import {SharedModule} from '../../../../../shared/shared.module';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FIRESTORESTUB} from '../../../../../../../test/firestore-stub';
 import {AngularFireModule} from '@angular/fire/compat';
@@ -9,6 +8,7 @@ import {COMMON_CONFIG} from '../../../../../../../test/test-config';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('TopicSaveModalComponent', () => {
   let component: TopicSaveModalComponent;
@@ -19,7 +19,7 @@ describe('TopicSaveModalComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
-        SharedModule,
+        HttpClientTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
       providers: [

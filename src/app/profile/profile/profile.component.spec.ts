@@ -4,13 +4,13 @@ import { ProfileComponent } from './profile.component';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {SharedModule} from '../../shared/shared.module';
 import {AngularFireModule} from '@angular/fire/compat';
 import {COMMON_CONFIG} from '../../../../test/test-config';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FIRESTORESTUB} from '../../../../test/firestore-stub';
 import {CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA} from '@angular/core';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -20,9 +20,9 @@ describe('ProfileComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ApolloTestingModule,
+        HttpClientTestingModule,
         RouterTestingModule,
         BrowserAnimationsModule,
-        SharedModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
       providers: [

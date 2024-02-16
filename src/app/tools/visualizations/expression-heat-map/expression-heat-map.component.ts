@@ -1,13 +1,10 @@
 import {
-  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
-  Inject,
   Input,
   OnChanges,
   OnInit,
-  PLATFORM_ID,
   SimpleChanges,
   ViewChild,
   ViewEncapsulation
@@ -47,9 +44,7 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
   constructor(
     private anatomogramHoverService: AnatomogramHoverService,
     public dynamicServices: DynamicServicesService,
-    private expressionInfoService: ExpressionInfoService,
-    @Inject(PLATFORM_ID) private platformID: any,
-    private changeRef: ChangeDetectorRef) {
+    private expressionInfoService: ExpressionInfoService) {
     super(dynamicServices);
   }
 
@@ -416,7 +411,7 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
       }
     }).on('mouseout', (event, d) => {
       this.anatomogramHoverService.setTissue(null);
-      const blocks = selection.nodes().forEach(b => {
+      selection.nodes().forEach(b => {
         d3.select(b).classed('hovered', false);
       });
     }).on('click', (event, d) => {
@@ -425,7 +420,6 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
 
     const xTicks = this.chartArea.select('.xAxis').selectAll('.tick').attr('class', 'tick xAxisLabel');
     xTicks.on('mouseover', (event, d) => {
-      const hoveredDataSource = this.heatmapData.xValues[d].val;
       const blocks = selection.nodes().filter(b => {
         return b.__data__.x === d;
       });
@@ -435,7 +429,7 @@ export class ExpressionHeatMapComponent extends DynamicPanelComponent implements
         }
       });
     }).on('mouseout', (event, d) => {
-      const blocks = selection.nodes().forEach(b => {
+      selection.nodes().forEach(b => {
         d3.select(b).classed('hovered', false);
       });
     }).on('click', (event, d) => {

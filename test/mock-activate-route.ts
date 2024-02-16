@@ -1,5 +1,4 @@
-import {of, from, BehaviorSubject} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
+import {BehaviorSubject} from 'rxjs';
 import {TESTTARGET, TESTTARGETPROPS} from './test-target';
 
 export const MOCKACTIVATEDROUTE = {

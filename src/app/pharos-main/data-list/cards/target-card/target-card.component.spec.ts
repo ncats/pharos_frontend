@@ -1,8 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TargetCardComponent } from './target-card.component';
-import {SharedModule} from '../../../../shared/shared.module';
-import {CommonToolsModule} from '../../../../tools/common-tools.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {RouterModule} from '@angular/router';
 import {TESTTARGET} from '../../../../../../test/test-target';
@@ -14,8 +12,6 @@ describe('TargetCardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
-        CommonToolsModule,
         RouterTestingModule
       ],
       providers: [

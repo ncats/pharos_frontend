@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NewsPanelComponent } from './news-panel.component';
-import {SharedModule} from '../../shared/shared.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FIRESTORESTUB} from '../../../../test/firestore-stub';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
@@ -17,7 +16,6 @@ describe('NewsPanelComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
-        SharedModule,
         AngularFireModule.initializeApp(COMMON_CONFIG),
       ],
       providers: [
