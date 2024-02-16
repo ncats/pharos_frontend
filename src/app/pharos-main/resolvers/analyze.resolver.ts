@@ -1,9 +1,7 @@
-import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
 import {Observable, of} from 'rxjs';
-import {PharosApiService} from '../../pharos-services/pharos-api.service';
-import {LoadingService} from '../../pharos-services/loading.service';
-import {PharosBase, Serializer} from '../../models/pharos-base';
+import {PharosBase} from '../../models/pharos-base';
 
 /**
  * resolves the details for a specific object
@@ -15,11 +13,8 @@ export class AnalyzeResolver implements Resolve<any> {
 
   /**
    * create services
-   * @param {LoadingService} loadingService
-   * @param {PharosApiService} pharosApiService
    */
   constructor(
-    private pharosApiService: PharosApiService
   ) {  }
 
   /**

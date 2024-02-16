@@ -2,7 +2,6 @@ import {TestBed} from '@angular/core/testing';
 
 import {AuthGuard} from './auth.guard';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {SharedModule} from '../shared/shared.module';
 import {AngularFireModule} from '@angular/fire/compat';
 import {COMMON_CONFIG} from '../../../test/test-config';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
@@ -18,7 +17,6 @@ describe('AuthGuard', () => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
-        SharedModule,
         RouterTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG),
       ],

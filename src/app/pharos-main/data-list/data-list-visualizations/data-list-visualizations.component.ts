@@ -9,7 +9,6 @@ import {DynamicServicesService} from '../../../pharos-services/dynamic-services.
 import {Subject} from 'rxjs';
 import {CentralStorageService} from '../../../pharos-services/central-storage.service';
 import {TourType} from '../../../models/tour-type';
-import {MatDialog} from '@angular/material/dialog';
 import {MatTabChangeEvent} from '@angular/material/tabs';
 import {CommonModule} from '@angular/common';
 import {MatCardModule} from '@angular/material/card';
@@ -58,7 +57,6 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
    */
   constructor(private centralStorageService: CentralStorageService,
               private pathResolverService: PathResolverService,
-              private dialog: MatDialog,
               private _route: ActivatedRoute,
               private selectedFacetService: SelectedFacetService,
               public dynamicServices: DynamicServicesService) {

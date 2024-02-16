@@ -4,7 +4,7 @@ import {Observable, map} from 'rxjs';
 import {PharosProfileService} from './pharos-profile.service';
 import {LoginModalComponent} from './login-modal/login-modal.component';
 import {LoadingService} from '../pharos-services/loading.service';
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog} from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +33,7 @@ export class AuthGuard  {
             //  return of(true);
           } else {
             this.loadingService.toggleVisible(false);
-            const signin = this.dialog.open(LoginModalComponent, {
+            this.dialog.open(LoginModalComponent, {
                 height: '75vh',
                 width: '66vw',
               }

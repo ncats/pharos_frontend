@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModelDetailsComponent } from './model-details.component';
-import {SharedModule} from '../../shared/shared.module';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('ModelDetailsComponent', () => {
   let component: ModelDetailsComponent;
@@ -10,7 +10,7 @@ describe('ModelDetailsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        SharedModule,
+        HttpClientTestingModule
       ],
       providers: [
         {provide: MAT_DIALOG_DATA, useValue: {modelChemblId: 'CHEMBL1833'}},

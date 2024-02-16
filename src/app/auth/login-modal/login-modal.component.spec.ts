@@ -1,13 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginModalComponent } from './login-modal.component';
-import {SharedModule} from '../../shared/shared.module';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FIRESTORESTUB} from '../../../../test/firestore-stub';
 import {COMMON_CONFIG} from '../../../../test/test-config';
-import {AngularFireModule, FirebaseApp} from '@angular/fire/compat';
-import {AngularFireAuth, AngularFireAuthModule} from '@angular/fire/compat/auth';
-import {inject} from '@angular/core';
+import {AngularFireModule} from '@angular/fire/compat';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
 import {MatDialogRef} from '@angular/material/dialog';
 
 describe('LoginModalComponent', () => {
@@ -18,7 +16,6 @@ describe('LoginModalComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],
       providers: [

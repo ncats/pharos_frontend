@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MouseImageData} from '../../../../../../models/idg-resources/data-resource';
 import {Observable, Subject, Subscription} from 'rxjs';
 import {AnatomogramHoverService} from '../../../../../../tools/anatomogram/anatomogram-hover.service';
@@ -21,8 +21,8 @@ import {DataResourcePanelComponent} from '../data-resource-panel/data-resource-p
 export class MouseExpressionComponent implements OnInit, OnDestroy {
 
   constructor(
-    private anatomogramHoverService: AnatomogramHoverService,
-    private changeRef: ChangeDetectorRef) {
+    private anatomogramHoverService: AnatomogramHoverService
+  ) {
 
   }
   protected ngUnsubscribe: Subject<any> = new Subject();

@@ -1,7 +1,6 @@
-import {ChangeDetectorRef, Component, Inject, Input, OnDestroy, OnInit, Output, PLATFORM_ID, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {takeUntil} from 'rxjs/operators';
 import {BehaviorSubject, Subject} from 'rxjs';
-import {NavSectionsService} from '../../../../../tools/sidenav-panel/services/nav-sections.service';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {Target} from '../../../../../models/target';
 import {IDGResourceSerializer} from '../../../../../models/idg-resources/resource-serializer';
@@ -81,7 +80,6 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
    */
   constructor(
     private changeRef: ChangeDetectorRef,
-    @Inject(PLATFORM_ID) private platformID: any,
     public dynamicServices: DynamicServicesService) {
     super(dynamicServices);
   }

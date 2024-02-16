@@ -3,7 +3,6 @@ import {ExploreListButtonComponent} from './explore-list-button.component';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {SharedModule} from '../../shared/shared.module';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FIRESTORESTUB} from '../../../../test/firestore-stub';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
@@ -12,6 +11,7 @@ import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../test/mock-activate-route';
 import {AngularFireModule} from '@angular/fire/compat';
 import {COMMON_CONFIG} from '../../../../test/test-config';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('ExploreListButtonComponent', () => {
   let component: ExploreListButtonComponent;
@@ -21,8 +21,8 @@ describe('ExploreListButtonComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
+        HttpClientTestingModule,
         BrowserAnimationsModule,
-        SharedModule,
         ApolloTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG)
       ],

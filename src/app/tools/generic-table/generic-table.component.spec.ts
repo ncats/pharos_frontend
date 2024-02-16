@@ -1,10 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GenericTableComponent } from './generic-table.component';
-import {MaterialModule} from '../../../assets/material/material.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {SharedModule} from '../../shared/shared.module';
-import {PropertyDisplayComponent} from './components/property-display/property-display.component';
 import {RouterTestingModule} from '@angular/router/testing';
 
 describe('GenericTableComponent', () => {
@@ -15,8 +12,7 @@ describe('GenericTableComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
-        RouterTestingModule,
-        SharedModule
+        RouterTestingModule
       ],
       providers: [
       ]

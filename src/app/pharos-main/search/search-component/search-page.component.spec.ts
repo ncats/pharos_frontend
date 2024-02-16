@@ -9,7 +9,6 @@ import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {SharedModule} from '../../../shared/shared.module';
 
 describe('SearchComponentComponent', () => {
   let component: SearchPageComponent;
@@ -19,8 +18,7 @@ describe('SearchComponentComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        BrowserAnimationsModule,
-        SharedModule
+        BrowserAnimationsModule
       ],
       providers: [
         PharosApiService,

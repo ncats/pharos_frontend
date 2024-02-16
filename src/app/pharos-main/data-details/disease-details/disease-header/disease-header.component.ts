@@ -47,7 +47,7 @@ export class DiseaseHeaderComponent extends DynamicPanelComponent implements OnI
   }
 
   downloadData() {
-    const dialogRef = this.dialog.open(FieldSelectionDialogComponent, {
+    this.dialog.open(FieldSelectionDialogComponent, {
       data: {count: 1, model: 'Disease', route: this._route, batch: this.disease.name},
       height: '75vh', width: '66vw'
     }).afterClosed();

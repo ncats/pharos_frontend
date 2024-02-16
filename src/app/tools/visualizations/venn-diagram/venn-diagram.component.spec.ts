@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {VennDiagramComponent, VennDiagramData} from './venn-diagram.component';
+import {VennDiagramComponent} from './venn-diagram.component';
 
 describe('VennDiagramComponent', () => {
   let component: VennDiagramComponent;

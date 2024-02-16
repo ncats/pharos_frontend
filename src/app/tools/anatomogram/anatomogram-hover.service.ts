@@ -1,7 +1,5 @@
-import {Injectable, Input} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
-import {DataProperty} from '../generic-table/components/property-display/data-property';
-import {BehaviorSubject} from 'rxjs';
 
 /**
  * service to pass a hovered tissue string from any component to a anatomagram component

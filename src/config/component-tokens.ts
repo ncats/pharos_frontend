@@ -4,7 +4,9 @@ import {InjectionToken} from '@angular/core';
  * main class of injection tokens
  */
 export class TOKENS {
+  public static RADAR_CHART_TOKEN = new InjectionToken<string>('RadarChartComponent');
   /**
+   *
    * injection token to maintain the breadcrumb component
    */
   public static PHAROS_BREADCRUMB_COMPONENT = new InjectionToken<string>('BreadcrumbComponent');
@@ -178,7 +180,8 @@ export class TOKENS {
    */
   public static STRUCTURE_VIEW_PANEL = new InjectionToken<string>('StructureViewComponent');
 
-  public static IDG_LEVEL_TOKEN = new InjectionToken('IDGLevelComponent');
+  // no longer in use
+  // public static IDG_LEVEL_TOKEN = new InjectionToken('IDGLevelComponent');
   /**
    * injection token to link to target relevance data
    */

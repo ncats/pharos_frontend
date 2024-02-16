@@ -391,22 +391,6 @@ const PHAROS_SELECTED_FACET_LIST_COMPONENT: PharosPanel = {
   section: Position.Content
 };
 
-const PHAROS_HIERARCHY_VIEWER_COMPONENT: PharosPanel = {
-  token: TOKENS.PHAROS_HIERARCHY_VIEWER_COMPONENT,
-  section: Position.Content,
-  navHeader: {
-    mainDescription: 'TODO',
-    section: 'hierarchy',
-    label: 'Hierarchy Viewer'
-  }, api: [
-    {
-      description: 'description',
-      field: 'field',
-      label: 'label'
-    }
-    ]
-}
-
 const PHAROS_FACET_REPRESENTATION_COMPONENT: PharosPanel = {
   token: TOKENS.PHAROS_FACET_REPRESENTATION_COMPONENT,
   section: Position.Content,
@@ -501,18 +485,6 @@ const PHAROS_BREADCRUMB_COMPONENT: PharosPanel = {
     }
   ]
 };
-
-/**
- * target details page component
- * primary holder for all subsequent panels
- * @type {PharosPanel}
- */
-const TARGET_DETAILS_COMPONENT: PharosPanel = {
-  token: TOKENS.TARGET_DETAILS_COMPONENT,
-  section: Position.Content,
-  api: []
-};
-
 
 /**
  * target summary component
@@ -710,7 +682,7 @@ const DISEASE_NOVELTY_PANEL: PharosPanel = {
       label: 'Novelty',
       description: 'A bibliometric statistic that estimates the scarcity of publications about a disease.'
     }]
-}
+};
 /**
  * target disease relevance component
  * @type {PharosPanel}
@@ -832,7 +804,7 @@ const NEAREST_TCLIN_PANEL: PharosPanel = {
       label: 'Common Pathways',
       description: 'The KEGG Pathways a target has in common with the main target for this Details Page'
     }]
-}
+};
 
 const GWAS_TARGET_ANALYTICS_PANEL: PharosPanel = {
   token: TOKENS.GWAS_TARGET_ANALYTICS_PANEL,
@@ -939,15 +911,15 @@ const INTERACTING_PATHWAYS_PANEL: PharosPanel = {
   token: TOKENS.INTERACTING_PATHWAYS_PANEL,
   browserOnly: true,
   navHeader: {
-    label: "Interacting Pathways",
+    label: 'Interacting Pathways',
     section: 'interactingPathways',
     mainDescription: 'Explore pathways that functionally interact with your target of interest. ' +
       'These interacting pathways are inferred based on functional interactions selected according to the ' +
       'provided cutoff. The functional interactions are predicted using a trained machine learning ' +
       'model, employing a list of protein/gene pairwise relationships.',
     prediction: true,
-    mainSource: ["https://www.biorxiv.org/content/10.1101/2023.06.05.543335v1",
-    "https://pubmed.ncbi.nlm.nih.gov/37467006/"]
+    mainSource: ['https://www.biorxiv.org/content/10.1101/2023.06.05.543335v1',
+    'https://pubmed.ncbi.nlm.nih.gov/37467006/']
   }, api: [
     {
       field: 'fiScore',
@@ -987,7 +959,7 @@ const INTERACTING_PATHWAYS_PANEL: PharosPanel = {
         'identify pathways with robust statistical support.'
     }
   ]
-}
+};
 
 const PATHWAYS_PANEL: PharosPanel = {
   token: TOKENS.PATHWAYS_PANEL,
@@ -1390,35 +1362,6 @@ const DISEASE_TINX_COMPONENT: PharosPanel = {
       field: 'novelty',
       label: 'Novelty',
       description: 'A bibliometric statistic that estimates the scarcity of publications about a target.'
-    }
-  ]
-};
-
-/**
- * main disease details page component
- * @type {PharosPanel}
- */
-const DISEASE_DETAILS_COMPONENT: PharosPanel = {
-  token: TOKENS.DISEASE_DETAILS_COMPONENT,
-  api: []
-};
-
-/**
- * list of targets associated with a disease component
- * @type {PharosPanel}
- */
-const TARGET_LIST_PANEL: PharosPanel = {
-  token: TOKENS.TARGET_LIST_PANEL,
-  navHeader: {
-    label: 'Related Targets',
-    section: 'relatedTargets',
-    mainDescription: 'List of targets within Pharos that are related to this disease.'
-  },
-  api: [
-    {
-      field: 'targets',
-      label: 'Related Targets',
-      description: 'List of targets associated with this disease.'
     }
   ]
 };

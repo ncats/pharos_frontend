@@ -1,12 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import {ApolloTestingModule} from "apollo-angular/testing";
+import {ApolloTestingModule} from 'apollo-angular/testing';
 import { SequenceSearchPageComponent } from './sequence-search-page.component';
-import {SharedModule} from '../shared/shared.module';
-import {NcatsHeaderModule} from '../tools/ncats-header/ncats-header.module';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AngularFireModule} from '@angular/fire/compat';
 import {COMMON_CONFIG} from '../../../test/test-config';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('SequenceSearchPageComponent', () => {
   let component: SequenceSearchPageComponent;
@@ -15,9 +14,9 @@ describe('SequenceSearchPageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
         RouterTestingModule,
         BrowserAnimationsModule,
+        HttpClientTestingModule,
         AngularFireModule.initializeApp(COMMON_CONFIG),
         ApolloTestingModule
       ]

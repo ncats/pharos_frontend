@@ -4,9 +4,6 @@ import {APP_BASE_HREF} from '@angular/common';
 import {DataListVisualizationsComponent} from '../../../pharos-main/data-list/data-list-visualizations/data-list-visualizations.component';
 import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {LoadingService} from '../../../pharos-services/loading.service';
-import {DonutChartComponent} from '../../../tools/visualizations/donut-chart/donut-chart.component';
-import {SharedModule} from '../../../shared/shared.module';
-import {VisualizationOptionsComponent} from './visualization-options/visualization-options.component';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {FIRESTORESTUB} from '../../../../../test/firestore-stub';
 import {AngularFireAuth} from '@angular/fire/compat/auth';
@@ -15,9 +12,9 @@ import {COMMON_CONFIG} from '../../../../../test/test-config';
 import {ApolloTestingModule} from 'apollo-angular/testing';
 import {ActivatedRoute} from '@angular/router';
 import {MOCKACTIVATEDROUTE} from '../../../../../test/mock-activate-route';
-import {Facet} from '../../../models/facet';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TESTFACET} from '../../../../../test/test-facet';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 
 describe('DataListVisualizationsComponent', () => {
@@ -28,9 +25,9 @@ describe('DataListVisualizationsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         AngularFireModule.initializeApp(COMMON_CONFIG),
-        SharedModule,
         RouterTestingModule,
         ApolloTestingModule,
+        HttpClientTestingModule,
         BrowserAnimationsModule
       ],
       providers: [

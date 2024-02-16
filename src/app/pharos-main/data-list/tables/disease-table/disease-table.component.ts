@@ -187,7 +187,7 @@ export class DiseaseTableComponent extends DynamicTablePanelComponent implements
   }
 
   downloadData() {
-    const dialogRef = this.dialog.open(FieldSelectionDialogComponent, {
+    this.dialog.open(FieldSelectionDialogComponent, {
       data: {count: this.pageData.total, model: 'Disease', route: this._route},
       height: '75vh', width: '66vw'
     }).afterClosed();

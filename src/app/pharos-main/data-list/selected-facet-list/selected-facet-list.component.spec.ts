@@ -5,7 +5,6 @@ import {PharosApiService} from '../../../pharos-services/pharos-api.service';
 import {SuggestApiService} from '../../../tools/search-component/suggest-api.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LoadingService} from '../../../pharos-services/loading.service';
-import {SharedModule} from '../../../shared/shared.module';
 import {SelectedFacetService} from '../filter-panel/selected-facet.service';
 import {APP_BASE_HREF} from '@angular/common';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -25,7 +24,6 @@ describe('SelectedFacetListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
         RouterTestingModule,
         BrowserAnimationsModule ,
         AngularFireModule.initializeApp(COMMON_CONFIG),
