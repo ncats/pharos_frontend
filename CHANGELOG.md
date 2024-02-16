@@ -1,3 +1,10 @@
+# 3.19.0 (2024-02-15)
+* **Angular Upgrade**
+  * Updated to Angular 17
+  * All components are now standalone components, to better facilitate code sharing
+* **Data Update**
+  * Publications, GeneRIFs, Expression Data have all been updated
+
 # 3.18.0 (2023-10-12)
 ### Added Features
 * **Expanded functionality for Community Data**
