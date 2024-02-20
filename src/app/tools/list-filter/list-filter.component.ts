@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormsModule, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
 import {PageData} from '../../models/page-data';
 import {Observable, Subscription} from 'rxjs';
@@ -20,7 +20,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
   styleUrls: ['./list-filter.component.scss']
 })
 
-export class ListFilterComponent implements OnInit, OnDestroy {
+export class ListFilterComponent implements OnInit, OnDestroy, OnChanges {
 
   /**
    * the full list
@@ -78,6 +78,12 @@ export class ListFilterComponent implements OnInit, OnDestroy {
    */
   ngOnDestroy(): void {
     this.updateSubscription.unsubscribe();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.fullList) {
+      this.initializeLists();
+    }
   }
 
   /**

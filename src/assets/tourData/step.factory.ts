@@ -8,7 +8,7 @@ export class StepFactory {
     const list = `<mat-icon role="img" class="mat-icon notranslate material-icons mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">list</mat-icon>`;
     const details = `<mat-icon role="img" class="mat-icon notranslate material-icons mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">description</mat-icon>`;
     const help = `<mat-icon role="img" class="mat-icon notranslate material-icons mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">help</mat-icon>`;
-    const tutorial = `<mat-icon role="img" class="mat-icon notranslate material-icons mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">lightbulb</mat-icon>`;
+    const tutorial = `<mat-icon role="img" class="mat-icon notranslate material-icons mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">school</mat-icon>`;
     const enrichment = `<mat-icon role="img" class="mat-icon notranslate material-icons mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">developer_board</mat-icon>`;
     switch (tourName) {
       case TourType.ShortSearch:
@@ -30,7 +30,7 @@ export class StepFactory {
             text: [`The ${search} option will run a thorough search of targets, ligands, and diseases for your search term. You will also see results for matching filter values, such as GWAS traits, GO Terms, Pathways, etc.` +
             `<br/><br/>The ${details} option will take you directly to the details page for the matching target, disease, or ligand.` +
             `<br/><br/>The ${list} option will take you directly to a list page. This example shows links to the list pages for diseases or ligands that are associated with the target 'PAST1.'` +
-            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/typeahead.png"/>']
+            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/typeahead.png" alt="screenshot showing the typeahead feature"/>']
           }
         ];
       case TourType.ShortTargetDetails:
@@ -47,7 +47,7 @@ export class StepFactory {
             'metric statistics for the target, and more.<br/><br/>' +
             'Sections with data are highlighted in bold.<br/><br/>' +
             '</div>' +
-            '<div style="width: 50%; text-align: center;"><img class="tour-screenshot" src="./assets/images/tutorials/usecases/targetmenu.png"/></div></div>']
+            '<div style="width: 50%; text-align: center;"><img class="tour-screenshot" src="./assets/images/tutorials/usecases/targetmenu.png" alt="screenshot showing the left panel menu for navigating the target details page"/></div></div>']
           },
           {
             scrollTo: false,
@@ -55,7 +55,7 @@ export class StepFactory {
             title: 'Target Development Level Summary',
             text: ['The criteria for classification of the target into development levels (TDL) is explained for each target. The matching TDL ' +
             'is highlighted, along with the matching criteria. ' +
-            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/tdlsummary.png"/>']
+            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/tdlsummary.png" alt="screenshot example of the TDL component"/>']
           },
           {
             scrollTo: false,
@@ -65,7 +65,7 @@ export class StepFactory {
             'and where it is coming from. This screenshot shows the tooltip that appears when hovering over the label for the <b>Illumination ' +
             `Graph</b>. In addition, the <span style="white-space: nowrap; font-weight: bold">help ${help}</span> icon in the top right will provide a description of the different fields in each component ` +
             'for context. ' +
-            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/tooltips.png"/>']
+            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/tooltips.png" alt="screenshot of the protein summary component"/>']
           },
           {
             scrollTo: false,
@@ -74,7 +74,7 @@ export class StepFactory {
             text: ['In lieu of a help panel, some more complex components, such as the expression panel, will have a ' +
             `<span style="white-space: nowrap; font-weight: bold">tutorial ${tutorial}</span> link to help users get the most out of the interactive ` +
             'content.' +
-            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/expression.png"/>']
+            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/expression.png" alt="screenshot of the expression component"/>']
           },
           {
             scrollTo: false,
@@ -82,7 +82,7 @@ export class StepFactory {
             title: 'Resources',
             text: ['Some targets have IDG Generated resources that you may be able to use in your research. Also in the Resources section is ' +
             'a compilation of orthologous species that have been documented to have a version of this target.' +
-            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/resources.png"/>']
+            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/resources.png" alt="screenshot of the IDG resources component"/>']
           },
         ];
       case TourType.ShortPPIList:
@@ -93,18 +93,22 @@ export class StepFactory {
             title: 'Interacting Targets',
             text: ['Most proteins have some documented interactions with other proteins, either through experimental measurement, or through ' +
             'text mining algorithms. You can view some basic information about each target on the target cards and page through the ' +
-            'results on the Target Details page. For more in-depth analysis, you\'ll want to click <span style="font-weight: bold">Explore ' +
+            'results on the Target Details page. For more in-depth analysis, you\'ll want to click ' +
+            '<span style="font-weight: bold">Explore ' +
             'Interacting Targets</span> to generate a Target List page for this target set.' +
-            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/ppi.png"/>']
+            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/ppi.png" ' +
+            'alt="screenshot of the protein-protein interactions component"/>']
           },
           {
             scrollTo: false,
             classes: 'step-with-screenshot',
             title: 'Interacting Target List',
-            text: ['The resulting list will include all documented interacting targets along with the initial target of interest, to ease ' +
-            'in making comparisons. The target cards show the details of the interaction, and the PPI specific filters can be used to filter ' +
-            'the target list based on the data source, or the specific confidence metrics for the interaction.' +
-            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/ppilist.png"/>']
+            text: ['The resulting list will include all documented interacting targets along with the initial target of ' +
+            'interest, to ease in making comparisons. The target cards show the details of the interaction, and the PPI ' +
+            'specific filters can be used to filter the target list based on the data source, or the specific ' +
+            'confidence metrics for the interaction.' +
+            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/ppilist.png" ' +
+            'alt="screenshot of the target list page, highlighting a protein\'s interacting partners"/>']
           }
         ];
       case TourType.ShortValueCounts:
@@ -120,18 +124,19 @@ export class StepFactory {
             'target.<br/>Clicking on the ' +
             `<span style="white-space: nowrap; font-weight: bold">calculate enrichment ${enrichment}</span>` +
             ' button will rank the filter values by the degree of overrepresentation in the filtered list. ' +
-            '<br/><img class="tour-thin-screenshot" src="./assets/images/tutorials/usecases/rawcounts.png"/>' +
-            '<img class="tour-thin-screenshot" src="./assets/images/tutorials/usecases/filteredcounts.png"/>']
+            '<br/><img class="tour-thin-screenshot" src="./assets/images/tutorials/usecases/rawcounts.png" alt="screenshot of the filter panel for Associated Diseases"/>' +
+            '<img class="tour-thin-screenshot" src="./assets/images/tutorials/usecases/filteredcounts.png" alt="screenshot of the filter panel for Associated Diseases for a filtered list, where the enrichment capabilities become available"/>']
           },
           {
             scrollTo: false,
             classes: 'step-with-screenshot',
             title: 'Enrichment Scores',
-            text: ['Results from Fisher\'s Exact Test are shown in tabular form. The results are ranked according to the adjusted p-value.<br/>' +
-            'Note that sorting the list of Associated Diseases based on the degree of overrepresentation yields a much more familiar array ' +
-            'of diseases that are associated with the <b>D2 Dopamine Receptor</b>. This proof-of-concept example lends confidence that calculating ' +
-            'enrichment scores for a list of Interacting Targets can shed light on the function of less well studied targets.' +
-            '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/enrichment.png"/>']
+            text: ['Results from Fisher\'s Exact Test are shown in tabular form. The results are ranked according to ' +
+            'the adjusted p-value.<br/>Note that sorting the list of Associated Diseases based on the degree of ' +
+            'overrepresentation yields a much more familiar array of diseases that are associated with the <b>D2 ' +
+            'Dopamine Receptor</b>. This proof-of-concept example lends confidence that calculating enrichment scores ' +
+            'for a list of Interacting Targets can shed light on the function of less well studied targets.' +
+            '<br/><img class="tour-screenshot" alt="screenshot of the enrichment results" src="./assets/images/tutorials/usecases/enrichment.png"/>']
           }
         ];
       case TourType.ShortHeatmap:
@@ -140,9 +145,10 @@ export class StepFactory {
             scrollTo: false,
             classes: 'step-with-screenshot',
             title: 'Table View & List Analysis View',
-            text: ['All List pages can be viewed in two ways. Using Table View, you can page through results of targets, diseases, ' +
-            'or ligands to find ones you are interested in. List Analysis View is for creating visualizations or calculations that analyze ' +
-            'the population as a whole. You can toggle back and forth from these buttons in the list header.' +
+            text: ['All List pages can be viewed in two ways. Using Table View, you can page through results of targets, ' +
+            'diseases, or ligands to find ones you are interested in. List Analysis View is for creating visualizations ' +
+            'or calculations that analyze the population as a whole. You can toggle back and forth from these buttons ' +
+            'in the list header.' +
             '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/targetheader.png"/>' +
             '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/diseaseheader.png"/>' +
             '<br/><img class="tour-screenshot" src="./assets/images/tutorials/usecases/ligandheader.png"/>']
@@ -151,15 +157,16 @@ export class StepFactory {
             scrollTo: false,
             classes: 'step-with-screenshot',
             title: 'Create Heatmaps',
-            text: ['List Analysis pages have components to create interactive heatmaps of data from your list. Click the row labels or ' +
-            'column headers to sort by that row or column. Hover over cells for a summary, click cells to view all details.' +
+            text: ['List Analysis pages have components to create interactive heatmaps of data from your list. Click ' +
+            'the row labels or column headers to sort by that row or column. Hover over cells for a summary, click ' +
+            'cells to view all details.' +
             '<br/><img class="tour-screenshot" src="./assets/images/tutorials/heatmap.png"/>']
           },
           {
             scrollTo: false,
             classes: 'step-with-screenshot',
             title: 'Heatmap Details',
-            text: ['The details view shows all of the information about the selected cell of the heatmap. The header contains shortcuts to ' +
+            text: ['The details view shows all the information about the selected cell of the heatmap. The header contains shortcuts to ' +
             'jump to the details pages for the corresponding row and column.' +
             '<br/><img class="tour-screenshot" src="./assets/images/tutorials/heatmap-details.png"/>']
           }

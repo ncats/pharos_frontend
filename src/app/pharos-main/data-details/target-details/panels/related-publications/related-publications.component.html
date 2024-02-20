@@ -34,13 +34,14 @@
               <pharos-target-word-cloud [target]="target"></pharos-target-word-cloud>
               <div class="pub-header">
                 <div class="button-container">
-                  <button class="tool-button" mat-raised-button [color]="'primary'" matTooltip="Download Publications"
+                  <button class="pub-tool-button" mat-raised-button [color]="'primary'" matTooltip="Download Publications"
                           (click)="downloadData('Publications')">
                     <span >Publications</span>
                     <mat-icon>download</mat-icon>
                   </button>
-                  <button class="tool-button" mat-raised-button [color]="'primary'" matTooltip="Download GeneRIFs"
-                          (click)="downloadData('Gene RIFs')">
+
+                  <button class="pub-tool-button" mat-raised-button [color]="'primary'"
+                            matTooltip="Download GeneRIFs" (click)="downloadData('Gene RIFs')">
                     <span>GeneRIFs</span>
                     <mat-icon>download</mat-icon>
                   </button>
