@@ -31,15 +31,15 @@
     <!--<button mat-button (click)="mobilesidenav.close()" routerLink="/topics" class="nav-menu-button"
             [ngClass]="{active: isActive('topics')}">Topics</button>
   -->
-    <button mat-button [matMenuTriggerFor]="devMenu" class="vertical-button">Tools</button>
+    <button mat-button [matMenuTriggerFor]="devMenu" class="vertical-button">Tools <mat-icon iconPositionEnd>expand_more</mat-icon></button>
 
-    <button mat-button [matMenuTriggerFor]="aboutMenu" class="vertical-button">About</button>
+    <button mat-button [matMenuTriggerFor]="aboutMenu" class="vertical-button">About <mat-icon iconPositionEnd>expand_more</mat-icon></button>
 
-    <button mat-button [matMenuTriggerFor]="tutorialMenu" class="vertical-button">Tutorials <mat-icon iconPositionEnd>lightbulb</mat-icon></button>
+    <button mat-button [matMenuTriggerFor]="tutorialMenu" class="vertical-button">Tutorials <mat-icon iconPositionEnd>school</mat-icon></button>
 
     <pharos-search-component class="mobile-search" [fixedwidthDropdown]="true"></pharos-search-component>
-    <button mat-button class="jira-button vertical-button" aria-label="submit feedback" matTooltip="Submit Feedback" (click)="submitFeedback($event)" iconPositionEnd>
-      Submit Feedback <mat-icon>feedback</mat-icon>
+    <button mat-button class="jira-button vertical-button" aria-label="submit feedback" matTooltip="Submit Feedback" (click)="submitFeedback($event)">
+      Submit Feedback <mat-icon iconPositionEnd>feedback</mat-icon>
     </button>
   </mat-sidenav>
 
@@ -55,11 +55,11 @@
         <button mat-button [routerLink]="getRouterLink('diseases')" [ngClass]="{active: isActive('diseases')}">Diseases</button>
         <button mat-button [routerLink]="getRouterLink('ligands')" [ngClass]="{active: isActive('ligands')}">Ligands</button>
       </span>
-      <button mat-button [matMenuTriggerFor]="devMenu">Tools</button>
+      <button mat-button [matMenuTriggerFor]="devMenu">Tools <mat-icon iconPositionEnd>expand_more</mat-icon></button>
 
-      <button mat-button [matMenuTriggerFor]="aboutMenu">About</button>
+      <button mat-button [matMenuTriggerFor]="aboutMenu">About <mat-icon iconPositionEnd>expand_more</mat-icon></button>
 
-      <button mat-button [matMenuTriggerFor]="tutorialMenu" id="tutorialMenu">Tutorials <mat-icon iconPositionEnd>lightbulb</mat-icon></button>
+      <button mat-button [matMenuTriggerFor]="tutorialMenu" id="tutorialMenu">Tutorials <mat-icon iconPositionEnd>school</mat-icon></button>
 
     </div>
     <span class="fill-remaining-space"></span>
@@ -78,7 +78,9 @@
       Sign In
     </button>
 
-    <button mat-button (click)="mobilesidenav.close()" class="menu-button top-level-menu-button" aria-label = "menu button" (click)="mobilesidenav.toggle()" fxHide fxShow.lt-md>
+    <button mat-button (click)="mobilesidenav.close()"
+            class="menu-button top-level-menu-button" aria-label = "menu button"
+            (click)="mobilesidenav.toggle()" fxHide fxShow.lt-md>
       <mat-icon iconPositionEnd>menu</mat-icon>
     </button>
     <mat-menu #profileMenu="matMenu">
@@ -90,12 +92,12 @@
       </button>
     </mat-menu>
 
-    <mat-menu #devMenu="matMenu">
+    <mat-menu #devMenu="matMenu" class="toolMenu">
       <button mat-button class="vertical-button" (click)="mobilesidenav.close()" routerLink="/api" [ngClass]="{active: isActive('api')}">API</button>
       <button mat-button class="vertical-button" (click)="mobilesidenav.close()" routerLink="/toolbox" [ngClass]="{active: isActive('toolbox')}">Dev Tools</button>
     </mat-menu>
 
-    <mat-menu #aboutMenu="matMenu">
+    <mat-menu #aboutMenu="matMenu" class="toolMenu">
       <button mat-button class="vertical-button" (click)="mobilesidenav.close()" routerLink="/about" [ngClass]="{active: isActive('about')}">About Pharos</button>
       <button mat-button class="vertical-button" (click)="mobilesidenav.close()" routerLink="/faq" [ngClass]="{active: isActive('faq')}">FAQ</button>
     </mat-menu>
@@ -105,10 +107,8 @@
         <span>Use Cases</span>
         <mat-icon [color]="'primary'" matTooltip="Use Cases" iconPositionEnd>list</mat-icon>
       </button>
-      <button mat-button (click)="mobilesidenav.close()" *ngFor="let tour of tourService.menuTutorials" (click)="gotoTutorial(tour.storageKey)" class="tutorial-link">
+      <button mat-button (click)="mobilesidenav.close(); gotoTutorial(tour.storageKey)" *ngFor="let tour of tourService.menuTutorials" class="tutorial-link">
         <span>{{tour.title}}</span>
-        <div fxFlex=""></div>
-        <mat-icon [color]="'primary'" iconPositionEnd>lightbulb</mat-icon>
         <mat-icon [color]="'primary'" matTooltip="Complete" *ngIf="tutorialComplete(tour.storageKey)" iconPositionEnd>check_circle</mat-icon>
       </button>
 

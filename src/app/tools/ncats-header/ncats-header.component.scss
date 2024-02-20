@@ -97,9 +97,9 @@ button.nav-menu-button.mat-button {
 }
 
 .tutorial-link {
-  display: flex;
+  display:flex;
+  width: 100%;
   justify-content: space-between;
-  place-items: center;
 }
 
 .tutorial-link mat-icon {

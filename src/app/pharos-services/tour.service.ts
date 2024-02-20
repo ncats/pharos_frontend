@@ -55,7 +55,7 @@ export class TourService {
   };
 
   menuTutorials: TourDefinition[] = [
-    {title: 'What\'s New in Version 3.18', storageKey: TourType.WhatsNew318},
+    {title: 'What\'s New in Version 3.19', storageKey: TourType.WhatsNew318},
     {title: 'Using the List Pages', storageKey: TourType.ListPagesTour},
     {title: 'Using the UpSet Chart', storageKey: TourType.UpsetChartTour},
     {title: 'Filter Value Enrichment', storageKey: TourType.FilterValueEnrichment},

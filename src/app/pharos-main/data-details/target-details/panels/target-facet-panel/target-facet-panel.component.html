@@ -9,9 +9,10 @@
     <pharos-component-header [description]="description" [field]="field" [headerText]="'Find similar targets by:'"></pharos-component-header>
     <div id="facets-grid">
       <div *ngFor = "let facet of facets">
-        <span class="mat-title"
+        <span class="mat-title facet-header"
               [matTooltip]= "getTooltip(facet.name)"
               [matTooltipClass]="'pharos-tooltip'">{{getLabel(facet.name)}}</span>
+
         <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Find Similar Targets'"
                                     [facetName]="getLabel(facet.name) + 's'"
                                     [queryParams]="{similarity: '(' + target.preferredSymbol + ', ' + getFacet(facet.name) + ')'}"></pharos-explore-list-button>
