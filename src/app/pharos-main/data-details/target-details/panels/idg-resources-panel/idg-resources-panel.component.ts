@@ -43,7 +43,7 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
    */
   resourceSerializer: IDGResourceSerializer<DataResource | Reagent> = new IDGResourceSerializer<DataResource | Reagent>();
 
-  mouseExpressions: DataResource[] = [];
+  mouseExpressions: MouseImageData[] = [];
   mouseExpressionsUpdated: Subject<void> = new Subject<void>();
   /**
    * List of all reagents to show in the panel
@@ -96,8 +96,9 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
       .subscribe(x => {
         this.target = this.data.targets;
         this.loadingStart();
-        this.dataResources = [];
-        this.reagents = [];
+
+        this.dataResources = []; this.dataResourceList = [];
+        this.reagents = []; this.reagentsList = [];
         this.mouseExpressions = [];
 
         try {
@@ -111,6 +112,16 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
                 this.updateDataResourceLists(resc);
               }
             });
+            this.dataResourceList = [...this.dataResources];
+            this.dataResourcePageData = this.makePageData(this.dataResources.length);
+
+            this.reagentsList = [...this.reagents];
+            this.reagentPageData = this.makePageData(this.reagents.length);
+
+            this.mouseExpressionsUpdated.next();
+            this.dataResourcesUpdated.next();
+            this.reagentsUpdated.next();
+
             this.changeRef.detectChanges();
           } else {
             this.hideSection();
@@ -130,12 +141,8 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
   private updateDataResourceLists(newElement) {
     if (newElement instanceof MouseImageData) {
       this.mouseExpressions.push(newElement);
-      this.mouseExpressionsUpdated.next();
     } else {
       this.dataResources.push(newElement);
-      this.dataResourcePageData = this.makePageData(this.dataResources.length);
-      this.dataResourceList = this.dataResources;
-      this.dataResourcesUpdated.next();
     }
   }
 
@@ -145,8 +152,5 @@ export class IdgResourcesPanelComponent extends DynamicTablePanelComponent imple
    */
   private updateReagentLists(newElement) {
     this.reagents.push(newElement);
-    this.reagentPageData = this.makePageData(this.reagents.length);
-    this.reagentsList = this.reagents;
-    this.reagentsUpdated.next();
   }
 }

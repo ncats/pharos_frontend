@@ -11,11 +11,12 @@ import {MatCardModule} from '@angular/material/card';
 import {ComponentHeaderComponent} from '../component-header/component-header.component';
 import {PredictionsPanelComponent} from '../predictions-panel/predictions-panel.component';
 import {ScrollspyDirective} from '../sidenav-panel/directives/scrollspy.directive';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @Component({
   standalone: true,
   imports: [
-    CommonModule,
+    CommonModule, FlexLayoutModule,
     MatCardModule,
     ComponentHeaderComponent,
     PredictionsPanelComponent,

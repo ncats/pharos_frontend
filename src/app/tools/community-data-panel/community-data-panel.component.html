@@ -1,5 +1,5 @@
-<mat-card *ngFor="let api of communityAPIs; let i = index" class="section-card" (pharosScrollspy)="active('summary')"
-          [id]="api.code" #summary>
+<mat-card *ngFor="let api of communityAPIs; let i = index" class="section-card" (pharosScrollspy)="active(api.code)"
+          [id]="api.code">
   <mat-card-content>
     <div *ngIf="loading" class="loadingIcon" fxLayoutAlign="center center">
       <img class="spinner rotating" alt="loading..." src="./assets/images/pharos_spinner.svg">
