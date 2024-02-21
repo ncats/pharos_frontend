@@ -1,6 +1,5 @@
 import {Component, HostListener, Inject} from '@angular/core';
 import {CommonModule, DOCUMENT} from '@angular/common';
-import {Router} from '@angular/router';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 
@@ -25,10 +24,8 @@ export class ScrollToTopComponent {
   /**
    * get document to watch for scrol levents
    * @param {Document} document
-   * @param {Router} router
    */
-  constructor(@Inject(DOCUMENT) private document: Document,
-              private router: Router) {
+  constructor(@Inject(DOCUMENT) private document: Document) {
   }
 
   /**
@@ -57,7 +54,6 @@ export class ScrollToTopComponent {
         window.scrollTo(0, currentScroll - (currentScroll / 5));
       }
     })();
-    this.router.navigate([]);
   }
 
 }

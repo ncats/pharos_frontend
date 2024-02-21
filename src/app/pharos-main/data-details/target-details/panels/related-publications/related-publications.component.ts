@@ -34,11 +34,12 @@ import {PublicationCardComponent} from './publication-card/publication-card.comp
 import {ScrollspyDirective} from '../../../../../tools/sidenav-panel/directives/scrollspy.directive';
 import {TargetWordCloudComponent} from '../target-word-cloud/target-word-cloud.component';
 import {MatButtonModule} from '@angular/material/button';
+import {MatTooltip} from '@angular/material/tooltip';
 
 @Component({
   standalone: true,
   imports: [CommonModule, MatCardModule, FlexLayoutModule, MatCardModule, ComponentHeaderComponent, MatIcon,
-    MatPaginator, PublicationCardComponent, ScrollspyDirective, TargetWordCloudComponent, MatButtonModule],
+    MatPaginator, PublicationCardComponent, ScrollspyDirective, TargetWordCloudComponent, MatButtonModule, MatTooltip],
   selector: 'pharos-related-publications',
   templateUrl: './related-publications.component.html',
   styleUrls: ['./related-publications.component.scss'],
