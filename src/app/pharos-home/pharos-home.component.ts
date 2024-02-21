@@ -18,11 +18,10 @@ import {SearchComponent} from '../tools/search-component/search.component';
 import {MatIcon} from '@angular/material/icon';
 import {AboutPanelComponent} from './about-panel/about-panel.component';
 import {DataTypesPanelComponent} from './data-types-panel/data-types-panel.component';
-import {NewsPanelComponent} from './news-panel/news-panel.component';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, FlexLayoutModule, SearchComponent, MatIcon, AboutPanelComponent, DataTypesPanelComponent, NewsPanelComponent],
+  imports: [CommonModule, FlexLayoutModule, SearchComponent, MatIcon, AboutPanelComponent, DataTypesPanelComponent],
   selector: 'pharos-home',
   templateUrl: './pharos-home.component.html',
   styleUrls: ['./pharos-home.component.scss'],
