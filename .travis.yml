@@ -1,7 +1,7 @@
 dist: jammy
 language: node_js
 node_js:
-  - '18'
+  - '20'
 
 addons:
   chrome: stable
@@ -17,4 +17,4 @@ install:
   - npm install --legacy-peer-deps
 
 script:
-  - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+  - npm run --max_old_space_size=32000 test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
