@@ -19,11 +19,12 @@ import {MatInputModule} from '@angular/material/input';
 import {ComponentHeaderComponent} from '../../../tools/component-header/component-header.component';
 import {MatSelectModule} from '@angular/material/select';
 import {GenericTableComponent} from '../../../tools/generic-table/generic-table.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @Component({
   standalone: true,
   imports: [CommonModule, FlexLayoutModule, MatCardModule, FormsModule, MatInputModule, ComponentHeaderComponent,
-    MatSelectModule, GenericTableComponent],
+    MatSelectModule, GenericTableComponent, MatCheckboxModule],
   selector: 'pharos-analyze-list',
   templateUrl: './filter-representation.component.html',
   styleUrls: ['./filter-representation.component.scss']
@@ -45,6 +46,10 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
   }
   tourType: TourType;
   count: number;
+
+  get plural_model_name() {
+    return this.centralStorageService.getModel(this._route).toLowerCase() + 's';
+  }
 
   facetFields: PharosProperty[] = [
     new PharosProperty({
@@ -98,6 +103,20 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
   selectedFacetProps: any[];
   selectedFacet: Facet;
   selectedFacetName: string;
+
+  filterEnrichment = true;
+  enrichmentCutoff = 5;
+
+  get filteredSelectedFacetProps(): any[] {
+    if (this.filterEnrichment && this.selectedFacetProps) {
+      return this.selectedFacetProps.filter(v => {
+        return v.count.term >= this.enrichmentCutoff;
+      });
+    }
+    else {
+      return this.selectedFacetProps;
+    }
+  }
 
   fullFacetList: string[] = [];
   listIsFiltered = true;
@@ -217,7 +236,8 @@ export class FilterRepresentationComponent extends DynamicPanelComponent impleme
       next:
         res => {
           this.fullFacetList = res.data.normalizableFilters[this.listFieldName()];
-          this.selectedFacet = new Facet(res.data.results.facets.find(f => f.facet === this.selectedFacetName));
+          const facetData = res.data.results.facets.find(f => f.facet === this.selectedFacetName);
+          this.selectedFacet = new Facet(facetData || {});
           this.selectedFacetName = this.selectedFacet.facet;
           this.selectedFacetProps = this.selectedFacet.toProps(this.linkClicked.bind(this));
           this.loading = false;
