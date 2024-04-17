@@ -39,8 +39,8 @@
       </ul>
 
       <div *ngIf="listIsFiltered; else noFiltering">
-        <div fxLayout="row" fxLayoutAlign="space-between start" class="enrichment-filter-select">
-          <mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="start stretch" class="enrichment-filter-select">
+          <mat-form-field class="facet-dropdown">
             <mat-select [(value)]="this.selectedFacetName" (valueChange)="facetChanged($event)"
                         placeholder="Select a filter" class="filterOption">
               <mat-option *ngFor="let filterName of fullFacetList" [value]="filterName">
@@ -48,6 +48,8 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
+          <mat-checkbox [checked]="!filterEnrichment" (change)="filterEnrichment = !filterEnrichment">Show results for
+            values with less than {{enrichmentCutoff}} {{plural_model_name}}</mat-checkbox>
         </div>
         <div *ngIf="filterIsInUse(this.selectedFacetName); else filterTable">
           <mat-card-subtitle>Note</mat-card-subtitle>
@@ -57,7 +59,7 @@
         </div>
         <ng-template #filterTable>
           <div class="content">
-            <pharos-generic-table [data]="this.selectedFacetProps" (sortChange)="changeSort($event)"
+            <pharos-generic-table [data]="this.filteredSelectedFacetProps" (sortChange)="changeSort($event)"
                                   [fieldsConfig]="facetFields"></pharos-generic-table>
           </div>
         </ng-template>
