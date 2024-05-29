@@ -19,7 +19,7 @@ jobs:
   # Job to build and push the ZAP Docker image to Docker Hub
   Snyk-Docker-Image:
     runs-on:
-      group: ncatslnghrunpdv04.ncats.nih.gov
+      group: ncats-onprem-internal-runners
     permissions:
       actions: read
       contents: read
