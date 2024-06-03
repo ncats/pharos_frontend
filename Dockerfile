@@ -1,5 +1,9 @@
 FROM node:20 as buildContainer
 WORKDIR /app
+
+# Install curl for buildContainer
+RUN apt-get update && apt-get install -y curl
+
 COPY . /app
 RUN npm install -g npm@latest
 RUN npm install --legacy-peer-deps
@@ -11,6 +15,10 @@ RUN npm run build:ssr
 FROM node:20-alpine
 
 WORKDIR /app
+
+# Install curl for productionContainer
+RUN apk add --no-cache curl
+
 COPY --from=buildContainer /app/package.json /app
 
 ENV NODE_OPTIONS --max-old-space-size=16384
