@@ -2,7 +2,7 @@ FROM node:20 as buildContainer
 WORKDIR /app
 
 # Install curl for buildContainer
-RUN apt-get update && apt-get install -y curl
+# RUN apt-get update && apt-get install -y curl
 
 COPY . /app
 RUN npm install -g npm@latest
