@@ -4,6 +4,12 @@ COPY . /app
 RUN npm install -g npm@latest
 RUN npm install --legacy-peer-deps
 
+# Add swap space
+RUN fallocate -l 4G /swapfile && \
+    chmod 600 /swapfile && \
+    mkswap /swapfile && \
+    swapon /swapfile
+
 # max-old-space is needed to avoid any compilation issues because of missing memory
 ENV NODE_OPTIONS --max-old-space-size=8192
 RUN npm run build:ssr
