@@ -11,7 +11,7 @@ RUN fallocate -l 4G /swapfile && \
     swapon /swapfile
 
 # max-old-space is needed to avoid any compilation issues because of missing memory
-ENV NODE_OPTIONS --max-old-space-size=8192
+ENV NODE_OPTIONS --max-old-space-size=10240
 RUN npm run build:ssr
 
 FROM  node:20.15.1-slim
