@@ -5,7 +5,7 @@ RUN npm install -g npm@latest
 RUN npm install --legacy-peer-deps
 
 # max-old-space is needed to avoid any compilation issues because of missing memory
-ENV NODE_OPTIONS --max-old-space-size=10240
+ENV NODE_OPTIONS --max-old-space-size=12288
 RUN npm run build:ssr
 
 FROM  node:lts-slim
