@@ -1,4 +1,4 @@
-FROM  node:22.4.1 as buildContainer
+FROM node:22-alpine3.19 as buildContainer
 WORKDIR /app
 COPY . /app
 RUN npm install -g npm@latest
@@ -8,7 +8,7 @@ RUN npm install --legacy-peer-deps
 ENV NODE_OPTIONS --max-old-space-size=12288
 RUN npm run build:ssr
 
-FROM  node:22.4.1
+FROM  node:22-alpine3.19
 
 WORKDIR /app
 COPY --from=buildContainer /app/package.json /app
