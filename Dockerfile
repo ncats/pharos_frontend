@@ -20,6 +20,9 @@ RUN npm install pm2@latest -g
 # Get all the code needed to run the app
 COPY --from=buildContainer /app/dist /app/dist
 
+RUN apk update
+RUN apk upgrade zlib
+
 EXPOSE 4000
 
 ENV NODE_ENV=production
