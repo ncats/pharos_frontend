@@ -7,7 +7,7 @@ pipeline {
         string(name: 'ENVIRONMENT', defaultValue: 'ci', description: 'Role Name (mandatory)')
     }
     agent {
-        label 'ncats && dpi && ci && pharos'
+        label 'ncats && build'
     }
     triggers {
         pollSCM('H/5 * * * *')
@@ -88,6 +88,9 @@ pipeline {
             }
         }
         stage('deploy docker') {
+            agent {
+                node { label 'ncats && dpi && ci && pharos' }
+            }
             steps {
                 configFileProvider([
                    configFile(fileId: 'deploy.sh', targetLocation: 'deploy.sh'),
