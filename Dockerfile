@@ -14,7 +14,7 @@ WORKDIR /app
 COPY --from=buildContainer /app/package.json /app
 
 ENV NODE_OPTIONS --max-old-space-size=16384
-RUN apk add openssl=3.1.7-r0
+RUN apk add openssl=3.3.2-r0
 RUN npm i firebase --legacy-peer-deps
 RUN npm install pm2@latest -g
 
