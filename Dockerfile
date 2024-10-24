@@ -12,12 +12,13 @@ FROM node:20.15.1-alpine
 
 WORKDIR /app
 
-# Install build tools for compiling OpenSSL
-RUN apt-get update && apt-get install -y \
-    build-essential \
+# Install build tools for compiling OpenSSL in Alpine
+RUN apk add --no-cache \
+    build-base \
     curl \
-    libssl-dev \
-    && apt-get clean
+    openssl-dev \
+    linux-headers \
+    && apk add --virtual .build-deps gcc g++ make
 
 # Download and compile OpenSSL 3.3.2
 RUN curl -O https://www.openssl.org/source/openssl-3.3.2.tar.gz \
@@ -35,6 +36,7 @@ ENV PKG_CONFIG_PATH="/usr/local/openssl/lib/pkgconfig"
 
 # Verify the installed OpenSSL version
 RUN openssl version
+
 
 
 COPY --from=buildContainer /app/package.json /app
