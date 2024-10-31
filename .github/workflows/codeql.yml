@@ -11,7 +11,8 @@ on:
 jobs:
   analyze:
     name: Analyze
-    runs-on: [ncatslnghrunpdv04.ncats.nih.gov]
+    runs-on:
+      group: ncats-onprem-internal-runners
     timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
     permissions:
       security-events: write
