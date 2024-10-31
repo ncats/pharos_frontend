@@ -8,7 +8,7 @@ RUN npm install --legacy-peer-deps
 ENV NODE_OPTIONS --max-old-space-size=8192
 RUN npm run build:ssr
 
-FROM node:20-alpine
+FROM node:20.15.1-alpine
 
 WORKDIR /app
 COPY --from=buildContainer /app/package.json /app
