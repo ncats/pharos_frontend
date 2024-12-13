@@ -28,7 +28,7 @@
     "@angular-builders/custom-webpack": "~17.0.0",
     "@angular/animations": "^17.1.2",
     "@angular/cdk": "^17.1.2",
-    "@angular/common": "^17.1.2",
+    "@angular/common": "^19.0.0",
     "@angular/compiler": "^17.1.2",
     "@angular/core": "^17.1.2",
     "@angular/fire": "17.0.1",
