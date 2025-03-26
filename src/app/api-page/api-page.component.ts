@@ -11,6 +11,7 @@ import {PropertyDisplayComponent} from '../tools/generic-table/components/proper
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {ReviewBannerService} from '../pharos-services/review-banner.service';
 
 /**
  * ui page holder for a graphQL UI API documentation viewer
@@ -29,6 +30,7 @@ export class ApiPageComponent implements OnInit {
    */
   constructor(
               private router: Router,
+              public bannerService: ReviewBannerService,
               private metaService: UnfurlingMetaService,
               private featureTrackingService: FeatureTrackingService,
               @Inject(PLATFORM_ID) private platformID: any) {

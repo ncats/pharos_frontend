@@ -1,6 +1,6 @@
 <article>
   <div class="sticky-container" #home>
-    <div fxLayout="row wrap" fxLayoutAlign="start center" class="sticky disease-header" *ngIf="disease">
+    <div fxLayout="row wrap" fxLayoutAlign="start center" class="sticky disease-header" *ngIf="disease" [class.banner-visible]="bannerService.bannerVisible()">
       <div>
         <span class="pharos-title toolbar">{{disease?.name}}</span>
         <button mat-button class="tool-button" (click)="downloadData()"

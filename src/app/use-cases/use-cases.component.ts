@@ -24,6 +24,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatCardModule} from '@angular/material/card';
 import {MatNavList} from '@angular/material/list';
 import {TaskItemComponent} from '../tools/task-item/task-item.component';
+import {ReviewBannerService} from '../pharos-services/review-banner.service';
 
 @Component({
   standalone: true,
@@ -40,6 +41,7 @@ export class UseCasesComponent implements OnInit, OnDestroy, AfterViewInit {
     private _route: ActivatedRoute,
     private location: Location,
     private scrollDispatcher: ScrollDispatcher,
+    public bannerService: ReviewBannerService,
     private changeDetector: ChangeDetectorRef,
     private metaService: UnfurlingMetaService,
     private jsonlsService: JsonldService,
