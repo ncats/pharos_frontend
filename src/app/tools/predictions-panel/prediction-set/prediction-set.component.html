@@ -14,7 +14,7 @@
     </pharos-explore-list-button>
     <button (click)="resolveLigandList()" *ngIf="listHasLigands()" [color]="'primary'"
             mat-raised-button type="button">
-      Explore (listIsFiltered ? 'Filtered' : '') Ligands
+      Explore {{listIsFiltered ? 'Filtered' : ''}} Ligands
       <mat-icon>list</mat-icon>
     </button>
     <pharos-download-community-data-button

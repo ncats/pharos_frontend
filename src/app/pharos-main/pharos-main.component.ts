@@ -23,10 +23,10 @@ import {BreakpointObserver} from '@angular/cdk/layout';
 import {CommonModule, isPlatformBrowser} from '@angular/common';
 import {SelectedFacetService} from './data-list/filter-panel/selected-facet.service';
 import {DynamicServicesService} from '../pharos-services/dynamic-services.service';
-import {CentralStorageService} from '../pharos-services/central-storage.service';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {ReviewBannerService} from '../pharos-services/review-banner.service';
 
 /**
  * class or interface to set properties for an injected sidenav panel
@@ -158,11 +158,11 @@ export class PharosMainComponent implements OnInit, OnDestroy {
     private _injector: Injector,
     private changeRef: ChangeDetectorRef,
     private helpDataService: HelpDataService,
+    public bannerService: ReviewBannerService,
     public breakpointObserver: BreakpointObserver,
     @Inject(PLATFORM_ID) private platformID: any,
     private selectedFacetService: SelectedFacetService,
-    public dynamicServices: DynamicServicesService,
-    private centralStorageService: CentralStorageService
+    public dynamicServices: DynamicServicesService
   ) {
 
   }

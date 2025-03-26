@@ -16,6 +16,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {ReviewBannerService} from '../../pharos-services/review-banner.service';
 
 @Component({
   standalone: true,
@@ -28,6 +29,7 @@ import {MatInputModule} from '@angular/material/input';
 export class ToolboxComponent implements OnInit {
 
   constructor(private pharosApiService: PharosApiService,
+              public bannerService: ReviewBannerService,
               private centralStorageService: CentralStorageService,
               private localStorageService: LocalStorageService,
               private http: HttpClient) { }

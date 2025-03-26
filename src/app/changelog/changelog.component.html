@@ -1,4 +1,4 @@
-<div class="changelog-holder">
+<div class="changelog-holder" [class.banner-visible]="bannerService.bannerVisible()">
   <div class="changelog-content">
     <div class="changelog-header">Change Log</div>
     <markdown class="log mat-expansion-panel" [data]="data"></markdown>

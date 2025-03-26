@@ -21,6 +21,7 @@ import {MatCardModule} from '@angular/material/card';
 import {GenericTableComponent} from '../tools/generic-table/generic-table.component';
 import {MatListModule, MatNavList} from '@angular/material/list';
 import {MatIconModule} from '@angular/material/icon';
+import {ReviewBannerService} from '../pharos-services/review-banner.service';
 
 /**
  * about page component
@@ -86,6 +87,7 @@ export class AboutPageComponent extends DynamicPanelComponent implements OnInit,
         private changeDetector: ChangeDetectorRef,
         private scrollDispatcher: ScrollDispatcher,
         private _route: ActivatedRoute,
+        public bannerService: ReviewBannerService,
         public dynamicServices: DynamicServicesService) {
         super(dynamicServices);
     }
