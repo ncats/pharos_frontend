@@ -1,7 +1,8 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 // @ts-ignore
 import changelog from 'raw-loader!./../../../CHANGELOG.md';
 import {MarkdownComponent} from 'ngx-markdown';
+import {ReviewBannerService} from '../pharos-services/review-banner.service';
 
 
 @Component({
@@ -11,12 +12,11 @@ import {MarkdownComponent} from 'ngx-markdown';
   ],
   selector: 'pharos-changelog',
   templateUrl: './changelog.component.html',
-  styleUrls: ['./changelog.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./changelog.component.scss']
 })
 
 export class ChangelogComponent implements OnInit {
-  constructor() { }
+  constructor( public bannerService: ReviewBannerService) { }
   data = changelog;
   ngOnInit(): void {
   }

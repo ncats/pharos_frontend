@@ -13,6 +13,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatTooltip} from '@angular/material/tooltip';
 import {MatIcon} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
+import {ReviewBannerService} from '../../../../pharos-services/review-banner.service';
 
 @Component({
   standalone: true,
@@ -38,7 +39,8 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
     public dialog: MatDialog,
     private changeRef: ChangeDetectorRef,
     public dynamicServices: DynamicServicesService,
-    private jsonldService: JsonldService
+    private jsonldService: JsonldService,
+    public bannerService: ReviewBannerService
   ) {
     super(dynamicServices);
   }

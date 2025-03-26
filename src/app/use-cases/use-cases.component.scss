@@ -12,6 +12,11 @@ mat-card-content {
   display: flex;
   flex-direction: column;
 }
+
+.banner-visible {
+  margin-top: 40px;
+}
+
 .description-row {
   max-width: 880px;
   padding: 20px 0;

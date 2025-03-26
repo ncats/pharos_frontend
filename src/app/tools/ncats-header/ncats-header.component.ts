@@ -19,6 +19,8 @@ import {SearchComponent} from '../search-component/search.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatTooltip} from '@angular/material/tooltip';
+import {ReviewBannerComponent} from './review-banner/review-banner.component';
+import {ReviewBannerService} from '../../pharos-services/review-banner.service';
 
 
 /**
@@ -27,7 +29,7 @@ import {MatTooltip} from '@angular/material/tooltip';
 @Component({
   standalone: true,
   imports: [CommonModule, RouterModule, MatButtonModule, MatIconModule, MatMenuModule, MatSidenavModule,
-    SearchComponent, MatToolbarModule, FlexLayoutModule, MatTooltip],
+    SearchComponent, MatToolbarModule, FlexLayoutModule, MatTooltip, ReviewBannerComponent],
   selector: 'app-ncats-header',
   templateUrl: './ncats-header.component.html',
   styleUrls: ['./ncats-header.component.scss'],
@@ -68,6 +70,7 @@ export class NcatsHeaderComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private route: ActivatedRoute,
     private headerOptionsService: HeaderOptionsService,
+    public bannerService: ReviewBannerService,
     public tourService: TourService,
     private profileService: PharosProfileService,
     private router: Router,

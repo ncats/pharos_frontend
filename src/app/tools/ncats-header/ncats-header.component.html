@@ -1,5 +1,7 @@
 <header>
-<mat-sidenav-container class="menu-container">
+  <pharos-review-banner></pharos-review-banner>
+<mat-sidenav-container class="menu-container"
+                       [class.banner-visible]="bannerService.bannerVisible()">
   <nav>
     <!--mobile sidenav menu-->
   <mat-sidenav #mobilesidenav class="mobile-menu-panel"
