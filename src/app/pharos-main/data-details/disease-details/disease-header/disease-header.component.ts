@@ -12,6 +12,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatTooltip} from '@angular/material/tooltip';
 import {MatIcon} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
+import {ReviewBannerService} from '../../../../pharos-services/review-banner.service';
 
 @Component({
   standalone: true,
@@ -29,6 +30,7 @@ export class DiseaseHeaderComponent extends DynamicPanelComponent implements OnI
   constructor(
     private _route: ActivatedRoute,
     public dialog: MatDialog,
+    public bannerService: ReviewBannerService,
     public dynamicServices: DynamicServicesService,
     private jsonldService: JsonldService
   ) {

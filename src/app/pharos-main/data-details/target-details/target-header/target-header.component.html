@@ -1,6 +1,6 @@
 <article>
   <div class="sticky-container" #home>
-    <div fxLayout="row wrap" fxLayoutAlign="start center" class="sticky target-header" *ngIf="target"
+    <div fxLayout="row wrap" fxLayoutAlign="start center" class="sticky target-header" *ngIf="target" [class.banner-visible]="bannerService.bannerVisible()"
          ngClass={{getHeaderClass()}}>
       <div fxFlex.lt-sm="50">
         <pharos-idg-level-indicator [level]="target?.idgTDL"></pharos-idg-level-indicator>

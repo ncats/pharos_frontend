@@ -4,8 +4,7 @@ import {
   OnDestroy,
   OnInit,
   QueryList,
-  ViewChildren,
-  ViewEncapsulation
+  ViewChildren
 } from '@angular/core';
 import {AngularFirestore} from '@angular/fire/compat/firestore';
 import {Subscription} from 'rxjs';
@@ -13,6 +12,7 @@ import {CommonModule} from '@angular/common';
 import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatDivider} from '@angular/material/divider';
+import {ReviewBannerService} from '../pharos-services/review-banner.service';
 
 /**
  * Question model for object retrieved from firebase
@@ -42,8 +42,7 @@ export interface Question {
   imports: [CommonModule, MatAccordion, MatExpansionModule, FlexLayoutModule, MatDivider],
   selector: 'pharos-faq-page',
   templateUrl: './faq-page.component.html',
-  styleUrls: ['./faq-page.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./faq-page.component.scss']
 })
 
 export class FaqPageComponent implements OnInit, OnDestroy {
@@ -68,7 +67,8 @@ export class FaqPageComponent implements OnInit, OnDestroy {
    * firestore database to retrieve questions
    * @param {AngularFirestore} db
    */
-  constructor(private db: AngularFirestore) {
+  constructor(private db: AngularFirestore,
+              public bannerService: ReviewBannerService) {
   }
 
   /**

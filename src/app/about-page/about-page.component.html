@@ -1,5 +1,5 @@
 <div fxLayout="row" class="about-content">
-  <div fxFlex="20" fxHide.lt-sm class="toc-wrapper">
+  <div fxFlex="20" fxHide.lt-sm class="toc-wrapper" [class.banner-visible]="bannerService.bannerVisible()">
     <div class="toc">
       <mat-nav-list>
         <a mat-list-item class="list-button" (click)="scroll(introduction)"

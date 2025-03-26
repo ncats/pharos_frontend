@@ -3,6 +3,7 @@ import {UseCaseData} from '../use-cases/use-case-data';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatCardModule} from '@angular/material/card';
+import {ReviewBannerService} from '../pharos-services/review-banner.service';
 
 @Component({
   standalone: true,
@@ -13,7 +14,7 @@ import {MatCardModule} from '@angular/material/card';
 })
 export class SitemapPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(public bannerService: ReviewBannerService) { }
   usecases: UseCaseData[];
   ngOnInit(): void {
     this.usecases = UseCaseData.getUseCases();
