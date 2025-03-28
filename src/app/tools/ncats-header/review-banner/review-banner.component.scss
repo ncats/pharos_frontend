@@ -4,9 +4,14 @@
   left: 0;
   width: 100%;
   z-index: 1000;
-  color: #B31D24;
+  color: #23364e;
   background-color: whitesmoke;
+  font-size: larger;
   text-align: center;
   align-content: center;
   height: 40px;
+
+  button {
+    vertical-align: middle;
+  }
 }
