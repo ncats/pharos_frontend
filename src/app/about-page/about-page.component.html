@@ -5,11 +5,14 @@
         <a mat-list-item class="list-button" (click)="scroll(introduction)"
            [ngClass]="{'active': isActive('introduction')}">Introduction
         </a>
-        <a mat-list-item class="list-button" (click)="scroll(collaborators)"
-           [ngClass]="{'active': isActive('collaborators')}">Our Collaborators
+        <a mat-list-item class="list-button" (click)="scroll(legacy)"
+           [ngClass]="{'active': isActive('legacy')}">Origins and Legacy
         </a>
-        <a mat-list-item class="list-button" (click)="scroll(linkToPharos)"
-           [ngClass]="{'active': isActive('linkToPharos')}">How to Link to Pharos
+        <a mat-list-item class="list-button" (click)="scroll(collaborators)"
+           [ngClass]="{'active': isActive('collaborators')}">Collaborators
+        </a>
+        <a mat-list-item class="list-button" (click)="scroll(datadownload)"
+           [ngClass]="{'active': isActive('datadownload')}">Data Download
         </a>
         <a mat-list-item class="list-button" (click)="scroll(availabledata)"
            [ngClass]="{'active': isActive('availabledata')}">Available Data
@@ -20,8 +23,8 @@
         <a mat-list-item class="list-button" (click)="scroll(datasources)"
            [ngClass]="{'active': isActive('datasources')}">Data Sources
         </a>
-        <a mat-list-item class="list-button" (click)="scroll(datadownload)"
-           [ngClass]="{'active': isActive('datadownload')}">Data Download
+        <a mat-list-item class="list-button" (click)="scroll(linkToPharos)"
+           [ngClass]="{'active': isActive('linkToPharos')}">How to Link to Pharos
         </a>
         <a mat-list-item class="list-button" (click)="scroll(license)"
            [ngClass]="{'active': isActive('license')}">Pharos License
@@ -38,86 +41,129 @@
       </mat-nav-list>
     </div>
   </div>
+
   <div fxFlex="80" fxFlex.lt-sm="90" id="scroller-wrapper" class="about-wrapper" cdkScrollable #scrollWrapper>
     <div fxLayout="row" id="introduction" #introduction #scrollSection>
       <div fxFlex="75">
         <div class="section-header" [ngClass]="{'active': isActive('introduction')}">Introduction</div>
         <div class="section-content">
-          <p>Pharos is the user interface to the Knowledge Management Center
-            (KMC) for the <a href="https://commonfund.nih.gov/idg/index" target="_blank">Illuminating the Druggable Genome</a>
-            (IDG) program funded by the National Institutes of Health (NIH) Common Fund.
-            (Grant No. <a href="https://projectreporter.nih.gov/project_info_description.cfm?aid=9461406&icde=38627613" target="_blank">
-              1U24CA224370-01</a>). The goal of KMC is to develop a comprehensive, integrated knowledge-base
-            for the Druggable Genome (DG) to illuminate the uncharacterized and/or poorly annotated portion of
-            the DG, focusing on three of the most commonly drug-targeted protein families:</p>
+          <p>
+            <b>Pharos</b> is a publicly available, target-centric knowledgebase originally developed under the NIH
+            Common Fund’s Illuminating the Druggable Genome (IDG) program (Grant No.
+            <a href="https://reporter.nih.gov/project-details/9461406" target="_blank">1U24CA224370-01</a>).
+            While the IDG initiative is no longer actively funded, the National Center for Advancing
+            Translational Sciences (NCATS) has assumed responsibility for maintaining and advancing the platform.
+          </p>
+          <p>
+            Pharos 2.0 continues to serve as a resource for drug discovery and translational research, now backed by a
+            refreshed MySQL database that powers the web interface. The latest <b>Target Development Levels (TDLs)</b>
+            are
+            calculated using a graph-based backend, compatible with the <a
+            href="https://biolink.github.io/biolink-model/" target="_blank">BioLink model</a>, developed by NCATS that
+            integrates and harmonizes diverse biomedical datasets. While MySQL supports the Pharos frontend, the
+            graph-based version provides a foundation for more advanced use cases, including machine learning,
+            predictive modeling, and knowledge-driven discovery.</p>
+          <hr/>
+          <p>
+            The updated backend architecture fully transitions from the legacy Target Central Resource Database (TCRD)
+            to a hybrid system consisting of:</p>
+          <ol>
+            <li>A revised relational database that enables semi-automated curation, standardization, and harmonization
+              of
+              diverse biological and pharmacological data sources.
+            </li>
+            <li>A complementary graph database, structured according to the BioLink Model to enable scalable querying of
+              biological relationships.
+            </li>
+          </ol>
+
+          <p>This hybrid SQL/graph architecture maintains support for existing applications while enabling greater
+            flexibility, interoperability, and integration with AI/ML workflows. It also introduces finer-grained
+            resolution at the target level, including isoform- and variant-specific annotations where available.
+            Integration is further strengthened through adoption of the <a
+              href="https://biolink.github.io/biolink-model/"
+              target="_blank">BioLink model</a>, as established by the <a
+              href="https://onlinelibrary.wiley.com/doi/10.1111/cts.13302"
+              target="_blank">NCATS
+              Translator Consortium</a>, for the graph layer.</p>
+          <p>Lastly, we have developed a unified translational research data platform that comprises a modular backend
+            for quality control, identifier resolution, and provenance tracking across biomedical datasets. Its
+            pipelines power the upstream curation of data into Pharos graph database and other NCATS platforms,
+            enabling structured diffs, harmonized identifiers, and reproducible metadata. These pipelines are largely
+            automated and flagged issues are manually curated to help with sustainability of the efforts.</p>
+          <p>Together, the hybrid SQL/graph DB and unified translational research data platform ensure that Pharos
+            remains a reliable and forward-compatible knowledge hub for target-centric drug discovery.</p>
+        </div>
+      </div>
+    </div>
+
+    <div fxLayout="row" id="legacy" #legacy #scrollSection>
+      <div fxFlex="75">
+        <div class="section-header" [ngClass]="{'active': isActive('legacy')}">Origins and Legacy</div>
+        <div class="section-content">
+          <p>Pharos was originally designed to collect and visualize diverse, complex target data with support for:</p>
+          <ul>
+            <li>Flexible search and intuitive data exploration</li>
+            <li>Programmatic access via GraphQL API</li>
+          </ul>
+          <p>
+            As part of the IDG program, Pharos focused on illuminating the uncharacterized and under-studied portions
+            of the druggable genome, with emphasis on:
+          </p>
           <ul>
             <li>G-protein-coupled receptors (GPCRs)</li>
             <li>Ion channels (ICs)</li>
             <li>Kinases</li>
           </ul>
-          <p>The Pharos interface provides facile access to most data types collected by the KMC.
-            Given the complexity of the data surrounding any target, efficient and intuitive visualization has
-            been a high priority, to enable users to quickly navigate &amp; summarize search results and
-            rapidly identify patterns. A critical feature of the interface is the ability to perform flexible
-            search and subsequent drill down of search results. Underlying the interface is a GraphQL API that
-            provides programmatic access to all KMC data, allowing for easy consumption in user applications.
-          </p>
+          <p>As part of the NIH Common Fund Data Ecosystem (CFDE), a subset of Pharos is currently hosted on the
+            <a href="https://info.cfde.cloud/dcc/IDG" target="_blank">CFDE Portal</a>, making it more findable and
+            interoperable alongside other high-value NIH datasets. The updated Pharos 2.0 dataset is expected to be
+            made available through CFDE in future releases, supporting broader integration and reuse within the
+            Common Fund research community.</p>
+          <p>With the IDG Consortium ending in 2024, the NCATS Informatics Core has taken over the responsibility of
+            modernizing, updating, and maintaining the resources and platform.</p>
         </div>
       </div>
     </div>
+
     <div fxLayout="row" id="collaborators" #collaborators #scrollSection>
       <div fxFlex="75">
-        <div class="section-header" [ngClass]="{'active': isActive('collaborators')}">Our Collaborators</div>
+        <div class="section-header" [ngClass]="{'active': isActive('collaborators')}">Collaborators (Historical &
+          Present)
+        </div>
         <div class="section-content">
-          <p>Pharos is developed at <a href="http://ncats.nih.gov" target="_blank">NCATS</a>, together with collaborators from
-            the <a href="http://datascience.unm.edu/" target="_blank">University of New Mexico</a>, <a href="http://icahn.mssm.edu/" target="_blank">
-              Icahn School of Medicine, Mount Sinai</a>, <a href="https://www.ebi.ac.uk/about" target="_blank">EMBL-EBI</a>,
-            the <a href="https://diseases.jensenlab.org/" target="_blank">
-              Novo Nordisk Foundation Center for Protein Research (U. Copenhagen)</a>
-            and the <a href="http://ccs.miami.edu/?p=1103" target="_blank">University of Miami</a>.
+          <p>Pharos has been supported by academic and government collaborators, including:</p>
+          <ul>
+            <li><a href="http://datascience.unm.edu/" target="_blank">University of New Mexico</a></li>
+            <li><a href="http://icahn.mssm.edu/" target="_blank">Icahn School of Medicine at Mount Sinai</a></li>
+            <li><a href="https://www.ebi.ac.uk/about" target="_blank">EMBL-EBI</a></li>
+            <li><a href="https://druggablegenome.net/RDOC_Miami" target="_blank">University of Miami (Drug Target
+              Ontology)</a></li>
+            <li><a href="https://diseases.jensenlab.org/" target="_blank">Novo Nordisk Foundation Center for Protein
+              Research</a></li>
+          </ul>
+          <p>For more on collaborators during the IDG phase, visit the <a href="https://commonfund.nih.gov/idg"
+                                                                          target="_blank">IDG Consortium Website</a>.
           </p>
-          <p>
-            The DRGC network is the experimental side of IDG. DRGC research focuses on illuminating the druggable
-            genome by two-pronged approach of empirical screening of drugs followed by computational screening against
-            modeled structures of the GPCR to produced optimized lead compounds, thereby providing high value data and
-            knowledge for KMC. KMC in turn is tasked with providing guidance as to research priorities based on knowledge
-            gaps and druggability likelihood analyses.
-          </p>
-          <p>
-            To find more details on our collaborators visit the <a href="https://druggablegenome.net" target="_blank">
-            IDG Consortium website</a>
-          </p>
+          <p>Pharos is now being supported by Jessica Maine, Keith Kelleher, Ewy Mathé from NCATS Informatics Core and
+            Tudor Oprea from Expert Systems Inc.</p>
         </div>
       </div>
     </div>
-    <div fxLayout="row" id="linkToPharos" #linkToPharos #scrollSection>
+
+    <div fxLayout="row" id="datadownload" #datadownload #scrollSection>
       <div fxFlex="75">
-        <div class="section-header" [ngClass]="{'active': isActive('linkToPharos')}">How to Link to Pharos</div>
+        <div class="section-header" [ngClass]="{'active': isActive('datadownload')}">Data Download</div>
         <div class="section-content">
-          <p>Link to target details pages with uniprot_id or gene symbol</p>
-          <blockquote class="active blockquote">
-            <div><span class="link-example">https://pharos.nih.gov/targets/<span class="dynamic">uniprot_id</span></span></div>
-            <div><span class="link-example">https://pharos.nih.gov/targets/<span class="dynamic">gene_symbol</span></span></div>
-          </blockquote>
-          <p>Link to a list of targets with a comma separated list of UniProt IDs or gene symbols</p>
-          <blockquote class="active blockquote">
-            <div><span class="link-example">https://pharos.nih.gov/targets?collection=<span class="dynamic">gene_symbol1</span>,<span class="dynamic">uniprot_id</span>,<span class="dynamic">gene_symbol2</span></span></div>
-            <div><span class="link-example">https://pharos.nih.gov/analyze/targets?collection=<span class="dynamic">gene_symbol1</span>,<span class="dynamic">uniprot_id</span>,<span class="dynamic">gene_symbol2</span></span></div>
-          </blockquote>
-          <p>Link to disease details pages with disease name or MONDO ID</p>
-            <blockquote class="active blockquote">
-              <div><span class="link-example">https://pharos.nih.gov/diseases/<span class="dynamic">disease_name</span></span></div>
-              <div><span class="link-example">https://pharos.nih.gov/diseases/<span class="dynamic">mondo_id</span></span></div>
-            </blockquote>
-          <p>Link to ligand details pages with drug name or chembl ID</p>
-          <blockquote class="active blockquote">
-              <div><span class="link-example">https://pharos.nih.gov/ligands/<span class="dynamic">drug_name</span></span></div>
-              <div><span class="link-example">https://pharos.nih.gov/ligands/<span class="dynamic">chembl_ID</span></span></div>
-          </blockquote>
-          <p>Render structures with a URL encoded SMILES string</p>
-          <blockquote class="active blockquote">
-            <div><span class="link-example">https://ncatsidg.appspot.com/render?standardize=true&size=150&structure=<span class="dynamic">SMILES</span></span></div>
-          </blockquote>
+          <p>
+            In addition to the CSV download links available on all the List and Details pages, users can also download
+            the entire SQL database underlying Pharos. Versions of Target Central Resource Database (TCRD) are available
+            <a href="https://habanero.health.unm.edu/tcrd/download/" target="_blank">here</a> and Pharos' version is
+            available from <a href="https://opendata.ncats.nih.gov/public/pharos/" target="_blank">NCATS</a>. Pharos'
+            version has some updated data sources, such as
+            publications, expression data, etc., while TCRD includes some data that doesn't get displayed in Pharos,
+            such as ClinVar and RDO.
+          </p>
         </div>
       </div>
     </div>
@@ -153,7 +199,8 @@
               <div><span class="data-type">Protein data</span> including protein-protein interaction data</div>
             </mat-list-item>
             <mat-list-item>
-              <div><span class="data-type">Disease data</span> from <a href="http://www.ncbi.nlm.nih.gov/omim" target="_blank">OMIM</a>
+              <div><span class="data-type">Disease data</span> from <a href="http://www.ncbi.nlm.nih.gov/omim"
+                                                                       target="_blank">OMIM</a>
                 and
                 <a href="http://disease-ontology.org/" target="_blank">Disease Ontology</a></div>
             </mat-list-item>
@@ -192,24 +239,55 @@
             The goal of the IDG KMC is to integrate a variety of data sources to shed light on unstudied and
             understudied
             targets. To achieve this we have pulled together data on protein targets, small molecule activity, genomic
-            behavior and disease links. We are continually researching ang incorporating other relevant data sources. </p>
+            behavior and disease links. We are continually researching ang incorporating other relevant data
+            sources. </p>
 
           <pharos-generic-table [fieldsConfig]="sourceFields" [data]="this.dataSourcesProps"
                                 [showPaginator]="false" (sortChange)="sortChanged($event)"></pharos-generic-table>
         </div>
       </div>
     </div>
-    <div fxLayout="row" id="datadownload" #datadownload #scrollSection>
+    <div fxLayout="row" id="linkToPharos" #linkToPharos #scrollSection>
       <div fxFlex="75">
-        <div class="section-header" [ngClass]="{'active': isActive('datadownload')}">Data Download</div>
+        <div class="section-header" [ngClass]="{'active': isActive('linkToPharos')}">How to Link to Pharos</div>
         <div class="section-content">
-          <p>In addition to the CSV download links available on all the List and Details pages, users can also download
-            the entire SQL database underlying Pharos. Versions of Target Central Resource Database (TCRD) are available
-            <a href="http://juniper.health.unm.edu/tcrd/download/" target="_blank">here</a>, and Pharos' version is
-            available from <a href="https://opendata.ncats.nih.gov/public/pharos/" target="_blank">NCATS</a>. Pharos'
-            version has some updated data sources, such as publications, expression data, etc.,
-            while TCRD includes some data that doesn't get displayed in Pharos, such as ClinVar and RDO.
-          </p>
+          <p>Link to target details pages with uniprot_id or gene symbol</p>
+          <blockquote class="active blockquote">
+            <div><span class="link-example">https://pharos.nih.gov/targets/<span
+              class="dynamic">uniprot_id</span></span>
+            </div>
+            <div><span class="link-example">https://pharos.nih.gov/targets/<span
+              class="dynamic">gene_symbol</span></span>
+            </div>
+          </blockquote>
+          <p>Link to a list of targets with a comma separated list of UniProt IDs or gene symbols</p>
+          <blockquote class="active blockquote">
+            <div><span class="link-example">https://pharos.nih.gov/targets?collection=<span
+              class="dynamic">gene_symbol1</span>,<span class="dynamic">uniprot_id</span>,<span class="dynamic">gene_symbol2</span></span>
+            </div>
+            <div><span class="link-example">https://pharos.nih.gov/analyze/targets?collection=<span class="dynamic">gene_symbol1</span>,<span
+              class="dynamic">uniprot_id</span>,<span class="dynamic">gene_symbol2</span></span></div>
+          </blockquote>
+          <p>Link to disease details pages with disease name or MONDO ID</p>
+          <blockquote class="active blockquote">
+            <div><span class="link-example">https://pharos.nih.gov/diseases/<span
+              class="dynamic">disease_name</span></span></div>
+            <div><span class="link-example">https://pharos.nih.gov/diseases/<span class="dynamic">mondo_id</span></span>
+            </div>
+          </blockquote>
+          <p>Link to ligand details pages with drug name or chembl ID</p>
+          <blockquote class="active blockquote">
+            <div><span class="link-example">https://pharos.nih.gov/ligands/<span class="dynamic">drug_name</span></span>
+            </div>
+            <div><span class="link-example">https://pharos.nih.gov/ligands/<span class="dynamic">chembl_ID</span></span>
+            </div>
+          </blockquote>
+          <p>Render structures with a URL encoded SMILES string</p>
+          <blockquote class="active blockquote">
+            <div><span
+              class="link-example">https://ncatsidg.appspot.com/render?standardize=true&size=150&structure=<span
+              class="dynamic">SMILES</span></span></div>
+          </blockquote>
         </div>
       </div>
     </div>
@@ -227,9 +305,11 @@
         <div class="section-header" [ngClass]="{'active': isActive('code')}">Pharos Code</div>
         <div class="section-content">
           <p>The sources for the Pharos web interface are available from
-            <a href="https://github.com/ncats/pharos_frontend" target="_blank">https://github.com/ncats/pharos_frontend</a> and
+            <a href="https://github.com/ncats/pharos_frontend"
+               target="_blank">https://github.com/ncats/pharos_frontend</a> and
             <a href="https://github.com/ncats/pharos-graphql-server" target="_blank">https://github.com/ncats/pharos-graphql-server</a>.
-            The repositories provide README instructions on building and installation.</p>
+            The repositories provide README instructions on building and installation.
+          </p>
         </div>
       </div>
     </div>
@@ -239,7 +319,7 @@
         <div class="section-content">
           <p>If you use Pharos, please consider citing it as:
           <blockquote class="active blockquote">
-          Kelleher, K., Sheils, T. et al, "Pharos 2023: an integrated resource for the understudied human proteome",
+            Kelleher, K., Sheils, T. et al, "Pharos 2023: an integrated resource for the understudied human proteome",
             <i>Nucl. Acids Res.</i>, <b>2023</b>.
             DOI: <a href="https://doi.org/10.1093/nar/gkac1033" target="_blank">10.1093/nar/gkac1033</a>
           </blockquote>
@@ -269,6 +349,7 @@
         </div>
       </div>
     </div>
+
     <div fxLayout="row" id="help" #help #scrollSection>
       <div fxFlex="75">
         <div class="section-header" [ngClass]="{'active': isActive('help')}">Help</div>
@@ -283,6 +364,8 @@
         </div>
       </div>
     </div>
+
+
     <div class="spacer"></div>
   </div>
 </div>
