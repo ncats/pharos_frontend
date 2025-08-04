@@ -13,7 +13,7 @@ import {PharosProperty} from '../models/pharos-property';
 import {DynamicPanelComponent} from '../tools/dynamic-panel/dynamic-panel.component';
 import {takeUntil} from 'rxjs/operators';
 import {DataSource} from '../models/dataSource';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {DynamicServicesService} from '../pharos-services/dynamic-services.service';
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -28,8 +28,8 @@ import {ReviewBannerService} from '../pharos-services/review-banner.service';
  */
 @Component({
     standalone: true,
-    imports: [CommonModule, FlexLayoutModule, MatCardModule, GenericTableComponent, MatNavList, MatIconModule,
-        MatListModule],
+  imports: [CommonModule, FlexLayoutModule, MatCardModule, GenericTableComponent, MatNavList, MatIconModule,
+    MatListModule, RouterLink],
     selector: 'pharos-about-page',
     templateUrl: './about-page.component.html',
     styleUrls: ['./about-page.component.scss']
