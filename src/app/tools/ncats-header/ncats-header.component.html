@@ -40,9 +40,6 @@
     <button mat-button [matMenuTriggerFor]="tutorialMenu" class="vertical-button">Tutorials <mat-icon iconPositionEnd>school</mat-icon></button>
 
     <pharos-search-component class="mobile-search" [fixedwidthDropdown]="true"></pharos-search-component>
-    <button mat-button class="jira-button vertical-button" aria-label="submit feedback" matTooltip="Submit Feedback" (click)="submitFeedback($event)">
-      Submit Feedback <mat-icon iconPositionEnd>feedback</mat-icon>
-    </button>
   </mat-sidenav>
 
     <!--full width menu-->
@@ -68,9 +65,6 @@
     <pharos-search-component [fxHide.lt-md]="true" [placeholderStr]="'search'" class="searchcomponent"
                              [fixedwidthDropdown]="true"
                              *ngIf=searchBar></pharos-search-component>
-    <button mat-button class="jira-button" aria-label="submit feedback" matTooltip="Submit Feedback" (click)="submitFeedback($event)" fxHide.lt-md>
-      Feedback <mat-icon iconPositionEnd>feedback</mat-icon>
-    </button>
     <div *ngIf=profile class="profile-section signin-button" [matMenuTriggerFor]="profileMenu" fxHide.lt-md>
       <img [src]=profile.profilePic class="profile-pic" *ngIf="profile?.profilePic" alt="Profile picture of the signed in user">
       <span class="user-name">{{profile.name}}</span>
