@@ -42,5 +42,5 @@
       </div>
     </mat-card-content>
   </mat-card>
-  <pharos-community-data-panel [apis]="ligand.communityAPIs" [section]="'details'" [showManual]="true"></pharos-community-data-panel>
+  <pharos-community-data-panel *ngIf="(data && ligand)" [apis]="ligand.communityAPIs" [section]="'details'" [showManual]="true"></pharos-community-data-panel>
 </article>
