@@ -215,17 +215,6 @@ export class NcatsHeaderComponent implements OnInit, OnDestroy {
     );
   }
 
-  /**
-   * Shows the jira issue collector dialog
-   */
-  submitFeedback(event) {
-    event.preventDefault();
-    const w = (window as any);
-    // w.ATL_JQ_PAGE_PROPS.fieldValues = w.ATL_JQ_PAGE_PROPS.fieldValues || {};
-    // w.ATL_JQ_PAGE_PROPS.fieldValues.description = 'something by default';
-    w.showCollectorDialog();
-  }
-
   tutorialComplete(tutorial: string) {
     return isPlatformBrowser(this.platformID) && this.localStorage.getItem(tutorial) === 'complete';
   }
