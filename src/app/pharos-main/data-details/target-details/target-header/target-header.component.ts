@@ -62,12 +62,12 @@ export class TargetHeaderComponent extends DynamicPanelComponent implements OnIn
 
   getHeaderClass(): string {
     if (this.target) {
-      return this.target.idgTDL.toLowerCase() + '-header';
+      return this.target.idgTDL?.toLowerCase() + '-header';
     }
   }
 
   downloadData() {
-    const dialogRef = this.dialog.open(FieldSelectionDialogComponent, {
+    this.dialog.open(FieldSelectionDialogComponent, {
       data: {count: 1, model: 'Target', route: this._route, batch: this.target.preferredSymbol},
       height: '75vh', width: '66vw'
     }).afterClosed();
