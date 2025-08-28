@@ -75,6 +75,8 @@ export class AffiliateLinksComponent extends TargetPanelBaseComponent implements
         return 'resolute.png';
       case 'PubChem':
         return 'pubchem.png';
+      case 'LinkedOmicsKB':
+        return 'linkedOmicsKb.png';
     }
   }
 }
