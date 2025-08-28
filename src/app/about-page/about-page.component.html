@@ -14,9 +14,6 @@
         <a mat-list-item class="list-button" (click)="scroll(datadownload)"
            [ngClass]="{'active': isActive('datadownload')}">Data Download
         </a>
-        <a mat-list-item class="list-button" (click)="scroll(availabledata)"
-           [ngClass]="{'active': isActive('availabledata')}">Available Data
-        </a>
         <a mat-list-item class="list-button" (click)="scroll(datatypes)"
            [ngClass]="{'active': isActive('datatypes')}">Data Types
         </a>
@@ -68,11 +65,11 @@
             The updated backend architecture fully transitions from the legacy Target Central Resource Database (TCRD)
             to a hybrid system consisting of:</p>
           <ol>
-            <li>A revised relational database that enables semi-automated curation, standardization, and harmonization
-              of
-              diverse biological and pharmacological data sources.
+            <li>
+              A revised relational database that enables semi-automated curation, standardization, and harmonization
+              of diverse biological and pharmacological data sources.
             </li>
-            <li>A complementary graph database, structured according to the BioLink Model to enable scalable querying of
+            <li>A complementary graph database, structured according to the BioLink Model, to enable scalable querying of
               biological relationships.
             </li>
           </ol>
@@ -80,19 +77,11 @@
           <p>This hybrid SQL/graph architecture maintains support for existing applications while enabling greater
             flexibility, interoperability, and integration with AI/ML workflows. It also introduces finer-grained
             resolution at the target level, including isoform- and variant-specific annotations where available.
-            Integration is further strengthened through adoption of the <a
-              href="https://biolink.github.io/biolink-model/"
-              target="_blank">BioLink model</a>, as established by the <a
-              href="https://onlinelibrary.wiley.com/doi/10.1111/cts.13302"
-              target="_blank">NCATS
-              Translator Consortium</a>, for the graph layer.</p>
-          <p>Lastly, we have developed a unified translational research data platform that comprises a modular backend
-            for quality control, identifier resolution, and provenance tracking across biomedical datasets. Its
-            pipelines power the upstream curation of data into Pharos graph database and other NCATS platforms,
-            enabling structured diffs, harmonized identifiers, and reproducible metadata. These pipelines are largely
-            automated and flagged issues are manually curated to help with sustainability of the efforts.</p>
-          <p>Together, the hybrid SQL/graph DB and unified translational research data platform ensure that Pharos
-            remains a reliable and forward-compatible knowledge hub for target-centric drug discovery.</p>
+          </p>
+          <p>Adopting the <a href="https://biolink.github.io/biolink-model/" target="_blank">Biolink Model</a>,
+            developed by the <a href="https://onlinelibrary.wiley.com/doi/10.1111/cts.13302" target="_blank">NCATS
+              Translator Consortium</a>, further strengthens interoperability
+            and helps ensure Pharos remains a reliable, forward-compatible knowledge hub for target-centric drug discovery.</p>
         </div>
       </div>
     </div>
@@ -167,23 +156,7 @@
         </div>
       </div>
     </div>
-    <div fxLayout="row" id="availabledata" #availabledata #scrollSection>
-      <div fxFlex="75">
-        <div class="section-header" [ngClass]="{'active': isActive('availabledata')}">Available Data</div>
-        <div class="section-content">
-          <p>The data available in Pharos is obtained from the <a href="http://habanero.health.unm.edu/tcrd/">
-            Target Central Resource Database (TCRD)</a> which integrates data from a variety of data sources including
-            the <a href="http://amp.pharm.mssm.edu/Harmonizome/">Harmonizome</a>, Jensen Lab datasets, EBI data
-            sets (such as <a href="https://www.ebi.ac.uk/chembl/">ChEMBL</a>) and the
-            <a href="http://drugtargetontology.org/about.html">Drug Target Ontology</a> (DTO)
-            from U. Miami. TCRD integration methodology involves
-            importation by value or by reference to external sources, as informed by performance, provenance,
-            and other design criteria. See <a (click)="scroll(datasources)">below</a> for a full listing
-            of datasets incorporated in to <a href="http://habanero.health.unm.edu/tcrd/">TCRD</a>.
-          </p>
-        </div>
-      </div>
-    </div>
+
     <div fxLayout="row" id="datatypes" #datatypes #scrollSection>
       <div fxFlex="75">
         <div class="section-header" [ngClass]="{'active': isActive('datatypes')}">Data Types</div>
