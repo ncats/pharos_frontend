@@ -17,6 +17,7 @@
     "compodoc": "npx compodoc -p tsconfig.app.json -s -w --theme material",
     "build:ssr": "npm --no-git-tag-version version patch && npm run prerender",
     "build:ssr:dev": "ng build && ng run pharos:server:development",
+    "serve": "ng serve",
     "serve:ssr": "node dist/server/main.js",
     "perfmon": "node dist/server/main.js perf",
     "rerun:ssr": "npm run build:ssr && say pharos is ready && npm run serve:ssr",

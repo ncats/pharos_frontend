@@ -1,0 +1,14 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BASE_HREF: /pharos/
+    container_name: pharos-ui
+    ports:
+      - "8041:4000"
+    environment:
+      NODE_ENV: production
+      NODE_OPTIONS: --max-old-space-size=16384
+    restart: unless-stopped

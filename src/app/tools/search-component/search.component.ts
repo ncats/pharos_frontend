@@ -26,7 +26,7 @@ import {MatTooltip} from '@angular/material/tooltip';
 @Component({
   standalone: true,
   imports: [CommonModule, FormsModule, MatInputModule, ReactiveFormsModule, MatAutocomplete, MatButtonModule,
-    MatIconModule, MatAutocompleteTrigger, MatOption, SearchComponent, HighlightPipe, MatTooltip],
+    MatIconModule, MatAutocompleteTrigger, MatOption, HighlightPipe, MatTooltip],
   selector: 'pharos-search-component',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
