@@ -7,10 +7,10 @@ RUN npm install --legacy-peer-deps
 
 # max-old-space is needed to avoid any compilation issues because of missing memory
 ENV NODE_OPTIONS --max-old-space-size=8192
-# Pass the BASE_HREF to the build command
+
 RUN npm run build:ssr --base-href=${BASE_HREF}
 
-FROM node:20-alpine
+FROM node:20.15.1-alpine
 
 WORKDIR /app
 COPY --from=buildContainer /app/package.json /app
