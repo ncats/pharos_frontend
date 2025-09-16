@@ -98,7 +98,9 @@ export class DataListVisualizationsComponent extends DynamicPanelComponent imple
           this.facets = this.data.facets.filter(f => f.dataType !== 'Numeric' && f.values.length > 0);
           const displayFacetString = this.centralStorageService.getDisplayFacet(this.model);
           if (!displayFacetString) {
-            this.centralStorageService.setDisplayFacet(this.model, this.facets[0].facet);
+            if (this.facets.length > 0){
+              this.centralStorageService.setDisplayFacet(this.model, this.facets[0].facet);
+            }
           } else {
             this.changeSelectedFacet(displayFacetString);
           }
