@@ -51,10 +51,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 export class AaSequencePanelComponent extends DynamicPanelComponent implements OnInit {
 
     get getDynamicSource() {
-        if (backend.startsWith('http://localhost')) {
-            return 'local';
-        }
-        return this.isProduction ? 'prod' : 'dev';
+        return 'prod';
     }
 
     /**
