@@ -18,7 +18,7 @@ pipeline {
         INIT_TOKEN       = credentials('Vault-Access')                                   // OIDC provider this token is Auto Generated //
         SPHINX_TOKEN     = credentials('ncatssvcdvops-sphinx')                           // PatToken Read Only Access for the DevOps Artifacts Repo https://github.com/Sphinx-Automation/devops-pipeline-artifacts.git //
         ROLE_NAME        = "$ENVIRONMENT-$PROJECT_NAME"                                  // Role Name is Mandatory Variable for Vault //
-        APP_TYPE         = "frontend"                                                         // Application Type is required to get Secret from Vault //
+        APP_TYPE         = "frontend"                                                    // Application Type is required to get Secret from Vault //
     }
     stages {
         stage('Checkout source code') {
