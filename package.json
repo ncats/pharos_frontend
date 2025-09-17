@@ -1,6 +1,6 @@
 {
   "name": "pharos",
-  "version": "3.19.1",
+  "version": "3.19.9",
   "tcrd_version": "6.13.5",
   "license": "MIT",
   "scripts": {
@@ -16,13 +16,13 @@
     "build:appshell": "ng run pharos:app-shell:production",
     "compodoc": "npx compodoc -p tsconfig.app.json -s -w --theme material",
     "build:ssr": "npm --no-git-tag-version version patch && npm run prerender",
+    "prerender": "ng run pharos:prerender:production",
     "build:ssr:dev": "ng build && ng run pharos:server:development",
     "serve": "ng serve",
     "serve:ssr": "node dist/server/main.js",
     "perfmon": "node dist/server/main.js perf",
     "rerun:ssr": "npm run build:ssr && say pharos is ready && npm run serve:ssr",
-    "dev:ssr": "ng run pharos:serve-ssr",
-    "prerender": "ng run pharos:prerender"
+    "dev:ssr": "ng run pharos:serve-ssr"
   },
   "private": true,
   "dependencies": {
