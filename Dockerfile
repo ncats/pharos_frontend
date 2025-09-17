@@ -1,5 +1,4 @@
 FROM node:20 as buildContainer
-ARG BASE_HREF=/pharos/
 WORKDIR /app
 COPY . /app
 RUN npm install -g npm@latest
@@ -8,7 +7,7 @@ RUN npm install --legacy-peer-deps
 ENV NODE_OPTIONS --max-old-space-size=8192
 # Correct syntax for Angular build with base href
 
-RUN npm run build:ssr -- --base-href=${BASE_HREF} --deploy-url=${BASE_HREF}
+RUN npm run build:ssr --configuration production
 
 FROM node:20-alpine
 
