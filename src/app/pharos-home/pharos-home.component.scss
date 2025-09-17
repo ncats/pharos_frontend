@@ -9,11 +9,11 @@
 }
 
 .webp .dashboard-main-div {
-  background-image: url("/assets/images/dna.webp");
+  background-image: url("~src/assets/images/dna.webp");
 }
 
 .no-webp .dashboard-main-div {
-   background-image: url("/assets/images/dna.jpg");
+   background-image: url("~src/assets/images/dna.jpg");
 }
 
 .spacer {
