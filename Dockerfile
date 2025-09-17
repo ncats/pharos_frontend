@@ -7,7 +7,7 @@ RUN npm install --legacy-peer-deps
 ENV NODE_OPTIONS --max-old-space-size=8192
 # Correct syntax for Angular build with base href
 
-RUN npm run build:ssr --configuration production
+RUN npm run build:ssr
 
 FROM node:20-alpine
 
