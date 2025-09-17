@@ -3,8 +3,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        BASE_HREF: /pharos/
     container_name: pharos-ui
     ports:
       - "8041:4000"
