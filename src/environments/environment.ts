@@ -1,7 +1,7 @@
 /**
  * environment object to set basic urls and firebase configuration
  */
-export const backend = 'https://ncatsidg-dev.appspot.com';
+export const backend = 'https://pharos-api.ncats.io';
 
 export const environment = {
   rendererUrl: `${backend}/render`,
