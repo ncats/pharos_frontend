@@ -4,7 +4,7 @@ import {Injectable, signal} from '@angular/core';
   providedIn: 'root'
 })
 export class ReviewBannerService {
-  bannerVisible = signal(true);
+  bannerVisible = signal(false);
 
   dismissBanner() {
     this.bannerVisible.set(false);
