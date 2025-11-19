@@ -58,7 +58,6 @@
           },
           "configurations": {
             "production": {
-              "baseHref": "/pharos/",
               "budgets": [
                 {
                   "type": "anyComponentStyle",
