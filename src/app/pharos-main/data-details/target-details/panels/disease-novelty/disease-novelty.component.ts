@@ -110,7 +110,7 @@ export class DiseaseNoveltyComponent extends DynamicPanelComponent implements On
             this.target.tinx.map(point => {
               if (point.disease) {
                 const p: PharosPoint = new PharosPoint({
-                  label: point.disease.doid,
+                  label: point.doid,
                   x: point.novelty,
                   y: point.score,
                   name: point.disease.name
@@ -151,5 +151,4 @@ export class DiseaseNoveltyComponent extends DynamicPanelComponent implements On
     return this.isMediumScreen;
   }
 }
-
 
