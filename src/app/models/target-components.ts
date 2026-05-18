@@ -629,11 +629,12 @@ export const TARGETDETAILSFIELDS = gql`
       ...publication_fields
     }
     tinx {
+      doid
       score
       novelty
       disease{
-        doid
         name
+        mondoID
       }
     }
     omimCount: mimCount
@@ -885,7 +886,6 @@ export namespace TargetComponents {
     GoFunction
   }
 }
-
 
 
 
