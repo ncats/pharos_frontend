@@ -9,6 +9,15 @@
         <div class="headerSection">
           <pharos-explore-list-button [path]="'/targets'" [buttonText]="'Explore Associated and Predicted Targets'"
                                       [queryParams]="{associatedLigand: ligand.ligid, associatedStructure: ligand.smiles}"></pharos-explore-list-button>
+          <mat-paginator
+            *ngIf="pageData"
+            [pageSize]="pageData.top"
+            [pageIndex]="pageData.skip / pageData.top"
+            [length]="pageData.total"
+            [hidePageSize]="true"
+            [showFirstLastButtons]="true"
+            (page)="paginate($event)">
+          </mat-paginator>
         </div>
         <pharos-target-relevance-table [activitiesTargetDataSource]="activitiesTargetDataSource"></pharos-target-relevance-table>
       </mat-card-content>

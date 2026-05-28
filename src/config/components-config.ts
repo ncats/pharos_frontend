@@ -1520,7 +1520,7 @@ export const COMPONENTSCONFIG: Map<string, any> = new Map<string, any>(
               DRUGS_PANEL,
               LIGANDS_PANEL,
               PROTEIN_PROTEIN_PANEL,
-              NEAREST_TCLIN_PANEL,
+              // NEAREST_TCLIN_PANEL,  // hide until we have nearest Tclins again
               PATHWAYS_PANEL,
               INTERACTING_PATHWAYS_PANEL,
               VIRAL_INTERACTIONS_PANEL

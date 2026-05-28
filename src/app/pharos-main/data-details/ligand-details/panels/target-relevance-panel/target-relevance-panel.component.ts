@@ -5,22 +5,24 @@ import {
   Inject,
   Input,
   OnInit,
-  PLATFORM_ID,
-  ViewChild
+  PLATFORM_ID
 } from '@angular/core';
 import {DynamicTablePanelComponent} from '../../../../../tools/dynamic-table-panel/dynamic-table-panel.component';
 import {PageData} from '../../../../../models/page-data';
-import {Ligand} from '../../../../../models/ligand';
+import {Ligand, LigandSerializer} from '../../../../../models/ligand';
 import {takeUntil} from 'rxjs/operators';
 import {DynamicServicesService} from '../../../../../pharos-services/dynamic-services.service';
 import {CommonModule, isPlatformBrowser} from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatCardModule} from '@angular/material/card';
 import {ComponentHeaderComponent} from '../../../../../tools/component-header/component-header.component';
 import {ExploreListButtonComponent} from '../../../../../tools/explore-list-button/explore-list-button.component';
 import {TargetRelevanceTableComponent} from './target-relevance-table/target-relevance-table.component';
+import {PharosApiService} from '../../../../../pharos-services/pharos-api.service';
+import {ActivatedRoute} from '@angular/router';
+import {LIGANDACTIVITIESQUERY} from '../../../../../models/target-components';
 
 /**
  * shows what targets the ligand was tested on
@@ -28,7 +30,7 @@ import {TargetRelevanceTableComponent} from './target-relevance-table/target-rel
 @Component({
   standalone: true,
   imports: [CommonModule, FlexLayoutModule, MatCardModule, ComponentHeaderComponent, ExploreListButtonComponent,
-    TargetRelevanceTableComponent],
+    MatPaginatorModule, TargetRelevanceTableComponent],
   selector: 'pharos-target-relevance-panel',
   templateUrl: './target-relevance-panel.component.html',
   styleUrls: ['./target-relevance-panel.component.scss'],
@@ -49,11 +51,11 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
 
   activitiesTargetDataSource = new MatTableDataSource<any>();
 
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-
   constructor(
     @Inject(PLATFORM_ID) private platformID: any,
     private changeRef: ChangeDetectorRef,
+    private pharosApiService: PharosApiService,
+    private _route: ActivatedRoute,
     public dynamicServices: DynamicServicesService
   ) {
     super(dynamicServices);
@@ -74,8 +76,39 @@ export class TargetRelevancePanelComponent extends DynamicTablePanelComponent im
           if (isPlatformBrowser(this.platformID)) {
             this.loadingComplete();
           }
+          this.pageData = new PageData({
+            total: this.ligand.targetCount,
+            skip: 0,
+            top: 10
+          });
           this.activitiesTargetDataSource.data = this.ligandProps.activities;
-          this.activitiesTargetDataSource.paginator = this.paginator;
+          this.changeRef.markForCheck();
+        }
+      });
+  }
+
+  paginate(event: PageEvent) {
+    this.loadingStart();
+    this.pageData.top = event.pageSize;
+    this.pageData.skip = event.pageIndex * event.pageSize;
+
+    this.pharosApiService.adHocQuery(LIGANDACTIVITIESQUERY, {
+      term: this._route.snapshot.paramMap.get('id'),
+      activitytop: this.pageData.top,
+      activityskip: this.pageData.skip
+    })
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
+        next: res => {
+          const serializer = new LigandSerializer();
+          const ligand = serializer.fromJson({activities: res.data.ligands.activities});
+          this.activitiesTargetDataSource.data = serializer._asProperties(ligand).activities;
+          this.loadingComplete(false);
+          this.changeRef.markForCheck();
+        },
+        error: err => {
+          console.log(err);
+          this.loadingComplete(false);
           this.changeRef.markForCheck();
         }
       });

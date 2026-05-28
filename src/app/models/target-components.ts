@@ -145,7 +145,7 @@ fragment pathDetails on SharedPathwayDetails {
 export const LIGANDDETAILSFIELDS = gql`
   fragment ligandsDetailsFields on Ligand {
     ...ligandsListFields
-    activities(all: false) {
+    activities(all: false, top: 10, skip: 0, pageByTarget: true) {
       type
       moa
       value
@@ -189,7 +189,7 @@ export const SERVERDETAILSQUERY = gql`
         name
         value
       }
-      activities (all: false) {
+      activities (all: false, top: 10, skip: 0, pageByTarget: true) {
         type
         moa
       }
@@ -205,6 +205,33 @@ export const LIGANDDETAILSQUERY = gql`
     }
   }
   ${LIGANDDETAILSFIELDS}
+`;
+
+export const LIGANDACTIVITIESQUERY = gql`
+  query fetchLigandActivities(
+    $term: String,
+    $activitytop: Int,
+    $activityskip: Int
+  ) {
+    ligands: ligand(ligid: $term){
+      activities(all: false, top: $activitytop, skip: $activityskip, pageByTarget: true) {
+        type
+        moa
+        value
+        reference
+        target {
+          symbol:sym
+          idgTDL:tdl
+          name:name
+          accession:uniprot
+          preferredSymbol
+        }
+        pubs {
+          pmid
+        }
+      }
+    }
+  }
 `;
 
 /*
@@ -886,6 +913,3 @@ export namespace TargetComponents {
     GoFunction
   }
 }
-
-
-
