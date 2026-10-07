@@ -79,8 +79,9 @@ pipeline {
                             chmod 774 src/environments/environment.prod.ts
                             source prepare.sh
                             docker login https://registry.ncats.nih.gov:5000 -u "${DOCKERLOGIN}" -p "${DOCKERPASSWORD}"
-                            docker build --no-cache -f ./Dockerfile --build-arg BUILD_VERSION=${BUILD_VERSION} -t ${DOCKER_REPO_NAME}:${BUILD_VERSION} .
-                            docker push ${DOCKER_REPO_NAME}:${BUILD_VERSION}
+                            ##docker build --no-cache -f ./Dockerfile --build-arg BUILD_VERSION=${BUILD_VERSION} -t ${DOCKER_REPO_NAME}:${BUILD_VERSION} .
+                            docker buildx build --no-cache -f ./Dockerfile-opendata --build-arg BUILD_VERSION=${BUILD_VERSION} --attest type=sbom --tag ${DOCKER_REPO_NAME}:latest --tag ${DOCKER_REPO_NAME}:${BUILD_VERSION} --push 
+                            ##docker push ${DOCKER_REPO_NAME}:${BUILD_VERSION}
                             '''
                         }
                     }
@@ -98,7 +99,7 @@ pipeline {
                         docker-compose -p $PROJECT_NAME-$APP_TYPE down -v --rmi all | xargs echo
                         docker pull $DOCKER_REPO_NAME:$BUILD_VERSION
                         docker rmi $DOCKER_REPO_NAME:current | xargs echo
-                        docker tag $DOCKER_REPO_NAME:$BUILD_VERSION $DOCKER_REPO_NAME:current
+                        docker tag $DOCKER_REPO_NAME:$BUILD_VERSION $DOCKER_REPO_NAME:latest
                         docker-compose -p $PROJECT_NAME-$APP_TYPE up -d
                         docker start nginx-gen | xargs echo
                         docker rmi \$(docker images -aq) | xargs echo
