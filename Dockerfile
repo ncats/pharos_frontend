@@ -1,3 +1,9 @@
+# syntax=docker/dockerfile:1
+
+# scan build context and all stages so the SBOM covers build-time deps too
+ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
+ARG BUILDKIT_SBOM_SCAN_STAGE=true
+
 FROM node:20 as buildContainer
 WORKDIR /app
 COPY . /app
